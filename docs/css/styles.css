@@ -2060,6 +2060,33 @@ button.nav-graph-trigger:hover{color:var(--text)}
   .hoh-plate{min-width:7rem}
   .ledger-strip{gap:1rem}
 }
+
+/* ── PHASE 3 MOBILE — disable 3D HUD, show static SVG fallback ── */
+.hero-mobile-graph{display:none}
+@media(max-width:700px){
+  /* Kill canvas so JS skips animation cycles */
+  #canvas3d{display:none!important}
+  /* Hide the HUD toggle — no point on mobile */
+  .hud-trigger{display:none!important}
+  /* Static SVG fallback */
+  .hero-mobile-graph{
+    display:block;
+    position:absolute;
+    inset:0;
+    z-index:1;
+    pointer-events:none;
+    overflow:hidden;
+  }
+  .hero-mobile-graph img{
+    position:absolute;
+    top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    width:min(600px,130vw);
+    height:auto;
+    opacity:.18;
+    filter:saturate(1.4) brightness(.9);
+  }
+}
 @media(max-width:480px){
   .hoh-plates{gap:.75rem}
   .hoh-plate{min-width:calc(50% - .375rem);max-width:none;flex:none}
