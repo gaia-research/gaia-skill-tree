@@ -187,7 +187,15 @@ NAV_HTML = """<nav>
       <text x="32" y="34" font-family="EB Garamond, Georgia, serif" font-weight="600" font-size="28" fill="currentColor" text-anchor="middle" dominant-baseline="central">G</text>
     </svg>
     <span class="nav-wordmark">Gaia</span>
-  </a>
+    </a>
+    <button type="button" class="nav-search-back" id="navSearchBack" aria-label="Back">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+    </button>
+    <input type="search" id="navMobileSearch" class="nav-mobile-search" placeholder="Search skills…" autocomplete="off" aria-label="Search skills">
+    <button class="nav-menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false">    <span></span>
+    <span></span>
+    <span></span>
+  </button>
   <ul>
     <li><a href="../../#paths">Registry</a></li>
     <li><a href="../../#hall-of-heroes">Hall of Heroes</a></li>
@@ -292,6 +300,10 @@ def build_profile_page(handle: str, skills: list) -> str:
   {FOOTER_HTML}
 
   <script src="../../js/plaque-reveal.js" defer></script>
+
+  <button id="scrollToTop" class="scroll-to-top" aria-label="Scroll to top">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
+  </button>
 
 </body>
 </html>

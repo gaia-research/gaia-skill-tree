@@ -171,15 +171,19 @@
 
     // Hall of Heroes — diverse top-N origin plates with type-aware glyphs
     var allOrigin = [];
+    var totalNamedCount = 0;
     Object.keys(buckets).forEach(function (skillId) {
       (buckets[skillId] || []).forEach(function (e) {
         if (!e.origin) return;
+        totalNamedCount++;
         var refId = e.genericSkillRef || skillId;
         var canonical = byId[refId];
         if (!canonical && e.id && e.id.indexOf('/') !== -1) {
           canonical = byId[e.id.split('/').pop()];
         }
         if (!canonical) return;
+        if (canonical.type !== 'ultimate' && canonical.type !== 'unique') return;
+        if (canonical.level) e.level = canonical.level;
         allOrigin.push({
           entry: e,
           canonicalId: canonical.id,
@@ -197,7 +201,7 @@
 
     // Named count for ledger (count of all origin entries)
     var elNamed = document.getElementById('ledgerNamed');
-    if (elNamed) elNamed.textContent = allOrigin.length;
+    if (elNamed) elNamed.textContent = totalNamedCount;
 
     // Pick diverse top-8: at most one per contributor, ensure at least 2 Uniques if available
     var seenContrib = new Set();
@@ -242,7 +246,7 @@
           : '/' + canonId;
         var contribLink = (typeof window.handleLink === 'function')
           ? window.handleLink(e.contributor || '', { extraClass: 'plaque-contributor' })
-          : '<a class="atlas-handle plaque-contributor" href="./u/' + encodeURIComponent(e.contributor || '') + '/">@' + esc(e.contributor || '') + '</a>';
+          : '<span class="atlas-handle plaque-contributor">@' + esc(e.contributor || '') + '</span>';
         return '<article class="plaque plaque--mini" data-type="' + esc(type) + '"' +
           ' data-skill-id="' + esc(canonId) + '"' +
           ' role="button" tabindex="0"' +
@@ -254,9 +258,7 @@
           '<div class="plaque-stars" aria-label="' + esc(e.level || '') + '">' + starsRow(e.level) + '</div>' +
           '</article>';
       }).join('');
-      // Duplicate the rendered set so the CSS marquee can translate -50% and
-      // loop seamlessly (the second half occupies the visual gap left behind).
-      plates.innerHTML = rendered + rendered;
+      plates.innerHTML = rendered;
     }
   }).catch(function () {});
 
@@ -296,30 +298,50 @@
     }
     var navSearch = document.getElementById('navSearchBtn');
     if (navSearch) navSearch.addEventListener('click', focusNamedSearch);
+    
+    var navMobileSearch = document.getElementById('navMobileSearch');
+    var navSearchBack = document.getElementById('navSearchBack');
+    var isSearchMode = false;
+
+    function exitSearchMode() {
+      if (!isSearchMode) return;
+      isSearchMode = false;
+      document.body.classList.remove('search-mode');
+      if (navMobileSearch) {
+        navMobileSearch.value = '';
+        navMobileSearch.dispatchEvent(new Event('input')); // Reset list
+        navMobileSearch.blur();
+      }
+      if (window._preSearchScrollY !== undefined) {
+        window.scrollTo(0, window._preSearchScrollY);
+      }
+    }
+
+    if (navMobileSearch) {
+      navMobileSearch.addEventListener('focus', function() {
+        if (isSearchMode) return;
+        window._preSearchScrollY = window.scrollY;
+        isSearchMode = true;
+        document.body.classList.add('search-mode');
+        window.scrollTo(0, 0);
+      });
+    }
+
+    if (navSearchBack) {
+      navSearchBack.addEventListener('click', exitSearchMode);
+    }
+
+    // Exit search mode if clicking outside of the search area and not inside the named skills section.
+    // However, since search-mode hides everything except nav and #named, clicking anywhere other
+    // than #named, the input itself, or the back button should exit.
+    document.addEventListener('click', function(e) {
+      if (!isSearchMode) return;
+      if (!e.target.closest('#named') && !e.target.closest('nav')) {
+        exitSearchMode();
+      }
+    });
+
     if (location.hash === '#search') focusNamedSearch();
 
-    // Phase 8c — Hall of Heroes manual-override: if the visitor drags or
-    // scroll-wheels the track, switch to manual mode (animation paused,
-    // scroll-snap enabled). Auto-resume the ambient drift 4s after they
-    // leave or focus moves elsewhere. The CSS handles reduced-motion
-    // unconditionally; this JS only enhances the default-motion path.
-    var track = document.getElementById('hohPlates');
-    if (track) {
-      var manualTimer = null;
-      function enterManual() {
-        track.classList.add('is-manual');
-        if (manualTimer) clearTimeout(manualTimer);
-      }
-      function scheduleAutoResume() {
-        if (manualTimer) clearTimeout(manualTimer);
-        manualTimer = setTimeout(function () {
-          track.classList.remove('is-manual');
-        }, 4000);
-      }
-      track.addEventListener('pointerdown', enterManual);
-      track.addEventListener('wheel', enterManual, { passive: true });
-      track.addEventListener('mouseleave', scheduleAutoResume);
-      track.addEventListener('blur', scheduleAutoResume, true);
-    }
   });
 })();

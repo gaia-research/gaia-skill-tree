@@ -247,12 +247,31 @@ window.switchOsTab = function(btn) {
   }
 
   /* ─────────────────────────────────────────
+     SCROLL TO TOP
+     ───────────────────────────────────────── */
+  function initScrollToTop() {
+    var btn = document.getElementById('scrollToTop');
+    if (!btn) return;
+    window.addEventListener('scroll', function() {
+      if (window.scrollY > 300) {
+        btn.classList.add('visible');
+      } else {
+        btn.classList.remove('visible');
+      }
+    }, { passive: true });
+    btn.addEventListener('click', function() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  /* ─────────────────────────────────────────
      INIT
      ───────────────────────────────────────── */
   function init() {
     initCopyButtons();
     initNavSheet();
     initFirstLoadReveal();
+    initScrollToTop();
   }
 
   if(document.readyState === 'loading'){

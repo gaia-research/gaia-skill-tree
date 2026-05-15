@@ -386,8 +386,20 @@
         });
       }
 
+      var mobileSearchEl = document.getElementById('navMobileSearch');
       if (searchEl) {
-        searchEl.addEventListener('input', function(){ searchQuery = searchEl.value; renderCurrent(); });
+        searchEl.addEventListener('input', function(){ 
+          searchQuery = searchEl.value; 
+          if(mobileSearchEl && mobileSearchEl.value !== searchQuery) mobileSearchEl.value = searchQuery;
+          renderCurrent(); 
+        });
+      }
+      if (mobileSearchEl) {
+        mobileSearchEl.addEventListener('input', function(){ 
+          searchQuery = mobileSearchEl.value; 
+          if(searchEl && searchEl.value !== searchQuery) searchEl.value = searchQuery;
+          renderCurrent(); 
+        });
       }
 
       if (sortEl) {
