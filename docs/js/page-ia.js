@@ -102,14 +102,19 @@
         var glyph = n >= 6 ? '◆' : n >= 4 ? '◇' : '○';
         var glyphColor = n >= 6 ? 'var(--apex-gold)' : n >= 4 ? 'var(--extra)' : 'var(--basic)';
         var safeId = e.id.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
-        return '<article class="hoh-plate" role="button" tabindex="0"' +
-          ' onclick="(function(){if(typeof openSkillExplorer===\'function\')openSkillExplorer(\'' + safeId + '\');})()"' +
+        var safeContrib = (e.contributor || '').replace(/"/g, '&quot;');
+        var profileHref = './u/' + encodeURIComponent(e.contributor || '') + '/';
+        return '<a href="' + profileHref + '" class="hoh-plate-link" aria-label="View profile of ' + safeContrib + '">' +
+          '<article class="hoh-plate" role="button" tabindex="0"' +
+          ' data-skill-id="' + safeId + '"' +
+          ' onclick="(function(evt){evt.preventDefault();if(typeof openSkillExplorer===\'function\')openSkillExplorer(\'' + safeId + '\');})(event)"' +
           ' onkeydown="if(event.key===\'Enter\'||event.key===\' \')this.click()">' +
           '<div class="hoh-plate-glyph" style="color:' + glyphColor + '">' + glyph + '</div>' +
           '<div class="hoh-handle">' + esc(e.contributor || '') + '</div>' +
           '<div class="hoh-title">' + esc(e.title || e.name || e._skillId) + '</div>' +
           '<div class="hoh-level">' + esc(e.level || '') + '</div>' +
-          '</article>';
+          '</article>' +
+          '</a>';
       }).join('');
     }
   }).catch(function () {});

@@ -1,0 +1,564 @@
+/* ============================================================
+   plaque.css — Hunter's Atlas Plaque Visual System
+   Phase 4: Naming Reveal, Profile Pages, OG Cards
+   ============================================================ */
+
+/* ── Plaque layout tokens ── */
+:root {
+  --plaque-bg:         var(--bg, #030712);
+  --plaque-border:     rgba(251, 191, 36, 0.25);
+  --plaque-border-w:   1px;
+  --plaque-pad:        32px;
+  --plaque-w:          480px;
+  --plaque-h:          600px;
+  --plaque-radius:     4px;
+  /* OG / landscape variant */
+  --plaque-og-w:       1200px;
+  --plaque-og-h:       630px;
+}
+
+/* ── Base plaque plate ── */
+.plaque {
+  position: relative;
+  width: var(--plaque-w);
+  max-width: 100%;
+  height: var(--plaque-h);
+  background: var(--plaque-bg);
+  border: var(--plaque-border-w) solid var(--plaque-border);
+  border-radius: var(--plaque-radius);
+  padding: var(--plaque-pad);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(251, 191, 36, 0.06),
+    0 24px 64px rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(251, 191, 36, 0.08);
+}
+
+/* Corner ornaments */
+.plaque::before,
+.plaque::after {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-color: rgba(251, 191, 36, 0.4);
+  border-style: solid;
+  pointer-events: none;
+}
+.plaque::before {
+  top: 10px;
+  left: 10px;
+  border-width: 1px 0 0 1px;
+}
+.plaque::after {
+  bottom: 10px;
+  right: 10px;
+  border-width: 0 1px 1px 0;
+}
+
+/* ── OG / landscape variant ── */
+.plaque--og {
+  width: var(--plaque-og-w);
+  max-width: 100%;
+  height: var(--plaque-og-h);
+  flex-direction: row;
+  align-items: center;
+  padding: 48px 64px;
+  gap: 48px;
+  border-radius: 0;
+}
+
+/* ── Plaque inner elements ── */
+.plaque-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.plaque-seal {
+  width: 36px;
+  height: 36px;
+  color: var(--apex-gold, #fbbf24);
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+.plaque-skill-name {
+  font-family: var(--font-display, 'EB Garamond', Georgia, serif);
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--apex-gold, #fbbf24);
+  letter-spacing: 0.02em;
+  flex: 1;
+}
+
+.plaque-tier {
+  font-size: 36px;
+  line-height: 1;
+  color: var(--apex-gold, #fbbf24);
+  text-shadow: 0 0 18px rgba(251, 191, 36, 0.5);
+  flex-shrink: 0;
+}
+
+.plaque-contributor {
+  font-family: var(--font-body, 'Bricolage Grotesque', sans-serif);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--honor-red, #ef4444);
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+}
+.plaque-contributor::before {
+  content: '@';
+  opacity: 0.65;
+}
+
+.plaque-title {
+  font-family: var(--font-display, 'EB Garamond', Georgia, serif);
+  font-size: 16px;
+  font-style: italic;
+  color: rgba(226, 232, 240, 0.55);
+  line-height: 1.4;
+}
+
+.plaque-stars {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.plaque-star {
+  font-size: 16px;
+  color: var(--apex-gold, #fbbf24);
+  text-shadow: 0 0 8px rgba(251, 191, 36, 0.4);
+  line-height: 1;
+}
+
+.plaque-star--dim {
+  color: rgba(251, 191, 36, 0.2);
+  text-shadow: none;
+}
+
+.plaque-evidence {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono, 'Departure Mono', monospace);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(226, 232, 240, 0.5);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  padding: 4px 10px;
+  align-self: flex-start;
+}
+
+.plaque-divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(251, 191, 36, 0.3) 30%,
+    rgba(251, 191, 36, 0.3) 70%,
+    transparent
+  );
+  flex-shrink: 0;
+}
+
+.plaque-description {
+  font-family: var(--font-body, 'Bricolage Grotesque', sans-serif);
+  font-size: 13px;
+  line-height: 1.65;
+  color: rgba(226, 232, 240, 0.55);
+  flex: 1;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+}
+
+.plaque-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: auto;
+}
+
+.plaque-tag {
+  font-family: var(--font-mono, 'Departure Mono', monospace);
+  font-size: 10px;
+  color: rgba(226, 232, 240, 0.4);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 3px;
+  padding: 2px 7px;
+}
+
+/* ── Gold underline pulse ── */
+.plaque-underline {
+  height: 2px;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--apex-gold, #fbbf24) 40%,
+    var(--apex-gold, #fbbf24) 60%,
+    transparent
+  );
+  opacity: 0;
+  transform: scaleX(0.3);
+}
+
+.plaque-underline--settled {
+  opacity: 0.5;
+  transform: scaleX(1);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* ── Level VI rainbow shimmer ── */
+.plaque--apex-vi {
+  animation: plaque-vi-edge 3s linear infinite;
+}
+
+@keyframes plaque-vi-edge {
+  0%   { box-shadow: 0 0 0 1px rgba(251,191,36,.06), 0 24px 64px rgba(0,0,0,.7), inset 0 1px 0 rgba(251,191,36,.08), 0 0 30px rgba(56,189,248,.3); }
+  16%  { box-shadow: 0 0 0 1px rgba(251,191,36,.06), 0 24px 64px rgba(0,0,0,.7), inset 0 1px 0 rgba(251,191,36,.08), 0 0 30px rgba(167,139,250,.3); }
+  33%  { box-shadow: 0 0 0 1px rgba(251,191,36,.06), 0 24px 64px rgba(0,0,0,.7), inset 0 1px 0 rgba(251,191,36,.08), 0 0 30px rgba(251,191,36,.45); }
+  50%  { box-shadow: 0 0 0 1px rgba(251,191,36,.06), 0 24px 64px rgba(0,0,0,.7), inset 0 1px 0 rgba(251,191,36,.08), 0 0 30px rgba(239,68,68,.3); }
+  66%  { box-shadow: 0 0 0 1px rgba(251,191,36,.06), 0 24px 64px rgba(0,0,0,.7), inset 0 1px 0 rgba(251,191,36,.08), 0 0 30px rgba(192,132,252,.3); }
+  83%  { box-shadow: 0 0 0 1px rgba(251,191,36,.06), 0 24px 64px rgba(0,0,0,.7), inset 0 1px 0 rgba(251,191,36,.08), 0 0 30px rgba(52,211,153,.25); }
+  100% { box-shadow: 0 0 0 1px rgba(251,191,36,.06), 0 24px 64px rgba(0,0,0,.7), inset 0 1px 0 rgba(251,191,36,.08), 0 0 30px rgba(56,189,248,.3); }
+}
+
+/* ── Reveal overlay ── */
+.plaque-reveal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1400;
+  background: rgba(3, 7, 18, 0.88);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.plaque-reveal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.plaque-reveal-overlay .plaque {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: none; /* driven by JS keyframes */
+}
+
+.plaque-reveal-overlay.settled .plaque {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Close button in overlay */
+.plaque-reveal-close {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.4rem;
+  background: transparent;
+  border: 1px solid rgba(226, 232, 240, 0.15);
+  color: rgba(226, 232, 240, 0.5);
+  font-size: 1rem;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s, border-color 0.15s;
+  line-height: 1;
+  font-family: inherit;
+}
+.plaque-reveal-close:hover {
+  color: var(--text, #e2e8f0);
+  border-color: rgba(226, 232, 240, 0.4);
+}
+
+/* ── Animation keyframes ── */
+
+/* Plate emerges from below */
+@keyframes plaque-emerge {
+  from {
+    opacity: 0;
+    transform: translateY(48px);
+    box-shadow: none;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    box-shadow:
+      0 0 0 1px rgba(251, 191, 36, 0.06),
+      0 24px 64px rgba(0, 0, 0, 0.7),
+      inset 0 1px 0 rgba(251, 191, 36, 0.08);
+  }
+}
+
+/* Ink pours into engraving letter-by-letter — driven via JS clip-path + opacity */
+@keyframes ink-pour {
+  from {
+    opacity: 0;
+    filter: blur(3px);
+    color: rgba(251, 191, 36, 0);
+    text-shadow: none;
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    color: var(--apex-gold, #fbbf24);
+    text-shadow: 0 0 18px rgba(251, 191, 36, 0.4);
+  }
+}
+
+/* Each star ignites */
+@keyframes star-ignite {
+  from {
+    opacity: 0;
+    transform: scale(0.4) rotate(-20deg);
+    filter: blur(2px);
+  }
+  60% {
+    transform: scale(1.3) rotate(5deg);
+    filter: blur(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+    filter: blur(0);
+  }
+}
+
+/* Evidence stamp */
+@keyframes evidence-stamp {
+  from {
+    opacity: 0;
+    transform: scale(1.2);
+    letter-spacing: 0.3em;
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    letter-spacing: 0.1em;
+  }
+}
+
+/* Gold underline pulse */
+@keyframes underline-pulse {
+  0%   { opacity: 0; transform: scaleX(0); }
+  40%  { opacity: 0.8; transform: scaleX(1.05); }
+  70%  { opacity: 0.5; }
+  100% { opacity: 0.5; transform: scaleX(1); }
+}
+
+/* Contributor handle resolves */
+@keyframes contributor-resolve {
+  from {
+    opacity: 0;
+    filter: blur(6px);
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+/* ── Reduced motion: disable all animations ── */
+@media (prefers-reduced-motion: reduce) {
+  .plaque-reveal-overlay,
+  .plaque-reveal-overlay .plaque,
+  .plaque-reveal-overlay.settled .plaque {
+    transition: none !important;
+    animation: none !important;
+  }
+  .plaque--apex-vi {
+    animation: none !important;
+  }
+  @keyframes plaque-emerge       { from { } to { } }
+  @keyframes ink-pour            { from { } to { } }
+  @keyframes star-ignite         { from { } to { } }
+  @keyframes evidence-stamp      { from { } to { } }
+  @keyframes underline-pulse     { from { } to { } }
+  @keyframes contributor-resolve { from { } to { } }
+  @keyframes plaque-vi-edge      { from { } to { } }
+}
+
+/* ── Plaque grid (used on profile pages) ── */
+.plaque-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2.4rem;
+}
+
+/* Settled (non-animated) plaque for profile pages — smaller footprint */
+.plaque--settled {
+  width: 100%;
+  height: auto;
+  min-height: 340px;
+  --plaque-pad: 24px;
+  padding: var(--plaque-pad);
+  cursor: pointer;
+  transition: border-color 0.25s, box-shadow 0.25s, transform 0.15s;
+}
+
+.plaque--settled:hover {
+  border-color: rgba(251, 191, 36, 0.5);
+  box-shadow:
+    0 0 0 1px rgba(251, 191, 36, 0.1),
+    0 16px 48px rgba(0, 0, 0, 0.6),
+    0 0 32px rgba(251, 191, 36, 0.12);
+  transform: translateY(-2px);
+}
+
+/* ── Ascension log ── */
+.ascension-log {
+  margin-top: 2rem;
+  border: 1px solid var(--border, #1e293b);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.ascension-log-header {
+  font-family: var(--font-mono, 'Departure Mono', monospace);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(226, 232, 240, 0.45);
+  padding: 10px 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid var(--border, #1e293b);
+}
+
+.ascension-log-row {
+  display: grid;
+  grid-template-columns: 120px 80px 1fr 80px;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 16px;
+  font-family: var(--font-mono, 'Departure Mono', monospace);
+  font-size: 12px;
+  border-bottom: 1px solid rgba(30, 41, 59, 0.6);
+  transition: background 0.15s;
+}
+
+.ascension-log-row:last-child {
+  border-bottom: none;
+}
+
+.ascension-log-row:hover {
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.al-date   { color: rgba(226, 232, 240, 0.35); white-space: nowrap; }
+.al-action { color: var(--honor-red, #ef4444); font-weight: 700; }
+.al-skill  { color: rgba(226, 232, 240, 0.7); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.al-level  { color: var(--apex-gold, #fbbf24); text-align: right; }
+
+/* ── Profile page hero ── */
+.profile-hero {
+  padding: 6rem 1.5rem 3rem;
+  max-width: 960px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.profile-handle {
+  font-family: var(--font-body, 'Bricolage Grotesque', sans-serif);
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 700;
+  color: var(--honor-red, #ef4444);
+  margin-bottom: 0.5rem;
+}
+
+.profile-handle::before {
+  content: '@';
+  opacity: 0.55;
+  font-size: 0.75em;
+  vertical-align: middle;
+}
+
+.profile-meta {
+  font-family: var(--font-mono, 'Departure Mono', monospace);
+  font-size: 13px;
+  color: rgba(226, 232, 240, 0.45);
+  letter-spacing: 0.06em;
+  margin-bottom: 1rem;
+}
+
+.profile-origin-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--apex-gold, #fbbf24);
+  background: rgba(251, 191, 36, 0.1);
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  border-radius: 999px;
+  padding: 4px 12px;
+}
+
+.profile-section {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.profile-section-title {
+  font-family: var(--font-display, 'EB Garamond', Georgia, serif);
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+  font-weight: 600;
+  color: var(--text, #e2e8f0);
+  margin-bottom: 0.4rem;
+}
+
+.profile-section-sub {
+  color: rgba(226, 232, 240, 0.45);
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+/* ── Responsive ── */
+@media (max-width: 700px) {
+  .plaque {
+    width: 100%;
+    height: auto;
+    min-height: 480px;
+    --plaque-pad: 20px;
+    padding: var(--plaque-pad);
+  }
+
+  .plaque-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ascension-log-row {
+    grid-template-columns: 100px 70px 1fr 60px;
+    font-size: 11px;
+    gap: 8px;
+  }
+}
