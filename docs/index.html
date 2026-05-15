@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gaia — AI Agent Skill Registry</title>
+  <meta name="description" content="An evidence-backed atlas of agent capabilities. Bring your repo, claim your name.">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 
@@ -25,13 +26,9 @@
       <span></span>
     </button>
     <ul>
-      <li><a href="#what">What</a></li>
-      <li><a href="#ranks">Ranks</a></li>
-      <li><a href="#start">Start</a></li>
-      <li><a href="#mcp">Agent MCP</a></li>
-      <li><a href="#workflow">Flow</a></li>
-      <li><a href="how-we-do-things.html">How We Work</a></li>
-      <li><a href="#named" class="nav-named-explorer">Named Skills</a></li>
+      <li><button type="button" class="nav-graph-trigger" data-graph-trigger aria-controls="skillGraphDialog">Registry</button></li>
+      <li><a href="#hall-of-heroes">Hall of Heroes</a></li>
+      <li><a href="how-we-do-things.html">The Codex</a></li>
       <li><button type="button" class="nav-tree" id="treeNavBtn">Tree</button></li>
     </ul>
   </nav>
@@ -46,39 +43,41 @@
         <button class="hero-eyebrow graph-trigger" type="button" data-graph-trigger aria-controls="skillGraphDialog">◆ Open full graph</button>
         <button class="hero-eyebrow hud-trigger" type="button" id="hudToggleBtn" aria-pressed="false">⇄ View as HUD</button>
       </div>
-      <h1 class="hero-title">Every capability<br>your agent has<br><span>lives on the tree.</span></h1>
-      <p class="hero-sub">
-        Gaia maps AI agent skills — from primitive building blocks to ultimate
-        emergent capabilities — into an evidence-backed, versioned graph
-        anyone can contribute to.
-      </p>
-      <div class="hero-cta">
-        <a href="#start" class="btn btn-primary">Get Started →</a>
-        <a href="https://github.com/mbtiongson1/gaia-skill-tree" class="btn btn-ghost" target="_blank">View on
-          GitHub</a>
+      <h1 class="hero-title">
+        Skills are catalogued.<br>
+        Names are earned.<br>
+        Apex is <span>rare</span>.
+      </h1>
+      <p class="hero-sub">An evidence-backed atlas of agent capabilities. Bring your repo, claim your name.</p>
+      <div class="two-doors">
+        <a href="#paths" class="door door-a">
+          <span class="door-icon">◆</span>
+          <span class="door-label">Register your repo</span>
+          <span class="door-caption">Four steps to the registry</span>
+        </a>
+        <a href="#ultimates" class="door door-b">
+          <span class="door-icon">◈</span>
+          <span class="door-label">Claim an Ultimate</span>
+          <span class="door-caption" id="doorBCaption">loading…</span>
+        </a>
       </div>
-      <div class="registry-stats">
-        <div class="rs-stat">
-          <div class="rs-num">133</div>
-          <div class="rs-label">Skills</div>
-        </div>
-        <div class="rs-divider"></div>
-        <div class="rs-stat">
-          <div class="rs-num rs-named">32</div>
-          <div class="rs-label">Named</div>
-        </div>
-        <div class="rs-divider"></div>
-        <div class="rs-stat">
-          <div class="rs-num" style="color:#7c3aed">1</div>
-          <div class="rs-label">Unique</div>
-        </div>
-        <div class="rs-divider"></div>
-        <div class="rs-stat">
-          <a href="#named" class="rs-legendary-link">
-            <div class="rs-num rs-legendary">1</div>
-            <div class="rs-label">6★ Ultimate</div>
-          </a>
-        </div>
+      <div class="ledger-strip">
+        <span class="ls-stat">
+          <span class="ls-num" id="ledgerSkills">—</span>
+          <span class="ls-label">skills</span>
+        </span>
+        <span class="ls-sep">/</span>
+        <span class="ls-stat">
+          <span class="ls-num ls-num-honor" id="ledgerNamed">—</span>
+          <span class="ls-label">named</span>
+        </span>
+        <span class="ls-sep">/</span>
+        <span class="ls-stat">
+          <span class="ls-num ls-num-apex" id="ledgerApex">—</span>
+          <span class="ls-label">apex</span>
+        </span>
+        <span class="ls-sep">/</span>
+        <span class="ls-updated" id="ledgerDate"></span>
       </div>
     </div>
     <div class="scroll-hint">
@@ -89,6 +88,7 @@
     </div>
   </section>
 
+  <!-- ─── GRAPH DIALOG ─── -->
   <dialog id="skillGraphDialog" class="graph-dialog" aria-labelledby="skillGraphTitle">
     <div class="graph-dialog-inner">
       <div class="graph-dialog-header">
@@ -133,253 +133,129 @@
     </div>
   </dialog>
 
-  <!-- ─── WHAT IS GAIA ─── -->
-  <section id="what" class="reveal" data-section="what">
-    <h2>What is Gaia?</h2>
-    <p class="section-sub">Think of it as a Pokédex for AI agent abilities — but open, evidence-backed, and
-      community-owned.</p>
+  <!-- ─── PATHS ─── -->
+  <section id="paths" class="reveal" data-section="paths">
+    <div class="paths-wrap">
 
-    <div class="tier-grid">
-      <div class="tier-card basic">
-        <div class="tier-icon">○</div>
-        <div class="tier-name">Basic Skills</div>
-        <div class="tier-desc">The genome of every agent. Primitive, indivisible capabilities — <em>Tokenize</em>,
-          <em>Retrieve</em>, <em>Classify</em>, <em>Embed Text</em>.</div>
-      </div>
-      <div class="tier-card extra">
-        <div class="tier-icon">◇</div>
-        <div class="tier-name">Extra Skills</div>
-        <div class="tier-desc">Emerge when 2+ basics combine — <em>RAG Pipeline</em>, <em>Autonomous Debug</em>,
-          <em>Research</em>. More than the sum of their parts.</div>
-      </div>
-      <div class="tier-card unique">
-        <div class="tier-icon">◉</div>
-        <div class="tier-name">Unique Skills</div>
-        <div class="tier-desc">Graph-isolated singularities that reached elite status through depth alone —
-          <em>Fine-Tune</em>. Mastered at 4★+ with no fusion path.</div>
-      </div>
-      <div class="tier-card ultimate">
-        <div class="tier-icon">◆</div>
-        <div class="tier-name">Ultimate Skills</div>
-        <div class="tier-desc">High-complexity emergent capabilities found in &lt;1% of agents — <em>Autonomous Research
-            Agent</em>, <em>Full-Stack Developer</em>.</div>
-      </div>
-    </div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <!-- ─── RANKS ─── -->
-  <section id="ranks" class="reveal" data-section="ranks">
-    <h2>The Rank System</h2>
-    <p class="section-sub">Skills level up through evidence, not declaration.</p>
-
-    <div class="rank-table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Level</th>
-            <th>Rank</th>
-            <th>Evidence</th>
-            <th>What it means</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><span class="rank-badge" style="background:rgba(100,116,139,.12);color:#94a3b8">0★</span></td>
-            <td><strong>Basic</strong></td>
-            <td>None</td>
-            <td>Universal LLM primitive — any capable model does this by default</td>
-          </tr>
-          <tr>
-            <td><span class="rank-badge" style="background:rgba(56,189,248,.12);color:#38bdf8">1★</span></td>
-            <td><strong>Awakened</strong></td>
-            <td>None</td>
-            <td>Catalogued and available — the foundation tier</td>
-          </tr>
-          <tr>
-            <td><span class="rank-badge" style="background:rgba(99,202,183,.12);color:#63cab7">2★</span></td>
-            <td><strong>Named</strong></td>
-            <td>Class C</td>
-            <td>First confirmed demonstration by a real contributor</td>
-          </tr>
-          <tr>
-            <td><span class="rank-badge" style="background:rgba(167,139,250,.12);color:#a78bfa">3★</span></td>
-            <td><strong>Evolved</strong></td>
-            <td>Class B</td>
-            <td>Reproducible, fully documented</td>
-          </tr>
-          <tr>
-            <td><span class="rank-badge" style="background:rgba(232,121,249,.12);color:#e879f9">4★</span></td>
-            <td><strong>Hardened</strong></td>
-            <td>Class B or A</td>
-            <td>Failure modes known; battle-tested</td>
-          </tr>
-          <tr>
-            <td><span class="rank-badge" style="background:rgba(251,191,36,.12);color:#fbbf24">5★</span></td>
-            <td><strong>Transcendent</strong></td>
-            <td>Class B or A</td>
-            <td>Composable and self-improving</td>
-          </tr>
-          <tr>
-            <td><span class="rank-badge" style="background:rgba(251,191,36,.2);color:#fbbf24">6★</span></td>
-            <td><strong>Transcendent ★</strong></td>
-            <td>Class A</td>
-            <td>Apex — peer-reviewed, named to the agent who unlocked it</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <!-- ─── GET STARTED ─── -->
-  <section id="start" class="reveal" data-section="start">
-    <h2>Get Started</h2>
-    <p class="section-sub">Three steps from zero to your first skill tree.</p>
-
-    <div class="steps">
-
-      <div class="step">
-        <div class="step-num">1</div>
-        <div>
-          <h3>Install the CLI</h3>
-          <p>Puts the <code>gaia</code> command on your PATH.</p>
-          <div class="os-tabs">
-            <button class="os-tab active" data-os="mac" onclick="switchOsTab(this)">macOS / Linux</button>
-            <button class="os-tab" data-os="win" onclick="switchOsTab(this)">Windows</button>
+      <!-- Path A — Initiate's Rite -->
+      <div class="path-a">
+        <div class="path-plate-num">Path A — Initiate's Rite</div>
+        <h2>Register Your Repo</h2>
+        <p class="section-sub" style="margin-top:.5rem">Four steps from zero to a named entry in the canonical registry.</p>
+        <div class="rite-steps">
+          <div class="rite-step">
+            <span class="rite-numeral">I.</span>
+            <div class="rite-body">
+              <strong>Install the CLI</strong>
+              <p>Puts the <code>gaia</code> command on your PATH.</p>
+              <pre><span class="cmd">pip install</span> gaia-cli</pre>
+            </div>
           </div>
-          <div class="os-panel active" data-os="mac">
-            <pre><span class="cmd">pip install</span> gaia-cli</pre>
-          </div>
-          <div class="os-panel" data-os="win">
-            <pre><span class="cmd">pip install</span> gaia-cli</pre>
-            <div class="qs-tip"><span class="qs-tip-icon">🪟</span><span>If <code>gaia</code> isn't recognized after
-                install, run the command below in PowerShell, then restart your terminal.</span></div>
-            <pre><span class="kw">$env:PATH</span> += <span class="str">";"</span> + (<span class="cmd">python</span> -c <span class="str">"import sysconfig; print(sysconfig.get_path('scripts', 'nt_user'))"</span>)</pre>
-          </div>
-          <div class="qs-tip"><span class="qs-tip-icon">🚀</span><span>To instantly pull the latest registry and update the core CLI anytime, run <code>gaia update</code>.</span></div>
-        </div>
-      </div>
-
-      <div class="step">
-        <div class="step-num">2</div>
-        <div>
-          <h3>Initialize &amp; scan</h3>
-          <p>Inside any project repo, run <code>gaia init</code> to set up tracking, then <code>gaia scan</code> to
-            detect which skills your agent demonstrates.</p>
-          <pre><span class="cmd">gaia init</span>
+          <div class="rite-step">
+            <span class="rite-numeral">II.</span>
+            <div class="rite-body">
+              <strong>Initialise &amp; scan</strong>
+              <p>Detect which skills your agent demonstrates.</p>
+              <pre><span class="cmd">gaia init</span>
 <span class="cmd">gaia scan</span></pre>
-          <div class="qs-tip"><span class="qs-tip-icon">💡</span><span>Your GitHub username and scan paths are
-              auto-detected. Pass <code>--user your-username</code> to override.</span></div>
+            </div>
+          </div>
+          <div class="rite-step">
+            <span class="rite-numeral">III.</span>
+            <div class="rite-body">
+              <strong>Push for review</strong>
+              <p>A GitHub PR is opened automatically.</p>
+              <pre><span class="cmd">gaia push</span></pre>
+            </div>
+          </div>
+          <div class="rite-step">
+            <span class="rite-numeral">IV.</span>
+            <div class="rite-body">
+              <strong>Bond your agent MCP</strong>
+              <p>Wire Gaia to Claude Code in one command.</p>
+              <pre><span class="cmd">claude mcp add</span> <span class="str">gaia</span> -- <span class="cmd">npx</span> <span class="str">@gaia-registry/mcp-server</span></pre>
+              <div class="qs-tip" style="margin-top:.5rem"><span class="qs-tip-icon">💡</span><span>Any MCP-compatible agent: use <code>npx @gaia-registry/mcp-server</code>. See <a href="https://github.com/mbtiongson1/gaia-skill-tree/tree/main/packages/mcp" target="_blank" style="color:var(--basic)">packages/mcp</a> for config-file examples.</span></div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="step">
-        <div class="step-num">3</div>
-        <div>
-          <h3>Submit your skills</h3>
-          <p>Push your detected skills to the registry for maintainer review. A GitHub PR is opened automatically.</p>
-          <pre><span class="cmd">gaia push</span></pre>
-          <div class="qs-tip"><span class="qs-tip-icon">💡</span><span>Run <code>gaia push --dry-run</code> first to
-              preview what would be submitted.</span></div>
+      <!-- Path B — Unclaimed Ultimates -->
+      <div class="path-b" id="ultimates">
+        <div class="path-plate-num">Path B — Unclaimed Ultimates</div>
+        <h2>Claim an Ultimate</h2>
+        <p class="path-intro" style="margin-top:.5rem">These Ultimate skills have no named implementation yet. Build one, submit for review, and your handle goes on the registry — permanently.</p>
+        <div class="ultimates-list" id="ultimatesList">
+          <div class="ult-loading">Loading ultimates…</div>
+        </div>
+        <div class="path-cta">
+          <a href="https://github.com/mbtiongson1/gaia-skill-tree/issues" target="_blank" class="btn btn-ghost" style="font-size:.875rem">Propose a new Ultimate →</a>
         </div>
       </div>
 
-    </div>
-
-  </section>
-
-  <div class="section-divider"></div>
-
-  <!-- ─── MCP ─── -->
-  <section id="mcp" class="reveal" data-section="mcp">
-    <h2>Connect Gaia to Your Agent</h2>
-    <p class="section-sub">Install the MCP server with copy-paste commands; keep agent-specific JSON in the MCP package
-      docs.</p>
-
-    <div class="steps">
-      <div class="step">
-        <div class="step-num" style="background:linear-gradient(135deg,var(--basic),var(--extra))">M</div>
-        <div>
-          <h3>Claude Code</h3>
-          <p>Add Gaia as an MCP server from the CLI.</p>
-          <pre><span class="cmd">claude mcp add</span> <span class="str">gaia</span> -- <span class="cmd">npx</span> <span class="str">@gaia-registry/mcp-server</span></pre>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num" style="background:linear-gradient(135deg,var(--extra),var(--ultimate))">*</div>
-        <div>
-          <h3>Any MCP-compatible agent</h3>
-          <p>Use command <code>npx</code> with argument <code>@gaia-registry/mcp-server</code>. Set
-            <code>GAIA_USER</code> to your GitHub username if your client supports environment variables.
-          </p>
-          <pre><span class="cmd">npx</span> <span class="str">@gaia-registry/mcp-server</span></pre>
-          <div class="qs-tip"><span class="qs-tip-icon">💡</span><span>Need Claude Desktop, Cursor, VS Code, Codex CLI,
-              Gemini, or OpenClaw config-file examples? Open <a
-                href="https://github.com/mbtiongson1/gaia-skill-tree/tree/main/packages/mcp" target="_blank"
-                style="color:var(--basic)">packages/mcp</a>.</span></div>
-        </div>
-      </div>
     </div>
   </section>
 
   <div class="section-divider"></div>
 
-  <!-- ─── WORKFLOW ─── -->
-  <section id="workflow" class="reveal" data-section="workflow">
-    <h2>Skill Lifecycle</h2>
-    <p class="section-sub">How a skill travels from your repo to the canonical graph.</p>
-
-    <div class="flow">
-      <div class="flow-node">🔍 <strong>gaia scan</strong><br><small style="color:var(--muted)">detect skills</small>
-      </div>
-      <span class="flow-arrow">→</span>
-      <div class="flow-node">📦 <strong>gaia push</strong><br><small style="color:var(--muted)">review PR</small></div>
-      <span class="flow-arrow">→</span>
-      <div class="flow-node" style="border-color:var(--basic);color:var(--basic)">⚡
-        <strong>Pending</strong><br><small>under review</small>
-      </div>
-      <span class="flow-arrow">→</span>
-      <div class="flow-node" style="border-color:var(--extra);color:var(--extra)">✦
-        <strong>Awakened</strong><br><small>1★</small>
-      </div>
-      <span class="flow-arrow">→</span>
-      <div class="flow-node" style="border-color:var(--ultimate);color:var(--ultimate)">◆
-        <strong>Named</strong><br><small>2★+</small>
-      </div>
+  <!-- ─── HALL OF HEROES ─── -->
+  <section id="hall-of-heroes" class="reveal hoh-section" data-section="hoh">
+    <h2>Hall of Heroes</h2>
+    <p class="section-sub">The highest-ranked named implementations in the registry, by level.</p>
+    <div class="hoh-plates" id="hohPlates">
+      <!-- Populated by page-ia.js -->
     </div>
+    <div class="hoh-footer">
+      <button id="browseAllBtn" class="btn btn-ghost">Browse all named skills →</button>
+    </div>
+  </section>
 
-    <div class="steps">
-      <div class="step">
-        <div class="step-num" style="background:linear-gradient(135deg,var(--extra),var(--ultimate))">+</div>
-        <div>
-          <h3>Install a named skill</h3>
-          <p>Browse and install real contributor implementations directly into your repo.</p>
-          <pre><span class="cmd">gaia skills list</span>
-<span class="cmd">gaia skills install</span> <span class="str">contributor/skill-name</span></pre>
-          <div class="qs-tip"><span class="qs-tip-icon">💡</span><span>Browse skill IDs in the <a href="#named"
-                style="color:var(--basic)">Named Skills Explorer</a> below.</span></div>
+  <div class="section-divider"></div>
+
+  <!-- ─── ASCENSION CYCLE ─── -->
+  <section class="reveal ascension-section" data-section="ascension">
+    <h2>The Ascension Cycle</h2>
+    <p class="section-sub">Skills advance through evidence — not declaration. Each rank unlocks the next.</p>
+    <div class="ascension-track">
+      <div class="asc-stage">
+        <div class="asc-node">
+          <span class="asc-label">Awakened</span>
+          <span class="asc-sub">1★</span>
         </div>
+        <span class="asc-arrow">→</span>
       </div>
-      <div class="step">
-        <div class="step-num" style="background:linear-gradient(135deg,var(--ultimate),#f97316)">★</div>
-        <div>
-          <h3>Level up a skill</h3>
-          <p>After scanning, appraise your detected skills to see which ones are eligible for promotion, then promote
-            them.</p>
-          <pre><span class="cmd">gaia appraise</span> <span class="str">your-skill</span>
-<span class="cmd">gaia promote</span> <span class="str">your-skill</span></pre>
+      <div class="asc-stage">
+        <div class="asc-node">
+          <span class="asc-label">Named</span>
+          <span class="asc-sub">2★ · Class C</span>
         </div>
+        <span class="asc-arrow">→</span>
       </div>
-      <div class="step">
-        <div class="step-num" style="background:var(--ultimate);color:#000">◆</div>
-        <div>
-          <h3>Claim an Ultimate skill</h3>
-          <p>Several Ultimate skills are unclaimed — no contributor has built them yet. Build a real implementation,
-            submit it for review, and your name goes on the registry permanently.</p>
-          <pre><span class="cmd">gaia propose</span> <span class="str">/skill-id</span></pre>
+      <div class="asc-stage">
+        <div class="asc-node">
+          <span class="asc-label">Evolved</span>
+          <span class="asc-sub">3★ · Class B</span>
+        </div>
+        <span class="asc-arrow">→</span>
+      </div>
+      <div class="asc-stage">
+        <div class="asc-node">
+          <span class="asc-label">Hardened</span>
+          <span class="asc-sub">4★ · Class B/A</span>
+        </div>
+        <span class="asc-arrow">→</span>
+      </div>
+      <div class="asc-stage">
+        <div class="asc-node">
+          <span class="asc-label">Transcendent</span>
+          <span class="asc-sub">5★ · Class B/A</span>
+        </div>
+        <span class="asc-arrow">→</span>
+      </div>
+      <div class="asc-stage">
+        <div class="asc-node is-apex">
+          <span class="asc-label">Apex</span>
+          <span class="asc-sub">6★ · Class A</span>
         </div>
       </div>
     </div>
@@ -387,11 +263,10 @@
 
   <div class="section-divider section-divider--glow"></div>
 
-  <!-- ─── NAMED SKILLS ─── -->
+  <!-- ─── NAMED SKILLS EXPLORER (demoted — browse-all destination) ─── -->
   <section id="named" class="reveal" data-section="explorer">
     <h2>Named Skills Explorer</h2>
-    <p class="section-sub">Contributor implementations of canonical skills — the first real agents behind every generic
-      capability.</p>
+    <p class="section-sub">Contributor implementations of canonical skills — the first real agents behind every generic capability.</p>
 
     <div class="ns-controls">
       <input type="search" id="nsSearch" class="ns-search" aria-label="Search skills, tags, contributors" placeholder="Search skills, tags, contributors…"
@@ -407,18 +282,18 @@
         <div class="ns-view-btns" id="nsViewBtns">
           <button class="ns-view-btn active" data-view="tile" title="Tile view">
             <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
-              <rect x="0★" y="0★" width="7" height="7" rx="1" />
-              <rect x="9" y="0★" width="7" height="7" rx="1" />
-              <rect x="0★" y="9" width="7" height="7" rx="1" />
+              <rect x="0" y="0" width="7" height="7" rx="1" />
+              <rect x="9" y="0" width="7" height="7" rx="1" />
+              <rect x="0" y="9" width="7" height="7" rx="1" />
               <rect x="9" y="9" width="7" height="7" rx="1" />
             </svg>
             Tile
           </button>
           <button class="ns-view-btn" data-view="list" title="List view">
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
-              <line x1="0★" y1="4" x2="16" y2="4" />
-              <line x1="0★" y1="8" x2="16" y2="8" />
-              <line x1="0★" y1="12" x2="16" y2="12" />
+              <line x1="0" y1="4" x2="16" y2="4" />
+              <line x1="0" y1="8" x2="16" y2="8" />
+              <line x1="0" y1="12" x2="16" y2="12" />
             </svg>
             List
           </button>
@@ -447,59 +322,21 @@
     </div>
   </section>
 
-  <div class="section-divider section-divider--brand"></div>
-
-  <!-- ─── GLOSSARY ─── -->
-  <section class="reveal" data-section="glossary">
-    <h2>Quick Glossary</h2>
-    <p class="section-sub">Terms you'll see throughout the registry.</p>
-    <div class="glossary">
-      <div class="gloss-item">
-        <div class="gloss-term">gaia.json</div>
-        <div class="gloss-def">The canonical source of truth. Every skill and its connections live here.</div>
-      </div>
-      <div class="gloss-item">
-        <div class="gloss-term">named skill</div>
-        <div class="gloss-def">A real contributor implementation of a canonical skill (e.g.
-          <code>karpathy/autoresearch</code>).
-        </div>
-      </div>
-      <div class="gloss-item">
-        <div class="gloss-term">prerequisites</div>
-        <div class="gloss-def">Skills that must be present before an extra or ultimate skill can emerge.</div>
-      </div>
-      <div class="gloss-item">
-        <div class="gloss-term">fusion</div>
-        <div class="gloss-def">When a set of prerequisites unlocks a higher-tier skill.</div>
-      </div>
-      <div class="gloss-item">
-        <div class="gloss-term">evidence class</div>
-        <div class="gloss-def">A–C quality tiers for skill demonstrations. A = peer-reviewed, B = reproducible demo, C =
-          credible demo.</div>
-      </div>
-      <div class="gloss-item">
-        <div class="gloss-term">skill tree</div>
-        <div class="gloss-def">Your personal record of skills — tied to your GitHub username and portable across repos.
-        </div>
-      </div>
-      <div class="gloss-item">
-        <div class="gloss-term">[Unclaimed ✦]</div>
-        <div class="gloss-def">An Ultimate skill no one has built yet — open for the taking.</div>
-      </div>
-    </div>
-  </section>
-
   <!-- ─── FOOTER ─── -->
   <footer>
-    <p style="margin-bottom:.5rem">
-      <strong style="color:var(--text)">◆ GAIA</strong> — AI Agent Skill Registry
-    </p>
+    <div class="footer-mark">
+      <svg class="footer-seal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+        <path d="M 32 4 L 60 32 L 32 60 L 4 32 Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="miter"/>
+        <text x="32" y="34" font-family="EB Garamond, Georgia, serif" font-weight="600" font-size="28" fill="currentColor" text-anchor="middle" dominant-baseline="central">G</text>
+      </svg>
+      <span class="footer-wordmark">Gaia</span>
+    </div>
     <p>
       <a href="https://github.com/mbtiongson1/gaia-skill-tree" target="_blank">GitHub</a> ·
-      <a href="how-we-do-things.html">How We Work</a> ·
-      <a href="https://github.com/mbtiongson1/gaia-skill-tree/blob/main/CONTRIBUTING.md"
-        target="_blank">Contributing</a> ·
-      MIT License
+      MIT ·
+      v3.9.2 ·
+      <a href="how-we-do-things.html">The Codex</a> ·
+      <button id="treeFooterBtn" type="button" class="footer-link-btn">Your Tree</button>
     </p>
   </footer>
 
@@ -568,13 +405,13 @@
     </div>
   </div>
 
-
-  <!-- ─── BEHAVIOR ─── -->
+  <!-- ─── SCRIPTS ─── -->
   <script src="js/skill-graph.js"></script>
   <script src="js/scroll-reveal.js"></script>
   <script src="js/named-skills.js"></script>
   <script src="js/skill-explorer.js"></script>
   <script src="js/ui.js"></script>
+  <script src="js/page-ia.js"></script>
 
 </body>
 
