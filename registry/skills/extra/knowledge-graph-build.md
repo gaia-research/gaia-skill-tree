@@ -1,4 +1,4 @@
-# Extra Skill: safishamsi/graphify  [3★ · Evolved]
+# Extra Skill: [safishamsi](../../../docs/u/safishamsi/)/graphify  [3★ · Evolved]
 **ID:** knowledge-graph-build  
 **Type:** Extra Skill  
 **Level:** 3★  

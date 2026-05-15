@@ -1,4 +1,4 @@
-# garrytan/office-hours  [0★ · Basic]
+# [garrytan](../../../docs/u/garrytan/)/office-hours  [0★ · Basic]
 **ID:** question-answer  
 **Type:** Basic Skill  
 **Level:** 0★  

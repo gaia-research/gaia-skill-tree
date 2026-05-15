@@ -1,4 +1,4 @@
-# getagentseal/codeburn  [2★ · Named]
+# [getagentseal](../../../docs/u/getagentseal/)/codeburn  [2★ · Named]
 **ID:** token-observability  
 **Type:** Basic Skill  
 **Level:** 2★  

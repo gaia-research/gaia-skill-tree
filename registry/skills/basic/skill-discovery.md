@@ -1,4 +1,4 @@
-# vercel/find-skills  [0★ · Basic]
+# [vercel](../../../docs/u/vercel/)/find-skills  [0★ · Basic]
 **ID:** skill-discovery  
 **Type:** Basic Skill  
 **Level:** 0★  

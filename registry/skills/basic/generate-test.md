@@ -1,4 +1,4 @@
-# upsonic/unittest-generator  [2★ · Named]
+# [upsonic](../../../docs/u/upsonic/)/unittest-generator  [2★ · Named]
 **ID:** generate-test  
 **Type:** Basic Skill  
 **Level:** 2★  

@@ -1,4 +1,4 @@
-# Extra Skill: bradautomates/claude-video  [3★ · Evolved]
+# Extra Skill: [bradautomates](../../../docs/u/bradautomates/)/claude-video  [3★ · Evolved]
 **ID:** video-intelligence  
 **Type:** Extra Skill  
 **Level:** 3★  

@@ -1,4 +1,4 @@
-# Extra Skill: santifer/career-ops  [3★ · Evolved]
+# Extra Skill: [santifer](../../../docs/u/santifer/)/career-ops  [3★ · Evolved]
 **ID:** career-operations  
 **Type:** Extra Skill  
 **Level:** 3★  

@@ -1,4 +1,4 @@
-# laravel/upgrade-laravel-v13  [0★ · Basic]
+# [laravel](../../../docs/u/laravel/)/upgrade-laravel-v13  [0★ · Basic]
 **ID:** framework-upgrade  
 **Type:** Basic Skill  
 **Level:** 0★  

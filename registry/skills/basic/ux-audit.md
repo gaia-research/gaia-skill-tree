@@ -1,4 +1,4 @@
-# martin-stepanoski/nielsen-heuristics-audit  [0★ · Basic]
+# [martin-stepanoski](../../../docs/u/martin-stepanoski/)/nielsen-heuristics-audit  [0★ · Basic]
 **ID:** ux-audit  
 **Type:** Basic Skill  
 **Level:** 0★  

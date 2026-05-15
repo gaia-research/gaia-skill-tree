@@ -1,4 +1,4 @@
-# Unique Skill: huggingface/huggingface-llm-trainer  [4★ · Hardened]
+# Unique Skill: [huggingface](../../../docs/u/huggingface/)/huggingface-llm-trainer  [4★ · Hardened]
 **ID:** fine-tune  
 **Type:** Unique Skill  
 **Level:** 4★  

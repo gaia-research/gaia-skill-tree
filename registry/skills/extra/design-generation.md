@@ -1,4 +1,4 @@
-# Extra Skill: nexu-io/open-design  [3★ · Evolved]
+# Extra Skill: [nexu-io](../../../docs/u/nexu-io/)/open-design  [3★ · Evolved]
 **ID:** design-generation  
 **Type:** Extra Skill  
 **Level:** 3★  

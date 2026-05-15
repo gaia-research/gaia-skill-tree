@@ -1,4 +1,4 @@
-# Extra Skill: 0xdarkmatter/pytest-patterns  [3★ · Evolved]
+# Extra Skill: [0xdarkmatter](../../../docs/u/0xdarkmatter/)/pytest-patterns  [3★ · Evolved]
 **ID:** automated-testing  
 **Type:** Extra Skill  
 **Level:** 3★  

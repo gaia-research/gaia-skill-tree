@@ -1,4 +1,4 @@
-# Extra Skill: yonatangross/orchestkit-rag  [3★ · Evolved]
+# Extra Skill: [yonatangross](../../../docs/u/yonatangross/)/orchestkit-rag  [3★ · Evolved]
 **ID:** rag-pipeline  
 **Type:** Extra Skill  
 **Level:** 3★  
