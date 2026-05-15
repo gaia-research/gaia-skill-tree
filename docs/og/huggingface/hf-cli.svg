@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="grad-huggingface-hf-cli" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.04"/>
+      <stop offset="50%" stop-color="#fbbf24" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#fbbf24" stop-opacity="0.02"/>
+    </linearGradient>
+  </defs>
+  
+
+  <!-- Ground -->
+  <rect width="1200" height="630" fill="#030712"/>
+
+  <!-- Subtle vignette -->
+  <defs>
+    <radialGradient id="vign-huggingface-hf-cli" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="transparent"/>
+      <stop offset="100%" stop-color="rgba(0,0,0,0.5)"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#vign-huggingface-hf-cli)"/>
+
+  <!-- Gold overlay tint -->
+  <rect width="1200" height="630" fill="url(#grad-huggingface-hf-cli)"/>
+
+  <!-- Outer hairline border -->
+  <rect x="1" y="1" width="1198" height="628"
+    fill="none" stroke="rgba(251,191,36,0.2)" stroke-width="1"/>
+
+  <!-- Corner ornaments TL -->
+  <path d="M 20 20 L 20 44 M 20 20 L 44 20"
+    stroke="rgba(251,191,36,0.4)" stroke-width="1.5" fill="none"/>
+  <!-- Corner ornaments BR -->
+  <path d="M 1180 610 L 1180 586 M 1180 610 L 1156 610"
+    stroke="rgba(251,191,36,0.4)" stroke-width="1.5" fill="none"/>
+
+  <!-- ─── Left column ─── -->
+  <!-- Diamond Seal -->
+  <svg x="48" y="52" width="52" height="52" viewBox="0 0 64 64">
+    <path d="M 32 4 L 60 32 L 32 60 L 4 32 Z"
+      fill="none" stroke="#fbbf24" stroke-width="2.5" stroke-linejoin="miter" opacity="0.7"/>
+    <text x="32" y="34" font-family="Georgia,serif" font-weight="600" font-size="28"
+      fill="#fbbf24" text-anchor="middle" dominant-baseline="central" opacity="0.7">G</text>
+  </svg>
+
+  <!-- Tier glyph (large) -->
+  <text x="48" y="175" font-family="Georgia,serif" font-size="52"
+    fill="#fbbf24" opacity="0.85">○</text>
+
+  <!-- Stars -->
+  <text x="64" y="435" font-family="Georgia,serif" font-size="18" fill="#fbbf24" dominant-baseline="middle">★</text>
+<text x="86" y="435" font-family="Georgia,serif" font-size="18" fill="#fbbf24" dominant-baseline="middle">★</text>
+<text x="108" y="435" font-family="Georgia,serif" font-size="18" fill="#333d4d" dominant-baseline="middle">★</text>
+<text x="130" y="435" font-family="Georgia,serif" font-size="18" fill="#333d4d" dominant-baseline="middle">★</text>
+<text x="152" y="435" font-family="Georgia,serif" font-size="18" fill="#333d4d" dominant-baseline="middle">★</text>
+<text x="174" y="435" font-family="Georgia,serif" font-size="18" fill="#333d4d" dominant-baseline="middle">★</text>
+
+  <!-- Vertical rule -->
+  <line x1="220" y1="40" x2="220" y2="590"
+    stroke="rgba(251,191,36,0.12)" stroke-width="1"/>
+
+  <!-- ─── Right / main column ─── -->
+  <!-- Skill name -->
+  <text x="264" y="160"
+    font-family="EB Garamond,Georgia,serif"
+    font-size="52" font-weight="600"
+    fill="#fbbf24" dominant-baseline="middle">HF CLI</text>
+
+  <!-- Title (italic subtitle) -->
+  <text x="264" y="220" font-family="EB Garamond,Georgia,serif" font-size="22" font-style="italic" fill="rgba(226,232,240,0.5)" dominant-baseline="middle">The Hub Operator</text>
+
+  <!-- Horizontal rule -->
+  <line x1="264" y1="256" x2="1152" y2="256"
+    stroke="rgba(251,191,36,0.2)" stroke-width="1"/>
+
+  <!-- Description -->
+  <foreignObject x="264" y="270" width="888" height="200">
+    <body xmlns="http://www.w3.org/1999/xhtml">
+      <p style="font-family:'Bricolage Grotesque',sans-serif;font-size:18px;
+        line-height:1.6;color:rgba(226,232,240,0.55);margin:0;
+        overflow:hidden;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;">
+        Guides Hugging Face Hub CLI operations for downloading, uploading, managing repos, running Jobs, querying datasets, configuring S…
+      </p>
+    </body>
+  </foreignObject>
+
+  <!-- Evidence class chip -->
+  <rect x="264" y="504" width="120" height="28"
+    rx="3" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <text x="276" y="518"
+    font-family="monospace" font-size="11" letter-spacing="1.5"
+    fill="rgba(226,232,240,0.5)" dominant-baseline="middle"
+    text-transform="uppercase">CLASS C · II</text>
+
+  <!-- Level badge -->
+  <text x="1136" y="518"
+    font-family="EB Garamond,Georgia,serif" font-size="20" font-weight="600"
+    fill="#fbbf24" text-anchor="end" dominant-baseline="middle">2★</text>
+
+  <!-- Horizontal rule bottom -->
+  <line x1="264" y1="550" x2="1152" y2="550"
+    stroke="rgba(251,191,36,0.2)" stroke-width="1"/>
+
+  <!-- Contributor handle -->
+  <text x="264" y="590"
+    font-family="'Bricolage Grotesque',sans-serif" font-size="18" font-weight="600"
+    fill="#ef4444" dominant-baseline="middle">@huggingface</text>
+
+  <!-- Gaia wordmark (bottom-right) -->
+  <text x="1136" y="590"
+    font-family="EB Garamond,Georgia,serif" font-size="18" font-weight="600"
+    fill="rgba(226,232,240,0.3)" text-anchor="end" dominant-baseline="middle">Gaia</text>
+
+  <!-- Bottom underline accent -->
+  <line x1="400" y1="626" x2="800" y2="626"
+    stroke="#fbbf24" stroke-width="2" stroke-opacity="0.3"/>
+</svg>

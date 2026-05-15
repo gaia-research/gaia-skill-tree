@@ -1,0 +1,364 @@
+#!/usr/bin/env python3
+"""Gaia Skill Registry — OG Share Card Generator.
+
+For each named skill, generates an OG share card at:
+  docs/og/{handle}/{skillId}.svg   — SVG template (always generated)
+  docs/og/{handle}/{skillId}.png   — raster render (if cairosvg or pillow available)
+
+OG card dimensions: 1200×630 (landscape plaque), midnight ink ground,
+Diamond Seal at top-left, contributor handle in honor red, skill name in apex gold.
+
+Usage:
+    python scripts/generateOgCards.py [--named PATH] [--out-dir PATH]
+
+Exit codes:
+    0 — Cards generated successfully
+    1 — Fatal error
+"""
+
+import json
+import os
+import sys
+import html
+import argparse
+from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parent.parent
+NAMED_JSON = REPO_ROOT / "registry" / "named-skills.json"
+DOCS_DIR = REPO_ROOT / "docs"
+OUT_DIR = DOCS_DIR / "og"
+
+# OG card dimensions (logical px at 1x)
+OG_W = 1200
+OG_H = 630
+
+# Brand colors
+BG_COLOR = "#030712"
+APEX_GOLD = "#fbbf24"
+HONOR_RED = "#ef4444"
+TEXT_COLOR = "#e2e8f0"
+MUTED_COLOR = "#64748b"
+BORDER_COLOR = "#1e293b"
+
+
+def level_num(level: str) -> int:
+    if not level:
+        return 0
+    try:
+        return int("".join(c for c in level if c.isdigit()))
+    except ValueError:
+        return 0
+
+
+def tier_glyph(level: str) -> str:
+    n = level_num(level)
+    if n >= 6:
+        return "◆"
+    if n >= 4:
+        return "◇"
+    return "○"
+
+
+def evidence_class(level: str) -> str:
+    n = level_num(level)
+    if n >= 6:
+        return "CLASS A · SS"
+    if n >= 5:
+        return "CLASS S · V"
+    if n >= 4:
+        return "CLASS A · IV"
+    if n >= 3:
+        return "CLASS B · III"
+    if n >= 2:
+        return "CLASS C · II"
+    return "AWAITED · I"
+
+
+def build_stars_svg(level: str, x: float, y: float) -> str:
+    n = level_num(level)
+    parts = []
+    spacing = 22
+    for i in range(1, 7):
+        color = APEX_GOLD if i <= n else "#333d4d"
+        parts.append(
+            f'<text x="{x + (i-1)*spacing}" y="{y}" '
+            f'font-family="Georgia,serif" font-size="18" fill="{color}" '
+            f'dominant-baseline="middle">★</text>'
+        )
+    return "\n".join(parts)
+
+
+def truncate(text: str, max_len: int) -> str:
+    if len(text) <= max_len:
+        return text
+    return text[: max_len - 1] + "…"
+
+
+def build_og_svg(skill: dict) -> str:
+    """Build a 1200×630 SVG OG card for a named skill."""
+    name = html.escape(truncate(skill.get("name", skill.get("id", "Unnamed")), 40))
+    contributor = html.escape(skill.get("contributor", ""))
+    level = skill.get("level", "2★")
+    title = html.escape(truncate(skill.get("title", ""), 55))
+    description = html.escape(truncate(skill.get("description", ""), 130))
+    glyph = tier_glyph(level)
+    level_str = html.escape(level)
+    ev_class = evidence_class(level)
+    is_apex = level_num(level) >= 6
+
+    # Gradient IDs need to be unique per card
+    skill_id = skill.get("id", "unknown").replace("/", "-").replace(" ", "-")
+    grad_id = f"grad-{skill_id}"
+
+    apex_effects = ""
+    if is_apex:
+        apex_effects = f"""<defs>
+  <filter id="vi-glow" x="-20%" y="-20%" width="140%" height="140%">
+    <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur"/>
+    <feColorMatrix in="blur" type="matrix"
+      values="1 0.5 0 0 0  0.8 0.8 0 0 0  0 0.2 0.2 0 0  0 0 0 0.6 0"
+      result="colored"/>
+    <feMerge><feMergeNode in="colored"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+</defs>"""
+
+    stars_svg = build_stars_svg(level, 64, 435)
+
+    return f"""<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="{OG_W}" height="{OG_H}" viewBox="0 0 {OG_W} {OG_H}">
+  <defs>
+    <linearGradient id="{grad_id}" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="{APEX_GOLD}" stop-opacity="0.04"/>
+      <stop offset="50%" stop-color="{APEX_GOLD}" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="{APEX_GOLD}" stop-opacity="0.02"/>
+    </linearGradient>
+  </defs>
+  {apex_effects}
+
+  <!-- Ground -->
+  <rect width="{OG_W}" height="{OG_H}" fill="{BG_COLOR}"/>
+
+  <!-- Subtle vignette -->
+  <defs>
+    <radialGradient id="vign-{skill_id}" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="transparent"/>
+      <stop offset="100%" stop-color="rgba(0,0,0,0.5)"/>
+    </radialGradient>
+  </defs>
+  <rect width="{OG_W}" height="{OG_H}" fill="url(#vign-{skill_id})"/>
+
+  <!-- Gold overlay tint -->
+  <rect width="{OG_W}" height="{OG_H}" fill="url(#{grad_id})"/>
+
+  <!-- Outer hairline border -->
+  <rect x="1" y="1" width="{OG_W-2}" height="{OG_H-2}"
+    fill="none" stroke="rgba(251,191,36,0.2)" stroke-width="1"/>
+
+  <!-- Corner ornaments TL -->
+  <path d="M 20 20 L 20 44 M 20 20 L 44 20"
+    stroke="rgba(251,191,36,0.4)" stroke-width="1.5" fill="none"/>
+  <!-- Corner ornaments BR -->
+  <path d="M {OG_W-20} {OG_H-20} L {OG_W-20} {OG_H-44} M {OG_W-20} {OG_H-20} L {OG_W-44} {OG_H-20}"
+    stroke="rgba(251,191,36,0.4)" stroke-width="1.5" fill="none"/>
+
+  <!-- ─── Left column ─── -->
+  <!-- Diamond Seal -->
+  <svg x="48" y="52" width="52" height="52" viewBox="0 0 64 64">
+    <path d="M 32 4 L 60 32 L 32 60 L 4 32 Z"
+      fill="none" stroke="{APEX_GOLD}" stroke-width="2.5" stroke-linejoin="miter" opacity="0.7"/>
+    <text x="32" y="34" font-family="Georgia,serif" font-weight="600" font-size="28"
+      fill="{APEX_GOLD}" text-anchor="middle" dominant-baseline="central" opacity="0.7">G</text>
+  </svg>
+
+  <!-- Tier glyph (large) -->
+  <text x="48" y="175" font-family="Georgia,serif" font-size="52"
+    fill="{APEX_GOLD}" opacity="0.85">{glyph}</text>
+
+  <!-- Stars -->
+  {stars_svg}
+
+  <!-- Vertical rule -->
+  <line x1="220" y1="40" x2="220" y2="{OG_H-40}"
+    stroke="rgba(251,191,36,0.12)" stroke-width="1"/>
+
+  <!-- ─── Right / main column ─── -->
+  <!-- Skill name -->
+  <text x="264" y="160"
+    font-family="EB Garamond,Georgia,serif"
+    font-size="52" font-weight="600"
+    fill="{APEX_GOLD}" dominant-baseline="middle">{name}</text>
+
+  <!-- Title (italic subtitle) -->
+  {'<text x="264" y="220" font-family="EB Garamond,Georgia,serif" font-size="22" font-style="italic" fill="rgba(226,232,240,0.5)" dominant-baseline="middle">' + title + '</text>' if title else ''}
+
+  <!-- Horizontal rule -->
+  <line x1="264" y1="256" x2="{OG_W-48}" y2="256"
+    stroke="rgba(251,191,36,0.2)" stroke-width="1"/>
+
+  <!-- Description -->
+  <foreignObject x="264" y="270" width="{OG_W - 264 - 48}" height="200">
+    <body xmlns="http://www.w3.org/1999/xhtml">
+      <p style="font-family:'Bricolage Grotesque',sans-serif;font-size:18px;
+        line-height:1.6;color:rgba(226,232,240,0.55);margin:0;
+        overflow:hidden;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;">
+        {description}
+      </p>
+    </body>
+  </foreignObject>
+
+  <!-- Evidence class chip -->
+  <rect x="264" y="504" width="{len(ev_class) * 8 + 24}" height="28"
+    rx="3" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <text x="276" y="518"
+    font-family="monospace" font-size="11" letter-spacing="1.5"
+    fill="rgba(226,232,240,0.5)" dominant-baseline="middle"
+    text-transform="uppercase">{ev_class}</text>
+
+  <!-- Level badge -->
+  <text x="{OG_W - 64}" y="518"
+    font-family="EB Garamond,Georgia,serif" font-size="20" font-weight="600"
+    fill="{APEX_GOLD}" text-anchor="end" dominant-baseline="middle">{level_str}</text>
+
+  <!-- Horizontal rule bottom -->
+  <line x1="264" y1="550" x2="{OG_W-48}" y2="550"
+    stroke="rgba(251,191,36,0.2)" stroke-width="1"/>
+
+  <!-- Contributor handle -->
+  <text x="264" y="590"
+    font-family="'Bricolage Grotesque',sans-serif" font-size="18" font-weight="600"
+    fill="{HONOR_RED}" dominant-baseline="middle">@{contributor}</text>
+
+  <!-- Gaia wordmark (bottom-right) -->
+  <text x="{OG_W - 64}" y="590"
+    font-family="EB Garamond,Georgia,serif" font-size="18" font-weight="600"
+    fill="rgba(226,232,240,0.3)" text-anchor="end" dominant-baseline="middle">Gaia</text>
+
+  <!-- Bottom underline accent -->
+  <line x1="{OG_W//2 - 200}" y1="{OG_H - 4}" x2="{OG_W//2 + 200}" y2="{OG_H - 4}"
+    stroke="{APEX_GOLD}" stroke-width="2" stroke-opacity="0.3"/>
+</svg>
+"""
+
+
+def try_render_png(svg_content: str, out_path: Path) -> bool:
+    """Try to render SVG to PNG using cairosvg or pillow. Returns True on success."""
+    # Try cairosvg first
+    try:
+        import cairosvg
+        cairosvg.svg2png(
+            bytestring=svg_content.encode("utf-8"),
+            write_to=str(out_path),
+            output_width=OG_W,
+            output_height=OG_H,
+        )
+        return True
+    except ImportError:
+        pass
+    except Exception as e:
+        print(f"    cairosvg render failed: {e}", file=sys.stderr)
+
+    # Try pillow with wand
+    try:
+        from wand.image import Image as WandImage
+        with WandImage(blob=svg_content.encode("utf-8"), format="svg") as img:
+            img.format = "png"
+            img.save(filename=str(out_path))
+        return True
+    except ImportError:
+        pass
+    except Exception as e:
+        print(f"    wand render failed: {e}", file=sys.stderr)
+
+    return False
+
+
+def load_named_data(path: Path) -> dict:
+    if not path.exists():
+        print(f"ERROR: {path} not found", file=sys.stderr)
+        sys.exit(1)
+    with open(path, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def collect_all_skills(data: dict) -> list:
+    """Return flat list of all skill entries."""
+    skills = []
+    for bucket_skills in data.get("buckets", {}).values():
+        skills.extend(bucket_skills)
+    return skills
+
+
+def generate_og_cards(named_path: Path, out_dir: Path) -> int:
+    """Generate OG card SVGs (and PNGs if possible). Returns total count."""
+    data = load_named_data(named_path)
+    skills = collect_all_skills(data)
+
+    if not skills:
+        print("No named skills found — no OG cards generated.")
+        return 0
+
+    out_dir.mkdir(parents=True, exist_ok=True)
+    svg_count = 0
+    png_count = 0
+
+    for skill in skills:
+        handle = skill.get("contributor", "")
+        skill_id_full = skill.get("id", "")
+        if not handle or not skill_id_full:
+            continue
+
+        # Derive file stem from skill id (last segment after /)
+        skill_slug = skill_id_full.split("/")[-1]
+
+        handle_dir = out_dir / handle
+        handle_dir.mkdir(parents=True, exist_ok=True)
+
+        # Always generate SVG
+        svg_path = handle_dir / f"{skill_slug}.svg"
+        svg_content = build_og_svg(skill)
+        with open(svg_path, "w", encoding="utf-8") as f:
+            f.write(svg_content)
+        svg_count += 1
+
+        # Attempt PNG render
+        png_path = handle_dir / f"{skill_slug}.png"
+        if try_render_png(svg_content, png_path):
+            png_count += 1
+            print(f"  SVG+PNG: docs/og/{handle}/{skill_slug}.{{svg,png}}")
+        else:
+            print(f"  SVG:     docs/og/{handle}/{skill_slug}.svg")
+
+    print(f"\nGenerated {svg_count} SVG card(s), {png_count} PNG render(s).")
+    if png_count == 0:
+        print(
+            "  Note: Install cairosvg (`pip install cairosvg`) to enable PNG rendering."
+        )
+    return svg_count
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        description="Generate OG share cards from named-skills.json"
+    )
+    parser.add_argument(
+        "--named",
+        default=str(NAMED_JSON),
+        help="Path to named-skills.json (default: registry/named-skills.json)",
+    )
+    parser.add_argument(
+        "--out-dir",
+        default=str(OUT_DIR),
+        help="Output directory for OG cards (default: docs/og/)",
+    )
+    args = parser.parse_args()
+
+    named_path = Path(args.named)
+    out_dir = Path(args.out_dir)
+
+    print(f"Loading named skills from: {named_path}")
+    generate_og_cards(named_path, out_dir)
+
+
+if __name__ == "__main__":
+    main()
