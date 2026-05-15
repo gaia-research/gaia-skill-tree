@@ -89,10 +89,18 @@
         '</div>' +
         '<div class="plaque-tier">' + tierGlyph(skillData.level) + '</div>' +
       '</div>' +
-      // Contributor
-      '<div class="plaque-contributor ' + (settled ? '' : 'plaque-contributor--animate') + '">' +
-        esc(skillData.contributor || '') +
-      '</div>' +
+      // Contributor — Phase 8c: linked via handleLink (atlas-helpers).
+      // handleLink emits its own '@' so the .plaque-contributor::before
+      // rule has been removed from plaque.css to avoid doubling. When the
+      // helper isn't loaded yet we fall back to an unlinked span that
+      // matches the prior visual.
+      (typeof window.handleLink === 'function'
+        ? window.handleLink(skillData.contributor || '', {
+            extraClass: 'plaque-contributor' + (settled ? '' : ' plaque-contributor--animate'),
+          })
+        : '<span class="plaque-contributor ' + (settled ? '' : 'plaque-contributor--animate') + '">@' +
+            esc(skillData.contributor || '') +
+          '</span>') +
       // Title (italic subtitle)
       (skillData.title
         ? '<div class="plaque-title">' + esc(skillData.title) + '</div>'

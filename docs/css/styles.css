@@ -2042,6 +2042,15 @@ button.nav-graph-trigger:hover{color:var(--text)}
 }
 .atlas-handle:hover,
 .atlas-handle:focus-visible{text-decoration:underline;opacity:.88}
+
+/* Named-skill slash slug — primary visitor-facing identifier (e.g. /autoresearch).
+   Honor-red mono token. The --muted variant is used when there is no named
+   implementation yet (canonical slug shown in dimmed text instead of red). */
+.named-slug{
+  font-family:var(--font-mono);color:var(--honor-red);
+  font-weight:600;letter-spacing:.02em;
+}
+.named-slug--muted{color:var(--muted);font-weight:500}
 .ult-stars{display:inline-flex;gap:1px;flex-shrink:0;color:var(--apex-gold);font-size:.7rem;line-height:1}
 .ult-stars .hoh-star{color:var(--apex-gold);text-shadow:0 0 6px rgba(var(--apex-gold-rgb),.35)}
 .ult-stars .hoh-star--dim{color:rgba(var(--apex-gold-rgb),.18);text-shadow:none}
@@ -2070,41 +2079,54 @@ button.nav-graph-trigger:hover{color:var(--text)}
 
 /* ── HALL OF HEROES ── */
 .hoh-section{text-align:center}
-.hoh-plates{
-  display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;
-  margin:2rem auto;max-width:1080px;
+
+/* Phase 8c — HoH ambient drift track.
+   The wrapper clips overflow and masks the edges; the inner track is a
+   flex strip that scrolls left infinitely via the hoh-drift keyframes.
+   `.is-manual` is toggled by page-ia.js when the visitor drags or wheels
+   to take manual control — the animation pauses and overflow becomes
+   scrollable with snap. Reduced-motion gets the manual mode unconditionally. */
+.hoh-track-wrap{
+  position:relative;overflow:hidden;
+  margin:2rem auto;max-width:1200px;
+  mask-image:linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  -webkit-mask-image:linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
 }
-.hoh-plate{
-  display:flex;flex-direction:column;align-items:center;gap:.45rem;
-  padding:1.1rem .9rem;min-width:10rem;max-width:12.5rem;flex:0 1 11rem;
-  border:1px solid var(--border);border-radius:12px;
-  background:rgba(255,255,255,.02);cursor:pointer;
-  transition:border-color .25s,box-shadow .25s,transform .2s;text-align:center;
+.hoh-track{
+  display:flex;gap:1rem;width:max-content;
+  animation:hoh-drift 60s linear infinite;
+  cursor:grab;
 }
-.hoh-plate:hover,.hoh-plate:focus-visible{
-  border-color:rgba(251,191,36,.35);
-  box-shadow:0 0 20px rgba(251,191,36,.08);
-  transform:translateY(-2px);outline:none;
+.hoh-track:active{cursor:grabbing}
+.hoh-track:hover,
+.hoh-track:focus-within{animation-play-state:paused}
+.hoh-track.is-manual{
+  animation:none;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
 }
-.hoh-plate[data-type="ultimate"]:hover{border-color:rgba(var(--apex-gold-rgb),.55);box-shadow:0 0 22px rgba(var(--apex-gold-rgb),.18)}
-.hoh-plate[data-type="unique"]:hover{border-color:rgba(124,58,237,.55);box-shadow:0 0 22px rgba(124,58,237,.2)}
-.hoh-plate[data-type="extra"]:hover{border-color:rgba(192,132,252,.55);box-shadow:0 0 22px rgba(192,132,252,.18)}
-.hoh-plate[data-type="basic"]:hover{border-color:rgba(56,189,248,.55);box-shadow:0 0 22px rgba(56,189,248,.18)}
-.hoh-plate-glyph{font-size:1.55rem;line-height:1}
-.hoh-skill{
-  font-family:var(--font-display);font-size:.92rem;color:var(--text);
-  font-weight:600;letter-spacing:.01em;
-  max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
-}
-.hoh-handle{
-  font-family:var(--font-body);font-size:.74rem;font-weight:700;
-  color:var(--honor-red);letter-spacing:.04em;
-}
-.hoh-handle::before{content:'@';opacity:.6}
-.hoh-stars{display:inline-flex;gap:1px;font-size:.7rem;line-height:1;margin-top:.1rem}
+.hoh-track.is-manual > *{scroll-snap-align:start}
+
+/* Stars inside the mini plaque inherit the gold palette but stay sized
+   to the compact card. .hoh-star is also referenced by Path B (.ult-stars). */
 .hoh-star{color:var(--apex-gold);text-shadow:0 0 5px rgba(var(--apex-gold-rgb),.4)}
 .hoh-star--dim{color:rgba(var(--apex-gold-rgb),.18);text-shadow:none}
+
 .hoh-footer{margin-top:1.5rem;text-align:center}
+
+@keyframes hoh-drift{
+  from{transform:translateX(0)}
+  to  {transform:translateX(-50%)}
+}
+@media (prefers-reduced-motion: reduce){
+  .hoh-track{
+    animation:none;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+  }
+  .hoh-track > *{scroll-snap-align:start}
+}
 
 /* ── ASCENSION CYCLE ── */
 .ascension-section{text-align:center}
@@ -2161,7 +2183,6 @@ button.nav-graph-trigger:hover{color:var(--text)}
   .asc-stage{width:100%}
   .asc-node{width:100%;min-width:0}
   .asc-arrow{transform:rotate(90deg);align-self:center;padding:.2rem 0}
-  .hoh-plate{min-width:7rem}
   .ledger-strip{gap:1rem}
 }
 
@@ -2297,8 +2318,8 @@ button.nav-graph-trigger:hover{color:var(--text)}
   }
 }
 @media(max-width:480px){
-  .hoh-plates{gap:.75rem}
-  .hoh-plate{min-width:calc(50% - .375rem);max-width:none;flex:none}
+  .hoh-track{gap:.75rem}
+  .plaque--mini{width:170px;max-width:170px;min-height:200px}
 }
 
 /* ═══════════════════════════════════════════════

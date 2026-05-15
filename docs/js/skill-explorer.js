@@ -82,11 +82,18 @@
     ].filter(Boolean).join('');
 
     var installCmd = 'gaia install ' + ns.id;
+    // Phase 8c — slash-name priority: lead with namedSlug(ns) in honor red
+    // (e.g. /autoresearch), demote the long-form title to a muted subtitle.
+    var slug = (typeof window.namedSlug === 'function') ? window.namedSlug(ns) : ('/' + (ns.id.split('/')[1] || ns.id));
+    var contribLink = (typeof window.handleLink === 'function')
+      ? window.handleLink(ns.contributor || '')
+      : '<span style="color:#ef4444;font-weight:700">' + esc(ns.contributor || '') + '</span>';
     var heroLeft = '<div class="se-hero-card" data-level="' + esc(ns.level) + '" data-type="' + esc((generic && generic.type) || 'basic') + '">' +
       '<div class="se-node-orb se-node-orb--' + esc((generic && generic.type) || 'basic') + (ns.level === '6★' ? ' se-node-orb--vi' : '') + '"></div>' +
       (repoUrl ? '<a class="se-github-link" href="' + esc(repoUrl) + '" target="_blank" rel="noopener">Show in GitHub ↗</a>' : '') +
-      '<div class="se-skill-name">' + esc(ns.name || ns.id) + '</div>' +
-      '<div class="se-contrib"><span style="color:#ef4444;font-weight:700">' + esc(ns.contributor) + '</span> / ' + esc(ns.id.split('/')[1] || '') + '</div>' +
+      '<div class="se-skill-name named-slug" title="' + esc(ns.id) + '">' + esc(slug) + '</div>' +
+      (ns.name ? '<div class="se-skill-subtitle" style="font-family:var(--font-display);font-size:1rem;color:var(--muted);margin-top:.1rem;margin-bottom:.4rem">' + esc(ns.name) + '</div>' : '') +
+      '<div class="se-contrib">' + contribLink + '</div>' +
       '<div class="se-badges">' + badgesHtml + '</div>' +
       (ns.title ? '<div style="font-style:italic;color:var(--muted);font-size:.88rem;margin-bottom:.8rem">"' + esc(ns.title) + '"</div>' : '') +
       (generic ? '<div style="font-size:.82rem;color:var(--muted)">Generic skill: <strong style="color:var(--text)">' + esc(generic.name || ns.genericSkillRef) + '</strong></div>' : '') +
@@ -465,10 +472,16 @@
     var lmEntry = (LEVEL_META_SE && LEVEL_META_SE[ns.level]) || {};
     document.getElementById('uspGlyph').textContent = TYPE_GLYPH[ns.type] || '◇';
     document.getElementById('uspGlyph').style.color = lmEntry.color || '#38bdf8';
-    document.getElementById('uspName').innerHTML = '<span style="color:#ef4444;font-weight:700">' + esc(ns.contributor || '') + '</span> / ' + esc(ns.name || ns.id.split('/')[1] || ns.id);
+    // Phase 8c — wrap contributor mentions in handleLink so they route to
+    // the profile page. uspName retains the slug + handle layout but the
+    // contributor is now a hover-underlined link.
+    var nspContribLink = (typeof window.handleLink === 'function')
+      ? window.handleLink(ns.contributor || '')
+      : '<span style="color:#ef4444;font-weight:700">@' + esc(ns.contributor || '') + '</span>';
+    document.getElementById('uspName').innerHTML = nspContribLink + ' / ' + esc(ns.name || ns.id.split('/')[1] || ns.id);
     document.getElementById('uspId').textContent = ns.id;
     var bodyEl = pop.querySelector('.usp-body');
-    if (bodyEl) bodyEl.innerHTML = 'Named implementation by <span style="color:#ef4444;font-weight:700">' + esc(ns.contributor || '') + '</span>. Select an install method:';
+    if (bodyEl) bodyEl.innerHTML = 'Named implementation by ' + nspContribLink + '. Select an install method:';
     var cmd = 'gaia install ' + ns.id;
     document.getElementById('uspCmd').textContent = cmd;
     document.getElementById('uspCmd').dataset.cmd = cmd;

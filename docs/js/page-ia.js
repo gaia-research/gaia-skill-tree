@@ -134,21 +134,32 @@
 
       list.innerHTML = sorted.map(function (u) {
         var claim = claimedBy[u.id];
-        var slash = '/' + u.id;
         var stars = '<span class="ult-stars">' + starsRow(u.level) + '</span>';
         var levelChip = '<span class="ult-level">' + esc(u.level || '') + '</span>';
         if (claim) {
+          // Phase 8c — claimed Ultimates lead with the named slug in honor red
+          // (the second segment of the named id, e.g. /autoresearch). The
+          // canonical id moves out of the visible row; hover-title preserves it.
+          var claimedSlug = (typeof window.namedSlug === 'function')
+            ? window.namedSlug(claim)
+            : '/' + u.id;
+          var contribLink = (typeof window.handleLink === 'function')
+            ? window.handleLink(claim.contributor || '', { extraClass: 'ult-contrib' })
+            : '<a class="ult-contrib atlas-handle" href="./u/' + encodeURIComponent(claim.contributor || '') + '/">@' + esc(claim.contributor || '') + '</a>';
           return '<div class="ultimate-item ultimate-item--claimed">' +
             '<span class="ult-glyph">◆</span>' +
-            '<span class="ult-slug" title="' + esc(u.name || '') + '">' + esc(slash) + '</span>' +
-            '<a class="ult-contrib" href="./u/' + encodeURIComponent(claim.contributor || '') + '/">@' + esc(claim.contributor || '') + '</a>' +
+            '<span class="ult-slug named-slug" title="' + esc(u.id) + '">' + esc(claimedSlug) + '</span>' +
+            contribLink +
             stars + levelChip +
             '<span class="ult-claimed">Claimed</span>' +
             '</div>';
         }
+        // Phase 8c — unclaimed Ultimates keep the canonical slug, rendered in
+        // muted text (no name to honor yet).
+        var slash = '/' + u.id;
         return '<div class="ultimate-item">' +
           '<span class="ult-glyph">◆</span>' +
-          '<span class="ult-slug" title="' + esc(u.name || '') + '">' + esc(slash) + '</span>' +
+          '<span class="ult-slug named-slug named-slug--muted" title="' + esc(u.name || '') + '">' + esc(slash) + '</span>' +
           stars + levelChip +
           '<button class="ult-claim" type="button" ' +
             'data-skill-id="' + esc(u.id) + '"' +
@@ -217,24 +228,35 @@
 
     var plates = document.getElementById('hohPlates');
     if (plates && top.length) {
-      plates.innerHTML = top.map(function (it) {
+      // Phase 8c — render each Hall of Heroes plate as a .plaque--mini.
+      // The named slug (e.g. /autoresearch) leads in honor red, the linked
+      // @handle sits below, and the 6-star row anchors the card. The plate
+      // is the click target; openSkillExplorer takes the canonical id.
+      var rendered = top.map(function (it) {
         var e = it.entry;
         var type = it.type;
-        var glyph = TYPE_GLYPH[type] || TYPE_GLYPH.basic;
-        var color = TYPE_COLOR_VAR[type] || TYPE_COLOR_VAR.basic;
         var canonId = it.canonicalId;
-        var slash = '/' + (canonId || '');
-        return '<article class="hoh-plate" data-type="' + esc(type) + '"' +
+        var n = levelNum(e.level);
+        var slug = (typeof window.namedSlug === 'function')
+          ? window.namedSlug(e)
+          : '/' + canonId;
+        var contribLink = (typeof window.handleLink === 'function')
+          ? window.handleLink(e.contributor || '', { extraClass: 'plaque-contributor' })
+          : '<a class="atlas-handle plaque-contributor" href="./u/' + encodeURIComponent(e.contributor || '') + '/">@' + esc(e.contributor || '') + '</a>';
+        return '<article class="plaque plaque--mini" data-type="' + esc(type) + '"' +
           ' data-skill-id="' + esc(canonId) + '"' +
           ' role="button" tabindex="0"' +
           ' onclick="(function(){if(typeof openSkillExplorer===\'function\')openSkillExplorer(\'' + jsStr(canonId) + '\');})()"' +
           ' onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();this.click();}">' +
-          '<div class="hoh-plate-glyph" style="color:' + color + '">' + glyph + '</div>' +
-          '<div class="hoh-skill">' + esc(slash) + '</div>' +
-          '<div class="hoh-handle">' + esc(e.contributor || '') + '</div>' +
-          '<div class="hoh-stars" aria-label="' + esc(e.level || '') + '">' + starsRow(e.level) + '</div>' +
+          '<div class="plaque-orb plaque-orb--' + esc(type) + (n >= 6 ? ' plaque-orb--vi' : '') + '" aria-hidden="true"></div>' +
+          '<div class="plaque-skill-name named-slug" title="' + esc(canonId) + '">' + esc(slug) + '</div>' +
+          contribLink +
+          '<div class="plaque-stars" aria-label="' + esc(e.level || '') + '">' + starsRow(e.level) + '</div>' +
           '</article>';
       }).join('');
+      // Duplicate the rendered set so the CSS marquee can translate -50% and
+      // loop seamlessly (the second half occupies the visual gap left behind).
+      plates.innerHTML = rendered + rendered;
     }
   }).catch(function () {});
 
@@ -275,5 +297,29 @@
     var navSearch = document.getElementById('navSearchBtn');
     if (navSearch) navSearch.addEventListener('click', focusNamedSearch);
     if (location.hash === '#search') focusNamedSearch();
+
+    // Phase 8c — Hall of Heroes manual-override: if the visitor drags or
+    // scroll-wheels the track, switch to manual mode (animation paused,
+    // scroll-snap enabled). Auto-resume the ambient drift 4s after they
+    // leave or focus moves elsewhere. The CSS handles reduced-motion
+    // unconditionally; this JS only enhances the default-motion path.
+    var track = document.getElementById('hohPlates');
+    if (track) {
+      var manualTimer = null;
+      function enterManual() {
+        track.classList.add('is-manual');
+        if (manualTimer) clearTimeout(manualTimer);
+      }
+      function scheduleAutoResume() {
+        if (manualTimer) clearTimeout(manualTimer);
+        manualTimer = setTimeout(function () {
+          track.classList.remove('is-manual');
+        }, 4000);
+      }
+      track.addEventListener('pointerdown', enterManual);
+      track.addEventListener('wheel', enterManual, { passive: true });
+      track.addEventListener('mouseleave', scheduleAutoResume);
+      track.addEventListener('blur', scheduleAutoResume, true);
+    }
   });
 })();
