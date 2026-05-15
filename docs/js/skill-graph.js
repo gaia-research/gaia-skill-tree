@@ -569,19 +569,28 @@
       if (state.labelMode === 'modal') return skill.type !== 'basic' || stableHash(skill.id) % 7 === 0;
       return skill.type === 'ultimate' || skill.type === 'unique';
     }
+    // Phase 5: check reduced-motion once per draw frame (cached per graph instance)
+    const _reducedMotion = () => window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     function draw() {
       if (!state.running) return;
       const targetSlowdown = ((state.hoveredId || state.pinnedId) && !state.paused) ? 1 : 0;
       state.hoverSlowdown += (targetSlowdown - state.hoverSlowdown) * 0.035;
+      // Always advance state.t so Level VI shimmer (hard lock) keeps running.
+      // Under reduced-motion, freeze the idle AUTO-ROTATION angles for the hero
+      // graph (non-draggable). The modal graph (draggable) can still be spun
+      // manually by the user, so we don't suppress it there.
       if (!state.paused) state.t += 0.006 * state.rotSpeed * (1 - state.hoverSlowdown);
       ctx.clearRect(0, 0, state.width, state.height);
       state.projectedNodes = {};
+      // Under reduced motion, lock the idle pan angle to 0 for the hero graph.
+      const rmFreeze = _reducedMotion() && !options.draggable;
       const ry = options.draggable
         ? state.t * 0.16 + state.orbitY
-        : state.t * 0.16 + state.mx * 0.10;
+        : (rmFreeze ? state.orbitY : state.t * 0.16 + state.mx * 0.10);
       const rx = options.draggable
         ? Math.sin(state.t * 0.055) * 0.20 + state.orbitX
-        : Math.sin(state.t * 0.055) * 0.20 + state.my * 0.055;
+        : (rmFreeze ? state.orbitX : Math.sin(state.t * 0.055) * 0.20 + state.my * 0.055);
       if (state.nebula) {
         const maxR = Math.max(state.width, state.height) * 1.5;
         state.nebulaClouds.forEach(cloud => {

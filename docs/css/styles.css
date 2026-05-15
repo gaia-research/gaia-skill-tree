@@ -2061,6 +2061,111 @@ button.nav-graph-trigger:hover{color:var(--text)}
   .ledger-strip{gap:1rem}
 }
 
+/* ═══════════════════════════════════════════════
+   PHASE 5 — MOBILE NAV SHEET
+   ═══════════════════════════════════════════════ */
+
+/* Sheet backdrop */
+.nav-sheet-backdrop{
+  display:none;
+  position:fixed;inset:0;z-index:9998;
+  background:rgba(0,0,0,.55);
+  backdrop-filter:blur(4px);
+  opacity:0;
+  transition:opacity .3s ease;
+}
+.nav-sheet-backdrop.open{opacity:1}
+
+/* Slide-in sheet */
+.nav-sheet{
+  position:fixed;top:0;right:0;bottom:0;z-index:9999;
+  width:min(320px,85vw);
+  background:var(--bg);
+  border-left:1px solid rgba(255,255,255,.08);
+  display:flex;flex-direction:column;
+  transform:translateX(100%);
+  transition:transform .3s cubic-bezier(.4,0,.2,1);
+  overflow-y:auto;
+}
+.nav-sheet.open{transform:translateX(0)}
+
+.nav-sheet-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.1rem 1.5rem;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.nav-sheet-wordmark{
+  font-family:var(--font-display);
+  font-size:1.1rem;font-weight:600;letter-spacing:.05em;
+  color:var(--text);
+}
+.nav-sheet-close{
+  display:flex;align-items:center;justify-content:center;
+  width:36px;height:36px;
+  background:transparent;border:1px solid rgba(255,255,255,.1);
+  border-radius:8px;color:var(--muted);
+  cursor:pointer;font-size:1rem;font-family:inherit;
+  transition:color .15s,border-color .15s;
+}
+.nav-sheet-close:hover{color:var(--text);border-color:rgba(255,255,255,.25)}
+
+.nav-sheet-links{
+  display:flex;flex-direction:column;
+  padding:1rem 0;
+}
+.nav-sheet-links a,
+.nav-sheet-links button{
+  display:block;
+  padding:.85rem 1.5rem;
+  font-size:1rem;color:var(--muted);
+  text-decoration:none;
+  background:transparent;border:none;
+  cursor:pointer;font:inherit;text-align:left;
+  border-left:2px solid transparent;
+  transition:color .15s,background .15s,border-color .15s;
+}
+.nav-sheet-links a:hover,
+.nav-sheet-links button:hover{
+  color:var(--text);background:rgba(255,255,255,.04);
+  border-left-color:var(--apex-gold);
+}
+
+/* Only show hamburger / sheet on mobile */
+@media(min-width:701px){
+  .nav-sheet,.nav-sheet-backdrop{display:none!important}
+}
+@media(max-width:700px){
+  .nav-sheet-backdrop{display:block}
+}
+
+/* ── PHASE 5 — FIRST-LOAD REVEAL OVERLAY ── */
+.intro-overlay{
+  position:fixed;inset:0;z-index:9000;
+  background:var(--bg);
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:1.5rem;
+  pointer-events:auto;
+  opacity:1;
+  transition:opacity 1.2s ease;
+}
+.intro-overlay.fading{opacity:0;pointer-events:none}
+.intro-overlay.done{display:none}
+.intro-reveal-line{
+  font-family:var(--font-display);
+  font-size:clamp(1.4rem,4vw,2.2rem);
+  font-weight:600;color:var(--text);
+  opacity:0;transform:translateY(12px);
+  transition:opacity .6s ease, transform .6s ease;
+  text-align:center;
+}
+.intro-reveal-line.visible{opacity:1;transform:none}
+.intro-skip{
+  position:absolute;bottom:2rem;right:2rem;
+  font-family:var(--font-mono);font-size:.7rem;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);opacity:.6;
+}
+
 /* ── PHASE 3 MOBILE — disable 3D HUD, show static SVG fallback ── */
 .hero-mobile-graph{display:none}
 @media(max-width:700px){
@@ -2090,4 +2195,67 @@ button.nav-graph-trigger:hover{color:var(--text)}
 @media(max-width:480px){
   .hoh-plates{gap:.75rem}
   .hoh-plate{min-width:calc(50% - .375rem);max-width:none;flex:none}
+}
+
+/* ═══════════════════════════════════════════════
+   PHASE 5 — prefers-reduced-motion
+   Disable all CSS animations & transitions except
+   the Level VI shimmer (hard lock — plaque.css
+   explicitly re-enables plaque-vi-edge under this
+   media query via animation:none, which is correct
+   for the CSS plaque. The canvas Level VI node is
+   handled in JS and is intentionally excluded).
+   ═══════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  /* Kill all @keyframes transitions sitewide */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Restore instant-show for scroll-reveal — they would get stuck at opacity:0 */
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  /* Intro overlay — skip entirely (see also JS gate) */
+  .intro-overlay {
+    display: none !important;
+  }
+
+  /* Graph dialog open/close transitions */
+  .graph-dialog,
+  .graph-dialog[open] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .graph-dialog::backdrop,
+  .graph-dialog[open]::backdrop {
+    opacity: 1 !important;
+    transition: none !important;
+  }
+
+  /* Skill explorer slide-in */
+  .skill-explorer {
+    transition: none !important;
+  }
+
+  /* Nav sheet */
+  .nav-sheet,
+  .nav-sheet-backdrop {
+    transition: none !important;
+  }
+
+  /* USP card pop */
+  .usp-card {
+    transition: none !important;
+    transform: none !important;
+  }
 }
