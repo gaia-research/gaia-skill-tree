@@ -1,4 +1,4 @@
-# Extra Skill: huggingface/huggingface-datasets  [3★ · Evolved]
+# Extra Skill: [huggingface](../../../docs/u/huggingface/)/huggingface-datasets  [3★ · Evolved]
 **ID:** data-analysis  
 **Type:** Extra Skill  
 **Level:** 3★  

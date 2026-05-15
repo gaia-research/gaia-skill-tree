@@ -1,4 +1,4 @@
-# Extra Skill: anthropic/skill-creator  [4★ · Hardened]
+# Extra Skill: [anthropic](../../../docs/u/anthropic/)/skill-creator  [4★ · Hardened]
 **ID:** tool-creation  
 **Type:** Extra Skill  
 **Level:** 4★  

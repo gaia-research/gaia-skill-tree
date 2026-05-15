@@ -1,4 +1,4 @@
-# addy-osmani/test-driven-development  [0★ · Basic]
+# [addy-osmani](../../../docs/u/addy-osmani/)/test-driven-development  [0★ · Basic]
 **ID:** test-driven-development  
 **Type:** Basic Skill  
 **Level:** 0★  

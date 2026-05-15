@@ -1,4 +1,4 @@
-# Extra Skill: mattpocock/to-prd  [4★ · Hardened]
+# Extra Skill: [mattpocock](../../../docs/u/mattpocock/)/to-prd  [4★ · Hardened]
 **ID:** prd-generation  
 **Type:** Extra Skill  
 **Level:** 4★  

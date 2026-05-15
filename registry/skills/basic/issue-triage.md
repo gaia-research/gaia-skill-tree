@@ -1,4 +1,4 @@
-# mattpocock/triage  [4★ · Hardened]
+# [mattpocock](../../../docs/u/mattpocock/)/triage  [4★ · Hardened]
 **ID:** issue-triage  
 **Type:** Basic Skill  
 **Level:** 4★  

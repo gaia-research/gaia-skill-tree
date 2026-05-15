@@ -1,4 +1,4 @@
-# Unique Skill: nousresearch/feed-monitoring  [4★ · Hardened]
+# Unique Skill: [nousresearch](../../../docs/u/nousresearch/)/feed-monitoring  [4★ · Hardened]
 **ID:** feed-monitoring  
 **Type:** Unique Skill  
 **Level:** 4★  

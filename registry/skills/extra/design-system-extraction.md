@@ -1,4 +1,4 @@
-# Extra Skill: Manavarya09/design-extract  [3★ · Evolved]
+# Extra Skill: [Manavarya09](../../../docs/u/Manavarya09/)/design-extract  [3★ · Evolved]
 **ID:** design-system-extraction  
 **Type:** Extra Skill  
 **Level:** 3★  

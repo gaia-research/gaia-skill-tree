@@ -1,4 +1,4 @@
-# huggingface/hf-cli  [2★ · Named]
+# [huggingface](../../../docs/u/huggingface/)/hf-cli  [2★ · Named]
 **ID:** api-call  
 **Type:** Basic Skill  
 **Level:** 2★  

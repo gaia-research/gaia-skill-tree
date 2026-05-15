@@ -1,4 +1,4 @@
-# Unique Skill: openai/few-shot-learning  [4★ · Hardened]
+# Unique Skill: [openai](../../../docs/u/openai/)/few-shot-learning  [4★ · Hardened]
 **ID:** few-shot-learning  
 **Type:** Unique Skill  
 **Level:** 4★  

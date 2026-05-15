@@ -1,4 +1,4 @@
-# Unique Skill: openai/self-consistency  [4★ · Hardened]
+# Unique Skill: [openai](../../../docs/u/openai/)/self-consistency  [4★ · Hardened]
 **ID:** self-consistency  
 **Type:** Unique Skill  
 **Level:** 4★  

@@ -1,4 +1,4 @@
-# browser-use/browser-harness  [2★ · Named]
+# [browser-use](../../../docs/u/browser-use/)/browser-harness  [2★ · Named]
 **ID:** browser-control  
 **Type:** Basic Skill  
 **Level:** 2★  
