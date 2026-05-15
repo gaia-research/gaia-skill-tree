@@ -10,8 +10,10 @@ DOCS_DIR = REPO_ROOT / "docs"
 def test_how_we_do_things_page_is_linked_from_site_home():
     home = (DOCS_DIR / "index.html").read_text(encoding="utf-8")
 
-    assert 'href="how-we-do-things.html"' in home
-    assert "How We Work" in home
+    # Phase 5: how-we-do-things.html was renamed to codex.html.
+    # The nav now points to codex.html; how-we-do-things.html redirects there.
+    assert 'href="codex.html"' in home
+    assert "The Codex" in home
 
 
 def test_how_we_do_things_page_covers_curation_and_review():
