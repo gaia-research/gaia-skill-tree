@@ -570,3 +570,220 @@
     gap: 8px;
   }
 }
+
+/* ============================================================
+   Phase 8b — Plaque size variants
+   Four variants sit on top of the base .plaque token block.
+   They override sizing/padding/layout while inheriting the
+   gold-hairline border, corner ornaments (::before/::after),
+   and data-type-driven tier coloring already established above.
+   ============================================================ */
+
+/* ── .plaque-orb — canonical tier glyph ──
+   Shared with .se-node-orb via comma-merged selectors below.
+   Default size 36px; modifiers --sm (24px) and --lg (52px). */
+.plaque-orb {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.plaque-orb--sm { width: 24px; height: 24px; }
+.plaque-orb--lg { width: 52px; height: 52px; }
+
+/* Type modifiers — mirror .se-node-orb--* color rules.
+   Merged with .se-node-orb selectors in styles.css so both
+   class names paint identically (see Phase 8b note there). */
+.plaque-orb--basic,
+.se-node-orb--basic {
+  background: radial-gradient(circle at 35% 35%, #7dd3fc, #38bdf8 60%, #0284c7);
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+}
+.plaque-orb--extra,
+.se-node-orb--extra {
+  background: radial-gradient(circle at 35% 35%, #e9d5ff, #c084fc 60%, #7c3aed);
+  box-shadow: 0 0 12px rgba(192, 132, 252, 0.4);
+}
+.plaque-orb--ultimate,
+.se-node-orb--ultimate {
+  background: radial-gradient(circle at 35% 35%, #fef3c7, #f59e0b 60%, #d97706);
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
+}
+.plaque-orb--unique,
+.se-node-orb--unique {
+  background: radial-gradient(circle at 50% 50%, #000 55%, #7c3aed 80%, #5b21b6);
+  box-shadow: 0 0 14px rgba(124, 58, 237, 0.5), inset 0 0 6px rgba(124, 58, 237, 0.3);
+}
+.plaque-orb--vi,
+.se-node-orb--vi {
+  background: radial-gradient(circle at 35% 35%, #fff 40%, #fef3c7 70%, #f59e0b) !important;
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.6), 0 0 40px rgba(245, 158, 11, 0.35) !important;
+}
+
+/* ── .plaque--mini — Hall of Heroes track plate ──
+   200px fixed width, ~220px content-driven height. Compact
+   vertical card: orb · named slug · handle · stars · level chip. */
+.plaque--mini {
+  width: 200px;
+  max-width: 200px;
+  height: auto;
+  min-height: 220px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.plaque--mini .plaque-skill-name {
+  font-size: 18px;
+  line-height: 1.15;
+}
+
+.plaque--mini .plaque-contributor {
+  font-size: 13px;
+}
+
+.plaque--mini .plaque-stars {
+  font-size: 12px;
+  gap: 2px;
+}
+
+.plaque--mini .plaque-star {
+  font-size: 12px;
+}
+
+/* Drop description and tags inside mini */
+.plaque--mini .plaque-description,
+.plaque--mini .plaque-tags {
+  display: none;
+}
+
+/* ── .plaque--tile — Named Skills Explorer tile view ──
+   100% of grid cell, min-height 280px. Slightly tighter than
+   base plaque; orb shares the header row with the level chip. */
+.plaque--tile {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  min-height: 280px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.plaque--tile .plaque-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.plaque--tile .plaque-skill-name {
+  font-size: 22px;
+}
+
+.plaque--tile .plaque-description {
+  font-size: 13px;
+  -webkit-line-clamp: 3;
+}
+
+/* Tag overflow guard — show up to 3 visually; deeper trim is a JS concern */
+.plaque--tile .plaque-tags {
+  max-height: 28px;
+  overflow: hidden;
+}
+
+/* ── .plaque--row — Named Skills Explorer list view ──
+   Horizontal flex row; ~72px tall. Orb · slug · title · stars ·
+   tags · level chip · gh link. */
+.plaque--row {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  min-height: 72px;
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+}
+
+.plaque--row .plaque-skill-name {
+  font-size: 18px;
+  flex: 0 1 auto;
+}
+
+.plaque--row .plaque-title {
+  font-size: 14px;
+  flex: 1 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.plaque--row .plaque-stars {
+  flex-shrink: 0;
+}
+
+.plaque--row .plaque-tags {
+  flex-shrink: 0;
+  margin-top: 0;
+  max-width: 240px;
+  overflow: hidden;
+}
+
+.plaque--row .plaque-description {
+  display: none;
+}
+
+/* ── .plaque--detail — Skill Detail Overlay hero ──
+   Two-column layout. Left: orb + slug + handle + install.
+   Right: description + tags. Collapses to one column on mobile. */
+.plaque--detail {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  padding: 28px 32px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: 32px;
+  align-items: start;
+}
+
+.plaque--detail .plaque-detail-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  min-width: 0;
+}
+
+.plaque--detail .plaque-detail-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.plaque--detail .plaque-skill-name {
+  font-size: 32px;
+}
+
+.plaque--detail .plaque-description {
+  font-size: 14px;
+  -webkit-line-clamp: unset;
+  display: block;
+}
+
+@media (max-width: 700px) {
+  .plaque--detail {
+    grid-template-columns: 1fr;
+    padding: 20px;
+    gap: 20px;
+  }
+}
