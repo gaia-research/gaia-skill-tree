@@ -21,110 +21,42 @@ window.switchOsTab = function(btn) {
     var toggle = document.querySelector('.nav-menu-toggle');
     if (!toggle) return;
 
-    /* Build sheet DOM once */
-    var backdrop = document.createElement('div');
-    backdrop.className = 'nav-sheet-backdrop';
-    backdrop.setAttribute('aria-hidden', 'true');
-
-    var sheet = document.createElement('nav');
-    sheet.className = 'nav-sheet';
-    sheet.setAttribute('role', 'dialog');
-    sheet.setAttribute('aria-modal', 'true');
-    sheet.setAttribute('aria-label', 'Navigation menu');
-
-    /* Header */
-    var header = document.createElement('div');
-    header.className = 'nav-sheet-header';
-    var wordmark = document.createElement('span');
-    wordmark.className = 'nav-sheet-wordmark';
-    wordmark.textContent = 'Gaia';
-    var closeBtn = document.createElement('button');
-    closeBtn.className = 'nav-sheet-close';
-    closeBtn.setAttribute('aria-label', 'Close navigation');
-    closeBtn.textContent = '✕';
-    header.appendChild(wordmark);
-    header.appendChild(closeBtn);
-    sheet.appendChild(header);
-
-    /* Links — mirror the main nav */
-    var linksEl = document.createElement('div');
-    linksEl.className = 'nav-sheet-links';
-
-    /* Collect existing nav items */
-    var mainNav = toggle.closest('nav');
-    var existingItems = mainNav ? mainNav.querySelectorAll('ul li') : [];
-    existingItems.forEach(function(li) {
-      var src = li.firstElementChild;
-      if (!src) return;
-      var clone;
-      if (src.tagName === 'A') {
-        clone = document.createElement('a');
-        clone.href = src.href;
-        clone.textContent = src.textContent;
-        if (src.getAttribute('aria-controls')) clone.setAttribute('aria-controls', src.getAttribute('aria-controls'));
-      } else {
-        /* Button */
-        clone = document.createElement('button');
-        clone.type = 'button';
-        clone.textContent = src.textContent;
-        /* Copy data attributes */
-        Array.from(src.attributes).forEach(function(attr) {
-          if (attr.name.startsWith('data-') || attr.name === 'aria-controls') {
-            clone.setAttribute(attr.name, attr.value);
-          }
-        });
-        /* Delegate click to original button so existing JS handlers fire */
-        clone.addEventListener('click', function() {
-          close();
-          src.click();
-        });
-      }
-      if (src.className) clone.className = src.className;
-      linksEl.appendChild(clone);
-    });
-    sheet.appendChild(linksEl);
-
-    document.body.appendChild(backdrop);
-    document.body.appendChild(sheet);
+    var nav = toggle.closest('nav');
+    if (!nav) return;
 
     function open() {
-      backdrop.classList.add('open');
-      sheet.classList.add('open');
+      nav.classList.add('nav-open');
       toggle.setAttribute('aria-expanded', 'true');
       document.body.style.overflow = 'hidden';
-      closeBtn.focus();
     }
 
     function close() {
-      backdrop.classList.remove('open');
-      sheet.classList.remove('open');
+      nav.classList.remove('nav-open');
       toggle.setAttribute('aria-expanded', 'false');
       document.body.style.overflow = '';
-      toggle.focus();
     }
 
-    toggle.addEventListener('click', function() {
-      sheet.classList.contains('open') ? close() : open();
+    toggle.addEventListener('click', function(e) {
+      e.stopPropagation();
+      nav.classList.contains('nav-open') ? close() : open();
     });
-    closeBtn.addEventListener('click', close);
-    backdrop.addEventListener('click', close);
 
-    /* Close on link/anchor clicks inside sheet */
-    linksEl.querySelectorAll('a').forEach(function(a) {
-      a.addEventListener('click', close);
+    /* Close when clicking links */
+    nav.querySelectorAll('ul li a, ul li button').forEach(function(el) {
+      el.addEventListener('click', close);
+    });
+
+    /* Close on backdrop click (we'll add a backdrop in CSS or use nav itself) */
+    document.addEventListener('click', function(e) {
+      if (nav.classList.contains('nav-open') && !nav.contains(e.target)) {
+        close();
+      }
     });
 
     /* Esc key */
     document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape' && sheet.classList.contains('open')) close();
+      if (e.key === 'Escape' && nav.classList.contains('nav-open')) close();
     });
-
-    /* Keep old inline nav toggle working for non-sheet code paths */
-    if (mainNav) {
-      toggle.addEventListener('click', function() {
-        /* The sheet handles open/close; keep aria-expanded in sync only */
-      });
-    }
   }
 
   /* ─────────────────────────────────────────

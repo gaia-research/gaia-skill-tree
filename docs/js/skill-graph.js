@@ -1485,8 +1485,12 @@
     mobileHintDismiss.addEventListener('click', () => { mobileHint.style.display = 'none'; });
   }
   const isMobile = window.matchMedia('(max-width:700px)').matches;
-  const heroGraph = isMobile ? null : createSkillGraph(document.getElementById('canvas3d'), { labelMode:'none', scale:GRAPH_SCALE, stars:280, pointerTarget:hero });
-  const modalGraph = createSkillGraph(document.getElementById('graphDialogCanvas'), {
+  const heroGraph = createSkillGraph(document.getElementById('canvas3d'), { 
+    labelMode:'none', 
+    scale:GRAPH_SCALE, 
+    stars:isMobile ? 120 : 280, // Fewer stars on mobile for performance
+    pointerTarget:hero 
+  });  const modalGraph = createSkillGraph(document.getElementById('graphDialogCanvas'), {
     labelMode:'all', scale:1.8, stars:320, statusEl:document.querySelector('[data-graph-status]'), autostart:false, zoomable:true, draggable:true, hoverable:true,
   });
 

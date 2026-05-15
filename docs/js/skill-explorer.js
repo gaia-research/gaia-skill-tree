@@ -737,7 +737,16 @@
   function highlightTree(text) {
     var ultIdx = 0;
     var unqIdx = 0;
-    return text.split('\n').map(function(line) {
+    var inPure = false;
+    var lines = text.split('\n');
+    var output = [];
+    
+    for (var i = 0; i < lines.length; i++) {
+      var line = lines[i];
+      if (line.indexOf('Pure / Undeveloped') !== -1) {
+        inPure = true;
+      }
+
       // 1. Ultimate Skill lines (◆)
       var m = line.match(/^(\s*◆\s*(?:Ultimate Skill:\s*)?)(\S+)(.*)$/);
       if (m) {
@@ -755,8 +764,9 @@
         } else {
           skillHtml = '<span class="tree-ult-id">' + esc(skillId) + '</span>';
         }
-        return '<span class="tree-ult-line" style="animation-delay:' + delay + 's">' +
-               label + skillHtml + suffix + '</span>';
+        output.push('<span class="tree-ult-line" style="animation-delay:' + delay + 's">' +
+               label + skillHtml + suffix + '</span>');
+        continue;
       }
 
       // 2. Unique Skill lines (◉)
@@ -774,12 +784,13 @@
           var uHandle = uid.slice(0, uslash);
           uskillHtml = handleAnchor(uHandle, '<span class="tree-unique-contributor">' + esc(uHandle) + '</span>') +
                        '<span class="tree-unique-slash">/</span>' +
-                       '<span class="' + uniqueClass + '">' + esc(uid.slice(slash + 1)) + '</span>';
+                       '<span class="' + uniqueClass + '">' + esc(uid.slice(uslash + 1)) + '</span>';
         } else {
           uskillHtml = '<span class="' + uniqueClass + '">' + esc(uid) + '</span>';
         }
-        return '<span class="tree-unique-line" style="animation-delay:' + udelay + 's">' +
-               ulabel + uskillHtml + usuffix + '</span>';
+        output.push('<span class="tree-unique-line" style="animation-delay:' + udelay + 's">' +
+               ulabel + uskillHtml + usuffix + '</span>');
+        continue;
       }
 
       // 3. Extra Skill lines (◇)
@@ -798,7 +809,8 @@
         } else {
           eskillHtml = '<span class="tree-extra-id">' + esc(eid) + '</span>';
         }
-        return '<span class="tree-extra-line">' + elabel + eskillHtml + esuffix + '</span>';
+        output.push('<span class="tree-extra-line">' + elabel + eskillHtml + esuffix + '</span>');
+        continue;
       }
 
       // 4. Basic Skill lines (○)
@@ -817,19 +829,46 @@
         } else {
           bskillHtml = '<span class="tree-basic-id">' + esc(bid) + '</span>';
         }
-        return '<span class="tree-basic-line">' + blabel + bskillHtml + bsuffix + '</span>';
+        var lineClass = inPure ? 'tree-basic-line tree-pure-line' : 'tree-basic-line';
+        output.push('<span class="' + lineClass + '">' + blabel + bskillHtml + bsuffix + '</span>');
+        continue;
       }
 
       // 5. Separators and Catch-alls
-      if (/^[═─]{3,}/.test(line.trim())) return '<span class="tree-sep">' + esc(line) + '</span>';
+      if (/^[═─]{3,}/.test(line.trim())) {
+        output.push('<span class="tree-sep">' + esc(line) + '</span>');
+        continue;
+      }
       
       var out = esc(line);
       out = out.replace(/◇/g, '<span class="tree-extra-glyph">◇</span>');
       out = out.replace(/○/g, '<span class="tree-basic-glyph">○</span>');
       out = out.replace(/◉/g, '<span class="tree-unique-glyph">◉</span>');
       out = out.replace(/◆/g, '<span class="tree-ult-glyph">◆</span>');
-      return out;
-    }).join('\n');
+      output.push(out);
+    }
+
+    // Wrap pure lines in a container
+    var finalOutput = '';
+    var inContainer = false;
+    for (var j = 0; j < output.length; j++) {
+      if (output[j].indexOf('tree-pure-line') !== -1) {
+        if (!inContainer) {
+          finalOutput += '<div class="tree-pure-container">';
+          inContainer = true;
+        }
+        finalOutput += output[j];
+      } else {
+        if (inContainer) {
+          finalOutput += '</div>';
+          inContainer = false;
+        }
+        finalOutput += output[j] + '\n';
+      }
+    }
+    if (inContainer) finalOutput += '</div>';
+    
+    return finalOutput;
   }
 
   function closeTreeDialog() {
