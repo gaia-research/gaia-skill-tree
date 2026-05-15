@@ -1492,17 +1492,6 @@
 
   function peek(on) { hero.classList.toggle('hero-graph-peek', Boolean(on)); }
 
-  const hudBtn = document.getElementById('hudToggleBtn');
-  if (hudBtn) {
-    let hudOn = false;
-    hudBtn.addEventListener('click', () => {
-      hudOn = !hudOn;
-      hero.classList.toggle('hero-hud-mode', hudOn);
-      hudBtn.setAttribute('aria-pressed', String(hudOn));
-      hudBtn.textContent = hudOn ? '⇄ Exit HUD' : '⇄ View as HUD';
-    });
-  }
-
   trigger.addEventListener('mouseenter', () => peek(true));
   trigger.addEventListener('mouseleave', () => peek(false));
   trigger.addEventListener('focus', () => peek(true));

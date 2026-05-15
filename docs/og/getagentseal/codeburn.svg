@@ -50,12 +50,12 @@
     fill="#fbbf24" opacity="0.85">○</text>
 
   <!-- Stars -->
-  <text x="64" y="435" font-family="Georgia,serif" font-size="18" fill="#fbbf24" dominant-baseline="middle">★</text>
-<text x="86" y="435" font-family="Georgia,serif" font-size="18" fill="#fbbf24" dominant-baseline="middle">★</text>
-<text x="108" y="435" font-family="Georgia,serif" font-size="18" fill="#333d4d" dominant-baseline="middle">★</text>
-<text x="130" y="435" font-family="Georgia,serif" font-size="18" fill="#333d4d" dominant-baseline="middle">★</text>
-<text x="152" y="435" font-family="Georgia,serif" font-size="18" fill="#333d4d" dominant-baseline="middle">★</text>
-<text x="174" y="435" font-family="Georgia,serif" font-size="18" fill="#333d4d" dominant-baseline="middle">★</text>
+  <polygon points="64.00,426.00 66.12,432.09 72.56,432.22 67.42,436.11 69.29,442.28 64.00,438.60 58.71,442.28 60.58,436.11 55.44,432.22 61.88,432.09" fill="#fbbf24"/>
+<polygon points="86.00,426.00 88.12,432.09 94.56,432.22 89.42,436.11 91.29,442.28 86.00,438.60 80.71,442.28 82.58,436.11 77.44,432.22 83.88,432.09" fill="#fbbf24"/>
+<polygon points="108.00,426.00 110.12,432.09 116.56,432.22 111.42,436.11 113.29,442.28 108.00,438.60 102.71,442.28 104.58,436.11 99.44,432.22 105.88,432.09" fill="#333d4d"/>
+<polygon points="130.00,426.00 132.12,432.09 138.56,432.22 133.42,436.11 135.29,442.28 130.00,438.60 124.71,442.28 126.58,436.11 121.44,432.22 127.88,432.09" fill="#333d4d"/>
+<polygon points="152.00,426.00 154.12,432.09 160.56,432.22 155.42,436.11 157.29,442.28 152.00,438.60 146.71,442.28 148.58,436.11 143.44,432.22 149.88,432.09" fill="#333d4d"/>
+<polygon points="174.00,426.00 176.12,432.09 182.56,432.22 177.42,436.11 179.29,442.28 174.00,438.60 168.71,442.28 170.58,436.11 165.44,432.22 171.88,432.09" fill="#333d4d"/>
 
   <!-- Vertical rule -->
   <line x1="220" y1="40" x2="220" y2="590"
@@ -76,15 +76,12 @@
     stroke="rgba(251,191,36,0.2)" stroke-width="1"/>
 
   <!-- Description -->
-  <foreignObject x="264" y="270" width="888" height="200">
-    <body xmlns="http://www.w3.org/1999/xhtml">
-      <p style="font-family:'Bricolage Grotesque',sans-serif;font-size:18px;
-        line-height:1.6;color:rgba(226,232,240,0.55);margin:0;
-        overflow:hidden;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;">
-        Cost and token observability tool for tracking AI coding agent spending across models and projects.
-      </p>
-    </body>
-  </foreignObject>
+  <text x="264" y="298"
+    font-family="Bricolage Grotesque,Helvetica,Arial,sans-serif"
+    font-size="18" fill="rgba(226,232,240,0.65)">
+    <tspan x="264" dy="0">Cost and token observability tool for tracking AI coding</tspan>
+<tspan x="264" dy="28">agent spending across models and projects.</tspan>
+  </text>
 
   <!-- Evidence class chip -->
   <rect x="264" y="504" width="120" height="28"

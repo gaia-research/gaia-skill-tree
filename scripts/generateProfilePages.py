@@ -143,7 +143,7 @@ NAV_HTML = """<nav>
   </a>
   <ul>
     <li><a href="../../#hall-of-heroes">Hall of Heroes</a></li>
-    <li><a href="../../how-we-do-things.html">The Codex</a></li>
+    <li><a href="../../codex.html">The Codex</a></li>
   </ul>
 </nav>"""
 
@@ -158,7 +158,7 @@ FOOTER_HTML = """<footer>
   <p>
     <a href="https://github.com/mbtiongson1/gaia-skill-tree" target="_blank">GitHub</a> ·
     MIT ·
-    <a href="../../how-we-do-things.html">The Codex</a>
+    <a href="../../codex.html">The Codex</a>
   </p>
 </footer>"""
 
@@ -174,9 +174,9 @@ def build_profile_page(handle: str, skills: list) -> str:
     plaques_html = "\n".join(build_plaque_card(s) for s in skills)
     log_html = build_ascension_log(skills)
 
-    # OG image tag (pointing to generated SVG fallback)
+    # OG image tag (raster PNG for social crawlers; SVG sibling exists at the same path)
     og_image_tags = "\n".join(
-        f'  <meta property="og:image" content="../../og/{html.escape(handle)}/{html.escape(s["id"].split("/")[-1])}.svg">'
+        f'  <meta property="og:image" content="../../og/{html.escape(handle)}/{html.escape(s["id"].split("/")[-1])}.png">'
         for s in skills[:1]  # use first skill for og:image
     )
 

@@ -74,16 +74,28 @@ def evidence_class(level: str) -> str:
     return "AWAITED · I"
 
 
+def _star_polygon(cx: float, cy: float, r_outer: float, r_inner: float) -> str:
+    import math
+    points = []
+    for i in range(10):
+        angle = -math.pi / 2 + i * math.pi / 5
+        r = r_outer if i % 2 == 0 else r_inner
+        points.append(f"{cx + r * math.cos(angle):.2f},{cy + r * math.sin(angle):.2f}")
+    return " ".join(points)
+
+
 def build_stars_svg(level: str, x: float, y: float) -> str:
     n = level_num(level)
     parts = []
     spacing = 22
+    r_outer = 9
+    r_inner = 3.6
     for i in range(1, 7):
         color = APEX_GOLD if i <= n else "#333d4d"
+        cx = x + (i - 1) * spacing
         parts.append(
-            f'<text x="{x + (i-1)*spacing}" y="{y}" '
-            f'font-family="Georgia,serif" font-size="18" fill="{color}" '
-            f'dominant-baseline="middle">★</text>'
+            f'<polygon points="{_star_polygon(cx, y, r_outer, r_inner)}" '
+            f'fill="{color}"/>'
         )
     return "\n".join(parts)
 
@@ -94,13 +106,44 @@ def truncate(text: str, max_len: int) -> str:
     return text[: max_len - 1] + "…"
 
 
+def _wrap_text(text: str, max_chars: int, max_lines: int) -> list[str]:
+    words = text.split()
+    lines: list[str] = []
+    current = ""
+    for word in words:
+        if not current:
+            current = word
+            continue
+        candidate = current + " " + word
+        if len(candidate) <= max_chars:
+            current = candidate
+        else:
+            lines.append(current)
+            current = word
+            if len(lines) == max_lines:
+                break
+    else:
+        if current and len(lines) < max_lines:
+            lines.append(current)
+    if len(lines) == max_lines and (current or words[-1] not in (lines[-1] if lines else "")):
+        last = lines[-1]
+        if len(last) > 1 and not last.endswith("…"):
+            lines[-1] = last[: max_chars - 1].rstrip() + "…"
+    return lines
+
+
 def build_og_svg(skill: dict) -> str:
     """Build a 1200×630 SVG OG card for a named skill."""
     name = html.escape(truncate(skill.get("name", skill.get("id", "Unnamed")), 40))
     contributor = html.escape(skill.get("contributor", ""))
     level = skill.get("level", "2★")
     title = html.escape(truncate(skill.get("title", ""), 55))
-    description = html.escape(truncate(skill.get("description", ""), 130))
+    description_raw = truncate(skill.get("description", ""), 240)
+    description_lines = _wrap_text(description_raw, max_chars=58, max_lines=4)
+    description_tspans = "\n".join(
+        f'<tspan x="264" dy="{"0" if i == 0 else "28"}">{html.escape(line)}</tspan>'
+        for i, line in enumerate(description_lines)
+    )
     glyph = tier_glyph(level)
     level_str = html.escape(level)
     ev_class = evidence_class(level)
@@ -197,15 +240,11 @@ def build_og_svg(skill: dict) -> str:
     stroke="rgba(251,191,36,0.2)" stroke-width="1"/>
 
   <!-- Description -->
-  <foreignObject x="264" y="270" width="{OG_W - 264 - 48}" height="200">
-    <body xmlns="http://www.w3.org/1999/xhtml">
-      <p style="font-family:'Bricolage Grotesque',sans-serif;font-size:18px;
-        line-height:1.6;color:rgba(226,232,240,0.55);margin:0;
-        overflow:hidden;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;">
-        {description}
-      </p>
-    </body>
-  </foreignObject>
+  <text x="264" y="298"
+    font-family="Bricolage Grotesque,Helvetica,Arial,sans-serif"
+    font-size="18" fill="rgba(226,232,240,0.65)">
+    {description_tspans}
+  </text>
 
   <!-- Evidence class chip -->
   <rect x="264" y="504" width="{len(ev_class) * 8 + 24}" height="28"
