@@ -47,13 +47,15 @@
     position:fixed;top:0;left:0;right:0;z-index:100;
     display:flex;align-items:center;justify-content:space-between;
     padding:.9rem 2rem;
-    background:rgba(3,7,18,.75);
+    background:var(--bg);
     border-bottom:1px solid var(--border);
   }
   .nav-logo{
     display:flex;align-items:center;gap:.5rem;
     text-decoration:none;color:var(--text);
+    transition:opacity .2s;
   }
+  .nav-logo:hover{opacity:.8}
   .nav-seal{
     width:26px;height:26px;
     color:var(--apex-gold);flex-shrink:0;
@@ -133,21 +135,44 @@
   #hero.hero-graph-peek .scroll-hint{
     opacity:0;filter:blur(8px);pointer-events:none;transform:translateY(10px);
   }
+  .hero-pills{
+    display:flex;align-items:center;justify-content:center;
+    gap:.6rem;flex-wrap:wrap;margin-bottom:1.2rem;
+  }
   .hero-eyebrow{
-    display:inline-block;margin-bottom:1.2rem;
+    display:inline-block;
     font-size:.8rem;letter-spacing:.15em;text-transform:uppercase;
     color:#fff;border:none;
     padding:.45rem 1.05rem;border-radius:999px;
     background:linear-gradient(135deg,var(--basic) 0%,var(--extra) 50%,var(--ultimate) 100%);
     box-shadow:0 0 24px rgba(56,189,248,.22);
   }
-  .graph-trigger{
+  .graph-trigger,.hud-trigger{
     appearance:none;font:inherit;cursor:pointer;position:relative;z-index:3;
     transition:box-shadow .2s,transform .2s,opacity .2s;
   }
-  .graph-trigger:hover,.graph-trigger:focus-visible{
+  .graph-trigger:hover,.graph-trigger:focus-visible,
+  .hud-trigger:hover,.hud-trigger:focus-visible{
     box-shadow:0 0 36px rgba(56,189,248,.42);transform:translateY(-1px);
     opacity:.9;outline:none;
+  }
+  .hud-trigger[aria-pressed="true"]{
+    box-shadow:0 0 28px rgba(var(--apex-gold-rgb),.45);
+    opacity:1;
+  }
+  /* ── HUD MODE ── */
+  #hero.hero-hud-mode .hero-glass-blur{
+    backdrop-filter:blur(0px) brightness(1);
+    opacity:0;
+  }
+  #hero.hero-hud-mode .hero-glass-noise{
+    opacity:0;
+  }
+  #hero.hero-hud-mode .hero-title,
+  #hero.hero-hud-mode .hero-sub,
+  #hero.hero-hud-mode .hero-cta,
+  #hero.hero-hud-mode .scroll-hint{
+    opacity:.18;pointer-events:none;transition:opacity .4s ease;
   }
   h1{
     font-size:clamp(2.4rem,6vw,4rem);
@@ -207,6 +232,7 @@
   }
   .rs-num{
     font-size:2.4rem;font-weight:800;line-height:1;
+    font-family:var(--font-mono);
     margin-bottom:.35rem;color:var(--text);
   }
   .rs-label{
@@ -239,9 +265,10 @@
   .tier-card::before{
     content:'';position:absolute;inset:0;border-radius:14px;
     background:radial-gradient(ellipse at top left,var(--card-glow,.2) 0%,transparent 70%);
-    opacity:.35;pointer-events:none;
+    opacity:0;transition:opacity .25s;pointer-events:none;
   }
   .tier-card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.4)}
+  .tier-card:hover::before{opacity:.35}
   .tier-icon{font-size:2rem;margin-bottom:.8rem}
   .tier-badge{
     display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.1em;
