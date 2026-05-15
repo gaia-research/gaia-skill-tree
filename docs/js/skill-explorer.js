@@ -68,12 +68,19 @@
   }
 
   // ── RENDER HERO ──────────────────────────────────────────────
+  // Phase 8d — hero is rebuilt on the .plaque.plaque--detail shell. The
+  // legacy .se-hero-card chrome is replaced; the .se-desc-panel sibling
+  // is dropped because description + tags now live inside the right
+  // column of .plaque--detail. The surrounding overlay (#skillExplorer,
+  // topbar, evidence, timeline, install tab) is untouched.
   function renderHero(ns, generic) {
     var lm = LEVEL_META_SE[ns.level] || LEVEL_META_SE['2★'];
     var typeColor = ns.type === 'ultimate' ? '#f59e0b' : ns.type === 'unique' ? '#7c3aed' : ns.type === 'extra' ? '#c084fc' : '#38bdf8';
-    var typeSymbol = TYPE_SYMBOL[(generic && generic.type) || 'basic'];
+    var type = (generic && generic.type) || ns.type || 'basic';
+    var typeSymbol = TYPE_SYMBOL[type] || '';
     var links = ns.links || {};
     var repoUrl = links.github || links.npm || '';
+    var n = parseInt(String(ns.level || '').replace(/\D+/g, ''), 10) || 0;
 
     var badgesHtml = [
       '<span class="se-badge" style="color:' + lm.color + ';background:' + lm.bg + ';border-color:' + lm.border + '">' + esc(ns.level) + ' · ' + lm.name + '</span>',
@@ -82,33 +89,48 @@
     ].filter(Boolean).join('');
 
     var installCmd = 'gaia install ' + ns.id;
-    // Phase 8c — slash-name priority: lead with namedSlug(ns) in honor red
-    // (e.g. /autoresearch), demote the long-form title to a muted subtitle.
-    var slug = (typeof window.namedSlug === 'function') ? window.namedSlug(ns) : ('/' + (ns.id.split('/')[1] || ns.id));
+    var slug = (typeof window.namedSlug === 'function')
+      ? window.namedSlug(ns)
+      : ('/' + (ns.id.split('/')[1] || ns.id));
     var contribLink = (typeof window.handleLink === 'function')
       ? window.handleLink(ns.contributor || '')
-      : '<span style="color:#ef4444;font-weight:700">' + esc(ns.contributor || '') + '</span>';
-    var heroLeft = '<div class="se-hero-card" data-level="' + esc(ns.level) + '" data-type="' + esc((generic && generic.type) || 'basic') + '">' +
-      '<div class="se-node-orb se-node-orb--' + esc((generic && generic.type) || 'basic') + (ns.level === '6★' ? ' se-node-orb--vi' : '') + '"></div>' +
-      (repoUrl ? '<a class="se-github-link" href="' + esc(repoUrl) + '" target="_blank" rel="noopener">Show in GitHub ↗</a>' : '') +
-      '<div class="se-skill-name named-slug" title="' + esc(ns.id) + '">' + esc(slug) + '</div>' +
-      (ns.name ? '<div class="se-skill-subtitle" style="font-family:var(--font-display);font-size:1rem;color:var(--muted);margin-top:.1rem;margin-bottom:.4rem">' + esc(ns.name) + '</div>' : '') +
-      '<div class="se-contrib">' + contribLink + '</div>' +
-      '<div class="se-badges">' + badgesHtml + '</div>' +
-      (ns.title ? '<div style="font-style:italic;color:var(--muted);font-size:.88rem;margin-bottom:.8rem">"' + esc(ns.title) + '"</div>' : '') +
-      (generic ? '<div style="font-size:.82rem;color:var(--muted)">Generic skill: <strong style="color:var(--text)">' + esc(generic.name || ns.genericSkillRef) + '</strong></div>' : '') +
-      (generic ? '<div style="font-size:.8rem;color:var(--muted);margin-top:.2rem">Claimed/effective level: <strong style="color:var(--text)">' + esc(effectiveLabel(generic)) + '</strong></div>' : '') +
-      '<div class="se-hero-install"><span class="se-hero-prompt">$</span><span class="se-hero-cmd">' + esc(installCmd) + '</span><button class="se-hero-copy" data-cmd="' + esc(installCmd) + '" onclick="event.stopPropagation();navigator.clipboard.writeText(this.dataset.cmd).then(function(){})">Copy</button></div>' +
-    '</div>';
+      : (ns.contributor ? '<a class="atlas-handle" href="./u/' + encodeURIComponent(ns.contributor) + '/">@' + esc(ns.contributor) + '</a>' : '');
 
     var tags = Array.isArray(ns.tags) ? ns.tags : [];
-    var heroRight = '<div class="se-desc-panel">' +
-      '<h3>Description</h3>' +
-      '<p class="se-desc-text">' + esc(ns.description || (generic && generic.description) || '') + '</p>' +
-      (tags.length ? '<div class="se-tags">' + tags.map(function(t){ return '<span class="se-tag">' + esc(t) + '</span>'; }).join('') + '</div>' : '') +
-    '</div>';
 
-    document.getElementById('seHero').innerHTML = heroLeft + heroRight;
+    // Left column — orb, slash slug, handle, badges, install row.
+    // The install button uses copyToClipboard() from ui.js so the
+    // insecure-context fallback (textarea + execCommand) is in play.
+    var heroLeft =
+      '<div class="plaque-detail-left">' +
+        '<div class="plaque-orb plaque-orb--lg plaque-orb--' + esc(type) + (n >= 6 ? ' plaque-orb--vi' : '') + '" aria-hidden="true"></div>' +
+        '<div class="plaque-skill-name named-slug" title="' + esc(ns.id) + '">' + esc(slug) + '</div>' +
+        (contribLink ? '<div class="se-contrib">' + contribLink + '</div>' : '') +
+        '<div class="se-badges">' + badgesHtml + '</div>' +
+        (generic ? '<div style="font-size:.82rem;color:var(--muted)">Generic skill: <strong style="color:var(--text)">' + esc(generic.name || ns.genericSkillRef) + '</strong></div>' : '') +
+        (generic ? '<div style="font-size:.8rem;color:var(--muted);margin-top:.2rem">Claimed/effective level: <strong style="color:var(--text)">' + esc(effectiveLabel(generic)) + '</strong></div>' : '') +
+        '<div class="se-hero-install">' +
+          '<span class="se-hero-prompt">$</span>' +
+          '<span class="se-hero-cmd">' + esc(installCmd) + '</span>' +
+          '<button class="se-hero-copy" data-cmd="' + esc(installCmd) + '" onclick="(function(btn,ev){ev.stopPropagation();var copy=window.copyToClipboard||function(t){return navigator.clipboard.writeText(t)};copy(btn.dataset.cmd).then(function(){var o=btn.textContent;btn.textContent=\'Copied!\';setTimeout(function(){btn.textContent=o;},1500);}).catch(function(){});})(this,event)">Copy</button>' +
+        '</div>' +
+        (repoUrl ? '<a class="se-github-link" href="' + esc(repoUrl) + '" target="_blank" rel="noopener">Show in GitHub ↗</a>' : '') +
+      '</div>';
+
+    // Right column — title (muted EB Garamond italic), description (Bricolage), tags.
+    var heroRight =
+      '<div class="plaque-detail-right">' +
+        (ns.title ? '<div class="plaque-title">' + esc(ns.title) + '</div>' : (ns.name ? '<div class="plaque-title">' + esc(ns.name) + '</div>' : '')) +
+        '<p class="plaque-description">' + esc(ns.description || (generic && generic.description) || '') + '</p>' +
+        (tags.length ? '<div class="plaque-tags">' + tags.map(function(t){ return '<span class="plaque-tag">' + esc(t) + '</span>'; }).join('') + '</div>' : '') +
+      '</div>';
+
+    var heroHtml =
+      '<div class="plaque plaque--detail" data-level="' + esc(ns.level) + '" data-type="' + esc(type) + (n >= 6 ? ' plaque--apex-vi' : '') + '">' +
+        heroLeft + heroRight +
+      '</div>';
+
+    document.getElementById('seHero').innerHTML = heroHtml;
 
     // wire Open Repo button
     var openBtn = document.getElementById('seOpenRepo');
@@ -703,6 +725,15 @@
     return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
 
+  // Phase 8d — wrap a contributor span in a profile-page anchor so the
+  // tree dialog renders handles as hover-underlined links. Mirrors the
+  // atlas-helpers handleLink() convention used everywhere else.
+  function handleAnchor(handle, inner) {
+    if (!handle) return inner;
+    var href = './u/' + encodeURIComponent(handle) + '/';
+    return '<a class="atlas-handle" href="' + href + '">' + inner + '</a>';
+  }
+
   function highlightTree(text) {
     var ultIdx = 0;
     var unqIdx = 0;
@@ -717,7 +748,8 @@
         var slash = skillId.indexOf('/');
         var skillHtml;
         if (slash > 0) {
-          skillHtml = '<span class="tree-ult-contributor">' + esc(skillId.slice(0, slash)) + '</span>' +
+          var ultHandle = skillId.slice(0, slash);
+          skillHtml = handleAnchor(ultHandle, '<span class="tree-ult-contributor">' + esc(ultHandle) + '</span>') +
                       '<span class="tree-ult-slash">/</span>' +
                       '<span class="tree-ult-skillname">' + esc(skillId.slice(slash + 1)) + '</span>';
         } else {
@@ -739,7 +771,8 @@
         var isGold = usuffix.indexOf('5★') >= 0 || usuffix.indexOf('6★') >= 0;
         var uniqueClass = isGold ? 'tree-unique-skillname tree-unique-gold' : 'tree-unique-skillname';
         if (uslash > 0) {
-          uskillHtml = '<span class="tree-unique-contributor">' + esc(uid.slice(0, uslash)) + '</span>' +
+          var uHandle = uid.slice(0, uslash);
+          uskillHtml = handleAnchor(uHandle, '<span class="tree-unique-contributor">' + esc(uHandle) + '</span>') +
                        '<span class="tree-unique-slash">/</span>' +
                        '<span class="' + uniqueClass + '">' + esc(uid.slice(slash + 1)) + '</span>';
         } else {
@@ -758,7 +791,8 @@
         var eslash = eid.indexOf('/');
         var eskillHtml;
         if (eslash > 0) {
-          eskillHtml = '<span class="tree-extra-contributor">' + esc(eid.slice(0, eslash)) + '</span>' +
+          var eHandle = eid.slice(0, eslash);
+          eskillHtml = handleAnchor(eHandle, '<span class="tree-extra-contributor">' + esc(eHandle) + '</span>') +
                        '<span class="tree-extra-slash">/</span>' +
                        '<span class="tree-extra-skillname">' + esc(eid.slice(eslash + 1)) + '</span>';
         } else {
@@ -776,7 +810,8 @@
         var bslash = bid.indexOf('/');
         var bskillHtml;
         if (bslash > 0) {
-          bskillHtml = '<span class="tree-basic-contributor">' + esc(bid.slice(0, bslash)) + '</span>' +
+          var bHandle = bid.slice(0, bslash);
+          bskillHtml = handleAnchor(bHandle, '<span class="tree-basic-contributor">' + esc(bHandle) + '</span>') +
                        '<span class="tree-basic-slash">/</span>' +
                        '<span class="tree-basic-skillname">' + esc(bid.slice(bslash + 1)) + '</span>';
         } else {

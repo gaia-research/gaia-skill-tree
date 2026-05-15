@@ -121,6 +121,18 @@
   letter-spacing: 0.06em;
   text-transform: lowercase;
 }
+
+/* Phase 8d — slug line on the settled profile-page plaque. Sits between
+   the skill name and the contributor handle, mirroring the slash-name
+   priority used on Hall of Heroes plates and the explorer hero. */
+.plaque-named-slug {
+  font-family: var(--font-mono, 'Departure Mono', monospace);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--honor-red, #ef4444);
+  margin-top: -2px;
+}
 /* Phase 8c — the "@" prefix used to be a ::before pseudo on every
    .plaque-contributor span, but contributor mentions are now rendered
    through atlas-helpers' handleLink() which already emits the "@"
@@ -786,4 +798,91 @@
     padding: 20px;
     gap: 20px;
   }
+}
+
+/* ============================================================
+   Phase 8d — Named Skills Explorer plaque tweaks
+   ============================================================ */
+
+/* Compact level chip used in tile / row / DAG-card headers. The
+   inline style attribute supplies the per-tier color/border/bg from
+   LEVEL_META; these rules only normalise typography and box. */
+.plaque-level-chip {
+  font-family: var(--font-mono, 'Departure Mono', monospace);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  line-height: 1.4;
+}
+
+/* Tile header — orb on the left, chip + origin star + gh link on the right. */
+.plaque--tile .plaque-header {
+  margin-bottom: 0;
+}
+
+.plaque--tile .plaque-header .ns-origin {
+  color: var(--apex-gold, #fbbf24);
+  font-size: 13px;
+  line-height: 1;
+}
+
+/* Title sits as a muted EB Garamond italic subtitle under the slug. */
+.plaque--tile .plaque-title,
+.plaque--row .plaque-title {
+  font-style: italic;
+}
+
+/* Contributor row in the tile — Bricolage handle; small offset so it
+   reads as a credit line beneath the title. */
+.plaque--tile .plaque-contrib-row {
+  font-family: var(--font-body, 'Bricolage Grotesque', sans-serif);
+  font-size: 13px;
+  margin-top: -4px;
+}
+
+.plaque--row .plaque-contrib-row {
+  font-family: var(--font-body, 'Bricolage Grotesque', sans-serif);
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+/* Install command row embedded inside .plaque--tile — preserves the
+   monospace mini-terminal look from the original .ns-tile. */
+.plaque--tile .ns-install-row {
+  margin-top: auto;
+}
+
+/* DAG card uses .plaque--mini chrome but is shorter than the HoH plate. */
+.plaque--mini.ns-dag-card {
+  width: 180px;
+  max-width: 180px;
+  min-height: 160px;
+  gap: 0.45rem;
+}
+
+.plaque--mini.ns-dag-card .plaque-skill-name {
+  font-size: 15px;
+}
+
+.plaque--mini.ns-dag-card.ns-dag-ghost {
+  opacity: 0.55;
+  border-style: dashed;
+}
+
+/* List row: keep arrow and gh link aligned on the right edge. */
+.plaque--row .ns-lr-arrow {
+  color: var(--muted, rgba(226, 232, 240, 0.45));
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.plaque--row .ns-gh-link {
+  flex-shrink: 0;
 }

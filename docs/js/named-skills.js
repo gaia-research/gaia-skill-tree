@@ -6,6 +6,17 @@
 
   function nsClick(id) { return 'onclick="openSkillExplorer(\''+id.replace(/'/g,"\\'")+'\')\"'; }
   function nsDisplayName(ns) { return ns.name || ns.id.split('/')[1] || ns.id; }
+  // Phase 8d — atlas-helpers fallbacks if the helper script failed to load.
+  function nsSlug(ns) {
+    return (typeof window.namedSlug === 'function')
+      ? window.namedSlug(ns)
+      : '/' + (ns && ns.id ? (ns.id.split('/')[1] || ns.id) : '');
+  }
+  function nsHandleLink(handle) {
+    return (typeof window.handleLink === 'function')
+      ? window.handleLink(handle || '')
+      : (handle ? '<a class="atlas-handle" href="./u/' + encodeURIComponent(handle) + '/">@' + esc(handle) + '</a>' : '');
+  }
 
   // ── TAG COLORS (8-color hash wheel, matches DESIGN.md palette) ──
   var TAG_PAL=[
@@ -45,32 +56,51 @@
     return '<a class="ns-gh-link" href="' + esc(url) + '" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View on GitHub"><svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>';
   }
 
+  // Phase 8d \u2014 Named Skills Explorer tile/row renderers emit
+  // .plaque.plaque--tile / .plaque.plaque--row using the shared atlas
+  // typography (EB Garamond skill name in honor red, Bricolage handle,
+  // Departure Mono mono accents). The legacy .ns-tile/.ns-list-row CSS
+  // remains in styles.css as dead code for now \u2014 TODO(phase-9): remove
+  // dead .ns-* selectors once the plaque variants have settled.
   function renderTile(ns, lm) {
-    var tags = (ns.tags||[]).slice(0,3).map(tagHtml).join('');
-    return '<article class="ns-tile" data-level="'+esc(ns.level)+'" data-type="'+esc(ns.type||'basic')+'" '+nsClick(ns.id)+'>' +
-      '<div class="ns-tile-head">' +
-        '<span class="ns-level-badge" style="color:'+lm.color+';background:'+lm.bg+';border-color:'+lm.border+'">'+esc(ns.level)+'</span>' +
-        (ns.origin ? '<span class="ns-origin">\u2605</span>' : '') +
+    var type = ns.type || 'basic';
+    var n = parseInt(String(ns.level || '').replace(/\D+/g, ''), 10) || 0;
+    var slug = nsSlug(ns);
+    var title = ns.title || ns.name || '';
+    var tags = (ns.tags || []).slice(0, 3).map(tagHtml).join('');
+    var contribLink = nsHandleLink(ns.contributor);
+    return '<article class="plaque plaque--tile" data-level="' + esc(ns.level) + '" data-type="' + esc(type) + '" ' + nsClick(ns.id) + '>' +
+      '<div class="plaque-header">' +
+        '<div class="plaque-orb plaque-orb--' + esc(type) + (n >= 6 ? ' plaque-orb--vi' : '') + '" aria-hidden="true"></div>' +
+        '<span class="ns-level-badge plaque-level-chip" style="color:' + lm.color + ';background:' + lm.bg + ';border-color:' + lm.border + '">' + esc(ns.level) + '</span>' +
+        (ns.origin ? '<span class="ns-origin" title="Origin contributor">\u2605</span>' : '') +
         ghLink(ns) +
       '</div>' +
-      '<div class="ns-tile-name">' + esc(nsDisplayName(ns)) + '</div>' +
-      '<div class="ns-tile-id">' + esc(ns.id) + '</div>' +
-      (tags ? '<div class="ns-tile-tags">' + tags + '</div>' : '') +
+      '<div class="plaque-skill-name named-slug" title="' + esc(ns.id) + '">' + esc(slug) + '</div>' +
+      (title ? '<div class="plaque-title">' + esc(title) + '</div>' : '') +
+      (contribLink ? '<div class="plaque-contrib-row">' + contribLink + '</div>' : '') +
+      (ns.description ? '<p class="plaque-description">' + esc(ns.description) + '</p>' : '') +
+      (tags ? '<div class="plaque-tags">' + tags + '</div>' : '') +
       installRow(ns.id) +
     '</article>';
   }
 
   function renderListRow(ns, lm) {
-    var tags = (ns.tags||[]).slice(0,2).map(tagHtml).join('');
-    return '<article class="ns-list-row" data-level="'+esc(ns.level)+'" data-type="'+esc(ns.type||'basic')+'" '+nsClick(ns.id)+'>' +
-      '<span class="ns-level-badge" style="color:'+lm.color+';background:'+lm.bg+';border-color:'+lm.border+'">'+esc(ns.level)+'</span>' +
-      '<span class="ns-lr-name">' + esc(nsDisplayName(ns)) + '</span>' +
-      '<span class="ns-lr-id">' + esc(ns.id) + '</span>' +
-      '<span class="ns-lr-tags">' + tags + '</span>' +
-      '<span style="flex:1"></span>' +
+    var type = ns.type || 'basic';
+    var n = parseInt(String(ns.level || '').replace(/\D+/g, ''), 10) || 0;
+    var slug = nsSlug(ns);
+    var title = ns.title || ns.name || '';
+    var tags = (ns.tags || []).slice(0, 2).map(tagHtml).join('');
+    var contribLink = nsHandleLink(ns.contributor);
+    return '<article class="plaque plaque--row" data-level="' + esc(ns.level) + '" data-type="' + esc(type) + '" ' + nsClick(ns.id) + '>' +
+      '<div class="plaque-orb plaque-orb--sm plaque-orb--' + esc(type) + (n >= 6 ? ' plaque-orb--vi' : '') + '" aria-hidden="true"></div>' +
+      '<span class="plaque-skill-name named-slug" title="' + esc(ns.id) + '">' + esc(slug) + '</span>' +
+      (title ? '<span class="plaque-title">' + esc(title) + '</span>' : '<span style="flex:1"></span>') +
+      (contribLink ? '<span class="plaque-contrib-row">' + contribLink + '</span>' : '') +
+      (tags ? '<span class="plaque-tags">' + tags + '</span>' : '') +
+      '<span class="ns-level-badge plaque-level-chip" style="color:' + lm.color + ';background:' + lm.bg + ';border-color:' + lm.border + '">' + esc(ns.level) + '</span>' +
       ghLink(ns) +
-      installRow(ns.id) +
-      '<span class="ns-lr-arrow">\u203a</span>' +
+      '<span class="ns-lr-arrow" aria-hidden="true">\u203a</span>' +
     '</article>';
   }
 
@@ -123,15 +153,21 @@
         var ns = namedIds[id];
         var isGhost = !ns;
         var lm = LEVEL_META[s.level] || LEVEL_META['2★'];
-        var glyph = s.type === 'ultimate' ? '\u25c6' : s.type === 'unique' ? '\u25c9' : '\u25c7';
+        var n = parseInt(String(s.level || '').replace(/\D+/g, ''), 10) || 0;
         var clickAttr = ns ? nsClick(ns.id) : 'onclick="openSkillExplorer(\'' + id.replace(/'/g, "\\'") + '\')"';
-        html += '<div class="ns-dag-card' + (isGhost ? ' ns-dag-ghost' : '') +
+        // Phase 8d \u2014 DAG cards render as .plaque.plaque--mini for visual
+        // continuity with the Hall of Heroes track. data-id retained so
+        // prerequisite-line drawing (below) still resolves nodes.
+        var primaryHtml = ns
+          ? '<div class="plaque-skill-name named-slug" title="' + esc(ns.id) + '">' + esc(nsSlug(ns)) + '</div>'
+          : '<div class="plaque-skill-name named-slug named-slug--muted" title="' + esc(id) + '">/' + esc(id) + '</div>';
+        html += '<div class="plaque plaque--mini ns-dag-card' + (isGhost ? ' ns-dag-ghost' : '') +
           '" data-id="' + esc(id) + '" data-type="' + esc(s.type) + '" ' +
           clickAttr + '>' +
           (ns ? ghLink(ns) : '') +
-          '<span class="ns-dag-glyph" style="color:' + lm.color + '">' + glyph + '</span>' +
-          '<div class="ns-dag-card-name">' + esc(s.name || id) + '</div>' +
-          '<span class="ns-level-badge" style="color:' + lm.color + ';background:' + lm.bg +
+          '<div class="plaque-orb plaque-orb--' + esc(s.type) + (n >= 6 ? ' plaque-orb--vi' : '') + '" aria-hidden="true"></div>' +
+          primaryHtml +
+          '<span class="ns-level-badge plaque-level-chip" style="color:' + lm.color + ';background:' + lm.bg +
           ';border-color:' + lm.border + '">' + esc(s.level) + '</span>' +
         '</div>';
       });
