@@ -46,3 +46,23 @@ def handle_link(handle: str, rel: str = "./u/", extra_class: str = "") -> str:
         f'<a class="{html.escape(cls)}" href="{html.escape(href)}">'
         f"@{html.escape(handle)}</a>"
     )
+
+
+def markdown_handle_link(handle: str, rel: str = "u/", with_at: bool = True) -> str:
+    """Return a markdown link of the form ``[@handle](rel{handle}/)``.
+
+    Used by registry/markdown projections (``docs/tree.md``,
+    ``registry/skills/**/*.md``, ``registry/registry.md``,
+    ``registry/combinations.md``) so contributor mentions render as
+    hover-underlined links when the file is rendered by GitHub or the
+    docs server. The default ``rel`` is ``u/`` because ``docs/tree.md``
+    is served from ``/tree.md`` and resolves ``u/<handle>/`` against
+    the docs root.
+
+    Set ``with_at=False`` to omit the leading ``@`` — useful inside a
+    composite identifier like ``[karpathy](u/karpathy/)/autoresearch``.
+    """
+    if not handle:
+        return ""
+    label = f"@{handle}" if with_at else handle
+    return f"[{label}]({rel}{handle}/)"

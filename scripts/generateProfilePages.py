@@ -32,6 +32,11 @@ GAIA_JSON = REPO_ROOT / "registry" / "gaia.json"
 DOCS_DIR = REPO_ROOT / "docs"
 OUT_DIR = DOCS_DIR / "u"
 
+# Phase 8d — share slash-naming + linked-handle helpers with the JS
+# atlas-helpers module via scripts/_atlas_helpers.py.
+sys.path.insert(0, str(REPO_ROOT / "scripts"))
+from _atlas_helpers import handle_link, named_slug  # noqa: E402
+
 
 def load_type_lookup(gaia_path: Path) -> dict:
     """Return a dict mapping canonical skill id → type (ultimate/unique/extra/basic)."""
@@ -112,7 +117,6 @@ def build_plaque_card(skill: dict) -> str:
     apex_class = " plaque--apex-vi" if level_num(skill.get("level", "")) >= 6 else ""
     skill_id = html.escape(skill.get("id", ""))
     skill_name = html.escape(skill.get("name", skill.get("id", "Unnamed")))
-    contributor = html.escape(skill.get("contributor", ""))
     title = html.escape(skill.get("title", ""))
     description = html.escape(skill.get("description", ""))
     level = skill.get("level", "")
@@ -123,13 +127,29 @@ def build_plaque_card(skill: dict) -> str:
         for t in tags[:5]
     )
 
+    # Phase 8d — contributor mention is now a hover-underlined link to
+    # the contributor's profile page. The href is relative because
+    # plaque cards on profile pages live at docs/u/<handle>/index.html
+    # and need to reach docs/u/<other>/. Self-links are harmless.
+    contributor_link = handle_link(
+        skill.get("contributor", ""),
+        rel="../../u/",
+        extra_class="plaque-contributor",
+    )
+
+    # Phase 8d (also Phase C) — render the slash-name slug beneath the
+    # skill name in honor red. Falls back to '/<skill-id-tail>' for
+    # entries without a contributor/skill split.
+    slug = html.escape(named_slug(skill))
+
     return f"""<div class="plaque plaque--settled{apex_class}" data-skill-id="{skill_id}" data-type="{tier_type}">
   <div class="plaque-header">
     {DIAMOND_SEAL_SVG}
     <div class="plaque-skill-name">{skill_name}</div>
     <div class="plaque-tier">{tier_glyph(level)}</div>
   </div>
-  <div class="plaque-contributor">{contributor}</div>
+  <div class="plaque-named-slug named-slug" title="{skill_id}">{slug}</div>
+  {contributor_link}
   {f'<div class="plaque-title">{title}</div>' if title else ''}
   <div class="plaque-stars">
     {build_stars(level)}
