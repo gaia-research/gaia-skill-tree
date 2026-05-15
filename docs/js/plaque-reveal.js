@@ -59,12 +59,12 @@
 
   function evidenceClass(level) {
     var n = levelNum(level);
-    if (n >= 6) return 'CLASS A · SS';
-    if (n >= 5) return 'CLASS S · V';
-    if (n >= 4) return 'CLASS A · IV';
-    if (n >= 3) return 'CLASS B · III';
-    if (n >= 2) return 'CLASS C · II';
-    return 'AWAITED · I';
+    if (n >= 6) return 'CLASS A';
+    if (n >= 5) return 'CLASS A';
+    if (n >= 4) return 'CLASS A';
+    if (n >= 3) return 'CLASS B';
+    if (n >= 2) return 'CLASS C';
+    return 'AWAITED';
   }
 
   /* ── Diamond Seal SVG ── */

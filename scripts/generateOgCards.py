@@ -62,16 +62,16 @@ def tier_glyph(level: str) -> str:
 def evidence_class(level: str) -> str:
     n = level_num(level)
     if n >= 6:
-        return "CLASS A · SS"
+        return "CLASS A"
     if n >= 5:
-        return "CLASS S · V"
+        return "CLASS A"
     if n >= 4:
-        return "CLASS A · IV"
+        return "CLASS A"
     if n >= 3:
-        return "CLASS B · III"
+        return "CLASS B"
     if n >= 2:
-        return "CLASS C · II"
-    return "AWAITED · I"
+        return "CLASS C"
+    return "AWAITED"
 
 
 def _star_polygon(cx: float, cy: float, r_outer: float, r_inner: float) -> str:

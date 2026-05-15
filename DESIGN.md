@@ -68,6 +68,8 @@ Skills level up from 0 → VI. Each rank has a distinct RPG-inspired color.
 
 The rank color sequence intentionally mirrors an RPG rarity ramp: neutral → cold → teal → violet → pink → gold, with the apex doubling its background opacity.
 
+> **Note on the Class column.** The letter values (D / C / B / A / S / SS) are retained here as historical/internal reference only — they predate the current evidence-class vocabulary in `CONTEXT.md`. The visitor-facing tier label is the **rank name + star count** (e.g. "Hardened · 4★"). Generated surfaces no longer emit the letter suffixes (`· SS`, `· V`, `· IV`, etc.) — see `plaque-reveal.js`, `generateProfilePages.py`, `generateOgCards.py`.
+
 ---
 
 ## Level VI — Transcendent ★ Special Rendering

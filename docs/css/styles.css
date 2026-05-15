@@ -2028,6 +2028,15 @@ button.nav-graph-trigger:hover{color:var(--text)}
   flex-shrink:0;transition:opacity .15s;
 }
 .ult-contrib:hover{opacity:.78;text-decoration:underline}
+
+/* Atlas handle — reusable contributor-mention link, used wherever a handle
+   is rendered. Honor red, no underline by default, underline on hover/focus. */
+.atlas-handle{
+  color:var(--honor-red);text-decoration:none;
+  transition:opacity .15s, color .15s;
+}
+.atlas-handle:hover,
+.atlas-handle:focus-visible{text-decoration:underline;opacity:.88}
 .ult-stars{display:inline-flex;gap:1px;flex-shrink:0;color:var(--apex-gold);font-size:.7rem;line-height:1}
 .ult-stars .hoh-star{color:var(--apex-gold);text-shadow:0 0 6px rgba(var(--apex-gold-rgb),.35)}
 .ult-stars .hoh-star--dim{color:rgba(var(--apex-gold-rgb),.18);text-shadow:none}
@@ -2114,10 +2123,10 @@ button.nav-graph-trigger:hover{color:var(--text)}
 .asc-sub{font-family:var(--font-mono);font-size:.65rem;color:var(--muted);letter-spacing:.08em}
 .asc-tier{font-weight:700;letter-spacing:.04em;text-shadow:0 0 6px currentColor}
 .asc-tier--1{color:#38bdf8}
-.asc-tier--2{color:#67e8f9}
-.asc-tier--3{color:#c084fc}
-.asc-tier--4{color:#f59e0b}
-.asc-tier--5{color:#ef4444}
+.asc-tier--2{color:#63cab7}
+.asc-tier--3{color:#a78bfa}
+.asc-tier--4{color:#e879f9}
+.asc-tier--5{color:#fbbf24}
 .asc-tier--6{color:var(--apex-gold);text-shadow:0 0 8px rgba(var(--apex-gold-rgb),.55),0 0 16px rgba(var(--apex-gold-rgb),.25)}
 .asc-arrow{padding:0 .4rem;color:var(--muted);font-size:.875rem;flex-shrink:0}
 

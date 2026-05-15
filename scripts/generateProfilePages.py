@@ -80,16 +80,16 @@ def tier_glyph(level: str) -> str:
 def evidence_class(level: str) -> str:
     n = level_num(level)
     if n >= 6:
-        return "CLASS A · SS"
+        return "CLASS A"
     if n >= 5:
-        return "CLASS S · V"
+        return "CLASS A"
     if n >= 4:
-        return "CLASS A · IV"
+        return "CLASS A"
     if n >= 3:
-        return "CLASS B · III"
+        return "CLASS B"
     if n >= 2:
-        return "CLASS C · II"
-    return "AWAITED · I"
+        return "CLASS C"
+    return "AWAITED"
 
 
 def build_stars(level: str) -> str:
@@ -169,8 +169,11 @@ NAV_HTML = """<nav>
     <span class="nav-wordmark">Gaia</span>
   </a>
   <ul>
+    <li><a href="../../#paths">Registry</a></li>
     <li><a href="../../#hall-of-heroes">Hall of Heroes</a></li>
     <li><a href="../../codex.html">The Codex</a></li>
+    <li><a href="../../#tree" class="nav-tree">Tree</a></li>
+    <li><a href="../../#search" class="nav-search-btn" aria-label="Search skills"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5"/></svg></a></li>
   </ul>
 </nav>"""
 
