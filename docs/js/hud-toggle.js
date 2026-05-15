@@ -11,7 +11,7 @@
       on = !on;
       hero.classList.toggle('hero-hud-mode', on);
       btn.setAttribute('aria-pressed', String(on));
-      btn.textContent = on ? '⇄ Exit HUD' : '⇄ View as HUD';
+      btn.textContent = on ? '⇄ Exit field' : '⇄ Field view';
     });
   }
 

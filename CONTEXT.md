@@ -132,6 +132,12 @@ _Avoid_: contributor red, name red.
 The role token for the 6★ Transcendent ★ tier, Ultimate accent moments, the Diamond Seal mark, and other apex affordances (`#fbbf24`, deepening to `hsl(45,100%,45%)` at fringes per `drawNodeVI`). Never used as a decorative accent on lower tiers.
 _Avoid_: Ultimate gold, accent gold.
 
+### Nomenclature decisions
+
+**Registry vs. HUD**:
+"Registry" is the canonical user-facing label for the public skill graph and any view of it (nav anchor, dialog title, copy). "HUD" is **internal-only** — retained as a synonym in code (`hud-toggle.js`, `hud-trigger` CSS class, internal docs) but never surfaced in UI copy. When the visitor flips the hero into the immersive constellation/canvas mode, the toggle is labelled **Field view** (chip: `⇄ Field view`), not "HUD". The two terms are interchangeable in commit messages and source comments; only "Registry" / "Field view" appear in user-visible copy.
+_Avoid_: "View as HUD", "HUD mode", "Heads-up display" in user-facing text.
+
 ### Surfaces
 
 **The Diamond Seal**:

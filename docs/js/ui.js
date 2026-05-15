@@ -195,6 +195,35 @@ window.switchOsTab = function(btn) {
   /* ─────────────────────────────────────────
      COPY BUTTONS
      ───────────────────────────────────────── */
+  /* Clipboard write with fallback for insecure contexts (HTTP / LAN IP) */
+  function copyToClipboard(text){
+    if(window.isSecureContext && navigator.clipboard && navigator.clipboard.writeText){
+      return navigator.clipboard.writeText(text);
+    }
+    return new Promise(function(resolve, reject){
+      try{
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        var ok = document.execCommand('copy');
+        document.body.removeChild(ta);
+        ok ? resolve() : reject(new Error('execCommand returned false'));
+      }catch(err){ reject(err); }
+    });
+  }
+  window.copyToClipboard = copyToClipboard;
+
+  function flashCopied(btn){
+    btn.innerHTML = CHECK;
+    btn.classList.add('copied');
+    setTimeout(function(){ btn.innerHTML = CLIP; btn.classList.remove('copied'); }, 1600);
+  }
+
   function initCopyButtons(){
     document.querySelectorAll('pre').forEach(function(pre){
       if(pre.closest('.pre-wrap')) return;
@@ -208,14 +237,9 @@ window.switchOsTab = function(btn) {
       btn.title = 'Copy';
       btn.setAttribute('aria-label', 'Copy to clipboard');
       btn.addEventListener('click', function(){
-        var text = pre.innerText;
-        navigator.clipboard.writeText(text).then(function(){
-          btn.innerHTML = CHECK;
-          btn.classList.add('copied');
-          setTimeout(function(){ btn.innerHTML = CLIP; btn.classList.remove('copied'); }, 1800);
-        }).catch(function(){
-          btn.innerHTML = CLIP;
-          setTimeout(function(){ btn.innerHTML = CLIP; }, 1800);
+        copyToClipboard(pre.innerText).then(function(){ flashCopied(btn); }).catch(function(){
+          /* surface failure visibly */
+          btn.title = 'Copy failed — select and copy manually';
         });
       });
       wrap.appendChild(btn);

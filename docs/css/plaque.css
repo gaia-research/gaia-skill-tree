@@ -105,6 +105,14 @@
   flex-shrink: 0;
 }
 
+/* Tier-aware color overrides — keep gold for Ultimate, recolor others */
+.plaque[data-type="unique"]   .plaque-skill-name { color: var(--unique, #7c3aed); }
+.plaque[data-type="unique"]   .plaque-tier      { color: var(--unique, #7c3aed); text-shadow: 0 0 18px rgba(124, 58, 237, 0.5); }
+.plaque[data-type="extra"]    .plaque-skill-name { color: var(--extra, #c084fc); }
+.plaque[data-type="extra"]    .plaque-tier      { color: var(--extra, #c084fc); text-shadow: 0 0 18px rgba(192, 132, 252, 0.5); }
+.plaque[data-type="basic"]    .plaque-skill-name { color: var(--basic, #38bdf8); }
+.plaque[data-type="basic"]    .plaque-tier      { color: var(--basic, #38bdf8); text-shadow: 0 0 14px rgba(56, 189, 248, 0.5); }
+
 .plaque-contributor {
   font-family: var(--font-body, 'Bricolage Grotesque', sans-serif);
   font-size: 15px;

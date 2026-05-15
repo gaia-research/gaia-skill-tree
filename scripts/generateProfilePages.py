@@ -28,8 +28,34 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 NAMED_JSON = REPO_ROOT / "registry" / "named-skills.json"
+GAIA_JSON = REPO_ROOT / "registry" / "gaia.json"
 DOCS_DIR = REPO_ROOT / "docs"
 OUT_DIR = DOCS_DIR / "u"
+
+
+def load_type_lookup(gaia_path: Path) -> dict:
+    """Return a dict mapping canonical skill id → type (ultimate/unique/extra/basic)."""
+    if not gaia_path.exists():
+        return {}
+    with open(gaia_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    return {s.get("id"): s.get("type", "basic") for s in data.get("skills", [])}
+
+
+TYPE_LOOKUP: dict = {}
+
+
+def resolve_type(entry: dict) -> str:
+    """Resolve the canonical type for a named-skill entry, with slug fallback."""
+    ref = entry.get("genericSkillRef")
+    if ref and ref in TYPE_LOOKUP:
+        return TYPE_LOOKUP[ref]
+    raw_id = entry.get("id", "")
+    if "/" in raw_id:
+        slug = raw_id.split("/", 1)[1]
+        if slug in TYPE_LOOKUP:
+            return TYPE_LOOKUP[slug]
+    return "basic"
 
 
 def level_num(level: str) -> int:
@@ -90,13 +116,14 @@ def build_plaque_card(skill: dict) -> str:
     title = html.escape(skill.get("title", ""))
     description = html.escape(skill.get("description", ""))
     level = skill.get("level", "")
+    tier_type = resolve_type(skill)
     tags = skill.get("tags", [])
     tag_html = "\n".join(
         f'<span class="plaque-tag">{html.escape(t)}</span>'
         for t in tags[:5]
     )
 
-    return f"""<div class="plaque plaque--settled{apex_class}" data-skill-id="{skill_id}">
+    return f"""<div class="plaque plaque--settled{apex_class}" data-skill-id="{skill_id}" data-type="{tier_type}">
   <div class="plaque-header">
     {DIAMOND_SEAL_SVG}
     <div class="plaque-skill-name">{skill_name}</div>
@@ -281,6 +308,8 @@ def collect_by_contributor(data: dict) -> dict:
 
 def generate_pages(named_path: Path, out_dir: Path) -> int:
     """Generate all profile pages. Returns number of pages written."""
+    global TYPE_LOOKUP
+    TYPE_LOOKUP = load_type_lookup(GAIA_JSON)
     data = load_named_data(named_path)
     by_contributor = collect_by_contributor(data)
 

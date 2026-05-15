@@ -31,6 +31,7 @@
       <li><a href="#hall-of-heroes">Hall of Heroes</a></li>
       <li><a href="codex.html">The Codex</a></li>
       <li><button type="button" class="nav-tree" id="treeNavBtn">Tree</button></li>
+      <li><button type="button" class="nav-search-btn" id="navSearchBtn" aria-label="Search skills"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5"/></svg></button></li>
     </ul>
   </nav>
 
@@ -44,8 +45,7 @@
     <div class="hero-glass-noise"></div>
     <div class="hero-content">
       <div class="hero-pills">
-        <button class="hero-eyebrow graph-trigger" type="button" data-graph-trigger aria-controls="skillGraphDialog">◆ Open full graph</button>
-        <button class="hero-eyebrow hud-trigger" type="button" id="hudToggleBtn" aria-pressed="false">⇄ View as HUD</button>
+        <button class="field-trigger" type="button" id="hudToggleBtn" aria-pressed="false" aria-label="Toggle field view">⇄ Field view</button>
       </div>
       <h1 class="hero-title">
         Skills are catalogued.<br>
@@ -152,7 +152,17 @@
             <div class="rite-body">
               <strong>Install the CLI</strong>
               <p>Puts the <code>gaia</code> command on your PATH.</p>
-              <pre><span class="cmd">pip install</span> gaia-cli</pre>
+              <div class="os-tabs">
+                <button type="button" class="os-tab active" data-os="unix" onclick="switchOsTab(this)">macOS · Linux</button>
+                <button type="button" class="os-tab" data-os="win" onclick="switchOsTab(this)">Windows</button>
+              </div>
+              <div class="os-panel active" data-os="unix">
+                <pre><span class="cmd">pip install</span> gaia-cli</pre>
+              </div>
+              <div class="os-panel" data-os="win">
+                <pre><span class="cmd">py -m pip install</span> gaia-cli</pre>
+                <div class="qs-tip" style="margin-top:.5rem"><span class="qs-tip-icon">💡</span><span>Windows usually doesn't put pip's Scripts folder on PATH. If <code>gaia</code> isn't found after install, invoke the CLI as <code>py -m gaia_cli</code>, or add <code>%APPDATA%\Python\PythonXX\Scripts</code> to PATH.</span></div>
+              </div>
             </div>
           </div>
           <div class="rite-step">
@@ -160,8 +170,18 @@
             <div class="rite-body">
               <strong>Initialise &amp; scan</strong>
               <p>Detect which skills your agent demonstrates.</p>
-              <pre><span class="cmd">gaia init</span>
+              <div class="os-tabs">
+                <button type="button" class="os-tab active" data-os="unix" onclick="switchOsTab(this)">macOS · Linux</button>
+                <button type="button" class="os-tab" data-os="win" onclick="switchOsTab(this)">Windows</button>
+              </div>
+              <div class="os-panel active" data-os="unix">
+                <pre><span class="cmd">gaia init</span>
 <span class="cmd">gaia scan</span></pre>
+              </div>
+              <div class="os-panel" data-os="win">
+                <pre><span class="cmd">py -m gaia_cli init</span>
+<span class="cmd">py -m gaia_cli scan</span></pre>
+              </div>
             </div>
           </div>
           <div class="rite-step">
@@ -169,7 +189,16 @@
             <div class="rite-body">
               <strong>Push for review</strong>
               <p>A GitHub PR is opened automatically.</p>
-              <pre><span class="cmd">gaia push</span></pre>
+              <div class="os-tabs">
+                <button type="button" class="os-tab active" data-os="unix" onclick="switchOsTab(this)">macOS · Linux</button>
+                <button type="button" class="os-tab" data-os="win" onclick="switchOsTab(this)">Windows</button>
+              </div>
+              <div class="os-panel active" data-os="unix">
+                <pre><span class="cmd">gaia push</span></pre>
+              </div>
+              <div class="os-panel" data-os="win">
+                <pre><span class="cmd">py -m gaia_cli push</span></pre>
+              </div>
             </div>
           </div>
           <div class="rite-step">
@@ -193,7 +222,10 @@
           <div class="ult-loading">Loading ultimates…</div>
         </div>
         <div class="path-cta">
-          <a href="https://github.com/mbtiongson1/gaia-skill-tree/issues" target="_blank" class="btn btn-ghost" style="font-size:.875rem">Propose a new Ultimate →</a>
+          <a href="https://github.com/mbtiongson1/gaia-skill-tree/issues" target="_blank" rel="noopener" class="btn btn-ghost propose-cta" style="font-size:.875rem">
+            <svg class="propose-gh" width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+            Propose a new Ultimate →
+          </a>
         </div>
       </div>
 
@@ -224,42 +256,42 @@
       <div class="asc-stage">
         <div class="asc-node">
           <span class="asc-label">Awakened</span>
-          <span class="asc-sub">1★</span>
+          <span class="asc-sub"><span class="asc-tier asc-tier--1">1★</span></span>
         </div>
         <span class="asc-arrow">→</span>
       </div>
       <div class="asc-stage">
         <div class="asc-node">
           <span class="asc-label">Named</span>
-          <span class="asc-sub">2★ · Class C</span>
+          <span class="asc-sub"><span class="asc-tier asc-tier--2">2★</span> · Class C</span>
         </div>
         <span class="asc-arrow">→</span>
       </div>
       <div class="asc-stage">
         <div class="asc-node">
           <span class="asc-label">Evolved</span>
-          <span class="asc-sub">3★ · Class B</span>
+          <span class="asc-sub"><span class="asc-tier asc-tier--3">3★</span> · Class B</span>
         </div>
         <span class="asc-arrow">→</span>
       </div>
       <div class="asc-stage">
         <div class="asc-node">
           <span class="asc-label">Hardened</span>
-          <span class="asc-sub">4★ · Class B/A</span>
+          <span class="asc-sub"><span class="asc-tier asc-tier--4">4★</span> · Class B/A</span>
         </div>
         <span class="asc-arrow">→</span>
       </div>
       <div class="asc-stage">
         <div class="asc-node">
           <span class="asc-label">Transcendent</span>
-          <span class="asc-sub">5★ · Class B/A</span>
+          <span class="asc-sub"><span class="asc-tier asc-tier--5">5★</span> · Class B/A</span>
         </div>
         <span class="asc-arrow">→</span>
       </div>
       <div class="asc-stage">
         <div class="asc-node is-apex">
           <span class="asc-label">Apex</span>
-          <span class="asc-sub">6★ · Class A</span>
+          <span class="asc-sub"><span class="asc-tier asc-tier--6">6★</span> · Class A</span>
         </div>
       </div>
     </div>
