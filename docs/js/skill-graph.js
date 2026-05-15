@@ -1475,7 +1475,8 @@
   if (mobileHintDismiss && mobileHint) {
     mobileHintDismiss.addEventListener('click', () => { mobileHint.style.display = 'none'; });
   }
-  const heroGraph = createSkillGraph(document.getElementById('canvas3d'), { labelMode:'none', scale:GRAPH_SCALE, stars:280, pointerTarget:hero });
+  const isMobile = window.matchMedia('(max-width:700px)').matches;
+  const heroGraph = isMobile ? null : createSkillGraph(document.getElementById('canvas3d'), { labelMode:'none', scale:GRAPH_SCALE, stars:280, pointerTarget:hero });
   const modalGraph = createSkillGraph(document.getElementById('graphDialogCanvas'), {
     labelMode:'all', scale:1.8, stars:320, statusEl:document.querySelector('[data-graph-status]'), autostart:false, zoomable:true, draggable:true, hoverable:true,
   });
@@ -1528,7 +1529,7 @@
       _initMetaGraph(graph.meta);
       return normalizeSkills(graph);
     })
-    .then(skills => { heroGraph.setSkills(skills); modalGraph.setSkills(skills); })
+    .then(skills => { if (heroGraph) heroGraph.setSkills(skills); modalGraph.setSkills(skills); })
     .catch(error => {
       console.warn('Using embedded fallback skill graph:', error);
       const status = document.querySelector('[data-graph-status]');
@@ -1548,9 +1549,9 @@
           if (origin && origin.title) titleMap[skillId] = origin.title;
         }
       });
-      heroGraph.setNamedMap(map);
+      if (heroGraph) heroGraph.setNamedMap(map);
       modalGraph.setNamedMap(map);
-      heroGraph.setTitleMap(titleMap);
+      if (heroGraph) heroGraph.setTitleMap(titleMap);
       modalGraph.setTitleMap(titleMap);
     })
     .catch(() => {});
