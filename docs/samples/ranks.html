@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en" data-icon-base="../assets/icons.svg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rank Badge Sampler — Gaia (Stage 2)</title>
+  <meta name="description" content="Every rank 0★–6★ rendered in every surface — verify the 4★ chip is pixel-identical across HoH, profile, explorer hero, tile, and filter tab.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/plaque.css">
+  <script src="../js/icons.js"></script>
+  <script src="../js/rank-badge.js"></script>
+  <style>
+    body { padding: 4rem 1.5rem 6rem; max-width: 1200px; margin: 0 auto; }
+    .sampler-h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      font-weight: 600;
+      margin-bottom: .25rem;
+    }
+    .sampler-sub {
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: .85rem;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      margin-bottom: 2.5rem;
+    }
+    .sampler-section {
+      margin: 3rem 0;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .sampler-section h2 {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 600;
+      margin-bottom: .15rem;
+    }
+    .sampler-section p {
+      color: var(--muted);
+      font-size: .9rem;
+      margin-bottom: 1.25rem;
+    }
+    .rank-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1.25rem;
+      padding: 1rem 1.2rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: .75rem;
+    }
+    .rank-row .label {
+      min-width: 8rem;
+      font-family: var(--font-mono);
+      font-size: .8rem;
+      color: var(--muted);
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+    .surface-tile {
+      display: inline-flex;
+      flex-direction: column;
+      gap: .5rem;
+      padding: 1rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      min-width: 11rem;
+    }
+    .surface-tile .surface-label {
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      letter-spacing: .06em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+    .ascension-strip {
+      display: flex;
+      gap: .35rem;
+      align-items: center;
+      padding: 1rem 1.2rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+    .ascension-strip .arrow {
+      color: var(--muted);
+      font-family: var(--font-mono);
+    }
+    .filter-tab-mock {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      padding: .4rem .65rem .55rem;
+      background: transparent;
+      border: 0;
+      border-bottom: 2px solid transparent;
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: .82rem;
+      cursor: pointer;
+    }
+    .filter-tab-mock[aria-pressed="true"] {
+      border-bottom-color: var(--apex-gold);
+    }
+    .filter-tab-row {
+      display: flex;
+      gap: .5rem;
+      flex-wrap: wrap;
+      padding: 1rem 1.2rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+    .plaque-mock {
+      display: inline-flex;
+      flex-direction: column;
+      gap: .35rem;
+      padding: 1rem 1.1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      min-width: 14rem;
+    }
+    .plaque-mock .slug { font-family: var(--font-display); font-style: italic; font-size: 1rem; }
+    .plaque-mock .title { color: var(--honor-red); font-family: var(--font-mono); font-size: .75rem; letter-spacing: .04em; }
+    .unclaimed-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: .9rem 1.1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+    .unclaimed-row .unclaimed-label {
+      color: var(--honor-red);
+      font-family: var(--font-mono);
+      font-size: .8rem;
+      letter-spacing: .04em;
+    }
+    .og-mock {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 2rem;
+      background: linear-gradient(135deg, rgba(56,189,248,.08), rgba(167,139,250,.08));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+    }
+    .og-mock .og-title {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 600;
+    }
+    .pixel-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding: 1.25rem;
+      background: var(--surface);
+      border: 1px dashed var(--apex-gold);
+      border-radius: 12px;
+    }
+    .pixel-row strong {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      letter-spacing: .06em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: .35rem;
+    }
+  </style>
+</head>
+<body>
+  <h1 class="sampler-h1">Rank Badge Sampler — Stage 2</h1>
+  <div class="sampler-sub">/* docs/samples/ranks.html · single primitive: .rank-badge */</div>
+  <p style="max-width:60ch; line-height:1.6">
+    Every rank 0★–6★ rendered in every context that ships a rank.
+    Colour is driven entirely by <code style="font-family:var(--font-mono);">data-level="N"</code>
+    resolving to <code style="font-family:var(--font-mono);">--rank-N</code> /
+    <code style="font-family:var(--font-mono);">--rank-N-bg</code> /
+    <code style="font-family:var(--font-mono);">--rank-N-border</code> tokens — no per-level
+    hex codes in JS or CSS.
+  </p>
+
+  <section class="sampler-section">
+    <h2>Chip variant — every rank</h2>
+    <p>The chip is the universal rank affordance: HoH plate level, tile card, list row, flow node, filter tab.</p>
+    <div class="rank-row">
+      <div class="label">0★ → 6★</div>
+      <script>
+        ['0','1','2','3','4','5','6'].forEach(function(n){
+          document.write(window.rankBadge(n, { variant: 'chip' }));
+        });
+      </script>
+    </div>
+  </section>
+
+  <section class="sampler-section">
+    <h2>Stars variant — 6-star row</h2>
+    <p>Same component, <code>variant="stars"</code>. Gold-on for <code>i ≤ N</code>, dim above.</p>
+    <div class="rank-row">
+      <div class="label">0★ → 6★</div>
+      <script>
+        ['0','1','2','3','4','5','6'].forEach(function(n){
+          document.write('<span style="display:inline-block;min-width:8rem">' + window.rankBadge(n, { variant: 'stars' }) + '</span>');
+        });
+      </script>
+    </div>
+  </section>
+
+  <section class="sampler-section">
+    <h2>Full variant — chip + stars</h2>
+    <p>Profile settled plaque and explorer detail hero use the full pair.</p>
+    <div class="rank-row">
+      <div class="label">0★ → 6★</div>
+      <script>
+        ['0','1','2','3','4','5','6'].forEach(function(n){
+          document.write('<span style="display:inline-flex;gap:.5rem;align-items:center">' + window.rankBadge(n, { variant: 'full' }) + '</span>');
+        });
+      </script>
+    </div>
+  </section>
+
+  <section class="sampler-section">
+    <h2>Pixel-identity check — 4★ across surfaces</h2>
+    <p>The four chips below must be visually identical in colour, weight, padding, and letter-spacing — they all bind to <code>.rank-badge[data-level="4"]</code>.</p>
+    <div class="pixel-row">
+      <div>
+        <strong>HoH plaque</strong>
+        <script>document.write(window.rankBadge(4, { variant: 'chip' }));</script>
+      </div>
+      <div>
+        <strong>Profile settled</strong>
+        <script>document.write(window.rankBadge(4, { variant: 'chip' }));</script>
+      </div>
+      <div>
+        <strong>Explorer hero</strong>
+        <script>document.write(window.rankBadge(4, { variant: 'chip' }));</script>
+      </div>
+      <div>
+        <strong>Named tile</strong>
+        <script>document.write(window.rankBadge(4, { variant: 'chip' }));</script>
+      </div>
+      <div>
+        <strong>Filter tab (inside .ns-tab)</strong>
+        <button class="filter-tab-mock" aria-pressed="true" data-level="4">
+          <script>document.write(window.rankBadge(4, { variant: 'chip' }));</script>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="sampler-section">
+    <h2>Ascension Cycle (journey, exempt from descending sort)</h2>
+    <p><code>data-pattern="journey"</code> annotates the only catalog-shaped surface that intentionally reads <em>ascending</em> (0★ → 6★).</p>
+    <div class="ascension-strip" data-pattern="journey">
+      <script>
+        for (var i = 0; i <= 6; i++) {
+          document.write(window.rankBadge(i, { variant: 'chip' }));
+          if (i < 6) document.write('<span class="arrow">→</span>');
+        }
+      </script>
+    </div>
+  </section>
+
+  <section class="sampler-section">
+    <h2>HoH mini-plaque — stars variant</h2>
+    <p>HoH track plates show the stars row only; the chip lives on the profile / explorer surfaces.</p>
+    <div class="rank-row">
+      <div class="plaque-mock">
+        <div class="slug">karpathy/autoresearch</div>
+        <div class="title">The Scholar's Compass</div>
+        <script>document.write(window.rankBadge(6, { variant: 'stars' }));</script>
+      </div>
+      <div class="plaque-mock">
+        <div class="slug">glincker/readme-generator</div>
+        <div class="title">The Document Weaver</div>
+        <script>document.write(window.rankBadge(3, { variant: 'stars' }));</script>
+      </div>
+    </div>
+  </section>
+
+  <section class="sampler-section">
+    <h2>Profile settled plaque — full variant</h2>
+    <p>Settled plaques carry both the stars row and the chip.</p>
+    <div class="rank-row">
+      <div class="plaque-mock">
+        <div class="slug">karpathy/autoresearch</div>
+        <div class="title">The Scholar's Compass</div>
+        <script>document.write(window.rankBadge(6, { variant: 'full' }));</script>
+      </div>
+      <div class="plaque-mock">
+        <div class="slug">addy-osmani/test-driven-development</div>
+        <div class="title">The Red-Green Oath</div>
+        <script>document.write(window.rankBadge(2, { variant: 'full' }));</script>
+      </div>
+    </div>
+  </section>
+
+  <section class="sampler-section">
+    <h2>Unclaimed Ultimate row — muted chip</h2>
+    <p>Unclaimed Ultimates show a muted-state chip (same component, the unclaimed pseudo-class layered on top).</p>
+    <div class="unclaimed-row">
+      <div>
+        <div class="slug" style="font-family:var(--font-display);font-style:italic;font-size:1rem">/concurrency-juggle</div>
+        <span class="unclaimed-label">Unclaimed</span>
+      </div>
+      <script>document.write(window.rankBadge(5, { variant: 'chip' }));</script>
+    </div>
+  </section>
+
+  <section class="sampler-section">
+    <h2>Filter tab row — the tab IS a rank-badge</h2>
+    <p>Each filter tab embeds the same chip the cards emit, plus an affordance underline. A "filter by 4★" tab is pixel-identical in chip area to the 4★ chip on a card — confirming to the user that the filter targets that exact chip.</p>
+    <div class="filter-tab-row">
+      <button class="filter-tab-mock" aria-pressed="true">All</button>
+      <script>
+        ['0','1','2','3','4','5','6'].forEach(function(n){
+          document.write('<button class="filter-tab-mock" data-level="' + n + '">' + window.rankBadge(n, { variant: 'chip' }) + '</button>');
+        });
+      </script>
+    </div>
+  </section>
+
+  <section class="sampler-section">
+    <h2>OG card mock — large size, full variant</h2>
+    <p>Social cards use the <code>size="lg"</code> attribute so chips read at the 1200×630 raster.</p>
+    <div class="og-mock">
+      <script>document.write(window.rankBadge(6, { variant: 'full', size: 'lg' }));</script>
+      <div>
+        <div class="og-title">karpathy / autoresearch</div>
+        <div class="title" style="color:var(--honor-red);font-family:var(--font-mono);font-size:.85rem;margin-top:.25rem">@karpathy · Transcendent ★ · 6★</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sampler-section">
+    <h2>Acceptance check</h2>
+    <p>
+      <strong>1.</strong> 4★ chip is pixel-identical in colour, weight, padding, letter-spacing across HoH, Profile, Explorer hero, Tile, Filter-tab.<br>
+      <strong>2.</strong> 6★ chip has its rainbow shimmer (driven by <code>.rank-badge[data-level="6"]</code> in styles.css).<br>
+      <strong>3.</strong> No inline rank-chip hex remains in <code>docs/js/</code> (run <code>grep -nE 'style="color:#[0-9a-fA-F]{3,6};background:#[0-9a-fA-F]{3,6}' docs/js/</code>).<br>
+      <strong>4.</strong> Ascension Cycle carries <code>data-pattern="journey"</code> — the only catalog that reads ascending.
+    </p>
+  </section>
+</body>
+</html>

@@ -19,6 +19,8 @@
   <link rel="stylesheet" href="../../css/plaque.css">
   <!-- Stage 1 — icon sprite helper, loaded BEFORE other UI scripts. -->
   <script src="../../js/icons.js"></script>
+  <!-- Stage 2 — rank-badge component, loaded after icons.js. -->
+  <script src="../../js/rank-badge.js"></script>
   <script src="../../js/ui.js" defer></script>
 </head>
 <body class="profile-page">
@@ -59,7 +61,7 @@
     <h2 class="profile-section-title">Named Skills</h2>
     <p class="profile-section-sub">All named implementations attributed to @0xdarkmatter in the Gaia registry.</p>
     <div class="plaque-grid">
-      <div class="plaque plaque--settled" data-skill-id="0xdarkmatter/pytest-patterns" data-type="extra">
+      <div class="plaque plaque--settled" data-skill-id="0xdarkmatter/pytest-patterns" data-type="extra" data-level="3★">
   <div class="plaque-header">
     <svg class="ico plaque-seal" aria-hidden="true"><use href="../../assets/icons.svg#seal-diamond"/></svg>
     <div class="plaque-skill-name">Pytest Patterns</div>
@@ -68,14 +70,7 @@
   <div class="plaque-named-slug named-slug" title="0xdarkmatter/pytest-patterns">/pytest-patterns</div>
   <a class="atlas-handle plaque-contributor" href="../../u/0xdarkmatter/">@0xdarkmatter</a>
   <div class="plaque-title">The Quality Guardian</div>
-  <div class="plaque-stars">
-    <span class="plaque-star">★</span>
-<span class="plaque-star">★</span>
-<span class="plaque-star">★</span>
-<span class="plaque-star plaque-star--dim">★</span>
-<span class="plaque-star plaque-star--dim">★</span>
-<span class="plaque-star plaque-star--dim">★</span>
-  </div>
+  <span class="rank-badge" data-level="3" data-variant="full" data-size="md" role="img" aria-label="Rank 3 of 6"><span class="rank-badge__chip">3★</span><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span>
   <div class="plaque-divider"></div>
   <p class="plaque-description">Comprehensive pytest skill covering modern patterns for Python test automation including fixtures, parametrize, async testing, mocking, coverage strategies, integration tests, and conftest organisation for pytest 7.0+ projects.</p>
   <div class="plaque-tags"><span class="plaque-tag">pytest</span>

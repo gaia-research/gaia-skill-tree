@@ -19,6 +19,8 @@
   <link rel="stylesheet" href="../../css/plaque.css">
   <!-- Stage 1 — icon sprite helper, loaded BEFORE other UI scripts. -->
   <script src="../../js/icons.js"></script>
+  <!-- Stage 2 — rank-badge component, loaded after icons.js. -->
+  <script src="../../js/rank-badge.js"></script>
   <script src="../../js/ui.js" defer></script>
 </head>
 <body class="profile-page">
@@ -59,7 +61,7 @@
     <h2 class="profile-section-title">Named Skills</h2>
     <p class="profile-section-sub">All named implementations attributed to @anthropic in the Gaia registry.</p>
     <div class="plaque-grid">
-      <div class="plaque plaque--settled" data-skill-id="anthropic/pptx" data-type="basic">
+      <div class="plaque plaque--settled" data-skill-id="anthropic/pptx" data-type="basic" data-level="2★">
   <div class="plaque-header">
     <svg class="ico plaque-seal" aria-hidden="true"><use href="../../assets/icons.svg#seal-diamond"/></svg>
     <div class="plaque-skill-name">PPTX Editor</div>
@@ -68,14 +70,7 @@
   <div class="plaque-named-slug named-slug" title="anthropic/pptx">/pptx</div>
   <a class="atlas-handle plaque-contributor" href="../../u/anthropic/">@anthropic</a>
   <div class="plaque-title">The Slide Artisan</div>
-  <div class="plaque-stars">
-    <span class="plaque-star">★</span>
-<span class="plaque-star">★</span>
-<span class="plaque-star plaque-star--dim">★</span>
-<span class="plaque-star plaque-star--dim">★</span>
-<span class="plaque-star plaque-star--dim">★</span>
-<span class="plaque-star plaque-star--dim">★</span>
-  </div>
+  <span class="rank-badge" data-level="2" data-variant="full" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__chip">2★</span><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span>
   <div class="plaque-divider"></div>
   <p class="plaque-description">Extracts slide content from PowerPoint (.pptx) files using markitdown, applies edits or design principles in-place, and repacks the file — enabling agents to read, modify, and write structured presentation files without a GUI.</p>
   <div class="plaque-tags"><span class="plaque-tag">pptx</span>
@@ -86,7 +81,7 @@
   <div class="plaque-evidence">CLASS C</div>
   <div class="plaque-underline plaque-underline--settled"></div>
 </div>
-<div class="plaque plaque--settled" data-skill-id="anthropic/skill-creator" data-type="extra">
+<div class="plaque plaque--settled" data-skill-id="anthropic/skill-creator" data-type="extra" data-level="2★">
   <div class="plaque-header">
     <svg class="ico plaque-seal" aria-hidden="true"><use href="../../assets/icons.svg#seal-diamond"/></svg>
     <div class="plaque-skill-name">Skill Creator</div>
@@ -95,14 +90,7 @@
   <div class="plaque-named-slug named-slug" title="anthropic/skill-creator">/skill-creator</div>
   <a class="atlas-handle plaque-contributor" href="../../u/anthropic/">@anthropic</a>
   <div class="plaque-title">The Skill Forger&#x27;s Art</div>
-  <div class="plaque-stars">
-    <span class="plaque-star">★</span>
-<span class="plaque-star">★</span>
-<span class="plaque-star plaque-star--dim">★</span>
-<span class="plaque-star plaque-star--dim">★</span>
-<span class="plaque-star plaque-star--dim">★</span>
-<span class="plaque-star plaque-star--dim">★</span>
-  </div>
+  <span class="rank-badge" data-level="2" data-variant="full" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__chip">2★</span><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span>
   <div class="plaque-divider"></div>
   <p class="plaque-description">Interviews the user through a structured dialogue to elicit the skill&#x27;s purpose, trigger conditions, and step-by-step instructions, then programmatically writes a new SKILL.md file ready for use in a Claude Code or Codex CLI skills directory.</p>
   <div class="plaque-tags"><span class="plaque-tag">skill-authoring</span>

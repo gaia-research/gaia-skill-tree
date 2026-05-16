@@ -73,10 +73,14 @@
     var title = ns.title || ns.name || '';
     var tags = (ns.tags || []).slice(0, 3).map(tagHtml).join('');
     var contribLink = nsHandleLink(ns.contributor);
+    // Stage 2 \u2014 level chip emitted by the shared rank-badge component.
+    var levelChip = (typeof window.rankBadge === 'function')
+      ? window.rankBadge(ns.level, { variant: 'chip', label: ns.level })
+      : '';
     return '<article class="plaque plaque--tile" data-level="' + esc(ns.level) + '" data-type="' + esc(type) + '" ' + nsClick(ns.id) + '>' +
       '<div class="plaque-header">' +
         '<div class="plaque-orb plaque-orb--' + esc(type) + (n >= 6 ? ' plaque-orb--vi' : '') + '" aria-hidden="true"></div>' +
-        '<span class="ns-level-badge plaque-level-chip" style="color:' + lm.color + ';background:' + lm.bg + ';border-color:' + lm.border + '">' + esc(ns.level) + '</span>' +
+        levelChip +
         (ns.origin ? '<span class="ns-origin" title="Origin contributor">\u2605</span>' : '') +
         ghLink(ns) +
       '</div>' +
@@ -96,13 +100,17 @@
     var title = ns.title || ns.name || '';
     var tags = (ns.tags || []).slice(0, 2).map(tagHtml).join('');
     var contribLink = nsHandleLink(ns.contributor);
+    // Stage 2 \u2014 level chip emitted by the shared rank-badge component.
+    var levelChip = (typeof window.rankBadge === 'function')
+      ? window.rankBadge(ns.level, { variant: 'chip', label: ns.level })
+      : '';
     return '<article class="plaque plaque--row" data-level="' + esc(ns.level) + '" data-type="' + esc(type) + '" ' + nsClick(ns.id) + '>' +
       '<div class="plaque-orb plaque-orb--sm plaque-orb--' + esc(type) + (n >= 6 ? ' plaque-orb--vi' : '') + '" aria-hidden="true"></div>' +
       '<span class="plaque-skill-name named-slug" title="' + esc(ns.id) + '">' + esc(slug) + '</span>' +
       (title ? '<span class="plaque-title">' + esc(title) + '</span>' : '<span style="flex:1"></span>') +
       (contribLink ? '<span class="plaque-contrib-row">' + contribLink + '</span>' : '') +
       (tags ? '<span class="plaque-tags">' + tags + '</span>' : '') +
-      '<span class="ns-level-badge plaque-level-chip" style="color:' + lm.color + ';background:' + lm.bg + ';border-color:' + lm.border + '">' + esc(ns.level) + '</span>' +
+      levelChip +
       ghLink(ns) +
       '<span class="ns-lr-arrow" aria-hidden="true">\u203a</span>' +
     '</article>';
@@ -165,14 +173,17 @@
         var primaryHtml = ns
           ? '<div class="plaque-skill-name named-slug" title="' + esc(ns.id) + '">' + esc(nsSlug(ns)) + '</div>'
           : '<div class="plaque-skill-name named-slug named-slug--muted" title="' + esc(id) + '">/' + esc(id) + '</div>';
+        // Stage 2 — DAG card level chip via the shared rank-badge component.
+        var dagChip = (typeof window.rankBadge === 'function')
+          ? window.rankBadge(s.level, { variant: 'chip', label: s.level })
+          : '';
         html += '<div class="plaque plaque--mini ns-dag-card' + (isGhost ? ' ns-dag-ghost' : '') +
           '" data-id="' + esc(id) + '" data-type="' + esc(s.type) + '" ' +
           clickAttr + '>' +
           (ns ? ghLink(ns) : '') +
           '<div class="plaque-orb plaque-orb--' + esc(s.type) + (n >= 6 ? ' plaque-orb--vi' : '') + '" aria-hidden="true"></div>' +
           primaryHtml +
-          '<span class="ns-level-badge plaque-level-chip" style="color:' + lm.color + ';background:' + lm.bg +
-          ';border-color:' + lm.border + '">' + esc(s.level) + '</span>' +
+          dagChip +
         '</div>';
       });
       html += '</div>';

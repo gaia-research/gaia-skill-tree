@@ -82,8 +82,14 @@
     var repoUrl = links.github || links.npm || '';
     var n = parseInt(String(ns.level || '').replace(/\D+/g, ''), 10) || 0;
 
+    // Stage 2 — the level badge is the shared rank-badge component
+    // (full variant: chip + 6-star row). Type-tag and origin chips
+    // retain .se-badge styling but no longer carry per-rank colour.
+    var rankFull = (typeof window.rankBadge === 'function')
+      ? window.rankBadge(ns.level, { variant: 'full', label: ns.level + ' · ' + lm.name })
+      : '';
     var badgesHtml = [
-      '<span class="se-badge" style="color:' + lm.color + ';background:' + lm.bg + ';border-color:' + lm.border + '">' + esc(ns.level) + ' · ' + lm.name + '</span>',
+      rankFull,
       generic ? '<span class="se-badge" style="color:' + typeColor + ';background:rgba(0,0,0,.3);border-color:' + typeColor + '40">' + typeSymbol + ' ' + esc(generic.type || '') + '</span>' : '',
       ns.origin ? '<span class="se-badge" style="color:#fbbf24;background:rgba(251,191,36,.1);border-color:rgba(251,191,36,.3)">★ origin</span>' : '',
     ].filter(Boolean).join('');
@@ -260,17 +266,22 @@
     var buckets = window._gaiaNamedBuckets || {};
     var lm = LEVEL_META_SE;
 
-    function makeLevelStyle(level) {
-      var m = lm[level]; if (!m) return '';
-      return 'color:' + m.color + ';background:' + m.bg + ';border-color:' + m.border;
+    // Stage 2 — flow-node level chips render through the rank-badge
+    // component. The previous inline-style chip is replaced by a chip
+    // variant; data-level on the .flow-node itself is preserved for
+    // the glow / shimmer rules.
+    function rankChip(level) {
+      if (!level) return '';
+      return (typeof window.rankBadge === 'function')
+        ? window.rankBadge(level, { variant: 'chip', label: level })
+        : '';
     }
 
     function flowNode(id, name, contrib, level, typeStr, isCurrent, isNamed) {
-      var lmEntry = lm[level] || {};
       var clsExtra = isCurrent ? ' current' : '';
       var ghostCls = isNamed ? '' : ' flow-node-ghost';
       var contribHtml = contrib ? '<span class="fn-contrib" style="color:#ef4444">' + esc(contrib) + '</span>' : '';
-      var levelHtml = level ? '<span class="fn-level" style="' + makeLevelStyle(level) + '">' + esc(level) + '</span>' : '';
+      var levelHtml = rankChip(level);
       return '<div class="flow-node' + clsExtra + ghostCls + '" data-level="' + esc(level||'') + '" data-id="' + esc(id) + '" onclick="openSkillExplorer(\'' + id.replace(/'/g,"\\'") + '\')">' +
         levelHtml + '<span class="fn-name">' + esc(name||id) + '</span>' + contribHtml +
       '</div>';
@@ -300,7 +311,7 @@
         namedHtml += '<div class="se-stack-card' + (isCur ? ' se-stack-current' : '') +
           '" style="z-index:' + zIdx + ';transform:rotate(' + rot + 'deg)" ' +
           'onclick="openSkillExplorer(\'' + sib.id.replace(/'/g,"\\'") + '\')">' +
-          '<span class="fn-level" style="' + makeLevelStyle(sib.level) + '">' + esc(sib.level) + '</span>' +
+          rankChip(sib.level) +
           '<span class="fn-name">' + esc(sib.name || sib.id) + '</span>' +
           '<span class="fn-contrib" style="color:#ef4444">' + esc(sib.contributor) + '</span>' +
         '</div>';

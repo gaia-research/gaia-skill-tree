@@ -25,6 +25,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 NAMED_JSON = REPO_ROOT / "registry" / "named-skills.json"
+GAIA_JSON = REPO_ROOT / "registry" / "gaia.json"
 DOCS_DIR = REPO_ROOT / "docs"
 OUT_DIR = DOCS_DIR / "og"
 
@@ -39,6 +40,48 @@ HONOR_RED = "#ef4444"
 TEXT_COLOR = "#e2e8f0"
 MUTED_COLOR = "#64748b"
 BORDER_COLOR = "#1e293b"
+
+# Stage 2 — rank palette mirrors the --rank-N CSS tokens emitted by
+# scripts/generateCssTokens.py from registry/gaia.json.meta.levelColors.
+# OG cards are static SVG (no CSS engine), so we resolve the rank
+# colour from the same source of truth and emit it inline. The keys
+# match the .rank-badge[data-level="N"] selectors in styles.css.
+_RANK_PALETTE_CACHE: dict | None = None
+
+
+def rank_palette() -> dict:
+    """Return { '0': {'hex','bg','border'}, '1': {...}, … '6': {...} }."""
+    global _RANK_PALETTE_CACHE
+    if _RANK_PALETTE_CACHE is not None:
+        return _RANK_PALETTE_CACHE
+    fallback = {
+        "0": {"hex": "#94a3b8", "bg": "rgba(148,163,184,.12)", "border": "rgba(148,163,184,.4)"},
+        "1": {"hex": "#38bdf8", "bg": "rgba(56,189,248,.12)", "border": "rgba(56,189,248,.4)"},
+        "2": {"hex": "#63cab7", "bg": "rgba(99,202,183,.15)", "border": "rgba(99,202,183,.4)"},
+        "3": {"hex": "#a78bfa", "bg": "rgba(167,139,250,.15)", "border": "rgba(167,139,250,.4)"},
+        "4": {"hex": "#e879f9", "bg": "rgba(232,121,249,.15)", "border": "rgba(232,121,249,.4)"},
+        "5": {"hex": "#fbbf24", "bg": "rgba(251,191,36,.15)", "border": "rgba(251,191,36,.4)"},
+        "6": {"hex": "#fbbf24", "bg": "rgba(251,191,36,.22)", "border": "rgba(251,191,36,.55)"},
+    }
+    if not GAIA_JSON.exists():
+        _RANK_PALETTE_CACHE = fallback
+        return _RANK_PALETTE_CACHE
+    try:
+        with open(GAIA_JSON, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        lc = (data.get("meta") or {}).get("levelColors") or {}
+        out: dict = {}
+        for key, val in lc.items():
+            n = "".join(c for c in key if c.isdigit())
+            if n:
+                out[n] = {"hex": val.get("hex", "#94a3b8"), "bg": val.get("bg", "rgba(148,163,184,.12)"), "border": val.get("border", "rgba(148,163,184,.4)")}
+        # Backfill missing keys from fallback so callers never KeyError.
+        for k, v in fallback.items():
+            out.setdefault(k, v)
+        _RANK_PALETTE_CACHE = out
+    except Exception:
+        _RANK_PALETTE_CACHE = fallback
+    return _RANK_PALETTE_CACHE
 
 
 def level_num(level: str) -> int:
@@ -85,19 +128,54 @@ def _star_polygon(cx: float, cy: float, r_outer: float, r_inner: float) -> str:
 
 
 def build_stars_svg(level: str, x: float, y: float) -> str:
+    """Stage 2 — SVG sibling of .rank-badge[data-variant="stars"].
+
+    Lit stars use --apex-gold; dim stars use the same low-alpha gold
+    as .rank-badge__star[data-off] in styles.css. Per-star alpha drives
+    the visual identity — same source-of-truth palette as the live page.
+    """
     n = level_num(level)
     parts = []
     spacing = 22
     r_outer = 9
     r_inner = 3.6
     for i in range(1, 7):
-        color = APEX_GOLD if i <= n else "#333d4d"
+        lit = i <= n
+        # Match .rank-badge__star colours: gold lit / alpha-gold dim.
+        color = APEX_GOLD if lit else APEX_GOLD
+        opacity = "1" if lit else "0.18"
         cx = x + (i - 1) * spacing
         parts.append(
             f'<polygon points="{_star_polygon(cx, y, r_outer, r_inner)}" '
-            f'fill="{color}"/>'
+            f'fill="{color}" opacity="{opacity}"/>'
         )
     return "\n".join(parts)
+
+
+def build_rank_chip_svg(level: str, x: float, y: float, anchor: str = "end") -> str:
+    """Stage 2 — SVG sibling of .rank-badge[data-variant="chip"].
+
+    Renders a pill containing the level label coloured by the rank's
+    --rank-N hex (sourced from registry/gaia.json.meta.levelColors).
+    Anchored at (x, y) for the text baseline.
+    """
+    n = level_num(level)
+    palette = rank_palette().get(str(n), rank_palette()["0"])
+    label = html.escape(level or f"{n}★")
+    # Approximate pill geometry — width tracks label length so 1★ and 6★ read evenly.
+    label_w = max(56, len(label) * 11 + 18)
+    pad_x = 12
+    pill_y = y - 16
+    pill_h = 26
+    pill_x = (x - label_w) if anchor == "end" else x
+    text_x = (pill_x + label_w - pad_x) if anchor == "end" else (pill_x + pad_x)
+    return (
+        f'<rect x="{pill_x}" y="{pill_y}" width="{label_w}" height="{pill_h}" rx="13" '
+        f'fill="{palette["bg"]}" stroke="{palette["border"]}" stroke-width="1"/>'
+        f'<text x="{text_x}" y="{y}" font-family="\'Departure Mono\',\'JetBrains Mono\',monospace" '
+        f'font-size="13" font-weight="600" letter-spacing="1.2" fill="{palette["hex"]}" '
+        f'text-anchor="{anchor}" dominant-baseline="middle">{label}</text>'
+    )
 
 
 def truncate(text: str, max_len: int) -> str:
@@ -254,10 +332,8 @@ def build_og_svg(skill: dict) -> str:
     fill="rgba(226,232,240,0.5)" dominant-baseline="middle"
     text-transform="uppercase">{ev_class}</text>
 
-  <!-- Level badge -->
-  <text x="{OG_W - 64}" y="518"
-    font-family="EB Garamond,Georgia,serif" font-size="20" font-weight="600"
-    fill="{APEX_GOLD}" text-anchor="end" dominant-baseline="middle">{level_str}</text>
+  <!-- Stage 2 — Level chip mirrors .rank-badge[data-variant="chip"]. -->
+  {build_rank_chip_svg(level, OG_W - 64, 518, anchor="end")}
 
   <!-- Horizontal rule bottom -->
   <line x1="264" y1="550" x2="{OG_W-48}" y2="550"

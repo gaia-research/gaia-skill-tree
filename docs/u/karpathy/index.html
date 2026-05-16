@@ -19,6 +19,8 @@
   <link rel="stylesheet" href="../../css/plaque.css">
   <!-- Stage 1 — icon sprite helper, loaded BEFORE other UI scripts. -->
   <script src="../../js/icons.js"></script>
+  <!-- Stage 2 — rank-badge component, loaded after icons.js. -->
+  <script src="../../js/rank-badge.js"></script>
   <script src="../../js/ui.js" defer></script>
 </head>
 <body class="profile-page">
@@ -59,7 +61,7 @@
     <h2 class="profile-section-title">Named Skills</h2>
     <p class="profile-section-sub">All named implementations attributed to @karpathy in the Gaia registry.</p>
     <div class="plaque-grid">
-      <div class="plaque plaque--settled plaque--apex-vi" data-skill-id="karpathy/autoresearch" data-type="ultimate">
+      <div class="plaque plaque--settled plaque--apex-vi" data-skill-id="karpathy/autoresearch" data-type="ultimate" data-level="6★">
   <div class="plaque-header">
     <svg class="ico plaque-seal" aria-hidden="true"><use href="../../assets/icons.svg#seal-diamond"/></svg>
     <div class="plaque-skill-name">AutoResearch</div>
@@ -68,14 +70,7 @@
   <div class="plaque-named-slug named-slug" title="karpathy/autoresearch">/autoresearch</div>
   <a class="atlas-handle plaque-contributor" href="../../u/karpathy/">@karpathy</a>
   <div class="plaque-title">The Scholar&#x27;s Compass</div>
-  <div class="plaque-stars">
-    <span class="plaque-star">★</span>
-<span class="plaque-star">★</span>
-<span class="plaque-star">★</span>
-<span class="plaque-star">★</span>
-<span class="plaque-star">★</span>
-<span class="plaque-star">★</span>
-  </div>
+  <span class="rank-badge" data-level="6" data-variant="full" data-size="md" role="img" aria-label="Rank 6 of 6"><span class="rank-badge__chip">6★</span><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span></span></span>
   <div class="plaque-divider"></div>
   <p class="plaque-description">Autonomous research agent that iteratively searches, reads, and synthesizes academic papers into structured summaries.</p>
   <div class="plaque-tags"><span class="plaque-tag">research</span>

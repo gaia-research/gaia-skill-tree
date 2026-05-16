@@ -97,13 +97,61 @@ def evidence_class(level: str) -> str:
     return "AWAITED"
 
 
-def build_stars(level: str) -> str:
+def rank_badge_html(level: str, variant: str = "stars", size: str = "md", label: str | None = None) -> str:
+    """Stage 2 — Python sibling of window.rankBadge(level, opts).
+
+    Emits the same .rank-badge DOM the JS component produces so that the
+    server-rendered surfaces (profile pages, OG cards) stay pixel-
+    identical to the live surfaces. Reads colours via CSS tokens only
+    — no Python colour logic.
+
+    Args:
+        level: rank token, e.g. '4★', '4', or 4.
+        variant: 'chip' | 'stars' | 'full'. Default 'stars'.
+        size: 'sm' | 'md' | 'lg'. Default 'md'.
+        label: chip label override. Defaults to '<N>★'.
+    """
     n = level_num(level)
-    parts = []
-    for i in range(1, 7):
-        cls = "plaque-star" if i <= n else "plaque-star plaque-star--dim"
-        parts.append(f'<span class="{cls}">★</span>')
-    return "\n".join(parts)
+    if variant not in ("chip", "stars", "full"):
+        variant = "chip"
+    if size not in ("sm", "md", "lg"):
+        size = "md"
+    chip_label = label if label is not None else f"{n}★"
+    aria = f"Rank {n} of 6"
+
+    def _chip() -> str:
+        return f'<span class="rank-badge__chip">{html.escape(chip_label)}</span>'
+
+    def _stars() -> str:
+        parts = ['<span class="rank-badge__stars" aria-hidden="true">']
+        for i in range(1, 7):
+            attr = "data-on=\"\"" if i <= n else "data-off=\"\""
+            parts.append(f'<span class="rank-badge__star" {attr}>★</span>')
+        parts.append("</span>")
+        return "".join(parts)
+
+    if variant == "chip":
+        inner = _chip()
+    elif variant == "stars":
+        inner = _stars()
+    else:  # full
+        inner = _chip() + _stars()
+
+    return (
+        f'<span class="rank-badge" data-level="{n}" data-variant="{variant}" '
+        f'data-size="{size}" role="img" aria-label="{html.escape(aria)}">'
+        f"{inner}</span>"
+    )
+
+
+def build_stars(level: str) -> str:
+    """Deprecated — kept as a one-line redirect to rank_badge_html('stars').
+
+    Stage 2 unified the stars rendering behind .rank-badge; the legacy
+    .plaque-star markup is no longer emitted. Stage 5 may remove this
+    wrapper entirely once no callers remain.
+    """
+    return rank_badge_html(level, variant="stars")
 
 
 # Stage 1 — sprite-driven icons. Profile pages live at docs/u/<handle>/index.html
@@ -145,7 +193,9 @@ def build_plaque_card(skill: dict) -> str:
     # entries without a contributor/skill split.
     slug = html.escape(named_slug(skill))
 
-    return f"""<div class="plaque plaque--settled{apex_class}" data-skill-id="{skill_id}" data-type="{tier_type}">
+    # Stage 2 — settled profile plaque uses the .rank-badge stars variant.
+    # The .plaque-stars wrapper is dropped; .rank-badge is the wrapper.
+    return f"""<div class="plaque plaque--settled{apex_class}" data-skill-id="{skill_id}" data-type="{tier_type}" data-level="{html.escape(level)}">
   <div class="plaque-header">
     {DIAMOND_SEAL_SVG}
     <div class="plaque-skill-name">{skill_name}</div>
@@ -154,9 +204,7 @@ def build_plaque_card(skill: dict) -> str:
   <div class="plaque-named-slug named-slug" title="{skill_id}">{slug}</div>
   {contributor_link}
   {f'<div class="plaque-title">{title}</div>' if title else ''}
-  <div class="plaque-stars">
-    {build_stars(level)}
-  </div>
+  {rank_badge_html(level, variant="full")}
   <div class="plaque-divider"></div>
   {f'<p class="plaque-description">{description}</p>' if description else ''}
   {f'<div class="plaque-tags">{tag_html}</div>' if tag_html else ''}
@@ -263,6 +311,8 @@ def build_profile_page(handle: str, skills: list) -> str:
   <link rel="stylesheet" href="../../css/plaque.css">
   <!-- Stage 1 — icon sprite helper, loaded BEFORE other UI scripts. -->
   <script src="../../js/icons.js"></script>
+  <!-- Stage 2 — rank-badge component, loaded after icons.js. -->
+  <script src="../../js/rank-badge.js"></script>
   <script src="../../js/ui.js" defer></script>
 </head>
 <body class="profile-page">

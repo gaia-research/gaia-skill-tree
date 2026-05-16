@@ -146,23 +146,33 @@
   line-height: 1.4;
 }
 
+/* Stage 2 — .plaque-stars / .plaque-star folded into .rank-badge__stars.
+   Plaques now emit <span class="rank-badge" data-variant="stars" data-level="N">
+   via window.rankBadge() / rank_badge_html(). Per-star gold/dim is
+   driven by data-on / data-off, set by the badge function. The two
+   shim rules below are kept ONLY for legacy markup already in flight
+   (generated profile pages will be re-rendered by Stage 2's run of
+   generateProfilePages.py); remove them in Stage 5. */
 .plaque-stars {
-  display: flex;
+  display: inline-flex;
   gap: 4px;
   align-items: center;
 }
-
 .plaque-star {
   font-size: 16px;
   color: var(--apex-gold, #fbbf24);
   text-shadow: 0 0 8px rgba(251, 191, 36, 0.4);
   line-height: 1;
 }
-
 .plaque-star--dim {
   color: rgba(251, 191, 36, 0.2);
   text-shadow: none;
 }
+
+/* The canonical rendering — .rank-badge inside a plaque inherits the
+   plaque's star sizing without per-variant overrides. */
+.plaque .rank-badge[data-variant="stars"] { font-size: 16px; gap: 4px; }
+.plaque .rank-badge[data-variant="full"] { gap: 12px; }
 
 .plaque-evidence {
   display: inline-flex;
@@ -660,12 +670,14 @@
   font-size: 13px;
 }
 
-.plaque--mini .plaque-stars {
+.plaque--mini .plaque-stars,
+.plaque--mini .rank-badge[data-variant="stars"] {
   font-size: 12px;
   gap: 2px;
 }
 
-.plaque--mini .plaque-star {
+.plaque--mini .plaque-star,
+.plaque--mini .rank-badge__star {
   font-size: 12px;
 }
 

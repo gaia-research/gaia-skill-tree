@@ -38,13 +38,21 @@
     return isNaN(n) ? 0 : n;
   }
 
-  function starsRow(level) {
-    var n = levelNum(level);
-    var out = '';
-    for (var i = 1; i <= 6; i++) {
-      out += '<span class="hoh-star' + (i <= n ? '' : ' hoh-star--dim') + '">★</span>';
-    }
-    return out;
+  // Stage 2 — stars are rendered by the shared .rank-badge component.
+  // window.rankBadge(level, { variant: 'stars' }) returns the full
+  // <span class="rank-badge"…> markup; the previous starsRow helper
+  // only produced the inner stars, so call sites that wrapped it in
+  // a <span class="hoh-star">…</span> or <span class="ult-stars">…</span>
+  // now drop that wrapper.
+  function starsBadge(level) {
+    return (typeof window.rankBadge === 'function')
+      ? window.rankBadge(level, { variant: 'stars' })
+      : '';
+  }
+  function chipBadge(level) {
+    return (typeof window.rankBadge === 'function')
+      ? window.rankBadge(level, { variant: 'chip' })
+      : '';
   }
 
   function openExplorer(id) {
@@ -134,8 +142,11 @@
 
       list.innerHTML = sorted.map(function (u) {
         var claim = claimedBy[u.id];
-        var stars = '<span class="ult-stars">' + starsRow(u.level) + '</span>';
-        var levelChip = '<span class="ult-level">' + esc(u.level || '') + '</span>';
+        // Stage 2 — the stars row and level chip both come from rankBadge().
+        // Claimed Ultimates show the rank chip in its level colour; the
+        // unclaimed row keeps the chip too (visually muted via wrapper class).
+        var stars = starsBadge(u.level);
+        var levelChip = chipBadge(u.level);
         if (claim) {
           // Phase 8c — claimed Ultimates lead with the named slug in honor red
           // (the second segment of the named id, e.g. /autoresearch). The
@@ -255,7 +266,7 @@
           '<div class="plaque-orb plaque-orb--' + esc(type) + (n >= 6 ? ' plaque-orb--vi' : '') + '" aria-hidden="true"></div>' +
           '<div class="plaque-skill-name named-slug" title="' + esc(canonId) + '">' + esc(slug) + '</div>' +
           contribLink +
-          '<div class="plaque-stars" aria-label="' + esc(e.level || '') + '">' + starsRow(e.level) + '</div>' +
+          starsBadge(e.level) +
           '</article>';
       }).join('');
       plates.innerHTML = rendered;

@@ -19,6 +19,8 @@
   <link rel="stylesheet" href="../../css/plaque.css">
   <!-- Stage 1 — icon sprite helper, loaded BEFORE other UI scripts. -->
   <script src="../../js/icons.js"></script>
+  <!-- Stage 2 — rank-badge component, loaded after icons.js. -->
+  <script src="../../js/rank-badge.js"></script>
   <script src="../../js/ui.js" defer></script>
 </head>
 <body class="profile-page">
@@ -59,7 +61,7 @@
     <h2 class="profile-section-title">Named Skills</h2>
     <p class="profile-section-sub">All named implementations attributed to @huggingface in the Gaia registry.</p>
     <div class="plaque-grid">
-      <div class="plaque plaque--settled" data-skill-id="huggingface/hf-cli" data-type="basic">
+      <div class="plaque plaque--settled" data-skill-id="huggingface/hf-cli" data-type="basic" data-level="2★">
   <div class="plaque-header">
     <svg class="ico plaque-seal" aria-hidden="true"><use href="../../assets/icons.svg#seal-diamond"/></svg>
     <div class="plaque-skill-name">HF CLI</div>
@@ -68,14 +70,7 @@
   <div class="plaque-named-slug named-slug" title="huggingface/hf-cli">/hf-cli</div>
   <a class="atlas-handle plaque-contributor" href="../../u/huggingface/">@huggingface</a>
   <div class="plaque-title">The Hub Operator</div>
-  <div class="plaque-stars">
-    <span class="plaque-star">★</span>
-<span class="plaque-star">★</span>
-<span class="plaque-star plaque-star--dim">★</span>
-<span class="plaque-star plaque-star--dim">★</span>
-<span class="plaque-star plaque-star--dim">★</span>
-<span class="plaque-star plaque-star--dim">★</span>
-  </div>
+  <span class="rank-badge" data-level="2" data-variant="full" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__chip">2★</span><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span>
   <div class="plaque-divider"></div>
   <p class="plaque-description">Guides Hugging Face Hub CLI operations for downloading, uploading, managing repos, running Jobs, querying datasets, configuring Spaces, and handling Hub authentication.</p>
   <div class="plaque-tags"><span class="plaque-tag">huggingface</span>
@@ -86,7 +81,7 @@
   <div class="plaque-evidence">CLASS C</div>
   <div class="plaque-underline plaque-underline--settled"></div>
 </div>
-<div class="plaque plaque--settled" data-skill-id="huggingface/huggingface-datasets" data-type="extra">
+<div class="plaque plaque--settled" data-skill-id="huggingface/huggingface-datasets" data-type="extra" data-level="2★">
   <div class="plaque-header">
     <svg class="ico plaque-seal" aria-hidden="true"><use href="../../assets/icons.svg#seal-diamond"/></svg>
     <div class="plaque-skill-name">Hugging Face Datasets</div>
@@ -95,14 +90,7 @@
   <div class="plaque-named-slug named-slug" title="huggingface/huggingface-datasets">/huggingface-datasets</div>
   <a class="atlas-handle plaque-contributor" href="../../u/huggingface/">@huggingface</a>
   <div class="plaque-title">The Dataset Cartographer</div>
-  <div class="plaque-stars">
-    <span class="plaque-star">★</span>
-<span class="plaque-star">★</span>
-<span class="plaque-star plaque-star--dim">★</span>
-<span class="plaque-star plaque-star--dim">★</span>
-<span class="plaque-star plaque-star--dim">★</span>
-<span class="plaque-star plaque-star--dim">★</span>
-  </div>
+  <span class="rank-badge" data-level="2" data-variant="full" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__chip">2★</span><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span>
   <div class="plaque-divider"></div>
   <p class="plaque-description">Explores Hugging Face datasets through the Dataset Viewer API, resolving configs and splits, previewing rows, paginating records, searching text, filtering rows, and retrieving parquet metadata.</p>
   <div class="plaque-tags"><span class="plaque-tag">huggingface</span>
@@ -113,7 +101,7 @@
   <div class="plaque-evidence">CLASS C</div>
   <div class="plaque-underline plaque-underline--settled"></div>
 </div>
-<div class="plaque plaque--settled" data-skill-id="huggingface/huggingface-llm-trainer" data-type="unique">
+<div class="plaque plaque--settled" data-skill-id="huggingface/huggingface-llm-trainer" data-type="unique" data-level="3★">
   <div class="plaque-header">
     <svg class="ico plaque-seal" aria-hidden="true"><use href="../../assets/icons.svg#seal-diamond"/></svg>
     <div class="plaque-skill-name">Hugging Face LLM Trainer</div>
@@ -122,14 +110,7 @@
   <div class="plaque-named-slug named-slug" title="huggingface/huggingface-llm-trainer">/huggingface-llm-trainer</div>
   <a class="atlas-handle plaque-contributor" href="../../u/huggingface/">@huggingface</a>
   <div class="plaque-title">The Cloud Fine-Tuner</div>
-  <div class="plaque-stars">
-    <span class="plaque-star">★</span>
-<span class="plaque-star">★</span>
-<span class="plaque-star">★</span>
-<span class="plaque-star plaque-star--dim">★</span>
-<span class="plaque-star plaque-star--dim">★</span>
-<span class="plaque-star plaque-star--dim">★</span>
-  </div>
+  <span class="rank-badge" data-level="3" data-variant="full" data-size="md" role="img" aria-label="Rank 3 of 6"><span class="rank-badge__chip">3★</span><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span>
   <div class="plaque-divider"></div>
   <p class="plaque-description">Runs LLM fine-tuning on Hugging Face Jobs using TRL or Unsloth, covering SFT, DPO, GRPO, reward modeling, dataset validation, hardware selection, Trackio monitoring, and Hub persistence.</p>
   <div class="plaque-tags"><span class="plaque-tag">huggingface</span>
@@ -140,7 +121,7 @@
   <div class="plaque-evidence">CLASS B</div>
   <div class="plaque-underline plaque-underline--settled"></div>
 </div>
-<div class="plaque plaque--settled" data-skill-id="huggingface/huggingface-papers" data-type="extra">
+<div class="plaque plaque--settled" data-skill-id="huggingface/huggingface-papers" data-type="extra" data-level="2★">
   <div class="plaque-header">
     <svg class="ico plaque-seal" aria-hidden="true"><use href="../../assets/icons.svg#seal-diamond"/></svg>
     <div class="plaque-skill-name">Hugging Face Papers</div>
@@ -149,14 +130,7 @@
   <div class="plaque-named-slug named-slug" title="huggingface/huggingface-papers">/huggingface-papers</div>
   <a class="atlas-handle plaque-contributor" href="../../u/huggingface/">@huggingface</a>
   <div class="plaque-title">The Paper Indexer</div>
-  <div class="plaque-stars">
-    <span class="plaque-star">★</span>
-<span class="plaque-star">★</span>
-<span class="plaque-star plaque-star--dim">★</span>
-<span class="plaque-star plaque-star--dim">★</span>
-<span class="plaque-star plaque-star--dim">★</span>
-<span class="plaque-star plaque-star--dim">★</span>
-  </div>
+  <span class="rank-badge" data-level="2" data-variant="full" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__chip">2★</span><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span>
   <div class="plaque-divider"></div>
   <p class="plaque-description">Looks up Hugging Face paper pages and arXiv IDs, fetching markdown paper content and structured metadata such as authors, linked models, datasets, Spaces, GitHub repos, and project pages.</p>
   <div class="plaque-tags"><span class="plaque-tag">huggingface</span>
@@ -167,7 +141,7 @@
   <div class="plaque-evidence">CLASS C</div>
   <div class="plaque-underline plaque-underline--settled"></div>
 </div>
-<div class="plaque plaque--settled" data-skill-id="huggingface/huggingface-vision-trainer" data-type="basic">
+<div class="plaque plaque--settled" data-skill-id="huggingface/huggingface-vision-trainer" data-type="basic" data-level="3★">
   <div class="plaque-header">
     <svg class="ico plaque-seal" aria-hidden="true"><use href="../../assets/icons.svg#seal-diamond"/></svg>
     <div class="plaque-skill-name">Hugging Face Vision Trainer</div>
@@ -176,14 +150,7 @@
   <div class="plaque-named-slug named-slug" title="huggingface/huggingface-vision-trainer">/huggingface-vision-trainer</div>
   <a class="atlas-handle plaque-contributor" href="../../u/huggingface/">@huggingface</a>
   <div class="plaque-title">The Vision Forge</div>
-  <div class="plaque-stars">
-    <span class="plaque-star">★</span>
-<span class="plaque-star">★</span>
-<span class="plaque-star">★</span>
-<span class="plaque-star plaque-star--dim">★</span>
-<span class="plaque-star plaque-star--dim">★</span>
-<span class="plaque-star plaque-star--dim">★</span>
-  </div>
+  <span class="rank-badge" data-level="3" data-variant="full" data-size="md" role="img" aria-label="Rank 3 of 6"><span class="rank-badge__chip">3★</span><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span>
   <div class="plaque-divider"></div>
   <p class="plaque-description">Trains and fine-tunes object detection, image classification, and SAM/SAM2 segmentation models on Hugging Face Jobs or locally with dataset validation, metrics, Trackio, and Hub persistence.</p>
   <div class="plaque-tags"><span class="plaque-tag">huggingface</span>
@@ -194,7 +161,7 @@
   <div class="plaque-evidence">CLASS B</div>
   <div class="plaque-underline plaque-underline--settled"></div>
 </div>
-<div class="plaque plaque--settled" data-skill-id="huggingface/semantic-cache" data-type="unique">
+<div class="plaque plaque--settled" data-skill-id="huggingface/semantic-cache" data-type="unique" data-level="4★">
   <div class="plaque-header">
     <svg class="ico plaque-seal" aria-hidden="true"><use href="../../assets/icons.svg#seal-diamond"/></svg>
     <div class="plaque-skill-name">Semantic Cache</div>
@@ -203,14 +170,7 @@
   <div class="plaque-named-slug named-slug" title="huggingface/semantic-cache">/semantic-cache</div>
   <a class="atlas-handle plaque-contributor" href="../../u/huggingface/">@huggingface</a>
   <div class="plaque-title">The Neural Memory</div>
-  <div class="plaque-stars">
-    <span class="plaque-star">★</span>
-<span class="plaque-star">★</span>
-<span class="plaque-star">★</span>
-<span class="plaque-star">★</span>
-<span class="plaque-star plaque-star--dim">★</span>
-<span class="plaque-star plaque-star--dim">★</span>
-  </div>
+  <span class="rank-badge" data-level="4" data-variant="full" data-size="md" role="img" aria-label="Rank 4 of 6"><span class="rank-badge__chip">4★</span><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span>
   <div class="plaque-divider"></div>
   <p class="plaque-description">High-performance semantic caching for LLM responses using embedding similarity.</p>
   <div class="plaque-tags"><span class="plaque-tag">semantic-cache</span>
@@ -221,7 +181,7 @@
   <div class="plaque-evidence">CLASS A</div>
   <div class="plaque-underline plaque-underline--settled"></div>
 </div>
-<div class="plaque plaque--settled" data-skill-id="huggingface/transformers-js" data-type="extra">
+<div class="plaque plaque--settled" data-skill-id="huggingface/transformers-js" data-type="extra" data-level="2★">
   <div class="plaque-header">
     <svg class="ico plaque-seal" aria-hidden="true"><use href="../../assets/icons.svg#seal-diamond"/></svg>
     <div class="plaque-skill-name">Transformers.js</div>
@@ -230,14 +190,7 @@
   <div class="plaque-named-slug named-slug" title="huggingface/transformers-js">/transformers-js</div>
   <a class="atlas-handle plaque-contributor" href="../../u/huggingface/">@huggingface</a>
   <div class="plaque-title">The Browser Modelwright</div>
-  <div class="plaque-stars">
-    <span class="plaque-star">★</span>
-<span class="plaque-star">★</span>
-<span class="plaque-star plaque-star--dim">★</span>
-<span class="plaque-star plaque-star--dim">★</span>
-<span class="plaque-star plaque-star--dim">★</span>
-<span class="plaque-star plaque-star--dim">★</span>
-  </div>
+  <span class="rank-badge" data-level="2" data-variant="full" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__chip">2★</span><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span>
   <div class="plaque-divider"></div>
   <p class="plaque-description">Runs Hugging Face Transformers.js models directly in JavaScript and TypeScript across browser and server runtimes for NLP, vision, audio, and multimodal inference with WebGPU or WASM.</p>
   <div class="plaque-tags"><span class="plaque-tag">huggingface</span>

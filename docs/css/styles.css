@@ -21,10 +21,10 @@
 }
 
   :root {
-    --basic:    #38bdf8;
-    --extra:    #c084fc;
-    --ultimate: #f59e0b;
-    --unique:   #7c3aed;
+    /* Tier colour tokens (--basic / --extra / --unique / --ultimate +
+       --tier-* canonical forms) are sourced from
+       registry/gaia.json.meta.typeColors via tokens.css above.
+       Do not re-declare them here — single source of truth. */
     --bg:       #030712;
     --surface:  #0f172a;
     --border:   #1e293b;
@@ -41,6 +41,124 @@
     --font-mono: 'Departure Mono', 'JetBrains Mono', ui-monospace, monospace;
     --diamond-seal-stroke: 1.5;
   }
+
+  /* ============================================================
+     Stage 2 — Rank badge component (.rank-badge)
+     ------------------------------------------------------------
+     Canonical primitive for every rank surface. One component, three
+     variants: 'chip' (level pill), 'stars' (6-star row), 'full' (both).
+     Colour is driven exclusively by `data-level="N"` resolving to the
+     --rank-N / --rank-N-bg / --rank-N-border tokens emitted by
+     tokens.css (Stage 1). DO NOT add per-level hex codes here.
+
+     Emit via window.rankBadge(level, { variant, size }) from
+     docs/js/rank-badge.js, or via rank_badge_html() in the Python
+     generators. Inline rank colours / star markup are forbidden — use
+     the component so 4★ on every surface is pixel-identical.
+     ============================================================ */
+  .rank-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    line-height: 1;
+    flex-shrink: 0;
+    vertical-align: middle;
+  }
+  .rank-badge[data-variant="stars"] { gap: 0; }
+  .rank-badge[data-variant="full"] .rank-badge__stars { margin-left: .1rem; }
+
+  /* Chip — colored level pill (e.g. "4★"). All colour via --rank-N tokens. */
+  .rank-badge__chip {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .04em;
+    padding: .22rem .62rem;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    line-height: 1.4;
+    color: var(--muted);
+    background: rgba(255,255,255,.02);
+    border-color: var(--border);
+  }
+  .rank-badge[data-level="0"] .rank-badge__chip { color: var(--rank-0); background: var(--rank-0-bg); border-color: var(--rank-0-border); }
+  .rank-badge[data-level="1"] .rank-badge__chip { color: var(--rank-1); background: var(--rank-1-bg); border-color: var(--rank-1-border); }
+  .rank-badge[data-level="2"] .rank-badge__chip { color: var(--rank-2); background: var(--rank-2-bg); border-color: var(--rank-2-border); }
+  .rank-badge[data-level="3"] .rank-badge__chip { color: var(--rank-3); background: var(--rank-3-bg); border-color: var(--rank-3-border); }
+  .rank-badge[data-level="4"] .rank-badge__chip { color: var(--rank-4); background: var(--rank-4-bg); border-color: var(--rank-4-border); }
+  .rank-badge[data-level="5"] .rank-badge__chip { color: var(--rank-5); background: var(--rank-5-bg); border-color: var(--rank-5-border); }
+  .rank-badge[data-level="6"] .rank-badge__chip { color: var(--rank-6); background: var(--rank-6-bg); border-color: var(--rank-6-border); }
+
+  /* Size modifiers — sampler density only. Default is md. */
+  .rank-badge[data-size="sm"] .rank-badge__chip { font-size: .65rem; padding: .15rem .5rem; }
+  .rank-badge[data-size="lg"] .rank-badge__chip { font-size: .9rem; padding: .35rem .85rem; }
+
+  /* Stars row — 6 stars, gold-filled by data-on, dim by data-off.
+     Gold colour comes from --apex-gold so the row reads identically on
+     every surface; the dim opacity matches the prior .plaque-star--dim. */
+  .rank-badge__stars {
+    display: inline-flex;
+    gap: 2px;
+    font-size: .9rem;
+    line-height: 1;
+    align-items: center;
+  }
+  .rank-badge[data-size="sm"] .rank-badge__stars { font-size: .7rem; gap: 1px; }
+  .rank-badge[data-size="lg"] .rank-badge__stars { font-size: 1.1rem; gap: 3px; }
+  .rank-badge__star {
+    display: inline-block;
+    line-height: 1;
+  }
+  .rank-badge__star[data-on] {
+    color: var(--apex-gold);
+    text-shadow: 0 0 6px rgba(var(--apex-gold-rgb), .4);
+  }
+  .rank-badge__star[data-off] {
+    color: rgba(var(--apex-gold-rgb), .18);
+    text-shadow: none;
+  }
+
+  /* 6★ apex — rainbow shimmer on the chip border, mirroring the
+     existing plaque--apex-vi treatment so the apex tier reads the
+     same on the chip surface as on the plaque. */
+  .rank-badge[data-level="6"] .rank-badge__chip {
+    animation: rank-badge-vi-shimmer 3s linear infinite;
+  }
+  @keyframes rank-badge-vi-shimmer {
+    0%,100% { border-color: rgba(56,189,248,.55); }
+    33%     { border-color: rgba(192,132,252,.55); }
+    66%     { border-color: rgba(245,158,11,.7); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .rank-badge[data-level="6"] .rank-badge__chip { animation: none; }
+  }
+
+  /* Legacy alias shims — Stage 2 (deprecated).
+     The following selectors are kept ONLY as no-op visual stand-ins
+     for any in-the-wild markup that still emits them. New code MUST
+     emit <span class="rank-badge"> via rankBadge() / rank_badge_html().
+     These shims compose to the rank-badge primitive when a sibling
+     .rank-badge is present; otherwise they fall back to safe defaults.
+
+     Active emissions audited in Stage 2; remove these shims entirely
+     in Stage 5 (cleanup) once every surface is verified to no longer
+     emit the legacy class names.
+
+     Shimmed selectors:
+       .asc-tier(--N)          → wrap in .rank-badge[data-level=N] chip
+       .hoh-star(--dim)        → use .rank-badge__star[data-on|data-off]
+       .ult-stars .hoh-star    → use .rank-badge[data-variant=stars]
+       .fn-level               → use .rank-badge[data-variant=chip]
+       .ns-level-badge         → use .rank-badge[data-variant=chip]
+       .se-badge               → use .rank-badge[data-variant=chip] for level badges
+       .ult-level              → use .rank-badge[data-variant=chip] */
+  .asc-tier { font-weight: 700; letter-spacing: .04em; }
+  .hoh-star { color: var(--apex-gold); text-shadow: 0 0 5px rgba(var(--apex-gold-rgb), .4); }
+  .hoh-star--dim { color: rgba(var(--apex-gold-rgb), .18); text-shadow: none; }
+  .ult-stars { display: inline-flex; gap: 1px; flex-shrink: 0; color: var(--apex-gold); font-size: .7rem; line-height: 1; }
+
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{
@@ -1149,25 +1267,14 @@
     transition:color .2s,border-color .2s,background-position .45s ease,background-color .2s;
   }
   .ns-tab:hover{color:var(--text);border-color:rgba(148,163,184,.4)}
-  /* per-level resting gradient + hover shift via bg-position */
-  .ns-tab[data-level="2★"]  { --tc:99,202,183;  --tcolor:#63cab7 }
-  .ns-tab[data-level="3★"] { --tc:167,139,250; --tcolor:#a78bfa }
-  .ns-tab[data-level="4★"]  { --tc:232,121,249; --tcolor:#e879f9 }
-  .ns-tab[data-level="5★"]   { --tc:251,191,36;  --tcolor:#fbbf24 }
-  .ns-tab[data-level="6★"]  { --tc:251,191,36;  --tcolor:#fbbf24 }
-  .ns-tab[data-level="2★"],.ns-tab[data-level="3★"],.ns-tab[data-level="4★"],.ns-tab[data-level="5★"],.ns-tab[data-level="6★"]{
-    background-image:linear-gradient(135deg, rgba(var(--tc),.06) 0%, rgba(var(--tc),.16) 50%, rgba(var(--tc),.06) 100%);
-    border-color:rgba(var(--tc),.22);
-  }
-  .ns-tab[data-level="2★"]:hover,.ns-tab[data-level="3★"]:hover,.ns-tab[data-level="4★"]:hover,.ns-tab[data-level="5★"]:hover,.ns-tab[data-level="6★"]:hover{
-    background-position:100% 0%;border-color:rgba(var(--tc),.45);color:var(--tcolor);
-  }
+  /* Stage 2 — the level filter tab wraps a .rank-badge chip so it inherits
+     the rank-badge visual identity. The tab itself only adds the affordance
+     underline / active state; colour comes from the embedded chip.
+     See window.rankBadge(level, { variant: 'chip' }) in docs/js/rank-badge.js. */
+  .ns-tab .rank-badge { margin: 0; }
+  .ns-tab .rank-badge__chip { pointer-events: none; }
+  .ns-tab.active { border-color: rgba(148,163,184,.5); background: rgba(255,255,255,.03); }
   .ns-tab.active[data-level="all"]{color:var(--basic);background:rgba(56,189,248,.1);border-color:rgba(56,189,248,.35)}
-  .ns-tab.active[data-level="2★"]  {color:#63cab7;background-image:linear-gradient(135deg,rgba(99,202,183,.2),rgba(99,202,183,.07));background-position:100% 0%;border-color:rgba(99,202,183,.45)}
-  .ns-tab.active[data-level="3★"] {color:#a78bfa;background-image:linear-gradient(135deg,rgba(167,139,250,.2),rgba(167,139,250,.07));background-position:100% 0%;border-color:rgba(167,139,250,.45)}
-  .ns-tab.active[data-level="4★"]  {color:#e879f9;background-image:linear-gradient(135deg,rgba(232,121,249,.2),rgba(232,121,249,.07));background-position:100% 0%;border-color:rgba(232,121,249,.45)}
-  .ns-tab.active[data-level="5★"]   {color:#fbbf24;background-image:linear-gradient(135deg,rgba(251,191,36,.2),rgba(251,191,36,.07));background-position:100% 0%;border-color:rgba(251,191,36,.45)}
-  .ns-tab.active[data-level="6★"]  {color:#fbbf24;background-image:linear-gradient(135deg,rgba(251,191,36,.25),rgba(251,191,36,.09));background-position:100% 0%;border-color:rgba(251,191,36,.5)}
   .ns-tab:disabled{opacity:.3;cursor:not-allowed;background-image:none}
   .ns-tab:disabled:hover{color:var(--muted);border-color:var(--border);background-position:0% 0%}
   .ns-view-btns { display:flex;gap:.3rem;border:1px solid var(--border);border-radius:8px;padding:2px; }
@@ -1315,7 +1422,10 @@
     text-align:center;color:var(--muted);font-size:.9rem;
     padding:3rem 1.5rem;border:1px dashed var(--border);border-radius:14px;
   }
-  .ns-level-badge{font-size:.72rem;font-weight:700;padding:.22rem .62rem;border-radius:999px;border:1px solid;white-space:nowrap;letter-spacing:.04em}
+  /* Stage 2 — .ns-level-badge is deprecated; new emissions use .rank-badge
+     via window.rankBadge(level, { variant: 'chip' }). The shim below keeps
+     any stray legacy markup from collapsing visually; remove in Stage 5. */
+  .ns-level-badge{display:inline-block;font-size:.72rem;font-weight:600;padding:.22rem .62rem;border-radius:999px;border:1px solid var(--border);white-space:nowrap;letter-spacing:.04em;color:var(--muted);background:rgba(255,255,255,.02)}
   .ns-origin{
     flex-shrink:0;font-size:.65rem;font-weight:800;letter-spacing:.08em;
     padding:.16rem .48rem;border-radius:999px;
@@ -1636,9 +1746,13 @@
   .se-skill-name { font-size:1.7rem;font-weight:800;margin-bottom:.3rem; }
   .se-contrib { font-size:.88rem;color:#ef4444;margin-bottom:1rem; }
   .se-badges { display:flex;flex-wrap:wrap;gap:.45rem;margin-bottom:1.2rem; }
+  /* Stage 2 — .se-badge level chip is deprecated for rank badges. Hero now
+     emits a .rank-badge[data-variant="chip"] for the level. The .se-badge
+     class survives only for the type-tag and origin-star chips. */
   .se-badge {
     display:inline-block;padding:.22rem .7rem;border-radius:20px;
-    font-size:.75rem;font-weight:600;border:1px solid;
+    font-size:.75rem;font-weight:600;border:1px solid var(--border);
+    color:var(--muted);background:rgba(255,255,255,.02);
   }
   .se-desc-panel { background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.8rem; }
   .se-desc-panel h3 { font-size:.82rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.8rem; }
@@ -1718,7 +1832,12 @@
     33%{border-color:rgba(192,132,252,.7);}
     66%{border-color:rgba(245,158,11,.7);}
   }
-  .fn-level { display:inline-block;font-size:.68rem;font-weight:700;margin-bottom:.3rem;padding:.12rem .5rem;border-radius:20px; }
+  /* Stage 2 — .fn-level is deprecated. Flow nodes now emit
+     .rank-badge[data-variant="chip"] via window.rankBadge(level). The shim
+     below is a safe stand-in for any legacy markup; remove in Stage 5. */
+  .fn-level { display:inline-block;font-size:.68rem;font-weight:600;margin-bottom:.3rem;padding:.12rem .5rem;border-radius:20px;color:var(--muted);background:rgba(255,255,255,.02);border:1px solid var(--border); }
+  /* Flow node chip nests a .rank-badge for the new path. */
+  .flow-node .rank-badge { margin-bottom: .3rem; }
   .fn-name { display:block;font-size:.88rem;font-weight:700;margin-bottom:.2rem; }
   .fn-contrib { display:block;font-size:.72rem;color:var(--muted); }
   .fn-type { display:block;font-size:.7rem;color:var(--muted);margin-top:.25rem; }
@@ -2220,10 +2339,14 @@ button.nav-graph-trigger:hover{color:var(--text)}
   font-weight:600;letter-spacing:.02em;
 }
 .named-slug--muted{color:var(--muted);font-weight:500}
-.ult-stars{display:inline-flex;gap:1px;flex-shrink:0;color:var(--apex-gold);font-size:.7rem;line-height:1}
-.ult-stars .hoh-star{color:var(--apex-gold);text-shadow:0 0 6px rgba(var(--apex-gold-rgb),.35)}
-.ult-stars .hoh-star--dim{color:rgba(var(--apex-gold-rgb),.18);text-shadow:none}
-.ult-level{font-family:var(--font-mono);font-size:.7rem;color:var(--muted);flex-shrink:0;letter-spacing:.04em}
+/* Stage 2 — .ult-stars / .ult-level chips are deprecated. The Ultimates
+   list now emits .rank-badge[data-variant="stars"] and a chip via
+   window.rankBadge(level). The two rules below keep .ult-level (a
+   neutral-colored chip) and .ult-stars (gold-row alias) as shims for
+   legacy markup. Per-level colour lives only in .rank-badge selectors. */
+.ult-level{display:inline-block;font-family:var(--font-mono);font-size:.7rem;color:var(--muted);flex-shrink:0;letter-spacing:.04em;padding:.18rem .55rem;border-radius:999px;border:1px solid var(--border);background:rgba(255,255,255,.02)}
+.ultimate-item .rank-badge[data-variant="stars"]{font-size:.7rem;flex-shrink:0}
+.ultimate-item .rank-badge[data-variant="chip"]{flex-shrink:0}
 .ult-claim{
   font-family:var(--font-mono);font-size:.7rem;letter-spacing:.05em;
   padding:.28rem .65rem;border-radius:4px;
@@ -2271,10 +2394,11 @@ button.nav-graph-trigger:hover{color:var(--text)}
 }
 .hoh-track > *{scroll-snap-align:start}
 
-/* Stars inside the mini plaque inherit the gold palette but stay sized
-   to the compact card. .hoh-star is also referenced by Path B (.ult-stars). */
-.hoh-star{color:var(--apex-gold);text-shadow:0 0 5px rgba(var(--apex-gold-rgb),.4)}
-.hoh-star--dim{color:rgba(var(--apex-gold-rgb),.18);text-shadow:none}
+/* Stage 2 — Hall of Heroes mini-plaque stars now render through the
+   .rank-badge[data-variant="stars"] primitive (see rankBadge() in
+   docs/js/rank-badge.js). The .hoh-star shim is declared once near the
+   top of this file for any legacy markup; no per-level overrides here. */
+.plaque--mini .rank-badge[data-variant="stars"]{font-size:12px;gap:2px}
 
 .hoh-footer{margin-top:1.5rem;text-align:center}
 
@@ -2311,13 +2435,13 @@ button.nav-graph-trigger:hover{color:var(--text)}
 }
 .asc-label{font-size:.8125rem;color:var(--text);font-weight:500}
 .asc-sub{font-family:var(--font-mono);font-size:.65rem;color:var(--muted);letter-spacing:.08em}
-.asc-tier{font-weight:700;letter-spacing:.04em;text-shadow:0 0 6px currentColor}
-.asc-tier--1{color:#38bdf8}
-.asc-tier--2{color:#63cab7}
-.asc-tier--3{color:#a78bfa}
-.asc-tier--4{color:#e879f9}
-.asc-tier--5{color:#fbbf24}
-.asc-tier--6{color:var(--apex-gold);text-shadow:0 0 8px rgba(var(--apex-gold-rgb),.55),0 0 16px rgba(var(--apex-gold-rgb),.25)}
+/* Stage 2 — Ascension Cycle stars now render through .rank-badge
+   chips. .asc-tier(--N) class names are deprecated; the journey
+   wrapper carries data-pattern="journey" so the ascending direction
+   is documented as the SOLE exempt catalog ordering (per Stage 4
+   direction rule). Per-level colour lives only in the .rank-badge
+   selector block at the top of this file. */
+.ascension-track[data-pattern="journey"] .rank-badge { margin: 0; }
 .asc-arrow{padding:0 .4rem;color:var(--muted);font-size:.875rem;flex-shrink:0}
 
 /* ── FOOTER MARK ── */
