@@ -25,6 +25,9 @@ build/
 *~
 .DS_Store
 
+# Claude Code agent worktrees (ephemeral isolated checkouts)
+.claude/worktrees/
+
 # Plugin local cache
 .gaia/
 .gaia/skill-tree.cache.json
