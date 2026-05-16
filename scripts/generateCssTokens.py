@@ -22,6 +22,16 @@ Rank (one block per ``"N★"`` key in ``levelColors``, where N ∈ 0..6)::
     --rank-<N>             /* hex */
     --rank-<N>-bg          /* rgba(..., .12-.22) */
     --rank-<N>-border      /* rgba(..., .35-.55) */
+    --rank-<N>-edge        /* rgba(..., .55) — translucent stroke for arrows */
+
+Edge derivatives (Stage 5 — Hunter's Atlas DAG / 3D Registry arrows)::
+
+    --tier-<name>-edge     /* rgba(<rgb>, .55) — translucent tier stroke */
+
+These are translucent variants of the canonical hex used as stroke colours
+on DAG arrows (``.ns-dag-arrow``) and as highlighted-neighbor edge tints
+in the 3D Registry canvas. Stage 5b (markdown Tree) consumes the same
+tokens to highlight tier/rank edges inside the tree-dialog.
 
 Legacy aliases (single-source-of-truth bridge for code that predates the
 ``--tier-*`` canonicalization)::
@@ -52,6 +62,10 @@ TOKENS_CSS = ROOT / "docs" / "css" / "tokens.css"
 # Background / border opacity defaults if a colour entry only provides ``hex``.
 DEFAULT_BG_ALPHA = 0.12
 DEFAULT_BORDER_ALPHA = 0.35
+# Edge (translucent stroke) alpha. Used for ``--tier-*-edge`` and
+# ``--rank-N-edge`` derivatives consumed by DAG arrows and canvas
+# highlighted-neighbor edges.
+DEFAULT_EDGE_ALPHA = 0.55
 
 
 def _hex_to_rgb_triplet(hex_str: str) -> tuple[int, int, int]:
@@ -88,11 +102,13 @@ def _emit_tier_block(name: str, color: dict, symbol: str | None) -> list[str]:
         rgb_triplet = _rgb_str(_hex_to_rgb_triplet(hex_val))
     bg = f"rgba({rgb_triplet}, {DEFAULT_BG_ALPHA})"
     border = f"rgba({rgb_triplet}, {DEFAULT_BORDER_ALPHA})"
+    edge = f"rgba({rgb_triplet}, {DEFAULT_EDGE_ALPHA})"
     lines = [
         f"  --tier-{name}: {hex_val};",
         f"  --tier-{name}-rgb: {rgb_triplet};",
         f"  --tier-{name}-bg: {bg};",
         f"  --tier-{name}-border: {border};",
+        f"  --tier-{name}-edge: {edge};",
     ]
     if symbol:
         # Quote with single quotes; escape any embedded single quotes.
@@ -102,7 +118,7 @@ def _emit_tier_block(name: str, color: dict, symbol: str | None) -> list[str]:
 
 
 def _emit_rank_block(star: int, color: dict) -> list[str]:
-    """Emit three lines for a single rank star value."""
+    """Emit four lines for a single rank star value (hex + bg + border + edge)."""
     hex_val = color.get("hex")
     if not hex_val:
         raise ValueError(f"levelColors[{star}★] missing 'hex'")
@@ -110,10 +126,12 @@ def _emit_rank_block(star: int, color: dict) -> list[str]:
     rgb_triplet = _rgb_str(_hex_to_rgb_triplet(hex_val))
     bg = color.get("bg") or f"rgba({rgb_triplet}, {DEFAULT_BG_ALPHA})"
     border = color.get("border") or f"rgba({rgb_triplet}, {DEFAULT_BORDER_ALPHA})"
+    edge = f"rgba({rgb_triplet}, {DEFAULT_EDGE_ALPHA})"
     return [
         f"  --rank-{star}: {hex_val};",
         f"  --rank-{star}-bg: {bg};",
         f"  --rank-{star}-border: {border};",
+        f"  --rank-{star}-edge: {edge};",
     ]
 
 
