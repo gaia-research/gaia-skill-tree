@@ -23,6 +23,11 @@ Rank (one block per ``"N★"`` key in ``levelColors``, where N ∈ 0..6)::
     --rank-<N>-bg          /* rgba(..., .12-.22) */
     --rank-<N>-border      /* rgba(..., .35-.55) */
 
+Legacy aliases (single-source-of-truth bridge for code that predates the
+``--tier-*`` canonicalization)::
+
+    --basic / --extra / --unique / --ultimate  →  var(--tier-<name>)
+
 Wired into
 ----------
 * ``scripts/syncDocsGraphAssets.py`` — regenerated every registry update.
@@ -151,6 +156,13 @@ def build_tokens_css(gaia: dict) -> str:
     for star, color in parsed_ranks:
         body.append(f"  /* rank: {star}★ */")
         body.extend(_emit_rank_block(star, color))
+
+    body.append("")
+    body.append("  /* ── Legacy short aliases ─────────────────────────────────── */")
+    body.append("  /* Bridge for code that predates the --tier-* canonicalization. */")
+    body.append("  /* Single source of truth stays in gaia.json.meta.typeColors. */")
+    for name in type_colors.keys():
+        body.append(f"  --{name}: var(--tier-{name});")
 
     body.append("}")
     body.append("")

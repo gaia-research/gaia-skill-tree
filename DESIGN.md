@@ -27,27 +27,32 @@ CSS custom properties defined in `docs/index.html`:
 | `--border` | `#1e293b` | Dividers, card borders |
 | `--text` | `#e2e8f0` | Primary text |
 | `--muted` | `#64748b` | Secondary / subdued text |
-| `--basic`     | `#38bdf8` | Basic tier accent (sky blue) |
-| `--extra`     | `#c084fc` | Extra Skill tier accent (purple) |
-| `--ultimate`  | `#f59e0b` | Ultimate Skill tier accent (amber) |
+| `--basic`     | `#38bdf8` | Basic tier accent (sky blue) — alias of `--tier-basic` |
+| `--extra`     | `#c084fc` | Extra Skill tier accent (purple) — alias of `--tier-extra` |
+| `--unique`    | `#7c3aed` | Unique Skill tier accent (deep violet) — alias of `--tier-unique` |
+| `--ultimate`  | `#f59e0b` | Ultimate Skill tier accent (amber) — alias of `--tier-ultimate` |
+
+> **Source of truth.** As of Stage 1 of the Frontend Cohesion Overhaul, all four tier hexes live in `registry/gaia.json.meta.typeColors` and are emitted to `docs/css/tokens.css` by `scripts/generateCssTokens.py`. The legacy short tokens above are kept as aliases so older selectors keep working; the canonical token names are `--tier-basic`, `--tier-extra`, `--tier-unique`, `--tier-ultimate` (plus `-rgb`, `-bg`, `-border`, `-symbol` variants). Never hardcode the hex in CSS or JS.
 
 ---
 
 ## Skill Tiers
 
-Three tiers, each with a fixed color identity and symbolic glyph.
+Four tiers, each with a fixed color identity and symbolic glyph. (The Unique tier was added after the original three-tier design and is the standalone-mastery branch — a Basic Skill that reached elite rank without ever fusing.)
 
 | Tier | Symbol | Display Name | Hex | RGB |
 |---|---|---|---|---|
-| `basic`     | ○ | Basic        | `#38bdf8` | `56,189,248`  |
-| `extra`     | ◇ | Extra Skill  | `#c084fc` | `192,132,252` |
-| `ultimate`  | ◆ | Ultimate Skill | `#f59e0b` | `245,158,11` |
+| `basic`     | ○ | Basic Skill    | `#38bdf8` | `56,189,248`  |
+| `extra`     | ◇ | Extra Skill    | `#c084fc` | `192,132,252` |
+| `unique`    | ◉ | Unique Skill   | `#7c3aed` | `124,58,237`  |
+| `ultimate`  | ◆ | Ultimate Skill | `#f59e0b` | `245,158,11`  |
 
 Badge styles follow a consistent formula: `rgba({rgb}, .15)` background, `rgba({rgb}, .3)` border, solid hex text.
 
 Card glow per tier (radial gradient, 35% opacity):
 - Basic: `rgba(56,189,248,.4)`
 - Extra: `rgba(192,132,252,.4)`
+- Unique: `rgba(124,58,237,.4)`
 - Ultimate: `rgba(245,158,11,.4)`
 
 ---
@@ -95,6 +100,7 @@ Node radii (before depth/projection scale):
 | Type | Base radius |
 |---|---|
 | `ultimate`  | 12.5 |
+| `unique`    | 9.5  |
 | `extra`     | 6.9  |
 | `basic`     | 3.5  |
 

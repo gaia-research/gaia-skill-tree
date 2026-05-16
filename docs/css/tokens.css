@@ -61,4 +61,12 @@
   --rank-6: #fbbf24;
   --rank-6-bg: rgba(251,191,36,.22);
   --rank-6-border: rgba(251,191,36,.55);
+
+  /* ── Legacy short aliases ─────────────────────────────────── */
+  /* Bridge for code that predates the --tier-* canonicalization. */
+  /* Single source of truth stays in gaia.json.meta.typeColors. */
+  --basic: var(--tier-basic);
+  --extra: var(--tier-extra);
+  --unique: var(--tier-unique);
+  --ultimate: var(--tier-ultimate);
 }
