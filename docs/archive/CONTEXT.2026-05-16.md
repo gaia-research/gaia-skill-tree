@@ -7,19 +7,19 @@ Gaia is an open, evidence-backed skill registry for AI agents. Capabilities are 
 ### Skill taxonomy (the categories)
 
 **Basic Skill (○)**:
-A primitive, indivisible capability — the genome of every agent. In catalog section headers, write **Basics** verbatim.
-_Avoid_: primitive, atomic skill, Atomic Basics, Unwired Basics, Pure / Undeveloped (as a section label — conflates the tier and stars axes).
+A primitive, indivisible capability — the genome of every agent.
+_Avoid_: primitive, atomic skill.
 
 **Extra Skill (◇)**:
-A capability that emerges when two or more lower-tier skills fuse; can itself fuse with other **Extra Skills** to produce more complex Extras. In catalog section headers, write **Extras** verbatim.
+A capability that emerges when two or more lower-tier skills fuse; can itself fuse with other **Extra Skills** to produce more complex Extras.
 _Avoid_: composite skill, compound skill.
 
 **Unique Skill (◉)**:
-A graph-isolated **Basic Skill** that reached elite mastery through depth alone, with no fusion path forward. In catalog section headers, write **Uniques** verbatim.
-_Avoid_: standalone skill, solo skill, graph-isolated singularities.
+A graph-isolated **Basic Skill** that reached elite mastery through depth alone, with no fusion path forward.
+_Avoid_: standalone skill, solo skill.
 
 **Ultimate Skill (◆)**:
-A high-complexity emergent capability found in fewer than 1% of agents — the apex tier. In catalog section headers, write **Ultimates** verbatim.
+A high-complexity emergent capability found in fewer than 1% of agents — the apex tier.
 _Avoid_: legendary skill, top-tier skill, mythic.
 
 **Fusion**:
@@ -38,10 +38,6 @@ _Avoid_: using "rank" alone to mean stars; using "rank" as a verb (the verb is r
 
 The rank names, in order: **Unawakened** (0★), **Awakened** (1★), **Named** (2★), **Evolved** (3★), **Hardened** (4★), **Transcendent** (5★), **Transcendent ★** (6★ apex).
 
-**Pure**:
-Alternative descriptor for the Unawakened (0★) rank — used as a per-skill pill (e.g. `[0★ · Pure]` in tree renders) where a 0★ skill needs a one-word label distinct from "Unawakened." Strictly a stars-axis term; never used as a section header or as a tier synonym.
-_Avoid_: "Pure skill" to mean a Basic-tier skill; "Pure / Undeveloped" as a section header (conflates the tier and stars axes).
-
 **Rank up / Level up**:
 Equivalent verbs for ascending one or more stars; both valid in copy and the CLI surface (`gaia promote`).
 _Avoid_: upgrade, promote-up.
@@ -53,13 +49,6 @@ _Avoid_: downgrade, demote-down.
 **Evidence Class**:
 The independently graded quality of a real-world demonstration: Class C (first sighting), Class B (reproducible, documented), Class A (battle-tested, peer-reviewed).
 _Avoid_: proof level, evidence tier.
-
-### Rarity (the third axis)
-
-**Rarity** is a schema-defined axis (`registry/schema/meta.json:61-64`) describing how rare a skill is, on a scale of **common → uncommon → rare → epic → legendary** (with the brand-voice label "Divine" for legendary per `registry/gaia.json:21-22`). It is **orthogonal** to both the **tier** taxonomy (Basic / Extra / Unique / Ultimate) and the **stars** axis (0★–6★). A Basic-tier skill can be `legendary` rarity; an Ultimate-tier skill can be `uncommon` rarity.
-
-The rarity axis is **internal-only** and not surfaced as a user-facing label today. The only places `legendary` and `common` are valid in code are: the schema enum (`registry/schema/skill.schema.json:62-69`), the rarity values inside `registry/gaia.json` skill entries, `docs/graph/gaia.json` and `.gexf` generated mirrors, and CSS classes that style the rarity strip (`.rs-legendary`, etc. in `docs/css/styles.css`). The brand-voice `rarityLabels` table (`gaia.json:21-22` → `"legendary": "Divine"`) is the only place a user-facing word for rarity-legendary is permitted, and it is **Divine** — never the literal string "legendary."
-_Avoid_: using `legendary` or `common` in user-facing copy at all; using rarity values where stars or tier are intended.
 
 ### Contribution
 
@@ -183,23 +172,6 @@ _Avoid_: How We Work, How we do things, Documentation.
 The visitor's personal skill-tree projection (canonical term **Skill Tree**; "Your Tree" is its second-person label in nav and dialogs).
 _Avoid_: My Tree, Profile, Dashboard.
 
-### Render-artifact names (exact spelling and capitalisation)
-
-These are the user-facing names for every render output. Copy must match verbatim; the `## Banned synonyms` section below lists every drift to avoid.
-
-| Artifact | Canonical name | Definition |
-|---|---|---|
-| Public registry surface as a whole | **Hunter's Atlas** | The whole site experience. Short form "Atlas" only in nav / subheaders. |
-| Canonical 3D view (button + data) | **Registry** | The button label that opens the 3D canvas, and the data layer (`registry/gaia.json`). Not a synonym for Atlas. |
-| Full-viewport overlay of the Registry | **Field view** | The toggle label (`⇄ Field view` / `⇄ Exit field`). "HUD" is internal-only (code class names like `.hud-trigger`, files like `hud-toggle.js`) and never surfaces in copy. |
-| Markdown projection of the graph | **Tree** | The downloadable `tree.md` and per-user `skill-tree.md`. The DAG view inside the Named Skills Explorer is qualified as **"Tree view"** to avoid collision. |
-| Home-page top-contributor track | **Hall of Heroes** | Horizontal scroller of plaques. |
-| Home-page 0★→6★ journey diagram | **Ascension Cycle** | The one catalog-shaped surface that intentionally reads ascending (low-to-high). Carries `data-pattern="journey"` so future linters don't auto-flip its direction. |
-| Long-form reference page | **The Codex** | `/codex.html`. |
-| Browse-all named-skills section | **Named Skills Explorer** | Filterable surface on the home page with three view modes: **Tile / List / Tree**. |
-| Card-shaped skill render | **Plaque** | Variants: `--mini` (HoH track), `--tile` (explorer grid), `--row` (explorer list), `--detail` (modal hero), `--settled` (profile trophy), `--og` (1200×630 social card). |
-| Personal projection of the Registry | **Skill Tree** (or **Your Tree** in second-person copy) | Already defined above; cross-listed here for completeness. |
-
 ### Artifacts
 
 **The Plaque**:
@@ -216,54 +188,10 @@ _Avoid_: Dual CTA, A/B paths.
 
 ### Verbs (use in copy)
 
-| Verb | Brand-voice gloss | CLI equivalent |
-|---|---|---|
-| **Rank up · Level up** | Ascend one or more stars on the verified-maturity axis | `gaia promote` |
-| **Demote** | Drop a skill back one or more stars (demerit or retracted evidence) | (no CLI verb yet) |
-| **Name · Be named** | The 2★ moment a skill claims its Origin Contributor; uses honor red | `gaia push` (when accepted) |
-| **Fuse** | Combine two or more skills into a higher-complexity skill | `gaia fuse` |
-| **Claim · Propose** | Take an unclaimed Ultimate (Claim = brand voice; Propose = CLI) | `gaia propose` |
-| **Ascend** | Reach Apex (6★ Transcendent ★) | (no CLI verb — emerges from `gaia promote` reaching 6★) |
-| **Bond** | Link an AI agent to Gaia via MCP | `gaia mcp` install flow |
-| **Register** | First connect a repo to Gaia | `gaia init` |
-| **Scan** | Detect demonstrated skills in a repo | `gaia scan` |
-| **Install** | Add a Named Skill to a local skills directory | `gaia install` / `gaia skills install` |
-| **Open** | Reveal an artifact (the Registry, the Tree, a Plaque) | (UI-only verb; no CLI equivalent) |
-
----
-
-## Banned synonyms
-
-Single source of truth for CI grep. Any term below appearing in user-facing copy (`docs/**.html`, `docs/js/`, `docs/css/`, generated artifacts under `docs/`, `scripts/generate*.py`, `src/gaia_cli/`) fails the lint. Alphabetised.
-
-- `Atomic Basics` — section label; use **Basics**
-- `Atomic skill` / `atomic skill` — tier synonym; use **Basic Skill**
-- `card` — for plaque; use **Plaque**
-- `claimed skill` — use **Named Skill**
-- `common` — never a **tier** or **rank** name (it is a valid `rarity` axis value; see Rarity section above — but never surfaced in user-facing copy)
-- `composite skill` / `compound skill` — for Extra; use **Extra Skill**
-- `Connect MCP` / `Add Gaia to your agent` — MCP install copy; use **Bond your agent**
-- `dashboard` / `profile` (as skill-tree synonym) — use **Skill Tree** or **Your Tree**
-- `database` / `catalog` / `index` — for Registry; use **Registry**
-- `Documentation` / `How we do things` / `How We Work` — page name; use **The Codex**
-- `Field view` is the **only** user-facing label for the immersive canvas toggle — banned alternatives: `View as HUD`, `HUD mode`, `Heads-up display`, `Open HUD`, `Constellation view`
-- `Get started` / `Quickstart` / `Onboarding` — setup copy; use **The Initiate's Rite**
-- `graph-isolated singularities` — for Unique section; use **Uniques**
-- `Highest Tier: common` — broken stat label; emit the rank name or `—`
-- `legendary` / `legendary skill` — banned synonym for **Ultimate** tier (it is a valid `rarity` axis value; the user-facing word for rarity-legendary is **Divine**, never the literal "legendary")
-- `Level lifecycle` / `Progression flow` / `Workflow` — diagram name; use **Ascension Cycle**
-- `mythic` — banned synonym for Ultimate
-- `owner` / `author` / `creator` — for Origin Contributor; use **Origin Contributor**
-- `Pokédex` / `RPG site` / `game UI` / `anime UI` — brand-stance violations
-- `primitive` — for Basic Skill; use **Basic Skill**
-- `Pure / Undeveloped` — section label that conflates tier and stars axes; section header is **Basics**, and a 0★ skill can carry the **Pure** pill inline
-- `Pure skill` — as tier synonym; "Pure" is only a 0★ stars-axis descriptor
-- `rank` / `level` / `tier` — when used alone to mean the **stars axis** (these are reserved for the rank-name label, the verbs, and the tier taxonomy respectively)
-- `Skill lifecycle` — diagram name; use **Ascension Cycle**
-- `standalone skill` / `solo skill` — for Unique; use **Unique Skill**
-- `Top contributors` / `Named contributors section` — section; use **Hall of Heroes**
-- `top-tier skill` — banned synonym for Ultimate
-- `trophy` (as plaque synonym in copy) — use **Plaque**
-- `Undeveloped` — pejorative; not in vocabulary
-- `Unwired Basics` — section label; use **Basics**
-- `upgrade` / `promote-up` — for rank-up verb; use **Rank up** or **Level up**
+**Rank up · Level up · Demote** — verified maturity moves on the stars axis (see domain section above).
+**Name · Be named** — the moment a skill claims a contributor at 2★; uses honor red.
+**Fuse** — combining skills (canonical, see domain section).
+**Claim · Propose** — taking an unclaimed Ultimate (Claim = brand voice; Propose = CLI).
+**Ascend** — reaching Apex (6★ Transcendent ★).
+**Bond** — linking an agent to Gaia via MCP.
+**Register** — first connecting a repo to Gaia via `gaia init`.

@@ -146,7 +146,7 @@ Syntax highlighting in `<pre>` blocks:
 ```
 linear-gradient(135deg, #38bdf8 0%, #c084fc 50%, #f59e0b 100%)
 ```
-is retained ONLY as the background fill for the floating hero CTA pills (`◆ Open full graph`, `⇄ Field view`). It is no longer used on titles or body copy.
+is retained ONLY as the background fill for the floating hero CTA pills (`◆ Open full graph`, `⇄ View as HUD`). It is no longer used on titles or body copy.
 
 **Buttons**
 - Primary: solid `var(--apex-gold)` background on a midnight (`var(--bg)`) border, white-on-midnight text (`color: var(--text)`), `box-shadow: 0 0 24px rgba(var(--apex-gold-rgb), .3)`. Used only for Apex affordances.
@@ -294,4 +294,4 @@ Gaia's public surface (`gaia.tiongson.co`) is the **Hunter's Atlas**: a Sacred-A
 
 On top of the locked tier and rank colour tokens, two brand-voice tokens do the carry-everything work: **Honor Red (`--honor-red`)** is reserved for contributor handles; **Apex Gold (`--apex-gold`)** is reserved for 6★/Ultimate/Diamond-Seal moments and Apex-only affordances. Tier and rank colour tokens, Level VI shimmer, the graph canvas geometry, the Skill Explorer glow tokens, and the Ultimate/Extra cycling animations are all hard-locked and survive unchanged into this lane.
 
-The 3D canvas (`canvas3d`) is **preserved** as a secondary view — repurposed as an ambient parallax background behind the 2D graph hero, and reachable as the primary view via a `⇄ Field view` toggle. The 2D skill graph is the primary hero. The Diamond Seal mark (`◇G` lock-up) is the brand mark; the apex `◆` glyph remains free for its tier role. Per `CONTEXT.md:137-139`, "HUD" is internal-only nomenclature (used in code class names like `.hud-trigger` and file names like `hud-toggle.js`); user-facing copy uses **Field view** for the toggle and **Registry** for any view of the public skill graph.
+The 3D HUD canvas (`canvas3d`) is **preserved** as a secondary view — repurposed as an ambient parallax background behind the 2D graph hero, and reachable as the primary view via a `⇄ View as HUD` toggle. The 2D skill graph is the primary hero. The Diamond Seal mark (`◇G` lock-up) is the brand mark; the apex `◆` glyph remains free for its tier role.
