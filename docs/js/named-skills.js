@@ -60,60 +60,24 @@
     return '<a class="ns-gh-link" href="' + esc(url) + '" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View on GitHub">' + icon('github', 14) + '</a>';
   }
 
-  // Phase 8d \u2014 Named Skills Explorer tile/row renderers emit
-  // .plaque.plaque--tile / .plaque.plaque--row using the shared atlas
-  // typography (EB Garamond skill name in honor red, Bricolage handle,
-  // Departure Mono mono accents). The legacy .ns-tile/.ns-list-row CSS
-  // remains in styles.css as dead code for now \u2014 TODO(phase-9): remove
-  // dead .ns-* selectors once the plaque variants have settled.
+  // Stage 3 \u2014 Tile and List markup emission moved into the shared
+  // .plaque component family (docs/js/plaque.js). Iteration order,
+  // filter state, and section grouping below stay as-is; only the
+  // per-card emitter is swapped. Tag/install/handle/slug helpers
+  // above remain in this file because Stage 4 will iterate on the
+  // Tile/List view-mode logic that lives here.
   function renderTile(ns, lm) {
-    var type = ns.type || 'basic';
-    var n = parseInt(String(ns.level || '').replace(/\D+/g, ''), 10) || 0;
-    var slug = nsSlug(ns);
-    var title = ns.title || ns.name || '';
-    var tags = (ns.tags || []).slice(0, 3).map(tagHtml).join('');
-    var contribLink = nsHandleLink(ns.contributor);
-    // Stage 2 \u2014 level chip emitted by the shared rank-badge component.
-    var levelChip = (typeof window.rankBadge === 'function')
-      ? window.rankBadge(ns.level, { variant: 'chip', label: ns.level })
-      : '';
-    return '<article class="plaque plaque--tile" data-level="' + esc(ns.level) + '" data-type="' + esc(type) + '" ' + nsClick(ns.id) + '>' +
-      '<div class="plaque-header">' +
-        '<div class="plaque-orb plaque-orb--' + esc(type) + (n >= 6 ? ' plaque-orb--vi' : '') + '" aria-hidden="true"></div>' +
-        levelChip +
-        (ns.origin ? '<span class="ns-origin" title="Origin contributor">\u2605</span>' : '') +
-        ghLink(ns) +
-      '</div>' +
-      '<div class="plaque-skill-name named-slug" title="' + esc(ns.id) + '">' + esc(slug) + '</div>' +
-      (title ? '<div class="plaque-title">' + esc(title) + '</div>' : '') +
-      (contribLink ? '<div class="plaque-contrib-row">' + contribLink + '</div>' : '') +
-      (ns.description ? '<p class="plaque-description">' + esc(ns.description) + '</p>' : '') +
-      (tags ? '<div class="plaque-tags">' + tags + '</div>' : '') +
-      installRow(ns.id) +
-    '</article>';
+    if (window.plaque && typeof window.plaque.renderTile === 'function') {
+      return window.plaque.renderTile(ns);
+    }
+    return '';
   }
 
   function renderListRow(ns, lm) {
-    var type = ns.type || 'basic';
-    var n = parseInt(String(ns.level || '').replace(/\D+/g, ''), 10) || 0;
-    var slug = nsSlug(ns);
-    var title = ns.title || ns.name || '';
-    var tags = (ns.tags || []).slice(0, 2).map(tagHtml).join('');
-    var contribLink = nsHandleLink(ns.contributor);
-    // Stage 2 \u2014 level chip emitted by the shared rank-badge component.
-    var levelChip = (typeof window.rankBadge === 'function')
-      ? window.rankBadge(ns.level, { variant: 'chip', label: ns.level })
-      : '';
-    return '<article class="plaque plaque--row" data-level="' + esc(ns.level) + '" data-type="' + esc(type) + '" ' + nsClick(ns.id) + '>' +
-      '<div class="plaque-orb plaque-orb--sm plaque-orb--' + esc(type) + (n >= 6 ? ' plaque-orb--vi' : '') + '" aria-hidden="true"></div>' +
-      '<span class="plaque-skill-name named-slug" title="' + esc(ns.id) + '">' + esc(slug) + '</span>' +
-      (title ? '<span class="plaque-title">' + esc(title) + '</span>' : '<span style="flex:1"></span>') +
-      (contribLink ? '<span class="plaque-contrib-row">' + contribLink + '</span>' : '') +
-      (tags ? '<span class="plaque-tags">' + tags + '</span>' : '') +
-      levelChip +
-      ghLink(ns) +
-      '<span class="ns-lr-arrow" aria-hidden="true">\u203a</span>' +
-    '</article>';
+    if (window.plaque && typeof window.plaque.renderRow === 'function') {
+      return window.plaque.renderRow(ns);
+    }
+    return '';
   }
 
   function renderFlowchartView(filteredNamed, LEVEL_META) {

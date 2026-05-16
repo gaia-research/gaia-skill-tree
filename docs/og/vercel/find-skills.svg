@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-  width="1200" height="630" viewBox="0 0 1200 630">
+  width="1200" height="630" viewBox="0 0 1200 630"
+  class="plaque plaque--og" data-type="basic" data-level="2">
+  <style><![CDATA[
+:root {
+  --tier-basic: #38bdf8;
+  --tier-basic-rgb: 56,189,248;
+  --tier-extra: #c084fc;
+  --tier-extra-rgb: 192,132,252;
+  --tier-unique: #7c3aed;
+  --tier-unique-rgb: 124,58,237;
+  --tier-ultimate: #f59e0b;
+  --tier-ultimate-rgb: 245,158,11;
+  --rank-0: #94a3b8;
+  --rank-1: #38bdf8;
+  --rank-2: #63cab7;
+  --rank-3: #a78bfa;
+  --rank-4: #e879f9;
+  --rank-5: #fbbf24;
+  --rank-6: #fbbf24;
+  --honor-red: #ef4444;
+  --apex-gold: #fbbf24;
+}
+.plaque__slug { fill: var(--apex-gold); }
+.plaque__handle { fill: var(--honor-red); }
+.plaque__title { fill: rgba(226,232,240,0.5); }
+.plaque__description { fill: rgba(226,232,240,0.65); }
+.plaque__tag { fill: rgba(226,232,240,0.45); }
+]]></style>
   <defs>
     <linearGradient id="grad-vercel-find-skills" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.04"/>
@@ -36,7 +63,7 @@
   <path d="M 1180 610 L 1180 586 M 1180 610 L 1156 610"
     stroke="rgba(251,191,36,0.4)" stroke-width="1.5" fill="none"/>
 
-  <!-- ─── Left column ─── -->
+  <!-- ─── Left column (seal + tier glyph + stars) ─── -->
   <!-- Diamond Seal -->
   <svg x="48" y="52" width="52" height="52" viewBox="0 0 64 64">
     <path d="M 32 4 L 60 32 L 32 60 L 4 32 Z"
@@ -49,7 +76,7 @@
   <text x="48" y="175" font-family="Georgia,serif" font-size="52"
     fill="#fbbf24" opacity="0.85">○</text>
 
-  <!-- Stars -->
+  <!-- Stars (.plaque__rank stars variant) -->
   <polygon points="64.00,426.00 66.12,432.09 72.56,432.22 67.42,436.11 69.29,442.28 64.00,438.60 58.71,442.28 60.58,436.11 55.44,432.22 61.88,432.09" fill="#fbbf24" opacity="1"/>
 <polygon points="86.00,426.00 88.12,432.09 94.56,432.22 89.42,436.11 91.29,442.28 86.00,438.60 80.71,442.28 82.58,436.11 77.44,432.22 83.88,432.09" fill="#fbbf24" opacity="1"/>
 <polygon points="108.00,426.00 110.12,432.09 116.56,432.22 111.42,436.11 113.29,442.28 108.00,438.60 102.71,442.28 104.58,436.11 99.44,432.22 105.88,432.09" fill="#fbbf24" opacity="0.18"/>
@@ -61,56 +88,63 @@
   <line x1="220" y1="40" x2="220" y2="590"
     stroke="rgba(251,191,36,0.12)" stroke-width="1"/>
 
-  <!-- ─── Right / main column ─── -->
-  <!-- Skill name -->
-  <text x="264" y="160"
+  <!-- ─── Right column (slug / title / description / tags / install) ─── -->
+  <!-- Slug (.plaque__slug) -->
+  <text class="plaque__slug" x="264" y="150"
     font-family="EB Garamond,Georgia,serif"
     font-size="52" font-weight="600"
     fill="#fbbf24" dominant-baseline="middle">Find Skills</text>
 
-  <!-- Title (italic subtitle) -->
-  <text x="264" y="220" font-family="EB Garamond,Georgia,serif" font-size="22" font-style="italic" fill="rgba(226,232,240,0.5)" dominant-baseline="middle">The Registry Scout</text>
+  <!-- Title (.plaque__title — italic subtitle) -->
+  <text class="plaque__title" x="264" y="210" font-family="EB Garamond,Georgia,serif" font-size="22" font-style="italic" fill="rgba(226,232,240,0.5)" dominant-baseline="middle">The Registry Scout</text>
 
   <!-- Horizontal rule -->
-  <line x1="264" y1="256" x2="1152" y2="256"
+  <line x1="264" y1="240" x2="1152" y2="240"
     stroke="rgba(251,191,36,0.2)" stroke-width="1"/>
 
-  <!-- Description -->
-  <text x="264" y="298"
+  <!-- Description (.plaque__description) -->
+  <text class="plaque__description" x="264" y="278"
     font-family="Bricolage Grotesque,Helvetica,Arial,sans-serif"
     font-size="18" fill="rgba(226,232,240,0.65)">
     <tspan x="264" dy="0">Searches the skills.sh registry by keyword or category,</tspan>
-<tspan x="264" dy="28">queries install counts to surface popular skills, and</tspan>
-<tspan x="264" dy="28">auto-installs the selected skill into the current</tspan>
-<tspan x="264" dy="28">project&#x27;s skills directory.…</tspan>
+<tspan x="264" dy="26">queries install counts to surface popular skills, and</tspan>
+<tspan x="264" dy="26">auto-installs the selected skill into the current…</tspan>
   </text>
 
-  <!-- Evidence class chip -->
-  <rect x="264" y="504" width="80" height="28"
+  <!-- Tags row (.plaque__tags / .plaque__tag) -->
+  <rect class="plaque__tag-bg" x="264" y="470" width="130" height="22" rx="3" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+  <text class="plaque__tag" x="273" y="485" font-family="'Departure Mono','JetBrains Mono',monospace" font-size="11" letter-spacing="0.5">skill-registry</text>
+  <rect class="plaque__tag-bg" x="400" y="470" width="90" height="22" rx="3" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+  <text class="plaque__tag" x="409" y="485" font-family="'Departure Mono','JetBrains Mono',monospace" font-size="11" letter-spacing="0.5">discovery</text>
+  <rect class="plaque__tag-bg" x="496" y="470" width="90" height="22" rx="3" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+  <text class="plaque__tag" x="505" y="485" font-family="'Departure Mono','JetBrains Mono',monospace" font-size="11" letter-spacing="0.5">skills-sh</text>
+  <rect class="plaque__tag-bg" x="592" y="470" width="114" height="22" rx="3" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+  <text class="plaque__tag" x="601" y="485" font-family="'Departure Mono','JetBrains Mono',monospace" font-size="11" letter-spacing="0.5">auto-install</text>
+
+  <!-- Install row (.plaque__install-row) -->
+  <rect class="plaque__install-bg" x="264" y="510" width="888" height="32" rx="4" fill="rgba(0,0,0,0.4)" stroke="rgba(255,255,255,0.06)" stroke-width="1"/><text class="plaque__install-prompt" x="276" y="531" font-family="'Departure Mono','JetBrains Mono',monospace" font-size="13" fill="#fbbf24">$</text><text class="plaque__install-cmd" x="292" y="531" font-family="'Departure Mono','JetBrains Mono',monospace" font-size="13" fill="rgba(226,232,240,0.75)">gaia install vercel/find-skills</text>
+
+  <!-- Evidence class chip (.plaque__evidence) -->
+  <rect class="plaque__evidence-bg" x="264" y="560" width="80" height="22"
     rx="3" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-  <text x="276" y="518"
+  <text class="plaque__evidence" x="276" y="575"
     font-family="monospace" font-size="11" letter-spacing="1.5"
-    fill="rgba(226,232,240,0.5)" dominant-baseline="middle"
-    text-transform="uppercase">CLASS C</text>
+    fill="rgba(226,232,240,0.5)" dominant-baseline="middle">CLASS C</text>
 
-  <!-- Stage 2 — Level chip mirrors .rank-badge[data-variant="chip"]. -->
-  <rect x="1080" y="502" width="56" height="26" rx="13" fill="rgba(99,202,183,.15)" stroke="rgba(99,202,183,.4)" stroke-width="1"/><text x="1124" y="518" font-family="'Departure Mono','JetBrains Mono',monospace" font-size="13" font-weight="600" letter-spacing="1.2" fill="#63cab7" text-anchor="end" dominant-baseline="middle">2★</text>
+  <!-- Level chip (.plaque__rank chip variant — mirrors Stage 2 sibling) -->
+  <rect x="1080" y="559" width="56" height="26" rx="13" fill="rgba(99,202,183,.15)" stroke="rgba(99,202,183,.4)" stroke-width="1"/><text x="1124" y="575" font-family="'Departure Mono','JetBrains Mono',monospace" font-size="13" font-weight="600" letter-spacing="1.2" fill="#63cab7" text-anchor="end" dominant-baseline="middle">2★</text>
 
-  <!-- Horizontal rule bottom -->
-  <line x1="264" y1="550" x2="1152" y2="550"
-    stroke="rgba(251,191,36,0.2)" stroke-width="1"/>
-
-  <!-- Contributor handle -->
-  <text x="264" y="590"
+  <!-- Contributor handle (.plaque__handle) -->
+  <text class="plaque__handle" x="264" y="605"
     font-family="'Bricolage Grotesque',sans-serif" font-size="18" font-weight="600"
     fill="#ef4444" dominant-baseline="middle">@vercel</text>
 
   <!-- Gaia wordmark (bottom-right) -->
-  <text x="1136" y="590"
+  <text x="1136" y="605"
     font-family="EB Garamond,Georgia,serif" font-size="18" font-weight="600"
     fill="rgba(226,232,240,0.3)" text-anchor="end" dominant-baseline="middle">Gaia</text>
 
-  <!-- Bottom underline accent -->
-  <line x1="400" y1="626" x2="800" y2="626"
+  <!-- Bottom underline accent (.plaque__underline) -->
+  <line class="plaque__underline" x1="400" y1="626" x2="800" y2="626"
     stroke="#fbbf24" stroke-width="2" stroke-opacity="0.3"/>
 </svg>

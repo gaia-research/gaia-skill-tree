@@ -21,6 +21,8 @@
   <script src="../../js/icons.js"></script>
   <!-- Stage 2 — rank-badge component, loaded after icons.js. -->
   <script src="../../js/rank-badge.js"></script>
+  <!-- Stage 3 — plaque component family, loaded after rank-badge.js. -->
+  <script src="../../js/plaque.js"></script>
   <script src="../../js/ui.js" defer></script>
 </head>
 <body class="profile-page">
@@ -61,46 +63,8 @@
     <h2 class="profile-section-title">Named Skills</h2>
     <p class="profile-section-sub">All named implementations attributed to @openai in the Gaia registry.</p>
     <div class="plaque-grid">
-      <div class="plaque plaque--settled" data-skill-id="openai/few-shot-learning" data-type="unique" data-level="4★">
-  <div class="plaque-header">
-    <svg class="ico plaque-seal" aria-hidden="true"><use href="../../assets/icons.svg#seal-diamond"/></svg>
-    <div class="plaque-skill-name">Few-Shot Learning</div>
-    <div class="plaque-tier">◇</div>
-  </div>
-  <div class="plaque-named-slug named-slug" title="openai/few-shot-learning">/few-shot-learning</div>
-  <a class="atlas-handle plaque-contributor" href="../../u/openai/">@openai</a>
-  <div class="plaque-title">The In-Context Learner</div>
-  <span class="rank-badge" data-level="4" data-variant="full" data-size="md" role="img" aria-label="Rank 4 of 6"><span class="rank-badge__chip">4★</span><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span>
-  <div class="plaque-divider"></div>
-  <p class="plaque-description">Conditions the model on a small set of examples within the prompt to adapt to new tasks without weight updates.</p>
-  <div class="plaque-tags"><span class="plaque-tag">few-shot</span>
-<span class="plaque-tag">icl</span>
-<span class="plaque-tag">prompt-engineering</span>
-<span class="plaque-tag">gpt-3</span>
-<span class="plaque-tag">unique</span></div>
-  <div class="plaque-evidence">CLASS A</div>
-  <div class="plaque-underline plaque-underline--settled"></div>
-</div>
-<div class="plaque plaque--settled" data-skill-id="openai/self-consistency" data-type="unique" data-level="4★">
-  <div class="plaque-header">
-    <svg class="ico plaque-seal" aria-hidden="true"><use href="../../assets/icons.svg#seal-diamond"/></svg>
-    <div class="plaque-skill-name">Self-Consistency</div>
-    <div class="plaque-tier">◇</div>
-  </div>
-  <div class="plaque-named-slug named-slug" title="openai/self-consistency">/self-consistency</div>
-  <a class="atlas-handle plaque-contributor" href="../../u/openai/">@openai</a>
-  <div class="plaque-title">The Majority Consensus</div>
-  <span class="rank-badge" data-level="4" data-variant="full" data-size="md" role="img" aria-label="Rank 4 of 6"><span class="rank-badge__chip">4★</span><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span>
-  <div class="plaque-divider"></div>
-  <p class="plaque-description">Samples multiple reasoning paths and selects the most consistent answer by majority vote.</p>
-  <div class="plaque-tags"><span class="plaque-tag">self-consistency</span>
-<span class="plaque-tag">reasoning</span>
-<span class="plaque-tag">ensemble</span>
-<span class="plaque-tag">cot</span>
-<span class="plaque-tag">unique</span></div>
-  <div class="plaque-evidence">CLASS A</div>
-  <div class="plaque-underline plaque-underline--settled"></div>
-</div>
+      <article class="plaque plaque--settled" data-skill-id="openai/few-shot-learning" data-type="unique" data-level="4"><div class="plaque__header plaque-header"><div class="plaque-orb plaque-orb--unique" aria-hidden="true"></div><div class="plaque__rank"><span class="rank-badge" data-level="4" data-variant="chip" data-size="md" role="img" aria-label="Rank 4 of 6"><span class="rank-badge__chip">4★</span></span></div><span class="plaque__origin ns-origin" title="Origin contributor">★</span></div><div class="plaque__slug plaque-skill-name named-slug" title="openai/few-shot-learning">/few-shot-learning</div><div class="plaque__title plaque-title">The In-Context Learner</div><div class="plaque__handle plaque-contrib-row"><a class="atlas-handle plaque-contributor" href="../../u/openai/">@openai</a></div><p class="plaque__description plaque-description">Conditions the model on a small set of examples within the prompt to adapt to new tasks without weight updates.</p><div class="plaque__tags plaque-tags"><span class="plaque__tag plaque-tag">few-shot</span><span class="plaque__tag plaque-tag">icl</span><span class="plaque__tag plaque-tag">prompt-engineering</span><span class="plaque__tag plaque-tag">gpt-3</span><span class="plaque__tag plaque-tag">unique</span></div><div class="plaque__rank"><span class="rank-badge" data-level="4" data-variant="stars" data-size="md" role="img" aria-label="Rank 4 of 6"><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span></div><div class="plaque__evidence plaque-evidence">CLASS A</div><div class="plaque__underline plaque-underline plaque-underline--settled"></div></article>
+<article class="plaque plaque--settled" data-skill-id="openai/self-consistency" data-type="unique" data-level="4"><div class="plaque__header plaque-header"><div class="plaque-orb plaque-orb--unique" aria-hidden="true"></div><div class="plaque__rank"><span class="rank-badge" data-level="4" data-variant="chip" data-size="md" role="img" aria-label="Rank 4 of 6"><span class="rank-badge__chip">4★</span></span></div></div><div class="plaque__slug plaque-skill-name named-slug" title="openai/self-consistency">/self-consistency</div><div class="plaque__title plaque-title">The Majority Consensus</div><div class="plaque__handle plaque-contrib-row"><a class="atlas-handle plaque-contributor" href="../../u/openai/">@openai</a></div><p class="plaque__description plaque-description">Samples multiple reasoning paths and selects the most consistent answer by majority vote.</p><div class="plaque__tags plaque-tags"><span class="plaque__tag plaque-tag">self-consistency</span><span class="plaque__tag plaque-tag">reasoning</span><span class="plaque__tag plaque-tag">ensemble</span><span class="plaque__tag plaque-tag">cot</span><span class="plaque__tag plaque-tag">unique</span></div><div class="plaque__rank"><span class="rank-badge" data-level="4" data-variant="stars" data-size="md" role="img" aria-label="Rank 4 of 6"><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span></div><div class="plaque__evidence plaque-evidence">CLASS A</div><div class="plaque__underline plaque-underline plaque-underline--settled"></div></article>
     </div>
   </section>
 

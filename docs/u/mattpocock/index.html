@@ -21,6 +21,8 @@
   <script src="../../js/icons.js"></script>
   <!-- Stage 2 — rank-badge component, loaded after icons.js. -->
   <script src="../../js/rank-badge.js"></script>
+  <!-- Stage 3 — plaque component family, loaded after rank-badge.js. -->
+  <script src="../../js/plaque.js"></script>
   <script src="../../js/ui.js" defer></script>
 </head>
 <body class="profile-page">
@@ -61,226 +63,17 @@
     <h2 class="profile-section-title">Named Skills</h2>
     <p class="profile-section-sub">All named implementations attributed to @mattpocock in the Gaia registry.</p>
     <div class="plaque-grid">
-      <div class="plaque plaque--settled" data-skill-id="mattpocock/tdd" data-type="basic" data-level="3★">
-  <div class="plaque-header">
-    <svg class="ico plaque-seal" aria-hidden="true"><use href="../../assets/icons.svg#seal-diamond"/></svg>
-    <div class="plaque-skill-name">TDD</div>
-    <div class="plaque-tier">○</div>
-  </div>
-  <div class="plaque-named-slug named-slug" title="mattpocock/tdd">/tdd</div>
-  <a class="atlas-handle plaque-contributor" href="../../u/mattpocock/">@mattpocock</a>
-  <div class="plaque-title">Vertical-Slice TDD</div>
-  <span class="rank-badge" data-level="3" data-variant="full" data-size="md" role="img" aria-label="Rank 3 of 6"><span class="rank-badge__chip">3★</span><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span>
-  <div class="plaque-divider"></div>
-  <p class="plaque-description">Enforces strict vertical-slice TDD — one test then one implementation at a time — explicitly blocking horizontal slicing (all tests first, then all code). Tests verify behaviour through public interfaces only; mocking internal collaborators is treated as an anti-pattern.</p>
-  <div class="plaque-tags"><span class="plaque-tag">tdd</span>
-<span class="plaque-tag">red-green-refactor</span>
-<span class="plaque-tag">vertical-slicing</span>
-<span class="plaque-tag">tracer-bullet</span>
-<span class="plaque-tag">public-interface-testing</span></div>
-  <div class="plaque-evidence">CLASS B</div>
-  <div class="plaque-underline plaque-underline--settled"></div>
-</div>
-<div class="plaque plaque--settled" data-skill-id="mattpocock/edit-article" data-type="basic" data-level="2★">
-  <div class="plaque-header">
-    <svg class="ico plaque-seal" aria-hidden="true"><use href="../../assets/icons.svg#seal-diamond"/></svg>
-    <div class="plaque-skill-name">Edit Article</div>
-    <div class="plaque-tier">○</div>
-  </div>
-  <div class="plaque-named-slug named-slug" title="mattpocock/edit-article">/edit-article</div>
-  <a class="atlas-handle plaque-contributor" href="../../u/mattpocock/">@mattpocock</a>
-  <div class="plaque-title">The Section-by-Section Rewrite</div>
-  <span class="rank-badge" data-level="2" data-variant="full" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__chip">2★</span><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span>
-  <div class="plaque-divider"></div>
-  <p class="plaque-description">Edits articles by first sectioning them as a DAG of information dependencies, confirming the section order, then rewriting each section for clarity and flow with a 240-character-per-paragraph constraint.</p>
-  <div class="plaque-tags"><span class="plaque-tag">article-editing</span>
-<span class="plaque-tag">prose-rewrite</span>
-<span class="plaque-tag">information-dag</span>
-<span class="plaque-tag">section-structure</span>
-<span class="plaque-tag">clarity</span></div>
-  <div class="plaque-evidence">CLASS C</div>
-  <div class="plaque-underline plaque-underline--settled"></div>
-</div>
-<div class="plaque plaque--settled" data-skill-id="mattpocock/write-a-skill" data-type="extra" data-level="3★">
-  <div class="plaque-header">
-    <svg class="ico plaque-seal" aria-hidden="true"><use href="../../assets/icons.svg#seal-diamond"/></svg>
-    <div class="plaque-skill-name">Write a Skill</div>
-    <div class="plaque-tier">○</div>
-  </div>
-  <div class="plaque-named-slug named-slug" title="mattpocock/write-a-skill">/write-a-skill</div>
-  <a class="atlas-handle plaque-contributor" href="../../u/mattpocock/">@mattpocock</a>
-  <div class="plaque-title">The Skill Scaffolder</div>
-  <span class="rank-badge" data-level="3" data-variant="full" data-size="md" role="img" aria-label="Rank 3 of 6"><span class="rank-badge__chip">3★</span><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span>
-  <div class="plaque-divider"></div>
-  <p class="plaque-description">Guides creation of new agent skills through a structured requirements interview, then produces a SKILL.md with a trigger-aware description, progressive-disclosure layout, and optional bundled scripts or reference files — ready for installation in any Claude Code, Cursor, or Codex CLI skills directory.</p>
-  <div class="plaque-tags"><span class="plaque-tag">skill-authoring</span>
-<span class="plaque-tag">meta-agent</span>
-<span class="plaque-tag">claude-code</span>
-<span class="plaque-tag">skill-scaffolding</span>
-<span class="plaque-tag">progressive-disclosure</span></div>
-  <div class="plaque-evidence">CLASS B</div>
-  <div class="plaque-underline plaque-underline--settled"></div>
-</div>
-<div class="plaque plaque--settled" data-skill-id="mattpocock/diagnose" data-type="extra" data-level="2★">
-  <div class="plaque-header">
-    <svg class="ico plaque-seal" aria-hidden="true"><use href="../../assets/icons.svg#seal-diamond"/></svg>
-    <div class="plaque-skill-name">Diagnose</div>
-    <div class="plaque-tier">○</div>
-  </div>
-  <div class="plaque-named-slug named-slug" title="mattpocock/diagnose">/diagnose</div>
-  <a class="atlas-handle plaque-contributor" href="../../u/mattpocock/">@mattpocock</a>
-  <div class="plaque-title">The Disciplined Diagnosis Loop</div>
-  <span class="rank-badge" data-level="2" data-variant="full" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__chip">2★</span><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span>
-  <div class="plaque-divider"></div>
-  <p class="plaque-description">Drives a rigorous five-phase debugging discipline — build a feedback loop, minimise, hypothesise, instrument, fix and regression-test — refusing to proceed until a fast deterministic pass/fail signal exists. Applies to hard bugs and performance regressions.</p>
-  <div class="plaque-tags"><span class="plaque-tag">debugging</span>
-<span class="plaque-tag">diagnosis</span>
-<span class="plaque-tag">feedback-loop</span>
-<span class="plaque-tag">regression</span>
-<span class="plaque-tag">root-cause-analysis</span></div>
-  <div class="plaque-evidence">CLASS C</div>
-  <div class="plaque-underline plaque-underline--settled"></div>
-</div>
-<div class="plaque plaque--settled" data-skill-id="mattpocock/grill-me" data-type="extra" data-level="2★">
-  <div class="plaque-header">
-    <svg class="ico plaque-seal" aria-hidden="true"><use href="../../assets/icons.svg#seal-diamond"/></svg>
-    <div class="plaque-skill-name">Grill Me</div>
-    <div class="plaque-tier">○</div>
-  </div>
-  <div class="plaque-named-slug named-slug" title="mattpocock/grill-me">/grill-me</div>
-  <a class="atlas-handle plaque-contributor" href="../../u/mattpocock/">@mattpocock</a>
-  <div class="plaque-title">The Relentless Interviewer</div>
-  <span class="rank-badge" data-level="2" data-variant="full" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__chip">2★</span><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span>
-  <div class="plaque-divider"></div>
-  <p class="plaque-description">Conducts a relentless one-question-at-a-time interview about a plan or design, walking every branch of the decision tree with a recommended answer per question, resolving dependencies in order, and substituting codebase exploration wherever a question can be answered empirically.</p>
-  <div class="plaque-tags"><span class="plaque-tag">design-review</span>
-<span class="plaque-tag">decision-tree</span>
-<span class="plaque-tag">socratic-method</span>
-<span class="plaque-tag">plan-stress-test</span>
-<span class="plaque-tag">one-question-at-a-time</span></div>
-  <div class="plaque-evidence">CLASS C</div>
-  <div class="plaque-underline plaque-underline--settled"></div>
-</div>
-<div class="plaque plaque--settled" data-skill-id="mattpocock/grill-with-docs" data-type="extra" data-level="3★">
-  <div class="plaque-header">
-    <svg class="ico plaque-seal" aria-hidden="true"><use href="../../assets/icons.svg#seal-diamond"/></svg>
-    <div class="plaque-skill-name">Grill With Docs</div>
-    <div class="plaque-tier">○</div>
-  </div>
-  <div class="plaque-named-slug named-slug" title="mattpocock/grill-with-docs">/grill-with-docs</div>
-  <a class="atlas-handle plaque-contributor" href="../../u/mattpocock/">@mattpocock</a>
-  <div class="plaque-title">The Domain-Aware Interrogator</div>
-  <span class="rank-badge" data-level="3" data-variant="full" data-size="md" role="img" aria-label="Rank 3 of 6"><span class="rank-badge__chip">3★</span><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span>
-  <div class="plaque-divider"></div>
-  <p class="plaque-description">Stress-tests a plan against the project&#x27;s domain model by relentlessly questioning each design decision one at a time, surfacing language conflicts with CONTEXT.md, cross-referencing code contradictions, and crystallising decisions as inline CONTEXT.md updates and ADRs as they are resolved.</p>
-  <div class="plaque-tags"><span class="plaque-tag">design-review</span>
-<span class="plaque-tag">domain-model</span>
-<span class="plaque-tag">ubiquitous-language</span>
-<span class="plaque-tag">adr</span>
-<span class="plaque-tag">context-md</span></div>
-  <div class="plaque-evidence">CLASS B</div>
-  <div class="plaque-underline plaque-underline--settled"></div>
-</div>
-<div class="plaque plaque--settled" data-skill-id="mattpocock/to-issues" data-type="extra" data-level="3★">
-  <div class="plaque-header">
-    <svg class="ico plaque-seal" aria-hidden="true"><use href="../../assets/icons.svg#seal-diamond"/></svg>
-    <div class="plaque-skill-name">To Issues</div>
-    <div class="plaque-tier">○</div>
-  </div>
-  <div class="plaque-named-slug named-slug" title="mattpocock/to-issues">/to-issues</div>
-  <a class="atlas-handle plaque-contributor" href="../../u/mattpocock/">@mattpocock</a>
-  <div class="plaque-title">The Vertical Slicer</div>
-  <span class="rank-badge" data-level="3" data-variant="full" data-size="md" role="img" aria-label="Rank 3 of 6"><span class="rank-badge__chip">3★</span><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span>
-  <div class="plaque-divider"></div>
-  <p class="plaque-description">Breaks a plan, spec, or PRD into independently-grabbable GitHub issues as tracer-bullet vertical slices that each cut through all integration layers end-to-end. Classifies each slice HITL or AFK, maps dependency chains, quizzes the user on granularity, and publishes structured issues with acceptance criteria in dependency order.</p>
-  <div class="plaque-tags"><span class="plaque-tag">vertical-slicing</span>
-<span class="plaque-tag">issue-decomposition</span>
-<span class="plaque-tag">tracer-bullet</span>
-<span class="plaque-tag">hitl</span>
-<span class="plaque-tag">afk</span></div>
-  <div class="plaque-evidence">CLASS B</div>
-  <div class="plaque-underline plaque-underline--settled"></div>
-</div>
-<div class="plaque plaque--settled" data-skill-id="mattpocock/improve-codebase-architecture" data-type="basic" data-level="3★">
-  <div class="plaque-header">
-    <svg class="ico plaque-seal" aria-hidden="true"><use href="../../assets/icons.svg#seal-diamond"/></svg>
-    <div class="plaque-skill-name">Improve Codebase Architecture</div>
-    <div class="plaque-tier">○</div>
-  </div>
-  <div class="plaque-named-slug named-slug" title="mattpocock/improve-codebase-architecture">/improve-codebase-architecture</div>
-  <a class="atlas-handle plaque-contributor" href="../../u/mattpocock/">@mattpocock</a>
-  <div class="plaque-title">The Depth Seeker</div>
-  <span class="rank-badge" data-level="3" data-variant="full" data-size="md" role="img" aria-label="Rank 3 of 6"><span class="rank-badge__chip">3★</span><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span>
-  <div class="plaque-divider"></div>
-  <p class="plaque-description">Identifies architectural deepening opportunities in a codebase — shallow modules with high interface-to-implementation ratios — using domain-glossary vocabulary and the deletion test, then grills the developer on the chosen candidate to design a deep-module replacement with better locality and testability.</p>
-  <div class="plaque-tags"><span class="plaque-tag">architecture-review</span>
-<span class="plaque-tag">deep-modules</span>
-<span class="plaque-tag">refactoring</span>
-<span class="plaque-tag">locality</span>
-<span class="plaque-tag">testability</span></div>
-  <div class="plaque-evidence">CLASS B</div>
-  <div class="plaque-underline plaque-underline--settled"></div>
-</div>
-<div class="plaque plaque--settled" data-skill-id="mattpocock/to-prd" data-type="extra" data-level="2★">
-  <div class="plaque-header">
-    <svg class="ico plaque-seal" aria-hidden="true"><use href="../../assets/icons.svg#seal-diamond"/></svg>
-    <div class="plaque-skill-name">To PRD</div>
-    <div class="plaque-tier">○</div>
-  </div>
-  <div class="plaque-named-slug named-slug" title="mattpocock/to-prd">/to-prd</div>
-  <a class="atlas-handle plaque-contributor" href="../../u/mattpocock/">@mattpocock</a>
-  <div class="plaque-title">The PRD Synthesiser</div>
-  <span class="rank-badge" data-level="2" data-variant="full" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__chip">2★</span><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span>
-  <div class="plaque-divider"></div>
-  <p class="plaque-description">Synthesises the current conversation context and codebase knowledge into a fully-structured PRD — problem statement, extensive numbered user stories, implementation decisions (modules, interfaces, schema), testing decisions, and out-of-scope items — then publishes it to the project issue tracker.</p>
-  <div class="plaque-tags"><span class="plaque-tag">prd</span>
-<span class="plaque-tag">requirements</span>
-<span class="plaque-tag">user-stories</span>
-<span class="plaque-tag">product-management</span>
-<span class="plaque-tag">issue-tracker</span></div>
-  <div class="plaque-evidence">CLASS C</div>
-  <div class="plaque-underline plaque-underline--settled"></div>
-</div>
-<div class="plaque plaque--settled" data-skill-id="mattpocock/triage" data-type="basic" data-level="3★">
-  <div class="plaque-header">
-    <svg class="ico plaque-seal" aria-hidden="true"><use href="../../assets/icons.svg#seal-diamond"/></svg>
-    <div class="plaque-skill-name">Triage</div>
-    <div class="plaque-tier">○</div>
-  </div>
-  <div class="plaque-named-slug named-slug" title="mattpocock/triage">/triage</div>
-  <a class="atlas-handle plaque-contributor" href="../../u/mattpocock/">@mattpocock</a>
-  <div class="plaque-title">The State-Machine Triager</div>
-  <span class="rank-badge" data-level="3" data-variant="full" data-size="md" role="img" aria-label="Rank 3 of 6"><span class="rank-badge__chip">3★</span><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span>
-  <div class="plaque-divider"></div>
-  <p class="plaque-description">Moves GitHub issues through a two-category (bug/enhancement) × five-state (needs-triage/needs-info/ready-for-agent/ready-for-human/wontfix) state machine. Reproduces bugs from issue steps, runs a domain-aware grilling session when needed, writes structured agent briefs, and appends AI-generated triage notes with the required disclaimer.</p>
-  <div class="plaque-tags"><span class="plaque-tag">issue-triage</span>
-<span class="plaque-tag">state-machine</span>
-<span class="plaque-tag">bug-reproduction</span>
-<span class="plaque-tag">agent-brief</span>
-<span class="plaque-tag">github-issues</span></div>
-  <div class="plaque-evidence">CLASS B</div>
-  <div class="plaque-underline plaque-underline--settled"></div>
-</div>
-<div class="plaque plaque--settled" data-skill-id="mattpocock/zoom-out" data-type="basic" data-level="2★">
-  <div class="plaque-header">
-    <svg class="ico plaque-seal" aria-hidden="true"><use href="../../assets/icons.svg#seal-diamond"/></svg>
-    <div class="plaque-skill-name">Zoom Out</div>
-    <div class="plaque-tier">○</div>
-  </div>
-  <div class="plaque-named-slug named-slug" title="mattpocock/zoom-out">/zoom-out</div>
-  <a class="atlas-handle plaque-contributor" href="../../u/mattpocock/">@mattpocock</a>
-  <div class="plaque-title">The Abstraction Lift</div>
-  <span class="rank-badge" data-level="2" data-variant="full" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__chip">2★</span><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span>
-  <div class="plaque-divider"></div>
-  <p class="plaque-description">Signals the agent to ascend one layer of abstraction and produce a map of all relevant modules, callers, and domain-glossary terms in the unfamiliar code area, without explaining implementation details.</p>
-  <div class="plaque-tags"><span class="plaque-tag">code-navigation</span>
-<span class="plaque-tag">abstraction</span>
-<span class="plaque-tag">module-map</span>
-<span class="plaque-tag">domain-glossary</span>
-<span class="plaque-tag">codebase-orientation</span></div>
-  <div class="plaque-evidence">CLASS C</div>
-  <div class="plaque-underline plaque-underline--settled"></div>
-</div>
+      <article class="plaque plaque--settled" data-skill-id="mattpocock/tdd" data-type="basic" data-level="3"><div class="plaque__header plaque-header"><div class="plaque-orb plaque-orb--basic" aria-hidden="true"></div><div class="plaque__rank"><span class="rank-badge" data-level="3" data-variant="chip" data-size="md" role="img" aria-label="Rank 3 of 6"><span class="rank-badge__chip">3★</span></span></div><a class="plaque__gh-link ns-gh-link" href="https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View on GitHub"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#github"/></svg></a></div><div class="plaque__slug plaque-skill-name named-slug" title="mattpocock/tdd">/tdd</div><div class="plaque__title plaque-title">Vertical-Slice TDD</div><div class="plaque__handle plaque-contrib-row"><a class="atlas-handle plaque-contributor" href="../../u/mattpocock/">@mattpocock</a></div><p class="plaque__description plaque-description">Enforces strict vertical-slice TDD — one test then one implementation at a time — explicitly blocking horizontal slicing (all tests first, then all code). Tests verify behaviour through public interfaces only; mocking internal collaborators is treated as an anti-pattern.</p><div class="plaque__tags plaque-tags"><span class="plaque__tag plaque-tag">tdd</span><span class="plaque__tag plaque-tag">red-green-refactor</span><span class="plaque__tag plaque-tag">vertical-slicing</span><span class="plaque__tag plaque-tag">tracer-bullet</span><span class="plaque__tag plaque-tag">public-interface-testing</span></div><div class="plaque__rank"><span class="rank-badge" data-level="3" data-variant="stars" data-size="md" role="img" aria-label="Rank 3 of 6"><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span></div><div class="plaque__evidence plaque-evidence">CLASS B</div><div class="plaque__underline plaque-underline plaque-underline--settled"></div></article>
+<article class="plaque plaque--settled" data-skill-id="mattpocock/edit-article" data-type="basic" data-level="2"><div class="plaque__header plaque-header"><div class="plaque-orb plaque-orb--basic" aria-hidden="true"></div><div class="plaque__rank"><span class="rank-badge" data-level="2" data-variant="chip" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__chip">2★</span></span></div><a class="plaque__gh-link ns-gh-link" href="https://github.com/mattpocock/skills/blob/main/skills/personal/edit-article/SKILL.md" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View on GitHub"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#github"/></svg></a></div><div class="plaque__slug plaque-skill-name named-slug" title="mattpocock/edit-article">/edit-article</div><div class="plaque__title plaque-title">The Section-by-Section Rewrite</div><div class="plaque__handle plaque-contrib-row"><a class="atlas-handle plaque-contributor" href="../../u/mattpocock/">@mattpocock</a></div><p class="plaque__description plaque-description">Edits articles by first sectioning them as a DAG of information dependencies, confirming the section order, then rewriting each section for clarity and flow with a 240-character-per-paragraph constraint.</p><div class="plaque__tags plaque-tags"><span class="plaque__tag plaque-tag">article-editing</span><span class="plaque__tag plaque-tag">prose-rewrite</span><span class="plaque__tag plaque-tag">information-dag</span><span class="plaque__tag plaque-tag">section-structure</span><span class="plaque__tag plaque-tag">clarity</span></div><div class="plaque__rank"><span class="rank-badge" data-level="2" data-variant="stars" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span></div><div class="plaque__evidence plaque-evidence">CLASS C</div><div class="plaque__underline plaque-underline plaque-underline--settled"></div></article>
+<article class="plaque plaque--settled" data-skill-id="mattpocock/write-a-skill" data-type="extra" data-level="3"><div class="plaque__header plaque-header"><div class="plaque-orb plaque-orb--extra" aria-hidden="true"></div><div class="plaque__rank"><span class="rank-badge" data-level="3" data-variant="chip" data-size="md" role="img" aria-label="Rank 3 of 6"><span class="rank-badge__chip">3★</span></span></div><a class="plaque__gh-link ns-gh-link" href="https://github.com/mattpocock/skills/blob/main/skills/productivity/write-a-skill/SKILL.md" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View on GitHub"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#github"/></svg></a></div><div class="plaque__slug plaque-skill-name named-slug" title="mattpocock/write-a-skill">/write-a-skill</div><div class="plaque__title plaque-title">The Skill Scaffolder</div><div class="plaque__handle plaque-contrib-row"><a class="atlas-handle plaque-contributor" href="../../u/mattpocock/">@mattpocock</a></div><p class="plaque__description plaque-description">Guides creation of new agent skills through a structured requirements interview, then produces a SKILL.md with a trigger-aware description, progressive-disclosure layout, and optional bundled scripts or reference files — ready for installation in any Claude Code, Cursor, or Codex CLI skills directory.</p><div class="plaque__tags plaque-tags"><span class="plaque__tag plaque-tag">skill-authoring</span><span class="plaque__tag plaque-tag">meta-agent</span><span class="plaque__tag plaque-tag">claude-code</span><span class="plaque__tag plaque-tag">skill-scaffolding</span><span class="plaque__tag plaque-tag">progressive-disclosure</span></div><div class="plaque__rank"><span class="rank-badge" data-level="3" data-variant="stars" data-size="md" role="img" aria-label="Rank 3 of 6"><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span></div><div class="plaque__evidence plaque-evidence">CLASS B</div><div class="plaque__underline plaque-underline plaque-underline--settled"></div></article>
+<article class="plaque plaque--settled" data-skill-id="mattpocock/diagnose" data-type="extra" data-level="2"><div class="plaque__header plaque-header"><div class="plaque-orb plaque-orb--extra" aria-hidden="true"></div><div class="plaque__rank"><span class="rank-badge" data-level="2" data-variant="chip" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__chip">2★</span></span></div><a class="plaque__gh-link ns-gh-link" href="https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnose/SKILL.md" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View on GitHub"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#github"/></svg></a></div><div class="plaque__slug plaque-skill-name named-slug" title="mattpocock/diagnose">/diagnose</div><div class="plaque__title plaque-title">The Disciplined Diagnosis Loop</div><div class="plaque__handle plaque-contrib-row"><a class="atlas-handle plaque-contributor" href="../../u/mattpocock/">@mattpocock</a></div><p class="plaque__description plaque-description">Drives a rigorous five-phase debugging discipline — build a feedback loop, minimise, hypothesise, instrument, fix and regression-test — refusing to proceed until a fast deterministic pass/fail signal exists. Applies to hard bugs and performance regressions.</p><div class="plaque__tags plaque-tags"><span class="plaque__tag plaque-tag">debugging</span><span class="plaque__tag plaque-tag">diagnosis</span><span class="plaque__tag plaque-tag">feedback-loop</span><span class="plaque__tag plaque-tag">regression</span><span class="plaque__tag plaque-tag">root-cause-analysis</span></div><div class="plaque__rank"><span class="rank-badge" data-level="2" data-variant="stars" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span></div><div class="plaque__evidence plaque-evidence">CLASS C</div><div class="plaque__underline plaque-underline plaque-underline--settled"></div></article>
+<article class="plaque plaque--settled" data-skill-id="mattpocock/grill-me" data-type="extra" data-level="2"><div class="plaque__header plaque-header"><div class="plaque-orb plaque-orb--extra" aria-hidden="true"></div><div class="plaque__rank"><span class="rank-badge" data-level="2" data-variant="chip" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__chip">2★</span></span></div><a class="plaque__gh-link ns-gh-link" href="https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View on GitHub"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#github"/></svg></a></div><div class="plaque__slug plaque-skill-name named-slug" title="mattpocock/grill-me">/grill-me</div><div class="plaque__title plaque-title">The Relentless Interviewer</div><div class="plaque__handle plaque-contrib-row"><a class="atlas-handle plaque-contributor" href="../../u/mattpocock/">@mattpocock</a></div><p class="plaque__description plaque-description">Conducts a relentless one-question-at-a-time interview about a plan or design, walking every branch of the decision tree with a recommended answer per question, resolving dependencies in order, and substituting codebase exploration wherever a question can be answered empirically.</p><div class="plaque__tags plaque-tags"><span class="plaque__tag plaque-tag">design-review</span><span class="plaque__tag plaque-tag">decision-tree</span><span class="plaque__tag plaque-tag">socratic-method</span><span class="plaque__tag plaque-tag">plan-stress-test</span><span class="plaque__tag plaque-tag">one-question-at-a-time</span></div><div class="plaque__rank"><span class="rank-badge" data-level="2" data-variant="stars" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span></div><div class="plaque__evidence plaque-evidence">CLASS C</div><div class="plaque__underline plaque-underline plaque-underline--settled"></div></article>
+<article class="plaque plaque--settled" data-skill-id="mattpocock/grill-with-docs" data-type="extra" data-level="3"><div class="plaque__header plaque-header"><div class="plaque-orb plaque-orb--extra" aria-hidden="true"></div><div class="plaque__rank"><span class="rank-badge" data-level="3" data-variant="chip" data-size="md" role="img" aria-label="Rank 3 of 6"><span class="rank-badge__chip">3★</span></span></div><span class="plaque__origin ns-origin" title="Origin contributor">★</span><a class="plaque__gh-link ns-gh-link" href="https://github.com/mattpocock/skills/blob/main/skills/engineering/grill-with-docs/SKILL.md" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View on GitHub"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#github"/></svg></a></div><div class="plaque__slug plaque-skill-name named-slug" title="mattpocock/grill-with-docs">/grill-with-docs</div><div class="plaque__title plaque-title">The Domain-Aware Interrogator</div><div class="plaque__handle plaque-contrib-row"><a class="atlas-handle plaque-contributor" href="../../u/mattpocock/">@mattpocock</a></div><p class="plaque__description plaque-description">Stress-tests a plan against the project&#x27;s domain model by relentlessly questioning each design decision one at a time, surfacing language conflicts with CONTEXT.md, cross-referencing code contradictions, and crystallising decisions as inline CONTEXT.md updates and ADRs as they are resolved.</p><div class="plaque__tags plaque-tags"><span class="plaque__tag plaque-tag">design-review</span><span class="plaque__tag plaque-tag">domain-model</span><span class="plaque__tag plaque-tag">ubiquitous-language</span><span class="plaque__tag plaque-tag">adr</span><span class="plaque__tag plaque-tag">context-md</span></div><div class="plaque__rank"><span class="rank-badge" data-level="3" data-variant="stars" data-size="md" role="img" aria-label="Rank 3 of 6"><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span></div><div class="plaque__evidence plaque-evidence">CLASS B</div><div class="plaque__underline plaque-underline plaque-underline--settled"></div></article>
+<article class="plaque plaque--settled" data-skill-id="mattpocock/to-issues" data-type="extra" data-level="3"><div class="plaque__header plaque-header"><div class="plaque-orb plaque-orb--extra" aria-hidden="true"></div><div class="plaque__rank"><span class="rank-badge" data-level="3" data-variant="chip" data-size="md" role="img" aria-label="Rank 3 of 6"><span class="rank-badge__chip">3★</span></span></div><span class="plaque__origin ns-origin" title="Origin contributor">★</span><a class="plaque__gh-link ns-gh-link" href="https://github.com/mattpocock/skills/blob/main/skills/engineering/to-issues/SKILL.md" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View on GitHub"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#github"/></svg></a></div><div class="plaque__slug plaque-skill-name named-slug" title="mattpocock/to-issues">/to-issues</div><div class="plaque__title plaque-title">The Vertical Slicer</div><div class="plaque__handle plaque-contrib-row"><a class="atlas-handle plaque-contributor" href="../../u/mattpocock/">@mattpocock</a></div><p class="plaque__description plaque-description">Breaks a plan, spec, or PRD into independently-grabbable GitHub issues as tracer-bullet vertical slices that each cut through all integration layers end-to-end. Classifies each slice HITL or AFK, maps dependency chains, quizzes the user on granularity, and publishes structured issues with acceptance criteria in dependency order.</p><div class="plaque__tags plaque-tags"><span class="plaque__tag plaque-tag">vertical-slicing</span><span class="plaque__tag plaque-tag">issue-decomposition</span><span class="plaque__tag plaque-tag">tracer-bullet</span><span class="plaque__tag plaque-tag">hitl</span><span class="plaque__tag plaque-tag">afk</span></div><div class="plaque__rank"><span class="rank-badge" data-level="3" data-variant="stars" data-size="md" role="img" aria-label="Rank 3 of 6"><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span></div><div class="plaque__evidence plaque-evidence">CLASS B</div><div class="plaque__underline plaque-underline plaque-underline--settled"></div></article>
+<article class="plaque plaque--settled" data-skill-id="mattpocock/improve-codebase-architecture" data-type="basic" data-level="3"><div class="plaque__header plaque-header"><div class="plaque-orb plaque-orb--basic" aria-hidden="true"></div><div class="plaque__rank"><span class="rank-badge" data-level="3" data-variant="chip" data-size="md" role="img" aria-label="Rank 3 of 6"><span class="rank-badge__chip">3★</span></span></div><a class="plaque__gh-link ns-gh-link" href="https://github.com/mattpocock/skills/blob/main/skills/engineering/improve-codebase-architecture/SKILL.md" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View on GitHub"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#github"/></svg></a></div><div class="plaque__slug plaque-skill-name named-slug" title="mattpocock/improve-codebase-architecture">/improve-codebase-architecture</div><div class="plaque__title plaque-title">The Depth Seeker</div><div class="plaque__handle plaque-contrib-row"><a class="atlas-handle plaque-contributor" href="../../u/mattpocock/">@mattpocock</a></div><p class="plaque__description plaque-description">Identifies architectural deepening opportunities in a codebase — shallow modules with high interface-to-implementation ratios — using domain-glossary vocabulary and the deletion test, then grills the developer on the chosen candidate to design a deep-module replacement with better locality and testability.</p><div class="plaque__tags plaque-tags"><span class="plaque__tag plaque-tag">architecture-review</span><span class="plaque__tag plaque-tag">deep-modules</span><span class="plaque__tag plaque-tag">refactoring</span><span class="plaque__tag plaque-tag">locality</span><span class="plaque__tag plaque-tag">testability</span></div><div class="plaque__rank"><span class="rank-badge" data-level="3" data-variant="stars" data-size="md" role="img" aria-label="Rank 3 of 6"><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span></div><div class="plaque__evidence plaque-evidence">CLASS B</div><div class="plaque__underline plaque-underline plaque-underline--settled"></div></article>
+<article class="plaque plaque--settled" data-skill-id="mattpocock/to-prd" data-type="extra" data-level="2"><div class="plaque__header plaque-header"><div class="plaque-orb plaque-orb--extra" aria-hidden="true"></div><div class="plaque__rank"><span class="rank-badge" data-level="2" data-variant="chip" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__chip">2★</span></span></div><span class="plaque__origin ns-origin" title="Origin contributor">★</span><a class="plaque__gh-link ns-gh-link" href="https://github.com/mattpocock/skills/blob/main/skills/engineering/to-prd/SKILL.md" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View on GitHub"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#github"/></svg></a></div><div class="plaque__slug plaque-skill-name named-slug" title="mattpocock/to-prd">/to-prd</div><div class="plaque__title plaque-title">The PRD Synthesiser</div><div class="plaque__handle plaque-contrib-row"><a class="atlas-handle plaque-contributor" href="../../u/mattpocock/">@mattpocock</a></div><p class="plaque__description plaque-description">Synthesises the current conversation context and codebase knowledge into a fully-structured PRD — problem statement, extensive numbered user stories, implementation decisions (modules, interfaces, schema), testing decisions, and out-of-scope items — then publishes it to the project issue tracker.</p><div class="plaque__tags plaque-tags"><span class="plaque__tag plaque-tag">prd</span><span class="plaque__tag plaque-tag">requirements</span><span class="plaque__tag plaque-tag">user-stories</span><span class="plaque__tag plaque-tag">product-management</span><span class="plaque__tag plaque-tag">issue-tracker</span></div><div class="plaque__rank"><span class="rank-badge" data-level="2" data-variant="stars" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span></div><div class="plaque__evidence plaque-evidence">CLASS C</div><div class="plaque__underline plaque-underline plaque-underline--settled"></div></article>
+<article class="plaque plaque--settled" data-skill-id="mattpocock/triage" data-type="basic" data-level="3"><div class="plaque__header plaque-header"><div class="plaque-orb plaque-orb--basic" aria-hidden="true"></div><div class="plaque__rank"><span class="rank-badge" data-level="3" data-variant="chip" data-size="md" role="img" aria-label="Rank 3 of 6"><span class="rank-badge__chip">3★</span></span></div><span class="plaque__origin ns-origin" title="Origin contributor">★</span><a class="plaque__gh-link ns-gh-link" href="https://github.com/mattpocock/skills/blob/main/skills/engineering/triage/SKILL.md" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View on GitHub"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#github"/></svg></a></div><div class="plaque__slug plaque-skill-name named-slug" title="mattpocock/triage">/triage</div><div class="plaque__title plaque-title">The State-Machine Triager</div><div class="plaque__handle plaque-contrib-row"><a class="atlas-handle plaque-contributor" href="../../u/mattpocock/">@mattpocock</a></div><p class="plaque__description plaque-description">Moves GitHub issues through a two-category (bug/enhancement) × five-state (needs-triage/needs-info/ready-for-agent/ready-for-human/wontfix) state machine. Reproduces bugs from issue steps, runs a domain-aware grilling session when needed, writes structured agent briefs, and appends AI-generated triage notes with the required disclaimer.</p><div class="plaque__tags plaque-tags"><span class="plaque__tag plaque-tag">issue-triage</span><span class="plaque__tag plaque-tag">state-machine</span><span class="plaque__tag plaque-tag">bug-reproduction</span><span class="plaque__tag plaque-tag">agent-brief</span><span class="plaque__tag plaque-tag">github-issues</span></div><div class="plaque__rank"><span class="rank-badge" data-level="3" data-variant="stars" data-size="md" role="img" aria-label="Rank 3 of 6"><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span></div><div class="plaque__evidence plaque-evidence">CLASS B</div><div class="plaque__underline plaque-underline plaque-underline--settled"></div></article>
+<article class="plaque plaque--settled" data-skill-id="mattpocock/zoom-out" data-type="basic" data-level="2"><div class="plaque__header plaque-header"><div class="plaque-orb plaque-orb--basic" aria-hidden="true"></div><div class="plaque__rank"><span class="rank-badge" data-level="2" data-variant="chip" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__chip">2★</span></span></div><span class="plaque__origin ns-origin" title="Origin contributor">★</span><a class="plaque__gh-link ns-gh-link" href="https://github.com/mattpocock/skills/blob/main/skills/engineering/zoom-out/SKILL.md" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View on GitHub"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#github"/></svg></a></div><div class="plaque__slug plaque-skill-name named-slug" title="mattpocock/zoom-out">/zoom-out</div><div class="plaque__title plaque-title">The Abstraction Lift</div><div class="plaque__handle plaque-contrib-row"><a class="atlas-handle plaque-contributor" href="../../u/mattpocock/">@mattpocock</a></div><p class="plaque__description plaque-description">Signals the agent to ascend one layer of abstraction and produce a map of all relevant modules, callers, and domain-glossary terms in the unfamiliar code area, without explaining implementation details.</p><div class="plaque__tags plaque-tags"><span class="plaque__tag plaque-tag">code-navigation</span><span class="plaque__tag plaque-tag">abstraction</span><span class="plaque__tag plaque-tag">module-map</span><span class="plaque__tag plaque-tag">domain-glossary</span><span class="plaque__tag plaque-tag">codebase-orientation</span></div><div class="plaque__rank"><span class="rank-badge" data-level="2" data-variant="stars" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span></div><div class="plaque__evidence plaque-evidence">CLASS C</div><div class="plaque__underline plaque-underline plaque-underline--settled"></div></article>
     </div>
   </section>
 
