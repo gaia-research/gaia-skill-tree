@@ -112,7 +112,10 @@
         '<div class="se-hero-install">' +
           '<span class="se-hero-prompt">$</span>' +
           '<span class="se-hero-cmd">' + esc(installCmd) + '</span>' +
-          '<button class="se-hero-copy" data-cmd="' + esc(installCmd) + '" onclick="(function(btn,ev){ev.stopPropagation();var copy=window.copyToClipboard||function(t){return navigator.clipboard.writeText(t)};copy(btn.dataset.cmd).then(function(){var o=btn.textContent;btn.textContent=\'Copied!\';setTimeout(function(){btn.textContent=o;},1500);}).catch(function(){});})(this,event)">Copy</button>' +
+          // Stage 1 — sprite icon + flash-to-check mirrors .copy-btn flow.
+          '<button class="se-hero-copy copy-btn" title="Copy install command" aria-label="Copy install command" data-cmd="' + esc(installCmd) + '" onclick="(function(btn,ev){ev.stopPropagation();var copy=window.copyToClipboard||function(t){return navigator.clipboard.writeText(t)};copy(btn.dataset.cmd).then(function(){if(typeof window.gaiaFlashCopied===\'function\'){window.gaiaFlashCopied(btn);}else{var o=btn.innerHTML;btn.innerHTML=(window.gaiaIcon?window.gaiaIcon(\'copy-check\',{size:14}):\'OK\');setTimeout(function(){btn.innerHTML=o;},1500);}}).catch(function(){});})(this,event)">' +
+            (window.gaiaIcon ? window.gaiaIcon('copy', { size: 14 }) : '<svg class="ico" width="14" height="14" aria-hidden="true"></svg>') +
+          '</button>' +
         '</div>' +
         (repoUrl ? '<a class="se-github-link" href="' + esc(repoUrl) + '" target="_blank" rel="noopener">Show in GitHub ↗</a>' : '') +
       '</div>';
@@ -160,7 +163,13 @@
   }
 
   // ── RENDER INSTALL TAB ───────────────────────────────────────
-  var COPY_ICON = '<svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1.5"/><path d="M11 5V3a1 1 0 00-1-1H3a1 1 0 00-1 1v7a1 1 0 001 1h2"/></svg>';
+  // Stage 1 — sprite-driven copy icons via the shared gaiaIcon() helper.
+  function _se_icon(id, size){
+    return (typeof window.gaiaIcon === 'function')
+      ? window.gaiaIcon(id, { size: size || 15 })
+      : '<svg class="ico" width="' + (size || 15) + '" height="' + (size || 15) + '" aria-hidden="true"></svg>';
+  }
+  function COPY_ICON(){ return _se_icon('copy', 15); }
 
   function renderInstall(ns) {
     var el = document.getElementById('se-install');
@@ -181,11 +190,11 @@
       return '<div class="' + cls + '">' +
         '<div class="se-install-label">' + label + (sublabel ? '<span>' + sublabel + '</span>' : '') + '</div>' +
         '<code class="se-install-cmd">' + esc(cmd) + '</code>' +
-        (copyable !== false ? '<button class="se-copy-btn" title="Copy to clipboard" data-cmd="' + esc(cmd) + '">' + COPY_ICON + '</button>' : '') +
+        (copyable !== false ? '<button class="se-copy-btn" title="Copy to clipboard" data-cmd="' + esc(cmd) + '">' + COPY_ICON() + '</button>' : '') +
       '</div>';
     }
 
-    el.innerHTML = '<div class="se-flow-h">' + COPY_ICON + ' Installation</div>' +
+    el.innerHTML = '<div class="se-flow-h">' + COPY_ICON() + ' Installation</div>' +
       installBlock('Gaia', '★ recommended', 'gaia install ' + id, true) +
       installBlock('npx', 'skills package', 'npx skills add ' + skillsAddRef, false) +
       (cloneUrl ? installBlock('Git Clone', '', 'git clone ' + cloneUrl, false) : '');
@@ -193,9 +202,9 @@
     el.querySelectorAll('.se-copy-btn').forEach(function(btn){
       btn.onclick = function(){
         navigator.clipboard.writeText(btn.dataset.cmd).then(function(){
-          btn.innerHTML = '<svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8l4 4 8-8"/></svg>';
-          setTimeout(function(){ btn.innerHTML = COPY_ICON; }, 1600);
-        }).catch(function(){ btn.textContent = '!'; setTimeout(function(){ btn.innerHTML = COPY_ICON; }, 1600); });
+          btn.innerHTML = _se_icon('copy-check', 15);
+          setTimeout(function(){ btn.innerHTML = COPY_ICON(); }, 1600);
+        }).catch(function(){ btn.textContent = '!'; setTimeout(function(){ btn.innerHTML = COPY_ICON(); }, 1600); });
       };
     });
   }
@@ -619,13 +628,17 @@
     if (uspClose) uspClose.onclick = closeUnnamed;
     if (pop) pop.addEventListener('click', function(e){ if (e.target === pop) closeUnnamed(); });
     var uspCopy = document.getElementById('uspCopyBtn');
-    var CHECK_SM = '<svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8l4 4 8-8"/></svg>';
-    var CLIP_SM = '<svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1.5"/><path d="M11 5V3a1 1 0 00-1-1H3a1 1 0 00-1 1v7a1 1 0 001 1h2"/></svg>';
+    // Stage 1 — sprite-driven icons (shared sprite via gaiaIcon helper).
+    function _usp_icon(id){
+      return (typeof window.gaiaIcon === 'function')
+        ? window.gaiaIcon(id, { size: 13 })
+        : '<svg class="ico" width="13" height="13" aria-hidden="true"></svg>';
+    }
     if (uspCopy) uspCopy.addEventListener('click', function(){
       var cmd = document.getElementById('uspCmd').dataset.cmd || document.getElementById('uspCmd').textContent;
       navigator.clipboard.writeText(cmd).then(function(){
-        uspCopy.innerHTML = CHECK_SM;
-        setTimeout(function(){ uspCopy.innerHTML = CLIP_SM; }, 1500);
+        uspCopy.innerHTML = _usp_icon('copy-check');
+        setTimeout(function(){ uspCopy.innerHTML = _usp_icon('copy'); }, 1500);
       });
     });
 

@@ -106,10 +106,13 @@ def build_stars(level: str) -> str:
     return "\n".join(parts)
 
 
-DIAMOND_SEAL_SVG = """<svg class="plaque-seal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true">
-  <path d="M 32 4 L 60 32 L 32 60 L 4 32 Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="miter"/>
-  <text x="32" y="34" font-family="EB Garamond,Georgia,serif" font-weight="600" font-size="28" fill="currentColor" text-anchor="middle" dominant-baseline="central">G</text>
-</svg>"""
+# Stage 1 — sprite-driven icons. Profile pages live at docs/u/<handle>/index.html
+# so the sprite is two levels above the page (../../assets/icons.svg).
+ICON_SPRITE_REL = "../../assets/icons.svg"
+DIAMOND_SEAL_SVG = (
+    f'<svg class="ico plaque-seal" aria-hidden="true">'
+    f'<use href="{ICON_SPRITE_REL}#seal-diamond"/></svg>'
+)
 
 
 def build_plaque_card(skill: dict) -> str:
@@ -180,16 +183,13 @@ def build_ascension_log(skills: list) -> str:
     return "\n".join(rows)
 
 
-NAV_HTML = """<nav>
+NAV_HTML = f"""<nav>
   <a href="../../" class="nav-logo" aria-label="Gaia home">
-    <svg class="nav-seal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-      <path d="M 32 4 L 60 32 L 32 60 L 4 32 Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="miter"/>
-      <text x="32" y="34" font-family="EB Garamond, Georgia, serif" font-weight="600" font-size="28" fill="currentColor" text-anchor="middle" dominant-baseline="central">G</text>
-    </svg>
+    <svg class="ico nav-seal" aria-hidden="true" focusable="false"><use href="{ICON_SPRITE_REL}#seal-diamond"/></svg>
     <span class="nav-wordmark">Gaia</span>
     </a>
     <button type="button" class="nav-search-back" id="navSearchBack" aria-label="Back">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+      <svg class="ico" width="20" height="20" aria-hidden="true"><use href="{ICON_SPRITE_REL}#arrow-back"/></svg>
     </button>
     <input type="search" id="navMobileSearch" class="nav-mobile-search" placeholder="Search skills…" autocomplete="off" aria-label="Search skills">
     <button class="nav-menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false">    <span></span>
@@ -201,16 +201,13 @@ NAV_HTML = """<nav>
     <li><a href="../../#hall-of-heroes">Hall of Heroes</a></li>
     <li><a href="../../codex.html">The Codex</a></li>
     <li><a href="../../#tree" class="nav-tree">Tree</a></li>
-    <li><a href="../../#search" class="nav-search-btn" aria-label="Search skills"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5"/></svg></a></li>
+    <li><a href="../../#search" class="nav-search-btn" aria-label="Search skills"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="{ICON_SPRITE_REL}#search"/></svg></a></li>
   </ul>
 </nav>"""
 
-FOOTER_HTML = """<footer>
+FOOTER_HTML = f"""<footer>
   <div class="footer-mark">
-    <svg class="footer-seal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-      <path d="M 32 4 L 60 32 L 32 60 L 4 32 Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="miter"/>
-      <text x="32" y="34" font-family="EB Garamond, Georgia, serif" font-weight="600" font-size="28" fill="currentColor" text-anchor="middle" dominant-baseline="central">G</text>
-    </svg>
+    <svg class="ico footer-seal" aria-hidden="true" focusable="false"><use href="{ICON_SPRITE_REL}#seal-diamond"/></svg>
     <span class="footer-wordmark">Gaia</span>
   </div>
   <p>
@@ -246,7 +243,7 @@ def build_profile_page(handle: str, skills: list) -> str:
     )
 
     return f"""<!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-icon-base="../../assets/icons.svg">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -258,12 +255,15 @@ def build_profile_page(handle: str, skills: list) -> str:
   <meta property="og:description" content="{html.escape(og_description)}">
   <meta property="og:url" content="https://mbtiongson1.github.io/gaia-skill-tree/u/{html.escape(handle)}/">
 {og_image_tags}
-  <!-- Fonts & styles -->
+  <!-- Stage 1 — Web fonts (EB Garamond display, Bricolage body, JetBrains Mono fallback). -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
   <link rel="stylesheet" href="../../css/styles.css">
   <link rel="stylesheet" href="../../css/plaque.css">
+  <!-- Stage 1 — icon sprite helper, loaded BEFORE other UI scripts. -->
+  <script src="../../js/icons.js"></script>
+  <script src="../../js/ui.js" defer></script>
 </head>
 <body class="profile-page">
 
@@ -302,7 +302,7 @@ def build_profile_page(handle: str, skills: list) -> str:
   <script src="../../js/plaque-reveal.js" defer></script>
 
   <button id="scrollToTop" class="scroll-to-top" aria-label="Scroll to top">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
+    <svg class="ico" width="20" height="20" aria-hidden="true"><use href="../../assets/icons.svg#arrow-up"/></svg>
   </button>
 
 </body>

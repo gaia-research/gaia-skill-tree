@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+  <!--
+    Gaia icon sprite. Stage 1 (Foundation overhaul).
+    Conventions:
+      Default viewBox 0 0 24 24 (a few legacy icons keep 0 0 16 16 or 0 0 64 64).
+      Stroke icons: fill=none stroke=currentColor stroke-width=1.75 round/round.
+      Filled icons: declare fill=currentColor inside the symbol element.
+      Tier glyphs use text elements rather than re-drawn paths so they read as
+      typographic glyphs (matching per-skill tier labels in HTML).
+  -->
+
+  <!-- ── BRAND MARKS ───────────────────────────────────────── -->
+  <symbol id="seal-diamond" viewBox="0 0 64 64">
+    <path d="M 32 4 L 60 32 L 32 60 L 4 32 Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="miter"/>
+    <text x="32" y="34" font-family="EB Garamond, Georgia, serif" font-weight="600" font-size="28" fill="currentColor" text-anchor="middle" dominant-baseline="central">G</text>
+  </symbol>
+
+  <symbol id="seal-diamond-wordmark" viewBox="0 0 180 64">
+    <path d="M 32 4 L 60 32 L 32 60 L 4 32 Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="miter"/>
+    <text x="32" y="34" font-family="EB Garamond, Georgia, serif" font-weight="600" font-size="28" fill="currentColor" text-anchor="middle" dominant-baseline="central">G</text>
+    <text x="76" y="40" font-family="EB Garamond, Georgia, serif" font-weight="600" font-size="28" letter-spacing="2" fill="currentColor">Gaia</text>
+  </symbol>
+
+  <!-- ── COPY / COPY-CHECK (mirrors ui.js CLIP + CHECK) ────── -->
+  <symbol id="copy" viewBox="0 0 16 16">
+    <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="5" y="5" width="9" height="9" rx="1.5"/>
+      <path d="M11 5V3a1 1 0 00-1-1H3a1 1 0 00-1 1v7a1 1 0 001 1h2"/>
+    </g>
+  </symbol>
+
+  <symbol id="copy-check" viewBox="0 0 16 16">
+    <path d="M2 8l4 4 8-8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+
+  <!-- ── PLATFORM / EXTERNAL ───────────────────────────────── -->
+  <symbol id="github" viewBox="0 0 16 16">
+    <path fill="currentColor" fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+  </symbol>
+
+  <symbol id="external-link" viewBox="0 0 16 16">
+    <g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M7 3H3a1 1 0 00-1 1v9a1 1 0 001 1h9a1 1 0 001-1V9"/>
+      <path d="M13 3h-4m4 0v4m0-4L7 9"/>
+    </g>
+  </symbol>
+
+  <!-- ── SEARCH ─────────────────────────────────────────────── -->
+  <symbol id="search" viewBox="0 0 16 16">
+    <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="7" cy="7" r="5"/>
+      <path d="M11 11l3.5 3.5"/>
+    </g>
+  </symbol>
+
+  <!-- ── SHARE ──────────────────────────────────────────────── -->
+  <symbol id="share" viewBox="0 0 16 16">
+    <g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="3" r="1.5"/>
+      <circle cx="12" cy="13" r="1.5"/>
+      <circle cx="3" cy="8" r="1.5"/>
+      <path d="M10.5 4l-6 3m6 3l-6-3"/>
+    </g>
+  </symbol>
+
+  <!-- ── NAVIGATION ARROWS ─────────────────────────────────── -->
+  <symbol id="arrow-back" viewBox="0 0 24 24">
+    <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="19" y1="12" x2="5" y2="12"/>
+      <polyline points="12 19 5 12 12 5"/>
+    </g>
+  </symbol>
+
+  <symbol id="arrow-up" viewBox="0 0 24 24">
+    <path d="M18 15l-6-6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+
+  <symbol id="chevron-down" viewBox="0 0 24 24">
+    <polyline points="6 9 12 15 18 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+
+  <symbol id="close-x" viewBox="0 0 24 24">
+    <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="6" y1="6" x2="18" y2="18"/>
+      <line x1="18" y1="6" x2="6" y2="18"/>
+    </g>
+  </symbol>
+
+  <!-- ── STATE & AFFORDANCE GLYPHS ─────────────────────────── -->
+  <symbol id="lock" viewBox="0 0 24 24">
+    <g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="5" y="11" width="14" height="9" rx="2"/>
+      <path d="M8 11V8a4 4 0 018 0v3"/>
+    </g>
+  </symbol>
+
+  <symbol id="sparkle" viewBox="0 0 24 24">
+    <g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3l1.8 4.6L18.4 9.4 13.8 11.2 12 15.8 10.2 11.2 5.6 9.4 10.2 7.6Z"/>
+      <path d="M19 16l.7 1.8L21.5 18.5 19.7 19.3 19 21l-.7-1.7-1.8-.8 1.8-.7Z"/>
+    </g>
+  </symbol>
+
+  <symbol id="claim-arrow" viewBox="0 0 24 24">
+    <g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 12h14"/>
+      <path d="M13 6l6 6-6 6"/>
+    </g>
+  </symbol>
+
+  <!-- ── INTERNAL "HUD" toggle glyph (uses brand-internal label) -->
+  <symbol id="hud-toggle" viewBox="0 0 24 24">
+    <g fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 9h14"/>
+      <path d="M8 5l-4 4 4 4"/>
+      <path d="M20 15H6"/>
+      <path d="M16 11l4 4-4 4"/>
+    </g>
+  </symbol>
+
+  <!-- ── TIER GLYPHS (typographic, match CONTEXT.md) ───────── -->
+  <!-- Basic ○ -->
+  <symbol id="tier-glyph-basic" viewBox="0 0 24 24">
+    <text x="12" y="12" font-family="Bricolage Grotesque, system-ui, sans-serif" font-weight="700" font-size="20" fill="currentColor" text-anchor="middle" dominant-baseline="central">○</text>
+  </symbol>
+  <!-- Extra ◇ -->
+  <symbol id="tier-glyph-extra" viewBox="0 0 24 24">
+    <text x="12" y="12" font-family="Bricolage Grotesque, system-ui, sans-serif" font-weight="700" font-size="20" fill="currentColor" text-anchor="middle" dominant-baseline="central">◇</text>
+  </symbol>
+  <!-- Unique ◉ -->
+  <symbol id="tier-glyph-unique" viewBox="0 0 24 24">
+    <text x="12" y="12" font-family="Bricolage Grotesque, system-ui, sans-serif" font-weight="700" font-size="20" fill="currentColor" text-anchor="middle" dominant-baseline="central">◉</text>
+  </symbol>
+  <!-- Ultimate ◆ -->
+  <symbol id="tier-glyph-ultimate" viewBox="0 0 24 24">
+    <text x="12" y="12" font-family="Bricolage Grotesque, system-ui, sans-serif" font-weight="700" font-size="20" fill="currentColor" text-anchor="middle" dominant-baseline="central">◆</text>
+  </symbol>
+</svg>

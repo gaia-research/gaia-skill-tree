@@ -17,6 +17,11 @@ if str(SRC) not in sys.path:
 
 from gaia_cli.main import PUBLIC_COMMANDS, get_parser  # noqa: E402
 
+# Stage 1 — bring in the schema-driven CSS-token generator so --check can
+# verify docs/css/tokens.css is in sync with registry/gaia.json.meta.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from generateCssTokens import build_tokens_css, load_gaia  # noqa: E402
+
 
 def _read_version() -> str:
     for line in (ROOT / "pyproject.toml").read_text(encoding="utf-8").splitlines():
@@ -128,6 +133,31 @@ def build_docs_index(check: bool) -> bool:
     return changed
 
 
+def build_css_tokens(check: bool) -> bool:
+    """Regenerate docs/css/tokens.css from registry/gaia.json. Returns True if drift."""
+    gaia_path = ROOT / "registry" / "gaia.json"
+    out_path = ROOT / "docs" / "css" / "tokens.css"
+    if not gaia_path.exists():
+        return False
+    gaia = load_gaia(gaia_path)
+    rendered = build_tokens_css(gaia)
+    if not out_path.exists():
+        if check:
+            print(f"diff docs/css/tokens.css (missing)")
+            return True
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        out_path.write_text(rendered, encoding="utf-8")
+        return True
+    current = out_path.read_text(encoding="utf-8")
+    if current == rendered:
+        return False
+    if check:
+        print("diff docs/css/tokens.css")
+        return True
+    out_path.write_text(rendered, encoding="utf-8")
+    return True
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Build generated Gaia docs regions.")
     parser.add_argument("--check", action="store_true", help="Fail if generated docs are stale")
@@ -135,10 +165,12 @@ def main(argv: list[str] | None = None) -> int:
 
     readme_changed = build_readme(args.check)
     docs_index_changed = build_docs_index(args.check)
-    changed = readme_changed or docs_index_changed
+    css_tokens_changed = build_css_tokens(args.check)
+    changed = readme_changed or docs_index_changed or css_tokens_changed
     if args.check and changed:
         print("Generated documentation is stale. Run `python scripts/build_docs.py --check` locally.")
         print("If it reports drift, run `python scripts/build_docs.py` and commit the updated files.")
+        print("CSS tokens specifically can be refreshed with `python scripts/generateCssTokens.py`.")
         return 1
     print("Documentation is up to date." if not changed else "Documentation regenerated.")
     return 0

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-icon-base="../../assets/icons.svg">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,29 +11,37 @@
   <meta property="og:description" content="Contributor profile for @huggingface on the Gaia Skill Registry. 7 named skills, highest rank 4★.">
   <meta property="og:url" content="https://mbtiongson1.github.io/gaia-skill-tree/u/huggingface/">
   <meta property="og:image" content="../../og/huggingface/hf-cli.png">
-  <!-- Fonts & styles -->
+  <!-- Stage 1 — Web fonts (EB Garamond display, Bricolage body, JetBrains Mono fallback). -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
   <link rel="stylesheet" href="../../css/styles.css">
   <link rel="stylesheet" href="../../css/plaque.css">
+  <!-- Stage 1 — icon sprite helper, loaded BEFORE other UI scripts. -->
+  <script src="../../js/icons.js"></script>
+  <script src="../../js/ui.js" defer></script>
 </head>
 <body class="profile-page">
 
   <nav>
   <a href="../../" class="nav-logo" aria-label="Gaia home">
-    <svg class="nav-seal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-      <path d="M 32 4 L 60 32 L 32 60 L 4 32 Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="miter"/>
-      <text x="32" y="34" font-family="EB Garamond, Georgia, serif" font-weight="600" font-size="28" fill="currentColor" text-anchor="middle" dominant-baseline="central">G</text>
-    </svg>
+    <svg class="ico nav-seal" aria-hidden="true" focusable="false"><use href="../../assets/icons.svg#seal-diamond"/></svg>
     <span class="nav-wordmark">Gaia</span>
-  </a>
+    </a>
+    <button type="button" class="nav-search-back" id="navSearchBack" aria-label="Back">
+      <svg class="ico" width="20" height="20" aria-hidden="true"><use href="../../assets/icons.svg#arrow-back"/></svg>
+    </button>
+    <input type="search" id="navMobileSearch" class="nav-mobile-search" placeholder="Search skills…" autocomplete="off" aria-label="Search skills">
+    <button class="nav-menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false">    <span></span>
+    <span></span>
+    <span></span>
+  </button>
   <ul>
     <li><a href="../../#paths">Registry</a></li>
     <li><a href="../../#hall-of-heroes">Hall of Heroes</a></li>
     <li><a href="../../codex.html">The Codex</a></li>
     <li><a href="../../#tree" class="nav-tree">Tree</a></li>
-    <li><a href="../../#search" class="nav-search-btn" aria-label="Search skills"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7" cy="7" r="5"/><path d="M11 11l3.5 3.5"/></svg></a></li>
+    <li><a href="../../#search" class="nav-search-btn" aria-label="Search skills"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#search"/></svg></a></li>
   </ul>
 </nav>
 
@@ -53,10 +61,7 @@
     <div class="plaque-grid">
       <div class="plaque plaque--settled" data-skill-id="huggingface/hf-cli" data-type="basic">
   <div class="plaque-header">
-    <svg class="plaque-seal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true">
-  <path d="M 32 4 L 60 32 L 32 60 L 4 32 Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="miter"/>
-  <text x="32" y="34" font-family="EB Garamond,Georgia,serif" font-weight="600" font-size="28" fill="currentColor" text-anchor="middle" dominant-baseline="central">G</text>
-</svg>
+    <svg class="ico plaque-seal" aria-hidden="true"><use href="../../assets/icons.svg#seal-diamond"/></svg>
     <div class="plaque-skill-name">HF CLI</div>
     <div class="plaque-tier">○</div>
   </div>
@@ -83,10 +88,7 @@
 </div>
 <div class="plaque plaque--settled" data-skill-id="huggingface/huggingface-datasets" data-type="extra">
   <div class="plaque-header">
-    <svg class="plaque-seal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true">
-  <path d="M 32 4 L 60 32 L 32 60 L 4 32 Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="miter"/>
-  <text x="32" y="34" font-family="EB Garamond,Georgia,serif" font-weight="600" font-size="28" fill="currentColor" text-anchor="middle" dominant-baseline="central">G</text>
-</svg>
+    <svg class="ico plaque-seal" aria-hidden="true"><use href="../../assets/icons.svg#seal-diamond"/></svg>
     <div class="plaque-skill-name">Hugging Face Datasets</div>
     <div class="plaque-tier">○</div>
   </div>
@@ -113,10 +115,7 @@
 </div>
 <div class="plaque plaque--settled" data-skill-id="huggingface/huggingface-llm-trainer" data-type="unique">
   <div class="plaque-header">
-    <svg class="plaque-seal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true">
-  <path d="M 32 4 L 60 32 L 32 60 L 4 32 Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="miter"/>
-  <text x="32" y="34" font-family="EB Garamond,Georgia,serif" font-weight="600" font-size="28" fill="currentColor" text-anchor="middle" dominant-baseline="central">G</text>
-</svg>
+    <svg class="ico plaque-seal" aria-hidden="true"><use href="../../assets/icons.svg#seal-diamond"/></svg>
     <div class="plaque-skill-name">Hugging Face LLM Trainer</div>
     <div class="plaque-tier">○</div>
   </div>
@@ -143,10 +142,7 @@
 </div>
 <div class="plaque plaque--settled" data-skill-id="huggingface/huggingface-papers" data-type="extra">
   <div class="plaque-header">
-    <svg class="plaque-seal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true">
-  <path d="M 32 4 L 60 32 L 32 60 L 4 32 Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="miter"/>
-  <text x="32" y="34" font-family="EB Garamond,Georgia,serif" font-weight="600" font-size="28" fill="currentColor" text-anchor="middle" dominant-baseline="central">G</text>
-</svg>
+    <svg class="ico plaque-seal" aria-hidden="true"><use href="../../assets/icons.svg#seal-diamond"/></svg>
     <div class="plaque-skill-name">Hugging Face Papers</div>
     <div class="plaque-tier">○</div>
   </div>
@@ -173,10 +169,7 @@
 </div>
 <div class="plaque plaque--settled" data-skill-id="huggingface/huggingface-vision-trainer" data-type="basic">
   <div class="plaque-header">
-    <svg class="plaque-seal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true">
-  <path d="M 32 4 L 60 32 L 32 60 L 4 32 Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="miter"/>
-  <text x="32" y="34" font-family="EB Garamond,Georgia,serif" font-weight="600" font-size="28" fill="currentColor" text-anchor="middle" dominant-baseline="central">G</text>
-</svg>
+    <svg class="ico plaque-seal" aria-hidden="true"><use href="../../assets/icons.svg#seal-diamond"/></svg>
     <div class="plaque-skill-name">Hugging Face Vision Trainer</div>
     <div class="plaque-tier">○</div>
   </div>
@@ -203,10 +196,7 @@
 </div>
 <div class="plaque plaque--settled" data-skill-id="huggingface/semantic-cache" data-type="unique">
   <div class="plaque-header">
-    <svg class="plaque-seal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true">
-  <path d="M 32 4 L 60 32 L 32 60 L 4 32 Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="miter"/>
-  <text x="32" y="34" font-family="EB Garamond,Georgia,serif" font-weight="600" font-size="28" fill="currentColor" text-anchor="middle" dominant-baseline="central">G</text>
-</svg>
+    <svg class="ico plaque-seal" aria-hidden="true"><use href="../../assets/icons.svg#seal-diamond"/></svg>
     <div class="plaque-skill-name">Semantic Cache</div>
     <div class="plaque-tier">◇</div>
   </div>
@@ -233,10 +223,7 @@
 </div>
 <div class="plaque plaque--settled" data-skill-id="huggingface/transformers-js" data-type="extra">
   <div class="plaque-header">
-    <svg class="plaque-seal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true">
-  <path d="M 32 4 L 60 32 L 32 60 L 4 32 Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="miter"/>
-  <text x="32" y="34" font-family="EB Garamond,Georgia,serif" font-weight="600" font-size="28" fill="currentColor" text-anchor="middle" dominant-baseline="central">G</text>
-</svg>
+    <svg class="ico plaque-seal" aria-hidden="true"><use href="../../assets/icons.svg#seal-diamond"/></svg>
     <div class="plaque-skill-name">Transformers.js</div>
     <div class="plaque-tier">○</div>
   </div>
@@ -317,10 +304,7 @@
 
   <footer>
   <div class="footer-mark">
-    <svg class="footer-seal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-      <path d="M 32 4 L 60 32 L 32 60 L 4 32 Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="miter"/>
-      <text x="32" y="34" font-family="EB Garamond, Georgia, serif" font-weight="600" font-size="28" fill="currentColor" text-anchor="middle" dominant-baseline="central">G</text>
-    </svg>
+    <svg class="ico footer-seal" aria-hidden="true" focusable="false"><use href="../../assets/icons.svg#seal-diamond"/></svg>
     <span class="footer-wordmark">Gaia</span>
   </div>
   <p>
@@ -331,6 +315,10 @@
 </footer>
 
   <script src="../../js/plaque-reveal.js" defer></script>
+
+  <button id="scrollToTop" class="scroll-to-top" aria-label="Scroll to top">
+    <svg class="ico" width="20" height="20" aria-hidden="true"><use href="../../assets/icons.svg#arrow-up"/></svg>
+  </button>
 
 </body>
 </html>

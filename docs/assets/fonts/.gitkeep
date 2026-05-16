@@ -1,0 +1,13 @@
+# Placeholder so the docs/assets/fonts/ directory ships in git even before
+# the OFL Departure Mono woff2 binary lands.
+#
+# To vendor the font manually:
+#   1. Visit https://departuremono.com/ and download the latest release zip.
+#   2. Extract DepartureMono-Regular.woff2.
+#   3. Place it at docs/assets/fonts/DepartureMono-Regular.woff2.
+#   4. The @font-face rule in docs/css/styles.css will pick it up
+#      automatically — no further changes needed.
+#
+# In the meantime, the JetBrains Mono Google-Fonts fallback (loaded from
+# every HTML head) covers the body text so the page never falls all the
+# way to system mono.

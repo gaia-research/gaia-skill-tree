@@ -1,0 +1,15 @@
+Departure Mono is distributed under the SIL Open Font License (OFL) 1.1.
+
+Upstream: https://departuremono.com
+Author:   Helena Zhang (helena@departuremono.com)
+License:  https://openfontlicense.org
+
+When vendoring the font binary into this repository, drop the actual
+OFL text from the upstream zip into this file (it ships as OFL.txt
+alongside DepartureMono-Regular.woff2). This placeholder exists so the
+license is never absent from the directory, even before the binary
+itself has been pulled.
+
+This sandbox environment has no outbound network access; the vendoring
+step is a manual follow-up — see docs/assets/fonts/.gitkeep for the
+checklist.
