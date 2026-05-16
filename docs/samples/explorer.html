@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en" data-icon-base="../assets/icons.svg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Named Skills Explorer Sampler — Gaia (Stage 4)</title>
+  <meta name="description" content="Tile / List / Tree view-mode sampler for the Named Skills Explorer. Filter state, search query, and sort order are preserved across view switches. The first card / row / top-right node is always the most-prestigious skill matching the filter (Ultimate before Unique before Extra before Basic; within tier, 6★ before 0★).">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/plaque.css">
+
+  <script src="../js/icons.js"></script>
+  <script src="../js/rank-badge.js"></script>
+  <script src="../js/atlas-helpers.js"></script>
+  <script src="../js/plaque.js"></script>
+
+  <style>
+    body { padding: 4rem 1.25rem 6rem; max-width: 1280px; margin: 0 auto; }
+    .sampler-h1 { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 600; margin-bottom: .25rem; }
+    .sampler-sub { color: var(--muted); font-family: var(--font-mono); font-size: .85rem; letter-spacing: .04em; text-transform: uppercase; margin-bottom: 2rem; }
+
+    /* Sampler toolbar — sticky controls. Persists filter + search + sort
+       state across view-mode switches via window._sampler state. */
+    .sampler-toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(3, 7, 18, 0.92);
+      backdrop-filter: blur(4px);
+      padding: .8rem 0;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      gap: .8rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .sampler-toolbar .row { display: flex; gap: .6rem; align-items: center; flex-wrap: wrap; }
+    .sampler-toolbar .row + .row { border-left: 1px solid var(--border); padding-left: .8rem; }
+    .sampler-toolbar .toolbar-label {
+      font-family: var(--font-mono); font-size: .65rem;
+      letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+    }
+    .sampler-search {
+      width: 220px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      padding: .4rem .7rem; color: var(--honor-red); font-size: .82rem; font-family: inherit;
+      outline: none; transition: border-color .2s;
+    }
+    .sampler-search:focus { border-color: rgba(var(--tier-basic-rgb), .5); }
+
+    /* Section frame */
+    .sampler-section {
+      margin: 3rem 0;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .sampler-section h2 {
+      font-family: var(--font-display); font-size: 1.6rem; font-weight: 600;
+      margin-bottom: .15rem;
+    }
+    .sampler-section .density {
+      color: var(--muted); font-family: var(--font-mono); font-size: .8rem;
+      letter-spacing: .04em; text-transform: uppercase; margin-bottom: 1.25rem;
+    }
+    .sampler-stage { min-height: 240px; }
+
+    .footer-stamp {
+      margin-top: 4rem; padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      font-family: var(--font-mono); font-size: .72rem;
+      color: var(--muted); letter-spacing: .04em;
+    }
+    .footer-stamp strong { color: var(--text); }
+  </style>
+</head>
+<body>
+  <h1 class="sampler-h1">Explorer view-mode sampler</h1>
+  <p class="sampler-sub">Stage 4 — Tile / List / Tree, one filter state, unified plaques.</p>
+
+  <p style="color:var(--muted); font-size:.95rem; line-height:1.6; max-width: 720px;">
+    The same skill renders in three view modes with the same level chip colour, the same handle colour (Honor Red),
+    the same GitHub link position (right-edge), and the same hover state (lift + glow at proportional intensity). The
+    first card / row / top-right node is always the most-prestigious skill matching the filter.
+  </p>
+
+  <!-- Sticky toolbar — filter / search / sort state is preserved across view switches. -->
+  <div class="sampler-toolbar">
+    <div class="row">
+      <span class="toolbar-label">Search</span>
+      <input type="search" id="samplerSearch" class="sampler-search" placeholder="Search named, tags, contributors…" autocomplete="off">
+    </div>
+    <div class="row">
+      <span class="toolbar-label">Tier</span>
+      <div class="ns-type-tabs" id="samplerTypeTabs">
+        <button class="ns-tab active" type="button" data-type="all">All</button>
+        <button class="ns-tab" type="button" data-type="ultimate"><span class="tier-glyph" data-type="ultimate">◆</span> Ultimate</button>
+        <button class="ns-tab" type="button" data-type="unique"><span class="tier-glyph" data-type="unique">◉</span> Unique</button>
+        <button class="ns-tab" type="button" data-type="extra"><span class="tier-glyph" data-type="extra">◇</span> Extra</button>
+        <button class="ns-tab" type="button" data-type="basic"><span class="tier-glyph" data-type="basic">○</span> Basic</button>
+      </div>
+    </div>
+    <div class="row">
+      <span class="toolbar-label">Sort</span>
+      <div class="ns-sort-wrap">
+        <svg class="ico ns-sort-icon" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#sort-arrows"/></svg>
+        <select id="samplerSort" class="ns-sort-sel" title="Sort order">
+          <option value="level-desc">Level (high → low)</option>
+          <option value="level-asc">Level (low → high)</option>
+          <option value="creator">Creator (A–Z)</option>
+          <option value="name">Name (A–Z)</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <section class="sampler-section">
+    <h2>Tile view</h2>
+    <div class="density">density: full info — slug, title, handle, description, tags, install, level, origin, gh</div>
+    <div class="sampler-stage">
+      <div id="samplerTile" class="ns-grid-tile"></div>
+    </div>
+  </section>
+
+  <section class="sampler-section">
+    <h2>List view</h2>
+    <div class="density">density: scan-friendly — slug, title, handle, tags (2), level, origin, gh</div>
+    <div class="sampler-stage">
+      <div id="samplerList" class="ns-grid-list"></div>
+    </div>
+  </section>
+
+  <section class="sampler-section">
+    <h2>Tree view</h2>
+    <div class="density">density: spatial — minicard (slug + level + gh); ultimates anchor top, basics flow down</div>
+    <div class="sampler-stage">
+      <div id="samplerTree" class="ns-grid-flow"></div>
+    </div>
+  </section>
+
+  <div class="footer-stamp" id="samplerFooter">
+    Loading registry stamp…
+  </div>
+
+  <script>
+    /* Stage 4 sampler. Loads the same artifacts as the live explorer
+     * (docs/graph/gaia.json + docs/graph/named/index.json) and renders the
+     * same field manifest in three view modes simultaneously, with a single
+     * filter / search / sort state shared across all three. The acceptance
+     * tests run here:
+     *   - first card / row / top-right node is the most-prestigious skill
+     *   - same skill renders identical level chip / handle colour / gh slot
+     *   - switching filters/search updates all three views in lockstep
+     */
+    (function () {
+      var state = {
+        search: '',
+        typeFilter: 'all',
+        sort: 'level-desc',
+        graph: null,
+        index: null,
+      };
+
+      function levelNum(level) {
+        var n = parseInt(String(level || '').replace(/\D+/g, ''), 10);
+        return isNaN(n) ? 0 : n;
+      }
+
+      function nsDisplayName(ns) { return ns.name || (ns.id || '').split('/')[1] || ns.id; }
+
+      var TYPE_ORDER = ['ultimate', 'unique', 'extra', 'basic'];
+
+      function withinGroupSort(items, sort) {
+        var arr = items.slice();
+        if (sort === 'creator') {
+          return arr.sort(function (a, b) { return (a.contributor || '').localeCompare(b.contributor || ''); });
+        }
+        if (sort === 'name') {
+          return arr.sort(function (a, b) { return nsDisplayName(a).localeCompare(nsDisplayName(b)); });
+        }
+        if (sort === 'level-asc') {
+          return arr.sort(function (a, b) {
+            var d = levelNum(a.level) - levelNum(b.level);
+            return d !== 0 ? d : String(a.id).localeCompare(String(b.id));
+          });
+        }
+        // level-desc (default — direction rule: most-prestigious first)
+        return arr.sort(function (a, b) {
+          var d = levelNum(b.level) - levelNum(a.level);
+          return d !== 0 ? d : String(a.id).localeCompare(String(b.id));
+        });
+      }
+
+      function filteredSkills() {
+        var q = state.search.toLowerCase();
+        var all = [];
+        var buckets = (state.index && state.index.buckets) || {};
+        Object.values(buckets).forEach(function (arr) {
+          if (Array.isArray(arr)) Array.prototype.push.apply(all, arr);
+        });
+        // Augment with type/level from gaia.json skills.
+        var skillMap = {};
+        (state.graph.skills || []).forEach(function (s) { skillMap[s.id] = s; });
+        window._gaiaSkillMap = skillMap;
+        window._gaiaNamedBuckets = buckets;
+        window._gaiaNamedAll = all;
+        all.forEach(function (ns) {
+          var g = skillMap[ns.genericSkillRef];
+          if (g) {
+            if (!ns.type) ns.type = g.type;
+            if (g.level) ns.level = g.level;
+          }
+        });
+        return all.filter(function (ns) {
+          if (state.typeFilter !== 'all' && (ns.type || 'basic') !== state.typeFilter) return false;
+          if (q) {
+            var hay = (nsDisplayName(ns) + ' ' + ns.id + ' ' + (ns.tags || []).join(' ') + ' ' + (ns.contributor || '')).toLowerCase();
+            if (hay.indexOf(q) === -1) return false;
+          }
+          return true;
+        });
+      }
+
+      function groupAndSort(skills) {
+        var groups = { ultimate: [], unique: [], extra: [], basic: [] };
+        skills.forEach(function (ns) {
+          var t = ns.type || 'basic';
+          (groups[t] || (groups[t] = [])).push(ns);
+        });
+        var out = [];
+        TYPE_ORDER.forEach(function (type) {
+          var items = groups[type];
+          if (!items || !items.length) return;
+          out.push({ type: type, items: withinGroupSort(items, state.sort) });
+        });
+        return out;
+      }
+
+      function renderTile() {
+        var el = document.getElementById('samplerTile');
+        var groups = groupAndSort(filteredSkills());
+        if (!groups.length) { el.innerHTML = '<div class="ns-empty">No skills match.</div>'; return; }
+        var html = '';
+        groups.forEach(function (g) {
+          html += '<div class="ns-group-header"><span class="ns-group-glyph tier-glyph" data-type="' + g.type + '">' +
+            (g.type === 'ultimate' ? '◆' : g.type === 'unique' ? '◉' : g.type === 'extra' ? '◇' : '○') +
+            '</span>' + g.type + '</div>';
+          g.items.forEach(function (ns) { html += window.plaque.renderTile(ns); });
+        });
+        el.innerHTML = html;
+      }
+
+      function renderList() {
+        var el = document.getElementById('samplerList');
+        var groups = groupAndSort(filteredSkills());
+        if (!groups.length) { el.innerHTML = '<div class="ns-empty">No skills match.</div>'; return; }
+        var html = '';
+        groups.forEach(function (g) {
+          html += '<div class="ns-group-header"><span class="ns-group-glyph tier-glyph" data-type="' + g.type + '">' +
+            (g.type === 'ultimate' ? '◆' : g.type === 'unique' ? '◉' : g.type === 'extra' ? '◇' : '○') +
+            '</span>' + g.type + '</div>';
+          g.items.forEach(function (ns) { html += window.plaque.renderRow(ns); });
+        });
+        el.innerHTML = html;
+      }
+
+      function renderTree() {
+        var el = document.getElementById('samplerTree');
+        // The Tree view operates on the DAG derived from prerequisites in
+        // gaia.json. The same direction rule applies: ranks[maxD..0] →
+        // Ultimate anchors the top, basics trail bottom-left.
+        var skillMap = window._gaiaSkillMap || {};
+        var allFiltered = filteredSkills();
+        var namedIds = {};
+        allFiltered.forEach(function (ns) { namedIds[ns.genericSkillRef || ns.id] = ns; });
+
+        var dagNodes = {};
+        Object.values(skillMap).forEach(function (s) {
+          if (s.type === 'extra' || s.type === 'ultimate' || s.type === 'unique') dagNodes[s.id] = s;
+        });
+
+        var depth = {};
+        function getDepth(id) {
+          if (depth[id] !== undefined) return depth[id];
+          depth[id] = -1;
+          var maxPre = 0;
+          (dagNodes[id].prerequisites || []).forEach(function (pid) {
+            if (dagNodes[pid]) maxPre = Math.max(maxPre, getDepth(pid) + 1);
+          });
+          depth[id] = maxPre;
+          return maxPre;
+        }
+        Object.keys(dagNodes).forEach(getDepth);
+
+        var maxD = 0;
+        Object.values(depth).forEach(function (d) { if (d > maxD) maxD = d; });
+        var ranks = [];
+        for (var r = 0; r <= maxD; r++) ranks.push([]);
+        Object.keys(dagNodes).forEach(function (id) { if (depth[id] >= 0) ranks[depth[id]].push(id); });
+
+        var TYPE_ORDER_DAG = { ultimate: 0, unique: 1, extra: 2, basic: 3 };
+        function sortDagRank(a, b) {
+          var sa = dagNodes[a], sb = dagNodes[b];
+          var ta = TYPE_ORDER_DAG[sa.type] != null ? TYPE_ORDER_DAG[sa.type] : 99;
+          var tb = TYPE_ORDER_DAG[sb.type] != null ? TYPE_ORDER_DAG[sb.type] : 99;
+          if (ta !== tb) return ta - tb;
+          var la = levelNum(sa.level), lb = levelNum(sb.level);
+          if (la !== lb) return lb - la;
+          return (sa.name || a).localeCompare(sb.name || b);
+        }
+
+        var html = '<div class="ns-dag-container">';
+        for (var ri = maxD; ri >= 0; ri--) {
+          var rank = ranks[ri];
+          if (!rank || !rank.length) continue;
+          rank.sort(sortDagRank);
+          html += '<div class="ns-dag-rank" data-depth="' + ri + '">';
+          rank.forEach(function (id) {
+            var s = dagNodes[id];
+            var ns = namedIds[id];
+            var isGhost = !ns;
+            var miniNs = ns || { id: id, name: s.name || id, level: s.level, type: s.type, links: {}, genericSkillRef: id };
+            html += window.plaque.renderMini(miniNs, {
+              extraClass: 'ns-dag-card',
+              dagId: id,
+              ghost: isGhost,
+              attrs: ' data-type="' + s.type + '"',
+            });
+          });
+          html += '</div>';
+        }
+        html += '</div>';
+        el.innerHTML = html;
+      }
+
+      function renderAll() { renderTile(); renderList(); renderTree(); }
+
+      function bind() {
+        var search = document.getElementById('samplerSearch');
+        search.addEventListener('input', function () { state.search = search.value; renderAll(); });
+        document.getElementById('samplerTypeTabs').addEventListener('click', function (e) {
+          var btn = e.target.closest('.ns-tab');
+          if (!btn) return;
+          document.querySelectorAll('#samplerTypeTabs .ns-tab').forEach(function (t) { t.classList.remove('active'); });
+          btn.classList.add('active');
+          state.typeFilter = btn.dataset.type || 'all';
+          renderAll();
+        });
+        document.getElementById('samplerSort').addEventListener('change', function (e) {
+          state.sort = e.target.value; renderAll();
+        });
+      }
+
+      function stampFooter() {
+        var el = document.getElementById('samplerFooter');
+        if (!state.graph) { el.textContent = 'Registry stamp unavailable.'; return; }
+        var v = state.graph.version || 'unknown';
+        var g = state.graph.generatedAt || (state.index && state.index.generatedAt) || '—';
+        var count = 0;
+        var buckets = (state.index && state.index.buckets) || {};
+        Object.values(buckets).forEach(function (a) { count += (a && a.length) || 0; });
+        el.innerHTML = 'Registry stamp — <strong>v' + v + '</strong> · generated <strong>' + g +
+          '</strong> · <strong>' + count + '</strong> named skill(s) loaded';
+      }
+
+      Promise.all([
+        fetch('../graph/gaia.json').then(function (r) { if (!r.ok) throw r; return r.json(); }),
+        fetch('../graph/named/index.json').then(function (r) { if (!r.ok) throw r; return r.json(); }),
+      ]).then(function (results) {
+        state.graph = results[0];
+        state.index = results[1];
+        bind();
+        renderAll();
+        stampFooter();
+      }).catch(function (err) {
+        console.error('[sampler] Failed to load registry:', err);
+        document.querySelectorAll('.sampler-stage').forEach(function (s) {
+          s.innerHTML = '<div class="ns-empty">Registry index missing — run <code>python scripts/syncDocsGraphAssets.py</code>.</div>';
+        });
+        document.getElementById('samplerFooter').textContent = 'Registry stamp unavailable.';
+      });
+    })();
+  </script>
+</body>
+</html>

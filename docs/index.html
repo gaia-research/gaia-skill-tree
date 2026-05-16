@@ -323,48 +323,45 @@
       <input type="search" id="nsSearch" class="ns-search" aria-label="Search skills, tags, contributors" placeholder="Search skills, tags, contributors…"
         autocomplete="off">
       <div class="ns-filter-row">
+        <!-- Stage 4 — Direction rule: tier tabs read Ultimate→Unique→Extra→Basic
+             so the first tab after "All" targets the most-prestigious tier.
+             Glyph colour comes from .tier-glyph[data-type] (tokens.css). -->
         <div class="ns-type-tabs" id="nsTypeTabs">
           <button class="ns-tab active" type="button" data-type="all">All</button>
-          <button class="ns-tab" type="button" data-type="basic"><span style="color:#38bdf8;font-weight:800">○</span> Basic</button>
-          <button class="ns-tab" type="button" data-type="extra"><span style="color:#c084fc;font-weight:800">◇</span> Extra</button>
-          <button class="ns-tab" type="button" data-type="unique"><span style="color:#7c3aed;font-weight:800">◉</span> Unique</button>
-          <button class="ns-tab" type="button" data-type="ultimate"><span style="color:#f59e0b;font-weight:800">◆</span> Ultimate</button>
+          <button class="ns-tab" type="button" data-type="ultimate"><span class="tier-glyph" data-type="ultimate">◆</span> Ultimate</button>
+          <button class="ns-tab" type="button" data-type="unique"><span class="tier-glyph" data-type="unique">◉</span> Unique</button>
+          <button class="ns-tab" type="button" data-type="extra"><span class="tier-glyph" data-type="extra">◇</span> Extra</button>
+          <button class="ns-tab" type="button" data-type="basic"><span class="tier-glyph" data-type="basic">○</span> Basic</button>
         </div>
+        <!-- Stage 4 — view-toggle SVGs sourced from the shared sprite. -->
         <div class="ns-view-btns" id="nsViewBtns">
           <button class="ns-view-btn active" data-view="tile" title="Tile view">
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
-              <rect x="0" y="0" width="7" height="7" rx="1" />
-              <rect x="9" y="0" width="7" height="7" rx="1" />
-              <rect x="0" y="9" width="7" height="7" rx="1" />
-              <rect x="9" y="9" width="7" height="7" rx="1" />
-            </svg>
+            <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#view-tile"/></svg>
             Tile
           </button>
           <button class="ns-view-btn" data-view="list" title="List view">
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
-              <line x1="0" y1="4" x2="16" y2="4" />
-              <line x1="0" y1="8" x2="16" y2="8" />
-              <line x1="0" y1="12" x2="16" y2="12" />
-            </svg>
+            <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#view-list"/></svg>
             List
           </button>
           <button class="ns-view-btn" data-view="flow" title="Tree / flowchart view">
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
-              <circle cx="8" cy="2" r="1.5" />
-              <circle cx="3" cy="11" r="1.5" />
-              <circle cx="13" cy="11" r="1.5" />
-              <line x1="8" y1="3.5" x2="8" y2="7" />
-              <line x1="8" y1="7" x2="3" y2="9.5" />
-              <line x1="8" y1="7" x2="13" y2="9.5" />
-            </svg>
+            <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#view-tree"/></svg>
             Tree
           </button>
         </div>
-        <select id="nsSort" class="ns-sort-sel" title="Sort order">
-          <option value="level">&#8597; Level</option>
-          <option value="creator">&#128100; Creator</option>
-          <option value="name">A&#8211;Z Name</option>
-        </select>
+        <!-- Stage 4 — sort dropdown.
+             Direction rule: level-desc is the default (Ultimate-first within each
+             group). The companion sprite icon (sort-arrows) sits next to the
+             <select> rather than inside <option> because SVGs are not allowed
+             in option labels — see .ns-sort-wrap CSS. -->
+        <div class="ns-sort-wrap">
+          <svg class="ico ns-sort-icon" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#sort-arrows"/></svg>
+          <select id="nsSort" class="ns-sort-sel" title="Sort order">
+            <option value="level-desc">Level (high → low)</option>
+            <option value="level-asc">Level (low → high)</option>
+            <option value="creator">Creator (A–Z)</option>
+            <option value="name">Name (A–Z)</option>
+          </select>
+        </div>
       </div>
     </div>
 
