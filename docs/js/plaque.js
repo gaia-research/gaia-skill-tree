@@ -142,7 +142,11 @@
 
   function _fieldOriginStar(ns) {
     if (!ns || !ns.origin) return '';
-    return '<span class="plaque__origin ns-origin" title="Origin contributor">★</span>';
+    // Stage 4 — render the origin star from the shared sprite so it inherits
+    // --apex-gold via currentColor (the prior literal ★ glyph never picked up
+    // the token).
+    return '<span class="plaque__origin ns-origin" title="Origin contributor" aria-label="Origin contributor">' +
+      icon('origin-star', 12) + '</span>';
   }
 
   // Install row — shared mini-terminal block (used by tile / detail / settled).
@@ -185,16 +189,38 @@
       '</article>';
   }
 
-  // ── variant: mini (HoH track plate) ──────────────────────────────
+  // ── variant: mini (HoH track plate + tree-view DAG node) ────────
   // Field set: orb · slug · handle · rank stars (no description, no tags,
   // no install row).
+  // Stage 4 — extra opts supported:
+  //   opts.dagId   string  → emits data-id=<dagId> so the Tree-view
+  //                          DAG layer can resolve nodes for arrow drawing.
+  //   opts.ghost   boolean → emits data-ghost + a hatched-border CSS hook
+  //                          (no GitHub icon for ghosts; suppress rank stars).
+  //   opts.extraClass / attrs / onclick / click flow through _shell.
   function renderMini(ns, opts) {
+    opts = opts || {};
+    var isGhost = !!opts.ghost;
     var inner =
       _fieldOrb(ns) +
       _fieldSlug(ns) +
-      _fieldHandleRow(ns) +
-      _fieldRank(ns, 'stars');
-    return _shell('mini', ns, inner, opts);
+      (isGhost ? '' : _fieldHandleRow(ns)) +
+      (isGhost ? '' : _fieldRank(ns, 'stars')) +
+      (isGhost ? '' : _fieldGhLink(ns));
+
+    var shellOpts = {};
+    if (opts.onclick) shellOpts.onclick = opts.onclick;
+    if (opts.click === false) shellOpts.click = false;
+    if (opts.role) shellOpts.role = opts.role;
+    var extra = opts.extraClass || '';
+    if (isGhost) extra = (extra ? extra + ' ' : '') + 'plaque--ghost';
+    if (extra) shellOpts.extraClass = extra;
+    var attrs = opts.attrs || '';
+    if (opts.dagId) attrs += ' data-id="' + esc(opts.dagId) + '"';
+    if (isGhost) attrs += ' data-ghost="true"';
+    if (attrs) shellOpts.attrs = attrs;
+
+    return _shell('mini', ns, inner, shellOpts);
   }
 
   // ── variant: tile (explorer grid) ────────────────────────────────

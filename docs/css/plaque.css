@@ -448,30 +448,48 @@
 .plaque-orb--sm { width: 24px; height: 24px; }
 .plaque-orb--lg { width: 52px; height: 52px; }
 
+/* Stage 4 — orb gradients reference tier tokens (--tier-<name>) for the
+   dominant colour stop, then color-mix with white/black for the highlight
+   and shadow stops. Acceptance: no hardcoded tier hex survives in plaque.css. */
 .plaque-orb--basic,
 .se-node-orb--basic {
-  background: radial-gradient(circle at 35% 35%, #7dd3fc, #38bdf8 60%, #0284c7);
+  background: radial-gradient(circle at 35% 35%,
+    color-mix(in srgb, var(--tier-basic) 35%, #fff) 0%,
+    var(--tier-basic) 60%,
+    color-mix(in srgb, var(--tier-basic) 75%, #000) 100%);
   box-shadow: 0 0 12px rgba(var(--tier-basic-rgb), 0.4);
 }
 .plaque-orb--extra,
 .se-node-orb--extra {
-  background: radial-gradient(circle at 35% 35%, #e9d5ff, #c084fc 60%, #7c3aed);
+  background: radial-gradient(circle at 35% 35%,
+    color-mix(in srgb, var(--tier-extra) 35%, #fff) 0%,
+    var(--tier-extra) 60%,
+    color-mix(in srgb, var(--tier-extra) 60%, var(--tier-unique)) 100%);
   box-shadow: 0 0 12px rgba(var(--tier-extra-rgb), 0.4);
 }
 .plaque-orb--ultimate,
 .se-node-orb--ultimate {
-  background: radial-gradient(circle at 35% 35%, #fef3c7, #f59e0b 60%, #d97706);
+  background: radial-gradient(circle at 35% 35%,
+    color-mix(in srgb, var(--tier-ultimate) 30%, #fff) 0%,
+    var(--tier-ultimate) 60%,
+    color-mix(in srgb, var(--tier-ultimate) 70%, #000) 100%);
   box-shadow: 0 0 12px rgba(var(--tier-ultimate-rgb), 0.4);
 }
 .plaque-orb--unique,
 .se-node-orb--unique {
-  background: radial-gradient(circle at 50% 50%, #000 55%, #7c3aed 80%, #5b21b6);
+  background: radial-gradient(circle at 50% 50%,
+    #000 55%,
+    var(--tier-unique) 80%,
+    color-mix(in srgb, var(--tier-unique) 70%, #000) 100%);
   box-shadow: 0 0 14px rgba(var(--tier-unique-rgb), 0.5), inset 0 0 6px rgba(var(--tier-unique-rgb), 0.3);
 }
 .plaque-orb--vi,
 .se-node-orb--vi {
-  background: radial-gradient(circle at 35% 35%, #fff 40%, #fef3c7 70%, #f59e0b) !important;
-  box-shadow: 0 0 18px rgba(255, 255, 255, 0.6), 0 0 40px rgba(245, 158, 11, 0.35) !important;
+  background: radial-gradient(circle at 35% 35%,
+    #fff 40%,
+    color-mix(in srgb, var(--tier-ultimate) 30%, #fff) 70%,
+    var(--tier-ultimate)) !important;
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.6), 0 0 40px rgba(var(--tier-ultimate-rgb), 0.35) !important;
 }
 
 
@@ -484,14 +502,17 @@
   animation: plaque-vi-edge 3s linear infinite;
 }
 
+/* Apex shimmer cycles through tier RGBs (token-driven) with two non-tier
+   accents (rank-3 violet, Honor Red) so the rainbow reads as the canonical
+   tier ladder plus its progression accents. */
 @keyframes plaque-vi-edge {
-  0%   { box-shadow: 0 0 0 1px rgba(var(--apex-gold-rgb), 0.06), 0 24px 64px rgba(0,0,0,0.5), 0 0 30px rgba(56,189,248,0.3); }
+  0%   { box-shadow: 0 0 0 1px rgba(var(--apex-gold-rgb), 0.06), 0 24px 64px rgba(0,0,0,0.5), 0 0 30px rgba(var(--tier-basic-rgb),0.3); }
   16%  { box-shadow: 0 0 0 1px rgba(var(--apex-gold-rgb), 0.06), 0 24px 64px rgba(0,0,0,0.5), 0 0 30px rgba(167,139,250,0.3); }
   33%  { box-shadow: 0 0 0 1px rgba(var(--apex-gold-rgb), 0.06), 0 24px 64px rgba(0,0,0,0.5), 0 0 30px rgba(var(--apex-gold-rgb),0.45); }
   50%  { box-shadow: 0 0 0 1px rgba(var(--apex-gold-rgb), 0.06), 0 24px 64px rgba(0,0,0,0.5), 0 0 30px rgba(239,68,68,0.3); }
-  66%  { box-shadow: 0 0 0 1px rgba(var(--apex-gold-rgb), 0.06), 0 24px 64px rgba(0,0,0,0.5), 0 0 30px rgba(192,132,252,0.3); }
+  66%  { box-shadow: 0 0 0 1px rgba(var(--apex-gold-rgb), 0.06), 0 24px 64px rgba(0,0,0,0.5), 0 0 30px rgba(var(--tier-extra-rgb),0.3); }
   83%  { box-shadow: 0 0 0 1px rgba(var(--apex-gold-rgb), 0.06), 0 24px 64px rgba(0,0,0,0.5), 0 0 30px rgba(52,211,153,0.25); }
-  100% { box-shadow: 0 0 0 1px rgba(var(--apex-gold-rgb), 0.06), 0 24px 64px rgba(0,0,0,0.5), 0 0 30px rgba(56,189,248,0.3); }
+  100% { box-shadow: 0 0 0 1px rgba(var(--apex-gold-rgb), 0.06), 0 24px 64px rgba(0,0,0,0.5), 0 0 30px rgba(var(--tier-basic-rgb),0.3); }
 }
 
 
@@ -942,9 +963,30 @@
 .plaque--mini.ns-dag-card .plaque-skill-name {
   font-size: 15px;
 }
-.plaque--mini.ns-dag-card.ns-dag-ghost {
+.plaque--mini.ns-dag-card.ns-dag-ghost,
+.plaque--mini[data-ghost="true"],
+.plaque--mini.plaque--ghost {
   opacity: 0.55;
   border-style: dashed;
+  /* Hatched border affordance — repeating-linear-gradient simulates a hatched
+     edge without a separate SVG. The diagonal stripes read as "not yet". */
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent 0,
+    transparent 6px,
+    rgba(148, 163, 184, 0.06) 6px,
+    rgba(148, 163, 184, 0.06) 8px
+  );
+}
+.plaque--mini[data-ghost="true"] .plaque__slug,
+.plaque--mini.plaque--ghost .plaque__slug,
+.plaque--mini[data-ghost="true"] .plaque-skill-name,
+.plaque--mini.plaque--ghost .plaque-skill-name {
+  color: var(--muted);
+}
+.plaque--mini[data-ghost="true"] .plaque__gh-link,
+.plaque--mini.plaque--ghost .plaque__gh-link {
+  display: none;
 }
 
 

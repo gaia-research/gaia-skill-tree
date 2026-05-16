@@ -1286,137 +1286,14 @@
   }
   .ns-view-btn:hover{color:var(--text)}
   .ns-view-btn.active{background:var(--surface);color:var(--basic)}
-  /* TILE VIEW */
+  /* Stage 4 — view grid containers. The per-card glow / data-level / data-type
+     visual rules moved to .plaque[data-level][data-type] in plaque.css so a
+     single source of truth drives Tile, List, Tree, and any future view mode.
+     What remains here is layout-only (gaps, columns, scroll). */
   .ns-grid-tile {
     display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;
   }
-  .ns-tile {
-    background:var(--surface);border:1px solid var(--border);border-radius:14px;
-    padding:1.3rem 1.2rem;cursor:pointer;transition:border-color .25s,box-shadow .25s,transform .15s;
-    display:flex;flex-direction:column;gap:.5rem;position:relative;overflow:hidden;
-    --ns-glow:rgba(56,189,248,.15);--ns-gc:56,189,248;
-  }
-  .ns-tile::before{
-    content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;
-    background-image:linear-gradient(135deg, rgba(var(--ns-gc),.05) 0%, rgba(var(--ns-gc),.15) 50%, rgba(var(--ns-gc),.05) 100%);
-    background-size:200% 100%;background-position:0% 0%;
-    transition:background-position .45s ease;
-  }
-  .ns-tile:hover::before{background-position:100% 0%}
-  .ns-tile:hover{box-shadow:0 0 28px var(--ns-glow);border-color:rgba(var(--ns-gc),.38);transform:translateY(-2px)}
-  .ns-tile[data-level="2★"] {--ns-glow:rgba(99,202,183,.25); --ns-gc:99,202,183}
-  .ns-tile[data-level="3★"]{--ns-glow:rgba(167,139,250,.25);--ns-gc:167,139,250}
-  .ns-tile[data-level="4★"] {--ns-glow:rgba(232,121,249,.25);--ns-gc:232,121,249}
-  .ns-tile[data-level="5★"]  {--ns-glow:rgba(251,191,36,.25); --ns-gc:251,191,36}
-  .ns-tile[data-level="6★"] {--ns-glow:rgba(251,191,36,.35); --ns-gc:251,191,36}
-  /* Tier outer glow — external box-shadow only, no border-color override */
-  .ns-tile[data-type="ultimate"]{--ct:245,158,11;box-shadow:0 0 10px rgba(245,158,11,.16),0 0 30px rgba(245,158,11,.07)}
-  .ns-tile[data-type="extra"]   {--ct:192,132,252;box-shadow:0 0 10px rgba(192,132,252,.16),0 0 30px rgba(192,132,252,.07)}
-  /* Gradient by rank: inner shadow = rank color (--ns-gc), outer = tier color (--ct) */
-  .ns-tile[data-type="ultimate"][data-level="3★"],.ns-tile[data-type="extra"][data-level="3★"]{box-shadow:0 0 8px rgba(var(--ns-gc),.22),0 0 22px rgba(var(--ct),.17),0 0 46px rgba(var(--ct),.07)}
-  .ns-tile[data-type="ultimate"][data-level="4★"],.ns-tile[data-type="extra"][data-level="4★"]  {box-shadow:0 0 11px rgba(var(--ns-gc),.32),0 0 28px rgba(var(--ct),.22),0 0 56px rgba(var(--ct),.1)}
-  .ns-tile[data-type="ultimate"][data-level="5★"],.ns-tile[data-type="extra"][data-level="5★"]    {box-shadow:0 0 15px rgba(var(--ns-gc),.42),0 0 36px rgba(var(--ct),.3),0 0 70px rgba(var(--ct),.13)}
-  .ns-tile[data-type="ultimate"][data-level="6★"],.ns-tile[data-type="extra"][data-level="6★"]  {box-shadow:0 0 19px rgba(var(--ns-gc),.52),0 0 46px rgba(var(--ct),.37),0 0 88px rgba(var(--ct),.16)}
-  .ns-tile[data-type="unique"]{
-    --ct:124,58,237;
-    background:radial-gradient(ellipse at center,rgba(10,0,20,.6) 0%,rgba(26,5,51,.3) 40%,transparent 70%),var(--surface);
-    border-color:rgba(124,58,237,.4);
-    box-shadow:0 0 20px rgba(10,0,20,.7),0 0 40px rgba(26,5,51,.4),0 0 60px rgba(124,58,237,.15);
-    animation:ns-unique-void 4s ease-in-out infinite;
-  }
-  @keyframes ns-unique-void{
-    0%,100%{box-shadow:0 0 20px rgba(10,0,20,.7),0 0 40px rgba(26,5,51,.4),0 0 60px rgba(124,58,237,.15)}
-    50%{box-shadow:0 0 28px rgba(10,0,20,.85),0 0 50px rgba(26,5,51,.5),0 0 80px rgba(124,58,237,.25)}
-  }
-  .ns-tile[data-type="unique"]:hover{box-shadow:0 0 30px rgba(10,0,20,.9),0 0 55px rgba(26,5,51,.6),0 0 90px rgba(124,58,237,.3);border-color:rgba(124,58,237,.6)}
-  /* List rows: outer glow by type, no border-color override */
-  .ns-list-row[data-type="ultimate"]{--ct:245,158,11;box-shadow:0 0 12px rgba(245,158,11,.1)}
-  .ns-list-row[data-type="extra"]   {--ct:192,132,252;box-shadow:0 0 12px rgba(192,132,252,.1)}
-  .ns-list-row[data-type="unique"]  {--ct:124,58,237;box-shadow:0 0 16px rgba(10,0,20,.5),0 0 30px rgba(124,58,237,.12);border-color:rgba(124,58,237,.3)}
-  .ns-list-row[data-type="ultimate"][data-level="4★"],.ns-list-row[data-type="extra"][data-level="4★"]{box-shadow:0 0 9px rgba(var(--ns-gc),.2),0 0 20px rgba(var(--ct),.14)}
-  .ns-list-row[data-type="ultimate"][data-level="5★"],.ns-list-row[data-type="extra"][data-level="5★"]  {box-shadow:0 0 12px rgba(var(--ns-gc),.28),0 0 26px rgba(var(--ct),.2)}
-  .ns-list-row[data-type="ultimate"][data-level="6★"],.ns-list-row[data-type="extra"][data-level="6★"]{box-shadow:0 0 16px rgba(var(--ns-gc),.36),0 0 34px rgba(var(--ct),.28)}
-  .ns-tile-head { display:flex;align-items:center;gap:.5rem; }
-  .ns-tile-name { font-size:.95rem;font-weight:700;color:var(--text);line-height:1.3; }
-  .ns-tile-id { font-family:var(--font-mono);font-size:.72rem;color:#ef4444;white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
-  .ns-tile-tags { display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.2rem; }
-  .ns-tile-arrow { margin-top:auto;text-align:right;color:var(--muted);font-size:.9rem;transition:color .2s; }
-  .ns-tile:hover .ns-tile-arrow{color:var(--basic)}
-  /* LIST VIEW */
   .ns-grid-list { display:flex;flex-direction:column;gap:.4rem; }
-  .ns-list-row {
-    background:var(--surface);border:1px solid var(--border);border-radius:10px;
-    padding:.75rem 1.2rem;cursor:pointer;
-    display:flex;align-items:center;gap:1rem;
-    transition:border-color .25s,box-shadow .25s;
-    position:relative;overflow:hidden;
-    --ns-glow:rgba(56,189,248,.12);--ns-gc:56,189,248;
-  }
-  .ns-list-row::before{
-    content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;
-    background-image:linear-gradient(90deg, rgba(var(--ns-gc),.05) 0%, rgba(var(--ns-gc),.14) 50%, rgba(var(--ns-gc),.05) 100%);
-    background-size:200% 100%;background-position:0% 0%;
-    transition:background-position .45s ease;
-  }
-  .ns-list-row:hover::before{background-position:100% 0%}
-  .ns-list-row:hover{border-color:rgba(var(--ns-gc),.35);box-shadow:0 0 16px rgba(var(--ns-gc),.15)}
-  .ns-list-row[data-level="2★"] {--ns-glow:rgba(99,202,183,.18); --ns-gc:99,202,183}
-  .ns-list-row[data-level="3★"]{--ns-glow:rgba(167,139,250,.18);--ns-gc:167,139,250}
-  .ns-list-row[data-level="4★"] {--ns-glow:rgba(232,121,249,.18);--ns-gc:232,121,249}
-  .ns-list-row[data-level="5★"]  {--ns-glow:rgba(251,191,36,.18); --ns-gc:251,191,36}
-  .ns-list-row[data-level="6★"] {--ns-glow:rgba(251,191,36,.25); --ns-gc:251,191,36}
-  .ns-list-row[data-level="2★"]{border-left:3px solid rgba(99,202,183,.5)}
-  .ns-list-row[data-level="3★"]{border-left:3px solid rgba(167,139,250,.5)}
-  .ns-list-row[data-level="4★"]{border-left:3px solid rgba(232,121,249,.5)}
-  .ns-list-row[data-level="5★"]{border-left:3px solid rgba(251,191,36,.5)}
-  .ns-list-row[data-level="6★"]{border-left:3px solid rgba(251,191,36,.7)}
-  .ns-lr-name { font-weight:700;font-size:.9rem;min-width:140px; }
-  .ns-lr-id { font-family:var(--font-mono);font-size:.76rem;color:#ef4444;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
-  .ns-lr-tags { display:flex;gap:.3rem;flex-wrap:nowrap;overflow:hidden; }
-  .ns-lr-arrow { color:var(--muted);font-size:1.1rem;margin-left:auto;flex-shrink:0;transition:color .2s; }
-  .ns-list-row:hover .ns-lr-arrow { color:var(--basic); }
-  /* TREE VIEW */
-  .ns-grid-tree { display:flex;flex-direction:column;gap:.6rem; }
-  .ns-tree-group { border:1px solid var(--border);border-radius:12px;overflow:hidden; }
-  .ns-tree-parent {
-    display:flex;align-items:center;gap:.7rem;padding:.85rem 1.2rem;
-    background:rgba(255,255,255,.025);cursor:pointer;
-    font-size:.82rem;font-weight:600;color:var(--muted);
-    transition:background .2s,box-shadow .25s;
-    position:relative;overflow:hidden;
-  }
-  .ns-tree-parent::before{
-    content:'';position:absolute;inset:0;pointer-events:none;
-    background:linear-gradient(90deg,rgba(56,189,248,.06) 0%,transparent 55%);
-    opacity:0;transform:translateX(-12%);
-    transition:opacity .35s,transform .42s;
-  }
-  .ns-tree-parent:hover{background:rgba(255,255,255,.04)}
-  .ns-tree-parent:hover::before{opacity:1;transform:translateX(0)}
-  .ns-tree-ref { color:var(--text);font-family:var(--font-mono);font-size:.8rem; }
-  .ns-tree-count { background:var(--border);color:var(--muted);padding:.1rem .45rem;border-radius:20px;font-size:.7rem; }
-  .ns-tree-children { display:flex;flex-direction:column;border-top:1px solid var(--border); }
-  .ns-tree-leaf {
-    display:flex;align-items:center;gap:.9rem;padding:.7rem 1.4rem;cursor:pointer;
-    border-bottom:1px solid var(--border);
-    position:relative;overflow:hidden;
-    --ns-glow:rgba(56,189,248,.1);--ns-gc:56,189,248;
-    transition:box-shadow .25s,border-color .25s;
-  }
-  .ns-tree-leaf::before{
-    content:'';position:absolute;inset:0;pointer-events:none;
-    background:radial-gradient(circle at 0% 50%, rgba(var(--ns-gc),.07) 0%, transparent 55%);
-    opacity:0;transform:scaleX(.8);transform-origin:left center;
-    transition:opacity .3s,transform .4s;
-  }
-  .ns-tree-leaf:hover::before{opacity:1;transform:scaleX(1.1) translateX(4%)}
-  .ns-tree-leaf:hover{box-shadow:inset 0 0 12px rgba(var(--ns-gc),.1)}
-  .ns-tree-leaf[data-level="2★"] {--ns-gc:99,202,183}
-  .ns-tree-leaf[data-level="3★"]{--ns-gc:167,139,250}
-  .ns-tree-leaf[data-level="4★"] {--ns-gc:232,121,249}
-  .ns-tree-leaf[data-level="5★"]  {--ns-gc:251,191,36}
-  .ns-tree-leaf[data-level="6★"] {--ns-gc:251,191,36}
-  .ns-tree-leaf:last-child{border-bottom:none}
   /* shared card bits */
   .ns-loading,.ns-empty{
     text-align:center;color:var(--muted);font-size:.9rem;
@@ -1450,13 +1327,33 @@
   }
   .ns-search::placeholder { color:var(--muted); }
   .ns-search:focus { border-color:rgba(56,189,248,.5); }
-  .ns-sort-sel {
+  /* Stage 4 — sort wrap pairs the native <select> with a sprite icon since
+     SVG cannot live inside <option>. The icon labels the entire control. */
+  .ns-sort-wrap {
+    display:flex;align-items:center;gap:.4rem;
     background:var(--surface);border:1px solid var(--border);border-radius:8px;
-    padding:.35rem .7rem;color:var(--muted);font-size:.78rem;font-family:inherit;
-    min-height:44px;
-    cursor:pointer;outline:none;transition:border-color .2s,color .15s;
+    padding:.1rem .7rem;color:var(--muted);min-height:44px;
+    transition:border-color .2s,color .15s;
   }
-  .ns-sort-sel:hover,.ns-sort-sel:focus { border-color:rgba(56,189,248,.4);color:var(--text); }
+  .ns-sort-wrap:hover,.ns-sort-wrap:focus-within { border-color:rgba(var(--tier-basic-rgb),.4);color:var(--text); }
+  .ns-sort-icon { color:var(--muted);flex-shrink:0; }
+  .ns-sort-wrap:hover .ns-sort-icon,
+  .ns-sort-wrap:focus-within .ns-sort-icon { color:var(--text); }
+  .ns-sort-sel {
+    background:transparent;border:none;outline:none;
+    color:inherit;font-size:.78rem;font-family:inherit;
+    padding:.35rem 0;cursor:pointer;
+    appearance:none;-webkit-appearance:none;
+    min-height:0;
+  }
+  /* Stage 4 — type-tab glyphs read tier colour from the canonical tokens
+     so adding a new tier in registry/gaia.json.meta.typeColors propagates
+     without an HTML edit. Acceptance: no inline tier hex in index.html. */
+  .tier-glyph { font-weight: 800; display: inline-block; }
+  .tier-glyph[data-type="basic"]    { color: var(--tier-basic);    }
+  .tier-glyph[data-type="extra"]    { color: var(--tier-extra);    }
+  .tier-glyph[data-type="unique"]   { color: var(--tier-unique);   }
+  .tier-glyph[data-type="ultimate"] { color: var(--tier-ultimate); }
   /* ── terminal install row (inside cards) ── */
   .ns-install-row {
     display:flex;align-items:center;gap:.4rem;
@@ -1472,52 +1369,10 @@
     cursor:pointer;display:flex;align-items:center;flex-shrink:0;transition:color .15s;
   }
   .ns-install-copy:hover { color:var(--basic); }
-  /* ── flowchart (tree) view ── */
+  /* Stage 4 — Tree view layout. Per-card chrome is owned by plaque.css's
+     .plaque--mini block; per-tier/per-rank glow is on .plaque[data-type][data-level]
+     so the same skill in Tile / List / Tree renders with the same colour weight. */
   .ns-grid-flow { display:flex;flex-direction:column;gap:1.6rem; }
-  .ns-fc-group { display:flex;flex-direction:column;align-items:center; }
-  .ns-fc-root {
-    display:flex;align-items:center;gap:.6rem;
-    background:rgba(56,189,248,.06);border:1px solid rgba(56,189,248,.3);
-    border-radius:10px;padding:.55rem 1.3rem;
-    font-size:.82rem;font-weight:700;color:var(--basic);white-space:nowrap;
-  }
-  .ns-fc-connector { width:2px;height:22px;background:linear-gradient(to bottom,rgba(56,189,248,.4),rgba(56,189,248,.1));flex-shrink:0; }
-  .ns-fc-branches-wrap { position:relative;width:100%;display:flex;flex-direction:column;align-items:center; }
-  .ns-fc-hbar { height:2px;background:rgba(56,189,248,.15);border-radius:1px;width:70%; }
-  .ns-fc-branches { display:flex;gap:.8rem;flex-wrap:wrap;justify-content:center;padding:.5rem; }
-  .ns-fc-leaf-wrap { display:flex;flex-direction:column;align-items:center;padding-top:20px;position:relative; }
-  .ns-fc-leaf-wrap::before {
-    content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
-    width:2px;height:20px;background:rgba(56,189,248,.2);
-  }
-  .ns-fc-card {
-    background:var(--surface);border:1px solid var(--border);border-radius:10px;
-    padding:.7rem .9rem;cursor:pointer;min-width:140px;max-width:200px;
-    position:relative;overflow:hidden;
-    transition:border-color .25s,box-shadow .25s,transform .15s;
-    --fc-glow:rgba(56,189,248,.2);--ns-gc:56,189,248;
-  }
-  .ns-fc-card::before{
-    content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;
-    background-image:linear-gradient(135deg, rgba(var(--ns-gc),.05) 0%, rgba(var(--ns-gc),.15) 50%, rgba(var(--ns-gc),.05) 100%);
-    background-size:200% 100%;background-position:0% 0%;
-    transition:background-position .45s ease;
-  }
-  .ns-fc-card:hover::before{background-position:100% 0%}
-  .ns-fc-card:hover { border-color:rgba(var(--ns-gc),.38);box-shadow:0 0 18px var(--fc-glow);transform:translateY(-2px); }
-  .ns-fc-card[data-level="2★"]  { --fc-glow:rgba(99,202,183,.25); --ns-gc:99,202,183 }
-  .ns-fc-card[data-level="3★"] { --fc-glow:rgba(167,139,250,.25);--ns-gc:167,139,250 }
-  .ns-fc-card[data-level="4★"]  { --fc-glow:rgba(232,121,249,.3); --ns-gc:232,121,249 }
-  .ns-fc-card[data-level="5★"]   { --fc-glow:rgba(251,191,36,.3);  --ns-gc:251,191,36  }
-  /* Flowchart card tier glow */
-  .ns-fc-card[data-type="ultimate"]{--ct:245,158,11;box-shadow:0 0 8px rgba(245,158,11,.16),0 0 22px rgba(245,158,11,.07)}
-  .ns-fc-card[data-type="extra"]   {--ct:192,132,252;box-shadow:0 0 8px rgba(192,132,252,.16),0 0 22px rgba(192,132,252,.07)}
-  .ns-fc-card[data-type="ultimate"][data-level="3★"],.ns-fc-card[data-type="extra"][data-level="3★"]{box-shadow:0 0 7px rgba(var(--ns-gc),.22),0 0 18px rgba(var(--ct),.16),0 0 38px rgba(var(--ct),.07)}
-  .ns-fc-card[data-type="ultimate"][data-level="4★"],.ns-fc-card[data-type="extra"][data-level="4★"]  {box-shadow:0 0 9px rgba(var(--ns-gc),.3),0 0 22px rgba(var(--ct),.2),0 0 46px rgba(var(--ct),.09)}
-  .ns-fc-card[data-type="ultimate"][data-level="5★"],.ns-fc-card[data-type="extra"][data-level="5★"]    {box-shadow:0 0 12px rgba(var(--ns-gc),.4),0 0 28px rgba(var(--ct),.28),0 0 58px rgba(var(--ct),.12)}
-  .ns-fc-card[data-type="ultimate"][data-level="6★"],.ns-fc-card[data-type="extra"][data-level="6★"]  {box-shadow:0 0 16px rgba(var(--ns-gc),.5),0 0 36px rgba(var(--ct),.35),0 0 72px rgba(var(--ct),.15)}
-  .ns-fc-card-name { font-size:.83rem;font-weight:700;color:var(--text);margin-bottom:.25rem; }
-  .ns-fc-card-id   { font-family:var(--font-mono);font-size:.68rem;color:#ef4444; }
   .ns-none{color:var(--muted);font-size:.78rem;font-style:italic}
   .ns-links{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.9rem}
   /* ── GROUP LAYOUT ── */
@@ -1539,23 +1394,25 @@
     border:1px solid rgba(56,189,248,.22);text-decoration:none;transition:background .15s,border-color .15s;
   }
   .ns-link-btn:hover{background:rgba(56,189,248,.16);border-color:rgba(56,189,248,.45)}
-  /* ── DAG flow view ── */
+  /* Stage 4 — DAG / Tree view layout.
+     Card chrome and per-tier glow live on .plaque--mini (plaque.css). What
+     remains here is purely layout + the SVG edge layer + arrow stroke.
+     `.ns-dag-arrow` was previously an inline style="color:var(--muted)" on
+     the SVG marker; it now lives here so the arrow colour is themable.
+     Stage 5 will introduce a per-rank --rank-N-edge token; until then the
+     arrow uses --muted as a neutral fallback. */
   .ns-dag-container{position:relative;overflow-x:auto;overflow-y:visible;padding:2rem 1rem}
   .ns-dag-rank{display:flex;justify-content:center;gap:1.2rem;margin-bottom:3.5rem;position:relative;z-index:1;flex-wrap:wrap}
-  .ns-dag-card{
-    position:relative;padding:.6rem .9rem;border-radius:10px;
-    background:var(--surface);border:1px solid var(--border);
-    cursor:pointer;min-width:110px;max-width:160px;text-align:center;
-    transition:border-color .2s,box-shadow .2s;
-  }
-  .ns-dag-card:hover{border-color:var(--basic);box-shadow:0 0 12px rgba(56,189,248,.2)}
-  .ns-dag-card[data-type="ultimate"]{border-color:rgba(245,158,11,.4)}
-  .ns-dag-card[data-type="extra"]{border-color:rgba(192,132,252,.3)}
-  .ns-dag-card-name{font-weight:600;font-size:.78rem;margin:.25rem 0}
-  .ns-dag-glyph{font-size:.9rem}
-  .ns-dag-ghost{opacity:.45;border-style:dashed}
-  .ns-dag-svg{position:absolute;top:0;left:0;pointer-events:none;z-index:0}
+  /* .ns-dag-card / .ns-dag-ghost layout-only hooks. The .plaque--mini
+     base owns the visual chrome and per-tier glow. */
+  .ns-dag-card { min-width:110px;max-width:170px;text-align:center; }
+  .ns-dag-ghost { opacity:.55; }
+  .ns-dag-svg{position:absolute;top:0;left:0;pointer-events:none;z-index:0;color:var(--muted)}
+  /* Arrow stroke: edge colour falls back to --muted. Stage 5 will swap to
+     `var(--rank-N-edge, var(--muted))` keyed by the dependent's rank. */
   .ns-dag-arrow{stroke:var(--muted);stroke-width:1.5;fill:none;marker-end:url(#ns-arrowhead)}
+  /* SVG arrowhead uses currentColor; the .ns-dag-svg color above drives it. */
+  #ns-arrowhead polygon { fill:currentColor; }
   /* ── flow-node ghost + stacked cards + close button ── */
   .flow-node-ghost{opacity:.5;border-style:dashed}
   .fn-contrib{color:#ef4444!important;font-weight:700}
@@ -1585,11 +1442,11 @@
   .se-fusion-label{color:var(--muted);font-size:.8rem;margin-bottom:.8rem;padding-left:.2rem}
   .fn-lock{font-size:.7rem;margin-right:.3rem;opacity:.6}
   .flow-node-locked{border-color:rgba(100,116,139,.3)}
-  .ns-gh-link{position:absolute;top:.45rem;right:.5rem;color:var(--basic);font-size:.68rem;font-weight:600;text-decoration:none;opacity:.6;transition:opacity .2s;z-index:2}
+  /* GitHub link — right-edge slot. Position is owned by the .plaque__gh-link
+     rule (plaque.css). The .ns-gh-link alias remains so legacy emitters
+     (page-ia.js, skill-explorer.js) get the same right-edge behaviour. */
+  .ns-gh-link{color:var(--basic);font-size:.68rem;font-weight:600;text-decoration:none;opacity:.7;transition:opacity .2s}
   .ns-gh-link:hover{opacity:1;text-decoration:underline}
-  .ns-tile{position:relative}
-  .ns-list-row .ns-gh-link{position:static;margin-right:.5rem;white-space:nowrap}
-  .ns-dag-card .ns-gh-link{position:absolute;top:.3rem;right:.3rem;font-size:.6rem}
   /* ── FOOTER ── */
   footer a{color:var(--basic);text-decoration:none}
   /* ── SECTION DIVIDERS (redesigned) ── */
@@ -1898,20 +1755,16 @@
     .ns-filter-row{align-items:stretch;flex-direction:column;align-items:stretch}
     .ns-level-tabs{flex-wrap:nowrap;overflow-x:auto;padding-bottom:.2rem;-webkit-overflow-scrolling:touch}
     .ns-level-tabs .ns-tab{flex:0 0 auto}
-    .ns-view-btns,.ns-sort-sel{width:100%}
+    .ns-view-btns,.ns-sort-wrap{width:100%}
     .ns-view-btns{justify-content:space-between}
-    .ns-sort-sel{min-height:2.35rem}
+    .ns-sort-wrap{min-height:2.35rem}
     .ns-grid-tile{grid-template-columns:1fr}
-    .ns-list-row{flex-direction:row;align-items:center;flex-wrap:nowrap;gap:.75rem;padding:.75rem 1rem}
+    .plaque--row{flex-direction:row;align-items:center;flex-wrap:nowrap;gap:.75rem;padding:.75rem 1rem}
     .plaque--row .plaque-tags { display:none !important; }
     .plaque--row .ns-level-badge { margin-left:auto; }
     .ns-dag-container{overflow-x:auto;padding-bottom:2rem}
     .ns-dag-rank{flex-wrap:nowrap !important;min-width:1200px;justify-content:flex-start;padding-left:2rem}
     .ns-grid-flow{overflow-x:auto;padding-bottom:1rem}
-    .ns-fc-group{flex-direction:column-reverse;min-width:1600px}
-    .ns-fc-connector{background:linear-gradient(to top,rgba(56,189,248,.4),rgba(56,189,248,.1))}
-    .ns-fc-leaf-wrap{padding-top:0;padding-bottom:20px}
-    .ns-fc-leaf-wrap::before{top:auto;bottom:0}
     .flow{flex-direction:column;align-items:stretch}
     .flow-arrow{transform:rotate(90deg);align-self:center}
   }

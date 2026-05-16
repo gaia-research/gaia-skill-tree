@@ -455,7 +455,12 @@
     var pop = document.getElementById('unnamedSkillPopup');
     if (!pop) return;
     var glyph = TYPE_GLYPH[skill.type] || '◇';
-    var glyphColor = skill.type === 'ultimate' ? '#f59e0b' : skill.type === 'extra' ? '#c084fc' : '#38bdf8';
+    // Stage 4 — pull tier colour from the canonical tokens (--tier-<name>)
+    // rather than hardcoding per-tier hex codes. Falls back to --tier-basic
+    // for any unrecognised tier.
+    var rootStyle = getComputedStyle(document.documentElement);
+    var glyphColor = rootStyle.getPropertyValue('--tier-' + (skill.type || 'basic')).trim()
+      || rootStyle.getPropertyValue('--tier-basic').trim();
     document.getElementById('uspGlyph').textContent = glyph;
     document.getElementById('uspGlyph').style.color = glyphColor;
     document.getElementById('uspName').textContent = skill.name || skill.id;
@@ -475,8 +480,11 @@
     var pop = document.getElementById('unnamedSkillPopup');
     if (!pop) return;
     var lmEntry = (LEVEL_META_SE && LEVEL_META_SE[ns.level]) || {};
+    // Stage 4 — fall back to --tier-basic via the token system (no hardcoded hex).
+    var _rootStyle = getComputedStyle(document.documentElement);
+    var _fallbackTier = _rootStyle.getPropertyValue('--tier-basic').trim();
     document.getElementById('uspGlyph').textContent = TYPE_GLYPH[ns.type] || '◇';
-    document.getElementById('uspGlyph').style.color = lmEntry.color || '#38bdf8';
+    document.getElementById('uspGlyph').style.color = lmEntry.color || _fallbackTier;
     // Phase 8c — wrap contributor mentions in handleLink so they route to
     // the profile page. uspName retains the slug + handle layout but the
     // contributor is now a hover-underlined link.
@@ -505,20 +513,14 @@
 
   function openExplorer(id) {
     waitForData(function(){
-      // Initialize meta from loaded data (set by named-skills.js)
+      // Stage 4 — meta source-of-truth is registry/gaia.json.meta (loaded
+      // by named-skills.js into window._gaiaMeta). No local fallback dicts;
+      // if meta is missing, the open is a no-op + console error.
       _initMeta(window._gaiaMeta);
-      // fallback if meta not in data
       if (!LEVEL_META_SE) {
-        LEVEL_META_SE = {
-          '2★':  { name:'Named', color:'#63cab7', bg:'rgba(99,202,183,.15)', border:'rgba(99,202,183,.4)' },
-          '3★': { name:'Evolved', color:'#a78bfa', bg:'rgba(167,139,250,.15)', border:'rgba(167,139,250,.4)' },
-          '4★':  { name:'Hardened', color:'#e879f9', bg:'rgba(232,121,249,.15)', border:'rgba(232,121,249,.4)' },
-          '5★':  { name:'Transcendent', color:'#fbbf24', bg:'rgba(251,191,36,.15)', border:'rgba(251,191,36,.4)' },
-          '6★': { name:'Transcendent ★', color:'#fbbf24', bg:'rgba(251,191,36,.22)', border:'rgba(251,191,36,.55)' },
-        };
-      }
-      if (!TYPE_SYMBOL) {
-        TYPE_SYMBOL = { basic:'○', extra:'◇', ultimate:'◆' };
+        // eslint-disable-next-line no-console
+        console.error('[gaia] Explorer meta missing — cannot open detail.');
+        return;
       }
 
       var ns = findNamedSkill(id);
