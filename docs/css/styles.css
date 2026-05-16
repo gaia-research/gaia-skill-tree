@@ -201,13 +201,21 @@
   button.nav-tree{background:none;border:none;cursor:pointer;padding:0;line-height:inherit}
   .nav-named-explorer{color:#ef4444!important;font-weight:700;font-family:var(--font-body)}
   .nav-named-explorer:hover{color:#f87171!important}
-  /* Registry button looks identical to anchor siblings */
+  /* Registry button looks identical to anchor siblings. Focus ring
+     mirrors the rest of the nav (1px hairline + tier-basic glow) so
+     keyboard users see the same affordance as on .nav-search-btn. */
   .nav-graph-trigger{
-    background:none;border:none;cursor:pointer;padding:0;
+    background:none;border:none;cursor:pointer;padding:.1rem .25rem;
     font-family:var(--font-body);font-size:.9rem;letter-spacing:.01em;
-    color:var(--muted);line-height:inherit;transition:color .2s;
+    color:var(--muted);line-height:inherit;
+    transition:color .2s,box-shadow .15s;
+    border-radius:4px;
   }
-  .nav-graph-trigger:hover,.nav-graph-trigger:focus-visible{color:var(--text);outline:none}
+  .nav-graph-trigger:hover{color:var(--text)}
+  .nav-graph-trigger:focus-visible{
+    color:var(--text);outline:none;
+    box-shadow:0 0 0 2px rgba(var(--tier-basic-rgb),.4);
+  }
   /* Global search icon — red, subtle */
   .nav-search-btn{
     background:none;border:none;cursor:pointer;padding:.18rem .25rem;
@@ -296,22 +304,21 @@
     background:linear-gradient(135deg,var(--basic) 0%,var(--extra) 50%,var(--ultimate) 100%);
     box-shadow:0 0 24px rgba(56,189,248,.22);
   }
-  /* TODO(stage-5): collapse .hud-trigger and .field-trigger */
-  .graph-trigger,.hud-trigger{
+  /* ── Field-view chip (Stage 5: collapsed .hud-trigger + .field-trigger).
+     The selector list keeps .hud-trigger as a legacy alias so any
+     external integration still works; the canonical class is
+     .field-trigger. .graph-trigger is the loud Stage-0 hero pill and
+     keeps its own glow treatment. */
+  .graph-trigger{
     appearance:none;font:inherit;cursor:pointer;position:relative;z-index:3;
     transition:box-shadow .2s,transform .2s,opacity .2s;
   }
-  .graph-trigger:hover,.graph-trigger:focus-visible,
-  .hud-trigger:hover,.hud-trigger:focus-visible{
-    box-shadow:0 0 36px rgba(56,189,248,.42);transform:translateY(-1px);
+  .graph-trigger:hover,.graph-trigger:focus-visible{
+    box-shadow:0 0 36px rgba(var(--tier-basic-rgb),.42);transform:translateY(-1px);
     opacity:.9;outline:none;
   }
-  .hud-trigger[aria-pressed="true"]{
-    box-shadow:0 0 28px rgba(var(--apex-gold-rgb),.45);
-    opacity:1;
-  }
-  /* Subtle field-view chip (replaces loud HUD pill) */
-  .field-trigger{
+  .field-trigger,
+  .hud-trigger{
     appearance:none;cursor:pointer;font:inherit;
     display:inline-flex;align-items:center;gap:.35rem;
     font-family:var(--font-mono);
@@ -322,15 +329,22 @@
     transition:color .2s,border-color .2s,background .2s;
     position:relative;z-index:3;
   }
-  .field-trigger:hover,.field-trigger:focus-visible{
+  .field-trigger:hover,.field-trigger:focus-visible,
+  .hud-trigger:hover,.hud-trigger:focus-visible{
     color:var(--apex-gold);border-color:rgba(var(--apex-gold-rgb),.4);
     background:rgba(var(--apex-gold-rgb),.04);outline:none;
   }
-  .field-trigger[aria-pressed="true"]{
+  .field-trigger[aria-pressed="true"],
+  .hud-trigger[aria-pressed="true"]{
     color:var(--apex-gold);
     border-color:rgba(var(--apex-gold-rgb),.55);
     background:rgba(var(--apex-gold-rgb),.07);
     box-shadow:inset 0 0 12px rgba(var(--apex-gold-rgb),.08);
+  }
+  /* ≤700px the 3D canvas is suppressed; hide the trigger so it isn't a
+     dead button. Stage 6 owns the canonical mobile breakpoint pass. */
+  @media(max-width:700px){
+    .field-trigger,.hud-trigger{display:none!important}
   }
   /* ── HUD MODE ── */
   #hero.hero-hud-mode .hero-glass-blur{
@@ -706,7 +720,35 @@
     background:rgba(3,7,18,.68);border:1px solid rgba(148,163,184,.15);
     border-radius:999px;padding:.26rem .62rem;
   }
+  .gst-stat .gst-unique,
+  .gst-stat .gst-unique-count{color:var(--tier-unique)}
   .gst-dim{color:rgba(148,163,184,.4)}
+  /* ── Canvas tooltip / collection chrome — token-bound text bits ─────
+     These classes were inlined as style="…" attributes pre-Stage 5;
+     the canvas emits them as className refs now. Each maps to a single
+     :root token so a theme swap recolors every site in lockstep. */
+  .gst-named-id{
+    color:var(--honor-red);font-family:var(--font-mono);
+    font-size:.67rem;font-weight:600;letter-spacing:.01em;
+    margin-bottom:.3rem;word-break:break-all;
+  }
+  .gst-skill-id{
+    color:var(--muted);font-family:var(--font-mono);
+    font-size:.68rem;font-weight:500;
+    margin-bottom:.3rem;
+  }
+  .gst-honor{color:var(--honor-red)}
+  .gst-effective-pill{
+    display:inline-block;padding:.12rem .42rem;border-radius:999px;
+    font-size:.62rem;font-weight:700;
+    background:rgba(var(--apex-gold-rgb),.16);color:var(--apex-gold);
+  }
+  .gst-demerit-note{color:var(--apex-gold);font-size:.66rem;margin-top:.26rem}
+  .gst-confirm-label{font-size:.6rem;font-weight:600;margin-left:.2rem}
+  .gst-btn-ico{
+    width:14px;height:14px;flex-shrink:0;
+    color:currentColor;vertical-align:middle;
+  }
   .gst-tip{
     display:inline-flex;align-items:center;gap:.24rem;
     color:rgba(148,163,184,.42);font-size:.67rem;white-space:nowrap;
@@ -870,6 +912,10 @@
   .graph-legend-item:hover{background:rgba(255,255,255,.06);color:#e2e8f0}
   .graph-legend-item.active{background:rgba(56,189,248,.12);color:#e2e8f0;box-shadow:inset 0 0 0 1px rgba(56,189,248,.3)}
   .graph-legend-swatch{border-radius:50%;flex-shrink:0}
+  .graph-legend-swatch[data-tier="basic"]{background:var(--tier-basic)}
+  .graph-legend-swatch[data-tier="extra"]{background:var(--tier-extra)}
+  .graph-legend-swatch[data-tier="unique"]{background:var(--tier-unique)}
+  .graph-legend-swatch[data-tier="ultimate"]{background:var(--tier-ultimate)}
   .graph-legend-ranks{display:flex;flex-wrap:wrap;gap:.28rem;padding:.1rem 0}
   .graph-legend-rank-pill{
     display:inline-flex;align-items:center;justify-content:center;
@@ -877,6 +923,14 @@
     font-size:.6rem;font-weight:700;cursor:pointer;
     transition:transform .15s,box-shadow .15s;
   }
+  /* Rank pill swatches read from --rank-N / --rank-N-bg tokens so
+     the six-rank palette stays in lockstep with tokens.css. */
+  .graph-legend-rank-pill[data-rank="1"]{background:var(--rank-1-bg);color:var(--rank-1)}
+  .graph-legend-rank-pill[data-rank="2"]{background:var(--rank-2-bg);color:var(--rank-2)}
+  .graph-legend-rank-pill[data-rank="3"]{background:var(--rank-3-bg);color:var(--rank-3)}
+  .graph-legend-rank-pill[data-rank="4"]{background:var(--rank-4-bg);color:var(--rank-4)}
+  .graph-legend-rank-pill[data-rank="5"]{background:var(--rank-5-bg);color:var(--rank-5)}
+  .graph-legend-rank-pill[data-rank="6"]{background:var(--rank-6-bg);color:var(--rank-6)}
   .graph-legend-rank-pill:hover{transform:scale(1.18);box-shadow:0 0 8px currentColor}
   .graph-legend-rank-pill.active{transform:scale(1.18);box-shadow:0 0 10px currentColor,inset 0 0 0 1.5px currentColor}
   .graph-label-toggle{display:none}
@@ -891,18 +945,29 @@
     background:rgba(239,68,68,.18);border-color:rgba(239,68,68,.7);
     color:#fca5a5;box-shadow:0 0 14px rgba(239,68,68,.35);
   }
+  /* ── Scatter strip (direction rule: top = Ultimate, bottom = Basic).
+     Four-stop gradient runs from --tier-ultimate-edge through
+     --tier-unique-edge → --tier-extra-edge → --tier-basic-edge so the
+     strip visually maps onto the tier hierarchy from apex down. */
   .graph-scatter-strip{
     position:absolute;left:0;top:0;bottom:52px;width:52px;z-index:10;
     display:flex;flex-direction:column;align-items:center;
-    background:linear-gradient(to bottom,rgba(56,189,248,.07) 0%,rgba(3,7,18,.65) 22%,rgba(3,7,18,.65) 78%,rgba(192,132,252,.07) 100%);
-    border-right:1px solid rgba(148,163,184,.1);
+    background:linear-gradient(
+      to bottom,
+      var(--tier-ultimate-edge) 0%,
+      var(--tier-unique-edge) 33%,
+      var(--tier-extra-edge) 66%,
+      var(--tier-basic-edge) 100%
+    );
+    border-right:1px solid var(--border);
     cursor:ns-resize;user-select:none;
   }
   .graph-scatter-edge{
     font-size:1.15rem;font-weight:700;line-height:1;padding:.55rem 0;user-select:none;
+    font-family:var(--font-mono);
   }
-  .graph-scatter-edge--top{color:rgba(56,189,248,.55)}
-  .graph-scatter-edge--bot{color:rgba(192,132,252,.45)}
+  .graph-scatter-edge--top{color:var(--tier-ultimate)}
+  .graph-scatter-edge--bot{color:var(--tier-basic)}
   .graph-scatter-track{
     flex:1;position:relative;width:100%;
     display:flex;align-items:center;justify-content:center;
@@ -911,36 +976,40 @@
     position:absolute;inset:0;width:100%;height:100%;pointer-events:none;
   }
   .graph-scatter-title{
-    font-size:.72rem;font-weight:700;letter-spacing:.04em;
+    font-size:.72rem;font-weight:700;letter-spacing:.06em;
     color:rgba(148,163,184,.55);padding:.45rem 0;white-space:nowrap;
-    font-variant-numeric:tabular-nums;
+    font-variant-numeric:tabular-nums;font-family:var(--font-mono);
+    text-transform:uppercase;
   }
-  /* ── Bottom bar ── */
+  /* ── Bottom bar (Stage 5: no glass; sits on --bg with hairline top).
+     Labels render in Bricolage (var(--font-body)); numeric stats in
+     mono small-caps via .graph-zoom-counter / .graph-speed-title. */
   .graph-bottom-bar{
     position:absolute;bottom:0;left:0;right:0;height:52px;z-index:10;
     display:flex;flex-direction:row;align-items:stretch;
-    background:linear-gradient(to right,rgba(56,189,248,.07) 0%,rgba(3,7,18,.65) 12%,rgba(3,7,18,.65) 88%,rgba(192,132,252,.07) 100%);
-    border-top:1px solid rgba(148,163,184,.1);
+    background:var(--bg);
+    border-top:1px solid var(--border);
   }
   .graph-pause-btn{
     flex:0 0 52px;display:flex;align-items:center;justify-content:center;
     font-size:1.1rem;color:rgba(148,163,184,.65);
-    background:transparent;border:none;border-right:1px solid rgba(148,163,184,.1);
-    cursor:pointer;transition:color .15s,background .15s;font-family:inherit;
+    background:transparent;border:none;border-right:1px solid var(--border);
+    cursor:pointer;transition:color .15s,background .15s;
+    font-family:var(--font-body);
   }
-  .graph-pause-btn:hover{color:#e2e8f0;background:rgba(255,255,255,.04)}
-  .graph-pause-btn.active{color:rgba(56,189,248,.9)}
+  .graph-pause-btn:hover{color:var(--text);background:rgba(255,255,255,.04)}
+  .graph-pause-btn.active{color:var(--tier-basic)}
   .graph-bottom-btn{
     flex:0 0 auto;padding:0 .85rem;
     display:flex;align-items:center;justify-content:center;
     font-size:.65rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
     color:rgba(148,163,184,.55);background:transparent;
-    border:none;border-right:1px solid rgba(148,163,184,.1);
+    border:none;border-right:1px solid var(--border);
     cursor:pointer;transition:color .15s,background .15s;
-    font-family:inherit;white-space:nowrap;
+    font-family:var(--font-body);white-space:nowrap;
   }
-  .graph-bottom-btn:hover{color:#e2e8f0;background:rgba(255,255,255,.04)}
-  .graph-bottom-btn.active{color:rgba(56,189,248,.9)}
+  .graph-bottom-btn:hover{color:var(--text);background:rgba(255,255,255,.04)}
+  .graph-bottom-btn.active{color:var(--tier-basic)}
   .graph-bottom-btn.off{color:rgba(148,163,184,.2);text-decoration:line-through}
   .graph-speed-strip{
     flex:1;display:flex;flex-direction:row;align-items:center;
@@ -951,25 +1020,26 @@
     flex-shrink:0;user-select:none;
   }
   .graph-speed-edge--left{color:rgba(148,163,184,.28)}
-  .graph-speed-edge--right{color:rgba(192,132,252,.45)}
+  .graph-speed-edge--right{color:var(--tier-extra)}
   .graph-speed-track{
     flex:1;position:relative;height:100%;
     display:flex;align-items:center;justify-content:center;
   }
   .graph-speed-title{
     position:absolute;top:3px;left:50%;transform:translateX(-50%);
-    font-size:.7rem;font-weight:700;letter-spacing:.04em;
+    font-size:.7rem;font-weight:700;letter-spacing:.06em;
     color:rgba(148,163,184,.5);white-space:nowrap;pointer-events:none;
-    font-variant-numeric:tabular-nums;
+    font-variant-numeric:tabular-nums;font-family:var(--font-mono);
+    text-transform:uppercase;
   }
   .graph-zoom-counter{
     flex:0 0 auto;padding:0 .8rem;
     display:flex;align-items:center;justify-content:center;
-    font-size:.7rem;font-weight:700;letter-spacing:.04em;
+    font-size:.7rem;font-weight:700;letter-spacing:.06em;
     color:rgba(148,163,184,.42);font-variant-numeric:tabular-nums;
-    border-right:1px solid rgba(148,163,184,.1);
+    border-right:1px solid var(--border);
     cursor:pointer;transition:color .15s;white-space:nowrap;
-    font-family:inherit;
+    font-family:var(--font-mono);text-transform:uppercase;
   }
   .graph-zoom-counter:hover{color:rgba(148,163,184,.75)}
   .graph-tooltip-add{
@@ -1034,70 +1104,111 @@
     transition:background .15s,border-color .15s;
   }
   .graph-skill-panel-explorer-link:hover{background:rgba(239,68,68,.2);border-color:rgba(239,68,68,.6)}
+  /* ── Collection panel (Stage 5: token-bound, .plaque--mini cards).
+     The panel chrome itself stays glassy because it sits over the 3D
+     canvas and benefits from the depth cue, but every colour now reads
+     from --tier-*, --honor-red, or --border instead of hardcoded hex.
+     Saved-skill cards render as .plaque--mini per Stage 3. */
   .graph-collection-panel{
     position:absolute;top:0;left:0;bottom:0;z-index:20;
     width:260px;max-width:40%;
     background:rgba(3,7,18,.92);backdrop-filter:blur(14px);
-    border-right:1px solid rgba(148,163,184,.12);
+    border-right:1px solid var(--border);
     display:none;flex-direction:column;
     overflow:hidden;
   }
   .graph-collection-header{
     display:flex;align-items:center;justify-content:space-between;
-    padding:.6rem .75rem;border-bottom:1px solid rgba(148,163,184,.1);
+    padding:.6rem .75rem;border-bottom:1px solid var(--border);
     flex-shrink:0;
   }
-  .graph-collection-title{font-size:.78rem;font-weight:700;color:var(--text);letter-spacing:.03em}
+  .graph-collection-title{
+    font-size:.72rem;font-weight:700;color:var(--text);
+    letter-spacing:.06em;text-transform:uppercase;
+    font-family:var(--font-mono);
+  }
   .graph-collection-actions{display:flex;gap:.35rem}
   .graph-collection-copy-all,.graph-collection-clear-all{
-    background:transparent;border:1px solid rgba(148,163,184,.18);border-radius:.3rem;
-    color:rgba(148,163,184,.6);font-size:.6rem;font-weight:600;padding:.18rem .4rem;
+    display:inline-flex;align-items:center;gap:.28rem;
+    background:transparent;border:1px solid var(--border);border-radius:.3rem;
+    color:rgba(148,163,184,.6);font-size:.6rem;font-weight:600;padding:.22rem .42rem;
     cursor:pointer;transition:color .15s,border-color .15s,background .15s;
-    font-family:inherit;line-height:1;
+    font-family:var(--font-mono);line-height:1;
+    text-transform:uppercase;letter-spacing:.06em;
   }
-  .graph-collection-copy-all:hover{color:#7dd3fc;border-color:rgba(56,189,248,.4);background:rgba(56,189,248,.06)}
-  .graph-collection-copy-all.copied{color:#4ade80;border-color:rgba(74,222,128,.5)}
-  .graph-collection-clear-all:hover{color:#fca5a5;border-color:rgba(239,68,68,.4);background:rgba(239,68,68,.06)}
-  .graph-collection-clear-all.confirming{color:#fca5a5;border-color:rgba(239,68,68,.5);background:rgba(239,68,68,.1)}
+  .graph-collection-copy-all:hover{
+    color:var(--text);
+    border-color:rgba(var(--honor-red-rgb),.4);
+    background:rgba(var(--honor-red-rgb),.06);
+  }
+  .graph-collection-copy-all.copied{
+    color:var(--text);
+    border-color:rgba(var(--tier-extra-rgb),.5);
+  }
+  .graph-collection-clear-all:hover{
+    color:var(--honor-red);
+    border-color:rgba(var(--honor-red-rgb),.4);
+    background:rgba(var(--honor-red-rgb),.06);
+  }
+  .graph-collection-clear-all.confirming{
+    color:var(--honor-red);
+    border-color:rgba(var(--honor-red-rgb),.5);
+    background:rgba(var(--honor-red-rgb),.1);
+  }
   .graph-collection-list{
     flex:1;overflow-y:auto;overflow-x:hidden;
     padding:.4rem .5rem;display:flex;flex-direction:column;gap:.35rem;
   }
   .graph-collection-list::-webkit-scrollbar{width:4px}
   .graph-collection-list::-webkit-scrollbar-track{background:transparent}
-  .graph-collection-list::-webkit-scrollbar-thumb{background:rgba(148,163,184,.15);border-radius:2px}
-  .graph-collection-card{
-    background:rgba(15,23,42,.7);border:1px solid rgba(148,163,184,.1);
-    border-radius:.45rem;padding:.4rem .55rem;
-    transition:border-color .15s;
+  .graph-collection-list::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+  /* Collection card = .plaque--mini variant scoped to the panel. The
+     Stage 3 .plaque--mini base supplies the slug + handle vocabulary;
+     we tighten the padding here so the card fits the 260px-wide
+     panel. data-ghost="true" dims unnamed entries (no install path). */
+  .graph-collection-card.plaque--mini{
+    padding:.4rem .55rem;border-radius:.45rem;
+    background:rgba(15,23,42,.7);border:1px solid var(--border);
+    transition:border-color .15s,background .15s;
   }
-  .graph-collection-card:hover{border-color:rgba(148,163,184,.25)}
+  .graph-collection-card.plaque--mini:hover{border-color:rgba(148,163,184,.28)}
+  .graph-collection-card[data-ghost="true"]{
+    border-style:dashed;opacity:.78;
+  }
   .graph-collection-card-top{display:flex;align-items:center;justify-content:space-between;gap:.3rem}
-  .graph-collection-card-name{font-size:.7rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}
+  .graph-collection-card-name{font-size:.7rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;font-family:var(--font-body)}
   .graph-collection-card-btns{display:flex;gap:.2rem;flex-shrink:0}
-  .graph-collection-card-named{font-size:.6rem;font-family:monospace;color:#ef4444;margin-top:.15rem;opacity:.8}
+  .graph-collection-card-named{font-size:.6rem;font-family:var(--font-mono);color:var(--honor-red);margin-top:.15rem;opacity:.85}
   .graph-collection-cmd{
     display:block;margin-top:.3rem;padding:.28rem .45rem;
-    background:rgba(0,0,0,.4);border:1px solid rgba(148,163,184,.08);
-    border-radius:.3rem;font-size:.62rem;font-family:monospace;
-    color:#7dd3fc;cursor:pointer;transition:background .15s,border-color .15s;
+    background:rgba(0,0,0,.4);border:1px solid var(--border);
+    border-radius:.3rem;font-size:.62rem;font-family:var(--font-mono);
+    color:var(--tier-basic);cursor:pointer;transition:background .15s,border-color .15s;
     word-break:break-all;user-select:all;
   }
-  .graph-collection-cmd:hover{background:rgba(56,189,248,.06);border-color:rgba(56,189,248,.25)}
-  .graph-collection-cmd.copied{border-color:rgba(74,222,128,.5);color:#4ade80}
-  .graph-collection-share,.graph-collection-remove{
-    background:transparent;border:none;cursor:pointer;
-    font-size:.7rem;line-height:1;padding:.1rem;
-    transition:color .15s;
+  .graph-collection-cmd:hover{
+    background:rgba(var(--tier-basic-rgb),.06);
+    border-color:rgba(var(--tier-basic-rgb),.25);
   }
-  .graph-collection-share{color:rgba(148,163,184,.5)}
-  .graph-collection-share:hover{color:#7dd3fc}
+  .graph-collection-cmd.copied{
+    border-color:rgba(var(--tier-extra-rgb),.5);
+    color:var(--tier-extra);
+  }
+  .graph-collection-share,.graph-collection-remove{
+    display:inline-flex;align-items:center;justify-content:center;
+    background:transparent;border:none;cursor:pointer;
+    font-size:.7rem;line-height:1;padding:.18rem;
+    transition:color .15s;
+    color:rgba(148,163,184,.5);
+  }
+  .graph-collection-share:hover{color:var(--tier-basic)}
   .graph-collection-remove{color:rgba(148,163,184,.4)}
-  .graph-collection-remove:hover{color:#fca5a5}
+  .graph-collection-remove:hover{color:var(--honor-red)}
   .graph-collection-note{
     flex-shrink:0;padding:.5rem .65rem;
-    border-top:1px solid rgba(148,163,184,.08);
-    font-size:.58rem;color:rgba(148,163,184,.45);font-style:italic;line-height:1.4;
+    border-top:1px solid var(--border);
+    font-size:.6rem;color:rgba(148,163,184,.55);font-style:italic;line-height:1.45;
+    font-family:var(--font-body);
   }
   .graph-neighbor-cards{
     position:absolute;inset:0;pointer-events:none;z-index:12;overflow:hidden;
@@ -1117,13 +1228,14 @@
   }
   .graph-neighbor-card:hover{
     background:rgba(30,41,59,.95);
-    border-color:rgba(56,189,248,.45);
+    border-color:var(--tier-basic-border);
     transform:translate(-50%,-120%) scale(1.08);
   }
-  .graph-neighbor-card[data-type="basic"]{border-color:rgba(56,189,248,.35)}
-  .graph-neighbor-card[data-type="extra"]{border-color:rgba(192,132,252,.35)}
-  .graph-neighbor-card[data-type="ultimate"]{border-color:rgba(245,158,11,.35)}
-  .graph-neighbor-card[data-type="unique"]{border-color:rgba(124,58,237,.35)}
+  /* Neighbor card border tints route through --tier-*-border tokens. */
+  .graph-neighbor-card[data-type="basic"]{border-color:var(--tier-basic-border)}
+  .graph-neighbor-card[data-type="extra"]{border-color:var(--tier-extra-border)}
+  .graph-neighbor-card[data-type="ultimate"]{border-color:var(--tier-ultimate-border)}
+  .graph-neighbor-card[data-type="unique"]{border-color:var(--tier-unique-border)}
   @media(max-width:700px){.graph-scatter-strip,.graph-bottom-bar,.graph-collection-panel{display:none!important}}
 
   /* ── REGISTRY STATS — 2×2 grid on mobile ── */
@@ -1138,23 +1250,41 @@
     .rs-label{font-size:.67rem}
   }
 
-  /* ── GRAPH MODAL — mobile desktop hint ── */
+  /* ── GRAPH MODAL — mobile desktop hint (Stage 5: token-bound).
+     Built on the plaque vocabulary so it reads as one of "us". The
+     .plaque--callout selector is local to this file (plaque.css
+     doesn't ship a callout variant yet); when one lands it can
+     replace the rules below without touching the markup. */
   .graph-mobile-hint{
     display:none;
     position:absolute;inset:0;z-index:20;
     align-items:center;justify-content:center;flex-direction:column;gap:.75rem;
-    background:rgba(3,7,18,.88);backdrop-filter:blur(4px);
+    background:rgba(3,7,18,.92);backdrop-filter:blur(6px);
     text-align:center;padding:2rem;
   }
-  .graph-mobile-hint-icon{font-size:2.4rem;line-height:1}
-  .graph-mobile-hint-title{font-size:1rem;font-weight:700;color:var(--text)}
-  .graph-mobile-hint-sub{font-size:.84rem;color:var(--muted);line-height:1.55;max-width:240px}
+  .graph-mobile-hint.plaque--callout{
+    /* Override .plaque base to keep the full-overlay behaviour. */
+    border:none;border-radius:0;box-shadow:none;
+  }
+  .graph-mobile-hint-icon{
+    color:var(--tier-basic);line-height:1;
+    filter:drop-shadow(0 0 12px rgba(var(--tier-basic-rgb),.35));
+  }
+  .graph-mobile-hint-title{
+    font-size:1rem;font-weight:700;color:var(--text);
+    font-family:var(--font-body);
+  }
+  .graph-mobile-hint-sub{
+    font-size:.84rem;color:var(--muted);line-height:1.55;max-width:260px;
+    font-family:var(--font-body);
+  }
   .graph-mobile-hint-dismiss{
     margin-top:.4rem;padding:.45rem .9rem;
-    border:1px solid rgba(56,189,248,.45);border-radius:999px;
-    background:transparent;color:var(--basic);font-size:.8rem;font-weight:700;cursor:pointer;
+    border:1px solid rgba(var(--tier-basic-rgb),.45);border-radius:999px;
+    background:transparent;color:var(--tier-basic);font-size:.8rem;font-weight:700;cursor:pointer;
+    font-family:var(--font-body);
   }
-  .graph-mobile-hint-dismiss:hover{background:rgba(56,189,248,.1)}
+  .graph-mobile-hint-dismiss:hover{background:rgba(var(--tier-basic-rgb),.1)}
   @media(max-width:700px){.graph-mobile-hint{display:flex}}
   @media (max-width:700px){
     html,body{overflow-x:clip}
@@ -1397,10 +1527,12 @@
   /* Stage 4 — DAG / Tree view layout.
      Card chrome and per-tier glow live on .plaque--mini (plaque.css). What
      remains here is purely layout + the SVG edge layer + arrow stroke.
-     `.ns-dag-arrow` was previously an inline style="color:var(--muted)" on
-     the SVG marker; it now lives here so the arrow colour is themable.
-     Stage 5 will introduce a per-rank --rank-N-edge token; until then the
-     arrow uses --muted as a neutral fallback. */
+     Stage 5: per-rank --rank-N-edge tokens are now emitted by
+     scripts/generateCssTokens.py (a translucent stroke variant of each
+     rank hue). The DAG renderer adds data-rank="N" on each arrow
+     element keyed to the dependent's rank; the selectors below resolve
+     the stroke colour from the rank token, falling back to --muted for
+     unranked or 0★ edges. */
   .ns-dag-container{position:relative;overflow-x:auto;overflow-y:visible;padding:2rem 1rem}
   .ns-dag-rank{display:flex;justify-content:center;gap:1.2rem;margin-bottom:3.5rem;position:relative;z-index:1;flex-wrap:wrap}
   /* .ns-dag-card / .ns-dag-ghost layout-only hooks. The .plaque--mini
@@ -1408,9 +1540,17 @@
   .ns-dag-card { min-width:110px;max-width:170px;text-align:center; }
   .ns-dag-ghost { opacity:.55; }
   .ns-dag-svg{position:absolute;top:0;left:0;pointer-events:none;z-index:0;color:var(--muted)}
-  /* Arrow stroke: edge colour falls back to --muted. Stage 5 will swap to
-     `var(--rank-N-edge, var(--muted))` keyed by the dependent's rank. */
+  /* Arrow stroke base — defaults to --muted; per-rank overrides below.
+     Inline style="stroke: var(--rank-N-edge)" from the DAG renderer
+     wins by specificity if the renderer supplies one. */
   .ns-dag-arrow{stroke:var(--muted);stroke-width:1.5;fill:none;marker-end:url(#ns-arrowhead)}
+  .ns-dag-arrow[data-rank="0"]{stroke:var(--rank-0-edge, var(--muted))}
+  .ns-dag-arrow[data-rank="1"]{stroke:var(--rank-1-edge, var(--muted))}
+  .ns-dag-arrow[data-rank="2"]{stroke:var(--rank-2-edge, var(--muted))}
+  .ns-dag-arrow[data-rank="3"]{stroke:var(--rank-3-edge, var(--muted))}
+  .ns-dag-arrow[data-rank="4"]{stroke:var(--rank-4-edge, var(--muted))}
+  .ns-dag-arrow[data-rank="5"]{stroke:var(--rank-5-edge, var(--muted))}
+  .ns-dag-arrow[data-rank="6"]{stroke:var(--rank-6-edge, var(--muted))}
   /* SVG arrowhead uses currentColor; the .ns-dag-svg color above drives it. */
   #ns-arrowhead polygon { fill:currentColor; }
   /* ── flow-node ghost + stacked cards + close button ── */

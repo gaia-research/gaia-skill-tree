@@ -1,39 +1,167 @@
 (function () {
+  // ──────────────────────────────────────────────────────────────────
+  // Canvas geometry locked per DESIGN.md (Graph Canvas section).
+  // Touch the values only in DESIGN.md first; the consts in this file
+  // must mirror that table exactly. Stage 5 audited every magic number
+  // in this file against DESIGN.md and lifted them into the three
+  // const blocks below — NODE_RADII, LINE_WEIGHTS, SPHERE_RADII.
+  // ──────────────────────────────────────────────────────────────────
+  //
+  // ╔══ <canvas-tokens> contract ═══════════════════════════════════╗
+  // ║ Every colour and font this canvas draws is read from a CSS    ║
+  // ║ custom property on :root. A host page can override any token  ║
+  // ║ to retheme the graph (e.g. local skill-tree views).           ║
+  // ║                                                                ║
+  // ║   --tier-basic / -rgb / -edge                                  ║
+  // ║   --tier-extra / -rgb / -edge                                  ║
+  // ║   --tier-unique / -rgb / -edge                                 ║
+  // ║   --tier-ultimate / -rgb / -edge                               ║
+  // ║   --rank-0 … --rank-6 / -bg / -border / -edge                  ║
+  // ║   --honor-red / --honor-red-rgb                                ║
+  // ║   --apex-gold / --apex-gold-rgb                                ║
+  // ║   --muted / --text                                             ║
+  // ║   --font-body / --font-mono / --font-display                   ║
+  // ║                                                                ║
+  // ║ Token map cached on first read via getCanvasTokens(). Call     ║
+  // ║ invalidateCanvasTokens() if the theme is swapped at runtime.   ║
+  // ╚════════════════════════════════════════════════════════════════╝
   const GRAPH_JSON_URL = 'graph/gaia.json';
   const GRAPH_SCALE = 1.625;
 
-  // Defaults — overwritten from meta once data loads
-  let PALETTE = {
-    basic:    { rgb:'56,189,248',   hex:'#38bdf8' },
-    extra:    { rgb:'192,132,252',  hex:'#c084fc' },
-    unique:   { rgb:'124,58,237',   hex:'#7c3aed' },
-    ultimate: { rgb:'245,158,11',   hex:'#f59e0b' },
+  // ── Locked canvas geometry (DESIGN.md ▸ Graph Canvas) ──────────
+  const NODE_RADII = { ultimate: 12.5, unique: 9.5, extra: 6.9, basic: 3.5 };
+  const LINE_WEIGHTS = {
+    default:     { ultimate: 1.55, other: 0.92 },
+    highlighted: { ultimate: 2.20, other: 1.40 },
   };
-  let TYPE_ORDER = { basic:0, extra:1, unique:2, ultimate:3 };
-  let RANK_META = {
-    '1★':  { name:'Awakened',       hex:'#38bdf8', bg:'rgba(56,189,248,.12)' },
-    '2★': { name:'Named',          hex:'#63cab7', bg:'rgba(99,202,183,.12)' },
-    '3★':{ name:'Evolved',        hex:'#a78bfa', bg:'rgba(167,139,250,.12)' },
-    '4★': { name:'Hardened',       hex:'#e879f9', bg:'rgba(232,121,249,.12)' },
-    '5★':  { name:'Transcendent',   hex:'#fbbf24', bg:'rgba(251,191,36,.12)' },
-    '6★': { name:'Transcendent ★', hex:'#fbbf24', bg:'rgba(251,191,36,.20)' },
-  };
+  // Multiplied by `scale` at render time. Unique/orphan satellites use
+  // their own larger radii (330 / 320+seed) in buildPositions(); those
+  // are layout-tuning constants and intentionally not lifted here.
+  const SPHERE_RADII = { basic: 250, extra: 145, ultimate: 44 };
+
+  // ── Token reader: pulls colour + font tokens off :root once and
+  // caches them. invalidateCanvasTokens() can be called from a theme-
+  // swap hook to refresh. No fallback hex is hardcoded here — the
+  // canonical source is tokens.css (generated from registry/gaia.json).
+  // If tokens are missing the canvas paints transparent rather than
+  // silently re-introducing tier hex codes inside this file.
+  let _tokenCache = null;
+  function _readVar(name) {
+    if (typeof document === 'undefined') return '';
+    return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  }
+  function _rgbOnly(triplet) {
+    // tokens.css emits "R, G, B" with spaces; canvas rgba() works
+    // either way but trimming keeps the strings tidy in DevTools.
+    return triplet.replace(/\s+/g, '');
+  }
+  function getCanvasTokens() {
+    if (_tokenCache) return _tokenCache;
+    function tier(name) {
+      const rgb = _rgbOnly(_readVar('--tier-' + name + '-rgb'));
+      return {
+        hex: _readVar('--tier-' + name),
+        rgb: rgb,
+        edge: _readVar('--tier-' + name + '-edge') || ('rgba(' + rgb + ',.55)'),
+      };
+    }
+    function rank(n) {
+      // Rank tokens don't have an explicit -rgb form yet; derive it
+      // from the hex when we need an rgba() with custom alpha. For
+      // now we only need bg/border/edge which are precomputed.
+      return {
+        hex: _readVar('--rank-' + n),
+        bg: _readVar('--rank-' + n + '-bg'),
+        border: _readVar('--rank-' + n + '-border'),
+        edge: _readVar('--rank-' + n + '-edge'),
+      };
+    }
+    _tokenCache = {
+      tier: {
+        basic:    tier('basic'),
+        extra:    tier('extra'),
+        unique:   tier('unique'),
+        ultimate: tier('ultimate'),
+      },
+      rank: {
+        0: rank(0), 1: rank(1), 2: rank(2), 3: rank(3),
+        4: rank(4), 5: rank(5), 6: rank(6),
+      },
+      honorRed: _readVar('--honor-red'),
+      honorRedRgb: _rgbOnly(_readVar('--honor-red-rgb')),
+      apexGold: _readVar('--apex-gold'),
+      apexGoldRgb: _rgbOnly(_readVar('--apex-gold-rgb')),
+      muted: _readVar('--muted'),
+      // --muted-rgb isn't emitted by tokens.css yet; canvas tooltips
+      // and ruler ticks fall back to the slate-400 triplet which is
+      // the historical value used for these surfaces. Update this
+      // when --muted-rgb lands in tokens.css.
+      mutedRgb: '148,163,184',
+      fontBody:    _readVar('--font-body'),
+      fontMono:    _readVar('--font-mono'),
+      fontDisplay: _readVar('--font-display'),
+    };
+    return _tokenCache;
+  }
+  function invalidateCanvasTokens() { _tokenCache = null; }
+  if (typeof window !== 'undefined') window.invalidateCanvasTokens = invalidateCanvasTokens;
+
+  // canvasFont(role, sizePx) — single source for every `ctx.font = …`
+  // call site. Roles map to the three Hunter's Atlas faces:
+  //   body    → --font-body    (Bricolage Grotesque)
+  //   handle  → --font-mono    (Departure Mono / JetBrains Mono)
+  //   display → --font-display (EB Garamond, italic)
+  function canvasFont(role, sizePx) {
+    const t = getCanvasTokens();
+    const sz = Math.max(6, Math.round(sizePx));
+    if (role === 'display') return 'italic 600 ' + sz + 'px ' + t.fontDisplay;
+    if (role === 'handle')  return '600 ' + sz + 'px ' + t.fontMono;
+    return 'bold ' + sz + 'px ' + t.fontBody;
+  }
+
+  // ── Per-skill tier palette (rgb triplets), keyed off the canonical
+  // tier names. Reads canvas tokens; backwards-compat shim PALETTE so
+  // sites that still reference `PALETTE.basic.rgb` keep working until
+  // the entire file routes through getCanvasTokens(). When meta loads
+  // we refresh the cached tokens so a registry update can re-tint the
+  // canvas without a page reload.
+  function _paletteFromTokens() {
+    const t = getCanvasTokens().tier;
+    return {
+      basic:    { rgb: t.basic.rgb,    hex: t.basic.hex },
+      extra:    { rgb: t.extra.rgb,    hex: t.extra.hex },
+      unique:   { rgb: t.unique.rgb,   hex: t.unique.hex },
+      ultimate: { rgb: t.ultimate.rgb, hex: t.ultimate.hex },
+    };
+  }
+  let PALETTE = _paletteFromTokens();
+  function _rankMetaFromTokens(labelMap) {
+    const t = getCanvasTokens().rank;
+    const out = {};
+    Object.keys(labelMap || {}).forEach(function (k) {
+      if (k === '0★') return;
+      const n = parseInt(k, 10);
+      if (Number.isNaN(n)) return;
+      out[k] = { name: labelMap[k] || k, hex: t[n].hex, bg: t[n].bg };
+    });
+    if (!Object.keys(out).length) {
+      // Fallback to the six canonical ranks if no label map was passed.
+      [1, 2, 3, 4, 5, 6].forEach(function (n) {
+        out[n + '★'] = { name: n + '★', hex: t[n].hex, bg: t[n].bg };
+      });
+    }
+    return out;
+  }
+  let RANK_META = _rankMetaFromTokens(null);
 
   function _initMetaGraph(meta) {
     if (!meta) return;
-    if (meta.typeColors) {
-      PALETTE = {};
-      Object.keys(meta.typeColors).forEach(function(t) {
-        PALETTE[t] = { rgb: meta.typeColors[t].rgb, hex: meta.typeColors[t].hex };
-      });
-    }
-    if (meta.levelColors && meta.levelLabels) {
-      RANK_META = {};
-      Object.keys(meta.levelColors).forEach(function(k) {
-        if (k === '0★') return;
-        RANK_META[k] = { name: meta.levelLabels[k] || k, hex: meta.levelColors[k].hex, bg: meta.levelColors[k].bg };
-      });
-    }
+    // Tokens are the single source of truth — they get refreshed from
+    // tokens.css. The local palette objects mirror them so we don't
+    // recompute on every draw.
+    invalidateCanvasTokens();
+    PALETTE = _paletteFromTokens();
+    RANK_META = _rankMetaFromTokens(meta.levelLabels || null);
   }
 
   const FALLBACK_SKILLS = [
@@ -145,7 +273,12 @@
     satellite.unique.sort((a,b) => (a.name || a.id).localeCompare(b.name || b.id));
     satellite.orphan.sort((a,b) => (a.name || a.id).localeCompare(b.name || b.id));
     const positions = {};
-    const radii = { basic: 250 * scale, extra: 145 * scale, ultimate: 44 * scale };
+    // Multiply locked SPHERE_RADII (DESIGN.md) by the runtime scale.
+    const radii = {
+      basic:    SPHERE_RADII.basic    * scale,
+      extra:    SPHERE_RADII.extra    * scale,
+      ultimate: SPHERE_RADII.ultimate * scale,
+    };
     Object.entries(groups).forEach(([type, group]) => {
       group.forEach((skill, index) => {
         positions[skill.id] = spherePoint(radii[type] || radii.basic, stableHash(skill.id), index, group.length);
@@ -200,13 +333,14 @@
       ctx2.beginPath();
       if (vert) { ctx2.moveTo(crossSize/2 - tickLen/2, pos); ctx2.lineTo(crossSize/2 + tickLen/2, pos); }
       else       { ctx2.moveTo(pos, crossSize/2 - tickLen/2); ctx2.lineTo(pos, crossSize/2 + tickLen/2); }
-      ctx2.strokeStyle = `rgba(148,163,184,${alpha})`;
+      // Slate ruler tick — reads --muted-rgb from the token cache.
+      ctx2.strokeStyle = `rgba(${getCanvasTokens().mutedRgb},${alpha})`;
       ctx2.stroke();
     }
     ctx2.beginPath();
     if (vert) { ctx2.moveTo(0, mainSize/2); ctx2.lineTo(crossSize, mainSize/2); }
     else      { ctx2.moveTo(mainSize/2, 0); ctx2.lineTo(mainSize/2, crossSize); }
-    ctx2.strokeStyle = `rgba(148,163,184,.28)`;
+    ctx2.strokeStyle = `rgba(${getCanvasTokens().mutedRgb},.28)`;
     ctx2.lineWidth = 1;
     ctx2.stroke();
   }
@@ -269,6 +403,13 @@
       redPillActive: false,
       namedMap: FALLBACK_NAMED_MAP,
       titleMap: FALLBACK_TITLE_MAP,
+      // graphMode: 'public' (default) or 'local'. In local mode the
+      // collection panel becomes "Claimed skills", the nav title swaps
+      // to "@<handle> · Atlas", and (TODO) the scatter strip pulls
+      // from the user's owned-skill counts. The handle is supplied via
+      // options.graphHandle or document.documentElement.dataset.graphHandle.
+      graphMode: options.graphMode || 'public',
+      graphHandle: options.graphHandle || '',
     };
 
     function resize() {
@@ -316,7 +457,7 @@
         const iM = mb('<rect x="3.4" y="1.4" width="3.2" height="4.2" rx="1.6" stroke="none" fill="currentColor" opacity=".55"/>');
         const iS = mb('<rect x="3.4" y="1.4" width="3.2" height="4.2" rx="1.6" stroke-width=".9" opacity=".5"/><path d="M5 2.2v3.2M4 3.1 5 2.2 6 3.1M4 4.5 5 5.4 6 4.5" stroke-width=".9"/>');
         const stat = `<span class="gst-stat">${skills.length}<span class="gst-dim"> skills</span> · ${edgeCount}<span class="gst-dim"> links</span>` +
-          (uniqueCount ? ` · <span style="color:#7c3aed">${uniqueCount}</span><span class="gst-dim"> Unique</span>` : '') +
+          (uniqueCount ? ` · <span class="gst-unique-count">${uniqueCount}</span><span class="gst-dim"> Unique</span>` : '') +
           `</span>`;
         let tips = '';
         if (options.draggable) {
@@ -354,13 +495,15 @@
       ctx.beginPath(); ctx.arc(sx - r * 0.28, sy - r * 0.28, r * 0.32, 0, Math.PI * 2); ctx.fillStyle = `rgba(255,255,255,${(alpha * 0.65).toFixed(2)})`; ctx.fill();
     }
     function drawNodeNamed(sx, sy, r, alpha) {
+      // Named (red-pill) nodes glow in Honor Red — single role token.
+      const honor = getCanvasTokens().honorRedRgb;
       const glow = ctx.createRadialGradient(sx, sy, 0, sx, sy, r * 4.2);
-      glow.addColorStop(0,   `rgba(239,68,68,${Math.min(alpha * 0.7, 1).toFixed(2)})`);
-      glow.addColorStop(0.4, `rgba(239,68,68,${Math.min(alpha * 0.25, 1).toFixed(2)})`);
-      glow.addColorStop(1,   'rgba(239,68,68,0)');
+      glow.addColorStop(0,   `rgba(${honor},${Math.min(alpha * 0.7, 1).toFixed(2)})`);
+      glow.addColorStop(0.4, `rgba(${honor},${Math.min(alpha * 0.25, 1).toFixed(2)})`);
+      glow.addColorStop(1,   `rgba(${honor},0)`);
       ctx.beginPath(); ctx.arc(sx, sy, r * 4.2, 0, Math.PI * 2); ctx.fillStyle = glow; ctx.fill();
       ctx.beginPath(); ctx.arc(sx, sy, r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(239,68,68,${Math.min(alpha * 1.2, 1).toFixed(2)})`; ctx.fill();
+      ctx.fillStyle = `rgba(${honor},${Math.min(alpha * 1.2, 1).toFixed(2)})`; ctx.fill();
       ctx.beginPath(); ctx.arc(sx - r * 0.28, sy - r * 0.28, r * 0.32, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(255,255,255,${(alpha * 0.65).toFixed(2)})`; ctx.fill();
     }
@@ -487,6 +630,16 @@
       ctx.fillStyle = `rgba(255,255,255,${(alpha * 0.95).toFixed(2)})`; ctx.fill();
     }
     function drawNodeUnique(sx, sy, r, alpha, t, p) {
+      // Unique = singularity render. Reads --tier-unique-rgb so the
+      // accretion disk / event horizon ring inherit the canonical
+      // Unique tier hue when a host page reskins the canvas.
+      const uniqueRgb = getCanvasTokens().tier.unique.rgb;
+      // Accretion-disk particles use the Unique tier rgb at lower
+      // alpha rather than introducing a second hue. Visually this
+      // reads as the same hue family as the canonical rank-3 swatch
+      // (the historical particle colour) without re-declaring it
+      // here. When --rank-3-rgb lands in tokens.css we can swap to
+      // it directly.
       const phase = p.phase || 0;
       const spin = t * 2.2 + phase;
       // Gravitational distortion — concentric rings that darken surrounding space
@@ -515,8 +668,8 @@
       voidGrad.addColorStop(0, `rgba(0,0,0,${(alpha * 0.85).toFixed(2)})`);
       voidGrad.addColorStop(0.25, `rgba(10,0,20,${(alpha * 0.5).toFixed(2)})`);
       voidGrad.addColorStop(0.5, `rgba(26,5,51,${(alpha * 0.2).toFixed(2)})`);
-      voidGrad.addColorStop(0.75, `rgba(124,58,237,${(alpha * 0.07).toFixed(2)})`);
-      voidGrad.addColorStop(1, `rgba(124,58,237,0)`);
+      voidGrad.addColorStop(0.75, `rgba(${uniqueRgb},${(alpha * 0.07).toFixed(2)})`);
+      voidGrad.addColorStop(1, `rgba(${uniqueRgb},0)`);
       ctx.beginPath(); ctx.arc(0, 0, voidR, 0, Math.PI * 2);
       ctx.fillStyle = voidGrad; ctx.fill();
       // Spinning dark arms (like a spiral galaxy but dark)
@@ -546,20 +699,21 @@
         const particleR = r * (0.1 + 0.05 * Math.sin(t * 4 + i));
         ctx.beginPath();
         ctx.arc(sx + dx, sy + dy, particleR, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(167,139,250,${particleAlpha.toFixed(2)})`;
+        // Accretion-disk particle: lighter sibling of Unique hue.
+        ctx.fillStyle = `rgba(${uniqueRgb},${Math.min(particleAlpha * 1.05, 1).toFixed(2)})`;
         ctx.fill();
       }
-      // Event horizon ring — bright purple edge
+      // Event horizon ring — bright Unique-tier edge
       ctx.beginPath(); ctx.arc(sx, sy, r * 1.12, 0, Math.PI * 2);
-      ctx.strokeStyle = `rgba(124,58,237,${(alpha * 0.9).toFixed(2)})`;
+      ctx.strokeStyle = `rgba(${uniqueRgb},${(alpha * 0.9).toFixed(2)})`;
       ctx.lineWidth = 2; ctx.stroke();
       // Void core — fully opaque black
       ctx.beginPath(); ctx.arc(sx, sy, r, 0, Math.PI * 2);
       ctx.fillStyle = '#000';
       ctx.fill();
-      // Inner purple shimmer at edge of core
+      // Inner Unique-tier shimmer at edge of core
       ctx.beginPath(); ctx.arc(sx, sy, r, 0, Math.PI * 2);
-      ctx.strokeStyle = `rgba(124,58,237,${(alpha * 0.5).toFixed(2)})`;
+      ctx.strokeStyle = `rgba(${uniqueRgb},${(alpha * 0.5).toFixed(2)})`;
       ctx.lineWidth = r * 0.15; ctx.stroke();
     }
     function shouldLabel(skill) {
@@ -704,7 +858,10 @@
         const baseEdgeAlpha = isNeighborEdge ? 0.72 : 0.31;
         ctx.beginPath(); ctx.moveTo(pa.sx, pa.sy); ctx.lineTo(pb.sx, pb.sy);
         ctx.strokeStyle = `rgba(${col.rgb},${(depthAlpha * baseEdgeAlpha * edgeVis).toFixed(2)})`;
-        ctx.lineWidth = isNeighborEdge ? (edge.type === 'ultimate' ? 2.2 : 1.4) : (edge.type === 'ultimate' ? 1.55 : 0.92);
+        // Line weights locked per DESIGN.md ▸ Graph Canvas. See
+        // LINE_WEIGHTS at the top of this file.
+        const lw = isNeighborEdge ? LINE_WEIGHTS.highlighted : LINE_WEIGHTS.default;
+        ctx.lineWidth = edge.type === 'ultimate' ? lw.ultimate : lw.other;
         ctx.stroke();
       });
       const nodes = state.skills.map(skill => ({ skill, z: xf[skill.id] ? xf[skill.id].z : -9999 })).sort((a,b) => a.z - b.z);
@@ -716,7 +873,8 @@
         const pulse = 0.84 + 0.16 * Math.sin(state.t * 2.2 + p.phase);
         const depthAlpha = Math.min(Math.max((p.z + 430 * state.scale) / (860 * state.scale), 0.16), 1);
         const col = PALETTE[skill.type] || PALETTE.basic;
-        const baseR = skill.type === 'ultimate' ? 12.5 : skill.type === 'unique' ? 9.5 : skill.type === 'extra' ? 6.9 : 3.5;
+        // Node base radius locked per DESIGN.md ▸ Graph Canvas.
+        const baseR = NODE_RADII[skill.type] !== undefined ? NODE_RADII[skill.type] : NODE_RADII.basic;
         const vis = state.nodeAlphas[skill.id] !== undefined ? state.nodeAlphas[skill.id] : 1.0;
         if (skill.level === '6★') {
           drawNodeVI(pr.sx, pr.sy, baseR * state.scale * pr.scale * pulse, depthAlpha * vis, state.t, p);
@@ -737,12 +895,21 @@
         const vis = state.nodeAlphas[skill.id] !== undefined ? state.nodeAlphas[skill.id] : 1.0;
         const labelAlpha = highlighted ? 1.0 : depthAlpha * Math.max(0.22, vis) * 0.9;
         if (labelAlpha < 0.04) return;
-        const col = (state.redPillActive && state.namedMap[skill.id])
-          ? { rgb:'239,68,68' }
-          : (PALETTE[skill.type] || PALETTE.basic);
+        const isNamedHover = state.redPillActive && state.namedMap[skill.id];
+        const tokens = getCanvasTokens();
+        const colRgb = isNamedHover
+          ? tokens.honorRedRgb
+          : ((PALETTE[skill.type] || PALETTE.basic).rgb);
         const size = skill.type === 'ultimate' ? 13 : skill.type === 'extra' ? 10 : 8;
-        ctx.font = `bold ${Math.max(6, Math.round(size * pr.scale * 1.16))}px Inter,system-ui,sans-serif`;
-        ctx.fillStyle = `rgba(${col.rgb},${labelAlpha.toFixed(2)})`;
+        // canvasFont() routes through tokens — Ultimate plate labels
+        // use EB Garamond italic (display), Named-skill hover uses
+        // Departure Mono (handle), everything else uses Bricolage
+        // (body).
+        let role = 'body';
+        if (skill.type === 'ultimate') role = 'display';
+        else if (isNamedHover) role = 'handle';
+        ctx.font = canvasFont(role, size * pr.scale * 1.16);
+        ctx.fillStyle = `rgba(${colRgb},${labelAlpha.toFixed(2)})`;
         ctx.textAlign = 'center';
         const labelText = (state.redPillActive && state.namedMap && state.namedMap[skill.id])
           ? state.namedMap[skill.id]
@@ -766,13 +933,13 @@
         const pr = project(p);
         if (pr.scale <= 0) return;
         const pulse = 0.84 + 0.16 * Math.sin(state.t * 2.2 + p.phase);
-        const baseR = 9.5;
+        const baseR = NODE_RADII.unique;
         const r = baseR * state.scale * pr.scale * pulse;
         ctx.beginPath(); ctx.arc(pr.sx, pr.sy, r * 1.05, 0, Math.PI * 2);
         ctx.fillStyle = '#000';
         ctx.fill();
         ctx.beginPath(); ctx.arc(pr.sx, pr.sy, r * 1.05, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(124,58,237,0.5)`;
+        ctx.strokeStyle = `rgba(${getCanvasTokens().tier.unique.rgb},0.5)`;
         ctx.lineWidth = r * 0.15; ctx.stroke();
       });
       if (options.hoverable && state.tooltipEl) {
@@ -788,19 +955,22 @@
               ? `<span style="display:inline-block;padding:.12rem .42rem;border-radius:999px;font-size:.62rem;font-weight:700;background:${rm.bg};color:${rm.hex}">${skill.level}</span>`
               : '';
             const effectivePill = (skill.effectiveLevel && skill.effectiveLevel !== skill.level)
-              ? `<span style="display:inline-block;padding:.12rem .42rem;border-radius:999px;font-size:.62rem;font-weight:700;background:rgba(251,191,36,.16);color:#fbbf24">effective ${skill.effectiveLevel}</span>`
+              ? `<span class="gst-effective-pill">effective ${skill.effectiveLevel}</span>`
               : '';
             const demeritNote = skill.demerits && skill.demerits.length
-              ? `<div style="color:#fbbf24;font-size:.66rem;margin-top:.26rem">${skill.demerits.length} demerit${skill.demerits.length === 1 ? '' : 's'}</div>`
+              ? `<div class="gst-demerit-note">${skill.demerits.length} demerit${skill.demerits.length === 1 ? '' : 's'}</div>`
               : '';
             const namedId = state.namedMap[skill.id] || null;
+            // Tooltip rows route through CSS classes (.gst-named-id /
+            // .gst-skill-id) so Honor Red / muted slate / mono font
+            // come from tokens.css.
             const namedLine = namedId
-              ? `<div style="color:#ef4444;font-size:.67rem;font-weight:600;font-family:monospace;margin-bottom:.3rem;letter-spacing:.01em">${namedId}</div>`
+              ? `<div class="gst-named-id">${namedId}</div>`
               : '';
             state.tooltipEl.innerHTML =
               `<div class="skill-tooltip-name" style="color:rgba(${col.rgb},1)">${skill.name}</div>` +
               namedLine +
-              `<div style="color:#64748b;font-size:.68rem;font-weight:500;margin-bottom:.3rem;font-family:monospace">${skill.id}</div>` +
+              `<div class="gst-skill-id">${skill.id}</div>` +
               `<div class="skill-tooltip-row"><span class="skill-tooltip-badge ${typeClass}">${skill.type.toUpperCase()}</span>${rankPill}${effectivePill}</div>` +
               demeritNote +
               `<button class="graph-tooltip-add" title="Add to collection">+</button>`;
@@ -922,42 +1092,59 @@
       const collectionPanel = document.createElement('div');
       collectionPanel.className = 'graph-collection-panel';
       collectionPanel.style.display = 'none';
+      // Collection panel chrome — uses sprite icons for copy / clear so
+      // it inherits the same icon vocabulary as the rest of the site.
+      // Internal `.gst-honor` class colours the "Named" / "named"
+      // accents via tokens.css (--honor-red), no inline hex codes.
+      // The graphMode prop swaps the panel title between "Collection"
+      // (public registry) and "Claimed skills" (per-user local graph).
+      const collectionTitle = state.graphMode === 'local' ? 'Claimed skills' : 'Collection';
       collectionPanel.innerHTML =
         `<div class="graph-collection-header">` +
-        `<span class="graph-collection-title">Collection</span>` +
+        `<span class="graph-collection-title">${collectionTitle}</span>` +
         `<div class="graph-collection-actions">` +
-        `<button class="graph-collection-copy-all" title="Copy all named install commands">Copy <span style="color:#ef4444">Named</span></button>` +
-        `<button class="graph-collection-clear-all" title="Clear collection">Clear All</button>` +
+        `<button class="graph-collection-copy-all" title="Copy all named install commands" aria-label="Copy named install commands">` +
+        `<svg class="gst-btn-ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#copy"/></svg>` +
+        `<span class="gst-honor">Named</span></button>` +
+        `<button class="graph-collection-clear-all" title="Clear collection" aria-label="Clear collection">` +
+        `<svg class="gst-btn-ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#trash"/></svg>` +
+        `</button>` +
         `</div></div>` +
         `<div class="graph-collection-list"></div>` +
-        `<div class="graph-collection-note">You can only install <span style="color:#ef4444">named</span> skills. For unnamed ones, propose one first.</div>`;
+        `<div class="graph-collection-note">You can only install <span class="gst-honor">named</span> skills. For unnamed ones, propose one first.</div>`;
       canvas.parentElement.appendChild(collectionPanel);
       state.collectionEl = collectionPanel;
       collectionPanel.addEventListener('mousedown', e => e.stopPropagation());
 
+      // Cache the original button HTML (sprite + label) so the
+      // confirm / copied flows can restore it cleanly. textContent
+      // swaps would wipe the inline SVG.
       let clearConfirmTimer = null;
       const clearBtn = collectionPanel.querySelector('.graph-collection-clear-all');
+      const clearBtnHtml = clearBtn.innerHTML;
       clearBtn.addEventListener('click', () => {
         if (clearBtn.dataset.confirm === 'yes') {
           state.collection = [];
           renderCollection();
           clearBtn.dataset.confirm = '';
-          clearBtn.textContent = 'Clear All';
+          clearBtn.innerHTML = clearBtnHtml;
           clearBtn.classList.remove('confirming');
           if (clearConfirmTimer) { clearTimeout(clearConfirmTimer); clearConfirmTimer = null; }
         } else {
           clearBtn.dataset.confirm = 'yes';
-          clearBtn.textContent = 'Are you sure?';
+          // Preserve the trash sprite, append a confirm label.
+          clearBtn.innerHTML = clearBtnHtml + '<span class="gst-confirm-label">Are you sure?</span>';
           clearBtn.classList.add('confirming');
           clearConfirmTimer = setTimeout(() => {
             clearBtn.dataset.confirm = '';
-            clearBtn.textContent = 'Clear All';
+            clearBtn.innerHTML = clearBtnHtml;
             clearBtn.classList.remove('confirming');
           }, 3000);
         }
       });
 
       const copyAllBtn = collectionPanel.querySelector('.graph-collection-copy-all');
+      const copyAllBtnHtml = copyAllBtn.innerHTML;
       copyAllBtn.addEventListener('click', () => {
         const lines = state.collection
           .map(id => state.namedMap[id])
@@ -965,9 +1152,12 @@
           .map(nid => `gaia install ${nid}`);
         if (lines.length === 0) return;
         navigator.clipboard.writeText(lines.join('\n')).then(() => {
-          copyAllBtn.innerHTML = '✓ Copied';
+          copyAllBtn.innerHTML =
+            '<svg class="gst-btn-ico" width="14" height="14" aria-hidden="true">' +
+            '<use href="assets/icons.svg#copy-check"/></svg>' +
+            '<span>Copied</span>';
           copyAllBtn.classList.add('copied');
-          setTimeout(() => { copyAllBtn.innerHTML = 'Copy <span style="color:#ef4444">Named</span>'; copyAllBtn.classList.remove('copied'); }, 1500);
+          setTimeout(() => { copyAllBtn.innerHTML = copyAllBtnHtml; copyAllBtn.classList.remove('copied'); }, 1500);
         });
       });
 
@@ -980,21 +1170,34 @@
         }
         collectionPanel.style.display = 'flex';
         let html = '';
+        // Collection cards render as .plaque--mini per Stage 3. Each
+        // card carries the data-tier attribute so the per-tier glow
+        // (--plaque-glow-intensity × --tier-*-bg) inherits the
+        // collected skill's tier. Unnamed entries render as a ghost
+        // plaque (dashed outline, muted text). Sprite-icon buttons
+        // (share / remove) sit in the top-right corner of the card.
         state.collection.forEach(id => {
           const skill = state.skills.find(s => s.id === id) || { id, name: id, type: 'basic' };
           const col = PALETTE[skill.type] || PALETTE.basic;
           const namedId = state.namedMap[id] || null;
           const cmd = namedId ? `gaia install ${namedId}` : `gaia propose /${id}`;
           const shareLink = namedId
-            ? `<button class="graph-collection-share" data-nid="${namedId}" title="Open in Explorer">↗</button>`
+            ? `<button class="graph-collection-share" data-nid="${namedId}" title="Open in Explorer" aria-label="Open in Explorer">` +
+              `<svg class="gst-btn-ico" width="12" height="12" aria-hidden="true"><use href="assets/icons.svg#share"/></svg></button>`
             : '';
-          html += `<div class="graph-collection-card" data-cid="${id}">` +
-            `<div class="graph-collection-card-top">` +
-            `<span class="graph-collection-card-name" style="color:rgba(${col.rgb},1)">${skill.name}</span>` +
-            `<div class="graph-collection-card-btns">${shareLink}<button class="graph-collection-remove" data-cid="${id}" title="Remove">×</button></div>` +
-            `</div>` +
-            (namedId ? `<div class="graph-collection-card-named">${namedId}</div>` : '') +
-            `<code class="graph-collection-cmd" data-cmd="${cmd}">$ ${cmd}</code>` +
+          const ghostAttr = namedId ? '' : ' data-ghost="true"';
+          html +=
+            `<div class="plaque--mini graph-collection-card" data-cid="${id}" data-tier="${skill.type}"${ghostAttr}>` +
+              `<div class="graph-collection-card-top">` +
+                `<span class="graph-collection-card-name" style="color:rgba(${col.rgb},1)">${skill.name}</span>` +
+                `<div class="graph-collection-card-btns">${shareLink}` +
+                  `<button class="graph-collection-remove" data-cid="${id}" title="Remove" aria-label="Remove from collection">` +
+                  `<svg class="gst-btn-ico" width="12" height="12" aria-hidden="true"><use href="assets/icons.svg#close-x"/></svg>` +
+                  `</button>` +
+                `</div>` +
+              `</div>` +
+              (namedId ? `<div class="graph-collection-card-named">${namedId}</div>` : '') +
+              `<code class="graph-collection-cmd" data-cmd="${cmd}">$ ${cmd}</code>` +
             `</div>`;
         });
         list.innerHTML = html;
@@ -1096,22 +1299,28 @@
       canvas.parentElement.appendChild(searchWrap);
       state.searchInputEl = searchInput;
 
+      // Legend rebuilt to read from CSS tokens via data-attributes —
+      // the swatch background and pill colour are set in styles.css
+      // (.graph-legend-swatch[data-tier=...], .graph-legend-rank-pill[data-rank=...])
+      // so all four tier hues and six rank hues come from --tier-* /
+      // --rank-*. Sizes (7/10/12/14 px) still drive node-size hierarchy
+      // and stay inline for clarity.
       const legend = document.createElement('div');
       legend.className = 'graph-legend';
       legend.innerHTML =
         '<div class="graph-legend-section"><div class="graph-legend-heading">Type</div>' +
-        '<div class="graph-legend-item" data-legend-type="basic"><span class="graph-legend-swatch" style="background:#38bdf8;width:7px;height:7px"></span>Basic</div>' +
-        '<div class="graph-legend-item" data-legend-type="extra"><span class="graph-legend-swatch" style="background:#c084fc;width:10px;height:10px"></span>Extra</div>' +
-        '<div class="graph-legend-item" data-legend-type="unique"><span class="graph-legend-swatch" style="background:#7c3aed;width:12px;height:12px"></span>Unique</div>' +
-        '<div class="graph-legend-item" data-legend-type="ultimate"><span class="graph-legend-swatch" style="background:#f59e0b;width:14px;height:14px"></span>Ultimate</div>' +
+        '<div class="graph-legend-item" data-legend-type="basic"><span class="graph-legend-swatch" data-tier="basic" style="width:7px;height:7px"></span>Basic</div>' +
+        '<div class="graph-legend-item" data-legend-type="extra"><span class="graph-legend-swatch" data-tier="extra" style="width:10px;height:10px"></span>Extra</div>' +
+        '<div class="graph-legend-item" data-legend-type="unique"><span class="graph-legend-swatch" data-tier="unique" style="width:12px;height:12px"></span>Unique</div>' +
+        '<div class="graph-legend-item" data-legend-type="ultimate"><span class="graph-legend-swatch" data-tier="ultimate" style="width:14px;height:14px"></span>Ultimate</div>' +
         '</div><div class="graph-legend-section"><div class="graph-legend-heading">Rank</div>' +
         '<div class="graph-legend-ranks">' +
-        '<span class="graph-legend-rank-pill" data-legend-rank="1★" style="background:rgba(56,189,248,.12);color:#38bdf8">1★</span>' +
-        '<span class="graph-legend-rank-pill" data-legend-rank="2★" style="background:rgba(99,202,183,.12);color:#63cab7">2★</span>' +
-        '<span class="graph-legend-rank-pill" data-legend-rank="3★" style="background:rgba(167,139,250,.12);color:#a78bfa">3★</span>' +
-        '<span class="graph-legend-rank-pill" data-legend-rank="4★" style="background:rgba(232,121,249,.12);color:#e879f9">4★</span>' +
-        '<span class="graph-legend-rank-pill" data-legend-rank="5★" style="background:rgba(251,191,36,.12);color:#fbbf24">5★</span>' +
-        '<span class="graph-legend-rank-pill" data-legend-rank="6★" style="background:rgba(251,191,36,.20);color:#fbbf24">6★</span>' +
+        '<span class="graph-legend-rank-pill" data-legend-rank="1★" data-rank="1">1★</span>' +
+        '<span class="graph-legend-rank-pill" data-legend-rank="2★" data-rank="2">2★</span>' +
+        '<span class="graph-legend-rank-pill" data-legend-rank="3★" data-rank="3">3★</span>' +
+        '<span class="graph-legend-rank-pill" data-legend-rank="4★" data-rank="4">4★</span>' +
+        '<span class="graph-legend-rank-pill" data-legend-rank="5★" data-rank="5">5★</span>' +
+        '<span class="graph-legend-rank-pill" data-legend-rank="6★" data-rank="6">6★</span>' +
         '</div></div>';
       legend.addEventListener('mousedown', e => e.stopPropagation());
       legend.querySelectorAll('.graph-legend-item[data-legend-type]').forEach(item => {
@@ -1485,13 +1694,54 @@
     mobileHintDismiss.addEventListener('click', () => { mobileHint.style.display = 'none'; });
   }
   const isMobile = window.matchMedia('(max-width:700px)').matches;
-  const heroGraph = createSkillGraph(document.getElementById('canvas3d'), { 
-    labelMode:'none', 
-    scale:GRAPH_SCALE, 
+
+  // graphMode wiring (local-graph readiness, Stage 5):
+  //   1. <html data-graph-mode="local" data-graph-handle="alice">
+  //   2. ?mode=local&handle=alice  in the page URL
+  // The first non-empty source wins; absence falls back to 'public'.
+  function _resolveGraphMode() {
+    const html = document.documentElement;
+    const dsMode = (html.dataset.graphMode || '').toLowerCase();
+    const dsHandle = html.dataset.graphHandle || '';
+    let mode = dsMode === 'local' ? 'local' : 'public';
+    let handle = dsHandle;
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const qm = (params.get('mode') || '').toLowerCase();
+      const qh = params.get('handle') || '';
+      if (qm === 'local') mode = 'local';
+      if (qh) handle = qh;
+    } catch (_) { /* ignore — non-browser env */ }
+    return { mode, handle };
+  }
+  const _graphIdentity = _resolveGraphMode();
+  // In local mode, rewrite the nav-trigger / dialog title to the
+  // owner handle. Public mode leaves the existing copy alone.
+  if (_graphIdentity.mode === 'local' && _graphIdentity.handle) {
+    const navTrigger = document.querySelector('[data-graph-trigger]');
+    if (navTrigger) navTrigger.textContent = '@' + _graphIdentity.handle + ' · Atlas';
+    const dialogTitle = document.getElementById('skillGraphTitle');
+    if (dialogTitle) dialogTitle.textContent = '@' + _graphIdentity.handle + ' · Atlas';
+  }
+
+  const heroGraph = createSkillGraph(document.getElementById('canvas3d'), {
+    labelMode:'none',
+    scale:GRAPH_SCALE,
     stars:isMobile ? 120 : 280, // Fewer stars on mobile for performance
-    pointerTarget:hero 
-  });  const modalGraph = createSkillGraph(document.getElementById('graphDialogCanvas'), {
-    labelMode:'all', scale:1.8, stars:320, statusEl:document.querySelector('[data-graph-status]'), autostart:false, zoomable:true, draggable:true, hoverable:true,
+    pointerTarget:hero,
+    graphMode: _graphIdentity.mode,
+    graphHandle: _graphIdentity.handle,
+  });
+  const modalGraph = createSkillGraph(document.getElementById('graphDialogCanvas'), {
+    labelMode:'all', scale:1.8, stars:320, statusEl:document.querySelector('[data-graph-status]'),
+    autostart:false, zoomable:true, draggable:true, hoverable:true,
+    graphMode: _graphIdentity.mode,
+    graphHandle: _graphIdentity.handle,
+    // TODO(stage-5-local): in local mode the scatter strip should
+    // pull from the user's owned-skill counts instead of the
+    // canonical scale. Data plumbing for that lives in
+    // src/gaia_cli/localContext.py and isn't wired into the docs
+    // bundle yet — leave the public-scale ruler for now.
   });
 
   function peek(on) { hero.classList.toggle('hero-graph-peek', Boolean(on)); }

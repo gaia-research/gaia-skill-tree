@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en" data-icon-base="../assets/icons.svg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Registry Fonts — Gaia (Stage 5)</title>
+  <meta name="description" content="Canvas-rendered labels at 8/10/12/14/16 px in each of body/handle/display roles, plus side-by-side DOM comparison.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    body {
+      padding: 3rem 1.5rem 6rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+    }
+    h1 { font-family: var(--font-display); font-weight: 600; margin-bottom: .25rem; }
+    .sampler-sub {
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: .8rem;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 90px repeat(5, 1fr);
+      gap: .6rem .8rem;
+      align-items: center;
+      margin-top: 1rem;
+    }
+    .grid .head {
+      font-family: var(--font-mono);
+      font-size: .68rem;
+      color: var(--muted);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .role-label {
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      color: var(--text);
+      letter-spacing: .04em;
+    }
+    .role-label small {
+      display: block;
+      color: var(--muted);
+      font-size: .62rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-top: .15rem;
+    }
+    .cell {
+      background: rgba(255, 255, 255, .02);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: .35rem .45rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+    }
+    .cell img {
+      image-rendering: -webkit-optimize-contrast;
+      max-width: 100%;
+      height: auto;
+    }
+    .legend {
+      margin-top: 2.5rem;
+      padding: 1rem 1.2rem;
+      background: rgba(255, 255, 255, .02);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+    .legend p { margin: .2rem 0; color: var(--muted); font-size: .82rem; }
+    .legend code {
+      font-family: var(--font-mono);
+      background: rgba(255, 255, 255, .04);
+      padding: .05rem .3rem;
+      border-radius: 3px;
+      color: var(--text);
+    }
+    section { margin-bottom: 2.4rem; }
+    h2 {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 1.3rem;
+      margin: 1.4rem 0 .25rem;
+    }
+    h2 small {
+      font-family: var(--font-mono);
+      font-size: .65rem;
+      color: var(--muted);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-left: .6rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Canvas label faces</h1>
+  <p class="sampler-sub">Stage 5 · skill-graph.js ▸ canvasFont(role, size)</p>
+
+  <section>
+    <p style="color: var(--muted); max-width: 60ch;">
+      Each cell below is a real <code>&lt;canvas&gt;</code> rasterised
+      to a PNG via <code>canvas.toDataURL()</code>, then mounted as an
+      <code>&lt;img&gt;</code>. The font string comes from the same
+      <code>canvasFont(role, sizePx)</code> helper the 3D Registry
+      uses, so each row reflects exactly what hover labels render at
+      that size on the live canvas.
+    </p>
+  </section>
+
+  <h2>Three roles × five sizes <small>8 / 10 / 12 / 14 / 16 px</small></h2>
+  <div class="grid" id="fontGrid">
+    <div></div>
+    <div class="head">8 px</div>
+    <div class="head">10 px</div>
+    <div class="head">12 px</div>
+    <div class="head">14 px</div>
+    <div class="head">16 px</div>
+  </div>
+
+  <div class="legend">
+    <p><code>body</code> → <code>--font-body</code> · Bricolage Grotesque · default skill labels, neighbour cards.</p>
+    <p><code>handle</code> → <code>--font-mono</code> · Departure Mono (JetBrains Mono fallback) · Named-skill hover labels, tooltip IDs.</p>
+    <p><code>display</code> → <code>--font-display</code> italic · EB Garamond · Ultimate plate labels (Level VI hero nodes).</p>
+  </div>
+
+  <script>
+    // Mirror of canvasFont() from skill-graph.js. Kept in lockstep so
+    // the sampler matches the production canvas exactly. If the source
+    // diverges, update both at once.
+    function readVar(name) {
+      return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    }
+    function canvasFont(role, sizePx) {
+      var fontBody    = readVar('--font-body');
+      var fontMono    = readVar('--font-mono');
+      var fontDisplay = readVar('--font-display');
+      var sz = Math.max(6, Math.round(sizePx));
+      if (role === 'display') return 'italic 600 ' + sz + 'px ' + fontDisplay;
+      if (role === 'handle')  return '600 ' + sz + 'px ' + fontMono;
+      return 'bold ' + sz + 'px ' + fontBody;
+    }
+
+    var SAMPLE = {
+      body:    '/auto-debug',
+      handle:  'karpathy/autoresearch',
+      display: 'The Scholar’s Compass',
+    };
+    var ROLE_DESC = {
+      body:    { face: 'Bricolage', token: '--font-body' },
+      handle:  { face: 'Departure', token: '--font-mono' },
+      display: { face: 'EB Garamond', token: '--font-display' },
+    };
+
+    function renderCell(role, sizePx) {
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      var paddingX = 14;
+      var paddingY = 10;
+      var measureCanvas = document.createElement('canvas');
+      var mctx = measureCanvas.getContext('2d');
+      mctx.font = canvasFont(role, sizePx);
+      var text = SAMPLE[role];
+      var metrics = mctx.measureText(text);
+      var w = Math.ceil(metrics.width + paddingX * 2);
+      var h = Math.ceil(sizePx * 1.6 + paddingY * 2);
+      var c = document.createElement('canvas');
+      c.width  = w * dpr;
+      c.height = h * dpr;
+      c.style.width  = w + 'px';
+      c.style.height = h + 'px';
+      var ctx = c.getContext('2d');
+      ctx.scale(dpr, dpr);
+      ctx.font = canvasFont(role, sizePx);
+      // Match the tier colour each role typically renders in:
+      //   body    → tier-basic-ish (we use --text for legibility here)
+      //   handle  → honor-red
+      //   display → apex-gold (Ultimate plate)
+      var fill;
+      if (role === 'display')      fill = readVar('--apex-gold');
+      else if (role === 'handle')  fill = readVar('--honor-red');
+      else                          fill = readVar('--text');
+      ctx.fillStyle = fill;
+      ctx.textBaseline = 'middle';
+      ctx.fillText(text, paddingX, h / 2);
+      var img = new Image();
+      img.alt = role + ' ' + sizePx + 'px';
+      img.src = c.toDataURL('image/png');
+      img.width = w;
+      img.height = h;
+      return img;
+    }
+
+    function build() {
+      var grid = document.getElementById('fontGrid');
+      ['body', 'handle', 'display'].forEach(function (role) {
+        var label = document.createElement('div');
+        label.className = 'role-label';
+        label.innerHTML = role + '<small>' + ROLE_DESC[role].face + '</small>';
+        grid.appendChild(label);
+        [8, 10, 12, 14, 16].forEach(function (sz) {
+          var cell = document.createElement('div');
+          cell.className = 'cell';
+          cell.appendChild(renderCell(role, sz));
+          grid.appendChild(cell);
+        });
+      });
+    }
+
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(build);
+    } else {
+      window.addEventListener('load', build);
+    }
+  </script>
+</body>
+</html>

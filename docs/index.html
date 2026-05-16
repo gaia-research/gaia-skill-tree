@@ -119,9 +119,9 @@
       <div class="graph-canvas-wrap">
         <canvas id="graphDialogCanvas"></canvas>
         <div class="graph-status" data-graph-status>Loading full graph…</div>
-        <div class="graph-mobile-hint" id="graphMobileHint">
-          <div class="graph-mobile-hint-icon">🖥️</div>
-          <div class="graph-mobile-hint-title">Best on desktop</div>
+        <div class="graph-mobile-hint plaque plaque--callout" id="graphMobileHint" role="dialog" aria-labelledby="graphMobileHintTitle">
+          <svg class="graph-mobile-hint-icon" width="40" height="40" aria-hidden="true"><use href="assets/icons.svg#monitor"/></svg>
+          <div class="graph-mobile-hint-title" id="graphMobileHintTitle">Best on desktop</div>
           <div class="graph-mobile-hint-sub">The skill graph is interactive and easiest to explore on a larger screen.</div>
           <button class="graph-mobile-hint-dismiss" id="graphMobileHintDismiss">Show anyway</button>
         </div>
