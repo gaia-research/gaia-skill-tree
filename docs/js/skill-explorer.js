@@ -68,80 +68,42 @@
   }
 
   // ── RENDER HERO ──────────────────────────────────────────────
-  // Phase 8d — hero is rebuilt on the .plaque.plaque--detail shell. The
-  // legacy .se-hero-card chrome is replaced; the .se-desc-panel sibling
-  // is dropped because description + tags now live inside the right
-  // column of .plaque--detail. The surrounding overlay (#skillExplorer,
-  // topbar, evidence, timeline, install tab) is untouched.
+  // Stage 3 — hero is the .plaque--detail variant of the shared
+  // component family. Markup emission moved entirely to plaque.js;
+  // this function now just builds the ns object (merging generic
+  // type/level when needed) and hands it to plaque.renderDetail.
+  // The "Open Repo" topbar button is still wired here because it
+  // lives in the surrounding modal chrome, not in the plaque.
   function renderHero(ns, generic) {
-    var lm = LEVEL_META_SE[ns.level] || LEVEL_META_SE['2★'];
-    var typeColor = ns.type === 'ultimate' ? '#f59e0b' : ns.type === 'unique' ? '#7c3aed' : ns.type === 'extra' ? '#c084fc' : '#38bdf8';
     var type = (generic && generic.type) || ns.type || 'basic';
-    var typeSymbol = TYPE_SYMBOL[type] || '';
     var links = ns.links || {};
     var repoUrl = links.github || links.npm || '';
-    var n = parseInt(String(ns.level || '').replace(/\D+/g, ''), 10) || 0;
 
-    // Stage 2 — the level badge is the shared rank-badge component
-    // (full variant: chip + 6-star row). Type-tag and origin chips
-    // retain .se-badge styling but no longer carry per-rank colour.
-    var rankFull = (typeof window.rankBadge === 'function')
-      ? window.rankBadge(ns.level, { variant: 'full', label: ns.level + ' · ' + lm.name })
+    // Build the entry passed to plaque.renderDetail. Use the generic
+    // type if the named entry doesn't carry one. Description falls
+    // back to the generic description so the right column is never
+    // empty for a wired-up generic skill.
+    var detailNs = {
+      id: ns.id,
+      name: ns.name,
+      title: ns.title,
+      level: ns.level,
+      type: type,
+      contributor: ns.contributor,
+      origin: ns.origin,
+      description: ns.description || (generic && generic.description) || '',
+      tags: Array.isArray(ns.tags) ? ns.tags : [],
+      links: links,
+      genericSkillRef: ns.genericSkillRef,
+    };
+
+    var heroHtml = (window.plaque && typeof window.plaque.renderDetail === 'function')
+      ? window.plaque.renderDetail(detailNs)
       : '';
-    var badgesHtml = [
-      rankFull,
-      generic ? '<span class="se-badge" style="color:' + typeColor + ';background:rgba(0,0,0,.3);border-color:' + typeColor + '40">' + typeSymbol + ' ' + esc(generic.type || '') + '</span>' : '',
-      ns.origin ? '<span class="se-badge" style="color:#fbbf24;background:rgba(251,191,36,.1);border-color:rgba(251,191,36,.3)">★ origin</span>' : '',
-    ].filter(Boolean).join('');
-
-    var installCmd = 'gaia install ' + ns.id;
-    var slug = (typeof window.namedSlug === 'function')
-      ? window.namedSlug(ns)
-      : ('/' + (ns.id.split('/')[1] || ns.id));
-    var contribLink = (typeof window.handleLink === 'function')
-      ? window.handleLink(ns.contributor || '')
-      : (ns.contributor ? '<a class="atlas-handle" href="./u/' + encodeURIComponent(ns.contributor) + '/">@' + esc(ns.contributor) + '</a>' : '');
-
-    var tags = Array.isArray(ns.tags) ? ns.tags : [];
-
-    // Left column — orb, slash slug, handle, badges, install row.
-    // The install button uses copyToClipboard() from ui.js so the
-    // insecure-context fallback (textarea + execCommand) is in play.
-    var heroLeft =
-      '<div class="plaque-detail-left">' +
-        '<div class="plaque-orb plaque-orb--lg plaque-orb--' + esc(type) + (n >= 6 ? ' plaque-orb--vi' : '') + '" aria-hidden="true"></div>' +
-        '<div class="plaque-skill-name named-slug" title="' + esc(ns.id) + '">' + esc(slug) + '</div>' +
-        (contribLink ? '<div class="se-contrib">' + contribLink + '</div>' : '') +
-        '<div class="se-badges">' + badgesHtml + '</div>' +
-        (generic ? '<div style="font-size:.82rem;color:var(--muted)">Generic skill: <strong style="color:var(--text)">' + esc(generic.name || ns.genericSkillRef) + '</strong></div>' : '') +
-        (generic ? '<div style="font-size:.8rem;color:var(--muted);margin-top:.2rem">Claimed/effective level: <strong style="color:var(--text)">' + esc(effectiveLabel(generic)) + '</strong></div>' : '') +
-        '<div class="se-hero-install">' +
-          '<span class="se-hero-prompt">$</span>' +
-          '<span class="se-hero-cmd">' + esc(installCmd) + '</span>' +
-          // Stage 1 — sprite icon + flash-to-check mirrors .copy-btn flow.
-          '<button class="se-hero-copy copy-btn" title="Copy install command" aria-label="Copy install command" data-cmd="' + esc(installCmd) + '" onclick="(function(btn,ev){ev.stopPropagation();var copy=window.copyToClipboard||function(t){return navigator.clipboard.writeText(t)};copy(btn.dataset.cmd).then(function(){if(typeof window.gaiaFlashCopied===\'function\'){window.gaiaFlashCopied(btn);}else{var o=btn.innerHTML;btn.innerHTML=(window.gaiaIcon?window.gaiaIcon(\'copy-check\',{size:14}):\'OK\');setTimeout(function(){btn.innerHTML=o;},1500);}}).catch(function(){});})(this,event)">' +
-            (window.gaiaIcon ? window.gaiaIcon('copy', { size: 14 }) : '<svg class="ico" width="14" height="14" aria-hidden="true"></svg>') +
-          '</button>' +
-        '</div>' +
-        (repoUrl ? '<a class="se-github-link" href="' + esc(repoUrl) + '" target="_blank" rel="noopener">Show in GitHub ↗</a>' : '') +
-      '</div>';
-
-    // Right column — title (muted EB Garamond italic), description (Bricolage), tags.
-    var heroRight =
-      '<div class="plaque-detail-right">' +
-        (ns.title ? '<div class="plaque-title">' + esc(ns.title) + '</div>' : (ns.name ? '<div class="plaque-title">' + esc(ns.name) + '</div>' : '')) +
-        '<p class="plaque-description">' + esc(ns.description || (generic && generic.description) || '') + '</p>' +
-        (tags.length ? '<div class="plaque-tags">' + tags.map(function(t){ return '<span class="plaque-tag">' + esc(t) + '</span>'; }).join('') + '</div>' : '') +
-      '</div>';
-
-    var heroHtml =
-      '<div class="plaque plaque--detail" data-level="' + esc(ns.level) + '" data-type="' + esc(type) + (n >= 6 ? ' plaque--apex-vi' : '') + '">' +
-        heroLeft + heroRight +
-      '</div>';
 
     document.getElementById('seHero').innerHTML = heroHtml;
 
-    // wire Open Repo button
+    // wire Open Repo button (modal chrome — outside the plaque)
     var openBtn = document.getElementById('seOpenRepo');
     if (repoUrl) { openBtn.onclick = function(){ window.open(repoUrl,'_blank','noopener'); }; openBtn.style.display=''; }
     else { openBtn.style.display = 'none'; }
@@ -236,7 +198,7 @@
     }
 
     var demeritText = (generic && Array.isArray(generic.demerits) && generic.demerits.length)
-      ? ('  ·  Demerits: <strong style="color:#fbbf24">' + esc(generic.demerits.join(', ')) + '</strong>')
+      ? ('  ·  Demerits: <strong style="color:var(--apex-gold)">' + esc(generic.demerits.join(', ')) + '</strong>')
       : '';
     var skillDefHtml = generic ? '<div class="se-docs-block"><h4>Generic Skill Definition</h4>' +
       '<p style="line-height:1.75;margin-bottom:.8rem">'+esc(generic.description||'')+'</p>' +
@@ -280,7 +242,8 @@
     function flowNode(id, name, contrib, level, typeStr, isCurrent, isNamed) {
       var clsExtra = isCurrent ? ' current' : '';
       var ghostCls = isNamed ? '' : ' flow-node-ghost';
-      var contribHtml = contrib ? '<span class="fn-contrib" style="color:#ef4444">' + esc(contrib) + '</span>' : '';
+      // Stage 3 — Honor Red carried by the .fn-contrib CSS rule, not inline.
+      var contribHtml = contrib ? '<span class="fn-contrib">' + esc(contrib) + '</span>' : '';
       var levelHtml = rankChip(level);
       return '<div class="flow-node' + clsExtra + ghostCls + '" data-level="' + esc(level||'') + '" data-id="' + esc(id) + '" onclick="openSkillExplorer(\'' + id.replace(/'/g,"\\'") + '\')">' +
         levelHtml + '<span class="fn-name">' + esc(name||id) + '</span>' + contribHtml +
@@ -313,7 +276,7 @@
           'onclick="openSkillExplorer(\'' + sib.id.replace(/'/g,"\\'") + '\')">' +
           rankChip(sib.level) +
           '<span class="fn-name">' + esc(sib.name || sib.id) + '</span>' +
-          '<span class="fn-contrib" style="color:#ef4444">' + esc(sib.contributor) + '</span>' +
+          '<span class="fn-contrib">' + esc(sib.contributor) + '</span>' +
         '</div>';
       });
       namedHtml += '</div>';
@@ -519,7 +482,7 @@
     // contributor is now a hover-underlined link.
     var nspContribLink = (typeof window.handleLink === 'function')
       ? window.handleLink(ns.contributor || '')
-      : '<span style="color:#ef4444;font-weight:700">@' + esc(ns.contributor || '') + '</span>';
+      : '<span class="atlas-handle atlas-handle--inline">@' + esc(ns.contributor || '') + '</span>';
     document.getElementById('uspName').innerHTML = nspContribLink + ' / ' + esc(ns.name || ns.id.split('/')[1] || ns.id);
     document.getElementById('uspId').textContent = ns.id;
     var bodyEl = pop.querySelector('.usp-body');

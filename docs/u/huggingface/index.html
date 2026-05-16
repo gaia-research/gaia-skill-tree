@@ -21,6 +21,8 @@
   <script src="../../js/icons.js"></script>
   <!-- Stage 2 — rank-badge component, loaded after icons.js. -->
   <script src="../../js/rank-badge.js"></script>
+  <!-- Stage 3 — plaque component family, loaded after rank-badge.js. -->
+  <script src="../../js/plaque.js"></script>
   <script src="../../js/ui.js" defer></script>
 </head>
 <body class="profile-page">
@@ -61,146 +63,13 @@
     <h2 class="profile-section-title">Named Skills</h2>
     <p class="profile-section-sub">All named implementations attributed to @huggingface in the Gaia registry.</p>
     <div class="plaque-grid">
-      <div class="plaque plaque--settled" data-skill-id="huggingface/hf-cli" data-type="basic" data-level="2★">
-  <div class="plaque-header">
-    <svg class="ico plaque-seal" aria-hidden="true"><use href="../../assets/icons.svg#seal-diamond"/></svg>
-    <div class="plaque-skill-name">HF CLI</div>
-    <div class="plaque-tier">○</div>
-  </div>
-  <div class="plaque-named-slug named-slug" title="huggingface/hf-cli">/hf-cli</div>
-  <a class="atlas-handle plaque-contributor" href="../../u/huggingface/">@huggingface</a>
-  <div class="plaque-title">The Hub Operator</div>
-  <span class="rank-badge" data-level="2" data-variant="full" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__chip">2★</span><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span>
-  <div class="plaque-divider"></div>
-  <p class="plaque-description">Guides Hugging Face Hub CLI operations for downloading, uploading, managing repos, running Jobs, querying datasets, configuring Spaces, and handling Hub authentication.</p>
-  <div class="plaque-tags"><span class="plaque-tag">huggingface</span>
-<span class="plaque-tag">hub</span>
-<span class="plaque-tag">cli</span>
-<span class="plaque-tag">jobs</span>
-<span class="plaque-tag">datasets</span></div>
-  <div class="plaque-evidence">CLASS C</div>
-  <div class="plaque-underline plaque-underline--settled"></div>
-</div>
-<div class="plaque plaque--settled" data-skill-id="huggingface/huggingface-datasets" data-type="extra" data-level="2★">
-  <div class="plaque-header">
-    <svg class="ico plaque-seal" aria-hidden="true"><use href="../../assets/icons.svg#seal-diamond"/></svg>
-    <div class="plaque-skill-name">Hugging Face Datasets</div>
-    <div class="plaque-tier">○</div>
-  </div>
-  <div class="plaque-named-slug named-slug" title="huggingface/huggingface-datasets">/huggingface-datasets</div>
-  <a class="atlas-handle plaque-contributor" href="../../u/huggingface/">@huggingface</a>
-  <div class="plaque-title">The Dataset Cartographer</div>
-  <span class="rank-badge" data-level="2" data-variant="full" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__chip">2★</span><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span>
-  <div class="plaque-divider"></div>
-  <p class="plaque-description">Explores Hugging Face datasets through the Dataset Viewer API, resolving configs and splits, previewing rows, paginating records, searching text, filtering rows, and retrieving parquet metadata.</p>
-  <div class="plaque-tags"><span class="plaque-tag">huggingface</span>
-<span class="plaque-tag">datasets</span>
-<span class="plaque-tag">dataset-viewer</span>
-<span class="plaque-tag">parquet</span>
-<span class="plaque-tag">data-analysis</span></div>
-  <div class="plaque-evidence">CLASS C</div>
-  <div class="plaque-underline plaque-underline--settled"></div>
-</div>
-<div class="plaque plaque--settled" data-skill-id="huggingface/huggingface-llm-trainer" data-type="unique" data-level="3★">
-  <div class="plaque-header">
-    <svg class="ico plaque-seal" aria-hidden="true"><use href="../../assets/icons.svg#seal-diamond"/></svg>
-    <div class="plaque-skill-name">Hugging Face LLM Trainer</div>
-    <div class="plaque-tier">○</div>
-  </div>
-  <div class="plaque-named-slug named-slug" title="huggingface/huggingface-llm-trainer">/huggingface-llm-trainer</div>
-  <a class="atlas-handle plaque-contributor" href="../../u/huggingface/">@huggingface</a>
-  <div class="plaque-title">The Cloud Fine-Tuner</div>
-  <span class="rank-badge" data-level="3" data-variant="full" data-size="md" role="img" aria-label="Rank 3 of 6"><span class="rank-badge__chip">3★</span><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span>
-  <div class="plaque-divider"></div>
-  <p class="plaque-description">Runs LLM fine-tuning on Hugging Face Jobs using TRL or Unsloth, covering SFT, DPO, GRPO, reward modeling, dataset validation, hardware selection, Trackio monitoring, and Hub persistence.</p>
-  <div class="plaque-tags"><span class="plaque-tag">huggingface</span>
-<span class="plaque-tag">fine-tuning</span>
-<span class="plaque-tag">trl</span>
-<span class="plaque-tag">jobs</span>
-<span class="plaque-tag">trackio</span></div>
-  <div class="plaque-evidence">CLASS B</div>
-  <div class="plaque-underline plaque-underline--settled"></div>
-</div>
-<div class="plaque plaque--settled" data-skill-id="huggingface/huggingface-papers" data-type="extra" data-level="2★">
-  <div class="plaque-header">
-    <svg class="ico plaque-seal" aria-hidden="true"><use href="../../assets/icons.svg#seal-diamond"/></svg>
-    <div class="plaque-skill-name">Hugging Face Papers</div>
-    <div class="plaque-tier">○</div>
-  </div>
-  <div class="plaque-named-slug named-slug" title="huggingface/huggingface-papers">/huggingface-papers</div>
-  <a class="atlas-handle plaque-contributor" href="../../u/huggingface/">@huggingface</a>
-  <div class="plaque-title">The Paper Indexer</div>
-  <span class="rank-badge" data-level="2" data-variant="full" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__chip">2★</span><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span>
-  <div class="plaque-divider"></div>
-  <p class="plaque-description">Looks up Hugging Face paper pages and arXiv IDs, fetching markdown paper content and structured metadata such as authors, linked models, datasets, Spaces, GitHub repos, and project pages.</p>
-  <div class="plaque-tags"><span class="plaque-tag">huggingface</span>
-<span class="plaque-tag">papers</span>
-<span class="plaque-tag">arxiv</span>
-<span class="plaque-tag">metadata</span>
-<span class="plaque-tag">research</span></div>
-  <div class="plaque-evidence">CLASS C</div>
-  <div class="plaque-underline plaque-underline--settled"></div>
-</div>
-<div class="plaque plaque--settled" data-skill-id="huggingface/huggingface-vision-trainer" data-type="basic" data-level="3★">
-  <div class="plaque-header">
-    <svg class="ico plaque-seal" aria-hidden="true"><use href="../../assets/icons.svg#seal-diamond"/></svg>
-    <div class="plaque-skill-name">Hugging Face Vision Trainer</div>
-    <div class="plaque-tier">○</div>
-  </div>
-  <div class="plaque-named-slug named-slug" title="huggingface/huggingface-vision-trainer">/huggingface-vision-trainer</div>
-  <a class="atlas-handle plaque-contributor" href="../../u/huggingface/">@huggingface</a>
-  <div class="plaque-title">The Vision Forge</div>
-  <span class="rank-badge" data-level="3" data-variant="full" data-size="md" role="img" aria-label="Rank 3 of 6"><span class="rank-badge__chip">3★</span><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span>
-  <div class="plaque-divider"></div>
-  <p class="plaque-description">Trains and fine-tunes object detection, image classification, and SAM/SAM2 segmentation models on Hugging Face Jobs or locally with dataset validation, metrics, Trackio, and Hub persistence.</p>
-  <div class="plaque-tags"><span class="plaque-tag">huggingface</span>
-<span class="plaque-tag">vision</span>
-<span class="plaque-tag">object-detection</span>
-<span class="plaque-tag">segmentation</span>
-<span class="plaque-tag">fine-tuning</span></div>
-  <div class="plaque-evidence">CLASS B</div>
-  <div class="plaque-underline plaque-underline--settled"></div>
-</div>
-<div class="plaque plaque--settled" data-skill-id="huggingface/semantic-cache" data-type="unique" data-level="4★">
-  <div class="plaque-header">
-    <svg class="ico plaque-seal" aria-hidden="true"><use href="../../assets/icons.svg#seal-diamond"/></svg>
-    <div class="plaque-skill-name">Semantic Cache</div>
-    <div class="plaque-tier">◇</div>
-  </div>
-  <div class="plaque-named-slug named-slug" title="huggingface/semantic-cache">/semantic-cache</div>
-  <a class="atlas-handle plaque-contributor" href="../../u/huggingface/">@huggingface</a>
-  <div class="plaque-title">The Neural Memory</div>
-  <span class="rank-badge" data-level="4" data-variant="full" data-size="md" role="img" aria-label="Rank 4 of 6"><span class="rank-badge__chip">4★</span><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span>
-  <div class="plaque-divider"></div>
-  <p class="plaque-description">High-performance semantic caching for LLM responses using embedding similarity.</p>
-  <div class="plaque-tags"><span class="plaque-tag">semantic-cache</span>
-<span class="plaque-tag">embeddings</span>
-<span class="plaque-tag">vector-search</span>
-<span class="plaque-tag">cost-optimization</span>
-<span class="plaque-tag">unique</span></div>
-  <div class="plaque-evidence">CLASS A</div>
-  <div class="plaque-underline plaque-underline--settled"></div>
-</div>
-<div class="plaque plaque--settled" data-skill-id="huggingface/transformers-js" data-type="extra" data-level="2★">
-  <div class="plaque-header">
-    <svg class="ico plaque-seal" aria-hidden="true"><use href="../../assets/icons.svg#seal-diamond"/></svg>
-    <div class="plaque-skill-name">Transformers.js</div>
-    <div class="plaque-tier">○</div>
-  </div>
-  <div class="plaque-named-slug named-slug" title="huggingface/transformers-js">/transformers-js</div>
-  <a class="atlas-handle plaque-contributor" href="../../u/huggingface/">@huggingface</a>
-  <div class="plaque-title">The Browser Modelwright</div>
-  <span class="rank-badge" data-level="2" data-variant="full" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__chip">2★</span><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span>
-  <div class="plaque-divider"></div>
-  <p class="plaque-description">Runs Hugging Face Transformers.js models directly in JavaScript and TypeScript across browser and server runtimes for NLP, vision, audio, and multimodal inference with WebGPU or WASM.</p>
-  <div class="plaque-tags"><span class="plaque-tag">huggingface</span>
-<span class="plaque-tag">transformers-js</span>
-<span class="plaque-tag">javascript</span>
-<span class="plaque-tag">webgpu</span>
-<span class="plaque-tag">inference</span></div>
-  <div class="plaque-evidence">CLASS C</div>
-  <div class="plaque-underline plaque-underline--settled"></div>
-</div>
+      <article class="plaque plaque--settled" data-skill-id="huggingface/hf-cli" data-type="basic" data-level="2"><div class="plaque__header plaque-header"><div class="plaque-orb plaque-orb--basic" aria-hidden="true"></div><div class="plaque__rank"><span class="rank-badge" data-level="2" data-variant="chip" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__chip">2★</span></span></div><a class="plaque__gh-link ns-gh-link" href="https://github.com/huggingface/skills/blob/main/skills/hf-cli/SKILL.md" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View on GitHub"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#github"/></svg></a></div><div class="plaque__slug plaque-skill-name named-slug" title="huggingface/hf-cli">/hf-cli</div><div class="plaque__title plaque-title">The Hub Operator</div><div class="plaque__handle plaque-contrib-row"><a class="atlas-handle plaque-contributor" href="../../u/huggingface/">@huggingface</a></div><p class="plaque__description plaque-description">Guides Hugging Face Hub CLI operations for downloading, uploading, managing repos, running Jobs, querying datasets, configuring Spaces, and handling Hub authentication.</p><div class="plaque__tags plaque-tags"><span class="plaque__tag plaque-tag">huggingface</span><span class="plaque__tag plaque-tag">hub</span><span class="plaque__tag plaque-tag">cli</span><span class="plaque__tag plaque-tag">jobs</span><span class="plaque__tag plaque-tag">datasets</span></div><div class="plaque__rank"><span class="rank-badge" data-level="2" data-variant="stars" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span></div><div class="plaque__evidence plaque-evidence">CLASS C</div><div class="plaque__underline plaque-underline plaque-underline--settled"></div></article>
+<article class="plaque plaque--settled" data-skill-id="huggingface/huggingface-datasets" data-type="extra" data-level="2"><div class="plaque__header plaque-header"><div class="plaque-orb plaque-orb--extra" aria-hidden="true"></div><div class="plaque__rank"><span class="rank-badge" data-level="2" data-variant="chip" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__chip">2★</span></span></div><a class="plaque__gh-link ns-gh-link" href="https://github.com/huggingface/skills/blob/main/skills/huggingface-datasets/SKILL.md" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View on GitHub"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#github"/></svg></a></div><div class="plaque__slug plaque-skill-name named-slug" title="huggingface/huggingface-datasets">/huggingface-datasets</div><div class="plaque__title plaque-title">The Dataset Cartographer</div><div class="plaque__handle plaque-contrib-row"><a class="atlas-handle plaque-contributor" href="../../u/huggingface/">@huggingface</a></div><p class="plaque__description plaque-description">Explores Hugging Face datasets through the Dataset Viewer API, resolving configs and splits, previewing rows, paginating records, searching text, filtering rows, and retrieving parquet metadata.</p><div class="plaque__tags plaque-tags"><span class="plaque__tag plaque-tag">huggingface</span><span class="plaque__tag plaque-tag">datasets</span><span class="plaque__tag plaque-tag">dataset-viewer</span><span class="plaque__tag plaque-tag">parquet</span><span class="plaque__tag plaque-tag">data-analysis</span></div><div class="plaque__rank"><span class="rank-badge" data-level="2" data-variant="stars" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span></div><div class="plaque__evidence plaque-evidence">CLASS C</div><div class="plaque__underline plaque-underline plaque-underline--settled"></div></article>
+<article class="plaque plaque--settled" data-skill-id="huggingface/huggingface-llm-trainer" data-type="unique" data-level="3"><div class="plaque__header plaque-header"><div class="plaque-orb plaque-orb--unique" aria-hidden="true"></div><div class="plaque__rank"><span class="rank-badge" data-level="3" data-variant="chip" data-size="md" role="img" aria-label="Rank 3 of 6"><span class="rank-badge__chip">3★</span></span></div><a class="plaque__gh-link ns-gh-link" href="https://github.com/huggingface/skills/blob/main/skills/huggingface-llm-trainer/SKILL.md" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View on GitHub"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#github"/></svg></a></div><div class="plaque__slug plaque-skill-name named-slug" title="huggingface/huggingface-llm-trainer">/huggingface-llm-trainer</div><div class="plaque__title plaque-title">The Cloud Fine-Tuner</div><div class="plaque__handle plaque-contrib-row"><a class="atlas-handle plaque-contributor" href="../../u/huggingface/">@huggingface</a></div><p class="plaque__description plaque-description">Runs LLM fine-tuning on Hugging Face Jobs using TRL or Unsloth, covering SFT, DPO, GRPO, reward modeling, dataset validation, hardware selection, Trackio monitoring, and Hub persistence.</p><div class="plaque__tags plaque-tags"><span class="plaque__tag plaque-tag">huggingface</span><span class="plaque__tag plaque-tag">fine-tuning</span><span class="plaque__tag plaque-tag">trl</span><span class="plaque__tag plaque-tag">jobs</span><span class="plaque__tag plaque-tag">trackio</span></div><div class="plaque__rank"><span class="rank-badge" data-level="3" data-variant="stars" data-size="md" role="img" aria-label="Rank 3 of 6"><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span></div><div class="plaque__evidence plaque-evidence">CLASS B</div><div class="plaque__underline plaque-underline plaque-underline--settled"></div></article>
+<article class="plaque plaque--settled" data-skill-id="huggingface/huggingface-papers" data-type="extra" data-level="2"><div class="plaque__header plaque-header"><div class="plaque-orb plaque-orb--extra" aria-hidden="true"></div><div class="plaque__rank"><span class="rank-badge" data-level="2" data-variant="chip" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__chip">2★</span></span></div><a class="plaque__gh-link ns-gh-link" href="https://github.com/huggingface/skills/blob/main/skills/huggingface-papers/SKILL.md" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View on GitHub"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#github"/></svg></a></div><div class="plaque__slug plaque-skill-name named-slug" title="huggingface/huggingface-papers">/huggingface-papers</div><div class="plaque__title plaque-title">The Paper Indexer</div><div class="plaque__handle plaque-contrib-row"><a class="atlas-handle plaque-contributor" href="../../u/huggingface/">@huggingface</a></div><p class="plaque__description plaque-description">Looks up Hugging Face paper pages and arXiv IDs, fetching markdown paper content and structured metadata such as authors, linked models, datasets, Spaces, GitHub repos, and project pages.</p><div class="plaque__tags plaque-tags"><span class="plaque__tag plaque-tag">huggingface</span><span class="plaque__tag plaque-tag">papers</span><span class="plaque__tag plaque-tag">arxiv</span><span class="plaque__tag plaque-tag">metadata</span><span class="plaque__tag plaque-tag">research</span></div><div class="plaque__rank"><span class="rank-badge" data-level="2" data-variant="stars" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span></div><div class="plaque__evidence plaque-evidence">CLASS C</div><div class="plaque__underline plaque-underline plaque-underline--settled"></div></article>
+<article class="plaque plaque--settled" data-skill-id="huggingface/huggingface-vision-trainer" data-type="basic" data-level="3"><div class="plaque__header plaque-header"><div class="plaque-orb plaque-orb--basic" aria-hidden="true"></div><div class="plaque__rank"><span class="rank-badge" data-level="3" data-variant="chip" data-size="md" role="img" aria-label="Rank 3 of 6"><span class="rank-badge__chip">3★</span></span></div><a class="plaque__gh-link ns-gh-link" href="https://github.com/huggingface/skills/blob/main/skills/huggingface-vision-trainer/SKILL.md" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View on GitHub"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#github"/></svg></a></div><div class="plaque__slug plaque-skill-name named-slug" title="huggingface/huggingface-vision-trainer">/huggingface-vision-trainer</div><div class="plaque__title plaque-title">The Vision Forge</div><div class="plaque__handle plaque-contrib-row"><a class="atlas-handle plaque-contributor" href="../../u/huggingface/">@huggingface</a></div><p class="plaque__description plaque-description">Trains and fine-tunes object detection, image classification, and SAM/SAM2 segmentation models on Hugging Face Jobs or locally with dataset validation, metrics, Trackio, and Hub persistence.</p><div class="plaque__tags plaque-tags"><span class="plaque__tag plaque-tag">huggingface</span><span class="plaque__tag plaque-tag">vision</span><span class="plaque__tag plaque-tag">object-detection</span><span class="plaque__tag plaque-tag">segmentation</span><span class="plaque__tag plaque-tag">fine-tuning</span></div><div class="plaque__rank"><span class="rank-badge" data-level="3" data-variant="stars" data-size="md" role="img" aria-label="Rank 3 of 6"><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span></div><div class="plaque__evidence plaque-evidence">CLASS B</div><div class="plaque__underline plaque-underline plaque-underline--settled"></div></article>
+<article class="plaque plaque--settled" data-skill-id="huggingface/semantic-cache" data-type="unique" data-level="4"><div class="plaque__header plaque-header"><div class="plaque-orb plaque-orb--unique" aria-hidden="true"></div><div class="plaque__rank"><span class="rank-badge" data-level="4" data-variant="chip" data-size="md" role="img" aria-label="Rank 4 of 6"><span class="rank-badge__chip">4★</span></span></div><a class="plaque__gh-link ns-gh-link" href="https://github.com/codefuse-ai/ModelCache" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View on GitHub"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#github"/></svg></a></div><div class="plaque__slug plaque-skill-name named-slug" title="huggingface/semantic-cache">/semantic-cache</div><div class="plaque__title plaque-title">The Neural Memory</div><div class="plaque__handle plaque-contrib-row"><a class="atlas-handle plaque-contributor" href="../../u/huggingface/">@huggingface</a></div><p class="plaque__description plaque-description">High-performance semantic caching for LLM responses using embedding similarity.</p><div class="plaque__tags plaque-tags"><span class="plaque__tag plaque-tag">semantic-cache</span><span class="plaque__tag plaque-tag">embeddings</span><span class="plaque__tag plaque-tag">vector-search</span><span class="plaque__tag plaque-tag">cost-optimization</span><span class="plaque__tag plaque-tag">unique</span></div><div class="plaque__rank"><span class="rank-badge" data-level="4" data-variant="stars" data-size="md" role="img" aria-label="Rank 4 of 6"><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span></div><div class="plaque__evidence plaque-evidence">CLASS A</div><div class="plaque__underline plaque-underline plaque-underline--settled"></div></article>
+<article class="plaque plaque--settled" data-skill-id="huggingface/transformers-js" data-type="extra" data-level="2"><div class="plaque__header plaque-header"><div class="plaque-orb plaque-orb--extra" aria-hidden="true"></div><div class="plaque__rank"><span class="rank-badge" data-level="2" data-variant="chip" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__chip">2★</span></span></div><a class="plaque__gh-link ns-gh-link" href="https://github.com/huggingface/skills/blob/main/skills/transformers-js/SKILL.md" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View on GitHub"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#github"/></svg></a></div><div class="plaque__slug plaque-skill-name named-slug" title="huggingface/transformers-js">/transformers-js</div><div class="plaque__title plaque-title">The Browser Modelwright</div><div class="plaque__handle plaque-contrib-row"><a class="atlas-handle plaque-contributor" href="../../u/huggingface/">@huggingface</a></div><p class="plaque__description plaque-description">Runs Hugging Face Transformers.js models directly in JavaScript and TypeScript across browser and server runtimes for NLP, vision, audio, and multimodal inference with WebGPU or WASM.</p><div class="plaque__tags plaque-tags"><span class="plaque__tag plaque-tag">huggingface</span><span class="plaque__tag plaque-tag">transformers-js</span><span class="plaque__tag plaque-tag">javascript</span><span class="plaque__tag plaque-tag">webgpu</span><span class="plaque__tag plaque-tag">inference</span></div><div class="plaque__rank"><span class="rank-badge" data-level="2" data-variant="stars" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span></div><div class="plaque__evidence plaque-evidence">CLASS C</div><div class="plaque__underline plaque-underline plaque-underline--settled"></div></article>
     </div>
   </section>
 

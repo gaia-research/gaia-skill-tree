@@ -243,31 +243,35 @@
 
     var plates = document.getElementById('hohPlates');
     if (plates && top.length) {
-      // Phase 8c — render each Hall of Heroes plate as a .plaque--mini.
-      // The named slug (e.g. /autoresearch) leads in honor red, the linked
-      // @handle sits below, and the 6-star row anchors the card. The plate
-      // is the click target; openSkillExplorer takes the canonical id.
+      // Stage 3 — Hall of Heroes mini-plates emitted by the shared
+      // plaque component family. Each plate carries:
+      //   - the canonical type (from canonical skill — Ultimate / Unique only)
+      //   - the named entry's level + contributor + tags
+      //   - data-skill-id pointing at the CANONICAL id so click → openSkillExplorer
+      // The named entry's id is preserved on the entry object so namedSlug()
+      // still yields '/<skill-slug>'.
       var rendered = top.map(function (it) {
         var e = it.entry;
-        var type = it.type;
-        var canonId = it.canonicalId;
-        var n = levelNum(e.level);
-        var slug = (typeof window.namedSlug === 'function')
-          ? window.namedSlug(e)
-          : '/' + canonId;
-        var contribLink = (typeof window.handleLink === 'function')
-          ? window.handleLink(e.contributor || '', { extraClass: 'plaque-contributor' })
-          : '<span class="atlas-handle plaque-contributor">@' + esc(e.contributor || '') + '</span>';
-        return '<article class="plaque plaque--mini" data-type="' + esc(type) + '"' +
-          ' data-skill-id="' + esc(canonId) + '"' +
-          ' role="button" tabindex="0"' +
-          ' onclick="(function(){if(typeof openSkillExplorer===\'function\')openSkillExplorer(\'' + jsStr(canonId) + '\');})()"' +
-          ' onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();this.click();}">' +
-          '<div class="plaque-orb plaque-orb--' + esc(type) + (n >= 6 ? ' plaque-orb--vi' : '') + '" aria-hidden="true"></div>' +
-          '<div class="plaque-skill-name named-slug" title="' + esc(canonId) + '">' + esc(slug) + '</div>' +
-          contribLink +
-          starsBadge(e.level) +
-          '</article>';
+        var miniNs = {
+          id: e.id,
+          name: e.name,
+          contributor: e.contributor,
+          origin: e.origin,
+          level: e.level,
+          type: it.type,
+          genericSkillRef: e.genericSkillRef,
+          // Override click target to use the canonical id (so unnamed
+          // siblings resolve to the same explorer view as the named one).
+        };
+        var canonClick = '(function(){if(typeof openSkillExplorer===\'function\')openSkillExplorer(\'' +
+          jsStr(it.canonicalId) + '\');})()';
+        return (window.plaque && typeof window.plaque.renderMini === 'function')
+          ? window.plaque.renderMini(miniNs, {
+              onclick: canonClick,
+              role: 'button',
+              attrs: ' onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();this.click();}"',
+            })
+          : '';
       }).join('');
       plates.innerHTML = rendered;
     }

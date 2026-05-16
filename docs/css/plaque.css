@@ -1,143 +1,238 @@
 /* ============================================================
-   plaque.css — Hunter's Atlas Plaque Visual System
-   Phase 4: Naming Reveal, Profile Pages, OG Cards
+   plaque.css — Hunter's Atlas Plaque component family
+   Stage 3 of the Frontend Cohesion Overhaul.
+
+   ONE base contract: .plaque carries the surface, the hairline
+   border, the 14px radius, the corner ornaments, and the per-tier
+   accent custom-property + the on-hover per-level glow. Each
+   variant only redefines layout (grid/flex), spacing, and which
+   field slots are visible.
+
+   Variant matrix (all share base .plaque, all share field-set
+   slots — typography/coloration is inherited from the base):
+
+     .plaque--mini     HoH track plate.
+       orb · slug · handle · rank stars · (no description, no tags,
+       no install row). Glow intensity 50%.
+
+     .plaque--tile     Named Skills Explorer grid card.
+       header(orb·chip·origin·gh) · slug · title · handle ·
+       description · tags(3) · install row.
+
+     .plaque--row      Named Skills Explorer list row (horizontal).
+       Same field set as tile, density-collapsed. Description
+       hidden in CSS only (no JS-level field drops). Glow 25%.
+
+     .plaque--detail   Skill Explorer modal hero.
+       Two-column. Left: orb(lg)·slug·handle·rank(full)·install·gh.
+       Right: title·description·tags.
+
+     .plaque--settled  Profile trophy card.
+       Tile field set + rank stars + evidence-class chip + gold
+       underline. The variant that earns the "trophy" framing.
+
+     .plaque--og       1200×630 social card mock.
+       In-browser HTML preview of the SVG card emitted by
+       scripts/generateOgCards.py. Same field set as detail;
+       OG card uses the same slot vocabulary.
+
+   Field selectors (one source of truth):
+     .plaque__header        the top-row cluster (orb + chip + …)
+     .plaque__col           detail-only column wrapper
+     .plaque__slug    /     skill-name slash form (e.g. /autoresearch)
+       .plaque-skill-name   legacy alias kept for the typography rule
+     .plaque__title   /     italic EB Garamond subtitle
+       .plaque-title        legacy alias
+     .plaque__handle  /     contributor row container (honor-red link)
+       .plaque-contrib-row  legacy alias
+     .plaque__description / body copy
+       .plaque-description  legacy alias
+     .plaque__tags / .plaque__tag    tag chip group
+     .plaque__rank          rank-badge slot (hosts .rank-badge from Stage 2)
+     .plaque__install-row   mini-terminal install command
+     .plaque__gh-link       GitHub link (sprite-driven)
+     .plaque__evidence      evidence-class chip (settled only)
+     .plaque__underline     gold underline accent (settled only)
+     .plaque__arrow         right-anchor caret (row only)
+     .plaque__origin        origin-contributor star
+
+   Tier coloration goes through a single custom property,
+   --plaque-accent (with -bg / -rgb companions). One rule per
+   tier sets the property; every .plaque__* selector reads it
+   via var(--plaque-accent) — never a hardcoded hex.
+
+   Per-level hover glow uses --plaque-glow-intensity as a
+   multiplier so .plaque--mini (50%) and .plaque--row (25%) can
+   tone down the shadow without redefining the rule.
    ============================================================ */
 
-/* ── Plaque layout tokens ── */
+
+/* ── Plaque layout tokens ────────────────────────────────────── */
 :root {
-  --plaque-bg:         var(--bg, #030712);
-  --plaque-border:     rgba(251, 191, 36, 0.25);
+  --plaque-bg:         var(--surface, #0f172a);
+  --plaque-border:     var(--border, #1e293b);
   --plaque-border-w:   1px;
-  --plaque-pad:        32px;
-  --plaque-w:          480px;
-  --plaque-h:          600px;
-  --plaque-radius:     4px;
+  --plaque-pad:        20px;
+  --plaque-radius:     14px;
+  --plaque-glow-intensity: 1;
   /* OG / landscape variant */
   --plaque-og-w:       1200px;
   --plaque-og-h:       630px;
 }
 
-/* ── Base plaque plate ── */
+
+/* ── Base .plaque rule ──────────────────────────────────────────
+   Surface + hairline border + per-tier accent token + hover lift
+   + on-hover per-tier radial glow (per DESIGN.md "Cards" rule —
+   glow is hover-only, not default).
+   ============================================================ */
 .plaque {
+  --plaque-accent: var(--tier-basic);
+  --plaque-accent-rgb: var(--tier-basic-rgb);
+  --plaque-accent-bg: var(--tier-basic-bg);
+
   position: relative;
-  width: var(--plaque-w);
-  max-width: 100%;
-  height: var(--plaque-h);
   background: var(--plaque-bg);
   border: var(--plaque-border-w) solid var(--plaque-border);
   border-radius: var(--plaque-radius);
   padding: var(--plaque-pad);
+  color: var(--text, #e2e8f0);
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 0.6rem;
   overflow: hidden;
-  box-shadow:
-    0 0 0 1px rgba(251, 191, 36, 0.06),
-    0 24px 64px rgba(0, 0, 0, 0.7),
-    inset 0 1px 0 rgba(251, 191, 36, 0.08);
+  cursor: pointer;
+  transition: border-color 0.25s, box-shadow 0.25s, transform 0.15s;
 }
 
-/* Corner ornaments */
-.plaque::before,
-.plaque::after {
+.plaque:hover {
+  border-color: rgba(var(--plaque-accent-rgb), 0.5);
+  transform: translateY(-2px);
+  /* Per-tier hover glow uses the accent rgb so the radial halo
+     swaps automatically when --plaque-accent flips per data-type. */
+  box-shadow:
+    0 0 0 1px rgba(var(--plaque-accent-rgb), 0.1),
+    0 16px 48px rgba(0, 0, 0, 0.4),
+    0 0 calc(32px * var(--plaque-glow-intensity)) rgba(var(--plaque-accent-rgb), 0.18);
+}
+
+/* Corner ornaments — kept for the settled trophy + og variants
+   (the apex affordance). Hidden on the lighter variants below so
+   the card density survives. */
+.plaque--settled::before,
+.plaque--settled::after,
+.plaque--og::before,
+.plaque--og::after {
   content: '';
   position: absolute;
   width: 12px;
   height: 12px;
-  border-color: rgba(251, 191, 36, 0.4);
+  border-color: rgba(var(--apex-gold-rgb), 0.4);
   border-style: solid;
   pointer-events: none;
 }
-.plaque::before {
+.plaque--settled::before,
+.plaque--og::before {
   top: 10px;
   left: 10px;
   border-width: 1px 0 0 1px;
 }
-.plaque::after {
+.plaque--settled::after,
+.plaque--og::after {
   bottom: 10px;
   right: 10px;
   border-width: 0 1px 1px 0;
 }
 
-/* ── OG / landscape variant ── */
-.plaque--og {
-  width: var(--plaque-og-w);
-  max-width: 100%;
-  height: var(--plaque-og-h);
-  flex-direction: row;
-  align-items: center;
-  padding: 48px 64px;
-  gap: 48px;
-  border-radius: 0;
+
+/* ── Per-tier accent: single rule per tier ───────────────────────
+   --plaque-accent flips here. Every .plaque__* selector resolves
+   accent via this property, so no per-variant overrides exist.
+   ============================================================ */
+.plaque[data-type="basic"] {
+  --plaque-accent: var(--tier-basic);
+  --plaque-accent-rgb: var(--tier-basic-rgb);
+  --plaque-accent-bg: var(--tier-basic-bg);
+}
+.plaque[data-type="extra"] {
+  --plaque-accent: var(--tier-extra);
+  --plaque-accent-rgb: var(--tier-extra-rgb);
+  --plaque-accent-bg: var(--tier-extra-bg);
+}
+.plaque[data-type="unique"] {
+  --plaque-accent: var(--tier-unique);
+  --plaque-accent-rgb: var(--tier-unique-rgb);
+  --plaque-accent-bg: var(--tier-unique-bg);
+}
+.plaque[data-type="ultimate"] {
+  --plaque-accent: var(--tier-ultimate);
+  --plaque-accent-rgb: var(--tier-ultimate-rgb);
+  --plaque-accent-bg: var(--tier-ultimate-bg);
 }
 
-/* ── Plaque inner elements ── */
-.plaque-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 4px;
+
+/* ── Per-level hover glow: single rule with --rank-N ────────────
+   The base hover-shadow above carries the tier glow. For levels
+   4–6, the rank-N glow stacks on top so the rank halo is visible
+   on hover. Mini/Row tone down via --plaque-glow-intensity.
+   ============================================================ */
+.plaque[data-level="2"]:hover {
+  box-shadow:
+    0 0 0 1px rgba(var(--plaque-accent-rgb), 0.1),
+    0 16px 48px rgba(0, 0, 0, 0.4),
+    0 0 calc(24px * var(--plaque-glow-intensity)) rgba(99, 202, 183, 0.25);
+}
+.plaque[data-level="3"]:hover {
+  box-shadow:
+    0 0 0 1px rgba(var(--plaque-accent-rgb), 0.1),
+    0 16px 48px rgba(0, 0, 0, 0.4),
+    0 0 calc(26px * var(--plaque-glow-intensity)) rgba(167, 139, 250, 0.3);
+}
+.plaque[data-level="4"]:hover {
+  box-shadow:
+    0 0 0 1px rgba(var(--plaque-accent-rgb), 0.1),
+    0 16px 48px rgba(0, 0, 0, 0.4),
+    0 0 calc(32px * var(--plaque-glow-intensity)) rgba(232, 121, 249, 0.35);
+}
+.plaque[data-level="5"]:hover {
+  box-shadow:
+    0 0 0 1px rgba(var(--plaque-accent-rgb), 0.1),
+    0 16px 48px rgba(0, 0, 0, 0.4),
+    0 0 calc(40px * var(--plaque-glow-intensity)) rgba(var(--apex-gold-rgb), 0.4);
+}
+.plaque[data-level="6"]:hover {
+  box-shadow:
+    0 0 0 1px rgba(var(--plaque-accent-rgb), 0.1),
+    0 16px 48px rgba(0, 0, 0, 0.4),
+    0 0 calc(50px * var(--plaque-glow-intensity)) rgba(var(--apex-gold-rgb), 0.5),
+    0 0 calc(80px * var(--plaque-glow-intensity)) rgba(56, 189, 248, 0.25);
 }
 
-.plaque-seal {
-  width: 36px;
-  height: 36px;
-  color: var(--apex-gold, #fbbf24);
-  flex-shrink: 0;
-  opacity: 0.7;
-}
 
+/* ── Field typography (single source of truth) ───────────────────
+   All variants inherit these rules. Variant chrome only overrides
+   sizing where the density demands it (mini = smaller slug, etc).
+   ============================================================ */
+
+/* Slug — slash-name in the tier-accent color (Apex Gold for Ultimate,
+   Honor Red is NEVER used for the slug — it's reserved for handles). */
+.plaque__slug,
 .plaque-skill-name {
   font-family: var(--font-display, 'EB Garamond', Georgia, serif);
-  font-size: 28px;
+  font-size: 22px;
   font-weight: 600;
-  line-height: 1.1;
-  color: var(--apex-gold, #fbbf24);
+  line-height: 1.15;
   letter-spacing: 0.02em;
-  flex: 1;
+  color: var(--plaque-accent);
 }
-
-.plaque-tier {
-  font-size: 36px;
-  line-height: 1;
+/* Ultimate carries the brand-voice Apex Gold via the tier token. */
+.plaque[data-type="ultimate"] .plaque__slug,
+.plaque[data-type="ultimate"] .plaque-skill-name {
   color: var(--apex-gold, #fbbf24);
-  text-shadow: 0 0 18px rgba(251, 191, 36, 0.5);
-  flex-shrink: 0;
 }
 
-/* Tier-aware color overrides — keep gold for Ultimate, recolor others */
-.plaque[data-type="unique"]   .plaque-skill-name { color: var(--unique, #7c3aed); }
-.plaque[data-type="unique"]   .plaque-tier      { color: var(--unique, #7c3aed); text-shadow: 0 0 18px rgba(124, 58, 237, 0.5); }
-.plaque[data-type="extra"]    .plaque-skill-name { color: var(--extra, #c084fc); }
-.plaque[data-type="extra"]    .plaque-tier      { color: var(--extra, #c084fc); text-shadow: 0 0 18px rgba(192, 132, 252, 0.5); }
-.plaque[data-type="basic"]    .plaque-skill-name { color: var(--basic, #38bdf8); }
-.plaque[data-type="basic"]    .plaque-tier      { color: var(--basic, #38bdf8); text-shadow: 0 0 14px rgba(56, 189, 248, 0.5); }
-
-.plaque-contributor {
-  font-family: var(--font-body, 'Bricolage Grotesque', sans-serif);
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--honor-red, #ef4444);
-  letter-spacing: 0.06em;
-  text-transform: lowercase;
-}
-
-/* Phase 8d — slug line on the settled profile-page plaque. Sits between
-   the skill name and the contributor handle, mirroring the slash-name
-   priority used on Hall of Heroes plates and the explorer hero. */
-.plaque-named-slug {
-  font-family: var(--font-mono, 'Departure Mono', monospace);
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  color: var(--honor-red, #ef4444);
-  margin-top: -2px;
-}
-/* Phase 8c — the "@" prefix used to be a ::before pseudo on every
-   .plaque-contributor span, but contributor mentions are now rendered
-   through atlas-helpers' handleLink() which already emits the "@"
-   character. The pseudo was removed to avoid doubling (e.g. "@@karpathy"). */
-
+/* Title — italic muted serif subtitle. */
+.plaque__title,
 .plaque-title {
   font-family: var(--font-display, 'EB Garamond', Georgia, serif);
   font-size: 16px;
@@ -146,34 +241,154 @@
   line-height: 1.4;
 }
 
-/* Stage 2 — .plaque-stars / .plaque-star folded into .rank-badge__stars.
-   Plaques now emit <span class="rank-badge" data-variant="stars" data-level="N">
-   via window.rankBadge() / rank_badge_html(). Per-star gold/dim is
-   driven by data-on / data-off, set by the badge function. The two
-   shim rules below are kept ONLY for legacy markup already in flight
-   (generated profile pages will be re-rendered by Stage 2's run of
-   generateProfilePages.py); remove them in Stage 5. */
-.plaque-stars {
-  display: inline-flex;
-  gap: 4px;
-  align-items: center;
+/* Handle row — Bricolage; the inner <a class="atlas-handle"> link
+   carries the honor red. */
+.plaque__handle,
+.plaque-contrib-row {
+  font-family: var(--font-body, 'Bricolage Grotesque', sans-serif);
+  font-size: 13px;
+  margin-top: -2px;
 }
-.plaque-star {
-  font-size: 16px;
+.plaque__handle .atlas-handle,
+.plaque-contrib-row .atlas-handle,
+.plaque-contributor {
+  color: var(--honor-red, #ef4444);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+/* Description — Bricolage body, line-clamped per variant chrome. */
+.plaque__description,
+.plaque-description {
+  font-family: var(--font-body, 'Bricolage Grotesque', sans-serif);
+  font-size: 13px;
+  line-height: 1.65;
+  color: rgba(226, 232, 240, 0.55);
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  margin: 0;
+}
+
+/* Tag chip group. */
+.plaque__tags,
+.plaque-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.plaque__tag,
+.plaque-tag {
+  font-family: var(--font-mono, 'Departure Mono', monospace);
+  font-size: 10px;
+  color: rgba(226, 232, 240, 0.4);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 3px;
+  padding: 2px 7px;
+}
+
+/* Rank slot — wraps the .rank-badge component. */
+.plaque__rank {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.plaque .rank-badge[data-variant="stars"] { font-size: 16px; gap: 4px; }
+.plaque .rank-badge[data-variant="full"]  { gap: 12px; }
+
+/* GitHub link + origin star + arrow. */
+.plaque__gh-link,
+.ns-gh-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(226, 232, 240, 0.5);
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  transition: color 0.15s, background 0.15s;
+}
+.plaque__gh-link:hover,
+.ns-gh-link:hover {
+  color: var(--text, #e2e8f0);
+  background: rgba(255, 255, 255, 0.05);
+}
+.plaque__origin,
+.ns-origin {
   color: var(--apex-gold, #fbbf24);
-  text-shadow: 0 0 8px rgba(251, 191, 36, 0.4);
+  font-size: 13px;
   line-height: 1;
 }
-.plaque-star--dim {
-  color: rgba(251, 191, 36, 0.2);
-  text-shadow: none;
+.plaque__arrow,
+.ns-lr-arrow {
+  color: var(--muted, rgba(226, 232, 240, 0.45));
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  line-height: 1;
 }
 
-/* The canonical rendering — .rank-badge inside a plaque inherits the
-   plaque's star sizing without per-variant overrides. */
-.plaque .rank-badge[data-variant="stars"] { font-size: 16px; gap: 4px; }
-.plaque .rank-badge[data-variant="full"] { gap: 12px; }
+/* Header cluster. */
+.plaque__header,
+.plaque-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 2px;
+}
 
+/* Install row — mini-terminal. Used by tile / detail / settled / og. */
+.plaque__install-row,
+.ns-install-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 4px;
+  font-family: var(--font-mono, 'Departure Mono', monospace);
+  font-size: 12px;
+  margin-top: auto;
+}
+.plaque__install-prompt,
+.ns-install-prompt {
+  color: var(--apex-gold, #fbbf24);
+  flex-shrink: 0;
+}
+.plaque__install-cmd,
+.ns-install-cmd-txt {
+  color: rgba(226, 232, 240, 0.75);
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.plaque__install-copy,
+.ns-install-copy {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(226, 232, 240, 0.55);
+  border-radius: 3px;
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.plaque__install-copy:hover,
+.ns-install-copy:hover {
+  color: var(--text, #e2e8f0);
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* Evidence chip (settled only) — neutral ledger pill. */
+.plaque__evidence,
 .plaque-evidence {
   display: inline-flex;
   align-items: center;
@@ -191,48 +406,8 @@
   align-self: flex-start;
 }
 
-.plaque-divider {
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(251, 191, 36, 0.3) 30%,
-    rgba(251, 191, 36, 0.3) 70%,
-    transparent
-  );
-  flex-shrink: 0;
-}
-
-.plaque-description {
-  font-family: var(--font-body, 'Bricolage Grotesque', sans-serif);
-  font-size: 13px;
-  line-height: 1.65;
-  color: rgba(226, 232, 240, 0.55);
-  flex: 1;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 6;
-  -webkit-box-orient: vertical;
-}
-
-.plaque-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-  margin-top: auto;
-}
-
-.plaque-tag {
-  font-family: var(--font-mono, 'Departure Mono', monospace);
-  font-size: 10px;
-  color: rgba(226, 232, 240, 0.4);
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 3px;
-  padding: 2px 7px;
-}
-
-/* ── Gold underline pulse ── */
+/* Gold underline pulse (settled only). */
+.plaque__underline,
 .plaque-underline {
   height: 2px;
   width: 100%;
@@ -246,29 +421,296 @@
   opacity: 0;
   transform: scaleX(0.3);
 }
-
+.plaque__underline.plaque-underline--settled,
 .plaque-underline--settled {
   opacity: 0.5;
   transform: scaleX(1);
   transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
-/* ── Level VI rainbow shimmer ── */
+/* Named-slug context — keeps the .named-slug class hooks working
+   on links inside the slug span (legacy callers still pass it). */
+.plaque__slug.named-slug,
+.plaque-skill-name.named-slug { /* identity */ }
+
+
+/* ── .plaque-orb — canonical tier glyph orb ──────────────────────
+   Default 36 px; modifiers --sm (24px) and --lg (52px). Shared with
+   .se-node-orb in styles.css via comma-merged tier-colour rules.
+   ============================================================ */
+.plaque-orb {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  position: relative;
+  flex-shrink: 0;
+}
+.plaque-orb--sm { width: 24px; height: 24px; }
+.plaque-orb--lg { width: 52px; height: 52px; }
+
+.plaque-orb--basic,
+.se-node-orb--basic {
+  background: radial-gradient(circle at 35% 35%, #7dd3fc, #38bdf8 60%, #0284c7);
+  box-shadow: 0 0 12px rgba(var(--tier-basic-rgb), 0.4);
+}
+.plaque-orb--extra,
+.se-node-orb--extra {
+  background: radial-gradient(circle at 35% 35%, #e9d5ff, #c084fc 60%, #7c3aed);
+  box-shadow: 0 0 12px rgba(var(--tier-extra-rgb), 0.4);
+}
+.plaque-orb--ultimate,
+.se-node-orb--ultimate {
+  background: radial-gradient(circle at 35% 35%, #fef3c7, #f59e0b 60%, #d97706);
+  box-shadow: 0 0 12px rgba(var(--tier-ultimate-rgb), 0.4);
+}
+.plaque-orb--unique,
+.se-node-orb--unique {
+  background: radial-gradient(circle at 50% 50%, #000 55%, #7c3aed 80%, #5b21b6);
+  box-shadow: 0 0 14px rgba(var(--tier-unique-rgb), 0.5), inset 0 0 6px rgba(var(--tier-unique-rgb), 0.3);
+}
+.plaque-orb--vi,
+.se-node-orb--vi {
+  background: radial-gradient(circle at 35% 35%, #fff 40%, #fef3c7 70%, #f59e0b) !important;
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.6), 0 0 40px rgba(245, 158, 11, 0.35) !important;
+}
+
+
+/* ── Apex (6★) rainbow shimmer animation ────────────────────────
+   Runs on all six variants identically. The shadow stacks the
+   per-tier hover glow underneath when hovered; on its own it's
+   the resting Apex affordance.
+   ============================================================ */
 .plaque--apex-vi {
   animation: plaque-vi-edge 3s linear infinite;
 }
 
 @keyframes plaque-vi-edge {
-  0%   { box-shadow: 0 0 0 1px rgba(251,191,36,.06), 0 24px 64px rgba(0,0,0,.7), inset 0 1px 0 rgba(251,191,36,.08), 0 0 30px rgba(56,189,248,.3); }
-  16%  { box-shadow: 0 0 0 1px rgba(251,191,36,.06), 0 24px 64px rgba(0,0,0,.7), inset 0 1px 0 rgba(251,191,36,.08), 0 0 30px rgba(167,139,250,.3); }
-  33%  { box-shadow: 0 0 0 1px rgba(251,191,36,.06), 0 24px 64px rgba(0,0,0,.7), inset 0 1px 0 rgba(251,191,36,.08), 0 0 30px rgba(251,191,36,.45); }
-  50%  { box-shadow: 0 0 0 1px rgba(251,191,36,.06), 0 24px 64px rgba(0,0,0,.7), inset 0 1px 0 rgba(251,191,36,.08), 0 0 30px rgba(239,68,68,.3); }
-  66%  { box-shadow: 0 0 0 1px rgba(251,191,36,.06), 0 24px 64px rgba(0,0,0,.7), inset 0 1px 0 rgba(251,191,36,.08), 0 0 30px rgba(192,132,252,.3); }
-  83%  { box-shadow: 0 0 0 1px rgba(251,191,36,.06), 0 24px 64px rgba(0,0,0,.7), inset 0 1px 0 rgba(251,191,36,.08), 0 0 30px rgba(52,211,153,.25); }
-  100% { box-shadow: 0 0 0 1px rgba(251,191,36,.06), 0 24px 64px rgba(0,0,0,.7), inset 0 1px 0 rgba(251,191,36,.08), 0 0 30px rgba(56,189,248,.3); }
+  0%   { box-shadow: 0 0 0 1px rgba(var(--apex-gold-rgb), 0.06), 0 24px 64px rgba(0,0,0,0.5), 0 0 30px rgba(56,189,248,0.3); }
+  16%  { box-shadow: 0 0 0 1px rgba(var(--apex-gold-rgb), 0.06), 0 24px 64px rgba(0,0,0,0.5), 0 0 30px rgba(167,139,250,0.3); }
+  33%  { box-shadow: 0 0 0 1px rgba(var(--apex-gold-rgb), 0.06), 0 24px 64px rgba(0,0,0,0.5), 0 0 30px rgba(var(--apex-gold-rgb),0.45); }
+  50%  { box-shadow: 0 0 0 1px rgba(var(--apex-gold-rgb), 0.06), 0 24px 64px rgba(0,0,0,0.5), 0 0 30px rgba(239,68,68,0.3); }
+  66%  { box-shadow: 0 0 0 1px rgba(var(--apex-gold-rgb), 0.06), 0 24px 64px rgba(0,0,0,0.5), 0 0 30px rgba(192,132,252,0.3); }
+  83%  { box-shadow: 0 0 0 1px rgba(var(--apex-gold-rgb), 0.06), 0 24px 64px rgba(0,0,0,0.5), 0 0 30px rgba(52,211,153,0.25); }
+  100% { box-shadow: 0 0 0 1px rgba(var(--apex-gold-rgb), 0.06), 0 24px 64px rgba(0,0,0,0.5), 0 0 30px rgba(56,189,248,0.3); }
 }
 
-/* ── Reveal overlay ── */
+
+/* ============================================================
+   Variant chrome — layout + spacing + slot visibility only.
+   ============================================================ */
+
+/* ── .plaque--mini — Hall of Heroes track plate ─────────────────
+   200 px wide, ~220 px tall, centre-aligned single column. Drop
+   description / tags / install row. Glow intensity 50%.
+   ============================================================ */
+.plaque--mini {
+  --plaque-glow-intensity: 0.5;
+  width: 200px;
+  max-width: 200px;
+  height: auto;
+  min-height: 220px;
+  padding: 16px;
+  align-items: center;
+  text-align: center;
+  gap: 0.55rem;
+  flex-shrink: 0;
+}
+.plaque--mini .plaque__slug,
+.plaque--mini .plaque-skill-name {
+  font-size: 18px;
+}
+.plaque--mini .plaque__handle,
+.plaque--mini .plaque-contrib-row {
+  font-size: 13px;
+}
+.plaque--mini .plaque .rank-badge[data-variant="stars"],
+.plaque--mini .rank-badge[data-variant="stars"] {
+  font-size: 12px;
+  gap: 2px;
+}
+.plaque--mini .rank-badge__star { font-size: 12px; }
+/* Mini drops description + tags + install row by NOT emitting them. */
+
+
+/* ── .plaque--tile — Named Skills Explorer tile ─────────────────
+   Grid cell, min-height 280px. Header row hosts orb + level chip
+   + origin + gh. Body stacks vertically; install row is sticky-
+   bottom via margin-top: auto on .plaque__install-row.
+   ============================================================ */
+.plaque--tile {
+  width: 100%;
+  max-width: 100%;
+  min-height: 280px;
+  padding: 20px;
+  gap: 12px;
+}
+.plaque--tile .plaque__header,
+.plaque--tile .plaque-header {
+  justify-content: space-between;
+  margin-bottom: 0;
+}
+.plaque--tile .plaque__description,
+.plaque--tile .plaque-description {
+  -webkit-line-clamp: 3;
+}
+.plaque--tile .plaque__tags,
+.plaque--tile .plaque-tags {
+  max-height: 28px;
+  overflow: hidden;
+}
+
+
+/* ── .plaque--row — Named Skills Explorer list row ──────────────
+   Horizontal flex. ~72 px tall. Description hidden in CSS only.
+   Glow intensity 25%.
+   ============================================================ */
+.plaque--row {
+  --plaque-glow-intensity: 0.25;
+  width: 100%;
+  max-width: 100%;
+  min-height: 72px;
+  padding: 14px 18px;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+}
+.plaque--row .plaque__slug,
+.plaque--row .plaque-skill-name {
+  font-size: 18px;
+  flex: 0 1 auto;
+  white-space: nowrap;
+}
+.plaque--row .plaque__title,
+.plaque--row .plaque-title {
+  font-size: 14px;
+  flex: 1 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.plaque--row .plaque__handle,
+.plaque--row .plaque-contrib-row {
+  font-size: 12px;
+  margin-top: 0;
+  flex-shrink: 0;
+}
+.plaque--row .plaque__tags,
+.plaque--row .plaque-tags {
+  flex-shrink: 0;
+  max-width: 240px;
+  overflow: hidden;
+}
+.plaque--row .plaque__description,
+.plaque--row .plaque-description {
+  display: none; /* CSS-only collapse; markup still present */
+}
+.plaque--row .plaque__install-row,
+.plaque--row .ns-install-row {
+  display: none; /* same — markup present, density-collapsed */
+}
+
+
+/* ── .plaque--detail — Skill Explorer modal hero ────────────────
+   Two-column layout. Collapses to one column ≤ 700px.
+   ============================================================ */
+.plaque--detail {
+  width: 100%;
+  max-width: 100%;
+  padding: 28px 32px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: 32px;
+  align-items: start;
+  cursor: default; /* not click-to-explore — it IS the explorer */
+}
+.plaque--detail:hover {
+  transform: none;
+}
+.plaque--detail .plaque__col,
+.plaque--detail .plaque-detail-left,
+.plaque--detail .plaque-detail-right {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  min-width: 0;
+}
+.plaque--detail .plaque__slug,
+.plaque--detail .plaque-skill-name {
+  font-size: 32px;
+}
+.plaque--detail .plaque__description,
+.plaque--detail .plaque-description {
+  font-size: 14px;
+  -webkit-line-clamp: unset;
+  display: block;
+}
+
+
+/* ── .plaque--settled — Profile trophy card ─────────────────────
+   Tile field set + rank stars + evidence chip + gold underline.
+   Includes the corner ornaments (see top of file).
+   ============================================================ */
+.plaque--settled {
+  width: 100%;
+  height: auto;
+  min-height: 340px;
+  padding: 24px;
+  gap: 0.6rem;
+}
+.plaque--settled .plaque__slug,
+.plaque--settled .plaque-skill-name {
+  font-size: 22px;
+}
+.plaque--settled:hover {
+  border-color: rgba(var(--apex-gold-rgb), 0.5);
+}
+
+
+/* ── .plaque--og — 1200×630 social card (HTML mock) ─────────────
+   The canonical OG card is server-rendered as SVG by
+   scripts/generateOgCards.py. This HTML variant exists so the
+   sampler can preview the same field set in-browser.
+   ============================================================ */
+.plaque--og {
+  width: var(--plaque-og-w);
+  max-width: 100%;
+  min-height: 360px;
+  padding: 48px 64px;
+  gap: 0.8rem;
+  border-radius: 0;
+  cursor: default;
+}
+.plaque--og:hover { transform: none; }
+.plaque--og .plaque__slug,
+.plaque--og .plaque-skill-name {
+  font-size: 44px;
+}
+.plaque--og .plaque__title,
+.plaque--og .plaque-title {
+  font-size: 22px;
+}
+.plaque--og .plaque__description,
+.plaque--og .plaque-description {
+  font-size: 16px;
+  -webkit-line-clamp: 3;
+}
+.plaque--og .plaque__og-seal { display: inline-flex; color: var(--apex-gold); }
+
+
+/* ── Plaque grid (used on profile pages) ────────────────────────
+   Settled trophies in a 2-col responsive grid.
+   ============================================================ */
+.plaque-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2.4rem;
+}
+
+
+/* ── Plaque reveal overlay (Priority D — Naming Reveal) ─────────
+   The cinematic that runs once when a skill is first named.
+   ============================================================ */
 .plaque-reveal-overlay {
   position: fixed;
   inset: 0;
@@ -282,24 +724,19 @@
   pointer-events: none;
   transition: opacity 0.3s ease;
 }
-
 .plaque-reveal-overlay.active {
   opacity: 1;
   pointer-events: auto;
 }
-
 .plaque-reveal-overlay .plaque {
   opacity: 0;
   transform: translateY(32px);
-  transition: none; /* driven by JS keyframes */
+  transition: none;
 }
-
 .plaque-reveal-overlay.settled .plaque {
   opacity: 1;
   transform: translateY(0);
 }
-
-/* Close button in overlay */
 .plaque-reveal-close {
   position: absolute;
   top: 1.2rem;
@@ -324,96 +761,39 @@
   border-color: rgba(226, 232, 240, 0.4);
 }
 
-/* ── Animation keyframes ── */
 
-/* Plate emerges from below */
+/* ── Animation keyframes (Priority D) ───────────────────────── */
+
 @keyframes plaque-emerge {
-  from {
-    opacity: 0;
-    transform: translateY(48px);
-    box-shadow: none;
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-    box-shadow:
-      0 0 0 1px rgba(251, 191, 36, 0.06),
-      0 24px 64px rgba(0, 0, 0, 0.7),
-      inset 0 1px 0 rgba(251, 191, 36, 0.08);
-  }
+  from { opacity: 0; transform: translateY(48px); box-shadow: none; }
+  to   { opacity: 1; transform: translateY(0); box-shadow: 0 0 0 1px rgba(var(--apex-gold-rgb), 0.06), 0 24px 64px rgba(0,0,0,0.7), inset 0 1px 0 rgba(var(--apex-gold-rgb), 0.08); }
 }
-
-/* Ink pours into engraving letter-by-letter — driven via JS clip-path + opacity */
 @keyframes ink-pour {
-  from {
-    opacity: 0;
-    filter: blur(3px);
-    color: rgba(251, 191, 36, 0);
-    text-shadow: none;
-  }
-  to {
-    opacity: 1;
-    filter: blur(0);
-    color: var(--apex-gold, #fbbf24);
-    text-shadow: 0 0 18px rgba(251, 191, 36, 0.4);
-  }
+  from { opacity: 0; filter: blur(3px); color: rgba(var(--apex-gold-rgb), 0); text-shadow: none; }
+  to   { opacity: 1; filter: blur(0); color: var(--apex-gold); text-shadow: 0 0 18px rgba(var(--apex-gold-rgb), 0.4); }
 }
-
-/* Each star ignites */
 @keyframes star-ignite {
-  from {
-    opacity: 0;
-    transform: scale(0.4) rotate(-20deg);
-    filter: blur(2px);
-  }
-  60% {
-    transform: scale(1.3) rotate(5deg);
-    filter: blur(0);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) rotate(0deg);
-    filter: blur(0);
-  }
+  from { opacity: 0; transform: scale(0.4) rotate(-20deg); filter: blur(2px); }
+  60%  { transform: scale(1.3) rotate(5deg); filter: blur(0); }
+  to   { opacity: 1; transform: scale(1) rotate(0deg); filter: blur(0); }
 }
-
-/* Evidence stamp */
 @keyframes evidence-stamp {
-  from {
-    opacity: 0;
-    transform: scale(1.2);
-    letter-spacing: 0.3em;
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-    letter-spacing: 0.1em;
-  }
+  from { opacity: 0; transform: scale(1.2); letter-spacing: 0.3em; }
+  to   { opacity: 1; transform: scale(1); letter-spacing: 0.1em; }
 }
-
-/* Gold underline pulse */
 @keyframes underline-pulse {
   0%   { opacity: 0; transform: scaleX(0); }
   40%  { opacity: 0.8; transform: scaleX(1.05); }
   70%  { opacity: 0.5; }
   100% { opacity: 0.5; transform: scaleX(1); }
 }
-
-/* Contributor handle resolves */
 @keyframes contributor-resolve {
-  from {
-    opacity: 0;
-    filter: blur(6px);
-    transform: translateY(4px);
-  }
-  to {
-    opacity: 1;
-    filter: blur(0);
-    transform: translateY(0);
-  }
+  from { opacity: 0; filter: blur(6px); transform: translateY(4px); }
+  to   { opacity: 1; filter: blur(0); transform: translateY(0); }
 }
 
-/* ── Reduced motion: disable all animations ── */
+
+/* ── Reduced motion: disable shimmer + reveal motion ─────────── */
 @media (prefers-reduced-motion: reduce) {
   .plaque-reveal-overlay,
   .plaque-reveal-overlay .plaque,
@@ -421,54 +801,24 @@
     transition: none !important;
     animation: none !important;
   }
-  .plaque--apex-vi {
-    animation: none !important;
-  }
-  @keyframes plaque-emerge       { from { } to { } }
-  @keyframes ink-pour            { from { } to { } }
-  @keyframes star-ignite         { from { } to { } }
-  @keyframes evidence-stamp      { from { } to { } }
-  @keyframes underline-pulse     { from { } to { } }
-  @keyframes contributor-resolve { from { } to { } }
-  @keyframes plaque-vi-edge      { from { } to { } }
+  .plaque--apex-vi { animation: none !important; }
+  @keyframes plaque-vi-edge        { from { } to { } }
+  @keyframes plaque-emerge          { from { } to { } }
+  @keyframes ink-pour               { from { } to { } }
+  @keyframes star-ignite            { from { } to { } }
+  @keyframes evidence-stamp         { from { } to { } }
+  @keyframes underline-pulse        { from { } to { } }
+  @keyframes contributor-resolve    { from { } to { } }
 }
 
-/* ── Plaque grid (used on profile pages) ── */
-.plaque-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 2rem;
-  margin-top: 2.4rem;
-}
 
-/* Settled (non-animated) plaque for profile pages — smaller footprint */
-.plaque--settled {
-  width: 100%;
-  height: auto;
-  min-height: 340px;
-  --plaque-pad: 24px;
-  padding: var(--plaque-pad);
-  cursor: pointer;
-  transition: border-color 0.25s, box-shadow 0.25s, transform 0.15s;
-}
-
-.plaque--settled:hover {
-  border-color: rgba(251, 191, 36, 0.5);
-  box-shadow:
-    0 0 0 1px rgba(251, 191, 36, 0.1),
-    0 16px 48px rgba(0, 0, 0, 0.6),
-    0 0 32px rgba(251, 191, 36, 0.12);
-  transform: translateY(-2px);
-}
-
-/* ── Ascension log ── */
+/* ── Ascension log (profile pages) ─────────────────────────── */
 .ascension-log {
   margin-top: 2rem;
   border: 1px solid var(--border, #1e293b);
   border-radius: 8px;
   overflow: hidden;
 }
-
 .ascension-log-header {
   font-family: var(--font-mono, 'Departure Mono', monospace);
   font-size: 11px;
@@ -480,7 +830,6 @@
   background: rgba(255, 255, 255, 0.03);
   border-bottom: 1px solid var(--border, #1e293b);
 }
-
 .ascension-log-row {
   display: grid;
   grid-template-columns: 120px 80px 1fr 80px;
@@ -492,28 +841,21 @@
   border-bottom: 1px solid rgba(30, 41, 59, 0.6);
   transition: background 0.15s;
 }
-
-.ascension-log-row:last-child {
-  border-bottom: none;
-}
-
-.ascension-log-row:hover {
-  background: rgba(255, 255, 255, 0.025);
-}
-
+.ascension-log-row:last-child { border-bottom: none; }
+.ascension-log-row:hover      { background: rgba(255, 255, 255, 0.025); }
 .al-date   { color: rgba(226, 232, 240, 0.35); white-space: nowrap; }
 .al-action { color: var(--honor-red, #ef4444); font-weight: 700; }
 .al-skill  { color: rgba(226, 232, 240, 0.7); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .al-level  { color: var(--apex-gold, #fbbf24); text-align: right; }
 
-/* ── Profile page hero ── */
+
+/* ── Profile page hero (settled context) ─────────────────────── */
 .profile-hero {
   padding: 6rem 1.5rem 3rem;
   max-width: 960px;
   margin: 0 auto;
   text-align: center;
 }
-
 .profile-handle {
   font-family: var(--font-body, 'Bricolage Grotesque', sans-serif);
   font-size: clamp(2rem, 5vw, 3.2rem);
@@ -521,14 +863,12 @@
   color: var(--honor-red, #ef4444);
   margin-bottom: 0.5rem;
 }
-
 .profile-handle::before {
   content: '@';
   opacity: 0.55;
   font-size: 0.75em;
   vertical-align: middle;
 }
-
 .profile-meta {
   font-family: var(--font-mono, 'Departure Mono', monospace);
   font-size: 13px;
@@ -536,7 +876,6 @@
   letter-spacing: 0.06em;
   margin-bottom: 1rem;
 }
-
 .profile-origin-badge {
   display: inline-flex;
   align-items: center;
@@ -546,18 +885,16 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--apex-gold, #fbbf24);
-  background: rgba(251, 191, 36, 0.1);
-  border: 1px solid rgba(251, 191, 36, 0.3);
+  background: rgba(var(--apex-gold-rgb), 0.1);
+  border: 1px solid rgba(var(--apex-gold-rgb), 0.3);
   border-radius: 999px;
   padding: 4px 12px;
 }
-
 .profile-section {
   max-width: 960px;
   margin: 0 auto;
   padding: 2rem 1.5rem 4rem;
 }
-
 .profile-section-title {
   font-family: var(--font-display, 'EB Garamond', Georgia, serif);
   font-size: clamp(1.4rem, 3vw, 1.9rem);
@@ -565,260 +902,56 @@
   color: var(--text, #e2e8f0);
   margin-bottom: 0.4rem;
 }
-
 .profile-section-sub {
   color: rgba(226, 232, 240, 0.45);
   font-size: 0.9rem;
   margin-bottom: 1.5rem;
 }
 
-/* ── Responsive ── */
+
+/* ── Responsive ─────────────────────────────────────────────── */
 @media (max-width: 700px) {
-  .plaque {
-    width: 100%;
-    height: auto;
-    min-height: 480px;
-    --plaque-pad: 20px;
-    padding: var(--plaque-pad);
-  }
-
-  .plaque-grid {
+  .plaque-grid          { grid-template-columns: 1fr; }
+  .plaque--detail       {
     grid-template-columns: 1fr;
+    padding: 20px;
+    gap: 20px;
   }
-
   .ascension-log-row {
     grid-template-columns: 100px 70px 1fr 60px;
     font-size: 11px;
     gap: 8px;
   }
-}
-
-/* ============================================================
-   Phase 8b — Plaque size variants
-   Four variants sit on top of the base .plaque token block.
-   They override sizing/padding/layout while inheriting the
-   gold-hairline border, corner ornaments (::before/::after),
-   and data-type-driven tier coloring already established above.
-   ============================================================ */
-
-/* ── .plaque-orb — canonical tier glyph ──
-   Shared with .se-node-orb via comma-merged selectors below.
-   Default size 36px; modifiers --sm (24px) and --lg (52px). */
-.plaque-orb {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  position: relative;
-  flex-shrink: 0;
-}
-
-.plaque-orb--sm { width: 24px; height: 24px; }
-.plaque-orb--lg { width: 52px; height: 52px; }
-
-/* Type modifiers — mirror .se-node-orb--* color rules.
-   Merged with .se-node-orb selectors in styles.css so both
-   class names paint identically (see Phase 8b note there). */
-.plaque-orb--basic,
-.se-node-orb--basic {
-  background: radial-gradient(circle at 35% 35%, #7dd3fc, #38bdf8 60%, #0284c7);
-  box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
-}
-.plaque-orb--extra,
-.se-node-orb--extra {
-  background: radial-gradient(circle at 35% 35%, #e9d5ff, #c084fc 60%, #7c3aed);
-  box-shadow: 0 0 12px rgba(192, 132, 252, 0.4);
-}
-.plaque-orb--ultimate,
-.se-node-orb--ultimate {
-  background: radial-gradient(circle at 35% 35%, #fef3c7, #f59e0b 60%, #d97706);
-  box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
-}
-.plaque-orb--unique,
-.se-node-orb--unique {
-  background: radial-gradient(circle at 50% 50%, #000 55%, #7c3aed 80%, #5b21b6);
-  box-shadow: 0 0 14px rgba(124, 58, 237, 0.5), inset 0 0 6px rgba(124, 58, 237, 0.3);
-}
-.plaque-orb--vi,
-.se-node-orb--vi {
-  background: radial-gradient(circle at 35% 35%, #fff 40%, #fef3c7 70%, #f59e0b) !important;
-  box-shadow: 0 0 18px rgba(255, 255, 255, 0.6), 0 0 40px rgba(245, 158, 11, 0.35) !important;
-}
-
-/* ── .plaque--mini — Hall of Heroes track plate ──
-   200px fixed width, ~220px content-driven height. Compact
-   vertical card: orb · named slug · handle · stars · level chip. */
-.plaque--mini {
-  width: 200px;
-  max-width: 200px;
-  height: auto;
-  min-height: 220px;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.55rem;
-  text-align: center;
-  flex-shrink: 0;
-}
-
-.plaque--mini .plaque-skill-name {
-  font-size: 18px;
-  line-height: 1.15;
-}
-
-.plaque--mini .plaque-contributor {
-  font-size: 13px;
-}
-
-.plaque--mini .plaque-stars,
-.plaque--mini .rank-badge[data-variant="stars"] {
-  font-size: 12px;
-  gap: 2px;
-}
-
-.plaque--mini .plaque-star,
-.plaque--mini .rank-badge__star {
-  font-size: 12px;
-}
-
-/* Drop description and tags inside mini */
-.plaque--mini .plaque-description,
-.plaque--mini .plaque-tags {
-  display: none;
-}
-
-/* ── .plaque--tile — Named Skills Explorer tile view ──
-   100% of grid cell, min-height 280px. Slightly tighter than
-   base plaque; orb shares the header row with the level chip. */
-.plaque--tile {
-  width: 100%;
-  max-width: 100%;
-  height: auto;
-  min-height: 280px;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.plaque--tile .plaque-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  justify-content: space-between;
-}
-
-.plaque--tile .plaque-skill-name {
-  font-size: 22px;
-}
-
-.plaque--tile .plaque-description {
-  font-size: 13px;
-  -webkit-line-clamp: 3;
-}
-
-/* Tag overflow guard — show up to 3 visually; deeper trim is a JS concern */
-.plaque--tile .plaque-tags {
-  max-height: 28px;
-  overflow: hidden;
-}
-
-/* ── .plaque--row — Named Skills Explorer list view ──
-   Horizontal flex row; ~72px tall. Orb · slug · title · stars ·
-   tags · level chip · gh link. */
-.plaque--row {
-  width: 100%;
-  max-width: 100%;
-  height: auto;
-  min-height: 72px;
-  padding: 14px 18px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 1rem;
-}
-
-.plaque--row .plaque-skill-name {
-  font-size: 18px;
-  flex: 0 1 auto;
-}
-
-.plaque--row .plaque-title {
-  font-size: 14px;
-  flex: 1 1 auto;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.plaque--row .plaque-stars {
-  flex-shrink: 0;
-}
-
-.plaque--row .plaque-tags {
-  flex-shrink: 0;
-  margin-top: 0;
-  max-width: 240px;
-  overflow: hidden;
-}
-
-.plaque--row .plaque-description {
-  display: none;
-}
-
-/* ── .plaque--detail — Skill Detail Overlay hero ──
-   Two-column layout. Left: orb + slug + handle + install.
-   Right: description + tags. Collapses to one column on mobile. */
-.plaque--detail {
-  width: 100%;
-  max-width: 100%;
-  height: auto;
-  padding: 28px 32px;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
-  gap: 32px;
-  align-items: start;
-}
-
-.plaque--detail .plaque-detail-left {
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-  min-width: 0;
-}
-
-.plaque--detail .plaque-detail-right {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  min-width: 0;
-}
-
-.plaque--detail .plaque-skill-name {
-  font-size: 32px;
-}
-
-.plaque--detail .plaque-description {
-  font-size: 14px;
-  -webkit-line-clamp: unset;
-  display: block;
-}
-
-@media (max-width: 700px) {
-  .plaque--detail {
-    grid-template-columns: 1fr;
-    padding: 20px;
-    gap: 20px;
+  .plaque--og {
+    padding: 24px;
+    min-height: 280px;
   }
+  .plaque--og .plaque__slug,
+  .plaque--og .plaque-skill-name { font-size: 28px; }
 }
 
-/* ============================================================
-   Phase 8d — Named Skills Explorer plaque tweaks
-   ============================================================ */
 
-/* Compact level chip used in tile / row / DAG-card headers. The
-   inline style attribute supplies the per-tier color/border/bg from
-   LEVEL_META; these rules only normalise typography and box. */
+/* ── DAG card density override (Tree view uses .plaque--mini) ── */
+.plaque--mini.ns-dag-card {
+  width: 180px;
+  max-width: 180px;
+  min-height: 160px;
+  gap: 0.45rem;
+}
+.plaque--mini.ns-dag-card .plaque__slug,
+.plaque--mini.ns-dag-card .plaque-skill-name {
+  font-size: 15px;
+}
+.plaque--mini.ns-dag-card.ns-dag-ghost {
+  opacity: 0.55;
+  border-style: dashed;
+}
+
+
+/* ── Compat: legacy level-chip selector kept for any remaining
+   markup that still emits .plaque-level-chip outside the rank-
+   badge family. Stage 2 swapped this to .rank-badge__chip; this
+   block can be removed in Stage 5 once we audit the call sites. */
 .plaque-level-chip {
   font-family: var(--font-mono, 'Departure Mono', monospace);
   font-size: 11px;
@@ -831,70 +964,4 @@
   white-space: nowrap;
   flex-shrink: 0;
   line-height: 1.4;
-}
-
-/* Tile header — orb on the left, chip + origin star + gh link on the right. */
-.plaque--tile .plaque-header {
-  margin-bottom: 0;
-}
-
-.plaque--tile .plaque-header .ns-origin {
-  color: var(--apex-gold, #fbbf24);
-  font-size: 13px;
-  line-height: 1;
-}
-
-/* Title sits as a muted EB Garamond italic subtitle under the slug. */
-.plaque--tile .plaque-title,
-.plaque--row .plaque-title {
-  font-style: italic;
-}
-
-/* Contributor row in the tile — Bricolage handle; small offset so it
-   reads as a credit line beneath the title. */
-.plaque--tile .plaque-contrib-row {
-  font-family: var(--font-body, 'Bricolage Grotesque', sans-serif);
-  font-size: 13px;
-  margin-top: -4px;
-}
-
-.plaque--row .plaque-contrib-row {
-  font-family: var(--font-body, 'Bricolage Grotesque', sans-serif);
-  font-size: 12px;
-  flex-shrink: 0;
-}
-
-/* Install command row embedded inside .plaque--tile — preserves the
-   monospace mini-terminal look from the original .ns-tile. */
-.plaque--tile .ns-install-row {
-  margin-top: auto;
-}
-
-/* DAG card uses .plaque--mini chrome but is shorter than the HoH plate. */
-.plaque--mini.ns-dag-card {
-  width: 180px;
-  max-width: 180px;
-  min-height: 160px;
-  gap: 0.45rem;
-}
-
-.plaque--mini.ns-dag-card .plaque-skill-name {
-  font-size: 15px;
-}
-
-.plaque--mini.ns-dag-card.ns-dag-ghost {
-  opacity: 0.55;
-  border-style: dashed;
-}
-
-/* List row: keep arrow and gh link aligned on the right edge. */
-.plaque--row .ns-lr-arrow {
-  color: var(--muted, rgba(226, 232, 240, 0.45));
-  font-size: 1.1rem;
-  flex-shrink: 0;
-  line-height: 1;
-}
-
-.plaque--row .ns-gh-link {
-  flex-shrink: 0;
 }

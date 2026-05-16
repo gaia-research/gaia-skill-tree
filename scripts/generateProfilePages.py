@@ -163,54 +163,224 @@ DIAMOND_SEAL_SVG = (
 )
 
 
-def build_plaque_card(skill: dict) -> str:
-    """Build a settled plaque card HTML for a named skill."""
-    apex_class = " plaque--apex-vi" if level_num(skill.get("level", "")) >= 6 else ""
-    skill_id = html.escape(skill.get("id", ""))
-    skill_name = html.escape(skill.get("name", skill.get("id", "Unnamed")))
-    title = html.escape(skill.get("title", ""))
-    description = html.escape(skill.get("description", ""))
-    level = skill.get("level", "")
-    tier_type = resolve_type(skill)
-    tags = skill.get("tags", [])
-    tag_html = "\n".join(
-        f'<span class="plaque-tag">{html.escape(t)}</span>'
-        for t in tags[:5]
+# Stage 3 — Python sibling field helpers. One source of truth per
+# field across all three variants Python emits (--mini, --tile,
+# --settled) so the server-rendered DOM matches docs/js/plaque.js
+# exactly. The dict below names every slot and the lambda that
+# emits it; the variant functions below assemble them.
+def _field_orb(ns: dict, size_modifier: str = "") -> str:
+    type_str = resolve_type(ns)
+    n = level_num(ns.get("level", ""))
+    mod = f" plaque-orb--{size_modifier}" if size_modifier else ""
+    apex = " plaque-orb--vi" if n >= 6 else ""
+    return f'<div class="plaque-orb plaque-orb--{type_str}{mod}{apex}" aria-hidden="true"></div>'
+
+
+def _field_slug(ns: dict) -> str:
+    raw_id = ns.get("id", "")
+    slug = html.escape(named_slug(ns))
+    return (
+        f'<div class="plaque__slug plaque-skill-name named-slug" '
+        f'title="{html.escape(raw_id)}">{slug}</div>'
     )
 
-    # Phase 8d — contributor mention is now a hover-underlined link to
-    # the contributor's profile page. The href is relative because
-    # plaque cards on profile pages live at docs/u/<handle>/index.html
-    # and need to reach docs/u/<other>/. Self-links are harmless.
+
+def _field_title(ns: dict) -> str:
+    title = ns.get("title", "") or ns.get("name", "")
+    if not title:
+        return ""
+    return f'<div class="plaque__title plaque-title">{html.escape(title)}</div>'
+
+
+def _field_handle_row(ns: dict, rel: str = "../../u/") -> str:
     contributor_link = handle_link(
-        skill.get("contributor", ""),
-        rel="../../u/",
+        ns.get("contributor", ""),
+        rel=rel,
         extra_class="plaque-contributor",
     )
+    if not contributor_link:
+        return ""
+    return f'<div class="plaque__handle plaque-contrib-row">{contributor_link}</div>'
 
-    # Phase 8d (also Phase C) — render the slash-name slug beneath the
-    # skill name in honor red. Falls back to '/<skill-id-tail>' for
-    # entries without a contributor/skill split.
-    slug = html.escape(named_slug(skill))
 
-    # Stage 2 — settled profile plaque uses the .rank-badge stars variant.
-    # The .plaque-stars wrapper is dropped; .rank-badge is the wrapper.
-    return f"""<div class="plaque plaque--settled{apex_class}" data-skill-id="{skill_id}" data-type="{tier_type}" data-level="{html.escape(level)}">
-  <div class="plaque-header">
-    {DIAMOND_SEAL_SVG}
-    <div class="plaque-skill-name">{skill_name}</div>
-    <div class="plaque-tier">{tier_glyph(level)}</div>
-  </div>
-  <div class="plaque-named-slug named-slug" title="{skill_id}">{slug}</div>
-  {contributor_link}
-  {f'<div class="plaque-title">{title}</div>' if title else ''}
-  {rank_badge_html(level, variant="full")}
-  <div class="plaque-divider"></div>
-  {f'<p class="plaque-description">{description}</p>' if description else ''}
-  {f'<div class="plaque-tags">{tag_html}</div>' if tag_html else ''}
-  <div class="plaque-evidence">{evidence_class(level)}</div>
-  <div class="plaque-underline plaque-underline--settled"></div>
-</div>"""
+def _field_description(ns: dict) -> str:
+    desc = ns.get("description", "")
+    if not desc:
+        return ""
+    return f'<p class="plaque__description plaque-description">{html.escape(desc)}</p>'
+
+
+def _field_tags(ns: dict, limit: int | None = None) -> str:
+    tags = ns.get("tags", []) or []
+    if limit is not None:
+        tags = tags[:limit]
+    if not tags:
+        return ""
+    inner = "".join(
+        f'<span class="plaque__tag plaque-tag">{html.escape(t)}</span>' for t in tags
+    )
+    return f'<div class="plaque__tags plaque-tags">{inner}</div>'
+
+
+def _field_rank(ns: dict, variant: str = "stars") -> str:
+    rb = rank_badge_html(ns.get("level", ""), variant=variant, label=ns.get("level"))
+    return f'<div class="plaque__rank">{rb}</div>'
+
+
+def _field_install_row(ns: dict) -> str:
+    skill_id = ns.get("id", "")
+    if not skill_id:
+        return ""
+    cmd = f"gaia install {skill_id}"
+    safe_cmd = html.escape(cmd)
+    copy_icon = (
+        f'<svg class="ico" width="13" height="13" aria-hidden="true">'
+        f'<use href="{ICON_SPRITE_REL}#copy"/></svg>'
+    )
+    return (
+        f'<div class="plaque__install-row ns-install-row">'
+        f'<span class="plaque__install-prompt ns-install-prompt">$</span>'
+        f'<span class="plaque__install-cmd ns-install-cmd-txt">{safe_cmd}</span>'
+        f'<button class="plaque__install-copy ns-install-copy" type="button" '
+        f'title="Copy install command" data-cmd="{safe_cmd}" '
+        f'onclick="event.stopPropagation();navigator.clipboard.writeText(this.dataset.cmd);">'
+        f"{copy_icon}</button></div>"
+    )
+
+
+def _field_gh_link(ns: dict) -> str:
+    links = ns.get("links", {}) or {}
+    url = links.get("github") or links.get("npm") or ""
+    if not url:
+        return ""
+    gh_icon = (
+        f'<svg class="ico" width="14" height="14" aria-hidden="true">'
+        f'<use href="{ICON_SPRITE_REL}#github"/></svg>'
+    )
+    return (
+        f'<a class="plaque__gh-link ns-gh-link" href="{html.escape(url)}" '
+        f'target="_blank" rel="noopener" onclick="event.stopPropagation()" '
+        f'title="View on GitHub">{gh_icon}</a>'
+    )
+
+
+def _field_origin_star(ns: dict) -> str:
+    if not ns.get("origin"):
+        return ""
+    return '<span class="plaque__origin ns-origin" title="Origin contributor">★</span>'
+
+
+# Public dispatch table: name → builder. Useful for diagnostics and
+# for the OG generator to reuse the same slot vocabulary.
+PLAQUE_FIELDS = {
+    "orb":         _field_orb,
+    "slug":        _field_slug,
+    "title":       _field_title,
+    "handle":      _field_handle_row,
+    "description": _field_description,
+    "tags":        _field_tags,
+    "rank":        _field_rank,
+    "install":     _field_install_row,
+    "gh":          _field_gh_link,
+    "origin":      _field_origin_star,
+}
+
+
+def _plaque_shell(variant: str, ns: dict, inner: str, extra_class: str = "") -> str:
+    """Wrap a field-set string in the canonical .plaque shell."""
+    n = level_num(ns.get("level", ""))
+    apex = " plaque--apex-vi" if n >= 6 else ""
+    type_str = resolve_type(ns)
+    extra = f" {extra_class}" if extra_class else ""
+    skill_id = html.escape(ns.get("id", ""))
+    return (
+        f'<article class="plaque plaque--{variant}{apex}{extra}" '
+        f'data-skill-id="{skill_id}" data-type="{type_str}" data-level="{n}">'
+        f"{inner}"
+        f"</article>"
+    )
+
+
+def plaque_mini_html(ns: dict) -> str:
+    """Stage 3 — Python sibling of window.plaque.renderMini(ns).
+
+    HoH track plate field set: orb · slug · handle · rank stars.
+    """
+    inner = (
+        _field_orb(ns)
+        + _field_slug(ns)
+        + _field_handle_row(ns)
+        + _field_rank(ns, "stars")
+    )
+    return _plaque_shell("mini", ns, inner)
+
+
+def plaque_tile_html(ns: dict) -> str:
+    """Stage 3 — Python sibling of window.plaque.renderTile(ns).
+
+    Explorer grid card: header(orb+chip+origin+gh) · slug · title ·
+    handle · description · tags(3) · install row.
+    """
+    header = (
+        '<div class="plaque__header plaque-header">'
+        + _field_orb(ns)
+        + _field_rank(ns, "chip")
+        + _field_origin_star(ns)
+        + _field_gh_link(ns)
+        + "</div>"
+    )
+    inner = (
+        header
+        + _field_slug(ns)
+        + _field_title(ns)
+        + _field_handle_row(ns)
+        + _field_description(ns)
+        + _field_tags(ns, 3)
+        + _field_install_row(ns)
+    )
+    return _plaque_shell("tile", ns, inner)
+
+
+def plaque_settled_html(ns: dict) -> str:
+    """Stage 3 — Python sibling of window.plaque.renderSettled(ns).
+
+    Profile trophy card. Tile field set + rank stars + evidence-class
+    chip + gold underline. Produces DOM-equivalent output to the JS
+    renderSettled — the explorer modal (detail variant) and the
+    profile card (settled variant) read as the same vocabulary.
+    """
+    header = (
+        '<div class="plaque__header plaque-header">'
+        + _field_orb(ns)
+        + _field_rank(ns, "chip")
+        + _field_origin_star(ns)
+        + _field_gh_link(ns)
+        + "</div>"
+    )
+    inner = (
+        header
+        + _field_slug(ns)
+        + _field_title(ns)
+        + _field_handle_row(ns)
+        + _field_description(ns)
+        + _field_tags(ns, 5)
+        + _field_rank(ns, "stars")
+        + f'<div class="plaque__evidence plaque-evidence">{html.escape(evidence_class(ns.get("level", "")))}</div>'
+        + '<div class="plaque__underline plaque-underline plaque-underline--settled"></div>'
+    )
+    return _plaque_shell("settled", ns, inner)
+
+
+def build_plaque_card(skill: dict) -> str:
+    """Build a settled plaque card HTML for a named skill.
+
+    Stage 3 — delegates to plaque_settled_html so this code path and
+    the JS renderSettled emit the same DOM. The Diamond Seal that
+    used to anchor the legacy header is dropped here because the
+    settled variant now uses the canonical orb-led header that
+    matches the explorer modal's two-column hero.
+    """
+    return plaque_settled_html(skill)
 
 
 def build_ascension_log(skills: list) -> str:
@@ -313,6 +483,8 @@ def build_profile_page(handle: str, skills: list) -> str:
   <script src="../../js/icons.js"></script>
   <!-- Stage 2 — rank-badge component, loaded after icons.js. -->
   <script src="../../js/rank-badge.js"></script>
+  <!-- Stage 3 — plaque component family, loaded after rank-badge.js. -->
+  <script src="../../js/plaque.js"></script>
   <script src="../../js/ui.js" defer></script>
 </head>
 <body class="profile-page">

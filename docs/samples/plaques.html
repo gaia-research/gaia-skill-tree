@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en" data-icon-base="../assets/icons.svg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plaque Family Sampler — Gaia (Stage 3)</title>
+  <meta name="description" content="The same skill (karpathy/autoresearch, 6★ Ultimate) rendered in all six plaque variants. Verifies slug color, handle color, italic title, tag chip style, and 6★ shimmer animation match across --mini / --tile / --row / --detail / --settled / --og.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/plaque.css">
+  <script src="../js/icons.js"></script>
+  <script src="../js/rank-badge.js"></script>
+  <script src="../js/atlas-helpers.js"></script>
+  <script src="../js/plaque.js"></script>
+  <style>
+    body {
+      padding: 4rem 1.5rem 6rem;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+    .sampler-h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      font-weight: 600;
+      margin-bottom: .25rem;
+    }
+    .sampler-sub {
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: .85rem;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      margin-bottom: 2.5rem;
+    }
+    .sampler-section {
+      margin: 3rem 0;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .sampler-section h2 {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 600;
+      margin-bottom: .15rem;
+    }
+    .sampler-section .density {
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: .8rem;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+    }
+    .sampler-stage {
+      position: relative;
+      padding: 1.25rem;
+      background: rgba(255, 255, 255, 0.015);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+    .sampler-toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(3, 7, 18, 0.92);
+      backdrop-filter: blur(4px);
+      padding: .8rem 0;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      gap: .8rem;
+      align-items: center;
+    }
+    .sampler-toolbar button {
+      font-family: var(--font-mono);
+      font-size: .75rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: .55rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: border-color .15s, background .15s;
+    }
+    .sampler-toolbar button:hover {
+      border-color: var(--apex-gold);
+    }
+    .sampler-toolbar button[aria-pressed="true"] {
+      border-color: var(--apex-gold);
+      background: rgba(var(--apex-gold-rgb), 0.08);
+    }
+    .sampler-toolbar .toolbar-label {
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* OG card preview — scale down so it fits next to the others. */
+    .og-preview-wrap {
+      position: relative;
+      width: 600px;
+      max-width: 100%;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+    }
+    .og-preview-wrap .plaque--og {
+      transform-origin: top left;
+      transform: scale(0.5);
+      width: 1200px;
+    }
+    .og-preview-wrap::after {
+      content: '1200×630 OG card (scaled 0.5×)';
+      position: absolute;
+      bottom: 6px;
+      right: 8px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: rgba(226, 232, 240, 0.4);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      pointer-events: none;
+    }
+    .og-preview-wrap {
+      height: 315px; /* 630 / 2 */
+    }
+
+    /* Alignment grid overlay — 4 px baseline grid drawn on top of every
+       plaque. Use `body[data-grid="on"]` to toggle. The pseudo-element
+       sits absolutely inside each plaque stage so it doesn't clip the
+       hover lift, but only renders when the body flag is set. */
+    body[data-grid="on"] .plaque {
+      background-image:
+        repeating-linear-gradient(
+          to bottom,
+          transparent 0,
+          transparent 3px,
+          rgba(var(--apex-gold-rgb), 0.06) 3px,
+          rgba(var(--apex-gold-rgb), 0.06) 4px
+        );
+    }
+    body[data-grid="on"] .sampler-stage::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        repeating-linear-gradient(
+          to bottom,
+          transparent 0,
+          transparent 3px,
+          rgba(99, 202, 183, 0.04) 3px,
+          rgba(99, 202, 183, 0.04) 4px
+        );
+      border-radius: inherit;
+    }
+
+    .sampler-key {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      font-family: var(--font-mono);
+      font-size: .75rem;
+      color: var(--muted);
+      margin-top: 1rem;
+    }
+    .sampler-key span { display: inline-flex; align-items: center; gap: .35rem; }
+    .swatch-honor { width: 12px; height: 12px; background: var(--honor-red); border-radius: 2px; }
+    .swatch-gold  { width: 12px; height: 12px; background: var(--apex-gold); border-radius: 2px; }
+    .swatch-italic { font-family: var(--font-display); font-style: italic; }
+
+    /* Tile grid wrapper for the --tile sample */
+    .sampler-tile-grid {
+      width: 320px;
+      max-width: 100%;
+    }
+    /* The --row sample needs full container width */
+    .sampler-row-wrap { width: 100%; max-width: 720px; }
+  </style>
+</head>
+<body data-grid="off">
+
+  <h1 class="sampler-h1">Plaque Family Sampler</h1>
+  <p class="sampler-sub">Stage 3 · One skill · Six variants · One vocabulary</p>
+
+  <p style="color: var(--muted); margin-bottom: 1.4rem; max-width: 64ch;">
+    The same skill (<code style="color:var(--honor-red);font-family:var(--font-mono)">karpathy/autoresearch</code>,
+    6★ Ultimate) rendered in every plaque variant. The acceptance test is visual: the slug font weight,
+    the italic serif title, the Honor-Red handle, the tag-chip style, and the 6★ rainbow shimmer should
+    all read as identical across the six. Toggle the alignment grid to verify slug / title / handle / description
+    baselines align.
+  </p>
+
+  <div class="sampler-key">
+    <span><span class="swatch-gold"></span> Apex Gold — Ultimate slug</span>
+    <span><span class="swatch-honor"></span> Honor Red — @handle</span>
+    <span><span class="swatch-italic">Aa</span> EB Garamond italic — title</span>
+  </div>
+
+  <div class="sampler-toolbar" role="toolbar" aria-label="Sampler controls">
+    <span class="toolbar-label">View:</span>
+    <button type="button" id="toggleGrid" aria-pressed="false">⚏ Alignment grid</button>
+    <button type="button" id="toggleApex" aria-pressed="true">★ 6★ shimmer</button>
+    <button type="button" id="reload">↻ Reload data</button>
+  </div>
+
+  <section class="sampler-section">
+    <h2>--mini (Hall of Heroes)</h2>
+    <p class="density">Density: orb · slug · handle · rank stars · (no description / tags / install)</p>
+    <div class="sampler-stage" id="stageMini"></div>
+  </section>
+
+  <section class="sampler-section">
+    <h2>--tile (Named Skills Explorer)</h2>
+    <p class="density">Density: header(orb·chip·origin·gh) · slug · title · handle · description(3) · tags(3) · install</p>
+    <div class="sampler-stage">
+      <div class="sampler-tile-grid" id="stageTile"></div>
+    </div>
+  </section>
+
+  <section class="sampler-section">
+    <h2>--row (Named Skills Explorer · List)</h2>
+    <p class="density">Density: orb(sm) · slug · title · handle · tags(2) · chip · gh · arrow (description hidden via CSS, not field-dropped)</p>
+    <div class="sampler-stage">
+      <div class="sampler-row-wrap" id="stageRow"></div>
+    </div>
+  </section>
+
+  <section class="sampler-section">
+    <h2>--detail (Skill Explorer · Modal hero)</h2>
+    <p class="density">Density: two-column. Left = orb(lg) · slug · handle · rank(full) · install · gh. Right = title · description · tags(all)</p>
+    <div class="sampler-stage" id="stageDetail"></div>
+  </section>
+
+  <section class="sampler-section">
+    <h2>--settled (Profile trophy)</h2>
+    <p class="density">Density: tile + rank stars + evidence-class chip + gold underline. Corner ornaments visible.</p>
+    <div class="sampler-stage">
+      <div class="sampler-tile-grid" id="stageSettled"></div>
+    </div>
+  </section>
+
+  <section class="sampler-section">
+    <h2>--og (1200×630 Social card · HTML mock)</h2>
+    <p class="density">Density: HTML preview of the SVG card emitted by <code>scripts/generateOgCards.py</code>. Same slot vocabulary.</p>
+    <div class="sampler-stage">
+      <div class="og-preview-wrap" id="stageOg"></div>
+    </div>
+  </section>
+
+  <script>
+    (function () {
+      // Sampler harness — fetches registry/named-skills.json (via the docs
+      // graph mirror) and renders the same skill in all six variants.
+      var SAMPLE_ID = 'karpathy/autoresearch';
+      // Fallback entry (kept inline so the sampler works even when offline
+      // or when the docs/graph mirror hasn't been synced).
+      var FALLBACK = {
+        id: 'karpathy/autoresearch',
+        name: 'AutoResearch',
+        contributor: 'karpathy',
+        origin: true,
+        genericSkillRef: 'autonomous-research-agent',
+        status: 'named',
+        level: '6★',
+        type: 'ultimate',
+        title: "The Scholar's Compass",
+        description: 'Autonomous research agent that iteratively searches, reads, and synthesizes academic papers into structured summaries.',
+        tags: ['research', 'autonomous', 'paper-synthesis'],
+        links: { github: 'https://github.com/karpathy/autoresearch' },
+      };
+
+      function findSampleSkill(data) {
+        var buckets = (data && data.buckets) || {};
+        var keys = Object.keys(buckets);
+        for (var i = 0; i < keys.length; i++) {
+          var arr = buckets[keys[i]] || [];
+          for (var j = 0; j < arr.length; j++) {
+            if (arr[j].id === SAMPLE_ID) {
+              // Ensure the entry knows it's Ultimate / 6★ even if the
+              // registry hasn't bound type to the named entry.
+              return Object.assign({}, arr[j], { type: arr[j].type || 'ultimate' });
+            }
+          }
+        }
+        return null;
+      }
+
+      function renderAll(ns) {
+        var p = window.plaque;
+        if (!p) {
+          document.body.innerHTML = '<p style="color:var(--honor-red);font-family:var(--font-mono)">window.plaque missing — plaque.js failed to load.</p>';
+          return;
+        }
+        document.getElementById('stageMini').innerHTML    = p.renderMini(ns);
+        document.getElementById('stageTile').innerHTML    = p.renderTile(ns);
+        document.getElementById('stageRow').innerHTML     = p.renderRow(ns);
+        document.getElementById('stageDetail').innerHTML  = p.renderDetail(ns);
+        document.getElementById('stageSettled').innerHTML = p.renderSettled(ns);
+        document.getElementById('stageOg').innerHTML      = p.renderOg(ns);
+      }
+
+      function load() {
+        // The docs site serves named/index.json at /graph/named/index.json.
+        // For the sampler in /samples/ the registry source is one level up
+        // and at /graph/named/index.json. Fall back to inline.
+        return fetch('../graph/named/index.json')
+          .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+          .then(function (data) {
+            var ns = findSampleSkill(data);
+            return ns || FALLBACK;
+          })
+          .catch(function () { return FALLBACK; });
+      }
+
+      // Wire toolbar
+      var gridBtn = document.getElementById('toggleGrid');
+      gridBtn.addEventListener('click', function () {
+        var on = document.body.getAttribute('data-grid') === 'on';
+        document.body.setAttribute('data-grid', on ? 'off' : 'on');
+        gridBtn.setAttribute('aria-pressed', on ? 'false' : 'true');
+      });
+      var apexBtn = document.getElementById('toggleApex');
+      apexBtn.addEventListener('click', function () {
+        var on = apexBtn.getAttribute('aria-pressed') === 'true';
+        apexBtn.setAttribute('aria-pressed', on ? 'false' : 'true');
+        document.querySelectorAll('.plaque--apex-vi').forEach(function (el) {
+          el.style.animationPlayState = on ? 'paused' : 'running';
+        });
+      });
+      var reloadBtn = document.getElementById('reload');
+      reloadBtn.addEventListener('click', function () {
+        load().then(renderAll);
+      });
+
+      load().then(renderAll);
+    })();
+  </script>
+</body>
+</html>

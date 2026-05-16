@@ -33,13 +33,107 @@ OUT_DIR = DOCS_DIR / "og"
 OG_W = 1200
 OG_H = 630
 
-# Brand colors
+# Brand colors — kept here as constants because the OG card renders at
+# raster time without a CSS engine. Stage 3 inlines these (and the tier
+# / rank palettes resolved at generate-time from registry/gaia.json.meta)
+# into a <style> block at the top of every emitted SVG so the card stays
+# stable when viewed standalone.
 BG_COLOR = "#030712"
 APEX_GOLD = "#fbbf24"
 HONOR_RED = "#ef4444"
 TEXT_COLOR = "#e2e8f0"
 MUTED_COLOR = "#64748b"
 BORDER_COLOR = "#1e293b"
+
+
+# Stage 3 — resolve tier hex from gaia.json.meta.typeColors so the OG
+# card uses the same source of truth as the live page tokens.
+_TIER_PALETTE_CACHE: dict | None = None
+
+
+def tier_palette() -> dict:
+    """Return { 'basic': {'hex','rgb'}, 'extra': {...}, … }."""
+    global _TIER_PALETTE_CACHE
+    if _TIER_PALETTE_CACHE is not None:
+        return _TIER_PALETTE_CACHE
+    fallback = {
+        "basic":    {"hex": "#38bdf8", "rgb": "56,189,248"},
+        "extra":    {"hex": "#c084fc", "rgb": "192,132,252"},
+        "unique":   {"hex": "#7c3aed", "rgb": "124,58,237"},
+        "ultimate": {"hex": "#f59e0b", "rgb": "245,158,11"},
+    }
+    if not GAIA_JSON.exists():
+        _TIER_PALETTE_CACHE = fallback
+        return _TIER_PALETTE_CACHE
+    try:
+        with open(GAIA_JSON, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        tc = (data.get("meta") or {}).get("typeColors") or {}
+        out: dict = {}
+        for k, v in tc.items():
+            out[k] = {"hex": v.get("hex", fallback.get(k, {}).get("hex", "#38bdf8")),
+                      "rgb": v.get("rgb", fallback.get(k, {}).get("rgb", "56,189,248"))}
+        for k, v in fallback.items():
+            out.setdefault(k, v)
+        _TIER_PALETTE_CACHE = out
+    except Exception:
+        _TIER_PALETTE_CACHE = fallback
+    return _TIER_PALETTE_CACHE
+
+
+def tier_lookup_for_named() -> dict:
+    """Map canonical-skill id → type so OG cards inherit tier coloring."""
+    if not GAIA_JSON.exists():
+        return {}
+    try:
+        with open(GAIA_JSON, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return {s.get("id"): s.get("type", "basic") for s in data.get("skills", [])}
+    except Exception:
+        return {}
+
+
+_TYPE_BY_ID: dict | None = None
+
+
+def resolve_type_for_og(entry: dict) -> str:
+    """Resolve the canonical type for a named-skill entry."""
+    global _TYPE_BY_ID
+    if _TYPE_BY_ID is None:
+        _TYPE_BY_ID = tier_lookup_for_named()
+    ref = entry.get("genericSkillRef")
+    if ref and ref in _TYPE_BY_ID:
+        return _TYPE_BY_ID[ref]
+    raw_id = entry.get("id", "")
+    if "/" in raw_id:
+        slug = raw_id.split("/", 1)[1]
+        if slug in _TYPE_BY_ID:
+            return _TYPE_BY_ID[slug]
+    return entry.get("type", "basic") or "basic"
+
+
+def build_og_style_block() -> str:
+    """Stage 3 — minimal inline <style> with token values pulled from
+    registry/gaia.json.meta. Lets the SVG render standalone (no CSS
+    engine at raster time) while the values stay schema-driven.
+    """
+    tiers = tier_palette()
+    ranks = rank_palette()
+    css_lines = [":root {"]
+    for k, v in tiers.items():
+        css_lines.append(f"  --tier-{k}: {v['hex']};")
+        css_lines.append(f"  --tier-{k}-rgb: {v['rgb']};")
+    for n_str, v in ranks.items():
+        css_lines.append(f"  --rank-{n_str}: {v['hex']};")
+    css_lines.append(f"  --honor-red: {HONOR_RED};")
+    css_lines.append(f"  --apex-gold: {APEX_GOLD};")
+    css_lines.append("}")
+    css_lines.append(".plaque__slug { fill: var(--apex-gold); }")
+    css_lines.append(".plaque__handle { fill: var(--honor-red); }")
+    css_lines.append(".plaque__title { fill: rgba(226,232,240,0.5); }")
+    css_lines.append(".plaque__description { fill: rgba(226,232,240,0.65); }")
+    css_lines.append(".plaque__tag { fill: rgba(226,232,240,0.45); }")
+    return "<style><![CDATA[\n" + "\n".join(css_lines) + "\n]]></style>"
 
 # Stage 2 — rank palette mirrors the --rank-N CSS tokens emitted by
 # scripts/generateCssTokens.py from registry/gaia.json.meta.levelColors.
@@ -210,30 +304,85 @@ def _wrap_text(text: str, max_chars: int, max_lines: int) -> list[str]:
     return lines
 
 
+def _build_tags_svg(skill: dict, x: float, y: float, max_tags: int = 4) -> str:
+    """Stage 3 — render the .plaque__tags slot as a row of <rect>+<text>
+    pills. Anchored at (x, y) for the top-left of the first pill.
+    Returns one SVG fragment containing every visible tag.
+    """
+    tags = (skill.get("tags") or [])[:max_tags]
+    if not tags:
+        return ""
+    parts = []
+    cursor_x = x
+    for t in tags:
+        text = html.escape(str(t))
+        pill_w = max(60, len(text) * 8 + 18)
+        parts.append(
+            f'<rect class="plaque__tag-bg" x="{cursor_x}" y="{y}" width="{pill_w}" height="22" rx="3" '
+            f'fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>'
+        )
+        parts.append(
+            f'<text class="plaque__tag" x="{cursor_x + 9}" y="{y + 15}" '
+            f'font-family="\'Departure Mono\',\'JetBrains Mono\',monospace" font-size="11" '
+            f'letter-spacing="0.5">{text}</text>'
+        )
+        cursor_x += pill_w + 6
+    return "\n  ".join(parts)
+
+
+def _build_install_row_svg(skill: dict, x: float, y: float, w: float) -> str:
+    """Stage 3 — render the .plaque__install-row slot as a single
+    monospace command line with the $ prompt and a copy hint icon."""
+    skill_id = skill.get("id", "")
+    if not skill_id:
+        return ""
+    cmd = html.escape(f"gaia install {skill_id}")
+    return (
+        f'<rect class="plaque__install-bg" x="{x}" y="{y}" width="{w}" height="32" rx="4" '
+        f'fill="rgba(0,0,0,0.4)" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>'
+        f'<text class="plaque__install-prompt" x="{x + 12}" y="{y + 21}" '
+        f'font-family="\'Departure Mono\',\'JetBrains Mono\',monospace" font-size="13" '
+        f'fill="{APEX_GOLD}">$</text>'
+        f'<text class="plaque__install-cmd" x="{x + 28}" y="{y + 21}" '
+        f'font-family="\'Departure Mono\',\'JetBrains Mono\',monospace" font-size="13" '
+        f'fill="rgba(226,232,240,0.75)">{cmd}</text>'
+    )
+
+
 def build_og_svg(skill: dict) -> str:
-    """Build a 1200×630 SVG OG card for a named skill."""
+    """Build a 1200×630 SVG OG card for a named skill.
+
+    Stage 3 — emits the .plaque--og variant of the shared component
+    family. Slot names map to SVG elements (slug → <text>, tag → <rect>+<text>,
+    install row → <rect>+<text>). The top of every SVG carries an
+    inline <style> block with tier/rank/brand-voice tokens pulled from
+    registry/gaia.json.meta at generate-time, so OG cards render
+    standalone (no CSS engine at raster).
+    """
     name = html.escape(truncate(skill.get("name", skill.get("id", "Unnamed")), 40))
     contributor = html.escape(skill.get("contributor", ""))
     level = skill.get("level", "2★")
     title = html.escape(truncate(skill.get("title", ""), 55))
     description_raw = truncate(skill.get("description", ""), 240)
-    description_lines = _wrap_text(description_raw, max_chars=58, max_lines=4)
+    description_lines = _wrap_text(description_raw, max_chars=58, max_lines=3)
     description_tspans = "\n".join(
-        f'<tspan x="264" dy="{"0" if i == 0 else "28"}">{html.escape(line)}</tspan>'
+        f'<tspan x="264" dy="{"0" if i == 0 else "26"}">{html.escape(line)}</tspan>'
         for i, line in enumerate(description_lines)
     )
     glyph = tier_glyph(level)
-    level_str = html.escape(level)
     ev_class = evidence_class(level)
-    is_apex = level_num(level) >= 6
+    n_lvl = level_num(level)
+    is_apex = n_lvl >= 6
+
+    tier_type = resolve_type_for_og(skill)
 
     # Gradient IDs need to be unique per card
-    skill_id = skill.get("id", "unknown").replace("/", "-").replace(" ", "-")
-    grad_id = f"grad-{skill_id}"
+    sid = skill.get("id", "unknown").replace("/", "-").replace(" ", "-")
+    grad_id = f"grad-{sid}"
 
     apex_effects = ""
     if is_apex:
-        apex_effects = f"""<defs>
+        apex_effects = """<defs>
   <filter id="vi-glow" x="-20%" y="-20%" width="140%" height="140%">
     <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur"/>
     <feColorMatrix in="blur" type="matrix"
@@ -244,10 +393,15 @@ def build_og_svg(skill: dict) -> str:
 </defs>"""
 
     stars_svg = build_stars_svg(level, 64, 435)
+    tags_svg = _build_tags_svg(skill, x=264, y=470, max_tags=4)
+    install_row_svg = _build_install_row_svg(skill, x=264, y=510, w=OG_W - 264 - 48)
+    style_block = build_og_style_block()
 
     return f"""<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-  width="{OG_W}" height="{OG_H}" viewBox="0 0 {OG_W} {OG_H}">
+  width="{OG_W}" height="{OG_H}" viewBox="0 0 {OG_W} {OG_H}"
+  class="plaque plaque--og" data-type="{html.escape(tier_type)}" data-level="{n_lvl}">
+  {style_block}
   <defs>
     <linearGradient id="{grad_id}" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="{APEX_GOLD}" stop-opacity="0.04"/>
@@ -262,12 +416,12 @@ def build_og_svg(skill: dict) -> str:
 
   <!-- Subtle vignette -->
   <defs>
-    <radialGradient id="vign-{skill_id}" cx="50%" cy="50%" r="70%">
+    <radialGradient id="vign-{sid}" cx="50%" cy="50%" r="70%">
       <stop offset="0%" stop-color="transparent"/>
       <stop offset="100%" stop-color="rgba(0,0,0,0.5)"/>
     </radialGradient>
   </defs>
-  <rect width="{OG_W}" height="{OG_H}" fill="url(#vign-{skill_id})"/>
+  <rect width="{OG_W}" height="{OG_H}" fill="url(#vign-{sid})"/>
 
   <!-- Gold overlay tint -->
   <rect width="{OG_W}" height="{OG_H}" fill="url(#{grad_id})"/>
@@ -283,7 +437,7 @@ def build_og_svg(skill: dict) -> str:
   <path d="M {OG_W-20} {OG_H-20} L {OG_W-20} {OG_H-44} M {OG_W-20} {OG_H-20} L {OG_W-44} {OG_H-20}"
     stroke="rgba(251,191,36,0.4)" stroke-width="1.5" fill="none"/>
 
-  <!-- ─── Left column ─── -->
+  <!-- ─── Left column (seal + tier glyph + stars) ─── -->
   <!-- Diamond Seal -->
   <svg x="48" y="52" width="52" height="52" viewBox="0 0 64 64">
     <path d="M 32 4 L 60 32 L 32 60 L 4 32 Z"
@@ -296,61 +450,62 @@ def build_og_svg(skill: dict) -> str:
   <text x="48" y="175" font-family="Georgia,serif" font-size="52"
     fill="{APEX_GOLD}" opacity="0.85">{glyph}</text>
 
-  <!-- Stars -->
+  <!-- Stars (.plaque__rank stars variant) -->
   {stars_svg}
 
   <!-- Vertical rule -->
   <line x1="220" y1="40" x2="220" y2="{OG_H-40}"
     stroke="rgba(251,191,36,0.12)" stroke-width="1"/>
 
-  <!-- ─── Right / main column ─── -->
-  <!-- Skill name -->
-  <text x="264" y="160"
+  <!-- ─── Right column (slug / title / description / tags / install) ─── -->
+  <!-- Slug (.plaque__slug) -->
+  <text class="plaque__slug" x="264" y="150"
     font-family="EB Garamond,Georgia,serif"
     font-size="52" font-weight="600"
     fill="{APEX_GOLD}" dominant-baseline="middle">{name}</text>
 
-  <!-- Title (italic subtitle) -->
-  {'<text x="264" y="220" font-family="EB Garamond,Georgia,serif" font-size="22" font-style="italic" fill="rgba(226,232,240,0.5)" dominant-baseline="middle">' + title + '</text>' if title else ''}
+  <!-- Title (.plaque__title — italic subtitle) -->
+  {'<text class="plaque__title" x="264" y="210" font-family="EB Garamond,Georgia,serif" font-size="22" font-style="italic" fill="rgba(226,232,240,0.5)" dominant-baseline="middle">' + title + '</text>' if title else ''}
 
   <!-- Horizontal rule -->
-  <line x1="264" y1="256" x2="{OG_W-48}" y2="256"
+  <line x1="264" y1="240" x2="{OG_W-48}" y2="240"
     stroke="rgba(251,191,36,0.2)" stroke-width="1"/>
 
-  <!-- Description -->
-  <text x="264" y="298"
+  <!-- Description (.plaque__description) -->
+  <text class="plaque__description" x="264" y="278"
     font-family="Bricolage Grotesque,Helvetica,Arial,sans-serif"
     font-size="18" fill="rgba(226,232,240,0.65)">
     {description_tspans}
   </text>
 
-  <!-- Evidence class chip -->
-  <rect x="264" y="504" width="{len(ev_class) * 8 + 24}" height="28"
+  <!-- Tags row (.plaque__tags / .plaque__tag) -->
+  {tags_svg}
+
+  <!-- Install row (.plaque__install-row) -->
+  {install_row_svg}
+
+  <!-- Evidence class chip (.plaque__evidence) -->
+  <rect class="plaque__evidence-bg" x="264" y="560" width="{len(ev_class) * 8 + 24}" height="22"
     rx="3" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-  <text x="276" y="518"
+  <text class="plaque__evidence" x="276" y="575"
     font-family="monospace" font-size="11" letter-spacing="1.5"
-    fill="rgba(226,232,240,0.5)" dominant-baseline="middle"
-    text-transform="uppercase">{ev_class}</text>
+    fill="rgba(226,232,240,0.5)" dominant-baseline="middle">{ev_class}</text>
 
-  <!-- Stage 2 — Level chip mirrors .rank-badge[data-variant="chip"]. -->
-  {build_rank_chip_svg(level, OG_W - 64, 518, anchor="end")}
+  <!-- Level chip (.plaque__rank chip variant — mirrors Stage 2 sibling) -->
+  {build_rank_chip_svg(level, OG_W - 64, 575, anchor="end")}
 
-  <!-- Horizontal rule bottom -->
-  <line x1="264" y1="550" x2="{OG_W-48}" y2="550"
-    stroke="rgba(251,191,36,0.2)" stroke-width="1"/>
-
-  <!-- Contributor handle -->
-  <text x="264" y="590"
+  <!-- Contributor handle (.plaque__handle) -->
+  <text class="plaque__handle" x="264" y="605"
     font-family="'Bricolage Grotesque',sans-serif" font-size="18" font-weight="600"
     fill="{HONOR_RED}" dominant-baseline="middle">@{contributor}</text>
 
   <!-- Gaia wordmark (bottom-right) -->
-  <text x="{OG_W - 64}" y="590"
+  <text x="{OG_W - 64}" y="605"
     font-family="EB Garamond,Georgia,serif" font-size="18" font-weight="600"
     fill="rgba(226,232,240,0.3)" text-anchor="end" dominant-baseline="middle">Gaia</text>
 
-  <!-- Bottom underline accent -->
-  <line x1="{OG_W//2 - 200}" y1="{OG_H - 4}" x2="{OG_W//2 + 200}" y2="{OG_H - 4}"
+  <!-- Bottom underline accent (.plaque__underline) -->
+  <line class="plaque__underline" x1="{OG_W//2 - 200}" y1="{OG_H - 4}" x2="{OG_W//2 + 200}" y2="{OG_H - 4}"
     stroke="{APEX_GOLD}" stroke-width="2" stroke-opacity="0.3"/>
 </svg>
 """
