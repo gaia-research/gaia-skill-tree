@@ -109,6 +109,15 @@ def promote_to_named(skill_data, contributor, skill_name, registry_path):
     with open(dest_path, "w", encoding="utf-8") as f:
         f.write(content)
 
+    from gaia_cli.timeline import append_skill_event
+    append_skill_event(
+        skill_data['id'],
+        "name",
+        contributor,
+        f"Named by @{contributor} as {contributor}/{skill_name}",
+        registry_path
+    )
+
     return dest_path
 
 

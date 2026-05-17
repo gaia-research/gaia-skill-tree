@@ -760,6 +760,15 @@ def propose_command(args):
     batch_path = write_skill_batch(batch, args.registry)
     promote_to_named(proposed_skill, contributor, skill_name, args.registry)
     update_batch_lifecycle(batch_path, skill_id, "named")
+
+    from gaia_cli.timeline import append_skill_tree_event
+    append_skill_tree_event(
+        config.get("gaiaUser", "unknown"),
+        skill_id,
+        "propose",
+        f"Proposed as named skill {target_named}",
+        registry_path=args.registry
+    )
     print(f"Proposed named skill: {target_named}")
     print(f"  saved {os.path.basename(batch_path)}")
 
@@ -890,6 +899,16 @@ def fuse_command(args):
         stats['totalUnlocked'] = stats.get('totalUnlocked', 0) + 1
         tree['stats'] = stats
         save_tree(username, tree, registry_path=args.registry)
+
+        from gaia_cli.timeline import append_skill_tree_event
+        append_skill_tree_event(
+            username,
+            target,
+            "fuse",
+            f"Fused from {', '.join(combo_match.get('detectedSkills', []))}",
+            registry_path=args.registry
+        )
+
         open_pr(username, tree, candidate_result=target)
         return
 
@@ -985,10 +1004,23 @@ def push_command(args):
 
     batch_path = write_skill_batch(batch, args.registry)
     print(f"  saved {os.path.basename(batch_path)}")
+
+    from gaia_cli.timeline import append_skill_tree_event
+    username = config.get('gaiaUser')
+    if username:
+        for known in batch.get("knownSkills", []):
+            append_skill_tree_event(
+                username,
+                known.get("skillId"),
+                "push",
+                f"Pushed in batch {batch.get('batchId')}",
+                registry_path=args.registry
+            )
+
     if args.no_pr:
         print("Skipped PR creation (--no-pr).")
         return
-    open_intake_pr(config.get('gaiaUser'), batch, batch_path=batch_path, repo_root=args.registry)
+    open_intake_pr(username, batch, batch_path=batch_path, repo_root=args.registry)
 
 def name_command(args):
     with open(args.batch_file, "r") as f:
