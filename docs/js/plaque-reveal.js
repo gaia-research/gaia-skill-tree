@@ -313,6 +313,8 @@
 
   /* ── Wire HoH hover triggers with 200ms delay ── */
   function wireHallOfHeroesHover() {
+    // Temporarily disabled: hovering to trigger plaque reveal animation is not yet polished.
+    return;
     var hohContainer = document.getElementById('hohPlates');
     if (!hohContainer) return;
 
