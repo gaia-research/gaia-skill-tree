@@ -1395,11 +1395,8 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    @media(min-width:400px) {
-      .tree-pure-line { width: 33.33%; } /* 3 columns */
-    }
-    @media(min-width:600px) {
-      .tree-pure-line { width: 25%; } /* 4 columns */
+    @media(min-width:480px) {
+      .tree-pure-line { width: 33.33%; } /* 3 columns at tablet-narrow+ */
     }
     .graph-dialog-header{flex-direction:column}
     .graph-dialog-actions{justify-content:flex-start}
@@ -1893,8 +1890,8 @@
   }
   code{word-break:break-all;overflow-wrap:anywhere;}
 
-  /* ── Tablet & below (≤768px): collapse multi-column grids ── */
-  @media (max-width:768px){
+  /* ── Tablet & below (≤700px): collapse multi-column grids ── */
+  @media (max-width:700px){
     section{padding-left:1rem;padding-right:1rem}
     .process-page main{padding-top:6.2rem}
     .process-lanes,.process-band,.review-grid{grid-template-columns:1fr}
@@ -1952,6 +1949,8 @@
     .ns-view-btn{flex:1;justify-content:center;padding:.35rem .45rem}
     /* Always keep loading/empty state visible above the fold */
     .ns-loading,.ns-empty{padding:2rem 1rem;font-size:.88rem}
+    /* Tree dialog: improve readability at narrow widths (Stage 5b note) */
+    .tree-dialog-body pre{line-height:1.5}
   }
 
   /* ── Ultra-narrow (≤360px): the iPhone-SE / 320px case ── */
@@ -1962,6 +1961,8 @@
     section{padding:2.8rem .75rem}
     pre{font-size:.72rem}
     .tier-card{padding:1.1rem 1rem}
+    /* Tree-pure overflow safety at iPhone-SE widths */
+    .tree-pure-container{max-width:100%;overflow-x:auto}
   }
 
   /* ── Mobile index hero port ── */
