@@ -89,13 +89,16 @@
       z-index: 2;
     }
 
-    /* Void zone: Unique tier gets a distinct atmospheric treatment */
+    /* Void zone: Unique tier gets a distinct atmospheric treatment.
+       Sits ABOVE the SVG vein layer so active-path glows can't shine through. */
     .dag-rank.void-zone {
-      background: linear-gradient(135deg, rgba(124,58,237,.07) 0%, rgba(76,29,149,.04) 100%);
-      border: 1px dashed rgba(124,58,237,.28);
+      background: linear-gradient(135deg, rgba(124,58,237,.16) 0%, rgba(76,29,149,.10) 100%);
+      border: 1px dashed rgba(124,58,237,.4);
       border-radius: 20px;
       padding: 28px 36px;
-      box-shadow: inset 0 0 48px rgba(124,58,237,.05);
+      z-index: 5;
+      backdrop-filter: blur(2px);
+      box-shadow: inset 0 0 48px rgba(124,58,237,.1);
     }
 
     .dag-rank.void-zone::before {
@@ -108,8 +111,9 @@
       font-size: .6rem;
       color: var(--tier-unique, #7c3aed);
       letter-spacing: .35em;
-      opacity: .38;
+      opacity: .6;
       pointer-events: none;
+      z-index: 6;
     }
 
     /* ─── Commit node ─── */
@@ -124,7 +128,8 @@
       cursor: pointer;
     }
 
-    /* Hovering a node reveals the plaque popup */
+    /* Hovering a node reveals the plaque popup. Position is locked — only
+       opacity/visibility change so the card never jumps under the cursor. */
     .dag-node .ns-dag-card,
     .dag-node .plaque--mini {
       opacity: 0;
@@ -133,8 +138,8 @@
       position: fixed;
       bottom: auto;
       left: 50%;
-      transform: translateX(-50%) translateY(8px);
-      transition: opacity .2s ease-out, transform .2s ease-out, visibility .2s;
+      transform: translateX(-50%);
+      transition: opacity .2s ease-out, visibility .2s;
       z-index: 20;
       min-width: 160px;
     }
@@ -143,7 +148,6 @@
     .dag-node:hover .plaque--mini {
       opacity: 1;
       visibility: visible;
-      transform: translateX(-50%) translateY(-8px);
     }
 
     /* ─── Dot: the visible node circle ─── */

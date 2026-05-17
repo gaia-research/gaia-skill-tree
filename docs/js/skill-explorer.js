@@ -230,38 +230,6 @@
     var buckets = window._gaiaNamedBuckets || {};
     var lm = LEVEL_META_SE;
 
-    // Stage 2 — flow-node level chips render through the rank-badge
-    // component. The previous inline-style chip is replaced by a chip
-    // variant; data-level on the .flow-node itself is preserved for
-    // the glow / shimmer rules.
-    function rankChip(level, type) {
-      if (!level) return '';
-      return (typeof window.rankBadge === 'function')
-        ? window.rankBadge(level, { variant: 'stars', label: level, tier: type })
-        : '';
-    }
-
-    function getSlug(id) {
-      if (!id) return '';
-      if (id.indexOf('/') !== -1) return '/' + id.split('/', 2)[1];
-      return '/' + id;
-    }
-
-    function flowNode(id, name, contrib, level, typeStr, isCurrent, isNamed) {
-      var clsExtra = isCurrent ? ' current' : '';
-      var ghostCls = isNamed ? '' : ' flow-node-ghost';
-      // Stage 3 — Honor Red carried by the .fn-contrib CSS rule, not inline.
-      var contribHtml = contrib ? '<span class="fn-contrib">@' + esc(contrib) + '</span>' : '';
-      var levelHtml = rankChip(level, typeStr);
-      var displayName = getSlug(id);
-      var colorVar = 'var(--tier-' + (typeStr || 'basic') + ', var(--muted))';
-      return '<div class="git-node" data-id="' + esc(id) + '" data-type="' + esc(typeStr||'') + '">' +
-        '<div class="git-commit-dot" style="--dot-color: ' + colorVar + '"></div>' +
-        '<div class="flow-node' + clsExtra + ghostCls + '" data-level="' + esc(level||'') + '" data-type="' + esc(typeStr||'') + '" onclick="openSkillExplorer(\'' + id.replace(/'/g,"\\'") + '\')" tabindex="0" role="button">' +
-        '<span class="fn-name">' + esc(displayName) + '</span>' + levelHtml + contribHtml +
-      '</div></div>';
-    }
-
     // Build full dependency sub-graph
     var genericId = generic ? generic.id : ns.genericSkillRef || ns.id;
     var relatedNodes = {};
@@ -421,16 +389,19 @@
               renderPlaqueNode(nb, nbOpts) +
             '</div>';
           } else {
-            var colorVarGhost = 'var(--muted)';
-            var miniNs = { id: id, name: s.name || id, level: s.level, type: s.type, genericSkillRef: id };
+            // Ghost: dot color hints at the tier (muted via opacity in CSS), data-type defaults to 'basic'.
+            var ghostType = s.type || 'basic';
+            var colorVarGhost = 'var(--tier-' + ghostType + ', var(--muted))';
+            var miniNs = { id: id, name: s.name || id, level: s.level, type: ghostType, genericSkillRef: id };
             var ghostOpts = {
               extraClass: 'ns-dag-card',
               dagId: id,
               ghost: true,
-              attrs: ' data-type="' + esc(s.type||'basic') + '" style="cursor:pointer;"',
-              onclick: 'openSkillExplorer(\'' + id.replace(/'/g,"\\'") + '\');'
+              attrs: ' data-type="' + esc(ghostType) + '" style="cursor:pointer;"',
+              // Plaque click opens the "gaia propose" dialog; the underlying node click still locks the path.
+              onclick: 'event.stopPropagation();(function(id){var sm=window._gaiaSkillMap||{};var g=sm[id];if(g&&typeof window.openUnnamedPopup===\'function\')window.openUnnamedPopup(g);})(\'' + id.replace(/'/g,"\\'") + '\');'
             };
-            return '<div class="git-node' + extraMainClass + '" data-id="' + esc(id) + '" data-type="' + esc(s.type||'') + '" data-level="' + esc(s.level || '') + '" data-ghost="true" style="--staggerY:' + staggerY + 'px" onclick="if(window.selectFlowNode)window.selectFlowNode(\''+esc(id)+'\');" onmouseenter="if(!window._selectedFlowNode&&window.highlightPaths)window.highlightPaths(\''+esc(id)+'\')" onmouseleave="if(!window._selectedFlowNode&&window.unhighlightPaths)window.unhighlightPaths()">' +
+            return '<div class="git-node' + extraMainClass + '" data-id="' + esc(id) + '" data-type="' + esc(ghostType) + '" data-level="' + esc(s.level || '') + '" data-ghost="true" style="--staggerY:' + staggerY + 'px" onclick="if(window.selectFlowNode)window.selectFlowNode(\''+esc(id)+'\');" onmouseenter="if(!window._selectedFlowNode&&window.highlightPaths)window.highlightPaths(\''+esc(id)+'\')" onmouseleave="if(!window._selectedFlowNode&&window.unhighlightPaths)window.unhighlightPaths()">' +
               '<div class="git-commit-dot" style="--dot-color: ' + colorVarGhost + '"></div>' +
               createNodeLabel(id) +
               renderPlaqueNode(miniNs, ghostOpts) +

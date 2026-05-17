@@ -192,7 +192,8 @@
           attrs: ' data-type="' + esc(s.type) + '"',
         };
         if (isGhost) {
-          dagOpts.onclick = '(function(id){if(typeof openSkillExplorer===\'function\')openSkillExplorer(id);})(\'' + String(id).replace(/'/g,"\\'") + '\')';
+          // Ghost plaque click opens the "gaia propose" dialog so the user can claim the unnamed skill.
+          dagOpts.onclick = 'event.stopPropagation();(function(id){var sm=window._gaiaSkillMap||{};var g=sm[id];if(g&&typeof window.openUnnamedPopup===\'function\')window.openUnnamedPopup(g);})(\'' + String(id).replace(/'/g,"\\'") + '\')';
         }
         var miniHtml = (window.plaque && typeof window.plaque.renderMini === 'function')
           ? window.plaque.renderMini(miniNs, dagOpts)

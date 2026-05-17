@@ -259,7 +259,7 @@
     }
 
     /* ─── Downstream node labels ─── */
-    .git-node-label {
+    .dag-node-label {
       position: absolute;
       bottom: 100%;
       margin-bottom: 8px;
@@ -275,16 +275,16 @@
       transition: opacity .2s;
     }
 
-    .git-node-label-contrib {
+    .dag-node-label-contrib {
       color: #ef4444;
       font-weight: 600;
     }
 
-    .git-node-label-name {
+    .dag-node-label-name {
       color: var(--text);
     }
 
-    .git-node.show-label .git-node-label {
+    .git-node.show-label .dag-node-label {
       opacity: 1;
     }
   </style>
@@ -526,25 +526,19 @@
         var mainClass = isMain ? ' git-node--main' : '';
         var colorVar = 'var(--tier-' + type + ', rgba(148,163,184,.5))';
 
-        var miniNs = ns || { id: id, name: s.name || id, level: level, type: type, genericSkillRef: id };
-        var miniOpts = {
-          extraClass: 'ns-dag-card' + (isMain ? ' current' : ''),
-          dagId: id,
-          ghost: isGhost,
-          attrs: ' data-type="' + type + '"'
-        };
-        var miniHtml = (window.plaque && typeof window.plaque.renderMini === 'function')
-          ? window.plaque.renderMini(miniNs, miniOpts)
-          : '<div class="ns-dag-card" style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:.6rem .8rem;font-size:.8rem;">' + esc(miniNs.name) + '</div>';
+        // This sampler intentionally omits the plaque card — labels above the
+        // dot carry the slash name. See the earlier design decision.
 
-        var parts = id.split('/');
+        // Prefer the slash-formatted named id for the label when available.
+        var labelSource = (ns && ns.id) ? ns.id : id;
+        var parts = labelSource.split('/');
         var contrib = parts[0] || '';
-        var skillName = parts[1] || id;
+        var skillName = parts[1] || labelSource;
         var labelHtml = '';
         if (contrib && parts.length > 1) {
-          labelHtml = '<div class="git-node-label"><span class="git-node-label-contrib">' + esc(contrib) + '</span><span style="color:var(--muted)">/</span><span class="git-node-label-name">' + esc(skillName) + '</span></div>';
+          labelHtml = '<div class="dag-node-label"><span class="dag-node-label-contrib">' + esc(contrib) + '</span><span style="color:var(--muted)">/</span><span class="dag-node-label-name">' + esc(skillName) + '</span></div>';
         } else {
-          labelHtml = '<div class="git-node-label"><span class="git-node-label-name">' + esc(id) + '</span></div>';
+          labelHtml = '<div class="dag-node-label"><span class="dag-node-label-name">' + esc(labelSource) + '</span></div>';
         }
 
         return '<div class="git-node' + mainClass + '"'

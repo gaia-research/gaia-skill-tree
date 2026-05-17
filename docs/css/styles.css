@@ -2934,8 +2934,8 @@ button.nav-graph-trigger:hover{color:var(--text)}
   position: absolute;
   top: 100%;
   left: 50%;
-  transform: translateX(-50%) translateY(10px);
-  transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+  transform: translateX(-50%);
+  transition: opacity 0.2s, visibility 0.2s;
   z-index: 10;
   margin-top: 8px;
 }
@@ -2946,7 +2946,7 @@ button.nav-graph-trigger:hover{color:var(--text)}
   opacity: 1 !important;
   visibility: visible;
   pointer-events: auto;
-  transform: translateX(-50%) translateY(0);
+  transform: translateX(-50%);
 }
 .git-node:hover .ns-dag-card[data-ghost="true"],
 .git-node:hover .flow-node.flow-node-ghost,
@@ -3090,17 +3090,21 @@ button.nav-graph-trigger:hover{color:var(--text)}
   opacity: 1 !important;
   visibility: visible;
   pointer-events: auto;
-  transform: translateX(-50%) translateY(0);
+  transform: translateX(-50%);
 }
 
-/* Void zone for uniques: in-flow zone with violet atmospheric border */
+/* Void zone for uniques: in-flow zone with violet atmospheric border.
+   Sits ABOVE the SVG vein layer (including active-path glows) so the
+   zone reads as a self-contained "well" that lines flow into. */
 .void-zone {
-  background: linear-gradient(135deg, rgba(124,58,237,.07) 0%, rgba(76,29,149,.04) 100%);
-  border: 1px dashed rgba(124,58,237,.3);
+  background: linear-gradient(135deg, rgba(124,58,237,.16) 0%, rgba(76,29,149,.10) 100%);
+  border: 1px dashed rgba(124,58,237,.4);
   border-radius: 20px;
   padding: 28px 36px;
   position: relative;
-  box-shadow: inset 0 0 40px rgba(124,58,237,.06);
+  z-index: 5;
+  backdrop-filter: blur(2px);
+  box-shadow: inset 0 0 40px rgba(124,58,237,.1);
 }
 
 .void-zone::before {
@@ -3113,8 +3117,9 @@ button.nav-graph-trigger:hover{color:var(--text)}
   font-size: 0.6rem;
   color: var(--tier-unique);
   letter-spacing: 0.35em;
-  opacity: 0.4;
+  opacity: 0.6;
   pointer-events: none;
+  z-index: 6;
 }
 
 /* Prerequisites (bottom row in skill explorer) stay in one layer if possible, or scroll horizontally */
