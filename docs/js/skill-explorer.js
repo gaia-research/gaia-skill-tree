@@ -237,142 +237,290 @@
     function rankChip(level, type) {
       if (!level) return '';
       return (typeof window.rankBadge === 'function')
-        ? window.rankBadge(level, { variant: 'chip', label: level, tier: type })
+        ? window.rankBadge(level, { variant: 'stars', label: level, tier: type })
         : '';
+    }
+
+    function getSlug(id) {
+      if (!id) return '';
+      if (id.indexOf('/') !== -1) return '/' + id.split('/', 2)[1];
+      return '/' + id;
     }
 
     function flowNode(id, name, contrib, level, typeStr, isCurrent, isNamed) {
       var clsExtra = isCurrent ? ' current' : '';
       var ghostCls = isNamed ? '' : ' flow-node-ghost';
       // Stage 3 — Honor Red carried by the .fn-contrib CSS rule, not inline.
-      var contribHtml = contrib ? '<span class="fn-contrib">' + esc(contrib) + '</span>' : '';
+      var contribHtml = contrib ? '<span class="fn-contrib">@' + esc(contrib) + '</span>' : '';
       var levelHtml = rankChip(level, typeStr);
-      return '<div class="flow-node' + clsExtra + ghostCls + '" data-level="' + esc(level||'') + '" data-id="' + esc(id) + '" onclick="openSkillExplorer(\'' + id.replace(/'/g,"\\'") + '\')" tabindex="0" role="button">' +
-        levelHtml + '<span class="fn-name">' + esc(name||id) + '</span>' + contribHtml +
-      '</div>';
+      var displayName = getSlug(id);
+      var colorVar = 'var(--tier-' + (typeStr || 'basic') + ', var(--muted))';
+      return '<div class="git-node" data-id="' + esc(id) + '" data-type="' + esc(typeStr||'') + '">' +
+        '<div class="git-commit-dot" style="--dot-color: ' + colorVar + '"></div>' +
+        '<div class="flow-node' + clsExtra + ghostCls + '" data-level="' + esc(level||'') + '" data-type="' + esc(typeStr||'') + '" onclick="openSkillExplorer(\'' + id.replace(/'/g,"\\'") + '\')" tabindex="0" role="button">' +
+        '<span class="fn-name">' + esc(displayName) + '</span>' + levelHtml + contribHtml +
+      '</div></div>';
     }
 
-    // Row 0: prerequisite generic skills (show named if available)
-    var prereqs = generic && Array.isArray(generic.prerequisites) ? generic.prerequisites : [];
-    var prereqNodes = prereqs.map(function(id){
-      var s = sm[id] || {};
-      var namedBucket = buckets[id];
-      if (namedBucket && namedBucket.length) {
-        var nb = namedBucket[0];
-        return flowNode(nb.id, nb.name||nb.id, nb.contributor, nb.level, nb.type, false, true);
-      }
-      return flowNode(id, s.name||id, '', s.level||'', s.type, false, false);
-    });
-
-    // Row 1: named implementations — stacked card deck
-    var siblings = (buckets[ns.genericSkillRef] || []);
-    var namedHtml = '';
-    if (siblings.length > 1) {
-      namedHtml = '<div class="se-stack-deck" data-count="' + siblings.length + '">';
-      siblings.forEach(function(sib, idx) {
-        var isCur = sib.id === ns.id;
-        var zIdx = isCur ? siblings.length : siblings.length - idx;
-        var rot = isCur ? 0 : (idx % 2 === 0 ? -3 : 3) * (idx + 1) * 0.5;
-        namedHtml += '<div class="se-stack-card' + (isCur ? ' se-stack-current' : '') +
-          '" style="z-index:' + zIdx + ';transform:rotate(' + rot + 'deg)" ' +
-          'onclick="openSkillExplorer(\'' + sib.id.replace(/'/g,"\\'") + '\')" tabindex="0" role="button">' +
-          rankChip(sib.level, sib.type) +
-          '<span class="fn-name">' + esc(sib.name || sib.id) + '</span>' +
-          '<span class="fn-contrib">' + esc(sib.contributor) + '</span>' +
-        '</div>';
+    // Build full dependency sub-graph
+    var genericId = generic ? generic.id : ns.genericSkillRef || ns.id;
+    var relatedNodes = {};
+    
+    function collectAncestors(id) {
+      if (relatedNodes[id]) return;
+      var s = sm[id];
+      if (!s) return;
+      relatedNodes[id] = s;
+      (s.prerequisites || []).forEach(collectAncestors);
+    }
+    
+    function collectDescendants(id) {
+      if (relatedNodes[id]) return;
+      var s = sm[id];
+      if (!s) return;
+      relatedNodes[id] = s;
+      (s.prerequisites || []).forEach(function(pid) {
+        if (!relatedNodes[pid] && sm[pid]) collectAncestors(pid);
       });
-      namedHtml += '</div>';
-    } else {
-      namedHtml = flowNode(ns.id, ns.name||ns.id, ns.contributor, ns.level, ns.type, true, true);
+      (s.derivatives || []).forEach(collectDescendants);
+    }
+    
+    if (genericId) {
+      relatedNodes[genericId] = sm[genericId] || {id: genericId, name: ns.name, type: ns.type, level: ns.level, prerequisites: generic ? generic.prerequisites : [], derivatives: generic ? generic.derivatives : []};
+      (relatedNodes[genericId].prerequisites || []).forEach(collectAncestors);
+      (relatedNodes[genericId].derivatives || []).forEach(collectDescendants);
     }
 
-    // Row 2: derivative generic skills (show named if available, with lock icon for unnamed)
-    var derivs = generic && Array.isArray(generic.derivatives) ? generic.derivatives : [];
-    var derivNodes = derivs.map(function(id){
-      var s = sm[id] || {};
-      var namedBucket = buckets[id];
-      if (namedBucket && namedBucket.length) {
-        var nb = namedBucket[0];
-        return flowNode(nb.id, nb.name||nb.id, nb.contributor, nb.level, '', false, true);
+    var depth = {};
+    function getDepth(id) {
+      if (depth[id] !== undefined) return depth[id];
+      depth[id] = -1;
+      var maxPre = 0;
+      var node = relatedNodes[id];
+      if (node && node.prerequisites) {
+        node.prerequisites.forEach(function(pid) {
+          if (relatedNodes[pid]) maxPre = Math.max(maxPre, getDepth(pid) + 1);
+        });
       }
-      return '<div class="flow-node flow-node-ghost flow-node-locked" data-level="' + esc(s.level||'') + '" data-id="' + esc(id) + '" onclick="openSkillExplorer(\'' + id.replace(/'/g,"\\'") + '\')">' +
-        '<span class="fn-lock">&#x1F512;</span>' +
-        '<span class="fn-name">' + esc(s.name||id) + '</span>' +
-      '</div>';
+      depth[id] = maxPre;
+      return maxPre;
+    }
+    Object.keys(relatedNodes).forEach(getDepth);
+    
+    var maxD = 0;
+    Object.values(depth).forEach(function(d) { if (d > maxD) maxD = d; });
+    var ranks = [];
+    for (var r = 0; r <= maxD; r++) ranks.push([]);
+    var apexNodes = [];
+    var uniqueNodes = [];
+    Object.keys(relatedNodes).forEach(function(id) {
+      if (depth[id] >= 0) {
+        var s = relatedNodes[id];
+        if (s.level && String(s.level).indexOf('6') !== -1) {
+          apexNodes.push(id);
+        } else if (s.type === 'unique') {
+          uniqueNodes.push(id);
+        } else {
+          ranks[depth[id]].push(id);
+        }
+      }
     });
+    if (uniqueNodes.length) {
+      ranks.push(uniqueNodes);
+    }
+    if (apexNodes.length) {
+      ranks.push(apexNodes);
+      maxD = ranks.length - 1;
+    }
+
+    var edges = [];
+    Object.keys(relatedNodes).forEach(function(id) {
+      var s = relatedNodes[id];
+      (s.prerequisites || []).forEach(function(pid) {
+        if (relatedNodes[pid]) edges.push({from: pid, to: id});
+      });
+    });
+
+    var htmlRows = '';
+    
+    function hashString(str) {
+      var h = 0;
+      for (var i = 0; i < str.length; i++) h = Math.imul(31, h) + str.charCodeAt(i) | 0;
+      return Math.abs(h);
+    }
+    
+    for (var ri = 0; ri <= maxD; ri++) {
+      var rank = ranks[ri];
+      if (!rank || !rank.length) continue;
+      
+      var isUniqueRow = rank.every(function(id) { return relatedNodes[id].type === 'unique'; });
+      
+      var rowHtml = rank.map(function(id, idx) {
+        var s = relatedNodes[id];
+        var staggerY = (ri === 0 || isUniqueRow) ? 0 : (hashString(id) % 80);
+        
+        var isMainSkill = (id === genericId || id === ns.id);
+        var extraMainClass = isMainSkill ? ' git-node--main' : '';
+        
+        function renderPlaqueNode(nsData, opts) {
+          if (window.plaque && typeof window.plaque.renderMini === 'function') {
+            return window.plaque.renderMini(nsData, opts);
+          }
+          return ''; // fallback
+        }
+
+        if (id === genericId && buckets[id] && buckets[id].length > 1) {
+          var siblings = buckets[id];
+          var topType = ns.type || 'basic';
+          var topLevel = ns.level || '';
+          var colorVar = topLevel.indexOf('6') !== -1 ? '#ffffff' : 'var(--tier-' + topType + ', var(--muted))';
+          var deckHtml = '<div class="git-node' + extraMainClass + '" data-id="' + esc(id) + '" data-type="' + esc(topType) + '" data-level="' + esc(topLevel) + '" data-ghost="false" style="--staggerY:' + staggerY + 'px" onmouseenter="if(window.highlightPaths)window.highlightPaths(\''+esc(id)+'\')" onmouseleave="if(window.unhighlightPaths)window.unhighlightPaths()">';
+          deckHtml += '<div class="git-commit-dot" style="--dot-color: ' + colorVar + '"></div>';
+          deckHtml += '<div class="se-stack-deck" data-count="' + siblings.length + '">';
+          siblings.forEach(function(sib, idxSib) {
+            var isCur = sib.id === ns.id;
+            var zIdx = isCur ? siblings.length : siblings.length - idxSib;
+            var rot = isCur ? 0 : (idxSib % 2 === 0 ? -3 : 3) * (idxSib + 1) * 0.5;
+            var sibOpts = {
+              extraClass: 'se-stack-card ns-dag-card' + (isCur ? ' current' : ''),
+              ghost: false,
+              attrs: ' data-type="' + esc(sib.type||'basic') + '" style="z-index:' + zIdx + ';transform:rotate(' + rot + 'deg); cursor:pointer;"',
+              onclick: 'if(event.target.closest("a")) return; openSkillExplorer(\'' + sib.id.replace(/'/g,"\\'") + '\');'
+            };
+            deckHtml += renderPlaqueNode(sib, sibOpts);
+          });
+          deckHtml += '</div></div>';
+          return deckHtml;
+        } else {
+          var namedBucket = buckets[id];
+          if (namedBucket && namedBucket.length) {
+            var nb = namedBucket[0];
+            var colorVarNamed = (nb.level && String(nb.level).indexOf('6') !== -1) ? '#ffffff' : 'var(--tier-' + (nb.type || 'basic') + ', var(--muted))';
+            var nbOpts = {
+              extraClass: 'ns-dag-card' + (nb.id === ns.id ? ' current' : ''),
+              ghost: false,
+              attrs: ' data-type="' + esc(nb.type||'basic') + '" style="cursor:pointer;"',
+              onclick: 'if(event.target.closest("a")) return; openSkillExplorer(\'' + nb.id.replace(/'/g,"\\'") + '\');'
+            };
+            return '<div class="git-node' + extraMainClass + '" data-id="' + esc(id) + '" data-type="' + esc(nb.type||'basic') + '" data-level="' + esc(nb.level || '') + '" data-ghost="false" style="--staggerY:' + staggerY + 'px" onmouseenter="if(window.highlightPaths)window.highlightPaths(\''+esc(id)+'\')" onmouseleave="if(window.unhighlightPaths)window.unhighlightPaths()">' +
+              '<div class="git-commit-dot" style="--dot-color: ' + colorVarNamed + '"></div>' +
+              renderPlaqueNode(nb, nbOpts) +
+            '</div>';
+          } else {
+            var colorVarGhost = 'var(--muted)';
+            var miniNs = { id: id, name: s.name || id, level: s.level, type: s.type, genericSkillRef: id };
+            var ghostOpts = {
+              extraClass: 'ns-dag-card',
+              dagId: id,
+              ghost: true,
+              attrs: ' data-type="' + esc(s.type||'basic') + '" style="cursor:pointer;"',
+              onclick: 'openSkillExplorer(\'' + id.replace(/'/g,"\\'") + '\');'
+            };
+            return '<div class="git-node' + extraMainClass + '" data-id="' + esc(id) + '" data-type="' + esc(s.type||'') + '" data-level="' + esc(s.level || '') + '" data-ghost="true" style="--staggerY:' + staggerY + 'px" onmouseenter="if(window.highlightPaths)window.highlightPaths(\''+esc(id)+'\')" onmouseleave="if(window.unhighlightPaths)window.unhighlightPaths()">' +
+              '<div class="git-commit-dot" style="--dot-color: ' + colorVarGhost + '"></div>' +
+              renderPlaqueNode(miniNs, ghostOpts) +
+            '</div>';
+          }
+        }
+      }).join('');
+      
+      var voidClass = isUniqueRow ? ' void-zone' : '';
+      htmlRows += '<div class="se-flowchart-row' + voidClass + '" data-depth="' + ri + '">' + rowHtml + '</div>';
+    }
 
     // Fusion requirements label
     var fusionHtml = '';
-    if (prereqs.length >= 2) {
-      fusionHtml = '<div class="se-fusion-label">&#x2728; Fuses from ' + prereqs.length + ' prerequisites</div>';
-    }
-
-    function makeRow(label, nodes, id) {
-      if (!nodes.length) return '';
-      return '<div>' +
-        '<div class="se-flowchart-row-label">' + label + '</div>' +
-        '<div class="se-flowchart-row" id="' + id + '">' + nodes.join('') + '</div>' +
-      '</div>';
-    }
-
-    function makeRowHtml(label, html, id) {
-      if (!html) return '';
-      return '<div>' +
-        '<div class="se-flowchart-row-label">' + label + '</div>' +
-        '<div class="se-flowchart-row" id="' + id + '">' + html + '</div>' +
-      '</div>';
+    if (relatedNodes[genericId] && relatedNodes[genericId].prerequisites && relatedNodes[genericId].prerequisites.length >= 2) {
+      fusionHtml = '<div class="se-fusion-label">&#x2728; Fuses from ' + relatedNodes[genericId].prerequisites.length + ' prerequisites</div>';
     }
 
     el.innerHTML = '<div class="se-flow-h">' + _se_icon('sparkle') + ' Upgrade Path &amp; Adjacent Skills</div>' +
       fusionHtml +
       '<div class="se-flowchart-wrap" id="seFlowWrap">' +
-        '<div class="se-flowchart-rows">' +
-          makeRow('Prerequisites', prereqNodes, 'sfRow0') +
-          makeRowHtml('Named Implementations', namedHtml, 'sfRow1') +
-          makeRow('Unlocks', derivNodes, 'sfRow2') +
-        '</div>' +
+        '<div class="se-flowchart-rows">' + htmlRows + '</div>' +
         '<svg class="se-flowchart-svg" id="seFlowSvg"></svg>' +
       '</div>';
 
-    // Draw SVG edges after a brief layout settle
-    setTimeout(function(){ drawFlowEdges(); }, 80);
+    setTimeout(function(){ drawFlowEdges(edges); }, 80);
   }
 
-  function drawFlowEdges() {
+  function drawFlowEdges(edges) {
     var wrap = document.getElementById('seFlowWrap');
     var svg = document.getElementById('seFlowSvg');
     if (!wrap || !svg) return;
     svg.innerHTML = '';
     var wRect = wrap.getBoundingClientRect();
-    var rowIds = [['sfRow0','sfRow1'],['sfRow1','sfRow2']];
-    rowIds.forEach(function(pair){
-      var fromEl = document.getElementById(pair[0]);
-      var toEl   = document.getElementById(pair[1]);
-      if (!fromEl || !toEl) return;
-      var fromNodes = fromEl.querySelectorAll('.flow-node');
-      var toNodes   = toEl.querySelectorAll('.flow-node');
-      if (!fromNodes.length || !toNodes.length) return;
-      // connect each source to each target (for small counts); cap at 3x3
-      var froms = Array.from(fromNodes).slice(0,3);
-      var tos   = Array.from(toNodes).slice(0,3);
-      froms.forEach(function(fn){
-        var fr = fn.getBoundingClientRect();
-        var fx = fr.left + fr.width/2 - wRect.left;
-        var fy = fr.bottom - wRect.top;
-        tos.forEach(function(tn){
-          var tr = tn.getBoundingClientRect();
-          var tx = tr.left + tr.width/2 - wRect.left;
-          var ty = tr.top - wRect.top;
-          var cy = (fy + ty) / 2;
-          var path = document.createElementNS('http://www.w3.org/2000/svg','path');
-          path.setAttribute('d','M'+fx+','+fy+' C'+fx+','+cy+' '+tx+','+cy+' '+tx+','+ty);
-          path.setAttribute('stroke','rgba(56,189,248,.22)');
-          path.setAttribute('stroke-width','1.5');
-          path.setAttribute('fill','none');
-          path.setAttribute('stroke-dasharray','4 3');
-          svg.appendChild(path);
+    var sourceOuts = {};
+    var targetIns = {};
+    (edges || []).forEach(function(e) {
+      sourceOuts[e.from] = (sourceOuts[e.from] || 0) + 1;
+      targetIns[e.to] = (targetIns[e.to] || 0) + 1;
+    });
+    var curSourceOut = {};
+    var curTargetIn = {};
+    
+    // Attach edges for hover highlighting
+    window._currentDagEdges = edges || [];
+    window.highlightPaths = function(nodeId) {
+      document.querySelectorAll('.git-path').forEach(function(p) { p.classList.remove('active-path'); });
+      var edgesMap = window._currentDagEdges;
+      function trace(id) {
+        edgesMap.forEach(function(e) {
+          if (e.to === id) {
+            var p = document.getElementById('path-' + e.from + '-' + e.to);
+            if (p) p.classList.add('active-path');
+            trace(e.from); // trace down to prerequisites
+          }
         });
-      });
+      }
+      trace(nodeId);
+    };
+    window.unhighlightPaths = function() {
+      document.querySelectorAll('.git-path').forEach(function(p) { p.classList.remove('active-path'); });
+    };
+
+    (edges || []).forEach(function(e, i) {
+      var fromEl = wrap.querySelector('.git-node[data-id="' + e.from + '"]');
+      var toEl   = wrap.querySelector('.git-node[data-id="' + e.to + '"]');
+      if (!fromEl || !toEl) return;
+      var dotF = fromEl.querySelector('.git-commit-dot');
+      var fr = (dotF || fromEl).getBoundingClientRect();
+      var dotT = toEl.querySelector('.git-commit-dot');
+      var tr = (dotT || toEl).getBoundingClientRect();
+      
+      var fx = fr.left + fr.width/2 - wRect.left + wrap.scrollLeft;
+      var fy = fr.top + fr.height/2 - wRect.top + wrap.scrollTop;
+      var tx = tr.left + tr.width/2 - wRect.left + wrap.scrollLeft;
+      var ty = tr.top + tr.height/2 - wRect.top + wrap.scrollTop;
+      
+      var dx = tx - fx;
+      var dy = ty - fy;
+      var sign = dx >= 0 ? 1 : -1;
+      
+      // Scatter y_mid downward or upward based on edge index to avoid uniform horizontal overlaps
+      var y_mid = fy + dy / 2 + ((i % 7) - 3) * 14;
+      
+      var isSixStar = fromEl.getAttribute('data-level') && fromEl.getAttribute('data-level').indexOf('6') !== -1;
+      var colorStr = isSixStar ? '#ffffff' : 'var(--apex-gold, #fbbf24)';
+      
+      var path = document.createElementNS('http://www.w3.org/2000/svg','path');
+      path.setAttribute('id', 'path-' + e.from + '-' + e.to);
+      if (Math.abs(dx) < 25) {
+        // Direct straight line
+        path.setAttribute('d', 'M' + fx + ' ' + fy + ' L' + tx + ' ' + ty);
+      } else {
+        var max_hx = Math.abs(dx) / 2;
+        // Allows lines to be steeper or shallower than strict 60 degrees
+        var hx1 = Math.min(Math.abs(y_mid - fy) / 1.73205, max_hx);
+        var hx2 = Math.min(Math.abs(ty - y_mid) / 1.73205, max_hx);
+        var mx1 = fx + sign * hx1;
+        var mx2 = tx - sign * hx2;
+        path.setAttribute('d','M'+fx+','+fy+' L'+mx1+','+y_mid+' L'+mx2+','+y_mid+' L'+tx+','+ty);
+      }
+      path.setAttribute('class','git-path');
+      path.style.stroke = colorStr;
+      path.style.strokeWidth = '1px';
+      svg.appendChild(path);
     });
   }
 

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" data-icon-base="../assets/icons.svg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Organic Git Network Sampler — Gaia</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/plaque.css">
+  <script src="../js/icons.js"></script>
+  <script src="../js/rank-badge.js"></script>
+  <script src="../js/plaque.js"></script>
+
+  <style>
+    body { padding: 4rem 1.25rem 6rem; max-width: 1400px; margin: 0 auto; background: var(--bg); color: var(--text); }
+    h1 { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 600; margin-bottom: .25rem; text-align: center; }
+    .sub { color: var(--muted); font-family: var(--font-mono); font-size: .85rem; letter-spacing: .04em; text-transform: uppercase; margin-bottom: 4rem; text-align: center; }
+
+    /* Sampler overrides for better visibility */
+    .ns-dag-container.git-style {
+      min-height: 800px;
+      padding-top: 100px;
+      padding-bottom: 200px;
+      position: relative;
+    }
+    
+    .git-path.active-path {
+      stroke: #00f2ff !important;
+      stroke-width: 4px !important;
+      filter: drop-shadow(0 0 5px #00f2ff);
+    }
+  </style>
+</head>
+<body>
+  <h1>Organic Git Network</h1>
+  <p class="sub">Tree Node Sampler • Geometric Veins • Organic Scatter</p>
+  
+  <div id="samplerTree"></div>
+
+  <script>
+    function hashString(str) {
+      var h = 0;
+      for (var i = 0; i < str.length; i++) h = Math.imul(31, h) + str.charCodeAt(i) | 0;
+      return Math.abs(h);
+    }
+
+    function renderOrganicTree(graph, index) {
+      const el = document.getElementById('samplerTree');
+      const allNamed = [];
+      Object.values(index.buckets || {}).forEach(arr => allNamed.push(...arr));
+      
+      const skillMap = {};
+      (graph.skills || []).forEach(s => skillMap[s.id] = s);
+      
+      const namedIds = {};
+      allNamed.forEach(ns => namedIds[ns.genericSkillRef || ns.id] = ns);
+
+      const dagNodes = skillMap;
+
+      const edges = [];
+      Object.values(dagNodes).forEach(s => {
+        (s.prerequisites || []).forEach(pid => {
+          if (dagNodes[pid]) edges.push({from: pid, to: s.id});
+        });
+      });
+
+      const groups = { 'apex': [], 'ultimate': [], 'unique': [], 'extra': [], 'basic': [] };
+      Object.keys(dagNodes).forEach(id => {
+        const s = dagNodes[id];
+        let t = s.type || 'basic';
+        if (s.level && String(s.level).indexOf('6') !== -1) {
+          groups['apex'].push(id);
+        } else if (groups[t]) {
+          groups[t].push(id);
+        }
+      });
+
+      const ranks = [groups['apex'], groups['ultimate'], groups['unique'], groups['extra'], groups['basic']].filter(r => r.length > 0);
+
+      window._samplerEdges = edges;
+      window.highlightPaths = function(nodeId) {
+        document.querySelectorAll('.git-path').forEach(p => p.classList.remove('active-path'));
+        function trace(id) {
+          window._samplerEdges.forEach(e => {
+            if (e.to === id) {
+              const p = document.getElementById('path-' + e.from + '-' + e.to);
+              if (p) p.classList.add('active-path');
+              trace(e.from);
+            }
+          });
+        }
+        trace(nodeId);
+      };
+      window.unhighlightPaths = function() {
+        document.querySelectorAll('.git-path').forEach(p => p.classList.remove('active-path'));
+      };
+
+      let html = '<div class="ns-dag-container git-style" id="nsDag">';
+      html += '<svg class="ns-dag-svg" id="nsDagSvg" style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0;"></svg>';
+
+      // Bottom to Top in DOM, column-reverse in CSS
+      for (let ri = ranks.length - 1; ri >= 0; ri--) {
+        const rank = ranks[ri];
+        const isUnique = rank.every(id => dagNodes[id].type === 'unique');
+        const voidClass = isUnique ? ' void-zone' : '';
+        
+        html += '<div class="ns-dag-rank' + voidClass + '" data-depth="' + ri + '">';
+        rank.forEach((id, idx) => {
+          const s = dagNodes[id];
+          const ns = namedIds[id];
+          const isGhost = !ns;
+          const staggerY = (isUnique || ri === ranks.length - 1) ? 0 : (hashString(id) % 150);
+          
+          const miniNs = ns || { id: id, name: s.name || id, level: s.level, type: s.type, genericSkillRef: id };
+          const dagOpts = {
+            extraClass: 'ns-dag-card',
+            dagId: id,
+            ghost: isGhost,
+            attrs: ' data-type="' + s.type + '"'
+          };
+          
+          const miniHtml = window.plaque.renderMini(miniNs, dagOpts);
+          let colorVar = isGhost ? 'var(--muted)' : 'var(--tier-' + (s.type || 'basic') + ', var(--muted))';
+          if (!isGhost && s.level && String(s.level).indexOf('6') !== -1) colorVar = '#ffffff';
+
+          html += `
+            <div class="git-node" data-id="${id}" data-type="${s.type}" data-level="${s.level||''}" data-ghost="${isGhost}" 
+                 style="--staggerY: ${staggerY}px" 
+                 onmouseenter="highlightPaths('${id}')" onmouseleave="unhighlightPaths()">
+              <div class="git-commit-dot" style="--dot-color: ${colorVar}"></div>
+              ${miniHtml}
+            </div>
+          `;
+        });
+        html += '</div>';
+      }
+
+      html += '</div>';
+      el.innerHTML = html;
+
+      // Draw Edges
+      setTimeout(() => {
+        const container = document.getElementById('nsDag');
+        const svg = document.getElementById('nsDagSvg');
+        const cRect = container.getBoundingClientRect();
+        svg.setAttribute('width', container.scrollWidth);
+        svg.setAttribute('height', container.scrollHeight);
+
+        let pathHtml = '';
+        edges.forEach((e, i) => {
+          const fromEl = container.querySelector(`[data-id="${e.from}"]`);
+          const toEl = container.querySelector(`[data-id="${e.to}"]`);
+          if (!fromEl || !toEl) return;
+
+          const fr = fromEl.querySelector('.git-commit-dot').getBoundingClientRect();
+          const tr = toEl.querySelector('.git-commit-dot').getBoundingClientRect();
+
+          const x1 = fr.left + fr.width/2 - cRect.left + container.scrollLeft;
+          const y1 = fr.top + fr.height/2 - cRect.top + container.scrollTop;
+          const x2 = tr.left + tr.width/2 - cRect.left + container.scrollLeft;
+          const y2 = tr.top + tr.height/2 - cRect.top + container.scrollTop;
+
+          const dx = x2 - x1;
+          const dy = y2 - y1;
+          const sign = dx >= 0 ? 1 : -1;
+          const y_mid = y1 + dy/2 + ((i % 7) - 3) * 14;
+
+          const isSixStar = fromEl.getAttribute('data-level').indexOf('6') !== -1;
+          const color = isSixStar ? '#ffffff' : 'var(--apex-gold)';
+
+          if (Math.abs(dx) < 25) {
+            pathHtml += `<path id="path-${e.from}-${e.to}" class="git-path" d="M${x1} ${y1} L${x2} ${y2}" style="stroke:${color}; stroke-width:1px;"/>`;
+          } else {
+            const max_hx = Math.abs(dx) / 2;
+            const hx1 = Math.min(Math.abs(y_mid - y1) / 1.73205, max_hx);
+            const hx2 = Math.min(Math.abs(y2 - y_mid) / 1.73205, max_hx);
+            const mx1 = x1 + sign * hx1;
+            const mx2 = x2 - sign * hx2;
+            pathHtml += `<path id="path-${e.from}-${e.to}" class="git-path" d="M${x1} ${y1} L${mx1} ${y_mid} L${mx2} ${y_mid} L${x2} ${y2}" style="stroke:${color}; stroke-width:1px;"/>`;
+          }
+        });
+        svg.innerHTML = pathHtml;
+      }, 100);
+    }
+
+    Promise.all([
+      fetch('../graph/gaia.json').then(r => r.json()),
+      fetch('../graph/named/index.json').then(r => r.json()),
+    ]).then(results => {
+      renderOrganicTree(results[0], results[1]);
+    });
+  </script>
+</body>
+</html>

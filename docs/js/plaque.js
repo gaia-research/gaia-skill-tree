@@ -282,7 +282,7 @@
         _fieldOrb(ns, 'lg') +
         _fieldSlug(ns) +
         _fieldHandleRow(ns) +
-        _fieldRank(ns, 'full') +
+        _fieldRank(ns, 'stars') +
         _fieldInstallRow(ns) +
         ghLink +
       '</div>';

@@ -121,7 +121,7 @@
 
     var dagNodes = {};
     Object.values(skillMap).forEach(function(s) {
-      if (s.type === 'extra' || s.type === 'ultimate' || s.type === 'unique') dagNodes[s.id] = s;
+      dagNodes[s.id] = s;
     });
 
     var edges = [];
@@ -131,62 +131,52 @@
       });
     });
 
-    var depth = {};
-    function getDepth(id) {
-      if (depth[id] !== undefined) return depth[id];
-      depth[id] = -1;
-      var maxPre = 0;
-      (dagNodes[id].prerequisites || []).forEach(function(pid) {
-        if (dagNodes[pid]) maxPre = Math.max(maxPre, getDepth(pid) + 1);
-      });
-      depth[id] = maxPre;
-      return maxPre;
-    }
-    Object.keys(dagNodes).forEach(getDepth);
+    var groups = { 'apex': [], 'ultimate': [], 'unique': [], 'extra': [], 'basic': [] };
+    Object.keys(dagNodes).forEach(function(id) {
+      var t = dagNodes[id].type || 'basic';
+      if (dagNodes[id].level && String(dagNodes[id].level).indexOf('6') !== -1) {
+        groups['apex'].push(id);
+      } else if (groups[t]) {
+        groups[t].push(id);
+      }
+    });
 
-    var maxD = 0;
-    Object.values(depth).forEach(function(d) { if (d > maxD) maxD = d; });
-    var ranks = [];
-    for (var r = 0; r <= maxD; r++) ranks.push([]);
-    Object.keys(dagNodes).forEach(function(id) { if (depth[id] >= 0) ranks[depth[id]].push(id); });
+    var ranks = [groups['apex'], groups['ultimate'], groups['unique'], groups['extra'], groups['basic']].filter(function(r) { return r.length > 0; });
 
-    // Direction rule: Ultimate-first across groups; level-desc within group.
-    // Ascension Cycle is the only journey exemption (data-pattern='journey').
-    var TYPE_ORDER_DAG = { ultimate: 0, unique: 1, extra: 2, basic: 3 };
     function levelNum(level) {
       var n = parseInt(String(level || '').replace(/\D+/g, ''), 10);
       return isNaN(n) ? 0 : n;
     }
     function sortDagRank(a, b) {
       var sa = dagNodes[a], sb = dagNodes[b];
-      var ta = TYPE_ORDER_DAG[sa.type] != null ? TYPE_ORDER_DAG[sa.type] : 99;
-      var tb = TYPE_ORDER_DAG[sb.type] != null ? TYPE_ORDER_DAG[sb.type] : 99;
-      if (ta !== tb) return ta - tb;
       var la = levelNum(sa.level), lb = levelNum(sb.level);
       if (la !== lb) return lb - la;
       return (sa.name || a).localeCompare(sb.name || b);
     }
+    
+    function hashString(str) {
+      var h = 0;
+      for (var i = 0; i < str.length; i++) h = Math.imul(31, h) + str.charCodeAt(i) | 0;
+      return Math.abs(h);
+    }
 
-    var html = '<div class="ns-dag-container" id="nsDag">';
-    html += '<svg class="ns-dag-svg" id="nsDagSvg"><defs>' +
-      '<marker id="ns-arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">' +
-      '<polygon points="0 0, 8 3, 0 6" fill="currentColor" /></marker></defs></svg>';
+    var html = '<div class="ns-dag-container git-style" id="nsDag">';
+    html += '<svg class="ns-dag-svg" id="nsDagSvg"></svg>';
 
-    // Flip iteration order: top of DOM is the highest-depth rank (Ultimates
-    // anchor top-right after CSS layout); deepest-prerequisite Basics trail
-    // bottom-left.
-    for (var ri = maxD; ri >= 0; ri--) {
+    // Bottom to top (Basic -> Extra -> Unique -> Ultimate) in DOM, column-reverse in CSS
+    for (var ri = ranks.length - 1; ri >= 0; ri--) {
       var rank = ranks[ri];
-      if (!rank) continue;
+      if (!rank.length) continue;
       rank.sort(sortDagRank);
-      html += '<div class="ns-dag-rank" data-depth="' + ri + '">';
-      rank.forEach(function(id) {
+      
+      var isUnique = rank.every(function(id) { return dagNodes[id].type === 'unique'; });
+      var voidClass = isUnique ? ' void-zone' : '';
+      html += '<div class="ns-dag-rank' + voidClass + '" data-depth="' + ri + '">';
+      rank.forEach(function(id, idx) {
+        var staggerY = (isUnique) ? 0 : (hashString(id) % 150); // don't stagger in void
         var s = dagNodes[id];
         var ns = namedIds[id];
         var isGhost = !ns;
-        // The node we hand to plaque.renderMini. For ghosts, fabricate a
-        // synthetic ns out of the generic so the orb / slug fields still
-        // resolve while ghost styling suppresses chrome.
         var miniNs = ns || {
           id: id,
           name: s.name || id,
@@ -204,9 +194,17 @@
         if (isGhost) {
           dagOpts.onclick = '(function(id){if(typeof openSkillExplorer===\'function\')openSkillExplorer(id);})(\'' + String(id).replace(/'/g,"\\'") + '\')';
         }
-        html += (window.plaque && typeof window.plaque.renderMini === 'function')
+        var miniHtml = (window.plaque && typeof window.plaque.renderMini === 'function')
           ? window.plaque.renderMini(miniNs, dagOpts)
           : '';
+        var colorVar = isGhost ? 'var(--muted)' : 'var(--tier-' + (s.type || 'basic') + ', var(--muted))';
+        if (!isGhost && s.level && String(s.level).indexOf('6') !== -1) {
+          colorVar = '#ffffff';
+        }
+        html += '<div class="git-node" data-id="' + esc(id) + '" data-type="' + esc(s.type) + '" data-level="' + esc(s.level || '') + '" data-ghost="' + isGhost + '" style="--staggerY:' + staggerY + 'px" onmouseenter="if(window.highlightPathsTree)window.highlightPathsTree(\''+esc(id)+'\')" onmouseleave="if(window.unhighlightPathsTree)window.unhighlightPathsTree()">' +
+                '<div class="git-commit-dot" style="--dot-color: ' + colorVar + '"></div>' +
+                miniHtml +
+                '</div>';
       });
       html += '</div>';
     }
@@ -216,30 +214,64 @@
       var container = document.getElementById('nsDag');
       var svg = document.getElementById('nsDagSvg');
       if (!container || !svg) return;
+      
+      window._currentDagEdgesTree = edges || [];
+      window.highlightPathsTree = function(nodeId) {
+        document.querySelectorAll('#nsDagSvg .git-path').forEach(function(p) { p.classList.remove('active-path'); });
+        var edgesMap = window._currentDagEdgesTree;
+        function trace(id) {
+          edgesMap.forEach(function(e) {
+            if (e.to === id) {
+              var p = document.getElementById('path-tree-' + e.from + '-' + e.to);
+              if (p) p.classList.add('active-path');
+              trace(e.from);
+            }
+          });
+        }
+        trace(nodeId);
+      };
+      window.unhighlightPathsTree = function() {
+        document.querySelectorAll('#nsDagSvg .git-path').forEach(function(p) { p.classList.remove('active-path'); });
+      };
+
       var cRect = container.getBoundingClientRect();
       svg.style.width = container.scrollWidth + 'px';
       svg.style.height = container.scrollHeight + 'px';
       var paths = '';
-      edges.forEach(function(e) {
-        // Edges run prerequisite → dependent. With the flipped DAG, the
-        // prerequisite sits LOWER in the DOM (lower depth = lower visual
-        // y because we iterate maxD..0 from top). The arrow head points
-        // toward the dependent (up the DOM).
+      edges.forEach(function(e, i) {
         var fromEl = container.querySelector('[data-id="' + e.from + '"]');
         var toEl = container.querySelector('[data-id="' + e.to + '"]');
         if (!fromEl || !toEl) return;
-        var fr = fromEl.getBoundingClientRect();
-        var tr = toEl.getBoundingClientRect();
+        var dotFrom = fromEl.querySelector('.git-commit-dot');
+        var dotTo = toEl.querySelector('.git-commit-dot');
+        var fr = (dotFrom || fromEl).getBoundingClientRect();
+        var tr = (dotTo || toEl).getBoundingClientRect();
+        
         var x1 = fr.left + fr.width / 2 - cRect.left + container.scrollLeft;
-        var y1 = fr.top - cRect.top + container.scrollTop;
+        var y1 = fr.top + fr.height / 2 - cRect.top + container.scrollTop;
         var x2 = tr.left + tr.width / 2 - cRect.left + container.scrollLeft;
-        var y2 = tr.top + tr.height - cRect.top + container.scrollTop;
-        var cy1 = y1 + (y2 - y1) * 0.35;
-        var cy2 = y1 + (y2 - y1) * 0.65;
-        paths += '<path class="ns-dag-arrow" d="M' + x1 + ' ' + y1 + ' C' + x1 + ' ' + cy1 + ' ' + x2 + ' ' + cy2 + ' ' + x2 + ' ' + y2 + '"/>';
+        var y2 = tr.top + tr.height / 2 - cRect.top + container.scrollTop;
+        var dx = x2 - x1;
+        var dy = y2 - y1;
+        var sign = dx >= 0 ? 1 : -1;
+        
+        var y_mid = y1 + dy / 2 + ((i % 7) - 3) * 14;
+        
+        var isSixStar = fromEl.getAttribute('data-level') && fromEl.getAttribute('data-level').indexOf('6') !== -1;
+        var colorStr = isSixStar ? '#ffffff' : 'var(--apex-gold, #fbbf24)';
+        
+        if (Math.abs(dx) < 25) {
+          paths += '<path id="path-tree-' + e.from + '-' + e.to + '" class="git-path" d="M' + x1 + ' ' + y1 + ' L' + x2 + ' ' + y2 + '" style="stroke: ' + colorStr + '; stroke-width: 1px;"/>';
+        } else {
+          var max_hx = Math.abs(dx) / 2;
+          var hx1 = Math.min(Math.abs(y_mid - y1) / 1.73205, max_hx);
+          var hx2 = Math.min(Math.abs(y2 - y_mid) / 1.73205, max_hx);
+          var mx1 = x1 + sign * hx1;
+          var mx2 = x2 - sign * hx2;
+          paths += '<path id="path-tree-' + e.from + '-' + e.to + '" class="git-path" d="M' + x1 + ' ' + y1 + ' L' + mx1 + ' ' + y_mid + ' L' + mx2 + ' ' + y_mid + ' L' + x2 + ' ' + y2 + '" style="stroke: ' + colorStr + '; stroke-width: 1px;"/>';
+        }
       });
-      var defs = svg.querySelector('defs');
-      if (defs) defs.insertAdjacentHTML('afterend', paths);
+      svg.innerHTML = paths;
     }, 60);
 
     return html;

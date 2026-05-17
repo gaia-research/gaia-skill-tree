@@ -836,6 +836,13 @@
     90% {color:#34d399;text-shadow:0 0 10px rgba(52,211,153,.8),0 0 22px rgba(52,211,153,.4)}
     100%{color:#38bdf8;text-shadow:0 0 10px rgba(56,189,248,.8),0 0 22px rgba(56,189,248,.4)}
   }
+  @keyframes tree-extra-glow{
+    0%,100% { color:#38bdf8; text-shadow:0 0 10px rgba(56,189,248,.6); }
+    20%     { color:#a78bfa; text-shadow:0 0 10px rgba(167,139,250,.6); }
+    40%     { color:#ef4444; text-shadow:0 0 10px rgba(239,68,68,.6); }
+    60%     { color:#c084fc; text-shadow:0 0 10px rgba(192,132,252,.6); }
+    80%     { color:#34d399; text-shadow:0 0 10px rgba(52,211,153,.6); }
+  }
   /* ── Tree Tier Glyphs — token-bound (Stage 1/5b) ── */
   .tree-glyph-ult  { color: var(--tier-ultimate) !important; font-weight: 900 !important; }
   .tree-glyph-ext  { color: var(--tier-extra)    !important; font-weight: 700 !important; }
@@ -1427,7 +1434,7 @@
     padding:.35rem .85rem;border-radius:999px;font-size:.8rem;font-weight:600;
     min-height:44px;display:inline-flex;align-items:center;justify-content:center;
     background:transparent;color:var(--muted);
-    border:1px solid var(--border);cursor:pointer;font-family:inherit;
+    border:1px solid var(--border);cursor:pointer;font-family: var(--font-body);
     background-size:200% 100%;background-position:0% 0%;
     transition:color .2s,border-color .2s,background-position .45s ease,background-color .2s;
   }
@@ -1447,7 +1454,7 @@
     background:transparent;border:none;color:var(--muted);padding:.3rem .65rem;
     min-height:44px;justify-content:center;
     border-radius:6px;cursor:pointer;font-size:.78rem;transition:background .15s,color .15s;
-    display:flex;align-items:center;gap:.3rem;font-family:inherit;
+    display:flex;align-items:center;gap:.3rem;font-family: var(--font-body);
   }
   .ns-view-btn:hover{color:var(--text)}
   .ns-view-btn.active{background:var(--surface);color:var(--basic)}
@@ -1467,9 +1474,9 @@
   /* Stage 2 — .ns-level-badge is deprecated; new emissions use .rank-badge
      via window.rankBadge(level, { variant: 'chip' }). The shim below keeps
      any stray legacy markup from collapsing visually; remove in Stage 5. */
-  .ns-level-badge{display:inline-block;font-size:.72rem;font-weight:600;padding:.22rem .62rem;border-radius:999px;border:1px solid var(--border);white-space:nowrap;letter-spacing:.04em;color:var(--muted);background:rgba(255,255,255,.02)}
+  .ns-level-badge{display:inline-block;font-family: var(--font-mono); font-size:.72rem;font-weight:600;padding:.22rem .62rem;border-radius:999px;border:1px solid var(--border);white-space:nowrap;letter-spacing:.04em;color:var(--muted);background:rgba(255,255,255,.02)}
   .ns-origin{
-    flex-shrink:0;font-size:.65rem;font-weight:800;letter-spacing:.08em;
+    font-family: var(--font-mono); flex-shrink:0;font-size:.65rem;font-weight:800;letter-spacing:.08em;
     padding:.16rem .48rem;border-radius:999px;
     background:rgba(245,158,11,.12);color:var(--ultimate);border:1px solid rgba(245,158,11,.3);
   }
@@ -1485,7 +1492,7 @@
   .ns-search {
     width:100%;
     background:var(--surface);border:1px solid var(--border);border-radius:8px;
-    padding:.4rem .9rem;color:var(--honor-red);font-size:.83rem;font-family:inherit;
+    padding:.4rem .9rem;color:var(--honor-red);font-size:.83rem;font-family: var(--font-body);
     min-height:44px;
     outline:none;transition:border-color .2s;box-sizing:border-box;
     font-weight:600;
@@ -1506,7 +1513,7 @@
   .ns-sort-wrap:focus-within .ns-sort-icon { color:var(--text); }
   .ns-sort-sel {
     background:transparent;border:none;outline:none;
-    color:inherit;font-size:.78rem;font-family:inherit;
+    color:inherit;font-size:.78rem;font-family: var(--font-body);
     padding:.35rem 0;cursor:pointer;
     appearance:none;-webkit-appearance:none;
     min-height:0;
@@ -1611,10 +1618,10 @@
   .se-hero-install{margin-top:.8rem;display:flex;align-items:center;gap:.5rem;background:rgba(0,0,0,.4);border:1px solid var(--border);border-radius:8px;padding:.45rem .7rem;font-family:var(--font-mono);font-size:.78rem}
   .se-hero-prompt{color:var(--muted);user-select:none}
   .se-hero-cmd{color:var(--basic);flex:1}
-  .se-hero-copy{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:4px;padding:.2rem .5rem;font-size:.7rem;cursor:pointer;font-family:inherit;transition:border-color .2s,color .2s}
+  .se-hero-copy{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:4px;padding:.2rem .5rem;font-size:.7rem;cursor:pointer;font-family: var(--font-body);transition:border-color .2s,color .2s}
   .se-hero-copy:hover{border-color:var(--basic);color:var(--basic)}
   /* ── fusion + lock + GitHub link on cards ── */
-  .se-fusion-label{color:var(--muted);font-size:.8rem;margin-bottom:.8rem;padding-left:.2rem}
+  .se-fusion-label{color:var(--muted);font-size:.8rem;margin-bottom:.8rem;padding-left:.2rem; font-family: var(--font-body); }
   .fn-lock{font-size:.7rem;margin-right:.3rem;opacity:.6}
   .flow-node-locked{border-color:rgba(100,116,139,.3)}
   /* GitHub link — right-edge slot. Position is owned by the .plaque__gh-link
@@ -1721,17 +1728,17 @@
     border-bottom:1px solid var(--border);
   }
   .se-topbar-actions { margin-left:auto;display:flex;gap:.6rem; }
-  .se-breadcrumb { font-size:.85rem;color:#ef4444;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }
+  .se-breadcrumb { font-family: var(--font-body); font-size:.85rem;color:#ef4444;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }
   .se-btn-ghost {
     background:transparent;border:1px solid var(--border);color:var(--text);
     padding:.38rem .9rem;border-radius:6px;cursor:pointer;font-size:.82rem;
-    transition:border-color .2s,color .2s;
+    transition:border-color .2s,color .2s; font-family: var(--font-body);
   }
   .se-btn-ghost:hover { border-color:var(--basic);color:var(--basic); }
   .se-btn-action {
     background:transparent;border:1px solid var(--border);color:var(--muted);
     padding:.38rem .9rem;border-radius:6px;cursor:pointer;font-size:.82rem;
-    transition:border-color .2s,color .2s;
+    transition:border-color .2s,color .2s; font-family: var(--font-body);
   }
   .se-btn-action:hover { border-color:var(--extra);color:var(--extra); }
   .se-body { max-width:1100px;margin:0 auto;padding:2.5rem 2rem 5rem; }
@@ -1775,7 +1782,7 @@
   .se-node-orb--ultimate{background:radial-gradient(circle at 35% 35%,#fef3c7,#f59e0b 60%,#d97706);box-shadow:0 0 12px rgba(245,158,11,.4)}
   .se-node-orb--unique{background:radial-gradient(circle at 50% 50%,#000 55%,#7c3aed 80%,#5b21b6);box-shadow:0 0 14px rgba(124,58,237,.5),inset 0 0 6px rgba(124,58,237,.3)}
   .se-node-orb--vi{background:radial-gradient(circle at 35% 35%,#fff 40%,#fef3c7 70%,#f59e0b)!important;box-shadow:0 0 18px rgba(255,255,255,.6),0 0 40px rgba(245,158,11,.35)!important}
-  .se-skill-name { font-size:1.7rem;font-weight:800;margin-bottom:.3rem; }
+  .se-skill-name { font-family: var(--font-display); font-size:1.7rem;font-weight:800;margin-bottom:.3rem; }
   .se-contrib { font-size:.88rem;color:#ef4444;margin-bottom:1rem; }
   .se-badges { display:flex;flex-wrap:wrap;gap:.45rem;margin-bottom:1.2rem; }
   /* Stage 2 — .se-badge level chip is deprecated for rank badges. Hero now
@@ -1785,6 +1792,7 @@
     display:inline-block;padding:.22rem .7rem;border-radius:20px;
     font-size:.75rem;font-weight:600;border:1px solid var(--border);
     color:var(--muted);background:rgba(255,255,255,.02);
+    font-family: var(--font-mono);
   }
   .se-desc-panel { background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.8rem; }
   .se-desc-panel h3 { font-size:.82rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.8rem; }
@@ -1835,7 +1843,8 @@
       margin-bottom: 0;
     }
     .se-hero #se-upgrade .flow-node .rank-badge {
-      margin-bottom: 0.1rem;
+      margin-top: 0.15rem;
+      margin-bottom: 0;
       transform: scale(0.9);
       transform-origin: top center;
     }
@@ -1868,7 +1877,7 @@
   .se-docs-block { margin-bottom:2rem; }
   .se-docs-block h4 { font-size:.88rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.8rem; }
   .se-evidence-row { display:flex;gap:.7rem;align-items:flex-start;padding:.6rem 0;border-bottom:1px solid var(--border);font-size:.85rem; }
-  .se-ev-class { font-weight:700;min-width:28px;color:var(--ultimate); }
+  .se-ev-class { font-family: var(--font-mono); font-weight:700;min-width:28px;color:var(--ultimate); }
   .se-ev-link { color:var(--basic);text-decoration:none;word-break:break-all; }
   .se-ev-link:hover { text-decoration:underline; }
   .se-ev-date { color:var(--muted);white-space:nowrap; }
@@ -1876,9 +1885,13 @@
   /* FLOWCHART */
   .se-flowchart-wrap { position:relative;overflow:auto;min-height:320px;padding:1.5rem 1rem; }
   .se-flowchart-svg { position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:visible; }
-  .se-flowchart-rows { display:flex;flex-direction:column;gap:48px;align-items:center; }
+  .se-flowchart-rows { display:flex;flex-direction:column-reverse;gap:48px;align-items:center; }
+.ns-dag-container.git-style {
+  display: flex;
+  flex-direction: column-reverse;
+}
   .se-flowchart-row { display:flex;gap:28px;justify-content:center;flex-wrap:wrap; }
-  .se-flowchart-row-label { text-align:center;font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px; }
+  .se-flowchart-row-label { text-align:center;font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px; font-family: var(--font-mono); }
   .flow-node {
     background:var(--surface);border:1px solid var(--border);border-radius:10px;
     padding:.8rem 1rem;min-width:140px;max-width:180px;cursor:pointer;
@@ -1906,18 +1919,38 @@
      below is a safe stand-in for any legacy markup; remove in Stage 5. */
   .fn-level { display:inline-block;font-size:.68rem;font-weight:600;margin-bottom:.3rem;padding:.12rem .5rem;border-radius:20px;color:var(--muted);background:rgba(255,255,255,.02);border:1px solid var(--border); }
   /* Flow node chip nests a .rank-badge for the new path. */
-  .flow-node .rank-badge { margin-bottom: .3rem; }
-  .fn-name { display:block;font-size:.88rem;font-weight:700;margin-bottom:.2rem; }
-  .fn-contrib { display:block;font-size:.72rem;color:var(--muted); }
-  .fn-type { display:block;font-size:.7rem;color:var(--muted);margin-top:.25rem; }
+  .flow-node .rank-badge { margin-top: .3rem; margin-bottom: .2rem; }
+  .fn-name { display:block;font-size:.88rem;font-weight:700;margin-bottom:.2rem; font-family: var(--font-display); transition: color .2s; }
+  
+  /* Tier-based animations — only if Level 6 (Apex) to prioritize rank color for others */
+  .flow-node[data-type="ultimate"][data-level="6★"] .fn-name,
+  .se-stack-card[data-type="ultimate"][data-level="6★"] .fn-name { animation: tree-rainbow-glow 4s linear infinite; }
+  .flow-node[data-type="extra"][data-level="6★"] .fn-name,
+  .se-stack-card[data-type="extra"][data-level="6★"] .fn-name    { animation: tree-extra-glow 4s linear infinite; }
+
+  /* Unique tier color — fallback if rank color not applied or for specific branding */
+  .flow-node[data-type="unique"] .fn-name,
+  .se-stack-card[data-type="unique"] .fn-name { color: var(--tier-unique); text-shadow: 0 0 12px rgba(124,58,237,0.4); }
+
+  /* Rank coloring for flowchart names — takes precedence over tier defaults */
+  .flow-node[data-level="0★"] .fn-name, .se-stack-card[data-level="0★"] .fn-name { color: var(--rank-0); }
+  .flow-node[data-level="1★"] .fn-name, .se-stack-card[data-level="1★"] .fn-name { color: var(--rank-1); }
+  .flow-node[data-level="2★"] .fn-name, .se-stack-card[data-level="2★"] .fn-name { color: var(--rank-2); }
+  .flow-node[data-level="3★"] .fn-name, .se-stack-card[data-level="3★"] .fn-name { color: var(--rank-3); }
+  .flow-node[data-level="4★"] .fn-name, .se-stack-card[data-level="4★"] .fn-name { color: var(--rank-4); }
+  .flow-node[data-level="5★"] .fn-name, .se-stack-card[data-level="5★"] .fn-name { color: var(--rank-5); }
+  .flow-node[data-level="6★"] .fn-name, .se-stack-card[data-level="6★"] .fn-name { color: var(--rank-6); }
+
+  .fn-contrib { display:block;font-size:.72rem;color:var(--muted); font-family: var(--font-body); }
+  .fn-type { display:block;font-size:.7rem;color:var(--muted);margin-top:.25rem; font-family: var(--font-body); }
   /* TIMELINE */
   .se-timeline { position:relative;padding-left:28px; }
   .se-timeline::before { content:'';position:absolute;left:7px;top:0;bottom:0;width:2px;background:var(--border); }
   .se-tl-event { position:relative;margin-bottom:1.4rem; }
   .se-tl-dot { position:absolute;left:-24px;top:4px;width:10px;height:10px;border-radius:50%;background:var(--basic);border:2px solid var(--bg); }
-  .se-tl-date { font-size:.75rem;color:var(--muted);margin-bottom:.2rem; }
+  .se-tl-date { font-family: var(--font-mono); font-size:.75rem;color:var(--muted);margin-bottom:.2rem; }
   .se-tl-msg { font-size:.88rem;color:var(--text); }
-  .se-tl-sha { font-size:.72rem;color:var(--muted);font-family:monospace; }
+  .se-tl-sha { font-size:.72rem;color:var(--muted);font-family: var(--font-mono); }
   .se-empty { color:var(--muted);font-size:.9rem;padding:1rem 0; }
   .se-repo-row { display:flex;align-items:center;gap:.7rem;margin-top:1rem;padding:.8rem 1rem;background:rgba(56,189,248,.06);border:1px solid rgba(56,189,248,.15);border-radius:8px; }
   .se-repo-url { font-size:.82rem;color:var(--basic);word-break:break-all; }
@@ -2712,3 +2745,335 @@ button.nav-graph-trigger:hover{color:var(--text)}
 .scroll-to-top.visible { opacity:1;pointer-events:auto;transform:translateY(0); }
 .scroll-to-top:hover { border-color:var(--basic);background:rgba(56,189,248,.1); }
 @media(max-width:700px){ .scroll-to-top { bottom:1.5rem;right:1.5rem; } }
+
+/* ── Git-Branch Flowchart Design (Hunter's Atlas Stage 9) ── */
+.se-flowchart-wrap.git-style {
+  min-height: 400px;
+  background: radial-gradient(circle at center, rgba(30, 41, 59, 0.2) 0%, transparent 70%);
+}
+
+.se-flowchart-rows.git-style {
+  gap: 40px;
+}
+
+.git-node {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  z-index: 2;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.git-node:hover {
+  transform: scale(1.15);
+}
+
+.git-node-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 3px solid var(--border);
+  transition: all 0.25s ease;
+  box-shadow: 0 0 15px rgba(0,0,0,0.6);
+}
+
+.git-node:hover .git-node-dot {
+  border-color: var(--text);
+  box-shadow: 0 0 20px rgba(255,255,255,0.1);
+}
+
+.git-node.current .git-node-dot {
+  background: var(--text);
+  border-color: var(--text);
+  box-shadow: 0 0 25px rgba(255,255,255,0.2);
+}
+
+/* Tier-specific dot colors */
+.git-node[data-type="ultimate"] .git-node-dot { border-color: var(--tier-ultimate); }
+.git-node[data-type="extra"] .git-node-dot { border-color: var(--tier-extra); }
+.git-node[data-type="unique"] .git-node-dot { border-color: var(--tier-unique); }
+.git-node[data-type="basic"] .git-node-dot { border-color: var(--tier-basic); }
+
+.git-node[data-type="ultimate"].current .git-node-dot { background: var(--tier-ultimate); }
+.git-node[data-type="extra"].current .git-node-dot { background: var(--tier-extra); }
+.git-node[data-type="unique"].current .git-node-dot { background: var(--tier-unique); }
+.git-node[data-type="basic"].current .git-node-dot { background: var(--tier-basic); }
+
+.git-node-label {
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  transform: translateY(-50%);
+  margin-left: 14px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text);
+  white-space: nowrap;
+  background: rgba(3, 7, 18, 0.8);
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  backdrop-filter: blur(4px);
+  opacity: 0.7;
+  transition: opacity 0.2s, transform 0.2s;
+  pointer-events: none;
+}
+
+.git-node:hover .git-node-label {
+  opacity: 1;
+  transform: translateY(-50%) translateX(2px);
+}
+
+.git-node-badge {
+  position: absolute;
+  bottom: 100%;
+  margin-bottom: 6px;
+  transform: scale(0.75);
+  pointer-events: none;
+}
+
+.git-node-contrib {
+  position: absolute;
+  top: 100%;
+  margin-top: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--honor-red);
+  opacity: 0.8;
+}
+
+.git-edge {
+  stroke: var(--border);
+  stroke-width: 4;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke 0.4s ease, stroke-width 0.4s ease;
+  opacity: 0.4;
+}
+
+.git-edge.active {
+  stroke: var(--tier-basic);
+  opacity: 0.8;
+  stroke-width: 5;
+}
+
+/* Specific edge colors by target tier */
+.git-edge[data-target-type="ultimate"] { stroke: var(--tier-ultimate); }
+.git-edge[data-target-type="extra"] { stroke: var(--tier-extra); }
+.git-edge[data-target-type="unique"] { stroke: var(--tier-unique); }
+.git-edge[data-target-type="basic"] { stroke: var(--tier-basic); }
+
+.ns-dag-container.git-style .ns-dag-rank {
+  gap: 40px;
+  margin-bottom: 48px;
+}
+
+/* ── Git Branch Flowchart Aesthetic ── */
+.git-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+  width: 24px;
+  height: 24px;
+  margin-top: var(--staggerY, 0);
+}
+.git-node .ns-dag-card,
+.git-node .flow-node,
+.git-node .git-card,
+.git-node .se-stack-deck {
+  opacity: 0 !important;
+  visibility: hidden;
+  pointer-events: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+  z-index: 10;
+  margin-top: 8px;
+}
+.git-node:hover .ns-dag-card,
+.git-node:hover .flow-node,
+.git-node:hover .git-card,
+.git-node:hover .se-stack-deck {
+  opacity: 1 !important;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+.git-node:hover .ns-dag-card[data-ghost="true"],
+.git-node:hover .flow-node.flow-node-ghost,
+.git-node:hover .git-card[data-ghost="true"],
+.git-node:hover .plaque--ghost {
+  opacity: 0.55 !important;
+}
+.git-commit-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 3px solid var(--dot-color, var(--muted));
+  z-index: 3;
+  position: relative;
+  transition: transform 0.2s, box-shadow 0.2s;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.git-node:hover .git-commit-dot {
+  transform: scale(1.3);
+  box-shadow: 0 0 12px var(--dot-color, var(--muted));
+}
+.git-path {
+  fill: none;
+  stroke: var(--apex-gold, #fbbf24) !important;
+  stroke-width: 1px !important;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.5;
+  transition: stroke-width 0.2s, opacity 0.2s;
+}
+.git-path:hover,
+.git-path.active-path {
+  stroke-width: 3px !important;
+  opacity: 1 !important;
+  stroke: var(--tier-basic, #38bdf8) !important;
+  z-index: 100;
+}
+.se-flowchart-svg, .ns-dag-svg {
+  overflow: visible !important;
+}
+
+/* Show scrollbars for flowchart containers cleanly */
+.ns-dag-container, .se-flowchart-wrap, .git-branch-container {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+  display: flex;
+  flex-direction: column;
+}
+.ns-dag-container::-webkit-scrollbar, .se-flowchart-wrap::-webkit-scrollbar, .git-branch-container::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+.ns-dag-container::-webkit-scrollbar-track, .se-flowchart-wrap::-webkit-scrollbar-track, .git-branch-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+.ns-dag-container::-webkit-scrollbar-thumb, .se-flowchart-wrap::-webkit-scrollbar-thumb, .git-branch-container::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+/* Ensure single line for edge layers */
+.ns-dag-rank, .se-flowchart-row, .git-rank-row {
+  flex-wrap: wrap !important;
+  justify-content: center;
+  gap: 24px;
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px dashed rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+/* 6-star node aesthetic */
+.git-node[data-level*="6"] .git-commit-dot {
+  background: #ffffff !important;
+  border-color: #ffffff !important;
+  box-shadow: 0 0 15px rgba(255,255,255,0.6) !important;
+}
+
+/* Ghost node grey-out */
+.git-node[data-ghost="true"] .git-commit-dot {
+  opacity: 0.4;
+  filter: grayscale(1) brightness(0.7);
+}
+
+/* Main node visibility */
+.git-node--main .ns-dag-card,
+.git-node--main .flow-node,
+.git-node--main .git-card,
+.git-node--main .se-stack-deck {
+  opacity: 1 !important;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Void zone for uniques */
+.void-zone {
+  background: #000000 !important;
+  border: 1px dashed var(--tier-unique) !important;
+  border-radius: 50% !important;
+  width: 450px;
+  height: 450px;
+  position: absolute !important;
+  right: 2%;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  flex-wrap: wrap !important;
+  gap: 20px !important;
+  padding: 60px !important;
+  z-index: 500 !important; /* Above lines */
+  box-shadow: 0 0 80px rgba(124, 58, 237, 0.1), inset 0 0 40px rgba(0, 0, 0, 1);
+}
+
+.void-zone::after {
+  content: 'VOID';
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--tier-unique);
+  letter-spacing: 0.3em;
+  opacity: 0.4;
+}
+
+@media (max-width: 1100px) {
+  .void-zone {
+    position: relative !important;
+    right: auto;
+    top: auto;
+    transform: none;
+    margin: 40px auto;
+    width: 320px;
+    height: 320px;
+  }
+}
+
+/* Prerequisites (bottom row in skill explorer) stay in one layer if possible, or scroll horizontally */
+.se-flowchart-row[data-depth="0"] {
+  flex-wrap: nowrap !important;
+  width: max-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 700px) {
+  .ns-dag-rank { min-width: auto !important; flex-wrap: wrap !important; }
+  .se-flowchart-row { width: 100% !important; }
+  .ns-dag-rank, .se-flowchart-row, .git-rank-row {
+    gap: 12px;
+    padding: 12px;
+  }
+  .git-node {
+    margin-top: calc(var(--staggerY, 0) * 0.3) !important;
+  }
+}

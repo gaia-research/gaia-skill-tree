@@ -323,17 +323,69 @@
             var ns = namedIds[id];
             var isGhost = !ns;
             var miniNs = ns || { id: id, name: s.name || id, level: s.level, type: s.type, links: {}, genericSkillRef: id };
-            html += window.plaque.renderMini(miniNs, {
+            var miniHtml = window.plaque.renderMini(miniNs, {
               extraClass: 'ns-dag-card',
               dagId: id,
               ghost: isGhost,
               attrs: ' data-type="' + s.type + '"',
             });
+            var colorVar = 'var(--tier-' + (s.type || 'basic') + ', var(--muted))';
+            html += '<div class="git-node" data-id="' + id + '" data-type="' + s.type + '">' +
+                    '<div class="git-commit-dot" style="--dot-color: ' + colorVar + '"></div>' +
+                    miniHtml +
+                    '</div>';
           });
           html += '</div>';
         }
         html += '</div>';
         el.innerHTML = html;
+
+        setTimeout(function() {
+          var container = el.querySelector('.ns-dag-container');
+          if (!container) return;
+          var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+          svg.setAttribute('class', 'ns-dag-svg');
+          svg.style.position = 'absolute';
+          svg.style.top = '0';
+          svg.style.left = '0';
+          svg.style.width = container.scrollWidth + 'px';
+          svg.style.height = container.scrollHeight + 'px';
+          svg.style.pointerEvents = 'none';
+          svg.style.zIndex = '0';
+          container.insertBefore(svg, container.firstChild);
+          
+          var cRect = container.getBoundingClientRect();
+          var edges = [];
+          Object.values(dagNodes).forEach(function(s) {
+            (s.prerequisites || []).forEach(function(pid) {
+              if (dagNodes[pid]) edges.push({from: pid, to: s.id});
+            });
+          });
+
+          edges.forEach(function(e) {
+            var fromEl = container.querySelector('[data-id="' + e.from + '"]');
+            var toEl = container.querySelector('[data-id="' + e.to + '"]');
+            if (!fromEl || !toEl) return;
+            var dotFrom = fromEl.querySelector('.git-commit-dot');
+            var dotTo = toEl.querySelector('.git-commit-dot');
+            var fr = (dotFrom || fromEl).getBoundingClientRect();
+            var tr = (dotTo || toEl).getBoundingClientRect();
+            var x1 = fr.left + fr.width / 2 - cRect.left + container.scrollLeft;
+            var y1 = fr.top + fr.height / 2 - cRect.top + container.scrollTop;
+            var x2 = tr.left + tr.width / 2 - cRect.left + container.scrollLeft;
+            var y2 = tr.top + tr.height / 2 - cRect.top + container.scrollTop;
+            var cy1 = y1 + (y2 - y1) * 0.35;
+            var cy2 = y1 + (y2 - y1) * 0.65;
+            var type = fromEl.getAttribute('data-type') || 'basic';
+            var colorVar = 'var(--tier-' + type + ', var(--muted))';
+            
+            var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            path.setAttribute('d', 'M' + x1 + ' ' + y1 + ' C' + x1 + ' ' + cy1 + ' ' + x2 + ' ' + cy2 + ' ' + x2 + ' ' + y2);
+            path.setAttribute('class', 'git-path');
+            path.style.stroke = colorVar;
+            svg.appendChild(path);
+          });
+        }, 60);
       }
 
       function renderAll() { renderTile(); renderList(); renderTree(); }
