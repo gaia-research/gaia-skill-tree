@@ -1013,22 +1013,3 @@
 .plaque--mini.plaque--ghost .plaque__gh-link {
   display: none;
 }
-
-
-/* ── Compat: legacy level-chip selector kept for any remaining
-   markup that still emits .plaque-level-chip outside the rank-
-   badge family. Stage 2 swapped this to .rank-badge__chip; this
-   block can be removed in Stage 5 once we audit the call sites. */
-.plaque-level-chip {
-  font-family: var(--font-mono, 'Departure Mono', monospace);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 2px 8px;
-  border: 1px solid transparent;
-  border-radius: 999px;
-  white-space: nowrap;
-  flex-shrink: 0;
-  line-height: 1.4;
-}

@@ -1,0 +1,86 @@
+name: Docs Cohesion Guards
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches:
+      - main
+      - 'claude/**'
+      - 'design/**'
+      - 'docs/**'
+      - 'dev/**'
+
+jobs:
+  cohesion:
+    name: Design-system lint guards
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # ── Guard A — token-only colour enforcement ──────────────────────────
+      # No hardcoded tier/rank hex in design JS/CSS files.
+      # CSS var() fallbacks are allowed: var(--token, #hex) form is exempted.
+      - name: Guard A — Token-only colour enforcement
+        run: |
+          set -euo pipefail
+          HITS=$(grep -REn '#(38bdf8|c084fc|f59e0b|7c3aed|fbbf24|94a3b8|63cab7|a78bfa|e879f9)' \
+               docs/js/named-skills.js docs/js/skill-explorer.js \
+               docs/js/page-ia.js docs/js/plaque.js docs/css/plaque.css \
+               | grep -v 'var(--[^,]*,' || true)
+          if [ -n "$HITS" ]; then
+            echo "ERROR: hardcoded tier/rank hex found. Use tokens from docs/css/tokens.css."
+            echo ""
+            echo "$HITS"
+            exit 1
+          fi
+          echo "Guard A PASS — no hardcoded tier/rank hex in design files."
+
+      # ── Guard B — banned synonyms (per CONTEXT.md '## Banned synonyms') ─
+      # Hermes-owned files, the archive dir, and the samplers test-string are
+      # excluded. The samples/tree.html contains a JS array listing banned
+      # terms for its own self-test; exclude the samples dir entirely.
+      - name: Guard B — Banned synonyms (per CONTEXT.md)
+        run: |
+          set -euo pipefail
+          HITS=$(grep -RnE \
+               '\b(legendary skill|Pure \/ Undeveloped|Unwired Basics|Atomic Basics|graph-isolated singularities|Highest Tier:\s*common|top-tier skill|mythic|Undeveloped\b)\b' \
+               docs/ scripts/ src/gaia_cli/ \
+               --exclude='STEWARDSHIP_PLAN.md' \
+               --exclude='WHY-GAIA.md' \
+               --exclude='QUICKSTART.md' \
+               --exclude-dir='archive' \
+               --exclude-dir='samples' \
+               || true)
+          if [ -n "$HITS" ]; then
+            echo "ERROR: banned synonym found. See CONTEXT.md '## Banned synonyms'."
+            echo ""
+            echo "$HITS"
+            exit 1
+          fi
+          echo "Guard B PASS — no banned synonyms in user-facing copy."
+
+      # ── Guard C — direction rule ─────────────────────────────────────────
+      # Ascending-level sorts require data-pattern="journey" annotation.
+      # Bare a-b sorts without the annotation are a design violation
+      # (all skill lists are Ultimate-first by default).
+      - name: Guard C — Direction rule (Ultimate-first sort enforcement)
+        run: |
+          set -euo pipefail
+          HITS=$(grep -RnE 'levels?\.sort\(.*a\s*-\s*b|sortBy.*level.*asc' \
+               docs/js/ scripts/ \
+               --include='*.js' --include='*.py' \
+               | grep -v 'data-pattern.*journey' || true)
+          if [ -n "$HITS" ]; then
+            echo "ERROR: ascending-level sort missing data-pattern=\"journey\" annotation."
+            echo "All skill lists default to Ultimate-first (descending level)."
+            echo "If a journey/progression sort is intentional, annotate the call site"
+            echo "with a comment: /* data-pattern=\"journey\" */ or similar."
+            echo ""
+            echo "$HITS"
+            exit 1
+          fi
+          echo "Guard C PASS — no unlabelled ascending-level sorts found."
