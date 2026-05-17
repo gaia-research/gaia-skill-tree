@@ -49,15 +49,15 @@
     "level": {
       "type": "string",
       "enum": [
-        "0★",
-        "1★",
-        "2★",
-        "3★",
-        "4★",
-        "5★",
-        "6★"
+        "0\u2605",
+        "1\u2605",
+        "2\u2605",
+        "3\u2605",
+        "4\u2605",
+        "5\u2605",
+        "6\u2605"
       ],
-      "description": "Skill tier in the upgrade path (0★ = Basic, 1★ = Awakened, 6★ = Transcendent ★)."
+      "description": "Skill tier in the upgrade path (0\u2605 = Basic, 1\u2605 = Awakened, 6\u2605 = Transcendent \u2605)."
     },
     "rarity": {
       "type": "string",
@@ -110,25 +110,47 @@
     },
     "realVariants": {
       "type": "array",
-      "description": "Named real-world implementations of this abstract skill. Populated by generateNamedIndex.py from status:named entries — do not hand-edit.",
+      "description": "Named real-world implementations of this abstract skill. Populated by generateNamedIndex.py from status:named entries \u2014 do not hand-edit.",
       "items": {
         "type": "object",
-        "required": ["namedSkillId", "name", "contributor", "level", "origin"],
+        "required": [
+          "namedSkillId",
+          "name",
+          "contributor",
+          "level",
+          "origin"
+        ],
         "additionalProperties": false,
         "properties": {
           "namedSkillId": {
             "type": "string",
             "pattern": "^[a-z0-9][a-z0-9_-]*/[a-z0-9][a-z0-9_-]*$"
           },
-          "name": { "type": "string" },
-          "title": { "type": "string" },
-          "contributor": { "type": "string" },
+          "name": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "contributor": {
+            "type": "string"
+          },
           "level": {
             "type": "string",
-            "enum": ["2★", "3★", "4★", "5★", "6★"]
+            "enum": [
+              "2\u2605",
+              "3\u2605",
+              "4\u2605",
+              "5\u2605",
+              "6\u2605"
+            ]
           },
-          "origin": { "type": "boolean" },
-          "catalogRef": { "type": "string" }
+          "origin": {
+            "type": "boolean"
+          },
+          "catalogRef": {
+            "type": "string"
+          }
         }
       }
     },
@@ -170,6 +192,13 @@
       "type": "string",
       "pattern": "^\\d+\\.\\d+\\.\\d+$",
       "description": "Semantic version of this skill definition."
+    },
+    "timeline": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/timelineEvent"
+      },
+      "description": "Chronological history of meta-changes for this canonical skill."
     }
   },
   "definitions": {
@@ -209,6 +238,43 @@
         "notes": {
           "type": "string",
           "description": "Optional notes about the evaluation."
+        }
+      }
+    },
+    "timelineEvent": {
+      "type": "object",
+      "required": [
+        "timestamp",
+        "action"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 date-time of the event."
+        },
+        "action": {
+          "type": "string",
+          "enum": [
+            "rank_up",
+            "fuse",
+            "propose",
+            "name",
+            "demote",
+            "ascend",
+            "rejected"
+          ],
+          "description": "The meta-action that occurred."
+        },
+        "contributor": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]*$",
+          "description": "The GitHub username responsible for the change."
+        },
+        "details": {
+          "type": "string",
+          "description": "Additional context or human-readable details."
         }
       }
     }
@@ -276,7 +342,11 @@
             "maxItems": 0
           },
           "level": {
-            "enum": ["4★", "5★", "6★"]
+            "enum": [
+              "4\u2605",
+              "5\u2605",
+              "6\u2605"
+            ]
           }
         }
       }

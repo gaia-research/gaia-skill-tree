@@ -40,12 +40,24 @@
     "stats": {
       "$ref": "#/definitions/treeStats",
       "description": "Aggregate statistics for the skill tree."
+    },
+    "timeline": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/timelineEvent"
+      },
+      "description": "Chronological history of meta-changes for the user's skill tree."
     }
   },
   "definitions": {
     "unlockedSkill": {
       "type": "object",
-      "required": ["skillId", "level", "unlockedAt", "unlockedIn"],
+      "required": [
+        "skillId",
+        "level",
+        "unlockedAt",
+        "unlockedIn"
+      ],
       "additionalProperties": false,
       "properties": {
         "skillId": {
@@ -55,7 +67,13 @@
         },
         "level": {
           "type": "string",
-          "enum": ["1★", "2★", "3★", "4★", "5★"],
+          "enum": [
+            "1\u2605",
+            "2\u2605",
+            "3\u2605",
+            "4\u2605",
+            "5\u2605"
+          ],
           "description": "The level at which this skill was unlocked."
         },
         "unlockedAt": {
@@ -79,7 +97,12 @@
     },
     "pendingCombination": {
       "type": "object",
-      "required": ["detectedSkills", "candidateResult", "levelFloor", "promptedAt"],
+      "required": [
+        "detectedSkills",
+        "candidateResult",
+        "levelFloor",
+        "promptedAt"
+      ],
       "additionalProperties": false,
       "properties": {
         "detectedSkills": {
@@ -98,7 +121,13 @@
         },
         "levelFloor": {
           "type": "string",
-          "enum": ["1★", "2★", "3★", "4★", "5★"],
+          "enum": [
+            "1\u2605",
+            "2\u2605",
+            "3\u2605",
+            "4\u2605",
+            "5\u2605"
+          ],
           "description": "Minimum level required for the fusion."
         },
         "promptedAt": {
@@ -110,7 +139,11 @@
     },
     "treeStats": {
       "type": "object",
-      "required": ["totalUnlocked", "highestRarity", "deepestLineage"],
+      "required": [
+        "totalUnlocked",
+        "highestRarity",
+        "deepestLineage"
+      ],
       "additionalProperties": false,
       "properties": {
         "totalUnlocked": {
@@ -120,13 +153,58 @@
         },
         "highestRarity": {
           "type": "string",
-          "enum": ["common", "uncommon", "rare", "epic", "legendary"],
+          "enum": [
+            "common",
+            "uncommon",
+            "rare",
+            "epic",
+            "legendary"
+          ],
           "description": "Highest rarity tier among unlocked skills."
         },
         "deepestLineage": {
           "type": "integer",
           "minimum": 0,
           "description": "Maximum DAG depth across all unlocked skills."
+        }
+      }
+    },
+    "timelineEvent": {
+      "type": "object",
+      "required": [
+        "timestamp",
+        "action",
+        "skillId"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 date-time of the event."
+        },
+        "action": {
+          "type": "string",
+          "enum": [
+            "rank_up",
+            "fuse",
+            "propose",
+            "name",
+            "demote",
+            "ascend",
+            "register",
+            "bond",
+            "push"
+          ],
+          "description": "The meta-action that occurred."
+        },
+        "skillId": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
+        },
+        "details": {
+          "type": "string",
+          "description": "Additional context or human-readable details."
         }
       }
     }

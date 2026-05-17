@@ -246,6 +246,15 @@ def promote_from_candidates(
     tree_data["updatedAt"] = date.today().isoformat()
     save_tree(username, tree_data, registry_path)
 
+    from gaia_cli.timeline import append_skill_tree_event
+    append_skill_tree_event(
+        username,
+        skill_id,
+        "ascend" if suggested_level == "6★" else "rank_up",
+        f"Leveled up from {previous} to {suggested_level}",
+        registry_path
+    )
+
     display_name = new_display_name
     if display_name is None:
         graph_path = registry_graph_path(registry_path)
@@ -306,6 +315,15 @@ def promote_skill(
     tree_data["updatedAt"] = date.today().isoformat()
 
     save_tree(username, tree_data, registry_path)
+
+    from gaia_cli.timeline import append_skill_tree_event
+    append_skill_tree_event(
+        username,
+        skill_id,
+        "ascend" if target == "6★" else "rank_up",
+        f"Leveled up from {current} to {target}",
+        registry_path
+    )
 
     # Load graph to get display name if not provided
     display_name = new_display_name
@@ -370,6 +388,15 @@ def promote_to_unique(skill_id: str, registry_path: str) -> dict:
     with open(graph_path, "w", encoding="utf-8") as f:
         json.dump(graph_data, f, indent=2, ensure_ascii=False)
         f.write("\n")
+
+    from gaia_cli.timeline import append_skill_event
+    append_skill_event(
+        skill_id,
+        "rank_up",
+        None,
+        f"Promoted to unique skill",
+        registry_path
+    )
 
     return {
         "skillId": skill_id,
