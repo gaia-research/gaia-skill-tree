@@ -36,6 +36,7 @@ window.switchOsTab = function(btn) {
       btn.className = 'copy-btn';
       btn.innerHTML = CLIP;
       btn.title = 'Copy';
+      btn.setAttribute('aria-label', 'Copy to clipboard');
       btn.addEventListener('click', function(){
         var text = pre.innerText;
         navigator.clipboard.writeText(text).then(function(){
