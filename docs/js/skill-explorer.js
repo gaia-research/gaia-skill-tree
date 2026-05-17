@@ -112,6 +112,7 @@
   // ── RENDER DESCRIPTION TAB ───────────────────────────────────
   function renderDescription(ns, generic) {
     var el = document.getElementById('se-description');
+    if (!el) return;
     var prereqsHtml = '';
     var derivsHtml = '';
     if (generic) {

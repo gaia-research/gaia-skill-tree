@@ -1798,6 +1798,43 @@
     border-bottom:1px solid var(--border);
   }
   .se-flow-section:last-child { border-bottom:none; }
+  /* ── se-hero #se-upgrade compact overrides ── */
+  @media (min-width: 701px) {
+    .se-hero #se-upgrade {
+      background: transparent;
+      border: none;
+      padding: 0;
+      box-shadow: none;
+      border-bottom: none;
+    }
+    .se-hero #se-upgrade .se-flowchart-wrap {
+      min-height: 160px;
+      padding: 0.5rem 0;
+    }
+    .se-hero #se-upgrade .se-flowchart-rows {
+      gap: 20px;
+    }
+    .se-hero #se-upgrade .se-flowchart-row {
+      gap: 12px;
+    }
+    .se-hero #se-upgrade .flow-node {
+      padding: 0.4rem 0.6rem;
+      min-width: 100px;
+      max-width: 130px;
+    }
+    .se-hero #se-upgrade .flow-node .fn-name {
+      font-size: 0.72rem;
+      margin-bottom: 0;
+    }
+    .se-hero #se-upgrade .flow-node .rank-badge {
+      margin-bottom: 0.1rem;
+      transform: scale(0.9);
+      transform-origin: top center;
+    }
+    .se-hero #se-upgrade .se-flow-h {
+      margin-bottom: 0.8rem;
+    }
+  }
   .se-flow-h {
     font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;
     color:var(--muted);margin-bottom:1.4rem;
