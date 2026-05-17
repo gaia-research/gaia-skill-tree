@@ -469,11 +469,11 @@
           (uniqueCount ? ` · <span class="gst-unique-count">${uniqueCount}</span><span class="gst-dim"> Unique</span>` : '') +
           `</span>`;
         let tips = '';
-        if (options.draggable) {
+        if (_opts.draggable) {
           tips += `<span class="gst-tip">${iL}<span>pan</span></span>`;
           tips += `<span class="gst-tip"><kbd class="gst-ctrl">⌃</kbd>${iL}<span class="gst-or">/</span>${iM}<span>orbit</span></span>`;
         }
-        if (options.zoomable) tips += `<span class="gst-tip">${iS}<span>zoom</span></span>`;
+        if (_opts.zoomable) tips += `<span class="gst-tip">${iS}<span>zoom</span></span>`;
         state.statusEl.innerHTML = stat + tips;
       }
     }
@@ -747,11 +747,11 @@
       ctx.clearRect(0, 0, state.width, state.height);
       state.projectedNodes = {};
       // Under reduced motion, lock the idle pan angle to 0 for the hero graph.
-      const rmFreeze = _reducedMotion() && !options.draggable;
-      const ry = options.draggable
+      const rmFreeze = _reducedMotion() && !_opts.draggable;
+      const ry = _opts.draggable
         ? state.t * 0.16 + state.orbitY
         : (rmFreeze ? state.orbitY : state.t * 0.16 + state.mx * 0.10);
-      const rx = options.draggable
+      const rx = _opts.draggable
         ? Math.sin(state.t * 0.055) * 0.20 + state.orbitX
         : (rmFreeze ? state.orbitX : Math.sin(state.t * 0.055) * 0.20 + state.my * 0.055);
       if (state.nebula) {
@@ -951,7 +951,7 @@
         ctx.strokeStyle = `rgba(${getCanvasTokens().tier.unique.rgb},0.5)`;
         ctx.lineWidth = r * 0.15; ctx.stroke();
       });
-      if (options.hoverable && state.tooltipEl) {
+      if (_opts.hoverable && state.tooltipEl) {
         const displayId = state.pinnedId || state.hoveredId;
         const pr = state.projectedNodes[displayId];
         if (displayId && pr) {
@@ -1018,7 +1018,7 @@
         }
       }
       // ── Neighbor mini-cards when pinned ──
-      if (options.hoverable && state.neighborCardsEl) {
+      if (_opts.hoverable && state.neighborCardsEl) {
         if (state.pinnedId && neighborSet.size > 1) {
           const neighbors = [...neighborSet].filter(id => id !== state.pinnedId);
           if (state._neighborIds !== neighbors.join(',')) {
@@ -1717,10 +1717,16 @@
       _opts.hoverable  = on;
       canvas.style.pointerEvents = on ? 'auto' : 'none';
       canvas.style.cursor = on ? 'grab' : 'default';
-      // Toggle visibility of interactive chrome elements
+      // Toggle visibility of interactive chrome elements.
+      // Skip elements that are controlled by user interaction
+      // (tooltip, skill-panel, collection-panel) — they manage
+      // their own display state.
       const parent = canvas.parentElement;
       if (parent) {
         parent.querySelectorAll('[data-interactive-chrome]').forEach(el => {
+          if (el.classList.contains('skill-tooltip') ||
+              el.classList.contains('graph-skill-panel') ||
+              el.classList.contains('graph-collection-panel')) return;
           el.style.display = on ? '' : 'none';
         });
       }
@@ -1748,13 +1754,6 @@
 
   const hero = document.getElementById('hero');
   const trigger = document.querySelector('[data-graph-trigger]');
-  const dialog = document.getElementById('skillGraphDialog');
-  const closeBtn = document.querySelector('[data-graph-close]');
-  const mobileHint = document.getElementById('graphMobileHint');
-  const mobileHintDismiss = document.getElementById('graphMobileHintDismiss');
-  if (mobileHintDismiss && mobileHint) {
-    mobileHintDismiss.addEventListener('click', () => { mobileHint.style.display = 'none'; });
-  }
   const isMobile = window.matchMedia('(max-width:700px)').matches;
 
   // graphMode wiring (local-graph readiness, Stage 5):
@@ -1818,10 +1817,6 @@
   _graphCloseOverlay.className = 'graph-fullscreen-chrome';
   _graphCloseOverlay.innerHTML =
     '<div class="graph-fullscreen-header">' +
-      '<div>' +
-        '<div class="graph-dialog-title">Full Gaia Skill Graph</div>' +
-        '<div class="graph-dialog-sub">Rendered from the canonical registry/gaia.json source.</div>' +
-      '</div>' +
       '<div class="graph-dialog-actions">' +
         '<a class="graph-download" href="graph/gaia.json" download>Download JSON</a>' +
         '<a class="graph-download" href="graph/gaia.gexf" download>Download GEXF</a>' +
@@ -1830,6 +1825,12 @@
       '</div>' +
     '</div>';
   hero.appendChild(_graphCloseOverlay);
+
+  // Bottom-left subtitle (unobtrusive)
+  const _graphSub = document.createElement('div');
+  _graphSub.className = 'graph-fullscreen-sub';
+  _graphSub.textContent = 'Rendered from the canonical registry/gaia.json source.';
+  hero.appendChild(_graphSub);
 
   function openGraphFullscreen() {
     if (_graphFullscreen) return;
@@ -1878,10 +1879,6 @@
       closeGraphFullscreen();
     }
   });
-
-  // Keep old dialog elements wired so they don't error (but they're
-  // effectively unused now — the dialog is never opened).
-  if (closeBtn) closeBtn.addEventListener('click', closeGraphFullscreen);
 
   fetch(GRAPH_JSON_URL)
     .then(response => {

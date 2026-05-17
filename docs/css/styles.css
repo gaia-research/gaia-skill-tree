@@ -382,6 +382,7 @@
     position:fixed;inset:0;z-index:200;
     min-height:100vh;height:100vh;
     padding:0;margin:0;
+    display:block; /* kill flexbox centering — prevents canvas drift */
     background:var(--bg);
     animation:graphFullscreenIn .4s cubic-bezier(.2,.8,.2,1) forwards;
   }
@@ -413,14 +414,22 @@
     display:block;pointer-events:auto;
   }
   .graph-fullscreen-header{
-    display:flex;gap:1rem;align-items:flex-start;justify-content:space-between;
-    padding:1rem 1.2rem;
-    background:linear-gradient(180deg,rgba(3,7,18,.92) 0%,rgba(3,7,18,.4) 80%,transparent 100%);
+    display:flex;gap:1rem;align-items:center;justify-content:flex-end;
+    padding:.7rem 1.2rem;
+    background:linear-gradient(180deg,rgba(3,7,18,.82) 0%,transparent 100%);
     border-bottom:none;
   }
-  .graph-fullscreen-header .graph-dialog-title{font-weight:800;font-size:1rem;margin-bottom:.15rem}
-  .graph-fullscreen-header .graph-dialog-sub{color:var(--muted);font-size:.82rem}
   .graph-fullscreen-header .graph-dialog-actions{display:flex;align-items:center;gap:.65rem;flex-wrap:wrap;justify-content:flex-end}
+  /* Fullscreen subtitle — bottom-left, unobtrusive */
+  .graph-fullscreen-sub{
+    position:absolute;bottom:.7rem;left:1rem;z-index:10;
+    color:var(--muted);font-size:.72rem;opacity:.55;
+    pointer-events:none;
+    display:none;
+  }
+  #hero.hero-graph-fullscreen .graph-fullscreen-sub{
+    display:block;
+  }
   /* Fullscreen status bar */
   .graph-fullscreen-status{
     display:none;position:absolute;top:.6rem;left:60px;z-index:11;
@@ -431,8 +440,9 @@
     display:flex;
   }
   /* Re-show interactive chrome when fullscreen is active.
-     The interactive chrome is appended to #hero as children. */
-  #hero.hero-graph-fullscreen .skill-tooltip,
+     The interactive chrome is appended to #hero as children.
+     EXCLUDE tooltip / skill-panel / collection-panel — those are
+     controlled by user interactions (hover/pin/add). */
   #hero.hero-graph-fullscreen .graph-neighbor-cards,
   #hero.hero-graph-fullscreen .graph-search-wrap,
   #hero.hero-graph-fullscreen .graph-legend,
@@ -448,22 +458,19 @@
   #hero.hero-graph-fullscreen .graph-redpill{
     display:block !important;
   }
-  #hero.hero-graph-fullscreen .skill-tooltip{
-    display:none; /* controlled by JS on hover */
-  }
   h1{
     font-size:clamp(2.4rem,6vw,4rem);
     font-family:var(--font-display);
     font-weight:600;line-height:1.1;margin-bottom:1.2rem;
   }
-  h1 span{
+  h1 .hw-rare{
     border-bottom:1px solid var(--apex-gold);
     padding-bottom:.06em;
   }
   h1 em{
-    font-style:italic;
-    font-weight:400;
-    color:var(--apex-gold);
+    font-style:normal;
+    font-weight:inherit;
+    color:inherit;
   }
   .hero-sub{font-family:var(--font-body);font-size:1.15rem;color:var(--muted);max-width:540px;margin:0 auto 2.4rem}
   .hero-cta{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
@@ -491,6 +498,75 @@
   }
   .scroll-hint svg{width:20px;height:20px;stroke:var(--muted)}
   @keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+  /* ── Hero word hover animations ──────────────────────────────────
+     Three reactive lines in the hero title. Each transforms its key
+     word on hover:
+     Line 1: "Skills" → "/skills" — terminal typing (mono, grey, dark pill)
+     Line 2: "Names" → "@names" — Bricolage Grotesque, honor-red
+     Line 3: "rare" → italic gold on line hover (pure CSS)
+     ============================================================ */
+  .hero-line{
+    display:inline;
+    border-bottom:none;
+    padding-bottom:0;
+    cursor:default;
+  }
+  .hw{
+    display:inline;
+    border-bottom:none;
+    padding-bottom:0;
+    position:relative;
+    transition:color .25s cubic-bezier(.22,1,.36,1),
+               background .25s cubic-bezier(.22,1,.36,1);
+  }
+
+  /* ── Skills → /skills terminal pill ── */
+  .hw-skills--active{
+    font-family:var(--font-mono);
+    color:var(--muted);
+    background:rgba(8,12,21,.95);
+    padding:.04em .35em;
+    border-radius:4px;
+    font-size:.72em;
+    letter-spacing:.03em;
+    margin-right:-.15em;
+  }
+  .hw-cursor{
+    color:var(--muted);
+    font-weight:400;
+    opacity:1;
+    margin-left:1px;
+  }
+  .hw-cursor--blink{
+    animation:hw-cursor-blink 1.06s step-end infinite;
+  }
+  @keyframes hw-cursor-blink{
+    50%{opacity:0}
+  }
+
+  /* ── Names → @names Bricolage Grotesque ── */
+  .hw-names--active{
+    font-family:var(--font-body);
+    font-style:normal;
+    color:var(--honor-red);
+    font-weight:600;
+    letter-spacing:.01em;
+  }
+
+  /* ── Apex line hover — "rare" becomes italic gold ── */
+  .hero-line[data-line="apex"]:hover .hw-rare{
+    font-style:italic;
+    color:var(--apex-gold);
+    border-bottom-color:transparent;
+    transition:color .25s cubic-bezier(.22,1,.36,1);
+  }
+
+  @media(prefers-reduced-motion:reduce){
+    .hw-skills--active,.hw-names--active{
+      transition:none!important;
+    }
+  }
   /* ── SECTIONS ── */
   section{padding:5rem 1.5rem;max-width:1000px;margin:0 auto}
   h2{
@@ -2400,7 +2476,7 @@
       line-height:1.15;
       letter-spacing:-.02em;
     }
-    h1.hero-title span{
+    h1.hero-title .hw-rare{
       display:inline-block;
       margin-top:.25rem;
       padding-bottom:.1em;

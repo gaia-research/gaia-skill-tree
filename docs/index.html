@@ -38,7 +38,7 @@
       <span></span>
     </button>
     <ul>
-      <li><button type="button" class="nav-graph-trigger" data-graph-trigger aria-controls="skillGraphDialog">Graph (3D)</button></li>
+      <li><button type="button" class="nav-graph-trigger" data-graph-trigger>Graph (3D)</button></li>
       <li><a href="#hall-of-heroes">Hall of Heroes</a></li>
       <li><a href="codex.html">The Codex</a></li>
       <li><button type="button" class="nav-tree" id="treeNavBtn">Tree</button></li>
@@ -60,9 +60,9 @@
         <button class="field-trigger" type="button" id="hudToggleBtn" aria-pressed="false" aria-label="Toggle field view"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#hud-toggle"/></svg> Field view</button>
       </div>
       <h1 class="hero-title">
-        Skills are catalogued.<br>
-        Names are <em>earned</em>.<br>
-        Apex is <span>rare</span>.
+        <span class="hero-line" data-line="skills"><span class="hw hw-skills">Skills</span> are catalogued.</span><br>
+        <span class="hero-line" data-line="names"><span class="hw hw-names">Names</span> are earned.</span><br>
+        <span class="hero-line" data-line="apex"><span class="hw hw-apex">Apex is <span class="hw-rare">rare</span></span>.</span>
       </h1>
       <p class="hero-sub">An evidence-backed atlas of agent capabilities. Bring your repo, claim your name.</p>
       <div class="two-doors">
@@ -423,6 +423,7 @@
   <script src="js/skill-explorer.js"></script>
   <script src="js/ui.js"></script>
   <script src="js/page-ia.js"></script>
+  <script src="js/hero-words.js"></script>
   <script src="js/plaque-reveal.js" defer></script>
 
 </body>
