@@ -163,6 +163,14 @@
   --plaque-accent: var(--tier-unique);
   --plaque-accent-rgb: var(--tier-unique-rgb);
   --plaque-accent-bg: var(--tier-unique-bg);
+  background: #000000;
+  border-color: var(--tier-unique);
+}
+.plaque[data-type="unique"]:hover {
+  box-shadow:
+    0 0 0 1px rgba(var(--tier-unique-rgb), 0.3),
+    0 16px 48px rgba(0, 0, 0, 0.6),
+    0 0 20px rgba(var(--tier-unique-rgb), 0.5);
 }
 .plaque[data-type="ultimate"] {
   --plaque-accent: var(--tier-ultimate);

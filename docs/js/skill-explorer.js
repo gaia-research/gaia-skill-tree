@@ -234,10 +234,10 @@
     // component. The previous inline-style chip is replaced by a chip
     // variant; data-level on the .flow-node itself is preserved for
     // the glow / shimmer rules.
-    function rankChip(level) {
+    function rankChip(level, type) {
       if (!level) return '';
       return (typeof window.rankBadge === 'function')
-        ? window.rankBadge(level, { variant: 'chip', label: level })
+        ? window.rankBadge(level, { variant: 'chip', label: level, tier: type })
         : '';
     }
 
@@ -246,7 +246,7 @@
       var ghostCls = isNamed ? '' : ' flow-node-ghost';
       // Stage 3 — Honor Red carried by the .fn-contrib CSS rule, not inline.
       var contribHtml = contrib ? '<span class="fn-contrib">' + esc(contrib) + '</span>' : '';
-      var levelHtml = rankChip(level);
+      var levelHtml = rankChip(level, typeStr);
       return '<div class="flow-node' + clsExtra + ghostCls + '" data-level="' + esc(level||'') + '" data-id="' + esc(id) + '" onclick="openSkillExplorer(\'' + id.replace(/'/g,"\\'") + '\')" tabindex="0" role="button">' +
         levelHtml + '<span class="fn-name">' + esc(name||id) + '</span>' + contribHtml +
       '</div>';
@@ -259,9 +259,9 @@
       var namedBucket = buckets[id];
       if (namedBucket && namedBucket.length) {
         var nb = namedBucket[0];
-        return flowNode(nb.id, nb.name||nb.id, nb.contributor, nb.level, '', false, true);
+        return flowNode(nb.id, nb.name||nb.id, nb.contributor, nb.level, nb.type, false, true);
       }
-      return flowNode(id, s.name||id, '', s.level||'', '', false, false);
+      return flowNode(id, s.name||id, '', s.level||'', s.type, false, false);
     });
 
     // Row 1: named implementations — stacked card deck
@@ -276,14 +276,14 @@
         namedHtml += '<div class="se-stack-card' + (isCur ? ' se-stack-current' : '') +
           '" style="z-index:' + zIdx + ';transform:rotate(' + rot + 'deg)" ' +
           'onclick="openSkillExplorer(\'' + sib.id.replace(/'/g,"\\'") + '\')" tabindex="0" role="button">' +
-          rankChip(sib.level) +
+          rankChip(sib.level, sib.type) +
           '<span class="fn-name">' + esc(sib.name || sib.id) + '</span>' +
           '<span class="fn-contrib">' + esc(sib.contributor) + '</span>' +
         '</div>';
       });
       namedHtml += '</div>';
     } else {
-      namedHtml = flowNode(ns.id, ns.name||ns.id, ns.contributor, ns.level, '', true, true);
+      namedHtml = flowNode(ns.id, ns.name||ns.id, ns.contributor, ns.level, ns.type, true, true);
     }
 
     // Row 2: derivative generic skills (show named if available, with lock icon for unnamed)
@@ -549,7 +549,9 @@
       var hasSlash = parts.length > 1;
 
       var type = (generic && generic.type) || ns.type || 'basic';
-      var color = (type === 'ultimate') ? 'var(--apex-gold)' : ((LEVEL_META_SE && LEVEL_META_SE[ns.level]) ? LEVEL_META_SE[ns.level].color : 'inherit');
+      var color = (type === 'ultimate') ? 'var(--apex-gold)' :
+                  (type === 'unique') ? 'var(--tier-unique)' :
+                  ((LEVEL_META_SE && LEVEL_META_SE[ns.level]) ? LEVEL_META_SE[ns.level].color : 'inherit');
 
       var bHtml = '';
       if (hasSlash) {
@@ -561,9 +563,10 @@
         slugStyle += ' animation: tree-rainbow-glow 4s linear infinite;';
       } else if (type === 'ultimate') {
         slugStyle += ' animation: none;';
+      } else if (type === 'unique') {
+        slugStyle += ' text-shadow: 0 0 12px rgba(124,58,237,0.6), 0 0 4px rgba(124,58,237,0.3);';
       }
       bHtml += '<span class="plaque__slug" style="' + slugStyle + '">' + esc(skillName) + '</span>';
-
       document.getElementById('skillExplorer').classList.add('open');
       document.getElementById('seBreadcrumb').innerHTML = bHtml;
       document.getElementById('skillExplorer').scrollTop = 0;

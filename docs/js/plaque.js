@@ -126,7 +126,8 @@
 
   function _fieldRank(ns, variant) {
     var v = variant || 'stars';
-    var html = rankBadge(ns && ns.level, { variant: v, label: ns && ns.level });
+    var type = (ns && ns.type) || 'basic';
+    var html = rankBadge(ns && ns.level, { variant: v, label: ns && ns.level, tier: type });
     if (!html) return '';
     return '<div class="plaque__rank">' + html + '</div>';
   }

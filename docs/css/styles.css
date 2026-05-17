@@ -97,6 +97,14 @@
     text-shadow: 0 0 8px rgba(251, 191, 36, 0.4);
     animation: none;
   }
+  /* Unique tier rank badge — black background with bright purple glow. */
+  .rank-badge[data-tier="unique"] .rank-badge__chip {
+    color: var(--tier-unique, #7c3aed);
+    background: #000000;
+    border: 1.5px solid var(--tier-unique, #7c3aed);
+    box-shadow: 0 0 12px var(--tier-unique, #7c3aed), 0 0 4px rgba(124, 58, 237, 0.5);
+    text-shadow: 0 0 8px rgba(124, 58, 237, 0.4);
+  }
 
   /* Size modifiers — sampler density only. Default is md. */
   .rank-badge[data-size="sm"] .rank-badge__chip { font-size: .65rem; padding: .15rem .5rem; }

@@ -72,8 +72,10 @@
       inner = chipHtml(n, opts.label) + starsHtml(n);
     }
 
+    var tierAttr = opts.tier ? ' data-tier="' + esc(opts.tier) + '"' : '';
+
     return '<span class="rank-badge" data-level="' + n + '" data-variant="' + variant +
-      '" data-size="' + size + '" role="img" aria-label="' + esc(aria) + '">' +
+      '" data-size="' + size + '"' + tierAttr + ' role="img" aria-label="' + esc(aria) + '">' +
       inner + '</span>';
   }
 
