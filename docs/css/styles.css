@@ -89,7 +89,13 @@
   .rank-badge[data-level="3"] .rank-badge__chip { color: var(--rank-3); background: var(--rank-3-bg); border-color: var(--rank-3-border); }
   .rank-badge[data-level="4"] .rank-badge__chip { color: var(--rank-4); background: var(--rank-4-bg); border-color: var(--rank-4-border); }
   .rank-badge[data-level="5"] .rank-badge__chip { color: var(--rank-5); background: var(--rank-5-bg); border-color: var(--rank-5-border); }
-  .rank-badge[data-level="6"] .rank-badge__chip { color: var(--rank-6); background: var(--rank-6-bg); border-color: var(--rank-6-border); }
+  .rank-badge[data-level="6"] .rank-badge__chip {
+    color: var(--apex-gold, #fbbf24);
+    background: #ffffff;
+    border-color: #ffffff;
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
+    animation: none;
+  }
 
   /* Size modifiers — sampler density only. Default is md. */
   .rank-badge[data-size="sm"] .rank-badge__chip { font-size: .65rem; padding: .15rem .5rem; }
@@ -120,20 +126,8 @@
     text-shadow: none;
   }
 
-  /* 6★ apex — rainbow shimmer on the chip border, mirroring the
-     existing plaque--apex-vi treatment so the apex tier reads the
-     same on the chip surface as on the plaque. */
-  .rank-badge[data-level="6"] .rank-badge__chip {
-    animation: rank-badge-vi-shimmer 3s linear infinite;
-  }
-  @keyframes rank-badge-vi-shimmer {
-    0%,100% { border-color: rgba(56,189,248,.55); }
-    33%     { border-color: rgba(192,132,252,.55); }
-    66%     { border-color: rgba(245,158,11,.7); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .rank-badge[data-level="6"] .rank-badge__chip { animation: none; }
-  }
+  /* 6★ apex — The shimmer animation is retired here; the 6★ badge 
+     now uses a high-contrast white-on-gold sacred ledger identity. */
 
   /* Legacy alias shims — Stage 2 (deprecated).
      The following selectors are kept ONLY as no-op visual stand-ins
