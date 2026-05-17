@@ -2525,6 +2525,15 @@ button.nav-graph-trigger:hover{color:var(--text)}
 }
 .ultimate-item--claimed{opacity:.78}
 .ultimate-item--claimed:hover{border-color:rgba(var(--honor-red-rgb),.25);opacity:1}
+/* Claimed slug uses EB Garamond (--font-display) to match .plaque__slug,
+   and honor-red color — the inline rank-color on the span is intentional
+   for the level tint, but font-family must be the display face. */
+.ultimate-item--claimed .ult-slug{
+  font-family:var(--font-display);
+  font-size:1rem;
+  font-weight:600;
+  letter-spacing:.01em;
+}
 
 .propose-cta{display:inline-flex;align-items:center;gap:.45rem}
 .propose-gh{flex-shrink:0;opacity:.85}
@@ -2652,6 +2661,9 @@ button.nav-graph-trigger:hover{color:var(--text)}
     font-size: 0.75rem;
     margin-bottom: 0.5rem;
     flex: none;
+  }
+  .ultimate-item--claimed .ult-slug {
+    font-size: 0.875rem;
   }
   .ult-claim, .ult-claimed {
     width: 100%;
