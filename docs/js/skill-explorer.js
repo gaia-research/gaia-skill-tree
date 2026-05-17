@@ -369,14 +369,14 @@
           return ''; // fallback
         }
 
-        function createNodeLabel(id) {
-          var parts = id.split('/');
+        function createNodeLabel(labelSource) {
+          var parts = String(labelSource).split('/');
           var contrib = parts[0] || '';
-          var skillName = parts[1] || id;
+          var skillName = parts[1] || labelSource;
           if (contrib && parts.length > 1) {
             return '<div class="dag-node-label"><span class="dag-node-label-contrib">' + esc(contrib) + '</span><span style="color:var(--muted)">/</span><span class="dag-node-label-name">' + esc(skillName) + '</span></div>';
           } else {
-            return '<div class="dag-node-label"><span class="dag-node-label-name">' + esc(id) + '</span></div>';
+            return '<div class="dag-node-label"><span class="dag-node-label-name">' + esc(labelSource) + '</span></div>';
           }
         }
 
@@ -387,7 +387,8 @@
           var colorVar = topLevel.indexOf('6') !== -1 ? '#ffffff' : 'var(--tier-' + topType + ', var(--muted))';
           var deckHtml = '<div class="git-node' + extraMainClass + '" data-id="' + esc(id) + '" data-type="' + esc(topType) + '" data-level="' + esc(topLevel) + '" data-ghost="false" style="--staggerY:' + staggerY + 'px" onclick="if(window.selectFlowNode)window.selectFlowNode(\''+esc(id)+'\');" onmouseenter="if(!window._selectedFlowNode&&window.highlightPaths)window.highlightPaths(\''+esc(id)+'\')" onmouseleave="if(!window._selectedFlowNode&&window.unhighlightPaths)window.unhighlightPaths()">';
           deckHtml += '<div class="git-commit-dot" style="--dot-color: ' + colorVar + '"></div>';
-          deckHtml += createNodeLabel(id);
+          // Sibling deck: use the current named skill's slash id if present
+          deckHtml += createNodeLabel((ns && ns.id) ? ns.id : (siblings[0] && siblings[0].id) || id);
           deckHtml += '<div class="se-stack-deck" data-count="' + siblings.length + '">';
           siblings.forEach(function(sib, idxSib) {
             var isCur = sib.id === ns.id;
@@ -416,7 +417,7 @@
             };
             return '<div class="git-node' + extraMainClass + '" data-id="' + esc(id) + '" data-type="' + esc(nb.type||'basic') + '" data-level="' + esc(nb.level || '') + '" data-ghost="false" style="--staggerY:' + staggerY + 'px" onclick="if(window.selectFlowNode)window.selectFlowNode(\''+esc(id)+'\');" onmouseenter="if(!window._selectedFlowNode&&window.highlightPaths)window.highlightPaths(\''+esc(id)+'\')" onmouseleave="if(!window._selectedFlowNode&&window.unhighlightPaths)window.unhighlightPaths()">' +
               '<div class="git-commit-dot" style="--dot-color: ' + colorVarNamed + '"></div>' +
-              createNodeLabel(id) +
+              createNodeLabel(nb.id || id) +
               renderPlaqueNode(nb, nbOpts) +
             '</div>';
           } else {

@@ -330,12 +330,14 @@
               attrs: ' data-type="' + s.type + '"',
             });
             var colorVar = 'var(--tier-' + (s.type || 'basic') + ', var(--muted))';
-            var labelParts = String(id).split('/');
+            // Label source: prefer slash-formatted named ID; fall back to generic ID for ghost nodes.
+            var labelSource = (ns && ns.id) ? ns.id : id;
+            var labelParts = String(labelSource).split('/');
             var labelContrib = labelParts.length > 1 ? labelParts[0] : '';
-            var labelName = labelParts.length > 1 ? labelParts[1] : id;
+            var labelName = labelParts.length > 1 ? labelParts[1] : labelSource;
             var labelHtml = labelContrib
               ? '<div class="dag-node-label"><span class="dag-node-label-contrib">' + labelContrib + '</span><span style="color:var(--muted)">/</span><span class="dag-node-label-name">' + labelName + '</span></div>'
-              : '<div class="dag-node-label"><span class="dag-node-label-name">' + id + '</span></div>';
+              : '<div class="dag-node-label"><span class="dag-node-label-name">' + labelSource + '</span></div>';
             html += '<div class="git-node" data-id="' + id + '" data-type="' + s.type + '" onmouseenter="this.classList.add(\'show-label\')" onmouseleave="this.classList.remove(\'show-label\')">' +
                     '<div class="git-commit-dot" style="--dot-color: ' + colorVar + '"></div>' +
                     labelHtml +

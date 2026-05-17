@@ -201,12 +201,14 @@
         if (!isGhost && s.level && String(s.level).indexOf('6') !== -1) {
           colorVar = '#ffffff';
         }
-        var labelParts = String(id).split('/');
+        // Label source: prefer slash-formatted named ID; fall back to generic ID for ghost nodes.
+        var labelSource = (ns && ns.id) ? ns.id : id;
+        var labelParts = String(labelSource).split('/');
         var labelContrib = labelParts.length > 1 ? labelParts[0] : '';
-        var labelName = labelParts.length > 1 ? labelParts[1] : id;
+        var labelName = labelParts.length > 1 ? labelParts[1] : labelSource;
         var labelHtml = labelContrib
           ? '<div class="dag-node-label"><span class="dag-node-label-contrib">' + esc(labelContrib) + '</span><span style="color:var(--muted)">/</span><span class="dag-node-label-name">' + esc(labelName) + '</span></div>'
-          : '<div class="dag-node-label"><span class="dag-node-label-name">' + esc(id) + '</span></div>';
+          : '<div class="dag-node-label"><span class="dag-node-label-name">' + esc(labelSource) + '</span></div>';
         html += '<div class="git-node" data-id="' + esc(id) + '" data-type="' + esc(s.type) + '" data-level="' + esc(s.level || '') + '" data-ghost="' + isGhost + '" style="--staggerY:' + staggerY + 'px" onmouseenter="if(window.highlightPathsTree)window.highlightPathsTree(\''+esc(id)+'\')" onmouseleave="if(window.unhighlightPathsTree)window.unhighlightPathsTree()">' +
                 '<div class="git-commit-dot" style="--dot-color: ' + colorVar + '"></div>' +
                 labelHtml +

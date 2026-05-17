@@ -2853,7 +2853,8 @@ button.nav-graph-trigger:hover{color:var(--text)}
   z-index: 50;
 }
 
-.git-node.show-label .dag-node-label {
+.git-node.show-label .dag-node-label,
+.git-node:hover .dag-node-label {
   opacity: 1;
 }
 
