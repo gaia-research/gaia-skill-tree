@@ -330,8 +330,15 @@
               attrs: ' data-type="' + s.type + '"',
             });
             var colorVar = 'var(--tier-' + (s.type || 'basic') + ', var(--muted))';
-            html += '<div class="git-node" data-id="' + id + '" data-type="' + s.type + '">' +
+            var labelParts = String(id).split('/');
+            var labelContrib = labelParts.length > 1 ? labelParts[0] : '';
+            var labelName = labelParts.length > 1 ? labelParts[1] : id;
+            var labelHtml = labelContrib
+              ? '<div class="dag-node-label"><span class="dag-node-label-contrib">' + labelContrib + '</span><span style="color:var(--muted)">/</span><span class="dag-node-label-name">' + labelName + '</span></div>'
+              : '<div class="dag-node-label"><span class="dag-node-label-name">' + id + '</span></div>';
+            html += '<div class="git-node" data-id="' + id + '" data-type="' + s.type + '" onmouseenter="this.classList.add(\'show-label\')" onmouseleave="this.classList.remove(\'show-label\')">' +
                     '<div class="git-commit-dot" style="--dot-color: ' + colorVar + '"></div>' +
+                    labelHtml +
                     miniHtml +
                     '</div>';
           });

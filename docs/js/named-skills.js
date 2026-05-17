@@ -201,8 +201,15 @@
         if (!isGhost && s.level && String(s.level).indexOf('6') !== -1) {
           colorVar = '#ffffff';
         }
+        var labelParts = String(id).split('/');
+        var labelContrib = labelParts.length > 1 ? labelParts[0] : '';
+        var labelName = labelParts.length > 1 ? labelParts[1] : id;
+        var labelHtml = labelContrib
+          ? '<div class="dag-node-label"><span class="dag-node-label-contrib">' + esc(labelContrib) + '</span><span style="color:var(--muted)">/</span><span class="dag-node-label-name">' + esc(labelName) + '</span></div>'
+          : '<div class="dag-node-label"><span class="dag-node-label-name">' + esc(id) + '</span></div>';
         html += '<div class="git-node" data-id="' + esc(id) + '" data-type="' + esc(s.type) + '" data-level="' + esc(s.level || '') + '" data-ghost="' + isGhost + '" style="--staggerY:' + staggerY + 'px" onmouseenter="if(window.highlightPathsTree)window.highlightPathsTree(\''+esc(id)+'\')" onmouseleave="if(window.unhighlightPathsTree)window.unhighlightPathsTree()">' +
                 '<div class="git-commit-dot" style="--dot-color: ' + colorVar + '"></div>' +
+                labelHtml +
                 miniHtml +
                 '</div>';
       });
@@ -218,20 +225,28 @@
       window._currentDagEdgesTree = edges || [];
       window.highlightPathsTree = function(nodeId) {
         document.querySelectorAll('#nsDagSvg .git-path').forEach(function(p) { p.classList.remove('active-path'); });
+        document.querySelectorAll('#nsDag .git-node.show-label').forEach(function(n) { n.classList.remove('show-label'); });
         var edgesMap = window._currentDagEdgesTree;
+        var related = {};
+        related[nodeId] = true;
         function trace(id) {
           edgesMap.forEach(function(e) {
             if (e.to === id) {
               var p = document.getElementById('path-tree-' + e.from + '-' + e.to);
               if (p) p.classList.add('active-path');
-              trace(e.from);
+              if (!related[e.from]) { related[e.from] = true; trace(e.from); }
             }
           });
         }
         trace(nodeId);
+        Object.keys(related).forEach(function(id) {
+          var node = document.querySelector('#nsDag .git-node[data-id="' + id.replace(/"/g, '\\"') + '"]');
+          if (node) node.classList.add('show-label');
+        });
       };
       window.unhighlightPathsTree = function() {
         document.querySelectorAll('#nsDagSvg .git-path').forEach(function(p) { p.classList.remove('active-path'); });
+        document.querySelectorAll('#nsDag .git-node.show-label').forEach(function(n) { n.classList.remove('show-label'); });
       };
 
       var cRect = container.getBoundingClientRect();
