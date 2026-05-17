@@ -543,8 +543,23 @@
       }
       var generic = ns.genericSkillRef ? findGeneric(ns.genericSkillRef) : null;
 
+      var parts = ns.id.split('/');
+      var handle = parts[0];
+      var skillName = parts[1] || handle;
+      var hasSlash = parts.length > 1;
+
+      var type = (generic && generic.type) || ns.type || 'basic';
+      var color = (type === 'ultimate') ? 'var(--apex-gold)' : ((LEVEL_META_SE && LEVEL_META_SE[ns.level]) ? LEVEL_META_SE[ns.level].color : 'inherit');
+
+      var bHtml = '';
+      if (hasSlash) {
+        bHtml += '<span class="atlas-handle">@' + esc(handle) + '</span>';
+        bHtml += '<span style="color:var(--muted); opacity: 0.5; margin: 0 4px;">/</span>';
+      }
+      bHtml += '<span class="plaque__slug" style="font-size: inherit; color: ' + color + ';">' + esc(skillName) + '</span>';
+
       document.getElementById('skillExplorer').classList.add('open');
-      document.getElementById('seBreadcrumb').textContent = ns.id;
+      document.getElementById('seBreadcrumb').innerHTML = bHtml;
       document.getElementById('skillExplorer').scrollTop = 0;
       document.body.style.overflow = 'hidden';
 
