@@ -229,6 +229,11 @@
 .plaque[data-type="ultimate"] .plaque__slug,
 .plaque[data-type="ultimate"] .plaque-skill-name {
   color: var(--apex-gold, #fbbf24);
+}
+/* Level VI (6★) — Transcendent ★ — earns the rainbow shimmer.
+   Level V (5★) — Transcendent — remains static Apex Gold. */
+.plaque[data-type="ultimate"][data-level="6"] .plaque__slug,
+.plaque[data-type="ultimate"][data-level="6"] .plaque-skill-name {
   animation: tree-rainbow-glow 4s linear infinite;
 }
 
