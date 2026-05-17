@@ -104,7 +104,7 @@
 | ◉ Unique Skill: openai/self-consistency | Unique Skill | 4★ | Hardened | `/self-consistency` |
 | ○ /self-critique | Basic Skill | 1★ | Awakened | `/self-critique` |
 | ◉ Unique Skill: huggingface/semantic-cache | Unique Skill | 4★ | Hardened | `/semantic-cache` |
-| ○ /sentiment-analysis | Basic Skill | 0★ | Basic | `/sentiment-analysis` |
+| ○ /sentiment-analysis | Basic Skill | 3★ | Evolved | `/sentiment-analysis` |
 | ◇ Extra Skill: /skill-authoring | Extra Skill | 4★ | Hardened | `/skill-authoring` |
 | ○ vercel/find-skills | Basic Skill | 0★ | Basic | `/skill-discovery` |
 | ◇ Extra Skill: /skill-performance-benchmarking | Extra Skill | 4★ | Hardened | `/skill-performance-benchmarking` |

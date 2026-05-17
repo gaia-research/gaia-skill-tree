@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <gexf xmlns="http://www.gexf.net/1.2draft" version="1.2">
-  <meta lastmodifieddate="2026-05-15">
+  <meta lastmodifieddate="2026-05-17">
     <creator>Gaia</creator>
     <description>Gaia Skill Registry Graph</description>
   </meta>
@@ -918,7 +918,7 @@
       </node>
       <node id="sentiment-analysis" label="Sentiment Analysis">
         <attvalues>
-          <attvalue for="level" value="0★" />
+          <attvalue for="level" value="3★" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />

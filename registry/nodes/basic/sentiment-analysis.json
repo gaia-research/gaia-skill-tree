@@ -2,27 +2,83 @@
   "id": "sentiment-analysis",
   "name": "Sentiment Analysis",
   "type": "basic",
-  "level": "0★",
+  "level": "3★",
   "rarity": "common",
-  "description": "Determines the emotional valence (positive, negative, neutral) and intensity of text input.",
+  "description": "Classifies the affective polarity (positive / negative / neutral, or fine-grained) of user-generated text. Covers pipelines from raw noisy input through preprocessing, inference (Transformer, Lexicon, or LLM), and output normalisation.",
   "prerequisites": [],
   "derivatives": [
     "content-moderation",
     "translation-pipeline"
   ],
-  "conditions": "",
+  "conditions": "Macro-F1 >= 0.88 (Transformer) or 0.72 (Lexicon) on SST-2 or equivalent benchmark.",
   "evidence": [
     {
       "class": "A",
       "source": "https://arxiv.org/abs/1810.04805",
       "evaluator": "mbtiongson1",
       "date": "2026-04-28",
-      "notes": "BERT paper â€” achieves SOTA on SST-2 sentiment benchmark (93.5% accuracy), foundational evidence for LLM-based sentiment analysis."
+      "notes": "BERT paper — achieves SOTA on SST-2 sentiment benchmark (93.5% accuracy), foundational evidence for LLM-based sentiment analysis."
+    },
+    {
+      "class": "A",
+      "source": "https://arxiv.org/abs/2202.03829",
+      "evaluator": "pexp13",
+      "date": "2026-05-17",
+      "notes": "CardiffNLP Twitter-RoBERTa (Barbieri et al., 2022) - SOTA transformer baseline for social-media sentiment analysis; 3-class, multilingual variants available."
+    },
+    {
+      "class": "B",
+      "source": "https://aclanthology.org/S17-2088/",
+      "evaluator": "pexp13",
+      "date": "2026-05-17",
+      "notes": "SemEval-2017 Task 4 - Standard Twitter sentiment benchmark; establishes macro-F1 as primary metric."
+    },
+    {
+      "class": "B",
+      "source": "https://ojs.aaai.org/index.php/ICWSM/article/view/14550",
+      "evaluator": "pexp13",
+      "date": "2026-05-17",
+      "notes": "VADER (Hutto & Gilbert, 2014) - Canonical lexicon-based baseline; validated on social media corpora."
+    },
+    {
+      "class": "B",
+      "source": "https://huggingface.co/nlptown/bert-base-multilingual-uncased-sentiment",
+      "evaluator": "pexp13",
+      "date": "2026-05-17",
+      "notes": "NLPTown BERT multilingual - 5-class (star-rating) model fine-tuned on product reviews; direct UGC applicability."
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/declare-lab/conv-emotion",
+      "evaluator": "pexp13",
+      "date": "2026-05-17",
+      "notes": "declare-lab/conv-emotion - Sentiment/emotion recognition in conversations (MELD, IEMOCAP); relevant for threaded comment SA."
+    },
+    {
+      "class": "C",
+      "source": "https://gluebenchmark.com/tasks",
+      "evaluator": "pexp13",
+      "date": "2026-05-17",
+      "notes": "SST-2 (GLUE benchmark) - Standard binary SA benchmark for cross-model comparison."
+    },
+    {
+      "class": "C",
+      "source": "https://arxiv.org/abs/2203.01054",
+      "evaluator": "pexp13",
+      "date": "2026-05-17",
+      "notes": "Aspect-Based SA survey (Zhang et al., 2022) - Covers ABSA methods for structured review analysis."
+    },
+    {
+      "class": "C",
+      "source": "https://github.com/declare-lab/awesome-sentiment-analysis",
+      "evaluator": "pexp13",
+      "date": "2026-05-17",
+      "notes": "Curated reading list by DeCLaRe Lab; anchored by Poria et al. (2020) IEEE TAC survey on open challenges."
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-04-28",
-  "version": "0.2.0"
+  "updatedAt": "2026-05-17",
+  "version": "1.0.0"
 }

@@ -214,8 +214,23 @@ def _parse_frontmatter(path):
         m = re.match(r"^---\n(.*?)\n---", text, re.DOTALL)
         if not m:
             return {}
-        import yaml
-        return yaml.safe_load(m.group(1)) or {}
+        try:
+            import yaml
+            return yaml.safe_load(m.group(1)) or {}
+        except ImportError:
+            # Fallback when PyYAML is not installed
+            res = {}
+            for line in m.group(1).split('\n'):
+                line = line.strip()
+                if not line or line.startswith('#'): continue
+                if ':' in line:
+                    k, v = line.split(':', 1)
+                    k = k.strip()
+                    v = v.strip().strip('"').strip("'")
+                    if v.lower() == 'true': v = True
+                    elif v.lower() == 'false': v = False
+                    res[k] = v
+            return res
     except Exception:
         return {}
 
