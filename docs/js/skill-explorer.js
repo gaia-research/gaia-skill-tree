@@ -822,26 +822,24 @@
       var hasSlash = parts.length > 1;
 
       var type = (generic && generic.type) || ns.type || 'basic';
-      var color = (type === 'ultimate') ? 'var(--apex-gold)' :
-                  (type === 'unique') ? 'var(--tier-unique)' :
-                  ((LEVEL_META_SE && LEVEL_META_SE[ns.level]) ? LEVEL_META_SE[ns.level].color : 'inherit');
+      var color = (LEVEL_META_SE && LEVEL_META_SE[ns.level]) ? LEVEL_META_SE[ns.level].color : 'inherit';
 
       var bHtml = '';
       if (hasSlash) {
         bHtml += '<span class="atlas-handle">@' + esc(handle) + '</span>';
         if (ns.origin && typeof window.gaiaIcon === 'function') {
           bHtml += ' <span class="plaque__origin" data-tooltip="Origin contributor: The creator of the first skill version" aria-label="Origin contributor: The creator of the first skill version">' +
-            window.gaiaIcon('origin-badge', 16) +
-            '<span class="origin-info" style="margin-left: 3px; color: var(--muted); opacity: 0.7;">' + window.gaiaIcon('info', 10) + '</span>' +
+            window.gaiaIcon('origin-badge', { size: 16 }) +
+            '<span class="origin-info" style="margin-left: 3px; color: var(--muted); opacity: 0.7;">' + window.gaiaIcon('info', { size: 10 }) + '</span>' +
             '</span>';
         }
         bHtml += '<span style="color:var(--muted); opacity: 0.5; margin: 0 4px;">/</span>';
       }
       var slugStyle = 'font-size: inherit; color: ' + color + ';';
-      if (type === 'ultimate' && ns.level === '6★') {
+      if (type === 'ultimate') {
         slugStyle += ' animation: tree-rainbow-glow 4s linear infinite;';
-      } else if (type === 'ultimate') {
-        slugStyle += ' animation: none;';
+      } else if (type === 'extra') {
+        slugStyle += ' animation: tree-extra-glow 4s linear infinite;';
       } else if (type === 'unique') {
         slugStyle += ' text-shadow: 0 0 12px rgba(124,58,237,0.6), 0 0 4px rgba(124,58,237,0.3);';
       }

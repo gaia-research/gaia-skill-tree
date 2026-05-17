@@ -161,10 +161,20 @@
           if (lvlN === 6) colorStyle += ' animation: tree-rainbow-glow 4s linear infinite;';
           var clickAttr = ' role="button" tabindex="0" onclick="if(typeof openSkillExplorer===\'function\')openSkillExplorer(\'' + jsStr(u.id) + '\')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();this.click();}"';
 
+          var originHtml = '';
+          if (claim.origin && typeof window.gaiaIcon === 'function') {
+            originHtml = '<span class="plaque__origin" data-tooltip="Origin contributor: The creator of the first skill version" aria-label="Origin contributor: The creator of the first skill version">' +
+              window.gaiaIcon('origin-badge', { size: 16 }) +
+              '<span class="origin-info" style="margin-left: 3px; color: var(--muted); opacity: 0.7;">' + window.gaiaIcon('info', { size: 10 }) + '</span>' +
+              '</span>';
+          }
+          
           return '<div class="ultimate-item ultimate-item--claimed">' +
             '<span class="ult-glyph">◆</span>' +
             '<span class="ult-slug named-slug" title="' + esc(u.id) + '" style="' + colorStyle + '"' + clickAttr + '>' + esc(claimedSlug) + '</span>' +
-            contribLink +
+            '<div class="ult-contrib-wrap" style="display:inline-flex; align-items:center; flex-shrink:0;">' +
+            contribLink + originHtml +
+            '</div>' +
             levelChip +
             '<span class="ult-claimed">Claimed</span>' +
             '</div>';
