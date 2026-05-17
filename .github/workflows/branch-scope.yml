@@ -40,8 +40,8 @@ jobs:
             cli/*)     PREFIX="cli" ;;
             docs/*)    PREFIX="docs" ;;
             design/*)  PREFIX="design" ;;
-            review/gaia-push*) PREFIX="review-push" ;;
-            review/meta*)      PREFIX="review-meta" ;;
+            review/gaia-push/*) PREFIX="review-push" ;;
+            review/meta/*)      PREFIX="review-meta" ;;
             dev/*)     PREFIX="dev" ;;
             infra/*)   PREFIX="infra" ;;
             *)         PREFIX="other" ;;
@@ -63,34 +63,26 @@ jobs:
                 ;;
               cli)
                 case "$file" in
-                  src/gaia_cli/*|packages/*|tests/*|pyproject.toml) ;; # allowed
-                  registry/schema/*) VIOLATIONS="$VIOLATIONS\n  ❌ $file (cli/ branches may not touch registry/schema/)" ;;
-                  *) ;; # allow other files for cli branches (tests may need fixtures)
+                  src/*|packages/*|tests/*) ;; # allowed
+                  *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (cli/ branches may only touch src/, packages/, or tests/)" ;;
                 esac
                 ;;
               docs)
                 case "$file" in
-                  docs/*|*.md|scripts/build_docs.py|scripts/syncDocsGraphAssets.py) ;; # allowed
-                  registry/schema/*) VIOLATIONS="$VIOLATIONS\n  ❌ $file (docs/ branches may not touch registry/schema/)" ;;
-                  src/gaia_cli/*) VIOLATIONS="$VIOLATIONS\n  ❌ $file (docs/ branches may not touch src/)" ;;
-                  *) ;; # allow
+                  docs/*|*.md) ;; # allowed
+                  *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (docs/ branches may only touch docs/ or *.md files)" ;;
                 esac
                 ;;
               design)
                 case "$file" in
                   docs/*) ;; # allowed
-                  registry/*) VIOLATIONS="$VIOLATIONS\n  ❌ $file (design/ branches may not touch registry/)" ;;
-                  src/*) VIOLATIONS="$VIOLATIONS\n  ❌ $file (design/ branches may not touch src/)" ;;
-                  packages/*) VIOLATIONS="$VIOLATIONS\n  ❌ $file (design/ branches may not touch packages/)" ;;
-                  *) ;; # allow
+                  *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (design/ branches may only touch docs/)" ;;
                 esac
                 ;;
               review-push)
                 case "$file" in
                   registry-for-review/*) ;; # allowed
-                  registry/schema/*) VIOLATIONS="$VIOLATIONS\n  ❌ $file (review/gaia-push branches may not touch registry/schema/)" ;;
-                  src/*) VIOLATIONS="$VIOLATIONS\n  ❌ $file (review/gaia-push branches may not touch src/)" ;;
-                  *) ;; # allow
+                  *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (review/gaia-push branches may only touch registry-for-review/)" ;;
                 esac
                 ;;
               review-meta)
@@ -101,16 +93,20 @@ jobs:
                       *) ;; # allowed
                     esac
                     ;;
-                  src/*) VIOLATIONS="$VIOLATIONS\n  ❌ $file (review/meta branches may not touch src/)" ;;
-                  packages/*) VIOLATIONS="$VIOLATIONS\n  ❌ $file (review/meta branches may not touch packages/)" ;;
-                  *) ;; # allow
+                  *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (review/meta branches may only touch registry/ (excluding registry/schema/))" ;;
                 esac
                 ;;
               infra)
-                # infra branches: allow .github/, scripts/, docs config, CLAUDE.md, CONTRIBUTING.md, pyproject.toml
+                case "$file" in
+                  .github/*|scripts/*) ;; # allowed
+                  *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (infra/ branches may only touch .github/ or scripts/)" ;;
+                esac
                 ;;
-              dev|other)
-                # No forward restriction for dev/ and unrecognized prefixes
+              dev)
+                # No forward restriction for dev/
+                ;;
+              other)
+                VIOLATIONS="$VIOLATIONS\n  ❌ $file (unrecognized branch prefix; use schema/, cli/, docs/, design/, review/gaia-push/, review/meta/, dev/, or infra/)"
                 ;;
             esac
           done <<< "$FILES"

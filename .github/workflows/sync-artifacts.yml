@@ -1,0 +1,67 @@
+name: Auto-Sync Registry Artifacts
+
+on:
+  push:
+    branches: [main, 'dev/**', 'fix/**', 'feat/**', 'review/**', 'infra/**', 'workflow/**']
+    paths:
+      - 'registry/nodes/**'
+      - 'registry/named/**'
+      - 'registry/schema/**'
+      - 'scripts/**'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    name: Regenerate and Commit Artifacts
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-actions[bot]'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.head_ref || github.ref_name }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -e ".[dev]"
+
+      - name: Auto-Versioning and Regeneration
+        run: |
+          export PYTHONPATH="src"
+          
+          # 1. Classify bump type from commit message
+          MSG=$(git log -1 --format=%B)
+          BUMP="patch"
+          if echo "$MSG" | grep -Eq 'BREAKING CHANGE|^[a-zA-Z]+(\([^)]*\))?!:'; then BUMP="major"; fi
+          if echo "$MSG" | grep -Eq '^feat(\([^)]*\))?:'; then BUMP="minor"; fi
+          
+          # 2. Apply version bump
+          python3 -c "from gaia_cli.versioning import bump_versions; print(bump_versions('.', '$BUMP'))"
+          
+          # 3. Regenerate all artifacts
+          python3 scripts/assemble_gaia.py
+          python3 scripts/generateNamedIndex.py
+          python3 scripts/generateProjections.py
+          python3 scripts/exportGexf.py
+          python3 scripts/renderGraphSvg.py --format svg
+          python3 scripts/syncDocsGraphAssets.py
+          python3 -m gaia_cli.main docs build
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          if [[ -n "$(git status --porcelain)" ]]; then
+            git add .
+            git commit -m "chore(auto): regenerate registry artifacts and sync docs"
+            git push
+          fi

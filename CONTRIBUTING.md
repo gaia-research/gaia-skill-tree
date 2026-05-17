@@ -201,3 +201,11 @@ The schema and validator enforce:
 - PRs promoting a skill to unique require maintainer approval
 - Evidence must meet the standard floor for the skill's level (B/A class for 4★+)
 - Reviewers should use `/gaia-audit` to verify isolation and evidence quality before approving
+
+---
+
+## 10) Automated Maintenance
+
+The registry is supported by several automated workflows:
+- **Auto-Sync:** On every push to a branch, a GitHub Action automatically runs the versioning and regeneration scripts. You no longer need to run these manually before pushing.
+- **Validation:** Every PR is automatically validated for schema correctness, DAG integrity, and evidence quality.
