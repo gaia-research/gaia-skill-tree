@@ -723,25 +723,66 @@
     return '<a class="atlas-handle" href="' + href + '">' + inner + '</a>';
   }
 
+  // ── Token helpers ──────────────────────────────────────────────────────
+  function glyphSpan(cls, glyph) {
+    return '<span class="' + cls + '">' + glyph + '</span>';
+  }
+
+  // Colorize rank pills like [3★], [3★ · Evolved], [3★ · Unclaimed]
+  function colorizeRankPills(html) {
+    // Match [N★ · Suffix] or plain [N★]
+    return html.replace(
+      /\[(\d★)(?:(\s·\s)([^\]]+))?\]/g,
+      function(_, rank, dot, suffix) {
+        var n = rank.charAt(0);
+        var inner = '<span class="tree-rank-digit">' + rank + '</span>';
+        if (dot && suffix) {
+          var suffixClass = suffix.trim() === 'Unclaimed'
+            ? 'tree-unclaimed'
+            : 'tree-rank-suffix';
+          inner += '<span class="tree-rank-sep">' + esc(dot) + '</span>'
+                 + '<span class="' + suffixClass + '">' + esc(suffix) + '</span>';
+        }
+        return '<span class="tree-rank tree-rank-' + n + '">[' + inner + ']</span>';
+      }
+    );
+  }
+
+  // Colorize (↑ see above) shared-prereq markers
+  function colorizeShared(html) {
+    return html.replace(/\(↑ see above\)/g,
+      '<span class="tree-shared">(&#x2191; see above)</span>');
+  }
+
+  // Colorize owned marker ✓ and unowned · markers
+  function colorizeOwned(html) {
+    return html.replace(/^(<span[^>]*>)?(✓)/,
+      function(m, pre, mark) { return (pre || '') + '<span class="tree-owned">' + mark + '</span>'; });
+  }
+
   function highlightTree(text) {
     var ultIdx = 0;
     var unqIdx = 0;
-    var inPure = false;
+    var inBasics = false;
     var lines = text.split('\n');
     var output = [];
-    
+
     for (var i = 0; i < lines.length; i++) {
       var line = lines[i];
-      if (line.indexOf('Pure / Undeveloped') !== -1) {
-        inPure = true;
+      // Track when we enter the Basics section
+      if (line.indexOf('Basics —') !== -1) {
+        inBasics = true;
       }
 
       // 1. Ultimate Skill lines (◆)
-      var m = line.match(/^(\s*◆\s*(?:Ultimate Skill:\s*)?)(\S+)(.*)$/);
+      var m = line.match(/^(\s*[·✓]\s*)?(◆)(\s+)(\S+)(.*)$/);
       if (m) {
-        var label = esc(m[1]);
-        var skillId = m[2];
-        var suffix = esc(m[3]);
+        var ownerMark = m[1] ? (m[1].indexOf('✓') >= 0
+          ? '<span class="tree-owned">✓</span> '
+          : '<span class="tree-unowned">·</span> ') : '';
+        var glyph = glyphSpan('tree-glyph-ult', m[2]);
+        var skillId = m[4];
+        var suffix = m[5];
         var delay = -((ultIdx++ * 0.9) % 4);
         var slash = skillId.indexOf('/');
         var skillHtml;
@@ -753,17 +794,22 @@
         } else {
           skillHtml = '<span class="tree-ult-id">' + esc(skillId) + '</span>';
         }
+        var suffixHtml = colorizeRankPills(colorizeShared(esc(suffix)));
         output.push('<span class="tree-ult-line" style="animation-delay:' + delay + 's">' +
-               label + skillHtml + suffix + '</span>');
+               ownerMark + glyph + esc(m[3]) + skillHtml + suffixHtml + '</span>');
         continue;
       }
 
       // 2. Unique Skill lines (◉)
-      var u = line.match(/^([\s│├└─]*◉\s*(?:Unique Skill:\s*)?)(\S+)(.*)$/);
+      var u = line.match(/^(\s*[·✓]\s*)?([\s│├└─]*)(◉)(\s+)(\S+)(.*)$/);
       if (u) {
-        var ulabel = esc(u[1]);
-        var uid = u[2];
-        var usuffix = esc(u[3]);
+        var uOwner = u[1] ? (u[1].indexOf('✓') >= 0
+          ? '<span class="tree-owned">✓</span> '
+          : '<span class="tree-unowned">·</span> ') : '';
+        var uPrefix = esc(u[2]);
+        var uGlyph = glyphSpan('tree-glyph-uni', u[3]);
+        var uid = u[5];
+        var usuffix = u[6];
         var udelay = -((unqIdx++ * 0.9) % 4);
         var uslash = uid.indexOf('/');
         var uskillHtml;
@@ -777,17 +823,22 @@
         } else {
           uskillHtml = '<span class="' + uniqueClass + '">' + esc(uid) + '</span>';
         }
+        var usuffixHtml = colorizeRankPills(colorizeShared(esc(usuffix)));
         output.push('<span class="tree-unique-line" style="animation-delay:' + udelay + 's">' +
-               ulabel + uskillHtml + usuffix + '</span>');
+               uOwner + uPrefix + uGlyph + esc(u[4]) + uskillHtml + usuffixHtml + '</span>');
         continue;
       }
 
       // 3. Extra Skill lines (◇)
-      var e = line.match(/^([\s│├└─]*◇\s*(?:Extra Skill:\s*)?)(\S+)(.*)$/);
+      var e = line.match(/^(\s*[·✓]\s*)?([\s│├└─]*)(◇)(\s+)(\S+)(.*)$/);
       if (e) {
-        var elabel = esc(e[1]);
-        var eid = e[2];
-        var esuffix = esc(e[3]);
+        var eOwner = e[1] ? (e[1].indexOf('✓') >= 0
+          ? '<span class="tree-owned">✓</span> '
+          : '<span class="tree-unowned">·</span> ') : '';
+        var ePrefix = esc(e[2]);
+        var eGlyph = glyphSpan('tree-glyph-ext', e[3]);
+        var eid = e[5];
+        var esuffix = e[6];
         var eslash = eid.indexOf('/');
         var eskillHtml;
         if (eslash > 0) {
@@ -798,16 +849,21 @@
         } else {
           eskillHtml = '<span class="tree-extra-id">' + esc(eid) + '</span>';
         }
-        output.push('<span class="tree-extra-line">' + elabel + eskillHtml + esuffix + '</span>');
+        var esuffixHtml = colorizeRankPills(colorizeShared(esc(esuffix)));
+        output.push('<span class="tree-extra-line">' + eOwner + ePrefix + eGlyph + esc(e[4]) + eskillHtml + esuffixHtml + '</span>');
         continue;
       }
 
       // 4. Basic Skill lines (○)
-      var b = line.match(/^([\s│├└─]*○\s*)(\S+)(.*)$/);
+      var b = line.match(/^(\s*[·✓]\s*)?([\s│├└─]*)(○)(\s+)(\S+)(.*)$/);
       if (b) {
-        var blabel = esc(b[1]);
-        var bid = b[2];
-        var bsuffix = esc(b[3]);
+        var bOwner = b[1] ? (b[1].indexOf('✓') >= 0
+          ? '<span class="tree-owned">✓</span> '
+          : '<span class="tree-unowned">·</span> ') : '';
+        var bPrefix = esc(b[2]);
+        var bGlyph = glyphSpan('tree-glyph-basic', b[3]);
+        var bid = b[5];
+        var bsuffix = b[6];
         var bslash = bid.indexOf('/');
         var bskillHtml;
         if (bslash > 0) {
@@ -818,8 +874,9 @@
         } else {
           bskillHtml = '<span class="tree-basic-id">' + esc(bid) + '</span>';
         }
-        var lineClass = inPure ? 'tree-basic-line tree-pure-line' : 'tree-basic-line';
-        output.push('<span class="' + lineClass + '">' + blabel + bskillHtml + bsuffix + '</span>');
+        var bsuffixHtml = colorizeRankPills(colorizeShared(esc(bsuffix)));
+        var lineClass = inBasics ? 'tree-basic-line tree-pure-line' : 'tree-basic-line';
+        output.push('<span class="' + lineClass + '">' + bOwner + bPrefix + bGlyph + esc(b[4]) + bskillHtml + bsuffixHtml + '</span>');
         continue;
       }
 
@@ -828,16 +885,19 @@
         output.push('<span class="tree-sep">' + esc(line) + '</span>');
         continue;
       }
-      
+
       var out = esc(line);
-      out = out.replace(/◇/g, '<span class="tree-extra-glyph">◇</span>');
-      out = out.replace(/○/g, '<span class="tree-basic-glyph">○</span>');
-      out = out.replace(/◉/g, '<span class="tree-unique-glyph">◉</span>');
-      out = out.replace(/◆/g, '<span class="tree-ult-glyph">◆</span>');
+      // Colorize standalone glyphs in non-skill lines (section headers etc.)
+      out = out.replace(/◇/g, glyphSpan('tree-glyph-ext', '◇'));
+      out = out.replace(/○/g, glyphSpan('tree-glyph-basic', '○'));
+      out = out.replace(/◉/g, glyphSpan('tree-glyph-uni', '◉'));
+      out = out.replace(/◆/g, glyphSpan('tree-glyph-ult', '◆'));
+      out = colorizeRankPills(out);
+      out = colorizeShared(out);
       output.push(out);
     }
 
-    // Wrap pure lines in a container
+    // Wrap basics lines in a container
     var finalOutput = '';
     var inContainer = false;
     for (var j = 0; j < output.length; j++) {
@@ -856,7 +916,7 @@
       }
     }
     if (inContainer) finalOutput += '</div>';
-    
+
     return finalOutput;
   }
 

@@ -1,4 +1,4 @@
-# Extra Skill: /plan-and-execute  [4★ · Hardened]
+# /plan-and-execute  [4★ · Hardened]
 **ID:** plan-and-execute  
 **Type:** Extra Skill  
 **Level:** 4★  

@@ -12,6 +12,7 @@ import sys
 
 from gaia_cli.leveling import level_summary
 from gaia_cli.registry import registry_graph_path
+from gaia_cli.formatting import TIER_COLORS, RANK_COLORS  # single source of truth
 import textwrap
 from typing import Optional
 
@@ -72,22 +73,9 @@ def dim() -> str:
     return "\033[2m" if _use_color() else ""
 
 
-# ─── Color palette ─────────────────────────────────────────────────────────
+# ─── Color palette (TIER_COLORS, RANK_COLORS imported from formatting) ──────
+# Single source of truth: formatting.py loads them from registry/gaia.json.
 
-TIER_COLORS = {
-    "basic": (56, 189, 248),
-    "extra": (192, 132, 252),
-    "ultimate": (245, 158, 11),
-}
-RANK_COLORS = {
-    "0★":  (148, 163, 184),   # Slate
-    "1★":  (56, 189, 248),    # Sky
-    "2★": (99, 202, 183),    # Teal
-    "3★": (167, 139, 250),  # Violet
-    "4★": (232, 121, 249),   # Fuchsia
-    "5★":  (251, 191, 36),    # Amber
-    "6★": (251, 191, 36),    # Amber bright
-}
 COLOR_SUCCESS = (134, 239, 172)
 COLOR_MISSING = (100, 116, 139)
 COLOR_TEXT = (226, 232, 240)

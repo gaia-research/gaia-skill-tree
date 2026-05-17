@@ -1,4 +1,4 @@
-# Extra Skill: /skill-security-analysis  [4★ · Hardened]
+# /skill-security-analysis  [4★ · Hardened]
 **ID:** skill-security-analysis  
 **Type:** Extra Skill  
 **Level:** 4★  

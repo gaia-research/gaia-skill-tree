@@ -1,4 +1,4 @@
-# Ultimate Skill: /autonomous-data-scientist [Unclaimed ✦]  [5★ · Transcendent]
+# /autonomous-data-scientist  [5★ · Transcendent]
 **ID:** autonomous-data-scientist  
 **Type:** Ultimate Skill  
 **Level:** 5★  

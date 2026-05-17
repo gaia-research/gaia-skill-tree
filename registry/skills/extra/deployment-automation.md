@@ -1,4 +1,4 @@
-# Extra Skill: /deployment-automation  [2★ · Named]
+# /deployment-automation  [2★ · Named]
 **ID:** deployment-automation  
 **Type:** Extra Skill  
 **Level:** 2★  

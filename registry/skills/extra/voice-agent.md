@@ -1,4 +1,4 @@
-# Extra Skill: /voice-agent  [3★ · Evolved]
+# /voice-agent  [3★ · Evolved]
 **ID:** voice-agent  
 **Type:** Extra Skill  
 **Level:** 3★  

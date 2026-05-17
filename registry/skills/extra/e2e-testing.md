@@ -1,4 +1,4 @@
-# Extra Skill: /e2e-testing  [3★ · Evolved]
+# /e2e-testing  [3★ · Evolved]
 **ID:** e2e-testing  
 **Type:** Extra Skill  
 **Level:** 3★  

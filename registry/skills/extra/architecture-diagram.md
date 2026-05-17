@@ -1,4 +1,4 @@
-# Extra Skill: /architecture-diagram  [4★ · Hardened]
+# /architecture-diagram  [4★ · Hardened]
 **ID:** architecture-diagram  
 **Type:** Extra Skill  
 **Level:** 4★  

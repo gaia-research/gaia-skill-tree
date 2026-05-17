@@ -1,4 +1,4 @@
-# Extra Skill: /prompt-optimization  [4★ · Hardened]
+# /prompt-optimization  [4★ · Hardened]
 **ID:** prompt-optimization  
 **Type:** Extra Skill  
 **Level:** 4★  

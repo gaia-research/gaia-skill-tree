@@ -1,4 +1,4 @@
-# Extra Skill: /conversational-agent  [3★ · Evolved]
+# /conversational-agent  [3★ · Evolved]
 **ID:** conversational-agent  
 **Type:** Extra Skill  
 **Level:** 3★  

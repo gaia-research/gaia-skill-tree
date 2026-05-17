@@ -1,4 +1,4 @@
-# Extra Skill: /guardrails  [3★ · Evolved]
+# /guardrails  [3★ · Evolved]
 **ID:** guardrails  
 **Type:** Extra Skill  
 **Level:** 3★  

@@ -825,38 +825,63 @@
     90% {color:#34d399;text-shadow:0 0 10px rgba(52,211,153,.8),0 0 22px rgba(52,211,153,.4)}
     100%{color:#38bdf8;text-shadow:0 0 10px rgba(56,189,248,.8),0 0 22px rgba(56,189,248,.4)}
   }
+  /* ── Tree Tier Glyphs — token-bound (Stage 1/5b) ── */
+  .tree-glyph-ult  { color: var(--tier-ultimate) !important; font-weight: 900 !important; }
+  .tree-glyph-ext  { color: var(--tier-extra)    !important; font-weight: 700 !important; }
+  .tree-glyph-uni  { color: var(--tier-unique)   !important; font-weight: 900 !important; }
+  .tree-glyph-basic{ color: var(--tier-basic)    !important; }
+
+  /* ── Rank chips [N★] / [N★ · Name] — token-bound ── */
+  .tree-rank        { color: var(--muted) !important; } /* brackets */
+  .tree-rank-digit  { font-weight: 700 !important; }
+  .tree-rank-sep    { color: var(--muted) !important; opacity: .55 !important; }
+  .tree-rank-suffix { color: var(--muted) !important; }
+  .tree-rank-0 .tree-rank-digit { color: var(--rank-0) !important; }
+  .tree-rank-1 .tree-rank-digit { color: var(--rank-1) !important; }
+  .tree-rank-2 .tree-rank-digit { color: var(--rank-2) !important; }
+  .tree-rank-3 .tree-rank-digit { color: var(--rank-3) !important; }
+  .tree-rank-4 .tree-rank-digit { color: var(--rank-4) !important; }
+  .tree-rank-5 .tree-rank-digit { color: var(--rank-5) !important; }
+  .tree-rank-6 .tree-rank-digit { color: var(--rank-6) !important; }
+
+  /* ── Owned / unowned markers ── */
+  .tree-owned   { color: var(--apex-gold) !important; font-weight: 800 !important; }
+  .tree-unowned { color: var(--muted) !important; opacity: .5 !important; }
+
+  /* ── Unclaimed label (Honor Red) ── */
+  .tree-unclaimed { color: var(--honor-red) !important; font-weight: 700 !important; }
+
+  /* ── Shared-prereq marker (↑ see above) — muted italic ── */
+  .tree-shared { color: var(--muted) !important; font-style: italic !important; opacity: .7 !important; }
+
   /* ── Tree Highlighting ── */
   .tree-ult-line { font-weight: 700 !important; color: var(--text) !important; }
-  .tree-ult-contributor { color: #ef4444 !important; font-weight: 800 !important; text-shadow: 0 0 8px rgba(239,68,68,0.4) !important; }
+  .tree-ult-contributor { color: var(--honor-red) !important; font-weight: 800 !important; text-shadow: 0 0 8px rgba(239,68,68,0.4) !important; }
   .tree-ult-slash { color: var(--muted) !important; opacity: 0.5 !important; }
-  .tree-ult-skillname, .tree-ult-id { color: #f59e0b !important; font-weight: 700 !important; }
-  
+  .tree-ult-skillname, .tree-ult-id { color: var(--tier-ultimate) !important; font-weight: 700 !important; }
+
   .tree-unique-line { font-weight: 700 !important; color: var(--text) !important; }
-  .tree-unique-contributor { color: #ef4444 !important; font-weight: 800 !important; }
+  .tree-unique-contributor { color: var(--honor-red) !important; font-weight: 800 !important; }
   .tree-unique-slash { color: var(--muted) !important; opacity: 0.5 !important; }
   .tree-unique-skillname {
-    color: #000 !important;
+    color: var(--tier-unique) !important;
     font-weight: 900 !important;
-    text-shadow: 0 0 8px #7c3aed, 0 0 16px rgba(124,58,237,0.4) !important;
-    -webkit-text-stroke: 1px rgba(124,58,237,0.6) !important;
+    text-shadow: 0 0 8px rgba(124,58,237,0.6), 0 0 16px rgba(124,58,237,0.3) !important;
   }
   .tree-unique-gold {
-    text-shadow: 0 0 8px #fbbf24, 0 0 16px rgba(251,191,36,0.4) !important;
-    -webkit-text-stroke: 1px rgba(251,191,36,0.6) !important;
+    color: var(--rank-5) !important;
+    text-shadow: 0 0 8px rgba(251,191,36,0.6), 0 0 16px rgba(251,191,36,0.3) !important;
   }
-  .tree-unique-glyph { color: #7c3aed !important; }
 
   .tree-extra-line { font-weight: 600 !important; color: var(--text) !important; }
-  .tree-extra-glyph { color: #c084fc !important; }
-  .tree-extra-contributor { color: #ef4444 !important; font-weight: 700 !important; }
+  .tree-extra-contributor { color: var(--honor-red) !important; font-weight: 700 !important; }
   .tree-extra-slash { color: var(--muted) !important; opacity: 0.5 !important; }
-  .tree-extra-skillname, .tree-extra-id { color: #c084fc !important; }
+  .tree-extra-skillname, .tree-extra-id { color: var(--tier-extra) !important; }
 
   .tree-basic-line { color: var(--text) !important; }
-  .tree-basic-glyph { color: #38bdf8 !important; }
-  .tree-basic-contributor { color: #ef4444 !important; font-weight: 600 !important; }
+  .tree-basic-contributor { color: var(--honor-red) !important; font-weight: 600 !important; }
   .tree-basic-slash { color: var(--muted) !important; opacity: 0.5 !important; }
-  .tree-basic-skillname, .tree-basic-id { color: #38bdf8 !important; }
+  .tree-basic-skillname, .tree-basic-id { color: var(--tier-basic) !important; }
 
   .tree-sep { color: rgba(56,189,248,0.25) !important; }
   .skill-tooltip{

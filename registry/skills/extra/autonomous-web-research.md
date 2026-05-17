@@ -1,4 +1,4 @@
-# Extra Skill: /autonomous-web-research  [4★ · Hardened]
+# /autonomous-web-research  [4★ · Hardened]
 **ID:** autonomous-web-research  
 **Type:** Extra Skill  
 **Level:** 4★  

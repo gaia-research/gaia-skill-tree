@@ -1,4 +1,4 @@
-# Extra Skill: /function-calling  [3★ · Evolved]
+# /function-calling  [3★ · Evolved]
 **ID:** function-calling  
 **Type:** Extra Skill  
 **Level:** 3★  

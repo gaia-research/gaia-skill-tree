@@ -1,4 +1,4 @@
-# Extra Skill: [mattpocock](../../../docs/u/mattpocock/)/grill-with-docs  [3★ · Evolved]
+# [mattpocock](../../../docs/u/mattpocock/)/grill-with-docs  [3★ · Evolved]
 **ID:** design-review  
 **Type:** Extra Skill  
 **Level:** 3★  

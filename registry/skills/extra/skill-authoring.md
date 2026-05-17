@@ -1,4 +1,4 @@
-# Extra Skill: /skill-authoring  [4★ · Hardened]
+# /skill-authoring  [4★ · Hardened]
 **ID:** skill-authoring  
 **Type:** Extra Skill  
 **Level:** 4★  

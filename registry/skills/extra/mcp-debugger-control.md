@@ -1,4 +1,4 @@
-# Extra Skill: /mcp-debugger-control  [4★ · Hardened]
+# /mcp-debugger-control  [4★ · Hardened]
 **ID:** mcp-debugger-control  
 **Type:** Extra Skill  
 **Level:** 4★  

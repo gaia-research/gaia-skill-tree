@@ -1,4 +1,4 @@
-# Unique Skill: [huggingface](../../../docs/u/huggingface/)/semantic-cache  [4★ · Hardened]
+# [huggingface](../../../docs/u/huggingface/)/semantic-cache  [4★ · Hardened]
 **ID:** semantic-cache  
 **Type:** Unique Skill  
 **Level:** 4★  

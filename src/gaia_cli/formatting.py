@@ -4,6 +4,7 @@ Implements the three-tier slash-naming hierarchy with ANSI coloring.
 """
 
 from __future__ import annotations
+import json
 import os
 import sys
 
@@ -36,24 +37,53 @@ def _bold() -> str:
     return "\033[1m" if _use_color() else ""
 
 
-# --- Color palettes ---
+# --- Color palettes (single source of truth: registry/gaia.json meta) ---
 
-TIER_COLORS = {
-    "basic": (56, 189, 248),
-    "extra": (192, 132, 252),
-    "unique": (124, 58, 237),
-    "ultimate": (245, 158, 11),
-}
+def _hex_to_rgb(hex_str: str) -> tuple[int, int, int]:
+    h = hex_str.lstrip("#")
+    return (int(h[0:2], 16), int(h[2:4], 16), int(h[4:6], 16))
 
-RANK_COLORS = {
-    "0★":   (148, 163, 184),   # Slate
-    "1★":   (56, 189, 248),    # Sky
-    "2★":  (99, 202, 183),    # Teal
-    "3★": (167, 139, 250),   # Violet
-    "4★":  (232, 121, 249),   # Fuchsia
-    "5★":   (251, 191, 36),    # Amber
-    "6★":  (251, 191, 36),    # Amber bright
-}
+
+def _load_palette_from_registry() -> tuple[dict, dict]:
+    """Parse TIER_COLORS and RANK_COLORS from gaia.json at module load."""
+    _fallback_tier = {
+        "basic": (56, 189, 248),
+        "extra": (192, 132, 252),
+        "unique": (124, 58, 237),
+        "ultimate": (245, 158, 11),
+    }
+    _fallback_rank = {
+        "0★": (148, 163, 184),
+        "1★": (56, 189, 248),
+        "2★": (99, 202, 183),
+        "3★": (167, 139, 250),
+        "4★": (232, 121, 249),
+        "5★": (251, 191, 36),
+        "6★": (251, 191, 36),
+    }
+    try:
+        _here = os.path.dirname(os.path.abspath(__file__))
+        _root = os.path.dirname(os.path.dirname(_here))
+        _path = os.path.join(_root, "registry", "gaia.json")
+        with open(_path, "r", encoding="utf-8") as _f:
+            _data = json.load(_f)
+        _meta = _data.get("meta", {})
+        tier_colors = {
+            k: _hex_to_rgb(v["hex"])
+            for k, v in _meta.get("typeColors", {}).items()
+            if "hex" in v
+        } or _fallback_tier
+        rank_colors = {
+            k: _hex_to_rgb(v["hex"])
+            for k, v in _meta.get("levelColors", {}).items()
+            if "hex" in v
+        } or _fallback_rank
+        return tier_colors, rank_colors
+    except Exception:
+        return _fallback_tier, _fallback_rank
+
+
+TIER_COLORS, RANK_COLORS = _load_palette_from_registry()
 
 TYPE_SYMBOLS = {"basic": "○", "extra": "◇", "unique": "◉", "ultimate": "◆"}
 

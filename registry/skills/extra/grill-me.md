@@ -1,4 +1,4 @@
-# Extra Skill: /grill-me  [4★ · Hardened]
+# /grill-me  [4★ · Hardened]
 **ID:** grill-me  
 **Type:** Extra Skill  
 **Level:** 4★  
