@@ -369,13 +369,25 @@
           return ''; // fallback
         }
 
+        function createNodeLabel(id) {
+          var parts = id.split('/');
+          var contrib = parts[0] || '';
+          var skillName = parts[1] || id;
+          if (contrib && parts.length > 1) {
+            return '<div class="dag-node-label"><span class="dag-node-label-contrib">' + esc(contrib) + '</span><span style="color:var(--muted)">/</span><span class="dag-node-label-name">' + esc(skillName) + '</span></div>';
+          } else {
+            return '<div class="dag-node-label"><span class="dag-node-label-name">' + esc(id) + '</span></div>';
+          }
+        }
+
         if (id === genericId && buckets[id] && buckets[id].length > 1) {
           var siblings = buckets[id];
           var topType = ns.type || 'basic';
           var topLevel = ns.level || '';
           var colorVar = topLevel.indexOf('6') !== -1 ? '#ffffff' : 'var(--tier-' + topType + ', var(--muted))';
-          var deckHtml = '<div class="git-node' + extraMainClass + '" data-id="' + esc(id) + '" data-type="' + esc(topType) + '" data-level="' + esc(topLevel) + '" data-ghost="false" style="--staggerY:' + staggerY + 'px" onmouseenter="if(window.highlightPaths)window.highlightPaths(\''+esc(id)+'\')" onmouseleave="if(window.unhighlightPaths)window.unhighlightPaths()">';
+          var deckHtml = '<div class="git-node' + extraMainClass + '" data-id="' + esc(id) + '" data-type="' + esc(topType) + '" data-level="' + esc(topLevel) + '" data-ghost="false" style="--staggerY:' + staggerY + 'px" onclick="if(window.selectFlowNode)window.selectFlowNode(\''+esc(id)+'\');" onmouseenter="if(!window._selectedFlowNode&&window.highlightPaths)window.highlightPaths(\''+esc(id)+'\')" onmouseleave="if(!window._selectedFlowNode&&window.unhighlightPaths)window.unhighlightPaths()">';
           deckHtml += '<div class="git-commit-dot" style="--dot-color: ' + colorVar + '"></div>';
+          deckHtml += createNodeLabel(id);
           deckHtml += '<div class="se-stack-deck" data-count="' + siblings.length + '">';
           siblings.forEach(function(sib, idxSib) {
             var isCur = sib.id === ns.id;
@@ -402,8 +414,9 @@
               attrs: ' data-type="' + esc(nb.type||'basic') + '" style="cursor:pointer;"',
               onclick: 'if(event.target.closest("a")) return; openSkillExplorer(\'' + nb.id.replace(/'/g,"\\'") + '\');'
             };
-            return '<div class="git-node' + extraMainClass + '" data-id="' + esc(id) + '" data-type="' + esc(nb.type||'basic') + '" data-level="' + esc(nb.level || '') + '" data-ghost="false" style="--staggerY:' + staggerY + 'px" onmouseenter="if(window.highlightPaths)window.highlightPaths(\''+esc(id)+'\')" onmouseleave="if(window.unhighlightPaths)window.unhighlightPaths()">' +
+            return '<div class="git-node' + extraMainClass + '" data-id="' + esc(id) + '" data-type="' + esc(nb.type||'basic') + '" data-level="' + esc(nb.level || '') + '" data-ghost="false" style="--staggerY:' + staggerY + 'px" onclick="if(window.selectFlowNode)window.selectFlowNode(\''+esc(id)+'\');" onmouseenter="if(!window._selectedFlowNode&&window.highlightPaths)window.highlightPaths(\''+esc(id)+'\')" onmouseleave="if(!window._selectedFlowNode&&window.unhighlightPaths)window.unhighlightPaths()">' +
               '<div class="git-commit-dot" style="--dot-color: ' + colorVarNamed + '"></div>' +
+              createNodeLabel(id) +
               renderPlaqueNode(nb, nbOpts) +
             '</div>';
           } else {
@@ -416,8 +429,9 @@
               attrs: ' data-type="' + esc(s.type||'basic') + '" style="cursor:pointer;"',
               onclick: 'openSkillExplorer(\'' + id.replace(/'/g,"\\'") + '\');'
             };
-            return '<div class="git-node' + extraMainClass + '" data-id="' + esc(id) + '" data-type="' + esc(s.type||'') + '" data-level="' + esc(s.level || '') + '" data-ghost="true" style="--staggerY:' + staggerY + 'px" onmouseenter="if(window.highlightPaths)window.highlightPaths(\''+esc(id)+'\')" onmouseleave="if(window.unhighlightPaths)window.unhighlightPaths()">' +
+            return '<div class="git-node' + extraMainClass + '" data-id="' + esc(id) + '" data-type="' + esc(s.type||'') + '" data-level="' + esc(s.level || '') + '" data-ghost="true" style="--staggerY:' + staggerY + 'px" onclick="if(window.selectFlowNode)window.selectFlowNode(\''+esc(id)+'\');" onmouseenter="if(!window._selectedFlowNode&&window.highlightPaths)window.highlightPaths(\''+esc(id)+'\')" onmouseleave="if(!window._selectedFlowNode&&window.unhighlightPaths)window.unhighlightPaths()">' +
               '<div class="git-commit-dot" style="--dot-color: ' + colorVarGhost + '"></div>' +
+              createNodeLabel(id) +
               renderPlaqueNode(miniNs, ghostOpts) +
             '</div>';
           }
@@ -476,7 +490,93 @@
       trace(nodeId);
     };
     window.unhighlightPaths = function() {
-      document.querySelectorAll('.git-path').forEach(function(p) { p.classList.remove('active-path'); });
+      if (!window._selectedFlowNode) {
+        document.querySelectorAll('.git-path').forEach(function(p) { p.classList.remove('active-path', 'dimmed'); });
+        document.querySelectorAll('.git-node.show-label').forEach(function(n) { n.classList.remove('show-label'); });
+      }
+    };
+
+    if (!window._seClickHandlerAdded) {
+      document.addEventListener('click', function(e) {
+        var clickedNode = e.target.closest('.git-node');
+        if (!clickedNode && !e.target.closest('.se-flowchart-wrap')) {
+          window._selectedFlowNode = null;
+          document.querySelectorAll('.git-node.selected').forEach(function(n) { n.classList.remove('selected'); });
+          document.querySelectorAll('.git-node.show-label').forEach(function(n) { n.classList.remove('show-label'); });
+          document.querySelectorAll('.git-path.dimmed').forEach(function(p) { p.classList.remove('dimmed'); });
+          window.unhighlightPaths && window.unhighlightPaths();
+        }
+      });
+      window._seClickHandlerAdded = true;
+    }
+
+    window.selectFlowNode = function(nodeId) {
+      var relatedNodes = window.getSeRelatedNodes(nodeId, edges);
+
+      document.querySelectorAll('.git-node.selected').forEach(function(n) { n.classList.remove('selected'); });
+      document.querySelectorAll('.git-node.show-label').forEach(function(n) { n.classList.remove('show-label'); });
+
+      var node = document.querySelector('.git-node[data-id="' + nodeId.replace(/"/g, '\\"') + '"]');
+      if (node) {
+        node.classList.add('selected');
+        window._selectedFlowNode = nodeId;
+        window.highlightPaths && window.highlightPaths(nodeId);
+        window.dimUnrelatedFlowPaths && window.dimUnrelatedFlowPaths(nodeId, edges);
+      }
+    };
+    window._selectedFlowNode = null;
+
+    var edgeMap = {};
+    (edges || []).forEach(function(e) {
+      var id = 'path-' + e.from + '-' + e.to;
+      if (!edgeMap[id]) edgeMap[id] = e;
+    });
+
+    window.getSeRelatedNodes = function(nodeId, edgeList) {
+      var related = {};
+      related[nodeId] = true;
+
+      function traceUp(id) {
+        (edgeList || []).forEach(function(e) {
+          if (e.to === id && !related[e.from]) {
+            related[e.from] = true;
+            traceUp(e.from);
+          }
+        });
+      }
+
+      function traceDown(id) {
+        (edgeList || []).forEach(function(e) {
+          if (e.from === id && !related[e.to]) {
+            related[e.to] = true;
+            traceDown(e.to);
+          }
+        });
+      }
+
+      traceUp(nodeId);
+      traceDown(nodeId);
+      return related;
+    };
+
+    window.dimUnrelatedFlowPaths = function(nodeId, edgeList) {
+      var relatedNodes = window.getSeRelatedNodes(nodeId, edgeList);
+      document.querySelectorAll('.git-path').forEach(function(p) {
+        p.classList.remove('dimmed');
+      });
+
+      (edgeList || []).forEach(function(e) {
+        if (!relatedNodes[e.from] || !relatedNodes[e.to]) {
+          var pathId = 'path-' + e.from + '-' + e.to;
+          var p = document.getElementById(pathId);
+          if (p) p.classList.add('dimmed');
+        }
+      });
+
+      Object.keys(relatedNodes).forEach(function(id) {
+        var node = document.querySelector('.git-node[data-id="' + id.replace(/"/g, '\\"') + '"]');
+        if (node) node.classList.add('show-label');
+      });
     };
 
     (edges || []).forEach(function(e, i) {
@@ -487,39 +587,35 @@
       var fr = (dotF || fromEl).getBoundingClientRect();
       var dotT = toEl.querySelector('.git-commit-dot');
       var tr = (dotT || toEl).getBoundingClientRect();
-      
+
       var fx = fr.left + fr.width/2 - wRect.left + wrap.scrollLeft;
       var fy = fr.top + fr.height/2 - wRect.top + wrap.scrollTop;
       var tx = tr.left + tr.width/2 - wRect.left + wrap.scrollLeft;
       var ty = tr.top + tr.height/2 - wRect.top + wrap.scrollTop;
-      
+
       var dx = tx - fx;
       var dy = ty - fy;
-      var sign = dx >= 0 ? 1 : -1;
-      
-      // Scatter y_mid downward or upward based on edge index to avoid uniform horizontal overlaps
-      var y_mid = fy + dy / 2 + ((i % 7) - 3) * 14;
-      
-      var isSixStar = fromEl.getAttribute('data-level') && fromEl.getAttribute('data-level').indexOf('6') !== -1;
-      var colorStr = isSixStar ? '#ffffff' : 'var(--apex-gold, #fbbf24)';
-      
+
+      // Organic S-curve: control points pull vertically out of each endpoint,
+      // creating a flowing vein / river-branch appearance instead of sharp elbows.
+      var ctrlDist = Math.abs(dy) * 0.55 + Math.abs(dx) * 0.12;
+      var d = 'M' + fx + ',' + fy +
+              ' C' + fx + ',' + (fy + ctrlDist) +
+              ' ' + tx + ',' + (ty - ctrlDist) +
+              ' ' + tx + ',' + ty;
+
+      // Detect tier from source node — drives CSS color via [data-tier]
+      var fromType = fromEl.getAttribute('data-type') || 'basic';
+      var fromLevel = fromEl.getAttribute('data-level') || '';
+      var tier = fromLevel.indexOf('6') !== -1 ? 'apex'
+               : ['ultimate','unique','extra','basic'].indexOf(fromType) !== -1 ? fromType
+               : 'basic';
+
       var path = document.createElementNS('http://www.w3.org/2000/svg','path');
       path.setAttribute('id', 'path-' + e.from + '-' + e.to);
-      if (Math.abs(dx) < 25) {
-        // Direct straight line
-        path.setAttribute('d', 'M' + fx + ' ' + fy + ' L' + tx + ' ' + ty);
-      } else {
-        var max_hx = Math.abs(dx) / 2;
-        // Allows lines to be steeper or shallower than strict 60 degrees
-        var hx1 = Math.min(Math.abs(y_mid - fy) / 1.73205, max_hx);
-        var hx2 = Math.min(Math.abs(ty - y_mid) / 1.73205, max_hx);
-        var mx1 = fx + sign * hx1;
-        var mx2 = tx - sign * hx2;
-        path.setAttribute('d','M'+fx+','+fy+' L'+mx1+','+y_mid+' L'+mx2+','+y_mid+' L'+tx+','+ty);
-      }
-      path.setAttribute('class','git-path');
-      path.style.stroke = colorStr;
-      path.style.strokeWidth = '1px';
+      path.setAttribute('d', d);
+      path.setAttribute('class', 'git-path');
+      path.setAttribute('data-tier', tier);
       svg.appendChild(path);
     });
   }
