@@ -38,11 +38,11 @@
       <span></span>
     </button>
     <ul>
-      <li><button type="button" class="nav-graph-trigger" data-graph-trigger aria-controls="skillGraphDialog">Registry</button></li>
+      <li><button type="button" class="nav-graph-trigger" data-graph-trigger aria-controls="skillGraphDialog">Graph (3D)</button></li>
       <li><a href="#hall-of-heroes">Hall of Heroes</a></li>
       <li><a href="codex.html">The Codex</a></li>
       <li><button type="button" class="nav-tree" id="treeNavBtn">Tree</button></li>
-      <li><button type="button" class="nav-copy-agent" id="copyAgentBtn" title="Copy Agent-friendly Markdown for LLMs/Agents" aria-label="Copy page context for agents">Copy Page</button></li>
+      <li><button type="button" class="nav-copy-agent" id="copyAgentBtn" title="Copy Agent-friendly Markdown for LLMs/Agents" aria-label="Copy page context for agents"><svg class="ico" width="15" height="15" aria-hidden="true"><use href="assets/icons.svg#copy"/></svg></button></li>
       <li><button type="button" class="nav-search-btn" id="navSearchBtn" aria-label="Search named"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#search"/></svg></button></li>
     </ul>
   </nav>
@@ -120,12 +120,7 @@
       <div class="graph-canvas-wrap">
         <canvas id="graphDialogCanvas"></canvas>
         <div class="graph-status" data-graph-status>Loading full graph…</div>
-        <div class="graph-mobile-hint plaque plaque--callout" id="graphMobileHint" role="dialog" aria-labelledby="graphMobileHintTitle">
-          <svg class="graph-mobile-hint-icon" width="40" height="40" aria-hidden="true"><use href="assets/icons.svg#monitor"/></svg>
-          <div class="graph-mobile-hint-title" id="graphMobileHintTitle">Best on desktop</div>
-          <div class="graph-mobile-hint-sub">The skill graph is interactive and easiest to explore on a larger screen.</div>
-          <button class="graph-mobile-hint-dismiss" id="graphMobileHintDismiss">Show anyway</button>
-        </div>
+
       </div>
     </div>
   </dialog>

@@ -218,11 +218,11 @@
   .nav-graph-trigger{
     background:none;border:none;cursor:pointer;padding:.1rem .25rem;
     font-family:var(--font-body);font-size:.9rem;letter-spacing:.01em;
-    color:var(--muted);line-height:inherit;
+    color:var(--basic)!important;line-height:inherit;
     transition:color .2s,box-shadow .15s;
     border-radius:4px;
   }
-  .nav-graph-trigger:hover{color:var(--text)}
+  .nav-graph-trigger:hover{color:#7dd3fc!important}
   .nav-graph-trigger:focus-visible{
     color:var(--text);outline:none;
     box-shadow:0 0 0 2px rgba(var(--tier-basic-rgb),.4);
