@@ -104,7 +104,7 @@
   function _fieldHandleRow(ns) {
     var contribLink = handleLink(ns && ns.contributor || '');
     if (!contribLink) return '';
-    return '<div class="plaque__handle plaque-contrib-row">' + contribLink + _fieldOriginStar(ns) + '</div>';
+    return '<div class="plaque__handle plaque-contrib-row">' + contribLink + _fieldOriginBadge(ns) + '</div>';
   }
 
   function _fieldDescription(ns) {
@@ -141,12 +141,12 @@
       icon('github', 14) + '</a>';
   }
 
-  function _fieldOriginStar(ns) {
+  function _fieldOriginBadge(ns) {
     if (!ns || !ns.origin) return '';
-    // Stage 4 — render the origin star from the shared sprite so it inherits
+    // Stage 4 — render the origin badge from the shared sprite so it inherits
     // --honor-red via currentColor.
     return '<span class="plaque__origin ns-origin" title="Origin contributor" aria-label="Origin contributor">' +
-      icon('origin-star', 12) + '</span>';
+      icon('origin-badge', 16) + '</span>';
   }
 
   // Install row — shared mini-terminal block (used by tile / detail / settled).
@@ -376,7 +376,7 @@
       rank: _fieldRank,
       install: _fieldInstallRow,
       gh: _fieldGhLink,
-      origin: _fieldOriginStar,
+      origin: _fieldOriginBadge,
     },
   };
 

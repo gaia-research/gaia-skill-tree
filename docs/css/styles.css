@@ -207,6 +207,9 @@
   .nav-tree{color:var(--ultimate)!important;font-family:var(--font-body);font-size:.9rem;letter-spacing:.01em}
   .nav-tree:hover{color:#fcd34d!important}
   button.nav-tree{background:none;border:none;cursor:pointer;padding:0;line-height:inherit}
+  .nav-copy-agent{color:var(--tier-basic)!important;font-family:var(--font-body);font-size:.9rem;letter-spacing:.01em}
+  .nav-copy-agent:hover{color:#38bdf8!important}
+  button.nav-copy-agent{background:none;border:none;cursor:pointer;padding:0;line-height:inherit}
   .nav-named-explorer{color:#ef4444!important;font-weight:700;font-family:var(--font-body)}
   .nav-named-explorer:hover{color:#f87171!important}
   /* Registry button looks identical to anchor siblings. Focus ring

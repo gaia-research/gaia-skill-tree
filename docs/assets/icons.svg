@@ -169,9 +169,15 @@
   </symbol>
 
   <!-- ── METADATA / SORT GLYPHS (Stage 4) ───────────────────── -->
-  <!-- Origin star: filled five-pointed star (uses --apex-gold via currentColor). -->
-  <symbol id="origin-star" viewBox="0 0 24 24">
-    <path fill="currentColor" d="M12 2.5l2.9 6.05 6.65.62-5 4.55 1.43 6.53L12 16.95l-5.98 3.3L7.45 13.72l-5-4.55 6.65-.62z"/>
+  <!-- Origin badge: laurel wreath with '1' (uses currentColor). -->
+  <symbol id="origin-badge" viewBox="0 0 24 24">
+    <path fill="currentColor" d="M13 15V8.5h-1.5L9 10v1.5l2-1.2V15h2z" />
+    <path fill="currentColor" d="M6 19.5c-2.5-2-4-5.5-4-9.5 0-.7.1-1.4.3-2 .8 1.4 1.5 2.8 1.5 4 0 5 3 8.5 6 10-.6-1-2-1.5-3.8-2.5z" />
+    <path fill="currentColor" d="M18 19.5c2.5-2 4-5.5 4-9.5 0-.7-.1-1.4-.3-2-.8 1.4-1.5 2.8-1.5 4 0 5-3 8.5-6 10 .6-1 2-1.5 3.8-2.5z" />
+    <path fill="currentColor" d="M4.5 10c1-2 3-3.5 5-3.5-1 .5-1.5 1.5-2 2.5-1.2-1-2.2-1-3-.5z" />
+    <path fill="currentColor" d="M19.5 10c-1-2-3-3.5-5-3.5 1 .5 1.5 1.5 2 2.5 1.2-1 2.2-1 3-.5z" />
+    <path fill="currentColor" d="M4 14.5c1.5-1.5 3.5-1.5 5.5-.5-.5.5-1.5 1-1.5 2-2-.5-3.5 0-4-1.5z" />
+    <path fill="currentColor" d="M20 14.5c-1.5-1.5-3.5-1.5-5.5-.5.5.5 1.5 1 1.5 2 2-.5 3.5 0 4-1.5z" />
   </symbol>
   <!-- Sort arrows: up + down. -->
   <symbol id="sort-arrows" viewBox="0 0 16 16">

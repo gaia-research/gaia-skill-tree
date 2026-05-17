@@ -207,6 +207,59 @@ window.switchOsTab = function(btn) {
   }
 
   /* ─────────────────────────────────────────
+     AGENT COPY BUTTONS
+     ───────────────────────────────────────── */
+  function initAgentCopyBtn() {
+    var btn = document.getElementById('copyAgentBtn');
+    var footerBtn = document.getElementById('copyAgentFooterBtn');
+
+    function handleCopy(targetBtn) {
+      if (!targetBtn || targetBtn.disabled) return;
+      var origText = targetBtn.textContent;
+      targetBtn.disabled = true;
+      targetBtn.textContent = 'Fetching...';
+
+      fetch('agent.md')
+        .then(function(r) {
+          if (!r.ok) throw new Error(r.status);
+          return r.text();
+        })
+        .then(function(text) {
+          return copyToClipboard(text);
+        })
+        .then(function() {
+          targetBtn.textContent = 'Copied!';
+          targetBtn.classList.add('copied');
+          setTimeout(function() {
+            targetBtn.textContent = origText;
+            targetBtn.classList.remove('copied');
+            targetBtn.disabled = false;
+          }, 1800);
+        })
+        .catch(function() {
+          targetBtn.textContent = 'Failed';
+          targetBtn.disabled = false;
+          setTimeout(function() {
+            targetBtn.textContent = origText;
+          }, 1800);
+        });
+    }
+
+    if (btn) {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        handleCopy(btn);
+      });
+    }
+    if (footerBtn) {
+      footerBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        handleCopy(footerBtn);
+      });
+    }
+  }
+
+  /* ─────────────────────────────────────────
      INIT
      ───────────────────────────────────────── */
   function init() {
@@ -214,6 +267,7 @@ window.switchOsTab = function(btn) {
     initNavSheet();
     initFirstLoadReveal();
     initScrollToTop();
+    initAgentCopyBtn();
   }
 
   if(document.readyState === 'loading'){

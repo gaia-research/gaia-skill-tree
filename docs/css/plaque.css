@@ -347,6 +347,9 @@
   font-size: 12px;
   line-height: 1;
   margin-left: 4px;
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
 }
 .plaque__arrow,
 .ns-lr-arrow {
