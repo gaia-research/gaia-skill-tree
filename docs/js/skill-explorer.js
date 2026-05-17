@@ -466,11 +466,6 @@
     document.getElementById('uspGlyph').textContent = glyph;
     document.getElementById('uspGlyph').style.color = glyphColor;
     document.getElementById('uspName').textContent = skill.name || skill.id;
-    if (skill.type === 'ultimate') {
-      document.getElementById('uspName').style.color = 'var(--apex-gold)';
-    } else {
-      document.getElementById('uspName').style.color = 'var(--text)';
-    }
     document.getElementById('uspId').textContent = skill.id;
     var cmd = 'gaia propose /' + skill.id + (skill.type === 'ultimate' ? ' --ultimate' : '');
     document.getElementById('uspCmd').textContent = cmd;
