@@ -91,9 +91,10 @@
   .rank-badge[data-level="5"] .rank-badge__chip { color: var(--rank-5); background: var(--rank-5-bg); border-color: var(--rank-5-border); }
   .rank-badge[data-level="6"] .rank-badge__chip {
     color: var(--apex-gold, #fbbf24);
-    background: #ffffff;
-    border-color: #ffffff;
-    box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
+    background: var(--bg, #030712);
+    border: 1.5px solid #ffffff;
+    box-shadow: 0 0 15px #ffffff, 0 0 5px rgba(255, 255, 255, 0.5);
+    text-shadow: 0 0 8px rgba(251, 191, 36, 0.4);
     animation: none;
   }
 
