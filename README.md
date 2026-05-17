@@ -58,7 +58,7 @@ Skills level up through evidence, not declaration. Each demerit lowers effective
 ## Install
 
 <!-- gaia:version-start -->
-Current Gaia CLI version: `3.11.7`.
+Current Gaia CLI version: `3.11.8`.
 
 Python install:
 
