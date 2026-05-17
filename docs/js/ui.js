@@ -1,5 +1,5 @@
 window.switchOsTab = function(btn) {
-  var step = btn.closest('.step');
+  var step = btn.closest('.rite-step, .step');
   step.querySelectorAll('.os-tab').forEach(function(b){ b.classList.toggle('active', b === btn); });
   step.querySelectorAll('.os-panel').forEach(function(p){ p.classList.toggle('active', p.dataset.os === btn.dataset.os); });
 };

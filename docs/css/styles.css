@@ -550,8 +550,8 @@
   .qs-tip-icon { flex-shrink:0;color:var(--basic); }
   .qs-tip code { font-family:var(--font-mono);font-size:.77rem;color:var(--text);background:rgba(255,255,255,.07);padding:.1rem .32rem;border-radius:3px; }
   .os-tabs { display:flex;gap:.35rem;margin-bottom:.6rem; }
-  .os-tab { background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:.28rem .7rem;font-size:.76rem;color:var(--muted);cursor:pointer;font-family:inherit;transition:color .15s,border-color .15s,background .15s; }
-  .os-tab.active { color:var(--basic);border-color:rgba(56,189,248,.4);background:rgba(56,189,248,.06); }
+  .os-tab { background:transparent;border:none;border-radius:4px;padding:.28rem .7rem;font-size:.76rem;color:rgba(100,116,139,.55);cursor:pointer;font-family:inherit;transition:color .15s; }
+  .os-tab.active { color:var(--text);font-weight:500; }
   .os-panel { display:none; }
   .os-panel.active { display:block; }
   .os-panel pre { white-space:pre-wrap;word-break:break-all; }
