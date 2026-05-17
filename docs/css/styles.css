@@ -374,6 +374,83 @@
   #hero.hero-hud-mode .scroll-hint{
     opacity:.18;pointer-events:none;transition:opacity .4s ease;
   }
+  /* ── FULLSCREEN GRAPH MODE ── */
+  /* Promotes the hero to a fixed viewport-covering state and
+     enables interactive canvas controls. Replaces the old graph
+     dialog that spawned a second canvas instance. */
+  #hero.hero-graph-fullscreen{
+    position:fixed;inset:0;z-index:200;
+    min-height:100vh;height:100vh;
+    padding:0;margin:0;
+    background:var(--bg);
+    animation:graphFullscreenIn .4s cubic-bezier(.2,.8,.2,1) forwards;
+  }
+  @keyframes graphFullscreenIn{
+    from{opacity:0;transform:scale(.96)}
+    to{opacity:1;transform:scale(1)}
+  }
+  #hero.hero-graph-fullscreen #canvas3d{
+    pointer-events:auto;opacity:1;cursor:grab;
+    z-index:1;
+  }
+  #hero.hero-graph-fullscreen .hero-glass-blur,
+  #hero.hero-graph-fullscreen .hero-glass-noise{
+    opacity:0;pointer-events:none;
+  }
+  #hero.hero-graph-fullscreen .hero-content,
+  #hero.hero-graph-fullscreen .hero-pills,
+  #hero.hero-graph-fullscreen .hero-mobile-graph,
+  #hero.hero-graph-fullscreen .scroll-hint{
+    opacity:0;pointer-events:none;
+    transition:opacity .2s ease;
+  }
+  /* Fullscreen chrome — header bar with downloads + close */
+  .graph-fullscreen-chrome{
+    display:none;position:absolute;top:0;left:0;right:0;z-index:10;
+    pointer-events:none;
+  }
+  #hero.hero-graph-fullscreen .graph-fullscreen-chrome{
+    display:block;pointer-events:auto;
+  }
+  .graph-fullscreen-header{
+    display:flex;gap:1rem;align-items:flex-start;justify-content:space-between;
+    padding:1rem 1.2rem;
+    background:linear-gradient(180deg,rgba(3,7,18,.92) 0%,rgba(3,7,18,.4) 80%,transparent 100%);
+    border-bottom:none;
+  }
+  .graph-fullscreen-header .graph-dialog-title{font-weight:800;font-size:1rem;margin-bottom:.15rem}
+  .graph-fullscreen-header .graph-dialog-sub{color:var(--muted);font-size:.82rem}
+  .graph-fullscreen-header .graph-dialog-actions{display:flex;align-items:center;gap:.65rem;flex-wrap:wrap;justify-content:flex-end}
+  /* Fullscreen status bar */
+  .graph-fullscreen-status{
+    display:none;position:absolute;top:.6rem;left:60px;z-index:11;
+    align-items:center;gap:.42rem;flex-wrap:nowrap;
+    pointer-events:none;
+  }
+  #hero.hero-graph-fullscreen .graph-fullscreen-status{
+    display:flex;
+  }
+  /* Re-show interactive chrome when fullscreen is active.
+     The interactive chrome is appended to #hero as children. */
+  #hero.hero-graph-fullscreen .skill-tooltip,
+  #hero.hero-graph-fullscreen .graph-neighbor-cards,
+  #hero.hero-graph-fullscreen .graph-search-wrap,
+  #hero.hero-graph-fullscreen .graph-legend,
+  #hero.hero-graph-fullscreen .graph-scatter-strip,
+  #hero.hero-graph-fullscreen .graph-redpill,
+  #hero.hero-graph-fullscreen .graph-bottom-bar{
+    display:flex !important;
+    z-index:8;
+  }
+  #hero.hero-graph-fullscreen .graph-search-wrap,
+  #hero.hero-graph-fullscreen .graph-legend,
+  #hero.hero-graph-fullscreen .graph-scatter-strip,
+  #hero.hero-graph-fullscreen .graph-redpill{
+    display:block !important;
+  }
+  #hero.hero-graph-fullscreen .skill-tooltip{
+    display:none; /* controlled by JS on hover */
+  }
   h1{
     font-size:clamp(2.4rem,6vw,4rem);
     font-family:var(--font-display);

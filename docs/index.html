@@ -102,28 +102,9 @@
     </div>
   </section>
 
-  <!-- ─── GRAPH DIALOG ─── -->
-  <dialog id="skillGraphDialog" class="graph-dialog" aria-labelledby="skillGraphTitle">
-    <div class="graph-dialog-inner">
-      <div class="graph-dialog-header">
-        <div>
-          <div id="skillGraphTitle" class="graph-dialog-title">Full Gaia Skill Graph</div>
-          <div class="graph-dialog-sub">Rendered from the canonical registry/gaia.json source.</div>
-        </div>
-        <div class="graph-dialog-actions">
-          <a class="graph-download" href="graph/gaia.json" download>Download JSON</a>
-          <a class="graph-download" href="graph/gaia.gexf" download>Download GEXF</a>
-          <a class="graph-download" href="graph/gaia.svg" download>Download SVG</a>
-          <button type="button" class="graph-close" data-graph-close aria-label="Close skill graph">Close</button>
-        </div>
-      </div>
-      <div class="graph-canvas-wrap">
-        <canvas id="graphDialogCanvas"></canvas>
-        <div class="graph-status" data-graph-status>Loading full graph…</div>
-
-      </div>
-    </div>
-  </dialog>
+  <!-- ─── GRAPH DIALOG (deprecated — fullscreen mode now used) ─── -->
+  <!-- Dialog retained in DOM for backwards compatibility but never opened.
+       The Graph (3D) nav button now toggles #hero.hero-graph-fullscreen. -->
 
   <!-- ─── TREE DIALOG ─── -->
   <dialog id="treeDialog" class="tree-dialog" aria-labelledby="treeDialogTitle">

@@ -348,6 +348,15 @@
   function createSkillGraph(canvas, options) {
     const ctx = canvas.getContext('2d');
     const DPR = Math.min(window.devicePixelRatio || 1, 2);
+    // Runtime-mutable options for interactive mode toggling.
+    // When the hero graph goes fullscreen, these flip on so the
+    // single canvas gains drag/zoom/hover/labels without needing
+    // a second graph instance.
+    const _opts = {
+      draggable:  options.draggable  || false,
+      zoomable:   options.zoomable   || false,
+      hoverable:  options.hoverable  || false,
+    };
     const NAMED_LEVELS = new Set(['2★','3★','4★','5★','6★']);
     const state = {
       skills: FALLBACK_SKILLS,
@@ -1071,7 +1080,12 @@
     }
 
     resize();
-    if (options.hoverable) {
+    // ── INTERACTIVE CHROME ──────────────────────────────────────
+    // Created once even if options.hoverable is false at startup.
+    // setInteractive(true) will show/enable these elements later
+    // when the hero graph goes fullscreen.
+    const _interactiveReady = options.hoverable || options._prepareInteractive;
+    if (_interactiveReady) {
       const tip = document.createElement('div');
       tip.className = 'skill-tooltip';
       canvas.parentElement.appendChild(tip);
@@ -1569,11 +1583,19 @@
       setTimeout(redrawSpeedRuler, 50);
       canvas.parentElement.appendChild(bottomBar);
     }
+    // Hide all interactive chrome initially if not interactive at start
+    if (_interactiveReady && !options.hoverable) {
+      const parent = canvas.parentElement;
+      parent.querySelectorAll('.skill-tooltip, .graph-neighbor-cards, .graph-skill-panel, .graph-collection-panel, .graph-search-wrap, .graph-legend, .graph-scatter-strip, .graph-redpill, .graph-bottom-bar').forEach(el => {
+        el.style.display = 'none';
+        el.dataset.interactiveChrome = '1';
+      });
+    }
     window.addEventListener('resize', resize);
     const pointerTarget = options.pointerTarget || canvas;
     pointerTarget.addEventListener('mousemove', event => {
       const rect = canvas.getBoundingClientRect();
-      if (options.draggable && state.dragging) {
+      if (_opts.draggable && state.dragging) {
         if (state.dragMode === 'orbit') {
           state.orbitY += (event.clientX - state.dragLastX) * 0.007;
           state.orbitX += (event.clientY - state.dragLastY) * 0.007;
@@ -1588,7 +1610,7 @@
       } else {
         state.mx = ((event.clientX - rect.left) / Math.max(rect.width, 1) - 0.5) * 2;
         state.my = ((event.clientY - rect.top) / Math.max(rect.height, 1) - 0.5) * 2;
-        if (options.hoverable) {
+        if (_opts.hoverable) {
           const mx = event.clientX - rect.left;
           const my = event.clientY - rect.top;
           let closest = null, closestDist = 22;
@@ -1597,47 +1619,50 @@
             if (d < closestDist) { closestDist = d; closest = id; }
           });
           state.hoveredId = closest;
-          canvas.style.cursor = closest ? 'pointer' : (options.draggable ? 'grab' : 'default');
+          canvas.style.cursor = closest ? 'pointer' : (_opts.draggable ? 'grab' : 'default');
         }
       }
     });
-    if (options.draggable) {
-      canvas.style.cursor = 'grab';
-      canvas.addEventListener('mouseleave', () => { if (!state.dragging && !state.pinnedId) state.hoveredId = null; });
-      canvas.addEventListener('contextmenu', e => e.preventDefault());
-      canvas.addEventListener('mousedown', e => {
-        if (e.button === 2) return;
-        e.preventDefault();
-        state.dragging = true;
-        state.dragMode = (e.button === 1 || e.ctrlKey) ? 'orbit' : 'pan';
-        state.dragMoved = false;
-        state.dragStartX = e.clientX;
-        state.dragStartY = e.clientY;
-        state.dragLastX = e.clientX;
-        state.dragLastY = e.clientY;
-        canvas.style.cursor = state.dragMode === 'orbit' ? 'grabbing' : 'move';
-      });
-      window.addEventListener('mouseup', e => {
-        if (!state.dragging) return;
-        const didClick = !state.dragMoved;
-        state.dragging = false;
-        state.dragMoved = false;
-        canvas.style.cursor = state.hoveredId ? 'pointer' : 'grab';
-        if (didClick) {
-          if (state.hoveredId) {
-            state.pinnedId = state.hoveredId;
-            state.pinnedPos = null;
-            state.lastHoveredId = null;
-          } else {
-            state.pinnedId = null;
-            state.pinnedPos = null;
-            state.lastHoveredId = null;
-          }
+    // Drag + click handlers — always wired so setInteractive() can
+    // toggle _opts.draggable at runtime. Guard checks _opts.draggable
+    // inside the handler so they're live.
+    canvas.addEventListener('mouseleave', () => { if (!state.dragging && !state.pinnedId) state.hoveredId = null; });
+    canvas.addEventListener('contextmenu', e => { if (_opts.draggable) e.preventDefault(); });
+    canvas.addEventListener('mousedown', e => {
+      if (!_opts.draggable) return;
+      if (e.button === 2) return;
+      e.preventDefault();
+      state.dragging = true;
+      state.dragMode = (e.button === 1 || e.ctrlKey) ? 'orbit' : 'pan';
+      state.dragMoved = false;
+      state.dragStartX = e.clientX;
+      state.dragStartY = e.clientY;
+      state.dragLastX = e.clientX;
+      state.dragLastY = e.clientY;
+      canvas.style.cursor = state.dragMode === 'orbit' ? 'grabbing' : 'move';
+    });
+    window.addEventListener('mouseup', e => {
+      if (!state.dragging) return;
+      const didClick = !state.dragMoved;
+      state.dragging = false;
+      state.dragMoved = false;
+      canvas.style.cursor = state.hoveredId ? 'pointer' : (_opts.draggable ? 'grab' : 'default');
+      if (didClick) {
+        if (state.hoveredId) {
+          state.pinnedId = state.hoveredId;
+          state.pinnedPos = null;
+          state.lastHoveredId = null;
+        } else {
+          state.pinnedId = null;
+          state.pinnedPos = null;
+          state.lastHoveredId = null;
         }
-      });
-    }
-    if (options.zoomable) {
+      }
+    });
+    // Zoom handler — always attached, guarded by _opts.zoomable.
+    {
       canvas.addEventListener('wheel', e => {
+        if (!_opts.zoomable) return;
         e.preventDefault();
         state.zoom = Math.max(0.3, Math.min(3.0, state.zoom * (1 - e.deltaY * 0.001)));
         if (state.zoomCounterEl) state.zoomCounterEl.textContent = state.zoom.toFixed(1) + '×';
@@ -1681,7 +1706,44 @@
     if (state.running) draw();
     function setNamedMap(map) { state.namedMap = map || {}; }
     function setTitleMap(map) { state.titleMap = map || {}; }
-    return { setSkills, setNamedMap, setTitleMap, resize, start, stop, resetFilters };
+
+    // ── RUNTIME MODE SWITCHING ──────────────────────────────────
+    // setInteractive(on) — promote the ambient hero graph into a
+    // fully interactive exploration canvas (or demote it back).
+    // This avoids creating a second graph instance.
+    function setInteractive(on) {
+      _opts.draggable  = on;
+      _opts.zoomable   = on;
+      _opts.hoverable  = on;
+      canvas.style.pointerEvents = on ? 'auto' : 'none';
+      canvas.style.cursor = on ? 'grab' : 'default';
+      // Toggle visibility of interactive chrome elements
+      const parent = canvas.parentElement;
+      if (parent) {
+        parent.querySelectorAll('[data-interactive-chrome]').forEach(el => {
+          el.style.display = on ? '' : 'none';
+        });
+      }
+      if (!on) {
+        // Clear any interactive state
+        state.hoveredId = null;
+        state.pinnedId = null;
+        state.pinnedPos = null;
+        state.lastHoveredId = null;
+        state.dragging = false;
+        if (state.tooltipEl) state.tooltipEl.style.display = 'none';
+        if (state.neighborCardsEl) { state.neighborCardsEl.style.display = 'none'; state.neighborCardsEl.innerHTML = ''; state._neighborIds = null; }
+        if (state.skillPanelEl) state.skillPanelEl.style.display = 'none';
+      }
+    }
+    function setLabelMode(mode) {
+      state.labelMode = mode;
+      if (state.labelsToggleEl) state.labelsToggleEl.classList.toggle('off', mode === 'none');
+    }
+    function getStatusEl() { return state.statusEl; }
+    function setStatusEl(el) { state.statusEl = el; setSkills(state.skills); }
+
+    return { setSkills, setNamedMap, setTitleMap, resize, start, stop, resetFilters, setInteractive, setLabelMode, getStatusEl, setStatusEl };
   }
 
   const hero = document.getElementById('hero');
@@ -1724,53 +1786,102 @@
     if (dialogTitle) dialogTitle.textContent = '@' + _graphIdentity.handle + ' · Atlas';
   }
 
+  // ── SINGLE GRAPH INSTANCE ─────────────────────────────────────
+  // Only one createSkillGraph call. The hero graph starts ambient
+  // (no labels, no interaction). Clicking "Graph (3D)" promotes it
+  // to fullscreen interactive mode with labels, zoom, pan, hover.
+  // This halves GPU/memory usage vs. the previous two-canvas setup.
   const heroGraph = createSkillGraph(document.getElementById('canvas3d'), {
     labelMode:'none',
     scale:GRAPH_SCALE,
-    stars:isMobile ? 120 : 280, // Fewer stars on mobile for performance
+    stars:isMobile ? 120 : 280,
     pointerTarget:hero,
     graphMode: _graphIdentity.mode,
     graphHandle: _graphIdentity.handle,
-  });
-  const modalGraph = createSkillGraph(document.getElementById('graphDialogCanvas'), {
-    labelMode:'all', scale:1.8, stars:320, statusEl:document.querySelector('[data-graph-status]'),
-    autostart:false, zoomable:true, draggable:true, hoverable:true,
-    graphMode: _graphIdentity.mode,
-    graphHandle: _graphIdentity.handle,
-    // TODO(stage-5-local): in local mode the scatter strip should
-    // pull from the user's owned-skill counts instead of the
-    // canonical scale. Data plumbing for that lives in
-    // src/gaia_cli/localContext.py and isn't wired into the docs
-    // bundle yet — leave the public-scale ruler for now.
+    _prepareInteractive: true,   // build chrome but keep hidden
   });
 
-  function peek(on) { hero.classList.toggle('hero-graph-peek', Boolean(on)); }
+  // ── FULLSCREEN GRAPH MODE ────────────────────────────────────
+  // Instead of opening a dialog with a second canvas, we toggle
+  // #hero into a fixed fullscreen state and enable interactivity
+  // on the existing canvas.
+  let _graphFullscreen = false;
+
+  // Build status bar for fullscreen mode
+  const _graphStatusBar = document.createElement('div');
+  _graphStatusBar.className = 'graph-fullscreen-status';
+  _graphStatusBar.setAttribute('data-graph-status', '');
+  hero.appendChild(_graphStatusBar);
+
+  // Build the close button overlay for fullscreen mode
+  const _graphCloseOverlay = document.createElement('div');
+  _graphCloseOverlay.className = 'graph-fullscreen-chrome';
+  _graphCloseOverlay.innerHTML =
+    '<div class="graph-fullscreen-header">' +
+      '<div>' +
+        '<div class="graph-dialog-title">Full Gaia Skill Graph</div>' +
+        '<div class="graph-dialog-sub">Rendered from the canonical registry/gaia.json source.</div>' +
+      '</div>' +
+      '<div class="graph-dialog-actions">' +
+        '<a class="graph-download" href="graph/gaia.json" download>Download JSON</a>' +
+        '<a class="graph-download" href="graph/gaia.gexf" download>Download GEXF</a>' +
+        '<a class="graph-download" href="graph/gaia.svg" download>Download SVG</a>' +
+        '<button type="button" class="graph-close" data-graph-fullscreen-close aria-label="Close skill graph">Close</button>' +
+      '</div>' +
+    '</div>';
+  hero.appendChild(_graphCloseOverlay);
+
+  function openGraphFullscreen() {
+    if (_graphFullscreen) return;
+    _graphFullscreen = true;
+    hero.classList.add('hero-graph-fullscreen');
+    document.body.style.overflow = 'hidden';
+    heroGraph.setInteractive(true);
+    heroGraph.setLabelMode('all');
+    heroGraph.setStatusEl(_graphStatusBar);
+    heroGraph.resize();
+  }
+
+  function closeGraphFullscreen() {
+    if (!_graphFullscreen) return;
+    _graphFullscreen = false;
+    hero.classList.remove('hero-graph-fullscreen');
+    document.body.style.overflow = '';
+    heroGraph.setInteractive(false);
+    heroGraph.setLabelMode('none');
+    // Do NOT resetFilters() — preserve user's speed, zoom, orbit, etc.
+    heroGraph.resize();
+  }
+
+  function peek(on) {
+    if (_graphFullscreen) return;
+    hero.classList.toggle('hero-graph-peek', Boolean(on));
+  }
 
   trigger.addEventListener('mouseenter', () => peek(true));
   trigger.addEventListener('mouseleave', () => peek(false));
   trigger.addEventListener('focus', () => peek(true));
   trigger.addEventListener('blur', () => peek(false));
   trigger.addEventListener('click', () => {
-    hero.classList.add('transitioning-to-graph');
-    if (typeof dialog.showModal === 'function') dialog.showModal();
-    else dialog.setAttribute('open', '');
-    modalGraph.resize();
-    modalGraph.start();
     peek(false);
+    openGraphFullscreen();
   });
-  function closeDialog() {
-    if (dialog.close) dialog.close();
-    else dialog.removeAttribute('open');
-  }
-  closeBtn.addEventListener('click', closeDialog);
-  dialog.addEventListener('click', event => {
-    if (event.target === dialog) closeDialog();
+
+  // Close button inside the fullscreen chrome
+  _graphCloseOverlay.querySelector('[data-graph-fullscreen-close]').addEventListener('click', closeGraphFullscreen);
+
+  // Escape key to exit
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && _graphFullscreen) {
+      e.preventDefault();
+      e.stopPropagation();
+      closeGraphFullscreen();
+    }
   });
-  dialog.addEventListener('close', () => {
-    hero.classList.remove('transitioning-to-graph');
-    modalGraph.resetFilters();
-    modalGraph.stop();
-  });
+
+  // Keep old dialog elements wired so they don't error (but they're
+  // effectively unused now — the dialog is never opened).
+  if (closeBtn) closeBtn.addEventListener('click', closeGraphFullscreen);
 
   fetch(GRAPH_JSON_URL)
     .then(response => {
@@ -1781,7 +1892,7 @@
       _initMetaGraph(graph.meta);
       return normalizeSkills(graph);
     })
-    .then(skills => { if (heroGraph) heroGraph.setSkills(skills); modalGraph.setSkills(skills); })
+    .then(skills => { if (heroGraph) heroGraph.setSkills(skills); })
     .catch(error => {
       console.warn('Using embedded fallback skill graph:', error);
       const status = document.querySelector('[data-graph-status]');
@@ -1802,9 +1913,7 @@
         }
       });
       if (heroGraph) heroGraph.setNamedMap(map);
-      modalGraph.setNamedMap(map);
       if (heroGraph) heroGraph.setTitleMap(titleMap);
-      modalGraph.setTitleMap(titleMap);
     })
     .catch(() => {});
 })();
