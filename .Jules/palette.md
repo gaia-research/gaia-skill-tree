@@ -1,0 +1,3 @@
+## 2024-05-17 - Add aria-labels to icon-only buttons
+**Learning:** Adding a `title` attribute to icon-only buttons is often insufficient for comprehensive screen reader support. It's crucial to also include explicitly defined `aria-label` attributes to ensure they are consistently read by screen readers. Similarly, inputs without explicitly linked labels require an `aria-label`.
+**Action:** When implementing new icon-only buttons or forms in the future, check if `aria-label` attributes are included to guarantee accessibility across all assistive technologies. This applies to both dynamically generated JS elements and static HTML.
