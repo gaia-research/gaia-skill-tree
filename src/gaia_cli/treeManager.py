@@ -82,8 +82,21 @@ def _load_local_lookup(registry_path):
                 text = sf.read()
             m = re.match(r"^---\n(.*?)\n---", text, re.DOTALL)
             if m:
-                import yaml
-                fm = yaml.safe_load(m.group(1)) or {}
+                try:
+                    import yaml
+                    fm = yaml.safe_load(m.group(1)) or {}
+                except ImportError:
+                    fm = {}
+                    for line in m.group(1).split('\n'):
+                        line = line.strip()
+                        if not line or line.startswith('#'): continue
+                        if ':' in line:
+                            k, v = line.split(':', 1)
+                            k = k.strip()
+                            v = v.strip().strip('"').strip("'")
+                            if v.lower() == 'true': v = True
+                            elif v.lower() == 'false': v = False
+                            fm[k] = v
                 ref = fm.get("genericSkillRef")
                 if ref:
                     result[ref] = entry
