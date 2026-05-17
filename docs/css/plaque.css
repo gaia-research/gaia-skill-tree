@@ -107,6 +107,7 @@
 .plaque:hover {
   border-color: rgba(var(--plaque-accent-rgb), 0.5);
   transform: translateY(-2px);
+  z-index: 10;
   /* Per-tier hover glow uses the accent rgb so the radial halo
      swaps automatically when --plaque-accent flips per data-type. */
   box-shadow:
