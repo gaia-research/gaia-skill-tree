@@ -561,12 +561,20 @@
 
 /* Triangular corner shards — two pseudo-elements each carry two
    triangles (top-left + bottom-right via ::before, top-right +
-   bottom-left via ::after) using multi-stop linear-gradient fills
-   clipped to polygon shapes. */
+   bottom-left via ::after) using multi-stop linear-gradient fills.
+   Variants whose ::before/::after are already occupied by gold corner
+   ornaments (--settled, --og) use a different inner-glow strategy. */
+
+/* ── Shard pseudo-element base — variants with free pseudo-elements:
+   --tile, --row, --mini, --detail */
 .plaque--tile.plaque--apex-vi::before,
 .plaque--tile.plaque--apex-vi::after,
 .plaque--row.plaque--apex-vi::before,
-.plaque--row.plaque--apex-vi::after {
+.plaque--row.plaque--apex-vi::after,
+.plaque--mini.plaque--apex-vi::before,
+.plaque--mini.plaque--apex-vi::after,
+.plaque--detail.plaque--apex-vi::before,
+.plaque--detail.plaque--apex-vi::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -578,7 +586,9 @@
 
 /* ::before — top-left shard + bottom-right shard */
 .plaque--tile.plaque--apex-vi::before,
-.plaque--row.plaque--apex-vi::before {
+.plaque--row.plaque--apex-vi::before,
+.plaque--mini.plaque--apex-vi::before,
+.plaque--detail.plaque--apex-vi::before {
   background:
     /* top-left triangle */
     linear-gradient(
@@ -598,7 +608,9 @@
 
 /* ::after — top-right shard + bottom-left shard */
 .plaque--tile.plaque--apex-vi::after,
-.plaque--row.plaque--apex-vi::after {
+.plaque--row.plaque--apex-vi::after,
+.plaque--mini.plaque--apex-vi::after,
+.plaque--detail.plaque--apex-vi::after {
   background:
     /* top-right triangle */
     linear-gradient(
@@ -620,9 +632,37 @@
 .plaque--tile.plaque--apex-vi:hover::before,
 .plaque--tile.plaque--apex-vi:hover::after,
 .plaque--row.plaque--apex-vi:hover::before,
-.plaque--row.plaque--apex-vi:hover::after {
+.plaque--row.plaque--apex-vi:hover::after,
+.plaque--mini.plaque--apex-vi:hover::before,
+.plaque--mini.plaque--apex-vi:hover::after,
+.plaque--detail.plaque--apex-vi:hover::before,
+.plaque--detail.plaque--apex-vi:hover::after {
   opacity: 1;
   animation: apex-shard-flare 0.5s ease-out forwards;
+}
+
+/* ── --settled: pseudo-elements taken by gold corner ornaments.
+   Inner shimmer delivered via inset box-shadow instead. */
+.plaque--settled.plaque--apex-vi:hover {
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.65),
+    0 0 12px  2px rgba(255, 255, 255, 0.55),
+    0 0 32px  6px rgba(255, 255, 255, 0.25),
+    0 0 64px 10px rgba(255, 255, 255, 0.12),
+    0 24px 64px rgba(0, 0, 0, 0.6),
+    inset 0 0 40px rgba(255, 255, 255, 0.06),
+    inset 0 0 80px rgba(255, 255, 255, 0.03) !important;
+}
+
+/* ── --og: outer glow only — no inner shards (pseudo-elements
+   are gold ornaments; inner shimmer excluded by design). */
+.plaque--og.plaque--apex-vi:hover {
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.65),
+    0 0 12px  2px rgba(255, 255, 255, 0.55),
+    0 0 32px  6px rgba(255, 255, 255, 0.25),
+    0 0 64px 10px rgba(255, 255, 255, 0.12),
+    0 24px 64px rgba(0, 0, 0, 0.6) !important;
 }
 
 @keyframes apex-shard-flare {
