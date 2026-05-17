@@ -930,13 +930,38 @@
 }
 
 
-/* ── Responsive ─────────────────────────────────────────────── */
-@media (max-width: 700px) {
-  .plaque-grid          { grid-template-columns: 1fr; }
+/* ── Responsive — canonical breakpoints: 360 / 480 / 700 ─────── */
+
+/* >700px: auto-grid (3+ columns) — default .plaque-grid already handles this */
+
+/* 481–700px: two-column layout */
+@media (min-width: 481px) and (max-width: 700px) {
+  .plaque-grid          { grid-template-columns: repeat(2, 1fr); }
   .plaque--detail       {
     grid-template-columns: 1fr;
     padding: 20px;
     gap: 20px;
+  }
+  .ascension-log-row {
+    grid-template-columns: 100px 70px 1fr 60px;
+    font-size: 11px;
+    gap: 8px;
+  }
+  .plaque--og {
+    padding: 24px;
+    min-height: 280px;
+  }
+  .plaque--og .plaque__slug,
+  .plaque--og .plaque-skill-name { font-size: 28px; }
+}
+
+/* ≤480px: single column; .plaque--detail stacks to prevent crush */
+@media (max-width: 480px) {
+  .plaque-grid          { grid-template-columns: 1fr; }
+  .plaque--detail       {
+    grid-template-columns: 1fr;
+    padding: 16px;
+    gap: 16px;
   }
   .ascension-log-row {
     grid-template-columns: 100px 70px 1fr 60px;

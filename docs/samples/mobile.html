@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mobile Breakpoint Sampler — Gaia Skill Tree</title>
+  <style>
+    :root {
+      --bg: #030712;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --border: rgba(255,255,255,0.08);
+      --label-bg: rgba(56,189,248,0.08);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* ── Top navigation ── */
+    .sampler-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(3, 7, 18, 0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: .75rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .sampler-nav-title {
+      font-weight: 700;
+      font-size: .9rem;
+      color: var(--accent);
+      letter-spacing: .04em;
+      white-space: nowrap;
+      margin-right: .5rem;
+    }
+    .sampler-nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: .82rem;
+      font-weight: 500;
+      padding: .3rem .7rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      transition: color .15s, border-color .15s;
+      white-space: nowrap;
+    }
+    .sampler-nav a:hover,
+    .sampler-nav a:focus {
+      color: var(--accent);
+      border-color: rgba(56,189,248,.3);
+    }
+
+    /* ── Section layout ── */
+    .sampler-section {
+      padding: 2.5rem 1.5rem 3rem;
+    }
+    .sampler-section + .sampler-section {
+      border-top: 1px solid var(--border);
+    }
+    .sampler-section-heading {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+    }
+
+    /* ── Iframe row ── */
+    .iframe-row {
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
+      overflow-x: auto;
+      padding-bottom: .5rem;
+    }
+    .iframe-cell {
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+      flex-shrink: 0;
+    }
+    .iframe-label {
+      font-size: .75rem;
+      font-weight: 600;
+      color: var(--muted);
+      background: var(--label-bg);
+      border: 1px solid rgba(56,189,248,.15);
+      border-radius: 6px;
+      padding: .3rem .7rem;
+      display: inline-block;
+      letter-spacing: .03em;
+    }
+    .iframe-label strong {
+      color: var(--accent);
+    }
+    .iframe-cell iframe {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #000;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Top anchor nav ── -->
+  <nav class="sampler-nav">
+    <span class="sampler-nav-title">Mobile Sampler</span>
+    <a href="#home">Home</a>
+    <a href="#explorer">Explorer</a>
+    <a href="#profile">Profile</a>
+    <a href="#codex">Codex</a>
+  </nav>
+
+  <!-- ═══ Row 1: Home page ═══ -->
+  <section class="sampler-section" id="home">
+    <h2 class="sampler-section-heading">Home — index.html</h2>
+    <div class="iframe-row">
+
+      <div class="iframe-cell">
+        <span class="iframe-label"><strong>360px</strong> — Home</span>
+        <iframe
+          src="../index.html"
+          width="360"
+          style="min-height:640px"
+          title="Home at 360px"
+          loading="lazy"
+          sandbox="allow-scripts allow-same-origin"
+        ></iframe>
+      </div>
+
+      <div class="iframe-cell">
+        <span class="iframe-label"><strong>480px</strong> — Home</span>
+        <iframe
+          src="../index.html"
+          width="480"
+          style="min-height:640px"
+          title="Home at 480px"
+          loading="lazy"
+          sandbox="allow-scripts allow-same-origin"
+        ></iframe>
+      </div>
+
+      <div class="iframe-cell">
+        <span class="iframe-label"><strong>700px</strong> — Home</span>
+        <iframe
+          src="../index.html"
+          width="700"
+          style="min-height:640px"
+          title="Home at 700px"
+          loading="lazy"
+          sandbox="allow-scripts allow-same-origin"
+        ></iframe>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══ Row 2: Explorer section ═══ -->
+  <section class="sampler-section" id="explorer">
+    <h2 class="sampler-section-heading">Explorer — index.html#named</h2>
+    <div class="iframe-row">
+
+      <div class="iframe-cell">
+        <span class="iframe-label"><strong>360px</strong> — Explorer</span>
+        <iframe
+          src="../index.html#named"
+          width="360"
+          style="min-height:640px"
+          title="Explorer at 360px"
+          loading="lazy"
+          sandbox="allow-scripts allow-same-origin"
+        ></iframe>
+      </div>
+
+      <div class="iframe-cell">
+        <span class="iframe-label"><strong>480px</strong> — Explorer</span>
+        <iframe
+          src="../index.html#named"
+          width="480"
+          style="min-height:640px"
+          title="Explorer at 480px"
+          loading="lazy"
+          sandbox="allow-scripts allow-same-origin"
+        ></iframe>
+      </div>
+
+      <div class="iframe-cell">
+        <span class="iframe-label"><strong>700px</strong> — Explorer</span>
+        <iframe
+          src="../index.html#named"
+          width="700"
+          style="min-height:640px"
+          title="Explorer at 700px"
+          loading="lazy"
+          sandbox="allow-scripts allow-same-origin"
+        ></iframe>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══ Row 3: Profile page ═══ -->
+  <section class="sampler-section" id="profile">
+    <h2 class="sampler-section-heading">Profile — u/karpathy/index.html</h2>
+    <div class="iframe-row">
+
+      <div class="iframe-cell">
+        <span class="iframe-label"><strong>360px</strong> — Profile</span>
+        <iframe
+          src="../u/karpathy/index.html"
+          width="360"
+          style="min-height:640px"
+          title="Profile at 360px"
+          loading="lazy"
+          sandbox="allow-scripts allow-same-origin"
+        ></iframe>
+      </div>
+
+      <div class="iframe-cell">
+        <span class="iframe-label"><strong>480px</strong> — Profile</span>
+        <iframe
+          src="../u/karpathy/index.html"
+          width="480"
+          style="min-height:640px"
+          title="Profile at 480px"
+          loading="lazy"
+          sandbox="allow-scripts allow-same-origin"
+        ></iframe>
+      </div>
+
+      <div class="iframe-cell">
+        <span class="iframe-label"><strong>700px</strong> — Profile</span>
+        <iframe
+          src="../u/karpathy/index.html"
+          width="700"
+          style="min-height:640px"
+          title="Profile at 700px"
+          loading="lazy"
+          sandbox="allow-scripts allow-same-origin"
+        ></iframe>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══ Row 4: Codex page ═══ -->
+  <section class="sampler-section" id="codex">
+    <h2 class="sampler-section-heading">Codex — codex.html</h2>
+    <div class="iframe-row">
+
+      <div class="iframe-cell">
+        <span class="iframe-label"><strong>360px</strong> — Codex</span>
+        <iframe
+          src="../codex.html"
+          width="360"
+          style="min-height:640px"
+          title="Codex at 360px"
+          loading="lazy"
+          sandbox="allow-scripts allow-same-origin"
+        ></iframe>
+      </div>
+
+      <div class="iframe-cell">
+        <span class="iframe-label"><strong>480px</strong> — Codex</span>
+        <iframe
+          src="../codex.html"
+          width="480"
+          style="min-height:640px"
+          title="Codex at 480px"
+          loading="lazy"
+          sandbox="allow-scripts allow-same-origin"
+        ></iframe>
+      </div>
+
+      <div class="iframe-cell">
+        <span class="iframe-label"><strong>700px</strong> — Codex</span>
+        <iframe
+          src="../codex.html"
+          width="700"
+          style="min-height:640px"
+          title="Codex at 700px"
+          loading="lazy"
+          sandbox="allow-scripts allow-same-origin"
+        ></iframe>
+      </div>
+
+    </div>
+  </section>
+
+</body>
+</html>
