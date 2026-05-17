@@ -127,7 +127,7 @@
           generic.derivatives.map(function(id){ var s=sm[id]||{name:id}; return '<span class="se-known-agent">' + esc(s.name||id) + '</span>'; }).join('') + '</div></div>';
       }
     }
-    el.innerHTML = '<div class="se-flow-h">&#9432; About this skill</div>' +
+    el.innerHTML = '<div class="se-flow-h">' + _se_icon('external-link') + ' About this skill</div>' +
       '<p style="line-height:1.75;margin-bottom:1.5rem">' + esc(ns.description || '') + '</p>' +
       prereqsHtml + derivsHtml;
   }
@@ -220,7 +220,7 @@
       (issuesUrl ? '<p><a style="color:var(--basic)" href="'+esc(issuesUrl)+'" target="_blank" rel="noopener">Issues ↗</a></p>' : '') +
     '</div>';
 
-    el.innerHTML = '<div class="se-flow-h">&#128196; Documentation</div>' + skillDefHtml + evidenceHtml + agentsHtml + linksHtml;
+    el.innerHTML = '<div class="se-flow-h">' + _se_icon('external-link') + ' Documentation</div>' + skillDefHtml + evidenceHtml + agentsHtml + linksHtml;
   }
 
   // ── RENDER FLOWCHART (upgrade path) ─────────────────────────
@@ -323,7 +323,7 @@
       '</div>';
     }
 
-    el.innerHTML = '<div class="se-flow-h">&#9650; Upgrade Path &amp; Adjacent Skills</div>' +
+    el.innerHTML = '<div class="se-flow-h">' + _se_icon('sparkle') + ' Upgrade Path &amp; Adjacent Skills</div>' +
       fusionHtml +
       '<div class="se-flowchart-wrap" id="seFlowWrap">' +
         '<div class="se-flowchart-rows">' +
@@ -403,7 +403,7 @@
 
   function renderTimeline(ns, generic) {
     var el = document.getElementById('se-timeline');
-    el.innerHTML = '<div class="se-flow-h">&#9203; Update Timeline</div><div class="se-empty">Loading history…</div>';
+    el.innerHTML = '<div class="se-flow-h">' + _se_icon('hud-toggle') + ' Update Timeline</div><div class="se-empty">Loading history…</div>';
     var parts = ns.id.split('/');
     var contributor = parts[0], skillName = parts[1] || '';
     var apiUrl = 'https://api.github.com/repos/' + REPO_SLUG +
@@ -437,8 +437,8 @@
   }
 
   function renderTimelineEvents(el, evts) {
-    if (!evts.length) { el.innerHTML = '<div class="se-flow-h">&#9203; Update Timeline</div><div class="se-empty">No history available.</div>'; return; }
-    el.innerHTML = '<div class="se-flow-h">&#9203; Update Timeline</div><div class="se-timeline">' +
+    if (!evts.length) { el.innerHTML = '<div class="se-flow-h">' + _se_icon('hud-toggle') + ' Update Timeline</div><div class="se-empty">No history available.</div>'; return; }
+    el.innerHTML = '<div class="se-flow-h">' + _se_icon('hud-toggle') + ' Update Timeline</div><div class="se-timeline">' +
       evts.map(function(ev){
         return '<div class="se-tl-event">' +
           '<div class="se-tl-dot"></div>' +
