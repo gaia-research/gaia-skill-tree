@@ -100,7 +100,6 @@
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
-  overflow: hidden;
   cursor: pointer;
   transition: border-color 0.25s, box-shadow 0.25s, transform 0.15s;
 }
@@ -350,6 +349,34 @@
   display: inline-flex;
   align-items: center;
   vertical-align: middle;
+  position: relative;
+  cursor: help;
+}
+.plaque__origin::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(0);
+  background: rgba(15, 23, 42, 0.95);
+  color: #f8fafc;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-family: var(--font-body, system-ui, sans-serif);
+  font-weight: 500;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+}
+.plaque__origin:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-6px);
 }
 .plaque__arrow,
 .ns-lr-arrow {
@@ -610,6 +637,7 @@
   opacity: 0;
   transition: opacity 0.25s ease;
   z-index: 1;
+  border-radius: inherit;
 }
 
 /* ::before — top-left shard + bottom-right shard */

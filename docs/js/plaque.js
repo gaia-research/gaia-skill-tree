@@ -144,9 +144,11 @@
   function _fieldOriginBadge(ns) {
     if (!ns || !ns.origin) return '';
     // Stage 4 — render the origin badge from the shared sprite so it inherits
-    // --honor-red via currentColor.
-    return '<span class="plaque__origin ns-origin" title="Origin contributor" aria-label="Origin contributor">' +
-      icon('origin-badge', 16) + '</span>';
+    // --honor-red via currentColor. Include a small (i) icon for context on hover.
+    return '<span class="plaque__origin" data-tooltip="Origin contributor: The creator of the first skill version" aria-label="Origin contributor: The creator of the first skill version">' +
+      icon('origin-badge', 16) +
+      '<span class="origin-info" style="margin-left: 3px; color: var(--muted); opacity: 0.7;">' + icon('info', 10) + '</span>' +
+      '</span>';
   }
 
   // Install row — shared mini-terminal block (used by tile / detail / settled).
