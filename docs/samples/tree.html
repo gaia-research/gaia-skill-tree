@@ -3,44 +3,297 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Organic Tree Sampler — Gaia</title>
+  <title>Tree Vocabulary — Gaia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
   <link rel="stylesheet" href="../css/tokens.css">
   <link rel="stylesheet" href="../css/styles.css">
-  <link rel="stylesheet" href="../css/plaque.css">
   <script src="../js/icons.js"></script>
-  <script src="../js/rank-badge.js"></script>
-  <script src="../js/plaque.js"></script>
+
   <style>
-    body { background: var(--bg); color: var(--text); padding: 2rem; }
-    .active-path { stroke: #00f2ff !important; stroke-width: 4px !important; filter: drop-shadow(0 0 5px #00f2ff); }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      padding: 4rem 1.5rem 6rem;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    /* ─── Page header ─── */
+    .page-eyebrow {
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: .6rem;
+    }
+
+    h1 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      font-weight: 600;
+      line-height: 1.15;
+      margin-bottom: .75rem;
+    }
+
+    .page-sub {
+      font-family: var(--font-body);
+      color: var(--muted);
+      font-size: .95rem;
+      line-height: 1.65;
+      max-width: 66ch;
+      margin-bottom: 3.5rem;
+    }
+
+    /* ─── Sections ─── */
+    .section {
+      margin-bottom: 3rem;
+    }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1rem;
+      padding-bottom: .5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ─── Tree output ─── */
+    .tree-block {
+      font-family: var(--font-mono);
+      font-size: .9rem;
+      line-height: 2;
+      padding: 1.5rem 1.75rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow-x: auto;
+    }
+
+    .tree-line {
+      display: flex;
+      align-items: baseline;
+      gap: .55rem;
+      white-space: nowrap;
+    }
+
+    .tree-connector {
+      color: rgba(148,163,184,.25);
+      flex-shrink: 0;
+    }
+
+    /* Tier glyphs — fixed canonical symbols */
+    .glyph-basic    { color: var(--tier-basic,    #38bdf8); }
+    .glyph-extra    { color: var(--tier-extra,    #c084fc); }
+    .glyph-unique   { color: var(--tier-unique,   #7c3aed); }
+    .glyph-ultimate { color: var(--tier-ultimate, #f59e0b); }
+
+    /* Skill name */
+    .tree-name {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* Rank stars */
+    .rank-0 { color: #94a3b8; }
+    .rank-1 { color: #38bdf8; }
+    .rank-2 { color: #63cab7; }
+    .rank-3 { color: #a78bfa; }
+    .rank-4 { color: #e879f9; }
+    .rank-5 { color: #fbbf24; }
+    .rank-6 { color: #fbbf24; font-weight: 700; }
+
+    /* Owned vs unclaimed markers */
+    .marker-owned    { color: rgba(52,211,153,.8);  font-size: .78rem; }
+    .marker-unclaimed{ color: rgba(148,163,184,.4); font-size: .78rem; }
+
+    /* ─── Glyph legend table ─── */
+    .legend {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: .5rem 1.25rem;
+      font-family: var(--font-mono);
+      font-size: .85rem;
+      padding: 1.25rem 1.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    .legend-glyph {
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .legend-desc {
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .legend-desc strong {
+      color: var(--text);
+    }
+
+    /* ─── Banned synonyms note ─── */
+    .banned {
+      font-family: var(--font-body);
+      font-size: .88rem;
+      color: var(--muted);
+      line-height: 1.65;
+      padding: 1rem 1.25rem;
+      background: rgba(239,68,68,.05);
+      border: 1px solid rgba(239,68,68,.18);
+      border-radius: 10px;
+    }
+
+    .banned strong { color: #ef4444; }
+
+    .banned code {
+      font-family: var(--font-mono);
+      font-size: .83em;
+      color: var(--text);
+      text-decoration: line-through;
+      opacity: .6;
+    }
   </style>
 </head>
 <body>
-  <div id="treeContainer"></div>
-  <script src="../js/named-skills.js"></script>
-  <script>
-    (function() {
-      Promise.all([
-        fetch('../graph/gaia.json').then(r => r.json()),
-        fetch('../graph/named/index.json').then(r => r.json())
-      ]).then(results => {
-        const [graph, index] = results;
-        window._gaiaSkillMap = {};
-        graph.skills.forEach(s => window._gaiaSkillMap[s.id] = s);
-        
-        const allNamed = [];
-        Object.values(index.buckets || {}).forEach(arr => allNamed.push(...arr));
-        
-        const container = document.getElementById('treeContainer');
-        container.innerHTML = window.gaiaViewFields ? window.gaiaViewFields('tree') : ''; // not exactly right but ignore
-        
-        // Use the actual function from named-skills.js
-        if (typeof renderFlowchartView === 'function') {
-           container.innerHTML = renderFlowchartView(allNamed);
-        }
-      });
-    })();
-  </script>
+
+  <div class="page-eyebrow">Stage 5b — Tree Vocabulary</div>
+  <h1>Tree glyph system</h1>
+  <p class="page-sub">
+    Four canonical tier glyphs, seven rank colors, two ownership markers. Every
+    text-mode tree render in Gaia uses exactly these symbols, no exceptions.
+    The vocabulary is locked in <code>CONTEXT.md</code> and enforced by
+    <code>generateProjections.py</code>.
+  </p>
+
+  <!-- Glyph legend -->
+  <div class="section">
+    <div class="section-label">Tier glyphs</div>
+    <div class="legend">
+      <div class="legend-glyph glyph-basic">○</div>
+      <div class="legend-desc"><strong>Basic Skill</strong> — foundational, pure practice, no fusions</div>
+
+      <div class="legend-glyph glyph-extra">◇</div>
+      <div class="legend-desc"><strong>Extra Skill</strong> — extended or combined capability</div>
+
+      <div class="legend-glyph glyph-unique">◉</div>
+      <div class="legend-desc"><strong>Unique Skill</strong> — standalone mastery, elite Basic rank without fusing</div>
+
+      <div class="legend-glyph glyph-ultimate">◆</div>
+      <div class="legend-desc"><strong>Ultimate Skill</strong> — apex synthesis, fused from multiple prerequisites</div>
+    </div>
+  </div>
+
+  <!-- Full tree specimen -->
+  <div class="section">
+    <div class="section-label">Full tree — rank ramp with ownership markers</div>
+    <div class="tree-block">
+      <div class="tree-line">
+        <span class="glyph-ultimate">◆</span>
+        <span class="tree-name">Autonomous Research Agent</span>
+        <span class="rank-6">★★★★★★</span>
+        <span class="marker-owned" title="owned">✓</span>
+      </div>
+      <div class="tree-line">
+        <span class="tree-connector">│</span>
+      </div>
+      <div class="tree-line">
+        <span class="tree-connector">├──</span>
+        <span class="glyph-extra">◇</span>
+        <span class="tree-name">Tool Creation</span>
+        <span class="rank-4">★★★★</span>
+        <span class="marker-owned" title="owned">✓</span>
+      </div>
+      <div class="tree-line">
+        <span class="tree-connector">│&nbsp;&nbsp;&nbsp;├──</span>
+        <span class="glyph-basic">○</span>
+        <span class="tree-name">Code Generation</span>
+        <span class="rank-1">★</span>
+        <span class="marker-owned" title="owned">✓</span>
+      </div>
+      <div class="tree-line">
+        <span class="tree-connector">│&nbsp;&nbsp;&nbsp;└──</span>
+        <span class="glyph-basic">○</span>
+        <span class="tree-name">Tool Use</span>
+        <span class="rank-1">★</span>
+        <span class="marker-owned" title="owned">✓</span>
+      </div>
+      <div class="tree-line">
+        <span class="tree-connector">├──</span>
+        <span class="glyph-extra">◇</span>
+        <span class="tree-name">Knowledge Harvest</span>
+        <span class="rank-3">★★★</span>
+        <span class="marker-unclaimed" title="unclaimed">◌</span>
+      </div>
+      <div class="tree-line">
+        <span class="tree-connector">└──</span>
+        <span class="glyph-basic">○</span>
+        <span class="tree-name">Research</span>
+        <span class="rank-2">★★</span>
+        <span class="marker-unclaimed" title="unclaimed">◌</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rank ramp isolate -->
+  <div class="section">
+    <div class="section-label">Rank colors — 0★ through 6★</div>
+    <div class="tree-block">
+      <div class="tree-line"><span class="glyph-basic">○</span><span class="tree-name">Skill Name</span><span class="rank-0">0★ Unawakened</span></div>
+      <div class="tree-line"><span class="glyph-basic">○</span><span class="tree-name">Skill Name</span><span class="rank-1">1★ Awakened</span></div>
+      <div class="tree-line"><span class="glyph-basic">○</span><span class="tree-name">Skill Name</span><span class="rank-2">2★ Named</span></div>
+      <div class="tree-line"><span class="glyph-extra">◇</span><span class="tree-name">Skill Name</span><span class="rank-3">3★ Evolved</span></div>
+      <div class="tree-line"><span class="glyph-extra">◇</span><span class="tree-name">Skill Name</span><span class="rank-4">4★ Hardened</span></div>
+      <div class="tree-line"><span class="glyph-ultimate">◆</span><span class="tree-name">Skill Name</span><span class="rank-5">5★ Transcendent</span></div>
+      <div class="tree-line"><span class="glyph-ultimate">◆</span><span class="tree-name">Skill Name</span><span class="rank-6">6★ Transcendent ★</span></div>
+    </div>
+  </div>
+
+  <!-- Unique tier isolate -->
+  <div class="section">
+    <div class="section-label">Unique tier — standalone mastery path</div>
+    <div class="tree-block">
+      <div class="tree-line">
+        <span class="glyph-unique">◉</span>
+        <span class="tree-name">Unique Skill</span>
+        <span class="rank-5">★★★★★</span>
+        <span class="marker-owned" title="owned">✓</span>
+      </div>
+      <div class="tree-line">
+        <span class="tree-connector">└──</span>
+        <span class="glyph-basic">○</span>
+        <span class="tree-name">Basic Skill (origin)</span>
+        <span class="rank-1">★</span>
+        <span class="marker-owned" title="owned">✓</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Banned synonyms -->
+  <div class="section">
+    <div class="section-label">Banned synonyms — purged from generateProjections.py</div>
+    <div class="banned">
+      These terms are forbidden in generated tree output. Use the canonical names above.
+      <br><br>
+      <strong>Tier names:</strong>
+      <code>Rare</code> <code>Epic</code> <code>Legendary</code> <code>Common</code>
+      <code>Uncommon</code> <code>Special</code> <code>Fusion</code>
+      <br>
+      <strong>Rank names:</strong>
+      <code>Level 1</code> <code>Lvl</code> <code>Tier 2</code> <code>Grade</code>
+      <br>
+      <strong>Ownership:</strong>
+      <code>owned</code> (use ✓) &nbsp; <code>unclaimed</code> (use ◌) &nbsp;
+      <code>locked</code> &nbsp; <code>unlocked</code>
+    </div>
+  </div>
+
 </body>
 </html>

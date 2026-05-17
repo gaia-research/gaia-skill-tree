@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Organic Git Network Sampler — Gaia</title>
+  <title>Skill Tree Network — Organic DAG — Gaia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
   <link rel="stylesheet" href="../css/tokens.css">
   <link rel="stylesheet" href="../css/styles.css">
@@ -13,181 +15,575 @@
   <script src="../js/plaque.js"></script>
 
   <style>
-    body { padding: 4rem 1.25rem 6rem; max-width: 1400px; margin: 0 auto; background: var(--bg); color: var(--text); }
-    h1 { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 600; margin-bottom: .25rem; text-align: center; }
-    .sub { color: var(--muted); font-family: var(--font-mono); font-size: .85rem; letter-spacing: .04em; text-transform: uppercase; margin-bottom: 4rem; text-align: center; }
-
-    /* Sampler overrides for better visibility */
-    .ns-dag-container.git-style {
-      min-height: 800px;
-      padding-top: 100px;
-      padding-bottom: 200px;
-      position: relative;
+    body {
+      padding: 3rem 1.25rem 6rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      background: var(--bg);
+      color: var(--text);
     }
-    
-    .git-path.active-path {
-      stroke: #00f2ff !important;
-      stroke-width: 4px !important;
-      filter: drop-shadow(0 0 5px #00f2ff);
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+
+    .page-eyebrow {
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: .6rem;
+    }
+
+    .page-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 600;
+      line-height: 1.15;
+      margin-bottom: .75rem;
+    }
+
+    .page-sub {
+      font-family: var(--font-mono);
+      font-size: .8rem;
+      color: var(--muted);
+      letter-spacing: .04em;
+    }
+
+    /* ─── DAG container ─── */
+    .organic-dag {
+      position: relative;
+      overflow-x: auto;
+      overflow-y: visible;
+    }
+
+    .organic-dag-inner {
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 80px;
+      padding: 48px 32px 80px;
+      position: relative;
+      min-width: 600px;
+    }
+
+    /* SVG canvas sits behind all nodes */
+    .organic-dag-svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      overflow: visible;
+      z-index: 0;
+    }
+
+    /* ─── Rank rows: invisible — only nodes and edges are visible ─── */
+    .dag-rank {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 36px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Void zone: Unique tier gets a distinct atmospheric treatment */
+    .dag-rank.void-zone {
+      background: linear-gradient(135deg, rgba(124,58,237,.07) 0%, rgba(76,29,149,.04) 100%);
+      border: 1px dashed rgba(124,58,237,.28);
+      border-radius: 20px;
+      padding: 28px 36px;
+      box-shadow: inset 0 0 48px rgba(124,58,237,.05);
+    }
+
+    .dag-rank.void-zone::before {
+      content: 'VOID';
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--font-mono);
+      font-size: .6rem;
+      color: var(--tier-unique, #7c3aed);
+      letter-spacing: .35em;
+      opacity: .38;
+      pointer-events: none;
+    }
+
+    /* ─── Commit node ─── */
+    .dag-node {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 2;
+      margin-top: var(--staggerY, 0px);
+      cursor: pointer;
+    }
+
+    /* Hovering a node reveals the plaque popup */
+    .dag-node .ns-dag-card,
+    .dag-node .plaque--mini {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      position: fixed;
+      bottom: auto;
+      left: 50%;
+      transform: translateX(-50%) translateY(8px);
+      transition: opacity .2s ease-out, transform .2s ease-out, visibility .2s;
+      z-index: 20;
+      min-width: 160px;
+    }
+
+    .dag-node:hover .ns-dag-card,
+    .dag-node:hover .plaque--mini {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(-8px);
+    }
+
+    /* ─── Dot: the visible node circle ─── */
+    .dag-dot {
+      width: var(--dot-size, 16px);
+      height: var(--dot-size, 16px);
+      border-radius: 50%;
+      background: var(--bg);
+      border: 2.5px solid var(--dot-color, rgba(148,163,184,.4));
+      position: relative;
+      transition: transform .22s cubic-bezier(.25,1,.5,1),
+                  box-shadow .22s cubic-bezier(.25,1,.5,1);
+      flex-shrink: 0;
+    }
+
+    .dag-node:hover .dag-dot {
+      transform: scale(1.35);
+      box-shadow: 0 0 16px var(--dot-glow, rgba(148,163,184,.3));
+    }
+
+    /* Tier-specific node sizes and glows */
+    .dag-node[data-type="basic"] {
+      --dot-size: 14px;
+      --dot-color: rgba(56,189,248,.65);
+      --dot-glow: rgba(56,189,248,.45);
+    }
+    .dag-node[data-type="extra"] {
+      --dot-size: 16px;
+      --dot-color: rgba(192,132,252,.7);
+      --dot-glow: rgba(192,132,252,.5);
+    }
+    .dag-node[data-type="unique"] {
+      --dot-size: 18px;
+      --dot-color: rgba(124,58,237,.75);
+      --dot-glow: rgba(124,58,237,.55);
+    }
+    .dag-node[data-type="ultimate"] {
+      --dot-size: 20px;
+      --dot-color: rgba(245,158,11,.8);
+      --dot-glow: rgba(245,158,11,.55);
+    }
+
+    /* Resting glow on tier nodes */
+    .dag-node[data-type="basic"] .dag-dot    { box-shadow: 0 0 8px rgba(56,189,248,.2); }
+    .dag-node[data-type="extra"] .dag-dot    { box-shadow: 0 0 10px rgba(192,132,252,.25); }
+    .dag-node[data-type="unique"] .dag-dot   { box-shadow: 0 0 12px rgba(124,58,237,.3); }
+    .dag-node[data-type="ultimate"] .dag-dot { box-shadow: 0 0 14px rgba(245,158,11,.35); }
+
+    /* Apex (6★): bright white with chromatic glow */
+    .dag-node[data-level*="6"] .dag-dot {
+      --dot-size: 22px;
+      background: rgba(255,255,252,.95);
+      border-color: rgba(255,255,252,.95);
+      box-shadow: 0 0 20px rgba(255,255,255,.6), 0 0 40px rgba(56,189,248,.2);
+      animation: apex-pulse 2.8s ease-in-out infinite;
+    }
+
+    @keyframes apex-pulse {
+      0%, 100% { box-shadow: 0 0 20px rgba(255,255,255,.6), 0 0 40px rgba(56,189,248,.2); }
+      50%       { box-shadow: 0 0 28px rgba(255,255,255,.85), 0 0 56px rgba(192,132,252,.3); }
+    }
+
+    /* Ghost nodes: muted and desaturated */
+    .dag-node[data-ghost="true"] .dag-dot {
+      opacity: .35;
+      filter: grayscale(1) brightness(.7);
+    }
+
+    /* ─── Edge paths: tier-based via CSS (no inline styles) ─── */
+    .dag-path {
+      fill: none;
+      stroke: rgba(148,163,184,.3);
+      stroke-width: 1px;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: .45;
+      transition: stroke-width .3s, opacity .3s, filter .3s;
+    }
+
+    .dag-path[data-tier="apex"]     { stroke: rgba(255,255,255,.75);  stroke-width: 2px;   filter: drop-shadow(0 0 6px rgba(255,255,255,.4)); opacity: .6;  }
+    .dag-path[data-tier="ultimate"] { stroke: rgba(245,158,11,.7);    stroke-width: 1.8px; filter: drop-shadow(0 0 5px rgba(245,158,11,.3));  opacity: .55; }
+    .dag-path[data-tier="unique"]   { stroke: rgba(124,58,237,.65);   stroke-width: 1.6px; filter: drop-shadow(0 0 4px rgba(124,58,237,.28)); opacity: .5;  }
+    .dag-path[data-tier="extra"]    { stroke: rgba(192,132,252,.6);   stroke-width: 1.4px; filter: drop-shadow(0 0 4px rgba(192,132,252,.22)); opacity: .48; }
+    .dag-path[data-tier="basic"]    { stroke: rgba(56,189,248,.55);   stroke-width: 1.2px; filter: drop-shadow(0 0 3px rgba(56,189,248,.18)); opacity: .45; }
+
+    /* Active path: glow burst along the vein */
+    .dag-path.active-path {
+      opacity: 1;
+    }
+    .dag-path[data-tier="apex"].active-path     { stroke-width: 3.5px; filter: drop-shadow(0 0 14px rgba(255,255,255,.7)); }
+    .dag-path[data-tier="ultimate"].active-path { stroke-width: 3px;   filter: drop-shadow(0 0 12px rgba(245,158,11,.65)); }
+    .dag-path[data-tier="unique"].active-path   { stroke-width: 2.8px; filter: drop-shadow(0 0 11px rgba(124,58,237,.6));  }
+    .dag-path[data-tier="extra"].active-path    { stroke-width: 2.6px; filter: drop-shadow(0 0 10px rgba(192,132,252,.55)); }
+    .dag-path[data-tier="basic"].active-path    { stroke-width: 2.4px; filter: drop-shadow(0 0 9px rgba(56,189,248,.5));  }
+
+    /* ─── Selected node state ─── */
+    .dag-node.selected .dag-dot {
+      transform: scale(1.5);
+      z-index: 10;
+    }
+    .dag-node.selected .plaque--mini,
+    .dag-node.selected .ns-dag-card {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    /* ─── Dimmed paths when node selected ─── */
+    .dag-path.dimmed {
+      opacity: 0.1;
+      filter: none;
+    }
+
+    /* ─── Downstream node labels ─── */
+    .dag-node-label {
+      position: absolute;
+      bottom: 100%;
+      margin-bottom: 8px;
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      white-space: nowrap;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: .3rem .6rem;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity .2s;
+    }
+
+    .dag-node-label-contrib {
+      color: #ef4444;
+      font-weight: 600;
+    }
+
+    .dag-node-label-name {
+      color: var(--text);
+    }
+
+    .dag-node.show-label .dag-node-label {
+      opacity: 1;
     }
   </style>
 </head>
 <body>
-  <h1>Organic Git Network</h1>
-  <p class="sub">Tree Node Sampler • Geometric Veins • Organic Scatter</p>
-  
+
+  <header class="page-header">
+    <div class="page-eyebrow">Stage 4b — Skill Tree Network</div>
+    <h1 class="page-title">Organic Prerequisite DAG</h1>
+    <p class="page-sub">Click a node to lock its ancestry chain &nbsp;·&nbsp; Tier colors flow through the veins</p>
+  </header>
+
   <div id="samplerTree"></div>
 
   <script>
-    function hashString(str) {
+    var globalState = {
+      selectedNode: null,
+      skillMap: {},
+      namedMap: {},
+      edges: []
+    };
+
+    function hashStr(str) {
       var h = 0;
       for (var i = 0; i < str.length; i++) h = Math.imul(31, h) + str.charCodeAt(i) | 0;
       return Math.abs(h);
     }
 
+    function getTier(type, level) {
+      if (level && String(level).indexOf('6') !== -1) return 'apex';
+      var t = type || 'basic';
+      return ['ultimate','unique','extra','basic'].indexOf(t) !== -1 ? t : 'basic';
+    }
+
+    function drawPath(svg, container, fromDot, toDot, tier, pathId) {
+      var cRect = container.getBoundingClientRect();
+      var fr = fromDot.getBoundingClientRect();
+      var tr = toDot.getBoundingClientRect();
+
+      var fx = fr.left + fr.width / 2 - cRect.left + container.scrollLeft;
+      var fy = fr.top  + fr.height / 2 - cRect.top  + container.scrollTop;
+      var tx = tr.left + tr.width / 2 - cRect.left + container.scrollLeft;
+      var ty = tr.top  + tr.height / 2 - cRect.top  + container.scrollTop;
+
+      var dx = tx - fx;
+      var dy = ty - fy;
+
+      var ctrl = Math.abs(dy) * 0.55 + Math.abs(dx) * 0.12;
+      var d = 'M' + fx.toFixed(1) + ',' + fy.toFixed(1) +
+              ' C' + fx.toFixed(1) + ',' + (fy + ctrl).toFixed(1) +
+              ' ' + tx.toFixed(1) + ',' + (ty - ctrl).toFixed(1) +
+              ' ' + tx.toFixed(1) + ',' + ty.toFixed(1);
+
+      var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('id', pathId);
+      path.setAttribute('d', d);
+      path.setAttribute('class', 'dag-path');
+      path.setAttribute('data-tier', tier);
+      svg.appendChild(path);
+    }
+
+    function highlightPaths(nodeId, persistent) {
+      document.querySelectorAll('.dag-path').forEach(function(p) { p.classList.remove('active-path'); });
+      function trace(id) {
+        globalState.edges.forEach(function(e) {
+          if (e.to === id) {
+            var p = document.getElementById('edge-' + e.from + '-' + e.to);
+            if (p) p.classList.add('active-path');
+            trace(e.from);
+          }
+        });
+      }
+      trace(nodeId);
+    }
+
+    function getRelatedNodes(nodeId) {
+      var related = {};
+      related[nodeId] = true;
+
+      // Trace ancestors
+      function traceUp(id) {
+        globalState.edges.forEach(function(e) {
+          if (e.to === id && !related[e.from]) {
+            related[e.from] = true;
+            traceUp(e.from);
+          }
+        });
+      }
+
+      // Trace descendants
+      function traceDown(id) {
+        globalState.edges.forEach(function(e) {
+          if (e.from === id && !related[e.to]) {
+            related[e.to] = true;
+            traceDown(e.to);
+          }
+        });
+      }
+
+      traceUp(nodeId);
+      traceDown(nodeId);
+      return related;
+    }
+
+    function getRelatedPaths(nodeId) {
+      var ancestryPaths = {};
+      function trace(id) {
+        globalState.edges.forEach(function(e) {
+          if (e.to === id) {
+            var pathId = 'edge-' + e.from + '-' + e.to;
+            ancestryPaths[pathId] = true;
+            trace(e.from);
+          }
+        });
+      }
+      trace(nodeId);
+      return ancestryPaths;
+    }
+
+    function selectNode(nodeId) {
+      var related = getRelatedNodes(nodeId);
+
+      document.querySelectorAll('.dag-node.selected').forEach(function(n) { n.classList.remove('selected'); });
+      document.querySelectorAll('.dag-node.show-label').forEach(function(n) { n.classList.remove('show-label'); });
+
+      var node = document.querySelector('.dag-node[data-id="' + nodeId.replace(/"/g, '\\"') + '"]');
+      if (node) {
+        node.classList.add('selected');
+        globalState.selectedNode = nodeId;
+        highlightPaths(nodeId, true);
+        dimUnrelatedPaths(nodeId, related);
+        showDownstreamLabels(related);
+      }
+    }
+
+    function dimUnrelatedPaths(nodeId, relatedNodes) {
+      document.querySelectorAll('.dag-path').forEach(function(p) {
+        p.classList.remove('dimmed');
+      });
+
+      globalState.edges.forEach(function(e) {
+        if (!relatedNodes[e.from] || !relatedNodes[e.to]) {
+          var pathId = 'edge-' + e.from + '-' + e.to;
+          var p = document.getElementById(pathId);
+          if (p) p.classList.add('dimmed');
+        }
+      });
+    }
+
+    function showDownstreamLabels(relatedNodes) {
+      Object.keys(relatedNodes).forEach(function(id) {
+        var node = document.querySelector('.dag-node[data-id="' + id.replace(/"/g, '\\"') + '"]');
+        if (node) {
+          node.classList.add('show-label');
+        }
+      });
+    }
+
     function renderOrganicTree(graph, index) {
-      const el = document.getElementById('samplerTree');
-      const allNamed = [];
-      Object.values(index.buckets || {}).forEach(arr => allNamed.push(...arr));
-      
-      const skillMap = {};
-      (graph.skills || []).forEach(s => skillMap[s.id] = s);
-      
-      const namedIds = {};
-      allNamed.forEach(ns => namedIds[ns.genericSkillRef || ns.id] = ns);
+      var el = document.getElementById('samplerTree');
 
-      const dagNodes = skillMap;
+      var allNamed = [];
+      Object.values(index.buckets || {}).forEach(function(arr) { allNamed.push.apply(allNamed, arr); });
 
-      const edges = [];
-      Object.values(dagNodes).forEach(s => {
-        (s.prerequisites || []).forEach(pid => {
-          if (dagNodes[pid]) edges.push({from: pid, to: s.id});
+      globalState.skillMap = {};
+      (graph.skills || []).forEach(function(s) { globalState.skillMap[s.id] = s; });
+
+      globalState.namedMap = {};
+      allNamed.forEach(function(ns) { globalState.namedMap[ns.genericSkillRef || ns.id] = ns; });
+
+      globalState.edges = [];
+      Object.values(globalState.skillMap).forEach(function(s) {
+        (s.prerequisites || []).forEach(function(pid) {
+          if (globalState.skillMap[pid]) globalState.edges.push({ from: pid, to: s.id });
         });
       });
 
-      const groups = { 'apex': [], 'ultimate': [], 'unique': [], 'extra': [], 'basic': [] };
-      Object.keys(dagNodes).forEach(id => {
-        const s = dagNodes[id];
-        let t = s.type || 'basic';
-        if (s.level && String(s.level).indexOf('6') !== -1) {
-          groups['apex'].push(id);
-        } else if (groups[t]) {
-          groups[t].push(id);
-        }
+      var groups = { apex: [], ultimate: [], unique: [], extra: [], basic: [] };
+      Object.keys(globalState.skillMap).forEach(function(id) {
+        var s = globalState.skillMap[id];
+        var tier = getTier(s.type, s.level);
+        groups[tier].push(id);
       });
 
-      const ranks = [groups['apex'], groups['ultimate'], groups['unique'], groups['extra'], groups['basic']].filter(r => r.length > 0);
+      var ranks = [groups.apex, groups.ultimate, groups.unique, groups.extra, groups.basic]
+        .filter(function(r) { return r.length > 0; });
 
-      window._samplerEdges = edges;
-      window.highlightPaths = function(nodeId) {
-        document.querySelectorAll('.git-path').forEach(p => p.classList.remove('active-path'));
-        function trace(id) {
-          window._samplerEdges.forEach(e => {
-            if (e.to === id) {
-              const p = document.getElementById('path-' + e.from + '-' + e.to);
-              if (p) p.classList.add('active-path');
-              trace(e.from);
-            }
-          });
-        }
-        trace(nodeId);
-      };
-      window.unhighlightPaths = function() {
-        document.querySelectorAll('.git-path').forEach(p => p.classList.remove('active-path'));
-      };
+      var innerHtml = '<svg class="organic-dag-svg" id="dagSvg" style="width:100%;height:100%;"></svg>';
 
-      let html = '<div class="ns-dag-container git-style" id="nsDag">';
-      html += '<svg class="ns-dag-svg" id="nsDagSvg" style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0;"></svg>';
+      for (var ri = ranks.length - 1; ri >= 0; ri--) {
+        var rank = ranks[ri];
+        var isUnique = rank.every(function(id) { return globalState.skillMap[id].type === 'unique'; });
+        var voidClass = isUnique ? ' void-zone' : '';
 
-      // Bottom to Top in DOM, column-reverse in CSS
-      for (let ri = ranks.length - 1; ri >= 0; ri--) {
-        const rank = ranks[ri];
-        const isUnique = rank.every(id => dagNodes[id].type === 'unique');
-        const voidClass = isUnique ? ' void-zone' : '';
-        
-        html += '<div class="ns-dag-rank' + voidClass + '" data-depth="' + ri + '">';
-        rank.forEach((id, idx) => {
-          const s = dagNodes[id];
-          const ns = namedIds[id];
-          const isGhost = !ns;
-          const staggerY = (isUnique || ri === ranks.length - 1) ? 0 : (hashString(id) % 150);
-          
-          const miniNs = ns || { id: id, name: s.name || id, level: s.level, type: s.type, genericSkillRef: id };
-          const dagOpts = {
+        innerHtml += '<div class="dag-rank' + voidClass + '" data-depth="' + ri + '">';
+
+        rank.forEach(function(id) {
+          var s = globalState.skillMap[id];
+          var ns = globalState.namedMap[id];
+          var isGhost = !ns;
+          var tier = getTier(s.type, s.level);
+
+          var staggerY = (isUnique || ri === ranks.length - 1 || ri === 0) ? 0
+                       : (hashStr(id) % 180);
+
+          var miniNs = ns || { id: id, name: s.name || id, level: s.level, type: s.type, genericSkillRef: id };
+          var dagOpts = {
             extraClass: 'ns-dag-card',
             dagId: id,
             ghost: isGhost,
-            attrs: ' data-type="' + s.type + '"'
+            attrs: ' data-type="' + (s.type || 'basic') + '"'
           };
-          
-          const miniHtml = window.plaque.renderMini(miniNs, dagOpts);
-          let colorVar = isGhost ? 'var(--muted)' : 'var(--tier-' + (s.type || 'basic') + ', var(--muted))';
-          if (!isGhost && s.level && String(s.level).indexOf('6') !== -1) colorVar = '#ffffff';
 
-          html += `
-            <div class="git-node" data-id="${id}" data-type="${s.type}" data-level="${s.level||''}" data-ghost="${isGhost}" 
-                 style="--staggerY: ${staggerY}px" 
-                 onmouseenter="highlightPaths('${id}')" onmouseleave="unhighlightPaths()">
-              <div class="git-commit-dot" style="--dot-color: ${colorVar}"></div>
-              ${miniHtml}
-            </div>
-          `;
+          var miniHtml = (window.plaque && typeof window.plaque.renderMini === 'function')
+            ? window.plaque.renderMini(miniNs, dagOpts)
+            : '';
+
+          var parts = id.split('/');
+          var contrib = parts[0] || '';
+          var skillName = parts[1] || id;
+          var labelHtml = '';
+          if (contrib && parts.length > 1) {
+            labelHtml = '<div class="dag-node-label"><span class="dag-node-label-contrib">' + contrib + '</span><span style="color:var(--muted)">/</span><span class="dag-node-label-name">' + skillName + '</span></div>';
+          } else {
+            labelHtml = '<div class="dag-node-label"><span class="dag-node-label-name">' + id + '</span></div>';
+          }
+
+          innerHtml += '<div class="dag-node"'
+            + ' data-id="' + id + '"'
+            + ' data-type="' + (s.type || 'basic') + '"'
+            + ' data-level="' + (s.level || '') + '"'
+            + ' data-ghost="' + isGhost + '"'
+            + ' style="--staggerY: ' + staggerY + 'px"'
+            + ' onclick="window.selectNode && window.selectNode(\'' + id.replace(/'/g,"\\'") + '\')"'
+            + ' onmouseenter="!window.globalState.selectedNode && window.highlightPaths && window.highlightPaths(\'' + id.replace(/'/g,"\\'") + '\')"'
+            + ' onmouseleave="!window.globalState.selectedNode && window.unhighlightPaths && window.unhighlightPaths()"'
+            + '>'
+            + '<div class="dag-dot"></div>'
+            + labelHtml
+            + miniHtml
+            + '</div>';
         });
-        html += '</div>';
+
+        innerHtml += '</div>';
       }
 
-      html += '</div>';
-      el.innerHTML = html;
+      el.innerHTML = '<div class="organic-dag"><div class="organic-dag-inner" id="dagInner">' + innerHtml + '</div></div>';
 
-      // Draw Edges
-      setTimeout(() => {
-        const container = document.getElementById('nsDag');
-        const svg = document.getElementById('nsDagSvg');
-        const cRect = container.getBoundingClientRect();
-        svg.setAttribute('width', container.scrollWidth);
-        svg.setAttribute('height', container.scrollHeight);
-
-        let pathHtml = '';
-        edges.forEach((e, i) => {
-          const fromEl = container.querySelector(`[data-id="${e.from}"]`);
-          const toEl = container.querySelector(`[data-id="${e.to}"]`);
-          if (!fromEl || !toEl) return;
-
-          const fr = fromEl.querySelector('.git-commit-dot').getBoundingClientRect();
-          const tr = toEl.querySelector('.git-commit-dot').getBoundingClientRect();
-
-          const x1 = fr.left + fr.width/2 - cRect.left + container.scrollLeft;
-          const y1 = fr.top + fr.height/2 - cRect.top + container.scrollTop;
-          const x2 = tr.left + tr.width/2 - cRect.left + container.scrollLeft;
-          const y2 = tr.top + tr.height/2 - cRect.top + container.scrollTop;
-
-          const dx = x2 - x1;
-          const dy = y2 - y1;
-          const sign = dx >= 0 ? 1 : -1;
-          const y_mid = y1 + dy/2 + ((i % 7) - 3) * 14;
-
-          const isSixStar = fromEl.getAttribute('data-level').indexOf('6') !== -1;
-          const color = isSixStar ? '#ffffff' : 'var(--apex-gold)';
-
-          if (Math.abs(dx) < 25) {
-            pathHtml += `<path id="path-${e.from}-${e.to}" class="git-path" d="M${x1} ${y1} L${x2} ${y2}" style="stroke:${color}; stroke-width:1px;"/>`;
-          } else {
-            const max_hx = Math.abs(dx) / 2;
-            const hx1 = Math.min(Math.abs(y_mid - y1) / 1.73205, max_hx);
-            const hx2 = Math.min(Math.abs(y2 - y_mid) / 1.73205, max_hx);
-            const mx1 = x1 + sign * hx1;
-            const mx2 = x2 - sign * hx2;
-            pathHtml += `<path id="path-${e.from}-${e.to}" class="git-path" d="M${x1} ${y1} L${mx1} ${y_mid} L${mx2} ${y_mid} L${x2} ${y2}" style="stroke:${color}; stroke-width:1px;"/>`;
+      if (!window._dagClickHandlerAdded) {
+        document.addEventListener('click', function(e) {
+          var clickedNode = e.target.closest('.dag-node');
+          if (!clickedNode) {
+            globalState.selectedNode = null;
+            document.querySelectorAll('.dag-node.selected').forEach(function(n) { n.classList.remove('selected'); });
+            document.querySelectorAll('.dag-node.show-label').forEach(function(n) { n.classList.remove('show-label'); });
+            document.querySelectorAll('.dag-path.dimmed').forEach(function(p) { p.classList.remove('dimmed'); });
+            window.unhighlightPaths && window.unhighlightPaths();
           }
         });
-        svg.innerHTML = pathHtml;
-      }, 100);
+        window._dagClickHandlerAdded = true;
+      }
+
+      setTimeout(function() {
+        var inner = document.getElementById('dagInner');
+        var svg = document.getElementById('dagSvg');
+        if (!inner || !svg) return;
+        svg.setAttribute('width', inner.scrollWidth);
+        svg.setAttribute('height', inner.scrollHeight);
+
+        globalState.edges.forEach(function(e) {
+          var fromEl = inner.querySelector('.dag-node[data-id="' + e.from.replace(/"/g, '\\"') + '"]');
+          var toEl   = inner.querySelector('.dag-node[data-id="' + e.to.replace(/"/g, '\\"') + '"]');
+          if (!fromEl || !toEl) return;
+
+          var fromDot = fromEl.querySelector('.dag-dot');
+          var toDot   = toEl.querySelector('.dag-dot');
+          if (!fromDot || !toDot) return;
+
+          var fromType  = fromEl.getAttribute('data-type') || 'basic';
+          var fromLevel = fromEl.getAttribute('data-level') || '';
+          var tier = getTier(fromType, fromLevel);
+
+          drawPath(svg, inner, fromDot, toDot, tier, 'edge-' + e.from + '-' + e.to);
+        });
+      }, 120);
     }
 
+    window.selectNode = selectNode;
+    window.globalState = globalState;
+    window.highlightPaths = highlightPaths;
+    window.unhighlightPaths = function() {
+      if (!globalState.selectedNode) {
+        document.querySelectorAll('.dag-path').forEach(function(p) { p.classList.remove('active-path'); });
+      }
+    };
+
     Promise.all([
-      fetch('../graph/gaia.json').then(r => r.json()),
-      fetch('../graph/named/index.json').then(r => r.json()),
-    ]).then(results => {
+      fetch('../graph/gaia.json').then(function(r) { return r.json(); }),
+      fetch('../graph/named/index.json').then(function(r) { return r.json(); })
+    ]).then(function(results) {
       renderOrganicTree(results[0], results[1]);
     });
   </script>
