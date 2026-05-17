@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/skill.schema.json",
-  "version": "3.11.2",
-  "generatedAt": "2026-05-17T11:09:28.704274Z",
+  "version": "3.11.3",
+  "generatedAt": "2026-05-17T13:01:41.030185Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -784,6 +784,36 @@
       "createdAt": "2026-04-28",
       "updatedAt": "2026-04-28",
       "version": "0.2.0"
+    },
+    {
+      "id": "collaborative-diagramming",
+      "name": "Collaborative Diagramming",
+      "type": "extra",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Generates and manages digital diagrams, flowcharts, and architecture maps in web-native or collaborative formats, optimized for hand-drawn aesthetics or structured vector output.",
+      "prerequisites": [
+        "api-call",
+        "data-visualize"
+      ],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/excalidraw/excalidraw",
+          "evaluator": "gemini-cli",
+          "date": "2026-05-17",
+          "notes": "Excalidraw -- virtual whiteboard for sketching hand-drawn like diagrams; widespread adoption for developer documentation."
+        }
+      ],
+      "knownAgents": [
+        "NousResearch/hermes-agent"
+      ],
+      "status": "provisional",
+      "createdAt": "2026-05-17",
+      "updatedAt": "2026-05-17",
+      "version": "0.1.0"
     },
     {
       "id": "computer-use",
@@ -1836,6 +1866,39 @@
       "version": "0.1.0"
     },
     {
+      "id": "generative-media",
+      "name": "Generative Media",
+      "type": "extra",
+      "level": "3★",
+      "rarity": "rare",
+      "description": "Generates and manipulates images, video, and audio through complex node-based or scripted generative workflows, managing model dependencies and parameter injection.",
+      "prerequisites": [
+        "api-call",
+        "data-visualize"
+      ],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/comfyanonymous/ComfyUI",
+          "evaluator": "gemini-cli",
+          "date": "2026-05-17",
+          "notes": "ComfyUI -- most powerful and modular stable diffusion GUI and backend; node-based graph execution for generative media."
+        }
+      ],
+      "knownAgents": [
+        "NousResearch/hermes-agent"
+      ],
+      "demerits": [
+        "heavyweight-dependency"
+      ],
+      "status": "provisional",
+      "createdAt": "2026-05-17",
+      "updatedAt": "2026-05-17",
+      "version": "0.1.0"
+    },
+    {
       "id": "ghostwrite",
       "name": "Ghostwrite",
       "type": "extra",
@@ -2234,6 +2297,38 @@
       "version": "0.1.0"
     },
     {
+      "id": "knowledge-management",
+      "name": "Knowledge Management",
+      "type": "extra",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Organizes, relates, and retrieves information across structured pages, databases, and shared knowledge bases, maintaining semantic links between information nodes.",
+      "prerequisites": [
+        "api-call",
+        "retrieve"
+      ],
+      "derivatives": [
+        "knowledge-harvest"
+      ],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "C",
+          "source": "https://hermes-agent.nousresearch.com/docs/skills",
+          "evaluator": "gemini-cli",
+          "date": "2026-05-17",
+          "notes": "Hermes Skills Hub: Notion integration for structured notes and databases."
+        }
+      ],
+      "knownAgents": [
+        "NousResearch/hermes-agent"
+      ],
+      "status": "provisional",
+      "createdAt": "2026-05-17",
+      "updatedAt": "2026-05-17",
+      "version": "0.1.0"
+    },
+    {
       "id": "literature-review",
       "name": "Literature Review",
       "type": "extra",
@@ -2324,6 +2419,39 @@
       "createdAt": "2026-04-28",
       "updatedAt": "2026-04-28",
       "version": "0.2.0"
+    },
+    {
+      "id": "mathematical-animation",
+      "name": "Mathematical Animation",
+      "type": "extra",
+      "level": "3★",
+      "rarity": "rare",
+      "description": "Produces programmatic mathematical and algorithmic animations with high pedagogical and visual quality, utilizing LaTeX for notation and geometric coordinate systems for spatial layout.",
+      "prerequisites": [
+        "code-execution",
+        "data-visualize"
+      ],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/ManimCommunity/manim",
+          "evaluator": "gemini-cli",
+          "date": "2026-05-17",
+          "notes": "Manim Community Edition -- programmatic animation engine for explanatory math videos; inspired by 3Blue1Brown."
+        }
+      ],
+      "knownAgents": [
+        "NousResearch/hermes-agent"
+      ],
+      "demerits": [
+        "heavyweight-dependency"
+      ],
+      "status": "provisional",
+      "createdAt": "2026-05-17",
+      "updatedAt": "2026-05-17",
+      "version": "0.1.0"
     },
     {
       "id": "mcp-debugger-control",
@@ -2473,6 +2601,36 @@
       "createdAt": "2026-04-28",
       "updatedAt": "2026-04-28",
       "version": "0.2.0"
+    },
+    {
+      "id": "ml-artifact-management",
+      "name": "ML Artifact Management",
+      "type": "extra",
+      "level": "2★",
+      "rarity": "uncommon",
+      "description": "Manages machine learning models, datasets, and experiment logs through centralized hub or tracking repositories, handling versioning and metadata extraction.",
+      "prerequisites": [
+        "api-call",
+        "classify"
+      ],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/huggingface/huggingface_hub",
+          "evaluator": "gemini-cli",
+          "date": "2026-05-17",
+          "notes": "Hugging Face Hub CLI -- standard interface for managing ML artifacts."
+        }
+      ],
+      "knownAgents": [
+        "huggingface/hf-cli"
+      ],
+      "status": "provisional",
+      "createdAt": "2026-05-17",
+      "updatedAt": "2026-05-17",
+      "version": "0.1.0"
     },
     {
       "id": "ml-pipeline",
@@ -2912,6 +3070,36 @@
       "status": "provisional",
       "createdAt": "2026-05-06",
       "updatedAt": "2026-05-06",
+      "version": "0.1.0"
+    },
+    {
+      "id": "project-management",
+      "name": "Project Management",
+      "type": "extra",
+      "level": "2★",
+      "rarity": "uncommon",
+      "description": "Manages issues, tasks, projects, and team workflows through structured project management platforms, handling state transitions and priority levels.",
+      "prerequisites": [
+        "api-call",
+        "issue-triage"
+      ],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "C",
+          "source": "https://hermes-agent.nousresearch.com/docs/skills",
+          "evaluator": "gemini-cli",
+          "date": "2026-05-17",
+          "notes": "Hermes Skills Hub: Linear integration for issue and project management."
+        }
+      ],
+      "knownAgents": [
+        "NousResearch/hermes-agent"
+      ],
+      "status": "provisional",
+      "createdAt": "2026-05-17",
+      "updatedAt": "2026-05-17",
       "version": "0.1.0"
     },
     {
@@ -4869,6 +5057,36 @@
       "version": "0.1.0"
     },
     {
+      "id": "workspace-automation",
+      "name": "Workspace Automation",
+      "type": "extra",
+      "level": "2★",
+      "rarity": "uncommon",
+      "description": "Orchestrates productivity tasks across email, calendar, drive, and documents through unified office suite integrations, automating scheduling and file management.",
+      "prerequisites": [
+        "api-call",
+        "document-editing"
+      ],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "C",
+          "source": "https://hermes-agent.nousresearch.com/docs/skills",
+          "evaluator": "gemini-cli",
+          "date": "2026-05-17",
+          "notes": "Hermes Skills Hub: Google Workspace integration for unified email, calendar, and drive access."
+        }
+      ],
+      "knownAgents": [
+        "NousResearch/hermes-agent"
+      ],
+      "status": "provisional",
+      "createdAt": "2026-05-17",
+      "updatedAt": "2026-05-17",
+      "version": "0.1.0"
+    },
+    {
       "id": "write-report",
       "name": "Write Report",
       "type": "basic",
@@ -4938,7 +5156,22 @@
     },
     {
       "sourceSkillId": "api-call",
+      "targetSkillId": "collaborative-diagramming",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "api-call",
       "targetSkillId": "function-calling",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "api-call",
+      "targetSkillId": "generative-media",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "api-call",
+      "targetSkillId": "knowledge-management",
       "edgeType": "prerequisite"
     },
     {
@@ -4948,7 +5181,22 @@
     },
     {
       "sourceSkillId": "api-call",
+      "targetSkillId": "ml-artifact-management",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "api-call",
+      "targetSkillId": "project-management",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "api-call",
       "targetSkillId": "workflow-automation",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "api-call",
+      "targetSkillId": "workspace-automation",
       "edgeType": "prerequisite"
     },
     {
@@ -5062,6 +5310,16 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "classify",
+      "targetSkillId": "ml-artifact-management",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "code-execution",
+      "targetSkillId": "mathematical-animation",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "code-generation",
       "targetSkillId": "autonomous-debug",
       "edgeType": "prerequisite"
@@ -5138,7 +5396,22 @@
     },
     {
       "sourceSkillId": "data-visualize",
+      "targetSkillId": "collaborative-diagramming",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "data-visualize",
       "targetSkillId": "data-analysis",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "data-visualize",
+      "targetSkillId": "generative-media",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "data-visualize",
+      "targetSkillId": "mathematical-animation",
       "edgeType": "prerequisite"
     },
     {
@@ -5169,6 +5442,11 @@
     {
       "sourceSkillId": "document-editing",
       "targetSkillId": "humanize-prose",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "document-editing",
+      "targetSkillId": "workspace-automation",
       "edgeType": "prerequisite"
     },
     {
@@ -5392,6 +5670,11 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "issue-triage",
+      "targetSkillId": "project-management",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "knowledge-harvest",
       "targetSkillId": "autonomous-research-agent",
       "edgeType": "prerequisite"
@@ -5609,6 +5892,11 @@
     {
       "sourceSkillId": "retrieve",
       "targetSkillId": "grounding",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "retrieve",
+      "targetSkillId": "knowledge-management",
       "edgeType": "prerequisite"
     },
     {

@@ -1,0 +1,30 @@
+{
+  "id": "project-management",
+  "name": "Project Management",
+  "type": "extra",
+  "level": "2★",
+  "rarity": "uncommon",
+  "description": "Manages issues, tasks, projects, and team workflows through structured project management platforms, handling state transitions and priority levels.",
+  "prerequisites": [
+    "api-call",
+    "issue-triage"
+  ],
+  "derivatives": [],
+  "conditions": "",
+  "evidence": [
+    {
+      "class": "C",
+      "source": "https://hermes-agent.nousresearch.com/docs/skills",
+      "evaluator": "gemini-cli",
+      "date": "2026-05-17",
+      "notes": "Hermes Skills Hub: Linear integration for issue and project management."
+    }
+  ],
+  "knownAgents": [
+    "NousResearch/hermes-agent"
+  ],
+  "status": "provisional",
+  "createdAt": "2026-05-17",
+  "updatedAt": "2026-05-17",
+  "version": "0.1.0"
+}

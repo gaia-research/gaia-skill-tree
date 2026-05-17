@@ -237,6 +237,74 @@
         "role": "origin"
       }
     ],
+    "browser-automation": [
+      {
+        "id": "browserbase/stagehand",
+        "name": "Stagehand",
+        "contributor": "browserbase",
+        "origin": false,
+        "genericSkillRef": "browser-automation",
+        "status": "named",
+        "level": "2★",
+        "description": "SDK for browser agents that combines deterministic browser automation with AI-assisted page interaction.",
+        "title": "The SDK of Intent",
+        "catalogRef": "browserbase-stagehand",
+        "tags": [
+          "browser-automation",
+          "agent",
+          "sdk"
+        ],
+        "links": {
+          "github": "https://github.com/browserbase/stagehand"
+        },
+        "role": "variant"
+      },
+      {
+        "id": "garrytan/gstack",
+        "name": "Gstack",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "browser-automation",
+        "status": "named",
+        "level": "4★",
+        "description": "Fast headless browser for QA testing and site dogfooding. Optimized for high-speed navigation and element interaction (~100ms per command), featuring built-in anti-bot stealth and annotated screenshot capabilities.",
+        "title": "Gstack Browser Engine",
+        "catalogRef": "garrytan-gstack",
+        "tags": [
+          "browser-automation",
+          "stealth",
+          "qa-testing",
+          "headless-browser"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/SKILL.md"
+        },
+        "role": "variant"
+      },
+      {
+        "id": "gooseworks/notte-browser",
+        "name": "Notte Browser",
+        "contributor": "gooseworks",
+        "origin": true,
+        "genericSkillRef": "browser-automation",
+        "status": "named",
+        "level": "3★",
+        "description": "AI-first browser automation using the Notte Browser API to control browser sessions, scrape pages, fill forms, take screenshots, and run autonomous web agents with managed credential handling.",
+        "title": "The Digital Navigator",
+        "catalogRef": "gooseworks-notte-browser",
+        "tags": [
+          "browser",
+          "automation",
+          "web-agent",
+          "scraping",
+          "notte"
+        ],
+        "links": {
+          "github": "https://github.com/gooseworks-ai/goose-skills"
+        },
+        "role": "origin"
+      }
+    ],
     "autonomous-debug": [
       {
         "id": "devin-ai/autonomous-swe",
@@ -283,6 +351,30 @@
           "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnose/SKILL.md"
         },
         "role": "variant"
+      }
+    ],
+    "web-scrape": [
+      {
+        "id": "firecrawl/firecrawl",
+        "name": "Firecrawl",
+        "contributor": "firecrawl",
+        "origin": true,
+        "genericSkillRef": "web-scrape",
+        "status": "named",
+        "level": "2★",
+        "description": "Open-source API for AI-oriented web search, scraping, crawling, and structured extraction from websites.",
+        "title": "The Web Infuser",
+        "catalogRef": "firecrawl-firecrawl",
+        "tags": [
+          "web-scrape",
+          "search",
+          "extraction",
+          "crawler"
+        ],
+        "links": {
+          "github": "https://github.com/firecrawl/firecrawl"
+        },
+        "role": "origin"
       }
     ],
     "security-audit": [
@@ -379,53 +471,6 @@
         ],
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-issues/SKILL.md"
-        },
-        "role": "origin"
-      }
-    ],
-    "browser-automation": [
-      {
-        "id": "garrytan/gstack",
-        "name": "Gstack",
-        "contributor": "garrytan",
-        "origin": false,
-        "genericSkillRef": "browser-automation",
-        "status": "named",
-        "level": "4★",
-        "description": "Fast headless browser for QA testing and site dogfooding. Optimized for high-speed navigation and element interaction (~100ms per command), featuring built-in anti-bot stealth and annotated screenshot capabilities.",
-        "title": "Gstack Browser Engine",
-        "catalogRef": "garrytan-gstack",
-        "tags": [
-          "browser-automation",
-          "stealth",
-          "qa-testing",
-          "headless-browser"
-        ],
-        "links": {
-          "github": "https://github.com/garrytan/gstack/blob/main/SKILL.md"
-        },
-        "role": "variant"
-      },
-      {
-        "id": "gooseworks/notte-browser",
-        "name": "Notte Browser",
-        "contributor": "gooseworks",
-        "origin": true,
-        "genericSkillRef": "browser-automation",
-        "status": "named",
-        "level": "3★",
-        "description": "AI-first browser automation using the Notte Browser API to control browser sessions, scrape pages, fill forms, take screenshots, and run autonomous web agents with managed credential handling.",
-        "title": "The Digital Navigator",
-        "catalogRef": "gooseworks-notte-browser",
-        "tags": [
-          "browser",
-          "automation",
-          "web-agent",
-          "scraping",
-          "notte"
-        ],
-        "links": {
-          "github": "https://github.com/gooseworks-ai/goose-skills"
         },
         "role": "origin"
       }
@@ -1139,6 +1184,21 @@
         "role": "origin"
       }
     ],
+    "prompt-optimization": [
+      {
+        "id": "stanfordnlp/dspy",
+        "name": "DSPy",
+        "contributor": "stanfordnlp",
+        "origin": true,
+        "genericSkillRef": "prompt-optimization",
+        "status": "named",
+        "level": "3★",
+        "description": "Declarative programming of language model pipelines, automatically optimizing prompts and RAG retrieval using bootstrapping and teleprompters.",
+        "title": "The Programmatic Prompt Engineer",
+        "catalogRef": "stanfordnlp-dspy",
+        "role": "origin"
+      }
+    ],
     "generate-test": [
       {
         "id": "upsonic/unittest-generator",
@@ -1450,8 +1510,14 @@
     "browser-use": [
       "browser-use/browser-harness"
     ],
+    "browserbase": [
+      "browserbase/stagehand"
+    ],
     "devin-ai": [
       "devin-ai/autonomous-swe"
+    ],
+    "firecrawl": [
+      "firecrawl/firecrawl"
     ],
     "gaiabot": [
       "gaiabot/gaia-triage",
@@ -1542,6 +1608,9 @@
     ],
     "spring-ai": [
       "spring-ai/readme-generate"
+    ],
+    "stanfordnlp": [
+      "stanfordnlp/dspy"
     ],
     "upsonic": [
       "upsonic/unittest-generator"

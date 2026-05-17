@@ -30,6 +30,25 @@ Curated named skills from live SKILL.md ecosystems.
 | apify/crawlee-python | Crawlee—A web scraping and browser automation library for Python to build reliable crawlers. | https://github.com/apify/crawlee-python |
 | firecrawl/firecrawl-mcp-server | Official Firecrawl MCP Server - Adds powerful web scraping and search to Cursor, Claude and any other LLM clients. | https://github.com/firecrawl/firecrawl-mcp-server |
 | LadislavSopko/mcp-server-for-vs | Deep MCP server for Visual Studio with Roslyn-powered tools and debugger control. | https://github.com/LadislavSopko/mcp-server-for-vs |
+| Mintplex-Labs/anything-llm | The all-in-one AI productivity accelerator. On device and privacy first with no annoying setup or configuration. | https://github.com/Mintplex-Labs/anything-llm |
+| dgtlmoon/changedetection.io | Best and simplest tool for website change detection, web page monitoring, and website change alerts. Perfect for tracking content changes, price drops, restock alerts, and website defacement monitorin | https://github.com/dgtlmoon/changedetection.io |
+| alirezamika/autoscraper | A Smart, Automatic, Fast and Lightweight Web Scraper for Python | https://github.com/alirezamika/autoscraper |
+| go-rod/rod | A Chrome DevTools Protocol driver for web automation and scraping. | https://github.com/go-rod/rod |
+| crawlab-team/crawlab | Distributed web crawler admin platform for spiders management regardless of languages and frameworks. 分布式爬虫管理平台，支持任何语言和框架 | https://github.com/crawlab-team/crawlab |
+| adithya-s-k/omniparse | Ingest, parse, and optimize any data format ➡️ from documents to multimedia ➡️ for enhanced compatibility with GenAI frameworks | https://github.com/adithya-s-k/omniparse |
+| apache/nutch | Apache Nutch is an extensible and scalable web crawler | https://github.com/apache/nutch |
+| spider-rs/spider | Low latency web data collector | https://github.com/spider-rs/spider |
+| microlinkhq/browserless | The headless Chrome/Chromium driver on top of Puppeteer. Take screenshots, generate PDFs, extract text and HTML with a production-ready API. | https://github.com/microlinkhq/browserless |
+| gildas-lormeau/single-file-cli | CLI tool for saving a faithful copy of a complete web page in a single HTML file (based on SingleFile) | https://github.com/gildas-lormeau/single-file-cli |
+| 0xMassi/webclaw | Fast, local-first web content extraction for LLMs. Scrape, crawl, extract structured data — all from Rust. CLI, REST API, and MCP server. | https://github.com/0xMassi/webclaw |
+| lightpanda-io/browser | Lightpanda: the headless browser designed for AI and automation | https://github.com/lightpanda-io/browser |
+| GoogleChrome/rendertron | A Headless Chrome rendering solution | https://github.com/GoogleChrome/rendertron |
+| huggingface/meta-llama/Llama-3.1-8B-Instruct | HuggingFace model for text-generation | https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct |
+| huggingface/deepseek-ai/DeepSeek-R1 | HuggingFace model for text-generation | https://huggingface.co/deepseek-ai/DeepSeek-R1 |
+| huggingface/facebook/bart-large-cnn | HuggingFace model for summarization | https://huggingface.co/facebook/bart-large-cnn |
+| huggingface/dslim/bert-base-NER | HuggingFace model for token-classification | https://huggingface.co/dslim/bert-base-NER |
+| huggingface/BAAI/bge-small-en-v1.5 | HuggingFace model for feature-extraction | https://huggingface.co/BAAI/bge-small-en-v1.5 |
+| stanfordnlp/dspy | DSPy: The framework for programming—not prompting—foundation models | https://github.com/stanfordnlp/dspy |
 
 ## Items
 
@@ -116,5 +135,24 @@ Curated named skills from live SKILL.md ecosystems.
 - [huggingface/semantic-cache](https://github.com/codefuse-ai/ModelCache) - High-performance semantic caching for LLM responses using embedding similarity. Maps to: `semantic-cache`.
 - [nousresearch/feed-monitoring](https://github.com/NousResearch/hermes-agent) - Continuous monitoring of content feeds with intelligent discovery and state tracking. Maps to: `feed-monitoring`.
 - [browser-use/browser-harness](https://github.com/browser-use/browser-harness) - Resilient, self-healing browser harness for direct agent control via CDP and runtime helper generation. Maps to: `browser-control`.
+- [stanfordnlp/dspy](https://github.com/stanfordnlp/dspy) - DSPy: The framework for programming—not prompting—foundation models Maps to: `prompt-optimization`.
+- [anything-llm](https://github.com/Mintplex-Labs/anything-llm) - The all-in-one AI productivity accelerator. On device and privacy first with no annoying setup or configuration. Maps to: `web-scrape`.
+- [changedetection.io](https://github.com/dgtlmoon/changedetection.io) - Best and simplest tool for website change detection, web page monitoring, and website change alerts. Perfect for tracking content changes, price drops, restock alerts, and website defacement monitorin Maps to: `web-scrape`.
+- [autoscraper](https://github.com/alirezamika/autoscraper) - A Smart, Automatic, Fast and Lightweight Web Scraper for Python Maps to: `web-scrape`.
+- [rod](https://github.com/go-rod/rod) - A Chrome DevTools Protocol driver for web automation and scraping. Maps to: `web-scrape`.
+- [crawlab](https://github.com/crawlab-team/crawlab) - Distributed web crawler admin platform for spiders management regardless of languages and frameworks. 分布式爬虫管理平台，支持任何语言和框架 Maps to: `web-scrape`.
+- [omniparse](https://github.com/adithya-s-k/omniparse) - Ingest, parse, and optimize any data format ➡️ from documents to multimedia ➡️ for enhanced compatibility with GenAI frameworks Maps to: `web-scrape`.
+- [nutch](https://github.com/apache/nutch) - Apache Nutch is an extensible and scalable web crawler Maps to: `web-scrape`.
+- [spider](https://github.com/spider-rs/spider) - Low latency web data collector Maps to: `web-scrape`.
+- [browserless](https://github.com/microlinkhq/browserless) - The headless Chrome/Chromium driver on top of Puppeteer. Take screenshots, generate PDFs, extract text and HTML with a production-ready API. Maps to: `web-scrape`, `browser-automation`.
+- [single-file-cli](https://github.com/gildas-lormeau/single-file-cli) - CLI tool for saving a faithful copy of a complete web page in a single HTML file (based on SingleFile) Maps to: `web-scrape`.
+- [webclaw](https://github.com/0xMassi/webclaw) - Fast, local-first web content extraction for LLMs. Scrape, crawl, extract structured data — all from Rust. CLI, REST API, and MCP server. Maps to: `web-scrape`.
+- [browser](https://github.com/lightpanda-io/browser) - Lightpanda: the headless browser designed for AI and automation Maps to: `web-scrape`, `browser-automation`.
+- [rendertron](https://github.com/GoogleChrome/rendertron) - A Headless Chrome rendering solution Maps to: `web-scrape`.
+- [Llama-3.1-8B-Instruct (text-generation)](https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct) - HuggingFace model for text-generation Maps to: `generate-text`.
+- [DeepSeek-R1 (text-generation)](https://huggingface.co/deepseek-ai/DeepSeek-R1) - HuggingFace model for text-generation Maps to: `generate-text`.
+- [bart-large-cnn (summarization)](https://huggingface.co/facebook/bart-large-cnn) - HuggingFace model for summarization Maps to: `generate-text`.
+- [bert-base-NER (token-classification)](https://huggingface.co/dslim/bert-base-NER) - HuggingFace model for token-classification Maps to: `extract-entities`.
+- [bge-small-en-v1.5 (feature-extraction)](https://huggingface.co/BAAI/bge-small-en-v1.5) - HuggingFace model for feature-extraction Maps to: `embed-text`.
 
 *Generated from registry/real-skills.json on 2026-05-14.*

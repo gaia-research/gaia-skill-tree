@@ -124,6 +124,101 @@
       "repo": "LadislavSopko/mcp-server-for-vs",
       "description": "Deep MCP server for Visual Studio with Roslyn-powered tools and debugger control.",
       "url": "https://github.com/LadislavSopko/mcp-server-for-vs"
+    },
+    {
+      "repo": "Mintplex-Labs/anything-llm",
+      "description": "The all-in-one AI productivity accelerator. On device and privacy first with no annoying setup or configuration.",
+      "url": "https://github.com/Mintplex-Labs/anything-llm"
+    },
+    {
+      "repo": "dgtlmoon/changedetection.io",
+      "description": "Best and simplest tool for website change detection, web page monitoring, and website change alerts. Perfect for tracking content changes, price drops, restock alerts, and website defacement monitorin",
+      "url": "https://github.com/dgtlmoon/changedetection.io"
+    },
+    {
+      "repo": "alirezamika/autoscraper",
+      "description": "A Smart, Automatic, Fast and Lightweight Web Scraper for Python",
+      "url": "https://github.com/alirezamika/autoscraper"
+    },
+    {
+      "repo": "go-rod/rod",
+      "description": "A Chrome DevTools Protocol driver for web automation and scraping.",
+      "url": "https://github.com/go-rod/rod"
+    },
+    {
+      "repo": "crawlab-team/crawlab",
+      "description": "Distributed web crawler admin platform for spiders management regardless of languages and frameworks. \u5206\u5e03\u5f0f\u722c\u866b\u7ba1\u7406\u5e73\u53f0\uff0c\u652f\u6301\u4efb\u4f55\u8bed\u8a00\u548c\u6846\u67b6",
+      "url": "https://github.com/crawlab-team/crawlab"
+    },
+    {
+      "repo": "adithya-s-k/omniparse",
+      "description": "Ingest, parse, and optimize any data format \u27a1\ufe0f from documents to multimedia \u27a1\ufe0f for enhanced compatibility with GenAI frameworks",
+      "url": "https://github.com/adithya-s-k/omniparse"
+    },
+    {
+      "repo": "apache/nutch",
+      "description": "Apache Nutch is an extensible and scalable web crawler",
+      "url": "https://github.com/apache/nutch"
+    },
+    {
+      "repo": "spider-rs/spider",
+      "description": "Low latency web data collector",
+      "url": "https://github.com/spider-rs/spider"
+    },
+    {
+      "repo": "microlinkhq/browserless",
+      "description": "The headless Chrome/Chromium driver on top of Puppeteer. Take screenshots, generate PDFs, extract text and HTML with a production-ready API.",
+      "url": "https://github.com/microlinkhq/browserless"
+    },
+    {
+      "repo": "gildas-lormeau/single-file-cli",
+      "description": "CLI tool for saving a faithful copy of a complete web page in a single HTML file (based on SingleFile)",
+      "url": "https://github.com/gildas-lormeau/single-file-cli"
+    },
+    {
+      "repo": "0xMassi/webclaw",
+      "description": "Fast, local-first web content extraction for LLMs. Scrape, crawl, extract structured data \u2014 all from Rust. CLI, REST API, and MCP server.",
+      "url": "https://github.com/0xMassi/webclaw"
+    },
+    {
+      "repo": "lightpanda-io/browser",
+      "description": "Lightpanda: the headless browser designed for AI and automation",
+      "url": "https://github.com/lightpanda-io/browser"
+    },
+    {
+      "repo": "GoogleChrome/rendertron",
+      "description": "A Headless Chrome rendering solution",
+      "url": "https://github.com/GoogleChrome/rendertron"
+    },
+    {
+      "repo": "huggingface/meta-llama/Llama-3.1-8B-Instruct",
+      "description": "HuggingFace model for text-generation",
+      "url": "https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct"
+    },
+    {
+      "repo": "huggingface/deepseek-ai/DeepSeek-R1",
+      "description": "HuggingFace model for text-generation",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1"
+    },
+    {
+      "repo": "huggingface/facebook/bart-large-cnn",
+      "description": "HuggingFace model for summarization",
+      "url": "https://huggingface.co/facebook/bart-large-cnn"
+    },
+    {
+      "repo": "huggingface/dslim/bert-base-NER",
+      "description": "HuggingFace model for token-classification",
+      "url": "https://huggingface.co/dslim/bert-base-NER"
+    },
+    {
+      "repo": "huggingface/BAAI/bge-small-en-v1.5",
+      "description": "HuggingFace model for feature-extraction",
+      "url": "https://huggingface.co/BAAI/bge-small-en-v1.5"
+    },
+    {
+      "repo": "stanfordnlp/dspy",
+      "description": "DSPy: The framework for programming—not prompting—foundation models",
+      "url": "https://github.com/stanfordnlp/dspy"
     }
   ],
   "items": [
@@ -1810,6 +1905,312 @@
       ],
       "promotedNamedSkillId": "browser-use/browser-harness",
       "title": "The Dom Whispering"
+    },
+    {
+      "id": "stanfordnlp-dspy",
+      "name": "stanfordnlp/dspy",
+      "contributor": "stanfordnlp",
+      "description": "DSPy: The framework for programming—not prompting—foundation models",
+      "sourceRepo": "stanfordnlp/dspy",
+      "url": "https://github.com/stanfordnlp/dspy",
+      "mapsToGaia": [
+        "prompt-optimization"
+      ],
+      "addedAt": "2026-05-17",
+      "tags": [
+        "github",
+        "prompt-optimization"
+      ]
+    },
+    {
+      "id": "gh-anything-llm",
+      "name": "anything-llm",
+      "contributor": "Mintplex-Labs",
+      "description": "The all-in-one AI productivity accelerator. On device and privacy first with no annoying setup or configuration.",
+      "sourceRepo": "Mintplex-Labs/anything-llm",
+      "url": "https://github.com/Mintplex-Labs/anything-llm",
+      "mapsToGaia": [
+        "web-scrape"
+      ],
+      "addedAt": "2026-05-17",
+      "tags": [
+        "github",
+        "web-scrape"
+      ]
+    },
+    {
+      "id": "gh-changedetectionio",
+      "name": "changedetection.io",
+      "contributor": "dgtlmoon",
+      "description": "Best and simplest tool for website change detection, web page monitoring, and website change alerts. Perfect for tracking content changes, price drops, restock alerts, and website defacement monitorin",
+      "sourceRepo": "dgtlmoon/changedetection.io",
+      "url": "https://github.com/dgtlmoon/changedetection.io",
+      "mapsToGaia": [
+        "web-scrape"
+      ],
+      "addedAt": "2026-05-17",
+      "tags": [
+        "github",
+        "web-scrape"
+      ]
+    },
+    {
+      "id": "gh-autoscraper",
+      "name": "autoscraper",
+      "contributor": "alirezamika",
+      "description": "A Smart, Automatic, Fast and Lightweight Web Scraper for Python",
+      "sourceRepo": "alirezamika/autoscraper",
+      "url": "https://github.com/alirezamika/autoscraper",
+      "mapsToGaia": [
+        "web-scrape"
+      ],
+      "addedAt": "2026-05-17",
+      "tags": [
+        "github",
+        "web-scrape"
+      ]
+    },
+    {
+      "id": "gh-rod",
+      "name": "rod",
+      "contributor": "go-rod",
+      "description": "A Chrome DevTools Protocol driver for web automation and scraping.",
+      "sourceRepo": "go-rod/rod",
+      "url": "https://github.com/go-rod/rod",
+      "mapsToGaia": [
+        "web-scrape"
+      ],
+      "addedAt": "2026-05-17",
+      "tags": [
+        "github",
+        "web-scrape"
+      ]
+    },
+    {
+      "id": "gh-crawlab",
+      "name": "crawlab",
+      "contributor": "crawlab-team",
+      "description": "Distributed web crawler admin platform for spiders management regardless of languages and frameworks. \u5206\u5e03\u5f0f\u722c\u866b\u7ba1\u7406\u5e73\u53f0\uff0c\u652f\u6301\u4efb\u4f55\u8bed\u8a00\u548c\u6846\u67b6",
+      "sourceRepo": "crawlab-team/crawlab",
+      "url": "https://github.com/crawlab-team/crawlab",
+      "mapsToGaia": [
+        "web-scrape"
+      ],
+      "addedAt": "2026-05-17",
+      "tags": [
+        "github",
+        "web-scrape"
+      ]
+    },
+    {
+      "id": "gh-omniparse",
+      "name": "omniparse",
+      "contributor": "adithya-s-k",
+      "description": "Ingest, parse, and optimize any data format \u27a1\ufe0f from documents to multimedia \u27a1\ufe0f for enhanced compatibility with GenAI frameworks",
+      "sourceRepo": "adithya-s-k/omniparse",
+      "url": "https://github.com/adithya-s-k/omniparse",
+      "mapsToGaia": [
+        "web-scrape"
+      ],
+      "addedAt": "2026-05-17",
+      "tags": [
+        "github",
+        "web-scrape"
+      ]
+    },
+    {
+      "id": "gh-nutch",
+      "name": "nutch",
+      "contributor": "apache",
+      "description": "Apache Nutch is an extensible and scalable web crawler",
+      "sourceRepo": "apache/nutch",
+      "url": "https://github.com/apache/nutch",
+      "mapsToGaia": [
+        "web-scrape"
+      ],
+      "addedAt": "2026-05-17",
+      "tags": [
+        "github",
+        "web-scrape"
+      ]
+    },
+    {
+      "id": "gh-spider",
+      "name": "spider",
+      "contributor": "spider-rs",
+      "description": "Low latency web data collector",
+      "sourceRepo": "spider-rs/spider",
+      "url": "https://github.com/spider-rs/spider",
+      "mapsToGaia": [
+        "web-scrape"
+      ],
+      "addedAt": "2026-05-17",
+      "tags": [
+        "github",
+        "web-scrape"
+      ]
+    },
+    {
+      "id": "gh-browserless",
+      "name": "browserless",
+      "contributor": "microlinkhq",
+      "description": "The headless Chrome/Chromium driver on top of Puppeteer. Take screenshots, generate PDFs, extract text and HTML with a production-ready API.",
+      "sourceRepo": "microlinkhq/browserless",
+      "url": "https://github.com/microlinkhq/browserless",
+      "mapsToGaia": [
+        "web-scrape",
+        "browser-automation"
+      ],
+      "addedAt": "2026-05-17",
+      "tags": [
+        "github",
+        "web-scrape"
+      ]
+    },
+    {
+      "id": "gh-single-file-cli",
+      "name": "single-file-cli",
+      "contributor": "gildas-lormeau",
+      "description": "CLI tool for saving a faithful copy of a complete web page in a single HTML file (based on SingleFile)",
+      "sourceRepo": "gildas-lormeau/single-file-cli",
+      "url": "https://github.com/gildas-lormeau/single-file-cli",
+      "mapsToGaia": [
+        "web-scrape"
+      ],
+      "addedAt": "2026-05-17",
+      "tags": [
+        "github",
+        "web-scrape"
+      ]
+    },
+    {
+      "id": "gh-webclaw",
+      "name": "webclaw",
+      "contributor": "0xMassi",
+      "description": "Fast, local-first web content extraction for LLMs. Scrape, crawl, extract structured data \u2014 all from Rust. CLI, REST API, and MCP server.",
+      "sourceRepo": "0xMassi/webclaw",
+      "url": "https://github.com/0xMassi/webclaw",
+      "mapsToGaia": [
+        "web-scrape"
+      ],
+      "addedAt": "2026-05-17",
+      "tags": [
+        "github",
+        "web-scrape"
+      ]
+    },
+    {
+      "id": "gh-browser",
+      "name": "browser",
+      "contributor": "lightpanda-io",
+      "description": "Lightpanda: the headless browser designed for AI and automation",
+      "sourceRepo": "lightpanda-io/browser",
+      "url": "https://github.com/lightpanda-io/browser",
+      "mapsToGaia": [
+        "web-scrape",
+        "browser-automation"
+      ],
+      "addedAt": "2026-05-17",
+      "tags": [
+        "github",
+        "web-scrape"
+      ]
+    },
+    {
+      "id": "gh-rendertron",
+      "name": "rendertron",
+      "contributor": "GoogleChrome",
+      "description": "A Headless Chrome rendering solution",
+      "sourceRepo": "GoogleChrome/rendertron",
+      "url": "https://github.com/GoogleChrome/rendertron",
+      "mapsToGaia": [
+        "web-scrape"
+      ],
+      "addedAt": "2026-05-17",
+      "tags": [
+        "github",
+        "web-scrape"
+      ]
+    },
+    {
+      "id": "generate-text-hf-llama-31-8b-instruct",
+      "name": "Llama-3.1-8B-Instruct (text-generation)",
+      "contributor": "meta-llama",
+      "description": "HuggingFace model for text-generation",
+      "sourceRepo": "huggingface/meta-llama/Llama-3.1-8B-Instruct",
+      "url": "https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct",
+      "mapsToGaia": [
+        "generate-text"
+      ],
+      "addedAt": "2026-05-17",
+      "tags": [
+        "huggingface",
+        "generate-text"
+      ]
+    },
+    {
+      "id": "generate-text-hf-deepseek-r1",
+      "name": "DeepSeek-R1 (text-generation)",
+      "contributor": "deepseek-ai",
+      "description": "HuggingFace model for text-generation",
+      "sourceRepo": "huggingface/deepseek-ai/DeepSeek-R1",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1",
+      "mapsToGaia": [
+        "generate-text"
+      ],
+      "addedAt": "2026-05-17",
+      "tags": [
+        "huggingface",
+        "generate-text"
+      ]
+    },
+    {
+      "id": "summarize-hf-bart-large-cnn",
+      "name": "bart-large-cnn (summarization)",
+      "contributor": "facebook",
+      "description": "HuggingFace model for summarization",
+      "sourceRepo": "huggingface/facebook/bart-large-cnn",
+      "url": "https://huggingface.co/facebook/bart-large-cnn",
+      "mapsToGaia": [
+        "generate-text"
+      ],
+      "addedAt": "2026-05-17",
+      "tags": [
+        "huggingface",
+        "summarize-hf"
+      ]
+    },
+    {
+      "id": "extract-entities-hf-bert-base-ner",
+      "name": "bert-base-NER (token-classification)",
+      "contributor": "dslim",
+      "description": "HuggingFace model for token-classification",
+      "sourceRepo": "huggingface/dslim/bert-base-NER",
+      "url": "https://huggingface.co/dslim/bert-base-NER",
+      "mapsToGaia": [
+        "extract-entities"
+      ],
+      "addedAt": "2026-05-17",
+      "tags": [
+        "huggingface",
+        "extract-entities"
+      ]
+    },
+    {
+      "id": "embed-text-hf-bge-small-en-v15",
+      "name": "bge-small-en-v1.5 (feature-extraction)",
+      "contributor": "BAAI",
+      "description": "HuggingFace model for feature-extraction",
+      "sourceRepo": "huggingface/BAAI/bge-small-en-v1.5",
+      "url": "https://huggingface.co/BAAI/bge-small-en-v1.5",
+      "mapsToGaia": [
+        "embed-text"
+      ],
+      "addedAt": "2026-05-17",
+      "tags": [
+        "huggingface",
+        "embed-text"
+      ]
     }
   ]
 }

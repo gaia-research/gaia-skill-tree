@@ -1,0 +1,30 @@
+{
+  "id": "ml-artifact-management",
+  "name": "ML Artifact Management",
+  "type": "extra",
+  "level": "2★",
+  "rarity": "uncommon",
+  "description": "Manages machine learning models, datasets, and experiment logs through centralized hub or tracking repositories, handling versioning and metadata extraction.",
+  "prerequisites": [
+    "api-call",
+    "classify"
+  ],
+  "derivatives": [],
+  "conditions": "",
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/huggingface/huggingface_hub",
+      "evaluator": "gemini-cli",
+      "date": "2026-05-17",
+      "notes": "Hugging Face Hub CLI -- standard interface for managing ML artifacts."
+    }
+  ],
+  "knownAgents": [
+    "huggingface/hf-cli"
+  ],
+  "status": "provisional",
+  "createdAt": "2026-05-17",
+  "updatedAt": "2026-05-17",
+  "version": "0.1.0"
+}

@@ -26,7 +26,7 @@
   │  ├─ · ○ /summarize  [0★]
   │  └─ · ○ /cite-sources  [1★]
   ├─ · ◇ Extra Skill: /knowledge-harvest  [4★]
-  │  ├─ · ◇ Extra Skill: /web-scrape  [3★]
+  │  ├─ · ◇ Extra Skill: firecrawl/firecrawl  [3★]
   │  │  ├─ · ○ /web-search  [1★]  (↑ see above)
   │  │  ├─ · ○ /parse-html  [1★]
   │  │  └─ · ○ /extract-entities  [1★]

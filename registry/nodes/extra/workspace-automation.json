@@ -1,0 +1,30 @@
+{
+  "id": "workspace-automation",
+  "name": "Workspace Automation",
+  "type": "extra",
+  "level": "2★",
+  "rarity": "uncommon",
+  "description": "Orchestrates productivity tasks across email, calendar, drive, and documents through unified office suite integrations, automating scheduling and file management.",
+  "prerequisites": [
+    "api-call",
+    "document-editing"
+  ],
+  "derivatives": [],
+  "conditions": "",
+  "evidence": [
+    {
+      "class": "C",
+      "source": "https://hermes-agent.nousresearch.com/docs/skills",
+      "evaluator": "gemini-cli",
+      "date": "2026-05-17",
+      "notes": "Hermes Skills Hub: Google Workspace integration for unified email, calendar, and drive access."
+    }
+  ],
+  "knownAgents": [
+    "NousResearch/hermes-agent"
+  ],
+  "status": "provisional",
+  "createdAt": "2026-05-17",
+  "updatedAt": "2026-05-17",
+  "version": "0.1.0"
+}

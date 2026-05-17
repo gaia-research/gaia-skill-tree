@@ -18,8 +18,10 @@
 | ○ /chunk-document | Basic Skill | 1★ | Awakened | `/chunk-document` |
 | ○ /cite-sources | Basic Skill | 1★ | Awakened | `/cite-sources` |
 | ○ /classify | Basic Skill | 0★ | Basic | `/classify` |
+| ○ /code-execution | Basic Skill | 2★ | Named | `/code-execution` |
 | ○ /code-generation | Basic Skill | 1★ | Awakened | `/code-generation` |
 | ◇ Extra Skill: /code-review-pipeline | Extra Skill | 3★ | Evolved | `/code-review-pipeline` |
+| ◇ Extra Skill: /collaborative-diagramming | Extra Skill | 2★ | Named | `/collaborative-diagramming` |
 | ○ /computer-use | Basic Skill | 2★ | Named | `/computer-use` |
 | ◇ Extra Skill: /content-moderation | Extra Skill | 3★ | Evolved | `/content-moderation` |
 | ◇ Extra Skill: /conversational-agent | Extra Skill | 3★ | Evolved | `/conversational-agent` |
@@ -52,6 +54,7 @@
 | ○ /generate-sql | Basic Skill | 2★ | Named | `/generate-sql` |
 | ○ upsonic/unittest-generator | Basic Skill | 2★ | Named | `/generate-test` |
 | ○ /generate-text | Basic Skill | 0★ | Basic | `/generate-text` |
+| ◇ Extra Skill: /generative-media | Extra Skill | 3★ → 2★ | Evolved | `/generative-media` |
 | ◇ Extra Skill: /ghostwrite | Extra Skill | 4★ | Hardened | `/ghostwrite` |
 | ◇ Extra Skill: mattpocock/grill-me | Extra Skill | 4★ | Hardened | `/grill-me` |
 | ◆ Ultimate Skill: mattpocock/grill-with-docs | Ultimate Skill | 5★ | Transcendent | `/grill-with-docs` |
@@ -63,13 +66,16 @@
 | ○ mattpocock/triage | Basic Skill | 4★ | Hardened | `/issue-triage` |
 | ◇ Extra Skill: safishamsi/graphify | Extra Skill | 3★ | Evolved | `/knowledge-graph-build` |
 | ◇ Extra Skill: /knowledge-harvest | Extra Skill | 4★ | Hardened | `/knowledge-harvest` |
+| ◇ Extra Skill: /knowledge-management | Extra Skill | 2★ | Named | `/knowledge-management` |
 | ◇ Extra Skill: huggingface/huggingface-papers | Extra Skill | 4★ | Hardened | `/literature-review` |
 | ○ /logical-inference | Basic Skill | 1★ | Awakened | `/logical-inference` |
 | ○ /math-reason | Basic Skill | 2★ | Named | `/math-reason` |
+| ◇ Extra Skill: /mathematical-animation | Extra Skill | 3★ → 2★ | Evolved | `/mathematical-animation` |
 | ◇ Extra Skill: /mcp-debugger-control | Extra Skill | 4★ → 3★ | Hardened | `/mcp-debugger-control` |
 | ○ /mcp-integration | Basic Skill | 3★ → 2★ | Evolved | `/mcp-integration` |
 | ◇ Extra Skill: /mcp-server-creation | Extra Skill | 4★ | Hardened | `/mcp-server-creation` |
 | ○ /memory-manage | Basic Skill | 2★ | Named | `/memory-manage` |
+| ◇ Extra Skill: /ml-artifact-management | Extra Skill | 2★ | Named | `/ml-artifact-management` |
 | ◇ Extra Skill: /ml-pipeline | Extra Skill | 4★ | Hardened | `/ml-pipeline` |
 | ◇ Extra Skill: /multi-agent-debate | Extra Skill | 4★ | Hardened | `/multi-agent-debate` |
 | ◆ Ultimate Skill: ruvnet/flow-nexus-swarm | Ultimate Skill | 5★ | Transcendent | `/multi-agent-orchestration-v` |
@@ -81,8 +87,9 @@
 | ○ /plan-decompose | Basic Skill | 1★ | Awakened | `/plan-decompose` |
 | ◇ Extra Skill: mattpocock/to-prd | Extra Skill | 4★ | Hardened | `/prd-generation` |
 | ◇ Extra Skill: /prediction-market-analysis | Extra Skill | 4★ | Hardened | `/prediction-market-analysis` |
+| ◇ Extra Skill: /project-management | Extra Skill | 2★ | Named | `/project-management` |
 | ○ /prompt-injection-defense | Basic Skill | 3★ | Evolved | `/prompt-injection-defense` |
-| ◇ Extra Skill: /prompt-optimization | Extra Skill | 4★ | Hardened | `/prompt-optimization` |
+| ◇ Extra Skill: stanfordnlp/dspy | Extra Skill | 4★ | Hardened | `/prompt-optimization` |
 | ○ garrytan/office-hours | Basic Skill | 0★ | Basic | `/question-answer` |
 | ◇ Extra Skill: yonatangross/orchestkit-rag | Extra Skill | 3★ | Evolved | `/rag-pipeline` |
 | ○ /rank | Basic Skill | 1★ | Awakened | `/rank` |
@@ -129,10 +136,11 @@
 | ◇ Extra Skill: bradautomates/claude-video | Extra Skill | 3★ | Evolved | `/video-intelligence` |
 | ○ /vision-qa | Basic Skill | 3★ | Evolved | `/vision-qa` |
 | ◇ Extra Skill: /voice-agent | Extra Skill | 3★ → 2★ | Evolved | `/voice-agent` |
-| ◇ Extra Skill: /web-scrape | Extra Skill | 3★ | Evolved | `/web-scrape` |
+| ◇ Extra Skill: firecrawl/firecrawl | Extra Skill | 3★ | Evolved | `/web-scrape` |
 | ○ /web-search | Basic Skill | 1★ | Awakened | `/web-search` |
 | ◇ Extra Skill: /wiki-search | Extra Skill | 4★ | Hardened | `/wiki-search` |
 | ◇ Extra Skill: /workflow-automation | Extra Skill | 4★ | Hardened | `/workflow-automation` |
+| ◇ Extra Skill: /workspace-automation | Extra Skill | 2★ | Named | `/workspace-automation` |
 | ○ glincker/readme-generator | Basic Skill | 1★ | Awakened | `/write-report` |
 | ◇ Extra Skill: /x-twitter-automation | Extra Skill | 4★ | Hardened | `/x-twitter-automation` |
 
@@ -155,7 +163,6 @@
 | Name | Class | Rank | Tier | Skill Call |
 |---|---|---|---|---|
 | ○ Browser Control | Intrinsic Skill | 2★ | Named | `/browser-control` |
-| ○ Code Execution | Intrinsic Skill | 2★ | Named | `/code-execution` |
 | ○ Code Explain | Intrinsic Skill | 2★ | Named | `/code-explain` |
 | ○ Context Compression | Intrinsic Skill | 3★ | Evolved | `/context-compression` |
 | ○ Framework Upgrade | Intrinsic Skill | 0★ | Basic | `/framework-upgrade` |

@@ -1,0 +1,33 @@
+{
+  "id": "generative-media",
+  "name": "Generative Media",
+  "type": "extra",
+  "level": "3★",
+  "rarity": "rare",
+  "description": "Generates and manipulates images, video, and audio through complex node-based or scripted generative workflows, managing model dependencies and parameter injection.",
+  "prerequisites": [
+    "api-call",
+    "data-visualize"
+  ],
+  "derivatives": [],
+  "conditions": "",
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/comfyanonymous/ComfyUI",
+      "evaluator": "gemini-cli",
+      "date": "2026-05-17",
+      "notes": "ComfyUI -- most powerful and modular stable diffusion GUI and backend; node-based graph execution for generative media."
+    }
+  ],
+  "knownAgents": [
+    "NousResearch/hermes-agent"
+  ],
+  "demerits": [
+    "heavyweight-dependency"
+  ],
+  "status": "provisional",
+  "createdAt": "2026-05-17",
+  "updatedAt": "2026-05-17",
+  "version": "0.1.0"
+}
