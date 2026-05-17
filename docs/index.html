@@ -170,7 +170,8 @@
               </div>
               <div class="os-panel" data-os="win">
                 <pre><span class="cmd">py -m pip install</span> gaia-cli</pre>
-                <div class="qs-tip" style="margin-top:.5rem"><span class="qs-tip-icon">💡</span><span>Windows usually doesn't put pip's Scripts folder on PATH. If <code>gaia</code> isn't found after install, invoke the CLI as <code>py -m gaia_cli</code>, or add <code>%APPDATA%\Python\PythonXX\Scripts</code> to PATH.</span></div>
+                <pre style="margin-top:.5rem"><span class="cmd">$env:PATH</span> += <span class="str">";"</span> + (python -c <span class="str">"import sysconfig; print(sysconfig.get_path('scripts', 'nt_user'))"</span>)</pre>
+                <div class="qs-tip" style="margin-top:.5rem"><span class="qs-tip-icon">💡</span><span>Run the second command if <code>gaia</code> isn't found after install — it adds the Python user Scripts directory to your current PowerShell session's PATH.</span></div>
               </div>
             </div>
           </div>
@@ -445,6 +446,9 @@
   <script src="js/page-ia.js"></script>
   <script src="js/plaque-reveal.js" defer></script>
 
+<!-- impeccable-live-start -->
+<script src="http://localhost:8401/live.js"></script>
+<!-- impeccable-live-end -->
 </body>
 
 </html>
