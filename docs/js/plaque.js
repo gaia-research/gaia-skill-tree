@@ -272,8 +272,8 @@
     var links = (ns && ns.links) || {};
     var repoUrl = links.github || links.npm || '';
     var ghLink = repoUrl
-      ? '<a class="plaque__gh-link se-github-link" href="' + esc(repoUrl) + '" target="_blank" rel="noopener">' +
-          icon('github', 14) + ' Show on GitHub ' + icon('external-link', 12) + '</a>'
+      ? '<a class="plaque__gh-link se-github-link" href="' + esc(repoUrl) + '" target="_blank" rel="noopener" aria-label="Show on GitHub">' +
+          icon('github', 14) + icon('external-link', 12) + '</a>'
       : '';
 
     var left =

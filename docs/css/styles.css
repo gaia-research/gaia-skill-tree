@@ -614,6 +614,9 @@
   .process-section{max-width:1000px}
   .process-section h3{font-size:1.02rem;margin-bottom:.45rem}
   .process-section p,.process-section li{color:var(--muted);font-size:.92rem}
+  .branch-bypass-note{margin-top:.75rem;font-size:.82rem;color:var(--muted);line-height:1.5}
+  .branch-bypass-note code{font-family:var(--font-mono);font-size:.78rem;color:var(--text);background:rgba(255,255,255,.05);padding:.1em .3em;border-radius:3px}
+  .branch-contributing-btn{display:block;width:fit-content;margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border)}
   .process-lanes{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
   .process-lane,.review-card{
     background:var(--surface);border:1px solid var(--border);

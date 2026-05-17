@@ -1,0 +1,36 @@
+{
+  "id": "a88c06eb",
+  "phase": "completed",
+  "pageUrl": "/codex",
+  "sourceFile": "docs/codex.html",
+  "expectedVariants": 2,
+  "arrivedVariants": 0,
+  "visibleVariant": 2,
+  "paramValues": {
+    "density": 1
+  },
+  "pendingEventSeq": null,
+  "pendingEvent": null,
+  "deliveryLease": null,
+  "checkpointRevision": 6,
+  "activeOwner": "d94dc881",
+  "sourceMarkers": {},
+  "fallbackMode": null,
+  "annotationArtifacts": [],
+  "diagnostics": [
+    {
+      "error": "stale_checkpoint_ignored",
+      "revision": 1
+    },
+    {
+      "error": "stale_checkpoint_ignored",
+      "revision": 2
+    },
+    {
+      "error": "carbonize_cleanup_required",
+      "file": "docs/codex.html",
+      "message": "Accepted variant still has carbonize markers that must be folded into source CSS."
+    }
+  ],
+  "updatedAt": "2026-05-17T11:46:17.687Z"
+}
