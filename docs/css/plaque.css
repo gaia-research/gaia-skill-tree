@@ -391,6 +391,11 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+/* Foundation icon-state spec alignment for the plaque install-copy button.
+   hover = --tier-basic + drop-shadow glow
+   active = --apex-gold
+   focus-visible = 2px --tier-extra outline
+   disabled = muted + opacity .35 */
 .plaque__install-copy,
 .ns-install-copy {
   background: transparent;
@@ -404,13 +409,32 @@
   justify-content: center;
   cursor: pointer;
   flex-shrink: 0;
-  transition: color 0.15s, border-color 0.15s, background 0.15s;
+  transition: color 0.15s, border-color 0.15s, background 0.15s, filter 0.15s;
 }
 .plaque__install-copy:hover,
 .ns-install-copy:hover {
-  color: var(--text, #e2e8f0);
-  border-color: rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.04);
+  color: var(--tier-basic);
+  border-color: rgba(var(--tier-basic-rgb), 0.45);
+  background: rgba(var(--tier-basic-rgb), 0.06);
+  filter: drop-shadow(0 0 8px rgba(var(--tier-basic-rgb), 0.5));
+}
+.plaque__install-copy:active,
+.ns-install-copy:active {
+  color: var(--apex-gold, #fbbf24);
+  border-color: rgba(var(--apex-gold-rgb), 0.45);
+  filter: none;
+}
+.plaque__install-copy:focus-visible,
+.ns-install-copy:focus-visible {
+  outline: 2px solid var(--tier-extra);
+  outline-offset: 2px;
+}
+.plaque__install-copy[disabled],
+.ns-install-copy[disabled] {
+  color: var(--muted);
+  opacity: .35;
+  cursor: not-allowed;
+  filter: none;
 }
 
 /* Evidence chip (settled only) — neutral ledger pill. */

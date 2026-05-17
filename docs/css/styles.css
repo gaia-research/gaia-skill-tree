@@ -380,6 +380,11 @@
     border-bottom:1px solid var(--apex-gold);
     padding-bottom:.06em;
   }
+  h1 em{
+    font-style:italic;
+    font-weight:400;
+    color:var(--apex-gold);
+  }
   .hero-sub{font-family:var(--font-body);font-size:1.15rem;color:var(--muted);max-width:540px;margin:0 auto 2.4rem}
   .hero-cta{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
   .btn{
@@ -399,7 +404,9 @@
   .btn-ghost:hover{border-color:var(--basic);color:var(--basic)}
   .scroll-hint{
     position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
-    color:var(--muted);font-size:.8rem;display:flex;flex-direction:column;align-items:center;gap:.4rem;
+    color:var(--muted);font-family:var(--font-mono);font-size:.7rem;
+    letter-spacing:.08em;text-transform:uppercase;
+    display:flex;flex-direction:column;align-items:center;gap:.4rem;
     animation:bob 2.4s ease-in-out infinite;
   }
   .scroll-hint svg{width:20px;height:20px;stroke:var(--muted)}
@@ -517,12 +524,21 @@
     width:28px;height:28px;padding:0;
     color:var(--muted);background:rgba(15,23,42,.85);
     border:1px solid var(--border);border-radius:5px;
-    cursor:pointer;transition:color .15s,border-color .15s,opacity .15s,background .15s;
+    cursor:pointer;transition:color .15s,border-color .15s,filter .15s,opacity .15s,background .15s;
     opacity:.55;
   }
   .pre-wrap:hover .copy-btn,.copy-btn:focus-visible{opacity:1}
-  .copy-btn:hover{color:var(--text);border-color:var(--basic);background:rgba(15,23,42,.95)}
-  .copy-btn.copied{color:#86efac;border-color:#86efac;opacity:1}
+  /* Foundation icon-state spec: hover = tier-basic + drop-shadow; active = apex-gold;
+     focus-visible = 2px tier-extra outline; disabled = muted + opacity .35 */
+  .copy-btn:hover{
+    color:var(--tier-basic);border-color:var(--tier-basic);
+    background:rgba(15,23,42,.95);
+    filter:drop-shadow(0 0 8px rgba(var(--tier-basic-rgb),.5));
+  }
+  .copy-btn:active{color:var(--apex-gold);border-color:var(--apex-gold);filter:none}
+  .copy-btn:focus-visible{outline:2px solid var(--tier-extra);outline-offset:2px;}
+  .copy-btn[disabled]{color:var(--muted);opacity:.35;cursor:not-allowed;filter:none}
+  .copy-btn.copied{color:var(--apex-gold);border-color:var(--apex-gold);opacity:1;filter:none}
   .comment{color:#4b6378}
   .cmd{color:#38bdf8}
   .str{color:#86efac}
@@ -595,8 +611,16 @@
   }
   .usp-prompt { color:var(--muted);flex-shrink:0; }
   .usp-cmd { flex:1; }
-  .usp-copy { background:transparent;border:none;color:var(--muted);cursor:pointer;display:flex;align-items:center;flex-shrink:0;padding:0;transition:color .15s; }
-  .usp-copy:hover { color:var(--basic); }
+  /* Foundation icon-state spec alignment for .usp-copy */
+  .usp-copy {
+    background:transparent;border:none;color:var(--muted);cursor:pointer;
+    display:flex;align-items:center;flex-shrink:0;padding:0;
+    transition:color .15s,filter .15s;
+  }
+  .usp-copy:hover { color:var(--tier-basic);filter:drop-shadow(0 0 8px rgba(var(--tier-basic-rgb),.5)); }
+  .usp-copy:active { color:var(--apex-gold);filter:none; }
+  .usp-copy:focus-visible { outline:2px solid var(--tier-extra);outline-offset:2px; }
+  .usp-copy[disabled] { color:var(--muted);opacity:.35;cursor:not-allowed;filter:none; }
   /* ── GLOSSARY ── */
   .glossary{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem}
   .gloss-item{
@@ -1537,11 +1561,16 @@
   }
   .ns-install-prompt { color:var(--muted);flex-shrink:0; }
   .ns-install-cmd-txt { flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }
+  /* Foundation icon-state spec alignment for .ns-install-copy */
   .ns-install-copy {
     background:transparent;border:none;color:var(--muted);padding:0;
-    cursor:pointer;display:flex;align-items:center;flex-shrink:0;transition:color .15s;
+    cursor:pointer;display:flex;align-items:center;flex-shrink:0;
+    transition:color .15s,filter .15s;
   }
-  .ns-install-copy:hover { color:var(--basic); }
+  .ns-install-copy:hover { color:var(--tier-basic);filter:drop-shadow(0 0 8px rgba(var(--tier-basic-rgb),.5)); }
+  .ns-install-copy:active { color:var(--apex-gold);filter:none; }
+  .ns-install-copy:focus-visible { outline:2px solid var(--tier-extra);outline-offset:2px; }
+  .ns-install-copy[disabled] { color:var(--muted);opacity:.35;cursor:not-allowed;filter:none; }
   /* Stage 4 — Tree view layout. Per-card chrome is owned by plaque.css's
      .plaque--mini block; per-tier/per-rank glow is on .plaque[data-type][data-level]
      so the same skill in Tile / List / Tree renders with the same colour weight. */
@@ -1619,8 +1648,11 @@
   .se-hero-install{margin-top:.8rem;display:flex;align-items:center;gap:.5rem;background:rgba(0,0,0,.4);border:1px solid var(--border);border-radius:8px;padding:.45rem .7rem;font-family:var(--font-mono);font-size:.78rem}
   .se-hero-prompt{color:var(--muted);user-select:none}
   .se-hero-cmd{color:var(--basic);flex:1}
-  .se-hero-copy{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:4px;padding:.2rem .5rem;font-size:.7rem;cursor:pointer;font-family: var(--font-body);transition:border-color .2s,color .2s}
-  .se-hero-copy:hover{border-color:var(--basic);color:var(--basic)}
+  /* Foundation icon-state spec alignment for .se-hero-copy (text+border copy button) */
+  .se-hero-copy{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:4px;padding:.2rem .5rem;font-size:.7rem;cursor:pointer;font-family: var(--font-body);transition:border-color .2s,color .2s,filter .2s}
+  .se-hero-copy:hover{border-color:var(--tier-basic);color:var(--tier-basic);filter:drop-shadow(0 0 6px rgba(var(--tier-basic-rgb),.4))}
+  .se-hero-copy:active{color:var(--apex-gold);border-color:var(--apex-gold);filter:none}
+  .se-hero-copy:focus-visible{outline:2px solid var(--tier-extra);outline-offset:2px}
   /* ── fusion + lock + GitHub link on cards ── */
   .se-fusion-label{color:var(--muted);font-size:.8rem;margin-bottom:.8rem;padding-left:.2rem; font-family: var(--font-body); }
 
@@ -1920,13 +1952,18 @@
   .se-install-label { font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;min-width:120px;color:var(--muted); }
   .se-install-label span { display:block;font-size:.65rem;color:var(--basic);margin-top:.15rem; }
   .se-install-cmd { font-family:var(--font-mono);font-size:.88rem;color:var(--text);flex:1;word-break:break-all; }
+  /* Foundation icon-state spec alignment for .se-copy-btn */
   .se-copy-btn {
     background:transparent;border:1px solid var(--border);color:var(--muted);
     width:32px;height:32px;border-radius:7px;cursor:pointer;
     display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;
-    transition:border-color .2s,color .2s;
+    transition:border-color .2s,color .2s,filter .2s;
   }
-  .se-copy-btn:hover,.se-copy-btn.copied { border-color:var(--basic);color:var(--basic); }
+  .se-copy-btn:hover { border-color:var(--tier-basic);color:var(--tier-basic);filter:drop-shadow(0 0 8px rgba(var(--tier-basic-rgb),.5)); }
+  .se-copy-btn:active { color:var(--apex-gold);border-color:var(--apex-gold);filter:none; }
+  .se-copy-btn:focus-visible { outline:2px solid var(--tier-extra);outline-offset:2px; }
+  .se-copy-btn[disabled] { color:var(--muted);opacity:.35;cursor:not-allowed;filter:none; }
+  .se-copy-btn.copied { border-color:var(--apex-gold);color:var(--apex-gold);filter:none; }
   .se-docs-block { margin-bottom:2rem; }
   .se-docs-block h4 { font-size:.88rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:.8rem; }
   .se-evidence-row { display:flex;gap:.7rem;align-items:flex-start;padding:.6rem 0;border-bottom:1px solid var(--border);font-size:.85rem; }
