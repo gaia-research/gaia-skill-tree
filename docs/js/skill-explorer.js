@@ -184,8 +184,8 @@
     var el = document.getElementById('se-docs');
     var links = ns.links || {};
     var repoUrl = links.github || links.npm || '';
-    var issuesUrl = repoUrl && repoUrl.includes('github.com') ? repoUrl.replace(/\.(git|\/?)$/,'') + '/issues' : '';
-    var readmeUrl = repoUrl && repoUrl.includes('github.com') ? repoUrl.replace(/\.(git|\/?)$/,'') + '#readme' : '';
+    var issuesUrl = 'https://github.com/' + REPO_SLUG + '/issues';
+    var readmeUrl = repoUrl && repoUrl.includes('github.com') ? repoUrl.replace(/\.(git|\/?)$/,'') : '';
 
     var evidenceHtml = '';
     if (generic && Array.isArray(generic.evidence) && generic.evidence.length) {
@@ -215,8 +215,7 @@
     }
 
     var linksHtml = '<div class="se-docs-block"><h4>Links</h4>' +
-      (repoUrl ? '<p style="margin-bottom:.5rem"><a style="color:var(--basic)" href="'+esc(repoUrl)+'" target="_blank" rel="noopener">Repository ↗</a></p>' : '') +
-      (readmeUrl ? '<p style="margin-bottom:.5rem"><a style="color:var(--basic)" href="'+esc(readmeUrl)+'" target="_blank" rel="noopener">README ↗</a></p>' : '') +
+      (repoUrl ? '<p style="margin-bottom:.5rem; display:flex; align-items:center; gap:.25rem;"><a style="color:var(--basic); display:flex; align-items:center; gap:.35rem;" href="'+esc(repoUrl)+'" target="_blank" rel="noopener">' + _se_icon('github') + ' Repo ↗</a></p>' : '') +
       (issuesUrl ? '<p><a style="color:var(--basic)" href="'+esc(issuesUrl)+'" target="_blank" rel="noopener">Issues ↗</a></p>' : '') +
     '</div>';
 
@@ -444,11 +443,11 @@
 
     el.innerHTML = '<div class="se-flow-h">' + _se_icon('sparkle') +
         ' Upgrade Path &amp; Adjacent Skills' + buildFlowActions() + '</div>' +
-      fusionHtml +
       '<div class="se-flowchart-wrap" id="seFlowWrap">' +
         '<div class="se-flowchart-rows">' + htmlRows + '</div>' +
         '<svg class="se-flowchart-svg" id="seFlowSvg"></svg>' +
-      '</div>';
+      '</div>' +
+      fusionHtml;
 
     wireFlowActions(genericId);
     setTimeout(function(){ drawFlowEdges(edges); }, 80);
@@ -857,15 +856,26 @@
       var closeBtn = document.getElementById('seClose');
       if (closeBtn) closeBtn.focus();
 
-      // Export button
-      document.getElementById('seExport').onclick = function(){
-        var data = JSON.stringify({ namedSkill: ns, generic: generic }, null, 2);
-        var blob = new Blob([data], { type: 'application/json' });
-        var a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = ns.id.replace('/','_') + '.json';
-        a.click();
-      };
+      // SKILL.md docs button
+      var docsBtn = document.getElementById('seSkillDocs');
+      if (docsBtn) {
+        var readmeUrlRaw = '';
+        var repoUrl = (ns.links && (ns.links.github || ns.links.npm)) || '';
+        if (repoUrl && repoUrl.includes('github.com')) {
+          var base = repoUrl.replace(/\.(git|\/?)$/, '').replace('github.com', 'raw.githubusercontent.com');
+          readmeUrlRaw = base + '/main/SKILL.md';
+        }
+        if (!readmeUrlRaw) {
+          docsBtn.style.display = 'none';
+        } else {
+          docsBtn.style.display = '';
+          docsBtn.onclick = function() {
+            if (window.openDocumentDialog) {
+              window.openDocumentDialog(ns.id + ' — SKILL.md', readmeUrlRaw, ns.id.replace('/', '_') + '_SKILL.md');
+            }
+          };
+        }
+      }
 
       // Share button
       document.getElementById('seShare').onclick = function(){
@@ -1006,6 +1016,7 @@
   var treeDownloadBtn = document.getElementById('treeDownloadBtn');
   var treeDialogPre = document.getElementById('treeDialogPre');
   var treeHeader = treeDialog.querySelector('.tree-dialog-header');
+  var treeDialogTitle = document.getElementById('treeDialogTitle');
   var _treeContent = null;
 
   var SKELETON = [
@@ -1055,8 +1066,11 @@
 
   function openTreeDialog() {
     treeDialog.style.cssText = '';
+    treeDialogTitle.textContent = 'Gaia Skill Tree';
+    window._treeDownloadName = 'gaia-skill-tree.md';
     if (typeof treeDialog.showModal === 'function') treeDialog.showModal();
     else treeDialog.setAttribute('open', '');
+    
     if (_treeContent === null) {
       treeDialogPre.textContent = SKELETON;
       treeDialogPre.classList.add('tree-skeleton');
@@ -1071,8 +1085,32 @@
           treeDialogPre.textContent = 'Could not load tree.md.';
           treeDialogPre.classList.remove('tree-skeleton');
         });
+    } else {
+      treeDialogPre.innerHTML = highlightTree(_treeContent);
     }
   }
+
+  window.openDocumentDialog = function(title, url, downloadName) {
+    treeDialog.style.cssText = '';
+    treeDialogTitle.textContent = title;
+    window._treeDownloadName = downloadName;
+    if (typeof treeDialog.showModal === 'function') treeDialog.showModal();
+    else treeDialog.setAttribute('open', '');
+    
+    treeDialogPre.textContent = 'Loading...';
+    treeDialogPre.classList.add('tree-skeleton');
+    
+    fetch(url)
+      .then(function(r) { return r.ok ? r.text() : Promise.reject(r.status); })
+      .then(function(text) {
+        treeDialogPre.textContent = text;
+        treeDialogPre.classList.remove('tree-skeleton');
+      })
+      .catch(function() {
+        treeDialogPre.textContent = 'Could not load document.\n(' + url + ')';
+        treeDialogPre.classList.remove('tree-skeleton');
+      });
+  };
 
   function esc(s) {
     return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -1312,7 +1350,7 @@
     var blob = new Blob([text], { type: 'text/plain' });
     var a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = 'gaia-skill-tree.md';
+    a.download = window._treeDownloadName || 'gaia-skill-tree.md';
     a.click();
     URL.revokeObjectURL(a.href);
   });

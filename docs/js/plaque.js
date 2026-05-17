@@ -104,7 +104,7 @@
   function _fieldHandleRow(ns) {
     var contribLink = handleLink(ns && ns.contributor || '');
     if (!contribLink) return '';
-    return '<div class="plaque__handle plaque-contrib-row">' + contribLink + '</div>';
+    return '<div class="plaque__handle plaque-contrib-row">' + contribLink + _fieldOriginStar(ns) + '</div>';
   }
 
   function _fieldDescription(ns) {
@@ -144,8 +144,7 @@
   function _fieldOriginStar(ns) {
     if (!ns || !ns.origin) return '';
     // Stage 4 — render the origin star from the shared sprite so it inherits
-    // --apex-gold via currentColor (the prior literal ★ glyph never picked up
-    // the token).
+    // --honor-red via currentColor.
     return '<span class="plaque__origin ns-origin" title="Origin contributor" aria-label="Origin contributor">' +
       icon('origin-star', 12) + '</span>';
   }
@@ -232,7 +231,6 @@
       '<div class="plaque__header plaque-header">' +
         _fieldOrb(ns) +
         _fieldRank(ns, 'chip') +
-        _fieldOriginStar(ns) +
         _fieldGhLink(ns) +
       '</div>';
 
@@ -307,7 +305,6 @@
       '<div class="plaque__header plaque-header">' +
         _fieldOrb(ns) +
         _fieldRank(ns, 'chip') +
-        _fieldOriginStar(ns) +
         _fieldGhLink(ns) +
       '</div>';
 

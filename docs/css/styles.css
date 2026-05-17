@@ -1654,7 +1654,7 @@
   .se-hero-copy:active{color:var(--apex-gold);border-color:var(--apex-gold);filter:none}
   .se-hero-copy:focus-visible{outline:2px solid var(--tier-extra);outline-offset:2px}
   /* ── fusion + lock + GitHub link on cards ── */
-  .se-fusion-label{color:var(--muted);font-size:.8rem;margin-bottom:.8rem;padding-left:.2rem; font-family: var(--font-body); }
+  .se-fusion-label{color:var(--muted);font-size:.8rem;margin-top:1rem;text-align:center;font-family: var(--font-body); }
 
   /* Upgrade-path action buttons (Show Fusion / Recenter) live on the
      right side of the .se-flow-h header. */
@@ -1816,12 +1816,14 @@
   .se-btn-ghost {
     background:transparent;border:1px solid var(--border);color:var(--text);
     padding:.38rem .9rem;border-radius:6px;cursor:pointer;font-size:.82rem;
+    display:inline-flex;align-items:center;gap:.35rem;
     transition:border-color .2s,color .2s; font-family: var(--font-body);
   }
   .se-btn-ghost:hover { border-color:var(--basic);color:var(--basic); }
   .se-btn-action {
     background:transparent;border:1px solid var(--border);color:var(--muted);
     padding:.38rem .9rem;border-radius:6px;cursor:pointer;font-size:.82rem;
+    display:inline-flex;align-items:center;gap:.35rem;
     transition:border-color .2s,color .2s; font-family: var(--font-body);
   }
   .se-btn-action:hover { border-color:var(--extra);color:var(--extra); }
@@ -1944,14 +1946,14 @@
   }
   .se-flow-h svg { opacity:.7; }
   .se-install-block {
-    background:var(--surface);border:1px solid var(--border);border-radius:10px;
-    padding:1.2rem 1.4rem;margin-bottom:.9rem;
-    display:flex;align-items:center;gap:1rem;
+    background:rgba(0,0,0,.4);border:1px solid var(--border);border-radius:8px;
+    padding:.6rem .8rem;margin-bottom:.6rem;
+    display:flex;align-items:center;gap:.75rem;
   }
   .se-install-block.recommended { border-color:rgba(56,189,248,.35);box-shadow:0 0 0 1px rgba(56,189,248,.12); }
-  .se-install-label { font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;min-width:120px;color:var(--muted); }
-  .se-install-label span { display:block;font-size:.65rem;color:var(--basic);margin-top:.15rem; }
-  .se-install-cmd { font-family:var(--font-mono);font-size:.88rem;color:var(--text);flex:1;word-break:break-all; }
+  .se-install-label { font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;min-width:90px;color:var(--muted); }
+  .se-install-label span { display:block;font-size:.6rem;color:var(--basic);margin-top:.15rem; }
+  .se-install-cmd { font-family:var(--font-mono);font-size:.82rem;color:var(--text);flex:1;word-break:break-all; }
   /* Foundation icon-state spec alignment for .se-copy-btn */
   .se-copy-btn {
     background:transparent;border:1px solid var(--border);color:var(--muted);
