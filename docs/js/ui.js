@@ -215,10 +215,11 @@ window.switchOsTab = function(btn) {
 
     function handleCopy(targetBtn) {
       if (!targetBtn || targetBtn.disabled) return;
-      var origText = targetBtn.textContent;
+      var origHTML = targetBtn.innerHTML;
       var origAria = targetBtn.getAttribute('aria-label') || 'Copy page context for agents';
       targetBtn.disabled = true;
-      targetBtn.textContent = 'Fetching...';
+      targetBtn.innerHTML = icon('copy', { size: 15, className: 'ico' });
+      targetBtn.style.opacity = '0.5';
       targetBtn.setAttribute('aria-label', 'Fetching page context...');
 
       fetch('agent.md')
@@ -230,22 +231,24 @@ window.switchOsTab = function(btn) {
           return copyToClipboard(text);
         })
         .then(function() {
-          targetBtn.textContent = 'Copied!';
+          targetBtn.innerHTML = icon('copy-check', { size: 15, className: 'ico ico--ok' });
+          targetBtn.style.opacity = '';
           targetBtn.setAttribute('aria-label', 'Page context copied successfully!');
           targetBtn.classList.add('copied');
           setTimeout(function() {
-            targetBtn.textContent = origText;
+            targetBtn.innerHTML = origHTML;
+            targetBtn.style.opacity = '';
             targetBtn.setAttribute('aria-label', origAria);
             targetBtn.classList.remove('copied');
             targetBtn.disabled = false;
           }, 1800);
         })
         .catch(function() {
-          targetBtn.textContent = 'Failed';
+          targetBtn.innerHTML = origHTML;
+          targetBtn.style.opacity = '';
           targetBtn.setAttribute('aria-label', 'Failed to copy page context');
           targetBtn.disabled = false;
           setTimeout(function() {
-            targetBtn.textContent = origText;
             targetBtn.setAttribute('aria-label', origAria);
           }, 1800);
         });

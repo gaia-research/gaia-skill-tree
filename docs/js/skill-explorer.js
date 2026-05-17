@@ -627,7 +627,7 @@
 
       // Organic S-curve: control points pull vertically out of each endpoint,
       // creating a flowing vein / river-branch appearance instead of sharp elbows.
-      var ctrlDist = Math.abs(dy) * 0.55 + Math.abs(dx) * 0.12;
+      var ctrlDist = Math.abs(dy) * 0.25 + Math.abs(dx) * 0.05;
       var d = 'M' + fx + ',' + fy +
               ' C' + fx + ',' + (fy + ctrlDist) +
               ' ' + tx + ',' + (ty - ctrlDist) +
