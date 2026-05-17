@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/skill.schema.json",
-  "version": "3.11.2",
-  "generatedAt": "2026-05-17T11:09:28.704274Z",
+  "version": "3.11.3",
+  "generatedAt": "2026-05-17T13:01:41.030185Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -793,6 +793,7 @@
       "rarity": "common",
       "description": "Generates and manages digital diagrams, flowcharts, and architecture maps in web-native or collaborative formats, optimized for hand-drawn aesthetics or structured vector output.",
       "prerequisites": [
+        "api-call",
         "data-visualize"
       ],
       "derivatives": [],
@@ -1872,6 +1873,7 @@
       "rarity": "rare",
       "description": "Generates and manipulates images, video, and audio through complex node-based or scripted generative workflows, managing model dependencies and parameter injection.",
       "prerequisites": [
+        "api-call",
         "data-visualize"
       ],
       "derivatives": [],
@@ -2297,12 +2299,13 @@
     {
       "id": "knowledge-management",
       "name": "Knowledge Management",
-      "type": "basic",
+      "type": "extra",
       "level": "2★",
       "rarity": "common",
       "description": "Organizes, relates, and retrieves information across structured pages, databases, and shared knowledge bases, maintaining semantic links between information nodes.",
       "prerequisites": [
-        "api-call"
+        "api-call",
+        "retrieve"
       ],
       "derivatives": [
         "knowledge-harvest"
@@ -2425,6 +2428,7 @@
       "rarity": "rare",
       "description": "Produces programmatic mathematical and algorithmic animations with high pedagogical and visual quality, utilizing LaTeX for notation and geometric coordinate systems for spatial layout.",
       "prerequisites": [
+        "code-execution",
         "data-visualize"
       ],
       "derivatives": [],
@@ -2601,12 +2605,13 @@
     {
       "id": "ml-artifact-management",
       "name": "ML Artifact Management",
-      "type": "basic",
+      "type": "extra",
       "level": "2★",
       "rarity": "uncommon",
       "description": "Manages machine learning models, datasets, and experiment logs through centralized hub or tracking repositories, handling versioning and metadata extraction.",
       "prerequisites": [
-        "api-call"
+        "api-call",
+        "classify"
       ],
       "derivatives": [],
       "conditions": "",
@@ -3070,11 +3075,12 @@
     {
       "id": "project-management",
       "name": "Project Management",
-      "type": "basic",
+      "type": "extra",
       "level": "2★",
       "rarity": "uncommon",
       "description": "Manages issues, tasks, projects, and team workflows through structured project management platforms, handling state transitions and priority levels.",
       "prerequisites": [
+        "api-call",
         "issue-triage"
       ],
       "derivatives": [],
@@ -5053,12 +5059,13 @@
     {
       "id": "workspace-automation",
       "name": "Workspace Automation",
-      "type": "basic",
+      "type": "extra",
       "level": "2★",
       "rarity": "uncommon",
       "description": "Orchestrates productivity tasks across email, calendar, drive, and documents through unified office suite integrations, automating scheduling and file management.",
       "prerequisites": [
-        "api-call"
+        "api-call",
+        "document-editing"
       ],
       "derivatives": [],
       "conditions": "",
@@ -5149,7 +5156,22 @@
     },
     {
       "sourceSkillId": "api-call",
+      "targetSkillId": "collaborative-diagramming",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "api-call",
       "targetSkillId": "function-calling",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "api-call",
+      "targetSkillId": "generative-media",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "api-call",
+      "targetSkillId": "knowledge-management",
       "edgeType": "prerequisite"
     },
     {
@@ -5159,7 +5181,22 @@
     },
     {
       "sourceSkillId": "api-call",
+      "targetSkillId": "ml-artifact-management",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "api-call",
+      "targetSkillId": "project-management",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "api-call",
       "targetSkillId": "workflow-automation",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "api-call",
+      "targetSkillId": "workspace-automation",
       "edgeType": "prerequisite"
     },
     {
@@ -5273,6 +5310,16 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "classify",
+      "targetSkillId": "ml-artifact-management",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "code-execution",
+      "targetSkillId": "mathematical-animation",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "code-generation",
       "targetSkillId": "autonomous-debug",
       "edgeType": "prerequisite"
@@ -5349,7 +5396,22 @@
     },
     {
       "sourceSkillId": "data-visualize",
+      "targetSkillId": "collaborative-diagramming",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "data-visualize",
       "targetSkillId": "data-analysis",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "data-visualize",
+      "targetSkillId": "generative-media",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "data-visualize",
+      "targetSkillId": "mathematical-animation",
       "edgeType": "prerequisite"
     },
     {
@@ -5380,6 +5442,11 @@
     {
       "sourceSkillId": "document-editing",
       "targetSkillId": "humanize-prose",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "document-editing",
+      "targetSkillId": "workspace-automation",
       "edgeType": "prerequisite"
     },
     {
@@ -5603,6 +5670,11 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "issue-triage",
+      "targetSkillId": "project-management",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "knowledge-harvest",
       "targetSkillId": "autonomous-research-agent",
       "edgeType": "prerequisite"
@@ -5820,6 +5892,11 @@
     {
       "sourceSkillId": "retrieve",
       "targetSkillId": "grounding",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "retrieve",
+      "targetSkillId": "knowledge-management",
       "edgeType": "prerequisite"
     },
     {

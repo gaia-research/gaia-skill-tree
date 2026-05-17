@@ -1,7 +1,7 @@
 # Gaia Skill Tree
 
 ```
-GAIA SKILL TREE  v3.11.2  ·  generated 2026-05-17
+GAIA SKILL TREE  v3.11.3  ·  generated 2026-05-17
 ══════════════════════════════════════════════════════════════════════
 Upgrade paths — each legendary shows its full prerequisite chain.
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -118,7 +118,6 @@ Pure / Undeveloped — basic skills not yet wired into any upgrade path.
 ══════════════════════════════════════════════════════════════════════
 
   ○ browser-use/browser-harness - Browser Control  [2★ · Named]
-  ○ /code-execution  [2★ · Named]
   ○ mattpocock/zoom-out - Code Explain  [2★ · Named]
   ○ /context-compression  [3★ · Evolved]
   ○ laravel/upgrade-laravel-v13 - Framework Upgrade  [0★ · Basic]
