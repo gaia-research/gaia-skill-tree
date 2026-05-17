@@ -229,6 +229,7 @@
 .plaque[data-type="ultimate"] .plaque__slug,
 .plaque[data-type="ultimate"] .plaque-skill-name {
   color: var(--apex-gold, #fbbf24);
+  animation: tree-rainbow-glow 4s linear infinite;
 }
 
 /* Title — italic muted serif subtitle. */
