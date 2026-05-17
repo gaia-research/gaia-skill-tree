@@ -466,6 +466,11 @@
     document.getElementById('uspGlyph').textContent = glyph;
     document.getElementById('uspGlyph').style.color = glyphColor;
     document.getElementById('uspName').textContent = skill.name || skill.id;
+    if (skill.type === 'ultimate') {
+      document.getElementById('uspName').style.color = 'var(--apex-gold)';
+    } else {
+      document.getElementById('uspName').style.color = 'var(--text)';
+    }
     document.getElementById('uspId').textContent = skill.id;
     var cmd = 'gaia propose /' + skill.id + (skill.type === 'ultimate' ? ' --ultimate' : '');
     document.getElementById('uspCmd').textContent = cmd;
@@ -556,7 +561,13 @@
         bHtml += '<span class="atlas-handle">@' + esc(handle) + '</span>';
         bHtml += '<span style="color:var(--muted); opacity: 0.5; margin: 0 4px;">/</span>';
       }
-      bHtml += '<span class="plaque__slug" style="font-size: inherit; color: ' + color + ';">' + esc(skillName) + '</span>';
+      var slugStyle = 'font-size: inherit; color: ' + color + ';';
+      if (type === 'ultimate' && ns.level === '6★') {
+        slugStyle += ' animation: tree-rainbow-glow 4s linear infinite;';
+      } else if (type === 'ultimate') {
+        slugStyle += ' animation: none;';
+      }
+      bHtml += '<span class="plaque__slug" style="' + slugStyle + '">' + esc(skillName) + '</span>';
 
       document.getElementById('skillExplorer').classList.add('open');
       document.getElementById('seBreadcrumb').innerHTML = bHtml;
