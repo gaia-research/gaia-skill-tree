@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en" data-icon-base="../assets/icons.svg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tree Sampler — Gaia (Stage 5b)</title>
+  <meta name="description" content="Three-panel sampler: canonical tree.md in the dialog (highlighted), per-user skill-tree.md (with owned markers), and plain markdown reference. Verifies glyph colors, rank chips, and section-header vocabulary.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    body {
+      padding: 4rem 1.5rem 6rem;
+      max-width: 1120px;
+      margin: 0 auto;
+      background: var(--bg);
+      color: var(--text);
+    }
+    .sampler-h1 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 600;
+      margin-bottom: .25rem;
+    }
+    .sampler-sub {
+      color: var(--muted);
+      font-size: 1rem;
+      margin-bottom: 2.5rem;
+    }
+    .panel {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      overflow: hidden;
+    }
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: .75rem 1.1rem;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(90deg, rgba(56,189,248,.08), rgba(167,139,250,.05));
+    }
+    .panel-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: .92rem;
+    }
+    .panel-badge {
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: .2rem .55rem;
+      border-radius: 999px;
+      border: 1px solid currentColor;
+      opacity: .75;
+    }
+    .badge-canonical { color: var(--tier-ultimate); }
+    .badge-user      { color: var(--tier-extra); }
+    .badge-plain     { color: var(--muted); }
+    .panel-body {
+      padding: 1rem 1.2rem;
+      overflow-x: auto;
+    }
+    .panel-body pre {
+      font-family: var(--font-mono, 'JetBrains Mono', monospace);
+      font-size: .74rem;
+      line-height: 1.65;
+      color: var(--text);
+      white-space: pre;
+      background: transparent;
+      border: none;
+      margin: 0;
+      padding: 0;
+    }
+    .panel-loading {
+      color: var(--muted);
+      font-size: .82rem;
+      padding: .5rem 0;
+      animation: tree-skeleton-pulse 1.5s ease-in-out infinite;
+    }
+    /* Acceptance diff block */
+    details {
+      margin-top: 2rem;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    details summary {
+      padding: .8rem 1.1rem;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: .9rem;
+      background: rgba(15,23,42,.6);
+      user-select: none;
+    }
+    details summary:hover { background: rgba(56,189,248,.06); }
+    .diff-body {
+      padding: 1rem 1.2rem;
+      font-family: var(--font-mono, 'JetBrains Mono', monospace);
+      font-size: .76rem;
+      line-height: 1.7;
+    }
+    .diff-match  { color: #86efac; }
+    .diff-note   { color: var(--muted); font-style: italic; }
+    .diff-header { color: var(--tier-basic); font-weight: 700; margin-top: .8rem; }
+    /* Re-use tree highlight classes from styles.css */
+  </style>
+</head>
+<body>
+  <h1 class="sampler-h1">Tree Sampler — Stage 5b</h1>
+  <p class="sampler-sub">
+    Three panels: canonical <code>tree.md</code> highlighted · per-user <code>skill-tree.md</code>
+    with owned markers · plain markdown reference.<br>
+    Acceptance: all four section headers (<em>Ultimates / Unique Skills / Basics</em>) must match
+    verbatim across panels and no banned vocabulary may appear.
+  </p>
+
+  <!-- Panel 1: Canonical tree.md (highlighted) -->
+  <div class="panel">
+    <div class="panel-header">
+      <span class="panel-title">1 — Canonical <code>tree.md</code> (highlighted dialog view)</span>
+      <span class="panel-badge badge-canonical">canonical</span>
+    </div>
+    <div class="panel-body">
+      <pre id="panel-canonical" class="panel-loading">Loading…</pre>
+    </div>
+  </div>
+
+  <!-- Panel 2: Per-user skill-tree.md (gaiabot, has owned ✓ markers) -->
+  <div class="panel">
+    <div class="panel-header">
+      <span class="panel-title">2 — Per-user <code>skill-trees/gaiabot/skill-tree.md</code> (owned markers + user legend)</span>
+      <span class="panel-badge badge-user">user</span>
+    </div>
+    <div class="panel-body">
+      <pre id="panel-user" class="panel-loading">Loading…</pre>
+    </div>
+  </div>
+
+  <!-- Panel 3: Plain markdown via fetch (no highlight) -->
+  <div class="panel">
+    <div class="panel-header">
+      <span class="panel-title">3 — Plain markdown reference (unhighlighted, as rendered on GitHub)</span>
+      <span class="panel-badge badge-plain">plain</span>
+    </div>
+    <div class="panel-body">
+      <pre id="panel-plain" class="panel-loading">Loading…</pre>
+    </div>
+  </div>
+
+  <!-- Acceptance diff block -->
+  <details>
+    <summary>Acceptance diff — section headers across all three modes</summary>
+    <div class="diff-body" id="diff-body">
+      <span class="diff-note">Loading…</span>
+    </div>
+  </details>
+
+  <script>
+    // Minimal esc + highlight helpers (subset of skill-explorer.js)
+    function esc(s) {
+      return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    function glyphSpan(cls, glyph) {
+      return '<span class="' + cls + '">' + glyph + '</span>';
+    }
+
+    function colorizeRankPills(html) {
+      return html.replace(
+        /\[(\d★)(?:(\s·\s)([^\]]+))?\]/g,
+        function(_, rank, dot, suffix) {
+          var n = rank.charAt(0);
+          var inner = '<span class="tree-rank-digit">' + rank + '</span>';
+          if (dot && suffix) {
+            var suffixClass = suffix.trim() === 'Unclaimed' ? 'tree-unclaimed' : 'tree-rank-suffix';
+            inner += '<span class="tree-rank-sep">' + esc(dot) + '</span>'
+                   + '<span class="' + suffixClass + '">' + esc(suffix) + '</span>';
+          }
+          return '<span class="tree-rank tree-rank-' + n + '">[' + inner + ']</span>';
+        }
+      );
+    }
+
+    function colorizeShared(html) {
+      return html.replace(/\(↑ see above\)/g,
+        '<span class="tree-shared">(&#x2191; see above)</span>');
+    }
+
+    function handleAnchor(handle, inner) {
+      if (!handle) return inner;
+      return '<a style="text-decoration:none;color:inherit;" href="../u/' + encodeURIComponent(handle) + '/">' + inner + '</a>';
+    }
+
+    function highlightTree(text) {
+      var ultIdx = 0, unqIdx = 0, inBasics = false;
+      var lines = text.split('\n');
+      var output = [];
+
+      for (var i = 0; i < lines.length; i++) {
+        var line = lines[i];
+        if (line.indexOf('Basics —') !== -1) inBasics = true;
+
+        // Ultimate ◆
+        var m = line.match(/^(\s*[·✓]\s*)?(◆)(\s+)(\S+)(.*)$/);
+        if (m) {
+          var ownerMark = m[1] ? (m[1].indexOf('✓') >= 0
+            ? '<span class="tree-owned">✓</span> '
+            : '<span class="tree-unowned">·</span> ') : '';
+          var glyph = glyphSpan('tree-glyph-ult', m[2]);
+          var skillId = m[4], suffix = m[5];
+          var delay = -((ultIdx++ * 0.9) % 4);
+          var slash = skillId.indexOf('/');
+          var skillHtml = slash > 0
+            ? (handleAnchor(skillId.slice(0,slash),
+                '<span class="tree-ult-contributor">' + esc(skillId.slice(0,slash)) + '</span>') +
+               '<span class="tree-ult-slash">/</span>' +
+               '<span class="tree-ult-skillname">' + esc(skillId.slice(slash+1)) + '</span>')
+            : '<span class="tree-ult-id">' + esc(skillId) + '</span>';
+          var suffixHtml = colorizeRankPills(colorizeShared(esc(suffix)));
+          output.push('<span class="tree-ult-line" style="animation-delay:'+delay+'s">' +
+            ownerMark + glyph + esc(m[3]) + skillHtml + suffixHtml + '</span>');
+          continue;
+        }
+
+        // Unique ◉
+        var u = line.match(/^(\s*[·✓]\s*)?([\s│├└─]*)(◉)(\s+)(\S+)(.*)$/);
+        if (u) {
+          var uOwner = u[1] ? (u[1].indexOf('✓') >= 0
+            ? '<span class="tree-owned">✓</span> '
+            : '<span class="tree-unowned">·</span> ') : '';
+          var uGlyph = glyphSpan('tree-glyph-uni', u[3]);
+          var uid = u[5], usuffix = u[6];
+          var udelay = -((unqIdx++ * 0.9) % 4);
+          var uslash = uid.indexOf('/');
+          var isGold = usuffix.indexOf('5★') >= 0 || usuffix.indexOf('6★') >= 0;
+          var uCls = isGold ? 'tree-unique-skillname tree-unique-gold' : 'tree-unique-skillname';
+          var uskillHtml = uslash > 0
+            ? (handleAnchor(uid.slice(0,uslash),
+                '<span class="tree-unique-contributor">'+esc(uid.slice(0,uslash))+'</span>') +
+               '<span class="tree-unique-slash">/</span><span class="'+uCls+'">'+esc(uid.slice(uslash+1))+'</span>')
+            : '<span class="'+uCls+'">'+esc(uid)+'</span>';
+          output.push('<span class="tree-unique-line" style="animation-delay:'+udelay+'s">' +
+            uOwner + esc(u[2]) + uGlyph + esc(u[4]) + uskillHtml + colorizeRankPills(colorizeShared(esc(usuffix))) + '</span>');
+          continue;
+        }
+
+        // Extra ◇
+        var e = line.match(/^(\s*[·✓]\s*)?([\s│├└─]*)(◇)(\s+)(\S+)(.*)$/);
+        if (e) {
+          var eOwner = e[1] ? (e[1].indexOf('✓') >= 0
+            ? '<span class="tree-owned">✓</span> '
+            : '<span class="tree-unowned">·</span> ') : '';
+          var eGlyph = glyphSpan('tree-glyph-ext', e[3]);
+          var eid = e[5], esuffix = e[6];
+          var eslash = eid.indexOf('/');
+          var eskillHtml = eslash > 0
+            ? (handleAnchor(eid.slice(0,eslash),
+                '<span class="tree-extra-contributor">'+esc(eid.slice(0,eslash))+'</span>') +
+               '<span class="tree-extra-slash">/</span><span class="tree-extra-skillname">'+esc(eid.slice(eslash+1))+'</span>')
+            : '<span class="tree-extra-id">'+esc(eid)+'</span>';
+          output.push('<span class="tree-extra-line">' +
+            eOwner + esc(e[2]) + eGlyph + esc(e[4]) + eskillHtml + colorizeRankPills(colorizeShared(esc(esuffix))) + '</span>');
+          continue;
+        }
+
+        // Basic ○
+        var b = line.match(/^(\s*[·✓]\s*)?([\s│├└─]*)(○)(\s+)(\S+)(.*)$/);
+        if (b) {
+          var bOwner = b[1] ? (b[1].indexOf('✓') >= 0
+            ? '<span class="tree-owned">✓</span> '
+            : '<span class="tree-unowned">·</span> ') : '';
+          var bGlyph = glyphSpan('tree-glyph-basic', b[3]);
+          var bid = b[5], bsuffix = b[6];
+          var bslash = bid.indexOf('/');
+          var bskillHtml = bslash > 0
+            ? (handleAnchor(bid.slice(0,bslash),
+                '<span class="tree-basic-contributor">'+esc(bid.slice(0,bslash))+'</span>') +
+               '<span class="tree-basic-slash">/</span><span class="tree-basic-skillname">'+esc(bid.slice(bslash+1))+'</span>')
+            : '<span class="tree-basic-id">'+esc(bid)+'</span>';
+          var lineCls = inBasics ? 'tree-basic-line tree-pure-line' : 'tree-basic-line';
+          output.push('<span class="'+lineCls+'">' +
+            bOwner + esc(b[2]) + bGlyph + esc(b[4]) + bskillHtml + colorizeRankPills(colorizeShared(esc(bsuffix))) + '</span>');
+          continue;
+        }
+
+        // Separators
+        if (/^[═─]{3,}/.test(line.trim())) {
+          output.push('<span class="tree-sep">' + esc(line) + '</span>');
+          continue;
+        }
+
+        var out = esc(line);
+        out = out.replace(/◇/g, glyphSpan('tree-glyph-ext', '◇'));
+        out = out.replace(/○/g,  glyphSpan('tree-glyph-basic', '○'));
+        out = out.replace(/◉/g,  glyphSpan('tree-glyph-uni', '◉'));
+        out = out.replace(/◆/g,  glyphSpan('tree-glyph-ult', '◆'));
+        out = colorizeRankPills(out);
+        out = colorizeShared(out);
+        output.push(out);
+      }
+
+      var finalOutput = '', inContainer = false;
+      for (var j = 0; j < output.length; j++) {
+        if (output[j].indexOf('tree-pure-line') !== -1) {
+          if (!inContainer) { finalOutput += '<div class="tree-pure-container">'; inContainer = true; }
+          finalOutput += output[j];
+        } else {
+          if (inContainer) { finalOutput += '</div>'; inContainer = false; }
+          finalOutput += output[j] + '\n';
+        }
+      }
+      if (inContainer) finalOutput += '</div>';
+      return finalOutput;
+    }
+
+    // Extract section headers from raw text
+    function extractHeaders(text) {
+      var headers = [];
+      var lines = text.split('\n');
+      for (var i = 0; i < lines.length; i++) {
+        var l = lines[i].trim();
+        if (/^(Unique Skills|Basics|Upgrade paths|GAIA SKILL TREE)/.test(l)) {
+          headers.push(l);
+        }
+      }
+      return headers;
+    }
+
+    // Fetch and render the fenced code block content from tree.md
+    function extractCodeBlock(md) {
+      var start = md.indexOf('\n```\n');
+      var end   = md.lastIndexOf('\n```\n');
+      if (start === -1 || end === -1 || start === end) return md;
+      return md.slice(start + 5, end);
+    }
+
+    // Load panels
+    var canonicalText = '', userText = '';
+
+    fetch('../tree.md')
+      .then(function(r){ return r.text(); })
+      .then(function(md) {
+        canonicalText = extractCodeBlock(md);
+        var el = document.getElementById('panel-canonical');
+        el.classList.remove('panel-loading');
+        el.innerHTML = highlightTree(canonicalText);
+        buildDiff();
+      })
+      .catch(function(e){
+        document.getElementById('panel-canonical').textContent = 'Failed to load tree.md: ' + e;
+      });
+
+    fetch('../../skill-trees/gaiabot/skill-tree.md')
+      .then(function(r){ return r.text(); })
+      .then(function(md) {
+        userText = extractCodeBlock(md);
+        var el = document.getElementById('panel-user');
+        el.classList.remove('panel-loading');
+        el.innerHTML = highlightTree(userText);
+        buildDiff();
+      })
+      .catch(function(e){
+        // Fallback: fetch from docs-relative path
+        return fetch('../skill-trees/gaiabot/skill-tree.md')
+          .then(function(r){ return r.text(); })
+          .then(function(md) {
+            userText = extractCodeBlock(md);
+            var el = document.getElementById('panel-user');
+            el.classList.remove('panel-loading');
+            el.innerHTML = highlightTree(userText);
+            buildDiff();
+          });
+      });
+
+    fetch('../tree.md')
+      .then(function(r){ return r.text(); })
+      .then(function(md) {
+        var el = document.getElementById('panel-plain');
+        el.classList.remove('panel-loading');
+        el.textContent = extractCodeBlock(md).slice(0, 3000) + '\n[… truncated for readability …]';
+      });
+
+    function buildDiff() {
+      if (!canonicalText || !userText) return;
+      var ch = extractHeaders(canonicalText);
+      var uh = extractHeaders(userText);
+      var div = document.getElementById('diff-body');
+      var html = '<div class="diff-header">Canonical section headers:</div>';
+      ch.forEach(function(h) { html += '<div class="diff-match">  ✓  ' + esc(h) + '</div>'; });
+      html += '<div class="diff-header" style="margin-top:.8rem">Per-user section headers:</div>';
+      uh.forEach(function(h) { html += '<div class="diff-match">  ✓  ' + esc(h) + '</div>'; });
+
+      // Check for banned vocabulary
+      var banned = ['legendary','Pure / Undeveloped','singularities','Unclaimed ✦','Class | Rank | Tier'];
+      var allText = canonicalText + '\n' + userText;
+      var found = banned.filter(function(b){ return allText.indexOf(b) !== -1; });
+      if (found.length === 0) {
+        html += '<div class="diff-match" style="margin-top:1rem">  ✓  Banned vocabulary: 0 occurrences found (pass)</div>';
+      } else {
+        html += '<div style="color:var(--honor-red);margin-top:1rem">  ✗  Banned vocabulary found: ' + found.join(', ') + '</div>';
+      }
+
+      // Check Unique/Basics header alignment
+      var cHasUnique = ch.some(function(h){ return h.indexOf('Unique Skills') === 0; });
+      var uHasUnique = uh.some(function(h){ return h.indexOf('Unique Skills') === 0; });
+      var cHasBasics = ch.some(function(h){ return h.indexOf('Basics —') === 0; });
+      var uHasBasics = uh.some(function(h){ return h.indexOf('Basics —') === 0; });
+      html += '<div class="diff-header" style="margin-top:.8rem">Section-header alignment:</div>';
+      html += '<div class="' + (cHasUnique && uHasUnique ? 'diff-match' : '') + '">'
+           +  (cHasUnique && uHasUnique ? '  ✓' : '  ✗') + '  "Unique Skills" matches in both modes</div>';
+      html += '<div class="' + (cHasBasics && uHasBasics ? 'diff-match' : '') + '">'
+           +  (cHasBasics && uHasBasics ? '  ✓' : '  ✗') + '  "Basics —" matches in both modes</div>';
+
+      div.innerHTML = html;
+    }
+  </script>
+</body>
+</html>

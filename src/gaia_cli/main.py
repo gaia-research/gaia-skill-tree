@@ -840,6 +840,10 @@ def doctor_command(args):
         print(f"  - {path} {'exists' if os.path.exists(path) else 'missing'}")
 
 def tree_command(args):
+    if getattr(args, 'check', False):
+        from gaia_cli.treeManager import show_color_check
+        show_color_check()
+        return
     config = load_config()
     if not config:
         print("Gaia not initialized.")
@@ -1343,6 +1347,7 @@ def get_parser():
     tree_parser.add_argument('--named', action='store_true', help="Show only skills that have a named implementation")
     tree_parser.add_argument('--title', action='store_true', help="Show display name instead of slash command / contributor ID")
     tree_parser.add_argument('--canon', action='store_true', help="Show canonical registry data instead of local-first view.")
+    tree_parser.add_argument('--check', action='store_true', help="Self-test: print all tier glyphs and rank chips in resolved token colors")
     push_parser = subparsers.add_parser('push', help="Prepare detected skills for review")
     push_parser.add_argument('--dry-run', action='store_true', help="Print the skill batch without writing it")
     push_parser.add_argument('--no-pr', action='store_true', help="Write intake record without creating a PR")

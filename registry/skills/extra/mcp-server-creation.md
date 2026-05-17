@@ -1,4 +1,4 @@
-# Extra Skill: /mcp-server-creation  [4★ · Hardened]
+# /mcp-server-creation  [4★ · Hardened]
 **ID:** mcp-server-creation  
 **Type:** Extra Skill  
 **Level:** 4★  

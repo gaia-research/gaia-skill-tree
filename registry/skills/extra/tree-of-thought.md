@@ -1,4 +1,4 @@
-# Extra Skill: /tree-of-thought  [4★ · Hardened]
+# /tree-of-thought  [4★ · Hardened]
 **ID:** tree-of-thought  
 **Type:** Extra Skill  
 **Level:** 4★  

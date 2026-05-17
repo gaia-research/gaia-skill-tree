@@ -277,3 +277,40 @@ def show_tree(tree_data, graph_data=None, registry_path=".", mode="default", can
         is_last = i == len(roots) - 1
         for line in _render_subtree(sid, skill_map, display_ids, named_by_ref, local_by_ref, mode, "", is_last, seen, canon=canon, current_user=username):
             print(line)
+
+
+def show_color_check():
+    """Self-test: print all tier glyphs and rank chips in their resolved colors.
+
+    Run via ``gaia tree --check``.
+    """
+    from gaia_cli.cardRenderer import fg, reset, bold, _use_color, TIER_COLORS, RANK_COLORS
+
+    TIER_GLYPHS = {
+        "ultimate": "◆",
+        "unique":   "◉",
+        "extra":    "◇",
+        "basic":    "○",
+    }
+    RANK_LABELS = ["0★", "1★", "2★", "3★", "4★", "5★", "6★"]
+
+    print("─" * 48)
+    print("  gaia tree --check  ·  color token self-test")
+    print("─" * 48)
+
+    print("\nTier glyphs (via TIER_COLORS from gaia.json):")
+    for tier, glyph in TIER_GLYPHS.items():
+        color = TIER_COLORS.get(tier, (148, 163, 184))
+        print(f"  {fg(*color)}{glyph} {tier.capitalize()}{reset()}")
+
+    print("\nRank chips (via RANK_COLORS from gaia.json):")
+    for rank in RANK_LABELS:
+        color = RANK_COLORS.get(rank, (148, 163, 184))
+        print(f"  {fg(*color)}[{rank}]{reset()}")
+
+    print("\n─" * 24)
+    if _use_color():
+        print("  Color output: ENABLED (truecolor or 256-color)")
+    else:
+        print("  Color output: DISABLED (set COLORTERM=truecolor for colors)")
+    print("─" * 48)

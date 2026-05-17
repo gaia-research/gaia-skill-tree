@@ -1,4 +1,4 @@
-# Extra Skill: /stealth-browser-interaction  [4★ · Hardened]
+# /stealth-browser-interaction  [4★ · Hardened]
 **ID:** stealth-browser-interaction  
 **Type:** Extra Skill  
 **Level:** 4★  

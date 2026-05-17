@@ -1,4 +1,4 @@
-# Extra Skill: [garrytan](../../../docs/u/garrytan/)/cso  [2★ · Named]
+# [garrytan](../../../docs/u/garrytan/)/cso  [2★ · Named]
 **ID:** security-audit  
 **Type:** Extra Skill  
 **Level:** 2★  

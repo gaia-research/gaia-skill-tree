@@ -1,4 +1,4 @@
-# Extra Skill: /research  [3★ · Evolved]
+# /research  [3★ · Evolved]
 **ID:** research  
 **Type:** Extra Skill  
 **Level:** 3★  

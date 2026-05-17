@@ -1,4 +1,4 @@
-# Extra Skill: /wiki-search  [4★ · Hardened]
+# /wiki-search  [4★ · Hardened]
 **ID:** wiki-search  
 **Type:** Extra Skill  
 **Level:** 4★  

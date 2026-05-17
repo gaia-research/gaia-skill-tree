@@ -1,4 +1,4 @@
-# Extra Skill: /skill-performance-benchmarking  [4★ · Hardened]
+# /skill-performance-benchmarking  [4★ · Hardened]
 **ID:** skill-performance-benchmarking  
 **Type:** Extra Skill  
 **Level:** 4★  

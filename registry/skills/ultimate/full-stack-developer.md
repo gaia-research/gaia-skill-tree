@@ -1,4 +1,4 @@
-# Ultimate Skill: /full-stack-developer [Unclaimed ✦]  [5★ · Transcendent]
+# /full-stack-developer  [5★ · Transcendent]
 **ID:** full-stack-developer  
 **Type:** Ultimate Skill  
 **Level:** 5★  

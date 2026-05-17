@@ -1,4 +1,4 @@
-# Extra Skill: /text-to-sql-pipeline  [3★ · Evolved]
+# /text-to-sql-pipeline  [3★ · Evolved]
 **ID:** text-to-sql-pipeline  
 **Type:** Extra Skill  
 **Level:** 3★  
