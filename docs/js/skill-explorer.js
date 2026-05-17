@@ -230,8 +230,91 @@
     var buckets = window._gaiaNamedBuckets || {};
     var lm = LEVEL_META_SE;
 
-    // Build full dependency sub-graph
     var genericId = generic ? generic.id : ns.genericSkillRef || ns.id;
+    var genericObj = sm[genericId] || generic || { id: genericId, type: ns.type, level: ns.level, name: ns.name };
+    var currentType = (ns && ns.type) || genericObj.type || 'basic';
+
+    // Slash-name label: contributor in honor-red, skill name in text.
+    function createNodeLabel(labelSource, navAttr) {
+      var parts = String(labelSource).split('/');
+      var contrib = parts[0] || '';
+      var skillName = parts[1] || labelSource;
+      var inner;
+      if (contrib && parts.length > 1) {
+        inner = '<span class="dag-node-label-contrib">' + esc(contrib) + '</span>' +
+                '<span style="color:var(--muted)">/</span>' +
+                '<span class="dag-node-label-name">' + esc(skillName) + '</span>';
+      } else {
+        inner = '<span class="dag-node-label-name">' + esc(labelSource) + '</span>';
+      }
+      return '<div class="dag-node-label"' + (navAttr || '') + '>' + inner + '</div>';
+    }
+
+    // Action-buttons header (Show Fusion + Recenter).
+    function buildFlowActions() {
+      var recenterSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">' +
+        '<circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="9"/>' +
+        '<line x1="12" y1="1" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="23"/>' +
+        '<line x1="1" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="23" y2="12"/>' +
+        '</svg>';
+      return '<div class="se-flow-actions">' +
+        '<button type="button" class="se-flow-btn" id="seFlowShowFusion" title="Highlight prerequisites">' +
+          _se_icon('sparkle') + 'Show Fusion' +
+        '</button>' +
+        '<button type="button" class="se-flow-btn" id="seFlowRecenter" title="Recenter on this skill">' +
+          recenterSvg + 'Recenter' +
+        '</button>' +
+      '</div>';
+    }
+
+    // Wire Show Fusion + Recenter button handlers. Called after innerHTML set.
+    function wireFlowActions(focusId) {
+      var btnFusion = document.getElementById('seFlowShowFusion');
+      var btnRecenter = document.getElementById('seFlowRecenter');
+      if (btnRecenter) {
+        btnRecenter.addEventListener('click', function(e) {
+          e.stopPropagation();
+          if (window.selectFlowNode) window.selectFlowNode(focusId);
+          btnRecenter.classList.add('active');
+          if (btnFusion) btnFusion.classList.remove('active');
+          setTimeout(function(){ btnRecenter.classList.remove('active'); }, 600);
+        });
+      }
+      if (btnFusion) {
+        btnFusion.addEventListener('click', function(e) {
+          e.stopPropagation();
+          if (window.showFusionOnly) window.showFusionOnly(focusId);
+          btnFusion.classList.toggle('active');
+        });
+      }
+    }
+
+    // Short-circuit for Unique-tier current skills: render the current
+    // skill alone inside the void zone, with nothing else around it.
+    if (currentType === 'unique') {
+      var uColor = (ns && ns.level && String(ns.level).indexOf('6') !== -1)
+        ? '#ffffff'
+        : 'var(--tier-unique, var(--muted))';
+      var labelId = (ns && ns.id) ? ns.id : genericId;
+      var uniqueNodeHtml = '<div class="git-node git-node--main" data-id="' + esc(genericId) +
+          '" data-type="unique" data-level="' + esc((ns && ns.level) || '') + '" data-ghost="false"' +
+          ' onclick="if(window.selectFlowNode)window.selectFlowNode(\''+esc(genericId)+'\');">' +
+        '<div class="git-commit-dot" style="--dot-color:' + uColor + '"></div>' +
+        createNodeLabel(labelId) +
+      '</div>';
+
+      el.innerHTML = '<div class="se-flow-h">' + _se_icon('sparkle') +
+          ' Upgrade Path &amp; Adjacent Skills' + buildFlowActions() + '</div>' +
+        '<div class="se-flowchart-wrap" id="seFlowWrap">' +
+          '<div class="se-flowchart-rows unique-alone">' +
+            '<div class="se-flowchart-row void-zone" data-depth="0">' + uniqueNodeHtml + '</div>' +
+          '</div>' +
+          '<svg class="se-flowchart-svg" id="seFlowSvg"></svg>' +
+        '</div>';
+      wireFlowActions(genericId);
+      return;
+    }
+
     var relatedNodes = {};
     
     function collectAncestors(id) {
@@ -326,88 +409,45 @@
       var rowHtml = rank.map(function(id, idx) {
         var s = relatedNodes[id];
         var staggerY = (ri === 0 || isUniqueRow) ? 0 : (hashString(id) % 80);
-        
+
         var isMainSkill = (id === genericId || id === ns.id);
         var extraMainClass = isMainSkill ? ' git-node--main' : '';
-        
-        function renderPlaqueNode(nsData, opts) {
-          if (window.plaque && typeof window.plaque.renderMini === 'function') {
-            return window.plaque.renderMini(nsData, opts);
-          }
-          return ''; // fallback
-        }
 
-        function createNodeLabel(labelSource) {
-          var parts = String(labelSource).split('/');
-          var contrib = parts[0] || '';
-          var skillName = parts[1] || labelSource;
-          if (contrib && parts.length > 1) {
-            return '<div class="dag-node-label"><span class="dag-node-label-contrib">' + esc(contrib) + '</span><span style="color:var(--muted)">/</span><span class="dag-node-label-name">' + esc(skillName) + '</span></div>';
-          } else {
-            return '<div class="dag-node-label"><span class="dag-node-label-name">' + esc(labelSource) + '</span></div>';
-          }
-        }
+        // Resolve the node's data: prefer a named impl, fall back to generic/ghost.
+        var namedBucket = buckets[id];
+        var hasNamed = !!(namedBucket && namedBucket.length);
+        var nb = hasNamed ? namedBucket[0] : null;
+        var nodeType = (nb && nb.type) || s.type || 'basic';
+        var nodeLevel = (nb && nb.level) || s.level || '';
+        var isApex = nodeLevel && String(nodeLevel).indexOf('6') !== -1;
+        var dotColor = isApex
+          ? '#ffffff'
+          : 'var(--tier-' + nodeType + ', var(--muted))';
 
-        if (id === genericId && buckets[id] && buckets[id].length > 1) {
-          var siblings = buckets[id];
-          var topType = ns.type || 'basic';
-          var topLevel = ns.level || '';
-          var colorVar = topLevel.indexOf('6') !== -1 ? '#ffffff' : 'var(--tier-' + topType + ', var(--muted))';
-          var deckHtml = '<div class="git-node' + extraMainClass + '" data-id="' + esc(id) + '" data-type="' + esc(topType) + '" data-level="' + esc(topLevel) + '" data-ghost="false" style="--staggerY:' + staggerY + 'px" onclick="if(window.selectFlowNode)window.selectFlowNode(\''+esc(id)+'\');" onmouseenter="if(!window._selectedFlowNode&&window.highlightPaths)window.highlightPaths(\''+esc(id)+'\')" onmouseleave="if(!window._selectedFlowNode&&window.unhighlightPaths)window.unhighlightPaths()">';
-          deckHtml += '<div class="git-commit-dot" style="--dot-color: ' + colorVar + '"></div>';
-          // Sibling deck: use the current named skill's slash id if present
-          deckHtml += createNodeLabel((ns && ns.id) ? ns.id : (siblings[0] && siblings[0].id) || id);
-          deckHtml += '<div class="se-stack-deck" data-count="' + siblings.length + '">';
-          siblings.forEach(function(sib, idxSib) {
-            var isCur = sib.id === ns.id;
-            var zIdx = isCur ? siblings.length : siblings.length - idxSib;
-            var rot = isCur ? 0 : (idxSib % 2 === 0 ? -3 : 3) * (idxSib + 1) * 0.5;
-            var sibOpts = {
-              extraClass: 'se-stack-card ns-dag-card' + (isCur ? ' current' : ''),
-              ghost: false,
-              attrs: ' data-type="' + esc(sib.type||'basic') + '" style="z-index:' + zIdx + ';transform:rotate(' + rot + 'deg); cursor:pointer;"',
-              onclick: 'if(event.target.closest("a")) return; openSkillExplorer(\'' + sib.id.replace(/'/g,"\\'") + '\');'
-            };
-            deckHtml += renderPlaqueNode(sib, sibOpts);
-          });
-          deckHtml += '</div></div>';
-          return deckHtml;
+        // Label source: slash-form for named, raw id for ghost.
+        var labelSource = hasNamed ? nb.id : id;
+
+        // Label-click navigation: named → open skill explorer, ghost → propose dialog.
+        var navAttr;
+        if (hasNamed) {
+          navAttr = ' onclick="event.stopPropagation();openSkillExplorer(\'' + nb.id.replace(/'/g,"\\'") + '\');"';
         } else {
-          var namedBucket = buckets[id];
-          if (namedBucket && namedBucket.length) {
-            var nb = namedBucket[0];
-            var colorVarNamed = (nb.level && String(nb.level).indexOf('6') !== -1) ? '#ffffff' : 'var(--tier-' + (nb.type || 'basic') + ', var(--muted))';
-            var nbOpts = {
-              extraClass: 'ns-dag-card' + (nb.id === ns.id ? ' current' : ''),
-              ghost: false,
-              attrs: ' data-type="' + esc(nb.type||'basic') + '" style="cursor:pointer;"',
-              onclick: 'if(event.target.closest("a")) return; openSkillExplorer(\'' + nb.id.replace(/'/g,"\\'") + '\');'
-            };
-            return '<div class="git-node' + extraMainClass + '" data-id="' + esc(id) + '" data-type="' + esc(nb.type||'basic') + '" data-level="' + esc(nb.level || '') + '" data-ghost="false" style="--staggerY:' + staggerY + 'px" onclick="if(window.selectFlowNode)window.selectFlowNode(\''+esc(id)+'\');" onmouseenter="if(!window._selectedFlowNode&&window.highlightPaths)window.highlightPaths(\''+esc(id)+'\')" onmouseleave="if(!window._selectedFlowNode&&window.unhighlightPaths)window.unhighlightPaths()">' +
-              '<div class="git-commit-dot" style="--dot-color: ' + colorVarNamed + '"></div>' +
-              createNodeLabel(nb.id || id) +
-              renderPlaqueNode(nb, nbOpts) +
-            '</div>';
-          } else {
-            // Ghost: dot color hints at the tier (muted via opacity in CSS), data-type defaults to 'basic'.
-            var ghostType = s.type || 'basic';
-            var colorVarGhost = 'var(--tier-' + ghostType + ', var(--muted))';
-            var miniNs = { id: id, name: s.name || id, level: s.level, type: ghostType, genericSkillRef: id };
-            var ghostOpts = {
-              extraClass: 'ns-dag-card',
-              dagId: id,
-              ghost: true,
-              attrs: ' data-type="' + esc(ghostType) + '" style="cursor:pointer;"',
-              // Plaque click opens the "gaia propose" dialog; the underlying node click still locks the path.
-              onclick: 'event.stopPropagation();(function(id){var sm=window._gaiaSkillMap||{};var g=sm[id];if(g&&typeof window.openUnnamedPopup===\'function\')window.openUnnamedPopup(g);})(\'' + id.replace(/'/g,"\\'") + '\');'
-            };
-            return '<div class="git-node' + extraMainClass + '" data-id="' + esc(id) + '" data-type="' + esc(ghostType) + '" data-level="' + esc(s.level || '') + '" data-ghost="true" style="--staggerY:' + staggerY + 'px" onclick="if(window.selectFlowNode)window.selectFlowNode(\''+esc(id)+'\');" onmouseenter="if(!window._selectedFlowNode&&window.highlightPaths)window.highlightPaths(\''+esc(id)+'\')" onmouseleave="if(!window._selectedFlowNode&&window.unhighlightPaths)window.unhighlightPaths()">' +
-              '<div class="git-commit-dot" style="--dot-color: ' + colorVarGhost + '"></div>' +
-              createNodeLabel(id) +
-              renderPlaqueNode(miniNs, ghostOpts) +
-            '</div>';
-          }
+          navAttr = ' onclick="event.stopPropagation();(function(id){var sm=window._gaiaSkillMap||{};var g=sm[id];if(g&&typeof window.openUnnamedPopup===\'function\')window.openUnnamedPopup(g);})(\'' + id.replace(/'/g,"\\'") + '\');"';
         }
+
+        return '<div class="git-node' + extraMainClass + '"' +
+            ' data-id="' + esc(id) + '"' +
+            ' data-type="' + esc(nodeType) + '"' +
+            ' data-level="' + esc(nodeLevel) + '"' +
+            ' data-ghost="' + (hasNamed ? 'false' : 'true') + '"' +
+            ' style="--staggerY:' + staggerY + 'px"' +
+            ' onclick="if(window.selectFlowNode)window.selectFlowNode(\''+esc(id)+'\');"' +
+            ' onmouseenter="if(!window._selectedFlowNode&&window.highlightPaths)window.highlightPaths(\''+esc(id)+'\')"' +
+            ' onmouseleave="if(!window._selectedFlowNode&&window.unhighlightPaths)window.unhighlightPaths()"' +
+            '>' +
+          '<div class="git-commit-dot" style="--dot-color: ' + dotColor + '"></div>' +
+          createNodeLabel(labelSource, navAttr) +
+        '</div>';
       }).join('');
       
       var voidClass = isUniqueRow ? ' void-zone' : '';
@@ -420,13 +460,15 @@
       fusionHtml = '<div class="se-fusion-label">&#x2728; Fuses from ' + relatedNodes[genericId].prerequisites.length + ' prerequisites</div>';
     }
 
-    el.innerHTML = '<div class="se-flow-h">' + _se_icon('sparkle') + ' Upgrade Path &amp; Adjacent Skills</div>' +
+    el.innerHTML = '<div class="se-flow-h">' + _se_icon('sparkle') +
+        ' Upgrade Path &amp; Adjacent Skills' + buildFlowActions() + '</div>' +
       fusionHtml +
       '<div class="se-flowchart-wrap" id="seFlowWrap">' +
         '<div class="se-flowchart-rows">' + htmlRows + '</div>' +
         '<svg class="se-flowchart-svg" id="seFlowSvg"></svg>' +
       '</div>';
 
+    wireFlowActions(genericId);
     setTimeout(function(){ drawFlowEdges(edges); }, 80);
   }
 
@@ -548,6 +590,44 @@
       Object.keys(relatedNodes).forEach(function(id) {
         var node = document.querySelector('.git-node[data-id="' + id.replace(/"/g, '\\"') + '"]');
         if (node) node.classList.add('show-label');
+      });
+    };
+
+    // Show Fusion: lock the focus node and reveal only its prerequisite
+    // chain (ancestors). Descendants and sibling branches dim out.
+    window.showFusionOnly = function(nodeId) {
+      var ancestors = {};
+      ancestors[nodeId] = true;
+      function traceUp(id) {
+        (edges || []).forEach(function(e) {
+          if (e.to === id && !ancestors[e.from]) {
+            ancestors[e.from] = true;
+            traceUp(e.from);
+          }
+        });
+      }
+      traceUp(nodeId);
+
+      document.querySelectorAll('.git-node.selected').forEach(function(n) { n.classList.remove('selected'); });
+      document.querySelectorAll('.git-node.show-label').forEach(function(n) { n.classList.remove('show-label'); });
+      document.querySelectorAll('.git-path').forEach(function(p) { p.classList.remove('active-path','dimmed'); });
+
+      var focus = document.querySelector('.git-node[data-id="' + nodeId.replace(/"/g, '\\"') + '"]');
+      if (focus) focus.classList.add('selected');
+      window._selectedFlowNode = nodeId;
+
+      (edges || []).forEach(function(e) {
+        var inAncestry = ancestors[e.from] && ancestors[e.to];
+        var pathId = 'path-' + e.from + '-' + e.to;
+        var p = document.getElementById(pathId);
+        if (!p) return;
+        if (inAncestry) p.classList.add('active-path');
+        else p.classList.add('dimmed');
+      });
+
+      Object.keys(ancestors).forEach(function(id) {
+        var n = document.querySelector('.git-node[data-id="' + id.replace(/"/g, '\\"') + '"]');
+        if (n) n.classList.add('show-label');
       });
     };
 
