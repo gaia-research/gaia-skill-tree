@@ -209,7 +209,10 @@
         var labelHtml = labelContrib
           ? '<div class="dag-node-label"><span class="dag-node-label-contrib">' + esc(labelContrib) + '</span><span style="color:var(--muted)">/</span><span class="dag-node-label-name">' + esc(labelName) + '</span></div>'
           : '<div class="dag-node-label"><span class="dag-node-label-name">' + esc(labelSource) + '</span></div>';
-        html += '<div class="git-node" data-id="' + esc(id) + '" data-type="' + esc(s.type) + '" data-level="' + esc(s.level || '') + '" data-ghost="' + isGhost + '" style="--staggerY:' + staggerY + 'px" onmouseenter="if(window.highlightPathsTree)window.highlightPathsTree(\''+esc(id)+'\')" onmouseleave="if(window.unhighlightPathsTree)window.unhighlightPathsTree()">' +
+        html += '<div class="git-node" data-id="' + esc(id) + '" data-type="' + esc(s.type) + '" data-level="' + esc(s.level || '') + '" data-ghost="' + isGhost + '" style="--staggerY:' + staggerY + 'px"' +
+                ' onclick="if(window.selectNodeTree)window.selectNodeTree(\''+esc(id)+'\')"' +
+                ' onmouseenter="if(!window._selectedTreeNode&&window.highlightPathsTree)window.highlightPathsTree(\''+esc(id)+'\')"' +
+                ' onmouseleave="if(!window._selectedTreeNode&&window.unhighlightPathsTree)window.unhighlightPathsTree()">' +
                 '<div class="git-commit-dot" style="--dot-color: ' + colorVar + '"></div>' +
                 labelHtml +
                 miniHtml +
@@ -223,8 +226,36 @@
       var container = document.getElementById('nsDag');
       var svg = document.getElementById('nsDagSvg');
       if (!container || !svg) return;
-      
+
       window._currentDagEdgesTree = edges || [];
+      window._selectedTreeNode = window._selectedTreeNode || null;
+
+      function tierFor(fromEl) {
+        var level = fromEl.getAttribute('data-level') || '';
+        if (level.indexOf('6') !== -1) return 'apex';
+        var t = fromEl.getAttribute('data-type') || 'basic';
+        return ['ultimate','unique','extra','basic'].indexOf(t) !== -1 ? t : 'basic';
+      }
+
+      function getRelatedTreeNodes(nodeId) {
+        var related = {};
+        related[nodeId] = true;
+        var edgesMap = window._currentDagEdgesTree;
+        function traceUp(id) {
+          edgesMap.forEach(function(e) {
+            if (e.to === id && !related[e.from]) { related[e.from] = true; traceUp(e.from); }
+          });
+        }
+        function traceDown(id) {
+          edgesMap.forEach(function(e) {
+            if (e.from === id && !related[e.to]) { related[e.to] = true; traceDown(e.to); }
+          });
+        }
+        traceUp(nodeId);
+        traceDown(nodeId);
+        return related;
+      }
+
       window.highlightPathsTree = function(nodeId) {
         document.querySelectorAll('#nsDagSvg .git-path').forEach(function(p) { p.classList.remove('active-path'); });
         document.querySelectorAll('#nsDag .git-node.show-label').forEach(function(n) { n.classList.remove('show-label'); });
@@ -247,46 +278,95 @@
         });
       };
       window.unhighlightPathsTree = function() {
+        if (window._selectedTreeNode) return;
         document.querySelectorAll('#nsDagSvg .git-path').forEach(function(p) { p.classList.remove('active-path'); });
         document.querySelectorAll('#nsDag .git-node.show-label').forEach(function(n) { n.classList.remove('show-label'); });
       };
+
+      window.selectNodeTree = function(nodeId) {
+        var related = getRelatedTreeNodes(nodeId);
+        // If a path is already locked AND the clicked node is part of it, keep the current lock.
+        if (window._selectedTreeNode) {
+          var currentRelated = getRelatedTreeNodes(window._selectedTreeNode);
+          if (currentRelated[nodeId]) return;
+        }
+        document.querySelectorAll('#nsDag .git-node.selected').forEach(function(n) { n.classList.remove('selected'); });
+        document.querySelectorAll('#nsDag .git-node.show-label').forEach(function(n) { n.classList.remove('show-label'); });
+        document.querySelectorAll('#nsDagSvg .git-path').forEach(function(p) { p.classList.remove('active-path','dimmed'); });
+
+        var node = document.querySelector('#nsDag .git-node[data-id="' + nodeId.replace(/"/g, '\\"') + '"]');
+        if (!node) return;
+        node.classList.add('selected');
+        window._selectedTreeNode = nodeId;
+
+        // Active-path ancestors only (the lit vein)
+        var edgesMap = window._currentDagEdgesTree;
+        function traceAncestors(id) {
+          edgesMap.forEach(function(e) {
+            if (e.to === id) {
+              var p = document.getElementById('path-tree-' + e.from + '-' + e.to);
+              if (p) p.classList.add('active-path');
+              traceAncestors(e.from);
+            }
+          });
+        }
+        traceAncestors(nodeId);
+
+        // Dim everything that isn't fully inside the related set
+        edgesMap.forEach(function(e) {
+          if (!related[e.from] || !related[e.to]) {
+            var p = document.getElementById('path-tree-' + e.from + '-' + e.to);
+            if (p) p.classList.add('dimmed');
+          }
+        });
+
+        // Show labels on every related node (ancestors + descendants)
+        Object.keys(related).forEach(function(id) {
+          var n = document.querySelector('#nsDag .git-node[data-id="' + id.replace(/"/g, '\\"') + '"]');
+          if (n) n.classList.add('show-label');
+        });
+      };
+
+      if (!window._nsDagClickHandlerAdded) {
+        document.addEventListener('click', function(e) {
+          if (!e.target.closest('.git-node') && !e.target.closest('#nsDag')) {
+            window._selectedTreeNode = null;
+            document.querySelectorAll('#nsDag .git-node.selected').forEach(function(n) { n.classList.remove('selected'); });
+            document.querySelectorAll('#nsDag .git-node.show-label').forEach(function(n) { n.classList.remove('show-label'); });
+            document.querySelectorAll('#nsDagSvg .git-path').forEach(function(p) { p.classList.remove('active-path','dimmed'); });
+          }
+        });
+        window._nsDagClickHandlerAdded = true;
+      }
 
       var cRect = container.getBoundingClientRect();
       svg.style.width = container.scrollWidth + 'px';
       svg.style.height = container.scrollHeight + 'px';
       var paths = '';
-      edges.forEach(function(e, i) {
+      edges.forEach(function(e) {
         var fromEl = container.querySelector('[data-id="' + e.from + '"]');
-        var toEl = container.querySelector('[data-id="' + e.to + '"]');
+        var toEl   = container.querySelector('[data-id="' + e.to + '"]');
         if (!fromEl || !toEl) return;
         var dotFrom = fromEl.querySelector('.git-commit-dot');
-        var dotTo = toEl.querySelector('.git-commit-dot');
+        var dotTo   = toEl.querySelector('.git-commit-dot');
         var fr = (dotFrom || fromEl).getBoundingClientRect();
-        var tr = (dotTo || toEl).getBoundingClientRect();
-        
-        var x1 = fr.left + fr.width / 2 - cRect.left + container.scrollLeft;
-        var y1 = fr.top + fr.height / 2 - cRect.top + container.scrollTop;
-        var x2 = tr.left + tr.width / 2 - cRect.left + container.scrollLeft;
-        var y2 = tr.top + tr.height / 2 - cRect.top + container.scrollTop;
-        var dx = x2 - x1;
-        var dy = y2 - y1;
-        var sign = dx >= 0 ? 1 : -1;
-        
-        var y_mid = y1 + dy / 2 + ((i % 7) - 3) * 14;
-        
-        var isSixStar = fromEl.getAttribute('data-level') && fromEl.getAttribute('data-level').indexOf('6') !== -1;
-        var colorStr = isSixStar ? '#ffffff' : 'var(--apex-gold, #fbbf24)';
-        
-        if (Math.abs(dx) < 25) {
-          paths += '<path id="path-tree-' + e.from + '-' + e.to + '" class="git-path" d="M' + x1 + ' ' + y1 + ' L' + x2 + ' ' + y2 + '" style="stroke: ' + colorStr + '; stroke-width: 1px;"/>';
-        } else {
-          var max_hx = Math.abs(dx) / 2;
-          var hx1 = Math.min(Math.abs(y_mid - y1) / 1.73205, max_hx);
-          var hx2 = Math.min(Math.abs(y2 - y_mid) / 1.73205, max_hx);
-          var mx1 = x1 + sign * hx1;
-          var mx2 = x2 - sign * hx2;
-          paths += '<path id="path-tree-' + e.from + '-' + e.to + '" class="git-path" d="M' + x1 + ' ' + y1 + ' L' + mx1 + ' ' + y_mid + ' L' + mx2 + ' ' + y_mid + ' L' + x2 + ' ' + y2 + '" style="stroke: ' + colorStr + '; stroke-width: 1px;"/>';
-        }
+        var tr = (dotTo   || toEl).getBoundingClientRect();
+
+        var fx = fr.left + fr.width / 2 - cRect.left + container.scrollLeft;
+        var fy = fr.top  + fr.height / 2 - cRect.top  + container.scrollTop;
+        var tx = tr.left + tr.width / 2 - cRect.left + container.scrollLeft;
+        var ty = tr.top  + tr.height / 2 - cRect.top  + container.scrollTop;
+
+        var dx = tx - fx;
+        var dy = ty - fy;
+        var ctrl = Math.abs(dy) * 0.55 + Math.abs(dx) * 0.12;
+        var d = 'M' + fx.toFixed(1) + ',' + fy.toFixed(1) +
+                ' C' + fx.toFixed(1) + ',' + (fy + ctrl).toFixed(1) +
+                ' ' + tx.toFixed(1) + ',' + (ty - ctrl).toFixed(1) +
+                ' ' + tx.toFixed(1) + ',' + ty.toFixed(1);
+
+        var tier = tierFor(fromEl);
+        paths += '<path id="path-tree-' + e.from + '-' + e.to + '" class="git-path" data-tier="' + tier + '" d="' + d + '"/>';
       });
       svg.innerHTML = paths;
     }, 60);
