@@ -1,6 +1,7 @@
 (function(){
   var LEVEL_META_SE = null;
   var TYPE_SYMBOL = null;
+  var lastActiveElement = null;
 
   function _initMeta(meta) {
     if (!meta) return;
@@ -246,7 +247,7 @@
       // Stage 3 — Honor Red carried by the .fn-contrib CSS rule, not inline.
       var contribHtml = contrib ? '<span class="fn-contrib">' + esc(contrib) + '</span>' : '';
       var levelHtml = rankChip(level);
-      return '<div class="flow-node' + clsExtra + ghostCls + '" data-level="' + esc(level||'') + '" data-id="' + esc(id) + '" onclick="openSkillExplorer(\'' + id.replace(/'/g,"\\'") + '\')">' +
+      return '<div class="flow-node' + clsExtra + ghostCls + '" data-level="' + esc(level||'') + '" data-id="' + esc(id) + '" onclick="openSkillExplorer(\'' + id.replace(/'/g,"\\'") + '\')" tabindex="0" role="button">' +
         levelHtml + '<span class="fn-name">' + esc(name||id) + '</span>' + contribHtml +
       '</div>';
     }
@@ -274,7 +275,7 @@
         var rot = isCur ? 0 : (idx % 2 === 0 ? -3 : 3) * (idx + 1) * 0.5;
         namedHtml += '<div class="se-stack-card' + (isCur ? ' se-stack-current' : '') +
           '" style="z-index:' + zIdx + ';transform:rotate(' + rot + 'deg)" ' +
-          'onclick="openSkillExplorer(\'' + sib.id.replace(/'/g,"\\'") + '\')">' +
+          'onclick="openSkillExplorer(\'' + sib.id.replace(/'/g,"\\'") + '\')" tabindex="0" role="button">' +
           rankChip(sib.level) +
           '<span class="fn-name">' + esc(sib.name || sib.id) + '</span>' +
           '<span class="fn-contrib">' + esc(sib.contributor) + '</span>' +
@@ -513,6 +514,10 @@
   };
 
   function openExplorer(id) {
+    var explorerEl = document.getElementById('skillExplorer');
+    if (explorerEl && !explorerEl.classList.contains('open')) {
+      lastActiveElement = document.activeElement;
+    }
     waitForData(function(){
       // Stage 4 — meta source-of-truth is registry/gaia.json.meta (loaded
       // by named-skills.js into window._gaiaMeta). No local fallback dicts;
@@ -550,6 +555,10 @@
       renderFlowchart(ns, generic);
       renderTimeline(ns, generic);
 
+      // Accessibility: Move focus to the modal close button
+      var closeBtn = document.getElementById('seClose');
+      if (closeBtn) closeBtn.focus();
+
       // Export button
       document.getElementById('seExport').onclick = function(){
         var data = JSON.stringify({ namedSkill: ns, generic: generic }, null, 2);
@@ -585,6 +594,10 @@
     var el = document.getElementById('skillExplorer');
     if (el) el.classList.remove('open');
     document.body.style.overflow = '';
+    if (lastActiveElement && typeof lastActiveElement.focus === 'function') {
+      lastActiveElement.focus();
+      lastActiveElement = null;
+    }
   }
 
   // Expose globally for onclick handlers — must be synchronous, before DOMContentLoaded
@@ -626,6 +639,58 @@
     }
     window.addEventListener('hashchange', routeHash);
     routeHash();
+
+    // Focus trap and accessibility for skillExplorer
+    var explorer = document.getElementById('skillExplorer');
+    if (explorer) {
+      explorer.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          // Trigger click for role="button" elements (like flow-node)
+          if (e.target.getAttribute('role') === 'button' && e.target.tabIndex === 0) {
+            e.preventDefault();
+            e.target.click();
+          }
+        }
+      });
+    }
+
+    document.addEventListener('keydown', function(e) {
+      var explorer = document.getElementById('skillExplorer');
+      if (!explorer || !explorer.classList.contains('open')) return;
+
+      if (e.key === 'Escape') {
+        var closeEl = document.getElementById('seClose');
+        if (closeEl) closeEl.click();
+        return;
+      }
+
+      if (e.key === 'Tab') {
+        var focusables = explorer.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        var visibleFocusables = Array.from(focusables).filter(function(el) {
+          return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length) && !el.hasAttribute('disabled');
+        });
+
+        if (visibleFocusables.length === 0) {
+          e.preventDefault();
+          return;
+        }
+
+        var first = visibleFocusables[0];
+        var last = visibleFocusables[visibleFocusables.length - 1];
+
+        if (e.shiftKey) {
+          if (document.activeElement === first) {
+            last.focus();
+            e.preventDefault();
+          }
+        } else {
+          if (document.activeElement === last) {
+            first.focus();
+            e.preventDefault();
+          }
+        }
+      }
+    });
   }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initExplorerDOM);
