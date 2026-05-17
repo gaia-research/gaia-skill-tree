@@ -216,8 +216,10 @@ window.switchOsTab = function(btn) {
     function handleCopy(targetBtn) {
       if (!targetBtn || targetBtn.disabled) return;
       var origText = targetBtn.textContent;
+      var origAria = targetBtn.getAttribute('aria-label') || 'Copy page context for agents';
       targetBtn.disabled = true;
       targetBtn.textContent = 'Fetching...';
+      targetBtn.setAttribute('aria-label', 'Fetching page context...');
 
       fetch('agent.md')
         .then(function(r) {
@@ -229,18 +231,22 @@ window.switchOsTab = function(btn) {
         })
         .then(function() {
           targetBtn.textContent = 'Copied!';
+          targetBtn.setAttribute('aria-label', 'Page context copied successfully!');
           targetBtn.classList.add('copied');
           setTimeout(function() {
             targetBtn.textContent = origText;
+            targetBtn.setAttribute('aria-label', origAria);
             targetBtn.classList.remove('copied');
             targetBtn.disabled = false;
           }, 1800);
         })
         .catch(function() {
           targetBtn.textContent = 'Failed';
+          targetBtn.setAttribute('aria-label', 'Failed to copy page context');
           targetBtn.disabled = false;
           setTimeout(function() {
             targetBtn.textContent = origText;
+            targetBtn.setAttribute('aria-label', origAria);
           }, 1800);
         });
     }
