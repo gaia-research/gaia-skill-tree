@@ -661,6 +661,13 @@
 .plaque--detail:hover {
   transform: none;
 }
+.plaque--detail .plaque__gh-link {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  width: 24px;
+  height: 24px;
+}
 .plaque--detail .plaque__col,
 .plaque--detail .plaque-detail-left,
 .plaque--detail .plaque-detail-right {
