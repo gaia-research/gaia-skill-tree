@@ -88,7 +88,12 @@
   .rank-badge[data-level="2"] .rank-badge__chip { color: var(--rank-2); background: var(--rank-2-bg); border-color: var(--rank-2-border); }
   .rank-badge[data-level="3"] .rank-badge__chip { color: var(--rank-3); background: var(--rank-3-bg); border-color: var(--rank-3-border); }
   .rank-badge[data-level="4"] .rank-badge__chip { color: var(--rank-4); background: var(--rank-4-bg); border-color: var(--rank-4-border); }
-  .rank-badge[data-level="5"] .rank-badge__chip { color: var(--rank-5); background: var(--rank-5-bg); border-color: var(--rank-5-border); }
+  .rank-badge[data-level="5"] .rank-badge__chip {
+    color: var(--rank-5);
+    background: var(--rank-5-bg);
+    border-color: var(--rank-5-border);
+    box-shadow: 0 0 10px rgba(var(--apex-gold-rgb), 0.4);
+  }
   .rank-badge[data-level="6"] .rank-badge__chip {
     color: var(--apex-gold, #fbbf24);
     background: var(--rank-6-bg, rgba(251,191,36,.22));
