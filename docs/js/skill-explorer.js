@@ -250,36 +250,18 @@
       return '<div class="dag-node-label"' + (navAttr || '') + '>' + inner + '</div>';
     }
 
-    // Action-buttons header (Show Fusion + Recenter).
+    // Action-buttons header (Show Fusion).
     function buildFlowActions() {
-      var recenterSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">' +
-        '<circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="9"/>' +
-        '<line x1="12" y1="1" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="23"/>' +
-        '<line x1="1" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="23" y2="12"/>' +
-        '</svg>';
       return '<div class="se-flow-actions">' +
         '<button type="button" class="se-flow-btn" id="seFlowShowFusion" title="Highlight prerequisites">' +
           _se_icon('sparkle') + 'Show Fusion' +
         '</button>' +
-        '<button type="button" class="se-flow-btn" id="seFlowRecenter" title="Recenter on this skill">' +
-          recenterSvg + 'Recenter' +
-        '</button>' +
       '</div>';
     }
 
-    // Wire Show Fusion + Recenter button handlers. Called after innerHTML set.
+    // Wire Show Fusion button handlers. Called after innerHTML set.
     function wireFlowActions(focusId) {
       var btnFusion = document.getElementById('seFlowShowFusion');
-      var btnRecenter = document.getElementById('seFlowRecenter');
-      if (btnRecenter) {
-        btnRecenter.addEventListener('click', function(e) {
-          e.stopPropagation();
-          if (window.selectFlowNode) window.selectFlowNode(focusId);
-          btnRecenter.classList.add('active');
-          if (btnFusion) btnFusion.classList.remove('active');
-          setTimeout(function(){ btnRecenter.classList.remove('active'); }, 600);
-        });
-      }
       if (btnFusion) {
         btnFusion.addEventListener('click', function(e) {
           e.stopPropagation();
@@ -598,15 +580,11 @@
     window.showFusionOnly = function(nodeId) {
       var ancestors = {};
       ancestors[nodeId] = true;
-      function traceUp(id) {
-        (edges || []).forEach(function(e) {
-          if (e.to === id && !ancestors[e.from]) {
-            ancestors[e.from] = true;
-            traceUp(e.from);
-          }
-        });
-      }
-      traceUp(nodeId);
+      (edges || []).forEach(function(e) {
+        if (e.to === nodeId && !ancestors[e.from]) {
+          ancestors[e.from] = true;
+        }
+      });
 
       document.querySelectorAll('.git-node.selected').forEach(function(n) { n.classList.remove('selected'); });
       document.querySelectorAll('.git-node.show-label').forEach(function(n) { n.classList.remove('show-label'); });

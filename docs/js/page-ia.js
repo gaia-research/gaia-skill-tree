@@ -116,12 +116,14 @@
     var list = document.getElementById('ultimatesList');
     if (list) {
       var sorted = ultimates.slice().sort(function (a, b) {
+        // order by level desc first
+        var lvlDiff = levelNum(b.level) - levelNum(a.level);
+        if (lvlDiff !== 0) return lvlDiff;
+        // then by claimed status (unclaimed first)
         var aClaimed = !!claimedBy[a.id];
         var bClaimed = !!claimedBy[b.id];
         if (aClaimed !== bClaimed) return aClaimed ? 1 : -1;
-        // within group, by level desc then id asc
-        var lvlDiff = levelNum(b.level) - levelNum(a.level);
-        if (lvlDiff !== 0) return lvlDiff;
+        // then alphabetically
         return a.id.localeCompare(b.id);
       });
 
@@ -142,10 +144,6 @@
 
       list.innerHTML = sorted.map(function (u) {
         var claim = claimedBy[u.id];
-        // Stage 2 — the stars row and level chip both come from rankBadge().
-        // Claimed Ultimates show the rank chip in its level colour; the
-        // unclaimed row keeps the chip too (visually muted via wrapper class).
-        var stars = starsBadge(u.level);
         var levelChip = chipBadge(u.level);
         if (claim) {
           // Phase 8c — claimed Ultimates lead with the named slug in honor red
@@ -157,11 +155,17 @@
           var contribLink = (typeof window.handleLink === 'function')
             ? window.handleLink(claim.contributor || '', { extraClass: 'ult-contrib' })
             : '<a class="ult-contrib atlas-handle" href="./u/' + encodeURIComponent(claim.contributor || '') + '/">@' + esc(claim.contributor || '') + '</a>';
+          
+          var lvlN = levelNum(u.level);
+          var colorStyle = 'color: var(--rank-' + lvlN + '); cursor: pointer;';
+          if (lvlN === 6) colorStyle += ' animation: tree-rainbow-glow 4s linear infinite;';
+          var clickAttr = ' role="button" tabindex="0" onclick="if(typeof openSkillExplorer===\'function\')openSkillExplorer(\'' + jsStr(u.id) + '\')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();this.click();}"';
+
           return '<div class="ultimate-item ultimate-item--claimed">' +
             '<span class="ult-glyph">◆</span>' +
-            '<span class="ult-slug named-slug" title="' + esc(u.id) + '">' + esc(claimedSlug) + '</span>' +
+            '<span class="ult-slug named-slug" title="' + esc(u.id) + '" style="' + colorStyle + '"' + clickAttr + '>' + esc(claimedSlug) + '</span>' +
             contribLink +
-            stars + levelChip +
+            levelChip +
             '<span class="ult-claimed">Claimed</span>' +
             '</div>';
         }
@@ -171,7 +175,7 @@
         return '<div class="ultimate-item">' +
           '<span class="ult-glyph">◆</span>' +
           '<span class="ult-slug named-slug named-slug--muted" title="' + esc(u.name || '') + '">' + esc(slash) + '</span>' +
-          stars + levelChip +
+          levelChip +
           '<button class="ult-claim" type="button" ' +
             'data-skill-id="' + esc(u.id) + '"' +
             ' data-skill-name="' + esc(u.name || u.id) + '"' +

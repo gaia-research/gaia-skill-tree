@@ -67,12 +67,12 @@
       <div class="two-doors">
         <a href="#paths" class="door door-a">
           <span class="door-icon">◆</span>
-          <span class="door-label">Register your repo</span>
-          <span class="door-caption">Four steps to the registry</span>
+          <span class="door-label">Register repo</span>
+          <span class="door-caption">4 steps to join</span>
         </a>
         <a href="#ultimates" class="door door-b">
           <span class="door-icon">◈</span>
-          <span class="door-label">Claim an Ultimate</span>
+          <span class="door-label">Claim Ultimate</span>
           <span class="door-caption" id="doorBCaption">loading…</span>
         </a>
       </div>
@@ -154,85 +154,85 @@
       <div class="path-a">
         <div class="path-plate-num">Path A — Initiate's Rite</div>
         <h2>Register Your Repo</h2>
-        <p class="section-sub" style="margin-top:.5rem">Four steps from zero to a named entry in the canonical registry.</p>
-        <div class="rite-steps">
-          <div class="rite-step">
-            <span class="rite-numeral">I.</span>
+        <p class="section-sub mt-sm">Four steps from zero to a named entry in the canonical registry.</p>
+        <ol class="rite-steps">
+          <li class="rite-step">
+            <span class="rite-numeral" aria-hidden="true">I.</span>
             <div class="rite-body">
               <strong>Install the CLI</strong>
               <p>Puts the <code>gaia</code> command on your PATH.</p>
-              <div class="os-tabs">
-                <button type="button" class="os-tab active" data-os="unix" onclick="switchOsTab(this)">macOS · Linux</button>
-                <button type="button" class="os-tab" data-os="win" onclick="switchOsTab(this)">Windows</button>
+              <div class="os-tabs" role="tablist" aria-label="Operating System selection">
+                <button type="button" class="os-tab active" data-os="unix" onclick="switchOsTab(this)" role="tab" aria-selected="true">macOS · Linux</button>
+                <button type="button" class="os-tab" data-os="win" onclick="switchOsTab(this)" role="tab" aria-selected="false">Windows</button>
               </div>
-              <div class="os-panel active" data-os="unix">
+              <div class="os-panel active" data-os="unix" role="tabpanel">
                 <pre><span class="cmd">pip install</span> gaia-cli</pre>
               </div>
-              <div class="os-panel" data-os="win">
+              <div class="os-panel" data-os="win" role="tabpanel">
                 <pre><span class="cmd">py -m pip install</span> gaia-cli</pre>
-                <pre style="margin-top:.5rem"><span class="cmd">$env:PATH</span> += <span class="str">";"</span> + (python -c <span class="str">"import sysconfig; print(sysconfig.get_path('scripts', 'nt_user'))"</span>)</pre>
-                <div class="qs-tip" style="margin-top:.5rem"><span class="qs-tip-icon">💡</span><span>Run the second command if <code>gaia</code> isn't found after install — it adds the Python user Scripts directory to your current PowerShell session's PATH.</span></div>
+                <pre class="mt-sm"><span class="cmd">$env:PATH</span> += <span class="str">";"</span> + (python -c <span class="str">"import sysconfig; print(sysconfig.get_path('scripts', 'nt_user'))"</span>)</pre>
+                <div class="qs-tip mt-sm"><span class="qs-tip-icon">💡</span><span>Run the second command if <code>gaia</code> isn't found after install — it adds the Python user Scripts directory to your current PowerShell session's PATH.</span></div>
               </div>
             </div>
-          </div>
-          <div class="rite-step">
-            <span class="rite-numeral">II.</span>
+          </li>
+          <li class="rite-step">
+            <span class="rite-numeral" aria-hidden="true">II.</span>
             <div class="rite-body">
               <strong>Initialise &amp; scan</strong>
               <p>Detect which skills your agent demonstrates.</p>
-              <div class="os-tabs">
-                <button type="button" class="os-tab active" data-os="unix" onclick="switchOsTab(this)">macOS · Linux</button>
-                <button type="button" class="os-tab" data-os="win" onclick="switchOsTab(this)">Windows</button>
+              <div class="os-tabs" role="tablist" aria-label="Operating System selection">
+                <button type="button" class="os-tab active" data-os="unix" onclick="switchOsTab(this)" role="tab" aria-selected="true">macOS · Linux</button>
+                <button type="button" class="os-tab" data-os="win" onclick="switchOsTab(this)" role="tab" aria-selected="false">Windows</button>
               </div>
-              <div class="os-panel active" data-os="unix">
+              <div class="os-panel active" data-os="unix" role="tabpanel">
                 <pre><span class="cmd">gaia init</span>
 <span class="cmd">gaia scan</span></pre>
               </div>
-              <div class="os-panel" data-os="win">
+              <div class="os-panel" data-os="win" role="tabpanel">
                 <pre><span class="cmd">py -m gaia_cli init</span>
 <span class="cmd">py -m gaia_cli scan</span></pre>
               </div>
             </div>
-          </div>
-          <div class="rite-step">
-            <span class="rite-numeral">III.</span>
+          </li>
+          <li class="rite-step">
+            <span class="rite-numeral" aria-hidden="true">III.</span>
             <div class="rite-body">
               <strong>Push for review</strong>
               <p>A GitHub PR is opened automatically.</p>
-              <div class="os-tabs">
-                <button type="button" class="os-tab active" data-os="unix" onclick="switchOsTab(this)">macOS · Linux</button>
-                <button type="button" class="os-tab" data-os="win" onclick="switchOsTab(this)">Windows</button>
+              <div class="os-tabs" role="tablist" aria-label="Operating System selection">
+                <button type="button" class="os-tab active" data-os="unix" onclick="switchOsTab(this)" role="tab" aria-selected="true">macOS · Linux</button>
+                <button type="button" class="os-tab" data-os="win" onclick="switchOsTab(this)" role="tab" aria-selected="false">Windows</button>
               </div>
-              <div class="os-panel active" data-os="unix">
+              <div class="os-panel active" data-os="unix" role="tabpanel">
                 <pre><span class="cmd">gaia push</span></pre>
               </div>
-              <div class="os-panel" data-os="win">
+              <div class="os-panel" data-os="win" role="tabpanel">
                 <pre><span class="cmd">py -m gaia_cli push</span></pre>
               </div>
             </div>
-          </div>
-          <div class="rite-step">
-            <span class="rite-numeral">IV.</span>
+          </li>
+          <li class="rite-step">
+            <span class="rite-numeral" aria-hidden="true">IV.</span>
             <div class="rite-body">
               <strong>Bond your agent MCP</strong>
               <p>Wire Gaia to Claude Code in one command.</p>
               <pre><span class="cmd">claude mcp add</span> <span class="str">gaia</span> -- <span class="cmd">npx</span> <span class="str">@gaia-registry/mcp-server</span></pre>
-              <div class="qs-tip" style="margin-top:.5rem"><span class="qs-tip-icon">💡</span><span>Any MCP-compatible agent: use <code>npx @gaia-registry/mcp-server</code>. See <a href="https://github.com/mbtiongson1/gaia-skill-tree/tree/main/packages/mcp" target="_blank" style="color:var(--basic)">packages/mcp</a> for config-file examples.</span></div>
+              <div class="qs-tip mt-sm"><span class="qs-tip-icon">💡</span><span>Any MCP-compatible agent: use <code>npx @gaia-registry/mcp-server</code>. See <a href="https://github.com/mbtiongson1/gaia-skill-tree/tree/main/packages/mcp" target="_blank" class="text-tier-basic">packages/mcp</a> for config-file examples.</span></div>
             </div>
-          </div>
-        </div>
+          </li>
+        </ol>
       </div>
 
       <!-- Path B — Unclaimed Ultimates -->
       <div class="path-b" id="ultimates">
         <div class="path-plate-num">Path B — Unclaimed Ultimates</div>
         <h2>Claim an Ultimate</h2>
-        <p class="path-intro" style="margin-top:.5rem">These Ultimate skills have no named implementation yet. Build one, submit for review, and your handle goes on the registry — permanently.</p>
-        <div class="ultimates-list" id="ultimatesList">
+        <p class="path-intro mt-sm">These Ultimate skills have no named implementation yet. Build one, submit for review, and your handle goes on the registry — permanently.</p>
+        <div class="ultimates-list" id="ultimatesList" aria-live="polite">
           <div class="ult-loading">Loading ultimates…</div>
         </div>
         <div class="path-cta">
-          <a href="https://github.com/mbtiongson1/gaia-skill-tree/issues" target="_blank" rel="noopener" class="btn btn-ghost propose-cta" style="font-size:.875rem">
+          <a href="https://github.com/mbtiongson1/gaia-skill-tree/issues" target="_blank" rel="noopener" class="btn btn-ghost propose-cta text-sm">
             <svg class="ico propose-gh" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#github"/></svg>
             Propose a new Ultimate →
           </a>

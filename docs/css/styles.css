@@ -1797,6 +1797,7 @@
   .se-hero {
     display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:2rem;
   }
+  .se-hero > * { min-width: 0; }
   @media(max-width:700px){.se-hero{grid-template-columns:1fr;}}
   .se-hero-card {
     background:var(--surface);border:1px solid var(--border);
@@ -1935,7 +1936,7 @@
   .se-ev-date { color:var(--muted);white-space:nowrap; }
   .se-known-agent { display:inline-block;background:rgba(192,132,252,.1);border:1px solid rgba(192,132,252,.25);color:#c084fc;padding:.22rem .65rem;border-radius:20px;font-size:.78rem;margin:.2rem; }
   /* FLOWCHART */
-  .se-flowchart-wrap { position:relative;overflow:auto;min-height:320px;padding:1.5rem 1rem; }
+  .se-flowchart-wrap { position:relative;overflow:visible;min-height:320px;padding:1.5rem 1rem; }
   .se-flowchart-svg { position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:visible; }
   .se-flowchart-rows { display:flex;flex-direction:column-reverse;gap:48px;align-items:center; }
 .ns-dag-container.git-style {
@@ -2491,6 +2492,11 @@ button.nav-graph-trigger:hover{color:var(--text)}
 .named-slug{
   font-family:var(--font-mono);color:var(--honor-red);
   font-weight:600;letter-spacing:.02em;
+  transition: opacity 0.15s, filter 0.15s;
+}
+.named-slug[role="button"]:hover, .named-slug[role="button"]:focus-visible {
+  text-decoration: underline;
+  filter: brightness(1.2);
 }
 .named-slug--muted{color:var(--muted);font-weight:500}
 /* Stage 2 — .ult-stars / .ult-level chips are deprecated. The Ultimates
@@ -3186,3 +3192,8 @@ button.nav-graph-trigger:hover{color:var(--text)}
     margin-top: calc(var(--staggerY, 0) * 0.3) !important;
   }
 }
+
+/* Utilities extracted from inline styles */
+.mt-sm { margin-top: .5rem; }
+.text-sm { font-size: .875rem; }
+.text-tier-basic { color: var(--basic); }

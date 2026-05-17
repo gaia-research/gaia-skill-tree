@@ -541,6 +541,96 @@
   100% { box-shadow: 0 0 0 1px rgba(var(--apex-gold-rgb), 0.06), 0 24px 64px rgba(0,0,0,0.5), 0 0 30px rgba(var(--tier-basic-rgb),0.3); }
 }
 
+/* ── Apex 6★ hover — white edge glow + triangular corner shards ─
+   On hover the rainbow shimmer gives way to a stark white blaze.
+   Triangular crystal shards appear at all four corners via
+   ::before / ::after pseudo-elements with clip-path polygons.
+   The card's overflow:hidden keeps the shards within the radius.
+   ============================================================ */
+.plaque--apex-vi:hover {
+  animation-play-state: paused;
+  border-color: rgba(255, 255, 255, 0.75) !important;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.65),
+    0 0 12px  2px rgba(255, 255, 255, 0.55),
+    0 0 32px  6px rgba(255, 255, 255, 0.25),
+    0 0 64px 10px rgba(255, 255, 255, 0.12),
+    0 24px 64px rgba(0, 0, 0, 0.6) !important;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* Triangular corner shards — two pseudo-elements each carry two
+   triangles (top-left + bottom-right via ::before, top-right +
+   bottom-left via ::after) using multi-stop linear-gradient fills
+   clipped to polygon shapes. */
+.plaque--tile.plaque--apex-vi::before,
+.plaque--tile.plaque--apex-vi::after,
+.plaque--row.plaque--apex-vi::before,
+.plaque--row.plaque--apex-vi::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  z-index: 1;
+}
+
+/* ::before — top-left shard + bottom-right shard */
+.plaque--tile.plaque--apex-vi::before,
+.plaque--row.plaque--apex-vi::before {
+  background:
+    /* top-left triangle */
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.55) 0%,
+      rgba(255, 255, 255, 0.18) 22%,
+      transparent 40%
+    ),
+    /* bottom-right triangle */
+    linear-gradient(
+      315deg,
+      rgba(255, 255, 255, 0.55) 0%,
+      rgba(255, 255, 255, 0.18) 22%,
+      transparent 40%
+    );
+}
+
+/* ::after — top-right shard + bottom-left shard */
+.plaque--tile.plaque--apex-vi::after,
+.plaque--row.plaque--apex-vi::after {
+  background:
+    /* top-right triangle */
+    linear-gradient(
+      225deg,
+      rgba(255, 255, 255, 0.55) 0%,
+      rgba(255, 255, 255, 0.18) 22%,
+      transparent 40%
+    ),
+    /* bottom-left triangle */
+    linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.55) 0%,
+      rgba(255, 255, 255, 0.18) 22%,
+      transparent 40%
+    );
+}
+
+/* Reveal shards on hover with a brief flare animation */
+.plaque--tile.plaque--apex-vi:hover::before,
+.plaque--tile.plaque--apex-vi:hover::after,
+.plaque--row.plaque--apex-vi:hover::before,
+.plaque--row.plaque--apex-vi:hover::after {
+  opacity: 1;
+  animation: apex-shard-flare 0.5s ease-out forwards;
+}
+
+@keyframes apex-shard-flare {
+  0%   { opacity: 0;    transform: scale(1.04); filter: brightness(2.5); }
+  35%  { opacity: 1;    transform: scale(1);    filter: brightness(1.6); }
+  100% { opacity: 0.85; transform: scale(1);    filter: brightness(1);   }
+}
+
 
 /* ============================================================
    Variant chrome — layout + spacing + slot visibility only.
@@ -856,7 +946,10 @@
     animation: none !important;
   }
   .plaque--apex-vi { animation: none !important; }
+  .plaque--apex-vi:hover::before,
+  .plaque--apex-vi:hover::after { animation: none !important; opacity: 0.6; }
   @keyframes plaque-vi-edge        { from { } to { } }
+  @keyframes apex-shard-flare      { from { } to { } }
   @keyframes plaque-emerge          { from { } to { } }
   @keyframes ink-pour               { from { } to { } }
   @keyframes star-ignite            { from { } to { } }
