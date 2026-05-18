@@ -62,7 +62,7 @@ Skills rank up through evidence, not declaration. Each demerit demotes the skill
 ## Install
 
 <!-- gaia:version-start -->
-Current Gaia CLI version: `3.13.3`.
+Current Gaia CLI version: `3.13.4`.
 
 Python install:
 
