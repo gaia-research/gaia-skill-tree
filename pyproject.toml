@@ -8,7 +8,7 @@ version = "3.16.0"
 description = "Gaia AI Agent Skill Registry CLI"
 readme = "README.md"
 requires-python = ">=3.10"
-license = "MIT"
+license = {text = "MIT"}
 authors = [
     { name = "Gaia contributors" },
 ]
@@ -47,6 +47,7 @@ dev = [
     "build>=1.2.0",
     "pytest>=8.0",
     "setuptools>=68.0",
+    "textual>=0.50.0",
     "twine>=5.0",
     "wheel>=0.42.0",
 ]
