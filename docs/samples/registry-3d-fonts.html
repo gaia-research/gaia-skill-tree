@@ -170,9 +170,18 @@
       var mctx = measureCanvas.getContext('2d');
       mctx.font = canvasFont(role, sizePx);
       var text = SAMPLE[role];
-      var metrics = mctx.measureText(text);
-      var w = Math.ceil(metrics.width + paddingX * 2);
+      var w = 0;
       var h = Math.ceil(sizePx * 1.6 + paddingY * 2);
+
+      if (role === 'handle') {
+        var parts = text.split('/');
+        var handleTxt = '@' + parts[0];
+        var slashTxt = '/' + parts[1];
+        w = Math.ceil(mctx.measureText(handleTxt).width + mctx.measureText(slashTxt).width + 20 * (sizePx/10) + paddingX * 2);
+      } else {
+        w = Math.ceil(mctx.measureText(text).width + paddingX * 2);
+      }
+
       var c = document.createElement('canvas');
       c.width  = w * dpr;
       c.height = h * dpr;
@@ -181,17 +190,49 @@
       var ctx = c.getContext('2d');
       ctx.scale(dpr, dpr);
       ctx.font = canvasFont(role, sizePx);
-      // Match the tier colour each role typically renders in:
-      //   body    → tier-basic-ish (we use --text for legibility here)
-      //   handle  → honor-red
-      //   display → apex-gold (Ultimate plate)
-      var fill;
-      if (role === 'display')      fill = readVar('--apex-gold');
-      else if (role === 'handle')  fill = readVar('--honor-red');
-      else                          fill = readVar('--text');
-      ctx.fillStyle = fill;
       ctx.textBaseline = 'middle';
-      ctx.fillText(text, paddingX, h / 2);
+
+      if (role === 'handle') {
+        var parts = text.split('/');
+        var handleTxt = '@' + parts[0];
+        var slashTxt = '/' + parts[1];
+        ctx.fillStyle = readVar('--honor-red');
+        ctx.fillText(handleTxt, paddingX, h / 2);
+        var w1 = ctx.measureText(handleTxt).width;
+        ctx.fillStyle = readVar('--tier-ultimate'); // mock rank color
+        ctx.fillText(slashTxt, paddingX + w1, h / 2);
+        var w2 = ctx.measureText(slashTxt).width;
+        
+        // draw origin badge
+        ctx.save();
+        ctx.translate(paddingX + w1 + w2 + 8 * (sizePx/10), h / 2);
+        ctx.scale(0.75 * (sizePx/10), 0.75 * (sizePx/10));
+        ctx.translate(-12, -12);
+        ctx.lineWidth = 1.5;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.strokeStyle = readVar('--apex-gold');
+        var ORIGIN_PATHS = [
+          new Path2D("M12 15V9l-2 1"),
+          new Path2D("M12 21c-4-2-7-6-7-11 0-2 1.5-4 2.5-5"),
+          new Path2D("M12 21c4-2 7-6 7-11 0-2-1.5-4-2.5-5"),
+          new Path2D("M5 10c2 1 3 0 3-1"),
+          new Path2D("M5.5 14c2 1 3 0 3-1"),
+          new Path2D("M7 18c2 1 3 0 3-1"),
+          new Path2D("M19 10c-2 1-3 0-3-1"),
+          new Path2D("M18.5 14c-2 1-3 0-3-1"),
+          new Path2D("M17 18c-2 1-3 0-3-1")
+        ];
+        ORIGIN_PATHS.forEach(function(p) { ctx.stroke(p); });
+        ctx.restore();
+      } else {
+        var fill;
+        if (role === 'display')      fill = readVar('--apex-gold');
+        else                          fill = readVar('--text');
+        ctx.fillStyle = fill;
+        ctx.fillText(text, paddingX, h / 2);
+      }
+
       var img = new Image();
       img.alt = role + ' ' + sizePx + 'px';
       img.src = c.toDataURL('image/png');
