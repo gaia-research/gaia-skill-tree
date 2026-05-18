@@ -26,7 +26,7 @@ GAIA SKILL TREE — gaiabot  ·  generated 2026-05-18
 Shared prerequisites marked (↑ see above) on second occurrence.
 ══════════════════════════════════════════════════════════════════════
 
-· ◆ garrytan/gstacks  [5★]
+· ◆ garrytan/gstack  [5★]
   ├─ · ○ garrytan/office-hours  [0★]
   ├─ · ○ garrytan/benchmark  [1★]
   ├─ · ◇ garrytan/plan-eng-review  [3★]
