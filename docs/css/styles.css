@@ -34,7 +34,7 @@
   /* Hunter's Atlas brand-voice role tokens (Phase 1) */
   --honor-red: #ef4444;
   --honor-red-rgb: 239, 68, 68;
-  --apex-gold: #fbbf24;
+  --apex-gold: var(--rank-5);
   --apex-gold-rgb: 251, 191, 36;
   --font-display: 'EB Garamond', Georgia, serif;
   --font-body: 'Bricolage Grotesque', Inter, system-ui, sans-serif;
@@ -350,7 +350,7 @@ button.nav-tree {
 }
 
 .nav-copy-agent:hover {
-  color: #38bdf8 !important
+  color: var(--tier-basic) !important
 }
 
 button.nav-copy-agent {
@@ -983,7 +983,7 @@ h2 {
 }
 
 .rs-legendary {
-  color: #fbbf24;
+  color: var(--rank-5);
   animation: rs-legendary-pulse 3.2s ease-in-out infinite;
 }
 
@@ -1010,7 +1010,7 @@ h2 {
 }
 
 .rs-legendary-link .rs-label {
-  color: #fbbf24;
+  color: var(--rank-5);
   opacity: .7
 }
 
@@ -1103,7 +1103,7 @@ h2 {
 }
 
 .tier-card.unique .tier-icon {
-  color: #7c3aed;
+  color: var(--tier-unique);
   text-shadow: 0 0 12px rgba(124, 58, 237, .6)
 }
 
@@ -1189,7 +1189,7 @@ pre {
   font-family: var(--font-mono);
   font-size: .83rem;
   line-height: 1.6;
-  color: #94a3b8;
+  color: var(--rank-0);
 }
 
 .pre-wrap {
@@ -1259,7 +1259,7 @@ pre {
 }
 
 .cmd {
-  color: #38bdf8
+  color: var(--tier-basic)
 }
 
 .str {
@@ -1267,7 +1267,7 @@ pre {
 }
 
 .kw {
-  color: #a78bfa
+  color: var(--rank-3)
 }
 
 /* ── RANK TABLE ── */
@@ -2200,17 +2200,17 @@ tr:hover td {
 /* syntax highlighting */
 @keyframes tree-rainbow-glow {
   0% {
-    color: #38bdf8;
+    color: var(--tier-basic);
     text-shadow: 0 0 10px rgba(56, 189, 248, .8), 0 0 22px rgba(56, 189, 248, .4)
   }
 
   18% {
-    color: #a78bfa;
+    color: var(--rank-3);
     text-shadow: 0 0 10px rgba(167, 139, 250, .8), 0 0 22px rgba(167, 139, 250, .4)
   }
 
   36% {
-    color: #f59e0b;
+    color: var(--tier-ultimate);
     text-shadow: 0 0 10px rgba(245, 158, 11, .8), 0 0 22px rgba(245, 158, 11, .4)
   }
 
@@ -2220,7 +2220,7 @@ tr:hover td {
   }
 
   72% {
-    color: #c084fc;
+    color: var(--tier-extra);
     text-shadow: 0 0 10px rgba(192, 132, 252, .8), 0 0 22px rgba(192, 132, 252, .4)
   }
 
@@ -2230,7 +2230,7 @@ tr:hover td {
   }
 
   100% {
-    color: #38bdf8;
+    color: var(--tier-basic);
     text-shadow: 0 0 10px rgba(56, 189, 248, .8), 0 0 22px rgba(56, 189, 248, .4)
   }
 }
@@ -2239,12 +2239,12 @@ tr:hover td {
 
   0%,
   100% {
-    color: #38bdf8;
+    color: var(--tier-basic);
     text-shadow: 0 0 10px rgba(56, 189, 248, .6);
   }
 
   20% {
-    color: #a78bfa;
+    color: var(--rank-3);
     text-shadow: 0 0 10px rgba(167, 139, 250, .6);
   }
 
@@ -2254,7 +2254,7 @@ tr:hover td {
   }
 
   60% {
-    color: #c084fc;
+    color: var(--tier-extra);
     text-shadow: 0 0 10px rgba(192, 132, 252, .6);
   }
 
@@ -2737,7 +2737,7 @@ tr:hover td {
   gap: .38rem;
   font-size: .7rem;
   font-weight: 600;
-  color: #94a3b8;
+  color: var(--rank-0);
   padding: .18rem .38rem;
   border-radius: 4px;
   cursor: pointer;
@@ -4326,25 +4326,25 @@ tr:hover td {
 }
 
 .ns-chip-prereq {
-  color: #38bdf8;
+  color: var(--tier-basic);
   background: rgba(56, 189, 248, .08);
   border-color: rgba(56, 189, 248, .25)
 }
 
 .ns-chip-deriv {
-  color: #c084fc;
+  color: var(--tier-extra);
   background: rgba(192, 132, 252, .08);
   border-color: rgba(192, 132, 252, .25)
 }
 
 .ns-chip-variant {
-  color: #f59e0b;
+  color: var(--tier-ultimate);
   background: rgba(245, 158, 11, .08);
   border-color: rgba(245, 158, 11, .25)
 }
 
 .ns-chip-ref {
-  color: #63cab7;
+  color: var(--rank-2);
   background: rgba(99, 202, 183, .08);
   border-color: rgba(99, 202, 183, .25)
 }
@@ -5100,11 +5100,11 @@ footer::before {
 
 /* ── SKILL EXPLORER OVERLAY ── */
 :root {
-  --glow-II: 0 0 8px #63cab7, 0 0 22px rgba(99, 202, 183, .35);
-  --glow-III: 0 0 10px #a78bfa, 0 0 26px rgba(167, 139, 250, .4);
-  --glow-IV: 0 0 14px #e879f9, 0 0 32px rgba(232, 121, 249, .45);
-  --glow-V: 0 0 18px #fbbf24, 0 0 40px rgba(251, 191, 36, .5);
-  --glow-VI: 0 0 20px #fbbf24, 0 0 50px rgba(251, 191, 36, .6), 0 0 80px rgba(56, 189, 248, .3);
+  --glow-II: 0 0 8px var(--rank-2), 0 0 22px rgba(99, 202, 183, .35);
+  --glow-III: 0 0 10px var(--rank-3), 0 0 26px rgba(167, 139, 250, .4);
+  --glow-IV: 0 0 14px var(--rank-4), 0 0 32px rgba(232, 121, 249, .45);
+  --glow-V: 0 0 18px var(--rank-5), 0 0 40px rgba(251, 191, 36, .5);
+  --glow-VI: 0 0 20px var(--rank-6), 0 0 50px rgba(251, 191, 36, .6), 0 0 80px rgba(56, 189, 248, .3);
 }
 
 .skill-explorer {
@@ -5261,7 +5261,7 @@ footer::before {
   }
 
   50% {
-    box-shadow: 0 0 28px #fbbf24, 0 0 60px rgba(251, 191, 36, .65);
+    box-shadow: 0 0 28px var(--rank-5), 0 0 60px rgba(251, 191, 36, .65);
   }
 }
 
@@ -5301,27 +5301,27 @@ footer::before {
 }
 
 .se-node-orb--basic {
-  background: radial-gradient(circle at 35% 35%, #7dd3fc, #38bdf8 60%, #0284c7);
+  background: radial-gradient(circle at 35% 35%, #7dd3fc, var(--tier-basic) 60%, #0284c7);
   box-shadow: 0 0 12px rgba(56, 189, 248, .4)
 }
 
 .se-node-orb--extra {
-  background: radial-gradient(circle at 35% 35%, #e9d5ff, #c084fc 60%, #7c3aed);
+  background: radial-gradient(circle at 35% 35%, #e9d5ff, var(--tier-extra) 60%, #7c3aed);
   box-shadow: 0 0 12px rgba(192, 132, 252, .4)
 }
 
 .se-node-orb--ultimate {
-  background: radial-gradient(circle at 35% 35%, #fef3c7, #f59e0b 60%, #d97706);
+  background: radial-gradient(circle at 35% 35%, #fef3c7, var(--tier-ultimate) 60%, #d97706);
   box-shadow: 0 0 12px rgba(245, 158, 11, .4)
 }
 
 .se-node-orb--unique {
-  background: radial-gradient(circle at 50% 50%, #000 55%, #7c3aed 80%, #5b21b6);
+  background: radial-gradient(circle at 50% 50%, #000 55%, var(--tier-unique) 80%, #5b21b6);
   box-shadow: 0 0 14px rgba(124, 58, 237, .5), inset 0 0 6px rgba(124, 58, 237, .3)
 }
 
 .se-node-orb--vi {
-  background: radial-gradient(circle at 35% 35%, #fff 40%, #fef3c7 70%, #f59e0b) !important;
+  background: radial-gradient(circle at 35% 35%, #fff 40%, #fef3c7 70%, var(--tier-ultimate)) !important;
   box-shadow: 0 0 18px rgba(255, 255, 255, .6), 0 0 40px rgba(245, 158, 11, .35) !important
 }
 
@@ -5631,7 +5631,7 @@ footer::before {
   display: inline-block;
   background: rgba(192, 132, 252, .1);
   border: 1px solid rgba(192, 132, 252, .25);
-  color: #c084fc;
+  color: var(--tier-extra);
   padding: .22rem .65rem;
   border-radius: 20px;
   font-size: .78rem;
@@ -5737,7 +5737,7 @@ footer::before {
   }
 
   50% {
-    box-shadow: 0 0 28px #fbbf24, 0 0 55px rgba(251, 191, 36, .7);
+    box-shadow: 0 0 28px var(--rank-5), 0 0 55px rgba(251, 191, 36, .7);
   }
 }
 
@@ -6912,7 +6912,7 @@ code {
   }
 
   .rs-stat .rs-num[style] {
-    color: #c084fc !important
+    color: var(--tier-extra) !important
   }
 
   .rs-legendary {
