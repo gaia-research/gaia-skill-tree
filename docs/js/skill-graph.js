@@ -1119,7 +1119,7 @@
         `<div class="graph-collection-actions">` +
         `<button class="graph-collection-copy-all" title="Copy all named install commands" aria-label="Copy named install commands">` +
         `<svg class="gst-btn-ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#copy"/></svg>` +
-        `<span class="gst-honor">Named</span></button>` +
+        `</button>` +
         `<button class="graph-collection-clear-all" title="Clear collection" aria-label="Clear collection">` +
         `<svg class="gst-btn-ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#trash"/></svg>` +
         `</button>` +
@@ -1168,8 +1168,7 @@
         navigator.clipboard.writeText(lines.join('\n')).then(() => {
           copyAllBtn.innerHTML =
             '<svg class="gst-btn-ico" width="14" height="14" aria-hidden="true">' +
-            '<use href="assets/icons.svg#copy-check"/></svg>' +
-            '<span>Copied</span>';
+            '<use href="assets/icons.svg#copy-check"/></svg>';
           copyAllBtn.classList.add('copied');
           setTimeout(() => { copyAllBtn.innerHTML = copyAllBtnHtml; copyAllBtn.classList.remove('copied'); }, 1500);
         });
@@ -1197,9 +1196,19 @@
           const cmd = namedId ? `gaia install ${namedId}` : `gaia propose /${id}`;
           const shareLink = namedId
             ? `<button class="graph-collection-share" data-nid="${namedId}" title="Open in Explorer" aria-label="Open in Explorer">` +
-              `<svg class="gst-btn-ico" width="12" height="12" aria-hidden="true"><use href="assets/icons.svg#share"/></svg></button>`
+              `<svg class="gst-btn-ico" width="12" height="12" aria-hidden="true"><use href="assets/icons.svg#external-link"/></svg></button>`
             : '';
           const ghostAttr = namedId ? '' : ' data-ghost="true"';
+          let formattedNamedId = '';
+          if (namedId) {
+            const parts = namedId.split('/');
+            if (parts.length === 2) {
+              const rm = state.meta && state.meta.levelColors ? state.meta.levelColors[skill.level || 0] : null;
+              formattedNamedId = `<div class="graph-collection-card-named"><span class="gst-honor">@${parts[0]}</span><span style="color:${rm ? rm.hex : `rgba(${col.rgb},1)`}">/${parts[1]}</span></div>`;
+            } else {
+              formattedNamedId = `<div class="graph-collection-card-named">${namedId}</div>`;
+            }
+          }
           html +=
             `<div class="plaque--mini graph-collection-card" data-cid="${id}" data-tier="${skill.type}"${ghostAttr}>` +
               `<div class="graph-collection-card-top">` +
@@ -1210,7 +1219,7 @@
                   `</button>` +
                 `</div>` +
               `</div>` +
-              (namedId ? `<div class="graph-collection-card-named">${namedId}</div>` : '') +
+              formattedNamedId +
               `<code class="graph-collection-cmd" data-cmd="${cmd}">$ ${cmd}</code>` +
             `</div>`;
         });
@@ -1818,25 +1827,26 @@
   _graphCloseOverlay.innerHTML =
     '<div class="graph-fullscreen-header">' +
       '<div class="graph-dialog-actions">' +
-        '<a class="graph-download" href="graph/gaia.json" download>Download JSON</a>' +
-        '<a class="graph-download" href="graph/gaia.gexf" download>Download GEXF</a>' +
-        '<a class="graph-download" href="graph/gaia.svg" download>Download SVG</a>' +
-        '<button type="button" class="graph-close" data-graph-fullscreen-close aria-label="Close skill graph">Close</button>' +
+        '<a class="graph-action-btn" href="graph/gaia.json" aria-label="Download JSON" download><svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#download"/></svg><span>JSON</span></a>' +
+        '<a class="graph-action-btn" href="graph/gaia.gexf" aria-label="Download GEXF" download><svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#download"/></svg><span>GEXF</span></a>' +
+        '<a class="graph-action-btn" href="graph/gaia.svg" aria-label="Download SVG" download><svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#download"/></svg><span>SVG</span></a>' +
+        '<button type="button" class="graph-action-btn" id="graphHudToggle" aria-label="Toggle HUD"><svg class="ico" width="18" height="18" aria-hidden="true"><use href="assets/icons.svg#hud-toggle"/></svg></button>' +
+        '<button type="button" class="graph-action-btn" data-graph-fullscreen-close aria-label="Close skill graph"><svg class="ico" width="20" height="20" aria-hidden="true"><use href="assets/icons.svg#close-x"/></svg></button>' +
       '</div>' +
     '</div>';
   hero.appendChild(_graphCloseOverlay);
+  
+  const hudToggleBtn = _graphCloseOverlay.querySelector('#graphHudToggle');
+  hudToggleBtn.addEventListener('click', () => {
+    hero.classList.toggle('mobile-hud-shown');
+  });
 
-  // Bottom-left subtitle (unobtrusive)
-  const _graphSub = document.createElement('div');
-  _graphSub.className = 'graph-fullscreen-sub';
-  _graphSub.textContent = 'Rendered from the canonical registry/gaia.json source.';
-  hero.appendChild(_graphSub);
+
 
   function openGraphFullscreen() {
     if (_graphFullscreen) return;
     _graphFullscreen = true;
     hero.classList.add('hero-graph-fullscreen');
-    document.body.style.overflow = 'hidden';
     heroGraph.setInteractive(true);
     heroGraph.setLabelMode('all');
     heroGraph.setStatusEl(_graphStatusBar);
@@ -1847,9 +1857,9 @@
     if (!_graphFullscreen) return;
     _graphFullscreen = false;
     hero.classList.remove('hero-graph-fullscreen');
-    document.body.style.overflow = '';
     heroGraph.setInteractive(false);
     heroGraph.setLabelMode('none');
+    document.querySelectorAll('.graph-skill-panel, .graph-collection-panel').forEach(el => el.style.display = 'none');
     // Do NOT resetFilters() — preserve user's speed, zoom, orbit, etc.
     heroGraph.resize();
   }
