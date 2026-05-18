@@ -55,7 +55,12 @@
       "basic": 0,
       "extra": 2,
       "unique": 0,
-      "ultimate": 3
+      "ultimate": 5
+    },
+    "ultimateFusionCriteria": {
+      "description": "All prerequisites must be named skills. The proposer must hold origin status on at least 1 of them.",
+      "minNamedPrereqs": 5,
+      "minOriginContributions": 1
     }
   },
   "rarity": {
@@ -78,5 +83,22 @@
     },
     "eligibleLevels": ["2★", "3★", "4★", "5★", "6★"],
     "minimumEffectiveLevel": "1★"
+  },
+  "alternativePathways": {
+    "4★": {
+      "description": "Origin-fusion path: 3+ skill fuses with at least 1 origin named skill (alternative to evidence path).",
+      "fusionPath": {
+        "minFusions": 3,
+        "minOriginContributions": 1
+      }
+    },
+    "6★": {
+      "description": "Grandmaster path: hold 2+ 5★ Ultimate skills AND the proposer's GitHub repo has 10k+ stars.",
+      "grandmasterPath": {
+        "minUltimateSkills": 2,
+        "minUltimateLevel": "5★",
+        "minRepoStars": 10000
+      }
+    }
   }
 }
