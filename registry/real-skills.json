@@ -2213,17 +2213,17 @@
       ]
     },
     {
-      "id": "garrytan-gstacks",
-      "name": "garrytan/gstacks",
+      "id": "garrytan-gstack",
+      "name": "garrytan/gstack",
       "contributor": "garrytan",
       "title": "Gstacks — Full-Stack Agent Suite",
       "description": "Legendary ultimate fusing all 5 Garry Tan discipline skills: browser QA, security auditing, design exploration, vertical-slice planning, and founder-mode orchestration.",
       "sourceRepo": "garrytan/gstack",
       "url": "https://github.com/garrytan/gstack",
       "mapsToGaia": [
-        "gstacks"
+        "gstack"
       ],
-      "promotedNamedSkillId": "garrytan/gstacks",
+      "promotedNamedSkillId": "garrytan/gstack",
       "addedAt": "2026-05-18",
       "tags": [
         "founder-mode",

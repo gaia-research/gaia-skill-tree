@@ -1,4 +1,4 @@
-# [garrytan](../../../docs/u/garrytan/)/gstacks  [5★ · Transcendent]
+# [garrytan](../../../docs/u/garrytan/)/gstack  [5★ · Transcendent]
 **ID:** gstack  
 **Type:** Ultimate Skill  
 **Level:** 5★  

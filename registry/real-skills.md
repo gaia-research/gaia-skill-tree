@@ -154,7 +154,7 @@ Curated named skills from live SKILL.md ecosystems.
 - [bart-large-cnn (summarization)](https://huggingface.co/facebook/bart-large-cnn) - HuggingFace model for summarization Maps to: `generate-text`.
 - [bert-base-NER (token-classification)](https://huggingface.co/dslim/bert-base-NER) - HuggingFace model for token-classification Maps to: `extract-entities`.
 - [bge-small-en-v1.5 (feature-extraction)](https://huggingface.co/BAAI/bge-small-en-v1.5) - HuggingFace model for feature-extraction Maps to: `embed-text`.
-- [garrytan/gstacks](https://github.com/garrytan/gstack) - Legendary ultimate fusing all 5 Garry Tan discipline skills: browser QA, security auditing, design exploration, vertical-slice planning, and founder-mode orchestration. Maps to: `gstacks`.
+- [garrytan/gstack](https://github.com/garrytan/gstack) - Legendary ultimate fusing all 5 Garry Tan discipline skills: browser QA, security auditing, design exploration, vertical-slice planning, and founder-mode orchestration. Maps to: `gstack`.
 - [garrytan/plan-ceo-review](https://github.com/garrytan/gstack/blob/main/plan-ceo-review/SKILL.md) - Product strategy and scope review in four modes before implementation. Maps to: `evaluate-output`.
 - [garrytan/plan-eng-review](https://github.com/garrytan/gstack/blob/main/plan-eng-review/SKILL.md) - Architecture and implementation review before coding, evaluating scope, architecture, code quality, and test coverage. Maps to: `code-review-pipeline`.
 - [garrytan/plan-design-review](https://github.com/garrytan/gstack/blob/main/plan-design-review/SKILL.md) - Interactive designer-led audit of UI/UX plans rating seven design dimensions before implementation. Maps to: `ux-audit`.
