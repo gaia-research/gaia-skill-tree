@@ -2418,6 +2418,32 @@
         "role": "origin"
       }
     ],
+    "superpowers": [
+      {
+        "id": "obra/superpowers",
+        "name": "Superpowers",
+        "contributor": "obra",
+        "origin": true,
+        "genericSkillRef": "superpowers",
+        "status": "named",
+        "level": "5★",
+        "description": "A complete software development methodology for coding agents — brainstorming, planning, parallel execution, systematic debugging, code review loops, and branch discipline unified into a single agentic workflow.",
+        "title": "The Complete Agentic Discipline",
+        "tags": [
+          "ultimate",
+          "methodology",
+          "agentic-workflow",
+          "discipline",
+          "multi-skill"
+        ],
+        "links": {
+          "github": "https://github.com/obra/superpowers"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-19",
+        "role": "origin"
+      }
+    ],
     "using-git-worktrees": [
       {
         "id": "obra/using-git-worktrees",
@@ -3078,6 +3104,7 @@
       "obra/receiving-code-review",
       "obra/requesting-code-review",
       "obra/subagent-driven-development",
+      "obra/superpowers",
       "obra/systematic-debugging",
       "obra/using-git-worktrees",
       "obra/verification-before-completion",

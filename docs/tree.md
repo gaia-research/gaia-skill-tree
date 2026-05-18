@@ -2,7 +2,7 @@
 
 ```
 ══════════════════════════════════════════════════════════════════════
-GAIA SKILL TREE  v3.15.0  ·  generated 2026-05-18
+GAIA SKILL TREE  v3.15.1  ·  generated 2026-05-18
 ══════════════════════════════════════════════════════════════════════
 ◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = stars · [0★ · Pure] = Unawakened rank pill · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -96,7 +96,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
      ├─ ○ garrytan/benchmark  [1★]  (↑ see above)
      └─ ○ /generate-text  [0★]  (↑ see above)
 
-◆ /superpowers  [5★ · Unclaimed]
+◆ obra/superpowers  [5★]
 ─────────────────────────────────────────────────────────────────
   ├─ ○ obra/brainstorming  [1★]
   ├─ ○ obra/dispatching-parallel-agents  [4★]
