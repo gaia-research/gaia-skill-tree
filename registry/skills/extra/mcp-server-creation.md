@@ -18,7 +18,7 @@ Designs and implements Model Context Protocol servers that expose external APIs,
 ## Unlocks
 - [Workflow Automation](../extra/workflow-automation.md)
 - [Tool Chaining](../extra/tool-chaining.md)
-- [Multi-Agent Orchestration](../ultimate/multi-agent-orchestration-v.md)
+- [Multi-Agent Orchestration](../extra/multi-agent-orchestration-v.md)
 
 ## Fusion Condition
 Requires an integration target, a supported MCP SDK, tool schemas, authentication handling, and local validation against an MCP client.

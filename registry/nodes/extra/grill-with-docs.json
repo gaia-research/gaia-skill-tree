@@ -1,9 +1,9 @@
 {
   "id": "grill-with-docs",
   "name": "Grill With Docs",
-  "type": "ultimate",
+  "type": "extra",
   "level": "5★",
-  "rarity": "legendary",
+  "rarity": "epic",
   "description": "The apex of agentic design alignment. Fuses relentless Socratic questioning with deep domain awareness, ensuring every decision is cross-referenced against a persistent ubiquitous language and documented via real-time ADR generation.",
   "prerequisites": [
     "grill-me",

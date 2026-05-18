@@ -15,8 +15,8 @@ Dynamically generates reusable tool functions (code) at runtime to solve novel s
 - [Tool Use](../basic/tool-use.md)
 
 ## Unlocks
-- [Full-Stack Developer](../ultimate/full-stack-developer.md)
-- [Autonomous Research Agent](../ultimate/autonomous-research-agent.md)
+- [Full-Stack Developer](../extra/full-stack-developer.md)
+- [Autonomous Research Agent](../extra/autonomous-research-agent.md)
 - [MCP Server Creation](../extra/mcp-server-creation.md)
 
 ## Fusion Condition

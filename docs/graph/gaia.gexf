@@ -63,9 +63,9 @@
       <node id="autonomous-data-scientist" label="Autonomous Data Scientist">
         <attvalues>
           <attvalue for="level" value="5★" />
-          <attvalue for="rarity" value="legendary" />
+          <attvalue for="rarity" value="epic" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="ultimate" />
+          <attvalue for="type" value="extra" />
         </attvalues>
       </node>
       <node id="autonomous-debug" label="Autonomous Debug">
@@ -79,9 +79,9 @@
       <node id="autonomous-research-agent" label="Autonomous Research Agent">
         <attvalues>
           <attvalue for="level" value="5★" />
-          <attvalue for="rarity" value="legendary" />
+          <attvalue for="rarity" value="epic" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="ultimate" />
+          <attvalue for="type" value="extra" />
         </attvalues>
       </node>
       <node id="autonomous-web-research" label="Autonomous Web Research">
@@ -431,9 +431,9 @@
       <node id="full-stack-developer" label="Full-Stack Developer">
         <attvalues>
           <attvalue for="level" value="5★" />
-          <attvalue for="rarity" value="legendary" />
+          <attvalue for="rarity" value="epic" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="ultimate" />
+          <attvalue for="type" value="extra" />
         </attvalues>
       </node>
       <node id="function-calling" label="Function Calling">
@@ -511,9 +511,9 @@
       <node id="grill-with-docs" label="Grill With Docs">
         <attvalues>
           <attvalue for="level" value="5★" />
-          <attvalue for="rarity" value="legendary" />
+          <attvalue for="rarity" value="epic" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="ultimate" />
+          <attvalue for="type" value="extra" />
         </attvalues>
       </node>
       <node id="grounding" label="Grounding">
@@ -687,9 +687,9 @@
       <node id="multi-agent-orchestration-v" label="Multi-Agent Orchestration">
         <attvalues>
           <attvalue for="level" value="5★" />
-          <attvalue for="rarity" value="legendary" />
+          <attvalue for="rarity" value="epic" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="ultimate" />
+          <attvalue for="type" value="extra" />
         </attvalues>
       </node>
       <node id="multimodal-reasoning" label="Multimodal Reasoning">
@@ -839,9 +839,9 @@
       <node id="real-time-voice-assistant" label="Real-Time Voice Assistant">
         <attvalues>
           <attvalue for="level" value="5★" />
-          <attvalue for="rarity" value="legendary" />
+          <attvalue for="rarity" value="epic" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="ultimate" />
+          <attvalue for="type" value="extra" />
         </attvalues>
       </node>
       <node id="receiving-code-review" label="Receiving Code Review">
@@ -855,9 +855,9 @@
       <node id="recursive-self-improvement" label="Recursive Self-Improvement">
         <attvalues>
           <attvalue for="level" value="1★" />
-          <attvalue for="rarity" value="legendary" />
+          <attvalue for="rarity" value="epic" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="ultimate" />
+          <attvalue for="type" value="extra" />
         </attvalues>
       </node>
       <node id="refactor-code" label="Refactor Code">
@@ -943,9 +943,9 @@
       <node id="scientific-discovery" label="Autonomous Scientific Discovery">
         <attvalues>
           <attvalue for="level" value="5★" />
-          <attvalue for="rarity" value="legendary" />
+          <attvalue for="rarity" value="epic" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="ultimate" />
+          <attvalue for="type" value="extra" />
         </attvalues>
       </node>
       <node id="scientific-visualization" label="Scientific Visualization">

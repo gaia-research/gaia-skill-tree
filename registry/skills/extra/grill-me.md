@@ -15,7 +15,7 @@ Conducts a relentless, one-question-at-a-time Socratic interview to stress-test 
 - [Self-Critique](../basic/self-critique.md)
 
 ## Unlocks
-- [Grill With Docs](../ultimate/grill-with-docs.md)
+- [Grill With Docs](../extra/grill-with-docs.md)
 
 ## Fusion Condition
 Enforces a strict questioning loop that prevents the agent from proceeding to implementation until all branches are resolved.

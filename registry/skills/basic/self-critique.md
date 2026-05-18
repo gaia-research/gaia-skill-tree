@@ -15,7 +15,7 @@ _None._
 
 ## Unlocks
 - [Multi-Agent Debate](../extra/multi-agent-debate.md)
-- [Recursive Self-Improvement](../ultimate/recursive-self-improvement.md)
+- [Recursive Self-Improvement](../extra/recursive-self-improvement.md)
 
 ## Evidence
 | Class | Source | Evaluator | Date |

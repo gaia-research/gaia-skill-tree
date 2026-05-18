@@ -16,7 +16,7 @@ Performs automated code review by generating, diffing, and evaluating code chang
 - [Evaluate Output](../basic/evaluate-output.md)
 
 ## Unlocks
-- [Full-Stack Developer](../ultimate/full-stack-developer.md)
+- [Full-Stack Developer](../extra/full-stack-developer.md)
 - [Security Audit](../extra/security-audit.md)
 
 ## Fusion Condition
