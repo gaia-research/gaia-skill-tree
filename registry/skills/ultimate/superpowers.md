@@ -1,4 +1,4 @@
-# /superpowers  [5★ · Transcendent]
+# [obra](../../../docs/u/obra/)/superpowers  [5★ · Transcendent]
 **ID:** superpowers  
 **Type:** Ultimate Skill  
 **Level:** 5★  

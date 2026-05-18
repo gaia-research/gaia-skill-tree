@@ -130,7 +130,7 @@
 | ○ /structured-output | Basic Skill | 1★ | Awakened | `/structured-output` |
 | ○ [obra](../docs/u/obra/)/subagent-driven-development | Basic Skill | 4★ | Hardened | `/subagent-driven-development` |
 | ○ /summarize | Basic Skill | 0★ | Basic | `/summarize` |
-| ◆ /superpowers | Ultimate Skill | 5★ | Transcendent | `/superpowers` |
+| ◆ [obra](../docs/u/obra/)/superpowers | Ultimate Skill | 5★ | Transcendent | `/superpowers` |
 | ○ [obra](../docs/u/obra/)/systematic-debugging | Basic Skill | 3★ | Evolved | `/systematic-debugging` |
 | ○ /text-to-speech | Basic Skill | 2★ | Named | `/text-to-speech` |
 | ◇ /text-to-sql-pipeline | Extra Skill | 3★ | Evolved | `/text-to-sql-pipeline` |
@@ -187,12 +187,4 @@
 | ○ Schema Design | Intrinsic Skill | 2★ | Named | `/schema-design` |
 | ○ Test-Driven Development | Intrinsic Skill | 0★ | Basic | `/test-driven-development` |
 | ○ Token Observability | Intrinsic Skill | 2★ | Named | `/token-observability` |
-
-## Ultimate Skills Awaiting Name
-
-*These Ultimate skills have no named implementation yet. The first contributor to submit a valid named implementation claims the title slot.  Submit with `gaia propose /<skill_id> --ultimate` and open a PR.*
-
-| Skill Call | Level | Prerequisites |
-|---|---|---|
-| `/superpowers` | 5★ | `/brainstorming`, `/dispatching-parallel-agents`, `/executing-plans`, `/finishing-a-development-branch`, `/receiving-code-review`, `/requesting-code-review`, `/subagent-driven-development`, `/systematic-debugging`, `/using-git-worktrees`, `/verification-before-completion`, `/writing-plans` |
 

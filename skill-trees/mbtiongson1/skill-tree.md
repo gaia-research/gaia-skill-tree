@@ -116,7 +116,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
      ├─ · ○ garrytan/benchmark  [1★]  (↑ see above)
      └─ · ○ /generate-text  [0★]  (↑ see above)
 
-· ◆ /superpowers  [5★ · Unclaimed]
+· ◆ obra/superpowers  [5★]
   ├─ · ○ obra/brainstorming  [1★]
   ├─ · ○ obra/dispatching-parallel-agents  [4★]
   ├─ · ○ obra/executing-plans  [2★]
