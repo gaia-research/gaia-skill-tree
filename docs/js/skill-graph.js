@@ -1216,6 +1216,9 @@
         `<button class="graph-collection-clear-all" title="Clear collection" aria-label="Clear collection">` +
         `<svg class="gst-btn-ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#trash"/></svg>` +
         `</button>` +
+        `<button class="graph-collection-minimize" title="Minimize panel" aria-label="Minimize panel">` +
+        `<svg class="gst-btn-ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="8" x2="13" y2="8" /></svg>` +
+        `</button>` +
         `</div></div>` +
         `<div class="graph-collection-list"></div>` +
         `<div class="graph-collection-note">You can only install <span class="gst-honor">named</span> skills. For unnamed ones, propose one first.</div>`;
@@ -1223,30 +1226,25 @@
       state.collectionEl = collectionPanel;
       collectionPanel.addEventListener('mousedown', e => e.stopPropagation());
 
-      // Cache the original button HTML (sprite + label) so the
-      // confirm / copied flows can restore it cleanly. textContent
-      // swaps would wipe the inline SVG.
-      let clearConfirmTimer = null;
+      const minimizeBtn = collectionPanel.querySelector('.graph-collection-minimize');
+      if (minimizeBtn) {
+        minimizeBtn.addEventListener('click', () => {
+          collectionPanel.classList.toggle('minimized');
+          if (collectionPanel.classList.contains('minimized')) {
+            minimizeBtn.innerHTML = `<svg class="gst-btn-ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="3" x2="8" y2="13" /><line x1="3" y1="8" x2="13" y2="8" /></svg>`;
+            minimizeBtn.title = 'Maximize panel';
+          } else {
+            minimizeBtn.innerHTML = `<svg class="gst-btn-ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="8" x2="13" y2="8" /></svg>`;
+            minimizeBtn.title = 'Minimize panel';
+          }
+        });
+      }
+
       const clearBtn = collectionPanel.querySelector('.graph-collection-clear-all');
-      const clearBtnHtml = clearBtn.innerHTML;
       clearBtn.addEventListener('click', () => {
-        if (clearBtn.dataset.confirm === 'yes') {
+        if (confirm('Are you sure you want to clear all skills from your collection?')) {
           state.collection = [];
           renderCollection();
-          clearBtn.dataset.confirm = '';
-          clearBtn.innerHTML = clearBtnHtml;
-          clearBtn.classList.remove('confirming');
-          if (clearConfirmTimer) { clearTimeout(clearConfirmTimer); clearConfirmTimer = null; }
-        } else {
-          clearBtn.dataset.confirm = 'yes';
-          // Preserve the trash sprite, append a confirm label.
-          clearBtn.innerHTML = clearBtnHtml + '<span class="gst-confirm-label">Are you sure?</span>';
-          clearBtn.classList.add('confirming');
-          clearConfirmTimer = setTimeout(() => {
-            clearBtn.dataset.confirm = '';
-            clearBtn.innerHTML = clearBtnHtml;
-            clearBtn.classList.remove('confirming');
-          }, 3000);
         }
       });
 
