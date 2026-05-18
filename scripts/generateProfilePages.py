@@ -24,6 +24,7 @@ import sys
 import argparse
 import html
 import datetime
+import re
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -36,6 +37,50 @@ OUT_DIR = DOCS_DIR / "u"
 # atlas-helpers module via scripts/_atlas_helpers.py.
 sys.path.insert(0, str(REPO_ROOT / "scripts"))
 from _atlas_helpers import handle_link, named_slug  # noqa: E402
+
+
+def _read_version() -> str:
+    pyproject = REPO_ROOT / "pyproject.toml"
+    if pyproject.exists():
+        for line in pyproject.read_text(encoding="utf-8").splitlines():
+            if line.startswith("version = "):
+                return line.split("=", 1)[1].strip().strip('"')
+    return "unknown"
+
+
+def _apply_cache_busting(text: str, version: str) -> str:
+    # 1. Inject or update Cache-Control meta tags inside <head>
+    cache_meta = (
+        '\n  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">\n'
+        '  <meta http-equiv="Pragma" content="no-cache">\n'
+        '  <meta http-equiv="Expires" content="0">'
+    )
+    if 'http-equiv="Cache-Control"' not in text:
+        text = text.replace("<head>", f"<head>{cache_meta}", 1)
+
+    # 2. Inject or update window.GAIA_VERSION in <head>
+    version_script = f'\n  <script>window.GAIA_VERSION = "{version}";</script>'
+    if 'window.GAIA_VERSION = ' in text:
+        text = re.sub(
+            r'<script>\s*window\.GAIA_VERSION\s*=\s*"[^"]*";\s*</script>',
+            f'<script>window.GAIA_VERSION = "{version}";</script>',
+            text
+        )
+    else:
+        text = text.replace("<head>", f"<head>{version_script}", 1)
+
+    # 3. Append version query parameters (?v={version}) to local CSS and JS imports.
+    text = re.sub(
+        r'href="((?:(?:\.\./)*)css/[a-zA-Z0-9_\-\./]+\.css)(?:\?v=[^"]*)?"',
+        fr'href="\1?v={version}"',
+        text
+    )
+    text = re.sub(
+        r'src="((?:(?:\.\./)*)js/[a-zA-Z0-9_\-\./]+\.js)(?:\?v=[^"]*)?"',
+        fr'src="\1?v={version}"',
+        text
+    )
+    return text
 
 
 def load_type_lookup(gaia_path: Path) -> dict:
@@ -460,7 +505,7 @@ def build_profile_page(handle: str, skills: list) -> str:
         f"highest rank {highest_level}."
     )
 
-    return f"""<!DOCTYPE html>
+    html_content = f"""<!DOCTYPE html>
 <html lang="en" data-icon-base="../../assets/icons.svg">
 <head>
   <meta charset="UTF-8">
@@ -530,6 +575,7 @@ def build_profile_page(handle: str, skills: list) -> str:
 </body>
 </html>
 """
+    return _apply_cache_busting(html_content, _read_version())
 
 
 def load_named_data(path: Path) -> dict:

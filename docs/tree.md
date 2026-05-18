@@ -2,9 +2,9 @@
 
 ```
 ══════════════════════════════════════════════════════════════════════
-GAIA SKILL TREE  v3.11.12  ·  generated 2026-05-17
+GAIA SKILL TREE  v3.11.13  ·  generated 2026-05-18
 ══════════════════════════════════════════════════════════════════════
-◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = star rank · [N★ · Pure] = 0★ rank pill · (↑ see above) = shared prerequisite
+◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = stars · [0★ · Pure] = Unawakened rank pill · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
 ══════════════════════════════════════════════════════════════════════
 
@@ -105,7 +105,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
      └─ ○ /tool-select  [1★]
 
 ══════════════════════════════════════════════════════════════════════
-Unique Skills — standalone tier-IV+ skills with no prerequisites and no descendants.
+Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
 ══════════════════════════════════════════════════════════════════════
 
   ◉ nousresearch/feed-monitoring  [4★ · Hardened]
@@ -133,4 +133,4 @@ Basics — basic-tier skills not wired into an upgrade path yet.  (0★ skills c
   ○ martin-stepanoski/nielsen-heuristics-audit  [0★ · Pure]
 ```
 
-*Generated from gaia.json on 2026-05-17. Do not edit directly.*
+*Generated from gaia.json on 2026-05-18. Do not edit directly.*
