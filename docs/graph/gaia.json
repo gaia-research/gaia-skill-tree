@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/skill.schema.json",
-  "version": "3.11.14",
-  "generatedAt": "2026-05-18T04:47:44.406778Z",
+  "version": "3.11.15",
+  "generatedAt": "2026-05-18T05:02:07.298534Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
