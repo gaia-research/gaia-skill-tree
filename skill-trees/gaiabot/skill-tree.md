@@ -26,23 +26,6 @@ GAIA SKILL TREE — gaiabot  ·  generated 2026-05-18
 Shared prerequisites marked (↑ see above) on second occurrence.
 ══════════════════════════════════════════════════════════════════════
 
-· ◆ karpathy/autoresearch  [6★]
-  ├─ · ◇ /research  [3★]
-  │  ├─ · ○ /web-search  [1★]
-  │  ├─ · ○ /summarize  [0★]
-  │  └─ · ○ /cite-sources  [1★]
-  ├─ · ◇ /knowledge-harvest  [4★]
-  │  ├─ · ◇ firecrawl/firecrawl  [3★]
-  │  │  ├─ · ○ /web-search  [1★]  (↑ see above)
-  │  │  ├─ · ○ /parse-html  [1★]
-  │  │  └─ · ○ /extract-entities  [1★]
-  │  ├─ · ○ /extract-entities  [1★]  (↑ see above)
-  │  └─ · ○ /embed-text  [1★]
-  └─ · ◇ /ghostwrite  [4★]
-     ├─ · ◇ /research  [3★]  (↑ see above)
-     ├─ · ○ glincker/readme-generator  [1★]
-     └─ · ○ /audience-model  [1★]
-
 · ◆ /autonomous-data-scientist  [5★ · Unclaimed]
   ├─ · ◇ huggingface/huggingface-datasets  [3★]
   │  ├─ · ○ /generate-sql  [2★]
@@ -53,6 +36,23 @@ Shared prerequisites marked (↑ see above) on second occurrence.
      ├─ · ○ /web-search  [1★]
      ├─ · ○ /summarize  [0★]  (↑ see above)
      └─ · ○ /cite-sources  [1★]
+
+· ◆ karpathy/autoresearch  [5★]
+  ├─ · ◇ /research  [3★]
+  │  ├─ · ○ /web-search  [1★]
+  │  ├─ · ○ /summarize  [0★]
+  │  └─ · ○ /cite-sources  [1★]
+  ├─ · ◇ /knowledge-harvest  [1★]
+  │  ├─ · ◇ firecrawl/firecrawl  [3★]
+  │  │  ├─ · ○ /web-search  [1★]  (↑ see above)
+  │  │  ├─ · ○ /parse-html  [1★]
+  │  │  └─ · ○ /extract-entities  [1★]
+  │  ├─ · ○ /extract-entities  [1★]  (↑ see above)
+  │  └─ · ○ /embed-text  [1★]
+  └─ · ◇ /ghostwrite  [1★]
+     ├─ · ◇ /research  [3★]  (↑ see above)
+     ├─ · ○ glincker/readme-generator  [1★]
+     └─ · ○ /audience-model  [1★]
 
 · ◆ /scientific-discovery  [5★ · Unclaimed]
   ├─ · ○ /hypothesis-generate  [2★]
@@ -103,7 +103,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
      ├─ ✓ ○ /plan-decompose  [1★]
      └─ ✓ ○ /tool-select  [1★]
 
-· ◆ /recursive-self-improvement  [5★ · Unclaimed]
+· ◆ /recursive-self-improvement  [1★ · Unclaimed]
   ├─ · ◇ devin-ai/autonomous-swe  [4★]
   │  ├─ · ○ /code-generation  [1★]
   │  ├─ · ○ /execute-bash  [1★]
