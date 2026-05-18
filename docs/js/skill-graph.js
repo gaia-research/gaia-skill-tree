@@ -242,6 +242,8 @@
       demerits: Array.isArray(skill.demerits) ? skill.demerits : [],
       rarity: skill.rarity || '',
       prerequisites: Array.isArray(skill.prerequisites) ? skill.prerequisites : [],
+      description: skill.description || '',
+      title: skill.title || '',
     })).filter(skill => skill.id);
   }
 
@@ -831,6 +833,51 @@
       const searchQuery = isSearchActive ? state.searchText.toLowerCase() : '';
       const legendHovering = Boolean(state.legendHoverType || state.legendHoverRank);
       const legendFiltering = Boolean(state.legendFilterType || state.legendFilterRank);
+
+      function skillMatchesSearch(skill) {
+        if (!isSearchActive) return true;
+
+        // 1. Check skill ID or slash-name
+        const skillId = (skill.id || '').toLowerCase();
+        if (skillId.includes(searchQuery)) return true;
+        if (('/' + skillId).includes(searchQuery)) return true;
+
+        // 2. Check title / display name
+        const skillName = (skill.name || '').toLowerCase();
+        if (skillName.includes(searchQuery)) return true;
+
+        // 3. Check description
+        const skillDesc = (skill.description || '').toLowerCase();
+        if (skillDesc.includes(searchQuery)) return true;
+
+        // 4. Check skill title property
+        const skillTitle = (skill.title || '').toLowerCase();
+        if (skillTitle.includes(searchQuery)) return true;
+
+        // 5. Check namedMap (handles, users, repo name, slash names, formatted strings)
+        if (state.namedMap && state.namedMap[skill.id]) {
+          const namedId = state.namedMap[skill.id].toLowerCase();
+          if (namedId.includes(searchQuery)) return true;
+          if (('@' + namedId).includes(searchQuery)) return true;
+
+          const parts = namedId.split('/');
+          if (parts.length === 2) {
+            const handle = parts[0];
+            const repo = parts[1];
+            if (('@' + handle).includes(searchQuery)) return true;
+            if (('/' + repo).includes(searchQuery)) return true;
+          }
+        }
+
+        // 6. Check titleMap for named-skill display titles
+        if (state.titleMap && state.titleMap[skill.id]) {
+          const title = state.titleMap[skill.id].toLowerCase();
+          if (title.includes(searchQuery)) return true;
+        }
+
+        return false;
+      }
+
       state.skills.forEach(skill => {
         let targetVis;
         if (hovering) {
@@ -844,13 +891,13 @@
           const mr = !state.legendFilterRank || skill.level === state.legendFilterRank;
           const matchesLegend = mt && mr;
           if (isSearchActive) {
-            const matchesSearch = (skill.name || skill.id).toLowerCase().includes(searchQuery);
+            const matchesSearch = skillMatchesSearch(skill);
             targetVis = (matchesLegend && matchesSearch) ? 1.0 : 0.12;
           } else {
             targetVis = matchesLegend ? 1.0 : 0.12;
           }
         } else if (isSearchActive) {
-          targetVis = (skill.name || skill.id).toLowerCase().includes(searchQuery) ? 1.0 : 0.12;
+          targetVis = skillMatchesSearch(skill) ? 1.0 : 0.12;
         } else {
           targetVis = 1.0;
         }
@@ -1812,6 +1859,7 @@
     if (state.running) draw();
     function setNamedMap(map) { state.namedMap = map || {}; }
     function setTitleMap(map) { state.titleMap = map || {}; }
+    function setOriginMap(map) { state.originMap = map || {}; }
 
     // ── RUNTIME MODE SWITCHING ──────────────────────────────────
     // setInteractive(on) — promote the ambient hero graph into a
@@ -1855,7 +1903,7 @@
     function getStatusEl() { return state.statusEl; }
     function setStatusEl(el) { state.statusEl = el; setSkills(state.skills); }
 
-    return { setSkills, setNamedMap, setTitleMap, resize, start, stop, resetFilters, setInteractive, setLabelMode, getStatusEl, setStatusEl };
+    return { setSkills, setNamedMap, setTitleMap, setOriginMap, resize, start, stop, resetFilters, setInteractive, setLabelMode, getStatusEl, setStatusEl };
   }
 
   const hero = document.getElementById('hero');
