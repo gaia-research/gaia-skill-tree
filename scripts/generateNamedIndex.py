@@ -416,7 +416,7 @@ def main():
     print(f"Scanning: {named_dir}")
     named_skills = load_named_skills(named_dir)
     # Filter out index.json if accidentally included
-    named_skills = [(fp, fm, body) for fp, fm, body in named_skills
+    named_skills = [(fp, fm) for fp, fm in named_skills
                     if not fp.endswith("index.json")]
 
     print(f"Loading skill IDs from: {graph_path}")
