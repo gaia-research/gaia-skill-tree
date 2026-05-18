@@ -1340,7 +1340,7 @@ def get_parser():
     install_parser.add_argument('skill_id', nargs='?', help="Skill ID, catalogRef, or unique bare slug to install")
     install_parser.add_argument('--list', action='store_true', help="List and interactively select skills to install")
     install_parser.add_argument('--ultimate', action='store_true', help="Batch-install all named prerequisite skills for an ultimate fusion chain")
-uninstall_parser = subparsers.add_parser('uninstall', help="Uninstall a named skill")
+    uninstall_parser = subparsers.add_parser('uninstall', help="Uninstall a named skill")
     uninstall_parser.add_argument('skill_id', help="Skill ID to uninstall")
 
     tree_parser = subparsers.add_parser('tree', help="Show your Gaia skill tree")
