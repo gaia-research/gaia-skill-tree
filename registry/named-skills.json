@@ -25,6 +25,8 @@
         "links": {
           "github": "https://github.com/aiskillstore/marketplace"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "origin"
       }
     ],
@@ -47,6 +49,8 @@
         "links": {
           "github": "https://github.com/Manavarya09/design-extract"
         },
+        "createdAt": "2026-05-14",
+        "updatedAt": "2026-05-14",
         "role": "origin"
       }
     ],
@@ -72,6 +76,8 @@
         "links": {
           "github": "https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "origin"
       },
       {
@@ -95,6 +101,8 @@
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "variant"
       }
     ],
@@ -120,6 +128,8 @@
         "links": {
           "github": "https://github.com/anthropics/skills/blob/main/skills/pptx/SKILL.md"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "origin"
       },
       {
@@ -143,6 +153,8 @@
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/personal/edit-article/SKILL.md"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "variant"
       }
     ],
@@ -167,6 +179,8 @@
         "links": {
           "github": "https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "origin"
       },
       {
@@ -190,6 +204,8 @@
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/productivity/write-a-skill/SKILL.md"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "variant"
       }
     ],
@@ -212,6 +228,8 @@
         "links": {
           "github": "https://github.com/bradautomates/claude-video"
         },
+        "createdAt": "2026-05-14",
+        "updatedAt": "2026-05-14",
         "role": "origin"
       }
     ],
@@ -234,6 +252,8 @@
         "links": {
           "github": "https://github.com/browser-use/browser-harness"
         },
+        "createdAt": "2026-05-14",
+        "updatedAt": "2026-05-14",
         "role": "origin"
       }
     ],
@@ -257,6 +277,8 @@
         "links": {
           "github": "https://github.com/browserbase/stagehand"
         },
+        "createdAt": "2026-05-17",
+        "updatedAt": "2026-05-17",
         "role": "variant"
       },
       {
@@ -279,6 +301,8 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/SKILL.md"
         },
+        "createdAt": "2026-05-12",
+        "updatedAt": "2026-05-12",
         "role": "variant"
       },
       {
@@ -302,6 +326,8 @@
         "links": {
           "github": "https://github.com/gooseworks-ai/goose-skills"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "origin"
       }
     ],
@@ -327,6 +353,8 @@
         "links": {
           "github": "https://github.com/cognition-labs/devin"
         },
+        "createdAt": "2026-04-29",
+        "updatedAt": "2026-04-30",
         "role": "origin"
       },
       {
@@ -350,6 +378,8 @@
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnose/SKILL.md"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "variant"
       }
     ],
@@ -374,6 +404,8 @@
         "links": {
           "github": "https://github.com/firecrawl/firecrawl"
         },
+        "createdAt": "2026-05-17",
+        "updatedAt": "2026-05-17",
         "role": "origin"
       }
     ],
@@ -399,6 +431,8 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/cso/SKILL.md"
         },
+        "createdAt": "2026-05-12",
+        "updatedAt": "2026-05-12",
         "role": "origin"
       }
     ],
@@ -423,6 +457,8 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/design-shotgun/SKILL.md"
         },
+        "createdAt": "2026-05-12",
+        "updatedAt": "2026-05-12",
         "role": "variant"
       }
     ],
@@ -448,6 +484,8 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/autoplan/SKILL.md"
         },
+        "createdAt": "2026-05-12",
+        "updatedAt": "2026-05-12",
         "role": "variant"
       },
       {
@@ -472,6 +510,8 @@
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-issues/SKILL.md"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "origin"
       }
     ],
@@ -497,6 +537,8 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/office-hours/SKILL.md"
         },
+        "createdAt": "2026-05-12",
+        "updatedAt": "2026-05-12",
         "role": "origin"
       }
     ],
@@ -519,6 +561,8 @@
         "links": {
           "github": "https://github.com/getagentseal/codeburn"
         },
+        "createdAt": "2026-05-14",
+        "updatedAt": "2026-05-14",
         "role": "origin"
       }
     ],
@@ -543,6 +587,8 @@
         "links": {
           "github": "https://github.com/GLINCKER/claude-code-marketplace/blob/main/skills/documentation/readme-generator/SKILL.md"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "origin"
       },
       {
@@ -566,6 +612,8 @@
         "links": {
           "github": "https://github.com/spring-ai-alibaba/examples/blob/main/.claude/skills/readme-generate/SKILL.md"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "variant"
       }
     ],
@@ -591,6 +639,8 @@
         "links": {
           "github": "https://github.com/huggingface/skills/blob/main/skills/hf-cli/SKILL.md"
         },
+        "createdAt": "2026-05-03",
+        "updatedAt": "2026-05-03",
         "role": "variant"
       }
     ],
@@ -616,6 +666,8 @@
         "links": {
           "github": "https://github.com/huggingface/skills/blob/main/skills/huggingface-datasets/SKILL.md"
         },
+        "createdAt": "2026-05-03",
+        "updatedAt": "2026-05-03",
         "role": "variant"
       }
     ],
@@ -641,6 +693,8 @@
         "links": {
           "github": "https://github.com/huggingface/skills/blob/main/skills/huggingface-llm-trainer/SKILL.md"
         },
+        "createdAt": "2026-05-03",
+        "updatedAt": "2026-05-03",
         "role": "variant"
       }
     ],
@@ -666,6 +720,8 @@
         "links": {
           "github": "https://github.com/huggingface/skills/blob/main/skills/huggingface-papers/SKILL.md"
         },
+        "createdAt": "2026-05-03",
+        "updatedAt": "2026-05-03",
         "role": "variant"
       }
     ],
@@ -691,6 +747,8 @@
         "links": {
           "github": "https://github.com/huggingface/skills/blob/main/skills/huggingface-vision-trainer/SKILL.md"
         },
+        "createdAt": "2026-05-03",
+        "updatedAt": "2026-05-03",
         "role": "variant"
       }
     ],
@@ -716,6 +774,8 @@
         "links": {
           "github": "https://github.com/codefuse-ai/ModelCache"
         },
+        "createdAt": "2026-05-15",
+        "updatedAt": "2026-05-15",
         "role": "variant"
       }
     ],
@@ -741,6 +801,8 @@
         "links": {
           "github": "https://github.com/huggingface/skills/blob/main/skills/transformers-js/SKILL.md"
         },
+        "createdAt": "2026-05-03",
+        "updatedAt": "2026-05-03",
         "role": "variant"
       }
     ],
@@ -764,6 +826,8 @@
         "links": {
           "github": "https://github.com/karpathy/autoresearch"
         },
+        "createdAt": "2026-04-29",
+        "updatedAt": "2026-04-30",
         "role": "origin"
       }
     ],
@@ -788,6 +852,8 @@
         "links": {
           "github": "https://github.com/laravel/boost/issues/698"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "origin"
       }
     ],
@@ -813,6 +879,8 @@
         "links": {
           "github": "https://github.com/mastepanoski/claude-skills/blob/main/skills/nielsen-heuristics-audit/SKILL.md"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "origin"
       },
       {
@@ -834,6 +902,8 @@
         "links": {
           "github": "https://github.com/pbakaus/impeccable"
         },
+        "createdAt": "2026-05-14",
+        "updatedAt": "2026-05-14",
         "role": "variant"
       }
     ],
@@ -859,6 +929,8 @@
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-05-15",
         "role": "variant"
       }
     ],
@@ -887,6 +959,8 @@
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/grill-with-docs/SKILL.md"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-05-15",
         "role": "origin"
       }
     ],
@@ -913,6 +987,8 @@
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/improve-codebase-architecture/SKILL.md"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "variant"
       }
     ],
@@ -938,6 +1014,8 @@
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-prd/SKILL.md"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "origin"
       }
     ],
@@ -963,6 +1041,8 @@
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/triage/SKILL.md"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "origin"
       }
     ],
@@ -989,6 +1069,8 @@
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/ubiquitous-language/SKILL.md"
         },
+        "createdAt": "2026-05-15",
+        "updatedAt": "2026-05-15",
         "role": "variant"
       }
     ],
@@ -1014,6 +1096,8 @@
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/zoom-out/SKILL.md"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "origin"
       }
     ],
@@ -1037,6 +1121,8 @@
         "links": {
           "github": "https://github.com/nexu-io/open-design"
         },
+        "createdAt": "2026-05-14",
+        "updatedAt": "2026-05-14",
         "role": "origin"
       }
     ],
@@ -1062,6 +1148,8 @@
         "links": {
           "github": "https://github.com/NousResearch/hermes-agent"
         },
+        "createdAt": "2026-05-15",
+        "updatedAt": "2026-05-15",
         "role": "origin"
       }
     ],
@@ -1087,6 +1175,8 @@
         "links": {
           "arxiv": "https://arxiv.org/abs/2005.14165"
         },
+        "createdAt": "2026-05-15",
+        "updatedAt": "2026-05-15",
         "role": "origin"
       }
     ],
@@ -1112,6 +1202,8 @@
         "links": {
           "arxiv": "https://arxiv.org/abs/2203.11171"
         },
+        "createdAt": "2026-05-15",
+        "updatedAt": "2026-05-15",
         "role": "variant"
       }
     ],
@@ -1137,6 +1229,8 @@
         "links": {
           "github": "https://github.com/ruvnet/ruflo"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "origin"
       }
     ],
@@ -1159,6 +1253,8 @@
         "links": {
           "github": "https://github.com/safishamsi/graphify"
         },
+        "createdAt": "2026-05-14",
+        "updatedAt": "2026-05-14",
         "role": "origin"
       }
     ],
@@ -1181,6 +1277,8 @@
         "links": {
           "github": "https://github.com/santifer/career-ops"
         },
+        "createdAt": "2026-05-14",
+        "updatedAt": "2026-05-14",
         "role": "origin"
       }
     ],
@@ -1221,6 +1319,8 @@
         "links": {
           "github": "https://github.com/Upsonic/Upsonic"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "origin"
       }
     ],
@@ -1245,6 +1345,8 @@
         "links": {
           "github": "https://github.com/vercel-labs/skills/blob/main/skills/find-skills/SKILL.md"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "origin"
       }
     ],
@@ -1272,6 +1374,8 @@
         "links": {
           "github": "https://github.com/yonatangross/orchestkit"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "origin"
       }
     ]
@@ -1295,7 +1399,9 @@
       ],
       "links": {
         "repo": "https://github.com/mbtiongson1/gaia-skill-tree"
-      }
+      },
+      "createdAt": "2026-05-10",
+      "updatedAt": "2026-05-10"
     },
     {
       "id": "gaiabot/repo-docs-before-pr",
@@ -1315,7 +1421,9 @@
       ],
       "links": {
         "docs": "https://github.com/mbtiongson1/gaia-skill-tree#docs"
-      }
+      },
+      "createdAt": "2026-05-01",
+      "updatedAt": "2026-05-03"
     },
     {
       "id": "intelligentcode-ai/database-engineer",
@@ -1466,7 +1574,9 @@
       "genericSkillRef": "sentiment-analysis",
       "status": "awakened",
       "level": "3★",
-      "description": ">"
+      "description": ">",
+      "createdAt": "2026-05-17",
+      "updatedAt": "2026-05-17"
     },
     {
       "id": "xquik-dev/hermes-tweet",
@@ -1487,7 +1597,9 @@
       "links": {
         "github": "https://github.com/Xquik-dev/hermes-tweet",
         "docs": "https://docs.xquik.com/guides/hermes-tweet"
-      }
+      },
+      "createdAt": "2026-05-15",
+      "updatedAt": "2026-05-15"
     }
   ],
   "byContributor": {

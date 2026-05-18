@@ -710,7 +710,7 @@
     var parts = ns.id.split('/');
     var contributor = parts[0], skillName = parts[1] || '';
     var apiUrl = 'https://api.github.com/repos/' + REPO_SLUG +
-      '/commits?path=graph%2Fnamed%2F' + contributor + '%2F' + skillName + '.md&per_page=20';
+      '/commits?path=registry%2Fnamed%2F' + contributor + '%2F' + skillName + '.md&per_page=20';
     fetch(apiUrl)
       .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
       .then(function(commits){

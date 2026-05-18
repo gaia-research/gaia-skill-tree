@@ -51,6 +51,9 @@ INDEX_SKILL_FIELDS = [
     "catalogRef",
     "tags",
     "links",
+    "createdAt",
+    "updatedAt",
+    "timeline",
 ]
 
 
