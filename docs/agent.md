@@ -67,9 +67,9 @@ claude mcp add gaia -- npx @gaia-registry/mcp-server
 
 ---
 
-## 4. Curation & Leveling Rules
+## 4. Curation & Ranking Rules
 
-Capabilities advance through evidence, not declaration. Levels range from `0★` to `6★` based on evidence:
+Capabilities advance through evidence, not declaration. Ranks range from `0★` to `6★` based on evidence:
 
 ### Evidence Tiers
 *   **2★ (Named):** Requires $\ge 1$ Tier C evidence (basic demonstration).

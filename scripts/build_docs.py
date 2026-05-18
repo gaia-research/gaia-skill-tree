@@ -329,6 +329,43 @@ def build_og_cards(check: bool) -> bool:
         return True
 
 
+def build_tree_md(check: bool) -> bool:
+    """Run generateProjections.py and compare generated-output/tree.md against docs/tree.md."""
+    script = SCRIPTS / "generateProjections.py"
+    if not script.exists():
+        return False
+    
+    rc, output = _run_script(script, [])
+    if rc != 0:
+        if check:
+            print(f"diff docs/tree.md (regen failed: rc={rc})")
+            print(output)
+        return True
+
+    generated = ROOT / "generated-output" / "tree.md"
+    committed = ROOT / "docs" / "tree.md"
+    
+    if not generated.exists():
+        if check:
+            print("diff docs/tree.md (regen did not produce output)")
+        return True
+        
+    if not committed.exists():
+        if check:
+            print("diff docs/tree.md (missing committed file)")
+        return True
+        
+    if filecmp.cmp(committed, generated, shallow=False):
+        return False
+        
+    if check:
+        print("diff docs/tree.md")
+    else:
+        committed.write_bytes(generated.read_bytes())
+    return True
+
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Build generated Gaia docs regions.")
     parser.add_argument("--check", action="store_true", help="Fail if generated docs are stale")
@@ -347,6 +384,7 @@ def main(argv: list[str] | None = None) -> int:
     docs_named_changed = build_docs_named_index(args.check)
     profiles_changed = build_profile_pages(args.check)
     og_changed = build_og_cards(args.check)
+    tree_changed = build_tree_md(args.check)
 
     changed = (
         readme_changed
@@ -356,6 +394,7 @@ def main(argv: list[str] | None = None) -> int:
         or docs_named_changed
         or profiles_changed
         or og_changed
+        or tree_changed
     )
     if args.check and changed:
         print("Generated documentation is stale. Run `python scripts/build_docs.py --check` locally.")
