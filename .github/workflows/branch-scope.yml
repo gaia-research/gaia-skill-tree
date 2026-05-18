@@ -16,40 +16,80 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Check branch scope
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: ${{ github.head_ref }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
+          BASE_REF: ${{ github.base_ref }}
         run: |
           set -euo pipefail
-
-          FILES=$(gh pr view "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --json files -q '.files[].path')
-          if [ -z "$FILES" ]; then
-            echo "No changed files detected."
-            exit 0
-          fi
 
           VIOLATIONS=""
           PREFIX=""
 
           # Determine branch prefix
           case "$BRANCH" in
-            schema/*)  PREFIX="schema" ;;
-            cli/*)     PREFIX="cli" ;;
-            docs/*)    PREFIX="docs" ;;
-            design/*)  PREFIX="design" ;;
+            schema/*)           PREFIX="schema" ;;
+            cli/*)              PREFIX="cli" ;;
+            docs/*)             PREFIX="docs" ;;
+            design/*)           PREFIX="design" ;;
             review/gaia-push/*) PREFIX="review-push" ;;
             review/meta/*)      PREFIX="review-meta" ;;
-            dev/*)     PREFIX="dev" ;;
-            infra/*)   PREFIX="infra" ;;
-            *)         PREFIX="other" ;;
+            dev/*)              PREFIX="dev" ;;
+            infra/*)            PREFIX="infra" ;;
+            *)                  PREFIX="other" ;;
           esac
 
           echo "Branch: $BRANCH"
           echo "Detected prefix: $PREFIX"
           echo ""
+
+          # dev/* branches are consolidation branches — no forward restriction
+          if [ "$PREFIX" = "dev" ]; then
+            echo "✓ dev/ branches have no scope restrictions."
+            exit 0
+          fi
+
+          # Find the merge base between this PR and its target branch.
+          # Using the merge base (three-dot diff) ensures we only evaluate files
+          # introduced by this branch, not unrelated commits already on the base.
+          git fetch origin "$BASE_REF" --quiet
+          MERGE_BASE=$(git merge-base "origin/$BASE_REF" HEAD)
+          echo "Merge base: $MERGE_BASE"
+          echo ""
+
+          # Collect files only from human, non-merge commits.
+          # Merge commits and github-actions[bot] commits (auto-regen, sync) are
+          # intentionally excluded so automated maintenance does not trigger false
+          # scope violations on otherwise-clean branches.
+          HUMAN_COMMITS=$(
+            git log --no-merges --format="%H %ae" "$MERGE_BASE..HEAD" \
+              | grep -v 'github-actions\[bot\]' \
+              | awk '{print $1}'
+          )
+
+          if [ -z "$HUMAN_COMMITS" ]; then
+            echo "No human commits found between merge base and HEAD (only merge/bot commits)."
+            echo "✓ Nothing to check."
+            exit 0
+          fi
+
+          # Gather the unique set of files touched by human commits
+          FILES=$(
+            while IFS= read -r sha; do
+              [ -z "$sha" ] && continue
+              git diff-tree --no-commit-id -r --name-only "$sha"
+            done <<< "$HUMAN_COMMITS" | sort -u
+          )
+
+          if [ -z "$FILES" ]; then
+            echo "No changed files detected."
+            exit 0
+          fi
 
           # Forward check: verify files match allowed scope
           while IFS= read -r file; do
@@ -102,9 +142,6 @@ jobs:
                   *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (infra/ branches may only touch .github/ or scripts/)" ;;
                 esac
                 ;;
-              dev)
-                # No forward restriction for dev/
-                ;;
               other)
                 VIOLATIONS="$VIOLATIONS\n  ❌ $file (unrecognized branch prefix; use schema/, cli/, docs/, design/, review/gaia-push/, review/meta/, dev/, or infra/)"
                 ;;
@@ -122,8 +159,6 @@ jobs:
             esac
           done <<< "$FILES"
 
-          # dev/* branches are consolidation branches and may include schema changes
-          # alongside docs, UI, tests, and generated artifacts.
           if [ -n "$SCHEMA_CHANGED" ] && [ "$PREFIX" != "schema" ] && [ "$PREFIX" != "infra" ] && [ "$PREFIX" != "dev" ]; then
             echo "::error::Schema files changed on a non-schema branch. Use a schema/ branch for nomenclature changes."
             echo ""
@@ -140,11 +175,11 @@ jobs:
           if [ -n "$VIOLATIONS" ]; then
             echo "::error::Branch scope violations detected."
             echo ""
-            echo "Branch '$BRANCH' (prefix: $PREFIX) has out-of-scope file changes:"
+            echo "Branch '$BRANCH' (prefix: $PREFIX) has out-of-scope file changes in human commits:"
             echo -e "$VIOLATIONS"
             echo ""
             echo "Either move these changes to the appropriate branch prefix, or add the 'skip-scope-check' label to bypass."
             exit 1
           fi
 
-          echo "✓ All changed files are within scope for branch prefix '$PREFIX'."
+          echo "✓ All human commits are within scope for branch prefix '$PREFIX'."
