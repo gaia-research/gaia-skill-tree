@@ -8,7 +8,7 @@
 | ◇ [0xdarkmatter](../docs/u/0xdarkmatter/)/pytest-patterns | Extra Skill | Generate Test, Execute Bash, Error Interpretation | 3★ |  |
 | ◆ /autonomous-data-scientist | Ultimate Skill | Data Analysis, Math Reason, Research | 5★ | Requires dataset access and compute environment. Minimum 3 Class A/B evidence sources. |
 | ◇ [devin-ai](../docs/u/devin-ai/)/autonomous-swe | Extra Skill | Code Generation, Execute Bash, Error Interpretation | 4★ |  |
-| ◆ [karpathy](../docs/u/karpathy/)/autoresearch | Ultimate Skill | Research, Knowledge Harvest, Ghostwrite | 6★ | Requires extensive multi-system validation before level advancement. |
+| ◆ [karpathy](../docs/u/karpathy/)/autoresearch | Ultimate Skill | Research, Knowledge Harvest, Ghostwrite | 5★ | Requires extensive multi-system validation before level advancement. |
 | ◇ /autonomous-web-research | Extra Skill | Web Scrape, Web Search | 4★ | Requires a multi-step crawling engine and mapping logic to resolve site structures. |
 | ◇ [gooseworks](../docs/u/gooseworks/)/notte-browser | Extra Skill | Web Search, Computer Use | 3★ |  |
 | ◇ [santifer](../docs/u/santifer/)/career-ops | Extra Skill | Autonomous Web Research, Summarize, Document Editing | 3★ |  |
@@ -30,14 +30,14 @@
 | ◇ /gaia-meta-audit | Extra Skill | Gaia Audit, Registry Curation, Detect Anomaly | 3★ | Requires the current registry, named-skill index, real-skill catalog, and permission to compare against current source URLs or discovery indexes. |
 | ◇ /gaia-triage | Extra Skill | Issue Triage, Retrieve | 2★ | Requires access to the mbtiongson1/gaia-skill-tree repository and GitHub CLI (gh) for execution. |
 | ◇ /generative-media | Extra Skill | API Call, Data Visualize | 3★ → 2★ |  |
-| ◇ /ghostwrite | Extra Skill | Research, Write Report, Audience Model | 4★ | Requires research output as input context. |
+| ◇ /ghostwrite | Extra Skill | Research, Write Report, Audience Model | 1★ | Requires research output as input context. |
 | ◇ [mattpocock](../docs/u/mattpocock/)/grill-me | Extra Skill | Design Review, Self-Critique | 4★ | Enforces a strict questioning loop that prevents the agent from proceeding to implementation until all branches are resolved. |
 | ◆ [mattpocock](../docs/u/mattpocock/)/grill-with-docs | Ultimate Skill | Grill Me, Ubiquitous Language, Document Editing | 5★ | Requires the agent to maintain a live glossary (CONTEXT.md) and generate ADRs for all non-trivial trade-offs discovered during the grill. |
 | ◇ /grounding | Extra Skill | Retrieve, Cite Sources, Evaluate Output | 3★ |  |
 | ◇ /guardrails | Extra Skill | Evaluate Output, Classify, Structured Output Generation | 3★ | Requires a defined policy schema and an evaluation loop. |
 | ◇ /humanize-prose | Extra Skill | Document Editing, Audience Model, Format Output | 4★ | Requires explicit user permission to revise voice, tone, and stylistic markers without changing factual claims. |
 | ◇ [safishamsi](../docs/u/safishamsi/)/graphify | Extra Skill | Extract Entities, Logical Inference | 3★ |  |
-| ◇ /knowledge-harvest | Extra Skill | Web Scrape, Extract Entities, Embed Text | 4★ |  |
+| ◇ /knowledge-harvest | Extra Skill | Web Scrape, Extract Entities, Embed Text | 1★ |  |
 | ◇ /knowledge-management | Extra Skill | API Call, Retrieve | 2★ |  |
 | ◇ [huggingface](../docs/u/huggingface/)/huggingface-papers | Extra Skill | Research, Cite Sources, Summarize | 4★ | Requires access to academic databases (PubMed, bioRxiv, ChEMBL, or equivalent). |
 | ◇ /mathematical-animation | Extra Skill | Code Execution, Data Visualize | 3★ → 2★ |  |
@@ -56,7 +56,7 @@
 | ◇ [yonatangross](../docs/u/yonatangross/)/orchestkit-rag | Extra Skill | Retrieve, Chunk Document, Embed Text, Score Relevance, Tokenize, Rank | 3★ |  |
 | ◇ /re-act-reasoning | Extra Skill | Plan and Decompose, Tool Use | 3★ |  |
 | ◆ /real-time-voice-assistant | Ultimate Skill | Voice Agent, Memory Manage, Plan and Execute | 5★ | Requires real-time audio pipeline, <500ms end-to-end latency target, and persistent session store. Minimum 3 Class A/B evidence sources. |
-| ◆ /recursive-self-improvement | Ultimate Skill | Autonomous Debug, Evaluate Output, Plan and Execute | 5★ | Requires extensive multi-system validation before level advancement. |
+| ◆ /recursive-self-improvement | Ultimate Skill | Autonomous Debug, Evaluate Output, Plan and Execute | 1★ | Requires extensive multi-system validation before level advancement. |
 | ◇ /registry-curation | Extra Skill | Research, Code Generation, Execute Bash | 4★ | Requires write access to the canonical graph and a passing validation suite. |
 | ◇ /release-automation | Extra Skill | Workflow Automation, Execute Bash, Generate Text | 2★ | Requires write access to the repository and a configured release token. |
 | ◇ /research | Extra Skill | Web Search, Summarize, Cite Sources | 3★ |  |

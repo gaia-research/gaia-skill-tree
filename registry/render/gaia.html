@@ -125,8 +125,8 @@
 </div>
 <script type="application/json" id="gaia-graph-data">{
   "$schema": "./schema/skill.schema.json",
-  "version": "3.9.3",
-  "generatedAt": "2026-05-15T18:58:01.631882Z",
+  "version": "3.11.15",
+  "generatedAt": "2026-05-18T05:02:07.298534Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -909,6 +909,36 @@
       "createdAt": "2026-04-28",
       "updatedAt": "2026-04-28",
       "version": "0.2.0"
+    },
+    {
+      "id": "collaborative-diagramming",
+      "name": "Collaborative Diagramming",
+      "type": "extra",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Generates and manages digital diagrams, flowcharts, and architecture maps in web-native or collaborative formats, optimized for hand-drawn aesthetics or structured vector output.",
+      "prerequisites": [
+        "api-call",
+        "data-visualize"
+      ],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/excalidraw/excalidraw",
+          "evaluator": "gemini-cli",
+          "date": "2026-05-17",
+          "notes": "Excalidraw -- virtual whiteboard for sketching hand-drawn like diagrams; widespread adoption for developer documentation."
+        }
+      ],
+      "knownAgents": [
+        "NousResearch/hermes-agent"
+      ],
+      "status": "provisional",
+      "createdAt": "2026-05-17",
+      "updatedAt": "2026-05-17",
+      "version": "0.1.0"
     },
     {
       "id": "computer-use",
@@ -1961,6 +1991,39 @@
       "version": "0.1.0"
     },
     {
+      "id": "generative-media",
+      "name": "Generative Media",
+      "type": "extra",
+      "level": "3★",
+      "rarity": "rare",
+      "description": "Generates and manipulates images, video, and audio through complex node-based or scripted generative workflows, managing model dependencies and parameter injection.",
+      "prerequisites": [
+        "api-call",
+        "data-visualize"
+      ],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/comfyanonymous/ComfyUI",
+          "evaluator": "gemini-cli",
+          "date": "2026-05-17",
+          "notes": "ComfyUI -- most powerful and modular stable diffusion GUI and backend; node-based graph execution for generative media."
+        }
+      ],
+      "knownAgents": [
+        "NousResearch/hermes-agent"
+      ],
+      "demerits": [
+        "heavyweight-dependency"
+      ],
+      "status": "provisional",
+      "createdAt": "2026-05-17",
+      "updatedAt": "2026-05-17",
+      "version": "0.1.0"
+    },
+    {
       "id": "ghostwrite",
       "name": "Ghostwrite",
       "type": "extra",
@@ -2359,6 +2422,38 @@
       "version": "0.1.0"
     },
     {
+      "id": "knowledge-management",
+      "name": "Knowledge Management",
+      "type": "extra",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Organizes, relates, and retrieves information across structured pages, databases, and shared knowledge bases, maintaining semantic links between information nodes.",
+      "prerequisites": [
+        "api-call",
+        "retrieve"
+      ],
+      "derivatives": [
+        "knowledge-harvest"
+      ],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "C",
+          "source": "https://hermes-agent.nousresearch.com/docs/skills",
+          "evaluator": "gemini-cli",
+          "date": "2026-05-17",
+          "notes": "Hermes Skills Hub: Notion integration for structured notes and databases."
+        }
+      ],
+      "knownAgents": [
+        "NousResearch/hermes-agent"
+      ],
+      "status": "provisional",
+      "createdAt": "2026-05-17",
+      "updatedAt": "2026-05-17",
+      "version": "0.1.0"
+    },
+    {
       "id": "literature-review",
       "name": "Literature Review",
       "type": "extra",
@@ -2449,6 +2544,39 @@
       "createdAt": "2026-04-28",
       "updatedAt": "2026-04-28",
       "version": "0.2.0"
+    },
+    {
+      "id": "mathematical-animation",
+      "name": "Mathematical Animation",
+      "type": "extra",
+      "level": "3★",
+      "rarity": "rare",
+      "description": "Produces programmatic mathematical and algorithmic animations with high pedagogical and visual quality, utilizing LaTeX for notation and geometric coordinate systems for spatial layout.",
+      "prerequisites": [
+        "code-execution",
+        "data-visualize"
+      ],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/ManimCommunity/manim",
+          "evaluator": "gemini-cli",
+          "date": "2026-05-17",
+          "notes": "Manim Community Edition -- programmatic animation engine for explanatory math videos; inspired by 3Blue1Brown."
+        }
+      ],
+      "knownAgents": [
+        "NousResearch/hermes-agent"
+      ],
+      "demerits": [
+        "heavyweight-dependency"
+      ],
+      "status": "provisional",
+      "createdAt": "2026-05-17",
+      "updatedAt": "2026-05-17",
+      "version": "0.1.0"
     },
     {
       "id": "mcp-debugger-control",
@@ -2598,6 +2726,36 @@
       "createdAt": "2026-04-28",
       "updatedAt": "2026-04-28",
       "version": "0.2.0"
+    },
+    {
+      "id": "ml-artifact-management",
+      "name": "ML Artifact Management",
+      "type": "extra",
+      "level": "2★",
+      "rarity": "uncommon",
+      "description": "Manages machine learning models, datasets, and experiment logs through centralized hub or tracking repositories, handling versioning and metadata extraction.",
+      "prerequisites": [
+        "api-call",
+        "classify"
+      ],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/huggingface/huggingface_hub",
+          "evaluator": "gemini-cli",
+          "date": "2026-05-17",
+          "notes": "Hugging Face Hub CLI -- standard interface for managing ML artifacts."
+        }
+      ],
+      "knownAgents": [
+        "huggingface/hf-cli"
+      ],
+      "status": "provisional",
+      "createdAt": "2026-05-17",
+      "updatedAt": "2026-05-17",
+      "version": "0.1.0"
     },
     {
       "id": "ml-pipeline",
@@ -3037,6 +3195,36 @@
       "status": "provisional",
       "createdAt": "2026-05-06",
       "updatedAt": "2026-05-06",
+      "version": "0.1.0"
+    },
+    {
+      "id": "project-management",
+      "name": "Project Management",
+      "type": "extra",
+      "level": "2★",
+      "rarity": "uncommon",
+      "description": "Manages issues, tasks, projects, and team workflows through structured project management platforms, handling state transitions and priority levels.",
+      "prerequisites": [
+        "api-call",
+        "issue-triage"
+      ],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "C",
+          "source": "https://hermes-agent.nousresearch.com/docs/skills",
+          "evaluator": "gemini-cli",
+          "date": "2026-05-17",
+          "notes": "Hermes Skills Hub: Linear integration for issue and project management."
+        }
+      ],
+      "knownAgents": [
+        "NousResearch/hermes-agent"
+      ],
+      "status": "provisional",
+      "createdAt": "2026-05-17",
+      "updatedAt": "2026-05-17",
       "version": "0.1.0"
     },
     {
@@ -3896,29 +4084,85 @@
       "id": "sentiment-analysis",
       "name": "Sentiment Analysis",
       "type": "basic",
-      "level": "0★",
+      "level": "3★",
       "rarity": "common",
-      "description": "Determines the emotional valence (positive, negative, neutral) and intensity of text input.",
+      "description": "Classifies the affective polarity (positive / negative / neutral, or fine-grained) of user-generated text. Covers pipelines from raw noisy input through preprocessing, inference (Transformer, Lexicon, or LLM), and output normalisation.",
       "prerequisites": [],
       "derivatives": [
         "content-moderation",
         "translation-pipeline"
       ],
-      "conditions": "",
+      "conditions": "Macro-F1 &gt;= 0.88 (Transformer) or 0.72 (Lexicon) on SST-2 or equivalent benchmark.",
       "evidence": [
         {
           "class": "A",
           "source": "https://arxiv.org/abs/1810.04805",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "BERT paper â€” achieves SOTA on SST-2 sentiment benchmark (93.5% accuracy), foundational evidence for LLM-based sentiment analysis."
+          "notes": "BERT paper — achieves SOTA on SST-2 sentiment benchmark (93.5% accuracy), foundational evidence for LLM-based sentiment analysis."
+        },
+        {
+          "class": "A",
+          "source": "https://arxiv.org/abs/2202.03829",
+          "evaluator": "pexp13",
+          "date": "2026-05-17",
+          "notes": "CardiffNLP Twitter-RoBERTa (Barbieri et al., 2022) - SOTA transformer baseline for social-media sentiment analysis; 3-class, multilingual variants available."
+        },
+        {
+          "class": "B",
+          "source": "https://aclanthology.org/S17-2088/",
+          "evaluator": "pexp13",
+          "date": "2026-05-17",
+          "notes": "SemEval-2017 Task 4 - Standard Twitter sentiment benchmark; establishes macro-F1 as primary metric."
+        },
+        {
+          "class": "B",
+          "source": "https://ojs.aaai.org/index.php/ICWSM/article/view/14550",
+          "evaluator": "pexp13",
+          "date": "2026-05-17",
+          "notes": "VADER (Hutto &amp; Gilbert, 2014) - Canonical lexicon-based baseline; validated on social media corpora."
+        },
+        {
+          "class": "B",
+          "source": "https://huggingface.co/nlptown/bert-base-multilingual-uncased-sentiment",
+          "evaluator": "pexp13",
+          "date": "2026-05-17",
+          "notes": "NLPTown BERT multilingual - 5-class (star-rating) model fine-tuned on product reviews; direct UGC applicability."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/declare-lab/conv-emotion",
+          "evaluator": "pexp13",
+          "date": "2026-05-17",
+          "notes": "declare-lab/conv-emotion - Sentiment/emotion recognition in conversations (MELD, IEMOCAP); relevant for threaded comment SA."
+        },
+        {
+          "class": "C",
+          "source": "https://gluebenchmark.com/tasks",
+          "evaluator": "pexp13",
+          "date": "2026-05-17",
+          "notes": "SST-2 (GLUE benchmark) - Standard binary SA benchmark for cross-model comparison."
+        },
+        {
+          "class": "C",
+          "source": "https://arxiv.org/abs/2203.01054",
+          "evaluator": "pexp13",
+          "date": "2026-05-17",
+          "notes": "Aspect-Based SA survey (Zhang et al., 2022) - Covers ABSA methods for structured review analysis."
+        },
+        {
+          "class": "C",
+          "source": "https://github.com/declare-lab/awesome-sentiment-analysis",
+          "evaluator": "pexp13",
+          "date": "2026-05-17",
+          "notes": "Curated reading list by DeCLaRe Lab; anchored by Poria et al. (2020) IEEE TAC survey on open challenges."
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-04-28",
-      "version": "0.2.0"
+      "updatedAt": "2026-05-17",
+      "version": "1.0.0"
     },
     {
       "id": "skill-authoring",
@@ -4938,6 +5182,36 @@
       "version": "0.1.0"
     },
     {
+      "id": "workspace-automation",
+      "name": "Workspace Automation",
+      "type": "extra",
+      "level": "2★",
+      "rarity": "uncommon",
+      "description": "Orchestrates productivity tasks across email, calendar, drive, and documents through unified office suite integrations, automating scheduling and file management.",
+      "prerequisites": [
+        "api-call",
+        "document-editing"
+      ],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "C",
+          "source": "https://hermes-agent.nousresearch.com/docs/skills",
+          "evaluator": "gemini-cli",
+          "date": "2026-05-17",
+          "notes": "Hermes Skills Hub: Google Workspace integration for unified email, calendar, and drive access."
+        }
+      ],
+      "knownAgents": [
+        "NousResearch/hermes-agent"
+      ],
+      "status": "provisional",
+      "createdAt": "2026-05-17",
+      "updatedAt": "2026-05-17",
+      "version": "0.1.0"
+    },
+    {
       "id": "write-report",
       "name": "Write Report",
       "type": "basic",
@@ -5007,7 +5281,22 @@
     },
     {
       "sourceSkillId": "api-call",
+      "targetSkillId": "collaborative-diagramming",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "api-call",
       "targetSkillId": "function-calling",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "api-call",
+      "targetSkillId": "generative-media",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "api-call",
+      "targetSkillId": "knowledge-management",
       "edgeType": "prerequisite"
     },
     {
@@ -5017,7 +5306,22 @@
     },
     {
       "sourceSkillId": "api-call",
+      "targetSkillId": "ml-artifact-management",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "api-call",
+      "targetSkillId": "project-management",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "api-call",
       "targetSkillId": "workflow-automation",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "api-call",
+      "targetSkillId": "workspace-automation",
       "edgeType": "prerequisite"
     },
     {
@@ -5131,6 +5435,16 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "classify",
+      "targetSkillId": "ml-artifact-management",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "code-execution",
+      "targetSkillId": "mathematical-animation",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "code-generation",
       "targetSkillId": "autonomous-debug",
       "edgeType": "prerequisite"
@@ -5207,7 +5521,22 @@
     },
     {
       "sourceSkillId": "data-visualize",
+      "targetSkillId": "collaborative-diagramming",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "data-visualize",
       "targetSkillId": "data-analysis",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "data-visualize",
+      "targetSkillId": "generative-media",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "data-visualize",
+      "targetSkillId": "mathematical-animation",
       "edgeType": "prerequisite"
     },
     {
@@ -5238,6 +5567,11 @@
     {
       "sourceSkillId": "document-editing",
       "targetSkillId": "humanize-prose",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "document-editing",
+      "targetSkillId": "workspace-automation",
       "edgeType": "prerequisite"
     },
     {
@@ -5461,6 +5795,11 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "issue-triage",
+      "targetSkillId": "project-management",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "knowledge-harvest",
       "targetSkillId": "autonomous-research-agent",
       "edgeType": "prerequisite"
@@ -5678,6 +6017,11 @@
     {
       "sourceSkillId": "retrieve",
       "targetSkillId": "grounding",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "retrieve",
+      "targetSkillId": "knowledge-management",
       "edgeType": "prerequisite"
     },
     {
@@ -5983,7 +6327,7 @@
   ]
 }</script>
 <script type="application/json" id="gaia-named-skills">{
-  "generatedAt": "2026-05-15",
+  "generatedAt": "2026-05-18",
   "buckets": {
     "automated-testing": [
       {
@@ -6009,6 +6353,8 @@
         "links": {
           "github": "https://github.com/aiskillstore/marketplace"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "origin"
       }
     ],
@@ -6031,6 +6377,8 @@
         "links": {
           "github": "https://github.com/Manavarya09/design-extract"
         },
+        "createdAt": "2026-05-14",
+        "updatedAt": "2026-05-14",
         "role": "origin"
       }
     ],
@@ -6056,6 +6404,8 @@
         "links": {
           "github": "https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "origin"
       },
       {
@@ -6079,6 +6429,8 @@
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "variant"
       }
     ],
@@ -6104,6 +6456,8 @@
         "links": {
           "github": "https://github.com/anthropics/skills/blob/main/skills/pptx/SKILL.md"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "origin"
       },
       {
@@ -6127,6 +6481,8 @@
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/personal/edit-article/SKILL.md"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "variant"
       }
     ],
@@ -6151,6 +6507,8 @@
         "links": {
           "github": "https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "origin"
       },
       {
@@ -6174,6 +6532,8 @@
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/productivity/write-a-skill/SKILL.md"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "variant"
       }
     ],
@@ -6196,6 +6556,8 @@
         "links": {
           "github": "https://github.com/bradautomates/claude-video"
         },
+        "createdAt": "2026-05-14",
+        "updatedAt": "2026-05-14",
         "role": "origin"
       }
     ],
@@ -6218,6 +6580,82 @@
         "links": {
           "github": "https://github.com/browser-use/browser-harness"
         },
+        "createdAt": "2026-05-14",
+        "updatedAt": "2026-05-14",
+        "role": "origin"
+      }
+    ],
+    "browser-automation": [
+      {
+        "id": "browserbase/stagehand",
+        "name": "Stagehand",
+        "contributor": "browserbase",
+        "origin": false,
+        "genericSkillRef": "browser-automation",
+        "status": "named",
+        "level": "2★",
+        "description": "SDK for browser agents that combines deterministic browser automation with AI-assisted page interaction.",
+        "title": "The SDK of Intent",
+        "catalogRef": "browserbase-stagehand",
+        "tags": [
+          "browser-automation",
+          "agent",
+          "sdk"
+        ],
+        "links": {
+          "github": "https://github.com/browserbase/stagehand"
+        },
+        "createdAt": "2026-05-17",
+        "updatedAt": "2026-05-17",
+        "role": "variant"
+      },
+      {
+        "id": "garrytan/gstack",
+        "name": "Gstack",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "browser-automation",
+        "status": "named",
+        "level": "4★",
+        "description": "Fast headless browser for QA testing and site dogfooding. Optimized for high-speed navigation and element interaction (~100ms per command), featuring built-in anti-bot stealth and annotated screenshot capabilities.",
+        "title": "Gstack Browser Engine",
+        "catalogRef": "garrytan-gstack",
+        "tags": [
+          "browser-automation",
+          "stealth",
+          "qa-testing",
+          "headless-browser"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/SKILL.md"
+        },
+        "createdAt": "2026-05-12",
+        "updatedAt": "2026-05-12",
+        "role": "variant"
+      },
+      {
+        "id": "gooseworks/notte-browser",
+        "name": "Notte Browser",
+        "contributor": "gooseworks",
+        "origin": true,
+        "genericSkillRef": "browser-automation",
+        "status": "named",
+        "level": "3★",
+        "description": "AI-first browser automation using the Notte Browser API to control browser sessions, scrape pages, fill forms, take screenshots, and run autonomous web agents with managed credential handling.",
+        "title": "The Digital Navigator",
+        "catalogRef": "gooseworks-notte-browser",
+        "tags": [
+          "browser",
+          "automation",
+          "web-agent",
+          "scraping",
+          "notte"
+        ],
+        "links": {
+          "github": "https://github.com/gooseworks-ai/goose-skills"
+        },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "origin"
       }
     ],
@@ -6243,6 +6681,8 @@
         "links": {
           "github": "https://github.com/cognition-labs/devin"
         },
+        "createdAt": "2026-04-29",
+        "updatedAt": "2026-04-30",
         "role": "origin"
       },
       {
@@ -6266,7 +6706,35 @@
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnose/SKILL.md"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "variant"
+      }
+    ],
+    "web-scrape": [
+      {
+        "id": "firecrawl/firecrawl",
+        "name": "Firecrawl",
+        "contributor": "firecrawl",
+        "origin": true,
+        "genericSkillRef": "web-scrape",
+        "status": "named",
+        "level": "2★",
+        "description": "Open-source API for AI-oriented web search, scraping, crawling, and structured extraction from websites.",
+        "title": "The Web Infuser",
+        "catalogRef": "firecrawl-firecrawl",
+        "tags": [
+          "web-scrape",
+          "search",
+          "extraction",
+          "crawler"
+        ],
+        "links": {
+          "github": "https://github.com/firecrawl/firecrawl"
+        },
+        "createdAt": "2026-05-17",
+        "updatedAt": "2026-05-17",
+        "role": "origin"
       }
     ],
     "security-audit": [
@@ -6291,6 +6759,8 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/cso/SKILL.md"
         },
+        "createdAt": "2026-05-12",
+        "updatedAt": "2026-05-12",
         "role": "origin"
       }
     ],
@@ -6315,6 +6785,8 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/design-shotgun/SKILL.md"
         },
+        "createdAt": "2026-05-12",
+        "updatedAt": "2026-05-12",
         "role": "variant"
       }
     ],
@@ -6340,6 +6812,8 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/autoplan/SKILL.md"
         },
+        "createdAt": "2026-05-12",
+        "updatedAt": "2026-05-12",
         "role": "variant"
       },
       {
@@ -6364,53 +6838,8 @@
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-issues/SKILL.md"
         },
-        "role": "origin"
-      }
-    ],
-    "browser-automation": [
-      {
-        "id": "garrytan/gstack",
-        "name": "Gstack",
-        "contributor": "garrytan",
-        "origin": false,
-        "genericSkillRef": "browser-automation",
-        "status": "named",
-        "level": "4★",
-        "description": "Fast headless browser for QA testing and site dogfooding. Optimized for high-speed navigation and element interaction (~100ms per command), featuring built-in anti-bot stealth and annotated screenshot capabilities.",
-        "title": "Gstack Browser Engine",
-        "catalogRef": "garrytan-gstack",
-        "tags": [
-          "browser-automation",
-          "stealth",
-          "qa-testing",
-          "headless-browser"
-        ],
-        "links": {
-          "github": "https://github.com/garrytan/gstack/blob/main/SKILL.md"
-        },
-        "role": "variant"
-      },
-      {
-        "id": "gooseworks/notte-browser",
-        "name": "Notte Browser",
-        "contributor": "gooseworks",
-        "origin": true,
-        "genericSkillRef": "browser-automation",
-        "status": "named",
-        "level": "3★",
-        "description": "AI-first browser automation using the Notte Browser API to control browser sessions, scrape pages, fill forms, take screenshots, and run autonomous web agents with managed credential handling.",
-        "title": "The Digital Navigator",
-        "catalogRef": "gooseworks-notte-browser",
-        "tags": [
-          "browser",
-          "automation",
-          "web-agent",
-          "scraping",
-          "notte"
-        ],
-        "links": {
-          "github": "https://github.com/gooseworks-ai/goose-skills"
-        },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "origin"
       }
     ],
@@ -6436,6 +6865,8 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/office-hours/SKILL.md"
         },
+        "createdAt": "2026-05-12",
+        "updatedAt": "2026-05-12",
         "role": "origin"
       }
     ],
@@ -6458,6 +6889,8 @@
         "links": {
           "github": "https://github.com/getagentseal/codeburn"
         },
+        "createdAt": "2026-05-14",
+        "updatedAt": "2026-05-14",
         "role": "origin"
       }
     ],
@@ -6482,6 +6915,8 @@
         "links": {
           "github": "https://github.com/GLINCKER/claude-code-marketplace/blob/main/skills/documentation/readme-generator/SKILL.md"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "origin"
       },
       {
@@ -6505,6 +6940,8 @@
         "links": {
           "github": "https://github.com/spring-ai-alibaba/examples/blob/main/.claude/skills/readme-generate/SKILL.md"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "variant"
       }
     ],
@@ -6530,6 +6967,8 @@
         "links": {
           "github": "https://github.com/huggingface/skills/blob/main/skills/hf-cli/SKILL.md"
         },
+        "createdAt": "2026-05-03",
+        "updatedAt": "2026-05-03",
         "role": "variant"
       }
     ],
@@ -6555,6 +6994,8 @@
         "links": {
           "github": "https://github.com/huggingface/skills/blob/main/skills/huggingface-datasets/SKILL.md"
         },
+        "createdAt": "2026-05-03",
+        "updatedAt": "2026-05-03",
         "role": "variant"
       }
     ],
@@ -6580,6 +7021,8 @@
         "links": {
           "github": "https://github.com/huggingface/skills/blob/main/skills/huggingface-llm-trainer/SKILL.md"
         },
+        "createdAt": "2026-05-03",
+        "updatedAt": "2026-05-03",
         "role": "variant"
       }
     ],
@@ -6605,6 +7048,8 @@
         "links": {
           "github": "https://github.com/huggingface/skills/blob/main/skills/huggingface-papers/SKILL.md"
         },
+        "createdAt": "2026-05-03",
+        "updatedAt": "2026-05-03",
         "role": "variant"
       }
     ],
@@ -6630,6 +7075,8 @@
         "links": {
           "github": "https://github.com/huggingface/skills/blob/main/skills/huggingface-vision-trainer/SKILL.md"
         },
+        "createdAt": "2026-05-03",
+        "updatedAt": "2026-05-03",
         "role": "variant"
       }
     ],
@@ -6655,6 +7102,8 @@
         "links": {
           "github": "https://github.com/codefuse-ai/ModelCache"
         },
+        "createdAt": "2026-05-15",
+        "updatedAt": "2026-05-15",
         "role": "variant"
       }
     ],
@@ -6680,6 +7129,8 @@
         "links": {
           "github": "https://github.com/huggingface/skills/blob/main/skills/transformers-js/SKILL.md"
         },
+        "createdAt": "2026-05-03",
+        "updatedAt": "2026-05-03",
         "role": "variant"
       }
     ],
@@ -6703,6 +7154,8 @@
         "links": {
           "github": "https://github.com/karpathy/autoresearch"
         },
+        "createdAt": "2026-04-29",
+        "updatedAt": "2026-04-30",
         "role": "origin"
       }
     ],
@@ -6727,6 +7180,8 @@
         "links": {
           "github": "https://github.com/laravel/boost/issues/698"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "origin"
       }
     ],
@@ -6752,6 +7207,8 @@
         "links": {
           "github": "https://github.com/mastepanoski/claude-skills/blob/main/skills/nielsen-heuristics-audit/SKILL.md"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "origin"
       },
       {
@@ -6773,6 +7230,8 @@
         "links": {
           "github": "https://github.com/pbakaus/impeccable"
         },
+        "createdAt": "2026-05-14",
+        "updatedAt": "2026-05-14",
         "role": "variant"
       }
     ],
@@ -6798,6 +7257,8 @@
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-05-15",
         "role": "variant"
       }
     ],
@@ -6826,6 +7287,8 @@
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/grill-with-docs/SKILL.md"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-05-15",
         "role": "origin"
       }
     ],
@@ -6852,6 +7315,8 @@
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/improve-codebase-architecture/SKILL.md"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "variant"
       }
     ],
@@ -6877,6 +7342,8 @@
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-prd/SKILL.md"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "origin"
       }
     ],
@@ -6902,6 +7369,8 @@
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/triage/SKILL.md"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "origin"
       }
     ],
@@ -6928,6 +7397,8 @@
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/ubiquitous-language/SKILL.md"
         },
+        "createdAt": "2026-05-15",
+        "updatedAt": "2026-05-15",
         "role": "variant"
       }
     ],
@@ -6953,6 +7424,8 @@
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/zoom-out/SKILL.md"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "origin"
       }
     ],
@@ -6976,6 +7449,8 @@
         "links": {
           "github": "https://github.com/nexu-io/open-design"
         },
+        "createdAt": "2026-05-14",
+        "updatedAt": "2026-05-14",
         "role": "origin"
       }
     ],
@@ -7001,6 +7476,8 @@
         "links": {
           "github": "https://github.com/NousResearch/hermes-agent"
         },
+        "createdAt": "2026-05-15",
+        "updatedAt": "2026-05-15",
         "role": "origin"
       }
     ],
@@ -7026,6 +7503,8 @@
         "links": {
           "arxiv": "https://arxiv.org/abs/2005.14165"
         },
+        "createdAt": "2026-05-15",
+        "updatedAt": "2026-05-15",
         "role": "origin"
       }
     ],
@@ -7051,6 +7530,8 @@
         "links": {
           "arxiv": "https://arxiv.org/abs/2203.11171"
         },
+        "createdAt": "2026-05-15",
+        "updatedAt": "2026-05-15",
         "role": "variant"
       }
     ],
@@ -7076,6 +7557,8 @@
         "links": {
           "github": "https://github.com/ruvnet/ruflo"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "origin"
       }
     ],
@@ -7098,6 +7581,8 @@
         "links": {
           "github": "https://github.com/safishamsi/graphify"
         },
+        "createdAt": "2026-05-14",
+        "updatedAt": "2026-05-14",
         "role": "origin"
       }
     ],
@@ -7120,6 +7605,23 @@
         "links": {
           "github": "https://github.com/santifer/career-ops"
         },
+        "createdAt": "2026-05-14",
+        "updatedAt": "2026-05-14",
+        "role": "origin"
+      }
+    ],
+    "prompt-optimization": [
+      {
+        "id": "stanfordnlp/dspy",
+        "name": "DSPy",
+        "contributor": "stanfordnlp",
+        "origin": true,
+        "genericSkillRef": "prompt-optimization",
+        "status": "named",
+        "level": "3★",
+        "description": "Declarative programming of language model pipelines, automatically optimizing prompts and RAG retrieval using bootstrapping and teleprompters.",
+        "title": "The Programmatic Prompt Engineer",
+        "catalogRef": "stanfordnlp-dspy",
         "role": "origin"
       }
     ],
@@ -7145,6 +7647,8 @@
         "links": {
           "github": "https://github.com/Upsonic/Upsonic"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "origin"
       }
     ],
@@ -7169,6 +7673,8 @@
         "links": {
           "github": "https://github.com/vercel-labs/skills/blob/main/skills/find-skills/SKILL.md"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "origin"
       }
     ],
@@ -7196,6 +7702,8 @@
         "links": {
           "github": "https://github.com/yonatangross/orchestkit"
         },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
         "role": "origin"
       }
     ]
@@ -7219,7 +7727,9 @@
       ],
       "links": {
         "repo": "https://github.com/mbtiongson1/gaia-skill-tree"
-      }
+      },
+      "createdAt": "2026-05-10",
+      "updatedAt": "2026-05-10"
     },
     {
       "id": "gaiabot/repo-docs-before-pr",
@@ -7239,7 +7749,9 @@
       ],
       "links": {
         "docs": "https://github.com/mbtiongson1/gaia-skill-tree#docs"
-      }
+      },
+      "createdAt": "2026-05-01",
+      "updatedAt": "2026-05-03"
     },
     {
       "id": "intelligentcode-ai/database-engineer",
@@ -7383,6 +7895,18 @@
       ]
     },
     {
+      "id": "pexp13/sentiment-analysis",
+      "name": "Sentiment Analysis",
+      "contributor": "pexp13",
+      "origin": true,
+      "genericSkillRef": "sentiment-analysis",
+      "status": "awakened",
+      "level": "3★",
+      "description": "&gt;",
+      "createdAt": "2026-05-17",
+      "updatedAt": "2026-05-17"
+    },
+    {
       "id": "xquik-dev/hermes-tweet",
       "name": "Hermes Tweet",
       "contributor": "xquik-dev",
@@ -7401,7 +7925,9 @@
       "links": {
         "github": "https://github.com/Xquik-dev/hermes-tweet",
         "docs": "https://docs.xquik.com/guides/hermes-tweet"
-      }
+      },
+      "createdAt": "2026-05-15",
+      "updatedAt": "2026-05-15"
     }
   ],
   "byContributor": {
@@ -7424,8 +7950,14 @@
     "browser-use": [
       "browser-use/browser-harness"
     ],
+    "browserbase": [
+      "browserbase/stagehand"
+    ],
     "devin-ai": [
       "devin-ai/autonomous-swe"
+    ],
+    "firecrawl": [
+      "firecrawl/firecrawl"
     ],
     "gaiabot": [
       "gaiabot/gaia-triage",
@@ -7502,6 +8034,9 @@
     "pbakaus": [
       "pbakaus/impeccable"
     ],
+    "pexp13": [
+      "pexp13/sentiment-analysis"
+    ],
     "ruvnet": [
       "ruvnet/flow-nexus-swarm"
     ],
@@ -7513,6 +8048,9 @@
     ],
     "spring-ai": [
       "spring-ai/readme-generate"
+    ],
+    "stanfordnlp": [
+      "stanfordnlp/dspy"
     ],
     "upsonic": [
       "upsonic/unittest-generator"

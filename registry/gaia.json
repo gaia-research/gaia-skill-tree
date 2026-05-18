@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/skill.schema.json",
-  "version": "3.11.15",
-  "generatedAt": "2026-05-18T05:02:07.298534Z",
+  "version": "3.11.16",
+  "generatedAt": "2026-05-18T09:04:51.815807Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -351,10 +351,10 @@
       "evidence": [
         {
           "class": "B",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/autonomousDebug.md",
+          "source": "https://github.com/cognition-labs/devin",
           "evaluator": "mbtiongson1",
-          "date": "2026-04-26",
-          "notes": "Seed evidence for Autonomous Debug."
+          "date": "2026-05-17",
+          "notes": "Replaced missing seed evidence with live repository from real-skills catalog."
         }
       ],
       "knownAgents": [],
@@ -367,7 +367,7 @@
       "id": "autonomous-research-agent",
       "name": "Autonomous Research Agent",
       "type": "ultimate",
-      "level": "6★",
+      "level": "5★",
       "rarity": "legendary",
       "description": "Independently conducts end-to-end research cycles including hypothesis generation, evidence gathering, synthesis, and reporting.",
       "prerequisites": [
@@ -378,13 +378,6 @@
       "derivatives": [],
       "conditions": "Requires extensive multi-system validation before level advancement.",
       "evidence": [
-        {
-          "class": "A",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/seed.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-29",
-          "notes": "Seed evidence â€” apex tier structural validation placeholder."
-        },
         {
           "class": "B",
           "source": "https://github.com/balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill",
@@ -1902,7 +1895,7 @@
       "id": "ghostwrite",
       "name": "Ghostwrite",
       "type": "extra",
-      "level": "4★",
+      "level": "1★",
       "rarity": "rare",
       "description": "Produces audience-tailored, research-backed long-form written content.",
       "prerequisites": [
@@ -1912,15 +1905,7 @@
       ],
       "derivatives": [],
       "conditions": "Requires research output as input context.",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/ghostwrite.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-26",
-          "notes": "Seed evidence for Ghostwrite."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
@@ -2271,7 +2256,7 @@
       "id": "knowledge-harvest",
       "name": "Knowledge Harvest",
       "type": "extra",
-      "level": "4★",
+      "level": "1★",
       "rarity": "rare",
       "description": "Extracts, structures, and embeds knowledge from web sources into a searchable corpus.",
       "prerequisites": [
@@ -2281,15 +2266,7 @@
       ],
       "derivatives": [],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/knowledgeHarvest.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-26",
-          "notes": "Seed evidence for Knowledge Harvest."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
@@ -2721,10 +2698,10 @@
       "evidence": [
         {
           "class": "B",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/seed.md",
+          "source": "https://github.com/ruvnet/ruflo",
           "evaluator": "mbtiongson1",
-          "date": "2026-04-29",
-          "notes": "Seed evidence â€” structural validation placeholder."
+          "date": "2026-05-17",
+          "notes": "Replaced missing seed evidence with live repository from real-skills catalog."
         }
       ],
       "knownAgents": [],
@@ -2961,10 +2938,10 @@
       "evidence": [
         {
           "class": "B",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/planAndExecute.md",
+          "source": "https://github.com/Skyvern-AI/skyvern",
           "evaluator": "mbtiongson1",
-          "date": "2026-04-26",
-          "notes": "Seed evidence for Plan and Execute."
+          "date": "2026-05-17",
+          "notes": "Replaced missing seed evidence with live repository from real-skills catalog."
         }
       ],
       "knownAgents": [],
@@ -3361,7 +3338,7 @@
       "id": "recursive-self-improvement",
       "name": "Recursive Self-Improvement",
       "type": "ultimate",
-      "level": "5★",
+      "level": "1★",
       "rarity": "legendary",
       "description": "Agent iteratively refines its own prompts, tools, or strategies based on performance feedback loops.",
       "prerequisites": [
@@ -3371,15 +3348,7 @@
       ],
       "derivatives": [],
       "conditions": "Requires extensive multi-system validation before level advancement.",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/seed.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-29",
-          "notes": "Seed evidence â€” structural validation placeholder."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",

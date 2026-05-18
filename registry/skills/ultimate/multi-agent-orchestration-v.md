@@ -24,7 +24,7 @@ Requires extensive multi-system validation before level advancement.
 ## Evidence
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
-| B | https://github.com/gaia-registry/gaia/blob/main/docs/evidence/seed.md | mbtiongson1 | 2026-04-29 |
+| B | https://github.com/ruvnet/ruflo | mbtiongson1 | 2026-05-17 |
 
 ## Known Agents
 _None verified yet._
