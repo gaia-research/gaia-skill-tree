@@ -137,6 +137,59 @@ def build_docs_index(check: bool) -> bool:
     return changed
 
 
+def _apply_cache_busting(text: str, version: str) -> str:
+    # 1. Inject or update Cache-Control meta tags inside <head>
+    cache_meta = (
+        '\n  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">\n'
+        '  <meta http-equiv="Pragma" content="no-cache">\n'
+        '  <meta http-equiv="Expires" content="0">'
+    )
+    if 'http-equiv="Cache-Control"' not in text:
+        text = text.replace("<head>", f"<head>{cache_meta}", 1)
+
+    # 2. Inject or update window.GAIA_VERSION in <head>
+    version_script = f'\n  <script>window.GAIA_VERSION = "{version}";</script>'
+    if 'window.GAIA_VERSION = ' in text:
+        text = re.sub(
+            r'<script>\s*window\.GAIA_VERSION\s*=\s*"[^"]*";\s*</script>',
+            f'<script>window.GAIA_VERSION = "{version}";</script>',
+            text
+        )
+    else:
+        text = text.replace("<head>", f"<head>{version_script}", 1)
+
+    # 3. Append version query parameters (?v={version}) to local CSS and JS imports.
+    text = re.sub(
+        r'href="((?:(?:\.\./)*)css/[a-zA-Z0-9_\-\./]+\.css)(?:\?v=[^"]*)?"',
+        fr'href="\1?v={version}"',
+        text
+    )
+    text = re.sub(
+        r'src="((?:(?:\.\./)*)js/[a-zA-Z0-9_\-\./]+\.js)(?:\?v=[^"]*)?"',
+        fr'src="\1?v={version}"',
+        text
+    )
+    return text
+
+
+def build_html_cache_busting(check: bool) -> bool:
+    version = _read_version()
+    changed = False
+    for filename in ("index.html", "codex.html"):
+        path = ROOT / "docs" / filename
+        if not path.exists():
+            continue
+        original_text = path.read_text(encoding="utf-8")
+        updated_text = _apply_cache_busting(original_text, version)
+        if original_text != updated_text:
+            changed = True
+            if check:
+                print(f"diff docs/{filename} (cache busting / version stale)")
+            else:
+                path.write_text(updated_text, encoding="utf-8")
+    return changed
+
+
 def build_css_tokens(check: bool) -> bool:
     """Regenerate docs/css/tokens.css from registry/gaia.json. Returns True if drift."""
     gaia_path = ROOT / "registry" / "gaia.json"
@@ -374,6 +427,7 @@ def main(argv: list[str] | None = None) -> int:
     # Local sections (README + index.html stats + tokens.css).
     readme_changed = build_readme(args.check)
     docs_index_changed = build_docs_index(args.check)
+    html_cache_busted = build_html_cache_busting(args.check)
     css_tokens_changed = build_css_tokens(args.check)
 
     # Stage 4 — full asset pipeline. Each step regenerates into a tempdir and
@@ -389,6 +443,7 @@ def main(argv: list[str] | None = None) -> int:
     changed = (
         readme_changed
         or docs_index_changed
+        or html_cache_busted
         or css_tokens_changed
         or named_index_changed
         or docs_named_changed
