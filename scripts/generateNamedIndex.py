@@ -269,10 +269,10 @@ def load_named_skills(named_dir):
         with open(fp, "r", encoding="utf-8") as f:
             text = f.read()
         try:
-            fm, body = parse_frontmatter(text)
-            results.append((fp, fm, body))
+            fm, _ = parse_frontmatter(text)
+            results.append((fp, fm))
         except ValueError as exc:
-            results.append((fp, {"_parse_error": str(exc)}, ""))
+            results.append((fp, {"_parse_error": str(exc)}))
     return results
 
 
@@ -296,7 +296,7 @@ def validate_and_group(named_skills, valid_ids):
     awaiting_classification = []  # awakened skills waiting for reviewer action
     by_contributor = {}  # contributor -> [namedSkillId, ...]
 
-    for fp, fm, body in named_skills:
+    for fp, fm in named_skills:
         rel = os.path.relpath(fp)
 
         if "_parse_error" in fm:
@@ -331,9 +331,15 @@ def validate_and_group(named_skills, valid_ids):
         # Strip None values for optional fields to keep output clean
         entry = {k: v for k, v in entry.items() if v is not None}
 
-        install_section = _extract_md_section(body, "Installation")
-        if install_section:
-            entry["installBody"] = install_section.strip()
+        if os.path.isfile(fp):
+            try:
+                with open(fp, "r", encoding="utf-8") as _f:
+                    _, body = parse_frontmatter(_f.read())
+                install_section = _extract_md_section(body, "Installation")
+                if install_section:
+                    entry["installBody"] = install_section.strip()
+            except (OSError, ValueError):
+                pass
 
         # Route by status: named → buckets (real variants); awakened → awaiting
         status = fm.get("status", "awakened")
