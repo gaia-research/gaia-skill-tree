@@ -1,6 +1,7 @@
 (function () {
-  var GRAPH_URL = 'graph/gaia.json';
-  var NAMED_URL = 'graph/named/index.json';
+  var version = window.GAIA_VERSION ? '?v=' + window.GAIA_VERSION : '';
+  var GRAPH_URL = 'graph/gaia.json' + version;
+  var NAMED_URL = 'graph/named/index.json' + version;
 
   var TYPE_GLYPH = {
     ultimate: '◆',
