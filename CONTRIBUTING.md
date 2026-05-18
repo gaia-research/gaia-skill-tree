@@ -1,8 +1,12 @@
+<div align="center">
+  <img src="docs/assets/marks/diamond-seal.svg" alt="The Diamond Seal" width="120" />
+</div>
+
 # Contributing to Gaia
 
 Thanks for helping improve the Gaia skill graph.
 
-This page is now a **contributor quickstart**. Detailed policy, reviewer playbooks, and deep troubleshooting now live in the GitHub Wiki repo.
+This page is now a **contributor guide**. Detailed policy, reviewer playbooks, and deep troubleshooting now live in the GitHub Wiki repo.
 
 ---
 
@@ -101,7 +105,7 @@ Legacy mapping for reviewers: `0`/`I` → `0★`/`1★`, `II` → `2★`, `III` 
 
 - Demerits are allowed only on claimed levels `2★` and above.
 - Allowed demerit IDs are canonical and schema-validated: `niche-integration`, `experimental-feature`, `heavyweight-dependency`.
-- Each demerit lowers runtime potential by one star level (effective level), floored at `1★`.
+- Each demerit demotes the skill by one star, floored at `1★`.
 - Named skill claims stay constrained by canonical level requirements; demerits do not bypass evidence floors.
 
 ---
@@ -127,7 +131,7 @@ Examples:
 
 ## 6) FAQ
 
-**Q: I ran `gaia push`. Are proposed skills already in the DAG?**  
+**Q: I ran `gaia push`. Are proposed skills already in the Registry?**  
 No. Intake batches are review artifacts until accepted skills are promoted into `registry/gaia.json`.
 
 **Q: Where should long-form guidance go?**  
@@ -137,7 +141,7 @@ In the [Wiki](https://github.com/mbtiongson1/gaia-skill-tree/wiki) (review stand
 
 ## 7) Helpful links
 
-- [README quickstart](../README.md)
+- [README](../README.md)
 - [Docs site](docs/index.html)
 - [Governance](docs/GOVERNANCE.md)
 - [Wiki](https://github.com/mbtiongson1/gaia-skill-tree/wiki) · [Wiki git repo](https://github.com/mbtiongson1/gaia-skill-tree.wiki.git)
