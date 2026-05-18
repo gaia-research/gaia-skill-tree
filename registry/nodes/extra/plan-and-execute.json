@@ -17,10 +17,10 @@
   "evidence": [
     {
       "class": "B",
-      "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/planAndExecute.md",
+      "source": "https://github.com/Skyvern-AI/skyvern",
       "evaluator": "mbtiongson1",
-      "date": "2026-04-26",
-      "notes": "Seed evidence for Plan and Execute."
+      "date": "2026-05-17",
+      "notes": "Replaced missing seed evidence with live repository from real-skills catalog."
     }
   ],
   "knownAgents": [],

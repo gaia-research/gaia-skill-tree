@@ -24,7 +24,7 @@ _None specified._
 ## Evidence
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
-| B | https://github.com/gaia-registry/gaia/blob/main/docs/evidence/autonomousDebug.md | mbtiongson1 | 2026-04-26 |
+| B | https://github.com/cognition-labs/devin | mbtiongson1 | 2026-05-17 |
 
 ## Known Agents
 _None verified yet._

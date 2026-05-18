@@ -15,10 +15,10 @@
   "evidence": [
     {
       "class": "B",
-      "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/autonomousDebug.md",
+      "source": "https://github.com/cognition-labs/devin",
       "evaluator": "mbtiongson1",
-      "date": "2026-04-26",
-      "notes": "Seed evidence for Autonomous Debug."
+      "date": "2026-05-17",
+      "notes": "Replaced missing seed evidence with live repository from real-skills catalog."
     }
   ],
   "knownAgents": [],

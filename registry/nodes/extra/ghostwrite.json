@@ -2,7 +2,7 @@
   "id": "ghostwrite",
   "name": "Ghostwrite",
   "type": "extra",
-  "level": "4★",
+  "level": "1★",
   "rarity": "rare",
   "description": "Produces audience-tailored, research-backed long-form written content.",
   "prerequisites": [
@@ -12,15 +12,7 @@
   ],
   "derivatives": [],
   "conditions": "Requires research output as input context.",
-  "evidence": [
-    {
-      "class": "B",
-      "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/ghostwrite.md",
-      "evaluator": "mbtiongson1",
-      "date": "2026-04-26",
-      "notes": "Seed evidence for Ghostwrite."
-    }
-  ],
+  "evidence": [],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-26",

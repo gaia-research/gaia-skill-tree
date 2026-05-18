@@ -52,8 +52,8 @@ Curated named skills from live SKILL.md ecosystems.
 
 ## Items
 
-- [karpathy/autoresearch](https://github.com/karpathy/autoresearch) - Autonomous research agent that iteratively searches academic databases, reads papers, extracts findings, and produces structured research summaries. Maps to: `autonomous-research-agent`.
-- [devin-ai/autonomous-swe](https://github.com/cognition-labs/devin) - Autonomous software engineering agent that combines debugging, code generation, and self-correction to resolve issues end-to-end across complex multi-file repositories. Maps to: `autonomous-debug`.
+- [karpathy/autoresearch](https://github.com/karpathy/autoresearch/blob/master/README.md) - Autonomous research agent that iteratively searches academic databases, reads papers, extracts findings, and produces structured research summaries. Maps to: `autonomous-research-agent`.
+- [devin-ai/autonomous-swe](https://github.com/cognition-labs/devin/blob/main/README.md) - Autonomous software engineering agent that combines debugging, code generation, and self-correction to resolve issues end-to-end across complex multi-file repositories. Maps to: `autonomous-debug`.
 - [laravel/upgrade-laravel-v13](https://github.com/laravel/boost/issues/698) - Guides an AI agent through upgrading a Laravel 12 application to Laravel 13 safely, covering breaking changes, dependency updates, and post-upgrade validation. Maps to: `framework-upgrade`.
 - [anthropic/skill-creator](https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md) - Interviews the user to elicit skill purpose and steps, then programmatically writes a new SKILL.md file for Claude Code or Codex CLI. Maps to: `tool-creation`.
 - [vercel/find-skills](https://github.com/vercel-labs/skills/blob/main/skills/find-skills/SKILL.md) - Searches the skills.sh registry by keyword, ranks by install count, and auto-installs the chosen skill. Maps to: `skill-discovery`.

@@ -2,7 +2,7 @@
   "id": "autonomous-research-agent",
   "name": "Autonomous Research Agent",
   "type": "ultimate",
-  "level": "6★",
+  "level": "5★",
   "rarity": "legendary",
   "description": "Independently conducts end-to-end research cycles including hypothesis generation, evidence gathering, synthesis, and reporting.",
   "prerequisites": [
@@ -13,13 +13,6 @@
   "derivatives": [],
   "conditions": "Requires extensive multi-system validation before level advancement.",
   "evidence": [
-    {
-      "class": "A",
-      "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/seed.md",
-      "evaluator": "mbtiongson1",
-      "date": "2026-04-29",
-      "notes": "Seed evidence â€” apex tier structural validation placeholder."
-    },
     {
       "class": "B",
       "source": "https://github.com/balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill",

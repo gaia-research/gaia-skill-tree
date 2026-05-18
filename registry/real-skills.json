@@ -229,7 +229,7 @@
       "title": "The Scholar's Compass",
       "description": "Autonomous research agent that iteratively searches academic databases, reads papers, extracts findings, and produces structured research summaries.",
       "sourceRepo": "karpathy/autoresearch",
-      "url": "https://github.com/karpathy/autoresearch",
+      "url": "https://github.com/karpathy/autoresearch/blob/master/README.md",
       "mapsToGaia": [
         "autonomous-research-agent"
       ],
@@ -248,7 +248,7 @@
       "title": "The Codebreaker's Will",
       "description": "Autonomous software engineering agent that combines debugging, code generation, and self-correction to resolve issues end-to-end across complex multi-file repositories.",
       "sourceRepo": "cognition-labs/devin",
-      "url": "https://github.com/cognition-labs/devin",
+      "url": "https://github.com/cognition-labs/devin/blob/main/README.md",
       "mapsToGaia": [
         "autonomous-debug"
       ],

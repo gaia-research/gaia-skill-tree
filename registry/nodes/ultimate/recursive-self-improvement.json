@@ -2,7 +2,7 @@
   "id": "recursive-self-improvement",
   "name": "Recursive Self-Improvement",
   "type": "ultimate",
-  "level": "5★",
+  "level": "1★",
   "rarity": "legendary",
   "description": "Agent iteratively refines its own prompts, tools, or strategies based on performance feedback loops.",
   "prerequisites": [
@@ -12,15 +12,7 @@
   ],
   "derivatives": [],
   "conditions": "Requires extensive multi-system validation before level advancement.",
-  "evidence": [
-    {
-      "class": "B",
-      "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/seed.md",
-      "evaluator": "mbtiongson1",
-      "date": "2026-04-29",
-      "notes": "Seed evidence â€” structural validation placeholder."
-    }
-  ],
+  "evidence": [],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-26",
