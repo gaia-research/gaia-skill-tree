@@ -18,7 +18,7 @@ Handles spoken interactions end-to-end: transcribes audio input, produces langua
 - [Text to Speech](../basic/text-to-speech.md)
 
 ## Unlocks
-- [Real-Time Voice Assistant](../ultimate/real-time-voice-assistant.md)
+- [Real-Time Voice Assistant](../extra/real-time-voice-assistant.md)
 
 ## Fusion Condition
 Requires real-time audio I/O or audio file access.

@@ -15,7 +15,7 @@ Frames problem solving as a search over a tree of partial solutions, using LLM-g
 - [Plan and Decompose](../basic/plan-decompose.md)
 
 ## Unlocks
-- [Autonomous Scientific Discovery](../ultimate/scientific-discovery.md)
+- [Autonomous Scientific Discovery](../extra/scientific-discovery.md)
 
 ## Fusion Condition
 _None specified._
