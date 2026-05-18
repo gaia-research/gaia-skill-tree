@@ -404,7 +404,7 @@
   }
   /* Fullscreen chrome — header bar with downloads + close */
   .graph-fullscreen-chrome{
-    display:none;position:absolute;top:4.5rem;left:0;right:0;z-index:10;
+    display:none;position:absolute;top:60px;left:0;right:0;z-index:10;
     pointer-events:none;
   }
   #hero.hero-graph-fullscreen .graph-fullscreen-chrome{
@@ -426,6 +426,13 @@
     transition:all .2s;cursor:pointer;
   }
   .graph-action-btn:hover{background:rgba(255,255,255,0.15);color:#fff;}
+  .graph-hud-toggle-btn {
+    position:absolute;bottom:1.5rem;left:calc(260px + 1.5rem);z-index:100;
+    transition:left .3s;background:rgba(3,7,18,.8);
+  }
+  #hero.hud-hidden .graph-hud-toggle-btn {
+    left:1.5rem;
+  }
   /* Fullscreen status bar */
   .graph-fullscreen-status{
     display:none;position:absolute;top:.6rem;left:60px;z-index:11;
@@ -1033,14 +1040,14 @@
   .skill-tooltip-type-extra{color:#c084fc}
   .skill-tooltip-type-unique{color:#7c3aed}
   .skill-tooltip-type-ultimate{color:#f59e0b}
-  .graph-search-wrap{position:absolute;top:5rem;right:.75rem;z-index:10}
+  .graph-search-wrap{position:absolute;top:110px;right:.75rem;z-index:10}
   .graph-search{
     background:rgba(3,7,18,.15);border:1px solid rgba(148,163,184,.15);
     border-radius:999px;padding:.28rem .72rem;font-size:.74rem;
-    color:#e2e8f0;outline:none;width:130px;font-family:inherit;
+    color:var(--honor-red);outline:none;width:130px;font-family:var(--font-mono);
     transition:background .2s,border-color .2s,width .2s;
   }
-  .graph-search::placeholder{color:rgba(148,163,184,.38)}
+  .graph-search::placeholder{color:rgba(var(--honor-red-rgb),.4)}
   .graph-search:hover,.graph-search:focus{
     background:rgba(3,7,18,.72);border-color:rgba(148,163,184,.5);width:175px;
   }
@@ -1263,7 +1270,7 @@
      from --tier-*, --honor-red, or --border instead of hardcoded hex.
      Saved-skill cards render as .plaque--mini per Stage 3. */
   .graph-collection-panel{
-    position:absolute;top:4.5rem;left:0;bottom:0;z-index:20;
+    position:absolute;top:60px;left:0;bottom:0;z-index:20;
     width:260px;max-width:40%;
     background:rgba(3,7,18,.92);backdrop-filter:blur(14px);
     border-right:1px solid var(--border);
@@ -1403,6 +1410,7 @@
     #hero:not(.mobile-hud-shown) .graph-redpill {
       display:none!important;
     }
+    .graph-hud-toggle-btn { left: 1.5rem !important; bottom: 5.5rem !important; }
   }
 
   /* ── REGISTRY STATS — 2×2 grid on mobile ── */

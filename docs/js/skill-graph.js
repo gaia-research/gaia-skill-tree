@@ -119,6 +119,18 @@
     return 'bold ' + sz + 'px ' + t.fontBody;
   }
 
+  const ORIGIN_PATHS = [
+    new Path2D("M12 15V9l-2 1"),
+    new Path2D("M12 21c-4-2-7-6-7-11 0-2 1.5-4 2.5-5"),
+    new Path2D("M12 21c4-2 7-6 7-11 0-2-1.5-4-2.5-5"),
+    new Path2D("M5 10c2 1 3 0 3-1"),
+    new Path2D("M5.5 14c2 1 3 0 3-1"),
+    new Path2D("M7 18c2 1 3 0 3-1"),
+    new Path2D("M19 10c-2 1-3 0-3-1"),
+    new Path2D("M18.5 14c-2 1-3 0-3-1"),
+    new Path2D("M17 18c-2 1-3 0-3-1")
+  ];
+
   // ── Per-skill tier palette (rgb triplets), keyed off the canonical
   // tier names. Reads canvas tokens; backwards-compat shim PALETTE so
   // sites that still reference `PALETTE.basic.rgb` keep working until
@@ -410,8 +422,10 @@
       legendEl: null,
       showTitles: false,
       redPillActive: false,
-      namedMap: FALLBACK_NAMED_MAP,
-      titleMap: FALLBACK_TITLE_MAP,
+      meta: null,
+      namedMap: null,
+      titleMap: null,
+      originMap: null,
       // graphMode: 'public' (default) or 'local'. In local mode the
       // collection panel becomes "Claimed skills", the nav title swaps
       // to "@<handle> · Atlas", and (TODO) the scatter strip pulls
@@ -469,11 +483,17 @@
           (uniqueCount ? ` · <span class="gst-unique-count">${uniqueCount}</span><span class="gst-dim"> Unique</span>` : '') +
           `</span>`;
         let tips = '';
-        if (_opts.draggable) {
-          tips += `<span class="gst-tip">${iL}<span>pan</span></span>`;
-          tips += `<span class="gst-tip"><kbd class="gst-ctrl">⌃</kbd>${iL}<span class="gst-or">/</span>${iM}<span>orbit</span></span>`;
+        const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+        if (isTouch) {
+          if (_opts.draggable) tips += `<span class="gst-tip">Drag to pan</span>`;
+          if (_opts.zoomable) tips += `<span class="gst-tip">Pinch to zoom</span>`;
+        } else {
+          if (_opts.draggable) {
+            tips += `<span class="gst-tip">${iL}<span>pan</span></span>`;
+            tips += `<span class="gst-tip"><kbd class="gst-ctrl">⌃</kbd>${iL}<span class="gst-or">/</span>${iM}<span>orbit</span></span>`;
+          }
+          if (_opts.zoomable) tips += `<span class="gst-tip">${iS}<span>zoom</span></span>`;
         }
-        if (_opts.zoomable) tips += `<span class="gst-tip">${iS}<span>zoom</span></span>`;
         state.statusEl.innerHTML = stat + tips;
       }
     }
@@ -889,7 +909,7 @@
           drawNodeVI(pr.sx, pr.sy, baseR * state.scale * pr.scale * pulse, depthAlpha * vis, state.t, p);
         } else if (skill.type === 'unique') {
           drawNodeUnique(pr.sx, pr.sy, baseR * state.scale * pr.scale * pulse, depthAlpha * vis, state.t, p);
-        } else if (state.redPillActive && state.namedMap[skill.id]) {
+        } else if (state.redPillActive && state.namedMap && state.namedMap[skill.id]) {
           drawNodeNamed(pr.sx, pr.sy, baseR * state.scale * pr.scale * pulse, depthAlpha * vis);
         } else {
           drawNode(pr.sx, pr.sy, baseR * state.scale * pr.scale * pulse, col, depthAlpha * vis);
@@ -904,7 +924,7 @@
         const vis = state.nodeAlphas[skill.id] !== undefined ? state.nodeAlphas[skill.id] : 1.0;
         const labelAlpha = highlighted ? 1.0 : depthAlpha * Math.max(0.22, vis) * 0.9;
         if (labelAlpha < 0.04) return;
-        const isNamedHover = state.redPillActive && state.namedMap[skill.id];
+        const isNamedHover = state.redPillActive && state.namedMap && state.namedMap[skill.id];
         const tokens = getCanvasTokens();
         const colRgb = isNamedHover
           ? tokens.honorRedRgb
@@ -918,13 +938,45 @@
         if (skill.type === 'ultimate') role = 'display';
         else if (isNamedHover) role = 'handle';
         ctx.font = canvasFont(role, size * pr.scale * 1.16);
-        ctx.fillStyle = `rgba(${colRgb},${labelAlpha.toFixed(2)})`;
+        const namedId = (state.redPillActive && state.namedMap && state.namedMap[skill.id]) ? state.namedMap[skill.id] : null;
+        if (namedId) {
+          const parts = namedId.split('/');
+          if (parts.length === 2) {
+            const handleTxt = '@' + parts[0];
+            const slashTxt = '/' + parts[1];
+            const isOrigin = state.originMap && state.originMap[skill.id];
+            ctx.textAlign = 'left';
+            const w1 = ctx.measureText(handleTxt).width;
+            const w2 = ctx.measureText(slashTxt).width;
+            const badgeW = isOrigin ? 20 * pr.scale : 0;
+            const totalW = w1 + w2 + badgeW;
+            const startX = pr.sx - totalW / 2;
+            ctx.fillStyle = `rgba(${tokens.honorRedRgb},${labelAlpha.toFixed(2)})`;
+            ctx.fillText(handleTxt, startX, pr.sy + 18 * pr.scale);
+            const rm = state.meta && state.meta.levelColors ? state.meta.levelColors[skill.level || 0] : null;
+            ctx.fillStyle = rm ? rm.hex : `rgba(${colRgb},1)`;
+            ctx.globalAlpha = labelAlpha;
+            ctx.fillText(slashTxt, startX + w1, pr.sy + 18 * pr.scale);
+            ctx.globalAlpha = 1.0;
+            if (isOrigin) {
+              ctx.save();
+              ctx.translate(startX + w1 + w2 + 10 * pr.scale, pr.sy + 18 * pr.scale);
+              ctx.scale(0.75 * pr.scale, 0.75 * pr.scale);
+              ctx.translate(-12, -12);
+              ctx.lineWidth = 1.5;
+              ctx.lineCap = 'round';
+              ctx.lineJoin = 'round';
+              ctx.strokeStyle = `rgba(${tokens.apexGoldRgb}, ${labelAlpha.toFixed(2)})`;
+              ORIGIN_PATHS.forEach(p => ctx.stroke(p));
+              ctx.restore();
+            }
+            return;
+          }
+        }
+
         ctx.textAlign = 'center';
-        const labelText = (state.redPillActive && state.namedMap && state.namedMap[skill.id])
-          ? state.namedMap[skill.id]
-          : state.showTitles
-            ? ((state.titleMap && state.titleMap[skill.id]) || skill.name)
-            : '/' + skill.id;
+        const labelText = namedId || (state.showTitles && state.titleMap && state.titleMap[skill.id] ? state.titleMap[skill.id] : '/' + skill.id);
+        ctx.fillStyle = `rgba(${colRgb},${labelAlpha.toFixed(2)})`;
         ctx.fillText(labelText, pr.sx, pr.sy + 18 * pr.scale);
       }
       labelNodes.forEach(({ skill }) => {
@@ -969,7 +1021,7 @@
             const demeritNote = skill.demerits && skill.demerits.length
               ? `<div class="gst-demerit-note">${skill.demerits.length} demerit${skill.demerits.length === 1 ? '' : 's'}</div>`
               : '';
-            const namedId = state.namedMap[skill.id] || null;
+            const namedId = (state.namedMap && state.namedMap[skill.id]) || null;
             // Tooltip rows route through CSS classes (.gst-named-id /
             // .gst-skill-id) so Honor Red / muted slate / mono font
             // come from tokens.css.
@@ -1192,7 +1244,7 @@
         state.collection.forEach(id => {
           const skill = state.skills.find(s => s.id === id) || { id, name: id, type: 'basic' };
           const col = PALETTE[skill.type] || PALETTE.basic;
-          const namedId = state.namedMap[id] || null;
+          const namedId = (state.namedMap && state.namedMap[id]) || null;
           const cmd = namedId ? `gaia install ${namedId}` : `gaia propose /${id}`;
           const shareLink = namedId
             ? `<button class="graph-collection-share" data-nid="${namedId}" title="Open in Explorer" aria-label="Open in Explorer">` +
@@ -1253,7 +1305,7 @@
       function openSkillPanel(skillId) {
         const skill = state.skills.find(s => s.id === skillId) || { id: skillId, name: skillId, type: 'basic', prerequisites: [] };
         const col = PALETTE[skill.type] || PALETTE.basic;
-        const namedId = state.namedMap[skill.id] || null;
+        const namedId = (state.namedMap && state.namedMap[skill.id]) || null;
         const titleText = (state.titleMap && state.titleMap[skill.id]) || null;
         const rm = skill.level ? RANK_META[skill.level] : null;
         const wasPaused = state.paused;
@@ -1677,6 +1729,51 @@
         if (state.zoomCounterEl) state.zoomCounterEl.textContent = state.zoom.toFixed(1) + '×';
       }, { passive: false });
     }
+    // Touch handlers (pan + pinch-to-zoom)
+    let _initialPinchDist = null;
+    let _initialZoom = null;
+    canvas.addEventListener('touchstart', e => {
+      if (!_opts.draggable) return;
+      if (e.touches.length === 1) {
+        state.dragging = true;
+        state.dragMode = 'pan';
+        state.dragMoved = false;
+        state.dragStartX = e.touches[0].clientX;
+        state.dragStartY = e.touches[0].clientY;
+        state.dragLastX = e.touches[0].clientX;
+        state.dragLastY = e.touches[0].clientY;
+      } else if (e.touches.length === 2 && _opts.zoomable) {
+        state.dragging = false;
+        const dx = e.touches[0].clientX - e.touches[1].clientX;
+        const dy = e.touches[0].clientY - e.touches[1].clientY;
+        _initialPinchDist = Math.sqrt(dx*dx + dy*dy);
+        _initialZoom = state.zoom;
+      }
+    }, { passive: true });
+    canvas.addEventListener('touchmove', e => {
+      if (e.touches.length === 1 && state.dragging) {
+        e.preventDefault();
+        const clientX = e.touches[0].clientX;
+        const clientY = e.touches[0].clientY;
+        if (Math.abs(clientX - state.dragStartX) > 3 || Math.abs(clientY - state.dragStartY) > 3) {
+          state.dragMoved = true;
+        }
+        state.panX += (clientX - state.dragLastX) / state.scale;
+        state.panY += (clientY - state.dragLastY) / state.scale;
+        state.dragLastX = clientX;
+        state.dragLastY = clientY;
+      } else if (e.touches.length === 2 && _opts.zoomable && _initialPinchDist) {
+        e.preventDefault();
+        const dx = e.touches[0].clientX - e.touches[1].clientX;
+        const dy = e.touches[0].clientY - e.touches[1].clientY;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        state.zoom = Math.max(0.3, Math.min(3.0, _initialZoom * (dist / _initialPinchDist)));
+        if (state.zoomCounterEl) state.zoomCounterEl.textContent = state.zoom.toFixed(1) + '×';
+      }
+    }, { passive: false });
+    canvas.addEventListener('touchend', e => {
+      if (e.touches.length < 2) _initialPinchDist = null;
+    });
     function resetFilters() {
       state.legendFilterType = null;
       state.legendFilterRank = null;
@@ -1830,15 +1927,20 @@
         '<a class="graph-action-btn" href="graph/gaia.json" aria-label="Download JSON" download><svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#download"/></svg><span>JSON</span></a>' +
         '<a class="graph-action-btn" href="graph/gaia.gexf" aria-label="Download GEXF" download><svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#download"/></svg><span>GEXF</span></a>' +
         '<a class="graph-action-btn" href="graph/gaia.svg" aria-label="Download SVG" download><svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#download"/></svg><span>SVG</span></a>' +
-        '<button type="button" class="graph-action-btn" id="graphHudToggle" aria-label="Toggle HUD"><svg class="ico" width="18" height="18" aria-hidden="true"><use href="assets/icons.svg#hud-toggle"/></svg></button>' +
         '<button type="button" class="graph-action-btn" data-graph-fullscreen-close aria-label="Close skill graph"><svg class="ico" width="20" height="20" aria-hidden="true"><use href="assets/icons.svg#close-x"/></svg></button>' +
       '</div>' +
     '</div>';
   hero.appendChild(_graphCloseOverlay);
   
-  const hudToggleBtn = _graphCloseOverlay.querySelector('#graphHudToggle');
+  const hudToggleBtn = document.createElement('button');
+  hudToggleBtn.className = 'graph-action-btn graph-hud-toggle-btn';
+  hudToggleBtn.setAttribute('aria-label', 'Toggle HUD');
+  hudToggleBtn.innerHTML = '<svg class="ico" width="18" height="18" aria-hidden="true"><use href="assets/icons.svg#hud-toggle"/></svg><span>Hide Controls</span>';
+  hero.appendChild(hudToggleBtn);
+
   hudToggleBtn.addEventListener('click', () => {
-    hero.classList.toggle('mobile-hud-shown');
+    hero.classList.toggle('hud-hidden');
+    hudToggleBtn.querySelector('span').textContent = hero.classList.contains('hud-hidden') ? 'Show Controls' : 'Hide Controls';
   });
 
 
@@ -1847,6 +1949,15 @@
     if (_graphFullscreen) return;
     _graphFullscreen = true;
     hero.classList.add('hero-graph-fullscreen');
+    
+    if (window.innerWidth <= 700) {
+      hero.classList.add('hud-hidden');
+      hudToggleBtn.querySelector('span').textContent = 'Show Controls';
+    } else {
+      hero.classList.remove('hud-hidden');
+      hudToggleBtn.querySelector('span').textContent = 'Hide Controls';
+    }
+
     heroGraph.setInteractive(true);
     heroGraph.setLabelMode('all');
     heroGraph.setStatusEl(_graphStatusBar);
@@ -1911,16 +2022,19 @@
     .then(indexData => {
       const map = {};
       const titleMap = {};
+      const originMap = {};
       const buckets = indexData.buckets || {};
       Object.entries(buckets).forEach(([skillId, arr]) => {
         if (Array.isArray(arr) && arr.length) {
           const origin = arr.find(e => e.origin) || arr[0];
           if (origin && origin.id) map[skillId] = origin.id;
           if (origin && origin.title) titleMap[skillId] = origin.title;
+          if (arr.some(e => e.origin)) originMap[skillId] = true;
         }
       });
       if (heroGraph) heroGraph.setNamedMap(map);
       if (heroGraph) heroGraph.setTitleMap(titleMap);
+      if (heroGraph) heroGraph.setOriginMap(originMap);
     })
     .catch(() => {});
 })();
