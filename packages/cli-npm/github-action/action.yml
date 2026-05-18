@@ -18,7 +18,7 @@ runs:
     - name: Install dependencies
       shell: bash
       run: |
-        pip install requests jsonschema
+        pip install requests==2.33.1 jsonschema==4.26.0
 
     - name: Run Gaia Scan
       shell: bash
