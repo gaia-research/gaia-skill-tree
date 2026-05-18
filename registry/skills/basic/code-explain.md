@@ -1,4 +1,4 @@
-# mattpocock/zoom-out  [2★ · Named]
+# [mattpocock](../../../docs/u/mattpocock/)/zoom-out  [2★ · Named]
 **ID:** code-explain  
 **Type:** Basic Skill  
 **Level:** 2★  

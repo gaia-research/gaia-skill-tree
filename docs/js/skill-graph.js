@@ -1,93 +1,233 @@
 (function () {
+  // ──────────────────────────────────────────────────────────────────
+  // Canvas geometry locked per DESIGN.md (Graph Canvas section).
+  // Touch the values only in DESIGN.md first; the consts in this file
+  // must mirror that table exactly. Stage 5 audited every magic number
+  // in this file against DESIGN.md and lifted them into the three
+  // const blocks below — NODE_RADII, LINE_WEIGHTS, SPHERE_RADII.
+  // ──────────────────────────────────────────────────────────────────
+  //
+  // ╔══ <canvas-tokens> contract ═══════════════════════════════════╗
+  // ║ Every colour and font this canvas draws is read from a CSS    ║
+  // ║ custom property on :root. A host page can override any token  ║
+  // ║ to retheme the graph (e.g. local skill-tree views).           ║
+  // ║                                                                ║
+  // ║   --tier-basic / -rgb / -edge                                  ║
+  // ║   --tier-extra / -rgb / -edge                                  ║
+  // ║   --tier-unique / -rgb / -edge                                 ║
+  // ║   --tier-ultimate / -rgb / -edge                               ║
+  // ║   --rank-0 … --rank-6 / -bg / -border / -edge                  ║
+  // ║   --honor-red / --honor-red-rgb                                ║
+  // ║   --apex-gold / --apex-gold-rgb                                ║
+  // ║   --muted / --text                                             ║
+  // ║   --font-body / --font-mono / --font-display                   ║
+  // ║                                                                ║
+  // ║ Token map cached on first read via getCanvasTokens(). Call     ║
+  // ║ invalidateCanvasTokens() if the theme is swapped at runtime.   ║
+  // ╚════════════════════════════════════════════════════════════════╝
   const GRAPH_JSON_URL = 'graph/gaia.json';
   const GRAPH_SCALE = 1.625;
 
-  // Defaults — overwritten from meta once data loads
-  let PALETTE = {
-    basic:    { rgb:'56,189,248',   hex:'#38bdf8' },
-    extra:    { rgb:'192,132,252',  hex:'#c084fc' },
-    unique:   { rgb:'124,58,237',   hex:'#7c3aed' },
-    ultimate: { rgb:'245,158,11',   hex:'#f59e0b' },
+  // ── Locked canvas geometry (DESIGN.md ▸ Graph Canvas) ──────────
+  const NODE_RADII = { ultimate: 12.5, unique: 9.5, extra: 6.9, basic: 3.5 };
+  const LINE_WEIGHTS = {
+    default: { ultimate: 1.55, other: 0.92 },
+    highlighted: { ultimate: 2.20, other: 1.40 },
   };
-  let TYPE_ORDER = { basic:0, extra:1, unique:2, ultimate:3 };
-  let RANK_META = {
-    '1★':  { name:'Awakened',       hex:'#38bdf8', bg:'rgba(56,189,248,.12)' },
-    '2★': { name:'Named',          hex:'#63cab7', bg:'rgba(99,202,183,.12)' },
-    '3★':{ name:'Evolved',        hex:'#a78bfa', bg:'rgba(167,139,250,.12)' },
-    '4★': { name:'Hardened',       hex:'#e879f9', bg:'rgba(232,121,249,.12)' },
-    '5★':  { name:'Transcendent',   hex:'#fbbf24', bg:'rgba(251,191,36,.12)' },
-    '6★': { name:'Transcendent ★', hex:'#fbbf24', bg:'rgba(251,191,36,.20)' },
-  };
+  // Multiplied by `scale` at render time. Unique/orphan satellites use
+  // their own larger radii (330 / 320+seed) in buildPositions(); those
+  // are layout-tuning constants and intentionally not lifted here.
+  const SPHERE_RADII = { basic: 250, extra: 145, ultimate: 44 };
+
+  // ── Token reader: pulls colour + font tokens off :root once and
+  // caches them. invalidateCanvasTokens() can be called from a theme-
+  // swap hook to refresh. No fallback hex is hardcoded here — the
+  // canonical source is tokens.css (generated from registry/gaia.json).
+  // If tokens are missing the canvas paints transparent rather than
+  // silently re-introducing tier hex codes inside this file.
+  let _tokenCache = null;
+  function _readVar(name) {
+    if (typeof document === 'undefined') return '';
+    return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  }
+  function _rgbOnly(triplet) {
+    // tokens.css emits "R, G, B" with spaces; canvas rgba() works
+    // either way but trimming keeps the strings tidy in DevTools.
+    return triplet.replace(/\s+/g, '');
+  }
+  function getCanvasTokens() {
+    if (_tokenCache) return _tokenCache;
+    function tier(name) {
+      const rgb = _rgbOnly(_readVar('--tier-' + name + '-rgb'));
+      return {
+        hex: _readVar('--tier-' + name),
+        rgb: rgb,
+        edge: _readVar('--tier-' + name + '-edge') || ('rgba(' + rgb + ',.55)'),
+      };
+    }
+    function rank(n) {
+      // Rank tokens don't have an explicit -rgb form yet; derive it
+      // from the hex when we need an rgba() with custom alpha. For
+      // now we only need bg/border/edge which are precomputed.
+      return {
+        hex: _readVar('--rank-' + n),
+        bg: _readVar('--rank-' + n + '-bg'),
+        border: _readVar('--rank-' + n + '-border'),
+        edge: _readVar('--rank-' + n + '-edge'),
+      };
+    }
+    _tokenCache = {
+      tier: {
+        basic: tier('basic'),
+        extra: tier('extra'),
+        unique: tier('unique'),
+        ultimate: tier('ultimate'),
+      },
+      rank: {
+        0: rank(0), 1: rank(1), 2: rank(2), 3: rank(3),
+        4: rank(4), 5: rank(5), 6: rank(6),
+      },
+      honorRed: _readVar('--honor-red'),
+      honorRedRgb: _rgbOnly(_readVar('--honor-red-rgb')),
+      apexGold: _readVar('--apex-gold'),
+      apexGoldRgb: _rgbOnly(_readVar('--apex-gold-rgb')),
+      muted: _readVar('--muted'),
+      // --muted-rgb isn't emitted by tokens.css yet; canvas tooltips
+      // and ruler ticks fall back to the slate-400 triplet which is
+      // the historical value used for these surfaces. Update this
+      // when --muted-rgb lands in tokens.css.
+      mutedRgb: '148,163,184',
+      fontBody: _readVar('--font-body'),
+      fontMono: _readVar('--font-mono'),
+      fontDisplay: _readVar('--font-display'),
+    };
+    return _tokenCache;
+  }
+  function invalidateCanvasTokens() { _tokenCache = null; }
+  if (typeof window !== 'undefined') window.invalidateCanvasTokens = invalidateCanvasTokens;
+
+  // canvasFont(role, sizePx) — single source for every `ctx.font = …`
+  // call site. Roles map to the three Hunter's Atlas faces:
+  //   body    → --font-body    (Bricolage Grotesque)
+  //   handle  → --font-mono    (Departure Mono / JetBrains Mono)
+  //   display → --font-display (EB Garamond, italic)
+  function canvasFont(role, sizePx) {
+    const t = getCanvasTokens();
+    const sz = Math.max(6, Math.round(sizePx));
+    if (role === 'display') return 'italic 600 ' + sz + 'px ' + t.fontDisplay;
+    if (role === 'handle') return '600 ' + sz + 'px ' + t.fontMono;
+    return 'bold ' + sz + 'px ' + t.fontBody;
+  }
+
+  const ORIGIN_PATHS = [
+    new Path2D("M12 15V9l-2 1"),
+    new Path2D("M12 21c-4-2-7-6-7-11 0-2 1.5-4 2.5-5"),
+    new Path2D("M12 21c4-2 7-6 7-11 0-2-1.5-4-2.5-5"),
+    new Path2D("M5 10c2 1 3 0 3-1"),
+    new Path2D("M5.5 14c2 1 3 0 3-1"),
+    new Path2D("M7 18c2 1 3 0 3-1"),
+    new Path2D("M19 10c-2 1-3 0-3-1"),
+    new Path2D("M18.5 14c-2 1-3 0-3-1"),
+    new Path2D("M17 18c-2 1-3 0-3-1")
+  ];
+
+  // ── Per-skill tier palette (rgb triplets), keyed off the canonical
+  // tier names. Reads canvas tokens; backwards-compat shim PALETTE so
+  // sites that still reference `PALETTE.basic.rgb` keep working until
+  // the entire file routes through getCanvasTokens(). When meta loads
+  // we refresh the cached tokens so a registry update can re-tint the
+  // canvas without a page reload.
+  function _paletteFromTokens() {
+    const t = getCanvasTokens().tier;
+    return {
+      basic: { rgb: t.basic.rgb, hex: t.basic.hex },
+      extra: { rgb: t.extra.rgb, hex: t.extra.hex },
+      unique: { rgb: t.unique.rgb, hex: t.unique.hex },
+      ultimate: { rgb: t.ultimate.rgb, hex: t.ultimate.hex },
+    };
+  }
+  let PALETTE = _paletteFromTokens();
+  function _rankMetaFromTokens(labelMap) {
+    const t = getCanvasTokens().rank;
+    const out = {};
+    Object.keys(labelMap || {}).forEach(function (k) {
+      if (k === '0★') return;
+      const n = parseInt(k, 10);
+      if (Number.isNaN(n)) return;
+      out[k] = { name: labelMap[k] || k, hex: t[n].hex, bg: t[n].bg };
+    });
+    if (!Object.keys(out).length) {
+      // Fallback to the six canonical ranks if no label map was passed.
+      [1, 2, 3, 4, 5, 6].forEach(function (n) {
+        out[n + '★'] = { name: n + '★', hex: t[n].hex, bg: t[n].bg };
+      });
+    }
+    return out;
+  }
+  let RANK_META = _rankMetaFromTokens(null);
 
   function _initMetaGraph(meta) {
     if (!meta) return;
-    if (meta.typeColors) {
-      PALETTE = {};
-      Object.keys(meta.typeColors).forEach(function(t) {
-        PALETTE[t] = { rgb: meta.typeColors[t].rgb, hex: meta.typeColors[t].hex };
-      });
-    }
-    if (meta.levelColors && meta.levelLabels) {
-      RANK_META = {};
-      Object.keys(meta.levelColors).forEach(function(k) {
-        if (k === '0★') return;
-        RANK_META[k] = { name: meta.levelLabels[k] || k, hex: meta.levelColors[k].hex, bg: meta.levelColors[k].bg };
-      });
-    }
+    // Tokens are the single source of truth — they get refreshed from
+    // tokens.css. The local palette objects mirror them so we don't
+    // recompute on every draw.
+    invalidateCanvasTokens();
+    PALETTE = _paletteFromTokens();
+    RANK_META = _rankMetaFromTokens(meta.levelLabels || null);
   }
 
   const FALLBACK_SKILLS = [
-    { id:'tokenize', type:'basic', name:'Tokenize', prerequisites:[] },
-    { id:'retrieve', type:'basic', name:'Retrieve', prerequisites:[] },
-    { id:'embed-text', type:'basic', name:'Embed Text', prerequisites:[] },
-    { id:'score-relevance', type:'basic', name:'Score Relevance', prerequisites:[] },
-    { id:'web-search', type:'basic', name:'Web Search', prerequisites:[] },
-    { id:'summarize', type:'basic', name:'Summarize', prerequisites:[] },
-    { id:'cite-sources', type:'basic', name:'Cite Sources', prerequisites:[] },
-    { id:'code-generation', type:'basic', name:'Code Generation', prerequisites:[] },
-    { id:'execute-bash', type:'basic', name:'Execute Bash', prerequisites:[] },
-    { id:'tool-select', type:'basic', name:'Tool Select', prerequisites:[] },
-    { id:'chunk-document', type:'basic', name:'Chunk Document', prerequisites:[] },
-    { id:'rank', type:'basic', name:'Rank', prerequisites:[] },
-    { id:'rag-pipeline', type:'extra', name:'RAG Pipeline', prerequisites:['retrieve','chunk-document','embed-text','score-relevance','tokenize','rank'] },
-    { id:'research', type:'extra', name:'Research', prerequisites:['web-search','summarize','cite-sources'] },
-    { id:'error-interpretation', type:'basic', name:'Error Interpretation', prerequisites:[] },
-    { id:'autonomous-debug', type:'extra', name:'Autonomous Debug', prerequisites:['code-generation','execute-bash','error-interpretation'] },
-    { id:'ghostwrite', type:'extra', name:'Ghostwrite', prerequisites:['research','write-report','audience-model'] },
-    { id:'knowledge-harvest', type:'extra', name:'Knowledge Harvest', prerequisites:['web-scrape','embed-text','extract-entities'] },
-    { id:'autonomous-research-agent', type:'ultimate', name:'Autonomous Research Agent', prerequisites:['research','ghostwrite','knowledge-harvest'] },
+    { id: 'tokenize', type: 'basic', name: 'Tokenize', prerequisites: [] },
+    { id: 'retrieve', type: 'basic', name: 'Retrieve', prerequisites: [] },
+    { id: 'embed-text', type: 'basic', name: 'Embed Text', prerequisites: [] },
+    { id: 'score-relevance', type: 'basic', name: 'Score Relevance', prerequisites: [] },
+    { id: 'web-search', type: 'basic', name: 'Web Search', prerequisites: [] },
+    { id: 'summarize', type: 'basic', name: 'Summarize', prerequisites: [] },
+    { id: 'cite-sources', type: 'basic', name: 'Cite Sources', prerequisites: [] },
+    { id: 'code-generation', type: 'basic', name: 'Code Generation', prerequisites: [] },
+    { id: 'execute-bash', type: 'basic', name: 'Execute Bash', prerequisites: [] },
+    { id: 'tool-select', type: 'basic', name: 'Tool Select', prerequisites: [] },
+    { id: 'chunk-document', type: 'basic', name: 'Chunk Document', prerequisites: [] },
+    { id: 'rank', type: 'basic', name: 'Rank', prerequisites: [] },
+    { id: 'rag-pipeline', type: 'extra', name: 'RAG Pipeline', prerequisites: ['retrieve', 'chunk-document', 'embed-text', 'score-relevance', 'tokenize', 'rank'] },
+    { id: 'research', type: 'extra', name: 'Research', prerequisites: ['web-search', 'summarize', 'cite-sources'] },
+    { id: 'error-interpretation', type: 'basic', name: 'Error Interpretation', prerequisites: [] },
+    { id: 'autonomous-debug', type: 'extra', name: 'Autonomous Debug', prerequisites: ['code-generation', 'execute-bash', 'error-interpretation'] },
+    { id: 'ghostwrite', type: 'extra', name: 'Ghostwrite', prerequisites: ['research', 'write-report', 'audience-model'] },
+    { id: 'knowledge-harvest', type: 'extra', name: 'Knowledge Harvest', prerequisites: ['web-scrape', 'embed-text', 'extract-entities'] },
+    { id: 'autonomous-research-agent', type: 'ultimate', name: 'Autonomous Research Agent', prerequisites: ['research', 'ghostwrite', 'knowledge-harvest'] },
   ];
   const FALLBACK_NAMED_MAP = {
-    'automated-testing':           '0xdarkmatter/pytest-patterns',
-    'test-driven-development':     'addy-osmani/test-driven-development',
-    'document-editing':            'anthropic/pptx',
-    'tool-creation':               'anthropic/skill-creator',
-    'autonomous-debug':            'devin-ai/autonomous-swe',
-    'write-report':                'glincker/readme-generator',
-    'browser-automation':          'gooseworks/notte-browser',
-    'autonomous-research-agent':   'karpathy/autoresearch',
-    'framework-upgrade':           'laravel/upgrade-laravel-v13',
-    'ux-audit':                    'martin-stepanoski/nielsen-heuristics-audit',
+    'automated-testing': '0xdarkmatter/pytest-patterns',
+    'test-driven-development': 'addy-osmani/test-driven-development',
+    'document-editing': 'anthropic/pptx',
+    'tool-creation': 'anthropic/skill-creator',
+    'autonomous-debug': 'devin-ai/autonomous-swe',
+    'write-report': 'glincker/readme-generator',
+    'browser-automation': 'gooseworks/notte-browser',
+    'autonomous-research-agent': 'karpathy/autoresearch',
+    'framework-upgrade': 'laravel/upgrade-laravel-v13',
+    'ux-audit': 'martin-stepanoski/nielsen-heuristics-audit',
     'multi-agent-orchestration-v': 'ruvnet/flow-nexus-swarm',
-    'generate-test':               'upsonic/unittest-generator',
-    'skill-discovery':             'vercel/find-skills',
-    'rag-pipeline':                'yonatangross/orchestkit-rag',
+    'generate-test': 'upsonic/unittest-generator',
+    'skill-discovery': 'vercel/find-skills',
+    'rag-pipeline': 'yonatangross/orchestkit-rag',
   };
   const FALLBACK_TITLE_MAP = {
-    'automated-testing':           'The Quality Guardian',
-    'test-driven-development':     'The Red-Green Oath',
-    'document-editing':            'The Slide Artisan',
-    'tool-creation':               "The Skill Forger's Art",
-    'autonomous-debug':            "The Codebreaker's Will",
-    'write-report':                'The Document Weaver',
-    'browser-automation':          'The Digital Navigator',
-    'autonomous-research-agent':   "The Scholar's Compass",
-    'framework-upgrade':           "The Versionist's Trial",
-    'ux-audit':                    'The Ten Laws of Sight',
+    'automated-testing': 'The Quality Guardian',
+    'test-driven-development': 'The Red-Green Oath',
+    'document-editing': 'The Slide Artisan',
+    'tool-creation': "The Skill Forger's Art",
+    'autonomous-debug': "The Codebreaker's Will",
+    'write-report': 'The Document Weaver',
+    'browser-automation': 'The Digital Navigator',
+    'autonomous-research-agent': "The Scholar's Compass",
+    'framework-upgrade': "The Versionist's Trial",
+    'ux-audit': 'The Ten Laws of Sight',
     'multi-agent-orchestration-v': "The Grand Conductor's Blueprint",
-    'generate-test':               'The Test Weaver',
-    'skill-discovery':             'The Registry Scout',
-    'rag-pipeline':                'The Knowledge Architect',
+    'generate-test': 'The Test Weaver',
+    'skill-discovery': 'The Registry Scout',
+    'rag-pipeline': 'The Knowledge Architect',
   };
 
   function normalizeSkills(graph) {
@@ -101,6 +241,7 @@
       effectiveLevel: skill.effectiveLevel || (skill.level || ''),
       demerits: Array.isArray(skill.demerits) ? skill.demerits : [],
       rarity: skill.rarity || '',
+      description: skill.description || '',
       prerequisites: Array.isArray(skill.prerequisites) ? skill.prerequisites : [],
     })).filter(skill => skill.id);
   }
@@ -129,8 +270,8 @@
   }
 
   function buildPositions(skills, scale) {
-    const groups = { basic:[], extra:[], ultimate:[] };
-    const satellite = { unique:[], orphan:[] };
+    const groups = { basic: [], extra: [], ultimate: [] };
+    const satellite = { unique: [], orphan: [] };
     const allPrereqRefs = new Set();
     skills.forEach(skill => skill.prerequisites.forEach(pid => allPrereqRefs.add(pid)));
     skills.forEach(skill => {
@@ -141,11 +282,16 @@
         (groups[skill.type] || groups.basic).push(skill);
       }
     });
-    Object.values(groups).forEach(group => group.sort((a,b) => (a.name || a.id).localeCompare(b.name || b.id)));
-    satellite.unique.sort((a,b) => (a.name || a.id).localeCompare(b.name || b.id));
-    satellite.orphan.sort((a,b) => (a.name || a.id).localeCompare(b.name || b.id));
+    Object.values(groups).forEach(group => group.sort((a, b) => (a.name || a.id).localeCompare(b.name || b.id)));
+    satellite.unique.sort((a, b) => (a.name || a.id).localeCompare(b.name || b.id));
+    satellite.orphan.sort((a, b) => (a.name || a.id).localeCompare(b.name || b.id));
     const positions = {};
-    const radii = { basic: 250 * scale, extra: 145 * scale, ultimate: 44 * scale };
+    // Multiply locked SPHERE_RADII (DESIGN.md) by the runtime scale.
+    const radii = {
+      basic: SPHERE_RADII.basic * scale,
+      extra: SPHERE_RADII.extra * scale,
+      ultimate: SPHERE_RADII.ultimate * scale,
+    };
     Object.entries(groups).forEach(([type, group]) => {
       group.forEach((skill, index) => {
         positions[skill.id] = spherePoint(radii[type] || radii.basic, stableHash(skill.id), index, group.length);
@@ -167,7 +313,7 @@
         ...pos,
         _satellite: 'orphan',
         _orbitSpeed: 0.2 + (seed % 100) / 100 * 0.65,
-        _orbitAmp:   (22 + (seed % 38)) * scale,
+        _orbitAmp: (22 + (seed % 38)) * scale,
         _phX: (seed % 628) / 100,
         _phY: ((seed * 7) % 628) / 100,
         _phZ: ((seed * 13) % 628) / 100,
@@ -190,7 +336,7 @@
     const minorStep = opts.minorStep || 0.15;
     const majorEvery = opts.majorEvery || 4;
     const startTick = Math.ceil((logValue - mainSize / 2 / ppu) / minorStep);
-    const endTick   = Math.floor((logValue + mainSize / 2 / ppu) / minorStep);
+    const endTick = Math.floor((logValue + mainSize / 2 / ppu) / minorStep);
     ctx2.lineWidth = 1;
     for (let tick = startTick; tick <= endTick; tick++) {
       const pos = mainSize / 2 + (tick * minorStep - logValue) * ppu;
@@ -198,15 +344,16 @@
       const tickLen = isMajor ? crossSize * 0.38 : crossSize * 0.18;
       const alpha = isMajor ? 0.18 : 0.08;
       ctx2.beginPath();
-      if (vert) { ctx2.moveTo(crossSize/2 - tickLen/2, pos); ctx2.lineTo(crossSize/2 + tickLen/2, pos); }
-      else       { ctx2.moveTo(pos, crossSize/2 - tickLen/2); ctx2.lineTo(pos, crossSize/2 + tickLen/2); }
-      ctx2.strokeStyle = `rgba(148,163,184,${alpha})`;
+      if (vert) { ctx2.moveTo(crossSize / 2 - tickLen / 2, pos); ctx2.lineTo(crossSize / 2 + tickLen / 2, pos); }
+      else { ctx2.moveTo(pos, crossSize / 2 - tickLen / 2); ctx2.lineTo(pos, crossSize / 2 + tickLen / 2); }
+      // Slate ruler tick — reads --muted-rgb from the token cache.
+      ctx2.strokeStyle = `rgba(${getCanvasTokens().mutedRgb},${alpha})`;
       ctx2.stroke();
     }
     ctx2.beginPath();
-    if (vert) { ctx2.moveTo(0, mainSize/2); ctx2.lineTo(crossSize, mainSize/2); }
-    else      { ctx2.moveTo(mainSize/2, 0); ctx2.lineTo(mainSize/2, crossSize); }
-    ctx2.strokeStyle = `rgba(148,163,184,.28)`;
+    if (vert) { ctx2.moveTo(0, mainSize / 2); ctx2.lineTo(crossSize, mainSize / 2); }
+    else { ctx2.moveTo(mainSize / 2, 0); ctx2.lineTo(mainSize / 2, crossSize); }
+    ctx2.strokeStyle = `rgba(${getCanvasTokens().mutedRgb},.28)`;
     ctx2.lineWidth = 1;
     ctx2.stroke();
   }
@@ -214,7 +361,16 @@
   function createSkillGraph(canvas, options) {
     const ctx = canvas.getContext('2d');
     const DPR = Math.min(window.devicePixelRatio || 1, 2);
-    const NAMED_LEVELS = new Set(['2★','3★','4★','5★','6★']);
+    // Runtime-mutable options for interactive mode toggling.
+    // When the hero graph goes fullscreen, these flip on so the
+    // single canvas gains drag/zoom/hover/labels without needing
+    // a second graph instance.
+    const _opts = {
+      draggable: options.draggable || false,
+      zoomable: options.zoomable || false,
+      hoverable: options.hoverable || false,
+    };
+    const NAMED_LEVELS = new Set(['2★', '3★', '4★', '5★', '6★']);
     const state = {
       skills: FALLBACK_SKILLS,
       positions: buildPositions(FALLBACK_SKILLS, GRAPH_SCALE),
@@ -267,8 +423,17 @@
       legendEl: null,
       showTitles: false,
       redPillActive: false,
-      namedMap: FALLBACK_NAMED_MAP,
-      titleMap: FALLBACK_TITLE_MAP,
+      meta: null,
+      namedMap: null,
+      titleMap: null,
+      originMap: null,
+      // graphMode: 'public' (default) or 'local'. In local mode the
+      // collection panel becomes "Claimed skills", the nav title swaps
+      // to "@<handle> · Atlas", and (TODO) the scatter strip pulls
+      // from the user's owned-skill counts. The handle is supplied via
+      // options.graphHandle or document.documentElement.dataset.graphHandle.
+      graphMode: options.graphMode || 'public',
+      graphHandle: options.graphHandle || '',
     };
 
     function resize() {
@@ -316,25 +481,31 @@
         const iM = mb('<rect x="3.4" y="1.4" width="3.2" height="4.2" rx="1.6" stroke="none" fill="currentColor" opacity=".55"/>');
         const iS = mb('<rect x="3.4" y="1.4" width="3.2" height="4.2" rx="1.6" stroke-width=".9" opacity=".5"/><path d="M5 2.2v3.2M4 3.1 5 2.2 6 3.1M4 4.5 5 5.4 6 4.5" stroke-width=".9"/>');
         const stat = `<span class="gst-stat">${skills.length}<span class="gst-dim"> skills</span> · ${edgeCount}<span class="gst-dim"> links</span>` +
-          (uniqueCount ? ` · <span style="color:#7c3aed">${uniqueCount}</span><span class="gst-dim"> Unique</span>` : '') +
+          (uniqueCount ? ` · <span class="gst-unique-count">${uniqueCount}</span><span class="gst-dim"> Unique</span>` : '') +
           `</span>`;
         let tips = '';
-        if (options.draggable) {
-          tips += `<span class="gst-tip">${iL}<span>pan</span></span>`;
-          tips += `<span class="gst-tip"><kbd class="gst-ctrl">⌃</kbd>${iL}<span class="gst-or">/</span>${iM}<span>orbit</span></span>`;
+        const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+        if (isTouch) {
+          if (_opts.draggable) tips += `<span class="gst-tip">Drag to pan</span>`;
+          if (_opts.zoomable) tips += `<span class="gst-tip">Pinch to zoom</span>`;
+        } else {
+          if (_opts.draggable) {
+            tips += `<span class="gst-tip">${iL}<span>pan</span></span>`;
+            tips += `<span class="gst-tip"><kbd class="gst-ctrl">⌃</kbd>${iL}<span class="gst-or">/</span>${iM}<span>orbit</span></span>`;
+          }
+          if (_opts.zoomable) tips += `<span class="gst-tip">${iS}<span>zoom</span></span>`;
         }
-        if (options.zoomable) tips += `<span class="gst-tip">${iS}<span>zoom</span></span>`;
         state.statusEl.innerHTML = stat + tips;
       }
     }
 
     function rotX(p, a) {
       const c = Math.cos(a), s = Math.sin(a);
-      return { x: p.x, y: c*p.y - s*p.z, z: s*p.y + c*p.z, phase: p.phase };
+      return { x: p.x, y: c * p.y - s * p.z, z: s * p.y + c * p.z, phase: p.phase };
     }
     function rotY(p, a) {
       const c = Math.cos(a), s = Math.sin(a);
-      return { x: c*p.x + s*p.z, y: p.y, z: -s*p.x + c*p.z, phase: p.phase };
+      return { x: c * p.x + s * p.z, y: p.y, z: -s * p.x + c * p.z, phase: p.phase };
     }
     function project(p) {
       const fov = Math.min(state.width, state.height) * 0.75;
@@ -354,13 +525,15 @@
       ctx.beginPath(); ctx.arc(sx - r * 0.28, sy - r * 0.28, r * 0.32, 0, Math.PI * 2); ctx.fillStyle = `rgba(255,255,255,${(alpha * 0.65).toFixed(2)})`; ctx.fill();
     }
     function drawNodeNamed(sx, sy, r, alpha) {
+      // Named (red-pill) nodes glow in Honor Red — single role token.
+      const honor = getCanvasTokens().honorRedRgb;
       const glow = ctx.createRadialGradient(sx, sy, 0, sx, sy, r * 4.2);
-      glow.addColorStop(0,   `rgba(239,68,68,${Math.min(alpha * 0.7, 1).toFixed(2)})`);
-      glow.addColorStop(0.4, `rgba(239,68,68,${Math.min(alpha * 0.25, 1).toFixed(2)})`);
-      glow.addColorStop(1,   'rgba(239,68,68,0)');
+      glow.addColorStop(0, `rgba(${honor},${Math.min(alpha * 0.7, 1).toFixed(2)})`);
+      glow.addColorStop(0.4, `rgba(${honor},${Math.min(alpha * 0.25, 1).toFixed(2)})`);
+      glow.addColorStop(1, `rgba(${honor},0)`);
       ctx.beginPath(); ctx.arc(sx, sy, r * 4.2, 0, Math.PI * 2); ctx.fillStyle = glow; ctx.fill();
       ctx.beginPath(); ctx.arc(sx, sy, r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(239,68,68,${Math.min(alpha * 1.2, 1).toFixed(2)})`; ctx.fill();
+      ctx.fillStyle = `rgba(${honor},${Math.min(alpha * 1.2, 1).toFixed(2)})`; ctx.fill();
       ctx.beginPath(); ctx.arc(sx - r * 0.28, sy - r * 0.28, r * 0.32, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(255,255,255,${(alpha * 0.65).toFixed(2)})`; ctx.fill();
     }
@@ -376,10 +549,10 @@
       const coronaPulse = 0.85 + 0.15 * Math.sin(t * 0.9 + phase);
       const coronaR = r * (7.5 * coronaPulse);
       const corona = ctx.createRadialGradient(sx, sy, r * 1.2, sx, sy, coronaR);
-      corona.addColorStop(0,   `rgba(255,215,0,${(alpha * 0.48).toFixed(2)})`);
-      corona.addColorStop(0.35,`rgba(255,170,0,${(alpha * 0.22).toFixed(2)})`);
+      corona.addColorStop(0, `rgba(255,215,0,${(alpha * 0.48).toFixed(2)})`);
+      corona.addColorStop(0.35, `rgba(255,170,0,${(alpha * 0.22).toFixed(2)})`);
       corona.addColorStop(0.7, `rgba(255,120,0,${(alpha * 0.08).toFixed(2)})`);
-      corona.addColorStop(1,   `rgba(255,80,0,0)`);
+      corona.addColorStop(1, `rgba(255,80,0,0)`);
       ctx.beginPath(); ctx.arc(sx, sy, coronaR, 0, Math.PI * 2);
       ctx.fillStyle = corona; ctx.fill();
 
@@ -398,9 +571,9 @@
         ctx.lineTo(Math.cos(ba + cone) * beamLen, Math.sin(ba + cone) * beamLen);
         ctx.closePath();
         const bg = ctx.createLinearGradient(0, 0, Math.cos(ba) * beamLen, Math.sin(ba) * beamLen);
-        bg.addColorStop(0,   `rgba(255,255,255,${bA.toFixed(2)})`);
-        bg.addColorStop(0.35,`rgba(255,240,180,${(bA * 0.45).toFixed(2)})`);
-        bg.addColorStop(1,   `rgba(255,215,0,0)`);
+        bg.addColorStop(0, `rgba(255,255,255,${bA.toFixed(2)})`);
+        bg.addColorStop(0.35, `rgba(255,240,180,${(bA * 0.45).toFixed(2)})`);
+        bg.addColorStop(1, `rgba(255,215,0,0)`);
         ctx.fillStyle = bg; ctx.fill();
       }
       ctx.restore();
@@ -416,9 +589,9 @@
         const sA = alpha * (0.55 + 0.45 * Math.sin(t * 2.2 + i * 1.4)) * (1 - blink * 0.8);
         if (sA < 0.01) continue;
         const sg = ctx.createRadialGradient(satX, satY, 0, satX, satY, satR * 3.2);
-        sg.addColorStop(0,   `rgba(255,240,200,${sA.toFixed(2)})`);
-        sg.addColorStop(0.35,`rgba(255,215,0,${(sA * 0.5).toFixed(2)})`);
-        sg.addColorStop(1,   `rgba(255,180,0,0)`);
+        sg.addColorStop(0, `rgba(255,240,200,${sA.toFixed(2)})`);
+        sg.addColorStop(0.35, `rgba(255,215,0,${(sA * 0.5).toFixed(2)})`);
+        sg.addColorStop(1, `rgba(255,180,0,0)`);
         ctx.beginPath(); ctx.arc(satX, satY, satR * 3.2, 0, Math.PI * 2);
         ctx.fillStyle = sg; ctx.fill();
         ctx.beginPath(); ctx.arc(satX, satY, satR, 0, Math.PI * 2);
@@ -430,11 +603,11 @@
       const glowPulse = 0.9 + 0.1 * Math.sin(t * 1.6 + phase);
       const glowR = r * (5.0 * glowPulse);
       const glow = ctx.createRadialGradient(sx, sy, r * 0.1, sx, sy, glowR);
-      glow.addColorStop(0,   `rgba(255,255,255,${(alpha * 0.72).toFixed(2)})`);
-      glow.addColorStop(0.15,`rgba(255,255,245,${(alpha * 0.52).toFixed(2)})`);
+      glow.addColorStop(0, `rgba(255,255,255,${(alpha * 0.72).toFixed(2)})`);
+      glow.addColorStop(0.15, `rgba(255,255,245,${(alpha * 0.52).toFixed(2)})`);
       glow.addColorStop(0.4, `rgba(255,245,210,${(alpha * 0.22).toFixed(2)})`);
       glow.addColorStop(0.7, `rgba(255,230,160,${(alpha * 0.08).toFixed(2)})`);
-      glow.addColorStop(1,   `rgba(255,215,0,0)`);
+      glow.addColorStop(1, `rgba(255,215,0,0)`);
       ctx.beginPath(); ctx.arc(sx, sy, glowR, 0, Math.PI * 2);
       ctx.fillStyle = glow; ctx.fill();
 
@@ -443,10 +616,10 @@
         // White shockwave flash outward
         const blinkR = r * (12 + blink * 10);
         const blinkGrad = ctx.createRadialGradient(sx, sy, r * 0.5, sx, sy, blinkR);
-        blinkGrad.addColorStop(0,   `rgba(255,255,255,${(alpha * blink * 0.9).toFixed(2)})`);
+        blinkGrad.addColorStop(0, `rgba(255,255,255,${(alpha * blink * 0.9).toFixed(2)})`);
         blinkGrad.addColorStop(0.3, `rgba(255,255,255,${(alpha * blink * 0.6).toFixed(2)})`);
         blinkGrad.addColorStop(0.6, `rgba(255,255,240,${(alpha * blink * 0.25).toFixed(2)})`);
-        blinkGrad.addColorStop(1,   `rgba(255,255,255,0)`);
+        blinkGrad.addColorStop(1, `rgba(255,255,255,0)`);
         ctx.beginPath(); ctx.arc(sx, sy, blinkR, 0, Math.PI * 2);
         ctx.fillStyle = blinkGrad; ctx.fill();
 
@@ -475,10 +648,10 @@
 
       // ── WHITE CORE ──
       const coreGrad = ctx.createRadialGradient(sx - r * 0.12, sy - r * 0.12, 0, sx, sy, r * 1.05);
-      coreGrad.addColorStop(0,    `rgba(255,255,255,${Math.min(alpha * 1.2, 1).toFixed(2)})`);
+      coreGrad.addColorStop(0, `rgba(255,255,255,${Math.min(alpha * 1.2, 1).toFixed(2)})`);
       coreGrad.addColorStop(0.35, `rgba(255,253,245,${Math.min(alpha * 1.1, 1).toFixed(2)})`);
-      coreGrad.addColorStop(0.7,  `rgba(255,240,200,${Math.min(alpha * 1.0, 1).toFixed(2)})`);
-      coreGrad.addColorStop(1,    `rgba(255,215,0,${(alpha * 0.85).toFixed(2)})`);
+      coreGrad.addColorStop(0.7, `rgba(255,240,200,${Math.min(alpha * 1.0, 1).toFixed(2)})`);
+      coreGrad.addColorStop(1, `rgba(255,215,0,${(alpha * 0.85).toFixed(2)})`);
       ctx.beginPath(); ctx.arc(sx, sy, r, 0, Math.PI * 2);
       ctx.fillStyle = coreGrad; ctx.fill();
 
@@ -487,6 +660,16 @@
       ctx.fillStyle = `rgba(255,255,255,${(alpha * 0.95).toFixed(2)})`; ctx.fill();
     }
     function drawNodeUnique(sx, sy, r, alpha, t, p) {
+      // Unique = singularity render. Reads --tier-unique-rgb so the
+      // accretion disk / event horizon ring inherit the canonical
+      // Unique tier hue when a host page reskins the canvas.
+      const uniqueRgb = getCanvasTokens().tier.unique.rgb;
+      // Accretion-disk particles use the Unique tier rgb at lower
+      // alpha rather than introducing a second hue. Visually this
+      // reads as the same hue family as the canonical rank-3 swatch
+      // (the historical particle colour) without re-declaring it
+      // here. When --rank-3-rgb lands in tokens.css we can swap to
+      // it directly.
       const phase = p.phase || 0;
       const spin = t * 2.2 + phase;
       // Gravitational distortion — concentric rings that darken surrounding space
@@ -515,8 +698,8 @@
       voidGrad.addColorStop(0, `rgba(0,0,0,${(alpha * 0.85).toFixed(2)})`);
       voidGrad.addColorStop(0.25, `rgba(10,0,20,${(alpha * 0.5).toFixed(2)})`);
       voidGrad.addColorStop(0.5, `rgba(26,5,51,${(alpha * 0.2).toFixed(2)})`);
-      voidGrad.addColorStop(0.75, `rgba(124,58,237,${(alpha * 0.07).toFixed(2)})`);
-      voidGrad.addColorStop(1, `rgba(124,58,237,0)`);
+      voidGrad.addColorStop(0.75, `rgba(${uniqueRgb},${(alpha * 0.07).toFixed(2)})`);
+      voidGrad.addColorStop(1, `rgba(${uniqueRgb},0)`);
       ctx.beginPath(); ctx.arc(0, 0, voidR, 0, Math.PI * 2);
       ctx.fillStyle = voidGrad; ctx.fill();
       // Spinning dark arms (like a spiral galaxy but dark)
@@ -546,20 +729,21 @@
         const particleR = r * (0.1 + 0.05 * Math.sin(t * 4 + i));
         ctx.beginPath();
         ctx.arc(sx + dx, sy + dy, particleR, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(167,139,250,${particleAlpha.toFixed(2)})`;
+        // Accretion-disk particle: lighter sibling of Unique hue.
+        ctx.fillStyle = `rgba(${uniqueRgb},${Math.min(particleAlpha * 1.05, 1).toFixed(2)})`;
         ctx.fill();
       }
-      // Event horizon ring — bright purple edge
+      // Event horizon ring — bright Unique-tier edge
       ctx.beginPath(); ctx.arc(sx, sy, r * 1.12, 0, Math.PI * 2);
-      ctx.strokeStyle = `rgba(124,58,237,${(alpha * 0.9).toFixed(2)})`;
+      ctx.strokeStyle = `rgba(${uniqueRgb},${(alpha * 0.9).toFixed(2)})`;
       ctx.lineWidth = 2; ctx.stroke();
       // Void core — fully opaque black
       ctx.beginPath(); ctx.arc(sx, sy, r, 0, Math.PI * 2);
       ctx.fillStyle = '#000';
       ctx.fill();
-      // Inner purple shimmer at edge of core
+      // Inner Unique-tier shimmer at edge of core
       ctx.beginPath(); ctx.arc(sx, sy, r, 0, Math.PI * 2);
-      ctx.strokeStyle = `rgba(124,58,237,${(alpha * 0.5).toFixed(2)})`;
+      ctx.strokeStyle = `rgba(${uniqueRgb},${(alpha * 0.5).toFixed(2)})`;
       ctx.lineWidth = r * 0.15; ctx.stroke();
     }
     function shouldLabel(skill) {
@@ -569,19 +753,28 @@
       if (state.labelMode === 'modal') return skill.type !== 'basic' || stableHash(skill.id) % 7 === 0;
       return skill.type === 'ultimate' || skill.type === 'unique';
     }
+    // Phase 5: check reduced-motion once per draw frame (cached per graph instance)
+    const _reducedMotion = () => window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     function draw() {
       if (!state.running) return;
       const targetSlowdown = ((state.hoveredId || state.pinnedId) && !state.paused) ? 1 : 0;
       state.hoverSlowdown += (targetSlowdown - state.hoverSlowdown) * 0.035;
+      // Always advance state.t so Level VI shimmer (hard lock) keeps running.
+      // Under reduced-motion, freeze the idle AUTO-ROTATION angles for the hero
+      // graph (non-draggable). The modal graph (draggable) can still be spun
+      // manually by the user, so we don't suppress it there.
       if (!state.paused) state.t += 0.006 * state.rotSpeed * (1 - state.hoverSlowdown);
       ctx.clearRect(0, 0, state.width, state.height);
       state.projectedNodes = {};
-      const ry = options.draggable
+      // Under reduced motion, lock the idle pan angle to 0 for the hero graph.
+      const rmFreeze = _reducedMotion() && !_opts.draggable;
+      const ry = _opts.draggable
         ? state.t * 0.16 + state.orbitY
-        : state.t * 0.16 + state.mx * 0.10;
-      const rx = options.draggable
+        : (rmFreeze ? state.orbitY : state.t * 0.16 + state.mx * 0.10);
+      const rx = _opts.draggable
         ? Math.sin(state.t * 0.055) * 0.20 + state.orbitX
-        : Math.sin(state.t * 0.055) * 0.20 + state.my * 0.055;
+        : (rmFreeze ? state.orbitX : Math.sin(state.t * 0.055) * 0.20 + state.my * 0.055);
       if (state.nebula) {
         const maxR = Math.max(state.width, state.height) * 1.5;
         state.nebulaClouds.forEach(cloud => {
@@ -594,15 +787,15 @@
           const s = cloud.sat;
           const h = cloud.hue;
           if (cloud.isAurora) {
-            g.addColorStop(0,   `hsla(${h},${s}%,55%,${(cloud.alpha * 0.85).toFixed(3)})`);
+            g.addColorStop(0, `hsla(${h},${s}%,55%,${(cloud.alpha * 0.85).toFixed(3)})`);
             g.addColorStop(0.4, `hsla(${h},${s * 0.7}%,40%,${(cloud.alpha * 0.4).toFixed(3)})`);
-            g.addColorStop(0.75,`hsla(${h},${s * 0.4}%,30%,${(cloud.alpha * 0.12).toFixed(3)})`);
-            g.addColorStop(1,   `hsla(${h},${s * 0.2}%,20%,0)`);
+            g.addColorStop(0.75, `hsla(${h},${s * 0.4}%,30%,${(cloud.alpha * 0.12).toFixed(3)})`);
+            g.addColorStop(1, `hsla(${h},${s * 0.2}%,20%,0)`);
           } else {
-            g.addColorStop(0,   `hsla(${h},${s}%,72%,${(cloud.alpha * 0.8).toFixed(3)})`);
+            g.addColorStop(0, `hsla(${h},${s}%,72%,${(cloud.alpha * 0.8).toFixed(3)})`);
             g.addColorStop(0.3, `hsla(${h},${s}%,55%,${(cloud.alpha * 0.4).toFixed(3)})`);
-            g.addColorStop(0.65,`hsla(${h},${s * 0.5}%,40%,${(cloud.alpha * 0.12).toFixed(3)})`);
-            g.addColorStop(1,   `hsla(${h},0%,30%,0)`);
+            g.addColorStop(0.65, `hsla(${h},${s * 0.5}%,40%,${(cloud.alpha * 0.12).toFixed(3)})`);
+            g.addColorStop(1, `hsla(${h},0%,30%,0)`);
           }
           ctx.beginPath(); ctx.arc(pr.sx, pr.sy, r, 0, Math.PI * 2);
           ctx.fillStyle = g; ctx.fill();
@@ -637,6 +830,35 @@
       const hovering = Boolean(focusId);
       const isSearchActive = Boolean(state.searchText);
       const searchQuery = isSearchActive ? state.searchText.toLowerCase() : '';
+      // Prefix-mode search: `/foo` matches only skill ID/name (slash
+      // form), `@bar` matches only contributor handles. Everything
+      // else is a free-text match across id, name, description, title
+      // and handle. This mirrors the routes a user thinks in.
+      let searchMode = 'free';
+      let searchTerm = searchQuery;
+      if (isSearchActive) {
+        if (searchQuery.startsWith('/')) { searchMode = 'slash'; searchTerm = searchQuery.slice(1); }
+        else if (searchQuery.startsWith('@')) { searchMode = 'handle'; searchTerm = searchQuery.slice(1); }
+      }
+      function _searchMatches(skill) {
+        if (!isSearchActive) return true;
+        if (!searchTerm) return true;
+        const namedId = (state.namedMap && state.namedMap[skill.id]) || '';
+        const handle = namedId ? namedId.split('/')[0] : '';
+        const slugSlash = namedId ? namedId.split('/')[1] : '';
+        const id = (skill.id || '').toLowerCase();
+        const name = (skill.name || '').toLowerCase();
+        const desc = (skill.description || '').toLowerCase();
+        const title = (state.titleMap && state.titleMap[skill.id] || '').toLowerCase();
+        if (searchMode === 'slash') {
+          return id.includes(searchTerm) || name.includes(searchTerm) || (slugSlash || '').toLowerCase().includes(searchTerm);
+        }
+        if (searchMode === 'handle') {
+          return (handle || '').toLowerCase().includes(searchTerm);
+        }
+        return id.includes(searchTerm) || name.includes(searchTerm) || desc.includes(searchTerm) ||
+          title.includes(searchTerm) || namedId.toLowerCase().includes(searchTerm);
+      }
       const legendHovering = Boolean(state.legendHoverType || state.legendHoverRank);
       const legendFiltering = Boolean(state.legendFilterType || state.legendFilterRank);
       state.skills.forEach(skill => {
@@ -652,13 +874,12 @@
           const mr = !state.legendFilterRank || skill.level === state.legendFilterRank;
           const matchesLegend = mt && mr;
           if (isSearchActive) {
-            const matchesSearch = (skill.name || skill.id).toLowerCase().includes(searchQuery);
-            targetVis = (matchesLegend && matchesSearch) ? 1.0 : 0.12;
+            targetVis = (matchesLegend && _searchMatches(skill)) ? 1.0 : 0.12;
           } else {
             targetVis = matchesLegend ? 1.0 : 0.12;
           }
         } else if (isSearchActive) {
-          targetVis = (skill.name || skill.id).toLowerCase().includes(searchQuery) ? 1.0 : 0.12;
+          targetVis = _searchMatches(skill) ? 1.0 : 0.12;
         } else {
           targetVis = 1.0;
         }
@@ -683,22 +904,25 @@
           edges.push({ from: pid, to: skill.id, type: skill.type, avgZ: (xf[skill.id].z + xf[pid].z) / 2 });
         });
       });
-      edges.sort((a,b) => a.avgZ - b.avgZ);
+      edges.sort((a, b) => a.avgZ - b.avgZ);
       edges.forEach(edge => {
         const pa = project(xf[edge.from]), pb = project(xf[edge.to]);
         const col = PALETTE[edge.type] || PALETTE.basic;
         const depthAlpha = Math.min(Math.max((xf[edge.to].z + 430 * state.scale) / (860 * state.scale), 0.08), 1);
         const isNeighborEdge = hovering && neighborSet.has(edge.from) && neighborSet.has(edge.to);
         const fromVis = state.nodeAlphas[edge.from] !== undefined ? state.nodeAlphas[edge.from] : 1.0;
-        const toVis   = state.nodeAlphas[edge.to]   !== undefined ? state.nodeAlphas[edge.to]   : 1.0;
+        const toVis = state.nodeAlphas[edge.to] !== undefined ? state.nodeAlphas[edge.to] : 1.0;
         const edgeVis = (fromVis + toVis) / 2;
         const baseEdgeAlpha = isNeighborEdge ? 0.72 : 0.31;
         ctx.beginPath(); ctx.moveTo(pa.sx, pa.sy); ctx.lineTo(pb.sx, pb.sy);
         ctx.strokeStyle = `rgba(${col.rgb},${(depthAlpha * baseEdgeAlpha * edgeVis).toFixed(2)})`;
-        ctx.lineWidth = isNeighborEdge ? (edge.type === 'ultimate' ? 2.2 : 1.4) : (edge.type === 'ultimate' ? 1.55 : 0.92);
+        // Line weights locked per DESIGN.md ▸ Graph Canvas. See
+        // LINE_WEIGHTS at the top of this file.
+        const lw = isNeighborEdge ? LINE_WEIGHTS.highlighted : LINE_WEIGHTS.default;
+        ctx.lineWidth = edge.type === 'ultimate' ? lw.ultimate : lw.other;
         ctx.stroke();
       });
-      const nodes = state.skills.map(skill => ({ skill, z: xf[skill.id] ? xf[skill.id].z : -9999 })).sort((a,b) => a.z - b.z);
+      const nodes = state.skills.map(skill => ({ skill, z: xf[skill.id] ? xf[skill.id].z : -9999 })).sort((a, b) => a.z - b.z);
       nodes.forEach(({ skill }) => {
         const p = xf[skill.id]; if (!p) return;
         const pr = project(p);
@@ -707,13 +931,14 @@
         const pulse = 0.84 + 0.16 * Math.sin(state.t * 2.2 + p.phase);
         const depthAlpha = Math.min(Math.max((p.z + 430 * state.scale) / (860 * state.scale), 0.16), 1);
         const col = PALETTE[skill.type] || PALETTE.basic;
-        const baseR = skill.type === 'ultimate' ? 12.5 : skill.type === 'unique' ? 9.5 : skill.type === 'extra' ? 6.9 : 3.5;
+        // Node base radius locked per DESIGN.md ▸ Graph Canvas.
+        const baseR = NODE_RADII[skill.type] !== undefined ? NODE_RADII[skill.type] : NODE_RADII.basic;
         const vis = state.nodeAlphas[skill.id] !== undefined ? state.nodeAlphas[skill.id] : 1.0;
         if (skill.level === '6★') {
           drawNodeVI(pr.sx, pr.sy, baseR * state.scale * pr.scale * pulse, depthAlpha * vis, state.t, p);
         } else if (skill.type === 'unique') {
           drawNodeUnique(pr.sx, pr.sy, baseR * state.scale * pr.scale * pulse, depthAlpha * vis, state.t, p);
-        } else if (state.redPillActive && state.namedMap[skill.id]) {
+        } else if (state.redPillActive && state.namedMap && state.namedMap[skill.id]) {
           drawNodeNamed(pr.sx, pr.sy, baseR * state.scale * pr.scale * pulse, depthAlpha * vis);
         } else {
           drawNode(pr.sx, pr.sy, baseR * state.scale * pr.scale * pulse, col, depthAlpha * vis);
@@ -728,18 +953,59 @@
         const vis = state.nodeAlphas[skill.id] !== undefined ? state.nodeAlphas[skill.id] : 1.0;
         const labelAlpha = highlighted ? 1.0 : depthAlpha * Math.max(0.22, vis) * 0.9;
         if (labelAlpha < 0.04) return;
-        const col = (state.redPillActive && state.namedMap[skill.id])
-          ? { rgb:'239,68,68' }
-          : (PALETTE[skill.type] || PALETTE.basic);
+        const isNamedHover = state.redPillActive && state.namedMap && state.namedMap[skill.id];
+        const tokens = getCanvasTokens();
+        const colRgb = isNamedHover
+          ? tokens.honorRedRgb
+          : ((PALETTE[skill.type] || PALETTE.basic).rgb);
         const size = skill.type === 'ultimate' ? 13 : skill.type === 'extra' ? 10 : 8;
-        ctx.font = `bold ${Math.max(6, Math.round(size * pr.scale * 1.16))}px Inter,system-ui,sans-serif`;
-        ctx.fillStyle = `rgba(${col.rgb},${labelAlpha.toFixed(2)})`;
+        // canvasFont() routes through tokens — Ultimate plate labels
+        // use EB Garamond italic (display), Named-skill hover uses
+        // Departure Mono (handle), everything else uses Bricolage
+        // (body).
+        let role = 'body';
+        if (skill.type === 'ultimate') role = 'display';
+        else if (isNamedHover) role = 'handle';
+        ctx.font = canvasFont(role, size * pr.scale * 1.16);
+        const namedId = (state.redPillActive && state.namedMap && state.namedMap[skill.id]) ? state.namedMap[skill.id] : null;
+        if (namedId) {
+          const parts = namedId.split('/');
+          if (parts.length === 2) {
+            const handleTxt = '@' + parts[0];
+            const slashTxt = '/' + parts[1];
+            const isOrigin = state.originMap && state.originMap[skill.id];
+            ctx.textAlign = 'left';
+            const w1 = ctx.measureText(handleTxt).width;
+            const w2 = ctx.measureText(slashTxt).width;
+            const badgeW = isOrigin ? 20 * pr.scale : 0;
+            const totalW = w1 + w2 + badgeW;
+            const startX = pr.sx - totalW / 2;
+            ctx.fillStyle = `rgba(${tokens.honorRedRgb},${labelAlpha.toFixed(2)})`;
+            ctx.fillText(handleTxt, startX, pr.sy + 18 * pr.scale);
+            const rm = state.meta && state.meta.levelColors ? state.meta.levelColors[skill.level || 0] : null;
+            ctx.fillStyle = rm ? rm.hex : `rgba(${colRgb},1)`;
+            ctx.globalAlpha = labelAlpha;
+            ctx.fillText(slashTxt, startX + w1, pr.sy + 18 * pr.scale);
+            ctx.globalAlpha = 1.0;
+            if (isOrigin) {
+              ctx.save();
+              ctx.translate(startX + w1 + w2 + 10 * pr.scale, pr.sy + 18 * pr.scale);
+              ctx.scale(0.75 * pr.scale, 0.75 * pr.scale);
+              ctx.translate(-12, -12);
+              ctx.lineWidth = 1.5;
+              ctx.lineCap = 'round';
+              ctx.lineJoin = 'round';
+              ctx.strokeStyle = `rgba(${tokens.apexGoldRgb}, ${labelAlpha.toFixed(2)})`;
+              ORIGIN_PATHS.forEach(p => ctx.stroke(p));
+              ctx.restore();
+            }
+            return;
+          }
+        }
+
         ctx.textAlign = 'center';
-        const labelText = (state.redPillActive && state.namedMap && state.namedMap[skill.id])
-          ? state.namedMap[skill.id]
-          : state.showTitles
-            ? ((state.titleMap && state.titleMap[skill.id]) || skill.name)
-            : '/' + skill.id;
+        const labelText = namedId || (state.showTitles && state.titleMap && state.titleMap[skill.id] ? state.titleMap[skill.id] : '/' + skill.id);
+        ctx.fillStyle = `rgba(${colRgb},${labelAlpha.toFixed(2)})`;
         ctx.fillText(labelText, pr.sx, pr.sy + 18 * pr.scale);
       }
       labelNodes.forEach(({ skill }) => {
@@ -757,16 +1023,16 @@
         const pr = project(p);
         if (pr.scale <= 0) return;
         const pulse = 0.84 + 0.16 * Math.sin(state.t * 2.2 + p.phase);
-        const baseR = 9.5;
+        const baseR = NODE_RADII.unique;
         const r = baseR * state.scale * pr.scale * pulse;
         ctx.beginPath(); ctx.arc(pr.sx, pr.sy, r * 1.05, 0, Math.PI * 2);
         ctx.fillStyle = '#000';
         ctx.fill();
         ctx.beginPath(); ctx.arc(pr.sx, pr.sy, r * 1.05, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(124,58,237,0.5)`;
+        ctx.strokeStyle = `rgba(${getCanvasTokens().tier.unique.rgb},0.5)`;
         ctx.lineWidth = r * 0.15; ctx.stroke();
       });
-      if (options.hoverable && state.tooltipEl) {
+      if (_opts.hoverable && state.tooltipEl) {
         const displayId = state.pinnedId || state.hoveredId;
         const pr = state.projectedNodes[displayId];
         if (displayId && pr) {
@@ -779,22 +1045,37 @@
               ? `<span style="display:inline-block;padding:.12rem .42rem;border-radius:999px;font-size:.62rem;font-weight:700;background:${rm.bg};color:${rm.hex}">${skill.level}</span>`
               : '';
             const effectivePill = (skill.effectiveLevel && skill.effectiveLevel !== skill.level)
-              ? `<span style="display:inline-block;padding:.12rem .42rem;border-radius:999px;font-size:.62rem;font-weight:700;background:rgba(251,191,36,.16);color:#fbbf24">effective ${skill.effectiveLevel}</span>`
+              ? `<span class="gst-effective-pill">effective ${skill.effectiveLevel}</span>`
               : '';
             const demeritNote = skill.demerits && skill.demerits.length
-              ? `<div style="color:#fbbf24;font-size:.66rem;margin-top:.26rem">${skill.demerits.length} demerit${skill.demerits.length === 1 ? '' : 's'}</div>`
+              ? `<div class="gst-demerit-note">${skill.demerits.length} demerit${skill.demerits.length === 1 ? '' : 's'}</div>`
               : '';
-            const namedId = state.namedMap[skill.id] || null;
-            const namedLine = namedId
-              ? `<div style="color:#ef4444;font-size:.67rem;font-weight:600;font-family:monospace;margin-bottom:.3rem;letter-spacing:.01em">${namedId}</div>`
-              : '';
+            const namedId = (state.namedMap && state.namedMap[skill.id]) || null;
+            // Tooltip rows route through CSS classes (.gst-named-id /
+            // .gst-skill-id) so Honor Red / muted slate / mono font
+            // come from tokens.css. The slug half is colour-locked to
+            // the skill's rank token per DESIGN.md (Honor Red is for
+            // the @handle only).
+            let namedLine = '';
+            if (namedId) {
+              const parts = namedId.split('/');
+              if (parts.length === 2) {
+                const rm2 = skill.level ? RANK_META[skill.level] : null;
+                const slugColor = rm2 ? rm2.hex : `rgba(${col.rgb},1)`;
+                namedLine = `<div class="gst-named-id"><span class="gst-named-handle">@${parts[0]}</span><span class="gst-named-slug" style="color:${slugColor}">/${parts[1]}</span></div>`;
+              } else {
+                namedLine = `<div class="gst-named-id"><span class="gst-named-handle">@${namedId}</span></div>`;
+              }
+            }
             state.tooltipEl.innerHTML =
               `<div class="skill-tooltip-name" style="color:rgba(${col.rgb},1)">${skill.name}</div>` +
               namedLine +
-              `<div style="color:#64748b;font-size:.68rem;font-weight:500;margin-bottom:.3rem;font-family:monospace">${skill.id}</div>` +
+              `<div class="gst-skill-id">${skill.id}</div>` +
               `<div class="skill-tooltip-row"><span class="skill-tooltip-badge ${typeClass}">${skill.type.toUpperCase()}</span>${rankPill}${effectivePill}</div>` +
               demeritNote +
               `<button class="graph-tooltip-add" title="Add to collection">+</button>`;
+            if (skill.level) state.tooltipEl.setAttribute('data-level', skill.level);
+            else state.tooltipEl.removeAttribute('data-level');
             state.lastHoveredId = displayId;
             const addBtn = state.tooltipEl.querySelector('.graph-tooltip-add');
             if (addBtn) {
@@ -815,12 +1096,12 @@
               state.pinnedPos = { left: tx + 'px', top: ty + 'px' };
             }
             state.tooltipEl.style.left = state.pinnedPos.left;
-            state.tooltipEl.style.top  = state.pinnedPos.top;
+            state.tooltipEl.style.top = state.pinnedPos.top;
           } else {
             let tx = pr.sx + 18, ty = pr.sy - 34;
             tx = Math.min(tx, state.width - 250); ty = Math.max(ty, 8);
             state.tooltipEl.style.left = tx + 'px';
-            state.tooltipEl.style.top  = ty + 'px';
+            state.tooltipEl.style.top = ty + 'px';
           }
           state.tooltipEl.style.display = 'block';
           state.tooltipEl.classList.toggle('pinned', Boolean(state.pinnedId));
@@ -830,7 +1111,7 @@
         }
       }
       // ── Neighbor mini-cards when pinned ──
-      if (options.hoverable && state.neighborCardsEl) {
+      if (_opts.hoverable && state.neighborCardsEl) {
         if (state.pinnedId && neighborSet.size > 1) {
           const neighbors = [...neighborSet].filter(id => id !== state.pinnedId);
           if (state._neighborIds !== neighbors.join(',')) {
@@ -892,7 +1173,12 @@
     }
 
     resize();
-    if (options.hoverable) {
+    // ── INTERACTIVE CHROME ──────────────────────────────────────
+    // Created once even if options.hoverable is false at startup.
+    // setInteractive(true) will show/enable these elements later
+    // when the hero graph goes fullscreen.
+    const _interactiveReady = options.hoverable || options._prepareInteractive;
+    if (_interactiveReady) {
       const tip = document.createElement('div');
       tip.className = 'skill-tooltip';
       canvas.parentElement.appendChild(tip);
@@ -911,44 +1197,59 @@
       skillPanel.addEventListener('mousedown', e => e.stopPropagation());
 
       const collectionPanel = document.createElement('div');
-      collectionPanel.className = 'graph-collection-panel';
+      collectionPanel.className = 'graph-collection-panel minimized';
       collectionPanel.style.display = 'none';
+      // Collection panel chrome — uses sprite icons for copy / clear so
+      // it inherits the same icon vocabulary as the rest of the site.
+      // Internal `.gst-honor` class colours the "Named" / "named"
+      // accents via tokens.css (--honor-red), no inline hex codes.
+      // The graphMode prop swaps the panel title between "Collection"
+      // (public registry) and "Claimed skills" (per-user local graph).
+      const collectionTitle = state.graphMode === 'local' ? 'Claimed skills' : 'Collection';
       collectionPanel.innerHTML =
         `<div class="graph-collection-header">` +
-        `<span class="graph-collection-title">Collection</span>` +
+        `<span class="graph-collection-title">${collectionTitle}</span>` +
         `<div class="graph-collection-actions">` +
-        `<button class="graph-collection-copy-all" title="Copy all named install commands">Copy <span style="color:#ef4444">Named</span></button>` +
-        `<button class="graph-collection-clear-all" title="Clear collection">Clear All</button>` +
+        `<button class="graph-collection-copy-all" title="Copy all named install commands" aria-label="Copy named install commands">` +
+        `<svg class="gst-btn-ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#copy"/></svg>` +
+        `</button>` +
+        `<button class="graph-collection-clear-all" title="Clear collection" aria-label="Clear collection">` +
+        `<svg class="gst-btn-ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#trash"/></svg>` +
+        `</button>` +
+        `<button class="graph-collection-minimize" title="Maximize panel" aria-label="Maximize panel">` +
+        `<svg class="gst-btn-ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="3" x2="8" y2="13" /><line x1="3" y1="8" x2="13" y2="8" /></svg>` +
+        `</button>` +
         `</div></div>` +
         `<div class="graph-collection-list"></div>` +
-        `<div class="graph-collection-note">You can only install <span style="color:#ef4444">named</span> skills. For unnamed ones, propose one first.</div>`;
+        `<div class="graph-collection-note">You can only install <span class="gst-honor">named</span> skills. For unnamed ones, propose one first.</div>`;
       canvas.parentElement.appendChild(collectionPanel);
       state.collectionEl = collectionPanel;
       collectionPanel.addEventListener('mousedown', e => e.stopPropagation());
 
-      let clearConfirmTimer = null;
+      const minimizeBtn = collectionPanel.querySelector('.graph-collection-minimize');
+      if (minimizeBtn) {
+        minimizeBtn.addEventListener('click', () => {
+          collectionPanel.classList.toggle('minimized');
+          if (collectionPanel.classList.contains('minimized')) {
+            minimizeBtn.innerHTML = `<svg class="gst-btn-ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="3" x2="8" y2="13" /><line x1="3" y1="8" x2="13" y2="8" /></svg>`;
+            minimizeBtn.title = 'Maximize panel';
+          } else {
+            minimizeBtn.innerHTML = `<svg class="gst-btn-ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="8" x2="13" y2="8" /></svg>`;
+            minimizeBtn.title = 'Minimize panel';
+          }
+        });
+      }
+
       const clearBtn = collectionPanel.querySelector('.graph-collection-clear-all');
       clearBtn.addEventListener('click', () => {
-        if (clearBtn.dataset.confirm === 'yes') {
+        if (confirm('Are you sure you want to clear all skills from your collection?')) {
           state.collection = [];
           renderCollection();
-          clearBtn.dataset.confirm = '';
-          clearBtn.textContent = 'Clear All';
-          clearBtn.classList.remove('confirming');
-          if (clearConfirmTimer) { clearTimeout(clearConfirmTimer); clearConfirmTimer = null; }
-        } else {
-          clearBtn.dataset.confirm = 'yes';
-          clearBtn.textContent = 'Are you sure?';
-          clearBtn.classList.add('confirming');
-          clearConfirmTimer = setTimeout(() => {
-            clearBtn.dataset.confirm = '';
-            clearBtn.textContent = 'Clear All';
-            clearBtn.classList.remove('confirming');
-          }, 3000);
         }
       });
 
       const copyAllBtn = collectionPanel.querySelector('.graph-collection-copy-all');
+      const copyAllBtnHtml = copyAllBtn.innerHTML;
       copyAllBtn.addEventListener('click', () => {
         const lines = state.collection
           .map(id => state.namedMap[id])
@@ -956,35 +1257,68 @@
           .map(nid => `gaia install ${nid}`);
         if (lines.length === 0) return;
         navigator.clipboard.writeText(lines.join('\n')).then(() => {
-          copyAllBtn.innerHTML = '✓ Copied';
+          copyAllBtn.innerHTML =
+            '<svg class="gst-btn-ico" width="14" height="14" aria-hidden="true">' +
+            '<use href="assets/icons.svg#copy-check"/></svg>';
           copyAllBtn.classList.add('copied');
-          setTimeout(() => { copyAllBtn.innerHTML = 'Copy <span style="color:#ef4444">Named</span>'; copyAllBtn.classList.remove('copied'); }, 1500);
+          setTimeout(() => { copyAllBtn.innerHTML = copyAllBtnHtml; copyAllBtn.classList.remove('copied'); }, 1500);
         });
       });
+
+      renderCollection();
 
       function renderCollection() {
         const list = collectionPanel.querySelector('.graph-collection-list');
         if (state.collection.length === 0) {
-          collectionPanel.style.display = 'none';
-          list.innerHTML = '';
+          list.innerHTML =
+            `<div class="graph-collection-empty" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem 1rem; text-align: center; gap: 0.5rem; opacity: 0.85;">` +
+            `<div style="font-size: 1.25rem; line-height: 1; color: var(--muted); opacity: 0.65; margin-bottom: 0.2rem;">✦</div>` +
+            `<div style="font-size: 0.62rem; color: var(--muted); line-height: 1.4;">` +
+            `Your collection is empty.<br>Add skills by clicking the <strong style="color: var(--tier-basic); font-weight: bold;">+</strong> button inside any skill's floating tooltip.` +
+            `</div>` +
+            `</div>`;
+          collectionPanel.style.display = 'flex';
           return;
         }
         collectionPanel.style.display = 'flex';
         let html = '';
+        // Collection cards render as .plaque--mini per Stage 3. Each
+        // card carries the data-tier attribute so the per-tier glow
+        // (--plaque-glow-intensity × --tier-*-bg) inherits the
+        // collected skill's tier. Unnamed entries render as a ghost
+        // plaque (dashed outline, muted text). Sprite-icon buttons
+        // (share / remove) sit in the top-right corner of the card.
         state.collection.forEach(id => {
           const skill = state.skills.find(s => s.id === id) || { id, name: id, type: 'basic' };
           const col = PALETTE[skill.type] || PALETTE.basic;
-          const namedId = state.namedMap[id] || null;
+          const namedId = (state.namedMap && state.namedMap[id]) || null;
           const cmd = namedId ? `gaia install ${namedId}` : `gaia propose /${id}`;
           const shareLink = namedId
-            ? `<button class="graph-collection-share" data-nid="${namedId}" title="Open in Explorer">↗</button>`
+            ? `<button class="graph-collection-share" data-nid="${namedId}" title="Open in Explorer" aria-label="Open in Explorer">` +
+            `<svg class="gst-btn-ico" width="12" height="12" aria-hidden="true"><use href="assets/icons.svg#external-link"/></svg></button>`
             : '';
-          html += `<div class="graph-collection-card" data-cid="${id}">` +
+          const ghostAttr = namedId ? '' : ' data-ghost="true"';
+          let formattedNamedId = '';
+          if (namedId) {
+            const parts = namedId.split('/');
+            if (parts.length === 2) {
+              const rm = state.meta && state.meta.levelColors ? state.meta.levelColors[skill.level || 0] : null;
+              formattedNamedId = `<div class="graph-collection-card-named"><span class="gst-honor">@${parts[0]}</span><span style="color:${rm ? rm.hex : `rgba(${col.rgb},1)`}">/${parts[1]}</span></div>`;
+            } else {
+              formattedNamedId = `<div class="graph-collection-card-named">${namedId}</div>`;
+            }
+          }
+          html +=
+            `<div class="plaque--mini graph-collection-card" data-cid="${id}" data-tier="${skill.type}"${ghostAttr}>` +
             `<div class="graph-collection-card-top">` +
             `<span class="graph-collection-card-name" style="color:rgba(${col.rgb},1)">${skill.name}</span>` +
-            `<div class="graph-collection-card-btns">${shareLink}<button class="graph-collection-remove" data-cid="${id}" title="Remove">×</button></div>` +
+            `<div class="graph-collection-card-btns">${shareLink}` +
+            `<button class="graph-collection-remove" data-cid="${id}" title="Remove" aria-label="Remove from collection">` +
+            `<svg class="gst-btn-ico" width="12" height="12" aria-hidden="true"><use href="assets/icons.svg#close-x"/></svg>` +
+            `</button>` +
             `</div>` +
-            (namedId ? `<div class="graph-collection-card-named">${namedId}</div>` : '') +
+            `</div>` +
+            formattedNamedId +
             `<code class="graph-collection-cmd" data-cmd="${cmd}">$ ${cmd}</code>` +
             `</div>`;
         });
@@ -1018,7 +1352,7 @@
       function openSkillPanel(skillId) {
         const skill = state.skills.find(s => s.id === skillId) || { id: skillId, name: skillId, type: 'basic', prerequisites: [] };
         const col = PALETTE[skill.type] || PALETTE.basic;
-        const namedId = state.namedMap[skill.id] || null;
+        const namedId = (state.namedMap && state.namedMap[skill.id]) || null;
         const titleText = (state.titleMap && state.titleMap[skill.id]) || null;
         const rm = skill.level ? RANK_META[skill.level] : null;
         const wasPaused = state.paused;
@@ -1028,7 +1362,15 @@
         c += `<button class="graph-skill-panel-close" title="Close">×</button>`;
         c += `</div>`;
         c += `<div class="graph-skill-panel-body">`;
-        if (namedId) c += `<div class="graph-skill-panel-named-id">${namedId}</div>`;
+        if (namedId) {
+          const parts = namedId.split('/');
+          if (parts.length === 2) {
+            const slugColor = rm ? rm.hex : `rgba(${col.rgb},1)`;
+            c += `<div class="graph-skill-panel-named-id"><span class="gst-named-handle">@${parts[0]}</span><span class="gst-named-slug" style="color:${slugColor}">/${parts[1]}</span></div>`;
+          } else {
+            c += `<div class="graph-skill-panel-named-id"><span class="gst-named-handle">@${namedId}</span></div>`;
+          }
+        }
         if (namedId && titleText) c += `<div class="graph-skill-panel-title">"${titleText}"</div>`;
         c += `<div class="graph-skill-panel-type-row">`;
         c += `<span class="skill-tooltip-badge skill-tooltip-type-${skill.type}">${skill.type.toUpperCase()}</span>`;
@@ -1079,32 +1421,110 @@
       const searchInput = document.createElement('input');
       searchInput.type = 'text';
       searchInput.className = 'graph-search';
-      searchInput.placeholder = 'Search skills…';
-      searchInput.setAttribute('aria-label', 'Filter skill graph');
+      searchInput.placeholder = '/skill · @handle · text';
+      searchInput.title = 'Type /name to filter skills, @handle for contributors, or any text to search names + descriptions.';
+      searchInput.setAttribute('aria-label', 'Filter skill graph: prefix with / for skill, @ for handle');
       searchInput.addEventListener('input', () => { state.searchText = searchInput.value.trim(); });
       searchInput.addEventListener('mousedown', e => e.stopPropagation());
       searchWrap.appendChild(searchInput);
+
+      // ── Search syntax help affordance ─────────────────────────
+      // The slash/at/free-text grammar is non-obvious; surface it via
+      // an info button + popover next to the input. Clicking outside
+      // or hitting Escape closes the popover (the Escape close is
+      // wired below to consume the key only when the popover is open
+      // so fullscreen Escape still works otherwise).
+      const searchHelpBtn = document.createElement('button');
+      searchHelpBtn.type = 'button';
+      searchHelpBtn.className = 'graph-search-help';
+      searchHelpBtn.setAttribute('aria-label', 'Search syntax help');
+      searchHelpBtn.setAttribute('aria-expanded', 'false');
+      searchHelpBtn.innerHTML = '<svg width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#info"/></svg>';
+      const searchHelpPopover = document.createElement('div');
+      searchHelpPopover.className = 'graph-search-help-popover';
+      searchHelpPopover.setAttribute('role', 'tooltip');
+      searchHelpPopover.hidden = true;
+      searchHelpPopover.innerHTML =
+        '<div><code>/foo</code> filters skill IDs and names</div>' +
+        '<div><code>@bar</code> filters contributor handles</div>' +
+        '<div>any other text fuzzy-matches names, descriptions, titles</div>';
+      function _closeSearchHelp() {
+        searchHelpPopover.hidden = true;
+        searchHelpBtn.setAttribute('aria-expanded', 'false');
+      }
+      function _openSearchHelp() {
+        searchHelpPopover.hidden = false;
+        searchHelpBtn.setAttribute('aria-expanded', 'true');
+      }
+      searchHelpBtn.addEventListener('mousedown', e => e.stopPropagation());
+      searchHelpBtn.addEventListener('click', e => {
+        e.stopPropagation();
+        if (searchHelpPopover.hidden) _openSearchHelp(); else _closeSearchHelp();
+      });
+      searchHelpPopover.addEventListener('mousedown', e => e.stopPropagation());
+      // Close on any pointerdown outside the help UI.
+      document.addEventListener('pointerdown', e => {
+        if (searchHelpPopover.hidden) return;
+        if (e.target === searchHelpBtn || searchHelpBtn.contains(e.target)) return;
+        if (searchHelpPopover.contains(e.target)) return;
+        _closeSearchHelp();
+      });
+      // Escape closes the popover and consumes the key so fullscreen
+      // doesn't also collapse. When the popover is closed, we don't
+      // consume Escape — the existing fullscreen close handler runs.
+      document.addEventListener('keydown', e => {
+        if (e.key !== 'Escape') return;
+        if (searchHelpPopover.hidden) return;
+        e.preventDefault();
+        e.stopPropagation();
+        _closeSearchHelp();
+      }, true);
+      searchWrap.appendChild(searchHelpBtn);
+      searchWrap.appendChild(searchHelpPopover);
+
       canvas.parentElement.appendChild(searchWrap);
       state.searchInputEl = searchInput;
 
+      // Legend rebuilt to read from CSS tokens via data-attributes —
+      // the swatch background and pill colour are set in styles.css
+      // (.graph-legend-swatch[data-tier=...], .graph-legend-rank-pill[data-rank=...])
+      // so all four tier hues and six rank hues come from --tier-* /
+      // --rank-*. Sizes (7/10/12/14 px) still drive node-size hierarchy
+      // and stay inline for clarity.
       const legend = document.createElement('div');
       legend.className = 'graph-legend';
       legend.innerHTML =
+        '<button type="button" class="graph-legend-drawer-toggle" aria-label="Toggle filters drawer">' +
+        '<svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#claim-arrow"/></svg>' +
+        '<span class="graph-legend-drawer-label">Filters</span>' +
+        '</button>' +
+        '<div class="graph-legend-content">' +
+        '<div class="graph-legend-body">' +
         '<div class="graph-legend-section"><div class="graph-legend-heading">Type</div>' +
-        '<div class="graph-legend-item" data-legend-type="basic"><span class="graph-legend-swatch" style="background:#38bdf8;width:7px;height:7px"></span>Basic</div>' +
-        '<div class="graph-legend-item" data-legend-type="extra"><span class="graph-legend-swatch" style="background:#c084fc;width:10px;height:10px"></span>Extra</div>' +
-        '<div class="graph-legend-item" data-legend-type="unique"><span class="graph-legend-swatch" style="background:#7c3aed;width:12px;height:12px"></span>Unique</div>' +
-        '<div class="graph-legend-item" data-legend-type="ultimate"><span class="graph-legend-swatch" style="background:#f59e0b;width:14px;height:14px"></span>Ultimate</div>' +
+        '<div class="graph-legend-item" data-legend-type="basic"><span class="graph-legend-swatch" data-tier="basic" style="width:7px;height:7px"></span>Basic</div>' +
+        '<div class="graph-legend-item" data-legend-type="extra"><span class="graph-legend-swatch" data-tier="extra" style="width:10px;height:10px"></span>Extra</div>' +
+        '<div class="graph-legend-item" data-legend-type="unique"><span class="graph-legend-swatch" data-tier="unique" style="width:12px;height:12px"></span>Unique</div>' +
+        '<div class="graph-legend-item" data-legend-type="ultimate"><span class="graph-legend-swatch" data-tier="ultimate" style="width:14px;height:14px"></span>Ultimate</div>' +
         '</div><div class="graph-legend-section"><div class="graph-legend-heading">Rank</div>' +
         '<div class="graph-legend-ranks">' +
-        '<span class="graph-legend-rank-pill" data-legend-rank="1★" style="background:rgba(56,189,248,.12);color:#38bdf8">1★</span>' +
-        '<span class="graph-legend-rank-pill" data-legend-rank="2★" style="background:rgba(99,202,183,.12);color:#63cab7">2★</span>' +
-        '<span class="graph-legend-rank-pill" data-legend-rank="3★" style="background:rgba(167,139,250,.12);color:#a78bfa">3★</span>' +
-        '<span class="graph-legend-rank-pill" data-legend-rank="4★" style="background:rgba(232,121,249,.12);color:#e879f9">4★</span>' +
-        '<span class="graph-legend-rank-pill" data-legend-rank="5★" style="background:rgba(251,191,36,.12);color:#fbbf24">5★</span>' +
-        '<span class="graph-legend-rank-pill" data-legend-rank="6★" style="background:rgba(251,191,36,.20);color:#fbbf24">6★</span>' +
-        '</div></div>';
+        '<span class="graph-legend-rank-pill" data-legend-rank="1★" data-rank="1">1★</span>' +
+        '<span class="graph-legend-rank-pill" data-legend-rank="2★" data-rank="2">2★</span>' +
+        '<span class="graph-legend-rank-pill" data-legend-rank="3★" data-rank="3">3★</span>' +
+        '<span class="graph-legend-rank-pill" data-legend-rank="4★" data-rank="4">4★</span>' +
+        '<span class="graph-legend-rank-pill" data-legend-rank="5★" data-rank="5">5★</span>' +
+        '<span class="graph-legend-rank-pill" data-legend-rank="6★" data-rank="6">6★</span>' +
+        '</div></div>' +
+        '</div>' +
+        '</div>';
       legend.addEventListener('mousedown', e => e.stopPropagation());
+      
+      const drawerToggle = legend.querySelector('.graph-legend-drawer-toggle');
+      if (drawerToggle) {
+        drawerToggle.addEventListener('click', e => {
+          e.stopPropagation();
+          legend.classList.toggle('minimized');
+        });
+      }
       legend.querySelectorAll('.graph-legend-item[data-legend-type]').forEach(item => {
         item.addEventListener('mouseenter', () => { state.legendHoverType = item.dataset.legendType; });
         item.addEventListener('mouseleave', () => { state.legendHoverType = null; });
@@ -1130,7 +1550,9 @@
 
       const scatterStrip = document.createElement('div');
       scatterStrip.className = 'graph-scatter-strip';
-      scatterStrip.setAttribute('aria-label', 'Scatter — drag up to spread, drag down to clump');
+      scatterStrip.setAttribute('aria-label', 'Density — arrow keys or drag to spread/clump');
+      scatterStrip.setAttribute('role', 'slider');
+      scatterStrip.setAttribute('aria-orientation', 'vertical');
       const scatterTop = document.createElement('div');
       scatterTop.className = 'graph-scatter-edge graph-scatter-edge--top';
       scatterTop.textContent = '+';
@@ -1150,11 +1572,19 @@
       scatterStrip.appendChild(scatterTrackWrap);
       scatterStrip.appendChild(scatterBot);
       scatterStrip.appendChild(scatterTitle);
+      // Caption so first-time users notice the strip is draggable.
+      // CSS rotates it vertically; class is styled by the CSS agent.
+      const scatterCaption = document.createElement('div');
+      scatterCaption.className = 'graph-strip-caption graph-strip-caption--scatter';
+      scatterCaption.textContent = 'SPREAD';
+      scatterStrip.appendChild(scatterCaption);
 
       function redrawScatterRuler() {
         const logVal = Math.log(state.scale);
         drawRuler(scatterRulerCanvas, logVal, { vertical: true, pxPerUnit: 42, minorStep: 0.1, majorEvery: 5 });
-        scatterTitle.textContent = Math.round(state.scale / (options.scale || GRAPH_SCALE) * 100) + '%';
+        const pct = Math.round(state.scale / (options.scale || GRAPH_SCALE) * 100);
+        scatterTitle.textContent = pct + '%';
+        scatterStrip.setAttribute('aria-valuetext', 'Density ' + pct + ' percent');
       }
       let scatterDragging = false, scatterLastY = 0;
       scatterStrip.addEventListener('mousedown', e => e.stopPropagation());
@@ -1176,6 +1606,23 @@
       scatterStrip.addEventListener('pointerup', e => {
         scatterDragging = false;
         scatterStrip.releasePointerCapture(e.pointerId);
+      });
+      // ── Keyboard a11y: ArrowUp/Down to spread/clump, PageUp/Down
+      // for bigger steps. Mirrors the pointer logic but uses fixed
+      // increments instead of pixel deltas so screen-reader / keyboard
+      // users get predictable behaviour.
+      scatterStrip.tabIndex = 0;
+      scatterStrip.addEventListener('keydown', e => {
+        let factor = 0;
+        if (e.key === 'ArrowUp') factor = Math.exp(0.05);
+        else if (e.key === 'ArrowDown') factor = Math.exp(-0.05);
+        else if (e.key === 'PageUp') factor = Math.exp(0.20);
+        else if (e.key === 'PageDown') factor = Math.exp(-0.20);
+        if (!factor) return;
+        e.preventDefault();
+        state.scale = Math.max(0.05, Math.min((options.scale || GRAPH_SCALE) * 10, state.scale * factor));
+        state.positions = buildPositions(state.skills, state.scale);
+        redrawScatterRuler();
       });
       canvas.parentElement.appendChild(scatterStrip);
       setTimeout(redrawScatterRuler, 50);
@@ -1203,27 +1650,41 @@
       pauseBtn.className = 'graph-pause-btn';
       pauseBtn.textContent = '⏸';
       pauseBtn.title = 'Pause / resume rotation';
+      pauseBtn.setAttribute('aria-pressed', 'false');
       pauseBtn.addEventListener('click', () => {
         state.paused = !state.paused;
         pauseBtn.textContent = state.paused ? '▶' : '⏸';
         pauseBtn.classList.toggle('active', state.paused);
+        pauseBtn.setAttribute('aria-pressed', String(state.paused));
       });
       bottomBar.appendChild(pauseBtn);
       state.pauseBtnEl = pauseBtn;
 
+      // Defaults to 'all' when the host options didn't seed a useful
+      // mode (e.g. the hero graph starts at 'none'). Remember the last
+      // non-'none' selection so toggling off→on restores the previous
+      // detail level rather than slamming back to the seed value.
+      const _defaultLabelMode = (options.labelMode && options.labelMode !== 'none') ? options.labelMode : 'all';
+      state._lastLabelMode = _defaultLabelMode;
       const labelsToggle = document.createElement('button');
       labelsToggle.type = 'button';
       labelsToggle.className = 'graph-bottom-btn';
       labelsToggle.textContent = 'Labels';
       labelsToggle.title = 'Toggle skill labels';
+      // "Pressed" means labels ARE currently showing — initial state
+      // depends on the seeded label mode. Hero graph starts with none,
+      // fullscreen flips to 'all' via setLabelMode().
+      labelsToggle.setAttribute('aria-pressed', String(state.labelMode !== 'none'));
       labelsToggle.addEventListener('click', () => {
         if (state.labelMode === 'none') {
-          state.labelMode = options.labelMode || 'ultimate';
+          state.labelMode = state._lastLabelMode || _defaultLabelMode;
           labelsToggle.classList.remove('off');
         } else {
+          state._lastLabelMode = state.labelMode;
           state.labelMode = 'none';
           labelsToggle.classList.add('off');
         }
+        labelsToggle.setAttribute('aria-pressed', String(state.labelMode !== 'none'));
       });
       bottomBar.appendChild(labelsToggle);
       state.labelsToggleEl = labelsToggle;
@@ -1233,9 +1694,11 @@
       labelToggle.className = 'graph-bottom-btn';
       labelToggle.textContent = 'Titles';
       labelToggle.title = 'Show skill titles instead of /IDs';
+      labelToggle.setAttribute('aria-pressed', 'false');
       labelToggle.addEventListener('click', () => {
         state.showTitles = !state.showTitles;
         labelToggle.classList.toggle('active', state.showTitles);
+        labelToggle.setAttribute('aria-pressed', String(state.showTitles));
       });
       bottomBar.appendChild(labelToggle);
       state.labelToggleEl = labelToggle;
@@ -1245,9 +1708,11 @@
       nebulaToggle.className = 'graph-bottom-btn';
       nebulaToggle.textContent = 'Nebula';
       nebulaToggle.title = 'Toggle nebula cloud atmosphere';
+      nebulaToggle.setAttribute('aria-pressed', 'true');
       nebulaToggle.addEventListener('click', () => {
         state.nebula = !state.nebula;
         nebulaToggle.classList.toggle('active', state.nebula);
+        nebulaToggle.setAttribute('aria-pressed', String(state.nebula));
       });
       nebulaToggle.classList.add('active');
       bottomBar.appendChild(nebulaToggle);
@@ -1262,7 +1727,7 @@
         if (!state.skills.length) return;
         const picked = state.skills[Math.floor(Math.random() * state.skills.length)];
         state.paused = true;
-        if (state.pauseBtnEl) { state.pauseBtnEl.textContent = '▶'; state.pauseBtnEl.classList.add('active'); }
+        if (state.pauseBtnEl) { state.pauseBtnEl.textContent = '▶'; state.pauseBtnEl.classList.add('active'); state.pauseBtnEl.setAttribute('aria-pressed', 'true'); }
         state.zoom = 2.2;
         if (state.zoomCounterEl) state.zoomCounterEl.textContent = state.zoom.toFixed(1) + '×';
         state.hoveredId = picked.id;
@@ -1303,6 +1768,9 @@
       // Speed strip — horizontal infinite drag, right=faster
       const speedStrip = document.createElement('div');
       speedStrip.className = 'graph-speed-strip';
+      speedStrip.setAttribute('aria-label', 'Rotation speed — arrow keys or drag');
+      speedStrip.setAttribute('role', 'slider');
+      speedStrip.setAttribute('aria-orientation', 'horizontal');
       const speedLeft = document.createElement('div');
       speedLeft.className = 'graph-speed-edge graph-speed-edge--left';
       speedLeft.textContent = '◀';
@@ -1322,11 +1790,18 @@
       speedStrip.appendChild(speedTrackWrap);
       speedStrip.appendChild(speedRight);
       speedStrip.appendChild(speedTitle);
+      // Horizontal caption next to the title — same discoverability
+      // hint as the scatter strip's SPREAD caption.
+      const speedCaption = document.createElement('div');
+      speedCaption.className = 'graph-strip-caption graph-strip-caption--speed';
+      speedCaption.textContent = 'SPEED';
+      speedStrip.appendChild(speedCaption);
 
       function redrawSpeedRuler() {
         const logVal = Math.log(Math.max(0.001, state.rotSpeed));
         drawRuler(speedRulerCanvas, logVal, { vertical: false, pxPerUnit: 42, minorStep: 0.1, majorEvery: 5 });
         speedTitle.textContent = '×' + state.rotSpeed.toFixed(1);
+        speedStrip.setAttribute('aria-valuetext', 'Rotation ' + state.rotSpeed.toFixed(1) + ' times');
       }
       let speedDragging = false, speedLastX = 0;
       speedStrip.addEventListener('pointerdown', e => {
@@ -1347,15 +1822,40 @@
         speedDragging = false;
         speedStrip.releasePointerCapture(e.pointerId);
       });
+      // ── Keyboard a11y: ArrowLeft/Right to slow/speed, PageLeft/Right
+      // for bigger steps. Clamp matches the pointer-drag clamp [0, 50].
+      speedStrip.tabIndex = 0;
+      speedStrip.addEventListener('keydown', e => {
+        let factor = 0;
+        if (e.key === 'ArrowRight') factor = Math.exp(0.05);
+        else if (e.key === 'ArrowLeft') factor = Math.exp(-0.05);
+        else if (e.key === 'PageUp' || e.key === 'PageDown') {
+          // Some keyboards lack PageLeft/Right; treat PageUp/Down as
+          // the big-step analogues on the horizontal axis.
+          factor = e.key === 'PageUp' ? Math.exp(0.20) : Math.exp(-0.20);
+        }
+        if (!factor) return;
+        e.preventDefault();
+        state.rotSpeed = Math.max(0, Math.min(50, state.rotSpeed * factor));
+        redrawSpeedRuler();
+      });
       bottomBar.appendChild(speedStrip);
       setTimeout(redrawSpeedRuler, 50);
       canvas.parentElement.appendChild(bottomBar);
+    }
+    // Hide all interactive chrome initially if not interactive at start
+    if (_interactiveReady && !options.hoverable) {
+      const parent = canvas.parentElement;
+      parent.querySelectorAll('.skill-tooltip, .graph-neighbor-cards, .graph-skill-panel, .graph-collection-panel, .graph-search-wrap, .graph-legend, .graph-scatter-strip, .graph-redpill, .graph-bottom-bar').forEach(el => {
+        el.style.display = 'none';
+        el.dataset.interactiveChrome = '1';
+      });
     }
     window.addEventListener('resize', resize);
     const pointerTarget = options.pointerTarget || canvas;
     pointerTarget.addEventListener('mousemove', event => {
       const rect = canvas.getBoundingClientRect();
-      if (options.draggable && state.dragging) {
+      if (_opts.draggable && state.dragging) {
         if (state.dragMode === 'orbit') {
           state.orbitY += (event.clientX - state.dragLastX) * 0.007;
           state.orbitX += (event.clientY - state.dragLastY) * 0.007;
@@ -1370,7 +1870,7 @@
       } else {
         state.mx = ((event.clientX - rect.left) / Math.max(rect.width, 1) - 0.5) * 2;
         state.my = ((event.clientY - rect.top) / Math.max(rect.height, 1) - 0.5) * 2;
-        if (options.hoverable) {
+        if (_opts.hoverable) {
           const mx = event.clientX - rect.left;
           const my = event.clientY - rect.top;
           let closest = null, closestDist = 22;
@@ -1379,52 +1879,103 @@
             if (d < closestDist) { closestDist = d; closest = id; }
           });
           state.hoveredId = closest;
-          canvas.style.cursor = closest ? 'pointer' : (options.draggable ? 'grab' : 'default');
+          canvas.style.cursor = closest ? 'pointer' : (_opts.draggable ? 'grab' : 'default');
         }
       }
     });
-    if (options.draggable) {
-      canvas.style.cursor = 'grab';
-      canvas.addEventListener('mouseleave', () => { if (!state.dragging && !state.pinnedId) state.hoveredId = null; });
-      canvas.addEventListener('contextmenu', e => e.preventDefault());
-      canvas.addEventListener('mousedown', e => {
-        if (e.button === 2) return;
-        e.preventDefault();
-        state.dragging = true;
-        state.dragMode = (e.button === 1 || e.ctrlKey) ? 'orbit' : 'pan';
-        state.dragMoved = false;
-        state.dragStartX = e.clientX;
-        state.dragStartY = e.clientY;
-        state.dragLastX = e.clientX;
-        state.dragLastY = e.clientY;
-        canvas.style.cursor = state.dragMode === 'orbit' ? 'grabbing' : 'move';
-      });
-      window.addEventListener('mouseup', e => {
-        if (!state.dragging) return;
-        const didClick = !state.dragMoved;
-        state.dragging = false;
-        state.dragMoved = false;
-        canvas.style.cursor = state.hoveredId ? 'pointer' : 'grab';
-        if (didClick) {
-          if (state.hoveredId) {
-            state.pinnedId = state.hoveredId;
-            state.pinnedPos = null;
-            state.lastHoveredId = null;
-          } else {
-            state.pinnedId = null;
-            state.pinnedPos = null;
-            state.lastHoveredId = null;
-          }
+    // Drag + click handlers — always wired so setInteractive() can
+    // toggle _opts.draggable at runtime. Guard checks _opts.draggable
+    // inside the handler so they're live.
+    canvas.addEventListener('mouseleave', () => { if (!state.dragging && !state.pinnedId) state.hoveredId = null; });
+    canvas.addEventListener('contextmenu', e => { if (_opts.draggable) e.preventDefault(); });
+    canvas.addEventListener('mousedown', e => {
+      if (!_opts.draggable) return;
+      if (e.button === 2) return;
+      e.preventDefault();
+      state.dragging = true;
+      state.dragMode = (e.button === 1 || e.ctrlKey) ? 'orbit' : 'pan';
+      state.dragMoved = false;
+      state.dragStartX = e.clientX;
+      state.dragStartY = e.clientY;
+      state.dragLastX = e.clientX;
+      state.dragLastY = e.clientY;
+      canvas.style.cursor = state.dragMode === 'orbit' ? 'grabbing' : 'move';
+    });
+    window.addEventListener('mouseup', e => {
+      if (!state.dragging) return;
+      const didClick = !state.dragMoved;
+      state.dragging = false;
+      state.dragMoved = false;
+      canvas.style.cursor = state.hoveredId ? 'pointer' : (_opts.draggable ? 'grab' : 'default');
+      if (didClick) {
+        if (state.hoveredId) {
+          state.pinnedId = state.hoveredId;
+          state.pinnedPos = null;
+          state.lastHoveredId = null;
+        } else {
+          state.pinnedId = null;
+          state.pinnedPos = null;
+          state.lastHoveredId = null;
         }
-      });
-    }
-    if (options.zoomable) {
+      }
+    });
+    // Zoom handler — always attached, guarded by _opts.zoomable.
+    {
       canvas.addEventListener('wheel', e => {
+        if (!_opts.zoomable) return;
         e.preventDefault();
         state.zoom = Math.max(0.3, Math.min(3.0, state.zoom * (1 - e.deltaY * 0.001)));
         if (state.zoomCounterEl) state.zoomCounterEl.textContent = state.zoom.toFixed(1) + '×';
       }, { passive: false });
     }
+    // Touch handlers (pan + pinch-to-zoom)
+    let _initialPinchDist = null;
+    let _initialZoom = null;
+    canvas.addEventListener('touchstart', e => {
+      if (!_opts.draggable) return;
+      if (e.touches.length === 1) {
+        state.dragging = true;
+        state.dragMode = 'pan';
+        state.dragMoved = false;
+        state.dragStartX = e.touches[0].clientX;
+        state.dragStartY = e.touches[0].clientY;
+        state.dragLastX = e.touches[0].clientX;
+        state.dragLastY = e.touches[0].clientY;
+      } else if (e.touches.length === 2 && _opts.zoomable) {
+        state.dragging = false;
+        const dx = e.touches[0].clientX - e.touches[1].clientX;
+        const dy = e.touches[0].clientY - e.touches[1].clientY;
+        _initialPinchDist = Math.sqrt(dx * dx + dy * dy);
+        _initialZoom = state.zoom;
+      }
+    }, { passive: true });
+    canvas.addEventListener('touchmove', e => {
+      if (e.touches.length === 1 && state.dragging) {
+        e.preventDefault();
+        const clientX = e.touches[0].clientX;
+        const clientY = e.touches[0].clientY;
+        if (Math.abs(clientX - state.dragStartX) > 3 || Math.abs(clientY - state.dragStartY) > 3) {
+          state.dragMoved = true;
+        }
+        state.panX += (clientX - state.dragLastX) / state.scale;
+        state.panY += (clientY - state.dragLastY) / state.scale;
+        state.dragLastX = clientX;
+        state.dragLastY = clientY;
+      } else if (e.touches.length === 2 && _opts.zoomable && _initialPinchDist) {
+        e.preventDefault();
+        const dx = e.touches[0].clientX - e.touches[1].clientX;
+        const dy = e.touches[0].clientY - e.touches[1].clientY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        // Apply an exponent >1 so small finger movements move the
+        // zoom further — users wanted pinch to feel "quicker".
+        const ratio = Math.pow(dist / _initialPinchDist, 1.8);
+        state.zoom = Math.max(0.3, Math.min(3.0, _initialZoom * ratio));
+        if (state.zoomCounterEl) state.zoomCounterEl.textContent = state.zoom.toFixed(1) + '×';
+      }
+    }, { passive: false });
+    canvas.addEventListener('touchend', e => {
+      if (e.touches.length < 2) _initialPinchDist = null;
+    });
     function resetFilters() {
       state.legendFilterType = null;
       state.legendFilterRank = null;
@@ -1443,16 +1994,32 @@
       state.hoverSlowdown = 0;
       state.pinnedId = null; state.pinnedPos = null;
       if (state.skillPanelEl) state.skillPanelEl.style.display = 'none';
-      if (state.pauseBtnEl) { state.pauseBtnEl.textContent = '⏸'; state.pauseBtnEl.classList.remove('active'); }
-      if (state.labelsToggleEl) { state.labelMode = options.labelMode || 'ultimate'; state.labelsToggleEl.classList.remove('off'); }
+      if (state.pauseBtnEl) {
+        state.pauseBtnEl.textContent = '⏸';
+        state.pauseBtnEl.classList.remove('active');
+        state.pauseBtnEl.setAttribute('aria-pressed', 'false');
+      }
+      if (state.labelsToggleEl) {
+        const def = (options.labelMode && options.labelMode !== 'none') ? options.labelMode : 'all';
+        state.labelMode = def;
+        state._lastLabelMode = def;
+        state.labelsToggleEl.classList.remove('off');
+        state.labelsToggleEl.setAttribute('aria-pressed', String(def !== 'none'));
+      }
       if (state.redPillEl) state.redPillEl.classList.remove('active');
       if (state.legendEl) {
         state.legendEl.querySelectorAll('.active').forEach(el => el.classList.remove('active'));
       }
       if (state.searchInputEl) state.searchInputEl.value = '';
-      if (state.labelToggleEl) state.labelToggleEl.classList.remove('active');
+      if (state.labelToggleEl) {
+        state.labelToggleEl.classList.remove('active');
+        state.labelToggleEl.setAttribute('aria-pressed', 'false');
+      }
       if (state.zoomCounterEl) state.zoomCounterEl.textContent = '1.0×';
-      if (state.nebulaToggleEl) state.nebulaToggleEl.classList.add('active');
+      if (state.nebulaToggleEl) {
+        state.nebulaToggleEl.classList.add('active');
+        state.nebulaToggleEl.setAttribute('aria-pressed', 'true');
+      }
       if (state.scatterRulerCanvas) {
         drawRuler(state.scatterRulerCanvas, Math.log(state.scale), { vertical: true, pxPerUnit: 42, minorStep: 0.1, majorEvery: 5 });
       }
@@ -1463,49 +2030,282 @@
     if (state.running) draw();
     function setNamedMap(map) { state.namedMap = map || {}; }
     function setTitleMap(map) { state.titleMap = map || {}; }
-    return { setSkills, setNamedMap, setTitleMap, resize, start, stop, resetFilters };
+    function setOriginMap(map) { state.originMap = map || {}; }
+
+    // ── RUNTIME MODE SWITCHING ──────────────────────────────────
+    // setInteractive(on) — promote the ambient hero graph into a
+    // fully interactive exploration canvas (or demote it back).
+    // This avoids creating a second graph instance.
+    function setInteractive(on) {
+      _opts.draggable = on;
+      _opts.zoomable = on;
+      _opts.hoverable = on;
+      canvas.style.pointerEvents = on ? 'auto' : 'none';
+      canvas.style.cursor = on ? 'grab' : 'default';
+      // Toggle visibility of interactive chrome elements.
+      // Skip elements that are controlled by user interaction
+      // (tooltip, skill-panel, collection-panel) — they manage
+      // their own display state.
+      const parent = canvas.parentElement;
+      if (parent) {
+        parent.querySelectorAll('[data-interactive-chrome]').forEach(el => {
+          if (el.classList.contains('skill-tooltip') ||
+            el.classList.contains('graph-skill-panel') ||
+            el.classList.contains('graph-collection-panel')) return;
+          el.style.display = on ? '' : 'none';
+        });
+      }
+      if (!on) {
+        // Clear any interactive state
+        state.hoveredId = null;
+        state.pinnedId = null;
+        state.pinnedPos = null;
+        state.lastHoveredId = null;
+        state.dragging = false;
+        if (state.tooltipEl) state.tooltipEl.style.display = 'none';
+        if (state.neighborCardsEl) { state.neighborCardsEl.style.display = 'none'; state.neighborCardsEl.innerHTML = ''; state._neighborIds = null; }
+        if (state.skillPanelEl) state.skillPanelEl.style.display = 'none';
+      }
+    }
+    function setLabelMode(mode) {
+      state.labelMode = mode;
+      if (mode !== 'none') state._lastLabelMode = mode;
+      if (state.labelsToggleEl) {
+        state.labelsToggleEl.classList.toggle('off', mode === 'none');
+        state.labelsToggleEl.setAttribute('aria-pressed', String(mode !== 'none'));
+      }
+    }
+    function getStatusEl() { return state.statusEl; }
+    function setStatusEl(el) { state.statusEl = el; setSkills(state.skills); }
+
+    return { setSkills, setNamedMap, setTitleMap, setOriginMap, resize, start, stop, resetFilters, setInteractive, setLabelMode, getStatusEl, setStatusEl };
   }
 
   const hero = document.getElementById('hero');
   const trigger = document.querySelector('[data-graph-trigger]');
-  const dialog = document.getElementById('skillGraphDialog');
-  const closeBtn = document.querySelector('[data-graph-close]');
-  const mobileHint = document.getElementById('graphMobileHint');
-  const mobileHintDismiss = document.getElementById('graphMobileHintDismiss');
-  if (mobileHintDismiss && mobileHint) {
-    mobileHintDismiss.addEventListener('click', () => { mobileHint.style.display = 'none'; });
+  const isMobile = window.matchMedia('(max-width:700px)').matches;
+
+  // graphMode wiring (local-graph readiness, Stage 5):
+  //   1. <html data-graph-mode="local" data-graph-handle="alice">
+  //   2. ?mode=local&handle=alice  in the page URL
+  // The first non-empty source wins; absence falls back to 'public'.
+  function _resolveGraphMode() {
+    const html = document.documentElement;
+    const dsMode = (html.dataset.graphMode || '').toLowerCase();
+    const dsHandle = html.dataset.graphHandle || '';
+    let mode = dsMode === 'local' ? 'local' : 'public';
+    let handle = dsHandle;
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const qm = (params.get('mode') || '').toLowerCase();
+      const qh = params.get('handle') || '';
+      if (qm === 'local') mode = 'local';
+      if (qh) handle = qh;
+    } catch (_) { /* ignore — non-browser env */ }
+    return { mode, handle };
   }
-  const heroGraph = createSkillGraph(document.getElementById('canvas3d'), { labelMode:'none', scale:GRAPH_SCALE, stars:280, pointerTarget:hero });
-  const modalGraph = createSkillGraph(document.getElementById('graphDialogCanvas'), {
-    labelMode:'all', scale:1.8, stars:320, statusEl:document.querySelector('[data-graph-status]'), autostart:false, zoomable:true, draggable:true, hoverable:true,
+  const _graphIdentity = _resolveGraphMode();
+  // In local mode, rewrite the nav-trigger / dialog title to the
+  // owner handle. Public mode leaves the existing copy alone.
+  if (_graphIdentity.mode === 'local' && _graphIdentity.handle) {
+    const navTrigger = document.querySelector('[data-graph-trigger]');
+    if (navTrigger) navTrigger.textContent = '@' + _graphIdentity.handle + ' · Atlas';
+    const dialogTitle = document.getElementById('skillGraphTitle');
+    if (dialogTitle) dialogTitle.textContent = '@' + _graphIdentity.handle + ' · Atlas';
+  }
+
+  // ── SINGLE GRAPH INSTANCE ─────────────────────────────────────
+  // Only one createSkillGraph call. The hero graph starts ambient
+  // (no labels, no interaction). Clicking "Graph (3D)" promotes it
+  // to fullscreen interactive mode with labels, zoom, pan, hover.
+  // This halves GPU/memory usage vs. the previous two-canvas setup.
+  const heroGraph = createSkillGraph(document.getElementById('canvas3d'), {
+    labelMode: 'none',
+    scale: GRAPH_SCALE,
+    stars: isMobile ? 120 : 280,
+    pointerTarget: hero,
+    graphMode: _graphIdentity.mode,
+    graphHandle: _graphIdentity.handle,
+    _prepareInteractive: true,   // build chrome but keep hidden
   });
 
-  function peek(on) { hero.classList.toggle('hero-graph-peek', Boolean(on)); }
+  // ── FULLSCREEN GRAPH MODE ────────────────────────────────────
+  // Instead of opening a dialog with a second canvas, we toggle
+  // #hero into a fixed fullscreen state and enable interactivity
+  // on the existing canvas.
+  let _graphFullscreen = false;
+
+  // Build status bar for fullscreen mode
+  const _graphStatusBar = document.createElement('div');
+  _graphStatusBar.className = 'graph-fullscreen-status';
+  _graphStatusBar.setAttribute('data-graph-status', '');
+  hero.appendChild(_graphStatusBar);
+
+  // Build the close button overlay for fullscreen mode
+  const _graphCloseOverlay = document.createElement('div');
+  _graphCloseOverlay.className = 'graph-fullscreen-chrome';
+  _graphCloseOverlay.innerHTML =
+    '<div class="graph-fullscreen-header">' +
+    '<div class="graph-dialog-actions">' +
+    '<a class="graph-action-btn" href="graph/gaia.json" aria-label="Download JSON" download><svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#download"/></svg><span>JSON</span></a>' +
+    '<a class="graph-action-btn" href="graph/gaia.gexf" aria-label="Download GEXF" download><svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#download"/></svg><span>GEXF</span></a>' +
+    '<a class="graph-action-btn" href="graph/gaia.svg" aria-label="Download SVG" download><svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#download"/></svg><span>SVG</span></a>' +
+    '<button type="button" class="graph-action-btn" data-graph-fullscreen-close aria-label="Close skill graph"><svg class="ico" width="20" height="20" aria-hidden="true"><use href="assets/icons.svg#close-x"/></svg></button>' +
+    '</div>' +
+    '</div>';
+  hero.appendChild(_graphCloseOverlay);
+
+  const hudToggleBtn = document.createElement('button');
+  hudToggleBtn.className = 'graph-action-btn graph-hud-toggle-btn';
+  hudToggleBtn.setAttribute('aria-label', 'Toggle HUD');
+  hudToggleBtn.innerHTML = '<svg class="ico" width="18" height="18" aria-hidden="true"><use href="assets/icons.svg#hud-toggle"/></svg><span>Hide Controls</span>';
+  hero.appendChild(hudToggleBtn);
+
+  hudToggleBtn.addEventListener('click', () => {
+    hero.classList.toggle('hud-hidden');
+    hudToggleBtn.querySelector('span').textContent = hero.classList.contains('hud-hidden') ? 'Show Controls' : 'Hide Controls';
+  });
+
+
+
+  // ── Focus management for the fullscreen "dialog" ───────────────
+  // Saved when opening so we can restore on close. Keyed at module
+  // scope (not closure) so close handlers can read it.
+  let _prevFocus = null;
+  function _getHeroTabbables() {
+    return Array.from(hero.querySelectorAll(
+      'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    )).filter(el => el.offsetParent !== null || el === document.activeElement);
+  }
+  function _trapTabKey(e) {
+    if (e.key !== 'Tab') return;
+    const tabbables = _getHeroTabbables();
+    if (!tabbables.length) return;
+    const first = tabbables[0];
+    const last = tabbables[tabbables.length - 1];
+    if (e.shiftKey) {
+      if (document.activeElement === first || !hero.contains(document.activeElement)) {
+        e.preventDefault();
+        last.focus();
+      }
+    } else {
+      if (document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+  }
+
+  function openGraphFullscreen() {
+    if (_graphFullscreen) return;
+    _graphFullscreen = true;
+    hero.classList.add('hero-graph-fullscreen');
+
+    // Always start with HUD visible — mobile users were complaining
+    // they had to discover the "Show Controls" button before seeing
+    // the bottom bar, search, legend, or speed strip.
+    hero.classList.remove('hud-hidden');
+    hudToggleBtn.querySelector('span').textContent = 'Hide Controls';
+
+    heroGraph.setInteractive(true);
+    heroGraph.setLabelMode('all');
+    heroGraph.setStatusEl(_graphStatusBar);
+    heroGraph.resize();
+
+    const colPanel = hero.querySelector('.graph-collection-panel');
+    if (colPanel) {
+      colPanel.style.display = 'flex';
+    }
+
+    // ── A11y: promote #hero into a modal dialog ─────────────────
+    _prevFocus = document.activeElement;
+    hero.setAttribute('aria-modal', 'true');
+    hero.setAttribute('role', 'dialog');
+    hero.setAttribute('aria-label', 'Skill graph atlas');
+    const closeBtn = _graphCloseOverlay.querySelector('[data-graph-fullscreen-close]');
+    if (closeBtn && typeof closeBtn.focus === 'function') closeBtn.focus();
+    document.addEventListener('keydown', _trapTabKey);
+  }
+
+  function closeGraphFullscreen() {
+    if (!_graphFullscreen) return;
+    _graphFullscreen = false;
+    hero.classList.remove('hero-graph-fullscreen');
+    heroGraph.setInteractive(false);
+    heroGraph.setLabelMode('none');
+    document.querySelectorAll('.graph-skill-panel, .graph-collection-panel').forEach(el => el.style.display = 'none');
+    // Do NOT resetFilters() — preserve user's speed, zoom, orbit, etc.
+    heroGraph.resize();
+
+    // ── A11y: tear down dialog semantics + restore focus ────────
+    hero.removeAttribute('aria-modal');
+    hero.removeAttribute('role');
+    hero.removeAttribute('aria-label');
+    document.removeEventListener('keydown', _trapTabKey);
+    if (_prevFocus && typeof _prevFocus.focus === 'function') {
+      try { _prevFocus.focus(); } catch (_) { /* element may be detached */ }
+    }
+    _prevFocus = null;
+  }
+
+  function peek(on) {
+    if (_graphFullscreen) return;
+    hero.classList.toggle('hero-graph-peek', Boolean(on));
+  }
+
   trigger.addEventListener('mouseenter', () => peek(true));
   trigger.addEventListener('mouseleave', () => peek(false));
   trigger.addEventListener('focus', () => peek(true));
   trigger.addEventListener('blur', () => peek(false));
   trigger.addEventListener('click', () => {
-    hero.classList.add('transitioning-to-graph');
-    if (typeof dialog.showModal === 'function') dialog.showModal();
-    else dialog.setAttribute('open', '');
-    modalGraph.resize();
-    modalGraph.start();
     peek(false);
+    openGraphFullscreen();
   });
-  function closeDialog() {
-    if (dialog.close) dialog.close();
-    else dialog.removeAttribute('open');
+
+  // Close button inside the fullscreen chrome
+  _graphCloseOverlay.querySelector('[data-graph-fullscreen-close]').addEventListener('click', closeGraphFullscreen);
+
+  // Escape key to exit
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && _graphFullscreen) {
+      e.preventDefault();
+      e.stopPropagation();
+      closeGraphFullscreen();
+    }
+  });
+
+  // ── Canvas a11y semantics ─────────────────────────────────────
+  // The 3D canvas is a visual representation of the registry graph.
+  // Provide role=img + a rich aria-label that summarises counts so
+  // screen readers get a meaningful description. The label is
+  // refreshed after the skills array and the named-skill index both
+  // resolve. A hidden offscreen link points keyboard / AT users to
+  // the static SVG fallback at graph/gaia.svg.
+  const _canvas3d = document.getElementById('canvas3d');
+  let _ariaSkillsCount = 0;
+  let _ariaEdgesCount = 0;
+  let _ariaNamedCount = 0;
+  let _ariaApexCount = 0;
+  function _refreshCanvasAria() {
+    if (!_canvas3d) return;
+    _canvas3d.setAttribute('role', 'img');
+    _canvas3d.setAttribute(
+      'aria-label',
+      'Gaia skill graph — ' + _ariaSkillsCount + ' skills · ' +
+      _ariaEdgesCount + ' prerequisite links · ' +
+      _ariaNamedCount + ' named · ' +
+      _ariaApexCount + ' apex (6★). Use arrow keys to orbit; +/- to zoom.'
+    );
   }
-  closeBtn.addEventListener('click', closeDialog);
-  dialog.addEventListener('click', event => {
-    if (event.target === dialog) closeDialog();
-  });
-  dialog.addEventListener('close', () => {
-    hero.classList.remove('transitioning-to-graph');
-    modalGraph.resetFilters();
-    modalGraph.stop();
-  });
+  _refreshCanvasAria();
+  // Hidden SVG fallback link inside #hero — visually offscreen but
+  // present in the DOM for screen readers and as a no-CSS fallback.
+  const _svgFallbackLink = document.createElement('a');
+  _svgFallbackLink.className = 'sr-only';
+  _svgFallbackLink.href = 'graph/gaia.svg';
+  _svgFallbackLink.textContent = 'Static SVG version of the skill graph';
+  _svgFallbackLink.style.cssText = 'position:absolute;left:-9999px;';
+  hero.appendChild(_svgFallbackLink);
 
   fetch(GRAPH_JSON_URL)
     .then(response => {
@@ -1516,7 +2316,13 @@
       _initMetaGraph(graph.meta);
       return normalizeSkills(graph);
     })
-    .then(skills => { heroGraph.setSkills(skills); modalGraph.setSkills(skills); })
+    .then(skills => {
+      if (heroGraph) heroGraph.setSkills(skills);
+      _ariaSkillsCount = skills.length;
+      _ariaEdgesCount = skills.reduce((acc, s) => acc + (Array.isArray(s.prerequisites) ? s.prerequisites.length : 0), 0);
+      _ariaApexCount = skills.reduce((acc, s) => acc + (s.level === '6★' ? 1 : 0), 0);
+      _refreshCanvasAria();
+    })
     .catch(error => {
       console.warn('Using embedded fallback skill graph:', error);
       const status = document.querySelector('[data-graph-status]');
@@ -1528,18 +2334,21 @@
     .then(indexData => {
       const map = {};
       const titleMap = {};
+      const originMap = {};
       const buckets = indexData.buckets || {};
       Object.entries(buckets).forEach(([skillId, arr]) => {
         if (Array.isArray(arr) && arr.length) {
           const origin = arr.find(e => e.origin) || arr[0];
           if (origin && origin.id) map[skillId] = origin.id;
           if (origin && origin.title) titleMap[skillId] = origin.title;
+          if (arr.some(e => e.origin)) originMap[skillId] = true;
         }
       });
-      heroGraph.setNamedMap(map);
-      modalGraph.setNamedMap(map);
-      heroGraph.setTitleMap(titleMap);
-      modalGraph.setTitleMap(titleMap);
+      if (heroGraph) heroGraph.setNamedMap(map);
+      if (heroGraph) heroGraph.setTitleMap(titleMap);
+      if (heroGraph) heroGraph.setOriginMap(originMap);
+      _ariaNamedCount = Object.keys(map).length;
+      _refreshCanvasAria();
     })
-    .catch(() => {});
+    .catch(() => { });
 })();

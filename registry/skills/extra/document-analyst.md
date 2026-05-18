@@ -1,4 +1,4 @@
-# Extra Skill: /document-analyst  [3★ · Evolved]
+# /document-analyst  [3★ · Evolved]
 **ID:** document-analyst  
 **Type:** Extra Skill  
 **Level:** 3★  

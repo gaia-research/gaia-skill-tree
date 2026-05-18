@@ -1,4 +1,4 @@
-# Extra Skill: /document-digitization  [3★ · Evolved]
+# /document-digitization  [3★ · Evolved]
 **ID:** document-digitization  
 **Type:** Extra Skill  
 **Level:** 3★  

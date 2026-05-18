@@ -25,5 +25,5 @@ def test_skill_explorer_adds_demerits_to_update_timeline():
 
     assert "function demeritTimelineEvents(generic)" in js
     assert "Demerit noted: " in js
-    assert "withDemeritTimeline(evts, generic)" in js
+    assert "mergeTimeline(evts, generic)" in js
     assert "renderTimeline(ns, generic)" in js

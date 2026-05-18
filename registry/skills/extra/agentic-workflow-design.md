@@ -1,4 +1,4 @@
-# Extra Skill: /agentic-workflow-design  [5★ · Transcendent]
+# /agentic-workflow-design  [5★ · Transcendent]
 **ID:** agentic-workflow-design  
 **Type:** Extra Skill  
 **Level:** 5★  

@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="docs/assets/marks/diamond-seal.svg" alt="The Diamond Seal" width="120" />
+</div>
+
 # Gaia - AI Agent Skill Registry
 
 > The open, evidence-backed skill graph for AI agents: collect, evolve, and fuse capabilities into something legendary.
@@ -8,7 +12,7 @@
 
 ---
 
-## The Tree
+## The Registry
 
 Every AI agent capability exists somewhere on this graph. Skills start at the foundation tier, awaken through evidence, evolve through use, and fuse into things greater than the sum of their parts.
 
@@ -39,11 +43,11 @@ Personal renders: generated-output/tree.md and generated-output/tree.html
 ```
 
 > [!TIP]
-> **New here?** The interactive tutorial at **[gaia.tiongson.co](https://gaia.tiongson.co/)** covers everything visually: skill tiers, the rank system, the full get-started workflow, and copy-paste commands.
+> **New here?** The interactive tutorial at **[gaia.tiongson.co](https://gaia.tiongson.co/)** covers everything visually: skill tiers, the stars axis, The Initiate's Rite, and copy-paste commands.
 
 ---
 
-## Skill Tiers & Ranks
+## Skill Tiers & Stars
 
 | Symbol | Tier | Levels | Evidence floor |
 |--------|------|--------|---------------|
@@ -51,14 +55,14 @@ Personal renders: generated-output/tree.md and generated-output/tree.html
 | ◇ Extra | Emerges from combining 2+ basic skills | 2★ (C) Named → 3★ (B) Evolved → 4★ (A) Hardened | C → B → B/A |
 | ◆ Ultimate | High-complexity emergent capability | 5★ (S) Transcendent → 6★ (SS) Transcendent ★ | A → A + peer review |
 
-Skills level up through evidence, not declaration. Each demerit lowers effective level by one (floored at 1★, valid for 2★+ only).
+Skills rank up through evidence, not declaration. Each demerit demotes the skill by one star (floored at 1★, valid for 2★+ only).
 
 ---
 
 ## Install
 
 <!-- gaia:version-start -->
-Current Gaia CLI version: `3.11.4`.
+Current Gaia CLI version: `3.11.12`.
 
 Python install:
 
@@ -105,13 +109,13 @@ gaia update
 
 > **Note:** Semantic search users must manually update embeddings by running `pip install gaia-cli[embeddings] --upgrade` if required. `gaia update` alone handles the core tools in seconds.
 
-## Quickstart
+## The Initiate's Rite
 
 ```bash
 gaia init --user your-username
 gaia update          # pull latest registry + CLI
 gaia scan            # detect skills, render tree
-gaia appraise        # inspect a skill card
+gaia appraise        # inspect a skill plaque
 gaia promote web-search   # promote scan-approved candidates
 gaia push --dry-run  # preview intake submission
 gaia push            # submit for maintainer review
@@ -243,7 +247,7 @@ Common ways to help:
 - Review draft skills for clarity, overlap, and evidence quality.
 - Turn accepted reviews into concrete PRs (new skill, fusion, or reclassification).
 
-Quickstart contribution steps: [CONTRIBUTING.md](CONTRIBUTING.md).
+Contribution steps: [CONTRIBUTING.md](CONTRIBUTING.md).
 Full policy/reviewer guidance: <https://github.com/mbtiongson1/gaia-skill-tree/wiki> (repo: <https://github.com/mbtiongson1/gaia-skill-tree.wiki.git>).
 
 ## Contributors

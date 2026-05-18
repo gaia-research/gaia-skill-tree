@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en" data-icon-base="../assets/icons.svg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upgrade Path Flowchart — anthropic/skill-creator — Gaia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/plaque.css">
+  <script src="../js/icons.js"></script>
+  <script src="../js/rank-badge.js"></script>
+  <script src="../js/plaque.js"></script>
+
+  <style>
+    body {
+      background: var(--bg);
+      color: var(--text);
+      padding: 4rem 1.5rem 6rem;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    /* ─── Page header ─── */
+    .page-header {
+      margin-bottom: 3rem;
+    }
+
+    .page-eyebrow {
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: .6rem;
+    }
+
+    .page-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.7rem, 3.5vw, 2.2rem);
+      font-weight: 600;
+      line-height: 1.2;
+      margin-bottom: .6rem;
+    }
+
+    .page-desc {
+      font-family: var(--font-body);
+      color: var(--muted);
+      font-size: .95rem;
+      line-height: 1.65;
+      max-width: 64ch;
+    }
+
+    .page-desc code {
+      font-family: var(--font-mono);
+      font-size: .85em;
+      color: var(--text);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: .1em .4em;
+    }
+
+    /* ─── Component frame ─── */
+    .component-frame {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .component-label {
+      font-family: var(--font-mono);
+      font-size: .68rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: .7rem 1.25rem;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .component-inner {
+      padding: 2rem 1.5rem;
+      background: var(--bg);
+    }
+
+    /* ─── Upgrade path header (mirrors skill-explorer.js output) ─── */
+    .se-flow-h {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      font-family: var(--font-mono);
+      font-size: .78rem;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.25rem;
+    }
+
+    .se-fusion-label {
+      font-family: var(--font-body);
+      font-size: .85rem;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+
+    /* ─── Flowchart wrapper ─── */
+    .se-flowchart-wrap {
+      position: relative;
+      overflow: auto;
+      min-height: 320px;
+    }
+
+    .se-flowchart-rows {
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 72px;
+      align-items: center;
+      padding: 24px 0 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .se-flowchart-row {
+      display: flex;
+      gap: 32px;
+      justify-content: center;
+      flex-wrap: wrap;
+      position: relative;
+    }
+
+    .se-flowchart-svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ─── Nodes ─── */
+    .git-node {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 2;
+      cursor: pointer;
+    }
+
+    .git-commit-dot {
+      width: var(--dot-size, 16px);
+      height: var(--dot-size, 16px);
+      border-radius: 50%;
+      background: var(--bg);
+      border: 2.5px solid var(--dot-color, rgba(148,163,184,.4));
+      position: relative;
+      transition: transform .22s cubic-bezier(.25,1,.5,1), box-shadow .22s;
+      flex-shrink: 0;
+    }
+
+    .git-node:hover .git-commit-dot {
+      transform: scale(1.4);
+      box-shadow: 0 0 18px var(--dot-color, rgba(148,163,184,.3));
+    }
+
+    /* Tier-specific node vars */
+    .git-node[data-type="basic"]    { --dot-size: 14px; --dot-color: rgba(56,189,248,.7); }
+    .git-node[data-type="extra"]    { --dot-size: 17px; --dot-color: rgba(192,132,252,.75); }
+    .git-node[data-type="unique"]   { --dot-size: 19px; --dot-color: rgba(124,58,237,.8); }
+    .git-node[data-type="ultimate"] { --dot-size: 21px; --dot-color: rgba(245,158,11,.82); }
+
+    /* Resting glow */
+    .git-node[data-type="basic"] .git-commit-dot    { box-shadow: 0 0 8px rgba(56,189,248,.2); }
+    .git-node[data-type="extra"] .git-commit-dot    { box-shadow: 0 0 10px rgba(192,132,252,.25); }
+    .git-node[data-type="unique"] .git-commit-dot   { box-shadow: 0 0 12px rgba(124,58,237,.3); }
+    .git-node[data-type="ultimate"] .git-commit-dot { box-shadow: 0 0 14px rgba(245,158,11,.35); }
+
+    /* Current skill: brighter dot */
+    .git-node.git-node--main .git-commit-dot {
+      box-shadow: 0 0 18px var(--dot-color, rgba(148,163,184,.5)), 0 0 36px var(--dot-color, rgba(148,163,184,.2));
+    }
+
+    /* Hover-revealed cards — hidden, no plaque for samples */
+    .git-node .ns-dag-card,
+    .git-node .plaque--mini {
+      display: none;
+    }
+
+    /* Ghost nodes */
+    .git-node[data-ghost="true"] .git-commit-dot {
+      opacity: .35;
+      filter: grayscale(1) brightness(.65);
+    }
+
+    /* ─── Edge paths ─── */
+    .git-path {
+      fill: none;
+      stroke: rgba(148,163,184,.3);
+      stroke-width: 1px;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: .45;
+      transition: stroke-width .3s, opacity .3s, filter .3s;
+    }
+
+    .git-path[data-tier="apex"]     { stroke: rgba(255,255,255,.75);  stroke-width: 2px;   filter: drop-shadow(0 0 6px rgba(255,255,255,.4));  opacity: .6;  }
+    .git-path[data-tier="ultimate"] { stroke: rgba(245,158,11,.72);   stroke-width: 1.8px; filter: drop-shadow(0 0 5px rgba(245,158,11,.32));  opacity: .55; }
+    .git-path[data-tier="unique"]   { stroke: rgba(124,58,237,.67);   stroke-width: 1.6px; filter: drop-shadow(0 0 4px rgba(124,58,237,.28));  opacity: .5;  }
+    .git-path[data-tier="extra"]    { stroke: rgba(192,132,252,.62);  stroke-width: 1.4px; filter: drop-shadow(0 0 4px rgba(192,132,252,.22)); opacity: .48; }
+    .git-path[data-tier="basic"]    { stroke: rgba(56,189,248,.57);   stroke-width: 1.2px; filter: drop-shadow(0 0 3px rgba(56,189,248,.18));  opacity: .45; }
+
+    .git-path.active-path { opacity: 1; }
+    .git-path[data-tier="apex"].active-path     { stroke-width: 3.5px; filter: drop-shadow(0 0 14px rgba(255,255,255,.7));  }
+    .git-path[data-tier="ultimate"].active-path { stroke-width: 3px;   filter: drop-shadow(0 0 12px rgba(245,158,11,.65)); }
+    .git-path[data-tier="unique"].active-path   { stroke-width: 2.8px; filter: drop-shadow(0 0 11px rgba(124,58,237,.6));  }
+    .git-path[data-tier="extra"].active-path    { stroke-width: 2.6px; filter: drop-shadow(0 0 10px rgba(192,132,252,.55)); }
+    .git-path[data-tier="basic"].active-path    { stroke-width: 2.4px; filter: drop-shadow(0 0 9px rgba(56,189,248,.5));   }
+
+    /* ─── Callout footer ─── */
+    .callout {
+      margin-top: 2rem;
+      padding: 1.1rem 1.4rem;
+      background: linear-gradient(135deg, rgba(56,189,248,.05) 0%, rgba(192,132,252,.04) 100%);
+      border: 1px solid rgba(56,189,248,.15);
+      border-radius: 10px;
+    }
+
+    .callout p {
+      font-family: var(--font-body);
+      font-size: .88rem;
+      color: var(--muted);
+      line-height: 1.65;
+      margin: 0;
+    }
+
+    .callout code {
+      font-family: var(--font-mono);
+      font-size: .83em;
+      color: var(--text);
+    }
+
+    /* ─── Click selection state ─── */
+    .git-node.selected .git-commit-dot {
+      transform: scale(1.6);
+      z-index: 10;
+    }
+
+    /* ─── Dimmed paths when node selected ─── */
+    .git-path.dimmed {
+      opacity: 0.1;
+      filter: none;
+    }
+
+    /* ─── Downstream node labels ─── */
+    .dag-node-label {
+      position: absolute;
+      bottom: 100%;
+      margin-bottom: 8px;
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      white-space: nowrap;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: .3rem .6rem;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity .2s;
+    }
+
+    .dag-node-label-contrib {
+      color: #ef4444;
+      font-weight: 600;
+    }
+
+    .dag-node-label-name {
+      color: var(--text);
+    }
+
+    .git-node.show-label .dag-node-label {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="page-header">
+    <div class="page-eyebrow">Skill Explorer component — Stage 4c</div>
+    <h1 class="page-title">Upgrade Path &amp; Adjacent Skills</h1>
+    <p class="page-desc">
+      The upgrade-path flowchart lives inside every skill's detail panel in the
+      Skills Explorer on the main site. It renders a sub-graph of prerequisite
+      and derivative skills, tracing the ancestry upward and the learning path
+      forward. This sample uses <code>anthropic/skill-creator</code>
+      (<code>tool-creation</code>) as the subject.
+    </p>
+  </header>
+
+  <div class="component-frame">
+    <div class="component-label">
+      Rendered by <code>skill-explorer.js › renderFlowchart()</code> + <code>drawFlowEdges()</code>
+    </div>
+    <div class="component-inner">
+      <div id="se-upgrade"></div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p>
+      Click any node to lock its prerequisite chain. Node labels show the full
+      skill name with contributor in red. Ghost nodes (dimmed) have no named
+      implementation yet. Edge colors follow the source tier: cyan for Basic,
+      purple for Extra, gold for Ultimate.
+    </p>
+  </div>
+
+
+  <script>
+    var globalFlowState = {
+      selectedNode: null,
+      edges: [],
+      skillMap: {}
+    };
+
+    function esc(s) {
+      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function getTier(type, level) {
+      if (level && String(level).indexOf('6') !== -1) return 'apex';
+      var t = type || 'basic';
+      return ['ultimate','unique','extra','basic'].indexOf(t) !== -1 ? t : 'basic';
+    }
+
+    function drawFlowEdges(edges, wrap, svg) {
+      svg.innerHTML = '';
+      var wRect = wrap.getBoundingClientRect();
+
+      var _edges = edges;
+      window.highlightPaths = function(nodeId) {
+        document.querySelectorAll('.git-path').forEach(function(p) { p.classList.remove('active-path'); });
+        function trace(id) {
+          _edges.forEach(function(e) {
+            if (e.to === id) {
+              var p = document.getElementById('path-' + e.from + '-' + e.to);
+              if (p) p.classList.add('active-path');
+              trace(e.from);
+            }
+          });
+        }
+        trace(nodeId);
+      };
+      window.unhighlightPaths = function() {
+        if (!globalFlowState.selectedNode) {
+          document.querySelectorAll('.git-path').forEach(function(p) { p.classList.remove('active-path'); });
+        }
+      };
+
+      edges.forEach(function(e) {
+        var fromEl = wrap.querySelector('.git-node[data-id="' + e.from + '"]');
+        var toEl   = wrap.querySelector('.git-node[data-id="' + e.to + '"]');
+        if (!fromEl || !toEl) return;
+
+        var dotF = fromEl.querySelector('.git-commit-dot');
+        var dotT = toEl.querySelector('.git-commit-dot');
+        var fr = (dotF || fromEl).getBoundingClientRect();
+        var tr = (dotT || toEl).getBoundingClientRect();
+
+        var fx = fr.left + fr.width/2  - wRect.left + wrap.scrollLeft;
+        var fy = fr.top  + fr.height/2 - wRect.top  + wrap.scrollTop;
+        var tx = tr.left + tr.width/2  - wRect.left + wrap.scrollLeft;
+        var ty = tr.top  + tr.height/2 - wRect.top  + wrap.scrollTop;
+
+        var dy = ty - fy;
+        var dx = tx - fx;
+
+        // Organic S-curve: same formula as the redesigned drawFlowEdges in skill-explorer.js
+        var ctrl = Math.abs(dy) * 0.55 + Math.abs(dx) * 0.12;
+        var d = 'M' + fx.toFixed(1) + ',' + fy.toFixed(1)
+              + ' C' + fx.toFixed(1) + ',' + (fy + ctrl).toFixed(1)
+              + ' ' + tx.toFixed(1) + ',' + (ty - ctrl).toFixed(1)
+              + ' ' + tx.toFixed(1) + ',' + ty.toFixed(1);
+
+        var fromType  = fromEl.getAttribute('data-type') || 'basic';
+        var fromLevel = fromEl.getAttribute('data-level') || '';
+        var tier = getTier(fromType, fromLevel);
+
+        var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('id', 'path-' + e.from + '-' + e.to);
+        path.setAttribute('d', d);
+        path.setAttribute('class', 'git-path');
+        path.setAttribute('data-tier', tier);
+        svg.appendChild(path);
+      });
+    }
+
+    function getFlowRelatedNodes(nodeId, edges) {
+      var related = {};
+      related[nodeId] = true;
+
+      function traceUp(id) {
+        edges.forEach(function(e) {
+          if (e.to === id && !related[e.from]) {
+            related[e.from] = true;
+            traceUp(e.from);
+          }
+        });
+      }
+
+      function traceDown(id) {
+        edges.forEach(function(e) {
+          if (e.from === id && !related[e.to]) {
+            related[e.to] = true;
+            traceDown(e.to);
+          }
+        });
+      }
+
+      traceUp(nodeId);
+      traceDown(nodeId);
+      return related;
+    }
+
+    function selectFlowNode(nodeId) {
+      var related = getFlowRelatedNodes(nodeId, globalFlowState.edges);
+
+      document.querySelectorAll('.git-node.selected').forEach(function(n) { n.classList.remove('selected'); });
+      document.querySelectorAll('.git-node.show-label').forEach(function(n) { n.classList.remove('show-label'); });
+
+      var node = document.querySelector('.git-node[data-id="' + nodeId.replace(/"/g, '\\"') + '"]');
+      if (node) {
+        node.classList.add('selected');
+        globalFlowState.selectedNode = nodeId;
+        window.highlightPaths && window.highlightPaths(nodeId);
+        dimFlowUnrelatedPaths(nodeId, related);
+        showFlowDownstreamLabels(related);
+      }
+    }
+
+    function dimFlowUnrelatedPaths(nodeId, relatedNodes) {
+      document.querySelectorAll('.git-path').forEach(function(p) {
+        p.classList.remove('dimmed');
+      });
+
+      globalFlowState.edges.forEach(function(e) {
+        if (!relatedNodes[e.from] || !relatedNodes[e.to]) {
+          var pathId = 'path-' + e.from + '-' + e.to;
+          var p = document.getElementById(pathId);
+          if (p) p.classList.add('dimmed');
+        }
+      });
+    }
+
+    function showFlowDownstreamLabels(relatedNodes) {
+      Object.keys(relatedNodes).forEach(function(id) {
+        var node = document.querySelector('.git-node[data-id="' + id.replace(/"/g, '\\"') + '"]');
+        if (node) {
+          node.classList.add('show-label');
+        }
+      });
+    }
+
+    function renderUpgradePath(skillMap, namedBuckets) {
+      globalFlowState.skillMap = skillMap;
+      var TARGET_ID = 'anthropic/skill-creator';
+      var GENERIC_ID = 'tool-creation';
+      var el = document.getElementById('se-upgrade');
+
+      // Build the direct sub-graph: prerequisites + the skill + its derivatives
+      // (1 hop in each direction — matches what the skill explorer shows for this skill)
+      var generic = skillMap[GENERIC_ID];
+      if (!generic) { el.innerHTML = '<p style="color:var(--muted)">skill not found</p>'; return; }
+
+      var relatedIds = {};
+      relatedIds[GENERIC_ID] = true;
+      (generic.prerequisites || []).forEach(function(pid) { if (skillMap[pid]) relatedIds[pid] = true; });
+      (generic.derivatives   || []).forEach(function(did) { if (skillMap[did]) relatedIds[did] = true; });
+
+      // Assign depth: prerequisites depth 0, generic depth 1, derivatives depth 2
+      var depthMap = {};
+      (generic.prerequisites || []).forEach(function(pid) { depthMap[pid] = 0; });
+      depthMap[GENERIC_ID] = 1;
+      (generic.derivatives   || []).forEach(function(did) { depthMap[did] = 2; });
+
+      // Collect edges
+      var edges = [];
+      Object.keys(relatedIds).forEach(function(id) {
+        var s = skillMap[id];
+        (s.prerequisites || []).forEach(function(pid) {
+          if (relatedIds[pid]) edges.push({ from: pid, to: id });
+        });
+      });
+      globalFlowState.edges = edges;
+
+      // Build rank rows: depth 0 (bottom) → depth 2 (top)
+      var rows = { 0: [], 1: [], 2: [] };
+      Object.keys(relatedIds).forEach(function(id) {
+        var d = depthMap[id];
+        if (d !== undefined && rows[d]) rows[d].push(id);
+      });
+
+      var fusionHtml = (generic.prerequisites || []).length >= 2
+        ? '<div class="se-fusion-label">&#x2728; Fuses from ' + generic.prerequisites.length + ' prerequisites</div>'
+        : '';
+
+      function renderNode(id, isMain) {
+        var s = skillMap[id] || {};
+        var namedArr = namedBuckets[id] || [];
+        var ns = null;
+        // For the target skill, find the specific named impl
+        if (id === GENERIC_ID) {
+          ns = namedArr.find(function(n) { return n.id === TARGET_ID; }) || namedArr[0] || null;
+        } else {
+          ns = namedArr[0] || null;
+        }
+        var isGhost = !ns;
+        var type = (ns ? ns.type : null) || s.type || 'basic';
+        var level = (ns ? ns.level : null) || s.level || '';
+        var mainClass = isMain ? ' git-node--main' : '';
+        var colorVar = 'var(--tier-' + type + ', rgba(148,163,184,.5))';
+
+        // This sampler intentionally omits the plaque card — labels above the
+        // dot carry the slash name. See the earlier design decision.
+
+        // Prefer the slash-formatted named id for the label when available.
+        var labelSource = (ns && ns.id) ? ns.id : id;
+        var parts = labelSource.split('/');
+        var contrib = parts[0] || '';
+        var skillName = parts[1] || labelSource;
+        var labelHtml = '';
+        if (contrib && parts.length > 1) {
+          labelHtml = '<div class="dag-node-label"><span class="dag-node-label-contrib">' + esc(contrib) + '</span><span style="color:var(--muted)">/</span><span class="dag-node-label-name">' + esc(skillName) + '</span></div>';
+        } else {
+          labelHtml = '<div class="dag-node-label"><span class="dag-node-label-name">' + esc(labelSource) + '</span></div>';
+        }
+
+        return '<div class="git-node' + mainClass + '"'
+          + ' data-id="' + esc(id) + '"'
+          + ' data-type="' + esc(type) + '"'
+          + ' data-level="' + esc(level) + '"'
+          + ' data-ghost="' + isGhost + '"'
+          + ' onclick="window.selectFlowNode && window.selectFlowNode(\'' + id.replace(/'/g,"\\'") + '\')"'
+          + ' onmouseenter="!window.globalFlowState.selectedNode && window.highlightPaths&&window.highlightPaths(\'' + id.replace(/'/g,"\\'") + '\')"'
+          + ' onmouseleave="!window.globalFlowState.selectedNode && window.unhighlightPaths&&window.unhighlightPaths()"'
+          + '>'
+          + '<div class="git-commit-dot" style="--dot-color:' + colorVar + '"></div>'
+          + labelHtml
+          + '</div>';
+      }
+
+      var rowsHtml = [0, 1, 2].map(function(depth) {
+        var ids = rows[depth] || [];
+        if (!ids.length) return '';
+        var nodesHtml = ids.map(function(id) { return renderNode(id, id === GENERIC_ID); }).join('');
+        return '<div class="se-flowchart-row" data-depth="' + depth + '">' + nodesHtml + '</div>';
+      }).join('');
+
+      el.innerHTML = '<div class="se-flow-h">'
+        + '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" style="opacity:.6"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><circle cx="8" cy="8" r="2.5" fill="currentColor"/></svg>'
+        + ' Upgrade Path &amp; Adjacent Skills'
+        + '</div>'
+        + fusionHtml
+        + '<div class="se-flowchart-wrap" id="seFlowWrap" style="position:relative;">'
+        + '<div class="se-flowchart-rows">' + rowsHtml + '</div>'
+        + '<svg class="se-flowchart-svg" id="seFlowSvg"></svg>'
+        + '</div>';
+
+      if (!window._flowChartClickHandlerAdded) {
+        document.addEventListener('click', function(e) {
+          var clickedNode = e.target.closest('.git-node');
+          if (!clickedNode) {
+            globalFlowState.selectedNode = null;
+            document.querySelectorAll('.git-node.selected').forEach(function(n) { n.classList.remove('selected'); });
+            document.querySelectorAll('.git-node.show-label').forEach(function(n) { n.classList.remove('show-label'); });
+            document.querySelectorAll('.git-path.dimmed').forEach(function(p) { p.classList.remove('dimmed'); });
+            window.unhighlightPaths && window.unhighlightPaths();
+          }
+        });
+        window._flowChartClickHandlerAdded = true;
+      }
+
+      setTimeout(function() {
+        var wrap = document.getElementById('seFlowWrap');
+        var svg  = document.getElementById('seFlowSvg');
+        if (wrap && svg) drawFlowEdges(edges, wrap, svg);
+      }, 80);
+    }
+
+    window.selectFlowNode = selectFlowNode;
+    window.globalFlowState = globalFlowState;
+
+    Promise.all([
+      fetch('../graph/gaia.json').then(function(r) { return r.json(); }),
+      fetch('../graph/named/index.json').then(function(r) { return r.json(); })
+    ]).then(function(results) {
+      var graph = results[0];
+      var index = results[1];
+
+      var skillMap = {};
+      (graph.skills || []).forEach(function(s) { skillMap[s.id] = s; });
+
+      var namedBuckets = index.buckets || {};
+
+      renderUpgradePath(skillMap, namedBuckets);
+    });
+  </script>
+</body>
+</html>

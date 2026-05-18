@@ -1,0 +1,836 @@
+(function () {
+  var GRAPH_URL = 'graph/gaia.json';
+  var NAMED_URL = 'graph/named/index.json';
+
+  var TYPE_GLYPH = {
+    ultimate: '◆',
+    unique: '◉',
+    extra: '◇',
+    basic: '○',
+  };
+  var TYPE_COLOR_VAR = {
+    ultimate: 'var(--apex-gold)',
+    unique: 'var(--unique)',
+    extra: 'var(--extra)',
+    basic: 'var(--basic)',
+  };
+
+  function esc(str) {
+    return String(str == null ? '' : str)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function jsStr(str) {
+    return String(str == null ? '' : str).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+  }
+
+  function formatDate(isoStr) {
+    if (!isoStr) return '';
+    var d = new Date(isoStr);
+    if (isNaN(d.getTime())) return '';
+    var months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    return d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+  }
+
+  function levelNum(lvl) {
+    if (!lvl) return 0;
+    var n = parseInt(String(lvl).replace(/[^\d]/g, ''));
+    return isNaN(n) ? 0 : n;
+  }
+
+  // Stage 2 — stars are rendered by the shared .rank-badge component.
+  // window.rankBadge(level, { variant: 'stars' }) returns the full
+  // <span class="rank-badge"…> markup; the previous starsRow helper
+  // only produced the inner stars, so call sites that wrapped it in
+  // a <span class="hoh-star">…</span> or <span class="ult-stars">…</span>
+  // now drop that wrapper.
+  function starsBadge(level) {
+    return (typeof window.rankBadge === 'function')
+      ? window.rankBadge(level, { variant: 'stars' })
+      : '';
+  }
+  function chipBadge(level) {
+    return (typeof window.rankBadge === 'function')
+      ? window.rankBadge(level, { variant: 'chip' })
+      : '';
+  }
+
+  function openExplorer(id) {
+    if (typeof window.openSkillExplorer === 'function') window.openSkillExplorer(id);
+  }
+
+  function openClaim(skill) {
+    if (typeof window.openUnnamedPopup === 'function') {
+      window.openUnnamedPopup(skill);
+    }
+  }
+  window.openClaim = openClaim;
+
+  Promise.all([
+    fetch(GRAPH_URL).then(function (r) { return r.ok ? r.json() : Promise.reject(); }),
+    fetch(NAMED_URL).then(function (r) { return r.ok ? r.json() : Promise.reject(); }),
+  ]).then(function (results) {
+    var graphData = results[0];
+    var namedData = results[1];
+    var skills = graphData.skills || [];
+    var buckets = namedData.buckets || {};
+
+    // Index canonical skills by id (for type lookup)
+    var byId = {};
+    skills.forEach(function (s) { byId[s.id] = s; });
+
+    // Build "claimed by" map: canonical skill id → named entry.
+    // Handles the genericSkillRef-mismatch case (e.g. mattpocock/grill-with-docs
+    // points at design-review but the canonical ultimate is grill-with-docs)
+    // by also keying off the slug from the named entry's id.
+    var claimedBy = {};
+    Object.keys(buckets).forEach(function (skillId) {
+      (buckets[skillId] || []).forEach(function (e) {
+        var primary = e.genericSkillRef || skillId;
+        if (!claimedBy[primary]) claimedBy[primary] = e;
+        if (e.id && e.id.indexOf('/') !== -1) {
+          var slug = e.id.split('/').pop();
+          if (byId[slug] && !claimedBy[slug]) claimedBy[slug] = e;
+        }
+      });
+    });
+
+    var ultimates = skills.filter(function (s) { return s.type === 'ultimate'; });
+    var unclaimed = ultimates.filter(function (u) { return !claimedBy[u.id]; });
+    var apexCount = ultimates.length - unclaimed.length;
+
+    // Ledger strip
+    var elSkills = document.getElementById('ledgerSkills');
+    var elApex = document.getElementById('ledgerApex');
+    var elDate = document.getElementById('ledgerDate');
+    if (elSkills) elSkills.textContent = skills.length;
+    if (elApex) elApex.textContent = apexCount;
+    var dateStr = formatDate(graphData.generatedAt || (graphData.meta && graphData.meta.updatedAt));
+    if (elDate && dateStr) elDate.textContent = dateStr;
+
+    // Door B caption
+    var doorCap = document.getElementById('doorBCaption');
+    if (doorCap) doorCap.textContent = unclaimed.length + ' currently unclaimed';
+
+    // Path B — all Ultimates (claimed + unclaimed), sorted unclaimed first
+    var list = document.getElementById('ultimatesList');
+    if (list) {
+      var sorted = ultimates.slice().sort(function (a, b) {
+        // order by level desc first
+        var lvlDiff = levelNum(b.level) - levelNum(a.level);
+        if (lvlDiff !== 0) return lvlDiff;
+        // then by claimed status (unclaimed first)
+        var aClaimed = !!claimedBy[a.id];
+        var bClaimed = !!claimedBy[b.id];
+        if (aClaimed !== bClaimed) return aClaimed ? 1 : -1;
+        // then alphabetically
+        return a.id.localeCompare(b.id);
+      });
+
+      // Delegate Claim button clicks once (idempotent: only attach if not already)
+      if (!list.dataset.claimDelegated) {
+        list.addEventListener('click', function (ev) {
+          var btn = ev.target.closest && ev.target.closest('.ult-claim');
+          if (!btn) return;
+          openClaim({
+            id: btn.dataset.skillId,
+            name: btn.dataset.skillName || btn.dataset.skillId,
+            level: btn.dataset.skillLevel || '',
+            type: 'ultimate',
+          });
+        });
+        list.dataset.claimDelegated = '1';
+      }
+
+      list.innerHTML = sorted.map(function (u) {
+        var claim = claimedBy[u.id];
+        var levelChip = chipBadge(u.level);
+        if (claim) {
+          // Phase 8c — claimed Ultimates lead with the named slug in honor red
+          // (the second segment of the named id, e.g. /autoresearch). The
+          // canonical id moves out of the visible row; hover-title preserves it.
+          var claimedSlug = (typeof window.namedSlug === 'function')
+            ? window.namedSlug(claim)
+            : '/' + u.id;
+          var contribLink = (typeof window.handleLink === 'function')
+            ? window.handleLink(claim.contributor || '', { extraClass: 'ult-contrib' })
+            : '<a class="ult-contrib atlas-handle" href="./u/' + encodeURIComponent(claim.contributor || '') + '/">@' + esc(claim.contributor || '') + '</a>';
+          
+          var lvlN = levelNum(u.level);
+          var colorStyle = 'color: var(--rank-' + lvlN + '); cursor: pointer;';
+          if (lvlN === 6) colorStyle += ' animation: tree-rainbow-glow 4s linear infinite;';
+          var clickAttr = ' role="button" tabindex="0" onclick="if(typeof openSkillExplorer===\'function\')openSkillExplorer(\'' + jsStr(u.id) + '\')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();this.click();}"';
+
+          var originHtml = '';
+          if (claim.origin && typeof window.gaiaIcon === 'function') {
+            originHtml = '<span class="plaque__origin" data-tooltip="Origin contributor: The creator of the first skill version" aria-label="Origin contributor: The creator of the first skill version">' +
+              window.gaiaIcon('origin-badge', { size: 16 }) +
+              '<span class="origin-info" style="margin-left: 3px; color: var(--muted); opacity: 0.7;">' + window.gaiaIcon('info', { size: 10 }) + '</span>' +
+              '</span>';
+          }
+          
+          return '<div class="ultimate-item ultimate-item--claimed">' +
+            '<span class="ult-glyph">◆</span>' +
+            '<span class="ult-slug named-slug" title="' + esc(u.id) + '" style="' + colorStyle + '"' + clickAttr + '>' + esc(claimedSlug) + '</span>' +
+            '<div class="ult-contrib-wrap" style="display:inline-flex; align-items:center; flex-shrink:0;">' +
+            contribLink + originHtml +
+            '</div>' +
+            levelChip +
+            '<span class="ult-claimed">Claimed</span>' +
+            '</div>';
+        }
+        // Phase 8c — unclaimed Ultimates keep the canonical slug, rendered in
+        // muted text (no name to honor yet).
+        var slash = '/' + u.id;
+        return '<div class="ultimate-item">' +
+          '<span class="ult-glyph">◆</span>' +
+          '<span class="ult-slug named-slug named-slug--muted" title="' + esc(u.name || '') + '">' + esc(slash) + '</span>' +
+          levelChip +
+          '<button class="ult-claim" type="button" ' +
+            'data-skill-id="' + esc(u.id) + '"' +
+            ' data-skill-name="' + esc(u.name || u.id) + '"' +
+            ' data-skill-level="' + esc(u.level || '') + '">Claim →</button>' +
+          '</div>';
+      }).join('');
+    }
+
+    // Hall of Heroes — diverse top-N origin plates with type-aware glyphs
+    var allOrigin = [];
+    var totalNamedCount = 0;
+    Object.keys(buckets).forEach(function (skillId) {
+      (buckets[skillId] || []).forEach(function (e) {
+        if (!e.origin) return;
+        totalNamedCount++;
+        var refId = e.genericSkillRef || skillId;
+        var canonical = byId[refId];
+        if (!canonical && e.id && e.id.indexOf('/') !== -1) {
+          canonical = byId[e.id.split('/').pop()];
+        }
+        if (!canonical) return;
+        if (canonical.type !== 'ultimate' && canonical.type !== 'unique') return;
+        if (canonical.level) e.level = canonical.level;
+        allOrigin.push({
+          entry: e,
+          canonicalId: canonical.id,
+          type: canonical.type || 'basic',
+        });
+      });
+    });
+    // Sort by level desc, then by type rank (Ultimate first), then by name
+    var TYPE_RANK = { ultimate: 0, unique: 1, extra: 2, basic: 3 };
+    allOrigin.sort(function (a, b) {
+      var ld = levelNum(b.entry.level) - levelNum(a.entry.level);
+      if (ld !== 0) return ld;
+      return (TYPE_RANK[a.type] || 9) - (TYPE_RANK[b.type] || 9);
+    });
+
+    // Named count for ledger (count of all origin entries)
+    var elNamed = document.getElementById('ledgerNamed');
+    if (elNamed) elNamed.textContent = totalNamedCount;
+
+    // Pick diverse top-8: at most one per contributor, ensure at least 2 Uniques if available
+    var seenContrib = new Set();
+    var primary = [];
+    allOrigin.forEach(function (item) {
+      var c = item.entry.contributor || '';
+      if (!seenContrib.has(c)) {
+        primary.push(item);
+        seenContrib.add(c);
+      }
+    });
+    var top = primary.slice(0, 8);
+    var topIds = new Set(top.map(function (it) { return it.canonicalId; }));
+    var uniqueCount = top.filter(function (it) { return it.type === 'unique'; }).length;
+    if (uniqueCount < 2) {
+      var needed = 2 - uniqueCount;
+      var extraUniques = allOrigin.filter(function (it) {
+        return it.type === 'unique' && !topIds.has(it.canonicalId);
+      }).slice(0, needed);
+      // Replace the lowest-ranked non-Unique entries with these Uniques
+      var nonUniqueIdxs = [];
+      for (var i = top.length - 1; i >= 0 && extraUniques.length; i--) {
+        if (top[i].type !== 'unique') {
+          top[i] = extraUniques.shift();
+        }
+      }
+    }
+
+    var plates = document.getElementById('hohPlates');
+    if (plates && top.length) {
+      // Stage 3 — Hall of Heroes mini-plates emitted by the shared
+      // plaque component family. Each plate carries:
+      //   - the canonical type (from canonical skill — Ultimate / Unique only)
+      //   - the named entry's level + contributor + tags
+      //   - data-skill-id pointing at the CANONICAL id so click → openSkillExplorer
+      // The named entry's id is preserved on the entry object so namedSlug()
+      // still yields '/<skill-slug>'.
+      var rendered = top.map(function (it) {
+        var e = it.entry;
+        var miniNs = {
+          id: e.id,
+          name: e.name,
+          contributor: e.contributor,
+          origin: e.origin,
+          level: e.level,
+          type: it.type,
+          genericSkillRef: e.genericSkillRef,
+          // Override click target to use the canonical id (so unnamed
+          // siblings resolve to the same explorer view as the named one).
+        };
+        var canonClick = '(function(){if(typeof openSkillExplorer===\'function\')openSkillExplorer(\'' +
+          jsStr(it.canonicalId) + '\');})()';
+        return (window.plaque && typeof window.plaque.renderMini === 'function')
+          ? window.plaque.renderMini(miniNs, {
+              onclick: canonClick,
+              role: 'button',
+              attrs: ' onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();this.click();}"',
+            })
+          : '';
+      }).join('');
+      plates.innerHTML = rendered;
+    }
+
+    // --- META REPORT (Synthesize Timeline) ---
+    var tlEvents = [];
+    var ACTION_ICON = {
+      rank_up: 'sparkle',
+      ascend: 'sparkle',
+      name: 'user',
+      fuse: 'sparkle',
+      push: 'claim-arrow',
+      evidence: 'copy-check',
+      demote: 'arrow-back',
+      propose: 'claim-arrow',
+      bond: 'sparkle',
+      register: 'claim-arrow'
+    };
+    var TYPE_GLYPH_MR = { ultimate:'tier-glyph-ultimate', unique:'tier-glyph-unique', extra:'tier-glyph-extra', basic:'tier-glyph-basic' };
+    var MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+    // 1. Synthesize canonical skill timeline events
+    skills.forEach(function (s) {
+      if (s.createdAt) {
+        tlEvents.push({
+          date: new Date(s.createdAt).getTime(),
+          action: 'push',
+          skillId: s.id,
+          name: s.name,
+          type: s.type || 'basic',
+          details: 'Canonical skill ' + s.name + ' added to registry.'
+        });
+      }
+
+      // Evidence events
+      if (s.evidence && s.evidence.length) {
+        s.evidence.forEach(function (ev) {
+          tlEvents.push({
+            date: new Date(ev.date).getTime(),
+            action: 'evidence',
+            skillId: s.id,
+            name: s.name,
+            type: s.type || 'basic',
+            details: 'Class ' + ev.class + ' evidence reviewed by @' + ev.evaluator
+          });
+        });
+      }
+
+      // Explicit timeline events in canonical skill
+      if (s.timeline && s.timeline.length) {
+        s.timeline.forEach(function (t) {
+          tlEvents.push({
+            date: new Date(t.timestamp || t.date).getTime(),
+            action: t.action,
+            skillId: s.id,
+            name: s.name,
+            type: s.type || 'basic',
+            contributor: t.contributor || '',
+            details: t.details || ''
+          });
+        });
+      }
+    });
+
+    // 2. Synthesize named skill timeline events
+    Object.keys(buckets).forEach(function (skillId) {
+      (buckets[skillId] || []).forEach(function (ns) {
+        var slug = (typeof window.namedSlug === 'function') ? window.namedSlug(ns) : '/' + (ns.id.split('/')[1] || ns.id);
+        var refId = ns.genericSkillRef || skillId;
+        var canonical = byId[refId];
+        var nsType = (canonical && canonical.type) || ns.type || 'basic';
+
+        if (ns.createdAt) {
+          tlEvents.push({
+            date: new Date(ns.createdAt).getTime(),
+            action: 'name',
+            skillId: ns.id,
+            name: ns.name || slug,
+            type: nsType,
+            contributor: ns.contributor || '',
+            details: 'Named skill implementation claimed by @' + ns.contributor + '.'
+          });
+        }
+
+        if (ns.timeline && ns.timeline.length) {
+          ns.timeline.forEach(function (t) {
+            tlEvents.push({
+              date: new Date(t.timestamp || t.date).getTime(),
+              action: t.action,
+              skillId: ns.id,
+              name: ns.name || slug,
+              type: nsType,
+              contributor: t.contributor || ns.contributor || '',
+              details: t.details || ''
+            });
+          });
+        }
+      });
+    });
+
+    // Sort descending by date
+    tlEvents.sort(function (a, b) {
+      return b.date - a.date;
+    });
+    
+    // Render Timeline
+    var mrTimeline = document.getElementById('mrTimeline');
+    var mrFooter = document.getElementById('mrFooter');
+    var mrFilterTabs = document.getElementById('mrFilterTabs');
+    var currentPage = 1;
+    var pageSize = 12; // Display 12 events per page for maximum compactness
+    var currentFilter = 'all';
+    
+    // Count events per action for tab badges
+    function countByAction(action) {
+      if (action === 'all') return tlEvents.length;
+      return tlEvents.filter(function (ev) { return ev.action === action; }).length;
+    }
+
+    function updateTabCounts() {
+      if (!mrFilterTabs) return;
+      mrFilterTabs.querySelectorAll('.mr-tab').forEach(function (tab) {
+        var action = tab.dataset.action || 'all';
+        var count = countByAction(action);
+        var badge = tab.querySelector('.mr-count');
+        if (!badge) {
+          badge = document.createElement('span');
+          badge.className = 'mr-count';
+          tab.appendChild(badge);
+        }
+        badge.textContent = count;
+      });
+    }
+
+    function monthKey(ts) {
+      var d = new Date(ts);
+      return MONTHS[d.getMonth()] + ' ' + d.getFullYear();
+    }
+
+    function renderMetaReport() {
+      if (!mrTimeline) return;
+
+      var filteredEvents = tlEvents.filter(function (ev) {
+        return currentFilter === 'all' || ev.action === currentFilter;
+      });
+
+      var totalEvents = filteredEvents.length;
+      var totalPages = Math.max(1, Math.ceil(totalEvents / pageSize));
+      
+      // Ensure page is within boundaries
+      if (currentPage > totalPages) currentPage = totalPages;
+      if (currentPage < 1) currentPage = 1;
+
+      if (!totalEvents) {
+        var emptyIcon = '';
+        if (typeof window.gaiaIcon === 'function') {
+          emptyIcon = window.gaiaIcon('info', { size: 24 });
+        } else {
+          emptyIcon = '<svg class="ico" width="24" height="24" aria-hidden="true"><use href="assets/icons.svg#info"/></svg>';
+        }
+        mrTimeline.innerHTML = '<div class="mr-empty">' +
+          '<div class="mr-empty-icon">' + emptyIcon + '</div>' +
+          '<div class="mr-empty-text">No events match this filter.</div>' +
+          '</div>';
+        var mrPagination = document.getElementById('mrPagination');
+        if (mrPagination) mrPagination.style.display = 'none';
+        return;
+      }
+
+      var startIndex = (currentPage - 1) * pageSize;
+      var endIndex = Math.min(startIndex + pageSize, totalEvents);
+      var toShow = filteredEvents.slice(startIndex, endIndex);
+
+      var html = '';
+      var lastMonth = '';
+      var staggerIdx = 0;
+
+      toShow.forEach(function (ev) {
+        // Date group header
+        var mk = monthKey(ev.date);
+        if (mk !== lastMonth) {
+          lastMonth = mk;
+          html += '<div class="mr-month-header">' + esc(mk) + '</div>';
+        }
+
+        var actionLabel = ev.action.replace('_', ' ');
+        var iconId = ACTION_ICON[ev.action] || 'info';
+        var iconHtml = '';
+        if (typeof window.gaiaIcon === 'function') {
+          iconHtml = window.gaiaIcon(iconId, { size: 12 });
+        } else {
+          iconHtml = '<svg class="ico" width="12" height="12" aria-hidden="true"><use href="assets/icons.svg#' + iconId + '"/></svg>';
+        }
+
+        var dateStr = new Date(ev.date).toISOString().split('T')[0];
+        var delay = (staggerIdx % 12) * 0.03;
+        staggerIdx++;
+
+        var clickAttr = ' role="button" tabindex="0" onclick="if(typeof openSkillExplorer===\'function\')openSkillExplorer(\'' + jsStr(ev.skillId) + '\')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();this.click();}"';
+
+        // @mentions → profile links via handleLink when available
+        var detailsHtml = esc(ev.details).replace(/@([a-zA-Z0-9_-]+)/g, function (match, handle) {
+          if (typeof window.handleLink === 'function') {
+            return window.handleLink(handle, { extraClass: 'mr-contributor' });
+          }
+          return '<a class="mr-contributor atlas-handle" href="./u/' + encodeURIComponent(handle) + '/">@' + esc(handle) + '</a>';
+        });
+
+        // Tier glyph - uses proper SVG sprite icons from foundation.html
+        var tierHtml = '';
+        if (ev.type) {
+          var tierIconId = TYPE_GLYPH_MR[ev.type] || 'tier-glyph-basic';
+          if (typeof window.gaiaIcon === 'function') {
+            tierHtml = '<span class="mr-tier-glyph" data-type="' + esc(ev.type) + '">' +
+              window.gaiaIcon(tierIconId, { size: 12 }) +
+              '</span>';
+          } else {
+            tierHtml = '<span class="mr-tier-glyph" data-type="' + esc(ev.type) + '">' +
+              '<svg class="ico" width="12" height="12" aria-hidden="true"><use href="assets/icons.svg#' + tierIconId + '"/></svg>' +
+              '</span>';
+          }
+        }
+
+        html += '<div class="mr-event" style="animation-delay: ' + delay + 's">';
+        html += '<div class="mr-dot" data-action="' + esc(ev.action) + '"></div>';
+        html += '<div class="mr-header">';
+        html += '<span class="mr-action" data-action="' + esc(ev.action) + '"><span class="mr-action-icon">' + iconHtml + '</span>' + esc(actionLabel) + '</span>';
+        html += '<div class="mr-skill-wrap">';
+        html += tierHtml;
+        html += '<span class="mr-skill"' + clickAttr + ' title="' + esc(ev.skillId) + '">' + esc(ev.name) + '</span>';
+        html += '</div>';
+        html += '<span class="mr-date">' + esc(dateStr) + '</span>';
+        html += '</div>';
+        html += '<div class="mr-details">' + detailsHtml + '</div>';
+        html += '</div>';
+      });
+
+      mrTimeline.innerHTML = html;
+
+      // Render Pagination controls
+      var mrPagination = document.getElementById('mrPagination');
+      if (mrPagination) {
+        mrPagination.style.display = totalEvents > pageSize ? 'flex' : 'none';
+        
+        var mrPageNum = document.getElementById('mrPageNum');
+        if (mrPageNum) {
+          mrPageNum.textContent = 'Page ' + currentPage + ' of ' + totalPages;
+        }
+        
+        var mrPrevPage = document.getElementById('mrPrevPage');
+        if (mrPrevPage) {
+          mrPrevPage.disabled = currentPage === 1;
+        }
+        
+        var mrNextPage = document.getElementById('mrNextPage');
+        if (mrNextPage) {
+          mrNextPage.disabled = currentPage === totalPages;
+        }
+      }
+    }
+
+    if (mrTimeline) {
+      renderMetaReport();
+      updateTabCounts();
+
+      // Filter logic
+      if (mrFilterTabs) {
+        mrFilterTabs.addEventListener('click', function(e) {
+          var btn = e.target.closest('.mr-tab');
+          if (!btn) return;
+
+          mrFilterTabs.querySelectorAll('.mr-tab').forEach(function(t){ t.classList.remove('active'); });
+          btn.classList.add('active');
+
+          currentFilter = btn.dataset.action || 'all';
+          currentPage = 1; // Reset to page 1 on filter click
+          renderMetaReport();
+        });
+      }
+
+      // Pagination click handlers
+      var mrPrevPage = document.getElementById('mrPrevPage');
+      if (mrPrevPage) {
+        mrPrevPage.addEventListener('click', function() {
+          if (currentPage > 1) {
+            currentPage--;
+            renderMetaReport();
+            mrTimeline.scrollTop = 0;
+          }
+        });
+      }
+
+      var mrNextPage = document.getElementById('mrNextPage');
+      if (mrNextPage) {
+        mrNextPage.addEventListener('click', function() {
+          currentPage++;
+          renderMetaReport();
+          mrTimeline.scrollTop = 0;
+        });
+      }
+
+      // --- META REPORT SIDEBAR CONTROL LOGIC ---
+      var metaSidebar = document.getElementById('metaSidebar');
+      var metaSidebarBackdrop = document.getElementById('metaSidebarBackdrop');
+      var metaNavBtn = document.getElementById('metaNavBtn');
+      var metaFooterBtn = document.getElementById('metaFooterBtn');
+      var metaReportCalloutBtn = document.getElementById('metaReportCalloutBtn');
+      var metaCloseBtn = document.getElementById('metaCloseBtn');
+
+      function openMetaSidebar() {
+        if (!metaSidebar) return;
+        metaSidebar.classList.add('open');
+        metaSidebar.setAttribute('aria-hidden', 'false');
+        metaSidebar.focus();
+        
+        if (window.innerWidth <= 768) {
+          if (metaSidebarBackdrop) metaSidebarBackdrop.classList.add('open');
+          document.body.style.overflow = 'hidden'; // lock scrolling on mobile
+        } else {
+          // Explicitly and defensively force scroll unlocking on desktop!
+          document.body.style.overflow = '';
+          document.documentElement.style.overflow = '';
+        }
+      }
+
+      function closeMetaSidebar() {
+        if (!metaSidebar) return;
+        metaSidebar.classList.remove('open');
+        if (metaSidebarBackdrop) metaSidebarBackdrop.classList.remove('open');
+        metaSidebar.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        document.documentElement.style.overflow = '';
+      }
+
+      if (metaNavBtn) metaNavBtn.addEventListener('click', openMetaSidebar);
+      if (metaFooterBtn) metaFooterBtn.addEventListener('click', openMetaSidebar);
+      if (metaReportCalloutBtn) metaReportCalloutBtn.addEventListener('click', openMetaSidebar);
+      if (metaCloseBtn) metaCloseBtn.addEventListener('click', closeMetaSidebar);
+      if (metaSidebarBackdrop) metaSidebarBackdrop.addEventListener('click', closeMetaSidebar);
+
+      // ESC key support
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && metaSidebar && metaSidebar.classList.contains('open')) {
+          closeMetaSidebar();
+        }
+      });
+
+      // Swipe-to-close on Mobile
+      var startX = 0;
+      var startY = 0;
+      var currentTranslate = 0;
+      var isSwiping = false;
+
+      if (metaSidebar) {
+        metaSidebar.addEventListener('touchstart', function(e) {
+          if (window.innerWidth > 768) return;
+          startX = e.touches[0].clientX;
+          startY = e.touches[0].clientY;
+          isSwiping = true;
+          metaSidebar.classList.add('swiping');
+        }, { passive: true });
+
+        metaSidebar.addEventListener('touchmove', function(e) {
+          if (!isSwiping) return;
+          var currentX = e.touches[0].clientX;
+          var currentY = e.touches[0].clientY;
+          var diffX = currentX - startX;
+          var diffY = currentY - startY;
+
+          if (diffX > 0 && Math.abs(diffX) > Math.abs(diffY)) {
+            metaSidebar.style.transform = 'translateX(' + diffX + 'px)';
+            currentTranslate = diffX;
+          }
+        }, { passive: true });
+
+        metaSidebar.addEventListener('touchend', function(e) {
+          if (!isSwiping) return;
+          isSwiping = false;
+          metaSidebar.classList.remove('swiping');
+          metaSidebar.style.transform = '';
+          
+          if (currentTranslate > 80) {
+            closeMetaSidebar();
+          }
+          currentTranslate = 0;
+        });
+      }
+
+      // Copy entire timeline in Markdown format
+      var metaCopyBtn = document.getElementById('metaCopyBtn');
+      if (metaCopyBtn) {
+        metaCopyBtn.addEventListener('click', function() {
+          var text = '# Gaia Skill Tree - Registry Meta Report\n';
+          text += 'Generated: ' + new Date().toISOString().replace('T', ' ').substring(0, 19) + ' UTC\n\n';
+          text += 'A living chronicle of registry evolution: every rank-up, name claim, fusion, and evidence review recorded.\n\n';
+          
+          var filteredEvents = tlEvents;
+          if (currentFilter !== 'all') {
+            filteredEvents = tlEvents.filter(function (ev) { return ev.action === currentFilter; });
+          }
+          
+          filteredEvents.forEach(function(ev) {
+            var dateStr = new Date(ev.date).toISOString().split('T')[0];
+            var actionStr = ev.action.toUpperCase().replace('_', ' ');
+            text += '- **[' + dateStr + ']** [' + actionStr + '] ' + ev.name + ' (' + ev.type + '): ' + ev.details + '\n';
+          });
+          
+          if (window.copyToClipboard) {
+            window.copyToClipboard(text).then(function() {
+              var svgUse = metaCopyBtn.querySelector('use');
+              if (svgUse) {
+                // Highly premium visual check - swap SVG sprite target path dynamically!
+                svgUse.setAttribute('href', 'assets/icons.svg#copy-check');
+                metaCopyBtn.classList.add('copied');
+                setTimeout(function() {
+                  svgUse.setAttribute('href', 'assets/icons.svg#copy');
+                  metaCopyBtn.classList.remove('copied');
+                }, 1800);
+              }
+            }).catch(function() {
+              alert('Failed to copy to clipboard.');
+            });
+          }
+        });
+      }
+
+      // Download entire timeline in Markdown format
+      var metaDownloadBtn = document.getElementById('metaDownloadBtn');
+      if (metaDownloadBtn) {
+        metaDownloadBtn.addEventListener('click', function() {
+          var text = '# Gaia Skill Tree - Registry Meta Report\n';
+          text += 'Generated: ' + new Date().toISOString().replace('T', ' ').substring(0, 19) + ' UTC\n\n';
+          text += 'A living chronicle of registry evolution: every rank-up, name claim, fusion, and evidence review recorded.\n\n';
+          
+          var filteredEvents = tlEvents;
+          if (currentFilter !== 'all') {
+            filteredEvents = tlEvents.filter(function (ev) { return ev.action === currentFilter; });
+          }
+          
+          filteredEvents.forEach(function(ev) {
+            var dateStr = new Date(ev.date).toISOString().split('T')[0];
+            var actionStr = ev.action.toUpperCase().replace('_', ' ');
+            text += '- **[' + dateStr + ']** [' + actionStr + '] ' + ev.name + ' (' + ev.type + '): ' + ev.details + '\n';
+          });
+          
+          var blob = new Blob([text], { type: 'text/markdown;charset=utf-8;' });
+          var url = URL.createObjectURL(blob);
+          var link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', 'gaia-meta-report.md');
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        });
+      }
+    }
+    
+  }).catch(function () {});
+
+  // "Browse all named skills" → scroll to #named section
+  document.addEventListener('DOMContentLoaded', function () {
+    var browseBtn = document.getElementById('browseAllBtn');
+    if (browseBtn) {
+      browseBtn.addEventListener('click', function () {
+        var target = document.getElementById('named');
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      });
+    }
+
+    // Footer tree button → proxy to nav tree button
+    var treeBtn2 = document.getElementById('treeFooterBtn');
+    if (treeBtn2) {
+      treeBtn2.addEventListener('click', function () {
+        var navTree = document.getElementById('treeNavBtn');
+        if (navTree) navTree.click();
+      });
+    }
+
+    // Cross-page: if landed with #tree, open the Tree dialog
+    if (location.hash === '#tree') {
+      var navTree = document.getElementById('treeNavBtn');
+      if (navTree) setTimeout(function () { navTree.click(); }, 50);
+    }
+
+    // Cross-page: if landed with #meta-report, open the Meta Report sidebar
+    if (location.hash === '#meta-report' || location.hash === '#meta') {
+      var navMeta = document.getElementById('metaNavBtn');
+      if (navMeta) setTimeout(function () { navMeta.click(); }, 50);
+    }
+
+    // Global search nav: scroll to Named Skills section and focus the search input
+    function focusNamedSearch() {
+      var named = document.getElementById('named');
+      if (named) named.scrollIntoView({ behavior: 'smooth' });
+      setTimeout(function () {
+        var input = document.getElementById('nsSearch');
+        if (input) { input.focus(); input.select(); }
+      }, 520);
+    }
+    var navSearch = document.getElementById('navSearchBtn');
+    if (navSearch) navSearch.addEventListener('click', focusNamedSearch);
+    
+    var navMobileSearch = document.getElementById('navMobileSearch');
+    var navSearchBack = document.getElementById('navSearchBack');
+    var isSearchMode = false;
+
+    function exitSearchMode() {
+      if (!isSearchMode) return;
+      isSearchMode = false;
+      document.body.classList.remove('search-mode');
+      if (navMobileSearch) {
+        navMobileSearch.value = '';
+        navMobileSearch.dispatchEvent(new Event('input')); // Reset list
+        navMobileSearch.blur();
+      }
+      if (window._preSearchScrollY !== undefined) {
+        window.scrollTo(0, window._preSearchScrollY);
+      }
+    }
+
+    if (navMobileSearch) {
+      navMobileSearch.addEventListener('focus', function() {
+        if (isSearchMode) return;
+        window._preSearchScrollY = window.scrollY;
+        isSearchMode = true;
+        document.body.classList.add('search-mode');
+        window.scrollTo(0, 0);
+      });
+    }
+
+    if (navSearchBack) {
+      navSearchBack.addEventListener('click', exitSearchMode);
+    }
+
+    // Exit search mode if clicking outside of the search area and not inside the named skills section.
+    // However, since search-mode hides everything except nav and #named, clicking anywhere other
+    // than #named, the input itself, or the back button should exit.
+    document.addEventListener('click', function(e) {
+      if (!isSearchMode) return;
+      if (!e.target.closest('#named') && !e.target.closest('nav')) {
+        exitSearchMode();
+      }
+    });
+
+    if (location.hash === '#search') focusNamedSearch();
+
+  });
+})();

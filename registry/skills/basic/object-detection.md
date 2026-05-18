@@ -1,4 +1,4 @@
-# huggingface/huggingface-vision-trainer  [2★ · Named]
+# [huggingface](../../../docs/u/huggingface/)/huggingface-vision-trainer  [2★ · Named]
 **ID:** object-detection  
 **Type:** Basic Skill  
 **Level:** 2★  

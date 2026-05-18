@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Codex - Gaia</title>
+<!-- Stage 1 — Web fonts (EB Garamond display, Bricolage body, JetBrains Mono fallback). -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="css/styles.css">
+<!-- Stage 1 — icon sprite helper, loaded BEFORE other UI scripts. -->
+<script src="js/icons.js"></script>
+<!-- Stage 2 — shared rank-badge primitive. -->
+<script src="js/rank-badge.js"></script>
+<!-- Stage 3 — plaque component family. -->
+<script src="js/plaque.js"></script>
+</head>
+<body class="process-page">
+
+<nav>
+    <a href="index.html" class="nav-logo" aria-label="Gaia home">
+      <svg class="ico nav-seal" aria-hidden="true" focusable="false"><use href="assets/icons.svg#seal-diamond"/></svg>
+      <span class="nav-wordmark">Gaia</span>
+    </a>
+    <button type="button" class="nav-search-back" id="navSearchBack" aria-label="Back">
+      <svg class="ico" width="20" height="20" aria-hidden="true"><use href="assets/icons.svg#arrow-back"/></svg>
+    </button>
+    <input type="search" id="navMobileSearch" class="nav-mobile-search" placeholder="Search named…" autocomplete="off" aria-label="Search named">
+    <button class="nav-menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <ul>
+      <li><a href="index.html" class="nav-graph-trigger">Graph (3D)</a></li>
+      <li><a href="index.html#hall-of-heroes">Hall of Heroes</a></li>
+      <li><a href="codex.html" aria-current="page">The Codex</a></li>
+      <li><a href="index.html#tree" class="nav-tree">Tree</a></li>
+      <li><button type="button" class="nav-copy-agent" id="copyAgentBtn" title="Copy Agent-friendly Markdown for LLMs/Agents" aria-label="Copy page context for agents"><svg class="ico" width="15" height="15" aria-hidden="true"><use href="assets/icons.svg#copy"/></svg></button></li>
+      <li><a href="index.html#named" class="nav-search-btn" aria-label="Search named"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#search"/></svg></a></li>
+    </ul>
+  </nav>
+
+<main>
+  <section class="process-hero">
+    <p class="process-kicker">Curation, automation, and review</p>
+    <h1>The Codex</h1>
+    <p class="process-lede">
+      Gaia is maintained as a reviewable skill graph, not a loose wiki. Every
+      change moves through a small path: propose evidence, let automation shape
+      the batch, review the result, then promote only what belongs in the
+      canonical registry.
+    </p>
+    <div class="process-actions">
+      <a class="btn btn-primary" href="index.html#start">Submit a Skill</a>
+      <a class="btn btn-ghost" href="https://github.com/mbtiongson1/gaia-skill-tree/issues" target="_blank">Open Issues</a>
+    </div>
+  </section>
+
+  <section class="process-section">
+    <h2>The Operating Loop</h2>
+    <p class="section-sub">A simple path keeps public contributions readable and keeps the canonical graph intentional.</p>
+    <div class="process-lanes">
+      <article class="process-lane">
+        <div class="process-step-label">1. Discover</div>
+        <h3>Find a real capability</h3>
+        <p>Contributors scan their repositories, name skills they actually use, and attach enough context for another person to understand the behavior.</p>
+      </article>
+      <article class="process-lane">
+        <div class="process-step-label">2. Curate</div>
+        <h3>Keep proposals reviewable</h3>
+        <p>Draft records stay in <code>registry-for-review/</code> so proposed skills can be discussed without rewriting <code>registry/gaia.json</code>.</p>
+      </article>
+      <article class="process-lane">
+        <div class="process-step-label">3. Review</div>
+        <h3>Check evidence and fit</h3>
+        <p>Reviewers look for duplicates, missing prerequisites, unclear names, and weak evidence before anything moves toward the canonical tree.</p>
+      </article>
+      <article class="process-lane">
+        <div class="process-step-label">4. Promote</div>
+        <h3>Merge only settled graph changes</h3>
+        <p>Accepted items are promoted in focused graph PRs so each canonical change has a clear source, rationale, and reviewer trail.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="process-section process-band">
+    <div>
+      <h2>What Automation Does</h2>
+      <p class="section-sub">Automation helps with formatting, triage, and repeat checks. Humans still decide what the registry means.</p>
+    </div>
+    <div class="process-checklist">
+      <div class="process-check">
+        <span>Scan output</span>
+        <p>Turns repository evidence into a structured draft batch that reviewers can read quickly.</p>
+      </div>
+      <div class="process-check">
+        <span>PR shaping</span>
+        <p>Routes intake changes into draft pull requests with labels, summaries, and reviewer checklists.</p>
+      </div>
+      <div class="process-check">
+        <span>Guardrails</span>
+        <p>Runs schema, layout, and naming checks so graph changes do not drift across unrelated branches.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="process-section">
+    <h2>Reviewer Path</h2>
+    <p class="section-sub">A reviewer should be able to decide what happens next without reverse-engineering the whole repo.</p>
+    <div class="review-grid">
+      <div class="review-card">
+        <h3>For intake PRs</h3>
+        <ul>
+          <li>Confirm the batch belongs under <code>registry-for-review/</code>.</li>
+          <li>Check proposed names against existing canonical skills and named implementations.</li>
+          <li>Ask for clearer evidence when the behavior cannot be reproduced or understood.</li>
+        </ul>
+      </div>
+      <div class="review-card">
+        <h3>For graph PRs</h3>
+        <ul>
+          <li>Treat <code>registry/gaia.json</code> as the source of truth.</li>
+          <li>Verify prerequisites, rank, evidence class, and status before merge.</li>
+          <li>Keep generated files in sync through the registry scripts, not hand edits.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="process-section">
+    <h2>Branch Naming Convention</h2>
+    <p class="section-sub">CI enforces scope — each branch prefix restricts which files can change.</p>
+    <table class="branch-table">
+      <thead>
+        <tr><th>Prefix</th><th>Purpose</th><th>Allowed Scope</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>schema/…</code></td><td>Nomenclature &amp; terminology</td><td><code>registry/schema/</code> only</td></tr>
+        <tr><td><code>cli/…</code></td><td>CLI source changes</td><td><code>src/</code>, <code>packages/</code>, <code>tests/</code></td></tr>
+        <tr><td><code>docs/…</code></td><td>Documentation</td><td><code>docs/</code>, <code>*.md</code></td></tr>
+        <tr><td><code>design/…</code></td><td>Website design (HTML/CSS/JS)</td><td><code>docs/</code> (HTML, CSS, JS)</td></tr>
+        <tr><td><code>review/gaia-push/…</code></td><td>Intake layer (<code>gaia push</code>)</td><td><code>registry-for-review/</code></td></tr>
+        <tr><td><code>review/meta/…</code></td><td>Registry curation/promotion</td><td><code>registry/</code> (not schema)</td></tr>
+        <tr><td><code>dev/…</code></td><td>Experimental (unrestricted)</td><td>any</td></tr>
+        <tr><td><code>infra/…</code></td><td>CI / tooling changes</td><td><code>.github/</code>, <code>scripts/</code></td></tr>
+      </tbody>
+    </table>
+    <p class="branch-bypass-note">
+      To bypass CI scope enforcement in an emergency, add label <code>skip-scope-check</code> to the PR.
+    </p>
+    <a class="btn btn-ghost branch-contributing-btn" href="https://github.com/mbtiongson1/gaia-skill-tree/blob/main/CONTRIBUTING.md" target="_blank">Read Contributing</a>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-mark">
+    <svg class="ico footer-seal" aria-hidden="true" focusable="false"><use href="assets/icons.svg#seal-diamond"/></svg>
+    <span class="footer-wordmark">Gaia</span>
+  </div>
+  <p>
+    <a href="index.html">Home</a> ·
+    <a href="https://github.com/mbtiongson1/gaia-skill-tree" target="_blank">GitHub</a> ·
+    MIT ·
+    <a href="https://github.com/mbtiongson1/gaia-skill-tree/blob/main/CONTRIBUTING.md" target="_blank">Contributing</a>
+  </p>
+  <button id="scrollToTop" class="scroll-to-top" aria-label="Scroll to top">
+    <svg class="ico" width="20" height="20" aria-hidden="true"><use href="assets/icons.svg#arrow-up"/></svg>
+  </button>
+
+  <!-- ─── SCRIPTS ─── -->
+  <script src="js/atlas-helpers.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/page-ia.js"></script>
+
+</body>
+</html>

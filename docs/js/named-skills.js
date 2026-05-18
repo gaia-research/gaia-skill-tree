@@ -1,3 +1,40 @@
+/* Gaia Named Skills Explorer — Stage 4.
+ *
+ * View-mode field-set unification
+ * --------------------------------
+ * The explorer renders the same data in three view modes (Tile / List / Tree).
+ * Pre-Stage-4 these three render paths each picked their own field subset and
+ * silently dropped origin star, description, tags, or the install row from
+ * one mode but not the others. Stage 4 routes all three through a single
+ * `viewFields(mode)` helper so the *field manifest* is the only source of
+ * truth, and so a field that "exists" in one view exists in every view —
+ * variant chrome (which slots are visible) lives in CSS, not JS.
+ *
+ *   viewFields('tile')  → full info per card.    Rationale: scan + decide.
+ *   viewFields('list')  → scan-friendly row.     Rationale: scan density.
+ *   viewFields('tree')  → minicard, spatial DAG. Rationale: relationship.
+ *
+ * Direction rule (cross-surface)
+ * ------------------------------
+ * Every catalog (a list/grid/tree the user is browsing or selecting from)
+ * reads Ultimate-first (top-right → bottom-left for spatial layouts):
+ *
+ *   Tier sort:   ultimate → unique → extra → basic       (top groups first)
+ *   Rank sort:   6★ → 5★ → 4★ → 3★ → 2★    (within each tier; level-desc)
+ *
+ * The only exemption is "journeys" (temporal/progression narratives) which
+ * keep their natural ascending direction. The Ascension Cycle (0★→6★) is
+ * the canonical journey and carries data-pattern="journey" in index.html so
+ * a future linter doesn't auto-flip it.
+ *
+ * Schema source-of-truth
+ * ----------------------
+ * Stage 4 deletes the FALLBACK_NAMED_INDEX / LEVEL_META / TYPE_META_G
+ * fallback dictionaries. Meta lives only in registry/gaia.json.meta (mirrored
+ * to docs/graph/gaia.json by scripts/syncDocsGraphAssets.py). If the named
+ * index or meta is missing, the explorer renders an empty state instead of
+ * silently masking the asset drift.
+ */
 (function () {
   function esc(str) {
     return String(str == null ? '' : str)
@@ -6,82 +43,85 @@
 
   function nsClick(id) { return 'onclick="openSkillExplorer(\''+id.replace(/'/g,"\\'")+'\')\"'; }
   function nsDisplayName(ns) { return ns.name || ns.id.split('/')[1] || ns.id; }
-
-  // ── TAG COLORS (8-color hash wheel, matches DESIGN.md palette) ──
-  var TAG_PAL=[
-    {c:'#38bdf8',bg:'rgba(56,189,248,.12)',bd:'rgba(56,189,248,.3)'},
-    {c:'#c084fc',bg:'rgba(192,132,252,.12)',bd:'rgba(192,132,252,.3)'},
-    {c:'#63cab7',bg:'rgba(99,202,183,.12)',bd:'rgba(99,202,183,.3)'},
-    {c:'#a78bfa',bg:'rgba(167,139,250,.12)',bd:'rgba(167,139,250,.3)'},
-    {c:'#f59e0b',bg:'rgba(245,158,11,.12)',bd:'rgba(245,158,11,.3)'},
-    {c:'#e879f9',bg:'rgba(232,121,249,.12)',bd:'rgba(232,121,249,.3)'},
-    {c:'#fb923c',bg:'rgba(251,146,60,.12)',bd:'rgba(251,146,60,.3)'},
-    {c:'#4ade80',bg:'rgba(74,222,128,.12)',bd:'rgba(74,222,128,.3)'},
-  ];
-  function tagStyle(t){var h=0;for(var i=0;i<t.length;i++)h=(h*31+t.charCodeAt(i))%TAG_PAL.length;var p=TAG_PAL[h];return 'style="color:'+p.c+';background:'+p.bg+';border-color:'+p.bd+'"';}
-  function tagHtml(t){return '<span class="ns-tag" '+tagStyle(t)+'>'+esc(t)+'</span>';}
-
-  // ── TERMINAL INSTALL ROW ──
-  var CLIP_SM='<svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1.5"/><path d="M11 5V3a1 1 0 00-1-1H3a1 1 0 00-1 1v7a1 1 0 001 1h2"/></svg>';
-  var CHECK_SM='<svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8l4 4 8-8"/></svg>';
-  function installRow(id){
-    var cmd='gaia install '+id;
-    return '<div class="ns-install-row"><span class="ns-install-prompt">$</span>'+
-      '<span class="ns-install-cmd-txt">'+esc(cmd)+'</span>'+
-      '<button class="ns-install-copy" title="Copy install command" data-cmd="'+esc(cmd)+'" onclick="event.stopPropagation();nsInstCopy(this)">'+CLIP_SM+'</button>'+
-    '</div>';
+  // Phase 8d — atlas-helpers fallbacks if the helper script failed to load.
+  function nsSlug(ns) {
+    return (typeof window.namedSlug === 'function')
+      ? window.namedSlug(ns)
+      : '/' + (ns && ns.id ? (ns.id.split('/')[1] || ns.id) : '');
   }
+
+  // ── ICON HELPER (sprite via icons.js) ──
+  function icon(id, size){
+    return (typeof window.gaiaIcon === 'function')
+      ? window.gaiaIcon(id, { size: size || 13 })
+      : '<svg class="ico" width="' + (size || 13) + '" height="' + (size || 13) + '" aria-hidden="true"></svg>';
+  }
+
+  // ── INSTALL ROW (still used by the embedded copy-btn wiring) ──
   window.nsInstCopy = function(btn){
     navigator.clipboard.writeText(btn.dataset.cmd).then(function(){
-      var prev=btn.innerHTML; btn.innerHTML=CHECK_SM;
+      var prev=btn.innerHTML; btn.innerHTML=icon('copy-check', 13);
       setTimeout(function(){btn.innerHTML=prev;},1500);
     }).catch(function(){});
   };
 
-  function ghLink(ns) {
-    var links = ns.links || {};
-    var url = links.github || links.npm || '';
-    if (!url) return '';
-    return '<a class="ns-gh-link" href="' + esc(url) + '" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View on GitHub"><svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>';
+  // ── VIEW-MODE FIELD MANIFEST (Stage 4) ──
+  // Single source of truth for which fields each view emits. The render
+  // functions consume this manifest; variant chrome (layout/visibility)
+  // lives in CSS only, never in JS. Adding a new view? Add a row here.
+  //
+  //   slug         — italic serif handle/skillname slug
+  //   title        — Honor Red title line
+  //   handle       — @contributor link row
+  //   description  — body prose (collapsed in row via CSS; never JS-dropped)
+  //   tags         — token-colored tag chips (cap by tile=3, row=2, full=all)
+  //   install      — gaia install … terminal block
+  //   level        — rank chip (uses window.rankBadge in 'chip' variant)
+  //   origin       — origin-star sprite slot
+  //   gh           — right-edge GitHub link slot
+  function viewFields(mode) {
+    if (mode === 'list')
+      return ['slug','title','handle','tags','level','origin','gh'];
+    if (mode === 'tree' || mode === 'flow')
+      return ['slug','level','gh'];
+    // tile (default)
+    return ['slug','title','handle','description','tags','install','level','origin','gh'];
   }
 
-  function renderTile(ns, lm) {
-    var tags = (ns.tags||[]).slice(0,3).map(tagHtml).join('');
-    return '<article class="ns-tile" data-level="'+esc(ns.level)+'" data-type="'+esc(ns.type||'basic')+'" '+nsClick(ns.id)+'>' +
-      '<div class="ns-tile-head">' +
-        '<span class="ns-level-badge" style="color:'+lm.color+';background:'+lm.bg+';border-color:'+lm.border+'">'+esc(ns.level)+'</span>' +
-        (ns.origin ? '<span class="ns-origin">\u2605</span>' : '') +
-        ghLink(ns) +
-      '</div>' +
-      '<div class="ns-tile-name">' + esc(nsDisplayName(ns)) + '</div>' +
-      '<div class="ns-tile-id">' + esc(ns.id) + '</div>' +
-      (tags ? '<div class="ns-tile-tags">' + tags + '</div>' : '') +
-      installRow(ns.id) +
-    '</article>';
+  // Render delegations. The .plaque component family (docs/js/plaque.js)
+  // is the single emitter; this file just orchestrates iteration and sort.
+  function renderTile(ns) {
+    if (window.plaque && typeof window.plaque.renderTile === 'function') {
+      return window.plaque.renderTile(ns);
+    }
+    return '';
+  }
+  function renderListRow(ns) {
+    if (window.plaque && typeof window.plaque.renderRow === 'function') {
+      return window.plaque.renderRow(ns);
+    }
+    return '';
   }
 
-  function renderListRow(ns, lm) {
-    var tags = (ns.tags||[]).slice(0,2).map(tagHtml).join('');
-    return '<article class="ns-list-row" data-level="'+esc(ns.level)+'" data-type="'+esc(ns.type||'basic')+'" '+nsClick(ns.id)+'>' +
-      '<span class="ns-level-badge" style="color:'+lm.color+';background:'+lm.bg+';border-color:'+lm.border+'">'+esc(ns.level)+'</span>' +
-      '<span class="ns-lr-name">' + esc(nsDisplayName(ns)) + '</span>' +
-      '<span class="ns-lr-id">' + esc(ns.id) + '</span>' +
-      '<span class="ns-lr-tags">' + tags + '</span>' +
-      '<span style="flex:1"></span>' +
-      ghLink(ns) +
-      installRow(ns.id) +
-      '<span class="ns-lr-arrow">\u203a</span>' +
-    '</article>';
-  }
-
-  function renderFlowchartView(filteredNamed, LEVEL_META) {
+  // ── DAG (Tree view) ─────────────────────────────────────────────
+  // Stage 4 changes vs. earlier flowchart:
+  //  - Iterate ranks[maxD..0] so Ultimate anchors the top of the DOM
+  //    (visually top-right after CSS layout). Bases trail bottom-left.
+  //  - Within each rank, sort by type DESC then level DESC (matches Tile/List).
+  //  - Rename data-rank=N (depth tier 0..maxD) → data-depth=N so a future CSS
+  //    rule on [data-rank] doesn't accidentally hit DAG layers — the rank-star
+  //    system already owns rank-as-level (0★..6★).
+  //  - .ns-dag-arrow rule moved to CSS (no inline style).
+  //  - Ghost cards (no named implementation) routed through plaque.renderMini
+  //    with { ghost: true } so their hatched-border CSS hook is shared.
+  function renderFlowchartView(filteredNamed) {
     var skillMap = window._gaiaSkillMap || {};
     var namedIds = {};
     filteredNamed.forEach(function(ns) { namedIds[ns.genericSkillRef || ns.id] = ns; });
 
     var dagNodes = {};
     Object.values(skillMap).forEach(function(s) {
-      if (s.type === 'extra' || s.type === 'ultimate' || s.type === 'unique') dagNodes[s.id] = s;
+      dagNodes[s.id] = s;
     });
 
     var edges = [];
@@ -91,78 +131,245 @@
       });
     });
 
-    var depth = {};
-    function getDepth(id) {
-      if (depth[id] !== undefined) return depth[id];
-      depth[id] = -1;
-      var maxPre = 0;
-      (dagNodes[id].prerequisites || []).forEach(function(pid) {
-        if (dagNodes[pid]) maxPre = Math.max(maxPre, getDepth(pid) + 1);
-      });
-      depth[id] = maxPre;
-      return maxPre;
+    var groups = { 'apex': [], 'ultimate': [], 'unique': [], 'extra': [], 'basic': [] };
+    Object.keys(dagNodes).forEach(function(id) {
+      var t = dagNodes[id].type || 'basic';
+      if (dagNodes[id].level && String(dagNodes[id].level).indexOf('6') !== -1) {
+        groups['apex'].push(id);
+      } else if (groups[t]) {
+        groups[t].push(id);
+      }
+    });
+
+    var ranks = [groups['apex'], groups['ultimate'], groups['unique'], groups['extra'], groups['basic']].filter(function(r) { return r.length > 0; });
+
+    function levelNum(level) {
+      var n = parseInt(String(level || '').replace(/\D+/g, ''), 10);
+      return isNaN(n) ? 0 : n;
     }
-    Object.keys(dagNodes).forEach(getDepth);
+    function sortDagRank(a, b) {
+      var sa = dagNodes[a], sb = dagNodes[b];
+      var la = levelNum(sa.level), lb = levelNum(sb.level);
+      if (la !== lb) return lb - la;
+      return (sa.name || a).localeCompare(sb.name || b);
+    }
+    
+    function hashString(str) {
+      var h = 0;
+      for (var i = 0; i < str.length; i++) h = Math.imul(31, h) + str.charCodeAt(i) | 0;
+      return Math.abs(h);
+    }
 
-    var maxD = 0;
-    Object.values(depth).forEach(function(d) { if (d > maxD) maxD = d; });
-    var ranks = [];
-    for (var r = 0; r <= maxD; r++) ranks.push([]);
-    Object.keys(dagNodes).forEach(function(id) { if (depth[id] >= 0) ranks[depth[id]].push(id); });
+    var html = '<div class="ns-dag-container git-style" id="nsDag">';
+    html += '<svg class="ns-dag-svg" id="nsDagSvg"></svg>';
 
-    var html = '<div class="ns-dag-container" id="nsDag">';
-    html += '<svg class="ns-dag-svg" id="nsDagSvg"><defs>' +
-      '<marker id="ns-arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">' +
-      '<polygon points="0 0, 8 3, 0 6" fill="currentColor" style="color:var(--muted)"/></marker></defs></svg>';
-
-    ranks.forEach(function(rank, ri) {
-      html += '<div class="ns-dag-rank" data-rank="' + ri + '">';
-      rank.sort(function(a,b){ return (dagNodes[a].name||a).localeCompare(dagNodes[b].name||b); });
-      rank.forEach(function(id) {
+    // Bottom to top (Basic -> Extra -> Unique -> Ultimate) in DOM, column-reverse in CSS
+    for (var ri = ranks.length - 1; ri >= 0; ri--) {
+      var rank = ranks[ri];
+      if (!rank.length) continue;
+      rank.sort(sortDagRank);
+      
+      var isUnique = rank.every(function(id) { return dagNodes[id].type === 'unique'; });
+      var voidClass = isUnique ? ' void-zone' : '';
+      html += '<div class="ns-dag-rank' + voidClass + '" data-depth="' + ri + '">';
+      rank.forEach(function(id, idx) {
+        var staggerY = (isUnique) ? 0 : (hashString(id) % 150); // don't stagger in void
         var s = dagNodes[id];
         var ns = namedIds[id];
         var isGhost = !ns;
-        var lm = LEVEL_META[s.level] || LEVEL_META['2★'];
-        var glyph = s.type === 'ultimate' ? '\u25c6' : s.type === 'unique' ? '\u25c9' : '\u25c7';
-        var clickAttr = ns ? nsClick(ns.id) : 'onclick="openSkillExplorer(\'' + id.replace(/'/g, "\\'") + '\')"';
-        html += '<div class="ns-dag-card' + (isGhost ? ' ns-dag-ghost' : '') +
-          '" data-id="' + esc(id) + '" data-type="' + esc(s.type) + '" ' +
-          clickAttr + '>' +
-          (ns ? ghLink(ns) : '') +
-          '<span class="ns-dag-glyph" style="color:' + lm.color + '">' + glyph + '</span>' +
-          '<div class="ns-dag-card-name">' + esc(s.name || id) + '</div>' +
-          '<span class="ns-level-badge" style="color:' + lm.color + ';background:' + lm.bg +
-          ';border-color:' + lm.border + '">' + esc(s.level) + '</span>' +
-        '</div>';
+        var miniNs = ns || {
+          id: id,
+          name: s.name || id,
+          level: s.level,
+          type: s.type,
+          links: {},
+          genericSkillRef: id,
+        };
+        var dagOpts = {
+          extraClass: 'ns-dag-card',
+          dagId: id,
+          ghost: isGhost,
+          attrs: ' data-type="' + esc(s.type) + '"',
+        };
+        if (isGhost) {
+          // Ghost plaque click opens the "gaia propose" dialog so the user can claim the unnamed skill.
+          dagOpts.onclick = 'event.stopPropagation();(function(id){var sm=window._gaiaSkillMap||{};var g=sm[id];if(g&&typeof window.openUnnamedPopup===\'function\')window.openUnnamedPopup(g);})(\'' + String(id).replace(/'/g,"\\'") + '\')';
+        }
+        var miniHtml = (window.plaque && typeof window.plaque.renderMini === 'function')
+          ? window.plaque.renderMini(miniNs, dagOpts)
+          : '';
+        var colorVar = isGhost ? 'var(--muted)' : 'var(--tier-' + (s.type || 'basic') + ', var(--muted))';
+        if (!isGhost && s.level && String(s.level).indexOf('6') !== -1) {
+          colorVar = '#ffffff';
+        }
+        // Label source: prefer slash-formatted named ID; fall back to generic ID for ghost nodes.
+        var labelSource = (ns && ns.id) ? ns.id : id;
+        var labelParts = String(labelSource).split('/');
+        var labelContrib = labelParts.length > 1 ? labelParts[0] : '';
+        var labelName = labelParts.length > 1 ? labelParts[1] : labelSource;
+        var labelHtml = labelContrib
+          ? '<div class="dag-node-label"><span class="dag-node-label-contrib">' + esc(labelContrib) + '</span><span style="color:var(--muted)">/</span><span class="dag-node-label-name">' + esc(labelName) + '</span></div>'
+          : '<div class="dag-node-label"><span class="dag-node-label-name">' + esc(labelSource) + '</span></div>';
+        html += '<div class="git-node" data-id="' + esc(id) + '" data-type="' + esc(s.type) + '" data-level="' + esc(s.level || '') + '" data-ghost="' + isGhost + '" style="--staggerY:' + staggerY + 'px"' +
+                ' onclick="if(window.selectNodeTree)window.selectNodeTree(\''+esc(id)+'\')"' +
+                ' onmouseenter="if(!window._selectedTreeNode&&window.highlightPathsTree)window.highlightPathsTree(\''+esc(id)+'\')"' +
+                ' onmouseleave="if(!window._selectedTreeNode&&window.unhighlightPathsTree)window.unhighlightPathsTree()">' +
+                '<div class="git-commit-dot" style="--dot-color: ' + colorVar + '"></div>' +
+                labelHtml +
+                miniHtml +
+                '</div>';
       });
       html += '</div>';
-    });
+    }
     html += '</div>';
 
     setTimeout(function() {
       var container = document.getElementById('nsDag');
       var svg = document.getElementById('nsDagSvg');
       if (!container || !svg) return;
+
+      window._currentDagEdgesTree = edges || [];
+      window._selectedTreeNode = window._selectedTreeNode || null;
+
+      function tierFor(fromEl) {
+        var level = fromEl.getAttribute('data-level') || '';
+        if (level.indexOf('6') !== -1) return 'apex';
+        var t = fromEl.getAttribute('data-type') || 'basic';
+        return ['ultimate','unique','extra','basic'].indexOf(t) !== -1 ? t : 'basic';
+      }
+
+      function getRelatedTreeNodes(nodeId) {
+        var related = {};
+        related[nodeId] = true;
+        var edgesMap = window._currentDagEdgesTree;
+        function traceUp(id) {
+          edgesMap.forEach(function(e) {
+            if (e.to === id && !related[e.from]) { related[e.from] = true; traceUp(e.from); }
+          });
+        }
+        function traceDown(id) {
+          edgesMap.forEach(function(e) {
+            if (e.from === id && !related[e.to]) { related[e.to] = true; traceDown(e.to); }
+          });
+        }
+        traceUp(nodeId);
+        traceDown(nodeId);
+        return related;
+      }
+
+      window.highlightPathsTree = function(nodeId) {
+        document.querySelectorAll('#nsDagSvg .git-path').forEach(function(p) { p.classList.remove('active-path'); });
+        document.querySelectorAll('#nsDag .git-node.show-label').forEach(function(n) { n.classList.remove('show-label'); });
+        var edgesMap = window._currentDagEdgesTree;
+        var related = {};
+        related[nodeId] = true;
+        function trace(id) {
+          edgesMap.forEach(function(e) {
+            if (e.to === id) {
+              var p = document.getElementById('path-tree-' + e.from + '-' + e.to);
+              if (p) p.classList.add('active-path');
+              if (!related[e.from]) { related[e.from] = true; trace(e.from); }
+            }
+          });
+        }
+        trace(nodeId);
+        Object.keys(related).forEach(function(id) {
+          var node = document.querySelector('#nsDag .git-node[data-id="' + id.replace(/"/g, '\\"') + '"]');
+          if (node) node.classList.add('show-label');
+        });
+      };
+      window.unhighlightPathsTree = function() {
+        if (window._selectedTreeNode) return;
+        document.querySelectorAll('#nsDagSvg .git-path').forEach(function(p) { p.classList.remove('active-path'); });
+        document.querySelectorAll('#nsDag .git-node.show-label').forEach(function(n) { n.classList.remove('show-label'); });
+      };
+
+      window.selectNodeTree = function(nodeId) {
+        var related = getRelatedTreeNodes(nodeId);
+        // If a path is already locked AND the clicked node is part of it, keep the current lock.
+        if (window._selectedTreeNode) {
+          var currentRelated = getRelatedTreeNodes(window._selectedTreeNode);
+          if (currentRelated[nodeId]) return;
+        }
+        document.querySelectorAll('#nsDag .git-node.selected').forEach(function(n) { n.classList.remove('selected'); });
+        document.querySelectorAll('#nsDag .git-node.show-label').forEach(function(n) { n.classList.remove('show-label'); });
+        document.querySelectorAll('#nsDagSvg .git-path').forEach(function(p) { p.classList.remove('active-path','dimmed'); });
+
+        var node = document.querySelector('#nsDag .git-node[data-id="' + nodeId.replace(/"/g, '\\"') + '"]');
+        if (!node) return;
+        node.classList.add('selected');
+        window._selectedTreeNode = nodeId;
+
+        // Active-path ancestors only (the lit vein)
+        var edgesMap = window._currentDagEdgesTree;
+        function traceAncestors(id) {
+          edgesMap.forEach(function(e) {
+            if (e.to === id) {
+              var p = document.getElementById('path-tree-' + e.from + '-' + e.to);
+              if (p) p.classList.add('active-path');
+              traceAncestors(e.from);
+            }
+          });
+        }
+        traceAncestors(nodeId);
+
+        // Dim everything that isn't fully inside the related set
+        edgesMap.forEach(function(e) {
+          if (!related[e.from] || !related[e.to]) {
+            var p = document.getElementById('path-tree-' + e.from + '-' + e.to);
+            if (p) p.classList.add('dimmed');
+          }
+        });
+
+        // Show labels on every related node (ancestors + descendants)
+        Object.keys(related).forEach(function(id) {
+          var n = document.querySelector('#nsDag .git-node[data-id="' + id.replace(/"/g, '\\"') + '"]');
+          if (n) n.classList.add('show-label');
+        });
+      };
+
+      if (!window._nsDagClickHandlerAdded) {
+        document.addEventListener('click', function(e) {
+          if (!e.target.closest('.git-node') && !e.target.closest('#nsDag')) {
+            window._selectedTreeNode = null;
+            document.querySelectorAll('#nsDag .git-node.selected').forEach(function(n) { n.classList.remove('selected'); });
+            document.querySelectorAll('#nsDag .git-node.show-label').forEach(function(n) { n.classList.remove('show-label'); });
+            document.querySelectorAll('#nsDagSvg .git-path').forEach(function(p) { p.classList.remove('active-path','dimmed'); });
+          }
+        });
+        window._nsDagClickHandlerAdded = true;
+      }
+
       var cRect = container.getBoundingClientRect();
       svg.style.width = container.scrollWidth + 'px';
       svg.style.height = container.scrollHeight + 'px';
       var paths = '';
       edges.forEach(function(e) {
         var fromEl = container.querySelector('[data-id="' + e.from + '"]');
-        var toEl = container.querySelector('[data-id="' + e.to + '"]');
+        var toEl   = container.querySelector('[data-id="' + e.to + '"]');
         if (!fromEl || !toEl) return;
-        var fr = fromEl.getBoundingClientRect();
-        var tr = toEl.getBoundingClientRect();
-        var x1 = fr.left + fr.width / 2 - cRect.left + container.scrollLeft;
-        var y1 = fr.top + fr.height - cRect.top + container.scrollTop;
-        var x2 = tr.left + tr.width / 2 - cRect.left + container.scrollLeft;
-        var y2 = tr.top - cRect.top + container.scrollTop;
-        var cy1 = y1 + (y2 - y1) * 0.35;
-        var cy2 = y1 + (y2 - y1) * 0.65;
-        paths += '<path class="ns-dag-arrow" d="M' + x1 + ' ' + y1 + ' C' + x1 + ' ' + cy1 + ' ' + x2 + ' ' + cy2 + ' ' + x2 + ' ' + y2 + '"/>';
+        var dotFrom = fromEl.querySelector('.git-commit-dot');
+        var dotTo   = toEl.querySelector('.git-commit-dot');
+        var fr = (dotFrom || fromEl).getBoundingClientRect();
+        var tr = (dotTo   || toEl).getBoundingClientRect();
+
+        var fx = fr.left + fr.width / 2 - cRect.left + container.scrollLeft;
+        var fy = fr.top  + fr.height / 2 - cRect.top  + container.scrollTop;
+        var tx = tr.left + tr.width / 2 - cRect.left + container.scrollLeft;
+        var ty = tr.top  + tr.height / 2 - cRect.top  + container.scrollTop;
+
+        var dx = tx - fx;
+        var dy = ty - fy;
+        var ctrl = Math.abs(dy) * 0.55 + Math.abs(dx) * 0.12;
+        var d = 'M' + fx.toFixed(1) + ',' + fy.toFixed(1) +
+                ' C' + fx.toFixed(1) + ',' + (fy + ctrl).toFixed(1) +
+                ' ' + tx.toFixed(1) + ',' + (ty - ctrl).toFixed(1) +
+                ' ' + tx.toFixed(1) + ',' + ty.toFixed(1);
+
+        var tier = tierFor(fromEl);
+        paths += '<path id="path-tree-' + e.from + '-' + e.to + '" class="git-path" data-tier="' + tier + '" d="' + d + '"/>';
       });
-      var defs = svg.querySelector('defs');
-      if (defs) defs.insertAdjacentHTML('afterend', paths);
+      svg.innerHTML = paths;
     }, 60);
 
     return html;
@@ -179,28 +386,17 @@
     var viewMode = 'tile';
     var typeFilter = 'all';
     var searchQuery = '';
-    var sortMode = 'level';
-    var FALLBACK_NAMED_INDEX = { buckets: {
-      'automated-testing':           [{ id:'0xdarkmatter/pytest-patterns',            name:'Pytest Patterns',               contributor:'0xdarkmatter',       origin:true,  genericSkillRef:'automated-testing',           status:'named', level:'3★', description:'Comprehensive pytest skill covering modern patterns for Python test automation including fixtures, parametrize, async testing, mocking, coverage strategies, integration tests, and conftest organisation for pytest 7.0+ projects.',            title:'The Quality Guardian',           tags:['pytest','python','test-automation','fixtures','async-testing','coverage','mocking'],                   links:{ github:'https://github.com/aiskillstore/marketplace' } }],
-      'test-driven-development':     [{ id:'addy-osmani/test-driven-development',     name:'Test-Driven Development',       contributor:'addy-osmani',        origin:true,  genericSkillRef:'test-driven-development',     status:'named', level:'2★',  description:'Forces the AI agent to follow a strict red-green-refactor TDD workflow — writing failing tests before any implementation code, blocking code generation that skips the test step, and enforcing coverage thresholds before completing a task.', title:'The Red-Green Oath',             tags:['tdd','testing','red-green-refactor','workflow-enforcement','software-quality'],              links:{ github:'https://github.com/addyosmani/agent-skills' } }],
-      'document-editing':            [{ id:'anthropic/pptx',                           name:'PPTX Editor',                   contributor:'anthropic',          origin:true,  genericSkillRef:'document-editing',            status:'named', level:'2★',  description:'Extracts slide content from PowerPoint (.pptx) files using markitdown, applies edits or design principles in-place, and repacks the file — enabling agents to read, modify, and write structured presentation files without a GUI.',            title:'The Slide Artisan',              tags:['pptx','powerpoint','document-editing','markitdown','presentations'],                          links:{ github:'https://github.com/anthropics/skills/blob/main/skills/pptx/SKILL.md' } }],
-      'tool-creation':               [{ id:'anthropic/skill-creator',                 name:'Skill Creator',                 contributor:'anthropic',          origin:true,  genericSkillRef:'tool-creation',               status:'named', level:'2★',  description:'Interviews the user through a structured dialogue to elicit the skill\'s purpose, trigger conditions, and step-by-step instructions, then programmatically writes a new SKILL.md file ready for use in a Claude Code or Codex CLI skills directory.', title:'The Skill Forger\'s Art',        tags:['skill-authoring','meta-agent','claude-code','tool-creation'],                                links:{ github:'https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md' } }],
-      'autonomous-debug':            [{ id:'devin-ai/autonomous-swe',                 name:'Autonomous SWE',                contributor:'devin-ai',           origin:true,  genericSkillRef:'autonomous-debug',            status:'named', level:'3★', description:'Autonomous software engineering agent capable of end-to-end debugging, code generation, and self-correction across complex multi-file codebases.',                                                                                               title:'The Codebreaker\'s Will',        tags:['software-engineering','autonomous','debugging','code-generation','self-correction'],         links:{ github:'https://github.com/cognition-labs/devin' } }],
-      'write-report':                [{ id:'glincker/readme-generator',               name:'README Generator',              contributor:'glincker',           origin:true,  genericSkillRef:'write-report',                status:'named', level:'2★',  description:'Analyzes a project\'s directory structure, dependency manifests, and configuration files to generate a professional README.md covering installation, usage, API reference, and contributing guidelines.',                                          title:'The Document Weaver',            tags:['documentation','readme','code-analysis','project-structure'],                                links:{ github:'https://github.com/GLINCKER/claude-code-marketplace/blob/main/skills/documentation/readme-generator/SKILL.md' } },
-                                      { id:'spring-ai/readme-generate',               name:'REST API README Generator',     contributor:'spring-ai',          origin:false, genericSkillRef:'write-report',                status:'named', level:'2★',  description:'Scans a Java Spring project for controller annotations, extracts REST API endpoint definitions, and automatically generates structured API documentation in README format.',                                                                      title:'The Endpoint Scribe',            tags:['java','spring','rest-api','documentation','readme'],                                         links:{ github:'https://github.com/spring-ai-alibaba/examples/tree/main/.claude/skills' } }],
-      'browser-automation':          [{ id:'gooseworks/notte-browser',                name:'Notte Browser',                 contributor:'gooseworks',         origin:true,  genericSkillRef:'browser-automation',          status:'named', level:'3★', description:'AI-first browser automation using the Notte Browser API to control browser sessions, scrape pages, fill forms, take screenshots, and run autonomous web agents with managed credential handling.',                                              title:'The Digital Navigator',          tags:['browser','automation','web-agent','scraping','notte'],                                       links:{ github:'https://github.com/gooseworks-ai/goose-skills' } }],
-      'autonomous-research-agent':   [{ id:'karpathy/autoresearch',                   name:'AutoResearch',                  contributor:'karpathy',           origin:true,  genericSkillRef:'autonomous-research-agent',   status:'named', level:'6★',  description:'Autonomous research agent that iteratively searches, reads, and synthesizes academic papers into structured summaries.',                                                                                                                           title:'The Scholar\'s Compass',         tags:['research','autonomous','paper-synthesis'],                                                   links:{ github:'https://github.com/karpathy/autoresearch' } }],
-      'framework-upgrade':           [{ id:'laravel/upgrade-laravel-v13',             name:'Upgrade Laravel v13',           contributor:'laravel',            origin:true,  genericSkillRef:'framework-upgrade',           status:'named', level:'2★',  description:'Guides an AI agent through upgrading a Laravel 12 application to Laravel 13 safely, covering breaking changes, dependency updates, config migrations, and post-upgrade test validation.',                                                       title:'The Versionist\'s Trial',        tags:['laravel','php','framework-upgrade','migration'],                                             links:{ github:'https://github.com/laravel/boost/issues/698' } }],
-      'ux-audit':                    [{ id:'martin-stepanoski/nielsen-heuristics-audit',name:'Nielsen Heuristics Audit',    contributor:'martin-stepanoski',  origin:true,  genericSkillRef:'ux-audit',                    status:'named', level:'2★',  description:'Audits a UI interface against Jakob Nielsen\'s 10 usability heuristics step-by-step, scoring each heuristic, surfacing violations, and producing a prioritized remediation report.',                                                             title:'The Ten Laws of Sight',          tags:['ux','usability','nielsen','heuristics','accessibility'],                                     links:{ npm:'https://classic.yarnpkg.com/en/package/@mastepanoski/claude-skills' } }],
-      'multi-agent-orchestration-v': [{ id:'ruvnet/flow-nexus-swarm',                 name:'Flow Nexus Swarm',              contributor:'ruvnet',             origin:true,  genericSkillRef:'multi-agent-orchestration-v', status:'named', level:'3★', description:'Cloud-based AI swarm orchestration platform supporting hierarchical, mesh, ring, and star topologies with event-driven workflows, message queue processing, and intelligent agent assignment.',                                                  title:'The Grand Conductor\'s Blueprint',tags:['multi-agent','swarm','orchestration','event-driven','workflow'],                             links:{ github:'https://github.com/ruvnet/ruflo' } }],
-      'generate-test':               [{ id:'upsonic/unittest-generator',              name:'Unittest Generator',            contributor:'upsonic',            origin:true,  genericSkillRef:'generate-test',               status:'named', level:'2★',  description:'Autonomous Claude agent that generates comprehensive unittest.TestCase suites from source code, organising tests into concept-based subfolders under a tests/ directory with proper imports, fixtures, and edge-case coverage.',                 title:'The Test Weaver',                tags:['unit-testing','unittest','test-generation','python','autonomous-agent'],                      links:{ github:'https://github.com/Upsonic/Upsonic' } }],
-      'skill-discovery':             [{ id:'vercel/find-skills',                      name:'Find Skills',                   contributor:'vercel',             origin:true,  genericSkillRef:'skill-discovery',             status:'named', level:'2★',  description:'Searches the skills.sh registry by keyword or category, queries install counts to surface popular skills, and auto-installs the selected skill into the current project\'s skills directory.',                                                   title:'The Registry Scout',             tags:['skill-registry','discovery','skills-sh','auto-install'],                                     links:{ github:'https://github.com/vercel-labs/skills/blob/main/skills/find-skills/SKILL.md' } }],
-      'rag-pipeline':                [{ id:'yonatangross/orchestkit-rag',             name:'OrchestrKit RAG',               contributor:'yonatangross',       origin:true,  genericSkillRef:'rag-pipeline',                status:'named', level:'3★', description:'Production-grade RAG retrieval skill covering 30+ patterns including core pipeline composition, HyDE query expansion, pgvector hybrid search, cross-encoder reranking, multimodal chunking, and agentic self-RAG and corrective-RAG loops.', title:'The Knowledge Architect',        tags:['rag','retrieval','hybrid-search','hyde','pgvector','reranking','agentic-rag'],               links:{ github:'https://github.com/yonatangross/orchestkit' } }],
-    }};
+    // Stage 4 — Direction rule: 'level-desc' is the new default. The legacy
+    // 'level' value is treated as level-desc for back-compat with stored UI
+    // state and existing <option value="level"> markup.
+    var sortMode = 'level-desc';
 
+    // Stage 4 — Schema source-of-truth. The named index and meta block both
+    // come from generated assets. If either fetch fails we render an empty
+    // state with a hint to run the sync script. No fallbacks, no silent drift.
     Promise.all([
-      fetch('graph/named/index.json').then(function(r){ if (!r.ok) throw r; return r.json(); }).catch(function(){ return FALLBACK_NAMED_INDEX; }),
-      fetch('graph/gaia.json').then(function(r){ if (!r.ok) throw r; return r.json(); }).catch(function(){ return { skills: [] }; }),
+      fetch('graph/named/index.json').then(function(r){ if (!r.ok) throw r; return r.json(); }),
+      fetch('graph/gaia.json').then(function(r){ if (!r.ok) throw r; return r.json(); }),
     ]).then(function(results) {
       var indexData = results[0], fullGraph = results[1];
       var skillMap = {};
@@ -213,6 +409,7 @@
       window._gaiaSkillMap = skillMap;
       window._gaiaNamedBuckets = buckets;
       window._gaiaNamedAll = allNamed;
+      window._gaiaFullGraph = fullGraph;
 
       // Augment each named skill with type + level from the generic skill in gaia.json
       allNamed.forEach(function(ns) {
@@ -223,75 +420,82 @@
         }
       });
 
-      var levelOrder = ['2★','3★','4★','5★','6★'];
-      allNamed.sort(function(a, b) {
-        var d = levelOrder.indexOf(b.level) - levelOrder.indexOf(a.level);
-        return d !== 0 ? d : String(a.id).localeCompare(String(b.id));
-      });
-
       if (!allNamed.length) {
         grid.innerHTML = '<div class="ns-empty">No named skills yet. Publish the first with <code>gaia name</code>.</div>';
         return;
       }
 
-      var LEVEL_META = null;
-      var TYPE_ORDER = null;
-      var TYPE_META_G = null;
-
-      // Construct meta from gaia.json data if available
+      // Meta source-of-truth: registry/gaia.json.meta. Mirrored to
+      // docs/graph/gaia.json by syncDocsGraphAssets.py.
       var _meta = fullGraph.meta;
-      if (_meta && _meta.levelColors && _meta.levelLabels) {
-        LEVEL_META = {};
-        var _lc = _meta.levelColors;
-        var _ll = _meta.levelLabels;
-        Object.keys(_lc).forEach(function(k) {
-          if (k === '0★' || k === '1★') return;
-          LEVEL_META[k] = { name: _ll[k] || k, color: _lc[k].hex, bg: _lc[k].bg, border: _lc[k].border };
-        });
-      }
-      if (_meta && _meta.typeColors && _meta.typeSymbols && _meta.typeLabels) {
-        TYPE_META_G = {};
-        Object.keys(_meta.typeColors).forEach(function(t) {
-          TYPE_META_G[t] = { glyph: _meta.typeSymbols[t] || '', label: _meta.typeLabels[t] || t, color: _meta.typeColors[t].hex };
-        });
-        TYPE_ORDER = Object.keys(_meta.typeColors).sort(function(a, b) {
-          var order = { ultimate: 0, unique: 1, extra: 2, basic: 3 };
-          return (order[a] !== undefined ? order[a] : 99) - (order[b] !== undefined ? order[b] : 99);
-        });
+      if (!_meta || !_meta.levelColors || !_meta.typeColors || !_meta.typeSymbols || !_meta.typeLabels) {
+        // eslint-disable-next-line no-console
+        console.error('[gaia] Missing meta in graph/gaia.json. Run `python scripts/syncDocsGraphAssets.py`.');
+        grid.innerHTML = '<div class="ns-empty">Registry meta missing — run <code>python scripts/syncDocsGraphAssets.py</code>.</div>';
+        return;
       }
 
-      // Expose meta globally so skill-explorer.js can use it
-      window._gaiaMeta = _meta || null;
+      var LEVEL_META = {};
+      var _lc = _meta.levelColors;
+      var _ll = _meta.levelLabels || {};
+      Object.keys(_lc).forEach(function(k) {
+        // Explorer surfaces 2★+ only; 0★ and 1★ exist in meta for completeness
+        // (used by the rank-badge component and the unnamed-popup) but aren't
+        // bucketed into named skills.
+        if (k === '0★' || k === '1★') return;
+        LEVEL_META[k] = { name: _ll[k] || k, color: _lc[k].hex, bg: _lc[k].bg, border: _lc[k].border };
+      });
+      var TYPE_META_G = {};
+      Object.keys(_meta.typeColors).forEach(function(t) {
+        TYPE_META_G[t] = { glyph: (_meta.typeSymbols || {})[t] || '', label: (_meta.typeLabels || {})[t] || t, color: _meta.typeColors[t].hex };
+      });
+      // Direction rule — Ultimate-first across groups; level-desc within group.
+      // Ascension Cycle is the only journey exemption (data-pattern='journey').
+      var TYPE_ORDER = Object.keys(_meta.typeColors).sort(function(a, b) {
+        var order = { ultimate: 0, unique: 1, extra: 2, basic: 3 };
+        return (order[a] !== undefined ? order[a] : 99) - (order[b] !== undefined ? order[b] : 99);
+      });
 
-      // Fallbacks if meta not present
-      if (!LEVEL_META) {
-        LEVEL_META = {
-          '2★':  { name:'Named',          color:'#63cab7', bg:'rgba(99,202,183,.15)',  border:'rgba(99,202,183,.4)'  },
-          '3★': { name:'Evolved',        color:'#a78bfa', bg:'rgba(167,139,250,.15)', border:'rgba(167,139,250,.4)' },
-          '4★':  { name:'Hardened',       color:'#e879f9', bg:'rgba(232,121,249,.15)', border:'rgba(232,121,249,.4)' },
-          '5★':   { name:'Transcendent',   color:'#fbbf24', bg:'rgba(251,191,36,.15)',  border:'rgba(251,191,36,.4)'  },
-          '6★':  { name:'Transcendent ★', color:'#fbbf24', bg:'rgba(251,191,36,.22)', border:'rgba(251,191,36,.55)' },
-        };
-      }
-      if (!TYPE_ORDER) {
-        TYPE_ORDER = ['ultimate','unique','extra','basic'];
-      }
-      if (!TYPE_META_G) {
-        TYPE_META_G = {
-          ultimate: { glyph:'◆', label:'Ultimate', color:'#f59e0b' },
-          unique:   { glyph:'◉', label:'Unique',   color:'#7c3aed' },
-          extra:    { glyph:'◇', label:'Extra',    color:'#c084fc' },
-          basic:    { glyph:'○', label:'Basic',    color:'#38bdf8' },
-        };
-      }
+      window._gaiaMeta = _meta;
 
       function nsType(ns) { return ns.type || 'basic'; }
+      function levelNum(level) {
+        var n = parseInt(String(level || '').replace(/\D+/g, ''), 10);
+        return isNaN(n) ? 0 : n;
+      }
 
       function groupHeader(type, id) {
         var tm = TYPE_META_G[type]; if (!tm) return '';
         return '<div class="ns-group-header" id="ns-group-'+id+'">' +
-          '<span class="ns-group-glyph" style="color:'+tm.color+'">'+tm.glyph+'</span>'+tm.label+
+          '<span class="ns-group-glyph tier-glyph" data-type="'+esc(type)+'">'+tm.glyph+'</span>'+
+          esc(tm.label)+
         '</div>';
+      }
+
+      // Within-group sort. Direction rule:
+      //   default (level-desc) — most-prestigious first (6★ → 2★)
+      //   level-asc            — easiest first (rare; the "what can I unlock?" use case)
+      //   creator              — alphabetical by contributor
+      //   name                 — alphabetical by skill name
+      // Group order itself (ultimate→unique→extra→basic) is owned by TYPE_ORDER.
+      function withinGroupSort(items) {
+        if (sortMode === 'creator') {
+          return items.slice().sort(function(a,b){return (a.contributor||'').localeCompare(b.contributor||'');});
+        }
+        if (sortMode === 'name') {
+          return items.slice().sort(function(a,b){return nsDisplayName(a).localeCompare(nsDisplayName(b));});
+        }
+        if (sortMode === 'level-asc') {
+          return items.slice().sort(function(a,b){
+            var d = levelNum(a.level) - levelNum(b.level);
+            return d !== 0 ? d : String(a.id).localeCompare(String(b.id));
+          });
+        }
+        // 'level-desc' (default) — also catches legacy 'level' value.
+        return items.slice().sort(function(a,b){
+          var d = levelNum(b.level) - levelNum(a.level);
+          return d !== 0 ? d : String(a.id).localeCompare(String(b.id));
+        });
       }
 
       function renderCurrent() {
@@ -304,28 +508,29 @@
           }
           return true;
         });
-        if (sortMode === 'creator') filtered.sort(function(a,b){return (a.contributor||'').localeCompare(b.contributor||'');});
-        else if (sortMode === 'name') filtered.sort(function(a,b){return nsDisplayName(a).localeCompare(nsDisplayName(b));});
         if (!filtered.length) { grid.innerHTML='<div class="ns-empty">No skills match.</div>'; return; }
-        function lm(ns) { return LEVEL_META[ns.level] || LEVEL_META['2★']; }
 
         if (viewMode === 'flow') {
+          // Tree-view DAG owns its own ordering (depth + type+level within
+          // each depth) — see renderFlowchartView for the direction rule.
           grid.className = 'ns-grid-flow';
-          grid.innerHTML = renderFlowchartView(filtered, LEVEL_META);
-        } else {
-          // Group by type: ultimate → unique → extra → basic
-          var groups = { ultimate:[], unique:[], extra:[], basic:[] };
-          filtered.forEach(function(ns){ var t=nsType(ns); (groups[t]||(groups[t]=[])).push(ns); });
-          var html = '';
-          TYPE_ORDER.forEach(function(type) {
-            var items = groups[type]; if (!items || !items.length) return;
-            html += groupHeader(type, type);
-            if (viewMode === 'list') html += items.map(function(ns){ return renderListRow(ns, lm(ns)); }).join('');
-            else html += items.map(function(ns){ return renderTile(ns, lm(ns)); }).join('');
-          });
-          grid.className = viewMode === 'list' ? 'ns-grid-list' : 'ns-grid-tile';
-          grid.innerHTML = html;
+          grid.innerHTML = renderFlowchartView(filtered);
+          return;
         }
+
+        // Group by type: ultimate → unique → extra → basic (TYPE_ORDER).
+        var groups = { ultimate:[], unique:[], extra:[], basic:[] };
+        filtered.forEach(function(ns){ var t=nsType(ns); (groups[t]||(groups[t]=[])).push(ns); });
+        var html = '';
+        TYPE_ORDER.forEach(function(type) {
+          var items = groups[type]; if (!items || !items.length) return;
+          items = withinGroupSort(items);
+          html += groupHeader(type, type);
+          if (viewMode === 'list') html += items.map(function(ns){ return renderListRow(ns); }).join('');
+          else html += items.map(function(ns){ return renderTile(ns); }).join('');
+        });
+        grid.className = viewMode === 'list' ? 'ns-grid-list' : 'ns-grid-tile';
+        grid.innerHTML = html;
       }
 
       if (tabsEl) {
@@ -350,18 +555,41 @@
         });
       }
 
+      var mobileSearchEl = document.getElementById('navMobileSearch');
       if (searchEl) {
-        searchEl.addEventListener('input', function(){ searchQuery = searchEl.value; renderCurrent(); });
+        searchEl.addEventListener('input', function(){
+          searchQuery = searchEl.value;
+          if(mobileSearchEl && mobileSearchEl.value !== searchQuery) mobileSearchEl.value = searchQuery;
+          renderCurrent();
+        });
+      }
+      if (mobileSearchEl) {
+        mobileSearchEl.addEventListener('input', function(){
+          searchQuery = mobileSearchEl.value;
+          if(searchEl && searchEl.value !== searchQuery) searchEl.value = searchQuery;
+          renderCurrent();
+        });
       }
 
       if (sortEl) {
-        sortEl.addEventListener('change', function(){ sortMode = sortEl.value; renderCurrent(); });
+        // Initialise to current sortMode (back-compat: 'level' → 'level-desc').
+        try {
+          if (sortEl.value === 'level') sortEl.value = 'level-desc';
+          if (sortEl.value && sortEl.value !== sortMode) sortMode = sortEl.value;
+        } catch (e) { /* ignore */ }
+        sortEl.addEventListener('change', function(){
+          var v = sortEl.value;
+          sortMode = v === 'level' ? 'level-desc' : v;
+          renderCurrent();
+        });
       }
 
       // Dock: click to jump to group
       renderCurrent();
-    }).catch(function() {
-      grid.innerHTML = '<div class="ns-empty">Unable to render named skills.</div>';
+    }).catch(function(err) {
+      // eslint-disable-next-line no-console
+      console.error('[gaia] Failed to load named index or graph:', err);
+      grid.innerHTML = '<div class="ns-empty">Registry index missing — run <code>python scripts/syncDocsGraphAssets.py</code>.</div>';
     });
 
     // Grab-to-scroll: click+drag anywhere in the Named Skills section scrolls the page
@@ -392,6 +620,9 @@
       });
     }
   }
+
+  // Expose viewFields for callers (samplers, page-ia, debugging).
+  window.gaiaViewFields = viewFields;
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initNamedSkills);

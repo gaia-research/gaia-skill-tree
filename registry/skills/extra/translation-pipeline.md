@@ -1,4 +1,4 @@
-# Extra Skill: /translation-pipeline  [3★ · Evolved]
+# /translation-pipeline  [3★ · Evolved]
 **ID:** translation-pipeline  
 **Type:** Extra Skill  
 **Level:** 3★  

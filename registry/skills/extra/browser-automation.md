@@ -1,4 +1,4 @@
-# Extra Skill: gooseworks/notte-browser  [3★ · Evolved]
+# [gooseworks](../../../docs/u/gooseworks/)/notte-browser  [3★ · Evolved]
 **ID:** browser-automation  
 **Type:** Extra Skill  
 **Level:** 3★  

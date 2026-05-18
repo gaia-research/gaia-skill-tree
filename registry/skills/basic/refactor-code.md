@@ -1,4 +1,4 @@
-# mattpocock/improve-codebase-architecture  [2★ · Named]
+# [mattpocock](../../../docs/u/mattpocock/)/improve-codebase-architecture  [2★ · Named]
 **ID:** refactor-code  
 **Type:** Basic Skill  
 **Level:** 2★  

@@ -1,4 +1,4 @@
-# Extra Skill: stanfordnlp/dspy  [4★ · Hardened]
+# [stanfordnlp](../../../docs/u/stanfordnlp/)/dspy  [4★ · Hardened]
 **ID:** prompt-optimization  
 **Type:** Extra Skill  
 **Level:** 4★  

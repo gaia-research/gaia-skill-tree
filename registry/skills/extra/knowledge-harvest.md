@@ -1,4 +1,4 @@
-# Extra Skill: /knowledge-harvest  [4★ · Hardened]
+# /knowledge-harvest  [4★ · Hardened]
 **ID:** knowledge-harvest  
 **Type:** Extra Skill  
 **Level:** 4★  

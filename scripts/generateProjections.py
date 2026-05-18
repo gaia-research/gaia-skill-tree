@@ -11,6 +11,15 @@ if SRC_DIR not in sys.path:
 
 from gaia_cli.leveling import effective_level
 
+# Phase 8d — pull in the markdown linked-handle helper so every named
+# skill identifier (contributor/skill) emits a hover-underlined link to
+# the contributor's profile page (docs/u/<handle>/).
+_SCRIPTS_DIR = os.path.dirname(os.path.abspath(__file__))
+if _SCRIPTS_DIR not in sys.path:
+    sys.path.insert(0, _SCRIPTS_DIR)
+from _atlas_helpers import markdown_handle_link  # noqa: E402
+from _tree_renderer import render_tree  # noqa: E402
+
 
 def _run_generate_named_index():
     """Invoke generateNamedIndex as a module to produce registry/named-skills.json."""
@@ -89,28 +98,45 @@ def get_tier_symbol(skill_type):
     return {"basic": "○", "extra": "◇", "unique": "◉", "ultimate": "◆"}.get(skill_type, "·")
 
 
-def _build_skill_display(skill_id, skill_type, named_map=None):
-    """Return canonical display string for a skill.
+def _link_named_id(named_id, handle_rel=None):
+    """Wrap the contributor segment of ``handle/skill`` in a markdown link.
 
-    Basic  -> /slug (no tier prefix)
-    Extra  -> Extra Skill: /slug  (or Extra Skill: contributor/name)
-    Ultimate (claimed)   -> Ultimate Skill: contributor/name
-    Ultimate (unclaimed) -> Ultimate Skill: /slug [Unclaimed ✦]
+    For ``karpathy/autoresearch`` and ``handle_rel='u/'`` returns
+    ``[karpathy](u/karpathy/)/autoresearch``. If ``handle_rel`` is None
+    the original string is returned unchanged (preserves the old plain
+    behaviour for callers that don't opt in).
+    """
+    if not named_id or handle_rel is None or "/" not in named_id:
+        return named_id
+    handle, _, tail = named_id.partition("/")
+    if not handle or not tail:
+        return named_id
+    return f"{markdown_handle_link(handle, rel=handle_rel, with_at=False)}/{tail}"
+
+
+def _build_skill_display(skill_id, skill_type, named_map=None, handle_rel=None):
+    """Return canonical display string for a skill (no tier prefix).
+
+    All rows:  glyph already encodes tier; the section header labels the group.
+    Ultimate (unclaimed) → /slug [N★ · Unclaimed]
+
+    Phase 8d — when ``handle_rel`` is set (e.g. ``'u/'`` for
+    ``docs/tree.md`` or ``'../docs/u/'`` for registry markdown), the
+    contributor segment of any claimed named id is wrapped in a
+    markdown link to the contributor's profile page. Pass ``None``
+    (the default) to keep the original plain-text behaviour.
     """
     named_id = (named_map or {}).get(skill_id)
+    named_id_display = _link_named_id(named_id, handle_rel)
     if skill_type == "ultimate":
         if named_id:
-            return f"Ultimate Skill: {named_id}"
-        return f"Ultimate Skill: /{skill_id} [Unclaimed ✦]"
+            return named_id_display
+        return f"/{skill_id}"
     if skill_type == "unique":
-        if named_id:
-            return f"Unique Skill: {named_id}"
-        return f"Unique Skill: /{skill_id}"
+        return named_id_display if named_id else f"/{skill_id}"
     if skill_type == "extra":
-        if named_id:
-            return f"Extra Skill: {named_id}"
-        return f"Extra Skill: /{skill_id}"
-    return named_id if named_id else f"/{skill_id}"
+        return named_id_display if named_id else f"/{skill_id}"
+    return named_id_display if named_id else f"/{skill_id}"
 
 def _sorted_ultimates(skills):
     order = {"6★": 0, "5★": 1, "4★": 2, "3★": 3, "2★": 4, "1★": 5, "0★": 6}
@@ -121,7 +147,8 @@ def _sorted_ultimates(skills):
 
 
 def _render_subtree(root_id, skill_map, meta, prefix, is_last, seen,
-                    unlocked_ids=None, user_id=None, named_map=None):
+                    unlocked_ids=None, user_id=None, named_map=None,
+                    handle_rel=None):
     skill = skill_map.get(root_id)
     if not skill:
         return []
@@ -133,7 +160,7 @@ def _render_subtree(root_id, skill_map, meta, prefix, is_last, seen,
     level_label = get_level_label(meta, level)
 
     skill_type = skill.get("type", "basic")
-    display = _build_skill_display(root_id, skill_type, named_map)
+    display = _build_skill_display(root_id, skill_type, named_map, handle_rel)
 
     already_seen = root_id in seen
     back_ref = "  (↑ see above)" if already_seen else ""
@@ -159,6 +186,7 @@ def _render_subtree(root_id, skill_map, meta, prefix, is_last, seen,
         lines.extend(_render_subtree(
             prereq_id, skill_map, meta, child_prefix, is_last_child, seen,
             unlocked_ids=unlocked_ids, user_id=user_id, named_map=named_map,
+            handle_rel=handle_rel,
         ))
 
     return lines
@@ -211,7 +239,14 @@ def main():
         demerits = list(skill.get("demerits", []) or [])
 
         with open(file_path, "w", encoding="utf-8") as f:
-            page_display = _build_skill_display(skill_id, skill_type, named_map)
+            # Phase 8d — registry/skills/<type>/<id>.md sits three levels
+            # deep under repo root. The contributor profile pages live at
+            # docs/u/<handle>/, so the link from here is
+            # ../../../docs/u/<handle>/.
+            page_display = _build_skill_display(
+                skill_id, skill_type, named_map,
+                handle_rel="../../../docs/u/",
+            )
             f.write(f"# {page_display}  [{level_label} · {tier_label}]\n")
             f.write(f"**ID:** {skill_id}  \n")
             f.write(f"**Type:** {type_label or 'Basic Skill'}  \n")
@@ -303,6 +338,9 @@ def main():
             and not s.get("prerequisites")
         }
 
+        # Phase 8d — registry/registry.md sits at registry/ which is one
+        # level under repo root; profile pages are at docs/u/<handle>/.
+        _REG_HANDLE_REL = "../docs/u/"
         for skill in skills:
             if skill["id"] in orphan_ids:
                 continue
@@ -311,7 +349,7 @@ def main():
             type_label = get_type_label(meta, skill_type)
             level_label = get_effective_level_label(meta, skill)
             tier_label = get_tier_label(meta, skill.get("level"))
-            reg_display = _build_skill_display(skill.get('id'), skill_type, named_map)
+            reg_display = _build_skill_display(skill.get('id'), skill_type, named_map, _REG_HANDLE_REL)
             name_display = f"{symbol} {reg_display}"
             skill_call = f"`/{skill.get('id')}`"
             f.write(f"| {name_display} | {type_label or 'Basic Skill'} | {level_label} | {tier_label} | {skill_call} |\n")
@@ -328,14 +366,14 @@ def main():
             for skill in unique_skills:
                 level_label = get_effective_level_label(meta, skill)
                 tier_label = get_tier_label(meta, skill.get("level"))
-                reg_display = _build_skill_display(skill.get('id'), "unique", named_map)
+                reg_display = _build_skill_display(skill.get('id'), "unique", named_map, _REG_HANDLE_REL)
                 name_display = f"◉ {reg_display}"
                 skill_call = f"`/{skill.get('id')}`"
                 f.write(f"| {name_display} | Unique Skill | {level_label} | {tier_label} | {skill_call} |\n")
             f.write("\n")
 
-        f.write("## Pure / Undeveloped\n\n")
-        f.write("*Atomic skills with no connections to the upgrade graph — no prerequisites and not referenced as a component of any other skill.*\n\n")
+        f.write("## Basics\n\n")
+        f.write("*Basic-tier skills with no connections to the upgrade graph — no prerequisites and not referenced as a component of any other skill.*\n\n")
         f.write("| Name | Class | Rank | Tier | Skill Call |\n")
         f.write("|---|---|---|---|---|\n")
         for skill in skills:
@@ -375,6 +413,8 @@ def main():
         f.write("# Combinations\n\n")
         f.write("| Skill | Class | Prerequisites | Level Floor | Conditions |\n")
         f.write("|---|---|---|---|---|\n")
+        # Phase 8d — same relative-path convention as registry.md.
+        _COMBO_HANDLE_REL = "../docs/u/"
         for skill in skills:
             if skill.get("type") in ["extra", "ultimate"]:
                 skill_type = skill.get("type")
@@ -383,7 +423,7 @@ def main():
                 level_label = get_effective_level_label(meta, skill)
                 prereqs = [skill_map.get(pid, {}).get("name", pid) for pid in skill.get("prerequisites", [])]
                 prereq_str = ", ".join(prereqs)
-                combo_display = _build_skill_display(skill.get('id'), skill_type, named_map)
+                combo_display = _build_skill_display(skill.get('id'), skill_type, named_map, _COMBO_HANDLE_REL)
                 name_display = f"{symbol} {combo_display}"
                 f.write(f"| {name_display} | {type_label} | {prereq_str} | {level_label} | {skill.get('conditions', '')} |\n")
         # f.write(f"\n*Generated from gaia.json v{version}.*\n")
@@ -411,19 +451,22 @@ def main():
             md_path = os.path.join(user_dir, "skill-tree.md")
             with open(md_path, "w", encoding="utf-8") as f:
                 user_id = tree.get("userId", username)
+                stats = tree.get("stats", {})
+                highest_level = stats.get("highestLevel", stats.get("highestRarity", ""))
+                _raw_highest = get_tier_label(meta, highest_level) if highest_level else ""
+                # Only use the label if it came from levelLabels; otherwise emit em dash
+                highest_label = _raw_highest if (highest_level and highest_level in (meta.get("levelLabels") or {})) else "—"
                 f.write(f"# Skill Tree — {user_id}\n")
                 f.write(f"**Last Updated:** {tree.get('updatedAt', 'unknown')}\n")
-                stats = tree.get("stats", {})
                 f.write(f"**Total Skills Unlocked:** {stats.get('totalUnlocked', 0)}\n")
-                highest_level = stats.get('highestLevel', stats.get('highestRarity', ''))
-                f.write(f"**Highest Tier:** {get_tier_label(meta, highest_level)}\n")
+                f.write(f"**Highest Tier:** {highest_label}\n")
                 f.write(f"**Deepest Lineage:** {stats.get('deepestLineage', 0)}\n\n")
                 f.write("---\n\n")
 
                 f.write("## Unlocked Skills\n\n")
                 unlocked = tree.get("unlockedSkills", [])
                 if unlocked:
-                    f.write("| Skill | Class | Rank | Tier | Unlocked In | Date |\n")
+                    f.write("| Skill | Type | Rank | Tier name | Source | Date |\n")
                     f.write("|---|---|---|---|---|---|\n")
                     for us in unlocked:
                         sid = us.get("skillId", "")
@@ -442,33 +485,27 @@ def main():
                     f.write("_No skills unlocked yet._\n")
                 f.write("\n---\n\n")
 
-                # Upgrade path tree with unlock markers
+                # Upgrade path tree — routed through shared render_tree contract
+                unlocked_ids = {us.get("skillId") for us in unlocked}
                 f.write("## Upgrade Path\n\n")
                 f.write("```\n")
-                unlocked_ids = {us.get("skillId") for us in unlocked}
-                for legendary in legendaries:
-                    lid = legendary.get("id")
-                    lname = legendary.get("name")
-                    llevel = legendary.get("level")
-                    prereq_ids = legendary.get("prerequisites", [])
-
-                    level_label = get_effective_level_label(meta, legendary)
-                    display = _build_skill_display(lid, "ultimate", named_map)
-                    demerit_suffix = get_demerit_suffix(legendary)
-
-                    check = "✓ " if lid in unlocked_ids else "· "
-                    f.write(f"{check}◆ {display}  [{level_label}]{demerit_suffix}\n")
-
-                    seen = {lid}
-                    for i, prereq_id in enumerate(prereq_ids):
-                        is_last = (i == len(prereq_ids) - 1)
-                        for sl in _render_subtree(
-                            prereq_id, skill_map, meta, "  ", is_last, seen,
-                            unlocked_ids=unlocked_ids, user_id=user_id,
-                            named_map=named_map,
-                        ):
-                            f.write(sl + "\n")
-                    f.write("\n")
+                tree_body = render_tree(
+                    skills,
+                    mode="user",
+                    owned_ids=unlocked_ids,
+                    named_map=named_map,
+                    meta=meta,
+                    version=version,
+                    date_str=date_str,
+                    user_id=user_id,
+                    skill_map=skill_map,
+                    get_effective_level_label=get_effective_level_label,
+                    get_demerit_suffix=get_demerit_suffix,
+                    build_skill_display=_build_skill_display,
+                    render_subtree=_render_subtree,
+                    sorted_ultimates=_sorted_ultimates,
+                )
+                f.write(tree_body)
                 f.write("```\n\n")
 
                 f.write("## Pending Combinations\n\n")
@@ -491,91 +528,30 @@ def main():
 
 
 def _generate_tree(skills, skill_map, meta, version, date_str, named_map=None):
-    legendaries = _sorted_ultimates(skills)
-
-    # compute orphaned atomics
-    all_prereq_ids = set()
-    for s in skills:
-        for pid in s.get("prerequisites", []):
-            all_prereq_ids.add(pid)
-
-    unique_skills = sorted(
-        [s for s in skills if s.get("type") == "unique"],
-        key=lambda s: s.get("id", "")
+    """Render canonical tree.md via the shared render_tree contract."""
+    body = render_tree(
+        skills,
+        mode="canonical",
+        named_map=named_map,
+        meta=meta,
+        version=version,
+        date_str=date_str,
+        skill_map=skill_map,
+        get_effective_level_label=get_effective_level_label,
+        get_demerit_suffix=get_demerit_suffix,
+        build_skill_display=_build_skill_display,
+        render_subtree=_render_subtree,
+        sorted_ultimates=_sorted_ultimates,
     )
-
-    pure_skills = sorted(
-        [s for s in skills
-         if s.get("type") == "basic"
-         and s["id"] not in all_prereq_ids
-         and not s.get("prerequisites")],
-        key=lambda s: s.get("id", "")
-    )
-
-    lines = []
-    lines.append("# Gaia Skill Tree")
-    lines.append("")
-    lines.append("```")
-    lines.append(f"GAIA SKILL TREE  v{version}  ·  generated {date_str}")
-    lines.append("═" * 70)
-    lines.append("Upgrade paths — each legendary shows its full prerequisite chain.")
-    lines.append("Shared prerequisites marked (↑ see above) on second occurrence.")
-    lines.append("═" * 70)
-    lines.append("")
-
-    for legendary in legendaries:
-        lid = legendary.get("id")
-        lname = legendary.get("name")
-        llevel = legendary.get("level")
-        level_label = get_effective_level_label(meta, legendary)
-        prereq_ids = legendary.get("prerequisites", [])
-        demerit_suffix = get_demerit_suffix(legendary)
-
-        display = _build_skill_display(lid, "ultimate", named_map)
-
-        lines.append(f"◆ {display}  [{level_label}]{demerit_suffix}")
-        lines.append("─" * 65)
-
-        seen = {lid}
-        for i, prereq_id in enumerate(prereq_ids):
-            is_last = (i == len(prereq_ids) - 1)
-            lines.extend(_render_subtree(prereq_id, skill_map, meta, "  ", is_last, seen,
-                                         named_map=named_map))
-
-        lines.append("")
-
-    if unique_skills:
-        lines.append("═" * 70)
-        lines.append("Unique Skills — graph-isolated singularities at 4★+")
-        lines.append("═" * 70)
-        lines.append("")
-        for us in unique_skills:
-            uid = us.get("id")
-            level_label = get_level_label(meta, us.get("level"))
-            tier_label = get_tier_label(meta, us.get("level"))
-            named_id = (named_map or {}).get(uid)
-            display = f"{named_id} - {us.get('name')}" if named_id else f"/{uid}"
-            lines.append(f"  ◉ Unique Skill: {display}  [{level_label} · {tier_label}]")
-        lines.append("")
-
-    if pure_skills:
-        lines.append("═" * 70)
-        lines.append("Pure / Undeveloped — basic skills not yet wired into any upgrade path.")
-        lines.append("═" * 70)
-        lines.append("")
-        for ps in pure_skills:
-            pid = ps.get("id")
-            level_label = get_level_label(meta, ps.get("level"))
-            tier_label = get_tier_label(meta, ps.get("level"))
-            named_id = (named_map or {}).get(pid)
-            display = f"{named_id} - {ps.get('name')}" if named_id else f"/{pid}"
-            lines.append(f"  ○ {display}  [{level_label} · {tier_label}]")
-        lines.append("")
-
-    lines.append("```")
-    lines.append("")
-    lines.append(f"*Generated from gaia.json on {date_str}. Do not edit directly.*")
-
+    lines = [
+        "# Gaia Skill Tree",
+        "",
+        "```",
+        body.rstrip("\n"),
+        "```",
+        "",
+        f"*Generated from gaia.json on {date_str}. Do not edit directly.*",
+    ]
     os.makedirs("generated-output", exist_ok=True)
     with open("generated-output/tree.md", "w", encoding="utf-8") as f:
         f.write("\n".join(lines) + "\n")

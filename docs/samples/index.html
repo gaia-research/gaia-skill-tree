@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en" data-icon-base="../assets/icons.svg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frontend Cohesion Overhaul — Sampler Index</title>
+  <meta name="description" content="Landing page for all eight stage samplers of the Gaia Frontend Cohesion Overhaul. Every component reads from registry/gaia.json and docs/css/tokens.css.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../css/styles.css">
+  <script src="../js/icons.js"></script>
+  <style>
+    /* ── Sampler index chrome ── */
+    body { padding: 4rem 1.5rem 7rem; max-width: 1100px; margin: 0 auto; }
+
+    /* ── Banner ── */
+    .si-banner {
+      background: linear-gradient(135deg,
+        rgba(56,189,248,.06) 0%,
+        rgba(192,132,252,.04) 50%,
+        rgba(245,158,11,.04) 100%);
+      border: 1px solid rgba(56,189,248,.18);
+      border-radius: 14px;
+      padding: 2rem 2.2rem 1.8rem;
+      margin-bottom: 3rem;
+    }
+    .si-banner-eyebrow {
+      font-family: var(--font-mono);
+      font-size: .75rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--tier-basic, #38bdf8);
+      margin-bottom: .6rem;
+    }
+    .si-banner h1 {
+      font-family: var(--font-display);
+      font-size: clamp(1.9rem, 4vw, 2.6rem);
+      font-weight: 600;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    .si-banner-body {
+      font-family: var(--font-body);
+      color: var(--muted);
+      font-size: .97rem;
+      line-height: 1.7;
+      max-width: 72ch;
+    }
+    .si-banner-body strong { color: var(--text); }
+
+    /* ── Stage card grid ── */
+    .si-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 3.5rem;
+    }
+    .si-card {
+      display: flex;
+      flex-direction: column;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color .18s, transform .15s, box-shadow .18s;
+    }
+    .si-card:hover {
+      border-color: var(--tier-basic, #38bdf8);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,.35);
+    }
+    .si-thumb {
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,.25);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+      padding: .75rem;
+    }
+    .si-thumb svg { max-width: 100%; max-height: 100%; }
+    .si-card-body {
+      padding: 1.1rem 1.25rem 1.25rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: .35rem;
+    }
+    .si-stage-label {
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .si-card-title {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 600;
+      line-height: 1.25;
+    }
+    .si-card-desc {
+      font-size: .88rem;
+      color: var(--muted);
+      line-height: 1.55;
+      flex: 1;
+    }
+    .si-card-link {
+      margin-top: .7rem;
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      letter-spacing: .05em;
+      color: var(--tier-basic, #38bdf8);
+      opacity: .75;
+    }
+
+    /* ── Footer links ── */
+    .si-footer {
+      border-top: 1px solid var(--border);
+      padding-top: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem 2.5rem;
+    }
+    .si-footer-label {
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: .3rem;
+    }
+    .si-footer a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: .9rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1px;
+      transition: border-color .15s, color .15s;
+    }
+    .si-footer a:hover {
+      color: var(--tier-basic, #38bdf8);
+      border-color: var(--tier-basic, #38bdf8);
+    }
+    .si-footer-group {
+      display: flex;
+      flex-direction: column;
+      gap: .4rem;
+    }
+
+    @media (max-width: 600px) {
+      .si-grid { grid-template-columns: 1fr; }
+      body { padding: 2rem .9rem 5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Banner ── -->
+  <div class="si-banner">
+    <div class="si-banner-eyebrow">Frontend Cohesion Overhaul — Sampler Index</div>
+    <h1>The design&#8202;-&#8202;system contract</h1>
+    <p class="si-banner-body">
+      Eight stages, one source of truth. Every token, rank chip, plaque variant,
+      explorer view mode, HUD canvas, markdown tree glyph, and mobile breakpoint
+      in this overhaul reads from <strong>registry/gaia.json</strong> and
+      <strong>docs/css/tokens.css</strong> — generated automatically from the
+      canonical skill graph so the visual layer can never drift from the data.
+      Each sampler below is a live, navigable snapshot of one stage's deliverables:
+      open it, resize it, and inspect the elements to verify the contract is unbroken.
+    </p>
+  </div>
+
+  <!-- ── Stage card grid ── -->
+  <div class="si-grid">
+
+    <!-- Stage 1: Foundation -->
+    <a class="si-card" href="foundation.html">
+      <div class="si-thumb" aria-hidden="true">
+        <!-- 3×3 tier-color swatch grid -->
+        <svg viewBox="0 0 180 108" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="fg-glow"><feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          </defs>
+          <!-- Row 1: Basic · Extra · Unique · Ultimate -->
+          <rect x="6"  y="6"  width="36" height="28" rx="5" fill="rgba(56,189,248,.18)" stroke="rgba(56,189,248,.55)" stroke-width="1"/>
+          <rect x="50" y="6"  width="36" height="28" rx="5" fill="rgba(192,132,252,.18)" stroke="rgba(192,132,252,.55)" stroke-width="1"/>
+          <rect x="94" y="6"  width="36" height="28" rx="5" fill="rgba(245,158,11,.18)"  stroke="rgba(245,158,11,.55)"  stroke-width="1"/>
+          <rect x="138" y="6" width="36" height="28" rx="5" fill="rgba(99,202,183,.18)"  stroke="rgba(99,202,183,.55)"  stroke-width="1"/>
+          <!-- Row 2: rank ramp 0→3 -->
+          <rect x="6"  y="42" width="36" height="28" rx="5" fill="rgba(148,163,184,.10)" stroke="rgba(148,163,184,.35)" stroke-width="1"/>
+          <rect x="50" y="42" width="36" height="28" rx="5" fill="rgba(56,189,248,.13)"  stroke="rgba(56,189,248,.40)"  stroke-width="1"/>
+          <rect x="94" y="42" width="36" height="28" rx="5" fill="rgba(167,139,250,.18)" stroke="rgba(167,139,250,.50)" stroke-width="1"/>
+          <rect x="138" y="42" width="36" height="28" rx="5" fill="rgba(245,158,11,.18)"  stroke="rgba(245,158,11,.50)"  stroke-width="1"/>
+          <!-- Row 3: icons row (placeholder lines) -->
+          <rect x="6"  y="78" width="36" height="24" rx="5" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.12)" stroke-width="1"/>
+          <rect x="50" y="78" width="36" height="24" rx="5" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.12)" stroke-width="1"/>
+          <rect x="94" y="78" width="36" height="24" rx="5" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.12)" stroke-width="1"/>
+          <rect x="138" y="78" width="36" height="24" rx="5" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.12)" stroke-width="1"/>
+          <!-- token labels -->
+          <text x="24"  y="24" text-anchor="middle" font-size="6.5" fill="rgba(56,189,248,.9)"  font-family="monospace">basic</text>
+          <text x="68"  y="24" text-anchor="middle" font-size="6.5" fill="rgba(192,132,252,.9)" font-family="monospace">extra</text>
+          <text x="112" y="24" text-anchor="middle" font-size="6.5" fill="rgba(245,158,11,.9)"  font-family="monospace">unique</text>
+          <text x="156" y="24" text-anchor="middle" font-size="5.5" fill="rgba(99,202,183,.9)"  font-family="monospace">ultimate</text>
+          <text x="90"  y="102" text-anchor="middle" font-size="6" fill="rgba(148,163,184,.5)" font-family="monospace">tokens.css · icons.svg</text>
+        </svg>
+      </div>
+      <div class="si-card-body">
+        <div class="si-stage-label">Stage 1</div>
+        <div class="si-card-title">Foundation</div>
+        <div class="si-card-desc">Tier color tokens, rank swatch palette, icon sprite, web fonts (EB Garamond · Bricolage · Departure Mono). Every color in the design system flows from this layer.</div>
+        <div class="si-card-link">foundation.html &rsaquo;</div>
+      </div>
+    </a>
+
+    <!-- Stage 2: Rank Badge -->
+    <a class="si-card" href="ranks.html">
+      <div class="si-thumb" aria-hidden="true">
+        <!-- 7-cell rank ramp 0★→6★ -->
+        <svg viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="rg-glow"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          </defs>
+          <!-- 7 chips, evenly spaced -->
+          <g font-family="monospace" font-size="5.5" text-anchor="middle">
+            <!-- 0★ Unawakened -->
+            <rect x="2"   y="12" width="24" height="36" rx="5" fill="rgba(148,163,184,.10)" stroke="rgba(148,163,184,.3)" stroke-width=".8"/>
+            <text x="14"  y="26" fill="rgba(148,163,184,.6)">0★</text>
+            <text x="14"  y="34" fill="rgba(148,163,184,.5)" font-size="4.5">Unawk.</text>
+            <text x="14"  y="42" fill="rgba(148,163,184,.4)" font-size="4">Pure</text>
+            <!-- 1★ Awakened -->
+            <rect x="30"  y="12" width="24" height="36" rx="5" fill="rgba(56,189,248,.12)"  stroke="rgba(56,189,248,.35)" stroke-width=".8"/>
+            <text x="42"  y="26" fill="rgba(56,189,248,.85)">1★</text>
+            <text x="42"  y="34" fill="rgba(56,189,248,.65)" font-size="4.5">Awakened</text>
+            <!-- 2★ Named -->
+            <rect x="58"  y="12" width="24" height="36" rx="5" fill="rgba(52,211,153,.13)"  stroke="rgba(52,211,153,.38)" stroke-width=".8"/>
+            <text x="70"  y="26" fill="rgba(52,211,153,.85)">2★</text>
+            <text x="70"  y="34" fill="rgba(52,211,153,.65)" font-size="4.5">Named</text>
+            <!-- 3★ Evolved -->
+            <rect x="86"  y="12" width="24" height="36" rx="5" fill="rgba(167,139,250,.14)" stroke="rgba(167,139,250,.42)" stroke-width=".8"/>
+            <text x="98"  y="26" fill="rgba(167,139,250,.9)">3★</text>
+            <text x="98"  y="34" fill="rgba(167,139,250,.65)" font-size="4.5">Evolved</text>
+            <!-- 4★ Hardened -->
+            <rect x="114" y="12" width="24" height="36" rx="5" fill="rgba(251,146,60,.14)"  stroke="rgba(251,146,60,.42)" stroke-width=".8"/>
+            <text x="126" y="26" fill="rgba(251,146,60,.9)">4★</text>
+            <text x="126" y="34" fill="rgba(251,146,60,.65)" font-size="4.5">Hardened</text>
+            <!-- 5★ Transcendent -->
+            <rect x="142" y="12" width="24" height="36" rx="5" fill="rgba(244,63,94,.14)"   stroke="rgba(244,63,94,.42)" stroke-width=".8"/>
+            <text x="154" y="26" fill="rgba(244,63,94,.9)">5★</text>
+            <text x="154" y="34" fill="rgba(244,63,94,.65)" font-size="3.8">Transcend.</text>
+            <!-- 6★ Transcendent apex -->
+            <rect x="170" y="6"  width="28" height="48" rx="6" fill="rgba(251,191,36,.16)"  stroke="rgba(251,191,36,.55)" stroke-width="1" filter="url(#rg-glow)"/>
+            <text x="184" y="22" fill="rgba(251,191,36,.95)" font-size="6">6★</text>
+            <text x="184" y="30" fill="rgba(251,191,36,.75)" font-size="4.5">Trans. ★</text>
+            <text x="184" y="38" fill="rgba(251,191,36,.5)"  font-size="4">apex</text>
+          </g>
+        </svg>
+      </div>
+      <div class="si-card-body">
+        <div class="si-stage-label">Stage 2</div>
+        <div class="si-card-title">Rank Badge</div>
+        <div class="si-card-desc">Shared <code>rank-badge.js</code> component. Every 0★–6★ chip rendered identically across Hall of Heroes, profile, explorer hero, tile, and filter tabs.</div>
+        <div class="si-card-link">ranks.html &rsaquo;</div>
+      </div>
+    </a>
+
+    <!-- Stage 3: Plaque Family -->
+    <a class="si-card" href="plaques.html">
+      <div class="si-thumb" aria-hidden="true">
+        <!-- Stacked-cards icon -->
+        <svg viewBox="0 0 160 100" xmlns="http://www.w3.org/2000/svg">
+          <!-- Back card (--og) -->
+          <rect x="42" y="14" width="88" height="52" rx="8" fill="rgba(56,189,248,.07)" stroke="rgba(56,189,248,.22)" stroke-width="1" transform="rotate(-4 86 40)"/>
+          <!-- Mid card (--tile) -->
+          <rect x="38" y="20" width="88" height="52" rx="8" fill="rgba(192,132,252,.07)" stroke="rgba(192,132,252,.28)" stroke-width="1" transform="rotate(-1 82 46)"/>
+          <!-- Front card (--settled) -->
+          <rect x="34" y="26" width="92" height="54" rx="9" fill="rgba(15,23,42,1)" stroke="rgba(56,189,248,.45)" stroke-width="1"/>
+          <!-- Card content lines -->
+          <rect x="44" y="36" width="32" height="5"  rx="2" fill="rgba(56,189,248,.6)"/>
+          <rect x="44" y="45" width="55" height="3"  rx="1.5" fill="rgba(255,255,255,.15)"/>
+          <rect x="44" y="51" width="42" height="3"  rx="1.5" fill="rgba(255,255,255,.1)"/>
+          <!-- rank chip -->
+          <rect x="96" y="34" width="24" height="10" rx="5" fill="rgba(167,139,250,.2)" stroke="rgba(167,139,250,.5)" stroke-width=".8"/>
+          <text x="108" y="41.5" text-anchor="middle" font-family="monospace" font-size="5" fill="rgba(167,139,250,.9)">3★</text>
+          <!-- plaque label -->
+          <text x="80" y="93" text-anchor="middle" font-family="monospace" font-size="6" fill="rgba(148,163,184,.45)">plaque.js · plaque.css</text>
+        </svg>
+      </div>
+      <div class="si-card-body">
+        <div class="si-stage-label">Stage 3</div>
+        <div class="si-card-title">Plaque Family</div>
+        <div class="si-card-desc">Shared <code>plaque.js</code> + <code>plaque.css</code> component family — <code>.plaque--mini</code>, <code>.plaque--tile</code>, <code>.plaque--detail</code>, <code>.plaque--settled</code>, <code>.plaque--og</code>. All variants, all states.</div>
+        <div class="si-card-link">plaques.html &rsaquo;</div>
+      </div>
+    </a>
+
+    <!-- Stage 4: Explorer Overhaul -->
+    <a class="si-card" href="explorer.html">
+      <div class="si-thumb" aria-hidden="true">
+        <!-- Explorer view-mode tabs + filter strip -->
+        <svg viewBox="0 0 180 100" xmlns="http://www.w3.org/2000/svg">
+          <!-- Filter strip -->
+          <rect x="6"  y="8"  width="168" height="18" rx="4" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.08)" stroke-width=".8"/>
+          <rect x="10" y="12" width="28" height="10" rx="3" fill="rgba(56,189,248,.2)"  stroke="rgba(56,189,248,.5)" stroke-width=".8"/>
+          <rect x="42" y="12" width="28" height="10" rx="3" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.1)" stroke-width=".8"/>
+          <rect x="74" y="12" width="28" height="10" rx="3" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.1)" stroke-width=".8"/>
+          <rect x="106" y="12" width="28" height="10" rx="3" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.1)" stroke-width=".8"/>
+          <text x="24"  y="19.5" text-anchor="middle" font-family="monospace" font-size="5" fill="rgba(56,189,248,.9)">All</text>
+          <text x="56"  y="19.5" text-anchor="middle" font-family="monospace" font-size="5" fill="rgba(255,255,255,.35)">Basic</text>
+          <text x="88"  y="19.5" text-anchor="middle" font-family="monospace" font-size="5" fill="rgba(255,255,255,.35)">Extra</text>
+          <text x="120" y="19.5" text-anchor="middle" font-family="monospace" font-size="5" fill="rgba(255,255,255,.35)">Unique</text>
+          <!-- view tabs -->
+          <text x="152" y="19.5" text-anchor="middle" font-family="monospace" font-size="5" fill="rgba(255,255,255,.25)">Tile</text>
+          <!-- Skill tile grid 2×3 -->
+          <rect x="6"  y="32" width="54" height="28" rx="5" fill="rgba(56,189,248,.07)" stroke="rgba(56,189,248,.22)" stroke-width=".8"/>
+          <rect x="64" y="32" width="54" height="28" rx="5" fill="rgba(192,132,252,.07)" stroke="rgba(192,132,252,.22)" stroke-width=".8"/>
+          <rect x="122" y="32" width="54" height="28" rx="5" fill="rgba(245,158,11,.07)" stroke="rgba(245,158,11,.22)" stroke-width=".8"/>
+          <rect x="6"  y="64" width="54" height="28" rx="5" fill="rgba(52,211,153,.07)" stroke="rgba(52,211,153,.22)" stroke-width=".8"/>
+          <rect x="64" y="64" width="54" height="28" rx="5" fill="rgba(56,189,248,.07)" stroke="rgba(56,189,248,.22)" stroke-width=".8"/>
+          <rect x="122" y="64" width="54" height="28" rx="5" fill="rgba(192,132,252,.07)" stroke="rgba(192,132,252,.22)" stroke-width=".8"/>
+          <!-- little skill labels inside tiles -->
+          <text x="33"  y="50" text-anchor="middle" font-family="monospace" font-size="5.5" fill="rgba(56,189,248,.6)">◉</text>
+          <text x="91"  y="50" text-anchor="middle" font-family="monospace" font-size="5.5" fill="rgba(192,132,252,.6)">◆</text>
+          <text x="149" y="50" text-anchor="middle" font-family="monospace" font-size="5.5" fill="rgba(245,158,11,.6)">○</text>
+          <text x="33"  y="82" text-anchor="middle" font-family="monospace" font-size="5.5" fill="rgba(52,211,153,.6)">◇</text>
+          <text x="91"  y="82" text-anchor="middle" font-family="monospace" font-size="5.5" fill="rgba(56,189,248,.6)">○</text>
+          <text x="149" y="82" text-anchor="middle" font-family="monospace" font-size="5.5" fill="rgba(192,132,252,.6)">◆</text>
+        </svg>
+      </div>
+      <div class="si-card-body">
+        <div class="si-stage-label">Stage 4</div>
+        <div class="si-card-title">Explorer Overhaul</div>
+        <div class="si-card-desc">Named-skills Explorer rewritten as schema source-of-truth: Tile, List, and Tree view modes; direction rule (Ultimate-first); unified filter strip; no more FALLBACK_NAMED_INDEX.</div>
+        <div class="si-card-link">explorer.html &rsaquo;</div>
+      </div>
+    </a>
+
+    <!-- Stage 5: HUD/3D -->
+    <a class="si-card" href="registry-3d.html">
+      <div class="si-thumb" aria-hidden="true">
+        <!-- Abstract constellation / 3-D graph -->
+        <svg viewBox="0 0 180 100" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="hud-glow"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          </defs>
+          <!-- edge lines -->
+          <line x1="90"  y1="50" x2="40"  y2="25" stroke="rgba(56,189,248,.25)"  stroke-width="1"/>
+          <line x1="90"  y1="50" x2="145" y2="22" stroke="rgba(192,132,252,.25)" stroke-width="1"/>
+          <line x1="90"  y1="50" x2="55"  y2="78" stroke="rgba(245,158,11,.25)"  stroke-width="1"/>
+          <line x1="90"  y1="50" x2="140" y2="75" stroke="rgba(52,211,153,.25)"  stroke-width="1"/>
+          <line x1="40"  y1="25" x2="145" y2="22" stroke="rgba(56,189,248,.12)"  stroke-width=".8"/>
+          <line x1="55"  y1="78" x2="140" y2="75" stroke="rgba(245,158,11,.12)"  stroke-width=".8"/>
+          <line x1="20"  y1="55" x2="40"  y2="25" stroke="rgba(148,163,184,.15)" stroke-width=".8"/>
+          <line x1="160" y1="50" x2="140" y2="75" stroke="rgba(148,163,184,.15)" stroke-width=".8"/>
+          <!-- nodes -->
+          <circle cx="90"  cy="50" r="7" fill="rgba(56,189,248,.85)"  filter="url(#hud-glow)"/>
+          <circle cx="40"  cy="25" r="5" fill="rgba(192,132,252,.75)" filter="url(#hud-glow)"/>
+          <circle cx="145" cy="22" r="5" fill="rgba(245,158,11,.75)"  filter="url(#hud-glow)"/>
+          <circle cx="55"  cy="78" r="4" fill="rgba(52,211,153,.7)"   filter="url(#hud-glow)"/>
+          <circle cx="140" cy="75" r="4" fill="rgba(56,189,248,.65)"  filter="url(#hud-glow)"/>
+          <circle cx="20"  cy="55" r="3" fill="rgba(148,163,184,.5)"/>
+          <circle cx="160" cy="50" r="3" fill="rgba(148,163,184,.5)"/>
+          <!-- HUD frame hint -->
+          <rect x="2" y="2" width="176" height="96" rx="4" fill="none" stroke="rgba(56,189,248,.08)" stroke-width=".8" stroke-dasharray="3 3"/>
+          <text x="90" y="97" text-anchor="middle" font-family="monospace" font-size="5.5" fill="rgba(148,163,184,.4)">Field view · canvas tokens</text>
+        </svg>
+      </div>
+      <div class="si-card-body">
+        <div class="si-stage-label">Stage 5</div>
+        <div class="si-card-title">HUD / 3D Registry</div>
+        <div class="si-card-desc">skill-graph.js canvas reads all fills and fonts from CSS tokens. HUD collection panel uses <code>.plaque--mini</code>. The <code>⇄ Field view</code> toggle is the only user-facing label.</div>
+        <div class="si-card-link">registry-3d.html &rsaquo;</div>
+      </div>
+    </a>
+
+    <!-- Stage 5b: Tree Vocabulary -->
+    <a class="si-card" href="tree.html">
+      <div class="si-thumb" aria-hidden="true">
+        <!-- Markdown tree with color glyphs -->
+        <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+          <text x="10" y="18" font-family="monospace" font-size="8.5" fill="rgba(99,202,183,.9)">◆ Ultimate  <tspan fill="rgba(251,191,36,.85)">★★★★★★</tspan></text>
+          <text x="10" y="32" font-family="monospace" font-size="8.5" fill="rgba(148,163,184,.5)">│</text>
+          <text x="10" y="46" font-family="monospace" font-size="8.5" fill="rgba(192,132,252,.9)">◉ Unique   <tspan fill="rgba(244,63,94,.85)">★★★★★</tspan></text>
+          <text x="10" y="60" font-family="monospace" font-size="8.5" fill="rgba(148,163,184,.5)">│</text>
+          <text x="10" y="74" font-family="monospace" font-size="8.5" fill="rgba(192,132,252,.75)">◇ Extra    <tspan fill="rgba(167,139,250,.85)">★★★</tspan></text>
+          <text x="10" y="88" font-family="monospace" font-size="8.5" fill="rgba(56,189,248,.75)">○ Basic    <tspan fill="rgba(52,211,153,.7)">★★</tspan></text>
+        </svg>
+      </div>
+      <div class="si-card-body">
+        <div class="si-stage-label">Stage 5b</div>
+        <div class="si-card-title">Tree Vocabulary</div>
+        <div class="si-card-desc">Markdown tree renderer vocabulary locked: tier glyphs (○ ◇ ◉ ◆), rank stars, owned/unclaimed markers. Highlighter colors all elements via Stage 1 tokens. Banned synonyms purged from generateProjections.py.</div>
+        <div class="si-card-link">tree.html &rsaquo;</div>
+      </div>
+    </a>
+
+    <!-- Stage 4b: Skill Tree Network (Organic DAG — all skills) -->
+    <a class="si-card" href="flowchart.html">
+      <div class="si-thumb" aria-hidden="true">
+        <!-- Organic network: many nodes, S-curve veins -->
+        <svg viewBox="0 0 180 100" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="vg"><feGaussianBlur stdDeviation="1.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          </defs>
+          <!-- S-curve veins (cubic beziers) -->
+          <path d="M 30 80 C 30 60, 70 60, 70 40" stroke="rgba(56,189,248,.45)" stroke-width="1.2" fill="none" filter="url(#vg)" stroke-linecap="round"/>
+          <path d="M 90 80 C 90 60, 70 60, 70 40" stroke="rgba(56,189,248,.4)" stroke-width="1.2" fill="none" filter="url(#vg)" stroke-linecap="round"/>
+          <path d="M 70 40 C 70 22, 50 22, 50 8" stroke="rgba(192,132,252,.45)" stroke-width="1.4" fill="none" filter="url(#vg)" stroke-linecap="round"/>
+          <path d="M 70 40 C 70 22, 110 22, 110 8" stroke="rgba(192,132,252,.4)" stroke-width="1.3" fill="none" filter="url(#vg)" stroke-linecap="round"/>
+          <path d="M 140 75 C 140 55, 110 45, 110 8" stroke="rgba(245,158,11,.35)" stroke-width="1" fill="none" filter="url(#vg)" stroke-linecap="round"/>
+          <!-- Node dots -->
+          <circle cx="30"  cy="80" r="2"   fill="rgba(56,189,248,.8)"   filter="url(#vg)"/>
+          <circle cx="90"  cy="80" r="2"   fill="rgba(56,189,248,.7)"   filter="url(#vg)"/>
+          <circle cx="140" cy="75" r="1.8" fill="rgba(148,163,184,.5)"/>
+          <circle cx="70"  cy="40" r="2.8" fill="rgba(192,132,252,.85)" filter="url(#vg)"/>
+          <circle cx="50"  cy="8"  r="2.4" fill="rgba(124,58,237,.75)"  filter="url(#vg)"/>
+          <circle cx="110" cy="8"  r="3.5" fill="rgba(245,158,11,.85)"  filter="url(#vg)"/>
+          <text x="90" y="97" text-anchor="middle" font-family="monospace" font-size="5.5" fill="rgba(148,163,184,.4)">All skills · S-curve veins</text>
+        </svg>
+      </div>
+      <div class="si-card-body">
+        <div class="si-stage-label">Stage 4b</div>
+        <div class="si-card-title">Skill Tree Network</div>
+        <div class="si-card-desc">Full registry as a 2D organic DAG: tier-colored S-curve edges, scatter-staggered node placement, hover-to-trace ancestry. Replaces rigid elbow paths with flowing bezier veins.</div>
+        <div class="si-card-link">flowchart.html &rsaquo;</div>
+      </div>
+    </a>
+
+    <!-- Stage 4c: Individual Skill Upgrade Path -->
+    <a class="si-card" href="skill-flowchart.html">
+      <div class="si-thumb" aria-hidden="true">
+        <!-- 3-level upgrade path: 2 prereqs → current → 3 derivatives -->
+        <svg viewBox="0 0 180 100" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="sfg"><feGaussianBlur stdDeviation="1.3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          </defs>
+          <!-- Prerequisites → current (S-curves, basic tier = cyan) -->
+          <path d="M 50 82 C 50 64, 90 64, 90 48" stroke="rgba(56,189,248,.5)" stroke-width="1.3" fill="none" filter="url(#sfg)" stroke-linecap="round"/>
+          <path d="M 130 82 C 130 64, 90 64, 90 48" stroke="rgba(56,189,248,.45)" stroke-width="1.3" fill="none" filter="url(#sfg)" stroke-linecap="round"/>
+          <!-- Current → derivatives (S-curves, extra tier = purple) -->
+          <path d="M 90 36 C 90 22, 40 22, 40 10" stroke="rgba(192,132,252,.4)" stroke-width="1.1" fill="none" filter="url(#sfg)" stroke-linecap="round"/>
+          <path d="M 90 36 C 90 22, 90 22, 90 10" stroke="rgba(192,132,252,.4)" stroke-width="1.1" fill="none" filter="url(#sfg)" stroke-linecap="round"/>
+          <path d="M 90 36 C 90 22, 140 22, 140 10" stroke="rgba(192,132,252,.4)" stroke-width="1.1" fill="none" filter="url(#sfg)" stroke-linecap="round"/>
+          <!-- Nodes -->
+          <circle cx="50"  cy="82" r="2.2" fill="rgba(56,189,248,.8)"  filter="url(#sfg)"/>
+          <circle cx="130" cy="82" r="2.2" fill="rgba(56,189,248,.75)" filter="url(#sfg)"/>
+          <circle cx="90"  cy="42" r="3.2" fill="rgba(192,132,252,.9)" filter="url(#sfg)"/>
+          <circle cx="40"  cy="10" r="2"   fill="rgba(148,163,184,.4)"/>
+          <circle cx="90"  cy="10" r="2"   fill="rgba(148,163,184,.4)"/>
+          <circle cx="140" cy="10" r="2"   fill="rgba(148,163,184,.4)"/>
+          <text x="90" y="97" text-anchor="middle" font-family="monospace" font-size="5.5" fill="rgba(148,163,184,.4)">anthropic/skill-creator</text>
+        </svg>
+      </div>
+      <div class="si-card-body">
+        <div class="si-stage-label">Stage 4c</div>
+        <div class="si-card-title">Upgrade Path Flowchart</div>
+        <div class="si-card-desc">Per-skill upgrade path component as rendered by the Skills Explorer. Sample uses <code>anthropic/skill-creator</code>: 2 prerequisites, 3 derivatives, organic S-curve edges, hover-traceable ancestry.</div>
+        <div class="si-card-link">skill-flowchart.html &rsaquo;</div>
+      </div>
+    </a>
+
+    <!-- Stage 5b fonts companion -->
+    <a class="si-card" href="registry-3d-fonts.html">
+      <div class="si-thumb" aria-hidden="true">
+        <!-- Font specimen -->
+        <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+          <text x="100" y="26" text-anchor="middle" font-family="Georgia, serif" font-size="18" font-style="italic" fill="rgba(255,255,255,.85)">Gaia Registry</text>
+          <text x="100" y="44" text-anchor="middle" font-family="'Helvetica Neue',sans-serif" font-size="11" font-weight="600" fill="rgba(56,189,248,.8)" letter-spacing=".03em">Bricolage Grotesque · body</text>
+          <text x="100" y="60" text-anchor="middle" font-family="monospace" font-size="9.5" fill="rgba(192,132,252,.75)" letter-spacing=".06em">DEPARTURE MONO · small caps</text>
+          <text x="100" y="78" text-anchor="middle" font-family="monospace" font-size="8" fill="rgba(148,163,184,.5)">--font-display · --font-body · --font-mono</text>
+        </svg>
+      </div>
+      <div class="si-card-body">
+        <div class="si-stage-label">Stage 5 — Fonts</div>
+        <div class="si-card-title">3D Registry Fonts</div>
+        <div class="si-card-desc">Font-loading verification for the HUD/3D canvas: EB Garamond display, Bricolage Grotesque body, Departure Mono small caps — all three CSS custom properties confirmed loading.</div>
+        <div class="si-card-link">registry-3d-fonts.html &rsaquo;</div>
+      </div>
+    </a>
+
+    <!-- Stage 6: Mobile Breakpoints -->
+    <a class="si-card" href="mobile.html">
+      <div class="si-thumb" aria-hidden="true">
+        <!-- Mobile device outlines at 360 / 480 / 700 -->
+        <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+          <!-- 360px: narrow phone -->
+          <rect x="12"  y="8"  width="32" height="80" rx="5" fill="rgba(56,189,248,.06)"  stroke="rgba(56,189,248,.4)"  stroke-width="1"/>
+          <rect x="18"  y="14" width="20" height="3"   rx="1.5" fill="rgba(56,189,248,.3)"/>
+          <rect x="18"  y="19" width="20" height="2"   rx="1" fill="rgba(255,255,255,.08)"/>
+          <rect x="18"  y="23" width="14" height="2"   rx="1" fill="rgba(255,255,255,.06)"/>
+          <text x="28"  y="97" text-anchor="middle" font-family="monospace" font-size="5.5" fill="rgba(56,189,248,.55)">360</text>
+          <!-- 480px: large phone -->
+          <rect x="52"  y="14" width="44" height="68" rx="5" fill="rgba(192,132,252,.06)" stroke="rgba(192,132,252,.35)" stroke-width="1"/>
+          <rect x="58"  y="20" width="32" height="3"   rx="1.5" fill="rgba(192,132,252,.3)"/>
+          <rect x="58"  y="25" width="32" height="2"   rx="1" fill="rgba(255,255,255,.08)"/>
+          <rect x="58"  y="29" width="22" height="2"   rx="1" fill="rgba(255,255,255,.06)"/>
+          <text x="74"  y="97" text-anchor="middle" font-family="monospace" font-size="5.5" fill="rgba(192,132,252,.55)">480</text>
+          <!-- 700px: tablet -->
+          <rect x="104" y="18" width="80" height="60" rx="5" fill="rgba(245,158,11,.06)"  stroke="rgba(245,158,11,.32)"  stroke-width="1"/>
+          <rect x="110" y="24" width="68" height="3"   rx="1.5" fill="rgba(245,158,11,.3)"/>
+          <rect x="110" y="29" width="68" height="2"   rx="1" fill="rgba(255,255,255,.08)"/>
+          <rect x="110" y="33" width="48" height="2"   rx="1" fill="rgba(255,255,255,.06)"/>
+          <text x="144" y="97" text-anchor="middle" font-family="monospace" font-size="5.5" fill="rgba(245,158,11,.55)">700</text>
+          <!-- breakpoint ticks -->
+          <text x="100" y="8" text-anchor="middle" font-family="monospace" font-size="5" fill="rgba(148,163,184,.35)">canonical breakpoints</text>
+        </svg>
+      </div>
+      <div class="si-card-body">
+        <div class="si-stage-label">Stage 6</div>
+        <div class="si-card-title">Mobile Breakpoints</div>
+        <div class="si-card-desc">Canonical three-tier responsive grid: 360px (iPhone SE floor), 480px (large phone), 700px (tablet/hamburger boundary). No horizontal scroll at any width; tap targets ≥44px.</div>
+        <div class="si-card-link">mobile.html &rsaquo;</div>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- ── Footer reference links ── -->
+  <div class="si-footer">
+    <div class="si-footer-group">
+      <div class="si-footer-label">Planning</div>
+      <a href="../../PLAN.md">PLAN.md — original implementation plan</a>
+    </div>
+    <div class="si-footer-group">
+      <div class="si-footer-label">Glossary</div>
+      <a href="../../CONTEXT.md">CONTEXT.md — domain language &amp; banned synonyms</a>
+    </div>
+    <div class="si-footer-group">
+      <div class="si-footer-label">Visual language</div>
+      <a href="../../DESIGN.md">DESIGN.md — visual system &amp; design decisions</a>
+    </div>
+  </div>
+
+</body>
+</html>

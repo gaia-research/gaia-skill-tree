@@ -1,4 +1,4 @@
-# Extra Skill: /re-act-reasoning  [3★ · Evolved]
+# /re-act-reasoning  [3★ · Evolved]
 **ID:** re-act-reasoning  
 **Type:** Extra Skill  
 **Level:** 3★  

@@ -1,4 +1,4 @@
-# Extra Skill: /tool-chaining  [3★ · Evolved]
+# /tool-chaining  [3★ · Evolved]
 **ID:** tool-chaining  
 **Type:** Extra Skill  
 **Level:** 3★  

@@ -1,4 +1,4 @@
-# Extra Skill: huggingface/huggingface-papers  [4★ · Hardened]
+# [huggingface](../../../docs/u/huggingface/)/huggingface-papers  [4★ · Hardened]
 **ID:** literature-review  
 **Type:** Extra Skill  
 **Level:** 4★  

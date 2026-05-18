@@ -1,4 +1,4 @@
-# Extra Skill: /workspace-automation  [2★ · Named]
+# /workspace-automation  [2★ · Named]
 **ID:** workspace-automation  
 **Type:** Extra Skill  
 **Level:** 2★  

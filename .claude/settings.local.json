@@ -1,8 +1,16 @@
 {
   "permissions": {
     "allow": [
-      "Bash(rm -rf \"C:/Users/C5396183/.claude/skills/gaia-curate\")",
-      "Read(//c/Users/C5396183/.claude/skills/**)"
+      "Bash(python3 -m http.server 8080)",
+      "Bash(node .claude/skills/impeccable/scripts/load-context.mjs)",
+      "Skill(impeccable)",
+      "Skill(impeccable:*)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(node /Users/marcotiongson/Documents/gaia-skill-tree-2/.claude/skills/impeccable/scripts/load-context.mjs)",
+      "Bash(node -c /Users/marcotiongson/Documents/gaia-skill-tree-2/docs/js/skill-explorer.js)",
+      "Bash(node --check /Users/marcotiongson/Documents/gaia-skill-tree-2/docs/js/skill-graph.js)",
+      "Bash(grep -n \"skill-tooltip-name\\\\|skill-tooltip-type\\\\|graph-redpill\\\\|graph-tooltip-add\\\\|graph-skill-panel-cmd\\\\|graph-skill-panel-explorer-link\\\\|graph-skill-panel-close:hover\\\\|graph-collection-panel \\\\|graph-collection-panel{\\\\|callout {$\\\\|graph-label-toggle\\\\|graph-bottom-btn {\\\\|graph-pause-btn {\\\\|graph-search-wrap {\" /Users/marcotiongson/Documents/gaia-skill-tree-2/docs/css/styles.css)"
     ]
   }
 }

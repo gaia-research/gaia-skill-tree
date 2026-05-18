@@ -1,4 +1,4 @@
-# Extra Skill: /mathematical-animation  [3★ · Evolved]
+# /mathematical-animation  [3★ · Evolved]
 **ID:** mathematical-animation  
 **Type:** Extra Skill  
 **Level:** 3★  
