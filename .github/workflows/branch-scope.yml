@@ -138,8 +138,8 @@ jobs:
                 ;;
               infra)
                 case "$file" in
-                  .github/*|scripts/*) ;; # allowed
-                  *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (infra/ branches may only touch .github/ or scripts/)" ;;
+                  .github/*|scripts/*|.claude/skills/*|.agents/skills/*) ;; # allowed
+                  *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (infra/ branches may only touch .github/, scripts/, .claude/skills/, or .agents/skills/)" ;;
                 esac
                 ;;
               other)
