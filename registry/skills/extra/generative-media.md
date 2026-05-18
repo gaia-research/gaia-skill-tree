@@ -1,4 +1,4 @@
-# Extra Skill: /generative-media  [3★ · Evolved]
+# /generative-media  [3★ · Evolved]
 **ID:** generative-media  
 **Type:** Extra Skill  
 **Level:** 3★  

@@ -1,4 +1,4 @@
-# Extra Skill: /x-twitter-automation  [4★ · Hardened]
+# /x-twitter-automation  [4★ · Hardened]
 **ID:** x-twitter-automation  
 **Type:** Extra Skill  
 **Level:** 4★  

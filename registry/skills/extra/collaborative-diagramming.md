@@ -1,4 +1,4 @@
-# Extra Skill: /collaborative-diagramming  [2★ · Named]
+# /collaborative-diagramming  [2★ · Named]
 **ID:** collaborative-diagramming  
 **Type:** Extra Skill  
 **Level:** 2★  

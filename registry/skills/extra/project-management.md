@@ -1,4 +1,4 @@
-# Extra Skill: /project-management  [2★ · Named]
+# /project-management  [2★ · Named]
 **ID:** project-management  
 **Type:** Extra Skill  
 **Level:** 2★  

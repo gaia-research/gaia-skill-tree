@@ -1,4 +1,4 @@
-# Extra Skill: mattpocock/grill-me  [4★ · Hardened]
+# [mattpocock](../../../docs/u/mattpocock/)/grill-me  [4★ · Hardened]
 **ID:** grill-me  
 **Type:** Extra Skill  
 **Level:** 4★  

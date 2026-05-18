@@ -1,4 +1,4 @@
-# Extra Skill: garrytan/design-shotgun  [3★ · Evolved]
+# [garrytan](../../../docs/u/garrytan/)/design-shotgun  [3★ · Evolved]
 **ID:** design-review  
 **Type:** Extra Skill  
 **Level:** 3★  

@@ -1,4 +1,4 @@
-# Extra Skill: firecrawl/firecrawl  [3★ · Evolved]
+# [firecrawl](../../../docs/u/firecrawl/)/firecrawl  [3★ · Evolved]
 **ID:** web-scrape  
 **Type:** Extra Skill  
 **Level:** 3★  

@@ -1,4 +1,4 @@
-# Extra Skill: /knowledge-management  [2★ · Named]
+# /knowledge-management  [2★ · Named]
 **ID:** knowledge-management  
 **Type:** Extra Skill  
 **Level:** 2★  

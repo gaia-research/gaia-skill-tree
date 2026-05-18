@@ -1,4 +1,4 @@
-# Extra Skill: /ml-artifact-management  [2★ · Named]
+# /ml-artifact-management  [2★ · Named]
 **ID:** ml-artifact-management  
 **Type:** Extra Skill  
 **Level:** 2★  

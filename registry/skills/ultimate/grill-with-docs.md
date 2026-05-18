@@ -1,4 +1,4 @@
-# Ultimate Skill: mattpocock/grill-with-docs  [5★ · Transcendent]
+# [mattpocock](../../../docs/u/mattpocock/)/grill-with-docs  [5★ · Transcendent]
 **ID:** grill-with-docs  
 **Type:** Ultimate Skill  
 **Level:** 5★  
