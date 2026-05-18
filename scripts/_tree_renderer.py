@@ -21,7 +21,7 @@ if _SCRIPTS_DIR not in sys.path:
 # Legend emitted only in canonical mode.
 _LEGEND = (
     "◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic"
-    "   ·   [N★] = star rank · [N★ · Pure] = 0★ rank pill"
+    "   ·   [N★] = stars · [0★ · Pure] = Unawakened rank pill"
     " · (↑ see above) = shared prerequisite"
 )
 
@@ -247,8 +247,8 @@ def render_tree(
     if unique_skills:
         lines.append(_SEP70)
         lines.append(
-            "Unique Skills — standalone tier-IV+ skills with no prerequisites"
-            " and no descendants."
+            "Uniques — graph-isolated Basic Skills that reached elite mastery"
+            " (4★+) through depth alone, with no fusion path forward."
         )
         lines.append(_SEP70)
         lines.append("")

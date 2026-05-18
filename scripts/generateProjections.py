@@ -359,7 +359,7 @@ def main():
         # Unique Skills section
         unique_skills = [s for s in skills if s.get("type") == "unique"]
         if unique_skills:
-            f.write("## Unique Skills\n\n")
+            f.write("## Uniques\n\n")
             f.write("*Singular mastery skills — graph-isolated, 4★+ with named implementations. Promoted via `/gaia promote --unique`.*\n\n")
             f.write("| Name | Class | Rank | Tier | Skill Call |\n")
             f.write("|---|---|---|---|---|\n")
