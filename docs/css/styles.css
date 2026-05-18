@@ -375,20 +375,17 @@
     opacity:.18;pointer-events:none;transition:opacity .4s ease;
   }
   /* ── FULLSCREEN GRAPH MODE ── */
-  /* Promotes the hero to a fixed viewport-covering state and
-     enables interactive canvas controls. Replaces the old graph
-     dialog that spawned a second canvas instance. */
+  /* Enables interactive canvas controls on the hero without pulling
+     it out of document flow (position:fixed removed so user can scroll). */
   #hero.hero-graph-fullscreen{
-    position:fixed;inset:0;z-index:200;
-    min-height:100vh;height:100vh;
-    padding:0;margin:0;
-    display:block; /* kill flexbox centering — prevents canvas drift */
-    background:var(--bg);
-    animation:graphFullscreenIn .4s cubic-bezier(.2,.8,.2,1) forwards;
+    /* state class; layout stays inline */
   }
-  @keyframes graphFullscreenIn{
-    from{opacity:0;transform:scale(.96)}
-    to{opacity:1;transform:scale(1)}
+  @media (max-width: 700px) {
+    #hero.hero-graph-fullscreen::before,
+    #hero.hero-graph-fullscreen::after {
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
   }
   #hero.hero-graph-fullscreen #canvas3d{
     pointer-events:auto;opacity:1;cursor:grab;
@@ -407,7 +404,7 @@
   }
   /* Fullscreen chrome — header bar with downloads + close */
   .graph-fullscreen-chrome{
-    display:none;position:absolute;top:0;left:0;right:0;z-index:10;
+    display:none;position:absolute;top:4.5rem;left:0;right:0;z-index:10;
     pointer-events:none;
   }
   #hero.hero-graph-fullscreen .graph-fullscreen-chrome{
@@ -420,16 +417,15 @@
     border-bottom:none;
   }
   .graph-fullscreen-header .graph-dialog-actions{display:flex;align-items:center;gap:.65rem;flex-wrap:wrap;justify-content:flex-end}
-  /* Fullscreen subtitle — bottom-left, unobtrusive */
-  .graph-fullscreen-sub{
-    position:absolute;bottom:.7rem;left:1rem;z-index:10;
-    color:var(--muted);font-size:.72rem;opacity:.55;
-    pointer-events:none;
-    display:none;
+  .graph-action-btn{
+    display:flex;align-items:center;justify-content:center;gap:.35rem;
+    padding:.35rem .7rem;border-radius:999px;min-height:36px;
+    font-family:var(--font-mono);font-size:.7rem;font-weight:600;text-decoration:none;
+    background:rgba(255,255,255,0.05);color:var(--text);
+    border:1px solid rgba(255,255,255,0.1);
+    transition:all .2s;cursor:pointer;
   }
-  #hero.hero-graph-fullscreen .graph-fullscreen-sub{
-    display:block;
-  }
+  .graph-action-btn:hover{background:rgba(255,255,255,0.15);color:#fff;}
   /* Fullscreen status bar */
   .graph-fullscreen-status{
     display:none;position:absolute;top:.6rem;left:60px;z-index:11;
@@ -440,9 +436,7 @@
     display:flex;
   }
   /* Re-show interactive chrome when fullscreen is active.
-     The interactive chrome is appended to #hero as children.
-     EXCLUDE tooltip / skill-panel / collection-panel — those are
-     controlled by user interactions (hover/pin/add). */
+     The interactive chrome is appended to #hero as children. */
   #hero.hero-graph-fullscreen .graph-neighbor-cards,
   #hero.hero-graph-fullscreen .graph-search-wrap,
   #hero.hero-graph-fullscreen .graph-legend,
@@ -458,19 +452,22 @@
   #hero.hero-graph-fullscreen .graph-redpill{
     display:block !important;
   }
+  #hero.hero-graph-fullscreen .skill-tooltip{
+    display:none; /* controlled by JS on hover */
+  }
   h1{
     font-size:clamp(2.4rem,6vw,4rem);
     font-family:var(--font-display);
     font-weight:600;line-height:1.1;margin-bottom:1.2rem;
   }
-  h1 .hw-rare{
+  h1 span{
     border-bottom:1px solid var(--apex-gold);
     padding-bottom:.06em;
   }
   h1 em{
-    font-style:normal;
-    font-weight:inherit;
-    color:inherit;
+    font-style:italic;
+    font-weight:400;
+    color:var(--apex-gold);
   }
   .hero-sub{font-family:var(--font-body);font-size:1.15rem;color:var(--muted);max-width:540px;margin:0 auto 2.4rem}
   .hero-cta{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
@@ -498,75 +495,6 @@
   }
   .scroll-hint svg{width:20px;height:20px;stroke:var(--muted)}
   @keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
-
-  /* ── Hero word hover animations ──────────────────────────────────
-     Three reactive lines in the hero title. Each transforms its key
-     word on hover:
-     Line 1: "Skills" → "/skills" — terminal typing (mono, grey, dark pill)
-     Line 2: "Names" → "@names" — Bricolage Grotesque, honor-red
-     Line 3: "rare" → italic gold on line hover (pure CSS)
-     ============================================================ */
-  .hero-line{
-    display:inline;
-    border-bottom:none;
-    padding-bottom:0;
-    cursor:default;
-  }
-  .hw{
-    display:inline;
-    border-bottom:none;
-    padding-bottom:0;
-    position:relative;
-    transition:color .25s cubic-bezier(.22,1,.36,1),
-               background .25s cubic-bezier(.22,1,.36,1);
-  }
-
-  /* ── Skills → /skills terminal pill ── */
-  .hw-skills--active{
-    font-family:var(--font-mono);
-    color:var(--muted);
-    background:rgba(8,12,21,.95);
-    padding:.04em .35em;
-    border-radius:4px;
-    font-size:.72em;
-    letter-spacing:.03em;
-    margin-right:-.15em;
-  }
-  .hw-cursor{
-    color:var(--muted);
-    font-weight:400;
-    opacity:1;
-    margin-left:1px;
-  }
-  .hw-cursor--blink{
-    animation:hw-cursor-blink 1.06s step-end infinite;
-  }
-  @keyframes hw-cursor-blink{
-    50%{opacity:0}
-  }
-
-  /* ── Names → @names Bricolage Grotesque ── */
-  .hw-names--active{
-    font-family:var(--font-body);
-    font-style:normal;
-    color:var(--honor-red);
-    font-weight:600;
-    letter-spacing:.01em;
-  }
-
-  /* ── Apex line hover — "rare" becomes italic gold ── */
-  .hero-line[data-line="apex"]:hover .hw-rare{
-    font-style:italic;
-    color:var(--apex-gold);
-    border-bottom-color:transparent;
-    transition:color .25s cubic-bezier(.22,1,.36,1);
-  }
-
-  @media(prefers-reduced-motion:reduce){
-    .hw-skills--active,.hw-names--active{
-      transition:none!important;
-    }
-  }
   /* ── SECTIONS ── */
   section{padding:5rem 1.5rem;max-width:1000px;margin:0 auto}
   h2{
@@ -902,6 +830,7 @@
   }
   .graph-canvas-wrap{position:relative;flex:1;min-height:0;background:radial-gradient(circle at center,rgba(15,23,42,.75),#020617 68%)}
   #graphDialogCanvas{position:absolute;inset:0;width:100%;height:100%}
+
   .graph-status{
     position:absolute;top:.6rem;left:60px;z-index:5;
     display:flex;align-items:center;gap:.42rem;flex-wrap:nowrap;
@@ -1104,7 +1033,7 @@
   .skill-tooltip-type-extra{color:#c084fc}
   .skill-tooltip-type-unique{color:#7c3aed}
   .skill-tooltip-type-ultimate{color:#f59e0b}
-  .graph-search-wrap{position:absolute;top:.75rem;right:.75rem;z-index:10}
+  .graph-search-wrap{position:absolute;top:5rem;right:.75rem;z-index:10}
   .graph-search{
     background:rgba(3,7,18,.15);border:1px solid rgba(148,163,184,.15);
     border-radius:999px;padding:.28rem .72rem;font-size:.74rem;
@@ -1334,7 +1263,7 @@
      from --tier-*, --honor-red, or --border instead of hardcoded hex.
      Saved-skill cards render as .plaque--mini per Stage 3. */
   .graph-collection-panel{
-    position:absolute;top:0;left:0;bottom:0;z-index:20;
+    position:absolute;top:4.5rem;left:0;bottom:0;z-index:20;
     width:260px;max-width:40%;
     background:rgba(3,7,18,.92);backdrop-filter:blur(14px);
     border-right:1px solid var(--border);
@@ -1361,9 +1290,12 @@
     text-transform:uppercase;letter-spacing:.06em;
   }
   .graph-collection-copy-all:hover{
-    color:var(--text);
-    border-color:rgba(var(--honor-red-rgb),.4);
-    background:rgba(var(--honor-red-rgb),.06);
+    color:var(--tier-basic);
+    border-color:rgba(var(--tier-basic-rgb),.4);
+    background:rgba(var(--tier-basic-rgb),.06);
+  }
+  .graph-collection-copy-all:hover .gst-btn-ico{
+    filter:drop-shadow(0 0 8px rgba(var(--tier-basic-rgb),.5));
   }
   .graph-collection-copy-all.copied{
     color:var(--text);
@@ -1391,7 +1323,7 @@
      we tighten the padding here so the card fits the 260px-wide
      panel. data-ghost="true" dims unnamed entries (no install path). */
   .graph-collection-card.plaque--mini{
-    padding:.4rem .55rem;border-radius:.45rem;
+    padding:.25rem .45rem;border-radius:.45rem;
     background:rgba(15,23,42,.7);border:1px solid var(--border);
     transition:border-color .15s,background .15s;
   }
@@ -1404,7 +1336,7 @@
   .graph-collection-card-btns{display:flex;gap:.2rem;flex-shrink:0}
   .graph-collection-card-named{font-size:.6rem;font-family:var(--font-mono);color:var(--honor-red);margin-top:.15rem;opacity:.85}
   .graph-collection-cmd{
-    display:block;margin-top:.3rem;padding:.28rem .45rem;
+    display:block;margin-top:.2rem;padding:.2rem .35rem;
     background:rgba(0,0,0,.4);border:1px solid var(--border);
     border-radius:.3rem;font-size:.62rem;font-family:var(--font-mono);
     color:var(--tier-basic);cursor:pointer;transition:background .15s,border-color .15s;
@@ -1460,7 +1392,18 @@
   .graph-neighbor-card[data-type="extra"]{border-color:var(--tier-extra-border)}
   .graph-neighbor-card[data-type="ultimate"]{border-color:var(--tier-ultimate-border)}
   .graph-neighbor-card[data-type="unique"]{border-color:var(--tier-unique-border)}
-  @media(max-width:700px){.graph-scatter-strip,.graph-bottom-bar,.graph-collection-panel{display:none!important}}
+  @media(max-width:700px){
+    #hero:not(.mobile-hud-shown) .graph-scatter-strip,
+    #hero:not(.mobile-hud-shown) .graph-bottom-bar,
+    #hero:not(.mobile-hud-shown) .graph-collection-panel,
+    #hero:not(.mobile-hud-shown) .graph-legend,
+    #hero:not(.mobile-hud-shown) .graph-neighbor-cards,
+    #hero:not(.mobile-hud-shown) .graph-search-wrap,
+    #hero:not(.mobile-hud-shown) .graph-status,
+    #hero:not(.mobile-hud-shown) .graph-redpill {
+      display:none!important;
+    }
+  }
 
   /* ── REGISTRY STATS — 2×2 grid on mobile ── */
   @media(max-width:700px){
@@ -1602,6 +1545,7 @@
     .graph-dialog-header{flex-direction:column}
     .graph-dialog-actions{justify-content:flex-start}
     .graph-legend{top:auto;bottom:2.8rem;right:.5rem;transform:none;padding:.4rem .5rem;font-size:.65rem}
+    .graph-redpill{bottom:14rem;}
   }
 
   /* -- NAMED SKILLS -- */
@@ -2476,7 +2420,7 @@
       line-height:1.15;
       letter-spacing:-.02em;
     }
-    h1.hero-title .hw-rare{
+    h1.hero-title span{
       display:inline-block;
       margin-top:.25rem;
       padding-bottom:.1em;
