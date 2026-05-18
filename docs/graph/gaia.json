@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/skill.schema.json",
-  "version": "3.11.15",
-  "generatedAt": "2026-05-18T05:02:07.298534Z",
+  "version": "3.13.1",
+  "generatedAt": "2026-05-18T14:37:21.382217Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -351,10 +351,10 @@
       "evidence": [
         {
           "class": "B",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/autonomousDebug.md",
+          "source": "https://github.com/cognition-labs/devin",
           "evaluator": "mbtiongson1",
-          "date": "2026-04-26",
-          "notes": "Seed evidence for Autonomous Debug."
+          "date": "2026-05-17",
+          "notes": "Replaced missing seed evidence with live repository from real-skills catalog."
         }
       ],
       "knownAgents": [],
@@ -367,7 +367,7 @@
       "id": "autonomous-research-agent",
       "name": "Autonomous Research Agent",
       "type": "ultimate",
-      "level": "6★",
+      "level": "5★",
       "rarity": "legendary",
       "description": "Independently conducts end-to-end research cycles including hypothesis generation, evidence gathering, synthesis, and reporting.",
       "prerequisites": [
@@ -378,13 +378,6 @@
       "derivatives": [],
       "conditions": "Requires extensive multi-system validation before level advancement.",
       "evidence": [
-        {
-          "class": "A",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/seed.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-29",
-          "notes": "Seed evidence â€” apex tier structural validation placeholder."
-        },
         {
           "class": "B",
           "source": "https://github.com/balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill",
@@ -430,6 +423,33 @@
       "status": "provisional",
       "createdAt": "2026-05-14",
       "updatedAt": "2026-05-14",
+      "version": "0.1.0"
+    },
+    {
+      "id": "brainstorming",
+      "name": "Brainstorming",
+      "type": "basic",
+      "level": "1★",
+      "rarity": "common",
+      "description": "Explores user intent, requirements, and design before implementation. Turns ideas into fully formed designs and specs through natural collaborative dialogue.",
+      "prerequisites": [],
+      "derivatives": [
+        "superpowers"
+      ],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/obra/superpowers/blob/main/skills/brainstorming/SKILL.md",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-18",
+          "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-18",
+      "updatedAt": "2026-05-18",
       "version": "0.1.0"
     },
     {
@@ -1188,6 +1208,33 @@
       "version": "0.1.0"
     },
     {
+      "id": "dispatching-parallel-agents",
+      "name": "Dispatching Parallel Agents",
+      "type": "basic",
+      "level": "4★",
+      "rarity": "uncommon",
+      "description": "Delegates independent tasks to specialized agents with isolated context to work concurrently.",
+      "prerequisites": [],
+      "derivatives": [
+        "superpowers"
+      ],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/obra/superpowers/blob/main/skills/dispatching-parallel-agents/SKILL.md",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-18",
+          "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-18",
+      "updatedAt": "2026-05-18",
+      "version": "0.1.0"
+    },
+    {
       "id": "document-analyst",
       "name": "Document Analyst",
       "type": "extra",
@@ -1432,6 +1479,33 @@
       "version": "0.1.0"
     },
     {
+      "id": "executing-plans",
+      "name": "Executing Plans",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Loads a written implementation plan, reviews it critically, executes all tasks sequentially, and reports when complete.",
+      "prerequisites": [],
+      "derivatives": [
+        "superpowers"
+      ],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/obra/superpowers/blob/main/skills/executing-plans/SKILL.md",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-18",
+          "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-18",
+      "updatedAt": "2026-05-18",
+      "version": "0.1.0"
+    },
+    {
       "id": "extract-entities",
       "name": "Extract Entities",
       "type": "basic",
@@ -1555,6 +1629,33 @@
       "status": "provisional",
       "createdAt": "2026-04-30",
       "updatedAt": "2026-04-30",
+      "version": "0.1.0"
+    },
+    {
+      "id": "finishing-a-development-branch",
+      "name": "Finishing a Development Branch",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Guides completion of development work by presenting structured options for merge, PR, or cleanup, verifying tests first.",
+      "prerequisites": [],
+      "derivatives": [
+        "superpowers"
+      ],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/obra/superpowers/blob/main/skills/finishing-a-development-branch/SKILL.md",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-18",
+          "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-18",
+      "updatedAt": "2026-05-18",
       "version": "0.1.0"
     },
     {
@@ -1754,34 +1855,6 @@
       "version": "0.1.0"
     },
     {
-      "id": "gaia-triage",
-      "name": "Gaia Triage",
-      "type": "extra",
-      "level": "2★",
-      "rarity": "uncommon",
-      "description": "Triage and audit GitHub issues for the Gaia Skill Tree project. Helps identify stale issues, gather evidence from the codebase, and manage issue lifecycle via GitHub CLI.",
-      "prerequisites": [
-        "issue-triage",
-        "retrieve"
-      ],
-      "derivatives": [],
-      "conditions": "Requires access to the mbtiongson1/gaia-skill-tree repository and GitHub CLI (gh) for execution.",
-      "evidence": [
-        {
-          "class": "C",
-          "source": "https://github.com/mbtiongson1/gaia-skill-tree",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-10",
-          "notes": "Project-specific triage workflow implementation for Gaia issue pruning."
-        }
-      ],
-      "knownAgents": [],
-      "status": "provisional",
-      "createdAt": "2026-05-10",
-      "updatedAt": "2026-05-10",
-      "version": "0.1.0"
-    },
-    {
       "id": "generate-sql",
       "name": "Generate SQL",
       "type": "basic",
@@ -1902,7 +1975,7 @@
       "id": "ghostwrite",
       "name": "Ghostwrite",
       "type": "extra",
-      "level": "4★",
+      "level": "1★",
       "rarity": "rare",
       "description": "Produces audience-tailored, research-backed long-form written content.",
       "prerequisites": [
@@ -1912,15 +1985,7 @@
       ],
       "derivatives": [],
       "conditions": "Requires research output as input context.",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/ghostwrite.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-26",
-          "notes": "Seed evidence for Ghostwrite."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
@@ -2271,7 +2336,7 @@
       "id": "knowledge-harvest",
       "name": "Knowledge Harvest",
       "type": "extra",
-      "level": "4★",
+      "level": "1★",
       "rarity": "rare",
       "description": "Extracts, structures, and embeds knowledge from web sources into a searchable corpus.",
       "prerequisites": [
@@ -2281,15 +2346,7 @@
       ],
       "derivatives": [],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/knowledgeHarvest.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-26",
-          "notes": "Seed evidence for Knowledge Harvest."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
@@ -2721,10 +2778,10 @@
       "evidence": [
         {
           "class": "B",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/seed.md",
+          "source": "https://github.com/ruvnet/ruflo",
           "evaluator": "mbtiongson1",
-          "date": "2026-04-29",
-          "notes": "Seed evidence â€” structural validation placeholder."
+          "date": "2026-05-17",
+          "notes": "Replaced missing seed evidence with live repository from real-skills catalog."
         }
       ],
       "knownAgents": [],
@@ -2961,10 +3018,10 @@
       "evidence": [
         {
           "class": "B",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/planAndExecute.md",
+          "source": "https://github.com/Skyvern-AI/skyvern",
           "evaluator": "mbtiongson1",
-          "date": "2026-04-26",
-          "notes": "Seed evidence for Plan and Execute."
+          "date": "2026-05-17",
+          "notes": "Replaced missing seed evidence with live repository from real-skills catalog."
         }
       ],
       "knownAgents": [],
@@ -3358,10 +3415,37 @@
       "title": "Eternal Herald"
     },
     {
+      "id": "receiving-code-review",
+      "name": "Receiving Code Review",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Processes code review feedback with technical rigor and verification before implementation, questioning unclear feedback.",
+      "prerequisites": [],
+      "derivatives": [
+        "superpowers"
+      ],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/obra/superpowers/blob/main/skills/receiving-code-review/SKILL.md",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-18",
+          "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-18",
+      "updatedAt": "2026-05-18",
+      "version": "0.1.0"
+    },
+    {
       "id": "recursive-self-improvement",
       "name": "Recursive Self-Improvement",
       "type": "ultimate",
-      "level": "5★",
+      "level": "1★",
       "rarity": "legendary",
       "description": "Agent iteratively refines its own prompts, tools, or strategies based on performance feedback loops.",
       "prerequisites": [
@@ -3371,15 +3455,7 @@
       ],
       "derivatives": [],
       "conditions": "Requires extensive multi-system validation before level advancement.",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/seed.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-29",
-          "notes": "Seed evidence â€” structural validation placeholder."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
@@ -3501,6 +3577,33 @@
       "createdAt": "2026-04-30",
       "updatedAt": "2026-04-30",
       "version": "0.2.0"
+    },
+    {
+      "id": "requesting-code-review",
+      "name": "Requesting Code Review",
+      "type": "basic",
+      "level": "3★",
+      "rarity": "uncommon",
+      "description": "Dispatches a code reviewer subagent to catch issues before they cascade, providing isolated context for evaluation.",
+      "prerequisites": [],
+      "derivatives": [
+        "superpowers"
+      ],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/obra/superpowers/blob/main/skills/requesting-code-review/SKILL.md",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-18",
+          "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-18",
+      "updatedAt": "2026-05-18",
+      "version": "0.1.0"
     },
     {
       "id": "requirements-analysis",
@@ -4339,6 +4442,33 @@
       "version": "0.2.0"
     },
     {
+      "id": "subagent-driven-development",
+      "name": "Subagent-Driven Development",
+      "type": "basic",
+      "level": "4★",
+      "rarity": "uncommon",
+      "description": "Executes plans by dispatching a fresh subagent per task with a two-stage review (spec compliance then code quality).",
+      "prerequisites": [],
+      "derivatives": [
+        "superpowers"
+      ],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/obra/superpowers/blob/main/skills/subagent-driven-development/SKILL.md",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-18",
+          "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-18",
+      "updatedAt": "2026-05-18",
+      "version": "0.1.0"
+    },
+    {
       "id": "summarize",
       "name": "Summarize",
       "type": "basic",
@@ -4367,6 +4497,78 @@
       "status": "provisional",
       "createdAt": "2026-04-26",
       "updatedAt": "2026-05-06",
+      "version": "0.1.0"
+    },
+    {
+      "id": "superpowers",
+      "name": "Superpowers",
+      "type": "ultimate",
+      "level": "5★",
+      "rarity": "legendary",
+      "description": "A complete software development methodology for coding agents: combines brainstorming, planning, parallel execution, systematic debugging, code review loops, and branch discipline into a unified agentic workflow.",
+      "prerequisites": [
+        "brainstorming",
+        "dispatching-parallel-agents",
+        "executing-plans",
+        "finishing-a-development-branch",
+        "receiving-code-review",
+        "requesting-code-review",
+        "subagent-driven-development",
+        "systematic-debugging",
+        "using-git-worktrees",
+        "verification-before-completion",
+        "writing-plans"
+      ],
+      "derivatives": [],
+      "conditions": "Requires demonstrating all 11 obra discipline skills together in a real multi-step development context.",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/obra/superpowers",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-18",
+          "notes": "obra/superpowers v5.1.0 — 196k+ GitHub stars, 17.5k forks, multi-platform adoption (Claude Code, Codex CLI, Factory Droid, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI). Most widely adopted AI agent discipline framework; confirms landmark methodology status."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-18",
+      "updatedAt": "2026-05-18",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-18T00:00:00Z",
+          "action": "fuse",
+          "contributor": "mbtiongson1",
+          "details": "Fused 11 obra/superpowers discipline skills into /superpowers ultimate. Components: brainstorming, writing-plans, executing-plans, dispatching-parallel-agents, subagent-driven-development, requesting-code-review, receiving-code-review, systematic-debugging, verification-before-completion, using-git-worktrees, finishing-a-development-branch. Promoted to 5 star on evidence: obra/superpowers v5.1.0, 196k+ stars, multi-platform adoption."
+        }
+      ]
+    },
+    {
+      "id": "systematic-debugging",
+      "name": "Systematic Debugging",
+      "type": "basic",
+      "level": "3★",
+      "rarity": "uncommon",
+      "description": "Finds the root cause before attempting fixes when encountering bugs, test failures, or unexpected behavior.",
+      "prerequisites": [],
+      "derivatives": [
+        "superpowers"
+      ],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/obra/superpowers/blob/main/skills/systematic-debugging/SKILL.md",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-18",
+          "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-18",
+      "updatedAt": "2026-05-18",
       "version": "0.1.0"
     },
     {
@@ -4768,6 +4970,33 @@
       "version": "0.1.0"
     },
     {
+      "id": "using-git-worktrees",
+      "name": "Using Git Worktrees",
+      "type": "basic",
+      "level": "1★",
+      "rarity": "common",
+      "description": "Ensures work happens in an isolated workspace via native tools or git worktree fallback before starting feature work.",
+      "prerequisites": [],
+      "derivatives": [
+        "superpowers"
+      ],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/obra/superpowers/blob/main/skills/using-git-worktrees/SKILL.md",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-18",
+          "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-18",
+      "updatedAt": "2026-05-18",
+      "version": "0.1.0"
+    },
+    {
       "id": "ux-audit",
       "name": "UX Audit",
       "type": "basic",
@@ -4790,6 +5019,33 @@
       "status": "provisional",
       "createdAt": "2026-04-30",
       "updatedAt": "2026-04-30",
+      "version": "0.1.0"
+    },
+    {
+      "id": "verification-before-completion",
+      "name": "Verification Before Completion",
+      "type": "basic",
+      "level": "1★",
+      "rarity": "common",
+      "description": "Requires running verification commands and confirming output before claiming work is complete, fixed, or passing.",
+      "prerequisites": [],
+      "derivatives": [
+        "superpowers"
+      ],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/obra/superpowers/blob/main/skills/verification-before-completion/SKILL.md",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-18",
+          "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-18",
+      "updatedAt": "2026-05-18",
       "version": "0.1.0"
     },
     {
@@ -5117,6 +5373,33 @@
       "version": "0.1.0"
     },
     {
+      "id": "writing-plans",
+      "name": "Writing Plans",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Writes comprehensive implementation plans breaking down multi-step tasks into bite-sized sub-tasks.",
+      "prerequisites": [],
+      "derivatives": [
+        "superpowers"
+      ],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/obra/superpowers/blob/main/skills/writing-plans/SKILL.md",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-18",
+          "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-18",
+      "updatedAt": "2026-05-18",
+      "version": "0.1.0"
+    },
+    {
       "id": "x-twitter-automation",
       "name": "X/Twitter Automation",
       "type": "extra",
@@ -5237,6 +5520,11 @@
     {
       "sourceSkillId": "autonomous-web-research",
       "targetSkillId": "career-operations",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "brainstorming",
+      "targetSkillId": "superpowers",
       "edgeType": "prerequisite"
     },
     {
@@ -5430,6 +5718,11 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "dispatching-parallel-agents",
+      "targetSkillId": "superpowers",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "document-editing",
       "targetSkillId": "career-operations",
       "edgeType": "prerequisite"
@@ -5550,6 +5843,11 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "executing-plans",
+      "targetSkillId": "superpowers",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "extract-entities",
       "targetSkillId": "content-moderation",
       "edgeType": "prerequisite"
@@ -5582,6 +5880,11 @@
     {
       "sourceSkillId": "extract-entities",
       "targetSkillId": "web-scrape",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "finishing-a-development-branch",
+      "targetSkillId": "superpowers",
       "edgeType": "prerequisite"
     },
     {
@@ -5662,11 +5965,6 @@
     {
       "sourceSkillId": "image-caption",
       "targetSkillId": "multimodal-reasoning",
-      "edgeType": "prerequisite"
-    },
-    {
-      "sourceSkillId": "issue-triage",
-      "targetSkillId": "gaia-triage",
       "edgeType": "prerequisite"
     },
     {
@@ -5830,6 +6128,11 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "receiving-code-review",
+      "targetSkillId": "superpowers",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "refactor-code",
       "targetSkillId": "full-stack-developer",
       "edgeType": "prerequisite"
@@ -5842,6 +6145,11 @@
     {
       "sourceSkillId": "registry-curation",
       "targetSkillId": "gaia-meta-audit",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "requesting-code-review",
+      "targetSkillId": "superpowers",
       "edgeType": "prerequisite"
     },
     {
@@ -5882,11 +6190,6 @@
     {
       "sourceSkillId": "retrieve",
       "targetSkillId": "gaia-audit",
-      "edgeType": "prerequisite"
-    },
-    {
-      "sourceSkillId": "retrieve",
-      "targetSkillId": "gaia-triage",
       "edgeType": "prerequisite"
     },
     {
@@ -6015,6 +6318,11 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "subagent-driven-development",
+      "targetSkillId": "superpowers",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "summarize",
       "targetSkillId": "career-operations",
       "edgeType": "prerequisite"
@@ -6042,6 +6350,11 @@
     {
       "sourceSkillId": "summarize",
       "targetSkillId": "wiki-search",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "systematic-debugging",
+      "targetSkillId": "superpowers",
       "edgeType": "prerequisite"
     },
     {
@@ -6107,6 +6420,16 @@
     {
       "sourceSkillId": "ubiquitous-language",
       "targetSkillId": "grill-with-docs",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "using-git-worktrees",
+      "targetSkillId": "superpowers",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "verification-before-completion",
+      "targetSkillId": "superpowers",
       "edgeType": "prerequisite"
     },
     {
@@ -6197,6 +6520,11 @@
     {
       "sourceSkillId": "write-report",
       "targetSkillId": "scientific-writing",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "writing-plans",
+      "targetSkillId": "superpowers",
       "edgeType": "prerequisite"
     }
   ]

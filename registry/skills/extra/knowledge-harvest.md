@@ -1,8 +1,8 @@
-# /knowledge-harvest  [4★ · Hardened]
+# /knowledge-harvest  [1★ · Awakened]
 **ID:** knowledge-harvest  
 **Type:** Extra Skill  
-**Level:** 4★  
-**Tier:** Hardened  
+**Level:** 1★  
+**Tier:** Awakened  
 **Skill Call:** `/knowledge-harvest`
 
 ---
@@ -22,9 +22,7 @@ _None._
 _None specified._
 
 ## Evidence
-| Class | Source | Evaluator | Date |
-|---|---|---|---|
-| B | https://github.com/gaia-registry/gaia/blob/main/docs/evidence/knowledgeHarvest.md | mbtiongson1 | 2026-04-26 |
+_None._
 
 ## Known Agents
 _None verified yet._

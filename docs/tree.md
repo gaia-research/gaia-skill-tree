@@ -2,29 +2,11 @@
 
 ```
 ══════════════════════════════════════════════════════════════════════
-GAIA SKILL TREE  v3.11.15  ·  generated 2026-05-18
+GAIA SKILL TREE  v3.13.1  ·  generated 2026-05-18
 ══════════════════════════════════════════════════════════════════════
 ◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = stars · [0★ · Pure] = Unawakened rank pill · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
 ══════════════════════════════════════════════════════════════════════
-
-◆ karpathy/autoresearch  [6★]
-─────────────────────────────────────────────────────────────────
-  ├─ ◇ /research  [3★]
-  │  ├─ ○ /web-search  [1★]
-  │  ├─ ○ /summarize  [0★]
-  │  └─ ○ /cite-sources  [1★]
-  ├─ ◇ /knowledge-harvest  [4★]
-  │  ├─ ◇ firecrawl/firecrawl  [3★]
-  │  │  ├─ ○ /web-search  [1★]  (↑ see above)
-  │  │  ├─ ○ /parse-html  [1★]
-  │  │  └─ ○ /extract-entities  [1★]
-  │  ├─ ○ /extract-entities  [1★]  (↑ see above)
-  │  └─ ○ /embed-text  [1★]
-  └─ ◇ /ghostwrite  [4★]
-     ├─ ◇ /research  [3★]  (↑ see above)
-     ├─ ○ glincker/readme-generator  [1★]
-     └─ ○ /audience-model  [1★]
 
 ◆ /autonomous-data-scientist  [5★ · Unclaimed]
 ─────────────────────────────────────────────────────────────────
@@ -37,6 +19,24 @@ Shared prerequisites marked (↑ see above) on second occurrence.
      ├─ ○ /web-search  [1★]
      ├─ ○ /summarize  [0★]  (↑ see above)
      └─ ○ /cite-sources  [1★]
+
+◆ karpathy/autoresearch  [5★]
+─────────────────────────────────────────────────────────────────
+  ├─ ◇ /research  [3★]
+  │  ├─ ○ /web-search  [1★]
+  │  ├─ ○ /summarize  [0★]
+  │  └─ ○ /cite-sources  [1★]
+  ├─ ◇ /knowledge-harvest  [1★]
+  │  ├─ ◇ firecrawl/firecrawl  [3★]
+  │  │  ├─ ○ /web-search  [1★]  (↑ see above)
+  │  │  ├─ ○ /parse-html  [1★]
+  │  │  └─ ○ /extract-entities  [1★]
+  │  ├─ ○ /extract-entities  [1★]  (↑ see above)
+  │  └─ ○ /embed-text  [1★]
+  └─ ◇ /ghostwrite  [1★]
+     ├─ ◇ /research  [3★]  (↑ see above)
+     ├─ ○ glincker/readme-generator  [1★]
+     └─ ○ /audience-model  [1★]
 
 ◆ /scientific-discovery  [5★ · Unclaimed]
 ─────────────────────────────────────────────────────────────────
@@ -92,7 +92,21 @@ Shared prerequisites marked (↑ see above) on second occurrence.
      ├─ ○ /plan-decompose  [1★]
      └─ ○ /tool-select  [1★]
 
-◆ /recursive-self-improvement  [5★ · Unclaimed]
+◆ /superpowers  [5★ · Unclaimed]
+─────────────────────────────────────────────────────────────────
+  ├─ ○ obra/brainstorming  [1★]
+  ├─ ○ obra/dispatching-parallel-agents  [4★]
+  ├─ ○ obra/executing-plans  [2★]
+  ├─ ○ obra/finishing-a-development-branch  [2★]
+  ├─ ○ obra/receiving-code-review  [2★]
+  ├─ ○ obra/requesting-code-review  [3★]
+  ├─ ○ obra/subagent-driven-development  [4★]
+  ├─ ○ obra/systematic-debugging  [3★]
+  ├─ ○ obra/using-git-worktrees  [1★]
+  ├─ ○ obra/verification-before-completion  [1★]
+  └─ ○ obra/writing-plans  [2★]
+
+◆ /recursive-self-improvement  [1★ · Unclaimed]
 ─────────────────────────────────────────────────────────────────
   ├─ ◇ devin-ai/autonomous-swe  [4★]
   │  ├─ ○ /code-generation  [1★]
