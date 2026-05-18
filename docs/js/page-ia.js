@@ -293,11 +293,18 @@
     // --- META REPORT (Synthesize Timeline) ---
     var tlEvents = [];
     var ACTION_ICON = {
-      rank_up: '↑', ascend: '✦', name: '@', fuse: '⊕',
-      push: '+', evidence: '✓', demote: '↓', propose: '◆',
-      bond: '⊙', register: '◎'
+      rank_up: 'sparkle',
+      ascend: 'sparkle',
+      name: 'user',
+      fuse: 'sparkle',
+      push: 'claim-arrow',
+      evidence: 'copy-check',
+      demote: 'arrow-back',
+      propose: 'claim-arrow',
+      bond: 'sparkle',
+      register: 'claim-arrow'
     };
-    var TYPE_GLYPH_MR = { ultimate:'◆', unique:'◉', extra:'◇', basic:'○' };
+    var TYPE_GLYPH_MR = { ultimate:'tier-glyph-ultimate', unique:'tier-glyph-unique', extra:'tier-glyph-extra', basic:'tier-glyph-basic' };
     var MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
     // 1. Synthesize canonical skill timeline events
@@ -388,7 +395,8 @@
     var mrTimeline = document.getElementById('mrTimeline');
     var mrFooter = document.getElementById('mrFooter');
     var mrFilterTabs = document.getElementById('mrFilterTabs');
-    var displayLimit = 20;
+    var currentPage = 1;
+    var pageSize = 12; // Display 12 events per page for maximum compactness
     var currentFilter = 'all';
     
     // Count events per action for tab badges
@@ -424,16 +432,33 @@
         return currentFilter === 'all' || ev.action === currentFilter;
       });
 
-      if (!filteredEvents.length) {
+      var totalEvents = filteredEvents.length;
+      var totalPages = Math.max(1, Math.ceil(totalEvents / pageSize));
+      
+      // Ensure page is within boundaries
+      if (currentPage > totalPages) currentPage = totalPages;
+      if (currentPage < 1) currentPage = 1;
+
+      if (!totalEvents) {
+        var emptyIcon = '';
+        if (typeof window.gaiaIcon === 'function') {
+          emptyIcon = window.gaiaIcon('info', { size: 24 });
+        } else {
+          emptyIcon = '<svg class="ico" width="24" height="24" aria-hidden="true"><use href="assets/icons.svg#info"/></svg>';
+        }
         mrTimeline.innerHTML = '<div class="mr-empty">' +
-          '<div class="mr-empty-icon">◇</div>' +
+          '<div class="mr-empty-icon">' + emptyIcon + '</div>' +
           '<div class="mr-empty-text">No events match this filter.</div>' +
           '</div>';
-        if (mrFooter) mrFooter.style.display = 'none';
+        var mrPagination = document.getElementById('mrPagination');
+        if (mrPagination) mrPagination.style.display = 'none';
         return;
       }
 
-      var toShow = filteredEvents.slice(0, displayLimit);
+      var startIndex = (currentPage - 1) * pageSize;
+      var endIndex = Math.min(startIndex + pageSize, totalEvents);
+      var toShow = filteredEvents.slice(startIndex, endIndex);
+
       var html = '';
       var lastMonth = '';
       var staggerIdx = 0;
@@ -447,9 +472,16 @@
         }
 
         var actionLabel = ev.action.replace('_', ' ');
-        var icon = ACTION_ICON[ev.action] || '·';
+        var iconId = ACTION_ICON[ev.action] || 'info';
+        var iconHtml = '';
+        if (typeof window.gaiaIcon === 'function') {
+          iconHtml = window.gaiaIcon(iconId, { size: 12 });
+        } else {
+          iconHtml = '<svg class="ico" width="12" height="12" aria-hidden="true"><use href="assets/icons.svg#' + iconId + '"/></svg>';
+        }
+
         var dateStr = new Date(ev.date).toISOString().split('T')[0];
-        var delay = (staggerIdx % 12) * 0.04;
+        var delay = (staggerIdx % 12) * 0.03;
         staggerIdx++;
 
         var clickAttr = ' role="button" tabindex="0" onclick="if(typeof openSkillExplorer===\'function\')openSkillExplorer(\'' + jsStr(ev.skillId) + '\')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();this.click();}"';
@@ -462,16 +494,25 @@
           return '<a class="mr-contributor atlas-handle" href="./u/' + encodeURIComponent(handle) + '/">@' + esc(handle) + '</a>';
         });
 
-        // Tier glyph
-        var tierGlyph = TYPE_GLYPH_MR[ev.type] || '';
-        var tierHtml = tierGlyph
-          ? '<span class="mr-tier-glyph" data-type="' + esc(ev.type || 'basic') + '">' + tierGlyph + '</span>'
-          : '';
+        // Tier glyph - uses proper SVG sprite icons from foundation.html
+        var tierHtml = '';
+        if (ev.type) {
+          var tierIconId = TYPE_GLYPH_MR[ev.type] || 'tier-glyph-basic';
+          if (typeof window.gaiaIcon === 'function') {
+            tierHtml = '<span class="mr-tier-glyph" data-type="' + esc(ev.type) + '">' +
+              window.gaiaIcon(tierIconId, { size: 12 }) +
+              '</span>';
+          } else {
+            tierHtml = '<span class="mr-tier-glyph" data-type="' + esc(ev.type) + '">' +
+              '<svg class="ico" width="12" height="12" aria-hidden="true"><use href="assets/icons.svg#' + tierIconId + '"/></svg>' +
+              '</span>';
+          }
+        }
 
         html += '<div class="mr-event" style="animation-delay: ' + delay + 's">';
         html += '<div class="mr-dot" data-action="' + esc(ev.action) + '"></div>';
         html += '<div class="mr-header">';
-        html += '<span class="mr-action" data-action="' + esc(ev.action) + '"><span class="mr-action-icon">' + icon + '</span>' + esc(actionLabel) + '</span>';
+        html += '<span class="mr-action" data-action="' + esc(ev.action) + '"><span class="mr-action-icon">' + iconHtml + '</span>' + esc(actionLabel) + '</span>';
         html += '<div class="mr-skill-wrap">';
         html += tierHtml;
         html += '<span class="mr-skill"' + clickAttr + ' title="' + esc(ev.skillId) + '">' + esc(ev.name) + '</span>';
@@ -484,8 +525,25 @@
 
       mrTimeline.innerHTML = html;
 
-      if (mrFooter) {
-        mrFooter.style.display = filteredEvents.length > displayLimit ? 'block' : 'none';
+      // Render Pagination controls
+      var mrPagination = document.getElementById('mrPagination');
+      if (mrPagination) {
+        mrPagination.style.display = totalEvents > pageSize ? 'flex' : 'none';
+        
+        var mrPageNum = document.getElementById('mrPageNum');
+        if (mrPageNum) {
+          mrPageNum.textContent = 'Page ' + currentPage + ' of ' + totalPages;
+        }
+        
+        var mrPrevPage = document.getElementById('mrPrevPage');
+        if (mrPrevPage) {
+          mrPrevPage.disabled = currentPage === 1;
+        }
+        
+        var mrNextPage = document.getElementById('mrNextPage');
+        if (mrNextPage) {
+          mrNextPage.disabled = currentPage === totalPages;
+        }
       }
     }
 
@@ -503,17 +561,184 @@
           btn.classList.add('active');
 
           currentFilter = btn.dataset.action || 'all';
-          displayLimit = 20;
+          currentPage = 1; // Reset to page 1 on filter click
           renderMetaReport();
         });
       }
 
-      // Show more logic
-      var btnShowMore = document.getElementById('mrShowMore');
-      if (btnShowMore) {
-        btnShowMore.addEventListener('click', function() {
-          displayLimit += 20;
+      // Pagination click handlers
+      var mrPrevPage = document.getElementById('mrPrevPage');
+      if (mrPrevPage) {
+        mrPrevPage.addEventListener('click', function() {
+          if (currentPage > 1) {
+            currentPage--;
+            renderMetaReport();
+            mrTimeline.scrollTop = 0;
+          }
+        });
+      }
+
+      var mrNextPage = document.getElementById('mrNextPage');
+      if (mrNextPage) {
+        mrNextPage.addEventListener('click', function() {
+          currentPage++;
           renderMetaReport();
+          mrTimeline.scrollTop = 0;
+        });
+      }
+
+      // --- META REPORT SIDEBAR CONTROL LOGIC ---
+      var metaSidebar = document.getElementById('metaSidebar');
+      var metaSidebarBackdrop = document.getElementById('metaSidebarBackdrop');
+      var metaNavBtn = document.getElementById('metaNavBtn');
+      var metaFooterBtn = document.getElementById('metaFooterBtn');
+      var metaReportCalloutBtn = document.getElementById('metaReportCalloutBtn');
+      var metaCloseBtn = document.getElementById('metaCloseBtn');
+
+      function openMetaSidebar() {
+        if (!metaSidebar) return;
+        metaSidebar.classList.add('open');
+        metaSidebar.setAttribute('aria-hidden', 'false');
+        metaSidebar.focus();
+        
+        if (window.innerWidth <= 768) {
+          if (metaSidebarBackdrop) metaSidebarBackdrop.classList.add('open');
+          document.body.style.overflow = 'hidden'; // lock scrolling on mobile
+        } else {
+          // Explicitly and defensively force scroll unlocking on desktop!
+          document.body.style.overflow = '';
+          document.documentElement.style.overflow = '';
+        }
+      }
+
+      function closeMetaSidebar() {
+        if (!metaSidebar) return;
+        metaSidebar.classList.remove('open');
+        if (metaSidebarBackdrop) metaSidebarBackdrop.classList.remove('open');
+        metaSidebar.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        document.documentElement.style.overflow = '';
+      }
+
+      if (metaNavBtn) metaNavBtn.addEventListener('click', openMetaSidebar);
+      if (metaFooterBtn) metaFooterBtn.addEventListener('click', openMetaSidebar);
+      if (metaReportCalloutBtn) metaReportCalloutBtn.addEventListener('click', openMetaSidebar);
+      if (metaCloseBtn) metaCloseBtn.addEventListener('click', closeMetaSidebar);
+      if (metaSidebarBackdrop) metaSidebarBackdrop.addEventListener('click', closeMetaSidebar);
+
+      // ESC key support
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && metaSidebar && metaSidebar.classList.contains('open')) {
+          closeMetaSidebar();
+        }
+      });
+
+      // Swipe-to-close on Mobile
+      var startX = 0;
+      var startY = 0;
+      var currentTranslate = 0;
+      var isSwiping = false;
+
+      if (metaSidebar) {
+        metaSidebar.addEventListener('touchstart', function(e) {
+          if (window.innerWidth > 768) return;
+          startX = e.touches[0].clientX;
+          startY = e.touches[0].clientY;
+          isSwiping = true;
+          metaSidebar.classList.add('swiping');
+        }, { passive: true });
+
+        metaSidebar.addEventListener('touchmove', function(e) {
+          if (!isSwiping) return;
+          var currentX = e.touches[0].clientX;
+          var currentY = e.touches[0].clientY;
+          var diffX = currentX - startX;
+          var diffY = currentY - startY;
+
+          if (diffX > 0 && Math.abs(diffX) > Math.abs(diffY)) {
+            metaSidebar.style.transform = 'translateX(' + diffX + 'px)';
+            currentTranslate = diffX;
+          }
+        }, { passive: true });
+
+        metaSidebar.addEventListener('touchend', function(e) {
+          if (!isSwiping) return;
+          isSwiping = false;
+          metaSidebar.classList.remove('swiping');
+          metaSidebar.style.transform = '';
+          
+          if (currentTranslate > 80) {
+            closeMetaSidebar();
+          }
+          currentTranslate = 0;
+        });
+      }
+
+      // Copy entire timeline in Markdown format
+      var metaCopyBtn = document.getElementById('metaCopyBtn');
+      if (metaCopyBtn) {
+        metaCopyBtn.addEventListener('click', function() {
+          var text = '# Gaia Skill Tree - Registry Meta Report\n';
+          text += 'Generated: ' + new Date().toISOString().replace('T', ' ').substring(0, 19) + ' UTC\n\n';
+          text += 'A living chronicle of registry evolution: every rank-up, name claim, fusion, and evidence review recorded.\n\n';
+          
+          var filteredEvents = tlEvents;
+          if (currentFilter !== 'all') {
+            filteredEvents = tlEvents.filter(function (ev) { return ev.action === currentFilter; });
+          }
+          
+          filteredEvents.forEach(function(ev) {
+            var dateStr = new Date(ev.date).toISOString().split('T')[0];
+            var actionStr = ev.action.toUpperCase().replace('_', ' ');
+            text += '- **[' + dateStr + ']** [' + actionStr + '] ' + ev.name + ' (' + ev.type + '): ' + ev.details + '\n';
+          });
+          
+          if (window.copyToClipboard) {
+            window.copyToClipboard(text).then(function() {
+              var svgUse = metaCopyBtn.querySelector('use');
+              if (svgUse) {
+                // Highly premium visual check - swap SVG sprite target path dynamically!
+                svgUse.setAttribute('href', 'assets/icons.svg#copy-check');
+                metaCopyBtn.classList.add('copied');
+                setTimeout(function() {
+                  svgUse.setAttribute('href', 'assets/icons.svg#copy');
+                  metaCopyBtn.classList.remove('copied');
+                }, 1800);
+              }
+            }).catch(function() {
+              alert('Failed to copy to clipboard.');
+            });
+          }
+        });
+      }
+
+      // Download entire timeline in Markdown format
+      var metaDownloadBtn = document.getElementById('metaDownloadBtn');
+      if (metaDownloadBtn) {
+        metaDownloadBtn.addEventListener('click', function() {
+          var text = '# Gaia Skill Tree - Registry Meta Report\n';
+          text += 'Generated: ' + new Date().toISOString().replace('T', ' ').substring(0, 19) + ' UTC\n\n';
+          text += 'A living chronicle of registry evolution: every rank-up, name claim, fusion, and evidence review recorded.\n\n';
+          
+          var filteredEvents = tlEvents;
+          if (currentFilter !== 'all') {
+            filteredEvents = tlEvents.filter(function (ev) { return ev.action === currentFilter; });
+          }
+          
+          filteredEvents.forEach(function(ev) {
+            var dateStr = new Date(ev.date).toISOString().split('T')[0];
+            var actionStr = ev.action.toUpperCase().replace('_', ' ');
+            text += '- **[' + dateStr + ']** [' + actionStr + '] ' + ev.name + ' (' + ev.type + '): ' + ev.details + '\n';
+          });
+          
+          var blob = new Blob([text], { type: 'text/markdown;charset=utf-8;' });
+          var url = URL.createObjectURL(blob);
+          var link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', 'gaia-meta-report.md');
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
         });
       }
     }
@@ -543,6 +768,12 @@
     if (location.hash === '#tree') {
       var navTree = document.getElementById('treeNavBtn');
       if (navTree) setTimeout(function () { navTree.click(); }, 50);
+    }
+
+    // Cross-page: if landed with #meta-report, open the Meta Report sidebar
+    if (location.hash === '#meta-report' || location.hash === '#meta') {
+      var navMeta = document.getElementById('metaNavBtn');
+      if (navMeta) setTimeout(function () { navMeta.click(); }, 50);
     }
 
     // Global search nav: scroll to Named Skills section and focus the search input

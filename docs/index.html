@@ -42,6 +42,7 @@
       <li><a href="#hall-of-heroes">Hall of Heroes</a></li>
       <li><a href="codex.html">The Codex</a></li>
       <li><button type="button" class="nav-tree" id="treeNavBtn">Tree</button></li>
+      <li><button type="button" class="nav-meta" id="metaNavBtn">Meta Report</button></li>
       <li><button type="button" class="nav-copy-agent" id="copyAgentBtn" title="Copy Agent-friendly Markdown for LLMs/Agents" aria-label="Copy page context for agents"><svg class="ico" width="15" height="15" aria-hidden="true"><use href="assets/icons.svg#copy"/></svg></button></li>
       <li><button type="button" class="nav-search-btn" id="navSearchBtn" aria-label="Search named"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#search"/></svg></button></li>
     </ul>
@@ -288,25 +289,13 @@
 
   <div class="section-divider section-divider--glow"></div>
 
-  <!-- ─── META REPORT ─── -->
-  <section id="meta-report" class="reveal" data-section="meta-report">
-    <h2>Meta Report</h2>
-    <p class="section-sub">A living chronicle of registry evolution: every rank-up, name claim, fusion, and evidence review recorded.</p>
-    <div class="mr-controls">
-      <div class="mr-filter-tabs" id="mrFilterTabs">
-        <button class="mr-tab active" type="button" data-action="all">All</button>
-        <button class="mr-tab" type="button" data-action="name">Named</button>
-        <button class="mr-tab" type="button" data-action="rank_up">Rank Up</button>
-        <button class="mr-tab" type="button" data-action="fuse">Fused</button>
-        <button class="mr-tab" type="button" data-action="push">Created</button>
-        <button class="mr-tab" type="button" data-action="evidence">Evidence</button>
-      </div>
-    </div>
-    <div class="mr-timeline" id="mrTimeline">
-      <div class="mr-loading">Synthesizing timeline…</div>
-    </div>
-    <div class="mr-footer" id="mrFooter" style="display:none">
-      <button id="mrShowMore" class="btn btn-ghost" type="button">Show more →</button>
+  <!-- ─── META REPORT CALLOUT ─── -->
+  <section id="meta-report-callout" class="reveal section-callout" data-section="meta-report-callout">
+    <div class="callout-inner">
+      <span class="callout-glyph">◆</span>
+      <h2>Registry Meta Report</h2>
+      <p class="section-sub">Inspect the living chronicle of registry evolution: every rank-up, name claim, fusion, and evidence review recorded.</p>
+      <button type="button" class="btn btn-ghost" id="metaReportCalloutBtn">Open Meta Report →</button>
     </div>
   </section>
 
@@ -380,6 +369,7 @@
       v3.9.2 ·
       <a href="codex.html">The Codex</a> ·
       <button id="treeFooterBtn" type="button" class="footer-link-btn">Your Tree</button> ·
+      <button id="metaFooterBtn" type="button" class="footer-link-btn">Meta Report</button> ·
       <button id="copyAgentFooterBtn" type="button" class="footer-link-btn" aria-label="Copy page context for agents">Copy Page</button>
     </p>
   </footer>
@@ -405,6 +395,46 @@
         <div id="se-install" class="se-flow-section"></div>
         <div id="se-docs" class="se-flow-section"></div>
         <div id="se-timeline" class="se-flow-section"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── META REPORT SIDEBAR ─── -->
+  <div id="metaSidebarBackdrop" class="meta-sidebar-backdrop"></div>
+  <div id="metaSidebar" class="meta-sidebar" role="dialog" aria-modal="true" aria-label="Meta Report" tabindex="-1">
+    <div class="meta-sidebar-header">
+      <span class="meta-sidebar-title">Meta Report</span>
+      <div class="meta-sidebar-actions">
+        <button id="metaCopyBtn" class="meta-btn-icon" title="Copy entire timeline in Markdown format" aria-label="Copy timeline"><svg class="ico" width="15" height="15" aria-hidden="true"><use href="assets/icons.svg#copy"/></svg></button>
+        <button id="metaDownloadBtn" class="meta-btn-icon" title="Download timeline as gaia-meta-report.md" aria-label="Download timeline"><svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#download"/></svg></button>
+        <button id="metaCloseBtn" class="meta-btn-icon meta-btn-close" title="Minimize Meta Report" aria-label="Minimize"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#chevron-down"/></svg></button>
+      </div>
+    </div>
+    <div class="meta-sidebar-body">
+      <p class="meta-sidebar-intro">A living chronicle of registry evolution: every rank-up, name claim, fusion, and evidence review recorded.</p>
+      <div class="mr-controls">
+        <div class="mr-filter-tabs" id="mrFilterTabs">
+          <button class="mr-tab active" type="button" data-action="all">All</button>
+          <button class="mr-tab" type="button" data-action="name">Named</button>
+          <button class="mr-tab" type="button" data-action="rank_up">Rank Up</button>
+          <button class="mr-tab" type="button" data-action="fuse">Fused</button>
+          <button class="mr-tab" type="button" data-action="push">Created</button>
+          <button class="mr-tab" type="button" data-action="evidence">Evidence</button>
+        </div>
+      </div>
+      <div class="mr-timeline" id="mrTimeline">
+        <div class="mr-loading">Synthesizing timeline…</div>
+      </div>
+      
+      <!-- ─── PAGINATION CONTROLS ─── -->
+      <div class="mr-pagination" id="mrPagination" style="display:none">
+        <button id="mrPrevPage" class="meta-btn-icon mr-pagination-prev" title="Previous Page" aria-label="Previous Page">
+          <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#chevron-down"/></svg>
+        </button>
+        <span id="mrPageNum" class="mr-page-num">Page 1 of 1</span>
+        <button id="mrNextPage" class="meta-btn-icon mr-pagination-next" title="Next Page" aria-label="Next Page">
+          <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#chevron-down"/></svg>
+        </button>
       </div>
     </div>
   </div>
