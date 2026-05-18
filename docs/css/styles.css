@@ -759,16 +759,13 @@ button.nav-copy-agent {
 }
 
 .graph-hud-toggle-btn {
+  display: none !important;
   position: absolute;
   bottom: 1.5rem;
   left: calc(260px + 1.5rem);
   z-index: 100;
   transition: left .3s;
   background: rgba(3, 7, 18, .8);
-}
-
-#hero.hud-hidden .graph-hud-toggle-btn {
-  left: 1.5rem;
 }
 
 /* Fullscreen status bar */
@@ -1370,10 +1367,9 @@ tr:hover td {
   gap: .55rem;
   margin-top: .5rem;
   padding: .5rem .85rem;
-  background: rgba(56, 189, 248, .05);
-  border: 1px solid rgba(56, 189, 248, .18);
-  border-left: 3px solid rgba(56, 189, 248, .45);
-  border-radius: 0 7px 7px 0;
+  background: rgba(var(--tier-basic-rgb), .06);
+  border: 1px solid rgba(var(--tier-basic-rgb), .25);
+  border-radius: 7px;
   font-size: .79rem;
   color: var(--muted);
   line-height: 1.5;
@@ -1951,13 +1947,23 @@ tr:hover td {
      the canvas emits them as className refs now. Each maps to a single
      :root token so a theme swap recolors every site in lockstep. */
 .gst-named-id {
-  color: var(--honor-red);
   font-family: var(--font-mono);
   font-size: .67rem;
   font-weight: 600;
   letter-spacing: .01em;
-  margin-bottom: .3rem;
+  margin-bottom: .2rem;
   word-break: break-all;
+  color: var(--honor-red);
+}
+
+/* Per DESIGN.md — Honor Red carries the @handle only; the slash form
+   inherits the skill's rank colour (applied inline by JS). */
+.gst-named-id .gst-named-handle {
+  color: var(--honor-red);
+}
+
+.gst-named-id .gst-named-slug {
+  /* per-skill rank colour applied inline */
 }
 
 .gst-skill-id {
@@ -1965,7 +1971,7 @@ tr:hover td {
   font-family: var(--font-mono);
   font-size: .68rem;
   font-weight: 500;
-  margin-bottom: .3rem;
+  margin-bottom: .15rem;
 }
 
 .gst-honor {
@@ -2457,11 +2463,30 @@ tr:hover td {
   box-shadow: 0 0 0 1px rgba(56, 189, 248, .12), 0 6px 28px rgba(0, 0, 0, .55);
 }
 
+/* Tiered tooltip rhythm (impeccable typeset).
+   Name gets the heaviest visual weight; named-id and skill-id sit
+   tighter as paired data; the badge row is the closer. */
+.skill-tooltip-name {
+  font-size: .8rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: .35rem;
+}
+
+/* 6★ skills earn an apex-gold underline accent on the tooltip name,
+   echoing the hero-title emphasis rule. The JS adds data-level on the
+   tooltip wrapper. */
+.skill-tooltip[data-level="6★"] .skill-tooltip-name {
+  border-bottom: 1px solid var(--apex-gold);
+  padding-bottom: .12em;
+}
+
 .skill-tooltip-row {
   display: flex;
   align-items: center;
-  gap: .4rem .5rem;
-  flex-wrap: wrap
+  gap: .35rem;
+  flex-wrap: wrap;
+  margin-top: .1rem;
 }
 
 .skill-tooltip-badge {
@@ -2482,26 +2507,83 @@ tr:hover td {
 }
 
 .skill-tooltip-type-basic {
-  color: #38bdf8
+  color: var(--tier-basic)
 }
 
 .skill-tooltip-type-extra {
-  color: #c084fc
+  color: var(--tier-extra)
 }
 
 .skill-tooltip-type-unique {
-  color: #7c3aed
+  color: var(--tier-unique)
 }
 
 .skill-tooltip-type-ultimate {
-  color: #f59e0b
+  color: var(--tier-ultimate)
 }
 
 .graph-search-wrap {
   position: absolute;
   top: 110px;
   right: .75rem;
-  z-index: 10
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  gap: .25rem;
+}
+
+.graph-search-help {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid rgba(var(--tier-basic-rgb), .3);
+  color: var(--tier-basic);
+  cursor: pointer;
+  padding: 0;
+  transition: background .15s, border-color .15s, color .15s;
+}
+
+.graph-search-help:hover {
+  background: rgba(var(--tier-basic-rgb), .12);
+  border-color: rgba(var(--tier-basic-rgb), .55);
+}
+
+.graph-search-help[aria-expanded="true"] {
+  background: rgba(var(--tier-basic-rgb), .18);
+  border-color: var(--tier-basic);
+}
+
+.graph-search-help-popover {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 11;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: .5rem;
+  padding: .55rem .7rem;
+  font-family: var(--font-mono);
+  font-size: .68rem;
+  color: var(--text);
+  line-height: 1.6;
+  width: 240px;
+  max-width: 80vw;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .5);
+}
+
+.graph-search-help-popover[hidden] {
+  display: none;
+}
+
+.graph-search-help-popover code {
+  color: var(--honor-red);
+  font-family: var(--font-mono);
+  padding: 0 .2rem;
+  font-weight: 700;
 }
 
 .graph-search {
@@ -2669,39 +2751,35 @@ tr:hover td {
   box-shadow: 0 0 10px currentColor, inset 0 0 0 1.5px currentColor
 }
 
-.graph-label-toggle {
-  display: none
-}
-
 .graph-redpill {
   position: absolute;
   bottom: calc(52px + .75rem);
   right: .75rem;
   z-index: 10;
-  color: #f87171;
+  color: var(--honor-red);
   font-size: .72rem;
   font-weight: 700;
   background: rgba(3, 7, 18, .68);
-  border: 1px solid rgba(239, 68, 68, .45);
+  border: 1px solid rgba(var(--honor-red-rgb), .45);
   border-radius: 999px;
   padding: .3rem .78rem;
   cursor: pointer;
   transition: all .2s;
-  font-family: inherit;
+  font-family: var(--font-mono);
   white-space: nowrap;
 }
 
 .graph-redpill:hover {
-  border-color: rgba(239, 68, 68, .75);
-  color: #fca5a5;
-  background: rgba(239, 68, 68, .08)
+  border-color: rgba(var(--honor-red-rgb), .75);
+  color: var(--honor-red);
+  background: rgba(var(--honor-red-rgb), .08)
 }
 
 .graph-redpill.active {
-  background: rgba(239, 68, 68, .18);
-  border-color: rgba(239, 68, 68, .7);
-  color: #fca5a5;
-  box-shadow: 0 0 14px rgba(239, 68, 68, .35);
+  background: rgba(var(--honor-red-rgb), .18);
+  border-color: rgba(var(--honor-red-rgb), .7);
+  color: var(--honor-red);
+  box-shadow: 0 0 14px rgba(var(--honor-red-rgb), .35);
 }
 
 /* ── Scatter strip (direction rule: top = Ultimate, bottom = Basic).
@@ -2774,6 +2852,31 @@ tr:hover td {
   text-transform: uppercase;
 }
 
+/* Discoverability captions for the otherwise drag-only strips. */
+.graph-strip-caption {
+  font-family: var(--font-mono);
+  font-size: .54rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  color: rgba(var(--tier-basic-rgb), .35);
+  text-transform: uppercase;
+  pointer-events: none;
+  user-select: none;
+}
+
+.graph-strip-caption--scatter {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  padding: .35rem 0;
+  align-self: center;
+}
+
+.graph-strip-caption--speed {
+  padding: 0 .55rem;
+  flex-shrink: 0;
+  font-size: .58rem;
+}
+
 /* ── Bottom bar (Stage 5: no glass; sits on --bg with hairline top).
      Labels render in Bricolage (var(--font-body)); numeric stats in
      mono small-caps via .graph-zoom-counter / .graph-speed-title. */
@@ -2803,7 +2906,7 @@ tr:hover td {
   border-right: 1px solid var(--border);
   cursor: pointer;
   transition: color .15s, background .15s;
-  font-family: var(--font-body);
+  font-family: var(--font-mono);
 }
 
 .graph-pause-btn:hover {
@@ -2821,9 +2924,9 @@ tr:hover td {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: .65rem;
-  font-weight: 700;
-  letter-spacing: .06em;
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .08em;
   text-transform: uppercase;
   color: rgba(148, 163, 184, .55);
   background: transparent;
@@ -2831,7 +2934,7 @@ tr:hover td {
   border-right: 1px solid var(--border);
   cursor: pointer;
   transition: color .15s, background .15s;
-  font-family: var(--font-body);
+  font-family: var(--font-mono);
   white-space: nowrap;
 }
 
@@ -2929,23 +3032,23 @@ tr:hover td {
   top: .45rem;
   right: .45rem;
   background: transparent;
-  border: 1px solid rgba(56, 189, 248, .3);
+  border: 1px solid rgba(var(--tier-basic-rgb), .3);
   border-radius: .35rem;
-  color: rgba(56, 189, 248, .7);
+  color: rgba(var(--tier-basic-rgb), .7);
   font-size: .82rem;
   font-weight: 700;
   padding: .1rem .4rem;
   cursor: pointer;
   transition: color .15s, border-color .15s, background .15s;
   pointer-events: all;
-  font-family: inherit;
+  font-family: var(--font-mono);
   line-height: 1;
 }
 
 .graph-tooltip-add:hover {
-  color: #7dd3fc;
-  border-color: rgba(56, 189, 248, .6);
-  background: rgba(56, 189, 248, .08)
+  color: var(--tier-basic);
+  border-color: rgba(var(--tier-basic-rgb), .6);
+  background: rgba(var(--tier-basic-rgb), .08)
 }
 
 .graph-skill-panel {
@@ -2970,7 +3073,7 @@ tr:hover td {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: .6rem .8rem .4rem;
+  padding: .42rem .65rem .25rem;
   flex-shrink: 0;
 }
 
@@ -2987,56 +3090,69 @@ tr:hover td {
 }
 
 .graph-skill-panel-close:hover {
-  color: #e2e8f0
+  color: var(--text)
 }
 
 .graph-skill-panel-body {
-  padding: .8rem 1rem 1rem;
+  padding: .35rem .7rem .65rem;
   display: flex;
   flex-direction: column;
-  gap: .35rem;
+  gap: .22rem;
 }
 
 .graph-skill-panel-name {
-  font-size: 1rem;
+  font-size: .92rem;
   font-weight: 800;
-  line-height: 1.2
+  line-height: 1.15
 }
 
 .graph-skill-panel-named-id {
-  color: #ef4444;
-  font-size: .74rem;
+  font-size: .72rem;
   font-weight: 700;
-  font-family: monospace;
-  word-break: break-all
+  font-family: var(--font-mono);
+  word-break: break-all;
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0;
+}
+
+.graph-skill-panel-named-id .gst-named-handle {
+  color: var(--honor-red);
+}
+
+.graph-skill-panel-named-id .gst-named-slug {
+  /* per-skill rank colour applied inline */
 }
 
 .graph-skill-panel-title {
   color: rgba(148, 163, 184, .6);
-  font-size: .78rem;
-  font-style: italic
+  font-size: .72rem;
+  font-style: italic;
+  line-height: 1.25;
 }
 
 .graph-skill-panel-hint {
   color: rgba(148, 163, 184, .4);
-  font-size: .66rem;
-  margin-top: .3rem;
-  font-style: italic
+  font-size: .64rem;
+  margin-top: .15rem;
+  font-style: italic;
+  line-height: 1.3;
 }
 
 .graph-skill-panel-type-row {
   display: flex;
   align-items: center;
-  gap: .4rem;
-  flex-wrap: wrap
+  gap: .35rem;
+  flex-wrap: wrap;
+  margin-top: .1rem;
 }
 
 .graph-skill-panel-terminal {
-  margin-top: .4rem;
-  padding: .55rem .7rem;
+  margin-top: .3rem;
+  padding: .4rem .55rem;
   background: rgba(15, 23, 42, .85);
   border: 1px solid rgba(148, 163, 184, .12);
-  border-radius: .45rem;
+  border-radius: .4rem;
 }
 
 .graph-skill-panel-cmd {
@@ -3046,8 +3162,8 @@ tr:hover td {
   border: 1px solid rgba(148, 163, 184, .12);
   border-radius: .35rem;
   font-size: .76rem;
-  font-family: monospace;
-  color: #7dd3fc;
+  font-family: var(--font-mono);
+  color: var(--tier-basic);
   cursor: pointer;
   transition: background .15s, border-color .15s;
   word-break: break-all;
@@ -3055,18 +3171,18 @@ tr:hover td {
 }
 
 .graph-skill-panel-cmd:hover {
-  background: rgba(56, 189, 248, .06);
-  border-color: rgba(56, 189, 248, .3)
+  background: rgba(var(--tier-basic-rgb), .06);
+  border-color: rgba(var(--tier-basic-rgb), .3)
 }
 
 .graph-skill-panel-cmd.copied {
-  border-color: rgba(74, 222, 128, .5);
-  color: #4ade80
+  border-color: rgba(var(--tier-extra-rgb), .5);
+  color: var(--tier-extra)
 }
 
 .graph-skill-panel-cmd.copied::after {
   content: ' ✓ copied';
-  color: rgba(74, 222, 128, .7);
+  color: rgba(var(--tier-extra-rgb), .7);
   font-size: .65rem
 }
 
@@ -3074,20 +3190,20 @@ tr:hover td {
   display: inline-block;
   margin-top: .55rem;
   padding: .38rem .75rem;
-  background: rgba(239, 68, 68, .1);
-  border: 1px solid rgba(239, 68, 68, .35);
+  background: rgba(var(--honor-red-rgb), .1);
+  border: 1px solid rgba(var(--honor-red-rgb), .35);
   border-radius: .4rem;
   font-size: .75rem;
   font-weight: 700;
-  color: #fca5a5;
+  color: var(--honor-red);
   text-decoration: none;
   cursor: pointer;
   transition: background .15s, border-color .15s;
 }
 
 .graph-skill-panel-explorer-link:hover {
-  background: rgba(239, 68, 68, .2);
-  border-color: rgba(239, 68, 68, .6)
+  background: rgba(var(--honor-red-rgb), .2);
+  border-color: rgba(var(--honor-red-rgb), .6)
 }
 
 /* ── Collection panel (Stage 5: token-bound, .plaque--mini cards).
@@ -3103,9 +3219,9 @@ tr:hover td {
   z-index: 20;
   width: 260px;
   max-width: 40%;
-  background: rgba(3, 7, 18, .92);
-  backdrop-filter: blur(14px);
+  background: var(--bg);
   border-right: 1px solid var(--border);
+  box-shadow: 6px 0 24px rgba(0, 0, 0, .45);
   display: none;
   flex-direction: column;
   overflow: hidden;
@@ -3371,20 +3487,143 @@ tr:hover td {
 
 @media(max-width:700px) {
 
-  #hero:not(.mobile-hud-shown) .graph-scatter-strip,
-  #hero:not(.mobile-hud-shown) .graph-bottom-bar,
-  #hero:not(.mobile-hud-shown) .graph-collection-panel,
-  #hero:not(.mobile-hud-shown) .graph-legend,
-  #hero:not(.mobile-hud-shown) .graph-neighbor-cards,
-  #hero:not(.mobile-hud-shown) .graph-search-wrap,
-  #hero:not(.mobile-hud-shown) .graph-status,
-  #hero:not(.mobile-hud-shown) .graph-redpill {
+  #hero.hud-hidden .graph-scatter-strip,
+  #hero.hud-hidden .graph-bottom-bar,
+  #hero.hud-hidden .graph-collection-panel,
+  #hero.hud-hidden .graph-legend,
+  #hero.hud-hidden .graph-neighbor-cards,
+  #hero.hud-hidden .graph-search-wrap,
+  #hero.hud-hidden .graph-status,
+  #hero.hud-hidden .graph-fullscreen-status,
+  #hero.hud-hidden .graph-redpill {
     display: none !important;
   }
 
-  .graph-hud-toggle-btn {
-    left: 1.5rem !important;
-    bottom: 5.5rem !important;
+  #hero.hero-graph-fullscreen .graph-hud-toggle-btn {
+    display: flex !important;
+    left: .85rem !important;
+    bottom: calc(52px + .65rem) !important;
+    padding: .3rem .55rem;
+  }
+
+  /* Mobile fullscreen polish:
+     - Type/Rank filter raised so it doesn't collide with bottom bar +
+       redpill stacked above it.
+     - Bottom bar tightened so all six controls + speed strip survive
+       the 375px width without overflowing the right edge.
+     - Redpill moved to top-right of canvas instead of stacking above
+       the bottom bar where it used to sit under the legend.
+     - Search wrap drops down so it doesn't overlap the close chrome. */
+  #hero.hero-graph-fullscreen .graph-legend {
+    top: 100px !important;
+    transform: none !important;
+    right: .4rem !important;
+    padding: .3rem .4rem !important;
+    gap: .25rem !important;
+    max-width: 132px;
+    background: rgba(3, 7, 18, .85);
+  }
+
+  #hero.hero-graph-fullscreen .graph-legend-heading {
+    font-size: .52rem;
+  }
+
+  #hero.hero-graph-fullscreen .graph-legend-item {
+    font-size: .62rem;
+    padding: .12rem .25rem;
+    gap: .3rem;
+  }
+
+  #hero.hero-graph-fullscreen .graph-legend-rank-pill {
+    width: 19px;
+    height: 19px;
+    font-size: .54rem;
+  }
+
+  #hero.hero-graph-fullscreen .graph-legend-ranks {
+    gap: .2rem;
+  }
+
+  #hero.hero-graph-fullscreen .graph-redpill {
+    bottom: auto !important;
+    top: 100px !important;
+    left: 52px !important;
+    right: auto !important;
+    font-size: .6rem !important;
+    padding: .22rem .55rem !important;
+    z-index: 11;
+  }
+
+  #hero.hero-graph-fullscreen .graph-search-wrap {
+    top: 56px !important;
+    right: .55rem !important;
+  }
+
+  #hero.hero-graph-fullscreen .graph-search {
+    width: 130px;
+    font-size: .68rem;
+  }
+
+  #hero.hero-graph-fullscreen .graph-bottom-bar {
+    height: 44px;
+  }
+
+  #hero.hero-graph-fullscreen .graph-pause-btn {
+    flex: 0 0 40px;
+    font-size: 1rem;
+  }
+
+  #hero.hero-graph-fullscreen .graph-bottom-btn {
+    padding: 0 .5rem;
+    font-size: .58rem;
+    letter-spacing: .04em;
+  }
+
+  #hero.hero-graph-fullscreen .graph-zoom-counter {
+    padding: 0 .5rem;
+    font-size: .62rem;
+  }
+
+  #hero.hero-graph-fullscreen .graph-speed-edge {
+    padding: 0 .35rem;
+    font-size: .75rem;
+  }
+
+  #hero.hero-graph-fullscreen .graph-speed-title {
+    font-size: .6rem;
+  }
+
+  #hero.hero-graph-fullscreen .graph-scatter-strip {
+    width: 44px;
+    bottom: 44px;
+  }
+
+  #hero.hero-graph-fullscreen .graph-search-help-popover {
+    top: calc(100% + 6px) !important;
+    right: 0 !important;
+    width: 220px;
+  }
+}
+
+/* Sub-400px: shed the least-used toggles (Titles + Nebula) into an
+   implicit overflow by hiding them so the speed strip can breathe.
+   Direction rule mirrors the bottom-bar order: pause → labels →
+   titles → nebula → random → reset → zoom → speed. Hiding the 3rd
+   and 4th .graph-bottom-btn (titles, nebula) preserves the
+   pause/labels/random/reset rhythm. */
+@media (max-width: 400px) {
+  #hero.hero-graph-fullscreen .graph-bottom-btn:nth-of-type(3),
+  #hero.hero-graph-fullscreen .graph-bottom-btn:nth-of-type(4) {
+    display: none;
+  }
+
+  #hero.hero-graph-fullscreen .graph-zoom-counter {
+    padding: 0 .4rem;
+    font-size: .58rem;
+  }
+
+  #hero.hero-graph-fullscreen .graph-strip-caption--speed {
+    display: none;
   }
 }
 
