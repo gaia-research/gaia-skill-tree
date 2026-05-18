@@ -81,6 +81,7 @@ def resolve_named_skill_reference(skill_ref, registry_path):
     - exact catalogRef frontmatter slug
     - unique bare skill-name slug
     """
+    skill_ref = skill_ref.lstrip("/")
     source = find_named_skill_source(skill_ref, registry_path)
     if source:
         return skill_ref, source

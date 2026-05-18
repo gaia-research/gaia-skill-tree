@@ -2,6 +2,7 @@ import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { InMemoryTransport } from "@modelcontextprotocol/sdk/inMemory.js";
 import { createServer } from "../src/index.js";
+import mcpPackage from "../package.json";
 
 describe("MCP protocol layer", () => {
   let client: Client;
@@ -20,9 +21,10 @@ describe("MCP protocol layer", () => {
 
   // ── Server identity ──────────────────────────────────────────────────────
 
-  it("reports server name after initialize", () => {
+  it("reports server name and package version after initialize", () => {
     const info = client.getServerVersion();
     expect(info?.name).toBe("gaia-skill-registry");
+    expect(info?.version).toBe(mcpPackage.version);
   });
 
   // ── tools/list ───────────────────────────────────────────────────────────
