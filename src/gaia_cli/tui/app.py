@@ -6,7 +6,7 @@ import os
 
 from textual.app import App, ComposeResult
 
-from gaia_cli.tui.screens.agent import AgentScreen
+from gaia_cli.tui.screens.hero import HeroScreen
 
 
 def _load_meta() -> tuple[str, str, str]:
@@ -18,7 +18,6 @@ def _load_meta() -> tuple[str, str, str]:
     username = cfg.get("gaiaUser", cfg.get("user", ""))
     registry_path = resolve_registry_path()
 
-    # version from pyproject or package metadata
     version = "?"
     try:
         from importlib.metadata import version as _ver
@@ -51,4 +50,4 @@ class GaiaApp(App):
 
     def on_mount(self) -> None:
         registry_path, username, version = _load_meta()
-        self.push_screen(AgentScreen(registry_path, username, version))
+        self.push_screen(HeroScreen(registry_path, username, version))

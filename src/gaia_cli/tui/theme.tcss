@@ -1,140 +1,120 @@
-/* Gaia TUI — dark theme */
+/* Gaia TUI — canonical DESIGN.md palette
+   Source of truth: registry/gaia.json meta.typeColors + DESIGN.md
+*/
 
+/* ── Base ─────────────────────────────────────────────────── */
 Screen {
-    background: #0d1117;
-    color: #e6edf3;
+    background: #030712;
+    color: #e2e8f0;
 }
 
 /* ── Header ───────────────────────────────────────────────── */
 #header {
     height: 3;
-    background: #161b22;
-    border-bottom: solid #30363d;
+    background: #0f172a;
+    border-bottom: solid #1e293b;
     layout: horizontal;
     align: left middle;
     padding: 0 2;
 }
 
 #header-logo {
-    color: #79c0ff;
+    color: #fbbf24;
     text-style: bold;
     width: auto;
 }
 
 #header-user {
-    color: #3fb950;
+    color: #38bdf8;
     width: auto;
     margin-left: 2;
 }
 
 #header-version {
-    color: #8b949e;
+    color: #64748b;
     width: auto;
     margin-left: 1;
+}
+
+#header-section {
+    color: #64748b;
+    width: auto;
+    margin-left: 2;
 }
 
 /* ── Agent input ──────────────────────────────────────────── */
 #search-container {
     height: 5;
-    background: #161b22;
-    border-bottom: solid #30363d;
+    background: #0f172a;
+    border-bottom: solid #1e293b;
     padding: 1 2;
 }
 
 #search-label {
-    color: #8b949e;
+    color: #64748b;
     height: 1;
 }
 
 #search-input {
-    background: #0d1117;
-    border: solid #30363d;
-    color: #e6edf3;
+    background: #030712;
+    border: solid #1e293b;
+    color: #e2e8f0;
     height: 1;
     margin-top: 0;
 }
 
 #search-input:focus {
-    border: solid #388bfd;
-    color: #79c0ff;
+    border: solid #38bdf8;
+    color: #38bdf8;
 }
 
 /* ── Skill list ───────────────────────────────────────────── */
 #skills-container {
-    background: #0d1117;
-}
-
-SkillItem {
-    height: 1;
-    padding: 0 2;
-    layout: horizontal;
-    background: #0d1117;
-}
-
-SkillItem:hover {
-    background: #161b22;
-}
-
-SkillItem.--highlight {
-    background: #1c2128;
+    background: #030712;
 }
 
 ListItem {
-    background: #0d1117;
+    background: #030712;
     padding: 0;
 }
 
 ListItem:hover {
-    background: #161b22;
+    background: #0f172a;
 }
 
 ListItem.--highlight {
-    background: #1c2128;
+    background: #0f172a;
 }
 
 ListView {
-    background: #0d1117;
+    background: #030712;
     border: none;
-    scrollbar-background: #161b22;
-    scrollbar-color: #30363d;
-    scrollbar-color-hover: #8b949e;
+    scrollbar-background: #0f172a;
+    scrollbar-color: #1e293b;
+    scrollbar-color-hover: #64748b;
 }
 
 ListView:focus {
     border: none;
 }
 
-/* ── Tier / glyph colors (via markup) ────────────────────── */
-.glyph-basic    { color: #8b949e; }
-.glyph-extra    { color: #79c0ff; }
-.glyph-unique   { color: #d2a8ff; }
-.glyph-ultimate { color: #e3b341; }
-
-.label-basic    { color: #8b949e; }
-.label-extra    { color: #79c0ff; }
-.label-unique   { color: #d2a8ff; }
-.label-ultimate { color: #e3b341; }
-
-.installed-badge { color: #3fb950; }
-.level-badge     { color: #8b949e; }
-
 /* ── Status bar ───────────────────────────────────────────── */
 #status-bar {
     height: 2;
-    background: #161b22;
-    border-top: solid #30363d;
+    background: #0f172a;
+    border-top: solid #1e293b;
     layout: horizontal;
     align: left middle;
     padding: 0 2;
 }
 
 #status-counts {
-    color: #8b949e;
+    color: #64748b;
     width: auto;
 }
 
 #status-hints {
-    color: #484f58;
+    color: #1e293b;
     width: 1fr;
     text-align: right;
 }
@@ -142,36 +122,37 @@ ListView:focus {
 /* ── Install modal ────────────────────────────────────────── */
 InstallModal {
     align: center middle;
+    background: rgba(3,7,18,0.85);
 }
 
 #install-dialog {
     width: 60;
     height: auto;
-    background: #161b22;
-    border: solid #30363d;
+    background: #0f172a;
+    border: solid #1e293b;
     padding: 2 3;
 }
 
 #install-title {
-    color: #79c0ff;
+    color: #38bdf8;
     text-style: bold;
     margin-bottom: 1;
 }
 
 #install-skill-id {
-    color: #e3b341;
+    color: #fbbf24;
     margin-bottom: 1;
 }
 
 #install-meta {
-    color: #8b949e;
+    color: #64748b;
     margin-bottom: 1;
 }
 
 #install-log {
     height: 8;
-    background: #0d1117;
-    border: solid #21262d;
+    background: #030712;
+    border: solid #1e293b;
     margin-bottom: 1;
 }
 
@@ -182,114 +163,73 @@ InstallModal {
 }
 
 #btn-install {
-    background: #238636;
-    color: #ffffff;
+    background: #15803d;
+    color: #e2e8f0;
     border: none;
     margin-right: 1;
     min-width: 12;
 }
 
 #btn-install:hover {
-    background: #2ea043;
+    background: #16a34a;
 }
 
 #btn-cancel {
-    background: #21262d;
-    color: #8b949e;
+    background: #1e293b;
+    color: #64748b;
     border: none;
     min-width: 12;
 }
 
 #btn-cancel:hover {
-    background: #30363d;
-    color: #e6edf3;
-}
-
-/* ── Detail panel ─────────────────────────────────────────── */
-#detail-panel {
-    width: 36;
-    background: #161b22;
-    border-left: solid #30363d;
-    padding: 1 2;
-    display: none;
-}
-
-#detail-panel.visible {
-    display: block;
-}
-
-#detail-id {
-    color: #79c0ff;
-    text-style: bold;
-    margin-bottom: 1;
-}
-
-#detail-meta {
-    color: #8b949e;
-    margin-bottom: 1;
-}
-
-#detail-desc {
-    color: #e6edf3;
-}
-
-/* ── Empty state ──────────────────────────────────────────── */
-#empty-state {
-    align: center middle;
-    color: #484f58;
-    height: 1fr;
+    background: #334155;
+    color: #e2e8f0;
 }
 
 /* ── Tree screen ──────────────────────────────────────────── */
-#header-section {
-    color: #8b949e;
-    width: auto;
-    margin-left: 2;
-}
-
 #tree-layout {
     height: 1fr;
 }
 
 #tree-panel {
     width: 1fr;
-    background: #0d1117;
-    border-right: solid #21262d;
+    background: #030712;
+    border-right: solid #1e293b;
 }
 
 Tree {
-    background: #0d1117;
-    scrollbar-background: #161b22;
-    scrollbar-color: #30363d;
-    scrollbar-color-hover: #8b949e;
+    background: #030712;
+    scrollbar-background: #0f172a;
+    scrollbar-color: #1e293b;
+    scrollbar-color-hover: #64748b;
     padding: 0 1;
 }
 
 Tree > .tree--guides {
-    color: #21262d;
+    color: #1e293b;
 }
 
 Tree > .tree--guides-hover {
-    color: #30363d;
+    color: #334155;
 }
 
 Tree > .tree--cursor {
-    background: #1c2128;
-    color: #e6edf3;
+    background: #0f172a;
+    color: #e2e8f0;
 }
 
 Tree > .tree--highlight {
-    background: #161b22;
+    background: #0f172a;
 }
 
 Tree > .tree--highlight-line {
-    background: #1c2128;
+    background: #0f172a;
 }
 
 #detail-panel {
     width: 36;
-    background: #161b22;
-    border-left: solid #30363d;
+    background: #0f172a;
+    border-left: solid #1e293b;
     padding: 1 2;
     overflow-y: auto;
     display: block;
@@ -298,13 +238,13 @@ Tree > .tree--highlight-line {
 /* ── Level-up modal ───────────────────────────────────────── */
 LevelUpModal {
     align: center middle;
-    background: rgba(13, 17, 23, 0.85);
+    background: rgba(3,7,18,0.88);
 }
 
 #lu-backdrop {
     width: 100%;
     height: 100%;
-    background: rgba(13, 17, 23, 0.7);
+    background: rgba(3,7,18,0.75);
 }
 
 #lu-card {
@@ -317,8 +257,59 @@ LevelUpModal {
 /* ── Scan screen ──────────────────────────────────────────── */
 #scan-log {
     height: 1fr;
-    background: #0d1117;
+    background: #030712;
     padding: 0 1;
-    scrollbar-background: #161b22;
-    scrollbar-color: #30363d;
+    scrollbar-background: #0f172a;
+    scrollbar-color: #1e293b;
+}
+
+/* ── Hero screen ──────────────────────────────────────────── */
+HeroScreen {
+    background: #030712;
+    align: center middle;
+}
+
+#hero-content {
+    width: 100%;
+    height: 100%;
+    align: center middle;
+    background: #030712;
+}
+
+#hero-seal {
+    width: auto;
+    height: auto;
+    align: center middle;
+    text-align: center;
+}
+
+#hero-title {
+    width: auto;
+    text-align: center;
+    margin-top: 1;
+}
+
+#hero-tagline {
+    color: #64748b;
+    text-align: center;
+    margin-top: 0;
+}
+
+#hero-stats {
+    color: #64748b;
+    text-align: center;
+    margin-top: 1;
+}
+
+#hero-hint {
+    color: #1e293b;
+    text-align: center;
+    margin-top: 2;
+}
+
+/* ── Empty state ──────────────────────────────────────────── */
+#empty-state {
+    align: center middle;
+    color: #1e293b;
+    height: 1fr;
 }

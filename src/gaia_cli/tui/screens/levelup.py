@@ -17,17 +17,19 @@ from rich.align import Align
 import asyncio
 
 _GLYPHS     = {"basic": "○", "extra": "◇", "unique": "◉", "ultimate": "◆"}
-_TIER_COLOR = {"basic": "#8b949e", "extra": "#79c0ff", "unique": "#d2a8ff", "ultimate": "#e3b341"}
+# Canonical DESIGN.md tier colors
+_TIER_COLOR = {"basic": "#38bdf8", "extra": "#c084fc", "unique": "#7c3aed", "ultimate": "#f59e0b"}
 _TIER_LABEL = {"basic": "BASIC", "extra": "EXTRA", "unique": "UNIQUE", "ultimate": "ULTIMATE"}
 
 # Animation frames: glyph sequence leading to the skill's tier
+# Colors follow the rank ramp: slate → sky-blue → teal → violet → fuchsia → amber
 _FRAMES = [
-    ("·", "#21262d"),
-    ("○", "#484f58"),
-    ("○", "#8b949e"),
-    ("◇", "#79c0ff"),
-    ("◆", "#d2a8ff"),
-    ("◉", "#e3b341"),
+    ("·", "#1e293b"),   # 0  dormant
+    ("○", "#94a3b8"),   # 1  awakened   slate
+    ("○", "#38bdf8"),   # 2  confirmed  sky-blue
+    ("◇", "#c084fc"),   # 3  extra      purple
+    ("◆", "#7c3aed"),   # 4  unique     deep violet
+    ("◉", "#fbbf24"),   # 5  ultimate   apex gold
 ]
 
 _TIER_FRAME_IDX = {"basic": 2, "extra": 3, "unique": 4, "ultimate": 5}

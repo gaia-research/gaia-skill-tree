@@ -25,21 +25,24 @@ from rich.columns import Columns
 # ── Glyph / color helpers (mirrors agent.py) ─────────────────────────────────
 
 _GLYPHS = {"basic": "○", "extra": "◇", "unique": "◉", "ultimate": "◆"}
+# Canonical DESIGN.md tier colors
 _TIER_COLORS = {
-    "basic":    "#8b949e",
-    "extra":    "#79c0ff",
-    "unique":   "#d2a8ff",
-    "ultimate": "#e3b341",
+    "basic":    "#38bdf8",
+    "extra":    "#c084fc",
+    "unique":   "#7c3aed",
+    "ultimate": "#f59e0b",
 }
+# Canonical DESIGN.md rank ramp
 _LEVEL_COLORS = {
-    "0★": "#484f58",
-    "1★": "#8b949e",
-    "2★": "#3fb950",
-    "3★": "#79c0ff",
-    "4★": "#d2a8ff",
-    "5★": "#e3b341",
-    "6★": "#e3b341",
+    "0★": "#94a3b8",  # Unawakened  slate
+    "1★": "#38bdf8",  # Awakened    sky-blue
+    "2★": "#63cab7",  # Named       teal
+    "3★": "#a78bfa",  # Evolved     violet
+    "4★": "#e879f9",  # Hardened    fuchsia
+    "5★": "#fbbf24",  # Transcend.  amber
+    "6★": "#fbbf24",  # Transcend ★ amber
 }
+_HONOR_RED = "#ef4444"   # contributor handles
 
 
 def _load_graph(registry_path: str) -> dict:
@@ -103,17 +106,17 @@ def _node_label(skill: dict, owned_ids: set, detected_ids: set) -> Text:
     t.append(glyph + " ", style=color)
     if "/" in sid:
         contrib, name = sid.split("/", 1)
-        t.append(contrib + "/", style="#484f58")
-        t.append(name, style="#e6edf3" if (owned or detected) else "#8b949e")
+        t.append(contrib + "/", style=_HONOR_RED)
+        t.append(name, style="#e2e8f0" if (owned or detected) else "#64748b")
     else:
-        t.append(sid, style="#e6edf3" if (owned or detected) else "#8b949e")
+        t.append(sid, style="#e2e8f0" if (owned or detected) else "#64748b")
     if level:
-        lc = _LEVEL_COLORS.get(level, "#484f58")
+        lc = _LEVEL_COLORS.get(level, "#334155")
         t.append(f"  {level}", style=lc)
     if owned:
-        t.append("  ✓", style="#3fb950")
+        t.append("  ✓", style="#22c55e")
     elif detected:
-        t.append("  ◎", style="#79c0ff")
+        t.append("  ◎", style="#38bdf8")
     return t
 
 
@@ -170,11 +173,11 @@ class SkillDetail(Static):
 
         # Status
         if owned:
-            t.append("✓ Owned\n", style="#3fb950")
+            t.append("✓ Owned\n", style="#22c55e")
         elif detected:
-            t.append("◎ Detected\n", style="#79c0ff")
+            t.append("◎ Detected\n", style="#38bdf8")
         else:
-            t.append("○ Not acquired\n", style="#484f58")
+            t.append("○ Not acquired\n", style="#334155")
         t.append("\n")
 
         # Description
@@ -231,7 +234,7 @@ class SkillTreeScreen(Screen):
 
     def compose(self) -> ComposeResult:
         with Static(id="header"):
-            yield Static("  GAIA ", id="header-logo")
+            yield Static("  ◆ GAIA ", id="header-logo")
             yield Static("SKILL TREE", id="header-section")
 
         with Horizontal(id="tree-layout"):

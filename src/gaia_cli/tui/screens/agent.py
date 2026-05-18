@@ -99,12 +99,15 @@ def _filter_skills(query: str, skills: list[dict]) -> list[dict]:
 # ── Glyph / color helpers ─────────────────────────────────────────────────────
 
 _GLYPHS = {"basic": "○", "extra": "◇", "unique": "◉", "ultimate": "◆"}
-_TIER_MARKUP = {
-    "basic": "glyph-basic",
-    "extra": "glyph-extra",
-    "unique": "glyph-unique",
-    "ultimate": "glyph-ultimate",
+# Canonical DESIGN.md tier colors
+_TIER_COLORS = {
+    "basic":    "#38bdf8",
+    "extra":    "#c084fc",
+    "unique":   "#7c3aed",
+    "ultimate": "#f59e0b",
 }
+_HONOR_RED  = "#ef4444"   # contributor handle color (DESIGN.md)
+_APEX_GOLD  = "#fbbf24"   # 6★/Ultimate affordances
 
 
 def _skill_label(skill: dict) -> Text:
@@ -115,22 +118,17 @@ def _skill_label(skill: dict) -> Text:
     installed = skill.get("installed", False)
 
     t = Text()
-    # glyph
-    colors = {"basic": "#8b949e", "extra": "#79c0ff", "unique": "#d2a8ff", "ultimate": "#e3b341"}
-    t.append(glyph + " ", style=colors.get(tier, "#8b949e"))
-    # skill id — contributor colored differently
+    t.append(glyph + " ", style=_TIER_COLORS.get(tier, "#64748b"))
     if "/" in sid:
         contrib, name = sid.split("/", 1)
-        t.append(contrib + "/", style="#8b949e")
-        t.append(name, style="#e6edf3")
+        t.append(contrib + "/", style=_HONOR_RED)   # honor-red for contributor
+        t.append(name, style="#e2e8f0")
     else:
-        t.append(sid, style="#e6edf3")
-    # level badge
+        t.append(sid, style="#e2e8f0")
     if level:
-        t.append(f"  {level}", style="#484f58")
-    # installed marker
+        t.append(f"  {level}", style="#334155")
     if installed:
-        t.append("  ✓", style="#3fb950")
+        t.append("  ✓", style="#22c55e")
     return t
 
 
@@ -152,8 +150,7 @@ class InstallModal(ModalScreen):
 
     def compose(self) -> ComposeResult:
         tier = self.skill.get("type", "basic")
-        colors = {"basic": "#8b949e", "extra": "#79c0ff", "unique": "#d2a8ff", "ultimate": "#e3b341"}
-        tier_color = colors.get(tier, "#8b949e")
+        tier_color = _TIER_COLORS.get(tier, "#64748b")
         glyph = _GLYPHS.get(tier, "○")
 
         with Static(id="install-dialog"):
@@ -258,7 +255,7 @@ class AgentScreen(Screen):
 
     def compose(self) -> ComposeResult:
         with Static(id="header"):
-            yield Static("  GAIA ", id="header-logo")
+            yield Static("  ◆ GAIA ", id="header-logo")
             if self.username:
                 yield Static(f"◉ {self.username}", id="header-user")
             yield Static(f"v{self.version}", id="header-version")

@@ -16,7 +16,8 @@ from textual import work
 from rich.text import Text
 
 _GLYPHS     = {"basic": "○", "extra": "◇", "unique": "◉", "ultimate": "◆"}
-_TIER_COLOR = {"basic": "#8b949e", "extra": "#79c0ff", "unique": "#d2a8ff", "ultimate": "#e3b341"}
+# Canonical DESIGN.md tier colors
+_TIER_COLOR = {"basic": "#38bdf8", "extra": "#c084fc", "unique": "#7c3aed", "ultimate": "#f59e0b"}
 
 # Patterns from gaia scan output
 _MATCH_RE    = re.compile(r"◇|◉|○|◆\s+(/?\S+)")
@@ -43,7 +44,7 @@ class ScanScreen(Screen):
 
     def compose(self) -> ComposeResult:
         with Static(id="header"):
-            yield Static("  GAIA ", id="header-logo")
+            yield Static("  ◆ GAIA ", id="header-logo")
             yield Static("SCANNING", id="header-section")
 
         yield RichLog(id="scan-log", highlight=False, markup=True, auto_scroll=True)
@@ -118,7 +119,7 @@ class ScanScreen(Screen):
 
         # Skill unlock banner
         if _UNLOCK_RE.search(line):
-            t.append("  " + line + "\n", style="#e3b341 bold")
+            t.append("  " + line + "\n", style="#f59e0b bold")
             return t
 
         # Matched skill lines (◇ /skill-id etc)
@@ -127,28 +128,28 @@ class ScanScreen(Screen):
             glyph = m.group(1)
             sid = m.group(2)
             glyph_color = {
-                "○": "#8b949e",
-                "◇": "#79c0ff",
-                "◉": "#d2a8ff",
-                "◆": "#e3b341",
-            }.get(glyph, "#8b949e")
+                "○": "#38bdf8",
+                "◇": "#c084fc",
+                "◉": "#7c3aed",
+                "◆": "#f59e0b",
+            }.get(glyph, "#38bdf8")
             # Render with colored glyph
             pre = line[:m.start()]
             post = line[m.end():]
-            t.append("  " + pre, style="#484f58")
+            t.append("  " + pre, style="#64748b")
             t.append(glyph + " ", style=glyph_color)
-            t.append(sid, style="#e6edf3")
-            t.append(post + "\n", style="#8b949e")
+            t.append(sid, style="#e2e8f0")
+            t.append(post + "\n", style="#94a3b8")
             return t
 
         # Fusion lines
         if "──▶" in line or "─┤" in line or "─┘" in line:
-            t.append("  " + line + "\n", style="#d2a8ff")
+            t.append("  " + line + "\n", style="#c084fc")
             return t
 
         # Status / count lines
         if line.startswith("⚡") or "reachable" in line or "saved" in line:
-            t.append("  " + line + "\n", style="#3fb950")
+            t.append("  " + line + "\n", style="#22c55e")
             return t
 
         # Default dim
