@@ -12,7 +12,7 @@ This document serves as a lightweight, clean, and structured context sheet for A
 *   **○ Basic Skills:** Primitive, indivisible capabilities (e.g., `/web-search`, `/parse-html`).
 *   **◇ Extra Skills:** Emerges from fusing or combining 2+ basic skills (e.g., `/web-scrape`, `/research`).
 *   **◆ Ultimate Skills:** High-complexity emergent capabilities (e.g., `/autoresearch`, `/recursive-self-improvement`).
-*   **◉ Unique Skills:** Standalone Tier IV+ skills with no prerequisites and no descendants.
+*   **◉ Unique Skills:** Basic skills that have reached elite rank (4★+), are graph-isolated (no prerequisites, no derivatives), and carry a distinct identity.
 
 ### Codebase Layout
 *   `registry/`: Canonical graph (`gaia.json`), named skills, and schemas. **Source of Truth.**
@@ -79,7 +79,7 @@ Capabilities advance through evidence, not declaration. Levels range from `0★`
 
 ### Unique Promotion Policy
 A Basic skill may be promoted to `type: "unique"` if:
-1.  It reaches level `4★` or above.
+1.  It has reached elite rank — `4★` or above.
 2.  It is completely **graph-isolated** (has 0 prerequisites and 0 derivatives referenced by other nodes).
 
 ---
