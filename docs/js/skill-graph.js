@@ -1488,6 +1488,12 @@
       const legend = document.createElement('div');
       legend.className = 'graph-legend';
       legend.innerHTML =
+        '<button type="button" class="graph-legend-drawer-toggle" aria-label="Toggle filters drawer">' +
+        '<svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#claim-arrow"/></svg>' +
+        '<span class="graph-legend-drawer-label">Filters</span>' +
+        '</button>' +
+        '<div class="graph-legend-content">' +
+        '<div class="graph-legend-body">' +
         '<div class="graph-legend-section"><div class="graph-legend-heading">Type</div>' +
         '<div class="graph-legend-item" data-legend-type="basic"><span class="graph-legend-swatch" data-tier="basic" style="width:7px;height:7px"></span>Basic</div>' +
         '<div class="graph-legend-item" data-legend-type="extra"><span class="graph-legend-swatch" data-tier="extra" style="width:10px;height:10px"></span>Extra</div>' +
@@ -1501,8 +1507,18 @@
         '<span class="graph-legend-rank-pill" data-legend-rank="4★" data-rank="4">4★</span>' +
         '<span class="graph-legend-rank-pill" data-legend-rank="5★" data-rank="5">5★</span>' +
         '<span class="graph-legend-rank-pill" data-legend-rank="6★" data-rank="6">6★</span>' +
-        '</div></div>';
+        '</div></div>' +
+        '</div>' +
+        '</div>';
       legend.addEventListener('mousedown', e => e.stopPropagation());
+      
+      const drawerToggle = legend.querySelector('.graph-legend-drawer-toggle');
+      if (drawerToggle) {
+        drawerToggle.addEventListener('click', e => {
+          e.stopPropagation();
+          legend.classList.toggle('minimized');
+        });
+      }
       legend.querySelectorAll('.graph-legend-item[data-legend-type]').forEach(item => {
         item.addEventListener('mouseenter', () => { state.legendHoverType = item.dataset.legendType; });
         item.addEventListener('mouseleave', () => { state.legendHoverType = null; });

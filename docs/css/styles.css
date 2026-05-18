@@ -464,7 +464,6 @@ button.nav-copy-agent {
   justify-content: center;
   text-align: center;
   padding: 6rem 1.5rem 3rem;
-  overflow: hidden;
   max-width: 100%;
   width: 100%;
   margin-left: 0;
@@ -666,10 +665,16 @@ button.nav-copy-agent {
 /* Enables interactive canvas controls on the hero without pulling
      it out of document flow (position:fixed removed so user can scroll). */
 #hero.hero-graph-fullscreen {
-  /* state class; layout stays inline */
+  height: 100vh !important;
+  max-height: 100vh !important;
+  overflow: hidden !important;
 }
 
 @media (max-width: 700px) {
+  #hero.hero-graph-fullscreen {
+    height: 100svh !important;
+    max-height: 100svh !important;
+  }
 
   #hero.hero-graph-fullscreen::before,
   #hero.hero-graph-fullscreen::after {
@@ -798,7 +803,6 @@ button.nav-copy-agent {
 }
 
 #hero.hero-graph-fullscreen .graph-search-wrap,
-#hero.hero-graph-fullscreen .graph-legend,
 #hero.hero-graph-fullscreen .graph-scatter-strip,
 #hero.hero-graph-fullscreen .graph-redpill {
   display: block !important;
@@ -2613,20 +2617,104 @@ tr:hover td {
 .graph-legend {
   position: absolute;
   top: 50%;
-  right: .75rem;
-  transform: translateY(-50%);
-  z-index: 10;
+  right: 0;
+  transform: translate(0, -50%);
+  z-index: 100;
+  display: none;
+  flex-direction: row;
+  align-items: center;
+  transition: transform .38s cubic-bezier(0.16, 1, 0.3, 1);
+  background: transparent;
+  border: none;
+  padding: 0;
+  user-select: none;
+  max-height: calc(100% - 3.5rem);
+}
+
+/* Collapsed/Minimized state: slide out to the right, leaving only the handle visible */
+.graph-legend.minimized {
+  transform: translate(calc(100% - 38px), -50%) !important;
+}
+
+/* The sliding drawer handle toggle button */
+.graph-legend-drawer-toggle {
+  width: 38px;
+  height: 96px;
+  background: rgba(3, 7, 18, .88);
+  border: 1px solid var(--border);
+  border-right: none;
+  border-radius: .5rem 0 0 .5rem;
+  color: var(--text);
+  cursor: pointer;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: .22rem;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: -4px 0 16px rgba(0, 0, 0, 0.3);
+  transition: background .2s, color .2s;
+  padding: 0 .2rem;
+  z-index: 2;
+  margin-right: -1px;
+}
+
+.graph-legend-drawer-toggle:hover {
+  background: rgba(15, 23, 42, .95);
+  color: var(--tier-basic);
+}
+
+.graph-legend-drawer-toggle svg {
+  transition: transform .3s cubic-bezier(0.16, 1, 0.3, 1);
+  fill: currentColor;
+  transform: rotate(0deg); /* Default open: arrow points right (→) to close */
+  flex-shrink: 0;
+}
+
+/* Rotation of arrow: when minimized (drawer closed), we rotate it 180deg to point left (←) to invite opening */
+.graph-legend.minimized .graph-legend-drawer-toggle svg {
+  transform: rotate(180deg);
+}
+
+.graph-legend-drawer-label {
+  font-family: var(--font-mono);
+  font-size: .56rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
+  opacity: .85;
+  transition: color .2s;
+  flex-shrink: 0;
+}
+
+.graph-legend-drawer-toggle:hover .graph-legend-drawer-label {
+  color: var(--text);
+}
+
+/* The actual content panel containing types/ranks */
+.graph-legend-content {
+  background: rgba(3, 7, 18, .88);
+  border: 1px solid var(--border);
+  border-right: none;
+  border-radius: 0;
+  padding: .65rem .85rem;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: -8px 0 24px rgba(0, 0, 0, 0.4);
   display: flex;
   flex-direction: column;
   gap: .55rem;
-  background: rgba(3, 7, 18, .78);
-  border: none;
-  border-radius: .6rem;
-  padding: .5rem .65rem;
-  backdrop-filter: blur(8px);
-  max-height: calc(100% - 3.5rem);
-  overflow-y: auto;
-  user-select: none;
+  z-index: 1;
+}
+
+.graph-legend-body {
+  display: flex;
+  flex-direction: column;
+  gap: .55rem;
 }
 
 .graph-legend-section {
@@ -3214,17 +3302,19 @@ tr:hover td {
 .graph-collection-panel {
   position: absolute;
   top: 60px;
-  left: 0;
-  bottom: 0;
+  left: 52px; /* Scoot to the right to not overlap the vertical Spread slider (52px wide) */
+  bottom: auto;
   z-index: 20;
-  width: 260px;
-  max-width: 40%;
+  width: 216px; /* 200px plaques + 8px padding on both sides */
   background: var(--bg);
-  border-right: 1px solid var(--border);
-  box-shadow: 6px 0 24px rgba(0, 0, 0, .45);
+  border: 1px solid var(--border);
+  border-top: none; /* Keep flush under top navigation header */
+  border-radius: 0 0 .5rem .5rem; /* Elegant folder-like rounded corners on both bottom sides */
+  box-shadow: 6px 6px 24px rgba(0, 0, 0, .45);
   display: none;
   flex-direction: column;
   overflow: hidden;
+  max-height: 60vh; /* Floating top-left panel that fits the content! */
 }
 
 .graph-collection-header {
@@ -3325,11 +3415,19 @@ tr:hover td {
      we tighten the padding here so the card fits the 260px-wide
      panel. data-ghost="true" dims unnamed entries (no install path). */
 .graph-collection-card.plaque--mini {
-  padding: .25rem .45rem;
+  padding: .4rem .55rem;
   border-radius: .45rem;
   background: rgba(15, 23, 42, .7);
   border: 1px solid var(--border);
   transition: border-color .15s, background .15s;
+  
+  /* Density & alignment overrides for collection panel context */
+  width: 100%;
+  max-width: 100%;
+  min-height: 0; /* Remove 220px tall Hall of Heroes default */
+  height: auto;
+  text-align: left; /* Left-align for superior typography flow */
+  align-items: stretch; /* Keep children aligned horizontally */
 }
 
 .graph-collection-card.plaque--mini:hover {
@@ -3502,7 +3600,7 @@ tr:hover td {
   #hero.hero-graph-fullscreen .graph-hud-toggle-btn {
     display: flex !important;
     left: .85rem !important;
-    bottom: calc(52px + .65rem) !important;
+    bottom: calc(44px + .65rem) !important;
     padding: .3rem .55rem;
   }
 
@@ -3515,13 +3613,50 @@ tr:hover td {
        the bottom bar where it used to sit under the legend.
      - Search wrap drops down so it doesn't overlap the close chrome. */
   #hero.hero-graph-fullscreen .graph-legend {
-    top: 100px !important;
-    transform: none !important;
-    right: .4rem !important;
-    padding: .3rem .4rem !important;
+    top: 50% !important;
+    right: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    max-width: none !important;
+    transform: translate(0, -50%) !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+  }
+
+  #hero.hero-graph-fullscreen .graph-legend-content {
+    padding: .4rem .55rem !important;
+    background: rgba(3, 7, 18, .92) !important;
+    border-radius: 0 !important;
+    max-width: 124px !important;
+  }
+
+  #hero.hero-graph-fullscreen .graph-legend-drawer-toggle {
+    width: 32px !important;
+    height: 84px !important;
+    border-radius: .4rem 0 0 .4rem !important;
+    gap: .18rem !important;
+    padding: 0 .15rem !important;
+    margin-right: -1px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  #hero.hero-graph-fullscreen .graph-legend-drawer-label {
+    font-size: .5rem !important;
+    letter-spacing: .08em !important;
+  }
+
+  #hero.hero-graph-fullscreen .graph-legend.minimized {
+    transform: translate(calc(100% - 32px), -50%) !important;
+  }
+
+  #hero.hero-graph-fullscreen .graph-legend-body {
     gap: .25rem !important;
-    max-width: 132px;
-    background: rgba(3, 7, 18, .85);
   }
 
   #hero.hero-graph-fullscreen .graph-legend-heading {
@@ -3555,7 +3690,7 @@ tr:hover td {
   }
 
   #hero.hero-graph-fullscreen .graph-search-wrap {
-    top: 56px !important;
+    top: 10% !important;
     right: .55rem !important;
   }
 
@@ -3602,6 +3737,52 @@ tr:hover td {
     top: calc(100% + 6px) !important;
     right: 0 !important;
     width: 220px;
+  }
+}
+
+/* 480px Threshold — Double row layout with Speed bar on top */
+@media (max-width: 480px) {
+  #hero.hero-graph-fullscreen .graph-bottom-bar {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    height: auto !important;
+    background: rgba(3, 7, 18, 0.95) !important;
+  }
+
+  #hero.hero-graph-fullscreen .graph-speed-strip {
+    order: 1 !important;
+    width: 100% !important;
+    flex: 0 0 100% !important;
+    height: 38px !important;
+    border-bottom: 1px solid var(--border) !important;
+  }
+
+  #hero.hero-graph-fullscreen .graph-pause-btn {
+    order: 2 !important;
+    height: 38px !important;
+    flex: 1 1 auto !important;
+    border-right: 1px solid var(--border) !important;
+  }
+
+  #hero.hero-graph-fullscreen .graph-bottom-btn {
+    order: 2 !important;
+    height: 38px !important;
+    flex: 1 1 auto !important;
+    border-right: 1px solid var(--border) !important;
+  }
+
+  #hero.hero-graph-fullscreen .graph-zoom-counter {
+    order: 2 !important;
+    height: 38px !important;
+    flex: 1 1 auto !important;
+  }
+
+  #hero.hero-graph-fullscreen .graph-hud-toggle-btn {
+    bottom: calc(76px + .65rem) !important;
+  }
+
+  #hero.hero-graph-fullscreen .graph-scatter-strip {
+    bottom: 76px !important;
   }
 }
 
