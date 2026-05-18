@@ -1156,7 +1156,7 @@ def skills_command(args):
         ctx = None
 
     if verb == "info":
-        q = args.skill_id
+        q = args.skill_id.lstrip("/")
         match = next((item for item in items if item.get("id") == q), None)
         if not match:
             print(f"Skill '/{q}' not found.", file=sys.stderr)
