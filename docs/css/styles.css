@@ -3314,7 +3314,19 @@ tr:hover td {
   display: none;
   flex-direction: column;
   overflow: hidden;
-  max-height: 60vh; /* Floating top-left panel that fits the content! */
+  max-height: calc(100vh - 112px); /* Floating top-left panel that fits the entire available viewport height! */
+  transition: max-height 0.3s cubic-bezier(0.16, 1, 0.3, 1), height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.graph-collection-panel.minimized {
+  max-height: 38px !important;
+  height: 38px !important;
+  border-radius: 0 !important;
+}
+
+.graph-collection-panel.minimized .graph-collection-list,
+.graph-collection-panel.minimized .graph-collection-note {
+  display: none !important;
 }
 
 .graph-collection-header {
@@ -3341,7 +3353,8 @@ tr:hover td {
 }
 
 .graph-collection-copy-all,
-.graph-collection-clear-all {
+.graph-collection-clear-all,
+.graph-collection-minimize {
   display: inline-flex;
   align-items: center;
   gap: .28rem;
@@ -3361,6 +3374,12 @@ tr:hover td {
 }
 
 .graph-collection-copy-all:hover {
+  color: var(--tier-basic);
+  border-color: rgba(var(--tier-basic-rgb), .4);
+  background: rgba(var(--tier-basic-rgb), .06);
+}
+
+.graph-collection-minimize:hover {
   color: var(--tier-basic);
   border-color: rgba(var(--tier-basic-rgb), .4);
   background: rgba(var(--tier-basic-rgb), .06);
@@ -3680,10 +3699,10 @@ tr:hover td {
   }
 
   #hero.hero-graph-fullscreen .graph-redpill {
-    bottom: auto !important;
-    top: 100px !important;
-    left: 52px !important;
-    right: auto !important;
+    bottom: calc(44px + .65rem) !important;
+    top: auto !important;
+    left: auto !important;
+    right: .85rem !important;
     font-size: .6rem !important;
     padding: .22rem .55rem !important;
     z-index: 11;
@@ -3778,6 +3797,10 @@ tr:hover td {
   }
 
   #hero.hero-graph-fullscreen .graph-hud-toggle-btn {
+    bottom: calc(76px + .65rem) !important;
+  }
+
+  #hero.hero-graph-fullscreen .graph-redpill {
     bottom: calc(76px + .65rem) !important;
   }
 
