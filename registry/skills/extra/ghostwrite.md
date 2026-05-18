@@ -1,8 +1,8 @@
-# /ghostwrite  [4★ · Hardened]
+# /ghostwrite  [1★ · Awakened]
 **ID:** ghostwrite  
 **Type:** Extra Skill  
-**Level:** 4★  
-**Tier:** Hardened  
+**Level:** 1★
+**Tier:** Awakened
 **Skill Call:** `/ghostwrite`
 
 ---
@@ -22,9 +22,7 @@ _None._
 Requires research output as input context.
 
 ## Evidence
-| Class | Source | Evaluator | Date |
-|---|---|---|---|
-| B | https://github.com/gaia-registry/gaia/blob/main/docs/evidence/ghostwrite.md | mbtiongson1 | 2026-04-26 |
+_None._
 
 ## Known Agents
 _None verified yet._

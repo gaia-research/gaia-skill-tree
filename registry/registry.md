@@ -10,7 +10,7 @@
 | ◇ [0xdarkmatter](../docs/u/0xdarkmatter/)/pytest-patterns | Extra Skill | 3★ | Evolved | `/automated-testing` |
 | ◆ /autonomous-data-scientist | Ultimate Skill | 5★ | Transcendent | `/autonomous-data-scientist` |
 | ◇ [devin-ai](../docs/u/devin-ai/)/autonomous-swe | Extra Skill | 4★ | Hardened | `/autonomous-debug` |
-| ◆ [karpathy](../docs/u/karpathy/)/autoresearch | Ultimate Skill | 6★ | Transcendent ★ | `/autonomous-research-agent` |
+| ◆ [karpathy](../docs/u/karpathy/)/autoresearch | Ultimate Skill | 5★ | Transcendent | `/autonomous-research-agent` |
 | ◇ /autonomous-web-research | Extra Skill | 4★ | Hardened | `/autonomous-web-research` |
 | ◇ [gooseworks](../docs/u/gooseworks/)/notte-browser | Extra Skill | 3★ | Evolved | `/browser-automation` |
 | ◇ [santifer](../docs/u/santifer/)/career-ops | Extra Skill | 3★ | Evolved | `/career-operations` |
@@ -55,7 +55,7 @@
 | ○ [upsonic](../docs/u/upsonic/)/unittest-generator | Basic Skill | 2★ | Named | `/generate-test` |
 | ○ /generate-text | Basic Skill | 0★ | Basic | `/generate-text` |
 | ◇ /generative-media | Extra Skill | 3★ → 2★ | Evolved | `/generative-media` |
-| ◇ /ghostwrite | Extra Skill | 4★ | Hardened | `/ghostwrite` |
+| ◇ /ghostwrite | Extra Skill | 1★ | Awakened | `/ghostwrite` |
 | ◇ [mattpocock](../docs/u/mattpocock/)/grill-me | Extra Skill | 4★ | Hardened | `/grill-me` |
 | ◆ [mattpocock](../docs/u/mattpocock/)/grill-with-docs | Ultimate Skill | 5★ | Transcendent | `/grill-with-docs` |
 | ◇ /grounding | Extra Skill | 3★ | Evolved | `/grounding` |
@@ -65,7 +65,7 @@
 | ○ /image-caption | Basic Skill | 2★ | Named | `/image-caption` |
 | ○ [mattpocock](../docs/u/mattpocock/)/triage | Basic Skill | 4★ | Hardened | `/issue-triage` |
 | ◇ [safishamsi](../docs/u/safishamsi/)/graphify | Extra Skill | 3★ | Evolved | `/knowledge-graph-build` |
-| ◇ /knowledge-harvest | Extra Skill | 4★ | Hardened | `/knowledge-harvest` |
+| ◇ /knowledge-harvest | Extra Skill | 1★ | Awakened | `/knowledge-harvest` |
 | ◇ /knowledge-management | Extra Skill | 2★ | Named | `/knowledge-management` |
 | ◇ [huggingface](../docs/u/huggingface/)/huggingface-papers | Extra Skill | 4★ | Hardened | `/literature-review` |
 | ○ /logical-inference | Basic Skill | 1★ | Awakened | `/logical-inference` |
@@ -95,7 +95,7 @@
 | ○ /rank | Basic Skill | 1★ | Awakened | `/rank` |
 | ◇ /re-act-reasoning | Extra Skill | 3★ | Evolved | `/re-act-reasoning` |
 | ◆ /real-time-voice-assistant | Ultimate Skill | 5★ | Transcendent | `/real-time-voice-assistant` |
-| ◆ /recursive-self-improvement | Ultimate Skill | 5★ | Transcendent | `/recursive-self-improvement` |
+| ◆ /recursive-self-improvement | Ultimate Skill | 1★ | Awakened | `/recursive-self-improvement` |
 | ○ [mattpocock](../docs/u/mattpocock/)/improve-codebase-architecture | Basic Skill | 2★ | Named | `/refactor-code` |
 | ◇ /registry-curation | Extra Skill | 4★ | Hardened | `/registry-curation` |
 | ◇ /release-automation | Extra Skill | 2★ | Named | `/release-automation` |
@@ -185,6 +185,6 @@
 | `/autonomous-data-scientist` | 5★ | `/data-analysis`, `/math-reason`, `/research` |
 | `/full-stack-developer` | 5★ | `/code-review-pipeline`, `/automated-testing`, `/refactor-code` |
 | `/real-time-voice-assistant` | 5★ | `/voice-agent`, `/memory-manage`, `/plan-and-execute` |
-| `/recursive-self-improvement` | 5★ | `/autonomous-debug`, `/evaluate-output`, `/plan-and-execute` |
+| `/recursive-self-improvement` | 1★ | `/autonomous-debug`, `/evaluate-output`, `/plan-and-execute` |
 | `/scientific-discovery` | 5★ | `/hypothesis-generate`, `/research`, `/math-reason` |
 

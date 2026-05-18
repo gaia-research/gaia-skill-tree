@@ -15,10 +15,10 @@
   "evidence": [
     {
       "class": "B",
-      "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/seed.md",
+      "source": "https://github.com/ruvnet/ruflo",
       "evaluator": "mbtiongson1",
-      "date": "2026-04-29",
-      "notes": "Seed evidence â€” structural validation placeholder."
+      "date": "2026-05-17",
+      "notes": "Replaced missing seed evidence with live repository from real-skills catalog."
     }
   ],
   "knownAgents": [],

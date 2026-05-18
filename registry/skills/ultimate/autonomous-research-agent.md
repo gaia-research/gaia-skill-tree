@@ -1,8 +1,8 @@
-# [karpathy](../../../docs/u/karpathy/)/autoresearch  [6★ · Transcendent ★]
+# [karpathy](../../../docs/u/karpathy/)/autoresearch  [5★ · Transcendent]
 **ID:** autonomous-research-agent  
 **Type:** Ultimate Skill  
-**Level:** 6★  
-**Tier:** Transcendent ★  
+**Level:** 5★
+**Tier:** Transcendent
 **Skill Call:** `/autonomous-research-agent`
 
 ---
@@ -24,7 +24,6 @@ Requires extensive multi-system validation before level advancement.
 ## Evidence
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
-| A | https://github.com/gaia-registry/gaia/blob/main/docs/evidence/seed.md | mbtiongson1 | 2026-04-29 |
 | B | https://github.com/balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill | mbtiongson1 | 2026-04-30 |
 
 ## Known Agents
