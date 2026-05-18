@@ -1,8 +1,8 @@
-# /using-git-worktrees  [1★ · Awakened]
-**ID:** using-git-worktrees
-**Type:** Basic Skill
-**Level:** 1★
-**Tier:** Awakened
+# [obra](../../../docs/u/obra/)/using-git-worktrees  [1★ · Awakened]
+**ID:** using-git-worktrees  
+**Type:** Basic Skill  
+**Level:** 1★  
+**Tier:** Awakened  
 **Skill Call:** `/using-git-worktrees`
 
 ---
@@ -14,7 +14,7 @@ Ensures work happens in an isolated workspace via native tools or git worktree f
 _None._
 
 ## Unlocks
-_None._
+- [Superpowers](../ultimate/superpowers.md)
 
 ## Evidence
 | Class | Source | Evaluator | Date |
