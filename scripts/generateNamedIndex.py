@@ -38,6 +38,16 @@ REQUIRED_FIELDS = [
 
 VALID_LEVELS = {"2★", "3★", "4★", "5★", "6★"}
 
+def _extract_md_section(body, heading):
+    """Extract the text content of a markdown ## section."""
+    import re as _re
+    m = _re.search(
+        r'(?:^|\n)##\s+' + _re.escape(heading) + r'\s*\n(.*?)(?=\n##\s|\Z)',
+        body, _re.DOTALL
+    )
+    return m.group(1) if m else ""
+
+
 INDEX_SKILL_FIELDS = [
     "id",
     "name",
@@ -320,6 +330,16 @@ def validate_and_group(named_skills, valid_ids):
         entry = {field: fm.get(field) for field in INDEX_SKILL_FIELDS}
         # Strip None values for optional fields to keep output clean
         entry = {k: v for k, v in entry.items() if v is not None}
+
+        if os.path.isfile(fp):
+            try:
+                with open(fp, "r", encoding="utf-8") as _f:
+                    _, body = parse_frontmatter(_f.read())
+                install_section = _extract_md_section(body, "Installation")
+                if install_section:
+                    entry["installBody"] = install_section.strip()
+            except (OSError, ValueError):
+                pass
 
         # Route by status: named → buckets (real variants); awakened → awaiting
         status = fm.get("status", "awakened")

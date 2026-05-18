@@ -64,7 +64,7 @@
 | ◇ [mattpocock](../docs/u/mattpocock/)/grill-me | Extra Skill | 4★ | Hardened | `/grill-me` |
 | ◇ [mattpocock](../docs/u/mattpocock/)/grill-with-docs | Extra Skill | 5★ | Transcendent | `/grill-with-docs` |
 | ◇ /grounding | Extra Skill | 3★ | Evolved | `/grounding` |
-| ◆ [garrytan](../docs/u/garrytan/)/gstacks | Ultimate Skill | 5★ | Transcendent | `/gstack` |
+| ◆ [garrytan](../docs/u/garrytan/)/gstack | Ultimate Skill | 5★ | Transcendent | `/gstack` |
 | ◇ [garrytan](../docs/u/garrytan/)/careful | Extra Skill | 3★ | Evolved | `/guardrails` |
 | ◇ /humanize-prose | Extra Skill | 4★ | Hardened | `/humanize-prose` |
 | ○ /hypothesis-generate | Basic Skill | 2★ | Named | `/hypothesis-generate` |

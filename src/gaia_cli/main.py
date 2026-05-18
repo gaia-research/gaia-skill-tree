@@ -17,7 +17,7 @@ from gaia_cli.push import build_skill_batch, write_skill_batch, build_proposed_s
 from gaia_cli.embeddings import generate_embeddings
 from gaia_cli.semantic_search import search as semantic_search, load_embeddings
 from gaia_cli.name import find_awakened_skill, promote_to_named, update_batch_lifecycle
-from gaia_cli.install import install_skill, sync_skills, uninstall_skill, list_installed, interactive_install, list_available
+from gaia_cli.install import install_skill, install_ultimate, sync_skills, uninstall_skill, list_installed, interactive_install, list_available
 from gaia_cli.graph import graph_command
 from gaia_cli.commands.stats import stats_command
 from gaia_cli.registry import (
@@ -1070,12 +1070,12 @@ def install_command(args):
     if not args.skill_id:
         print("Error: provide a skill ID or slug, or use --list to browse.", file=sys.stderr)
         sys.exit(1)
-    success = install_skill(args.skill_id, args.registry)
+    if getattr(args, 'ultimate', False):
+        success = install_ultimate(args.skill_id, args.registry)
+    else:
+        success = install_skill(args.skill_id, args.registry)
     if not success:
         sys.exit(1)
-
-
-def sync_command(args):
     sync_skills(args.registry)
 
 
@@ -1339,7 +1339,7 @@ def get_parser():
     install_parser = subparsers.add_parser('install', help="Install a named skill")
     install_parser.add_argument('skill_id', nargs='?', help="Skill ID, catalogRef, or unique bare slug to install")
     install_parser.add_argument('--list', action='store_true', help="List and interactively select skills to install")
-    
+    install_parser.add_argument('--ultimate', action='store_true', help="Batch-install all named prerequisite skills for an ultimate fusion chain")
     uninstall_parser = subparsers.add_parser('uninstall', help="Uninstall a named skill")
     uninstall_parser.add_argument('skill_id', help="Skill ID to uninstall")
 

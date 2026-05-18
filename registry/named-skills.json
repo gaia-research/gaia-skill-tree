@@ -445,30 +445,6 @@
         "role": "variant"
       },
       {
-        "id": "garrytan/gstack",
-        "name": "Gstack",
-        "contributor": "garrytan",
-        "origin": false,
-        "genericSkillRef": "browser-automation",
-        "status": "named",
-        "level": "4★",
-        "description": "Fast headless browser for QA testing and site dogfooding. Optimized for high-speed navigation and element interaction (~100ms per command), featuring built-in anti-bot stealth and annotated screenshot capabilities.",
-        "title": "Gstack Browser Engine",
-        "catalogRef": "garrytan-gstack",
-        "tags": [
-          "browser-automation",
-          "stealth",
-          "qa-testing",
-          "headless-browser"
-        ],
-        "links": {
-          "github": "https://github.com/garrytan/gstack/blob/main/SKILL.md"
-        },
-        "createdAt": "2026-05-12",
-        "updatedAt": "2026-05-12",
-        "role": "variant"
-      },
-      {
         "id": "gooseworks/notte-browser",
         "name": "Notte Browser",
         "contributor": "gooseworks",
@@ -1166,7 +1142,7 @@
     ],
     "gstack": [
       {
-        "id": "garrytan/gstacks",
+        "id": "garrytan/gstack",
         "name": "Founder Mode",
         "contributor": "garrytan",
         "origin": true,
@@ -1175,7 +1151,7 @@
         "level": "5★",
         "description": "The legendary fusion of Garry Tan's complete agent discipline library — browser QA, security auditing, design exploration, vertical-slice planning, and founder-mode orchestration — unified into a single autonomous product-development workflow.",
         "title": "Gstack — Garry Tan's Full-Stack Agent Suite",
-        "catalogRef": "garrytan-gstacks",
+        "catalogRef": "garrytan-gstack",
         "tags": [
           "founder-mode",
           "full-stack",
@@ -1190,6 +1166,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "installBody": "**30-second install** — Requirements: Claude Code, Git, Bun v1.0+, Node.js (Windows only)\n\n### Step 1: Install on your machine\n\nOpen Claude Code and paste this. Claude does the rest.\n\n```\nInstall gstack: run git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/.claude/skills/gstack && cd ~/.claude/skills/gstack && ./setup then add a \"gstack\" section to CLAUDE.md that says to use the /browse skill from gstack for all web browsing, never use mcp__claude-in-chrome__* tools, and lists the available skills: /office-hours, /plan-ceo-review, /plan-eng-review, /plan-design-review, /design-consultation, /design-shotgun, /design-html, /review, /ship, /land-and-deploy, /canary, /benchmark, /browse, /connect-chrome, /qa, /qa-only, /design-review, /setup-browser-cookies, /setup-deploy, /setup-gbrain, /retro, /investigate, /document-release, /document-generate, /codex, /cso, /autoplan, /plan-devex-review, /devex-review, /careful, /freeze, /guard, /unfreeze, /gstack-upgrade, /learn. Then ask the user if they also want to add gstack to the current project so teammates get it.\n```\n\n### Step 2: Team mode — auto-update for shared repos (recommended)\n\nFrom inside your repo, paste this. Switches you to team mode, bootstraps the repo so teammates get gstack automatically, and commits the change:\n\n```\n(cd ~/.claude/skills/gstack && ./setup --team) && ~/.claude/skills/gstack/bin/gstack-team-init required && git add .claude/ CLAUDE.md && git commit -m \"require gstack for AI-assisted work\"\n```\n\nNo vendored files in your repo, no version drift, no manual upgrades. Every Claude Code session starts with a fast auto-update check (throttled to once/hour, network-failure-safe, completely silent).\n\nSwap `required` for `optional` if you'd rather nudge teammates than block them.",
         "role": "origin"
       }
     ],
@@ -3010,7 +2987,6 @@
       "garrytan/garrytan",
       "garrytan/gstack-upgrade",
       "garrytan/gstack",
-      "garrytan/gstacks",
       "garrytan/guard",
       "garrytan/health",
       "garrytan/investigate",

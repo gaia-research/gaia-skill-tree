@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
   width="1200" height="630" viewBox="0 0 1200 630"
-  class="plaque plaque--og" data-type="extra" data-level="4">
+  class="plaque plaque--og" data-type="ultimate" data-level="5">
   <style><![CDATA[
 :root {
   --tier-basic: #38bdf8;
@@ -81,7 +81,7 @@
 <polygon points="86.00,426.00 88.12,432.09 94.56,432.22 89.42,436.11 91.29,442.28 86.00,438.60 80.71,442.28 82.58,436.11 77.44,432.22 83.88,432.09" fill="#fbbf24" opacity="1"/>
 <polygon points="108.00,426.00 110.12,432.09 116.56,432.22 111.42,436.11 113.29,442.28 108.00,438.60 102.71,442.28 104.58,436.11 99.44,432.22 105.88,432.09" fill="#fbbf24" opacity="1"/>
 <polygon points="130.00,426.00 132.12,432.09 138.56,432.22 133.42,436.11 135.29,442.28 130.00,438.60 124.71,442.28 126.58,436.11 121.44,432.22 127.88,432.09" fill="#fbbf24" opacity="1"/>
-<polygon points="152.00,426.00 154.12,432.09 160.56,432.22 155.42,436.11 157.29,442.28 152.00,438.60 146.71,442.28 148.58,436.11 143.44,432.22 149.88,432.09" fill="#fbbf24" opacity="0.18"/>
+<polygon points="152.00,426.00 154.12,432.09 160.56,432.22 155.42,436.11 157.29,442.28 152.00,438.60 146.71,442.28 148.58,436.11 143.44,432.22 149.88,432.09" fill="#fbbf24" opacity="1"/>
 <polygon points="174.00,426.00 176.12,432.09 182.56,432.22 177.42,436.11 179.29,442.28 174.00,438.60 168.71,442.28 170.58,436.11 165.44,432.22 171.88,432.09" fill="#fbbf24" opacity="0.18"/>
 
   <!-- Vertical rule -->
@@ -93,10 +93,10 @@
   <text class="plaque__slug" x="264" y="150"
     font-family="EB Garamond,Georgia,serif"
     font-size="52" font-weight="600"
-    fill="#fbbf24" dominant-baseline="middle">Gstack</text>
+    fill="#fbbf24" dominant-baseline="middle">Founder Mode</text>
 
   <!-- Title (.plaque__title — italic subtitle) -->
-  <text class="plaque__title" x="264" y="210" font-family="EB Garamond,Georgia,serif" font-size="22" font-style="italic" fill="rgba(226,232,240,0.5)" dominant-baseline="middle">Gstack Browser Engine</text>
+  <text class="plaque__title" x="264" y="210" font-family="EB Garamond,Georgia,serif" font-size="22" font-style="italic" fill="rgba(226,232,240,0.5)" dominant-baseline="middle">Gstack — Garry Tan&#x27;s Full-Stack Agent Suite</text>
 
   <!-- Horizontal rule -->
   <line x1="264" y1="240" x2="1152" y2="240"
@@ -106,20 +106,20 @@
   <text class="plaque__description" x="264" y="278"
     font-family="Bricolage Grotesque,Helvetica,Arial,sans-serif"
     font-size="18" fill="rgba(226,232,240,0.65)">
-    <tspan x="264" dy="0">Fast headless browser for QA testing and site dogfooding.</tspan>
-<tspan x="264" dy="26">Optimized for high-speed navigation and element</tspan>
-<tspan x="264" dy="26">interaction (~100ms per command), featuring built-in…</tspan>
+    <tspan x="264" dy="0">The legendary fusion of Garry Tan&#x27;s complete agent</tspan>
+<tspan x="264" dy="26">discipline library — browser QA, security auditing, design</tspan>
+<tspan x="264" dy="26">exploration, vertical-slice planning, and founder-mode…</tspan>
   </text>
 
   <!-- Tags row (.plaque__tags / .plaque__tag) -->
-  <rect class="plaque__tag-bg" x="264" y="470" width="162" height="22" rx="3" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
-  <text class="plaque__tag" x="273" y="485" font-family="'Departure Mono','JetBrains Mono',monospace" font-size="11" letter-spacing="0.5">browser-automation</text>
-  <rect class="plaque__tag-bg" x="432" y="470" width="74" height="22" rx="3" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
-  <text class="plaque__tag" x="441" y="485" font-family="'Departure Mono','JetBrains Mono',monospace" font-size="11" letter-spacing="0.5">stealth</text>
-  <rect class="plaque__tag-bg" x="512" y="470" width="98" height="22" rx="3" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
-  <text class="plaque__tag" x="521" y="485" font-family="'Departure Mono','JetBrains Mono',monospace" font-size="11" letter-spacing="0.5">qa-testing</text>
-  <rect class="plaque__tag-bg" x="616" y="470" width="146" height="22" rx="3" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
-  <text class="plaque__tag" x="625" y="485" font-family="'Departure Mono','JetBrains Mono',monospace" font-size="11" letter-spacing="0.5">headless-browser</text>
+  <rect class="plaque__tag-bg" x="264" y="470" width="114" height="22" rx="3" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+  <text class="plaque__tag" x="273" y="485" font-family="'Departure Mono','JetBrains Mono',monospace" font-size="11" letter-spacing="0.5">founder-mode</text>
+  <rect class="plaque__tag-bg" x="384" y="470" width="98" height="22" rx="3" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+  <text class="plaque__tag" x="393" y="485" font-family="'Departure Mono','JetBrains Mono',monospace" font-size="11" letter-spacing="0.5">full-stack</text>
+  <rect class="plaque__tag-bg" x="488" y="470" width="162" height="22" rx="3" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+  <text class="plaque__tag" x="497" y="485" font-family="'Departure Mono','JetBrains Mono',monospace" font-size="11" letter-spacing="0.5">browser-automation</text>
+  <rect class="plaque__tag-bg" x="656" y="470" width="130" height="22" rx="3" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+  <text class="plaque__tag" x="665" y="485" font-family="'Departure Mono','JetBrains Mono',monospace" font-size="11" letter-spacing="0.5">security-audit</text>
 
   <!-- Install row (.plaque__install-row) -->
   <rect class="plaque__install-bg" x="264" y="510" width="888" height="32" rx="4" fill="rgba(0,0,0,0.4)" stroke="rgba(255,255,255,0.06)" stroke-width="1"/><text class="plaque__install-prompt" x="276" y="531" font-family="'Departure Mono','JetBrains Mono',monospace" font-size="13" fill="#fbbf24">$</text><text class="plaque__install-cmd" x="292" y="531" font-family="'Departure Mono','JetBrains Mono',monospace" font-size="13" fill="rgba(226,232,240,0.75)">gaia install garrytan/gstack</text>
@@ -132,7 +132,7 @@
     fill="rgba(226,232,240,0.5)" dominant-baseline="middle">CLASS A</text>
 
   <!-- Level chip (.plaque__rank chip variant — mirrors Stage 2 sibling) -->
-  <rect x="1080" y="559" width="56" height="26" rx="13" fill="rgba(232,121,249,.15)" stroke="rgba(232,121,249,.4)" stroke-width="1"/><text x="1124" y="575" font-family="'Departure Mono','JetBrains Mono',monospace" font-size="13" font-weight="600" letter-spacing="1.2" fill="#e879f9" text-anchor="end" dominant-baseline="middle">4★</text>
+  <rect x="1080" y="559" width="56" height="26" rx="13" fill="rgba(251,191,36,.15)" stroke="rgba(251,191,36,.4)" stroke-width="1"/><text x="1124" y="575" font-family="'Departure Mono','JetBrains Mono',monospace" font-size="13" font-weight="600" letter-spacing="1.2" fill="#fbbf24" text-anchor="end" dominant-baseline="middle">5★</text>
 
   <!-- Contributor handle (.plaque__handle) -->
   <text class="plaque__handle" x="264" y="605"
