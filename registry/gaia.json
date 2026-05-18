@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/skill.schema.json",
-  "version": "3.13.4",
-  "generatedAt": "2026-05-18T16:17:13.286350Z",
+  "version": "3.14.0",
+  "generatedAt": "2026-05-18T16:24:37.960437Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -272,7 +272,8 @@
       "derivatives": [
         "full-stack-developer",
         "ml-pipeline",
-        "e2e-testing"
+        "e2e-testing",
+        "gstack"
       ],
       "conditions": "",
       "evidence": [
@@ -466,7 +467,8 @@
       "derivatives": [
         "autonomous-research-agent",
         "e2e-testing",
-        "x-twitter-automation"
+        "x-twitter-automation",
+        "gstack"
       ],
       "conditions": "",
       "evidence": [
@@ -500,7 +502,8 @@
       "description": "Directly controls a web browser via low-level protocols (like CDP) to manipulate DOM, manage cookies, and intercept network traffic.",
       "prerequisites": [],
       "derivatives": [
-        "browser-automation"
+        "browser-automation",
+        "gstack"
       ],
       "conditions": "",
       "evidence": [
@@ -755,7 +758,8 @@
         "registry-curation",
         "tool-creation",
         "ml-pipeline",
-        "skill-authoring"
+        "skill-authoring",
+        "gstack"
       ],
       "conditions": "",
       "evidence": [
@@ -770,7 +774,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-05-10",
+      "updatedAt": "2026-05-18",
       "version": "0.1.0"
     },
     {
@@ -787,7 +791,9 @@
       ],
       "derivatives": [
         "full-stack-developer",
-        "security-audit"
+        "security-audit",
+        "gstack",
+        "finishing-a-development-branch"
       ],
       "conditions": "",
       "evidence": [
@@ -802,7 +808,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-04-28",
+      "updatedAt": "2026-05-18",
       "version": "0.2.0"
     },
     {
@@ -906,7 +912,9 @@
       "rarity": "common",
       "description": "Reduces the length of prompts or retrieved context to fit token limits while preserving semantic content, using techniques such as selective token removal, summarization, or token-classification-based pruning (e.g. LLMLingua).",
       "prerequisites": [],
-      "derivatives": [],
+      "derivatives": [
+        "memory-manage"
+      ],
       "conditions": "",
       "evidence": [
         {
@@ -1038,7 +1046,9 @@
         "workflow-automation",
         "execute-bash"
       ],
-      "derivatives": [],
+      "derivatives": [
+        "gstack"
+      ],
       "conditions": "Requires environment credentials and a configured pipeline definition.",
       "evidence": [
         {
@@ -1055,7 +1065,7 @@
       ],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-04-30",
+      "updatedAt": "2026-05-18",
       "version": "0.2.0"
     },
     {
@@ -1099,7 +1109,9 @@
         "evaluate-output",
         "plan-decompose"
       ],
-      "derivatives": [],
+      "derivatives": [
+        "gstack"
+      ],
       "conditions": "",
       "evidence": [
         {
@@ -1135,7 +1147,8 @@
         "parse-html"
       ],
       "derivatives": [
-        "design-generation"
+        "design-generation",
+        "gstack"
       ],
       "conditions": "Requires headless browser (Playwright/Puppeteer).",
       "evidence": [
@@ -1150,19 +1163,23 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-14",
-      "updatedAt": "2026-05-14",
+      "updatedAt": "2026-05-18",
       "version": "0.1.0"
     },
     {
       "id": "detect-anomaly",
       "name": "Detect Anomaly",
-      "type": "basic",
+      "type": "extra",
       "level": "2★",
       "rarity": "uncommon",
       "description": "Identifies statistical outliers, novel patterns, or deviations from expected behavior in structured or unstructured data.",
-      "prerequisites": [],
+      "prerequisites": [
+        "evaluate-output",
+        "error-interpretation"
+      ],
       "derivatives": [
-        "gaia-meta-audit"
+        "gaia-meta-audit",
+        "gstack"
       ],
       "conditions": "",
       "evidence": [
@@ -1177,7 +1194,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-04-28",
+      "updatedAt": "2026-05-18",
       "version": "0.2.0"
     },
     {
@@ -1189,7 +1206,8 @@
       "description": "Compares two versions of content and produces a structured delta highlighting additions, deletions, and modifications.",
       "prerequisites": [],
       "derivatives": [
-        "code-review-pipeline"
+        "code-review-pipeline",
+        "finishing-a-development-branch"
       ],
       "conditions": "",
       "evidence": [
@@ -1302,7 +1320,8 @@
       "description": "Reads, edits, repacks, and applies styling or design principles to structured binary document formats such as PPTX, DOCX, and XLSX.",
       "prerequisites": [],
       "derivatives": [
-        "humanize-prose"
+        "humanize-prose",
+        "gstack"
       ],
       "conditions": "",
       "evidence": [
@@ -1317,7 +1336,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-05-06",
+      "updatedAt": "2026-05-18",
       "version": "0.1.0"
     },
     {
@@ -1331,7 +1350,9 @@
         "browser-automation",
         "automated-testing"
       ],
-      "derivatives": [],
+      "derivatives": [
+        "gstack"
+      ],
       "conditions": "Requires a live or containerised target environment; browser automation must be available.",
       "evidence": [
         {
@@ -1352,7 +1373,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-04-30",
+      "updatedAt": "2026-05-18",
       "version": "0.2.0"
     },
     {
@@ -1394,7 +1415,8 @@
       "prerequisites": [],
       "derivatives": [
         "autonomous-debug",
-        "automated-testing"
+        "automated-testing",
+        "detect-anomaly"
       ],
       "conditions": "",
       "evidence": [
@@ -1429,7 +1451,9 @@
         "guardrails",
         "agent-eval",
         "design-review",
-        "security-audit"
+        "security-audit",
+        "gstack",
+        "detect-anomaly"
       ],
       "conditions": "",
       "evidence": [
@@ -1444,7 +1468,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-04-30",
+      "updatedAt": "2026-05-18",
       "version": "0.1.0"
     },
     {
@@ -1634,13 +1658,18 @@
     {
       "id": "finishing-a-development-branch",
       "name": "Finishing a Development Branch",
-      "type": "basic",
+      "type": "extra",
       "level": "2★",
       "rarity": "common",
       "description": "Guides completion of development work by presenting structured options for merge, PR, or cleanup, verifying tests first.",
-      "prerequisites": [],
+      "prerequisites": [
+        "code-review-pipeline",
+        "diff-content"
+      ],
       "derivatives": [
-        "superpowers"
+        "superpowers",
+        "gstack",
+        "deployment-automation"
       ],
       "conditions": "",
       "evidence": [
@@ -1671,7 +1700,8 @@
         "document-digitization",
         "text-to-sql-pipeline",
         "humanize-prose",
-        "architecture-diagram"
+        "architecture-diagram",
+        "gstack"
       ],
       "conditions": "",
       "evidence": [
@@ -2096,6 +2126,83 @@
       "version": "0.2.0"
     },
     {
+      "id": "gstack",
+      "name": "Founder Mode",
+      "type": "ultimate",
+      "level": "5★",
+      "rarity": "legendary",
+      "description": "Garry Tan's complete autonomous agent discipline suite spanning 19 named skills: browser QA, security auditing, design system creation, HTML generation, plan reviews (CEO/eng/design/DX), code review, root-cause debugging, E2E testing, ship/deploy automation, post-deploy canary monitoring, documentation, and founder-mode orchestration.",
+      "prerequisites": [
+        "question-answer",
+        "evaluate-output",
+        "code-review-pipeline",
+        "ux-audit",
+        "vertical-slice-planning",
+        "design-system-extraction",
+        "design-review",
+        "code-generation",
+        "systematic-debugging",
+        "e2e-testing",
+        "finishing-a-development-branch",
+        "deployment-automation",
+        "detect-anomaly",
+        "document-editing",
+        "browser-automation",
+        "security-audit",
+        "browser-control",
+        "web-scrape",
+        "skill-authoring",
+        "write-report",
+        "multi-agent-debate",
+        "skill-performance-benchmarking",
+        "automated-testing",
+        "mcp-integration",
+        "memory-manage",
+        "guardrails",
+        "knowledge-management",
+        "format-output",
+        "workspace-automation",
+        "project-management",
+        "prompt-optimization"
+      ],
+      "derivatives": [],
+      "conditions": "Requires demonstrating all 31 garrytan discipline skills together in a real multi-step context.",
+      "evidence": [
+        {
+          "class": "A",
+          "source": "https://github.com/garrytan/gstack",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-18",
+          "notes": "garrytan/gstack — 19 named garrytan skills registered in Gaia across 16 generic skill buckets; meets the >=5 named-skills threshold for Class A designation. Additionally: 98.9k GitHub stars, multi-platform adoption across 8+ runtimes (Claude Code, OpenAI Codex CLI, OpenCode, Cursor, Factory Droid, Slate, Kiro, Hermes)."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-18",
+      "updatedAt": "2026-05-18",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-18T00:00:00Z",
+          "action": "fuse",
+          "contributor": "mbtiongson1",
+          "details": "Fused 5 garrytan/gstack skills into /gstacks ultimate. Components: security-audit, design-review, vertical-slice-planning, browser-automation, question-answer. Promoted to 5★ on evidence: garrytan/gstack 98.9k stars, 8+ platform adoption (Claude Code, Codex CLI, OpenCode, Cursor, Factory Droid, Slate, Kiro, Hermes)."
+        },
+        {
+          "timestamp": "2026-05-18T12:00:00Z",
+          "action": "rank_up",
+          "contributor": "mbtiongson1",
+          "details": "Expanded prerequisites from 5 to 16 to cover the full garrytan/gstack suite. Added 14 new named skills: plan-ceo-review, plan-eng-review, plan-design-review, plan-devex-review, review, investigate, qa, ship, land-and-deploy, canary, document-generate, design-html, design-consultation, benchmark. Upgraded evidence from Class B to Class A (>=5 named-skills criterion met: 19 named skills). Total named garrytan skills: 19."
+        },
+        {
+          "timestamp": "2026-05-18T00:00:00Z",
+          "action": "rank_up",
+          "contributor": "mbtiongson1",
+          "details": "Expanded gstack prerequisites from 25 → 31 via prerequisite graph analysis. Added to gstack: guardrails, knowledge-management, format-output, workspace-automation, project-management, prompt-optimization. Promoted 3 basic nodes to extra tier to carry workflow chain prerequisites: finishing-a-development-branch (prereqs: code-review-pipeline, diff-content), detect-anomaly (prereqs: evaluate-output, error-interpretation), memory-manage (prereqs: context-compression, retrieve)."
+        }
+      ]
+    },
+    {
       "id": "guardrails",
       "name": "Guardrails",
       "type": "extra",
@@ -2107,7 +2214,9 @@
         "classify",
         "structured-output"
       ],
-      "derivatives": [],
+      "derivatives": [
+        "gstack"
+      ],
       "conditions": "Requires a defined policy schema and an evaluation loop.",
       "evidence": [
         {
@@ -2365,7 +2474,8 @@
         "retrieve"
       ],
       "derivatives": [
-        "knowledge-harvest"
+        "knowledge-harvest",
+        "gstack"
       ],
       "conditions": "",
       "evidence": [
@@ -2554,7 +2664,8 @@
       "description": "Connect to and invoke tools exposed by Model Context Protocol (MCP) servers — enumerate available tools, execute calls, and handle responses across any MCP-compatible backend.",
       "prerequisites": [],
       "derivatives": [
-        "mcp-server-creation"
+        "mcp-server-creation",
+        "gstack"
       ],
       "conditions": "",
       "evidence": [
@@ -2634,14 +2745,18 @@
     {
       "id": "memory-manage",
       "name": "Memory Manage",
-      "type": "basic",
+      "type": "extra",
       "level": "2★",
       "rarity": "uncommon",
       "description": "Maintains, indexes, and retrieves conversational and long-term memory across sessions, managing context window constraints.",
-      "prerequisites": [],
+      "prerequisites": [
+        "context-compression",
+        "retrieve"
+      ],
       "derivatives": [
         "conversational-agent",
-        "real-time-voice-assistant"
+        "real-time-voice-assistant",
+        "gstack"
       ],
       "conditions": "",
       "evidence": [
@@ -2737,7 +2852,9 @@
         "evaluate-output",
         "chain-of-thought"
       ],
-      "derivatives": [],
+      "derivatives": [
+        "gstack"
+      ],
       "conditions": "",
       "evidence": [
         {
@@ -3140,7 +3257,9 @@
         "api-call",
         "issue-triage"
       ],
-      "derivatives": [],
+      "derivatives": [
+        "gstack"
+      ],
       "conditions": "",
       "evidence": [
         {
@@ -3212,7 +3331,8 @@
         "generate-text"
       ],
       "derivatives": [
-        "registry-curation"
+        "registry-curation",
+        "gstack"
       ],
       "conditions": "",
       "evidence": [
@@ -3248,7 +3368,8 @@
       "derivatives": [
         "conversational-agent",
         "multimodal-reasoning",
-        "voice-agent"
+        "voice-agent",
+        "gstack"
       ],
       "conditions": "",
       "evidence": [
@@ -3677,7 +3798,8 @@
         "gaia-audit",
         "grounding",
         "rag-pipeline",
-        "wiki-search"
+        "wiki-search",
+        "memory-manage"
       ],
       "conditions": "",
       "evidence": [
@@ -3931,7 +4053,8 @@
         "evaluate-output"
       ],
       "derivatives": [
-        "skill-security-analysis"
+        "skill-security-analysis",
+        "gstack"
       ],
       "conditions": "Requires access to the full codebase or diff; output must include severity classification and reproduction steps.",
       "evidence": [
@@ -4156,7 +4279,8 @@
       ],
       "derivatives": [
         "skill-performance-benchmarking",
-        "registry-curation"
+        "registry-curation",
+        "gstack"
       ],
       "conditions": "Requires a target agent skill format and a repeatable evaluation loop for trigger accuracy and task success.",
       "evidence": [
@@ -4225,7 +4349,8 @@
       ],
       "derivatives": [
         "registry-curation",
-        "gaia-meta-audit"
+        "gaia-meta-audit",
+        "gstack"
       ],
       "conditions": "Requires a skill corpus, benchmark tasks, success rubrics, and variance-aware reporting across multiple runs.",
       "evidence": [
@@ -4553,7 +4678,8 @@
       "description": "Finds the root cause before attempting fixes when encountering bugs, test failures, or unexpected behavior.",
       "prerequisites": [],
       "derivatives": [
-        "superpowers"
+        "superpowers",
+        "gstack"
       ],
       "conditions": "",
       "evidence": [
@@ -5004,7 +5130,9 @@
       "rarity": "uncommon",
       "description": "Systematically evaluates a user interface against established usability heuristics or accessibility standards, producing a scored finding report with remediation recommendations.",
       "prerequisites": [],
-      "derivatives": [],
+      "derivatives": [
+        "gstack"
+      ],
       "conditions": "",
       "evidence": [
         {
@@ -5018,7 +5146,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-04-30",
+      "updatedAt": "2026-05-18",
       "version": "0.1.0"
     },
     {
@@ -5059,7 +5187,9 @@
         "plan-decompose",
         "route-intent"
       ],
-      "derivatives": [],
+      "derivatives": [
+        "gstack"
+      ],
       "conditions": "",
       "evidence": [
         {
@@ -5186,7 +5316,8 @@
       ],
       "derivatives": [
         "knowledge-harvest",
-        "x-twitter-automation"
+        "x-twitter-automation",
+        "gstack"
       ],
       "conditions": "Structured output mode required.",
       "evidence": [
@@ -5323,7 +5454,9 @@
         "api-call",
         "document-editing"
       ],
-      "derivatives": [],
+      "derivatives": [
+        "gstack"
+      ],
       "conditions": "",
       "evidence": [
         {
@@ -5354,7 +5487,8 @@
         "ghostwrite",
         "prd-generation",
         "scientific-writing",
-        "architecture-diagram"
+        "architecture-diagram",
+        "gstack"
       ],
       "conditions": "",
       "evidence": [
@@ -5509,6 +5643,11 @@
     },
     {
       "sourceSkillId": "automated-testing",
+      "targetSkillId": "gstack",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "automated-testing",
       "targetSkillId": "ml-pipeline",
       "edgeType": "prerequisite"
     },
@@ -5539,12 +5678,22 @@
     },
     {
       "sourceSkillId": "browser-automation",
+      "targetSkillId": "gstack",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "browser-automation",
       "targetSkillId": "stealth-browser-interaction",
       "edgeType": "prerequisite"
     },
     {
       "sourceSkillId": "browser-automation",
       "targetSkillId": "x-twitter-automation",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "browser-control",
+      "targetSkillId": "gstack",
       "edgeType": "prerequisite"
     },
     {
@@ -5624,6 +5773,11 @@
     },
     {
       "sourceSkillId": "code-generation",
+      "targetSkillId": "gstack",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "code-generation",
       "targetSkillId": "ml-pipeline",
       "edgeType": "prerequisite"
     },
@@ -5644,7 +5798,17 @@
     },
     {
       "sourceSkillId": "code-review-pipeline",
+      "targetSkillId": "finishing-a-development-branch",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "code-review-pipeline",
       "targetSkillId": "full-stack-developer",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "code-review-pipeline",
+      "targetSkillId": "gstack",
       "edgeType": "prerequisite"
     },
     {
@@ -5660,6 +5824,11 @@
     {
       "sourceSkillId": "computer-use",
       "targetSkillId": "stealth-browser-interaction",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "context-compression",
+      "targetSkillId": "memory-manage",
       "edgeType": "prerequisite"
     },
     {
@@ -5703,8 +5872,23 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "deployment-automation",
+      "targetSkillId": "gstack",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "design-review",
       "targetSkillId": "grill-me",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "design-review",
+      "targetSkillId": "gstack",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "design-system-extraction",
+      "targetSkillId": "gstack",
       "edgeType": "prerequisite"
     },
     {
@@ -5713,8 +5897,18 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "detect-anomaly",
+      "targetSkillId": "gstack",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "diff-content",
       "targetSkillId": "code-review-pipeline",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "diff-content",
+      "targetSkillId": "finishing-a-development-branch",
       "edgeType": "prerequisite"
     },
     {
@@ -5734,12 +5928,22 @@
     },
     {
       "sourceSkillId": "document-editing",
+      "targetSkillId": "gstack",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "document-editing",
       "targetSkillId": "humanize-prose",
       "edgeType": "prerequisite"
     },
     {
       "sourceSkillId": "document-editing",
       "targetSkillId": "workspace-automation",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "e2e-testing",
+      "targetSkillId": "gstack",
       "edgeType": "prerequisite"
     },
     {
@@ -5768,6 +5972,11 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "error-interpretation",
+      "targetSkillId": "detect-anomaly",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "evaluate-output",
       "targetSkillId": "agent-eval",
       "edgeType": "prerequisite"
@@ -5784,12 +5993,22 @@
     },
     {
       "sourceSkillId": "evaluate-output",
+      "targetSkillId": "detect-anomaly",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "evaluate-output",
       "targetSkillId": "gaia-audit",
       "edgeType": "prerequisite"
     },
     {
       "sourceSkillId": "evaluate-output",
       "targetSkillId": "grounding",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "evaluate-output",
+      "targetSkillId": "gstack",
       "edgeType": "prerequisite"
     },
     {
@@ -5884,6 +6103,11 @@
     },
     {
       "sourceSkillId": "finishing-a-development-branch",
+      "targetSkillId": "gstack",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "finishing-a-development-branch",
       "targetSkillId": "superpowers",
       "edgeType": "prerequisite"
     },
@@ -5900,6 +6124,11 @@
     {
       "sourceSkillId": "format-output",
       "targetSkillId": "document-digitization",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "format-output",
+      "targetSkillId": "gstack",
       "edgeType": "prerequisite"
     },
     {
@@ -5958,6 +6187,11 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "guardrails",
+      "targetSkillId": "gstack",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "hypothesis-generate",
       "targetSkillId": "scientific-discovery",
       "edgeType": "prerequisite"
@@ -5975,6 +6209,11 @@
     {
       "sourceSkillId": "knowledge-harvest",
       "targetSkillId": "autonomous-research-agent",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "knowledge-management",
+      "targetSkillId": "gstack",
       "edgeType": "prerequisite"
     },
     {
@@ -5999,6 +6238,11 @@
     },
     {
       "sourceSkillId": "mcp-integration",
+      "targetSkillId": "gstack",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "mcp-integration",
       "targetSkillId": "mcp-debugger-control",
       "edgeType": "prerequisite"
     },
@@ -6014,7 +6258,17 @@
     },
     {
       "sourceSkillId": "memory-manage",
+      "targetSkillId": "gstack",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "memory-manage",
       "targetSkillId": "real-time-voice-assistant",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "multi-agent-debate",
+      "targetSkillId": "gstack",
       "edgeType": "prerequisite"
     },
     {
@@ -6103,13 +6357,28 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "project-management",
+      "targetSkillId": "gstack",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "prompt-injection-defense",
       "targetSkillId": "skill-security-analysis",
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "prompt-optimization",
+      "targetSkillId": "gstack",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "question-answer",
       "targetSkillId": "conversational-agent",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "question-answer",
+      "targetSkillId": "gstack",
       "edgeType": "prerequisite"
     },
     {
@@ -6204,6 +6473,11 @@
     },
     {
       "sourceSkillId": "retrieve",
+      "targetSkillId": "memory-manage",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "retrieve",
       "targetSkillId": "rag-pipeline",
       "edgeType": "prerequisite"
     },
@@ -6249,6 +6523,11 @@
     },
     {
       "sourceSkillId": "security-audit",
+      "targetSkillId": "gstack",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "security-audit",
       "targetSkillId": "skill-security-analysis",
       "edgeType": "prerequisite"
     },
@@ -6273,6 +6552,11 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "skill-authoring",
+      "targetSkillId": "gstack",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "skill-discovery",
       "targetSkillId": "skill-performance-benchmarking",
       "edgeType": "prerequisite"
@@ -6280,6 +6564,11 @@
     {
       "sourceSkillId": "skill-discovery",
       "targetSkillId": "skill-security-analysis",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "skill-performance-benchmarking",
+      "targetSkillId": "gstack",
       "edgeType": "prerequisite"
     },
     {
@@ -6350,6 +6639,11 @@
     {
       "sourceSkillId": "summarize",
       "targetSkillId": "wiki-search",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "systematic-debugging",
+      "targetSkillId": "gstack",
       "edgeType": "prerequisite"
     },
     {
@@ -6428,8 +6722,18 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "ux-audit",
+      "targetSkillId": "gstack",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "verification-before-completion",
       "targetSkillId": "superpowers",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "vertical-slice-planning",
+      "targetSkillId": "gstack",
       "edgeType": "prerequisite"
     },
     {
@@ -6445,6 +6749,11 @@
     {
       "sourceSkillId": "web-scrape",
       "targetSkillId": "autonomous-web-research",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "web-scrape",
+      "targetSkillId": "gstack",
       "edgeType": "prerequisite"
     },
     {
@@ -6503,6 +6812,11 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "workspace-automation",
+      "targetSkillId": "gstack",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "write-report",
       "targetSkillId": "architecture-diagram",
       "edgeType": "prerequisite"
@@ -6510,6 +6824,11 @@
     {
       "sourceSkillId": "write-report",
       "targetSkillId": "ghostwrite",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "write-report",
+      "targetSkillId": "gstack",
       "edgeType": "prerequisite"
     },
     {

@@ -1,14 +1,18 @@
 {
   "id": "memory-manage",
   "name": "Memory Manage",
-  "type": "basic",
+  "type": "extra",
   "level": "2★",
   "rarity": "uncommon",
   "description": "Maintains, indexes, and retrieves conversational and long-term memory across sessions, managing context window constraints.",
-  "prerequisites": [],
+  "prerequisites": [
+    "context-compression",
+    "retrieve"
+  ],
   "derivatives": [
     "conversational-agent",
-    "real-time-voice-assistant"
+    "real-time-voice-assistant",
+    "gstack"
   ],
   "conditions": "",
   "evidence": [

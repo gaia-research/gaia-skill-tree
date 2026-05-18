@@ -15,6 +15,7 @@ _None._
 
 ## Unlocks
 - [Code Review Pipeline](../extra/code-review-pipeline.md)
+- [Finishing a Development Branch](../extra/finishing-a-development-branch.md)
 
 ## Evidence
 | Class | Source | Evaluator | Date |

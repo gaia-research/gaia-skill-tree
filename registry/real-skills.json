@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "generatedAt": "2026-05-14",
+  "generatedAt": "2026-05-18T00:00:00Z",
   "sources": [
     {
       "repo": "karpathy/autoresearch",
@@ -112,7 +112,7 @@
     },
     {
       "repo": "apify/crawlee-python",
-      "description": "Crawlee\u2014A web scraping and browser automation library for Python to build reliable crawlers.",
+      "description": "Crawlee—A web scraping and browser automation library for Python to build reliable crawlers.",
       "url": "https://github.com/apify/crawlee-python"
     },
     {
@@ -147,12 +147,12 @@
     },
     {
       "repo": "crawlab-team/crawlab",
-      "description": "Distributed web crawler admin platform for spiders management regardless of languages and frameworks. \u5206\u5e03\u5f0f\u722c\u866b\u7ba1\u7406\u5e73\u53f0\uff0c\u652f\u6301\u4efb\u4f55\u8bed\u8a00\u548c\u6846\u67b6",
+      "description": "Distributed web crawler admin platform for spiders management regardless of languages and frameworks. 分布式爬虫管理平台，支持任何语言和框架",
       "url": "https://github.com/crawlab-team/crawlab"
     },
     {
       "repo": "adithya-s-k/omniparse",
-      "description": "Ingest, parse, and optimize any data format \u27a1\ufe0f from documents to multimedia \u27a1\ufe0f for enhanced compatibility with GenAI frameworks",
+      "description": "Ingest, parse, and optimize any data format ➡️ from documents to multimedia ➡️ for enhanced compatibility with GenAI frameworks",
       "url": "https://github.com/adithya-s-k/omniparse"
     },
     {
@@ -177,7 +177,7 @@
     },
     {
       "repo": "0xMassi/webclaw",
-      "description": "Fast, local-first web content extraction for LLMs. Scrape, crawl, extract structured data \u2014 all from Rust. CLI, REST API, and MCP server.",
+      "description": "Fast, local-first web content extraction for LLMs. Scrape, crawl, extract structured data — all from Rust. CLI, REST API, and MCP server.",
       "url": "https://github.com/0xMassi/webclaw"
     },
     {
@@ -535,7 +535,7 @@
       "name": "mattpocock/diagnose",
       "contributor": "mattpocock",
       "title": "The Disciplined Diagnosis Loop",
-      "description": "Enforces a five-phase debugging discipline prioritising the feedback loop above all else \u2014 refuses to proceed until a fast deterministic pass/fail signal exists.",
+      "description": "Enforces a five-phase debugging discipline prioritising the feedback loop above all else — refuses to proceed until a fast deterministic pass/fail signal exists.",
       "sourceRepo": "mattpocock/skills",
       "url": "https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnose/SKILL.md",
       "mapsToGaia": [
@@ -1990,7 +1990,7 @@
       "id": "gh-crawlab",
       "name": "crawlab",
       "contributor": "crawlab-team",
-      "description": "Distributed web crawler admin platform for spiders management regardless of languages and frameworks. \u5206\u5e03\u5f0f\u722c\u866b\u7ba1\u7406\u5e73\u53f0\uff0c\u652f\u6301\u4efb\u4f55\u8bed\u8a00\u548c\u6846\u67b6",
+      "description": "Distributed web crawler admin platform for spiders management regardless of languages and frameworks. 分布式爬虫管理平台，支持任何语言和框架",
       "sourceRepo": "crawlab-team/crawlab",
       "url": "https://github.com/crawlab-team/crawlab",
       "mapsToGaia": [
@@ -2006,7 +2006,7 @@
       "id": "gh-omniparse",
       "name": "omniparse",
       "contributor": "adithya-s-k",
-      "description": "Ingest, parse, and optimize any data format \u27a1\ufe0f from documents to multimedia \u27a1\ufe0f for enhanced compatibility with GenAI frameworks",
+      "description": "Ingest, parse, and optimize any data format ➡️ from documents to multimedia ➡️ for enhanced compatibility with GenAI frameworks",
       "sourceRepo": "adithya-s-k/omniparse",
       "url": "https://github.com/adithya-s-k/omniparse",
       "mapsToGaia": [
@@ -2087,7 +2087,7 @@
       "id": "gh-webclaw",
       "name": "webclaw",
       "contributor": "0xMassi",
-      "description": "Fast, local-first web content extraction for LLMs. Scrape, crawl, extract structured data \u2014 all from Rust. CLI, REST API, and MCP server.",
+      "description": "Fast, local-first web content extraction for LLMs. Scrape, crawl, extract structured data — all from Rust. CLI, REST API, and MCP server.",
       "sourceRepo": "0xMassi/webclaw",
       "url": "https://github.com/0xMassi/webclaw",
       "mapsToGaia": [
@@ -2211,6 +2211,491 @@
         "huggingface",
         "embed-text"
       ]
+    },
+    {
+      "id": "garrytan-gstacks",
+      "name": "garrytan/gstacks",
+      "contributor": "garrytan",
+      "title": "Gstacks — Full-Stack Agent Suite",
+      "description": "Legendary ultimate fusing all 5 Garry Tan discipline skills: browser QA, security auditing, design exploration, vertical-slice planning, and founder-mode orchestration.",
+      "sourceRepo": "garrytan/gstack",
+      "url": "https://github.com/garrytan/gstack",
+      "mapsToGaia": [
+        "gstacks"
+      ],
+      "promotedNamedSkillId": "garrytan/gstacks",
+      "addedAt": "2026-05-18",
+      "tags": [
+        "founder-mode",
+        "full-stack",
+        "ultimate",
+        "browser-automation",
+        "security-audit",
+        "design-exploration",
+        "orchestration"
+      ]
+    },
+    {
+      "id": "garrytan-plan-ceo-review",
+      "name": "garrytan/plan-ceo-review",
+      "contributor": "garrytan",
+      "title": "CEO Plan Review",
+      "description": "Product strategy and scope review in four modes before implementation.",
+      "sourceRepo": "garrytan/gstack",
+      "url": "https://github.com/garrytan/gstack/blob/main/plan-ceo-review/SKILL.md",
+      "mapsToGaia": [
+        "evaluate-output"
+      ],
+      "promotedNamedSkillId": "garrytan/plan-ceo-review",
+      "addedAt": "2026-05-18",
+      "tags": [
+        "product-strategy",
+        "scope-review",
+        "ceo-review"
+      ]
+    },
+    {
+      "id": "garrytan-plan-eng-review",
+      "name": "garrytan/plan-eng-review",
+      "contributor": "garrytan",
+      "title": "Engineering Plan Review",
+      "description": "Architecture and implementation review before coding, evaluating scope, architecture, code quality, and test coverage.",
+      "sourceRepo": "garrytan/gstack",
+      "url": "https://github.com/garrytan/gstack/blob/main/plan-eng-review/SKILL.md",
+      "mapsToGaia": [
+        "code-review-pipeline"
+      ],
+      "promotedNamedSkillId": "garrytan/plan-eng-review",
+      "addedAt": "2026-05-18",
+      "tags": [
+        "engineering",
+        "architecture-review",
+        "plan-review"
+      ]
+    },
+    {
+      "id": "garrytan-plan-design-review",
+      "name": "garrytan/plan-design-review",
+      "contributor": "garrytan",
+      "title": "Design Plan Review",
+      "description": "Interactive designer-led audit of UI/UX plans rating seven design dimensions before implementation.",
+      "sourceRepo": "garrytan/gstack",
+      "url": "https://github.com/garrytan/gstack/blob/main/plan-design-review/SKILL.md",
+      "mapsToGaia": [
+        "ux-audit"
+      ],
+      "promotedNamedSkillId": "garrytan/plan-design-review",
+      "addedAt": "2026-05-18",
+      "tags": [
+        "ux",
+        "design-audit",
+        "plan-review"
+      ]
+    },
+    {
+      "id": "garrytan-plan-devex-review",
+      "name": "garrytan/plan-devex-review",
+      "contributor": "garrytan",
+      "title": "Developer Experience Review",
+      "description": "Multi-pass DX review for developer-facing products scoring eight UX dimensions.",
+      "sourceRepo": "garrytan/gstack",
+      "url": "https://github.com/garrytan/gstack/blob/main/plan-devex-review/SKILL.md",
+      "mapsToGaia": [
+        "ux-audit"
+      ],
+      "promotedNamedSkillId": "garrytan/plan-devex-review",
+      "addedAt": "2026-05-18",
+      "tags": [
+        "developer-experience",
+        "dx",
+        "api-ux"
+      ]
+    },
+    {
+      "id": "garrytan-review",
+      "name": "garrytan/review",
+      "contributor": "garrytan",
+      "title": "Gstack Code Review",
+      "description": "Pre-landing code review with specialist subagents and adversarial Claude plus Codex review.",
+      "sourceRepo": "garrytan/gstack",
+      "url": "https://github.com/garrytan/gstack/blob/main/review/SKILL.md",
+      "mapsToGaia": [
+        "code-review-pipeline"
+      ],
+      "promotedNamedSkillId": "garrytan/review",
+      "addedAt": "2026-05-18",
+      "tags": [
+        "code-review",
+        "security",
+        "multi-agent"
+      ]
+    },
+    {
+      "id": "garrytan-investigate",
+      "name": "garrytan/investigate",
+      "contributor": "garrytan",
+      "title": "Gstack Investigate",
+      "description": "Systematic root-cause debugging via four phases enforcing no fix without root cause.",
+      "sourceRepo": "garrytan/gstack",
+      "url": "https://github.com/garrytan/gstack/blob/main/investigate/SKILL.md",
+      "mapsToGaia": [
+        "systematic-debugging"
+      ],
+      "promotedNamedSkillId": "garrytan/investigate",
+      "addedAt": "2026-05-18",
+      "tags": [
+        "debugging",
+        "root-cause",
+        "investigation"
+      ]
+    },
+    {
+      "id": "garrytan-qa",
+      "name": "garrytan/qa",
+      "contributor": "garrytan",
+      "title": "Gstack QA",
+      "description": "Browser-driven web app testing with bug screenshots, atomic commits, and health-score reporting.",
+      "sourceRepo": "garrytan/gstack",
+      "url": "https://github.com/garrytan/gstack/blob/main/qa/SKILL.md",
+      "mapsToGaia": [
+        "e2e-testing"
+      ],
+      "promotedNamedSkillId": "garrytan/qa",
+      "addedAt": "2026-05-18",
+      "tags": [
+        "qa",
+        "browser-testing",
+        "bug-fixing"
+      ]
+    },
+    {
+      "id": "garrytan-ship",
+      "name": "garrytan/ship",
+      "contributor": "garrytan",
+      "title": "Gstack Ship",
+      "description": "Automated deployment: merges base, runs tests, bumps VERSION, writes CHANGELOG, creates PR.",
+      "sourceRepo": "garrytan/gstack",
+      "url": "https://github.com/garrytan/gstack/blob/main/ship/SKILL.md",
+      "mapsToGaia": [
+        "finishing-a-development-branch"
+      ],
+      "promotedNamedSkillId": "garrytan/ship",
+      "addedAt": "2026-05-18",
+      "tags": [
+        "ship",
+        "deploy",
+        "pr-automation"
+      ]
+    },
+    {
+      "id": "garrytan-land-and-deploy",
+      "name": "garrytan/land-and-deploy",
+      "contributor": "garrytan",
+      "title": "Land and Deploy",
+      "description": "Automates PR merge, CI monitoring, and live canary verification with safety gates.",
+      "sourceRepo": "garrytan/gstack",
+      "url": "https://github.com/garrytan/gstack/blob/main/land-and-deploy/SKILL.md",
+      "mapsToGaia": [
+        "deployment-automation"
+      ],
+      "promotedNamedSkillId": "garrytan/land-and-deploy",
+      "addedAt": "2026-05-18",
+      "tags": [
+        "deployment",
+        "production",
+        "canary"
+      ]
+    },
+    {
+      "id": "garrytan-canary",
+      "name": "garrytan/canary",
+      "contributor": "garrytan",
+      "title": "Gstack Canary",
+      "description": "Post-deploy monitor watching for console errors, perf regressions, and broken links within 10 min.",
+      "sourceRepo": "garrytan/gstack",
+      "url": "https://github.com/garrytan/gstack/blob/main/canary/SKILL.md",
+      "mapsToGaia": [
+        "detect-anomaly"
+      ],
+      "promotedNamedSkillId": "garrytan/canary",
+      "addedAt": "2026-05-18",
+      "tags": [
+        "monitoring",
+        "post-deploy",
+        "canary"
+      ]
+    },
+    {
+      "id": "garrytan-document-generate",
+      "name": "garrytan/document-generate",
+      "contributor": "garrytan",
+      "title": "Diataxis Doc Generator",
+      "description": "Generates Diataxis-structured docs (tutorials, how-to, reference, explanation) after researching code.",
+      "sourceRepo": "garrytan/gstack",
+      "url": "https://github.com/garrytan/gstack/blob/main/document-generate/SKILL.md",
+      "mapsToGaia": [
+        "document-editing"
+      ],
+      "promotedNamedSkillId": "garrytan/document-generate",
+      "addedAt": "2026-05-18",
+      "tags": [
+        "documentation",
+        "diataxis",
+        "tutorials"
+      ]
+    },
+    {
+      "id": "garrytan-design-html",
+      "name": "garrytan/design-html",
+      "contributor": "garrytan",
+      "title": "Design to Production HTML",
+      "description": "Generates production HTML/CSS with real text reflow from mockups or descriptions, zero external deps.",
+      "sourceRepo": "garrytan/gstack",
+      "url": "https://github.com/garrytan/gstack/blob/main/design-html/SKILL.md",
+      "mapsToGaia": [
+        "code-generation"
+      ],
+      "promotedNamedSkillId": "garrytan/design-html",
+      "addedAt": "2026-05-18",
+      "tags": [
+        "html",
+        "css",
+        "design-to-code"
+      ]
+    },
+    {
+      "id": "garrytan-design-consultation",
+      "name": "garrytan/design-consultation",
+      "contributor": "garrytan",
+      "title": "Gstack Design Consultation",
+      "description": "Builds complete design system from scratch: typography, colour, spacing, motion, writes DESIGN.md.",
+      "sourceRepo": "garrytan/gstack",
+      "url": "https://github.com/garrytan/gstack/blob/main/design-consultation/SKILL.md",
+      "mapsToGaia": [
+        "design-system-extraction"
+      ],
+      "promotedNamedSkillId": "garrytan/design-consultation",
+      "addedAt": "2026-05-18",
+      "tags": [
+        "design-system",
+        "typography",
+        "colors"
+      ]
+    },
+    {
+      "id": "garrytan-benchmark",
+      "name": "garrytan/benchmark",
+      "contributor": "garrytan",
+      "title": "Gstack Benchmark",
+      "description": "Web perf benchmarking: captures baselines, detects regressions in load times, Core Web Vitals, bundle size.",
+      "sourceRepo": "garrytan/gstack",
+      "url": "https://github.com/garrytan/gstack/blob/main/benchmark/SKILL.md",
+      "mapsToGaia": [
+        "evaluate-output"
+      ],
+      "promotedNamedSkillId": "garrytan/benchmark",
+      "addedAt": "2026-05-18",
+      "tags": [
+        "performance",
+        "benchmarking",
+        "core-web-vitals"
+      ]
+    },
+    {
+      "id": "garrytan-skillify",
+      "name": "Gstack Skillify",
+      "contributor": "garrytan",
+      "level": "4★",
+      "genericSkillRef": "skill-authoring"
+    },
+    {
+      "id": "garrytan-design-review",
+      "name": "Gstack Design Review",
+      "contributor": "garrytan",
+      "level": "3★",
+      "genericSkillRef": "ux-audit"
+    },
+    {
+      "id": "garrytan-scrape",
+      "name": "Gstack Scrape",
+      "contributor": "garrytan",
+      "level": "3★",
+      "genericSkillRef": "web-scrape"
+    },
+    {
+      "id": "garrytan-retro",
+      "name": "Gstack Retro",
+      "contributor": "garrytan",
+      "level": "3★",
+      "genericSkillRef": "write-report"
+    },
+    {
+      "id": "garrytan-browse",
+      "name": "Gstack Browse",
+      "contributor": "garrytan",
+      "level": "3★",
+      "genericSkillRef": "browser-control"
+    },
+    {
+      "id": "garrytan-devex-review",
+      "name": "Gstack DevEx Review",
+      "contributor": "garrytan",
+      "level": "3★",
+      "genericSkillRef": "ux-audit"
+    },
+    {
+      "id": "garrytan-health",
+      "name": "Gstack Health",
+      "contributor": "garrytan",
+      "level": "3★",
+      "genericSkillRef": "automated-testing"
+    },
+    {
+      "id": "garrytan-benchmark-models",
+      "name": "Gstack Benchmark Models",
+      "contributor": "garrytan",
+      "level": "3★",
+      "genericSkillRef": "skill-performance-benchmarking"
+    },
+    {
+      "id": "garrytan-codex",
+      "name": "Gstack Codex",
+      "contributor": "garrytan",
+      "level": "3★",
+      "genericSkillRef": "multi-agent-debate"
+    },
+    {
+      "id": "garrytan-pair-agent",
+      "name": "Gstack Pair Agent",
+      "contributor": "garrytan",
+      "level": "3★",
+      "genericSkillRef": "mcp-integration"
+    },
+    {
+      "id": "garrytan-learn",
+      "name": "Gstack Learn",
+      "contributor": "garrytan",
+      "level": "3★",
+      "genericSkillRef": "memory-manage"
+    },
+    {
+      "id": "garrytan-guard",
+      "name": "Gstack Guard",
+      "contributor": "garrytan",
+      "level": "3★",
+      "genericSkillRef": "guardrails"
+    },
+    {
+      "id": "garrytan-make-pdf",
+      "name": "Gstack Make PDF",
+      "contributor": "garrytan",
+      "level": "3★",
+      "genericSkillRef": "format-output"
+    },
+    {
+      "id": "garrytan-qa-only",
+      "name": "Gstack QA Only",
+      "contributor": "garrytan",
+      "level": "2★",
+      "genericSkillRef": "e2e-testing"
+    },
+    {
+      "id": "garrytan-document-release",
+      "name": "Gstack Document Release",
+      "contributor": "garrytan",
+      "level": "2★",
+      "genericSkillRef": "document-editing"
+    },
+    {
+      "id": "garrytan-setup-browser-cookies",
+      "name": "Gstack Setup Browser Cookies",
+      "contributor": "garrytan",
+      "level": "2★",
+      "genericSkillRef": "browser-control"
+    },
+    {
+      "id": "garrytan-plan-tune",
+      "name": "Gstack Plan Tune",
+      "contributor": "garrytan",
+      "level": "2★",
+      "genericSkillRef": "prompt-optimization"
+    },
+    {
+      "id": "garrytan-context-save",
+      "name": "Gstack Context Save",
+      "contributor": "garrytan",
+      "level": "2★",
+      "genericSkillRef": "context-compression"
+    },
+    {
+      "id": "garrytan-context-restore",
+      "name": "Gstack Context Restore",
+      "contributor": "garrytan",
+      "level": "2★",
+      "genericSkillRef": "context-compression"
+    },
+    {
+      "id": "garrytan-landing-report",
+      "name": "Gstack Landing Report",
+      "contributor": "garrytan",
+      "level": "2★",
+      "genericSkillRef": "project-management"
+    },
+    {
+      "id": "garrytan-setup-gbrain",
+      "name": "Gstack Setup GBrain",
+      "contributor": "garrytan",
+      "level": "2★",
+      "genericSkillRef": "knowledge-management"
+    },
+    {
+      "id": "garrytan-sync-gbrain",
+      "name": "Gstack Sync GBrain",
+      "contributor": "garrytan",
+      "level": "2★",
+      "genericSkillRef": "knowledge-management"
+    },
+    {
+      "id": "garrytan-careful",
+      "name": "Gstack Careful",
+      "contributor": "garrytan",
+      "level": "2★",
+      "genericSkillRef": "guardrails"
+    },
+    {
+      "id": "garrytan-freeze",
+      "name": "Gstack Freeze",
+      "contributor": "garrytan",
+      "level": "2★",
+      "genericSkillRef": "guardrails"
+    },
+    {
+      "id": "garrytan-unfreeze",
+      "name": "Gstack Unfreeze",
+      "contributor": "garrytan",
+      "level": "2★",
+      "genericSkillRef": "guardrails"
+    },
+    {
+      "id": "garrytan-open-gstack-browser",
+      "name": "Gstack Open Browser",
+      "contributor": "garrytan",
+      "level": "2★",
+      "genericSkillRef": "browser-control"
+    },
+    {
+      "id": "garrytan-setup-deploy",
+      "name": "Gstack Setup Deploy",
+      "contributor": "garrytan",
+      "level": "2★",
+      "genericSkillRef": "deployment-automation"
+    },
+    {
+      "id": "garrytan-gstack-upgrade",
+      "name": "Gstack Upgrade",
+      "contributor": "garrytan",
+      "level": "2★",
+      "genericSkillRef": "workspace-automation"
     }
   ]
 }

@@ -28,6 +28,29 @@
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
         "role": "origin"
+      },
+      {
+        "id": "garrytan/health",
+        "name": "Health",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "automated-testing",
+        "status": "named",
+        "level": "3★",
+        "description": "Executes the full automated test suite, collects pass/fail counts and coverage deltas, and surfaces any newly introduced failures with concise root-cause notes.",
+        "title": "Gstack Health — Automated Test Suite Runner",
+        "catalogRef": "garrytan-health",
+        "tags": [
+          "automated-testing",
+          "ci",
+          "quality"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/health/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
       }
     ],
     "design-system-extraction": [
@@ -52,6 +75,30 @@
         "createdAt": "2026-05-14",
         "updatedAt": "2026-05-14",
         "role": "origin"
+      },
+      {
+        "id": "garrytan/design-consultation",
+        "name": "Design Consultation",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "design-system-extraction",
+        "status": "named",
+        "level": "4★",
+        "description": "Builds a complete design system by researching the product and competitors, then proposing a coherent package of typography, colours, spacing, layout, and motion — persisted as a DESIGN.md file that serves as the project's authoritative design source of truth.",
+        "title": "Gstack Design Consultation",
+        "catalogRef": "garrytan-design-consultation",
+        "tags": [
+          "design-system",
+          "typography",
+          "colors",
+          "design-tokens"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/design-consultation/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
       }
     ],
     "test-driven-development": [
@@ -131,6 +178,53 @@
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
         "role": "origin"
+      },
+      {
+        "id": "garrytan/document-generate",
+        "name": "Document Generate",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "document-editing",
+        "status": "named",
+        "level": "4★",
+        "description": "Generates structured documentation using the Diataxis framework — tutorials, how-to guides, reference materials, and explanations — by thoroughly researching the codebase before writing, tailored to the needs of different reader types.",
+        "title": "Diataxis Doc Generator",
+        "catalogRef": "garrytan-document-generate",
+        "tags": [
+          "documentation",
+          "diataxis",
+          "tutorials",
+          "reference-docs"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/document-generate/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
+      },
+      {
+        "id": "garrytan/document-release",
+        "name": "Document Release",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "document-editing",
+        "status": "named",
+        "level": "2★",
+        "description": "Reads the diff between two version tags and drafts concise, user-facing release notes following the Gstack changelog format.",
+        "title": "Gstack Document Release — Release Note Authoring",
+        "catalogRef": "garrytan-document-release",
+        "tags": [
+          "document-editing",
+          "release",
+          "changelog"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/document-release/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
       },
       {
         "id": "mattpocock/edit-article",
@@ -255,6 +349,75 @@
         "createdAt": "2026-05-14",
         "updatedAt": "2026-05-14",
         "role": "origin"
+      },
+      {
+        "id": "garrytan/browse",
+        "name": "Browse",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "browser-control",
+        "status": "named",
+        "level": "3★",
+        "description": "Drives a browser to a target URL, navigates multi-step user journeys, and captures screenshots or structured observations for downstream verification or reporting.",
+        "title": "Gstack Browse — Directed Browser Navigation",
+        "catalogRef": "garrytan-browse",
+        "tags": [
+          "browser-control",
+          "navigation",
+          "qa"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/browse/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
+      },
+      {
+        "id": "garrytan/open-gstack-browser",
+        "name": "Open GStack Browser",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "browser-control",
+        "status": "named",
+        "level": "2★",
+        "description": "Launches a new headless or headed browser session with the Gstack environment variables and extension profile pre-loaded, ready for automation commands.",
+        "title": "Gstack Open Browser — Browser Session Launch",
+        "catalogRef": "garrytan-open-gstack-browser",
+        "tags": [
+          "browser-control",
+          "setup",
+          "automation"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/open-gstack-browser/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
+      },
+      {
+        "id": "garrytan/setup-browser-cookies",
+        "name": "Setup Browser Cookies",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "browser-control",
+        "status": "named",
+        "level": "2★",
+        "description": "Injects pre-authenticated session cookies into the browser context so subsequent automation steps can access gated pages without a manual login flow.",
+        "title": "Gstack Setup Browser Cookies — Auth Cookie Injection",
+        "catalogRef": "garrytan-setup-browser-cookies",
+        "tags": [
+          "browser-control",
+          "auth",
+          "setup"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/setup-browser-cookies/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
       }
     ],
     "browser-automation": [
@@ -407,6 +570,297 @@
         "createdAt": "2026-05-17",
         "updatedAt": "2026-05-17",
         "role": "origin"
+      },
+      {
+        "id": "garrytan/scrape",
+        "name": "Scrape",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "web-scrape",
+        "status": "named",
+        "level": "3★",
+        "description": "Fetches target URLs with a headless browser, parses structured data from rendered HTML, and returns clean JSON or markdown ready for downstream analysis or ingestion.",
+        "title": "Gstack Scrape — Structured Web Extraction",
+        "catalogRef": "garrytan-scrape",
+        "tags": [
+          "web-scrape",
+          "data-extraction",
+          "automation"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/scrape/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
+      }
+    ],
+    "skill-performance-benchmarking": [
+      {
+        "id": "garrytan/benchmark-models",
+        "name": "Benchmark Models",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "skill-performance-benchmarking",
+        "status": "named",
+        "level": "3★",
+        "description": "Runs a standardised prompt suite across multiple model versions, records latency and quality scores, and produces a ranked comparison table to guide model selection.",
+        "title": "Gstack Benchmark Models — LLM Performance Profiling",
+        "catalogRef": "garrytan-benchmark-models",
+        "tags": [
+          "skill-performance-benchmarking",
+          "llm",
+          "evaluation"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/benchmark-models/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
+      }
+    ],
+    "evaluate-output": [
+      {
+        "id": "garrytan/benchmark",
+        "name": "Benchmark",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "evaluate-output",
+        "status": "named",
+        "level": "4★",
+        "description": "Web performance benchmarking that captures baseline metrics, compares current performance against those baselines, and identifies regressions in load times, Core Web Vitals, and bundle sizes across specified pages.",
+        "title": "Gstack Benchmark",
+        "catalogRef": "garrytan-benchmark",
+        "tags": [
+          "performance",
+          "benchmarking",
+          "core-web-vitals",
+          "regression"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/benchmark/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
+      },
+      {
+        "id": "garrytan/plan-ceo-review",
+        "name": "Plan CEO Review",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "evaluate-output",
+        "status": "named",
+        "level": "4★",
+        "description": "Rigorous product strategy and scope review in four modes — SCOPE EXPANSION, SELECTIVE EXPANSION, HOLD SCOPE, and SCOPE REDUCTION — evaluating architecture, security, data flows, testing, and edge cases to ensure plans ship at the highest standard before implementation begins.",
+        "title": "CEO Plan Review",
+        "catalogRef": "garrytan-plan-ceo-review",
+        "tags": [
+          "product-strategy",
+          "scope-review",
+          "ceo-review",
+          "pre-implementation"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/plan-ceo-review/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
+      }
+    ],
+    "detect-anomaly": [
+      {
+        "id": "garrytan/canary",
+        "name": "Canary",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "detect-anomaly",
+        "status": "named",
+        "level": "4★",
+        "description": "Post-deployment monitoring that captures pre-release baseline screenshots, then continuously watches pages for console errors, performance regressions, and broken links — designed to surface failures within the first 10 minutes so problems are caught before they reach users at scale.",
+        "title": "Gstack Canary",
+        "catalogRef": "garrytan-canary",
+        "tags": [
+          "monitoring",
+          "post-deploy",
+          "canary",
+          "anomaly-detection"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/canary/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
+      }
+    ],
+    "guardrails": [
+      {
+        "id": "garrytan/careful",
+        "name": "Careful",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "guardrails",
+        "status": "named",
+        "level": "2★",
+        "description": "Activates a conservative execution profile that pauses before irreversible actions, requests explicit confirmation for destructive operations, and logs all side effects.",
+        "title": "Gstack Careful — Conservative Execution Mode",
+        "catalogRef": "garrytan-careful",
+        "tags": [
+          "guardrails",
+          "safety",
+          "confirmation"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/careful/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
+      },
+      {
+        "id": "garrytan/freeze",
+        "name": "Freeze",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "guardrails",
+        "status": "named",
+        "level": "2★",
+        "description": "Sets a change-freeze flag that blocks non-critical commits and PR merges until explicitly lifted, protecting release branches or post-incident windows.",
+        "title": "Gstack Freeze — Change Freeze Enforcement",
+        "catalogRef": "garrytan-freeze",
+        "tags": [
+          "guardrails",
+          "freeze",
+          "release-management"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/freeze/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
+      },
+      {
+        "id": "garrytan/guard",
+        "name": "Guard",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "guardrails",
+        "status": "named",
+        "level": "3★",
+        "description": "Applies configurable content and output guardrails to agent responses, flagging or blocking unsafe outputs and logging violations with structured evidence for audit.",
+        "title": "Gstack Guard — Safety Guardrail Enforcement",
+        "catalogRef": "garrytan-guard",
+        "tags": [
+          "guardrails",
+          "safety",
+          "compliance"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/guard/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
+      },
+      {
+        "id": "garrytan/unfreeze",
+        "name": "Unfreeze",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "guardrails",
+        "status": "named",
+        "level": "2★",
+        "description": "Clears the active change-freeze flag and restores normal merge permissions, logging the unfreeze event with a timestamp and justification.",
+        "title": "Gstack Unfreeze — Change Freeze Lift",
+        "catalogRef": "garrytan-unfreeze",
+        "tags": [
+          "guardrails",
+          "freeze",
+          "release-management"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/unfreeze/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
+      }
+    ],
+    "multi-agent-debate": [
+      {
+        "id": "garrytan/codex",
+        "name": "Codex",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "multi-agent-debate",
+        "status": "named",
+        "level": "3★",
+        "description": "Spins up a structured Claude-versus-Codex debate over a proposed implementation, with each agent mounting adversarial critiques, to surface hidden design flaws before code lands.",
+        "title": "Gstack Codex — Multi-Agent Code Debate",
+        "catalogRef": "garrytan-codex",
+        "tags": [
+          "multi-agent-debate",
+          "code-review",
+          "adversarial"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/codex/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
+      }
+    ],
+    "context-compression": [
+      {
+        "id": "garrytan/context-restore",
+        "name": "Context Restore",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "context-compression",
+        "status": "named",
+        "level": "2★",
+        "description": "Reads a saved context snapshot and reconstructs a warm session state, surfacing the last decision point and pending tasks so work can resume without recap.",
+        "title": "Gstack Context Restore — Session State Recovery",
+        "catalogRef": "garrytan-context-restore",
+        "tags": [
+          "context-compression",
+          "session",
+          "continuity"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/context-restore/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
+      },
+      {
+        "id": "garrytan/context-save",
+        "name": "Context Save",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "context-compression",
+        "status": "named",
+        "level": "2★",
+        "description": "Compresses the current session context into a compact summary file that can be restored later, enabling long-running workflows to survive context-window limits.",
+        "title": "Gstack Context Save — Session State Snapshot",
+        "catalogRef": "garrytan-context-save",
+        "tags": [
+          "context-compression",
+          "session",
+          "continuity"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/context-save/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
       }
     ],
     "security-audit": [
@@ -434,6 +888,176 @@
         "createdAt": "2026-05-12",
         "updatedAt": "2026-05-12",
         "role": "origin"
+      }
+    ],
+    "code-generation": [
+      {
+        "id": "garrytan/design-html",
+        "name": "Design HTML",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "code-generation",
+        "status": "named",
+        "level": "4★",
+        "description": "Generates production-quality, Pretext-native HTML/CSS with real text reflow and dynamic layout from approved design mockups, CEO plans, or user descriptions — producing fully self-contained files with computed heights, responsive behaviour, and zero external dependencies.",
+        "title": "Design to Production HTML",
+        "catalogRef": "garrytan-design-html",
+        "tags": [
+          "html",
+          "css",
+          "design-to-code",
+          "production"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/design-html/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
+      }
+    ],
+    "ux-audit": [
+      {
+        "id": "garrytan/design-review",
+        "name": "Design Review",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "ux-audit",
+        "status": "named",
+        "level": "3★",
+        "description": "Runs a structured UX audit over a product interface, scoring layout clarity, affordance, and accessibility against the Gstack design rubric to surface actionable improvements.",
+        "title": "Gstack Design Review — UX Audit Pass",
+        "catalogRef": "garrytan-design-review",
+        "tags": [
+          "ux-audit",
+          "design",
+          "review"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/design-review/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
+      },
+      {
+        "id": "garrytan/devex-review",
+        "name": "DevEx Review",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "ux-audit",
+        "status": "named",
+        "level": "3★",
+        "description": "Audits CLI ergonomics, API surface clarity, and onboarding friction from a developer perspective, producing a scored report with prioritised fixes.",
+        "title": "Gstack DevEx Review — Developer Experience Audit",
+        "catalogRef": "garrytan-devex-review",
+        "tags": [
+          "ux-audit",
+          "developer-experience",
+          "review"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/devex-review/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
+      },
+      {
+        "id": "garrytan/plan-design-review",
+        "name": "Plan Design Review",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "ux-audit",
+        "status": "named",
+        "level": "4★",
+        "description": "Interactive, designer-led audit of UI/UX plans rating seven dimensions — information architecture, interaction states, user journey, AI slop risk, design system alignment, responsive/accessibility, and unresolved decisions — before implementation begins, with optional visual mockup generation.",
+        "title": "Design Plan Review",
+        "catalogRef": "garrytan-plan-design-review",
+        "tags": [
+          "ux",
+          "design-audit",
+          "plan-review",
+          "ui-ux"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/plan-design-review/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
+      },
+      {
+        "id": "garrytan/plan-devex-review",
+        "name": "Plan DevEx Review",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "ux-audit",
+        "status": "named",
+        "level": "4★",
+        "description": "Interactive multi-pass DX review for developer-facing products — APIs, CLIs, SDKs, and libraries — scoring eight UX dimensions from onboarding to error messaging via persona discovery and competitive benchmarking, producing an actionable improvement plan rather than just a score.",
+        "title": "Developer Experience Review",
+        "catalogRef": "garrytan-plan-devex-review",
+        "tags": [
+          "developer-experience",
+          "dx",
+          "api-ux",
+          "onboarding"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/plan-devex-review/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
+      },
+      {
+        "id": "martin-stepanoski/nielsen-heuristics-audit",
+        "name": "Nielsen Heuristics Audit",
+        "contributor": "martin-stepanoski",
+        "origin": true,
+        "genericSkillRef": "ux-audit",
+        "status": "named",
+        "level": "2★",
+        "description": "Audits a UI interface against Jakob Nielsen's 10 usability heuristics step-by-step, scoring each heuristic, surfacing violations, and producing a prioritized remediation report.",
+        "title": "The Ten Laws of Sight",
+        "catalogRef": "martin-stepanoski-nielsen-heuristics-audit",
+        "tags": [
+          "ux",
+          "usability",
+          "nielsen",
+          "heuristics",
+          "accessibility"
+        ],
+        "links": {
+          "github": "https://github.com/mastepanoski/claude-skills/blob/main/skills/nielsen-heuristics-audit/SKILL.md"
+        },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
+        "role": "origin"
+      },
+      {
+        "id": "pbakaus/impeccable",
+        "name": "Impeccable",
+        "contributor": "pbakaus",
+        "origin": false,
+        "genericSkillRef": "ux-audit",
+        "status": "named",
+        "level": "4★",
+        "description": "Elite design vocabulary and audit tool for polishing AI-generated frontend code.",
+        "title": "The Aesthetic Shield",
+        "tags": [
+          "design",
+          "audit",
+          "frontend",
+          "polishing"
+        ],
+        "links": {
+          "github": "https://github.com/pbakaus/impeccable"
+        },
+        "createdAt": "2026-05-14",
+        "updatedAt": "2026-05-14",
+        "role": "variant"
       }
     ],
     "design-review": [
@@ -465,7 +1089,7 @@
     "vertical-slice-planning": [
       {
         "id": "garrytan/garrytan",
-        "name": "Garrytan",
+        "name": "Autoplan",
         "contributor": "garrytan",
         "origin": false,
         "genericSkillRef": "vertical-slice-planning",
@@ -515,6 +1139,234 @@
         "role": "origin"
       }
     ],
+    "workspace-automation": [
+      {
+        "id": "garrytan/gstack-upgrade",
+        "name": "GStack Upgrade",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "workspace-automation",
+        "status": "named",
+        "level": "2★",
+        "description": "Scans the workspace for outdated dependencies, runs upgrades within semver-compatible bounds, re-runs tests, and commits a clean dependency bump PR.",
+        "title": "Gstack Upgrade — Workspace Dependency Upgrade",
+        "catalogRef": "garrytan-gstack-upgrade",
+        "tags": [
+          "workspace-automation",
+          "dependencies",
+          "maintenance"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/gstack-upgrade/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
+      }
+    ],
+    "gstack": [
+      {
+        "id": "garrytan/gstacks",
+        "name": "Founder Mode",
+        "contributor": "garrytan",
+        "origin": true,
+        "genericSkillRef": "gstack",
+        "status": "named",
+        "level": "5★",
+        "description": "The legendary fusion of Garry Tan's complete agent discipline library — browser QA, security auditing, design exploration, vertical-slice planning, and founder-mode orchestration — unified into a single autonomous product-development workflow.",
+        "title": "Gstack — Garry Tan's Full-Stack Agent Suite",
+        "catalogRef": "garrytan-gstacks",
+        "tags": [
+          "founder-mode",
+          "full-stack",
+          "browser-automation",
+          "security-audit",
+          "design-exploration",
+          "orchestration",
+          "ultimate"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "origin"
+      }
+    ],
+    "systematic-debugging": [
+      {
+        "id": "garrytan/investigate",
+        "name": "Investigate",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "systematic-debugging",
+        "status": "named",
+        "level": "4★",
+        "description": "Systematic root-cause debugging enforcing an Iron Law — no fix without first identifying root cause — guiding through four phases: investigation, analysis, hypothesis formation, and verified implementation with evidence gathering and pattern matching before any code changes.",
+        "title": "Gstack Investigate",
+        "catalogRef": "garrytan-investigate",
+        "tags": [
+          "debugging",
+          "root-cause",
+          "investigation",
+          "systematic"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/investigate/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
+      },
+      {
+        "id": "obra/systematic-debugging",
+        "name": "Systematic Debugging",
+        "contributor": "obra",
+        "origin": true,
+        "genericSkillRef": "systematic-debugging",
+        "status": "named",
+        "level": "3★",
+        "description": "Finds the root cause before attempting any fix — building a minimal reproduction, forming ranked hypotheses, and instrumenting to confirm before writing a single corrective line.",
+        "title": "The Root Cause Hunter",
+        "tags": [
+          "debugging",
+          "root-cause",
+          "hypothesis-driven",
+          "instrumentation",
+          "reproduction"
+        ],
+        "links": {
+          "github": "https://github.com/obra/superpowers/blob/main/skills/systematic-debugging/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "origin"
+      }
+    ],
+    "deployment-automation": [
+      {
+        "id": "garrytan/land-and-deploy",
+        "name": "Land and Deploy",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "deployment-automation",
+        "status": "named",
+        "level": "4★",
+        "description": "Automates the final production shipping stages — merging a PR, monitoring CI/deploy completion, and verifying live site health through canary checks — picking up where /ship leaves off with safety gates at each step to prevent broken deployments reaching users.",
+        "title": "Land and Deploy",
+        "catalogRef": "garrytan-land-and-deploy",
+        "tags": [
+          "deployment",
+          "production",
+          "merge",
+          "canary"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/land-and-deploy/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
+      },
+      {
+        "id": "garrytan/setup-deploy",
+        "name": "Setup Deploy",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "deployment-automation",
+        "status": "named",
+        "level": "2★",
+        "description": "Provisions the deployment environment by creating secrets, configuring environment variables, and running infrastructure-as-code init steps before the first deploy.",
+        "title": "Gstack Setup Deploy — Deployment Environment Init",
+        "catalogRef": "garrytan-setup-deploy",
+        "tags": [
+          "deployment-automation",
+          "setup",
+          "infrastructure"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/setup-deploy/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
+      }
+    ],
+    "project-management": [
+      {
+        "id": "garrytan/landing-report",
+        "name": "Landing Report",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "project-management",
+        "status": "named",
+        "level": "2★",
+        "description": "Generates a one-page project landing report from open issues, recent commits, and milestone progress, giving stakeholders a quick read on health and next steps.",
+        "title": "Gstack Landing Report — Project Status Summary",
+        "catalogRef": "garrytan-landing-report",
+        "tags": [
+          "project-management",
+          "reporting",
+          "status"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/landing-report/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
+      }
+    ],
+    "memory-manage": [
+      {
+        "id": "garrytan/learn",
+        "name": "Learn",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "memory-manage",
+        "status": "named",
+        "level": "3★",
+        "description": "Reads the active memory store, consolidates new observations from the current session, deduplicates stale entries, and writes back an updated, ranked knowledge base for future sessions.",
+        "title": "Gstack Learn — Persistent Memory Management",
+        "catalogRef": "garrytan-learn",
+        "tags": [
+          "memory-manage",
+          "context",
+          "knowledge"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/learn/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
+      }
+    ],
+    "format-output": [
+      {
+        "id": "garrytan/make-pdf",
+        "name": "Make PDF",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "format-output",
+        "status": "named",
+        "level": "3★",
+        "description": "Converts markdown or structured data into a polished PDF document with consistent heading styles, table formatting, and page layout ready for distribution.",
+        "title": "Gstack Make PDF — Formatted Output Generator",
+        "catalogRef": "garrytan-make-pdf",
+        "tags": [
+          "format-output",
+          "pdf",
+          "documentation"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/make-pdf/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
+      }
+    ],
     "question-answer": [
       {
         "id": "garrytan/office-hours",
@@ -542,31 +1394,192 @@
         "role": "origin"
       }
     ],
-    "token-observability": [
+    "mcp-integration": [
       {
-        "id": "getagentseal/codeburn",
-        "name": "CodeBurn",
-        "contributor": "getagentseal",
-        "origin": true,
-        "genericSkillRef": "token-observability",
+        "id": "garrytan/pair-agent",
+        "name": "Pair Agent",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "mcp-integration",
         "status": "named",
-        "level": "2★",
-        "description": "Cost and token observability tool for tracking AI coding agent spending across models and projects.",
-        "title": "The Ledger of Light",
+        "level": "3★",
+        "description": "Wires a new MCP server into the Gstack agent environment, validates the tool manifest, and demonstrates round-trip invocation through a test prompt.",
+        "title": "Gstack Pair Agent — MCP Tool Integration",
+        "catalogRef": "garrytan-pair-agent",
         "tags": [
-          "observability",
-          "cost",
-          "tokens"
+          "mcp-integration",
+          "tooling",
+          "agents"
         ],
         "links": {
-          "github": "https://github.com/getagentseal/codeburn"
+          "github": "https://github.com/garrytan/gstack/blob/main/pair-agent/SKILL.md"
         },
-        "createdAt": "2026-05-14",
-        "updatedAt": "2026-05-14",
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
+      }
+    ],
+    "code-review-pipeline": [
+      {
+        "id": "garrytan/plan-eng-review",
+        "name": "Plan Eng Review",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "code-review-pipeline",
+        "status": "named",
+        "level": "4★",
+        "description": "Comprehensive, interactive architecture and implementation review before coding begins, systematically evaluating scope, architecture, code quality, test coverage, and performance through structured questioning — synthesising findings into actionable tasks and an explicit not-in-scope section.",
+        "title": "Engineering Plan Review",
+        "catalogRef": "garrytan-plan-eng-review",
+        "tags": [
+          "engineering",
+          "architecture-review",
+          "plan-review",
+          "pre-implementation"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/plan-eng-review/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
+      },
+      {
+        "id": "garrytan/review",
+        "name": "Review",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "code-review-pipeline",
+        "status": "named",
+        "level": "4★",
+        "description": "Pre-landing code review combining structured checklist analysis with specialist subagents covering testing, security, and performance — plus adversarial review from both Claude and Codex — to catch SQL safety issues, LLM trust boundary violations, conditional side effects, and structural problems before merging.",
+        "title": "Gstack Code Review",
+        "catalogRef": "garrytan-review",
+        "tags": [
+          "code-review",
+          "security",
+          "multi-agent",
+          "adversarial-review"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/review/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
+      }
+    ],
+    "prompt-optimization": [
+      {
+        "id": "garrytan/plan-tune",
+        "name": "Plan Tune",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "prompt-optimization",
+        "status": "named",
+        "level": "2★",
+        "description": "Takes a draft plan or system prompt, identifies vague or ambiguous instructions, and rewrites them to reduce hallucination and improve task completion rate.",
+        "title": "Gstack Plan Tune — Prompt Refinement Pass",
+        "catalogRef": "garrytan-plan-tune",
+        "tags": [
+          "prompt-optimization",
+          "planning",
+          "quality"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/plan-tune/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
+      },
+      {
+        "id": "stanfordnlp/dspy",
+        "name": "DSPy",
+        "contributor": "stanfordnlp",
+        "origin": true,
+        "genericSkillRef": "prompt-optimization",
+        "status": "named",
+        "level": "3★",
+        "description": "Declarative programming of language model pipelines, automatically optimizing prompts and RAG retrieval using bootstrapping and teleprompters.",
+        "title": "The Programmatic Prompt Engineer",
+        "catalogRef": "stanfordnlp-dspy",
         "role": "origin"
       }
     ],
+    "e2e-testing": [
+      {
+        "id": "garrytan/qa-only",
+        "name": "QA Only",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "e2e-testing",
+        "status": "named",
+        "level": "2★",
+        "description": "Runs the scoped end-to-end test suite for a single feature or route without launching the full QA pipeline, for fast targeted regression checks.",
+        "title": "Gstack QA Only — Focused E2E Test Run",
+        "catalogRef": "garrytan-qa-only",
+        "tags": [
+          "e2e-testing",
+          "qa",
+          "targeted"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/qa-only/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
+      },
+      {
+        "id": "garrytan/qa",
+        "name": "QA",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "e2e-testing",
+        "status": "named",
+        "level": "4★",
+        "description": "Browser-driven web application testing that explores pages as a real user, documents bugs with annotated screenshots, fixes issues with atomic commits and re-verification, and produces structured reports with before/after evidence and health scores showing quality improvement.",
+        "title": "Gstack QA",
+        "catalogRef": "garrytan-qa",
+        "tags": [
+          "qa",
+          "browser-testing",
+          "bug-fixing",
+          "e2e"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/qa/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
+      }
+    ],
     "write-report": [
+      {
+        "id": "garrytan/retro",
+        "name": "Retro",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "write-report",
+        "status": "named",
+        "level": "3★",
+        "description": "Synthesises commit history, PR comments, and issue notes into a written sprint retrospective covering wins, misses, root causes, and action items.",
+        "title": "Gstack Retro — Sprint Retrospective Report",
+        "catalogRef": "garrytan-retro",
+        "tags": [
+          "write-report",
+          "retrospective",
+          "documentation"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/retro/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
+      },
       {
         "id": "glincker/readme-generator",
         "name": "README Generator",
@@ -615,6 +1628,153 @@
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
         "role": "variant"
+      }
+    ],
+    "knowledge-management": [
+      {
+        "id": "garrytan/setup-gbrain",
+        "name": "Setup GBrain",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "knowledge-management",
+        "status": "named",
+        "level": "2★",
+        "description": "Bootstraps the GBrain knowledge store for a new project: creates the index structure, ingests seed documents, and validates retrieval with a sample query.",
+        "title": "Gstack Setup GBrain — Knowledge Base Initialisation",
+        "catalogRef": "garrytan-setup-gbrain",
+        "tags": [
+          "knowledge-management",
+          "setup",
+          "gbrain"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/setup-gbrain/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
+      },
+      {
+        "id": "garrytan/sync-gbrain",
+        "name": "Sync GBrain",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "knowledge-management",
+        "status": "named",
+        "level": "2★",
+        "description": "Incrementally syncs new documents and updated pages into the GBrain index, deduplicates embeddings, and reports ingestion counts and any errors.",
+        "title": "Gstack Sync GBrain — Knowledge Base Sync",
+        "catalogRef": "garrytan-sync-gbrain",
+        "tags": [
+          "knowledge-management",
+          "sync",
+          "gbrain"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/sync-gbrain/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
+      }
+    ],
+    "finishing-a-development-branch": [
+      {
+        "id": "garrytan/ship",
+        "name": "Ship",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "finishing-a-development-branch",
+        "status": "named",
+        "level": "4★",
+        "description": "Automated end-to-end deployment workflow that merges the base branch, runs tests, reviews the diff, bumps the VERSION file, updates the CHANGELOG, commits, pushes to the remote, and creates a pull request in a single command.",
+        "title": "Gstack Ship",
+        "catalogRef": "garrytan-ship",
+        "tags": [
+          "ship",
+          "deploy",
+          "pr-automation",
+          "release"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/ship/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
+      },
+      {
+        "id": "obra/finishing-a-development-branch",
+        "name": "Finishing a Development Branch",
+        "contributor": "obra",
+        "origin": true,
+        "genericSkillRef": "finishing-a-development-branch",
+        "status": "named",
+        "level": "2★",
+        "description": "Guides completion of development work by verifying tests first, then presenting structured options for merge, PR creation, or cleanup — never declaring done without a passing build.",
+        "title": "The Clean Landing",
+        "tags": [
+          "branch-management",
+          "pull-request",
+          "merge",
+          "testing",
+          "completion"
+        ],
+        "links": {
+          "github": "https://github.com/obra/superpowers/blob/main/skills/finishing-a-development-branch/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "origin"
+      }
+    ],
+    "skill-authoring": [
+      {
+        "id": "garrytan/skillify",
+        "name": "Skillify",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "skill-authoring",
+        "status": "named",
+        "level": "4★",
+        "description": "Converts a freeform prompt, repo pattern, or workflow description into a complete, registry-ready named skill: writes the SKILL.md definition, populates frontmatter fields, and opens a PR for review.",
+        "title": "Gstack Skillify — Skill Authoring Pipeline",
+        "catalogRef": "garrytan-skillify",
+        "tags": [
+          "skill-authoring",
+          "automation",
+          "meta"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/skillify/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "variant"
+      }
+    ],
+    "token-observability": [
+      {
+        "id": "getagentseal/codeburn",
+        "name": "CodeBurn",
+        "contributor": "getagentseal",
+        "origin": true,
+        "genericSkillRef": "token-observability",
+        "status": "named",
+        "level": "2★",
+        "description": "Cost and token observability tool for tracking AI coding agent spending across models and projects.",
+        "title": "The Ledger of Light",
+        "tags": [
+          "observability",
+          "cost",
+          "tokens"
+        ],
+        "links": {
+          "github": "https://github.com/getagentseal/codeburn"
+        },
+        "createdAt": "2026-05-14",
+        "updatedAt": "2026-05-14",
+        "role": "origin"
       }
     ],
     "api-call": [
@@ -855,56 +2015,6 @@
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
         "role": "origin"
-      }
-    ],
-    "ux-audit": [
-      {
-        "id": "martin-stepanoski/nielsen-heuristics-audit",
-        "name": "Nielsen Heuristics Audit",
-        "contributor": "martin-stepanoski",
-        "origin": true,
-        "genericSkillRef": "ux-audit",
-        "status": "named",
-        "level": "2★",
-        "description": "Audits a UI interface against Jakob Nielsen's 10 usability heuristics step-by-step, scoring each heuristic, surfacing violations, and producing a prioritized remediation report.",
-        "title": "The Ten Laws of Sight",
-        "catalogRef": "martin-stepanoski-nielsen-heuristics-audit",
-        "tags": [
-          "ux",
-          "usability",
-          "nielsen",
-          "heuristics",
-          "accessibility"
-        ],
-        "links": {
-          "github": "https://github.com/mastepanoski/claude-skills/blob/main/skills/nielsen-heuristics-audit/SKILL.md"
-        },
-        "createdAt": "2026-04-30",
-        "updatedAt": "2026-04-30",
-        "role": "origin"
-      },
-      {
-        "id": "pbakaus/impeccable",
-        "name": "Impeccable",
-        "contributor": "pbakaus",
-        "origin": false,
-        "genericSkillRef": "ux-audit",
-        "status": "named",
-        "level": "4★",
-        "description": "Elite design vocabulary and audit tool for polishing AI-generated frontend code.",
-        "title": "The Aesthetic Shield",
-        "tags": [
-          "design",
-          "audit",
-          "frontend",
-          "polishing"
-        ],
-        "links": {
-          "github": "https://github.com/pbakaus/impeccable"
-        },
-        "createdAt": "2026-05-14",
-        "updatedAt": "2026-05-14",
-        "role": "variant"
       }
     ],
     "grill-me": [
@@ -1230,32 +2340,6 @@
         "role": "origin"
       }
     ],
-    "finishing-a-development-branch": [
-      {
-        "id": "obra/finishing-a-development-branch",
-        "name": "Finishing a Development Branch",
-        "contributor": "obra",
-        "origin": true,
-        "genericSkillRef": "finishing-a-development-branch",
-        "status": "named",
-        "level": "2★",
-        "description": "Guides completion of development work by verifying tests first, then presenting structured options for merge, PR creation, or cleanup — never declaring done without a passing build.",
-        "title": "The Clean Landing",
-        "tags": [
-          "branch-management",
-          "pull-request",
-          "merge",
-          "testing",
-          "completion"
-        ],
-        "links": {
-          "github": "https://github.com/obra/superpowers/blob/main/skills/finishing-a-development-branch/SKILL.md"
-        },
-        "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
-        "role": "origin"
-      }
-    ],
     "receiving-code-review": [
       {
         "id": "obra/receiving-code-review",
@@ -1328,32 +2412,6 @@
         ],
         "links": {
           "github": "https://github.com/obra/superpowers/blob/main/skills/subagent-driven-development/SKILL.md"
-        },
-        "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
-        "role": "origin"
-      }
-    ],
-    "systematic-debugging": [
-      {
-        "id": "obra/systematic-debugging",
-        "name": "Systematic Debugging",
-        "contributor": "obra",
-        "origin": true,
-        "genericSkillRef": "systematic-debugging",
-        "status": "named",
-        "level": "3★",
-        "description": "Finds the root cause before attempting any fix — building a minimal reproduction, forming ranked hypotheses, and instrumenting to confirm before writing a single corrective line.",
-        "title": "The Root Cause Hunter",
-        "tags": [
-          "debugging",
-          "root-cause",
-          "hypothesis-driven",
-          "instrumentation",
-          "reproduction"
-        ],
-        "links": {
-          "github": "https://github.com/obra/superpowers/blob/main/skills/systematic-debugging/SKILL.md"
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
@@ -1564,21 +2622,6 @@
         },
         "createdAt": "2026-05-14",
         "updatedAt": "2026-05-14",
-        "role": "origin"
-      }
-    ],
-    "prompt-optimization": [
-      {
-        "id": "stanfordnlp/dspy",
-        "name": "DSPy",
-        "contributor": "stanfordnlp",
-        "origin": true,
-        "genericSkillRef": "prompt-optimization",
-        "status": "named",
-        "level": "3★",
-        "description": "Declarative programming of language model pipelines, automatically optimizing prompts and RAG retrieval using bootstrapping and teleprompters.",
-        "title": "The Programmatic Prompt Engineer",
-        "catalogRef": "stanfordnlp-dspy",
         "role": "origin"
       }
     ],
@@ -1921,11 +2964,54 @@
       "gaiabot/repo-docs-before-pr"
     ],
     "garrytan": [
+      "garrytan/benchmark-models",
+      "garrytan/benchmark",
+      "garrytan/browse",
+      "garrytan/canary",
+      "garrytan/careful",
+      "garrytan/codex",
+      "garrytan/context-restore",
+      "garrytan/context-save",
       "garrytan/cso",
+      "garrytan/design-consultation",
+      "garrytan/design-html",
+      "garrytan/design-review",
       "garrytan/design-shotgun",
+      "garrytan/devex-review",
+      "garrytan/document-generate",
+      "garrytan/document-release",
+      "garrytan/freeze",
       "garrytan/garrytan",
+      "garrytan/gstack-upgrade",
       "garrytan/gstack",
-      "garrytan/office-hours"
+      "garrytan/gstacks",
+      "garrytan/guard",
+      "garrytan/health",
+      "garrytan/investigate",
+      "garrytan/land-and-deploy",
+      "garrytan/landing-report",
+      "garrytan/learn",
+      "garrytan/make-pdf",
+      "garrytan/office-hours",
+      "garrytan/open-gstack-browser",
+      "garrytan/pair-agent",
+      "garrytan/plan-ceo-review",
+      "garrytan/plan-design-review",
+      "garrytan/plan-devex-review",
+      "garrytan/plan-eng-review",
+      "garrytan/plan-tune",
+      "garrytan/qa-only",
+      "garrytan/qa",
+      "garrytan/retro",
+      "garrytan/review",
+      "garrytan/scrape",
+      "garrytan/setup-browser-cookies",
+      "garrytan/setup-deploy",
+      "garrytan/setup-gbrain",
+      "garrytan/ship",
+      "garrytan/skillify",
+      "garrytan/sync-gbrain",
+      "garrytan/unfreeze"
     ],
     "getagentseal": [
       "getagentseal/codeburn"

@@ -16,6 +16,7 @@ _None._
 ## Unlocks
 - [Autonomous Debug](../extra/autonomous-debug.md)
 - [Automated Testing](../extra/automated-testing.md)
+- [Detect Anomaly](../extra/detect-anomaly.md)
 
 ## Evidence
 | Class | Source | Evaluator | Date |

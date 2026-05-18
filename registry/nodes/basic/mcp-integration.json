@@ -7,7 +7,8 @@
   "description": "Connect to and invoke tools exposed by Model Context Protocol (MCP) servers — enumerate available tools, execute calls, and handle responses across any MCP-compatible backend.",
   "prerequisites": [],
   "derivatives": [
-    "mcp-server-creation"
+    "mcp-server-creation",
+    "gstack"
   ],
   "conditions": "",
   "evidence": [

@@ -18,6 +18,7 @@ Retrieves and structures data from web pages into usable entities.
 ## Unlocks
 - [Knowledge Harvest](../extra/knowledge-harvest.md)
 - [X/Twitter Automation](../extra/x-twitter-automation.md)
+- [Founder Mode](../ultimate/gstack.md)
 
 ## Fusion Condition
 Structured output mode required.

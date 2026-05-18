@@ -12,7 +12,8 @@
   "derivatives": [
     "autonomous-research-agent",
     "e2e-testing",
-    "x-twitter-automation"
+    "x-twitter-automation",
+    "gstack"
   ],
   "conditions": "",
   "evidence": [

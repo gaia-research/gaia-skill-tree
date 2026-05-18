@@ -7,7 +7,8 @@
   "description": "Directly controls a web browser via low-level protocols (like CDP) to manipulate DOM, manage cookies, and intercept network traffic.",
   "prerequisites": [],
   "derivatives": [
-    "browser-automation"
+    "browser-automation",
+    "gstack"
   ],
   "conditions": "",
   "evidence": [

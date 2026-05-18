@@ -14,7 +14,7 @@ A complete software development methodology for coding agents: combines brainsto
 - [Brainstorming](../basic/brainstorming.md)
 - [Dispatching Parallel Agents](../basic/dispatching-parallel-agents.md)
 - [Executing Plans](../basic/executing-plans.md)
-- [Finishing a Development Branch](../basic/finishing-a-development-branch.md)
+- [Finishing a Development Branch](../extra/finishing-a-development-branch.md)
 - [Receiving Code Review](../basic/receiving-code-review.md)
 - [Requesting Code Review](../basic/requesting-code-review.md)
 - [Subagent-Driven Development](../basic/subagent-driven-development.md)

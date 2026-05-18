@@ -154,5 +154,48 @@ Curated named skills from live SKILL.md ecosystems.
 - [bart-large-cnn (summarization)](https://huggingface.co/facebook/bart-large-cnn) - HuggingFace model for summarization Maps to: `generate-text`.
 - [bert-base-NER (token-classification)](https://huggingface.co/dslim/bert-base-NER) - HuggingFace model for token-classification Maps to: `extract-entities`.
 - [bge-small-en-v1.5 (feature-extraction)](https://huggingface.co/BAAI/bge-small-en-v1.5) - HuggingFace model for feature-extraction Maps to: `embed-text`.
+- [garrytan/gstacks](https://github.com/garrytan/gstack) - Legendary ultimate fusing all 5 Garry Tan discipline skills: browser QA, security auditing, design exploration, vertical-slice planning, and founder-mode orchestration. Maps to: `gstacks`.
+- [garrytan/plan-ceo-review](https://github.com/garrytan/gstack/blob/main/plan-ceo-review/SKILL.md) - Product strategy and scope review in four modes before implementation. Maps to: `evaluate-output`.
+- [garrytan/plan-eng-review](https://github.com/garrytan/gstack/blob/main/plan-eng-review/SKILL.md) - Architecture and implementation review before coding, evaluating scope, architecture, code quality, and test coverage. Maps to: `code-review-pipeline`.
+- [garrytan/plan-design-review](https://github.com/garrytan/gstack/blob/main/plan-design-review/SKILL.md) - Interactive designer-led audit of UI/UX plans rating seven design dimensions before implementation. Maps to: `ux-audit`.
+- [garrytan/plan-devex-review](https://github.com/garrytan/gstack/blob/main/plan-devex-review/SKILL.md) - Multi-pass DX review for developer-facing products scoring eight UX dimensions. Maps to: `ux-audit`.
+- [garrytan/review](https://github.com/garrytan/gstack/blob/main/review/SKILL.md) - Pre-landing code review with specialist subagents and adversarial Claude plus Codex review. Maps to: `code-review-pipeline`.
+- [garrytan/investigate](https://github.com/garrytan/gstack/blob/main/investigate/SKILL.md) - Systematic root-cause debugging via four phases enforcing no fix without root cause. Maps to: `systematic-debugging`.
+- [garrytan/qa](https://github.com/garrytan/gstack/blob/main/qa/SKILL.md) - Browser-driven web app testing with bug screenshots, atomic commits, and health-score reporting. Maps to: `e2e-testing`.
+- [garrytan/ship](https://github.com/garrytan/gstack/blob/main/ship/SKILL.md) - Automated deployment: merges base, runs tests, bumps VERSION, writes CHANGELOG, creates PR. Maps to: `finishing-a-development-branch`.
+- [garrytan/land-and-deploy](https://github.com/garrytan/gstack/blob/main/land-and-deploy/SKILL.md) - Automates PR merge, CI monitoring, and live canary verification with safety gates. Maps to: `deployment-automation`.
+- [garrytan/canary](https://github.com/garrytan/gstack/blob/main/canary/SKILL.md) - Post-deploy monitor watching for console errors, perf regressions, and broken links within 10 min. Maps to: `detect-anomaly`.
+- [garrytan/document-generate](https://github.com/garrytan/gstack/blob/main/document-generate/SKILL.md) - Generates Diataxis-structured docs (tutorials, how-to, reference, explanation) after researching code. Maps to: `document-editing`.
+- [garrytan/design-html](https://github.com/garrytan/gstack/blob/main/design-html/SKILL.md) - Generates production HTML/CSS with real text reflow from mockups or descriptions, zero external deps. Maps to: `code-generation`.
+- [garrytan/design-consultation](https://github.com/garrytan/gstack/blob/main/design-consultation/SKILL.md) - Builds complete design system from scratch: typography, colour, spacing, motion, writes DESIGN.md. Maps to: `design-system-extraction`.
+- [garrytan/benchmark](https://github.com/garrytan/gstack/blob/main/benchmark/SKILL.md) - Web perf benchmarking: captures baselines, detects regressions in load times, Core Web Vitals, bundle size. Maps to: `evaluate-output`.
+- [Gstack Skillify]() -  Maps to: .
+- [Gstack Design Review]() -  Maps to: .
+- [Gstack Scrape]() -  Maps to: .
+- [Gstack Retro]() -  Maps to: .
+- [Gstack Browse]() -  Maps to: .
+- [Gstack DevEx Review]() -  Maps to: .
+- [Gstack Health]() -  Maps to: .
+- [Gstack Benchmark Models]() -  Maps to: .
+- [Gstack Codex]() -  Maps to: .
+- [Gstack Pair Agent]() -  Maps to: .
+- [Gstack Learn]() -  Maps to: .
+- [Gstack Guard]() -  Maps to: .
+- [Gstack Make PDF]() -  Maps to: .
+- [Gstack QA Only]() -  Maps to: .
+- [Gstack Document Release]() -  Maps to: .
+- [Gstack Setup Browser Cookies]() -  Maps to: .
+- [Gstack Plan Tune]() -  Maps to: .
+- [Gstack Context Save]() -  Maps to: .
+- [Gstack Context Restore]() -  Maps to: .
+- [Gstack Landing Report]() -  Maps to: .
+- [Gstack Setup GBrain]() -  Maps to: .
+- [Gstack Sync GBrain]() -  Maps to: .
+- [Gstack Careful]() -  Maps to: .
+- [Gstack Freeze]() -  Maps to: .
+- [Gstack Unfreeze]() -  Maps to: .
+- [Gstack Open Browser]() -  Maps to: .
+- [Gstack Setup Deploy]() -  Maps to: .
+- [Gstack Upgrade]() -  Maps to: .
 
-*Generated from registry/real-skills.json on 2026-05-14.*
+*Generated from registry/real-skills.json on 2026-05-18T00:00:00Z.*

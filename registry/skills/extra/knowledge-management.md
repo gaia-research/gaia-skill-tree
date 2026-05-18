@@ -1,4 +1,4 @@
-# /knowledge-management  [2★ · Named]
+# [garrytan](../../../docs/u/garrytan/)/setup-gbrain  [2★ · Named]
 **ID:** knowledge-management  
 **Type:** Extra Skill  
 **Level:** 2★  
@@ -16,6 +16,7 @@ Organizes, relates, and retrieves information across structured pages, databases
 
 ## Unlocks
 - [Knowledge Harvest](../extra/knowledge-harvest.md)
+- [Founder Mode](../ultimate/gstack.md)
 
 ## Fusion Condition
 _None specified._

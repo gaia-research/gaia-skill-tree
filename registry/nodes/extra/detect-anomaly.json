@@ -1,13 +1,17 @@
 {
   "id": "detect-anomaly",
   "name": "Detect Anomaly",
-  "type": "basic",
+  "type": "extra",
   "level": "2★",
   "rarity": "uncommon",
   "description": "Identifies statistical outliers, novel patterns, or deviations from expected behavior in structured or unstructured data.",
-  "prerequisites": [],
+  "prerequisites": [
+    "evaluate-output",
+    "error-interpretation"
+  ],
   "derivatives": [
-    "gaia-meta-audit"
+    "gaia-meta-audit",
+    "gstack"
   ],
   "conditions": "",
   "evidence": [
@@ -22,6 +26,6 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-04-28",
+  "updatedAt": "2026-05-18",
   "version": "0.2.0"
 }
