@@ -289,6 +289,235 @@
       }).join('');
       plates.innerHTML = rendered;
     }
+
+    // --- META REPORT (Synthesize Timeline) ---
+    var tlEvents = [];
+    var ACTION_ICON = {
+      rank_up: '↑', ascend: '✦', name: '@', fuse: '⊕',
+      push: '+', evidence: '✓', demote: '↓', propose: '◆',
+      bond: '⊙', register: '◎'
+    };
+    var TYPE_GLYPH_MR = { ultimate:'◆', unique:'◉', extra:'◇', basic:'○' };
+    var MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+    // 1. Synthesize canonical skill timeline events
+    skills.forEach(function (s) {
+      if (s.createdAt) {
+        tlEvents.push({
+          date: new Date(s.createdAt).getTime(),
+          action: 'push',
+          skillId: s.id,
+          name: s.name,
+          type: s.type || 'basic',
+          details: 'Canonical skill ' + s.name + ' added to registry.'
+        });
+      }
+
+      // Evidence events
+      if (s.evidence && s.evidence.length) {
+        s.evidence.forEach(function (ev) {
+          tlEvents.push({
+            date: new Date(ev.date).getTime(),
+            action: 'evidence',
+            skillId: s.id,
+            name: s.name,
+            type: s.type || 'basic',
+            details: 'Class ' + ev.class + ' evidence reviewed by @' + ev.evaluator
+          });
+        });
+      }
+
+      // Explicit timeline events in canonical skill
+      if (s.timeline && s.timeline.length) {
+        s.timeline.forEach(function (t) {
+          tlEvents.push({
+            date: new Date(t.timestamp || t.date).getTime(),
+            action: t.action,
+            skillId: s.id,
+            name: s.name,
+            type: s.type || 'basic',
+            contributor: t.contributor || '',
+            details: t.details || ''
+          });
+        });
+      }
+    });
+
+    // 2. Synthesize named skill timeline events
+    Object.keys(buckets).forEach(function (skillId) {
+      (buckets[skillId] || []).forEach(function (ns) {
+        var slug = (typeof window.namedSlug === 'function') ? window.namedSlug(ns) : '/' + (ns.id.split('/')[1] || ns.id);
+        var refId = ns.genericSkillRef || skillId;
+        var canonical = byId[refId];
+        var nsType = (canonical && canonical.type) || ns.type || 'basic';
+
+        if (ns.createdAt) {
+          tlEvents.push({
+            date: new Date(ns.createdAt).getTime(),
+            action: 'name',
+            skillId: ns.id,
+            name: ns.name || slug,
+            type: nsType,
+            contributor: ns.contributor || '',
+            details: 'Named skill implementation claimed by @' + ns.contributor + '.'
+          });
+        }
+
+        if (ns.timeline && ns.timeline.length) {
+          ns.timeline.forEach(function (t) {
+            tlEvents.push({
+              date: new Date(t.timestamp || t.date).getTime(),
+              action: t.action,
+              skillId: ns.id,
+              name: ns.name || slug,
+              type: nsType,
+              contributor: t.contributor || ns.contributor || '',
+              details: t.details || ''
+            });
+          });
+        }
+      });
+    });
+
+    // Sort descending by date
+    tlEvents.sort(function (a, b) {
+      return b.date - a.date;
+    });
+    
+    // Render Timeline
+    var mrTimeline = document.getElementById('mrTimeline');
+    var mrFooter = document.getElementById('mrFooter');
+    var mrFilterTabs = document.getElementById('mrFilterTabs');
+    var displayLimit = 20;
+    var currentFilter = 'all';
+    
+    // Count events per action for tab badges
+    function countByAction(action) {
+      if (action === 'all') return tlEvents.length;
+      return tlEvents.filter(function (ev) { return ev.action === action; }).length;
+    }
+
+    function updateTabCounts() {
+      if (!mrFilterTabs) return;
+      mrFilterTabs.querySelectorAll('.mr-tab').forEach(function (tab) {
+        var action = tab.dataset.action || 'all';
+        var count = countByAction(action);
+        var badge = tab.querySelector('.mr-count');
+        if (!badge) {
+          badge = document.createElement('span');
+          badge.className = 'mr-count';
+          tab.appendChild(badge);
+        }
+        badge.textContent = count;
+      });
+    }
+
+    function monthKey(ts) {
+      var d = new Date(ts);
+      return MONTHS[d.getMonth()] + ' ' + d.getFullYear();
+    }
+
+    function renderMetaReport() {
+      if (!mrTimeline) return;
+
+      var filteredEvents = tlEvents.filter(function (ev) {
+        return currentFilter === 'all' || ev.action === currentFilter;
+      });
+
+      if (!filteredEvents.length) {
+        mrTimeline.innerHTML = '<div class="mr-empty">' +
+          '<div class="mr-empty-icon">◇</div>' +
+          '<div class="mr-empty-text">No events match this filter.</div>' +
+          '</div>';
+        if (mrFooter) mrFooter.style.display = 'none';
+        return;
+      }
+
+      var toShow = filteredEvents.slice(0, displayLimit);
+      var html = '';
+      var lastMonth = '';
+      var staggerIdx = 0;
+
+      toShow.forEach(function (ev) {
+        // Date group header
+        var mk = monthKey(ev.date);
+        if (mk !== lastMonth) {
+          lastMonth = mk;
+          html += '<div class="mr-month-header">' + esc(mk) + '</div>';
+        }
+
+        var actionLabel = ev.action.replace('_', ' ');
+        var icon = ACTION_ICON[ev.action] || '·';
+        var dateStr = new Date(ev.date).toISOString().split('T')[0];
+        var delay = (staggerIdx % 12) * 0.04;
+        staggerIdx++;
+
+        var clickAttr = ' role="button" tabindex="0" onclick="if(typeof openSkillExplorer===\'function\')openSkillExplorer(\'' + jsStr(ev.skillId) + '\')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();this.click();}"';
+
+        // @mentions → profile links via handleLink when available
+        var detailsHtml = esc(ev.details).replace(/@([a-zA-Z0-9_-]+)/g, function (match, handle) {
+          if (typeof window.handleLink === 'function') {
+            return window.handleLink(handle, { extraClass: 'mr-contributor' });
+          }
+          return '<a class="mr-contributor atlas-handle" href="./u/' + encodeURIComponent(handle) + '/">@' + esc(handle) + '</a>';
+        });
+
+        // Tier glyph
+        var tierGlyph = TYPE_GLYPH_MR[ev.type] || '';
+        var tierHtml = tierGlyph
+          ? '<span class="mr-tier-glyph" data-type="' + esc(ev.type || 'basic') + '">' + tierGlyph + '</span>'
+          : '';
+
+        html += '<div class="mr-event" style="animation-delay: ' + delay + 's">';
+        html += '<div class="mr-dot" data-action="' + esc(ev.action) + '"></div>';
+        html += '<div class="mr-header">';
+        html += '<span class="mr-action" data-action="' + esc(ev.action) + '"><span class="mr-action-icon">' + icon + '</span>' + esc(actionLabel) + '</span>';
+        html += '<div class="mr-skill-wrap">';
+        html += tierHtml;
+        html += '<span class="mr-skill"' + clickAttr + ' title="' + esc(ev.skillId) + '">' + esc(ev.name) + '</span>';
+        html += '</div>';
+        html += '<span class="mr-date">' + esc(dateStr) + '</span>';
+        html += '</div>';
+        html += '<div class="mr-details">' + detailsHtml + '</div>';
+        html += '</div>';
+      });
+
+      mrTimeline.innerHTML = html;
+
+      if (mrFooter) {
+        mrFooter.style.display = filteredEvents.length > displayLimit ? 'block' : 'none';
+      }
+    }
+
+    if (mrTimeline) {
+      renderMetaReport();
+      updateTabCounts();
+
+      // Filter logic
+      if (mrFilterTabs) {
+        mrFilterTabs.addEventListener('click', function(e) {
+          var btn = e.target.closest('.mr-tab');
+          if (!btn) return;
+
+          mrFilterTabs.querySelectorAll('.mr-tab').forEach(function(t){ t.classList.remove('active'); });
+          btn.classList.add('active');
+
+          currentFilter = btn.dataset.action || 'all';
+          displayLimit = 20;
+          renderMetaReport();
+        });
+      }
+
+      // Show more logic
+      var btnShowMore = document.getElementById('mrShowMore');
+      if (btnShowMore) {
+        btnShowMore.addEventListener('click', function() {
+          displayLimit += 20;
+          renderMetaReport();
+        });
+      }
+    }
+    
   }).catch(function () {});
 
   // "Browse all named skills" → scroll to #named section

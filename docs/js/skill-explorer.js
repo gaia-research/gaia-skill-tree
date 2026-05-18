@@ -650,6 +650,12 @@
   }
 
   // ── RENDER TIMELINE ──────────────────────────────────────────
+  var SE_ACTION_ICON = {
+    rank_up: '↑', ascend: '✦', name: '@', fuse: '⊕',
+    push: '+', evidence: '✓', demote: '↓', propose: '◆',
+    bond: '⊙', register: '◎', commit: '·'
+  };
+
   function demeritLabel(id) {
     var labels = {
       'niche-integration': 'Niche Integration',
@@ -663,20 +669,44 @@
     if (!generic || !Array.isArray(generic.demerits) || !generic.demerits.length) return [];
     return [{
       date: '2026-05-09',
+      action: 'demote',
       msg: 'Demerit noted: ' + generic.demerits.map(demeritLabel).join(', '),
       sha: 'e336695',
     }];
   }
 
-  function withDemeritTimeline(evts, generic) {
-    return (evts || []).concat(demeritTimelineEvents(generic)).sort(function(a, b) {
+  function structuredTimelineEvents(generic) {
+    if (!generic || !Array.isArray(generic.timeline) || !generic.timeline.length) return [];
+    return generic.timeline.map(function(t) {
+      return {
+        date: (t.timestamp || t.date || '').slice(0, 10),
+        action: t.action || 'commit',
+        msg: t.details || (t.action ? t.action.replace('_', ' ') : ''),
+        sha: '',
+        contributor: t.contributor || '',
+      };
+    });
+  }
+
+  function mergeTimeline(evts, generic) {
+    var all = (evts || [])
+      .concat(demeritTimelineEvents(generic))
+      .concat(structuredTimelineEvents(generic));
+    // Deduplicate by date+action (structured events take priority)
+    var seen = {};
+    var deduped = [];
+    all.forEach(function(ev) {
+      var key = (ev.date || '') + '|' + (ev.action || 'commit') + '|' + (ev.msg || '').slice(0, 40);
+      if (!seen[key]) { seen[key] = true; deduped.push(ev); }
+    });
+    return deduped.sort(function(a, b) {
       return String(b.date || '').localeCompare(String(a.date || ''));
     });
   }
 
   function renderTimeline(ns, generic) {
     var el = document.getElementById('se-timeline');
-    el.innerHTML = '<div class="se-flow-h">' + _se_icon('hud-toggle') + ' Update Timeline</div><div class="se-empty">Loading history…</div>';
+    el.innerHTML = '<div class="se-flow-h">' + _se_icon('hud-toggle') + ' Evolution Timeline</div><div class="se-empty">Loading history…</div>';
     var parts = ns.id.split('/');
     var contributor = parts[0], skillName = parts[1] || '';
     var apiUrl = 'https://api.github.com/repos/' + REPO_SLUG +
@@ -685,39 +715,50 @@
       .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
       .then(function(commits){
         if (!Array.isArray(commits) || !commits.length) {
-          // fallback to static dates
           var evts = [];
-          if (ns.createdAt) evts.push({ date: ns.createdAt, msg: 'Skill created', sha: '' });
-          if (ns.updatedAt && ns.updatedAt !== ns.createdAt) evts.push({ date: ns.updatedAt, msg: 'Skill updated', sha: '' });
-          renderTimelineEvents(el, withDemeritTimeline(evts, generic));
+          if (ns.createdAt) evts.push({ date: ns.createdAt, action: 'push', msg: 'Skill created', sha: '' });
+          if (ns.updatedAt && ns.updatedAt !== ns.createdAt) evts.push({ date: ns.updatedAt, action: 'commit', msg: 'Skill updated', sha: '' });
+          renderTimelineEvents(el, mergeTimeline(evts, generic));
           return;
         }
         var evts = commits.map(function(c){
           return {
             date: (c.commit && c.commit.author && c.commit.author.date) ? c.commit.author.date.slice(0,10) : '',
+            action: 'commit',
             msg: (c.commit && c.commit.message) ? c.commit.message.split('\n')[0] : '',
             sha: c.sha ? c.sha.slice(0,7) : ''
           };
         });
-        renderTimelineEvents(el, withDemeritTimeline(evts, generic));
+        renderTimelineEvents(el, mergeTimeline(evts, generic));
       })
       .catch(function(){
         var evts = [];
-        if (ns.createdAt) evts.push({ date: ns.createdAt, msg: 'Skill created', sha: '' });
-        if (ns.updatedAt && ns.updatedAt !== ns.createdAt) evts.push({ date: ns.updatedAt, msg: 'Skill updated', sha: '' });
-        renderTimelineEvents(el, withDemeritTimeline(evts, generic));
+        if (ns.createdAt) evts.push({ date: ns.createdAt, action: 'push', msg: 'Skill created', sha: '' });
+        if (ns.updatedAt && ns.updatedAt !== ns.createdAt) evts.push({ date: ns.updatedAt, action: 'commit', msg: 'Skill updated', sha: '' });
+        renderTimelineEvents(el, mergeTimeline(evts, generic));
       });
   }
 
   function renderTimelineEvents(el, evts) {
-    if (!evts.length) { el.innerHTML = '<div class="se-flow-h">' + _se_icon('hud-toggle') + ' Update Timeline</div><div class="se-empty">No history available.</div>'; return; }
-    el.innerHTML = '<div class="se-flow-h">' + _se_icon('hud-toggle') + ' Update Timeline</div><div class="se-timeline">' +
+    if (!evts.length) { el.innerHTML = '<div class="se-flow-h">' + _se_icon('hud-toggle') + ' Evolution Timeline</div><div class="se-empty">No history available.</div>'; return; }
+    el.innerHTML = '<div class="se-flow-h">' + _se_icon('hud-toggle') + ' Evolution Timeline</div><div class="se-timeline">' +
       evts.map(function(ev){
+        var action = ev.action || 'commit';
+        var icon = SE_ACTION_ICON[action] || '·';
+        var actionLabel = action.replace('_', ' ');
+        var contributorHtml = ev.contributor
+          ? '<span class="se-tl-contributor">@' + esc(ev.contributor) + '</span> '
+          : '';
         return '<div class="se-tl-event">' +
-          '<div class="se-tl-dot"></div>' +
-          '<div class="se-tl-date">' + esc(ev.date) + '</div>' +
-          '<div class="se-tl-msg">' + esc(ev.msg) + '</div>' +
-          (ev.sha ? '<div class="se-tl-sha">' + esc(ev.sha) + '</div>' : '') +
+          '<div class="se-tl-dot" data-action="' + esc(action) + '"></div>' +
+          '<div class="se-tl-body">' +
+            '<div class="se-tl-row">' +
+              '<span class="se-tl-action" data-action="' + esc(action) + '"><span class="se-tl-action-icon">' + icon + '</span>' + esc(actionLabel) + '</span>' +
+              '<span class="se-tl-date">' + esc(ev.date) + '</span>' +
+            '</div>' +
+            '<div class="se-tl-msg">' + contributorHtml + esc(ev.msg) + '</div>' +
+            (ev.sha ? '<div class="se-tl-sha">' + esc(ev.sha) + '</div>' : '') +
+          '</div>' +
         '</div>';
       }).join('') +
     '</div>';

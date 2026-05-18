@@ -288,6 +288,30 @@
 
   <div class="section-divider section-divider--glow"></div>
 
+  <!-- ─── META REPORT ─── -->
+  <section id="meta-report" class="reveal" data-section="meta-report">
+    <h2>Meta Report</h2>
+    <p class="section-sub">A living chronicle of registry evolution: every rank-up, name claim, fusion, and evidence review recorded.</p>
+    <div class="mr-controls">
+      <div class="mr-filter-tabs" id="mrFilterTabs">
+        <button class="mr-tab active" type="button" data-action="all">All</button>
+        <button class="mr-tab" type="button" data-action="name">Named</button>
+        <button class="mr-tab" type="button" data-action="rank_up">Rank Up</button>
+        <button class="mr-tab" type="button" data-action="fuse">Fused</button>
+        <button class="mr-tab" type="button" data-action="push">Created</button>
+        <button class="mr-tab" type="button" data-action="evidence">Evidence</button>
+      </div>
+    </div>
+    <div class="mr-timeline" id="mrTimeline">
+      <div class="mr-loading">Synthesizing timeline…</div>
+    </div>
+    <div class="mr-footer" id="mrFooter" style="display:none">
+      <button id="mrShowMore" class="btn btn-ghost" type="button">Show more →</button>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
   <!-- ─── NAMED SKILLS EXPLORER (demoted — browse-all destination) ─── -->
   <section id="named" class="reveal" data-section="explorer">
     <h2>Named Skills Explorer</h2>
