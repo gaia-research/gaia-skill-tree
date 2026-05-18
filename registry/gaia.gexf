@@ -92,6 +92,14 @@
           <attvalue for="type" value="extra" />
         </attvalues>
       </node>
+      <node id="brainstorming" label="Brainstorming">
+        <attvalues>
+          <attvalue for="level" value="1★" />
+          <attvalue for="rarity" value="common" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
       <node id="browser-automation" label="Browser Automation">
         <attvalues>
           <attvalue for="level" value="3★" />
@@ -284,6 +292,14 @@
           <attvalue for="type" value="basic" />
         </attvalues>
       </node>
+      <node id="dispatching-parallel-agents" label="Dispatching Parallel Agents">
+        <attvalues>
+          <attvalue for="level" value="4★" />
+          <attvalue for="rarity" value="uncommon" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
       <node id="document-analyst" label="Document Analyst">
         <attvalues>
           <attvalue for="level" value="3★" />
@@ -348,6 +364,14 @@
           <attvalue for="type" value="basic" />
         </attvalues>
       </node>
+      <node id="executing-plans" label="Executing Plans">
+        <attvalues>
+          <attvalue for="level" value="2★" />
+          <attvalue for="rarity" value="common" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
       <node id="extract-entities" label="Extract Entities">
         <attvalues>
           <attvalue for="level" value="1★" />
@@ -378,6 +402,14 @@
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="unique" />
+        </attvalues>
+      </node>
+      <node id="finishing-a-development-branch" label="Finishing a Development Branch">
+        <attvalues>
+          <attvalue for="level" value="2★" />
+          <attvalue for="rarity" value="common" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
         </attvalues>
       </node>
       <node id="format-output" label="Format Output">
@@ -820,6 +852,14 @@
           <attvalue for="type" value="ultimate" />
         </attvalues>
       </node>
+      <node id="receiving-code-review" label="Receiving Code Review">
+        <attvalues>
+          <attvalue for="level" value="2★" />
+          <attvalue for="rarity" value="uncommon" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
       <node id="recursive-self-improvement" label="Recursive Self-Improvement">
         <attvalues>
           <attvalue for="level" value="1★" />
@@ -850,6 +890,14 @@
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
+        </attvalues>
+      </node>
+      <node id="requesting-code-review" label="Requesting Code Review">
+        <attvalues>
+          <attvalue for="level" value="3★" />
+          <attvalue for="rarity" value="common" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
         </attvalues>
       </node>
       <node id="requirements-analysis" label="Requirements Analysis">
@@ -1036,9 +1084,25 @@
           <attvalue for="type" value="basic" />
         </attvalues>
       </node>
+      <node id="subagent-driven-development" label="Subagent-Driven Development">
+        <attvalues>
+          <attvalue for="level" value="4★" />
+          <attvalue for="rarity" value="rare" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
       <node id="summarize" label="Summarize">
         <attvalues>
           <attvalue for="level" value="0★" />
+          <attvalue for="rarity" value="common" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
+      <node id="systematic-debugging" label="Systematic Debugging">
+        <attvalues>
+          <attvalue for="level" value="3★" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1148,10 +1212,26 @@
           <attvalue for="type" value="extra" />
         </attvalues>
       </node>
+      <node id="using-git-worktrees" label="Using Git Worktrees">
+        <attvalues>
+          <attvalue for="level" value="1★" />
+          <attvalue for="rarity" value="common" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
       <node id="ux-audit" label="UX Audit">
         <attvalues>
           <attvalue for="level" value="0★" />
           <attvalue for="rarity" value="uncommon" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
+      <node id="verification-before-completion" label="Verification Before Completion">
+        <attvalues>
+          <attvalue for="level" value="1★" />
+          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1231,6 +1311,14 @@
       <node id="write-report" label="Write Report">
         <attvalues>
           <attvalue for="level" value="1★" />
+          <attvalue for="rarity" value="common" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
+      <node id="writing-plans" label="Writing Plans">
+        <attvalues>
+          <attvalue for="level" value="2★" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />

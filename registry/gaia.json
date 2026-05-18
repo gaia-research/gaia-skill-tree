@@ -4355,12 +4355,19 @@
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
           "notes": "Addy Osmani /test-driven-development slash command -- forces strict TDD workflow, stopping agents from skipping tests."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/obra/superpowers/blob/main/skills/test-driven-development/SKILL.md",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-18",
+          "notes": "obra/superpowers test-driven-development skill"
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-04-30",
+      "updatedAt": "2026-05-18",
       "version": "0.1.0"
     },
     {
@@ -5114,6 +5121,281 @@
       "status": "provisional",
       "createdAt": "2026-05-15",
       "updatedAt": "2026-05-15",
+      "version": "0.1.0"
+    },
+    {
+      "id": "brainstorming",
+      "name": "Brainstorming",
+      "type": "basic",
+      "level": "1★",
+      "rarity": "common",
+      "description": "Explores user intent, requirements, and design before implementation. Turns ideas into fully formed designs and specs through natural collaborative dialogue.",
+      "prerequisites": [],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/obra/superpowers/blob/main/skills/brainstorming/SKILL.md",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-18",
+          "notes": "obra/superpowers brainstorming skill"
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-18",
+      "updatedAt": "2026-05-18",
+      "version": "0.1.0"
+    },
+    {
+      "id": "dispatching-parallel-agents",
+      "name": "Dispatching Parallel Agents",
+      "type": "basic",
+      "level": "4★",
+      "rarity": "uncommon",
+      "description": "Delegates independent tasks to specialized agents with isolated context to work concurrently.",
+      "prerequisites": [],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/obra/superpowers/blob/main/skills/dispatching-parallel-agents/SKILL.md",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-18",
+          "notes": "obra/superpowers dispatching-parallel-agents skill"
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-18",
+      "updatedAt": "2026-05-18",
+      "version": "0.1.0"
+    },
+    {
+      "id": "executing-plans",
+      "name": "Executing Plans",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Loads a written implementation plan, reviews it critically, executes all tasks sequentially, and reports when complete.",
+      "prerequisites": [],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/obra/superpowers/blob/main/skills/executing-plans/SKILL.md",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-18",
+          "notes": "obra/superpowers executing-plans skill"
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-18",
+      "updatedAt": "2026-05-18",
+      "version": "0.1.0"
+    },
+    {
+      "id": "finishing-a-development-branch",
+      "name": "Finishing a Development Branch",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Guides completion of development work by presenting structured options for merge, PR, or cleanup, verifying tests first.",
+      "prerequisites": [],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/obra/superpowers/blob/main/skills/finishing-a-development-branch/SKILL.md",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-18",
+          "notes": "obra/superpowers finishing-a-development-branch skill"
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-18",
+      "updatedAt": "2026-05-18",
+      "version": "0.1.0"
+    },
+    {
+      "id": "receiving-code-review",
+      "name": "Receiving Code Review",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "uncommon",
+      "description": "Processes code review feedback with technical rigor and verification before implementation, questioning unclear feedback.",
+      "prerequisites": [],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/obra/superpowers/blob/main/skills/receiving-code-review/SKILL.md",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-18",
+          "notes": "obra/superpowers receiving-code-review skill"
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-18",
+      "updatedAt": "2026-05-18",
+      "version": "0.1.0"
+    },
+    {
+      "id": "requesting-code-review",
+      "name": "Requesting Code Review",
+      "type": "basic",
+      "level": "3★",
+      "rarity": "common",
+      "description": "Dispatches a code reviewer subagent to catch issues before they cascade, providing isolated context for evaluation.",
+      "prerequisites": [],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/obra/superpowers/blob/main/skills/requesting-code-review/SKILL.md",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-18",
+          "notes": "obra/superpowers requesting-code-review skill"
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-18",
+      "updatedAt": "2026-05-18",
+      "version": "0.1.0"
+    },
+    {
+      "id": "subagent-driven-development",
+      "name": "Subagent-Driven Development",
+      "type": "basic",
+      "level": "4★",
+      "rarity": "rare",
+      "description": "Executes plans by dispatching a fresh subagent per task with a two-stage review (spec compliance then code quality).",
+      "prerequisites": [],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/obra/superpowers/blob/main/skills/subagent-driven-development/SKILL.md",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-18",
+          "notes": "obra/superpowers subagent-driven-development skill"
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-18",
+      "updatedAt": "2026-05-18",
+      "version": "0.1.0"
+    },
+    {
+      "id": "systematic-debugging",
+      "name": "Systematic Debugging",
+      "type": "basic",
+      "level": "3★",
+      "rarity": "common",
+      "description": "Finds the root cause before attempting fixes when encountering bugs, test failures, or unexpected behavior.",
+      "prerequisites": [],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/obra/superpowers/blob/main/skills/systematic-debugging/SKILL.md",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-18",
+          "notes": "obra/superpowers systematic-debugging skill"
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-18",
+      "updatedAt": "2026-05-18",
+      "version": "0.1.0"
+    },
+    {
+      "id": "using-git-worktrees",
+      "name": "Using Git Worktrees",
+      "type": "basic",
+      "level": "1★",
+      "rarity": "common",
+      "description": "Ensures work happens in an isolated workspace via native tools or git worktree fallback before starting feature work.",
+      "prerequisites": [],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/obra/superpowers/blob/main/skills/using-git-worktrees/SKILL.md",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-18",
+          "notes": "obra/superpowers using-git-worktrees skill"
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-18",
+      "updatedAt": "2026-05-18",
+      "version": "0.1.0"
+    },
+    {
+      "id": "verification-before-completion",
+      "name": "Verification Before Completion",
+      "type": "basic",
+      "level": "1★",
+      "rarity": "common",
+      "description": "Requires running verification commands and confirming output before claiming work is complete, fixed, or passing.",
+      "prerequisites": [],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/obra/superpowers/blob/main/skills/verification-before-completion/SKILL.md",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-18",
+          "notes": "obra/superpowers verification-before-completion skill"
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-18",
+      "updatedAt": "2026-05-18",
+      "version": "0.1.0"
+    },
+    {
+      "id": "writing-plans",
+      "name": "Writing Plans",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Writes comprehensive implementation plans breaking down multi-step tasks into bite-sized sub-tasks.",
+      "prerequisites": [],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/obra/superpowers/blob/main/skills/writing-plans/SKILL.md",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-18",
+          "notes": "obra/superpowers writing-plans skill"
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-18",
+      "updatedAt": "2026-05-18",
       "version": "0.1.0"
     }
   ],

@@ -20,6 +20,7 @@ _None._
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | B | https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md | mbtiongson1 | 2026-04-30 |
+| B | https://github.com/obra/superpowers/blob/main/skills/test-driven-development/SKILL.md | mbtiongson1 | 2026-05-18 |
 
 ## Known Agents
 _None verified yet._
