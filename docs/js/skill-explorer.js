@@ -1119,7 +1119,8 @@
     if (_treeContent === null) {
       treeDialogPre.textContent = SKELETON;
       treeDialogPre.classList.add('tree-skeleton');
-      fetch('tree.md')
+      var version = window.GAIA_VERSION ? '?v=' + window.GAIA_VERSION : '';
+      fetch('tree.md' + version)
         .then(function(r) { return r.ok ? r.text() : Promise.reject(r.status); })
         .then(function(text) {
           _treeContent = text;

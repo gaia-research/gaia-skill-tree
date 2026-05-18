@@ -222,7 +222,8 @@ window.switchOsTab = function(btn) {
       targetBtn.style.opacity = '0.5';
       targetBtn.setAttribute('aria-label', 'Fetching page context...');
 
-      fetch('agent.md')
+      var version = window.GAIA_VERSION ? '?v=' + window.GAIA_VERSION : '';
+      fetch('agent.md' + version)
         .then(function(r) {
           if (!r.ok) throw new Error(r.status);
           return r.text();
