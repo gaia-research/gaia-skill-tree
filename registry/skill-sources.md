@@ -29,6 +29,7 @@ Authoritative list of known skill sources and marketplaces. `gaia-curate` agents
 | spring-ai-alibaba/examples | https://github.com/spring-ai-alibaba/examples | github-repo | `gh api repos/spring-ai-alibaba/examples/contents/.claude/skills` |
 | balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill | https://github.com/balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill | github-repo | community reproduction of autoresearch as a general agent skill |
 | NousResearch/hermes-agent | https://github.com/NousResearch/hermes-agent | github-repo | `gh api repos/NousResearch/hermes-agent/contents/skills` and `gh api repos/NousResearch/hermes-agent/contents/optional-skills` |
+| obra/superpowers | https://github.com/obra/superpowers | github-repo | `gh api repos/obra/superpowers/contents/skills` |
 
 ## Academic / Evidence Sources
 
