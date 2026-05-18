@@ -1,0 +1,317 @@
+/* Gaia TUI — canonical DESIGN.md palette
+   Source of truth: src/gaia_cli/tui/tokens.py (which reads
+   registry/gaia.json.meta.{typeColors,levelColors}).
+   Never hardcode hex values here — reference $gaia-* tokens.
+*/
+
+/* ── Base ─────────────────────────────────────────────────── */
+Screen {
+    background: $gaia-bg;
+    color: $gaia-text;
+}
+
+/* ── Header ───────────────────────────────────────────────── */
+#header {
+    height: 3;
+    background: $gaia-surface;
+    border-bottom: solid $gaia-border;
+    layout: horizontal;
+    align: left middle;
+    padding: 0 2;
+}
+
+#header-logo {
+    color: $gaia-apex-gold;
+    text-style: bold;
+    width: auto;
+}
+
+#header-user {
+    color: $gaia-tier-basic;
+    width: auto;
+    margin-left: 2;
+}
+
+#header-version {
+    color: $gaia-muted;
+    width: auto;
+    margin-left: 1;
+}
+
+#header-section {
+    color: $gaia-muted;
+    width: auto;
+    margin-left: 2;
+}
+
+/* ── Agent input ──────────────────────────────────────────── */
+#search-container {
+    height: 5;
+    background: $gaia-surface;
+    border-bottom: solid $gaia-border;
+    padding: 1 2;
+}
+
+#search-label {
+    color: $gaia-muted;
+    height: 1;
+}
+
+#search-input {
+    background: $gaia-bg;
+    border: solid $gaia-border;
+    color: $gaia-text;
+    height: 1;
+    margin-top: 0;
+}
+
+#search-input:focus {
+    border: solid $gaia-tier-basic;
+    color: $gaia-tier-basic;
+}
+
+/* ── Skill list ───────────────────────────────────────────── */
+#skills-container {
+    background: $gaia-bg;
+}
+
+ListItem {
+    background: $gaia-bg;
+    padding: 0;
+}
+
+ListItem:hover {
+    background: $gaia-surface;
+}
+
+ListItem.--highlight {
+    background: $gaia-surface;
+}
+
+ListView {
+    background: $gaia-bg;
+    border: none;
+    scrollbar-background: $gaia-surface;
+    scrollbar-color: $gaia-border;
+    scrollbar-color-hover: $gaia-muted;
+}
+
+ListView:focus {
+    border: none;
+}
+
+/* ── Status bar ───────────────────────────────────────────── */
+#status-bar {
+    height: 2;
+    background: $gaia-surface;
+    border-top: solid $gaia-border;
+    layout: horizontal;
+    align: left middle;
+    padding: 0 2;
+}
+
+#status-counts {
+    color: $gaia-muted;
+    width: auto;
+}
+
+#status-hints {
+    color: $gaia-border;
+    width: 1fr;
+    text-align: right;
+}
+
+/* ── Install modal ────────────────────────────────────────── */
+InstallModal {
+    align: center middle;
+    background: rgba(3,7,18,0.85);
+}
+
+#install-dialog {
+    width: 60;
+    height: auto;
+    background: $gaia-surface;
+    border: solid $gaia-border;
+    padding: 2 3;
+}
+
+#install-title {
+    color: $gaia-tier-basic;
+    text-style: bold;
+    margin-bottom: 1;
+}
+
+#install-skill-id {
+    color: $gaia-apex-gold;
+    margin-bottom: 1;
+}
+
+#install-meta {
+    color: $gaia-muted;
+    margin-bottom: 1;
+}
+
+#install-log {
+    height: 8;
+    background: $gaia-bg;
+    border: solid $gaia-border;
+    margin-bottom: 1;
+}
+
+#install-buttons {
+    layout: horizontal;
+    height: auto;
+    margin-top: 1;
+}
+
+#btn-install {
+    background: $gaia-install-action;
+    color: $gaia-text;
+    border: none;
+    margin-right: 1;
+    min-width: 12;
+}
+
+#btn-install:hover {
+    background: $gaia-install-hover;
+}
+
+#btn-cancel {
+    background: $gaia-border;
+    color: $gaia-muted;
+    border: none;
+    min-width: 12;
+}
+
+#btn-cancel:hover {
+    background: $gaia-border-strong;
+    color: $gaia-text;
+}
+
+/* ── Tree screen ──────────────────────────────────────────── */
+#tree-layout {
+    height: 1fr;
+}
+
+#tree-panel {
+    width: 1fr;
+    background: $gaia-bg;
+    border-right: solid $gaia-border;
+}
+
+Tree {
+    background: $gaia-bg;
+    scrollbar-background: $gaia-surface;
+    scrollbar-color: $gaia-border;
+    scrollbar-color-hover: $gaia-muted;
+    padding: 0 1;
+}
+
+Tree > .tree--guides {
+    color: $gaia-border;
+}
+
+Tree > .tree--guides-hover {
+    color: $gaia-border-strong;
+}
+
+Tree > .tree--cursor {
+    background: $gaia-surface;
+    color: $gaia-text;
+}
+
+Tree > .tree--highlight {
+    background: $gaia-surface;
+}
+
+Tree > .tree--highlight-line {
+    background: $gaia-surface;
+}
+
+#detail-panel {
+    width: 36;
+    background: $gaia-surface;
+    border-left: solid $gaia-border;
+    padding: 1 2;
+    overflow-y: auto;
+    display: block;
+}
+
+/* ── Level-up modal ───────────────────────────────────────── */
+LevelUpModal {
+    align: center middle;
+    background: rgba(3,7,18,0.88);
+}
+
+#lu-backdrop {
+    width: 100%;
+    height: 100%;
+    background: rgba(3,7,18,0.75);
+}
+
+#lu-card {
+    align: center middle;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+}
+
+/* ── Scan screen ──────────────────────────────────────────── */
+#scan-log {
+    height: 1fr;
+    background: $gaia-bg;
+    padding: 0 1;
+    scrollbar-background: $gaia-surface;
+    scrollbar-color: $gaia-border;
+}
+
+/* ── Hero screen ──────────────────────────────────────────── */
+HeroScreen {
+    background: $gaia-bg;
+    align: center middle;
+}
+
+#hero-content {
+    width: 100%;
+    height: 100%;
+    align: center middle;
+    background: $gaia-bg;
+}
+
+#hero-seal {
+    width: auto;
+    height: auto;
+    align: center middle;
+    text-align: center;
+}
+
+#hero-title {
+    width: auto;
+    text-align: center;
+    margin-top: 1;
+}
+
+#hero-tagline {
+    color: $gaia-muted;
+    text-align: center;
+    margin-top: 0;
+}
+
+#hero-stats {
+    color: $gaia-muted;
+    text-align: center;
+    margin-top: 1;
+}
+
+#hero-hint {
+    color: $gaia-border;
+    text-align: center;
+    margin-top: 2;
+}
+
+/* ── Empty state ──────────────────────────────────────────── */
+#empty-state {
+    align: center middle;
+    color: $gaia-border;
+    height: 1fr;
+}

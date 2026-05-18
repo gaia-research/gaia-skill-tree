@@ -1418,6 +1418,15 @@ def main():
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
         sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
+    # No args + interactive terminal → launch TUI
+    if len(sys.argv) == 1 and sys.stdin.isatty() and sys.stdout.isatty():
+        try:
+            from gaia_cli.tui import GaiaApp
+            GaiaApp().run()
+            return
+        except ImportError:
+            pass  # textual not installed, fall through to argparse
+
     parser, skills_parser = get_parser()
     args = parser.parse_args()
     args.registry = resolve_registry_path(args.registry, global_flag=args.global_flag)
