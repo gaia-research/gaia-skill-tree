@@ -9,7 +9,9 @@
     "browser-automation",
     "automated-testing"
   ],
-  "derivatives": [],
+  "derivatives": [
+    "gstack"
+  ],
   "conditions": "Requires a live or containerised target environment; browser automation must be available.",
   "evidence": [
     {
@@ -30,6 +32,6 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-04-30",
+  "updatedAt": "2026-05-18",
   "version": "0.2.0"
 }

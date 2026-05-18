@@ -10,7 +10,8 @@
     "generate-text"
   ],
   "derivatives": [
-    "registry-curation"
+    "registry-curation",
+    "gstack"
   ],
   "conditions": "",
   "evidence": [

@@ -1,13 +1,18 @@
 {
   "id": "finishing-a-development-branch",
   "name": "Finishing a Development Branch",
-  "type": "basic",
+  "type": "extra",
   "level": "2★",
   "rarity": "common",
   "description": "Guides completion of development work by presenting structured options for merge, PR, or cleanup, verifying tests first.",
-  "prerequisites": [],
+  "prerequisites": [
+    "code-review-pipeline",
+    "diff-content"
+  ],
   "derivatives": [
-    "superpowers"
+    "superpowers",
+    "gstack",
+    "deployment-automation"
   ],
   "conditions": "",
   "evidence": [

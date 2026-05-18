@@ -12,7 +12,9 @@
   ],
   "derivatives": [
     "full-stack-developer",
-    "security-audit"
+    "security-audit",
+    "gstack",
+    "finishing-a-development-branch"
   ],
   "conditions": "",
   "evidence": [
@@ -27,6 +29,6 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-04-28",
+  "updatedAt": "2026-05-18",
   "version": "0.2.0"
 }

@@ -9,7 +9,9 @@
     "evaluate-output",
     "plan-decompose"
   ],
-  "derivatives": [],
+  "derivatives": [
+    "gstack"
+  ],
   "conditions": "",
   "evidence": [
     {

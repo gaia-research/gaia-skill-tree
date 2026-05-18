@@ -12,7 +12,8 @@
   ],
   "derivatives": [
     "registry-curation",
-    "gaia-meta-audit"
+    "gaia-meta-audit",
+    "gstack"
   ],
   "conditions": "Requires a skill corpus, benchmark tasks, success rubrics, and variance-aware reporting across multiple runs.",
   "evidence": [

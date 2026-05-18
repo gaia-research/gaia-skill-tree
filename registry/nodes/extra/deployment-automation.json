@@ -9,7 +9,9 @@
     "workflow-automation",
     "execute-bash"
   ],
-  "derivatives": [],
+  "derivatives": [
+    "gstack"
+  ],
   "conditions": "Requires environment credentials and a configured pipeline definition.",
   "evidence": [
     {
@@ -26,6 +28,6 @@
   ],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-04-30",
+  "updatedAt": "2026-05-18",
   "version": "0.2.0"
 }

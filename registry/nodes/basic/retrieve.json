@@ -10,7 +10,8 @@
     "gaia-audit",
     "grounding",
     "rag-pipeline",
-    "wiki-search"
+    "wiki-search",
+    "memory-manage"
   ],
   "conditions": "",
   "evidence": [

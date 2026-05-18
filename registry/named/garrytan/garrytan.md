@@ -1,6 +1,6 @@
 ---
 id: garrytan/garrytan
-name: Garrytan
+name: Autoplan
 contributor: garrytan
 origin: false
 genericSkillRef: vertical-slice-planning

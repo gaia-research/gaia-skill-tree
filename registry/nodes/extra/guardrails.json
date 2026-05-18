@@ -10,7 +10,9 @@
     "classify",
     "structured-output"
   ],
-  "derivatives": [],
+  "derivatives": [
+    "gstack"
+  ],
   "conditions": "Requires a defined policy schema and an evaluation loop.",
   "evidence": [
     {
