@@ -16,7 +16,7 @@ _None._
 ## Unlocks
 - [Multi-Agent Debate](../extra/multi-agent-debate.md)
 - [ReAct Reasoning](../extra/re-act-reasoning.md)
-- [Autonomous Scientific Discovery](../ultimate/scientific-discovery.md)
+- [Autonomous Scientific Discovery](../extra/scientific-discovery.md)
 - [Tree of Thought](../extra/tree-of-thought.md)
 
 ## Evidence

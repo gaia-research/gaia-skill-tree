@@ -6,9 +6,9 @@
 | ◇ /agentic-workflow-design | Extra Skill | Workflow Automation, Plan and Decompose | 5★ → 4★ | Requires a workflow orchestration target (e.g. Airflow, Temporal) and access to its authoring API. |
 | ◇ /architecture-diagram | Extra Skill | Data Visualize, Format Output, Write Report | 4★ | Requires enough system context to identify components, relationships, boundaries, and rendering constraints. |
 | ◇ [0xdarkmatter](../docs/u/0xdarkmatter/)/pytest-patterns | Extra Skill | Generate Test, Execute Bash, Error Interpretation | 3★ |  |
-| ◆ /autonomous-data-scientist | Ultimate Skill | Data Analysis, Math Reason, Research | 5★ | Requires dataset access and compute environment. Minimum 3 Class A/B evidence sources. |
+| ◇ /autonomous-data-scientist | Extra Skill | Data Analysis, Math Reason, Research | 5★ | Requires dataset access and compute environment. Minimum 3 Class A/B evidence sources. |
 | ◇ [devin-ai](../docs/u/devin-ai/)/autonomous-swe | Extra Skill | Code Generation, Execute Bash, Error Interpretation | 4★ |  |
-| ◆ [karpathy](../docs/u/karpathy/)/autoresearch | Ultimate Skill | Research, Knowledge Harvest, Ghostwrite | 5★ | Requires extensive multi-system validation before level advancement. |
+| ◇ [karpathy](../docs/u/karpathy/)/autoresearch | Extra Skill | Research, Knowledge Harvest, Ghostwrite | 5★ | Requires extensive multi-system validation before level advancement. |
 | ◇ /autonomous-web-research | Extra Skill | Web Scrape, Web Search | 4★ | Requires a multi-step crawling engine and mapping logic to resolve site structures. |
 | ◇ [gooseworks](../docs/u/gooseworks/)/notte-browser | Extra Skill | Web Search, Computer Use | 3★ |  |
 | ◇ [santifer](../docs/u/santifer/)/career-ops | Extra Skill | Autonomous Web Research, Summarize, Document Editing | 3★ |  |
@@ -24,14 +24,14 @@
 | ◇ /document-analyst | Extra Skill | Parse JSON, Extract Entities, Summarize, Format Output | 3★ |  |
 | ◇ /document-digitization | Extra Skill | Parse PDF, Extract Entities, Format Output | 3★ |  |
 | ◇ /e2e-testing | Extra Skill | Browser Automation, Automated Testing | 3★ | Requires a live or containerised target environment; browser automation must be available. |
-| ◆ /full-stack-developer | Ultimate Skill | Code Review Pipeline, Automated Testing, Refactor Code | 5★ | Requires access to repository, execution environment, and test runner. Minimum 3 Class A/B evidence sources. |
+| ◇ /full-stack-developer | Extra Skill | Code Review Pipeline, Automated Testing, Refactor Code | 5★ | Requires access to repository, execution environment, and test runner. Minimum 3 Class A/B evidence sources. |
 | ◇ /function-calling | Extra Skill | Structured Output Generation, API Call, Tool Select | 3★ | Requires an available function or tool catalog with machine-readable argument schemas and result contracts. |
 | ◇ /gaia-audit | Extra Skill | Retrieve, Cite Sources, Evaluate Output | 2★ | Requires a specific Gaia skill ID, named skill ID, or real-skill catalog item plus access to the registry source files and current public evidence sources. |
 | ◇ /gaia-meta-audit | Extra Skill | Gaia Audit, Registry Curation, Detect Anomaly | 3★ | Requires the current registry, named-skill index, real-skill catalog, and permission to compare against current source URLs or discovery indexes. |
 | ◇ /generative-media | Extra Skill | API Call, Data Visualize | 3★ → 2★ |  |
 | ◇ /ghostwrite | Extra Skill | Research, Write Report, Audience Model | 1★ | Requires research output as input context. |
 | ◇ [mattpocock](../docs/u/mattpocock/)/grill-me | Extra Skill | Design Review, Self-Critique | 4★ | Enforces a strict questioning loop that prevents the agent from proceeding to implementation until all branches are resolved. |
-| ◆ [mattpocock](../docs/u/mattpocock/)/grill-with-docs | Ultimate Skill | Grill Me, Ubiquitous Language, Document Editing | 5★ | Requires the agent to maintain a live glossary (CONTEXT.md) and generate ADRs for all non-trivial trade-offs discovered during the grill. |
+| ◇ [mattpocock](../docs/u/mattpocock/)/grill-with-docs | Extra Skill | Grill Me, Ubiquitous Language, Document Editing | 5★ | Requires the agent to maintain a live glossary (CONTEXT.md) and generate ADRs for all non-trivial trade-offs discovered during the grill. |
 | ◇ /grounding | Extra Skill | Retrieve, Cite Sources, Evaluate Output | 3★ |  |
 | ◇ /guardrails | Extra Skill | Evaluate Output, Classify, Structured Output Generation | 3★ | Requires a defined policy schema and an evaluation loop. |
 | ◇ /humanize-prose | Extra Skill | Document Editing, Audience Model, Format Output | 4★ | Requires explicit user permission to revise voice, tone, and stylistic markers without changing factual claims. |
@@ -45,7 +45,7 @@
 | ◇ /ml-artifact-management | Extra Skill | API Call, Classify | 2★ |  |
 | ◇ /ml-pipeline | Extra Skill | Data Analysis, Automated Testing, Code Generation | 4★ | Requires access to a container orchestration environment and model registry. |
 | ◇ /multi-agent-debate | Extra Skill | Self-Critique, Evaluate Output, Chain-of-Thought Reasoning | 4★ |  |
-| ◆ [ruvnet](../docs/u/ruvnet/)/flow-nexus-swarm | Ultimate Skill | Plan and Execute, Route Intent, Tool Select | 5★ | Requires extensive multi-system validation before level advancement. |
+| ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus-swarm | Extra Skill | Plan and Execute, Route Intent, Tool Select | 5★ | Requires extensive multi-system validation before level advancement. |
 | ◇ [huggingface](../docs/u/huggingface/)/transformers-js | Extra Skill | Image Caption, Question Answer, Logical Inference | 3★ → 2★ | Requires vision-language model capability. |
 | ◇ /plan-and-execute | Extra Skill | Route Intent, Plan and Decompose, Tool Select | 4★ |  |
 | ◇ [mattpocock](../docs/u/mattpocock/)/to-prd | Extra Skill | Write Report, Plan and Decompose | 4★ |  |
@@ -54,12 +54,12 @@
 | ◇ [stanfordnlp](../docs/u/stanfordnlp/)/dspy | Extra Skill | Evaluate Output, Generate Text | 4★ |  |
 | ◇ [yonatangross](../docs/u/yonatangross/)/orchestkit-rag | Extra Skill | Retrieve, Chunk Document, Embed Text, Score Relevance, Tokenize, Rank | 3★ |  |
 | ◇ /re-act-reasoning | Extra Skill | Plan and Decompose, Tool Use | 3★ |  |
-| ◆ /real-time-voice-assistant | Ultimate Skill | Voice Agent, Memory Manage, Plan and Execute | 5★ | Requires real-time audio pipeline, <500ms end-to-end latency target, and persistent session store. Minimum 3 Class A/B evidence sources. |
-| ◆ /recursive-self-improvement | Ultimate Skill | Autonomous Debug, Evaluate Output, Plan and Execute | 1★ | Requires extensive multi-system validation before level advancement. |
+| ◇ /real-time-voice-assistant | Extra Skill | Voice Agent, Memory Manage, Plan and Execute | 5★ | Requires real-time audio pipeline, <500ms end-to-end latency target, and persistent session store. Minimum 3 Class A/B evidence sources. |
+| ◇ /recursive-self-improvement | Extra Skill | Autonomous Debug, Evaluate Output, Plan and Execute | 1★ | Requires extensive multi-system validation before level advancement. |
 | ◇ /registry-curation | Extra Skill | Research, Code Generation, Execute Bash | 4★ | Requires write access to the canonical graph and a passing validation suite. |
 | ◇ /release-automation | Extra Skill | Workflow Automation, Execute Bash, Generate Text | 2★ | Requires write access to the repository and a configured release token. |
 | ◇ /research | Extra Skill | Web Search, Summarize, Cite Sources | 3★ |  |
-| ◆ /scientific-discovery | Ultimate Skill | Hypothesis Generation, Research, Math Reason | 5★ | Requires laboratory tool access or simulation environment. Minimum 3 Class A/B evidence sources. |
+| ◇ /scientific-discovery | Extra Skill | Hypothesis Generation, Research, Math Reason | 5★ | Requires laboratory tool access or simulation environment. Minimum 3 Class A/B evidence sources. |
 | ◇ /scientific-writing | Extra Skill | Write Report, Cite Sources, Scientific Visualization | 3★ |  |
 | ◇ [garrytan](../docs/u/garrytan/)/cso | Extra Skill | Code Review Pipeline, Evaluate Output | 2★ | Requires access to the full codebase or diff; output must include severity classification and reproduction steps. |
 | ◇ /skill-authoring | Extra Skill | Generate Text, Structured Output Generation, Code Generation | 4★ | Requires a target agent skill format and a repeatable evaluation loop for trigger accuracy and task success. |

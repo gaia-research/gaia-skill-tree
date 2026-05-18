@@ -14,7 +14,7 @@ Learns a scalar reward signal from human preference comparisons between model ou
 _None._
 
 ## Unlocks
-- [Recursive Self-Improvement](../ultimate/recursive-self-improvement.md)
+- [Recursive Self-Improvement](../extra/recursive-self-improvement.md)
 - [Prompt Optimization](../extra/prompt-optimization.md)
 
 ## Evidence

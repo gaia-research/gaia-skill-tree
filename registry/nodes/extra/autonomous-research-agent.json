@@ -1,9 +1,9 @@
 {
   "id": "autonomous-research-agent",
   "name": "Autonomous Research Agent",
-  "type": "ultimate",
+  "type": "extra",
   "level": "5★",
-  "rarity": "legendary",
+  "rarity": "epic",
   "description": "Independently conducts end-to-end research cycles including hypothesis generation, evidence gathering, synthesis, and reporting.",
   "prerequisites": [
     "research",

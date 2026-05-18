@@ -14,7 +14,7 @@ Formulates novel, testable scientific hypotheses by synthesising existing litera
 _None._
 
 ## Unlocks
-- [Autonomous Scientific Discovery](../ultimate/scientific-discovery.md)
+- [Autonomous Scientific Discovery](../extra/scientific-discovery.md)
 
 ## Evidence
 | Class | Source | Evaluator | Date |
