@@ -1,43 +1,45 @@
 /* Gaia TUI — canonical DESIGN.md palette
-   Source of truth: registry/gaia.json meta.typeColors + DESIGN.md
+   Source of truth: src/gaia_cli/tui/tokens.py (which reads
+   registry/gaia.json.meta.{typeColors,levelColors}).
+   Never hardcode hex values here — reference $gaia-* tokens.
 */
 
 /* ── Base ─────────────────────────────────────────────────── */
 Screen {
-    background: #030712;
-    color: #e2e8f0;
+    background: $gaia-bg;
+    color: $gaia-text;
 }
 
 /* ── Header ───────────────────────────────────────────────── */
 #header {
     height: 3;
-    background: #0f172a;
-    border-bottom: solid #1e293b;
+    background: $gaia-surface;
+    border-bottom: solid $gaia-border;
     layout: horizontal;
     align: left middle;
     padding: 0 2;
 }
 
 #header-logo {
-    color: #fbbf24;
+    color: $gaia-apex-gold;
     text-style: bold;
     width: auto;
 }
 
 #header-user {
-    color: #38bdf8;
+    color: $gaia-tier-basic;
     width: auto;
     margin-left: 2;
 }
 
 #header-version {
-    color: #64748b;
+    color: $gaia-muted;
     width: auto;
     margin-left: 1;
 }
 
 #header-section {
-    color: #64748b;
+    color: $gaia-muted;
     width: auto;
     margin-left: 2;
 }
@@ -45,53 +47,53 @@ Screen {
 /* ── Agent input ──────────────────────────────────────────── */
 #search-container {
     height: 5;
-    background: #0f172a;
-    border-bottom: solid #1e293b;
+    background: $gaia-surface;
+    border-bottom: solid $gaia-border;
     padding: 1 2;
 }
 
 #search-label {
-    color: #64748b;
+    color: $gaia-muted;
     height: 1;
 }
 
 #search-input {
-    background: #030712;
-    border: solid #1e293b;
-    color: #e2e8f0;
+    background: $gaia-bg;
+    border: solid $gaia-border;
+    color: $gaia-text;
     height: 1;
     margin-top: 0;
 }
 
 #search-input:focus {
-    border: solid #38bdf8;
-    color: #38bdf8;
+    border: solid $gaia-tier-basic;
+    color: $gaia-tier-basic;
 }
 
 /* ── Skill list ───────────────────────────────────────────── */
 #skills-container {
-    background: #030712;
+    background: $gaia-bg;
 }
 
 ListItem {
-    background: #030712;
+    background: $gaia-bg;
     padding: 0;
 }
 
 ListItem:hover {
-    background: #0f172a;
+    background: $gaia-surface;
 }
 
 ListItem.--highlight {
-    background: #0f172a;
+    background: $gaia-surface;
 }
 
 ListView {
-    background: #030712;
+    background: $gaia-bg;
     border: none;
-    scrollbar-background: #0f172a;
-    scrollbar-color: #1e293b;
-    scrollbar-color-hover: #64748b;
+    scrollbar-background: $gaia-surface;
+    scrollbar-color: $gaia-border;
+    scrollbar-color-hover: $gaia-muted;
 }
 
 ListView:focus {
@@ -101,20 +103,20 @@ ListView:focus {
 /* ── Status bar ───────────────────────────────────────────── */
 #status-bar {
     height: 2;
-    background: #0f172a;
-    border-top: solid #1e293b;
+    background: $gaia-surface;
+    border-top: solid $gaia-border;
     layout: horizontal;
     align: left middle;
     padding: 0 2;
 }
 
 #status-counts {
-    color: #64748b;
+    color: $gaia-muted;
     width: auto;
 }
 
 #status-hints {
-    color: #1e293b;
+    color: $gaia-border;
     width: 1fr;
     text-align: right;
 }
@@ -128,31 +130,31 @@ InstallModal {
 #install-dialog {
     width: 60;
     height: auto;
-    background: #0f172a;
-    border: solid #1e293b;
+    background: $gaia-surface;
+    border: solid $gaia-border;
     padding: 2 3;
 }
 
 #install-title {
-    color: #38bdf8;
+    color: $gaia-tier-basic;
     text-style: bold;
     margin-bottom: 1;
 }
 
 #install-skill-id {
-    color: #fbbf24;
+    color: $gaia-apex-gold;
     margin-bottom: 1;
 }
 
 #install-meta {
-    color: #64748b;
+    color: $gaia-muted;
     margin-bottom: 1;
 }
 
 #install-log {
     height: 8;
-    background: #030712;
-    border: solid #1e293b;
+    background: $gaia-bg;
+    border: solid $gaia-border;
     margin-bottom: 1;
 }
 
@@ -163,27 +165,27 @@ InstallModal {
 }
 
 #btn-install {
-    background: #15803d;
-    color: #e2e8f0;
+    background: $gaia-install-action;
+    color: $gaia-text;
     border: none;
     margin-right: 1;
     min-width: 12;
 }
 
 #btn-install:hover {
-    background: #16a34a;
+    background: $gaia-install-hover;
 }
 
 #btn-cancel {
-    background: #1e293b;
-    color: #64748b;
+    background: $gaia-border;
+    color: $gaia-muted;
     border: none;
     min-width: 12;
 }
 
 #btn-cancel:hover {
-    background: #334155;
-    color: #e2e8f0;
+    background: $gaia-border-strong;
+    color: $gaia-text;
 }
 
 /* ── Tree screen ──────────────────────────────────────────── */
@@ -193,43 +195,43 @@ InstallModal {
 
 #tree-panel {
     width: 1fr;
-    background: #030712;
-    border-right: solid #1e293b;
+    background: $gaia-bg;
+    border-right: solid $gaia-border;
 }
 
 Tree {
-    background: #030712;
-    scrollbar-background: #0f172a;
-    scrollbar-color: #1e293b;
-    scrollbar-color-hover: #64748b;
+    background: $gaia-bg;
+    scrollbar-background: $gaia-surface;
+    scrollbar-color: $gaia-border;
+    scrollbar-color-hover: $gaia-muted;
     padding: 0 1;
 }
 
 Tree > .tree--guides {
-    color: #1e293b;
+    color: $gaia-border;
 }
 
 Tree > .tree--guides-hover {
-    color: #334155;
+    color: $gaia-border-strong;
 }
 
 Tree > .tree--cursor {
-    background: #0f172a;
-    color: #e2e8f0;
+    background: $gaia-surface;
+    color: $gaia-text;
 }
 
 Tree > .tree--highlight {
-    background: #0f172a;
+    background: $gaia-surface;
 }
 
 Tree > .tree--highlight-line {
-    background: #0f172a;
+    background: $gaia-surface;
 }
 
 #detail-panel {
     width: 36;
-    background: #0f172a;
-    border-left: solid #1e293b;
+    background: $gaia-surface;
+    border-left: solid $gaia-border;
     padding: 1 2;
     overflow-y: auto;
     display: block;
@@ -257,15 +259,15 @@ LevelUpModal {
 /* ── Scan screen ──────────────────────────────────────────── */
 #scan-log {
     height: 1fr;
-    background: #030712;
+    background: $gaia-bg;
     padding: 0 1;
-    scrollbar-background: #0f172a;
-    scrollbar-color: #1e293b;
+    scrollbar-background: $gaia-surface;
+    scrollbar-color: $gaia-border;
 }
 
 /* ── Hero screen ──────────────────────────────────────────── */
 HeroScreen {
-    background: #030712;
+    background: $gaia-bg;
     align: center middle;
 }
 
@@ -273,7 +275,7 @@ HeroScreen {
     width: 100%;
     height: 100%;
     align: center middle;
-    background: #030712;
+    background: $gaia-bg;
 }
 
 #hero-seal {
@@ -290,19 +292,19 @@ HeroScreen {
 }
 
 #hero-tagline {
-    color: #64748b;
+    color: $gaia-muted;
     text-align: center;
     margin-top: 0;
 }
 
 #hero-stats {
-    color: #64748b;
+    color: $gaia-muted;
     text-align: center;
     margin-top: 1;
 }
 
 #hero-hint {
-    color: #1e293b;
+    color: $gaia-border;
     text-align: center;
     margin-top: 2;
 }
@@ -310,6 +312,6 @@ HeroScreen {
 /* ── Empty state ──────────────────────────────────────────── */
 #empty-state {
     align: center middle;
-    color: #1e293b;
+    color: $gaia-border;
     height: 1fr;
 }

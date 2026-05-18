@@ -14,22 +14,21 @@ from textual.reactive import reactive
 from textual import on
 from rich.text import Text
 from rich.align import Align
-import asyncio
 
-_GLYPHS     = {"basic": "○", "extra": "◇", "unique": "◉", "ultimate": "◆"}
-# Canonical DESIGN.md tier colors
-_TIER_COLOR = {"basic": "#38bdf8", "extra": "#c084fc", "unique": "#7c3aed", "ultimate": "#f59e0b"}
+from gaia_cli.tui import tokens as T
+
 _TIER_LABEL = {"basic": "BASIC", "extra": "EXTRA", "unique": "UNIQUE", "ultimate": "ULTIMATE"}
 
-# Animation frames: glyph sequence leading to the skill's tier
-# Colors follow the rank ramp: slate → sky-blue → teal → violet → fuchsia → amber
+# Animation frames: glyph + color pair. Color sequence walks the rank ramp:
+# dormant (border) → unawakened slate → awakened sky-blue → evolved violet
+# → unique deep-violet → apex gold. Indexes map to tiers via _TIER_FRAME_IDX.
 _FRAMES = [
-    ("·", "#1e293b"),   # 0  dormant
-    ("○", "#94a3b8"),   # 1  awakened   slate
-    ("○", "#38bdf8"),   # 2  confirmed  sky-blue
-    ("◇", "#c084fc"),   # 3  extra      purple
-    ("◆", "#7c3aed"),   # 4  unique     deep violet
-    ("◉", "#fbbf24"),   # 5  ultimate   apex gold
+    ("·", T.NEUTRAL_BORDER),
+    ("○", T.RANK_UNAWAKENED),
+    ("○", T.RANK_AWAKENED),
+    ("◇", T.TIER_EXTRA),
+    ("◆", T.TIER_UNIQUE),
+    ("◉", T.BRAND_APEX_GOLD),
 ]
 
 _TIER_FRAME_IDX = {"basic": 2, "extra": 3, "unique": 4, "ultimate": 5}
@@ -79,17 +78,18 @@ class LevelUpModal(ModalScreen[None]):
     def _render_frame(self, frame_idx: int) -> None:
         card = self.query_one("#lu-card", Static)
         glyph, gcolor = _FRAMES[min(frame_idx, len(_FRAMES) - 1)]
-        tier_color = _TIER_COLOR.get(self.tier, "#8b949e")
+        tier_color = T.TIER_BY_KEY.get(self.tier, T.NEUTRAL_TEXT_MUTED)
         banner = _BANNERS.get(self.tier, " SKILL UNLOCKED ")
         sid = self.skill_id
 
         lines: list[tuple[str, str]] = []
+        gutter = T.NEUTRAL_BORDER
 
         # Top border
         width = max(len(sid) + 8, len(banner) + 4, 36)
         border_h = "═" * (width - 2)
         lines.append((f"╔{border_h}╗", tier_color))
-        lines.append((f"║{'':^{width-2}}║", "#30363d"))
+        lines.append((f"║{'':^{width-2}}║", gutter))
 
         # Banner
         padded_banner = banner.center(width - 2)
@@ -97,18 +97,18 @@ class LevelUpModal(ModalScreen[None]):
 
         # Glyph animation (big)
         big_glyph = f"  {glyph}  "
-        lines.append((f"║{'':^{width-2}}║", "#30363d"))
+        lines.append((f"║{'':^{width-2}}║", gutter))
         lines.append((f"║{big_glyph:^{width-2}}║", gcolor))
-        lines.append((f"║{'':^{width-2}}║", "#30363d"))
+        lines.append((f"║{'':^{width-2}}║", gutter))
 
         # Skill ID
         sid_line = f"  {sid}  "
-        lines.append((f"║{sid_line:^{width-2}}║", "#e6edf3"))
+        lines.append((f"║{sid_line:^{width-2}}║", T.NEUTRAL_TEXT))
 
         # Level
         if self.level:
             lv_line = f"  {self.level}  "
-            lines.append((f"║{lv_line:^{width-2}}║", "#8b949e"))
+            lines.append((f"║{lv_line:^{width-2}}║", T.NEUTRAL_TEXT_MUTED))
 
         # Progress dots
         progress = ""
@@ -116,15 +116,15 @@ class LevelUpModal(ModalScreen[None]):
             g, _ = _FRAMES[i]
             progress += g + " "
         progress_line = progress.strip().center(width - 2)
-        lines.append((f"║{'':^{width-2}}║", "#30363d"))
+        lines.append((f"║{'':^{width-2}}║", gutter))
         lines.append((f"║{progress_line}║", tier_color))
 
         # Hint
         hint = " [press any key] "
         if frame_idx < self._target_frame:
             hint = ""
-        lines.append((f"║{'':^{width-2}}║", "#30363d"))
-        lines.append((f"║{hint:^{width-2}}║", "#484f58"))
+        lines.append((f"║{'':^{width-2}}║", gutter))
+        lines.append((f"║{hint:^{width-2}}║", T.NEUTRAL_TEXT_DIM))
 
         # Bottom border
         lines.append((f"╚{border_h}╝", tier_color))

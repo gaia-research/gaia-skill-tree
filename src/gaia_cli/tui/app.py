@@ -6,6 +6,7 @@ import os
 
 from textual.app import App, ComposeResult
 
+from gaia_cli.tui import tokens
 from gaia_cli.tui.screens.hero import HeroScreen
 
 
@@ -47,6 +48,9 @@ class GaiaApp(App):
 
     CSS_PATH = os.path.join(os.path.dirname(__file__), "theme.tcss")
     TITLE = "Gaia"
+
+    def get_css_variables(self) -> dict[str, str]:
+        return {**super().get_css_variables(), **tokens.textual_variables()}
 
     def on_mount(self) -> None:
         registry_path, username, version = _load_meta()

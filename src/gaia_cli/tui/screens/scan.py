@@ -15,9 +15,7 @@ from textual.reactive import reactive
 from textual import work
 from rich.text import Text
 
-_GLYPHS     = {"basic": "○", "extra": "◇", "unique": "◉", "ultimate": "◆"}
-# Canonical DESIGN.md tier colors
-_TIER_COLOR = {"basic": "#38bdf8", "extra": "#c084fc", "unique": "#7c3aed", "ultimate": "#f59e0b"}
+from gaia_cli.tui import tokens as T
 
 # Patterns from gaia scan output
 _MATCH_RE    = re.compile(r"◇|◉|○|◆\s+(/?\S+)")
@@ -72,7 +70,7 @@ class ScanScreen(Screen):
         self.app.call_from_thread(status.update, "Scanning…")
         self.app.call_from_thread(
             log.write,
-            Text("  Scanning repository…\n", style="#8b949e"),
+            Text("  Scanning repository…\n", style=T.NEUTRAL_TEXT_MUTED),
         )
 
         matched = 0
@@ -91,7 +89,6 @@ class ScanScreen(Screen):
                 styled = self._style_line(line)
                 self.app.call_from_thread(log.write, styled)
 
-                # Count matches
                 if _SKILL_RE.search(line):
                     matched += 1
                 if _UNLOCK_RE.search(line):
@@ -105,13 +102,15 @@ class ScanScreen(Screen):
             proc.wait()
             self.app.call_from_thread(
                 log.write,
-                Text("\n  ✓ Scan complete\n", style="#3fb950"),
+                Text("\n  ✓ Scan complete\n", style=T.STATE_SCAN_COMPLETE),
             )
         except Exception as exc:
             self.app.call_from_thread(
                 log.write,
-                Text(f"\n  ✗ Scan error: {exc}\n", style="#f85149"),
+                Text(f"\n  ✗ Scan error: {exc}\n", style=T.STATE_INSTALL_ERROR),
             )
+
+    _GLYPH_TO_TIER = {"○": "basic", "◇": "extra", "◉": "unique", "◆": "ultimate"}
 
     def _style_line(self, line: str) -> Text:
         """Apply tier colors to scan output lines."""
@@ -119,7 +118,7 @@ class ScanScreen(Screen):
 
         # Skill unlock banner
         if _UNLOCK_RE.search(line):
-            t.append("  " + line + "\n", style="#f59e0b bold")
+            t.append("  " + line + "\n", style=f"{T.TIER_ULTIMATE} bold")
             return t
 
         # Matched skill lines (◇ /skill-id etc)
@@ -127,33 +126,28 @@ class ScanScreen(Screen):
         if m:
             glyph = m.group(1)
             sid = m.group(2)
-            glyph_color = {
-                "○": "#38bdf8",
-                "◇": "#c084fc",
-                "◉": "#7c3aed",
-                "◆": "#f59e0b",
-            }.get(glyph, "#38bdf8")
-            # Render with colored glyph
+            tier_key = self._GLYPH_TO_TIER.get(glyph, "basic")
+            glyph_color = T.TIER_BY_KEY.get(tier_key, T.TIER_BASIC)
             pre = line[:m.start()]
             post = line[m.end():]
-            t.append("  " + pre, style="#64748b")
+            t.append("  " + pre, style=T.NEUTRAL_TEXT_MUTED)
             t.append(glyph + " ", style=glyph_color)
-            t.append(sid, style="#e2e8f0")
-            t.append(post + "\n", style="#94a3b8")
+            t.append(sid, style=T.NEUTRAL_TEXT)
+            t.append(post + "\n", style=T.RANK_UNAWAKENED)
             return t
 
         # Fusion lines
         if "──▶" in line or "─┤" in line or "─┘" in line:
-            t.append("  " + line + "\n", style="#c084fc")
+            t.append("  " + line + "\n", style=T.TIER_EXTRA)
             return t
 
         # Status / count lines
         if line.startswith("⚡") or "reachable" in line or "saved" in line:
-            t.append("  " + line + "\n", style="#22c55e")
+            t.append("  " + line + "\n", style=T.STATE_SCAN_COMPLETE)
             return t
 
         # Default dim
-        t.append("  " + line + "\n", style="#484f58")
+        t.append("  " + line + "\n", style=T.NEUTRAL_TEXT_DIM)
         return t
 
     def action_goto_agent(self) -> None:

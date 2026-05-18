@@ -18,31 +18,8 @@ from textual.widgets import Tree, Static, Label, Rule
 from textual.widgets.tree import TreeNode
 from textual.reactive import reactive
 from rich.text import Text
-from rich.panel import Panel
-from rich.columns import Columns
 
-
-# ── Glyph / color helpers (mirrors agent.py) ─────────────────────────────────
-
-_GLYPHS = {"basic": "○", "extra": "◇", "unique": "◉", "ultimate": "◆"}
-# Canonical DESIGN.md tier colors
-_TIER_COLORS = {
-    "basic":    "#38bdf8",
-    "extra":    "#c084fc",
-    "unique":   "#7c3aed",
-    "ultimate": "#f59e0b",
-}
-# Canonical DESIGN.md rank ramp
-_LEVEL_COLORS = {
-    "0★": "#94a3b8",  # Unawakened  slate
-    "1★": "#38bdf8",  # Awakened    sky-blue
-    "2★": "#63cab7",  # Named       teal
-    "3★": "#a78bfa",  # Evolved     violet
-    "4★": "#e879f9",  # Hardened    fuchsia
-    "5★": "#fbbf24",  # Transcend.  amber
-    "6★": "#fbbf24",  # Transcend ★ amber
-}
-_HONOR_RED = "#ef4444"   # contributor handles
+from gaia_cli.tui import tokens as T
 
 
 def _load_graph(registry_path: str) -> dict:
@@ -95,28 +72,29 @@ def _build_tree_data(
 
 def _node_label(skill: dict, owned_ids: set, detected_ids: set) -> Text:
     tid = skill.get("type", "basic")
-    glyph = _GLYPHS.get(tid, "○")
-    color = _TIER_COLORS.get(tid, "#8b949e")
+    glyph = T.GLYPH_BY_TIER.get(tid, "○")
+    color = T.TIER_BY_KEY.get(tid, T.NEUTRAL_TEXT_MUTED)
     sid = skill.get("id", "?")
     level = skill.get("level", "")
     owned = sid in owned_ids
     detected = sid in detected_ids
 
+    name_color = T.NEUTRAL_TEXT if (owned or detected) else T.NEUTRAL_TEXT_MUTED
+
     t = Text()
     t.append(glyph + " ", style=color)
     if "/" in sid:
         contrib, name = sid.split("/", 1)
-        t.append(contrib + "/", style=_HONOR_RED)
-        t.append(name, style="#e2e8f0" if (owned or detected) else "#64748b")
+        t.append(contrib + "/", style=T.BRAND_HONOR_RED)
+        t.append(name, style=name_color)
     else:
-        t.append(sid, style="#e2e8f0" if (owned or detected) else "#64748b")
+        t.append(sid, style=name_color)
     if level:
-        lc = _LEVEL_COLORS.get(level, "#334155")
-        t.append(f"  {level}", style=lc)
+        t.append(f"  {level}", style=T.RANK_BY_STAR.get(level, T.NEUTRAL_BORDER_STRONG))
     if owned:
-        t.append("  ✓", style="#22c55e")
+        t.append("  ✓", style=T.STATE_OWNED)
     elif detected:
-        t.append("  ◎", style="#38bdf8")
+        t.append("  ◎", style=T.STATE_DETECTED)
     return t
 
 
@@ -136,18 +114,18 @@ class SkillDetail(Static):
 
     def _build_content(self, sid: str) -> Text | str:
         if not sid:
-            return Text("Select a skill to see details", style="#484f58")
+            return Text("Select a skill to see details", style=T.NEUTRAL_TEXT_DIM)
 
         skills = self._tree_data.get("skills", {})
         skill = skills.get(sid)
         if not skill:
-            return Text(sid, style="#8b949e")
+            return Text(sid, style=T.NEUTRAL_TEXT_MUTED)
 
         tid = skill.get("type", "basic")
-        glyph = _GLYPHS.get(tid, "○")
-        color = _TIER_COLORS.get(tid, "#8b949e")
+        glyph = T.GLYPH_BY_TIER.get(tid, "○")
+        color = T.TIER_BY_KEY.get(tid, T.NEUTRAL_TEXT_MUTED)
         level = skill.get("level", "")
-        level_color = _LEVEL_COLORS.get(level, "#484f58")
+        level_color = T.RANK_BY_STAR.get(level, T.NEUTRAL_TEXT_DIM)
         desc = skill.get("description", "")
         name = skill.get("name", sid)
 
@@ -160,7 +138,7 @@ class SkillDetail(Static):
         t = Text()
         t.append(f"{glyph} ", style=color)
         t.append(f"{sid}\n", style=f"bold {color}")
-        t.append(f"{name}\n", style="#8b949e")
+        t.append(f"{name}\n", style=T.NEUTRAL_TEXT_MUTED)
         t.append("\n")
 
         # Tier + level
@@ -173,40 +151,40 @@ class SkillDetail(Static):
 
         # Status
         if owned:
-            t.append("✓ Owned\n", style="#22c55e")
+            t.append("✓ Owned\n", style=T.STATE_OWNED)
         elif detected:
-            t.append("◎ Detected\n", style="#38bdf8")
+            t.append("◎ Detected\n", style=T.STATE_DETECTED)
         else:
-            t.append("○ Not acquired\n", style="#334155")
+            t.append("○ Not acquired\n", style=T.NEUTRAL_BORDER_STRONG)
         t.append("\n")
 
         # Description
         if desc:
-            t.append(desc + "\n", style="#c9d1d9")
+            t.append(desc + "\n", style=T.NEUTRAL_TEXT)
             t.append("\n")
 
         # Prerequisites (parents)
         if parents:
-            t.append("Requires:\n", style="#8b949e")
+            t.append("Requires:\n", style=T.NEUTRAL_TEXT_MUTED)
             for p in parents[:6]:
                 p_skill = skills.get(p, {})
                 p_tid = p_skill.get("type", "basic")
-                p_color = _TIER_COLORS.get(p_tid, "#8b949e")
-                t.append(f"  {_GLYPHS.get(p_tid, '○')} {p}\n", style=p_color)
+                p_color = T.TIER_BY_KEY.get(p_tid, T.NEUTRAL_TEXT_MUTED)
+                t.append(f"  {T.GLYPH_BY_TIER.get(p_tid, '○')} {p}\n", style=p_color)
             if len(parents) > 6:
-                t.append(f"  … +{len(parents) - 6} more\n", style="#484f58")
+                t.append(f"  … +{len(parents) - 6} more\n", style=T.NEUTRAL_TEXT_DIM)
             t.append("\n")
 
         # Unlocks (children)
         if children:
-            t.append("Unlocks:\n", style="#8b949e")
+            t.append("Unlocks:\n", style=T.NEUTRAL_TEXT_MUTED)
             for c in children[:6]:
                 c_skill = skills.get(c, {})
                 c_tid = c_skill.get("type", "basic")
-                c_color = _TIER_COLORS.get(c_tid, "#8b949e")
-                t.append(f"  {_GLYPHS.get(c_tid, '○')} {c}\n", style=c_color)
+                c_color = T.TIER_BY_KEY.get(c_tid, T.NEUTRAL_TEXT_MUTED)
+                t.append(f"  {T.GLYPH_BY_TIER.get(c_tid, '○')} {c}\n", style=c_color)
             if len(children) > 6:
-                t.append(f"  … +{len(children) - 6} more\n", style="#484f58")
+                t.append(f"  … +{len(children) - 6} more\n", style=T.NEUTRAL_TEXT_DIM)
 
         return t
 
@@ -284,10 +262,10 @@ class SkillTreeScreen(Screen):
             tier_roots.setdefault(tier, []).append(sid)
 
         tier_labels = {
-            "ultimate": ("◆ ULTIMATES", "#e3b341"),
-            "unique":   ("◉ UNIQUES",  "#d2a8ff"),
-            "extra":    ("◇ EXTRAS",   "#79c0ff"),
-            "basic":    ("○ BASICS",   "#8b949e"),
+            "ultimate": ("◆ ULTIMATES", T.TIER_ULTIMATE),
+            "unique":   ("◉ UNIQUES",   T.TIER_UNIQUE),
+            "extra":    ("◇ EXTRAS",    T.TIER_EXTRA),
+            "basic":    ("○ BASICS",    T.TIER_BASIC),
         }
 
         visited: set[str] = set()

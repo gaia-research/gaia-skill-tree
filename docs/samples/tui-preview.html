@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Gaia TUI — Token Preview</title>
+  <style>
+    :root {
+      --tui-bg: #030712;
+      --tui-surface: #0f172a;
+      --tui-border: #1e293b;
+      --tui-text: #e2e8f0;
+      --tui-muted: #64748b;
+    }
+    body {
+      background: var(--tui-bg);
+      color: var(--tui-text);
+      font-family: ui-monospace, 'JetBrains Mono', 'Departure Mono', monospace;
+      padding: 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    h1, h2 { color: #fbbf24; font-weight: 600; }
+    h1 small { color: var(--tui-muted); font-size: 0.6em; margin-left: 1em; }
+    .screen {
+      background: var(--tui-bg);
+      border: 1px solid var(--tui-border);
+      border-radius: 4px;
+      padding: 1.25rem;
+      margin-bottom: 2rem;
+    }
+    .screen pre {
+      margin: 0;
+      font-family: inherit;
+      font-size: 13px;
+      line-height: 1.5;
+      white-space: pre;
+      overflow-x: auto;
+    }
+    .meta { color: var(--tui-muted); font-size: 0.85em; margin-bottom: 0.6rem; }
+    table.tokens {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+    }
+    table.tokens th, table.tokens td {
+      text-align: left;
+      padding: 6px 12px;
+      border-bottom: 1px solid var(--tui-border);
+      font-size: 0.9em;
+    }
+    table.tokens th {
+      background: var(--tui-surface);
+      color: var(--tui-muted);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-size: 0.75em;
+    }
+    table.tokens tbody th {
+      background: transparent;
+      color: #fbbf24;
+      padding-top: 1rem;
+      text-transform: none;
+      font-size: 0.9em;
+      letter-spacing: 0;
+    }
+    table.tokens td code { color: var(--tui-text); }
+    .swatch {
+      display: inline-block;
+      width: 1.4em;
+      height: 1.4em;
+      vertical-align: middle;
+      border: 1px solid var(--tui-border);
+      border-radius: 3px;
+    }
+    .audit {
+      list-style: none;
+      padding: 0;
+      margin: 1em 0;
+    }
+    .audit li {
+      padding: 4px 0;
+      color: #22c55e;
+    }
+    .audit li::before {
+      content: '✓ ';
+      margin-right: 0.5em;
+    }
+  </style>
+</head>
+<body>
+  <h1>Gaia TUI — Token Preview <small>generated from src/gaia_cli/tui/tokens.py</small></h1>
+  <p class="meta">
+    Every color below is the canonical resolved value from
+    <code>tokens.py</code>, which loads tier and rank colors from
+    <code>registry/gaia.json.meta</code>. If you change the registry,
+    re-run <code>python scripts/render_tui_preview.py</code> to
+    regenerate this page.
+  </p>
+
+  <h2>Tokens</h2>
+  <table class='tokens'><thead><tr><th>swatch</th><th>name</th><th>hex</th><th>role</th></tr></thead><tbody><tr><th colspan=4>Neutrals</th></tr><tr><td><span class='swatch' style='background:#030712'></span></td><td><code>NEUTRAL_BG</code></td><td><code>#030712</code></td><td>Page background</td></tr><tr><td><span class='swatch' style='background:#0f172a'></span></td><td><code>NEUTRAL_SURFACE</code></td><td><code>#0f172a</code></td><td>Panel / card surface</td></tr><tr><td><span class='swatch' style='background:#1e293b'></span></td><td><code>NEUTRAL_BORDER</code></td><td><code>#1e293b</code></td><td>Dividers, borders</td></tr><tr><td><span class='swatch' style='background:#334155'></span></td><td><code>NEUTRAL_BORDER_STRONG</code></td><td><code>#334155</code></td><td>Hover / focus border</td></tr><tr><td><span class='swatch' style='background:#e2e8f0'></span></td><td><code>NEUTRAL_TEXT</code></td><td><code>#e2e8f0</code></td><td>Primary text</td></tr><tr><td><span class='swatch' style='background:#64748b'></span></td><td><code>NEUTRAL_TEXT_MUTED</code></td><td><code>#64748b</code></td><td>Secondary copy</td></tr><tr><td><span class='swatch' style='background:#475569'></span></td><td><code>NEUTRAL_TEXT_DIM</code></td><td><code>#475569</code></td><td>Tertiary / hint copy</td></tr></tbody><tbody><tr><th colspan=4>Tiers</th></tr><tr><td><span class='swatch' style='background:#38bdf8'></span></td><td><code>TIER_BASIC</code></td><td><code>#38bdf8</code></td><td>○ Basic Skill</td></tr><tr><td><span class='swatch' style='background:#c084fc'></span></td><td><code>TIER_EXTRA</code></td><td><code>#c084fc</code></td><td>◇ Extra Skill</td></tr><tr><td><span class='swatch' style='background:#7c3aed'></span></td><td><code>TIER_UNIQUE</code></td><td><code>#7c3aed</code></td><td>◉ Unique Skill</td></tr><tr><td><span class='swatch' style='background:#f59e0b'></span></td><td><code>TIER_ULTIMATE</code></td><td><code>#f59e0b</code></td><td>◆ Ultimate Skill</td></tr></tbody><tbody><tr><th colspan=4>Rank ramp (0★ → 6★)</th></tr><tr><td><span class='swatch' style='background:#94a3b8'></span></td><td><code>RANK_UNAWAKENED</code></td><td><code>#94a3b8</code></td><td>0★ Unawakened — slate</td></tr><tr><td><span class='swatch' style='background:#38bdf8'></span></td><td><code>RANK_AWAKENED</code></td><td><code>#38bdf8</code></td><td>1★ Awakened — sky blue</td></tr><tr><td><span class='swatch' style='background:#63cab7'></span></td><td><code>RANK_NAMED</code></td><td><code>#63cab7</code></td><td>2★ Named — teal</td></tr><tr><td><span class='swatch' style='background:#a78bfa'></span></td><td><code>RANK_EVOLVED</code></td><td><code>#a78bfa</code></td><td>3★ Evolved — violet</td></tr><tr><td><span class='swatch' style='background:#e879f9'></span></td><td><code>RANK_HARDENED</code></td><td><code>#e879f9</code></td><td>4★ Hardened — fuchsia</td></tr><tr><td><span class='swatch' style='background:#fbbf24'></span></td><td><code>RANK_TRANSCENDENT</code></td><td><code>#fbbf24</code></td><td>5★ Transcendent — amber</td></tr><tr><td><span class='swatch' style='background:#fbbf24'></span></td><td><code>RANK_TRANSCENDENT_APEX</code></td><td><code>#fbbf24</code></td><td>6★ Transcendent ★ — amber (bright)</td></tr></tbody><tbody><tr><th colspan=4>Brand (restricted)</th></tr><tr><td><span class='swatch' style='background:#ef4444'></span></td><td><code>BRAND_HONOR_RED</code></td><td><code>#ef4444</code></td><td>Contributor handles only</td></tr><tr><td><span class='swatch' style='background:#fbbf24'></span></td><td><code>BRAND_APEX_GOLD</code></td><td><code>#fbbf24</code></td><td>6★ / Ultimate / Diamond Seal only</td></tr></tbody><tbody><tr><th colspan=4>Functional states</th></tr><tr><td><span class='swatch' style='background:#22c55e'></span></td><td><code>STATE_OWNED</code></td><td><code>#22c55e</code></td><td>✓ owned-skill check</td></tr><tr><td><span class='swatch' style='background:#38bdf8'></span></td><td><code>STATE_DETECTED</code></td><td><code>#38bdf8</code></td><td>◎ detected (sky blue)</td></tr><tr><td><span class='swatch' style='background:#15803d'></span></td><td><code>STATE_INSTALL_ACTION</code></td><td><code>#15803d</code></td><td>Install button background</td></tr><tr><td><span class='swatch' style='background:#16a34a'></span></td><td><code>STATE_INSTALL_ACTION_HOVER</code></td><td><code>#16a34a</code></td><td>Install button hover</td></tr><tr><td><span class='swatch' style='background:#f85149'></span></td><td><code>STATE_INSTALL_ERROR</code></td><td><code>#f85149</code></td><td>Install error</td></tr><tr><td><span class='swatch' style='background:#22c55e'></span></td><td><code>STATE_SCAN_COMPLETE</code></td><td><code>#22c55e</code></td><td>Scan completion message</td></tr></tbody></table>
+
+  <h2>HeroScreen</h2>
+  <p class="meta">Diamond Seal + GAIA letters + registry stats. Live screen
+  cycles seal color through <code>CYCLE_ULTIMATE</code>; this capture is
+  frozen on the Ultimate stop.</p>
+  <div class="screen"><span style="color: #f59e0b; text-decoration-color: #f59e0b">          ╱╲</span>
+<span style="color: #f59e0b; text-decoration-color: #f59e0b">        ╱    ╲</span>
+<span style="color: #f59e0b; text-decoration-color: #f59e0b">      ╱        ╲</span>
+<span style="color: #f59e0b; text-decoration-color: #f59e0b">    ╱     </span><span style="color: #fbbf24; text-decoration-color: #fbbf24; font-weight: bold">G</span><span style="color: #f59e0b; text-decoration-color: #f59e0b">      ╲</span>
+<span style="color: #f59e0b; text-decoration-color: #f59e0b">      ╲        ╱</span>
+<span style="color: #f59e0b; text-decoration-color: #f59e0b">        ╲    ╱</span>
+<span style="color: #f59e0b; text-decoration-color: #f59e0b">          ╲╱</span>
+
+
+<span style="color: #94a3b8; text-decoration-color: #94a3b8; font-weight: bold">G</span> <span style="color: #e879f9; text-decoration-color: #e879f9; font-weight: bold">A</span> <span style="color: #63cab7; text-decoration-color: #63cab7; font-weight: bold">I</span> <span style="color: #94a3b8; text-decoration-color: #94a3b8; font-weight: bold">A</span>
+
+<span style="color: #38bdf8; text-decoration-color: #38bdf8">○ 78 basic</span><span style="color: #64748b; text-decoration-color: #64748b">  ·  </span><span style="color: #c084fc; text-decoration-color: #c084fc">◇ 81 extra</span><span style="color: #64748b; text-decoration-color: #64748b">  ·  </span><span style="color: #f59e0b; text-decoration-color: #f59e0b">◆ 2 ultimate</span><span style="color: #64748b; text-decoration-color: #64748b">  </span>
+<span style="color: #64748b; text-decoration-color: #64748b">·  </span><span style="color: #fbbf24; text-decoration-color: #fbbf24">✦ 119 named</span>
+</div>
+
+  <h2>AgentScreen — skill list</h2>
+  <p class="meta">Contributor handles (before <code>/</code>) render in
+  <code>BRAND_HONOR_RED</code>. Owned skills get a green ✓.</p>
+  <div class="screen"><span style="color: #38bdf8; text-decoration-color: #38bdf8">○ </span><span style="color: #e2e8f0; text-decoration-color: #e2e8f0">web-scrape</span><span style="color: #334155; text-decoration-color: #334155">  1★</span><span style="color: #22c55e; text-decoration-color: #22c55e">  ✓</span>
+<span style="color: #38bdf8; text-decoration-color: #38bdf8">○ </span><span style="color: #e2e8f0; text-decoration-color: #e2e8f0">parse-json</span><span style="color: #334155; text-decoration-color: #334155">  0★</span>
+<span style="color: #c084fc; text-decoration-color: #c084fc">◇ </span><span style="color: #e2e8f0; text-decoration-color: #e2e8f0">api-proxy</span><span style="color: #334155; text-decoration-color: #334155">  2★</span>
+<span style="color: #c084fc; text-decoration-color: #c084fc">◇ </span><span style="color: #ef4444; text-decoration-color: #ef4444">elena/</span><span style="color: #e2e8f0; text-decoration-color: #e2e8f0">payment-orchestrator</span><span style="color: #334155; text-decoration-color: #334155">  3★</span><span style="color: #22c55e; text-decoration-color: #22c55e">  ✓</span>
+<span style="color: #f59e0b; text-decoration-color: #f59e0b">◆ </span><span style="color: #ef4444; text-decoration-color: #ef4444">noor/</span><span style="color: #e2e8f0; text-decoration-color: #e2e8f0">multi-agent-debate</span><span style="color: #334155; text-decoration-color: #334155">  6★</span>
+<span style="color: #7c3aed; text-decoration-color: #7c3aed">◉ </span><span style="color: #ef4444; text-decoration-color: #ef4444">karpathy/</span><span style="color: #e2e8f0; text-decoration-color: #e2e8f0">llm-training-loop</span><span style="color: #334155; text-decoration-color: #334155">  4★</span><span style="color: #22c55e; text-decoration-color: #22c55e">  ✓</span>
+</div>
+
+  <h2>SkillTreeScreen — tier groups</h2>
+  <p class="meta">Tier headers use the canonical tier color directly —
+  the off-palette GitHub Primer colors from the first pass are gone.</p>
+  <div class="screen"><span style="color: #f59e0b; text-decoration-color: #f59e0b; font-weight: bold">◆ ULTIMATES</span>
+<span style="color: #f59e0b; text-decoration-color: #f59e0b; font-weight: bold">  ◆ multi-agent-debate</span>
+<span style="color: #7c3aed; text-decoration-color: #7c3aed; font-weight: bold">◉ UNIQUES</span>
+<span style="color: #7c3aed; text-decoration-color: #7c3aed; font-weight: bold">  ◉ retrieval-augmented</span>
+<span style="color: #c084fc; text-decoration-color: #c084fc; font-weight: bold">◇ EXTRAS</span>
+<span style="color: #c084fc; text-decoration-color: #c084fc; font-weight: bold">  ◇ api-proxy</span>
+<span style="color: #38bdf8; text-decoration-color: #38bdf8; font-weight: bold">○ BASICS</span>
+<span style="color: #38bdf8; text-decoration-color: #38bdf8; font-weight: bold">  ○ parse-json</span>
+</div>
+
+  <h2>LevelUpModal — Ultimate unlock</h2>
+  <p class="meta">Apex-gold glyph appears only at the Ultimate frame.
+  Banner and border carry the tier color.</p>
+  <div class="screen"><span style="color: #f59e0b; text-decoration-color: #f59e0b">╔══════════════════════════════════╗</span>
+<span style="color: #1e293b; text-decoration-color: #1e293b">║                                  ║</span>
+<span style="color: #f59e0b; text-decoration-color: #f59e0b">║        ★ ★  ULTIMATE  ★ ★        ║</span>
+<span style="color: #1e293b; text-decoration-color: #1e293b">║                                  ║</span>
+<span style="color: #fbbf24; text-decoration-color: #fbbf24">║                ◉                 ║</span>
+<span style="color: #1e293b; text-decoration-color: #1e293b">║                                  ║</span>
+<span style="color: #e2e8f0; text-decoration-color: #e2e8f0">║     noor/multi-agent-debate      ║</span>
+<span style="color: #64748b; text-decoration-color: #64748b">║                6★                ║</span>
+<span style="color: #1e293b; text-decoration-color: #1e293b">║                                  ║</span>
+<span style="color: #f59e0b; text-decoration-color: #f59e0b">║           · ○ ○ ◇ ◆ ◉            ║</span>
+<span style="color: #1e293b; text-decoration-color: #1e293b">║                                  ║</span>
+<span style="color: #475569; text-decoration-color: #475569">║         [press any key]          ║</span>
+<span style="color: #f59e0b; text-decoration-color: #f59e0b">╚══════════════════════════════════╝</span>
+</div>
+
+  <h2>ScanScreen — live output</h2>
+  <p class="meta">Each line classified by regex; tier glyph maps to
+  <code>TIER_BY_KEY</code>; unlock banners are Ultimate-gold.</p>
+  <div class="screen"><span style="color: #64748b; text-decoration-color: #64748b">  Scanning repository…</span>
+
+<span style="color: #22c55e; text-decoration-color: #22c55e">  ⚡ 14 skills reachable</span>
+
+<span style="color: #c084fc; text-decoration-color: #c084fc">  ◇  api-proxy</span>
+<span style="color: #38bdf8; text-decoration-color: #38bdf8">  ○  parse-json</span>
+<span style="color: #7c3aed; text-decoration-color: #7c3aed">  ◉  elena/payment-orchestrator</span>
+<span style="color: #c084fc; text-decoration-color: #c084fc">  ──▶  fusion: web-scrape + parse-json</span>
+<span style="color: #f59e0b; text-decoration-color: #f59e0b">   SKILL UNLOCKED </span>
+
+<span style="color: #22c55e; text-decoration-color: #22c55e">  ✓ Scan complete</span>
+</div>
+
+  <h2>Lint audit</h2>
+  <ul class="audit">
+    <li>No bare hex literals outside <code>tokens.py</code></li>
+    <li>Apex Gold appears only in: Diamond Seal G, Ultimate banner,
+        ✦ named count, 6★ rank</li>
+    <li>Honor Red appears only in contributor handles before <code>/</code></li>
+    <li>Off-palette literals
+        (<code>#30363d</code>, <code>#e3b341</code>, <code>#79c0ff</code>,
+         <code>#d2a8ff</code>, <code>#e6edf3</code>, <code>#3fb950</code>,
+         <code>#8b949e</code>, <code>#484f58</code>)
+        replaced with canonical tokens</li>
+  </ul>
+</body>
+</html>

@@ -19,6 +19,8 @@ from textual.message import Message
 from textual import on, work
 from rich.text import Text
 
+from gaia_cli.tui import tokens as T
+
 
 # ── Data helpers ──────────────────────────────────────────────────────────────
 
@@ -96,39 +98,27 @@ def _filter_skills(query: str, skills: list[dict]) -> list[dict]:
     return [s for s in skills if _fuzzy_match(query, s)]
 
 
-# ── Glyph / color helpers ─────────────────────────────────────────────────────
-
-_GLYPHS = {"basic": "○", "extra": "◇", "unique": "◉", "ultimate": "◆"}
-# Canonical DESIGN.md tier colors
-_TIER_COLORS = {
-    "basic":    "#38bdf8",
-    "extra":    "#c084fc",
-    "unique":   "#7c3aed",
-    "ultimate": "#f59e0b",
-}
-_HONOR_RED  = "#ef4444"   # contributor handle color (DESIGN.md)
-_APEX_GOLD  = "#fbbf24"   # 6★/Ultimate affordances
-
+# ── Skill row rendering ───────────────────────────────────────────────────────
 
 def _skill_label(skill: dict) -> Text:
     tier = skill.get("type", "basic")
-    glyph = _GLYPHS.get(tier, "○")
+    glyph = T.GLYPH_BY_TIER.get(tier, "○")
     sid = skill["id"]
     level = skill.get("level", "")
     installed = skill.get("installed", False)
 
     t = Text()
-    t.append(glyph + " ", style=_TIER_COLORS.get(tier, "#64748b"))
+    t.append(glyph + " ", style=T.TIER_BY_KEY.get(tier, T.NEUTRAL_TEXT_MUTED))
     if "/" in sid:
         contrib, name = sid.split("/", 1)
-        t.append(contrib + "/", style=_HONOR_RED)   # honor-red for contributor
-        t.append(name, style="#e2e8f0")
+        t.append(contrib + "/", style=T.BRAND_HONOR_RED)
+        t.append(name, style=T.NEUTRAL_TEXT)
     else:
-        t.append(sid, style="#e2e8f0")
+        t.append(sid, style=T.NEUTRAL_TEXT)
     if level:
-        t.append(f"  {level}", style="#334155")
+        t.append(f"  {level}", style=T.NEUTRAL_BORDER_STRONG)
     if installed:
-        t.append("  ✓", style="#22c55e")
+        t.append("  ✓", style=T.STATE_OWNED)
     return t
 
 
@@ -150,8 +140,8 @@ class InstallModal(ModalScreen):
 
     def compose(self) -> ComposeResult:
         tier = self.skill.get("type", "basic")
-        tier_color = _TIER_COLORS.get(tier, "#64748b")
-        glyph = _GLYPHS.get(tier, "○")
+        tier_color = T.TIER_BY_KEY.get(tier, T.NEUTRAL_TEXT_MUTED)
+        glyph = T.GLYPH_BY_TIER.get(tier, "○")
 
         with Static(id="install-dialog"):
             yield Static("Install skill", id="install-title")

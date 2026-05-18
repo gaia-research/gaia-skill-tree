@@ -1,14 +1,10 @@
 """HeroScreen — animated splash screen on startup.
 
 Renders the Diamond Seal mark in ASCII, animates the glyph and title
-through the official DESIGN.md color cycles, then auto-transitions
-to AgentScreen. Any keypress skips immediately.
+through the DESIGN.md color cycles, then auto-transitions to
+AgentScreen. Any keypress skips immediately.
 
-Color system — exact DESIGN.md values:
-  Ultimate cycle (6-stop):  #38bdf8 → #a78bfa → #f59e0b → #ef4444 → #c084fc → #34d399
-  Rank ramp:  slate → sky-blue → teal → violet → fuchsia → amber
-  Apex gold:  #fbbf24  (seal, GAIA title)
-  Honor red:  #ef4444  (contributor names)
+All colors come from `gaia_cli.tui.tokens` — never hardcoded.
 """
 
 from __future__ import annotations
@@ -20,46 +16,8 @@ from textual.widgets import Static
 from textual.reactive import reactive
 from rich.text import Text
 from rich.align import Align
-from rich.console import Console
-from rich.segment import Segment
 
-
-# ── Design-system colors (DESIGN.md canonical) ───────────────────────────────
-
-APEX_GOLD   = "#fbbf24"
-HONOR_RED   = "#ef4444"
-BG          = "#030712"
-MUTED       = "#64748b"
-TEXT        = "#e2e8f0"
-BORDER      = "#1e293b"
-
-# Ultimate 6-stop cycle
-ULT_CYCLE = [
-    "#38bdf8",  # 0%   blue
-    "#a78bfa",  # 18%  purple/violet
-    "#f59e0b",  # 36%  gold
-    "#ef4444",  # 54%  red
-    "#c084fc",  # 72%  purple
-    "#34d399",  # 90%  green
-]
-
-# Rank ramp (0★ → 5★)
-RANK_RAMP = [
-    "#94a3b8",  # 0★  Unawakened  slate
-    "#38bdf8",  # 1★  Awakened    sky-blue
-    "#63cab7",  # 2★  Named       teal
-    "#a78bfa",  # 3★  Evolved     violet
-    "#e879f9",  # 4★  Hardened    fuchsia
-    "#fbbf24",  # 5★  Transcend.  amber
-]
-
-# Tier accent colors
-TIER_COLORS = {
-    "basic":    "#38bdf8",
-    "extra":    "#c084fc",
-    "unique":   "#7c3aed",
-    "ultimate": "#f59e0b",
-}
+from gaia_cli.tui import tokens as T
 
 
 # ── Diamond Seal ASCII art ────────────────────────────────────────────────────
@@ -86,10 +44,9 @@ def _seal_text(color: str) -> Text:
     t = Text()
     for i, line in enumerate(_SEAL_LINES):
         if i == _G_LINE:
-            # Split at G
             g_idx = line.index("G")
             t.append(line[:g_idx], style=color)
-            t.append("G", style=f"bold {APEX_GOLD}")
+            t.append("G", style=f"bold {T.BRAND_APEX_GOLD}")
             t.append(line[g_idx + 1:], style=color)
         else:
             t.append(line, style=color)
@@ -101,13 +58,13 @@ def _title_text(frame: int) -> Text:
     """G·A·I·A letters, each in a staggered rank-ramp color."""
     t = Text()
     letters = list("G A I A")
+    ramp = T.RAMP_RANK[:6]  # exclude duplicate apex slot
     for i, ch in enumerate(letters):
         if ch == " ":
             t.append(" ")
             continue
-        # Each letter offset by frame + index*2, wraps through rank ramp
-        idx = (frame + i * 2) % len(RANK_RAMP)
-        t.append(ch, style=f"bold {RANK_RAMP[idx]}")
+        idx = (frame + i * 2) % len(ramp)
+        t.append(ch, style=f"bold {ramp[idx]}")
     return t
 
 
@@ -177,23 +134,22 @@ class HeroScreen(Screen):
         self._stats = _load_stats(self.registry_path)
         self._update_stats()
         self._render_frame()
-        # 12 fps animation
         self.set_interval(1 / 12, self._tick)
-        # Auto-advance after 3 seconds
         self.set_timer(3.0, self._advance)
 
     def _tick(self) -> None:
-        self._frame = (self._frame + 1) % (len(ULT_CYCLE) * 8)
+        self._frame = (self._frame + 1) % (len(T.CYCLE_ULTIMATE) * 8)
         self._render_frame()
 
     def _render_frame(self) -> None:
         frame = self._frame
 
-        # Seal color cycles through ULT_CYCLE, 8 frames per stop
-        stop_idx = (frame // 8) % len(ULT_CYCLE)
-        next_idx = (stop_idx + 1) % len(ULT_CYCLE)
+        # Seal color cycles through CYCLE_ULTIMATE, 8 frames per stop
+        cycle = T.CYCLE_ULTIMATE
+        stop_idx = (frame // 8) % len(cycle)
+        next_idx = (stop_idx + 1) % len(cycle)
         t_blend  = (frame % 8) / 8.0
-        seal_color = _lerp_hex(ULT_CYCLE[stop_idx], ULT_CYCLE[next_idx], t_blend)
+        seal_color = _lerp_hex(cycle[stop_idx], cycle[next_idx], t_blend)
 
         self.query_one("#hero-seal", Static).update(
             Align.center(_seal_text(seal_color))
@@ -215,13 +171,13 @@ class HeroScreen(Screen):
             self.query_one("#hero-stats", Static).update("")
             return
         t = Text()
-        t.append(f"○ {s['basic']} basic", style=TIER_COLORS["basic"])
-        t.append("  ·  ", style=MUTED)
-        t.append(f"◇ {s['extra']} extra", style=TIER_COLORS["extra"])
-        t.append("  ·  ", style=MUTED)
-        t.append(f"◆ {s['ultimate']} ultimate", style=TIER_COLORS["ultimate"])
-        t.append("  ·  ", style=MUTED)
-        t.append(f"✦ {s['named']} named", style=APEX_GOLD)
+        t.append(f"○ {s['basic']} basic", style=T.TIER_BASIC)
+        t.append("  ·  ", style=T.NEUTRAL_TEXT_MUTED)
+        t.append(f"◇ {s['extra']} extra", style=T.TIER_EXTRA)
+        t.append("  ·  ", style=T.NEUTRAL_TEXT_MUTED)
+        t.append(f"◆ {s['ultimate']} ultimate", style=T.TIER_ULTIMATE)
+        t.append("  ·  ", style=T.NEUTRAL_TEXT_MUTED)
+        t.append(f"✦ {s['named']} named", style=T.BRAND_APEX_GOLD)
         self.query_one("#hero-stats", Static).update(Align.center(t))
 
     def on_key(self, event) -> None:
