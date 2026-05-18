@@ -12,6 +12,7 @@ from gaia_cli.install import (
     find_named_skill_source,
     install_skill,
     load_manifest,
+    resolve_named_skill_reference,
     save_manifest,
     uninstall_skill,
     list_installed,
@@ -127,6 +128,25 @@ class TestInstallFlow:
         assert entry["id"] == "testuser/my-skill"
         assert len(entry["sha256"]) == 64
         assert "testuser/my-skill.md" in entry["sourceRef"]
+
+    def test_install_accepts_leading_slash_named_skill_id(self, tmp_path, monkeypatch):
+        """install_skill normalizes slash-prefixed named skill IDs."""
+        monkeypatch.chdir(tmp_path)
+
+        skill_dir = tmp_path / "registry" / "named" / "testuser"
+        skill_dir.mkdir(parents=True)
+        (skill_dir / "my-skill.md").write_text(
+            "---\nid: testuser/my-skill\n---\nContent here."
+        )
+
+        resolved = resolve_named_skill_reference("/testuser/my-skill", str(tmp_path))
+        assert resolved is not None
+        assert resolved[0] == "testuser/my-skill"
+
+        result = install_skill("/testuser/my-skill", str(tmp_path))
+        assert result is True
+        manifest = load_manifest()
+        assert manifest["installed"][0]["id"] == "testuser/my-skill"
 
     def test_install_missing_skill_returns_false(self, tmp_path, monkeypatch):
         """install_skill returns False when the skill is not in the registry."""
