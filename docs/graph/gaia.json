@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/skill.schema.json",
-  "version": "3.11.17",
-  "generatedAt": "2026-05-18T09:09:14.613831Z",
+  "version": "3.11.19",
+  "generatedAt": "2026-05-18T13:20:52.650942Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -1744,34 +1744,6 @@
       "status": "provisional",
       "createdAt": "2026-05-03",
       "updatedAt": "2026-05-03",
-      "version": "0.1.0"
-    },
-    {
-      "id": "gaia-triage",
-      "name": "Gaia Triage",
-      "type": "extra",
-      "level": "2★",
-      "rarity": "uncommon",
-      "description": "Triage and audit GitHub issues for the Gaia Skill Tree project. Helps identify stale issues, gather evidence from the codebase, and manage issue lifecycle via GitHub CLI.",
-      "prerequisites": [
-        "issue-triage",
-        "retrieve"
-      ],
-      "derivatives": [],
-      "conditions": "Requires access to the mbtiongson1/gaia-skill-tree repository and GitHub CLI (gh) for execution.",
-      "evidence": [
-        {
-          "class": "C",
-          "source": "https://github.com/mbtiongson1/gaia-skill-tree",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-10",
-          "notes": "Project-specific triage workflow implementation for Gaia issue pruning."
-        }
-      ],
-      "knownAgents": [],
-      "status": "provisional",
-      "createdAt": "2026-05-10",
-      "updatedAt": "2026-05-10",
       "version": "0.1.0"
     },
     {
@@ -5635,11 +5607,6 @@
     },
     {
       "sourceSkillId": "issue-triage",
-      "targetSkillId": "gaia-triage",
-      "edgeType": "prerequisite"
-    },
-    {
-      "sourceSkillId": "issue-triage",
       "targetSkillId": "project-management",
       "edgeType": "prerequisite"
     },
@@ -5851,11 +5818,6 @@
     {
       "sourceSkillId": "retrieve",
       "targetSkillId": "gaia-audit",
-      "edgeType": "prerequisite"
-    },
-    {
-      "sourceSkillId": "retrieve",
-      "targetSkillId": "gaia-triage",
       "edgeType": "prerequisite"
     },
     {

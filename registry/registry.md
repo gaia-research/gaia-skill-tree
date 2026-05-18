@@ -50,7 +50,6 @@
 | ◇ /function-calling | Extra Skill | 3★ | Evolved | `/function-calling` |
 | ◇ /gaia-audit | Extra Skill | 2★ | Named | `/gaia-audit` |
 | ◇ /gaia-meta-audit | Extra Skill | 3★ | Evolved | `/gaia-meta-audit` |
-| ◇ /gaia-triage | Extra Skill | 2★ | Named | `/gaia-triage` |
 | ○ /generate-sql | Basic Skill | 2★ | Named | `/generate-sql` |
 | ○ [upsonic](../docs/u/upsonic/)/unittest-generator | Basic Skill | 2★ | Named | `/generate-test` |
 | ○ /generate-text | Basic Skill | 0★ | Basic | `/generate-text` |
