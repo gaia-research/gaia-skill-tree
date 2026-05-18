@@ -144,7 +144,7 @@
 | ○ [glincker](../docs/u/glincker/)/readme-generator | Basic Skill | 1★ | Awakened | `/write-report` |
 | ◇ /x-twitter-automation | Extra Skill | 4★ | Hardened | `/x-twitter-automation` |
 
-## Unique Skills
+## Uniques
 
 *Singular mastery skills — graph-isolated, 4★+ with named implementations. Promoted via `/gaia promote --unique`.*
 

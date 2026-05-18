@@ -20,9 +20,9 @@
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — gaiabot  ·  generated 2026-05-17
+GAIA SKILL TREE — gaiabot  ·  generated 2026-05-18
 ══════════════════════════════════════════════════════════════════════
-✓ = owned   · = unowned   ◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = star rank · [N★ · Pure] = 0★ rank pill · (↑ see above) = shared prerequisite
+✓ = owned   · = unowned   ◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = stars · [0★ · Pure] = Unawakened rank pill · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
 ══════════════════════════════════════════════════════════════════════
 
@@ -115,7 +115,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
      └─ ✓ ○ /tool-select  [1★]
 
 ══════════════════════════════════════════════════════════════════════
-Unique Skills — standalone tier-IV+ skills with no prerequisites and no descendants.
+Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
 ══════════════════════════════════════════════════════════════════════
 
   · ◉ nousresearch/feed-monitoring  [4★ · Hardened]
