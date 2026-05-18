@@ -1197,7 +1197,7 @@
       skillPanel.addEventListener('mousedown', e => e.stopPropagation());
 
       const collectionPanel = document.createElement('div');
-      collectionPanel.className = 'graph-collection-panel';
+      collectionPanel.className = 'graph-collection-panel minimized';
       collectionPanel.style.display = 'none';
       // Collection panel chrome — uses sprite icons for copy / clear so
       // it inherits the same icon vocabulary as the rest of the site.
@@ -1216,8 +1216,8 @@
         `<button class="graph-collection-clear-all" title="Clear collection" aria-label="Clear collection">` +
         `<svg class="gst-btn-ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#trash"/></svg>` +
         `</button>` +
-        `<button class="graph-collection-minimize" title="Minimize panel" aria-label="Minimize panel">` +
-        `<svg class="gst-btn-ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="8" x2="13" y2="8" /></svg>` +
+        `<button class="graph-collection-minimize" title="Maximize panel" aria-label="Maximize panel">` +
+        `<svg class="gst-btn-ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="3" x2="8" y2="13" /><line x1="3" y1="8" x2="13" y2="8" /></svg>` +
         `</button>` +
         `</div></div>` +
         `<div class="graph-collection-list"></div>` +
@@ -1265,11 +1265,19 @@
         });
       });
 
+      renderCollection();
+
       function renderCollection() {
         const list = collectionPanel.querySelector('.graph-collection-list');
         if (state.collection.length === 0) {
-          collectionPanel.style.display = 'none';
-          list.innerHTML = '';
+          list.innerHTML =
+            `<div class="graph-collection-empty" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem 1rem; text-align: center; gap: 0.5rem; opacity: 0.85;">` +
+            `<div style="font-size: 1.25rem; line-height: 1; color: var(--muted); opacity: 0.65; margin-bottom: 0.2rem;">✦</div>` +
+            `<div style="font-size: 0.62rem; color: var(--muted); line-height: 1.4;">` +
+            `Your collection is empty.<br>Add skills by clicking the <strong style="color: var(--tier-basic); font-weight: bold;">+</strong> button inside any skill's floating tooltip.` +
+            `</div>` +
+            `</div>`;
+          collectionPanel.style.display = 'flex';
           return;
         }
         collectionPanel.style.display = 'flex';
@@ -2203,6 +2211,11 @@
     heroGraph.setLabelMode('all');
     heroGraph.setStatusEl(_graphStatusBar);
     heroGraph.resize();
+
+    const colPanel = hero.querySelector('.graph-collection-panel');
+    if (colPanel) {
+      colPanel.style.display = 'flex';
+    }
 
     // ── A11y: promote #hero into a modal dialog ─────────────────
     _prevFocus = document.activeElement;

@@ -3618,7 +3618,7 @@ tr:hover td {
 
   #hero.hero-graph-fullscreen .graph-hud-toggle-btn {
     display: flex !important;
-    left: .85rem !important;
+    left: 52px !important;
     bottom: calc(44px + .65rem) !important;
     padding: .3rem .55rem;
   }
@@ -3709,8 +3709,11 @@ tr:hover td {
   }
 
   #hero.hero-graph-fullscreen .graph-search-wrap {
-    top: 10% !important;
-    right: .55rem !important;
+    top: auto !important;
+    bottom: calc(44px + 3.2rem) !important;
+    left: 52px !important;
+    right: auto !important;
+    z-index: 100;
   }
 
   #hero.hero-graph-fullscreen .graph-search {
@@ -3802,6 +3805,10 @@ tr:hover td {
 
   #hero.hero-graph-fullscreen .graph-redpill {
     bottom: calc(76px + .65rem) !important;
+  }
+
+  #hero.hero-graph-fullscreen .graph-search-wrap {
+    bottom: calc(76px + 3.2rem) !important;
   }
 
   #hero.hero-graph-fullscreen .graph-scatter-strip {
