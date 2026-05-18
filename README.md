@@ -26,19 +26,19 @@ GAIA SKILL TREE
   │  ├─ ○ /summarize  [0★]
   │  └─ ○ /cite-sources  [1★]
   ├─ ◇ /knowledge-harvest  [4★]
-  │  ├─ ◇ /web-scrape  [3★] ...
+  │  ├─ ◇ firecrawl/firecrawl  [3★] ...
   │  └─ ○ /embed-text  [1★]
   └─ ◇ /ghostwrite  [4★] ...
 
 ◆ /recursive-self-improvement  [5★]
-  ├─ ◇ /autonomous-debug  [4★]
+  ├─ ◇ devin-ai/autonomous-swe  [4★]
   │  ├─ ○ /code-generation  [1★]
   │  ├─ ○ /execute-bash  [1★]
   │  └─ ○ /error-interpretation  [1★]
   ├─ ○ /evaluate-output  [1★]
   └─ ◇ /plan-and-execute  [4★] ...
 
-Full graph: registry/registry.md
+Full graph: docs/tree.md
 Personal renders: generated-output/tree.md and generated-output/tree.html
 ```
 
