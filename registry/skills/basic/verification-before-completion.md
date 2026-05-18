@@ -1,8 +1,8 @@
-# /verification-before-completion  [1★ · Awakened]
-**ID:** verification-before-completion
-**Type:** Basic Skill
-**Level:** 1★
-**Tier:** Awakened
+# [obra](../../../docs/u/obra/)/verification-before-completion  [1★ · Awakened]
+**ID:** verification-before-completion  
+**Type:** Basic Skill  
+**Level:** 1★  
+**Tier:** Awakened  
 **Skill Call:** `/verification-before-completion`
 
 ---
@@ -14,7 +14,7 @@ Requires running verification commands and confirming output before claiming wor
 _None._
 
 ## Unlocks
-_None._
+- [Superpowers](../ultimate/superpowers.md)
 
 ## Evidence
 | Class | Source | Evaluator | Date |

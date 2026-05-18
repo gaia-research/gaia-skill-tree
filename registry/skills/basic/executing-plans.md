@@ -1,8 +1,8 @@
-# /executing-plans  [2★ · Named]
-**ID:** executing-plans
-**Type:** Basic Skill
-**Level:** 2★
-**Tier:** Named
+# [obra](../../../docs/u/obra/)/executing-plans  [2★ · Named]
+**ID:** executing-plans  
+**Type:** Basic Skill  
+**Level:** 2★  
+**Tier:** Named  
 **Skill Call:** `/executing-plans`
 
 ---
@@ -14,7 +14,7 @@ Loads a written implementation plan, reviews it critically, executes all tasks s
 _None._
 
 ## Unlocks
-_None._
+- [Superpowers](../ultimate/superpowers.md)
 
 ## Evidence
 | Class | Source | Evaluator | Date |
