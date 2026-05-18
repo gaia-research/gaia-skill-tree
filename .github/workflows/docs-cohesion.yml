@@ -27,9 +27,12 @@ jobs:
       - name: Guard A — Token-only colour enforcement
         run: |
           set -euo pipefail
+          # Glob all docs/js/*.js and docs/css/*.css so new files are
+          # automatically covered (no manual file-list maintenance required).
           HITS=$(grep -REn '#(38bdf8|c084fc|f59e0b|7c3aed|fbbf24|94a3b8|63cab7|a78bfa|e879f9)' \
-               docs/js/named-skills.js docs/js/skill-explorer.js \
-               docs/js/page-ia.js docs/js/plaque.js docs/css/plaque.css \
+               docs/js/ docs/css/ \
+               --include='*.js' --include='*.css' \
+               --exclude-dir='archive' \
                | grep -v 'var(--[^,]*,' || true)
           if [ -n "$HITS" ]; then
             echo "ERROR: hardcoded tier/rank hex found. Use tokens from docs/css/tokens.css."
