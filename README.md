@@ -20,7 +20,7 @@ Every AI agent capability exists somewhere on this graph. Skills start at the fo
 GAIA SKILL TREE
 =======================================================
 
-◆ karpathy/autoresearch - Wisdom King  [6★]
+◆ karpathy/autoresearch  [6★]
   ├─ ◇ /research  [3★]
   │  ├─ ○ /web-search  [1★]
   │  ├─ ○ /summarize  [0★]
