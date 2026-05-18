@@ -1,9 +1,9 @@
 {
   "id": "full-stack-developer",
   "name": "Full-Stack Developer",
-  "type": "ultimate",
+  "type": "extra",
   "level": "5★",
-  "rarity": "legendary",
+  "rarity": "epic",
   "description": "Autonomously implements, reviews, tests, and refactors complete software features across the full development lifecycle from specification to merged PR.",
   "prerequisites": [
     "code-review-pipeline",

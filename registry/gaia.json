@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/skill.schema.json",
   "version": "3.13.1",
-  "generatedAt": "2026-05-18T14:37:21.382217Z",
+  "generatedAt": "2026-05-18T15:45:21.785668Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -293,9 +293,9 @@
     {
       "id": "autonomous-data-scientist",
       "name": "Autonomous Data Scientist",
-      "type": "ultimate",
+      "type": "extra",
       "level": "5★",
-      "rarity": "legendary",
+      "rarity": "epic",
       "description": "Conducts end-to-end data science workflows autonomously: hypothesis generation, data analysis, statistical modeling, and insight reporting.",
       "prerequisites": [
         "data-analysis",
@@ -366,9 +366,9 @@
     {
       "id": "autonomous-research-agent",
       "name": "Autonomous Research Agent",
-      "type": "ultimate",
+      "type": "extra",
       "level": "5★",
-      "rarity": "legendary",
+      "rarity": "epic",
       "description": "Independently conducts end-to-end research cycles including hypothesis generation, evidence gathering, synthesis, and reporting.",
       "prerequisites": [
         "research",
@@ -1717,9 +1717,9 @@
     {
       "id": "full-stack-developer",
       "name": "Full-Stack Developer",
-      "type": "ultimate",
+      "type": "extra",
       "level": "5★",
-      "rarity": "legendary",
+      "rarity": "epic",
       "description": "Autonomously implements, reviews, tests, and refactors complete software features across the full development lifecycle from specification to merged PR.",
       "prerequisites": [
         "code-review-pipeline",
@@ -2025,9 +2025,9 @@
     {
       "id": "grill-with-docs",
       "name": "Grill With Docs",
-      "type": "ultimate",
+      "type": "extra",
       "level": "5★",
-      "rarity": "legendary",
+      "rarity": "epic",
       "description": "The apex of agentic design alignment. Fuses relentless Socratic questioning with deep domain awareness, ensuring every decision is cross-referenced against a persistent ubiquitous language and documented via real-time ADR generation.",
       "prerequisites": [
         "grill-me",
@@ -2764,9 +2764,9 @@
     {
       "id": "multi-agent-orchestration-v",
       "name": "Multi-Agent Orchestration",
-      "type": "ultimate",
+      "type": "extra",
       "level": "5★",
-      "rarity": "legendary",
+      "rarity": "epic",
       "description": "Coordinates multiple specialized agents across complex workflows with dynamic task allocation and conflict resolution.",
       "prerequisites": [
         "plan-and-execute",
@@ -3373,9 +3373,9 @@
     {
       "id": "real-time-voice-assistant",
       "name": "Real-Time Voice Assistant",
-      "type": "ultimate",
+      "type": "extra",
       "level": "5★",
-      "rarity": "legendary",
+      "rarity": "epic",
       "description": "Provides low-latency spoken interactions combining real-time speech I/O, persistent memory, and goal-directed task execution across multi-session conversations.",
       "prerequisites": [
         "voice-agent",
@@ -3444,9 +3444,9 @@
     {
       "id": "recursive-self-improvement",
       "name": "Recursive Self-Improvement",
-      "type": "ultimate",
+      "type": "extra",
       "level": "1★",
-      "rarity": "legendary",
+      "rarity": "epic",
       "description": "Agent iteratively refines its own prompts, tools, or strategies based on performance feedback loops.",
       "prerequisites": [
         "autonomous-debug",
@@ -3787,9 +3787,9 @@
     {
       "id": "scientific-discovery",
       "name": "Autonomous Scientific Discovery",
-      "type": "ultimate",
+      "type": "extra",
       "level": "5★",
-      "rarity": "legendary",
+      "rarity": "epic",
       "description": "Autonomously generates novel scientific hypotheses, designs and executes experiments, analyses results, and produces a written report â€” completing a full research cycle without human intervention.",
       "prerequisites": [
         "hypothesis-generate",
