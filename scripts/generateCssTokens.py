@@ -104,7 +104,7 @@ def _emit_tier_block(name: str, color: dict, symbol: str | None) -> list[str]:
     border = f"rgba({rgb_triplet}, {DEFAULT_BORDER_ALPHA})"
     edge = f"rgba({rgb_triplet}, {DEFAULT_EDGE_ALPHA})"
     lines = [
-        f"  --tier-{name}: {hex_val};",
+        f"  --tier-{name}: {hex_val}; /* var(--tier-{name}, {hex_val}) */",
         f"  --tier-{name}-rgb: {rgb_triplet};",
         f"  --tier-{name}-bg: {bg};",
         f"  --tier-{name}-border: {border};",
@@ -128,7 +128,7 @@ def _emit_rank_block(star: int, color: dict) -> list[str]:
     border = color.get("border") or f"rgba({rgb_triplet}, {DEFAULT_BORDER_ALPHA})"
     edge = f"rgba({rgb_triplet}, {DEFAULT_EDGE_ALPHA})"
     return [
-        f"  --rank-{star}: {hex_val};",
+        f"  --rank-{star}: {hex_val}; /* var(--rank-{star}, {hex_val}) */",
         f"  --rank-{star}-bg: {bg};",
         f"  --rank-{star}-border: {border};",
         f"  --rank-{star}-edge: {edge};",

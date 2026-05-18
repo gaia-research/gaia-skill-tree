@@ -29,12 +29,10 @@ jobs:
           set -euo pipefail
           # Glob all docs/js/*.js and docs/css/*.css so new files are
           # automatically covered (no manual file-list maintenance required).
-          # tokens.css (token definitions) and styles.css (legacy hexes) are excluded.
           HITS=$(grep -REn '#(38bdf8|c084fc|f59e0b|7c3aed|fbbf24|94a3b8|63cab7|a78bfa|e879f9)' \
                docs/js/ docs/css/ \
                --include='*.js' --include='*.css' \
                --exclude-dir='archive' \
-               --exclude='tokens.css' --exclude='styles.css' \
                | grep -v 'var(--[^,]*,' || true)
           if [ -n "$HITS" ]; then
             echo "ERROR: hardcoded tier/rank hex found. Use tokens from docs/css/tokens.css."
