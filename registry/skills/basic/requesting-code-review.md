@@ -1,8 +1,8 @@
-# /requesting-code-review  [3★ · Evolved]
-**ID:** requesting-code-review
-**Type:** Basic Skill
-**Level:** 3★
-**Tier:** Evolved
+# [obra](../../../docs/u/obra/)/requesting-code-review  [3★ · Evolved]
+**ID:** requesting-code-review  
+**Type:** Basic Skill  
+**Level:** 3★  
+**Tier:** Evolved  
 **Skill Call:** `/requesting-code-review`
 
 ---
@@ -14,7 +14,7 @@ Dispatches a code reviewer subagent to catch issues before they cascade, providi
 _None._
 
 ## Unlocks
-_None._
+- [Superpowers](../ultimate/superpowers.md)
 
 ## Evidence
 | Class | Source | Evaluator | Date |

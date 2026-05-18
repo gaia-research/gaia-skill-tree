@@ -1153,6 +1153,291 @@
         "role": "origin"
       }
     ],
+    "brainstorming": [
+      {
+        "id": "obra/brainstorming",
+        "name": "Brainstorming",
+        "contributor": "obra",
+        "origin": true,
+        "genericSkillRef": "brainstorming",
+        "status": "named",
+        "level": "2★",
+        "description": "Explores user intent, requirements, and design before implementation. Turns ideas into fully formed designs and specs through natural collaborative dialogue.",
+        "title": "The Collaborative Blueprint",
+        "tags": [
+          "brainstorming",
+          "requirements",
+          "design",
+          "collaboration",
+          "pre-implementation"
+        ],
+        "links": {
+          "github": "https://github.com/obra/superpowers/blob/main/skills/brainstorming/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "origin"
+      }
+    ],
+    "dispatching-parallel-agents": [
+      {
+        "id": "obra/dispatching-parallel-agents",
+        "name": "Dispatching Parallel Agents",
+        "contributor": "obra",
+        "origin": true,
+        "genericSkillRef": "dispatching-parallel-agents",
+        "status": "named",
+        "level": "4★",
+        "description": "Delegates independent tasks to specialized agents with isolated context to work concurrently, dramatically reducing wall-clock time on multi-part problems.",
+        "title": "The Parallel Dispatch",
+        "tags": [
+          "parallel-agents",
+          "concurrency",
+          "delegation",
+          "multi-agent",
+          "subagent"
+        ],
+        "links": {
+          "github": "https://github.com/obra/superpowers/blob/main/skills/dispatching-parallel-agents/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "origin"
+      }
+    ],
+    "executing-plans": [
+      {
+        "id": "obra/executing-plans",
+        "name": "Executing Plans",
+        "contributor": "obra",
+        "origin": true,
+        "genericSkillRef": "executing-plans",
+        "status": "named",
+        "level": "2★",
+        "description": "Loads a written implementation plan, reviews it critically, executes all tasks sequentially, and reports when complete — without improvising beyond the plan's scope.",
+        "title": "The Faithful Executor",
+        "tags": [
+          "plan-execution",
+          "sequential-tasks",
+          "implementation",
+          "plan-driven"
+        ],
+        "links": {
+          "github": "https://github.com/obra/superpowers/blob/main/skills/executing-plans/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "origin"
+      }
+    ],
+    "finishing-a-development-branch": [
+      {
+        "id": "obra/finishing-a-development-branch",
+        "name": "Finishing a Development Branch",
+        "contributor": "obra",
+        "origin": true,
+        "genericSkillRef": "finishing-a-development-branch",
+        "status": "named",
+        "level": "2★",
+        "description": "Guides completion of development work by verifying tests first, then presenting structured options for merge, PR creation, or cleanup — never declaring done without a passing build.",
+        "title": "The Clean Landing",
+        "tags": [
+          "branch-management",
+          "pull-request",
+          "merge",
+          "testing",
+          "completion"
+        ],
+        "links": {
+          "github": "https://github.com/obra/superpowers/blob/main/skills/finishing-a-development-branch/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "origin"
+      }
+    ],
+    "receiving-code-review": [
+      {
+        "id": "obra/receiving-code-review",
+        "name": "Receiving Code Review",
+        "contributor": "obra",
+        "origin": true,
+        "genericSkillRef": "receiving-code-review",
+        "status": "named",
+        "level": "2★",
+        "description": "Processes code review feedback with technical rigor and verification before implementation — questioning unclear feedback and confirming fixes with tests rather than blindly applying suggestions.",
+        "title": "The Rigorous Revision",
+        "tags": [
+          "code-review",
+          "feedback",
+          "verification",
+          "quality",
+          "collaboration"
+        ],
+        "links": {
+          "github": "https://github.com/obra/superpowers/blob/main/skills/receiving-code-review/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "origin"
+      }
+    ],
+    "requesting-code-review": [
+      {
+        "id": "obra/requesting-code-review",
+        "name": "Requesting Code Review",
+        "contributor": "obra",
+        "origin": true,
+        "genericSkillRef": "requesting-code-review",
+        "status": "named",
+        "level": "3★",
+        "description": "Dispatches a code reviewer subagent with isolated context to catch issues before they cascade — producing a structured review report that guides targeted fixes.",
+        "title": "The Preemptive Review",
+        "tags": [
+          "code-review",
+          "subagent",
+          "quality-gate",
+          "pre-merge",
+          "isolated-context"
+        ],
+        "links": {
+          "github": "https://github.com/obra/superpowers/blob/main/skills/requesting-code-review/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "origin"
+      }
+    ],
+    "subagent-driven-development": [
+      {
+        "id": "obra/subagent-driven-development",
+        "name": "Subagent-Driven Development",
+        "contributor": "obra",
+        "origin": true,
+        "genericSkillRef": "subagent-driven-development",
+        "status": "named",
+        "level": "4★",
+        "description": "Executes plans by dispatching a fresh subagent per task with a two-stage review (spec compliance then code quality), keeping the orchestrator context clean throughout.",
+        "title": "The Swarm Architect",
+        "tags": [
+          "subagent",
+          "orchestration",
+          "plan-execution",
+          "two-stage-review",
+          "multi-agent"
+        ],
+        "links": {
+          "github": "https://github.com/obra/superpowers/blob/main/skills/subagent-driven-development/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "origin"
+      }
+    ],
+    "systematic-debugging": [
+      {
+        "id": "obra/systematic-debugging",
+        "name": "Systematic Debugging",
+        "contributor": "obra",
+        "origin": true,
+        "genericSkillRef": "systematic-debugging",
+        "status": "named",
+        "level": "3★",
+        "description": "Finds the root cause before attempting any fix — building a minimal reproduction, forming ranked hypotheses, and instrumenting to confirm before writing a single corrective line.",
+        "title": "The Root Cause Hunter",
+        "tags": [
+          "debugging",
+          "root-cause",
+          "hypothesis-driven",
+          "instrumentation",
+          "reproduction"
+        ],
+        "links": {
+          "github": "https://github.com/obra/superpowers/blob/main/skills/systematic-debugging/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "origin"
+      }
+    ],
+    "using-git-worktrees": [
+      {
+        "id": "obra/using-git-worktrees",
+        "name": "Using Git Worktrees",
+        "contributor": "obra",
+        "origin": true,
+        "genericSkillRef": "using-git-worktrees",
+        "status": "named",
+        "level": "2★",
+        "description": "Ensures every piece of feature work begins in an isolated workspace — creating a native git worktree when available, falling back to tool-provided isolation otherwise.",
+        "title": "The Isolated Workspace",
+        "tags": [
+          "git-worktrees",
+          "isolation",
+          "workspace",
+          "branching",
+          "safety"
+        ],
+        "links": {
+          "github": "https://github.com/obra/superpowers/blob/main/skills/using-git-worktrees/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "origin"
+      }
+    ],
+    "verification-before-completion": [
+      {
+        "id": "obra/verification-before-completion",
+        "name": "Verification Before Completion",
+        "contributor": "obra",
+        "origin": true,
+        "genericSkillRef": "verification-before-completion",
+        "status": "named",
+        "level": "2★",
+        "description": "Requires running verification commands and confirming their output before claiming any work is complete, fixed, or passing — no claim without evidence.",
+        "title": "The Completion Gate",
+        "tags": [
+          "verification",
+          "completion",
+          "testing",
+          "quality-gate",
+          "discipline"
+        ],
+        "links": {
+          "github": "https://github.com/obra/superpowers/blob/main/skills/verification-before-completion/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "origin"
+      }
+    ],
+    "writing-plans": [
+      {
+        "id": "obra/writing-plans",
+        "name": "Writing Plans",
+        "contributor": "obra",
+        "origin": true,
+        "genericSkillRef": "writing-plans",
+        "status": "named",
+        "level": "2★",
+        "description": "Writes comprehensive implementation plans that break multi-step tasks into bite-sized, independently executable sub-tasks before any code is touched.",
+        "title": "The Blueprint Writer",
+        "tags": [
+          "planning",
+          "decomposition",
+          "implementation-plan",
+          "pre-coding",
+          "task-breakdown"
+        ],
+        "links": {
+          "github": "https://github.com/obra/superpowers/blob/main/skills/writing-plans/SKILL.md"
+        },
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-05-18",
+        "role": "origin"
+      }
+    ],
     "few-shot-learning": [
       {
         "id": "openai/few-shot-learning",
@@ -1698,6 +1983,19 @@
     ],
     "nousresearch": [
       "nousresearch/feed-monitoring"
+    ],
+    "obra": [
+      "obra/brainstorming",
+      "obra/dispatching-parallel-agents",
+      "obra/executing-plans",
+      "obra/finishing-a-development-branch",
+      "obra/receiving-code-review",
+      "obra/requesting-code-review",
+      "obra/subagent-driven-development",
+      "obra/systematic-debugging",
+      "obra/using-git-worktrees",
+      "obra/verification-before-completion",
+      "obra/writing-plans"
     ],
     "openai": [
       "openai/few-shot-learning",

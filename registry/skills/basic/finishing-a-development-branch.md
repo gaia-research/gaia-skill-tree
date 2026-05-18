@@ -1,8 +1,8 @@
-# /finishing-a-development-branch  [2★ · Named]
-**ID:** finishing-a-development-branch
-**Type:** Basic Skill
-**Level:** 2★
-**Tier:** Named
+# [obra](../../../docs/u/obra/)/finishing-a-development-branch  [2★ · Named]
+**ID:** finishing-a-development-branch  
+**Type:** Basic Skill  
+**Level:** 2★  
+**Tier:** Named  
 **Skill Call:** `/finishing-a-development-branch`
 
 ---
@@ -14,7 +14,7 @@ Guides completion of development work by presenting structured options for merge
 _None._
 
 ## Unlocks
-_None._
+- [Superpowers](../ultimate/superpowers.md)
 
 ## Evidence
 | Class | Source | Evaluator | Date |
