@@ -27,6 +27,11 @@ build/
 
 # Claude Code agent worktrees (ephemeral isolated checkouts)
 .claude/worktrees/
+# Claude runtime lock files (machine-local PIDs — never commit)
+.claude/scheduled_tasks.lock
+
+# Impeccable live-edit session state (ephemeral DOM snapshots)
+.impeccable/live/sessions/
 
 # Plugin local cache
 .gaia/
