@@ -62,7 +62,7 @@ Skills rank up through evidence, not declaration. Each demerit demotes the skill
 ## Install
 
 <!-- gaia:version-start -->
-Current Gaia CLI version: `3.11.19`.
+Current Gaia CLI version: `3.11.20`.
 
 Python install:
 
@@ -269,6 +269,7 @@ Thank you to everyone who has expanded the Gaia registry.
 | [@kriptoburak](https://github.com/kriptoburak) | Named skill: `kriptoburak/x-twitter-automation` |
 | [@balukosuri](https://github.com/balukosuri) | Evidence: community reproduction of Karpathy's autoresearch as a universal skill |
 | @gemini-cli | Curation: added generative-media, mathematical-animation, and other generic skills from Hermes ecosystem |
+| [@obra](https://github.com/obra) | Named skills: 11 skills from the superpowers ecosystem |
 
 ---
 
