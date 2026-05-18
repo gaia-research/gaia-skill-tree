@@ -88,6 +88,14 @@ If wiki updates are required:
 2. Update, commit, and push from that directory.
 3. **Do not** delete the wiki folder; preserve it for subsequent updates.
 
+## gstack
+
+gstack is installed at `~/.claude/skills/gstack`. Use the `/browse` skill from gstack for **all web browsing**. Never use `mcp__claude-in-chrome__*` tools.
+
+Available gstack skills:
+
+`/office-hours`, `/plan-ceo-review`, `/plan-eng-review`, `/plan-design-review`, `/design-consultation`, `/design-shotgun`, `/design-html`, `/review`, `/ship`, `/land-and-deploy`, `/canary`, `/benchmark`, `/browse`, `/connect-chrome`, `/qa`, `/qa-only`, `/design-review`, `/setup-browser-cookies`, `/setup-deploy`, `/setup-gbrain`, `/retro`, `/investigate`, `/document-release`, `/document-generate`, `/codex`, `/cso`, `/autoplan`, `/plan-devex-review`, `/devex-review`, `/careful`, `/freeze`, `/guard`, `/unfreeze`, `/gstack-upgrade`, `/learn`
+
 ## Agent-Managed Files (Hermes Ownership)
 
 The following files are managed by an autonomous agent (Hermes) and should **not** be modified, staged, or deleted:
