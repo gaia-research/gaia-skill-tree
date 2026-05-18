@@ -11,7 +11,7 @@ This document serves as a lightweight, clean, and structured context sheet for A
 ### Core Tiers & Concepts
 *   **○ Basic Skills:** Primitive, indivisible capabilities (e.g., `/web-search`, `/parse-html`).
 *   **◇ Extra Skills:** Emerges from fusing or combining 2+ basic skills (e.g., `/web-scrape`, `/research`).
-*   **◆ Ultimate Skills:** High-complexity emergent capabilities (e.g., `/autoresearch`, `/recursive-self-improvement`).
+*   **◆ Ultimate Skills:** High-complexity emergent capabilities; requires fusing 5+ named skill prerequisites (from `registry/named/`), with ≥1 origin contribution from the proposer. The most prestigious tier — a monument to a contributor's named body of work.
 *   **◉ Unique Skills:** Basic skills that have reached elite rank (4★+), are graph-isolated (no prerequisites, no derivatives), and carry a distinct identity.
 
 ### Codebase Layout
@@ -74,13 +74,19 @@ Capabilities advance through evidence, not declaration. Ranks range from `0★` 
 ### Evidence Tiers
 *   **2★ (Named):** Requires $\ge 1$ Tier C evidence (basic demonstration).
 *   **3★ (Evolved):** Requires $\ge 1$ Tier B evidence (integration in real workflow).
-*   **4★+ (Hardened/Transcendent):** Requires $\ge 1$ Tier B/A evidence.
-*   **6★ (Transcendent ★ / Apex):** Tier A evidence + peer review.
+*   **4★+ (Hardened/Transcendent):** Requires $\ge 1$ Tier B/A evidence. **Alternative path**: 3+ skill fuses with ≥1 origin named skill.
+*   **6★ (Transcendent ★ / Apex):** Tier A evidence + peer review. **Grandmaster path**: hold 2+ 5★ Ultimate skills AND ≥10k GitHub stars on your repo.
 
 ### Unique Promotion Policy
 A Basic skill may be promoted to `type: "unique"` if:
 1.  It has reached elite rank — `4★` or above.
 2.  It is completely **graph-isolated** (has 0 prerequisites and 0 derivatives referenced by other nodes).
+
+### Ultimate Promotion Criteria
+A skill may be registered as `type: "ultimate"` if the proposer satisfies **all** of:
+1. **5+ named prerequisites** — all prerequisites must be named skills in `registry/named/`
+2. **At least 1 origin** — the proposer must hold `origin: true` on ≥1 of those named skills
+3. **Evidence** — ≥3 Class A/B evidence sources (existing rule, unchanged)
 
 ---
 
