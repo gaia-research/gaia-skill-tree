@@ -1,8 +1,8 @@
 # /ghostwrite  [1★ · Awakened]
 **ID:** ghostwrite  
 **Type:** Extra Skill  
-**Level:** 1★
-**Tier:** Awakened
+**Level:** 1★  
+**Tier:** Awakened  
 **Skill Call:** `/ghostwrite`
 
 ---

@@ -1,8 +1,8 @@
 # /recursive-self-improvement  [1★ · Awakened]
 **ID:** recursive-self-improvement  
 **Type:** Ultimate Skill  
-**Level:** 1★
-**Tier:** Awakened
+**Level:** 1★  
+**Tier:** Awakened  
 **Skill Call:** `/recursive-self-improvement`
 
 ---

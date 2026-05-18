@@ -1,8 +1,8 @@
 # /knowledge-harvest  [1★ · Awakened]
 **ID:** knowledge-harvest  
 **Type:** Extra Skill  
-**Level:** 1★
-**Tier:** Awakened
+**Level:** 1★  
+**Tier:** Awakened  
 **Skill Call:** `/knowledge-harvest`
 
 ---
