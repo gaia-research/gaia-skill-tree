@@ -15,6 +15,7 @@ _None._
 
 ## Unlocks
 - [Superpowers](../ultimate/superpowers.md)
+- [Founder Mode](../ultimate/gstack.md)
 
 ## Evidence
 | Class | Source | Evaluator | Date |

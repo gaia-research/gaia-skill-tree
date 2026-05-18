@@ -1,4 +1,4 @@
-# /mcp-integration  [3★ · Evolved]
+# [garrytan](../../../docs/u/garrytan/)/pair-agent  [3★ · Evolved]
 **ID:** mcp-integration  
 **Type:** Basic Skill  
 **Level:** 3★  
@@ -17,6 +17,7 @@ _None._
 
 ## Unlocks
 - [MCP Server Creation](../extra/mcp-server-creation.md)
+- [Founder Mode](../ultimate/gstack.md)
 
 ## Evidence
 | Class | Source | Evaluator | Date |

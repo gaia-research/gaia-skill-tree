@@ -12,7 +12,7 @@ Provides low-latency spoken interactions combining real-time speech I/O, persist
 
 ## Prerequisites
 - [Voice Agent](../extra/voice-agent.md)
-- [Memory Manage](../basic/memory-manage.md)
+- [Memory Manage](../extra/memory-manage.md)
 - [Plan and Execute](../extra/plan-and-execute.md)
 
 ## Unlocks

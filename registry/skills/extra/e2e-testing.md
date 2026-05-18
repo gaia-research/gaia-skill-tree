@@ -1,4 +1,4 @@
-# /e2e-testing  [3★ · Evolved]
+# [garrytan](../../../docs/u/garrytan/)/qa-only  [3★ · Evolved]
 **ID:** e2e-testing  
 **Type:** Extra Skill  
 **Level:** 3★  
@@ -15,7 +15,7 @@ Execute full end-to-end user journey tests using browser automation frameworks (
 - [Automated Testing](../extra/automated-testing.md)
 
 ## Unlocks
-_None._
+- [Founder Mode](../ultimate/gstack.md)
 
 ## Fusion Condition
 Requires a live or containerised target environment; browser automation must be available.

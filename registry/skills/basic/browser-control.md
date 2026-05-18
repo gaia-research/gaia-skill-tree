@@ -15,6 +15,7 @@ _None._
 
 ## Unlocks
 - [Browser Automation](../extra/browser-automation.md)
+- [Founder Mode](../ultimate/gstack.md)
 
 ## Evidence
 | Class | Source | Evaluator | Date |

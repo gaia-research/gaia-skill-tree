@@ -1,4 +1,4 @@
-# /code-review-pipeline  [3★ · Evolved]
+# [garrytan](../../../docs/u/garrytan/)/plan-eng-review  [3★ · Evolved]
 **ID:** code-review-pipeline  
 **Type:** Extra Skill  
 **Level:** 3★  
@@ -18,6 +18,8 @@ Performs automated code review by generating, diffing, and evaluating code chang
 ## Unlocks
 - [Full-Stack Developer](../extra/full-stack-developer.md)
 - [Security Audit](../extra/security-audit.md)
+- [Founder Mode](../ultimate/gstack.md)
+- [Finishing a Development Branch](../extra/finishing-a-development-branch.md)
 
 ## Fusion Condition
 _None specified._

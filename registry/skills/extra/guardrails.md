@@ -1,4 +1,4 @@
-# /guardrails  [3★ · Evolved]
+# [garrytan](../../../docs/u/garrytan/)/careful  [3★ · Evolved]
 **ID:** guardrails  
 **Type:** Extra Skill  
 **Level:** 3★  
@@ -16,7 +16,7 @@ Wraps LLM outputs with programmatic safety rules, content filters, and topical c
 - [Structured Output Generation](../basic/structured-output.md)
 
 ## Unlocks
-_None._
+- [Founder Mode](../ultimate/gstack.md)
 
 ## Fusion Condition
 Requires a defined policy schema and an evaluation loop.
