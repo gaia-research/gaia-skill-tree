@@ -31,7 +31,7 @@
   // ── Locked canvas geometry (DESIGN.md ▸ Graph Canvas) ──────────
   const NODE_RADII = { ultimate: 12.5, unique: 9.5, extra: 6.9, basic: 3.5 };
   const LINE_WEIGHTS = {
-    default:     { ultimate: 1.55, other: 0.92 },
+    default: { ultimate: 1.55, other: 0.92 },
     highlighted: { ultimate: 2.20, other: 1.40 },
   };
   // Multiplied by `scale` at render time. Unique/orphan satellites use
@@ -78,9 +78,9 @@
     }
     _tokenCache = {
       tier: {
-        basic:    tier('basic'),
-        extra:    tier('extra'),
-        unique:   tier('unique'),
+        basic: tier('basic'),
+        extra: tier('extra'),
+        unique: tier('unique'),
         ultimate: tier('ultimate'),
       },
       rank: {
@@ -97,8 +97,8 @@
       // the historical value used for these surfaces. Update this
       // when --muted-rgb lands in tokens.css.
       mutedRgb: '148,163,184',
-      fontBody:    _readVar('--font-body'),
-      fontMono:    _readVar('--font-mono'),
+      fontBody: _readVar('--font-body'),
+      fontMono: _readVar('--font-mono'),
       fontDisplay: _readVar('--font-display'),
     };
     return _tokenCache;
@@ -115,7 +115,7 @@
     const t = getCanvasTokens();
     const sz = Math.max(6, Math.round(sizePx));
     if (role === 'display') return 'italic 600 ' + sz + 'px ' + t.fontDisplay;
-    if (role === 'handle')  return '600 ' + sz + 'px ' + t.fontMono;
+    if (role === 'handle') return '600 ' + sz + 'px ' + t.fontMono;
     return 'bold ' + sz + 'px ' + t.fontBody;
   }
 
@@ -140,9 +140,9 @@
   function _paletteFromTokens() {
     const t = getCanvasTokens().tier;
     return {
-      basic:    { rgb: t.basic.rgb,    hex: t.basic.hex },
-      extra:    { rgb: t.extra.rgb,    hex: t.extra.hex },
-      unique:   { rgb: t.unique.rgb,   hex: t.unique.hex },
+      basic: { rgb: t.basic.rgb, hex: t.basic.hex },
+      extra: { rgb: t.extra.rgb, hex: t.extra.hex },
+      unique: { rgb: t.unique.rgb, hex: t.unique.hex },
       ultimate: { rgb: t.ultimate.rgb, hex: t.ultimate.hex },
     };
   }
@@ -177,57 +177,57 @@
   }
 
   const FALLBACK_SKILLS = [
-    { id:'tokenize', type:'basic', name:'Tokenize', prerequisites:[] },
-    { id:'retrieve', type:'basic', name:'Retrieve', prerequisites:[] },
-    { id:'embed-text', type:'basic', name:'Embed Text', prerequisites:[] },
-    { id:'score-relevance', type:'basic', name:'Score Relevance', prerequisites:[] },
-    { id:'web-search', type:'basic', name:'Web Search', prerequisites:[] },
-    { id:'summarize', type:'basic', name:'Summarize', prerequisites:[] },
-    { id:'cite-sources', type:'basic', name:'Cite Sources', prerequisites:[] },
-    { id:'code-generation', type:'basic', name:'Code Generation', prerequisites:[] },
-    { id:'execute-bash', type:'basic', name:'Execute Bash', prerequisites:[] },
-    { id:'tool-select', type:'basic', name:'Tool Select', prerequisites:[] },
-    { id:'chunk-document', type:'basic', name:'Chunk Document', prerequisites:[] },
-    { id:'rank', type:'basic', name:'Rank', prerequisites:[] },
-    { id:'rag-pipeline', type:'extra', name:'RAG Pipeline', prerequisites:['retrieve','chunk-document','embed-text','score-relevance','tokenize','rank'] },
-    { id:'research', type:'extra', name:'Research', prerequisites:['web-search','summarize','cite-sources'] },
-    { id:'error-interpretation', type:'basic', name:'Error Interpretation', prerequisites:[] },
-    { id:'autonomous-debug', type:'extra', name:'Autonomous Debug', prerequisites:['code-generation','execute-bash','error-interpretation'] },
-    { id:'ghostwrite', type:'extra', name:'Ghostwrite', prerequisites:['research','write-report','audience-model'] },
-    { id:'knowledge-harvest', type:'extra', name:'Knowledge Harvest', prerequisites:['web-scrape','embed-text','extract-entities'] },
-    { id:'autonomous-research-agent', type:'ultimate', name:'Autonomous Research Agent', prerequisites:['research','ghostwrite','knowledge-harvest'] },
+    { id: 'tokenize', type: 'basic', name: 'Tokenize', prerequisites: [] },
+    { id: 'retrieve', type: 'basic', name: 'Retrieve', prerequisites: [] },
+    { id: 'embed-text', type: 'basic', name: 'Embed Text', prerequisites: [] },
+    { id: 'score-relevance', type: 'basic', name: 'Score Relevance', prerequisites: [] },
+    { id: 'web-search', type: 'basic', name: 'Web Search', prerequisites: [] },
+    { id: 'summarize', type: 'basic', name: 'Summarize', prerequisites: [] },
+    { id: 'cite-sources', type: 'basic', name: 'Cite Sources', prerequisites: [] },
+    { id: 'code-generation', type: 'basic', name: 'Code Generation', prerequisites: [] },
+    { id: 'execute-bash', type: 'basic', name: 'Execute Bash', prerequisites: [] },
+    { id: 'tool-select', type: 'basic', name: 'Tool Select', prerequisites: [] },
+    { id: 'chunk-document', type: 'basic', name: 'Chunk Document', prerequisites: [] },
+    { id: 'rank', type: 'basic', name: 'Rank', prerequisites: [] },
+    { id: 'rag-pipeline', type: 'extra', name: 'RAG Pipeline', prerequisites: ['retrieve', 'chunk-document', 'embed-text', 'score-relevance', 'tokenize', 'rank'] },
+    { id: 'research', type: 'extra', name: 'Research', prerequisites: ['web-search', 'summarize', 'cite-sources'] },
+    { id: 'error-interpretation', type: 'basic', name: 'Error Interpretation', prerequisites: [] },
+    { id: 'autonomous-debug', type: 'extra', name: 'Autonomous Debug', prerequisites: ['code-generation', 'execute-bash', 'error-interpretation'] },
+    { id: 'ghostwrite', type: 'extra', name: 'Ghostwrite', prerequisites: ['research', 'write-report', 'audience-model'] },
+    { id: 'knowledge-harvest', type: 'extra', name: 'Knowledge Harvest', prerequisites: ['web-scrape', 'embed-text', 'extract-entities'] },
+    { id: 'autonomous-research-agent', type: 'ultimate', name: 'Autonomous Research Agent', prerequisites: ['research', 'ghostwrite', 'knowledge-harvest'] },
   ];
   const FALLBACK_NAMED_MAP = {
-    'automated-testing':           '0xdarkmatter/pytest-patterns',
-    'test-driven-development':     'addy-osmani/test-driven-development',
-    'document-editing':            'anthropic/pptx',
-    'tool-creation':               'anthropic/skill-creator',
-    'autonomous-debug':            'devin-ai/autonomous-swe',
-    'write-report':                'glincker/readme-generator',
-    'browser-automation':          'gooseworks/notte-browser',
-    'autonomous-research-agent':   'karpathy/autoresearch',
-    'framework-upgrade':           'laravel/upgrade-laravel-v13',
-    'ux-audit':                    'martin-stepanoski/nielsen-heuristics-audit',
+    'automated-testing': '0xdarkmatter/pytest-patterns',
+    'test-driven-development': 'addy-osmani/test-driven-development',
+    'document-editing': 'anthropic/pptx',
+    'tool-creation': 'anthropic/skill-creator',
+    'autonomous-debug': 'devin-ai/autonomous-swe',
+    'write-report': 'glincker/readme-generator',
+    'browser-automation': 'gooseworks/notte-browser',
+    'autonomous-research-agent': 'karpathy/autoresearch',
+    'framework-upgrade': 'laravel/upgrade-laravel-v13',
+    'ux-audit': 'martin-stepanoski/nielsen-heuristics-audit',
     'multi-agent-orchestration-v': 'ruvnet/flow-nexus-swarm',
-    'generate-test':               'upsonic/unittest-generator',
-    'skill-discovery':             'vercel/find-skills',
-    'rag-pipeline':                'yonatangross/orchestkit-rag',
+    'generate-test': 'upsonic/unittest-generator',
+    'skill-discovery': 'vercel/find-skills',
+    'rag-pipeline': 'yonatangross/orchestkit-rag',
   };
   const FALLBACK_TITLE_MAP = {
-    'automated-testing':           'The Quality Guardian',
-    'test-driven-development':     'The Red-Green Oath',
-    'document-editing':            'The Slide Artisan',
-    'tool-creation':               "The Skill Forger's Art",
-    'autonomous-debug':            "The Codebreaker's Will",
-    'write-report':                'The Document Weaver',
-    'browser-automation':          'The Digital Navigator',
-    'autonomous-research-agent':   "The Scholar's Compass",
-    'framework-upgrade':           "The Versionist's Trial",
-    'ux-audit':                    'The Ten Laws of Sight',
+    'automated-testing': 'The Quality Guardian',
+    'test-driven-development': 'The Red-Green Oath',
+    'document-editing': 'The Slide Artisan',
+    'tool-creation': "The Skill Forger's Art",
+    'autonomous-debug': "The Codebreaker's Will",
+    'write-report': 'The Document Weaver',
+    'browser-automation': 'The Digital Navigator',
+    'autonomous-research-agent': "The Scholar's Compass",
+    'framework-upgrade': "The Versionist's Trial",
+    'ux-audit': 'The Ten Laws of Sight',
     'multi-agent-orchestration-v': "The Grand Conductor's Blueprint",
-    'generate-test':               'The Test Weaver',
-    'skill-discovery':             'The Registry Scout',
-    'rag-pipeline':                'The Knowledge Architect',
+    'generate-test': 'The Test Weaver',
+    'skill-discovery': 'The Registry Scout',
+    'rag-pipeline': 'The Knowledge Architect',
   };
 
   function normalizeSkills(graph) {
@@ -242,8 +242,6 @@
       demerits: Array.isArray(skill.demerits) ? skill.demerits : [],
       rarity: skill.rarity || '',
       prerequisites: Array.isArray(skill.prerequisites) ? skill.prerequisites : [],
-      description: skill.description || '',
-      title: skill.title || '',
     })).filter(skill => skill.id);
   }
 
@@ -271,8 +269,8 @@
   }
 
   function buildPositions(skills, scale) {
-    const groups = { basic:[], extra:[], ultimate:[] };
-    const satellite = { unique:[], orphan:[] };
+    const groups = { basic: [], extra: [], ultimate: [] };
+    const satellite = { unique: [], orphan: [] };
     const allPrereqRefs = new Set();
     skills.forEach(skill => skill.prerequisites.forEach(pid => allPrereqRefs.add(pid)));
     skills.forEach(skill => {
@@ -283,14 +281,14 @@
         (groups[skill.type] || groups.basic).push(skill);
       }
     });
-    Object.values(groups).forEach(group => group.sort((a,b) => (a.name || a.id).localeCompare(b.name || b.id)));
-    satellite.unique.sort((a,b) => (a.name || a.id).localeCompare(b.name || b.id));
-    satellite.orphan.sort((a,b) => (a.name || a.id).localeCompare(b.name || b.id));
+    Object.values(groups).forEach(group => group.sort((a, b) => (a.name || a.id).localeCompare(b.name || b.id)));
+    satellite.unique.sort((a, b) => (a.name || a.id).localeCompare(b.name || b.id));
+    satellite.orphan.sort((a, b) => (a.name || a.id).localeCompare(b.name || b.id));
     const positions = {};
     // Multiply locked SPHERE_RADII (DESIGN.md) by the runtime scale.
     const radii = {
-      basic:    SPHERE_RADII.basic    * scale,
-      extra:    SPHERE_RADII.extra    * scale,
+      basic: SPHERE_RADII.basic * scale,
+      extra: SPHERE_RADII.extra * scale,
       ultimate: SPHERE_RADII.ultimate * scale,
     };
     Object.entries(groups).forEach(([type, group]) => {
@@ -314,7 +312,7 @@
         ...pos,
         _satellite: 'orphan',
         _orbitSpeed: 0.2 + (seed % 100) / 100 * 0.65,
-        _orbitAmp:   (22 + (seed % 38)) * scale,
+        _orbitAmp: (22 + (seed % 38)) * scale,
         _phX: (seed % 628) / 100,
         _phY: ((seed * 7) % 628) / 100,
         _phZ: ((seed * 13) % 628) / 100,
@@ -337,7 +335,7 @@
     const minorStep = opts.minorStep || 0.15;
     const majorEvery = opts.majorEvery || 4;
     const startTick = Math.ceil((logValue - mainSize / 2 / ppu) / minorStep);
-    const endTick   = Math.floor((logValue + mainSize / 2 / ppu) / minorStep);
+    const endTick = Math.floor((logValue + mainSize / 2 / ppu) / minorStep);
     ctx2.lineWidth = 1;
     for (let tick = startTick; tick <= endTick; tick++) {
       const pos = mainSize / 2 + (tick * minorStep - logValue) * ppu;
@@ -345,15 +343,15 @@
       const tickLen = isMajor ? crossSize * 0.38 : crossSize * 0.18;
       const alpha = isMajor ? 0.18 : 0.08;
       ctx2.beginPath();
-      if (vert) { ctx2.moveTo(crossSize/2 - tickLen/2, pos); ctx2.lineTo(crossSize/2 + tickLen/2, pos); }
-      else       { ctx2.moveTo(pos, crossSize/2 - tickLen/2); ctx2.lineTo(pos, crossSize/2 + tickLen/2); }
+      if (vert) { ctx2.moveTo(crossSize / 2 - tickLen / 2, pos); ctx2.lineTo(crossSize / 2 + tickLen / 2, pos); }
+      else { ctx2.moveTo(pos, crossSize / 2 - tickLen / 2); ctx2.lineTo(pos, crossSize / 2 + tickLen / 2); }
       // Slate ruler tick — reads --muted-rgb from the token cache.
       ctx2.strokeStyle = `rgba(${getCanvasTokens().mutedRgb},${alpha})`;
       ctx2.stroke();
     }
     ctx2.beginPath();
-    if (vert) { ctx2.moveTo(0, mainSize/2); ctx2.lineTo(crossSize, mainSize/2); }
-    else      { ctx2.moveTo(mainSize/2, 0); ctx2.lineTo(mainSize/2, crossSize); }
+    if (vert) { ctx2.moveTo(0, mainSize / 2); ctx2.lineTo(crossSize, mainSize / 2); }
+    else { ctx2.moveTo(mainSize / 2, 0); ctx2.lineTo(mainSize / 2, crossSize); }
     ctx2.strokeStyle = `rgba(${getCanvasTokens().mutedRgb},.28)`;
     ctx2.lineWidth = 1;
     ctx2.stroke();
@@ -367,11 +365,11 @@
     // single canvas gains drag/zoom/hover/labels without needing
     // a second graph instance.
     const _opts = {
-      draggable:  options.draggable  || false,
-      zoomable:   options.zoomable   || false,
-      hoverable:  options.hoverable  || false,
+      draggable: options.draggable || false,
+      zoomable: options.zoomable || false,
+      hoverable: options.hoverable || false,
     };
-    const NAMED_LEVELS = new Set(['2★','3★','4★','5★','6★']);
+    const NAMED_LEVELS = new Set(['2★', '3★', '4★', '5★', '6★']);
     const state = {
       skills: FALLBACK_SKILLS,
       positions: buildPositions(FALLBACK_SKILLS, GRAPH_SCALE),
@@ -502,11 +500,11 @@
 
     function rotX(p, a) {
       const c = Math.cos(a), s = Math.sin(a);
-      return { x: p.x, y: c*p.y - s*p.z, z: s*p.y + c*p.z, phase: p.phase };
+      return { x: p.x, y: c * p.y - s * p.z, z: s * p.y + c * p.z, phase: p.phase };
     }
     function rotY(p, a) {
       const c = Math.cos(a), s = Math.sin(a);
-      return { x: c*p.x + s*p.z, y: p.y, z: -s*p.x + c*p.z, phase: p.phase };
+      return { x: c * p.x + s * p.z, y: p.y, z: -s * p.x + c * p.z, phase: p.phase };
     }
     function project(p) {
       const fov = Math.min(state.width, state.height) * 0.75;
@@ -529,9 +527,9 @@
       // Named (red-pill) nodes glow in Honor Red — single role token.
       const honor = getCanvasTokens().honorRedRgb;
       const glow = ctx.createRadialGradient(sx, sy, 0, sx, sy, r * 4.2);
-      glow.addColorStop(0,   `rgba(${honor},${Math.min(alpha * 0.7, 1).toFixed(2)})`);
+      glow.addColorStop(0, `rgba(${honor},${Math.min(alpha * 0.7, 1).toFixed(2)})`);
       glow.addColorStop(0.4, `rgba(${honor},${Math.min(alpha * 0.25, 1).toFixed(2)})`);
-      glow.addColorStop(1,   `rgba(${honor},0)`);
+      glow.addColorStop(1, `rgba(${honor},0)`);
       ctx.beginPath(); ctx.arc(sx, sy, r * 4.2, 0, Math.PI * 2); ctx.fillStyle = glow; ctx.fill();
       ctx.beginPath(); ctx.arc(sx, sy, r, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(${honor},${Math.min(alpha * 1.2, 1).toFixed(2)})`; ctx.fill();
@@ -550,10 +548,10 @@
       const coronaPulse = 0.85 + 0.15 * Math.sin(t * 0.9 + phase);
       const coronaR = r * (7.5 * coronaPulse);
       const corona = ctx.createRadialGradient(sx, sy, r * 1.2, sx, sy, coronaR);
-      corona.addColorStop(0,   `rgba(255,215,0,${(alpha * 0.48).toFixed(2)})`);
-      corona.addColorStop(0.35,`rgba(255,170,0,${(alpha * 0.22).toFixed(2)})`);
+      corona.addColorStop(0, `rgba(255,215,0,${(alpha * 0.48).toFixed(2)})`);
+      corona.addColorStop(0.35, `rgba(255,170,0,${(alpha * 0.22).toFixed(2)})`);
       corona.addColorStop(0.7, `rgba(255,120,0,${(alpha * 0.08).toFixed(2)})`);
-      corona.addColorStop(1,   `rgba(255,80,0,0)`);
+      corona.addColorStop(1, `rgba(255,80,0,0)`);
       ctx.beginPath(); ctx.arc(sx, sy, coronaR, 0, Math.PI * 2);
       ctx.fillStyle = corona; ctx.fill();
 
@@ -572,9 +570,9 @@
         ctx.lineTo(Math.cos(ba + cone) * beamLen, Math.sin(ba + cone) * beamLen);
         ctx.closePath();
         const bg = ctx.createLinearGradient(0, 0, Math.cos(ba) * beamLen, Math.sin(ba) * beamLen);
-        bg.addColorStop(0,   `rgba(255,255,255,${bA.toFixed(2)})`);
-        bg.addColorStop(0.35,`rgba(255,240,180,${(bA * 0.45).toFixed(2)})`);
-        bg.addColorStop(1,   `rgba(255,215,0,0)`);
+        bg.addColorStop(0, `rgba(255,255,255,${bA.toFixed(2)})`);
+        bg.addColorStop(0.35, `rgba(255,240,180,${(bA * 0.45).toFixed(2)})`);
+        bg.addColorStop(1, `rgba(255,215,0,0)`);
         ctx.fillStyle = bg; ctx.fill();
       }
       ctx.restore();
@@ -590,9 +588,9 @@
         const sA = alpha * (0.55 + 0.45 * Math.sin(t * 2.2 + i * 1.4)) * (1 - blink * 0.8);
         if (sA < 0.01) continue;
         const sg = ctx.createRadialGradient(satX, satY, 0, satX, satY, satR * 3.2);
-        sg.addColorStop(0,   `rgba(255,240,200,${sA.toFixed(2)})`);
-        sg.addColorStop(0.35,`rgba(255,215,0,${(sA * 0.5).toFixed(2)})`);
-        sg.addColorStop(1,   `rgba(255,180,0,0)`);
+        sg.addColorStop(0, `rgba(255,240,200,${sA.toFixed(2)})`);
+        sg.addColorStop(0.35, `rgba(255,215,0,${(sA * 0.5).toFixed(2)})`);
+        sg.addColorStop(1, `rgba(255,180,0,0)`);
         ctx.beginPath(); ctx.arc(satX, satY, satR * 3.2, 0, Math.PI * 2);
         ctx.fillStyle = sg; ctx.fill();
         ctx.beginPath(); ctx.arc(satX, satY, satR, 0, Math.PI * 2);
@@ -604,11 +602,11 @@
       const glowPulse = 0.9 + 0.1 * Math.sin(t * 1.6 + phase);
       const glowR = r * (5.0 * glowPulse);
       const glow = ctx.createRadialGradient(sx, sy, r * 0.1, sx, sy, glowR);
-      glow.addColorStop(0,   `rgba(255,255,255,${(alpha * 0.72).toFixed(2)})`);
-      glow.addColorStop(0.15,`rgba(255,255,245,${(alpha * 0.52).toFixed(2)})`);
+      glow.addColorStop(0, `rgba(255,255,255,${(alpha * 0.72).toFixed(2)})`);
+      glow.addColorStop(0.15, `rgba(255,255,245,${(alpha * 0.52).toFixed(2)})`);
       glow.addColorStop(0.4, `rgba(255,245,210,${(alpha * 0.22).toFixed(2)})`);
       glow.addColorStop(0.7, `rgba(255,230,160,${(alpha * 0.08).toFixed(2)})`);
-      glow.addColorStop(1,   `rgba(255,215,0,0)`);
+      glow.addColorStop(1, `rgba(255,215,0,0)`);
       ctx.beginPath(); ctx.arc(sx, sy, glowR, 0, Math.PI * 2);
       ctx.fillStyle = glow; ctx.fill();
 
@@ -617,10 +615,10 @@
         // White shockwave flash outward
         const blinkR = r * (12 + blink * 10);
         const blinkGrad = ctx.createRadialGradient(sx, sy, r * 0.5, sx, sy, blinkR);
-        blinkGrad.addColorStop(0,   `rgba(255,255,255,${(alpha * blink * 0.9).toFixed(2)})`);
+        blinkGrad.addColorStop(0, `rgba(255,255,255,${(alpha * blink * 0.9).toFixed(2)})`);
         blinkGrad.addColorStop(0.3, `rgba(255,255,255,${(alpha * blink * 0.6).toFixed(2)})`);
         blinkGrad.addColorStop(0.6, `rgba(255,255,240,${(alpha * blink * 0.25).toFixed(2)})`);
-        blinkGrad.addColorStop(1,   `rgba(255,255,255,0)`);
+        blinkGrad.addColorStop(1, `rgba(255,255,255,0)`);
         ctx.beginPath(); ctx.arc(sx, sy, blinkR, 0, Math.PI * 2);
         ctx.fillStyle = blinkGrad; ctx.fill();
 
@@ -649,10 +647,10 @@
 
       // ── WHITE CORE ──
       const coreGrad = ctx.createRadialGradient(sx - r * 0.12, sy - r * 0.12, 0, sx, sy, r * 1.05);
-      coreGrad.addColorStop(0,    `rgba(255,255,255,${Math.min(alpha * 1.2, 1).toFixed(2)})`);
+      coreGrad.addColorStop(0, `rgba(255,255,255,${Math.min(alpha * 1.2, 1).toFixed(2)})`);
       coreGrad.addColorStop(0.35, `rgba(255,253,245,${Math.min(alpha * 1.1, 1).toFixed(2)})`);
-      coreGrad.addColorStop(0.7,  `rgba(255,240,200,${Math.min(alpha * 1.0, 1).toFixed(2)})`);
-      coreGrad.addColorStop(1,    `rgba(255,215,0,${(alpha * 0.85).toFixed(2)})`);
+      coreGrad.addColorStop(0.7, `rgba(255,240,200,${Math.min(alpha * 1.0, 1).toFixed(2)})`);
+      coreGrad.addColorStop(1, `rgba(255,215,0,${(alpha * 0.85).toFixed(2)})`);
       ctx.beginPath(); ctx.arc(sx, sy, r, 0, Math.PI * 2);
       ctx.fillStyle = coreGrad; ctx.fill();
 
@@ -788,15 +786,15 @@
           const s = cloud.sat;
           const h = cloud.hue;
           if (cloud.isAurora) {
-            g.addColorStop(0,   `hsla(${h},${s}%,55%,${(cloud.alpha * 0.85).toFixed(3)})`);
+            g.addColorStop(0, `hsla(${h},${s}%,55%,${(cloud.alpha * 0.85).toFixed(3)})`);
             g.addColorStop(0.4, `hsla(${h},${s * 0.7}%,40%,${(cloud.alpha * 0.4).toFixed(3)})`);
-            g.addColorStop(0.75,`hsla(${h},${s * 0.4}%,30%,${(cloud.alpha * 0.12).toFixed(3)})`);
-            g.addColorStop(1,   `hsla(${h},${s * 0.2}%,20%,0)`);
+            g.addColorStop(0.75, `hsla(${h},${s * 0.4}%,30%,${(cloud.alpha * 0.12).toFixed(3)})`);
+            g.addColorStop(1, `hsla(${h},${s * 0.2}%,20%,0)`);
           } else {
-            g.addColorStop(0,   `hsla(${h},${s}%,72%,${(cloud.alpha * 0.8).toFixed(3)})`);
+            g.addColorStop(0, `hsla(${h},${s}%,72%,${(cloud.alpha * 0.8).toFixed(3)})`);
             g.addColorStop(0.3, `hsla(${h},${s}%,55%,${(cloud.alpha * 0.4).toFixed(3)})`);
-            g.addColorStop(0.65,`hsla(${h},${s * 0.5}%,40%,${(cloud.alpha * 0.12).toFixed(3)})`);
-            g.addColorStop(1,   `hsla(${h},0%,30%,0)`);
+            g.addColorStop(0.65, `hsla(${h},${s * 0.5}%,40%,${(cloud.alpha * 0.12).toFixed(3)})`);
+            g.addColorStop(1, `hsla(${h},0%,30%,0)`);
           }
           ctx.beginPath(); ctx.arc(pr.sx, pr.sy, r, 0, Math.PI * 2);
           ctx.fillStyle = g; ctx.fill();
@@ -833,51 +831,6 @@
       const searchQuery = isSearchActive ? state.searchText.toLowerCase() : '';
       const legendHovering = Boolean(state.legendHoverType || state.legendHoverRank);
       const legendFiltering = Boolean(state.legendFilterType || state.legendFilterRank);
-
-      function skillMatchesSearch(skill) {
-        if (!isSearchActive) return true;
-
-        // 1. Check skill ID or slash-name
-        const skillId = (skill.id || '').toLowerCase();
-        if (skillId.includes(searchQuery)) return true;
-        if (('/' + skillId).includes(searchQuery)) return true;
-
-        // 2. Check title / display name
-        const skillName = (skill.name || '').toLowerCase();
-        if (skillName.includes(searchQuery)) return true;
-
-        // 3. Check description
-        const skillDesc = (skill.description || '').toLowerCase();
-        if (skillDesc.includes(searchQuery)) return true;
-
-        // 4. Check skill title property
-        const skillTitle = (skill.title || '').toLowerCase();
-        if (skillTitle.includes(searchQuery)) return true;
-
-        // 5. Check namedMap (handles, users, repo name, slash names, formatted strings)
-        if (state.namedMap && state.namedMap[skill.id]) {
-          const namedId = state.namedMap[skill.id].toLowerCase();
-          if (namedId.includes(searchQuery)) return true;
-          if (('@' + namedId).includes(searchQuery)) return true;
-
-          const parts = namedId.split('/');
-          if (parts.length === 2) {
-            const handle = parts[0];
-            const repo = parts[1];
-            if (('@' + handle).includes(searchQuery)) return true;
-            if (('/' + repo).includes(searchQuery)) return true;
-          }
-        }
-
-        // 6. Check titleMap for named-skill display titles
-        if (state.titleMap && state.titleMap[skill.id]) {
-          const title = state.titleMap[skill.id].toLowerCase();
-          if (title.includes(searchQuery)) return true;
-        }
-
-        return false;
-      }
-
       state.skills.forEach(skill => {
         let targetVis;
         if (hovering) {
@@ -891,13 +844,13 @@
           const mr = !state.legendFilterRank || skill.level === state.legendFilterRank;
           const matchesLegend = mt && mr;
           if (isSearchActive) {
-            const matchesSearch = skillMatchesSearch(skill);
+            const matchesSearch = (skill.name || skill.id).toLowerCase().includes(searchQuery);
             targetVis = (matchesLegend && matchesSearch) ? 1.0 : 0.12;
           } else {
             targetVis = matchesLegend ? 1.0 : 0.12;
           }
         } else if (isSearchActive) {
-          targetVis = skillMatchesSearch(skill) ? 1.0 : 0.12;
+          targetVis = (skill.name || skill.id).toLowerCase().includes(searchQuery) ? 1.0 : 0.12;
         } else {
           targetVis = 1.0;
         }
@@ -922,14 +875,14 @@
           edges.push({ from: pid, to: skill.id, type: skill.type, avgZ: (xf[skill.id].z + xf[pid].z) / 2 });
         });
       });
-      edges.sort((a,b) => a.avgZ - b.avgZ);
+      edges.sort((a, b) => a.avgZ - b.avgZ);
       edges.forEach(edge => {
         const pa = project(xf[edge.from]), pb = project(xf[edge.to]);
         const col = PALETTE[edge.type] || PALETTE.basic;
         const depthAlpha = Math.min(Math.max((xf[edge.to].z + 430 * state.scale) / (860 * state.scale), 0.08), 1);
         const isNeighborEdge = hovering && neighborSet.has(edge.from) && neighborSet.has(edge.to);
         const fromVis = state.nodeAlphas[edge.from] !== undefined ? state.nodeAlphas[edge.from] : 1.0;
-        const toVis   = state.nodeAlphas[edge.to]   !== undefined ? state.nodeAlphas[edge.to]   : 1.0;
+        const toVis = state.nodeAlphas[edge.to] !== undefined ? state.nodeAlphas[edge.to] : 1.0;
         const edgeVis = (fromVis + toVis) / 2;
         const baseEdgeAlpha = isNeighborEdge ? 0.72 : 0.31;
         ctx.beginPath(); ctx.moveTo(pa.sx, pa.sy); ctx.lineTo(pb.sx, pb.sy);
@@ -940,7 +893,7 @@
         ctx.lineWidth = edge.type === 'ultimate' ? lw.ultimate : lw.other;
         ctx.stroke();
       });
-      const nodes = state.skills.map(skill => ({ skill, z: xf[skill.id] ? xf[skill.id].z : -9999 })).sort((a,b) => a.z - b.z);
+      const nodes = state.skills.map(skill => ({ skill, z: xf[skill.id] ? xf[skill.id].z : -9999 })).sort((a, b) => a.z - b.z);
       nodes.forEach(({ skill }) => {
         const p = xf[skill.id]; if (!p) return;
         const pr = project(p);
@@ -1102,12 +1055,12 @@
               state.pinnedPos = { left: tx + 'px', top: ty + 'px' };
             }
             state.tooltipEl.style.left = state.pinnedPos.left;
-            state.tooltipEl.style.top  = state.pinnedPos.top;
+            state.tooltipEl.style.top = state.pinnedPos.top;
           } else {
             let tx = pr.sx + 18, ty = pr.sy - 34;
             tx = Math.min(tx, state.width - 250); ty = Math.max(ty, 8);
             state.tooltipEl.style.left = tx + 'px';
-            state.tooltipEl.style.top  = ty + 'px';
+            state.tooltipEl.style.top = ty + 'px';
           }
           state.tooltipEl.style.display = 'block';
           state.tooltipEl.classList.toggle('pinned', Boolean(state.pinnedId));
@@ -1295,7 +1248,7 @@
           const cmd = namedId ? `gaia install ${namedId}` : `gaia propose /${id}`;
           const shareLink = namedId
             ? `<button class="graph-collection-share" data-nid="${namedId}" title="Open in Explorer" aria-label="Open in Explorer">` +
-              `<svg class="gst-btn-ico" width="12" height="12" aria-hidden="true"><use href="assets/icons.svg#external-link"/></svg></button>`
+            `<svg class="gst-btn-ico" width="12" height="12" aria-hidden="true"><use href="assets/icons.svg#external-link"/></svg></button>`
             : '';
           const ghostAttr = namedId ? '' : ' data-ghost="true"';
           let formattedNamedId = '';
@@ -1310,16 +1263,16 @@
           }
           html +=
             `<div class="plaque--mini graph-collection-card" data-cid="${id}" data-tier="${skill.type}"${ghostAttr}>` +
-              `<div class="graph-collection-card-top">` +
-                `<span class="graph-collection-card-name" style="color:rgba(${col.rgb},1)">${skill.name}</span>` +
-                `<div class="graph-collection-card-btns">${shareLink}` +
-                  `<button class="graph-collection-remove" data-cid="${id}" title="Remove" aria-label="Remove from collection">` +
-                  `<svg class="gst-btn-ico" width="12" height="12" aria-hidden="true"><use href="assets/icons.svg#close-x"/></svg>` +
-                  `</button>` +
-                `</div>` +
-              `</div>` +
-              formattedNamedId +
-              `<code class="graph-collection-cmd" data-cmd="${cmd}">$ ${cmd}</code>` +
+            `<div class="graph-collection-card-top">` +
+            `<span class="graph-collection-card-name" style="color:rgba(${col.rgb},1)">${skill.name}</span>` +
+            `<div class="graph-collection-card-btns">${shareLink}` +
+            `<button class="graph-collection-remove" data-cid="${id}" title="Remove" aria-label="Remove from collection">` +
+            `<svg class="gst-btn-ico" width="12" height="12" aria-hidden="true"><use href="assets/icons.svg#close-x"/></svg>` +
+            `</button>` +
+            `</div>` +
+            `</div>` +
+            formattedNamedId +
+            `<code class="graph-collection-cmd" data-cmd="${cmd}">$ ${cmd}</code>` +
             `</div>`;
         });
         list.innerHTML = html;
@@ -1793,7 +1746,7 @@
         state.dragging = false;
         const dx = e.touches[0].clientX - e.touches[1].clientX;
         const dy = e.touches[0].clientY - e.touches[1].clientY;
-        _initialPinchDist = Math.sqrt(dx*dx + dy*dy);
+        _initialPinchDist = Math.sqrt(dx * dx + dy * dy);
         _initialZoom = state.zoom;
       }
     }, { passive: true });
@@ -1813,7 +1766,7 @@
         e.preventDefault();
         const dx = e.touches[0].clientX - e.touches[1].clientX;
         const dy = e.touches[0].clientY - e.touches[1].clientY;
-        const dist = Math.sqrt(dx*dx + dy*dy);
+        const dist = Math.sqrt(dx * dx + dy * dy);
         state.zoom = Math.max(0.3, Math.min(3.0, _initialZoom * (dist / _initialPinchDist)));
         if (state.zoomCounterEl) state.zoomCounterEl.textContent = state.zoom.toFixed(1) + '×';
       }
@@ -1859,16 +1812,15 @@
     if (state.running) draw();
     function setNamedMap(map) { state.namedMap = map || {}; }
     function setTitleMap(map) { state.titleMap = map || {}; }
-    function setOriginMap(map) { state.originMap = map || {}; }
 
     // ── RUNTIME MODE SWITCHING ──────────────────────────────────
     // setInteractive(on) — promote the ambient hero graph into a
     // fully interactive exploration canvas (or demote it back).
     // This avoids creating a second graph instance.
     function setInteractive(on) {
-      _opts.draggable  = on;
-      _opts.zoomable   = on;
-      _opts.hoverable  = on;
+      _opts.draggable = on;
+      _opts.zoomable = on;
+      _opts.hoverable = on;
       canvas.style.pointerEvents = on ? 'auto' : 'none';
       canvas.style.cursor = on ? 'grab' : 'default';
       // Toggle visibility of interactive chrome elements.
@@ -1879,8 +1831,8 @@
       if (parent) {
         parent.querySelectorAll('[data-interactive-chrome]').forEach(el => {
           if (el.classList.contains('skill-tooltip') ||
-              el.classList.contains('graph-skill-panel') ||
-              el.classList.contains('graph-collection-panel')) return;
+            el.classList.contains('graph-skill-panel') ||
+            el.classList.contains('graph-collection-panel')) return;
           el.style.display = on ? '' : 'none';
         });
       }
@@ -1903,7 +1855,7 @@
     function getStatusEl() { return state.statusEl; }
     function setStatusEl(el) { state.statusEl = el; setSkills(state.skills); }
 
-    return { setSkills, setNamedMap, setTitleMap, setOriginMap, resize, start, stop, resetFilters, setInteractive, setLabelMode, getStatusEl, setStatusEl };
+    return { setSkills, setNamedMap, setTitleMap, resize, start, stop, resetFilters, setInteractive, setLabelMode, getStatusEl, setStatusEl };
   }
 
   const hero = document.getElementById('hero');
@@ -1945,10 +1897,10 @@
   // to fullscreen interactive mode with labels, zoom, pan, hover.
   // This halves GPU/memory usage vs. the previous two-canvas setup.
   const heroGraph = createSkillGraph(document.getElementById('canvas3d'), {
-    labelMode:'none',
-    scale:GRAPH_SCALE,
-    stars:isMobile ? 120 : 280,
-    pointerTarget:hero,
+    labelMode: 'none',
+    scale: GRAPH_SCALE,
+    stars: isMobile ? 120 : 280,
+    pointerTarget: hero,
     graphMode: _graphIdentity.mode,
     graphHandle: _graphIdentity.handle,
     _prepareInteractive: true,   // build chrome but keep hidden
@@ -1971,15 +1923,15 @@
   _graphCloseOverlay.className = 'graph-fullscreen-chrome';
   _graphCloseOverlay.innerHTML =
     '<div class="graph-fullscreen-header">' +
-      '<div class="graph-dialog-actions">' +
-        '<a class="graph-action-btn" href="graph/gaia.json" aria-label="Download JSON" download><svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#download"/></svg><span>JSON</span></a>' +
-        '<a class="graph-action-btn" href="graph/gaia.gexf" aria-label="Download GEXF" download><svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#download"/></svg><span>GEXF</span></a>' +
-        '<a class="graph-action-btn" href="graph/gaia.svg" aria-label="Download SVG" download><svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#download"/></svg><span>SVG</span></a>' +
-        '<button type="button" class="graph-action-btn" data-graph-fullscreen-close aria-label="Close skill graph"><svg class="ico" width="20" height="20" aria-hidden="true"><use href="assets/icons.svg#close-x"/></svg></button>' +
-      '</div>' +
+    '<div class="graph-dialog-actions">' +
+    '<a class="graph-action-btn" href="graph/gaia.json" aria-label="Download JSON" download><svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#download"/></svg><span>JSON</span></a>' +
+    '<a class="graph-action-btn" href="graph/gaia.gexf" aria-label="Download GEXF" download><svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#download"/></svg><span>GEXF</span></a>' +
+    '<a class="graph-action-btn" href="graph/gaia.svg" aria-label="Download SVG" download><svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#download"/></svg><span>SVG</span></a>' +
+    '<button type="button" class="graph-action-btn" data-graph-fullscreen-close aria-label="Close skill graph"><svg class="ico" width="20" height="20" aria-hidden="true"><use href="assets/icons.svg#close-x"/></svg></button>' +
+    '</div>' +
     '</div>';
   hero.appendChild(_graphCloseOverlay);
-  
+
   const hudToggleBtn = document.createElement('button');
   hudToggleBtn.className = 'graph-action-btn graph-hud-toggle-btn';
   hudToggleBtn.setAttribute('aria-label', 'Toggle HUD');
@@ -1997,7 +1949,7 @@
     if (_graphFullscreen) return;
     _graphFullscreen = true;
     hero.classList.add('hero-graph-fullscreen');
-    
+
     if (window.innerWidth <= 700) {
       hero.classList.add('hud-hidden');
       hudToggleBtn.querySelector('span').textContent = 'Show Controls';
@@ -2084,5 +2036,5 @@
       if (heroGraph) heroGraph.setTitleMap(titleMap);
       if (heroGraph) heroGraph.setOriginMap(originMap);
     })
-    .catch(() => {});
+    .catch(() => { });
 })();
