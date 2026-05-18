@@ -38,6 +38,16 @@ REQUIRED_FIELDS = [
 
 VALID_LEVELS = {"2★", "3★", "4★", "5★", "6★"}
 
+def _extract_md_section(body, heading):
+    """Extract the text content of a markdown ## section."""
+    import re as _re
+    m = _re.search(
+        r'(?:^|\n)##\s+' + _re.escape(heading) + r'\s*\n(.*?)(?=\n##\s|\Z)',
+        body, _re.DOTALL
+    )
+    return m.group(1) if m else ""
+
+
 INDEX_SKILL_FIELDS = [
     "id",
     "name",
@@ -259,10 +269,10 @@ def load_named_skills(named_dir):
         with open(fp, "r", encoding="utf-8") as f:
             text = f.read()
         try:
-            fm, _ = parse_frontmatter(text)
-            results.append((fp, fm))
+            fm, body = parse_frontmatter(text)
+            results.append((fp, fm, body))
         except ValueError as exc:
-            results.append((fp, {"_parse_error": str(exc)}))
+            results.append((fp, {"_parse_error": str(exc)}, ""))
     return results
 
 
@@ -286,7 +296,7 @@ def validate_and_group(named_skills, valid_ids):
     awaiting_classification = []  # awakened skills waiting for reviewer action
     by_contributor = {}  # contributor -> [namedSkillId, ...]
 
-    for fp, fm in named_skills:
+    for fp, fm, body in named_skills:
         rel = os.path.relpath(fp)
 
         if "_parse_error" in fm:
@@ -320,6 +330,10 @@ def validate_and_group(named_skills, valid_ids):
         entry = {field: fm.get(field) for field in INDEX_SKILL_FIELDS}
         # Strip None values for optional fields to keep output clean
         entry = {k: v for k, v in entry.items() if v is not None}
+
+        install_section = _extract_md_section(body, "Installation")
+        if install_section:
+            entry["installBody"] = install_section.strip()
 
         # Route by status: named → buckets (real variants); awakened → awaiting
         status = fm.get("status", "awakened")
@@ -396,7 +410,7 @@ def main():
     print(f"Scanning: {named_dir}")
     named_skills = load_named_skills(named_dir)
     # Filter out index.json if accidentally included
-    named_skills = [(fp, fm) for fp, fm in named_skills
+    named_skills = [(fp, fm, body) for fp, fm, body in named_skills
                     if not fp.endswith("index.json")]
 
     print(f"Loading skill IDs from: {graph_path}")

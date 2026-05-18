@@ -5583,6 +5583,71 @@ footer::before {
   filter: none;
 }
 
+/* ── Custom install body (rendered from named skill ## Installation markdown) ── */
+.se-install-custom {
+  margin-top: .75rem;
+  border-top: 1px solid var(--border);
+  padding-top: .75rem;
+}
+
+.se-install-guide-h {
+  margin-bottom: .6rem;
+}
+
+.se-install-body {
+  font-size: .88rem;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.se-install-body p {
+  margin: .4rem 0;
+}
+
+.se-install-sub-h {
+  font-family: var(--font-display);
+  font-weight: 600;
+  margin: .9rem 0 .35rem;
+  color: var(--text);
+}
+
+h3.se-install-sub-h { font-size: .95rem; }
+h4.se-install-sub-h { font-size: .85rem; }
+
+.se-install-list {
+  padding-left: 1.1rem;
+  margin: .3rem 0;
+}
+
+.se-install-list li { margin: .2rem 0; }
+
+.se-install-code {
+  font-family: var(--font-mono);
+  font-size: .78rem;
+  color: var(--text);
+  white-space: pre-wrap;
+  word-break: break-all;
+  flex: 1;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.se-install-code code {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+.se-install-block--code {
+  align-items: flex-start;
+  margin: .35rem 0;
+}
+
+.se-install-block--code .se-copy-btn {
+  align-self: flex-start;
+  flex-shrink: 0;
+}
+
 .se-docs-block {
   margin-bottom: 2rem;
 }

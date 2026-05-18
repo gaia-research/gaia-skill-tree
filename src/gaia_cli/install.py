@@ -13,7 +13,7 @@ import shutil
 import sys
 from datetime import datetime, timezone
 
-from gaia_cli.registry import named_skills_dir
+from gaia_cli.registry import named_skills_dir, registry_graph_path
 
 
 def get_gaia_home():
@@ -162,6 +162,104 @@ def install_skill(skill_id, registry_path):
         })
     save_manifest(manifest)
     print(f"Installed: {skill_id}")
+    return True
+
+
+def install_ultimate(named_skill_ref: str, registry_path: str) -> bool:
+    """Batch-install all named prerequisite skills for an ultimate fusion chain."""
+    result = resolve_named_skill_reference(named_skill_ref, registry_path)
+    if not result:
+        print(f"Error: could not resolve '{named_skill_ref}'", file=sys.stderr)
+        return False
+    skill_id, source_path = result
+
+    # Read frontmatter from the named skill file
+    try:
+        with open(source_path, "r", encoding="utf-8") as f:
+            text = f.read()
+    except OSError as e:
+        print(f"Error reading {source_path}: {e}", file=sys.stderr)
+        return False
+
+    # Minimal frontmatter parse: extract key: value lines between --- delimiters
+    fm = {}
+    lines = text.splitlines()
+    if lines and lines[0].strip() == "---":
+        end = next((i for i, l in enumerate(lines[1:], 1) if l.strip() == "---"), None)
+        if end:
+            for line in lines[1:end]:
+                if ":" in line:
+                    k, _, v = line.partition(":")
+                    fm[k.strip()] = v.strip().strip('"').strip("'")
+
+    generic_ref = fm.get("genericSkillRef", "")
+    if not generic_ref:
+        print(f"Error: '{skill_id}' has no genericSkillRef.", file=sys.stderr)
+        return False
+
+    # Load registry graph
+    try:
+        graph_file = os.path.join(registry_path, "registry", "gaia.json")
+        if not os.path.exists(graph_file):
+            graph_file = registry_graph_path(registry_path)
+        with open(graph_file, "r", encoding="utf-8") as f:
+            import json as _json
+            graph = _json.load(f)
+    except (OSError, ValueError) as e:
+        print(f"Error loading registry: {e}", file=sys.stderr)
+        return False
+
+    abstract = next((s for s in graph.get("skills", []) if s.get("id") == generic_ref), None)
+    if not abstract:
+        print(f"Error: abstract skill '{generic_ref}' not found in registry.", file=sys.stderr)
+        return False
+    if abstract.get("type") != "ultimate":
+        print(f"Error: '{generic_ref}' is not an ultimate skill. Use --ultimate only for ultimate named skills.", file=sys.stderr)
+        return False
+
+    prerequisites = abstract.get("prerequisites", [])
+
+    # Build named map: genericSkillRef -> named skill id
+    named_map = {}
+    nd = named_skills_dir(registry_path)
+    import glob as _glob
+    for fp in _glob.glob(os.path.join(nd, "**", "*.md"), recursive=True):
+        try:
+            with open(fp, "r", encoding="utf-8") as f:
+                md_text = f.read()
+            md_lines = md_text.splitlines()
+            if md_lines and md_lines[0].strip() == "---":
+                md_end = next((i for i, l in enumerate(md_lines[1:], 1) if l.strip() == "---"), None)
+                if md_end:
+                    entry_fm = {}
+                    for line in md_lines[1:md_end]:
+                        if ":" in line:
+                            k, _, v = line.partition(":")
+                            entry_fm[k.strip()] = v.strip().strip('"').strip("'")
+                    ref = entry_fm.get("genericSkillRef", "")
+                    eid = entry_fm.get("id", "")
+                    if ref and eid:
+                        named_map[ref] = eid
+        except OSError:
+            continue
+
+    # Install prerequisite named skills
+    print(f"\nInstalling prerequisites for {skill_id} ({len(prerequisites)} skills)...")
+    installed = 0
+    for prereq_id in prerequisites:
+        named_ref = named_map.get(prereq_id)
+        if named_ref:
+            print(f"  Installing {named_ref} ({prereq_id})...")
+            install_skill(named_ref, registry_path)
+            installed += 1
+        else:
+            print(f"  Skipping {prereq_id} — no named implementation available")
+
+    # Install the ultimate itself
+    print(f"\nInstalling ultimate: {skill_id}...")
+    install_skill(named_skill_ref, registry_path)
+
+    print(f"\n✓ Installed {installed + 1} skills for the {abstract.get('name', skill_id)} suite.")
     return True
 
 

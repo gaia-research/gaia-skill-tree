@@ -141,6 +141,26 @@
   }
   function COPY_ICON(){ return _se_icon('copy', 15); }
 
+  function _renderInstallBody(md) {
+    // Split on fenced code blocks to avoid escaping their content
+    var parts = md.split(/(```[\s\S]*?```)/g);
+    var html = parts.map(function(part, i) {
+      if (i % 2 === 1) {
+        var inner = part.replace(/^```[^\n]*\n?/, '').replace(/\n?```$/, '').trim();
+        return '<div class="se-install-block se-install-block--code">' +
+          '<pre class="se-install-code"><code>' + esc(inner) + '</code></pre>' +
+          '<button class="se-copy-btn" title="Copy to clipboard" data-cmd="' + esc(inner) + '">' + COPY_ICON() + '</button>' +
+          '</div>';
+      }
+      return esc(part)
+        .replace(/^###\s+(.+)$/gm, '<h4 class="se-install-sub-h">$1</h4>')
+        .replace(/^##\s+(.+)$/gm, '<h3 class="se-install-sub-h">$1</h3>')
+        .replace(/^-\s+(.+)$/gm, '<li>$1</li>')
+        .replace(/\n\n+/g, '</p><p>');
+    }).join('');
+    return '<div class="se-install-custom"><div class="se-flow-h se-install-guide-h">Setup Guide</div><div class="se-install-body"><p>' + html + '</p></div></div>';
+  }
+
   function renderInstall(ns) {
     var el = document.getElementById('se-install');
     var id = ns.id;
@@ -164,10 +184,14 @@
       '</div>';
     }
 
+    var isUlt = ns.level === '5★';
+    var gaiaCmd = isUlt ? 'gaia install --ultimate ' + id : 'gaia install ' + id;
+    var gaiaLabel = isUlt ? '◆ ultimate suite' : '★ recommended';
     el.innerHTML = '<div class="se-flow-h">' + COPY_ICON() + ' Installation</div>' +
-      installBlock('Gaia', '★ recommended', 'gaia install ' + id, true) +
+      installBlock('Gaia', gaiaLabel, gaiaCmd, true) +
       installBlock('npx', 'skills package', 'npx skills add ' + skillsAddRef, false) +
-      (cloneUrl ? installBlock('Git Clone', '', 'git clone ' + cloneUrl, false) : '');
+      (cloneUrl ? installBlock('Git Clone', '', 'git clone ' + cloneUrl, false) : '') +
+      (ns.installBody ? _renderInstallBody(ns.installBody) : '');
 
     el.querySelectorAll('.se-copy-btn').forEach(function(btn){
       btn.onclick = function(){
