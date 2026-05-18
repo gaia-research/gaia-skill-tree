@@ -1,8 +1,8 @@
-# /receiving-code-review  [2★ · Named]
-**ID:** receiving-code-review
-**Type:** Basic Skill
-**Level:** 2★
-**Tier:** Named
+# [obra](../../../docs/u/obra/)/receiving-code-review  [2★ · Named]
+**ID:** receiving-code-review  
+**Type:** Basic Skill  
+**Level:** 2★  
+**Tier:** Named  
 **Skill Call:** `/receiving-code-review`
 
 ---
@@ -14,7 +14,7 @@ Processes code review feedback with technical rigor and verification before impl
 _None._
 
 ## Unlocks
-_None._
+- [Superpowers](../ultimate/superpowers.md)
 
 ## Evidence
 | Class | Source | Evaluator | Date |

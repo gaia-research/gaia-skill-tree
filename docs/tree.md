@@ -2,7 +2,7 @@
 
 ```
 ══════════════════════════════════════════════════════════════════════
-GAIA SKILL TREE  v3.11.21  ·  generated 2026-05-18
+GAIA SKILL TREE  v3.12.0  ·  generated 2026-05-18
 ══════════════════════════════════════════════════════════════════════
 ◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = stars · [0★ · Pure] = Unawakened rank pill · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -91,6 +91,20 @@ Shared prerequisites marked (↑ see above) on second occurrence.
      ├─ ○ /route-intent  [1★]
      ├─ ○ /plan-decompose  [1★]
      └─ ○ /tool-select  [1★]
+
+◆ /superpowers  [5★ · Unclaimed]
+─────────────────────────────────────────────────────────────────
+  ├─ ○ obra/brainstorming  [1★]
+  ├─ ○ obra/dispatching-parallel-agents  [4★]
+  ├─ ○ obra/executing-plans  [2★]
+  ├─ ○ obra/finishing-a-development-branch  [2★]
+  ├─ ○ obra/receiving-code-review  [2★]
+  ├─ ○ obra/requesting-code-review  [3★]
+  ├─ ○ obra/subagent-driven-development  [4★]
+  ├─ ○ obra/systematic-debugging  [3★]
+  ├─ ○ obra/using-git-worktrees  [1★]
+  ├─ ○ obra/verification-before-completion  [1★]
+  └─ ○ obra/writing-plans  [2★]
 
 ◆ /recursive-self-improvement  [1★ · Unclaimed]
 ─────────────────────────────────────────────────────────────────

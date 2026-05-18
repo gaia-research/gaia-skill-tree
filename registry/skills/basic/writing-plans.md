@@ -1,8 +1,8 @@
-# /writing-plans  [2★ · Named]
-**ID:** writing-plans
-**Type:** Basic Skill
-**Level:** 2★
-**Tier:** Named
+# [obra](../../../docs/u/obra/)/writing-plans  [2★ · Named]
+**ID:** writing-plans  
+**Type:** Basic Skill  
+**Level:** 2★  
+**Tier:** Named  
 **Skill Call:** `/writing-plans`
 
 ---
@@ -14,7 +14,7 @@ Writes comprehensive implementation plans breaking down multi-step tasks into bi
 _None._
 
 ## Unlocks
-_None._
+- [Superpowers](../ultimate/superpowers.md)
 
 ## Evidence
 | Class | Source | Evaluator | Date |

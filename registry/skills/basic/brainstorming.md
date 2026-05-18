@@ -1,8 +1,8 @@
-# /brainstorming  [1★ · Awakened]
-**ID:** brainstorming
-**Type:** Basic Skill
-**Level:** 1★
-**Tier:** Awakened
+# [obra](../../../docs/u/obra/)/brainstorming  [1★ · Awakened]
+**ID:** brainstorming  
+**Type:** Basic Skill  
+**Level:** 1★  
+**Tier:** Awakened  
 **Skill Call:** `/brainstorming`
 
 ---
@@ -14,7 +14,7 @@ Explores user intent, requirements, and design before implementation. Turns idea
 _None._
 
 ## Unlocks
-_None._
+- [Superpowers](../ultimate/superpowers.md)
 
 ## Evidence
 | Class | Source | Evaluator | Date |
