@@ -1,8 +1,8 @@
-# /subagent-driven-development  [4★ · Hardened]
-**ID:** subagent-driven-development
-**Type:** Basic Skill
-**Level:** 4★
-**Tier:** Hardened
+# [obra](../../../docs/u/obra/)/subagent-driven-development  [4★ · Hardened]
+**ID:** subagent-driven-development  
+**Type:** Basic Skill  
+**Level:** 4★  
+**Tier:** Hardened  
 **Skill Call:** `/subagent-driven-development`
 
 ---
@@ -14,7 +14,7 @@ Executes plans by dispatching a fresh subagent per task with a two-stage review 
 _None._
 
 ## Unlocks
-_None._
+- [Superpowers](../ultimate/superpowers.md)
 
 ## Evidence
 | Class | Source | Evaluator | Date |

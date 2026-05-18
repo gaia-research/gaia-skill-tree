@@ -1,8 +1,8 @@
-# /systematic-debugging  [3★ · Evolved]
-**ID:** systematic-debugging
-**Type:** Basic Skill
-**Level:** 3★
-**Tier:** Evolved
+# [obra](../../../docs/u/obra/)/systematic-debugging  [3★ · Evolved]
+**ID:** systematic-debugging  
+**Type:** Basic Skill  
+**Level:** 3★  
+**Tier:** Evolved  
 **Skill Call:** `/systematic-debugging`
 
 ---
@@ -14,7 +14,7 @@ Finds the root cause before attempting fixes when encountering bugs, test failur
 _None._
 
 ## Unlocks
-_None._
+- [Superpowers](../ultimate/superpowers.md)
 
 ## Evidence
 | Class | Source | Evaluator | Date |

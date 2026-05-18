@@ -1164,7 +1164,6 @@
         "level": "2★",
         "description": "Explores user intent, requirements, and design before implementation. Turns ideas into fully formed designs and specs through natural collaborative dialogue.",
         "title": "The Collaborative Blueprint",
-        "catalogRef": "obra-brainstorming",
         "tags": [
           "brainstorming",
           "requirements",
@@ -1191,7 +1190,6 @@
         "level": "4★",
         "description": "Delegates independent tasks to specialized agents with isolated context to work concurrently, dramatically reducing wall-clock time on multi-part problems.",
         "title": "The Parallel Dispatch",
-        "catalogRef": "obra-dispatching-parallel-agents",
         "tags": [
           "parallel-agents",
           "concurrency",
@@ -1218,7 +1216,6 @@
         "level": "2★",
         "description": "Loads a written implementation plan, reviews it critically, executes all tasks sequentially, and reports when complete — without improvising beyond the plan's scope.",
         "title": "The Faithful Executor",
-        "catalogRef": "obra-executing-plans",
         "tags": [
           "plan-execution",
           "sequential-tasks",
@@ -1244,7 +1241,6 @@
         "level": "2★",
         "description": "Guides completion of development work by verifying tests first, then presenting structured options for merge, PR creation, or cleanup — never declaring done without a passing build.",
         "title": "The Clean Landing",
-        "catalogRef": "obra-finishing-a-development-branch",
         "tags": [
           "branch-management",
           "pull-request",
@@ -1271,7 +1267,6 @@
         "level": "2★",
         "description": "Processes code review feedback with technical rigor and verification before implementation — questioning unclear feedback and confirming fixes with tests rather than blindly applying suggestions.",
         "title": "The Rigorous Revision",
-        "catalogRef": "obra-receiving-code-review",
         "tags": [
           "code-review",
           "feedback",
@@ -1298,7 +1293,6 @@
         "level": "3★",
         "description": "Dispatches a code reviewer subagent with isolated context to catch issues before they cascade — producing a structured review report that guides targeted fixes.",
         "title": "The Preemptive Review",
-        "catalogRef": "obra-requesting-code-review",
         "tags": [
           "code-review",
           "subagent",
@@ -1325,7 +1319,6 @@
         "level": "4★",
         "description": "Executes plans by dispatching a fresh subagent per task with a two-stage review (spec compliance then code quality), keeping the orchestrator context clean throughout.",
         "title": "The Swarm Architect",
-        "catalogRef": "obra-subagent-driven-development",
         "tags": [
           "subagent",
           "orchestration",
@@ -1352,7 +1345,6 @@
         "level": "3★",
         "description": "Finds the root cause before attempting any fix — building a minimal reproduction, forming ranked hypotheses, and instrumenting to confirm before writing a single corrective line.",
         "title": "The Root Cause Hunter",
-        "catalogRef": "obra-systematic-debugging",
         "tags": [
           "debugging",
           "root-cause",
@@ -1379,7 +1371,6 @@
         "level": "2★",
         "description": "Ensures every piece of feature work begins in an isolated workspace — creating a native git worktree when available, falling back to tool-provided isolation otherwise.",
         "title": "The Isolated Workspace",
-        "catalogRef": "obra-using-git-worktrees",
         "tags": [
           "git-worktrees",
           "isolation",
@@ -1406,7 +1397,6 @@
         "level": "2★",
         "description": "Requires running verification commands and confirming their output before claiming any work is complete, fixed, or passing — no claim without evidence.",
         "title": "The Completion Gate",
-        "catalogRef": "obra-verification-before-completion",
         "tags": [
           "verification",
           "completion",
@@ -1433,7 +1423,6 @@
         "level": "2★",
         "description": "Writes comprehensive implementation plans that break multi-step tasks into bite-sized, independently executable sub-tasks before any code is touched.",
         "title": "The Blueprint Writer",
-        "catalogRef": "obra-writing-plans",
         "tags": [
           "planning",
           "decomposition",
