@@ -161,30 +161,19 @@
 
 | Name | Class | Rank | Tier | Skill Call |
 |---|---|---|---|---|
-| ○ Brainstorming | Intrinsic Skill | 1★ | Awakened | `/brainstorming` |
 | ○ Browser Control | Intrinsic Skill | 2★ | Named | `/browser-control` |
 | ○ Code Explain | Intrinsic Skill | 2★ | Named | `/code-explain` |
 | ○ Context Compression | Intrinsic Skill | 3★ | Evolved | `/context-compression` |
-| ○ Dispatching Parallel Agents | Intrinsic Skill | 4★ | Hardened | `/dispatching-parallel-agents` |
-| ○ Executing Plans | Intrinsic Skill | 2★ | Named | `/executing-plans` |
-| ○ Finishing a Development Branch | Intrinsic Skill | 2★ | Named | `/finishing-a-development-branch` |
 | ○ Framework Upgrade | Intrinsic Skill | 0★ | Basic | `/framework-upgrade` |
 | ○ Image Generate | Intrinsic Skill | 2★ | Named | `/image-generate` |
 | ○ Object Detection | Intrinsic Skill | 2★ | Named | `/object-detection` |
 | ○ OCR | Intrinsic Skill | 2★ | Named | `/ocr` |
 | ○ Parallel Execution | Intrinsic Skill | 2★ | Named | `/parallel-execution` |
-| ○ Receiving Code Review | Intrinsic Skill | 2★ | Named | `/receiving-code-review` |
-| ○ Requesting Code Review | Intrinsic Skill | 3★ | Evolved | `/requesting-code-review` |
 | ○ Reward Modeling | Intrinsic Skill | 2★ | Named | `/reward-modeling` |
 | ○ Schema Design | Intrinsic Skill | 2★ | Named | `/schema-design` |
-| ○ Subagent-Driven Development | Intrinsic Skill | 4★ | Hardened | `/subagent-driven-development` |
-| ○ Systematic Debugging | Intrinsic Skill | 3★ | Evolved | `/systematic-debugging` |
 | ○ Test-Driven Development | Intrinsic Skill | 0★ | Basic | `/test-driven-development` |
 | ○ Token Observability | Intrinsic Skill | 2★ | Named | `/token-observability` |
-| ○ Using Git Worktrees | Intrinsic Skill | 1★ | Awakened | `/using-git-worktrees` |
 | ○ UX Audit | Intrinsic Skill | 0★ | Basic | `/ux-audit` |
-| ○ Verification Before Completion | Intrinsic Skill | 1★ | Awakened | `/verification-before-completion` |
-| ○ Writing Plans | Intrinsic Skill | 2★ | Named | `/writing-plans` |
 
 ## Ultimate Skills Awaiting Name
 

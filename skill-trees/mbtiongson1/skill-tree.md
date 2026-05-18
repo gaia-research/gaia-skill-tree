@@ -131,30 +131,19 @@ Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) throu
 Basics — basic-tier skills not wired into an upgrade path yet.  (0★ skills carry a [0★ · Pure] rank pill inline.)
 ══════════════════════════════════════════════════════════════════════
 
-  · ○ /brainstorming  [1★]
   · ○ browser-use/browser-harness  [2★]
   · ○ mattpocock/zoom-out  [2★]
   · ○ /context-compression  [3★]
-  · ○ /dispatching-parallel-agents  [4★]
-  · ○ /executing-plans  [2★]
-  · ○ /finishing-a-development-branch  [2★]
   · ○ laravel/upgrade-laravel-v13  [0★ · Pure]
   · ○ /image-generate  [2★]
   · ○ huggingface/huggingface-vision-trainer  [2★]
   · ○ /ocr  [2★]
   · ○ /parallel-execution  [2★]
-  · ○ /receiving-code-review  [2★]
-  · ○ /requesting-code-review  [3★]
   · ○ /reward-modeling  [2★]
   · ○ /schema-design  [2★]
-  · ○ /subagent-driven-development  [4★]
-  · ○ /systematic-debugging  [3★]
   · ○ addy-osmani/test-driven-development  [0★ · Pure]
   · ○ getagentseal/codeburn  [2★]
-  · ○ /using-git-worktrees  [1★]
   · ○ martin-stepanoski/nielsen-heuristics-audit  [0★ · Pure]
-  · ○ /verification-before-completion  [1★]
-  · ○ /writing-plans  [2★]
 ```
 
 ## Pending Combinations
