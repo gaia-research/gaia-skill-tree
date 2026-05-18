@@ -333,6 +333,9 @@ def build_profile_pages(check: bool) -> bool:
         if not committed.exists():
             if check:
                 print("diff docs/u/ (missing)")
+            else:
+                import shutil
+                shutil.copytree(out_dir, committed)
             return True
         drifts = _diff_tree(committed, out_dir)
         if not drifts:
@@ -340,6 +343,10 @@ def build_profile_pages(check: bool) -> bool:
         if check:
             for d in drifts:
                 print(f"diff docs/u/{d}")
+        else:
+            import shutil
+            shutil.rmtree(committed)
+            shutil.copytree(out_dir, committed)
         return True
 
 
@@ -360,6 +367,9 @@ def build_og_cards(check: bool) -> bool:
         if not committed.exists():
             if check:
                 print("diff docs/og/ (missing)")
+            else:
+                import shutil
+                shutil.copytree(out_dir, committed)
             return True
 
         # Compare only SVG files — PNGs are optional (cairosvg may be absent
@@ -379,7 +389,12 @@ def build_og_cards(check: bool) -> bool:
         if check:
             for d in drifts:
                 print(f"diff docs/og/{d}")
+        else:
+            import shutil
+            shutil.rmtree(committed)
+            shutil.copytree(out_dir, committed)
         return True
+
 
 
 def build_tree_md(check: bool) -> bool:
