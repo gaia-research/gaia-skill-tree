@@ -8339,3 +8339,368 @@ button.nav-graph-trigger:hover {
 .text-tier-basic {
   color: var(--basic);
 }
+
+/* ─────────────────────────────────────────────────────────────
+   STAGE 9 — META REPORT SIDEBAR & CALLOUT SYSTEM
+   ───────────────────────────────────────────────────────────── */
+
+/* Nav button styling */
+.nav-meta {
+  color: var(--tier-extra, #c084fc) !important;
+  font-family: var(--font-body);
+  font-size: .9rem;
+  letter-spacing: .01em;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  line-height: inherit;
+  transition: color .2s, filter .2s;
+}
+
+.nav-meta:hover {
+  color: var(--apex-gold, #fbbf24) !important;
+  filter: drop-shadow(0 0 8px rgba(192, 132, 252, 0.5));
+}
+
+/* Callout Section styling */
+.section-callout {
+  max-width: 820px;
+  margin: 3.5rem auto;
+  padding: 0 1.5rem;
+}
+
+.callout-inner {
+  background: radial-gradient(circle at top left, rgba(192, 132, 252, 0.04), rgba(56, 189, 248, 0.01));
+  border: 1px solid rgba(192, 132, 252, 0.15);
+  border-radius: 20px;
+  padding: 3rem 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(192, 132, 252, 0.02);
+  transition: border-color .3s, box-shadow .3s;
+}
+
+.callout-inner:hover {
+  border-color: rgba(192, 132, 252, 0.35);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5), 0 0 25px rgba(192, 132, 252, 0.08);
+}
+
+.callout-inner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(192, 132, 252, 0.4), rgba(56, 189, 248, 0.3), transparent);
+}
+
+.callout-glyph {
+  font-size: 2.2rem;
+  color: var(--tier-extra, #c084fc);
+  display: block;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 15px rgba(192, 132, 252, 0.5);
+  animation: callout-pulse 3s ease-in-out infinite;
+}
+
+@keyframes callout-pulse {
+  0%, 100% { transform: scale(1) translateY(0); filter: drop-shadow(0 0 2px rgba(192, 132, 252, 0.2)); }
+  50% { transform: scale(1.05) translateY(-3px); filter: drop-shadow(0 0 10px rgba(192, 132, 252, 0.5)); }
+}
+
+/* Sidebar and Backdrop foundation */
+.meta-sidebar-backdrop {
+  display: none !important; /* absolutely hidden on desktop! */
+}
+
+.meta-sidebar {
+  position: fixed;
+  top: 80px; /* sit below the top nav bar with a nice margin */
+  right: 24px;
+  width: 460px;
+  height: calc(100vh - 104px); /* full height minus top and bottom margins */
+  z-index: 999;
+  background: rgba(8, 10, 20, 0.95); /* solid dark premium slate, no blur! */
+  border: 1px solid rgba(192, 132, 252, 0.25);
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 35px rgba(192, 132, 252, 0.05);
+  display: flex;
+  flex-direction: column;
+  transform: translateX(calc(100% + 40px)); /* slide out with space */
+  transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+  visibility: hidden;
+  overflow: hidden;
+}
+
+.meta-sidebar.open {
+  transform: translateX(0);
+  visibility: visible;
+}
+
+/* Header UI Elements */
+.meta-sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.4rem;
+  background: linear-gradient(90deg, rgba(192, 132, 252, 0.08), rgba(56, 189, 248, 0.03));
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  position: relative;
+}
+
+.meta-sidebar-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(192, 132, 252, 0.3), rgba(56, 189, 248, 0.2));
+}
+
+.meta-sidebar-title {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.02em;
+}
+
+.meta-sidebar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Clean, icon-only button style matching foundation.html sampler */
+.meta-btn-icon {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.meta-btn-icon:hover {
+  border-color: var(--tier-extra, #c084fc);
+  color: var(--text);
+  background: rgba(192, 132, 252, 0.08);
+  filter: drop-shadow(0 0 6px rgba(192, 132, 252, 0.35));
+  transform: translateY(-1px);
+}
+
+.meta-btn-icon:active {
+  transform: translateY(0);
+}
+
+.meta-btn-icon.copied {
+  border-color: #22c55e;
+  color: #22c55e;
+  background: rgba(34, 197, 94, 0.08);
+  filter: drop-shadow(0 0 6px rgba(34, 197, 94, 0.35));
+}
+
+.meta-btn-close svg {
+  transform: rotate(270deg);
+  transition: transform 0.22s ease;
+}
+
+.meta-btn-close:hover svg {
+  transform: rotate(270deg) translateX(1px);
+}
+
+.mr-pagination-prev svg {
+  transform: rotate(90deg);
+}
+
+.mr-pagination-next svg {
+  transform: rotate(270deg);
+}
+
+/* Sidebar Body styling */
+.meta-sidebar-body {
+  flex: 1;
+  overflow-y: hidden; /* Scroll inside timeline, not body */
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.meta-sidebar-intro {
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.45;
+  margin-bottom: 1rem;
+}
+
+/* Align controls inside sidebar context */
+.meta-sidebar-body .mr-controls {
+  margin-bottom: 0.8rem;
+}
+
+.meta-sidebar-body .mr-filter-tabs {
+  gap: 0.3rem;
+}
+
+.meta-sidebar-body .mr-tab {
+  padding: 0.25rem 0.6rem;
+  font-size: 0.65rem;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* HIGHLY COMPACT timeline for displaying more content */
+.meta-sidebar-body .mr-timeline {
+  flex: 1;
+  overflow-y: auto;
+  padding-left: 20px;
+  padding-right: 2px;
+  margin-bottom: 0.8rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.meta-sidebar-body .mr-timeline::-webkit-scrollbar { width: 4px; }
+.meta-sidebar-body .mr-timeline::-webkit-scrollbar-track { background: transparent; }
+.meta-sidebar-body .mr-timeline::-webkit-scrollbar-thumb { background: var(--border); border-radius: 999px; }
+
+/* Extremely compact event cells */
+.meta-sidebar-body .mr-event {
+  padding: 0.4rem 0.6rem;
+  margin-bottom: 0.4rem;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.015);
+}
+
+.meta-sidebar-body .mr-event:hover {
+  background: rgba(255, 255, 255, 0.035);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.meta-sidebar-body .mr-month-header {
+  font-size: 0.6rem;
+  padding: 0.4rem 0 0.2rem;
+  margin-top: 0.15rem;
+  letter-spacing: 0.08em;
+}
+
+.meta-sidebar-body .mr-month-header::before {
+  left: -16px;
+  width: 4px;
+  height: 4px;
+}
+
+.meta-sidebar-body .mr-dot {
+  left: -20px;
+  top: 0.6rem;
+  width: 8px;
+  height: 8px;
+  border-width: 1.5px;
+}
+
+.meta-sidebar-body .mr-header {
+  gap: 0.4rem;
+  margin-bottom: 0.1rem;
+}
+
+.meta-sidebar-body .mr-action {
+  font-size: 0.58rem;
+  padding: 0.1rem 0.35rem;
+  border-radius: 3px;
+}
+
+.meta-sidebar-body .mr-skill {
+  font-size: 0.72rem;
+}
+
+.meta-sidebar-body .mr-date {
+  font-size: 0.58rem;
+}
+
+.meta-sidebar-body .mr-details {
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: rgba(226, 232, 240, 0.45);
+  -webkit-line-clamp: 2; /* Clamp strictly to 2 lines */
+}
+
+/* Pagination container styling */
+.mr-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 0.4rem 0;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+  gap: 1rem;
+}
+
+.mr-page-num {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+
+.mr-pagination .meta-btn-icon:disabled {
+  opacity: 0.25;
+  pointer-events: none;
+  border-color: var(--border);
+}
+
+/* Swiping animation support */
+.meta-sidebar.swiping {
+  transition: none !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .meta-sidebar-backdrop {
+    display: block !important;
+    position: fixed;
+    inset: 0;
+    z-index: 998;
+    background: rgba(3, 7, 18, 0.75);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .meta-sidebar-backdrop.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .meta-sidebar {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+    border: none;
+    background: rgba(3, 7, 18, 0.99);
+    transform: translateX(100%);
+  }
+  
+  .meta-sidebar-header {
+    padding: 1rem 1.2rem;
+  }
+  
+  .meta-sidebar-body {
+    padding: 1rem;
+  }
+}
