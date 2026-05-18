@@ -1,5 +1,6 @@
 import { McpServer, ResourceTemplate } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { createRequire } from "module";
 import { z } from "zod";
 import { lookupSkill } from "./tools/lookup.js";
 import { getMyTree } from "./tools/myTree.js";
@@ -8,10 +9,25 @@ import { scanContext } from "./tools/scanContext.js";
 import { propose } from "./tools/propose.js";
 import { getRegistryResource, getUserTreeResource } from "./resources/registry.js";
 
+const require = createRequire(import.meta.url);
+
+function readPackageVersion(): string {
+  for (const packagePath of ["../package.json", "../../package.json"]) {
+    try {
+      return (require(packagePath) as { version: string }).version;
+    } catch {
+      // Try the next relative path. Source runs from src/, compiled code runs from dist/src/.
+    }
+  }
+  throw new Error("Unable to read package version for MCP server");
+}
+
+const version = readPackageVersion();
+
 export function createServer(): McpServer {
   const server = new McpServer({
     name: "gaia-skill-registry",
-    version: "0.1.0",
+    version,
   });
 
   server.tool(
