@@ -40,6 +40,9 @@ embeddings = [
 interactive = [
     "questionary>=2.0.0",
 ]
+tui = [
+    "textual>=0.50.0",
+]
 dev = [
     "build>=1.2.0",
     "pytest>=8.0",
@@ -63,6 +66,7 @@ include = ["gaia_cli*"]
 
 [tool.setuptools.package-data]
 gaia_cli = [
+    "tui/theme.tcss",
     "data/registry/gaia.json",
     "data/registry/named-skills.json",
     "data/registry/named/**/*.md",

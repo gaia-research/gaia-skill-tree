@@ -1,0 +1,241 @@
+/* Gaia TUI — dark theme */
+
+Screen {
+    background: #0d1117;
+    color: #e6edf3;
+}
+
+/* ── Header ───────────────────────────────────────────────── */
+#header {
+    height: 3;
+    background: #161b22;
+    border-bottom: solid #30363d;
+    layout: horizontal;
+    align: left middle;
+    padding: 0 2;
+}
+
+#header-logo {
+    color: #79c0ff;
+    text-style: bold;
+    width: auto;
+}
+
+#header-user {
+    color: #3fb950;
+    width: auto;
+    margin-left: 2;
+}
+
+#header-version {
+    color: #8b949e;
+    width: auto;
+    margin-left: 1;
+}
+
+/* ── Agent input ──────────────────────────────────────────── */
+#search-container {
+    height: 5;
+    background: #161b22;
+    border-bottom: solid #30363d;
+    padding: 1 2;
+}
+
+#search-label {
+    color: #8b949e;
+    height: 1;
+}
+
+#search-input {
+    background: #0d1117;
+    border: solid #30363d;
+    color: #e6edf3;
+    height: 1;
+    margin-top: 0;
+}
+
+#search-input:focus {
+    border: solid #388bfd;
+    color: #79c0ff;
+}
+
+/* ── Skill list ───────────────────────────────────────────── */
+#skills-container {
+    background: #0d1117;
+}
+
+SkillItem {
+    height: 1;
+    padding: 0 2;
+    layout: horizontal;
+    background: #0d1117;
+}
+
+SkillItem:hover {
+    background: #161b22;
+}
+
+SkillItem.--highlight {
+    background: #1c2128;
+}
+
+ListItem {
+    background: #0d1117;
+    padding: 0;
+}
+
+ListItem:hover {
+    background: #161b22;
+}
+
+ListItem.--highlight {
+    background: #1c2128;
+}
+
+ListView {
+    background: #0d1117;
+    border: none;
+    scrollbar-background: #161b22;
+    scrollbar-color: #30363d;
+    scrollbar-color-hover: #8b949e;
+}
+
+ListView:focus {
+    border: none;
+}
+
+/* ── Tier / glyph colors (via markup) ────────────────────── */
+.glyph-basic    { color: #8b949e; }
+.glyph-extra    { color: #79c0ff; }
+.glyph-unique   { color: #d2a8ff; }
+.glyph-ultimate { color: #e3b341; }
+
+.label-basic    { color: #8b949e; }
+.label-extra    { color: #79c0ff; }
+.label-unique   { color: #d2a8ff; }
+.label-ultimate { color: #e3b341; }
+
+.installed-badge { color: #3fb950; }
+.level-badge     { color: #8b949e; }
+
+/* ── Status bar ───────────────────────────────────────────── */
+#status-bar {
+    height: 2;
+    background: #161b22;
+    border-top: solid #30363d;
+    layout: horizontal;
+    align: left middle;
+    padding: 0 2;
+}
+
+#status-counts {
+    color: #8b949e;
+    width: auto;
+}
+
+#status-hints {
+    color: #484f58;
+    width: 1fr;
+    text-align: right;
+}
+
+/* ── Install modal ────────────────────────────────────────── */
+InstallModal {
+    align: center middle;
+}
+
+#install-dialog {
+    width: 60;
+    height: auto;
+    background: #161b22;
+    border: solid #30363d;
+    padding: 2 3;
+}
+
+#install-title {
+    color: #79c0ff;
+    text-style: bold;
+    margin-bottom: 1;
+}
+
+#install-skill-id {
+    color: #e3b341;
+    margin-bottom: 1;
+}
+
+#install-meta {
+    color: #8b949e;
+    margin-bottom: 1;
+}
+
+#install-log {
+    height: 8;
+    background: #0d1117;
+    border: solid #21262d;
+    margin-bottom: 1;
+}
+
+#install-buttons {
+    layout: horizontal;
+    height: auto;
+    margin-top: 1;
+}
+
+#btn-install {
+    background: #238636;
+    color: #ffffff;
+    border: none;
+    margin-right: 1;
+    min-width: 12;
+}
+
+#btn-install:hover {
+    background: #2ea043;
+}
+
+#btn-cancel {
+    background: #21262d;
+    color: #8b949e;
+    border: none;
+    min-width: 12;
+}
+
+#btn-cancel:hover {
+    background: #30363d;
+    color: #e6edf3;
+}
+
+/* ── Detail panel ─────────────────────────────────────────── */
+#detail-panel {
+    width: 36;
+    background: #161b22;
+    border-left: solid #30363d;
+    padding: 1 2;
+    display: none;
+}
+
+#detail-panel.visible {
+    display: block;
+}
+
+#detail-id {
+    color: #79c0ff;
+    text-style: bold;
+    margin-bottom: 1;
+}
+
+#detail-meta {
+    color: #8b949e;
+    margin-bottom: 1;
+}
+
+#detail-desc {
+    color: #e6edf3;
+}
+
+/* ── Empty state ──────────────────────────────────────────── */
+#empty-state {
+    align: center middle;
+    color: #484f58;
+    height: 1fr;
+}
