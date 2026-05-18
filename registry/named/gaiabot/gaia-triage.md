@@ -3,7 +3,7 @@ id: gaiabot/gaia-triage
 name: Gaia Triage (Internal)
 contributor: gaiabot
 origin: false
-genericSkillRef: gaia-triage
+genericSkillRef: issue-triage
 status: awakened
 level: "2★"
 description: Automates repository triage for the Gaia Skill Tree, including fixing documentation drift, managing build dependencies (build, setuptools, wheel), and synchronizing generated graph projections and GEXF exports.

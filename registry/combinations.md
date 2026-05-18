@@ -28,7 +28,6 @@
 | ◇ /function-calling | Extra Skill | Structured Output Generation, API Call, Tool Select | 3★ | Requires an available function or tool catalog with machine-readable argument schemas and result contracts. |
 | ◇ /gaia-audit | Extra Skill | Retrieve, Cite Sources, Evaluate Output | 2★ | Requires a specific Gaia skill ID, named skill ID, or real-skill catalog item plus access to the registry source files and current public evidence sources. |
 | ◇ /gaia-meta-audit | Extra Skill | Gaia Audit, Registry Curation, Detect Anomaly | 3★ | Requires the current registry, named-skill index, real-skill catalog, and permission to compare against current source URLs or discovery indexes. |
-| ◇ /gaia-triage | Extra Skill | Issue Triage, Retrieve | 2★ | Requires access to the mbtiongson1/gaia-skill-tree repository and GitHub CLI (gh) for execution. |
 | ◇ /generative-media | Extra Skill | API Call, Data Visualize | 3★ → 2★ |  |
 | ◇ /ghostwrite | Extra Skill | Research, Write Report, Audience Model | 1★ | Requires research output as input context. |
 | ◇ [mattpocock](../docs/u/mattpocock/)/grill-me | Extra Skill | Design Review, Self-Critique | 4★ | Enforces a strict questioning loop that prevents the agent from proceeding to implementation until all branches are resolved. |
