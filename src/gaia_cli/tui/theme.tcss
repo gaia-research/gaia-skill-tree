@@ -239,3 +239,86 @@ InstallModal {
     color: #484f58;
     height: 1fr;
 }
+
+/* ── Tree screen ──────────────────────────────────────────── */
+#header-section {
+    color: #8b949e;
+    width: auto;
+    margin-left: 2;
+}
+
+#tree-layout {
+    height: 1fr;
+}
+
+#tree-panel {
+    width: 1fr;
+    background: #0d1117;
+    border-right: solid #21262d;
+}
+
+Tree {
+    background: #0d1117;
+    scrollbar-background: #161b22;
+    scrollbar-color: #30363d;
+    scrollbar-color-hover: #8b949e;
+    padding: 0 1;
+}
+
+Tree > .tree--guides {
+    color: #21262d;
+}
+
+Tree > .tree--guides-hover {
+    color: #30363d;
+}
+
+Tree > .tree--cursor {
+    background: #1c2128;
+    color: #e6edf3;
+}
+
+Tree > .tree--highlight {
+    background: #161b22;
+}
+
+Tree > .tree--highlight-line {
+    background: #1c2128;
+}
+
+#detail-panel {
+    width: 36;
+    background: #161b22;
+    border-left: solid #30363d;
+    padding: 1 2;
+    overflow-y: auto;
+    display: block;
+}
+
+/* ── Level-up modal ───────────────────────────────────────── */
+LevelUpModal {
+    align: center middle;
+    background: rgba(13, 17, 23, 0.85);
+}
+
+#lu-backdrop {
+    width: 100%;
+    height: 100%;
+    background: rgba(13, 17, 23, 0.7);
+}
+
+#lu-card {
+    align: center middle;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+}
+
+/* ── Scan screen ──────────────────────────────────────────── */
+#scan-log {
+    height: 1fr;
+    background: #0d1117;
+    padding: 0 1;
+    scrollbar-background: #161b22;
+    scrollbar-color: #30363d;
+}

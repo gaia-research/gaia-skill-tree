@@ -235,9 +235,12 @@ class AgentScreen(Screen):
     """Main landing screen — skill search and install."""
 
     BINDINGS = [
-        Binding("q", "quit_app", "Quit"),
+        Binding("ctrl+t", "goto_tree", "Tree [ctrl+t]"),
+        Binding("ctrl+g", "goto_scan", "Scan [ctrl+g]"),
+        Binding("ctrl+q", "quit_app", "Quit [ctrl+q]"),
+        Binding("q", "quit_app", "Quit", show=False),
         Binding("escape", "clear_search", "Clear", show=False),
-        Binding("i", "install_selected", "Install", show=False),
+        Binding("i", "install_selected", "Install", show=False, priority=True),
         Binding("ctrl+r", "reload", "Reload", show=False),
     ]
 
@@ -272,7 +275,7 @@ class AgentScreen(Screen):
         with Static(id="status-bar"):
             yield Static("", id="status-counts")
             yield Static(
-                "[dim]↑↓[/] navigate  [dim]Enter[/] install  [dim]i[/] install  [dim]q[/] quit",
+                "[dim]↑↓[/] navigate  [dim]Enter[/] install  [dim]^T[/] tree  [dim]^G[/] scan  [dim]q[/] quit",
                 id="status-hints",
             )
 
@@ -350,9 +353,10 @@ class AgentScreen(Screen):
             self._open_install(self._filtered[idx])
 
     def _open_install(self, skill: dict) -> None:
+        was_installed = skill.get("installed", False)
+
         def _on_close(installed: bool) -> None:
             if installed:
-                # Mark as installed in local data
                 for s in self._all_skills:
                     if s["id"] == skill["id"]:
                         s["installed"] = True
@@ -360,6 +364,16 @@ class AgentScreen(Screen):
                     self.query_one("#search-input", Input).value, self._all_skills
                 )
                 self._rebuild_list()
+                # Level-up animation for newly installed skills
+                if not was_installed:
+                    from gaia_cli.tui.screens.levelup import LevelUpModal
+                    self.app.push_screen(
+                        LevelUpModal(
+                            skill["id"],
+                            skill.get("type", "basic"),
+                            skill.get("level", ""),
+                        )
+                    )
 
         self.app.push_screen(
             InstallModal(skill, self.registry_path),
@@ -380,3 +394,21 @@ class AgentScreen(Screen):
 
     def action_reload(self) -> None:
         self._load_data()
+
+    def action_goto_scan(self) -> None:
+        from gaia_cli.tui.screens.scan import ScanScreen
+        self.app.push_screen(ScanScreen(self.registry_path))
+
+    def action_goto_tree(self) -> None:
+        from gaia_cli.tui.screens.tree import SkillTreeScreen
+        from gaia_cli.localContext import LocalContext
+        from gaia_cli.scanner import load_config
+        cfg = load_config() or {}
+        username = cfg.get("gaiaUser", cfg.get("user", ""))
+        try:
+            ctx = LocalContext.load(self.registry_path, username)
+            owned = ctx.owned_ids
+            detected = ctx.detected_ids
+        except Exception:
+            owned, detected = set(), set()
+        self.app.push_screen(SkillTreeScreen(self.registry_path, owned, detected))
