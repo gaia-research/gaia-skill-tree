@@ -93,11 +93,11 @@ def validate_batch_shape(batch, path):
     return errors
 
 
-def validate_schema(batch, schema, path):
-    if not HAS_JSONSCHEMA:
+def validate_schema(batch, validator, path):
+    if not HAS_JSONSCHEMA or not validator:
         return []
     try:
-        jsonschema.validate(instance=batch, schema=schema)
+        validator.validate(batch)
         return []
     except jsonschema.ValidationError as exc:
         return [f"{path}: schema error: {exc.message}"]
@@ -117,6 +117,14 @@ def validate_intake(intake_dir, graph_path, schema_path=None, strict=False):
     warnings = []
     canonical_ids = load_canonical_ids(graph_path)
     schema = load_json(schema_path) if schema_path and HAS_JSONSCHEMA else None
+
+    # Performance optimization:
+    # Initialize validator once to avoid re-parsing schemas for each batch
+    schema_validator = None
+    if schema and HAS_JSONSCHEMA:
+        validator_cls = jsonschema.validators.validator_for(schema)
+        schema_validator = validator_cls(schema)
+
     proposed_seen = {}
     batches = []
 
@@ -126,8 +134,8 @@ def validate_intake(intake_dir, graph_path, schema_path=None, strict=False):
         except json.JSONDecodeError as exc:
             errors.append(f"{path}: invalid JSON: {exc}")
             continue
-        if schema:
-            errors.extend(validate_schema(batch, schema, path))
+        if schema_validator:
+            errors.extend(validate_schema(batch, schema_validator, path))
         errors.extend(validate_batch_shape(batch, path))
         batches.append((path, batch))
 

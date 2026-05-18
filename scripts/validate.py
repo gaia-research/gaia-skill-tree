@@ -113,15 +113,23 @@ def validate_schema(graph, schema_dir):
     skill_schema = load_schema(os.path.join(schema_dir, "skill.schema.json"))
     combo_schema = load_schema(os.path.join(schema_dir, "combination.schema.json"))
 
+    # Performance optimization:
+    # Initialize validators once to avoid re-parsing schemas in the loop
+    skill_validator_cls = jsonschema.validators.validator_for(skill_schema)
+    skill_validator = skill_validator_cls(skill_schema)
+
+    combo_validator_cls = jsonschema.validators.validator_for(combo_schema)
+    combo_validator = combo_validator_cls(combo_schema)
+
     for skill in graph.get("skills", []):
         try:
-            jsonschema.validate(instance=skill, schema=skill_schema)
+            skill_validator.validate(skill)
         except jsonschema.ValidationError as e:
             errors.append(f"Schema error in skill '{skill.get('id', '?')}': {e.message}")
 
     for edge in graph.get("edges", []):
         try:
-            jsonschema.validate(instance=edge, schema=combo_schema)
+            combo_validator.validate(edge)
         except jsonschema.ValidationError as e:
             errors.append(f"Schema error in edge '{edge.get('sourceSkillId', '?')}->{edge.get('targetSkillId', '?')}': {e.message}")
 
