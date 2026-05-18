@@ -62,7 +62,7 @@ Decisions are made through Pull Requests. Most PRs require one Maintainer approv
 To propose a new `◆ Ultimate` skill, the contributor must satisfy all of:
 - All 5+ prerequisite skills must have named implementations in `registry/named/`
 - The proposer must hold `origin: true` status on at least 1 prerequisite named skill
-- ≥3 Class A/B evidence sources required (existing rule, unchanged)
+- ≥3 Class A/B evidence sources required — **Class A may be waived** if the proposer has ≥5 named skills in `registry/named/` (origin count is not required for the waiver)
 
 ### 4★ Alternative Pathway (Origin-Fusion)
 A contributor may reach **4★ (Hardened)** through either:

@@ -86,7 +86,7 @@ A Basic skill may be promoted to `type: "unique"` if:
 A skill may be registered as `type: "ultimate"` if the proposer satisfies **all** of:
 1. **5+ named prerequisites** — all prerequisites must be named skills in `registry/named/`
 2. **At least 1 origin** — the proposer must hold `origin: true` on ≥1 of those named skills
-3. **Evidence** — ≥3 Class A/B evidence sources (existing rule, unchanged)
+3. **Evidence** — ≥3 Class A/B evidence sources; **Class A waived** if proposer has ≥5 named skills in `registry/named/`
 
 ---
 
