@@ -25,7 +25,8 @@
   // ║ Token map cached on first read via getCanvasTokens(). Call     ║
   // ║ invalidateCanvasTokens() if the theme is swapped at runtime.   ║
   // ╚════════════════════════════════════════════════════════════════╝
-  const GRAPH_JSON_URL = 'graph/gaia.json';
+  const version = window.GAIA_VERSION ? '?v=' + window.GAIA_VERSION : '';
+  const GRAPH_JSON_URL = 'graph/gaia.json' + version;
   const GRAPH_SCALE = 1.625;
 
   // ── Locked canvas geometry (DESIGN.md ▸ Graph Canvas) ──────────
@@ -2329,7 +2330,7 @@
       if (status) status.textContent = 'Using embedded preview graph. Run the page from docs/ to load the full graph.';
     });
 
-  fetch('graph/named/index.json')
+  fetch('graph/named/index.json' + version)
     .then(r => r.ok ? r.json() : Promise.reject())
     .then(indexData => {
       const map = {};
