@@ -20,12 +20,59 @@ tags:
   - orchestration
   - ultimate
 createdAt: "2026-05-18"
+suiteComponents:
+  - garrytan/benchmark
+  - garrytan/benchmark-models
+  - garrytan/browse
+  - garrytan/canary
+  - garrytan/careful
+  - garrytan/codex
+  - garrytan/context-restore
+  - garrytan/context-save
+  - garrytan/cso
+  - garrytan/design-consultation
+  - garrytan/design-html
+  - garrytan/design-review
+  - garrytan/design-shotgun
+  - garrytan/devex-review
+  - garrytan/document-generate
+  - garrytan/document-release
+  - garrytan/freeze
+  - garrytan/garrytan
+  - garrytan/gstack-upgrade
+  - garrytan/guard
+  - garrytan/health
+  - garrytan/investigate
+  - garrytan/land-and-deploy
+  - garrytan/landing-report
+  - garrytan/learn
+  - garrytan/make-pdf
+  - garrytan/office-hours
+  - garrytan/open-gstack-browser
+  - garrytan/pair-agent
+  - garrytan/plan-ceo-review
+  - garrytan/plan-design-review
+  - garrytan/plan-devex-review
+  - garrytan/plan-eng-review
+  - garrytan/plan-tune
+  - garrytan/qa
+  - garrytan/qa-only
+  - garrytan/retro
+  - garrytan/review
+  - garrytan/scrape
+  - garrytan/setup-browser-cookies
+  - garrytan/setup-deploy
+  - garrytan/setup-gbrain
+  - garrytan/ship
+  - garrytan/skillify
+  - garrytan/sync-gbrain
+  - garrytan/unfreeze
 updatedAt: "2026-05-18"
 ---
 
 ## Overview
 
-Gstacks is the ultimate node fusing all five Garry Tan discipline skills into an end-to-end autonomous product studio: from ideation and design through QA, security hardening, and strategic founder-mode review.
+Gstacks is the ultimate node fusing Garry Tan's complete suite of forty-six named discipline skills into an end-to-end autonomous product studio: from ideation and design through QA, security hardening, and strategic founder-mode review.
 
 ## Component Skills
 

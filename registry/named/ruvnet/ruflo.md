@@ -20,6 +20,54 @@ tags:
   - platform
 createdAt: "2026-05-19"
 updatedAt: "2026-05-19"
+suiteComponents:
+  - ruvnet/agentdb
+  - ruvnet/agentdb-advanced
+  - ruvnet/agentdb-learning
+  - ruvnet/agentdb-memory-patterns
+  - ruvnet/agentdb-optimization
+  - ruvnet/agentdb-vector-search
+  - ruvnet/agentic-jujutsu
+  - ruvnet/browser
+  - ruvnet/dual-collect
+  - ruvnet/dual-coordinate
+  - ruvnet/dual-mode
+  - ruvnet/dual-spawn
+  - ruvnet/flow-nexus
+  - ruvnet/flow-nexus-neural
+  - ruvnet/flow-nexus-platform
+  - ruvnet/flow-nexus-swarm
+  - ruvnet/github-code-review
+  - ruvnet/github-multi-repo
+  - ruvnet/github-project-management
+  - ruvnet/github-release-management
+  - ruvnet/github-suite
+  - ruvnet/github-workflow-automation
+  - ruvnet/hive-mind-coordination
+  - ruvnet/hooks-automation
+  - ruvnet/pair-programming
+  - ruvnet/performance-analysis
+  - ruvnet/reasoningbank
+  - ruvnet/reasoningbank-agentdb
+  - ruvnet/reasoningbank-intelligence
+  - ruvnet/ruflo-v3
+  - ruvnet/skill-builder
+  - ruvnet/sparc-methodology
+  - ruvnet/stream-chain
+  - ruvnet/swarm-advanced
+  - ruvnet/swarm-orchestration
+  - ruvnet/v3-cli-modernization
+  - ruvnet/v3-core-implementation
+  - ruvnet/v3-ddd-architecture
+  - ruvnet/v3-integration-deep
+  - ruvnet/v3-mcp-optimization
+  - ruvnet/v3-memory-unification
+  - ruvnet/v3-performance-optimization
+  - ruvnet/v3-security-overhaul
+  - ruvnet/v3-swarm-coordination
+  - ruvnet/verification-quality
+  - ruvnet/worker-benchmarks
+  - ruvnet/worker-integration
 ---
 
 ## Overview

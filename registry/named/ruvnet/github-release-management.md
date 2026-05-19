@@ -20,6 +20,7 @@ tags:
   - automation
 createdAt: "2026-05-19"
 updatedAt: "2026-05-19"
+suiteRef: "ruvnet/ruflo"
 ---
 
 ## Overview

@@ -64,6 +64,8 @@ INDEX_SKILL_FIELDS = [
     "createdAt",
     "updatedAt",
     "timeline",
+    "suiteRef",
+    "suiteComponents",
 ]
 
 
@@ -283,7 +285,146 @@ def load_gaia_skill_ids(graph_path):
     return {s["id"] for s in data.get("skills", [])}
 
 
-def validate_and_group(named_skills, valid_ids):
+def load_suite_mappings(suites_dir):
+    """Scan registry/suites/ for *.json files and map constituent skills to suite refs."""
+    skill_to_suite = {}
+    suite_to_components = {}
+
+    if not os.path.isdir(suites_dir):
+        return skill_to_suite, suite_to_components
+
+    pattern = os.path.join(suites_dir, "**", "*.json")
+    suite_files = glob.glob(pattern, recursive=True)
+
+    for fp in sorted(suite_files):
+        try:
+            with open(fp, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            suite_id = data.get("id")
+            capstone = data.get("capstone")
+            if not suite_id:
+                continue
+
+            # Collect all constituents (members from all sub-suites + standalones)
+            constituents = []
+            for suite in data.get("suites", []):
+                members = suite.get("members", [])
+                constituents.extend(members)
+                # If there's an intermediate fusion skill, it's also a constituent of the main suite
+                fusion = suite.get("fusion")
+                if fusion:
+                    constituents.append(fusion)
+
+            standalones = data.get("standalones", [])
+            constituents.extend(standalones)
+
+            # Deduplicate and sort constituents (excluding the capstone itself)
+            constituents = sorted(list(set(constituents)))
+            if capstone in constituents:
+                constituents.remove(capstone)
+
+            suite_to_components[suite_id] = constituents
+
+            for skill in constituents:
+                skill_to_suite[skill] = suite_id
+        except Exception as exc:
+            print(f"Warning: Failed to load suite file {fp}: {exc}")
+
+    return skill_to_suite, suite_to_components
+
+
+def _write_frontmatter_updates(filepath, updates):
+    """Safely write updates back to the frontmatter of a markdown file, preserving custom layout/formatting."""
+    with open(filepath, "r", encoding="utf-8") as f:
+        content = f.read()
+
+    parts = content.split("---", 2)
+    if len(parts) < 3:
+        return
+
+    fm_block = parts[1]
+    body = parts[2]
+
+    lines = fm_block.splitlines()
+    new_lines = []
+    skip_list = False
+
+    for line in lines:
+        stripped = line.strip()
+
+        if skip_list:
+            if stripped.startswith("- ") or stripped.startswith("-") or stripped == "":
+                continue
+            else:
+                skip_list = False
+
+        matched_key = None
+        for key in updates.keys():
+            if stripped.startswith(f"{key}:") or stripped == f"{key}:":
+                matched_key = key
+                break
+
+        if matched_key:
+            rest = line.partition(":")[2].strip()
+            if rest == "" or rest.startswith("["):
+                skip_list = True
+            continue
+
+        new_lines.append(line)
+
+    while new_lines and not new_lines[-1].strip():
+        new_lines.pop()
+
+    for key, value in updates.items():
+        if value is None:
+            continue
+        if isinstance(value, list):
+            new_lines.append(f"{key}:")
+            for item in value:
+                new_lines.append(f"  - {item}")
+        else:
+            new_lines.append(f"{key}: \"{value}\"")
+
+    new_fm_block = "\n".join(new_lines) + "\n"
+    new_content = f"---{new_fm_block}---{body}"
+
+    with open(filepath, "w", encoding="utf-8") as f:
+        f.write(new_content)
+
+
+def update_markdown_files_with_suite_metadata(named_skills, skill_to_suite, suite_to_components):
+    """Automatically update the frontmatter of named skill markdown files to sync suiteRef and suiteComponents."""
+    for fp, fm in named_skills:
+        if "_parse_error" in fm:
+            continue
+
+        skill_id = fm.get("id")
+        if not skill_id:
+            continue
+
+        expected_suite_ref = skill_to_suite.get(skill_id)
+        expected_suite_components = suite_to_components.get(skill_id)
+
+        current_suite_ref = fm.get("suiteRef")
+        current_suite_components = fm.get("suiteComponents")
+
+        needs_update = False
+        updates = {}
+
+        if expected_suite_ref != current_suite_ref:
+            needs_update = True
+            updates["suiteRef"] = expected_suite_ref
+
+        if expected_suite_components != current_suite_components:
+            needs_update = True
+            updates["suiteComponents"] = expected_suite_components
+
+        if needs_update:
+            print(f"  Syncing suite fields in {os.path.basename(fp)}")
+            _write_frontmatter_updates(fp, updates)
+
+
+def validate_and_group(named_skills, valid_ids, skill_to_suite=None, suite_to_components=None):
     """Validate all named skills and group by status and genericSkillRef.
 
     Returns (errors, buckets, awaiting_classification, by_contributor) where:
@@ -291,6 +432,11 @@ def validate_and_group(named_skills, valid_ids):
       - awaiting_classification: list of skill dicts (status: awakened)
       - by_contributor: contributor -> list of skill id strings
     """
+    if skill_to_suite is None:
+        skill_to_suite = {}
+    if suite_to_components is None:
+        suite_to_components = {}
+
     errors = []
     buckets = {}  # genericSkillRef -> list of dicts (named only)
     awaiting_classification = []  # awakened skills waiting for reviewer action
@@ -331,6 +477,13 @@ def validate_and_group(named_skills, valid_ids):
         # Strip None values for optional fields to keep output clean
         entry = {k: v for k, v in entry.items() if v is not None}
 
+        # Dynamically inject suiteRef and suiteComponents based on loaded suite mappings
+        skill_id = fm.get("id", "")
+        if skill_id in skill_to_suite:
+            entry["suiteRef"] = skill_to_suite[skill_id]
+        if skill_id in suite_to_components:
+            entry["suiteComponents"] = suite_to_components[skill_id]
+
         if os.path.isfile(fp):
             try:
                 with open(fp, "r", encoding="utf-8") as _f:
@@ -354,11 +507,11 @@ def validate_and_group(named_skills, valid_ids):
 
         # Always track in byContributor index
         contributor = fm.get("contributor", "")
-        skill_id = fm.get("id", "")
-        if contributor and skill_id:
+        skill_id_fm = fm.get("id", "")
+        if contributor and skill_id_fm:
             if contributor not in by_contributor:
                 by_contributor[contributor] = []
-            by_contributor[contributor].append(skill_id)
+            by_contributor[contributor].append(skill_id_fm)
 
     # Origin uniqueness per bucket (named only)
     for ref, entries in buckets.items():
@@ -397,6 +550,7 @@ def main():
     named_dir = args.named_dir or os.path.join(repo_root, "registry", "named")
     graph_path = args.graph or os.path.join(repo_root, "registry", "gaia.json")
     output_path = args.out or os.path.join(repo_root, "registry", "named-skills.json")
+    suites_dir = os.path.join(repo_root, "registry", "suites")
 
     if not os.path.isdir(named_dir):
         print(f"Named skills directory not found: {named_dir}")
@@ -422,8 +576,21 @@ def main():
     print(f"Loading skill IDs from: {graph_path}")
     valid_ids = {s["id"] for s in graph_data.get("skills", [])}
 
+    print(f"Loading suite mappings from: {suites_dir}")
+    skill_to_suite, suite_to_components = load_suite_mappings(suites_dir)
+
+    print("Syncing named skill frontmatters with suite definitions...")
+    update_markdown_files_with_suite_metadata(named_skills, skill_to_suite, suite_to_components)
+
+    # Reload named skills to ensure validation and index reflect the newly synced files
+    named_skills = load_named_skills(named_dir)
+    named_skills = [(fp, fm) for fp, fm in named_skills
+                    if not fp.endswith("index.json")]
+
     print(f"Found {len(named_skills)} named skill file(s). Validating...")
-    errors, buckets, awaiting_classification, by_contributor = validate_and_group(named_skills, valid_ids)
+    errors, buckets, awaiting_classification, by_contributor = validate_and_group(
+        named_skills, valid_ids, skill_to_suite, suite_to_components
+    )
 
     if errors:
         print(f"\n{len(errors)} validation error(s):")

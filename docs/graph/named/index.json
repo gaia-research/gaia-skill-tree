@@ -50,6 +50,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       }
     ],
@@ -98,6 +99,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       }
     ],
@@ -201,6 +203,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       },
       {
@@ -224,6 +227,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       },
       {
@@ -371,6 +375,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       },
       {
@@ -394,6 +399,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       },
       {
@@ -417,6 +423,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       }
     ],
@@ -492,6 +499,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "variant"
       }
     ],
@@ -593,6 +601,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       }
     ],
@@ -618,6 +627,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       },
       {
@@ -643,6 +653,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "variant"
       }
     ],
@@ -669,6 +680,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       },
       {
@@ -693,6 +705,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       }
     ],
@@ -719,6 +732,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       }
     ],
@@ -744,6 +758,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       },
       {
@@ -767,6 +782,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       },
       {
@@ -790,6 +806,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       },
       {
@@ -813,6 +830,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       }
     ],
@@ -838,6 +856,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       }
     ],
@@ -863,6 +882,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       },
       {
@@ -886,6 +906,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       }
     ],
@@ -913,6 +934,7 @@
         },
         "createdAt": "2026-05-12",
         "updatedAt": "2026-05-12",
+        "suiteRef": "garrytan/gstack",
         "role": "origin"
       },
       {
@@ -938,6 +960,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "variant"
       }
     ],
@@ -964,6 +987,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       }
     ],
@@ -989,6 +1013,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       },
       {
@@ -1012,6 +1037,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       },
       {
@@ -1036,6 +1062,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       },
       {
@@ -1060,6 +1087,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       },
       {
@@ -1134,6 +1162,7 @@
         },
         "createdAt": "2026-05-12",
         "updatedAt": "2026-05-12",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       }
     ],
@@ -1161,6 +1190,7 @@
         },
         "createdAt": "2026-05-12",
         "updatedAt": "2026-05-12",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       },
       {
@@ -1212,6 +1242,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       }
     ],
@@ -1241,6 +1272,54 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteComponents": [
+          "garrytan/benchmark",
+          "garrytan/benchmark-models",
+          "garrytan/browse",
+          "garrytan/canary",
+          "garrytan/careful",
+          "garrytan/codex",
+          "garrytan/context-restore",
+          "garrytan/context-save",
+          "garrytan/cso",
+          "garrytan/design-consultation",
+          "garrytan/design-html",
+          "garrytan/design-review",
+          "garrytan/design-shotgun",
+          "garrytan/devex-review",
+          "garrytan/document-generate",
+          "garrytan/document-release",
+          "garrytan/freeze",
+          "garrytan/garrytan",
+          "garrytan/gstack-upgrade",
+          "garrytan/guard",
+          "garrytan/health",
+          "garrytan/investigate",
+          "garrytan/land-and-deploy",
+          "garrytan/landing-report",
+          "garrytan/learn",
+          "garrytan/make-pdf",
+          "garrytan/office-hours",
+          "garrytan/open-gstack-browser",
+          "garrytan/pair-agent",
+          "garrytan/plan-ceo-review",
+          "garrytan/plan-design-review",
+          "garrytan/plan-devex-review",
+          "garrytan/plan-eng-review",
+          "garrytan/plan-tune",
+          "garrytan/qa",
+          "garrytan/qa-only",
+          "garrytan/retro",
+          "garrytan/review",
+          "garrytan/scrape",
+          "garrytan/setup-browser-cookies",
+          "garrytan/setup-deploy",
+          "garrytan/setup-gbrain",
+          "garrytan/ship",
+          "garrytan/skillify",
+          "garrytan/sync-gbrain",
+          "garrytan/unfreeze"
+        ],
         "installBody": "**30-second install** — Requirements: Claude Code, Git, Bun v1.0+, Node.js (Windows only)\n\n### Step 1: Install on your machine\n\nOpen Claude Code and paste this. Claude does the rest.\n\n```\nInstall gstack: run git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/.claude/skills/gstack && cd ~/.claude/skills/gstack && ./setup then add a \"gstack\" section to CLAUDE.md that says to use the /browse skill from gstack for all web browsing, never use mcp__claude-in-chrome__* tools, and lists the available skills: /office-hours, /plan-ceo-review, /plan-eng-review, /plan-design-review, /design-consultation, /design-shotgun, /design-html, /review, /ship, /land-and-deploy, /canary, /benchmark, /browse, /connect-chrome, /qa, /qa-only, /design-review, /setup-browser-cookies, /setup-deploy, /setup-gbrain, /retro, /investigate, /document-release, /document-generate, /codex, /cso, /autoplan, /plan-devex-review, /devex-review, /careful, /freeze, /guard, /unfreeze, /gstack-upgrade, /learn. Then ask the user if they also want to add gstack to the current project so teammates get it.\n```\n\n### Step 2: Team mode — auto-update for shared repos (recommended)\n\nFrom inside your repo, paste this. Switches you to team mode, bootstraps the repo so teammates get gstack automatically, and commits the change:\n\n```\n(cd ~/.claude/skills/gstack && ./setup --team) && ~/.claude/skills/gstack/bin/gstack-team-init required && git add .claude/ CLAUDE.md && git commit -m \"require gstack for AI-assisted work\"\n```\n\nNo vendored files in your repo, no version drift, no manual upgrades. Every Claude Code session starts with a fast auto-update check (throttled to once/hour, network-failure-safe, completely silent).\n\nSwap `required` for `optional` if you'd rather nudge teammates than block them.",
         "role": "origin"
       }
@@ -1268,6 +1347,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       },
       {
@@ -1292,6 +1372,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "obra/superpowers",
         "role": "origin"
       }
     ],
@@ -1318,6 +1399,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       },
       {
@@ -1341,6 +1423,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       }
     ],
@@ -1366,6 +1449,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       },
       {
@@ -1391,6 +1475,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "variant"
       }
     ],
@@ -1416,6 +1501,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       },
       {
@@ -1441,6 +1527,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "variant"
       }
     ],
@@ -1466,6 +1553,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       }
     ],
@@ -1493,6 +1581,7 @@
         },
         "createdAt": "2026-05-12",
         "updatedAt": "2026-05-12",
+        "suiteRef": "garrytan/gstack",
         "role": "origin"
       }
     ],
@@ -1518,6 +1607,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       },
       {
@@ -1543,6 +1633,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "variant"
       }
     ],
@@ -1569,6 +1660,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       },
       {
@@ -1593,6 +1685,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       },
       {
@@ -1617,6 +1710,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "variant"
       }
     ],
@@ -1642,6 +1736,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       },
       {
@@ -1680,6 +1775,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       },
       {
@@ -1704,6 +1800,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       }
     ],
@@ -1729,6 +1826,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       },
       {
@@ -1803,6 +1901,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       },
       {
@@ -1826,6 +1925,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       }
     ],
@@ -1852,6 +1952,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       },
       {
@@ -1876,6 +1977,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "obra/superpowers",
         "role": "origin"
       }
     ],
@@ -1901,6 +2003,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "garrytan/gstack",
         "role": "variant"
       },
       {
@@ -1926,6 +2029,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "variant"
       }
     ],
@@ -2382,6 +2486,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "variant"
       }
     ],
@@ -2487,6 +2592,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "obra/superpowers",
         "role": "origin"
       }
     ],
@@ -2513,6 +2619,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "obra/superpowers",
         "role": "origin"
       }
     ],
@@ -2538,6 +2645,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "obra/superpowers",
         "role": "origin"
       }
     ],
@@ -2564,6 +2672,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "obra/superpowers",
         "role": "origin"
       }
     ],
@@ -2590,6 +2699,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "obra/superpowers",
         "role": "origin"
       }
     ],
@@ -2616,6 +2726,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "obra/superpowers",
         "role": "origin"
       },
       {
@@ -2641,6 +2752,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "variant"
       }
     ],
@@ -2667,6 +2779,19 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-19",
+        "suiteComponents": [
+          "obra/brainstorming",
+          "obra/dispatching-parallel-agents",
+          "obra/executing-plans",
+          "obra/finishing-a-development-branch",
+          "obra/receiving-code-review",
+          "obra/requesting-code-review",
+          "obra/subagent-driven-development",
+          "obra/systematic-debugging",
+          "obra/using-git-worktrees",
+          "obra/verification-before-completion",
+          "obra/writing-plans"
+        ],
         "role": "origin"
       }
     ],
@@ -2693,6 +2818,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "obra/superpowers",
         "role": "origin"
       }
     ],
@@ -2719,6 +2845,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "obra/superpowers",
         "role": "origin"
       },
       {
@@ -2744,6 +2871,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "variant"
       }
     ],
@@ -2770,6 +2898,7 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "suiteRef": "obra/superpowers",
         "role": "origin"
       }
     ],
@@ -2851,6 +2980,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "origin"
       }
     ],
@@ -2877,6 +3007,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "origin"
       }
     ],
@@ -2903,6 +3034,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "origin"
       }
     ],
@@ -2929,6 +3061,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "origin"
       }
     ],
@@ -2956,6 +3089,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "origin"
       }
     ],
@@ -2983,6 +3117,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "origin"
       }
     ],
@@ -3010,6 +3145,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "origin"
       }
     ],
@@ -3037,6 +3173,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "origin"
       }
     ],
@@ -3064,6 +3201,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "origin"
       }
     ],
@@ -3091,6 +3229,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "origin"
       }
     ],
@@ -3118,6 +3257,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "origin"
       }
     ],
@@ -3145,6 +3285,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "origin"
       }
     ],
@@ -3172,6 +3313,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "origin"
       }
     ],
@@ -3199,6 +3341,7 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "suiteRef": "ruvnet/ruflo",
         "role": "origin"
       },
       {
@@ -3224,6 +3367,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "variant"
       }
     ],
@@ -3252,6 +3396,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "origin"
       }
     ],
@@ -3279,6 +3424,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "origin"
       }
     ],
@@ -3306,6 +3452,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "variant"
       }
     ],
@@ -3333,6 +3480,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "origin"
       }
     ],
@@ -3359,6 +3507,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "variant"
       },
       {
@@ -3384,6 +3533,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "variant"
       }
     ],
@@ -3410,6 +3560,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "origin"
       }
     ],
@@ -3437,6 +3588,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "origin"
       },
       {
@@ -3463,6 +3615,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "variant"
       }
     ],
@@ -3489,6 +3642,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "origin"
       }
     ],
@@ -3515,6 +3669,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "origin"
       }
     ],
@@ -3541,6 +3696,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "origin"
       }
     ],
@@ -3569,6 +3725,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "origin"
       }
     ],
@@ -3597,6 +3754,55 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteComponents": [
+          "ruvnet/agentdb",
+          "ruvnet/agentdb-advanced",
+          "ruvnet/agentdb-learning",
+          "ruvnet/agentdb-memory-patterns",
+          "ruvnet/agentdb-optimization",
+          "ruvnet/agentdb-vector-search",
+          "ruvnet/agentic-jujutsu",
+          "ruvnet/browser",
+          "ruvnet/dual-collect",
+          "ruvnet/dual-coordinate",
+          "ruvnet/dual-mode",
+          "ruvnet/dual-spawn",
+          "ruvnet/flow-nexus",
+          "ruvnet/flow-nexus-neural",
+          "ruvnet/flow-nexus-platform",
+          "ruvnet/flow-nexus-swarm",
+          "ruvnet/github-code-review",
+          "ruvnet/github-multi-repo",
+          "ruvnet/github-project-management",
+          "ruvnet/github-release-management",
+          "ruvnet/github-suite",
+          "ruvnet/github-workflow-automation",
+          "ruvnet/hive-mind-coordination",
+          "ruvnet/hooks-automation",
+          "ruvnet/pair-programming",
+          "ruvnet/performance-analysis",
+          "ruvnet/reasoningbank",
+          "ruvnet/reasoningbank-agentdb",
+          "ruvnet/reasoningbank-intelligence",
+          "ruvnet/ruflo-v3",
+          "ruvnet/skill-builder",
+          "ruvnet/sparc-methodology",
+          "ruvnet/stream-chain",
+          "ruvnet/swarm-advanced",
+          "ruvnet/swarm-orchestration",
+          "ruvnet/v3-cli-modernization",
+          "ruvnet/v3-core-implementation",
+          "ruvnet/v3-ddd-architecture",
+          "ruvnet/v3-integration-deep",
+          "ruvnet/v3-mcp-optimization",
+          "ruvnet/v3-memory-unification",
+          "ruvnet/v3-performance-optimization",
+          "ruvnet/v3-security-overhaul",
+          "ruvnet/v3-swarm-coordination",
+          "ruvnet/verification-quality",
+          "ruvnet/worker-benchmarks",
+          "ruvnet/worker-integration"
+        ],
         "role": "origin"
       }
     ],
@@ -3624,6 +3830,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "variant"
       }
     ],
@@ -3651,6 +3858,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "origin"
       }
     ],
@@ -3678,6 +3886,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "origin"
       }
     ],
@@ -3705,6 +3914,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "origin"
       }
     ],
@@ -3732,6 +3942,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "origin"
       }
     ],
@@ -3759,6 +3970,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "origin"
       }
     ],
@@ -3786,6 +3998,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "origin"
       }
     ],
@@ -3813,6 +4026,7 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
         "role": "origin"
       }
     ],

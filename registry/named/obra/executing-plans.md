@@ -17,6 +17,7 @@ tags:
   - plan-driven
 createdAt: "2026-05-18"
 updatedAt: "2026-05-18"
+suiteRef: "obra/superpowers"
 ---
 
 ## Overview

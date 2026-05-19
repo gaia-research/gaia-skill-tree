@@ -304,6 +304,27 @@ def uninstall_skill(skill_id):
 
 def list_available(registry_path):
     """Return a sorted list of (skill_id, meta_dict) for all named skills."""
+    # 1. Try to load from pre-compiled index first (fast path & contains compiled suiteRef/suiteComponents)
+    named_index_path = os.path.join(registry_path, "registry", "named-skills.json")
+    if os.path.isfile(named_index_path):
+        try:
+            with open(named_index_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            skills = []
+            # Merge buckets (named skills)
+            for bucket in data.get("buckets", {}).values():
+                for entry in bucket:
+                    skills.append((entry["id"], entry))
+            # Merge awaiting classification (awakened skills)
+            for entry in data.get("awaitingClassification", []):
+                skills.append((entry["id"], entry))
+            # Sort by ID
+            skills.sort(key=lambda x: x[0])
+            return skills
+        except Exception:
+            pass  # Fallback to scanning if index is malformed or read fails
+
+    # 2. Scanning fallback (slow path)
     named_dir = named_skills_dir(registry_path)
     if not os.path.isdir(named_dir):
         return []

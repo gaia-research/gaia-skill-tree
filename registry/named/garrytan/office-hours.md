@@ -17,6 +17,7 @@ tags:
   - design-thinking
   - y-combinator
   - ideation
+suiteRef: "garrytan/gstack"
 createdAt: "2026-05-12"
 updatedAt: "2026-05-12"
 ---

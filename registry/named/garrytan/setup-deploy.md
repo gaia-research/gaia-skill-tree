@@ -15,6 +15,7 @@ tags:
   - deployment-automation
   - setup
   - infrastructure
+suiteRef: "garrytan/gstack"
 createdAt: "2026-05-18"
 updatedAt: "2026-05-18"
 ---

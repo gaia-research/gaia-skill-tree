@@ -1,0 +1,24 @@
+{
+  "id": "obra/superpowers",
+  "name": "Superpowers",
+  "contributor": "obra",
+  "description": "A complete software development methodology for coding agents: combines brainstorming, planning, parallel execution, systematic debugging, code review loops, and branch discipline into a unified agentic workflow.",
+  "version": "1.0.0",
+  "capstone": "obra/superpowers",
+  "suites": [],
+  "standalones": [
+    "obra/brainstorming",
+    "obra/dispatching-parallel-agents",
+    "obra/executing-plans",
+    "obra/finishing-a-development-branch",
+    "obra/receiving-code-review",
+    "obra/requesting-code-review",
+    "obra/subagent-driven-development",
+    "obra/systematic-debugging",
+    "obra/using-git-worktrees",
+    "obra/verification-before-completion",
+    "obra/writing-plans"
+  ],
+  "createdAt": "2026-05-18",
+  "updatedAt": "2026-05-20"
+}

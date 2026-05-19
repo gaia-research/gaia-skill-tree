@@ -208,8 +208,69 @@ The schema and validator enforce:
 
 ---
 
-## 10) Automated Maintenance
+## 10) Ultimate Installation Templates
+
+Ultimate suites (like `garrytan/gstack`) can define premium, multi-step installation instructions. The Gaia Skill Explorer automatically compiles these instructions into an interactive, tabbed setup interface.
+
+### How to Author a Custom Suite Setup
+
+To enable this tabbed setup UI for an ultimate suite, follow these three steps:
+
+1. **Configure Frontmatter on the Capstone named skill:**
+   On the main capstone named skill markdown file (e.g., `registry/named/garrytan/gstack.md`), add the list of constituent named skill IDs under `suiteComponents` in the frontmatter:
+   ```yaml
+   suiteComponents:
+     - garrytan/browse
+     - garrytan/cso
+     - garrytan/design-review
+     - garrytan/garrytan
+     - garrytan/office-hours
+   ```
+
+2. **Link Constituent Skills:**
+   On each constituent named skill markdown file (e.g., `registry/named/garrytan/browse.md`), specify the capstone suite reference using the `suiteRef` field in the frontmatter:
+   ```yaml
+   suiteRef: "garrytan/gstack"
+   ```
+
+3. **Write the Markdown Setup Guide:**
+   In the `## Installation` section of the capstone skill, structure your guide using markdown headings (`##` or `###`) for each setup option. These headings automatically compile into tabs in the UI:
+   - Headings with `Step 1` or `machine` map to a **Machine Setup** tab.
+   - Headings with `Step 2` or `team` map to a **Team Mode** tab.
+   - Headings with `openclaw` map to an **OpenClaw** tab.
+   - Headings with `other` or `host` or `agent` map to a **Host Targets** tab.
+   - Other headings fall back to a capitalized version of their first two words.
+
+### Interactive Agent Target Selector
+
+If a tab's markdown contains a table with columns `Agent` (or `Host`) and `Flag` (or `Argument`), and a setup code block (e.g. containing `./setup` or `./install`), the UI will automatically:
+- Replace the static table with an interactive `<select>` dropdown.
+- Render the available agent hosts and flags dynamically.
+- Update the code block setup command in real-time when the user selects a target (appending `--host <flag>` correctly).
+- Display the target's installation destination path dynamically.
+
+### Editing and Submitting a PR
+
+1. **Modify the files:**
+   Make edits to the named skill markdown files under `registry/named/` and suite manifests under `registry/suites/`.
+
+2. **Extract and Rebuild:**
+   Run the index generator and documentation build scripts to extract the new frontmatter and regenerate the site:
+   ```bash
+   python3 scripts/validate.py
+   python3 scripts/build_docs.py
+   ```
+
+3. **Submit the PR:**
+   - Create a `dev/` branch for your changes (e.g. `dev/gstack-custom-setup`).
+   - Add and commit both the source named skill markdown files and the generated index files (`registry/named-skills.json`, `docs/graph/named/index.json`, `docs/css/styles.css`, `docs/js/skill-explorer.js`).
+   - Open your PR on GitHub for maintainer review.
+
+---
+
+## 11) Automated Maintenance
 
 The registry is supported by several automated workflows:
 - **Auto-Sync:** On every push to a branch, a GitHub Action automatically runs the versioning and regeneration scripts. You no longer need to run these manually before pushing.
 - **Validation:** Every PR is automatically validated for schema correctness, DAG integrity, and evidence quality.
+
