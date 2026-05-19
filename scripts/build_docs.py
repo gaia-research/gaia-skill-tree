@@ -434,6 +434,16 @@ def build_tree_md(check: bool) -> bool:
 
 
 
+def build_ruflo_curation(check: bool) -> bool:
+    """Verify docs/ruflo-curation.html exists (regenerate with generate_ruflo_curation.py)."""
+    path = ROOT / "docs" / "ruflo-curation.html"
+    if not path.exists():
+        if check:
+            print("diff docs/ruflo-curation.html (missing — run: python scripts/generate_ruflo_curation.py)")
+        return True
+    return False
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Build generated Gaia docs regions.")
     parser.add_argument("--check", action="store_true", help="Fail if generated docs are stale")
@@ -454,6 +464,7 @@ def main(argv: list[str] | None = None) -> int:
     profiles_changed = build_profile_pages(args.check)
     og_changed = build_og_cards(args.check)
     tree_changed = build_tree_md(args.check)
+    ruflo_curation_changed = build_ruflo_curation(args.check)
 
     changed = (
         readme_changed
@@ -465,6 +476,7 @@ def main(argv: list[str] | None = None) -> int:
         or profiles_changed
         or og_changed
         or tree_changed
+        or ruflo_curation_changed
     )
     if args.check and changed:
         print("Generated documentation is stale. Run `python scripts/build_docs.py --check` locally.")

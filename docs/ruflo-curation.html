@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ruflo Meta-Curation Brief — Gaia Registry</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #13131a;
+      --border: #23232e;
+      --text: #e8e6e1;
+      --muted: #888;
+      --accent: #f59e0b;
+      --blue: #38bdf8;
+      --purple: #c084fc;
+      --violet: #7c3aed;
+      --green: #4ade80;
+      --red: #f87171;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 2rem;
+    }
+    a { color: var(--blue); }
+    h1 { font-family: 'EB Garamond', serif; font-size: 2.2rem; margin-bottom: .25rem; }
+    h2 { font-family: 'EB Garamond', serif; font-size: 1.5rem; margin: 2rem 0 .75rem; border-bottom: 1px solid var(--border); padding-bottom: .4rem; }
+    h3 { font-size: 1rem; margin: 1.25rem 0 .5rem; color: var(--accent); }
+    p { margin: .5rem 0; }
+    code { font-family: 'JetBrains Mono', monospace; font-size: .82em; background: var(--surface); border: 1px solid var(--border); border-radius: 3px; padding: 0 4px; }
+    ul { padding-left: 1.5rem; }
+    li { margin: .25rem 0; }
+    header { margin-bottom: 2rem; border-bottom: 1px solid var(--border); padding-bottom: 1.5rem; }
+    .meta { color: var(--muted); font-size: .85rem; margin-top: .5rem; }
+    .stats-row { display: flex; gap: 1rem; flex-wrap: wrap; margin: 1.5rem 0; }
+    .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: .75rem 1.25rem; text-align: center; min-width: 120px; }
+    .stat-num { display: block; font-size: 1.8rem; font-weight: 700; color: var(--accent); font-family: 'JetBrains Mono', monospace; }
+    .stat-label { font-size: .75rem; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+    .suite-section { margin: 2.5rem 0; }
+    .skill-count { font-size: .85rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+    .suite-note { color: var(--muted); font-size: .9rem; margin-bottom: 1rem; }
+    .fusion-card { background: var(--surface); border: 1px solid var(--accent); border-radius: 8px; padding: .75rem 1rem; margin-bottom: 1rem; display: flex; align-items: flex-start; gap: .75rem; }
+    .fusion-icon { font-size: 1.5rem; line-height: 1; flex-shrink: 0; }
+    .fusion-info { flex: 1; }
+    .skill-table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+    .skill-table th { text-align: left; padding: .5rem .75rem; background: var(--surface); border-bottom: 2px solid var(--border); color: var(--muted); text-transform: uppercase; font-size: .75rem; letter-spacing: .06em; font-family: 'JetBrains Mono', monospace; }
+    .skill-table td { padding: .45rem .75rem; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    .skill-table tr:hover td { background: var(--surface); }
+    .skill-name { font-family: 'JetBrains Mono', monospace; }
+    .level-badge { background: color-mix(in srgb, var(--accent) 15%, transparent); color: var(--accent); border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent); border-radius: 4px; padding: 1px 6px; font-size: .78rem; font-family: 'JetBrains Mono', monospace; white-space: nowrap; }
+    .type-chip { font-size: .82rem; font-weight: 600; }
+    .chip { display: inline-block; border-radius: 4px; padding: 1px 7px; font-size: .75rem; margin: 1px; }
+    .chip-exists { background: color-mix(in srgb, var(--green) 12%, transparent); color: var(--green); border: 1px solid color-mix(in srgb, var(--green) 35%, transparent); }
+    .chip-new { background: color-mix(in srgb, var(--purple) 12%, transparent); color: var(--purple); border: 1px solid color-mix(in srgb, var(--purple) 35%, transparent); }
+    .chip-origin { background: color-mix(in srgb, var(--accent) 12%, transparent); color: var(--accent); border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); }
+    .chip-variant { background: color-mix(in srgb, var(--muted) 12%, transparent); color: var(--muted); border: 1px solid color-mix(in srgb, var(--muted) 35%, transparent); }
+    .fetch-ok { color: var(--green); font-size: .75rem; }
+    .fetch-miss { color: var(--red); font-size: .75rem; }
+    .callout { border-radius: 8px; padding: 1.25rem 1.5rem; margin: 2rem 0; }
+    .callout-seraphina { background: color-mix(in srgb, var(--violet) 10%, transparent); border: 1px solid color-mix(in srgb, var(--violet) 40%, transparent); }
+    .callout h3 { color: var(--purple); margin-top: 0; }
+    .capstone-section { border: 1px solid var(--accent); border-radius: 8px; padding: 1.5rem; background: color-mix(in srgb, var(--accent) 5%, transparent); }
+    .capstone-prereqs { margin-top: .75rem; }
+    .capstone-prereqs ul { margin-top: .4rem; columns: 2; }
+    .checklist-section { margin-top: 2.5rem; }
+    nav.toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.5rem; margin-bottom: 2rem; }
+    nav.toc ul { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; }
+    nav.toc a { color: var(--muted); font-size: .85rem; text-decoration: none; }
+    nav.toc a:hover { color: var(--text); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Ruflo Meta-Curation Brief</h1>
+    <p>Curation plan for all <strong>ruvnet/ruflo</strong> skills → Gaia registry</p>
+    <p class="meta">
+      Source: <a href="https://github.com/ruvnet/ruflo">github.com/ruvnet/ruflo</a> ·
+      Contributor: <strong>ruvnet</strong> ·
+      Fetched: 2026-05-19T08:59:16.141402Z ·
+      Branch: <code>claude/ruflo-skill-research-ar9JG</code>
+    </p>
+  </header>
+
+  <nav class="toc">
+    <ul>
+      <li><a href="#suite-flow-nexus">Flow Nexus</a></li>
+      <li><a href="#suite-agentdb">AgentDB</a></li>
+      <li><a href="#suite-github">GitHub</a></li>
+      <li><a href="#suite-hive-mind">Hive Mind</a></li>
+      <li><a href="#suite-reasoningbank">ReasoningBank</a></li>
+      <li><a href="#suite-swarm">Swarm → V3</a></li>
+      <li><a href="#suite-v3">V3</a></li>
+      <li><a href="#suite-standalone">Standalone</a></li>
+      <li><a href="#capstone">Capstone ◆</a></li>
+      <li><a href="#queen-seraphina">Queen Seraphina</a></li>
+      <li><a href="#action-checklist">Checklist</a></li>
+    </ul>
+  </nav>
+
+  
+    <div class="stats-row">
+      <div class="stat-card"><span class="stat-num">39</span><span class="stat-label">Total Skills</span></div>
+      <div class="stat-card"><span class="stat-num">39</span><span class="stat-label">SKILL.md Fetched</span></div>
+      <div class="stat-card"><span class="stat-num">22</span><span class="stat-label">New Canon Nodes</span></div>
+      <div class="stat-card"><span class="stat-num">6</span><span class="stat-label">Suite Fusions</span></div>
+      <div class="stat-card"><span class="stat-num">1</span><span class="stat-label">Capstone (6★)</span></div>
+    </div>
+
+  
+    <section class="suite-section" id="suite-flow-nexus">
+      <h2>Flow Nexus Suite <span class="skill-count">(3)</span></h2>
+      <p class="suite-note">4★ extra fusion. Queen Seraphina AI assistant lives inside <code>flow-nexus-platform</code> — not a standalone skill.</p>
+      
+        <div class="fusion-card">
+          <span class="fusion-icon" style="color:#c084fc">◇</span>
+          <div class="fusion-info">
+            <strong>Suite Fusion:</strong>
+            <code>ruvnet/flow-nexus</code>
+            <span class="level-badge">4★ Hardened</span>
+            <span class="type-chip" style="color:#c084fc">◇ extra</span>
+            <span class='chip chip-origin'>origin ★</span>
+            <br><small>canon node: <code>flow-nexus-orchestration</code></small>
+          </div>
+        </div>
+      <table class="skill-table">
+        <thead>
+          <tr>
+            <th>Ruflo Skill</th>
+            <th>Gaia Canon Node</th>
+            <th>Status</th>
+            <th>Origin</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="skill-name"><code>flow-nexus-neural</code> <span class="fetch-ok">✓</span></td><td><code>distributed-neural-training</code></td><td><span class="chip chip-new">🔨 new canon needed</span> <span class="type-chip" style="color:#c084fc">◇ extra</span></td><td><span class="chip chip-origin">origin ★</span></td></tr>
+<tr><td class="skill-name"><code>flow-nexus-platform</code> <span class="fetch-ok">✓</span></td><td><code>cloud-platform-management</code></td><td><span class="chip chip-new">🔨 new canon needed</span> <span class="type-chip" style="color:#c084fc">◇ extra</span></td><td><span class="chip chip-origin">origin ★</span></td></tr>
+<tr><td class="skill-name"><code>flow-nexus-swarm</code> <span class="fetch-ok">✓</span></td><td><code>multi-agent-orchestration-v</code></td><td><span class="chip chip-exists">✅ maps to <code>multi-agent-orchestration-v</code></span> </td><td><span class="chip chip-origin">origin ★</span></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="suite-section" id="suite-agentdb">
+      <h2>AgentDB Suite <span class="skill-count">(5)</span></h2>
+      <p class="suite-note">5★ ultimate fusion. QUIC/HNSW perf claims (150×–12,500× faster) serve as Class B evidence.</p>
+      
+        <div class="fusion-card">
+          <span class="fusion-icon" style="color:#f59e0b">◆</span>
+          <div class="fusion-info">
+            <strong>Suite Fusion:</strong>
+            <code>ruvnet/agentdb</code>
+            <span class="level-badge">5★ Transcendent</span>
+            <span class="type-chip" style="color:#f59e0b">◆ ultimate</span>
+            <span class='chip chip-origin'>origin ★</span>
+            <br><small>canon node: <code>agent-memory-platform</code></small>
+          </div>
+        </div>
+      <table class="skill-table">
+        <thead>
+          <tr>
+            <th>Ruflo Skill</th>
+            <th>Gaia Canon Node</th>
+            <th>Status</th>
+            <th>Origin</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="skill-name"><code>agentdb-advanced</code> <span class="fetch-ok">✓</span></td><td><code>distributed-vector-memory</code></td><td><span class="chip chip-new">🔨 new canon needed</span> <span class="type-chip" style="color:#c084fc">◇ extra</span></td><td><span class="chip chip-origin">origin ★</span></td></tr>
+<tr><td class="skill-name"><code>agentdb-learning</code> <span class="fetch-ok">✓</span></td><td><code>agent-memory-learning</code></td><td><span class="chip chip-new">🔨 new canon needed</span> <span class="type-chip" style="color:#c084fc">◇ extra</span></td><td><span class="chip chip-origin">origin ★</span></td></tr>
+<tr><td class="skill-name"><code>agentdb-memory-patterns</code> <span class="fetch-ok">✓</span></td><td><code>memory-pattern-design</code></td><td><span class="chip chip-new">🔨 new canon needed</span> <span class="type-chip" style="color:#38bdf8">○ basic</span></td><td><span class="chip chip-origin">origin ★</span></td></tr>
+<tr><td class="skill-name"><code>agentdb-optimization</code> <span class="fetch-ok">✓</span></td><td><code>vector-db-optimization</code></td><td><span class="chip chip-new">🔨 new canon needed</span> <span class="type-chip" style="color:#38bdf8">○ basic</span></td><td><span class="chip chip-origin">origin ★</span></td></tr>
+<tr><td class="skill-name"><code>agentdb-vector-search</code> <span class="fetch-ok">✓</span></td><td><code>vector-search</code></td><td><span class="chip chip-new">🔨 new canon needed</span> <span class="type-chip" style="color:#38bdf8">○ basic</span></td><td><span class="chip chip-origin">origin ★</span></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="suite-section" id="suite-github">
+      <h2>GitHub Suite <span class="skill-count">(5)</span></h2>
+      <p class="suite-note">Individual skills are <code>origin: false</code> variants. Only the 4★ fusion is novel to ruvnet.</p>
+      
+        <div class="fusion-card">
+          <span class="fusion-icon" style="color:#c084fc">◇</span>
+          <div class="fusion-info">
+            <strong>Suite Fusion:</strong>
+            <code>ruvnet/github-suite</code>
+            <span class="level-badge">4★ Hardened</span>
+            <span class="type-chip" style="color:#c084fc">◇ extra</span>
+            
+            <br><small>canon node: <code>github-platform-mastery</code></small>
+          </div>
+        </div>
+      <table class="skill-table">
+        <thead>
+          <tr>
+            <th>Ruflo Skill</th>
+            <th>Gaia Canon Node</th>
+            <th>Status</th>
+            <th>Origin</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="skill-name"><code>github-code-review</code> <span class="fetch-ok">✓</span></td><td><code>code-review-pipeline</code></td><td><span class="chip chip-exists">✅ maps to <code>code-review-pipeline</code></span> </td><td><span class="chip chip-variant">variant</span></td></tr>
+<tr><td class="skill-name"><code>github-multi-repo</code> <span class="fetch-ok">✓</span></td><td><code>multi-repo-coordination</code></td><td><span class="chip chip-new">🔨 new canon needed</span> <span class="type-chip" style="color:#38bdf8">○ basic</span></td><td><span class="chip chip-origin">origin ★</span></td></tr>
+<tr><td class="skill-name"><code>github-project-management</code> <span class="fetch-ok">✓</span></td><td><code>project-management</code></td><td><span class="chip chip-exists">✅ maps to <code>project-management</code></span> </td><td><span class="chip chip-variant">variant</span></td></tr>
+<tr><td class="skill-name"><code>github-release-management</code> <span class="fetch-ok">✓</span></td><td><code>release-automation</code></td><td><span class="chip chip-exists">✅ maps to <code>release-automation</code></span> </td><td><span class="chip chip-variant">variant</span></td></tr>
+<tr><td class="skill-name"><code>github-workflow-automation</code> <span class="fetch-ok">✓</span></td><td><code>workflow-automation</code></td><td><span class="chip chip-exists">✅ maps to <code>workflow-automation</code></span> </td><td><span class="chip chip-variant">variant</span></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="suite-section" id="suite-hive-mind">
+      <h2>Hive Mind Suite <span class="skill-count">(1)</span></h2>
+      <p class="suite-note">Single skill → <strong>Unique (◉)</strong>. Byzantine consensus + queen-led hierarchy is distinct from <code>multi-agent-debate</code>. No prereqs.</p>
+      
+        <div class="fusion-card">
+          <span class="fusion-icon" style="color:#7c3aed">◉</span>
+          <div class="fusion-info">
+            <strong>Suite Fusion:</strong>
+            <code>hive-mind-advanced</code>
+            <span class="level-badge">4★ Hardened</span>
+            <span class="type-chip" style="color:#7c3aed">◉ unique</span>
+            <span class='chip chip-origin'>origin ★</span>
+            <br><small>canon node: <code>hive-mind-coordination</code></small>
+          </div>
+        </div>
+      <table class="skill-table">
+        <thead>
+          <tr>
+            <th>Ruflo Skill</th>
+            <th>Gaia Canon Node</th>
+            <th>Status</th>
+            <th>Origin</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="skill-name"><code>hive-mind-advanced</code> <span class="fetch-ok">✓</span></td><td><code>hive-mind-coordination</code></td><td><span class="chip chip-new">🔨 new canon needed</span> <span class="type-chip" style="color:#7c3aed">◉ unique</span></td><td><span class="chip chip-origin">origin ★</span></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="suite-section" id="suite-reasoningbank">
+      <h2>ReasoningBank Suite <span class="skill-count">(2)</span></h2>
+      <p class="suite-note">3★ extra fusion. Adaptive learning loop on top of vector memory.</p>
+      
+        <div class="fusion-card">
+          <span class="fusion-icon" style="color:#c084fc">◇</span>
+          <div class="fusion-info">
+            <strong>Suite Fusion:</strong>
+            <code>ruvnet/reasoningbank</code>
+            <span class="level-badge">3★ Evolved</span>
+            <span class="type-chip" style="color:#c084fc">◇ extra</span>
+            <span class='chip chip-origin'>origin ★</span>
+            <br><small>canon node: <code>reasoning-pattern-bank</code></small>
+          </div>
+        </div>
+      <table class="skill-table">
+        <thead>
+          <tr>
+            <th>Ruflo Skill</th>
+            <th>Gaia Canon Node</th>
+            <th>Status</th>
+            <th>Origin</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="skill-name"><code>reasoningbank-agentdb</code> <span class="fetch-ok">✓</span></td><td><code>learned-memory-integration</code></td><td><span class="chip chip-new">🔨 new canon needed</span> <span class="type-chip" style="color:#38bdf8">○ basic</span></td><td><span class="chip chip-origin">origin ★</span></td></tr>
+<tr><td class="skill-name"><code>reasoningbank-intelligence</code> <span class="fetch-ok">✓</span></td><td><code>adaptive-pattern-learning</code></td><td><span class="chip chip-new">🔨 new canon needed</span> <span class="type-chip" style="color:#38bdf8">○ basic</span></td><td><span class="chip chip-origin">origin ★</span></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="suite-section" id="suite-swarm">
+      <h2>Swarm Skills → V3 <span class="skill-count">(2)</span></h2>
+      <p class="suite-note">No suite fusion. Both skills folded as prerequisites into <code>v3-swarm-coordination</code>.</p>
+      
+      <table class="skill-table">
+        <thead>
+          <tr>
+            <th>Ruflo Skill</th>
+            <th>Gaia Canon Node</th>
+            <th>Status</th>
+            <th>Origin</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="skill-name"><code>swarm-advanced</code> <span class="fetch-ok">✓</span></td><td><code>advanced-swarm-coordination</code></td><td><span class="chip chip-new">🔨 new canon needed</span> <span class="type-chip" style="color:#c084fc">◇ extra</span></td><td><span class="chip chip-variant">variant</span></td></tr>
+<tr><td class="skill-name"><code>swarm-orchestration</code> <span class="fetch-ok">✓</span></td><td><code>multi-agent-orchestration-v</code></td><td><span class="chip chip-new">🔨 new canon needed</span> <span class="type-chip" style="color:#38bdf8">○ basic</span></td><td><span class="chip chip-variant">variant</span></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="suite-section" id="suite-v3">
+      <h2>V3 Suite <span class="skill-count">(9)</span></h2>
+      <p class="suite-note">4★ extra fusion. Time-bounded sprint — tagged <code>v3-sprint, modernization</code>. Absorbs swarm skills as prereqs.</p>
+      
+        <div class="fusion-card">
+          <span class="fusion-icon" style="color:#c084fc">◇</span>
+          <div class="fusion-info">
+            <strong>Suite Fusion:</strong>
+            <code>ruvnet/ruflo-v3</code>
+            <span class="level-badge">4★ Hardened</span>
+            <span class="type-chip" style="color:#c084fc">◇ extra</span>
+            <span class='chip chip-origin'>origin ★</span>
+            <br><small>canon node: <code>platform-modernization-sprint</code></small>
+          </div>
+        </div>
+      <table class="skill-table">
+        <thead>
+          <tr>
+            <th>Ruflo Skill</th>
+            <th>Gaia Canon Node</th>
+            <th>Status</th>
+            <th>Origin</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="skill-name"><code>v3-cli-modernization</code> <span class="fetch-ok">✓</span></td><td><code>cli-modernization</code></td><td><span class="chip chip-new">🔨 new canon needed</span> <span class="type-chip" style="color:#38bdf8">○ basic</span></td><td><span class="chip chip-origin">origin ★</span></td></tr>
+<tr><td class="skill-name"><code>v3-core-implementation</code> <span class="fetch-ok">✓</span></td><td><code>core-platform-implementation</code></td><td><span class="chip chip-new">🔨 new canon needed</span> <span class="type-chip" style="color:#38bdf8">○ basic</span></td><td><span class="chip chip-origin">origin ★</span></td></tr>
+<tr><td class="skill-name"><code>v3-ddd-architecture</code> <span class="fetch-ok">✓</span></td><td><code>ubiquitous-language</code></td><td><span class="chip chip-exists">✅ maps to <code>ubiquitous-language</code></span> </td><td><span class="chip chip-variant">variant</span></td></tr>
+<tr><td class="skill-name"><code>v3-integration-deep</code> <span class="fetch-ok">✓</span></td><td><code>system-integration</code></td><td><span class="chip chip-new">🔨 new canon needed</span> <span class="type-chip" style="color:#38bdf8">○ basic</span></td><td><span class="chip chip-origin">origin ★</span></td></tr>
+<tr><td class="skill-name"><code>v3-mcp-optimization</code> <span class="fetch-ok">✓</span></td><td><code>mcp-integration</code></td><td><span class="chip chip-exists">✅ maps to <code>mcp-integration</code></span> </td><td><span class="chip chip-variant">variant</span></td></tr>
+<tr><td class="skill-name"><code>v3-memory-unification</code> <span class="fetch-ok">✓</span></td><td><code>memory-manage</code></td><td><span class="chip chip-exists">✅ maps to <code>memory-manage</code></span> </td><td><span class="chip chip-variant">variant</span></td></tr>
+<tr><td class="skill-name"><code>v3-performance-optimization</code> <span class="fetch-ok">✓</span></td><td><code>performance-tuning</code></td><td><span class="chip chip-new">🔨 new canon needed</span> <span class="type-chip" style="color:#38bdf8">○ basic</span></td><td><span class="chip chip-origin">origin ★</span></td></tr>
+<tr><td class="skill-name"><code>v3-security-overhaul</code> <span class="fetch-ok">✓</span></td><td><code>security-audit</code></td><td><span class="chip chip-exists">✅ maps to <code>security-audit</code></span> </td><td><span class="chip chip-variant">variant</span></td></tr>
+<tr><td class="skill-name"><code>v3-swarm-coordination</code> <span class="fetch-ok">✓</span></td><td><code>multi-agent-orchestration-v</code></td><td><span class="chip chip-exists">✅ maps to <code>multi-agent-orchestration-v</code></span> </td><td><span class="chip chip-variant">variant</span></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="suite-section" id="suite-standalone">
+      <h2>Standalone Skills <span class="skill-count">(12)</span></h2>
+      <p class="suite-note">No suite fusion. Each skill mapped individually to Gaia canon.</p>
+      
+      <table class="skill-table">
+        <thead>
+          <tr>
+            <th>Ruflo Skill</th>
+            <th>Gaia Canon Node</th>
+            <th>Status</th>
+            <th>Origin</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="skill-name"><code>agentic-jujutsu</code> <span class="fetch-ok">✓</span></td><td><code>git-diff-risk-analysis</code></td><td><span class="chip chip-new">🔨 new canon needed</span> <span class="type-chip" style="color:#38bdf8">○ basic</span></td><td><span class="chip chip-origin">origin ★</span></td></tr>
+<tr><td class="skill-name"><code>browser</code> <span class="fetch-ok">✓</span></td><td><code>browser-automation</code></td><td><span class="chip chip-exists">✅ maps to <code>browser-automation</code></span> </td><td><span class="chip chip-variant">variant</span></td></tr>
+<tr><td class="skill-name"><code>dual-mode</code> <span class="fetch-ok">✓</span></td><td><code>hybrid-agent-orchestration</code></td><td><span class="chip chip-new">🔨 new canon needed</span> <span class="type-chip" style="color:#c084fc">◇ extra</span></td><td><span class="chip chip-origin">origin ★</span></td></tr>
+<tr><td class="skill-name"><code>hooks-automation</code> <span class="fetch-ok">✓</span></td><td><code>workflow-automation</code></td><td><span class="chip chip-exists">✅ maps to <code>workflow-automation</code></span> </td><td><span class="chip chip-variant">variant</span></td></tr>
+<tr><td class="skill-name"><code>pair-programming</code> <span class="fetch-ok">✓</span></td><td><code>subagent-driven-development</code></td><td><span class="chip chip-exists">✅ maps to <code>subagent-driven-development</code></span> </td><td><span class="chip chip-variant">variant</span></td></tr>
+<tr><td class="skill-name"><code>performance-analysis</code> <span class="fetch-ok">✓</span></td><td><code>performance-tuning</code></td><td><span class="chip chip-new">🔨 new canon needed</span> <span class="type-chip" style="color:#38bdf8">○ basic</span></td><td><span class="chip chip-origin">origin ★</span></td></tr>
+<tr><td class="skill-name"><code>skill-builder</code> <span class="fetch-ok">✓</span></td><td><code>skill-authoring</code></td><td><span class="chip chip-exists">✅ maps to <code>skill-authoring</code></span> </td><td><span class="chip chip-variant">variant</span></td></tr>
+<tr><td class="skill-name"><code>sparc-methodology</code> <span class="fetch-ok">✓</span></td><td><code>agentic-workflow-design</code></td><td><span class="chip chip-exists">✅ maps to <code>agentic-workflow-design</code></span> </td><td><span class="chip chip-origin">origin ★</span></td></tr>
+<tr><td class="skill-name"><code>stream-chain</code> <span class="fetch-ok">✓</span></td><td><code>stream-chain-pipeline</code></td><td><span class="chip chip-new">🔨 new canon needed</span> <span class="type-chip" style="color:#c084fc">◇ extra</span></td><td><span class="chip chip-origin">origin ★</span></td></tr>
+<tr><td class="skill-name"><code>verification-quality</code> <span class="fetch-ok">✓</span></td><td><code>verification-before-completion</code></td><td><span class="chip chip-exists">✅ maps to <code>verification-before-completion</code></span> </td><td><span class="chip chip-variant">variant</span></td></tr>
+<tr><td class="skill-name"><code>worker-benchmarks</code> <span class="fetch-ok">✓</span></td><td><code>skill-performance-benchmarking</code></td><td><span class="chip chip-exists">✅ maps to <code>skill-performance-benchmarking</code></span> </td><td><span class="chip chip-variant">variant</span></td></tr>
+<tr><td class="skill-name"><code>worker-integration</code> <span class="fetch-ok">✓</span></td><td><code>worker-agent-integration</code></td><td><span class="chip chip-new">🔨 new canon needed</span> <span class="type-chip" style="color:#c084fc">◇ extra</span></td><td><span class="chip chip-origin">origin ★</span></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+  
+    <section class="suite-section capstone-section" id="capstone">
+      <h2>◆ Capstone: <code>ruvnet/ruflo</code> <span class="level-badge">6★ Apex</span></h2>
+      <p class="suite-note">
+        The master ultimate combining all 6 suite fusions.
+        Qualifies via the Grandmaster Path: 34k+ stars (passes 10k threshold) + AgentDB 5★ ultimate.
+        A Class A evidence source must be confirmed during the <code>/gaia-curate</code> sweep.
+      </p>
+      <div class="capstone-prereqs">
+        <strong>Prerequisites (6):</strong>
+        <ul><li><code>flow-nexus-orchestration</code></li><li><code>agent-memory-platform</code></li><li><code>github-platform-mastery</code></li><li><code>hive-mind-coordination</code></li><li><code>reasoning-pattern-bank</code></li><li><code>platform-modernization-sprint</code></li></ul>
+      </div>
+    </section>
+
+  <div id="queen-seraphina">
+    
+    <aside class="callout callout-seraphina">
+      <h3>👑 Queen Seraphina</h3>
+      <p>
+        Queen Seraphina is the AI assistant embedded in the <code>flow-nexus-platform</code> skill's
+        "System Utilities" section. She provides multi-turn conversation support with tool execution
+        capabilities for architecture design and code deployment tasks.
+      </p>
+      <p>
+        <strong>She is not a standalone skill.</strong> Document her as a notable feature in the body of
+        <code>registry/named/ruvnet/flow-nexus-platform.md</code>, under a "Queen Seraphina" heading.
+      </p>
+    </aside>
+  </div>
+
+  
+    <section class="checklist-section" id="action-checklist">
+      <h2>Action Checklist</h2>
+
+      <h3>Phase 0 — Research Artifact (current branch: <code>claude/ruflo-skill-research-ar9JG</code>)</h3>
+      <ul>
+        <li>✅ <code>scripts/fetch_ruflo_skills.py</code> created — fetches 39 SKILL.md files</li>
+        <li>✅ <code>scripts/generate_ruflo_curation.py</code> created — renders this document</li>
+        <li>✅ <code>docs/ruflo-curation.html</code> generated</li>
+        
+      </ul>
+
+      <h3>Phase 1 — Canon Branch: <code>review/meta/ruflo-canon</code></h3>
+      <ul>
+        <li>Add <strong>22</strong> new generic nodes to <code>registry/gaia.json</code> and <code>registry/nodes/</code></li>
+        <li>Order: basic nodes → extra nodes → unique (<code>hive-mind-coordination</code>) → ultimates (<code>agent-memory-platform</code>, <code>ruflo</code>)</li>
+        <li>Run <code>python scripts/validate.py</code></li>
+        <li>Run <code>python scripts/generateProjections.py</code></li>
+        <li>Bump version lockstep: <code>pyproject.toml</code>, both <code>package.json</code>, <code>registry/gaia.json</code></li>
+      </ul>
+
+      <h3>Phase 2 — Named Branch: <code>review/meta/ruflo-named</code></h3>
+      <ul>
+        <li>Add <strong>38 new</strong> named <code>.md</code> files under <code>registry/named/ruvnet/</code> (plus update existing <code>flow-nexus-swarm.md</code>)</li>
+        <li>Add <strong>6 fusion</strong> named <code>.md</code> files (one per suite with a fusion)</li>
+        <li>Add <strong>1 capstone</strong>: <code>registry/named/ruvnet/ruflo.md</code></li>
+        <li>Run <code>python scripts/generateNamedIndex.py</code></li>
+        <li>Run <code>python scripts/generateProfilePages.py</code></li>
+        <li>Existing mappings (17 skills map to existing canon — set <code>origin: false</code> where appropriate)</li>
+      </ul>
+
+      <h3>Phase 3 — Evidence Sweep: <code>review/meta/ruflo-evidence</code></h3>
+      <ul>
+        <li>Dispatch 4 parallel <code>/gaia-curate</code> agents:</li>
+        <li><strong>Agent 1:</strong> Evidence collection (Class A/B sources for 47 entries)</li>
+        <li><strong>Agent 2:</strong> Demotion review (check if ruflo displaces existing named skills)</li>
+        <li><strong>Agent 3:</strong> Mapping verification (confirm ruflo→gaia node mappings)</li>
+        <li><strong>Agent 4:</strong> Variant detection (find other contributors fitting new ruflo-created canons)</li>
+        <li>Run <code>python scripts/verify_evidence.py</code> after sweep</li>
+        <li>Confirm 6★ claim via Grandmaster Path in <code>registry/schema/meta.json</code></li>
+      </ul>
+    </section>
+
+  <footer style="margin-top:3rem; padding-top:1rem; border-top:1px solid var(--border); color:var(--muted); font-size:.8rem;">
+    Generated by <code>scripts/generate_ruflo_curation.py</code> · Gaia Skill Registry
+  </footer>
+
+</body>
+</html>
