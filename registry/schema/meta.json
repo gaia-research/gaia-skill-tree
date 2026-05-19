@@ -184,11 +184,26 @@
       }
     },
     "6★": {
-      "description": "Grandmaster path: hold 2+ 5★ Ultimate skills AND the proposer's GitHub repo has 10k+ stars.",
-      "grandmasterPath": {
-        "minUltimateSkills": 2,
+      "description": "Apex path: Fuse at least one 5★ Ultimate skills AND the proposer's GitHub repo has 30k+ stars.",
+      "apexPath": {
+        "minUltimateSkills": 1,
         "minUltimateLevel": "5★",
-        "minRepoStars": 10000
+        "minRepoStars": 30000
+      }
+    }
+  },
+  "customInstallation": {
+    "eligibleLevels": [
+      "4★",
+      "5★",
+      "6★"
+    ],
+    "minimumLevel": "4★",
+    "alternativeUnlocks": {
+      "skillSuite": {
+        "description": "Fusion of 2 or more prerequisite skills where all component skills are installed altogether.",
+        "minPrerequisites": 2,
+        "requireAllPrerequisitesInstalled": true
       }
     }
   }
