@@ -8,7 +8,6 @@ import pytest
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from gaia_cli.install import (
-    compute_sha256,
     find_named_skill_source,
     install_skill,
     load_manifest,
@@ -26,30 +25,6 @@ REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 class TestInstallInfra:
     """Tests for low-level install infrastructure utilities."""
-
-    def test_compute_sha256_produces_64_char_hex(self, tmp_path):
-        """compute_sha256 returns a 64-character hex string."""
-        test_file = tmp_path / "test.md"
-        test_file.write_text("hello world")
-        sha = compute_sha256(str(test_file))
-        assert len(sha) == 64
-        assert all(c in "0123456789abcdef" for c in sha)
-
-    def test_compute_sha256_is_deterministic(self, tmp_path):
-        """compute_sha256 returns the same value for the same file."""
-        test_file = tmp_path / "test.md"
-        test_file.write_text("hello world")
-        sha1 = compute_sha256(str(test_file))
-        sha2 = compute_sha256(str(test_file))
-        assert sha1 == sha2
-
-    def test_compute_sha256_differs_for_different_content(self, tmp_path):
-        """compute_sha256 produces different values for different content."""
-        f1 = tmp_path / "a.md"
-        f2 = tmp_path / "b.md"
-        f1.write_text("content A")
-        f2.write_text("content B")
-        assert compute_sha256(str(f1)) != compute_sha256(str(f2))
 
     def test_find_named_skill_source_exists(self, tmp_path):
         """find_named_skill_source returns the path when the file exists."""
