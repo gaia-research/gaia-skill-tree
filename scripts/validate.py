@@ -632,6 +632,109 @@ def validate_named_skills(graph, named_dir=None, catalog_path=None):
     return errors
 
 
+def validate_suites(graph, suites_dir=None, named_dir=None, schema_dir=None):
+    """Validate all skill suite JSON files in registry/suites/.
+
+    Checks:
+      - Valid JSON syntax.
+      - Conformance to registry/schema/skillSuite.schema.json (using jsonschema).
+      - Suite ID exists in the named skills list.
+      - Capstone ID matches the suite ID.
+      - Every listed named skill in members, fusion, and standalones exists in the registry.
+      - No duplicate named skill references within the suite.
+
+    Returns a list of error strings.
+    """
+    errors = []
+    repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    if suites_dir is None:
+        suites_dir = os.path.normpath(os.path.join(repo_root, "registry", "suites"))
+    if named_dir is None:
+        named_dir = os.path.normpath(os.path.join(repo_root, "registry", "named"))
+    if schema_dir is None:
+        schema_dir = os.path.normpath(os.path.join(repo_root, "registry", "schema"))
+
+    if not os.path.isdir(suites_dir):
+        return errors
+
+    # Load named skill IDs to check reference integrity
+    named_ids = set()
+    pattern = os.path.join(named_dir, "**", "*.md")
+    md_files = glob.glob(pattern, recursive=True)
+    for fp in md_files:
+        if fp.endswith("index.json"):
+            continue
+        try:
+            with open(fp, "r", encoding="utf-8") as f:
+                text = f.read()
+            fm = _parse_named_frontmatter(text)
+            skill_id = fm.get("id")
+            if skill_id:
+                named_ids.add(skill_id)
+        except Exception:
+            pass
+
+    # Load skillSuite schema if jsonschema is available
+    suite_schema = None
+    if HAS_JSONSCHEMA:
+        suite_schema_path = os.path.join(schema_dir, "skillSuite.schema.json")
+        if os.path.isfile(suite_schema_path):
+            with open(suite_schema_path, "r", encoding="utf-8") as f:
+                suite_schema = json.load(f)
+
+    suite_pattern = os.path.join(suites_dir, "**", "*.json")
+    suite_files = sorted(glob.glob(suite_pattern, recursive=True))
+
+    for fp in suite_files:
+        rel = os.path.relpath(fp)
+        try:
+            with open(fp, "r", encoding="utf-8") as f:
+                data = json.load(f)
+        except Exception as exc:
+            errors.append(f"Suite file {rel}: cannot parse JSON — {exc}")
+            continue
+
+        if suite_schema:
+            try:
+                jsonschema.validate(instance=data, schema=suite_schema)
+            except jsonschema.ValidationError as exc:
+                errors.append(f"Suite file {rel}: schema error — {exc.message}")
+                continue
+
+        suite_id = data.get("id")
+        capstone = data.get("capstone")
+
+        if suite_id not in named_ids:
+            errors.append(f"Suite file {rel}: suite ID '{suite_id}' does not match any existing named skill ID in registry/named/")
+
+        if capstone != suite_id:
+            errors.append(f"Suite file {rel}: 'capstone' ('{capstone}') must match the suite 'id' ('{suite_id}')")
+
+        # Track all constituents in the suite to check existence and uniqueness
+        constituents = []
+        for suite_obj in data.get("suites", []):
+            members = suite_obj.get("members", [])
+            for m in members:
+                constituents.append((m, f"suites[{suite_obj.get('id', '')}].members"))
+            fusion = suite_obj.get("fusion")
+            if fusion:
+                constituents.append((fusion, f"suites[{suite_obj.get('id', '')}].fusion"))
+
+        standalones = data.get("standalones", [])
+        for s in standalones:
+            constituents.append((s, "standalones"))
+
+        seen_constituents = set()
+        for skill_id, source in constituents:
+            if skill_id not in named_ids:
+                errors.append(f"Suite file {rel}: referenced named skill '{skill_id}' in '{source}' does not exist in registry/named/")
+            if skill_id in seen_constituents:
+                errors.append(f"Suite file {rel}: duplicate named skill reference '{skill_id}' in '{source}'")
+            seen_constituents.add(skill_id)
+
+    return errors
+
+
 def check_meta_sync():
     """Verify meta.json is in sync with gaia.json and bundled copies."""
     import filecmp
@@ -748,44 +851,48 @@ def main():
     all_errors = []
 
     # 1. Schema validation
-    print("   [1/10] Schema validation...")
+    print("   [1/11] Schema validation...")
     all_errors.extend(validate_schema(graph, schema_dir))
 
     # 2. Unique identifiers
-    print("   [2/10] Unique identifiers...")
+    print("   [2/11] Unique identifiers...")
     all_errors.extend(validate_unique_ids(graph))
 
     # 3. DAG cycle detection
-    print("   [3/10] DAG cycle detection...")
+    print("   [3/11] DAG cycle detection...")
     all_errors.extend(validate_dag(graph))
 
     # 4. Reference integrity
-    print("   [4/10] Reference integrity...")
+    print("   [4/11] Reference integrity...")
     all_errors.extend(validate_references(graph))
 
     # 5. Prerequisite count
-    print("   [5/10] Prerequisite count...")
+    print("   [5/11] Prerequisite count...")
     all_errors.extend(validate_prerequisites_count(graph))
 
     # 6. Evidence threshold
-    print("   [6/10] Evidence thresholds...")
+    print("   [6/11] Evidence thresholds...")
     all_errors.extend(validate_evidence(graph))
 
     # 7. Ultimate constraints
-    print("   [7/10] Ultimate constraints...")
+    print("   [7/11] Ultimate constraints...")
     all_errors.extend(validate_ultimate(graph))
 
     # 8. Unique skill constraints
-    print("   [8/10] Unique skill constraints...")
+    print("   [8/11] Unique skill constraints...")
     all_errors.extend(validate_unique_skills(graph))
 
     # 9. Demerit constraints
-    print("   [9/10] Demerit constraints...")
+    print("   [9/11] Demerit constraints...")
     all_errors.extend(validate_demerits(graph))
 
     # 10. Named skills validation (includes reviewer gate + catalog cross-refs)
-    print("   [10/10] Named skills validation...")
+    print("   [10/11] Named skills validation...")
     all_errors.extend(validate_named_skills(graph))
+
+    # 11. Skill suites validation
+    print("   [11/11] Skill suites validation...")
+    all_errors.extend(validate_suites(graph))
 
     # Stats
     compute_stats(graph)

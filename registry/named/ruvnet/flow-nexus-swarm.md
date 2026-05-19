@@ -19,6 +19,7 @@ tags:
   - workflow
 createdAt: "2026-04-30"
 updatedAt: "2026-04-30"
+suiteRef: "ruvnet/ruflo"
 ---
 
 ## Overview

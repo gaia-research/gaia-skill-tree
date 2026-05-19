@@ -141,24 +141,219 @@
   }
   function COPY_ICON(){ return _se_icon('copy', 15); }
 
-  function _renderInstallBody(md) {
-    // Split on fenced code blocks to avoid escaping their content
-    var parts = md.split(/(```[\s\S]*?```)/g);
-    var html = parts.map(function(part, i) {
-      if (i % 2 === 1) {
-        var inner = part.replace(/^```[^\n]*\n?/, '').replace(/\n?```$/, '').trim();
-        return '<div class="se-install-block se-install-block--code">' +
-          '<pre class="se-install-code"><code>' + esc(inner) + '</code></pre>' +
-          '<button class="se-copy-btn" title="Copy to clipboard" data-cmd="' + esc(inner) + '">' + COPY_ICON() + '</button>' +
-          '</div>';
+  function _renderTabbedInstall(ns) {
+    var md = ns.installBody || '';
+    if (!md) return '';
+
+    var lines = md.split('\n');
+    var sections = [];
+    var currentSection = { heading: '', content: [] };
+    var introLines = [];
+
+    for (var i = 0; i < lines.length; i++) {
+      var line = lines[i];
+      var match = line.match(/^(###?)\s+(.+)$/);
+      if (match) {
+        if (currentSection.heading || currentSection.content.length) {
+          sections.push(currentSection);
+        }
+        currentSection = { heading: match[2].trim(), content: [] };
+      } else {
+        if (currentSection.heading) {
+          currentSection.content.push(line);
+        } else {
+          introLines.push(line);
+        }
       }
-      return esc(part)
-        .replace(/^###\s+(.+)$/gm, '<h4 class="se-install-sub-h">$1</h4>')
-        .replace(/^##\s+(.+)$/gm, '<h3 class="se-install-sub-h">$1</h3>')
-        .replace(/^-\s+(.+)$/gm, '<li>$1</li>')
-        .replace(/\n\n+/g, '</p><p>');
-    }).join('');
-    return '<div class="se-install-custom"><div class="se-flow-h se-install-guide-h">Setup Guide</div><div class="se-install-body"><p>' + html + '</p></div></div>';
+    }
+    if (currentSection.heading || currentSection.content.length) {
+      sections.push(currentSection);
+    }
+
+    function getTabName(heading) {
+      var lower = heading.toLowerCase();
+      if (lower.indexOf('step 1') !== -1 || lower.indexOf('machine') !== -1) {
+        return 'Machine Setup';
+      }
+      if (lower.indexOf('step 2') !== -1 || lower.indexOf('team') !== -1) {
+        return 'Team Mode';
+      }
+      if (lower.indexOf('native') !== -1) {
+        return 'Native Skills';
+      }
+      if (lower.indexOf('openclaw') !== -1) {
+        return 'OpenClaw';
+      }
+      if (lower.indexOf('other') !== -1 || lower.indexOf('agent') !== -1 || lower.indexOf('host') !== -1) {
+        return 'Host Targets';
+      }
+      var words = heading.split(/\s+/).filter(Boolean).slice(0, 2);
+      return words.map(function(w) {
+        return w.charAt(0).toUpperCase() + w.slice(1);
+      }).join(' ');
+    }
+
+    function renderMarkdownContent(contentLines, isHostTab, tabId) {
+      var htmlParts = [];
+      var inCodeBlock = false;
+      var codeLines = [];
+      var tableHeader = null;
+      var tableRows = [];
+
+      for (var j = 0; j < contentLines.length; j++) {
+        var line = contentLines[j];
+        var trimmed = line.trim();
+
+        if (trimmed.startsWith('```')) {
+          if (inCodeBlock) {
+            inCodeBlock = false;
+            var codeText = codeLines.join('\n').trim();
+            if (isHostTab && (codeText.indexOf('./setup') !== -1 || codeText.indexOf('./install') !== -1)) {
+              htmlParts.push('<div class="se-install-block se-install-block--code">' +
+                '<pre class="se-install-code"><code id="se-code-' + tabId + '" data-base="' + esc(codeText) + '">' + esc(codeText) + '</code></pre>' +
+                '<button class="se-copy-btn" title="Copy to clipboard" id="se-copy-' + tabId + '" data-cmd="' + esc(codeText) + '">' + COPY_ICON() + '</button>' +
+                '</div>');
+            } else {
+              htmlParts.push('<div class="se-install-block se-install-block--code">' +
+                '<pre class="se-install-code"><code>' + esc(codeText) + '</code></pre>' +
+                '<button class="se-copy-btn" title="Copy to clipboard" data-cmd="' + esc(codeText) + '">' + COPY_ICON() + '</button>' +
+                '</div>');
+            }
+            codeLines = [];
+          } else {
+            inCodeBlock = true;
+          }
+          continue;
+        }
+
+        if (inCodeBlock) {
+          codeLines.push(line);
+          continue;
+        }
+
+        if (trimmed.startsWith('|')) {
+          var cells = line.split('|').map(function(s) { return s.trim(); }).filter(function(s, idx, arr) {
+            return idx > 0 && idx < arr.length - 1;
+          });
+          if (cells.length > 0) {
+            if (!tableHeader) {
+              tableHeader = cells;
+            } else if (cells[0].indexOf('---') === -1) {
+              tableRows.push(cells);
+            }
+          }
+          continue;
+        }
+
+        if (trimmed === '') {
+          htmlParts.push('<p></p>');
+          continue;
+        }
+
+        if (trimmed.startsWith('- ')) {
+          htmlParts.push('<li>' + esc(trimmed.slice(2)) + '</li>');
+          continue;
+        }
+
+        var lineHtml = esc(line)
+          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+          .replace(/\*(.*?)\*/g, '<em>$1</em>')
+          .replace(/`(.*?)`/g, '<code>$1</code>');
+        htmlParts.push('<p>' + lineHtml + '</p>');
+      }
+
+      if (tableHeader && tableRows.length > 0) {
+        var agentIdx = -1;
+        var flagIdx = -1;
+        var pathIdx = -1;
+
+        for (var c = 0; c < tableHeader.length; c++) {
+          var h = tableHeader[c].toLowerCase();
+          if (h.indexOf('agent') !== -1 || h.indexOf('host') !== -1 || h.indexOf('platform') !== -1) agentIdx = c;
+          if (h.indexOf('flag') !== -1 || h.indexOf('argument') !== -1 || h.indexOf('option') !== -1) flagIdx = c;
+          if (h.indexOf('path') !== -1 || h.indexOf('install') !== -1 || h.indexOf('destination') !== -1) pathIdx = c;
+        }
+
+        if (isHostTab && agentIdx !== -1 && flagIdx !== -1) {
+          var dropdownHtml = '<div class="se-dropdown-container">' +
+            '<span class="se-dropdown-label">Select Host Agent Target:</span>' +
+            '<select class="se-hosts-dropdown" id="se-select-' + tabId + '" data-tabid="' + tabId + '">';
+          
+          dropdownHtml += '<option value="" data-path="Auto-detects installed agents">Default (Auto-Detect)</option>';
+          for (var r = 0; r < tableRows.length; r++) {
+            var row = tableRows[r];
+            var agentName = row[agentIdx] || '';
+            var flagVal = row[flagIdx] || '';
+            var pathVal = row[pathIdx] || '';
+            dropdownHtml += '<option value="' + esc(flagVal) + '" data-path="' + esc(pathVal) + '">' + esc(agentName) + ' (' + esc(flagVal) + ')' + '</option>';
+          }
+          dropdownHtml += '</select></div>';
+          dropdownHtml += '<div class="se-target-path" id="se-path-' + tabId + '">' +
+            '<span>Destination Path:</span>' +
+            '<span class="se-mono-path">Auto-detects installed agents</span>' +
+            '</div>';
+
+          htmlParts.unshift(dropdownHtml);
+        } else {
+          var tblHtml = '<div class="se-table-container" style="overflow-x:auto;"><table class="se-markdown-table"><thead><tr>';
+          for (var th = 0; th < tableHeader.length; th++) {
+            tblHtml += '<th>' + esc(tableHeader[th]) + '</th>';
+          }
+          tblHtml += '</tr></thead><tbody>';
+          for (var tr = 0; tr < tableRows.length; tr++) {
+            tblHtml += '<tr>';
+            for (var td = 0; td < tableRows[tr].length; td++) {
+              tblHtml += '<td>' + esc(tableRows[tr][td]) + '</td>';
+            }
+            tblHtml += '</tr>';
+          }
+          tblHtml += '</tbody></table></div>';
+          htmlParts.push(tblHtml);
+        }
+      }
+
+      return htmlParts.join('\n');
+    }
+
+    var introHtml = '';
+    var validIntroLines = introLines.filter(function(l) { return l.trim() !== ''; });
+    if (validIntroLines.length > 0) {
+      introHtml = '<div class="se-install-intro" style="margin-bottom:0.75rem; font-size:0.85rem; color:var(--muted);">' + 
+        validIntroLines.map(function(l) {
+          return esc(l)
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            .replace(/`(.*?)`/g, '<code>$1</code>');
+        }).join('<br>') + 
+        '</div>';
+    }
+
+    var tabHeadersHtml = '<div class="se-tabs-header">';
+    var tabPanelsHtml = '<div class="se-tabs-content">';
+
+    for (var idx = 0; idx < sections.length; idx++) {
+      var sec = sections[idx];
+      var tName = getTabName(sec.heading);
+      var tabId = 'tab-' + idx;
+      var activeClass = idx === 0 ? ' active' : '';
+
+      tabHeadersHtml += '<button class="se-tab-btn' + activeClass + '" data-target="' + tabId + '">' + esc(tName) + '</button>';
+      
+      var isHostTab = tName.toLowerCase().indexOf('host') !== -1 || tName.toLowerCase().indexOf('other') !== -1;
+      var panelBody = renderMarkdownContent(sec.content, isHostTab, tabId);
+      tabPanelsHtml += '<div class="se-tab-panel' + activeClass + '" id="' + tabId + '">' + panelBody + '</div>';
+    }
+
+    tabHeadersHtml += '</div>';
+    tabPanelsHtml += '</div>';
+
+    return '<div class="se-install-custom">' +
+      '<div class="se-flow-h se-install-guide-h">Setup Guide</div>' +
+      introHtml +
+      '<div class="se-install-tabs-container">' +
+      tabHeadersHtml +
+      tabPanelsHtml +
+      '</div>' +
+      '</div>';
   }
 
   function renderInstall(ns) {
@@ -187,11 +382,66 @@
     var isUlt = ns.level === '5★';
     var gaiaCmd = isUlt ? 'gaia install --ultimate ' + id : 'gaia install ' + id;
     var gaiaLabel = isUlt ? '◆ ultimate suite' : '★ recommended';
-    el.innerHTML = '<div class="se-flow-h">' + COPY_ICON() + ' Installation</div>' +
-      installBlock('Gaia', gaiaLabel, gaiaCmd, true) +
-      installBlock('npx', 'skills package', 'npx skills add ' + skillsAddRef, false) +
-      (cloneUrl ? installBlock('Git Clone', '', 'git clone ' + cloneUrl, false) : '') +
-      (ns.installBody ? _renderInstallBody(ns.installBody) : '');
+
+    if (ns.suiteComponents && ns.suiteComponents.length > 0 && ns.installBody) {
+      el.innerHTML = '<div class="se-flow-h">' + COPY_ICON() + ' Installation</div>' +
+        installBlock('Gaia', gaiaLabel, gaiaCmd, true) +
+        _renderTabbedInstall(ns);
+    } else {
+      el.innerHTML = '<div class="se-flow-h">' + COPY_ICON() + ' Installation</div>' +
+        installBlock('Gaia', gaiaLabel, gaiaCmd, true) +
+        installBlock('npx', 'skills package', 'npx skills add ' + skillsAddRef, false) +
+        (cloneUrl ? installBlock('Git Clone', '', 'git clone ' + cloneUrl, false) : '') +
+        (ns.installBody ? _renderInstallBody(ns.installBody) : '');
+    }
+
+    el.querySelectorAll('.se-tab-btn').forEach(function(btn) {
+      btn.onclick = function() {
+        var container = btn.closest('.se-install-tabs-container');
+        container.querySelectorAll('.se-tab-btn').forEach(function(b) {
+          b.classList.remove('active');
+        });
+        container.querySelectorAll('.se-tab-panel').forEach(function(p) {
+          p.classList.remove('active');
+        });
+        btn.classList.add('active');
+        var targetId = btn.dataset.target;
+        var panel = container.querySelector('#' + targetId);
+        if (panel) {
+          panel.classList.add('active');
+        }
+      };
+    });
+
+    el.querySelectorAll('.se-hosts-dropdown').forEach(function(sel) {
+      sel.onchange = function() {
+        var tabId = sel.dataset.tabid;
+        var codeEl = el.querySelector('#se-code-' + tabId);
+        var copyEl = el.querySelector('#se-copy-' + tabId);
+        var pathEl = el.querySelector('#se-path-' + tabId);
+
+        if (!codeEl) return;
+        var baseCmd = codeEl.dataset.base;
+        var selectedVal = sel.value;
+        var selectedOpt = sel.options[sel.selectedIndex];
+        var pathVal = selectedOpt ? selectedOpt.dataset.path : 'Auto-detects installed agents';
+
+        var updatedCmd = baseCmd;
+        if (selectedVal) {
+          updatedCmd = baseCmd.replace(/(\.\/setup|\.\/install)(\s+--host\s+\S+)?/g, '$1 ' + selectedVal);
+        } else {
+          updatedCmd = baseCmd.replace(/(\.\/setup|\.\/install)(\s+--host\s+\S+)?/g, '$1');
+        }
+
+        codeEl.textContent = updatedCmd;
+        if (copyEl) {
+          copyEl.dataset.cmd = updatedCmd;
+        }
+        if (pathEl) {
+          pathEl.innerHTML = '<span>Destination Path:</span><span class="se-mono-path">' + esc(pathVal) + '</span>';
+        }
+      };
+    });
 
     el.querySelectorAll('.se-copy-btn').forEach(function(btn){
       btn.onclick = function(){
