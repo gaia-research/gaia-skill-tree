@@ -102,9 +102,9 @@ Expand the Gaia skill registry (`registry/gaia.json`) with new popular AI agent 
    ```bash
    gaia add "Skill Name" --id <id> --named --contributor <user> --generic-ref <ref>
    ```
-6. **Run validation** — `python3 scripts/validate.py` must exit 0.
+6. **Run validation** — `gaia validate` must exit 0.
 
-7. **Regenerate derived files** — run `python3 scripts/generateProjections.py` and `python3 scripts/exportGexf.py` so that `registry.md`, `combinations.md`, `skills/**/*.md`, `registry/gaia.gexf`, and `skill-trees/*/skill-tree.md` stay in sync. Commit these alongside `gaia.json` to pass CI drift detection.
+7. **Regenerate derived files** — run `gaia docs build`. This ensures `registry.md`, `combinations.md`, `skills/**/*.md`, `registry/gaia.gexf`, and `skill-trees/*/skill-tree.md` stay in sync.
 8. **Commit on a review branch** — branch name `review/meta/<slug>`, commit message follows `[type] Title — brief description`.
 9. **Push and open a PR** via the GitHub API using stored git credentials. The auto-triage CI classifies the PR:
    - PRs touching `registry/` from a bot with evidence score ≥ 60 are auto-merged.
@@ -118,13 +118,13 @@ For contributors who use the `gaia push` CLI, a separate **draft intake** path e
 
 1. **`gaia push`** — scans the source repo for skill-shaped tokens, builds `registry-for-review/skill-batches/<batchId>.json`, and opens a draft PR with labels `draft-skills` and `needs-review`.
 2. **Reviewer classification** — maintainers review the draft PR and mark each proposed skill: `accept` / `rename` / `duplicate` / `needs-evidence` / `reject`.
-3. **Promotion PR** — accepted skills are promoted into `registry/gaia.json` in a separate follow-up PR. That PR must run `python3 scripts/validate.py` and `python3 scripts/validate_intake.py` and must link back to the intake PR.
+3. **Promotion PR** — accepted skills are promoted into `registry/gaia.json` in a separate follow-up PR. That PR must run `gaia validate` and `gaia validate --intake` and must link back to the intake PR.
 
 Use `/gaia-draft-curate` to triage pending intake batches before running this skill.
 
 To validate intake batch files locally:
 ```bash
-python3 scripts/validate_intake.py
+gaia validate --intake
 ```
 
 ## Constraints

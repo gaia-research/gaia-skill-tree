@@ -198,13 +198,13 @@ Requires `textual` (included with `pip install gaia-cli`).
 <!-- gaia:cli-start -->
 ```text
 usage: gaia [-h] [--registry REGISTRY] [--global] [--version]
-            {help,init,scan,pull,update,install,uninstall,tree,push,propose,version,mcp,release,graph,stats,appraise,promote,fuse,docs,lookup,list,merge,split,add,evidence,skills}
+            {help,init,scan,pull,update,install,uninstall,tree,push,propose,version,mcp,release,graph,stats,appraise,promote,fuse,docs,lookup,list,merge,split,add,evidence,validate,test,skills}
             ...
 
 Gaia Registry CLI
 
 positional arguments:
-  {help,init,scan,pull,update,install,uninstall,tree,push,propose,version,mcp,release,graph,stats,appraise,promote,fuse,docs,lookup,list,merge,split,add,evidence,skills}
+  {help,init,scan,pull,update,install,uninstall,tree,push,propose,version,mcp,release,graph,stats,appraise,promote,fuse,docs,lookup,list,merge,split,add,evidence,validate,test,skills}
     help                Show command help
     init                Create or update local Gaia config
     scan                Scan configured paths for skill evidence
@@ -230,6 +230,8 @@ positional arguments:
     split               Split a skill into multiple new skills
     add                 Add a new skill to the registry
     evidence            Add evidence to a skill
+    validate            Validate the Gaia registry
+    test                Run self-verification tests
     skills              Browse and manage named skills
 
 options:
@@ -263,6 +265,8 @@ Quick usage:
   gaia split <source> <target1> <target2>...
   gaia add <name> [--id <id>] [--type <type>] [--description <desc>] [--named] [--contributor <user>]
   gaia evidence <skillId> <source> [--class A|B|C] [--evaluator <user>] [--date <date>] [--notes <notes>]
+  gaia validate [--intake] [--meta-sync]
+  gaia test <suite>
   gaia skills <list|search|info|install|uninstall>
   gaia skills list [--exclude-pending]
   gaia skills search <query> [--exclude-pending]

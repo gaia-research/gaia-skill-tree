@@ -29,8 +29,8 @@ cd packages/cli-npm && npm install
 ### Key Commands
 - **Scan/Appraise:** `gaia scan` (detect skills), `gaia appraise <skillId>` (inspect).
 - **Validation:** 
-    - `python3 scripts/validate.py` (canonical graph check).
-    - `python3 scripts/validate_intake.py` (intake batch check).
+    - `gaia validate` (canonical graph check).
+    - `gaia validate --intake` (intake batch check).
 - **Documentation:** `gaia docs build` (regenerates site and artifacts).
 - **Meta Review (CLI-ONLY):** 
     - `gaia list [--generic] [--named] [--description] [--json]`

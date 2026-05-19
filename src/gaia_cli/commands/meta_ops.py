@@ -264,10 +264,8 @@ def meta_merge_command(args):
 
         append_skill_event(target_id, "merge", _get_contributor(), f"Merged {', '.join(sources)} into {target_id}", registry_path=registry_path)
 
-    print("Running scripts/assemble_gaia.py...")
-    subprocess.run([sys.executable, "scripts/assemble_gaia.py", "--registry", registry_path], check=True)
-    print("Running scripts/generateNamedIndex.py...")
-    subprocess.run([sys.executable, "scripts/generateNamedIndex.py", "--graph", registry_graph_path(registry_path), "--named-dir", named_skills_dir(registry_path), "--out", named_skills_index_path(registry_path)], check=True)
+    print("Regenerating registry and documentation...")
+    subprocess.run([sys.executable, "-m", "gaia_cli", "docs", "build"], check=True)
 
     print(f"Successfully merged skills into '{target_id}'.")
 
@@ -356,10 +354,8 @@ def meta_split_command(args):
     print(f"Deleted source skill file: {source_file}")
     append_skill_event(first_target, "split", _get_contributor(), f"Split {source_id} into {', '.join(targets)}", registry_path=registry_path)
 
-    print("Running scripts/assemble_gaia.py...")
-    subprocess.run([sys.executable, "scripts/assemble_gaia.py", "--registry", registry_path], check=True)
-    print("Running scripts/generateNamedIndex.py...")
-    subprocess.run([sys.executable, "scripts/generateNamedIndex.py", "--graph", registry_graph_path(registry_path), "--named-dir", named_skills_dir(registry_path), "--out", named_skills_index_path(registry_path)], check=True)
+    print("Regenerating registry and documentation...")
+    subprocess.run([sys.executable, "-m", "gaia_cli", "docs", "build"], check=True)
 
 def meta_add_command(args):
     registry_path = args.registry
@@ -427,10 +423,8 @@ Add installation instructions here.
         print(f"Created generic skill: {dest_file}")
         append_skill_event(skill_id, "add", _get_contributor(), f"Added generic skill {skill_id}", registry_path=registry_path)
 
-    print("Running scripts/assemble_gaia.py...")
-    subprocess.run([sys.executable, "scripts/assemble_gaia.py", "--registry", registry_path], check=True)
-    print("Running scripts/generateNamedIndex.py...")
-    subprocess.run([sys.executable, "scripts/generateNamedIndex.py", "--graph", registry_graph_path(registry_path), "--named-dir", named_skills_dir(registry_path), "--out", named_skills_index_path(registry_path)], check=True)
+    print("Regenerating registry and documentation...")
+    subprocess.run([sys.executable, "-m", "gaia_cli", "docs", "build"], check=True)
 
 def meta_evidence_command(args):
     registry_path = args.registry
@@ -477,7 +471,5 @@ def meta_evidence_command(args):
     print(f"Added evidence to skill: {skill_id}")
     append_skill_event(skill_id, "evidence_added", _get_contributor(), f"Added {evidence['class']} evidence from {evidence['source']}", registry_path=registry_path)
 
-    print("Running scripts/assemble_gaia.py...")
-    subprocess.run([sys.executable, "scripts/assemble_gaia.py", "--registry", registry_path], check=True)
-    print("Running scripts/generateNamedIndex.py...")
-    subprocess.run([sys.executable, "scripts/generateNamedIndex.py", "--graph", registry_graph_path(registry_path), "--named-dir", named_skills_dir(registry_path), "--out", named_skills_index_path(registry_path)], check=True)
+    print("Regenerating registry and documentation...")
+    subprocess.run([sys.executable, "-m", "gaia_cli", "docs", "build"], check=True)

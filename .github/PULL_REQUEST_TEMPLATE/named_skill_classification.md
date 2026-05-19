@@ -36,5 +36,5 @@ If no catalog entry exists yet for this real-world skill, also add an item to `r
 - [ ] `status` is changed from `awakened` to `named`.
 - [ ] If `catalogRef` is set: the catalog item `id` exists in `registry/real-skills.json`.
 - [ ] If no catalog entry exists: I have added one to `registry/real-skills.json` with `promotedNamedSkillId` set.
-- [ ] `python scripts/validate.py` passes with the new status.
+- [ ] `gaia validate` passes with the new status.
 - [ ] I am a maintainer or have maintainer approval for this classification.
