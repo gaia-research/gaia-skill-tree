@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/skill.schema.json",
-  "version": "3.18.3",
-  "generatedAt": "2026-05-19T20:14:28.326515Z",
+  "version": "3.18.4",
+  "generatedAt": "2026-05-19T22:45:16.074508Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -257,8 +257,8 @@
       "id": "agentic-workflow-design",
       "name": "Agentic Workflow Design",
       "type": "extra",
-      "level": "5★",
-      "rarity": "rare",
+      "level": "3★",
+      "rarity": "uncommon",
       "description": "Autonomously designs, authors, and iterates on complex multi-step workflows by translating high-level goals into executable DAGs or playbooks, managing task dependencies and distributed execution environments.",
       "prerequisites": [
         "workflow-automation",
@@ -488,8 +488,8 @@
       "id": "autonomous-research-agent",
       "name": "Autonomous Research Agent",
       "type": "extra",
-      "level": "5★",
-      "rarity": "epic",
+      "level": "3★",
+      "rarity": "uncommon",
       "description": "Independently conducts end-to-end research cycles including hypothesis generation, evidence gathering, synthesis, and reporting.",
       "prerequisites": [
         "research",
@@ -1299,43 +1299,6 @@
       "status": "provisional",
       "createdAt": "2026-05-14",
       "updatedAt": "2026-05-14",
-      "version": "0.1.0"
-    },
-    {
-      "id": "design-review",
-      "name": "Design Review",
-      "type": "extra",
-      "level": "3★",
-      "rarity": "rare",
-      "description": "Stress-tests a plan or design through relentless targeted questioning, walking the decision tree branch-by-branch, resolving concept dependencies, surfacing contradictions against the existing codebase, and crystallising ubiquitous language — optionally persisting resolved decisions to CONTEXT.md and ADRs.",
-      "prerequisites": [
-        "evaluate-output",
-        "plan-decompose"
-      ],
-      "derivatives": [
-        "gstack"
-      ],
-      "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-30",
-          "notes": "Production interactive design-grilling skill; walks decision tree with recommended answers, one question at a time."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/grill-with-docs/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-30",
-          "notes": "Extended implementation with domain-model awareness: challenges language against CONTEXT.md, cross-references code, writes ADRs inline."
-        }
-      ],
-      "knownAgents": [],
-      "status": "provisional",
-      "createdAt": "2026-04-30",
-      "updatedAt": "2026-04-30",
       "version": "0.1.0"
     },
     {
@@ -2157,9 +2120,9 @@
       "id": "gaia-audit",
       "name": "Gaia Audit",
       "type": "extra",
-      "level": "2★",
-      "rarity": "uncommon",
-      "description": "Reviews one Gaia skill, named skill, or real-skill catalog item against current evidence, source URLs, taxonomy mapping, promotion status, and demotion criteria, then proposes the smallest source-of-truth correction.",
+      "level": "4★",
+      "rarity": "rare",
+      "description": "Reviews one Gaia skill, named skill, or real-skill catalog item against current evidence, source URLs, taxonomy mapping, promotion status, and demotion criteria, then proposes the smallest source-of-truth correction. Implements a sophisticated 7-phase audit discipline including evidence re-verification, demotion checks, and automatic asset regeneration.",
       "prerequisites": [
         "retrieve",
         "cite-sources",
@@ -2171,11 +2134,11 @@
       "conditions": "Requires a specific Gaia skill ID, named skill ID, or real-skill catalog item plus access to the registry source files and current public evidence sources.",
       "evidence": [
         {
-          "class": "C",
-          "source": "https://github.com/mbtiongson1/gaia-skill-tree",
+          "class": "A",
+          "source": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/skill.md",
           "evaluator": "mbtiongson1",
-          "date": "2026-05-03",
-          "notes": "Codified from a source-backed review that kept openai/chatgpt-apps in the real-skill catalog while removing its unsupported claim on the full-stack-developer Ultimate skill."
+          "date": "2026-05-20",
+          "notes": "Codified audit skill with 7-phase workflow, demotion rules, and registry-sync automation. Powers the gaia-meta-audit process."
         }
       ],
       "knownAgents": [],
@@ -2380,8 +2343,8 @@
       "id": "github-platform-mastery",
       "name": "GitHub Platform Mastery",
       "type": "extra",
-      "level": "4★",
-      "rarity": "rare",
+      "level": "3★",
+      "rarity": "uncommon",
       "description": "Full GitHub platform automation: code review pipelines, multi-repo coordination, project management, release management, and workflow automation.",
       "prerequisites": [
         "code-review-pipeline",
@@ -2441,8 +2404,8 @@
       "id": "grill-with-docs",
       "name": "Grill With Docs",
       "type": "extra",
-      "level": "5★",
-      "rarity": "epic",
+      "level": "3★",
+      "rarity": "uncommon",
       "description": "The apex of agentic design alignment. Fuses relentless Socratic questioning with deep domain awareness, ensuring every decision is cross-referenced against a persistent ubiquitous language and documented via real-time ADR generation.",
       "prerequisites": [
         "grill-me",
@@ -3418,8 +3381,8 @@
       "id": "multi-agent-orchestration-v",
       "name": "Multi-Agent Orchestration",
       "type": "extra",
-      "level": "5★",
-      "rarity": "epic",
+      "level": "3★",
+      "rarity": "uncommon",
       "description": "Coordinates multiple specialized agents across complex workflows with dynamic task allocation and conflict resolution.",
       "prerequisites": [
         "plan-and-execute",
@@ -3982,7 +3945,7 @@
       "id": "question-answer",
       "name": "Question Answer",
       "type": "basic",
-      "level": "0★",
+      "level": "4★",
       "rarity": "common",
       "description": "Produces accurate, context-grounded answers to natural-language questions, handling unanswerable cases.",
       "prerequisites": [],
@@ -4000,7 +3963,14 @@
           "source": "https://arxiv.org/abs/1806.03822",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "SQuAD 2.0 â€” reading comprehension benchmark with 150K questions; modern LLMs exceed human F1 (90.9), providing rigorous reproducible evaluation."
+          "notes": "SQuAD 2.0 — reading comprehension benchmark with 150K questions; modern LLMs exceed human F1 (90.9), providing rigorous reproducible evaluation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/registry/named/garrytan/office-hours.md",
+          "evaluator": "mbtiongson1",
+          "date": "2026-04-30",
+          "notes": "Garry Tan /office-hours -- Q&A skill grounded in specific document sets and founder context."
         }
       ],
       "knownAgents": [],
@@ -5037,7 +5007,7 @@
       "id": "skill-discovery",
       "name": "Skill Discovery",
       "type": "basic",
-      "level": "0★",
+      "level": "3★",
       "rarity": "common",
       "description": "Searches a skill or tool registry, ranks results by relevance and install count, and surfaces candidates for the agent to adopt or invoke.",
       "prerequisites": [],
@@ -5484,7 +5454,7 @@
       "id": "test-driven-development",
       "name": "Test-Driven Development",
       "type": "basic",
-      "level": "0★",
+      "level": "3★",
       "rarity": "uncommon",
       "description": "Enforces a strict red-green-refactor TDD loop: writes failing tests before implementation, blocks code generation that skips the test step, and validates coverage thresholds before marking tasks complete.",
       "prerequisites": [],
@@ -5497,6 +5467,13 @@
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
           "notes": "Addy Osmani /test-driven-development slash command -- forces strict TDD workflow, stopping agents from skipping tests."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md",
+          "evaluator": "mbtiongson1",
+          "date": "2026-04-30",
+          "notes": "Matt Pocock /tdd -- Vertical-slice TDD enforcement with anti-horizontal-slicing rules."
         }
       ],
       "knownAgents": [],
@@ -5914,7 +5891,7 @@
       "id": "ux-audit",
       "name": "UX Audit",
       "type": "basic",
-      "level": "0★",
+      "level": "4★",
       "rarity": "uncommon",
       "description": "Systematically evaluates a user interface against established usability heuristics or accessibility standards, producing a scored finding report with remediation recommendations.",
       "prerequisites": [],
@@ -5929,6 +5906,13 @@
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
           "notes": "Martin Stepanoski @mastepanoski/claude-skills -- /nielsen-heuristics-audit audits UI against Nielsen 10 usability heuristics step-by-step."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/pbakaus/impeccable",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-14",
+          "notes": "Paul Bakaus /impeccable -- Elite design vocabulary and audit tool with 23 specialized polishing commands."
         }
       ],
       "knownAgents": [],
@@ -6959,11 +6943,6 @@
     },
     {
       "sourceSkillId": "evaluate-output",
-      "targetSkillId": "design-review",
-      "edgeType": "prerequisite"
-    },
-    {
-      "sourceSkillId": "evaluate-output",
       "targetSkillId": "detect-anomaly",
       "edgeType": "prerequisite"
     },
@@ -7385,11 +7364,6 @@
     {
       "sourceSkillId": "plan-decompose",
       "targetSkillId": "agentic-workflow-design",
-      "edgeType": "prerequisite"
-    },
-    {
-      "sourceSkillId": "plan-decompose",
-      "targetSkillId": "design-review",
       "edgeType": "prerequisite"
     },
     {
