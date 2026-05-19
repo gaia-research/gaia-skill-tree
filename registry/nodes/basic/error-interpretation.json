@@ -9,7 +9,8 @@
   "derivatives": [
     "autonomous-debug",
     "automated-testing",
-    "detect-anomaly"
+    "detect-anomaly",
+    "systematic-debugging"
   ],
   "conditions": "",
   "evidence": [

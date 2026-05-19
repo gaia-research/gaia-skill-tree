@@ -1,6 +1,6 @@
 # [obra](../../../docs/u/obra/)/systematic-debugging  [3★ · Evolved]
 **ID:** systematic-debugging  
-**Type:** Basic Skill  
+**Type:** Extra Skill  
 **Level:** 3★  
 **Tier:** Evolved  
 **Skill Call:** `/systematic-debugging`
@@ -11,11 +11,15 @@
 Finds the root cause before attempting fixes when encountering bugs, test failures, or unexpected behavior.
 
 ## Prerequisites
-_None._
+- [Hypothesis Generation](../basic/hypothesis-generate.md)
+- [Error Interpretation](../basic/error-interpretation.md)
 
 ## Unlocks
 - [Superpowers](../ultimate/superpowers.md)
 - [Founder Mode](../ultimate/gstack.md)
+
+## Fusion Condition
+_None specified._
 
 ## Evidence
 | Class | Source | Evaluator | Date |

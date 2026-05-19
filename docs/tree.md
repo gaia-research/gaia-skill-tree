@@ -2,7 +2,7 @@
 
 ```
 ══════════════════════════════════════════════════════════════════════
-GAIA SKILL TREE  v3.16.3  ·  generated 2026-05-19
+GAIA SKILL TREE  v3.16.4  ·  generated 2026-05-19
 ══════════════════════════════════════════════════════════════════════
 ◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = stars · [0★ · Pure] = Unawakened rank pill · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -29,13 +29,15 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ ○ garrytan/benchmark  [1★]  (↑ see above)
   │  └─ ○ /plan-decompose  [1★]  (↑ see above)
   ├─ ○ garrytan/design-html  [1★]  (↑ see above)
-  ├─ ○ obra/systematic-debugging  [3★]
+  ├─ ◇ obra/systematic-debugging  [3★]
+  │  ├─ ○ /hypothesis-generate  [2★]
+  │  └─ ○ /error-interpretation  [1★]
   ├─ ◇ garrytan/qa-only  [3★]
   │  ├─ ◇ gooseworks/notte-browser  [3★]  (↑ see above)
   │  └─ ◇ 0xdarkmatter/pytest-patterns  [3★]
   │     ├─ ○ upsonic/unittest-generator  [2★]
   │     ├─ ○ /execute-bash  [1★]
-  │     └─ ○ /error-interpretation  [1★]
+  │     └─ ○ /error-interpretation  [1★]  (↑ see above)
   ├─ ◇ obra/finishing-a-development-branch  [2★]
   │  ├─ ◇ garrytan/plan-eng-review  [3★]  (↑ see above)
   │  └─ ○ /diff-content  [1★]  (↑ see above)
@@ -98,22 +100,43 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 
 ◆ obra/superpowers  [5★]
 ─────────────────────────────────────────────────────────────────
-  ├─ ○ obra/brainstorming  [1★]
-  ├─ ○ obra/dispatching-parallel-agents  [4★]
-  ├─ ○ obra/executing-plans  [2★]
+  ├─ ◇ obra/brainstorming  [1★]
+  │  ├─ ○ /requirements-analysis  [2★]
+  │  └─ ○ garrytan/office-hours  [0★]
+  ├─ ◇ obra/dispatching-parallel-agents  [4★]
+  │  ├─ ○ /plan-decompose  [1★]
+  │  └─ ○ /parallel-execution  [2★]
+  ├─ ◇ obra/executing-plans  [2★]
+  │  ├─ ◇ obra/writing-plans  [2★]
+  │  │  ├─ ○ /plan-decompose  [1★]  (↑ see above)
+  │  │  └─ ○ /requirements-analysis  [2★]  (↑ see above)
+  │  └─ ○ /tool-use  [1★]
   ├─ ◇ obra/finishing-a-development-branch  [2★]
   │  ├─ ◇ garrytan/plan-eng-review  [3★]
   │  │  ├─ ○ garrytan/design-html  [1★]
   │  │  ├─ ○ /diff-content  [1★]
   │  │  └─ ○ garrytan/benchmark  [1★]
   │  └─ ○ /diff-content  [1★]  (↑ see above)
-  ├─ ○ obra/receiving-code-review  [2★]
-  ├─ ○ obra/requesting-code-review  [3★]
-  ├─ ○ obra/subagent-driven-development  [4★]
-  ├─ ○ obra/systematic-debugging  [3★]
-  ├─ ○ obra/using-git-worktrees  [1★]
-  ├─ ○ obra/verification-before-completion  [1★]
-  └─ ○ obra/writing-plans  [2★]
+  ├─ ◇ obra/receiving-code-review  [2★]
+  │  ├─ ◇ obra/requesting-code-review  [3★]
+  │  │  ├─ ◇ garrytan/plan-eng-review  [3★]  (↑ see above)
+  │  │  └─ ◇ obra/dispatching-parallel-agents  [4★]  (↑ see above)
+  │  └─ ◇ obra/verification-before-completion  [1★]
+  │     ├─ ○ /execute-bash  [1★]
+  │     └─ ○ /self-critique  [1★]
+  ├─ ◇ obra/requesting-code-review  [3★]  (↑ see above)
+  ├─ ◇ obra/subagent-driven-development  [4★]
+  │  ├─ ◇ obra/executing-plans  [2★]  (↑ see above)
+  │  ├─ ◇ obra/dispatching-parallel-agents  [4★]  (↑ see above)
+  │  └─ ◇ garrytan/plan-eng-review  [3★]  (↑ see above)
+  ├─ ◇ obra/systematic-debugging  [3★]
+  │  ├─ ○ /hypothesis-generate  [2★]
+  │  └─ ○ /error-interpretation  [1★]
+  ├─ ◇ obra/using-git-worktrees  [1★]
+  │  ├─ ○ /execute-bash  [1★]  (↑ see above)
+  │  └─ ○ /tool-use  [1★]  (↑ see above)
+  ├─ ◇ obra/verification-before-completion  [1★]  (↑ see above)
+  └─ ◇ obra/writing-plans  [2★]  (↑ see above)
 
 ══════════════════════════════════════════════════════════════════════
 Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
@@ -134,7 +157,6 @@ Basics — basic-tier skills not wired into an upgrade path yet.  (0★ skills c
   ○ /image-generate  [2★]
   ○ huggingface/huggingface-vision-trainer  [2★]
   ○ /ocr  [2★]
-  ○ /parallel-execution  [2★]
   ○ /reward-modeling  [2★]
   ○ /schema-design  [2★]
   ○ addy-osmani/test-driven-development  [0★ · Pure]

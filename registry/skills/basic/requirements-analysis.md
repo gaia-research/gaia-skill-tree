@@ -14,7 +14,8 @@ Elicit and structure requirements from stakeholder inputs into formal specificat
 _None._
 
 ## Unlocks
-_None._
+- [Writing Plans](../extra/writing-plans.md)
+- [Brainstorming](../extra/brainstorming.md)
 
 ## Evidence
 | Class | Source | Evaluator | Date |

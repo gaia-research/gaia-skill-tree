@@ -1,8 +1,8 @@
-# /dispatching-parallel-agents  [4★ · Hardened]
-**ID:** dispatching-parallel-agents
-**Type:** Extra Skill
-**Level:** 4★
-**Tier:** Hardened
+# [obra](../../../docs/u/obra/)/dispatching-parallel-agents  [4★ · Hardened]
+**ID:** dispatching-parallel-agents  
+**Type:** Extra Skill  
+**Level:** 4★  
+**Tier:** Hardened  
 **Skill Call:** `/dispatching-parallel-agents`
 
 ---
@@ -12,9 +12,12 @@ Delegates independent tasks to specialized agents with isolated context to work 
 
 ## Prerequisites
 - [Plan and Decompose](../basic/plan-decompose.md)
+- [Parallel Execution](../basic/parallel-execution.md)
 
 ## Unlocks
-_None._
+- [Superpowers](../ultimate/superpowers.md)
+- [Subagent-Driven Development](../extra/subagent-driven-development.md)
+- [Requesting Code Review](../extra/requesting-code-review.md)
 
 ## Fusion Condition
 _None specified._

@@ -1,6 +1,6 @@
 # [obra](../../../docs/u/obra/)/writing-plans  [2★ · Named]
 **ID:** writing-plans  
-**Type:** Basic Skill  
+**Type:** Extra Skill  
 **Level:** 2★  
 **Tier:** Named  
 **Skill Call:** `/writing-plans`
@@ -11,10 +11,15 @@
 Writes comprehensive implementation plans breaking down multi-step tasks into bite-sized sub-tasks.
 
 ## Prerequisites
-_None._
+- [Plan and Decompose](../basic/plan-decompose.md)
+- [Requirements Analysis](../basic/requirements-analysis.md)
 
 ## Unlocks
 - [Superpowers](../ultimate/superpowers.md)
+- [Executing Plans](../extra/executing-plans.md)
+
+## Fusion Condition
+_None specified._
 
 ## Evidence
 | Class | Source | Evaluator | Date |

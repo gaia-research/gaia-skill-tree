@@ -7,7 +7,8 @@
   "description": "Formulates novel, testable scientific hypotheses by synthesising existing literature, identifying knowledge gaps, and proposing mechanistic explanations.",
   "prerequisites": [],
   "derivatives": [
-    "scientific-discovery"
+    "scientific-discovery",
+    "systematic-debugging"
   ],
   "conditions": "",
   "evidence": [

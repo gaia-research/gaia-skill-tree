@@ -12,7 +12,7 @@
 | ◇ [devin-ai](../docs/u/devin-ai/)/autonomous-swe | Extra Skill | 4★ | Hardened | `/autonomous-debug` |
 | ◇ [karpathy](../docs/u/karpathy/)/autoresearch | Extra Skill | 5★ | Transcendent | `/autonomous-research-agent` |
 | ◇ /autonomous-web-research | Extra Skill | 4★ | Hardened | `/autonomous-web-research` |
-| ○ [obra](../docs/u/obra/)/brainstorming | Basic Skill | 1★ | Awakened | `/brainstorming` |
+| ◇ [obra](../docs/u/obra/)/brainstorming | Extra Skill | 1★ | Awakened | `/brainstorming` |
 | ◇ [gooseworks](../docs/u/gooseworks/)/notte-browser | Extra Skill | 3★ | Evolved | `/browser-automation` |
 | ○ [browser-use](../docs/u/browser-use/)/browser-harness | Basic Skill | 2★ | Named | `/browser-control` |
 | ◇ [santifer](../docs/u/santifer/)/career-ops | Extra Skill | 3★ | Evolved | `/career-operations` |
@@ -36,7 +36,7 @@
 | ◇ [Manavarya09](../docs/u/Manavarya09/)/design-extract | Extra Skill | 3★ | Evolved | `/design-system-extraction` |
 | ◇ [garrytan](../docs/u/garrytan/)/canary | Extra Skill | 2★ | Named | `/detect-anomaly` |
 | ○ /diff-content | Basic Skill | 1★ | Awakened | `/diff-content` |
-| ○ [obra](../docs/u/obra/)/dispatching-parallel-agents | Basic Skill | 4★ | Hardened | `/dispatching-parallel-agents` |
+| ◇ [obra](../docs/u/obra/)/dispatching-parallel-agents | Extra Skill | 4★ | Hardened | `/dispatching-parallel-agents` |
 | ◇ /document-analyst | Extra Skill | 3★ | Evolved | `/document-analyst` |
 | ◇ /document-digitization | Extra Skill | 3★ | Evolved | `/document-digitization` |
 | ○ [anthropic](../docs/u/anthropic/)/pptx | Basic Skill | 0★ | Basic | `/document-editing` |
@@ -45,7 +45,7 @@
 | ○ /error-interpretation | Basic Skill | 1★ | Awakened | `/error-interpretation` |
 | ○ [garrytan](../docs/u/garrytan/)/benchmark | Basic Skill | 1★ | Awakened | `/evaluate-output` |
 | ○ /execute-bash | Basic Skill | 1★ | Awakened | `/execute-bash` |
-| ○ [obra](../docs/u/obra/)/executing-plans | Basic Skill | 2★ | Named | `/executing-plans` |
+| ◇ [obra](../docs/u/obra/)/executing-plans | Extra Skill | 2★ | Named | `/executing-plans` |
 | ○ /extract-entities | Basic Skill | 1★ | Awakened | `/extract-entities` |
 | ◉ [nousresearch](../docs/u/nousresearch/)/feed-monitoring | Unique Skill | 4★ | Hardened | `/feed-monitoring` |
 | ◉ [openai](../docs/u/openai/)/few-shot-learning | Unique Skill | 4★ | Hardened | `/few-shot-learning` |
@@ -86,6 +86,7 @@
 | ◇ [garrytan](../docs/u/garrytan/)/codex | Extra Skill | 4★ | Hardened | `/multi-agent-debate` |
 | ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus-swarm | Extra Skill | 5★ | Transcendent | `/multi-agent-orchestration-v` |
 | ◇ [huggingface](../docs/u/huggingface/)/transformers-js | Extra Skill | 3★ → 2★ | Evolved | `/multimodal-reasoning` |
+| ○ /parallel-execution | Basic Skill | 2★ | Named | `/parallel-execution` |
 | ○ /parse-html | Basic Skill | 1★ | Awakened | `/parse-html` |
 | ○ /parse-json | Basic Skill | 1★ | Awakened | `/parse-json` |
 | ○ /parse-pdf | Basic Skill | 1★ | Awakened | `/parse-pdf` |
@@ -101,12 +102,12 @@
 | ○ /rank | Basic Skill | 1★ | Awakened | `/rank` |
 | ◇ /re-act-reasoning | Extra Skill | 3★ | Evolved | `/re-act-reasoning` |
 | ◇ /real-time-voice-assistant | Extra Skill | 5★ | Transcendent | `/real-time-voice-assistant` |
-| ○ [obra](../docs/u/obra/)/receiving-code-review | Basic Skill | 2★ | Named | `/receiving-code-review` |
+| ◇ [obra](../docs/u/obra/)/receiving-code-review | Extra Skill | 2★ | Named | `/receiving-code-review` |
 | ◇ /recursive-self-improvement | Extra Skill | 1★ | Awakened | `/recursive-self-improvement` |
 | ○ [mattpocock](../docs/u/mattpocock/)/improve-codebase-architecture | Basic Skill | 2★ | Named | `/refactor-code` |
 | ◇ /registry-curation | Extra Skill | 4★ | Hardened | `/registry-curation` |
 | ◇ /release-automation | Extra Skill | 2★ | Named | `/release-automation` |
-| ○ [obra](../docs/u/obra/)/requesting-code-review | Basic Skill | 3★ | Evolved | `/requesting-code-review` |
+| ◇ [obra](../docs/u/obra/)/requesting-code-review | Extra Skill | 3★ | Evolved | `/requesting-code-review` |
 | ○ /requirements-analysis | Basic Skill | 2★ | Named | `/requirements-analysis` |
 | ◇ /research | Extra Skill | 3★ | Evolved | `/research` |
 | ○ /retrieve | Basic Skill | 1★ | Awakened | `/retrieve` |
@@ -128,10 +129,10 @@
 | ○ /statistical-analysis | Basic Skill | 3★ | Evolved | `/statistical-analysis` |
 | ◇ /stealth-browser-interaction | Extra Skill | 4★ → 3★ | Hardened | `/stealth-browser-interaction` |
 | ○ /structured-output | Basic Skill | 1★ | Awakened | `/structured-output` |
-| ○ [obra](../docs/u/obra/)/subagent-driven-development | Basic Skill | 4★ | Hardened | `/subagent-driven-development` |
+| ◇ [obra](../docs/u/obra/)/subagent-driven-development | Extra Skill | 4★ | Hardened | `/subagent-driven-development` |
 | ○ /summarize | Basic Skill | 0★ | Basic | `/summarize` |
 | ◆ [obra](../docs/u/obra/)/superpowers | Ultimate Skill | 5★ | Transcendent | `/superpowers` |
-| ○ [obra](../docs/u/obra/)/systematic-debugging | Basic Skill | 3★ | Evolved | `/systematic-debugging` |
+| ◇ [obra](../docs/u/obra/)/systematic-debugging | Extra Skill | 3★ | Evolved | `/systematic-debugging` |
 | ○ /text-to-speech | Basic Skill | 2★ | Named | `/text-to-speech` |
 | ◇ /text-to-sql-pipeline | Extra Skill | 3★ | Evolved | `/text-to-sql-pipeline` |
 | ○ /tokenize | Basic Skill | 0★ | Basic | `/tokenize` |
@@ -143,9 +144,9 @@
 | ◇ /translation-pipeline | Extra Skill | 3★ | Evolved | `/translation-pipeline` |
 | ◇ /tree-of-thought | Extra Skill | 4★ | Hardened | `/tree-of-thought` |
 | ◇ [mattpocock](../docs/u/mattpocock/)/ubiquitous-language | Extra Skill | 4★ | Hardened | `/ubiquitous-language` |
-| ○ [obra](../docs/u/obra/)/using-git-worktrees | Basic Skill | 1★ | Awakened | `/using-git-worktrees` |
+| ◇ [obra](../docs/u/obra/)/using-git-worktrees | Extra Skill | 1★ | Awakened | `/using-git-worktrees` |
 | ○ [martin-stepanoski](../docs/u/martin-stepanoski/)/nielsen-heuristics-audit | Basic Skill | 0★ | Basic | `/ux-audit` |
-| ○ [obra](../docs/u/obra/)/verification-before-completion | Basic Skill | 1★ | Awakened | `/verification-before-completion` |
+| ◇ [obra](../docs/u/obra/)/verification-before-completion | Extra Skill | 1★ | Awakened | `/verification-before-completion` |
 | ◇ [mattpocock](../docs/u/mattpocock/)/to-issues | Extra Skill | 3★ | Evolved | `/vertical-slice-planning` |
 | ◇ [bradautomates](../docs/u/bradautomates/)/claude-video | Extra Skill | 3★ | Evolved | `/video-intelligence` |
 | ○ /vision-qa | Basic Skill | 3★ | Evolved | `/vision-qa` |
@@ -156,7 +157,7 @@
 | ◇ /workflow-automation | Extra Skill | 4★ | Hardened | `/workflow-automation` |
 | ◇ [garrytan](../docs/u/garrytan/)/gstack-upgrade | Extra Skill | 2★ | Named | `/workspace-automation` |
 | ○ [glincker](../docs/u/glincker/)/readme-generator | Basic Skill | 1★ | Awakened | `/write-report` |
-| ○ [obra](../docs/u/obra/)/writing-plans | Basic Skill | 2★ | Named | `/writing-plans` |
+| ◇ [obra](../docs/u/obra/)/writing-plans | Extra Skill | 2★ | Named | `/writing-plans` |
 | ◇ /x-twitter-automation | Extra Skill | 4★ | Hardened | `/x-twitter-automation` |
 
 ## Uniques
@@ -182,7 +183,6 @@
 | ○ Image Generate | Intrinsic Skill | 2★ | Named | `/image-generate` |
 | ○ Object Detection | Intrinsic Skill | 2★ | Named | `/object-detection` |
 | ○ OCR | Intrinsic Skill | 2★ | Named | `/ocr` |
-| ○ Parallel Execution | Intrinsic Skill | 2★ | Named | `/parallel-execution` |
 | ○ Reward Modeling | Intrinsic Skill | 2★ | Named | `/reward-modeling` |
 | ○ Schema Design | Intrinsic Skill | 2★ | Named | `/schema-design` |
 | ○ Test-Driven Development | Intrinsic Skill | 0★ | Basic | `/test-driven-development` |

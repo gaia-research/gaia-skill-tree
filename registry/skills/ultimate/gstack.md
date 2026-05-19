@@ -19,7 +19,7 @@ Garry Tan's complete autonomous agent discipline suite spanning 19 named skills:
 - [Design System Extraction](../extra/design-system-extraction.md)
 - [Design Review](../extra/design-review.md)
 - [Code Generation](../basic/code-generation.md)
-- [Systematic Debugging](../basic/systematic-debugging.md)
+- [Systematic Debugging](../extra/systematic-debugging.md)
 - [End-to-End Testing](../extra/e2e-testing.md)
 - [Finishing a Development Branch](../extra/finishing-a-development-branch.md)
 - [Deployment Automation](../extra/deployment-automation.md)

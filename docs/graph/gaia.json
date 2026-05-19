@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/skill.schema.json",
-  "version": "3.16.3",
-  "generatedAt": "2026-05-19T09:42:19.689313Z",
+  "version": "3.16.4",
+  "generatedAt": "2026-05-19T13:55:41.728557Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -429,11 +429,14 @@
     {
       "id": "brainstorming",
       "name": "Brainstorming",
-      "type": "basic",
+      "type": "extra",
       "level": "1★",
       "rarity": "common",
-      "description": "Explores user intent, requirements, and design before implementation. Turns ideas into fully formed designs and specs through natural collaborative dialogue.",
-      "prerequisites": [],
+      "description": "Explores user intent, requirements, and design before implementation.",
+      "prerequisites": [
+        "requirements-analysis",
+        "question-answer"
+      ],
       "derivatives": [
         "superpowers"
       ],
@@ -450,7 +453,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-18",
-      "updatedAt": "2026-05-18",
+      "updatedAt": "2026-05-19",
       "version": "0.1.0"
     },
     {
@@ -793,7 +796,9 @@
         "full-stack-developer",
         "security-audit",
         "gstack",
-        "finishing-a-development-branch"
+        "finishing-a-development-branch",
+        "subagent-driven-development",
+        "requesting-code-review"
       ],
       "conditions": "",
       "evidence": [
@@ -1228,13 +1233,18 @@
     {
       "id": "dispatching-parallel-agents",
       "name": "Dispatching Parallel Agents",
-      "type": "basic",
+      "type": "extra",
       "level": "4★",
       "rarity": "uncommon",
       "description": "Delegates independent tasks to specialized agents with isolated context to work concurrently.",
-      "prerequisites": [],
+      "prerequisites": [
+        "plan-decompose",
+        "parallel-execution"
+      ],
       "derivatives": [
-        "superpowers"
+        "superpowers",
+        "subagent-driven-development",
+        "requesting-code-review"
       ],
       "conditions": "",
       "evidence": [
@@ -1249,7 +1259,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-18",
-      "updatedAt": "2026-05-18",
+      "updatedAt": "2026-05-19",
       "version": "0.1.0"
     },
     {
@@ -1416,7 +1426,8 @@
       "derivatives": [
         "autonomous-debug",
         "automated-testing",
-        "detect-anomaly"
+        "detect-anomaly",
+        "systematic-debugging"
       ],
       "conditions": "",
       "evidence": [
@@ -1484,7 +1495,9 @@
         "autonomous-debug",
         "registry-curation",
         "release-automation",
-        "deployment-automation"
+        "deployment-automation",
+        "verification-before-completion",
+        "using-git-worktrees"
       ],
       "conditions": "",
       "evidence": [
@@ -1505,13 +1518,17 @@
     {
       "id": "executing-plans",
       "name": "Executing Plans",
-      "type": "basic",
+      "type": "extra",
       "level": "2★",
       "rarity": "common",
       "description": "Loads a written implementation plan, reviews it critically, executes all tasks sequentially, and reports when complete.",
-      "prerequisites": [],
+      "prerequisites": [
+        "writing-plans",
+        "tool-use"
+      ],
       "derivatives": [
-        "superpowers"
+        "superpowers",
+        "subagent-driven-development"
       ],
       "conditions": "",
       "evidence": [
@@ -1526,7 +1543,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-18",
-      "updatedAt": "2026-05-18",
+      "updatedAt": "2026-05-19",
       "version": "0.1.0"
     },
     {
@@ -2280,7 +2297,8 @@
       "description": "Formulates novel, testable scientific hypotheses by synthesising existing literature, identifying knowledge gaps, and proposing mechanistic explanations.",
       "prerequisites": [],
       "derivatives": [
-        "scientific-discovery"
+        "scientific-discovery",
+        "systematic-debugging"
       ],
       "conditions": "",
       "evidence": [
@@ -3017,7 +3035,9 @@
       "rarity": "uncommon",
       "description": "Decompose a task into independent sub-tasks and execute them concurrently, merging results with configurable concurrency limits and queue-based state tracking.",
       "prerequisites": [],
-      "derivatives": [],
+      "derivatives": [
+        "dispatching-parallel-agents"
+      ],
       "conditions": "",
       "evidence": [
         {
@@ -3162,7 +3182,9 @@
         "workflow-automation",
         "prd-generation",
         "vertical-slice-planning",
-        "design-review"
+        "design-review",
+        "dispatching-parallel-agents",
+        "writing-plans"
       ],
       "conditions": "",
       "evidence": [
@@ -3369,7 +3391,8 @@
         "conversational-agent",
         "multimodal-reasoning",
         "voice-agent",
-        "gstack"
+        "gstack",
+        "brainstorming"
       ],
       "conditions": "",
       "evidence": [
@@ -3538,11 +3561,14 @@
     {
       "id": "receiving-code-review",
       "name": "Receiving Code Review",
-      "type": "basic",
+      "type": "extra",
       "level": "2★",
       "rarity": "common",
       "description": "Processes code review feedback with technical rigor and verification before implementation, questioning unclear feedback.",
-      "prerequisites": [],
+      "prerequisites": [
+        "requesting-code-review",
+        "verification-before-completion"
+      ],
       "derivatives": [
         "superpowers"
       ],
@@ -3559,7 +3585,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-18",
-      "updatedAt": "2026-05-18",
+      "updatedAt": "2026-05-19",
       "version": "0.1.0"
     },
     {
@@ -3702,13 +3728,17 @@
     {
       "id": "requesting-code-review",
       "name": "Requesting Code Review",
-      "type": "basic",
+      "type": "extra",
       "level": "3★",
       "rarity": "uncommon",
       "description": "Dispatches a code reviewer subagent to catch issues before they cascade, providing isolated context for evaluation.",
-      "prerequisites": [],
+      "prerequisites": [
+        "code-review-pipeline",
+        "dispatching-parallel-agents"
+      ],
       "derivatives": [
-        "superpowers"
+        "superpowers",
+        "receiving-code-review"
       ],
       "conditions": "",
       "evidence": [
@@ -3723,7 +3753,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-18",
-      "updatedAt": "2026-05-18",
+      "updatedAt": "2026-05-19",
       "version": "0.1.0"
     },
     {
@@ -3734,7 +3764,10 @@
       "rarity": "common",
       "description": "Elicit and structure requirements from stakeholder inputs into formal specifications — user stories, acceptance criteria, and traceability matrices.",
       "prerequisites": [],
-      "derivatives": [],
+      "derivatives": [
+        "writing-plans",
+        "brainstorming"
+      ],
       "conditions": "",
       "evidence": [
         {
@@ -4117,7 +4150,8 @@
       "prerequisites": [],
       "derivatives": [
         "multi-agent-debate",
-        "recursive-self-improvement"
+        "recursive-self-improvement",
+        "verification-before-completion"
       ],
       "conditions": "",
       "evidence": [
@@ -4569,11 +4603,15 @@
     {
       "id": "subagent-driven-development",
       "name": "Subagent-Driven Development",
-      "type": "basic",
+      "type": "extra",
       "level": "4★",
       "rarity": "uncommon",
       "description": "Executes plans by dispatching a fresh subagent per task with a two-stage review (spec compliance then code quality).",
-      "prerequisites": [],
+      "prerequisites": [
+        "executing-plans",
+        "dispatching-parallel-agents",
+        "code-review-pipeline"
+      ],
       "derivatives": [
         "superpowers"
       ],
@@ -4590,7 +4628,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-18",
-      "updatedAt": "2026-05-18",
+      "updatedAt": "2026-05-19",
       "version": "0.1.0"
     },
     {
@@ -4672,11 +4710,14 @@
     {
       "id": "systematic-debugging",
       "name": "Systematic Debugging",
-      "type": "basic",
+      "type": "extra",
       "level": "3★",
       "rarity": "uncommon",
       "description": "Finds the root cause before attempting fixes when encountering bugs, test failures, or unexpected behavior.",
-      "prerequisites": [],
+      "prerequisites": [
+        "hypothesis-generate",
+        "error-interpretation"
+      ],
       "derivatives": [
         "superpowers",
         "gstack"
@@ -4694,7 +4735,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-18",
-      "updatedAt": "2026-05-18",
+      "updatedAt": "2026-05-19",
       "version": "0.1.0"
     },
     {
@@ -4947,7 +4988,9 @@
         "re-act-reasoning",
         "tool-creation",
         "workflow-automation",
-        "tool-chaining"
+        "tool-chaining",
+        "executing-plans",
+        "using-git-worktrees"
       ],
       "conditions": "",
       "evidence": [
@@ -5098,11 +5141,14 @@
     {
       "id": "using-git-worktrees",
       "name": "Using Git Worktrees",
-      "type": "basic",
+      "type": "extra",
       "level": "1★",
       "rarity": "common",
       "description": "Ensures work happens in an isolated workspace via native tools or git worktree fallback before starting feature work.",
-      "prerequisites": [],
+      "prerequisites": [
+        "execute-bash",
+        "tool-use"
+      ],
       "derivatives": [
         "superpowers"
       ],
@@ -5119,7 +5165,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-18",
-      "updatedAt": "2026-05-18",
+      "updatedAt": "2026-05-19",
       "version": "0.1.0"
     },
     {
@@ -5152,13 +5198,17 @@
     {
       "id": "verification-before-completion",
       "name": "Verification Before Completion",
-      "type": "basic",
+      "type": "extra",
       "level": "1★",
       "rarity": "common",
       "description": "Requires running verification commands and confirming output before claiming work is complete, fixed, or passing.",
-      "prerequisites": [],
+      "prerequisites": [
+        "execute-bash",
+        "self-critique"
+      ],
       "derivatives": [
-        "superpowers"
+        "superpowers",
+        "receiving-code-review"
       ],
       "conditions": "",
       "evidence": [
@@ -5173,7 +5223,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-18",
-      "updatedAt": "2026-05-18",
+      "updatedAt": "2026-05-19",
       "version": "0.1.0"
     },
     {
@@ -5509,13 +5559,17 @@
     {
       "id": "writing-plans",
       "name": "Writing Plans",
-      "type": "basic",
+      "type": "extra",
       "level": "2★",
       "rarity": "common",
       "description": "Writes comprehensive implementation plans breaking down multi-step tasks into bite-sized sub-tasks.",
-      "prerequisites": [],
+      "prerequisites": [
+        "plan-decompose",
+        "requirements-analysis"
+      ],
       "derivatives": [
-        "superpowers"
+        "superpowers",
+        "executing-plans"
       ],
       "conditions": "",
       "evidence": [
@@ -5530,7 +5584,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-18",
-      "updatedAt": "2026-05-18",
+      "updatedAt": "2026-05-19",
       "version": "0.1.0"
     },
     {
@@ -5813,7 +5867,17 @@
     },
     {
       "sourceSkillId": "code-review-pipeline",
+      "targetSkillId": "requesting-code-review",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "code-review-pipeline",
       "targetSkillId": "security-audit",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "code-review-pipeline",
+      "targetSkillId": "subagent-driven-development",
       "edgeType": "prerequisite"
     },
     {
@@ -5913,6 +5977,16 @@
     },
     {
       "sourceSkillId": "dispatching-parallel-agents",
+      "targetSkillId": "requesting-code-review",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "dispatching-parallel-agents",
+      "targetSkillId": "subagent-driven-development",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "dispatching-parallel-agents",
       "targetSkillId": "superpowers",
       "edgeType": "prerequisite"
     },
@@ -5974,6 +6048,11 @@
     {
       "sourceSkillId": "error-interpretation",
       "targetSkillId": "detect-anomaly",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "error-interpretation",
+      "targetSkillId": "systematic-debugging",
       "edgeType": "prerequisite"
     },
     {
@@ -6059,6 +6138,21 @@
     {
       "sourceSkillId": "execute-bash",
       "targetSkillId": "release-automation",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "execute-bash",
+      "targetSkillId": "using-git-worktrees",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "execute-bash",
+      "targetSkillId": "verification-before-completion",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "executing-plans",
+      "targetSkillId": "subagent-driven-development",
       "edgeType": "prerequisite"
     },
     {
@@ -6197,6 +6291,11 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "hypothesis-generate",
+      "targetSkillId": "systematic-debugging",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "image-caption",
       "targetSkillId": "multimodal-reasoning",
       "edgeType": "prerequisite"
@@ -6277,6 +6376,11 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "parallel-execution",
+      "targetSkillId": "dispatching-parallel-agents",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "parse-html",
       "targetSkillId": "design-system-extraction",
       "edgeType": "prerequisite"
@@ -6328,6 +6432,11 @@
     },
     {
       "sourceSkillId": "plan-decompose",
+      "targetSkillId": "dispatching-parallel-agents",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "plan-decompose",
       "targetSkillId": "plan-and-execute",
       "edgeType": "prerequisite"
     },
@@ -6357,6 +6466,11 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "plan-decompose",
+      "targetSkillId": "writing-plans",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "project-management",
       "targetSkillId": "gstack",
       "edgeType": "prerequisite"
@@ -6369,6 +6483,11 @@
     {
       "sourceSkillId": "prompt-optimization",
       "targetSkillId": "gstack",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "question-answer",
+      "targetSkillId": "brainstorming",
       "edgeType": "prerequisite"
     },
     {
@@ -6418,12 +6537,27 @@
     },
     {
       "sourceSkillId": "requesting-code-review",
+      "targetSkillId": "receiving-code-review",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "requesting-code-review",
       "targetSkillId": "superpowers",
       "edgeType": "prerequisite"
     },
     {
       "sourceSkillId": "requirements-analysis",
+      "targetSkillId": "brainstorming",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "requirements-analysis",
       "targetSkillId": "ubiquitous-language",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "requirements-analysis",
+      "targetSkillId": "writing-plans",
       "edgeType": "prerequisite"
     },
     {
@@ -6539,6 +6673,11 @@
     {
       "sourceSkillId": "self-critique",
       "targetSkillId": "multi-agent-debate",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "self-critique",
+      "targetSkillId": "verification-before-completion",
       "edgeType": "prerequisite"
     },
     {
@@ -6688,6 +6827,11 @@
     },
     {
       "sourceSkillId": "tool-use",
+      "targetSkillId": "executing-plans",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "tool-use",
       "targetSkillId": "re-act-reasoning",
       "edgeType": "prerequisite"
     },
@@ -6699,6 +6843,11 @@
     {
       "sourceSkillId": "tool-use",
       "targetSkillId": "tool-creation",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "tool-use",
+      "targetSkillId": "using-git-worktrees",
       "edgeType": "prerequisite"
     },
     {
@@ -6724,6 +6873,11 @@
     {
       "sourceSkillId": "ux-audit",
       "targetSkillId": "gstack",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "verification-before-completion",
+      "targetSkillId": "receiving-code-review",
       "edgeType": "prerequisite"
     },
     {
@@ -6839,6 +6993,11 @@
     {
       "sourceSkillId": "write-report",
       "targetSkillId": "scientific-writing",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "writing-plans",
+      "targetSkillId": "executing-plans",
       "edgeType": "prerequisite"
     },
     {

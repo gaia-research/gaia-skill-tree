@@ -6,7 +6,10 @@
   "rarity": "common",
   "description": "Elicit and structure requirements from stakeholder inputs into formal specifications — user stories, acceptance criteria, and traceability matrices.",
   "prerequisites": [],
-  "derivatives": [],
+  "derivatives": [
+    "writing-plans",
+    "brainstorming"
+  ],
   "conditions": "",
   "evidence": [
     {
