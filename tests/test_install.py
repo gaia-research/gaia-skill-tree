@@ -273,6 +273,25 @@ class TestInstallFlow:
         result = uninstall_skill("ghost/skill")
         assert result is True
 
+    def test_uninstall_accepts_leading_slash_named_skill_id(self, tmp_path, monkeypatch):
+        """uninstall_skill normalizes slash-prefixed named skill IDs."""
+        monkeypatch.chdir(tmp_path)
+
+        skill_dir = tmp_path / "registry" / "named" / "testuser"
+        skill_dir.mkdir(parents=True)
+        (skill_dir / "my-skill.md").write_text(
+            "---\nid: testuser/my-skill\n---\nContent here."
+        )
+
+        assert install_skill("testuser/my-skill", str(tmp_path)) is True
+        repo_file = tmp_path / ".gaia" / "named-skills" / "testuser" / "my-skill.md"
+        assert repo_file.exists()
+
+        result = uninstall_skill("/testuser/my-skill")
+        assert result is True
+        assert not repo_file.exists()
+        assert load_manifest()["installed"] == []
+
     def test_uninstall_removes_repo_file(self, tmp_path, monkeypatch):
         """uninstall_skill removes the local repo copy of the skill."""
         monkeypatch.chdir(tmp_path)

@@ -1127,7 +1127,7 @@ def skills_command(args):
             sys.exit(1)
         return
     if verb == "uninstall":
-        success = uninstall_skill(args.skill_id)
+        success = uninstall_skill(args.skill_id.lstrip("/"))
         if not success:
             sys.exit(1)
         return
