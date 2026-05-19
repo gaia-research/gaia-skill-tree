@@ -109,6 +109,7 @@ Quick usage:
   gaia split <source> <target1> <target2>...
   gaia add <name> [--id <id>] [--type <type>] [--description <desc>] [--named] [--contributor <user>]
   gaia evidence <skillId> <source> [--class A|B|C] [--evaluator <user>] [--date <date>] [--notes <notes>]
+  gaia test <suite>
   gaia skills <list|search|info|install|uninstall>
   gaia skills list [--exclude-pending]
   gaia skills search <query> [--exclude-pending]
@@ -152,6 +153,7 @@ PUBLIC_COMMANDS = (
     "split",
     "add",
     "evidence",
+    "test",
     "skills",
 )
 
@@ -1453,6 +1455,9 @@ def get_parser():
     evidence_parser.add_argument('--date', help="Date of evaluation (ISO 8601)")
     evidence_parser.add_argument('--notes', help="Optional notes about the evaluation")
 
+    test_parser = subparsers.add_parser('test', help="Run self-verification tests")
+    test_parser.add_argument('suite', choices=('meta', 'all'), help="Test suite to run")
+
     skills_parser = subparsers.add_parser(
         'skills',
         help="Browse and manage named skills",
@@ -1482,6 +1487,25 @@ def get_parser():
     ]
     hook_parser.add_argument('--event', default='file_edit', help=argparse.SUPPRESS)
     return parser, skills_parser
+
+def test_command(args):
+    """Run self-verification tests."""
+    repo_root = Path(__file__).parent.parent.parent
+    pytest_path = repo_root / ".venv" / "bin" / "pytest"
+    if not pytest_path.exists():
+        # Fallback to system pytest
+        pytest_path = "pytest"
+    
+    cmd = [str(pytest_path)]
+    if args.suite == "meta":
+        cmd.append(str(repo_root / "tests" / "test_meta_ops.py"))
+    elif args.suite == "all":
+        cmd.append(str(repo_root / "tests"))
+    
+    print(f"Running tests: {' '.join(cmd)}")
+    result = subprocess.run(cmd, cwd=str(repo_root))
+    if result.returncode != 0:
+        sys.exit(result.returncode)
 
 def main():
     # Ensure UTF-8 output on Windows (avoids cp1252 UnicodeEncodeError for box-drawing)
@@ -1555,6 +1579,8 @@ def main():
         meta_add_command(args)
     elif args.command == 'evidence':
         meta_evidence_command(args)
+    elif args.command == 'test':
+        test_command(args)
     elif args.command == 'skills':
         if not getattr(args, 'skills_command', None):
             skills_parser.print_help()
