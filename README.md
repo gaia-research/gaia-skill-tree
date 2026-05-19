@@ -35,11 +35,11 @@ GAIA SKILL TREE
   │  ├─ ○ /code-generation  [1★]
   │  ├─ ○ /execute-bash  [1★]
   │  └─ ○ /error-interpretation  [1★]
-  ├─ ○ /evaluate-output  [1★]
+  ├─ ◉ /feed-monitoring  [4★]
   └─ ◇ /plan-and-execute  [4★] ...
 
-Full graph: docs/tree.md
-Personal renders: generated-output/tree.md and generated-output/tree.html
+Full registry: docs/tree.md
+Your tree renders: generated-output/tree.{md,html}
 ```
 
 > [!TIP]
