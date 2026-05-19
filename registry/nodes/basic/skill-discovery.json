@@ -2,7 +2,7 @@
   "id": "skill-discovery",
   "name": "Skill Discovery",
   "type": "basic",
-  "level": "0★",
+  "level": "3★",
   "rarity": "common",
   "description": "Searches a skill or tool registry, ranks results by relevance and install count, and surfaces candidates for the agent to adopt or invoke.",
   "prerequisites": [],

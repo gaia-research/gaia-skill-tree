@@ -2,7 +2,7 @@
   "id": "question-answer",
   "name": "Question Answer",
   "type": "basic",
-  "level": "0★",
+  "level": "4★",
   "rarity": "common",
   "description": "Produces accurate, context-grounded answers to natural-language questions, handling unanswerable cases.",
   "prerequisites": [],
@@ -20,7 +20,14 @@
       "source": "https://arxiv.org/abs/1806.03822",
       "evaluator": "mbtiongson1",
       "date": "2026-04-28",
-      "notes": "SQuAD 2.0 â€” reading comprehension benchmark with 150K questions; modern LLMs exceed human F1 (90.9), providing rigorous reproducible evaluation."
+      "notes": "SQuAD 2.0 — reading comprehension benchmark with 150K questions; modern LLMs exceed human F1 (90.9), providing rigorous reproducible evaluation."
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/registry/named/garrytan/office-hours.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-04-30",
+      "notes": "Garry Tan /office-hours -- Q&A skill grounded in specific document sets and founder context."
     }
   ],
   "knownAgents": [],

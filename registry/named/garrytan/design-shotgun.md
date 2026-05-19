@@ -3,7 +3,7 @@ id: garrytan/design-shotgun
 name: Design Shotgun
 contributor: garrytan
 origin: false
-genericSkillRef: design-review
+genericSkillRef: design-generation
 status: named
 title: "Design Shotgun"
 catalogRef: garrytan-design-shotgun

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
   width="1200" height="630" viewBox="0 0 1200 630"
-  class="plaque plaque--og" data-type="extra" data-level="6">
+  class="plaque plaque--og" data-type="extra" data-level="3">
   <style><![CDATA[
 :root {
   --tier-basic: #38bdf8;
@@ -35,15 +35,7 @@
       <stop offset="100%" stop-color="#fbbf24" stop-opacity="0.02"/>
     </linearGradient>
   </defs>
-  <defs>
-  <filter id="vi-glow" x="-20%" y="-20%" width="140%" height="140%">
-    <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur"/>
-    <feColorMatrix in="blur" type="matrix"
-      values="1 0.5 0 0 0  0.8 0.8 0 0 0  0 0.2 0.2 0 0  0 0 0 0.6 0"
-      result="colored"/>
-    <feMerge><feMergeNode in="colored"/><feMergeNode in="SourceGraphic"/></feMerge>
-  </filter>
-</defs>
+  
 
   <!-- Ground -->
   <rect width="1200" height="630" fill="#030712"/>
@@ -82,15 +74,15 @@
 
   <!-- Tier glyph (large) -->
   <text x="48" y="175" font-family="Georgia,serif" font-size="52"
-    fill="#fbbf24" opacity="0.85">◆</text>
+    fill="#fbbf24" opacity="0.85">○</text>
 
   <!-- Stars (.plaque__rank stars variant) -->
   <polygon points="64.00,426.00 66.12,432.09 72.56,432.22 67.42,436.11 69.29,442.28 64.00,438.60 58.71,442.28 60.58,436.11 55.44,432.22 61.88,432.09" fill="#fbbf24" opacity="1"/>
 <polygon points="86.00,426.00 88.12,432.09 94.56,432.22 89.42,436.11 91.29,442.28 86.00,438.60 80.71,442.28 82.58,436.11 77.44,432.22 83.88,432.09" fill="#fbbf24" opacity="1"/>
 <polygon points="108.00,426.00 110.12,432.09 116.56,432.22 111.42,436.11 113.29,442.28 108.00,438.60 102.71,442.28 104.58,436.11 99.44,432.22 105.88,432.09" fill="#fbbf24" opacity="1"/>
-<polygon points="130.00,426.00 132.12,432.09 138.56,432.22 133.42,436.11 135.29,442.28 130.00,438.60 124.71,442.28 126.58,436.11 121.44,432.22 127.88,432.09" fill="#fbbf24" opacity="1"/>
-<polygon points="152.00,426.00 154.12,432.09 160.56,432.22 155.42,436.11 157.29,442.28 152.00,438.60 146.71,442.28 148.58,436.11 143.44,432.22 149.88,432.09" fill="#fbbf24" opacity="1"/>
-<polygon points="174.00,426.00 176.12,432.09 182.56,432.22 177.42,436.11 179.29,442.28 174.00,438.60 168.71,442.28 170.58,436.11 165.44,432.22 171.88,432.09" fill="#fbbf24" opacity="1"/>
+<polygon points="130.00,426.00 132.12,432.09 138.56,432.22 133.42,436.11 135.29,442.28 130.00,438.60 124.71,442.28 126.58,436.11 121.44,432.22 127.88,432.09" fill="#fbbf24" opacity="0.18"/>
+<polygon points="152.00,426.00 154.12,432.09 160.56,432.22 155.42,436.11 157.29,442.28 152.00,438.60 146.71,442.28 148.58,436.11 143.44,432.22 149.88,432.09" fill="#fbbf24" opacity="0.18"/>
+<polygon points="174.00,426.00 176.12,432.09 182.56,432.22 177.42,436.11 179.29,442.28 174.00,438.60 168.71,442.28 170.58,436.11 165.44,432.22 171.88,432.09" fill="#fbbf24" opacity="0.18"/>
 
   <!-- Vertical rule -->
   <line x1="220" y1="40" x2="220" y2="590"
@@ -135,10 +127,10 @@
     rx="3" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
   <text class="plaque__evidence" x="276" y="575"
     font-family="monospace" font-size="11" letter-spacing="1.5"
-    fill="rgba(226,232,240,0.5)" dominant-baseline="middle">CLASS A</text>
+    fill="rgba(226,232,240,0.5)" dominant-baseline="middle">CLASS B</text>
 
   <!-- Level chip (.plaque__rank chip variant — mirrors Stage 2 sibling) -->
-  <rect x="1080" y="559" width="56" height="26" rx="13" fill="rgba(251,191,36,.22)" stroke="rgba(251,191,36,.55)" stroke-width="1"/><text x="1124" y="575" font-family="'Departure Mono','JetBrains Mono',monospace" font-size="13" font-weight="600" letter-spacing="1.2" fill="#fbbf24" text-anchor="end" dominant-baseline="middle">6★</text>
+  <rect x="1080" y="559" width="56" height="26" rx="13" fill="rgba(167,139,250,.15)" stroke="rgba(167,139,250,.4)" stroke-width="1"/><text x="1124" y="575" font-family="'Departure Mono','JetBrains Mono',monospace" font-size="13" font-weight="600" letter-spacing="1.2" fill="#a78bfa" text-anchor="end" dominant-baseline="middle">3★</text>
 
   <!-- Contributor handle (.plaque__handle) -->
   <text class="plaque__handle" x="264" y="605"

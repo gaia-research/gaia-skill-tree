@@ -109,8 +109,8 @@
         "origin": true,
         "genericSkillRef": "test-driven-development",
         "status": "named",
-        "level": "2★",
-        "description": "Forces the AI agent to follow a strict red-green-refactor TDD workflow — writing failing tests before any implementation code, blocking code generation that skips the test step, and enforcing coverage thresholds before completing a task.",
+        "level": "3★",
+        "description": "Forces the AI agent to follow a strict red-green-refactor TDD workflow — explicitly blocking horizontal slicing (all tests first, then all code). Tests verify behaviour through public interfaces only, blocking code generation that skips the test step, and enforcing coverage thresholds before completing a task.",
         "title": "The Red-Green Oath",
         "catalogRef": "addy-osmani-test-driven-development",
         "tags": [
@@ -118,7 +118,9 @@
           "testing",
           "red-green-refactor",
           "workflow-enforcement",
-          "software-quality"
+          "software-quality",
+          "vertical-slicing",
+          "tracer-bullet"
         ],
         "links": {
           "github": "https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md"
@@ -126,31 +128,6 @@
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
         "role": "origin"
-      },
-      {
-        "id": "mattpocock/tdd",
-        "name": "TDD",
-        "contributor": "mattpocock",
-        "origin": false,
-        "genericSkillRef": "test-driven-development",
-        "status": "named",
-        "level": "3★",
-        "description": "Enforces strict vertical-slice TDD — one test then one implementation at a time — explicitly blocking horizontal slicing (all tests first, then all code). Tests verify behaviour through public interfaces only; mocking internal collaborators is treated as an anti-pattern.",
-        "title": "Vertical-Slice TDD",
-        "catalogRef": "mattpocock-tdd",
-        "tags": [
-          "tdd",
-          "red-green-refactor",
-          "vertical-slicing",
-          "tracer-bullet",
-          "public-interface-testing"
-        ],
-        "links": {
-          "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md"
-        },
-        "createdAt": "2026-04-30",
-        "updatedAt": "2026-04-30",
-        "role": "variant"
       }
     ],
     "document-editing": [
@@ -975,14 +952,15 @@
         "origin": false,
         "genericSkillRef": "ux-audit",
         "status": "named",
-        "level": "3★",
-        "description": "Runs a structured UX audit over a product interface, scoring layout clarity, affordance, and accessibility against the Gstack design rubric to surface actionable improvements.",
-        "title": "Gstack Design Review — UX Audit Pass",
+        "level": "4★",
+        "description": "Interactive, designer-led audit of UI/UX plans rating seven dimensions before implementation begins, plus a structured UX audit over the final product interface scoring layout clarity, affordance, and accessibility against the Gstack design rubric.",
+        "title": "Gstack Design Review",
         "catalogRef": "garrytan-design-review",
         "tags": [
+          "design-review",
           "ux-audit",
-          "design",
-          "review"
+          "plan-review",
+          "ui-ux"
         ],
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/design-review/SKILL.md"
@@ -998,65 +976,19 @@
         "origin": false,
         "genericSkillRef": "ux-audit",
         "status": "named",
-        "level": "3★",
-        "description": "Audits CLI ergonomics, API surface clarity, and onboarding friction from a developer perspective, producing a scored report with prioritised fixes.",
-        "title": "Gstack DevEx Review — Developer Experience Audit",
+        "level": "4★",
+        "description": "Interactive multi-pass DX review for developer-facing products — APIs, CLIs, SDKs, and libraries. Audits CLI ergonomics, API surface clarity, and onboarding friction from a developer perspective, producing an actionable improvement plan.",
+        "title": "Gstack DevEx Review",
         "catalogRef": "garrytan-devex-review",
-        "tags": [
-          "ux-audit",
-          "developer-experience",
-          "review"
-        ],
-        "links": {
-          "github": "https://github.com/garrytan/gstack/blob/main/devex-review/SKILL.md"
-        },
-        "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
-        "role": "variant"
-      },
-      {
-        "id": "garrytan/plan-design-review",
-        "name": "Plan Design Review",
-        "contributor": "garrytan",
-        "origin": false,
-        "genericSkillRef": "ux-audit",
-        "status": "named",
-        "level": "4★",
-        "description": "Interactive, designer-led audit of UI/UX plans rating seven dimensions — information architecture, interaction states, user journey, AI slop risk, design system alignment, responsive/accessibility, and unresolved decisions — before implementation begins, with optional visual mockup generation.",
-        "title": "Design Plan Review",
-        "catalogRef": "garrytan-plan-design-review",
-        "tags": [
-          "ux",
-          "design-audit",
-          "plan-review",
-          "ui-ux"
-        ],
-        "links": {
-          "github": "https://github.com/garrytan/gstack/blob/main/plan-design-review/SKILL.md"
-        },
-        "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
-        "role": "variant"
-      },
-      {
-        "id": "garrytan/plan-devex-review",
-        "name": "Plan DevEx Review",
-        "contributor": "garrytan",
-        "origin": false,
-        "genericSkillRef": "ux-audit",
-        "status": "named",
-        "level": "4★",
-        "description": "Interactive multi-pass DX review for developer-facing products — APIs, CLIs, SDKs, and libraries — scoring eight UX dimensions from onboarding to error messaging via persona discovery and competitive benchmarking, producing an actionable improvement plan rather than just a score.",
-        "title": "Developer Experience Review",
-        "catalogRef": "garrytan-plan-devex-review",
         "tags": [
           "developer-experience",
           "dx",
+          "ux-audit",
           "api-ux",
           "onboarding"
         ],
         "links": {
-          "github": "https://github.com/garrytan/gstack/blob/main/plan-devex-review/SKILL.md"
+          "github": "https://github.com/garrytan/gstack/blob/main/devex-review/SKILL.md"
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
@@ -1111,13 +1043,13 @@
         "role": "variant"
       }
     ],
-    "design-review": [
+    "design-generation": [
       {
         "id": "garrytan/design-shotgun",
         "name": "Design Shotgun",
         "contributor": "garrytan",
         "origin": false,
-        "genericSkillRef": "design-review",
+        "genericSkillRef": "design-generation",
         "status": "named",
         "level": "4★",
         "description": "Rapid design exploration that generates multiple AI design variants, opens a comparison board for the user, collects structured feedback, and iterates until a preferred visual direction is reached.",
@@ -1135,6 +1067,29 @@
         "createdAt": "2026-05-12",
         "updatedAt": "2026-05-12",
         "role": "variant"
+      },
+      {
+        "id": "nexu-io/open-design",
+        "name": "Open Design",
+        "contributor": "nexu-io",
+        "origin": true,
+        "genericSkillRef": "design-generation",
+        "status": "named",
+        "level": "3★",
+        "description": "Local-first design engine for generating high-fidelity UI/UX prototypes and brand assets from structured intent.",
+        "title": "The Artisan's Forge",
+        "tags": [
+          "design",
+          "ui",
+          "ux",
+          "generation"
+        ],
+        "links": {
+          "github": "https://github.com/nexu-io/open-design"
+        },
+        "createdAt": "2026-05-14",
+        "updatedAt": "2026-05-14",
+        "role": "origin"
       }
     ],
     "vertical-slice-planning": [
@@ -2150,7 +2105,7 @@
         "origin": true,
         "genericSkillRef": "autonomous-research-agent",
         "status": "named",
-        "level": "6★",
+        "level": "3★",
         "description": "Autonomous research agent that iteratively searches, reads, and synthesizes academic papers into structured summaries.",
         "title": "The Scholar's Compass",
         "catalogRef": "karpathy-autoresearch",
@@ -2228,7 +2183,7 @@
         "origin": true,
         "genericSkillRef": "grill-with-docs",
         "status": "named",
-        "level": "5★",
+        "level": "3★",
         "description": "The ultimate evolution of the grill pattern. Fuses relentless Socratic questioning with deep domain awareness, ensuring every decision is cross-referenced against a persistent ubiquitous language and documented via real-time ADR generation.",
         "title": "The Domain Sovereign",
         "catalogRef": "mattpocock-grill-with-docs",
@@ -2239,7 +2194,6 @@
           "adr",
           "context-md",
           "socratic-method",
-          "ultimate",
           "fusion"
         ],
         "links": {
@@ -2409,31 +2363,6 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
-        "role": "origin"
-      }
-    ],
-    "design-generation": [
-      {
-        "id": "nexu-io/open-design",
-        "name": "Open Design",
-        "contributor": "nexu-io",
-        "origin": true,
-        "genericSkillRef": "design-generation",
-        "status": "named",
-        "level": "3★",
-        "description": "Local-first design engine for generating high-fidelity UI/UX prototypes and brand assets from structured intent.",
-        "title": "The Artisan's Forge",
-        "tags": [
-          "design",
-          "ui",
-          "ux",
-          "generation"
-        ],
-        "links": {
-          "github": "https://github.com/nexu-io/open-design"
-        },
-        "createdAt": "2026-05-14",
-        "updatedAt": "2026-05-14",
         "role": "origin"
       }
     ],
@@ -4234,8 +4163,6 @@
       "garrytan/open-gstack-browser",
       "garrytan/pair-agent",
       "garrytan/plan-ceo-review",
-      "garrytan/plan-design-review",
-      "garrytan/plan-devex-review",
       "garrytan/plan-eng-review",
       "garrytan/plan-tune",
       "garrytan/qa-only",
@@ -4294,7 +4221,6 @@
       "mattpocock/grill-me",
       "mattpocock/grill-with-docs",
       "mattpocock/improve-codebase-architecture",
-      "mattpocock/tdd",
       "mattpocock/to-issues",
       "mattpocock/to-prd",
       "mattpocock/triage",

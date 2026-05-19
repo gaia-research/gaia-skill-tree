@@ -1,8 +1,8 @@
-# [ruvnet](../../../docs/u/ruvnet/)/github-suite  [4★ · Hardened]
+# [ruvnet](../../../docs/u/ruvnet/)/github-suite  [3★ · Evolved]
 **ID:** github-platform-mastery  
 **Type:** Extra Skill  
-**Level:** 4★  
-**Tier:** Hardened  
+**Level:** 3★  
+**Tier:** Evolved  
 **Skill Call:** `/github-platform-mastery`
 
 ---

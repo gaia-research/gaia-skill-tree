@@ -11,7 +11,7 @@
 Conducts a relentless, one-question-at-a-time Socratic interview to stress-test designs and force the resolution of hidden assumptions before code is written.
 
 ## Prerequisites
-- [Design Review](../extra/design-review.md)
+- design-review
 - [Self-Critique](../basic/self-critique.md)
 
 ## Unlocks

@@ -2,7 +2,7 @@
   "id": "test-driven-development",
   "name": "Test-Driven Development",
   "type": "basic",
-  "level": "0★",
+  "level": "3★",
   "rarity": "uncommon",
   "description": "Enforces a strict red-green-refactor TDD loop: writes failing tests before implementation, blocks code generation that skips the test step, and validates coverage thresholds before marking tasks complete.",
   "prerequisites": [],
@@ -15,6 +15,13 @@
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
       "notes": "Addy Osmani /test-driven-development slash command -- forces strict TDD workflow, stopping agents from skipping tests."
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-04-30",
+      "notes": "Matt Pocock /tdd -- Vertical-slice TDD enforcement with anti-horizontal-slicing rules."
     }
   ],
   "knownAgents": [],

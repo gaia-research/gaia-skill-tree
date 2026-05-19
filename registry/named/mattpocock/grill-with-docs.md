@@ -7,7 +7,7 @@ genericSkillRef: grill-with-docs
 status: named
 title: "The Domain Sovereign"
 catalogRef: mattpocock-grill-with-docs
-level: "5★"
+level: "3★"
 description: The ultimate evolution of the grill pattern. Fuses relentless Socratic questioning with deep domain awareness, ensuring every decision is cross-referenced against a persistent ubiquitous language and documented via real-time ADR generation.
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/engineering/grill-with-docs/SKILL.md
@@ -18,7 +18,6 @@ tags:
   - adr
   - context-md
   - socratic-method
-  - ultimate
   - fusion
 createdAt: "2026-04-30"
 updatedAt: "2026-05-15"
