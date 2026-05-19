@@ -1,5 +1,8 @@
 <div align="center">
-  <img src="docs/assets/marks/diamond-seal.svg" alt="The Diamond Seal" width="120" />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/marks/diamond-seal-favicon.svg">
+    <img src="docs/assets/marks/diamond-seal.svg" alt="The Diamond Seal" width="120" />
+  </picture>
 </div>
 
 # Gaia - AI Agent Skill Registry
@@ -7,8 +10,8 @@
 > The open, evidence-backed skill graph for AI agents: collect, evolve, and fuse capabilities into something legendary.
 
 [![Validate](https://github.com/mbtiongson1/gaia-skill-tree/actions/workflows/validate.yml/badge.svg)](https://github.com/mbtiongson1/gaia-skill-tree/actions/workflows/validate.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Tutorial](https://img.shields.io/badge/Tutorial-gaia.tiongson.co-38bdf8)](https://gaia.tiongson.co/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-fbbf24.svg)](LICENSE)
+[![Website](https://img.shields.io/badge/Website-gaia.tiongson.co-ef4444)](https://gaia.tiongson.co/)
 
 ---
 
@@ -17,30 +20,46 @@
 Every AI agent capability exists somewhere on this graph. Skills start at the foundation tier, awaken through evidence, evolve through use, and fuse into things greater than the sum of their parts.
 
 ```text
-GAIA SKILL TREE
-=======================================================
+◆ garrytan/gstack  [5★]
+  ├─ ○ garrytan/office-hours  [0★]
+  ├─ ◇ garrytan/plan-eng-review  [3★]
+  │  ├─ ○ garrytan/design-html  [1★]
+  │  ├─ ○ /diff-content  [1★]
+  │  └─ ○ garrytan/benchmark  [1★]
+  ├─ ◇ mattpocock/to-issues  [3★]
+  │  ├─ ○ /plan-decompose  [1★]
+  │  └─ ○ /route-intent  [1★]
+  └─ ◇ firecrawl/firecrawl  [3★]
+     ├─ ○ /web-search  [1★]
+     ├─ ○ /parse-html  [1★]
+     └─ ○ /extract-entities  [1★]
 
-◆ karpathy/autoresearch  [6★]
-  ├─ ◇ /research  [3★]
-  │  ├─ ○ /web-search  [1★]
-  │  ├─ ○ /summarize  [0★]
-  │  └─ ○ /cite-sources  [1★]
-  ├─ ◇ /knowledge-harvest  [4★]
-  │  ├─ ◇ firecrawl/firecrawl  [3★] ...
-  │  └─ ○ /embed-text  [1★]
-  └─ ◇ /ghostwrite  [4★] ...
+◆ obra/superpowers  [5★]
+  ├─ ○ obra/brainstorming  [1★]
+  ├─ ○ obra/executing-plans  [2★]
+  ├─ ◇ obra/finishing-a-development-branch  [2★]
+  │  └─ ◇ garrytan/plan-eng-review  [3★]
+  └─ ○ obra/writing-plans  [2★]
 
-◆ /recursive-self-improvement  [5★]
-  ├─ ◇ devin-ai/autonomous-swe  [4★]
-  │  ├─ ○ /code-generation  [1★]
-  │  ├─ ○ /execute-bash  [1★]
-  │  └─ ○ /error-interpretation  [1★]
-  ├─ ○ /evaluate-output  [1★]
-  └─ ◇ /plan-and-execute  [4★] ...
+Uniques — graph-isolated Basic Skills that ranked up through depth alone
+  ◉ nousresearch/feed-monitoring  [4★ · Hardened]
+  ◉ openai/few-shot-learning  [4★ · Hardened]
+  ◉ huggingface/semantic-cache  [4★ · Hardened]
 
-Full graph: docs/tree.md
-Personal renders: generated-output/tree.md and generated-output/tree.html
+(166 skills total — see docs/tree.md)
 ```
+
+### How skills fuse
+
+When two or more Basic skills combine, they can form an Extra. This is what `gaia scan` and `gaia fuse` render in your terminal:
+
+```text
+  mattpocock/grill-me  ─┐
+                        ├──▶  mattpocock/grill-with-docs  ◇
+  mattpocock/ubiquitous-language  ─┘
+```
+
+Basics fuse into Extras; Extras can fuse into Ultimates. Evidence powers each ascent.
 
 > [!TIP]
 > **New here?** The interactive tutorial at **[gaia.tiongson.co](https://gaia.tiongson.co/)** covers everything visually: skill tiers, the stars axis, The Initiate's Rite, and copy-paste commands.
@@ -51,15 +70,18 @@ Personal renders: generated-output/tree.md and generated-output/tree.html
 
 | Symbol | Tier | Levels | Evidence floor |
 |--------|------|--------|---------------|
-| ○ Basic | Primitive, indivisible capability | 0★ (F) Unawakened → 1★ (D) Awakened | None |
-| ◇ Extra | Emerges from combining 2+ basic skills | 2★ (C) Named → 3★ (B) Evolved → 4★ (A) Hardened | C → B → B/A |
-| ◆ Ultimate | High-complexity emergent capability | 5★ (S) Transcendent → 6★ (SS) Transcendent ★ | A → A + peer review |
+| ○ Basic | Primitive, indivisible capability | 0★ Unawakened → 1★ Awakened | None |
+| ◉ Unique | Graph-isolated Basic Skill that ranked up without fusing | 1★ Awakened → 6★ Transcendent ★ | None (depth alone) |
+| ◇ Extra | Emerges from combining 2+ Basic Skills or fusing Extras | 2★ Named → 3★ Evolved → 4★ Hardened → 5★ Transcendent | Class C+ evidence |
+| ◆ Ultimate | High-complexity emergent capability (fewer than 1% of agents) | 5★ Transcendent → 6★ Transcendent ★ | Class A (peer-reviewed) |
 
-Skills rank up through evidence, not declaration. Each demerit demotes the skill by one star (floored at 1★, valid for 2★+ only).
+Skills rank up through **evidence**, not declaration. Basics fuse into Extras or Ultimates; Extras can fuse with other Extras. Each demerit demotes a skill by one star (floored at 1★, valid for 2★+ only).
 
 ---
 
-## Install
+## Quickstart
+
+**1. Install the CLI**
 
 <!-- gaia:version-start -->
 Current Gaia CLI version: `3.16.1`.
@@ -77,51 +99,81 @@ npm install -g @gaia-registry/cli
 ```
 <!-- gaia:version-end -->
 
-For registry development, clone and install editable:
+<details>
+<summary>npm / pipx / Windows alternatives</summary>
+
+**npm wrapper:**
 ```bash
-git clone https://github.com/mbtiongson1/gaia-skill-tree.git
-cd gaia-skill-tree
-pip install -e ".[embeddings]"
+npm install -g @gaia-registry/cli
 ```
 
-<details>
-<summary>Troubleshooting</summary>
-
-If pip fails, try pipx:
+**pipx (if pip fails):**
 ```bash
 brew install pipx        # macOS
 pipx install gaia-cli
 ```
 
-Windows — if `gaia` isn't recognized after install:
+**Windows PATH fix** (if `gaia` isn't found after install):
 ```powershell
 $env:PATH += ";" + (python -c "import sysconfig; print(sysconfig.get_path('scripts', 'nt_user'))")
 ```
+
+**Registry development** (editable install):
+```bash
+git clone https://github.com/mbtiongson1/gaia-skill-tree.git
+cd gaia-skill-tree
+pip install -e ".[embeddings]"
+```
 </details>
 
-## Updating Gaia
-
-To instantly pull the latest registry data and update the core CLI, use:
-
-```bash
-gaia update
-```
-
-> **Note:** Semantic search users must manually update embeddings by running `pip install gaia-cli[embeddings] --upgrade` if required. `gaia update` alone handles the core tools in seconds.
-
-## The Initiate's Rite
+**2. Initialise & scan**
 
 ```bash
 gaia init --user your-username
-gaia update          # pull latest registry + CLI
-gaia scan            # detect skills, render tree
-gaia appraise        # inspect a skill plaque
-gaia promote web-search   # promote scan-approved candidates
-gaia push --dry-run  # preview intake submission
-gaia push            # submit for maintainer review
+gaia scan
 ```
 
-`gaia scan` writes `generated-output/promotion-candidates.json`, renders your tree to `generated-output/tree.{html,md}`, and prints detected skills with fusion diagrams.
+Detects skills your agent demonstrates.
+
+**3. Push for review**
+
+```bash
+gaia push
+```
+
+A GitHub PR opens automatically. Maintainers review; your name attaches at 2★.
+
+**4. Bond your agent (optional)**
+
+```bash
+claude mcp add gaia -- npx @gaia-registry/mcp-server
+```
+
+Any MCP-compatible client. See [packages/mcp/](packages/mcp/) for config examples.
+
+---
+
+**Or explore interactively** with the [Terminal UI](#terminal-ui-experimental) (after step 1 → `gaia` with no args).
+
+> **Keep up to date:** Run `gaia update` anytime to pull latest registry + CLI.
+
+## Terminal UI (experimental)
+
+> **New.** Agent-first interface designed for Claude Code, Codex, and other AI agents.
+
+After step 1, launch with no arguments:
+
+```bash
+gaia
+```
+
+Navigate your skills:
+- **Fuzzy search** by name, description, or intent
+- **View tree** (`^T`) and **run scan** (`^G`) without leaving the TUI
+- **Install skills** with one keystroke
+- Keyboard-native: `↑↓` navigate · `Enter` install · `q` quit
+
+Requires `textual` (included with `pip install gaia-cli`).
 
 ---
 
@@ -228,16 +280,6 @@ tests/                    Python test suite
 <!-- gaia:layout-end -->
 
 ---
-
-## Maintainer Hooks
-
-Contributors who edit the canonical graph can install the repo-local hook once:
-
-```bash
-bash scripts/install-git-hooks.sh
-```
-
-The pre-commit hook checks version lockstep, applies a semantic bump from the commit message, regenerates registry artifacts, runs `gaia docs build`, and stages generated outputs.
 
 ## Contributing
 

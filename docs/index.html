@@ -198,6 +198,24 @@
               <div class="qs-tip mt-sm"><span class="qs-tip-icon">💡</span><span>Any MCP-compatible agent: use <code>npx @gaia-registry/mcp-server</code>. See <a href="https://github.com/mbtiongson1/gaia-skill-tree/tree/main/packages/mcp" target="_blank" class="text-tier-basic">packages/mcp</a> for config-file examples.</span></div>
             </div>
           </li>
+          <li class="rite-step">
+            <span class="rite-numeral" aria-hidden="true">V.</span>
+            <div class="rite-body">
+              <strong>Explore interactively (optional)</strong>
+              <p>Launch the agent-first Terminal UI with no arguments.</p>
+              <div class="os-tabs" role="tablist" aria-label="Operating System selection">
+                <button type="button" class="os-tab active" data-os="unix" onclick="switchOsTab(this)" role="tab" aria-selected="true">macOS · Linux</button>
+                <button type="button" class="os-tab" data-os="win" onclick="switchOsTab(this)" role="tab" aria-selected="false">Windows</button>
+              </div>
+              <div class="os-panel active" data-os="unix" role="tabpanel">
+                <pre><span class="cmd">gaia</span></pre>
+              </div>
+              <div class="os-panel" data-os="win" role="tabpanel">
+                <pre><span class="cmd">py -m gaia_cli</span></pre>
+              </div>
+              <div class="qs-tip mt-sm"><span class="qs-tip-icon">💡</span><span>The Terminal UI is new and experimental — designed for AI agents like Claude Code and Codex. Keyboard-native, fuzzy searchable, no CLI memorization required.</span></div>
+            </div>
+          </li>
         </ol>
       </div>
 
