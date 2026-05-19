@@ -36,25 +36,15 @@ jobs:
 
       - name: Auto-Versioning and Regeneration
         run: |
-          export PYTHONPATH="src"
-          
           # 1. Classify bump type from commit message
           MSG=$(git log -1 --format=%B)
           BUMP="patch"
           if echo "$MSG" | grep -Eq 'BREAKING CHANGE|^[a-zA-Z]+(\([^)]*\))?!:'; then BUMP="major"; fi
           if echo "$MSG" | grep -Eq '^feat(\([^)]*\))?:'; then BUMP="minor"; fi
           
-          # 2. Apply version bump
-          python3 -c "from gaia_cli.versioning import bump_versions; print(bump_versions('.', '$BUMP'))"
-          
-          # 3. Regenerate all artifacts
-          python3 scripts/assemble_gaia.py
-          python3 scripts/generateNamedIndex.py
-          python3 scripts/generateProjections.py
-          python3 scripts/exportGexf.py
-          python3 scripts/renderGraphSvg.py --format svg
-          python3 scripts/syncDocsGraphAssets.py
-          python3 -m gaia_cli.main docs build
+          # 2. Apply version bump and regenerate artifacts via CLI
+          gaia release $BUMP
+          gaia docs build
 
       - name: Commit and Push Changes
         run: |

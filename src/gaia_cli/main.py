@@ -109,6 +109,7 @@ Quick usage:
   gaia split <source> <target1> <target2>...
   gaia add <name> [--id <id>] [--type <type>] [--description <desc>] [--named] [--contributor <user>]
   gaia evidence <skillId> <source> [--class A|B|C] [--evaluator <user>] [--date <date>] [--notes <notes>]
+  gaia validate [--intake] [--meta-sync]
   gaia test <suite>
   gaia skills <list|search|info|install|uninstall>
   gaia skills list [--exclude-pending]
@@ -153,6 +154,7 @@ PUBLIC_COMMANDS = (
     "split",
     "add",
     "evidence",
+    "validate",
     "test",
     "skills",
 )
@@ -1455,6 +1457,10 @@ def get_parser():
     evidence_parser.add_argument('--date', help="Date of evaluation (ISO 8601)")
     evidence_parser.add_argument('--notes', help="Optional notes about the evaluation")
 
+    validate_parser = subparsers.add_parser('validate', help="Validate the Gaia registry")
+    validate_parser.add_argument('--intake', action='store_true', help="Validate intake batches instead of canonical graph")
+    validate_parser.add_argument('--meta-sync', action='store_true', help="Verify meta.json is in sync with gaia.json")
+
     test_parser = subparsers.add_parser('test', help="Run self-verification tests")
     test_parser.add_argument('suite', choices=('meta', 'all'), help="Test suite to run")
 
@@ -1487,6 +1493,20 @@ def get_parser():
     ]
     hook_parser.add_argument('--event', default='file_edit', help=argparse.SUPPRESS)
     return parser, skills_parser
+
+def validate_command(args):
+    """Run registry validation."""
+    repo_root = Path(args.registry)
+    if args.intake:
+        script = repo_root / "scripts" / "validate_intake.py"
+        cmd = [sys.executable, str(script)]
+    else:
+        script = repo_root / "scripts" / "validate.py"
+        cmd = [sys.executable, str(script)]
+        if args.meta_sync:
+            cmd.append("--check-meta-sync")
+    
+    raise SystemExit(subprocess.call(cmd))
 
 def test_command(args):
     """Run self-verification tests."""
@@ -1579,6 +1599,8 @@ def main():
         meta_add_command(args)
     elif args.command == 'evidence':
         meta_evidence_command(args)
+    elif args.command == 'validate':
+        validate_command(args)
     elif args.command == 'test':
         test_command(args)
     elif args.command == 'skills':

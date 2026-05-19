@@ -547,10 +547,50 @@ def build_ruflo_curation(check: bool) -> bool:
     return False
 
 
+def build_assembly(check: bool) -> bool:
+    """Run assemble_gaia.py."""
+    script = SCRIPTS / "assemble_gaia.py"
+    if not script.exists():
+        return False
+    rc, output = _run_script(script, [])
+    if rc != 0:
+        if check:
+            print(f"diff registry/gaia.json (assembly failed: rc={rc})")
+            print(output)
+        return True
+    return False
+
+def build_gexf(check: bool) -> bool:
+    """Run exportGexf.py."""
+    script = SCRIPTS / "exportGexf.py"
+    if not script.exists():
+        return False
+    rc, output = _run_script(script, [])
+    return rc != 0
+
+def build_svg(check: bool) -> bool:
+    """Run renderGraphSvg.py."""
+    script = SCRIPTS / "renderGraphSvg.py"
+    if not script.exists():
+        return False
+    rc, output = _run_script(script, ["--format", "svg"])
+    return rc != 0
+
+def build_docs_graph_assets(check: bool) -> bool:
+    """Run syncDocsGraphAssets.py."""
+    script = SCRIPTS / "syncDocsGraphAssets.py"
+    if not script.exists():
+        return False
+    rc, output = _run_script(script, [])
+    return rc != 0
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Build generated Gaia docs regions.")
     parser.add_argument("--check", action="store_true", help="Fail if generated docs are stale")
     args = parser.parse_args(argv)
+
+    # Stage 0 — Core Graph Assembly
+    assembly_changed = build_assembly(args.check)
 
     # Stage 4 — full asset pipeline. Each step regenerates into a tempdir and
     # diffs against the committed copy. CSS tokens are already covered above;
@@ -562,6 +602,11 @@ def main(argv: list[str] | None = None) -> int:
     og_changed = build_og_cards(args.check)
     tree_changed = build_tree_md(args.check)
     ruflo_curation_changed = build_ruflo_curation(args.check)
+    
+    # Extra artifacts
+    gexf_changed = build_gexf(args.check)
+    svg_changed = build_svg(args.check)
+    sync_assets_changed = build_docs_graph_assets(args.check)
 
     # Local sections (README + index.html stats + tokens.css).
     # README depends on tree.md (build_tree_md)
@@ -571,7 +616,8 @@ def main(argv: list[str] | None = None) -> int:
     css_tokens_changed = build_css_tokens(args.check)
 
     changed = (
-        readme_changed
+        assembly_changed
+        or readme_changed
         or docs_index_changed
         or html_cache_busted
         or css_tokens_changed
@@ -581,6 +627,9 @@ def main(argv: list[str] | None = None) -> int:
         or og_changed
         or tree_changed
         or ruflo_curation_changed
+        or gexf_changed
+        or svg_changed
+        or sync_assets_changed
     )
     if args.check and changed:
         print("Generated documentation is stale. Run `python scripts/build_docs.py --check` locally.")
