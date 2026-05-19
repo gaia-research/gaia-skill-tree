@@ -274,14 +274,22 @@ def test_install_cache_honors_gaia_home(tmp_path, monkeypatch):
     registry = tmp_path / "registry"
     skill_dir = registry / "registry" / "named" / "alice"
     skill_dir.mkdir(parents=True)
-    (skill_dir / "skill.md").write_text("content")
+    (skill_dir / "skill.md").write_text("---\nid: alice/skill\nlinks:\n  github: https://github.com/alice/repo/blob/main/skill/SKILL.md\n---\ncontent")
     gaia_home = tmp_path / "custom-home"
 
     monkeypatch.chdir(repo)
     monkeypatch.setenv("GAIA_HOME", str(gaia_home))
+    
+    # Mock git execution to succeed and create the mock source dir
+    import os
+    def mock_run_git(args, cwd=None):
+        source_dir = os.path.join(str(gaia_home), "skills", "alice", "repo", "skill")
+        os.makedirs(source_dir, exist_ok=True)
+        return True
+    monkeypatch.setattr("gaia_cli.install._run_git", mock_run_git)
 
     assert install_skill("alice/skill", str(registry)) is True
-    assert (gaia_home / "skills" / "alice" / "skill.md").exists()
+    assert (gaia_home / "skills" / "alice" / "repo").exists()
 
 
 @pytest.mark.packaging
