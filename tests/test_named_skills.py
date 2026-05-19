@@ -3,6 +3,7 @@ import os
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
@@ -123,7 +124,7 @@ class TestInstallModule(unittest.TestCase):
         os.makedirs(named_dir, exist_ok=True)
         self.skill_path = os.path.join(named_dir, "my-skill.md")
         with open(self.skill_path, "w") as f:
-            f.write("---\nid: alice/my-skill\n---\n\n# My Skill\n")
+            f.write("---\nid: alice/my-skill\nlinks:\n  github: https://github.com/alice/repo/blob/main/my-skill/SKILL.md\n---\n\n# My Skill\n")
         # Working directory for install
         self.repo_dir = os.path.join(self.tmp, "repo")
         os.makedirs(self.repo_dir, exist_ok=True)
@@ -135,7 +136,8 @@ class TestInstallModule(unittest.TestCase):
         import shutil
         shutil.rmtree(self.tmp, ignore_errors=True)
 
-    def test_install_creates_manifest(self):
+    @patch("gaia_cli.install._run_git", return_value=True)
+    def test_install_creates_manifest(self, mock_run_git):
         """install_skill creates .gaia/install-manifest.json."""
         from gaia_cli.install import install_skill, get_manifest_path, load_manifest
         result = install_skill("alice/my-skill", self.registry)
@@ -145,7 +147,8 @@ class TestInstallModule(unittest.TestCase):
         ids = [e["id"] for e in manifest["installed"]]
         self.assertIn("alice/my-skill", ids)
 
-    def test_uninstall_removes_from_manifest(self):
+    @patch("gaia_cli.install._run_git", return_value=True)
+    def test_uninstall_removes_from_manifest(self, mock_run_git):
         """uninstall_skill removes entry from manifest."""
         from gaia_cli.install import install_skill, uninstall_skill, load_manifest
         install_skill("alice/my-skill", self.registry)
@@ -160,17 +163,24 @@ class TestInstallModule(unittest.TestCase):
         result = install_skill("nobody/fake-skill", self.registry)
         self.assertFalse(result)
 
-    def test_sync_no_change_when_sha_matches(self):
-        """sync_skills reports up-to-date when source unchanged."""
+    @patch("gaia_cli.install._run_git", return_value=True)
+    def test_update_skills_pulls_repos(self, mock_run_git):
+        """update_skills runs git pull on installed repos."""
         import io
+        import os
         from contextlib import redirect_stdout
-        from gaia_cli.install import install_skill, sync_skills
+        from gaia_cli.install import install_skill, update_skills, get_global_cache_dir
         install_skill("alice/my-skill", self.registry)
+        
+        # Create the cache dir so update_skills finds it
+        os.makedirs(os.path.join(get_global_cache_dir(), "alice", "repo"), exist_ok=True)
+        
         buf = io.StringIO()
         with redirect_stdout(buf):
-            sync_skills(self.registry)
+            update_skills(self.registry)
         output = buf.getvalue()
-        self.assertIn("Up to date", output)
+        self.assertIn("Checking for updates", output)
+        self.assertIn("Pulling", output)
 
 
 if __name__ == "__main__":
