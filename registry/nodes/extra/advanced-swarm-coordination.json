@@ -1,0 +1,25 @@
+{
+  "id": "advanced-swarm-coordination",
+  "name": "Advanced Swarm Coordination",
+  "type": "extra",
+  "level": "3★",
+  "rarity": "uncommon",
+  "description": "Domain-specific swarm patterns for research, development, testing, and analysis workflows with neural learning and cross-session state persistence.",
+  "prerequisites": ["swarm-topology-management", "multi-agent-debate"],
+  "derivatives": [],
+  "conditions": "",
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/ruvnet/ruflo",
+      "evaluator": "mbtiongson1",
+      "date": "2026-05-19",
+      "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-05-19",
+  "updatedAt": "2026-05-19",
+  "version": "0.1.0"
+}

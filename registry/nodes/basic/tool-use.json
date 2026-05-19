@@ -10,7 +10,9 @@
     "re-act-reasoning",
     "tool-creation",
     "workflow-automation",
-    "tool-chaining"
+    "tool-chaining",
+    "executing-plans",
+    "using-git-worktrees"
   ],
   "conditions": "",
   "evidence": [

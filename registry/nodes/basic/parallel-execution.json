@@ -6,7 +6,9 @@
   "rarity": "uncommon",
   "description": "Decompose a task into independent sub-tasks and execute them concurrently, merging results with configurable concurrency limits and queue-based state tracking.",
   "prerequisites": [],
-  "derivatives": [],
+  "derivatives": [
+    "dispatching-parallel-agents"
+  ],
   "conditions": "",
   "evidence": [
     {
