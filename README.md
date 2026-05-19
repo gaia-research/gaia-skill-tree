@@ -1,6 +1,6 @@
 <div align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/marks/diamond-seal-favicon.svg">
+    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/marks/diamond-seal-preview.svg">
     <img src="docs/assets/marks/diamond-seal.svg" alt="The Diamond Seal" width="120" />
   </picture>
 </div>
