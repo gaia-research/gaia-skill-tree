@@ -558,8 +558,12 @@
           var btn = e.target.closest('.mr-tab');
           if (!btn) return;
 
-          mrFilterTabs.querySelectorAll('.mr-tab').forEach(function(t){ t.classList.remove('active'); });
+          mrFilterTabs.querySelectorAll('.mr-tab').forEach(function(t) {
+            t.classList.remove('active');
+            t.setAttribute('aria-selected', 'false');
+          });
           btn.classList.add('active');
+          btn.setAttribute('aria-selected', 'true');
 
           currentFilter = btn.dataset.action || 'all';
           currentPage = 1; // Reset to page 1 on filter click

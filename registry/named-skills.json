@@ -468,6 +468,31 @@
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
         "role": "origin"
+      },
+      {
+        "id": "ruvnet/browser",
+        "name": "Browser",
+        "contributor": "ruvnet",
+        "origin": false,
+        "genericSkillRef": "browser-automation",
+        "status": "named",
+        "level": "2★",
+        "description": "Playwright-based browser automation for web scraping, E2E testing, form interaction, and screenshot capture within agent workflows.",
+        "title": "The Web Navigator",
+        "catalogRef": "ruvnet-browser",
+        "tags": [
+          "browser",
+          "playwright",
+          "automation",
+          "web-scraping",
+          "e2e-testing"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "variant"
       }
     ],
     "autonomous-debug": [
@@ -593,6 +618,31 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "role": "variant"
+      },
+      {
+        "id": "ruvnet/worker-benchmarks",
+        "name": "Worker Benchmarks",
+        "contributor": "ruvnet",
+        "origin": false,
+        "genericSkillRef": "skill-performance-benchmarking",
+        "status": "named",
+        "level": "2★",
+        "description": "Benchmarks Ruflo background worker performance across latency, throughput, memory usage, and quality score dimensions.",
+        "title": "The Performance Judge",
+        "catalogRef": "ruvnet-worker-benchmarks",
+        "tags": [
+          "benchmarking",
+          "workers",
+          "performance",
+          "throughput",
+          "quality-scoring"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
         "role": "variant"
       }
     ],
@@ -864,6 +914,31 @@
         "createdAt": "2026-05-12",
         "updatedAt": "2026-05-12",
         "role": "origin"
+      },
+      {
+        "id": "ruvnet/v3-security-overhaul",
+        "name": "V3 Security Overhaul",
+        "contributor": "ruvnet",
+        "origin": false,
+        "genericSkillRef": "security-audit",
+        "status": "named",
+        "level": "2★",
+        "description": "Comprehensive Ruflo v3 security overhaul: zero-trust federation, PII detection, mTLS/ed25519 authentication, and CVE scanning.",
+        "title": "The Security Sentinel",
+        "catalogRef": "ruvnet-v3-security-overhaul",
+        "tags": [
+          "security",
+          "zero-trust",
+          "mtls",
+          "pii-detection",
+          "v3-sprint"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "variant"
       }
     ],
     "code-generation": [
@@ -1292,6 +1367,31 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "role": "variant"
+      },
+      {
+        "id": "ruvnet/github-project-management",
+        "name": "GitHub Project Management",
+        "contributor": "ruvnet",
+        "origin": false,
+        "genericSkillRef": "project-management",
+        "status": "named",
+        "level": "2★",
+        "description": "Manages GitHub Projects boards, milestones, issue tracking, and sprint planning through automated workflow integration.",
+        "title": "The Backlog Warden",
+        "catalogRef": "ruvnet-github-project-management",
+        "tags": [
+          "github",
+          "project-management",
+          "issues",
+          "milestones",
+          "sprints"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "variant"
       }
     ],
     "memory-manage": [
@@ -1316,6 +1416,31 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "role": "variant"
+      },
+      {
+        "id": "ruvnet/v3-memory-unification",
+        "name": "V3 Memory Unification",
+        "contributor": "ruvnet",
+        "origin": false,
+        "genericSkillRef": "memory-manage",
+        "status": "named",
+        "level": "2★",
+        "description": "Unifies disparate Ruflo v3 memory subsystems (AgentDB, RVF, RAG memory) into a single coherent memory management layer.",
+        "title": "The Memory Consolidator",
+        "catalogRef": "ruvnet-v3-memory-unification",
+        "tags": [
+          "memory-unification",
+          "agentdb",
+          "rvf",
+          "rag-memory",
+          "v3-sprint"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
         "role": "variant"
       }
     ],
@@ -1394,6 +1519,31 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "role": "variant"
+      },
+      {
+        "id": "ruvnet/v3-mcp-optimization",
+        "name": "V3 MCP Optimization",
+        "contributor": "ruvnet",
+        "origin": false,
+        "genericSkillRef": "mcp-integration",
+        "status": "named",
+        "level": "2★",
+        "description": "Optimizes Ruflo v3 MCP server performance through connection pooling, request batching, tool schema caching, and latency reduction strategies.",
+        "title": "The Protocol Tuner",
+        "catalogRef": "ruvnet-v3-mcp-optimization",
+        "tags": [
+          "mcp",
+          "optimization",
+          "connection-pooling",
+          "caching",
+          "v3-sprint"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "variant"
       }
     ],
     "code-review-pipeline": [
@@ -1443,6 +1593,30 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "role": "variant"
+      },
+      {
+        "id": "ruvnet/github-code-review",
+        "name": "GitHub Code Review",
+        "contributor": "ruvnet",
+        "origin": false,
+        "genericSkillRef": "code-review-pipeline",
+        "status": "named",
+        "level": "3★",
+        "description": "Automates GitHub pull request code review workflows including diff analysis, inline comments, review assignments, and approval gating.",
+        "title": "The PR Surgeon",
+        "catalogRef": "ruvnet-github-code-review",
+        "tags": [
+          "github",
+          "code-review",
+          "pull-request",
+          "automation"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
         "role": "variant"
       }
     ],
@@ -1727,6 +1901,31 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
+        "role": "variant"
+      },
+      {
+        "id": "ruvnet/skill-builder",
+        "name": "Skill Builder",
+        "contributor": "ruvnet",
+        "origin": false,
+        "genericSkillRef": "skill-authoring",
+        "status": "named",
+        "level": "2★",
+        "description": "Guides creation of new Ruflo skills through templating, testing, and publishing workflows.",
+        "title": "The Skill Forger",
+        "catalogRef": "ruvnet-skill-builder",
+        "tags": [
+          "skill-authoring",
+          "templating",
+          "publishing",
+          "skill-development",
+          "testing"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
         "role": "variant"
       }
     ],
@@ -2159,6 +2358,31 @@
         "createdAt": "2026-05-15",
         "updatedAt": "2026-05-15",
         "role": "variant"
+      },
+      {
+        "id": "ruvnet/v3-ddd-architecture",
+        "name": "V3 DDD Architecture",
+        "contributor": "ruvnet",
+        "origin": false,
+        "genericSkillRef": "ubiquitous-language",
+        "status": "named",
+        "level": "2★",
+        "description": "Applies Domain-Driven Design principles to the Ruflo v3 architecture including bounded contexts, aggregate roots, domain events, and ubiquitous language.",
+        "title": "The Domain Sculptor",
+        "catalogRef": "ruvnet-v3-ddd-architecture",
+        "tags": [
+          "ddd",
+          "domain-driven-design",
+          "bounded-contexts",
+          "aggregate-roots",
+          "v3-sprint"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "variant"
       }
     ],
     "code-explain": [
@@ -2393,6 +2617,31 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "role": "origin"
+      },
+      {
+        "id": "ruvnet/pair-programming",
+        "name": "Pair Programming",
+        "contributor": "ruvnet",
+        "origin": false,
+        "genericSkillRef": "subagent-driven-development",
+        "status": "named",
+        "level": "2★",
+        "description": "Structures collaborative coding sessions between a primary implementation agent and a review subagent with continuous feedback loops.",
+        "title": "The Coding Companion",
+        "catalogRef": "ruvnet-pair-programming",
+        "tags": [
+          "pair-programming",
+          "subagent",
+          "code-review",
+          "collaborative",
+          "feedback-loops"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "variant"
       }
     ],
     "superpowers": [
@@ -2471,6 +2720,31 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "role": "origin"
+      },
+      {
+        "id": "ruvnet/verification-quality",
+        "name": "Verification Quality",
+        "contributor": "ruvnet",
+        "origin": false,
+        "genericSkillRef": "verification-before-completion",
+        "status": "named",
+        "level": "2★",
+        "description": "Implements structured pre-completion verification checklists ensuring quality gates are met before task finalization.",
+        "title": "The Quality Sentinel",
+        "catalogRef": "ruvnet-verification-quality",
+        "tags": [
+          "verification",
+          "quality",
+          "checklists",
+          "quality-gates",
+          "completion"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "variant"
       }
     ],
     "writing-plans": [
@@ -2553,6 +2827,354 @@
         "role": "variant"
       }
     ],
+    "distributed-vector-memory": [
+      {
+        "id": "ruvnet/agentdb-advanced",
+        "name": "AgentDB Advanced",
+        "contributor": "ruvnet",
+        "origin": true,
+        "genericSkillRef": "distributed-vector-memory",
+        "status": "named",
+        "level": "3★",
+        "description": "Implements sub-millisecond cross-node vector synchronization using QUIC protocol with hybrid metadata-filtered search and MMR diversity retrieval.",
+        "title": "The Memory Architect",
+        "catalogRef": "ruvnet-agentdb-advanced",
+        "tags": [
+          "vector-memory",
+          "quic",
+          "distributed",
+          "hybrid-search",
+          "mmr"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "origin"
+      }
+    ],
+    "agent-memory-learning": [
+      {
+        "id": "ruvnet/agentdb-learning",
+        "name": "AgentDB Learning",
+        "contributor": "ruvnet",
+        "origin": true,
+        "genericSkillRef": "agent-memory-learning",
+        "status": "named",
+        "level": "3★",
+        "description": "Builds self-improving agent memory by analyzing task success patterns and adapting retrieval strategies with AgentDB-backed vector persistence.",
+        "title": "The Pattern Seeker",
+        "catalogRef": "ruvnet-agentdb-learning",
+        "tags": [
+          "self-learning",
+          "vector-memory",
+          "pattern-recognition",
+          "adaptation"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "origin"
+      }
+    ],
+    "memory-pattern-design": [
+      {
+        "id": "ruvnet/agentdb-memory-patterns",
+        "name": "AgentDB Memory Patterns",
+        "contributor": "ruvnet",
+        "origin": true,
+        "genericSkillRef": "memory-pattern-design",
+        "status": "named",
+        "level": "2★",
+        "description": "Designs recurring memory storage patterns for AI agents with LRU caching, SQLite persistence, and associative retrieval across multiple memory types.",
+        "title": "The Memory Weaver",
+        "catalogRef": "ruvnet-agentdb-memory-patterns",
+        "tags": [
+          "memory-patterns",
+          "lru-cache",
+          "sqlite",
+          "associative-retrieval"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "origin"
+      }
+    ],
+    "vector-db-optimization": [
+      {
+        "id": "ruvnet/agentdb-optimization",
+        "name": "AgentDB Optimization",
+        "contributor": "ruvnet",
+        "origin": true,
+        "genericSkillRef": "vector-db-optimization",
+        "status": "named",
+        "level": "2★",
+        "description": "Tunes AgentDB vector indices, implements database sharding, and monitors production performance for large-scale distributed agent memory.",
+        "title": "The Index Tuner",
+        "catalogRef": "ruvnet-agentdb-optimization",
+        "tags": [
+          "vector-optimization",
+          "sharding",
+          "performance",
+          "production"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "origin"
+      }
+    ],
+    "vector-search": [
+      {
+        "id": "ruvnet/agentdb-vector-search",
+        "name": "AgentDB Vector Search",
+        "contributor": "ruvnet",
+        "origin": true,
+        "genericSkillRef": "vector-search",
+        "status": "named",
+        "level": "2★",
+        "description": "Performs semantic similarity search over high-dimensional embeddings using cosine, Euclidean, dot-product, or custom distance metrics with HNSW indexing.",
+        "title": "The Similarity Engine",
+        "catalogRef": "ruvnet-agentdb-vector-search",
+        "tags": [
+          "vector-search",
+          "cosine-similarity",
+          "hnsw",
+          "semantic-search",
+          "embeddings"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "origin"
+      }
+    ],
+    "agent-memory-platform": [
+      {
+        "id": "ruvnet/agentdb",
+        "name": "AgentDB",
+        "contributor": "ruvnet",
+        "origin": true,
+        "genericSkillRef": "agent-memory-platform",
+        "status": "named",
+        "level": "5★",
+        "description": "Complete AgentDB vector memory platform fused from 5 discipline skills — QUIC-synchronized distributed storage, pattern learning, memory design, optimization, and vector search.",
+        "title": "The Memory Sovereign",
+        "catalogRef": "ruvnet-agentdb",
+        "tags": [
+          "agentdb",
+          "vector-memory",
+          "distributed",
+          "ultimate",
+          "memory-platform"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "origin"
+      }
+    ],
+    "git-diff-risk-analysis": [
+      {
+        "id": "ruvnet/agentic-jujutsu",
+        "name": "Agentic Jujutsu",
+        "contributor": "ruvnet",
+        "origin": true,
+        "genericSkillRef": "git-diff-risk-analysis",
+        "status": "named",
+        "level": "2★",
+        "description": "Analyzes git diffs for complexity, churn, and risk scores to prioritize review attention and flag dangerous changes.",
+        "title": "The Risk Whisperer",
+        "catalogRef": "ruvnet-agentic-jujutsu",
+        "tags": [
+          "git",
+          "diff-analysis",
+          "risk-scoring",
+          "code-review",
+          "churn"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "origin"
+      }
+    ],
+    "headless-worker-collect": [
+      {
+        "id": "ruvnet/dual-collect",
+        "name": "Dual Collect",
+        "contributor": "ruvnet",
+        "origin": true,
+        "genericSkillRef": "headless-worker-collect",
+        "status": "named",
+        "level": "2★",
+        "description": "Collects and aggregates results from headless Codex workers stored in shared memory with filtering and health status reporting.",
+        "title": "The Result Harvester",
+        "catalogRef": "ruvnet-dual-collect",
+        "tags": [
+          "dual-mode",
+          "result-collection",
+          "aggregation",
+          "worker-health",
+          "memory-retrieval"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "origin"
+      }
+    ],
+    "hybrid-workflow-coordination": [
+      {
+        "id": "ruvnet/dual-coordinate",
+        "name": "Dual Coordinate",
+        "contributor": "ruvnet",
+        "origin": true,
+        "genericSkillRef": "hybrid-workflow-coordination",
+        "status": "named",
+        "level": "2★",
+        "description": "Coordinates hybrid Claude+Codex workflows by routing tasks between interactive reasoning phases and parallel background execution.",
+        "title": "The Hybrid Orchestrator",
+        "catalogRef": "ruvnet-dual-coordinate",
+        "tags": [
+          "dual-mode",
+          "hybrid-workflow",
+          "orchestration",
+          "task-routing",
+          "parallel-execution"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "origin"
+      }
+    ],
+    "dual-mode": [
+      {
+        "id": "ruvnet/dual-mode",
+        "name": "Dual Mode",
+        "contributor": "ruvnet",
+        "origin": true,
+        "genericSkillRef": "dual-mode",
+        "status": "named",
+        "level": "3★",
+        "description": "Fuses headless worker spawning, result collection, and hybrid workflow coordination into a complete Claude+Codex parallel orchestration pattern.",
+        "title": "The Hybrid Conductor",
+        "catalogRef": "ruvnet-dual-mode",
+        "tags": [
+          "dual-mode",
+          "claude-codex",
+          "hybrid",
+          "parallel-execution",
+          "orchestration"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "origin"
+      }
+    ],
+    "headless-worker-spawn": [
+      {
+        "id": "ruvnet/dual-spawn",
+        "name": "Dual Spawn",
+        "contributor": "ruvnet",
+        "origin": true,
+        "genericSkillRef": "headless-worker-spawn",
+        "status": "named",
+        "level": "2★",
+        "description": "Spawns headless Codex workers from Claude Code for parallel background execution with configurable worker types and shared memory.",
+        "title": "The Headless Launcher",
+        "catalogRef": "ruvnet-dual-spawn",
+        "tags": [
+          "dual-mode",
+          "headless",
+          "codex",
+          "parallel-execution",
+          "background-workers"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "origin"
+      }
+    ],
+    "distributed-neural-training": [
+      {
+        "id": "ruvnet/flow-nexus-neural",
+        "name": "Flow Nexus Neural",
+        "contributor": "ruvnet",
+        "origin": true,
+        "genericSkillRef": "distributed-neural-training",
+        "status": "named",
+        "level": "3★",
+        "description": "Trains neural networks across distributed E2B sandbox clusters with support for feedforward, LSTM, GAN, autoencoder, and transformer architectures, federated learning, and a model marketplace.",
+        "title": "The Neural Conductor",
+        "catalogRef": "ruvnet-flow-nexus-neural",
+        "tags": [
+          "neural-training",
+          "distributed",
+          "federated-learning",
+          "e2b",
+          "model-marketplace"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "origin"
+      }
+    ],
+    "cloud-platform-management": [
+      {
+        "id": "ruvnet/flow-nexus-platform",
+        "name": "Flow Nexus Platform",
+        "contributor": "ruvnet",
+        "origin": true,
+        "genericSkillRef": "cloud-platform-management",
+        "status": "named",
+        "level": "3★",
+        "description": "Full lifecycle management of the Flow Nexus cloud AI platform: user authentication, sandbox environments, app store deployment, payment processing, and challenge systems with Queen Seraphina AI assistant.",
+        "title": "Queen Seraphina's Court",
+        "catalogRef": "ruvnet-flow-nexus-platform",
+        "tags": [
+          "cloud-platform",
+          "authentication",
+          "sandbox",
+          "payments",
+          "ai-assistant"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "origin"
+      }
+    ],
     "multi-agent-orchestration-v": [
       {
         "id": "ruvnet/flow-nexus-swarm",
@@ -2577,6 +3199,620 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "role": "origin"
+      },
+      {
+        "id": "ruvnet/v3-swarm-coordination",
+        "name": "V3 Swarm Coordination",
+        "contributor": "ruvnet",
+        "origin": false,
+        "genericSkillRef": "multi-agent-orchestration-v",
+        "status": "named",
+        "level": "3★",
+        "description": "Implements Ruflo v3 hierarchical-mesh hybrid swarm topology with anti-drift mechanisms and SONA neural pattern learning.",
+        "title": "The V3 Swarm Engine",
+        "catalogRef": "ruvnet-v3-swarm-coordination",
+        "tags": [
+          "swarm",
+          "multi-agent",
+          "sona",
+          "anti-drift",
+          "v3-sprint"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "variant"
+      }
+    ],
+    "flow-nexus-orchestration": [
+      {
+        "id": "ruvnet/flow-nexus",
+        "name": "Flow Nexus",
+        "contributor": "ruvnet",
+        "origin": true,
+        "genericSkillRef": "flow-nexus-orchestration",
+        "status": "named",
+        "level": "4★",
+        "description": "Complete Flow Nexus platform: multi-topology swarm deployment, cloud platform management with Queen Seraphina AI assistant, and distributed neural training.",
+        "title": "The Grand Conductor's Trilogy",
+        "catalogRef": "ruvnet-flow-nexus",
+        "tags": [
+          "flow-nexus",
+          "orchestration",
+          "swarm",
+          "cloud-platform",
+          "neural-training",
+          "queen-seraphina"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "origin"
+      }
+    ],
+    "multi-repo-coordination": [
+      {
+        "id": "ruvnet/github-multi-repo",
+        "name": "GitHub Multi-Repo",
+        "contributor": "ruvnet",
+        "origin": true,
+        "genericSkillRef": "multi-repo-coordination",
+        "status": "named",
+        "level": "2★",
+        "description": "Manages synchronized operations across multiple GitHub repositories including cross-repo PRs, dependency tracking, and bulk workflow automation.",
+        "title": "The Repository Conductor",
+        "catalogRef": "ruvnet-github-multi-repo",
+        "tags": [
+          "github",
+          "multi-repo",
+          "cross-repo",
+          "dependency-tracking",
+          "bulk-operations"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "origin"
+      }
+    ],
+    "release-automation": [
+      {
+        "id": "ruvnet/github-release-management",
+        "name": "GitHub Release Management",
+        "contributor": "ruvnet",
+        "origin": false,
+        "genericSkillRef": "release-automation",
+        "status": "named",
+        "level": "3★",
+        "description": "Automates GitHub release creation, changelog generation, semantic versioning, and release note publishing.",
+        "title": "The Release Gatekeeper",
+        "catalogRef": "ruvnet-github-release-management",
+        "tags": [
+          "github",
+          "release",
+          "versioning",
+          "changelog",
+          "automation"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "variant"
+      }
+    ],
+    "github-platform-mastery": [
+      {
+        "id": "ruvnet/github-suite",
+        "name": "GitHub Suite",
+        "contributor": "ruvnet",
+        "origin": true,
+        "genericSkillRef": "github-platform-mastery",
+        "status": "named",
+        "level": "4★",
+        "description": "Full GitHub platform automation fused from 5 skills — code review, multi-repo coordination, project management, release management, and workflow automation.",
+        "title": "The GitHub Maestro",
+        "catalogRef": "ruvnet-github-suite",
+        "tags": [
+          "github",
+          "platform-mastery",
+          "code-review",
+          "releases",
+          "automation"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "origin"
+      }
+    ],
+    "workflow-automation": [
+      {
+        "id": "ruvnet/github-workflow-automation",
+        "name": "GitHub Workflow Automation",
+        "contributor": "ruvnet",
+        "origin": false,
+        "genericSkillRef": "workflow-automation",
+        "status": "named",
+        "level": "3★",
+        "description": "Designs and manages GitHub Actions workflows for CI/CD automation, scheduled tasks, and event-driven agent triggers.",
+        "title": "The Actions Architect",
+        "catalogRef": "ruvnet-github-workflow-automation",
+        "tags": [
+          "github-actions",
+          "ci-cd",
+          "workflow-automation",
+          "event-driven"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "variant"
+      },
+      {
+        "id": "ruvnet/hooks-automation",
+        "name": "Hooks Automation",
+        "contributor": "ruvnet",
+        "origin": false,
+        "genericSkillRef": "workflow-automation",
+        "status": "named",
+        "level": "2★",
+        "description": "Designs agent lifecycle hooks and timer-based background tasks for automated quality gates and scheduled workflows.",
+        "title": "The Event Weaver",
+        "catalogRef": "ruvnet-hooks-automation",
+        "tags": [
+          "hooks",
+          "automation",
+          "lifecycle",
+          "background-workers",
+          "quality-gates"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "variant"
+      }
+    ],
+    "hive-mind-coordination": [
+      {
+        "id": "ruvnet/hive-mind-coordination",
+        "name": "Hive Mind Coordination",
+        "contributor": "ruvnet",
+        "origin": true,
+        "genericSkillRef": "hive-mind-coordination",
+        "status": "named",
+        "level": "4★",
+        "description": "Queen-led collective intelligence with Byzantine, majority, and weighted consensus mechanisms, eight worker specializations, and persistent collective SQLite memory with LRU caching.",
+        "title": "Queen Seraphina's Hive",
+        "tags": [
+          "multi-agent",
+          "consensus",
+          "swarm",
+          "collective-intelligence",
+          "memory"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "origin"
+      }
+    ],
+    "performance-tuning": [
+      {
+        "id": "ruvnet/performance-analysis",
+        "name": "Performance Analysis",
+        "contributor": "ruvnet",
+        "origin": true,
+        "genericSkillRef": "performance-tuning",
+        "status": "named",
+        "level": "2★",
+        "description": "Profiles agent and system execution for CPU, memory, and I/O hotspots and produces actionable optimization recommendations.",
+        "title": "The Bottleneck Hunter",
+        "catalogRef": "ruvnet-performance-analysis",
+        "tags": [
+          "performance",
+          "profiling",
+          "bottleneck",
+          "optimization",
+          "benchmarking"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "origin"
+      },
+      {
+        "id": "ruvnet/v3-performance-optimization",
+        "name": "V3 Performance Optimization",
+        "contributor": "ruvnet",
+        "origin": false,
+        "genericSkillRef": "performance-tuning",
+        "status": "named",
+        "level": "2★",
+        "description": "Profiles and optimizes Ruflo v3 platform performance across startup time, request latency, memory footprint, and throughput.",
+        "title": "The Speed Sculptor",
+        "catalogRef": "ruvnet-v3-performance-optimization",
+        "tags": [
+          "performance",
+          "profiling",
+          "optimization",
+          "latency",
+          "throughput",
+          "v3-sprint"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "variant"
+      }
+    ],
+    "learned-memory-integration": [
+      {
+        "id": "ruvnet/reasoningbank-agentdb",
+        "name": "ReasoningBank AgentDB",
+        "contributor": "ruvnet",
+        "origin": true,
+        "genericSkillRef": "learned-memory-integration",
+        "status": "named",
+        "level": "2★",
+        "description": "Persists agent reasoning patterns in AgentDB vector memory and retrieves them semantically for continuous self-improvement across sessions.",
+        "title": "The Knowledge Crystallizer",
+        "catalogRef": "ruvnet-reasoningbank-agentdb",
+        "tags": [
+          "reasoning-persistence",
+          "vector-memory",
+          "agentdb",
+          "self-improvement"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "origin"
+      }
+    ],
+    "adaptive-pattern-learning": [
+      {
+        "id": "ruvnet/reasoningbank-intelligence",
+        "name": "ReasoningBank Intelligence",
+        "contributor": "ruvnet",
+        "origin": true,
+        "genericSkillRef": "adaptive-pattern-learning",
+        "status": "named",
+        "level": "3★",
+        "description": "Implements adaptive learning through pattern recognition, strategy optimization, and meta-learning that improves agent decision quality from cumulative experience.",
+        "title": "The Strategy Optimizer",
+        "catalogRef": "ruvnet-reasoningbank-intelligence",
+        "tags": [
+          "adaptive-learning",
+          "pattern-recognition",
+          "meta-learning",
+          "strategy-optimization"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "origin"
+      }
+    ],
+    "reasoning-pattern-bank": [
+      {
+        "id": "ruvnet/reasoningbank",
+        "name": "ReasoningBank",
+        "contributor": "ruvnet",
+        "origin": true,
+        "genericSkillRef": "reasoning-pattern-bank",
+        "status": "named",
+        "level": "3★",
+        "description": "Fuses adaptive pattern learning with persistent vector memory to build a self-improving agent knowledge base across sessions.",
+        "title": "The Pattern Sage",
+        "catalogRef": "ruvnet-reasoningbank",
+        "tags": [
+          "reasoningbank",
+          "pattern-learning",
+          "memory-integration",
+          "self-improvement"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "origin"
+      }
+    ],
+    "platform-modernization-sprint": [
+      {
+        "id": "ruvnet/ruflo-v3",
+        "name": "Ruflo V3",
+        "contributor": "ruvnet",
+        "origin": true,
+        "genericSkillRef": "platform-modernization-sprint",
+        "status": "named",
+        "level": "4★",
+        "description": "Complete Ruflo v3 modernization sprint: CLI modernization, core implementation, DDD architecture, MCP optimization, memory unification, performance tuning, security overhaul, and swarm coordination.",
+        "title": "The V3 Architect",
+        "catalogRef": "ruvnet-ruflo-v3",
+        "tags": [
+          "v3-sprint",
+          "modernization",
+          "ddd",
+          "mcp",
+          "security",
+          "memory-unification"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "origin"
+      }
+    ],
+    "ruflo": [
+      {
+        "id": "ruvnet/ruflo",
+        "name": "Ruflo",
+        "contributor": "ruvnet",
+        "origin": true,
+        "genericSkillRef": "ruflo",
+        "status": "named",
+        "level": "6★",
+        "description": "The complete Ruflo orchestration platform: flow nexus, AgentDB memory sovereignty, GitHub operations, hive-mind consensus, reasoning bank, and v3 modernization — unified at 6★ apex.",
+        "title": "The Agentic Sovereign",
+        "catalogRef": "ruvnet-ruflo",
+        "tags": [
+          "ruflo",
+          "apex",
+          "ultimate",
+          "orchestration",
+          "multi-agent",
+          "platform"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "origin"
+      }
+    ],
+    "agentic-workflow-design": [
+      {
+        "id": "ruvnet/sparc-methodology",
+        "name": "SPARC Methodology",
+        "contributor": "ruvnet",
+        "origin": false,
+        "genericSkillRef": "agentic-workflow-design",
+        "status": "named",
+        "level": "3★",
+        "description": "Systematic 5-phase AI development methodology (Specification, Pseudocode, Architecture, Refinement, Completion) with 17 agent modes.",
+        "title": "The Five-Phase Maestro",
+        "catalogRef": "ruvnet-sparc-methodology",
+        "tags": [
+          "sparc",
+          "methodology",
+          "workflow-design",
+          "multi-agent",
+          "tdd"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "variant"
+      }
+    ],
+    "sequential-agent-pipeline": [
+      {
+        "id": "ruvnet/stream-chain",
+        "name": "Stream Chain",
+        "contributor": "ruvnet",
+        "origin": true,
+        "genericSkillRef": "sequential-agent-pipeline",
+        "status": "named",
+        "level": "2★",
+        "description": "Chains agent outputs sequentially so each step receives prior output as context, enabling multi-stage data transformation pipelines.",
+        "title": "The Flow Conductor",
+        "catalogRef": "ruvnet-stream-chain",
+        "tags": [
+          "streaming",
+          "pipeline",
+          "sequential",
+          "context-chaining",
+          "data-transformation"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "origin"
+      }
+    ],
+    "advanced-swarm-coordination": [
+      {
+        "id": "ruvnet/swarm-advanced",
+        "name": "Swarm Advanced",
+        "contributor": "ruvnet",
+        "origin": true,
+        "genericSkillRef": "advanced-swarm-coordination",
+        "status": "named",
+        "level": "3★",
+        "description": "Domain-specific swarm orchestration patterns for research, development, testing, and analysis workflows with neural learning and cross-session state persistence.",
+        "title": "The Grand Swarm Master",
+        "catalogRef": "ruvnet-swarm-advanced",
+        "tags": [
+          "advanced-swarm",
+          "neural-learning",
+          "research-swarm",
+          "dev-swarm",
+          "state-persistence"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "origin"
+      }
+    ],
+    "swarm-topology-management": [
+      {
+        "id": "ruvnet/swarm-orchestration",
+        "name": "Swarm Orchestration",
+        "contributor": "ruvnet",
+        "origin": true,
+        "genericSkillRef": "swarm-topology-management",
+        "status": "named",
+        "level": "3★",
+        "description": "Initializes and manages multi-agent swarm network topologies (hierarchical, mesh, ring, star) with automatic load balancing, fault tolerance, and shared memory coordination.",
+        "title": "The Topology Architect",
+        "catalogRef": "ruvnet-swarm-orchestration",
+        "tags": [
+          "swarm",
+          "topology",
+          "multi-agent",
+          "load-balancing",
+          "fault-tolerance"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "origin"
+      }
+    ],
+    "cli-modernization": [
+      {
+        "id": "ruvnet/v3-cli-modernization",
+        "name": "V3 CLI Modernization",
+        "contributor": "ruvnet",
+        "origin": true,
+        "genericSkillRef": "cli-modernization",
+        "status": "named",
+        "level": "2★",
+        "description": "Refactors the Ruflo CLI for improved UX, plugin architecture, extensibility, and modern command-line conventions.",
+        "title": "The Interface Revamp",
+        "catalogRef": "ruvnet-v3-cli-modernization",
+        "tags": [
+          "cli",
+          "modernization",
+          "plugin-architecture",
+          "ux",
+          "v3-sprint"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "origin"
+      }
+    ],
+    "core-platform-implementation": [
+      {
+        "id": "ruvnet/v3-core-implementation",
+        "name": "V3 Core Implementation",
+        "contributor": "ruvnet",
+        "origin": true,
+        "genericSkillRef": "core-platform-implementation",
+        "status": "named",
+        "level": "2★",
+        "description": "Implements foundational Ruflo v3 platform architecture including plugin discovery, server lifecycle management, and API contract definitions.",
+        "title": "The Foundation Layer",
+        "catalogRef": "ruvnet-v3-core-implementation",
+        "tags": [
+          "core-implementation",
+          "plugin-discovery",
+          "server-lifecycle",
+          "api-contracts",
+          "v3-sprint"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "origin"
+      }
+    ],
+    "system-integration": [
+      {
+        "id": "ruvnet/v3-integration-deep",
+        "name": "V3 Integration Deep",
+        "contributor": "ruvnet",
+        "origin": true,
+        "genericSkillRef": "system-integration",
+        "status": "named",
+        "level": "2★",
+        "description": "Connects Ruflo v3 subsystems via shared contracts, event buses, and compatibility layers for coherent cross-component operation.",
+        "title": "The Integration Weaver",
+        "catalogRef": "ruvnet-v3-integration-deep",
+        "tags": [
+          "system-integration",
+          "compatibility",
+          "event-bus",
+          "contracts",
+          "v3-sprint"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "role": "origin"
+      }
+    ],
+    "worker-agent-dispatch": [
+      {
+        "id": "ruvnet/worker-integration",
+        "name": "Worker Integration",
+        "contributor": "ruvnet",
+        "origin": true,
+        "genericSkillRef": "worker-agent-dispatch",
+        "status": "named",
+        "level": "2★",
+        "description": "Maps trigger events to optimal agent combinations for background task execution with performance tracking and adaptive feedback.",
+        "title": "The Task Dispatcher",
+        "catalogRef": "ruvnet-worker-integration",
+        "tags": [
+          "worker",
+          "dispatch",
+          "background-tasks",
+          "event-driven",
+          "performance-tracking"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
         "role": "origin"
       }
     ],
@@ -3097,7 +4333,54 @@
       "pexp13/sentiment-analysis"
     ],
     "ruvnet": [
-      "ruvnet/flow-nexus-swarm"
+      "ruvnet/agentdb-advanced",
+      "ruvnet/agentdb-learning",
+      "ruvnet/agentdb-memory-patterns",
+      "ruvnet/agentdb-optimization",
+      "ruvnet/agentdb-vector-search",
+      "ruvnet/agentdb",
+      "ruvnet/agentic-jujutsu",
+      "ruvnet/browser",
+      "ruvnet/dual-collect",
+      "ruvnet/dual-coordinate",
+      "ruvnet/dual-mode",
+      "ruvnet/dual-spawn",
+      "ruvnet/flow-nexus-neural",
+      "ruvnet/flow-nexus-platform",
+      "ruvnet/flow-nexus-swarm",
+      "ruvnet/flow-nexus",
+      "ruvnet/github-code-review",
+      "ruvnet/github-multi-repo",
+      "ruvnet/github-project-management",
+      "ruvnet/github-release-management",
+      "ruvnet/github-suite",
+      "ruvnet/github-workflow-automation",
+      "ruvnet/hive-mind-coordination",
+      "ruvnet/hooks-automation",
+      "ruvnet/pair-programming",
+      "ruvnet/performance-analysis",
+      "ruvnet/reasoningbank-agentdb",
+      "ruvnet/reasoningbank-intelligence",
+      "ruvnet/reasoningbank",
+      "ruvnet/ruflo-v3",
+      "ruvnet/ruflo",
+      "ruvnet/skill-builder",
+      "ruvnet/sparc-methodology",
+      "ruvnet/stream-chain",
+      "ruvnet/swarm-advanced",
+      "ruvnet/swarm-orchestration",
+      "ruvnet/v3-cli-modernization",
+      "ruvnet/v3-core-implementation",
+      "ruvnet/v3-ddd-architecture",
+      "ruvnet/v3-integration-deep",
+      "ruvnet/v3-mcp-optimization",
+      "ruvnet/v3-memory-unification",
+      "ruvnet/v3-performance-optimization",
+      "ruvnet/v3-security-overhaul",
+      "ruvnet/v3-swarm-coordination",
+      "ruvnet/verification-quality",
+      "ruvnet/worker-benchmarks",
+      "ruvnet/worker-integration"
     ],
     "safishamsi": [
       "safishamsi/graphify"

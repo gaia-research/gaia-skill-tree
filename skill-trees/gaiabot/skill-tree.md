@@ -26,6 +26,81 @@ GAIA SKILL TREE — gaiabot  ·  generated 2026-05-19
 Shared prerequisites marked (↑ see above) on second occurrence.
 ══════════════════════════════════════════════════════════════════════
 
+· ◆ ruvnet/ruflo  [6★]
+  ├─ · ◇ ruvnet/flow-nexus  [4★]
+  │  ├─ · ◇ ruvnet/flow-nexus-swarm  [5★]
+  │  │  ├─ ✓ ◇ /plan-and-execute  [4★]
+  │  │  │  ├─ ✓ ○ /route-intent  [1★]
+  │  │  │  ├─ ✓ ○ /plan-decompose  [1★]
+  │  │  │  └─ ✓ ○ /tool-select  [1★]
+  │  │  ├─ ✓ ○ /route-intent  [1★]  (↑ see above)
+  │  │  └─ ✓ ○ /tool-select  [1★]  (↑ see above)
+  │  ├─ · ◇ ruvnet/flow-nexus-platform  [3★]
+  │  │  ├─ · ○ huggingface/hf-cli  [2★]
+  │  │  └─ · ○ /tool-use  [1★]
+  │  └─ · ◇ ruvnet/flow-nexus-neural  [3★]
+  │     ├─ · ○ /parallel-execution  [2★]
+  │     └─ · ○ /embed-text  [1★]
+  ├─ · ◆ ruvnet/agentdb  [5★]
+  │  ├─ · ◇ ruvnet/agentdb-advanced  [3★]
+  │  │  ├─ · ○ ruvnet/agentdb-vector-search  [2★]
+  │  │  └─ · ◇ garrytan/learn  [2★]
+  │  │     ├─ · ○ garrytan/context-restore  [3★]
+  │  │     └─ · ○ /retrieve  [1★]
+  │  ├─ · ◇ ruvnet/agentdb-learning  [3★]
+  │  │  ├─ · ◇ garrytan/learn  [2★]  (↑ see above)
+  │  │  └─ · ○ ruvnet/reasoningbank-intelligence  [2★]
+  │  ├─ · ○ ruvnet/agentdb-memory-patterns  [2★]
+  │  ├─ · ○ ruvnet/agentdb-optimization  [2★]
+  │  └─ · ○ ruvnet/agentdb-vector-search  [2★]  (↑ see above)
+  ├─ · ◇ ruvnet/github-suite  [4★]
+  │  ├─ · ◇ garrytan/plan-eng-review  [3★]
+  │  │  ├─ · ○ garrytan/design-html  [1★]
+  │  │  ├─ · ○ /diff-content  [1★]
+  │  │  └─ · ○ garrytan/benchmark  [1★]
+  │  ├─ · ○ ruvnet/github-multi-repo  [2★]
+  │  ├─ · ◇ garrytan/land-and-deploy  [2★]
+  │  │  ├─ · ◇ ruvnet/github-workflow-automation  [4★]
+  │  │  │  ├─ ✓ ○ /plan-decompose  [1★]  (↑ see above)
+  │  │  │  ├─ · ○ /tool-use  [1★]  (↑ see above)
+  │  │  │  └─ · ○ huggingface/hf-cli  [2★]  (↑ see above)
+  │  │  └─ · ○ /execute-bash  [1★]
+  │  ├─ · ◇ garrytan/landing-report  [2★]
+  │  │  ├─ · ○ huggingface/hf-cli  [2★]  (↑ see above)
+  │  │  └─ · ○ mattpocock/triage  [4★]
+  │  └─ · ◇ ruvnet/github-workflow-automation  [4★]  (↑ see above)
+  ├─ · ◇ ruvnet/reasoningbank  [3★]
+  │  ├─ · ○ ruvnet/reasoningbank-intelligence  [2★]  (↑ see above)
+  │  └─ · ○ ruvnet/reasoningbank-agentdb  [2★]
+  ├─ · ◇ ruvnet/ruflo-v3  [4★]
+  │  ├─ · ○ ruvnet/v3-cli-modernization  [2★]
+  │  ├─ · ○ ruvnet/v3-core-implementation  [2★]
+  │  ├─ · ○ ruvnet/v3-integration-deep  [2★]
+  │  ├─ · ○ ruvnet/performance-analysis  [2★]
+  │  └─ · ◇ ruvnet/swarm-advanced  [3★]
+  │     ├─ · ○ ruvnet/swarm-orchestration  [2★]
+  │     └─ · ◇ garrytan/codex  [4★]
+  │        ├─ · ○ /self-critique  [1★]
+  │        ├─ · ○ garrytan/benchmark  [1★]  (↑ see above)
+  │        └─ · ○ /chain-of-thought  [1★]
+  └─ · ◇ ruvnet/dual-mode  [3★]
+     ├─ · ○ ruvnet/dual-spawn  [2★]
+     ├─ · ○ ruvnet/dual-collect  [2★]
+     └─ · ○ ruvnet/dual-coordinate  [2★]
+
+· ◆ ruvnet/agentdb  [5★]
+  ├─ · ◇ ruvnet/agentdb-advanced  [3★]
+  │  ├─ · ○ ruvnet/agentdb-vector-search  [2★]
+  │  └─ · ◇ garrytan/learn  [2★]
+  │     ├─ · ○ garrytan/context-restore  [3★]
+  │     └─ · ○ /retrieve  [1★]
+  ├─ · ◇ ruvnet/agentdb-learning  [3★]
+  │  ├─ · ◇ garrytan/learn  [2★]  (↑ see above)
+  │  └─ · ○ ruvnet/reasoningbank-intelligence  [2★]
+  ├─ · ○ ruvnet/agentdb-memory-patterns  [2★]
+  ├─ · ○ ruvnet/agentdb-optimization  [2★]
+  └─ · ○ ruvnet/agentdb-vector-search  [2★]  (↑ see above)
+
 · ◆ garrytan/gstack  [5★]
   ├─ · ○ garrytan/office-hours  [0★]
   ├─ · ○ garrytan/benchmark  [1★]
@@ -46,18 +121,20 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ garrytan/benchmark  [1★]  (↑ see above)
   │  └─ ✓ ○ /plan-decompose  [1★]  (↑ see above)
   ├─ · ○ garrytan/design-html  [1★]  (↑ see above)
-  ├─ · ○ obra/systematic-debugging  [3★]
+  ├─ · ◇ obra/systematic-debugging  [3★]
+  │  ├─ · ○ /hypothesis-generate  [2★]
+  │  └─ · ○ /error-interpretation  [1★]
   ├─ · ◇ garrytan/qa-only  [3★]
   │  ├─ · ◇ gooseworks/notte-browser  [3★]  (↑ see above)
   │  └─ · ◇ 0xdarkmatter/pytest-patterns  [3★]
   │     ├─ · ○ upsonic/unittest-generator  [2★]
   │     ├─ · ○ /execute-bash  [1★]
-  │     └─ · ○ /error-interpretation  [1★]
+  │     └─ · ○ /error-interpretation  [1★]  (↑ see above)
   ├─ · ◇ obra/finishing-a-development-branch  [2★]
   │  ├─ · ◇ garrytan/plan-eng-review  [3★]  (↑ see above)
   │  └─ · ○ /diff-content  [1★]  (↑ see above)
   ├─ · ◇ garrytan/land-and-deploy  [2★]
-  │  ├─ · ◇ /workflow-automation  [4★]
+  │  ├─ · ◇ ruvnet/github-workflow-automation  [4★]
   │  │  ├─ ✓ ○ /plan-decompose  [1★]  (↑ see above)
   │  │  ├─ · ○ /tool-use  [1★]
   │  │  └─ · ○ huggingface/hf-cli  [2★]
@@ -114,22 +191,43 @@ Shared prerequisites marked (↑ see above) on second occurrence.
      └─ · ○ /generate-text  [0★]  (↑ see above)
 
 · ◆ obra/superpowers  [5★]
-  ├─ · ○ obra/brainstorming  [1★]
-  ├─ · ○ obra/dispatching-parallel-agents  [4★]
-  ├─ · ○ obra/executing-plans  [2★]
+  ├─ · ◇ obra/brainstorming  [1★]
+  │  ├─ · ○ /requirements-analysis  [2★]
+  │  └─ · ○ garrytan/office-hours  [0★]
+  ├─ · ◇ obra/dispatching-parallel-agents  [4★]
+  │  ├─ ✓ ○ /plan-decompose  [1★]
+  │  └─ · ○ /parallel-execution  [2★]
+  ├─ · ◇ obra/executing-plans  [2★]
+  │  ├─ · ◇ obra/writing-plans  [2★]
+  │  │  ├─ ✓ ○ /plan-decompose  [1★]  (↑ see above)
+  │  │  └─ · ○ /requirements-analysis  [2★]  (↑ see above)
+  │  └─ · ○ /tool-use  [1★]
   ├─ · ◇ obra/finishing-a-development-branch  [2★]
   │  ├─ · ◇ garrytan/plan-eng-review  [3★]
   │  │  ├─ · ○ garrytan/design-html  [1★]
   │  │  ├─ · ○ /diff-content  [1★]
   │  │  └─ · ○ garrytan/benchmark  [1★]
   │  └─ · ○ /diff-content  [1★]  (↑ see above)
-  ├─ · ○ obra/receiving-code-review  [2★]
-  ├─ · ○ obra/requesting-code-review  [3★]
-  ├─ · ○ obra/subagent-driven-development  [4★]
-  ├─ · ○ obra/systematic-debugging  [3★]
-  ├─ · ○ obra/using-git-worktrees  [1★]
-  ├─ · ○ obra/verification-before-completion  [1★]
-  └─ · ○ obra/writing-plans  [2★]
+  ├─ · ◇ obra/receiving-code-review  [2★]
+  │  ├─ · ◇ obra/requesting-code-review  [3★]
+  │  │  ├─ · ◇ garrytan/plan-eng-review  [3★]  (↑ see above)
+  │  │  └─ · ◇ obra/dispatching-parallel-agents  [4★]  (↑ see above)
+  │  └─ · ◇ obra/verification-before-completion  [1★]
+  │     ├─ · ○ /execute-bash  [1★]
+  │     └─ · ○ /self-critique  [1★]
+  ├─ · ◇ obra/requesting-code-review  [3★]  (↑ see above)
+  ├─ · ◇ obra/subagent-driven-development  [4★]
+  │  ├─ · ◇ obra/executing-plans  [2★]  (↑ see above)
+  │  ├─ · ◇ obra/dispatching-parallel-agents  [4★]  (↑ see above)
+  │  └─ · ◇ garrytan/plan-eng-review  [3★]  (↑ see above)
+  ├─ · ◇ obra/systematic-debugging  [3★]
+  │  ├─ · ○ /hypothesis-generate  [2★]
+  │  └─ · ○ /error-interpretation  [1★]
+  ├─ · ◇ obra/using-git-worktrees  [1★]
+  │  ├─ · ○ /execute-bash  [1★]  (↑ see above)
+  │  └─ · ○ /tool-use  [1★]  (↑ see above)
+  ├─ · ◇ obra/verification-before-completion  [1★]  (↑ see above)
+  └─ · ◇ obra/writing-plans  [2★]  (↑ see above)
 
 ══════════════════════════════════════════════════════════════════════
 Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
@@ -138,6 +236,7 @@ Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) throu
   · ◉ nousresearch/feed-monitoring  [4★ · Hardened]
   · ◉ openai/few-shot-learning  [4★ · Hardened]
   · ◉ huggingface/huggingface-llm-trainer  [4★ · Hardened]
+  · ◉ ruvnet/hive-mind-coordination  [4★ · Hardened]
   · ◉ openai/self-consistency  [4★ · Hardened]
   · ◉ huggingface/semantic-cache  [4★ · Hardened]
 
@@ -147,14 +246,16 @@ Basics — basic-tier skills not wired into an upgrade path yet.  (0★ skills c
 
   · ○ mattpocock/zoom-out  [2★]
   · ○ laravel/upgrade-laravel-v13  [0★ · Pure]
+  · ○ ruvnet/agentic-jujutsu  [2★]
   · ○ /image-generate  [2★]
   · ○ huggingface/huggingface-vision-trainer  [2★]
   · ○ /ocr  [2★]
-  · ○ /parallel-execution  [2★]
   · ○ /reward-modeling  [2★]
   · ○ /schema-design  [2★]
+  · ○ ruvnet/stream-chain  [2★]
   · ○ addy-osmani/test-driven-development  [0★ · Pure]
   · ○ getagentseal/codeburn  [2★]
+  · ○ ruvnet/worker-integration  [2★]
 ```
 
 ## Pending Combinations

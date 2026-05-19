@@ -148,6 +148,27 @@ def test_bare_skills_command_prints_skills_help(monkeypatch, capsys):
     assert "gaia skills info <skill_id>" in output
 
 
+def test_skills_info_accepts_leading_slash_named_skill_id(tmp_path, monkeypatch, capsys):
+    named_dir = tmp_path / "registry" / "named" / "testuser"
+    named_dir.mkdir(parents=True)
+    (named_dir / "my-skill.md").write_text(
+        "---\n"
+        "id: testuser/my-skill\n"
+        "name: My Skill\n"
+        "level: 2★\n"
+        "description: Test skill.\n"
+        "---\n"
+        "Content here.",
+        encoding="utf-8",
+    )
+
+    run_cli(monkeypatch, ["--registry", str(tmp_path), "skills", "info", "/testuser/my-skill"])
+
+    output = capsys.readouterr().out
+    assert "testuser/my-skill" in output
+    assert "Test skill." in output
+
+
 def test_promote_label_override_is_not_available(monkeypatch):
     with pytest.raises(SystemExit) as exc:
         run_cli(monkeypatch, ["promote", "web-search", "--label", "3★"])

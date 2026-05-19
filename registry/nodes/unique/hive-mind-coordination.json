@@ -1,0 +1,25 @@
+{
+  "id": "hive-mind-coordination",
+  "name": "Hive Mind Coordination",
+  "type": "unique",
+  "level": "4★",
+  "rarity": "rare",
+  "description": "Queen-led collective intelligence with Byzantine, majority, and weighted consensus mechanisms, eight worker specializations, and persistent collective SQLite memory with LRU caching.",
+  "prerequisites": [],
+  "derivatives": [],
+  "conditions": "Requires demonstrating queen-led multi-agent consensus across at least 3 specialized worker types.",
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/ruvnet/ruflo",
+      "evaluator": "mbtiongson1",
+      "date": "2026-05-19",
+      "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-05-19",
+  "updatedAt": "2026-05-19",
+  "version": "0.1.0"
+}

@@ -1,4 +1,4 @@
-# /release-automation  [2★ · Named]
+# [ruvnet](../../../docs/u/ruvnet/)/github-release-management  [2★ · Named]
 **ID:** release-automation  
 **Type:** Extra Skill  
 **Level:** 2★  

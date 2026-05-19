@@ -19,6 +19,8 @@ _None._
 - [Registry Curation](../extra/registry-curation.md)
 - [Release Automation](../extra/release-automation.md)
 - [Deployment Automation](../extra/deployment-automation.md)
+- [Verification Before Completion](../extra/verification-before-completion.md)
+- [Using Git Worktrees](../extra/using-git-worktrees.md)
 
 ## Evidence
 | Class | Source | Evaluator | Date |

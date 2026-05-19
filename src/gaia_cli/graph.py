@@ -345,7 +345,7 @@ def render_html(graph: dict[str, Any], named_skills: dict[str, Any] | None = Non
     '3★':{{ name:'Evolved',        hex:'#a78bfa', bg:'rgba(167,139,250,.12)' }},
     '4★': {{ name:'Hardened',       hex:'#e879f9', bg:'rgba(232,121,249,.12)' }},
     '5★':  {{ name:'Transcendent',   hex:'#fbbf24', bg:'rgba(251,191,36,.12)' }},
-    '6★': {{ name:'Transcendent ★', hex:'#fbbf24', bg:'rgba(251,191,36,.20)' }},
+    '6★': {{ name:'Apex', hex:'#fbbf24', bg:'rgba(251,191,36,.20)' }},
   }};
    const SCALE = 1.25;
 

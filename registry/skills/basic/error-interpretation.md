@@ -17,6 +17,7 @@ _None._
 - [Autonomous Debug](../extra/autonomous-debug.md)
 - [Automated Testing](../extra/automated-testing.md)
 - [Detect Anomaly](../extra/detect-anomaly.md)
+- [Systematic Debugging](../extra/systematic-debugging.md)
 
 ## Evidence
 | Class | Source | Evaluator | Date |

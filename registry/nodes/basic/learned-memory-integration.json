@@ -1,0 +1,25 @@
+{
+  "id": "learned-memory-integration",
+  "name": "Learned Memory Integration",
+  "type": "basic",
+  "level": "2★",
+  "rarity": "common",
+  "description": "Persists agent reasoning patterns in vector memory and retrieves them semantically for continuous self-improvement across sessions.",
+  "prerequisites": [],
+  "derivatives": [],
+  "conditions": "",
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/ruvnet/ruflo",
+      "evaluator": "mbtiongson1",
+      "date": "2026-05-19",
+      "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-05-19",
+  "updatedAt": "2026-05-19",
+  "version": "0.1.0"
+}

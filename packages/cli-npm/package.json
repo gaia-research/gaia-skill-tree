@@ -1,6 +1,6 @@
 {
   "name": "@gaia-registry/cli",
-  "version": "3.16.2",
+  "version": "3.18.0",
   "description": "Gaia CLI - Integrate your AI agent skills with the Gaia registry",
   "type": "module",
   "main": "dist/index.js",

@@ -11,7 +11,9 @@
     "autonomous-debug",
     "registry-curation",
     "release-automation",
-    "deployment-automation"
+    "deployment-automation",
+    "verification-before-completion",
+    "using-git-worktrees"
   ],
   "conditions": "",
   "evidence": [

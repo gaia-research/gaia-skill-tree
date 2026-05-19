@@ -327,5 +327,5 @@ class TestConstants:
     def test_level_names_keys_match_order(self):
         assert list(LEVEL_NAMES.keys()) == LEVEL_ORDER
 
-    def test_level_names_has_star_at_end(self):
-        assert LEVEL_NAMES["6★"] == "Transcendent ★"
+    def test_level_names_apex(self):
+        assert LEVEL_NAMES["6★"] == "Apex"

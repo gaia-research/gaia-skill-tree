@@ -1,0 +1,31 @@
+{
+  "id": "subagent-driven-development",
+  "name": "Subagent-Driven Development",
+  "type": "extra",
+  "level": "4★",
+  "rarity": "uncommon",
+  "description": "Executes plans by dispatching a fresh subagent per task with a two-stage review (spec compliance then code quality).",
+  "prerequisites": [
+    "executing-plans",
+    "dispatching-parallel-agents",
+    "code-review-pipeline"
+  ],
+  "derivatives": [
+    "superpowers"
+  ],
+  "conditions": "",
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/obra/superpowers/blob/main/skills/subagent-driven-development/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-05-18",
+      "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-05-18",
+  "updatedAt": "2026-05-19",
+  "version": "0.1.0"
+}
