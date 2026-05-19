@@ -54,8 +54,8 @@ Uniques — graph-isolated Basic Skills that ranked up through depth alone
 When two or more Basic skills combine, they can form an Extra. This is what `gaia scan` and `gaia fuse` render in your terminal:
 
 ```text
-  mattpocock/grill-me  ─┐
-                        ├──▶  mattpocock/grill-with-docs  ◇
+  mattpocock/grill-me  ────────────┐
+                                   ├──▶  mattpocock/grill-with-docs  ◇
   mattpocock/ubiquitous-language  ─┘
 ```
 
