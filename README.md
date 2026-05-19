@@ -17,26 +17,31 @@
 Every AI agent capability exists somewhere on this graph. Skills start at the foundation tier, awaken through evidence, evolve through use, and fuse into things greater than the sum of their parts.
 
 ```text
-GAIA SKILL TREE
-=======================================================
+◆ garrytan/gstack  [5★]
+  ├─ ○ garrytan/office-hours  [0★]
+  ├─ ◇ garrytan/plan-eng-review  [3★]
+  │  ├─ ○ garrytan/design-html  [1★]
+  │  ├─ ○ /diff-content  [1★]
+  │  └─ ○ garrytan/benchmark  [1★]
+  ├─ ◇ mattpocock/to-issues  [3★]
+  │  ├─ ○ /plan-decompose  [1★]
+  │  └─ ○ /route-intent  [1★]
+  └─ ◇ firecrawl/firecrawl  [3★]
+     ├─ ○ /web-search  [1★]
+     ├─ ○ /parse-html  [1★]
+     └─ ○ /extract-entities  [1★]
 
-◆ karpathy/autoresearch  [6★]
-  ├─ ◇ /research  [3★]
-  │  ├─ ○ /web-search  [1★]
-  │  ├─ ○ /summarize  [0★]
-  │  └─ ○ /cite-sources  [1★]
-  ├─ ◇ /knowledge-harvest  [4★]
-  │  ├─ ◇ firecrawl/firecrawl  [3★] ...
-  │  └─ ○ /embed-text  [1★]
-  └─ ◇ /ghostwrite  [4★] ...
+◆ obra/superpowers  [5★]
+  ├─ ○ obra/brainstorming  [1★]
+  ├─ ○ obra/executing-plans  [2★]
+  ├─ ◇ obra/finishing-a-development-branch  [2★]
+  │  └─ ◇ garrytan/plan-eng-review  [3★]
+  └─ ○ obra/writing-plans  [2★]
 
-◆ /recursive-self-improvement  [5★]
-  ├─ ◇ devin-ai/autonomous-swe  [4★]
-  │  ├─ ○ /code-generation  [1★]
-  │  ├─ ○ /execute-bash  [1★]
-  │  └─ ○ /error-interpretation  [1★]
-  ├─ ◉ nousresearch/feed-monitoring  [4★]
-  └─ ◇ /plan-and-execute  [4★] ...
+Uniques — graph-isolated Basic Skills that ranked up through depth alone
+  ◉ nousresearch/feed-monitoring  [4★ · Hardened]
+  ◉ openai/few-shot-learning  [4★ · Hardened]
+  ◉ huggingface/semantic-cache  [4★ · Hardened]
 
 Full registry: docs/tree.md
 Your tree renders: generated-output/tree.{md,html}
