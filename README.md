@@ -51,11 +51,12 @@ Personal renders: generated-output/tree.md and generated-output/tree.html
 
 | Symbol | Tier | Levels | Evidence floor |
 |--------|------|--------|---------------|
-| ○ Basic | Primitive, indivisible capability | 0★ (F) Unawakened → 1★ (D) Awakened | None |
-| ◇ Extra | Emerges from combining 2+ basic skills | 2★ (C) Named → 3★ (B) Evolved → 4★ (A) Hardened | C → B → B/A |
-| ◆ Ultimate | High-complexity emergent capability | 5★ (S) Transcendent → 6★ (SS) Transcendent ★ | A → A + peer review |
+| ○ Basic | Primitive, indivisible capability | 0★ Unawakened → 1★ Awakened | None |
+| ◉ Unique | Graph-isolated Basic Skill that ranked up without fusing | 1★ Awakened → 6★ Transcendent ★ | None (depth alone) |
+| ◇ Extra | Emerges from combining 2+ Basic Skills or fusing Extras | 2★ Named → 3★ Evolved → 4★ Hardened → 5★ Transcendent | Class C+ evidence |
+| ◆ Ultimate | High-complexity emergent capability (fewer than 1% of agents) | 5★ Transcendent → 6★ Transcendent ★ | Class A (peer-reviewed) |
 
-Skills rank up through evidence, not declaration. Each demerit demotes the skill by one star (floored at 1★, valid for 2★+ only).
+Skills rank up through **evidence**, not declaration. Basics fuse into Extras or Ultimates; Extras can fuse with other Extras. Each demerit demotes a skill by one star (floored at 1★, valid for 2★+ only).
 
 ---
 
@@ -99,6 +100,16 @@ $env:PATH += ";" + (python -c "import sysconfig; print(sysconfig.get_path('scrip
 ```
 </details>
 
+## Terminal UI (TUI)
+
+Running `gaia` with no arguments launches an interactive terminal interface when connected to a terminal:
+
+```bash
+gaia
+```
+
+The TUI provides an intuitive, keyboard-navigable interface for browsing skills, viewing your tree, and managing promotions—without needing to memorize CLI commands.
+
 ## Updating Gaia
 
 To instantly pull the latest registry data and update the core CLI, use:
@@ -111,14 +122,22 @@ gaia update
 
 ## The Initiate's Rite
 
+Begin your journey through the registry with these ceremonial steps:
+
 ```bash
 gaia init --user your-username
 gaia update          # pull latest registry + CLI
-gaia scan            # detect skills, render tree
-gaia appraise        # inspect a skill plaque
-gaia promote web-search   # promote scan-approved candidates
+gaia scan            # detect skills in your repository, render tree
+gaia appraise        # inspect a skill card with status and actions
+gaia promote web-search   # rank up scan-approved candidates
 gaia push --dry-run  # preview intake submission
 gaia push            # submit for maintainer review
+```
+
+Alternatively, launch the interactive TUI to navigate these steps visually:
+
+```bash
+gaia
 ```
 
 `gaia scan` writes `generated-output/promotion-candidates.json`, renders your tree to `generated-output/tree.{html,md}`, and prints detected skills with fusion diagrams.
@@ -167,7 +186,8 @@ options:
   --version, -v         Print the Gaia CLI version and exit.
   --canon               Show canonical registry data instead of local-first view.
 
-Quick usage:
+Quick usage (run `gaia` with no args for the TUI):
+  gaia                                            Launch interactive TUI
   gaia init [--user <name>] [--scan <path>] [--yes]
   gaia scan [--quiet] [--auto-promote]
   gaia pull
