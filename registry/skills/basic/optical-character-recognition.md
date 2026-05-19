@@ -1,9 +1,9 @@
-# /ocr  [2★ · Named]
-**ID:** ocr  
+# /optical-character-recognition  [2★ · Named]
+**ID:** optical-character-recognition  
 **Type:** Basic Skill  
 **Level:** 2★  
 **Tier:** Named  
-**Skill Call:** `/ocr`
+**Skill Call:** `/optical-character-recognition`
 
 ---
 

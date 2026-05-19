@@ -1,8 +1,8 @@
-# [vercel](../../../docs/u/vercel/)/find-skills  [0★ · Basic]
+# [vercel](../../../docs/u/vercel/)/find-skills  [3★ · Evolved]
 **ID:** skill-discovery  
 **Type:** Basic Skill  
-**Level:** 0★  
-**Tier:** Basic  
+**Level:** 3★  
+**Tier:** Evolved  
 **Skill Call:** `/skill-discovery`
 
 ---

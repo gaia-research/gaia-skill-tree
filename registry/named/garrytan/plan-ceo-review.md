@@ -16,9 +16,9 @@ tags:
   - scope-review
   - ceo-review
   - pre-implementation
-suiteRef: "garrytan/gstack"
 createdAt: "2026-05-18"
 updatedAt: "2026-05-18"
+suiteRef: "garrytan/gstack"
 ---
 
 ## Overview

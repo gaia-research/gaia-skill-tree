@@ -1,8 +1,8 @@
-# [addy-osmani](../../../docs/u/addy-osmani/)/test-driven-development  [0★ · Basic]
+# [addy-osmani](../../../docs/u/addy-osmani/)/test-driven-development  [3★ · Evolved]
 **ID:** test-driven-development  
 **Type:** Basic Skill  
-**Level:** 0★  
-**Tier:** Basic  
+**Level:** 3★  
+**Tier:** Evolved  
 **Skill Call:** `/test-driven-development`
 
 ---
@@ -20,6 +20,7 @@ _None._
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | B | https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md | mbtiongson1 | 2026-04-30 |
+| B | https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md | mbtiongson1 | 2026-04-30 |
 
 ## Known Agents
 _None verified yet._

@@ -2,8 +2,8 @@
   "id": "agentic-workflow-design",
   "name": "Agentic Workflow Design",
   "type": "extra",
-  "level": "5\u2605",
-  "rarity": "rare",
+  "level": "3★",
+  "rarity": "uncommon",
   "description": "Autonomously designs, authors, and iterates on complex multi-step workflows by translating high-level goals into executable DAGs or playbooks, managing task dependencies and distributed execution environments.",
   "prerequisites": [
     "workflow-automation",

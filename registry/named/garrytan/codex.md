@@ -15,9 +15,9 @@ tags:
   - multi-agent-debate
   - code-review
   - adversarial
-suiteRef: "garrytan/gstack"
 createdAt: "2026-05-18"
 updatedAt: "2026-05-18"
+suiteRef: "garrytan/gstack"
 ---
 
 ## Overview

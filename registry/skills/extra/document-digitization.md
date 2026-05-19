@@ -11,6 +11,7 @@
 Converts scanned or PDF documents into structured, machine-readable output by parsing layout, extracting entities, and formatting results.
 
 ## Prerequisites
+- [OCR](../basic/optical-character-recognition.md)
 - [Parse PDF](../basic/parse-pdf.md)
 - [Extract Entities](../basic/extract-entities.md)
 - [Format Output](../basic/format-output.md)

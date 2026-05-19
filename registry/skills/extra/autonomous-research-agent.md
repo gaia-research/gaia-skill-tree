@@ -1,8 +1,8 @@
-# [karpathy](../../../docs/u/karpathy/)/autoresearch  [5★ · Transcendent]
+# [karpathy](../../../docs/u/karpathy/)/autoresearch  [3★ · Evolved]
 **ID:** autonomous-research-agent  
 **Type:** Extra Skill  
-**Level:** 5★  
-**Tier:** Transcendent  
+**Level:** 3★  
+**Tier:** Evolved  
 **Skill Call:** `/autonomous-research-agent`
 
 ---

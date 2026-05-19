@@ -1,8 +1,8 @@
-# [mattpocock](../../../docs/u/mattpocock/)/grill-with-docs  [5★ · Transcendent]
+# [mattpocock](../../../docs/u/mattpocock/)/grill-with-docs  [3★ · Evolved]
 **ID:** grill-with-docs  
 **Type:** Extra Skill  
-**Level:** 5★  
-**Tier:** Transcendent  
+**Level:** 3★  
+**Tier:** Evolved  
 **Skill Call:** `/grill-with-docs`
 
 ---

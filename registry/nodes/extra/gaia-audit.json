@@ -2,9 +2,9 @@
   "id": "gaia-audit",
   "name": "Gaia Audit",
   "type": "extra",
-  "level": "2★",
-  "rarity": "uncommon",
-  "description": "Reviews one Gaia skill, named skill, or real-skill catalog item against current evidence, source URLs, taxonomy mapping, promotion status, and demotion criteria, then proposes the smallest source-of-truth correction.",
+  "level": "4★",
+  "rarity": "rare",
+  "description": "Reviews one Gaia skill, named skill, or real-skill catalog item against current evidence, source URLs, taxonomy mapping, promotion status, and demotion criteria, then proposes the smallest source-of-truth correction. Implements a sophisticated 7-phase audit discipline including evidence re-verification, demotion checks, and automatic asset regeneration.",
   "prerequisites": [
     "retrieve",
     "cite-sources",
@@ -16,11 +16,11 @@
   "conditions": "Requires a specific Gaia skill ID, named skill ID, or real-skill catalog item plus access to the registry source files and current public evidence sources.",
   "evidence": [
     {
-      "class": "C",
-      "source": "https://github.com/mbtiongson1/gaia-skill-tree",
+      "class": "A",
+      "source": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/skill.md",
       "evaluator": "mbtiongson1",
-      "date": "2026-05-03",
-      "notes": "Codified from a source-backed review that kept openai/chatgpt-apps in the real-skill catalog while removing its unsupported claim on the full-stack-developer Ultimate skill."
+      "date": "2026-05-20",
+      "notes": "Codified audit skill with 7-phase workflow, demotion rules, and registry-sync automation. Powers the gaia-meta-audit process."
     }
   ],
   "knownAgents": [],
