@@ -2,7 +2,7 @@
 
 ```
 ══════════════════════════════════════════════════════════════════════
-GAIA SKILL TREE  v3.16.1  ·  generated 2026-05-18
+GAIA SKILL TREE  v3.16.2  ·  generated 2026-05-19
 ══════════════════════════════════════════════════════════════════════
 ◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = stars · [0★ · Pure] = Unawakened rank pill · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -141,4 +141,4 @@ Basics — basic-tier skills not wired into an upgrade path yet.  (0★ skills c
   ○ getagentseal/codeburn  [2★]
 ```
 
-*Generated from gaia.json on 2026-05-18. Do not edit directly.*
+*Generated from gaia.json on 2026-05-19. Do not edit directly.*
