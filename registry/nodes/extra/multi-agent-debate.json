@@ -10,7 +10,9 @@
     "evaluate-output",
     "chain-of-thought"
   ],
-  "derivatives": [],
+  "derivatives": [
+    "gstack"
+  ],
   "conditions": "",
   "evidence": [
     {

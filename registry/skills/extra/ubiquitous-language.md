@@ -15,7 +15,7 @@ Establishes and maintains a consistent, domain-driven vocabulary between the age
 - [Requirements Analysis](../basic/requirements-analysis.md)
 
 ## Unlocks
-- [Grill With Docs](../ultimate/grill-with-docs.md)
+- [Grill With Docs](../extra/grill-with-docs.md)
 
 ## Fusion Condition
 Requires active persistence of terms and immediate conflict resolution during sessions.

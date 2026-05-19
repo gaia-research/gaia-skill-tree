@@ -9,7 +9,8 @@
   "derivatives": [
     "conversational-agent",
     "multimodal-reasoning",
-    "voice-agent"
+    "voice-agent",
+    "gstack"
   ],
   "conditions": "",
   "evidence": [

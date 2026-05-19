@@ -10,7 +10,8 @@
     "evaluate-output"
   ],
   "derivatives": [
-    "skill-security-analysis"
+    "skill-security-analysis",
+    "gstack"
   ],
   "conditions": "Requires access to the full codebase or diff; output must include severity classification and reproduction steps.",
   "evidence": [

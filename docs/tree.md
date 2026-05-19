@@ -2,107 +2,118 @@
 
 ```
 ══════════════════════════════════════════════════════════════════════
-GAIA SKILL TREE  v3.11.17  ·  generated 2026-05-18
+GAIA SKILL TREE  v3.16.2  ·  generated 2026-05-19
 ══════════════════════════════════════════════════════════════════════
 ◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = stars · [0★ · Pure] = Unawakened rank pill · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
 ══════════════════════════════════════════════════════════════════════
 
-◆ /autonomous-data-scientist  [5★ · Unclaimed]
+◆ garrytan/gstack  [5★]
 ─────────────────────────────────────────────────────────────────
-  ├─ ◇ huggingface/huggingface-datasets  [3★]
-  │  ├─ ○ /generate-sql  [2★]
-  │  ├─ ○ /data-visualize  [2★]
-  │  └─ ○ /summarize  [0★]
-  ├─ ○ /math-reason  [2★]
-  └─ ◇ /research  [3★]
-     ├─ ○ /web-search  [1★]
-     ├─ ○ /summarize  [0★]  (↑ see above)
-     └─ ○ /cite-sources  [1★]
-
-◆ karpathy/autoresearch  [5★]
-─────────────────────────────────────────────────────────────────
-  ├─ ◇ /research  [3★]
-  │  ├─ ○ /web-search  [1★]
-  │  ├─ ○ /summarize  [0★]
-  │  └─ ○ /cite-sources  [1★]
-  ├─ ◇ /knowledge-harvest  [1★]
-  │  ├─ ◇ firecrawl/firecrawl  [3★]
-  │  │  ├─ ○ /web-search  [1★]  (↑ see above)
-  │  │  ├─ ○ /parse-html  [1★]
-  │  │  └─ ○ /extract-entities  [1★]
-  │  ├─ ○ /extract-entities  [1★]  (↑ see above)
-  │  └─ ○ /embed-text  [1★]
-  └─ ◇ /ghostwrite  [1★]
-     ├─ ◇ /research  [3★]  (↑ see above)
-     ├─ ○ glincker/readme-generator  [1★]
-     └─ ○ /audience-model  [1★]
-
-◆ /scientific-discovery  [5★ · Unclaimed]
-─────────────────────────────────────────────────────────────────
-  ├─ ○ /hypothesis-generate  [2★]
-  ├─ ◇ /research  [3★]
-  │  ├─ ○ /web-search  [1★]
-  │  ├─ ○ /summarize  [0★]
-  │  └─ ○ /cite-sources  [1★]
-  └─ ○ /math-reason  [2★]
-
-◆ /full-stack-developer  [5★ · Unclaimed]
-─────────────────────────────────────────────────────────────────
-  ├─ ◇ /code-review-pipeline  [3★]
-  │  ├─ ○ /code-generation  [1★]
+  ├─ ○ garrytan/office-hours  [0★]
+  ├─ ○ garrytan/benchmark  [1★]
+  ├─ ◇ garrytan/plan-eng-review  [3★]
+  │  ├─ ○ garrytan/design-html  [1★]
   │  ├─ ○ /diff-content  [1★]
-  │  └─ ○ /evaluate-output  [1★]
-  ├─ ◇ 0xdarkmatter/pytest-patterns  [3★]
-  │  ├─ ○ upsonic/unittest-generator  [2★]
-  │  ├─ ○ /execute-bash  [1★]
-  │  └─ ○ /error-interpretation  [1★]
-  └─ ○ mattpocock/improve-codebase-architecture  [2★]
-
-◆ mattpocock/grill-with-docs  [5★]
-─────────────────────────────────────────────────────────────────
-  ├─ ◇ mattpocock/grill-me  [4★]
-  │  ├─ ◇ garrytan/design-shotgun  [3★]
-  │  │  ├─ ○ /evaluate-output  [1★]
-  │  │  └─ ○ /plan-decompose  [1★]
-  │  └─ ○ /self-critique  [1★]
-  ├─ ◇ mattpocock/ubiquitous-language  [4★]
-  │  ├─ ○ /extract-entities  [1★]
-  │  └─ ○ /requirements-analysis  [2★]
-  └─ ○ anthropic/pptx  [0★]
-
-◆ ruvnet/flow-nexus-swarm  [5★]
-─────────────────────────────────────────────────────────────────
-  ├─ ◇ /plan-and-execute  [4★]
-  │  ├─ ○ /route-intent  [1★]
+  │  └─ ○ garrytan/benchmark  [1★]  (↑ see above)
+  ├─ ○ martin-stepanoski/nielsen-heuristics-audit  [0★]
+  ├─ ◇ mattpocock/to-issues  [3★]
   │  ├─ ○ /plan-decompose  [1★]
-  │  └─ ○ /tool-select  [1★]
-  ├─ ○ /route-intent  [1★]  (↑ see above)
-  └─ ○ /tool-select  [1★]  (↑ see above)
+  │  └─ ○ /route-intent  [1★]
+  ├─ ◇ Manavarya09/design-extract  [3★]
+  │  ├─ ◇ gooseworks/notte-browser  [3★]
+  │  │  ├─ ○ /web-search  [1★]
+  │  │  └─ ○ /computer-use  [2★]
+  │  └─ ○ /parse-html  [1★]
+  ├─ ◇ garrytan/design-shotgun  [3★]
+  │  ├─ ○ garrytan/benchmark  [1★]  (↑ see above)
+  │  └─ ○ /plan-decompose  [1★]  (↑ see above)
+  ├─ ○ garrytan/design-html  [1★]  (↑ see above)
+  ├─ ○ obra/systematic-debugging  [3★]
+  ├─ ◇ garrytan/qa-only  [3★]
+  │  ├─ ◇ gooseworks/notte-browser  [3★]  (↑ see above)
+  │  └─ ◇ 0xdarkmatter/pytest-patterns  [3★]
+  │     ├─ ○ upsonic/unittest-generator  [2★]
+  │     ├─ ○ /execute-bash  [1★]
+  │     └─ ○ /error-interpretation  [1★]
+  ├─ ◇ obra/finishing-a-development-branch  [2★]
+  │  ├─ ◇ garrytan/plan-eng-review  [3★]  (↑ see above)
+  │  └─ ○ /diff-content  [1★]  (↑ see above)
+  ├─ ◇ garrytan/land-and-deploy  [2★]
+  │  ├─ ◇ /workflow-automation  [4★]
+  │  │  ├─ ○ /plan-decompose  [1★]  (↑ see above)
+  │  │  ├─ ○ /tool-use  [1★]
+  │  │  └─ ○ huggingface/hf-cli  [2★]
+  │  └─ ○ /execute-bash  [1★]  (↑ see above)
+  ├─ ◇ garrytan/canary  [2★]
+  │  ├─ ○ garrytan/benchmark  [1★]  (↑ see above)
+  │  └─ ○ /error-interpretation  [1★]  (↑ see above)
+  ├─ ○ anthropic/pptx  [0★]
+  ├─ ◇ gooseworks/notte-browser  [3★]  (↑ see above)
+  ├─ ◇ garrytan/cso  [2★]
+  │  ├─ ◇ garrytan/plan-eng-review  [3★]  (↑ see above)
+  │  └─ ○ garrytan/benchmark  [1★]  (↑ see above)
+  ├─ ○ browser-use/browser-harness  [2★]
+  ├─ ◇ firecrawl/firecrawl  [3★]
+  │  ├─ ○ /web-search  [1★]  (↑ see above)
+  │  ├─ ○ /parse-html  [1★]  (↑ see above)
+  │  └─ ○ /extract-entities  [1★]
+  ├─ ◇ garrytan/skillify  [4★]
+  │  ├─ ○ /generate-text  [0★]
+  │  ├─ ○ /structured-output  [1★]
+  │  └─ ○ garrytan/design-html  [1★]  (↑ see above)
+  ├─ ○ glincker/readme-generator  [1★]
+  ├─ ◇ garrytan/codex  [4★]
+  │  ├─ ○ /self-critique  [1★]
+  │  ├─ ○ garrytan/benchmark  [1★]  (↑ see above)
+  │  └─ ○ /chain-of-thought  [1★]
+  ├─ ◇ garrytan/benchmark-models  [4★]
+  │  ├─ ◇ /agent-eval  [3★]
+  │  │  ├─ ○ garrytan/benchmark  [1★]  (↑ see above)
+  │  │  └─ ○ /score-relevance  [1★]
+  │  ├─ ○ vercel/find-skills  [0★]
+  │  └─ ○ /statistical-analysis  [3★]
+  ├─ ◇ 0xdarkmatter/pytest-patterns  [3★]  (↑ see above)
+  ├─ ○ garrytan/pair-agent  [3★]
+  ├─ ◇ garrytan/learn  [2★]
+  │  ├─ ○ garrytan/context-restore  [3★]
+  │  └─ ○ /retrieve  [1★]
+  ├─ ◇ garrytan/careful  [3★]
+  │  ├─ ○ garrytan/benchmark  [1★]  (↑ see above)
+  │  ├─ ○ /classify  [0★]
+  │  └─ ○ /structured-output  [1★]  (↑ see above)
+  ├─ ◇ garrytan/setup-gbrain  [2★]
+  │  ├─ ○ huggingface/hf-cli  [2★]  (↑ see above)
+  │  └─ ○ /retrieve  [1★]  (↑ see above)
+  ├─ ○ garrytan/make-pdf  [0★]
+  ├─ ◇ garrytan/gstack-upgrade  [2★]
+  │  ├─ ○ huggingface/hf-cli  [2★]  (↑ see above)
+  │  └─ ○ anthropic/pptx  [0★]  (↑ see above)
+  ├─ ◇ garrytan/landing-report  [2★]
+  │  ├─ ○ huggingface/hf-cli  [2★]  (↑ see above)
+  │  └─ ○ mattpocock/triage  [4★]
+  └─ ◇ stanfordnlp/dspy  [4★]
+     ├─ ○ garrytan/benchmark  [1★]  (↑ see above)
+     └─ ○ /generate-text  [0★]  (↑ see above)
 
-◆ /real-time-voice-assistant  [5★ · Unclaimed]
+◆ obra/superpowers  [5★]
 ─────────────────────────────────────────────────────────────────
-  ├─ ◇ /voice-agent  [3★]
-  │  ├─ ○ /speech-to-text  [2★]
-  │  ├─ ○ garrytan/office-hours  [0★]
-  │  └─ ○ /text-to-speech  [2★]
-  ├─ ○ /memory-manage  [2★]
-  └─ ◇ /plan-and-execute  [4★]
-     ├─ ○ /route-intent  [1★]
-     ├─ ○ /plan-decompose  [1★]
-     └─ ○ /tool-select  [1★]
-
-◆ /recursive-self-improvement  [1★ · Unclaimed]
-─────────────────────────────────────────────────────────────────
-  ├─ ◇ devin-ai/autonomous-swe  [4★]
-  │  ├─ ○ /code-generation  [1★]
-  │  ├─ ○ /execute-bash  [1★]
-  │  └─ ○ /error-interpretation  [1★]
-  ├─ ○ /evaluate-output  [1★]
-  └─ ◇ /plan-and-execute  [4★]
-     ├─ ○ /route-intent  [1★]
-     ├─ ○ /plan-decompose  [1★]
-     └─ ○ /tool-select  [1★]
+  ├─ ○ obra/brainstorming  [1★]
+  ├─ ○ obra/dispatching-parallel-agents  [4★]
+  ├─ ○ obra/executing-plans  [2★]
+  ├─ ◇ obra/finishing-a-development-branch  [2★]
+  │  ├─ ◇ garrytan/plan-eng-review  [3★]
+  │  │  ├─ ○ garrytan/design-html  [1★]
+  │  │  ├─ ○ /diff-content  [1★]
+  │  │  └─ ○ garrytan/benchmark  [1★]
+  │  └─ ○ /diff-content  [1★]  (↑ see above)
+  ├─ ○ obra/receiving-code-review  [2★]
+  ├─ ○ obra/requesting-code-review  [3★]
+  ├─ ○ obra/subagent-driven-development  [4★]
+  ├─ ○ obra/systematic-debugging  [3★]
+  ├─ ○ obra/using-git-worktrees  [1★]
+  ├─ ○ obra/verification-before-completion  [1★]
+  └─ ○ obra/writing-plans  [2★]
 
 ══════════════════════════════════════════════════════════════════════
 Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
@@ -118,9 +129,7 @@ Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) throu
 Basics — basic-tier skills not wired into an upgrade path yet.  (0★ skills carry a [0★ · Pure] rank pill inline.)
 ══════════════════════════════════════════════════════════════════════
 
-  ○ browser-use/browser-harness  [2★]
   ○ mattpocock/zoom-out  [2★]
-  ○ /context-compression  [3★]
   ○ laravel/upgrade-laravel-v13  [0★ · Pure]
   ○ /image-generate  [2★]
   ○ huggingface/huggingface-vision-trainer  [2★]
@@ -130,7 +139,6 @@ Basics — basic-tier skills not wired into an upgrade path yet.  (0★ skills c
   ○ /schema-design  [2★]
   ○ addy-osmani/test-driven-development  [0★ · Pure]
   ○ getagentseal/codeburn  [2★]
-  ○ martin-stepanoski/nielsen-heuristics-audit  [0★ · Pure]
 ```
 
-*Generated from gaia.json on 2026-05-18. Do not edit directly.*
+*Generated from gaia.json on 2026-05-19. Do not edit directly.*

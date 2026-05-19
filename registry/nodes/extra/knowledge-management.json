@@ -10,7 +10,8 @@
     "retrieve"
   ],
   "derivatives": [
-    "knowledge-harvest"
+    "knowledge-harvest",
+    "gstack"
   ],
   "conditions": "",
   "evidence": [

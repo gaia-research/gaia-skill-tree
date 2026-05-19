@@ -1,4 +1,4 @@
-# /skill-authoring  [4★ · Hardened]
+# [garrytan](../../../docs/u/garrytan/)/skillify  [4★ · Hardened]
 **ID:** skill-authoring  
 **Type:** Extra Skill  
 **Level:** 4★  
@@ -18,6 +18,7 @@ Designs, writes, packages, and iteratively improves reusable agent skill directo
 ## Unlocks
 - [Skill Performance Benchmarking](../extra/skill-performance-benchmarking.md)
 - [Registry Curation](../extra/registry-curation.md)
+- [Founder Mode](../ultimate/gstack.md)
 
 ## Fusion Condition
 Requires a target agent skill format and a repeatable evaluation loop for trigger accuracy and task success.

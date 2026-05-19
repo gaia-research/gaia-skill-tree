@@ -1,4 +1,4 @@
-# /code-generation  [1★ · Awakened]
+# [garrytan](../../../docs/u/garrytan/)/design-html  [1★ · Awakened]
 **ID:** code-generation  
 **Type:** Basic Skill  
 **Level:** 1★  
@@ -20,6 +20,7 @@ _None._
 - [Tool Creation](../extra/tool-creation.md)
 - [ML Pipeline](../extra/ml-pipeline.md)
 - [Skill Authoring](../extra/skill-authoring.md)
+- [Founder Mode](../ultimate/gstack.md)
 
 ## Evidence
 | Class | Source | Evaluator | Date |

@@ -15,7 +15,9 @@
     "guardrails",
     "agent-eval",
     "design-review",
-    "security-audit"
+    "security-audit",
+    "gstack",
+    "detect-anomaly"
   ],
   "conditions": "",
   "evidence": [
@@ -30,6 +32,6 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-26",
-  "updatedAt": "2026-04-30",
+  "updatedAt": "2026-05-18",
   "version": "0.1.0"
 }

@@ -1,4 +1,4 @@
-# /project-management  [2★ · Named]
+# [garrytan](../../../docs/u/garrytan/)/landing-report  [2★ · Named]
 **ID:** project-management  
 **Type:** Extra Skill  
 **Level:** 2★  
@@ -15,7 +15,7 @@ Manages issues, tasks, projects, and team workflows through structured project m
 - [Issue Triage](../basic/issue-triage.md)
 
 ## Unlocks
-_None._
+- [Founder Mode](../ultimate/gstack.md)
 
 ## Fusion Condition
 _None specified._

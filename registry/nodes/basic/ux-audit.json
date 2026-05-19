@@ -6,7 +6,9 @@
   "rarity": "uncommon",
   "description": "Systematically evaluates a user interface against established usability heuristics or accessibility standards, producing a scored finding report with remediation recommendations.",
   "prerequisites": [],
-  "derivatives": [],
+  "derivatives": [
+    "gstack"
+  ],
   "conditions": "",
   "evidence": [
     {
@@ -20,6 +22,6 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-04-30",
+  "updatedAt": "2026-05-18",
   "version": "0.1.0"
 }

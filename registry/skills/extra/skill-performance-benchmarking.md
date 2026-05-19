@@ -1,4 +1,4 @@
-# /skill-performance-benchmarking  [4★ · Hardened]
+# [garrytan](../../../docs/u/garrytan/)/benchmark-models  [4★ · Hardened]
 **ID:** skill-performance-benchmarking  
 **Type:** Extra Skill  
 **Level:** 4★  
@@ -18,6 +18,7 @@ Builds and runs task suites that measure whether agents select, invoke, and comp
 ## Unlocks
 - [Registry Curation](../extra/registry-curation.md)
 - [Gaia Meta Audit](../extra/gaia-meta-audit.md)
+- [Founder Mode](../ultimate/gstack.md)
 
 ## Fusion Condition
 Requires a skill corpus, benchmark tasks, success rubrics, and variance-aware reporting across multiple runs.

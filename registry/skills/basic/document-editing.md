@@ -15,6 +15,7 @@ _None._
 
 ## Unlocks
 - [Humanize Prose](../extra/humanize-prose.md)
+- [Founder Mode](../ultimate/gstack.md)
 
 ## Evidence
 | Class | Source | Evaluator | Date |

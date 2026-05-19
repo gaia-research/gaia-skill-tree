@@ -1,4 +1,4 @@
-# /workspace-automation  [2★ · Named]
+# [garrytan](../../../docs/u/garrytan/)/gstack-upgrade  [2★ · Named]
 **ID:** workspace-automation  
 **Type:** Extra Skill  
 **Level:** 2★  
@@ -15,7 +15,7 @@ Orchestrates productivity tasks across email, calendar, drive, and documents thr
 - [Document Editing](../basic/document-editing.md)
 
 ## Unlocks
-_None._
+- [Founder Mode](../ultimate/gstack.md)
 
 ## Fusion Condition
 _None specified._

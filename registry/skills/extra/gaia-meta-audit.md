@@ -13,7 +13,7 @@ Scans Gaia registry and real-skill catalog entries for review candidates whose e
 ## Prerequisites
 - [Gaia Audit](../extra/gaia-audit.md)
 - [Registry Curation](../extra/registry-curation.md)
-- [Detect Anomaly](../basic/detect-anomaly.md)
+- [Detect Anomaly](../extra/detect-anomaly.md)
 
 ## Unlocks
 _None._

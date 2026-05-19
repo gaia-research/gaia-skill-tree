@@ -17,7 +17,7 @@ Autonomously designs, authors, and iterates on complex multi-step workflows by t
 - [Plan and Decompose](../basic/plan-decompose.md)
 
 ## Unlocks
-- [Full-Stack Developer](../ultimate/full-stack-developer.md)
+- [Full-Stack Developer](../extra/full-stack-developer.md)
 
 ## Fusion Condition
 Requires a workflow orchestration target (e.g. Airflow, Temporal) and access to its authoring API.

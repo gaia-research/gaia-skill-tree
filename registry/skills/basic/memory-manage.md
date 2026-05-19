@@ -15,7 +15,7 @@ _None._
 
 ## Unlocks
 - [Conversational Agent](../extra/conversational-agent.md)
-- [Real-Time Voice Assistant](../ultimate/real-time-voice-assistant.md)
+- [Real-Time Voice Assistant](../extra/real-time-voice-assistant.md)
 
 ## Evidence
 | Class | Source | Evaluator | Date |

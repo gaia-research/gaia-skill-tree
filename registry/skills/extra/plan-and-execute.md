@@ -16,7 +16,7 @@ Decomposes complex objectives into sub-tasks, selects tools, and orchestrates ex
 - [Tool Select](../basic/tool-select.md)
 
 ## Unlocks
-- [Real-Time Voice Assistant](../ultimate/real-time-voice-assistant.md)
+- [Real-Time Voice Assistant](../extra/real-time-voice-assistant.md)
 
 ## Fusion Condition
 _None specified._

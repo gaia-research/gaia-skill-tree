@@ -14,8 +14,8 @@ Solves multi-step mathematical problems including arithmetic, algebra, calculus,
 _None._
 
 ## Unlocks
-- [Autonomous Data Scientist](../ultimate/autonomous-data-scientist.md)
-- [Autonomous Scientific Discovery](../ultimate/scientific-discovery.md)
+- [Autonomous Data Scientist](../extra/autonomous-data-scientist.md)
+- [Autonomous Scientific Discovery](../extra/scientific-discovery.md)
 
 ## Evidence
 | Class | Source | Evaluator | Date |

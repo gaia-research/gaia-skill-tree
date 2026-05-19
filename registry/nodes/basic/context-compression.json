@@ -6,7 +6,9 @@
   "rarity": "common",
   "description": "Reduces the length of prompts or retrieved context to fit token limits while preserving semantic content, using techniques such as selective token removal, summarization, or token-classification-based pruning (e.g. LLMLingua).",
   "prerequisites": [],
-  "derivatives": [],
+  "derivatives": [
+    "memory-manage"
+  ],
   "conditions": "",
   "evidence": [
     {

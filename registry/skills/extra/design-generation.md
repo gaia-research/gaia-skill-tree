@@ -15,7 +15,7 @@ Generates high-fidelity visual assets, prototypes, and UI components from design
 - [Visual Question Answering](../basic/vision-qa.md)
 
 ## Unlocks
-- [Full-Stack Developer](../ultimate/full-stack-developer.md)
+- [Full-Stack Developer](../extra/full-stack-developer.md)
 
 ## Fusion Condition
 _None specified._

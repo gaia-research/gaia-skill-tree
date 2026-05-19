@@ -1,0 +1,29 @@
+---
+id: obra/dispatching-parallel-agents
+name: Dispatching Parallel Agents
+contributor: obra
+origin: true
+genericSkillRef: dispatching-parallel-agents
+status: named
+title: "The Parallel Dispatch"
+level: "4★"
+description: Delegates independent tasks to specialized agents with isolated context to work concurrently, dramatically reducing wall-clock time on multi-part problems.
+links:
+  github: https://github.com/obra/superpowers/blob/main/skills/dispatching-parallel-agents/SKILL.md
+tags:
+  - parallel-agents
+  - concurrency
+  - delegation
+  - multi-agent
+  - subagent
+createdAt: "2026-05-18"
+updatedAt: "2026-05-18"
+---
+
+## Overview
+
+Dispatching Parallel Agents by @obra establishes the pattern of breaking a problem into independent sub-tasks and assigning each to a freshly-spawned, context-isolated agent running concurrently. The dispatching agent coordinates results rather than doing the work sequentially, yielding significant throughput gains on tasks that naturally decompose across files, services, or domains.
+
+## Origin
+
+First published by @obra in the obra/superpowers skill library. This is the origin implementation for the `dispatching-parallel-agents` skill bucket.

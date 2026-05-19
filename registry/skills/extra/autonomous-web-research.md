@@ -15,7 +15,7 @@ Independently surveys, maps, and extracts structured information from the web by
 - [Web Search](../basic/web-search.md)
 
 ## Unlocks
-- [Autonomous Research Agent](../ultimate/autonomous-research-agent.md)
+- [Autonomous Research Agent](../extra/autonomous-research-agent.md)
 
 ## Fusion Condition
 Requires a multi-step crawling engine and mapping logic to resolve site structures.

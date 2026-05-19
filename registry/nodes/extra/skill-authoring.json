@@ -12,7 +12,8 @@
   ],
   "derivatives": [
     "skill-performance-benchmarking",
-    "registry-curation"
+    "registry-curation",
+    "gstack"
   ],
   "conditions": "Requires a target agent skill format and a repeatable evaluation loop for trigger accuracy and task success.",
   "evidence": [

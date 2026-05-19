@@ -1,4 +1,4 @@
-# /context-compression  [3★ · Evolved]
+# [garrytan](../../../docs/u/garrytan/)/context-restore  [3★ · Evolved]
 **ID:** context-compression  
 **Type:** Basic Skill  
 **Level:** 3★  
@@ -14,7 +14,7 @@ Reduces the length of prompts or retrieved context to fit token limits while pre
 _None._
 
 ## Unlocks
-_None._
+- [Memory Manage](../extra/memory-manage.md)
 
 ## Evidence
 | Class | Source | Evaluator | Date |

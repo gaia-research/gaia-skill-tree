@@ -10,7 +10,8 @@
     "parse-html"
   ],
   "derivatives": [
-    "design-generation"
+    "design-generation",
+    "gstack"
   ],
   "conditions": "Requires headless browser (Playwright/Puppeteer).",
   "evidence": [
@@ -25,6 +26,6 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-14",
-  "updatedAt": "2026-05-14",
+  "updatedAt": "2026-05-18",
   "version": "0.1.0"
 }

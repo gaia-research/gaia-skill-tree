@@ -1,4 +1,4 @@
-# /format-output  [0★ · Basic]
+# [garrytan](../../../docs/u/garrytan/)/make-pdf  [0★ · Basic]
 **ID:** format-output  
 **Type:** Basic Skill  
 **Level:** 0★  
@@ -19,6 +19,7 @@ _None._
 - [Text-to-SQL Pipeline](../extra/text-to-sql-pipeline.md)
 - [Humanize Prose](../extra/humanize-prose.md)
 - [Architecture Diagram](../extra/architecture-diagram.md)
+- [Founder Mode](../ultimate/gstack.md)
 
 ## Evidence
 | Class | Source | Evaluator | Date |

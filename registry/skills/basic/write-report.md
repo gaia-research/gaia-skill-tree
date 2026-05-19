@@ -18,6 +18,7 @@ _None._
 - [PRD Generation](../extra/prd-generation.md)
 - [Scientific Writing](../extra/scientific-writing.md)
 - [Architecture Diagram](../extra/architecture-diagram.md)
+- [Founder Mode](../ultimate/gstack.md)
 
 ## Evidence
 | Class | Source | Evaluator | Date |

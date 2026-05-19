@@ -13,7 +13,8 @@
   "derivatives": [
     "full-stack-developer",
     "ml-pipeline",
-    "e2e-testing"
+    "e2e-testing",
+    "gstack"
   ],
   "conditions": "",
   "evidence": [

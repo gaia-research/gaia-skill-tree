@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <script>window.GAIA_VERSION = "3.11.17";</script>
+  <script>window.GAIA_VERSION = "3.16.2";</script>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -14,14 +14,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="css/styles.css?v=3.11.17">
-  <link rel="stylesheet" href="css/plaque.css?v=3.11.17">
+  <link rel="stylesheet" href="css/styles.css?v=3.16.2">
+  <link rel="stylesheet" href="css/plaque.css?v=3.16.2">
   <!-- Stage 1 — icon sprite helper, loaded BEFORE other UI scripts. -->
-  <script src="js/icons.js?v=3.11.17"></script>
+  <script src="js/icons.js?v=3.16.2"></script>
   <!-- Stage 2 — shared rank-badge primitive, loaded after icons. -->
-  <script src="js/rank-badge.js?v=3.11.17"></script>
+  <script src="js/rank-badge.js?v=3.16.2"></script>
   <!-- Stage 3 — plaque component family, loaded after rank-badge. -->
-  <script src="js/plaque.js?v=3.11.17"></script>
+  <script src="js/plaque.js?v=3.16.2"></script>
 </head>
 
 <body class="home-page">
@@ -196,6 +196,24 @@
               <p>Wire Gaia to Claude Code in one command.</p>
               <pre><span class="cmd">claude mcp add</span> <span class="str">gaia</span> -- <span class="cmd">npx</span> <span class="str">@gaia-registry/mcp-server</span></pre>
               <div class="qs-tip mt-sm"><span class="qs-tip-icon">💡</span><span>Any MCP-compatible agent: use <code>npx @gaia-registry/mcp-server</code>. See <a href="https://github.com/mbtiongson1/gaia-skill-tree/tree/main/packages/mcp" target="_blank" class="text-tier-basic">packages/mcp</a> for config-file examples.</span></div>
+            </div>
+          </li>
+          <li class="rite-step">
+            <span class="rite-numeral" aria-hidden="true">V.</span>
+            <div class="rite-body">
+              <strong>Explore interactively (optional)</strong>
+              <p>Launch the agent-first Terminal UI with no arguments.</p>
+              <div class="os-tabs" role="tablist" aria-label="Operating System selection">
+                <button type="button" class="os-tab active" data-os="unix" onclick="switchOsTab(this)" role="tab" aria-selected="true">macOS · Linux</button>
+                <button type="button" class="os-tab" data-os="win" onclick="switchOsTab(this)" role="tab" aria-selected="false">Windows</button>
+              </div>
+              <div class="os-panel active" data-os="unix" role="tabpanel">
+                <pre><span class="cmd">gaia</span></pre>
+              </div>
+              <div class="os-panel" data-os="win" role="tabpanel">
+                <pre><span class="cmd">py -m gaia_cli</span></pre>
+              </div>
+              <div class="qs-tip mt-sm"><span class="qs-tip-icon">💡</span><span>The Terminal UI is new and experimental — designed for AI agents like Claude Code and Codex. Keyboard-native, fuzzy searchable, no CLI memorization required.</span></div>
             </div>
           </li>
         </ol>
@@ -469,20 +487,20 @@
 
   <!-- ─── SCRIPTS ─── -->
   <!-- icons.js already loaded in <head> so gaiaIcon() is available before any of these. -->
-  <script src="js/atlas-helpers.js?v=3.11.17"></script>
-  <script src="js/skill-graph.js?v=3.11.17"></script>
-  <script src="js/hud-toggle.js?v=3.11.17"></script>
-  <script src="js/scroll-reveal.js?v=3.11.17"></script>
-  <script src="js/named-skills.js?v=3.11.17"></script>
-  <script src="js/skill-explorer.js?v=3.11.17"></script>
-  <script src="js/ui.js?v=3.11.17"></script>
-  <script src="js/page-ia.js?v=3.11.17"></script>
-  <script src="js/plaque-reveal.js?v=3.11.17" defer></script>
+  <script src="js/atlas-helpers.js?v=3.16.2"></script>
+  <script src="js/skill-graph.js?v=3.16.2"></script>
+  <script src="js/hud-toggle.js?v=3.16.2"></script>
+  <script src="js/scroll-reveal.js?v=3.16.2"></script>
+  <script src="js/named-skills.js?v=3.16.2"></script>
+  <script src="js/skill-explorer.js?v=3.16.2"></script>
+  <script src="js/ui.js?v=3.16.2"></script>
+  <script src="js/page-ia.js?v=3.16.2"></script>
+  <script src="js/plaque-reveal.js?v=3.16.2" defer></script>
 
 </body>
 
 </html>
 
 <!-- gaia:stats-start -->
-<!-- skills=154; namedSkills=53; uniqueSkills=5; version=3.11.17 -->
+<!-- skills=166; namedSkills=107; uniqueSkills=5; version=3.16.2 -->
 <!-- gaia:stats-end -->

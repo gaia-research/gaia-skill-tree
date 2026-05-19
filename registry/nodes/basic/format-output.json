@@ -11,7 +11,8 @@
     "document-digitization",
     "text-to-sql-pipeline",
     "humanize-prose",
-    "architecture-diagram"
+    "architecture-diagram",
+    "gstack"
   ],
   "conditions": "",
   "evidence": [

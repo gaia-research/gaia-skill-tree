@@ -18,6 +18,7 @@ _None._
 - [Grounding](../extra/grounding.md)
 - [RAG Pipeline](../extra/rag-pipeline.md)
 - [Wiki Search](../extra/wiki-search.md)
+- [Memory Manage](../extra/memory-manage.md)
 
 ## Evidence
 | Class | Source | Evaluator | Date |

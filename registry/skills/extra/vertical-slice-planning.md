@@ -15,7 +15,7 @@ Decomposes a product plan into independently-demoable vertical slices that each 
 - [Route Intent](../basic/route-intent.md)
 
 ## Unlocks
-_None._
+- [Founder Mode](../ultimate/gstack.md)
 
 ## Fusion Condition
 _None specified._

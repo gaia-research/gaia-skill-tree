@@ -1,4 +1,4 @@
-# /multi-agent-debate  [4★ · Hardened]
+# [garrytan](../../../docs/u/garrytan/)/codex  [4★ · Hardened]
 **ID:** multi-agent-debate  
 **Type:** Extra Skill  
 **Level:** 4★  
@@ -16,7 +16,7 @@ Runs multiple LLM agents that propose, critique, and iteratively refine answers 
 - [Chain-of-Thought Reasoning](../basic/chain-of-thought.md)
 
 ## Unlocks
-_None._
+- [Founder Mode](../ultimate/gstack.md)
 
 ## Fusion Condition
 _None specified._

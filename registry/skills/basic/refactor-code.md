@@ -14,7 +14,7 @@ Restructures existing source code to improve readability, maintainability, or pe
 _None._
 
 ## Unlocks
-- [Full-Stack Developer](../ultimate/full-stack-developer.md)
+- [Full-Stack Developer](../extra/full-stack-developer.md)
 
 ## Evidence
 | Class | Source | Evaluator | Date |

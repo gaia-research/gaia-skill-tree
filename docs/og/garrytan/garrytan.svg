@@ -93,7 +93,7 @@
   <text class="plaque__slug" x="264" y="150"
     font-family="EB Garamond,Georgia,serif"
     font-size="52" font-weight="600"
-    fill="#fbbf24" dominant-baseline="middle">Garrytan</text>
+    fill="#fbbf24" dominant-baseline="middle">Autoplan</text>
 
   <!-- Title (.plaque__title — italic subtitle) -->
   <text class="plaque__title" x="264" y="210" font-family="EB Garamond,Georgia,serif" font-size="22" font-style="italic" fill="rgba(226,232,240,0.5)" dominant-baseline="middle">Founder Mode Autoplan</text>

@@ -16,10 +16,10 @@ Conducts multi-source information gathering, synthesis, and citation for a given
 - [Cite Sources](../basic/cite-sources.md)
 
 ## Unlocks
-- [Autonomous Data Scientist](../ultimate/autonomous-data-scientist.md)
+- [Autonomous Data Scientist](../extra/autonomous-data-scientist.md)
 - [Ghostwrite](../extra/ghostwrite.md)
 - [Registry Curation](../extra/registry-curation.md)
-- [Autonomous Scientific Discovery](../ultimate/scientific-discovery.md)
+- [Autonomous Scientific Discovery](../extra/scientific-discovery.md)
 - [Literature Review](../extra/literature-review.md)
 
 ## Fusion Condition

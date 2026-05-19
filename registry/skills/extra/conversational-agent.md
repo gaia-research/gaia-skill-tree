@@ -12,7 +12,7 @@ Manages coherent multi-turn dialogue by routing intent, maintaining memory acros
 
 ## Prerequisites
 - [Question Answer](../basic/question-answer.md)
-- [Memory Manage](../basic/memory-manage.md)
+- [Memory Manage](../extra/memory-manage.md)
 - [Route Intent](../basic/route-intent.md)
 
 ## Unlocks

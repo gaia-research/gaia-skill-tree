@@ -1,4 +1,4 @@
-# /evaluate-output  [1★ · Awakened]
+# [garrytan](../../../docs/u/garrytan/)/benchmark  [1★ · Awakened]
 **ID:** evaluate-output  
 **Type:** Basic Skill  
 **Level:** 1★  
@@ -23,6 +23,8 @@ _None._
 - [Agent Evaluation](../extra/agent-eval.md)
 - [Design Review](../extra/design-review.md)
 - [Security Audit](../extra/security-audit.md)
+- [Founder Mode](../ultimate/gstack.md)
+- [Detect Anomaly](../extra/detect-anomaly.md)
 
 ## Evidence
 | Class | Source | Evaluator | Date |

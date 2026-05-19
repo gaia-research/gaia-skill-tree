@@ -16,6 +16,7 @@ Automates the discovery and extraction of design tokens, component architectures
 
 ## Unlocks
 - [Design Generation](../extra/design-generation.md)
+- [Founder Mode](../ultimate/gstack.md)
 
 ## Fusion Condition
 Requires headless browser (Playwright/Puppeteer).
