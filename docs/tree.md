@@ -2,7 +2,7 @@
 
 ```
 ══════════════════════════════════════════════════════════════════════
-GAIA SKILL TREE  v3.16.2  ·  generated 2026-05-19
+GAIA SKILL TREE  v3.16.3  ·  generated 2026-05-19
 ══════════════════════════════════════════════════════════════════════
 ◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = stars · [0★ · Pure] = Unawakened rank pill · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.

@@ -538,8 +538,12 @@
         tabsEl.addEventListener('click', function(e) {
           var btn = e.target.closest('.ns-tab');
           if (!btn) return;
-          tabsEl.querySelectorAll('.ns-tab').forEach(function(t){ t.classList.remove('active'); });
+          tabsEl.querySelectorAll('.ns-tab').forEach(function(t) {
+            t.classList.remove('active');
+            t.setAttribute('aria-selected', 'false');
+          });
           btn.classList.add('active');
+          btn.setAttribute('aria-selected', 'true');
           typeFilter = btn.dataset.type || 'all';
           renderCurrent();
         });
@@ -549,8 +553,12 @@
         viewBtnsEl.addEventListener('click', function(e) {
           var btn = e.target.closest('.ns-view-btn');
           if (!btn) return;
-          viewBtnsEl.querySelectorAll('.ns-view-btn').forEach(function(b){ b.classList.remove('active'); });
+          viewBtnsEl.querySelectorAll('.ns-view-btn').forEach(function(b) {
+            b.classList.remove('active');
+            b.setAttribute('aria-pressed', 'false');
+          });
           btn.classList.add('active');
+          btn.setAttribute('aria-pressed', 'true');
           viewMode = btn.dataset.view || 'tile';
           renderCurrent();
         });
