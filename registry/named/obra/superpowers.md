@@ -18,6 +18,18 @@ tags:
   - multi-skill
 createdAt: "2026-05-18"
 updatedAt: "2026-05-19"
+suiteComponents:
+  - obra/brainstorming
+  - obra/dispatching-parallel-agents
+  - obra/executing-plans
+  - obra/finishing-a-development-branch
+  - obra/receiving-code-review
+  - obra/requesting-code-review
+  - obra/subagent-driven-development
+  - obra/systematic-debugging
+  - obra/using-git-worktrees
+  - obra/verification-before-completion
+  - obra/writing-plans
 ---
 
 ## Overview

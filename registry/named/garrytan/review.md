@@ -16,6 +16,7 @@ tags:
   - security
   - multi-agent
   - adversarial-review
+suiteRef: "garrytan/gstack"
 createdAt: "2026-05-18"
 updatedAt: "2026-05-18"
 ---

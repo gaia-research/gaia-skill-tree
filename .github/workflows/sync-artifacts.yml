@@ -7,6 +7,7 @@ on:
       - 'registry/nodes/**'
       - 'registry/named/**'
       - 'registry/schema/**'
+      - 'registry/suites/**'
       - 'scripts/**'
   workflow_dispatch: {}
 

@@ -17,6 +17,7 @@ tags:
   - audit
   - threat-modeling
   - cso
+suiteRef: "garrytan/gstack"
 createdAt: "2026-05-12"
 updatedAt: "2026-05-12"
 ---

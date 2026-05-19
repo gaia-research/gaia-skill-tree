@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/skill.schema.json",
-  "version": "3.18.3",
-  "generatedAt": "2026-05-19T20:14:28.326515Z",
+  "version": "3.19.0",
+  "generatedAt": "2026-05-19T21:06:23.264060Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -2516,7 +2516,7 @@
       "type": "ultimate",
       "level": "5★",
       "rarity": "legendary",
-      "description": "Garry Tan's complete autonomous agent discipline suite spanning 19 named skills: browser QA, security auditing, design system creation, HTML generation, plan reviews (CEO/eng/design/DX), code review, root-cause debugging, E2E testing, ship/deploy automation, post-deploy canary monitoring, documentation, and founder-mode orchestration.",
+      "description": "Garry Tan's complete autonomous agent discipline suite spanning 46 named skills: browser QA, security auditing, design system creation, HTML generation, plan reviews (CEO/eng/design/DX), code review, root-cause debugging, E2E testing, ship/deploy automation, post-deploy canary monitoring, documentation, and founder-mode orchestration.",
       "prerequisites": [
         "question-answer",
         "evaluate-output",
@@ -2558,7 +2558,7 @@
           "source": "https://github.com/garrytan/gstack",
           "evaluator": "mbtiongson1",
           "date": "2026-05-18",
-          "notes": "garrytan/gstack — 19 named garrytan skills registered in Gaia across 16 generic skill buckets; meets the >=5 named-skills threshold for Class A designation. Additionally: 98.9k GitHub stars, multi-platform adoption across 8+ runtimes (Claude Code, OpenAI Codex CLI, OpenCode, Cursor, Factory Droid, Slate, Kiro, Hermes)."
+          "notes": "garrytan/gstack — 46 named garrytan skills registered in Gaia across 16 generic skill buckets; meets the >=5 named-skills threshold for Class A designation. Additionally: 98.9k GitHub stars, multi-platform adoption across 8+ runtimes (Claude Code, OpenAI Codex CLI, OpenCode, Cursor, Factory Droid, Slate, Kiro, Hermes)."
         }
       ],
       "knownAgents": [],
@@ -2577,7 +2577,7 @@
           "timestamp": "2026-05-18T12:00:00Z",
           "action": "rank_up",
           "contributor": "mbtiongson1",
-          "details": "Expanded prerequisites from 5 to 16 to cover the full garrytan/gstack suite. Added 14 new named skills: plan-ceo-review, plan-eng-review, plan-design-review, plan-devex-review, review, investigate, qa, ship, land-and-deploy, canary, document-generate, design-html, design-consultation, benchmark. Upgraded evidence from Class B to Class A (>=5 named-skills criterion met: 19 named skills). Total named garrytan skills: 19."
+          "details": "Expanded prerequisites from 5 to 16 to cover the full garrytan/gstack suite. Added 41 new named skills: plan-ceo-review, plan-eng-review, plan-design-review, plan-devex-review, review, investigate, qa, ship, land-and-deploy, canary, document-generate, design-html, design-consultation, benchmark. Upgraded evidence from Class B to Class A (>=5 named-skills criterion met: 19 named skills). Total named garrytan skills: 46."
         },
         {
           "timestamp": "2026-05-18T00:00:00Z",
