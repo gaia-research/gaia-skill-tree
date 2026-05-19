@@ -7,7 +7,7 @@ so the web CSS and the terminal palette can never drift.
 Vocabulary tracks CONTEXT.md exactly:
 - Tiers: Basic / Extra / Unique / Ultimate
 - Ranks (0★ → 6★): Unawakened / Awakened / Named / Evolved /
-                    Hardened / Transcendent / Transcendent ★
+                    Hardened / Transcendent / Apex
 - Brand: Honor Red (contributor handles only),
          Apex Gold (6★ / Ultimate / Diamond Seal only — never decorative)
 

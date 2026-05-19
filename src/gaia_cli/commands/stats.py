@@ -24,7 +24,7 @@ LEVEL_LABELS = {
     "3★": "Evolved",
     "4★": "Hardened",
     "5★": "Transcendent",
-    "6★": "Transcendent★",
+    "6★": "Apex",
 }
 
 LEVEL_ORDER = ("0★", "1★", "2★", "3★", "4★", "5★", "6★")

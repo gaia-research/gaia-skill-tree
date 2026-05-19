@@ -123,7 +123,7 @@ LEVEL_LABELS = {
     "3★": "3★ Evolved",
     "4★": "4★ Hardened",
     "5★": "5★ Transcendent",
-    "6★": "6★ Transcendent ★",
+    "6★": "6★ Apex",
 }
 
 

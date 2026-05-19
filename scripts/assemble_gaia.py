@@ -14,11 +14,27 @@ def assemble():
     else:
         old_data = {}
 
+    meta_schema_path = os.path.join(registry_dir, "schema", "meta.json")
+    if os.path.exists(meta_schema_path):
+        with open(meta_schema_path, "r", encoding="utf-8") as f:
+            meta_src = json.load(f)
+        meta_mapped = {
+            "typeLabels": meta_src["types"]["labels"],
+            "levelLabels": meta_src["levels"]["labels"],
+            "rarityLabels": meta_src["rarity"]["labels"],
+            "levelColors": meta_src["levels"]["colors"],
+            "typeColors": meta_src["types"]["colors"],
+            "typeSymbols": meta_src["types"]["symbols"],
+            "demeritLabels": meta_src["demerits"]["labels"]
+        }
+    else:
+        meta_mapped = old_data.get("meta", {})
+
     assembled_data = {
         "$schema": "./schema/skill.schema.json",
         "version": old_data.get("version", "3.2.2"),
         "generatedAt": datetime.datetime.utcnow().isoformat() + "Z",
-        "meta": old_data.get("meta", {}),
+        "meta": meta_mapped,
         "skills": [],
         "edges": []
     }
