@@ -19,24 +19,14 @@ Before pushing any changes to the registry or code, verify the repository state:
 
 1.  **Documentation Drift**:
     ```bash
-    uv run python scripts/build_docs.py --check
+    gaia docs build --check
     # If stale:
-    uv run python scripts/build_docs.py
+    gaia docs build
     ```
-2.  **Registry Projections**:
-    ```bash
-    uv run python scripts/generateProjections.py
-    uv run python scripts/exportGexf.py
-    ```
-3.  **Environment Readiness**:
-    Ensure build tools are present for packaging tests:
-    ```bash
-    uv pip install pytest build setuptools wheel
-    ```
-4.  **Verification**:
+2.  **Verification**:
     Run the full suite to catch regressions:
     ```bash
-    uv run pytest
+    gaia test all
     ```
 
 ## Evidence Checkpoints

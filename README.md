@@ -198,13 +198,13 @@ Requires `textual` (included with `pip install gaia-cli`).
 <!-- gaia:cli-start -->
 ```text
 usage: gaia [-h] [--registry REGISTRY] [--global] [--version]
-            {help,init,scan,pull,update,install,uninstall,tree,push,propose,version,mcp,release,graph,stats,appraise,promote,fuse,docs,lookup,update,skills}
+            {help,init,scan,pull,update,install,uninstall,tree,push,propose,version,mcp,release,graph,stats,appraise,promote,fuse,docs,lookup,list,merge,split,add,evidence,validate,test,skills}
             ...
 
 Gaia Registry CLI
 
 positional arguments:
-  {help,init,scan,pull,update,install,uninstall,tree,push,propose,version,mcp,release,graph,stats,appraise,promote,fuse,docs,lookup,update,skills}
+  {help,init,scan,pull,update,install,uninstall,tree,push,propose,version,mcp,release,graph,stats,appraise,promote,fuse,docs,lookup,list,merge,split,add,evidence,validate,test,skills}
     help                Show command help
     init                Create or update local Gaia config
     scan                Scan configured paths for skill evidence
@@ -225,6 +225,13 @@ positional arguments:
     fuse                Confirm a skill combination or promotion candidate
     docs                Documentation maintenance commands
     lookup              Look up a canonical skill and its named implementations
+    list                List skills in the registry with filtering
+    merge               Merge one or more skills into a target skill
+    split               Split a skill into multiple new skills
+    add                 Add a new skill to the registry
+    evidence            Add evidence to a skill
+    validate            Validate the Gaia registry
+    test                Run self-verification tests
     skills              Browse and manage named skills
 
 options:
@@ -253,6 +260,13 @@ Quick usage:
   gaia stats
   gaia docs build [--check]
   gaia lookup <skillId>
+  gaia list [--generic] [--named] [--description] [--json]
+  gaia merge <target> <source1> [source2...] [--named]
+  gaia split <source> <target1> <target2>...
+  gaia add <name> [--id <id>] [--type <type>] [--description <desc>] [--named] [--contributor <user>]
+  gaia evidence <skillId> <source> [--class A|B|C] [--evaluator <user>] [--date <date>] [--notes <notes>]
+  gaia validate [--intake] [--meta-sync]
+  gaia test <suite>
   gaia skills <list|search|info|install|uninstall>
   gaia skills list [--exclude-pending]
   gaia skills search <query> [--exclude-pending]
@@ -328,6 +342,12 @@ Thank you to everyone who has expanded the Gaia registry.
 | [@balukosuri](https://github.com/balukosuri) | Evidence: community reproduction of Karpathy's autoresearch as a universal skill |
 | @gemini-cli | Curation: added generative-media, mathematical-animation, and other generic skills from Hermes ecosystem |
 | [@obra](https://github.com/obra) | Named skills: 11 skills from the superpowers ecosystem |
+
+---
+
+## Programmatic Management
+
+The Gaia registry is programmatically managed. All meta shifts (adding, merging, splitting, adding evidence) must be performed via the [Gaia CLI](src/gaia_cli/). Hand-editing JSON nodes is deprecated to ensure schema integrity and automated timeline logging.
 
 ---
 

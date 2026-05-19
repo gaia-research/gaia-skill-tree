@@ -26,7 +26,7 @@ A named skill is a real-world implementation of an abstract Gaia skill, attribut
 - [ ] Level is II or above.
 - [ ] **`status` is set to `awakened`** — do NOT set `status: named`, `title`, or `catalogRef`. Those are reviewer-only fields.
 - [ ] `origin: true` only if this is the first known implementation in the skill bucket.
-- [ ] I have run `python scripts/validate.py` locally and it passes.
+- [ ] I have run `gaia validate` locally and it passes.
 
 ---
 

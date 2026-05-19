@@ -42,18 +42,18 @@ jobs:
         run: pip install -e ".[dev]"
 
       - name: Run validation
-        run: python scripts/validate.py
+        run: gaia validate
 
       - name: Run intake validation
-        run: python scripts/validate_intake.py
+        run: gaia validate --intake
 
       - name: Check generated docs
         run: |
           echo "Equivalent python command for local use: python scripts/build_docs.py --check"
-          gaia --registry . docs build --check
+          gaia docs build --check
 
       - name: Run tests
-        run: pytest tests/
+        run: gaia test all
 
       - name: Check schema meta sync
-        run: python scripts/validate.py --check-meta-sync
+        run: gaia validate --meta-sync

@@ -24,7 +24,7 @@ Explain why these specific prerequisites produce this emergent behavior. What ca
 - [ ] At least 2 prerequisites listed, all referencing existing skill IDs in `gaia.json`.
 - [ ] Evidence meets the minimum threshold for the claimed level (Level III = Class B+).
 - [ ] Fusion condition is specified if applicable.
-- [ ] I have run `python scripts/validate.py` locally and it passes.
+- [ ] I have run `gaia validate` locally and it passes.
 - [ ] I have NOT edited any files in `skills/`, `registry.md`, or `combinations.md`.
 
 **Reviewer:**

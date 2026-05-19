@@ -18,7 +18,7 @@ List the skills you are claiming with evidence of detection:
 - [ ] GitHub username matches the PR author.
 - [ ] All claimed skill IDs exist in `gaia.json`.
 - [ ] Stats fields (`totalUnlocked`, `highestRarity`, `deepestLineage`) are accurate.
-- [ ] I have run `python scripts/validate.py` locally and it passes.
+- [ ] I have run `gaia validate` locally and it passes.
 
 **Reviewer:**
 - [ ] Username matches verified PR author identity.
