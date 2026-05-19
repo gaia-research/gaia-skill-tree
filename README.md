@@ -196,7 +196,7 @@ positional arguments:
     init                Create or update local Gaia config
     scan                Scan configured paths for skill evidence
     pull                Refresh registry data from origin
-    update              Pull latest registry and reinstall the CLI
+    update              Update all installed remote skills
     install             Install a named skill
     uninstall           Uninstall a named skill
     tree                Show your Gaia skill tree
