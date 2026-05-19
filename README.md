@@ -10,7 +10,7 @@
 > The open, evidence-backed skill graph for AI agents: collect, evolve, and fuse capabilities into something legendary.
 
 [![Validate](https://github.com/mbtiongson1/gaia-skill-tree/actions/workflows/validate.yml/badge.svg)](https://github.com/mbtiongson1/gaia-skill-tree/actions/workflows/validate.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-fbbf24.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-c084fc.svg)](LICENSE)
 [![Website](https://img.shields.io/badge/Website-gaia.tiongson.co-f59e0b)](https://gaia.tiongson.co/)
 
 ---
