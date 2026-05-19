@@ -1,5 +1,8 @@
 <div align="center">
-  <img src="docs/assets/marks/diamond-seal.svg" alt="The Diamond Seal" width="120" />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/marks/diamond-seal-favicon.svg">
+    <img src="docs/assets/marks/diamond-seal.svg" alt="The Diamond Seal" width="120" />
+  </picture>
 </div>
 
 # Gaia - AI Agent Skill Registry
@@ -7,8 +10,8 @@
 > The open, evidence-backed skill graph for AI agents: collect, evolve, and fuse capabilities into something legendary.
 
 [![Validate](https://github.com/mbtiongson1/gaia-skill-tree/actions/workflows/validate.yml/badge.svg)](https://github.com/mbtiongson1/gaia-skill-tree/actions/workflows/validate.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Tutorial](https://img.shields.io/badge/Tutorial-gaia.tiongson.co-38bdf8)](https://gaia.tiongson.co/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-fbbf24.svg)](LICENSE)
+[![Website](https://img.shields.io/badge/Website-gaia.tiongson.co-ef4444)](https://gaia.tiongson.co/)
 
 ---
 
@@ -43,9 +46,20 @@ Uniques — graph-isolated Basic Skills that ranked up through depth alone
   ◉ openai/few-shot-learning  [4★ · Hardened]
   ◉ huggingface/semantic-cache  [4★ · Hardened]
 
-Full registry: docs/tree.md
-Your tree renders: generated-output/tree.{md,html}
+(166 skills total — see docs/tree.md)
 ```
+
+### How skills fuse
+
+When two or more Basic skills combine, they can form an Extra. This is what `gaia scan` and `gaia fuse` render in your terminal:
+
+```text
+  mattpocock/grill-me  ─┐
+                        ├──▶  mattpocock/grill-with-docs  ◇
+  mattpocock/ubiquitous-language  ─┘
+```
+
+Basics fuse into Extras; Extras can fuse into Ultimates. Evidence powers each ascent.
 
 > [!TIP]
 > **New here?** The interactive tutorial at **[gaia.tiongson.co](https://gaia.tiongson.co/)** covers everything visually: skill tiers, the stars axis, The Initiate's Rite, and copy-paste commands.
@@ -65,7 +79,9 @@ Skills rank up through **evidence**, not declaration. Basics fuse into Extras or
 
 ---
 
-## Install
+## Quickstart
+
+**1. Install the CLI**
 
 <!-- gaia:version-start -->
 Current Gaia CLI version: `3.16.1`.
@@ -83,69 +99,81 @@ npm install -g @gaia-registry/cli
 ```
 <!-- gaia:version-end -->
 
-For registry development, clone and install editable:
+<details>
+<summary>npm / pipx / Windows alternatives</summary>
+
+**npm wrapper:**
 ```bash
-git clone https://github.com/mbtiongson1/gaia-skill-tree.git
-cd gaia-skill-tree
-pip install -e ".[embeddings]"
+npm install -g @gaia-registry/cli
 ```
 
-<details>
-<summary>Troubleshooting</summary>
-
-If pip fails, try pipx:
+**pipx (if pip fails):**
 ```bash
 brew install pipx        # macOS
 pipx install gaia-cli
 ```
 
-Windows — if `gaia` isn't recognized after install:
+**Windows PATH fix** (if `gaia` isn't found after install):
 ```powershell
 $env:PATH += ";" + (python -c "import sysconfig; print(sysconfig.get_path('scripts', 'nt_user'))")
 ```
+
+**Registry development** (editable install):
+```bash
+git clone https://github.com/mbtiongson1/gaia-skill-tree.git
+cd gaia-skill-tree
+pip install -e ".[embeddings]"
+```
 </details>
 
-## Terminal UI (TUI)
-
-Running `gaia` with no arguments launches an interactive terminal interface when connected to a terminal:
-
-```bash
-gaia
-```
-
-The TUI provides an intuitive, keyboard-navigable interface for browsing skills, viewing your tree, and managing promotions—without needing to memorize CLI commands.
-
-## Updating Gaia
-
-To instantly pull the latest registry data and update the core CLI, use:
-
-```bash
-gaia update
-```
-
-> **Note:** Semantic search users must manually update embeddings by running `pip install gaia-cli[embeddings] --upgrade` if required. `gaia update` alone handles the core tools in seconds.
-
-## The Initiate's Rite
-
-Begin your journey through the registry with these ceremonial steps:
+**2. Initialise & scan**
 
 ```bash
 gaia init --user your-username
-gaia update          # pull latest registry + CLI
-gaia scan            # detect skills in your repository, render tree
-gaia appraise        # inspect a skill card with status and actions
-gaia promote web-search   # rank up scan-approved candidates
-gaia push --dry-run  # preview intake submission
-gaia push            # submit for maintainer review
+gaia scan
 ```
 
-Alternatively, launch the interactive TUI to navigate these steps visually:
+Detects skills your agent demonstrates.
+
+**3. Push for review**
+
+```bash
+gaia push
+```
+
+A GitHub PR opens automatically. Maintainers review; your name attaches at 2★.
+
+**4. Bond your agent (optional)**
+
+```bash
+claude mcp add gaia -- npx @gaia-registry/mcp-server
+```
+
+Any MCP-compatible client. See [packages/mcp/](packages/mcp/) for config examples.
+
+---
+
+**Or explore interactively** with the [Terminal UI](#terminal-ui-experimental) (after step 1 → `gaia` with no args).
+
+> **Keep up to date:** Run `gaia update` anytime to pull latest registry + CLI.
+
+## Terminal UI (experimental)
+
+> **New.** Agent-first interface designed for Claude Code, Codex, and other AI agents.
+
+After step 1, launch with no arguments:
 
 ```bash
 gaia
 ```
 
-`gaia scan` writes `generated-output/promotion-candidates.json`, renders your tree to `generated-output/tree.{html,md}`, and prints detected skills with fusion diagrams.
+Navigate your skills:
+- **Fuzzy search** by name, description, or intent
+- **View tree** (`^T`) and **run scan** (`^G`) without leaving the TUI
+- **Install skills** with one keystroke
+- Keyboard-native: `↑↓` navigate · `Enter` install · `q` quit
+
+Requires `textual` (included with `pip install gaia-cli`).
 
 ---
 
@@ -191,8 +219,7 @@ options:
   --version, -v         Print the Gaia CLI version and exit.
   --canon               Show canonical registry data instead of local-first view.
 
-Quick usage (run `gaia` with no args for the TUI):
-  gaia                                            Launch interactive TUI
+Quick usage:
   gaia init [--user <name>] [--scan <path>] [--yes]
   gaia scan [--quiet] [--auto-promote]
   gaia pull
@@ -253,16 +280,6 @@ tests/                    Python test suite
 <!-- gaia:layout-end -->
 
 ---
-
-## Maintainer Hooks
-
-Contributors who edit the canonical graph can install the repo-local hook once:
-
-```bash
-bash scripts/install-git-hooks.sh
-```
-
-The pre-commit hook checks version lockstep, applies a semantic bump from the commit message, regenerates registry artifacts, runs `gaia docs build`, and stages generated outputs.
 
 ## Contributing
 
