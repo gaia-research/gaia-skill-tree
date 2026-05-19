@@ -17,7 +17,7 @@ Garry Tan's complete autonomous agent discipline suite spanning 19 named skills:
 - [UX Audit](../basic/ux-audit.md)
 - [Vertical Slice Planning](../extra/vertical-slice-planning.md)
 - [Design System Extraction](../extra/design-system-extraction.md)
-- design-review
+- [Design Review](../extra/design-review.md)
 - [Code Generation](../basic/code-generation.md)
 - [Systematic Debugging](../extra/systematic-debugging.md)
 - [End-to-End Testing](../extra/e2e-testing.md)

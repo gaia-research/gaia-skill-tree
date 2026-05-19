@@ -21,7 +21,7 @@ _None._
 - [Prompt Optimization](../extra/prompt-optimization.md)
 - [Guardrails](../extra/guardrails.md)
 - [Agent Evaluation](../extra/agent-eval.md)
-- design-review
+- [Design Review](../extra/design-review.md)
 - [Security Audit](../extra/security-audit.md)
 - [Founder Mode](../ultimate/gstack.md)
 - [Detect Anomaly](../extra/detect-anomaly.md)

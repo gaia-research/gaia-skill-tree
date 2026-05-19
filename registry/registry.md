@@ -39,6 +39,7 @@
 | ○ /data-visualize | Basic Skill | 2★ | Named | `/data-visualize` |
 | ◇ [garrytan](../docs/u/garrytan/)/land-and-deploy | Extra Skill | 2★ → 1★ | Named | `/deployment-automation` |
 | ◇ [nexu-io](../docs/u/nexu-io/)/open-design | Extra Skill | 3★ | Evolved | `/design-generation` |
+| ◇ [garrytan](../docs/u/garrytan/)/design-shotgun | Extra Skill | 3★ | Evolved | `/design-review` |
 | ◇ [Manavarya09](../docs/u/Manavarya09/)/design-extract | Extra Skill | 3★ | Evolved | `/design-system-extraction` |
 | ◇ [garrytan](../docs/u/garrytan/)/canary | Extra Skill | 2★ | Named | `/detect-anomaly` |
 | ○ /diff-content | Basic Skill | 1★ | Awakened | `/diff-content` |

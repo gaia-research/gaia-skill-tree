@@ -5,21 +5,20 @@ contributor: garrytan
 origin: false
 genericSkillRef: ux-audit
 status: named
-title: "Gstack Design Review"
+title: "Gstack Design Review — UX Audit Pass"
 catalogRef: garrytan-design-review
-level: "4★"
-description: Interactive, designer-led audit of UI/UX plans rating seven dimensions before implementation begins, plus a structured UX audit over the final product interface scoring layout clarity, affordance, and accessibility against the Gstack design rubric.
+level: "3★"
+description: Runs a structured UX audit over a product interface, scoring layout clarity, affordance, and accessibility against the Gstack design rubric to surface actionable improvements.
 links:
   github: https://github.com/garrytan/gstack/blob/main/design-review/SKILL.md
 tags:
-  - design-review
   - ux-audit
-  - plan-review
-  - ui-ux
+  - design
+  - review
 createdAt: "2026-05-18"
 updatedAt: "2026-05-18"
 ---
 
 ## Overview
 
-Design Review applies a seven-dimension design lens to a plan before any implementation begins. It rates information architecture, interaction states, user journey mapping, AI slop risk, design system alignment, responsive/accessibility coverage, and open decisions — then collaboratively refines the plan. It also runs a structured UX audit over the implemented interface to surface actionable improvements.
+Runs a structured UX audit over a product interface, scoring layout clarity, affordance, and accessibility against the Gstack design rubric to surface actionable improvements.

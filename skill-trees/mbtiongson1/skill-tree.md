@@ -120,6 +120,9 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  ├─ ✓ ○ /web-search  [1★]
   │  │  └─ · ○ /computer-use  [2★]
   │  └─ ✓ ○ /parse-html  [1★]
+  ├─ · ◇ garrytan/design-shotgun  [3★]
+  │  ├─ · ○ garrytan/benchmark  [1★]  (↑ see above)
+  │  └─ · ○ /plan-decompose  [1★]  (↑ see above)
   ├─ · ○ garrytan/design-html  [1★]  (↑ see above)
   ├─ · ◇ obra/systematic-debugging  [3★]
   │  ├─ · ○ /hypothesis-generate  [2★]

@@ -20,7 +20,7 @@ _None._
 - [Workflow Automation](../extra/workflow-automation.md)
 - [PRD Generation](../extra/prd-generation.md)
 - [Vertical Slice Planning](../extra/vertical-slice-planning.md)
-- design-review
+- [Design Review](../extra/design-review.md)
 - [Dispatching Parallel Agents](../extra/dispatching-parallel-agents.md)
 - [Writing Plans](../extra/writing-plans.md)
 

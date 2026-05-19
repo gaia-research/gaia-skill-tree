@@ -24,6 +24,7 @@
 | ◇ [huggingface](../docs/u/huggingface/)/huggingface-datasets | Extra Skill | Generate SQL, Data Visualize, Summarize | 3★ |  |
 | ◇ [garrytan](../docs/u/garrytan/)/land-and-deploy | Extra Skill | Workflow Automation, Execute Bash | 2★ → 1★ | Requires environment credentials and a configured pipeline definition. |
 | ◇ [nexu-io](../docs/u/nexu-io/)/open-design | Extra Skill | Code Generation, Visual Question Answering | 3★ |  |
+| ◇ [garrytan](../docs/u/garrytan/)/design-shotgun | Extra Skill | Evaluate Output, Plan and Decompose | 3★ |  |
 | ◇ [Manavarya09](../docs/u/Manavarya09/)/design-extract | Extra Skill | Browser Automation, Parse HTML | 3★ | Requires headless browser (Playwright/Puppeteer). |
 | ◇ [garrytan](../docs/u/garrytan/)/canary | Extra Skill | Evaluate Output, Error Interpretation | 2★ |  |
 | ◇ [obra](../docs/u/obra/)/dispatching-parallel-agents | Extra Skill | Plan and Decompose, Parallel Execution | 4★ |  |
@@ -43,10 +44,10 @@
 | ◇ /generative-media | Extra Skill | API Call, Data Visualize | 3★ → 2★ |  |
 | ◇ /ghostwrite | Extra Skill | Research, Write Report, Audience Model | 1★ | Requires research output as input context. |
 | ◇ [ruvnet](../docs/u/ruvnet/)/github-suite | Extra Skill | Code Review Pipeline, Multi-Repo Coordination, Deployment Automation, Project Management, Workflow Automation | 3★ |  |
-| ◇ [mattpocock](../docs/u/mattpocock/)/grill-me | Extra Skill | design-review, Self-Critique | 4★ | Enforces a strict questioning loop that prevents the agent from proceeding to implementation until all branches are resolved. |
+| ◇ [mattpocock](../docs/u/mattpocock/)/grill-me | Extra Skill | Design Review, Self-Critique | 4★ | Enforces a strict questioning loop that prevents the agent from proceeding to implementation until all branches are resolved. |
 | ◇ [mattpocock](../docs/u/mattpocock/)/grill-with-docs | Extra Skill | Grill Me, Ubiquitous Language, Document Editing | 3★ | Requires the agent to maintain a live glossary (CONTEXT.md) and generate ADRs for all non-trivial trade-offs discovered during the grill. |
 | ◇ /grounding | Extra Skill | Retrieve, Cite Sources, Evaluate Output | 3★ |  |
-| ◆ [garrytan](../docs/u/garrytan/)/gstack | Ultimate Skill | Question Answer, Evaluate Output, Code Review Pipeline, UX Audit, Vertical Slice Planning, Design System Extraction, design-review, Code Generation, Systematic Debugging, End-to-End Testing, Finishing a Development Branch, Deployment Automation, Detect Anomaly, Document Editing, Browser Automation, Security Audit, Browser Control, Web Scrape, Skill Authoring, Write Report, Multi-Agent Debate, Skill Performance Benchmarking, Automated Testing, MCP Integration, Memory Manage, Guardrails, Knowledge Management, Format Output, Workspace Automation, Project Management, Prompt Optimization | 5★ | Requires demonstrating all 31 garrytan discipline skills together in a real multi-step context. |
+| ◆ [garrytan](../docs/u/garrytan/)/gstack | Ultimate Skill | Question Answer, Evaluate Output, Code Review Pipeline, UX Audit, Vertical Slice Planning, Design System Extraction, Design Review, Code Generation, Systematic Debugging, End-to-End Testing, Finishing a Development Branch, Deployment Automation, Detect Anomaly, Document Editing, Browser Automation, Security Audit, Browser Control, Web Scrape, Skill Authoring, Write Report, Multi-Agent Debate, Skill Performance Benchmarking, Automated Testing, MCP Integration, Memory Manage, Guardrails, Knowledge Management, Format Output, Workspace Automation, Project Management, Prompt Optimization | 5★ | Requires demonstrating all 31 garrytan discipline skills together in a real multi-step context. |
 | ◇ [garrytan](../docs/u/garrytan/)/careful | Extra Skill | Evaluate Output, Classify, Structured Output Generation | 3★ | Requires a defined policy schema and an evaluation loop. |
 | ◇ /humanize-prose | Extra Skill | Document Editing, Audience Model, Format Output | 4★ | Requires explicit user permission to revise voice, tone, and stylistic markers without changing factual claims. |
 | ◇ [safishamsi](../docs/u/safishamsi/)/graphify | Extra Skill | Extract Entities, Logical Inference | 3★ |  |
