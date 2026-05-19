@@ -35,7 +35,7 @@ GAIA SKILL TREE
   │  ├─ ○ /code-generation  [1★]
   │  ├─ ○ /execute-bash  [1★]
   │  └─ ○ /error-interpretation  [1★]
-  ├─ ◉ /feed-monitoring  [4★]
+  ├─ ◉ nousresearch/feed-monitoring  [4★]
   └─ ◇ /plan-and-execute  [4★] ...
 
 Full registry: docs/tree.md
