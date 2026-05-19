@@ -130,9 +130,18 @@ class ScanScreen(Screen):
             glyph_color = T.TIER_BY_KEY.get(tier_key, T.TIER_BASIC)
             pre = line[:m.start()]
             post = line[m.end():]
+            
             t.append("  " + pre, style=T.NEUTRAL_TEXT_MUTED)
             t.append(glyph + " ", style=glyph_color)
-            t.append(sid, style=T.NEUTRAL_TEXT)
+            
+            # Name rendering: @handle/slug
+            if "/" in sid:
+                contrib, name = sid.split("/", 1)
+                t.append("@" + contrib, style=T.BRAND_HONOR_RED)
+                t.append("/" + name, style=T.NEUTRAL_TEXT)
+            else:
+                t.append(sid, style=T.NEUTRAL_TEXT)
+                
             t.append(post + "\n", style=T.RANK_UNAWAKENED)
             return t
 

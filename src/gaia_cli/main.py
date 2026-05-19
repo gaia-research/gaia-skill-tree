@@ -17,7 +17,7 @@ from gaia_cli.push import build_skill_batch, write_skill_batch, build_proposed_s
 from gaia_cli.embeddings import generate_embeddings
 from gaia_cli.semantic_search import search as semantic_search, load_embeddings
 from gaia_cli.name import find_awakened_skill, promote_to_named, update_batch_lifecycle
-from gaia_cli.install import install_skill, install_ultimate, sync_skills, uninstall_skill, list_installed, interactive_install, list_available
+from gaia_cli.install import install_skill, install_suite, update_skills, uninstall_skill, list_installed, interactive_install, list_available
 from gaia_cli.graph import graph_command
 from gaia_cli.commands.stats import stats_command
 from gaia_cli.registry import (
@@ -1064,22 +1064,32 @@ def name_command(args):
     print(f"Batch lifecycle updated: '{skill_data['id']}' -> named")
 
 def install_command(args):
+    from gaia_cli.install import interactive_install, install_skill, install_suite, update_skills
     if args.list:
         interactive_install(args.registry)
         return
     if not args.skill_id:
-        print("Error: provide a skill ID or slug, or use --list to browse.", file=sys.stderr)
-        sys.exit(1)
-    if getattr(args, 'ultimate', False):
-        success = install_ultimate(args.skill_id, args.registry)
+        # Bare 'gaia install' -> update/sync all
+        update_skills(args.registry)
+        return
+    
+    # Use suite logic if flagged or implicitly requested
+    if getattr(args, 'ultimate', False) or getattr(args, 'suite', False):
+        success = install_suite(args.skill_id, args.registry)
     else:
         success = install_skill(args.skill_id, args.registry)
+    
     if not success:
         sys.exit(1)
-    sync_skills(args.registry)
+
+
+def update_command(args):
+    from gaia_cli.install import update_skills
+    update_skills(args.registry)
 
 
 def uninstall_command(args):
+    from gaia_cli.install import uninstall_skill
     success = uninstall_skill(args.skill_id)
     if not success:
         sys.exit(1)
@@ -1117,14 +1127,21 @@ def _pending_skills(registry_path: str, username: str | None = None) -> list[dic
 
 
 def skills_command(args):
+    from gaia_cli.install import list_available, install_skill, install_suite, uninstall_skill, update_skills
     config = load_config() or {}
     username = config.get("gaiaUser") or config.get("username")
     pending = [] if getattr(args, "exclude_pending", False) else _pending_skills(args.registry, username)
     verb = getattr(args, "skills_command", None)
     if verb == "install":
-        success = install_skill(args.skill_id, args.registry)
+        if getattr(args, "suite", False):
+            success = install_suite(args.skill_id, args.registry)
+        else:
+            success = install_skill(args.skill_id, args.registry)
         if not success:
             sys.exit(1)
+        return
+    if verb == "update":
+        update_skills(args.registry)
         return
     if verb == "uninstall":
         success = uninstall_skill(args.skill_id.lstrip("/"))
@@ -1334,12 +1351,13 @@ def get_parser():
     scan_parser.add_argument('--quiet', action='store_true', help="Suppress scan output; only show notifications")
     scan_parser.add_argument('--auto-promote', action='store_true', help="Promote every scan-recommended candidate after scanning")
     subparsers.add_parser('pull', help="Refresh registry data from origin")
-    subparsers.add_parser('update', help="Pull latest registry and reinstall the CLI")
+    subparsers.add_parser('update', help="Update all installed remote skills")
     
     install_parser = subparsers.add_parser('install', help="Install a named skill")
     install_parser.add_argument('skill_id', nargs='?', help="Skill ID, catalogRef, or unique bare slug to install")
     install_parser.add_argument('--list', action='store_true', help="List and interactively select skills to install")
-    install_parser.add_argument('--ultimate', action='store_true', help="Batch-install all named prerequisite skills for an ultimate fusion chain")
+    install_parser.add_argument('--ultimate', action='store_true', help="Batch-install all component skills (alias for --suite)")
+    install_parser.add_argument('--suite', action='store_true', help="Batch-install all component skills for a suite")
     uninstall_parser = subparsers.add_parser('uninstall', help="Uninstall a named skill")
     uninstall_parser.add_argument('skill_id', help="Skill ID to uninstall")
 
@@ -1401,8 +1419,10 @@ def get_parser():
     skills_info.add_argument('--exclude-pending', action='store_true', help="Hide pending skill proposals")
     skills_install = skills_sub.add_parser('install', help="Install a named skill")
     skills_install.add_argument('skill_id', metavar='skill', help="Skill ID, catalogRef, or unique bare slug to install")
+    skills_install.add_argument('--suite', action='store_true', help="Install as a suite (recursive)")
     skills_install.add_argument('--global', dest='install_global', action='store_true', help='Install to ~/.gaia/skills')
-    skills_install.add_argument('--local', dest='install_local', action='store_true', help='Install to project .gaia/skills')
+    skills_install.add_argument('--local', dest='install_local', action='store_true', help='Install to project agent skills')
+    skills_update = skills_sub.add_parser('update', help="Update all installed skills from source")
     skills_uninstall = skills_sub.add_parser('uninstall', help="Uninstall a named skill")
     skills_uninstall.add_argument('skill_id', help="Skill ID to uninstall")
     hook_parser = subparsers.add_parser('_hook', help=argparse.SUPPRESS)

@@ -39,15 +39,16 @@ def _load_skills(registry_path: str) -> list[dict]:
             tier = skill.get("type", "basic")
             level = skill.get("level", "")
             desc = skill.get("description", "")
-            installed = sid in (ctx.owned_ids | ctx.detected_ids)
+            is_detected = sid in ctx.detected_ids
+            is_owned = sid in ctx.owned_ids
             skills[sid] = {
                 "id": sid,
                 "type": tier,
                 "level": level,
                 "description": desc,
-                "installed": installed,
-                "detected": sid in ctx.detected_ids,
-                "owned": sid in ctx.owned_ids,
+                "installed": is_detected or is_owned,
+                "detected": is_detected,
+                "owned": is_owned,
             }
     except Exception:
         pass
@@ -73,11 +74,12 @@ def _load_skills(registry_path: str) -> list[dict]:
     except Exception:
         pass
 
-    # Sort: installed first, then by type weight, then alphabetical
+    # Sort: detected/local first, then installed, then by type weight, then alphabetical
     _type_order = {"ultimate": 0, "unique": 1, "extra": 2, "basic": 3}
     return sorted(
         skills.values(),
         key=lambda s: (
+            not s.get("detected", False),
             not s.get("installed", False),
             _type_order.get(s.get("type", "basic"), 4),
             s["id"],
@@ -105,19 +107,25 @@ def _skill_label(skill: dict) -> Text:
     glyph = T.GLYPH_BY_TIER.get(tier, "○")
     sid = skill["id"]
     level = skill.get("level", "")
+    owned = skill.get("owned", False)
+    detected = skill.get("detected", False)
     installed = skill.get("installed", False)
 
     t = Text()
     t.append(glyph + " ", style=T.TIER_BY_KEY.get(tier, T.NEUTRAL_TEXT_MUTED))
+
+    # Name rendering: @handle/slug
+    name_style = T.STATE_OWNED if (owned or detected) else T.NEUTRAL_TEXT
     if "/" in sid:
         contrib, name = sid.split("/", 1)
-        t.append(contrib + "/", style=T.BRAND_HONOR_RED)
-        t.append(name, style=T.NEUTRAL_TEXT)
+        t.append("@" + contrib, style=T.BRAND_HONOR_RED)
+        t.append("/" + name, style=name_style)
     else:
-        t.append(sid, style=T.NEUTRAL_TEXT)
+        t.append(sid, style=name_style)
+
     if level:
         t.append(f"  {level}", style=T.NEUTRAL_BORDER_STRONG)
-    if installed:
+    if installed or owned:
         t.append("  ✓", style=T.STATE_OWNED)
     return t
 

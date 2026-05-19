@@ -1,8 +1,8 @@
 """Named skill install, sync, and uninstall logic.
 
-Manages a dual-layer cache:
-- Global: $GAIA_HOME/skills/{contributor}/{skill-name}.md (defaults to ~/.gaia)
-- Repo:   .gaia/named-skills/{contributor}/{skill-name}.md (symlink on Unix, copy on Windows)
+Fetches skills directly from source repositories (GitHub) and installs them
+into agent-accessible directories (.agents/skills or .claude/skills).
+Supports explicit suite dependencies and recursive installation.
 """
 
 import hashlib
@@ -10,8 +10,10 @@ import json
 import os
 import re
 import shutil
+import subprocess
 import sys
 from datetime import datetime, timezone
+from pathlib import Path
 
 from gaia_cli.registry import named_skills_dir, registry_graph_path
 
@@ -27,7 +29,13 @@ def get_global_cache_dir():
 
 
 def get_repo_skills_dir():
-    return os.path.join(".gaia", "named-skills")
+    """Return the local agent skills directory, prioritising .agents/skills."""
+    if os.path.isdir(".agents"):
+        return os.path.abspath(".agents/skills")
+    if os.path.isdir(".claude"):
+        return os.path.abspath(".claude/skills")
+    # Default to .agents/skills if neither exist (will be created)
+    return os.path.abspath(".agents/skills")
 
 
 def get_manifest_path():
@@ -37,8 +45,11 @@ def get_manifest_path():
 def load_manifest():
     path = get_manifest_path()
     if os.path.exists(path):
-        with open(path, "r") as f:
-            return json.load(f)
+        try:
+            with open(path, "r") as f:
+                return json.load(f)
+        except Exception:
+            pass
     return {"installed": []}
 
 
@@ -49,294 +60,250 @@ def save_manifest(manifest):
         json.dump(manifest, f, indent=2)
 
 
-def compute_sha256(filepath):
-    h = hashlib.sha256()
-    with open(filepath, "rb") as f:
-        for chunk in iter(lambda: f.read(8192), b""):
-            h.update(chunk)
-    return h.hexdigest()
+def _parse_github_url(url: str) -> tuple[str, str, str]:
+    """Parse a GitHub URL into (repo_url, branch, subpath).
+
+    Examples:
+    - https://github.com/owner/repo -> (https://github.com/owner/repo.git, None, "")
+    - https://github.com/owner/repo/blob/main/path/to/skill.md -> (https://github.com/owner/repo.git, main, path/to)
+    """
+    url = url.rstrip("/")
+    # Pattern for blob URLs: https://github.com/owner/repo/blob/branch/path
+    blob_match = re.match(r"https://github\.com/([^/]+)/([^/]+)/blob/([^/]+)/(.*)", url)
+    if blob_match:
+        owner, repo, branch, path = blob_match.groups()
+        repo_url = f"https://github.com/{owner}/{repo}.git"
+        # If path is to a file, take the directory
+        if path.endswith(".md"):
+            subpath = os.path.dirname(path)
+        else:
+            subpath = path
+        return repo_url, branch, subpath
+
+    # Pattern for base repo: https://github.com/owner/repo
+    repo_match = re.match(r"https://github\.com/([^/]+)/([^/]+)", url)
+    if repo_match:
+        owner, repo = repo_match.groups()
+        repo_url = f"https://github.com/{owner}/{repo}.git"
+        return repo_url, None, ""
+
+    return url, None, ""
 
 
-def find_named_skill_source(skill_id, registry_path):
-    parts = skill_id.split("/", 1)
-    if len(parts) != 2:
-        return None
-    contributor, skill_name = parts
-    source = os.path.join(named_skills_dir(registry_path), contributor, f"{skill_name}.md")
-    if os.path.exists(source):
-        return source
-    return None
-
-
-def _named_skill_source_for_id(skill_id, registry_path):
-    contributor, skill_name = skill_id.split("/", 1)
-    return os.path.join(named_skills_dir(registry_path), contributor, f"{skill_name}.md")
+def _run_git(args: list[str], cwd: str | None = None) -> bool:
+    """Run a git command and stream output to stdout."""
+    try:
+        subprocess.run(["git"] + args, cwd=cwd, check=True)
+        return True
+    except subprocess.CalledProcessError as e:
+        print(f"Git error: {e}", file=sys.stderr)
+        return False
 
 
 def resolve_named_skill_reference(skill_ref, registry_path):
-    """Resolve an install reference to (canonical_id, source_path).
-
-    Accepted references, in order:
-    - exact named skill ID: contributor/skill-name
-    - exact catalogRef frontmatter slug
-    - unique bare skill-name slug
-    """
+    """Resolve an install reference to (canonical_id, meta_dict)."""
     skill_ref = skill_ref.lstrip("/")
-    source = find_named_skill_source(skill_ref, registry_path)
-    if source:
-        return skill_ref, source
-
     available = list_available(registry_path)
-    catalog_matches = [
-        (skill_id, _named_skill_source_for_id(skill_id, registry_path))
-        for skill_id, meta in available
-        if meta.get("catalogRef") == skill_ref
-    ]
-    if len(catalog_matches) == 1:
-        return catalog_matches[0]
+    
+    # 1. Exact ID match (contributor/skill-name)
+    for sid, meta in available:
+        if sid == skill_ref:
+            return sid, meta
+
+    # 2. catalogRef match
+    catalog_matches = [(sid, meta) for sid, meta in available if meta.get("catalogRef") == skill_ref]
+    if len(catalog_matches) == 1: return catalog_matches[0]
     if len(catalog_matches) > 1:
-        ids = ", ".join(skill_id for skill_id, _ in catalog_matches)
-        raise ValueError(f"ambiguous skill slug '{skill_ref}' matches: {ids}")
+        raise ValueError(f"Ambiguous slug '{skill_ref}' matches multiple skills.")
 
-    bare_matches = [
-        (skill_id, _named_skill_source_for_id(skill_id, registry_path))
-        for skill_id, _meta in available
-        if skill_id.split("/", 1)[1] == skill_ref
-    ]
-    if len(bare_matches) == 1:
-        return bare_matches[0]
+    # 3. Bare skill-name match
+    bare_matches = [(sid, meta) for sid, meta in available if sid.split("/", 1)[1] == skill_ref]
+    if len(bare_matches) == 1: return bare_matches[0]
     if len(bare_matches) > 1:
-        ids = ", ".join(skill_id for skill_id, _ in bare_matches)
-        raise ValueError(f"ambiguous skill slug '{skill_ref}' matches: {ids}")
+        raise ValueError(f"Ambiguous bare name '{skill_ref}' matches multiple skills.")
 
-    return None
+    return None, None
 
 
-def install_skill(skill_id, registry_path):
-    try:
-        resolved = resolve_named_skill_reference(skill_id, registry_path)
-    except ValueError as exc:
-        print(f"Error: {exc}", file=sys.stderr)
+def install_skill(skill_id: str, registry_path: str, visited: set[str] | None = None) -> bool:
+    """Install a skill by fetching from source and linking to agent directory."""
+    if visited is None:
+        visited = set()
+    if skill_id in visited:
+        return True
+    visited.add(skill_id)
+
+    sid, meta = resolve_named_skill_reference(skill_id, registry_path)
+    if not sid:
+        print(f"Error: Skill '{skill_id}' not found in registry.", file=sys.stderr)
         return False
 
-    if not resolved:
-        print(f"Error: Named skill or slug '{skill_id}' not found in registry.", file=sys.stderr)
+    # Check for suite components
+    suite_components = meta.get("suiteComponents", [])
+    # Fallback to prerequisites for Ultimates if suiteComponents is missing
+    if not suite_components and meta.get("ultimate"):
+        # We'd need to load gaia.json to find generic prerequisites. 
+        # But per plan, we prefer explicit suiteComponents.
+        pass
+
+    if suite_components:
+        return install_suite(sid, registry_path, visited)
+
+    github_url = meta.get("links", {}).get("github")
+    if not github_url:
+        print(f"Error: Skill '{sid}' has no source repository link.", file=sys.stderr)
         return False
 
-    skill_id, source = resolved
-    if not source:
-        print(f"Error: Named skill or slug '{skill_id}' not found in registry.", file=sys.stderr)
-        return False
-
-    parts = skill_id.split("/", 1)
-    contributor, skill_name = parts
-
-    global_dir = os.path.join(get_global_cache_dir(), contributor)
-    os.makedirs(global_dir, exist_ok=True)
-    global_path = os.path.join(global_dir, f"{skill_name}.md")
-    shutil.copy2(source, global_path)
-
-    repo_dir = os.path.join(get_repo_skills_dir(), contributor)
-    os.makedirs(repo_dir, exist_ok=True)
-    repo_path = os.path.join(repo_dir, f"{skill_name}.md")
-
-    if sys.platform != "win32":
-        if os.path.exists(repo_path) or os.path.islink(repo_path):
-            os.remove(repo_path)
-        os.symlink(os.path.abspath(global_path), repo_path)
+    repo_url, branch, subpath = _parse_github_url(github_url)
+    owner = sid.split("/", 1)[0]
+    repo_name = repo_url.split("/")[-1].replace(".git", "")
+    
+    # 1. Clone/Fetch to global cache
+    global_cache = os.path.join(get_global_cache_dir(), owner, repo_name)
+    if not os.path.exists(global_cache):
+        print(f"Cloning {repo_url}...")
+        os.makedirs(os.path.dirname(global_cache), exist_ok=True)
+        args = ["clone", "--single-branch", "--depth", "1"]
+        if branch:
+            args += ["-b", branch]
+        args += [repo_url, global_cache]
+        if not _run_git(args):
+            return False
     else:
-        shutil.copy2(global_path, repo_path)
+        print(f"Updating {repo_name}...")
+        _run_git(["pull"], cwd=global_cache)
 
-    manifest = load_manifest()
-    sha = compute_sha256(global_path)
-    existing = next((s for s in manifest["installed"] if s["id"] == skill_id), None)
-    if existing:
-        existing["sha256"] = sha
-        existing["installedAt"] = datetime.now(timezone.utc).isoformat()
-    else:
-        manifest["installed"].append({
-            "id": skill_id,
-            "installedAt": datetime.now(timezone.utc).isoformat(),
-            "sourceRef": f"registry/named/{contributor}/{skill_name}.md",
-            "sha256": sha,
-        })
-    save_manifest(manifest)
-    print(f"Installed: {skill_id}")
-    return True
-
-
-def install_ultimate(named_skill_ref: str, registry_path: str) -> bool:
-    """Batch-install all named prerequisite skills for an ultimate fusion chain."""
-    result = resolve_named_skill_reference(named_skill_ref, registry_path)
-    if not result:
-        print(f"Error: could not resolve '{named_skill_ref}'", file=sys.stderr)
-        return False
-    skill_id, source_path = result
-
-    # Read frontmatter from the named skill file
-    try:
-        with open(source_path, "r", encoding="utf-8") as f:
-            text = f.read()
-    except OSError as e:
-        print(f"Error reading {source_path}: {e}", file=sys.stderr)
-        return False
-
-    # Minimal frontmatter parse: extract key: value lines between --- delimiters
-    fm = {}
-    lines = text.splitlines()
-    if lines and lines[0].strip() == "---":
-        end = next((i for i, l in enumerate(lines[1:], 1) if l.strip() == "---"), None)
-        if end:
-            for line in lines[1:end]:
-                if ":" in line:
-                    k, _, v = line.partition(":")
-                    fm[k.strip()] = v.strip().strip('"').strip("'")
-
-    generic_ref = fm.get("genericSkillRef", "")
-    if not generic_ref:
-        print(f"Error: '{skill_id}' has no genericSkillRef.", file=sys.stderr)
-        return False
-
-    # Load registry graph
-    try:
-        graph_file = os.path.join(registry_path, "registry", "gaia.json")
-        if not os.path.exists(graph_file):
-            graph_file = registry_graph_path(registry_path)
-        with open(graph_file, "r", encoding="utf-8") as f:
-            import json as _json
-            graph = _json.load(f)
-    except (OSError, ValueError) as e:
-        print(f"Error loading registry: {e}", file=sys.stderr)
-        return False
-
-    abstract = next((s for s in graph.get("skills", []) if s.get("id") == generic_ref), None)
-    if not abstract:
-        print(f"Error: abstract skill '{generic_ref}' not found in registry.", file=sys.stderr)
-        return False
-    if abstract.get("type") != "ultimate":
-        print(f"Error: '{generic_ref}' is not an ultimate skill. Use --ultimate only for ultimate named skills.", file=sys.stderr)
-        return False
-
-    prerequisites = abstract.get("prerequisites", [])
-
-    # Build named map: genericSkillRef -> named skill id
-    named_map = {}
-    nd = named_skills_dir(registry_path)
-    import glob as _glob
-    for fp in _glob.glob(os.path.join(nd, "**", "*.md"), recursive=True):
-        try:
-            with open(fp, "r", encoding="utf-8") as f:
-                md_text = f.read()
-            md_lines = md_text.splitlines()
-            if md_lines and md_lines[0].strip() == "---":
-                md_end = next((i for i, l in enumerate(md_lines[1:], 1) if l.strip() == "---"), None)
-                if md_end:
-                    entry_fm = {}
-                    for line in md_lines[1:md_end]:
-                        if ":" in line:
-                            k, _, v = line.partition(":")
-                            entry_fm[k.strip()] = v.strip().strip('"').strip("'")
-                    ref = entry_fm.get("genericSkillRef", "")
-                    eid = entry_fm.get("id", "")
-                    if ref and eid:
-                        named_map[ref] = eid
-        except OSError:
-            continue
-
-    # Install prerequisite named skills
-    print(f"\nInstalling prerequisites for {skill_id} ({len(prerequisites)} skills)...")
-    installed = 0
-    for prereq_id in prerequisites:
-        named_ref = named_map.get(prereq_id)
-        if named_ref:
-            print(f"  Installing {named_ref} ({prereq_id})...")
-            install_skill(named_ref, registry_path)
-            installed += 1
+    # 2. Symlink to local agent directory
+    target_dir = get_repo_skills_dir()
+    os.makedirs(target_dir, exist_ok=True)
+    
+    skill_slug = sid.split("/", 1)[1]
+    local_skill_path = os.path.join(target_dir, skill_slug)
+    
+    # Source path in cache
+    source_skill_path = os.path.join(global_cache, subpath)
+    
+    if os.path.exists(local_skill_path) or os.path.islink(local_skill_path):
+        if os.path.islink(local_skill_path):
+            os.remove(local_skill_path)
         else:
-            print(f"  Skipping {prereq_id} — no named implementation available")
+            shutil.rmtree(local_skill_path)
 
-    # Install the ultimate itself
-    print(f"\nInstalling ultimate: {skill_id}...")
-    install_skill(named_skill_ref, registry_path)
+    print(f"Installing {sid} to {local_skill_path}...")
+    if sys.platform != "win32":
+        os.symlink(source_skill_path, local_skill_path)
+    else:
+        # On Windows, copy if symlinks aren't enabled for user
+        if os.path.isdir(source_skill_path):
+            shutil.copytree(source_skill_path, local_skill_path)
+        else:
+            shutil.copy2(source_skill_path, local_skill_path)
 
-    print(f"\n✓ Installed {installed + 1} skills for the {abstract.get('name', skill_id)} suite.")
+    # 3. Update manifest
+    manifest = load_manifest()
+    existing = next((s for s in manifest["installed"] if s["id"] == sid), None)
+    entry = {
+        "id": sid,
+        "installedAt": datetime.now(timezone.utc).isoformat(),
+        "repoUrl": repo_url,
+        "subpath": subpath,
+        "localPath": local_skill_path
+    }
+    if existing:
+        existing.update(entry)
+    else:
+        manifest["installed"].append(entry)
+    save_manifest(manifest)
+
+    print(f"✓ Installed: {sid}")
     return True
 
 
-def sync_skills(registry_path):
+def install_suite(suite_id: str, registry_path: str, visited: set[str] | None = None) -> bool:
+    """Recursive installation of a skill suite and its components."""
+    if visited is None:
+        visited = set()
+    
+    sid, meta = resolve_named_skill_reference(suite_id, registry_path)
+    if not sid:
+        return False
+    
+    components = meta.get("suiteComponents", [])
+    if not components:
+        # If no explicit components, treat it as a regular skill
+        # (Though usually suites should have components)
+        github_url = meta.get("links", {}).get("github")
+        if github_url:
+            return install_skill(sid, registry_path, visited)
+        return False
+
+    print(f"\nInstalling suite: {sid} ({len(components)} components)...")
+    success_count = 0
+    for comp_id in components:
+        if install_skill(comp_id, registry_path, visited):
+            success_count += 1
+    
+    # Finally install the suite metadata/root itself if it has a source
+    if meta.get("links", {}).get("github"):
+        install_skill(sid, registry_path, visited)
+
+    print(f"\n✓ Suite {sid} complete: {success_count} component(s) installed.")
+    return True
+
+
+def update_skills(registry_path: str):
+    """Update all installed skills by pulling from remote sources."""
     manifest = load_manifest()
     if not manifest["installed"]:
-        print("No named skills installed.")
+        print("No skills installed.")
         return
 
-    updated = 0
+    # Group by repo to avoid redundant pulls
+    repos = {}
     for entry in manifest["installed"]:
-        skill_id = entry["id"]
-        source = find_named_skill_source(skill_id, registry_path)
-        if not source:
-            print(f"  Warning: Source not found for {skill_id}")
-            continue
+        repo_url = entry.get("repoUrl")
+        if not repo_url: continue
+        
+        # Determine global cache path for this repo
+        owner = entry["id"].split("/", 1)[0]
+        repo_name = repo_url.split("/")[-1].replace(".git", "")
+        global_cache = os.path.join(get_global_cache_dir(), owner, repo_name)
+        repos[global_cache] = repo_name
 
-        new_sha = compute_sha256(source)
-        if new_sha != entry.get("sha256"):
-            install_skill(skill_id, registry_path)
-            updated += 1
-        else:
-            print(f"  Up to date: {skill_id}")
-
-    print(f"\nSync complete. {updated} skill(s) updated.")
+    print(f"Checking for updates in {len(repos)} repositories...")
+    updated = 0
+    for path, name in repos.items():
+        if os.path.exists(path):
+            print(f"Pulling {name}...")
+            if _run_git(["pull"], cwd=path):
+                updated += 1
+    
+    print(f"\nUpdate complete. {updated} repository/repositories checked.")
 
 
 def uninstall_skill(skill_id):
     skill_id = skill_id.lstrip("/")
-    parts = skill_id.split("/", 1)
-    if len(parts) != 2:
-        print("Error: Invalid skill ID format. Expected 'contributor/skill-name'.", file=sys.stderr)
-        return False
-    contributor, skill_name = parts
-
-    repo_path = os.path.join(get_repo_skills_dir(), contributor, f"{skill_name}.md")
-    if os.path.exists(repo_path) or os.path.islink(repo_path):
-        os.remove(repo_path)
-
     manifest = load_manifest()
+    entry = next((s for s in manifest["installed"] if s["id"] == skill_id), None)
+    
+    if entry and "localPath" in entry:
+        lp = entry["localPath"]
+        if os.path.exists(lp) or os.path.islink(lp):
+            if os.path.islink(lp):
+                os.remove(lp)
+            elif os.path.isdir(lp):
+                shutil.rmtree(lp)
+            else:
+                os.remove(lp)
+
     manifest["installed"] = [s for s in manifest["installed"] if s["id"] != skill_id]
     save_manifest(manifest)
     print(f"Uninstalled: {skill_id}")
     return True
 
 
-def _parse_frontmatter(path):
-    """Return the YAML frontmatter dict from a .md file, or {}."""
-    try:
-        with open(path, "r", encoding="utf-8") as f:
-            text = f.read()
-        m = re.match(r"^---\n(.*?)\n---", text, re.DOTALL)
-        if not m:
-            return {}
-        try:
-            import yaml
-            return yaml.safe_load(m.group(1)) or {}
-        except ImportError:
-            # Fallback when PyYAML is not installed
-            res = {}
-            for line in m.group(1).split('\n'):
-                line = line.strip()
-                if not line or line.startswith('#'): continue
-                if ':' in line:
-                    k, v = line.split(':', 1)
-                    k = k.strip()
-                    v = v.strip().strip('"').strip("'")
-                    if v.lower() == 'true': v = True
-                    elif v.lower() == 'false': v = False
-                    res[k] = v
-            return res
-    except Exception:
-        return {}
-
-
 def list_available(registry_path):
-    """Return a sorted list of (skill_id, meta_dict) for all named skills in the registry."""
+    """Return a sorted list of (skill_id, meta_dict) for all named skills."""
     named_dir = named_skills_dir(registry_path)
     if not os.path.isdir(named_dir):
         return []
@@ -353,6 +320,52 @@ def list_available(registry_path):
             meta = _parse_frontmatter(os.path.join(contrib_dir, fname))
             skills.append((skill_id, meta))
     return skills
+
+
+def _parse_frontmatter(path):
+    """Return the YAML frontmatter dict from a .md file, or {}."""
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            text = f.read()
+        m = re.match(r"^---\n(.*?)\n---", text, re.DOTALL)
+        if not m:
+            return {}
+        try:
+            import yaml
+            return yaml.safe_load(m.group(1)) or {}
+        except ImportError:
+            res = {}
+            for line in m.group(1).split('\n'):
+                line = line.strip()
+                if not line or line.startswith('#'): continue
+                if ':' in line:
+                    k, v = line.split(':', 1)
+                    k = k.strip()
+                    v = v.strip().strip('"').strip("'")
+                    if v.lower() == 'true': v = True
+                    elif v.lower() == 'false': v = False
+                    res[k] = v
+            return res
+    except Exception:
+        return {}
+
+
+def list_installed():
+    manifest = load_manifest()
+    if not manifest["installed"]:
+        print("No skills installed.")
+        return
+
+    print(f"{'ID':<35} {'Installed':<25} {'Location'}")
+    print("-" * 85)
+    for entry in manifest["installed"]:
+        loc = entry.get("localPath", "unknown")
+        # Relative path for display
+        try:
+            rel_loc = os.path.relpath(loc)
+        except Exception:
+            rel_loc = loc
+        print(f"{entry['id']:<35} {entry['installedAt'][:19]:<25} {rel_loc}")
 
 
 def interactive_install(registry_path):
@@ -405,16 +418,3 @@ def interactive_install(registry_path):
     print()
     for sid in selected:
         install_skill(sid, registry_path)
-
-
-def list_installed():
-    manifest = load_manifest()
-    if not manifest["installed"]:
-        print("No named skills installed.")
-        return
-
-    print(f"{'ID':<35} {'Installed':<25} {'SHA-256 (short)'}")
-    print("-" * 75)
-    for entry in manifest["installed"]:
-        sha_short = entry.get("sha256", "unknown")[:12]
-        print(f"{entry['id']:<35} {entry['installedAt'][:19]:<25} {sha_short}")

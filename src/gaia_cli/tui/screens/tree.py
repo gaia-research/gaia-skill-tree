@@ -14,9 +14,10 @@ from textual.app import ComposeResult
 from textual.binding import Binding
 from textual.containers import Horizontal, Vertical, ScrollableContainer
 from textual.screen import Screen
-from textual.widgets import Tree, Static, Label, Rule
+from textual.widgets import Tree, Static, Label, Rule, Input
 from textual.widgets.tree import TreeNode
 from textual.reactive import reactive
+from textual import on
 from rich.text import Text
 
 from gaia_cli.tui import tokens as T
@@ -79,16 +80,17 @@ def _node_label(skill: dict, owned_ids: set, detected_ids: set) -> Text:
     owned = sid in owned_ids
     detected = sid in detected_ids
 
-    name_color = T.NEUTRAL_TEXT if (owned or detected) else T.NEUTRAL_TEXT_MUTED
+    # Highlight slug with STATE_OWNED if owned or detected
+    name_style = T.STATE_OWNED if (owned or detected) else T.NEUTRAL_TEXT
 
     t = Text()
     t.append(glyph + " ", style=color)
     if "/" in sid:
         contrib, name = sid.split("/", 1)
-        t.append(contrib + "/", style=T.BRAND_HONOR_RED)
-        t.append(name, style=name_color)
+        t.append("@" + contrib, style=T.BRAND_HONOR_RED)
+        t.append("/" + name, style=name_style)
     else:
-        t.append(sid, style=name_color)
+        t.append(sid, style=name_style)
     if level:
         t.append(f"  {level}", style=T.RANK_BY_STAR.get(level, T.NEUTRAL_BORDER_STRONG))
     if owned:
@@ -198,9 +200,12 @@ class SkillTreeScreen(Screen):
         Binding("a", "goto_agent", "Agent", show=True),
         Binding("q", "quit_app", "Quit", show=True),
         Binding("i", "install_focused", "Install", show=True),
-        Binding("escape", "goto_agent", "Back", show=False),
+        Binding("escape", "clear_search", "Clear", show=False),
         Binding("space", "toggle_node", "Expand", show=True),
+        Binding("ctrl+f", "focus_search", "Search", show=False),
     ]
+
+    search_query: reactive[str] = reactive("", init=False)
 
     def __init__(self, registry_path: str, owned_ids: set[str], detected_ids: set[str]):
         super().__init__()
@@ -214,6 +219,9 @@ class SkillTreeScreen(Screen):
         with Static(id="header"):
             yield Static("  ◆ GAIA ", id="header-logo")
             yield Static("SKILL TREE", id="header-section")
+
+        with Static(id="search-container"):
+            yield Input(placeholder="Search skills…", id="tree-search")
 
         with Horizontal(id="tree-layout"):
             with ScrollableContainer(id="tree-panel"):
@@ -243,8 +251,9 @@ class SkillTreeScreen(Screen):
             f"{total} skills  ·  {owned} owned  ·  {detected} detected"
         )
 
-    def _populate_tree(self) -> None:
+    def _populate_tree(self, query: str = "") -> None:
         tree = self.query_one("#skill-tree", Tree)
+        tree.clear()
         tree.root.expand()
 
         skills = self._tree_data["skills"]
@@ -253,10 +262,32 @@ class SkillTreeScreen(Screen):
         owned = self._tree_data["owned_ids"]
         detected = self._tree_data["detected_ids"]
 
+        # Pre-filter: which nodes should be visible?
+        visible_nodes: set[str] = set()
+        if query:
+            q = query.lower()
+            # 1. Direct matches
+            matches = {
+                sid for sid, s in skills.items()
+                if q in sid.lower() or q in s.get("description", "").lower()
+            }
+            # 2. Ancestors of matches (to maintain hierarchy)
+            for sid in matches:
+                curr = sid
+                while curr:
+                    visible_nodes.add(curr)
+                    # For simplicity, just pick first parent if multi
+                    p_list = self._tree_data["parents"].get(curr, [])
+                    curr = p_list[0] if p_list else None
+        else:
+            visible_nodes = set(skills.keys())
+
         # Group roots by tier for visual structure
         tier_order = {"ultimate": 0, "unique": 1, "extra": 2, "basic": 3}
         tier_roots: dict[str, list[str]] = {t: [] for t in tier_order}
         for sid in roots:
+            if sid not in visible_nodes:
+                continue
             skill = skills.get(sid, {})
             tier = skill.get("type", "basic")
             tier_roots.setdefault(tier, []).append(sid)
@@ -271,21 +302,28 @@ class SkillTreeScreen(Screen):
         visited: set[str] = set()
 
         def add_children(node: TreeNode, sid: str, depth: int = 0) -> None:
-            if depth > 6:
-                return
+            # When searching, we want to expand matches automatically
+            should_expand_all = bool(query)
+
             for child_id in sorted(children.get(sid, []), key=lambda x: (
                 tier_order.get(skills.get(x, {}).get("type", "basic"), 4), x
             )):
-                if child_id in visited:
+                if child_id not in visible_nodes or child_id in visited:
                     continue
                 visited.add(child_id)
                 child_skill = skills.get(child_id, {"id": child_id, "type": "basic"})
                 label = _node_label(child_skill, owned, detected)
-                has_kids = bool(children.get(child_id))
-                child_node = node.add(label, data=child_id, expand=False, allow_expand=has_kids)
+                has_kids = any(k in visible_nodes for k in children.get(child_id, []))
+                
+                # Expand if search is active
+                is_expanded = should_expand_all and has_kids
+                child_node = node.add(label, data=child_id, expand=is_expanded, allow_expand=has_kids)
                 self._node_map[id(child_node)] = child_id
-                if has_kids and depth < 1:
-                    add_children(child_node, child_id, depth + 1)
+                
+                # Recurse if search is active or it's a root expand
+                if has_kids:
+                    if should_expand_all or depth < 1:
+                        add_children(child_node, child_id, depth + 1)
 
         for tier in ["ultimate", "unique", "extra", "basic"]:
             sids = tier_roots.get(tier, [])
@@ -295,7 +333,7 @@ class SkillTreeScreen(Screen):
             tier_node = tree.root.add(
                 Text(label_text, style=f"bold {color}"),
                 data=f"__tier_{tier}",
-                expand=(tier in ("ultimate", "unique")),
+                expand=True,
             )
             for sid in sorted(sids):
                 if sid in visited:
@@ -303,22 +341,38 @@ class SkillTreeScreen(Screen):
                 visited.add(sid)
                 skill = skills.get(sid, {"id": sid, "type": tier})
                 label = _node_label(skill, owned, detected)
-                has_kids = bool(children.get(sid))
+                has_kids = any(k in visible_nodes for k in children.get(sid, []))
+                
                 skill_node = tier_node.add(
                     label,
                     data=sid,
-                    expand=False,
+                    expand=bool(query) and has_kids,
                     allow_expand=has_kids,
                 )
                 self._node_map[id(skill_node)] = sid
-                if has_kids and tier in ("ultimate", "unique"):
-                    add_children(skill_node, sid, depth=1)
+                if has_kids:
+                    if query or tier in ("ultimate", "unique"):
+                        add_children(skill_node, sid, depth=1)
+
+    @on(Input.Changed, "#tree-search")
+    def _on_search_change(self, event: Input.Changed) -> None:
+        self._populate_tree(event.value.strip())
+
+    def action_clear_search(self) -> None:
+        inp = self.query_one("#tree-search", Input)
+        if inp.value:
+            inp.value = ""
+        else:
+            self.action_goto_agent()
+
+    def action_focus_search(self) -> None:
+        self.query_one("#tree-search", Input).focus()
 
     def on_tree_node_highlighted(self, event: Tree.NodeHighlighted) -> None:
         sid = event.node.data
         if sid and not str(sid).startswith("__tier_"):
             detail = self.query_one("#detail-panel", SkillDetail)
-            detail.skill_id = sid
+            detail.skill_id = str(sid)
 
     def on_tree_node_selected(self, event: Tree.NodeSelected) -> None:
         # Toggle expand/collapse on select
@@ -328,29 +382,6 @@ class SkillTreeScreen(Screen):
                 node.collapse()
             else:
                 node.expand()
-                # Lazy-load children if not yet added
-                sid = node.data
-                if sid and not str(sid).startswith("__tier_"):
-                    self._lazy_expand(node, sid)
-
-    def _lazy_expand(self, node: TreeNode, sid: str) -> None:
-        """Add child nodes if this node hasn't been expanded before."""
-        if node.children:
-            return
-        skills = self._tree_data["skills"]
-        children = self._tree_data["children"]
-        owned = self._tree_data["owned_ids"]
-        detected = self._tree_data["detected_ids"]
-        tier_order = {"ultimate": 0, "unique": 1, "extra": 2, "basic": 3}
-
-        for child_id in sorted(children.get(sid, []), key=lambda x: (
-            tier_order.get(skills.get(x, {}).get("type", "basic"), 4), x
-        )):
-            child_skill = skills.get(child_id, {"id": child_id, "type": "basic"})
-            label = _node_label(child_skill, owned, detected)
-            has_kids = bool(children.get(child_id))
-            child_node = node.add(label, data=child_id, allow_expand=has_kids)
-            self._node_map[id(child_node)] = child_id
 
     def action_toggle_node(self) -> None:
         tree = self.query_one("#skill-tree", Tree)
@@ -360,19 +391,15 @@ class SkillTreeScreen(Screen):
                 node.collapse()
             else:
                 node.expand()
-                sid = node.data
-                if sid and not str(sid).startswith("__tier_"):
-                    self._lazy_expand(node, sid)
 
     def action_install_focused(self) -> None:
         tree = self.query_one("#skill-tree", Tree)
         node = tree.cursor_node
         if node and node.data and not str(node.data).startswith("__tier_"):
-            sid = node.data
+            sid = str(node.data)
             skills = self._tree_data.get("skills", {})
             skill = skills.get(sid, {"id": sid, "type": "basic", "level": ""})
             from gaia_cli.tui.screens.agent import InstallModal
-            from gaia_cli.registry import resolve_registry_path
 
             def _on_install(installed: bool) -> None:
                 if installed:
@@ -390,7 +417,11 @@ class SkillTreeScreen(Screen):
         node.set_label(_node_label(skill, self._owned, self._detected))
 
     def action_goto_agent(self) -> None:
-        self.app.pop_screen()
+        from gaia_cli.tui.screens.agent import AgentScreen
+        # app.py has _load_meta
+        from gaia_cli.tui.app import _load_meta
+        _, username, version = _load_meta()
+        self.app.switch_screen(AgentScreen(self.registry_path, username, version))
 
     def action_quit_app(self) -> None:
         self.app.exit()
