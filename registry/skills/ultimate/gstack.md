@@ -8,7 +8,7 @@
 ---
 
 ## Description
-Garry Tan's complete autonomous agent discipline suite spanning 19 named skills: browser QA, security auditing, design system creation, HTML generation, plan reviews (CEO/eng/design/DX), code review, root-cause debugging, E2E testing, ship/deploy automation, post-deploy canary monitoring, documentation, and founder-mode orchestration.
+Garry Tan's complete autonomous agent discipline suite spanning 46 named skills: browser QA, security auditing, design system creation, HTML generation, plan reviews (CEO/eng/design/DX), code review, root-cause debugging, E2E testing, ship/deploy automation, post-deploy canary monitoring, documentation, and founder-mode orchestration.
 
 ## Prerequisites
 - [Question Answer](../basic/question-answer.md)
