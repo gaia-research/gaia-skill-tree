@@ -93,12 +93,115 @@ npm install -g @gaia-registry/cli
 ```"""
 
 
+def _registry_tree() -> str:
+    # 1. Get total skills
+    graph_path = ROOT / "registry" / "gaia.json"
+    if not graph_path.exists():
+        return "```text\n(registry not found)\n```"
+    graph = json.loads(graph_path.read_text(encoding="utf-8"))
+    total_skills = len(graph.get("skills", []))
+
+    # 2. Read docs/tree.md (should have been updated by build_tree_md)
+    tree_path = ROOT / "docs" / "tree.md"
+    if not tree_path.exists():
+        # Try generated-output if docs/tree.md doesn't exist yet
+        tree_path = ROOT / "generated-output" / "tree.md"
+        
+    if not tree_path.exists():
+        return "```text\n(tree not yet generated)\n```"
+    
+    tree_text = tree_path.read_text(encoding="utf-8")
+    
+    # Extract from code block
+    match = re.search(r'```\n(.*?)\n```', tree_text, re.DOTALL)
+    if not match:
+        return "```text\n(could not parse tree)\n```"
+    
+    tree_body = match.group(1)
+    lines = tree_body.splitlines()
+    
+    # Skip header/legend
+    content_start = -1
+    for i, line in enumerate(lines):
+        # Legend starts with ◆ but contains other symbols too. 
+        # Real skills have a name/id usually containing a slash or starting with /
+        if line.startswith("◆ ") and "/" in line and "[" in line and "★]" in line:
+            content_start = i
+            break
+            
+    if content_start == -1:
+        return f"```text\n{tree_body}\n```"
+
+    # Take first 2 Ultimates, max 15 lines each
+    ultimate_count = 0
+    truncated_lines = []
+    
+    i = content_start
+    while i < len(lines) and ultimate_count < 2:
+        line = lines[i]
+        if line.startswith("◆ "):
+            ultimate_count += 1
+            block = [line]
+            i += 1
+            while i < len(lines) and not lines[i].startswith("◆ ") and not lines[i].startswith("═"):
+                # Skip the long ──── separator line usually following an ultimate
+                if lines[i].startswith("────"):
+                    i += 1
+                    continue
+                if len(block) < 15:
+                    # Limit depth to keep it clean in README
+                    depth = lines[i].count("│") + lines[i].count(" ") // 2
+                    if depth <= 8:
+                        block.append(lines[i])
+                i += 1
+            # Trim trailing empty lines in block
+            while block and not block[-1].strip():
+                block.pop()
+            truncated_lines.extend(block)
+            truncated_lines.append("")
+        else:
+            i += 1
+
+    # Look for Uniques section
+    uniques_start = -1
+    for j in range(content_start, len(lines)):
+        if "Uniques — " in lines[j]:
+            uniques_start = j
+            break
+            
+    if uniques_start != -1:
+        if truncated_lines and truncated_lines[-1].strip():
+            truncated_lines.append("")
+        
+        # Add Uniques header and first few items
+        truncated_lines.append(lines[uniques_start])
+        j = uniques_start + 1
+        # Skip potential separators
+        while j < len(lines) and lines[j].startswith("═"):
+            j += 1
+        
+        count = 0
+        while j < len(lines) and not lines[j].startswith("═") and count < 5:
+            if lines[j].strip():
+                truncated_lines.append(lines[j])
+                count += 1
+            j += 1
+            
+    # Clean up trailing empty lines
+    while truncated_lines and not truncated_lines[-1].strip():
+        truncated_lines.pop()
+        
+    final_body = "\n".join(truncated_lines)
+    return f"```text\n{final_body}\n\n({total_skills} skills total — see docs/tree.md)\n```"
+
+
 def build_readme(check: bool) -> bool:
     path = ROOT / "README.md"
     text = path.read_text(encoding="utf-8")
     changed = False
     for start, end, body in (
         ("<!-- gaia:version-start -->", "<!-- gaia:version-end -->", _versions()),
+        ("<!-- gaia:registry-start -->", "<!-- gaia:registry-end -->", _registry_tree()),
         ("<!-- gaia:cli-start -->", "<!-- gaia:cli-end -->", _cli_help()),
         ("<!-- gaia:layout-start -->", "<!-- gaia:layout-end -->", _layout()),
     ):
@@ -449,12 +552,6 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--check", action="store_true", help="Fail if generated docs are stale")
     args = parser.parse_args(argv)
 
-    # Local sections (README + index.html stats + tokens.css).
-    readme_changed = build_readme(args.check)
-    docs_index_changed = build_docs_index(args.check)
-    html_cache_busted = build_html_cache_busting(args.check)
-    css_tokens_changed = build_css_tokens(args.check)
-
     # Stage 4 — full asset pipeline. Each step regenerates into a tempdir and
     # diffs against the committed copy. CSS tokens are already covered above;
     # syncDocsGraphAssets fans out gaia.json / tree.md / named-index — the
@@ -465,6 +562,13 @@ def main(argv: list[str] | None = None) -> int:
     og_changed = build_og_cards(args.check)
     tree_changed = build_tree_md(args.check)
     ruflo_curation_changed = build_ruflo_curation(args.check)
+
+    # Local sections (README + index.html stats + tokens.css).
+    # README depends on tree.md (build_tree_md)
+    readme_changed = build_readme(args.check)
+    docs_index_changed = build_docs_index(args.check)
+    html_cache_busted = build_html_cache_busting(args.check)
+    css_tokens_changed = build_css_tokens(args.check)
 
     changed = (
         readme_changed
