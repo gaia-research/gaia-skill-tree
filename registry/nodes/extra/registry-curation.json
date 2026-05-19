@@ -41,7 +41,7 @@
       "source": "https://github.com/mbtiongson1/gaia-skill-tree",
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
-      "notes": "Batch 4 curation: 6 skills added (4 atomic, 2 composite) -- ocr, object-detection, code-explain, reward-modeling, grounding, multi-agent-debate."
+      "notes": "Batch 4 curation: 6 skills added (4 atomic, 2 composite) -- optical-character-recognition, object-detection, code-explain, reward-modeling, grounding, multi-agent-debate."
     },
     {
       "class": "B",

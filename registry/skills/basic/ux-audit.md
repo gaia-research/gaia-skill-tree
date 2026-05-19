@@ -1,8 +1,8 @@
-# [martin-stepanoski](../../../docs/u/martin-stepanoski/)/nielsen-heuristics-audit  [0★ · Basic]
+# [martin-stepanoski](../../../docs/u/martin-stepanoski/)/nielsen-heuristics-audit  [4★ · Hardened]
 **ID:** ux-audit  
 **Type:** Basic Skill  
-**Level:** 0★  
-**Tier:** Basic  
+**Level:** 4★  
+**Tier:** Hardened  
 **Skill Call:** `/ux-audit`
 
 ---
@@ -20,6 +20,7 @@ _None._
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | B | https://github.com/mastepanoski/claude-skills/blob/main/skills/nielsen-heuristics-audit/SKILL.md | mbtiongson1 | 2026-04-30 |
+| B | https://github.com/pbakaus/impeccable | mbtiongson1 | 2026-05-14 |
 
 ## Known Agents
 _None verified yet._

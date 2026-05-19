@@ -1,8 +1,8 @@
-# [ruvnet](../../../docs/u/ruvnet/)/flow-nexus-swarm  [5★ · Transcendent]
+# [ruvnet](../../../docs/u/ruvnet/)/flow-nexus-swarm  [3★ · Evolved]
 **ID:** multi-agent-orchestration-v  
 **Type:** Extra Skill  
-**Level:** 5★  
-**Tier:** Transcendent  
+**Level:** 3★  
+**Tier:** Evolved  
 **Skill Call:** `/multi-agent-orchestration-v`
 
 ---

@@ -28,7 +28,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 
 · ◆ ruvnet/ruflo  [6★]
   ├─ · ◇ ruvnet/flow-nexus  [4★]
-  │  ├─ · ◇ ruvnet/flow-nexus-swarm  [5★]
+  │  ├─ · ◇ ruvnet/flow-nexus-swarm  [3★]
   │  │  ├─ ✓ ◇ /plan-and-execute  [4★]
   │  │  │  ├─ ✓ ○ /route-intent  [1★]
   │  │  │  ├─ ✓ ○ /plan-decompose  [1★]
@@ -53,7 +53,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ ruvnet/agentdb-memory-patterns  [2★]
   │  ├─ · ○ ruvnet/agentdb-optimization  [2★]
   │  └─ · ○ ruvnet/agentdb-vector-search  [2★]  (↑ see above)
-  ├─ · ◇ ruvnet/github-suite  [4★]
+  ├─ · ◇ ruvnet/github-suite  [3★]
   │  ├─ · ◇ garrytan/plan-eng-review  [3★]
   │  │  ├─ · ○ garrytan/design-html  [1★]
   │  │  ├─ · ○ /diff-content  [1★]
@@ -102,13 +102,13 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   └─ · ○ ruvnet/agentdb-vector-search  [2★]  (↑ see above)
 
 · ◆ garrytan/gstack  [5★]
-  ├─ · ○ garrytan/office-hours  [0★]
+  ├─ · ○ garrytan/office-hours  [4★]
   ├─ · ○ garrytan/benchmark  [1★]
   ├─ · ◇ garrytan/plan-eng-review  [3★]
   │  ├─ · ○ garrytan/design-html  [1★]
   │  ├─ · ○ /diff-content  [1★]
   │  └─ · ○ garrytan/benchmark  [1★]  (↑ see above)
-  ├─ · ○ martin-stepanoski/nielsen-heuristics-audit  [0★]
+  ├─ · ○ martin-stepanoski/nielsen-heuristics-audit  [4★]
   ├─ · ◇ mattpocock/to-issues  [3★]
   │  ├─ ✓ ○ /plan-decompose  [1★]
   │  └─ ✓ ○ /route-intent  [1★]
@@ -165,7 +165,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ◇ /agent-eval  [3★]
   │  │  ├─ · ○ garrytan/benchmark  [1★]  (↑ see above)
   │  │  └─ · ○ /score-relevance  [1★]
-  │  ├─ · ○ vercel/find-skills  [0★]
+  │  ├─ · ○ vercel/find-skills  [3★]
   │  └─ · ○ /statistical-analysis  [3★]
   ├─ · ◇ 0xdarkmatter/pytest-patterns  [3★]  (↑ see above)
   ├─ · ○ garrytan/pair-agent  [3★]
@@ -193,7 +193,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 · ◆ obra/superpowers  [5★]
   ├─ · ◇ obra/brainstorming  [1★]
   │  ├─ · ○ /requirements-analysis  [2★]
-  │  └─ · ○ garrytan/office-hours  [0★]
+  │  └─ · ○ garrytan/office-hours  [4★]
   ├─ · ◇ obra/dispatching-parallel-agents  [4★]
   │  ├─ ✓ ○ /plan-decompose  [1★]
   │  └─ · ○ /parallel-execution  [2★]
@@ -249,11 +249,10 @@ Basics — basic-tier skills not wired into an upgrade path yet.  (0★ skills c
   · ○ ruvnet/agentic-jujutsu  [2★]
   · ○ /image-generate  [2★]
   · ○ huggingface/huggingface-vision-trainer  [2★]
-  · ○ /ocr  [2★]
   · ○ /reward-modeling  [2★]
   · ○ /schema-design  [2★]
   · ○ ruvnet/stream-chain  [2★]
-  · ○ addy-osmani/test-driven-development  [0★ · Pure]
+  · ○ addy-osmani/test-driven-development  [3★]
   · ○ getagentseal/codeburn  [2★]
   · ○ ruvnet/worker-integration  [2★]
 ```

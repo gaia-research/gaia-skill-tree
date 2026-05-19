@@ -111,8 +111,8 @@
         "origin": true,
         "genericSkillRef": "test-driven-development",
         "status": "named",
-        "level": "2★",
-        "description": "Forces the AI agent to follow a strict red-green-refactor TDD workflow — writing failing tests before any implementation code, blocking code generation that skips the test step, and enforcing coverage thresholds before completing a task.",
+        "level": "3★",
+        "description": "Forces the AI agent to follow a strict red-green-refactor TDD workflow — explicitly blocking horizontal slicing (all tests first, then all code). Tests verify behaviour through public interfaces only, blocking code generation that skips the test step, and enforcing coverage thresholds before completing a task.",
         "title": "The Red-Green Oath",
         "catalogRef": "addy-osmani-test-driven-development",
         "tags": [
@@ -120,7 +120,9 @@
           "testing",
           "red-green-refactor",
           "workflow-enforcement",
-          "software-quality"
+          "software-quality",
+          "vertical-slicing",
+          "tracer-bullet"
         ],
         "links": {
           "github": "https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md"
@@ -128,31 +130,6 @@
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
         "role": "origin"
-      },
-      {
-        "id": "mattpocock/tdd",
-        "name": "TDD",
-        "contributor": "mattpocock",
-        "origin": false,
-        "genericSkillRef": "test-driven-development",
-        "status": "named",
-        "level": "3★",
-        "description": "Enforces strict vertical-slice TDD — one test then one implementation at a time — explicitly blocking horizontal slicing (all tests first, then all code). Tests verify behaviour through public interfaces only; mocking internal collaborators is treated as an anti-pattern.",
-        "title": "Vertical-Slice TDD",
-        "catalogRef": "mattpocock-tdd",
-        "tags": [
-          "tdd",
-          "red-green-refactor",
-          "vertical-slicing",
-          "tracer-bullet",
-          "public-interface-testing"
-        ],
-        "links": {
-          "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md"
-        },
-        "createdAt": "2026-04-30",
-        "updatedAt": "2026-04-30",
-        "role": "variant"
       }
     ],
     "document-editing": [
@@ -2254,7 +2231,7 @@
         "origin": true,
         "genericSkillRef": "autonomous-research-agent",
         "status": "named",
-        "level": "6★",
+        "level": "3★",
         "description": "Autonomous research agent that iteratively searches, reads, and synthesizes academic papers into structured summaries.",
         "title": "The Scholar's Compass",
         "catalogRef": "karpathy-autoresearch",
@@ -2332,7 +2309,7 @@
         "origin": true,
         "genericSkillRef": "grill-with-docs",
         "status": "named",
-        "level": "5★",
+        "level": "3★",
         "description": "The ultimate evolution of the grill pattern. Fuses relentless Socratic questioning with deep domain awareness, ensuring every decision is cross-referenced against a persistent ubiquitous language and documented via real-time ADR generation.",
         "title": "The Domain Sovereign",
         "catalogRef": "mattpocock-grill-with-docs",
@@ -2343,7 +2320,6 @@
           "adr",
           "context-md",
           "socratic-method",
-          "ultimate",
           "fusion"
         ],
         "links": {
@@ -4508,7 +4484,6 @@
       "mattpocock/grill-me",
       "mattpocock/grill-with-docs",
       "mattpocock/improve-codebase-architecture",
-      "mattpocock/tdd",
       "mattpocock/to-issues",
       "mattpocock/to-prd",
       "mattpocock/triage",

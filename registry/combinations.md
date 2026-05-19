@@ -6,12 +6,12 @@
 | ◇ /agent-eval | Extra Skill | Evaluate Output, Score Relevance | 3★ |  |
 | ◇ [ruvnet](../docs/u/ruvnet/)/agentdb-learning | Extra Skill | Memory Manage, Adaptive Pattern Learning | 3★ |  |
 | ◆ [ruvnet](../docs/u/ruvnet/)/agentdb | Ultimate Skill | Distributed Vector Memory, Agent Memory Learning, Memory Pattern Design, Vector DB Optimization, Vector Search | 5★ | Requires demonstrating all 5 AgentDB discipline skills in a production distributed system context. |
-| ◇ [ruvnet](../docs/u/ruvnet/)/sparc-methodology | Extra Skill | Workflow Automation, Plan and Decompose | 5★ → 4★ | Requires a workflow orchestration target (e.g. Airflow, Temporal) and access to its authoring API. |
+| ◇ [ruvnet](../docs/u/ruvnet/)/sparc-methodology | Extra Skill | Workflow Automation, Plan and Decompose | 3★ → 2★ | Requires a workflow orchestration target (e.g. Airflow, Temporal) and access to its authoring API. |
 | ◇ /architecture-diagram | Extra Skill | Data Visualize, Format Output, Write Report | 4★ | Requires enough system context to identify components, relationships, boundaries, and rendering constraints. |
 | ◇ [0xdarkmatter](../docs/u/0xdarkmatter/)/pytest-patterns | Extra Skill | Generate Test, Execute Bash, Error Interpretation | 3★ |  |
 | ◇ /autonomous-data-scientist | Extra Skill | Data Analysis, Math Reason, Research | 5★ | Requires dataset access and compute environment. Minimum 3 Class A/B evidence sources. |
 | ◇ [devin-ai](../docs/u/devin-ai/)/autonomous-swe | Extra Skill | Code Generation, Execute Bash, Error Interpretation | 4★ |  |
-| ◇ [karpathy](../docs/u/karpathy/)/autoresearch | Extra Skill | Research, Knowledge Harvest, Ghostwrite | 5★ | Requires extensive multi-system validation before level advancement. |
+| ◇ [karpathy](../docs/u/karpathy/)/autoresearch | Extra Skill | Research, Knowledge Harvest, Ghostwrite | 3★ | Requires extensive multi-system validation before level advancement. |
 | ◇ /autonomous-web-research | Extra Skill | Web Scrape, Web Search | 4★ | Requires a multi-step crawling engine and mapping logic to resolve site structures. |
 | ◇ [obra](../docs/u/obra/)/brainstorming | Extra Skill | Requirements Analysis, Question Answer | 1★ |  |
 | ◇ [gooseworks](../docs/u/gooseworks/)/notte-browser | Extra Skill | Web Search, Computer Use | 3★ |  |
@@ -31,7 +31,7 @@
 | ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus-neural | Extra Skill | Parallel Execution, Embed Text | 3★ |  |
 | ◇ [ruvnet](../docs/u/ruvnet/)/agentdb-advanced | Extra Skill | Vector Search, Memory Manage | 3★ |  |
 | ◇ /document-analyst | Extra Skill | Parse JSON, Extract Entities, Summarize, Format Output | 3★ |  |
-| ◇ /document-digitization | Extra Skill | Parse PDF, Extract Entities, Format Output | 3★ |  |
+| ◇ /document-digitization | Extra Skill | OCR, Parse PDF, Extract Entities, Format Output | 3★ |  |
 | ◇ [ruvnet](../docs/u/ruvnet/)/dual-mode | Extra Skill | Headless Worker Spawn, Headless Worker Collect, Hybrid Workflow Coordination | 3★ |  |
 | ◇ [garrytan](../docs/u/garrytan/)/qa-only | Extra Skill | Browser Automation, Automated Testing | 3★ | Requires a live or containerised target environment; browser automation must be available. |
 | ◇ [obra](../docs/u/obra/)/executing-plans | Extra Skill | Writing Plans, Tool Use | 2★ |  |
@@ -39,13 +39,13 @@
 | ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus | Extra Skill | Multi-Agent Orchestration, Cloud Platform Management, Distributed Neural Training | 4★ |  |
 | ◇ /full-stack-developer | Extra Skill | Code Review Pipeline, Automated Testing, Refactor Code | 5★ | Requires access to repository, execution environment, and test runner. Minimum 3 Class A/B evidence sources. |
 | ◇ /function-calling | Extra Skill | Structured Output Generation, API Call, Tool Select | 3★ | Requires an available function or tool catalog with machine-readable argument schemas and result contracts. |
-| ◇ /gaia-audit | Extra Skill | Retrieve, Cite Sources, Evaluate Output | 2★ | Requires a specific Gaia skill ID, named skill ID, or real-skill catalog item plus access to the registry source files and current public evidence sources. |
+| ◇ /gaia-audit | Extra Skill | Retrieve, Cite Sources, Evaluate Output | 4★ | Requires a specific Gaia skill ID, named skill ID, or real-skill catalog item plus access to the registry source files and current public evidence sources. |
 | ◇ /gaia-meta-audit | Extra Skill | Gaia Audit, Registry Curation, Detect Anomaly | 3★ | Requires the current registry, named-skill index, real-skill catalog, and permission to compare against current source URLs or discovery indexes. |
 | ◇ /generative-media | Extra Skill | API Call, Data Visualize | 3★ → 2★ |  |
 | ◇ /ghostwrite | Extra Skill | Research, Write Report, Audience Model | 1★ | Requires research output as input context. |
-| ◇ [ruvnet](../docs/u/ruvnet/)/github-suite | Extra Skill | Code Review Pipeline, Multi-Repo Coordination, Deployment Automation, Project Management, Workflow Automation | 4★ |  |
+| ◇ [ruvnet](../docs/u/ruvnet/)/github-suite | Extra Skill | Code Review Pipeline, Multi-Repo Coordination, Deployment Automation, Project Management, Workflow Automation | 3★ |  |
 | ◇ [mattpocock](../docs/u/mattpocock/)/grill-me | Extra Skill | Design Review, Self-Critique | 4★ | Enforces a strict questioning loop that prevents the agent from proceeding to implementation until all branches are resolved. |
-| ◇ [mattpocock](../docs/u/mattpocock/)/grill-with-docs | Extra Skill | Grill Me, Ubiquitous Language, Document Editing | 5★ | Requires the agent to maintain a live glossary (CONTEXT.md) and generate ADRs for all non-trivial trade-offs discovered during the grill. |
+| ◇ [mattpocock](../docs/u/mattpocock/)/grill-with-docs | Extra Skill | Grill Me, Ubiquitous Language, Document Editing | 3★ | Requires the agent to maintain a live glossary (CONTEXT.md) and generate ADRs for all non-trivial trade-offs discovered during the grill. |
 | ◇ /grounding | Extra Skill | Retrieve, Cite Sources, Evaluate Output | 3★ |  |
 | ◆ [garrytan](../docs/u/garrytan/)/gstack | Ultimate Skill | Question Answer, Evaluate Output, Code Review Pipeline, UX Audit, Vertical Slice Planning, Design System Extraction, Design Review, Code Generation, Systematic Debugging, End-to-End Testing, Finishing a Development Branch, Deployment Automation, Detect Anomaly, Document Editing, Browser Automation, Security Audit, Browser Control, Web Scrape, Skill Authoring, Write Report, Multi-Agent Debate, Skill Performance Benchmarking, Automated Testing, MCP Integration, Memory Manage, Guardrails, Knowledge Management, Format Output, Workspace Automation, Project Management, Prompt Optimization | 5★ | Requires demonstrating all 31 garrytan discipline skills together in a real multi-step context. |
 | ◇ [garrytan](../docs/u/garrytan/)/careful | Extra Skill | Evaluate Output, Classify, Structured Output Generation | 3★ | Requires a defined policy schema and an evaluation loop. |
@@ -61,7 +61,7 @@
 | ◇ /ml-artifact-management | Extra Skill | API Call, Classify | 2★ |  |
 | ◇ /ml-pipeline | Extra Skill | Data Analysis, Automated Testing, Code Generation | 4★ | Requires access to a container orchestration environment and model registry. |
 | ◇ [garrytan](../docs/u/garrytan/)/codex | Extra Skill | Self-Critique, Evaluate Output, Chain-of-Thought Reasoning | 4★ |  |
-| ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus-swarm | Extra Skill | Plan and Execute, Route Intent, Tool Select | 5★ | Requires extensive multi-system validation before level advancement. |
+| ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus-swarm | Extra Skill | Plan and Execute, Route Intent, Tool Select | 3★ | Requires extensive multi-system validation before level advancement. |
 | ◇ [huggingface](../docs/u/huggingface/)/transformers-js | Extra Skill | Image Caption, Question Answer, Logical Inference | 3★ → 2★ | Requires vision-language model capability. |
 | ◇ /plan-and-execute | Extra Skill | Route Intent, Plan and Decompose, Tool Select | 4★ |  |
 | ◇ [ruvnet](../docs/u/ruvnet/)/ruflo-v3 | Extra Skill | CLI Modernization, Core Platform Implementation, System Integration, Performance Tuning, Advanced Swarm Coordination | 4★ |  |

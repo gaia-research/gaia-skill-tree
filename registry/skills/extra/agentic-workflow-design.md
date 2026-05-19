@@ -1,9 +1,9 @@
-# [ruvnet](../../../docs/u/ruvnet/)/sparc-methodology  [5★ · Transcendent]
+# [ruvnet](../../../docs/u/ruvnet/)/sparc-methodology  [3★ · Evolved]
 **ID:** agentic-workflow-design  
 **Type:** Extra Skill  
-**Level:** 5★  
-**Tier:** Transcendent  
-**Potential:** 4★  
+**Level:** 3★  
+**Tier:** Evolved  
+**Potential:** 2★  
 **Demerits:** heavyweight-dependency  
 **Skill Call:** `/agentic-workflow-design`
 

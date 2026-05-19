@@ -20,6 +20,7 @@ tags:
   - orchestration
   - ultimate
 createdAt: "2026-05-18"
+updatedAt: "2026-05-18"
 suiteComponents:
   - garrytan/benchmark
   - garrytan/benchmark-models
@@ -67,12 +68,11 @@ suiteComponents:
   - garrytan/skillify
   - garrytan/sync-gbrain
   - garrytan/unfreeze
-updatedAt: "2026-05-18"
 ---
 
 ## Overview
 
-Gstacks is the ultimate node fusing Garry Tan's complete suite of forty-six named discipline skills into an end-to-end autonomous product studio: from ideation and design through QA, security hardening, and strategic founder-mode review.
+Gstacks is the ultimate node fusing all five Garry Tan discipline skills into an end-to-end autonomous product studio: from ideation and design through QA, security hardening, and strategic founder-mode review.
 
 ## Component Skills
 

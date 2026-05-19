@@ -2,8 +2,8 @@
   "id": "multi-agent-orchestration-v",
   "name": "Multi-Agent Orchestration",
   "type": "extra",
-  "level": "5★",
-  "rarity": "epic",
+  "level": "3★",
+  "rarity": "uncommon",
   "description": "Coordinates multiple specialized agents across complex workflows with dynamic task allocation and conflict resolution.",
   "prerequisites": [
     "plan-and-execute",

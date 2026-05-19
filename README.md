@@ -23,7 +23,7 @@ Every AI agent capability exists somewhere on this graph. Skills start at the fo
 ```text
 ◆ ruvnet/ruflo  [6★]
   ├─ ◇ ruvnet/flow-nexus  [4★]
-  │  ├─ ◇ ruvnet/flow-nexus-swarm  [5★]
+  │  ├─ ◇ ruvnet/flow-nexus-swarm  [3★]
   │  │  ├─ ◇ /plan-and-execute  [4★]
   │  ├─ ◇ ruvnet/flow-nexus-platform  [3★]
   │  │  ├─ ○ huggingface/hf-cli  [2★]
@@ -97,7 +97,7 @@ Skills rank up through **evidence**, not declaration. Basics fuse into Extras or
 **1. Install the CLI**
 
 <!-- gaia:version-start -->
-Current Gaia CLI version: `3.20.2`.
+Current Gaia CLI version: `3.20.3`.
 
 Python install:
 

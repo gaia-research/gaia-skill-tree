@@ -1,8 +1,8 @@
-# [garrytan](../../../docs/u/garrytan/)/office-hours  [0★ · Basic]
+# [garrytan](../../../docs/u/garrytan/)/office-hours  [4★ · Hardened]
 **ID:** question-answer  
 **Type:** Basic Skill  
-**Level:** 0★  
-**Tier:** Basic  
+**Level:** 4★  
+**Tier:** Hardened  
 **Skill Call:** `/question-answer`
 
 ---
@@ -24,6 +24,7 @@ _None._
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | A | https://arxiv.org/abs/1806.03822 | mbtiongson1 | 2026-04-28 |
+| B | https://github.com/mbtiongson1/gaia-skill-tree/blob/main/registry/named/garrytan/office-hours.md | mbtiongson1 | 2026-04-30 |
 
 ## Known Agents
 _None verified yet._

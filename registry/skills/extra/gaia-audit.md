@@ -1,14 +1,14 @@
-# /gaia-audit  [2★ · Named]
+# /gaia-audit  [4★ · Hardened]
 **ID:** gaia-audit  
 **Type:** Extra Skill  
-**Level:** 2★  
-**Tier:** Named  
+**Level:** 4★  
+**Tier:** Hardened  
 **Skill Call:** `/gaia-audit`
 
 ---
 
 ## Description
-Reviews one Gaia skill, named skill, or real-skill catalog item against current evidence, source URLs, taxonomy mapping, promotion status, and demotion criteria, then proposes the smallest source-of-truth correction.
+Reviews one Gaia skill, named skill, or real-skill catalog item against current evidence, source URLs, taxonomy mapping, promotion status, and demotion criteria, then proposes the smallest source-of-truth correction. Implements a sophisticated 7-phase audit discipline including evidence re-verification, demotion checks, and automatic asset regeneration.
 
 ## Prerequisites
 - [Retrieve](../basic/retrieve.md)
@@ -24,7 +24,7 @@ Requires a specific Gaia skill ID, named skill ID, or real-skill catalog item pl
 ## Evidence
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
-| C | https://github.com/mbtiongson1/gaia-skill-tree | mbtiongson1 | 2026-05-03 |
+| A | https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/skill.md | mbtiongson1 | 2026-05-20 |
 
 ## Known Agents
 _None verified yet._
