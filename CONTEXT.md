@@ -93,6 +93,19 @@ _Avoid_: queue, draft pool.
 A user's personal projection of the registry, showing which skills they have demonstrated, at what stars, in which repository.
 _Avoid_: profile, dashboard, scorecard.
 
+### Registry Management
+
+**Programmatic-First Policy**:
+The Gaia registry is programmatically managed. Manual edits to JSON files in `registry/nodes/` are deprecated for all meta-shifts. AI agents and human contributors must use the Gaia CLI to ensure timeline logging, timestamping, and schema integrity.
+
+- **Merge**: Use `gaia merge` to fuse canonical nodes.
+- **Split**: Use `gaia split` to divide capabilities.
+- **Add**: Use `gaia add` to create new canonical or named skills.
+- **Evidence**: Use `gaia evidence` to support rank-up claims.
+- **Assemble**: The `registry/gaia.json` file is a generated artifact; never edit it.
+
+_Avoid_: manual JSON patching, direct `gaia.json` edits, untracked schema shifts.
+
 ## Relationships
 
 - A **Basic Skill** fuses with other **Basic Skills** to produce an **Extra Skill**.

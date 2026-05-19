@@ -33,15 +33,13 @@ Audit exactly one Gaia skill, named skill, or real-skill catalog item and submit
    - If a skill is promoted to Named status, ensure its `registry/named/` file exists and the real-skill catalog entry is updated.
    - Run:
      ```bash
-     python3 scripts/generateProjections.py
-     python3 scripts/syncDocsGraphAssets.py
-     PYTHONPATH=src python3 scripts/build_docs.py
+     gaia docs build
      ```
 7. Verify:
    ```bash
-   ./.venv/bin/python scripts/validate.py
-   ./.venv/bin/python scripts/validate_intake.py
-   PYTHONPATH=src ./.venv/bin/python -m unittest tests.test_real_skill_catalog tests.test_named_skills tests.test_validate
+   gaia validate
+   gaia validate --intake
+   gaia test all
    git diff --check
    ```
 

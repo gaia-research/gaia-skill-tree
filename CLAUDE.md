@@ -11,13 +11,10 @@ gaia scan
 gaia appraise
 gaia skills search web
 
-python scripts/validate.py
-python scripts/validate_intake.py
-python scripts/generateProjections.py
-python scripts/exportGexf.py
-python scripts/renderGraphSvg.py --format svg --output registry/gaia.svg
-python scripts/build_docs.py --check
-python -m pytest
+gaia validate
+gaia validate --intake
+gaia docs build --check
+gaia test all
 
 cd packages/cli-npm && npm test
 cd packages/mcp && npm run build && npm test
@@ -41,9 +38,22 @@ cd packages/mcp && npm run build && npm test
 | npm wrapper | `packages/cli-npm/` | `@gaia-registry/cli` |
 | MCP server | `packages/mcp/` | `@gaia-registry/mcp-server` |
 
+```bash
+# Meta Review (CLI-ONLY)
+gaia list --generic --named
+gaia add "Skill Name" --type basic
+gaia merge target-id source-ids...
+gaia split source-id target-ids...
+gaia evidence skill-id "url" --class B
+```
+
+## Programmatic-First Policy
+
+**All meta shifts (merging, splitting, adding skills, adding evidence) MUST be done via CLI commands.** Manual edits to `registry/nodes/` are deprecated to ensure programmatic schema integrity and automated timeline logging. AI agents must prioritize these tools over direct file manipulation.
+
 ## CLI Shape
 
-Top-level commands are lifecycle-oriented: `init`, `scan`, `pull`, `push`, `appraise`, `promote`, `release`, `version`, `mcp`, `tree`, `graph`, `docs`, `update`, and `help`.
+Top-level commands are lifecycle-oriented: `init`, `scan`, `pull`, `push`, `appraise`, `promote`, `release`, `version`, `mcp`, `tree`, `graph`, `docs`, `update`, `list`, `add`, `merge`, `split`, `evidence`, and `help`.
 
 Named skill actions live under `gaia skills`: `list`, `search`, `install`, `uninstall`, and `info`. The old flat verbs are intentionally removed.
 

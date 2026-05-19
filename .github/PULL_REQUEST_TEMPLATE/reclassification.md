@@ -20,7 +20,7 @@ Explain why the current classification is incorrect or outdated. Reference new e
 - [ ] If upgrading level, new evidence meets the threshold for the target level.
 - [ ] If downgrading, explanation of why previous evidence no longer applies.
 - [ ] Rarity changes are only permitted if backed by updated prevalence data.
-- [ ] I have run `python scripts/validate.py` locally and it passes.
+- [ ] I have run `gaia validate` locally and it passes.
 
 **Reviewer:**
 - [ ] **Evidence quality:** New sources are valid and correctly classified.
