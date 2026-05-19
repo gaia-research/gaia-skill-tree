@@ -122,8 +122,11 @@ $env:PATH += ";" + (python -c "import sysconfig; print(sysconfig.get_path('scrip
 ```bash
 git clone https://github.com/mbtiongson1/gaia-skill-tree.git
 cd gaia-skill-tree
-pip install -e ".[embeddings]"
+pip install -e ".[embeddings,dev]"
 ```
+
+The `dev` extra installs packaging/test tools such as `build` and `pytest`; without it,
+packaging-specific tests are skipped locally with guidance to install developer extras.
 </details>
 
 **2. Initialise & scan**
