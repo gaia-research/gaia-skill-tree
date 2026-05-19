@@ -1854,8 +1854,12 @@
     }
     window.addEventListener('resize', resize);
     const pointerTarget = options.pointerTarget || canvas;
+    let _lastRect = null;
+    window.addEventListener('resize', () => { _lastRect = null; });
+    window.addEventListener('scroll', () => { _lastRect = null; }, { passive: true });
     pointerTarget.addEventListener('mousemove', event => {
-      const rect = canvas.getBoundingClientRect();
+      if (!_lastRect) _lastRect = canvas.getBoundingClientRect();
+      const rect = _lastRect;
       if (_opts.draggable && state.dragging) {
         if (state.dragMode === 'orbit') {
           state.orbitY += (event.clientX - state.dragLastX) * 0.007;
@@ -1893,6 +1897,10 @@
       if (!_opts.draggable) return;
       if (e.button === 2) return;
       e.preventDefault();
+
+      // Update rect cache on mousedown to ensure precision before drag
+      _lastRect = canvas.getBoundingClientRect();
+
       state.dragging = true;
       state.dragMode = (e.button === 1 || e.ctrlKey) ? 'orbit' : 'pan';
       state.dragMoved = false;
