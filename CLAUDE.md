@@ -11,13 +11,10 @@ gaia scan
 gaia appraise
 gaia skills search web
 
-python scripts/validate.py
-python scripts/validate_intake.py
-python scripts/generateProjections.py
-python scripts/exportGexf.py
-python scripts/renderGraphSvg.py --format svg --output registry/gaia.svg
-python scripts/build_docs.py --check
-python -m pytest
+gaia validate
+gaia validate --intake
+gaia docs build --check
+gaia test all
 
 cd packages/cli-npm && npm test
 cd packages/mcp && npm run build && npm test

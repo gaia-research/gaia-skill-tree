@@ -632,11 +632,9 @@ def main(argv: list[str] | None = None) -> int:
         or sync_assets_changed
     )
     if args.check and changed:
-        print("Generated documentation is stale. Run `python scripts/build_docs.py --check` locally.")
-        print("If it reports drift, run `python scripts/build_docs.py` and commit the updated files.")
-        print("CSS tokens specifically can be refreshed with `python scripts/generateCssTokens.py`.")
-        print("Named index can be refreshed with `python scripts/generateNamedIndex.py`.")
-        print("Docs assets can be re-synced with `python scripts/syncDocsGraphAssets.py`.")
+        print("Generated documentation is stale. Run `gaia docs build --check` locally.")
+        print("If it reports drift, run `gaia docs build` and commit the updated files.")
+        print("Validation checks can be run with `gaia validate`.")
         return 1
     print("Documentation is up to date." if not changed else "Documentation regenerated.")
     return 0

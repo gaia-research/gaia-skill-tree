@@ -21,7 +21,7 @@ List evidence entries from the target skill that support this specific fusion pa
 - [ ] Target skill ID exists in `gaia.json`.
 - [ ] Edge records added to the `edges` array in `gaia.json`.
 - [ ] Level floor is justified — source skills must be at this level or above.
-- [ ] I have run `python scripts/validate.py` locally and it passes.
+- [ ] I have run `gaia validate` locally and it passes.
 
 **Reviewer:**
 - [ ] **Validity:** The fusion path is plausible and evidence-backed.
