@@ -1,0 +1,25 @@
+{
+  "id": "sequential-agent-pipeline",
+  "name": "Sequential Agent Pipeline",
+  "type": "basic",
+  "level": "2★",
+  "rarity": "common",
+  "description": "Chains agent outputs sequentially so each step's result feeds the next, enabling multi-stage data transformation and coordinated processing.",
+  "prerequisites": [],
+  "derivatives": [],
+  "conditions": "",
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/ruvnet/ruflo",
+      "evaluator": "mbtiongson1",
+      "date": "2026-05-19",
+      "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-05-19",
+  "updatedAt": "2026-05-19",
+  "version": "0.1.0"
+}
