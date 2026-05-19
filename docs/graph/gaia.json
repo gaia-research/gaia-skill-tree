@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/skill.schema.json",
-  "version": "3.16.6",
-  "generatedAt": "2026-05-19T14:17:53.165301Z",
+  "version": "3.17.0",
+  "generatedAt": "2026-05-19T16:30:55.975537Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -90,6 +90,59 @@
   },
   "skills": [
     {
+      "id": "adaptive-pattern-learning",
+      "name": "Adaptive Pattern Learning",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Records task outcomes and identifies recurring scenarios to rank optimal response strategies over time.",
+      "prerequisites": [],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/ruvnet/ruflo",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-19",
+          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-19",
+      "updatedAt": "2026-05-19",
+      "version": "0.1.0"
+    },
+    {
+      "id": "advanced-swarm-coordination",
+      "name": "Advanced Swarm Coordination",
+      "type": "extra",
+      "level": "3★",
+      "rarity": "uncommon",
+      "description": "Domain-specific swarm patterns for research, development, testing, and analysis workflows with neural learning and cross-session state persistence.",
+      "prerequisites": [
+        "swarm-topology-management",
+        "multi-agent-debate"
+      ],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/ruvnet/ruflo",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-19",
+          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-19",
+      "updatedAt": "2026-05-19",
+      "version": "0.1.0"
+    },
+    {
       "id": "agent-eval",
       "name": "Agent Evaluation",
       "type": "extra",
@@ -132,6 +185,73 @@
       "createdAt": "2026-04-30",
       "updatedAt": "2026-05-10",
       "version": "0.1.0"
+    },
+    {
+      "id": "agent-memory-learning",
+      "name": "Agent Memory Learning",
+      "type": "extra",
+      "level": "3★",
+      "rarity": "uncommon",
+      "description": "Builds self-improving agent memory by analyzing task success patterns and adapting retrieval strategies with AgentDB-backed persistence.",
+      "prerequisites": [
+        "memory-manage",
+        "adaptive-pattern-learning"
+      ],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/ruvnet/ruflo",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-19",
+          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-19",
+      "updatedAt": "2026-05-19",
+      "version": "0.1.0"
+    },
+    {
+      "id": "agent-memory-platform",
+      "name": "Agent Memory Platform",
+      "type": "ultimate",
+      "level": "5★",
+      "rarity": "legendary",
+      "description": "Complete AgentDB vector memory ecosystem: QUIC-synchronized distributed vector storage, adaptive pattern learning, memory pattern design, database optimization, and semantic vector search.",
+      "prerequisites": [
+        "distributed-vector-memory",
+        "agent-memory-learning",
+        "memory-pattern-design",
+        "vector-db-optimization",
+        "vector-search"
+      ],
+      "derivatives": [],
+      "conditions": "Requires demonstrating all 5 AgentDB discipline skills in a production distributed system context.",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/ruvnet/ruflo",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-19",
+          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-19",
+      "updatedAt": "2026-05-19",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-19T00:00:00Z",
+          "action": "fuse",
+          "contributor": "mbtiongson1",
+          "details": "Fused 5 ruvnet/agentdb discipline skills into /agent-memory-platform ultimate. Components: distributed-vector-memory, agent-memory-learning, memory-pattern-design, vector-db-optimization, vector-search. Promoted to 5★ on evidence: ruvnet/ruflo — 34k+ stars, AgentDB production deployment."
+        }
+      ]
     },
     {
       "id": "agentic-workflow-design",
@@ -677,6 +797,59 @@
       "version": "0.1.0"
     },
     {
+      "id": "cli-modernization",
+      "name": "CLI Modernization",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Refactors command-line interfaces for improved UX, plugin architecture, and extensibility.",
+      "prerequisites": [],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/ruvnet/ruflo",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-19",
+          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-19",
+      "updatedAt": "2026-05-19",
+      "version": "0.1.0"
+    },
+    {
+      "id": "cloud-platform-management",
+      "name": "Cloud Platform Management",
+      "type": "extra",
+      "level": "3★",
+      "rarity": "uncommon",
+      "description": "Full lifecycle management of cloud AI platforms including user auth, sandbox environments, app store deployment, payments, and challenge systems. Home of the Queen Seraphina AI assistant.",
+      "prerequisites": [
+        "api-call",
+        "tool-use"
+      ],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/ruvnet/ruflo",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-19",
+          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-19",
+      "updatedAt": "2026-05-19",
+      "version": "0.1.0"
+    },
+    {
       "id": "code-execution",
       "name": "Code Execution",
       "type": "basic",
@@ -980,6 +1153,31 @@
       "version": "0.2.0"
     },
     {
+      "id": "core-platform-implementation",
+      "name": "Core Platform Implementation",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Implements foundational platform architecture including plugin discovery, server lifecycle management, and API contracts.",
+      "prerequisites": [],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/ruvnet/ruflo",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-19",
+          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-19",
+      "updatedAt": "2026-05-19",
+      "version": "0.1.0"
+    },
+    {
       "id": "data-analysis",
       "name": "Data Analysis",
       "type": "extra",
@@ -1263,6 +1461,62 @@
       "version": "0.1.0"
     },
     {
+      "id": "distributed-neural-training",
+      "name": "Distributed Neural Training",
+      "type": "extra",
+      "level": "3★",
+      "rarity": "uncommon",
+      "description": "Trains neural networks (feedforward, LSTM, GAN, autoencoder, transformer) across distributed E2B sandbox clusters with federated learning and model marketplace publishing.",
+      "prerequisites": [
+        "parallel-execution",
+        "embed-text"
+      ],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/ruvnet/ruflo",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-19",
+          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-19",
+      "updatedAt": "2026-05-19",
+      "version": "0.1.0"
+    },
+    {
+      "id": "distributed-vector-memory",
+      "name": "Distributed Vector Memory",
+      "type": "extra",
+      "level": "3★",
+      "rarity": "uncommon",
+      "description": "Sub-millisecond cross-node vector synchronization using QUIC protocol with hybrid metadata-filtered search and MMR diversity retrieval.",
+      "prerequisites": [
+        "vector-search",
+        "memory-manage"
+      ],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/ruvnet/ruflo",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-19",
+          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-19",
+      "updatedAt": "2026-05-19",
+      "version": "0.1.0"
+    },
+    {
       "id": "document-analyst",
       "name": "Document Analyst",
       "type": "extra",
@@ -1347,6 +1601,35 @@
       "status": "provisional",
       "createdAt": "2026-04-30",
       "updatedAt": "2026-05-18",
+      "version": "0.1.0"
+    },
+    {
+      "id": "dual-mode",
+      "name": "Dual Mode",
+      "type": "extra",
+      "level": "3★",
+      "rarity": "uncommon",
+      "description": "Orchestrates hybrid Claude+Codex workflows: spawns headless parallel workers, coordinates task routing between interactive and background phases, and collects distributed results.",
+      "prerequisites": [
+        "headless-worker-spawn",
+        "headless-worker-collect",
+        "hybrid-workflow-coordination"
+      ],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/ruvnet/ruflo",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-19",
+          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-19",
+      "updatedAt": "2026-05-19",
       "version": "0.1.0"
     },
     {
@@ -1705,6 +1988,35 @@
       "version": "0.1.0"
     },
     {
+      "id": "flow-nexus-orchestration",
+      "name": "Flow Nexus Orchestration",
+      "type": "extra",
+      "level": "4★",
+      "rarity": "rare",
+      "description": "Complete Flow Nexus platform: multi-topology swarm deployment, cloud platform management, and distributed neural training unified into one orchestration layer.",
+      "prerequisites": [
+        "multi-agent-orchestration-v",
+        "cloud-platform-management",
+        "distributed-neural-training"
+      ],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/ruvnet/ruflo",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-19",
+          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-19",
+      "updatedAt": "2026-05-19",
+      "version": "0.1.0"
+    },
+    {
       "id": "format-output",
       "name": "Format Output",
       "type": "basic",
@@ -2040,6 +2352,62 @@
       "version": "0.1.0"
     },
     {
+      "id": "git-diff-risk-analysis",
+      "name": "Git Diff Risk Analysis",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Analyzes git diffs for complexity, churn, and risk scores to prioritize review attention and flag dangerous changes.",
+      "prerequisites": [],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/ruvnet/ruflo",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-19",
+          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-19",
+      "updatedAt": "2026-05-19",
+      "version": "0.1.0"
+    },
+    {
+      "id": "github-platform-mastery",
+      "name": "GitHub Platform Mastery",
+      "type": "extra",
+      "level": "4★",
+      "rarity": "rare",
+      "description": "Full GitHub platform automation: code review pipelines, multi-repo coordination, project management, release management, and workflow automation.",
+      "prerequisites": [
+        "code-review-pipeline",
+        "multi-repo-coordination",
+        "deployment-automation",
+        "project-management",
+        "workflow-automation"
+      ],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/ruvnet/ruflo",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-19",
+          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-19",
+      "updatedAt": "2026-05-19",
+      "version": "0.1.0"
+    },
+    {
       "id": "grill-me",
       "name": "Grill Me",
       "type": "extra",
@@ -2258,6 +2626,81 @@
       "version": "0.1.0"
     },
     {
+      "id": "headless-worker-collect",
+      "name": "Headless Worker Collect",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Aggregates and formats results from distributed headless workers stored in shared memory with filtering and status reporting.",
+      "prerequisites": [],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/ruvnet/ruflo",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-19",
+          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-19",
+      "updatedAt": "2026-05-19",
+      "version": "0.1.0"
+    },
+    {
+      "id": "headless-worker-spawn",
+      "name": "Headless Worker Spawn",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Launches headless AI worker processes for parallel background task execution with configurable worker types and shared memory coordination.",
+      "prerequisites": [],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/ruvnet/ruflo",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-19",
+          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-19",
+      "updatedAt": "2026-05-19",
+      "version": "0.1.0"
+    },
+    {
+      "id": "hive-mind-coordination",
+      "name": "Hive Mind Coordination",
+      "type": "unique",
+      "level": "4★",
+      "rarity": "rare",
+      "description": "Queen-led collective intelligence with Byzantine, majority, and weighted consensus mechanisms, eight worker specializations, and persistent collective SQLite memory with LRU caching.",
+      "prerequisites": [],
+      "derivatives": [],
+      "conditions": "Requires demonstrating queen-led multi-agent consensus across at least 3 specialized worker types.",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/ruvnet/ruflo",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-19",
+          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-19",
+      "updatedAt": "2026-05-19",
+      "version": "0.1.0"
+    },
+    {
       "id": "humanize-prose",
       "name": "Humanize Prose",
       "type": "extra",
@@ -2286,6 +2729,31 @@
       "status": "provisional",
       "createdAt": "2026-05-06",
       "updatedAt": "2026-05-06",
+      "version": "0.1.0"
+    },
+    {
+      "id": "hybrid-workflow-coordination",
+      "name": "Hybrid Workflow Coordination",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Routes tasks between interactive reasoning phases and parallel background execution with configurable workflow templates.",
+      "prerequisites": [],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/ruvnet/ruflo",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-19",
+          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-19",
+      "updatedAt": "2026-05-19",
       "version": "0.1.0"
     },
     {
@@ -2511,6 +2979,31 @@
       "status": "provisional",
       "createdAt": "2026-05-17",
       "updatedAt": "2026-05-17",
+      "version": "0.1.0"
+    },
+    {
+      "id": "learned-memory-integration",
+      "name": "Learned Memory Integration",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Persists agent reasoning patterns in vector memory and retrieves them semantically for continuous self-improvement across sessions.",
+      "prerequisites": [],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/ruvnet/ruflo",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-19",
+          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-19",
+      "updatedAt": "2026-05-19",
       "version": "0.1.0"
     },
     {
@@ -2793,6 +3286,31 @@
       "version": "0.2.0"
     },
     {
+      "id": "memory-pattern-design",
+      "name": "Memory Pattern Design",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Designs recurring memory storage patterns for AI agents with LRU caching, SQLite persistence, and associative retrieval.",
+      "prerequisites": [],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/ruvnet/ruflo",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-19",
+          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-19",
+      "updatedAt": "2026-05-19",
+      "version": "0.1.0"
+    },
+    {
       "id": "ml-artifact-management",
       "name": "ML Artifact Management",
       "type": "extra",
@@ -2925,6 +3443,31 @@
       "updatedAt": "2026-04-26",
       "version": "0.1.0",
       "title": "Grand Conductor"
+    },
+    {
+      "id": "multi-repo-coordination",
+      "name": "Multi-Repo Coordination",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Manages synchronized operations across multiple repositories including cross-repo PRs, dependency tracking, and bulk workflow automation.",
+      "prerequisites": [],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/ruvnet/ruflo",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-19",
+          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-19",
+      "updatedAt": "2026-05-19",
+      "version": "0.1.0"
     },
     {
       "id": "multimodal-reasoning",
@@ -3137,6 +3680,31 @@
       "version": "0.2.0"
     },
     {
+      "id": "performance-tuning",
+      "name": "Performance Tuning",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Profiles execution hotspots, measures throughput and latency, and applies targeted optimizations to reduce resource consumption.",
+      "prerequisites": [],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/ruvnet/ruflo",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-19",
+          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-19",
+      "updatedAt": "2026-05-19",
+      "version": "0.1.0"
+    },
+    {
       "id": "plan-and-execute",
       "name": "Plan and Execute",
       "type": "extra",
@@ -3200,6 +3768,37 @@
       "status": "provisional",
       "createdAt": "2026-04-26",
       "updatedAt": "2026-04-29",
+      "version": "0.1.0"
+    },
+    {
+      "id": "platform-modernization-sprint",
+      "name": "Platform Modernization Sprint",
+      "type": "extra",
+      "level": "4★",
+      "rarity": "rare",
+      "description": "Systematic v3 platform overhaul: CLI modernization, core implementation, DDD architecture, deep integration, MCP optimization, memory unification, performance tuning, security overhaul, and swarm coordination.",
+      "prerequisites": [
+        "cli-modernization",
+        "core-platform-implementation",
+        "system-integration",
+        "performance-tuning",
+        "advanced-swarm-coordination"
+      ],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/ruvnet/ruflo",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-19",
+          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-19",
+      "updatedAt": "2026-05-19",
       "version": "0.1.0"
     },
     {
@@ -3559,6 +4158,34 @@
       "title": "Eternal Herald"
     },
     {
+      "id": "reasoning-pattern-bank",
+      "name": "Reasoning Pattern Bank",
+      "type": "extra",
+      "level": "3★",
+      "rarity": "uncommon",
+      "description": "Fuses adaptive pattern learning with persistent vector memory to build a self-improving agent knowledge base across sessions.",
+      "prerequisites": [
+        "adaptive-pattern-learning",
+        "learned-memory-integration"
+      ],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/ruvnet/ruflo",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-19",
+          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-19",
+      "updatedAt": "2026-05-19",
+      "version": "0.1.0"
+    },
+    {
       "id": "receiving-code-review",
       "name": "Receiving Code Review",
       "type": "extra",
@@ -3913,6 +4540,46 @@
       "createdAt": "2026-04-26",
       "updatedAt": "2026-04-26",
       "version": "0.1.0"
+    },
+    {
+      "id": "ruflo",
+      "name": "Ruflo",
+      "type": "ultimate",
+      "level": "6★",
+      "rarity": "legendary",
+      "description": "The complete Ruflo AI orchestration platform: multi-topology swarm deployment, cloud platform management, GitHub automation, hive-mind consensus, reasoning memory bank, and full v3 architecture modernization.",
+      "prerequisites": [
+        "flow-nexus-orchestration",
+        "agent-memory-platform",
+        "github-platform-mastery",
+        "reasoning-pattern-bank",
+        "platform-modernization-sprint",
+        "dual-mode"
+      ],
+      "derivatives": [],
+      "conditions": "Requires demonstrating all 6 Ruflo suite fusions together in a production multi-agent context. Grandmaster Path: 34k+ stars on ruvnet/ruflo + agent-memory-platform 5★ Ultimate.",
+      "evidence": [
+        {
+          "class": "A",
+          "source": "https://github.com/ruvnet/ruflo",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-19",
+          "notes": "Ruflo orchestration platform — 34k+ GitHub stars. Meets Class A threshold: ≥5 named skills registered across 6 generic buckets in Gaia."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-19",
+      "updatedAt": "2026-05-19",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-19T00:00:00Z",
+          "action": "fuse",
+          "contributor": "mbtiongson1",
+          "details": "Fused 6 Ruflo suite skills into /ruflo 6★ apex ultimate. Components: flow-nexus-orchestration, agent-memory-platform, github-platform-mastery, hive-mind-coordination, reasoning-pattern-bank, platform-modernization-sprint."
+        }
+      ]
     },
     {
       "id": "schema-design",
@@ -4298,6 +4965,31 @@
       "createdAt": "2026-04-28",
       "updatedAt": "2026-05-17",
       "version": "1.0.0"
+    },
+    {
+      "id": "sequential-agent-pipeline",
+      "name": "Sequential Agent Pipeline",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Chains agent outputs sequentially so each step's result feeds the next, enabling multi-stage data transformation and coordinated processing.",
+      "prerequisites": [],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/ruvnet/ruflo",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-19",
+          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-19",
+      "updatedAt": "2026-05-19",
+      "version": "0.1.0"
     },
     {
       "id": "skill-authoring",
@@ -4706,6 +5398,56 @@
           "details": "Fused 11 obra/superpowers discipline skills into /superpowers ultimate. Components: brainstorming, writing-plans, executing-plans, dispatching-parallel-agents, subagent-driven-development, requesting-code-review, receiving-code-review, systematic-debugging, verification-before-completion, using-git-worktrees, finishing-a-development-branch. Promoted to 5 star on evidence: obra/superpowers v5.1.0, 196k+ stars, multi-platform adoption."
         }
       ]
+    },
+    {
+      "id": "swarm-topology-management",
+      "name": "Swarm Topology Management",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Initializes and manages multi-agent swarm network topologies (hierarchical, mesh, ring, star) with load balancing and fault tolerance.",
+      "prerequisites": [],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/ruvnet/ruflo",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-19",
+          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-19",
+      "updatedAt": "2026-05-19",
+      "version": "0.1.0"
+    },
+    {
+      "id": "system-integration",
+      "name": "System Integration",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Connects disparate subsystems via shared contracts, event buses, and compatibility layers for coherent cross-component operation.",
+      "prerequisites": [],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/ruvnet/ruflo",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-19",
+          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-19",
+      "updatedAt": "2026-05-19",
+      "version": "0.1.0"
     },
     {
       "id": "systematic-debugging",
@@ -5196,6 +5938,56 @@
       "version": "0.1.0"
     },
     {
+      "id": "vector-db-optimization",
+      "name": "Vector DB Optimization",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Tunes vector database indices, sharding strategies, and multi-database coordination for production-scale retrieval.",
+      "prerequisites": [],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/ruvnet/ruflo",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-19",
+          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-19",
+      "updatedAt": "2026-05-19",
+      "version": "0.1.0"
+    },
+    {
+      "id": "vector-search",
+      "name": "Vector Search",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Performs similarity search over high-dimensional embeddings using cosine, Euclidean, dot-product, or custom distance metrics.",
+      "prerequisites": [],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/ruvnet/ruflo",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-19",
+          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-19",
+      "updatedAt": "2026-05-19",
+      "version": "0.1.0"
+    },
+    {
       "id": "verification-before-completion",
       "name": "Verification Before Completion",
       "type": "extra",
@@ -5447,6 +6239,31 @@
       "version": "0.1.0"
     },
     {
+      "id": "worker-agent-dispatch",
+      "name": "Worker Agent Dispatch",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Maps trigger events to optimal agent combinations for background task execution with performance tracking and continuous feedback.",
+      "prerequisites": [],
+      "derivatives": [],
+      "conditions": "",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/ruvnet/ruflo",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-19",
+          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-19",
+      "updatedAt": "2026-05-19",
+      "version": "0.1.0"
+    },
+    {
       "id": "workflow-automation",
       "name": "Workflow Automation",
       "type": "extra",
@@ -5621,8 +6438,38 @@
   ],
   "edges": [
     {
+      "sourceSkillId": "adaptive-pattern-learning",
+      "targetSkillId": "agent-memory-learning",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "adaptive-pattern-learning",
+      "targetSkillId": "reasoning-pattern-bank",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "advanced-swarm-coordination",
+      "targetSkillId": "platform-modernization-sprint",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "agent-eval",
       "targetSkillId": "skill-performance-benchmarking",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "agent-memory-learning",
+      "targetSkillId": "agent-memory-platform",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "agent-memory-platform",
+      "targetSkillId": "ruflo",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "api-call",
+      "targetSkillId": "cloud-platform-management",
       "edgeType": "prerequisite"
     },
     {
@@ -5806,6 +6653,16 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "cli-modernization",
+      "targetSkillId": "platform-modernization-sprint",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "cloud-platform-management",
+      "targetSkillId": "flow-nexus-orchestration",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "code-execution",
       "targetSkillId": "mathematical-animation",
       "edgeType": "prerequisite"
@@ -5862,6 +6719,11 @@
     },
     {
       "sourceSkillId": "code-review-pipeline",
+      "targetSkillId": "github-platform-mastery",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "code-review-pipeline",
       "targetSkillId": "gstack",
       "edgeType": "prerequisite"
     },
@@ -5893,6 +6755,11 @@
     {
       "sourceSkillId": "context-compression",
       "targetSkillId": "memory-manage",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "core-platform-implementation",
+      "targetSkillId": "platform-modernization-sprint",
       "edgeType": "prerequisite"
     },
     {
@@ -5933,6 +6800,11 @@
     {
       "sourceSkillId": "data-visualize",
       "targetSkillId": "mathematical-animation",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "deployment-automation",
+      "targetSkillId": "github-platform-mastery",
       "edgeType": "prerequisite"
     },
     {
@@ -5991,6 +6863,16 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "distributed-neural-training",
+      "targetSkillId": "flow-nexus-orchestration",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "distributed-vector-memory",
+      "targetSkillId": "agent-memory-platform",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "document-editing",
       "targetSkillId": "career-operations",
       "edgeType": "prerequisite"
@@ -6016,8 +6898,18 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "dual-mode",
+      "targetSkillId": "ruflo",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "e2e-testing",
       "targetSkillId": "gstack",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "embed-text",
+      "targetSkillId": "distributed-neural-training",
       "edgeType": "prerequisite"
     },
     {
@@ -6206,6 +7098,11 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "flow-nexus-orchestration",
+      "targetSkillId": "ruflo",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "format-output",
       "targetSkillId": "architecture-diagram",
       "edgeType": "prerequisite"
@@ -6276,6 +7173,11 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "github-platform-mastery",
+      "targetSkillId": "ruflo",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "grill-me",
       "targetSkillId": "grill-with-docs",
       "edgeType": "prerequisite"
@@ -6283,6 +7185,21 @@
     {
       "sourceSkillId": "guardrails",
       "targetSkillId": "gstack",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "headless-worker-collect",
+      "targetSkillId": "dual-mode",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "headless-worker-spawn",
+      "targetSkillId": "dual-mode",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "hybrid-workflow-coordination",
+      "targetSkillId": "dual-mode",
       "edgeType": "prerequisite"
     },
     {
@@ -6313,6 +7230,11 @@
     {
       "sourceSkillId": "knowledge-management",
       "targetSkillId": "gstack",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "learned-memory-integration",
+      "targetSkillId": "reasoning-pattern-bank",
       "edgeType": "prerequisite"
     },
     {
@@ -6352,7 +7274,17 @@
     },
     {
       "sourceSkillId": "memory-manage",
+      "targetSkillId": "agent-memory-learning",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "memory-manage",
       "targetSkillId": "conversational-agent",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "memory-manage",
+      "targetSkillId": "distributed-vector-memory",
       "edgeType": "prerequisite"
     },
     {
@@ -6366,8 +7298,28 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "memory-pattern-design",
+      "targetSkillId": "agent-memory-platform",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "multi-agent-debate",
+      "targetSkillId": "advanced-swarm-coordination",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "multi-agent-debate",
       "targetSkillId": "gstack",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "multi-agent-orchestration-v",
+      "targetSkillId": "flow-nexus-orchestration",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "multi-repo-coordination",
+      "targetSkillId": "github-platform-mastery",
       "edgeType": "prerequisite"
     },
     {
@@ -6378,6 +7330,11 @@
     {
       "sourceSkillId": "parallel-execution",
       "targetSkillId": "dispatching-parallel-agents",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "parallel-execution",
+      "targetSkillId": "distributed-neural-training",
       "edgeType": "prerequisite"
     },
     {
@@ -6403,6 +7360,11 @@
     {
       "sourceSkillId": "parse-pdf",
       "targetSkillId": "document-digitization",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "performance-tuning",
+      "targetSkillId": "platform-modernization-sprint",
       "edgeType": "prerequisite"
     },
     {
@@ -6471,6 +7433,16 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "platform-modernization-sprint",
+      "targetSkillId": "ruflo",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "project-management",
+      "targetSkillId": "github-platform-mastery",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "project-management",
       "targetSkillId": "gstack",
       "edgeType": "prerequisite"
@@ -6513,6 +7485,11 @@
     {
       "sourceSkillId": "rank",
       "targetSkillId": "rag-pipeline",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "reasoning-pattern-bank",
+      "targetSkillId": "ruflo",
       "edgeType": "prerequisite"
     },
     {
@@ -6781,6 +7758,16 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "swarm-topology-management",
+      "targetSkillId": "advanced-swarm-coordination",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "system-integration",
+      "targetSkillId": "platform-modernization-sprint",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "systematic-debugging",
       "targetSkillId": "gstack",
       "edgeType": "prerequisite"
@@ -6823,6 +7810,11 @@
     {
       "sourceSkillId": "tool-select",
       "targetSkillId": "tool-chaining",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "tool-use",
+      "targetSkillId": "cloud-platform-management",
       "edgeType": "prerequisite"
     },
     {
@@ -6873,6 +7865,21 @@
     {
       "sourceSkillId": "ux-audit",
       "targetSkillId": "gstack",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "vector-db-optimization",
+      "targetSkillId": "agent-memory-platform",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "vector-search",
+      "targetSkillId": "agent-memory-platform",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "vector-search",
+      "targetSkillId": "distributed-vector-memory",
       "edgeType": "prerequisite"
     },
     {
@@ -6953,6 +7960,11 @@
     {
       "sourceSkillId": "workflow-automation",
       "targetSkillId": "deployment-automation",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "workflow-automation",
+      "targetSkillId": "github-platform-mastery",
       "edgeType": "prerequisite"
     },
     {

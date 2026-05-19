@@ -1,4 +1,4 @@
-# /workflow-automation  [4★ · Hardened]
+# [ruvnet](../../../docs/u/ruvnet/)/github-workflow-automation  [4★ · Hardened]
 **ID:** workflow-automation  
 **Type:** Extra Skill  
 **Level:** 4★  
