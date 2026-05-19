@@ -184,9 +184,19 @@ class HeroScreen(Screen):
         self._advance()
 
     def _advance(self) -> None:
-        from gaia_cli.tui.screens.agent import AgentScreen
+        from gaia_cli.tui.screens.tree import SkillTreeScreen
+        from gaia_cli.localContext import LocalContext
+        from gaia_cli.scanner import load_config
+        cfg = load_config() or {}
+        username = cfg.get("gaiaUser", cfg.get("user", ""))
+        try:
+            ctx = LocalContext.load(self.registry_path, username)
+            owned = ctx.owned_ids
+            detected = ctx.detected_ids
+        except Exception:
+            owned, detected = set(), set()
         self.app.switch_screen(
-            AgentScreen(self.registry_path, self.username, self.version)
+            SkillTreeScreen(self.registry_path, owned, detected)
         )
 
 

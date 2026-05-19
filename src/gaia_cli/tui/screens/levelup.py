@@ -27,8 +27,8 @@ _FRAMES = [
     ("○", T.RANK_UNAWAKENED),
     ("○", T.RANK_AWAKENED),
     ("◇", T.TIER_EXTRA),
-    ("◆", T.TIER_UNIQUE),
-    ("◉", T.BRAND_APEX_GOLD),
+    ("◉", T.TIER_UNIQUE),
+    ("◆", T.BRAND_APEX_GOLD),
 ]
 
 _TIER_FRAME_IDX = {"basic": 2, "extra": 3, "unique": 4, "ultimate": 5}
@@ -82,11 +82,12 @@ class LevelUpModal(ModalScreen[None]):
         banner = _BANNERS.get(self.tier, " SKILL UNLOCKED ")
         sid = self.skill_id
 
-        lines: list[tuple[str, str]] = []
+        lines: list[tuple[str | Text, str]] = []
         gutter = T.NEUTRAL_BORDER
 
         # Top border
-        width = max(len(sid) + 8, len(banner) + 4, 36)
+        # width calculation needs the raw sid length
+        width = max(len(sid) + 10, len(banner) + 4, 36)
         border_h = "═" * (width - 2)
         lines.append((f"╔{border_h}╗", tier_color))
         lines.append((f"║{'':^{width-2}}║", gutter))
@@ -101,9 +102,26 @@ class LevelUpModal(ModalScreen[None]):
         lines.append((f"║{big_glyph:^{width-2}}║", gcolor))
         lines.append((f"║{'':^{width-2}}║", gutter))
 
-        # Skill ID
-        sid_line = f"  {sid}  "
-        lines.append((f"║{sid_line:^{width-2}}║", T.NEUTRAL_TEXT))
+        # Skill ID rendering: @handle/slug
+        t_sid = Text()
+        if "/" in sid:
+            contrib, name = sid.split("/", 1)
+            t_sid.append("@" + contrib, style=T.BRAND_HONOR_RED)
+            t_sid.append("/" + name, style=T.STATE_OWNED)
+        else:
+            t_sid.append(sid, style=T.STATE_OWNED)
+        
+        # Center the Text object manually for the box
+        content_len = len(t_sid.plain)
+        pad = (width - 2 - content_len) // 2
+        lpad = " " * pad
+        rpad = " " * (width - 2 - content_len - pad)
+        t_line = Text("║")
+        t_line.append(lpad)
+        t_line.append(t_sid)
+        t_line.append(rpad)
+        t_line.append("║")
+        lines.append((t_line, ""))
 
         # Level
         if self.level:
@@ -131,7 +149,11 @@ class LevelUpModal(ModalScreen[None]):
 
         t = Text()
         for line, color in lines:
-            t.append(line + "\n", style=color)
+            if isinstance(line, Text):
+                t.append(line)
+                t.append("\n")
+            else:
+                t.append(line + "\n", style=color)
 
         card.update(Align.center(t, vertical="middle"))
 
