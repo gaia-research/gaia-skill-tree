@@ -30,23 +30,46 @@ python3 scripts/validate_intake.py
 
 Use this when proposing skills via `registry-for-review/skill-batches/*.json`.
 
-### B) Update the canonical graph directly
+### B) Update the canonical graph directly (Meta Shifts)
 
-1. Fork the repo.
-2. Edit or add individual JSON files in `registry/nodes/`.
-3. Validate:
-   ```bash
-   python3 scripts/validate.py
-   ```
-   Note: The validator now checks the `registry/nodes/` directory by default.
-4. Open a PR. The pre-commit hooks will automatically handle `gaia.json` assembly and documentation regeneration.
+**DEPRECATED:** Hand-editing individual JSON files in `registry/nodes/` is now deprecated. 
+
+**REQUIRED:** All meta shifts (adding, merging, splitting, adding evidence) MUST be done via CLI commands. This ensures:
+- Programmatic schema integrity.
+- Automated timeline logging for all changes.
+- Smaller token footprints for AI agents.
+
+```bash
+# List skills to find targets
+gaia list --generic
+
+# Merge skills
+gaia merge target-id source-id-1 source-id-2
+
+# Split a skill
+gaia split source-id target-id-1 target-id-2
+
+# Add a new skill
+gaia add "New Skill Name" --type basic --description "..."
+
+# Add evidence
+gaia evidence skill-id "https://example.com/demo" --class B --notes "..."
+```
+
+After any CLI meta shift, validate:
+```bash
+python3 scripts/validate.py
+```
+Note: The validator now checks the `registry/nodes/` directory by default.
+Open a PR with the programmatic changes. The pre-commit hooks will automatically handle `gaia.json` assembly and documentation regeneration.
 
 ---
 
 ## 2) What files are source-of-truth?
 
-- ✅ `registry/nodes/**/*.json` (**The ONLY source for skills**)
+- ✅ `registry/nodes/**/*.json` (**Programmatically managed via CLI**)
 - ✅ `registry-for-review/skill-batches/*.json` (intake batches)
+- ❌ **DO NOT** hand-edit `registry/nodes/*.json` unless absolutely necessary (fix typos).
 - ❌ **DO NOT** edit `registry/gaia.json` directly — it is now an auto-generated artifact.
 - ❌ Do not hand-edit generated docs/graph projections produced by build pipelines.
 

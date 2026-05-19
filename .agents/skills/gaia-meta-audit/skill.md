@@ -33,7 +33,11 @@ Build a prioritized queue of Gaia skills or catalog items that need focused revi
    - P2: broad `mapsToGaia`, duplicate catalog item, or weak evidence tier
    - P3: documentation cleanup or generated-output drift
 5. Present a queue with target, reason, suggested action, and source files to inspect.
-6. For each accepted candidate, hand off to `/gaia-audit` as a separate focused correction.
+6. For each accepted candidate, hand off to `/gaia-audit` as a separate focused correction, or use the **Meta Review CLI commands** for direct registry maintenance:
+   - `gaia merge` for deduplicating or merging superseded skills.
+   - `gaia split` for correcting broad mappings into specific capabilities.
+   - `gaia evidence` for patching weak or stale source evidence.
+   - `gaia add` for creating new Extra Skills suggested by fusion candidate clusters.
 
 ## Output
 

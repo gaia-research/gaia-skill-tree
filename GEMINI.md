@@ -32,6 +32,12 @@ cd packages/cli-npm && npm install
     - `python3 scripts/validate.py` (canonical graph check).
     - `python3 scripts/validate_intake.py` (intake batch check).
 - **Documentation:** `gaia docs build` (regenerates site and artifacts).
+- **Meta Review (CLI-ONLY):** 
+    - `gaia list [--generic] [--named] [--description] [--json]`
+    - `gaia merge <target> <source1>... [--named]`
+    - `gaia split <source> <target1>...`
+    - `gaia add <name> [--id <id>] [--type <type>] [--named]`
+    - `gaia evidence <skillId> <source> [--class A|B|C] [--notes <notes>]`
 - **Testing:** `pytest` (Python test suite).
 - **MCP Server:** `npx @gaia-registry/mcp-server` (or `node packages/mcp/bin/mcp-server.js`).
 

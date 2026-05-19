@@ -331,6 +331,12 @@ Thank you to everyone who has expanded the Gaia registry.
 
 ---
 
+## Programmatic Management
+
+The Gaia registry is programmatically managed. All meta shifts (adding, merging, splitting, adding evidence) must be performed via the [Gaia CLI](src/gaia_cli/). Hand-editing JSON nodes is deprecated to ensure schema integrity and automated timeline logging.
+
+---
+
 ## License
 
 MIT: see [LICENSE](LICENSE).

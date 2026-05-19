@@ -2,8 +2,8 @@ import json
 import os
 import datetime
 
-def assemble():
-    registry_dir = "registry"
+def assemble(registry_root="."):
+    registry_dir = os.path.join(registry_root, "registry")
     nodes_dir = os.path.join(registry_dir, "nodes")
     gaia_json_path = os.path.join(registry_dir, "gaia.json")
     
@@ -41,12 +41,13 @@ def assemble():
 
     # Collect skills
     all_skills = []
-    for root, dirs, files in os.walk(nodes_dir):
-        for file in files:
-            if file.endswith(".json"):
-                with open(os.path.join(root, file), "r", encoding="utf-8") as f:
-                    skill = json.load(f)
-                    all_skills.append(skill)
+    if os.path.isdir(nodes_dir):
+        for root, dirs, files in os.walk(nodes_dir):
+            for file in files:
+                if file.endswith(".json"):
+                    with open(os.path.join(root, file), "r", encoding="utf-8") as f:
+                        skill = json.load(f)
+                        all_skills.append(skill)
 
     # Sort skills by ID for deterministic output
     all_skills.sort(key=lambda x: x["id"])
@@ -68,6 +69,7 @@ def assemble():
     edges.sort(key=lambda x: (x["sourceSkillId"], x["targetSkillId"]))
     assembled_data["edges"] = edges
 
+    os.makedirs(os.path.dirname(gaia_json_path), exist_ok=True)
     with open(gaia_json_path, "w", encoding="utf-8") as f:
         json.dump(assembled_data, f, indent=2, ensure_ascii=False)
         f.write("\n")
@@ -75,4 +77,8 @@ def assemble():
     print(f"Assembled {len(all_skills)} skills and {len(edges)} edges into {gaia_json_path}")
 
 if __name__ == "__main__":
-    assemble()
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--registry", default=".")
+    args = parser.parse_args()
+    assemble(args.registry)

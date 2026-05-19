@@ -20,6 +20,13 @@ from gaia_cli.name import find_awakened_skill, promote_to_named, update_batch_li
 from gaia_cli.install import install_skill, install_suite, update_skills, uninstall_skill, list_installed, interactive_install, list_available
 from gaia_cli.graph import graph_command
 from gaia_cli.commands.stats import stats_command
+from gaia_cli.commands.meta_ops import (
+    meta_list_command,
+    meta_merge_command,
+    meta_split_command,
+    meta_add_command,
+    meta_evidence_command,
+)
 from gaia_cli.registry import (
     generated_output_dir,
     embeddings_path,
@@ -97,6 +104,11 @@ Quick usage:
   gaia stats
   gaia docs build [--check]
   gaia lookup <skillId>
+  gaia list [--generic] [--named] [--description] [--json]
+  gaia merge <target> <source1> [source2...] [--named]
+  gaia split <source> <target1> <target2>...
+  gaia add <name> [--id <id>] [--type <type>] [--description <desc>] [--named] [--contributor <user>]
+  gaia evidence <skillId> <source> [--class A|B|C] [--evaluator <user>] [--date <date>] [--notes <notes>]
   gaia skills <list|search|info|install|uninstall>
   gaia skills list [--exclude-pending]
   gaia skills search <query> [--exclude-pending]
@@ -135,7 +147,11 @@ PUBLIC_COMMANDS = (
     "fuse",
     "docs",
     "lookup",
-    "update",
+    "list",
+    "merge",
+    "split",
+    "add",
+    "evidence",
     "skills",
 )
 
@@ -1402,6 +1418,41 @@ def get_parser():
     docs_build.add_argument('--check', action='store_true', help="Fail if docs are stale without writing")
     lookup_parser = subparsers.add_parser('lookup', help="Look up a canonical skill and its named implementations")
     lookup_parser.add_argument('skillId', help='Skill ID to inspect')
+    
+    list_parser = subparsers.add_parser('list', help="List skills in the registry with filtering")
+    list_parser.add_argument('--generic', action='store_true', help="Include generic (canonical) skills")
+    list_parser.add_argument('--named', action='store_true', help="Include named skills")
+    list_parser.add_argument('--description', action='store_true', help="Include skill descriptions")
+    list_parser.add_argument('--json', action='store_true', help="Output in JSON format")
+    list_parser.add_argument('--extra', action='append', help="Include extra schema fields in output")
+
+    merge_parser = subparsers.add_parser('merge', help="Merge one or more skills into a target skill")
+    merge_parser.add_argument('target', help="Target skill ID to merge into")
+    merge_parser.add_argument('sources', nargs='+', help="Source skill IDs to merge from")
+    merge_parser.add_argument('--named', action='store_true', help="Also merge named implementation references")
+
+    split_parser = subparsers.add_parser('split', help="Split a skill into multiple new skills")
+    split_parser.add_argument('source', help="Source skill ID to split")
+    split_parser.add_argument('targets', nargs='+', help="Target skill IDs to create")
+
+    add_parser = subparsers.add_parser('add', help="Add a new skill to the registry")
+    add_parser.add_argument('name', help="Human-readable name of the skill")
+    add_parser.add_argument('--id', help="Explicit ID for the skill (defaults to slugified name)")
+    add_parser.add_argument('--type', choices=('basic', 'extra', 'ultimate', 'unique'), default='basic', help="Skill type (default: basic)")
+    add_parser.add_argument('--description', help="Skill description")
+    add_parser.add_argument('--named', action='store_true', help="Add as a named skill instead of generic")
+    add_parser.add_argument('--contributor', help="Contributor name for named skill (default: gaiabot)")
+    add_parser.add_argument('--generic-ref', help="Generic skill reference for named skill")
+    add_parser.add_argument('--extra-fields', help="JSON string of additional schema fields")
+
+    evidence_parser = subparsers.add_parser('evidence', help="Add evidence to a skill")
+    evidence_parser.add_argument('skill_id', help="Skill ID to add evidence to")
+    evidence_parser.add_argument('source', help="URL to the evidence source")
+    evidence_parser.add_argument('--class', dest='evidence_class', choices=('A', 'B', 'C'), default='C', help="Evidence class (default: C)")
+    evidence_parser.add_argument('--evaluator', help="GitHub username of the evaluator")
+    evidence_parser.add_argument('--date', help="Date of evaluation (ISO 8601)")
+    evidence_parser.add_argument('--notes', help="Optional notes about the evaluation")
+
     skills_parser = subparsers.add_parser(
         'skills',
         help="Browse and manage named skills",
@@ -1494,6 +1545,16 @@ def main():
         docs_command(args)
     elif args.command == 'lookup':
         lookup_command(args)
+    elif args.command == 'list':
+        meta_list_command(args)
+    elif args.command == 'merge':
+        meta_merge_command(args)
+    elif args.command == 'split':
+        meta_split_command(args)
+    elif args.command == 'add':
+        meta_add_command(args)
+    elif args.command == 'evidence':
+        meta_evidence_command(args)
     elif args.command == 'skills':
         if not getattr(args, 'skills_command', None):
             skills_parser.print_help()

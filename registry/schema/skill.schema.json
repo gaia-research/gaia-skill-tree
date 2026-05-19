@@ -263,7 +263,12 @@
             "name",
             "demote",
             "ascend",
-            "rejected"
+            "rejected",
+            "merge",
+            "split",
+            "add",
+            "evidence_added",
+            "type_change"
           ],
           "description": "The meta-action that occurred."
         },
