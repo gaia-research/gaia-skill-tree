@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/skill.schema.json",
-  "version": "3.16.5",
-  "generatedAt": "2026-05-19T13:56:26.821953Z",
+  "version": "3.16.6",
+  "generatedAt": "2026-05-19T14:17:53.165301Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -16,7 +16,7 @@
       "3★": "Evolved",
       "4★": "Hardened",
       "5★": "Transcendent",
-      "6★": "Transcendent ★"
+      "6★": "Apex"
     },
     "rarityLabels": {
       "legendary": "Divine"
