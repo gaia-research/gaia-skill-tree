@@ -2,7 +2,15 @@
   "$schema": "https://json-schema.org/draft-07/schema#",
   "description": "Gaia schema metadata — single source of truth for nomenclature, theming, and validation rules",
   "levels": {
-    "order": ["0★", "1★", "2★", "3★", "4★", "5★", "6★"],
+    "order": [
+      "0★",
+      "1★",
+      "2★",
+      "3★",
+      "4★",
+      "5★",
+      "6★"
+    ],
     "labels": {
       "0★": "Basic",
       "1★": "Awakened",
@@ -10,29 +18,77 @@
       "3★": "Evolved",
       "4★": "Hardened",
       "5★": "Transcendent",
-      "6★": "Transcendent ★"
+      "6★": "Apex"
     },
     "colors": {
-      "0★": { "hex": "#94a3b8", "bg": "rgba(148,163,184,.12)", "border": "rgba(148,163,184,.4)" },
-      "1★": { "hex": "#38bdf8", "bg": "rgba(56,189,248,.12)", "border": "rgba(56,189,248,.4)" },
-      "2★": { "hex": "#63cab7", "bg": "rgba(99,202,183,.15)", "border": "rgba(99,202,183,.4)" },
-      "3★": { "hex": "#a78bfa", "bg": "rgba(167,139,250,.15)", "border": "rgba(167,139,250,.4)" },
-      "4★": { "hex": "#e879f9", "bg": "rgba(232,121,249,.15)", "border": "rgba(232,121,249,.4)" },
-      "5★": { "hex": "#fbbf24", "bg": "rgba(251,191,36,.15)", "border": "rgba(251,191,36,.4)" },
-      "6★": { "hex": "#fbbf24", "bg": "rgba(251,191,36,.22)", "border": "rgba(251,191,36,.55)" }
+      "0★": {
+        "hex": "#94a3b8",
+        "bg": "rgba(148,163,184,.12)",
+        "border": "rgba(148,163,184,.4)"
+      },
+      "1★": {
+        "hex": "#38bdf8",
+        "bg": "rgba(56,189,248,.12)",
+        "border": "rgba(56,189,248,.4)"
+      },
+      "2★": {
+        "hex": "#63cab7",
+        "bg": "rgba(99,202,183,.15)",
+        "border": "rgba(99,202,183,.4)"
+      },
+      "3★": {
+        "hex": "#a78bfa",
+        "bg": "rgba(167,139,250,.15)",
+        "border": "rgba(167,139,250,.4)"
+      },
+      "4★": {
+        "hex": "#e879f9",
+        "bg": "rgba(232,121,249,.15)",
+        "border": "rgba(232,121,249,.4)"
+      },
+      "5★": {
+        "hex": "#fbbf24",
+        "bg": "rgba(251,191,36,.15)",
+        "border": "rgba(251,191,36,.4)"
+      },
+      "6★": {
+        "hex": "#fbbf24",
+        "bg": "rgba(251,191,36,.22)",
+        "border": "rgba(251,191,36,.55)"
+      }
     },
     "evidenceFloors": {
       "0★": null,
       "1★": null,
-      "2★": ["C", "B", "A"],
-      "3★": ["B", "A"],
-      "4★": ["B", "A"],
-      "5★": ["B", "A"],
-      "6★": ["A"]
+      "2★": [
+        "C",
+        "B",
+        "A"
+      ],
+      "3★": [
+        "B",
+        "A"
+      ],
+      "4★": [
+        "B",
+        "A"
+      ],
+      "5★": [
+        "B",
+        "A"
+      ],
+      "6★": [
+        "A"
+      ]
     }
   },
   "types": {
-    "order": ["basic", "extra", "unique", "ultimate"],
+    "order": [
+      "basic",
+      "extra",
+      "unique",
+      "ultimate"
+    ],
     "labels": {
       "basic": "Basic Skill",
       "extra": "Extra Skill",
@@ -46,10 +102,22 @@
       "ultimate": "◆"
     },
     "colors": {
-      "basic": { "hex": "#38bdf8", "rgb": "56,189,248" },
-      "extra": { "hex": "#c084fc", "rgb": "192,132,252" },
-      "unique": { "hex": "#7c3aed", "rgb": "124,58,237" },
-      "ultimate": { "hex": "#f59e0b", "rgb": "245,158,11" }
+      "basic": {
+        "hex": "#38bdf8",
+        "rgb": "56,189,248"
+      },
+      "extra": {
+        "hex": "#c084fc",
+        "rgb": "192,132,252"
+      },
+      "unique": {
+        "hex": "#7c3aed",
+        "rgb": "124,58,237"
+      },
+      "ultimate": {
+        "hex": "#f59e0b",
+        "rgb": "245,158,11"
+      }
     },
     "minPrereqs": {
       "basic": 0,
@@ -64,24 +132,47 @@
     }
   },
   "rarity": {
-    "order": ["common", "uncommon", "rare", "epic", "legendary"],
+    "order": [
+      "common",
+      "uncommon",
+      "rare",
+      "epic",
+      "legendary"
+    ],
     "labels": {
       "legendary": "Divine"
     }
   },
   "evidence": {
-    "classes": ["A", "B", "C"],
+    "classes": [
+      "A",
+      "B",
+      "C"
+    ],
     "ultimateMinSources": 3,
-    "ultimateRequiredClasses": ["A", "B"]
+    "ultimateRequiredClasses": [
+      "A",
+      "B"
+    ]
   },
   "demerits": {
-    "order": ["niche-integration", "experimental-feature", "heavyweight-dependency"],
+    "order": [
+      "niche-integration",
+      "experimental-feature",
+      "heavyweight-dependency"
+    ],
     "labels": {
       "niche-integration": "Niche integrations",
       "experimental-feature": "Experimental features",
       "heavyweight-dependency": "Heavyweight dependencies"
     },
-    "eligibleLevels": ["2★", "3★", "4★", "5★", "6★"],
+    "eligibleLevels": [
+      "2★",
+      "3★",
+      "4★",
+      "5★",
+      "6★"
+    ],
     "minimumEffectiveLevel": "1★"
   },
   "alternativePathways": {
