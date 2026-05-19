@@ -10,7 +10,8 @@
     "conversational-agent",
     "multimodal-reasoning",
     "voice-agent",
-    "gstack"
+    "gstack",
+    "brainstorming"
   ],
   "conditions": "",
   "evidence": [

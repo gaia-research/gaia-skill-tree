@@ -1,13 +1,18 @@
 {
   "id": "dispatching-parallel-agents",
   "name": "Dispatching Parallel Agents",
-  "type": "basic",
+  "type": "extra",
   "level": "4★",
   "rarity": "uncommon",
   "description": "Delegates independent tasks to specialized agents with isolated context to work concurrently.",
-  "prerequisites": [],
+  "prerequisites": [
+    "plan-decompose",
+    "parallel-execution"
+  ],
   "derivatives": [
-    "superpowers"
+    "superpowers",
+    "subagent-driven-development",
+    "requesting-code-review"
   ],
   "conditions": "",
   "evidence": [
@@ -22,6 +27,6 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-18",
-  "updatedAt": "2026-05-18",
+  "updatedAt": "2026-05-19",
   "version": "0.1.0"
 }

@@ -21,6 +21,8 @@ _None._
 - [PRD Generation](../extra/prd-generation.md)
 - [Vertical Slice Planning](../extra/vertical-slice-planning.md)
 - [Design Review](../extra/design-review.md)
+- [Dispatching Parallel Agents](../extra/dispatching-parallel-agents.md)
+- [Writing Plans](../extra/writing-plans.md)
 
 ## Evidence
 | Class | Source | Evaluator | Date |

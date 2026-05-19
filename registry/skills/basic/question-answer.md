@@ -18,6 +18,7 @@ _None._
 - [Multimodal Reasoning](../extra/multimodal-reasoning.md)
 - [Voice Agent](../extra/voice-agent.md)
 - [Founder Mode](../ultimate/gstack.md)
+- [Brainstorming](../extra/brainstorming.md)
 
 ## Evidence
 | Class | Source | Evaluator | Date |

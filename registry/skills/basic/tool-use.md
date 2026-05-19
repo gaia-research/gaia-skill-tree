@@ -18,6 +18,8 @@ _None._
 - [Tool Creation](../extra/tool-creation.md)
 - [Workflow Automation](../extra/workflow-automation.md)
 - [Tool Chaining](../extra/tool-chaining.md)
+- [Executing Plans](../extra/executing-plans.md)
+- [Using Git Worktrees](../extra/using-git-worktrees.md)
 
 ## Evidence
 | Class | Source | Evaluator | Date |

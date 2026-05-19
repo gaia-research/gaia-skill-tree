@@ -1,6 +1,6 @@
 # [obra](../../../docs/u/obra/)/receiving-code-review  [2★ · Named]
 **ID:** receiving-code-review  
-**Type:** Basic Skill  
+**Type:** Extra Skill  
 **Level:** 2★  
 **Tier:** Named  
 **Skill Call:** `/receiving-code-review`
@@ -11,10 +11,14 @@
 Processes code review feedback with technical rigor and verification before implementation, questioning unclear feedback.
 
 ## Prerequisites
-_None._
+- [Requesting Code Review](../extra/requesting-code-review.md)
+- [Verification Before Completion](../extra/verification-before-completion.md)
 
 ## Unlocks
 - [Superpowers](../ultimate/superpowers.md)
+
+## Fusion Condition
+_None specified._
 
 ## Evidence
 | Class | Source | Evaluator | Date |

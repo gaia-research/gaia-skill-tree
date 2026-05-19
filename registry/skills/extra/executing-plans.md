@@ -1,6 +1,6 @@
 # [obra](../../../docs/u/obra/)/executing-plans  [2★ · Named]
 **ID:** executing-plans  
-**Type:** Basic Skill  
+**Type:** Extra Skill  
 **Level:** 2★  
 **Tier:** Named  
 **Skill Call:** `/executing-plans`
@@ -11,10 +11,15 @@
 Loads a written implementation plan, reviews it critically, executes all tasks sequentially, and reports when complete.
 
 ## Prerequisites
-_None._
+- [Writing Plans](../extra/writing-plans.md)
+- [Tool Use](../basic/tool-use.md)
 
 ## Unlocks
 - [Superpowers](../ultimate/superpowers.md)
+- [Subagent-Driven Development](../extra/subagent-driven-development.md)
+
+## Fusion Condition
+_None specified._
 
 ## Evidence
 | Class | Source | Evaluator | Date |

@@ -1,6 +1,6 @@
 # [obra](../../../docs/u/obra/)/brainstorming  [1★ · Awakened]
 **ID:** brainstorming  
-**Type:** Basic Skill  
+**Type:** Extra Skill  
 **Level:** 1★  
 **Tier:** Awakened  
 **Skill Call:** `/brainstorming`
@@ -8,13 +8,17 @@
 ---
 
 ## Description
-Explores user intent, requirements, and design before implementation. Turns ideas into fully formed designs and specs through natural collaborative dialogue.
+Explores user intent, requirements, and design before implementation.
 
 ## Prerequisites
-_None._
+- [Requirements Analysis](../basic/requirements-analysis.md)
+- [Question Answer](../basic/question-answer.md)
 
 ## Unlocks
 - [Superpowers](../ultimate/superpowers.md)
+
+## Fusion Condition
+_None specified._
 
 ## Evidence
 | Class | Source | Evaluator | Date |

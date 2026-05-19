@@ -13,7 +13,9 @@
     "workflow-automation",
     "prd-generation",
     "vertical-slice-planning",
-    "design-review"
+    "design-review",
+    "dispatching-parallel-agents",
+    "writing-plans"
   ],
   "conditions": "",
   "evidence": [

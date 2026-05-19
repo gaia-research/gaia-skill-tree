@@ -1,13 +1,17 @@
 {
   "id": "verification-before-completion",
   "name": "Verification Before Completion",
-  "type": "basic",
+  "type": "extra",
   "level": "1★",
   "rarity": "common",
   "description": "Requires running verification commands and confirming output before claiming work is complete, fixed, or passing.",
-  "prerequisites": [],
+  "prerequisites": [
+    "execute-bash",
+    "self-critique"
+  ],
   "derivatives": [
-    "superpowers"
+    "superpowers",
+    "receiving-code-review"
   ],
   "conditions": "",
   "evidence": [
@@ -22,6 +26,6 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-18",
-  "updatedAt": "2026-05-18",
+  "updatedAt": "2026-05-19",
   "version": "0.1.0"
 }
