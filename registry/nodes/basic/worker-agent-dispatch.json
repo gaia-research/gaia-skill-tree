@@ -1,0 +1,25 @@
+{
+  "id": "worker-agent-dispatch",
+  "name": "Worker Agent Dispatch",
+  "type": "basic",
+  "level": "2★",
+  "rarity": "common",
+  "description": "Maps trigger events to optimal agent combinations for background task execution with performance tracking and continuous feedback.",
+  "prerequisites": [],
+  "derivatives": [],
+  "conditions": "",
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/ruvnet/ruflo",
+      "evaluator": "mbtiongson1",
+      "date": "2026-05-19",
+      "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-05-19",
+  "updatedAt": "2026-05-19",
+  "version": "0.1.0"
+}

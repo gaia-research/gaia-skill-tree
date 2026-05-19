@@ -1,0 +1,91 @@
+{
+  "id": "ruvnet/ruflo",
+  "name": "Ruflo Complete Skill Tree",
+  "contributor": "ruvnet",
+  "description": "The complete Ruflo AI orchestration platform skill tree: 8 suites, 47 named skills, and a 6★ apex capstone. Installs everything from individual basics through suite fusions to the Ruflo ultimate.",
+  "version": "1.0.0",
+  "capstone": "ruvnet/ruflo",
+  "suites": [
+    {
+      "id": "flow-nexus",
+      "name": "Flow Nexus Suite",
+      "fusion": "ruvnet/flow-nexus",
+      "members": ["ruvnet/flow-nexus-swarm", "ruvnet/flow-nexus-platform", "ruvnet/flow-nexus-neural"]
+    },
+    {
+      "id": "agentdb",
+      "name": "AgentDB Suite",
+      "fusion": "ruvnet/agentdb",
+      "members": [
+        "ruvnet/agentdb-vector-search",
+        "ruvnet/agentdb-memory-patterns",
+        "ruvnet/agentdb-optimization",
+        "ruvnet/agentdb-learning",
+        "ruvnet/agentdb-advanced"
+      ]
+    },
+    {
+      "id": "github",
+      "name": "GitHub Suite",
+      "fusion": "ruvnet/github-suite",
+      "members": [
+        "ruvnet/github-code-review",
+        "ruvnet/github-multi-repo",
+        "ruvnet/github-project-management",
+        "ruvnet/github-release-management",
+        "ruvnet/github-workflow-automation"
+      ]
+    },
+    {
+      "id": "hive-mind",
+      "name": "Hive Mind",
+      "fusion": null,
+      "members": ["ruvnet/hive-mind-coordination"]
+    },
+    {
+      "id": "reasoningbank",
+      "name": "ReasoningBank Suite",
+      "fusion": "ruvnet/reasoningbank",
+      "members": ["ruvnet/reasoningbank-agentdb", "ruvnet/reasoningbank-intelligence"]
+    },
+    {
+      "id": "ruflo-v3",
+      "name": "V3 Suite",
+      "fusion": "ruvnet/ruflo-v3",
+      "members": [
+        "ruvnet/swarm-orchestration",
+        "ruvnet/swarm-advanced",
+        "ruvnet/v3-cli-modernization",
+        "ruvnet/v3-core-implementation",
+        "ruvnet/v3-ddd-architecture",
+        "ruvnet/v3-integration-deep",
+        "ruvnet/v3-mcp-optimization",
+        "ruvnet/v3-memory-unification",
+        "ruvnet/v3-performance-optimization",
+        "ruvnet/v3-security-overhaul",
+        "ruvnet/v3-swarm-coordination"
+      ]
+    },
+    {
+      "id": "dual-mode",
+      "name": "Dual Mode Suite",
+      "fusion": "ruvnet/dual-mode",
+      "members": ["ruvnet/dual-spawn", "ruvnet/dual-collect", "ruvnet/dual-coordinate"]
+    }
+  ],
+  "standalones": [
+    "ruvnet/agentic-jujutsu",
+    "ruvnet/browser",
+    "ruvnet/hooks-automation",
+    "ruvnet/pair-programming",
+    "ruvnet/performance-analysis",
+    "ruvnet/skill-builder",
+    "ruvnet/sparc-methodology",
+    "ruvnet/stream-chain",
+    "ruvnet/verification-quality",
+    "ruvnet/worker-benchmarks",
+    "ruvnet/worker-integration"
+  ],
+  "createdAt": "2026-05-19",
+  "updatedAt": "2026-05-19"
+}
