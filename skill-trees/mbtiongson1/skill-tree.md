@@ -29,6 +29,81 @@ GAIA SKILL TREE — mbtiongson1  ·  generated 2026-05-19
 Shared prerequisites marked (↑ see above) on second occurrence.
 ══════════════════════════════════════════════════════════════════════
 
+· ◆ ruvnet/ruflo  [6★]
+  ├─ · ◇ ruvnet/flow-nexus  [4★]
+  │  ├─ · ◇ ruvnet/flow-nexus-swarm  [5★]
+  │  │  ├─ · ◇ /plan-and-execute  [4★]
+  │  │  │  ├─ · ○ /route-intent  [1★]
+  │  │  │  ├─ · ○ /plan-decompose  [1★]
+  │  │  │  └─ · ○ /tool-select  [1★]
+  │  │  ├─ · ○ /route-intent  [1★]  (↑ see above)
+  │  │  └─ · ○ /tool-select  [1★]  (↑ see above)
+  │  ├─ · ◇ ruvnet/flow-nexus-platform  [3★]
+  │  │  ├─ · ○ huggingface/hf-cli  [2★]
+  │  │  └─ · ○ /tool-use  [1★]
+  │  └─ · ◇ ruvnet/flow-nexus-neural  [3★]
+  │     ├─ · ○ /parallel-execution  [2★]
+  │     └─ · ○ /embed-text  [1★]
+  ├─ · ◆ ruvnet/agentdb  [5★]
+  │  ├─ · ◇ ruvnet/agentdb-advanced  [3★]
+  │  │  ├─ · ○ ruvnet/agentdb-vector-search  [2★]
+  │  │  └─ · ◇ garrytan/learn  [2★]
+  │  │     ├─ · ○ garrytan/context-restore  [3★]
+  │  │     └─ · ○ /retrieve  [1★]
+  │  ├─ · ◇ ruvnet/agentdb-learning  [3★]
+  │  │  ├─ · ◇ garrytan/learn  [2★]  (↑ see above)
+  │  │  └─ · ○ ruvnet/reasoningbank-intelligence  [2★]
+  │  ├─ · ○ ruvnet/agentdb-memory-patterns  [2★]
+  │  ├─ · ○ ruvnet/agentdb-optimization  [2★]
+  │  └─ · ○ ruvnet/agentdb-vector-search  [2★]  (↑ see above)
+  ├─ · ◇ ruvnet/github-suite  [4★]
+  │  ├─ · ◇ garrytan/plan-eng-review  [3★]
+  │  │  ├─ · ○ garrytan/design-html  [1★]
+  │  │  ├─ · ○ /diff-content  [1★]
+  │  │  └─ · ○ garrytan/benchmark  [1★]
+  │  ├─ · ○ ruvnet/github-multi-repo  [2★]
+  │  ├─ · ◇ garrytan/land-and-deploy  [2★]
+  │  │  ├─ · ◇ ruvnet/github-workflow-automation  [4★]
+  │  │  │  ├─ · ○ /plan-decompose  [1★]  (↑ see above)
+  │  │  │  ├─ · ○ /tool-use  [1★]  (↑ see above)
+  │  │  │  └─ · ○ huggingface/hf-cli  [2★]  (↑ see above)
+  │  │  └─ · ○ /execute-bash  [1★]
+  │  ├─ · ◇ garrytan/landing-report  [2★]
+  │  │  ├─ · ○ huggingface/hf-cli  [2★]  (↑ see above)
+  │  │  └─ · ○ mattpocock/triage  [4★]
+  │  └─ · ◇ ruvnet/github-workflow-automation  [4★]  (↑ see above)
+  ├─ · ◇ ruvnet/reasoningbank  [3★]
+  │  ├─ · ○ ruvnet/reasoningbank-intelligence  [2★]  (↑ see above)
+  │  └─ · ○ ruvnet/reasoningbank-agentdb  [2★]
+  ├─ · ◇ ruvnet/ruflo-v3  [4★]
+  │  ├─ · ○ ruvnet/v3-cli-modernization  [2★]
+  │  ├─ · ○ ruvnet/v3-core-implementation  [2★]
+  │  ├─ · ○ ruvnet/v3-integration-deep  [2★]
+  │  ├─ · ○ ruvnet/performance-analysis  [2★]
+  │  └─ · ◇ ruvnet/swarm-advanced  [3★]
+  │     ├─ · ○ ruvnet/swarm-orchestration  [2★]
+  │     └─ · ◇ garrytan/codex  [4★]
+  │        ├─ · ○ /self-critique  [1★]
+  │        ├─ · ○ garrytan/benchmark  [1★]  (↑ see above)
+  │        └─ · ○ /chain-of-thought  [1★]
+  └─ · ◇ ruvnet/dual-mode  [3★]
+     ├─ · ○ ruvnet/dual-spawn  [2★]
+     ├─ · ○ ruvnet/dual-collect  [2★]
+     └─ · ○ ruvnet/dual-coordinate  [2★]
+
+· ◆ ruvnet/agentdb  [5★]
+  ├─ · ◇ ruvnet/agentdb-advanced  [3★]
+  │  ├─ · ○ ruvnet/agentdb-vector-search  [2★]
+  │  └─ · ◇ garrytan/learn  [2★]
+  │     ├─ · ○ garrytan/context-restore  [3★]
+  │     └─ · ○ /retrieve  [1★]
+  ├─ · ◇ ruvnet/agentdb-learning  [3★]
+  │  ├─ · ◇ garrytan/learn  [2★]  (↑ see above)
+  │  └─ · ○ ruvnet/reasoningbank-intelligence  [2★]
+  ├─ · ○ ruvnet/agentdb-memory-patterns  [2★]
+  ├─ · ○ ruvnet/agentdb-optimization  [2★]
+  └─ · ○ ruvnet/agentdb-vector-search  [2★]  (↑ see above)
+
 · ◆ garrytan/gstack  [5★]
   ├─ · ○ garrytan/office-hours  [0★]
   ├─ · ○ garrytan/benchmark  [1★]
@@ -62,7 +137,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ◇ garrytan/plan-eng-review  [3★]  (↑ see above)
   │  └─ · ○ /diff-content  [1★]  (↑ see above)
   ├─ · ◇ garrytan/land-and-deploy  [2★]
-  │  ├─ · ◇ /workflow-automation  [4★]
+  │  ├─ · ◇ ruvnet/github-workflow-automation  [4★]
   │  │  ├─ · ○ /plan-decompose  [1★]  (↑ see above)
   │  │  ├─ · ○ /tool-use  [1★]
   │  │  └─ · ○ huggingface/hf-cli  [2★]
@@ -164,6 +239,7 @@ Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) throu
   · ◉ nousresearch/feed-monitoring  [4★ · Hardened]
   · ◉ openai/few-shot-learning  [4★ · Hardened]
   · ◉ huggingface/huggingface-llm-trainer  [4★ · Hardened]
+  · ◉ ruvnet/hive-mind-coordination  [4★ · Hardened]
   · ◉ openai/self-consistency  [4★ · Hardened]
   · ◉ huggingface/semantic-cache  [4★ · Hardened]
 
@@ -173,13 +249,16 @@ Basics — basic-tier skills not wired into an upgrade path yet.  (0★ skills c
 
   · ○ mattpocock/zoom-out  [2★]
   · ○ laravel/upgrade-laravel-v13  [0★ · Pure]
+  · ○ ruvnet/agentic-jujutsu  [2★]
   · ○ /image-generate  [2★]
   · ○ huggingface/huggingface-vision-trainer  [2★]
   · ○ /ocr  [2★]
   · ○ /reward-modeling  [2★]
   · ○ /schema-design  [2★]
+  · ○ ruvnet/stream-chain  [2★]
   · ○ addy-osmani/test-driven-development  [0★ · Pure]
   · ○ getagentseal/codeburn  [2★]
+  · ○ ruvnet/worker-integration  [2★]
 ```
 
 ## Pending Combinations

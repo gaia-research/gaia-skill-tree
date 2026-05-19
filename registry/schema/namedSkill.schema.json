@@ -96,6 +96,11 @@
       },
       "description": "Lowercase tags for categorization and search."
     },
+    "suiteRef": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*/[a-z0-9][a-z0-9_-]*$",
+      "description": "Named skill ID of the suite capstone this skill belongs to (e.g. ruvnet/ruflo). Optional. Set by suite manifest, not required in the .md file itself."
+    },
     "createdAt": {
       "type": "string",
       "format": "date",

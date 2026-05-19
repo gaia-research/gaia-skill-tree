@@ -1,0 +1,25 @@
+{
+  "id": "distributed-neural-training",
+  "name": "Distributed Neural Training",
+  "type": "extra",
+  "level": "3★",
+  "rarity": "uncommon",
+  "description": "Trains neural networks (feedforward, LSTM, GAN, autoencoder, transformer) across distributed E2B sandbox clusters with federated learning and model marketplace publishing.",
+  "prerequisites": ["parallel-execution", "embed-text"],
+  "derivatives": [],
+  "conditions": "",
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/ruvnet/ruflo",
+      "evaluator": "mbtiongson1",
+      "date": "2026-05-19",
+      "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-05-19",
+  "updatedAt": "2026-05-19",
+  "version": "0.1.0"
+}

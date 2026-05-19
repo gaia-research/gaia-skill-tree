@@ -1,0 +1,25 @@
+{
+  "id": "dual-mode",
+  "name": "Dual Mode",
+  "type": "extra",
+  "level": "3★",
+  "rarity": "uncommon",
+  "description": "Orchestrates hybrid Claude+Codex workflows: spawns headless parallel workers, coordinates task routing between interactive and background phases, and collects distributed results.",
+  "prerequisites": ["headless-worker-spawn", "headless-worker-collect", "hybrid-workflow-coordination"],
+  "derivatives": [],
+  "conditions": "",
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/ruvnet/ruflo",
+      "evaluator": "mbtiongson1",
+      "date": "2026-05-19",
+      "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-05-19",
+  "updatedAt": "2026-05-19",
+  "version": "0.1.0"
+}
