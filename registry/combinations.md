@@ -31,7 +31,7 @@
 | ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus-neural | Extra Skill | Parallel Execution, Embed Text | 3★ |  |
 | ◇ [ruvnet](../docs/u/ruvnet/)/agentdb-advanced | Extra Skill | Vector Search, Memory Manage | 3★ |  |
 | ◇ /document-analyst | Extra Skill | Parse JSON, Extract Entities, Summarize, Format Output | 3★ |  |
-| ◇ /document-digitization | Extra Skill | Parse PDF, Extract Entities, Format Output | 3★ |  |
+| ◇ /document-digitization | Extra Skill | OCR, Parse PDF, Extract Entities, Format Output | 3★ |  |
 | ◇ [ruvnet](../docs/u/ruvnet/)/dual-mode | Extra Skill | Headless Worker Spawn, Headless Worker Collect, Hybrid Workflow Coordination | 3★ |  |
 | ◇ [garrytan](../docs/u/garrytan/)/qa-only | Extra Skill | Browser Automation, Automated Testing | 3★ | Requires a live or containerised target environment; browser automation must be available. |
 | ◇ [obra](../docs/u/obra/)/executing-plans | Extra Skill | Writing Plans, Tool Use | 2★ |  |

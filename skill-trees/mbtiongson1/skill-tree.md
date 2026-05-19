@@ -252,7 +252,6 @@ Basics — basic-tier skills not wired into an upgrade path yet.  (0★ skills c
   · ○ ruvnet/agentic-jujutsu  [2★]
   · ○ /image-generate  [2★]
   · ○ huggingface/huggingface-vision-trainer  [2★]
-  · ○ /ocr  [2★]
   · ○ /reward-modeling  [2★]
   · ○ /schema-design  [2★]
   · ○ ruvnet/stream-chain  [2★]

@@ -105,6 +105,7 @@
 | ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus-swarm | Extra Skill | 3★ | Evolved | `/multi-agent-orchestration-v` |
 | ○ [ruvnet](../docs/u/ruvnet/)/github-multi-repo | Basic Skill | 2★ | Named | `/multi-repo-coordination` |
 | ◇ [huggingface](../docs/u/huggingface/)/transformers-js | Extra Skill | 3★ → 2★ | Evolved | `/multimodal-reasoning` |
+| ○ /optical-character-recognition | Basic Skill | 2★ | Named | `/optical-character-recognition` |
 | ○ /parallel-execution | Basic Skill | 2★ | Named | `/parallel-execution` |
 | ○ /parse-html | Basic Skill | 1★ | Awakened | `/parse-html` |
 | ○ /parse-json | Basic Skill | 1★ | Awakened | `/parse-json` |
@@ -211,7 +212,6 @@
 | ○ Git Diff Risk Analysis | Intrinsic Skill | 2★ | Named | `/git-diff-risk-analysis` |
 | ○ Image Generate | Intrinsic Skill | 2★ | Named | `/image-generate` |
 | ○ Object Detection | Intrinsic Skill | 2★ | Named | `/object-detection` |
-| ○ OCR | Intrinsic Skill | 2★ | Named | `/ocr` |
 | ○ Reward Modeling | Intrinsic Skill | 2★ | Named | `/reward-modeling` |
 | ○ Schema Design | Intrinsic Skill | 2★ | Named | `/schema-design` |
 | ○ Sequential Agent Pipeline | Intrinsic Skill | 2★ | Named | `/sequential-agent-pipeline` |

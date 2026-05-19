@@ -6,6 +6,7 @@
   "rarity": "uncommon",
   "description": "Converts scanned or PDF documents into structured, machine-readable output by parsing layout, extracting entities, and formatting results.",
   "prerequisites": [
+    "optical-character-recognition",
     "parse-pdf",
     "extract-entities",
     "format-output"
