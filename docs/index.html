@@ -317,24 +317,24 @@
         <!-- Stage 4 — Direction rule: tier tabs read Ultimate→Unique→Extra→Basic
              so the first tab after "All" targets the most-prestigious tier.
              Glyph colour comes from .tier-glyph[data-type] (tokens.css). -->
-        <div class="ns-type-tabs" id="nsTypeTabs">
-          <button class="ns-tab active" type="button" data-type="all">All</button>
-          <button class="ns-tab" type="button" data-type="ultimate"><span class="tier-glyph" data-type="ultimate">◆</span> Ultimate</button>
-          <button class="ns-tab" type="button" data-type="unique"><span class="tier-glyph" data-type="unique">◉</span> Unique</button>
-          <button class="ns-tab" type="button" data-type="extra"><span class="tier-glyph" data-type="extra">◇</span> Extra</button>
-          <button class="ns-tab" type="button" data-type="basic"><span class="tier-glyph" data-type="basic">○</span> Basic</button>
+        <div class="ns-type-tabs" id="nsTypeTabs" role="tablist" aria-label="Skill tier selection">
+          <button class="ns-tab active" type="button" data-type="all" role="tab" aria-selected="true">All</button>
+          <button class="ns-tab" type="button" data-type="ultimate" role="tab" aria-selected="false"><span class="tier-glyph" data-type="ultimate">◆</span> Ultimate</button>
+          <button class="ns-tab" type="button" data-type="unique" role="tab" aria-selected="false"><span class="tier-glyph" data-type="unique">◉</span> Unique</button>
+          <button class="ns-tab" type="button" data-type="extra" role="tab" aria-selected="false"><span class="tier-glyph" data-type="extra">◇</span> Extra</button>
+          <button class="ns-tab" type="button" data-type="basic" role="tab" aria-selected="false"><span class="tier-glyph" data-type="basic">○</span> Basic</button>
         </div>
         <!-- Stage 4 — view-toggle SVGs sourced from the shared sprite. -->
-        <div class="ns-view-btns" id="nsViewBtns">
-          <button class="ns-view-btn active" data-view="tile" title="Tile view">
+        <div class="ns-view-btns" id="nsViewBtns" role="group" aria-label="View mode">
+          <button class="ns-view-btn active" data-view="tile" title="Tile view" aria-pressed="true">
             <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#view-tile"/></svg>
             Tile
           </button>
-          <button class="ns-view-btn" data-view="list" title="List view">
+          <button class="ns-view-btn" data-view="list" title="List view" aria-pressed="false">
             <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#view-list"/></svg>
             List
           </button>
-          <button class="ns-view-btn" data-view="flow" title="Tree / flowchart view">
+          <button class="ns-view-btn" data-view="flow" title="Tree / flowchart view" aria-pressed="false">
             <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#view-tree"/></svg>
             Tree
           </button>
@@ -346,7 +346,7 @@
              in option labels — see .ns-sort-wrap CSS. -->
         <div class="ns-sort-wrap">
           <svg class="ico ns-sort-icon" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#sort-arrows"/></svg>
-          <select id="nsSort" class="ns-sort-sel" title="Sort order">
+          <select id="nsSort" class="ns-sort-sel" title="Sort order" aria-label="Sort order">
             <option value="level-desc">Level (high → low)</option>
             <option value="level-asc">Level (low → high)</option>
             <option value="creator">Creator (A–Z)</option>
@@ -417,13 +417,13 @@
     <div class="meta-sidebar-body">
       <p class="meta-sidebar-intro">A living chronicle of registry evolution: every rank-up, name claim, fusion, and evidence review recorded.</p>
       <div class="mr-controls">
-        <div class="mr-filter-tabs" id="mrFilterTabs">
-          <button class="mr-tab active" type="button" data-action="all">All</button>
-          <button class="mr-tab" type="button" data-action="name">Named</button>
-          <button class="mr-tab" type="button" data-action="rank_up">Rank Up</button>
-          <button class="mr-tab" type="button" data-action="fuse">Fused</button>
-          <button class="mr-tab" type="button" data-action="push">Created</button>
-          <button class="mr-tab" type="button" data-action="evidence">Evidence</button>
+        <div class="mr-filter-tabs" id="mrFilterTabs" role="tablist" aria-label="Meta report filter">
+          <button class="mr-tab active" type="button" data-action="all" role="tab" aria-selected="true">All</button>
+          <button class="mr-tab" type="button" data-action="name" role="tab" aria-selected="false">Named</button>
+          <button class="mr-tab" type="button" data-action="rank_up" role="tab" aria-selected="false">Rank Up</button>
+          <button class="mr-tab" type="button" data-action="fuse" role="tab" aria-selected="false">Fused</button>
+          <button class="mr-tab" type="button" data-action="push" role="tab" aria-selected="false">Created</button>
+          <button class="mr-tab" type="button" data-action="evidence" role="tab" aria-selected="false">Evidence</button>
         </div>
       </div>
       <div class="mr-timeline" id="mrTimeline">
