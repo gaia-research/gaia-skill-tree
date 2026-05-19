@@ -14,7 +14,7 @@ Decompose a task into independent sub-tasks and execute them concurrently, mergi
 _None._
 
 ## Unlocks
-_None._
+- [Dispatching Parallel Agents](../extra/dispatching-parallel-agents.md)
 
 ## Evidence
 | Class | Source | Evaluator | Date |

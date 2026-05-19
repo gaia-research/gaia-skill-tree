@@ -1,0 +1,25 @@
+{
+  "id": "memory-pattern-design",
+  "name": "Memory Pattern Design",
+  "type": "basic",
+  "level": "2★",
+  "rarity": "common",
+  "description": "Designs recurring memory storage patterns for AI agents with LRU caching, SQLite persistence, and associative retrieval.",
+  "prerequisites": [],
+  "derivatives": [],
+  "conditions": "",
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/ruvnet/ruflo",
+      "evaluator": "mbtiongson1",
+      "date": "2026-05-19",
+      "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-05-19",
+  "updatedAt": "2026-05-19",
+  "version": "0.1.0"
+}

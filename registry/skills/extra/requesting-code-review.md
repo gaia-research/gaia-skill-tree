@@ -1,8 +1,8 @@
-# /requesting-code-review  [3★ · Evolved]
-**ID:** requesting-code-review
-**Type:** Extra Skill
-**Level:** 3★
-**Tier:** Evolved
+# [obra](../../../docs/u/obra/)/requesting-code-review  [3★ · Evolved]
+**ID:** requesting-code-review  
+**Type:** Extra Skill  
+**Level:** 3★  
+**Tier:** Evolved  
 **Skill Call:** `/requesting-code-review`
 
 ---
@@ -12,9 +12,11 @@ Dispatches a code reviewer subagent to catch issues before they cascade, providi
 
 ## Prerequisites
 - [Code Review Pipeline](../extra/code-review-pipeline.md)
+- [Dispatching Parallel Agents](../extra/dispatching-parallel-agents.md)
 
 ## Unlocks
-_None._
+- [Superpowers](../ultimate/superpowers.md)
+- [Receiving Code Review](../extra/receiving-code-review.md)
 
 ## Fusion Condition
 _None specified._

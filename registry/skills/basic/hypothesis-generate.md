@@ -15,6 +15,7 @@ _None._
 
 ## Unlocks
 - [Autonomous Scientific Discovery](../extra/scientific-discovery.md)
+- [Systematic Debugging](../extra/systematic-debugging.md)
 
 ## Evidence
 | Class | Source | Evaluator | Date |

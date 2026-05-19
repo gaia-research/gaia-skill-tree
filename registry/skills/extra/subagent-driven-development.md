@@ -1,8 +1,8 @@
-# /subagent-driven-development  [4★ · Hardened]
-**ID:** subagent-driven-development
-**Type:** Extra Skill
-**Level:** 4★
-**Tier:** Hardened
+# [obra](../../../docs/u/obra/)/subagent-driven-development  [4★ · Hardened]
+**ID:** subagent-driven-development  
+**Type:** Extra Skill  
+**Level:** 4★  
+**Tier:** Hardened  
 **Skill Call:** `/subagent-driven-development`
 
 ---
@@ -11,10 +11,12 @@
 Executes plans by dispatching a fresh subagent per task with a two-stage review (spec compliance then code quality).
 
 ## Prerequisites
-- [Plan and Decompose](../basic/plan-decompose.md)
+- [Executing Plans](../extra/executing-plans.md)
+- [Dispatching Parallel Agents](../extra/dispatching-parallel-agents.md)
+- [Code Review Pipeline](../extra/code-review-pipeline.md)
 
 ## Unlocks
-_None._
+- [Superpowers](../ultimate/superpowers.md)
 
 ## Fusion Condition
 _None specified._

@@ -288,6 +288,7 @@ def sync_skills(registry_path):
 
 
 def uninstall_skill(skill_id):
+    skill_id = skill_id.lstrip("/")
     parts = skill_id.split("/", 1)
     if len(parts) != 2:
         print("Error: Invalid skill ID format. Expected 'contributor/skill-name'.", file=sys.stderr)

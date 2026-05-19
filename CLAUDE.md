@@ -5,7 +5,7 @@ Guidance for AI coding agents working in this repository.
 ## Commands
 
 ```bash
-pip install -e ".[embeddings]"
+pip install -e ".[embeddings,dev]"  # dev includes build/pytest for the full test suite
 gaia init --user <username>
 gaia scan
 gaia appraise

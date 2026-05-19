@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <script>window.GAIA_VERSION = "3.16.2";</script>
+  <script>window.GAIA_VERSION = "3.18.0";</script>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -14,14 +14,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="css/styles.css?v=3.16.2">
-  <link rel="stylesheet" href="css/plaque.css?v=3.16.2">
+  <link rel="stylesheet" href="css/styles.css?v=3.18.0">
+  <link rel="stylesheet" href="css/plaque.css?v=3.18.0">
   <!-- Stage 1 — icon sprite helper, loaded BEFORE other UI scripts. -->
-  <script src="js/icons.js?v=3.16.2"></script>
+  <script src="js/icons.js?v=3.18.0"></script>
   <!-- Stage 2 — shared rank-badge primitive, loaded after icons. -->
-  <script src="js/rank-badge.js?v=3.16.2"></script>
+  <script src="js/rank-badge.js?v=3.18.0"></script>
   <!-- Stage 3 — plaque component family, loaded after rank-badge. -->
-  <script src="js/plaque.js?v=3.16.2"></script>
+  <script src="js/plaque.js?v=3.18.0"></script>
 </head>
 
 <body class="home-page">
@@ -335,24 +335,24 @@
         <!-- Stage 4 — Direction rule: tier tabs read Ultimate→Unique→Extra→Basic
              so the first tab after "All" targets the most-prestigious tier.
              Glyph colour comes from .tier-glyph[data-type] (tokens.css). -->
-        <div class="ns-type-tabs" id="nsTypeTabs">
-          <button class="ns-tab active" type="button" data-type="all">All</button>
-          <button class="ns-tab" type="button" data-type="ultimate"><span class="tier-glyph" data-type="ultimate">◆</span> Ultimate</button>
-          <button class="ns-tab" type="button" data-type="unique"><span class="tier-glyph" data-type="unique">◉</span> Unique</button>
-          <button class="ns-tab" type="button" data-type="extra"><span class="tier-glyph" data-type="extra">◇</span> Extra</button>
-          <button class="ns-tab" type="button" data-type="basic"><span class="tier-glyph" data-type="basic">○</span> Basic</button>
+        <div class="ns-type-tabs" id="nsTypeTabs" role="tablist" aria-label="Skill tier selection">
+          <button class="ns-tab active" type="button" data-type="all" role="tab" aria-selected="true">All</button>
+          <button class="ns-tab" type="button" data-type="ultimate" role="tab" aria-selected="false"><span class="tier-glyph" data-type="ultimate">◆</span> Ultimate</button>
+          <button class="ns-tab" type="button" data-type="unique" role="tab" aria-selected="false"><span class="tier-glyph" data-type="unique">◉</span> Unique</button>
+          <button class="ns-tab" type="button" data-type="extra" role="tab" aria-selected="false"><span class="tier-glyph" data-type="extra">◇</span> Extra</button>
+          <button class="ns-tab" type="button" data-type="basic" role="tab" aria-selected="false"><span class="tier-glyph" data-type="basic">○</span> Basic</button>
         </div>
         <!-- Stage 4 — view-toggle SVGs sourced from the shared sprite. -->
-        <div class="ns-view-btns" id="nsViewBtns">
-          <button class="ns-view-btn active" data-view="tile" title="Tile view">
+        <div class="ns-view-btns" id="nsViewBtns" role="group" aria-label="View mode">
+          <button class="ns-view-btn active" data-view="tile" title="Tile view" aria-pressed="true">
             <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#view-tile"/></svg>
             Tile
           </button>
-          <button class="ns-view-btn" data-view="list" title="List view">
+          <button class="ns-view-btn" data-view="list" title="List view" aria-pressed="false">
             <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#view-list"/></svg>
             List
           </button>
-          <button class="ns-view-btn" data-view="flow" title="Tree / flowchart view">
+          <button class="ns-view-btn" data-view="flow" title="Tree / flowchart view" aria-pressed="false">
             <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#view-tree"/></svg>
             Tree
           </button>
@@ -364,7 +364,7 @@
              in option labels — see .ns-sort-wrap CSS. -->
         <div class="ns-sort-wrap">
           <svg class="ico ns-sort-icon" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#sort-arrows"/></svg>
-          <select id="nsSort" class="ns-sort-sel" title="Sort order">
+          <select id="nsSort" class="ns-sort-sel" title="Sort order" aria-label="Sort skills">
             <option value="level-desc">Level (high → low)</option>
             <option value="level-asc">Level (low → high)</option>
             <option value="creator">Creator (A–Z)</option>
@@ -435,13 +435,13 @@
     <div class="meta-sidebar-body">
       <p class="meta-sidebar-intro">A living chronicle of registry evolution: every rank-up, name claim, fusion, and evidence review recorded.</p>
       <div class="mr-controls">
-        <div class="mr-filter-tabs" id="mrFilterTabs">
-          <button class="mr-tab active" type="button" data-action="all">All</button>
-          <button class="mr-tab" type="button" data-action="name">Named</button>
-          <button class="mr-tab" type="button" data-action="rank_up">Rank Up</button>
-          <button class="mr-tab" type="button" data-action="fuse">Fused</button>
-          <button class="mr-tab" type="button" data-action="push">Created</button>
-          <button class="mr-tab" type="button" data-action="evidence">Evidence</button>
+        <div class="mr-filter-tabs" id="mrFilterTabs" role="tablist" aria-label="Meta report filter">
+          <button class="mr-tab active" type="button" data-action="all" role="tab" aria-selected="true">All</button>
+          <button class="mr-tab" type="button" data-action="name" role="tab" aria-selected="false">Named</button>
+          <button class="mr-tab" type="button" data-action="rank_up" role="tab" aria-selected="false">Rank Up</button>
+          <button class="mr-tab" type="button" data-action="fuse" role="tab" aria-selected="false">Fused</button>
+          <button class="mr-tab" type="button" data-action="push" role="tab" aria-selected="false">Created</button>
+          <button class="mr-tab" type="button" data-action="evidence" role="tab" aria-selected="false">Evidence</button>
         </div>
       </div>
       <div class="mr-timeline" id="mrTimeline">
@@ -487,20 +487,20 @@
 
   <!-- ─── SCRIPTS ─── -->
   <!-- icons.js already loaded in <head> so gaiaIcon() is available before any of these. -->
-  <script src="js/atlas-helpers.js?v=3.16.2"></script>
-  <script src="js/skill-graph.js?v=3.16.2"></script>
-  <script src="js/hud-toggle.js?v=3.16.2"></script>
-  <script src="js/scroll-reveal.js?v=3.16.2"></script>
-  <script src="js/named-skills.js?v=3.16.2"></script>
-  <script src="js/skill-explorer.js?v=3.16.2"></script>
-  <script src="js/ui.js?v=3.16.2"></script>
-  <script src="js/page-ia.js?v=3.16.2"></script>
-  <script src="js/plaque-reveal.js?v=3.16.2" defer></script>
+  <script src="js/atlas-helpers.js?v=3.18.0"></script>
+  <script src="js/skill-graph.js?v=3.18.0"></script>
+  <script src="js/hud-toggle.js?v=3.18.0"></script>
+  <script src="js/scroll-reveal.js?v=3.18.0"></script>
+  <script src="js/named-skills.js?v=3.18.0"></script>
+  <script src="js/skill-explorer.js?v=3.18.0"></script>
+  <script src="js/ui.js?v=3.18.0"></script>
+  <script src="js/page-ia.js?v=3.18.0"></script>
+  <script src="js/plaque-reveal.js?v=3.18.0" defer></script>
 
 </body>
 
 </html>
 
 <!-- gaia:stats-start -->
-<!-- skills=166; namedSkills=107; uniqueSkills=5; version=3.16.2 -->
+<!-- skills=196; namedSkills=154; uniqueSkills=6; version=3.18.0 -->
 <!-- gaia:stats-end -->

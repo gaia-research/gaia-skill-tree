@@ -12,12 +12,44 @@
       <attribute id="type" title="type" type="string" />
     </attributes>
     <nodes>
+      <node id="adaptive-pattern-learning" label="Adaptive Pattern Learning">
+        <attvalues>
+          <attvalue for="level" value="2★" />
+          <attvalue for="rarity" value="common" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
+      <node id="advanced-swarm-coordination" label="Advanced Swarm Coordination">
+        <attvalues>
+          <attvalue for="level" value="3★" />
+          <attvalue for="rarity" value="uncommon" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="extra" />
+        </attvalues>
+      </node>
       <node id="agent-eval" label="Agent Evaluation">
         <attvalues>
           <attvalue for="level" value="3★" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
+        </attvalues>
+      </node>
+      <node id="agent-memory-learning" label="Agent Memory Learning">
+        <attvalues>
+          <attvalue for="level" value="3★" />
+          <attvalue for="rarity" value="uncommon" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="extra" />
+        </attvalues>
+      </node>
+      <node id="agent-memory-platform" label="Agent Memory Platform">
+        <attvalues>
+          <attvalue for="level" value="5★" />
+          <attvalue for="rarity" value="legendary" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="ultimate" />
         </attvalues>
       </node>
       <node id="agentic-workflow-design" label="Agentic Workflow Design">
@@ -97,7 +129,7 @@
           <attvalue for="level" value="1★" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="basic" />
+          <attvalue for="type" value="extra" />
         </attvalues>
       </node>
       <node id="browser-automation" label="Browser Automation">
@@ -154,6 +186,22 @@
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
+      <node id="cli-modernization" label="CLI Modernization">
+        <attvalues>
+          <attvalue for="level" value="2★" />
+          <attvalue for="rarity" value="common" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
+      <node id="cloud-platform-management" label="Cloud Platform Management">
+        <attvalues>
+          <attvalue for="level" value="3★" />
+          <attvalue for="rarity" value="uncommon" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="extra" />
         </attvalues>
       </node>
       <node id="code-execution" label="Code Execution">
@@ -228,6 +276,14 @@
           <attvalue for="type" value="extra" />
         </attvalues>
       </node>
+      <node id="core-platform-implementation" label="Core Platform Implementation">
+        <attvalues>
+          <attvalue for="level" value="2★" />
+          <attvalue for="rarity" value="common" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
       <node id="data-analysis" label="Data Analysis">
         <attvalues>
           <attvalue for="level" value="3★" />
@@ -297,7 +353,23 @@
           <attvalue for="level" value="4★" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="basic" />
+          <attvalue for="type" value="extra" />
+        </attvalues>
+      </node>
+      <node id="distributed-neural-training" label="Distributed Neural Training">
+        <attvalues>
+          <attvalue for="level" value="3★" />
+          <attvalue for="rarity" value="uncommon" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="extra" />
+        </attvalues>
+      </node>
+      <node id="distributed-vector-memory" label="Distributed Vector Memory">
+        <attvalues>
+          <attvalue for="level" value="3★" />
+          <attvalue for="rarity" value="uncommon" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="extra" />
         </attvalues>
       </node>
       <node id="document-analyst" label="Document Analyst">
@@ -322,6 +394,14 @@
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
+      <node id="dual-mode" label="Dual Mode">
+        <attvalues>
+          <attvalue for="level" value="3★" />
+          <attvalue for="rarity" value="uncommon" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="extra" />
         </attvalues>
       </node>
       <node id="e2e-testing" label="End-to-End Testing">
@@ -369,7 +449,7 @@
           <attvalue for="level" value="2★" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="basic" />
+          <attvalue for="type" value="extra" />
         </attvalues>
       </node>
       <node id="extract-entities" label="Extract Entities">
@@ -408,6 +488,14 @@
         <attvalues>
           <attvalue for="level" value="2★" />
           <attvalue for="rarity" value="common" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="extra" />
+        </attvalues>
+      </node>
+      <node id="flow-nexus-orchestration" label="Flow Nexus Orchestration">
+        <attvalues>
+          <attvalue for="level" value="4★" />
+          <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -500,6 +588,22 @@
           <attvalue for="type" value="extra" />
         </attvalues>
       </node>
+      <node id="git-diff-risk-analysis" label="Git Diff Risk Analysis">
+        <attvalues>
+          <attvalue for="level" value="2★" />
+          <attvalue for="rarity" value="common" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
+      <node id="github-platform-mastery" label="GitHub Platform Mastery">
+        <attvalues>
+          <attvalue for="level" value="4★" />
+          <attvalue for="rarity" value="rare" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="extra" />
+        </attvalues>
+      </node>
       <node id="grill-me" label="Grill Me">
         <attvalues>
           <attvalue for="level" value="4★" />
@@ -540,12 +644,44 @@
           <attvalue for="type" value="extra" />
         </attvalues>
       </node>
+      <node id="headless-worker-collect" label="Headless Worker Collect">
+        <attvalues>
+          <attvalue for="level" value="2★" />
+          <attvalue for="rarity" value="common" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
+      <node id="headless-worker-spawn" label="Headless Worker Spawn">
+        <attvalues>
+          <attvalue for="level" value="2★" />
+          <attvalue for="rarity" value="common" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
+      <node id="hive-mind-coordination" label="Hive Mind Coordination">
+        <attvalues>
+          <attvalue for="level" value="4★" />
+          <attvalue for="rarity" value="rare" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="unique" />
+        </attvalues>
+      </node>
       <node id="humanize-prose" label="Humanize Prose">
         <attvalues>
           <attvalue for="level" value="4★" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
+        </attvalues>
+      </node>
+      <node id="hybrid-workflow-coordination" label="Hybrid Workflow Coordination">
+        <attvalues>
+          <attvalue for="level" value="2★" />
+          <attvalue for="rarity" value="common" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
         </attvalues>
       </node>
       <node id="hypothesis-generate" label="Hypothesis Generation">
@@ -602,6 +738,14 @@
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
+        </attvalues>
+      </node>
+      <node id="learned-memory-integration" label="Learned Memory Integration">
+        <attvalues>
+          <attvalue for="level" value="2★" />
+          <attvalue for="rarity" value="common" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
         </attvalues>
       </node>
       <node id="literature-review" label="Literature Review">
@@ -668,6 +812,14 @@
           <attvalue for="type" value="extra" />
         </attvalues>
       </node>
+      <node id="memory-pattern-design" label="Memory Pattern Design">
+        <attvalues>
+          <attvalue for="level" value="2★" />
+          <attvalue for="rarity" value="common" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
       <node id="ml-artifact-management" label="ML Artifact Management">
         <attvalues>
           <attvalue for="level" value="2★" />
@@ -698,6 +850,14 @@
           <attvalue for="rarity" value="epic" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
+        </attvalues>
+      </node>
+      <node id="multi-repo-coordination" label="Multi-Repo Coordination">
+        <attvalues>
+          <attvalue for="level" value="2★" />
+          <attvalue for="rarity" value="common" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
         </attvalues>
       </node>
       <node id="multimodal-reasoning" label="Multimodal Reasoning">
@@ -756,6 +916,14 @@
           <attvalue for="type" value="basic" />
         </attvalues>
       </node>
+      <node id="performance-tuning" label="Performance Tuning">
+        <attvalues>
+          <attvalue for="level" value="2★" />
+          <attvalue for="rarity" value="common" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
       <node id="plan-and-execute" label="Plan and Execute">
         <attvalues>
           <attvalue for="level" value="4★" />
@@ -770,6 +938,14 @@
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
+      <node id="platform-modernization-sprint" label="Platform Modernization Sprint">
+        <attvalues>
+          <attvalue for="level" value="4★" />
+          <attvalue for="rarity" value="rare" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="extra" />
         </attvalues>
       </node>
       <node id="prd-generation" label="PRD Generation">
@@ -852,12 +1028,20 @@
           <attvalue for="type" value="extra" />
         </attvalues>
       </node>
+      <node id="reasoning-pattern-bank" label="Reasoning Pattern Bank">
+        <attvalues>
+          <attvalue for="level" value="3★" />
+          <attvalue for="rarity" value="uncommon" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="extra" />
+        </attvalues>
+      </node>
       <node id="receiving-code-review" label="Receiving Code Review">
         <attvalues>
           <attvalue for="level" value="2★" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="basic" />
+          <attvalue for="type" value="extra" />
         </attvalues>
       </node>
       <node id="recursive-self-improvement" label="Recursive Self-Improvement">
@@ -897,7 +1081,7 @@
           <attvalue for="level" value="3★" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="basic" />
+          <attvalue for="type" value="extra" />
         </attvalues>
       </node>
       <node id="requirements-analysis" label="Requirements Analysis">
@@ -938,6 +1122,14 @@
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
+      <node id="ruflo" label="Ruflo">
+        <attvalues>
+          <attvalue for="level" value="6★" />
+          <attvalue for="rarity" value="legendary" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="ultimate" />
         </attvalues>
       </node>
       <node id="schema-design" label="Schema Design">
@@ -1020,6 +1212,14 @@
           <attvalue for="type" value="basic" />
         </attvalues>
       </node>
+      <node id="sequential-agent-pipeline" label="Sequential Agent Pipeline">
+        <attvalues>
+          <attvalue for="level" value="2★" />
+          <attvalue for="rarity" value="common" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
       <node id="skill-authoring" label="Skill Authoring">
         <attvalues>
           <attvalue for="level" value="4★" />
@@ -1089,7 +1289,7 @@
           <attvalue for="level" value="4★" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="basic" />
+          <attvalue for="type" value="extra" />
         </attvalues>
       </node>
       <node id="summarize" label="Summarize">
@@ -1108,12 +1308,28 @@
           <attvalue for="type" value="ultimate" />
         </attvalues>
       </node>
+      <node id="swarm-topology-management" label="Swarm Topology Management">
+        <attvalues>
+          <attvalue for="level" value="2★" />
+          <attvalue for="rarity" value="common" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
+      <node id="system-integration" label="System Integration">
+        <attvalues>
+          <attvalue for="level" value="2★" />
+          <attvalue for="rarity" value="common" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
       <node id="systematic-debugging" label="Systematic Debugging">
         <attvalues>
           <attvalue for="level" value="3★" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="basic" />
+          <attvalue for="type" value="extra" />
         </attvalues>
       </node>
       <node id="test-driven-development" label="Test-Driven Development">
@@ -1225,7 +1441,7 @@
           <attvalue for="level" value="1★" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="basic" />
+          <attvalue for="type" value="extra" />
         </attvalues>
       </node>
       <node id="ux-audit" label="UX Audit">
@@ -1236,12 +1452,28 @@
           <attvalue for="type" value="basic" />
         </attvalues>
       </node>
+      <node id="vector-db-optimization" label="Vector DB Optimization">
+        <attvalues>
+          <attvalue for="level" value="2★" />
+          <attvalue for="rarity" value="common" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
+      <node id="vector-search" label="Vector Search">
+        <attvalues>
+          <attvalue for="level" value="2★" />
+          <attvalue for="rarity" value="common" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
       <node id="verification-before-completion" label="Verification Before Completion">
         <attvalues>
           <attvalue for="level" value="1★" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="basic" />
+          <attvalue for="type" value="extra" />
         </attvalues>
       </node>
       <node id="vertical-slice-planning" label="Vertical Slice Planning">
@@ -1300,6 +1532,14 @@
           <attvalue for="type" value="extra" />
         </attvalues>
       </node>
+      <node id="worker-agent-dispatch" label="Worker Agent Dispatch">
+        <attvalues>
+          <attvalue for="level" value="2★" />
+          <attvalue for="rarity" value="common" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
       <node id="workflow-automation" label="Workflow Automation">
         <attvalues>
           <attvalue for="level" value="4★" />
@@ -1329,7 +1569,7 @@
           <attvalue for="level" value="2★" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="basic" />
+          <attvalue for="type" value="extra" />
         </attvalues>
       </node>
       <node id="x-twitter-automation" label="X/Twitter Automation">
@@ -1342,262 +1582,322 @@
       </node>
     </nodes>
     <edges>
-      <edge id="e0" source="evaluate-output" target="agent-eval" />
-      <edge id="e1" source="score-relevance" target="agent-eval" />
-      <edge id="e2" source="workflow-automation" target="agentic-workflow-design" />
-      <edge id="e3" source="plan-decompose" target="agentic-workflow-design" />
-      <edge id="e4" source="data-visualize" target="architecture-diagram" />
-      <edge id="e5" source="format-output" target="architecture-diagram" />
-      <edge id="e6" source="write-report" target="architecture-diagram" />
-      <edge id="e7" source="generate-test" target="automated-testing" />
-      <edge id="e8" source="execute-bash" target="automated-testing" />
-      <edge id="e9" source="error-interpretation" target="automated-testing" />
-      <edge id="e10" source="data-analysis" target="autonomous-data-scientist" />
-      <edge id="e11" source="math-reason" target="autonomous-data-scientist" />
-      <edge id="e12" source="research" target="autonomous-data-scientist" />
-      <edge id="e13" source="code-generation" target="autonomous-debug" />
-      <edge id="e14" source="execute-bash" target="autonomous-debug" />
-      <edge id="e15" source="error-interpretation" target="autonomous-debug" />
-      <edge id="e16" source="research" target="autonomous-research-agent" />
-      <edge id="e17" source="knowledge-harvest" target="autonomous-research-agent" />
-      <edge id="e18" source="ghostwrite" target="autonomous-research-agent" />
-      <edge id="e19" source="web-scrape" target="autonomous-web-research" />
-      <edge id="e20" source="web-search" target="autonomous-web-research" />
-      <edge id="e21" source="web-search" target="browser-automation" />
-      <edge id="e22" source="computer-use" target="browser-automation" />
-      <edge id="e23" source="autonomous-web-research" target="career-operations" />
-      <edge id="e24" source="summarize" target="career-operations" />
-      <edge id="e25" source="document-editing" target="career-operations" />
-      <edge id="e26" source="code-generation" target="code-review-pipeline" />
-      <edge id="e27" source="diff-content" target="code-review-pipeline" />
-      <edge id="e28" source="evaluate-output" target="code-review-pipeline" />
-      <edge id="e29" source="api-call" target="collaborative-diagramming" />
-      <edge id="e30" source="data-visualize" target="collaborative-diagramming" />
-      <edge id="e31" source="classify" target="content-moderation" />
-      <edge id="e32" source="sentiment-analysis" target="content-moderation" />
-      <edge id="e33" source="extract-entities" target="content-moderation" />
-      <edge id="e34" source="question-answer" target="conversational-agent" />
-      <edge id="e35" source="memory-manage" target="conversational-agent" />
-      <edge id="e36" source="route-intent" target="conversational-agent" />
-      <edge id="e37" source="generate-sql" target="data-analysis" />
-      <edge id="e38" source="data-visualize" target="data-analysis" />
-      <edge id="e39" source="summarize" target="data-analysis" />
-      <edge id="e40" source="workflow-automation" target="deployment-automation" />
-      <edge id="e41" source="execute-bash" target="deployment-automation" />
-      <edge id="e42" source="code-generation" target="design-generation" />
-      <edge id="e43" source="vision-qa" target="design-generation" />
-      <edge id="e44" source="evaluate-output" target="design-review" />
-      <edge id="e45" source="plan-decompose" target="design-review" />
-      <edge id="e46" source="browser-automation" target="design-system-extraction" />
-      <edge id="e47" source="parse-html" target="design-system-extraction" />
-      <edge id="e48" source="evaluate-output" target="detect-anomaly" />
-      <edge id="e49" source="error-interpretation" target="detect-anomaly" />
-      <edge id="e50" source="parse-json" target="document-analyst" />
-      <edge id="e51" source="extract-entities" target="document-analyst" />
-      <edge id="e52" source="summarize" target="document-analyst" />
-      <edge id="e53" source="format-output" target="document-analyst" />
-      <edge id="e54" source="parse-pdf" target="document-digitization" />
-      <edge id="e55" source="extract-entities" target="document-digitization" />
-      <edge id="e56" source="format-output" target="document-digitization" />
-      <edge id="e57" source="browser-automation" target="e2e-testing" />
-      <edge id="e58" source="automated-testing" target="e2e-testing" />
-      <edge id="e59" source="code-review-pipeline" target="finishing-a-development-branch" />
-      <edge id="e60" source="diff-content" target="finishing-a-development-branch" />
-      <edge id="e61" source="code-review-pipeline" target="full-stack-developer" />
-      <edge id="e62" source="automated-testing" target="full-stack-developer" />
-      <edge id="e63" source="refactor-code" target="full-stack-developer" />
-      <edge id="e64" source="structured-output" target="function-calling" />
-      <edge id="e65" source="api-call" target="function-calling" />
-      <edge id="e66" source="tool-select" target="function-calling" />
-      <edge id="e67" source="retrieve" target="gaia-audit" />
-      <edge id="e68" source="cite-sources" target="gaia-audit" />
-      <edge id="e69" source="evaluate-output" target="gaia-audit" />
-      <edge id="e70" source="gaia-audit" target="gaia-meta-audit" />
-      <edge id="e71" source="registry-curation" target="gaia-meta-audit" />
-      <edge id="e72" source="detect-anomaly" target="gaia-meta-audit" />
-      <edge id="e73" source="api-call" target="generative-media" />
-      <edge id="e74" source="data-visualize" target="generative-media" />
-      <edge id="e75" source="research" target="ghostwrite" />
-      <edge id="e76" source="write-report" target="ghostwrite" />
-      <edge id="e77" source="audience-model" target="ghostwrite" />
-      <edge id="e78" source="design-review" target="grill-me" />
-      <edge id="e79" source="self-critique" target="grill-me" />
-      <edge id="e80" source="grill-me" target="grill-with-docs" />
-      <edge id="e81" source="ubiquitous-language" target="grill-with-docs" />
-      <edge id="e82" source="document-editing" target="grill-with-docs" />
-      <edge id="e83" source="retrieve" target="grounding" />
-      <edge id="e84" source="cite-sources" target="grounding" />
-      <edge id="e85" source="evaluate-output" target="grounding" />
-      <edge id="e86" source="question-answer" target="gstack" />
-      <edge id="e87" source="evaluate-output" target="gstack" />
-      <edge id="e88" source="code-review-pipeline" target="gstack" />
-      <edge id="e89" source="ux-audit" target="gstack" />
-      <edge id="e90" source="vertical-slice-planning" target="gstack" />
-      <edge id="e91" source="design-system-extraction" target="gstack" />
-      <edge id="e92" source="design-review" target="gstack" />
-      <edge id="e93" source="code-generation" target="gstack" />
-      <edge id="e94" source="systematic-debugging" target="gstack" />
-      <edge id="e95" source="e2e-testing" target="gstack" />
-      <edge id="e96" source="finishing-a-development-branch" target="gstack" />
-      <edge id="e97" source="deployment-automation" target="gstack" />
-      <edge id="e98" source="detect-anomaly" target="gstack" />
-      <edge id="e99" source="document-editing" target="gstack" />
-      <edge id="e100" source="browser-automation" target="gstack" />
-      <edge id="e101" source="security-audit" target="gstack" />
-      <edge id="e102" source="browser-control" target="gstack" />
-      <edge id="e103" source="web-scrape" target="gstack" />
-      <edge id="e104" source="skill-authoring" target="gstack" />
-      <edge id="e105" source="write-report" target="gstack" />
-      <edge id="e106" source="multi-agent-debate" target="gstack" />
-      <edge id="e107" source="skill-performance-benchmarking" target="gstack" />
-      <edge id="e108" source="automated-testing" target="gstack" />
-      <edge id="e109" source="mcp-integration" target="gstack" />
-      <edge id="e110" source="memory-manage" target="gstack" />
-      <edge id="e111" source="guardrails" target="gstack" />
-      <edge id="e112" source="knowledge-management" target="gstack" />
-      <edge id="e113" source="format-output" target="gstack" />
-      <edge id="e114" source="workspace-automation" target="gstack" />
-      <edge id="e115" source="project-management" target="gstack" />
-      <edge id="e116" source="prompt-optimization" target="gstack" />
-      <edge id="e117" source="evaluate-output" target="guardrails" />
-      <edge id="e118" source="classify" target="guardrails" />
-      <edge id="e119" source="structured-output" target="guardrails" />
-      <edge id="e120" source="document-editing" target="humanize-prose" />
-      <edge id="e121" source="audience-model" target="humanize-prose" />
-      <edge id="e122" source="format-output" target="humanize-prose" />
-      <edge id="e123" source="extract-entities" target="knowledge-graph-build" />
-      <edge id="e124" source="logical-inference" target="knowledge-graph-build" />
-      <edge id="e125" source="web-scrape" target="knowledge-harvest" />
-      <edge id="e126" source="extract-entities" target="knowledge-harvest" />
-      <edge id="e127" source="embed-text" target="knowledge-harvest" />
-      <edge id="e128" source="api-call" target="knowledge-management" />
-      <edge id="e129" source="retrieve" target="knowledge-management" />
-      <edge id="e130" source="research" target="literature-review" />
-      <edge id="e131" source="cite-sources" target="literature-review" />
-      <edge id="e132" source="summarize" target="literature-review" />
-      <edge id="e133" source="code-execution" target="mathematical-animation" />
-      <edge id="e134" source="data-visualize" target="mathematical-animation" />
-      <edge id="e135" source="mcp-integration" target="mcp-debugger-control" />
-      <edge id="e136" source="refactor-code" target="mcp-debugger-control" />
-      <edge id="e137" source="mcp-integration" target="mcp-server-creation" />
-      <edge id="e138" source="tool-creation" target="mcp-server-creation" />
-      <edge id="e139" source="api-call" target="mcp-server-creation" />
-      <edge id="e140" source="context-compression" target="memory-manage" />
-      <edge id="e141" source="retrieve" target="memory-manage" />
-      <edge id="e142" source="api-call" target="ml-artifact-management" />
-      <edge id="e143" source="classify" target="ml-artifact-management" />
-      <edge id="e144" source="data-analysis" target="ml-pipeline" />
-      <edge id="e145" source="automated-testing" target="ml-pipeline" />
-      <edge id="e146" source="code-generation" target="ml-pipeline" />
-      <edge id="e147" source="self-critique" target="multi-agent-debate" />
-      <edge id="e148" source="evaluate-output" target="multi-agent-debate" />
-      <edge id="e149" source="chain-of-thought" target="multi-agent-debate" />
-      <edge id="e150" source="plan-and-execute" target="multi-agent-orchestration-v" />
-      <edge id="e151" source="route-intent" target="multi-agent-orchestration-v" />
-      <edge id="e152" source="tool-select" target="multi-agent-orchestration-v" />
-      <edge id="e153" source="image-caption" target="multimodal-reasoning" />
-      <edge id="e154" source="question-answer" target="multimodal-reasoning" />
-      <edge id="e155" source="logical-inference" target="multimodal-reasoning" />
-      <edge id="e156" source="route-intent" target="plan-and-execute" />
-      <edge id="e157" source="plan-decompose" target="plan-and-execute" />
-      <edge id="e158" source="tool-select" target="plan-and-execute" />
-      <edge id="e159" source="write-report" target="prd-generation" />
-      <edge id="e160" source="plan-decompose" target="prd-generation" />
-      <edge id="e161" source="data-analysis" target="prediction-market-analysis" />
-      <edge id="e162" source="web-search" target="prediction-market-analysis" />
-      <edge id="e163" source="statistical-analysis" target="prediction-market-analysis" />
-      <edge id="e164" source="api-call" target="project-management" />
-      <edge id="e165" source="issue-triage" target="project-management" />
-      <edge id="e166" source="evaluate-output" target="prompt-optimization" />
-      <edge id="e167" source="generate-text" target="prompt-optimization" />
-      <edge id="e168" source="retrieve" target="rag-pipeline" />
-      <edge id="e169" source="chunk-document" target="rag-pipeline" />
-      <edge id="e170" source="embed-text" target="rag-pipeline" />
-      <edge id="e171" source="score-relevance" target="rag-pipeline" />
-      <edge id="e172" source="tokenize" target="rag-pipeline" />
-      <edge id="e173" source="rank" target="rag-pipeline" />
-      <edge id="e174" source="plan-decompose" target="re-act-reasoning" />
-      <edge id="e175" source="tool-use" target="re-act-reasoning" />
-      <edge id="e176" source="voice-agent" target="real-time-voice-assistant" />
-      <edge id="e177" source="memory-manage" target="real-time-voice-assistant" />
-      <edge id="e178" source="plan-and-execute" target="real-time-voice-assistant" />
-      <edge id="e179" source="autonomous-debug" target="recursive-self-improvement" />
-      <edge id="e180" source="evaluate-output" target="recursive-self-improvement" />
-      <edge id="e181" source="plan-and-execute" target="recursive-self-improvement" />
-      <edge id="e182" source="research" target="registry-curation" />
-      <edge id="e183" source="code-generation" target="registry-curation" />
-      <edge id="e184" source="execute-bash" target="registry-curation" />
-      <edge id="e185" source="workflow-automation" target="release-automation" />
-      <edge id="e186" source="execute-bash" target="release-automation" />
-      <edge id="e187" source="generate-text" target="release-automation" />
-      <edge id="e188" source="web-search" target="research" />
-      <edge id="e189" source="summarize" target="research" />
-      <edge id="e190" source="cite-sources" target="research" />
-      <edge id="e191" source="hypothesis-generate" target="scientific-discovery" />
-      <edge id="e192" source="research" target="scientific-discovery" />
-      <edge id="e193" source="math-reason" target="scientific-discovery" />
-      <edge id="e194" source="write-report" target="scientific-writing" />
-      <edge id="e195" source="cite-sources" target="scientific-writing" />
-      <edge id="e196" source="scientific-visualization" target="scientific-writing" />
-      <edge id="e197" source="code-review-pipeline" target="security-audit" />
-      <edge id="e198" source="evaluate-output" target="security-audit" />
-      <edge id="e199" source="generate-text" target="skill-authoring" />
-      <edge id="e200" source="structured-output" target="skill-authoring" />
-      <edge id="e201" source="code-generation" target="skill-authoring" />
-      <edge id="e202" source="agent-eval" target="skill-performance-benchmarking" />
-      <edge id="e203" source="skill-discovery" target="skill-performance-benchmarking" />
-      <edge id="e204" source="statistical-analysis" target="skill-performance-benchmarking" />
-      <edge id="e205" source="security-audit" target="skill-security-analysis" />
-      <edge id="e206" source="prompt-injection-defense" target="skill-security-analysis" />
-      <edge id="e207" source="skill-discovery" target="skill-security-analysis" />
-      <edge id="e208" source="browser-automation" target="stealth-browser-interaction" />
-      <edge id="e209" source="computer-use" target="stealth-browser-interaction" />
-      <edge id="e210" source="brainstorming" target="superpowers" />
-      <edge id="e211" source="dispatching-parallel-agents" target="superpowers" />
-      <edge id="e212" source="executing-plans" target="superpowers" />
-      <edge id="e213" source="finishing-a-development-branch" target="superpowers" />
-      <edge id="e214" source="receiving-code-review" target="superpowers" />
-      <edge id="e215" source="requesting-code-review" target="superpowers" />
-      <edge id="e216" source="subagent-driven-development" target="superpowers" />
-      <edge id="e217" source="systematic-debugging" target="superpowers" />
-      <edge id="e218" source="using-git-worktrees" target="superpowers" />
-      <edge id="e219" source="verification-before-completion" target="superpowers" />
-      <edge id="e220" source="writing-plans" target="superpowers" />
-      <edge id="e221" source="generate-sql" target="text-to-sql-pipeline" />
-      <edge id="e222" source="parse-json" target="text-to-sql-pipeline" />
-      <edge id="e223" source="format-output" target="text-to-sql-pipeline" />
-      <edge id="e224" source="tool-use" target="tool-chaining" />
-      <edge id="e225" source="tool-select" target="tool-chaining" />
-      <edge id="e226" source="code-generation" target="tool-creation" />
-      <edge id="e227" source="tool-use" target="tool-creation" />
-      <edge id="e228" source="translate" target="translation-pipeline" />
-      <edge id="e229" source="sentiment-analysis" target="translation-pipeline" />
-      <edge id="e230" source="audience-model" target="translation-pipeline" />
-      <edge id="e231" source="chain-of-thought" target="tree-of-thought" />
-      <edge id="e232" source="plan-decompose" target="tree-of-thought" />
-      <edge id="e233" source="extract-entities" target="ubiquitous-language" />
-      <edge id="e234" source="requirements-analysis" target="ubiquitous-language" />
-      <edge id="e235" source="plan-decompose" target="vertical-slice-planning" />
-      <edge id="e236" source="route-intent" target="vertical-slice-planning" />
-      <edge id="e237" source="multimodal-reasoning" target="video-intelligence" />
-      <edge id="e238" source="speech-to-text" target="video-intelligence" />
-      <edge id="e239" source="speech-to-text" target="voice-agent" />
-      <edge id="e240" source="question-answer" target="voice-agent" />
-      <edge id="e241" source="text-to-speech" target="voice-agent" />
-      <edge id="e242" source="web-search" target="web-scrape" />
-      <edge id="e243" source="parse-html" target="web-scrape" />
-      <edge id="e244" source="extract-entities" target="web-scrape" />
-      <edge id="e245" source="retrieve" target="wiki-search" />
-      <edge id="e246" source="embed-text" target="wiki-search" />
-      <edge id="e247" source="summarize" target="wiki-search" />
-      <edge id="e248" source="plan-decompose" target="workflow-automation" />
-      <edge id="e249" source="tool-use" target="workflow-automation" />
-      <edge id="e250" source="api-call" target="workflow-automation" />
-      <edge id="e251" source="api-call" target="workspace-automation" />
-      <edge id="e252" source="document-editing" target="workspace-automation" />
-      <edge id="e253" source="browser-automation" target="x-twitter-automation" />
-      <edge id="e254" source="web-scrape" target="x-twitter-automation" />
-      <edge id="e255" source="workflow-automation" target="x-twitter-automation" />
+      <edge id="e0" source="swarm-topology-management" target="advanced-swarm-coordination" />
+      <edge id="e1" source="multi-agent-debate" target="advanced-swarm-coordination" />
+      <edge id="e2" source="evaluate-output" target="agent-eval" />
+      <edge id="e3" source="score-relevance" target="agent-eval" />
+      <edge id="e4" source="memory-manage" target="agent-memory-learning" />
+      <edge id="e5" source="adaptive-pattern-learning" target="agent-memory-learning" />
+      <edge id="e6" source="distributed-vector-memory" target="agent-memory-platform" />
+      <edge id="e7" source="agent-memory-learning" target="agent-memory-platform" />
+      <edge id="e8" source="memory-pattern-design" target="agent-memory-platform" />
+      <edge id="e9" source="vector-db-optimization" target="agent-memory-platform" />
+      <edge id="e10" source="vector-search" target="agent-memory-platform" />
+      <edge id="e11" source="workflow-automation" target="agentic-workflow-design" />
+      <edge id="e12" source="plan-decompose" target="agentic-workflow-design" />
+      <edge id="e13" source="data-visualize" target="architecture-diagram" />
+      <edge id="e14" source="format-output" target="architecture-diagram" />
+      <edge id="e15" source="write-report" target="architecture-diagram" />
+      <edge id="e16" source="generate-test" target="automated-testing" />
+      <edge id="e17" source="execute-bash" target="automated-testing" />
+      <edge id="e18" source="error-interpretation" target="automated-testing" />
+      <edge id="e19" source="data-analysis" target="autonomous-data-scientist" />
+      <edge id="e20" source="math-reason" target="autonomous-data-scientist" />
+      <edge id="e21" source="research" target="autonomous-data-scientist" />
+      <edge id="e22" source="code-generation" target="autonomous-debug" />
+      <edge id="e23" source="execute-bash" target="autonomous-debug" />
+      <edge id="e24" source="error-interpretation" target="autonomous-debug" />
+      <edge id="e25" source="research" target="autonomous-research-agent" />
+      <edge id="e26" source="knowledge-harvest" target="autonomous-research-agent" />
+      <edge id="e27" source="ghostwrite" target="autonomous-research-agent" />
+      <edge id="e28" source="web-scrape" target="autonomous-web-research" />
+      <edge id="e29" source="web-search" target="autonomous-web-research" />
+      <edge id="e30" source="requirements-analysis" target="brainstorming" />
+      <edge id="e31" source="question-answer" target="brainstorming" />
+      <edge id="e32" source="web-search" target="browser-automation" />
+      <edge id="e33" source="computer-use" target="browser-automation" />
+      <edge id="e34" source="autonomous-web-research" target="career-operations" />
+      <edge id="e35" source="summarize" target="career-operations" />
+      <edge id="e36" source="document-editing" target="career-operations" />
+      <edge id="e37" source="api-call" target="cloud-platform-management" />
+      <edge id="e38" source="tool-use" target="cloud-platform-management" />
+      <edge id="e39" source="code-generation" target="code-review-pipeline" />
+      <edge id="e40" source="diff-content" target="code-review-pipeline" />
+      <edge id="e41" source="evaluate-output" target="code-review-pipeline" />
+      <edge id="e42" source="api-call" target="collaborative-diagramming" />
+      <edge id="e43" source="data-visualize" target="collaborative-diagramming" />
+      <edge id="e44" source="classify" target="content-moderation" />
+      <edge id="e45" source="sentiment-analysis" target="content-moderation" />
+      <edge id="e46" source="extract-entities" target="content-moderation" />
+      <edge id="e47" source="question-answer" target="conversational-agent" />
+      <edge id="e48" source="memory-manage" target="conversational-agent" />
+      <edge id="e49" source="route-intent" target="conversational-agent" />
+      <edge id="e50" source="generate-sql" target="data-analysis" />
+      <edge id="e51" source="data-visualize" target="data-analysis" />
+      <edge id="e52" source="summarize" target="data-analysis" />
+      <edge id="e53" source="workflow-automation" target="deployment-automation" />
+      <edge id="e54" source="execute-bash" target="deployment-automation" />
+      <edge id="e55" source="code-generation" target="design-generation" />
+      <edge id="e56" source="vision-qa" target="design-generation" />
+      <edge id="e57" source="evaluate-output" target="design-review" />
+      <edge id="e58" source="plan-decompose" target="design-review" />
+      <edge id="e59" source="browser-automation" target="design-system-extraction" />
+      <edge id="e60" source="parse-html" target="design-system-extraction" />
+      <edge id="e61" source="evaluate-output" target="detect-anomaly" />
+      <edge id="e62" source="error-interpretation" target="detect-anomaly" />
+      <edge id="e63" source="plan-decompose" target="dispatching-parallel-agents" />
+      <edge id="e64" source="parallel-execution" target="dispatching-parallel-agents" />
+      <edge id="e65" source="parallel-execution" target="distributed-neural-training" />
+      <edge id="e66" source="embed-text" target="distributed-neural-training" />
+      <edge id="e67" source="vector-search" target="distributed-vector-memory" />
+      <edge id="e68" source="memory-manage" target="distributed-vector-memory" />
+      <edge id="e69" source="parse-json" target="document-analyst" />
+      <edge id="e70" source="extract-entities" target="document-analyst" />
+      <edge id="e71" source="summarize" target="document-analyst" />
+      <edge id="e72" source="format-output" target="document-analyst" />
+      <edge id="e73" source="parse-pdf" target="document-digitization" />
+      <edge id="e74" source="extract-entities" target="document-digitization" />
+      <edge id="e75" source="format-output" target="document-digitization" />
+      <edge id="e76" source="headless-worker-spawn" target="dual-mode" />
+      <edge id="e77" source="headless-worker-collect" target="dual-mode" />
+      <edge id="e78" source="hybrid-workflow-coordination" target="dual-mode" />
+      <edge id="e79" source="browser-automation" target="e2e-testing" />
+      <edge id="e80" source="automated-testing" target="e2e-testing" />
+      <edge id="e81" source="writing-plans" target="executing-plans" />
+      <edge id="e82" source="tool-use" target="executing-plans" />
+      <edge id="e83" source="code-review-pipeline" target="finishing-a-development-branch" />
+      <edge id="e84" source="diff-content" target="finishing-a-development-branch" />
+      <edge id="e85" source="multi-agent-orchestration-v" target="flow-nexus-orchestration" />
+      <edge id="e86" source="cloud-platform-management" target="flow-nexus-orchestration" />
+      <edge id="e87" source="distributed-neural-training" target="flow-nexus-orchestration" />
+      <edge id="e88" source="code-review-pipeline" target="full-stack-developer" />
+      <edge id="e89" source="automated-testing" target="full-stack-developer" />
+      <edge id="e90" source="refactor-code" target="full-stack-developer" />
+      <edge id="e91" source="structured-output" target="function-calling" />
+      <edge id="e92" source="api-call" target="function-calling" />
+      <edge id="e93" source="tool-select" target="function-calling" />
+      <edge id="e94" source="retrieve" target="gaia-audit" />
+      <edge id="e95" source="cite-sources" target="gaia-audit" />
+      <edge id="e96" source="evaluate-output" target="gaia-audit" />
+      <edge id="e97" source="gaia-audit" target="gaia-meta-audit" />
+      <edge id="e98" source="registry-curation" target="gaia-meta-audit" />
+      <edge id="e99" source="detect-anomaly" target="gaia-meta-audit" />
+      <edge id="e100" source="api-call" target="generative-media" />
+      <edge id="e101" source="data-visualize" target="generative-media" />
+      <edge id="e102" source="research" target="ghostwrite" />
+      <edge id="e103" source="write-report" target="ghostwrite" />
+      <edge id="e104" source="audience-model" target="ghostwrite" />
+      <edge id="e105" source="code-review-pipeline" target="github-platform-mastery" />
+      <edge id="e106" source="multi-repo-coordination" target="github-platform-mastery" />
+      <edge id="e107" source="deployment-automation" target="github-platform-mastery" />
+      <edge id="e108" source="project-management" target="github-platform-mastery" />
+      <edge id="e109" source="workflow-automation" target="github-platform-mastery" />
+      <edge id="e110" source="design-review" target="grill-me" />
+      <edge id="e111" source="self-critique" target="grill-me" />
+      <edge id="e112" source="grill-me" target="grill-with-docs" />
+      <edge id="e113" source="ubiquitous-language" target="grill-with-docs" />
+      <edge id="e114" source="document-editing" target="grill-with-docs" />
+      <edge id="e115" source="retrieve" target="grounding" />
+      <edge id="e116" source="cite-sources" target="grounding" />
+      <edge id="e117" source="evaluate-output" target="grounding" />
+      <edge id="e118" source="question-answer" target="gstack" />
+      <edge id="e119" source="evaluate-output" target="gstack" />
+      <edge id="e120" source="code-review-pipeline" target="gstack" />
+      <edge id="e121" source="ux-audit" target="gstack" />
+      <edge id="e122" source="vertical-slice-planning" target="gstack" />
+      <edge id="e123" source="design-system-extraction" target="gstack" />
+      <edge id="e124" source="design-review" target="gstack" />
+      <edge id="e125" source="code-generation" target="gstack" />
+      <edge id="e126" source="systematic-debugging" target="gstack" />
+      <edge id="e127" source="e2e-testing" target="gstack" />
+      <edge id="e128" source="finishing-a-development-branch" target="gstack" />
+      <edge id="e129" source="deployment-automation" target="gstack" />
+      <edge id="e130" source="detect-anomaly" target="gstack" />
+      <edge id="e131" source="document-editing" target="gstack" />
+      <edge id="e132" source="browser-automation" target="gstack" />
+      <edge id="e133" source="security-audit" target="gstack" />
+      <edge id="e134" source="browser-control" target="gstack" />
+      <edge id="e135" source="web-scrape" target="gstack" />
+      <edge id="e136" source="skill-authoring" target="gstack" />
+      <edge id="e137" source="write-report" target="gstack" />
+      <edge id="e138" source="multi-agent-debate" target="gstack" />
+      <edge id="e139" source="skill-performance-benchmarking" target="gstack" />
+      <edge id="e140" source="automated-testing" target="gstack" />
+      <edge id="e141" source="mcp-integration" target="gstack" />
+      <edge id="e142" source="memory-manage" target="gstack" />
+      <edge id="e143" source="guardrails" target="gstack" />
+      <edge id="e144" source="knowledge-management" target="gstack" />
+      <edge id="e145" source="format-output" target="gstack" />
+      <edge id="e146" source="workspace-automation" target="gstack" />
+      <edge id="e147" source="project-management" target="gstack" />
+      <edge id="e148" source="prompt-optimization" target="gstack" />
+      <edge id="e149" source="evaluate-output" target="guardrails" />
+      <edge id="e150" source="classify" target="guardrails" />
+      <edge id="e151" source="structured-output" target="guardrails" />
+      <edge id="e152" source="document-editing" target="humanize-prose" />
+      <edge id="e153" source="audience-model" target="humanize-prose" />
+      <edge id="e154" source="format-output" target="humanize-prose" />
+      <edge id="e155" source="extract-entities" target="knowledge-graph-build" />
+      <edge id="e156" source="logical-inference" target="knowledge-graph-build" />
+      <edge id="e157" source="web-scrape" target="knowledge-harvest" />
+      <edge id="e158" source="extract-entities" target="knowledge-harvest" />
+      <edge id="e159" source="embed-text" target="knowledge-harvest" />
+      <edge id="e160" source="api-call" target="knowledge-management" />
+      <edge id="e161" source="retrieve" target="knowledge-management" />
+      <edge id="e162" source="research" target="literature-review" />
+      <edge id="e163" source="cite-sources" target="literature-review" />
+      <edge id="e164" source="summarize" target="literature-review" />
+      <edge id="e165" source="code-execution" target="mathematical-animation" />
+      <edge id="e166" source="data-visualize" target="mathematical-animation" />
+      <edge id="e167" source="mcp-integration" target="mcp-debugger-control" />
+      <edge id="e168" source="refactor-code" target="mcp-debugger-control" />
+      <edge id="e169" source="mcp-integration" target="mcp-server-creation" />
+      <edge id="e170" source="tool-creation" target="mcp-server-creation" />
+      <edge id="e171" source="api-call" target="mcp-server-creation" />
+      <edge id="e172" source="context-compression" target="memory-manage" />
+      <edge id="e173" source="retrieve" target="memory-manage" />
+      <edge id="e174" source="api-call" target="ml-artifact-management" />
+      <edge id="e175" source="classify" target="ml-artifact-management" />
+      <edge id="e176" source="data-analysis" target="ml-pipeline" />
+      <edge id="e177" source="automated-testing" target="ml-pipeline" />
+      <edge id="e178" source="code-generation" target="ml-pipeline" />
+      <edge id="e179" source="self-critique" target="multi-agent-debate" />
+      <edge id="e180" source="evaluate-output" target="multi-agent-debate" />
+      <edge id="e181" source="chain-of-thought" target="multi-agent-debate" />
+      <edge id="e182" source="plan-and-execute" target="multi-agent-orchestration-v" />
+      <edge id="e183" source="route-intent" target="multi-agent-orchestration-v" />
+      <edge id="e184" source="tool-select" target="multi-agent-orchestration-v" />
+      <edge id="e185" source="image-caption" target="multimodal-reasoning" />
+      <edge id="e186" source="question-answer" target="multimodal-reasoning" />
+      <edge id="e187" source="logical-inference" target="multimodal-reasoning" />
+      <edge id="e188" source="route-intent" target="plan-and-execute" />
+      <edge id="e189" source="plan-decompose" target="plan-and-execute" />
+      <edge id="e190" source="tool-select" target="plan-and-execute" />
+      <edge id="e191" source="cli-modernization" target="platform-modernization-sprint" />
+      <edge id="e192" source="core-platform-implementation" target="platform-modernization-sprint" />
+      <edge id="e193" source="system-integration" target="platform-modernization-sprint" />
+      <edge id="e194" source="performance-tuning" target="platform-modernization-sprint" />
+      <edge id="e195" source="advanced-swarm-coordination" target="platform-modernization-sprint" />
+      <edge id="e196" source="write-report" target="prd-generation" />
+      <edge id="e197" source="plan-decompose" target="prd-generation" />
+      <edge id="e198" source="data-analysis" target="prediction-market-analysis" />
+      <edge id="e199" source="web-search" target="prediction-market-analysis" />
+      <edge id="e200" source="statistical-analysis" target="prediction-market-analysis" />
+      <edge id="e201" source="api-call" target="project-management" />
+      <edge id="e202" source="issue-triage" target="project-management" />
+      <edge id="e203" source="evaluate-output" target="prompt-optimization" />
+      <edge id="e204" source="generate-text" target="prompt-optimization" />
+      <edge id="e205" source="retrieve" target="rag-pipeline" />
+      <edge id="e206" source="chunk-document" target="rag-pipeline" />
+      <edge id="e207" source="embed-text" target="rag-pipeline" />
+      <edge id="e208" source="score-relevance" target="rag-pipeline" />
+      <edge id="e209" source="tokenize" target="rag-pipeline" />
+      <edge id="e210" source="rank" target="rag-pipeline" />
+      <edge id="e211" source="plan-decompose" target="re-act-reasoning" />
+      <edge id="e212" source="tool-use" target="re-act-reasoning" />
+      <edge id="e213" source="voice-agent" target="real-time-voice-assistant" />
+      <edge id="e214" source="memory-manage" target="real-time-voice-assistant" />
+      <edge id="e215" source="plan-and-execute" target="real-time-voice-assistant" />
+      <edge id="e216" source="adaptive-pattern-learning" target="reasoning-pattern-bank" />
+      <edge id="e217" source="learned-memory-integration" target="reasoning-pattern-bank" />
+      <edge id="e218" source="requesting-code-review" target="receiving-code-review" />
+      <edge id="e219" source="verification-before-completion" target="receiving-code-review" />
+      <edge id="e220" source="autonomous-debug" target="recursive-self-improvement" />
+      <edge id="e221" source="evaluate-output" target="recursive-self-improvement" />
+      <edge id="e222" source="plan-and-execute" target="recursive-self-improvement" />
+      <edge id="e223" source="research" target="registry-curation" />
+      <edge id="e224" source="code-generation" target="registry-curation" />
+      <edge id="e225" source="execute-bash" target="registry-curation" />
+      <edge id="e226" source="workflow-automation" target="release-automation" />
+      <edge id="e227" source="execute-bash" target="release-automation" />
+      <edge id="e228" source="generate-text" target="release-automation" />
+      <edge id="e229" source="code-review-pipeline" target="requesting-code-review" />
+      <edge id="e230" source="dispatching-parallel-agents" target="requesting-code-review" />
+      <edge id="e231" source="web-search" target="research" />
+      <edge id="e232" source="summarize" target="research" />
+      <edge id="e233" source="cite-sources" target="research" />
+      <edge id="e234" source="flow-nexus-orchestration" target="ruflo" />
+      <edge id="e235" source="agent-memory-platform" target="ruflo" />
+      <edge id="e236" source="github-platform-mastery" target="ruflo" />
+      <edge id="e237" source="reasoning-pattern-bank" target="ruflo" />
+      <edge id="e238" source="platform-modernization-sprint" target="ruflo" />
+      <edge id="e239" source="dual-mode" target="ruflo" />
+      <edge id="e240" source="hypothesis-generate" target="scientific-discovery" />
+      <edge id="e241" source="research" target="scientific-discovery" />
+      <edge id="e242" source="math-reason" target="scientific-discovery" />
+      <edge id="e243" source="write-report" target="scientific-writing" />
+      <edge id="e244" source="cite-sources" target="scientific-writing" />
+      <edge id="e245" source="scientific-visualization" target="scientific-writing" />
+      <edge id="e246" source="code-review-pipeline" target="security-audit" />
+      <edge id="e247" source="evaluate-output" target="security-audit" />
+      <edge id="e248" source="generate-text" target="skill-authoring" />
+      <edge id="e249" source="structured-output" target="skill-authoring" />
+      <edge id="e250" source="code-generation" target="skill-authoring" />
+      <edge id="e251" source="agent-eval" target="skill-performance-benchmarking" />
+      <edge id="e252" source="skill-discovery" target="skill-performance-benchmarking" />
+      <edge id="e253" source="statistical-analysis" target="skill-performance-benchmarking" />
+      <edge id="e254" source="security-audit" target="skill-security-analysis" />
+      <edge id="e255" source="prompt-injection-defense" target="skill-security-analysis" />
+      <edge id="e256" source="skill-discovery" target="skill-security-analysis" />
+      <edge id="e257" source="browser-automation" target="stealth-browser-interaction" />
+      <edge id="e258" source="computer-use" target="stealth-browser-interaction" />
+      <edge id="e259" source="executing-plans" target="subagent-driven-development" />
+      <edge id="e260" source="dispatching-parallel-agents" target="subagent-driven-development" />
+      <edge id="e261" source="code-review-pipeline" target="subagent-driven-development" />
+      <edge id="e262" source="brainstorming" target="superpowers" />
+      <edge id="e263" source="dispatching-parallel-agents" target="superpowers" />
+      <edge id="e264" source="executing-plans" target="superpowers" />
+      <edge id="e265" source="finishing-a-development-branch" target="superpowers" />
+      <edge id="e266" source="receiving-code-review" target="superpowers" />
+      <edge id="e267" source="requesting-code-review" target="superpowers" />
+      <edge id="e268" source="subagent-driven-development" target="superpowers" />
+      <edge id="e269" source="systematic-debugging" target="superpowers" />
+      <edge id="e270" source="using-git-worktrees" target="superpowers" />
+      <edge id="e271" source="verification-before-completion" target="superpowers" />
+      <edge id="e272" source="writing-plans" target="superpowers" />
+      <edge id="e273" source="hypothesis-generate" target="systematic-debugging" />
+      <edge id="e274" source="error-interpretation" target="systematic-debugging" />
+      <edge id="e275" source="generate-sql" target="text-to-sql-pipeline" />
+      <edge id="e276" source="parse-json" target="text-to-sql-pipeline" />
+      <edge id="e277" source="format-output" target="text-to-sql-pipeline" />
+      <edge id="e278" source="tool-use" target="tool-chaining" />
+      <edge id="e279" source="tool-select" target="tool-chaining" />
+      <edge id="e280" source="code-generation" target="tool-creation" />
+      <edge id="e281" source="tool-use" target="tool-creation" />
+      <edge id="e282" source="translate" target="translation-pipeline" />
+      <edge id="e283" source="sentiment-analysis" target="translation-pipeline" />
+      <edge id="e284" source="audience-model" target="translation-pipeline" />
+      <edge id="e285" source="chain-of-thought" target="tree-of-thought" />
+      <edge id="e286" source="plan-decompose" target="tree-of-thought" />
+      <edge id="e287" source="extract-entities" target="ubiquitous-language" />
+      <edge id="e288" source="requirements-analysis" target="ubiquitous-language" />
+      <edge id="e289" source="execute-bash" target="using-git-worktrees" />
+      <edge id="e290" source="tool-use" target="using-git-worktrees" />
+      <edge id="e291" source="execute-bash" target="verification-before-completion" />
+      <edge id="e292" source="self-critique" target="verification-before-completion" />
+      <edge id="e293" source="plan-decompose" target="vertical-slice-planning" />
+      <edge id="e294" source="route-intent" target="vertical-slice-planning" />
+      <edge id="e295" source="multimodal-reasoning" target="video-intelligence" />
+      <edge id="e296" source="speech-to-text" target="video-intelligence" />
+      <edge id="e297" source="speech-to-text" target="voice-agent" />
+      <edge id="e298" source="question-answer" target="voice-agent" />
+      <edge id="e299" source="text-to-speech" target="voice-agent" />
+      <edge id="e300" source="web-search" target="web-scrape" />
+      <edge id="e301" source="parse-html" target="web-scrape" />
+      <edge id="e302" source="extract-entities" target="web-scrape" />
+      <edge id="e303" source="retrieve" target="wiki-search" />
+      <edge id="e304" source="embed-text" target="wiki-search" />
+      <edge id="e305" source="summarize" target="wiki-search" />
+      <edge id="e306" source="plan-decompose" target="workflow-automation" />
+      <edge id="e307" source="tool-use" target="workflow-automation" />
+      <edge id="e308" source="api-call" target="workflow-automation" />
+      <edge id="e309" source="api-call" target="workspace-automation" />
+      <edge id="e310" source="document-editing" target="workspace-automation" />
+      <edge id="e311" source="plan-decompose" target="writing-plans" />
+      <edge id="e312" source="requirements-analysis" target="writing-plans" />
+      <edge id="e313" source="browser-automation" target="x-twitter-automation" />
+      <edge id="e314" source="web-scrape" target="x-twitter-automation" />
+      <edge id="e315" source="workflow-automation" target="x-twitter-automation" />
     </edges>
   </graph>
 </gexf>

@@ -3,7 +3,7 @@ name: Publish gaia-cli to PyPI
 on:
   push:
     tags:
-      - 'gaia-cli-v*'
+      - 'v*'
   workflow_dispatch: {}
 
 permissions:

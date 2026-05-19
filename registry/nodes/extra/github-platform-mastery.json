@@ -1,0 +1,25 @@
+{
+  "id": "github-platform-mastery",
+  "name": "GitHub Platform Mastery",
+  "type": "extra",
+  "level": "4★",
+  "rarity": "rare",
+  "description": "Full GitHub platform automation: code review pipelines, multi-repo coordination, project management, release management, and workflow automation.",
+  "prerequisites": ["code-review-pipeline", "multi-repo-coordination", "deployment-automation", "project-management", "workflow-automation"],
+  "derivatives": [],
+  "conditions": "",
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/ruvnet/ruflo",
+      "evaluator": "mbtiongson1",
+      "date": "2026-05-19",
+      "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-05-19",
+  "updatedAt": "2026-05-19",
+  "version": "0.1.0"
+}
