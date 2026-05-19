@@ -19,35 +19,48 @@
 
 Every AI agent capability exists somewhere on this graph. Skills start at the foundation tier, awaken through evidence, evolve through use, and fuse into things greater than the sum of their parts.
 
+<!-- gaia:registry-start -->
 ```text
-◆ garrytan/gstack  [5★]
-  ├─ ○ garrytan/office-hours  [0★]
-  ├─ ◇ garrytan/plan-eng-review  [3★]
-  │  ├─ ○ garrytan/design-html  [1★]
-  │  ├─ ○ /diff-content  [1★]
-  │  └─ ○ garrytan/benchmark  [1★]
-  ├─ ◇ mattpocock/to-issues  [3★]
-  │  ├─ ○ /plan-decompose  [1★]
-  │  └─ ○ /route-intent  [1★]
-  └─ ◇ firecrawl/firecrawl  [3★]
-     ├─ ○ /web-search  [1★]
-     ├─ ○ /parse-html  [1★]
-     └─ ○ /extract-entities  [1★]
+◆ ruvnet/ruflo  [6★]
+  ├─ ◇ ruvnet/flow-nexus  [4★]
+  │  ├─ ◇ ruvnet/flow-nexus-swarm  [5★]
+  │  │  ├─ ◇ /plan-and-execute  [4★]
+  │  ├─ ◇ ruvnet/flow-nexus-platform  [3★]
+  │  │  ├─ ○ huggingface/hf-cli  [2★]
+  │  │  └─ ○ /tool-use  [1★]
+  │  └─ ◇ ruvnet/flow-nexus-neural  [3★]
+  │     ├─ ○ /parallel-execution  [2★]
+  │     └─ ○ /embed-text  [1★]
+  ├─ ◆ ruvnet/agentdb  [5★]
+  │  ├─ ◇ ruvnet/agentdb-advanced  [3★]
+  │  │  ├─ ○ ruvnet/agentdb-vector-search  [2★]
+  │  │  └─ ◇ garrytan/learn  [2★]
+  │  │     ├─ ○ garrytan/context-restore  [3★]
 
-◆ obra/superpowers  [5★]
-  ├─ ○ obra/brainstorming  [1★]
-  ├─ ○ obra/executing-plans  [2★]
-  ├─ ◇ obra/finishing-a-development-branch  [2★]
-  │  └─ ◇ garrytan/plan-eng-review  [3★]
-  └─ ○ obra/writing-plans  [2★]
+◆ ruvnet/agentdb  [5★]
+  ├─ ◇ ruvnet/agentdb-advanced  [3★]
+  │  ├─ ○ ruvnet/agentdb-vector-search  [2★]
+  │  └─ ◇ garrytan/learn  [2★]
+  │     ├─ ○ garrytan/context-restore  [3★]
+  │     └─ ○ /retrieve  [1★]
+  ├─ ◇ ruvnet/agentdb-learning  [3★]
+  │  ├─ ◇ garrytan/learn  [2★]  (↑ see above)
+  │  └─ ○ ruvnet/reasoningbank-intelligence  [2★]
+  ├─ ○ ruvnet/agentdb-memory-patterns  [2★]
+  ├─ ○ ruvnet/agentdb-optimization  [2★]
+  └─ ○ ruvnet/agentdb-vector-search  [2★]  (↑ see above)
 
-Uniques — graph-isolated Basic Skills that ranked up through depth alone
+Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
   ◉ nousresearch/feed-monitoring  [4★ · Hardened]
   ◉ openai/few-shot-learning  [4★ · Hardened]
-  ◉ huggingface/semantic-cache  [4★ · Hardened]
+  ◉ huggingface/huggingface-llm-trainer  [4★ · Hardened]
+  ◉ ruvnet/hive-mind-coordination  [4★ · Hardened]
+  ◉ openai/self-consistency  [4★ · Hardened]
 
-(166 skills total — see docs/tree.md)
+(196 skills total — see docs/tree.md)
 ```
+<!-- gaia:registry-end -->
+
 
 ### How skills fuse
 
@@ -84,7 +97,7 @@ Skills rank up through **evidence**, not declaration. Basics fuse into Extras or
 **1. Install the CLI**
 
 <!-- gaia:version-start -->
-Current Gaia CLI version: `3.20.0`.
+Current Gaia CLI version: `3.20.1`.
 
 Python install:
 
