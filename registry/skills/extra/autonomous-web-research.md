@@ -1,4 +1,4 @@
-# /autonomous-web-research  [4★ · Hardened]
+# [karpathy](../../../docs/u/karpathy/)/autoresearch  [4★ · Hardened]
 **ID:** autonomous-web-research  
 **Type:** Extra Skill  
 **Level:** 4★  

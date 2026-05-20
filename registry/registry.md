@@ -14,7 +14,7 @@
 | ◇ [0xdarkmatter](../docs/u/0xdarkmatter/)/pytest-patterns | Extra Skill | 3★ | Evolved | `/automated-testing` |
 | ◇ /autonomous-data-scientist | Extra Skill | 5★ | Transcendent | `/autonomous-data-scientist` |
 | ◇ [devin-ai](../docs/u/devin-ai/)/autonomous-swe | Extra Skill | 4★ | Hardened | `/autonomous-debug` |
-| ◇ /autonomous-web-research | Extra Skill | 4★ | Hardened | `/autonomous-web-research` |
+| ◇ [karpathy](../docs/u/karpathy/)/autoresearch | Extra Skill | 4★ | Hardened | `/autonomous-web-research` |
 | ◇ [obra](../docs/u/obra/)/brainstorming | Extra Skill | 1★ | Awakened | `/brainstorming` |
 | ◇ [gooseworks](../docs/u/gooseworks/)/notte-browser | Extra Skill | 3★ | Evolved | `/browser-automation` |
 | ○ [browser-use](../docs/u/browser-use/)/browser-harness | Basic Skill | 2★ | Named | `/browser-control` |

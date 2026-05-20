@@ -11,7 +11,7 @@
 | ◇ [0xdarkmatter](../docs/u/0xdarkmatter/)/pytest-patterns | Extra Skill | Generate Test, Code Execution, Error Interpretation | 3★ |  |
 | ◇ /autonomous-data-scientist | Extra Skill | Data Analysis, Math Reason, Research | 5★ | Requires dataset access and compute environment. Minimum 3 Class A/B evidence sources. |
 | ◇ [devin-ai](../docs/u/devin-ai/)/autonomous-swe | Extra Skill | Code Generation, Code Execution, Error Interpretation | 4★ |  |
-| ◇ /autonomous-web-research | Extra Skill | Ghostwrite, Knowledge Harvest, Research, Web Scrape, Web Search | 4★ | Requires a multi-step crawling engine and mapping logic to resolve site structures. |
+| ◇ [karpathy](../docs/u/karpathy/)/autoresearch | Extra Skill | Ghostwrite, Knowledge Harvest, Research, Web Scrape, Web Search | 4★ | Requires a multi-step crawling engine and mapping logic to resolve site structures. |
 | ◇ [obra](../docs/u/obra/)/brainstorming | Extra Skill | Requirements Analysis, Question Answer | 1★ |  |
 | ◇ [gooseworks](../docs/u/gooseworks/)/notte-browser | Extra Skill | Web Search, Computer Use | 3★ |  |
 | ◇ [santifer](../docs/u/santifer/)/career-ops | Extra Skill | Autonomous Web Research, Summarize, Document Editing | 3★ |  |
