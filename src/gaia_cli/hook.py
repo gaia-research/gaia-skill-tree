@@ -61,7 +61,7 @@ def hook_entry(event: str = "file_edit", registry_path: str | None = None) -> No
     except Exception:
         return  # Scan failure shouldn't crash the hook
 
-    tokens = scan_result.get("tokens", set())
+    tokens = {t.lstrip('/') for t in scan_result.get("tokens", set())}
     graph_path = registry_graph_path(registry)
     if not os.path.exists(graph_path):
         return
