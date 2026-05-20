@@ -3,6 +3,11 @@ import sys
 import os
 from pathlib import Path
 from gaia_cli.main import main
+import pytest
+
+@pytest.fixture(autouse=True)
+def no_docs_build(monkeypatch):
+    monkeypatch.setattr("gaia_cli.commands.dev._run_docs_build", lambda *a, **kw: None)
 
 def write_fixture_registry(root: Path) -> None:
     registry = root / "registry"
@@ -56,7 +61,7 @@ def write_fixture_registry(root: Path) -> None:
 
 def test_meta_list_generic(tmp_path, monkeypatch, capsys):
     write_fixture_registry(tmp_path)
-    monkeypatch.setattr(sys, "argv", ["gaia", "--registry", str(tmp_path), "list", "--generic"])
+    monkeypatch.setattr(sys, "argv", ["gaia", "--registry", str(tmp_path), "dev", "list", "--generic"])
     main()
     output = capsys.readouterr().out
     assert "[G] /skill-a - Skill A" in output
@@ -64,14 +69,14 @@ def test_meta_list_generic(tmp_path, monkeypatch, capsys):
 
 def test_meta_list_named(tmp_path, monkeypatch, capsys):
     write_fixture_registry(tmp_path)
-    monkeypatch.setattr(sys, "argv", ["gaia", "--registry", str(tmp_path), "list", "--named"])
+    monkeypatch.setattr(sys, "argv", ["gaia", "--registry", str(tmp_path), "dev", "list", "--named"])
     main()
     output = capsys.readouterr().out
     assert "[N] /alice/named-a - Named A" in output
 
 def test_meta_add_generic(tmp_path, monkeypatch):
     write_fixture_registry(tmp_path)
-    monkeypatch.setattr(sys, "argv", ["gaia", "--registry", str(tmp_path), "add", "Skill C", "--id", "skill-c", "--description", "Skill C Description at least ten chars"])
+    monkeypatch.setattr(sys, "argv", ["gaia", "--registry", str(tmp_path), "dev", "add", "Skill C", "--id", "skill-c", "--description", "Skill C Description at least ten chars"])
     main()
     
     nodes_dir = tmp_path / "registry" / "nodes" / "basic"
@@ -85,7 +90,7 @@ def test_meta_add_generic(tmp_path, monkeypatch):
 def test_meta_merge(tmp_path, monkeypatch):
     write_fixture_registry(tmp_path)
     # Merge skill-b into skill-a
-    monkeypatch.setattr(sys, "argv", ["gaia", "--registry", str(tmp_path), "merge", "skill-a", "skill-b"])
+    monkeypatch.setattr(sys, "argv", ["gaia", "--registry", str(tmp_path), "dev", "merge", "skill-a", "skill-b"])
     main()
     
     basic_dir = tmp_path / "registry" / "nodes" / "basic"
@@ -98,12 +103,19 @@ def test_meta_merge(tmp_path, monkeypatch):
 
 def test_meta_evidence(tmp_path, monkeypatch):
     write_fixture_registry(tmp_path)
-    monkeypatch.setattr(sys, "argv", ["gaia", "--registry", str(tmp_path), "evidence", "skill-a", "https://example.com/proof", "--class", "B", "--notes", "Verified demo"])
+    monkeypatch.setattr(sys, "argv", ["gaia", "--registry", str(tmp_path), "dev", "evidence", "skill-a", "https://example.com/proof", "--class", "B", "--notes", "Verified demo"])
     main()
-    
+
     with open(tmp_path / "registry" / "nodes" / "basic" / "skill-a.json", "r") as f:
         data = json.load(f)
         assert len(data["evidence"]) == 1
         assert data["evidence"][0]["class"] == "B"
         assert data["evidence"][0]["source"] == "https://example.com/proof"
         assert any(ev["action"] == "evidence_added" for ev in data.get("timeline", []))
+
+def test_meta_add_rejects_short_description(tmp_path, monkeypatch):
+    write_fixture_registry(tmp_path)
+    monkeypatch.setattr(sys, "argv", ["gaia", "--registry", str(tmp_path), "dev", "add", "Short", "--id", "short-skill", "--description", "too short"])
+    with pytest.raises(SystemExit) as exc_info:
+        main()
+    assert exc_info.value.code != 0
