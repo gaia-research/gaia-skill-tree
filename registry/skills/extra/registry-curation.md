@@ -13,7 +13,7 @@ Systematically discovers, evaluates, and ingests new skill definitions into a st
 ## Prerequisites
 - [Research](../extra/research.md)
 - [Code Generation](../basic/code-generation.md)
-- [Execute Bash](../basic/execute-bash.md)
+- [Code Execution](../basic/code-execution.md)
 
 ## Unlocks
 - [Gaia Meta Audit](../extra/gaia-meta-audit.md)

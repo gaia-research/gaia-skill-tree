@@ -7,7 +7,7 @@
   "description": "Independently identifies, diagnoses, and fixes software bugs through code generation and execution.",
   "prerequisites": [
     "code-generation",
-    "execute-bash",
+    "code-execution",
     "error-interpretation"
   ],
   "derivatives": [],

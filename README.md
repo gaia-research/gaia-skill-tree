@@ -44,8 +44,8 @@ Every AI agent capability exists somewhere on this graph. Skills start at the fo
   │     ├─ ○ garrytan/context-restore  [3★]
   │     └─ ○ /retrieve  [1★]
   ├─ ◇ ruvnet/agentdb-learning  [3★]
-  │  ├─ ◇ garrytan/learn  [2★]  (↑ see above)
-  │  └─ ○ ruvnet/reasoningbank-intelligence  [2★]
+  │  ├─ ○ ruvnet/reasoningbank-intelligence  [2★]
+  │  └─ ◇ garrytan/learn  [2★]  (↑ see above)
   ├─ ○ ruvnet/agentdb-memory-patterns  [2★]
   ├─ ○ ruvnet/agentdb-optimization  [2★]
   └─ ○ ruvnet/agentdb-vector-search  [2★]  (↑ see above)
@@ -57,7 +57,7 @@ Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) throu
   ◉ ruvnet/hive-mind-coordination  [4★ · Hardened]
   ◉ openai/self-consistency  [4★ · Hardened]
 
-(196 skills total — see docs/tree.md)
+(192 skills total — see docs/tree.md)
 ```
 <!-- gaia:registry-end -->
 
@@ -97,7 +97,7 @@ Skills rank up through **evidence**, not declaration. Basics fuse into Extras or
 **1. Install the CLI**
 
 <!-- gaia:version-start -->
-Current Gaia CLI version: `3.21.0`.
+Current Gaia CLI version: `3.21.1`.
 
 Python install:
 
@@ -198,13 +198,13 @@ Requires `textual` (included with `pip install gaia-cli`).
 <!-- gaia:cli-start -->
 ```text
 usage: gaia [-h] [--registry REGISTRY] [--global] [--version]
-            {help,init,scan,pull,update,install,uninstall,tree,push,propose,version,mcp,release,graph,stats,appraise,promote,fuse,docs,lookup,list,merge,split,add,evidence,validate,test,skills}
+            {help,init,scan,pull,update,install,uninstall,tree,push,propose,version,mcp,release,graph,stats,appraise,promote,fuse,docs,lookup,dev,validate,test,skills}
             ...
 
 Gaia Registry CLI
 
 positional arguments:
-  {help,init,scan,pull,update,install,uninstall,tree,push,propose,version,mcp,release,graph,stats,appraise,promote,fuse,docs,lookup,list,merge,split,add,evidence,validate,test,skills}
+  {help,init,scan,pull,update,install,uninstall,tree,push,propose,version,mcp,release,graph,stats,appraise,promote,fuse,docs,lookup,dev,validate,test,skills}
     help                Show command help
     init                Create or update local Gaia config
     scan                Scan configured paths for skill evidence
@@ -225,11 +225,7 @@ positional arguments:
     fuse                Confirm a skill combination or promotion candidate
     docs                Documentation maintenance commands
     lookup              Look up a canonical skill and its named implementations
-    list                List skills in the registry with filtering
-    merge               Merge one or more skills into a target skill
-    split               Split a skill into multiple new skills
-    add                 Add a new skill to the registry
-    evidence            Add evidence to a skill
+    dev                 Registry development and maintenance (requires writable registry)
     validate            Validate the Gaia registry
     test                Run self-verification tests
     skills              Browse and manage named skills

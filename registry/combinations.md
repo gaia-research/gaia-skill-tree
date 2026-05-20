@@ -4,15 +4,14 @@
 |---|---|---|---|---|
 | ◇ [ruvnet](../docs/u/ruvnet/)/swarm-advanced | Extra Skill | Swarm Topology Management, Multi-Agent Debate | 3★ |  |
 | ◇ /agent-eval | Extra Skill | Evaluate Output, Score Relevance | 3★ |  |
-| ◇ [ruvnet](../docs/u/ruvnet/)/agentdb-learning | Extra Skill | Memory Manage, Adaptive Pattern Learning | 3★ |  |
+| ◇ [ruvnet](../docs/u/ruvnet/)/agentdb-learning | Extra Skill | Adaptive Pattern Learning, Memory Manage | 3★ |  |
 | ◆ [ruvnet](../docs/u/ruvnet/)/agentdb | Ultimate Skill | Distributed Vector Memory, Agent Memory Learning, Memory Pattern Design, Vector DB Optimization, Vector Search | 5★ | Requires demonstrating all 5 AgentDB discipline skills in a production distributed system context. |
 | ◇ [ruvnet](../docs/u/ruvnet/)/sparc-methodology | Extra Skill | Workflow Automation, Plan and Decompose | 3★ → 2★ | Requires a workflow orchestration target (e.g. Airflow, Temporal) and access to its authoring API. |
 | ◇ /architecture-diagram | Extra Skill | Data Visualize, Format Output, Write Report | 4★ | Requires enough system context to identify components, relationships, boundaries, and rendering constraints. |
-| ◇ [0xdarkmatter](../docs/u/0xdarkmatter/)/pytest-patterns | Extra Skill | Generate Test, Execute Bash, Error Interpretation | 3★ |  |
+| ◇ [0xdarkmatter](../docs/u/0xdarkmatter/)/pytest-patterns | Extra Skill | Generate Test, Code Execution, Error Interpretation | 3★ |  |
 | ◇ /autonomous-data-scientist | Extra Skill | Data Analysis, Math Reason, Research | 5★ | Requires dataset access and compute environment. Minimum 3 Class A/B evidence sources. |
-| ◇ [devin-ai](../docs/u/devin-ai/)/autonomous-swe | Extra Skill | Code Generation, Execute Bash, Error Interpretation | 4★ |  |
-| ◇ [karpathy](../docs/u/karpathy/)/autoresearch | Extra Skill | Research, Knowledge Harvest, Ghostwrite | 3★ | Requires extensive multi-system validation before level advancement. |
-| ◇ /autonomous-web-research | Extra Skill | Web Scrape, Web Search | 4★ | Requires a multi-step crawling engine and mapping logic to resolve site structures. |
+| ◇ [devin-ai](../docs/u/devin-ai/)/autonomous-swe | Extra Skill | Code Generation, Code Execution, Error Interpretation | 4★ |  |
+| ◇ [karpathy](../docs/u/karpathy/)/autoresearch | Extra Skill | Ghostwrite, Knowledge Harvest, Research, Web Scrape, Web Search | 4★ | Requires a multi-step crawling engine and mapping logic to resolve site structures. |
 | ◇ [obra](../docs/u/obra/)/brainstorming | Extra Skill | Requirements Analysis, Question Answer | 1★ |  |
 | ◇ [gooseworks](../docs/u/gooseworks/)/notte-browser | Extra Skill | Web Search, Computer Use | 3★ |  |
 | ◇ [santifer](../docs/u/santifer/)/career-ops | Extra Skill | Autonomous Web Research, Summarize, Document Editing | 3★ |  |
@@ -22,7 +21,7 @@
 | ◇ /content-moderation | Extra Skill | Classify, Sentiment Analysis, Extract Entities | 3★ |  |
 | ◇ /conversational-agent | Extra Skill | Question Answer, Memory Manage, Route Intent | 3★ | Requires persistent memory store across turns. |
 | ◇ [huggingface](../docs/u/huggingface/)/huggingface-datasets | Extra Skill | Generate SQL, Data Visualize, Summarize | 3★ |  |
-| ◇ [garrytan](../docs/u/garrytan/)/land-and-deploy | Extra Skill | Workflow Automation, Execute Bash | 2★ → 1★ | Requires environment credentials and a configured pipeline definition. |
+| ◇ [garrytan](../docs/u/garrytan/)/land-and-deploy | Extra Skill | Workflow Automation, Code Execution | 2★ → 1★ | Requires environment credentials and a configured pipeline definition. |
 | ◇ [nexu-io](../docs/u/nexu-io/)/open-design | Extra Skill | Code Generation, Visual Question Answering | 3★ |  |
 | ◇ [garrytan](../docs/u/garrytan/)/design-shotgun | Extra Skill | Evaluate Output, Plan and Decompose | 3★ |  |
 | ◇ [Manavarya09](../docs/u/Manavarya09/)/design-extract | Extra Skill | Browser Automation, Parse HTML | 3★ | Requires headless browser (Playwright/Puppeteer). |
@@ -30,8 +29,7 @@
 | ◇ [obra](../docs/u/obra/)/dispatching-parallel-agents | Extra Skill | Plan and Decompose, Parallel Execution | 4★ |  |
 | ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus-neural | Extra Skill | Parallel Execution, Embed Text | 3★ |  |
 | ◇ [ruvnet](../docs/u/ruvnet/)/agentdb-advanced | Extra Skill | Vector Search, Memory Manage | 3★ |  |
-| ◇ /document-analyst | Extra Skill | Parse JSON, Extract Entities, Summarize, Format Output | 3★ |  |
-| ◇ /document-digitization | Extra Skill | OCR, Parse PDF, Extract Entities, Format Output | 3★ |  |
+| ◇ /document-analyst | Extra Skill | Extract Entities, Format Output, OCR, Parse JSON, Parse PDF, Summarize | 3★ |  |
 | ◇ [ruvnet](../docs/u/ruvnet/)/dual-mode | Extra Skill | Headless Worker Spawn, Headless Worker Collect, Hybrid Workflow Coordination | 3★ |  |
 | ◇ [garrytan](../docs/u/garrytan/)/qa-only | Extra Skill | Browser Automation, Automated Testing | 3★ | Requires a live or containerised target environment; browser automation must be available. |
 | ◇ [obra](../docs/u/obra/)/executing-plans | Extra Skill | Writing Plans, Tool Use | 2★ |  |
@@ -72,11 +70,11 @@
 | ◇ [yonatangross](../docs/u/yonatangross/)/orchestkit-rag | Extra Skill | Retrieve, Chunk Document, Embed Text, Score Relevance, Tokenize, Rank | 3★ |  |
 | ◇ /re-act-reasoning | Extra Skill | Plan and Decompose, Tool Use | 3★ |  |
 | ◇ /real-time-voice-assistant | Extra Skill | Voice Agent, Memory Manage, Plan and Execute | 5★ | Requires real-time audio pipeline, <500ms end-to-end latency target, and persistent session store. Minimum 3 Class A/B evidence sources. |
-| ◇ [ruvnet](../docs/u/ruvnet/)/reasoningbank | Extra Skill | Adaptive Pattern Learning, Learned Memory Integration | 3★ |  |
+| ◇ [ruvnet](../docs/u/ruvnet/)/reasoningbank | Extra Skill | Adaptive Pattern Learning, Agent Memory Learning | 3★ |  |
 | ◇ [obra](../docs/u/obra/)/receiving-code-review | Extra Skill | Requesting Code Review, Verification Before Completion | 2★ |  |
 | ◇ /recursive-self-improvement | Extra Skill | Autonomous Debug, Evaluate Output, Plan and Execute | 1★ | Requires extensive multi-system validation before level advancement. |
-| ◇ /registry-curation | Extra Skill | Research, Code Generation, Execute Bash | 4★ | Requires write access to the canonical graph and a passing validation suite. |
-| ◇ [ruvnet](../docs/u/ruvnet/)/github-release-management | Extra Skill | Workflow Automation, Execute Bash, Generate Text | 2★ | Requires write access to the repository and a configured release token. |
+| ◇ /registry-curation | Extra Skill | Research, Code Generation, Code Execution | 4★ | Requires write access to the canonical graph and a passing validation suite. |
+| ◇ [ruvnet](../docs/u/ruvnet/)/github-release-management | Extra Skill | Workflow Automation, Code Execution, Generate Text | 2★ | Requires write access to the repository and a configured release token. |
 | ◇ [obra](../docs/u/obra/)/requesting-code-review | Extra Skill | Code Review Pipeline, Dispatching Parallel Agents | 3★ |  |
 | ◇ /research | Extra Skill | Web Search, Summarize, Cite Sources | 3★ |  |
 | ◆ [ruvnet](../docs/u/ruvnet/)/ruflo | Ultimate Skill | Flow Nexus Orchestration, Agent Memory Platform, GitHub Platform Mastery, Reasoning Pattern Bank, Platform Modernization Sprint, Dual Mode | 6★ | Requires demonstrating all 6 Ruflo suite fusions together in a production multi-agent context. Grandmaster Path: 34k+ stars on ruvnet/ruflo + agent-memory-platform 5★ Ultimate. |
@@ -96,8 +94,8 @@
 | ◇ /translation-pipeline | Extra Skill | Translate, Sentiment Analysis, Audience Model | 3★ |  |
 | ◇ /tree-of-thought | Extra Skill | Chain-of-Thought Reasoning, Plan and Decompose | 4★ |  |
 | ◇ [mattpocock](../docs/u/mattpocock/)/ubiquitous-language | Extra Skill | Extract Entities, Requirements Analysis | 4★ | Requires active persistence of terms and immediate conflict resolution during sessions. |
-| ◇ [obra](../docs/u/obra/)/using-git-worktrees | Extra Skill | Execute Bash, Tool Use | 1★ |  |
-| ◇ [obra](../docs/u/obra/)/verification-before-completion | Extra Skill | Execute Bash, Self-Critique | 1★ |  |
+| ◇ [obra](../docs/u/obra/)/using-git-worktrees | Extra Skill | Code Execution, Tool Use | 1★ |  |
+| ◇ [obra](../docs/u/obra/)/verification-before-completion | Extra Skill | Code Execution, Self-Critique | 1★ |  |
 | ◇ [mattpocock](../docs/u/mattpocock/)/to-issues | Extra Skill | Plan and Decompose, Route Intent | 3★ |  |
 | ◇ [bradautomates](../docs/u/bradautomates/)/claude-video | Extra Skill | Multimodal Reasoning, Speech to Text | 3★ | Requires FFmpeg and multimodal LLM support. |
 | ◇ /voice-agent | Extra Skill | Speech to Text, Question Answer, Text to Speech | 3★ → 2★ | Requires real-time audio I/O or audio file access. |

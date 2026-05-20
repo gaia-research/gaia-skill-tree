@@ -2,7 +2,7 @@
 
 ```
 ══════════════════════════════════════════════════════════════════════
-GAIA SKILL TREE  v3.21.0  ·  generated 2026-05-19
+GAIA SKILL TREE  v3.21.1  ·  generated 2026-05-20
 ══════════════════════════════════════════════════════════════════════
 ◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = stars · [0★ · Pure] = Unawakened rank pill · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -31,8 +31,8 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │     ├─ ○ garrytan/context-restore  [3★]
   │  │     └─ ○ /retrieve  [1★]
   │  ├─ ◇ ruvnet/agentdb-learning  [3★]
-  │  │  ├─ ◇ garrytan/learn  [2★]  (↑ see above)
-  │  │  └─ ○ ruvnet/reasoningbank-intelligence  [2★]
+  │  │  ├─ ○ ruvnet/reasoningbank-intelligence  [2★]
+  │  │  └─ ◇ garrytan/learn  [2★]  (↑ see above)
   │  ├─ ○ ruvnet/agentdb-memory-patterns  [2★]
   │  ├─ ○ ruvnet/agentdb-optimization  [2★]
   │  └─ ○ ruvnet/agentdb-vector-search  [2★]  (↑ see above)
@@ -47,14 +47,14 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  │  ├─ ○ /plan-decompose  [1★]  (↑ see above)
   │  │  │  ├─ ○ /tool-use  [1★]  (↑ see above)
   │  │  │  └─ ○ huggingface/hf-cli  [2★]  (↑ see above)
-  │  │  └─ ○ /execute-bash  [1★]
+  │  │  └─ ○ /code-execution  [2★]
   │  ├─ ◇ garrytan/landing-report  [2★]
   │  │  ├─ ○ huggingface/hf-cli  [2★]  (↑ see above)
   │  │  └─ ○ mattpocock/triage  [4★]
   │  └─ ◇ ruvnet/github-workflow-automation  [4★]  (↑ see above)
   ├─ ◇ ruvnet/reasoningbank  [3★]
   │  ├─ ○ ruvnet/reasoningbank-intelligence  [2★]  (↑ see above)
-  │  └─ ○ ruvnet/reasoningbank-agentdb  [2★]
+  │  └─ ◇ ruvnet/agentdb-learning  [3★]  (↑ see above)
   ├─ ◇ ruvnet/ruflo-v3  [4★]
   │  ├─ ○ ruvnet/v3-cli-modernization  [2★]
   │  ├─ ○ ruvnet/v3-core-implementation  [2★]
@@ -79,8 +79,8 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │     ├─ ○ garrytan/context-restore  [3★]
   │     └─ ○ /retrieve  [1★]
   ├─ ◇ ruvnet/agentdb-learning  [3★]
-  │  ├─ ◇ garrytan/learn  [2★]  (↑ see above)
-  │  └─ ○ ruvnet/reasoningbank-intelligence  [2★]
+  │  ├─ ○ ruvnet/reasoningbank-intelligence  [2★]
+  │  └─ ◇ garrytan/learn  [2★]  (↑ see above)
   ├─ ○ ruvnet/agentdb-memory-patterns  [2★]
   ├─ ○ ruvnet/agentdb-optimization  [2★]
   └─ ○ ruvnet/agentdb-vector-search  [2★]  (↑ see above)
@@ -113,7 +113,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ ◇ gooseworks/notte-browser  [3★]  (↑ see above)
   │  └─ ◇ 0xdarkmatter/pytest-patterns  [3★]
   │     ├─ ○ upsonic/unittest-generator  [2★]
-  │     ├─ ○ /execute-bash  [1★]
+  │     ├─ ○ /code-execution  [2★]
   │     └─ ○ /error-interpretation  [1★]  (↑ see above)
   ├─ ◇ obra/finishing-a-development-branch  [2★]
   │  ├─ ◇ garrytan/plan-eng-review  [3★]  (↑ see above)
@@ -123,7 +123,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  ├─ ○ /plan-decompose  [1★]  (↑ see above)
   │  │  ├─ ○ /tool-use  [1★]
   │  │  └─ ○ huggingface/hf-cli  [2★]
-  │  └─ ○ /execute-bash  [1★]  (↑ see above)
+  │  └─ ○ /code-execution  [2★]  (↑ see above)
   ├─ ◇ garrytan/canary  [2★]
   │  ├─ ○ garrytan/benchmark  [1★]  (↑ see above)
   │  └─ ○ /error-interpretation  [1★]  (↑ see above)
@@ -199,7 +199,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  ├─ ◇ garrytan/plan-eng-review  [3★]  (↑ see above)
   │  │  └─ ◇ obra/dispatching-parallel-agents  [4★]  (↑ see above)
   │  └─ ◇ obra/verification-before-completion  [1★]
-  │     ├─ ○ /execute-bash  [1★]
+  │     ├─ ○ /code-execution  [2★]
   │     └─ ○ /self-critique  [1★]
   ├─ ◇ obra/requesting-code-review  [3★]  (↑ see above)
   ├─ ◇ obra/subagent-driven-development  [4★]
@@ -210,7 +210,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ ○ /hypothesis-generate  [2★]
   │  └─ ○ /error-interpretation  [1★]
   ├─ ◇ obra/using-git-worktrees  [1★]
-  │  ├─ ○ /execute-bash  [1★]  (↑ see above)
+  │  ├─ ○ /code-execution  [2★]  (↑ see above)
   │  └─ ○ /tool-use  [1★]  (↑ see above)
   ├─ ◇ obra/verification-before-completion  [1★]  (↑ see above)
   └─ ◇ obra/writing-plans  [2★]  (↑ see above)
@@ -243,4 +243,4 @@ Basics — basic-tier skills not wired into an upgrade path yet.  (0★ skills c
   ○ ruvnet/worker-integration  [2★]
 ```
 
-*Generated from gaia.json on 2026-05-19. Do not edit directly.*
+*Generated from gaia.json on 2026-05-20. Do not edit directly.*

@@ -102,7 +102,7 @@ def test_scan_can_use_explicit_writable_registry(tmp_path):
     (project / ".gaia" / "config.json").write_text(
         json.dumps({"gaiaUser": "juno", "scanPaths": ["."]})
     )
-    (project / "notes.md").write_text("web-search\n")
+    (project / "notes.md").write_text("/web-search\n")
 
     result = run_python(
         ["-m", "gaia_cli", "--registry", str(REPO_ROOT), "scan"],

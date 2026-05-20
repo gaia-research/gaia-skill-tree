@@ -20,12 +20,15 @@ from gaia_cli.name import find_awakened_skill, promote_to_named, update_batch_li
 from gaia_cli.install import install_skill, install_suite, update_skills, uninstall_skill, list_installed, interactive_install, list_available
 from gaia_cli.graph import graph_command
 from gaia_cli.commands.stats import stats_command
-from gaia_cli.commands.meta_ops import (
+from gaia_cli.commands.dev import (
     meta_list_command,
     meta_merge_command,
     meta_split_command,
     meta_add_command,
+    meta_rename_command,
+    meta_calibrate_command,
     meta_evidence_command,
+    meta_audit_command,
 )
 from gaia_cli.registry import (
     generated_output_dir,
@@ -149,11 +152,7 @@ PUBLIC_COMMANDS = (
     "fuse",
     "docs",
     "lookup",
-    "list",
-    "merge",
-    "split",
-    "add",
-    "evidence",
+    "dev",
     "validate",
     "test",
     "skills",
@@ -299,7 +298,7 @@ def scan_command(args):
     if not quiet:
         print("Scanning repository...")
     scan_result = scan_repo_detailed()
-    raw_tokens = scan_result["tokens"]
+    raw_tokens = {t.lstrip('/') for t in scan_result["tokens"]}
     graph_path = registry_graph_path(args.registry)
     resolved = resolve_skills(raw_tokens, registry_path=graph_path)
     
@@ -1103,11 +1102,6 @@ def install_command(args):
         sys.exit(1)
 
 
-def update_command(args):
-    from gaia_cli.install import update_skills
-    update_skills(args.registry)
-
-
 def uninstall_command(args):
     from gaia_cli.install import uninstall_skill
     success = uninstall_skill(args.skill_id)
@@ -1262,16 +1256,22 @@ def update_command(args):
     if res.returncode != 0:
         print("Warning: git pull failed. Proceeding with installation...", file=sys.stderr)
     registry_pyproject = Path(args.registry) / "pyproject.toml"
+    
+    # PEP 668 fix: use --break-system-packages if not in a venv
+    pip_args = ["install"]
+    if not (os.environ.get("VIRTUAL_ENV") or os.environ.get("CONDA_PREFIX")):
+        pip_args.append("--break-system-packages")
+
     if registry_pyproject.exists():
         # Editable source install — pipx doesn't support -e, so pip only
         subprocess.run(
-            [sys.executable, "-m", "pip", "install", "-e", args.registry],
+            [sys.executable, "-m", "pip"] + pip_args + ["-e", args.registry],
             check=True,
         )
         return
     # Non-editable: try pip first, fall back to pipx
     pip_ok = subprocess.run(
-        [sys.executable, "-m", "pip", "install", "gaia-cli", "--upgrade"],
+        [sys.executable, "-m", "pip"] + pip_args + ["gaia-cli", "--upgrade"],
     ).returncode == 0
     if not pip_ok:
         pipx = subprocess.run(["pipx", "upgrade", "gaia-cli"]).returncode
@@ -1423,39 +1423,56 @@ def get_parser():
     lookup_parser = subparsers.add_parser('lookup', help="Look up a canonical skill and its named implementations")
     lookup_parser.add_argument('skillId', help='Skill ID to inspect')
     
-    list_parser = subparsers.add_parser('list', help="List skills in the registry with filtering")
-    list_parser.add_argument('--generic', action='store_true', help="Include generic (canonical) skills")
-    list_parser.add_argument('--named', action='store_true', help="Include named skills")
-    list_parser.add_argument('--description', action='store_true', help="Include skill descriptions")
-    list_parser.add_argument('--json', action='store_true', help="Output in JSON format")
-    list_parser.add_argument('--extra', action='append', help="Include extra schema fields in output")
+    dev_parser = subparsers.add_parser('dev', help="Registry development and maintenance (requires writable registry)")
+    dev_sub = dev_parser.add_subparsers(dest='dev_command')
 
-    merge_parser = subparsers.add_parser('merge', help="Merge one or more skills into a target skill")
-    merge_parser.add_argument('target', help="Target skill ID to merge into")
-    merge_parser.add_argument('sources', nargs='+', help="Source skill IDs to merge from")
-    merge_parser.add_argument('--named', action='store_true', help="Also merge named implementation references")
+    dev_list = dev_sub.add_parser('list', help="List skills in the registry with filtering")
+    dev_list.add_argument('--generic', action='store_true', help="Include generic (canonical) skills")
+    dev_list.add_argument('--named', action='store_true', help="Include named skills")
+    dev_list.add_argument('--description', action='store_true', help="Include skill descriptions")
+    dev_list.add_argument('--level', action='store_true', help="Include skill level")
+    dev_list.add_argument('--evidence', action='store_true', help="Include evidence count (generic only)")
+    dev_list.add_argument('--contributor', action='store_true', help="Include contributor name (named only)")
+    dev_list.add_argument('--json', action='store_true', help="Output in JSON format")
+    dev_list.add_argument('--extra', action='append', help="Include extra schema fields in output")
 
-    split_parser = subparsers.add_parser('split', help="Split a skill into multiple new skills")
-    split_parser.add_argument('source', help="Source skill ID to split")
-    split_parser.add_argument('targets', nargs='+', help="Target skill IDs to create")
+    dev_merge = dev_sub.add_parser('merge', help="Merge one or more skills into a target skill")
+    dev_merge.add_argument('target', help="Target skill ID to merge into")
+    dev_merge.add_argument('sources', nargs='+', help="Source skill IDs to merge from")
+    dev_merge.add_argument('--named', action='store_true', help="Also merge named implementation references")
 
-    add_parser = subparsers.add_parser('add', help="Add a new skill to the registry")
-    add_parser.add_argument('name', help="Human-readable name of the skill")
-    add_parser.add_argument('--id', help="Explicit ID for the skill (defaults to slugified name)")
-    add_parser.add_argument('--type', choices=('basic', 'extra', 'ultimate', 'unique'), default='basic', help="Skill type (default: basic)")
-    add_parser.add_argument('--description', help="Skill description")
-    add_parser.add_argument('--named', action='store_true', help="Add as a named skill instead of generic")
-    add_parser.add_argument('--contributor', help="Contributor name for named skill (default: gaiabot)")
-    add_parser.add_argument('--generic-ref', help="Generic skill reference for named skill")
-    add_parser.add_argument('--extra-fields', help="JSON string of additional schema fields")
+    dev_split = dev_sub.add_parser('split', help="Split a skill into multiple new skills")
+    dev_split.add_argument('source', help="Source skill ID to split")
+    dev_split.add_argument('targets', nargs='+', help="Target skill IDs to create")
 
-    evidence_parser = subparsers.add_parser('evidence', help="Add evidence to a skill")
-    evidence_parser.add_argument('skill_id', help="Skill ID to add evidence to")
-    evidence_parser.add_argument('source', help="URL to the evidence source")
-    evidence_parser.add_argument('--class', dest='evidence_class', choices=('A', 'B', 'C'), default='C', help="Evidence class (default: C)")
-    evidence_parser.add_argument('--evaluator', help="GitHub username of the evaluator")
-    evidence_parser.add_argument('--date', help="Date of evaluation (ISO 8601)")
-    evidence_parser.add_argument('--notes', help="Optional notes about the evaluation")
+    dev_rename = dev_sub.add_parser('rename', help="Rename a skill and update all references")
+    dev_rename.add_argument('old_id', help="Original skill ID")
+    dev_rename.add_argument('new_id', help="New skill ID")
+
+    dev_calibrate = dev_sub.add_parser('calibrate', help="Update the level of a skill")
+    dev_calibrate.add_argument('skill_id', help="Skill ID to calibrate")
+    dev_calibrate.add_argument('level', help="New level (e.g. 3★)")
+
+    dev_add = dev_sub.add_parser('add', help="Add a new skill to the registry")
+    dev_add.add_argument('name', help="Human-readable name of the skill")
+    dev_add.add_argument('--id', help="Explicit ID for the skill (defaults to slugified name)")
+    dev_add.add_argument('--type', choices=('basic', 'extra', 'ultimate', 'unique'), default='basic', help="Skill type (default: basic)")
+    dev_add.add_argument('--description', help="Skill description")
+    dev_add.add_argument('--named', action='store_true', help="Add as a named skill instead of generic")
+    dev_add.add_argument('--contributor', help="Contributor name for named skill (default: gaiabot)")
+    dev_add.add_argument('--generic-ref', help="Generic skill reference for named skill")
+    dev_add.add_argument('--extra-fields', help="JSON string of additional schema fields")
+
+    dev_evidence = dev_sub.add_parser('evidence', help="Add evidence to a skill")
+    dev_evidence.add_argument('skill_id', help="Skill ID to add evidence to")
+    dev_evidence.add_argument('source', help="URL to the evidence source")
+    dev_evidence.add_argument('--class', dest='evidence_class', choices=('A', 'B', 'C'), default='C', help="Evidence class (default: C)")
+    dev_evidence.add_argument('--evaluator', help="GitHub username of the evaluator")
+    dev_evidence.add_argument('--date', help="Date of evaluation (ISO 8601)")
+    dev_evidence.add_argument('--notes', help="Optional notes about the evaluation")
+
+    dev_audit = dev_sub.add_parser('audit', help="Run registry maintenance linter")
+    dev_audit.add_argument('--level', type=int, help="Filter audit by level threshold")
 
     validate_parser = subparsers.add_parser('validate', help="Validate the Gaia registry")
     validate_parser.add_argument('--intake', action='store_true', help="Validate intake batches instead of canonical graph")
@@ -1518,7 +1535,7 @@ def test_command(args):
     
     cmd = [str(pytest_path)]
     if args.suite == "meta":
-        cmd.append(str(repo_root / "tests" / "test_meta_ops.py"))
+        cmd.append(str(repo_root / "tests" / "test_dev.py"))
     elif args.suite == "all":
         cmd.append(str(repo_root / "tests"))
     
@@ -1589,16 +1606,26 @@ def main():
         docs_command(args)
     elif args.command == 'lookup':
         lookup_command(args)
-    elif args.command == 'list':
-        meta_list_command(args)
-    elif args.command == 'merge':
-        meta_merge_command(args)
-    elif args.command == 'split':
-        meta_split_command(args)
-    elif args.command == 'add':
-        meta_add_command(args)
-    elif args.command == 'evidence':
-        meta_evidence_command(args)
+    elif args.command == 'dev':
+        dev_cmd = getattr(args, 'dev_command', None)
+        if dev_cmd == 'list':
+            meta_list_command(args)
+        elif dev_cmd == 'merge':
+            meta_merge_command(args)
+        elif dev_cmd == 'split':
+            meta_split_command(args)
+        elif dev_cmd == 'rename':
+            meta_rename_command(args)
+        elif dev_cmd == 'calibrate':
+            meta_calibrate_command(args)
+        elif dev_cmd == 'add':
+            meta_add_command(args)
+        elif dev_cmd == 'evidence':
+            meta_evidence_command(args)
+        elif dev_cmd == 'audit':
+            meta_audit_command(args)
+        else:
+            dev_parser.print_help()
     elif args.command == 'validate':
         validate_command(args)
     elif args.command == 'test':

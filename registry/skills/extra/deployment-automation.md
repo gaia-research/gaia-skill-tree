@@ -14,7 +14,7 @@ Automate CI/CD pipeline execution and deployment to target environments — buil
 
 ## Prerequisites
 - [Workflow Automation](../extra/workflow-automation.md)
-- [Execute Bash](../basic/execute-bash.md)
+- [Code Execution](../basic/code-execution.md)
 
 ## Unlocks
 - [Founder Mode](../ultimate/gstack.md)

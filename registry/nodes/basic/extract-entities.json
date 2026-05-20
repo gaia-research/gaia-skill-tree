@@ -9,7 +9,6 @@
   "derivatives": [
     "content-moderation",
     "document-analyst",
-    "document-digitization",
     "knowledge-graph-build",
     "knowledge-harvest",
     "web-scrape"

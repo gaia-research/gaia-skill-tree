@@ -16,7 +16,6 @@ _None._
 ## Unlocks
 - [Content Moderation](../extra/content-moderation.md)
 - [Document Analyst](../extra/document-analyst.md)
-- [Document Digitization](../extra/document-digitization.md)
 - [Knowledge Graph Construction](../extra/knowledge-graph-build.md)
 - [Knowledge Harvest](../extra/knowledge-harvest.md)
 - [Web Scrape](../extra/web-scrape.md)

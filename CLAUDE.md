@@ -40,11 +40,11 @@ cd packages/mcp && npm run build && npm test
 
 ```bash
 # Meta Review (CLI-ONLY)
-gaia list --generic --named
-gaia add "Skill Name" --type basic
-gaia merge target-id source-ids...
-gaia split source-id target-ids...
-gaia evidence skill-id "url" --class B
+gaia dev list --generic --named
+gaia dev add "Skill Name" --type basic --description "At least 10 chars description"
+gaia dev merge target-id source-ids...
+gaia dev split source-id target-ids...
+gaia dev evidence skill-id "url" --class B
 ```
 
 ## Programmatic-First Policy
