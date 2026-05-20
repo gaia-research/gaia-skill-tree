@@ -102,10 +102,10 @@
 
     // Ledger strip
     var elSkills = document.getElementById('ledgerSkills');
-    var elApex = document.getElementById('ledgerApex');
+    var elUlts = document.getElementById('ledgerUlts');
     var elDate = document.getElementById('ledgerDate');
     if (elSkills) elSkills.textContent = skills.length;
-    if (elApex) elApex.textContent = apexCount;
+    if (elUlts) elUlts.textContent = ultimates.length;
     var dateStr = formatDate(graphData.generatedAt || (graphData.meta && graphData.meta.updatedAt));
     if (elDate && dateStr) elDate.textContent = dateStr;
 
