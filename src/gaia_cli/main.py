@@ -298,7 +298,7 @@ def scan_command(args):
     if not quiet:
         print("Scanning repository...")
     scan_result = scan_repo_detailed()
-    raw_tokens = scan_result["tokens"]
+    raw_tokens = {t.lstrip('/') for t in scan_result["tokens"]}
     graph_path = registry_graph_path(args.registry)
     resolved = resolve_skills(raw_tokens, registry_path=graph_path)
     

@@ -2,7 +2,6 @@
 
 import copy
 import json
-import yaml
 import os
 import sys
 import datetime
@@ -104,6 +103,7 @@ def meta_list_command(args):
             print(line)
 
 def _parse_md(path):
+    import yaml
     content = path.read_text(encoding="utf-8")
     if not content.startswith("---"):
         return {}, content
@@ -111,6 +111,7 @@ def _parse_md(path):
     return (yaml.safe_load(frontmatter) or {}), body
 
 def _write_md(path, meta, body) -> None:
+    import yaml
     path.write_text(
         "---\n" + yaml.dump(meta, sort_keys=False, allow_unicode=True) + "---" + body,
         encoding="utf-8",
@@ -178,6 +179,7 @@ def meta_merge_command(args):
         target_meta["updatedAt"] = datetime.date.today().isoformat()
         
         with open(target_file, "w", encoding="utf-8") as f:
+            import yaml
             f.write("---\n")
             yaml.dump(target_meta, f, sort_keys=False, allow_unicode=True)
             f.write("---\n")
