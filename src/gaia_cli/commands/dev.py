@@ -1,6 +1,7 @@
 """Meta review operations for the Gaia CLI."""
 
 import json
+import yaml
 import os
 import sys
 import datetime
@@ -36,6 +37,11 @@ def meta_list_command(args):
                 item = {"id": skill["id"], "name": skill.get("name"), "kind": "generic"}
                 if getattr(args, "description", False):
                     item["description"] = skill.get("description")
+                if getattr(args, "level", False):
+                    item["level"] = skill.get("level")
+                if getattr(args, "evidence", False):
+                    item["evidence_count"] = len(skill.get("evidence", []))
+                
                 if getattr(args, "extra", None):
                     for field in args.extra:
                         if field in skill:
@@ -51,6 +57,11 @@ def meta_list_command(args):
                     item = {"id": skill["id"], "name": skill.get("name"), "kind": "named", "genericSkillRef": bucket_id}
                     if getattr(args, "description", False):
                         item["description"] = skill.get("description")
+                    if getattr(args, "level", False):
+                        item["level"] = skill.get("level")
+                    if getattr(args, "contributor", False):
+                        item["contributor"] = skill.get("contributor")
+                    
                     if getattr(args, "extra", None):
                         for field in args.extra:
                             if field in skill:
@@ -68,8 +79,16 @@ def meta_list_command(args):
         for item in results:
             kind_prefix = "[G] " if item["kind"] == "generic" else "[N] "
             line = f"{kind_prefix}/{item['id']} - {item.get('name')}"
+            if "level" in item:
+                line += f" ({item['level']})"
+            if "contributor" in item:
+                line += f" by {item['contributor']}"
+            if "evidence_count" in item:
+                line += f" [{item['evidence_count']} evidence]"
+            
             if "description" in item:
                 line += f"\n    {item['description']}"
+            
             if getattr(args, "extra", None):
                 for field in args.extra:
                     if field in item and field not in ("id", "name", "kind", "description"):
@@ -132,22 +151,56 @@ def meta_merge_command(args):
             print(f"Error: Target named skill '{target_id}' not found.")
             sys.exit(1)
 
-        source_files = []
+        def parse_md(path):
+            with open(path, "r", encoding="utf-8") as f:
+                content = f.read()
+            if content.startswith("---"):
+                _, frontmatter, body = content.split("---", 2)
+                return yaml.safe_load(frontmatter), body
+            return {}, content
+
+        target_meta, target_body = parse_md(target_file)
+        
         for source_id in sources:
+            source_file = None
             for p in named_dir.glob("**/*.md"):
                 with open(p, "r", encoding="utf-8") as f:
                     try:
                         content = f.read()
                         if f'id: "{source_id}"' in content or f"id: '{source_id}'" in content or f"id: {source_id}" in content:
-                            source_files.append(p)
+                            source_file = p
                             break
                     except Exception:
                         continue
+            
+            if not source_file:
+                print(f"Warning: Source named skill '{source_id}' not found. Skipping.")
+                continue
+
+            source_meta, source_body = parse_md(source_file)
+            
+            # Merge metadata
+            if "links" in source_meta:
+                target_meta.setdefault("links", {}).update(source_meta["links"])
+            if "tags" in source_meta:
+                target_meta["tags"] = list(set(target_meta.get("tags", [])) | set(source_meta["tags"]))
+            if "knownAgents" in source_meta:
+                target_meta["knownAgents"] = list(set(target_meta.get("knownAgents", [])) | set(source_meta["knownAgents"]))
+            
+            # Append body
+            target_body += f"\n\n--- Merged from {source_id} ---\n\n" + source_body
+            
+            source_file.unlink()
+            print(f"Merged and deleted source file: {source_file}")
+
+        target_meta["updatedAt"] = datetime.date.today().isoformat()
         
-        for sf in source_files:
-            print(f"Merging content from {sf} into {target_file} (manual review recommended)")
-            sf.unlink()
-        
+        with open(target_file, "w", encoding="utf-8") as f:
+            f.write("---\n")
+            yaml.dump(target_meta, f, sort_keys=False, allow_unicode=True)
+            f.write("---\n")
+            f.write(target_body)
+
         append_skill_event(target_id, "merge", _get_contributor(), f"Merged named skills {', '.join(sources)} into {target_id}", registry_path=registry_path)
     else:
         # Generic skill merging
@@ -268,6 +321,189 @@ def meta_merge_command(args):
     subprocess.run([sys.executable, "-m", "gaia_cli", "docs", "build"], check=True)
 
     print(f"Successfully merged skills into '{target_id}'.")
+
+def meta_rename_command(args):
+    registry_path = args.registry
+    old_id = args.old_id.lstrip("/")
+    new_id = args.new_id.lstrip("/")
+
+    nodes_dir = Path(registry_nodes_dir(registry_path))
+    old_file = None
+    skill_data = None
+    
+    for p in nodes_dir.glob("**/*.json"):
+        with open(p, "r", encoding="utf-8") as f:
+            try:
+                data = json.load(f)
+                if data.get("id") == old_id:
+                    old_file = p
+                    skill_data = data
+                    break
+            except json.JSONDecodeError:
+                continue
+    
+    if not old_file:
+        print(f"Error: Skill '{old_id}' not found.")
+        sys.exit(1)
+
+    # Rename the file and update ID
+    new_file = old_file.parent / f"{new_id}.json"
+    skill_data["id"] = new_id
+    skill_data["updatedAt"] = datetime.date.today().isoformat()
+
+    with open(new_file, "w", encoding="utf-8") as f:
+        json.dump(skill_data, f, indent=2, ensure_ascii=False)
+        f.write("\n")
+    
+    old_file.unlink()
+    print(f"Renamed {old_file} to {new_file}")
+
+    # Update references in all other nodes
+    for p in nodes_dir.glob("**/*.json"):
+        if p == new_file:
+            continue
+        with open(p, "r", encoding="utf-8") as f:
+            try:
+                data = json.load(f)
+            except json.JSONDecodeError:
+                continue
+        
+        changed = False
+        if "prerequisites" in data:
+            if old_id in data["prerequisites"]:
+                data["prerequisites"] = [new_id if pr == old_id else pr for pr in data["prerequisites"]]
+                changed = True
+        
+        if "derivatives" in data:
+            if old_id in data["derivatives"]:
+                data["derivatives"] = [new_id if dr == old_id else dr for dr in data["derivatives"]]
+                changed = True
+        
+        if changed:
+            with open(p, "w", encoding="utf-8") as f:
+                json.dump(data, f, indent=2, ensure_ascii=False)
+                f.write("\n")
+            print(f"Updated references in {p}")
+
+    # Update named skill references
+    named_dir = Path(named_skills_dir(registry_path))
+    for p in named_dir.glob("**/*.md"):
+        if _update_named_skill_ref(p, old_id, new_id):
+            print(f"Updated genericSkillRef in {p}")
+
+    append_skill_event(new_id, "rename", _get_contributor(), f"Renamed from {old_id} to {new_id}", registry_path=registry_path)
+    
+    print("Regenerating registry and documentation...")
+    subprocess.run([sys.executable, "-m", "gaia_cli", "docs", "build"], check=True)
+    print(f"Successfully renamed '{old_id}' to '{new_id}'.")
+
+def meta_calibrate_command(args):
+    registry_path = args.registry
+    skill_id = args.skill_id.lstrip("/")
+    level = args.level
+    
+    # Validation
+    if not level.endswith("★") or not level[0].isdigit():
+        print("Error: Level must be in format 'N★' (e.g. '2★')")
+        sys.exit(1)
+
+    nodes_dir = Path(registry_nodes_dir(registry_path))
+    node_file = None
+    skill_data = None
+    
+    for p in nodes_dir.glob("**/*.json"):
+        with open(p, "r", encoding="utf-8") as f:
+            try:
+                data = json.load(f)
+                if data.get("id") == skill_id:
+                    node_file = p
+                    skill_data = data
+                    break
+            except json.JSONDecodeError:
+                continue
+    
+    if not node_file:
+        print(f"Error: Skill '{skill_id}' not found.")
+        sys.exit(1)
+
+    old_level = skill_data.get("level", "0★")
+    skill_data["level"] = level
+    skill_data["updatedAt"] = datetime.date.today().isoformat()
+
+    with open(node_file, "w", encoding="utf-8") as f:
+        json.dump(skill_data, f, indent=2, ensure_ascii=False)
+        f.write("\n")
+
+    try:
+        level_num = int(level[0])
+        old_level_num = int(old_level[0])
+        action = "rank_up" if level_num > old_level_num else "demote"
+    except Exception:
+        action = "rank_up"
+
+    append_skill_event(skill_id, action, _get_contributor(), f"Calibrated level from {old_level} to {level}", registry_path=registry_path)
+    
+    print("Regenerating registry and documentation...")
+    subprocess.run([sys.executable, "-m", "gaia_cli", "docs", "build"], check=True)
+    print(f"Successfully calibrated '{skill_id}' to {level}.")
+
+def meta_audit_command(args):
+    """Registry linter for maintenance issues."""
+    registry_path = args.registry
+    nodes_dir = Path(registry_nodes_dir(registry_path))
+    threshold = getattr(args, "level", 0)
+    
+    issues = []
+    
+    for p in nodes_dir.glob("**/*.json"):
+        with open(p, "r", encoding="utf-8") as f:
+            try:
+                data = json.load(f)
+            except json.JSONDecodeError:
+                continue
+            
+            skill_id = data.get("id")
+            level_str = data.get("level", "0★")
+            level = int(level_str[0])
+            
+            if threshold and level < threshold:
+                continue
+
+            evidence = data.get("evidence", [])
+            best_class = "D"
+            if evidence:
+                classes = [e.get("class", "C") for e in evidence]
+                if "A" in classes: best_class = "A"
+                elif "B" in classes: best_class = "B"
+                elif "C" in classes: best_class = "C"
+            
+            # Evidence Floor Checks (from GEMINI.md)
+            # 2★ needs Tier C
+            if level >= 2 and not evidence:
+                issues.append(f"[P1] {skill_id}: Level {level_str} but has NO evidence.")
+            
+            # 3★ needs Tier B
+            if level == 3 and best_class == "C":
+                issues.append(f"[P1] {skill_id}: Level {level_str} but only has Class C evidence (needs B).")
+            
+            # 4★+ needs Tier B/A
+            if level >= 4 and best_class not in ["A", "B"]:
+                issues.append(f"[P0] {skill_id}: Level {level_str} but only has Class {best_class} evidence (needs A/B).")
+
+            # Orphan check
+            if not data.get("prerequisites") and data.get("type") != "basic" and data.get("type") != "unique":
+                issues.append(f"[P2] {skill_id}: Orphaned {data.get('type')} skill (no prerequisites).")
+
+            # Missing description
+            if not data.get("description") or len(data.get("description")) < 10:
+                issues.append(f"[P3] {skill_id}: Missing or too short description.")
+
+    if not issues:
+        print("✅ No registry maintenance issues found.")
+    else:
+        print(f"Found {len(issues)} potential issues:")
+        for issue in sorted(issues):
+            print(f"  {issue}")
 
 def meta_split_command(args):
     registry_path = args.registry
@@ -403,6 +639,7 @@ Add installation instructions here.
             "prerequisites": [],
             "derivatives": [],
             "evidence": [],
+            "knownAgents": [],
             "status": "provisional",
             "createdAt": datetime.date.today().isoformat(),
             "updatedAt": datetime.date.today().isoformat(),
