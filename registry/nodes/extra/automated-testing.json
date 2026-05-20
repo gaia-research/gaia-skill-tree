@@ -7,7 +7,7 @@
   "description": "Generates test suites, executes them in a sandbox, interprets failures, and iterates until the target pass rate is reached.",
   "prerequisites": [
     "generate-test",
-    "execute-bash",
+    "code-execution",
     "error-interpretation"
   ],
   "derivatives": [

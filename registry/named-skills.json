@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-19",
+  "generatedAt": "2026-05-20",
   "buckets": {
     "automated-testing": [
       {
@@ -2223,13 +2223,13 @@
         "role": "variant"
       }
     ],
-    "autonomous-research-agent": [
+    "autonomous-web-research": [
       {
         "id": "karpathy/autoresearch",
         "name": "AutoResearch",
         "contributor": "karpathy",
         "origin": true,
-        "genericSkillRef": "autonomous-research-agent",
+        "genericSkillRef": "autonomous-web-research",
         "status": "named",
         "level": "3★",
         "description": "Autonomous research agent that iteratively searches, reads, and synthesizes academic papers into structured summaries.",
@@ -2985,6 +2985,31 @@
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
         "role": "origin"
+      },
+      {
+        "id": "ruvnet/reasoningbank-agentdb",
+        "name": "ReasoningBank AgentDB",
+        "contributor": "ruvnet",
+        "origin": false,
+        "genericSkillRef": "agent-memory-learning",
+        "status": "named",
+        "level": "2★",
+        "description": "Persists agent reasoning patterns in AgentDB vector memory and retrieves them semantically for continuous self-improvement across sessions.",
+        "title": "The Knowledge Crystallizer",
+        "catalogRef": "ruvnet-reasoningbank-agentdb",
+        "tags": [
+          "reasoning-persistence",
+          "vector-memory",
+          "agentdb",
+          "self-improvement"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
+        "role": "variant"
       }
     ],
     "memory-pattern-design": [
@@ -3593,33 +3618,6 @@
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
         "role": "variant"
-      }
-    ],
-    "learned-memory-integration": [
-      {
-        "id": "ruvnet/reasoningbank-agentdb",
-        "name": "ReasoningBank AgentDB",
-        "contributor": "ruvnet",
-        "origin": true,
-        "genericSkillRef": "learned-memory-integration",
-        "status": "named",
-        "level": "2★",
-        "description": "Persists agent reasoning patterns in AgentDB vector memory and retrieves them semantically for continuous self-improvement across sessions.",
-        "title": "The Knowledge Crystallizer",
-        "catalogRef": "ruvnet-reasoningbank-agentdb",
-        "tags": [
-          "reasoning-persistence",
-          "vector-memory",
-          "agentdb",
-          "self-improvement"
-        ],
-        "links": {
-          "github": "https://github.com/ruvnet/ruflo"
-        },
-        "createdAt": "2026-05-19",
-        "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
-        "role": "origin"
       }
     ],
     "adaptive-pattern-learning": [

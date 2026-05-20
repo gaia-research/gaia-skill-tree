@@ -16,29 +16,13 @@ from gaia_cli.registry import named_skills_dir, registry_graph_path, skill_batch
 SKILL_ID_RE = re.compile(r"^[a-z][a-z0-9]*(-[a-z0-9]+)*$")
 MIN_PROPOSED_TOKEN_LENGTH = 3
 PROPOSED_STOPWORDS = {
-    "a",
-    "an",
-    "and",
-    "are",
-    "as",
-    "at",
-    "be",
-    "by",
-    "for",
-    "from",
-    "in",
-    "is",
-    "it",
-    "of",
-    "on",
-    "or",
-    "that",
-    "the",
-    "to",
-    "was",
-    "were",
-    "with",
-    "already",
+    "a", "an", "and", "are", "as", "at", "be", "by", "for", "from", "in", "is", "it", "of", "on", "or", "that", "the", "to", "was", "were", "with", "already",
+    "self", "this", "import", "return", "class", "def", "function", "true", "false", "none", "null", "if", "else", "while", "for", "in", "try", "except", 
+    "finally", "raise", "with", "as", "lambda", "yield", "await", "async", "print", "type", "object", "list", "dict", "set", "tuple", "str", "int", "float",
+    "bool", "bytes", "bytearray", "memoryview", "range", "enumerate", "zip", "reversed", "sorted", "any", "all", "map", "filter", "eval", "exec", 
+    "compile", "getattr", "setattr", "hasattr", "delattr", "isinstance", "issubclass", "len", "id", "hash", "abs", "divmod", "pow", "round", 
+    "min", "max", "sum", "open", "input", "help", "dir", "vars", "globals", "locals", "property", "staticmethod", "classmethod", "super",
+    "gaia", "skill", "registry", "tree", "node", "batch", "intake", "review", "canonical", "local", "remote", "origin", "master", "main", "branch",
 }
 
 
@@ -175,7 +159,9 @@ def build_skill_batch(raw_tokens, config, registry_root, now=None):
     timestamp = now or datetime.now(timezone.utc)
     generated_at = timestamp.replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
-    valid_tokens = sorted(token for token in raw_tokens if SKILL_ID_RE.match(token))
+    # Strip leading slashes from tokens before matching
+    clean_tokens = [t.lstrip('/') for t in raw_tokens]
+    valid_tokens = sorted(token for token in clean_tokens if SKILL_ID_RE.match(token))
     known_ids = [token for token in valid_tokens if token in canonical_ids]
     proposed_ids = filter_proposed_ids(valid_tokens, canonical_ids)
     batch_id = (
@@ -187,7 +173,6 @@ def build_skill_batch(raw_tokens, config, registry_root, now=None):
     proposed_skills = []
     for skill_id in proposed_ids:
         skill = build_proposed_skill(skill_id, source_repo)
-        skill["namedSuggestions"] = find_named_skill_suggestions(skill_id, named_dir)
         proposed_skills.append(skill)
 
     return {
