@@ -1606,8 +1606,8 @@ def main():
         docs_command(args)
     elif args.command == 'lookup':
         lookup_command(args)
-    elif args.command == 'dev' or args.command in ('list', 'merge', 'split', 'add', 'rename', 'calibrate', 'evidence'):
-        dev_cmd = getattr(args, 'dev_command', args.command)
+    elif args.command == 'dev':
+        dev_cmd = getattr(args, 'dev_command', None)
         if dev_cmd == 'list':
             meta_list_command(args)
         elif dev_cmd == 'merge':
