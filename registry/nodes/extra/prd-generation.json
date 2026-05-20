@@ -4,7 +4,10 @@
   "type": "extra",
   "level": "4★",
   "rarity": "uncommon",
-  "description": "Synthesizes conversation context and codebase knowledge into a structured Product Requirements Document containing a problem statement, extensive user stories, implementation decisions, module boundaries, testing decisions, and out-of-scope items.",
+  "summary": "Synthesizes conversational context and codebase knowledge into a structured Product Requirements Document.",
+  "description": "Synthesizes conversation context and codebase knowledge into a structured Product Requirements Document containing a problem statement, extensive user stories, implementation decisions, module boundaries, testing decisions, and out-of-scope items. It sketches major modules with deep-module opportunities, confirms scope with the user, and produces a strict issue tracker format without brittle code snippets.",
+  "useCase": "A developer initiates a planning session to implement a new feature. They discuss requirements with the agent. The agent synthesizes this conversation, explores the current codebase architecture, and identifies the deep modules needed. It then generates a highly detailed PRD, formatting it as a structured issue with clear testing guidelines, and automatically pushes it to the project's issue tracker with a `ready-for-agent` triage label.",
+  "directives": "1. Do NOT interview the user; solely synthesize known context and codebase state.\n2. Respect domain glossary vocabulary and existing ADRs during synthesis.\n3. Sketch deep modules (small interface, deep implementation).\n4. Follow the strict PRD template: Problem Statement, Solution, User Stories, Implementation Decisions, Testing Decisions, Out of Scope, and Further Notes.\n5. Omit specific file paths or volatile code snippets to prevent fast-rotting documentation.",
   "prerequisites": [
     "write-report",
     "plan-decompose"
@@ -25,6 +28,13 @@
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
       "notes": "Practical study: LLMs generate Functional Design Specifications and user stories from fragmented requirement sources in an IT consulting deployment."
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-prd/SKILL.md",
+      "evaluator": "WRITEY",
+      "date": "2026-05-20",
+      "notes": "Empirical daily curation testing confirmed accurate generation of deep module sketches and strict adherence to PRD templates from conversational context."
     }
   ],
   "knownAgents": [],

@@ -258,8 +258,19 @@ def main():
             f.write(f"**Skill Call:** `/{skill_id}`\n\n")
             f.write("---\n\n")
 
+            if "summary" in skill:
+                f.write(f"**Summary:** {skill.get('summary')}\n\n")
+
             f.write("## Description\n")
             f.write(f"{skill.get('description', '')}\n\n")
+
+            if "useCase" in skill:
+                f.write("## Use Case\n")
+                f.write(f"{skill.get('useCase', '')}\n\n")
+
+            if "directives" in skill:
+                f.write("## Directives\n")
+                f.write(f"{skill.get('directives', '')}\n\n")
 
             f.write("## Prerequisites\n")
             prereqs = skill.get("prerequisites", [])
