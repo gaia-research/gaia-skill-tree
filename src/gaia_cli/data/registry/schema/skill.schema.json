@@ -70,10 +70,22 @@
       ],
       "description": "Rarity tier based on agent prevalence."
     },
+    "summary": {
+      "type": "string",
+      "description": "A brief summary of the skill."
+    },
     "description": {
       "type": "string",
       "minLength": 10,
       "description": "Clear, agent-agnostic definition of the capability."
+    },
+    "useCase": {
+      "type": "string",
+      "description": "Detailed scenario of how a developer would use this skill."
+    },
+    "directives": {
+      "type": "string",
+      "description": "Specific guidelines or rules the skill follows during execution."
     },
     "prerequisites": {
       "type": "array",
