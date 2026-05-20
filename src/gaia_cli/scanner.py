@@ -69,7 +69,9 @@ def load_config():
 
 
 def scan_file_for_skills(filepath):
-    skill_pattern = re.compile(r'\b[a-z][a-z0-9]*(-[a-z0-9]+)*\b')
+    # Require a leading slash for skill detection (e.g. /summarize or /gaia-curate)
+    # This prevents capturing every common lowercase word as a skill.
+    skill_pattern = re.compile(r'/[a-z][a-z0-9]*(-[a-z0-9]+)*')
     found_skills = set()
     try:
         with open(filepath, 'r', encoding='utf-8') as f:
