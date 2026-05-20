@@ -11,7 +11,7 @@
 Ensures work happens in an isolated workspace via native tools or git worktree fallback before starting feature work.
 
 ## Prerequisites
-- [Execute Bash](../basic/execute-bash.md)
+- [Code Execution](../basic/code-execution.md)
 - [Tool Use](../basic/tool-use.md)
 
 ## Unlocks

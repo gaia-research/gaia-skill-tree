@@ -10,7 +10,7 @@
     "computer-use"
   ],
   "derivatives": [
-    "autonomous-research-agent",
+    "autonomous-web-research",
     "e2e-testing",
     "x-twitter-automation",
     "gstack"

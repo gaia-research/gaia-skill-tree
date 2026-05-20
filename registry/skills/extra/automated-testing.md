@@ -12,7 +12,7 @@ Generates test suites, executes them in a sandbox, interprets failures, and iter
 
 ## Prerequisites
 - [Generate Test](../basic/generate-test.md)
-- [Execute Bash](../basic/execute-bash.md)
+- [Code Execution](../basic/code-execution.md)
 - [Error Interpretation](../basic/error-interpretation.md)
 
 ## Unlocks

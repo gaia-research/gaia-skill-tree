@@ -14,7 +14,6 @@
 | ◇ [0xdarkmatter](../docs/u/0xdarkmatter/)/pytest-patterns | Extra Skill | 3★ | Evolved | `/automated-testing` |
 | ◇ /autonomous-data-scientist | Extra Skill | 5★ | Transcendent | `/autonomous-data-scientist` |
 | ◇ [devin-ai](../docs/u/devin-ai/)/autonomous-swe | Extra Skill | 4★ | Hardened | `/autonomous-debug` |
-| ◇ [karpathy](../docs/u/karpathy/)/autoresearch | Extra Skill | 3★ | Evolved | `/autonomous-research-agent` |
 | ◇ /autonomous-web-research | Extra Skill | 4★ | Hardened | `/autonomous-web-research` |
 | ◇ [obra](../docs/u/obra/)/brainstorming | Extra Skill | 1★ | Awakened | `/brainstorming` |
 | ◇ [gooseworks](../docs/u/gooseworks/)/notte-browser | Extra Skill | 3★ | Evolved | `/browser-automation` |
@@ -47,14 +46,12 @@
 | ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus-neural | Extra Skill | 3★ | Evolved | `/distributed-neural-training` |
 | ◇ [ruvnet](../docs/u/ruvnet/)/agentdb-advanced | Extra Skill | 3★ | Evolved | `/distributed-vector-memory` |
 | ◇ /document-analyst | Extra Skill | 3★ | Evolved | `/document-analyst` |
-| ◇ /document-digitization | Extra Skill | 3★ | Evolved | `/document-digitization` |
 | ○ [anthropic](../docs/u/anthropic/)/pptx | Basic Skill | 0★ | Basic | `/document-editing` |
 | ◇ [ruvnet](../docs/u/ruvnet/)/dual-mode | Extra Skill | 3★ | Evolved | `/dual-mode` |
 | ◇ [garrytan](../docs/u/garrytan/)/qa-only | Extra Skill | 3★ | Evolved | `/e2e-testing` |
 | ○ /embed-text | Basic Skill | 1★ | Awakened | `/embed-text` |
 | ○ /error-interpretation | Basic Skill | 1★ | Awakened | `/error-interpretation` |
 | ○ [garrytan](../docs/u/garrytan/)/benchmark | Basic Skill | 1★ | Awakened | `/evaluate-output` |
-| ○ /execute-bash | Basic Skill | 1★ | Awakened | `/execute-bash` |
 | ◇ [obra](../docs/u/obra/)/executing-plans | Extra Skill | 2★ | Named | `/executing-plans` |
 | ○ /extract-entities | Basic Skill | 1★ | Awakened | `/extract-entities` |
 | ◉ [nousresearch](../docs/u/nousresearch/)/feed-monitoring | Unique Skill | 4★ | Hardened | `/feed-monitoring` |
@@ -89,7 +86,6 @@
 | ◇ [safishamsi](../docs/u/safishamsi/)/graphify | Extra Skill | 3★ | Evolved | `/knowledge-graph-build` |
 | ◇ /knowledge-harvest | Extra Skill | 1★ | Awakened | `/knowledge-harvest` |
 | ◇ [garrytan](../docs/u/garrytan/)/setup-gbrain | Extra Skill | 2★ | Named | `/knowledge-management` |
-| ○ [ruvnet](../docs/u/ruvnet/)/reasoningbank-agentdb | Basic Skill | 2★ | Named | `/learned-memory-integration` |
 | ◇ [huggingface](../docs/u/huggingface/)/huggingface-papers | Extra Skill | 4★ | Hardened | `/literature-review` |
 | ○ /logical-inference | Basic Skill | 1★ | Awakened | `/logical-inference` |
 | ○ /math-reason | Basic Skill | 2★ | Named | `/math-reason` |
@@ -161,7 +157,7 @@
 | ◇ [obra](../docs/u/obra/)/systematic-debugging | Extra Skill | 3★ | Evolved | `/systematic-debugging` |
 | ○ /text-to-speech | Basic Skill | 2★ | Named | `/text-to-speech` |
 | ◇ /text-to-sql-pipeline | Extra Skill | 3★ | Evolved | `/text-to-sql-pipeline` |
-| ○ /tokenize | Basic Skill | 0★ | Basic | `/tokenize` |
+| ○ /tokenize | Basic Skill | 1★ | Awakened | `/tokenize` |
 | ◇ /tool-chaining | Extra Skill | 3★ | Evolved | `/tool-chaining` |
 | ◇ [anthropic](../docs/u/anthropic/)/skill-creator | Extra Skill | 4★ | Hardened | `/tool-creation` |
 | ○ /tool-select | Basic Skill | 1★ | Awakened | `/tool-select` |

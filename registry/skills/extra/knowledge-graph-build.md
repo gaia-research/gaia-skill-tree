@@ -16,7 +16,7 @@ Extracts entities and relations from unstructured text, resolves co-references, 
 
 ## Unlocks
 - [RAG Pipeline](../extra/rag-pipeline.md)
-- [Autonomous Research Agent](../extra/autonomous-research-agent.md)
+- [Autonomous Web Research](../extra/autonomous-web-research.md)
 
 ## Fusion Condition
 _None specified._

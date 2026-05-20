@@ -15,7 +15,7 @@ _None._
 
 ## Unlocks
 - [Document Analyst](../extra/document-analyst.md)
-- [Document Digitization](../extra/document-digitization.md)
+- document-digitization
 - [Text-to-SQL Pipeline](../extra/text-to-sql-pipeline.md)
 - [Humanize Prose](../extra/humanize-prose.md)
 - [Architecture Diagram](../extra/architecture-diagram.md)

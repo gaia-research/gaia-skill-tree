@@ -8,7 +8,6 @@
   "prerequisites": [],
   "derivatives": [
     "document-analyst",
-    "document-digitization",
     "text-to-sql-pipeline",
     "humanize-prose",
     "architecture-diagram",

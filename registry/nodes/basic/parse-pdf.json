@@ -7,7 +7,7 @@
   "description": "Extracts text, tables, equations, and structure from PDF documents, preserving layout and reading order.",
   "prerequisites": [],
   "derivatives": [
-    "document-digitization"
+    "document-analyst"
   ],
   "conditions": "",
   "evidence": [

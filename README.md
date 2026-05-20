@@ -44,8 +44,8 @@ Every AI agent capability exists somewhere on this graph. Skills start at the fo
   │     ├─ ○ garrytan/context-restore  [3★]
   │     └─ ○ /retrieve  [1★]
   ├─ ◇ ruvnet/agentdb-learning  [3★]
-  │  ├─ ◇ garrytan/learn  [2★]  (↑ see above)
-  │  └─ ○ ruvnet/reasoningbank-intelligence  [2★]
+  │  ├─ ○ ruvnet/reasoningbank-intelligence  [2★]
+  │  └─ ◇ garrytan/learn  [2★]  (↑ see above)
   ├─ ○ ruvnet/agentdb-memory-patterns  [2★]
   ├─ ○ ruvnet/agentdb-optimization  [2★]
   └─ ○ ruvnet/agentdb-vector-search  [2★]  (↑ see above)
@@ -57,7 +57,7 @@ Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) throu
   ◉ ruvnet/hive-mind-coordination  [4★ · Hardened]
   ◉ openai/self-consistency  [4★ · Hardened]
 
-(196 skills total — see docs/tree.md)
+(192 skills total — see docs/tree.md)
 ```
 <!-- gaia:registry-end -->
 

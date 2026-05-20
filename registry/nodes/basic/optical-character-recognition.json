@@ -7,7 +7,7 @@
   "description": "Extracts machine-readable text from raster images, scanned pages, and photo documents using optical character recognition, preserving layout and handling skew, noise, and varied fonts.",
   "prerequisites": [],
   "derivatives": [
-    "document-digitization"
+    "document-analyst"
   ],
   "conditions": "",
   "evidence": [

@@ -16,7 +16,7 @@ Interleaves free-form reasoning traces with discrete tool actions in a single lo
 
 ## Unlocks
 - [Plan and Execute](../extra/plan-and-execute.md)
-- [Autonomous Research Agent](../extra/autonomous-research-agent.md)
+- [Autonomous Web Research](../extra/autonomous-web-research.md)
 
 ## Fusion Condition
 _None specified._
