@@ -2,16 +2,17 @@
   "id": "autonomous-web-research",
   "name": "Autonomous Web Research",
   "type": "extra",
-  "level": "4\u2605",
+  "level": "4★",
   "rarity": "rare",
   "description": "Independently surveys, maps, and extracts structured information from the web by autonomously deciding which domains to crawl and synthesizing data into comprehensive research reports.",
   "prerequisites": [
+    "ghostwrite",
+    "knowledge-harvest",
+    "research",
     "web-scrape",
     "web-search"
   ],
-  "derivatives": [
-    "autonomous-research-agent"
-  ],
+  "derivatives": [],
   "conditions": "Requires a multi-step crawling engine and mapping logic to resolve site structures.",
   "evidence": [
     {
@@ -20,6 +21,13 @@
       "evaluator": "mbtiongson1",
       "date": "2026-05-14",
       "notes": "Firecrawl's Map and Crawl logic combined with the firecrawl_agent tool enables autonomous multi-source web research."
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill",
+      "evaluator": "mbtiongson1",
+      "date": "2026-04-30",
+      "notes": "Community reproduction of Karpathy's autoresearch pattern as a universal agent skill, demonstrating generalizability beyond the original repo."
     }
   ],
   "knownAgents": [
@@ -27,6 +35,14 @@
   ],
   "status": "provisional",
   "createdAt": "2026-05-14",
-  "updatedAt": "2026-05-14",
-  "version": "0.1.0"
+  "updatedAt": "2026-05-20",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-20T00:01:42Z",
+      "action": "merge",
+      "contributor": "unknown",
+      "details": "Merged autonomous-research-agent into autonomous-web-research"
+    }
+  ]
 }

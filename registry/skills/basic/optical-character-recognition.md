@@ -14,7 +14,7 @@ Extracts machine-readable text from raster images, scanned pages, and photo docu
 _None._
 
 ## Unlocks
-- [Document Digitization](../extra/document-digitization.md)
+- [Document Analyst](../extra/document-analyst.md)
 
 ## Evidence
 | Class | Source | Evaluator | Date |

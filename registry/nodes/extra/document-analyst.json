@@ -6,10 +6,12 @@
   "rarity": "uncommon",
   "description": "Parses, extracts entities from, summarizes, and formats structured documents.",
   "prerequisites": [
-    "parse-json",
     "extract-entities",
-    "summarize",
-    "format-output"
+    "format-output",
+    "optical-character-recognition",
+    "parse-json",
+    "parse-pdf",
+    "summarize"
   ],
   "derivatives": [],
   "conditions": "",
@@ -20,11 +22,26 @@
       "evaluator": "mbtiongson1",
       "date": "2026-04-26",
       "notes": "Seed evidence for Document Analyst."
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/VikParuchuri/marker",
+      "evaluator": "mbtiongson1",
+      "date": "2026-04-28",
+      "notes": "Marker â€” open-source PDF-to-markdown pipeline with reproducible benchmarks; outperforms Nougat on edit distance across 1000+ arXiv PDFs."
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-26",
-  "updatedAt": "2026-04-26",
-  "version": "0.1.0"
+  "updatedAt": "2026-05-20",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-20T00:01:36Z",
+      "action": "merge",
+      "contributor": "unknown",
+      "details": "Merged document-digitization into document-analyst"
+    }
+  ]
 }

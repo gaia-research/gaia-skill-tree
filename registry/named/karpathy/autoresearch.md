@@ -3,7 +3,7 @@ id: karpathy/autoresearch
 name: AutoResearch
 contributor: karpathy
 origin: true
-genericSkillRef: autonomous-research-agent
+genericSkillRef: "autonomous-web-research"
 status: named
 title: "The Scholar's Compass"
 catalogRef: karpathy-autoresearch

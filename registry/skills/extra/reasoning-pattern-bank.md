@@ -12,7 +12,7 @@ Fuses adaptive pattern learning with persistent vector memory to build a self-im
 
 ## Prerequisites
 - [Adaptive Pattern Learning](../basic/adaptive-pattern-learning.md)
-- [Learned Memory Integration](../basic/learned-memory-integration.md)
+- [Agent Memory Learning](../extra/agent-memory-learning.md)
 
 ## Unlocks
 _None._

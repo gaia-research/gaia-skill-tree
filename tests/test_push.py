@@ -29,7 +29,7 @@ class TestGaiaPush(unittest.TestCase):
                     f,
                 )
             with open(os.path.join(tmp, "src", "agent.txt"), "w") as f:
-                f.write("web-search semantic-search")
+                f.write("/web-search /semantic-search")
 
             env = os.environ.copy()
             env.pop("GITHUB_REPOSITORY", None)
@@ -76,7 +76,7 @@ class TestGaiaPush(unittest.TestCase):
                     f,
                 )
             with open(os.path.join(tmp, "src", "agent.txt"), "w") as f:
-                f.write("web-search semantic-search")
+                f.write("/web-search /semantic-search")
 
             env = os.environ.copy()
             env["PYTHONPATH"] = REPO_ROOT

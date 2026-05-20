@@ -6,7 +6,7 @@
   "rarity": "common",
   "description": "Requires running verification commands and confirming output before claiming work is complete, fixed, or passing.",
   "prerequisites": [
-    "execute-bash",
+    "code-execution",
     "self-critique"
   ],
   "derivatives": [

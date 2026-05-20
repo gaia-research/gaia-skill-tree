@@ -138,7 +138,7 @@ def regenerate_paths(registry_path: str) -> dict:
 
     # Scan repo and resolve skill tokens
     scan_result = scan_repo_detailed()
-    tokens = scan_result.get("tokens", set())
+    tokens = {t.lstrip('/') for t in scan_result.get("tokens", set())}
     graph_path = registry_graph_path(registry_path)
     detected_ids = resolve_skills(list(tokens), graph_path)
 

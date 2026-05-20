@@ -14,7 +14,7 @@ Extracts text, tables, equations, and structure from PDF documents, preserving l
 _None._
 
 ## Unlocks
-- [Document Digitization](../extra/document-digitization.md)
+- [Document Analyst](../extra/document-analyst.md)
 
 ## Evidence
 | Class | Source | Evaluator | Date |

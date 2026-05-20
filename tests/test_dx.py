@@ -58,17 +58,17 @@ def test_scan_repo_skips_generated_and_vendor_directories(tmp_path, monkeypatch)
         '{"scanPaths": ["."], "gaiaUser": "juno"}'
     )
     (tmp_path / "src").mkdir()
-    (tmp_path / "src" / "app.py").write_text("web-search\n")
+    (tmp_path / "src" / "app.py").write_text("/web-search\n")
     (tmp_path / "node_modules").mkdir()
-    (tmp_path / "node_modules" / "noise.js").write_text("voice-agent\n")
+    (tmp_path / "node_modules" / "noise.js").write_text("/voice-agent\n")
     (tmp_path / ".git").mkdir()
-    (tmp_path / ".git" / "packed-refs").write_text("autonomous-debug\n")
+    (tmp_path / ".git" / "packed-refs").write_text("/autonomous-debug\n")
 
     tokens = scan_repo()
 
-    assert "web-search" in tokens
-    assert "voice-agent" not in tokens
-    assert "autonomous-debug" not in tokens
+    assert "/web-search" in tokens
+    assert "/voice-agent" not in tokens
+    assert "/autonomous-debug" not in tokens
 
 
 def test_scan_repo_detailed_reports_file_and_candidate_counts(tmp_path, monkeypatch):
@@ -78,14 +78,14 @@ def test_scan_repo_detailed_reports_file_and_candidate_counts(tmp_path, monkeypa
         '{"scanPaths": ["docs"], "gaiaUser": "juno"}'
     )
     (tmp_path / "docs").mkdir()
-    (tmp_path / "docs" / "one.md").write_text("web-search and code-generation")
+    (tmp_path / "docs" / "one.md").write_text("/web-search and /code-generation")
     (tmp_path / "docs" / "image.png").write_bytes(b"not scanned")
 
     detailed = scan_repo_detailed()
 
     assert detailed["files_scanned"] == 1
     assert detailed["paths_found"] == ["docs"]
-    assert "web-search" in detailed["tokens"]
+    assert "/web-search" in detailed["tokens"]
     assert detailed["candidate_count"] >= 2
 
 

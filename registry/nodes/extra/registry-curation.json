@@ -8,7 +8,7 @@
   "prerequisites": [
     "research",
     "code-generation",
-    "execute-bash"
+    "code-execution"
   ],
   "derivatives": [
     "gaia-meta-audit"

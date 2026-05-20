@@ -5,7 +5,10 @@
   "level": "3★",
   "rarity": "uncommon",
   "description": "Fuses adaptive pattern learning with persistent vector memory to build a self-improving agent knowledge base across sessions.",
-  "prerequisites": ["adaptive-pattern-learning", "learned-memory-integration"],
+  "prerequisites": [
+    "adaptive-pattern-learning",
+    "agent-memory-learning"
+  ],
   "derivatives": [],
   "conditions": "",
   "evidence": [

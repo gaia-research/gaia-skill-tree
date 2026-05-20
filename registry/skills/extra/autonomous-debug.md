@@ -12,7 +12,7 @@ Independently identifies, diagnoses, and fixes software bugs through code genera
 
 ## Prerequisites
 - [Code Generation](../basic/code-generation.md)
-- [Execute Bash](../basic/execute-bash.md)
+- [Code Execution](../basic/code-execution.md)
 - [Error Interpretation](../basic/error-interpretation.md)
 
 ## Unlocks

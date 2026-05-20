@@ -7,9 +7,14 @@
   "description": "Writes and executes code in a sandboxed environment, uses the runtime output to verify correctness, and iterates until the result is correct.",
   "prerequisites": [],
   "derivatives": [
+    "automated-testing",
     "autonomous-debug",
     "code-review-pipeline",
-    "automated-testing"
+    "deployment-automation",
+    "registry-curation",
+    "release-automation",
+    "using-git-worktrees",
+    "verification-before-completion"
   ],
   "conditions": "",
   "evidence": [
@@ -26,11 +31,26 @@
       "evaluator": "mbtiongson1",
       "date": "2026-04-28",
       "notes": "PAL repo â€” reproducible harness across 13 reasoning benchmarks; evaluation scripts and baseline comparisons included."
+    },
+    {
+      "class": "C",
+      "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/executeBash.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-04-26",
+      "notes": "Seed evidence for Execute Bash."
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-04-28",
-  "version": "0.2.0"
+  "updatedAt": "2026-05-20",
+  "version": "0.2.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-20T00:01:39Z",
+      "action": "merge",
+      "contributor": "unknown",
+      "details": "Merged execute-bash into code-execution"
+    }
+  ]
 }

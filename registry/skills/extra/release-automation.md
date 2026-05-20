@@ -12,7 +12,7 @@ Automate the full software release cycle: determine semantic version bump, updat
 
 ## Prerequisites
 - [Workflow Automation](../extra/workflow-automation.md)
-- [Execute Bash](../basic/execute-bash.md)
+- [Code Execution](../basic/code-execution.md)
 - [Generate Text](../basic/generate-text.md)
 
 ## Unlocks

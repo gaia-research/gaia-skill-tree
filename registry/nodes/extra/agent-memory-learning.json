@@ -5,10 +5,20 @@
   "level": "3★",
   "rarity": "uncommon",
   "description": "Builds self-improving agent memory by analyzing task success patterns and adapting retrieval strategies with AgentDB-backed persistence.",
-  "prerequisites": ["memory-manage", "adaptive-pattern-learning"],
+  "prerequisites": [
+    "adaptive-pattern-learning",
+    "memory-manage"
+  ],
   "derivatives": [],
   "conditions": "",
   "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/ruvnet/ruflo",
+      "evaluator": "mbtiongson1",
+      "date": "2026-05-19",
+      "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+    },
     {
       "class": "B",
       "source": "https://github.com/ruvnet/ruflo",
@@ -20,6 +30,14 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-19",
-  "updatedAt": "2026-05-19",
-  "version": "0.1.0"
+  "updatedAt": "2026-05-20",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-20T00:01:32Z",
+      "action": "merge",
+      "contributor": "unknown",
+      "details": "Merged learned-memory-integration into agent-memory-learning"
+    }
+  ]
 }

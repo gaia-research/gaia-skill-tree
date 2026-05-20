@@ -11,7 +11,7 @@
 Requires running verification commands and confirming output before claiming work is complete, fixed, or passing.
 
 ## Prerequisites
-- [Execute Bash](../basic/execute-bash.md)
+- [Code Execution](../basic/code-execution.md)
 - [Self-Critique](../basic/self-critique.md)
 
 ## Unlocks

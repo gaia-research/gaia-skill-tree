@@ -6,7 +6,7 @@
   "rarity": "common",
   "description": "Ensures work happens in an isolated workspace via native tools or git worktree fallback before starting feature work.",
   "prerequisites": [
-    "execute-bash",
+    "code-execution",
     "tool-use"
   ],
   "derivatives": [

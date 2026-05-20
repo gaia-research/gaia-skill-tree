@@ -2,26 +2,23 @@
   "id": "tokenize",
   "name": "Tokenize",
   "type": "basic",
-  "level": "0★",
+  "level": "1★",
   "rarity": "common",
-  "description": "Splits input text into discrete tokens suitable for downstream processing by language models. MODIFIED FOR TESTING.",
+  "description": "Splits input text into discrete tokens suitable for downstream processing by language models.",
   "prerequisites": [],
-  "derivatives": [
-    "rag-pipeline"
-  ],
-  "conditions": "",
-  "evidence": [
-    {
-      "class": "C",
-      "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/tokenize.md",
-      "evaluator": "mbtiongson1",
-      "date": "2026-04-26",
-      "notes": "Seed evidence for Tokenize."
-    }
-  ],
-  "knownAgents": [],
+  "derivatives": [],
+  "evidence": [],
   "status": "provisional",
-  "createdAt": "2026-04-26",
-  "updatedAt": "2026-04-26",
-  "version": "0.1.0"
+  "createdAt": "2026-05-20",
+  "updatedAt": "2026-05-20",
+  "version": "0.1.0",
+  "knownAgents": [],
+  "timeline": [
+    {
+      "timestamp": "2026-05-20T00:02:47Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill tokenize"
+    }
+  ]
 }
