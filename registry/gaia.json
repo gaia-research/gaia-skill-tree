@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/skill.schema.json",
   "version": "3.21.0",
-  "generatedAt": "2026-05-19T23:56:07.035998Z",
+  "generatedAt": "2026-05-20T05:15:33.936707Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -194,12 +194,19 @@
       "rarity": "uncommon",
       "description": "Builds self-improving agent memory by analyzing task success patterns and adapting retrieval strategies with AgentDB-backed persistence.",
       "prerequisites": [
-        "memory-manage",
-        "adaptive-pattern-learning"
+        "adaptive-pattern-learning",
+        "memory-manage"
       ],
       "derivatives": [],
       "conditions": "",
       "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/ruvnet/ruflo",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-19",
+          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+        },
         {
           "class": "B",
           "source": "https://github.com/ruvnet/ruflo",
@@ -211,8 +218,16 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-19",
-      "updatedAt": "2026-05-19",
-      "version": "0.1.0"
+      "updatedAt": "2026-05-20",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-20T00:01:32Z",
+          "action": "merge",
+          "contributor": "unknown",
+          "details": "Merged learned-memory-integration into agent-memory-learning"
+        }
+      ]
     },
     {
       "id": "agent-memory-platform",
@@ -386,7 +401,7 @@
       "description": "Generates test suites, executes them in a sandbox, interprets failures, and iterates until the target pass rate is reached.",
       "prerequisites": [
         "generate-test",
-        "execute-bash",
+        "code-execution",
         "error-interpretation"
       ],
       "derivatives": [
@@ -464,7 +479,7 @@
       "description": "Independently identifies, diagnoses, and fixes software bugs through code generation and execution.",
       "prerequisites": [
         "code-generation",
-        "execute-bash",
+        "code-execution",
         "error-interpretation"
       ],
       "derivatives": [],
@@ -485,36 +500,6 @@
       "version": "0.1.0"
     },
     {
-      "id": "autonomous-research-agent",
-      "name": "Autonomous Research Agent",
-      "type": "extra",
-      "level": "3★",
-      "rarity": "uncommon",
-      "description": "Independently conducts end-to-end research cycles including hypothesis generation, evidence gathering, synthesis, and reporting.",
-      "prerequisites": [
-        "research",
-        "knowledge-harvest",
-        "ghostwrite"
-      ],
-      "derivatives": [],
-      "conditions": "Requires extensive multi-system validation before level advancement.",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-30",
-          "notes": "Community reproduction of Karpathy's autoresearch pattern as a universal agent skill, demonstrating generalizability beyond the original repo."
-        }
-      ],
-      "knownAgents": [],
-      "status": "provisional",
-      "createdAt": "2026-04-26",
-      "updatedAt": "2026-04-30",
-      "version": "0.1.0",
-      "title": "Wisdom King"
-    },
-    {
       "id": "autonomous-web-research",
       "name": "Autonomous Web Research",
       "type": "extra",
@@ -522,12 +507,13 @@
       "rarity": "rare",
       "description": "Independently surveys, maps, and extracts structured information from the web by autonomously deciding which domains to crawl and synthesizing data into comprehensive research reports.",
       "prerequisites": [
+        "ghostwrite",
+        "knowledge-harvest",
+        "research",
         "web-scrape",
         "web-search"
       ],
-      "derivatives": [
-        "autonomous-research-agent"
-      ],
+      "derivatives": [],
       "conditions": "Requires a multi-step crawling engine and mapping logic to resolve site structures.",
       "evidence": [
         {
@@ -536,6 +522,13 @@
           "evaluator": "mbtiongson1",
           "date": "2026-05-14",
           "notes": "Firecrawl's Map and Crawl logic combined with the firecrawl_agent tool enables autonomous multi-source web research."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill",
+          "evaluator": "mbtiongson1",
+          "date": "2026-04-30",
+          "notes": "Community reproduction of Karpathy's autoresearch pattern as a universal agent skill, demonstrating generalizability beyond the original repo."
         }
       ],
       "knownAgents": [
@@ -543,8 +536,16 @@
       ],
       "status": "provisional",
       "createdAt": "2026-05-14",
-      "updatedAt": "2026-05-14",
-      "version": "0.1.0"
+      "updatedAt": "2026-05-20",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-20T00:01:42Z",
+          "action": "merge",
+          "contributor": "unknown",
+          "details": "Merged autonomous-research-agent into autonomous-web-research"
+        }
+      ]
     },
     {
       "id": "brainstorming",
@@ -588,7 +589,7 @@
         "computer-use"
       ],
       "derivatives": [
-        "autonomous-research-agent",
+        "autonomous-web-research",
         "e2e-testing",
         "x-twitter-automation",
         "gstack"
@@ -858,9 +859,14 @@
       "description": "Writes and executes code in a sandboxed environment, uses the runtime output to verify correctness, and iterates until the result is correct.",
       "prerequisites": [],
       "derivatives": [
+        "automated-testing",
         "autonomous-debug",
         "code-review-pipeline",
-        "automated-testing"
+        "deployment-automation",
+        "registry-curation",
+        "release-automation",
+        "using-git-worktrees",
+        "verification-before-completion"
       ],
       "conditions": "",
       "evidence": [
@@ -877,13 +883,28 @@
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
           "notes": "PAL repo â€” reproducible harness across 13 reasoning benchmarks; evaluation scripts and baseline comparisons included."
+        },
+        {
+          "class": "C",
+          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/executeBash.md",
+          "evaluator": "mbtiongson1",
+          "date": "2026-04-26",
+          "notes": "Seed evidence for Execute Bash."
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-04-28",
-      "version": "0.2.0"
+      "updatedAt": "2026-05-20",
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-20T00:01:39Z",
+          "action": "merge",
+          "contributor": "unknown",
+          "details": "Merged execute-bash into code-execution"
+        }
+      ]
     },
     {
       "id": "code-explain",
@@ -1247,7 +1268,7 @@
       "description": "Automate CI/CD pipeline execution and deployment to target environments — build, test, artifact publishing, environment promotion, and rollback strategies.",
       "prerequisites": [
         "workflow-automation",
-        "execute-bash"
+        "code-execution"
       ],
       "derivatives": [
         "gstack"
@@ -1524,10 +1545,12 @@
       "rarity": "uncommon",
       "description": "Parses, extracts entities from, summarizes, and formats structured documents.",
       "prerequisites": [
-        "parse-json",
         "extract-entities",
-        "summarize",
-        "format-output"
+        "format-output",
+        "optical-character-recognition",
+        "parse-json",
+        "parse-pdf",
+        "summarize"
       ],
       "derivatives": [],
       "conditions": "",
@@ -1538,30 +1561,7 @@
           "evaluator": "mbtiongson1",
           "date": "2026-04-26",
           "notes": "Seed evidence for Document Analyst."
-        }
-      ],
-      "knownAgents": [],
-      "status": "provisional",
-      "createdAt": "2026-04-26",
-      "updatedAt": "2026-04-26",
-      "version": "0.1.0"
-    },
-    {
-      "id": "document-digitization",
-      "name": "Document Digitization",
-      "type": "extra",
-      "level": "3★",
-      "rarity": "uncommon",
-      "description": "Converts scanned or PDF documents into structured, machine-readable output by parsing layout, extracting entities, and formatting results.",
-      "prerequisites": [
-        "optical-character-recognition",
-        "parse-pdf",
-        "extract-entities",
-        "format-output"
-      ],
-      "derivatives": [],
-      "conditions": "",
-      "evidence": [
+        },
         {
           "class": "B",
           "source": "https://github.com/VikParuchuri/marker",
@@ -1572,9 +1572,17 @@
       ],
       "knownAgents": [],
       "status": "provisional",
-      "createdAt": "2026-04-28",
-      "updatedAt": "2026-04-28",
-      "version": "0.2.0"
+      "createdAt": "2026-04-26",
+      "updatedAt": "2026-05-20",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-20T00:01:36Z",
+          "action": "merge",
+          "contributor": "unknown",
+          "details": "Merged document-digitization into document-analyst"
+        }
+      ]
     },
     {
       "id": "document-editing",
@@ -1767,39 +1775,6 @@
       "version": "0.1.0"
     },
     {
-      "id": "execute-bash",
-      "name": "Execute Bash",
-      "type": "basic",
-      "level": "1★",
-      "rarity": "common",
-      "description": "Runs shell commands in a sandboxed environment, captures stdout/stderr, and handles exit codes.",
-      "prerequisites": [],
-      "derivatives": [
-        "automated-testing",
-        "autonomous-debug",
-        "registry-curation",
-        "release-automation",
-        "deployment-automation",
-        "verification-before-completion",
-        "using-git-worktrees"
-      ],
-      "conditions": "",
-      "evidence": [
-        {
-          "class": "C",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/executeBash.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-26",
-          "notes": "Seed evidence for Execute Bash."
-        }
-      ],
-      "knownAgents": [],
-      "status": "provisional",
-      "createdAt": "2026-04-26",
-      "updatedAt": "2026-04-28",
-      "version": "0.1.0"
-    },
-    {
       "id": "executing-plans",
       "name": "Executing Plans",
       "type": "extra",
@@ -1841,7 +1816,6 @@
       "derivatives": [
         "content-moderation",
         "document-analyst",
-        "document-digitization",
         "knowledge-graph-build",
         "knowledge-harvest",
         "web-scrape"
@@ -2027,7 +2001,6 @@
       "prerequisites": [],
       "derivatives": [
         "document-analyst",
-        "document-digitization",
         "text-to-sql-pipeline",
         "humanize-prose",
         "architecture-diagram",
@@ -2903,7 +2876,7 @@
       ],
       "derivatives": [
         "rag-pipeline",
-        "autonomous-research-agent"
+        "autonomous-web-research"
       ],
       "conditions": "",
       "evidence": [
@@ -2980,31 +2953,6 @@
       "status": "provisional",
       "createdAt": "2026-05-17",
       "updatedAt": "2026-05-17",
-      "version": "0.1.0"
-    },
-    {
-      "id": "learned-memory-integration",
-      "name": "Learned Memory Integration",
-      "type": "basic",
-      "level": "2★",
-      "rarity": "common",
-      "description": "Persists agent reasoning patterns in vector memory and retrieves them semantically for continuous self-improvement across sessions.",
-      "prerequisites": [],
-      "derivatives": [],
-      "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/ruvnet/ruflo",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
-        }
-      ],
-      "knownAgents": [],
-      "status": "provisional",
-      "createdAt": "2026-05-19",
-      "updatedAt": "2026-05-19",
       "version": "0.1.0"
     },
     {
@@ -3546,7 +3494,7 @@
       "description": "Extracts machine-readable text from raster images, scanned pages, and photo documents using optical character recognition, preserving layout and handling skew, noise, and varied fonts.",
       "prerequisites": [],
       "derivatives": [
-        "document-digitization"
+        "document-analyst"
       ],
       "conditions": "",
       "evidence": [
@@ -3662,7 +3610,7 @@
       "description": "Extracts text, tables, equations, and structure from PDF documents, preserving layout and reading order.",
       "prerequisites": [],
       "derivatives": [
-        "document-digitization"
+        "document-analyst"
       ],
       "conditions": "",
       "evidence": [
@@ -4096,7 +4044,7 @@
       ],
       "derivatives": [
         "plan-and-execute",
-        "autonomous-research-agent"
+        "autonomous-web-research"
       ],
       "conditions": "",
       "evidence": [
@@ -4174,7 +4122,7 @@
       "description": "Fuses adaptive pattern learning with persistent vector memory to build a self-improving agent knowledge base across sessions.",
       "prerequisites": [
         "adaptive-pattern-learning",
-        "learned-memory-integration"
+        "agent-memory-learning"
       ],
       "derivatives": [],
       "conditions": "",
@@ -4282,7 +4230,7 @@
       "prerequisites": [
         "research",
         "code-generation",
-        "execute-bash"
+        "code-execution"
       ],
       "derivatives": [
         "gaia-meta-audit"
@@ -4340,7 +4288,7 @@
       "description": "Automate the full software release cycle: determine semantic version bump, update CHANGELOG, commit, create a git tag, and publish a GitHub release with release notes.",
       "prerequisites": [
         "workflow-automation",
-        "execute-bash",
+        "code-execution",
         "generate-text"
       ],
       "derivatives": [],
@@ -5607,28 +5555,25 @@
       "id": "tokenize",
       "name": "Tokenize",
       "type": "basic",
-      "level": "0★",
+      "level": "1★",
       "rarity": "common",
-      "description": "Splits input text into discrete tokens suitable for downstream processing by language models. MODIFIED FOR TESTING.",
+      "description": "Splits input text into discrete tokens suitable for downstream processing by language models.",
       "prerequisites": [],
-      "derivatives": [
-        "rag-pipeline"
-      ],
-      "conditions": "",
-      "evidence": [
-        {
-          "class": "C",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/tokenize.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-26",
-          "notes": "Seed evidence for Tokenize."
-        }
-      ],
-      "knownAgents": [],
+      "derivatives": [],
+      "evidence": [],
       "status": "provisional",
-      "createdAt": "2026-04-26",
-      "updatedAt": "2026-04-26",
-      "version": "0.1.0"
+      "createdAt": "2026-05-20",
+      "updatedAt": "2026-05-20",
+      "version": "0.1.0",
+      "knownAgents": [],
+      "timeline": [
+        {
+          "timestamp": "2026-05-20T00:02:47Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added generic skill tokenize"
+        }
+      ]
     },
     {
       "id": "tool-chaining",
@@ -5678,7 +5623,7 @@
       ],
       "derivatives": [
         "full-stack-developer",
-        "autonomous-research-agent",
+        "autonomous-web-research",
         "mcp-server-creation"
       ],
       "conditions": "",
@@ -5903,7 +5848,7 @@
       "rarity": "common",
       "description": "Ensures work happens in an isolated workspace via native tools or git worktree fallback before starting feature work.",
       "prerequisites": [
-        "execute-bash",
+        "code-execution",
         "tool-use"
       ],
       "derivatives": [
@@ -6017,7 +5962,7 @@
       "rarity": "common",
       "description": "Requires running verification commands and confirming output before claiming work is complete, fixed, or passing.",
       "prerequisites": [
-        "execute-bash",
+        "code-execution",
         "self-critique"
       ],
       "derivatives": [
@@ -6485,6 +6430,11 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "agent-memory-learning",
+      "targetSkillId": "reasoning-pattern-bank",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "agent-memory-platform",
       "targetSkillId": "ruflo",
       "edgeType": "prerequisite"
@@ -6686,7 +6636,42 @@
     },
     {
       "sourceSkillId": "code-execution",
+      "targetSkillId": "automated-testing",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "code-execution",
+      "targetSkillId": "autonomous-debug",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "code-execution",
+      "targetSkillId": "deployment-automation",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "code-execution",
       "targetSkillId": "mathematical-animation",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "code-execution",
+      "targetSkillId": "registry-curation",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "code-execution",
+      "targetSkillId": "release-automation",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "code-execution",
+      "targetSkillId": "using-git-worktrees",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "code-execution",
+      "targetSkillId": "verification-before-completion",
       "edgeType": "prerequisite"
     },
     {
@@ -7030,41 +7015,6 @@
       "edgeType": "prerequisite"
     },
     {
-      "sourceSkillId": "execute-bash",
-      "targetSkillId": "automated-testing",
-      "edgeType": "prerequisite"
-    },
-    {
-      "sourceSkillId": "execute-bash",
-      "targetSkillId": "autonomous-debug",
-      "edgeType": "prerequisite"
-    },
-    {
-      "sourceSkillId": "execute-bash",
-      "targetSkillId": "deployment-automation",
-      "edgeType": "prerequisite"
-    },
-    {
-      "sourceSkillId": "execute-bash",
-      "targetSkillId": "registry-curation",
-      "edgeType": "prerequisite"
-    },
-    {
-      "sourceSkillId": "execute-bash",
-      "targetSkillId": "release-automation",
-      "edgeType": "prerequisite"
-    },
-    {
-      "sourceSkillId": "execute-bash",
-      "targetSkillId": "using-git-worktrees",
-      "edgeType": "prerequisite"
-    },
-    {
-      "sourceSkillId": "execute-bash",
-      "targetSkillId": "verification-before-completion",
-      "edgeType": "prerequisite"
-    },
-    {
       "sourceSkillId": "executing-plans",
       "targetSkillId": "subagent-driven-development",
       "edgeType": "prerequisite"
@@ -7082,11 +7032,6 @@
     {
       "sourceSkillId": "extract-entities",
       "targetSkillId": "document-analyst",
-      "edgeType": "prerequisite"
-    },
-    {
-      "sourceSkillId": "extract-entities",
-      "targetSkillId": "document-digitization",
       "edgeType": "prerequisite"
     },
     {
@@ -7132,11 +7077,6 @@
     {
       "sourceSkillId": "format-output",
       "targetSkillId": "document-analyst",
-      "edgeType": "prerequisite"
-    },
-    {
-      "sourceSkillId": "format-output",
-      "targetSkillId": "document-digitization",
       "edgeType": "prerequisite"
     },
     {
@@ -7191,7 +7131,7 @@
     },
     {
       "sourceSkillId": "ghostwrite",
-      "targetSkillId": "autonomous-research-agent",
+      "targetSkillId": "autonomous-web-research",
       "edgeType": "prerequisite"
     },
     {
@@ -7246,17 +7186,12 @@
     },
     {
       "sourceSkillId": "knowledge-harvest",
-      "targetSkillId": "autonomous-research-agent",
+      "targetSkillId": "autonomous-web-research",
       "edgeType": "prerequisite"
     },
     {
       "sourceSkillId": "knowledge-management",
       "targetSkillId": "gstack",
-      "edgeType": "prerequisite"
-    },
-    {
-      "sourceSkillId": "learned-memory-integration",
-      "targetSkillId": "reasoning-pattern-bank",
       "edgeType": "prerequisite"
     },
     {
@@ -7351,7 +7286,7 @@
     },
     {
       "sourceSkillId": "optical-character-recognition",
-      "targetSkillId": "document-digitization",
+      "targetSkillId": "document-analyst",
       "edgeType": "prerequisite"
     },
     {
@@ -7386,7 +7321,7 @@
     },
     {
       "sourceSkillId": "parse-pdf",
-      "targetSkillId": "document-digitization",
+      "targetSkillId": "document-analyst",
       "edgeType": "prerequisite"
     },
     {
@@ -7571,7 +7506,7 @@
     },
     {
       "sourceSkillId": "research",
-      "targetSkillId": "autonomous-research-agent",
+      "targetSkillId": "autonomous-web-research",
       "edgeType": "prerequisite"
     },
     {

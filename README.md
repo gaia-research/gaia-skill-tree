@@ -198,13 +198,13 @@ Requires `textual` (included with `pip install gaia-cli`).
 <!-- gaia:cli-start -->
 ```text
 usage: gaia [-h] [--registry REGISTRY] [--global] [--version]
-            {help,init,scan,pull,update,install,uninstall,tree,push,propose,version,mcp,release,graph,stats,appraise,promote,fuse,docs,lookup,list,merge,split,add,evidence,validate,test,skills}
+            {help,init,scan,pull,update,install,uninstall,tree,push,propose,version,mcp,release,graph,stats,appraise,promote,fuse,docs,lookup,dev,validate,test,skills}
             ...
 
 Gaia Registry CLI
 
 positional arguments:
-  {help,init,scan,pull,update,install,uninstall,tree,push,propose,version,mcp,release,graph,stats,appraise,promote,fuse,docs,lookup,list,merge,split,add,evidence,validate,test,skills}
+  {help,init,scan,pull,update,install,uninstall,tree,push,propose,version,mcp,release,graph,stats,appraise,promote,fuse,docs,lookup,dev,validate,test,skills}
     help                Show command help
     init                Create or update local Gaia config
     scan                Scan configured paths for skill evidence
@@ -225,11 +225,7 @@ positional arguments:
     fuse                Confirm a skill combination or promotion candidate
     docs                Documentation maintenance commands
     lookup              Look up a canonical skill and its named implementations
-    list                List skills in the registry with filtering
-    merge               Merge one or more skills into a target skill
-    split               Split a skill into multiple new skills
-    add                 Add a new skill to the registry
-    evidence            Add evidence to a skill
+    dev                 Registry development and maintenance (requires writable registry)
     validate            Validate the Gaia registry
     test                Run self-verification tests
     skills              Browse and manage named skills
