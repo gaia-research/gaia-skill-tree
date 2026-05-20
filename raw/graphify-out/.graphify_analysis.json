@@ -1,0 +1,17 @@
+{
+  "communities": {
+    "0": [
+      "raw_test_hello",
+      "test_py"
+    ]
+  },
+  "cohesion": {
+    "0": 1.0
+  },
+  "gods": [],
+  "surprises": [],
+  "tokens": {
+    "input": 0,
+    "output": 0
+  }
+}

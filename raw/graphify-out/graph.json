@@ -1,0 +1,39 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "label": "test.py",
+      "file_type": "code",
+      "source_file": "test.py",
+      "source_location": "L1",
+      "id": "test_py",
+      "community": 0,
+      "norm_label": "test.py"
+    },
+    {
+      "label": "hello()",
+      "file_type": "code",
+      "source_file": "test.py",
+      "source_location": "L1",
+      "id": "raw_test_hello",
+      "community": 0,
+      "norm_label": "hello()"
+    }
+  ],
+  "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "test.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "test_py",
+      "target": "raw_test_hello",
+      "confidence_score": 1.0
+    }
+  ],
+  "hyperedges": [],
+  "built_at_commit": "cf2292f248638f52e79ca805e025c92a065c483f"
+}
