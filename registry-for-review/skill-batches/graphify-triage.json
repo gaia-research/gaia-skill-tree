@@ -1,0 +1,61 @@
+{
+  "batchId": "graphify-triage-fused-skill-v2",
+  "userId": "mbtiongson1",
+  "sourceRepo": "mbtiongson1/gaia-skill-tree",
+  "generatedAt": "2026-05-20T03:35:00Z",
+  "knownSkills": [],
+  "proposedSkills": [
+    {
+      "id": "graphify",
+      "name": "Graphify",
+      "type": "basic",
+      "description": "Static analysis tool that extracts AST nodes and converts them into a navigable knowledge graph for LLM-native reasoning.",
+      "sourceRepo": "mbtiongson1/gaia-skill-tree",
+      "evidence": [
+        {
+          "class": "C",
+          "source": "https://github.com/mbtiongson1/gaia-skill-tree/tree/main/.agents/skills/graphify",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-20",
+          "notes": "Custom AST extraction engine implemented in Python."
+        }
+      ],
+      "rationale": "Foundational skill for code-as-graph navigation."
+    },
+    {
+      "id": "github-cli",
+      "name": "GitHub CLI",
+      "type": "basic",
+      "description": "Standard command-line interface for managing GitHub issues, pull requests, and repository lifecycle.",
+      "sourceRepo": "mbtiongson1/gaia-skill-tree",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://cli.github.com/",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-20",
+          "notes": "Official tool used for issue automation."
+        }
+      ],
+      "rationale": "Essential for bridging agent findings with project management."
+    },
+    {
+      "id": "graphify-triage",
+      "name": "Graphify Triage",
+      "type": "extra",
+      "description": "Automates architectural health checks by bridging Graphify analysis with GitHub issue management.",
+      "sourceRepo": "mbtiongson1/gaia-skill-tree",
+      "evidence": [
+        {
+          "class": "C",
+          "source": "https://github.com/mbtiongson1/gaia-skill-tree/tree/main/.agents/skills/graphify-triage",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-20",
+          "notes": "Fuses structural analysis with PM automation."
+        }
+      ],
+      "rationale": "Fused skill combining graphify and github-cli. Automates the triage of architectural debt."
+    }
+  ],
+  "similarity": []
+}
