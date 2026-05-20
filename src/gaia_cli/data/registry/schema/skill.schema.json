@@ -266,6 +266,7 @@
             "rejected",
             "merge",
             "split",
+            "rename",
             "add",
             "evidence_added",
             "type_change"
