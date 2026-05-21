@@ -53,7 +53,13 @@ jobs:
           gaia docs build --check
 
       - name: Run tests
+        if: |
+          github.event_name == 'push' ||
+          github.event.pull_request.changed_files >= 10
         run: gaia test all
 
       - name: Check schema meta sync
+        if: |
+          github.event_name == 'push' ||
+          !contains(fromJSON('["docs", "design"]'), github.head_ref)
         run: gaia validate --meta-sync

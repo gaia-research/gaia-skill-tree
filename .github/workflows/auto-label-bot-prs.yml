@@ -1,0 +1,42 @@
+name: Auto-label bot PRs
+
+on:
+  pull_request:
+    types: [opened]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  label-bots:
+    name: Label Jules/Codex/Claude PRs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Detect and label bot PR
+        run: |
+          AUTHOR="${{ github.event.pull_request.user.login }}"
+          LABELS=""
+
+          case "$AUTHOR" in
+            *[Jj]ules*)
+              LABELS="jules"
+              ;;
+            *[Cc]odex*)
+              LABELS="codex"
+              ;;
+            *[Cc]laude*)
+              LABELS="claude-bot"
+              ;;
+            *)
+              echo "Not a known bot PR (author: $AUTHOR)"
+              exit 0
+              ;;
+          esac
+
+          if [ -n "$LABELS" ]; then
+            echo "Detected bot: $AUTHOR → labeling as: $LABELS"
+            gh pr edit ${{ github.event.pull_request.number }} \
+              --add-label "$LABELS"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

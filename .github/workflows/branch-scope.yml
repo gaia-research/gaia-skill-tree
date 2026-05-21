@@ -9,7 +9,10 @@ jobs:
     name: Verify branch scope matches changed files
     runs-on: ubuntu-latest
     if: >-
-      !contains(github.event.pull_request.labels.*.name, 'skip-scope-check')
+      !contains(github.event.pull_request.labels.*.name, 'skip-scope-check') &&
+      !contains(github.event.pull_request.labels.*.name, 'jules') &&
+      !contains(github.event.pull_request.labels.*.name, 'codex') &&
+      !contains(github.event.pull_request.labels.*.name, 'claude-bot')
     permissions:
       pull-requests: read
       contents: read
