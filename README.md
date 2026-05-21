@@ -260,19 +260,20 @@ Quick usage:
   gaia docs build [--check]
   gaia lookup <skillId>
   gaia list [--generic] [--named] [--description] [--json]
-  gaia merge <target> <source1> [source2...] [--named]
-  gaia split <source> <target1> <target2>...
-  gaia add <name> [--id <id>] [--type <type>] [--description <desc>] [--named] [--contributor <user>]
-  gaia evidence <skillId> <source> [--class A|B|C] [--evaluator <user>] [--date <date>] [--notes <notes>]
+  gaia dev merge <target> <source1> [source2...] [--named]
+  gaia dev split <source> <target1> <target2>...
+  gaia dev rename <old_id> <new_id>
+  gaia dev calibrate <skill_id> <level> [--no-build]
+  gaia dev add <name> [--id <id>] [--type <type>] [--description <desc>] [--named] [--contributor <user>] [--no-build]
+  gaia dev rm <skill_id> [--no-build]
+  gaia dev link <target> <prereqs> [--no-build]
+  gaia dev update-named <skill_id> [--status <status>] [--generic-ref <ref>] [--suite-components <c1,c2>] [--no-build]
+  gaia dev evidence <skillId> <source> [--class A|B|C] [--evaluator <user>] [--date <date>] [--notes <notes>] [--no-build]
+  gaia dev build
+  gaia dev audit [--level <level>]
   gaia validate [--intake] [--meta-sync]
   gaia test <suite>
   gaia skills <list|search|info|install|uninstall>
-  gaia skills list [--exclude-pending]
-  gaia skills search <query> [--exclude-pending]
-  gaia skills info <skill_id> [--exclude-pending]
-  gaia skills install <skill> [--global | --local]
-  gaia skills uninstall <skill_id>
-
 ```
 <!-- gaia:cli-end -->
 

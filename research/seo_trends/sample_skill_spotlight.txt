@@ -1,0 +1,17 @@
+🌳 GAIA Skill Spotlight
+
+○ Basic: /web-search [1★]
+  Find and retrieve information from the internet
+  Try: gaia appraise web-search
+
+◇ Extra: /knowledge-harvest [4★]
+  Combine web-scrape + embed-text + store-vector
+  Automatically harvest and organize knowledge
+
+◆ Ultimate: karpathy/autoresearch [6★]
+  Legendary autonomous research capability
+  Iteratively researches, validates, and synthesizes
+
+📊 Registry Stats: 146 skills (70 Basic, 63 Extra, 8 Ultimate)
+🔗 Explore the full skill tree → https://gaia.tiongson.co/
+#AIAgents #SkillGraph #GAIA #OpenSource

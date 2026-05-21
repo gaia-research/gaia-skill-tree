@@ -1455,6 +1455,7 @@ def get_parser():
     dev_calibrate = dev_sub.add_parser('calibrate', help="Update the level of a skill")
     dev_calibrate.add_argument('skill_id', help="Skill ID to calibrate")
     dev_calibrate.add_argument('level', help="New level (e.g. 3★)")
+    dev_calibrate.add_argument('--no-build', action='store_true', help="Skip rebuilding docs and graph assets after calibrating")
 
     dev_add = dev_sub.add_parser('add', help="Add a new skill to the registry")
     dev_add.add_argument('name', help="Human-readable name of the skill")
@@ -1490,6 +1491,9 @@ def get_parser():
     dev_evidence.add_argument('--evaluator', help="GitHub username of the evaluator")
     dev_evidence.add_argument('--date', help="Date of evaluation (ISO 8601)")
     dev_evidence.add_argument('--notes', help="Optional notes about the evaluation")
+    dev_evidence.add_argument('--no-build', action='store_true', help="Skip rebuilding docs and graph assets after adding evidence")
+
+    dev_build = dev_sub.add_parser('build', help="Regenerate registry and documentation site")
 
     dev_audit = dev_sub.add_parser('audit', help="Run registry maintenance linter")
     dev_audit.add_argument('--level', type=int, help="Filter audit by level threshold")
@@ -1648,6 +1652,8 @@ def main():
             meta_update_named_command(args)
         elif dev_cmd == 'evidence':
             meta_evidence_command(args)
+        elif dev_cmd == 'build':
+            meta_build_command(args)
         elif dev_cmd == 'audit':
             meta_audit_command(args)
         else:

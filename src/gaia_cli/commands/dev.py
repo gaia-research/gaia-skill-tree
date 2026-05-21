@@ -440,8 +440,11 @@ def meta_calibrate_command(args):
 
     append_skill_event(skill_id, action, _get_contributor(), f"Calibrated level from {old_level} to {level}", registry_path=registry_path)
     
-    print("Regenerating registry and documentation...")
-    _run_docs_build(args.registry)
+    if not getattr(args, "no_build", False):
+        print("Regenerating registry and documentation...")
+        _run_docs_build(args.registry)
+    else:
+        print("Skipping documentation rebuild as requested (--no-build).")
     print(f"Successfully calibrated '{skill_id}' to {level}.")
 
 def meta_audit_command(args):
@@ -732,8 +735,17 @@ def meta_evidence_command(args):
     print(f"Added evidence to skill: {skill_id}")
     append_skill_event(skill_id, "evidence_added", _get_contributor(), f"Added {evidence['class']} evidence from {evidence['source']}", registry_path=registry_path)
 
+    if not getattr(args, "no_build", False):
+        print("Regenerating registry and documentation...")
+        _run_docs_build(args.registry)
+    else:
+        print("Skipping documentation rebuild as requested (--no-build).")
+
+def meta_build_command(args):
+    """Explicitly rebuild registry artifacts and documentation."""
     print("Regenerating registry and documentation...")
     _run_docs_build(args.registry)
+    print("Build complete.")
 
 def meta_remove_command(args):
     registry_path = args.registry
