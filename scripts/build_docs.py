@@ -538,11 +538,11 @@ def build_tree_md(check: bool) -> bool:
 
 
 def build_ruflo_curation(check: bool) -> bool:
-    """Verify docs/ruflo-curation.html exists (regenerate with generate_ruflo_curation.py)."""
-    path = ROOT / "docs" / "ruflo-curation.html"
+    """Verify docs/audits/ruflo-curation.html exists (regenerate with generate_ruflo_curation.py)."""
+    path = ROOT / "docs" / "audits" / "ruflo-curation.html"
     if not path.exists():
         if check:
-            print("diff docs/ruflo-curation.html (missing — run: python scripts/generate_ruflo_curation.py)")
+            print("diff docs/audits/ruflo-curation.html (missing — run: python scripts/generate_ruflo_curation.py)")
         return True
     return False
 
