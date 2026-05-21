@@ -7,8 +7,10 @@
 
 ---
 
+**Summary:** Tracks and analyzes token usage and cost across AI coding tools.
+
 ## Description
-Tracks and analyzes token usage and cost across multiple AI models and agents, providing session-level and project-level spending metrics.
+Tracks and analyzes token usage and cost across multiple AI models and agents, providing session-level and project-level spending metrics. It directly accesses local session data from supported tools without requiring API keys or network proxies. Use cases include tracking per-project and per-model AI spends, identifying token waste for optimization, and analyzing code generation yield (tracking how much generated code was actually committed).
 
 ## Prerequisites
 _None._
