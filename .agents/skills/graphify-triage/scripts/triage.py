@@ -9,19 +9,18 @@ from pathlib import Path
 import shlex
 
 def run_command(cmd, capture_output=True):
-    """Helper to run shell commands safely."""
+    """Helper to run shell commands safely without shell=True to prevent command injection."""
     try:
         # If cmd is a string, safely split it (assuming no complex shell interpolations are intended)
         if isinstance(cmd, str):
             cmd = shlex.split(cmd)
         result = subprocess.run(
             cmd,
-            shell=False,
             check=True,
             capture_output=capture_output,
             text=True
         )
-        return result.stdout.strip()
+        return result.stdout.strip() if result.stdout else None
     except subprocess.CalledProcessError as e:
         print(f"Error running command: {cmd}\n{e.stderr}", file=sys.stderr)
         return None
@@ -136,9 +135,12 @@ def main():
         for p in payloads:
             print(f"Creating issue: {p['title']}")
             cmd = ["gh", "issue", "create"]
+
             if args.repo:
                 cmd.extend(["-R", args.repo])
+
             cmd.extend(["--title", p['title'], "--body", p['body']])
+
             for lbl in p.get("labels", []):
                 cmd.extend(["--label", lbl])
             
