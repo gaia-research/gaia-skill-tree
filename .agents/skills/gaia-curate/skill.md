@@ -72,16 +72,16 @@ Expand the Gaia skill registry (`registry/gaia.json`) with new popular AI agent 
    Prioritize upgrading these with B/A evidence before proposing entirely new skills. This ensures the tree grows stronger, not just wider.
 
 3. **Design the batch** — for each candidate skill determine:
-   - Type: `atomic` (no prerequisites) / `composite` (≥2 prereqs) / `legendary` (≥3 prereqs + 3 Evidence Tier A/B sources)
-   - **Fusion-First Design**: Before creating a new skill, check if it can be an **Extra skill** (◇) fused from existing basic capabilities. If the implementation provides a high-level orchestration or specialized resilient pattern (e.g., `agentic-workflow-design`), use an Extra skill type.
-   - Level: target **IV** (Hardened) minimum — requires at least 1× Evidence Tier B or A
-   - Rarity: `common` / `uncommon` / `rare` / `epic` / `legendary`
-   - Prerequisites and derivatives (must reference existing IDs)
-   - **Demerit Check (Strategic)**: Identify `heavyweight-dependency`, `niche-integration`, or `experimental-feature`. Only strictly apply these to skills at **Level 3★+**. If a high-level skill is cross-platform and "Universal," reward it by omitting demerits.
+   - Type: `basic` (no prerequisites) / `extra` (≥2 prereqs) / `ultimate` (≥3 prereqs + 3 Evidence Tier A/B sources). A graph-isolated `basic` at 4★+ may be promoted to `unique`.
+   - **Fusion-First Design**: Before creating a new skill, check if it can be an **Extra skill** (◇) fused from existing basic capabilities. If the implementation provides a high-level orchestration or specialized resilient pattern (e.g., `agentic-workflow-design`), use the `extra` type.
+   - Stars: target **4★** (Hardened) minimum — requires at least 1× Evidence Tier B or A.
+   - Prerequisites and derivatives (must reference existing IDs).
+   - **Demerit Check (Strategic)**: Identify `heavyweight-dependency`, `niche-integration`, or `experimental-feature`. Only strictly apply these to skills at **3★+**. If a high-level skill is cross-platform and "Universal," reward it by omitting demerits.
    - **Named Promotion**: Determine if the specific implementation should be promoted to a **Named Skill** in `registry/named/`.
+   - Do **not** ask the contributor to choose a rarity value — the rarity axis is deprecated (see `CONTEXT.md` § Rarity). `gaia add` writes the legacy default automatically; the field will disappear once the schema migration lands.
 4. **Present draft for review** — before writing any code or committing, display the full proposed skills table:
 
-   | ID | Name | Type | Rarity | Prereqs | Demerits | Named Promotion? |
+   | ID | Name | Type | Stars | Prereqs | Demerits | Named Promotion? |
    |---|---|---|---|---|---|---|
    | … | … | … | … | … | … | … |
 
@@ -109,7 +109,7 @@ Expand the Gaia skill registry (`registry/gaia.json`) with new popular AI agent 
 9. **Push and open a PR** via the GitHub API using stored git credentials. The auto-triage CI classifies the PR:
    - PRs touching `registry/` from a bot with evidence score ≥ 60 are auto-merged.
    - PRs flagged `draft-skills` or `needs-review` are routed to the `route-review` job — a human must approve before merge.
-   - Legendary skill proposals always require maintainer approval.
+   - Ultimate skill proposals always require maintainer approval.
 10. **Register the batch itself** as a `registryCuration` evidence entry if new demonstrations were produced.
 
 ## Two-phase intake workflow (gaia push)
@@ -131,7 +131,7 @@ gaia validate --intake
 
 - **Programmatic Registry Management**: NEVER hand-edit files in `registry/nodes/` or `registry/gaia.json`. Use `gaia add`, `gaia merge`, `gaia split`, and `gaia evidence`.
 - All evidence `source` values must be real, resolvable URLs (arXiv abs pages or GitHub repos).
-- Legendary skills at `status: validated` require ≥3 Evidence Tier A/B entries; new legendaries should be `provisional` until the maintainer merges.
+- Ultimate skills at `status: validated` require ≥3 Evidence Tier A/B entries; new ultimates should land as `provisional` until the maintainer merges.
 - No cycles in the DAG. No orphaned composite nodes.
 - Skill IDs: `lowercase-dash` format (e.g., `chain-of-thought`, `web-search`). No camelCase, no vendor names, no abbreviations unless universally understood. Pattern: `^[a-z][a-z0-9]*(-[a-z0-9]+)*$`.
 - **Edge schema**: edges use `sourceSkillId`/`targetSkillId` keys (not `from`/`to`). Valid `edgeType` values are `prerequisite`, `corequisite`, `enhances` only — there is NO `derivative` edge type. Use `enhances` for skill→derivative edges.

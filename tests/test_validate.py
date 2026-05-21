@@ -164,7 +164,7 @@ class TestNamedSkillValidation(unittest.TestCase):
 
     def test_seed_skills_have_valid_levels(self):
         """All seed named skills have a level in the valid set (2★–6★)."""
-        from scripts.generateNamedIndex import load_named_skills, validate_and_group, load_gaia_skill_ids
+        from scripts.generateNamedIndex import load_named_skills, validate_and_group
 
         named_dir = os.path.join(REPO_ROOT, "registry", "named")
         if not os.path.isdir(named_dir):
@@ -173,8 +173,9 @@ class TestNamedSkillValidation(unittest.TestCase):
         named_skills = load_named_skills(named_dir)
         named_skills = [(fp, fm) for fp, fm in named_skills if not fp.endswith("index.json")]
 
-        valid_ids = load_gaia_skill_ids(REAL_GRAPH_PATH)
-        errors, buckets, *_ = validate_and_group(named_skills, valid_ids)
+        with open(REAL_GRAPH_PATH, "r", encoding="utf-8") as f:
+            graph_data = json.load(f)
+        errors, buckets, *_ = validate_and_group(named_skills, graph_data)
 
         self.assertEqual(
             errors,
@@ -220,7 +221,7 @@ class TestNamedSkillValidation(unittest.TestCase):
                 },
             )
         ]
-        errors, *_ = validate_and_group(named_skills, {"web-search"})
+        errors, *_ = validate_and_group(named_skills, {"skills": [{"id": "web-search"}]})
         self.assertTrue(
             any("level" in e.lower() or "'1★'" in e or "1★" in e or "2★ or above" in e
                 for e in errors),
@@ -240,7 +241,7 @@ class TestNamedSkillValidation(unittest.TestCase):
                 },
             )
         ]
-        errors, *_ = validate_and_group(named_skills, set())
+        errors, *_ = validate_and_group(named_skills, {"skills": []})
         self.assertGreater(len(errors), 0, "Expected errors for missing required fields.")
 
     def test_unresolved_generic_ref_fails_validation(self):
@@ -262,7 +263,7 @@ class TestNamedSkillValidation(unittest.TestCase):
                 },
             )
         ]
-        errors, *_ = validate_and_group(named_skills, {"web-search"})
+        errors, *_ = validate_and_group(named_skills, {"skills": [{"id": "web-search"}]})
         self.assertTrue(
             any("definitely-not-a-real-skill-id" in e for e in errors),
             f"Expected unresolved-ref error, got: {errors}",

@@ -8,10 +8,13 @@
 # Gaia - AI Agent Skill Registry
 
 > The open, evidence-backed skill graph for AI agents: collect, evolve, and fuse capabilities into something legendary.
+> Success means becoming the public record AI agent developers cite when making capability claims — the pkg.go.dev for agent skills.
 
 [![Validate](https://github.com/mbtiongson1/gaia-skill-tree/actions/workflows/validate.yml/badge.svg)](https://github.com/mbtiongson1/gaia-skill-tree/actions/workflows/validate.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-c084fc.svg)](LICENSE)
 [![Website](https://img.shields.io/badge/Website-gaia.tiongson.co-f59e0b)](https://gaia.tiongson.co/)
+
+**Brand & product:** [PRODUCT.md](PRODUCT.md) · [CONTEXT.md](CONTEXT.md) · [DESIGN.md](DESIGN.md)
 
 ---
 
@@ -37,18 +40,21 @@ Every AI agent capability exists somewhere on this graph. Skills start at the fo
   │  │  └─ ◇ garrytan/learn  [2★]
   │  │     ├─ ○ garrytan/context-restore  [3★]
 
-◆ ruvnet/agentdb  [5★]
-  ├─ ◇ ruvnet/agentdb-advanced  [3★]
-  │  ├─ ○ ruvnet/agentdb-vector-search  [2★]
-  │  └─ ◇ garrytan/learn  [2★]
-  │     ├─ ○ garrytan/context-restore  [3★]
-  │     └─ ○ /retrieve  [1★]
-  ├─ ◇ ruvnet/agentdb-learning  [3★]
-  │  ├─ ○ ruvnet/reasoningbank-intelligence  [2★]
-  │  └─ ◇ garrytan/learn  [2★]  (↑ see above)
-  ├─ ○ ruvnet/agentdb-memory-patterns  [2★]
-  ├─ ○ ruvnet/agentdb-optimization  [2★]
-  └─ ○ ruvnet/agentdb-vector-search  [2★]  (↑ see above)
+◆ mattpocock/skills  [6★]
+  ├─ ◆ mattpocock/engineering  [5★]
+  │  ├─ ◇ devin-ai/autonomous-swe  [4★]
+  │  │  ├─ ○ garrytan/design-html  [1★]
+  │  │  ├─ ○ /code-execution  [2★]
+  │  │  └─ ○ /error-interpretation  [1★]
+  │  ├─ ○ mattpocock/improve-codebase-architecture  [2★]
+  │  ├─ ◇ mattpocock/to-issues  [3★]
+  │  │  ├─ ○ /plan-decompose  [1★]
+  │  │  └─ ○ /route-intent  [1★]
+  │  ├─ ◇ mattpocock/to-prd  [4★]
+  │  │  ├─ ○ glincker/readme-generator  [1★]
+  │  ├─ ○ mattpocock/triage  [4★]
+  │  ├─ ◇ mattpocock/ubiquitous-language  [4★]
+  │  │  ├─ ○ /extract-entities  [1★]
 
 Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
   ◉ nousresearch/feed-monitoring  [4★ · Hardened]
@@ -57,7 +63,7 @@ Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) throu
   ◉ ruvnet/hive-mind-coordination  [4★ · Hardened]
   ◉ openai/self-consistency  [4★ · Hardened]
 
-(192 skills total — see docs/tree.md)
+(200 skills total — see docs/tree.md)
 ```
 <!-- gaia:registry-end -->
 
@@ -97,7 +103,7 @@ Skills rank up through **evidence**, not declaration. Basics fuse into Extras or
 **1. Install the CLI**
 
 <!-- gaia:version-start -->
-Current Gaia CLI version: `3.21.4`.
+Current Gaia CLI version: `3.22.2`.
 
 Python install:
 
@@ -256,11 +262,19 @@ Quick usage:
   gaia stats
   gaia docs build [--check]
   gaia lookup <skillId>
-  gaia list [--generic] [--named] [--description] [--json]
-  gaia merge <target> <source1> [source2...] [--named]
-  gaia split <source> <target1> <target2>...
-  gaia add <name> [--id <id>] [--type <type>] [--description <desc>] [--named] [--contributor <user>]
-  gaia evidence <skillId> <source> [--class A|B|C] [--evaluator <user>] [--date <date>] [--notes <notes>]
+  gaia dev list [--generic] [--named] [--description] [--json]
+  gaia dev merge <target> <source1> [source2...] [--named]
+  gaia dev split <source> <target1> <target2>...
+  gaia dev rename <old_id> <new_id>
+  gaia dev calibrate <skill_id> <level>
+  gaia dev add <name> [--id <id>] [--type <type>] [--description <desc>] [--named] [--contributor <user>] [--status <status>] [--title <title>] [--level <level>]
+  gaia dev rm <skill_id>
+  gaia dev link <target> <prereqs> [--reset]
+  gaia dev reclassify <skill_id> <new_type>
+  gaia dev update-named <skill_id> [--status <status>] [--generic-ref <ref>] [--suite-components <c1,c2...>]
+  gaia dev evidence <skillId> <source> [--class A|B|C] [--evaluator <user>] [--date <date>] [--notes <notes>]
+  gaia dev build
+  gaia dev audit <skill_id>
   gaia validate [--intake] [--meta-sync]
   gaia test <suite>
   gaia skills <list|search|info|install|uninstall>
