@@ -107,12 +107,8 @@ def _parse_md(path):
     content = path.read_text(encoding="utf-8")
     if not content.startswith("---"):
         return {}, content
-    try:
-        _, frontmatter, body = content.split("---", 2)
-        return (yaml.safe_load(frontmatter) or {}), body
-    except Exception as e:
-        print(f"Warning: Failed to parse frontmatter in {path}: {e}")
-        return {}, content
+    _, frontmatter, body = content.split("---", 2)
+    return (yaml.safe_load(frontmatter) or {}), body
 
 def _write_md(path, meta, body) -> None:
     import yaml
@@ -618,10 +614,6 @@ def meta_add_command(args):
     
     if getattr(args, "named", False):
         contributor = getattr(args, "contributor", "gaiabot")
-        # If the ID already contains a contributor, use it to override the contributor arg
-        if "/" in skill_id:
-            contributor, skill_id = skill_id.split("/", 1)
-            
         dest_dir = Path(named_skills_dir(registry_path)) / contributor
         dest_dir.mkdir(parents=True, exist_ok=True)
         dest_file = dest_dir / f"{skill_id}.md"
@@ -640,19 +632,9 @@ def meta_add_command(args):
             "status": "named",
             "level": getattr(args, "level", "2★"),
             "description": desc,
+            "createdAt": datetime.date.today().isoformat(),
+            "updatedAt": datetime.date.today().isoformat(),
         }
-
-        suite_ref = getattr(args, "suite_ref", None)
-        if suite_ref:
-            meta["suiteRef"] = suite_ref
-            
-        suite_components = getattr(args, "suite_components", None)
-        if suite_components:
-            meta["suiteComponents"] = [s.strip() for s in suite_components.split(",")]
-
-        meta["createdAt"] = datetime.date.today().isoformat()
-        meta["updatedAt"] = datetime.date.today().isoformat()
-
         body = "\n\n## Installation\nAdd installation instructions here.\n"
         _write_md(dest_file, meta, body)
         print(f"Created named skill: {dest_file}")
