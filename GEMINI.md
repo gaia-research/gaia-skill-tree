@@ -53,6 +53,20 @@ cd packages/cli-npm && npm install
 
 ## Technical Guidelines
 
+### Vocabulary & Banned Synonyms
+- `CONTEXT.md` is the single source of truth for product nomenclature and the banned-synonym list (CI greps it). Consult it before writing user-facing copy, CLI output, or agent skills.
+- The **rarity** axis (`common` / `uncommon` / `rare` / `epic` / `legendary`) is **deprecated** and pending schema removal — see `CONTEXT.md` § Rarity. Do not introduce new references in copy, skills, or curation workflows. `gaia add` writes the legacy default automatically.
+
+### Agent Skills
+Project-local agent skills live in two directories and are actively used by contributors. Keep them in sync with `CONTEXT.md` nomenclature when changing terminology.
+- `.agents/skills/gaia-curate/` — registry expansion + PR workflow.
+- `.agents/skills/gaia-meta-audit/` — prioritized review queue.
+- `.agents/skills/gaia-audit/` — focused single-target correction.
+- `.agents/skills/gaia-draft-curate/`, `gaia-docs-sync/`, `gaia-integrity/`, `gaia-triage/`, `gaia-wiki-sync/`, `graphify-triage/` — supporting workflows.
+- `.claude/skills/gaia-fuse-full-suite/`, `gaia-bot-curate/` — fusion and bot curation.
+
+When updating any of these, route registry mutations through `gaia add` / `gaia merge` / `gaia split` / `gaia evidence` rather than hand-editing files in `registry/nodes/`.
+
 ### Agent-Managed Files (Hermes Ownership)
 - **DO NOT** modify, stage, or delete the following files. They are managed by an autonomous agent (Hermes) and will be relocated in the future:
     - `STEWARDSHIP_PLAN.md`

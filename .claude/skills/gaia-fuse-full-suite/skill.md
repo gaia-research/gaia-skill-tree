@@ -75,7 +75,7 @@ Write `registry/nodes/ultimate/<ultimate-id>.json`:
   "name": "<ultimate-name>",
   "type": "ultimate",
   "level": "<level>",
-  "rarity": "legendary",
+  "rarity": "common",
   "description": "<one sentence synthesising what the suite achieves>",
   "prerequisites": ["<component-id-1>", "..."],
   "derivatives": [],
@@ -98,6 +98,8 @@ Write `registry/nodes/ultimate/<ultimate-id>.json`:
 ```
 
 If updating an existing node, merge the new `fuse` timeline event into the existing `timeline` array; do not overwrite other fields.
+
+The `rarity` field is a deprecated schema requirement (see `CONTEXT.md` § Rarity). Write the legacy default `"common"` and do not deliberate over the value; the field will be removed once the schema migration lands.
 
 ### 6. Update component nodes
 
@@ -158,7 +160,7 @@ PYTHONIOENCODING=utf-8 python scripts/validate.py
 All 10 checks must pass. If any fail:
 - Reference integrity failures → fix missing derivatives or prerequisites.
 - DAG cycle → a component likely points back to itself through the ultimate; remove the self-referencing derivative.
-- Ultimate constraints → check rarity is `legendary` and evidence class meets threshold.
+- Ultimate constraints → check that the evidence class meets the threshold for the chosen star level.
 
 Do **not** open a PR until validation is clean.
 
@@ -188,7 +190,7 @@ Open the PR with:
 ```
 ## Summary
 
-- New ultimate skill **/<ultimate-id>** (<level> legendary) fusing N named <contributor> skills
+- New ultimate skill **/<ultimate-id>** (<level>) fusing N named <contributor> skills
 - Fuse timeline event recorded; components back-linked via `derivatives`
 - Evidence: <one-line summary of source and signals>
 
@@ -213,7 +215,7 @@ Open the PR with:
 
 Report back:
 - PR URL
-- Ultimate skill ID, level, and rarity
+- Ultimate skill ID and star level
 - Number of components fused
 - Evidence class and key signal (stars, adopters, version)
 - Validation pass/fail summary

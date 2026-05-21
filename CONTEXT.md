@@ -60,12 +60,16 @@ _Avoid_: downgrade, demote-down.
 The independently graded quality of a real-world demonstration: Class C (first sighting), Class B (reproducible, documented), Class A (battle-tested, peer-reviewed).
 _Avoid_: proof level, evidence tier.
 
-### Rarity (the third axis)
+### Rarity (the third axis — DEPRECATED)
 
-**Rarity** is a schema-defined axis (`registry/schema/meta.json:61-64`) describing how rare a skill is, on a scale of **common → uncommon → rare → epic → legendary** (with the brand-voice label "Divine" for legendary per `registry/gaia.json:21-22`). It is **orthogonal** to both the **tier** taxonomy (Basic / Extra / Unique / Ultimate) and the **stars** axis (0★–6★). A Basic-tier skill can be `legendary` rarity; an Ultimate-tier skill can be `uncommon` rarity.
+**Rarity** is a legacy schema-defined axis (`registry/schema/meta.json:61-64`) on a scale of **common → uncommon → rare → epic → legendary**. It was originally intended as a third orthogonal axis alongside **tier** (Basic / Extra / Unique / Ultimate) and **stars** (0★–6★), but in practice it duplicated signal already carried by the other two axes and was never surfaced to users.
 
-The rarity axis is **internal-only** and not surfaced as a user-facing label today. The only places `legendary` and `common` are valid in code are: the schema enum (`registry/schema/skill.schema.json:62-69`), the rarity values inside `registry/gaia.json` skill entries, `docs/graph/gaia.json` and `.gexf` generated mirrors, and CSS classes that style the rarity strip (`.rs-legendary`, etc. in `docs/css/styles.css`). The brand-voice `rarityLabels` table (`gaia.json:21-22` → `"legendary": "Divine"`) is the only place a user-facing word for rarity-legendary is permitted, and it is **Divine** — never the literal string "legendary."
-_Avoid_: using `legendary` or `common` in user-facing copy at all; using rarity values where stars or tier are intended.
+**Status: deprecated, pending schema removal.** Tracked separately (schema change requires a `schema/` branch; do not modify the schema in this PR). Until the schema migration lands:
+- `gaia add` continues to default `rarity` to `"common"` so authors never set it manually.
+- Tooling and renderers that read the field should treat it as opaque legacy data — do not surface it in new copy, do not branch logic on it, do not ask contributors to choose a value.
+- The brand-voice `rarityLabels` table (`gaia.json:21-22`) stays in place until the schema removal so existing mirrors don't break.
+
+_Avoid_: introducing **any** new reference to rarity — in CLI output, docs, agent skills, review tables, or curation workflows. If you find yourself reaching for the word, you almost certainly want **tier** or **stars** instead.
 
 ### Contribution
 
@@ -288,6 +292,7 @@ Single source of truth for CI grep. Any term below appearing in user-facing copy
 - `Pure / Undeveloped` — section label that conflates tier and stars axes; section header is **Basics**, and a 0★ skill can carry the **Pure** pill inline
 - `Pure skill` — as tier synonym; "Pure" is only a 0★ stars-axis descriptor
 - `rank` / `level` / `tier` — when used alone to mean the **stars axis** (these are reserved for the rank-name label, the verbs, and the tier taxonomy respectively)
+- `rarity` / `Rarity` / `rare` / `epic` / `uncommon` — the rarity axis is deprecated (see Rarity section above). Do not introduce new references in CLI copy, docs, agent skills, or curation workflows. Field still exists in the schema until its removal lands on a `schema/` branch.
 - `Skill lifecycle` — diagram name; use **Ascension Cycle**
 - `standalone skill` / `solo skill` — for Unique; use **Unique Skill**
 - `Top contributors` / `Named contributors section` — section; use **Hall of Heroes**
