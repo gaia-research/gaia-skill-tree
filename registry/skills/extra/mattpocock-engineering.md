@@ -1,8 +1,8 @@
-# /mattpocock-engineering  [1★ · Awakened]
+# /mattpocock-engineering  [5★ · Transcendent]
 **ID:** mattpocock-engineering  
 **Type:** Extra Skill  
-**Level:** 1★  
-**Tier:** Awakened  
+**Level:** 5★  
+**Tier:** Transcendent  
 **Skill Call:** `/mattpocock-engineering`
 
 ---
@@ -29,7 +29,9 @@ _None._
 _None specified._
 
 ## Evidence
-_None._
+| Class | Source | Evaluator | Date |
+|---|---|---|---|
+| B | https://github.com/mattpocock/skills | mbtiongson1 | 2026-05-22 |
 
 ## Known Agents
 _None verified yet._

@@ -5,7 +5,7 @@ contributor: mattpocock
 origin: false
 genericSkillRef: agent-handoff
 status: awakened
-level: 2★
+level: 4★
 description: Compacts the current conversation into a summary for a fresh agent to
   continue the work.
 createdAt: '2026-05-21'

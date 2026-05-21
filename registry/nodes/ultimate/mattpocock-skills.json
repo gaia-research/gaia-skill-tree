@@ -2,7 +2,7 @@
   "id": "mattpocock-skills",
   "name": "mattpocock-skills",
   "type": "ultimate",
-  "level": "1★",
+  "level": "6★",
   "rarity": "common",
   "description": "Ultimate capstone suite for Matt Pocock's skills.",
   "prerequisites": [
@@ -13,7 +13,22 @@
     "ubiquitous-language"
   ],
   "derivatives": [],
-  "evidence": [],
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/mattpocock/skills",
+      "evaluator": "mbtiongson1",
+      "date": "2026-05-22",
+      "notes": "The ultimate Matt Pocock skill suite capstone."
+    },
+    {
+      "class": "A",
+      "source": "https://github.com/mbtiongson1/gaia-skill-tree/pull/352",
+      "evaluator": "mbtiongson1",
+      "date": "2026-05-22",
+      "notes": "Peer-reviewed ultimate capstone suite consolidation."
+    }
+  ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-22",
@@ -25,6 +40,18 @@
       "action": "add",
       "contributor": "mbtiongson1",
       "details": "Added generic skill mattpocock-skills"
+    },
+    {
+      "timestamp": "2026-05-21T17:18:01Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added B evidence from https://github.com/mattpocock/skills"
+    },
+    {
+      "timestamp": "2026-05-21T17:18:32Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added A evidence from https://github.com/mbtiongson1/gaia-skill-tree/pull/352"
     }
   ]
 }

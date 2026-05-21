@@ -5,7 +5,7 @@ contributor: mattpocock
 origin: false
 genericSkillRef: agent-environment-setup
 status: awakened
-level: 2★
+level: 3★
 description: Scaffolds per-repo configuration for other engineering skills (like triage,
   tdd, diagnose).
 createdAt: '2026-05-21'

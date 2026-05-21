@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/skill.schema.json",
   "version": "3.21.4",
-  "generatedAt": "2026-05-21T16:29:08.528406Z",
+  "generatedAt": "2026-05-21T17:18:57.533546Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -146,7 +146,7 @@
       "id": "agent-environment-setup",
       "name": "agent-environment-setup",
       "type": "extra",
-      "level": "1★",
+      "level": "3★",
       "rarity": "common",
       "description": "Scaffolding per-repo configuration for other engineering skills.",
       "prerequisites": [
@@ -154,7 +154,15 @@
         "tool-use"
       ],
       "derivatives": [],
-      "evidence": [],
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/setup-matt-pocock-skills/SKILL.md",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-22",
+          "notes": "Scaffolding skill for Matt Pocock's engineering workspace."
+        }
+      ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-22",
@@ -166,6 +174,12 @@
           "action": "add",
           "contributor": "mbtiongson1",
           "details": "Added generic skill agent-environment-setup"
+        },
+        {
+          "timestamp": "2026-05-21T17:16:01Z",
+          "action": "evidence_added",
+          "contributor": "mbtiongson1",
+          "details": "Added B evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/setup-matt-pocock-skills/SKILL.md"
         }
       ]
     },
@@ -217,7 +231,7 @@
       "id": "agent-handoff",
       "name": "agent-handoff",
       "type": "extra",
-      "level": "1★",
+      "level": "4★",
       "rarity": "common",
       "description": "Compacting the current conversation into a summary for a fresh agent.",
       "prerequisites": [
@@ -226,7 +240,15 @@
         "context-compression"
       ],
       "derivatives": [],
-      "evidence": [],
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/handoff/SKILL.md",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-22",
+          "notes": "High-fidelity agent handoff and context compaction skill."
+        }
+      ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-22",
@@ -238,6 +260,12 @@
           "action": "add",
           "contributor": "mbtiongson1",
           "details": "Added generic skill agent-handoff"
+        },
+        {
+          "timestamp": "2026-05-21T17:16:21Z",
+          "action": "evidence_added",
+          "contributor": "mbtiongson1",
+          "details": "Added B evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/handoff/SKILL.md"
         }
       ]
     },
@@ -3139,7 +3167,7 @@
       "id": "mattpocock-engineering",
       "name": "mattpocock-engineering",
       "type": "extra",
-      "level": "1★",
+      "level": "5★",
       "rarity": "common",
       "description": "Engineering category suite for Matt Pocock's skills.",
       "prerequisites": [
@@ -3155,7 +3183,15 @@
         "agent-environment-setup"
       ],
       "derivatives": [],
-      "evidence": [],
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/mattpocock/skills",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-22",
+          "notes": "Consolidated engineering suite for Matt Pocock's skills."
+        }
+      ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-22",
@@ -3167,6 +3203,12 @@
           "action": "add",
           "contributor": "mbtiongson1",
           "details": "Added generic skill mattpocock-engineering"
+        },
+        {
+          "timestamp": "2026-05-21T17:17:01Z",
+          "action": "evidence_added",
+          "contributor": "mbtiongson1",
+          "details": "Added B evidence from https://github.com/mattpocock/skills"
         }
       ]
     },
@@ -3174,7 +3216,7 @@
       "id": "mattpocock-personal",
       "name": "mattpocock-personal",
       "type": "extra",
-      "level": "1★",
+      "level": "4★",
       "rarity": "common",
       "description": "Personal category suite for Matt Pocock's skills.",
       "prerequisites": [
@@ -3182,7 +3224,15 @@
         "personal-knowledge-management"
       ],
       "derivatives": [],
-      "evidence": [],
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/mattpocock/skills",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-22",
+          "notes": "Consolidated personal suite for Matt Pocock's skills."
+        }
+      ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-22",
@@ -3194,6 +3244,12 @@
           "action": "add",
           "contributor": "mbtiongson1",
           "details": "Added generic skill mattpocock-personal"
+        },
+        {
+          "timestamp": "2026-05-21T17:17:41Z",
+          "action": "evidence_added",
+          "contributor": "mbtiongson1",
+          "details": "Added B evidence from https://github.com/mattpocock/skills"
         }
       ]
     },
@@ -3201,7 +3257,7 @@
       "id": "mattpocock-productivity",
       "name": "mattpocock-productivity",
       "type": "extra",
-      "level": "1★",
+      "level": "4★",
       "rarity": "common",
       "description": "Productivity category suite for Matt Pocock's skills.",
       "prerequisites": [
@@ -3211,7 +3267,15 @@
         "grill-me"
       ],
       "derivatives": [],
-      "evidence": [],
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/mattpocock/skills",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-22",
+          "notes": "Consolidated productivity suite for Matt Pocock's skills."
+        }
+      ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-22",
@@ -3223,6 +3287,12 @@
           "action": "add",
           "contributor": "mbtiongson1",
           "details": "Added generic skill mattpocock-productivity"
+        },
+        {
+          "timestamp": "2026-05-21T17:17:21Z",
+          "action": "evidence_added",
+          "contributor": "mbtiongson1",
+          "details": "Added B evidence from https://github.com/mattpocock/skills"
         }
       ]
     },
@@ -3230,7 +3300,7 @@
       "id": "mattpocock-skills",
       "name": "mattpocock-skills",
       "type": "ultimate",
-      "level": "1★",
+      "level": "6★",
       "rarity": "common",
       "description": "Ultimate capstone suite for Matt Pocock's skills.",
       "prerequisites": [
@@ -3241,7 +3311,22 @@
         "ubiquitous-language"
       ],
       "derivatives": [],
-      "evidence": [],
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/mattpocock/skills",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-22",
+          "notes": "The ultimate Matt Pocock skill suite capstone."
+        },
+        {
+          "class": "A",
+          "source": "https://github.com/mbtiongson1/gaia-skill-tree/pull/352",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-22",
+          "notes": "Peer-reviewed ultimate capstone suite consolidation."
+        }
+      ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-22",
@@ -3253,6 +3338,18 @@
           "action": "add",
           "contributor": "mbtiongson1",
           "details": "Added generic skill mattpocock-skills"
+        },
+        {
+          "timestamp": "2026-05-21T17:18:01Z",
+          "action": "evidence_added",
+          "contributor": "mbtiongson1",
+          "details": "Added B evidence from https://github.com/mattpocock/skills"
+        },
+        {
+          "timestamp": "2026-05-21T17:18:32Z",
+          "action": "evidence_added",
+          "contributor": "mbtiongson1",
+          "details": "Added A evidence from https://github.com/mbtiongson1/gaia-skill-tree/pull/352"
         }
       ]
     },
@@ -3833,7 +3930,7 @@
       "id": "personal-knowledge-management",
       "name": "personal-knowledge-management",
       "type": "extra",
-      "level": "1★",
+      "level": "3★",
       "rarity": "common",
       "description": "Managing notes and organization in a specific vault.",
       "prerequisites": [
@@ -3841,7 +3938,15 @@
         "context-compression"
       ],
       "derivatives": [],
-      "evidence": [],
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/mattpocock/skills/blob/main/skills/personal/obsidian-vault/SKILL.md",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-22",
+          "notes": "Obsidian vault management and PKM automation."
+        }
+      ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-22",
@@ -3853,6 +3958,12 @@
           "action": "add",
           "contributor": "mbtiongson1",
           "details": "Added generic skill personal-knowledge-management"
+        },
+        {
+          "timestamp": "2026-05-21T17:16:41Z",
+          "action": "evidence_added",
+          "contributor": "mbtiongson1",
+          "details": "Added B evidence from https://github.com/mattpocock/skills/blob/main/skills/personal/obsidian-vault/SKILL.md"
         }
       ]
     },
@@ -4144,7 +4255,7 @@
       "id": "prototype",
       "name": "prototype",
       "type": "extra",
-      "level": "1★",
+      "level": "3★",
       "rarity": "common",
       "description": "Building throwaway prototypes to answer specific design or logic questions.",
       "prerequisites": [
@@ -4152,7 +4263,15 @@
         "code-execution"
       ],
       "derivatives": [],
-      "evidence": [],
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/prototype/SKILL.md",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-22",
+          "notes": "Production interactive prototyping skill."
+        }
+      ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-22",
@@ -4164,6 +4283,12 @@
           "action": "add",
           "contributor": "mbtiongson1",
           "details": "Added generic skill prototype"
+        },
+        {
+          "timestamp": "2026-05-21T17:15:41Z",
+          "action": "evidence_added",
+          "contributor": "mbtiongson1",
+          "details": "Added B evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/prototype/SKILL.md"
         }
       ]
     },

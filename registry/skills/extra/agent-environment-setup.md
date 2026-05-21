@@ -1,8 +1,8 @@
-# /agent-environment-setup  [1★ · Awakened]
+# /agent-environment-setup  [3★ · Evolved]
 **ID:** agent-environment-setup  
 **Type:** Extra Skill  
-**Level:** 1★  
-**Tier:** Awakened  
+**Level:** 3★  
+**Tier:** Evolved  
 **Skill Call:** `/agent-environment-setup`
 
 ---
@@ -21,7 +21,9 @@ _None._
 _None specified._
 
 ## Evidence
-_None._
+| Class | Source | Evaluator | Date |
+|---|---|---|---|
+| B | https://github.com/mattpocock/skills/blob/main/skills/engineering/setup-matt-pocock-skills/SKILL.md | mbtiongson1 | 2026-05-22 |
 
 ## Known Agents
 _None verified yet._
