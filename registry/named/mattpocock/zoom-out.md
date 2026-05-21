@@ -5,6 +5,7 @@ contributor: mattpocock
 origin: true
 genericSkillRef: code-explain
 status: named
+title: "The Architecture Zoom-Out"
 title: "The Abstraction Lift"
 catalogRef: mattpocock-zoom-out
 level: "2★"
@@ -19,6 +20,7 @@ tags:
   - codebase-orientation
 createdAt: "2026-04-30"
 updatedAt: "2026-04-30"
+suiteRef: "mattpocock/engineering"
 ---
 
 ## Overview

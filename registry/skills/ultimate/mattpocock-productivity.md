@@ -1,17 +1,21 @@
-# [mattpocock](../../../docs/u/mattpocock/)/productivity  [1★ · Awakened]
+# [mattpocock](../../../docs/u/mattpocock/)/productivity  [4★ · Hardened]
 **ID:** mattpocock-productivity  
 **Type:** Ultimate Skill  
-**Level:** 1★  
-**Tier:** Awakened  
+**Level:** 4★  
+**Tier:** Hardened  
 **Skill Call:** `/mattpocock-productivity`
 
 ---
 
 ## Description
-The complete suite of Matt Pocock's productivity-focused autonomous agent skills.
+Productivity category suite for Matt Pocock's skills.
 
 ## Prerequisites
-_None._
+- [Tool Creation](../extra/tool-creation.md)
+- [Context Compression](../basic/context-compression.md)
+- [agent-handoff](../extra/agent-handoff.md)
+- [Grill Me](../extra/grill-me.md)
+- [Refactor Code](../basic/refactor-code.md)
 
 ## Unlocks
 _None._
@@ -20,7 +24,9 @@ _None._
 _None specified._
 
 ## Evidence
-_None._
+| Class | Source | Evaluator | Date |
+|---|---|---|---|
+| B | https://github.com/mattpocock/skills | mbtiongson1 | 2026-05-22 |
 
 ## Known Agents
 _None verified yet._

@@ -822,7 +822,13 @@ def meta_link_command(args):
         print(f"Error: Target skill '{target_id}' not found.")
         sys.exit(1)
 
-    merged = list(set(target_data.get("prerequisites", []) + prereqs))
+    with open(target_file, "r", encoding="utf-8") as f:
+        target_data = json.load(f)
+
+    if getattr(args, "reset", False):
+        merged = prereqs
+    else:
+        merged = list(set(target_data.get("prerequisites", []) + prereqs))
     target_data["prerequisites"] = sorted(merged)
     target_data["updatedAt"] = datetime.date.today().isoformat()
 
@@ -831,6 +837,58 @@ def meta_link_command(args):
         f.write("\n")
 
     print(f"Updated prerequisites for {target_id}: {target_data['prerequisites']}")
+
+    if not getattr(args, "no_build", False):
+        print("Regenerating registry and documentation...")
+        _run_docs_build(args.registry)
+    else:
+        print("Skipping documentation rebuild as requested (--no-build).")
+
+def meta_reclassify_command(args):
+    registry_path = args.registry
+    skill_id = args.skill_id.lstrip("/")
+    new_type = args.new_type
+
+    nodes_dir = Path(registry_nodes_dir(registry_path))
+    node_file = None
+    skill_data = None
+    
+    for p in nodes_dir.glob("**/*.json"):
+        with open(p, "r", encoding="utf-8") as f:
+            try:
+                data = json.load(f)
+                if data.get("id") == skill_id:
+                    node_file = p
+                    skill_data = data
+                    break
+            except json.JSONDecodeError:
+                continue
+    
+    if not node_file:
+        print(f"Error: Skill '{skill_id}' not found.")
+        sys.exit(1)
+
+    old_type = skill_data.get("type", "basic")
+    if old_type == new_type:
+        print(f"Skill '{skill_id}' is already of type '{new_type}'.")
+        return
+
+    skill_data["type"] = new_type
+    skill_data["updatedAt"] = datetime.date.today().isoformat()
+
+    # Move file to the correct type directory
+    new_dir = nodes_dir / new_type
+    new_dir.mkdir(parents=True, exist_ok=True)
+    new_file = new_dir / f"{skill_id}.json"
+
+    with open(new_file, "w", encoding="utf-8") as f:
+        json.dump(skill_data, f, indent=2, ensure_ascii=False)
+        f.write("\n")
+    
+    node_file.unlink()
+    print(f"Reclassified '{skill_id}' from {old_type} to {new_type} and moved to {new_file}")
+
+    append_skill_event(skill_id, "type_change", _get_contributor(), f"Reclassified from {old_type} to {new_type}", registry_path=registry_path)
 
     if not getattr(args, "no_build", False):
         print("Regenerating registry and documentation...")

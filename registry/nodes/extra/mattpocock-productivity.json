@@ -6,10 +6,10 @@
   "rarity": "common",
   "description": "Productivity category suite for Matt Pocock's skills.",
   "prerequisites": [
-    "tool-creation",
-    "context-compression",
     "agent-handoff",
-    "grill-me"
+    "context-compression",
+    "grill-me",
+    "tool-creation"
   ],
   "derivatives": [],
   "evidence": [
@@ -38,6 +38,12 @@
       "action": "evidence_added",
       "contributor": "mbtiongson1",
       "details": "Added B evidence from https://github.com/mattpocock/skills"
+    },
+    {
+      "timestamp": "2026-05-21T19:04:11Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from ultimate to extra"
     }
   ]
 }

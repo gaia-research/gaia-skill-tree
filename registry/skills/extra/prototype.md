@@ -1,4 +1,4 @@
-# /prototype  [3★ · Evolved]
+# [mattpocock](../../../docs/u/mattpocock/)/prototype  [3★ · Evolved]
 **ID:** prototype  
 **Type:** Extra Skill  
 **Level:** 3★  

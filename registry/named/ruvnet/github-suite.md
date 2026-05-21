@@ -20,6 +20,12 @@ tags:
 createdAt: "2026-05-19"
 updatedAt: "2026-05-19"
 suiteRef: "ruvnet/ruflo"
+suiteComponents:
+  - ruvnet/github-code-review
+  - ruvnet/github-multi-repo
+  - ruvnet/github-project-management
+  - ruvnet/github-release-management
+  - ruvnet/github-workflow-automation
 ---
 
 ## Overview

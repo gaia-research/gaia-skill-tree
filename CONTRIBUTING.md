@@ -50,7 +50,10 @@ gaia dev merge target-id source-id-1 source-id-2
 gaia dev split source-id target-id-1 target-id-2
 
 # Add a new skill
-gaia dev add "New Skill Name" --type basic --description "..."
+gaia dev add "New Skill Name" --type basic --description "..." [--status awakened] [--title "Lore Title"] [--level "2★"]
+
+# Reclassify a generic skill (change type)
+gaia dev reclassify skill-id ultimate
 
 # Add evidence
 gaia dev evidence skill-id "https://example.com/demo" --class B --notes "..."
@@ -59,7 +62,7 @@ gaia dev evidence skill-id "https://example.com/demo" --class B --notes "..."
 gaia dev calibrate skill-id "3★"
 
 # Link skills (add prerequisites)
-gaia dev link target-id prereq-id-1,prereq-id-2
+gaia dev link target-id prereq-id-1,prereq-id-2 [--reset]
 
 # Update named skill frontmatter
 gaia dev update-named author/skill --status awakened --suite-components c1,c2

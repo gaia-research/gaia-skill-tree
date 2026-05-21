@@ -1,17 +1,21 @@
-# [mattpocock](../../../docs/u/mattpocock/)/personal  [1★ · Awakened]
+# [mattpocock](../../../docs/u/mattpocock/)/personal  [4★ · Hardened]
 **ID:** mattpocock-personal  
 **Type:** Ultimate Skill  
-**Level:** 1★  
-**Tier:** Awakened  
+**Level:** 4★  
+**Tier:** Hardened  
 **Skill Call:** `/mattpocock-personal`
 
 ---
 
 ## Description
-The complete suite of Matt Pocock's personal-focused autonomous agent skills.
+Personal category suite for Matt Pocock's skills.
 
 ## Prerequisites
-_None._
+- [Document Editing](../basic/document-editing.md)
+- [personal-knowledge-management](../extra/personal-knowledge-management.md)
+- [Summarize](../basic/summarize.md)
+- [Cite Sources](../basic/cite-sources.md)
+- [Research](../extra/research.md)
 
 ## Unlocks
 _None._
@@ -20,7 +24,9 @@ _None._
 _None specified._
 
 ## Evidence
-_None._
+| Class | Source | Evaluator | Date |
+|---|---|---|---|
+| B | https://github.com/mattpocock/skills | mbtiongson1 | 2026-05-22 |
 
 ## Known Agents
 _None verified yet._
