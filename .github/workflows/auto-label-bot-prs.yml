@@ -11,6 +11,9 @@ jobs:
   label-bots:
     name: Label Jules/Codex/Claude PRs
     runs-on: ubuntu-latest
+    # Only run for verified GitHub Bot accounts — prevents human usernames
+    # that happen to contain "claude"/"jules"/etc. from bypassing scope checks.
+    if: github.event.pull_request.user.type == 'Bot'
     steps:
       - name: Detect and label bot PR
         run: |

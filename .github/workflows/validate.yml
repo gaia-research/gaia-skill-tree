@@ -55,11 +55,12 @@ jobs:
       - name: Run tests
         if: |
           github.event_name == 'push' ||
-          github.event.pull_request.changed_files >= 10
+          github.event.pull_request.changed_files >= 10 ||
+          contains(github.event.pull_request.labels.*.name, 'run-full-ci')
         run: gaia test all
 
       - name: Check schema meta sync
         if: |
           github.event_name == 'push' ||
-          !contains(fromJSON('["docs", "design"]'), github.head_ref)
+          (!startsWith(github.head_ref, 'docs/') && !startsWith(github.head_ref, 'design/'))
         run: gaia validate --meta-sync
