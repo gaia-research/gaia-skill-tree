@@ -100,7 +100,7 @@ Skills rank up through **evidence**, not declaration. Basics fuse into Extras or
 **1. Install the CLI**
 
 <!-- gaia:version-start -->
-Current Gaia CLI version: `3.21.5`.
+Current Gaia CLI version: `3.22.0`.
 
 Python install:
 
