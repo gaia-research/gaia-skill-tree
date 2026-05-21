@@ -614,6 +614,10 @@ def meta_add_command(args):
     
     if getattr(args, "named", False):
         contributor = getattr(args, "contributor", "gaiabot")
+        # If the ID already contains a contributor, use it to override the contributor arg
+        if "/" in skill_id:
+            contributor, skill_id = skill_id.split("/", 1)
+            
         dest_dir = Path(named_skills_dir(registry_path)) / contributor
         dest_dir.mkdir(parents=True, exist_ok=True)
         dest_file = dest_dir / f"{skill_id}.md"
