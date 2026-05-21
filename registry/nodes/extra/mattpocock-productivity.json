@@ -2,7 +2,7 @@
   "id": "mattpocock-productivity",
   "name": "mattpocock-productivity",
   "type": "extra",
-  "level": "1★",
+  "level": "4★",
   "rarity": "common",
   "description": "Productivity category suite for Matt Pocock's skills.",
   "prerequisites": [
@@ -12,7 +12,15 @@
     "grill-me"
   ],
   "derivatives": [],
-  "evidence": [],
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/mattpocock/skills",
+      "evaluator": "mbtiongson1",
+      "date": "2026-05-22",
+      "notes": "Consolidated productivity suite for Matt Pocock's skills."
+    }
+  ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-22",
@@ -24,6 +32,12 @@
       "action": "add",
       "contributor": "mbtiongson1",
       "details": "Added generic skill mattpocock-productivity"
+    },
+    {
+      "timestamp": "2026-05-21T17:17:21Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added B evidence from https://github.com/mattpocock/skills"
     }
   ]
 }

@@ -5,7 +5,7 @@ contributor: mattpocock
 origin: false
 genericSkillRef: context-compression
 status: awakened
-level: 2★
+level: 3★
 description: An ultra-compressed communication mode designed to save tokens by dropping
   articles and filler words.
 createdAt: '2026-05-21'

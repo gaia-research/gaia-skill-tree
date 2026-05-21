@@ -30,7 +30,7 @@
       </node>
       <node id="agent-environment-setup" label="agent-environment-setup">
         <attvalues>
-          <attvalue for="level" value="1★" />
+          <attvalue for="level" value="3★" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -46,7 +46,7 @@
       </node>
       <node id="agent-handoff" label="agent-handoff">
         <attvalues>
-          <attvalue for="level" value="1★" />
+          <attvalue for="level" value="4★" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -766,7 +766,7 @@
       </node>
       <node id="mattpocock-engineering" label="mattpocock-engineering">
         <attvalues>
-          <attvalue for="level" value="1★" />
+          <attvalue for="level" value="5★" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -774,7 +774,7 @@
       </node>
       <node id="mattpocock-personal" label="mattpocock-personal">
         <attvalues>
-          <attvalue for="level" value="1★" />
+          <attvalue for="level" value="4★" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -782,7 +782,7 @@
       </node>
       <node id="mattpocock-productivity" label="mattpocock-productivity">
         <attvalues>
-          <attvalue for="level" value="1★" />
+          <attvalue for="level" value="4★" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -790,7 +790,7 @@
       </node>
       <node id="mattpocock-skills" label="mattpocock-skills">
         <attvalues>
-          <attvalue for="level" value="1★" />
+          <attvalue for="level" value="6★" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="ultimate" />
@@ -942,7 +942,7 @@
       </node>
       <node id="personal-knowledge-management" label="personal-knowledge-management">
         <attvalues>
-          <attvalue for="level" value="1★" />
+          <attvalue for="level" value="3★" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1014,7 +1014,7 @@
       </node>
       <node id="prototype" label="prototype">
         <attvalues>
-          <attvalue for="level" value="1★" />
+          <attvalue for="level" value="3★" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />

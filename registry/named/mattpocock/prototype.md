@@ -5,7 +5,7 @@ contributor: mattpocock
 origin: false
 genericSkillRef: prototype
 status: awakened
-level: 2★
+level: 3★
 description: Build throwaway prototypes to answer specific design or logic questions
   before committing to production code.
 createdAt: '2026-05-21'

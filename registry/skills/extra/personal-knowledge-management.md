@@ -1,8 +1,8 @@
-# /personal-knowledge-management  [1★ · Awakened]
+# /personal-knowledge-management  [3★ · Evolved]
 **ID:** personal-knowledge-management  
 **Type:** Extra Skill  
-**Level:** 1★  
-**Tier:** Awakened  
+**Level:** 3★  
+**Tier:** Evolved  
 **Skill Call:** `/personal-knowledge-management`
 
 ---
@@ -21,7 +21,9 @@ _None._
 _None specified._
 
 ## Evidence
-_None._
+| Class | Source | Evaluator | Date |
+|---|---|---|---|
+| B | https://github.com/mattpocock/skills/blob/main/skills/personal/obsidian-vault/SKILL.md | mbtiongson1 | 2026-05-22 |
 
 ## Known Agents
 _None verified yet._
