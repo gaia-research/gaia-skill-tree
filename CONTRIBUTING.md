@@ -4,6 +4,8 @@
 
 # Contributing to Gaia
 
+> Read [`PRODUCT.md`](PRODUCT.md) for audience and product purpose, and [`CONTEXT.md`](CONTEXT.md) for canonical terminology and the banned-synonyms lint.
+
 Thanks for helping improve the Gaia skill graph.
 
 This page is now a **contributor guide**. Detailed policy, reviewer playbooks, and deep troubleshooting now live in the GitHub Wiki repo.

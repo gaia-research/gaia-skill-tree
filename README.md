@@ -8,10 +8,13 @@
 # Gaia - AI Agent Skill Registry
 
 > The open, evidence-backed skill graph for AI agents: collect, evolve, and fuse capabilities into something legendary.
+> Success means becoming the public record AI agent developers cite when making capability claims — the pkg.go.dev for agent skills.
 
 [![Validate](https://github.com/mbtiongson1/gaia-skill-tree/actions/workflows/validate.yml/badge.svg)](https://github.com/mbtiongson1/gaia-skill-tree/actions/workflows/validate.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-c084fc.svg)](LICENSE)
 [![Website](https://img.shields.io/badge/Website-gaia.tiongson.co-f59e0b)](https://gaia.tiongson.co/)
+
+**Brand & product:** [PRODUCT.md](PRODUCT.md) · [CONTEXT.md](CONTEXT.md) · [DESIGN.md](DESIGN.md)
 
 ---
 

@@ -1,7 +1,7 @@
 {
   "name": "@gaia-registry/cli",
   "version": "3.22.0",
-  "description": "Gaia CLI - Integrate your AI agent skills with the Gaia registry",
+  "description": "Gaia CLI — the open, evidence-backed skill registry for AI agents.",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
