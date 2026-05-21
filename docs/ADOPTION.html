@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GAIA Adoption Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --bg: #030712;
+            --surface: #0f172a;
+            --border: #1e293b;
+            --text: #e2e8f0;
+            --muted: #64748b;
+            --basic: #38bdf8;
+            --extra: #c084fc;
+            --ultimate: #f59e0b;
+            --success: #10b981;
+            --danger: #ef4444;
+        }
+        
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', system-ui, sans-serif;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid var(--border);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--basic), var(--extra));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            color: var(--muted);
+            font-size: 1rem;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .card.highlight {
+            border-color: var(--basic);
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.1);
+        }
+        
+        .card h3 {
+            color: var(--basic);
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .metric {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--extra);
+            margin-bottom: 0.25rem;
+        }
+        
+        .metric-label {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+        
+        .chart {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .segment {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.1), rgba(192, 132, 252, 0.1));
+            border-left: 4px solid var(--extra);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+        }
+        
+        .segment h4 {
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+        
+        .segment .status {
+            display: inline-block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            margin-top: 0.5rem;
+        }
+        
+        .status.high {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+        }
+        
+        .status.early {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--ultimate);
+        }
+        
+        .status.growing {
+            background: rgba(56, 189, 248, 0.15);
+            color: var(--basic);
+        }
+        
+        .comparison {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .vs-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .vs-card h4 {
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+        
+        .vs-card .focus {
+            color: var(--muted);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .advantage {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 3px solid var(--success);
+            padding: 0.75rem;
+            border-radius: 4px;
+            color: var(--success);
+            font-size: 0.9rem;
+        }
+        
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .stat-row:last-child {
+            border-bottom: none;
+        }
+        
+        .stat-label {
+            color: var(--muted);
+        }
+        
+        .stat-value {
+            font-weight: 600;
+            color: var(--basic);
+            font-size: 1.2rem;
+        }
+        
+        .timeline {
+            display: flex;
+            gap: 2rem;
+            margin: 2rem 0;
+            overflow-x: auto;
+        }
+        
+        .timeline-item {
+            flex: 0 0 300px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .timeline-phase {
+            color: var(--extra);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .timeline-duration {
+            color: var(--muted);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+        
+        .emoji {
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 GAIA Adoption Dashboard</h1>
+            <p class="subtitle">Market positioning, community metrics, and growth trajectory</p>
+        </header>
+        
+        <section>
+            <h2 style="margin: 2rem 0 1.5rem;">🔥 By the Numbers</h2>
+            <div class="grid">
+                <div class="card highlight">
+                    <h3>Total Skills</h3>
+                    <div class="metric">0</div>
+                    <div class="metric-label">in canonical registry</div>
+                </div>
+                <div class="card highlight">
+                    <h3>Graph Connections</h3>
+                    <div class="metric">277</div>
+                    <div class="metric-label">skill dependencies</div>
+                </div>
+                <div class="card">
+                    <h3>GitHub Stars</h3>
+                    <div class="metric">4</div>
+                    <div class="metric-label">⭐ developer interest</div>
+                </div>
+                <div class="card">
+                    <h3>Active Users</h3>
+                    <div class="metric">2</div>
+                    <div class="metric-label">building with GAIA</div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="chart">
+            <h2 style="margin-bottom: 1.5rem;">📈 Skill Distribution</h2>
+            <div class="stat-row">
+                <span class="stat-label">○ Basic Skills</span>
+                <span class="stat-value">0</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">◇ Extra Skills</span>
+                <span class="stat-value">0</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">◆ Ultimate Skills</span>
+                <span class="stat-value">0</span>
+            </div>
+        </section>
+        
+        <section>
+            <h2 style="margin: 2rem 0 1.5rem;">🎯 Target Market Segments</h2>
+            <div class="segment">
+                <h4>🏢 LLM Ops Teams</h4>
+                <p><strong>Pain:</strong> Managing agent fleets across 100+ use cases</p>
+                <p style="color: var(--muted); margin-top: 0.5rem; font-size: 0.9rem;">Need: Skill versioning, capability discovery, audit trails</p>
+                <span class="status high">HIGH INTEREST</span>
+            </div>
+            
+            <div class="segment">
+                <h4>🚀 AI-First Startups</h4>
+                <p><strong>Pain:</strong> Building agent marketplaces & skill choreography</p>
+                <p style="color: var(--muted); margin-top: 0.5rem; font-size: 0.9rem;">Need: Standard format, composable capabilities, orchestration</p>
+                <span class="status early">EARLY ADOPTERS</span>
+            </div>
+            
+            <div class="segment">
+                <h4>🏭 Enterprise Dev Teams</h4>
+                <p><strong>Pain:</strong> Multi-team coordination on shared LLM infrastructure</p>
+                <p style="color: var(--muted); margin-top: 0.5rem; font-size: 0.9rem;">Need: Governance, RBAC, rollback, compliance audit</p>
+                <span class="status growing">GROWING INTEREST</span>
+            </div>
+            
+            <div class="segment">
+                <h4>🤝 Open-Source Communities</h4>
+                <p><strong>Pain:</strong> No standard format for "what skills does this agent have?"</p>
+                <p style="color: var(--muted); margin-top: 0.5rem; font-size: 0.9rem;">Need: Open spec, reproducibility, version independence</p>
+                <span class="status early">EMERGING</span>
+            </div>
+        </section>
+        
+        <section>
+            <h2 style="margin: 2rem 0 1.5rem;">⚔️ Market Position vs Alternatives</h2>
+            <div class="comparison">
+                <div class="vs-card">
+                    <h4>LangChain</h4>
+                    <p class="focus">Focus: Tool integration layer</p>
+                    <div class="advantage">
+                        ✓ GAIA: Purpose-built for skill composition + multi-agent versioning
+                    </div>
+                </div>
+                
+                <div class="vs-card">
+                    <h4>Claude tool_use</h4>
+                    <p class="focus">Focus: Single-agent tool calling</p>
+                    <div class="advantage">
+                        ✓ GAIA: Fleet-level orchestration, not individual tools
+                    </div>
+                </div>
+                
+                <div class="vs-card">
+                    <h4>Custom Registries</h4>
+                    <p class="focus">Focus: Ad-hoc per-company solutions</p>
+                    <div class="advantage">
+                        ✓ GAIA: Open standard, zero lock-in, standardized format
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section>
+            <h2 style="margin: 2rem 0 1.5rem;">🚀 Adoption Timeline</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-phase">Phase 1: Early Adopter</div>
+                    <div class="timeline-duration">Weeks 1–8</div>
+                    <p style="font-size: 0.9rem; color: var(--muted);">Target: AI teams with 5–10 agents</p>
+                    <p style="font-size: 0.9rem; color: var(--muted); margin-top: 0.5rem;">Hook: "Map existing tools in 30 minutes"</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-phase">Phase 2: Community</div>
+                    <div class="timeline-duration">Weeks 8–16</div>
+                    <p style="font-size: 0.9rem; color: var(--muted);">Target: Agent frameworks (Crew AI, LangGraph)</p>
+                    <p style="font-size: 0.9rem; color: var(--muted); margin-top: 0.5rem;">Hook: "Standard skill format for orchestration"</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-phase">Phase 3: Enterprise</div>
+                    <div class="timeline-duration">Weeks 16+</div>
+                    <p style="font-size: 0.9rem; color: var(--muted);">Target: Fortune 500 LLM Ops teams</p>
+                    <p style="font-size: 0.9rem; color: var(--muted); margin-top: 0.5rem;">Hook: "Governance, audit, versioning for fleets"</p>
+                </div>
+            </div>
+        </section>
+        
+        <section>
+            <h2 style="margin: 2rem 0 1.5rem;">💡 Key Messaging</h2>
+            <div style="background: linear-gradient(135deg, rgba(56, 189, 248, 0.1), rgba(192, 132, 252, 0.1)); border: 1px solid var(--border); border-radius: 12px; padding: 2rem;">
+                <p><strong>For LLM Ops:</strong> "Your agents inherit institutional memory. Skills are versioned like code, with evidence not hopes."</p>
+                <p style="margin-top: 1rem;"><strong>For Startups:</strong> "Build agent marketplaces that actually work. Skills know their dependencies; composability emerges automatically."</p>
+                <p style="margin-top: 1rem;"><strong>For Enterprises:</strong> "Stop reinventing skill registries. GAIA is an open standard that works with your LLM, your tools, your governance."</p>
+                <p style="margin-top: 1rem;"><strong>For Communities:</strong> "No more 'Does Agent X have web-search?' Standardize. Version. Share. GAIA is the format."</p>
+            </div>
+        </section>
+        
+        <footer>
+            <p>Generated: 2026-05-20 00:44:24 UTC</p>
+            <p>GitHub: <a href="https://github.com/mbtiongson1/gaia-skill-tree" style="color: var(--basic); text-decoration: none;">mbtiongson1/gaia-skill-tree</a></p>
+            <p>Docs: <a href="https://gaia.tiongson.co" style="color: var(--basic); text-decoration: none;">gaia.tiongson.co</a></p>
+        </footer>
+    </div>
+</body>
+</html>
