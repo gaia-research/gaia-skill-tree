@@ -1,0 +1,30 @@
+{
+  "id": "mattpocock-skills",
+  "name": "mattpocock-skills",
+  "type": "ultimate",
+  "level": "1★",
+  "rarity": "common",
+  "description": "Ultimate capstone suite for Matt Pocock's skills.",
+  "prerequisites": [
+    "mattpocock-engineering",
+    "mattpocock-productivity",
+    "mattpocock-personal",
+    "tool-creation",
+    "ubiquitous-language"
+  ],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-05-22",
+  "updatedAt": "2026-05-22",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-21T16:25:28Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill mattpocock-skills"
+    }
+  ]
+}

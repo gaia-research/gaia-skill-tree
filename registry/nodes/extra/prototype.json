@@ -1,0 +1,27 @@
+{
+  "id": "prototype",
+  "name": "prototype",
+  "type": "extra",
+  "level": "1★",
+  "rarity": "common",
+  "description": "Building throwaway prototypes to answer specific design or logic questions.",
+  "prerequisites": [
+    "code-generation",
+    "code-execution"
+  ],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-05-22",
+  "updatedAt": "2026-05-22",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-21T16:23:11Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill prototype"
+    }
+  ]
+}

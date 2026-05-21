@@ -1,0 +1,29 @@
+{
+  "id": "mattpocock-productivity",
+  "name": "mattpocock-productivity",
+  "type": "extra",
+  "level": "1★",
+  "rarity": "common",
+  "description": "Productivity category suite for Matt Pocock's skills.",
+  "prerequisites": [
+    "tool-creation",
+    "context-compression",
+    "agent-handoff",
+    "grill-me"
+  ],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-05-22",
+  "updatedAt": "2026-05-22",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-21T16:24:53Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill mattpocock-productivity"
+    }
+  ]
+}

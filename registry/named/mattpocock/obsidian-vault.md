@@ -1,0 +1,16 @@
+---
+id: mattpocock/obsidian-vault
+name: Obsidian Vault Manager
+contributor: mattpocock
+origin: false
+genericSkillRef: personal-knowledge-management
+status: awakened
+level: 2★
+description: Manage notes and organization in a specific Obsidian vault using Title
+  Case and wikilinks.
+createdAt: '2026-05-21'
+updatedAt: '2026-05-21'
+---
+
+## Installation
+Add installation instructions here.

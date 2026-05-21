@@ -3,7 +3,9 @@
 | Skill | Class | Prerequisites | Level Floor | Conditions |
 |---|---|---|---|---|
 | ◇ [ruvnet](../docs/u/ruvnet/)/swarm-advanced | Extra Skill | Swarm Topology Management, Multi-Agent Debate | 3★ |  |
+| ◇ /agent-environment-setup | Extra Skill | Document Editing, Tool Use | 1★ |  |
 | ◇ /agent-eval | Extra Skill | Evaluate Output, Score Relevance | 3★ |  |
+| ◇ /agent-handoff | Extra Skill | Summarize, Document Editing, Context Compression | 1★ |  |
 | ◇ [ruvnet](../docs/u/ruvnet/)/agentdb-learning | Extra Skill | Adaptive Pattern Learning, Memory Manage | 3★ |  |
 | ◆ [ruvnet](../docs/u/ruvnet/)/agentdb | Ultimate Skill | Distributed Vector Memory, Agent Memory Learning, Memory Pattern Design, Vector DB Optimization, Vector Search | 5★ | Requires demonstrating all 5 AgentDB discipline skills in a production distributed system context. |
 | ◇ [ruvnet](../docs/u/ruvnet/)/sparc-methodology | Extra Skill | Workflow Automation, Plan and Decompose | 3★ → 2★ | Requires a workflow orchestration target (e.g. Airflow, Temporal) and access to its authoring API. |
@@ -53,6 +55,10 @@
 | ◇ [garrytan](../docs/u/garrytan/)/setup-gbrain | Extra Skill | API Call, Retrieve | 2★ |  |
 | ◇ [huggingface](../docs/u/huggingface/)/huggingface-papers | Extra Skill | Research, Cite Sources, Summarize | 4★ | Requires access to academic databases (PubMed, bioRxiv, ChEMBL, or equivalent). |
 | ◇ /mathematical-animation | Extra Skill | Code Execution, Data Visualize | 3★ → 2★ |  |
+| ◇ /mattpocock-engineering | Extra Skill | Autonomous Debug, Refactor Code, Vertical Slice Planning, PRD Generation, Issue Triage, Ubiquitous Language, Code Explain, Grill With Docs, prototype, agent-environment-setup | 1★ |  |
+| ◇ /mattpocock-personal | Extra Skill | Document Editing, personal-knowledge-management | 1★ |  |
+| ◇ /mattpocock-productivity | Extra Skill | Tool Creation, Context Compression, agent-handoff, Grill Me | 1★ |  |
+| ◆ /mattpocock-skills | Ultimate Skill | mattpocock-engineering, mattpocock-productivity, mattpocock-personal, Tool Creation, Ubiquitous Language | 1★ |  |
 | ◇ /mcp-debugger-control | Extra Skill | MCP Integration, Refactor Code | 4★ → 3★ | Requires a target debugger integration and a supported MCP client. |
 | ◇ /mcp-server-creation | Extra Skill | MCP Integration, Tool Creation, API Call | 4★ | Requires an integration target, a supported MCP SDK, tool schemas, authentication handling, and local validation against an MCP client. |
 | ◇ [garrytan](../docs/u/garrytan/)/learn | Extra Skill | Context Compression, Retrieve | 2★ |  |
@@ -61,12 +67,14 @@
 | ◇ [garrytan](../docs/u/garrytan/)/codex | Extra Skill | Self-Critique, Evaluate Output, Chain-of-Thought Reasoning | 4★ |  |
 | ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus-swarm | Extra Skill | Plan and Execute, Route Intent, Tool Select | 3★ | Requires extensive multi-system validation before level advancement. |
 | ◇ [huggingface](../docs/u/huggingface/)/transformers-js | Extra Skill | Image Caption, Question Answer, Logical Inference | 3★ → 2★ | Requires vision-language model capability. |
+| ◇ /personal-knowledge-management | Extra Skill | Retrieve, Context Compression | 1★ |  |
 | ◇ /plan-and-execute | Extra Skill | Route Intent, Plan and Decompose, Tool Select | 4★ |  |
 | ◇ [ruvnet](../docs/u/ruvnet/)/ruflo-v3 | Extra Skill | CLI Modernization, Core Platform Implementation, System Integration, Performance Tuning, Advanced Swarm Coordination | 4★ |  |
 | ◇ [mattpocock](../docs/u/mattpocock/)/to-prd | Extra Skill | Write Report, Plan and Decompose | 4★ |  |
 | ◇ /prediction-market-analysis | Extra Skill | Data Analysis, Web Search, Statistical Analysis | 4★ | Requires read-only market data sources and clear separation between analysis output and financial advice or trade execution. |
 | ◇ [garrytan](../docs/u/garrytan/)/landing-report | Extra Skill | API Call, Issue Triage | 2★ |  |
 | ◇ [stanfordnlp](../docs/u/stanfordnlp/)/dspy | Extra Skill | Evaluate Output, Generate Text | 4★ |  |
+| ◇ /prototype | Extra Skill | Code Generation, Code Execution | 1★ |  |
 | ◇ [yonatangross](../docs/u/yonatangross/)/orchestkit-rag | Extra Skill | Retrieve, Chunk Document, Embed Text, Score Relevance, Tokenize, Rank | 3★ |  |
 | ◇ /re-act-reasoning | Extra Skill | Plan and Decompose, Tool Use | 3★ |  |
 | ◇ /real-time-voice-assistant | Extra Skill | Voice Agent, Memory Manage, Plan and Execute | 5★ | Requires real-time audio pipeline, <500ms end-to-end latency target, and persistent session store. Minimum 3 Class A/B evidence sources. |

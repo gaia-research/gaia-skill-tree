@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/skill.schema.json",
   "version": "3.21.4",
-  "generatedAt": "2026-05-20T16:55:47.036769Z",
+  "generatedAt": "2026-05-21T16:29:08.528406Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -143,6 +143,33 @@
       "version": "0.1.0"
     },
     {
+      "id": "agent-environment-setup",
+      "name": "agent-environment-setup",
+      "type": "extra",
+      "level": "1★",
+      "rarity": "common",
+      "description": "Scaffolding per-repo configuration for other engineering skills.",
+      "prerequisites": [
+        "document-editing",
+        "tool-use"
+      ],
+      "derivatives": [],
+      "evidence": [],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-22",
+      "updatedAt": "2026-05-22",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-21T16:23:29Z",
+          "action": "add",
+          "contributor": "mbtiongson1",
+          "details": "Added generic skill agent-environment-setup"
+        }
+      ]
+    },
+    {
       "id": "agent-eval",
       "name": "Agent Evaluation",
       "type": "extra",
@@ -185,6 +212,34 @@
       "createdAt": "2026-04-30",
       "updatedAt": "2026-05-10",
       "version": "0.1.0"
+    },
+    {
+      "id": "agent-handoff",
+      "name": "agent-handoff",
+      "type": "extra",
+      "level": "1★",
+      "rarity": "common",
+      "description": "Compacting the current conversation into a summary for a fresh agent.",
+      "prerequisites": [
+        "summarize",
+        "document-editing",
+        "context-compression"
+      ],
+      "derivatives": [],
+      "evidence": [],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-22",
+      "updatedAt": "2026-05-22",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-21T16:23:47Z",
+          "action": "add",
+          "contributor": "mbtiongson1",
+          "details": "Added generic skill agent-handoff"
+        }
+      ]
     },
     {
       "id": "agent-memory-learning",
@@ -3081,6 +3136,127 @@
       "version": "0.1.0"
     },
     {
+      "id": "mattpocock-engineering",
+      "name": "mattpocock-engineering",
+      "type": "extra",
+      "level": "1★",
+      "rarity": "common",
+      "description": "Engineering category suite for Matt Pocock's skills.",
+      "prerequisites": [
+        "autonomous-debug",
+        "refactor-code",
+        "vertical-slice-planning",
+        "prd-generation",
+        "issue-triage",
+        "ubiquitous-language",
+        "code-explain",
+        "grill-with-docs",
+        "prototype",
+        "agent-environment-setup"
+      ],
+      "derivatives": [],
+      "evidence": [],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-22",
+      "updatedAt": "2026-05-22",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-21T16:24:36Z",
+          "action": "add",
+          "contributor": "mbtiongson1",
+          "details": "Added generic skill mattpocock-engineering"
+        }
+      ]
+    },
+    {
+      "id": "mattpocock-personal",
+      "name": "mattpocock-personal",
+      "type": "extra",
+      "level": "1★",
+      "rarity": "common",
+      "description": "Personal category suite for Matt Pocock's skills.",
+      "prerequisites": [
+        "document-editing",
+        "personal-knowledge-management"
+      ],
+      "derivatives": [],
+      "evidence": [],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-22",
+      "updatedAt": "2026-05-22",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-21T16:25:11Z",
+          "action": "add",
+          "contributor": "mbtiongson1",
+          "details": "Added generic skill mattpocock-personal"
+        }
+      ]
+    },
+    {
+      "id": "mattpocock-productivity",
+      "name": "mattpocock-productivity",
+      "type": "extra",
+      "level": "1★",
+      "rarity": "common",
+      "description": "Productivity category suite for Matt Pocock's skills.",
+      "prerequisites": [
+        "tool-creation",
+        "context-compression",
+        "agent-handoff",
+        "grill-me"
+      ],
+      "derivatives": [],
+      "evidence": [],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-22",
+      "updatedAt": "2026-05-22",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-21T16:24:53Z",
+          "action": "add",
+          "contributor": "mbtiongson1",
+          "details": "Added generic skill mattpocock-productivity"
+        }
+      ]
+    },
+    {
+      "id": "mattpocock-skills",
+      "name": "mattpocock-skills",
+      "type": "ultimate",
+      "level": "1★",
+      "rarity": "common",
+      "description": "Ultimate capstone suite for Matt Pocock's skills.",
+      "prerequisites": [
+        "mattpocock-engineering",
+        "mattpocock-productivity",
+        "mattpocock-personal",
+        "tool-creation",
+        "ubiquitous-language"
+      ],
+      "derivatives": [],
+      "evidence": [],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-22",
+      "updatedAt": "2026-05-22",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-21T16:25:28Z",
+          "action": "add",
+          "contributor": "mbtiongson1",
+          "details": "Added generic skill mattpocock-skills"
+        }
+      ]
+    },
+    {
       "id": "mcp-debugger-control",
       "name": "MCP Debugger Control",
       "type": "extra",
@@ -3654,6 +3830,33 @@
       "version": "0.1.0"
     },
     {
+      "id": "personal-knowledge-management",
+      "name": "personal-knowledge-management",
+      "type": "extra",
+      "level": "1★",
+      "rarity": "common",
+      "description": "Managing notes and organization in a specific vault.",
+      "prerequisites": [
+        "retrieve",
+        "context-compression"
+      ],
+      "derivatives": [],
+      "evidence": [],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-22",
+      "updatedAt": "2026-05-22",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-21T16:24:04Z",
+          "action": "add",
+          "contributor": "mbtiongson1",
+          "details": "Added generic skill personal-knowledge-management"
+        }
+      ]
+    },
+    {
       "id": "plan-and-execute",
       "name": "Plan and Execute",
       "type": "extra",
@@ -3936,6 +4139,33 @@
       "createdAt": "2026-04-29",
       "updatedAt": "2026-04-29",
       "version": "0.2.0"
+    },
+    {
+      "id": "prototype",
+      "name": "prototype",
+      "type": "extra",
+      "level": "1★",
+      "rarity": "common",
+      "description": "Building throwaway prototypes to answer specific design or logic questions.",
+      "prerequisites": [
+        "code-generation",
+        "code-execution"
+      ],
+      "derivatives": [],
+      "evidence": [],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-22",
+      "updatedAt": "2026-05-22",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-21T16:23:11Z",
+          "action": "add",
+          "contributor": "mbtiongson1",
+          "details": "Added generic skill prototype"
+        }
+      ]
     },
     {
       "id": "question-answer",
@@ -6430,8 +6660,18 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "agent-environment-setup",
+      "targetSkillId": "mattpocock-engineering",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "agent-eval",
       "targetSkillId": "skill-performance-benchmarking",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "agent-handoff",
+      "targetSkillId": "mattpocock-productivity",
       "edgeType": "prerequisite"
     },
     {
@@ -6532,6 +6772,11 @@
     {
       "sourceSkillId": "automated-testing",
       "targetSkillId": "ml-pipeline",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "autonomous-debug",
+      "targetSkillId": "mattpocock-engineering",
       "edgeType": "prerequisite"
     },
     {
@@ -6666,6 +6911,11 @@
     },
     {
       "sourceSkillId": "code-execution",
+      "targetSkillId": "prototype",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "code-execution",
       "targetSkillId": "registry-curation",
       "edgeType": "prerequisite"
     },
@@ -6682,6 +6932,11 @@
     {
       "sourceSkillId": "code-execution",
       "targetSkillId": "verification-before-completion",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "code-explain",
+      "targetSkillId": "mattpocock-engineering",
       "edgeType": "prerequisite"
     },
     {
@@ -6707,6 +6962,11 @@
     {
       "sourceSkillId": "code-generation",
       "targetSkillId": "ml-pipeline",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "code-generation",
+      "targetSkillId": "prototype",
       "edgeType": "prerequisite"
     },
     {
@@ -6771,7 +7031,22 @@
     },
     {
       "sourceSkillId": "context-compression",
+      "targetSkillId": "agent-handoff",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "context-compression",
+      "targetSkillId": "mattpocock-productivity",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "context-compression",
       "targetSkillId": "memory-manage",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "context-compression",
+      "targetSkillId": "personal-knowledge-management",
       "edgeType": "prerequisite"
     },
     {
@@ -6891,6 +7166,16 @@
     },
     {
       "sourceSkillId": "document-editing",
+      "targetSkillId": "agent-environment-setup",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "document-editing",
+      "targetSkillId": "agent-handoff",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "document-editing",
       "targetSkillId": "career-operations",
       "edgeType": "prerequisite"
     },
@@ -6907,6 +7192,11 @@
     {
       "sourceSkillId": "document-editing",
       "targetSkillId": "humanize-prose",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "document-editing",
+      "targetSkillId": "mattpocock-personal",
       "edgeType": "prerequisite"
     },
     {
@@ -7155,6 +7445,16 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "grill-me",
+      "targetSkillId": "mattpocock-productivity",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "grill-with-docs",
+      "targetSkillId": "mattpocock-engineering",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "guardrails",
       "targetSkillId": "gstack",
       "edgeType": "prerequisite"
@@ -7191,6 +7491,11 @@
     },
     {
       "sourceSkillId": "issue-triage",
+      "targetSkillId": "mattpocock-engineering",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "issue-triage",
       "targetSkillId": "project-management",
       "edgeType": "prerequisite"
     },
@@ -7222,6 +7527,21 @@
     {
       "sourceSkillId": "math-reason",
       "targetSkillId": "scientific-discovery",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "mattpocock-engineering",
+      "targetSkillId": "mattpocock-skills",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "mattpocock-personal",
+      "targetSkillId": "mattpocock-skills",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "mattpocock-productivity",
+      "targetSkillId": "mattpocock-skills",
       "edgeType": "prerequisite"
     },
     {
@@ -7340,6 +7660,11 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "personal-knowledge-management",
+      "targetSkillId": "mattpocock-personal",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "plan-and-execute",
       "targetSkillId": "multi-agent-orchestration-v",
       "edgeType": "prerequisite"
@@ -7410,6 +7735,11 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "prd-generation",
+      "targetSkillId": "mattpocock-engineering",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "project-management",
       "targetSkillId": "github-platform-mastery",
       "edgeType": "prerequisite"
@@ -7427,6 +7757,11 @@
     {
       "sourceSkillId": "prompt-optimization",
       "targetSkillId": "gstack",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "prototype",
+      "targetSkillId": "mattpocock-engineering",
       "edgeType": "prerequisite"
     },
     {
@@ -7472,6 +7807,11 @@
     {
       "sourceSkillId": "refactor-code",
       "targetSkillId": "full-stack-developer",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "refactor-code",
+      "targetSkillId": "mattpocock-engineering",
       "edgeType": "prerequisite"
     },
     {
@@ -7557,6 +7897,11 @@
     {
       "sourceSkillId": "retrieve",
       "targetSkillId": "memory-manage",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "retrieve",
+      "targetSkillId": "personal-knowledge-management",
       "edgeType": "prerequisite"
     },
     {
@@ -7701,6 +8046,11 @@
     },
     {
       "sourceSkillId": "summarize",
+      "targetSkillId": "agent-handoff",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "summarize",
       "targetSkillId": "career-operations",
       "edgeType": "prerequisite"
     },
@@ -7761,6 +8111,16 @@
     },
     {
       "sourceSkillId": "tool-creation",
+      "targetSkillId": "mattpocock-productivity",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "tool-creation",
+      "targetSkillId": "mattpocock-skills",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "tool-creation",
       "targetSkillId": "mcp-server-creation",
       "edgeType": "prerequisite"
     },
@@ -7782,6 +8142,11 @@
     {
       "sourceSkillId": "tool-select",
       "targetSkillId": "tool-chaining",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "tool-use",
+      "targetSkillId": "agent-environment-setup",
       "edgeType": "prerequisite"
     },
     {
@@ -7830,6 +8195,16 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "ubiquitous-language",
+      "targetSkillId": "mattpocock-engineering",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "ubiquitous-language",
+      "targetSkillId": "mattpocock-skills",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "using-git-worktrees",
       "targetSkillId": "superpowers",
       "edgeType": "prerequisite"
@@ -7867,6 +8242,11 @@
     {
       "sourceSkillId": "vertical-slice-planning",
       "targetSkillId": "gstack",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "vertical-slice-planning",
+      "targetSkillId": "mattpocock-engineering",
       "edgeType": "prerequisite"
     },
     {
