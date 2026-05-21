@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ML Layout Sampler · Gaia Experiments</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="icon" type="image/svg+xml" href="../../assets/marks/diamond-seal.svg">
+<style>
+  :root {
+    --bg: #07090d;
+    --panel: #0d1117;
+    --panel-2: #11161e;
+    --ink: #e7eaf0;
+    --muted: #8b95a7;
+    --rule: rgba(148, 163, 184, 0.18);
+    --accent: #fbbf24;
+    --basic: #38bdf8;
+    --extra: #c084fc;
+    --unique: #7c3aed;
+    --ultimate: #f59e0b;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); }
+  body {
+    font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+    line-height: 1.55;
+    padding: 48px 32px 96px;
+    max-width: 1480px;
+    margin: 0 auto;
+  }
+  a { color: var(--accent); }
+  .crumbs {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  h1 {
+    font-family: 'EB Garamond', serif;
+    font-weight: 600;
+    font-size: 48px;
+    line-height: 1.05;
+    margin: 0 0 12px;
+    letter-spacing: -0.01em;
+  }
+  h1 em { color: var(--accent); font-style: italic; }
+  .lede {
+    font-size: 17px;
+    color: var(--muted);
+    max-width: 64ch;
+    margin: 0 0 32px;
+  }
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 24px;
+    align-items: center;
+    padding: 14px 18px;
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    background: var(--panel);
+    margin-bottom: 24px;
+    font-size: 14px;
+  }
+  .controls label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    cursor: pointer;
+    user-select: none;
+  }
+  .controls input[type=checkbox] { accent-color: var(--accent); }
+  .controls select {
+    background: var(--panel-2);
+    color: var(--ink);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font: inherit;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 1100px) { .grid { grid-template-columns: 1fr; } }
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    padding: 16px 16px 12px;
+    display: flex;
+    flex-direction: column;
+  }
+  .panel h2 {
+    font-family: 'EB Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0 0 4px;
+    letter-spacing: -0.01em;
+  }
+  .panel .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .panel .blurb {
+    font-size: 13px;
+    color: var(--muted);
+    min-height: 56px;
+    margin: 0 0 12px;
+  }
+  .canvas-wrap {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    background: radial-gradient(circle at center, #0a0e15 0%, #06080c 100%);
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid rgba(148, 163, 184, 0.08);
+  }
+  canvas { width: 100%; height: 100%; display: block; }
+  .tooltip {
+    position: fixed;
+    pointer-events: none;
+    background: rgba(10, 14, 21, 0.96);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 12.5px;
+    max-width: 320px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+    z-index: 50;
+    opacity: 0;
+    transition: opacity 0.12s ease;
+  }
+  .tooltip.on { opacity: 1; }
+  .tooltip .t-name {
+    font-family: 'EB Garamond', serif;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .tooltip .t-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+  .tooltip .t-desc { color: #c8cfdb; line-height: 1.45; }
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 12px;
+    margin-top: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .legend .swatch {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 6px;
+    vertical-align: -1px;
+  }
+  .takeaways {
+    margin-top: 40px;
+    padding: 22px 28px;
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+  }
+  .takeaways h3 {
+    font-family: 'EB Garamond', serif;
+    font-size: 22px;
+    margin: 0 0 12px;
+  }
+  .takeaways ul { margin: 0; padding-left: 18px; }
+  .takeaways li { margin-bottom: 6px; }
+  .footer {
+    margin-top: 32px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+  }
+</style>
+</head>
+<body>
+
+<div class="crumbs"><a href="../../index.html">Gaia</a> / experiments / ml-graph-viz</div>
+<h1>ML layouts for the skill graph <em>— sampler</em></h1>
+<p class="lede">
+  Three candidate layouts for the same 192-skill registry, computed offline and rendered side-by-side.
+  Color = Louvain community on the structural graph (held constant across all panels so you can track a
+  cluster as it migrates between layouts). Hover any node for the skill it represents.
+</p>
+
+<div class="controls">
+  <label><input type="checkbox" id="showEdges" checked> Show edges</label>
+  <label><input type="checkbox" id="colorByCommunity" checked> Color by community</label>
+  <label>Highlight type
+    <select id="highlightType">
+      <option value="">— none —</option>
+      <option value="basic">basic</option>
+      <option value="extra">extra</option>
+      <option value="unique">unique</option>
+      <option value="ultimate">ultimate</option>
+    </select>
+  </label>
+  <label style="margin-left:auto; color: var(--muted);">
+    <span id="meta-readout">loading…</span>
+  </label>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<div class="takeaways">
+  <h3>How to read this</h3>
+  <ul>
+    <li><strong>Force-directed</strong> is the visual baseline — pretty but the global structure is essentially noise; clusters land where they fit, not where they belong.</li>
+    <li><strong>Laplacian eigenmaps</strong> places skills with similar prerequisite neighborhoods near each other. Watch the community colors collapse into coherent regions: that's the signal that the embedding is doing real work.</li>
+    <li><strong>TF-IDF + SVD</strong> ignores edges entirely and lays out by description text. Where this disagrees with the structural layout, you've found a candidate fusion or a misnamed prerequisite.</li>
+    <li>For a production tree we'd likely run <em>node2vec</em> + UMAP rather than spectral + SVD — same shape of output, better separation. This sampler uses sklearn primitives so it stays dependency-light.</li>
+  </ul>
+</div>
+
+<p class="footer">
+  Generated from <code>registry/gaia.json</code> by <code>build_layouts.py</code>. Re-run the script after registry changes to refresh <code>layouts.json</code>.
+</p>
+
+<div class="tooltip" id="tooltip" role="status" aria-live="polite"></div>
+
+<script>
+const TYPE_COLORS = {
+  basic:    '#38bdf8',
+  extra:    '#c084fc',
+  unique:   '#7c3aed',
+  ultimate: '#f59e0b',
+};
+
+// 20-color qualitative palette (Tableau 20-ish, dark-bg friendly).
+const COMMUNITY_PALETTE = [
+  '#4e9bff','#f59e0b','#10b981','#ef4444','#a78bfa',
+  '#ec4899','#22d3ee','#fb7185','#84cc16','#f472b6',
+  '#fbbf24','#34d399','#60a5fa','#c084fc','#fda4af',
+  '#fdba74','#67e8f9','#bef264','#d8b4fe','#f9a8d4',
+];
+
+function communityColor(c) { return COMMUNITY_PALETTE[c % COMMUNITY_PALETTE.length]; }
+
+const state = {
+  data: null,
+  panels: [],
+  showEdges: true,
+  colorByCommunity: true,
+  highlightType: '',
+  hoverId: null,
+};
+
+async function init() {
+  const res = await fetch('layouts.json', { cache: 'no-store' });
+  const data = await res.json();
+  state.data = data;
+  document.getElementById('meta-readout').textContent =
+    `${data.nodes.length} skills · ${data.edges.length} edges · registry v${data.version}`;
+  buildPanels();
+  wireControls();
+  drawAll();
+  window.addEventListener('resize', () => { sizePanels(); drawAll(); });
+}
+
+function buildPanels() {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  state.panels = state.data.layoutOrder.map((key) => {
+    const panel = document.createElement('section');
+    panel.className = 'panel';
+    panel.innerHTML = `
+      <h2>${state.data.layoutLabels[key]}</h2>
+      <div class="tag">${key}</div>
+      <p class="blurb">${state.data.layoutBlurbs[key]}</p>
+      <div class="canvas-wrap"><canvas></canvas></div>
+    `;
+    grid.appendChild(panel);
+    const canvas = panel.querySelector('canvas');
+    canvas.addEventListener('mousemove', (e) => onHover(e, key, canvas));
+    canvas.addEventListener('mouseleave', () => { state.hoverId = null; hideTooltip(); drawAll(); });
+    return { key, canvas };
+  });
+  sizePanels();
+}
+
+function sizePanels() {
+  const dpr = window.devicePixelRatio || 1;
+  state.panels.forEach(({ canvas }) => {
+    const r = canvas.getBoundingClientRect();
+    canvas.width = Math.round(r.width * dpr);
+    canvas.height = Math.round(r.height * dpr);
+  });
+}
+
+function wireControls() {
+  document.getElementById('showEdges').addEventListener('change', (e) => {
+    state.showEdges = e.target.checked; drawAll();
+  });
+  document.getElementById('colorByCommunity').addEventListener('change', (e) => {
+    state.colorByCommunity = e.target.checked; drawAll();
+  });
+  document.getElementById('highlightType').addEventListener('change', (e) => {
+    state.highlightType = e.target.value; drawAll();
+  });
+}
+
+function nodeColor(node) {
+  return state.colorByCommunity
+    ? communityColor(node.community)
+    : (TYPE_COLORS[node.type] || '#94a3b8');
+}
+
+function project(canvas, xy) {
+  const pad = 24;
+  const w = canvas.width;
+  const h = canvas.height;
+  // positions are normalized to [-1, 1]
+  const x = pad + ((xy[0] + 1) / 2) * (w - 2 * pad);
+  const y = pad + ((1 - (xy[1] + 1) / 2)) * (h - 2 * pad);
+  return [x, y];
+}
+
+function drawPanel({ key, canvas }) {
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  const nodes = state.data.nodes;
+  const idIdx = new Map(nodes.map((n, i) => [n.id, i]));
+  const positions = nodes.map((n) => project(canvas, n.positions[key]));
+
+  // Edges
+  if (state.showEdges) {
+    ctx.lineWidth = 1;
+    for (const e of state.data.edges) {
+      const a = idIdx.get(e.source);
+      const b = idIdx.get(e.target);
+      if (a == null || b == null) continue;
+      const [ax, ay] = positions[a];
+      const [bx, by] = positions[b];
+      const muted = state.hoverId &&
+        e.source !== state.hoverId && e.target !== state.hoverId;
+      ctx.strokeStyle = muted ? 'rgba(148,163,184,0.05)' : 'rgba(148,163,184,0.16)';
+      ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.stroke();
+    }
+  }
+
+  // Nodes (two passes — non-highlighted first, highlighted on top)
+  const dpr = window.devicePixelRatio || 1;
+  const baseR = 3.2 * dpr;
+  const drawNode = (i, highlighted) => {
+    const n = nodes[i];
+    const [x, y] = positions[i];
+    const r = highlighted ? baseR * 1.9 : baseR + Math.min(n.degree, 8) * 0.35 * dpr;
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    let fill = nodeColor(n);
+    if (state.highlightType && n.type !== state.highlightType && !highlighted) {
+      fill = 'rgba(120,130,150,0.25)';
+    }
+    ctx.fillStyle = fill;
+    ctx.fill();
+    if (highlighted) {
+      ctx.lineWidth = 1.5 * dpr;
+      ctx.strokeStyle = '#fff';
+      ctx.stroke();
+    }
+  };
+
+  for (let i = 0; i < nodes.length; i++) {
+    if (state.hoverId === nodes[i].id) continue;
+    drawNode(i, false);
+  }
+  if (state.hoverId) {
+    const i = idIdx.get(state.hoverId);
+    if (i != null) drawNode(i, true);
+  }
+}
+
+function drawAll() { state.panels.forEach(drawPanel); }
+
+function onHover(event, key, canvas) {
+  const rect = canvas.getBoundingClientRect();
+  const dpr = window.devicePixelRatio || 1;
+  const x = (event.clientX - rect.left) * dpr;
+  const y = (event.clientY - rect.top) * dpr;
+  const nodes = state.data.nodes;
+  let bestId = null, bestDist = 14 * dpr;
+  for (const n of nodes) {
+    const [px, py] = project(canvas, n.positions[key]);
+    const d = Math.hypot(px - x, py - y);
+    if (d < bestDist) { bestDist = d; bestId = n.id; }
+  }
+  if (bestId !== state.hoverId) {
+    state.hoverId = bestId;
+    drawAll();
+  }
+  if (bestId) {
+    const n = nodes.find((nn) => nn.id === bestId);
+    showTooltip(event.clientX, event.clientY, n);
+  } else {
+    hideTooltip();
+  }
+}
+
+function showTooltip(x, y, node) {
+  const tt = document.getElementById('tooltip');
+  tt.innerHTML = `
+    <div class="t-name">${escapeHtml(node.name)}</div>
+    <div class="t-meta">${node.type} · ${node.level} · community ${node.community} · degree ${node.degree}</div>
+    <div class="t-desc">${escapeHtml(node.description || '')}</div>
+  `;
+  tt.classList.add('on');
+  const pad = 14;
+  const ttRect = tt.getBoundingClientRect();
+  let nx = x + pad, ny = y + pad;
+  if (nx + ttRect.width > window.innerWidth - 12) nx = x - ttRect.width - pad;
+  if (ny + ttRect.height > window.innerHeight - 12) ny = y - ttRect.height - pad;
+  tt.style.left = nx + 'px';
+  tt.style.top = ny + 'px';
+}
+function hideTooltip() { document.getElementById('tooltip').classList.remove('on'); }
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"]/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+}
+
+init();
+</script>
+</body>
+</html>

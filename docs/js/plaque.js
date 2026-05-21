@@ -164,7 +164,7 @@
     return '<div class="plaque__install-row ns-install-row">' +
       '<span class="plaque__install-prompt ns-install-prompt">$</span>' +
       '<span class="plaque__install-cmd ns-install-cmd-txt">' + esc(cmd) + '</span>' +
-      '<button class="plaque__install-copy ns-install-copy" type="button" title="Copy install command" data-cmd="' + esc(cmd) + '" onclick="' + copyClick + '">' +
+      '<button class="plaque__install-copy ns-install-copy" type="button" title="Copy install command" aria-label="Copy install command" data-cmd="' + esc(cmd) + '" onclick="' + copyClick + '">' +
       icon('copy', 13) + '</button>' +
       '</div>';
   }

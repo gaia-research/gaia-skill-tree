@@ -21,6 +21,10 @@ tags:
 createdAt: "2026-05-19"
 updatedAt: "2026-05-19"
 suiteRef: "ruvnet/ruflo"
+suiteComponents:
+  - ruvnet/flow-nexus-neural
+  - ruvnet/flow-nexus-platform
+  - ruvnet/flow-nexus-swarm
 ---
 
 ## Overview

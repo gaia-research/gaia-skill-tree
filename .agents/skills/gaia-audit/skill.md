@@ -19,11 +19,12 @@ Audit exactly one Gaia skill, named skill, or real-skill catalog item and submit
 4. Separate these questions:
    - Does the skill exist?
    - Does it map to the claimed Gaia capability?
-   - Does it justify its level, rarity, named status, or `promotedNamedSkillId`?
+   - Does it justify its stars, tier, named status, or `promotedNamedSkillId`?
    - Is it outdated, superseded, overpromoted, duplicate, or under-sourced?
    - **Upgrade Path Analysis**: Can this skill be evolved? If it's a basic skill with multiple implementation "flavors," should it be fused into a new Extra skill (Generic Name)?
    - **Rigorous Verification**: Does the source include a specific **agent playbook** (e.g., `AGENTS.md`, `CLAUDE.md`, `.claude/skills/`, or a documented autonomous agent workflow)?
-   - **Demerit Check (Strategic)**: Only actively audit demerits for skills at **3★+**. Be lenient toward skills that are portable across platforms. Reward "Generalized" skills by favoring them for higher Rarity or Legendary status if they remain demerit-free at high levels.
+   - **Demerit Check (Strategic)**: Only actively audit demerits for skills at **3★+**. Be lenient toward skills that are portable across platforms. Reward portable, "Generalized" skills by favoring them for promotion to higher stars or Ultimate tier when they remain demerit-free at high levels.
+   - Do **not** audit the `rarity` field — the rarity axis is deprecated (see `CONTEXT.md` § Rarity); the schema still requires it but it carries no review signal.
 5. Present findings first. If a correction is warranted, edit only source-of-truth files:
    - `registry/gaia.json` or `registry/nodes/**/*.json`
    - `registry/named/**`
@@ -49,7 +50,7 @@ Audit exactly one Gaia skill, named skill, or real-skill catalog item and submit
 - Remove `promotedNamedSkillId` when the item does not justify the named claim.
 - Remove or downgrade `status: named`, `title`, or `catalogRef` when reviewer classification is unsupported.
 - Remap broad `mapsToGaia` links to narrower accurate IDs when evidence supports only a smaller capability.
-- Do not claim Ultimate or Legendary rank from installability or source-directory presence alone.
+- Do not claim Ultimate tier or 5★+ stars from installability or source-directory presence alone.
 
 ## Output
 

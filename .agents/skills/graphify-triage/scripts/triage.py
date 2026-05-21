@@ -6,9 +6,14 @@ import sys
 import re
 from pathlib import Path
 
+import shlex
+
 def run_command(cmd, capture_output=True):
     """Helper to run shell commands safely without shell=True to prevent command injection."""
     try:
+        # If cmd is a string, safely split it (assuming no complex shell interpolations are intended)
+        if isinstance(cmd, str):
+            cmd = shlex.split(cmd)
         result = subprocess.run(
             cmd,
             check=True,

@@ -1074,7 +1074,7 @@
               `<div class="gst-skill-id">${skill.id}</div>` +
               `<div class="skill-tooltip-row"><span class="skill-tooltip-badge ${typeClass}">${skill.type.toUpperCase()}</span>${rankPill}${effectivePill}</div>` +
               demeritNote +
-              `<button class="graph-tooltip-add" title="Add to collection">+</button>`;
+              `<button class="graph-tooltip-add" title="Add to collection" aria-label="Add to collection">+</button>`;
             if (skill.level) state.tooltipEl.setAttribute('data-level', skill.level);
             else state.tooltipEl.removeAttribute('data-level');
             state.lastHoveredId = displayId;
@@ -1360,7 +1360,7 @@
         state.paused = true;
         let c = `<div class="graph-skill-panel-header">`;
         c += `<div class="graph-skill-panel-name" style="color:rgba(${col.rgb},1)">${skill.name}</div>`;
-        c += `<button class="graph-skill-panel-close" title="Close">×</button>`;
+        c += `<button class="graph-skill-panel-close" title="Close" aria-label="Close panel">×</button>`;
         c += `</div>`;
         c += `<div class="graph-skill-panel-body">`;
         if (namedId) {
