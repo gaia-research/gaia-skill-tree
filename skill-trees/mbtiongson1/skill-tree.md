@@ -282,56 +282,6 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · ◇ obra/verification-before-completion  [1★]  (↑ see above)
   └─ · ◇ obra/writing-plans  [2★]  (↑ see above)
 
-· ◆ /mattpocock-skills  [1★ · Unclaimed]
-  ├─ · ◇ /mattpocock-engineering  [1★]
-  │  ├─ · ◇ devin-ai/autonomous-swe  [4★]
-  │  │  ├─ · ○ garrytan/design-html  [1★]
-  │  │  ├─ · ○ /code-execution  [2★]
-  │  │  └─ · ○ /error-interpretation  [1★]
-  │  ├─ · ○ mattpocock/improve-codebase-architecture  [2★]
-  │  ├─ · ◇ mattpocock/to-issues  [3★]
-  │  │  ├─ · ○ /plan-decompose  [1★]
-  │  │  └─ · ○ /route-intent  [1★]
-  │  ├─ · ◇ mattpocock/to-prd  [4★]
-  │  │  ├─ · ○ glincker/readme-generator  [1★]
-  │  │  └─ · ○ /plan-decompose  [1★]  (↑ see above)
-  │  ├─ · ○ mattpocock/triage  [4★]
-  │  ├─ · ◇ mattpocock/ubiquitous-language  [4★]
-  │  │  ├─ ✓ ○ /extract-entities  [1★]
-  │  │  └─ · ○ /requirements-analysis  [2★]
-  │  ├─ · ○ mattpocock/zoom-out  [2★]
-  │  ├─ · ◇ mattpocock/grill-with-docs  [3★]
-  │  │  ├─ · ◇ mattpocock/grill-me  [4★]
-  │  │  │  ├─ · ◇ garrytan/design-shotgun  [3★]
-  │  │  │  │  ├─ · ○ garrytan/benchmark  [1★]
-  │  │  │  │  └─ · ○ /plan-decompose  [1★]  (↑ see above)
-  │  │  │  └─ · ○ /self-critique  [1★]
-  │  │  ├─ · ◇ mattpocock/ubiquitous-language  [4★]  (↑ see above)
-  │  │  └─ · ○ anthropic/pptx  [0★]
-  │  ├─ · ◇ /prototype  [1★]
-  │  │  ├─ · ○ garrytan/design-html  [1★]  (↑ see above)
-  │  │  └─ · ○ /code-execution  [2★]  (↑ see above)
-  │  └─ · ◇ /agent-environment-setup  [1★]
-  │     ├─ · ○ anthropic/pptx  [0★]  (↑ see above)
-  │     └─ · ○ /tool-use  [1★]
-  ├─ · ◇ /mattpocock-productivity  [1★]
-  │  ├─ · ◇ anthropic/skill-creator  [4★]
-  │  │  ├─ · ○ garrytan/design-html  [1★]  (↑ see above)
-  │  │  └─ · ○ /tool-use  [1★]  (↑ see above)
-  │  ├─ · ○ garrytan/context-restore  [3★]
-  │  ├─ · ◇ /agent-handoff  [1★]
-  │  │  ├─ ✓ ○ /summarize  [0★]
-  │  │  ├─ · ○ anthropic/pptx  [0★]  (↑ see above)
-  │  │  └─ · ○ garrytan/context-restore  [3★]  (↑ see above)
-  │  └─ · ◇ mattpocock/grill-me  [4★]  (↑ see above)
-  ├─ · ◇ /mattpocock-personal  [1★]
-  │  ├─ · ○ anthropic/pptx  [0★]  (↑ see above)
-  │  └─ · ◇ /personal-knowledge-management  [1★]
-  │     ├─ · ○ /retrieve  [1★]
-  │     └─ · ○ garrytan/context-restore  [3★]  (↑ see above)
-  ├─ · ◇ anthropic/skill-creator  [4★]  (↑ see above)
-  └─ · ◇ mattpocock/ubiquitous-language  [4★]  (↑ see above)
-
 ══════════════════════════════════════════════════════════════════════
 Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
 ══════════════════════════════════════════════════════════════════════
