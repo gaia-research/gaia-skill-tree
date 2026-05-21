@@ -1,4 +1,4 @@
-## 2025-05-24 - [Medium] Pin Dependency Versions in GitHub Actions
-**Vulnerability:** Several GitHub actions and the composite action in packages/cli-npm/github-action/action.yml were using `pip install requests pyyaml jsonschema` without pinning versions.
-**Learning:** This exposes the pipeline to supply chain attacks. If a compromised package update is pushed to PyPI, the action automatically installs the latest vulnerable version, leading to potential RCE on the GitHub runner.
-**Prevention:** Always pin dependencies using `==` to known secure versions in CI pipelines or use a lockfile (like `uv.lock`).
+## 2025-02-28 - Command Injection in triage.py
+**Vulnerability:** Found a command injection vulnerability in `.agents/skills/graphify-triage/scripts/triage.py` where `subprocess.run` was called with `shell=True` and string interpolated arguments for `gh issue create`.
+**Learning:** `shell=True` allows injection via specially crafted string inputs (like issue titles or bodies).
+**Prevention:** Avoid using `shell=True` unless absolutely necessary, and construct subprocess commands safely using an argument list instead of string interpolation to rely on argument escaping.
