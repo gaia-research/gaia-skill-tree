@@ -55,9 +55,20 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
         continue-on-error: true
 
-      - name: Update PR body with skip-gen marker
+      - name: Wait for checks and update body
         if: steps.check.outputs.eligible == 'true'
         run: |
+          # Poll for checks to complete (max 5 min)
+          for i in {1..30}; do
+            STATUS=$(gh pr checks ${{ github.event.pull_request.number }} --json state -q '.[]|select(.state=="COMPLETED")')
+            if [ -n "$STATUS" ]; then
+              break
+            fi
+            echo "Waiting for checks... ($i/30)"
+            sleep 10
+          done
+
+          # Update PR body with [skip-gen] marker
           BODY=$(gh pr view ${{ github.event.pull_request.number }} --json body -q .body)
           if ! echo "$BODY" | grep -q "\[skip-gen\]"; then
             gh pr edit ${{ github.event.pull_request.number }} \
@@ -67,13 +78,13 @@ jobs:
           fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
 
-      - name: Enable auto-merge
+      - name: Merge PR
         if: steps.check.outputs.eligible == 'true'
         run: |
           gh pr merge ${{ github.event.pull_request.number }} \
             --squash \
-            --auto \
-            --delete-branch || echo "Auto-merge may already be enabled or checks not yet complete"
+            --delete-branch || echo "PR already merged or merge blocked by checks"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
