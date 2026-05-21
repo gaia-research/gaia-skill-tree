@@ -1,0 +1,47 @@
+{
+  "id": "mattpocock-personal",
+  "name": "mattpocock-personal",
+  "type": "extra",
+  "level": "4★",
+  "rarity": "common",
+  "description": "Personal category suite for Matt Pocock's skills.",
+  "prerequisites": [
+    "document-editing",
+    "personal-knowledge-management"
+  ],
+  "derivatives": [],
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/mattpocock/skills",
+      "evaluator": "mbtiongson1",
+      "date": "2026-05-22",
+      "notes": "Consolidated personal suite for Matt Pocock's skills."
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-05-22",
+  "updatedAt": "2026-05-22",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-21T16:25:11Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill mattpocock-personal"
+    },
+    {
+      "timestamp": "2026-05-21T17:17:41Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added B evidence from https://github.com/mattpocock/skills"
+    },
+    {
+      "timestamp": "2026-05-21T19:04:11Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from ultimate to extra"
+    }
+  ]
+}

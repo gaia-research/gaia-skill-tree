@@ -25,9 +25,14 @@ from gaia_cli.commands.dev import (
     meta_merge_command,
     meta_split_command,
     meta_add_command,
+    meta_remove_command,
+    meta_link_command,
+    meta_reclassify_command,
+    meta_update_named_command,
     meta_rename_command,
     meta_calibrate_command,
     meta_evidence_command,
+    meta_build_command,
     meta_audit_command,
 )
 from gaia_cli.registry import (
@@ -107,11 +112,19 @@ Quick usage:
   gaia stats
   gaia docs build [--check]
   gaia lookup <skillId>
-  gaia list [--generic] [--named] [--description] [--json]
-  gaia merge <target> <source1> [source2...] [--named]
-  gaia split <source> <target1> <target2>...
-  gaia add <name> [--id <id>] [--type <type>] [--description <desc>] [--named] [--contributor <user>]
-  gaia evidence <skillId> <source> [--class A|B|C] [--evaluator <user>] [--date <date>] [--notes <notes>]
+  gaia dev list [--generic] [--named] [--description] [--json]
+  gaia dev merge <target> <source1> [source2...] [--named]
+  gaia dev split <source> <target1> <target2>...
+  gaia dev rename <old_id> <new_id>
+  gaia dev calibrate <skill_id> <level>
+  gaia dev add <name> [--id <id>] [--type <type>] [--description <desc>] [--named] [--contributor <user>] [--status <status>] [--title <title>] [--level <level>]
+  gaia dev rm <skill_id>
+  gaia dev link <target> <prereqs> [--reset]
+  gaia dev reclassify <skill_id> <new_type>
+  gaia dev update-named <skill_id> [--status <status>] [--generic-ref <ref>] [--suite-components <c1,c2...>]
+  gaia dev evidence <skillId> <source> [--class A|B|C] [--evaluator <user>] [--date <date>] [--notes <notes>]
+  gaia dev build
+  gaia dev audit <skill_id>
   gaia validate [--intake] [--meta-sync]
   gaia test <suite>
   gaia skills <list|search|info|install|uninstall>
@@ -1452,6 +1465,7 @@ def get_parser():
     dev_calibrate = dev_sub.add_parser('calibrate', help="Update the level of a skill")
     dev_calibrate.add_argument('skill_id', help="Skill ID to calibrate")
     dev_calibrate.add_argument('level', help="New level (e.g. 3★)")
+    dev_calibrate.add_argument('--no-build', action='store_true', help="Skip rebuilding docs and graph assets after calibrating")
 
     dev_add = dev_sub.add_parser('add', help="Add a new skill to the registry")
     dev_add.add_argument('name', help="Human-readable name of the skill")
@@ -1461,7 +1475,32 @@ def get_parser():
     dev_add.add_argument('--named', action='store_true', help="Add as a named skill instead of generic")
     dev_add.add_argument('--contributor', help="Contributor name for named skill (default: gaiabot)")
     dev_add.add_argument('--generic-ref', help="Generic skill reference for named skill")
+    dev_add.add_argument('--status', help="Initial status (default: named for named skills, provisional for generic)")
+    dev_add.add_argument('--title', help="Display title (lore title) for named skills")
+    dev_add.add_argument('--level', help="Initial level (default: 2★ for named, 1★ for generic)")
     dev_add.add_argument('--extra-fields', help="JSON string of additional schema fields")
+    dev_add.add_argument('--no-build', action='store_true', help="Skip rebuilding docs and graph assets after adding")
+
+    dev_rm = dev_sub.add_parser('rm', help="Remove a skill from the registry")
+    dev_rm.add_argument('skill_id', help="Skill ID to remove")
+    dev_rm.add_argument('--no-build', action='store_true', help="Skip rebuilding docs and graph assets after removing")
+
+    dev_link = dev_sub.add_parser('link', help="Link skills by adding prerequisites")
+    dev_link.add_argument('target', help="Target skill ID that receives the prerequisites")
+    dev_link.add_argument('prereqs', help="Comma-separated list of prerequisite skill IDs")
+    dev_link.add_argument('--reset', action='store_true', help="Overwrite existing prerequisites instead of appending")
+    dev_link.add_argument('--no-build', action='store_true', help="Skip rebuilding docs and graph assets after linking")
+
+    dev_reclassify = dev_sub.add_parser('reclassify', help="Change the type of a generic skill")
+    dev_reclassify.add_argument('skill_id', help="Generic skill ID to reclassify")
+    dev_reclassify.add_argument('new_type', choices=('basic', 'extra', 'ultimate', 'unique'), help="New skill type")
+    dev_reclassify.add_argument('--no-build', action='store_true', help="Skip rebuilding docs and graph assets after reclassifying")
+    dev_update_named = dev_sub.add_parser('update-named', help="Update frontmatter properties of a named skill")
+    dev_update_named.add_argument('skill_id', help="Named skill ID (e.g. author/skill)")
+    dev_update_named.add_argument('--status', help="New status (e.g. awakened, named)")
+    dev_update_named.add_argument('--generic-ref', help="New generic skill reference")
+    dev_update_named.add_argument('--suite-components', help="Comma-separated list of suite components")
+    dev_update_named.add_argument('--no-build', action='store_true', help="Skip rebuilding docs and graph assets after updating")
 
     dev_evidence = dev_sub.add_parser('evidence', help="Add evidence to a skill")
     dev_evidence.add_argument('skill_id', help="Skill ID to add evidence to")
@@ -1470,6 +1509,9 @@ def get_parser():
     dev_evidence.add_argument('--evaluator', help="GitHub username of the evaluator")
     dev_evidence.add_argument('--date', help="Date of evaluation (ISO 8601)")
     dev_evidence.add_argument('--notes', help="Optional notes about the evaluation")
+    dev_evidence.add_argument('--no-build', action='store_true', help="Skip rebuilding docs and graph assets after adding evidence")
+
+    dev_build = dev_sub.add_parser('build', help="Regenerate registry and documentation site")
 
     dev_audit = dev_sub.add_parser('audit', help="Run registry maintenance linter")
     dev_audit.add_argument('--level', type=int, help="Filter audit by level threshold")
@@ -1620,12 +1662,23 @@ def main():
             meta_calibrate_command(args)
         elif dev_cmd == 'add':
             meta_add_command(args)
+        elif dev_cmd == 'rm':
+            meta_remove_command(args)
+        elif dev_cmd == 'link':
+            meta_link_command(args)
+        elif dev_cmd == 'reclassify':
+            meta_reclassify_command(args)
+        elif dev_cmd == 'update-named':
+            meta_update_named_command(args)
         elif dev_cmd == 'evidence':
             meta_evidence_command(args)
+        elif dev_cmd == 'build':
+            meta_build_command(args)
         elif dev_cmd == 'audit':
             meta_audit_command(args)
         else:
-            dev_parser.print_help()
+            _, subparsers = get_parser()
+            subparsers.choices['dev'].print_help()
     elif args.command == 'validate':
         validate_command(args)
     elif args.command == 'test':
