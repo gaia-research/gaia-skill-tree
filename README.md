@@ -37,18 +37,21 @@ Every AI agent capability exists somewhere on this graph. Skills start at the fo
   │  │  └─ ◇ garrytan/learn  [2★]
   │  │     ├─ ○ garrytan/context-restore  [3★]
 
-◆ ruvnet/agentdb  [5★]
-  ├─ ◇ ruvnet/agentdb-advanced  [3★]
-  │  ├─ ○ ruvnet/agentdb-vector-search  [2★]
-  │  └─ ◇ garrytan/learn  [2★]
-  │     ├─ ○ garrytan/context-restore  [3★]
-  │     └─ ○ /retrieve  [1★]
-  ├─ ◇ ruvnet/agentdb-learning  [3★]
-  │  ├─ ○ ruvnet/reasoningbank-intelligence  [2★]
-  │  └─ ◇ garrytan/learn  [2★]  (↑ see above)
-  ├─ ○ ruvnet/agentdb-memory-patterns  [2★]
-  ├─ ○ ruvnet/agentdb-optimization  [2★]
-  └─ ○ ruvnet/agentdb-vector-search  [2★]  (↑ see above)
+◆ /mattpocock-skills  [6★ · Unclaimed]
+  ├─ ◇ /mattpocock-engineering  [5★]
+  │  ├─ ◇ devin-ai/autonomous-swe  [4★]
+  │  │  ├─ ○ garrytan/design-html  [1★]
+  │  │  ├─ ○ /code-execution  [2★]
+  │  │  └─ ○ /error-interpretation  [1★]
+  │  ├─ ○ mattpocock/improve-codebase-architecture  [2★]
+  │  ├─ ◇ mattpocock/to-issues  [3★]
+  │  │  ├─ ○ /plan-decompose  [1★]
+  │  │  └─ ○ /route-intent  [1★]
+  │  ├─ ◇ mattpocock/to-prd  [4★]
+  │  │  ├─ ○ glincker/readme-generator  [1★]
+  │  ├─ ○ mattpocock/triage  [4★]
+  │  ├─ ◇ mattpocock/ubiquitous-language  [4★]
+  │  │  ├─ ○ /extract-entities  [1★]
 
 Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
   ◉ nousresearch/feed-monitoring  [4★ · Hardened]
