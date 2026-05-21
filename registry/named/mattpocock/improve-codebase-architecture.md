@@ -5,6 +5,7 @@ contributor: mattpocock
 origin: false
 genericSkillRef: refactor-code
 status: named
+title: "The Architecture Improver"
 title: "The Depth Seeker"
 catalogRef: mattpocock-improve-codebase-architecture
 level: "3★"
@@ -20,6 +21,7 @@ tags:
   - deletion-test
 createdAt: "2026-04-30"
 updatedAt: "2026-04-30"
+suiteRef: "mattpocock/engineering"
 ---
 
 ## Overview

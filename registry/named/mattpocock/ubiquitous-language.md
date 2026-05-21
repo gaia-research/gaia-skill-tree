@@ -5,6 +5,7 @@ contributor: mattpocock
 origin: false
 genericSkillRef: ubiquitous-language
 status: named
+title: "The Ubiquitous Language Mapper"
 title: "The Domain Linguist"
 catalogRef: mattpocock-ubiquitous-language
 level: "4★"
@@ -20,6 +21,7 @@ tags:
   - alignment
 createdAt: "2026-05-15"
 updatedAt: "2026-05-15"
+suiteRef: "mattpocock/engineering"
 ---
 
 ## Overview

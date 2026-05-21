@@ -37,8 +37,8 @@ Every AI agent capability exists somewhere on this graph. Skills start at the fo
   │  │  └─ ◇ garrytan/learn  [2★]
   │  │     ├─ ○ garrytan/context-restore  [3★]
 
-◆ /mattpocock-skills  [6★ · Unclaimed]
-  ├─ ◇ /mattpocock-engineering  [5★]
+◆ mattpocock/skills  [6★]
+  ├─ ◆ mattpocock/engineering  [5★]
   │  ├─ ◇ devin-ai/autonomous-swe  [4★]
   │  │  ├─ ○ garrytan/design-html  [1★]
   │  │  ├─ ○ /code-execution  [2★]
@@ -100,7 +100,7 @@ Skills rank up through **evidence**, not declaration. Basics fuse into Extras or
 **1. Install the CLI**
 
 <!-- gaia:version-start -->
-Current Gaia CLI version: `3.21.4`.
+Current Gaia CLI version: `3.21.5`.
 
 Python install:
 
@@ -259,11 +259,19 @@ Quick usage:
   gaia stats
   gaia docs build [--check]
   gaia lookup <skillId>
-  gaia list [--generic] [--named] [--description] [--json]
-  gaia merge <target> <source1> [source2...] [--named]
-  gaia split <source> <target1> <target2>...
-  gaia add <name> [--id <id>] [--type <type>] [--description <desc>] [--named] [--contributor <user>]
-  gaia evidence <skillId> <source> [--class A|B|C] [--evaluator <user>] [--date <date>] [--notes <notes>]
+  gaia dev list [--generic] [--named] [--description] [--json]
+  gaia dev merge <target> <source1> [source2...] [--named]
+  gaia dev split <source> <target1> <target2>...
+  gaia dev rename <old_id> <new_id>
+  gaia dev calibrate <skill_id> <level>
+  gaia dev add <name> [--id <id>] [--type <type>] [--description <desc>] [--named] [--contributor <user>] [--status <status>] [--title <title>] [--level <level>]
+  gaia dev rm <skill_id>
+  gaia dev link <target> <prereqs> [--reset]
+  gaia dev reclassify <skill_id> <new_type>
+  gaia dev update-named <skill_id> [--status <status>] [--generic-ref <ref>] [--suite-components <c1,c2...>]
+  gaia dev evidence <skillId> <source> [--class A|B|C] [--evaluator <user>] [--date <date>] [--notes <notes>]
+  gaia dev build
+  gaia dev audit <skill_id>
   gaia validate [--intake] [--meta-sync]
   gaia test <suite>
   gaia skills <list|search|info|install|uninstall>

@@ -1,4 +1,4 @@
-# /agent-handoff  [4★ · Hardened]
+# [mattpocock](../../../docs/u/mattpocock/)/handoff  [4★ · Hardened]
 **ID:** agent-handoff  
 **Type:** Extra Skill  
 **Level:** 4★  

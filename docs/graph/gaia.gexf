@@ -769,7 +769,7 @@
           <attvalue for="level" value="5★" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="ultimate" />
         </attvalues>
       </node>
       <node id="mattpocock-personal" label="mattpocock-personal">
@@ -1797,10 +1797,10 @@
       <edge id="e180" source="agent-environment-setup" target="mattpocock-engineering" />
       <edge id="e181" source="document-editing" target="mattpocock-personal" />
       <edge id="e182" source="personal-knowledge-management" target="mattpocock-personal" />
-      <edge id="e183" source="tool-creation" target="mattpocock-productivity" />
+      <edge id="e183" source="agent-handoff" target="mattpocock-productivity" />
       <edge id="e184" source="context-compression" target="mattpocock-productivity" />
-      <edge id="e185" source="agent-handoff" target="mattpocock-productivity" />
-      <edge id="e186" source="grill-me" target="mattpocock-productivity" />
+      <edge id="e185" source="grill-me" target="mattpocock-productivity" />
+      <edge id="e186" source="tool-creation" target="mattpocock-productivity" />
       <edge id="e187" source="mattpocock-engineering" target="mattpocock-skills" />
       <edge id="e188" source="mattpocock-productivity" target="mattpocock-skills" />
       <edge id="e189" source="mattpocock-personal" target="mattpocock-skills" />

@@ -5,6 +5,7 @@ contributor: mattpocock
 origin: true
 genericSkillRef: prd-generation
 status: named
+title: "The PRD Generator"
 title: "The PRD Synthesiser"
 catalogRef: mattpocock-to-prd
 level: "2★"
@@ -19,6 +20,7 @@ tags:
   - issue-tracker
 createdAt: "2026-04-30"
 updatedAt: "2026-04-30"
+suiteRef: "mattpocock/engineering"
 ---
 
 ## Overview
