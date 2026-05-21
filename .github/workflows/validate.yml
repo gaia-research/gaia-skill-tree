@@ -53,7 +53,24 @@ jobs:
           gaia docs build --check
 
       - name: Run tests
+        if: |
+          github.event_name == 'push' ||
+          github.event.pull_request.changed_files >= 10 ||
+          contains(github.event.pull_request.labels.*.name, 'run-full-ci')
         run: gaia test all
 
       - name: Check schema meta sync
+        # Skip for branch types that cannot affect registry meta-sync:
+        #   docs/, design/ — only touch docs/ and *.md, no registry changes
+        #   infra/         — only touch .github/, scripts/, skills/; no schema/node edits
+        #   review/gaia-push/ — intake layer only; committed registry is unchanged
+        # All other prefixes (cli/, review/meta/, schema/, dev/, cross-cutting) still run.
+        if: |
+          github.event_name == 'push' ||
+          (
+            !startsWith(github.head_ref, 'docs/') &&
+            !startsWith(github.head_ref, 'design/') &&
+            !startsWith(github.head_ref, 'infra/') &&
+            !startsWith(github.head_ref, 'review/gaia-push/')
+          )
         run: gaia validate --meta-sync

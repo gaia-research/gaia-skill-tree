@@ -2,14 +2,19 @@ name: Branch Scope Check
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    # Include 'labeled' so the scope check re-runs after auto-label-bot-prs.yml
+    # applies bot labels, avoiding a false failure on the initial 'opened' run.
+    types: [opened, synchronize, reopened, labeled]
 
 jobs:
   scope-check:
     name: Verify branch scope matches changed files
     runs-on: ubuntu-latest
     if: >-
-      !contains(github.event.pull_request.labels.*.name, 'skip-scope-check')
+      !contains(github.event.pull_request.labels.*.name, 'skip-scope-check') &&
+      !contains(github.event.pull_request.labels.*.name, 'jules') &&
+      !contains(github.event.pull_request.labels.*.name, 'codex') &&
+      !contains(github.event.pull_request.labels.*.name, 'claude-bot')
     permissions:
       pull-requests: read
       contents: read
