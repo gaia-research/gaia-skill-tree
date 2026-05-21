@@ -107,8 +107,12 @@ def _parse_md(path):
     content = path.read_text(encoding="utf-8")
     if not content.startswith("---"):
         return {}, content
-    _, frontmatter, body = content.split("---", 2)
-    return (yaml.safe_load(frontmatter) or {}), body
+    try:
+        _, frontmatter, body = content.split("---", 2)
+        return (yaml.safe_load(frontmatter) or {}), body
+    except Exception as e:
+        print(f"Warning: Failed to parse frontmatter in {path}: {e}")
+        return {}, content
 
 def _write_md(path, meta, body) -> None:
     import yaml
