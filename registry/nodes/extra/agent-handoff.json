@@ -1,0 +1,42 @@
+{
+  "id": "agent-handoff",
+  "name": "agent-handoff",
+  "type": "extra",
+  "level": "4★",
+  "rarity": "common",
+  "description": "Compacting the current conversation into a summary for a fresh agent.",
+  "prerequisites": [
+    "summarize",
+    "document-editing",
+    "context-compression"
+  ],
+  "derivatives": [],
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/handoff/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-05-22",
+      "notes": "High-fidelity agent handoff and context compaction skill."
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-05-22",
+  "updatedAt": "2026-05-22",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-21T16:23:47Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill agent-handoff"
+    },
+    {
+      "timestamp": "2026-05-21T17:16:21Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added B evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/handoff/SKILL.md"
+    }
+  ]
+}

@@ -5,6 +5,7 @@ contributor: mattpocock
 origin: false
 genericSkillRef: autonomous-debug
 status: named
+title: "The Debugging Discipline"
 title: "The Disciplined Diagnosis Loop"
 catalogRef: mattpocock-diagnose
 level: "2★"
@@ -19,6 +20,7 @@ tags:
   - root-cause-analysis
 createdAt: "2026-04-30"
 updatedAt: "2026-04-30"
+suiteRef: "mattpocock/engineering"
 ---
 
 ## Overview

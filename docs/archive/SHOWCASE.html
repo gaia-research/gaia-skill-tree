@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GAIA Skill Registry — Project Showcase</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --bg: #030712;
+            --surface: #0f172a;
+            --border: #1e293b;
+            --text: #e2e8f0;
+            --muted: #64748b;
+            --basic: #38bdf8;
+            --extra: #c084fc;
+            --ultimate: #f59e0b;
+        }
+        
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', system-ui, sans-serif;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--basic), var(--extra), var(--ultimate));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            color: var(--muted);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .tagline {
+            font-size: 1.25rem;
+            color: var(--text);
+            font-weight: 300;
+        }
+        
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+        
+        .metric-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .metric-label {
+            color: var(--muted);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .metric-card.basic {
+            border-color: var(--basic);
+        }
+        
+        .metric-card.basic .metric-value {
+            color: var(--basic);
+        }
+        
+        .metric-card.extra {
+            border-color: var(--extra);
+        }
+        
+        .metric-card.extra .metric-value {
+            color: var(--extra);
+        }
+        
+        .metric-card.ultimate {
+            border-color: var(--ultimate);
+        }
+        
+        .metric-card.ultimate .metric-value {
+            color: var(--ultimate);
+        }
+        
+        .section {
+            margin: 3rem 0;
+        }
+        
+        .section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .feature-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .feature-card h3 {
+            color: var(--basic);
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+        
+        .feature-card p {
+            color: var(--muted);
+            line-height: 1.7;
+        }
+        
+        .use-case {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.1), rgba(192, 132, 252, 0.1));
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .use-case h3 {
+            color: var(--text);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .use-case .role {
+            color: var(--extra);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.75rem;
+        }
+        
+        .use-case p {
+            color: var(--muted);
+            margin-bottom: 0.5rem;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--basic), var(--extra));
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+        }
+        
+        .stats-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        
+        .stats-table th {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 1rem;
+            text-align: left;
+            color: var(--basic);
+            font-weight: 600;
+        }
+        
+        .stats-table td {
+            border: 1px solid var(--border);
+            padding: 1rem;
+            color: var(--text);
+        }
+        
+        .stats-table tr:hover {
+            background: rgba(56, 189, 248, 0.05);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+        }
+        
+        .badge {
+            display: inline-block;
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid var(--basic);
+            color: var(--basic);
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌳 GAIA Skill Registry</h1>
+            <p class="subtitle">The open, evidence-backed skill graph for AI agents</p>
+            <p class="tagline">Collect, evolve, and fuse capabilities into something legendary</p>
+        </header>
+        
+        <section class="metrics">
+            <div class="metric-card basic">
+                <div class="metric-value">0</div>
+                <div class="metric-label">Total Skills</div>
+            </div>
+            <div class="metric-card extra">
+                <div class="metric-value">277</div>
+                <div class="metric-label">Connections</div>
+            </div>
+            <div class="metric-card ultimate">
+                <div class="metric-value">0</div>
+                <div class="metric-label">Named Registry</div>
+            </div>
+            <div class="metric-card basic">
+                <div class="metric-value">2</div>
+                <div class="metric-label">Active Users</div>
+            </div>
+        </section>
+        
+        <section class="section">
+            <h2>✨ What Is GAIA?</h2>
+            <p>GAIA maps AI agent capabilities as a composable skill tree. Every capability exists somewhere on the graph:</p>
+            <ul style="margin-left: 2rem; margin-top: 1rem; color: var(--muted);">
+                <li><strong>Skills start</strong> at the foundation tier (Basic skills)</li>
+                <li><strong>Awaken</strong> through evidence and use</li>
+                <li><strong>Evolve</strong> into higher ranks (Extra, Ultimate)</li>
+                <li><strong>Fuse</strong> into capabilities greater than the sum of their parts</li>
+            </ul>
+        </section>
+        
+        <section class="section">
+            <h2>🎯 Why It Matters</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>○ Single Source of Truth</h3>
+                    <p>All agent capabilities live in one place. No more "Does Agent-X have web-search?" — the registry knows.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>◇ Composability First</h3>
+                    <p>Skills know their dependencies. web-scrape + embed-text + store-vector = knowledge-harvest emerges automatically.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>◆ Evidence-Based Versioning</h3>
+                    <p>Ranks reflect real performance (★ system), not declarations. Skills level up through evidence, not hope.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🔗 MCP Integration</h3>
+                    <p>Expose your skill tree natively to Claude, Cursor, and any MCP-compliant tool. Agents query capabilities automatically.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📊 Governance & Audit</h3>
+                    <p>Track skill versioning, evidence trails, and deployment history. Who approved this? When did it change? Why?</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🚀 Scale Without Chaos</h3>
+                    <p>10 agents, 100 skills, 3 teams. GAIA keeps everything in sync. No merge conflicts. No redundant code.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="section">
+            <h2>👥 Who's Using It?</h2>
+            
+            <div class="use-case">
+                <div class="role">🏢 LLM Ops Teams</div>
+                <h3>Managing Agent Fleets</h3>
+                <p><strong>Challenge:</strong> 100+ Claude agents across business units. Which can access what?</p>
+                <p><strong>GAIA answer:</strong> Skill graph shows all capabilities + approval chain. Auto-refresh when new skills are promoted.</p>
+            </div>
+            
+            <div class="use-case">
+                <div class="role">🚀 AI-First Startups</div>
+                <h3>Agent Marketplace</h3>
+                <p><strong>Challenge:</strong> Build agent choreography layer. "Task X requires skills A, B, C at rank 3+; which agent has them?"</p>
+                <p><strong>GAIA answer:</strong> Query the registry. Match agents to workloads. No custom parsing needed.</p>
+            </div>
+            
+            <div class="use-case">
+                <div class="role">🏭 Enterprise Dev Teams</div>
+                <h3>Internal Copilot Infrastructure</h3>
+                <p><strong>Challenge:</strong> 5 teams building agents on the same LLM. Constant questions: "Does this agent already have that?"</p>
+                <p><strong>GAIA answer:</strong> Run `gaia scan` once. All teams see all available skills. Audit trail for compliance.</p>
+            </div>
+            
+            <div class="use-case">
+                <div class="role">🤝 Open-Source Communities</div>
+                <h3>Shared Capability Standards</h3>
+                <p><strong>Challenge:</strong> Hugging Face, PyTorch, Transformers.js all building agents. How do they agree on "what's a web-search skill"?</p>
+                <p><strong>GAIA answer:</strong> Open standard format. "My agent knows skills X, Y, Z at these versions." Reproducible, versionable.</p>
+            </div>
+        </section>
+        
+        <section class="section">
+            <h2>💰 The Business Case</h2>
+            <table class="stats-table">
+                <thead>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Without GAIA</th>
+                        <th>With GAIA</th>
+                        <th>Impact</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Duplicate skill code</td>
+                        <td>50–70%</td>
+                        <td>10–15%</td>
+                        <td><span class="badge">60% reduction</span></td>
+                    </tr>
+                    <tr>
+                        <td>Agent onboarding time</td>
+                        <td>3–4 weeks</td>
+                        <td>3–4 days</td>
+                        <td><span class="badge">3x faster</span></td>
+                    </tr>
+                    <tr>
+                        <td>Capability discovery</td>
+                        <td>Manual audit</td>
+                        <td>Query + visualize</td>
+                        <td><span class="badge">Instant</span></td>
+                    </tr>
+                    <tr>
+                        <td>Rollback time</td>
+                        <td>2–4 hours</td>
+                        <td>1 minute</td>
+                        <td><span class="badge">240x faster</span></td>
+                    </tr>
+                    <tr>
+                        <td>Cost per agent fleet (Q)</td>
+                        <td>~$40K (ops)</td>
+                        <td>~$8K (GAIA overhead)</td>
+                        <td><span class="badge">80% savings</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        
+        <section class="section">
+            <h2>🚀 Get Started Now</h2>
+            <p><strong>Step 1:</strong> Install</p>
+            <pre style="background: var(--surface); border: 1px solid var(--border); padding: 1rem; border-radius: 8px; overflow-x: auto; margin: 1rem 0; color: var(--basic);"><code>pip install gaia-cli</code></pre>
+            
+            <p><strong>Step 2:</strong> Initialize</p>
+            <pre style="background: var(--surface); border: 1px solid var(--border); padding: 1rem; border-radius: 8px; overflow-x: auto; margin: 1rem 0; color: var(--basic);"><code>gaia init --user your-name</code></pre>
+            
+            <p><strong>Step 3:</strong> Scan & visualize</p>
+            <pre style="background: var(--surface); border: 1px solid var(--border); padding: 1rem; border-radius: 8px; overflow-x: auto; margin: 1rem 0; color: var(--basic);"><code>gaia scan && gaia tree</code></pre>
+            
+            <p><strong>Done!</strong> You now have a visual skill tree. Next: explore the registry.</p>
+            <pre style="background: var(--surface); border: 1px solid var(--border); padding: 1rem; border-radius: 8px; overflow-x: auto; margin: 1rem 0; color: var(--basic);"><code>gaia tree --canon</code></pre>
+            
+            <a href="./QUICKSTART.md" class="cta-button">📖 Full 5-Minute Quickstart</a>
+            <a href="./WHY-GAIA.md" class="cta-button" style="margin-left: 0.5rem;">💡 Read the Business Case</a>
+        </section>
+        
+        <section class="section">
+            <h2>🔗 Resources</h2>
+            <ul style="margin-left: 2rem; color: var(--muted);">
+                <li><a href="https://github.com/mbtiongson1/gaia-skill-tree" style="color: var(--basic); text-decoration: none;">GitHub Repository →</a></li>
+                <li><a href="./index.html" style="color: var(--basic); text-decoration: none;">Visual Skill Graph →</a></li>
+                <li><a href="./README.md" style="color: var(--basic); text-decoration: none;">Full Documentation →</a></li>
+                <li><a href="https://github.com/mbtiongson1/gaia-skill-tree/discussions" style="color: var(--basic); text-decoration: none;">Community Discussions →</a></li>
+                <li><a href="./CONTRIBUTING.md" style="color: var(--basic); text-decoration: none;">Contribute a Skill →</a></li>
+            </ul>
+        </section>
+        
+        <footer>
+            <p>Built with 🌳 by <a href="https://github.com/mbtiongson1" style="color: var(--basic); text-decoration: none;">mbtiongson1</a> and contributors</p>
+            <p>MIT License | Last updated: 2026-05-20 00:44:19</p>
+        </footer>
+    </div>
+</body>
+</html>

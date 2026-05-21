@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-20",
+  "generatedAt": "2026-05-21",
   "buckets": {
     "automated-testing": [
       {
@@ -27,6 +27,7 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "type": "extra",
         "role": "origin"
       },
       {
@@ -51,6 +52,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -75,6 +77,7 @@
         },
         "createdAt": "2026-05-14",
         "updatedAt": "2026-05-14",
+        "type": "extra",
         "role": "origin"
       },
       {
@@ -100,6 +103,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -129,6 +133,7 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -156,6 +161,7 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "type": "basic",
         "role": "origin"
       },
       {
@@ -181,6 +187,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "basic",
         "role": "variant"
       },
       {
@@ -205,6 +212,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "basic",
         "role": "variant"
       },
       {
@@ -230,6 +238,8 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "suiteRef": "mattpocock/personal",
+        "type": "basic",
         "role": "variant"
       }
     ],
@@ -256,6 +266,7 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "type": "extra",
         "role": "origin"
       },
       {
@@ -281,6 +292,8 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "suiteRef": "mattpocock/productivity",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -305,6 +318,7 @@
         },
         "createdAt": "2026-05-14",
         "updatedAt": "2026-05-14",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -329,6 +343,7 @@
         },
         "createdAt": "2026-05-14",
         "updatedAt": "2026-05-14",
+        "type": "basic",
         "role": "origin"
       },
       {
@@ -352,7 +367,8 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
-        "suiteRef": "garrytan/gstack",
+        "suiteRef": "garrytan/garrytan",
+        "type": "basic",
         "role": "variant"
       },
       {
@@ -377,6 +393,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "basic",
         "role": "variant"
       },
       {
@@ -401,6 +418,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "basic",
         "role": "variant"
       }
     ],
@@ -426,6 +444,7 @@
         },
         "createdAt": "2026-05-17",
         "updatedAt": "2026-05-17",
+        "type": "extra",
         "role": "variant"
       },
       {
@@ -451,6 +470,7 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "type": "extra",
         "role": "origin"
       },
       {
@@ -477,6 +497,7 @@
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -504,6 +525,7 @@
         },
         "createdAt": "2026-04-29",
         "updatedAt": "2026-04-30",
+        "type": "extra",
         "role": "origin"
       },
       {
@@ -529,6 +551,8 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "suiteRef": "mattpocock/engineering",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -555,6 +579,7 @@
         },
         "createdAt": "2026-05-17",
         "updatedAt": "2026-05-17",
+        "type": "extra",
         "role": "origin"
       },
       {
@@ -579,6 +604,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -605,6 +631,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       },
       {
@@ -631,6 +658,7 @@
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -658,6 +686,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "basic",
         "role": "variant"
       },
       {
@@ -683,6 +712,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "basic",
         "role": "variant"
       }
     ],
@@ -710,6 +740,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -736,6 +767,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       },
       {
@@ -760,6 +792,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       },
       {
@@ -784,6 +817,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       },
       {
@@ -808,6 +842,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -834,6 +869,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -860,6 +896,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "basic",
         "role": "variant"
       },
       {
@@ -884,6 +921,24 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "basic",
+        "role": "variant"
+      },
+      {
+        "id": "mattpocock/caveman",
+        "name": "Caveman Mode",
+        "contributor": "mattpocock",
+        "origin": false,
+        "genericSkillRef": "context-compression",
+        "status": "named",
+        "level": "3★",
+        "description": "An ultra-compressed communication mode designed to save tokens by dropping",
+        "title": "The Caveman Console",
+        "createdAt": "2026-05-21",
+        "updatedAt": "2026-05-21",
+        "suiteRef": "mattpocock/productivity",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
         "role": "variant"
       }
     ],
@@ -911,7 +966,8 @@
         },
         "createdAt": "2026-05-12",
         "updatedAt": "2026-05-12",
-        "suiteRef": "garrytan/gstack",
+        "suiteRef": "garrytan/garrytan",
+        "type": "extra",
         "role": "origin"
       },
       {
@@ -937,7 +993,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/ruflo-v3",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -965,6 +1022,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "basic",
         "role": "variant"
       }
     ],
@@ -990,7 +1048,8 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
-        "suiteRef": "garrytan/gstack",
+        "suiteRef": "garrytan/garrytan",
+        "type": "basic",
         "role": "variant"
       },
       {
@@ -1015,6 +1074,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "basic",
         "role": "variant"
       },
       {
@@ -1040,6 +1100,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "basic",
         "role": "variant"
       },
       {
@@ -1065,6 +1126,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "basic",
         "role": "variant"
       },
       {
@@ -1090,6 +1152,7 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "type": "basic",
         "role": "origin"
       },
       {
@@ -1113,6 +1176,7 @@
         },
         "createdAt": "2026-05-14",
         "updatedAt": "2026-05-14",
+        "type": "basic",
         "role": "variant"
       }
     ],
@@ -1140,6 +1204,7 @@
         "createdAt": "2026-05-12",
         "updatedAt": "2026-05-12",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -1168,6 +1233,13 @@
         "createdAt": "2026-05-12",
         "updatedAt": "2026-05-12",
         "suiteRef": "garrytan/gstack",
+        "suiteComponents": [
+          "garrytan/browse",
+          "garrytan/cso",
+          "garrytan/design-review",
+          "garrytan/office-hours"
+        ],
+        "type": "extra",
         "role": "variant"
       },
       {
@@ -1194,6 +1266,8 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "suiteRef": "mattpocock/engineering",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -1220,6 +1294,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -1297,6 +1372,7 @@
           "garrytan/sync-gbrain",
           "garrytan/unfreeze"
         ],
+        "type": "ultimate",
         "installBody": "**30-second install** — Requirements: Claude Code, Git, Bun v1.0+, Node.js (Windows only)\n\n### Step 1: Install on your machine\n\nOpen Claude Code and paste this. Claude does the rest.\n\n```\nInstall gstack: run git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/.claude/skills/gstack && cd ~/.claude/skills/gstack && ./setup then add a \"gstack\" section to CLAUDE.md that says to use the /browse skill from gstack for all web browsing, never use mcp__claude-in-chrome__* tools, and lists the available skills: /office-hours, /plan-ceo-review, /plan-eng-review, /plan-design-review, /design-consultation, /design-shotgun, /design-html, /review, /ship, /land-and-deploy, /canary, /benchmark, /browse, /connect-chrome, /qa, /qa-only, /design-review, /setup-browser-cookies, /setup-deploy, /setup-gbrain, /retro, /investigate, /document-release, /document-generate, /codex, /cso, /autoplan, /plan-devex-review, /devex-review, /careful, /freeze, /guard, /unfreeze, /gstack-upgrade, /learn. Then ask the user if they also want to add gstack to the current project so teammates get it.\n```\n\n### Step 2: Team mode — auto-update for shared repos (recommended)\n\nFrom inside your repo, paste this. Switches you to team mode, bootstraps the repo so teammates get gstack automatically, and commits the change:\n\n```\n(cd ~/.claude/skills/gstack && ./setup --team) && ~/.claude/skills/gstack/bin/gstack-team-init required && git add .claude/ CLAUDE.md && git commit -m \"require gstack for AI-assisted work\"\n```\n\nNo vendored files in your repo, no version drift, no manual upgrades. Every Claude Code session starts with a fast auto-update check (throttled to once/hour, network-failure-safe, completely silent).\n\nSwap `required` for `optional` if you'd rather nudge teammates than block them.",
         "role": "origin"
       }
@@ -1325,6 +1401,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       },
       {
@@ -1350,6 +1427,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "obra/superpowers",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -1377,6 +1455,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       },
       {
@@ -1401,6 +1480,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -1427,6 +1507,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       },
       {
@@ -1452,7 +1533,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/github-suite",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -1479,6 +1561,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       },
       {
@@ -1504,7 +1587,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/ruflo-v3",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -1531,6 +1615,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "basic",
         "role": "variant"
       }
     ],
@@ -1558,7 +1643,8 @@
         },
         "createdAt": "2026-05-12",
         "updatedAt": "2026-05-12",
-        "suiteRef": "garrytan/gstack",
+        "suiteRef": "garrytan/garrytan",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -1585,6 +1671,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "basic",
         "role": "variant"
       },
       {
@@ -1610,7 +1697,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/ruflo-v3",
+        "type": "basic",
         "role": "variant"
       }
     ],
@@ -1638,6 +1726,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       },
       {
@@ -1663,6 +1752,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       },
       {
@@ -1687,7 +1777,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/github-suite",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -1714,6 +1805,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       },
       {
@@ -1727,6 +1819,7 @@
         "description": "Declarative programming of language model pipelines, automatically optimizing prompts and RAG retrieval using bootstrapping and teleprompters.",
         "title": "The Programmatic Prompt Engineer",
         "catalogRef": "stanfordnlp-dspy",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -1753,6 +1846,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       },
       {
@@ -1778,6 +1872,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -1804,6 +1899,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "basic",
         "role": "variant"
       },
       {
@@ -1828,6 +1924,7 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "type": "basic",
         "role": "origin"
       },
       {
@@ -1853,6 +1950,7 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "type": "basic",
         "role": "variant"
       }
     ],
@@ -1879,6 +1977,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       },
       {
@@ -1903,6 +2002,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -1930,6 +2030,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       },
       {
@@ -1955,6 +2056,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "obra/superpowers",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -1981,6 +2083,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       },
       {
@@ -2007,6 +2110,7 @@
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -2031,6 +2135,7 @@
         },
         "createdAt": "2026-05-14",
         "updatedAt": "2026-05-14",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -2058,6 +2163,7 @@
         },
         "createdAt": "2026-05-03",
         "updatedAt": "2026-05-03",
+        "type": "basic",
         "role": "variant"
       }
     ],
@@ -2085,6 +2191,7 @@
         },
         "createdAt": "2026-05-03",
         "updatedAt": "2026-05-03",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -2112,6 +2219,7 @@
         },
         "createdAt": "2026-05-03",
         "updatedAt": "2026-05-03",
+        "type": "unique",
         "role": "variant"
       }
     ],
@@ -2139,6 +2247,7 @@
         },
         "createdAt": "2026-05-03",
         "updatedAt": "2026-05-03",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -2166,6 +2275,7 @@
         },
         "createdAt": "2026-05-03",
         "updatedAt": "2026-05-03",
+        "type": "basic",
         "role": "variant"
       }
     ],
@@ -2193,6 +2303,7 @@
         },
         "createdAt": "2026-05-15",
         "updatedAt": "2026-05-15",
+        "type": "unique",
         "role": "variant"
       }
     ],
@@ -2220,6 +2331,7 @@
         },
         "createdAt": "2026-05-03",
         "updatedAt": "2026-05-03",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -2245,6 +2357,7 @@
         },
         "createdAt": "2026-04-29",
         "updatedAt": "2026-04-30",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -2271,6 +2384,38 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "type": "basic",
+        "role": "origin"
+      }
+    ],
+    "mattpocock-engineering": [
+      {
+        "id": "mattpocock/engineering",
+        "name": "Engineering",
+        "contributor": "mattpocock",
+        "origin": true,
+        "genericSkillRef": "mattpocock-engineering",
+        "status": "named",
+        "level": "5★",
+        "description": "Engineering category suite for Matt Pocock's skills.",
+        "title": "The Matt Pocock Engineering Discipline",
+        "createdAt": "2026-05-21",
+        "updatedAt": "2026-05-21",
+        "suiteRef": "mattpocock/skills",
+        "suiteComponents": [
+          "mattpocock/diagnose",
+          "mattpocock/grill-with-docs",
+          "mattpocock/improve-codebase-architecture",
+          "mattpocock/prototype",
+          "mattpocock/setup-matt-pocock-skills",
+          "mattpocock/to-issues",
+          "mattpocock/to-prd",
+          "mattpocock/triage",
+          "mattpocock/ubiquitous-language",
+          "mattpocock/zoom-out"
+        ],
+        "type": "ultimate",
+        "installBody": "Add installation instructions here.",
         "role": "origin"
       }
     ],
@@ -2298,6 +2443,8 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-05-15",
+        "suiteRef": "mattpocock/productivity",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -2327,7 +2474,28 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-05-15",
+        "suiteRef": "mattpocock/engineering",
+        "type": "extra",
         "role": "origin"
+      }
+    ],
+    "agent-handoff": [
+      {
+        "id": "mattpocock/handoff",
+        "name": "Handoff",
+        "contributor": "mattpocock",
+        "origin": false,
+        "genericSkillRef": "agent-handoff",
+        "status": "named",
+        "level": "4★",
+        "description": "Compacts the current conversation into a summary for a fresh agent to",
+        "title": "The Handoff Protocol",
+        "createdAt": "2026-05-21",
+        "updatedAt": "2026-05-21",
+        "suiteRef": "mattpocock/productivity",
+        "type": "extra",
+        "installBody": "Add installation instructions here.",
+        "role": "variant"
       }
     ],
     "refactor-code": [
@@ -2355,7 +2523,153 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "suiteRef": "mattpocock/engineering",
+        "type": "basic",
         "role": "variant"
+      }
+    ],
+    "personal-knowledge-management": [
+      {
+        "id": "mattpocock/obsidian-vault",
+        "name": "Obsidian Vault Manager",
+        "contributor": "mattpocock",
+        "origin": false,
+        "genericSkillRef": "personal-knowledge-management",
+        "status": "named",
+        "level": "3★",
+        "description": "Manage notes and organization in a specific Obsidian vault using Title",
+        "title": "The Obsidian Vault Mapper",
+        "createdAt": "2026-05-21",
+        "updatedAt": "2026-05-21",
+        "suiteRef": "mattpocock/personal",
+        "type": "extra",
+        "installBody": "Add installation instructions here.",
+        "role": "variant"
+      }
+    ],
+    "mattpocock-personal": [
+      {
+        "id": "mattpocock/personal",
+        "name": "Personal",
+        "contributor": "mattpocock",
+        "origin": true,
+        "genericSkillRef": "mattpocock-personal",
+        "status": "named",
+        "level": "4★",
+        "description": "Personal category suite for Matt Pocock's skills.",
+        "title": "The Matt Pocock Personal Suite",
+        "createdAt": "2026-05-21",
+        "updatedAt": "2026-05-21",
+        "suiteRef": "mattpocock/skills",
+        "suiteComponents": [
+          "mattpocock/edit-article",
+          "mattpocock/obsidian-vault"
+        ],
+        "type": "extra",
+        "installBody": "Add installation instructions here.",
+        "role": "origin"
+      }
+    ],
+    "mattpocock-productivity": [
+      {
+        "id": "mattpocock/productivity",
+        "name": "Productivity",
+        "contributor": "mattpocock",
+        "origin": true,
+        "genericSkillRef": "mattpocock-productivity",
+        "status": "named",
+        "level": "4★",
+        "description": "Productivity category suite for Matt Pocock's skills.",
+        "title": "The Matt Pocock Productivity Suite",
+        "createdAt": "2026-05-21",
+        "updatedAt": "2026-05-21",
+        "suiteRef": "mattpocock/skills",
+        "suiteComponents": [
+          "mattpocock/caveman",
+          "mattpocock/grill-me",
+          "mattpocock/handoff",
+          "mattpocock/write-a-skill"
+        ],
+        "type": "extra",
+        "installBody": "Add installation instructions here.",
+        "role": "origin"
+      }
+    ],
+    "prototype": [
+      {
+        "id": "mattpocock/prototype",
+        "name": "Prototype",
+        "contributor": "mattpocock",
+        "origin": false,
+        "genericSkillRef": "prototype",
+        "status": "named",
+        "level": "3★",
+        "description": "Build throwaway prototypes to answer specific design or logic questions",
+        "title": "The Prototyping Engine",
+        "createdAt": "2026-05-21",
+        "updatedAt": "2026-05-21",
+        "suiteRef": "mattpocock/engineering",
+        "type": "extra",
+        "installBody": "Add installation instructions here.",
+        "role": "variant"
+      }
+    ],
+    "agent-environment-setup": [
+      {
+        "id": "mattpocock/setup-matt-pocock-skills",
+        "name": "Setup Matt Pocock Skills",
+        "contributor": "mattpocock",
+        "origin": false,
+        "genericSkillRef": "agent-environment-setup",
+        "status": "named",
+        "level": "3★",
+        "description": "Scaffolds per-repo configuration for other engineering skills (like triage,",
+        "title": "The Environment Scaffolder",
+        "createdAt": "2026-05-21",
+        "updatedAt": "2026-05-21",
+        "suiteRef": "mattpocock/engineering",
+        "type": "extra",
+        "installBody": "Add installation instructions here.",
+        "role": "variant"
+      }
+    ],
+    "mattpocock-skills": [
+      {
+        "id": "mattpocock/skills",
+        "name": "Matt Pocock Skills",
+        "contributor": "mattpocock",
+        "origin": true,
+        "genericSkillRef": "mattpocock-skills",
+        "status": "named",
+        "level": "6★",
+        "description": "The ultimate capstone suite encompassing all of Matt Pocock's engineering, productivity, and personal skills.",
+        "title": "The Matt Pocock Discipline",
+        "createdAt": "2026-05-22",
+        "updatedAt": "2026-05-22",
+        "suiteComponents": [
+          "mattpocock/caveman",
+          "mattpocock/diagnose",
+          "mattpocock/edit-article",
+          "mattpocock/engineering",
+          "mattpocock/grill-me",
+          "mattpocock/grill-with-docs",
+          "mattpocock/handoff",
+          "mattpocock/improve-codebase-architecture",
+          "mattpocock/obsidian-vault",
+          "mattpocock/personal",
+          "mattpocock/productivity",
+          "mattpocock/prototype",
+          "mattpocock/setup-matt-pocock-skills",
+          "mattpocock/to-issues",
+          "mattpocock/to-prd",
+          "mattpocock/triage",
+          "mattpocock/ubiquitous-language",
+          "mattpocock/write-a-skill",
+          "mattpocock/zoom-out"
+        ],
+        "type": "ultimate",
+        "installBody": "This is the ultimate capstone suite. Install it to get all of Matt Pocock's skills grouped by category.",
+        "role": "origin"
       }
     ],
     "prd-generation": [
@@ -2382,6 +2696,8 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "suiteRef": "mattpocock/engineering",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -2409,6 +2725,8 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "suiteRef": "mattpocock/engineering",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -2437,6 +2755,8 @@
         },
         "createdAt": "2026-05-15",
         "updatedAt": "2026-05-15",
+        "suiteRef": "mattpocock/engineering",
+        "type": "extra",
         "role": "variant"
       },
       {
@@ -2462,7 +2782,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/ruflo-v3",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -2490,6 +2811,8 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "suiteRef": "mattpocock/engineering",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -2515,6 +2838,7 @@
         },
         "createdAt": "2026-05-14",
         "updatedAt": "2026-05-14",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -2542,6 +2866,7 @@
         },
         "createdAt": "2026-05-15",
         "updatedAt": "2026-05-15",
+        "type": "unique",
         "role": "origin"
       }
     ],
@@ -2569,6 +2894,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "obra/superpowers",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -2596,6 +2922,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "obra/superpowers",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -2622,6 +2949,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "obra/superpowers",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -2649,6 +2977,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "obra/superpowers",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -2676,6 +3005,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "obra/superpowers",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -2703,6 +3033,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "obra/superpowers",
+        "type": "extra",
         "role": "origin"
       },
       {
@@ -2729,6 +3060,7 @@
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -2768,6 +3100,7 @@
           "obra/verification-before-completion",
           "obra/writing-plans"
         ],
+        "type": "ultimate",
         "role": "origin"
       }
     ],
@@ -2795,6 +3128,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "obra/superpowers",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -2822,6 +3156,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "obra/superpowers",
+        "type": "extra",
         "role": "origin"
       },
       {
@@ -2848,6 +3183,7 @@
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -2875,6 +3211,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "obra/superpowers",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -2902,6 +3239,7 @@
         },
         "createdAt": "2026-05-15",
         "updatedAt": "2026-05-15",
+        "type": "unique",
         "role": "origin"
       }
     ],
@@ -2929,6 +3267,7 @@
         },
         "createdAt": "2026-05-15",
         "updatedAt": "2026-05-15",
+        "type": "unique",
         "role": "variant"
       }
     ],
@@ -2956,7 +3295,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/agentdb",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -2983,7 +3323,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/agentdb",
+        "type": "extra",
         "role": "origin"
       },
       {
@@ -3008,7 +3349,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/reasoningbank",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -3035,7 +3377,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/agentdb",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -3062,7 +3405,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/agentdb",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -3090,7 +3434,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/agentdb",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -3119,6 +3464,14 @@
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
+        "suiteComponents": [
+          "ruvnet/agentdb-advanced",
+          "ruvnet/agentdb-learning",
+          "ruvnet/agentdb-memory-patterns",
+          "ruvnet/agentdb-optimization",
+          "ruvnet/agentdb-vector-search"
+        ],
+        "type": "ultimate",
         "role": "origin"
       }
     ],
@@ -3147,6 +3500,7 @@
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -3174,7 +3528,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/dual-mode",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -3202,7 +3557,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/dual-mode",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -3231,6 +3587,12 @@
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
+        "suiteComponents": [
+          "ruvnet/dual-collect",
+          "ruvnet/dual-coordinate",
+          "ruvnet/dual-spawn"
+        ],
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -3258,7 +3620,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/dual-mode",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -3286,7 +3649,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/flow-nexus",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -3314,7 +3678,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/flow-nexus",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -3342,7 +3707,8 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/flow-nexus",
+        "type": "extra",
         "role": "origin"
       },
       {
@@ -3368,7 +3734,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/ruflo-v3",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -3398,6 +3765,12 @@
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
+        "suiteComponents": [
+          "ruvnet/flow-nexus-neural",
+          "ruvnet/flow-nexus-platform",
+          "ruvnet/flow-nexus-swarm"
+        ],
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -3425,7 +3798,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/github-suite",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -3453,7 +3827,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/github-suite",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -3482,6 +3857,14 @@
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
+        "suiteComponents": [
+          "ruvnet/github-code-review",
+          "ruvnet/github-multi-repo",
+          "ruvnet/github-project-management",
+          "ruvnet/github-release-management",
+          "ruvnet/github-workflow-automation"
+        ],
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -3508,7 +3891,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/github-suite",
+        "type": "extra",
         "role": "variant"
       },
       {
@@ -3535,6 +3919,7 @@
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -3562,6 +3947,7 @@
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
+        "type": "unique",
         "role": "origin"
       }
     ],
@@ -3590,6 +3976,7 @@
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
+        "type": "basic",
         "role": "origin"
       },
       {
@@ -3616,7 +4003,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/ruflo-v3",
+        "type": "basic",
         "role": "variant"
       }
     ],
@@ -3643,7 +4031,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/reasoningbank",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -3671,6 +4060,11 @@
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
+        "suiteComponents": [
+          "ruvnet/reasoningbank-agentdb",
+          "ruvnet/reasoningbank-intelligence"
+        ],
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -3700,6 +4094,20 @@
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
+        "suiteComponents": [
+          "ruvnet/swarm-advanced",
+          "ruvnet/swarm-orchestration",
+          "ruvnet/v3-cli-modernization",
+          "ruvnet/v3-core-implementation",
+          "ruvnet/v3-ddd-architecture",
+          "ruvnet/v3-integration-deep",
+          "ruvnet/v3-mcp-optimization",
+          "ruvnet/v3-memory-unification",
+          "ruvnet/v3-performance-optimization",
+          "ruvnet/v3-security-overhaul",
+          "ruvnet/v3-swarm-coordination"
+        ],
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -3777,6 +4185,7 @@
           "ruvnet/worker-benchmarks",
           "ruvnet/worker-integration"
         ],
+        "type": "ultimate",
         "role": "origin"
       }
     ],
@@ -3805,6 +4214,7 @@
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -3833,6 +4243,7 @@
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -3860,7 +4271,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/ruflo-v3",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -3888,7 +4300,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/ruflo-v3",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -3916,7 +4329,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/ruflo-v3",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -3944,7 +4358,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/ruflo-v3",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -3972,7 +4387,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/ruflo-v3",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -4001,6 +4417,7 @@
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -4025,6 +4442,7 @@
         },
         "createdAt": "2026-05-14",
         "updatedAt": "2026-05-14",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -4049,6 +4467,7 @@
         },
         "createdAt": "2026-05-14",
         "updatedAt": "2026-05-14",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -4076,6 +4495,7 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -4102,6 +4522,7 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -4131,6 +4552,7 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "type": "extra",
         "role": "origin"
       }
     ]
@@ -4156,7 +4578,8 @@
         "repo": "https://github.com/mbtiongson1/gaia-skill-tree"
       },
       "createdAt": "2026-05-10",
-      "updatedAt": "2026-05-10"
+      "updatedAt": "2026-05-10",
+      "type": "basic"
     },
     {
       "id": "gaiabot/repo-docs-before-pr",
@@ -4178,7 +4601,8 @@
         "docs": "https://github.com/mbtiongson1/gaia-skill-tree#docs"
       },
       "createdAt": "2026-05-01",
-      "updatedAt": "2026-05-03"
+      "updatedAt": "2026-05-03",
+      "type": "basic"
     },
     {
       "id": "intelligentcode-ai/database-engineer",
@@ -4197,7 +4621,8 @@
         "graph-db",
         "time-series",
         "normalization"
-      ]
+      ],
+      "type": "basic"
     },
     {
       "id": "intelligentcode-ai/devops-engineer",
@@ -4216,7 +4641,8 @@
         "kubernetes",
         "terraform",
         "rollback"
-      ]
+      ],
+      "type": "extra"
     },
     {
       "id": "intelligentcode-ai/mcp-client",
@@ -4232,7 +4658,8 @@
         "model-context-protocol",
         "tool-integration",
         "cli"
-      ]
+      ],
+      "type": "basic"
     },
     {
       "id": "intelligentcode-ai/parallel-execution",
@@ -4248,7 +4675,8 @@
         "concurrency",
         "task-execution",
         "queue"
-      ]
+      ],
+      "type": "basic"
     },
     {
       "id": "intelligentcode-ai/release",
@@ -4266,7 +4694,8 @@
         "git-tag",
         "github-release",
         "automation"
-      ]
+      ],
+      "type": "extra"
     },
     {
       "id": "intelligentcode-ai/requirements-engineer",
@@ -4283,7 +4712,8 @@
         "user-stories",
         "acceptance-criteria",
         "specification"
-      ]
+      ],
+      "type": "basic"
     },
     {
       "id": "intelligentcode-ai/security-engineer",
@@ -4301,7 +4731,8 @@
         "compliance",
         "owasp",
         "penetration-testing"
-      ]
+      ],
+      "type": "extra"
     },
     {
       "id": "intelligentcode-ai/user-tester",
@@ -4319,7 +4750,8 @@
         "cross-browser",
         "user-journey",
         "visual-regression"
-      ]
+      ],
+      "type": "extra"
     },
     {
       "id": "pexp13/sentiment-analysis",
@@ -4331,7 +4763,8 @@
       "level": "3★",
       "description": ">",
       "createdAt": "2026-05-17",
-      "updatedAt": "2026-05-17"
+      "updatedAt": "2026-05-17",
+      "type": "basic"
     },
     {
       "id": "xquik-dev/hermes-tweet",
@@ -4354,7 +4787,8 @@
         "docs": "https://docs.xquik.com/guides/hermes-tweet"
       },
       "createdAt": "2026-05-15",
-      "updatedAt": "2026-05-15"
+      "updatedAt": "2026-05-15",
+      "type": "extra"
     }
   ],
   "byContributor": {
@@ -4477,11 +4911,20 @@
       "martin-stepanoski/nielsen-heuristics-audit"
     ],
     "mattpocock": [
+      "mattpocock/caveman",
       "mattpocock/diagnose",
       "mattpocock/edit-article",
+      "mattpocock/engineering",
       "mattpocock/grill-me",
       "mattpocock/grill-with-docs",
+      "mattpocock/handoff",
       "mattpocock/improve-codebase-architecture",
+      "mattpocock/obsidian-vault",
+      "mattpocock/personal",
+      "mattpocock/productivity",
+      "mattpocock/prototype",
+      "mattpocock/setup-matt-pocock-skills",
+      "mattpocock/skills",
       "mattpocock/to-issues",
       "mattpocock/to-prd",
       "mattpocock/triage",

@@ -1,0 +1,49 @@
+{
+  "id": "mattpocock-engineering",
+  "name": "mattpocock-engineering",
+  "type": "ultimate",
+  "level": "5★",
+  "rarity": "common",
+  "description": "Engineering category suite for Matt Pocock's skills.",
+  "prerequisites": [
+    "autonomous-debug",
+    "refactor-code",
+    "vertical-slice-planning",
+    "prd-generation",
+    "issue-triage",
+    "ubiquitous-language",
+    "code-explain",
+    "grill-with-docs",
+    "prototype",
+    "agent-environment-setup"
+  ],
+  "derivatives": [],
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/mattpocock/skills",
+      "evaluator": "mbtiongson1",
+      "date": "2026-05-22",
+      "notes": "Consolidated engineering suite for Matt Pocock's skills."
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-05-22",
+  "updatedAt": "2026-05-22",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-21T16:24:36Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill mattpocock-engineering"
+    },
+    {
+      "timestamp": "2026-05-21T17:17:01Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added B evidence from https://github.com/mattpocock/skills"
+    }
+  ]
+}

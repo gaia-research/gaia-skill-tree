@@ -28,10 +28,12 @@ Build a prioritized queue of Gaia skills or catalog items that need focused revi
    - **Missing Demerits**: Skills with known heavyweight dependencies or niche integrations that are not yet flagged in the registry.
 3. Re-check only enough external evidence to rank candidates. Do not perform every focused audit in the meta pass.
 4. Prioritize:
-   - P0: unsupported Ultimate/Legendary or named-origin claim
+   - P0: unsupported Ultimate claim or unsupported named-origin claim
    - P1: wrong `promotedNamedSkillId`, stale source URL, or likely superseded origin
    - P2: broad `mapsToGaia`, duplicate catalog item, or weak evidence tier
    - P3: documentation cleanup or generated-output drift
+
+   Do not flag candidates on rarity grounds — the rarity axis is deprecated (see `CONTEXT.md` § Rarity).
 5. Present a queue with target, reason, suggested action, and source files to inspect.
 6. For each accepted candidate, hand off to `/gaia-audit` as a separate focused correction, or use the **Meta Review CLI commands** for direct registry maintenance:
    - `gaia merge` for deduplicating or merging superseded skills.

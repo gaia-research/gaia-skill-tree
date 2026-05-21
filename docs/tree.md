@@ -2,7 +2,7 @@
 
 ```
 ══════════════════════════════════════════════════════════════════════
-GAIA SKILL TREE  v3.21.3  ·  generated 2026-05-20
+GAIA SKILL TREE  v3.22.3  ·  generated 2026-05-21
 ══════════════════════════════════════════════════════════════════════
 ◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = stars · [0★ · Pure] = Unawakened rank pill · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -70,6 +70,57 @@ Shared prerequisites marked (↑ see above) on second occurrence.
      ├─ ○ ruvnet/dual-spawn  [2★]
      ├─ ○ ruvnet/dual-collect  [2★]
      └─ ○ ruvnet/dual-coordinate  [2★]
+
+◆ mattpocock/skills  [6★]
+─────────────────────────────────────────────────────────────────
+  ├─ ◆ mattpocock/engineering  [5★]
+  │  ├─ ◇ devin-ai/autonomous-swe  [4★]
+  │  │  ├─ ○ garrytan/design-html  [1★]
+  │  │  ├─ ○ /code-execution  [2★]
+  │  │  └─ ○ /error-interpretation  [1★]
+  │  ├─ ○ mattpocock/improve-codebase-architecture  [2★]
+  │  ├─ ◇ mattpocock/to-issues  [3★]
+  │  │  ├─ ○ /plan-decompose  [1★]
+  │  │  └─ ○ /route-intent  [1★]
+  │  ├─ ◇ mattpocock/to-prd  [4★]
+  │  │  ├─ ○ glincker/readme-generator  [1★]
+  │  │  └─ ○ /plan-decompose  [1★]  (↑ see above)
+  │  ├─ ○ mattpocock/triage  [4★]
+  │  ├─ ◇ mattpocock/ubiquitous-language  [4★]
+  │  │  ├─ ○ /extract-entities  [1★]
+  │  │  └─ ○ /requirements-analysis  [2★]
+  │  ├─ ○ mattpocock/zoom-out  [2★]
+  │  ├─ ◇ mattpocock/grill-with-docs  [3★]
+  │  │  ├─ ◇ mattpocock/grill-me  [4★]
+  │  │  │  ├─ ◇ garrytan/design-shotgun  [3★]
+  │  │  │  │  ├─ ○ garrytan/benchmark  [1★]
+  │  │  │  │  └─ ○ /plan-decompose  [1★]  (↑ see above)
+  │  │  │  └─ ○ /self-critique  [1★]
+  │  │  ├─ ◇ mattpocock/ubiquitous-language  [4★]  (↑ see above)
+  │  │  └─ ○ anthropic/pptx  [0★]
+  │  ├─ ◇ mattpocock/prototype  [3★]
+  │  │  ├─ ○ garrytan/design-html  [1★]  (↑ see above)
+  │  │  └─ ○ /code-execution  [2★]  (↑ see above)
+  │  └─ ◇ mattpocock/setup-matt-pocock-skills  [3★]
+  │     ├─ ○ anthropic/pptx  [0★]  (↑ see above)
+  │     └─ ○ /tool-use  [1★]
+  ├─ ◇ mattpocock/productivity  [4★]
+  │  ├─ ◇ mattpocock/handoff  [4★]
+  │  │  ├─ ○ /summarize  [0★]
+  │  │  ├─ ○ anthropic/pptx  [0★]  (↑ see above)
+  │  │  └─ ○ garrytan/context-restore  [3★]
+  │  ├─ ○ garrytan/context-restore  [3★]  (↑ see above)
+  │  ├─ ◇ mattpocock/grill-me  [4★]  (↑ see above)
+  │  └─ ◇ anthropic/skill-creator  [4★]
+  │     ├─ ○ garrytan/design-html  [1★]  (↑ see above)
+  │     └─ ○ /tool-use  [1★]  (↑ see above)
+  ├─ ◇ mattpocock/personal  [4★]
+  │  ├─ ○ anthropic/pptx  [0★]  (↑ see above)
+  │  └─ ◇ mattpocock/obsidian-vault  [3★]
+  │     ├─ ○ /retrieve  [1★]
+  │     └─ ○ garrytan/context-restore  [3★]  (↑ see above)
+  ├─ ◇ anthropic/skill-creator  [4★]  (↑ see above)
+  └─ ◇ mattpocock/ubiquitous-language  [4★]  (↑ see above)
 
 ◆ ruvnet/agentdb  [5★]
 ─────────────────────────────────────────────────────────────────
@@ -215,6 +266,39 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ ◇ obra/verification-before-completion  [1★]  (↑ see above)
   └─ ◇ obra/writing-plans  [2★]  (↑ see above)
 
+◆ mattpocock/engineering  [5★]
+─────────────────────────────────────────────────────────────────
+  ├─ ◇ devin-ai/autonomous-swe  [4★]
+  │  ├─ ○ garrytan/design-html  [1★]
+  │  ├─ ○ /code-execution  [2★]
+  │  └─ ○ /error-interpretation  [1★]
+  ├─ ○ mattpocock/improve-codebase-architecture  [2★]
+  ├─ ◇ mattpocock/to-issues  [3★]
+  │  ├─ ○ /plan-decompose  [1★]
+  │  └─ ○ /route-intent  [1★]
+  ├─ ◇ mattpocock/to-prd  [4★]
+  │  ├─ ○ glincker/readme-generator  [1★]
+  │  └─ ○ /plan-decompose  [1★]  (↑ see above)
+  ├─ ○ mattpocock/triage  [4★]
+  ├─ ◇ mattpocock/ubiquitous-language  [4★]
+  │  ├─ ○ /extract-entities  [1★]
+  │  └─ ○ /requirements-analysis  [2★]
+  ├─ ○ mattpocock/zoom-out  [2★]
+  ├─ ◇ mattpocock/grill-with-docs  [3★]
+  │  ├─ ◇ mattpocock/grill-me  [4★]
+  │  │  ├─ ◇ garrytan/design-shotgun  [3★]
+  │  │  │  ├─ ○ garrytan/benchmark  [1★]
+  │  │  │  └─ ○ /plan-decompose  [1★]  (↑ see above)
+  │  │  └─ ○ /self-critique  [1★]
+  │  ├─ ◇ mattpocock/ubiquitous-language  [4★]  (↑ see above)
+  │  └─ ○ anthropic/pptx  [0★]
+  ├─ ◇ mattpocock/prototype  [3★]
+  │  ├─ ○ garrytan/design-html  [1★]  (↑ see above)
+  │  └─ ○ /code-execution  [2★]  (↑ see above)
+  └─ ◇ mattpocock/setup-matt-pocock-skills  [3★]
+     ├─ ○ anthropic/pptx  [0★]  (↑ see above)
+     └─ ○ /tool-use  [1★]
+
 ══════════════════════════════════════════════════════════════════════
 Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
 ══════════════════════════════════════════════════════════════════════
@@ -230,7 +314,6 @@ Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) throu
 Basics — basic-tier skills not wired into an upgrade path yet.  (0★ skills carry a [0★ · Pure] rank pill inline.)
 ══════════════════════════════════════════════════════════════════════
 
-  ○ mattpocock/zoom-out  [2★]
   ○ laravel/upgrade-laravel-v13  [0★ · Pure]
   ○ ruvnet/agentic-jujutsu  [2★]
   ○ /image-generate  [2★]
@@ -243,4 +326,4 @@ Basics — basic-tier skills not wired into an upgrade path yet.  (0★ skills c
   ○ ruvnet/worker-integration  [2★]
 ```
 
-*Generated from gaia.json on 2026-05-20. Do not edit directly.*
+*Generated from gaia.json on 2026-05-21. Do not edit directly.*

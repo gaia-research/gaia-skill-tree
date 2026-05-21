@@ -23,7 +23,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 RAW_DEFAULT = ROOT / "generated-output" / "ruflo-skills-raw.json"
-OUT_DEFAULT = ROOT / "docs" / "ruflo-curation.html"
+OUT_DEFAULT = ROOT / "docs" / "audits" / "ruflo-curation.html"
 
 LEVEL_LABEL = {
     "2★": "Named",

@@ -19,7 +19,7 @@ tags:
   - cso
 createdAt: "2026-05-12"
 updatedAt: "2026-05-12"
-suiteRef: "garrytan/gstack"
+suiteRef: "garrytan/garrytan"
 ---
 
 ## Overview

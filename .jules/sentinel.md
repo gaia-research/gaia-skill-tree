@@ -7,3 +7,7 @@
 **Vulnerability:** Critical Command Injection vulnerability found in `.agents/skills/graphify-triage/scripts/triage.py` where `subprocess.run` was executed with `shell=True` and string concatenation containing unsanitized input (`p['title']`, `p['body']`).
 **Learning:** Shell utilities or scripting tools that call CLI programs like `gh` are prone to this when wrapping shell commands for convenience without sanitizing arguments.
 **Prevention:** Always use a list of arguments for `subprocess.run` instead of string interpolation and never use `shell=True` unless absolutely necessary (and with properly sanitized inputs).
+## 2025-02-28 - Command Injection in triage.py
+**Vulnerability:** Found a command injection vulnerability in `.agents/skills/graphify-triage/scripts/triage.py` where `subprocess.run` was called with `shell=True` and string interpolated arguments for `gh issue create`.
+**Learning:** `shell=True` allows injection via specially crafted string inputs (like issue titles or bodies).
+**Prevention:** Avoid using `shell=True` unless absolutely necessary, and construct subprocess commands safely using an argument list instead of string interpolation to rely on argument escaping.

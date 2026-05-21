@@ -5,3 +5,6 @@
 ## 2026-05-19 - Tab roles and dynamic aria attributes
 **Learning:** Adding WAI-ARIA `role="tablist"`, `role="tab"` along with dynamically updating `aria-selected` and `aria-pressed` based on the `active` class is a recurring necessity for component-level tabs/toggles that aren't using a framework.
 **Action:** Used JS to toggle `aria-selected`/`aria-pressed` in tandem with `active` class in `docs/js/named-skills.js` and `docs/js/page-ia.js`.
+## 2024-05-20 - Adding ARIA labels to dynamically generated HTML elements
+**Learning:** Found multiple instances where UI JS logic (e.g. `plaque.js`, `skill-explorer.js`, `skill-graph.js`) generated icon-only buttons via template strings without ARIA labels, creating accessibility issues.
+**Action:** When working on UI enhancements, check dynamically constructed DOM elements inside JS files for accessibility attributes, especially `aria-label` for icon-only buttons, as these are often overlooked compared to static HTML files.

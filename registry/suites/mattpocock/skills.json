@@ -1,0 +1,50 @@
+{
+  "id": "mattpocock/skills",
+  "name": "Matt Pocock Skills",
+  "contributor": "mattpocock",
+  "description": "The ultimate capstone suite encompassing all of Matt Pocock's engineering, productivity, and personal skills.",
+  "version": "1.0.0",
+  "capstone": "mattpocock/skills",
+  "suites": [
+    {
+      "id": "engineering",
+      "name": "Engineering",
+      "fusion": "mattpocock/engineering",
+      "members": [
+        "mattpocock/diagnose",
+        "mattpocock/improve-codebase-architecture",
+        "mattpocock/to-issues",
+        "mattpocock/to-prd",
+        "mattpocock/triage",
+        "mattpocock/ubiquitous-language",
+        "mattpocock/zoom-out",
+        "mattpocock/grill-with-docs",
+        "mattpocock/prototype",
+        "mattpocock/setup-matt-pocock-skills"
+      ]
+    },
+    {
+      "id": "productivity",
+      "name": "Productivity",
+      "fusion": "mattpocock/productivity",
+      "members": [
+        "mattpocock/write-a-skill",
+        "mattpocock/caveman",
+        "mattpocock/handoff",
+        "mattpocock/grill-me"
+      ]
+    },
+    {
+      "id": "personal",
+      "name": "Personal",
+      "fusion": "mattpocock/personal",
+      "members": [
+        "mattpocock/edit-article",
+        "mattpocock/obsidian-vault"
+      ]
+    }
+  ],
+  "standalones": [],
+  "createdAt": "2026-05-22",
+  "updatedAt": "2026-05-22"
+}
