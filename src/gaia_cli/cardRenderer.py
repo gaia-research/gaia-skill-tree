@@ -115,6 +115,8 @@ RARITY_LABELS = {
     "legendary": "Legendary",
 }
 
+# 6★ label uses the brand-voice shorthand "Apex" per CONTEXT.md (Maturity > Apex).
+# Long-form surfaces use "Transcendent ★" in full; CLI plaques use the shorthand.
 # Level display
 LEVEL_LABELS = {
     "0★": "0★ Basic",
@@ -693,7 +695,7 @@ def render_promotion_prompt(skill_data: dict, proposed_level: str, canon: bool =
     
     lines.extend([
         f"  {gc}┌─ Fusion ──────────────────────────────┐{r}",
-        f"  {gc}│{r}  {display_colored} can advance to {b}Level {proposed_level}{r} ({level_name})",
+        f"  {gc}│{r}  {display_colored} can rank up to {b}Level {proposed_level}{r} ({level_name})",
         f"  {gc}│{r}  Run: {b}gaia fuse {skill_id}{r}",
         f"  {gc}└───────────────────────────────────────────┘{r}",
         "",
