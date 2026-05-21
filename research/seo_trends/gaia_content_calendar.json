@@ -1,0 +1,51 @@
+{
+  "weekly_content": {
+    "skill_spotlight": {
+      "frequency": "Weekly",
+      "format": "Twitter/X thread + LinkedIn post",
+      "structure": "Basic \u2192 Extra \u2192 Ultimate skill progression",
+      "cta": "Explore the full skill tree \u2192 gaia.tiongson.co",
+      "hashtags": [
+        "#AIAgents",
+        "#SkillGraph",
+        "#GAIA",
+        "#OpenSource"
+      ]
+    }
+  },
+  "biweekly_content": {
+    "seo_blog_post": {
+      "frequency": "Bi-weekly",
+      "format": "800-1200 word blog post",
+      "topics": [
+        "Beginner's guide to AI agent skill graphs",
+        "How skill composition reduces agent development time",
+        "The evolution of agent capability standards",
+        "From basic skills to legendary capabilities",
+        "Why evidence-based skill ranking matters"
+      ]
+    }
+  },
+  "monthly_content": {
+    "deep_dive": {
+      "frequency": "Monthly",
+      "format": "Comprehensive guide or case study",
+      "topics": [
+        "Ultimate skill analysis: Karpathy's autorearch",
+        "Building enterprise agent fleets with GAIA",
+        "The economics of agent skill reuse",
+        "Skill graph implementation patterns"
+      ]
+    }
+  },
+  "trend_jacking": {
+    "frequency": "As opportunities arise",
+    "format": "Quick takes and commentary",
+    "triggers": [
+      "Major AI agent announcements",
+      "Industry report releases",
+      "Conference keynotes",
+      "Viral AI agent demonstrations"
+    ]
+  }
+}
