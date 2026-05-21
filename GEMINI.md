@@ -82,8 +82,28 @@ cd packages/cli-npm && npm install
 - `src/gaia_cli/formatting.py`: Centralized slash-naming formatters, RANK_COLORS, and tier colors.
 - `src/gaia_cli/localContext.py`: Manages `LocalContext`, merging user trees, scan results, and named skill maps.
 
+### PR Pre-Submission Checklist (REQUIRED)
+To prevent common CI failures (documentation drift and version disagreement), follow these steps before every push:
+
+1. **Rebuild Documentation:** Ensure all graph artifacts and documentation are up to date.
+   ```bash
+   gaia docs build
+   ```
+2. **Verify Doc State:** Confirm no drift remains.
+   ```bash
+   gaia docs build --check
+   ```
+3. **Synchronize Versions:** If you made registry changes, ensure all version files are in sync.
+   - Files to check: `pyproject.toml`, `packages/cli-npm/package.json`, `packages/mcp/package.json`, `registry/gaia.json`.
+   - All must have the exact same version string (e.g., `3.21.5`).
+4. **Final Validation:**
+   ```bash
+   gaia validate
+   ```
+
 ### Versioning & Pre-commit
 - The following files **MUST** be kept in lockstep: `pyproject.toml`, `packages/cli-npm/package.json`, `packages/mcp/package.json`, and `registry/gaia.json`.
+- Use `gaia release patch` to automatically bump and synchronize these files when ready for a new version.
 - A pre-commit hook (`scripts/install-git-hooks.sh`) enforces this. Do not manually repair version drift without investigation.
 
 ### Skill Leveling (Evidence Floor)
