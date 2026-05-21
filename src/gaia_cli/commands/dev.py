@@ -681,8 +681,11 @@ def meta_add_command(args):
         print(f"Created generic skill: {dest_file}")
         append_skill_event(skill_id, "add", _get_contributor(), f"Added generic skill {skill_id}", registry_path=registry_path)
 
-    print("Regenerating registry and documentation...")
-    _run_docs_build(args.registry)
+    if not getattr(args, "no_build", False):
+        print("Regenerating registry and documentation...")
+        _run_docs_build(args.registry)
+    else:
+        print("Skipping documentation rebuild as requested (--no-build).")
 
 def meta_evidence_command(args):
     registry_path = args.registry
@@ -731,3 +734,133 @@ def meta_evidence_command(args):
 
     print("Regenerating registry and documentation...")
     _run_docs_build(args.registry)
+
+def meta_remove_command(args):
+    registry_path = args.registry
+    skill_id = args.skill_id.lstrip("/")
+
+    nodes_dir = Path(registry_nodes_dir(registry_path))
+    node_file = None
+    
+    for p in nodes_dir.glob("**/*.json"):
+        with open(p, "r", encoding="utf-8") as f:
+            try:
+                data = json.load(f)
+                if data.get("id") == skill_id:
+                    node_file = p
+                    break
+            except json.JSONDecodeError:
+                continue
+    
+    if not node_file:
+        print(f"Error: Generic skill '{skill_id}' not found.")
+        sys.exit(1)
+
+    node_file.unlink()
+    print(f"Removed generic skill file: {node_file}")
+
+    # Remove references in other skills
+    for p in nodes_dir.glob("**/*.json"):
+        with open(p, "r", encoding="utf-8") as f:
+            try:
+                data = json.load(f)
+            except json.JSONDecodeError:
+                continue
+        
+        changed = False
+        if "prerequisites" in data and skill_id in data["prerequisites"]:
+            data["prerequisites"].remove(skill_id)
+            changed = True
+        if "derivatives" in data and skill_id in data["derivatives"]:
+            data["derivatives"].remove(skill_id)
+            changed = True
+            
+        if changed:
+            with open(p, "w", encoding="utf-8") as f:
+                json.dump(data, f, indent=2, ensure_ascii=False)
+                f.write("\n")
+            print(f"Removed references to {skill_id} in {p}")
+
+    if not getattr(args, "no_build", False):
+        print("Regenerating registry and documentation...")
+        _run_docs_build(args.registry)
+    else:
+        print("Skipping documentation rebuild as requested (--no-build).")
+
+def meta_link_command(args):
+    registry_path = args.registry
+    target_id = args.target.lstrip("/")
+    prereqs = [p.strip() for p in args.prereqs.split(",")]
+
+    nodes_dir = Path(registry_nodes_dir(registry_path))
+    target_file = None
+    
+    for p in nodes_dir.glob("**/*.json"):
+        with open(p, "r", encoding="utf-8") as f:
+            try:
+                data = json.load(f)
+                if data.get("id") == target_id:
+                    target_file = p
+                    target_data = data
+                    break
+            except json.JSONDecodeError:
+                continue
+    
+    if not target_file:
+        print(f"Error: Target skill '{target_id}' not found.")
+        sys.exit(1)
+
+    merged = list(set(target_data.get("prerequisites", []) + prereqs))
+    target_data["prerequisites"] = sorted(merged)
+    target_data["updatedAt"] = datetime.date.today().isoformat()
+
+    with open(target_file, "w", encoding="utf-8") as f:
+        json.dump(target_data, f, indent=2, ensure_ascii=False)
+        f.write("\n")
+
+    print(f"Updated prerequisites for {target_id}: {target_data['prerequisites']}")
+
+    if not getattr(args, "no_build", False):
+        print("Regenerating registry and documentation...")
+        _run_docs_build(args.registry)
+    else:
+        print("Skipping documentation rebuild as requested (--no-build).")
+
+def meta_update_named_command(args):
+    registry_path = args.registry
+    skill_id = args.skill_id.lstrip("/")
+    
+    named_dir = Path(named_skills_dir(registry_path))
+    target_file = _find_named_file(named_dir, skill_id)
+    
+    if not target_file:
+        print(f"Error: Named skill '{skill_id}' not found.")
+        sys.exit(1)
+        
+    meta, body = _parse_md(target_file)
+    changed = False
+    
+    if getattr(args, "status", None):
+        meta["status"] = args.status
+        changed = True
+        
+    if getattr(args, "generic_ref", None):
+        meta["genericSkillRef"] = args.generic_ref
+        changed = True
+        
+    if getattr(args, "suite_components", None):
+        meta["suiteComponents"] = [s.strip() for s in args.suite_components.split(",")]
+        changed = True
+        
+    if changed:
+        meta["updatedAt"] = datetime.date.today().isoformat()
+        _write_md(target_file, meta, body)
+        print(f"Updated named skill frontmatter: {target_file}")
+        
+        if not getattr(args, "no_build", False):
+            print("Regenerating registry and documentation...")
+            _run_docs_build(args.registry)
+        else:
+            print("Skipping documentation rebuild as requested (--no-build).")
+    else:
+        print("No changes specified.")

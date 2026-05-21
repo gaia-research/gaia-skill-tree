@@ -25,6 +25,9 @@ from gaia_cli.commands.dev import (
     meta_merge_command,
     meta_split_command,
     meta_add_command,
+    meta_remove_command,
+    meta_link_command,
+    meta_update_named_command,
     meta_rename_command,
     meta_calibrate_command,
     meta_evidence_command,
@@ -1462,6 +1465,23 @@ def get_parser():
     dev_add.add_argument('--contributor', help="Contributor name for named skill (default: gaiabot)")
     dev_add.add_argument('--generic-ref', help="Generic skill reference for named skill")
     dev_add.add_argument('--extra-fields', help="JSON string of additional schema fields")
+    dev_add.add_argument('--no-build', action='store_true', help="Skip rebuilding docs and graph assets after adding")
+
+    dev_rm = dev_sub.add_parser('rm', help="Remove a skill from the registry")
+    dev_rm.add_argument('skill_id', help="Skill ID to remove")
+    dev_rm.add_argument('--no-build', action='store_true', help="Skip rebuilding docs and graph assets after removing")
+
+    dev_link = dev_sub.add_parser('link', help="Link skills by adding prerequisites")
+    dev_link.add_argument('target', help="Target skill ID that receives the prerequisites")
+    dev_link.add_argument('prereqs', help="Comma-separated list of prerequisite skill IDs")
+    dev_link.add_argument('--no-build', action='store_true', help="Skip rebuilding docs and graph assets after linking")
+
+    dev_update_named = dev_sub.add_parser('update-named', help="Update frontmatter properties of a named skill")
+    dev_update_named.add_argument('skill_id', help="Named skill ID (e.g. author/skill)")
+    dev_update_named.add_argument('--status', help="New status (e.g. awakened, named)")
+    dev_update_named.add_argument('--generic-ref', help="New generic skill reference")
+    dev_update_named.add_argument('--suite-components', help="Comma-separated list of suite components")
+    dev_update_named.add_argument('--no-build', action='store_true', help="Skip rebuilding docs and graph assets after updating")
 
     dev_evidence = dev_sub.add_parser('evidence', help="Add evidence to a skill")
     dev_evidence.add_argument('skill_id', help="Skill ID to add evidence to")
@@ -1620,6 +1640,12 @@ def main():
             meta_calibrate_command(args)
         elif dev_cmd == 'add':
             meta_add_command(args)
+        elif dev_cmd == 'rm':
+            meta_remove_command(args)
+        elif dev_cmd == 'link':
+            meta_link_command(args)
+        elif dev_cmd == 'update-named':
+            meta_update_named_command(args)
         elif dev_cmd == 'evidence':
             meta_evidence_command(args)
         elif dev_cmd == 'audit':
