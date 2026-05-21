@@ -4,12 +4,14 @@ name: Caveman Mode
 contributor: mattpocock
 origin: false
 genericSkillRef: context-compression
-status: awakened
+status: named
+title: "The Caveman Console"
 level: 3★
 description: An ultra-compressed communication mode designed to save tokens by dropping
   articles and filler words.
 createdAt: '2026-05-21'
 updatedAt: '2026-05-21'
+suiteRef: "mattpocock/productivity"
 ---
 
 ## Installation

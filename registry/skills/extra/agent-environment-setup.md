@@ -1,4 +1,4 @@
-# /agent-environment-setup  [3★ · Evolved]
+# [mattpocock](../../../docs/u/mattpocock/)/setup-matt-pocock-skills  [3★ · Evolved]
 **ID:** agent-environment-setup  
 **Type:** Extra Skill  
 **Level:** 3★  

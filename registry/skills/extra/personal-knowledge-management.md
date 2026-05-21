@@ -1,4 +1,4 @@
-# /personal-knowledge-management  [3★ · Evolved]
+# [mattpocock](../../../docs/u/mattpocock/)/obsidian-vault  [3★ · Evolved]
 **ID:** personal-knowledge-management  
 **Type:** Extra Skill  
 **Level:** 3★  

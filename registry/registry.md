@@ -4,9 +4,9 @@
 |---|---|---|---|---|
 | ○ [ruvnet](../docs/u/ruvnet/)/reasoningbank-intelligence | Basic Skill | 2★ | Named | `/adaptive-pattern-learning` |
 | ◇ [ruvnet](../docs/u/ruvnet/)/swarm-advanced | Extra Skill | 3★ | Evolved | `/advanced-swarm-coordination` |
-| ◇ /agent-environment-setup | Extra Skill | 3★ | Evolved | `/agent-environment-setup` |
+| ◇ [mattpocock](../docs/u/mattpocock/)/setup-matt-pocock-skills | Extra Skill | 3★ | Evolved | `/agent-environment-setup` |
 | ◇ /agent-eval | Extra Skill | 3★ | Evolved | `/agent-eval` |
-| ◇ /agent-handoff | Extra Skill | 4★ | Hardened | `/agent-handoff` |
+| ◇ [mattpocock](../docs/u/mattpocock/)/handoff | Extra Skill | 4★ | Hardened | `/agent-handoff` |
 | ◇ [ruvnet](../docs/u/ruvnet/)/agentdb-learning | Extra Skill | 3★ | Evolved | `/agent-memory-learning` |
 | ◆ [ruvnet](../docs/u/ruvnet/)/agentdb | Ultimate Skill | 5★ | Transcendent | `/agent-memory-platform` |
 | ◇ [ruvnet](../docs/u/ruvnet/)/sparc-methodology | Extra Skill | 3★ → 2★ | Evolved | `/agentic-workflow-design` |
@@ -93,10 +93,10 @@
 | ○ /logical-inference | Basic Skill | 1★ | Awakened | `/logical-inference` |
 | ○ /math-reason | Basic Skill | 2★ | Named | `/math-reason` |
 | ◇ /mathematical-animation | Extra Skill | 3★ → 2★ | Evolved | `/mathematical-animation` |
-| ◇ /mattpocock-engineering | Extra Skill | 5★ | Transcendent | `/mattpocock-engineering` |
-| ◇ /mattpocock-personal | Extra Skill | 4★ | Hardened | `/mattpocock-personal` |
-| ◇ /mattpocock-productivity | Extra Skill | 4★ | Hardened | `/mattpocock-productivity` |
-| ◆ /mattpocock-skills | Ultimate Skill | 6★ | Apex | `/mattpocock-skills` |
+| ◆ [mattpocock](../docs/u/mattpocock/)/engineering | Ultimate Skill | 5★ | Transcendent | `/mattpocock-engineering` |
+| ◇ [mattpocock](../docs/u/mattpocock/)/personal | Extra Skill | 4★ | Hardened | `/mattpocock-personal` |
+| ◇ [mattpocock](../docs/u/mattpocock/)/productivity | Extra Skill | 4★ | Hardened | `/mattpocock-productivity` |
+| ◆ [mattpocock](../docs/u/mattpocock/)/skills | Ultimate Skill | 6★ | Apex | `/mattpocock-skills` |
 | ◇ /mcp-debugger-control | Extra Skill | 4★ → 3★ | Hardened | `/mcp-debugger-control` |
 | ○ [garrytan](../docs/u/garrytan/)/pair-agent | Basic Skill | 3★ → 2★ | Evolved | `/mcp-integration` |
 | ◇ /mcp-server-creation | Extra Skill | 4★ | Hardened | `/mcp-server-creation` |
@@ -114,7 +114,7 @@
 | ○ /parse-json | Basic Skill | 1★ | Awakened | `/parse-json` |
 | ○ /parse-pdf | Basic Skill | 1★ | Awakened | `/parse-pdf` |
 | ○ [ruvnet](../docs/u/ruvnet/)/performance-analysis | Basic Skill | 2★ | Named | `/performance-tuning` |
-| ◇ /personal-knowledge-management | Extra Skill | 3★ | Evolved | `/personal-knowledge-management` |
+| ◇ [mattpocock](../docs/u/mattpocock/)/obsidian-vault | Extra Skill | 3★ | Evolved | `/personal-knowledge-management` |
 | ◇ /plan-and-execute | Extra Skill | 4★ | Hardened | `/plan-and-execute` |
 | ○ /plan-decompose | Basic Skill | 1★ | Awakened | `/plan-decompose` |
 | ◇ [ruvnet](../docs/u/ruvnet/)/ruflo-v3 | Extra Skill | 4★ | Hardened | `/platform-modernization-sprint` |
@@ -123,7 +123,7 @@
 | ◇ [garrytan](../docs/u/garrytan/)/landing-report | Extra Skill | 2★ | Named | `/project-management` |
 | ○ /prompt-injection-defense | Basic Skill | 3★ | Evolved | `/prompt-injection-defense` |
 | ◇ [stanfordnlp](../docs/u/stanfordnlp/)/dspy | Extra Skill | 4★ | Hardened | `/prompt-optimization` |
-| ◇ /prototype | Extra Skill | 3★ | Evolved | `/prototype` |
+| ◇ [mattpocock](../docs/u/mattpocock/)/prototype | Extra Skill | 3★ | Evolved | `/prototype` |
 | ○ [garrytan](../docs/u/garrytan/)/office-hours | Basic Skill | 4★ | Hardened | `/question-answer` |
 | ◇ [yonatangross](../docs/u/yonatangross/)/orchestkit-rag | Extra Skill | 3★ | Evolved | `/rag-pipeline` |
 | ○ /rank | Basic Skill | 1★ | Awakened | `/rank` |
@@ -222,12 +222,4 @@
 | ○ Test-Driven Development | Intrinsic Skill | 3★ | Evolved | `/test-driven-development` |
 | ○ Token Observability | Intrinsic Skill | 2★ | Named | `/token-observability` |
 | ○ Worker Agent Dispatch | Intrinsic Skill | 2★ | Named | `/worker-agent-dispatch` |
-
-## Ultimate Skills Awaiting Name
-
-*These Ultimate skills have no named implementation yet. The first contributor to submit a valid named implementation claims the title slot.  Submit with `gaia propose /<skill_id> --ultimate` and open a PR.*
-
-| Skill Call | Level | Prerequisites |
-|---|---|---|
-| `/mattpocock-skills` | 6★ | `/mattpocock-engineering`, `/mattpocock-productivity`, `/mattpocock-personal`, `/tool-creation`, `/ubiquitous-language` |
 

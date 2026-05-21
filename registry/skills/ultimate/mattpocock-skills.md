@@ -1,4 +1,4 @@
-# /mattpocock-skills  [6★ · Apex]
+# [mattpocock](../../../docs/u/mattpocock/)/skills  [6★ · Apex]
 **ID:** mattpocock-skills  
 **Type:** Ultimate Skill  
 **Level:** 6★  
@@ -11,7 +11,7 @@
 Ultimate capstone suite for Matt Pocock's skills.
 
 ## Prerequisites
-- [mattpocock-engineering](../extra/mattpocock-engineering.md)
+- [mattpocock-engineering](../ultimate/mattpocock-engineering.md)
 - [mattpocock-productivity](../extra/mattpocock-productivity.md)
 - [mattpocock-personal](../extra/mattpocock-personal.md)
 - [Tool Creation](../extra/tool-creation.md)

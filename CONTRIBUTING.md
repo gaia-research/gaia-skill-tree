@@ -41,24 +41,44 @@ Use this when proposing skills via `registry-for-review/skill-batches/*.json`.
 
 ```bash
 # List skills to find targets
-gaia list --generic
+gaia dev list --generic
 
 # Merge skills
-gaia merge target-id source-id-1 source-id-2
+gaia dev merge target-id source-id-1 source-id-2
 
 # Split a skill
-gaia split source-id target-id-1 target-id-2
+gaia dev split source-id target-id-1 target-id-2
 
 # Add a new skill
-gaia add "New Skill Name" --type basic --description "..."
+gaia dev add "New Skill Name" --type basic --description "..." [--status awakened] [--title "Lore Title"] [--level "2★"]
+
+# Reclassify a generic skill (change type)
+gaia dev reclassify skill-id ultimate
 
 # Add evidence
-gaia evidence skill-id "https://example.com/demo" --class B --notes "..."
+gaia dev evidence skill-id "https://example.com/demo" --class B --notes "..."
+
+# Calibrate level
+gaia dev calibrate skill-id "3★"
+
+# Link skills (add prerequisites)
+gaia dev link target-id prereq-id-1,prereq-id-2 [--reset]
+
+# Update named skill frontmatter
+gaia dev update-named author/skill --status awakened --suite-components c1,c2
+
+# Remove a skill
+gaia dev rm skill-id
+
+# Explicitly rebuild (useful after batching with --no-build)
+gaia dev build
 ```
+
+**Performance Tip:** Most `dev` commands support a `--no-build` flag. Use this during batch operations to skip the expensive documentation/graph regeneration until your final change is complete.
 
 After any CLI meta shift, validate:
 ```bash
-python3 scripts/validate.py
+gaia validate
 ```
 Note: The validator now checks the `registry/nodes/` directory by default.
 Open a PR with the programmatic changes. The pre-commit hooks will automatically handle `gaia.json` assembly and documentation regeneration.

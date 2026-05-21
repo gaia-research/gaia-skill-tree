@@ -1,4 +1,4 @@
-# /mattpocock-personal  [4★ · Hardened]
+# [mattpocock](../../../docs/u/mattpocock/)/personal  [4★ · Hardened]
 **ID:** mattpocock-personal  
 **Type:** Extra Skill  
 **Level:** 4★  

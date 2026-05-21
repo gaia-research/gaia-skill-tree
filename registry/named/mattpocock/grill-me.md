@@ -5,6 +5,7 @@ contributor: mattpocock
 origin: false
 genericSkillRef: grill-me
 status: named
+title: "The Griller"
 title: "The Relentless Interviewer"
 catalogRef: mattpocock-grill-me
 level: "4★"
@@ -19,6 +20,7 @@ tags:
   - one-question-at-a-time
 createdAt: "2026-04-30"
 updatedAt: "2026-05-15"
+suiteRef: "mattpocock/productivity"
 ---
 
 ## Overview

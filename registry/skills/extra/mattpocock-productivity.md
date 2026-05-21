@@ -1,4 +1,4 @@
-# /mattpocock-productivity  [4★ · Hardened]
+# [mattpocock](../../../docs/u/mattpocock/)/productivity  [4★ · Hardened]
 **ID:** mattpocock-productivity  
 **Type:** Extra Skill  
 **Level:** 4★  
@@ -11,10 +11,10 @@
 Productivity category suite for Matt Pocock's skills.
 
 ## Prerequisites
-- [Tool Creation](../extra/tool-creation.md)
-- [Context Compression](../basic/context-compression.md)
 - [agent-handoff](../extra/agent-handoff.md)
+- [Context Compression](../basic/context-compression.md)
 - [Grill Me](../extra/grill-me.md)
+- [Tool Creation](../extra/tool-creation.md)
 
 ## Unlocks
 _None._
