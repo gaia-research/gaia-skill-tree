@@ -1461,6 +1461,8 @@ def get_parser():
     dev_add.add_argument('--named', action='store_true', help="Add as a named skill instead of generic")
     dev_add.add_argument('--contributor', help="Contributor name for named skill (default: gaiabot)")
     dev_add.add_argument('--generic-ref', help="Generic skill reference for named skill")
+    dev_add.add_argument('--suite-ref', help="Suite reference ID for named skill")
+    dev_add.add_argument('--suite-components', help="Comma-separated list of component skill IDs for a suite")
     dev_add.add_argument('--extra-fields', help="JSON string of additional schema fields")
 
     dev_evidence = dev_sub.add_parser('evidence', help="Add evidence to a skill")

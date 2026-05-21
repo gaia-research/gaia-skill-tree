@@ -636,9 +636,19 @@ def meta_add_command(args):
             "status": "named",
             "level": getattr(args, "level", "2★"),
             "description": desc,
-            "createdAt": datetime.date.today().isoformat(),
-            "updatedAt": datetime.date.today().isoformat(),
         }
+
+        suite_ref = getattr(args, "suite_ref", None)
+        if suite_ref:
+            meta["suiteRef"] = suite_ref
+            
+        suite_components = getattr(args, "suite_components", None)
+        if suite_components:
+            meta["suiteComponents"] = [s.strip() for s in suite_components.split(",")]
+
+        meta["createdAt"] = datetime.date.today().isoformat()
+        meta["updatedAt"] = datetime.date.today().isoformat()
+
         body = "\n\n## Installation\nAdd installation instructions here.\n"
         _write_md(dest_file, meta, body)
         print(f"Created named skill: {dest_file}")
