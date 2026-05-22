@@ -8,7 +8,7 @@ status: named
 title: "Queen Seraphina's Court"
 catalogRef: ruvnet-flow-nexus-platform
 level: "3★"
-description: Full lifecycle management of the Flow Nexus cloud AI platform: user authentication, sandbox environments, app store deployment, payment processing, and challenge systems with Queen Seraphina AI assistant.
+description: "Full lifecycle management of the Flow Nexus cloud AI platform: user authentication, sandbox environments, app store deployment, payment processing, and challenge systems with Queen Seraphina AI assistant."
 links:
   github: https://github.com/ruvnet/ruflo
 tags:

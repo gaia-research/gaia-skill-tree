@@ -314,6 +314,7 @@ Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) throu
 Basics — basic-tier skills not wired into an upgrade path yet.  (0★ skills carry a [0★ · Pure] rank pill inline.)
 ══════════════════════════════════════════════════════════════════════
 
+  ○ Taoidle/plan-decompose-gh-plan-cascade  [2★]
   ○ /clinical-data-retrieval  [2★]
   ○ laravel/upgrade-laravel-v13  [0★ · Pure]
   ○ ruvnet/agentic-jujutsu  [2★]

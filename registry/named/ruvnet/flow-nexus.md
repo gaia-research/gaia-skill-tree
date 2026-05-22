@@ -8,7 +8,7 @@ status: named
 title: "The Grand Conductor's Trilogy"
 catalogRef: ruvnet-flow-nexus
 level: "4★"
-description: Complete Flow Nexus platform: multi-topology swarm deployment, cloud platform management with Queen Seraphina AI assistant, and distributed neural training.
+description: "Complete Flow Nexus platform: multi-topology swarm deployment, cloud platform management with Queen Seraphina AI assistant, and distributed neural training."
 links:
   github: https://github.com/ruvnet/ruflo
 tags:

@@ -219,6 +219,7 @@
 
 | Name | Class | Rank | Tier | Skill Call |
 |---|---|---|---|---|
+| ○ Autonomous Engineering Platform | Intrinsic Skill | 2★ | Named | `/autonomous-engineering-platform` |
 | ○ Clinical Data Retrieval | Intrinsic Skill | 2★ | Named | `/clinical-data-retrieval` |
 | ○ Framework Upgrade | Intrinsic Skill | 0★ | Basic | `/framework-upgrade` |
 | ○ Git Diff Risk Analysis | Intrinsic Skill | 2★ | Named | `/git-diff-risk-analysis` |

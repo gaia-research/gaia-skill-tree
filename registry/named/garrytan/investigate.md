@@ -8,7 +8,7 @@ status: named
 title: "Gstack Investigate"
 catalogRef: garrytan-investigate
 level: "4★"
-description: Systematic root-cause debugging enforcing an Iron Law — no fix without first identifying root cause — guiding through four phases: investigation, analysis, hypothesis formation, and verified implementation with evidence gathering and pattern matching before any code changes.
+description: "Systematic root-cause debugging enforcing an Iron Law — no fix without first identifying root cause — guiding through four phases: investigation, analysis, hypothesis formation, and verified implementation with evidence gathering and pattern matching before any code changes."
 links:
   github: https://github.com/garrytan/gstack/blob/main/investigate/SKILL.md
 tags:

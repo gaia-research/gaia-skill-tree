@@ -8,7 +8,7 @@ status: named
 title: "The Security Sentinel"
 catalogRef: ruvnet-v3-security-overhaul
 level: "2★"
-description: Comprehensive Ruflo v3 security overhaul: zero-trust federation, PII detection, mTLS/ed25519 authentication, and CVE scanning.
+description: "Comprehensive Ruflo v3 security overhaul: zero-trust federation, PII detection, mTLS/ed25519 authentication, and CVE scanning."
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
