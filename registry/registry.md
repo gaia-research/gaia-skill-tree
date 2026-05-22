@@ -47,6 +47,7 @@
 | ◇ [Manavarya09](../docs/u/Manavarya09/)/design-extract | Extra Skill | 3★ | Evolved | `/design-system-extraction` |
 | ◇ [garrytan](../docs/u/garrytan/)/canary | Extra Skill | 2★ | Named | `/detect-anomaly` |
 | ○ /diff-content | Basic Skill | 1★ | Awakened | `/diff-content` |
+| ◇ /dify-agent-suite | Extra Skill | 1★ | Awakened | `/dify-agent-suite` |
 | ◇ [obra](../docs/u/obra/)/dispatching-parallel-agents | Extra Skill | 4★ | Hardened | `/dispatching-parallel-agents` |
 | ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus-neural | Extra Skill | 3★ | Evolved | `/distributed-neural-training` |
 | ◇ [ruvnet](../docs/u/ruvnet/)/agentdb-advanced | Extra Skill | 3★ | Evolved | `/distributed-vector-memory` |
