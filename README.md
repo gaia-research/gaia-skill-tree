@@ -91,10 +91,17 @@ Basics fuse into Extras; Extras can fuse into Ultimates. Evidence powers each as
 |--------|------|--------|---------------|
 | ○ Basic | Primitive, indivisible capability | 0★ Unawakened → 4★ Hardened | None |
 | ◉ Unique | Graph-isolated Basic Skill that ranked up without fusing | 4★ Hardened | None (depth alone) |
-| ◇ Extra | Emerges from combining 2+ Basic Skills or fusing Extras | 2★ Named → 3★ Evolved → 4★ Hardened → 5★ Transcendent | Class C+ evidence |
-| ◆ Ultimate | High-complexity emergent capability (fewer than 1% of agents) | 5★ Transcendent → 6★ Transcendent ★ | Class A (peer-reviewed) |
+| ◇ Extra | Emerges from combining 2+ Basic Skills or fusing Extras | 2★ Named → 3★ Evolved → 4★ Hardened | Class C+ evidence |
+| ◆ Ultimate | High-complexity emergent capability (fewer than 1% of agents) | 5★ Transcendent → 6★ Apex | Class A (peer-reviewed) |
 
 Skills rank up through **evidence**, not declaration. Basics fuse into Extras or Ultimates; Extras can fuse with other Extras. Each demerit demotes a skill by one star (floored at 1★, valid for 2★+ only).
+Note: You can propose an Ultimate 5★ and keep an Evidence of Class B (Github Repo Real Skill) if:
+* you are fusing 5+ skills under your name
+* you are fusing an origin skill (first named after you)
+* your Github Repo achieves 10k+ stars (Class B)
+* this can skip the Class A evidence
+
+Then, if you have fused a 5★ Ultimate as another part of a suite, you can create a 6★ Apex Skill.
 
 ---
 
