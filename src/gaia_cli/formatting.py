@@ -3,6 +3,11 @@
 Implements the three-tier slash-naming hierarchy with ANSI coloring.
 """
 
+# Brand color choke point — keep canonical role tokens centralised here:
+#   - Honor Red  (#ef4444) → COLOR_CONTRIBUTOR — Origin Contributor handles
+#   - Apex Gold  (#fbbf24) → 6★ Transcendent ★ accent, sourced via RANK_COLORS
+# See CONTEXT.md "Brand-color roles" and PRODUCT.md "Brand Personality".
+
 from __future__ import annotations
 import json
 import os

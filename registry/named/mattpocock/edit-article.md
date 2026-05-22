@@ -5,6 +5,7 @@ contributor: mattpocock
 origin: false
 genericSkillRef: document-editing
 status: named
+title: "The Article Editor"
 title: "The Section-by-Section Rewrite"
 catalogRef: mattpocock-edit-article
 level: "2★"
@@ -19,6 +20,7 @@ tags:
   - clarity
 createdAt: "2026-04-30"
 updatedAt: "2026-04-30"
+suiteRef: "mattpocock/personal"
 ---
 
 ## Overview

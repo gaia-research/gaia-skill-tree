@@ -20,6 +20,11 @@ tags:
 createdAt: "2026-05-12"
 updatedAt: "2026-05-12"
 suiteRef: "garrytan/gstack"
+suiteComponents:
+  - garrytan/browse
+  - garrytan/cso
+  - garrytan/design-review
+  - garrytan/office-hours
 ---
 
 ## Overview

@@ -5,6 +5,7 @@ contributor: mattpocock
 origin: false
 genericSkillRef: tool-creation
 status: named
+title: "The Skill Builder"
 title: "The Skill Scaffolder"
 catalogRef: mattpocock-write-a-skill
 level: "3★"
@@ -19,6 +20,7 @@ tags:
   - progressive-disclosure
 createdAt: "2026-04-30"
 updatedAt: "2026-04-30"
+suiteRef: "mattpocock/productivity"
 ---
 
 ## Overview

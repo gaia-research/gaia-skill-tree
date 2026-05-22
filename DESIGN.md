@@ -1,5 +1,7 @@
 # DESIGN.md — Gaia Visual Design Language
 
+> Brand personality, anti-references, and the accessibility baseline live in [`PRODUCT.md`](PRODUCT.md). This document is the visual-token + motion spec layer; the canonical glossary and banned-synonyms lint live in [`CONTEXT.md`](CONTEXT.md).
+
 ## Repository Layout
 
 The visual system below applies to the public site, generated registry pages, and skill tree renders. Source files now live in the refactored Gaia layout:
@@ -301,3 +303,7 @@ Gaia's public surface (`gaia.tiongson.co`) is the **Hunter's Atlas**: a Sacred-A
 On top of the locked tier and rank colour tokens, two brand-voice tokens do the carry-everything work: **Honor Red (`--honor-red`)** is reserved for contributor handles; **Apex Gold (`--apex-gold`)** is reserved for 6★/Ultimate/Diamond-Seal moments and Apex-only affordances. Tier and rank colour tokens, Level VI shimmer, the graph canvas geometry, the Skill Explorer glow tokens, and the Ultimate/Extra cycling animations are all hard-locked and survive unchanged into this lane.
 
 The 3D canvas (`canvas3d`) is **preserved** as a secondary view — repurposed as an ambient parallax background behind the 2D graph hero, and reachable as the primary view via a `⇄ Field view` toggle. The 2D skill graph is the primary hero. The Diamond Seal mark (`◇G` lock-up) is the brand mark; the apex `◆` glyph remains free for its tier role. Per `CONTEXT.md:137-139`, "HUD" is internal-only nomenclature (used in code class names like `.hud-trigger` and file names like `hud-toggle.js`); user-facing copy uses **Field view** for the toggle and **Registry** for any view of the public skill graph.
+
+## Anti-references & accessibility (see PRODUCT.md)
+
+Visual guardrails — generic AI-startup dark mode, SaaS hero-metric dashboards, gamification-as-product, decorative glassmorphism, gradient text, and hype-heavy marketing copy — are enumerated in [`PRODUCT.md`](PRODUCT.md#anti-references). The accessibility baseline (WCAG AA; never symbol-alone or color-alone tier signal; `prefers-reduced-motion` for Level VI shimmer, the Naming Reveal cinematic, and the Ascension Cycle diagram; screen-reader-friendly CLI renders) lives in [`PRODUCT.md`](PRODUCT.md#accessibility--inclusion). Don't restate them here — link only, so the spec doesn't drift.

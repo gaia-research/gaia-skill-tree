@@ -5839,6 +5839,7 @@ h4.se-install-sub-h { font-size: .85rem; }
   gap: 28px;
   justify-content: center;
   flex-wrap: wrap;
+  max-width: 100%;
 }
 
 .se-flowchart-row-label {

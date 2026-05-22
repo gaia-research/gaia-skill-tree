@@ -14,22 +14,30 @@ eyeball which approach is worth investing in before building it for real.
   the HTML works without running Python.
 - `index.html` — vanilla JS + Canvas viewer. Open it directly in a browser.
 
-## Layouts
+## Versions
 
-| Key | Method | What it answers |
+### V1 — 2D Side-by-Side (`index.html`)
+The original 2D comparison using TF-IDF and Laplacian eigenmaps.
+
+### V2 — 3D Interactive Upgrade (`index_3d.html`)
+Projects the graph into 3D (x, y, z) using SVD and spectral decomposition. Supports rotation and zoom.
+
+| Key | Method | 3D Dimension |
 |---|---|---|
-| `spring` | networkx force-directed | Visual baseline. No ML. |
-| `spectral` | Laplacian eigenmaps (sklearn `SpectralEmbedding`) | "Skills with similar prerequisite neighborhoods should sit near each other." |
-| `semantic` | TF-IDF over `name + description` → TruncatedSVD to 2D | "Skills that *mean* the same thing should sit near each other, regardless of edges." |
-
-Communities are detected once on the structural graph (Louvain) and reused
-across all panels so the same color tracks the same cluster as it migrates
-between layouts.
+| `deterministic` | Golden Spiral | Tier-based spheres (Design parity) |
+| `spectral` | Laplacian Eigenmaps | Structural proximity in 3D space |
+| `semantic` | Embedding SVD | Shared "meaning" clusters in 3D space |
 
 ## Regenerating
 
+**For 2D Layouts (V1):**
 ```bash
 python docs/experiments/ml-graph-viz/build_layouts.py
+```
+
+**For 3D Layouts (V2):**
+```bash
+python docs/experiments/ml-graph-viz/build_layouts_3d.py
 ```
 
 Re-run after registry edits to refresh `layouts.json`. Requires `networkx`,

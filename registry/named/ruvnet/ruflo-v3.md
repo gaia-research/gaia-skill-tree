@@ -21,6 +21,18 @@ tags:
 createdAt: "2026-05-19"
 updatedAt: "2026-05-19"
 suiteRef: "ruvnet/ruflo"
+suiteComponents:
+  - ruvnet/swarm-advanced
+  - ruvnet/swarm-orchestration
+  - ruvnet/v3-cli-modernization
+  - ruvnet/v3-core-implementation
+  - ruvnet/v3-ddd-architecture
+  - ruvnet/v3-integration-deep
+  - ruvnet/v3-mcp-optimization
+  - ruvnet/v3-memory-unification
+  - ruvnet/v3-performance-optimization
+  - ruvnet/v3-security-overhaul
+  - ruvnet/v3-swarm-coordination
 ---
 
 ## Overview

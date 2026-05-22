@@ -4,7 +4,9 @@
 |---|---|---|---|---|
 | ○ [ruvnet](../docs/u/ruvnet/)/reasoningbank-intelligence | Basic Skill | 2★ | Named | `/adaptive-pattern-learning` |
 | ◇ [ruvnet](../docs/u/ruvnet/)/swarm-advanced | Extra Skill | 3★ | Evolved | `/advanced-swarm-coordination` |
+| ◇ [mattpocock](../docs/u/mattpocock/)/setup-matt-pocock-skills | Extra Skill | 3★ | Evolved | `/agent-environment-setup` |
 | ◇ /agent-eval | Extra Skill | 3★ | Evolved | `/agent-eval` |
+| ◇ [mattpocock](../docs/u/mattpocock/)/handoff | Extra Skill | 4★ | Hardened | `/agent-handoff` |
 | ◇ [ruvnet](../docs/u/ruvnet/)/agentdb-learning | Extra Skill | 3★ | Evolved | `/agent-memory-learning` |
 | ◆ [ruvnet](../docs/u/ruvnet/)/agentdb | Ultimate Skill | 5★ | Transcendent | `/agent-memory-platform` |
 | ◇ [ruvnet](../docs/u/ruvnet/)/sparc-methodology | Extra Skill | 3★ → 2★ | Evolved | `/agentic-workflow-design` |
@@ -26,6 +28,7 @@
 | ○ [ruvnet](../docs/u/ruvnet/)/v3-cli-modernization | Basic Skill | 2★ | Named | `/cli-modernization` |
 | ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus-platform | Extra Skill | 3★ | Evolved | `/cloud-platform-management` |
 | ○ /code-execution | Basic Skill | 2★ | Named | `/code-execution` |
+| ○ [mattpocock](../docs/u/mattpocock/)/zoom-out | Basic Skill | 2★ | Named | `/code-explain` |
 | ○ [garrytan](../docs/u/garrytan/)/design-html | Basic Skill | 1★ | Awakened | `/code-generation` |
 | ◇ [garrytan](../docs/u/garrytan/)/plan-eng-review | Extra Skill | 3★ | Evolved | `/code-review-pipeline` |
 | ◇ /collaborative-diagramming | Extra Skill | 2★ | Named | `/collaborative-diagramming` |
@@ -90,6 +93,10 @@
 | ○ /logical-inference | Basic Skill | 1★ | Awakened | `/logical-inference` |
 | ○ /math-reason | Basic Skill | 2★ | Named | `/math-reason` |
 | ◇ /mathematical-animation | Extra Skill | 3★ → 2★ | Evolved | `/mathematical-animation` |
+| ◆ [mattpocock](../docs/u/mattpocock/)/engineering | Ultimate Skill | 5★ | Transcendent | `/mattpocock-engineering` |
+| ◇ [mattpocock](../docs/u/mattpocock/)/personal | Extra Skill | 4★ | Hardened | `/mattpocock-personal` |
+| ◇ [mattpocock](../docs/u/mattpocock/)/productivity | Extra Skill | 4★ | Hardened | `/mattpocock-productivity` |
+| ◆ [mattpocock](../docs/u/mattpocock/)/skills | Ultimate Skill | 6★ | Apex | `/mattpocock-skills` |
 | ◇ /mcp-debugger-control | Extra Skill | 4★ → 3★ | Hardened | `/mcp-debugger-control` |
 | ○ [garrytan](../docs/u/garrytan/)/pair-agent | Basic Skill | 3★ → 2★ | Evolved | `/mcp-integration` |
 | ◇ /mcp-server-creation | Extra Skill | 4★ | Hardened | `/mcp-server-creation` |
@@ -107,6 +114,7 @@
 | ○ /parse-json | Basic Skill | 1★ | Awakened | `/parse-json` |
 | ○ /parse-pdf | Basic Skill | 1★ | Awakened | `/parse-pdf` |
 | ○ [ruvnet](../docs/u/ruvnet/)/performance-analysis | Basic Skill | 2★ | Named | `/performance-tuning` |
+| ◇ [mattpocock](../docs/u/mattpocock/)/obsidian-vault | Extra Skill | 3★ | Evolved | `/personal-knowledge-management` |
 | ◇ /plan-and-execute | Extra Skill | 4★ | Hardened | `/plan-and-execute` |
 | ○ /plan-decompose | Basic Skill | 1★ | Awakened | `/plan-decompose` |
 | ◇ [ruvnet](../docs/u/ruvnet/)/ruflo-v3 | Extra Skill | 4★ | Hardened | `/platform-modernization-sprint` |
@@ -115,6 +123,7 @@
 | ◇ [garrytan](../docs/u/garrytan/)/landing-report | Extra Skill | 2★ | Named | `/project-management` |
 | ○ /prompt-injection-defense | Basic Skill | 3★ | Evolved | `/prompt-injection-defense` |
 | ◇ [stanfordnlp](../docs/u/stanfordnlp/)/dspy | Extra Skill | 4★ | Hardened | `/prompt-optimization` |
+| ◇ [mattpocock](../docs/u/mattpocock/)/prototype | Extra Skill | 3★ | Evolved | `/prototype` |
 | ○ [garrytan](../docs/u/garrytan/)/office-hours | Basic Skill | 4★ | Hardened | `/question-answer` |
 | ◇ [yonatangross](../docs/u/yonatangross/)/orchestkit-rag | Extra Skill | 3★ | Evolved | `/rag-pipeline` |
 | ○ /rank | Basic Skill | 1★ | Awakened | `/rank` |
@@ -203,7 +212,6 @@
 
 | Name | Class | Rank | Tier | Skill Call |
 |---|---|---|---|---|
-| ○ Code Explain | Intrinsic Skill | 2★ | Named | `/code-explain` |
 | ○ Framework Upgrade | Intrinsic Skill | 0★ | Basic | `/framework-upgrade` |
 | ○ Git Diff Risk Analysis | Intrinsic Skill | 2★ | Named | `/git-diff-risk-analysis` |
 | ○ Image Generate | Intrinsic Skill | 2★ | Named | `/image-generate` |

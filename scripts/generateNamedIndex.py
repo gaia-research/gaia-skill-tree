@@ -64,6 +64,7 @@ INDEX_SKILL_FIELDS = [
     "createdAt",
     "updatedAt",
     "timeline",
+    "type",
     "suiteRef",
     "suiteComponents",
 ]
@@ -307,13 +308,17 @@ def load_suite_mappings(suites_dir):
 
             # Collect all constituents (members from all sub-suites + standalones)
             constituents = []
-            for suite in data.get("suites", []):
-                members = suite.get("members", [])
+            for sub_suite in data.get("suites", []):
+                members = sub_suite.get("members", [])
                 constituents.extend(members)
-                # If there's an intermediate fusion skill, it's also a constituent of the main suite
-                fusion = suite.get("fusion")
+                
+                fusion = sub_suite.get("fusion")
                 if fusion:
                     constituents.append(fusion)
+                    # Map the fusion skill to its members
+                    suite_to_components[fusion] = sorted(list(set(members)))
+                    for m in members:
+                        skill_to_suite[m] = fusion
 
             standalones = data.get("standalones", [])
             constituents.extend(standalones)
@@ -326,7 +331,9 @@ def load_suite_mappings(suites_dir):
             suite_to_components[suite_id] = constituents
 
             for skill in constituents:
-                skill_to_suite[skill] = suite_id
+                # Only map if not already mapped to a more specific sub-suite
+                if skill not in skill_to_suite:
+                    skill_to_suite[skill] = suite_id
         except Exception as exc:
             print(f"Warning: Failed to load suite file {fp}: {exc}")
 
@@ -424,7 +431,7 @@ def update_markdown_files_with_suite_metadata(named_skills, skill_to_suite, suit
             _write_frontmatter_updates(fp, updates)
 
 
-def validate_and_group(named_skills, valid_ids, skill_to_suite=None, suite_to_components=None):
+def validate_and_group(named_skills, graph_data, skill_to_suite=None, suite_to_components=None):
     """Validate all named skills and group by status and genericSkillRef.
 
     Returns (errors, buckets, awaiting_classification, by_contributor) where:
@@ -436,6 +443,9 @@ def validate_and_group(named_skills, valid_ids, skill_to_suite=None, suite_to_co
         skill_to_suite = {}
     if suite_to_components is None:
         suite_to_components = {}
+
+    valid_ids = {s["id"] for s in graph_data.get("skills", [])}
+    id_to_type = {s["id"]: s.get("type", "basic") for s in graph_data.get("skills", [])}
 
     errors = []
     buckets = {}  # genericSkillRef -> list of dicts (named only)
@@ -476,6 +486,10 @@ def validate_and_group(named_skills, valid_ids, skill_to_suite=None, suite_to_co
         entry = {field: fm.get(field) for field in INDEX_SKILL_FIELDS}
         # Strip None values for optional fields to keep output clean
         entry = {k: v for k, v in entry.items() if v is not None}
+
+        # Lookup type from generic skill if not explicitly in named skill
+        if "type" not in entry and ref in id_to_type:
+            entry["type"] = id_to_type[ref]
 
         # Dynamically inject suiteRef and suiteComponents based on loaded suite mappings
         skill_id = fm.get("id", "")
@@ -589,7 +603,7 @@ def main():
 
     print(f"Found {len(named_skills)} named skill file(s). Validating...")
     errors, buckets, awaiting_classification, by_contributor = validate_and_group(
-        named_skills, valid_ids, skill_to_suite, suite_to_components
+        named_skills, graph_data, skill_to_suite, suite_to_components
     )
 
     if errors:

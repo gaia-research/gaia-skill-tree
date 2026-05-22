@@ -6,24 +6,28 @@ import sys
 import re
 from pathlib import Path
 
+import shlex
+
 def run_command(cmd, capture_output=True):
-    """Helper to run shell commands safely."""
+    """Helper to run shell commands safely without shell=True to prevent command injection."""
     try:
+        # If cmd is a string, safely split it (assuming no complex shell interpolations are intended)
+        if isinstance(cmd, str):
+            cmd = shlex.split(cmd)
         result = subprocess.run(
             cmd,
-            shell=True,
             check=True,
             capture_output=capture_output,
             text=True
         )
-        return result.stdout.strip()
+        return result.stdout.strip() if result.stdout else None
     except subprocess.CalledProcessError as e:
         print(f"Error running command: {cmd}\n{e.stderr}", file=sys.stderr)
         return None
 
 def check_gh_auth():
     """Verify GitHub CLI is authenticated."""
-    result = run_command("gh auth status")
+    result = run_command(["gh", "auth", "status"])
     if result is None:
         print("GitHub CLI not authenticated. Please run 'gh auth login'.", file=sys.stderr)
         return False
@@ -106,7 +110,7 @@ def main():
 
     if args.command == 'audit':
         print(f"Running graphify on {args.path}...")
-        run_command(f"graphify . --update", capture_output=False)
+        run_command(["graphify", ".", "--update"], capture_output=False)
         
         report_path = os.path.join(args.path, "graphify-out/GRAPH_REPORT.md")
         sections = parse_graph_report(report_path)
@@ -128,13 +132,17 @@ def main():
         with open(args.input, 'r', encoding='utf-8') as f:
             payloads = json.load(f)
             
-        repo_flag = f"-R {args.repo}" if args.repo else ""
-        
         for p in payloads:
             print(f"Creating issue: {p['title']}")
-            cmd = f"gh issue create {repo_flag} --title \"{p['title']}\" --body \"{p['body']}\""
+            cmd = ["gh", "issue", "create"]
+
+            if args.repo:
+                cmd.extend(["-R", args.repo])
+
+            cmd.extend(["--title", p['title'], "--body", p['body']])
+
             for lbl in p.get("labels", []):
-                cmd += f" --label \"{lbl}\""
+                cmd.extend(["--label", lbl])
             
             run_command(cmd, capture_output=False)
         

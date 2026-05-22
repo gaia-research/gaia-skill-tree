@@ -211,12 +211,12 @@
             if (isHostTab && (codeText.indexOf('./setup') !== -1 || codeText.indexOf('./install') !== -1)) {
               htmlParts.push('<div class="se-install-block se-install-block--code">' +
                 '<pre class="se-install-code"><code id="se-code-' + tabId + '" data-base="' + esc(codeText) + '">' + esc(codeText) + '</code></pre>' +
-                '<button class="se-copy-btn" title="Copy to clipboard" id="se-copy-' + tabId + '" data-cmd="' + esc(codeText) + '">' + COPY_ICON() + '</button>' +
+                '<button class="se-copy-btn" title="Copy to clipboard" aria-label="Copy to clipboard" id="se-copy-' + tabId + '" data-cmd="' + esc(codeText) + '">' + COPY_ICON() + '</button>' +
                 '</div>');
             } else {
               htmlParts.push('<div class="se-install-block se-install-block--code">' +
                 '<pre class="se-install-code"><code>' + esc(codeText) + '</code></pre>' +
-                '<button class="se-copy-btn" title="Copy to clipboard" data-cmd="' + esc(codeText) + '">' + COPY_ICON() + '</button>' +
+                '<button class="se-copy-btn" title="Copy to clipboard" aria-label="Copy to clipboard" data-cmd="' + esc(codeText) + '">' + COPY_ICON() + '</button>' +
                 '</div>');
             }
             codeLines = [];
@@ -375,7 +375,7 @@
       return '<div class="' + cls + '">' +
         '<div class="se-install-label">' + label + (sublabel ? '<span>' + sublabel + '</span>' : '') + '</div>' +
         '<code class="se-install-cmd">' + esc(cmd) + '</code>' +
-        (copyable !== false ? '<button class="se-copy-btn" title="Copy to clipboard" data-cmd="' + esc(cmd) + '">' + COPY_ICON() + '</button>' : '') +
+        (copyable !== false ? '<button class="se-copy-btn" title="Copy to clipboard" aria-label="Copy to clipboard" data-cmd="' + esc(cmd) + '">' + COPY_ICON() + '</button>' : '') +
       '</div>';
     }
 

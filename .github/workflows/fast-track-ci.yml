@@ -1,0 +1,85 @@
+name: Fast-Track CI (small PRs)
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  fast-track:
+    name: Quick checks for small PRs
+    runs-on: ubuntu-latest
+    if: |
+      github.event.pull_request.changed_files < 10 &&
+      !contains(github.event.pull_request.labels.*.name, 'skip-fast-track')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Quick branch scope check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: ${{ github.head_ref }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          set -euo pipefail
+
+          # Skip for bot PRs or skip labels
+          if [[ "${{ contains(github.event.pull_request.labels.*.name, 'skip-scope-check') }}" == "true" ]] || \
+             [[ "${{ contains(github.event.pull_request.labels.*.name, 'jules') }}" == "true" ]] || \
+             [[ "${{ contains(github.event.pull_request.labels.*.name, 'codex') }}" == "true" ]] || \
+             [[ "${{ contains(github.event.pull_request.labels.*.name, 'claude-bot') }}" == "true" ]]; then
+            echo "✓ Skipping branch scope check (bot PR or skip label)"
+            exit 0
+          fi
+
+          PREFIX=""
+          case "$BRANCH" in
+            schema/*)           PREFIX="schema" ;;
+            cli/*)              PREFIX="cli" ;;
+            docs/*)             PREFIX="docs" ;;
+            design/*)           PREFIX="design" ;;
+            review/gaia-push/*) PREFIX="review-push" ;;
+            review/meta/*)      PREFIX="review-meta" ;;
+            dev/*)              PREFIX="dev" ;;
+            infra/*)            PREFIX="infra" ;;
+            *)                  PREFIX="unknown" ;;
+          esac
+
+          if [ "$PREFIX" = "unknown" ]; then
+            echo "⚠ Unrecognized branch prefix: $BRANCH"
+          else
+            echo "✓ Branch prefix valid: $PREFIX"
+          fi
+
+      - name: Syntax validation
+        run: |
+          echo "✓ Running syntax checks on changed files..."
+          # Only validate files that exist
+          for file in $(git diff --name-only origin/${{ github.base_ref }}...HEAD); do
+            [ -f "$file" ] || continue
+            case "$file" in
+              *.json)
+                python3 -m json.tool "$file" > /dev/null && echo "✓ $file"
+                ;;
+              *.yaml|*.yml)
+                python3 -c "import yaml; yaml.safe_load(open('$file'))" && echo "✓ $file"
+                ;;
+              *.py)
+                python3 -m py_compile "$file" && echo "✓ $file"
+                ;;
+            esac
+          done
+
+      - name: Report fast-track pass
+        run: |
+          echo "## ✅ Fast-Track CI Passed"
+          echo "- Changed files: ${{ github.event.pull_request.changed_files }}"
+          echo "- Branch: ${{ github.head_ref }}"
+          echo "- Deferred full validation to merge"
