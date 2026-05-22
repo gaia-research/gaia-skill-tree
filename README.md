@@ -90,7 +90,7 @@ Basics fuse into Extras; Extras can fuse into Ultimates. Evidence powers each as
 | Symbol | Tier | Levels | Evidence floor |
 |--------|------|--------|---------------|
 | ○ Basic | Primitive, indivisible capability | 0★ Unawakened → 1★ Awakened | None |
-| ◉ Unique | Graph-isolated Basic Skill that ranked up without fusing | 1★ Awakened → 6★ Transcendent ★ | None (depth alone) |
+| ◉ Unique | Graph-isolated Basic Skill that ranked up without fusing | 4★ Hardened | None (depth alone) |
 | ◇ Extra | Emerges from combining 2+ Basic Skills or fusing Extras | 2★ Named → 3★ Evolved → 4★ Hardened → 5★ Transcendent | Class C+ evidence |
 | ◆ Ultimate | High-complexity emergent capability (fewer than 1% of agents) | 5★ Transcendent → 6★ Transcendent ★ | Class A (peer-reviewed) |
 
