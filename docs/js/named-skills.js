@@ -360,7 +360,7 @@
 
         var dx = tx - fx;
         var dy = ty - fy;
-        var ctrl = Math.abs(dy) * 0.55 + Math.abs(dx) * 0.12;
+        var ctrl = Math.abs(dy) * 0.25 + Math.abs(dx) * 0.05;
         var d = 'M' + fx.toFixed(1) + ',' + fy.toFixed(1) +
                 ' C' + fx.toFixed(1) + ',' + (fy + ctrl).toFixed(1) +
                 ' ' + tx.toFixed(1) + ',' + (ty - ctrl).toFixed(1) +
