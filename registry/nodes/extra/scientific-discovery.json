@@ -6,9 +6,10 @@
   "rarity": "epic",
   "description": "Autonomously generates novel scientific hypotheses, designs and executes experiments, analyses results, and produces a written report â€” completing a full research cycle without human intervention.",
   "prerequisites": [
+    "computational-biology-workflows",
     "hypothesis-generate",
-    "research",
-    "math-reason"
+    "math-reason",
+    "research"
   ],
   "derivatives": [],
   "conditions": "Requires laboratory tool access or simulation environment. Minimum 3 Class A/B evidence sources.",
@@ -38,7 +39,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-04-28",
+  "updatedAt": "2026-05-23",
   "version": "0.2.0",
   "title": "The Doctor"
 }

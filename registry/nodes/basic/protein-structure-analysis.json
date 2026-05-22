@@ -1,0 +1,64 @@
+{
+  "id": "protein-structure-analysis",
+  "name": "Protein Structure Analysis",
+  "type": "basic",
+  "level": "2★",
+  "rarity": "common",
+  "description": "Analyzes, searches, and aligns three-dimensional macromolecular structures using structural databases, alignment search algorithms (e.g. Foldseek, PDB search), or molecular modeling tools.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/google-deepmind/science-skills",
+      "evaluator": "unknown",
+      "date": "2026-05-23",
+      "notes": "Foundational canonical generic skill for Protein Structure Analysis."
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/pdb_database/SKILL.md",
+      "evaluator": "unknown",
+      "date": "2026-05-23",
+      "notes": "Official Google DeepMind pdb_database science-skill implementation."
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/foldseek_structural_search/SKILL.md",
+      "evaluator": "unknown",
+      "date": "2026-05-23",
+      "notes": "Official Google DeepMind foldseek_structural_search science-skill implementation."
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-05-23",
+  "updatedAt": "2026-05-23",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-22T20:22:11Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill protein-structure-analysis"
+    },
+    {
+      "timestamp": "2026-05-22T20:22:11Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/google-deepmind/science-skills"
+    },
+    {
+      "timestamp": "2026-05-22T20:22:18Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/pdb_database/SKILL.md"
+    },
+    {
+      "timestamp": "2026-05-22T20:22:19Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/foldseek_structural_search/SKILL.md"
+    }
+  ]
+}

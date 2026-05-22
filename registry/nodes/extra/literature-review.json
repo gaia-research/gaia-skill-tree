@@ -6,8 +6,9 @@
   "rarity": "uncommon",
   "description": "Conducts systematic multi-database academic literature searches following PRISMA/SWARM protocols, screens and synthesises findings, verifies all citations, and generates a structured review report.",
   "prerequisites": [
-    "research",
     "cite-sources",
+    "literature-search",
+    "research",
     "summarize"
   ],
   "derivatives": [],
@@ -31,6 +32,6 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-04-30",
+  "updatedAt": "2026-05-23",
   "version": "0.1.0"
 }

@@ -28,6 +28,8 @@ Requires a target agent skill format and a repeatable evaluation loop for trigge
 |---|---|---|---|
 | A | https://arxiv.org/abs/2602.08004 | codex | 2026-05-10 |
 | B | https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md | codex | 2026-05-10 |
+| B | https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md | unknown | 2026-05-23 |
+| B | https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md | unknown | 2026-05-23 |
 
 ## Known Agents
 - Claude

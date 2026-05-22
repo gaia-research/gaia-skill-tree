@@ -17,6 +17,7 @@
 | ◇ /autonomous-data-scientist | Extra Skill | 5★ | Transcendent | `/autonomous-data-scientist` |
 | ◇ [devin-ai](../docs/u/devin-ai/)/autonomous-swe | Extra Skill | 4★ | Hardened | `/autonomous-debug` |
 | ◇ [karpathy](../docs/u/karpathy/)/autoresearch | Extra Skill | 4★ | Hardened | `/autonomous-web-research` |
+| ○ /bioinformatic-sequence-analysis | Basic Skill | 2★ | Named | `/bioinformatic-sequence-analysis` |
 | ◇ [obra](../docs/u/obra/)/brainstorming | Extra Skill | 1★ | Awakened | `/brainstorming` |
 | ◇ [gooseworks](../docs/u/gooseworks/)/notte-browser | Extra Skill | 3★ | Evolved | `/browser-automation` |
 | ○ [browser-use](../docs/u/browser-use/)/browser-harness | Basic Skill | 2★ | Named | `/browser-control` |
@@ -32,6 +33,7 @@
 | ○ [garrytan](../docs/u/garrytan/)/design-html | Basic Skill | 1★ | Awakened | `/code-generation` |
 | ◇ [garrytan](../docs/u/garrytan/)/plan-eng-review | Extra Skill | 3★ | Evolved | `/code-review-pipeline` |
 | ◇ /collaborative-diagramming | Extra Skill | 2★ | Named | `/collaborative-diagramming` |
+| ◇ /computational-biology-workflows | Extra Skill | 4★ | Hardened | `/computational-biology-workflows` |
 | ○ /computer-use | Basic Skill | 2★ | Named | `/computer-use` |
 | ◇ /content-moderation | Extra Skill | 3★ | Evolved | `/content-moderation` |
 | ○ [garrytan](../docs/u/garrytan/)/context-restore | Basic Skill | 3★ | Evolved | `/context-compression` |
@@ -71,6 +73,7 @@
 | ○ [upsonic](../docs/u/upsonic/)/unittest-generator | Basic Skill | 2★ | Named | `/generate-test` |
 | ○ /generate-text | Basic Skill | 0★ | Basic | `/generate-text` |
 | ◇ /generative-media | Extra Skill | 3★ → 2★ | Evolved | `/generative-media` |
+| ○ /genomic-data-retrieval | Basic Skill | 2★ | Named | `/genomic-data-retrieval` |
 | ◇ /ghostwrite | Extra Skill | 1★ | Awakened | `/ghostwrite` |
 | ◇ [ruvnet](../docs/u/ruvnet/)/github-suite | Extra Skill | 3★ | Evolved | `/github-platform-mastery` |
 | ◇ [mattpocock](../docs/u/mattpocock/)/grill-me | Extra Skill | 4★ | Hardened | `/grill-me` |
@@ -90,6 +93,7 @@
 | ◇ /knowledge-harvest | Extra Skill | 1★ | Awakened | `/knowledge-harvest` |
 | ◇ [garrytan](../docs/u/garrytan/)/setup-gbrain | Extra Skill | 2★ | Named | `/knowledge-management` |
 | ◇ [huggingface](../docs/u/huggingface/)/huggingface-papers | Extra Skill | 4★ | Hardened | `/literature-review` |
+| ○ /literature-search | Basic Skill | 2★ | Named | `/literature-search` |
 | ○ /logical-inference | Basic Skill | 1★ | Awakened | `/logical-inference` |
 | ○ /math-reason | Basic Skill | 2★ | Named | `/math-reason` |
 | ◇ /mathematical-animation | Extra Skill | 3★ → 2★ | Evolved | `/mathematical-animation` |
@@ -104,6 +108,7 @@
 | ○ [ruvnet](../docs/u/ruvnet/)/agentdb-memory-patterns | Basic Skill | 2★ | Named | `/memory-pattern-design` |
 | ◇ /ml-artifact-management | Extra Skill | 2★ | Named | `/ml-artifact-management` |
 | ◇ /ml-pipeline | Extra Skill | 4★ | Hardened | `/ml-pipeline` |
+| ○ /molecular-databases | Basic Skill | 2★ | Named | `/molecular-databases` |
 | ◇ [garrytan](../docs/u/garrytan/)/codex | Extra Skill | 4★ | Hardened | `/multi-agent-debate` |
 | ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus-swarm | Extra Skill | 3★ | Evolved | `/multi-agent-orchestration-v` |
 | ○ [ruvnet](../docs/u/ruvnet/)/github-multi-repo | Basic Skill | 2★ | Named | `/multi-repo-coordination` |
@@ -123,6 +128,8 @@
 | ◇ [garrytan](../docs/u/garrytan/)/landing-report | Extra Skill | 2★ | Named | `/project-management` |
 | ○ /prompt-injection-defense | Basic Skill | 3★ | Evolved | `/prompt-injection-defense` |
 | ◇ [stanfordnlp](../docs/u/stanfordnlp/)/dspy | Extra Skill | 4★ | Hardened | `/prompt-optimization` |
+| ○ /protein-structure-analysis | Basic Skill | 2★ | Named | `/protein-structure-analysis` |
+| ○ /proteomic-data-retrieval | Basic Skill | 2★ | Named | `/proteomic-data-retrieval` |
 | ◇ [mattpocock](../docs/u/mattpocock/)/prototype | Extra Skill | 3★ | Evolved | `/prototype` |
 | ○ [garrytan](../docs/u/garrytan/)/office-hours | Basic Skill | 4★ | Hardened | `/question-answer` |
 | ◇ [yonatangross](../docs/u/yonatangross/)/orchestkit-rag | Extra Skill | 3★ | Evolved | `/rag-pipeline` |
@@ -212,10 +219,12 @@
 
 | Name | Class | Rank | Tier | Skill Call |
 |---|---|---|---|---|
+| ○ Clinical Data Retrieval | Intrinsic Skill | 2★ | Named | `/clinical-data-retrieval` |
 | ○ Framework Upgrade | Intrinsic Skill | 0★ | Basic | `/framework-upgrade` |
 | ○ Git Diff Risk Analysis | Intrinsic Skill | 2★ | Named | `/git-diff-risk-analysis` |
 | ○ Image Generate | Intrinsic Skill | 2★ | Named | `/image-generate` |
 | ○ Object Detection | Intrinsic Skill | 2★ | Named | `/object-detection` |
+| ○ Pathway Ontology Retrieval | Intrinsic Skill | 2★ | Named | `/pathway-ontology-retrieval` |
 | ○ Reward Modeling | Intrinsic Skill | 2★ | Named | `/reward-modeling` |
 | ○ Schema Design | Intrinsic Skill | 2★ | Named | `/schema-design` |
 | ○ Sequential Agent Pipeline | Intrinsic Skill | 2★ | Named | `/sequential-agent-pipeline` |
