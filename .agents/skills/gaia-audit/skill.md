@@ -21,7 +21,7 @@ Audit exactly one Gaia skill, named skill, or real-skill catalog item and submit
    - Does it map to the claimed Gaia capability?
    - Does it justify its stars, tier, named status, or `promotedNamedSkillId`?
    - Is it outdated, superseded, overpromoted, duplicate, or under-sourced?
-   - **Upgrade Path Analysis**: Can this skill be evolved? If it's a basic skill with multiple implementation "flavors," should it be fused into a new Extra skill (Generic Name)?
+   - **Upgrade Path & Fusion Analysis**: Can this skill be evolved? Consolidate multiple overlapping basic concepts under a single elegant Basic generic skill (e.g. literature-search) to avoid vendor-bloat. If a set of related basic skills can be combined into a multi-step high-level orchestration, plan to fuse them into a new **Extra** master skill (like `computational-biology-workflows`).
    - **Rigorous Verification**: Does the source include a specific **agent playbook** (e.g., `AGENTS.md`, `CLAUDE.md`, `.claude/skills/`, or a documented autonomous agent workflow)?
    - **Demerit Check (Strategic)**: Only actively audit demerits for skills at **3★+**. Be lenient toward skills that are portable across platforms. Reward portable, "Generalized" skills by favoring them for promotion to higher stars or Ultimate tier when they remain demerit-free at high levels.
    - Do **not** audit the `rarity` field — the rarity axis is deprecated (see `CONTEXT.md` § Rarity); the schema still requires it but it carries no review signal.

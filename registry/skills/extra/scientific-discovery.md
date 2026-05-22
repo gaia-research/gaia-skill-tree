@@ -11,9 +11,10 @@
 Autonomously generates novel scientific hypotheses, designs and executes experiments, analyses results, and produces a written report â€” completing a full research cycle without human intervention.
 
 ## Prerequisites
+- [Computational Biology Workflows](../extra/computational-biology-workflows.md)
 - [Hypothesis Generation](../basic/hypothesis-generate.md)
-- [Research](../extra/research.md)
 - [Math Reason](../basic/math-reason.md)
+- [Research](../extra/research.md)
 
 ## Unlocks
 _None._
