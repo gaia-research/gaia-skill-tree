@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/skill.schema.json",
-  "version": "3.22.5",
-  "generatedAt": "2026-05-22T11:32:37.385763Z",
+  "version": "3.23.0",
+  "generatedAt": "2026-05-22T20:29:24.633794Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -631,6 +631,57 @@
       ]
     },
     {
+      "id": "bioinformatic-sequence-analysis",
+      "name": "Bioinformatic Sequence Analysis",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Performs biological sequence alignment, similarity searches, multiple sequence alignment (MSA), and genomic variant analysis using standard bioinformatics tools and databases.",
+      "prerequisites": [],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Foundational canonical generic skill for Bioinformatic Sequence Analysis."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_similarity_search/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind protein_sequence_similarity_search science-skill implementation."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-22T20:22:10Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added generic skill bioinformatic-sequence-analysis"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:11Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:20Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_similarity_search/SKILL.md"
+        }
+      ]
+    },
+    {
       "id": "brainstorming",
       "name": "Brainstorming",
       "type": "extra",
@@ -906,6 +957,96 @@
       "version": "0.1.0"
     },
     {
+      "id": "clinical-data-retrieval",
+      "name": "Clinical Data Retrieval",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Retrieves and parses clinical trial records, drug approvals, regulatory filings, or medical variant databases (e.g. ClinicalTrials.gov, OpenFDA, ClinVar).",
+      "prerequisites": [],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Foundational canonical generic skill for Clinical Data Retrieval."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/clinical_trials_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind clinical_trials_database science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/openfda_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind openfda_database science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/clinvar_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind clinvar_database science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/opentargets_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind opentargets_database science-skill implementation."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-22T20:22:10Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added generic skill clinical-data-retrieval"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:10Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:36Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/clinical_trials_database/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:37Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/openfda_database/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:38Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/clinvar_database/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:39Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/opentargets_database/SKILL.md"
+        }
+      ]
+    },
+    {
       "id": "cloud-platform-management",
       "name": "Cloud Platform Management",
       "type": "extra",
@@ -1124,6 +1265,89 @@
       "version": "0.1.0"
     },
     {
+      "id": "computational-biology-workflows",
+      "name": "Computational Biology Workflows",
+      "type": "extra",
+      "level": "4★",
+      "rarity": "common",
+      "description": "Integrates structural, genomic, proteomic, and molecular database querying with bioinformatics analysis (such as sequence alignment, structure prediction, and molecular rendering) to solve multi-step, complex computational biology tasks.",
+      "prerequisites": [
+        "bioinformatic-sequence-analysis",
+        "genomic-data-retrieval",
+        "molecular-databases",
+        "protein-structure-analysis",
+        "proteomic-data-retrieval"
+      ],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Foundational canonical generic skill for Computational Biology Workflows."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind alphafold_database_fetch_and_analyze science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/alphagenome_single_variant_analysis/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind alphagenome_single_variant_analysis science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_msa/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind protein_sequence_msa science-skill implementation."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-22T20:22:12Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added generic skill computational-biology-workflows"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:12Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:40Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:41Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/alphagenome_single_variant_analysis/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:42Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_msa/SKILL.md"
+        }
+      ]
+    },
+    {
       "id": "computer-use",
       "name": "Computer Use",
       "type": "basic",
@@ -1273,13 +1497,67 @@
           "evaluator": "mbtiongson1",
           "date": "2026-05-19",
           "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind science_skills_common science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind uv science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind science_skills_common science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind uv science-skill implementation."
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-19",
-      "updatedAt": "2026-05-19",
-      "version": "0.1.0"
+      "updatedAt": "2026-05-23",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-22T20:20:44Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:20:46Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:44Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:44Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md"
+        }
+      ]
     },
     {
       "id": "data-analysis",
@@ -2388,6 +2666,161 @@
       "version": "0.1.0"
     },
     {
+      "id": "genomic-data-retrieval",
+      "name": "Genomic Data Retrieval",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Queries and retrieves DNA sequence data, transcription factor binding models, cis-regulatory elements, and genetic annotations from genomic repositories (e.g. Ensembl, GTEx, JASPAR, UniBind, ENCODE, UCSC, dbSNP).",
+      "prerequisites": [],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Foundational canonical generic skill for Genomic Data Retrieval."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/ensembl_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind ensembl_database science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/jaspar_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind jaspar_database science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/unibind_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind unibind_database science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/encode_ccres_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind encode_ccres_database science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/gtex_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind gtex_database science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/ucsc_conservation_and_tfbs/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind ucsc_conservation_and_tfbs science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/dbsnp_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind dbsnp_database science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/ncbi_sequence_fetch/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind ncbi_sequence_fetch science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/gnomad_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind gnomad_database science-skill implementation."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-22T20:22:08Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added generic skill genomic-data-retrieval"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:08Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:22Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/ensembl_database/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:23Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/jaspar_database/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:24Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/unibind_database/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:25Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/encode_ccres_database/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:25Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/gtex_database/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:26Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/ucsc_conservation_and_tfbs/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:27Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/dbsnp_database/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:28Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/ncbi_sequence_fetch/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:29Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/gnomad_database/SKILL.md"
+        }
+      ]
+    },
+    {
       "id": "ghostwrite",
       "name": "Ghostwrite",
       "type": "extra",
@@ -3046,8 +3479,9 @@
       "rarity": "uncommon",
       "description": "Conducts systematic multi-database academic literature searches following PRISMA/SWARM protocols, screens and synthesises findings, verifies all citations, and generates a structured review report.",
       "prerequisites": [
-        "research",
         "cite-sources",
+        "literature-search",
+        "research",
         "summarize"
       ],
       "derivatives": [],
@@ -3071,8 +3505,111 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-04-30",
+      "updatedAt": "2026-05-23",
       "version": "0.1.0"
+    },
+    {
+      "id": "literature-search",
+      "name": "Literature Search",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Queries and searches academic literature databases (e.g. PubMed, arXiv, bioRxiv, OpenAlex) to locate papers, retrieve abstracts, resolve citations, and fetch full-text documents.",
+      "prerequisites": [],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Foundational canonical generic skill for Literature Search."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/pubmed_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind pubmed_database science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_arxiv/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind literature_search_arxiv science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_biorxiv/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind literature_search_biorxiv science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_europepmc/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind literature_search_europepmc science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_openalex/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind literature_search_openalex science-skill implementation."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-22T20:22:06Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added generic skill literature-search"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:06Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:14Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/pubmed_database/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:15Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_arxiv/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:15Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_biorxiv/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:16Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_europepmc/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:17Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_openalex/SKILL.md"
+        }
+      ]
     },
     {
       "id": "logical-inference",
@@ -3611,6 +4148,70 @@
       "version": "0.1.0"
     },
     {
+      "id": "molecular-databases",
+      "name": "Molecular Databases",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Queries and retrieves structural, chemical, and biological activity data for small molecules, chemical compounds, or drug candidates from molecular repositories (e.g., ChEMBL, PubChem).",
+      "prerequisites": [],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Foundational canonical generic skill for Molecular Databases."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/chembl_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind chembl_database science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/pubchem_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind pubchem_database science-skill implementation."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-22T20:22:07Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added generic skill molecular-databases"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:07Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:21Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/chembl_database/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:21Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/pubchem_database/SKILL.md"
+        }
+      ]
+    },
+    {
       "id": "multi-agent-debate",
       "name": "Multi-Agent Debate",
       "type": "extra",
@@ -3912,6 +4513,83 @@
       "createdAt": "2026-04-28",
       "updatedAt": "2026-04-28",
       "version": "0.2.0"
+    },
+    {
+      "id": "pathway-ontology-retrieval",
+      "name": "Pathway Ontology Retrieval",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Queries, parses, and resolves biological pathway models, cellular reactions, and hierarchical ontology metadata from pathway and ontology search systems (e.g., Reactome, QuickGO, EMBL-EBI OLS).",
+      "prerequisites": [],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Foundational canonical generic skill for Pathway Ontology Retrieval."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/reactome_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind reactome_database science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/quickgo_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind quickgo_database science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/embl_ebi_ols/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind embl_ebi_ols science-skill implementation."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-22T20:22:09Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added generic skill pathway-ontology-retrieval"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:09Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:34Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/reactome_database/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:35Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/quickgo_database/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:35Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/embl_ebi_ols/SKILL.md"
+        }
+      ]
     },
     {
       "id": "performance-tuning",
@@ -4262,6 +4940,160 @@
       "createdAt": "2026-04-29",
       "updatedAt": "2026-04-29",
       "version": "0.2.0"
+    },
+    {
+      "id": "protein-structure-analysis",
+      "name": "Protein Structure Analysis",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Analyzes, searches, and aligns three-dimensional macromolecular structures using structural databases, alignment search algorithms (e.g. Foldseek, PDB search), or molecular modeling tools.",
+      "prerequisites": [],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Foundational canonical generic skill for Protein Structure Analysis."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/pdb_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind pdb_database science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/foldseek_structural_search/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind foldseek_structural_search science-skill implementation."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-22T20:22:11Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added generic skill protein-structure-analysis"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:11Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:18Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/pdb_database/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:19Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/foldseek_structural_search/SKILL.md"
+        }
+      ]
+    },
+    {
+      "id": "proteomic-data-retrieval",
+      "name": "Proteomic Data Retrieval",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Queries and retrieves amino acid sequences, protein families, functional domains, tissue distribution, and protein-protein interactions from proteomic repositories (e.g. UniProt, InterPro, Human Protein Atlas, STRING).",
+      "prerequisites": [],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Foundational canonical generic skill for Proteomic Data Retrieval."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/uniprot_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind uniprot_database science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/interpro_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind interpro_database science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/human_protein_atlas_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind human_protein_atlas_database science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/string_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind string_database science-skill implementation."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-22T20:22:08Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added generic skill proteomic-data-retrieval"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:09Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:30Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/uniprot_database/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:31Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/interpro_database/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:32Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/human_protein_atlas_database/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:33Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/string_database/SKILL.md"
+        }
+      ]
     },
     {
       "id": "prototype",
@@ -4947,9 +5779,10 @@
       "rarity": "epic",
       "description": "Autonomously generates novel scientific hypotheses, designs and executes experiments, analyses results, and produces a written report â€” completing a full research cycle without human intervention.",
       "prerequisites": [
+        "computational-biology-workflows",
         "hypothesis-generate",
-        "research",
-        "math-reason"
+        "math-reason",
+        "research"
       ],
       "derivatives": [],
       "conditions": "Requires laboratory tool access or simulation environment. Minimum 3 Class A/B evidence sources.",
@@ -4979,7 +5812,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-04-28",
+      "updatedAt": "2026-05-23",
       "version": "0.2.0",
       "title": "The Doctor"
     },
@@ -5002,13 +5835,41 @@
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
           "notes": "K-Dense-AI scientific-agent-skills — reproducible scientific-visualization skill orchestrating matplotlib, seaborn, and plotly for journal-quality multi-panel figures with PDF/EPS/TIFF/PNG export and accessibility annotations."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind pymol science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind pymol science-skill implementation."
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-04-30",
-      "version": "0.1.0"
+      "updatedAt": "2026-05-23",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-22T20:19:38Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:18Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md"
+        }
+      ]
     },
     {
       "id": "scientific-writing",
@@ -5356,6 +6217,20 @@
           "evaluator": "codex",
           "date": "2026-05-10",
           "notes": "Anthropic skill-creator provides a reproducible workflow for creating, editing, evaluating, benchmarking, and optimizing agent skills."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind workflow_skill_creator science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind workflow_skill_creator science-skill implementation."
         }
       ],
       "knownAgents": [
@@ -5363,8 +6238,22 @@
       ],
       "status": "provisional",
       "createdAt": "2026-05-10",
-      "updatedAt": "2026-05-10",
-      "version": "0.1.0"
+      "updatedAt": "2026-05-23",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-22T20:20:42Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:43Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md"
+        }
+      ]
     },
     {
       "id": "skill-discovery",
@@ -6930,6 +7819,11 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "bioinformatic-sequence-analysis",
+      "targetSkillId": "computational-biology-workflows",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "brainstorming",
       "targetSkillId": "superpowers",
       "edgeType": "prerequisite"
@@ -7157,6 +8051,11 @@
     {
       "sourceSkillId": "code-review-pipeline",
       "targetSkillId": "subagent-driven-development",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "computational-biology-workflows",
+      "targetSkillId": "scientific-discovery",
       "edgeType": "prerequisite"
     },
     {
@@ -7570,6 +8469,11 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "genomic-data-retrieval",
+      "targetSkillId": "computational-biology-workflows",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "ghostwrite",
       "targetSkillId": "autonomous-web-research",
       "edgeType": "prerequisite"
@@ -7650,6 +8554,11 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "literature-search",
+      "targetSkillId": "literature-review",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "logical-inference",
       "targetSkillId": "knowledge-graph-build",
       "edgeType": "prerequisite"
@@ -7727,6 +8636,11 @@
     {
       "sourceSkillId": "memory-pattern-design",
       "targetSkillId": "agent-memory-platform",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "molecular-databases",
+      "targetSkillId": "computational-biology-workflows",
       "edgeType": "prerequisite"
     },
     {
@@ -7897,6 +8811,16 @@
     {
       "sourceSkillId": "prompt-optimization",
       "targetSkillId": "gstack",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "protein-structure-analysis",
+      "targetSkillId": "computational-biology-workflows",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "proteomic-data-retrieval",
+      "targetSkillId": "computational-biology-workflows",
       "edgeType": "prerequisite"
     },
     {

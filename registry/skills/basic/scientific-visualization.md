@@ -20,6 +20,8 @@ _None._
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | B | https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/scientific-visualization/SKILL.md | mbtiongson1 | 2026-04-30 |
+| B | https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md | unknown | 2026-05-23 |
+| B | https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md | unknown | 2026-05-23 |
 
 ## Known Agents
 _None verified yet._

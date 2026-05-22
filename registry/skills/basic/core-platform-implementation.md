@@ -20,6 +20,10 @@ _None._
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | B | https://github.com/ruvnet/ruflo | mbtiongson1 | 2026-05-19 |
+| B | https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common/SKILL.md | unknown | 2026-05-23 |
+| B | https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md | unknown | 2026-05-23 |
+| B | https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common/SKILL.md | unknown | 2026-05-23 |
+| B | https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md | unknown | 2026-05-23 |
 
 ## Known Agents
 _None verified yet._

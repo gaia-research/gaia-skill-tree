@@ -22,9 +22,9 @@ Build a prioritized queue of Gaia skills or catalog items that need focused revi
    - catalog URLs that point to directories, homepages, or stale paths instead of specific files
    - repo-root evidence where a specific `SKILL.md` or **agent playbook** should exist
    - broad mappings such as an implementation skill mapped to a much larger Gaia capability
-   - duplicate or superseded skills from the same source family
+   - duplicate or superseded skills from the same source family. Flag clusters of redundant generic concepts that should be consolidated under a single Basic skill (e.g. literature-search) to prevent registry bloat.
    - generated outputs that still reference removed named claims
-   - **Likely Fusion Candidates**: Clusters of real-skills or named skills that together suggest a new **Generic (Extra) Name** should be created.
+   - **Likely Fusion Candidates**: Clusters of real-skills or named skills that represent specialized parts of a single high-level orchestration workflow, suggesting a new composite **Generic (Extra)** master skill (like `computational-biology-workflows`) should be created.
    - **Missing Demerits**: Skills with known heavyweight dependencies or niche integrations that are not yet flagged in the registry.
 3. Re-check only enough external evidence to rank candidates. Do not perform every focused audit in the meta pass.
 4. Prioritize:

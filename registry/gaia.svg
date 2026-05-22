@@ -13,541 +13,557 @@
 <circle cx="640.0" cy="440.0" r="54"/>
 </g>
 <g class="edges" fill="none">
-<line x1="361.502" y1="379.471" x2="797.954" y2="377.146" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="470.567" y1="426.123" x2="797.954" y2="377.146" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="658.007" y1="155.569" x2="525.492" y2="565.65" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="857.186" y1="624.541" x2="525.492" y2="565.65" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="899.726" y1="322.666" x2="801.698" y2="387.523" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="910.862" y1="528.648" x2="801.698" y2="387.523" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="748.227" y1="176.349" x2="569.843" y2="285.152" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="658.007" y1="155.569" x2="569.843" y2="285.152" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="428.922" y1="248.503" x2="569.843" y2="285.152" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="794.096" y1="679.749" x2="804.776" y2="398.18" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="758.495" y1="318.103" x2="804.776" y2="398.18" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="781.222" y1="534.638" x2="633.042" y2="386.45" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="804.776" y1="398.18" x2="633.042" y2="386.45" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="435.891" y1="638.908" x2="633.042" y2="386.45" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="391.7" y1="300.1" x2="633.042" y2="386.45" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="401.641" y1="283.763" x2="633.042" y2="386.45" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="552.092" y1="294.493" x2="806.66" y2="406.465" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="924.858" y1="449.001" x2="806.66" y2="406.465" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="653.634" y1="724.674" x2="504.105" y2="542.14" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="685.764" y1="158.698" x2="504.105" y2="542.14" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="828.901" y1="653.404" x2="504.105" y2="542.14" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="608.434" y1="723.246" x2="808.674" y2="418.807" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="737.938" y1="707.644" x2="808.674" y2="418.807" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="889.144" y1="301.607" x2="808.674" y2="418.807" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="803.065" y1="488.062" x2="600.521" y2="274.648" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="450.362" y1="652.75" x2="600.521" y2="274.648" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="613.712" y1="607.955" x2="600.521" y2="274.648" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="851.185" y1="248.621" x2="499.075" y2="535.08" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="737.938" y1="707.644" x2="499.075" y2="535.08" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="889.144" y1="301.607" x2="499.075" y2="535.08" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="648.774" y1="270.227" x2="491.904" y2="523.472" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="662.0" y1="271.429" x2="491.904" y2="523.472" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="613.712" y1="607.955" x2="491.904" y2="523.472" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="531.83" y1="571.146" x2="491.904" y2="523.472" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="843.346" y1="639.688" x2="491.904" y2="523.472" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="363.566" y1="509.35" x2="641.555" y2="270.007" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="598.142" y1="158.091" x2="641.555" y2="270.007" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="843.346" y1="639.688" x2="809.453" y2="426.379" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="696.785" y1="719.286" x2="809.453" y2="426.379" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="491.904" y1="523.472" x2="809.967" y2="436.652" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="748.227" y1="176.349" x2="809.967" y2="436.652" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="658.007" y1="155.569" x2="809.967" y2="436.652" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="810.848" y1="668.114" x2="809.835" y2="447.493" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="857.186" y1="624.541" x2="809.835" y2="447.493" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="851.185" y1="248.621" x2="809.064" y2="457.811" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="863.239" y1="262.83" x2="809.064" y2="457.811" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="899.726" y1="322.666" x2="809.064" y2="457.811" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="810.848" y1="668.114" x2="700.043" y2="280.956" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="653.634" y1="724.674" x2="700.043" y2="280.956" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="643.51" y1="155.022" x2="807.966" y2="466.218" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="475.257" y1="207.439" x2="807.966" y2="466.218" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="906.283" y1="338.421" x2="807.966" y2="466.218" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="598.142" y1="158.091" x2="805.681" y2="478.077" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="758.495" y1="318.103" x2="805.681" y2="478.077" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="916.922" y1="507.373" x2="805.681" y2="478.077" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="625.98" y1="724.655" x2="803.065" y2="488.062" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="653.634" y1="724.674" x2="803.065" y2="488.062" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="748.227" y1="176.349" x2="803.065" y2="488.062" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="552.092" y1="294.493" x2="709.538" y2="284.873" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="737.938" y1="707.644" x2="709.538" y2="284.873" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="851.185" y1="248.621" x2="800.601" y2="495.745" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="554.388" y1="168.162" x2="800.601" y2="495.745" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="899.726" y1="322.666" x2="796.319" y2="506.816" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="924.858" y1="449.001" x2="796.319" y2="506.816" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="809.453" y1="426.379" x2="791.938" y2="516.256" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="919.028" y1="381.961" x2="791.938" y2="516.256" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="899.726" y1="322.666" x2="719.664" y2="289.821" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="889.144" y1="301.607" x2="719.664" y2="289.821" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="924.858" y1="449.001" x2="488.244" y2="516.616" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="388.023" y1="573.163" x2="488.244" y2="516.616" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="388.023" y1="573.163" x2="786.703" y2="525.897" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="878.026" y1="283.256" x2="786.703" y2="525.897" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="401.641" y1="283.763" x2="781.222" y2="534.638" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="758.495" y1="318.103" x2="781.222" y2="534.638" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="906.283" y1="338.421" x2="776.221" y2="541.705" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="685.764" y1="158.698" x2="776.221" y2="541.705" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="410.854" y1="609.462" x2="776.221" y2="541.705" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="922.661" y1="403.56" x2="776.221" y2="541.705" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="924.496" y1="423.06" x2="776.221" y2="541.705" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="748.227" y1="176.349" x2="776.221" y2="541.705" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="542.204" y1="707.696" x2="769.83" y2="549.746" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="567.326" y1="715.578" x2="769.83" y2="549.746" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="523.606" y1="700.149" x2="769.83" y2="549.746" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="809.453" y1="426.379" x2="762.131" y2="558.254" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="808.674" y1="418.807" x2="762.131" y2="558.254" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="794.086" y1="368.185" x2="726.9" y2="293.889" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="857.186" y1="624.541" x2="726.9" y2="293.889" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="809.064" y1="457.811" x2="736.161" y2="299.811" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="863.239" y1="262.83" x2="736.161" y2="299.811" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="674.987" y1="606.361" x2="483.076" y2="505.381" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="809.835" y1="447.493" x2="483.076" y2="505.381" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="786.703" y1="525.897" x2="483.076" y2="505.381" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="809.064" y1="457.811" x2="620.148" y2="271.163" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="808.674" y1="418.807" x2="620.148" y2="271.163" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="370.727" y1="533.364" x2="620.148" y2="271.163" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="893.576" y1="570.093" x2="754.579" y2="565.585" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="810.848" y1="668.114" x2="754.579" y2="565.585" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="869.94" y1="608.382" x2="754.579" y2="565.585" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="920.353" y1="491.258" x2="479.907" y2="497.186" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="834.186" y1="231.393" x2="479.907" y2="497.186" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="899.726" y1="322.666" x2="479.907" y2="497.186" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="479.907" y1="497.186" x2="746.994" y2="572.107" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="485.432" y1="369.229" x2="746.994" y2="572.107" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="719.664" y1="289.821" x2="746.994" y2="572.107" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="810.848" y1="668.114" x2="739.639" y2="577.739" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="653.634" y1="724.674" x2="739.639" y2="577.739" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="613.712" y1="607.955" x2="648.774" y2="270.227" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="828.901" y1="653.404" x2="648.774" y2="270.227" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="783.986" y1="194.046" x2="648.774" y2="270.227" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="809.064" y1="457.811" x2="730.317" y2="584.024" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="420.458" y1="621.732" x2="730.317" y2="584.024" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="709.538" y1="284.873" x2="730.317" y2="584.024" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="766.829" y1="326.8" x2="730.317" y2="584.024" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="552.092" y1="294.493" x2="730.317" y2="584.024" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="796.319" y1="506.816" x2="476.852" y2="487.777" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="902.527" y1="550.927" x2="476.852" y2="487.777" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="476.852" y1="487.777" x2="721.448" y2="589.219" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="536.537" y1="305.109" x2="721.448" y2="589.219" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="658.007" y1="155.569" x2="721.448" y2="589.219" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="920.353" y1="491.258" x2="712.672" y2="593.684" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="834.186" y1="231.393" x2="712.672" y2="593.684" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="899.726" y1="322.666" x2="712.672" y2="593.684" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="598.142" y1="158.091" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="899.726" y1="322.666" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="809.064" y1="457.811" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="620.247" y1="155.685" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="555.944" y1="587.765" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="791.938" y1="516.256" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="796.319" y1="506.816" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="851.185" y1="248.621" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="594.755" y1="603.868" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="762.131" y1="558.254" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="736.161" y1="299.811" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="709.538" y1="284.873" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="719.664" y1="289.821" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="658.007" y1="155.569" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="809.453" y1="426.379" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="785.444" y1="351.988" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="772.836" y1="692.15" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="531.83" y1="571.146" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="490.573" y1="358.935" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="828.901" y1="653.404" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="470.567" y1="426.123" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="495.7" y1="350.125" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="808.674" y1="418.807" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="445.715" y1="231.486" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="758.495" y1="318.103" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="703.06" y1="597.872" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="744.339" y1="305.786" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="685.764" y1="158.698" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="789.099" y1="358.333" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="766.829" y1="326.8" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="481.774" y1="377.834" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="899.726" y1="322.666" x2="703.06" y2="597.872" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="643.51" y1="155.022" x2="703.06" y2="597.872" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="893.576" y1="570.093" x2="703.06" y2="597.872" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="658.007" y1="155.569" x2="473.915" y2="476.272" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="783.986" y1="194.046" x2="473.915" y2="476.272" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="685.764" y1="158.698" x2="473.915" y2="476.272" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="906.283" y1="338.421" x2="693.695" y2="601.297" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="913.645" y1="360.355" x2="693.695" y2="601.297" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="531.83" y1="571.146" x2="662.0" y2="271.429" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="906.283" y1="338.421" x2="662.0" y2="271.429" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="878.026" y1="283.256" x2="662.0" y2="271.429" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="810.848" y1="668.114" x2="744.339" y2="305.786" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="920.353" y1="491.258" x2="744.339" y2="305.786" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="613.712" y1="607.955" x2="472.538" y2="469.266" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="834.186" y1="231.393" x2="472.538" y2="469.266" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="748.227" y1="176.349" x2="472.538" y2="469.266" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="737.938" y1="707.644" x2="686.473" y2="603.525" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="653.634" y1="724.674" x2="686.473" y2="603.525" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="499.075" y1="535.08" x2="644.887" y2="493.778" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="370.727" y1="533.364" x2="644.887" y2="493.778" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="555.944" y1="587.765" x2="644.887" y2="493.778" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="471.339" y1="418.708" x2="644.887" y2="493.778" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="579.004" y1="161.604" x2="644.887" y2="493.778" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="536.537" y1="305.109" x2="644.887" y2="493.778" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="718.028" y1="714.111" x2="644.887" y2="493.778" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="721.448" y1="589.219" x2="644.887" y2="493.778" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="511.349" y1="551.125" x2="644.887" y2="493.778" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="525.492" y1="565.65" x2="644.887" y2="493.778" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="658.007" y1="155.569" x2="581.467" y2="280.395" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="517.143" y1="557.5" x2="581.467" y2="280.395" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="569.843" y1="285.152" x2="591.205" y2="277.153" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="428.922" y1="248.503" x2="591.205" y2="277.153" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="476.852" y1="487.777" x2="591.205" y2="277.153" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="520.711" y1="318.88" x2="591.205" y2="277.153" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="370.683" y1="346.761" x2="797.237" y2="375.374" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="470.779" y1="423.744" x2="797.237" y2="375.374" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="656.426" y1="155.474" x2="530.167" y2="569.757" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="889.521" y1="577.712" x2="530.167" y2="569.757" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="886.602" y1="297.128" x2="801.064" y2="385.609" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="921.783" y1="482.702" x2="801.064" y2="385.609" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="739.137" y1="172.798" x2="570.465" y2="284.871" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="656.426" y1="155.474" x2="570.465" y2="284.871" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="443.517" y1="233.556" x2="570.465" y2="284.871" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="843.893" y1="639.13" x2="804.241" y2="396.128" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="757.605" y1="317.244" x2="804.241" y2="396.128" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="783.122" y1="531.739" x2="633.042" y2="386.45" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="804.241" y1="396.128" x2="633.042" y2="386.45" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="450.341" y1="652.731" x2="633.042" y2="386.45" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="405.762" y1="277.65" x2="633.042" y2="386.45" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="416.133" y1="263.624" x2="633.042" y2="386.45" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="552.84" y1="294.044" x2="806.212" y2="404.311" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="923.3" y1="408.917" x2="806.212" y2="404.311" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="691.511" y1="720.306" x2="508.124" y2="547.278" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="681.772" y1="158.078" x2="508.124" y2="547.278" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="869.658" y1="608.767" x2="508.124" y2="547.278" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="650.503" y1="724.806" x2="808.369" y2="416.509" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="766.026" y1="695.622" x2="808.369" y2="416.509" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="875.132" y1="278.947" x2="808.369" y2="416.509" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="803.882" y1="485.197" x2="600.887" y2="274.561" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="464.358" y1="664.443" x2="600.887" y2="274.561" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="618.947" y1="608.691" x2="600.887" y2="274.561" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="836.588" y1="233.656" x2="502.875" y2="540.483" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="766.026" y1="695.622" x2="502.875" y2="540.483" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="875.132" y1="278.947" x2="502.875" y2="540.483" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="648.692" y1="270.222" x2="495.326" y2="529.272" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="661.793" y1="271.403" x2="495.326" y2="529.272" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="618.947" y1="608.691" x2="495.326" y2="529.272" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="536.64" y1="574.969" x2="495.326" y2="529.272" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="879.945" y1="593.791" x2="495.326" y2="529.272" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="356.056" y1="464.509" x2="641.541" y2="270.007" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="601.799" y1="157.572" x2="641.541" y2="270.007" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="879.945" y1="593.791" x2="809.245" y2="423.998" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="729.934" y1="710.438" x2="809.245" y2="423.998" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="495.326" y1="529.272" x2="809.9" y2="434.165" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="739.137" y1="172.798" x2="809.9" y2="434.165" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="656.426" y1="155.474" x2="809.9" y2="434.165" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="856.45" y1="625.403" x2="809.929" y2="444.905" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="889.521" y1="577.712" x2="809.929" y2="444.905" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="836.588" y1="233.656" x2="809.325" y2="455.136" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="848.538" y1="245.74" x2="809.325" y2="455.136" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="886.602" y1="297.128" x2="809.325" y2="455.136" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="856.45" y1="625.403" x2="699.501" y2="280.753" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="691.511" y1="720.306" x2="699.501" y2="280.753" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="830.292" y1="652.165" x2="491.21" y2="522.228" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="628.33" y1="724.761" x2="491.21" y2="522.228" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="437.07" y1="640.111" x2="491.21" y2="522.228" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="366.213" y1="519.154" x2="491.21" y2="522.228" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="362.018" y1="502.856" x2="491.21" y2="522.228" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="643.202" y1="155.018" x2="808.371" y2="463.481" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="488.094" y1="198.858" x2="808.371" y2="463.481" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="894.034" y1="310.804" x2="808.371" y2="463.481" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="601.799" y1="157.572" x2="806.302" y2="475.264" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="757.605" y1="317.244" x2="806.302" y2="475.264" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="924.098" y1="462.657" x2="806.302" y2="475.264" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="666.526" y1="723.763" x2="803.882" y2="485.197" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="691.511" y1="720.306" x2="803.882" y2="485.197" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="739.137" y1="172.798" x2="803.882" y2="485.197" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="552.84" y1="294.044" x2="708.921" y2="284.598" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="766.026" y1="695.622" x2="708.921" y2="284.598" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="836.588" y1="233.656" x2="801.576" y2="492.85" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="561.71" y1="165.964" x2="801.576" y2="492.85" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="886.602" y1="297.128" x2="797.537" y2="503.892" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="923.3" y1="408.917" x2="797.537" y2="503.892" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="809.245" y1="423.998" x2="793.374" y2="513.323" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="910.067" y1="348.958" x2="793.374" y2="513.323" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="886.602" y1="297.128" x2="718.972" y2="289.456" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="875.132" y1="278.947" x2="718.972" y2="289.456" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="923.3" y1="408.917" x2="486.799" y2="513.684" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="391.613" y1="579.745" x2="486.799" y2="513.684" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="391.613" y1="579.745" x2="788.376" y2="522.973" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="863.524" y1="263.19" x2="788.376" y2="522.973" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="416.133" y1="263.624" x2="783.122" y2="531.739" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="757.605" y1="317.244" x2="783.122" y2="531.739" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="894.034" y1="310.804" x2="778.313" y2="538.84" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="681.772" y1="158.078" x2="778.313" y2="538.84" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="413.088" y1="612.441" x2="778.313" y2="538.84" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="915.782" y1="368.101" x2="778.313" y2="538.84" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="919.745" y1="385.521" x2="778.313" y2="538.84" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="739.137" y1="172.798" x2="778.313" y2="538.84" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="569.373" y1="716.11" x2="772.153" y2="546.938" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="592.87" y1="721.076" x2="772.153" y2="546.938" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="551.792" y1="711.006" x2="772.153" y2="546.938" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="809.245" y1="423.998" x2="764.712" y2="555.529" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="808.369" y1="416.509" x2="764.712" y2="555.529" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="793.309" y1="366.539" x2="726.159" y2="293.451" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="889.521" y1="577.712" x2="726.159" y2="293.451" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="809.325" y1="455.136" x2="735.364" y2="299.267" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="848.538" y1="245.74" x2="735.364" y2="299.267" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="679.578" y1="605.329" x2="481.89" y2="502.46" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="809.929" y1="444.905" x2="481.89" y2="502.46" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="788.376" y1="522.973" x2="481.89" y2="502.46" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="809.325" y1="455.136" x2="620.334" y2="271.141" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="808.369" y1="416.509" x2="620.334" y2="271.141" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="358.933" y1="487.183" x2="620.334" y2="271.141" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="912.75" y1="522.658" x2="757.396" y2="562.956" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="856.45" y1="625.403" x2="757.396" y2="562.956" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="898.047" y1="560.982" x2="757.396" y2="562.956" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="924.897" y1="447.651" x2="478.901" y2="494.287" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="820.027" y1="219.058" x2="478.901" y2="494.287" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="886.602" y1="297.128" x2="478.901" y2="494.287" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="478.901" y1="494.287" x2="750.032" y2="569.587" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="486.203" y1="367.568" x2="750.032" y2="569.587" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="718.972" y1="289.456" x2="750.032" y2="569.587" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="856.45" y1="625.403" x2="742.879" y2="575.336" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="691.511" y1="720.306" x2="742.879" y2="575.336" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="618.947" y1="608.691" x2="648.692" y2="270.222" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="869.658" y1="608.767" x2="648.692" y2="270.222" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="772.382" y1="187.611" x2="648.692" y2="270.222" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="809.325" y1="455.136" x2="733.797" y2="581.782" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="421.967" y1="623.539" x2="733.797" y2="581.782" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="708.921" y1="284.598" x2="733.797" y2="581.782" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="765.926" y1="325.796" x2="733.797" y2="581.782" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="552.84" y1="294.044" x2="733.797" y2="581.782" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="797.537" y1="503.892" x2="476.04" y2="484.914" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="917.718" y1="504.014" x2="476.04" y2="484.914" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="476.04" y1="484.914" x2="725.142" y2="587.142" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="537.372" y1="304.473" x2="725.142" y2="587.142" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="656.426" y1="155.474" x2="725.142" y2="587.142" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="924.897" y1="447.651" x2="716.563" y2="591.783" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="820.027" y1="219.058" x2="716.563" y2="591.783" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="886.602" y1="297.128" x2="716.563" y2="591.783" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="601.799" y1="157.572" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="886.602" y1="297.128" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="809.325" y1="455.136" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="621.981" y1="155.57" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="561.093" y1="590.578" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="793.374" y1="513.323" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="797.537" y1="503.892" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="836.588" y1="233.656" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="600.05" y1="605.239" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="764.712" y1="555.529" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="735.364" y1="299.267" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="708.921" y1="284.598" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="718.972" y1="289.456" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="656.426" y1="155.474" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="809.245" y1="423.998" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="784.585" y1="350.584" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="812.337" y1="666.991" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="536.64" y1="574.969" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="491.402" y1="357.425" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="869.658" y1="608.767" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="470.779" y1="423.744" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="496.566" y1="348.75" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="808.369" y1="416.509" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="459.877" y1="219.137" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="757.605" y1="317.244" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="707.151" y1="596.175" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="743.5" y1="305.138" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="681.772" y1="158.078" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="788.267" y1="356.832" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="765.926" y1="325.796" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="482.486" y1="376.052" x2="683.668" y2="408.233" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="886.602" y1="297.128" x2="707.151" y2="596.175" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="643.202" y1="155.018" x2="707.151" y2="596.175" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="912.75" y1="522.658" x2="707.151" y2="596.175" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="656.426" y1="155.474" x2="473.327" y2="473.469" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="772.382" y1="187.611" x2="473.327" y2="473.469" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="681.772" y1="158.078" x2="473.327" y2="473.469" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="894.034" y1="310.804" x2="697.967" y2="599.812" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="902.898" y1="329.956" x2="697.967" y2="599.812" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="536.64" y1="574.969" x2="661.793" y2="271.403" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="894.034" y1="310.804" x2="661.793" y2="271.403" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="863.524" y1="263.19" x2="661.793" y2="271.403" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="856.45" y1="625.403" x2="743.5" y2="305.138" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="924.897" y1="447.651" x2="743.5" y2="305.138" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="820.027" y1="219.058" x2="472.079" y2="466.507" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="481.252" y1="676.694" x2="472.079" y2="466.507" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="618.947" y1="608.691" x2="472.079" y2="466.507" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="739.137" y1="172.798" x2="472.079" y2="466.507" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="766.026" y1="695.622" x2="690.875" y2="602.209" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="691.511" y1="720.306" x2="690.875" y2="602.209" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="502.875" y1="540.483" x2="644.887" y2="493.778" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="358.933" y1="487.183" x2="644.887" y2="493.778" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="561.093" y1="590.578" x2="644.887" y2="493.778" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="471.645" y1="416.411" x2="644.887" y2="493.778" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="584.294" y1="160.497" x2="644.887" y2="493.778" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="537.372" y1="304.473" x2="644.887" y2="493.778" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="748.627" y1="703.487" x2="644.887" y2="493.778" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="725.142" y1="587.142" x2="644.887" y2="493.778" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="515.633" y1="555.9" x2="644.887" y2="493.778" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="530.167" y1="569.757" x2="644.887" y2="493.778" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="656.426" y1="155.474" x2="581.996" y2="280.202" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="521.605" y1="561.995" x2="581.996" y2="280.202" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="570.465" y1="284.871" x2="591.653" y2="277.02" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="443.517" y1="233.556" x2="591.653" y2="277.02" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="476.04" y1="484.914" x2="591.653" y2="277.02" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="521.603" y1="318.008" x2="591.653" y2="277.02" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="644.887" y1="493.778" x2="598.554" y2="405.385" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="591.205" y1="277.153" x2="598.554" y2="405.385" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="581.467" y1="280.395" x2="598.554" y2="405.385" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="520.711" y1="318.88" x2="598.554" y2="405.385" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="536.537" y1="305.109" x2="598.554" y2="405.385" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="445.715" y1="231.486" x2="470.844" y2="456.915" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="370.727" y1="533.364" x2="470.844" y2="456.915" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="445.715" y1="231.486" x2="470.153" y2="447.211" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="520.711" y1="318.88" x2="470.153" y2="447.211" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="810.848" y1="668.114" x2="470.153" y2="447.211" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="428.922" y1="248.503" x2="758.495" y2="318.103" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="920.353" y1="491.258" x2="758.495" y2="318.103" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="810.848" y1="668.114" x2="752.973" y2="312.968" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="643.51" y1="155.022" x2="752.973" y2="312.968" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="803.065" y1="488.062" x2="470.042" y2="436.202" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="808.674" y1="418.807" x2="470.042" y2="436.202" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="851.185" y1="248.621" x2="470.042" y2="436.202" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="902.527" y1="550.927" x2="470.567" y2="426.123" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="899.726" y1="322.666" x2="470.567" y2="426.123" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="804.669" y1="207.386" x2="470.567" y2="426.123" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="473.347" y1="406.43" x2="674.987" y2="606.361" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="916.922" y1="507.373" x2="674.987" y2="606.361" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="869.94" y1="608.382" x2="674.987" y2="606.361" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="487.488" y1="680.759" x2="664.102" y2="608.283" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="598.142" y1="158.091" x2="664.102" y2="608.283" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="913.645" y1="360.355" x2="664.102" y2="608.283" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="920.353" y1="491.258" x2="517.143" y2="557.5" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="428.922" y1="248.503" x2="517.143" y2="557.5" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="916.922" y1="507.373" x2="473.347" y2="406.43" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="924.858" y1="449.001" x2="473.347" y2="406.43" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="869.94" y1="608.382" x2="473.347" y2="406.43" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="755.751" y1="700.436" x2="475.864" y2="395.734" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="669.782" y1="723.44" x2="475.864" y2="395.734" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="365.696" y1="362.656" x2="475.864" y2="395.734" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="376.557" y1="548.733" x2="475.864" y2="395.734" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="797.954" y1="377.146" x2="475.864" y2="395.734" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="828.901" y1="653.404" x2="471.339" y2="418.708" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="924.858" y1="449.001" x2="471.339" y2="418.708" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="803.065" y1="488.062" x2="478.101" y2="388.149" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="843.346" y1="639.688" x2="478.101" y2="388.149" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="511.778" y1="185.473" x2="478.101" y2="388.149" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="810.848" y1="668.114" x2="766.829" y2="326.8" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="579.004" y1="161.604" x2="766.829" y2="326.8" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="899.726" y1="322.666" x2="481.774" y2="377.834" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="724.722" y1="167.884" x2="481.774" y2="377.834" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="851.185" y1="248.621" x2="511.349" y2="551.125" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="737.938" y1="707.644" x2="511.349" y2="551.125" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="920.353" y1="491.258" x2="656.844" y2="609.163" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="816.845" y1="216.503" x2="656.844" y2="609.163" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="878.026" y1="283.256" x2="656.844" y2="609.163" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="910.862" y1="528.648" x2="656.844" y2="609.163" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="881.487" y1="591.358" x2="656.844" y2="609.163" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="924.014" y1="463.688" x2="656.844" y2="609.163" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="924.858" y1="449.001" x2="643.402" y2="609.966" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="857.186" y1="624.541" x2="643.402" y2="609.966" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="539.691" y1="577.252" x2="629.422" y2="270.329" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="758.495" y1="318.103" x2="629.422" y2="270.329" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="473.347" y1="406.43" x2="629.422" y2="270.329" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="794.096" y1="679.749" x2="635.402" y2="609.938" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="804.776" y1="398.18" x2="635.402" y2="609.938" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="624.176" y1="609.262" x2="772.468" y2="333.453" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="691.688" y1="278.048" x2="772.468" y2="333.453" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="499.075" y1="535.08" x2="671.424" y2="272.93" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="899.726" y1="322.666" x2="671.424" y2="272.93" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="473.347" y1="406.43" x2="671.424" y2="272.93" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="613.712" y1="607.955" x2="485.432" y2="369.229" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="851.185" y1="248.621" x2="485.432" y2="369.229" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="737.938" y1="707.644" x2="485.432" y2="369.229" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="552.092" y1="294.493" x2="778.09" y2="340.848" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="737.938" y1="707.644" x2="778.09" y2="340.848" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="724.722" y1="167.884" x2="778.09" y2="340.848" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="809.064" y1="457.811" x2="624.176" y2="609.262" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="488.244" y1="516.616" x2="624.176" y2="609.262" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="843.346" y1="639.688" x2="613.712" y2="607.955" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="748.227" y1="176.349" x2="613.712" y2="607.955" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="834.186" y1="231.393" x2="613.712" y2="607.955" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="483.076" y1="505.381" x2="591.858" y2="464.461" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="591.653" y1="277.02" x2="598.554" y2="405.385" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="581.996" y1="280.202" x2="598.554" y2="405.385" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="521.603" y1="318.008" x2="598.554" y2="405.385" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="537.372" y1="304.473" x2="598.554" y2="405.385" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="459.877" y1="219.137" x2="470.598" y2="454.248" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="358.933" y1="487.183" x2="470.598" y2="454.248" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="459.877" y1="219.137" x2="470.063" y2="444.626" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="521.603" y1="318.008" x2="470.063" y2="444.626" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="856.45" y1="625.403" x2="470.063" y2="444.626" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="443.517" y1="233.556" x2="757.605" y2="317.244" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="924.897" y1="447.651" x2="757.605" y2="317.244" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="856.45" y1="625.403" x2="752.1" y2="312.197" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="643.202" y1="155.018" x2="752.1" y2="312.197" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="803.882" y1="485.197" x2="470.116" y2="433.72" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="808.369" y1="416.509" x2="470.116" y2="433.72" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="836.588" y1="233.656" x2="470.116" y2="433.72" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="917.718" y1="504.014" x2="470.779" y2="423.744" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="886.602" y1="297.128" x2="470.779" y2="423.744" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="791.836" y1="198.814" x2="470.779" y2="423.744" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="473.796" y1="404.276" x2="679.578" y2="605.329" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="924.098" y1="462.657" x2="679.578" y2="605.329" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="898.047" y1="560.982" x2="679.578" y2="605.329" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="517.069" y1="697.124" x2="668.854" y2="607.533" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="601.799" y1="157.572" x2="668.854" y2="607.533" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="902.898" y1="329.956" x2="668.854" y2="607.533" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="924.897" y1="447.651" x2="521.605" y2="561.995" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="443.517" y1="233.556" x2="521.605" y2="561.995" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="924.098" y1="462.657" x2="473.796" y2="404.276" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="923.3" y1="408.917" x2="473.796" y2="404.276" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="898.047" y1="560.982" x2="473.796" y2="404.276" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="798.231" y1="677.04" x2="476.423" y2="393.713" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="705.966" y1="717.261" x2="476.423" y2="393.713" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="376.267" y1="331.973" x2="476.423" y2="393.713" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="372.972" y1="539.604" x2="476.423" y2="393.713" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="797.237" y1="375.374" x2="476.423" y2="393.713" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="869.658" y1="608.767" x2="471.645" y2="416.411" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="923.3" y1="408.917" x2="471.645" y2="416.411" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="803.882" y1="485.197" x2="478.729" y2="386.227" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="879.945" y1="593.791" x2="478.729" y2="386.227" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="522.325" y1="180.428" x2="478.729" y2="386.227" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="856.45" y1="625.403" x2="765.926" y2="325.796" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="584.294" y1="160.497" x2="765.926" y2="325.796" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="886.602" y1="297.128" x2="482.486" y2="376.052" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="717.473" y1="165.732" x2="482.486" y2="376.052" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="836.588" y1="233.656" x2="515.633" y2="555.9" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="766.026" y1="695.622" x2="515.633" y2="555.9" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="924.897" y1="447.651" x2="661.691" y2="608.61" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="803.394" y1="206.489" x2="661.691" y2="608.61" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="863.524" y1="263.19" x2="661.691" y2="608.61" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="921.783" y1="482.702" x2="661.691" y2="608.61" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="905.448" y1="543.741" x2="661.691" y2="608.61" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="924.449" y1="422.286" x2="661.691" y2="608.61" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="923.3" y1="408.917" x2="648.405" y2="609.792" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="889.521" y1="577.712" x2="648.405" y2="609.792" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="544.639" y1="580.735" x2="629.521" y2="270.323" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="757.605" y1="317.244" x2="629.521" y2="270.323" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="473.796" y1="404.276" x2="629.521" y2="270.323" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="843.893" y1="639.13" x2="640.483" y2="609.999" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="804.241" y1="396.128" x2="640.483" y2="609.999" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="629.348" y1="609.666" x2="771.565" y2="332.341" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="691.215" y1="277.898" x2="771.565" y2="332.341" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="502.875" y1="540.483" x2="671.131" y2="272.875" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="886.602" y1="297.128" x2="671.131" y2="272.875" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="473.796" y1="404.276" x2="671.131" y2="272.875" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="618.947" y1="608.691" x2="486.203" y2="367.568" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="836.588" y1="233.656" x2="486.203" y2="367.568" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="766.026" y1="695.622" x2="486.203" y2="367.568" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="552.84" y1="294.044" x2="777.198" y2="339.617" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="766.026" y1="695.622" x2="777.198" y2="339.617" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="717.473" y1="165.732" x2="777.198" y2="339.617" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="809.325" y1="455.136" x2="629.348" y2="609.666" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="486.799" y1="513.684" x2="629.348" y2="609.666" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="879.945" y1="593.791" x2="618.947" y2="608.691" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="739.137" y1="172.798" x2="618.947" y2="608.691" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="820.027" y1="219.058" x2="618.947" y2="608.691" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="481.89" y1="502.46" x2="591.858" y2="464.461" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
 <line x1="633.042" y1="386.45" x2="591.858" y2="464.461" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="730.317" y1="584.024" x2="591.858" y2="464.461" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="635.402" y1="609.938" x2="591.858" y2="464.461" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="475.864" y1="395.734" x2="591.858" y2="464.461" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="769.83" y1="549.746" x2="591.858" y2="464.461" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="504.091" y1="690.507" x2="608.495" y2="272.945" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="613.712" y1="607.955" x2="608.495" y2="272.945" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="450.362" y1="652.75" x2="608.495" y2="272.945" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="828.901" y1="653.404" x2="603.484" y2="606.032" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="834.186" y1="231.393" x2="603.484" y2="606.032" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="355.006" y1="441.8" x2="603.484" y2="606.032" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="809.064" y1="457.811" x2="785.444" y2="351.988" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="899.726" y1="322.666" x2="785.444" y2="351.988" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="724.722" y1="167.884" x2="490.573" y2="358.935" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="893.576" y1="570.093" x2="490.573" y2="358.935" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="851.185" y1="248.621" x2="490.573" y2="358.935" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="801.698" y1="387.523" x2="495.7" y2="350.125" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="498.236" y1="192.759" x2="495.7" y2="350.125" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="511.778" y1="185.473" x2="495.7" y2="350.125" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="785.444" y1="351.988" x2="500.068" y2="343.465" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="460.489" y1="218.639" x2="500.068" y2="343.465" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="498.236" y1="192.759" x2="500.068" y2="343.465" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="809.453" y1="426.379" x2="507.199" y2="333.869" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="696.785" y1="719.286" x2="507.199" y2="333.869" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="726.9" y1="293.889" x2="513.437" y2="326.501" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="488.244" y1="516.616" x2="513.437" y2="326.501" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="809.064" y1="457.811" x2="513.437" y2="326.501" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="641.555" y1="270.007" x2="687.759" y2="465.202" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="488.244" y1="516.616" x2="687.759" y2="465.202" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="726.9" y1="293.889" x2="687.759" y2="465.202" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="736.161" y1="299.811" x2="687.759" y2="465.202" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="772.468" y1="333.453" x2="687.759" y2="465.202" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="624.176" y1="609.262" x2="687.759" y2="465.202" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="513.437" y1="326.501" x2="687.759" y2="465.202" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="594.755" y1="603.868" x2="687.759" y2="465.202" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="681.709" y1="275.196" x2="687.759" y2="465.202" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="691.688" y1="278.048" x2="687.759" y2="465.202" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="794.086" y1="368.185" x2="687.759" y2="465.202" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="504.091" y1="690.507" x2="594.755" y2="603.868" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="889.144" y1="301.607" x2="594.755" y2="603.868" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="625.98" y1="724.655" x2="586.017" y2="601.201" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="922.661" y1="403.56" x2="586.017" y2="601.201" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="685.764" y1="158.698" x2="586.017" y2="601.201" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="857.186" y1="624.541" x2="576.148" y2="597.553" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="869.94" y1="608.382" x2="576.148" y2="597.553" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="851.185" y1="248.621" x2="520.711" y2="318.88" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="857.186" y1="624.541" x2="520.711" y2="318.88" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="767.268" y1="184.994" x2="565.172" y2="592.646" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="475.257" y1="207.439" x2="565.172" y2="592.646" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="783.986" y1="194.046" x2="565.172" y2="592.646" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="804.669" y1="207.386" x2="527.607" y2="312.455" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="924.858" y1="449.001" x2="527.607" y2="312.455" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="906.283" y1="338.421" x2="536.537" y2="305.109" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="363.566" y1="509.35" x2="536.537" y2="305.109" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="737.938" y1="707.644" x2="681.709" y2="275.196" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="857.186" y1="624.541" x2="681.709" y2="275.196" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="737.938" y1="707.644" x2="691.688" y2="278.048" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="902.527" y1="550.927" x2="691.688" y2="278.048" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="924.858" y1="449.001" x2="555.944" y2="587.765" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="916.922" y1="507.373" x2="555.944" y2="587.765" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="664.102" y1="608.283" x2="548.043" y2="582.982" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="357.558" y1="401.9" x2="548.043" y2="582.982" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="357.558" y1="401.9" x2="539.691" y2="577.252" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="598.142" y1="158.091" x2="539.691" y2="577.252" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="373.101" y1="340.051" x2="539.691" y2="577.252" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="843.346" y1="639.688" x2="531.83" y2="571.146" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="919.028" y1="381.961" x2="531.83" y2="571.146" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="906.283" y1="338.421" x2="531.83" y2="571.146" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="920.353" y1="491.258" x2="544.671" y2="299.243" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="878.026" y1="283.256" x2="544.671" y2="299.243" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="748.227" y1="176.349" x2="544.671" y2="299.243" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="924.858" y1="449.001" x2="552.092" y2="294.493" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="857.186" y1="624.541" x2="552.092" y2="294.493" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="810.848" y1="668.114" x2="552.092" y2="294.493" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="810.848" y1="668.114" x2="789.099" y2="358.333" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="658.007" y1="155.569" x2="789.099" y2="358.333" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="924.858" y1="449.001" x2="794.086" y2="368.185" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="363.566" y1="509.35" x2="794.086" y2="368.185" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="809.453" y1="426.379" x2="561.088" y2="289.425" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="531.83" y1="571.146" x2="561.088" y2="289.425" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
-<line x1="552.092" y1="294.493" x2="561.088" y2="289.425" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="733.797" y1="581.782" x2="591.858" y2="464.461" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="640.483" y1="609.999" x2="591.858" y2="464.461" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="476.423" y1="393.713" x2="591.858" y2="464.461" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="772.153" y1="546.938" x2="591.858" y2="464.461" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="491.21" y1="522.228" x2="608.789" y2="272.89" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="533.138" y1="704.207" x2="608.789" y2="272.89" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="464.358" y1="664.443" x2="608.789" y2="272.89" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="618.947" y1="608.691" x2="608.789" y2="272.89" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="869.658" y1="608.767" x2="608.761" y2="607.105" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="820.027" y1="219.058" x2="608.761" y2="607.105" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="357.492" y1="402.395" x2="608.761" y2="607.105" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="809.325" y1="455.136" x2="784.585" y2="350.584" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="886.602" y1="297.128" x2="784.585" y2="350.584" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="717.473" y1="165.732" x2="491.402" y2="357.425" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="912.75" y1="522.658" x2="491.402" y2="357.425" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="836.588" y1="233.656" x2="491.402" y2="357.425" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="801.064" y1="385.609" x2="496.566" y2="348.75" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="509.696" y1="186.532" x2="496.566" y2="348.75" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="522.325" y1="180.428" x2="496.566" y2="348.75" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="784.585" y1="350.584" x2="500.954" y2="342.193" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="474.063" y1="208.289" x2="500.954" y2="342.193" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="509.696" y1="186.532" x2="500.954" y2="342.193" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="809.245" y1="423.998" x2="508.101" y2="332.749" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="729.934" y1="710.438" x2="508.101" y2="332.749" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="726.159" y1="293.451" x2="514.341" y2="325.502" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="486.799" y1="513.684" x2="514.341" y2="325.502" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="809.325" y1="455.136" x2="514.341" y2="325.502" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="641.541" y1="270.007" x2="687.759" y2="465.202" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="486.799" y1="513.684" x2="687.759" y2="465.202" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="726.159" y1="293.451" x2="687.759" y2="465.202" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="735.364" y1="299.267" x2="687.759" y2="465.202" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="771.565" y1="332.341" x2="687.759" y2="465.202" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="629.348" y1="609.666" x2="687.759" y2="465.202" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="514.341" y1="325.502" x2="687.759" y2="465.202" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="600.05" y1="605.239" x2="687.759" y2="465.202" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="681.324" y1="275.099" x2="687.759" y2="465.202" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="691.215" y1="277.898" x2="687.759" y2="465.202" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="793.309" y1="366.539" x2="687.759" y2="465.202" stroke="#fbbf24" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="533.138" y1="704.207" x2="600.05" y2="605.239" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="875.132" y1="278.947" x2="600.05" y2="605.239" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="666.526" y1="723.763" x2="591.314" y2="602.879" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="915.782" y1="368.101" x2="591.314" y2="602.879" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="681.772" y1="158.078" x2="591.314" y2="602.879" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="889.521" y1="577.712" x2="581.425" y2="599.59" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="898.047" y1="560.982" x2="581.425" y2="599.59" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="836.588" y1="233.656" x2="521.603" y2="318.008" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="889.521" y1="577.712" x2="521.603" y2="318.008" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="756.788" y1="180.028" x2="570.394" y2="595.097" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="488.094" y1="198.858" x2="570.394" y2="595.097" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="772.382" y1="187.611" x2="570.394" y2="595.097" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="791.836" y1="198.814" x2="528.479" y2="311.692" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="923.3" y1="408.917" x2="528.479" y2="311.692" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="894.034" y1="310.804" x2="537.372" y2="304.473" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="356.056" y1="464.509" x2="537.372" y2="304.473" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="766.026" y1="695.622" x2="681.324" y2="275.099" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="889.521" y1="577.712" x2="681.324" y2="275.099" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="766.026" y1="695.622" x2="691.215" y2="277.898" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="917.718" y1="504.014" x2="691.215" y2="277.898" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="923.3" y1="408.917" x2="561.093" y2="590.578" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="924.098" y1="462.657" x2="561.093" y2="590.578" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="668.854" y1="607.533" x2="553.107" y2="586.115" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="364.607" y1="366.625" x2="553.107" y2="586.115" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="364.607" y1="366.625" x2="544.639" y2="580.735" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="601.799" y1="157.572" x2="544.639" y2="580.735" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="385.249" y1="312.223" x2="544.639" y2="580.735" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="879.945" y1="593.791" x2="536.64" y2="574.969" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="910.067" y1="348.958" x2="536.64" y2="574.969" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="894.034" y1="310.804" x2="536.64" y2="574.969" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="924.897" y1="447.651" x2="545.463" y2="298.71" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="863.524" y1="263.19" x2="545.463" y2="298.71" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="739.137" y1="172.798" x2="545.463" y2="298.71" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="923.3" y1="408.917" x2="552.84" y2="294.044" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="889.521" y1="577.712" x2="552.84" y2="294.044" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="856.45" y1="625.403" x2="552.84" y2="294.044" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="856.45" y1="625.403" x2="788.267" y2="356.832" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="656.426" y1="155.474" x2="788.267" y2="356.832" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="923.3" y1="408.917" x2="793.309" y2="366.539" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="356.056" y1="464.509" x2="793.309" y2="366.539" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="809.245" y1="423.998" x2="561.774" y2="289.067" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="536.64" y1="574.969" x2="561.774" y2="289.067" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
+<line x1="552.84" y1="294.044" x2="561.774" y2="289.067" stroke="#a78bfa" stroke-opacity="0.32" stroke-width="1.15"/>
 </g>
 <g class="nodes" filter="url(#glow)">
-<circle cx="810.848" cy="668.114" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>API Call</title></circle>
-<circle cx="794.096" cy="679.749" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Adaptive Pattern Learning</title></circle>
-<circle cx="783.986" cy="194.046" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Audience Model</title></circle>
-<circle cx="772.836" cy="692.15" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Browser Control</title></circle>
-<circle cx="755.751" cy="700.436" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>CLI Modernization</title></circle>
-<circle cx="804.669" cy="207.386" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Chain-of-Thought Reasoning</title></circle>
-<circle cx="816.845" cy="216.503" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Chunk Document</title></circle>
-<circle cx="834.186" cy="231.393" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Cite Sources</title></circle>
-<circle cx="643.51" cy="155.022" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Classify</title></circle>
-<circle cx="737.938" cy="707.644" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Code Execution</title></circle>
-<circle cx="718.028" cy="714.111" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Code Explain</title></circle>
-<circle cx="851.185" cy="248.621" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Code Generation</title></circle>
-<circle cx="696.785" cy="719.286" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Computer Use</title></circle>
-<circle cx="428.922" cy="248.503" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Context Compression</title></circle>
-<circle cx="669.782" cy="723.44" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Core Platform Implementation</title></circle>
-<circle cx="653.634" cy="724.674" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Data Visualize</title></circle>
-<circle cx="863.239" cy="262.83" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Diff Content</title></circle>
-<circle cx="658.007" cy="155.569" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Document Editing</title></circle>
-<circle cx="878.026" cy="283.256" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Embed Text</title></circle>
-<circle cx="889.144" cy="301.607" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Error Interpretation</title></circle>
-<circle cx="899.726" cy="322.666" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Evaluate Output</title></circle>
-<circle cx="906.283" cy="338.421" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Extract Entities</title></circle>
-<circle cx="685.764" cy="158.698" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Format Output</title></circle>
-<circle cx="706.105" cy="162.772" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Framework Upgrade</title></circle>
-<circle cx="625.98" cy="724.655" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Generate SQL</title></circle>
-<circle cx="608.434" cy="723.246" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Generate Test</title></circle>
-<circle cx="724.722" cy="167.884" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Generate Text</title></circle>
-<circle cx="584.002" cy="719.445" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Git Diff Risk Analysis</title></circle>
-<circle cx="567.326" cy="715.578" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Headless Worker Collect</title></circle>
-<circle cx="542.204" cy="707.696" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Headless Worker Spawn</title></circle>
-<circle cx="523.606" cy="700.149" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Hybrid Workflow Coordination</title></circle>
-<circle cx="504.091" cy="690.507" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Hypothesis Generation</title></circle>
-<circle cx="487.488" cy="680.759" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Image Caption</title></circle>
-<circle cx="467.791" cy="667.088" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Image Generate</title></circle>
-<circle cx="579.004" cy="161.604" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Issue Triage</title></circle>
-<circle cx="913.645" cy="360.355" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Logical Inference</title></circle>
-<circle cx="445.715" cy="231.486" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>MCP Integration</title></circle>
-<circle cx="450.362" cy="652.75" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Math Reason</title></circle>
-<circle cx="435.891" cy="638.908" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Memory Pattern Design</title></circle>
-<circle cx="420.458" cy="621.732" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Multi-Repo Coordination</title></circle>
-<circle cx="410.854" cy="609.462" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>OCR</title></circle>
-<circle cx="398.252" cy="590.94" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Object Detection</title></circle>
-<circle cx="388.023" cy="573.163" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Parallel Execution</title></circle>
-<circle cx="919.028" cy="381.961" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Parse HTML</title></circle>
-<circle cx="922.661" cy="403.56" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Parse JSON</title></circle>
-<circle cx="924.496" cy="423.06" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Parse PDF</title></circle>
-<circle cx="376.557" cy="548.733" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Performance Tuning</title></circle>
-<circle cx="924.858" cy="449.001" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Plan and Decompose</title></circle>
-<circle cx="460.489" cy="218.639" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Prompt Injection Defense</title></circle>
-<circle cx="598.142" cy="158.091" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Question Answer</title></circle>
-<circle cx="924.014" cy="463.688" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Rank</title></circle>
-<circle cx="370.727" cy="533.364" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Refactor Code</title></circle>
-<circle cx="363.566" cy="509.35" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Requirements Analysis</title></circle>
-<circle cx="920.353" cy="491.258" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Retrieve</title></circle>
-<circle cx="359.37" cy="489.715" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Reward Modeling</title></circle>
-<circle cx="916.922" cy="507.373" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Route Intent</title></circle>
-<circle cx="356.515" cy="469.344" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Schema Design</title></circle>
-<circle cx="355.006" cy="441.8" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Scientific Visualization</title></circle>
-<circle cx="910.862" cy="528.648" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Score Relevance</title></circle>
-<circle cx="902.527" cy="550.927" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Self-Critique</title></circle>
-<circle cx="475.257" cy="207.439" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Sentiment Analysis</title></circle>
-<circle cx="355.271" cy="427.568" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Sequential Agent Pipeline</title></circle>
-<circle cx="498.236" cy="192.759" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Skill Discovery</title></circle>
-<circle cx="357.558" cy="401.9" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Speech to Text</title></circle>
-<circle cx="511.778" cy="185.473" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Statistical Analysis</title></circle>
-<circle cx="893.576" cy="570.093" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Structured Output Generation</title></circle>
-<circle cx="748.227" cy="176.349" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Summarize</title></circle>
-<circle cx="361.502" cy="379.471" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Swarm Topology Management</title></circle>
-<circle cx="365.696" cy="362.656" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>System Integration</title></circle>
-<circle cx="537.847" cy="173.936" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Test-Driven Development</title></circle>
-<circle cx="373.101" cy="340.051" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Text to Speech</title></circle>
-<circle cx="381.031" cy="321.004" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Token Observability</title></circle>
-<circle cx="881.487" cy="591.358" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Tokenize</title></circle>
-<circle cx="869.94" cy="608.382" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Tool Select</title></circle>
-<circle cx="857.186" cy="624.541" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Tool Use</title></circle>
-<circle cx="767.268" cy="184.994" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Translate</title></circle>
-<circle cx="620.247" cy="155.685" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>UX Audit</title></circle>
-<circle cx="391.7" cy="300.1" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Vector DB Optimization</title></circle>
-<circle cx="401.641" cy="283.763" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Vector Search</title></circle>
-<circle cx="554.388" cy="168.162" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Visual Question Answering</title></circle>
-<circle cx="843.346" cy="639.688" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Web Search</title></circle>
-<circle cx="414.89" cy="265.213" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Worker Agent Dispatch</title></circle>
-<circle cx="828.901" cy="653.404" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Write Report</title></circle>
-<circle cx="797.954" cy="377.146" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Advanced Swarm Coordination</title></circle>
-<circle cx="801.698" cy="387.523" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Agent Evaluation</title></circle>
-<circle cx="804.776" cy="398.18" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Agent Memory Learning</title></circle>
-<circle cx="806.66" cy="406.465" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Agentic Workflow Design</title></circle>
-<circle cx="504.105" cy="542.14" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Architecture Diagram</title></circle>
-<circle cx="808.674" cy="418.807" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Automated Testing</title></circle>
-<circle cx="600.521" cy="274.648" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Autonomous Data Scientist</title></circle>
-<circle cx="499.075" cy="535.08" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Autonomous Debug</title></circle>
-<circle cx="608.495" cy="272.945" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Autonomous Scientific Discovery</title></circle>
-<circle cx="491.904" cy="523.472" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Autonomous Web Research</title></circle>
-<circle cx="641.555" cy="270.007" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Brainstorming</title></circle>
-<circle cx="809.453" cy="426.379" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Browser Automation</title></circle>
-<circle cx="809.967" cy="436.652" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Career Operations</title></circle>
-<circle cx="809.835" cy="447.493" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Cloud Platform Management</title></circle>
-<circle cx="809.064" cy="457.811" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Code Review Pipeline</title></circle>
-<circle cx="700.043" cy="280.956" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Collaborative Diagramming</title></circle>
-<circle cx="807.966" cy="466.218" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Content Moderation</title></circle>
-<circle cx="805.681" cy="478.077" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Conversational Agent</title></circle>
-<circle cx="803.065" cy="488.062" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Data Analysis</title></circle>
-<circle cx="709.538" cy="284.873" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Deployment Automation</title></circle>
-<circle cx="800.601" cy="495.745" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Design Generation</title></circle>
-<circle cx="796.319" cy="506.816" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Design Review</title></circle>
-<circle cx="791.938" cy="516.256" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Design System Extraction</title></circle>
-<circle cx="719.664" cy="289.821" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Detect Anomaly</title></circle>
-<circle cx="488.244" cy="516.616" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Dispatching Parallel Agents</title></circle>
-<circle cx="786.703" cy="525.897" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Distributed Neural Training</title></circle>
-<circle cx="781.222" cy="534.638" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Distributed Vector Memory</title></circle>
-<circle cx="776.221" cy="541.705" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Document Analyst</title></circle>
-<circle cx="769.83" cy="549.746" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Dual Mode</title></circle>
-<circle cx="762.131" cy="558.254" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>End-to-End Testing</title></circle>
-<circle cx="726.9" cy="293.889" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Executing Plans</title></circle>
-<circle cx="736.161" cy="299.811" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Finishing a Development Branch</title></circle>
-<circle cx="483.076" cy="505.381" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Flow Nexus Orchestration</title></circle>
-<circle cx="620.148" cy="271.163" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Full-Stack Developer</title></circle>
-<circle cx="754.579" cy="565.585" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Function Calling</title></circle>
-<circle cx="479.907" cy="497.186" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Gaia Audit</title></circle>
-<circle cx="746.994" cy="572.107" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Gaia Meta Audit</title></circle>
-<circle cx="739.639" cy="577.739" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Generative Media</title></circle>
-<circle cx="648.774" cy="270.227" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Ghostwrite</title></circle>
-<circle cx="730.317" cy="584.024" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>GitHub Platform Mastery</title></circle>
-<circle cx="476.852" cy="487.777" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Grill Me</title></circle>
-<circle cx="721.448" cy="589.219" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Grill With Docs</title></circle>
-<circle cx="712.672" cy="593.684" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Grounding</title></circle>
-<circle cx="703.06" cy="597.872" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Guardrails</title></circle>
-<circle cx="473.915" cy="476.272" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Humanize Prose</title></circle>
-<circle cx="693.695" cy="601.297" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Knowledge Graph Construction</title></circle>
-<circle cx="662.0" cy="271.429" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Knowledge Harvest</title></circle>
-<circle cx="744.339" cy="305.786" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Knowledge Management</title></circle>
-<circle cx="472.538" cy="469.266" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Literature Review</title></circle>
-<circle cx="470.844" cy="456.915" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>MCP Debugger Control</title></circle>
-<circle cx="470.153" cy="447.211" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>MCP Server Creation</title></circle>
-<circle cx="752.973" cy="312.968" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>ML Artifact Management</title></circle>
-<circle cx="470.042" cy="436.202" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>ML Pipeline</title></circle>
-<circle cx="686.473" cy="603.525" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Mathematical Animation</title></circle>
-<circle cx="758.495" cy="318.103" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Memory Manage</title></circle>
-<circle cx="470.567" cy="426.123" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Multi-Agent Debate</title></circle>
-<circle cx="674.987" cy="606.361" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Multi-Agent Orchestration</title></circle>
-<circle cx="664.102" cy="608.283" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Multimodal Reasoning</title></circle>
-<circle cx="471.339" cy="418.708" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>PRD Generation</title></circle>
-<circle cx="473.347" cy="406.43" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Plan and Execute</title></circle>
-<circle cx="475.864" cy="395.734" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Platform Modernization Sprint</title></circle>
-<circle cx="478.101" cy="388.149" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Prediction Market Analysis</title></circle>
-<circle cx="766.829" cy="326.8" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Project Management</title></circle>
-<circle cx="481.774" cy="377.834" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Prompt Optimization</title></circle>
-<circle cx="656.844" cy="609.163" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>RAG Pipeline</title></circle>
-<circle cx="643.402" cy="609.966" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>ReAct Reasoning</title></circle>
-<circle cx="629.422" cy="270.329" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Real-Time Voice Assistant</title></circle>
-<circle cx="635.402" cy="609.938" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Reasoning Pattern Bank</title></circle>
-<circle cx="772.468" cy="333.453" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Receiving Code Review</title></circle>
-<circle cx="671.424" cy="272.93" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Recursive Self-Improvement</title></circle>
-<circle cx="485.432" cy="369.229" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Registry Curation</title></circle>
-<circle cx="778.09" cy="340.848" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Release Automation</title></circle>
-<circle cx="624.176" cy="609.262" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Requesting Code Review</title></circle>
-<circle cx="613.712" cy="607.955" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Research</title></circle>
-<circle cx="603.484" cy="606.032" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Scientific Writing</title></circle>
-<circle cx="785.444" cy="351.988" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Security Audit</title></circle>
-<circle cx="490.573" cy="358.935" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Skill Authoring</title></circle>
-<circle cx="495.7" cy="350.125" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Skill Performance Benchmarking</title></circle>
-<circle cx="500.068" cy="343.465" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Skill Security Analysis</title></circle>
-<circle cx="507.199" cy="333.869" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Stealth Browser Interaction</title></circle>
-<circle cx="513.437" cy="326.501" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Subagent-Driven Development</title></circle>
-<circle cx="594.755" cy="603.868" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Systematic Debugging</title></circle>
-<circle cx="586.017" cy="601.201" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Text-to-SQL Pipeline</title></circle>
-<circle cx="576.148" cy="597.553" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Tool Chaining</title></circle>
-<circle cx="520.711" cy="318.88" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Tool Creation</title></circle>
-<circle cx="565.172" cy="592.646" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Translation Pipeline</title></circle>
-<circle cx="527.607" cy="312.455" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Tree of Thought</title></circle>
-<circle cx="536.537" cy="305.109" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Ubiquitous Language</title></circle>
-<circle cx="681.709" cy="275.196" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Using Git Worktrees</title></circle>
-<circle cx="691.688" cy="278.048" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Verification Before Completion</title></circle>
-<circle cx="555.944" cy="587.765" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Vertical Slice Planning</title></circle>
-<circle cx="548.043" cy="582.982" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Video Intelligence</title></circle>
-<circle cx="539.691" cy="577.252" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Voice Agent</title></circle>
-<circle cx="531.83" cy="571.146" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Web Scrape</title></circle>
-<circle cx="544.671" cy="299.243" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Wiki Search</title></circle>
-<circle cx="552.092" cy="294.493" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Workflow Automation</title></circle>
-<circle cx="789.099" cy="358.333" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Workspace Automation</title></circle>
-<circle cx="794.086" cy="368.185" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Writing Plans</title></circle>
-<circle cx="561.088" cy="289.425" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>X/Twitter Automation</title></circle>
-<circle cx="525.492" cy="565.65" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>agent-environment-setup</title></circle>
-<circle cx="569.843" cy="285.152" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>agent-handoff</title></circle>
-<circle cx="581.467" cy="280.395" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>mattpocock-personal</title></circle>
-<circle cx="591.205" cy="277.153" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>mattpocock-productivity</title></circle>
-<circle cx="517.143" cy="557.5" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>personal-knowledge-management</title></circle>
-<circle cx="511.349" cy="551.125" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>prototype</title></circle>
+<circle cx="856.45" cy="625.403" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>API Call</title></circle>
+<circle cx="843.893" cy="639.13" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Adaptive Pattern Learning</title></circle>
+<circle cx="772.382" cy="187.611" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Audience Model</title></circle>
+<circle cx="830.292" cy="652.165" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Bioinformatic Sequence Analysis</title></circle>
+<circle cx="812.337" cy="666.991" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Browser Control</title></circle>
+<circle cx="798.231" cy="677.04" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>CLI Modernization</title></circle>
+<circle cx="791.836" cy="198.814" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Chain-of-Thought Reasoning</title></circle>
+<circle cx="803.394" cy="206.489" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Chunk Document</title></circle>
+<circle cx="820.027" cy="219.058" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Cite Sources</title></circle>
+<circle cx="643.202" cy="155.018" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Classify</title></circle>
+<circle cx="783.869" cy="686.022" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Clinical Data Retrieval</title></circle>
+<circle cx="766.026" cy="695.622" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Code Execution</title></circle>
+<circle cx="748.627" cy="703.487" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Code Explain</title></circle>
+<circle cx="836.588" cy="233.656" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Code Generation</title></circle>
+<circle cx="729.934" cy="710.438" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Computer Use</title></circle>
+<circle cx="443.517" cy="233.556" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Context Compression</title></circle>
+<circle cx="705.966" cy="717.261" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Core Platform Implementation</title></circle>
+<circle cx="691.511" cy="720.306" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Data Visualize</title></circle>
+<circle cx="848.538" cy="245.74" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Diff Content</title></circle>
+<circle cx="656.426" cy="155.474" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Document Editing</title></circle>
+<circle cx="863.524" cy="263.19" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Embed Text</title></circle>
+<circle cx="875.132" cy="278.947" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Error Interpretation</title></circle>
+<circle cx="886.602" cy="297.128" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Evaluate Output</title></circle>
+<circle cx="894.034" cy="310.804" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Extract Entities</title></circle>
+<circle cx="681.772" cy="158.078" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Format Output</title></circle>
+<circle cx="700.386" cy="161.471" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Framework Upgrade</title></circle>
+<circle cx="666.526" cy="723.763" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Generate SQL</title></circle>
+<circle cx="650.503" cy="724.806" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Generate Test</title></circle>
+<circle cx="717.473" cy="165.732" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Generate Text</title></circle>
+<circle cx="628.33" cy="724.761" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Genomic Data Retrieval</title></circle>
+<circle cx="608.334" cy="723.235" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Git Diff Risk Analysis</title></circle>
+<circle cx="592.87" cy="721.076" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Headless Worker Collect</title></circle>
+<circle cx="569.373" cy="716.11" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Headless Worker Spawn</title></circle>
+<circle cx="551.792" cy="711.006" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Hybrid Workflow Coordination</title></circle>
+<circle cx="533.138" cy="704.207" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Hypothesis Generation</title></circle>
+<circle cx="517.069" cy="697.124" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Image Caption</title></circle>
+<circle cx="497.715" cy="686.941" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Image Generate</title></circle>
+<circle cx="584.294" cy="160.497" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Issue Triage</title></circle>
+<circle cx="481.252" cy="676.694" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Literature Search</title></circle>
+<circle cx="902.898" cy="329.956" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Logical Inference</title></circle>
+<circle cx="459.877" cy="219.137" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>MCP Integration</title></circle>
+<circle cx="464.358" cy="664.443" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Math Reason</title></circle>
+<circle cx="450.341" cy="652.731" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Memory Pattern Design</title></circle>
+<circle cx="437.07" cy="640.111" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Molecular Databases</title></circle>
+<circle cx="421.967" cy="623.539" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Multi-Repo Coordination</title></circle>
+<circle cx="413.088" cy="612.441" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>OCR</title></circle>
+<circle cx="401.316" cy="595.74" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Object Detection</title></circle>
+<circle cx="391.613" cy="579.745" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Parallel Execution</title></circle>
+<circle cx="910.067" cy="348.958" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Parse HTML</title></circle>
+<circle cx="915.782" cy="368.101" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Parse JSON</title></circle>
+<circle cx="919.745" cy="385.521" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Parse PDF</title></circle>
+<circle cx="380.104" cy="556.959" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Pathway Ontology Retrieval</title></circle>
+<circle cx="372.972" cy="539.604" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Performance Tuning</title></circle>
+<circle cx="923.3" cy="408.917" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Plan and Decompose</title></circle>
+<circle cx="474.063" cy="208.289" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Prompt Injection Defense</title></circle>
+<circle cx="366.213" cy="519.154" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Protein Structure Analysis</title></circle>
+<circle cx="362.018" cy="502.856" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Proteomic Data Retrieval</title></circle>
+<circle cx="601.799" cy="157.572" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Question Answer</title></circle>
+<circle cx="924.449" cy="422.286" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Rank</title></circle>
+<circle cx="358.933" cy="487.183" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Refactor Code</title></circle>
+<circle cx="356.056" cy="464.509" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Requirements Analysis</title></circle>
+<circle cx="924.897" cy="447.651" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Retrieve</title></circle>
+<circle cx="355.068" cy="446.221" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Reward Modeling</title></circle>
+<circle cx="924.098" cy="462.657" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Route Intent</title></circle>
+<circle cx="355.276" cy="427.46" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Schema Design</title></circle>
+<circle cx="357.492" cy="402.395" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Scientific Visualization</title></circle>
+<circle cx="921.783" cy="482.702" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Score Relevance</title></circle>
+<circle cx="917.718" cy="504.014" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Self-Critique</title></circle>
+<circle cx="488.094" cy="198.858" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Sentiment Analysis</title></circle>
+<circle cx="359.498" cy="389.568" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Sequential Agent Pipeline</title></circle>
+<circle cx="509.696" cy="186.532" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Skill Discovery</title></circle>
+<circle cx="364.607" cy="366.625" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Speech to Text</title></circle>
+<circle cx="522.325" cy="180.428" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Statistical Analysis</title></circle>
+<circle cx="912.75" cy="522.658" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Structured Output Generation</title></circle>
+<circle cx="739.137" cy="172.798" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Summarize</title></circle>
+<circle cx="370.683" cy="346.761" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Swarm Topology Management</title></circle>
+<circle cx="376.267" cy="331.973" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>System Integration</title></circle>
+<circle cx="546.473" cy="170.783" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Test-Driven Development</title></circle>
+<circle cx="385.249" cy="312.223" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Text to Speech</title></circle>
+<circle cx="394.237" cy="295.69" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Token Observability</title></circle>
+<circle cx="905.448" cy="543.741" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Tokenize</title></circle>
+<circle cx="898.047" cy="560.982" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Tool Select</title></circle>
+<circle cx="889.521" cy="577.712" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Tool Use</title></circle>
+<circle cx="756.788" cy="180.028" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Translate</title></circle>
+<circle cx="621.981" cy="155.57" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>UX Audit</title></circle>
+<circle cx="405.762" cy="277.65" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Vector DB Optimization</title></circle>
+<circle cx="416.133" cy="263.624" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Vector Search</title></circle>
+<circle cx="561.71" cy="165.964" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Visual Question Answering</title></circle>
+<circle cx="879.945" cy="593.791" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Web Search</title></circle>
+<circle cx="429.588" cy="247.771" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Worker Agent Dispatch</title></circle>
+<circle cx="869.658" cy="608.767" r="6" fill="#38bdf8" stroke="#7dd3fc" stroke-width="1.6"><title>Write Report</title></circle>
+<circle cx="797.237" cy="375.374" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Advanced Swarm Coordination</title></circle>
+<circle cx="801.064" cy="385.609" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Agent Evaluation</title></circle>
+<circle cx="804.241" cy="396.128" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Agent Memory Learning</title></circle>
+<circle cx="806.212" cy="404.311" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Agentic Workflow Design</title></circle>
+<circle cx="508.124" cy="547.278" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Architecture Diagram</title></circle>
+<circle cx="808.369" cy="416.509" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Automated Testing</title></circle>
+<circle cx="600.887" cy="274.561" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Autonomous Data Scientist</title></circle>
+<circle cx="502.875" cy="540.483" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Autonomous Debug</title></circle>
+<circle cx="608.789" cy="272.89" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Autonomous Scientific Discovery</title></circle>
+<circle cx="495.326" cy="529.272" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Autonomous Web Research</title></circle>
+<circle cx="641.541" cy="270.007" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Brainstorming</title></circle>
+<circle cx="809.245" cy="423.998" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Browser Automation</title></circle>
+<circle cx="809.9" cy="434.165" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Career Operations</title></circle>
+<circle cx="809.929" cy="444.905" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Cloud Platform Management</title></circle>
+<circle cx="809.325" cy="455.136" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Code Review Pipeline</title></circle>
+<circle cx="699.501" cy="280.753" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Collaborative Diagramming</title></circle>
+<circle cx="491.21" cy="522.228" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Computational Biology Workflows</title></circle>
+<circle cx="808.371" cy="463.481" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Content Moderation</title></circle>
+<circle cx="806.302" cy="475.264" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Conversational Agent</title></circle>
+<circle cx="803.882" cy="485.197" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Data Analysis</title></circle>
+<circle cx="708.921" cy="284.598" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Deployment Automation</title></circle>
+<circle cx="801.576" cy="492.85" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Design Generation</title></circle>
+<circle cx="797.537" cy="503.892" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Design Review</title></circle>
+<circle cx="793.374" cy="513.323" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Design System Extraction</title></circle>
+<circle cx="718.972" cy="289.456" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Detect Anomaly</title></circle>
+<circle cx="486.799" cy="513.684" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Dispatching Parallel Agents</title></circle>
+<circle cx="788.376" cy="522.973" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Distributed Neural Training</title></circle>
+<circle cx="783.122" cy="531.739" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Distributed Vector Memory</title></circle>
+<circle cx="778.313" cy="538.84" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Document Analyst</title></circle>
+<circle cx="772.153" cy="546.938" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Dual Mode</title></circle>
+<circle cx="764.712" cy="555.529" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>End-to-End Testing</title></circle>
+<circle cx="726.159" cy="293.451" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Executing Plans</title></circle>
+<circle cx="735.364" cy="299.267" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Finishing a Development Branch</title></circle>
+<circle cx="481.89" cy="502.46" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Flow Nexus Orchestration</title></circle>
+<circle cx="620.334" cy="271.141" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Full-Stack Developer</title></circle>
+<circle cx="757.396" cy="562.956" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Function Calling</title></circle>
+<circle cx="478.901" cy="494.287" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Gaia Audit</title></circle>
+<circle cx="750.032" cy="569.587" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Gaia Meta Audit</title></circle>
+<circle cx="742.879" cy="575.336" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Generative Media</title></circle>
+<circle cx="648.692" cy="270.222" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Ghostwrite</title></circle>
+<circle cx="733.797" cy="581.782" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>GitHub Platform Mastery</title></circle>
+<circle cx="476.04" cy="484.914" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Grill Me</title></circle>
+<circle cx="725.142" cy="587.142" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Grill With Docs</title></circle>
+<circle cx="716.563" cy="591.783" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Grounding</title></circle>
+<circle cx="707.151" cy="596.175" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Guardrails</title></circle>
+<circle cx="473.327" cy="473.469" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Humanize Prose</title></circle>
+<circle cx="697.967" cy="599.812" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Knowledge Graph Construction</title></circle>
+<circle cx="661.793" cy="271.403" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Knowledge Harvest</title></circle>
+<circle cx="743.5" cy="305.138" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Knowledge Management</title></circle>
+<circle cx="472.079" cy="466.507" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Literature Review</title></circle>
+<circle cx="470.598" cy="454.248" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>MCP Debugger Control</title></circle>
+<circle cx="470.063" cy="444.626" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>MCP Server Creation</title></circle>
+<circle cx="752.1" cy="312.197" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>ML Artifact Management</title></circle>
+<circle cx="470.116" cy="433.72" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>ML Pipeline</title></circle>
+<circle cx="690.875" cy="602.209" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Mathematical Animation</title></circle>
+<circle cx="757.605" cy="317.244" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Memory Manage</title></circle>
+<circle cx="470.779" cy="423.744" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Multi-Agent Debate</title></circle>
+<circle cx="679.578" cy="605.329" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Multi-Agent Orchestration</title></circle>
+<circle cx="668.854" cy="607.533" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Multimodal Reasoning</title></circle>
+<circle cx="471.645" cy="416.411" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>PRD Generation</title></circle>
+<circle cx="473.796" cy="404.276" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Plan and Execute</title></circle>
+<circle cx="476.423" cy="393.713" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Platform Modernization Sprint</title></circle>
+<circle cx="478.729" cy="386.227" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Prediction Market Analysis</title></circle>
+<circle cx="765.926" cy="325.796" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Project Management</title></circle>
+<circle cx="482.486" cy="376.052" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Prompt Optimization</title></circle>
+<circle cx="661.691" cy="608.61" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>RAG Pipeline</title></circle>
+<circle cx="648.405" cy="609.792" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>ReAct Reasoning</title></circle>
+<circle cx="629.521" cy="270.323" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Real-Time Voice Assistant</title></circle>
+<circle cx="640.483" cy="609.999" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Reasoning Pattern Bank</title></circle>
+<circle cx="771.565" cy="332.341" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Receiving Code Review</title></circle>
+<circle cx="671.131" cy="272.875" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Recursive Self-Improvement</title></circle>
+<circle cx="486.203" cy="367.568" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Registry Curation</title></circle>
+<circle cx="777.198" cy="339.617" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Release Automation</title></circle>
+<circle cx="629.348" cy="609.666" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Requesting Code Review</title></circle>
+<circle cx="618.947" cy="608.691" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Research</title></circle>
+<circle cx="608.761" cy="607.105" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Scientific Writing</title></circle>
+<circle cx="784.585" cy="350.584" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Security Audit</title></circle>
+<circle cx="491.402" cy="357.425" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Skill Authoring</title></circle>
+<circle cx="496.566" cy="348.75" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Skill Performance Benchmarking</title></circle>
+<circle cx="500.954" cy="342.193" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Skill Security Analysis</title></circle>
+<circle cx="508.101" cy="332.749" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Stealth Browser Interaction</title></circle>
+<circle cx="514.341" cy="325.502" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Subagent-Driven Development</title></circle>
+<circle cx="600.05" cy="605.239" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Systematic Debugging</title></circle>
+<circle cx="591.314" cy="602.879" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Text-to-SQL Pipeline</title></circle>
+<circle cx="581.425" cy="599.59" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Tool Chaining</title></circle>
+<circle cx="521.603" cy="318.008" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Tool Creation</title></circle>
+<circle cx="570.394" cy="595.097" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Translation Pipeline</title></circle>
+<circle cx="528.479" cy="311.692" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Tree of Thought</title></circle>
+<circle cx="537.372" cy="304.473" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Ubiquitous Language</title></circle>
+<circle cx="681.324" cy="275.099" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Using Git Worktrees</title></circle>
+<circle cx="691.215" cy="277.898" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Verification Before Completion</title></circle>
+<circle cx="561.093" cy="590.578" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Vertical Slice Planning</title></circle>
+<circle cx="553.107" cy="586.115" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Video Intelligence</title></circle>
+<circle cx="544.639" cy="580.735" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Voice Agent</title></circle>
+<circle cx="536.64" cy="574.969" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Web Scrape</title></circle>
+<circle cx="545.463" cy="298.71" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Wiki Search</title></circle>
+<circle cx="552.84" cy="294.044" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Workflow Automation</title></circle>
+<circle cx="788.267" cy="356.832" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Workspace Automation</title></circle>
+<circle cx="793.309" cy="366.539" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>Writing Plans</title></circle>
+<circle cx="561.774" cy="289.067" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>X/Twitter Automation</title></circle>
+<circle cx="530.167" cy="569.757" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>agent-environment-setup</title></circle>
+<circle cx="570.465" cy="284.871" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>agent-handoff</title></circle>
+<circle cx="581.996" cy="280.202" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>mattpocock-personal</title></circle>
+<circle cx="591.653" cy="277.02" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>mattpocock-productivity</title></circle>
+<circle cx="521.605" cy="561.995" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>personal-knowledge-management</title></circle>
+<circle cx="515.633" cy="555.9" r="10" fill="#a78bfa" stroke="#c4b5fd" stroke-width="1.6"><title>prototype</title></circle>
 <circle cx="649.233" cy="328.381" r="13" fill="#7c3aed" stroke="#a78bfa" stroke-width="1.6"><title>Feed Monitoring</title></circle>
 <circle cx="740.11" cy="389.78" r="13" fill="#7c3aed" stroke="#a78bfa" stroke-width="1.6"><title>Few-Shot Learning</title></circle>
 <circle cx="735.122" cy="499.125" r="13" fill="#7c3aed" stroke="#a78bfa" stroke-width="1.6"><title>Fine-Tune</title></circle>
@@ -562,131 +578,136 @@
 <circle cx="598.554" cy="405.385" r="15" fill="#fbbf24" stroke="#fde68a" stroke-width="1.6"><title>mattpocock-skills</title></circle>
 </g>
 <g class="labels" font-family="Inter, ui-sans-serif, system-ui, sans-serif" text-anchor="middle">
-<text x="783.986" y="181.0" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Audience Model</text>
-<text x="755.751" y="687.4" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">CLI Modernization</text>
-<text x="737.938" y="694.6" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Code Execution</text>
-<text x="851.185" y="235.6" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Code Generation</text>
-<text x="428.922" y="235.5" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Context Compression</text>
-<text x="658.007" y="142.6" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Document Editing</text>
-<text x="625.98" y="711.7" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Generate SQL</text>
-<text x="608.434" y="710.2" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Generate Test</text>
-<text x="523.606" y="687.1" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Hybrid Workflow Coordination</text>
-<text x="504.091" y="677.5" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Hypothesis Generation</text>
-<text x="420.458" y="608.7" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Multi-Repo Coordination</text>
-<text x="410.854" y="596.5" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">OCR</text>
-<text x="376.557" y="535.7" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Performance Tuning</text>
-<text x="924.014" y="450.7" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Rank</text>
-<text x="356.515" y="456.3" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Schema Design</text>
-<text x="355.006" y="428.8" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Scientific Visualization</text>
-<text x="475.257" y="194.4" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Sentiment Analysis</text>
-<text x="498.236" y="179.8" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Skill Discovery</text>
-<text x="857.186" y="611.5" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Tool Use</text>
-<text x="828.901" y="640.4" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Write Report</text>
-<text x="797.954" y="360.1" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Advanced Swarm Coordination</text>
-<text x="801.698" y="370.5" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Agent Evaluation</text>
-<text x="804.776" y="381.2" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Agent Memory Learning</text>
-<text x="806.66" y="389.5" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Agentic Workflow Design</text>
-<text x="504.105" y="525.1" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Architecture Diagram</text>
-<text x="808.674" y="401.8" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Automated Testing</text>
-<text x="600.521" y="257.6" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Autonomous Data Scientist</text>
-<text x="499.075" y="518.1" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Autonomous Debug</text>
-<text x="608.495" y="255.9" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Autonomous Scientific Discovery</text>
-<text x="491.904" y="506.5" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Autonomous Web Research</text>
-<text x="641.555" y="253.0" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Brainstorming</text>
-<text x="809.453" y="409.4" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Browser Automation</text>
-<text x="809.967" y="419.7" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Career Operations</text>
-<text x="809.835" y="430.5" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Cloud Platform Management</text>
-<text x="809.064" y="440.8" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Code Review Pipeline</text>
-<text x="700.043" y="264.0" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Collaborative Diagramming</text>
-<text x="807.966" y="449.2" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Content Moderation</text>
-<text x="805.681" y="461.1" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Conversational Agent</text>
-<text x="803.065" y="471.1" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Data Analysis</text>
-<text x="709.538" y="267.9" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Deployment Automation</text>
-<text x="800.601" y="478.7" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Design Generation</text>
-<text x="796.319" y="489.8" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Design Review</text>
-<text x="791.938" y="499.3" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Design System Extraction</text>
-<text x="719.664" y="272.8" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Detect Anomaly</text>
-<text x="488.244" y="499.6" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Dispatching Parallel Agents</text>
-<text x="786.703" y="508.9" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Distributed Neural Training</text>
-<text x="781.222" y="517.6" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Distributed Vector Memory</text>
-<text x="776.221" y="524.7" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Document Analyst</text>
-<text x="769.83" y="532.7" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Dual Mode</text>
-<text x="762.131" y="541.3" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">End-to-End Testing</text>
-<text x="726.9" y="276.9" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Executing Plans</text>
-<text x="736.161" y="282.8" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Finishing a Development Branch</text>
-<text x="483.076" y="488.4" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Flow Nexus Orchestration</text>
-<text x="620.148" y="254.2" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Full-Stack Developer</text>
-<text x="754.579" y="548.6" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Function Calling</text>
-<text x="479.907" y="480.2" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Gaia Audit</text>
-<text x="746.994" y="555.1" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Gaia Meta Audit</text>
-<text x="739.639" y="560.7" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Generative Media</text>
-<text x="648.774" y="253.2" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Ghostwrite</text>
-<text x="730.317" y="567.0" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">GitHub Platform Mastery</text>
-<text x="476.852" y="470.8" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Grill Me</text>
-<text x="721.448" y="572.2" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Grill With Docs</text>
-<text x="712.672" y="576.7" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Grounding</text>
-<text x="703.06" y="580.9" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Guardrails</text>
-<text x="473.915" y="459.3" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Humanize Prose</text>
-<text x="693.695" y="584.3" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Knowledge Graph Construction</text>
-<text x="662.0" y="254.4" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Knowledge Harvest</text>
-<text x="744.339" y="288.8" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Knowledge Management</text>
-<text x="472.538" y="452.3" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Literature Review</text>
-<text x="470.844" y="439.9" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">MCP Debugger Control</text>
-<text x="470.153" y="430.2" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">MCP Server Creation</text>
-<text x="752.973" y="296.0" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">ML Artifact Management</text>
-<text x="470.042" y="419.2" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">ML Pipeline</text>
-<text x="686.473" y="586.5" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Mathematical Animation</text>
-<text x="758.495" y="301.1" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Memory Manage</text>
-<text x="470.567" y="409.1" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Multi-Agent Debate</text>
-<text x="674.987" y="589.4" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Multi-Agent Orchestration</text>
-<text x="664.102" y="591.3" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Multimodal Reasoning</text>
-<text x="471.339" y="401.7" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">PRD Generation</text>
-<text x="473.347" y="389.4" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Plan and Execute</text>
-<text x="475.864" y="378.7" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Platform Modernization Sprint</text>
-<text x="478.101" y="371.1" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Prediction Market Analysis</text>
-<text x="766.829" y="309.8" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Project Management</text>
-<text x="481.774" y="360.8" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Prompt Optimization</text>
-<text x="656.844" y="592.2" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">RAG Pipeline</text>
-<text x="643.402" y="593.0" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">ReAct Reasoning</text>
-<text x="629.422" y="253.3" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Real-Time Voice Assistant</text>
-<text x="635.402" y="592.9" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Reasoning Pattern Bank</text>
-<text x="772.468" y="316.5" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Receiving Code Review</text>
-<text x="671.424" y="255.9" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Recursive Self-Improvement</text>
-<text x="485.432" y="352.2" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Registry Curation</text>
-<text x="778.09" y="323.8" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Release Automation</text>
-<text x="624.176" y="592.3" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Requesting Code Review</text>
-<text x="613.712" y="591.0" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Research</text>
-<text x="603.484" y="589.0" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Scientific Writing</text>
-<text x="785.444" y="335.0" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Security Audit</text>
-<text x="490.573" y="341.9" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Skill Authoring</text>
-<text x="495.7" y="333.1" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Skill Performance Benchmarking</text>
-<text x="500.068" y="326.5" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Skill Security Analysis</text>
-<text x="507.199" y="316.9" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Stealth Browser Interaction</text>
-<text x="513.437" y="309.5" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Subagent-Driven Development</text>
-<text x="594.755" y="586.9" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Systematic Debugging</text>
-<text x="586.017" y="584.2" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Text-to-SQL Pipeline</text>
-<text x="576.148" y="580.6" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Tool Chaining</text>
-<text x="520.711" y="301.9" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Tool Creation</text>
-<text x="565.172" y="575.6" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Translation Pipeline</text>
-<text x="527.607" y="295.5" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Tree of Thought</text>
-<text x="536.537" y="288.1" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Ubiquitous Language</text>
-<text x="681.709" y="258.2" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Using Git Worktrees</text>
-<text x="691.688" y="261.0" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Verification Before Completion</text>
-<text x="555.944" y="570.8" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Vertical Slice Planning</text>
-<text x="548.043" y="566.0" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Video Intelligence</text>
-<text x="539.691" y="560.3" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Voice Agent</text>
-<text x="531.83" y="554.1" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Web Scrape</text>
-<text x="544.671" y="282.2" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Wiki Search</text>
-<text x="552.092" y="277.5" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Workflow Automation</text>
-<text x="789.099" y="341.3" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Workspace Automation</text>
-<text x="794.086" y="351.2" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Writing Plans</text>
-<text x="561.088" y="272.4" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">X/Twitter Automation</text>
-<text x="525.492" y="548.6" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">agent-environment-setup</text>
-<text x="569.843" y="268.2" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">agent-handoff</text>
-<text x="581.467" y="263.4" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">mattpocock-personal</text>
-<text x="591.205" y="260.2" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">mattpocock-productivity</text>
-<text x="517.143" y="540.5" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">personal-knowledge-management</text>
-<text x="511.349" y="534.1" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">prototype</text>
+<text x="772.382" y="174.6" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Audience Model</text>
+<text x="798.231" y="664.0" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">CLI Modernization</text>
+<text x="766.026" y="682.6" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Code Execution</text>
+<text x="836.588" y="220.7" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Code Generation</text>
+<text x="443.517" y="220.6" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Context Compression</text>
+<text x="656.426" y="142.5" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Document Editing</text>
+<text x="666.526" y="710.8" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Generate SQL</text>
+<text x="650.503" y="711.8" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Generate Test</text>
+<text x="628.33" y="711.8" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Genomic Data Retrieval</text>
+<text x="551.792" y="698.0" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Hybrid Workflow Coordination</text>
+<text x="533.138" y="691.2" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Hypothesis Generation</text>
+<text x="481.252" y="663.7" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Literature Search</text>
+<text x="421.967" y="610.5" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Multi-Repo Coordination</text>
+<text x="413.088" y="599.4" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">OCR</text>
+<text x="372.972" y="526.6" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Performance Tuning</text>
+<text x="366.213" y="506.2" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Protein Structure Analysis</text>
+<text x="362.018" y="489.9" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Proteomic Data Retrieval</text>
+<text x="924.449" y="409.3" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Rank</text>
+<text x="355.276" y="414.5" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Schema Design</text>
+<text x="357.492" y="389.4" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Scientific Visualization</text>
+<text x="488.094" y="185.9" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Sentiment Analysis</text>
+<text x="509.696" y="173.5" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Skill Discovery</text>
+<text x="889.521" y="564.7" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Tool Use</text>
+<text x="869.658" y="595.8" fill="#38bdf8" font-size="10" font-weight="600" opacity="0.92">Write Report</text>
+<text x="797.237" y="358.4" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Advanced Swarm Coordination</text>
+<text x="801.064" y="368.6" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Agent Evaluation</text>
+<text x="804.241" y="379.1" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Agent Memory Learning</text>
+<text x="806.212" y="387.3" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Agentic Workflow Design</text>
+<text x="508.124" y="530.3" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Architecture Diagram</text>
+<text x="808.369" y="399.5" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Automated Testing</text>
+<text x="600.887" y="257.6" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Autonomous Data Scientist</text>
+<text x="502.875" y="523.5" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Autonomous Debug</text>
+<text x="608.789" y="255.9" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Autonomous Scientific Discovery</text>
+<text x="495.326" y="512.3" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Autonomous Web Research</text>
+<text x="641.541" y="253.0" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Brainstorming</text>
+<text x="809.245" y="407.0" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Browser Automation</text>
+<text x="809.9" y="417.2" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Career Operations</text>
+<text x="809.929" y="427.9" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Cloud Platform Management</text>
+<text x="809.325" y="438.1" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Code Review Pipeline</text>
+<text x="699.501" y="263.8" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Collaborative Diagramming</text>
+<text x="491.21" y="505.2" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Computational Biology Workflows</text>
+<text x="808.371" y="446.5" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Content Moderation</text>
+<text x="806.302" y="458.3" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Conversational Agent</text>
+<text x="803.882" y="468.2" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Data Analysis</text>
+<text x="708.921" y="267.6" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Deployment Automation</text>
+<text x="801.576" y="475.9" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Design Generation</text>
+<text x="797.537" y="486.9" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Design Review</text>
+<text x="793.374" y="496.3" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Design System Extraction</text>
+<text x="718.972" y="272.5" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Detect Anomaly</text>
+<text x="486.799" y="496.7" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Dispatching Parallel Agents</text>
+<text x="788.376" y="506.0" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Distributed Neural Training</text>
+<text x="783.122" y="514.7" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Distributed Vector Memory</text>
+<text x="778.313" y="521.8" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Document Analyst</text>
+<text x="772.153" y="529.9" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Dual Mode</text>
+<text x="764.712" y="538.5" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">End-to-End Testing</text>
+<text x="726.159" y="276.5" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Executing Plans</text>
+<text x="735.364" y="282.3" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Finishing a Development Branch</text>
+<text x="481.89" y="485.5" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Flow Nexus Orchestration</text>
+<text x="620.334" y="254.1" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Full-Stack Developer</text>
+<text x="757.396" y="546.0" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Function Calling</text>
+<text x="478.901" y="477.3" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Gaia Audit</text>
+<text x="750.032" y="552.6" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Gaia Meta Audit</text>
+<text x="742.879" y="558.3" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Generative Media</text>
+<text x="648.692" y="253.2" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Ghostwrite</text>
+<text x="733.797" y="564.8" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">GitHub Platform Mastery</text>
+<text x="476.04" y="467.9" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Grill Me</text>
+<text x="725.142" y="570.1" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Grill With Docs</text>
+<text x="716.563" y="574.8" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Grounding</text>
+<text x="707.151" y="579.2" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Guardrails</text>
+<text x="473.327" y="456.5" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Humanize Prose</text>
+<text x="697.967" y="582.8" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Knowledge Graph Construction</text>
+<text x="661.793" y="254.4" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Knowledge Harvest</text>
+<text x="743.5" y="288.1" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Knowledge Management</text>
+<text x="472.079" y="449.5" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Literature Review</text>
+<text x="470.598" y="437.2" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">MCP Debugger Control</text>
+<text x="470.063" y="427.6" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">MCP Server Creation</text>
+<text x="752.1" y="295.2" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">ML Artifact Management</text>
+<text x="470.116" y="416.7" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">ML Pipeline</text>
+<text x="690.875" y="585.2" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Mathematical Animation</text>
+<text x="757.605" y="300.2" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Memory Manage</text>
+<text x="470.779" y="406.7" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Multi-Agent Debate</text>
+<text x="679.578" y="588.3" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Multi-Agent Orchestration</text>
+<text x="668.854" y="590.5" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Multimodal Reasoning</text>
+<text x="471.645" y="399.4" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">PRD Generation</text>
+<text x="473.796" y="387.3" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Plan and Execute</text>
+<text x="476.423" y="376.7" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Platform Modernization Sprint</text>
+<text x="478.729" y="369.2" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Prediction Market Analysis</text>
+<text x="765.926" y="308.8" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Project Management</text>
+<text x="482.486" y="359.1" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Prompt Optimization</text>
+<text x="661.691" y="591.6" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">RAG Pipeline</text>
+<text x="648.405" y="592.8" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">ReAct Reasoning</text>
+<text x="629.521" y="253.3" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Real-Time Voice Assistant</text>
+<text x="640.483" y="593.0" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Reasoning Pattern Bank</text>
+<text x="771.565" y="315.3" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Receiving Code Review</text>
+<text x="671.131" y="255.9" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Recursive Self-Improvement</text>
+<text x="486.203" y="350.6" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Registry Curation</text>
+<text x="777.198" y="322.6" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Release Automation</text>
+<text x="629.348" y="592.7" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Requesting Code Review</text>
+<text x="618.947" y="591.7" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Research</text>
+<text x="608.761" y="590.1" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Scientific Writing</text>
+<text x="784.585" y="333.6" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Security Audit</text>
+<text x="491.402" y="340.4" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Skill Authoring</text>
+<text x="496.566" y="331.8" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Skill Performance Benchmarking</text>
+<text x="500.954" y="325.2" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Skill Security Analysis</text>
+<text x="508.101" y="315.7" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Stealth Browser Interaction</text>
+<text x="514.341" y="308.5" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Subagent-Driven Development</text>
+<text x="600.05" y="588.2" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Systematic Debugging</text>
+<text x="591.314" y="585.9" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Text-to-SQL Pipeline</text>
+<text x="581.425" y="582.6" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Tool Chaining</text>
+<text x="521.603" y="301.0" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Tool Creation</text>
+<text x="570.394" y="578.1" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Translation Pipeline</text>
+<text x="528.479" y="294.7" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Tree of Thought</text>
+<text x="537.372" y="287.5" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Ubiquitous Language</text>
+<text x="681.324" y="258.1" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Using Git Worktrees</text>
+<text x="691.215" y="260.9" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Verification Before Completion</text>
+<text x="561.093" y="573.6" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Vertical Slice Planning</text>
+<text x="553.107" y="569.1" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Video Intelligence</text>
+<text x="544.639" y="563.7" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Voice Agent</text>
+<text x="536.64" y="558.0" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Web Scrape</text>
+<text x="545.463" y="281.7" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Wiki Search</text>
+<text x="552.84" y="277.0" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Workflow Automation</text>
+<text x="788.267" y="339.8" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Workspace Automation</text>
+<text x="793.309" y="349.5" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">Writing Plans</text>
+<text x="561.774" y="272.1" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">X/Twitter Automation</text>
+<text x="530.167" y="552.8" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">agent-environment-setup</text>
+<text x="570.465" y="267.9" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">agent-handoff</text>
+<text x="581.996" y="263.2" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">mattpocock-personal</text>
+<text x="591.653" y="260.0" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">mattpocock-productivity</text>
+<text x="521.605" y="545.0" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">personal-knowledge-management</text>
+<text x="515.633" y="538.9" fill="#a78bfa" font-size="12" font-weight="600" opacity="0.92">prototype</text>
 <text x="649.233" y="308.4" fill="#7c3aed" font-size="16" font-weight="600" opacity="0.92">Feed Monitoring</text>
 <text x="740.11" y="369.8" fill="#7c3aed" font-size="16" font-weight="600" opacity="0.92">Few-Shot Learning</text>
 <text x="735.122" y="479.1" fill="#7c3aed" font-size="16" font-weight="600" opacity="0.92">Fine-Tune</text>
@@ -703,9 +724,9 @@
 <g font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="14" fill="#cbd5e1">
 <text x="44" y="748" font-size="20" font-weight="800" fill="#e2e8f0">Gaia Skill Graph</text>
 <circle cx="52" cy="765" r="6" fill="#38bdf8"/>
-<text x="68" y="770">Basic: 83</text>
+<text x="68" y="770">Basic: 91</text>
 <circle cx="52" cy="793" r="6" fill="#a78bfa"/>
-<text x="68" y="798">Extra: 105</text>
+<text x="68" y="798">Extra: 106</text>
 <circle cx="52" cy="821" r="6" fill="#7c3aed"/>
 <text x="68" y="826">Unique: 6</text>
 <circle cx="52" cy="849" r="6" fill="#fbbf24"/>

@@ -20,6 +20,7 @@
 | ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus-platform | Extra Skill | API Call, Tool Use | 3★ |  |
 | ◇ [garrytan](../docs/u/garrytan/)/plan-eng-review | Extra Skill | Code Generation, Diff Content, Evaluate Output | 3★ |  |
 | ◇ /collaborative-diagramming | Extra Skill | API Call, Data Visualize | 2★ |  |
+| ◇ /computational-biology-workflows | Extra Skill | Bioinformatic Sequence Analysis, Genomic Data Retrieval, Molecular Databases, Protein Structure Analysis, Proteomic Data Retrieval | 4★ |  |
 | ◇ /content-moderation | Extra Skill | Classify, Sentiment Analysis, Extract Entities | 3★ |  |
 | ◇ /conversational-agent | Extra Skill | Question Answer, Memory Manage, Route Intent | 3★ | Requires persistent memory store across turns. |
 | ◇ [huggingface](../docs/u/huggingface/)/huggingface-datasets | Extra Skill | Generate SQL, Data Visualize, Summarize | 3★ |  |
@@ -53,7 +54,7 @@
 | ◇ [safishamsi](../docs/u/safishamsi/)/graphify | Extra Skill | Extract Entities, Logical Inference | 3★ |  |
 | ◇ /knowledge-harvest | Extra Skill | Web Scrape, Extract Entities, Embed Text | 1★ |  |
 | ◇ [garrytan](../docs/u/garrytan/)/setup-gbrain | Extra Skill | API Call, Retrieve | 2★ |  |
-| ◇ [huggingface](../docs/u/huggingface/)/huggingface-papers | Extra Skill | Research, Cite Sources, Summarize | 4★ | Requires access to academic databases (PubMed, bioRxiv, ChEMBL, or equivalent). |
+| ◇ [huggingface](../docs/u/huggingface/)/huggingface-papers | Extra Skill | Cite Sources, Literature Search, Research, Summarize | 4★ | Requires access to academic databases (PubMed, bioRxiv, ChEMBL, or equivalent). |
 | ◇ /mathematical-animation | Extra Skill | Code Execution, Data Visualize | 3★ → 2★ |  |
 | ◆ [mattpocock](../docs/u/mattpocock/)/engineering | Ultimate Skill | Autonomous Debug, Refactor Code, Vertical Slice Planning, PRD Generation, Issue Triage, Ubiquitous Language, Code Explain, Grill With Docs, prototype, agent-environment-setup | 5★ |  |
 | ◇ [mattpocock](../docs/u/mattpocock/)/personal | Extra Skill | Document Editing, personal-knowledge-management | 4★ |  |
@@ -86,7 +87,7 @@
 | ◇ [obra](../docs/u/obra/)/requesting-code-review | Extra Skill | Code Review Pipeline, Dispatching Parallel Agents | 3★ |  |
 | ◇ /research | Extra Skill | Web Search, Summarize, Cite Sources | 3★ |  |
 | ◆ [ruvnet](../docs/u/ruvnet/)/ruflo | Ultimate Skill | Flow Nexus Orchestration, Agent Memory Platform, GitHub Platform Mastery, Reasoning Pattern Bank, Platform Modernization Sprint, Dual Mode | 6★ | Requires demonstrating all 6 Ruflo suite fusions together in a production multi-agent context. Grandmaster Path: 34k+ stars on ruvnet/ruflo + agent-memory-platform 5★ Ultimate. |
-| ◇ /scientific-discovery | Extra Skill | Hypothesis Generation, Research, Math Reason | 5★ | Requires laboratory tool access or simulation environment. Minimum 3 Class A/B evidence sources. |
+| ◇ /scientific-discovery | Extra Skill | Computational Biology Workflows, Hypothesis Generation, Math Reason, Research | 5★ | Requires laboratory tool access or simulation environment. Minimum 3 Class A/B evidence sources. |
 | ◇ /scientific-writing | Extra Skill | Write Report, Cite Sources, Scientific Visualization | 3★ |  |
 | ◇ [garrytan](../docs/u/garrytan/)/cso | Extra Skill | Code Review Pipeline, Evaluate Output | 2★ | Requires access to the full codebase or diff; output must include severity classification and reproduction steps. |
 | ◇ [garrytan](../docs/u/garrytan/)/skillify | Extra Skill | Generate Text, Structured Output Generation, Code Generation | 4★ | Requires a target agent skill format and a repeatable evaluation loop for trigger accuracy and task success. |

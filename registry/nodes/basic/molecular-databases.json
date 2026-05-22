@@ -1,0 +1,64 @@
+{
+  "id": "molecular-databases",
+  "name": "Molecular Databases",
+  "type": "basic",
+  "level": "2★",
+  "rarity": "common",
+  "description": "Queries and retrieves structural, chemical, and biological activity data for small molecules, chemical compounds, or drug candidates from molecular repositories (e.g., ChEMBL, PubChem).",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/google-deepmind/science-skills",
+      "evaluator": "unknown",
+      "date": "2026-05-23",
+      "notes": "Foundational canonical generic skill for Molecular Databases."
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/chembl_database/SKILL.md",
+      "evaluator": "unknown",
+      "date": "2026-05-23",
+      "notes": "Official Google DeepMind chembl_database science-skill implementation."
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/pubchem_database/SKILL.md",
+      "evaluator": "unknown",
+      "date": "2026-05-23",
+      "notes": "Official Google DeepMind pubchem_database science-skill implementation."
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-05-23",
+  "updatedAt": "2026-05-23",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-22T20:22:07Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill molecular-databases"
+    },
+    {
+      "timestamp": "2026-05-22T20:22:07Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/google-deepmind/science-skills"
+    },
+    {
+      "timestamp": "2026-05-22T20:22:21Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/chembl_database/SKILL.md"
+    },
+    {
+      "timestamp": "2026-05-22T20:22:21Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/pubchem_database/SKILL.md"
+    }
+  ]
+}

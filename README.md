@@ -63,7 +63,7 @@ Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) throu
   ◉ ruvnet/hive-mind-coordination  [4★ · Hardened]
   ◉ openai/self-consistency  [4★ · Hardened]
 
-(200 skills total — see docs/tree.md)
+(209 skills total — see docs/tree.md)
 ```
 <!-- gaia:registry-end -->
 
@@ -110,7 +110,7 @@ Then, if you have fused a 5★ Ultimate as another part of a suite, you can crea
 **1. Install the CLI**
 
 <!-- gaia:version-start -->
-Current Gaia CLI version: `3.22.5`.
+Current Gaia CLI version: `3.23.0`.
 
 Python install:
 

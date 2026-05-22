@@ -11,8 +11,9 @@
 Conducts systematic multi-database academic literature searches following PRISMA/SWARM protocols, screens and synthesises findings, verifies all citations, and generates a structured review report.
 
 ## Prerequisites
-- [Research](../extra/research.md)
 - [Cite Sources](../basic/cite-sources.md)
+- [Literature Search](../basic/literature-search.md)
+- [Research](../extra/research.md)
 - [Summarize](../basic/summarize.md)
 
 ## Unlocks

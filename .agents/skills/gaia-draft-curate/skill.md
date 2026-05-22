@@ -29,7 +29,9 @@ Review pending Gaia draft skill intake batches and open draft PRs. This skill is
    ```
    b. **Verify Agent Playbooks**: Inspect each qualifying repo for an **agent playbook** (e.g., `AGENTS.md`, `CLAUDE.md`, `.claude/skills/`, or a documented autonomous agent workflow). A repo without a clear playbook should be flagged as `needs-playbook`.
    
-   c. **Fusion Analysis**: Determine if the proposed skill represents a new capability or is "original enough" to warrant a new **Generic (Extra) Name** in the canonical `registry/gaia.json`.
+   c. **Fusion-First & Semantic Mapping Analysis**: Determine if the proposed skill should be mapped to an existing canonical generic skill or if it represents a new broad capability that warrants a new **Generic (Basic/Extra) ID** in `registry/gaia.json`.
+      - *Deduplication & Canonical Alignment*: Avoid making up generic concepts or creating separate generic skills for every vendor/API wrapper (e.g. no distinct generic skills for different search tools). Map them under unified elegant basic concepts like `literature-search`.
+      - *Master Skill Fusion*: Analyze if multiple candidate skills in the batch represent specialized capabilities of a single high-level orchestration workflow. If so, plan to fuse them into a new **Extra**/Master skill (like `computational-biology-workflows`), linking the basic components as prerequisites and promoting/calibrating the composite named implementations to higher stars (`3★` or `4★`).
 
    d. **Demerit Identification (Strategic)**: Check for `heavyweight-dependency` or `niche-integration`. Only actively look for these for **3★+** skills. Favor cross-platform/universal implementations by keeping them demerit-free.
    

@@ -1,0 +1,90 @@
+{
+  "id": "proteomic-data-retrieval",
+  "name": "Proteomic Data Retrieval",
+  "type": "basic",
+  "level": "2★",
+  "rarity": "common",
+  "description": "Queries and retrieves amino acid sequences, protein families, functional domains, tissue distribution, and protein-protein interactions from proteomic repositories (e.g. UniProt, InterPro, Human Protein Atlas, STRING).",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/google-deepmind/science-skills",
+      "evaluator": "unknown",
+      "date": "2026-05-23",
+      "notes": "Foundational canonical generic skill for Proteomic Data Retrieval."
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/uniprot_database/SKILL.md",
+      "evaluator": "unknown",
+      "date": "2026-05-23",
+      "notes": "Official Google DeepMind uniprot_database science-skill implementation."
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/interpro_database/SKILL.md",
+      "evaluator": "unknown",
+      "date": "2026-05-23",
+      "notes": "Official Google DeepMind interpro_database science-skill implementation."
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/human_protein_atlas_database/SKILL.md",
+      "evaluator": "unknown",
+      "date": "2026-05-23",
+      "notes": "Official Google DeepMind human_protein_atlas_database science-skill implementation."
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/string_database/SKILL.md",
+      "evaluator": "unknown",
+      "date": "2026-05-23",
+      "notes": "Official Google DeepMind string_database science-skill implementation."
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-05-23",
+  "updatedAt": "2026-05-23",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-22T20:22:08Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill proteomic-data-retrieval"
+    },
+    {
+      "timestamp": "2026-05-22T20:22:09Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/google-deepmind/science-skills"
+    },
+    {
+      "timestamp": "2026-05-22T20:22:30Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/uniprot_database/SKILL.md"
+    },
+    {
+      "timestamp": "2026-05-22T20:22:31Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/interpro_database/SKILL.md"
+    },
+    {
+      "timestamp": "2026-05-22T20:22:32Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/human_protein_atlas_database/SKILL.md"
+    },
+    {
+      "timestamp": "2026-05-22T20:22:33Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/string_database/SKILL.md"
+    }
+  ]
+}
