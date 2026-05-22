@@ -4,7 +4,10 @@
   "type": "basic",
   "level": "2★",
   "rarity": "uncommon",
-  "description": "Tracks and analyzes token usage and cost across multiple AI models and agents, providing session-level and project-level spending metrics.",
+  "summary": "Observability tool for tracking AI coding agent token spend locally.",
+  "description": "Tracks and analyzes token usage and cost across multiple AI models and agents, providing session-level and project-level spending metrics. Operates locally by reading session data directly from disk and utilizes local pricing calculation, ensuring no proxies or API keys are required. Features CLI commands to optimize token waste, compare models, and track yield.",
+  "useCase": "A developer or engineering team uses this skill to monitor and optimize their spending across various AI coding assistants. By running it against local session logs from tools like Cursor or Aider, they can attribute token usage to specific projects, compare model costs, and identify inefficient, abandoned, or reverted tasks to reduce overall budget waste.",
+  "directives": "Prioritize accurate local parsing of multi-tool session logs. Use up-to-date pricing data to convert tokens to cost. Provide actionable insights via clear CLI commands for optimization and comparison. Never send session data to external servers; all analysis must remain local to preserve privacy.",
   "prerequisites": [],
   "derivatives": [
     "data-analysis"
@@ -16,12 +19,12 @@
       "source": "https://github.com/getagentseal/codeburn",
       "evaluator": "gemini-cli",
       "date": "2026-05-14",
-      "notes": "CodeBurn -- provides cost and token observability for AI coding tools; integrated with 19+ tools."
+      "notes": "CodeBurn -- provides cost and token observability for AI coding tools; integrated with 20 AI tools. Includes TUI dashboard, macOS menubar, optimization and yield analysis commands."
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-14",
-  "updatedAt": "2026-05-14",
+  "updatedAt": "2026-05-22",
   "version": "0.1.0"
 }
