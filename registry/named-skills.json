@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21",
+  "generatedAt": "2026-05-22",
   "buckets": {
     "automated-testing": [
       {
@@ -27,6 +27,7 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "type": "extra",
         "role": "origin"
       },
       {
@@ -51,6 +52,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -75,6 +77,7 @@
         },
         "createdAt": "2026-05-14",
         "updatedAt": "2026-05-14",
+        "type": "extra",
         "role": "origin"
       },
       {
@@ -100,6 +103,41 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
+        "role": "variant"
+      }
+    ],
+    "autonomous-engineering-platform": [
+      {
+        "id": "Taoidle/plan-decompose-gh-plan-cascade",
+        "name": "Plan Cascade",
+        "contributor": "Taoidle",
+        "origin": false,
+        "genericSkillRef": "autonomous-engineering-platform",
+        "status": "named",
+        "level": "2★",
+        "description": "AI-powered cascading development framework.",
+        "title": "Plan Cascade",
+        "createdAt": "2026-05-23",
+        "updatedAt": "2026-05-23",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant"
+      },
+      {
+        "id": "changkun/plan-decompose-gh-wallfacer",
+        "name": "Wallfacer",
+        "contributor": "changkun",
+        "origin": false,
+        "genericSkillRef": "autonomous-engineering-platform",
+        "status": "named",
+        "level": "2★",
+        "description": "Chat, specs, tasks, and code. An autonomous engineering platform.",
+        "title": "Wallfacer",
+        "createdAt": "2026-05-23",
+        "updatedAt": "2026-05-23",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
         "role": "variant"
       }
     ],
@@ -129,6 +167,7 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -156,6 +195,7 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "type": "basic",
         "role": "origin"
       },
       {
@@ -181,6 +221,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "basic",
         "role": "variant"
       },
       {
@@ -205,6 +246,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "basic",
         "role": "variant"
       },
       {
@@ -230,6 +272,8 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "suiteRef": "mattpocock/personal",
+        "type": "basic",
         "role": "variant"
       }
     ],
@@ -256,6 +300,7 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "type": "extra",
         "role": "origin"
       },
       {
@@ -281,6 +326,8 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "suiteRef": "mattpocock/productivity",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -305,6 +352,7 @@
         },
         "createdAt": "2026-05-14",
         "updatedAt": "2026-05-14",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -329,6 +377,7 @@
         },
         "createdAt": "2026-05-14",
         "updatedAt": "2026-05-14",
+        "type": "basic",
         "role": "origin"
       },
       {
@@ -352,7 +401,8 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
-        "suiteRef": "garrytan/gstack",
+        "suiteRef": "garrytan/garrytan",
+        "type": "basic",
         "role": "variant"
       },
       {
@@ -377,6 +427,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "basic",
         "role": "variant"
       },
       {
@@ -401,6 +452,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "basic",
         "role": "variant"
       }
     ],
@@ -426,6 +478,7 @@
         },
         "createdAt": "2026-05-17",
         "updatedAt": "2026-05-17",
+        "type": "extra",
         "role": "variant"
       },
       {
@@ -451,6 +504,7 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "type": "extra",
         "role": "origin"
       },
       {
@@ -477,6 +531,7 @@
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -504,6 +559,7 @@
         },
         "createdAt": "2026-04-29",
         "updatedAt": "2026-04-30",
+        "type": "extra",
         "role": "origin"
       },
       {
@@ -529,6 +585,8 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "suiteRef": "mattpocock/engineering",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -555,6 +613,7 @@
         },
         "createdAt": "2026-05-17",
         "updatedAt": "2026-05-17",
+        "type": "extra",
         "role": "origin"
       },
       {
@@ -579,6 +638,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -605,6 +665,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       },
       {
@@ -631,6 +692,7 @@
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -658,6 +720,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "basic",
         "role": "variant"
       },
       {
@@ -683,6 +746,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "basic",
         "role": "variant"
       }
     ],
@@ -710,6 +774,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -736,6 +801,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       },
       {
@@ -760,6 +826,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       },
       {
@@ -784,6 +851,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       },
       {
@@ -808,6 +876,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -834,6 +903,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -860,6 +930,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "basic",
         "role": "variant"
       },
       {
@@ -884,6 +955,24 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "basic",
+        "role": "variant"
+      },
+      {
+        "id": "mattpocock/caveman",
+        "name": "Caveman Mode",
+        "contributor": "mattpocock",
+        "origin": false,
+        "genericSkillRef": "context-compression",
+        "status": "named",
+        "level": "3★",
+        "description": "An ultra-compressed communication mode designed to save tokens by dropping",
+        "title": "The Caveman Console",
+        "createdAt": "2026-05-21",
+        "updatedAt": "2026-05-21",
+        "suiteRef": "mattpocock/productivity",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
         "role": "variant"
       }
     ],
@@ -911,7 +1000,8 @@
         },
         "createdAt": "2026-05-12",
         "updatedAt": "2026-05-12",
-        "suiteRef": "garrytan/gstack",
+        "suiteRef": "garrytan/garrytan",
+        "type": "extra",
         "role": "origin"
       },
       {
@@ -937,7 +1027,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/ruflo-v3",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -965,6 +1056,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "basic",
         "role": "variant"
       }
     ],
@@ -990,7 +1082,8 @@
         },
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
-        "suiteRef": "garrytan/gstack",
+        "suiteRef": "garrytan/garrytan",
+        "type": "basic",
         "role": "variant"
       },
       {
@@ -1015,6 +1108,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "basic",
         "role": "variant"
       },
       {
@@ -1040,6 +1134,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "basic",
         "role": "variant"
       },
       {
@@ -1065,6 +1160,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "basic",
         "role": "variant"
       },
       {
@@ -1090,6 +1186,7 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "type": "basic",
         "role": "origin"
       },
       {
@@ -1113,6 +1210,7 @@
         },
         "createdAt": "2026-05-14",
         "updatedAt": "2026-05-14",
+        "type": "basic",
         "role": "variant"
       }
     ],
@@ -1140,6 +1238,7 @@
         "createdAt": "2026-05-12",
         "updatedAt": "2026-05-12",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -1168,6 +1267,13 @@
         "createdAt": "2026-05-12",
         "updatedAt": "2026-05-12",
         "suiteRef": "garrytan/gstack",
+        "suiteComponents": [
+          "garrytan/browse",
+          "garrytan/cso",
+          "garrytan/design-review",
+          "garrytan/office-hours"
+        ],
+        "type": "extra",
         "role": "variant"
       },
       {
@@ -1194,6 +1300,8 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "suiteRef": "mattpocock/engineering",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -1220,6 +1328,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -1297,6 +1406,7 @@
           "garrytan/sync-gbrain",
           "garrytan/unfreeze"
         ],
+        "type": "ultimate",
         "installBody": "**30-second install** — Requirements: Claude Code, Git, Bun v1.0+, Node.js (Windows only)\n\n### Step 1: Install on your machine\n\nOpen Claude Code and paste this. Claude does the rest.\n\n```\nInstall gstack: run git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/.claude/skills/gstack && cd ~/.claude/skills/gstack && ./setup then add a \"gstack\" section to CLAUDE.md that says to use the /browse skill from gstack for all web browsing, never use mcp__claude-in-chrome__* tools, and lists the available skills: /office-hours, /plan-ceo-review, /plan-eng-review, /plan-design-review, /design-consultation, /design-shotgun, /design-html, /review, /ship, /land-and-deploy, /canary, /benchmark, /browse, /connect-chrome, /qa, /qa-only, /design-review, /setup-browser-cookies, /setup-deploy, /setup-gbrain, /retro, /investigate, /document-release, /document-generate, /codex, /cso, /autoplan, /plan-devex-review, /devex-review, /careful, /freeze, /guard, /unfreeze, /gstack-upgrade, /learn. Then ask the user if they also want to add gstack to the current project so teammates get it.\n```\n\n### Step 2: Team mode — auto-update for shared repos (recommended)\n\nFrom inside your repo, paste this. Switches you to team mode, bootstraps the repo so teammates get gstack automatically, and commits the change:\n\n```\n(cd ~/.claude/skills/gstack && ./setup --team) && ~/.claude/skills/gstack/bin/gstack-team-init required && git add .claude/ CLAUDE.md && git commit -m \"require gstack for AI-assisted work\"\n```\n\nNo vendored files in your repo, no version drift, no manual upgrades. Every Claude Code session starts with a fast auto-update check (throttled to once/hour, network-failure-safe, completely silent).\n\nSwap `required` for `optional` if you'd rather nudge teammates than block them.",
         "role": "origin"
       }
@@ -1325,6 +1435,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       },
       {
@@ -1350,6 +1461,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "obra/superpowers",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -1377,6 +1489,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       },
       {
@@ -1401,6 +1514,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -1427,6 +1541,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       },
       {
@@ -1452,7 +1567,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/github-suite",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -1479,6 +1595,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       },
       {
@@ -1504,7 +1621,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/ruflo-v3",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -1531,6 +1649,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "basic",
         "role": "variant"
       }
     ],
@@ -1558,7 +1677,8 @@
         },
         "createdAt": "2026-05-12",
         "updatedAt": "2026-05-12",
-        "suiteRef": "garrytan/gstack",
+        "suiteRef": "garrytan/garrytan",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -1585,6 +1705,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "basic",
         "role": "variant"
       },
       {
@@ -1610,7 +1731,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/ruflo-v3",
+        "type": "basic",
         "role": "variant"
       }
     ],
@@ -1638,6 +1760,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       },
       {
@@ -1663,6 +1786,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       },
       {
@@ -1687,7 +1811,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/github-suite",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -1714,6 +1839,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       },
       {
@@ -1727,6 +1853,7 @@
         "description": "Declarative programming of language model pipelines, automatically optimizing prompts and RAG retrieval using bootstrapping and teleprompters.",
         "title": "The Programmatic Prompt Engineer",
         "catalogRef": "stanfordnlp-dspy",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -1753,6 +1880,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       },
       {
@@ -1778,6 +1906,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -1804,6 +1933,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "basic",
         "role": "variant"
       },
       {
@@ -1828,6 +1958,7 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "type": "basic",
         "role": "origin"
       },
       {
@@ -1853,6 +1984,7 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "type": "basic",
         "role": "variant"
       }
     ],
@@ -1879,6 +2011,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       },
       {
@@ -1903,6 +2036,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -1930,6 +2064,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       },
       {
@@ -1955,6 +2090,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "obra/superpowers",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -1981,6 +2117,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
         "role": "variant"
       },
       {
@@ -2007,6 +2144,7 @@
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -2031,6 +2169,7 @@
         },
         "createdAt": "2026-05-14",
         "updatedAt": "2026-05-14",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -2058,6 +2197,7 @@
         },
         "createdAt": "2026-05-03",
         "updatedAt": "2026-05-03",
+        "type": "basic",
         "role": "variant"
       }
     ],
@@ -2085,6 +2225,7 @@
         },
         "createdAt": "2026-05-03",
         "updatedAt": "2026-05-03",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -2112,6 +2253,7 @@
         },
         "createdAt": "2026-05-03",
         "updatedAt": "2026-05-03",
+        "type": "unique",
         "role": "variant"
       }
     ],
@@ -2139,6 +2281,7 @@
         },
         "createdAt": "2026-05-03",
         "updatedAt": "2026-05-03",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -2166,6 +2309,7 @@
         },
         "createdAt": "2026-05-03",
         "updatedAt": "2026-05-03",
+        "type": "basic",
         "role": "variant"
       }
     ],
@@ -2193,6 +2337,7 @@
         },
         "createdAt": "2026-05-15",
         "updatedAt": "2026-05-15",
+        "type": "unique",
         "role": "variant"
       }
     ],
@@ -2220,6 +2365,7 @@
         },
         "createdAt": "2026-05-03",
         "updatedAt": "2026-05-03",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -2245,6 +2391,7 @@
         },
         "createdAt": "2026-04-29",
         "updatedAt": "2026-04-30",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -2271,6 +2418,38 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "type": "basic",
+        "role": "origin"
+      }
+    ],
+    "mattpocock-engineering": [
+      {
+        "id": "mattpocock/engineering",
+        "name": "Engineering",
+        "contributor": "mattpocock",
+        "origin": true,
+        "genericSkillRef": "mattpocock-engineering",
+        "status": "named",
+        "level": "5★",
+        "description": "Engineering category suite for Matt Pocock's skills.",
+        "title": "The Matt Pocock Engineering Discipline",
+        "createdAt": "2026-05-21",
+        "updatedAt": "2026-05-21",
+        "suiteRef": "mattpocock/skills",
+        "suiteComponents": [
+          "mattpocock/diagnose",
+          "mattpocock/grill-with-docs",
+          "mattpocock/improve-codebase-architecture",
+          "mattpocock/prototype",
+          "mattpocock/setup-matt-pocock-skills",
+          "mattpocock/to-issues",
+          "mattpocock/to-prd",
+          "mattpocock/triage",
+          "mattpocock/ubiquitous-language",
+          "mattpocock/zoom-out"
+        ],
+        "type": "ultimate",
+        "installBody": "Add installation instructions here.",
         "role": "origin"
       }
     ],
@@ -2298,6 +2477,8 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-05-15",
+        "suiteRef": "mattpocock/productivity",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -2327,7 +2508,28 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-05-15",
+        "suiteRef": "mattpocock/engineering",
+        "type": "extra",
         "role": "origin"
+      }
+    ],
+    "agent-handoff": [
+      {
+        "id": "mattpocock/handoff",
+        "name": "Handoff",
+        "contributor": "mattpocock",
+        "origin": false,
+        "genericSkillRef": "agent-handoff",
+        "status": "named",
+        "level": "4★",
+        "description": "Compacts the current conversation into a summary for a fresh agent to",
+        "title": "The Handoff Protocol",
+        "createdAt": "2026-05-21",
+        "updatedAt": "2026-05-21",
+        "suiteRef": "mattpocock/productivity",
+        "type": "extra",
+        "installBody": "Add installation instructions here.",
+        "role": "variant"
       }
     ],
     "refactor-code": [
@@ -2355,7 +2557,153 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "suiteRef": "mattpocock/engineering",
+        "type": "basic",
         "role": "variant"
+      }
+    ],
+    "personal-knowledge-management": [
+      {
+        "id": "mattpocock/obsidian-vault",
+        "name": "Obsidian Vault Manager",
+        "contributor": "mattpocock",
+        "origin": false,
+        "genericSkillRef": "personal-knowledge-management",
+        "status": "named",
+        "level": "3★",
+        "description": "Manage notes and organization in a specific Obsidian vault using Title",
+        "title": "The Obsidian Vault Mapper",
+        "createdAt": "2026-05-21",
+        "updatedAt": "2026-05-21",
+        "suiteRef": "mattpocock/personal",
+        "type": "extra",
+        "installBody": "Add installation instructions here.",
+        "role": "variant"
+      }
+    ],
+    "mattpocock-personal": [
+      {
+        "id": "mattpocock/personal",
+        "name": "Personal",
+        "contributor": "mattpocock",
+        "origin": true,
+        "genericSkillRef": "mattpocock-personal",
+        "status": "named",
+        "level": "4★",
+        "description": "Personal category suite for Matt Pocock's skills.",
+        "title": "The Matt Pocock Personal Suite",
+        "createdAt": "2026-05-21",
+        "updatedAt": "2026-05-21",
+        "suiteRef": "mattpocock/skills",
+        "suiteComponents": [
+          "mattpocock/edit-article",
+          "mattpocock/obsidian-vault"
+        ],
+        "type": "extra",
+        "installBody": "Add installation instructions here.",
+        "role": "origin"
+      }
+    ],
+    "mattpocock-productivity": [
+      {
+        "id": "mattpocock/productivity",
+        "name": "Productivity",
+        "contributor": "mattpocock",
+        "origin": true,
+        "genericSkillRef": "mattpocock-productivity",
+        "status": "named",
+        "level": "4★",
+        "description": "Productivity category suite for Matt Pocock's skills.",
+        "title": "The Matt Pocock Productivity Suite",
+        "createdAt": "2026-05-21",
+        "updatedAt": "2026-05-21",
+        "suiteRef": "mattpocock/skills",
+        "suiteComponents": [
+          "mattpocock/caveman",
+          "mattpocock/grill-me",
+          "mattpocock/handoff",
+          "mattpocock/write-a-skill"
+        ],
+        "type": "extra",
+        "installBody": "Add installation instructions here.",
+        "role": "origin"
+      }
+    ],
+    "prototype": [
+      {
+        "id": "mattpocock/prototype",
+        "name": "Prototype",
+        "contributor": "mattpocock",
+        "origin": false,
+        "genericSkillRef": "prototype",
+        "status": "named",
+        "level": "3★",
+        "description": "Build throwaway prototypes to answer specific design or logic questions",
+        "title": "The Prototyping Engine",
+        "createdAt": "2026-05-21",
+        "updatedAt": "2026-05-21",
+        "suiteRef": "mattpocock/engineering",
+        "type": "extra",
+        "installBody": "Add installation instructions here.",
+        "role": "variant"
+      }
+    ],
+    "agent-environment-setup": [
+      {
+        "id": "mattpocock/setup-matt-pocock-skills",
+        "name": "Setup Matt Pocock Skills",
+        "contributor": "mattpocock",
+        "origin": false,
+        "genericSkillRef": "agent-environment-setup",
+        "status": "named",
+        "level": "3★",
+        "description": "Scaffolds per-repo configuration for other engineering skills (like triage,",
+        "title": "The Environment Scaffolder",
+        "createdAt": "2026-05-21",
+        "updatedAt": "2026-05-21",
+        "suiteRef": "mattpocock/engineering",
+        "type": "extra",
+        "installBody": "Add installation instructions here.",
+        "role": "variant"
+      }
+    ],
+    "mattpocock-skills": [
+      {
+        "id": "mattpocock/skills",
+        "name": "Matt Pocock Skills",
+        "contributor": "mattpocock",
+        "origin": true,
+        "genericSkillRef": "mattpocock-skills",
+        "status": "named",
+        "level": "6★",
+        "description": "The ultimate capstone suite encompassing all of Matt Pocock's engineering, productivity, and personal skills.",
+        "title": "The Matt Pocock Discipline",
+        "createdAt": "2026-05-22",
+        "updatedAt": "2026-05-22",
+        "suiteComponents": [
+          "mattpocock/caveman",
+          "mattpocock/diagnose",
+          "mattpocock/edit-article",
+          "mattpocock/engineering",
+          "mattpocock/grill-me",
+          "mattpocock/grill-with-docs",
+          "mattpocock/handoff",
+          "mattpocock/improve-codebase-architecture",
+          "mattpocock/obsidian-vault",
+          "mattpocock/personal",
+          "mattpocock/productivity",
+          "mattpocock/prototype",
+          "mattpocock/setup-matt-pocock-skills",
+          "mattpocock/to-issues",
+          "mattpocock/to-prd",
+          "mattpocock/triage",
+          "mattpocock/ubiquitous-language",
+          "mattpocock/write-a-skill",
+          "mattpocock/zoom-out"
+        ],
+        "type": "ultimate",
+        "installBody": "This is the ultimate capstone suite. Install it to get all of Matt Pocock's skills grouped by category.",
+        "role": "origin"
       }
     ],
     "prd-generation": [
@@ -2382,6 +2730,8 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "suiteRef": "mattpocock/engineering",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -2409,6 +2759,8 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "suiteRef": "mattpocock/engineering",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -2437,6 +2789,8 @@
         },
         "createdAt": "2026-05-15",
         "updatedAt": "2026-05-15",
+        "suiteRef": "mattpocock/engineering",
+        "type": "extra",
         "role": "variant"
       },
       {
@@ -2462,7 +2816,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/ruflo-v3",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -2490,6 +2845,8 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "suiteRef": "mattpocock/engineering",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -2515,6 +2872,7 @@
         },
         "createdAt": "2026-05-14",
         "updatedAt": "2026-05-14",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -2542,6 +2900,7 @@
         },
         "createdAt": "2026-05-15",
         "updatedAt": "2026-05-15",
+        "type": "unique",
         "role": "origin"
       }
     ],
@@ -2569,6 +2928,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "obra/superpowers",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -2596,6 +2956,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "obra/superpowers",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -2622,6 +2983,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "obra/superpowers",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -2649,6 +3011,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "obra/superpowers",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -2676,6 +3039,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "obra/superpowers",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -2703,6 +3067,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "obra/superpowers",
+        "type": "extra",
         "role": "origin"
       },
       {
@@ -2729,6 +3094,7 @@
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -2768,6 +3134,7 @@
           "obra/verification-before-completion",
           "obra/writing-plans"
         ],
+        "type": "ultimate",
         "role": "origin"
       }
     ],
@@ -2795,6 +3162,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "obra/superpowers",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -2822,6 +3190,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "obra/superpowers",
+        "type": "extra",
         "role": "origin"
       },
       {
@@ -2848,6 +3217,7 @@
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -2875,6 +3245,7 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "obra/superpowers",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -2902,6 +3273,7 @@
         },
         "createdAt": "2026-05-15",
         "updatedAt": "2026-05-15",
+        "type": "unique",
         "role": "origin"
       }
     ],
@@ -2929,6 +3301,7 @@
         },
         "createdAt": "2026-05-15",
         "updatedAt": "2026-05-15",
+        "type": "unique",
         "role": "variant"
       }
     ],
@@ -2956,7 +3329,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/agentdb",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -2983,7 +3357,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/agentdb",
+        "type": "extra",
         "role": "origin"
       },
       {
@@ -3008,7 +3383,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/reasoningbank",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -3035,7 +3411,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/agentdb",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -3062,7 +3439,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/agentdb",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -3090,7 +3468,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/agentdb",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -3119,6 +3498,14 @@
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
+        "suiteComponents": [
+          "ruvnet/agentdb-advanced",
+          "ruvnet/agentdb-learning",
+          "ruvnet/agentdb-memory-patterns",
+          "ruvnet/agentdb-optimization",
+          "ruvnet/agentdb-vector-search"
+        ],
+        "type": "ultimate",
         "role": "origin"
       }
     ],
@@ -3147,6 +3534,7 @@
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -3174,7 +3562,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/dual-mode",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -3202,7 +3591,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/dual-mode",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -3231,6 +3621,12 @@
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
+        "suiteComponents": [
+          "ruvnet/dual-collect",
+          "ruvnet/dual-coordinate",
+          "ruvnet/dual-spawn"
+        ],
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -3258,7 +3654,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/dual-mode",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -3286,7 +3683,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/flow-nexus",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -3314,7 +3712,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/flow-nexus",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -3342,7 +3741,8 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/flow-nexus",
+        "type": "extra",
         "role": "origin"
       },
       {
@@ -3368,7 +3768,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/ruflo-v3",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -3398,6 +3799,12 @@
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
+        "suiteComponents": [
+          "ruvnet/flow-nexus-neural",
+          "ruvnet/flow-nexus-platform",
+          "ruvnet/flow-nexus-swarm"
+        ],
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -3425,7 +3832,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/github-suite",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -3453,7 +3861,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/github-suite",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -3482,6 +3891,14 @@
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
+        "suiteComponents": [
+          "ruvnet/github-code-review",
+          "ruvnet/github-multi-repo",
+          "ruvnet/github-project-management",
+          "ruvnet/github-release-management",
+          "ruvnet/github-workflow-automation"
+        ],
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -3508,7 +3925,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/github-suite",
+        "type": "extra",
         "role": "variant"
       },
       {
@@ -3535,6 +3953,7 @@
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -3562,6 +3981,7 @@
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
+        "type": "unique",
         "role": "origin"
       }
     ],
@@ -3590,6 +4010,7 @@
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
+        "type": "basic",
         "role": "origin"
       },
       {
@@ -3616,7 +4037,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/ruflo-v3",
+        "type": "basic",
         "role": "variant"
       }
     ],
@@ -3643,7 +4065,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/reasoningbank",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -3671,6 +4094,11 @@
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
+        "suiteComponents": [
+          "ruvnet/reasoningbank-agentdb",
+          "ruvnet/reasoningbank-intelligence"
+        ],
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -3700,6 +4128,20 @@
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
+        "suiteComponents": [
+          "ruvnet/swarm-advanced",
+          "ruvnet/swarm-orchestration",
+          "ruvnet/v3-cli-modernization",
+          "ruvnet/v3-core-implementation",
+          "ruvnet/v3-ddd-architecture",
+          "ruvnet/v3-integration-deep",
+          "ruvnet/v3-mcp-optimization",
+          "ruvnet/v3-memory-unification",
+          "ruvnet/v3-performance-optimization",
+          "ruvnet/v3-security-overhaul",
+          "ruvnet/v3-swarm-coordination"
+        ],
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -3777,6 +4219,7 @@
           "ruvnet/worker-benchmarks",
           "ruvnet/worker-integration"
         ],
+        "type": "ultimate",
         "role": "origin"
       }
     ],
@@ -3805,6 +4248,7 @@
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
+        "type": "extra",
         "role": "variant"
       }
     ],
@@ -3833,6 +4277,7 @@
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -3860,7 +4305,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/ruflo-v3",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -3888,7 +4334,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/ruflo-v3",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -3916,7 +4363,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/ruflo-v3",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -3944,7 +4392,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/ruflo-v3",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -3972,7 +4421,8 @@
         },
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
+        "suiteRef": "ruvnet/ruflo-v3",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -4001,6 +4451,7 @@
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -4025,6 +4476,7 @@
         },
         "createdAt": "2026-05-14",
         "updatedAt": "2026-05-14",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -4049,6 +4501,7 @@
         },
         "createdAt": "2026-05-14",
         "updatedAt": "2026-05-14",
+        "type": "extra",
         "role": "origin"
       }
     ],
@@ -4076,6 +4529,7 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -4102,6 +4556,7 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -4131,6 +4586,7 @@
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
+        "type": "extra",
         "role": "origin"
       }
     ]
@@ -4156,7 +4612,8 @@
         "repo": "https://github.com/mbtiongson1/gaia-skill-tree"
       },
       "createdAt": "2026-05-10",
-      "updatedAt": "2026-05-10"
+      "updatedAt": "2026-05-10",
+      "type": "basic"
     },
     {
       "id": "gaiabot/repo-docs-before-pr",
@@ -4178,7 +4635,489 @@
         "docs": "https://github.com/mbtiongson1/gaia-skill-tree#docs"
       },
       "createdAt": "2026-05-01",
-      "updatedAt": "2026-05-03"
+      "updatedAt": "2026-05-03",
+      "type": "basic"
+    },
+    {
+      "id": "google-deepmind/alphafold_database_fetch_and_analyze",
+      "name": "Alphafold-Database-Fetch-And-Analyze",
+      "contributor": "google-deepmind",
+      "origin": false,
+      "genericSkillRef": "computational-biology-workflows",
+      "status": "awakened",
+      "level": "4★",
+      "description": "Retrieve and analyze AlphaFold predicted structures for a protein. Use",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "type": "extra"
+    },
+    {
+      "id": "google-deepmind/alphagenome_single_variant_analysis",
+      "name": "Alphagenome-Single-Variant-Analysis",
+      "contributor": "google-deepmind",
+      "origin": false,
+      "genericSkillRef": "computational-biology-workflows",
+      "status": "awakened",
+      "level": "3★",
+      "description": "Analyzes genetic variant effects on gene expression (RNA-seq), chromatin",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "type": "extra"
+    },
+    {
+      "id": "google-deepmind/chembl_database",
+      "name": "Chembl-Database",
+      "contributor": "google-deepmind",
+      "origin": false,
+      "genericSkillRef": "molecular-databases",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Query the ChEMBL database for bioactive molecules, drug targets, bioactivity",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "type": "basic"
+    },
+    {
+      "id": "google-deepmind/clinical_trials_database",
+      "name": "Clinical-Trials-Database",
+      "contributor": "google-deepmind",
+      "origin": false,
+      "genericSkillRef": "clinical-data-retrieval",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Query ClinicalTrials.gov via APIv2. Use when you want to search for trials",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "type": "basic"
+    },
+    {
+      "id": "google-deepmind/clinvar_database",
+      "name": "Clinvar-Database",
+      "contributor": "google-deepmind",
+      "origin": false,
+      "genericSkillRef": "clinical-data-retrieval",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Use when needing clinical significance, pathogenicity classifications",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "type": "basic"
+    },
+    {
+      "id": "google-deepmind/dbsnp_database",
+      "name": "Dbsnp-Database",
+      "contributor": "google-deepmind",
+      "origin": false,
+      "genericSkillRef": "genomic-data-retrieval",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Use when you want to look up, map, and search for short genetic variants",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "type": "basic"
+    },
+    {
+      "id": "google-deepmind/embl_ebi_ols",
+      "name": "Embl-Ebi-Ols",
+      "contributor": "google-deepmind",
+      "origin": false,
+      "genericSkillRef": "pathway-ontology-retrieval",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Query and search the EMBL-EBI Ontology Lookup Service (OLS) for biomedical",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "type": "basic"
+    },
+    {
+      "id": "google-deepmind/encode_ccres_database",
+      "name": "Encode-Ccres-Database",
+      "contributor": "google-deepmind",
+      "origin": false,
+      "genericSkillRef": "genomic-data-retrieval",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Query the ENCODE Registry of cis-Regulatory Elements (cCREs) via the",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "type": "basic"
+    },
+    {
+      "id": "google-deepmind/ensembl_database",
+      "name": "Ensembl-Database",
+      "contributor": "google-deepmind",
+      "origin": false,
+      "genericSkillRef": "genomic-data-retrieval",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Query the Ensembl database to resolve gene, transcript, and protein IDs,",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "type": "basic"
+    },
+    {
+      "id": "google-deepmind/foldseek_structural_search",
+      "name": "Foldseek-Structural-Search",
+      "contributor": "google-deepmind",
+      "origin": false,
+      "genericSkillRef": "protein-structure-analysis",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Performs 3D structural searches of proteins against various databases",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "type": "basic"
+    },
+    {
+      "id": "google-deepmind/gnomad_database",
+      "name": "Gnomad-Database",
+      "contributor": "google-deepmind",
+      "origin": false,
+      "genericSkillRef": "genomic-data-retrieval",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Query the Genome Aggregation Database (gnomAD). Use when determining",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "type": "basic"
+    },
+    {
+      "id": "google-deepmind/gtex_database",
+      "name": "Gtex-Database",
+      "contributor": "google-deepmind",
+      "origin": false,
+      "genericSkillRef": "genomic-data-retrieval",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Use when you want to retrieve quantitative RNA expression data and variant",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "type": "basic"
+    },
+    {
+      "id": "google-deepmind/human_protein_atlas_database",
+      "name": "Human-Protein-Atlas-Database",
+      "contributor": "google-deepmind",
+      "origin": false,
+      "genericSkillRef": "proteomic-data-retrieval",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Use when you want to retrieve semi-quantitative protein expression and",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "type": "basic"
+    },
+    {
+      "id": "google-deepmind/interpro_database",
+      "name": "Interpro-Database",
+      "contributor": "google-deepmind",
+      "origin": false,
+      "genericSkillRef": "proteomic-data-retrieval",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Identify domains, families, and sites in proteins; find all proteins",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "type": "basic"
+    },
+    {
+      "id": "google-deepmind/jaspar_database",
+      "name": "Jaspar-Database",
+      "contributor": "google-deepmind",
+      "origin": false,
+      "genericSkillRef": "genomic-data-retrieval",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Query the JASPAR database for Transcription Factor (TF) binding profiles.",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "type": "basic"
+    },
+    {
+      "id": "google-deepmind/literature_search_arxiv",
+      "name": "Literature-Search-Arxiv",
+      "contributor": "google-deepmind",
+      "origin": false,
+      "genericSkillRef": "literature-search",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Search for scientific papers, preprints, and publications on arXiv. Extract",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "type": "basic"
+    },
+    {
+      "id": "google-deepmind/literature_search_biorxiv",
+      "name": "Literature-Search-Biorxiv",
+      "contributor": "google-deepmind",
+      "origin": false,
+      "genericSkillRef": "literature-search",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Browse, filter, and download life sciences, biology, and medical preprints",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "type": "basic"
+    },
+    {
+      "id": "google-deepmind/literature_search_europepmc",
+      "name": "Literature-Search-Europepmc",
+      "contributor": "google-deepmind",
+      "origin": false,
+      "genericSkillRef": "literature-search",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Search Europe PMC for scientific literature and download open-access",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "type": "basic"
+    },
+    {
+      "id": "google-deepmind/literature_search_openalex",
+      "name": "Literature-Search-Openalex",
+      "contributor": "google-deepmind",
+      "origin": false,
+      "genericSkillRef": "literature-search",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Query the OpenAlex scholarly database for research papers, authors, institutions,",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "type": "basic"
+    },
+    {
+      "id": "google-deepmind/ncbi_sequence_fetch",
+      "name": "Ncbi-Sequence-Fetch",
+      "contributor": "google-deepmind",
+      "origin": false,
+      "genericSkillRef": "genomic-data-retrieval",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Retrieve protein and nucleotide sequences from NCBI databases using E-utilities.",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "type": "basic"
+    },
+    {
+      "id": "google-deepmind/openfda_database",
+      "name": "Openfda-Database",
+      "contributor": "google-deepmind",
+      "origin": false,
+      "genericSkillRef": "clinical-data-retrieval",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Query, search, and download data from the openFDA API for drugs, devices,",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "type": "basic"
+    },
+    {
+      "id": "google-deepmind/opentargets_database",
+      "name": "Opentargets-Database",
+      "contributor": "google-deepmind",
+      "origin": false,
+      "genericSkillRef": "clinical-data-retrieval",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Query Open Targets Platform for target-disease associations, drug target",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "type": "basic"
+    },
+    {
+      "id": "google-deepmind/pdb_database",
+      "name": "Pdb-Database",
+      "contributor": "google-deepmind",
+      "origin": false,
+      "genericSkillRef": "protein-structure-analysis",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Use when you want to search for or download experimentally-determined",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "type": "basic"
+    },
+    {
+      "id": "google-deepmind/protein_sequence_msa",
+      "name": "Protein-Sequence-Msa",
+      "contributor": "google-deepmind",
+      "origin": false,
+      "genericSkillRef": "computational-biology-workflows",
+      "status": "awakened",
+      "level": "3★",
+      "description": "Performs multiple sequence alignment of proteins with EBI Clustal Omega.",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "type": "extra"
+    },
+    {
+      "id": "google-deepmind/protein_sequence_similarity_search",
+      "name": "Protein-Sequence-Similarity-Search",
+      "contributor": "google-deepmind",
+      "origin": false,
+      "genericSkillRef": "bioinformatic-sequence-analysis",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Searches for homologous protein sequences using MMseqs2 (fast, default)",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "type": "basic"
+    },
+    {
+      "id": "google-deepmind/pubchem_database",
+      "name": "Pubchem-Database",
+      "contributor": "google-deepmind",
+      "origin": false,
+      "genericSkillRef": "molecular-databases",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Query PubChem, search by name/CID/SMILES, retrieve properties, similarity/substructure",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "type": "basic"
+    },
+    {
+      "id": "google-deepmind/pubmed_database",
+      "name": "Pubmed-Database",
+      "contributor": "google-deepmind",
+      "origin": false,
+      "genericSkillRef": "literature-search",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Search PubMed for scientific literature, including published clinical",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "type": "basic"
+    },
+    {
+      "id": "google-deepmind/pymol",
+      "name": "Pymol",
+      "contributor": "google-deepmind",
+      "origin": false,
+      "genericSkillRef": "scientific-visualization",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Visualize, analyze, and render protein and molecular structures using",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "type": "basic"
+    },
+    {
+      "id": "google-deepmind/quickgo_database",
+      "name": "Quickgo-Database",
+      "contributor": "google-deepmind",
+      "origin": false,
+      "genericSkillRef": "pathway-ontology-retrieval",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Query the QuickGO and Evidence & Conclusion Ontology (ECO) REST API.",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "type": "basic"
+    },
+    {
+      "id": "google-deepmind/reactome_database",
+      "name": "Reactome-Database",
+      "contributor": "google-deepmind",
+      "origin": false,
+      "genericSkillRef": "pathway-ontology-retrieval",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Query the Reactome database (Analysis and Content Services). Use when",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "type": "basic"
+    },
+    {
+      "id": "google-deepmind/science_skills_common",
+      "name": "Science-Skills-Common",
+      "contributor": "google-deepmind",
+      "origin": false,
+      "genericSkillRef": "core-platform-implementation",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Shared Python package for Science Skills, currently containing http_client",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "type": "basic"
+    },
+    {
+      "id": "google-deepmind/string_database",
+      "name": "String-Database",
+      "contributor": "google-deepmind",
+      "origin": false,
+      "genericSkillRef": "proteomic-data-retrieval",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Query the STRING database for protein-protein interactions (PPIs), functional",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "type": "basic"
+    },
+    {
+      "id": "google-deepmind/ucsc_conservation_and_tfbs",
+      "name": "Ucsc-Conservation-And-Tfbs",
+      "contributor": "google-deepmind",
+      "origin": false,
+      "genericSkillRef": "genomic-data-retrieval",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Fetch Evolutionary Conservation scores (phyloP, phastCons) and Transcription",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "type": "basic"
+    },
+    {
+      "id": "google-deepmind/unibind_database",
+      "name": "Unibind-Database",
+      "contributor": "google-deepmind",
+      "origin": false,
+      "genericSkillRef": "genomic-data-retrieval",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Queries the UniBind database for experimentally validated transcription",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "type": "basic"
+    },
+    {
+      "id": "google-deepmind/uniprot_database",
+      "name": "Uniprot-Database",
+      "contributor": "google-deepmind",
+      "origin": false,
+      "genericSkillRef": "proteomic-data-retrieval",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Access protein metadata, function, taxonomy, and sequences across UniProtKB,",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "type": "basic"
+    },
+    {
+      "id": "google-deepmind/uv",
+      "name": "Uv",
+      "contributor": "google-deepmind",
+      "origin": false,
+      "genericSkillRef": "core-platform-implementation",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Checks whether the uv Python package manager is installed and installs",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "type": "basic"
+    },
+    {
+      "id": "google-deepmind/workflow_skill_creator",
+      "name": "Workflow-Skill-Creator",
+      "contributor": "google-deepmind",
+      "origin": false,
+      "genericSkillRef": "skill-authoring",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Distills a completed user workflow or interaction into a reusable agent",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "type": "extra"
     },
     {
       "id": "intelligentcode-ai/database-engineer",
@@ -4197,7 +5136,8 @@
         "graph-db",
         "time-series",
         "normalization"
-      ]
+      ],
+      "type": "basic"
     },
     {
       "id": "intelligentcode-ai/devops-engineer",
@@ -4216,7 +5156,8 @@
         "kubernetes",
         "terraform",
         "rollback"
-      ]
+      ],
+      "type": "extra"
     },
     {
       "id": "intelligentcode-ai/mcp-client",
@@ -4232,7 +5173,8 @@
         "model-context-protocol",
         "tool-integration",
         "cli"
-      ]
+      ],
+      "type": "basic"
     },
     {
       "id": "intelligentcode-ai/parallel-execution",
@@ -4248,7 +5190,8 @@
         "concurrency",
         "task-execution",
         "queue"
-      ]
+      ],
+      "type": "basic"
     },
     {
       "id": "intelligentcode-ai/release",
@@ -4266,7 +5209,8 @@
         "git-tag",
         "github-release",
         "automation"
-      ]
+      ],
+      "type": "extra"
     },
     {
       "id": "intelligentcode-ai/requirements-engineer",
@@ -4283,7 +5227,8 @@
         "user-stories",
         "acceptance-criteria",
         "specification"
-      ]
+      ],
+      "type": "basic"
     },
     {
       "id": "intelligentcode-ai/security-engineer",
@@ -4301,7 +5246,8 @@
         "compliance",
         "owasp",
         "penetration-testing"
-      ]
+      ],
+      "type": "extra"
     },
     {
       "id": "intelligentcode-ai/user-tester",
@@ -4319,7 +5265,78 @@
         "cross-browser",
         "user-journey",
         "visual-regression"
-      ]
+      ],
+      "type": "extra"
+    },
+    {
+      "id": "jules/langgenius/backend-code-review",
+      "name": "Backend Code Review",
+      "contributor": "jules",
+      "origin": false,
+      "genericSkillRef": "code-review-pipeline",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Review backend code for quality, security, maintainability, and best",
+      "createdAt": "2026-05-20",
+      "updatedAt": "2026-05-20",
+      "type": "extra",
+      "installBody": "Add installation instructions here."
+    },
+    {
+      "id": "jules/langgenius/component-refactoring",
+      "name": "Component Refactoring",
+      "contributor": "jules",
+      "origin": false,
+      "genericSkillRef": "refactor-code",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Refactor high-complexity React components in Dify frontend.",
+      "createdAt": "2026-05-20",
+      "updatedAt": "2026-05-20",
+      "type": "basic",
+      "installBody": "Add installation instructions here."
+    },
+    {
+      "id": "jules/langgenius/e2e-cucumber-playwright",
+      "name": "E2E Cucumber Playwright",
+      "contributor": "jules",
+      "origin": false,
+      "genericSkillRef": "e2e-testing",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Write, update, or review Dify end-to-end tests under e2e/ that use Cucumber,",
+      "createdAt": "2026-05-20",
+      "updatedAt": "2026-05-20",
+      "type": "extra",
+      "installBody": "Add installation instructions here."
+    },
+    {
+      "id": "jules/langgenius/frontend-code-review",
+      "name": "Frontend Code Review",
+      "contributor": "jules",
+      "origin": false,
+      "genericSkillRef": "code-review-pipeline",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Trigger when the user requests a review of frontend files.",
+      "createdAt": "2026-05-20",
+      "updatedAt": "2026-05-20",
+      "type": "extra",
+      "installBody": "Add installation instructions here."
+    },
+    {
+      "id": "jules/langgenius/frontend-testing",
+      "name": "Frontend Testing",
+      "contributor": "jules",
+      "origin": false,
+      "genericSkillRef": "automated-testing",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Generate Vitest + React Testing Library tests for Dify frontend components.",
+      "createdAt": "2026-05-20",
+      "updatedAt": "2026-05-20",
+      "type": "extra",
+      "installBody": "Add installation instructions here."
     },
     {
       "id": "pexp13/sentiment-analysis",
@@ -4331,7 +5348,8 @@
       "level": "3★",
       "description": ">",
       "createdAt": "2026-05-17",
-      "updatedAt": "2026-05-17"
+      "updatedAt": "2026-05-17",
+      "type": "basic"
     },
     {
       "id": "xquik-dev/hermes-tweet",
@@ -4354,7 +5372,8 @@
         "docs": "https://docs.xquik.com/guides/hermes-tweet"
       },
       "createdAt": "2026-05-15",
-      "updatedAt": "2026-05-15"
+      "updatedAt": "2026-05-15",
+      "type": "extra"
     }
   ],
   "byContributor": {
@@ -4363,6 +5382,9 @@
     ],
     "Manavarya09": [
       "Manavarya09/design-extract"
+    ],
+    "Taoidle": [
+      "Taoidle/plan-decompose-gh-plan-cascade"
     ],
     "addy-osmani": [
       "addy-osmani/test-driven-development"
@@ -4379,6 +5401,9 @@
     ],
     "browserbase": [
       "browserbase/stagehand"
+    ],
+    "changkun": [
+      "changkun/plan-decompose-gh-wallfacer"
     ],
     "devin-ai": [
       "devin-ai/autonomous-swe"
@@ -4445,6 +5470,45 @@
     "glincker": [
       "glincker/readme-generator"
     ],
+    "google-deepmind": [
+      "google-deepmind/alphafold_database_fetch_and_analyze",
+      "google-deepmind/alphagenome_single_variant_analysis",
+      "google-deepmind/chembl_database",
+      "google-deepmind/clinical_trials_database",
+      "google-deepmind/clinvar_database",
+      "google-deepmind/dbsnp_database",
+      "google-deepmind/embl_ebi_ols",
+      "google-deepmind/encode_ccres_database",
+      "google-deepmind/ensembl_database",
+      "google-deepmind/foldseek_structural_search",
+      "google-deepmind/gnomad_database",
+      "google-deepmind/gtex_database",
+      "google-deepmind/human_protein_atlas_database",
+      "google-deepmind/interpro_database",
+      "google-deepmind/jaspar_database",
+      "google-deepmind/literature_search_arxiv",
+      "google-deepmind/literature_search_biorxiv",
+      "google-deepmind/literature_search_europepmc",
+      "google-deepmind/literature_search_openalex",
+      "google-deepmind/ncbi_sequence_fetch",
+      "google-deepmind/openfda_database",
+      "google-deepmind/opentargets_database",
+      "google-deepmind/pdb_database",
+      "google-deepmind/protein_sequence_msa",
+      "google-deepmind/protein_sequence_similarity_search",
+      "google-deepmind/pubchem_database",
+      "google-deepmind/pubmed_database",
+      "google-deepmind/pymol",
+      "google-deepmind/quickgo_database",
+      "google-deepmind/reactome_database",
+      "google-deepmind/science_skills_common",
+      "google-deepmind/string_database",
+      "google-deepmind/ucsc_conservation_and_tfbs",
+      "google-deepmind/unibind_database",
+      "google-deepmind/uniprot_database",
+      "google-deepmind/uv",
+      "google-deepmind/workflow_skill_creator"
+    ],
     "gooseworks": [
       "gooseworks/notte-browser"
     ],
@@ -4467,6 +5531,13 @@
       "intelligentcode-ai/security-engineer",
       "intelligentcode-ai/user-tester"
     ],
+    "jules": [
+      "jules/langgenius/backend-code-review",
+      "jules/langgenius/component-refactoring",
+      "jules/langgenius/e2e-cucumber-playwright",
+      "jules/langgenius/frontend-code-review",
+      "jules/langgenius/frontend-testing"
+    ],
     "karpathy": [
       "karpathy/autoresearch"
     ],
@@ -4477,11 +5548,20 @@
       "martin-stepanoski/nielsen-heuristics-audit"
     ],
     "mattpocock": [
+      "mattpocock/caveman",
       "mattpocock/diagnose",
       "mattpocock/edit-article",
+      "mattpocock/engineering",
       "mattpocock/grill-me",
       "mattpocock/grill-with-docs",
+      "mattpocock/handoff",
       "mattpocock/improve-codebase-architecture",
+      "mattpocock/obsidian-vault",
+      "mattpocock/personal",
+      "mattpocock/productivity",
+      "mattpocock/prototype",
+      "mattpocock/setup-matt-pocock-skills",
+      "mattpocock/skills",
       "mattpocock/to-issues",
       "mattpocock/to-prd",
       "mattpocock/triage",
