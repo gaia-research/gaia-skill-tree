@@ -107,6 +107,40 @@
         "role": "variant"
       }
     ],
+    "autonomous-engineering-platform": [
+      {
+        "id": "Taoidle/plan-decompose-gh-plan-cascade",
+        "name": "Plan Cascade",
+        "contributor": "Taoidle",
+        "origin": false,
+        "genericSkillRef": "autonomous-engineering-platform",
+        "status": "named",
+        "level": "2★",
+        "description": "AI-powered cascading development framework.",
+        "title": "Plan Cascade",
+        "createdAt": "2026-05-23",
+        "updatedAt": "2026-05-23",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant"
+      },
+      {
+        "id": "changkun/plan-decompose-gh-wallfacer",
+        "name": "Wallfacer",
+        "contributor": "changkun",
+        "origin": false,
+        "genericSkillRef": "autonomous-engineering-platform",
+        "status": "named",
+        "level": "2★",
+        "description": "Chat, specs, tasks, and code. An autonomous engineering platform.",
+        "title": "Wallfacer",
+        "createdAt": "2026-05-23",
+        "updatedAt": "2026-05-23",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant"
+      }
+    ],
     "test-driven-development": [
       {
         "id": "addy-osmani/test-driven-development",
@@ -5279,6 +5313,9 @@
     "Manavarya09": [
       "Manavarya09/design-extract"
     ],
+    "Taoidle": [
+      "Taoidle/plan-decompose-gh-plan-cascade"
+    ],
     "addy-osmani": [
       "addy-osmani/test-driven-development"
     ],
@@ -5294,6 +5331,9 @@
     ],
     "browserbase": [
       "browserbase/stagehand"
+    ],
+    "changkun": [
+      "changkun/plan-decompose-gh-wallfacer"
     ],
     "devin-ai": [
       "devin-ai/autonomous-swe"

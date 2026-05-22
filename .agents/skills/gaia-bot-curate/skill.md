@@ -38,10 +38,11 @@ Curate remote `bot/*` crawler branches into `registry/real-skills.json` from a f
    - **Named Promotion**: If the item has a clear playbook and high quality, propose it as a **Named Skill** (2★+) in `registry/named/` with a unique Title (e.g., "The Digital Pathweaver").
 
 5. **Integrate and Promote**
-   - Main agent edits accepted entries into `registry/real-skills.json`.
-   - If a new Generic skill was identified in step 4, create the corresponding node in `registry/nodes/extra/`.
-   - If promotion was justified, create the `registry/named/` JSON file and link it to the generic bucket.
-   - Regenerate with `python3 scripts/generateRealSkills.py` and `python3 scripts/generateProjections.py`.
+   - Main agent executes `gaia add` and `gaia evidence` commands for accepted entries.
+   - For generic nodes: `gaia add "Skill Name" --id <id> --type extra --description "..."`
+   - For named skills: `gaia add "Skill Name" --id <id> --named --generic-ref <ref>`
+   - Use `gaia evidence` to attach the payload URLs and details to the skill.
+   - NEVER hand-edit files in `registry/`.
 
 6. **Clean remote bot branches**
    - Delete consumed remote bot branches only after the `/tmp` snapshot exists and the review branch contains the curated result.
@@ -50,9 +51,8 @@ Curate remote `bot/*` crawler branches into `registry/real-skills.json` from a f
 7. **Verify and publish**
    - Run:
      ```bash
-     PYTHONIOENCODING=utf-8 python3 scripts/validate.py
-     python3 scripts/generateProjections.py
-     python3 scripts/exportGexf.py
+     gaia docs build
+     gaia validate
      ./.venv/bin/pytest tests/test_validate.py tests/test_real_skill_catalog.py tests/test_registry_layout.py
      git diff --check
      ```

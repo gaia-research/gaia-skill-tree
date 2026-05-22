@@ -62,8 +62,8 @@ Project-local agent skills live in two directories and are actively used by cont
 - `.agents/skills/gaia-curate/` — registry expansion + PR workflow.
 - `.agents/skills/gaia-meta-audit/` — prioritized review queue.
 - `.agents/skills/gaia-audit/` — focused single-target correction.
-- `.agents/skills/gaia-draft-curate/`, `gaia-docs-sync/`, `gaia-integrity/`, `gaia-triage/`, `gaia-wiki-sync/`, `graphify-triage/` — supporting workflows.
-- `.claude/skills/gaia-fuse-full-suite/`, `gaia-bot-curate/` — fusion and bot curation.
+- `.agents/skills/gaia-draft-curate/`, `gaia-docs-sync/`, `gaia-integrity/`, `gaia-triage/`, `gaia-wiki-sync/`, `graphify-triage/`, `gaia-bot-curate/` — supporting workflows and bot curation.
+- `.claude/skills/gaia-fuse-full-suite/` — fusion.
 
 When updating any of these, route registry mutations through `gaia add` / `gaia merge` / `gaia split` / `gaia evidence` rather than hand-editing files in `registry/nodes/`.
 

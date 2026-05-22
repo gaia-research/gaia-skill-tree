@@ -124,6 +124,14 @@
           <attvalue for="type" value="extra" />
         </attvalues>
       </node>
+      <node id="autonomous-engineering-platform" label="Autonomous Engineering Platform">
+        <attvalues>
+          <attvalue for="level" value="2★" />
+          <attvalue for="rarity" value="common" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
       <node id="autonomous-web-research" label="Autonomous Web Research">
         <attvalues>
           <attvalue for="level" value="4★" />

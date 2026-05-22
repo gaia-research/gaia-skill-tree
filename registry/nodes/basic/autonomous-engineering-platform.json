@@ -1,0 +1,51 @@
+{
+  "id": "autonomous-engineering-platform",
+  "name": "Autonomous Engineering Platform",
+  "type": "basic",
+  "level": "2★",
+  "rarity": "common",
+  "description": "An autonomous engineering platform integrating chat, specs, tasks, and code for full agentic software delivery.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/changkun/wallfacer",
+      "evaluator": "unknown",
+      "date": "2026-05-23",
+      "notes": "Auto-discovered from github."
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/Taoidle/plan-cascade",
+      "evaluator": "unknown",
+      "date": "2026-05-23",
+      "notes": "Auto-discovered from github."
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-05-23",
+  "updatedAt": "2026-05-23",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-22T20:50:17Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill autonomous-engineering-platform"
+    },
+    {
+      "timestamp": "2026-05-22T20:51:30Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/changkun/wallfacer"
+    },
+    {
+      "timestamp": "2026-05-22T20:51:38Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/Taoidle/plan-cascade"
+    }
+  ]
+}

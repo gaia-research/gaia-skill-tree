@@ -63,7 +63,7 @@ Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) throu
   ◉ ruvnet/hive-mind-coordination  [4★ · Hardened]
   ◉ openai/self-consistency  [4★ · Hardened]
 
-(209 skills total — see docs/tree.md)
+(210 skills total — see docs/tree.md)
 ```
 <!-- gaia:registry-end -->
 

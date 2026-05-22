@@ -8,7 +8,7 @@ status: named
 title: "Gstack Skillify — Skill Authoring Pipeline"
 catalogRef: garrytan-skillify
 level: "4★"
-description: Converts a freeform prompt, repo pattern, or workflow description into a complete, registry-ready named skill: writes the SKILL.md definition, populates frontmatter fields, and opens a PR for review.
+description: "Converts a freeform prompt, repo pattern, or workflow description into a complete, registry-ready named skill: writes the SKILL.md definition, populates frontmatter fields, and opens a PR for review."
 links:
   github: https://github.com/garrytan/gstack/blob/main/skillify/SKILL.md
 tags:

@@ -8,7 +8,7 @@ status: named
 title: "The V3 Architect"
 catalogRef: ruvnet-ruflo-v3
 level: "4★"
-description: Complete Ruflo v3 modernization sprint: CLI modernization, core implementation, DDD architecture, MCP optimization, memory unification, performance tuning, security overhaul, and swarm coordination.
+description: "Complete Ruflo v3 modernization sprint: CLI modernization, core implementation, DDD architecture, MCP optimization, memory unification, performance tuning, security overhaul, and swarm coordination."
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
