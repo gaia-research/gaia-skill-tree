@@ -15,11 +15,65 @@
       "evaluator": "mbtiongson1",
       "date": "2026-05-19",
       "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common/SKILL.md",
+      "evaluator": "unknown",
+      "date": "2026-05-23",
+      "notes": "Official Google DeepMind science_skills_common science-skill implementation."
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md",
+      "evaluator": "unknown",
+      "date": "2026-05-23",
+      "notes": "Official Google DeepMind uv science-skill implementation."
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common/SKILL.md",
+      "evaluator": "unknown",
+      "date": "2026-05-23",
+      "notes": "Official Google DeepMind science_skills_common science-skill implementation."
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md",
+      "evaluator": "unknown",
+      "date": "2026-05-23",
+      "notes": "Official Google DeepMind uv science-skill implementation."
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-19",
-  "updatedAt": "2026-05-19",
-  "version": "0.1.0"
+  "updatedAt": "2026-05-23",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-22T20:20:44Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common/SKILL.md"
+    },
+    {
+      "timestamp": "2026-05-22T20:20:46Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md"
+    },
+    {
+      "timestamp": "2026-05-22T20:22:44Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common/SKILL.md"
+    },
+    {
+      "timestamp": "2026-05-22T20:22:44Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md"
+    }
+  ]
 }

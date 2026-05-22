@@ -73,7 +73,9 @@ Expand the Gaia skill registry (`registry/gaia.json`) with new popular AI agent 
 
 3. **Design the batch** — for each candidate skill determine:
    - Type: `basic` (no prerequisites) / `extra` (≥2 prereqs) / `ultimate` (≥3 prereqs + 3 Evidence Tier A/B sources). A graph-isolated `basic` at 4★+ may be promoted to `unique`.
-   - **Fusion-First Design**: Before creating a new skill, check if it can be an **Extra skill** (◇) fused from existing basic capabilities. If the implementation provides a high-level orchestration or specialized resilient pattern (e.g., `agentic-workflow-design`), use the `extra` type.
+   - **Fusion-First Design & Semantic Mapping Rationale**: 
+     - *No Made-up Generics*: Avoid creating a new, separate generic skill for every vendor API or service (e.g., do not create distinct generic skills for `pubmed`, `arxiv`, `biorxiv`, `europepmc` etc.). Map multiple named implementations of identical concepts to a single elegant basic generic skill (e.g. `literature-search`) to prevent registry bloat and maintain a high-quality global graph.
+     - *Master Skill Fusion*: When multiple distinct named skills represent specialized capabilities that can be combined or orchestrated in a multi-step workflow (e.g., fetching structures, aligning sequences, rendering structures), define a composite **Extra** skill (like `computational-biology-workflows`) and link the basic skills as its prerequisites. Calibrate the advanced named implementations (e.g. AlphaFold, AlphaGenome) to higher levels (`3★` or `4★` max) referencing that composite Extra skill.
    - Stars: target **4★** (Hardened) minimum — requires at least 1× Evidence Tier B or A.
    - Prerequisites and derivatives (must reference existing IDs).
    - **Demerit Check (Strategic)**: Identify `heavyweight-dependency`, `niche-integration`, or `experimental-feature`. Only strictly apply these to skills at **3★+**. If a high-level skill is cross-platform and "Universal," reward it by omitting demerits.

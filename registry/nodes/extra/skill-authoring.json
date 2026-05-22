@@ -30,6 +30,20 @@
       "evaluator": "codex",
       "date": "2026-05-10",
       "notes": "Anthropic skill-creator provides a reproducible workflow for creating, editing, evaluating, benchmarking, and optimizing agent skills."
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md",
+      "evaluator": "unknown",
+      "date": "2026-05-23",
+      "notes": "Official Google DeepMind workflow_skill_creator science-skill implementation."
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md",
+      "evaluator": "unknown",
+      "date": "2026-05-23",
+      "notes": "Official Google DeepMind workflow_skill_creator science-skill implementation."
     }
   ],
   "knownAgents": [
@@ -37,6 +51,20 @@
   ],
   "status": "provisional",
   "createdAt": "2026-05-10",
-  "updatedAt": "2026-05-10",
-  "version": "0.1.0"
+  "updatedAt": "2026-05-23",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-22T20:20:42Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md"
+    },
+    {
+      "timestamp": "2026-05-22T20:22:43Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md"
+    }
+  ]
 }

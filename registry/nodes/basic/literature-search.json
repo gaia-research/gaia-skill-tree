@@ -1,0 +1,103 @@
+{
+  "id": "literature-search",
+  "name": "Literature Search",
+  "type": "basic",
+  "level": "2★",
+  "rarity": "common",
+  "description": "Queries and searches academic literature databases (e.g. PubMed, arXiv, bioRxiv, OpenAlex) to locate papers, retrieve abstracts, resolve citations, and fetch full-text documents.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/google-deepmind/science-skills",
+      "evaluator": "unknown",
+      "date": "2026-05-23",
+      "notes": "Foundational canonical generic skill for Literature Search."
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/pubmed_database/SKILL.md",
+      "evaluator": "unknown",
+      "date": "2026-05-23",
+      "notes": "Official Google DeepMind pubmed_database science-skill implementation."
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_arxiv/SKILL.md",
+      "evaluator": "unknown",
+      "date": "2026-05-23",
+      "notes": "Official Google DeepMind literature_search_arxiv science-skill implementation."
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_biorxiv/SKILL.md",
+      "evaluator": "unknown",
+      "date": "2026-05-23",
+      "notes": "Official Google DeepMind literature_search_biorxiv science-skill implementation."
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_europepmc/SKILL.md",
+      "evaluator": "unknown",
+      "date": "2026-05-23",
+      "notes": "Official Google DeepMind literature_search_europepmc science-skill implementation."
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_openalex/SKILL.md",
+      "evaluator": "unknown",
+      "date": "2026-05-23",
+      "notes": "Official Google DeepMind literature_search_openalex science-skill implementation."
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-05-23",
+  "updatedAt": "2026-05-23",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-22T20:22:06Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill literature-search"
+    },
+    {
+      "timestamp": "2026-05-22T20:22:06Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/google-deepmind/science-skills"
+    },
+    {
+      "timestamp": "2026-05-22T20:22:14Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/pubmed_database/SKILL.md"
+    },
+    {
+      "timestamp": "2026-05-22T20:22:15Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_arxiv/SKILL.md"
+    },
+    {
+      "timestamp": "2026-05-22T20:22:15Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_biorxiv/SKILL.md"
+    },
+    {
+      "timestamp": "2026-05-22T20:22:16Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_europepmc/SKILL.md"
+    },
+    {
+      "timestamp": "2026-05-22T20:22:17Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_openalex/SKILL.md"
+    }
+  ]
+}
