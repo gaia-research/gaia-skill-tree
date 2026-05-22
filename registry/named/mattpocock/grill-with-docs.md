@@ -5,6 +5,7 @@ contributor: mattpocock
 origin: true
 genericSkillRef: grill-with-docs
 status: named
+title: "The Documentation Griller"
 title: "The Domain Sovereign"
 catalogRef: mattpocock-grill-with-docs
 level: "3★"
@@ -21,6 +22,7 @@ tags:
   - fusion
 createdAt: "2026-04-30"
 updatedAt: "2026-05-15"
+suiteRef: "mattpocock/engineering"
 ---
 
 ## Overview

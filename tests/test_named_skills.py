@@ -78,8 +78,8 @@ class TestNamedSkillIndexGeneration(unittest.TestCase):
             ("registry/named/alice/skill.md", {"id": "alice/skill", "name": "Skill", "contributor": "alice", "origin": True, "genericSkillRef": "web-search", "status": "named", "level": "2★", "description": "Alice's version."}),
             ("registry/named/bob/skill.md",   {"id": "bob/skill",   "name": "Skill", "contributor": "bob",   "origin": True, "genericSkillRef": "web-search", "status": "named", "level": "2★", "description": "Bob's version."}),
         ]
-        valid_ids = {"web-search"}
-        errors, *_ = validate_and_group(named_skills, valid_ids)
+        graph_data = {"skills": [{"id": "web-search"}]}
+        errors, *_ = validate_and_group(named_skills, graph_data)
         self.assertTrue(any("origin" in e.lower() for e in errors), f"Expected origin duplicate error, got: {errors}")
 
     def test_bucket_groups_by_generic_ref(self):
@@ -91,8 +91,8 @@ class TestNamedSkillIndexGeneration(unittest.TestCase):
             ("registry/named/bob/skill-b.md",   {"id": "bob/skill-b",   "name": "Skill B", "contributor": "bob",   "origin": False, "genericSkillRef": "web-search", "status": "named", "level": "2★", "description": "Bob version."}),
             ("registry/named/carol/code.md",     {"id": "carol/code",    "name": "Carol Code", "contributor": "carol", "origin": True, "genericSkillRef": "code-generation", "status": "named", "level": "2★", "description": "Carol version."}),
         ]
-        valid_ids = {"web-search", "code-generation"}
-        errors, buckets, *_ = validate_and_group(named_skills, valid_ids)
+        graph_data = {"skills": [{"id": "web-search"}, {"id": "code-generation"}]}
+        errors, buckets, *_ = validate_and_group(named_skills, graph_data)
         self.assertEqual(errors, [])
         self.assertIn("web-search", buckets)
         self.assertEqual(len(buckets["web-search"]), 2)

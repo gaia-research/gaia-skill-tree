@@ -17,6 +17,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+    if: |
+      github.event_name == 'push' ||
+      github.event.pull_request.changed_files >= 10
     steps:
       - name: Checkout
         uses: actions/checkout@v4

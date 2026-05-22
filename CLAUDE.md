@@ -98,6 +98,25 @@ If wiki updates are required:
 2. Update, commit, and push from that directory.
 3. **Do not** delete the wiki folder; preserve it for subsequent updates.
 
+## Vocabulary
+
+`CONTEXT.md` is the single source of truth for product nomenclature and the banned-synonym list (CI greps it). Read it before writing any user-facing copy, CLI output, or agent skill.
+
+The **rarity** axis (`common` / `uncommon` / `rare` / `epic` / `legendary`) is **deprecated** and on its way out of the schema — see `CONTEXT.md` § Rarity. Do not introduce new references to rarity in copy, skills, or curation workflows. `gaia add` writes the legacy default automatically; nobody should be asked to choose a value.
+
+## Agent Skills
+
+Project-local agent skills live in two directories and are actively used by contributors. Keep them in sync with `CONTEXT.md` nomenclature.
+
+- `.agents/skills/gaia-curate/` — `/gaia-curate`: expand the registry with new skills and open a PR.
+- `.agents/skills/gaia-meta-audit/` — `/gaia-meta-audit`: prioritized queue of skills/catalog items needing review.
+- `.agents/skills/gaia-audit/` — `/gaia-audit`: focused source-level correction for one target.
+- `.agents/skills/gaia-draft-curate/`, `gaia-docs-sync/`, `gaia-integrity/`, `gaia-triage/`, `gaia-wiki-sync/`, `graphify-triage/` — supporting curation, doc-sync, integrity, and triage workflows.
+- `.claude/skills/gaia-fuse-full-suite/` — `/gaia-fuse-full-suite`: fuse one contributor's named skills into a single ultimate.
+- `.claude/skills/gaia-bot-curate/` — bot-driven curation pass.
+
+When touching any of these, route registry mutations through `gaia add` / `gaia merge` / `gaia split` / `gaia evidence` (Programmatic-First Policy) rather than hand-edits.
+
 ## gstack
 
 gstack is installed at `~/.claude/skills/gstack`. Use the `/browse` skill from gstack for **all web browsing**. Never use `mcp__claude-in-chrome__*` tools.

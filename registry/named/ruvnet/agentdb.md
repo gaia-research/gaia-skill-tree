@@ -20,6 +20,12 @@ tags:
 createdAt: "2026-05-19"
 updatedAt: "2026-05-19"
 suiteRef: "ruvnet/ruflo"
+suiteComponents:
+  - ruvnet/agentdb-advanced
+  - ruvnet/agentdb-learning
+  - ruvnet/agentdb-memory-patterns
+  - ruvnet/agentdb-optimization
+  - ruvnet/agentdb-vector-search
 ---
 
 ## Overview

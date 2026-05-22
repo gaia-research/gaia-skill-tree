@@ -1,0 +1,55 @@
+name: Auto-label bot PRs
+
+on:
+  pull_request:
+    types: [opened]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  label-bots:
+    name: Label Jules/Codex/Claude PRs
+    runs-on: ubuntu-latest
+    # Only process PRs from the repo owner or direct members.
+    # Jules and Codex open PRs as the human account (not a Bot type), so we
+    # can't gate on user.type. Restricting to OWNER/MEMBER prevents strangers
+    # from adding a Jules/Codex body signature to spoof the scope-check bypass.
+    if: >-
+      github.event.pull_request.author_association == 'OWNER' ||
+      github.event.pull_request.author_association == 'MEMBER'
+    steps:
+      - name: Detect and label bot PR
+        uses: actions/github-script@v7
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        with:
+          script: |
+            const body = process.env.PR_BODY || '';
+            const prNumber = parseInt(process.env.PR_NUMBER, 10);
+
+            // Detect by the stable URL signatures each tool leaves in the PR body.
+            // Username-glob matching is unreliable: Jules/Codex/Claude all open PRs
+            // through the owner account, so github.actor is never "jules" or "codex".
+            let label = null;
+            if (body.includes('jules.google.com/task')) {
+              label = 'jules';
+            } else if (body.includes('chatgpt.com/codex')) {
+              label = 'codex';
+            } else if (body.includes('claude.ai/code')) {
+              label = 'claude-bot';
+            }
+
+            if (!label) {
+              console.log('No bot signature found in PR body — skipping.');
+              return;
+            }
+
+            console.log(`Detected ${label} PR — adding label.`);
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+              labels: [label],
+            });
