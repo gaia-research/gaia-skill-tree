@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/skill.schema.json",
-  "version": "3.21.4",
-  "generatedAt": "2026-05-21T22:44:14.307131Z",
+  "version": "3.23.2",
+  "generatedAt": "2026-05-22T22:33:49.086235Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -143,6 +143,47 @@
       "version": "0.1.0"
     },
     {
+      "id": "agent-environment-setup",
+      "name": "agent-environment-setup",
+      "type": "extra",
+      "level": "3★",
+      "rarity": "common",
+      "description": "Scaffolding per-repo configuration for other engineering skills.",
+      "prerequisites": [
+        "document-editing",
+        "tool-use"
+      ],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/setup-matt-pocock-skills/SKILL.md",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-22",
+          "notes": "Scaffolding skill for Matt Pocock's engineering workspace."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-22",
+      "updatedAt": "2026-05-22",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-21T16:23:29Z",
+          "action": "add",
+          "contributor": "mbtiongson1",
+          "details": "Added generic skill agent-environment-setup"
+        },
+        {
+          "timestamp": "2026-05-21T17:16:01Z",
+          "action": "evidence_added",
+          "contributor": "mbtiongson1",
+          "details": "Added B evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/setup-matt-pocock-skills/SKILL.md"
+        }
+      ]
+    },
+    {
       "id": "agent-eval",
       "name": "Agent Evaluation",
       "type": "extra",
@@ -185,6 +226,48 @@
       "createdAt": "2026-04-30",
       "updatedAt": "2026-05-10",
       "version": "0.1.0"
+    },
+    {
+      "id": "agent-handoff",
+      "name": "agent-handoff",
+      "type": "extra",
+      "level": "4★",
+      "rarity": "common",
+      "description": "Compacting the current conversation into a summary for a fresh agent.",
+      "prerequisites": [
+        "summarize",
+        "document-editing",
+        "context-compression"
+      ],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/handoff/SKILL.md",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-22",
+          "notes": "High-fidelity agent handoff and context compaction skill."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-22",
+      "updatedAt": "2026-05-22",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-21T16:23:47Z",
+          "action": "add",
+          "contributor": "mbtiongson1",
+          "details": "Added generic skill agent-handoff"
+        },
+        {
+          "timestamp": "2026-05-21T17:16:21Z",
+          "action": "evidence_added",
+          "contributor": "mbtiongson1",
+          "details": "Added B evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/handoff/SKILL.md"
+        }
+      ]
     },
     {
       "id": "agent-memory-learning",
@@ -500,6 +583,57 @@
       "version": "0.1.0"
     },
     {
+      "id": "autonomous-engineering-platform",
+      "name": "Autonomous Engineering Platform",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "common",
+      "description": "An autonomous engineering platform integrating chat, specs, tasks, and code for full agentic software delivery.",
+      "prerequisites": [],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/changkun/wallfacer",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Auto-discovered from github."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/Taoidle/plan-cascade",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Auto-discovered from github."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-22T20:50:17Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added generic skill autonomous-engineering-platform"
+        },
+        {
+          "timestamp": "2026-05-22T20:51:30Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/changkun/wallfacer"
+        },
+        {
+          "timestamp": "2026-05-22T20:51:38Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/Taoidle/plan-cascade"
+        }
+      ]
+    },
+    {
       "id": "autonomous-web-research",
       "name": "Autonomous Web Research",
       "type": "extra",
@@ -544,6 +678,57 @@
           "action": "merge",
           "contributor": "unknown",
           "details": "Merged autonomous-research-agent into autonomous-web-research"
+        }
+      ]
+    },
+    {
+      "id": "bioinformatic-sequence-analysis",
+      "name": "Bioinformatic Sequence Analysis",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Performs biological sequence alignment, similarity searches, multiple sequence alignment (MSA), and genomic variant analysis using standard bioinformatics tools and databases.",
+      "prerequisites": [],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Foundational canonical generic skill for Bioinformatic Sequence Analysis."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_similarity_search/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind protein_sequence_similarity_search science-skill implementation."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-22T20:22:10Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added generic skill bioinformatic-sequence-analysis"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:11Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:20Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_similarity_search/SKILL.md"
         }
       ]
     },
@@ -823,6 +1008,96 @@
       "version": "0.1.0"
     },
     {
+      "id": "clinical-data-retrieval",
+      "name": "Clinical Data Retrieval",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Retrieves and parses clinical trial records, drug approvals, regulatory filings, or medical variant databases (e.g. ClinicalTrials.gov, OpenFDA, ClinVar).",
+      "prerequisites": [],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Foundational canonical generic skill for Clinical Data Retrieval."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/clinical_trials_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind clinical_trials_database science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/openfda_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind openfda_database science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/clinvar_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind clinvar_database science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/opentargets_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind opentargets_database science-skill implementation."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-22T20:22:10Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added generic skill clinical-data-retrieval"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:10Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:36Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/clinical_trials_database/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:37Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/openfda_database/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:38Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/clinvar_database/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:39Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/opentargets_database/SKILL.md"
+        }
+      ]
+    },
+    {
       "id": "cloud-platform-management",
       "name": "Cloud Platform Management",
       "type": "extra",
@@ -1041,6 +1316,89 @@
       "version": "0.1.0"
     },
     {
+      "id": "computational-biology-workflows",
+      "name": "Computational Biology Workflows",
+      "type": "extra",
+      "level": "4★",
+      "rarity": "common",
+      "description": "Integrates structural, genomic, proteomic, and molecular database querying with bioinformatics analysis (such as sequence alignment, structure prediction, and molecular rendering) to solve multi-step, complex computational biology tasks.",
+      "prerequisites": [
+        "bioinformatic-sequence-analysis",
+        "genomic-data-retrieval",
+        "molecular-databases",
+        "protein-structure-analysis",
+        "proteomic-data-retrieval"
+      ],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Foundational canonical generic skill for Computational Biology Workflows."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind alphafold_database_fetch_and_analyze science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/alphagenome_single_variant_analysis/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind alphagenome_single_variant_analysis science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_msa/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind protein_sequence_msa science-skill implementation."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-22T20:22:12Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added generic skill computational-biology-workflows"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:12Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:40Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:41Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/alphagenome_single_variant_analysis/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:42Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_msa/SKILL.md"
+        }
+      ]
+    },
+    {
       "id": "computer-use",
       "name": "Computer Use",
       "type": "basic",
@@ -1190,13 +1548,67 @@
           "evaluator": "mbtiongson1",
           "date": "2026-05-19",
           "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind science_skills_common science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind uv science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind science_skills_common science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind uv science-skill implementation."
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-19",
-      "updatedAt": "2026-05-19",
-      "version": "0.1.0"
+      "updatedAt": "2026-05-23",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-22T20:20:44Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:20:46Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:44Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:44Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md"
+        }
+      ]
     },
     {
       "id": "data-analysis",
@@ -1448,6 +1860,48 @@
       "createdAt": "2026-04-26",
       "updatedAt": "2026-04-26",
       "version": "0.1.0"
+    },
+    {
+      "id": "dify-agent-suite",
+      "name": "Dify Agent Suite",
+      "type": "extra",
+      "level": "1★",
+      "rarity": "common",
+      "description": "An integrated suite of frontend, backend, testing, and review capabilities for the Dify LLM application development platform.",
+      "prerequisites": [
+        "code-review-pipeline",
+        "refactor-code",
+        "automated-testing",
+        "e2e-testing"
+      ],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/langgenius/dify",
+          "evaluator": "jules",
+          "date": "2026-05-20"
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-20",
+      "updatedAt": "2026-05-20",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-20T23:14:03Z",
+          "action": "add",
+          "contributor": "gaiabot",
+          "details": "Added generic skill dify-agent-suite"
+        },
+        {
+          "timestamp": "2026-05-20T23:14:48Z",
+          "action": "evidence_added",
+          "contributor": "gaiabot",
+          "details": "Added B evidence from https://github.com/langgenius/dify"
+        }
+      ]
     },
     {
       "id": "dispatching-parallel-agents",
@@ -2305,6 +2759,161 @@
       "version": "0.1.0"
     },
     {
+      "id": "genomic-data-retrieval",
+      "name": "Genomic Data Retrieval",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Queries and retrieves DNA sequence data, transcription factor binding models, cis-regulatory elements, and genetic annotations from genomic repositories (e.g. Ensembl, GTEx, JASPAR, UniBind, ENCODE, UCSC, dbSNP).",
+      "prerequisites": [],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Foundational canonical generic skill for Genomic Data Retrieval."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/ensembl_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind ensembl_database science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/jaspar_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind jaspar_database science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/unibind_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind unibind_database science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/encode_ccres_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind encode_ccres_database science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/gtex_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind gtex_database science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/ucsc_conservation_and_tfbs/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind ucsc_conservation_and_tfbs science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/dbsnp_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind dbsnp_database science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/ncbi_sequence_fetch/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind ncbi_sequence_fetch science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/gnomad_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind gnomad_database science-skill implementation."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-22T20:22:08Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added generic skill genomic-data-retrieval"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:08Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:22Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/ensembl_database/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:23Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/jaspar_database/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:24Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/unibind_database/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:25Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/encode_ccres_database/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:25Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/gtex_database/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:26Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/ucsc_conservation_and_tfbs/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:27Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/dbsnp_database/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:28Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/ncbi_sequence_fetch/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:29Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/gnomad_database/SKILL.md"
+        }
+      ]
+    },
+    {
       "id": "ghostwrite",
       "name": "Ghostwrite",
       "type": "extra",
@@ -2963,8 +3572,9 @@
       "rarity": "uncommon",
       "description": "Conducts systematic multi-database academic literature searches following PRISMA/SWARM protocols, screens and synthesises findings, verifies all citations, and generates a structured review report.",
       "prerequisites": [
-        "research",
         "cite-sources",
+        "literature-search",
+        "research",
         "summarize"
       ],
       "derivatives": [],
@@ -2988,8 +3598,111 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-04-30",
+      "updatedAt": "2026-05-23",
       "version": "0.1.0"
+    },
+    {
+      "id": "literature-search",
+      "name": "Literature Search",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Queries and searches academic literature databases (e.g. PubMed, arXiv, bioRxiv, OpenAlex) to locate papers, retrieve abstracts, resolve citations, and fetch full-text documents.",
+      "prerequisites": [],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Foundational canonical generic skill for Literature Search."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/pubmed_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind pubmed_database science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_arxiv/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind literature_search_arxiv science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_biorxiv/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind literature_search_biorxiv science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_europepmc/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind literature_search_europepmc science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_openalex/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind literature_search_openalex science-skill implementation."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-22T20:22:06Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added generic skill literature-search"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:06Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:14Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/pubmed_database/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:15Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_arxiv/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:15Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_biorxiv/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:16Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_europepmc/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:17Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_openalex/SKILL.md"
+        }
+      ]
     },
     {
       "id": "logical-inference",
@@ -3079,6 +3792,208 @@
       "createdAt": "2026-05-17",
       "updatedAt": "2026-05-17",
       "version": "0.1.0"
+    },
+    {
+      "id": "mattpocock-engineering",
+      "name": "mattpocock-engineering",
+      "type": "ultimate",
+      "level": "5★",
+      "rarity": "common",
+      "description": "Engineering category suite for Matt Pocock's skills.",
+      "prerequisites": [
+        "autonomous-debug",
+        "refactor-code",
+        "vertical-slice-planning",
+        "prd-generation",
+        "issue-triage",
+        "ubiquitous-language",
+        "code-explain",
+        "grill-with-docs",
+        "prototype",
+        "agent-environment-setup"
+      ],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/mattpocock/skills",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-22",
+          "notes": "Consolidated engineering suite for Matt Pocock's skills."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-22",
+      "updatedAt": "2026-05-22",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-21T16:24:36Z",
+          "action": "add",
+          "contributor": "mbtiongson1",
+          "details": "Added generic skill mattpocock-engineering"
+        },
+        {
+          "timestamp": "2026-05-21T17:17:01Z",
+          "action": "evidence_added",
+          "contributor": "mbtiongson1",
+          "details": "Added B evidence from https://github.com/mattpocock/skills"
+        }
+      ]
+    },
+    {
+      "id": "mattpocock-personal",
+      "name": "mattpocock-personal",
+      "type": "extra",
+      "level": "4★",
+      "rarity": "common",
+      "description": "Personal category suite for Matt Pocock's skills.",
+      "prerequisites": [
+        "document-editing",
+        "personal-knowledge-management"
+      ],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/mattpocock/skills",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-22",
+          "notes": "Consolidated personal suite for Matt Pocock's skills."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-22",
+      "updatedAt": "2026-05-22",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-21T16:25:11Z",
+          "action": "add",
+          "contributor": "mbtiongson1",
+          "details": "Added generic skill mattpocock-personal"
+        },
+        {
+          "timestamp": "2026-05-21T17:17:41Z",
+          "action": "evidence_added",
+          "contributor": "mbtiongson1",
+          "details": "Added B evidence from https://github.com/mattpocock/skills"
+        },
+        {
+          "timestamp": "2026-05-21T19:04:11Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Reclassified from ultimate to extra"
+        }
+      ]
+    },
+    {
+      "id": "mattpocock-productivity",
+      "name": "mattpocock-productivity",
+      "type": "extra",
+      "level": "4★",
+      "rarity": "common",
+      "description": "Productivity category suite for Matt Pocock's skills.",
+      "prerequisites": [
+        "agent-handoff",
+        "context-compression",
+        "grill-me",
+        "tool-creation"
+      ],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/mattpocock/skills",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-22",
+          "notes": "Consolidated productivity suite for Matt Pocock's skills."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-22",
+      "updatedAt": "2026-05-22",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-21T16:24:53Z",
+          "action": "add",
+          "contributor": "mbtiongson1",
+          "details": "Added generic skill mattpocock-productivity"
+        },
+        {
+          "timestamp": "2026-05-21T17:17:21Z",
+          "action": "evidence_added",
+          "contributor": "mbtiongson1",
+          "details": "Added B evidence from https://github.com/mattpocock/skills"
+        },
+        {
+          "timestamp": "2026-05-21T19:04:11Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Reclassified from ultimate to extra"
+        }
+      ]
+    },
+    {
+      "id": "mattpocock-skills",
+      "name": "mattpocock-skills",
+      "type": "ultimate",
+      "level": "6★",
+      "rarity": "common",
+      "description": "Ultimate capstone suite for Matt Pocock's skills.",
+      "prerequisites": [
+        "mattpocock-engineering",
+        "mattpocock-productivity",
+        "mattpocock-personal",
+        "tool-creation",
+        "ubiquitous-language"
+      ],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/mattpocock/skills",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-22",
+          "notes": "The ultimate Matt Pocock skill suite capstone."
+        },
+        {
+          "class": "A",
+          "source": "https://github.com/mbtiongson1/gaia-skill-tree/pull/352",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-22",
+          "notes": "Peer-reviewed ultimate capstone suite consolidation."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-22",
+      "updatedAt": "2026-05-22",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-21T16:25:28Z",
+          "action": "add",
+          "contributor": "mbtiongson1",
+          "details": "Added generic skill mattpocock-skills"
+        },
+        {
+          "timestamp": "2026-05-21T17:18:01Z",
+          "action": "evidence_added",
+          "contributor": "mbtiongson1",
+          "details": "Added B evidence from https://github.com/mattpocock/skills"
+        },
+        {
+          "timestamp": "2026-05-21T17:18:32Z",
+          "action": "evidence_added",
+          "contributor": "mbtiongson1",
+          "details": "Added A evidence from https://github.com/mbtiongson1/gaia-skill-tree/pull/352"
+        }
+      ]
     },
     {
       "id": "mcp-debugger-control",
@@ -3324,6 +4239,70 @@
       "createdAt": "2026-04-30",
       "updatedAt": "2026-04-30",
       "version": "0.1.0"
+    },
+    {
+      "id": "molecular-databases",
+      "name": "Molecular Databases",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Queries and retrieves structural, chemical, and biological activity data for small molecules, chemical compounds, or drug candidates from molecular repositories (e.g., ChEMBL, PubChem).",
+      "prerequisites": [],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Foundational canonical generic skill for Molecular Databases."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/chembl_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind chembl_database science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/pubchem_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind pubchem_database science-skill implementation."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-22T20:22:07Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added generic skill molecular-databases"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:07Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:21Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/chembl_database/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:21Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/pubchem_database/SKILL.md"
+        }
+      ]
     },
     {
       "id": "multi-agent-debate",
@@ -3629,6 +4608,83 @@
       "version": "0.2.0"
     },
     {
+      "id": "pathway-ontology-retrieval",
+      "name": "Pathway Ontology Retrieval",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Queries, parses, and resolves biological pathway models, cellular reactions, and hierarchical ontology metadata from pathway and ontology search systems (e.g., Reactome, QuickGO, EMBL-EBI OLS).",
+      "prerequisites": [],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Foundational canonical generic skill for Pathway Ontology Retrieval."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/reactome_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind reactome_database science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/quickgo_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind quickgo_database science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/embl_ebi_ols/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind embl_ebi_ols science-skill implementation."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-22T20:22:09Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added generic skill pathway-ontology-retrieval"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:09Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:34Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/reactome_database/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:35Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/quickgo_database/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:35Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/embl_ebi_ols/SKILL.md"
+        }
+      ]
+    },
+    {
       "id": "performance-tuning",
       "name": "Performance Tuning",
       "type": "basic",
@@ -3652,6 +4708,47 @@
       "createdAt": "2026-05-19",
       "updatedAt": "2026-05-19",
       "version": "0.1.0"
+    },
+    {
+      "id": "personal-knowledge-management",
+      "name": "personal-knowledge-management",
+      "type": "extra",
+      "level": "3★",
+      "rarity": "common",
+      "description": "Managing notes and organization in a specific vault.",
+      "prerequisites": [
+        "retrieve",
+        "context-compression"
+      ],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/mattpocock/skills/blob/main/skills/personal/obsidian-vault/SKILL.md",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-22",
+          "notes": "Obsidian vault management and PKM automation."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-22",
+      "updatedAt": "2026-05-22",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-21T16:24:04Z",
+          "action": "add",
+          "contributor": "mbtiongson1",
+          "details": "Added generic skill personal-knowledge-management"
+        },
+        {
+          "timestamp": "2026-05-21T17:16:41Z",
+          "action": "evidence_added",
+          "contributor": "mbtiongson1",
+          "details": "Added B evidence from https://github.com/mattpocock/skills/blob/main/skills/personal/obsidian-vault/SKILL.md"
+        }
+      ]
     },
     {
       "id": "plan-and-execute",
@@ -3936,6 +5033,201 @@
       "createdAt": "2026-04-29",
       "updatedAt": "2026-04-29",
       "version": "0.2.0"
+    },
+    {
+      "id": "protein-structure-analysis",
+      "name": "Protein Structure Analysis",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Analyzes, searches, and aligns three-dimensional macromolecular structures using structural databases, alignment search algorithms (e.g. Foldseek, PDB search), or molecular modeling tools.",
+      "prerequisites": [],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Foundational canonical generic skill for Protein Structure Analysis."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/pdb_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind pdb_database science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/foldseek_structural_search/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind foldseek_structural_search science-skill implementation."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-22T20:22:11Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added generic skill protein-structure-analysis"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:11Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:18Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/pdb_database/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:19Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/foldseek_structural_search/SKILL.md"
+        }
+      ]
+    },
+    {
+      "id": "proteomic-data-retrieval",
+      "name": "Proteomic Data Retrieval",
+      "type": "basic",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Queries and retrieves amino acid sequences, protein families, functional domains, tissue distribution, and protein-protein interactions from proteomic repositories (e.g. UniProt, InterPro, Human Protein Atlas, STRING).",
+      "prerequisites": [],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Foundational canonical generic skill for Proteomic Data Retrieval."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/uniprot_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind uniprot_database science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/interpro_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind interpro_database science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/human_protein_atlas_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind human_protein_atlas_database science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/string_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind string_database science-skill implementation."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-23",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-22T20:22:08Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added generic skill proteomic-data-retrieval"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:09Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:30Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/uniprot_database/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:31Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/interpro_database/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:32Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/human_protein_atlas_database/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:33Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/string_database/SKILL.md"
+        }
+      ]
+    },
+    {
+      "id": "prototype",
+      "name": "prototype",
+      "type": "extra",
+      "level": "3★",
+      "rarity": "common",
+      "description": "Building throwaway prototypes to answer specific design or logic questions.",
+      "prerequisites": [
+        "code-generation",
+        "code-execution"
+      ],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/prototype/SKILL.md",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-22",
+          "notes": "Production interactive prototyping skill."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-22",
+      "updatedAt": "2026-05-22",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-21T16:23:11Z",
+          "action": "add",
+          "contributor": "mbtiongson1",
+          "details": "Added generic skill prototype"
+        },
+        {
+          "timestamp": "2026-05-21T17:15:41Z",
+          "action": "evidence_added",
+          "contributor": "mbtiongson1",
+          "details": "Added B evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/prototype/SKILL.md"
+        }
+      ]
     },
     {
       "id": "question-answer",
@@ -4580,9 +5872,10 @@
       "rarity": "epic",
       "description": "Autonomously generates novel scientific hypotheses, designs and executes experiments, analyses results, and produces a written report â€” completing a full research cycle without human intervention.",
       "prerequisites": [
+        "computational-biology-workflows",
         "hypothesis-generate",
-        "research",
-        "math-reason"
+        "math-reason",
+        "research"
       ],
       "derivatives": [],
       "conditions": "Requires laboratory tool access or simulation environment. Minimum 3 Class A/B evidence sources.",
@@ -4612,7 +5905,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-04-28",
+      "updatedAt": "2026-05-23",
       "version": "0.2.0",
       "title": "The Doctor"
     },
@@ -4635,13 +5928,41 @@
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
           "notes": "K-Dense-AI scientific-agent-skills — reproducible scientific-visualization skill orchestrating matplotlib, seaborn, and plotly for journal-quality multi-panel figures with PDF/EPS/TIFF/PNG export and accessibility annotations."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind pymol science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind pymol science-skill implementation."
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-04-30",
-      "version": "0.1.0"
+      "updatedAt": "2026-05-23",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-22T20:19:38Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:18Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md"
+        }
+      ]
     },
     {
       "id": "scientific-writing",
@@ -4989,6 +6310,20 @@
           "evaluator": "codex",
           "date": "2026-05-10",
           "notes": "Anthropic skill-creator provides a reproducible workflow for creating, editing, evaluating, benchmarking, and optimizing agent skills."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind workflow_skill_creator science-skill implementation."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind workflow_skill_creator science-skill implementation."
         }
       ],
       "knownAgents": [
@@ -4996,8 +6331,22 @@
       ],
       "status": "provisional",
       "createdAt": "2026-05-10",
-      "updatedAt": "2026-05-10",
-      "version": "0.1.0"
+      "updatedAt": "2026-05-23",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-22T20:20:42Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:22:43Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md"
+        }
+      ]
     },
     {
       "id": "skill-discovery",
@@ -5540,7 +6889,10 @@
       "type": "basic",
       "level": "2★",
       "rarity": "uncommon",
-      "description": "Tracks and analyzes token usage and cost across multiple AI models and agents, providing session-level and project-level spending metrics.",
+      "summary": "Observability tool for tracking AI coding agent token spend locally.",
+      "description": "Tracks and analyzes token usage and cost across multiple AI models and agents, providing session-level and project-level spending metrics. Operates locally by reading session data directly from disk and utilizes local pricing calculation, ensuring no proxies or API keys are required. Features CLI commands to optimize token waste, compare models, and track yield.",
+      "useCase": "A developer or engineering team uses this skill to monitor and optimize their spending across various AI coding assistants. By running it against local session logs from tools like Cursor or Aider, they can attribute token usage to specific projects, compare model costs, and identify inefficient, abandoned, or reverted tasks to reduce overall budget waste.",
+      "directives": "Prioritize accurate local parsing of multi-tool session logs. Use up-to-date pricing data to convert tokens to cost. Provide actionable insights via clear CLI commands for optimization and comparison. Never send session data to external servers; all analysis must remain local to preserve privacy.",
       "prerequisites": [],
       "derivatives": [
         "data-analysis"
@@ -5552,13 +6904,13 @@
           "source": "https://github.com/getagentseal/codeburn",
           "evaluator": "gemini-cli",
           "date": "2026-05-14",
-          "notes": "CodeBurn -- provides cost and token observability for AI coding tools; integrated with 19+ tools."
+          "notes": "CodeBurn -- provides cost and token observability for AI coding tools; integrated with 20 AI tools. Includes TUI dashboard, macOS menubar, optimization and yield analysis commands."
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-14",
-      "updatedAt": "2026-05-14",
+      "updatedAt": "2026-05-22",
       "version": "0.1.0"
     },
     {
@@ -6430,8 +7782,18 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "agent-environment-setup",
+      "targetSkillId": "mattpocock-engineering",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "agent-eval",
       "targetSkillId": "skill-performance-benchmarking",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "agent-handoff",
+      "targetSkillId": "mattpocock-productivity",
       "edgeType": "prerequisite"
     },
     {
@@ -6516,6 +7878,11 @@
     },
     {
       "sourceSkillId": "automated-testing",
+      "targetSkillId": "dify-agent-suite",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "automated-testing",
       "targetSkillId": "e2e-testing",
       "edgeType": "prerequisite"
     },
@@ -6536,12 +7903,22 @@
     },
     {
       "sourceSkillId": "autonomous-debug",
+      "targetSkillId": "mattpocock-engineering",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "autonomous-debug",
       "targetSkillId": "recursive-self-improvement",
       "edgeType": "prerequisite"
     },
     {
       "sourceSkillId": "autonomous-web-research",
       "targetSkillId": "career-operations",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "bioinformatic-sequence-analysis",
+      "targetSkillId": "computational-biology-workflows",
       "edgeType": "prerequisite"
     },
     {
@@ -6666,6 +8043,11 @@
     },
     {
       "sourceSkillId": "code-execution",
+      "targetSkillId": "prototype",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "code-execution",
       "targetSkillId": "registry-curation",
       "edgeType": "prerequisite"
     },
@@ -6682,6 +8064,11 @@
     {
       "sourceSkillId": "code-execution",
       "targetSkillId": "verification-before-completion",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "code-explain",
+      "targetSkillId": "mattpocock-engineering",
       "edgeType": "prerequisite"
     },
     {
@@ -6711,6 +8098,11 @@
     },
     {
       "sourceSkillId": "code-generation",
+      "targetSkillId": "prototype",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "code-generation",
       "targetSkillId": "registry-curation",
       "edgeType": "prerequisite"
     },
@@ -6722,6 +8114,11 @@
     {
       "sourceSkillId": "code-generation",
       "targetSkillId": "tool-creation",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "code-review-pipeline",
+      "targetSkillId": "dify-agent-suite",
       "edgeType": "prerequisite"
     },
     {
@@ -6760,6 +8157,11 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "computational-biology-workflows",
+      "targetSkillId": "scientific-discovery",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "computer-use",
       "targetSkillId": "browser-automation",
       "edgeType": "prerequisite"
@@ -6771,7 +8173,22 @@
     },
     {
       "sourceSkillId": "context-compression",
+      "targetSkillId": "agent-handoff",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "context-compression",
+      "targetSkillId": "mattpocock-productivity",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "context-compression",
       "targetSkillId": "memory-manage",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "context-compression",
+      "targetSkillId": "personal-knowledge-management",
       "edgeType": "prerequisite"
     },
     {
@@ -6891,6 +8308,16 @@
     },
     {
       "sourceSkillId": "document-editing",
+      "targetSkillId": "agent-environment-setup",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "document-editing",
+      "targetSkillId": "agent-handoff",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "document-editing",
       "targetSkillId": "career-operations",
       "edgeType": "prerequisite"
     },
@@ -6911,12 +8338,22 @@
     },
     {
       "sourceSkillId": "document-editing",
+      "targetSkillId": "mattpocock-personal",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "document-editing",
       "targetSkillId": "workspace-automation",
       "edgeType": "prerequisite"
     },
     {
       "sourceSkillId": "dual-mode",
       "targetSkillId": "ruflo",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "e2e-testing",
+      "targetSkillId": "dify-agent-suite",
       "edgeType": "prerequisite"
     },
     {
@@ -7140,6 +8577,11 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "genomic-data-retrieval",
+      "targetSkillId": "computational-biology-workflows",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "ghostwrite",
       "targetSkillId": "autonomous-web-research",
       "edgeType": "prerequisite"
@@ -7152,6 +8594,16 @@
     {
       "sourceSkillId": "grill-me",
       "targetSkillId": "grill-with-docs",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "grill-me",
+      "targetSkillId": "mattpocock-productivity",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "grill-with-docs",
+      "targetSkillId": "mattpocock-engineering",
       "edgeType": "prerequisite"
     },
     {
@@ -7191,6 +8643,11 @@
     },
     {
       "sourceSkillId": "issue-triage",
+      "targetSkillId": "mattpocock-engineering",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "issue-triage",
       "targetSkillId": "project-management",
       "edgeType": "prerequisite"
     },
@@ -7202,6 +8659,11 @@
     {
       "sourceSkillId": "knowledge-management",
       "targetSkillId": "gstack",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "literature-search",
+      "targetSkillId": "literature-review",
       "edgeType": "prerequisite"
     },
     {
@@ -7222,6 +8684,21 @@
     {
       "sourceSkillId": "math-reason",
       "targetSkillId": "scientific-discovery",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "mattpocock-engineering",
+      "targetSkillId": "mattpocock-skills",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "mattpocock-personal",
+      "targetSkillId": "mattpocock-skills",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "mattpocock-productivity",
+      "targetSkillId": "mattpocock-skills",
       "edgeType": "prerequisite"
     },
     {
@@ -7267,6 +8744,11 @@
     {
       "sourceSkillId": "memory-pattern-design",
       "targetSkillId": "agent-memory-platform",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "molecular-databases",
+      "targetSkillId": "computational-biology-workflows",
       "edgeType": "prerequisite"
     },
     {
@@ -7340,6 +8822,11 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "personal-knowledge-management",
+      "targetSkillId": "mattpocock-personal",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "plan-and-execute",
       "targetSkillId": "multi-agent-orchestration-v",
       "edgeType": "prerequisite"
@@ -7410,6 +8897,11 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "prd-generation",
+      "targetSkillId": "mattpocock-engineering",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "project-management",
       "targetSkillId": "github-platform-mastery",
       "edgeType": "prerequisite"
@@ -7427,6 +8919,21 @@
     {
       "sourceSkillId": "prompt-optimization",
       "targetSkillId": "gstack",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "protein-structure-analysis",
+      "targetSkillId": "computational-biology-workflows",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "proteomic-data-retrieval",
+      "targetSkillId": "computational-biology-workflows",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "prototype",
+      "targetSkillId": "mattpocock-engineering",
       "edgeType": "prerequisite"
     },
     {
@@ -7471,7 +8978,17 @@
     },
     {
       "sourceSkillId": "refactor-code",
+      "targetSkillId": "dify-agent-suite",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "refactor-code",
       "targetSkillId": "full-stack-developer",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "refactor-code",
+      "targetSkillId": "mattpocock-engineering",
       "edgeType": "prerequisite"
     },
     {
@@ -7557,6 +9074,11 @@
     {
       "sourceSkillId": "retrieve",
       "targetSkillId": "memory-manage",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "retrieve",
+      "targetSkillId": "personal-knowledge-management",
       "edgeType": "prerequisite"
     },
     {
@@ -7701,6 +9223,11 @@
     },
     {
       "sourceSkillId": "summarize",
+      "targetSkillId": "agent-handoff",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "summarize",
       "targetSkillId": "career-operations",
       "edgeType": "prerequisite"
     },
@@ -7761,6 +9288,16 @@
     },
     {
       "sourceSkillId": "tool-creation",
+      "targetSkillId": "mattpocock-productivity",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "tool-creation",
+      "targetSkillId": "mattpocock-skills",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "tool-creation",
       "targetSkillId": "mcp-server-creation",
       "edgeType": "prerequisite"
     },
@@ -7782,6 +9319,11 @@
     {
       "sourceSkillId": "tool-select",
       "targetSkillId": "tool-chaining",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "tool-use",
+      "targetSkillId": "agent-environment-setup",
       "edgeType": "prerequisite"
     },
     {
@@ -7830,6 +9372,16 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "ubiquitous-language",
+      "targetSkillId": "mattpocock-engineering",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "ubiquitous-language",
+      "targetSkillId": "mattpocock-skills",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "using-git-worktrees",
       "targetSkillId": "superpowers",
       "edgeType": "prerequisite"
@@ -7867,6 +9419,11 @@
     {
       "sourceSkillId": "vertical-slice-planning",
       "targetSkillId": "gstack",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "vertical-slice-planning",
+      "targetSkillId": "mattpocock-engineering",
       "edgeType": "prerequisite"
     },
     {
