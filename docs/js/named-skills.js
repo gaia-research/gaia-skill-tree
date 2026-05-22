@@ -343,15 +343,37 @@
       var cRect = container.getBoundingClientRect();
       svg.style.width = container.scrollWidth + 'px';
       svg.style.height = container.scrollHeight + 'px';
+
+      // Layout thrashing optimization: Pre-calculate node rects
+      var nodeRects = {};
+      var nodeEls = {};
+      edges.forEach(function(e) {
+        if (!nodeEls[e.from]) {
+          var el = container.querySelector('[data-id="' + e.from + '"]');
+          if (el) {
+            nodeEls[e.from] = el;
+            var dot = el.querySelector('.git-commit-dot');
+            nodeRects[e.from] = (dot || el).getBoundingClientRect();
+          }
+        }
+        if (!nodeEls[e.to]) {
+          var el = container.querySelector('[data-id="' + e.to + '"]');
+          if (el) {
+            nodeEls[e.to] = el;
+            var dot = el.querySelector('.git-commit-dot');
+            nodeRects[e.to] = (dot || el).getBoundingClientRect();
+          }
+        }
+      });
+
       var paths = '';
       edges.forEach(function(e) {
-        var fromEl = container.querySelector('[data-id="' + e.from + '"]');
-        var toEl   = container.querySelector('[data-id="' + e.to + '"]');
-        if (!fromEl || !toEl) return;
-        var dotFrom = fromEl.querySelector('.git-commit-dot');
-        var dotTo   = toEl.querySelector('.git-commit-dot');
-        var fr = (dotFrom || fromEl).getBoundingClientRect();
-        var tr = (dotTo   || toEl).getBoundingClientRect();
+        var fromEl = nodeEls[e.from];
+        var toEl   = nodeEls[e.to];
+        if (!fromEl || !toEl || !nodeRects[e.from] || !nodeRects[e.to]) return;
+
+        var fr = nodeRects[e.from];
+        var tr = nodeRects[e.to];
 
         var fx = fr.left + fr.width / 2 - cRect.left + container.scrollLeft;
         var fy = fr.top  + fr.height / 2 - cRect.top  + container.scrollTop;

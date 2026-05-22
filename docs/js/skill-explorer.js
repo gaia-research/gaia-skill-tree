@@ -882,14 +882,38 @@
       });
     };
 
+    // Layout thrashing optimization: Pre-calculate all node rects in a single pass
+    // to avoid interleaved read/write DOM operations inside the loop.
+    var nodeRects = {};
+    var nodeEls = {};
+    (edges || []).forEach(function(e) {
+      if (!nodeEls[e.from]) {
+        var el = wrap.querySelector('.git-node[data-id="' + e.from + '"]');
+        if (el) {
+          nodeEls[e.from] = el;
+          var dot = el.querySelector('.git-commit-dot');
+          nodeRects[e.from] = (dot || el).getBoundingClientRect();
+        }
+      }
+      if (!nodeEls[e.to]) {
+        var el = wrap.querySelector('.git-node[data-id="' + e.to + '"]');
+        if (el) {
+          nodeEls[e.to] = el;
+          var dot = el.querySelector('.git-commit-dot');
+          nodeRects[e.to] = (dot || el).getBoundingClientRect();
+        }
+      }
+    });
+
+    var fragment = document.createDocumentFragment();
+
     (edges || []).forEach(function(e, i) {
-      var fromEl = wrap.querySelector('.git-node[data-id="' + e.from + '"]');
-      var toEl   = wrap.querySelector('.git-node[data-id="' + e.to + '"]');
-      if (!fromEl || !toEl) return;
-      var dotF = fromEl.querySelector('.git-commit-dot');
-      var fr = (dotF || fromEl).getBoundingClientRect();
-      var dotT = toEl.querySelector('.git-commit-dot');
-      var tr = (dotT || toEl).getBoundingClientRect();
+      var fromEl = nodeEls[e.from];
+      var toEl   = nodeEls[e.to];
+      if (!fromEl || !toEl || !nodeRects[e.from] || !nodeRects[e.to]) return;
+
+      var fr = nodeRects[e.from];
+      var tr = nodeRects[e.to];
 
       var fx = fr.left + fr.width/2 - wRect.left + wrap.scrollLeft;
       var fy = fr.top + fr.height/2 - wRect.top + wrap.scrollTop;
@@ -919,8 +943,10 @@
       path.setAttribute('d', d);
       path.setAttribute('class', 'git-path');
       path.setAttribute('data-tier', tier);
-      svg.appendChild(path);
+      fragment.appendChild(path);
     });
+
+    svg.appendChild(fragment);
   }
 
   // ── RENDER TIMELINE ──────────────────────────────────────────
