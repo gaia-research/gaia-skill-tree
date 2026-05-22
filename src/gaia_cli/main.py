@@ -34,6 +34,7 @@ from gaia_cli.commands.dev import (
     meta_evidence_command,
     meta_build_command,
     meta_audit_command,
+    meta_diff_command,
 )
 from gaia_cli.registry import (
     generated_output_dir,
@@ -1516,6 +1517,20 @@ def get_parser():
     dev_audit = dev_sub.add_parser('audit', help="Run registry maintenance linter")
     dev_audit.add_argument('--level', type=int, help="Filter audit by level threshold")
 
+    dev_diff = dev_sub.add_parser(
+        'diff',
+        help="Show substantive registry additions in a branch vs main (strips generated noise)",
+    )
+    dev_diff.add_argument(
+        'ref', nargs='?',
+        help="Branch or ref to compare (default: current branch). "
+             "Short names are auto-prefixed with origin/.",
+    )
+    dev_diff.add_argument(
+        '--base', default='origin/main',
+        help="Base ref to compare against (default: origin/main)",
+    )
+
     validate_parser = subparsers.add_parser('validate', help="Validate the Gaia registry")
     validate_parser.add_argument('--intake', action='store_true', help="Validate intake batches instead of canonical graph")
     validate_parser.add_argument('--meta-sync', action='store_true', help="Verify meta.json is in sync with gaia.json")
@@ -1676,6 +1691,8 @@ def main():
             meta_build_command(args)
         elif dev_cmd == 'audit':
             meta_audit_command(args)
+        elif dev_cmd == 'diff':
+            meta_diff_command(args)
         else:
             _, subparsers = get_parser()
             subparsers.choices['dev'].print_help()
