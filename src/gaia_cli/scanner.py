@@ -35,6 +35,8 @@ DEFAULT_EXCLUDED_EXTENSIONS = (
     ".gexf",
 )
 
+_SKILL_PATTERN = re.compile(r'/[a-z][a-z0-9]*(-[a-z0-9]+)*')
+
 
 def load_config():
     toml_path = '.gaia/config.toml'
@@ -69,14 +71,11 @@ def load_config():
 
 
 def scan_file_for_skills(filepath):
-    # Require a leading slash for skill detection (e.g. /summarize or /gaia-curate)
-    # This prevents capturing every common lowercase word as a skill.
-    skill_pattern = re.compile(r'/[a-z][a-z0-9]*(-[a-z0-9]+)*')
     found_skills = set()
     try:
         with open(filepath, 'r', encoding='utf-8') as f:
             content = f.read()
-            for match in skill_pattern.finditer(content):
+            for match in _SKILL_PATTERN.finditer(content):
                 found_skills.add(match.group(0))
     except Exception:
         pass

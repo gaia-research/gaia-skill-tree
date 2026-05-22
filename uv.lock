@@ -349,7 +349,7 @@ wheels = [
 
 [[package]]
 name = "gaia-cli"
-version = "3.21.4"
+version = "3.21.3"
 source = { editable = "." }
 dependencies = [
     { name = "jsonschema" },
