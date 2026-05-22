@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>4D ML Hyper-Atlas · Gaia Experiments</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --bg: #07090d; --panel: #0d1117; --ink: #e7eaf0; --muted: #8b95a7;
+    --rule: rgba(148, 163, 184, 0.18); --accent: #fbbf24;
+    --basic: #38bdf8; --extra: #c084fc; --unique: #7c3aed; --ultimate: #f59e0b;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); height: 100%; overflow-x: hidden; }
+  body { font-family: 'Bricolage Grotesque', sans-serif; display: flex; flex-direction: column; padding: 15px; }
+  header { margin-bottom: 10px; flex-shrink: 0; }
+  h1 { font-family: 'EB Garamond', serif; font-size: 28px; margin: 0; }
+  .lede { color: var(--muted); font-size: 13px; margin: 4px 0 0; }
+  
+  .grid { 
+    display: grid; 
+    grid-template-columns: 1fr;
+    gap: 15px; 
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-bottom: 80px;
+  }
+  
+  @media (min-width: 1024px) {
+    .grid { grid-template-columns: repeat(3, 1fr); overflow: hidden; }
+    body { overflow: hidden; }
+  }
+
+  .panel { 
+    background: var(--panel); 
+    border: 1px solid var(--rule); 
+    border-radius: 12px; 
+    padding: 10px; 
+    display: flex; 
+    flex-direction: column; 
+    min-height: 350px;
+  }
+  
+  .panel h2 { font-family: 'EB Garamond', serif; font-size: 18px; margin: 0 0 6px; }
+  .canvas-wrap { flex-grow: 1; background: #000; border-radius: 8px; overflow: hidden; position: relative; touch-action: none; }
+  canvas { width: 100%; height: 100%; display: block; cursor: grab; }
+  
+  .controls { 
+    position: fixed;
+    bottom: 15px;
+    left: 15px;
+    right: 15px;
+    padding: 10px; 
+    background: rgba(13, 17, 23, 0.9); 
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--rule); 
+    border-radius: 8px; 
+    display: flex; 
+    gap: 12px; 
+    font-size: 11px; 
+    z-index: 1000;
+    align-items: center;
+  }
+  
+  .nav-v1 { margin-left: auto; }
+  input[type="checkbox"] { accent-color: var(--accent); }
+
+  #tooltip {
+    position: fixed;
+    pointer-events: none;
+    background: rgba(0,0,0,0.9);
+    border: 1px solid var(--rule);
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    display: none;
+    z-index: 2000;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>4D ML Hyper-Atlas (V4)</h1>
+  <p class="lede">PCA 4D Projection. Rotating through the 4th Dimension (W). Conceptual depth revealed through Hyperspace.</p>
+</header>
+
+<div class="grid" id="grid">
+  <div class="panel">
+    <h2>Deterministic (4D Static)</h2>
+    <div class="canvas-wrap"><canvas id="canvas-deterministic"></canvas></div>
+  </div>
+  <div class="panel">
+    <h2>Spectral (4D Structural)</h2>
+    <div class="canvas-wrap"><canvas id="canvas-spectral"></canvas></div>
+  </div>
+  <div class="panel">
+    <h2>Semantic (4D Hyperspace)</h2>
+    <div class="canvas-wrap"><canvas id="canvas-semantic"></canvas></div>
+  </div>
+</div>
+
+<div class="controls">
+  <label><input type="checkbox" id="showEdges" checked> Edges</label>
+  <label><input type="checkbox" id="autoRotate" checked> Rotate 4D</label>
+  <label><input type="checkbox" id="colorByCluster"> Clusters</label>
+  <div class="nav-v1"><a href="index.html" style="color: var(--accent); text-decoration: none;">V1 (2D)</a></div>
+</div>
+
+<div id="tooltip"></div>
+
+<script>
+const TYPE_COLORS = { basic: '#38bdf8', extra: '#c084fc', unique: '#7c3aed', ultimate: '#f59e0b' };
+const CLUSTER_COLORS = ['#4e9bff','#f59e0b','#10b981','#ef4444','#a78bfa','#ec4899','#22d3ee','#fb7185'];
+
+const state = { 
+  data: null, 
+  ry: 0, rx: 0, rw: 0, 
+  dragging: false, lastX: 0, lastY: 0, 
+  showEdges: true, autoRotate: true, colorByCluster: false,
+  showHyperplanes: true, 
+  hoveredNode: null,
+  semanticDrag: 0.15,
+  focusedCluster: null,
+  decisionField: []
+};
+
+function generateDecisionField() {
+  const points = [];
+  const count = 5;
+  for (let x = -1.2; x <= 1.2; x += 2.4/count) {
+    for (let y = -1.2; y <= 1.2; y += 2.4/count) {
+      for (let z = -1.2; z <= 1.2; z += 2.4/count) {
+        points.push([x, y, z, 0]);
+      }
+    }
+  }
+  state.decisionField = points;
+}
+
+async function init() {
+  const res = await fetch('layouts_3d.json');
+  state.data = await res.json();
+  generateDecisionField();
+  ['deterministic', 'spectral', 'semantic'].forEach(k => setupCanvas(`canvas-${k}`, k));
+  
+  // UI: Decision Hyperplane Toggle
+  const ctrl = document.querySelector('.controls');
+  const hLabel = document.createElement('label');
+  hLabel.innerHTML = '<input type="checkbox" id="showPlanes" checked> Field';
+  hLabel.onchange = e => state.showHyperplanes = e.target.checked;
+  ctrl.insertBefore(hLabel, ctrl.querySelector('.nav-v1'));
+
+  requestAnimationFrame(loop);
+}
+
+const panels = [];
+function setupCanvas(id, key) {
+  const canvas = document.getElementById(id);
+  const ctx = canvas.getContext('2d');
+  panels.push({ canvas, ctx, key });
+  
+  const handleStart = (x, y) => { state.dragging = true; state.lastX = x; state.lastY = y; canvas.style.cursor = 'grabbing'; };
+  canvas.addEventListener('mousedown', e => handleStart(e.clientX, e.clientY));
+  canvas.addEventListener('touchstart', e => { if (e.touches.length === 1) handleStart(e.touches[0].clientX, e.touches[0].clientY); }, { passive: false });
+  canvas.addEventListener('mousemove', e => onMove(e.clientX, e.clientY, canvas, key));
+  canvas.addEventListener('touchmove', e => { if (e.touches.length === 1) { e.preventDefault(); onMove(e.touches[0].clientX, e.touches[0].clientY, canvas, key); } }, { passive: false });
+}
+
+function onMove(x, y, canvas, key) {
+  if (state.dragging) {
+    state.ry += (x - state.lastX) * 0.01;
+    state.rx += (y - state.lastY) * 0.01;
+    state.rw += (x - state.lastX) * 0.005; // Couple W rotation to horizontal drag
+    state.lastX = x; state.lastY = y;
+  } else {
+    const rect = canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    state.mx = (x - rect.left) * dpr; state.my = (y - rect.top) * dpr; state.hoverCanvas = canvas;
+  }
+}
+
+window.addEventListener('mouseup', () => { state.dragging = false; panels.forEach(p => p.canvas.style.cursor = 'grab'); });
+window.addEventListener('touchend', () => { state.dragging = false; panels.forEach(p => p.canvas.style.cursor = 'grab'); });
+
+document.getElementById('showEdges').onchange = e => state.showEdges = e.target.checked;
+document.getElementById('autoRotate').onchange = e => state.autoRotate = e.target.checked;
+document.getElementById('colorByCluster').onchange = e => state.colorByCluster = e.target.checked;
+
+// 4D Rotation Planes
+function rotXY(p, a) { const c = Math.cos(a), s = Math.sin(a); return [c*p[0]-s*p[1], s*p[0]+c*p[1], p[2], p[3]]; }
+function rotYZ(p, a) { const c = Math.cos(a), s = Math.sin(a); return [p[0], c*p[1]-s*p[2], s*p[1]+c*p[2], p[3]]; }
+function rotXW(p, a) { const c = Math.cos(a), s = Math.sin(a); return [c*p[0]-s*p[3], p[1], p[2], s*p[0]+c*p[3]]; }
+function rotYW(p, a) { const c = Math.cos(a), s = Math.sin(a); return [p[0], c*p[1]-s*p[3], p[2], s*p[1]+c*p[3]]; }
+
+function project4D(p, w, h) {
+  // 4D -> 3D Perspective Projection
+  const fov4 = 1.5;
+  const scale4 = fov4 / (fov4 + p[3]);
+  const x3 = p[0] * scale4, y3 = p[1] * scale4, z3 = p[2] * scale4;
+
+  // 3D -> 2D Perspective Projection
+  const fov3 = 400;
+  const offsetZ = z3 + 2.5;
+  const scale3 = fov3 / (fov3 * offsetZ);
+  return { 
+    x: w / 2 + x3 * fov3 * scale3, 
+    y: h / 2 + y3 * fov3 * scale3, 
+    scale: scale3 * scale4,
+    z: z3,
+    w: p[3]
+  };
+}
+
+function loop() {
+  if (state.autoRotate && !state.dragging) {
+    state.ry += 0.004;
+    state.rw += 0.002; // Slow 4th dimension drift
+  }
+  
+  const dpr = window.devicePixelRatio || 1;
+  const tt = document.getElementById('tooltip');
+  let currentHover = null;
+
+  panels.forEach(panel => {
+    const { canvas, ctx, key } = panel;
+    const sw = canvas.width = canvas.offsetWidth * dpr;
+    const sh = canvas.height = canvas.offsetHeight * dpr;
+    ctx.scale(dpr, dpr);
+    const w = canvas.offsetWidth, h = canvas.offsetHeight;
+    ctx.clearRect(0, 0, w, h);
+    
+    const projected = state.data.nodes.map(n => {
+      let p = n.positions[key];
+      p = rotXY(p, state.ry); p = rotYZ(p, state.rx);
+      p = rotXW(p, state.rw); p = rotYW(p, state.rw * 0.5);
+      return { ...project4D(p, w, h), node: n };
+    });
+
+    // ── DECISION FIELD: Visualize Hyperplanes ──
+    if (state.showHyperplanes && state.colorByCluster && key === 'semantic' && state.data.centroids) {
+      state.decisionField.forEach(gp => {
+        let p = rotXY(gp, state.ry); p = rotYZ(p, state.rx);
+        p = rotXW(p, state.rw); p = rotYW(p, state.rw * 0.5);
+        
+        let minDist = Infinity, closestIdx = 0;
+        state.data.centroids.forEach((c, idx) => {
+          let rc = rotXY(c, state.ry); rc = rotYZ(rc, state.rx);
+          rc = rotXW(rc, state.rw); rc = rotYW(rc, state.rw * 0.5);
+          const d = Math.hypot(p[0]-rc[0], p[1]-rc[1], p[2]-rc[2], p[3]-rc[3]);
+          if (d < minDist) { minDist = d; closestIdx = idx; }
+        });
+
+        const proj = project4D(p, w, h);
+        if (proj.scale > 0.3) {
+          ctx.fillStyle = CLUSTER_COLORS[closestIdx % 8];
+          ctx.globalAlpha = 0.08 * proj.scale;
+          ctx.fillRect(proj.x, proj.y, 1.5, 1.5);
+        }
+      });
+      ctx.globalAlpha = 1;
+    }
+    
+    projected.sort((a,b) => b.z - a.z);
+
+    if (state.showEdges) {
+      ctx.strokeStyle = 'rgba(255,255,255,0.05)'; ctx.lineWidth = 0.5;
+      const idToProj = {}; projected.forEach(p => idToProj[p.node.id] = p);
+      state.data.edges.forEach(e => {
+        const p1 = idToProj[e.source], p2 = idToProj[e.target];
+        if (p1 && p2) {
+          ctx.globalAlpha = Math.min(p1.scale, p2.scale);
+          ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
+        }
+      });
+      ctx.globalAlpha = 1;
+    }
+    
+    projected.forEach(p => {
+      const isHovered = state.hoverCanvas === canvas && Math.hypot(p.x * dpr - state.mx, p.y * dpr - state.my) < 15;
+      if (isHovered) currentHover = p.node;
+
+      const r = (isHovered ? 6 : 3.5) * p.scale;
+      ctx.fillStyle = state.colorByCluster ? CLUSTER_COLORS[p.node.cluster % 8] : (TYPE_COLORS[p.node.type] || '#fff');
+      
+      // Use both Z and W for alpha to create "Hyperspace" fog
+      const alpha = Math.min(1, Math.max(0.1, (p.z + 1.2) * (p.w + 1.2) / 2));
+      ctx.globalAlpha = alpha;
+      ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, Math.PI*2); ctx.fill();
+      
+      if (isHovered || p.scale > 1.2) {
+         ctx.fillStyle = '#fff'; ctx.font = '10px Bricolage Grotesque';
+         ctx.globalAlpha = 1;
+         ctx.fillText(p.node.name, p.x + 8, p.y + 3);
+      }
+      ctx.globalAlpha = 1;
+    });
+
+    if (state.colorByCluster && key === 'semantic') {
+      // Find cluster with highest W+Z prominence
+      let bestCluster = 0, bestScore = -Infinity;
+      state.data.nodes.forEach((n, i) => {
+        const score = projected[i].z + projected[i].w;
+        if (score > bestScore) { bestScore = score; bestCluster = n.cluster; }
+      });
+      const cName = state.data.clusterNames[bestCluster];
+      ctx.fillStyle = CLUSTER_COLORS[bestCluster % 8];
+      ctx.font = 'bold 12px Bricolage Grotesque';
+      ctx.textAlign = 'center';
+      ctx.fillText(`Hyper-Domain: ${cName}`, w/2, h - 20);
+      ctx.textAlign = 'left';
+    }
+  });
+
+  if (currentHover) {
+    tt.style.display = 'block';
+    tt.style.left = (state.lastX + 15) + 'px'; tt.style.top = (state.lastY + 15) + 'px';
+    const cName = currentHover.clusterName || `Cluster ${currentHover.cluster}`;
+    tt.innerHTML = `<strong>${currentHover.name}</strong><br>${currentHover.type}<br><span style="color: ${CLUSTER_COLORS[currentHover.cluster % 8]}">${cName}</span>`;
+  } else { tt.style.display = 'none'; }
+  
+  requestAnimationFrame(loop);
+}
+init();
+</script>
+</body>
+</html>
