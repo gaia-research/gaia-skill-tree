@@ -7606,6 +7606,48 @@
           "details": "Added B evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/prototype/SKILL.md"
         }
       ]
+    },
+    {
+      "id": "dify-agent-suite",
+      "name": "Dify Agent Suite",
+      "type": "extra",
+      "level": "1\u2605",
+      "rarity": "common",
+      "description": "An integrated suite of frontend, backend, testing, and review capabilities for the Dify LLM application development platform.",
+      "prerequisites": [
+        "code-review-pipeline",
+        "refactor-code",
+        "automated-testing",
+        "e2e-testing"
+      ],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/langgenius/dify",
+          "evaluator": "jules",
+          "date": "2026-05-20"
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-20",
+      "updatedAt": "2026-05-20",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-20T23:14:03Z",
+          "action": "add",
+          "contributor": "gaiabot",
+          "details": "Added generic skill dify-agent-suite"
+        },
+        {
+          "timestamp": "2026-05-20T23:14:48Z",
+          "action": "evidence_added",
+          "contributor": "gaiabot",
+          "details": "Added B evidence from https://github.com/langgenius/dify"
+        }
+      ]
     }
   ],
   "edges": [
@@ -9182,6 +9224,26 @@
     {
       "sourceSkillId": "writing-plans",
       "targetSkillId": "superpowers",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "automated-testing",
+      "targetSkillId": "dify-agent-suite",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "code-review-pipeline",
+      "targetSkillId": "dify-agent-suite",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "e2e-testing",
+      "targetSkillId": "dify-agent-suite",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "refactor-code",
+      "targetSkillId": "dify-agent-suite",
       "edgeType": "prerequisite"
     }
   ]
