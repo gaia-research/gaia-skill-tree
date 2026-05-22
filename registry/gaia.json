@@ -9245,6 +9245,156 @@
       "sourceSkillId": "refactor-code",
       "targetSkillId": "dify-agent-suite",
       "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "agent-environment-setup",
+      "targetSkillId": "mattpocock-engineering",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "agent-handoff",
+      "targetSkillId": "mattpocock-productivity",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "autonomous-debug",
+      "targetSkillId": "mattpocock-engineering",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "code-execution",
+      "targetSkillId": "prototype",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "code-explain",
+      "targetSkillId": "mattpocock-engineering",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "code-generation",
+      "targetSkillId": "prototype",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "context-compression",
+      "targetSkillId": "agent-handoff",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "context-compression",
+      "targetSkillId": "mattpocock-productivity",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "context-compression",
+      "targetSkillId": "personal-knowledge-management",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "document-editing",
+      "targetSkillId": "agent-environment-setup",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "document-editing",
+      "targetSkillId": "agent-handoff",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "document-editing",
+      "targetSkillId": "mattpocock-personal",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "grill-me",
+      "targetSkillId": "mattpocock-productivity",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "grill-with-docs",
+      "targetSkillId": "mattpocock-engineering",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "issue-triage",
+      "targetSkillId": "mattpocock-engineering",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "mattpocock-engineering",
+      "targetSkillId": "mattpocock-skills",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "mattpocock-personal",
+      "targetSkillId": "mattpocock-skills",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "mattpocock-productivity",
+      "targetSkillId": "mattpocock-skills",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "personal-knowledge-management",
+      "targetSkillId": "mattpocock-personal",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "prd-generation",
+      "targetSkillId": "mattpocock-engineering",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "prototype",
+      "targetSkillId": "mattpocock-engineering",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "refactor-code",
+      "targetSkillId": "mattpocock-engineering",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "retrieve",
+      "targetSkillId": "personal-knowledge-management",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "summarize",
+      "targetSkillId": "agent-handoff",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "tool-creation",
+      "targetSkillId": "mattpocock-productivity",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "tool-creation",
+      "targetSkillId": "mattpocock-skills",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "tool-use",
+      "targetSkillId": "agent-environment-setup",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "ubiquitous-language",
+      "targetSkillId": "mattpocock-engineering",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "ubiquitous-language",
+      "targetSkillId": "mattpocock-skills",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "vertical-slice-planning",
+      "targetSkillId": "mattpocock-engineering",
+      "edgeType": "prerequisite"
     }
   ]
 }
