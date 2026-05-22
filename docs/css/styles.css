@@ -857,6 +857,17 @@ h1 em {
   border: none;
 }
 
+.btn:focus-visible,
+.btn-ghost:focus-visible,
+.mr-tab:focus-visible,
+.ns-tab:focus-visible,
+.os-tab:focus-visible,
+.se-tab-btn:focus-visible,
+.se-flow-btn:focus-visible {
+  outline: 2px solid var(--tier-extra);
+  outline-offset: 2px;
+}
+
 .btn-primary {
   background: var(--apex-gold);
   color: var(--bg);
