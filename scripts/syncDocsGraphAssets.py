@@ -8,6 +8,7 @@ static page needs to fetch or download.
 
 from __future__ import annotations
 
+import json
 import shutil
 import sys
 from pathlib import Path
@@ -47,11 +48,35 @@ def sync_docs_graph_assets(root: Path = ROOT) -> None:
             ". Run scripts/exportGexf.py and scripts/renderGraphSvg.py first."
         )
 
+    # Load layout nodes once so we can enrich gaia.json during the copy.
+    # Prefer the live generated artifact; fall back to the committed registry
+    # copy so CI (which has no generated-output/) can still enrich the graph.
+    layouts_src = root / "generated-output" / "layouts.json"
+    layout_nodes = {}
+    if layouts_src.exists():
+        layout_nodes = json.loads(layouts_src.read_text(encoding="utf-8"))
+    else:
+        committed_src = root / "registry" / "layouts_3d.json"
+        if committed_src.exists():
+            layout_nodes = json.loads(committed_src.read_text(encoding="utf-8")).get("nodes", {})
+
     for rel in required:
         src = root / rel
         dst = docs_graph / src.name
-        shutil.copyfile(src, dst)
-        print(f"Synced {src.relative_to(root)} -> {dst.relative_to(root)}")
+        if src.name == "gaia.json" and layout_nodes:
+            # Enrich the docs copy with per-skill cluster/positions from the
+            # generated layout artifact. registry/gaia.json stays schema-clean.
+            gaia_data = json.loads(src.read_text(encoding="utf-8"))
+            for skill in gaia_data.get("skills", []):
+                sid = skill.get("id")
+                if sid in layout_nodes:
+                    skill["cluster"] = layout_nodes[sid]["cluster"]
+                    skill["positions"] = layout_nodes[sid]["positions"]
+            dst.write_text(json.dumps(gaia_data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+            print(f"Synced+enriched {src.relative_to(root)} -> {dst.relative_to(root)}")
+        else:
+            shutil.copyfile(src, dst)
+            print(f"Synced {src.relative_to(root)} -> {dst.relative_to(root)}")
 
     tree_src = root / "generated-output" / "tree.md"
     if not tree_src.exists():

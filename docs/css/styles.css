@@ -40,6 +40,15 @@
   --font-body: 'Bricolage Grotesque', Inter, system-ui, sans-serif;
   --font-mono: 'Departure Mono', 'JetBrains Mono', ui-monospace, monospace;
   --diamond-seal-stroke: 1.5;
+  /* ── Cluster palette (8 semantic groups, read by skill-graph.js) ── */
+  --cluster-0: #4e9bff;
+  --cluster-1: #f0a030;
+  --cluster-2: #10b981;
+  --cluster-3: #ef4444;
+  --cluster-4: #b088f9;
+  --cluster-5: #ec4899;
+  --cluster-6: #22d3ee;
+  --cluster-7: #fb7185;
 }
 
 /* ============================================================
@@ -760,6 +769,19 @@ button.nav-copy-agent {
 .graph-action-btn:hover {
   background: rgba(255, 255, 255, 0.15);
   color: #fff;
+}
+
+.graph-action-btn.active {
+  background: var(--tier-basic-bg);
+  color: var(--tier-basic);
+  border-color: var(--tier-basic-border);
+}
+
+.graph-atlas-controls {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin-left: auto;
 }
 
 .graph-hud-toggle-btn {
@@ -2992,28 +3014,31 @@ tr:hover td {
   border-top: 1px solid var(--border);
 }
 
-.graph-pause-btn {
-  flex: 0 0 52px;
+.graph-pause-btn,
+.graph-reset-btn,
+.graph-random-btn {
+  flex: 0 0 44px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.1rem;
   color: rgba(148, 163, 184, .65);
   background: transparent;
   border: none;
   border-right: 1px solid var(--border);
   cursor: pointer;
   transition: color .15s, background .15s;
-  font-family: var(--font-mono);
 }
 
-.graph-pause-btn:hover {
+.graph-pause-btn:hover,
+.graph-reset-btn:hover,
+.graph-random-btn:hover {
   color: var(--text);
   background: rgba(255, 255, 255, .04)
 }
 
-.graph-pause-btn.active {
-  color: var(--tier-basic)
+.graph-pause-btn.active,
+.graph-random-btn.active {
+  color: var(--honor-red);
 }
 
 .graph-bottom-btn {
@@ -3152,56 +3177,57 @@ tr:hover td {
 .graph-skill-panel {
   position: absolute;
   z-index: 20;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   width: 320px;
   max-width: 85%;
-  background: rgba(3, 7, 18, .95);
+  background: rgba(3, 7, 18, .85);
   backdrop-filter: blur(14px);
-  border: 1px solid rgba(148, 163, 184, .2);
+  border: 1px solid rgba(var(--honor-red-rgb), .45);
   border-radius: .75rem;
   display: none;
   flex-direction: column;
-  box-shadow: 0 8px 40px rgba(0, 0, 0, .6), 0 0 0 1px rgba(56, 189, 248, .08);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, .6), 0 0 0 1px rgba(var(--honor-red-rgb), .08);
   overflow: hidden;
+  font-family: var(--font-mono);
 }
 
 .graph-skill-panel-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: .42rem .65rem .25rem;
+  padding: .75rem 1rem .5rem;
   flex-shrink: 0;
+  border-bottom: 1px solid rgba(var(--honor-red-rgb), .15);
 }
 
 .graph-skill-panel-close {
   background: transparent;
   border: none;
-  color: rgba(148, 163, 184, .5);
+  color: var(--honor-red);
   font-size: 1.1rem;
   padding: .1rem .4rem;
   cursor: pointer;
-  transition: color .15s;
+  transition: opacity .15s;
   font-family: inherit;
   line-height: 1;
+  opacity: .7;
 }
 
 .graph-skill-panel-close:hover {
-  color: var(--text)
+  opacity: 1;
 }
 
 .graph-skill-panel-body {
-  padding: .35rem .7rem .65rem;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
-  gap: .22rem;
+  gap: .75rem;
 }
 
 .graph-skill-panel-name {
-  font-size: .92rem;
+  font-size: .95rem;
   font-weight: 800;
-  line-height: 1.15
+  line-height: 1.2;
+  color: var(--honor-red);
 }
 
 .graph-skill-panel-named-id {
@@ -3212,6 +3238,8 @@ tr:hover td {
   display: inline-flex;
   flex-wrap: wrap;
   gap: 0;
+  color: var(--honor-red);
+  opacity: .85;
 }
 
 .graph-skill-panel-named-id .gst-named-handle {
@@ -3311,21 +3339,21 @@ tr:hover td {
      Saved-skill cards render as .plaque--mini per Stage 3. */
 .graph-collection-panel {
   position: absolute;
-  top: 60px;
-  left: 52px; /* Scoot to the right to not overlap the vertical Spread slider (52px wide) */
-  bottom: auto;
-  z-index: 20;
-  width: 216px; /* 200px plaques + 8px padding on both sides */
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-top: none; /* Keep flush under top navigation header */
-  border-radius: 0 0 .5rem .5rem; /* Elegant folder-like rounded corners on both bottom sides */
-  box-shadow: 6px 6px 24px rgba(0, 0, 0, .45);
+  z-index: 30;
+  width: 240px;
+  background: rgba(3, 7, 18, .62);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(148, 163, 184, .2);
+  border-radius: .75rem;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, .6);
   display: none;
   flex-direction: column;
   overflow: hidden;
-  max-height: calc(100vh - 112px); /* Floating top-left panel that fits the entire available viewport height! */
-  transition: max-height 0.3s cubic-bezier(0.16, 1, 0.3, 1), height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  max-height: 85vh;
+}
+
+#hero.hud-hidden [data-interactive-chrome] {
+  display: none !important;
 }
 
 .graph-collection-panel.minimized {
