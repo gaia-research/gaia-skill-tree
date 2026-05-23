@@ -151,3 +151,130 @@ def test_meta_add_extra_fields_non_dict_warns(tmp_path, monkeypatch, capsys):
     main()
     captured = capsys.readouterr()
     assert "Warning" in captured.out or "Warning" in captured.err
+
+
+# ---------------------------------------------------------------------------
+# update-named tests
+# ---------------------------------------------------------------------------
+
+def write_named_skill(named_dir: Path, skill_id: str, extra_body: str = "") -> Path:
+    """Write a minimal named skill .md file and return its path."""
+    contributor, slug = skill_id.split("/", 1)
+    skill_dir = named_dir / contributor
+    skill_dir.mkdir(parents=True, exist_ok=True)
+    path = skill_dir / f"{slug}.md"
+    path.write_text(
+        f"---\nid: {skill_id}\nname: Test Skill\ncontributor: {contributor}\n"
+        f"origin: true\ngenericSkillRef: skill-a\nstatus: named\nlevel: 2★\n"
+        f"description: A test skill for unit tests.\n---\n{extra_body}",
+        encoding="utf-8",
+    )
+    return path
+
+
+def test_update_named_suite_ref(tmp_path, monkeypatch):
+    """--suite-ref writes suiteRef to frontmatter."""
+    write_fixture_registry(tmp_path)
+    write_named_skill(tmp_path / "registry" / "named", "alice/named-a")
+    monkeypatch.setattr(sys, "argv", [
+        "gaia", "--registry", str(tmp_path),
+        "dev", "update-named", "alice/named-a",
+        "--suite-ref", "alice/capstone-suite",
+        "--no-build",
+    ])
+    main()
+
+    import yaml
+    content = (tmp_path / "registry" / "named" / "alice" / "named-a.md").read_text(encoding="utf-8")
+    _, frontmatter, _ = content.split("---", 2)
+    meta = yaml.safe_load(frontmatter)
+    assert meta.get("suiteRef") == "alice/capstone-suite"
+
+
+def test_update_named_installation_file_append(tmp_path, monkeypatch):
+    """--installation-file appends ## Installation when not present."""
+    write_fixture_registry(tmp_path)
+    write_named_skill(tmp_path / "registry" / "named", "alice/named-a")
+
+    install_md = tmp_path / "setup.md"
+    install_md.write_text("Run `pip install gaia` to get started.", encoding="utf-8")
+
+    monkeypatch.setattr(sys, "argv", [
+        "gaia", "--registry", str(tmp_path),
+        "dev", "update-named", "alice/named-a",
+        "--installation-file", str(install_md),
+        "--no-build",
+    ])
+    main()
+
+    content = (tmp_path / "registry" / "named" / "alice" / "named-a.md").read_text(encoding="utf-8")
+    assert "## Installation" in content
+    assert "pip install gaia" in content
+
+
+def test_update_named_installation_file_replace(tmp_path, monkeypatch):
+    """--installation-file replaces an existing ## Installation section."""
+    write_fixture_registry(tmp_path)
+    write_named_skill(
+        tmp_path / "registry" / "named", "alice/named-a",
+        extra_body="\n## Installation\n\nOld content here.\n\n## Usage\n\nSome usage.\n",
+    )
+
+    install_md = tmp_path / "setup.md"
+    install_md.write_text("New installation instructions.", encoding="utf-8")
+
+    monkeypatch.setattr(sys, "argv", [
+        "gaia", "--registry", str(tmp_path),
+        "dev", "update-named", "alice/named-a",
+        "--installation-file", str(install_md),
+        "--no-build",
+    ])
+    main()
+
+    content = (tmp_path / "registry" / "named" / "alice" / "named-a.md").read_text(encoding="utf-8")
+    assert "New installation instructions." in content
+    assert "Old content here." not in content
+    # Sibling section must be preserved
+    assert "## Usage" in content
+
+
+def test_update_named_installation_file_missing(tmp_path, monkeypatch):
+    """--installation-file with a non-existent path exits with code 1."""
+    write_fixture_registry(tmp_path)
+    write_named_skill(tmp_path / "registry" / "named", "alice/named-a")
+
+    monkeypatch.setattr(sys, "argv", [
+        "gaia", "--registry", str(tmp_path),
+        "dev", "update-named", "alice/named-a",
+        "--installation-file", str(tmp_path / "does-not-exist.md"),
+        "--no-build",
+    ])
+    with pytest.raises(SystemExit) as exc_info:
+        main()
+    assert exc_info.value.code != 0
+
+
+def test_replace_section_unit():
+    """_replace_section unit tests covering replace and append paths."""
+    from gaia_cli.commands.dev import _replace_section
+
+    # Replace existing section; sibling heading preserved
+    body = "\n## Installation\n\nOld text.\n\n## Usage\n\nHello.\n"
+    result = _replace_section(body, "Installation", "New text.")
+    assert "New text." in result
+    assert "Old text." not in result
+    assert "## Usage" in result
+
+    # Append when section is absent
+    body_no_section = "\n## Usage\n\nHello.\n"
+    result2 = _replace_section(body_no_section, "Installation", "Appended.")
+    assert "## Installation" in result2
+    assert "Appended." in result2
+    # Original content intact
+    assert "## Usage" in result2
+
+    # Code comment constraint: bare ## inside content is NOT fence-aware
+    # (this test documents the known limitation rather than asserting correct behaviour)
+    body_with_fence = "\n## Installation\n\n```bash\necho hi\n```\n\n## Next\n\nText.\n"
+    result3 = _replace_section(body_with_fence, "Installation", "Replacement.")
+    assert "Replacement." in result3
