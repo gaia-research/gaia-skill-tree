@@ -1,5 +1,10 @@
 # Skill Demerit Criteria Implementation Plan
 
+> **Superseded (May 2026):** The `registry/skills/basic/`, `registry/skills/extra/`, and
+> `registry/skills/ultimate/` paths referenced in this document were removed in the May 2026
+> registry reorganization. Canonical skill data now lives under `registry/nodes/`. This document
+> is preserved for historical reference only.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Add canonical skill demerit criteria that lower a 2★+ skill's progression ceiling by one level per demerit, while preserving the existing evidence-backed `level` field as the source-of-truth claim.
