@@ -12,6 +12,8 @@ description: Scaffolds per-repo configuration for other engineering skills (like
 createdAt: '2026-05-21'
 updatedAt: '2026-05-21'
 suiteRef: "mattpocock/engineering"
+links:
+  github: https://github.com/mattpocock/skills/blob/main/skills/engineering/setup-matt-pocock-skills
 ---
 
 ## Installation

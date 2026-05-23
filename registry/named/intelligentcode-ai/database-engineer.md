@@ -2,7 +2,9 @@
 id: intelligentcode-ai/database-engineer
 name: Database Engineer
 contributor: intelligentcode-ai
-origin: https://github.com/intelligentcode-ai/skills/blob/main/skills/database-engineer/SKILL.md
+origin: false
+links:
+  github: https://github.com/intelligentcode-ai/skills/blob/main/skills/database-engineer/SKILL.md
 genericSkillRef: schema-design
 status: awakened
 level: "2★"

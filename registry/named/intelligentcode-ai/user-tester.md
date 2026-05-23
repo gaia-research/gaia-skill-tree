@@ -2,7 +2,9 @@
 id: intelligentcode-ai/user-tester
 name: User Tester
 contributor: intelligentcode-ai
-origin: https://github.com/intelligentcode-ai/skills/blob/main/skills/user-tester/SKILL.md
+origin: false
+links:
+  github: https://github.com/intelligentcode-ai/skills/blob/main/skills/user-tester/SKILL.md
 genericSkillRef: e2e-testing
 status: awakened
 level: "3★"
