@@ -124,6 +124,21 @@ def _find_named_file(named_dir, skill_id):
             return p
     return None
 
+def _replace_section(body: str, section_heading: str, new_content: str) -> str:
+    """Replace (or append) a top-level markdown section in the body text.
+
+    Matches ``## {section_heading}`` through the next ``##``-level heading
+    or end-of-string, then substitutes new_content.  If the section is not
+    found it is appended.
+    """
+    import re
+    pattern = rf"(##\s+{re.escape(section_heading)}\s*\n)(.*?)(?=\n##\s|\Z)"
+    replacement = rf"\g<1>{new_content}\n"
+    result, n = re.subn(pattern, replacement, body, flags=re.DOTALL)
+    if n == 0:
+        result = body.rstrip("\n") + f"\n\n## {section_heading}\n\n{new_content}\n"
+    return result
+
 def _update_named_skill_ref(md_path: Path, old_ref: str, new_ref: str):
     """Update genericSkillRef in a named skill markdown file."""
     meta, body = _parse_md(md_path)
@@ -924,7 +939,20 @@ def meta_update_named_command(args):
     if getattr(args, "suite_components", None):
         meta["suiteComponents"] = [s.strip() for s in args.suite_components.split(",")]
         changed = True
-        
+
+    if getattr(args, "suite_ref", None):
+        meta["suiteRef"] = args.suite_ref
+        changed = True
+
+    if getattr(args, "installation_file", None):
+        install_path = Path(args.installation_file)
+        if not install_path.exists():
+            print(f"Error: Installation file '{install_path}' not found.")
+            sys.exit(1)
+        new_content = install_path.read_text(encoding="utf-8").strip()
+        body = _replace_section(body, "Installation", new_content)
+        changed = True
+
     if changed:
         meta["updatedAt"] = datetime.date.today().isoformat()
         _write_md(target_file, meta, body)
