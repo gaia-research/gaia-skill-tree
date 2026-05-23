@@ -11,3 +11,8 @@
 **Vulnerability:** Found a command injection vulnerability in `.agents/skills/graphify-triage/scripts/triage.py` where `subprocess.run` was called with `shell=True` and string interpolated arguments for `gh issue create`.
 **Learning:** `shell=True` allows injection via specially crafted string inputs (like issue titles or bodies).
 **Prevention:** Avoid using `shell=True` unless absolutely necessary, and construct subprocess commands safely using an argument list instead of string interpolation to rely on argument escaping.
+
+## 2026-05-23 - XSS Vulnerability in skill-graph.js Tooltips
+**Vulnerability:** Found multiple instances of `innerHTML` being set with unsanitized data (e.g. `skill.name`, `skill.id`) in `docs/js/skill-graph.js`, specifically when rendering tooltips, neighbor cards, and the skill panel.
+**Learning:** While the primary data source (`graph/gaia.json`) is considered trusted registry data, relying solely on upstream data trust creates a defense-in-depth gap. If the registry data generation is compromised or modified to contain malicious HTML, the UI will execute it.
+**Prevention:** Always implement and use an HTML escaping function (like `esc`) when dynamically building HTML strings for `innerHTML`, even if the data source is nominally "trusted".
