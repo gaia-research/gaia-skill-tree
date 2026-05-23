@@ -127,6 +127,16 @@ Available gstack skills:
 
 ## Agent-Managed Files (Hermes Ownership)
 
+## Known Graph Issues
+
+**`docs/js/skill-graph.js` bootstrap guard** (fixed in PR #365 `9fa66b8`): Any `querySelector(...).addEventListener(...)` call at module bootstrap level will silently abort the entire IIFE if the selector returns null, causing the canvas to fall back to the embedded `FALLBACK_SKILLS` (~18 legacy nodes) instead of fetching `docs/graph/gaia.json`. Always null-check overlay button selectors before wiring events. Grep for `_graphCloseOverlay.querySelector` if the 3D graph regresses to fallback mode.
+
+**Stale `skills/` root directory** (removed in PR #365 `96c44df`): a pre-merge snapshot (`gaia.json v2.1.4`, 2026-04-30) that carried the legacy id `autonomous-research-agent` at `[VI · Transcendent ★]` with double-misencoded star glyphs. Do not recreate it; canonical data lives under `registry/` and `docs/graph/gaia.json`.
+
+---
+
+## Agent-Managed Files (Hermes Ownership)
+
 The following files are managed by an autonomous agent (Hermes) and should **not** be modified, staged, or deleted:
 
 - `STEWARDSHIP_PLAN.md`
