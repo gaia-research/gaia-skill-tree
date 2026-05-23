@@ -166,9 +166,11 @@ The install pipeline reads `meta.get("links", {}).get("github")` and nothing els
 | `links.arxiv:` | add `links.github:` alongside (keep arxiv) |
 | `origin: https://...` | move URL to `links.github:`, set `origin: false` |
 
-### 4. 2★-and-below skills may legitimately have no `links.github`
+### 4. Suites never need `links.github` — do not flag them as uninstallable
 
-These are "registry-only" entries — kept for catalog completeness, not installability. Mark them `installable: false` in frontmatter and do not attempt web research on repeated audit passes. See **CONTRIBUTING.md §12** for the full exempt list and the demotion rule for 3★+ skills with missing links.
+Any skill with `suiteComponents` (e.g. `mattpocock/skills`, `garrytan/gstack`) installs by iterating its components. It has no installation directory of its own and does not need `links.github`. Only **non-suite** individual skills need `links.github`.
+
+For non-suite skills at 2★ or below with no known public repo: mark `installable: false` in frontmatter and do not re-research on repeated audit passes. See **CONTRIBUTING.md §12** for the full exempt list and the 3★+ demotion rule.
 
 ### 5. Suite component links need subpaths
 
