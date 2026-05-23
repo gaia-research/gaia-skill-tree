@@ -130,6 +130,16 @@ def _replace_section(body: str, section_heading: str, new_content: str) -> str:
     Matches ``## {section_heading}`` through the next ``##``-level heading
     or end-of-string, then substitutes new_content.  If the section is not
     found it is appended.
+
+    .. warning::
+        The lookahead ``(?=\\n##\\s|\\Z)`` is not fenced-code-block-aware.
+        A ``## Heading`` line *inside* a fenced code block (e.g. a HEREDOC
+        example) will be treated as a real section boundary, causing the
+        replacement to truncate too early.  This is acceptable for the
+        current named-skill corpus (no production file has bare ``## ``
+        lines inside Installation fences), but callers should avoid
+        embedding bare ``## `` lines inside fenced blocks in the
+        ``new_content`` they pass in.
     """
     import re
     pattern = rf"(##\s+{re.escape(section_heading)}\s*\n)(.*?)(?=\n##\s|\Z)"
@@ -957,6 +967,17 @@ def meta_update_named_command(args):
         meta["updatedAt"] = datetime.date.today().isoformat()
         _write_md(target_file, meta, body)
         print(f"Updated named skill frontmatter: {target_file}")
+
+        # Record timeline events for mutations that affect suite topology or content.
+        registry_path = args.registry
+        contributor = _get_contributor()
+        if getattr(args, "suite_ref", None):
+            append_skill_event(skill_id, "suite_ref_set", contributor,
+                               f"Set suiteRef to {args.suite_ref}", registry_path=registry_path)
+        if getattr(args, "installation_file", None):
+            append_skill_event(skill_id, "installation_updated", contributor,
+                               f"Replaced ## Installation section from {args.installation_file}",
+                               registry_path=registry_path)
         
         if not getattr(args, "no_build", False):
             print("Regenerating registry and documentation...")

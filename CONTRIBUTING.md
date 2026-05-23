@@ -302,23 +302,22 @@ Use `gaia dev` commands — do not edit files manually or invoke build scripts d
 
 1. **Set suiteComponents on the capstone skill:**
    ```bash
-   gaia dev update-named garrytan/gstack \
+   gaia dev update-named garrytan/gstack --no-build \
      --suite-components "garrytan/browse,garrytan/cso,garrytan/design-review,garrytan/garrytan,garrytan/office-hours"
    ```
 
 2. **Link each constituent skill back to the capstone:**
    ```bash
-   gaia dev update-named garrytan/browse --suite-ref garrytan/gstack
-   gaia dev update-named garrytan/cso    --suite-ref garrytan/gstack
+   gaia dev update-named garrytan/browse --suite-ref garrytan/gstack --no-build
+   gaia dev update-named garrytan/cso    --suite-ref garrytan/gstack --no-build
    # …repeat for each component
    ```
 
 3. **Replace the `## Installation` section from a markdown file:**
    ```bash
-   gaia dev update-named garrytan/gstack --installation-file path/to/setup-guide.md
+   gaia dev update-named garrytan/gstack --installation-file path/to/setup-guide.md --no-build
+   gaia dev build   # single rebuild after all edits are complete
    ```
-   The CLI automatically rebuilds docs after each command. Use `--no-build` on intermediate
-   steps and run `gaia dev build` once at the end when batching multiple changes.
 
 4. **Validate and open the PR:**
    ```bash
