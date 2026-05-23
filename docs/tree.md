@@ -2,7 +2,7 @@
 
 ```
 ══════════════════════════════════════════════════════════════════════
-GAIA SKILL TREE  v3.23.3  ·  generated 2026-05-22
+GAIA SKILL TREE  v3.23.3  ·  generated 2026-05-23
 ══════════════════════════════════════════════════════════════════════
 ◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = stars · [0★ · Pure] = Unawakened rank pill · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -329,4 +329,4 @@ Basics — basic-tier skills not wired into an upgrade path yet.  (0★ skills c
   ○ ruvnet/worker-integration  [2★]
 ```
 
-*Generated from gaia.json on 2026-05-22. Do not edit directly.*
+*Generated from gaia.json on 2026-05-23. Do not edit directly.*
