@@ -23,7 +23,7 @@
           "mocking"
         ],
         "links": {
-          "github": "https://github.com/aiskillstore/marketplace"
+          "github": "https://github.com/aiskillstore/marketplace/blob/main/skills/0xdarkmatter/python-pytest-patterns"
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
@@ -968,6 +968,9 @@
         "level": "3★",
         "description": "An ultra-compressed communication mode designed to save tokens by dropping",
         "title": "The Caveman Console",
+        "links": {
+          "github": "https://github.com/mattpocock/skills/blob/main/skills/productivity/caveman"
+        },
         "createdAt": "2026-05-21",
         "updatedAt": "2026-05-21",
         "suiteRef": "mattpocock/productivity",
@@ -2524,6 +2527,9 @@
         "level": "4★",
         "description": "Compacts the current conversation into a summary for a fresh agent to",
         "title": "The Handoff Protocol",
+        "links": {
+          "github": "https://github.com/mattpocock/skills/blob/main/skills/productivity/handoff"
+        },
         "createdAt": "2026-05-21",
         "updatedAt": "2026-05-21",
         "suiteRef": "mattpocock/productivity",
@@ -2573,6 +2579,9 @@
         "level": "3★",
         "description": "Manage notes and organization in a specific Obsidian vault using Title",
         "title": "The Obsidian Vault Mapper",
+        "links": {
+          "github": "https://github.com/mattpocock/skills/blob/main/skills/personal/obsidian-vault"
+        },
         "createdAt": "2026-05-21",
         "updatedAt": "2026-05-21",
         "suiteRef": "mattpocock/personal",
@@ -2640,6 +2649,9 @@
         "level": "3★",
         "description": "Build throwaway prototypes to answer specific design or logic questions",
         "title": "The Prototyping Engine",
+        "links": {
+          "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/prototype"
+        },
         "createdAt": "2026-05-21",
         "updatedAt": "2026-05-21",
         "suiteRef": "mattpocock/engineering",
@@ -2659,6 +2671,9 @@
         "level": "3★",
         "description": "Scaffolds per-repo configuration for other engineering skills (like triage,",
         "title": "The Environment Scaffolder",
+        "links": {
+          "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/setup-matt-pocock-skills"
+        },
         "createdAt": "2026-05-21",
         "updatedAt": "2026-05-21",
         "suiteRef": "mattpocock/engineering",
@@ -4609,7 +4624,7 @@
         "packaging"
       ],
       "links": {
-        "repo": "https://github.com/mbtiongson1/gaia-skill-tree"
+        "github": "https://github.com/mbtiongson1/gaia-skill-tree"
       },
       "createdAt": "2026-05-10",
       "updatedAt": "2026-05-10",
@@ -4632,7 +4647,7 @@
         "repo-maintenance"
       ],
       "links": {
-        "docs": "https://github.com/mbtiongson1/gaia-skill-tree#docs"
+        "github": "https://github.com/mbtiongson1/gaia-skill-tree"
       },
       "createdAt": "2026-05-01",
       "updatedAt": "2026-05-03",
@@ -4647,6 +4662,9 @@
       "status": "awakened",
       "level": "4★",
       "description": "Retrieve and analyze AlphaFold predicted structures for a protein. Use",
+      "links": {
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze"
+      },
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "extra"
@@ -4660,6 +4678,9 @@
       "status": "awakened",
       "level": "3★",
       "description": "Analyzes genetic variant effects on gene expression (RNA-seq), chromatin",
+      "links": {
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/alphagenome_single_variant_analysis"
+      },
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "extra"
@@ -4673,6 +4694,9 @@
       "status": "awakened",
       "level": "2★",
       "description": "Query the ChEMBL database for bioactive molecules, drug targets, bioactivity",
+      "links": {
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/chembl_database"
+      },
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -4686,6 +4710,9 @@
       "status": "awakened",
       "level": "2★",
       "description": "Query ClinicalTrials.gov via APIv2. Use when you want to search for trials",
+      "links": {
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/clinical_trials_database"
+      },
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -4699,6 +4726,9 @@
       "status": "awakened",
       "level": "2★",
       "description": "Use when needing clinical significance, pathogenicity classifications",
+      "links": {
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/clinvar_database"
+      },
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -4712,6 +4742,9 @@
       "status": "awakened",
       "level": "2★",
       "description": "Use when you want to look up, map, and search for short genetic variants",
+      "links": {
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/dbsnp_database"
+      },
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -4725,6 +4758,9 @@
       "status": "awakened",
       "level": "2★",
       "description": "Query and search the EMBL-EBI Ontology Lookup Service (OLS) for biomedical",
+      "links": {
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/embl_ebi_ols"
+      },
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -4738,6 +4774,9 @@
       "status": "awakened",
       "level": "2★",
       "description": "Query the ENCODE Registry of cis-Regulatory Elements (cCREs) via the",
+      "links": {
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/encode_ccres_database"
+      },
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -4751,6 +4790,9 @@
       "status": "awakened",
       "level": "2★",
       "description": "Query the Ensembl database to resolve gene, transcript, and protein IDs,",
+      "links": {
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/ensembl_database"
+      },
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -4764,6 +4806,9 @@
       "status": "awakened",
       "level": "2★",
       "description": "Performs 3D structural searches of proteins against various databases",
+      "links": {
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/foldseek_structural_search"
+      },
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -4777,6 +4822,9 @@
       "status": "awakened",
       "level": "2★",
       "description": "Query the Genome Aggregation Database (gnomAD). Use when determining",
+      "links": {
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/gnomad_database"
+      },
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -4790,6 +4838,9 @@
       "status": "awakened",
       "level": "2★",
       "description": "Use when you want to retrieve quantitative RNA expression data and variant",
+      "links": {
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/gtex_database"
+      },
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -4803,6 +4854,9 @@
       "status": "awakened",
       "level": "2★",
       "description": "Use when you want to retrieve semi-quantitative protein expression and",
+      "links": {
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/human_protein_atlas_database"
+      },
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -4816,6 +4870,9 @@
       "status": "awakened",
       "level": "2★",
       "description": "Identify domains, families, and sites in proteins; find all proteins",
+      "links": {
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/interpro_database"
+      },
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -4829,6 +4886,9 @@
       "status": "awakened",
       "level": "2★",
       "description": "Query the JASPAR database for Transcription Factor (TF) binding profiles.",
+      "links": {
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/jaspar_database"
+      },
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -4842,6 +4902,9 @@
       "status": "awakened",
       "level": "2★",
       "description": "Search for scientific papers, preprints, and publications on arXiv. Extract",
+      "links": {
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_arxiv"
+      },
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -4855,6 +4918,9 @@
       "status": "awakened",
       "level": "2★",
       "description": "Browse, filter, and download life sciences, biology, and medical preprints",
+      "links": {
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_biorxiv"
+      },
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -4868,6 +4934,9 @@
       "status": "awakened",
       "level": "2★",
       "description": "Search Europe PMC for scientific literature and download open-access",
+      "links": {
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_europepmc"
+      },
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -4881,6 +4950,9 @@
       "status": "awakened",
       "level": "2★",
       "description": "Query the OpenAlex scholarly database for research papers, authors, institutions,",
+      "links": {
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_openalex"
+      },
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -4894,6 +4966,9 @@
       "status": "awakened",
       "level": "2★",
       "description": "Retrieve protein and nucleotide sequences from NCBI databases using E-utilities.",
+      "links": {
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/ncbi_sequence_fetch"
+      },
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -4907,6 +4982,9 @@
       "status": "awakened",
       "level": "2★",
       "description": "Query, search, and download data from the openFDA API for drugs, devices,",
+      "links": {
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/openfda_database"
+      },
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -4920,6 +4998,9 @@
       "status": "awakened",
       "level": "2★",
       "description": "Query Open Targets Platform for target-disease associations, drug target",
+      "links": {
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/opentargets_database"
+      },
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -4933,6 +5014,9 @@
       "status": "awakened",
       "level": "2★",
       "description": "Use when you want to search for or download experimentally-determined",
+      "links": {
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/pdb_database"
+      },
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -4946,6 +5030,9 @@
       "status": "awakened",
       "level": "3★",
       "description": "Performs multiple sequence alignment of proteins with EBI Clustal Omega.",
+      "links": {
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_msa"
+      },
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "extra"
@@ -4959,6 +5046,9 @@
       "status": "awakened",
       "level": "2★",
       "description": "Searches for homologous protein sequences using MMseqs2 (fast, default)",
+      "links": {
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_similarity_search"
+      },
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -4972,6 +5062,9 @@
       "status": "awakened",
       "level": "2★",
       "description": "Query PubChem, search by name/CID/SMILES, retrieve properties, similarity/substructure",
+      "links": {
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/pubchem_database"
+      },
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -4985,6 +5078,9 @@
       "status": "awakened",
       "level": "2★",
       "description": "Search PubMed for scientific literature, including published clinical",
+      "links": {
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/pubmed_database"
+      },
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -4998,6 +5094,9 @@
       "status": "awakened",
       "level": "2★",
       "description": "Visualize, analyze, and render protein and molecular structures using",
+      "links": {
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/pymol"
+      },
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5011,6 +5110,9 @@
       "status": "awakened",
       "level": "2★",
       "description": "Query the QuickGO and Evidence & Conclusion Ontology (ECO) REST API.",
+      "links": {
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/quickgo_database"
+      },
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5024,6 +5126,9 @@
       "status": "awakened",
       "level": "2★",
       "description": "Query the Reactome database (Analysis and Content Services). Use when",
+      "links": {
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/reactome_database"
+      },
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5037,6 +5142,9 @@
       "status": "awakened",
       "level": "2★",
       "description": "Shared Python package for Science Skills, currently containing http_client",
+      "links": {
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common"
+      },
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5050,6 +5158,9 @@
       "status": "awakened",
       "level": "2★",
       "description": "Query the STRING database for protein-protein interactions (PPIs), functional",
+      "links": {
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/string_database"
+      },
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5063,6 +5174,9 @@
       "status": "awakened",
       "level": "2★",
       "description": "Fetch Evolutionary Conservation scores (phyloP, phastCons) and Transcription",
+      "links": {
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/ucsc_conservation_and_tfbs"
+      },
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5076,6 +5190,9 @@
       "status": "awakened",
       "level": "2★",
       "description": "Queries the UniBind database for experimentally validated transcription",
+      "links": {
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/unibind_database"
+      },
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5089,6 +5206,9 @@
       "status": "awakened",
       "level": "2★",
       "description": "Access protein metadata, function, taxonomy, and sequences across UniProtKB,",
+      "links": {
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/uniprot_database"
+      },
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5102,6 +5222,9 @@
       "status": "awakened",
       "level": "2★",
       "description": "Checks whether the uv Python package manager is installed and installs",
+      "links": {
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/uv"
+      },
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5115,6 +5238,9 @@
       "status": "awakened",
       "level": "2★",
       "description": "Distills a completed user workflow or interaction into a reusable agent",
+      "links": {
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator"
+      },
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "extra"
@@ -5123,7 +5249,7 @@
       "id": "intelligentcode-ai/database-engineer",
       "name": "Database Engineer",
       "contributor": "intelligentcode-ai",
-      "origin": "https://github.com/intelligentcode-ai/skills/blob/main/skills/database-engineer/SKILL.md",
+      "origin": false,
       "genericSkillRef": "schema-design",
       "status": "awakened",
       "level": "2★",
@@ -5137,13 +5263,16 @@
         "time-series",
         "normalization"
       ],
+      "links": {
+        "github": "https://github.com/intelligentcode-ai/skills/blob/main/skills/database-engineer/SKILL.md"
+      },
       "type": "basic"
     },
     {
       "id": "intelligentcode-ai/devops-engineer",
       "name": "DevOps Engineer",
       "contributor": "intelligentcode-ai",
-      "origin": "https://github.com/intelligentcode-ai/skills/blob/main/skills/devops-engineer/SKILL.md",
+      "origin": false,
       "genericSkillRef": "deployment-automation",
       "status": "awakened",
       "level": "2★",
@@ -5157,13 +5286,16 @@
         "terraform",
         "rollback"
       ],
+      "links": {
+        "github": "https://github.com/intelligentcode-ai/skills/blob/main/skills/devops-engineer/SKILL.md"
+      },
       "type": "extra"
     },
     {
       "id": "intelligentcode-ai/mcp-client",
       "name": "MCP Client",
       "contributor": "intelligentcode-ai",
-      "origin": "https://github.com/intelligentcode-ai/skills/blob/main/skills/mcp-client/SKILL.md",
+      "origin": false,
       "genericSkillRef": "mcp-integration",
       "status": "awakened",
       "level": "3★",
@@ -5174,13 +5306,16 @@
         "tool-integration",
         "cli"
       ],
+      "links": {
+        "github": "https://github.com/intelligentcode-ai/skills/blob/main/skills/mcp-client/SKILL.md"
+      },
       "type": "basic"
     },
     {
       "id": "intelligentcode-ai/parallel-execution",
       "name": "Parallel Execution",
       "contributor": "intelligentcode-ai",
-      "origin": "https://github.com/intelligentcode-ai/skills/blob/main/skills/parallel-execution/SKILL.md",
+      "origin": false,
       "genericSkillRef": "parallel-execution",
       "status": "awakened",
       "level": "2★",
@@ -5191,13 +5326,16 @@
         "task-execution",
         "queue"
       ],
+      "links": {
+        "github": "https://github.com/intelligentcode-ai/skills/blob/main/skills/parallel-execution/SKILL.md"
+      },
       "type": "basic"
     },
     {
       "id": "intelligentcode-ai/release",
       "name": "Release",
       "contributor": "intelligentcode-ai",
-      "origin": "https://github.com/intelligentcode-ai/skills/blob/main/skills/release/SKILL.md",
+      "origin": false,
       "genericSkillRef": "release-automation",
       "status": "awakened",
       "level": "2★",
@@ -5210,13 +5348,16 @@
         "github-release",
         "automation"
       ],
+      "links": {
+        "github": "https://github.com/intelligentcode-ai/skills/blob/main/skills/release/SKILL.md"
+      },
       "type": "extra"
     },
     {
       "id": "intelligentcode-ai/requirements-engineer",
       "name": "Requirements Engineer",
       "contributor": "intelligentcode-ai",
-      "origin": "https://github.com/intelligentcode-ai/skills/blob/main/skills/requirements-engineer/SKILL.md",
+      "origin": false,
       "genericSkillRef": "requirements-analysis",
       "status": "awakened",
       "level": "2★",
@@ -5228,13 +5369,16 @@
         "acceptance-criteria",
         "specification"
       ],
+      "links": {
+        "github": "https://github.com/intelligentcode-ai/skills/blob/main/skills/requirements-engineer/SKILL.md"
+      },
       "type": "basic"
     },
     {
       "id": "intelligentcode-ai/security-engineer",
       "name": "Security Engineer",
       "contributor": "intelligentcode-ai",
-      "origin": "https://github.com/intelligentcode-ai/skills/blob/main/skills/security-engineer/SKILL.md",
+      "origin": false,
       "genericSkillRef": "security-audit",
       "status": "awakened",
       "level": "2★",
@@ -5247,13 +5391,16 @@
         "owasp",
         "penetration-testing"
       ],
+      "links": {
+        "github": "https://github.com/intelligentcode-ai/skills/blob/main/skills/security-engineer/SKILL.md"
+      },
       "type": "extra"
     },
     {
       "id": "intelligentcode-ai/user-tester",
       "name": "User Tester",
       "contributor": "intelligentcode-ai",
-      "origin": "https://github.com/intelligentcode-ai/skills/blob/main/skills/user-tester/SKILL.md",
+      "origin": false,
       "genericSkillRef": "e2e-testing",
       "status": "awakened",
       "level": "3★",
@@ -5266,6 +5413,9 @@
         "user-journey",
         "visual-regression"
       ],
+      "links": {
+        "github": "https://github.com/intelligentcode-ai/skills/blob/main/skills/user-tester/SKILL.md"
+      },
       "type": "extra"
     },
     {
@@ -5277,6 +5427,9 @@
       "status": "awakened",
       "level": "2★",
       "description": "Review backend code for quality, security, maintainability, and best",
+      "links": {
+        "github": "https://github.com/langgenius/dify/blob/main/.agents/skills/backend-code-review"
+      },
       "createdAt": "2026-05-20",
       "updatedAt": "2026-05-20",
       "type": "extra",
@@ -5291,6 +5444,9 @@
       "status": "awakened",
       "level": "2★",
       "description": "Refactor high-complexity React components in Dify frontend.",
+      "links": {
+        "github": "https://github.com/langgenius/dify/blob/main/.agents/skills/component-refactoring"
+      },
       "createdAt": "2026-05-20",
       "updatedAt": "2026-05-20",
       "type": "basic",
@@ -5305,6 +5461,9 @@
       "status": "awakened",
       "level": "2★",
       "description": "Write, update, or review Dify end-to-end tests under e2e/ that use Cucumber,",
+      "links": {
+        "github": "https://github.com/langgenius/dify/blob/main/.agents/skills/e2e-cucumber-playwright"
+      },
       "createdAt": "2026-05-20",
       "updatedAt": "2026-05-20",
       "type": "extra",
@@ -5319,6 +5478,9 @@
       "status": "awakened",
       "level": "2★",
       "description": "Trigger when the user requests a review of frontend files.",
+      "links": {
+        "github": "https://github.com/langgenius/dify/blob/main/.agents/skills/frontend-code-review"
+      },
       "createdAt": "2026-05-20",
       "updatedAt": "2026-05-20",
       "type": "extra",
@@ -5333,6 +5495,9 @@
       "status": "awakened",
       "level": "2★",
       "description": "Generate Vitest + React Testing Library tests for Dify frontend components.",
+      "links": {
+        "github": "https://github.com/langgenius/dify/blob/main/.agents/skills/frontend-testing"
+      },
       "createdAt": "2026-05-20",
       "updatedAt": "2026-05-20",
       "type": "extra",

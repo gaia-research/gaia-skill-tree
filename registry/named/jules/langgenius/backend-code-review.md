@@ -10,6 +10,8 @@ description: Review backend code for quality, security, maintainability, and bes
   practices based on established checklist rules.
 createdAt: '2026-05-20'
 updatedAt: '2026-05-20'
+links:
+  github: https://github.com/langgenius/dify/blob/main/.agents/skills/backend-code-review
 ---
 
 ## Installation
