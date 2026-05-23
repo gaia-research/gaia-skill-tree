@@ -345,7 +345,13 @@ def list_available(registry_path):
 
 
 def _parse_frontmatter(path):
-    """Return the YAML frontmatter dict from a .md file, or {}."""
+    """Return the YAML frontmatter dict from a .md file, or {}.
+
+    Uses pyyaml when available. The pure-Python fallback handles simple
+    key: value pairs and one level of nesting (e.g. links.github), but
+    does not support list syntax or deeper nesting — install pyyaml for
+    full YAML support.
+    """
     try:
         with open(path, "r", encoding="utf-8") as f:
             text = f.read()

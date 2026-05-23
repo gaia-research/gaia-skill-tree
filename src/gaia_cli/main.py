@@ -1261,15 +1261,39 @@ def skills_command(args):
 
 
 def pull_command(args):
-    res = subprocess.run(["git", "-C", args.registry, "pull", "--ff-only"], stderr=subprocess.DEVNULL)
+    res = subprocess.run(
+        ["git", "-C", args.registry, "pull", "--ff-only"],
+        capture_output=True,
+        text=True,
+    )
     if res.returncode != 0:
-        print("Note: Registry could not be updated via git (non-tracking branch or no remote). Local registry unchanged.", file=sys.stderr)
+        stderr = res.stderr.strip()
+        no_upstream = any(p in stderr for p in (
+            "no tracking information", "no upstream", "There is no tracking",
+            "does not track", "has no upstream",
+        ))
+        if no_upstream:
+            print("Note: Registry could not be updated via git (no upstream configured). Local registry unchanged.", file=sys.stderr)
+        else:
+            print(f"Warning: git pull failed. Local registry unchanged.\n  {stderr}", file=sys.stderr)
 
 
 def update_command(args):
-    res = subprocess.run(["git", "-C", args.registry, "pull", "--ff-only"], stderr=subprocess.DEVNULL)
+    res = subprocess.run(
+        ["git", "-C", args.registry, "pull", "--ff-only"],
+        capture_output=True,
+        text=True,
+    )
     if res.returncode != 0:
-        print("Note: Could not git-pull registry (non-tracking branch or no remote). Proceeding with package update...", file=sys.stderr)
+        stderr = res.stderr.strip()
+        no_upstream = any(p in stderr for p in (
+            "no tracking information", "no upstream", "There is no tracking",
+            "does not track", "has no upstream",
+        ))
+        if no_upstream:
+            print("Note: Could not git-pull registry (no upstream configured). Proceeding with package update...", file=sys.stderr)
+        else:
+            print(f"Warning: git pull failed. Proceeding with package update...\n  {stderr}", file=sys.stderr)
     registry_pyproject = Path(args.registry) / "pyproject.toml"
     
     # PEP 668 fix: use --break-system-packages if not in a venv
@@ -1612,6 +1636,8 @@ def test_command(args):
 
 def main():
     # Suppress BrokenPipeError traceback when output is piped to head/less/etc.
+    # Placed here (not __main__.py) so it covers all entry paths: console script,
+    # `python -m gaia_cli`, and programmatic callers.
     if hasattr(signal, 'SIGPIPE'):
         signal.signal(signal.SIGPIPE, signal.SIG_DFL)
 

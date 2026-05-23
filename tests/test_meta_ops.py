@@ -119,3 +119,35 @@ def test_meta_add_rejects_short_description(tmp_path, monkeypatch):
     with pytest.raises(SystemExit) as exc_info:
         main()
     assert exc_info.value.code != 0
+
+
+def test_meta_add_extra_fields_null_stripped(tmp_path, monkeypatch):
+    """--extra-fields with null values must not overwrite required string fields."""
+    write_fixture_registry(tmp_path)
+    monkeypatch.setattr(sys, "argv", [
+        "gaia", "--registry", str(tmp_path), "dev", "add", "Skill D",
+        "--id", "skill-d",
+        "--description", "Skill D Description at least ten chars",
+        "--extra-fields", '{"name": null, "foo": "bar"}',
+    ])
+    main()
+
+    dest = tmp_path / "registry" / "nodes" / "basic" / "skill-d.json"
+    assert dest.exists()
+    data = json.loads(dest.read_text(encoding="utf-8"))
+    assert data["name"] == "Skill D", "null extra-field must not overwrite the required 'name' field"
+    assert data.get("foo") == "bar", "non-null extra fields should still be applied"
+
+
+def test_meta_add_extra_fields_non_dict_warns(tmp_path, monkeypatch, capsys):
+    """--extra-fields with a non-object JSON value must warn and be skipped."""
+    write_fixture_registry(tmp_path)
+    monkeypatch.setattr(sys, "argv", [
+        "gaia", "--registry", str(tmp_path), "dev", "add", "Skill E",
+        "--id", "skill-e",
+        "--description", "Skill E Description at least ten chars",
+        "--extra-fields", "[1, 2, 3]",
+    ])
+    main()
+    captured = capsys.readouterr()
+    assert "Warning" in captured.out or "Warning" in captured.err
