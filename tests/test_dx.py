@@ -1,3 +1,4 @@
+import json
 import os
 import sys
 
@@ -12,6 +13,20 @@ from gaia_cli.scanner import scan_repo, scan_repo_detailed
 def run_cli(monkeypatch, argv):
     monkeypatch.setattr(sys, "argv", ["gaia", *argv])
     main()
+
+
+def _write_json_registry(tmp_path, entries: list[dict]) -> None:
+    """Write registry/named-skills.json for CLI-level tests."""
+    registry = tmp_path / "registry"
+    registry.mkdir(exist_ok=True)
+    buckets: dict = {}
+    for meta in entries:
+        ref = meta.get("genericSkillRef", meta["id"].replace("/", "-"))
+        buckets.setdefault(ref, []).append(meta)
+    (registry / "named-skills.json").write_text(
+        json.dumps({"buckets": buckets, "awaitingClassification": []}),
+        encoding="utf-8",
+    )
 
 
 def test_init_accepts_flags_and_uses_current_registry_default(tmp_path, monkeypatch):
@@ -215,3 +230,216 @@ def parse_config(path):
         else:
             data[key.strip()] = value.strip('"')
     return data
+
+
+# ---------------------------------------------------------------------------
+# gaia skills list / search / info  (CLI-level)
+# ---------------------------------------------------------------------------
+
+
+def test_skills_list_shows_skills_from_named_skills_json(tmp_path, monkeypatch, capsys):
+    """gaia skills list prints skills from registry/named-skills.json."""
+    _write_json_registry(
+        tmp_path,
+        [
+            {"id": "alice/search", "name": "Alice Search", "level": "2★", "type": "basic", "description": "Fast search."},
+            {"id": "bob/code", "name": "Bob Code", "level": "3★", "type": "basic", "description": "Code gen."},
+        ],
+    )
+    run_cli(monkeypatch, ["--registry", str(tmp_path), "skills", "list"])
+    output = capsys.readouterr().out
+    assert "alice/search" in output
+    assert "bob/code" in output
+
+
+def test_skills_list_shows_suite_skill_entry(tmp_path, monkeypatch, capsys):
+    """Suite skills appear in `gaia skills list` output."""
+    _write_json_registry(
+        tmp_path,
+        [
+            {
+                "id": "testuser/my-suite",
+                "name": "My Suite",
+                "level": "5★",
+                "type": "basic",
+                "description": "A test suite.",
+                "suiteComponents": ["testuser/alpha"],
+            },
+        ],
+    )
+    run_cli(monkeypatch, ["--registry", str(tmp_path), "skills", "list"])
+    output = capsys.readouterr().out
+    assert "testuser/my-suite" in output
+
+
+def test_skills_search_filters_by_name(tmp_path, monkeypatch, capsys):
+    """gaia skills search <query> returns skills matching the name and excludes non-matches."""
+    _write_json_registry(
+        tmp_path,
+        [
+            {"id": "testuser/alpha-skill", "name": "Alpha Skill", "level": "2★", "type": "basic", "description": "Does alpha things."},
+            {"id": "testuser/beta-skill", "name": "Beta Skill", "level": "2★", "type": "basic", "description": "Does beta things."},
+        ],
+    )
+    run_cli(monkeypatch, ["--registry", str(tmp_path), "skills", "search", "alpha"])
+    output = capsys.readouterr().out
+    assert "alpha-skill" in output
+    assert "beta-skill" not in output
+
+
+def test_skills_search_filters_by_description(tmp_path, monkeypatch, capsys):
+    """gaia skills search matches on description field, not only name."""
+    _write_json_registry(
+        tmp_path,
+        [
+            {"id": "testuser/x", "name": "X", "level": "2★", "type": "basic", "description": "uniqueterm in description"},
+            {"id": "testuser/y", "name": "Y", "level": "2★", "type": "basic", "description": "no match here"},
+        ],
+    )
+    run_cli(monkeypatch, ["--registry", str(tmp_path), "skills", "search", "uniqueterm"])
+    output = capsys.readouterr().out
+    assert "testuser/x" in output
+    assert "testuser/y" not in output
+
+
+def test_skills_info_shows_level_and_description(tmp_path, monkeypatch, capsys):
+    """gaia skills info outputs the skill level and description."""
+    _write_json_registry(
+        tmp_path,
+        [
+            {
+                "id": "testuser/my-skill",
+                "name": "My Skill",
+                "level": "3★",
+                "type": "basic",
+                "description": "Does something useful.",
+            }
+        ],
+    )
+    run_cli(monkeypatch, ["--registry", str(tmp_path), "skills", "info", "testuser/my-skill"])
+    output = capsys.readouterr().out
+    assert "testuser/my-skill" in output
+    assert "Does something useful." in output
+
+
+def test_skills_info_exits_nonzero_for_unknown_skill(tmp_path, monkeypatch, capsys):
+    """gaia skills info exits with code 1 when skill_id is not found."""
+    _write_json_registry(tmp_path, [])
+    with pytest.raises(SystemExit) as exc:
+        run_cli(monkeypatch, ["--registry", str(tmp_path), "skills", "info", "nobody/nope"])
+    assert exc.value.code == 1
+
+
+def test_skills_install_creates_manifest_entry_via_cli(tmp_path, monkeypatch):
+    """gaia skills install <skill> adds an entry to .gaia/install-manifest.json."""
+    monkeypatch.chdir(tmp_path)
+    _write_json_registry(
+        tmp_path,
+        [
+            {
+                "id": "testuser/test-skill",
+                "name": "Test Skill",
+                "links": {"github": "https://github.com/testuser/repo/blob/main/test-skill/SKILL.md"},
+            }
+        ],
+    )
+
+    def mock_run_git(args, cwd=None):
+        if args[0] == "clone":
+            os.makedirs(os.path.join(args[-1], "test-skill"), exist_ok=True)
+        return True
+
+    monkeypatch.setattr("gaia_cli.install._run_git", mock_run_git)
+    monkeypatch.setattr(
+        "gaia_cli.install.get_global_cache_dir",
+        lambda: str(tmp_path / ".gaia" / "skills"),
+    )
+
+    run_cli(monkeypatch, ["--registry", str(tmp_path), "skills", "install", "testuser/test-skill"])
+
+    from gaia_cli.install import load_manifest
+    manifest = load_manifest()
+    assert any(e["id"] == "testuser/test-skill" for e in manifest["installed"])
+
+
+def test_skills_uninstall_removes_skill_via_cli(tmp_path, monkeypatch):
+    """gaia skills uninstall <skill> removes the skill from manifest and filesystem."""
+    monkeypatch.chdir(tmp_path)
+
+    skill_path = tmp_path / ".agents" / "skills" / "test-skill"
+    skill_path.mkdir(parents=True)
+    (skill_path / "SKILL.md").write_text("content")
+
+    from gaia_cli.install import save_manifest
+    save_manifest({"installed": [{"id": "testuser/test-skill", "localPath": str(skill_path)}]})
+
+    run_cli(monkeypatch, ["skills", "uninstall", "testuser/test-skill"])
+
+    from gaia_cli.install import load_manifest
+    manifest = load_manifest()
+    assert not any(e["id"] == "testuser/test-skill" for e in manifest["installed"])
+
+
+def test_skills_uninstall_nonexistent_exits_zero_bug(tmp_path, monkeypatch):
+    """BUG: gaia skills uninstall on a non-installed skill exits 0 (should exit 1).
+
+    Because uninstall_skill() returns True for non-existent skills,
+    skills_command() never calls sys.exit(1) for this case.
+    When the underlying bug is fixed, change the assertion to expect SystemExit(1).
+    """
+    monkeypatch.chdir(tmp_path)
+    from gaia_cli.install import save_manifest
+    save_manifest({"installed": []})
+
+    # BUG: should raise SystemExit(1) but currently succeeds (exits 0 silently)
+    # If the bug is fixed, this line will raise SystemExit, changing test behaviour.
+    run_cli(monkeypatch, ["skills", "uninstall", "nobody/not-installed"])
+
+
+def test_gaia_install_command_installs_skill(tmp_path, monkeypatch):
+    """gaia install <skill> (top-level command) creates a manifest entry."""
+    monkeypatch.chdir(tmp_path)
+    _write_json_registry(
+        tmp_path,
+        [
+            {
+                "id": "testuser/test-skill",
+                "name": "Test Skill",
+                "links": {"github": "https://github.com/testuser/repo/blob/main/test-skill/SKILL.md"},
+            }
+        ],
+    )
+
+    def mock_run_git(args, cwd=None):
+        if args[0] == "clone":
+            os.makedirs(os.path.join(args[-1], "test-skill"), exist_ok=True)
+        return True
+
+    monkeypatch.setattr("gaia_cli.install._run_git", mock_run_git)
+    monkeypatch.setattr(
+        "gaia_cli.install.get_global_cache_dir",
+        lambda: str(tmp_path / ".gaia" / "skills"),
+    )
+
+    run_cli(monkeypatch, ["--registry", str(tmp_path), "install", "testuser/test-skill"])
+
+    from gaia_cli.install import load_manifest
+    manifest = load_manifest()
+    assert any(e["id"] == "testuser/test-skill" for e in manifest["installed"])
+
+
+def test_gaia_uninstall_command_removes_skill(tmp_path, monkeypatch):
+    """gaia uninstall <skill> (top-level command) removes the manifest entry."""
+    monkeypatch.chdir(tmp_path)
+
+    skill_path = tmp_path / ".agents" / "skills" / "test-skill"
+    skill_path.mkdir(parents=True)
+
+    from gaia_cli.install import save_manifest
+    save_manifest({"installed": [{"id": "testuser/test-skill", "localPath": str(skill_path)}]})
+
+    run_cli(monkeypatch, ["uninstall", "testuser/test-skill"])
+
+    from gaia_cli.install import load_manifest
+    manifest = load_manifest()
+    assert not any(e["id"] == "testuser/test-skill" for e in manifest["installed"])
