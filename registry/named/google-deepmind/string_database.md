@@ -12,6 +12,8 @@ description: Query the STRING database for protein-protein interactions (PPIs), 
   or pathway enrichments.
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
+links:
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/string_database
 ---
 
 # STRING Database Skill

@@ -12,6 +12,8 @@ description: Access protein metadata, function, taxonomy, and sequences across U
   folding, or sequence similarity search (use specialized skills for those tasks).
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
+links:
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/uniprot_database
 ---
 
 # UniProt Database Access
