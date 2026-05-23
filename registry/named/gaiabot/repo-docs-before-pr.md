@@ -8,7 +8,7 @@ status: awakened
 level: "2★"
 description: Builds and validates repository documentation as a pre-PR guardrail by reminding contributors to run the local docs drift check, then surfaces actionable regeneration commands so pull requests do not fail CI on documentation freshness.
 links:
-  docs: https://github.com/mbtiongson1/gaia-skill-tree#docs
+  github: https://github.com/mbtiongson1/gaia-skill-tree
 tags:
   - documentation
   - ci
