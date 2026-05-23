@@ -325,7 +325,9 @@ The registry is supported by several automated workflows:
 
 Named skills are only installable if they have a valid `links.github` field pointing to a public repository. This policy defines how curators and AI agents handle skills that lack one.
 
-### The rule: stars determine fate
+> **Suites are exempt.** Any skill with a `suiteComponents` list (e.g. `mattpocock/skills`, `garrytan/gstack`) installs by iterating its components — it does not need its own `links.github`. Do not flag suites as uninstallable and do not add `installable: false` to them.
+
+### The rule: stars determine fate (non-suite skills only)
 
 | Stars | No `links.github` | Action |
 |-------|-------------------|--------|
@@ -398,14 +400,10 @@ The install pipeline (`src/gaia_cli/install.py::_parse_github_url`) only recogni
 
 ### Skills currently exempt (registry-only, installable: false)
 
-These skills are intentionally kept in the registry without a source link. Do not attempt to find links for them on repeated audit passes.
+These **non-suite** skills are intentionally kept in the registry without a source link. Do not attempt to find links for them on repeated audit passes.
 
 | Skill ID | Reason |
 |----------|--------|
-| `mattpocock/skills` | Meta-suite definition only; no implementation source |
-| `mattpocock/engineering` | Meta-suite definition only |
-| `mattpocock/personal` | Meta-suite definition only |
-| `mattpocock/productivity` | Meta-suite definition only |
 | `stanfordnlp/dspy` | Source is a Python library, no SKILL.md structure |
 | `openai/few-shot-learning` | Research technique (arxiv); no installable skill repo found |
 | `openai/self-consistency` | Research technique (arxiv); no installable skill repo found |
