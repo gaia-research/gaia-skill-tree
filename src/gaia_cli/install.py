@@ -149,7 +149,8 @@ def install_skill(skill_id: str, registry_path: str, visited: set[str] | None = 
     if suite_components:
         return install_suite(sid, registry_path, visited)
 
-    github_url = meta.get("links", {}).get("github")
+    links = meta.get("links", {}) if isinstance(meta, dict) else {}
+    github_url = links.get("github") if isinstance(links, dict) else None
     if not github_url:
         print(f"Error: Skill '{sid}' has no source repository link.", file=sys.stderr)
         return False
@@ -353,19 +354,28 @@ def _parse_frontmatter(path):
             return {}
         try:
             import yaml
-            return yaml.safe_load(m.group(1)) or {}
+            loaded = yaml.safe_load(m.group(1))
+            return loaded if isinstance(loaded, dict) else {}
         except ImportError:
-            res = {}
+            res: dict = {}
+            current_key: str | None = None
             for line in m.group(1).split('\n'):
-                line = line.strip()
-                if not line or line.startswith('#'): continue
-                if ':' in line:
-                    k, v = line.split(':', 1)
-                    k = k.strip()
-                    v = v.strip().strip('"').strip("'")
-                    if v.lower() == 'true': v = True
-                    elif v.lower() == 'false': v = False
-                    res[k] = v
+                if not line.strip() or line.strip().startswith('#'):
+                    continue
+                stripped = line.lstrip()
+                indent = len(line) - len(stripped)
+                if ':' not in stripped:
+                    continue
+                k, _, v = stripped.partition(':')
+                k = k.strip()
+                v = v.strip().strip('"').strip("'")
+                if v.lower() == 'true': v = True  # type: ignore[assignment]
+                elif v.lower() == 'false': v = False  # type: ignore[assignment]
+                if indent == 0:
+                    current_key = k
+                    res[k] = v if v else {}
+                elif current_key and isinstance(res.get(current_key), dict):
+                    res[current_key][k] = v
             return res
     except Exception:
         return {}

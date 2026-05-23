@@ -2,6 +2,7 @@ import argparse
 import sys
 import os
 import json
+import signal
 import subprocess
 from datetime import date
 from contextlib import redirect_stdout
@@ -1260,15 +1261,15 @@ def skills_command(args):
 
 
 def pull_command(args):
-    res = subprocess.run(["git", "-C", args.registry, "pull", "--ff-only"])
+    res = subprocess.run(["git", "-C", args.registry, "pull", "--ff-only"], stderr=subprocess.DEVNULL)
     if res.returncode != 0:
-        print("Warning: git pull failed. Ensure you are on a tracking branch.", file=sys.stderr)
+        print("Note: Registry could not be updated via git (non-tracking branch or no remote). Local registry unchanged.", file=sys.stderr)
 
 
 def update_command(args):
-    res = subprocess.run(["git", "-C", args.registry, "pull", "--ff-only"])
+    res = subprocess.run(["git", "-C", args.registry, "pull", "--ff-only"], stderr=subprocess.DEVNULL)
     if res.returncode != 0:
-        print("Warning: git pull failed. Proceeding with installation...", file=sys.stderr)
+        print("Note: Could not git-pull registry (non-tracking branch or no remote). Proceeding with package update...", file=sys.stderr)
     registry_pyproject = Path(args.registry) / "pyproject.toml"
     
     # PEP 668 fix: use --break-system-packages if not in a venv
@@ -1410,7 +1411,15 @@ def get_parser():
     propose_parser.add_argument('--yes', action='store_true', help="Use defaults without interactive prompts")
     propose_parser.add_argument('--no-pr', action='store_true', help="Write intake proposal without opening a PR")
     subparsers.add_parser('version', help="Print the Gaia CLI version")
-    subparsers.add_parser('mcp', help="Run the bundled Gaia MCP server")
+    subparsers.add_parser(
+        'mcp',
+        help="Run the bundled Gaia MCP server",
+        description=(
+            "Start the Gaia MCP (Model Context Protocol) server, which exposes the skill registry "
+            "to AI tools and IDE integrations via stdio. "
+            "Requires building the server first: run `npm run build` inside packages/mcp/."
+        ),
+    )
     release_parser = subparsers.add_parser('release', help="Bump release version files")
     release_parser.add_argument('release_type', choices=('patch', 'minor', 'major'))
     graph_parser = subparsers.add_parser('graph', help="Generate and open the Gaia skill graph")
@@ -1602,6 +1611,10 @@ def test_command(args):
         sys.exit(result.returncode)
 
 def main():
+    # Suppress BrokenPipeError traceback when output is piped to head/less/etc.
+    if hasattr(signal, 'SIGPIPE'):
+        signal.signal(signal.SIGPIPE, signal.SIG_DFL)
+
     # Ensure UTF-8 output on Windows (avoids cp1252 UnicodeEncodeError for box-drawing)
     if sys.platform == "win32" and hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
