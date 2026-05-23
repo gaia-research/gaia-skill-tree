@@ -319,3 +319,98 @@ The registry is supported by several automated workflows:
 - **Auto-Sync:** On every push to a branch, a GitHub Action automatically runs the versioning and regeneration scripts. You no longer need to run these manually before pushing.
 - **Validation:** Every PR is automatically validated for schema correctness, DAG integrity, and evidence quality.
 
+---
+
+## 12) Named Skill Installability Policy
+
+Named skills are only installable if they have a valid `links.github` field pointing to a public repository. This policy defines how curators and AI agents handle skills that lack one.
+
+### The rule: stars determine fate
+
+| Stars | No `links.github` | Action |
+|-------|-------------------|--------|
+| 0★–2★ | Allowed — kept as **registry-only** | Tag `installable: false` in frontmatter |
+| 3★+ | **Not allowed** — must have a verified GitHub link | Demote to 2★ until a link is confirmed |
+
+The rationale: a 3★ (Evolved) or higher skill claims reproducible, documented evidence (`≥ 1 Tier B`). A public repository link is the minimum verification for that claim. If no link exists, the skill has not met the bar for Evolved rank.
+
+### Tagging registry-only skills
+
+For skills at 2★ or below with no known public repository, add `installable: false` to the frontmatter:
+
+```yaml
+---
+id: contributor/skill-name
+name: Skill Name
+status: named
+level: "2★"
+installable: false   # No public source repo — registry-only
+# No links: block
+---
+```
+
+This field is a curator signal. The install pipeline already rejects skills without `links.github`; the field makes the intent explicit and prevents repeated web-research attempts.
+
+### Demotion workflow for 3★+ skills with missing links
+
+```bash
+# 1. Confirm no public repo can be found (web search, contributor contact)
+# 2. Demote via CLI
+gaia dev calibrate contributor/skill-name "2★"
+
+# 3. Add installable: false flag via direct frontmatter edit
+# registry/named/contributor/skill-name.md → add `installable: false`
+
+# 4. Regenerate index
+python scripts/generateNamedIndex.py
+
+# 5. Validate
+gaia validate
+```
+
+### Auto-rejection during intake (`gaia push`)
+
+The following conditions auto-reject a named skill submission or trigger a mandatory reviewer flag:
+
+| Condition | Outcome |
+|-----------|---------|
+| `links.github` missing and proposed level ≥ 3★ | **Rejected** — downgrade to 2★ required before merge |
+| `links.github` present but URL is a bare repo root (no `/blob/branch/subpath`) | **Flagged** — reviewer must verify subpath or skill is undiscoverable |
+| `origin: <URL>` (URL in boolean field) | **Rejected** — move URL to `links.github:`, set `origin: false` |
+| `links.repo`, `links.docs`, `links.arxiv` (wrong key) | **Rejected** — only `links.github` is read by the installer |
+| Suite component listed in `suiteComponents` with no `links.github` | **Flagged** — install will partially fail; must resolve before promotion |
+
+### `links.github` URL format
+
+URLs **must** use the `blob/` path format so the installer extracts the subpath correctly:
+
+```yaml
+# Correct — installer extracts subpath `.agents/skills/my-skill`
+links:
+  github: https://github.com/owner/repo/blob/main/.agents/skills/my-skill
+
+# Broken — installs entire repo root, skill is undiscoverable
+links:
+  github: https://github.com/owner/repo
+```
+
+The install pipeline (`src/gaia_cli/install.py::_parse_github_url`) only recognises the `blob/` pattern. Using `tree/` (GitHub's directory URL format) is also not recognised — always use `blob/`.
+
+### Skills currently exempt (registry-only, installable: false)
+
+These skills are intentionally kept in the registry without a source link. Do not attempt to find links for them on repeated audit passes.
+
+| Skill ID | Reason |
+|----------|--------|
+| `mattpocock/skills` | Meta-suite definition only; no implementation source |
+| `mattpocock/engineering` | Meta-suite definition only |
+| `mattpocock/personal` | Meta-suite definition only |
+| `mattpocock/productivity` | Meta-suite definition only |
+| `stanfordnlp/dspy` | Source is a Python library, no SKILL.md structure |
+| `openai/few-shot-learning` | Research technique (arxiv); no installable skill repo found |
+| `openai/self-consistency` | Research technique (arxiv); no installable skill repo found |
+| `Taoidle/plan-decompose-gh-plan-cascade` | No public source repo confirmed |
+| `changkun/plan-decompose-gh-wallfacer` | Wallfacer repo exists but skill not published |
+| `pexp13/sentiment-analysis` | No public source repo confirmed |
+
+
