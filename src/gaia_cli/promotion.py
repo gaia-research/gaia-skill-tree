@@ -227,7 +227,7 @@ def promote_from_candidates(
         raise ValueError("Run `gaia scan` first for the current user before promoting skills.")
     candidate = _candidate_for(payload, skill_id)
     if candidate is None:
-        raise ValueError("only promotable skills could be promoted")
+        raise ValueError("Only skills listed as promotion candidates can be promoted. Run `gaia scan` first.")
     suggested_level = candidate.get("suggestedLevel")
     if suggested_level not in LEVEL_ORDER:
         raise ValueError("Run `gaia scan` again before promoting skills.")
@@ -237,7 +237,7 @@ def promote_from_candidates(
         raise ValueError(f"No skill tree found for user '{username}'.")
     entry = _get_skill_from_tree(tree_data, skill_id)
     if entry is None:
-        raise ValueError("only promotable skills could be promoted")
+        raise ValueError("Only skills listed as promotion candidates can be promoted. Run `gaia scan` first.")
     if entry.get("level") != candidate.get("currentLevel"):
         raise ValueError("Run `gaia scan` again before promoting skills.")
 

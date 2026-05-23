@@ -674,7 +674,10 @@ def meta_add_command(args):
         if getattr(args, "extra_fields", None):
             try:
                 extra = json.loads(args.extra_fields)
-                data.update(extra)
+                if isinstance(extra, dict):
+                    data.update({k: v for k, v in extra.items() if v is not None})
+                else:
+                    print("Warning: --extra-fields must be a JSON object. Skipping.")
             except json.JSONDecodeError:
                 print("Warning: Could not parse extra-fields JSON. Skipping.")
 
