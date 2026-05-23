@@ -11,6 +11,8 @@ description: Use when you want to retrieve quantitative RNA expression data and 
   tissue sites.
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
+links:
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/gtex_database
 ---
 
 # GTEx Database Integration

@@ -12,6 +12,8 @@ description: Query the JASPAR database for Transcription Factor (TF) binding pro
   TF metadata. Supports multiple output formats (MEME, TRANSFAC, PFM, JASPAR, YAML).
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
+links:
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/jaspar_database
 ---
 
 # JASPAR Skill

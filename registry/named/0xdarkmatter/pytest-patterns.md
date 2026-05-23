@@ -10,7 +10,7 @@ catalogRef: 0xdarkmatter-pytest-patterns
 level: "3★"
 description: Comprehensive pytest skill covering modern patterns for Python test automation including fixtures, parametrize, async testing, mocking, coverage strategies, integration tests, and conftest organisation for pytest 7.0+ projects.
 links:
-  github: https://github.com/aiskillstore/marketplace
+  github: https://github.com/aiskillstore/marketplace/blob/main/skills/0xdarkmatter/python-pytest-patterns
 tags:
   - pytest
   - python

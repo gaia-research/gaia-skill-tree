@@ -12,6 +12,8 @@ description: Manage notes and organization in a specific Obsidian vault using Ti
 createdAt: '2026-05-21'
 updatedAt: '2026-05-21'
 suiteRef: "mattpocock/personal"
+links:
+  github: https://github.com/mattpocock/skills/blob/main/skills/personal/obsidian-vault
 ---
 
 ## Installation
