@@ -221,18 +221,22 @@ def install_skill(skill_id: str, registry_path: str, visited: set[str] | None = 
 
 
 def install_suite(suite_id: str, registry_path: str, visited: set[str] | None = None) -> bool:
-    """Recursive installation of a skill suite and its components."""
+    """Recursive installation of a skill suite and its components.
+
+    Returns True only when every component (and the suite root, if it has its
+    own links.github) installs successfully. Partial or total failures cause
+    a False return and a summary listing the failed component IDs.
+    """
     if visited is None:
         visited = set()
-    
+
     sid, meta = resolve_named_skill_reference(suite_id, registry_path)
     if not sid:
         return False
-    
+
     components = meta.get("suiteComponents", [])
     if not components:
         # If no explicit components, treat it as a regular skill
-        # (Though usually suites should have components)
         github_url = meta.get("links", {}).get("github")
         if github_url:
             return install_skill(sid, registry_path, visited)
@@ -240,15 +244,37 @@ def install_suite(suite_id: str, registry_path: str, visited: set[str] | None = 
 
     print(f"\nInstalling suite: {sid} ({len(components)} components)...")
     success_count = 0
+    failed: list[str] = []
     for comp_id in components:
         if install_skill(comp_id, registry_path, visited):
             success_count += 1
-    
-    # Finally install the suite metadata/root itself if it has a source
-    if meta.get("links", {}).get("github"):
-        install_skill(sid, registry_path, visited)
+        else:
+            failed.append(comp_id)
 
-    print(f"\n✓ Suite {sid} complete: {success_count} component(s) installed.")
+    # Install the suite root itself if it has its own github source.
+    # NOTE: when called via install_skill(sid), sid is already in `visited`
+    # so we discard it first so the recursive call actually installs the root.
+    root_ok = True
+    root_attempted = False
+    if meta.get("links", {}).get("github"):
+        root_attempted = True
+        visited.discard(sid)
+        root_ok = install_skill(sid, registry_path, visited)
+        if not root_ok:
+            failed.append(sid)
+
+    total = len(components) + (1 if root_attempted else 0)
+    achieved = success_count + (1 if root_attempted and root_ok else 0)
+
+    if failed:
+        print(
+            f"\n⚠ Suite {sid}: {achieved}/{total} installed. "
+            f"Failed: {', '.join(failed)}",
+            file=sys.stderr,
+        )
+        return False
+
+    print(f"\n✓ Suite {sid} complete: {achieved}/{total} component(s) installed.")
     return True
 
 
