@@ -68,6 +68,8 @@ gaia dev link target-id prereq-id-1,prereq-id-2 [--reset]
 
 # Update named skill frontmatter
 gaia dev update-named author/skill --status awakened --suite-components c1,c2
+gaia dev update-named author/skill --suite-ref capstone/suite
+gaia dev update-named capstone/suite --installation-file path/to/setup.md
 
 # Remove a skill
 gaia dev rm skill-id
@@ -296,20 +298,35 @@ If a tab's markdown contains a table with columns `Agent` (or `Host`) and `Flag`
 
 ### Editing and Submitting a PR
 
-1. **Modify the files:**
-   Make edits to the named skill markdown files under `registry/named/` and suite manifests under `registry/suites/`.
+Use `gaia dev` commands — do not edit files manually or invoke build scripts directly (see §1.B).
 
-2. **Extract and Rebuild:**
-   Run the index generator and documentation build scripts to extract the new frontmatter and regenerate the site:
+1. **Set suiteComponents on the capstone skill:**
    ```bash
-   python3 scripts/validate.py
-   python3 scripts/build_docs.py
+   gaia dev update-named garrytan/gstack \
+     --suite-components "garrytan/browse,garrytan/cso,garrytan/design-review,garrytan/garrytan,garrytan/office-hours"
    ```
 
-3. **Submit the PR:**
-   - Create a `dev/` branch for your changes (e.g. `dev/gstack-custom-setup`).
-   - Add and commit both the source named skill markdown files and the generated index files (`registry/named-skills.json`, `docs/graph/named/index.json`, `docs/css/styles.css`, `docs/js/skill-explorer.js`).
-   - Open your PR on GitHub for maintainer review.
+2. **Link each constituent skill back to the capstone:**
+   ```bash
+   gaia dev update-named garrytan/browse --suite-ref garrytan/gstack
+   gaia dev update-named garrytan/cso    --suite-ref garrytan/gstack
+   # …repeat for each component
+   ```
+
+3. **Replace the `## Installation` section from a markdown file:**
+   ```bash
+   gaia dev update-named garrytan/gstack --installation-file path/to/setup-guide.md
+   ```
+   The CLI automatically rebuilds docs after each command. Use `--no-build` on intermediate
+   steps and run `gaia dev build` once at the end when batching multiple changes.
+
+4. **Validate and open the PR:**
+   ```bash
+   gaia validate
+   ```
+   Create a `cli/` or `dev/` branch. If your branch also touches `CONTRIBUTING.md` or other
+   files outside the `cli/` scope, add the **`skip-scope-check`** label to the PR so CI scope
+   enforcement is bypassed.
 
 ---
 
