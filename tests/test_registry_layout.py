@@ -109,5 +109,5 @@ def test_promote_from_candidates_uses_scan_suggested_level(tmp_path):
     result = promote_from_candidates("alice", "web-search", str(tmp_path))
     assert result["newLevel"] == "3★"
 
-    with pytest.raises(ValueError, match="only promotable skills could be promoted"):
+    with pytest.raises(ValueError, match="Only skills listed as promotion candidates can be promoted"):
         promote_from_candidates("alice", "parse-html", str(tmp_path))
