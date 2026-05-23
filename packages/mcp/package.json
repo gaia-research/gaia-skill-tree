@@ -10,6 +10,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
+    "prepare": "npm run build",
     "start": "node dist/bin/gaia-mcp.js",
     "test": "vitest run",
     "prepublishOnly": "npm run build"

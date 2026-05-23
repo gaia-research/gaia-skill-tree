@@ -10,7 +10,7 @@ try:
 except ModuleNotFoundError:
     from gaia_cli.resolver import load_canonical_skills
 
-from gaia_cli.registry import named_skills_dir, registry_graph_path, skill_batches_dir
+from gaia_cli.registry import registry_graph_path, skill_batches_dir
 
 
 SKILL_ID_RE = re.compile(r"^[a-z][a-z0-9]*(-[a-z0-9]+)*$")
@@ -38,8 +38,8 @@ def load_canonical_skill_map(registry_path):
 
 
 def skill_name_from_id(skill_id):
-    words = re.sub(r"([a-z0-9])([A-Z])", r"\1 \2", skill_id).replace("_", " ")
-    return words[:1].upper() + words[1:]
+    words = re.sub(r"([a-z0-9])([A-Z])", r"\1 \2", skill_id.replace("-", " ")).replace("_", " ")
+    return " ".join(w[:1].upper() + w[1:] for w in words.split())
 
 
 def detect_source_repo(config):
@@ -78,34 +78,6 @@ def build_proposed_skill(skill_id, source_repo):
         "sourceRepo": source_repo,
         "lifecycle": "pending",
     }
-
-
-def find_named_skill_suggestions(proposed_id, named_dir, limit=3):
-    """Return named skills from registry/named/ that are lexically similar to proposed_id."""
-    if not os.path.isdir(named_dir):
-        return []
-    suggestions = []
-    for root, _dirs, files in os.walk(named_dir):
-        for fname in files:
-            if not fname.endswith(".md"):
-                continue
-            rel = os.path.relpath(os.path.join(root, fname), named_dir)
-            # Normalise to forward slashes and strip .md extension.
-            rel_fwd = rel.replace("\\", "/")
-            named_id = rel_fwd[:-3]  # strip ".md"
-            parts = named_id.split("/")
-            slug = parts[-1] if parts else named_id
-            score = max(
-                SequenceMatcher(None, proposed_id.lower(), slug.lower()).ratio(),
-                SequenceMatcher(None, proposed_id.lower(), named_id.lower()).ratio(),
-            )
-            if score >= 0.45:
-                suggestions.append((score, named_id))
-    suggestions.sort(key=lambda x: x[0], reverse=True)
-    return [
-        {"namedSkillId": named_id, "score": round(score, 3)}
-        for score, named_id in suggestions[:limit]
-    ]
 
 
 def similarity_score(candidate_id, canonical_skill):
@@ -169,7 +141,6 @@ def build_skill_batch(raw_tokens, config, registry_root, now=None):
         f"{config.get('gaiaUser', 'unknown')}-{source_repo.split('/')[-1]}"
     )
 
-    named_dir = named_skills_dir(registry_root)
     proposed_skills = []
     for skill_id in proposed_ids:
         skill = build_proposed_skill(skill_id, source_repo)

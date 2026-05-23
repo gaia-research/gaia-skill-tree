@@ -20,7 +20,7 @@
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — gaiabot  ·  generated 2026-05-22
+GAIA SKILL TREE — gaiabot  ·  generated 2026-05-23
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = stars · [0★ · Pure] = Unawakened rank pill · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
