@@ -190,6 +190,14 @@ These surface in `gaia test all` / `Test, Build, and Smoke Test` CI. Do not try 
 
 `pyproject.toml`, `packages/cli-npm/package.json`, `packages/mcp/package.json`, and `registry/gaia.json` must carry the same version string. The pre-commit hook enforces this and will block commits if they diverge. Use `gaia release patch|minor|major` (never hand-edit versions).
 
+### 8. Safe Merging & Conflict Resolution (Lessons from PR 416-438 Incident)
+
+**Isolate Generated Artifacts:** Feature/Logic PRs should **never** commit `registry/gaia.json` or `docs/graph/gaia.json`. These files change on every build and cause constant merge noise. Let the `Auto-Sync Registry Artifacts` CI handle them.
+
+**Atomic Refactors:** When moving code (e.g., extracting functions from `main.py` to a new module), do it in a standalone "Move-Only" PR. Do not combine structural refactors with logic changes in the same PR; this causes semantic merge conflicts that Git cannot resolve automatically.
+
+**Verify after Merge:** Always run a simple smoke test (e.g., `gaia --version`) after resolving merge conflicts to ensure no Git merge markers (`<<<<<<< HEAD`) were accidentally committed.
+
 ---
 
 ## Agent-Managed Files (Hermes Ownership)

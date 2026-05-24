@@ -35,3 +35,11 @@ Each component in a suite must have a `blob/branch/subpath` URL, not a bare repo
 ### 7. Version lockstep — four files must match
 
 `pyproject.toml`, `packages/cli-npm/package.json`, `packages/mcp/package.json`, and `registry/gaia.json` must always have the same version. Use `gaia release patch|minor|major` to bump all at once; the pre-commit hook enforces this.
+
+### 8. Safe Merging & Conflict Resolution (Lessons from PR 416-438 Incident)
+
+**Isolate Generated Artifacts:** Feature/Logic PRs should **never** commit `registry/gaia.json` or `docs/graph/gaia.json`. These files change on every build and cause constant merge noise. Let the `Auto-Sync Registry Artifacts` CI handle them.
+
+**Atomic Refactors:** When moving code (e.g., extracting functions from `main.py` to a new module), do it in a standalone "Move-Only" PR. Do not combine structural refactors with logic changes in the same PR; this causes semantic merge conflicts that Git cannot resolve automatically.
+
+**Verify after Merge:** Always run a simple smoke test (e.g., `gaia --version`) after resolving merge conflicts to ensure no Git merge markers (`<<<<<<< HEAD`) were accidentally committed.
