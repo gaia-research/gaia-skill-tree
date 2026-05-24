@@ -16,6 +16,12 @@
 **Vulnerability:** Found multiple instances of `innerHTML` being set with unsanitized data (e.g. `skill.name`, `skill.id`) in `docs/js/skill-graph.js`, specifically when rendering tooltips, neighbor cards, and the skill panel.
 **Learning:** While the primary data source (`graph/gaia.json`) is considered trusted registry data, relying solely on upstream data trust creates a defense-in-depth gap. If the registry data generation is compromised or modified to contain malicious HTML, the UI will execute it.
 **Prevention:** Always implement and use an HTML escaping function (like `esc`) when dynamically building HTML strings for `innerHTML`, even if the data source is nominally "trusted".
+## 2024-05-20 - Argument Injection Vulnerability
+
+**Vulnerability:** Argument injection when running `xdg-open` or `open` with `subprocess.run()`. Directly passing user-supplied input to these commands could result in arguments beginning with a hyphen (`-`) being treated as options instead of arguments.
+**Learning:** Using `str(path)` directly allows an attacker to supply a path starting with `-` (e.g., `-a`) leading to arbitrary option execution.
+**Prevention:** Resolve paths to absolute paths `path.resolve()` when passing them to commands so they always begin with `/` or drive letter instead of `-`. Alternatively, prefix the argument with `--`.
+
 ## 2025-02-28 - Automatic Execution of Local Shell Script Fix
 **Vulnerability:** `subprocess.run` was blindly executing a `scripts/install-git-hooks.sh` without checking the context.
 **Learning:** This introduces a Remote Code Execution risk inside an untrusted repository.
