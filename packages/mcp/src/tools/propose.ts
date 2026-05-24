@@ -89,7 +89,8 @@ async function claimFusion(
     ],
   });
 
-  return `Fusion claimed! PR opened: ${prUrl}\n\n**${skill.name}** (${skill.type}, ${skill.level}, ${skill.rarity}) added to your tree.`;
+  const prVerb = prUrl.startsWith("http") ? "PR" : "Status";
+  return `Fusion claimed! ${prVerb}: ${prUrl}\n\n**${skill.name}** (${skill.type}, ${skill.level}, ${skill.rarity}) added to your tree.`;
 }
 
 async function proposeNovel(
@@ -150,5 +151,6 @@ async function proposeNovel(
     ],
   });
 
-  return `Novel skill proposed! PR opened: ${prUrl}\n\n**${input.name}** — pending review by maintainers.`;
+  const prVerb = prUrl.startsWith("http") ? "PR" : "Status";
+  return `Novel skill proposed! ${prVerb}: ${prUrl}\n\n**${input.name}** — pending review by maintainers.`;
 }
