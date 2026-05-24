@@ -230,7 +230,7 @@ positional arguments:
     propose             Propose a single canonical skill as a named PR
     version             Print the Gaia CLI version
     mcp                 Run the bundled Gaia MCP server
-    release             Bump release version files
+    release             Bump version, commit, tag, and push to trigger GitHub Release
     graph               Generate and open the Gaia skill graph
     stats               Show registry health at a glance
     appraise            Inspect a skill card with status and actions

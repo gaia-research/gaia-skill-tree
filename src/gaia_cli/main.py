@@ -1389,6 +1389,48 @@ def release_command(args):
     new_version = bump_versions(args.registry, args.release_type)
     print(f"Gaia version bumped to {new_version}.")
 
+    root = args.registry or "."
+
+    # Commit the version bump, create an annotated tag, and push both so that
+    # the GitHub Actions release workflow (triggered by 'push tags: v*') fires.
+    version_files = [
+        "pyproject.toml",
+        "packages/cli-npm/package.json",
+        "packages/mcp/package.json",
+        "registry/gaia.json",
+    ]
+
+    def _run_git(*cmd, cwd=root):
+        result = subprocess.run(
+            ["git", *cmd],
+            cwd=cwd,
+            capture_output=True,
+            text=True,
+        )
+        if result.returncode != 0:
+            raise SystemExit(
+                f"git {' '.join(cmd)} failed:\n{result.stderr.strip()}"
+            )
+        return result.stdout.strip()
+
+    print("Creating release commit…")
+    _run_git("add", "--", *version_files)
+    _run_git(
+        "commit",
+        "-m",
+        f"chore: release v{new_version} [skip-gen]",
+    )
+
+    tag = f"v{new_version}"
+    print(f"Creating tag {tag}…")
+    _run_git("tag", "-a", tag, "-m", f"Release {tag}")
+
+    if not args.no_push:
+        print("Pushing commit and tag to origin…")
+        _run_git("push", "origin", "HEAD")
+        _run_git("push", "origin", tag)
+        print(f"✓ Released {tag} — GitHub Actions will create the GitHub Release.")
+
 def get_parser():
     parser = argparse.ArgumentParser(
         prog="gaia",
@@ -1469,9 +1511,10 @@ def get_parser():
             "Requires building the server first: run `npm run build` inside packages/mcp/."
         ),
     )
-    release_parser = subparsers.add_parser('release', help="Bump release version files")
+    release_parser = subparsers.add_parser('release', help="Bump version, commit, tag, and push to trigger GitHub Release")
     release_parser.add_argument('release_type', choices=('patch', 'minor', 'major'))
     release_parser.add_argument('--sync', action='store_true', help="Force sync versions if they disagree before bump")
+    release_parser.add_argument('--no-push', action='store_true', help="Skip git push (commit and tag locally only)")
     graph_parser = subparsers.add_parser('graph', help="Generate and open the Gaia skill graph")
     graph_parser.add_argument('--format', choices=('html', 'svg', 'json'), default='html', help="Graph artifact format (default: html)")
     graph_parser.add_argument('-o', '--output', help="Output path (default: registry/render/gaia.html)")
@@ -1645,17 +1688,17 @@ def validate_command(args):
 def test_command(args):
     """Run self-verification tests."""
     repo_root = Path(__file__).parent.parent.parent
-    pytest_path = repo_root / ".venv" / "bin" / "pytest"
-    if not pytest_path.exists():
-        # Fallback to system pytest
-        pytest_path = "pytest"
-    
-    cmd = [str(pytest_path)]
+
+    # Always use the same Python that is running gaia so the test process
+    # inherits the correct virtual-env / site-packages (including gaia_cli
+    # itself, pyyaml, textual, etc.).  Relying on a bare "pytest" from PATH
+    # can pick up an isolated uv-tool pytest that lacks these packages.
+    cmd = [sys.executable, "-m", "pytest"]
     if args.suite == "meta":
         cmd.append(str(repo_root / "tests" / "test_dev.py"))
     elif args.suite == "all":
         cmd.append(str(repo_root / "tests"))
-    
+
     print(f"Running tests: {' '.join(cmd)}")
     result = subprocess.run(cmd, cwd=str(repo_root))
     if result.returncode != 0:
