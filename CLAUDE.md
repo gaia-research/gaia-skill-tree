@@ -87,7 +87,7 @@ The pre-commit hook keeps these in lockstep:
 - `packages/mcp/package.json`
 - `registry/gaia.json`
 
-If they disagree before the bump, the hook fails loudly. Do not silently repair version drift without calling it out.
+If they disagree before the bump, the hook fails loudly. Use `gaia release <type> --sync` to force align manifests to the highest version before bumping. Use `gaia release patch|minor|major` to bump all at once.
 
 ## Wiki Management
 
