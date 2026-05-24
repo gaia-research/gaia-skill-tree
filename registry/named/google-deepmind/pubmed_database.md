@@ -13,6 +13,8 @@ description: Search PubMed for scientific literature, including published clinic
   result sets for bulk processing. Interfaces NCBI E-utilities and PMC BioC APIs.
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
+links:
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/pubmed_database
 ---
 
 # PubMed API

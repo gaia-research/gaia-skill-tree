@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/skill.schema.json",
-  "version": "3.23.2",
-  "generatedAt": "2026-05-22T21:18:03.647988Z",
+  "version": "3.22.5",
+  "generatedAt": "2026-05-23T16:06:35.849749Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -1860,6 +1860,48 @@
       "createdAt": "2026-04-26",
       "updatedAt": "2026-04-26",
       "version": "0.1.0"
+    },
+    {
+      "id": "dify-agent-suite",
+      "name": "Dify Agent Suite",
+      "type": "extra",
+      "level": "1★",
+      "rarity": "common",
+      "description": "An integrated suite of frontend, backend, testing, and review capabilities for the Dify LLM application development platform.",
+      "prerequisites": [
+        "code-review-pipeline",
+        "refactor-code",
+        "automated-testing",
+        "e2e-testing"
+      ],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/langgenius/dify",
+          "evaluator": "jules",
+          "date": "2026-05-20"
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-20",
+      "updatedAt": "2026-05-20",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-20T23:14:03Z",
+          "action": "add",
+          "contributor": "gaiabot",
+          "details": "Added generic skill dify-agent-suite"
+        },
+        {
+          "timestamp": "2026-05-20T23:14:48Z",
+          "action": "evidence_added",
+          "contributor": "gaiabot",
+          "details": "Added B evidence from https://github.com/langgenius/dify"
+        }
+      ]
     },
     {
       "id": "dispatching-parallel-agents",
@@ -7836,6 +7878,11 @@
     },
     {
       "sourceSkillId": "automated-testing",
+      "targetSkillId": "dify-agent-suite",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "automated-testing",
       "targetSkillId": "e2e-testing",
       "edgeType": "prerequisite"
     },
@@ -8071,6 +8118,11 @@
     },
     {
       "sourceSkillId": "code-review-pipeline",
+      "targetSkillId": "dify-agent-suite",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "code-review-pipeline",
       "targetSkillId": "finishing-a-development-branch",
       "edgeType": "prerequisite"
     },
@@ -8297,6 +8349,11 @@
     {
       "sourceSkillId": "dual-mode",
       "targetSkillId": "ruflo",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "e2e-testing",
+      "targetSkillId": "dify-agent-suite",
       "edgeType": "prerequisite"
     },
     {
@@ -8917,6 +8974,11 @@
     {
       "sourceSkillId": "receiving-code-review",
       "targetSkillId": "superpowers",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "refactor-code",
+      "targetSkillId": "dify-agent-suite",
       "edgeType": "prerequisite"
     },
     {

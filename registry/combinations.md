@@ -29,6 +29,7 @@
 | ◇ [garrytan](../docs/u/garrytan/)/design-shotgun | Extra Skill | Evaluate Output, Plan and Decompose | 3★ |  |
 | ◇ [Manavarya09](../docs/u/Manavarya09/)/design-extract | Extra Skill | Browser Automation, Parse HTML | 3★ | Requires headless browser (Playwright/Puppeteer). |
 | ◇ [garrytan](../docs/u/garrytan/)/canary | Extra Skill | Evaluate Output, Error Interpretation | 2★ |  |
+| ◇ /dify-agent-suite | Extra Skill | Code Review Pipeline, Refactor Code, Automated Testing, End-to-End Testing | 1★ |  |
 | ◇ [obra](../docs/u/obra/)/dispatching-parallel-agents | Extra Skill | Plan and Decompose, Parallel Execution | 4★ |  |
 | ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus-neural | Extra Skill | Parallel Execution, Embed Text | 3★ |  |
 | ◇ [ruvnet](../docs/u/ruvnet/)/agentdb-advanced | Extra Skill | Vector Search, Memory Manage | 3★ |  |

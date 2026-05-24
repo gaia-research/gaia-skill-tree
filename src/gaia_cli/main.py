@@ -2,6 +2,7 @@ import argparse
 import sys
 import os
 import json
+import signal
 import subprocess
 from datetime import date
 from contextlib import redirect_stdout
@@ -34,6 +35,7 @@ from gaia_cli.commands.dev import (
     meta_evidence_command,
     meta_build_command,
     meta_audit_command,
+    meta_diff_command,
 )
 from gaia_cli.registry import (
     generated_output_dir,
@@ -1259,15 +1261,39 @@ def skills_command(args):
 
 
 def pull_command(args):
-    res = subprocess.run(["git", "-C", args.registry, "pull", "--ff-only"])
+    res = subprocess.run(
+        ["git", "-C", args.registry, "pull", "--ff-only"],
+        capture_output=True,
+        text=True,
+    )
     if res.returncode != 0:
-        print("Warning: git pull failed. Ensure you are on a tracking branch.", file=sys.stderr)
+        stderr = res.stderr.strip()
+        no_upstream = any(p in stderr for p in (
+            "no tracking information", "no upstream", "There is no tracking",
+            "does not track", "has no upstream",
+        ))
+        if no_upstream:
+            print("Note: Registry could not be updated via git (no upstream configured). Local registry unchanged.", file=sys.stderr)
+        else:
+            print(f"Warning: git pull failed. Local registry unchanged.\n  {stderr}", file=sys.stderr)
 
 
 def update_command(args):
-    res = subprocess.run(["git", "-C", args.registry, "pull", "--ff-only"])
+    res = subprocess.run(
+        ["git", "-C", args.registry, "pull", "--ff-only"],
+        capture_output=True,
+        text=True,
+    )
     if res.returncode != 0:
-        print("Warning: git pull failed. Proceeding with installation...", file=sys.stderr)
+        stderr = res.stderr.strip()
+        no_upstream = any(p in stderr for p in (
+            "no tracking information", "no upstream", "There is no tracking",
+            "does not track", "has no upstream",
+        ))
+        if no_upstream:
+            print("Note: Could not git-pull registry (no upstream configured). Proceeding with package update...", file=sys.stderr)
+        else:
+            print(f"Warning: git pull failed. Proceeding with package update...\n  {stderr}", file=sys.stderr)
     registry_pyproject = Path(args.registry) / "pyproject.toml"
     
     # PEP 668 fix: use --break-system-packages if not in a venv
@@ -1409,7 +1435,15 @@ def get_parser():
     propose_parser.add_argument('--yes', action='store_true', help="Use defaults without interactive prompts")
     propose_parser.add_argument('--no-pr', action='store_true', help="Write intake proposal without opening a PR")
     subparsers.add_parser('version', help="Print the Gaia CLI version")
-    subparsers.add_parser('mcp', help="Run the bundled Gaia MCP server")
+    subparsers.add_parser(
+        'mcp',
+        help="Run the bundled Gaia MCP server",
+        description=(
+            "Start the Gaia MCP (Model Context Protocol) server, which exposes the skill registry "
+            "to AI tools and IDE integrations via stdio. "
+            "Requires building the server first: run `npm run build` inside packages/mcp/."
+        ),
+    )
     release_parser = subparsers.add_parser('release', help="Bump release version files")
     release_parser.add_argument('release_type', choices=('patch', 'minor', 'major'))
     graph_parser = subparsers.add_parser('graph', help="Generate and open the Gaia skill graph")
@@ -1500,6 +1534,8 @@ def get_parser():
     dev_update_named.add_argument('--status', help="New status (e.g. awakened, named)")
     dev_update_named.add_argument('--generic-ref', help="New generic skill reference")
     dev_update_named.add_argument('--suite-components', help="Comma-separated list of suite components")
+    dev_update_named.add_argument('--suite-ref', help="Suite capstone ID this skill belongs to (e.g. garrytan/gstack). Sets suiteRef in frontmatter.")
+    dev_update_named.add_argument('--installation-file', metavar='PATH', help="Path to a markdown file whose content replaces the '## Installation' section in the capstone skill.")
     dev_update_named.add_argument('--no-build', action='store_true', help="Skip rebuilding docs and graph assets after updating")
 
     dev_evidence = dev_sub.add_parser('evidence', help="Add evidence to a skill")
@@ -1515,6 +1551,20 @@ def get_parser():
 
     dev_audit = dev_sub.add_parser('audit', help="Run registry maintenance linter")
     dev_audit.add_argument('--level', type=int, help="Filter audit by level threshold")
+
+    dev_diff = dev_sub.add_parser(
+        'diff',
+        help="Show substantive registry additions in a branch vs main (strips generated noise)",
+    )
+    dev_diff.add_argument(
+        'ref', nargs='?',
+        help="Branch or ref to compare (default: current branch). "
+             "Short names are auto-prefixed with origin/.",
+    )
+    dev_diff.add_argument(
+        '--base', default='origin/main',
+        help="Base ref to compare against (default: origin/main)",
+    )
 
     validate_parser = subparsers.add_parser('validate', help="Validate the Gaia registry")
     validate_parser.add_argument('--intake', action='store_true', help="Validate intake batches instead of canonical graph")
@@ -1587,6 +1637,12 @@ def test_command(args):
         sys.exit(result.returncode)
 
 def main():
+    # Suppress BrokenPipeError traceback when output is piped to head/less/etc.
+    # Placed here (not __main__.py) so it covers all entry paths: console script,
+    # `python -m gaia_cli`, and programmatic callers.
+    if hasattr(signal, 'SIGPIPE'):
+        signal.signal(signal.SIGPIPE, signal.SIG_DFL)
+
     # Ensure UTF-8 output on Windows (avoids cp1252 UnicodeEncodeError for box-drawing)
     if sys.platform == "win32" and hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -1676,6 +1732,8 @@ def main():
             meta_build_command(args)
         elif dev_cmd == 'audit':
             meta_audit_command(args)
+        elif dev_cmd == 'diff':
+            meta_diff_command(args)
         else:
             _, subparsers = get_parser()
             subparsers.choices['dev'].print_help()

@@ -12,6 +12,8 @@ description: Compacts the current conversation into a summary for a fresh agent 
 createdAt: '2026-05-21'
 updatedAt: '2026-05-21'
 suiteRef: "mattpocock/productivity"
+links:
+  github: https://github.com/mattpocock/skills/blob/main/skills/productivity/handoff
 ---
 
 ## Installation

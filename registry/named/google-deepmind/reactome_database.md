@@ -13,6 +13,8 @@ description: Query the Reactome database (Analysis and Content Services). Use wh
   diagram export, cross-reference mapping, or searching the knowledgebase.
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
+links:
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/reactome_database
 ---
 
 # Reactome Analysis & Content Service

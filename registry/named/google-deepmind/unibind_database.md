@@ -13,6 +13,8 @@ description: Queries the UniBind database for experimentally validated transcrip
   intervals, locations, genes, motif models or expression data.
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
+links:
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/unibind_database
 ---
 
 # UniBind Database Skill

@@ -11,6 +11,8 @@ description: Shared Python package for Science Skills, currently containing http
   a standalone agent skill. Do not invoke directly.
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
+links:
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common
 ---
 
 # Science Skills Common

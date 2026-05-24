@@ -52,9 +52,20 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          
+
           if [[ -n "$(git status --porcelain)" ]]; then
             git add .
-            git commit -m "chore(auto): regenerate registry artifacts and sync docs"
+            git commit -m "chore(auto): regenerate registry artifacts and sync docs [skip-gen]"
             git push
           fi
+
+      - name: Sync Wiki Pages
+        if: ${{ secrets.WIKI_PAT != '' }}
+        env:
+          WIKI_PAT: ${{ secrets.WIKI_PAT }}
+        run: |
+          # Clone wiki with write credentials adjacent to the main repo
+          git clone "https://x-access-token:${WIKI_PAT}@github.com/mbtiongson1/gaia-skill-tree.wiki.git" ../gaia-wiki
+
+          # Sync README marker regions → wiki pages and push to master
+          python scripts/sync_wiki.py --wiki-dir ../gaia-wiki --push

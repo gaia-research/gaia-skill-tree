@@ -26,11 +26,21 @@
   // ║ invalidateCanvasTokens() if the theme is swapped at runtime.   ║
   // ╚════════════════════════════════════════════════════════════════╝
   const version = window.GAIA_VERSION ? '?v=' + window.GAIA_VERSION : '';
-  const GRAPH_JSON_URL = 'graph/gaia.json' + version;
+  const GRAPH_JSON_URL = '/graph/gaia.json' + version;
   const GRAPH_SCALE = 1.625;
 
   // ── Locked canvas geometry (DESIGN.md ▸ Graph Canvas) ──────────
-  const NODE_RADII = { ultimate: 12.5, unique: 9.5, extra: 6.9, basic: 3.5 };
+  const NODE_RADII = {
+    ultimate: 12.5, unique: 9.5, extra: 6.9, basic: 3.5,
+    get: function (rank, type) {
+      if (type === 'unique') rank = '5★';
+      const n = parseInt(rank, 10) || 0;
+      // Boosted exponential curve for visibility: r = a * e^(b * n)
+      // r(1) = 3.0, r(6) = 10.0
+      if (n === 0) return 2.5;
+      return 2.3 * Math.exp(0.25 * n);
+    }
+  };
   const LINE_WEIGHTS = {
     default: { ultimate: 1.55, other: 0.92 },
     highlighted: { ultimate: 2.20, other: 1.40 },
@@ -244,6 +254,8 @@
       rarity: skill.rarity || '',
       description: skill.description || '',
       prerequisites: Array.isArray(skill.prerequisites) ? skill.prerequisites : [],
+      cluster: skill.cluster !== undefined ? skill.cluster : 0,
+      positions: skill.positions || null,
     })).filter(skill => skill.id);
   }
 
@@ -266,11 +278,37 @@
       x: Math.cos(theta) * ring * radius,
       y: y * radius,
       z: Math.sin(theta) * ring * radius,
+      w: 0,
       phase: (seed % 628) / 100,
     };
   }
 
-  function buildPositions(skills, scale) {
+  function buildPositions(skills, scale, mode = 'semantic') {
+    const positions = {};
+    const hasPositions = skills.some(s => s.positions);
+
+    if (hasPositions) {
+      skills.forEach(skill => {
+        if (skill.positions && skill.positions[mode]) {
+          const p = skill.positions[mode];
+          // Scale up coordinates (PCA/Spectral/Deterministic are normalized to [-1, 1])
+          const s = 450 * scale;
+          positions[skill.id] = {
+            x: p[0] * s, y: p[1] * s, z: p[2] * s, w: p[3] * s,
+            phase: stableHash(skill.id) % 628 / 100
+          };
+        }
+      });
+      // Fallback for missing positions
+      skills.forEach(skill => {
+        if (!positions[skill.id]) {
+          positions[skill.id] = { x: 0, y: 0, z: 0, w: 0, phase: 0 };
+        }
+      });
+      return positions;
+    }
+
+    // LEGACY Fallback (Spherical)
     const groups = { basic: [], extra: [], ultimate: [] };
     const satellite = { unique: [], orphan: [] };
     const allPrereqRefs = new Set();
@@ -286,7 +324,6 @@
     Object.values(groups).forEach(group => group.sort((a, b) => (a.name || a.id).localeCompare(b.name || b.id)));
     satellite.unique.sort((a, b) => (a.name || a.id).localeCompare(b.name || b.id));
     satellite.orphan.sort((a, b) => (a.name || a.id).localeCompare(b.name || b.id));
-    const positions = {};
     // Multiply locked SPHERE_RADII (DESIGN.md) by the runtime scale.
     const radii = {
       basic: SPHERE_RADII.basic * scale,
@@ -381,7 +418,11 @@
       t: 0,
       mx: 0,
       my: 0,
-      labelMode: options.labelMode || 'ultimate',
+      labelMode: options.labelMode || 'none', // Labels off by default
+      layoutMode: 'semantic', // Default layout
+      autoRotate: true,
+      colorMode: 'tier',
+      rx: 0, ry: 0, rz: 0, rw: 0,
       scale: options.scale || GRAPH_SCALE,
       zoom: 1,
       statusEl: options.statusEl || null,
@@ -390,7 +431,7 @@
       orbitX: 0,
       orbitY: 0,
       dragging: false,
-      dragMode: 'pan',
+      dragMode: 'orbit',
       dragLastX: 0,
       dragLastY: 0,
       dragStartX: 0,
@@ -459,6 +500,8 @@
         const auroraHues = [140, 280];
         return {
           x: Math.cos(a1) * Math.cos(a2) * r, y: Math.sin(a2) * r, z: Math.sin(a1) * Math.cos(a2) * r,
+          w: 0,
+          phase: (seed % 628) / 100,
           radius: (200 + (seed % 140)) * state.scale,
           isAurora,
           hue: isAurora ? auroraHues[i - 6] : 220,
@@ -470,7 +513,7 @@
 
     function setSkills(skills) {
       state.skills = skills;
-      state.positions = buildPositions(skills, state.scale);
+      state.positions = buildPositions(skills, state.scale, state.layoutMode);
       const newAlphas = {};
       skills.forEach(s => { newAlphas[s.id] = state.nodeAlphas[s.id] !== undefined ? state.nodeAlphas[s.id] : 1.0; });
       state.nodeAlphas = newAlphas;
@@ -502,19 +545,40 @@
 
     function rotX(p, a) {
       const c = Math.cos(a), s = Math.sin(a);
-      return { x: p.x, y: c * p.y - s * p.z, z: s * p.y + c * p.z, phase: p.phase };
+      return { x: p.x, y: c * p.y - s * p.z, z: s * p.y + c * p.z, w: p.w, phase: p.phase };
     }
     function rotY(p, a) {
       const c = Math.cos(a), s = Math.sin(a);
-      return { x: c * p.x + s * p.z, y: p.y, z: -s * p.x + c * p.z, phase: p.phase };
+      return { x: c * p.x + s * p.z, y: p.y, z: -s * p.x + c * p.z, w: p.w, phase: p.phase };
+    }
+    function rotXW(p, a) {
+      const c = Math.cos(a), s = Math.sin(a);
+      return { x: c * p.x - s * p.w, y: p.y, z: p.z, w: s * p.x + c * p.w, phase: p.phase };
+    }
+    function rotYW(p, a) {
+      const c = Math.cos(a), s = Math.sin(a);
+      return { x: p.x, y: c * p.y - s * p.w, z: p.z, w: s * p.y + c * p.w, phase: p.phase };
     }
     function project(p) {
+      // 4D -> 3D Perspective Projection
+      const fov4 = 2.0;
+      const wCoeff = (p.w || 0) / (700 * state.scale); // Pushed back W-scale
+      const scale4 = fov4 / (fov4 + wCoeff);
+      const x3 = p.x * scale4, y3 = p.y * scale4, z3 = p.z * scale4;
+
       const fov = Math.min(state.width, state.height) * 0.75;
-      const denom = fov + p.z + 360 * state.scale;
-      if (denom < 1) return { sx: state.width / 2 + state.panX, sy: state.height / 2 + state.panY, scale: 0 };
+      // Pushed camera further back (480 instead of 360) to avoid clipping large clouds
+      const denom = fov + z3 + 520 * state.scale;
+      if (denom < 1) return { sx: state.width / 2 + state.panX, sy: state.height / 2 + state.panY, scale: 0, z: z3, w: p.w || 0 };
       const dist = fov / denom;
       const z = state.zoom;
-      return { sx: state.width / 2 + p.x * dist * z + state.panX, sy: state.height / 2 + p.y * dist * z + state.panY, scale: dist * z };
+      return {
+        sx: state.width / 2 + x3 * dist * z + state.panX,
+        sy: state.height / 2 + y3 * dist * z + state.panY,
+        scale: dist * z * scale4,
+        z: z3,
+        w: p.w || 0
+      };
     }
     function drawNode(sx, sy, r, color, alpha) {
       const grad = ctx.createRadialGradient(sx, sy, 0, sx, sy, r * 3.9);
@@ -543,8 +607,8 @@
       const spin = t * 1.3 + phase;
 
       // Impact blink: fires every ~5s, quick flash then gradual fade-out
-      const blinkT = (t + phase * 2.3) % 1.8;
-      const blink = blinkT < 0.012 ? 1 : blinkT < 0.18 ? 1 - (blinkT - 0.012) / 0.168 : 0;
+      // [TEMPORARY] Flash disabled per request.
+      const blink = 0;
 
       // ── GOLD CORONA (outermost glow) ──
       const coronaPulse = 0.85 + 0.15 * Math.sin(t * 0.9 + phase);
@@ -765,7 +829,7 @@
       // Under reduced-motion, freeze the idle AUTO-ROTATION angles for the hero
       // graph (non-draggable). The modal graph (draggable) can still be spun
       // manually by the user, so we don't suppress it there.
-      if (!state.paused) state.t += 0.006 * state.rotSpeed * (1 - state.hoverSlowdown);
+      if (!state.paused && state.autoRotate) state.t += 0.006 * state.rotSpeed * (1 - state.hoverSlowdown);
       ctx.clearRect(0, 0, state.width, state.height);
       state.projectedNodes = {};
       // Under reduced motion, lock the idle pan angle to 0 for the hero graph.
@@ -776,50 +840,33 @@
       const rx = _opts.draggable
         ? Math.sin(state.t * 0.055) * 0.20 + state.orbitX
         : (rmFreeze ? state.orbitX : Math.sin(state.t * 0.055) * 0.20 + state.my * 0.055);
-      if (state.nebula) {
-        const maxR = Math.max(state.width, state.height) * 1.5;
-        state.nebulaClouds.forEach(cloud => {
-          const p = rotX(rotY(cloud, ry * 0.08), rx * 0.08);
-          const pr = project(p);
-          if (pr.scale < 0.005) return;
-          const r = Math.min(cloud.radius * pr.scale * 2.8, maxR);
-          if (r < 1) return;
-          const g = ctx.createRadialGradient(pr.sx, pr.sy, 0, pr.sx, pr.sy, r);
-          const s = cloud.sat;
-          const h = cloud.hue;
-          if (cloud.isAurora) {
-            g.addColorStop(0, `hsla(${h},${s}%,55%,${(cloud.alpha * 0.85).toFixed(3)})`);
-            g.addColorStop(0.4, `hsla(${h},${s * 0.7}%,40%,${(cloud.alpha * 0.4).toFixed(3)})`);
-            g.addColorStop(0.75, `hsla(${h},${s * 0.4}%,30%,${(cloud.alpha * 0.12).toFixed(3)})`);
-            g.addColorStop(1, `hsla(${h},${s * 0.2}%,20%,0)`);
-          } else {
-            g.addColorStop(0, `hsla(${h},${s}%,72%,${(cloud.alpha * 0.8).toFixed(3)})`);
-            g.addColorStop(0.3, `hsla(${h},${s}%,55%,${(cloud.alpha * 0.4).toFixed(3)})`);
-            g.addColorStop(0.65, `hsla(${h},${s * 0.5}%,40%,${(cloud.alpha * 0.12).toFixed(3)})`);
-            g.addColorStop(1, `hsla(${h},0%,30%,0)`);
-          }
-          ctx.beginPath(); ctx.arc(pr.sx, pr.sy, r, 0, Math.PI * 2);
-          ctx.fillStyle = g; ctx.fill();
-        });
-      }
+      const rw = state.t * 0.12;
+
       const xf = {};
-      const allPrereqRefs = new Set();
-      state.skills.forEach(skill => skill.prerequisites.forEach(pid => allPrereqRefs.add(pid)));
-      state.skills.forEach(skill => {
-        const p0 = state.positions[skill.id];
-        if (!p0) return;
-        if (p0._satellite === 'orphan') {
-          const s = p0._orbitSpeed, amp = p0._orbitAmp;
-          xf[skill.id] = rotX(rotY({
-            x: p0.x + Math.cos(state.t * s + p0._phX) * amp,
-            y: p0.y + Math.sin(state.t * s * 1.3 + p0._phY) * amp,
-            z: p0.z + Math.sin(state.t * s * 0.7 + p0._phZ) * amp,
-            phase: p0.phase,
-          }, ry), rx);
-        } else {
-          xf[skill.id] = rotX(rotY(p0, ry), rx);
+      Object.keys(state.positions).forEach(id => {
+        let p = state.positions[id];
+        if (p._satellite === 'orphan') {
+          const s = p._orbitSpeed, amp = p._orbitAmp;
+          p = {
+            x: p.x + Math.cos(state.t * s + p._phX) * amp,
+            y: p.y + Math.sin(state.t * s * 1.3 + p._phY) * amp,
+            z: p.z + Math.sin(state.t * s * 0.7 + p._phZ) * amp,
+            w: p.w || 0,
+            phase: p.phase,
+          };
         }
+        if (state.layoutMode === 'semantic' || state.layoutMode === 'spectral') {
+          // 4D Rotation Planes
+          p = rotY(rotX(p, rx), ry);
+          p = rotXW(p, rw);
+          p = rotYW(p, rw * 0.5);
+        } else {
+          // Legacy 3D Rotation
+          p = rotX(rotY(p, ry), rx);
+        }
+        xf[id] = p;
       });
+
       const neighborSet = new Set();
       const focusId = state.pinnedId || state.hoveredId;
       if (focusId) {
@@ -924,17 +971,33 @@
         ctx.stroke();
       });
       const nodes = state.skills.map(skill => ({ skill, z: xf[skill.id] ? xf[skill.id].z : -9999 })).sort((a, b) => a.z - b.z);
+      const labelNodes = [];
       nodes.forEach(({ skill }) => {
         const p = xf[skill.id]; if (!p) return;
         const pr = project(p);
         if (pr.scale <= 0) return;
         state.projectedNodes[skill.id] = pr;
-        const pulse = 0.84 + 0.16 * Math.sin(state.t * 2.2 + p.phase);
-        const depthAlpha = Math.min(Math.max((p.z + 430 * state.scale) / (860 * state.scale), 0.16), 1);
-        const col = PALETTE[skill.type] || PALETTE.basic;
-        // Node base radius locked per DESIGN.md ▸ Graph Canvas.
-        const baseR = NODE_RADII[skill.type] !== undefined ? NODE_RADII[skill.type] : NODE_RADII.basic;
+
         const vis = state.nodeAlphas[skill.id] !== undefined ? state.nodeAlphas[skill.id] : 1.0;
+        if (vis <= 0) return;
+
+        // Hyperspace Perspective: Two-stage projection with W-depth fog
+        const depthAlpha = Math.min(1, Math.max(0.18, (pr.z / 650 + 1) * (pr.w / 600 + 1)));
+
+        let col;
+        if (state.colorMode === 'cluster' && skill.cluster !== undefined) {
+          const hex = _readVar('--cluster-' + (skill.cluster % 8)) || '#888888';
+          const r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16);
+          col = { rgb: `${r},${g},${b}`, hex };
+        } else {
+          col = PALETTE[skill.type] || PALETTE.basic;
+        }
+
+        const isPinned = state.pinnedId === skill.id;
+        const isHovered = state.hoveredId === skill.id;
+        const baseR = NODE_RADII.get(skill.level, skill.type);
+        const pulse = 0.84 + 0.16 * Math.sin(state.t * 2.2 + p.phase);
+
         if (skill.level === '6★') {
           drawNodeVI(pr.sx, pr.sy, baseR * state.scale * pr.scale * pulse, depthAlpha * vis, state.t, p);
         } else if (skill.type === 'unique') {
@@ -944,29 +1007,35 @@
         } else {
           drawNode(pr.sx, pr.sy, baseR * state.scale * pr.scale * pulse, col, depthAlpha * vis);
         }
+
+        const rankVal = parseInt(skill.level, 10) || 0;
+        const priorityScore = rankVal + (stableHash(skill.id) % 3);
+        const shouldPop = (pr.scale > 1.25 && priorityScore >= 6) || isPinned || isHovered;
+
+        if (state.labelMode === 'all' || (state.labelMode === 'priority' && shouldPop)) {
+          labelNodes.push({ skill, pr, depthAlpha, colRgb: col.rgb });
+        }
       });
-      const labelNodes = nodes.filter(({ skill }) => shouldLabel(skill));
-      function drawLabel(skill, highlighted) {
+      function drawLabel(skill, highlighted, forcedDepthAlpha, forcedColRgb) {
         const p = xf[skill.id]; if (!p) return;
         const pr = project(p);
-        const depthAlpha = Math.min(Math.max((p.z + 430 * state.scale) / (860 * state.scale), 0), 1);
+        const depthAlpha = forcedDepthAlpha !== undefined ? forcedDepthAlpha : Math.min(Math.max((p.z + 430 * state.scale) / (860 * state.scale), 0), 1);
         if (!highlighted && depthAlpha < 0.22) return;
         const vis = state.nodeAlphas[skill.id] !== undefined ? state.nodeAlphas[skill.id] : 1.0;
         const labelAlpha = highlighted ? 1.0 : depthAlpha * Math.max(0.22, vis) * 0.9;
         if (labelAlpha < 0.04) return;
         const isNamedHover = state.redPillActive && state.namedMap && state.namedMap[skill.id];
         const tokens = getCanvasTokens();
-        const colRgb = isNamedHover
+        const colRgb = forcedColRgb || (isNamedHover
           ? tokens.honorRedRgb
-          : ((PALETTE[skill.type] || PALETTE.basic).rgb);
-        const size = skill.type === 'ultimate' ? 13 : skill.type === 'extra' ? 10 : 8;
-        // canvasFont() routes through tokens — Ultimate plate labels
-        // use EB Garamond italic (display), Named-skill hover uses
-        // Departure Mono (handle), everything else uses Bricolage
-        // (body).
-        let role = 'body';
-        if (skill.type === 'ultimate') role = 'display';
-        else if (isNamedHover) role = 'handle';
+          : ((PALETTE[skill.type] || PALETTE.basic).rgb));
+
+        // Registry-3d aesthetic: Use mono font at reduced size for non-highlighted labels
+        const size = highlighted ? (skill.type === 'ultimate' ? 13 : 10) : 9;
+        let role = (highlighted || isNamedHover || state.labelMode === 'all') 
+          ? (skill.type === 'ultimate' ? 'display' : 'handle') 
+          : 'handle';
+
         ctx.font = canvasFont(role, size * pr.scale * 1.16);
         const namedId = (state.redPillActive && state.namedMap && state.namedMap[skill.id]) ? state.namedMap[skill.id] : null;
         if (namedId) {
@@ -1009,14 +1078,36 @@
         ctx.fillStyle = `rgba(${colRgb},${labelAlpha.toFixed(2)})`;
         ctx.fillText(labelText, pr.sx, pr.sy + 18 * pr.scale);
       }
-      labelNodes.forEach(({ skill }) => {
+      labelNodes.forEach(({ skill, depthAlpha, colRgb }) => {
         const vis = state.nodeAlphas[skill.id] !== undefined ? state.nodeAlphas[skill.id] : 1.0;
-        if (vis <= 0.95) drawLabel(skill, false);
+        if (vis <= 0.95) drawLabel(skill, false, depthAlpha, colRgb);
       });
-      labelNodes.forEach(({ skill }) => {
+      labelNodes.forEach(({ skill, depthAlpha, colRgb }) => {
         const vis = state.nodeAlphas[skill.id] !== undefined ? state.nodeAlphas[skill.id] : 1.0;
-        if (vis > 0.95) drawLabel(skill, true);
+        if (vis > 0.95) drawLabel(skill, true, depthAlpha, colRgb);
       });
+
+      if (state.colorMode === 'cluster' && state.meta && state.meta.clusterNames) {
+        // Find cluster with highest W+Z prominence
+        let bestCluster = 0, bestScore = -Infinity;
+        state.skills.forEach((skill) => {
+          const pr = state.projectedNodes[skill.id];
+          if (!pr) return;
+          const score = pr.z + pr.w;
+          if (score > bestScore) { bestScore = score; bestCluster = skill.cluster; }
+        });
+        const cName = state.meta.clusterNames[bestCluster];
+        if (cName) {
+          ctx.save();
+          ctx.fillStyle = getCanvasTokens().apexGold;
+          ctx.font = canvasFont('handle', 12);
+          ctx.textAlign = 'center';
+          ctx.globalAlpha = 0.85;
+          ctx.fillText(`Hyper-Domain: ${cName}`, state.width / 2, state.height - 24);
+          ctx.restore();
+        }
+      }
+
       // Final pass: redraw unique void cores on top of everything (labels, other effects)
       nodes.forEach(({ skill }) => {
         if (skill.type !== 'unique') return;
@@ -1198,8 +1289,15 @@
       skillPanel.addEventListener('mousedown', e => e.stopPropagation());
 
       const collectionPanel = document.createElement('div');
-      collectionPanel.className = 'graph-collection-panel minimized';
+      collectionPanel.className = 'graph-collection-panel';
+      collectionPanel.setAttribute('data-interactive-chrome', '');
       collectionPanel.style.display = 'none';
+      // Floating window: position it at top left by default
+      collectionPanel.style.position = 'absolute';
+      collectionPanel.style.left = '1.5rem';
+      collectionPanel.style.top = '6rem';
+      collectionPanel.style.zIndex = '30';
+
       // Collection panel chrome — uses sprite icons for copy / clear so
       // it inherits the same icon vocabulary as the rest of the site.
       // Internal `.gst-honor` class colours the "Named" / "named"
@@ -1208,7 +1306,7 @@
       // (public registry) and "Claimed skills" (per-user local graph).
       const collectionTitle = state.graphMode === 'local' ? 'Claimed skills' : 'Collection';
       collectionPanel.innerHTML =
-        `<div class="graph-collection-header">` +
+        `<div class="graph-collection-header" style="cursor: move;">` +
         `<span class="graph-collection-title">${collectionTitle}</span>` +
         `<div class="graph-collection-actions">` +
         `<button class="graph-collection-copy-all" title="Copy all named install commands" aria-label="Copy named install commands">` +
@@ -1217,15 +1315,43 @@
         `<button class="graph-collection-clear-all" title="Clear collection" aria-label="Clear collection">` +
         `<svg class="gst-btn-ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#trash"/></svg>` +
         `</button>` +
-        `<button class="graph-collection-minimize" title="Maximize panel" aria-label="Maximize panel">` +
-        `<svg class="gst-btn-ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="3" x2="8" y2="13" /><line x1="3" y1="8" x2="13" y2="8" /></svg>` +
+        `<button class="graph-collection-minimize" title="Minimize panel" aria-label="Minimize panel">` +
+        `<svg class="gst-btn-ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="8" x2="13" y2="8" /></svg>` +
         `</button>` +
         `</div></div>` +
         `<div class="graph-collection-list"></div>` +
-        `<div class="graph-collection-note">You can only install <span class="gst-honor">named</span> skills. For unnamed ones, propose one first.</div>`;
+        `<div class="graph-collection-note">You can only install <span class="gst-honor">named</span> skills.</div>`;
       canvas.parentElement.appendChild(collectionPanel);
       state.collectionEl = collectionPanel;
       collectionPanel.addEventListener('mousedown', e => e.stopPropagation());
+
+      // Draggable Collection Panel logic
+      const collHeader = collectionPanel.querySelector('.graph-collection-header');
+      let collDragging = false, collOffsetX = 0, collOffsetY = 0;
+      collHeader.addEventListener('mousedown', e => {
+        collDragging = true;
+        const rect = collectionPanel.getBoundingClientRect();
+        collOffsetX = e.clientX - rect.left;
+        collOffsetY = e.clientY - rect.top;
+        collectionPanel.style.transition = 'none';
+        e.preventDefault();
+      });
+      window.addEventListener('mousemove', e => {
+        if (!collDragging) return;
+        let x = e.clientX - collOffsetX;
+        let y = e.clientY - collOffsetY;
+        // Clamp to screen
+        x = Math.max(0, Math.min(x, window.innerWidth - collectionPanel.offsetWidth));
+        y = Math.max(0, Math.min(y, window.innerHeight - collectionPanel.offsetHeight));
+        collectionPanel.style.left = x + 'px';
+        collectionPanel.style.top = y + 'px';
+      });
+      window.addEventListener('mouseup', () => {
+        if (collDragging) {
+          collDragging = false;
+          collectionPanel.style.transition = '';
+        }
+      });
 
       const minimizeBtn = collectionPanel.querySelector('.graph-collection-minimize');
       if (minimizeBtn) {
@@ -1272,10 +1398,9 @@
         const list = collectionPanel.querySelector('.graph-collection-list');
         if (state.collection.length === 0) {
           list.innerHTML =
-            `<div class="graph-collection-empty" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem 1rem; text-align: center; gap: 0.5rem; opacity: 0.85;">` +
-            `<div style="font-size: 1.25rem; line-height: 1; color: var(--muted); opacity: 0.65; margin-bottom: 0.2rem;">✦</div>` +
-            `<div style="font-size: 0.62rem; color: var(--muted); line-height: 1.4;">` +
-            `Your collection is empty.<br>Add skills by clicking the <strong style="color: var(--tier-basic); font-weight: bold;">+</strong> button inside any skill's floating tooltip.` +
+            `<div class="graph-collection-empty" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0.6rem; text-align: center; gap: 0.2rem; opacity: 0.6;">` +
+            `<div style="font-size: 0.55rem; color: var(--muted); line-height: 1.2;">` +
+            `Your collection is empty.<br>Add skills via tooltips.` +
             `</div>` +
             `</div>`;
           collectionPanel.style.display = 'flex';
@@ -1388,6 +1513,18 @@
         c += `</div></div>`;
         skillPanel.innerHTML = c;
         skillPanel.style.display = 'flex';
+        
+        // Position modal on top right of the node
+        const pr = state.projectedNodes[skillId];
+        if (pr) {
+          let tx = pr.sx + 20, ty = pr.sy - 260;
+          tx = Math.max(10, Math.min(tx, state.width - 330));
+          ty = Math.max(10, Math.min(ty, state.height - 300));
+          skillPanel.style.left = tx + 'px';
+          skillPanel.style.top = ty + 'px';
+          skillPanel.style.transform = 'none';
+        }
+
         state.tooltipEl.style.display = 'none';
         const closePanel = () => {
           skillPanel.style.display = 'none';
@@ -1419,6 +1556,7 @@
       state.openSkillPanel = openSkillPanel;
       const searchWrap = document.createElement('div');
       searchWrap.className = 'graph-search-wrap';
+      searchWrap.setAttribute('data-interactive-chrome', '');
       const searchInput = document.createElement('input');
       searchInput.type = 'text';
       searchInput.className = 'graph-search';
@@ -1493,8 +1631,10 @@
       // --rank-*. Sizes (7/10/12/14 px) still drive node-size hierarchy
       // and stay inline for clarity.
       const legend = document.createElement('div');
-      legend.className = 'graph-legend';
+      legend.className = 'graph-legend minimized';
+      legend.setAttribute('data-interactive-chrome', '');
       legend.innerHTML =
+
         '<button type="button" class="graph-legend-drawer-toggle" aria-label="Toggle filters drawer">' +
         '<svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#claim-arrow"/></svg>' +
         '<span class="graph-legend-drawer-label">Filters</span>' +
@@ -1515,7 +1655,12 @@
         '<span class="graph-legend-rank-pill" data-legend-rank="5★" data-rank="5">5★</span>' +
         '<span class="graph-legend-rank-pill" data-legend-rank="6★" data-rank="6">6★</span>' +
         '</div></div>' +
+        '<div class="graph-legend-section"><div class="graph-legend-heading">View</div>' +
+        '<div class="graph-legend-item" data-legend-clusters><span class="graph-legend-swatch" style="width:12px;height:12px;background:var(--honor-red);border-radius:2px"></span>Clusters</div>' +
+
         '</div>' +
+        '</div>' +
+
         '</div>';
       legend.addEventListener('mousedown', e => e.stopPropagation());
       
@@ -1544,13 +1689,22 @@
           state.legendFilterRank = val;
           legend.querySelectorAll('.graph-legend-rank-pill').forEach(el => el.classList.remove('active'));
           if (val) pill.classList.add('active');
-        });
-      });
-      canvas.parentElement.appendChild(legend);
+          });
+          });
+          const clusterToggle = legend.querySelector('[data-legend-clusters]');
+          if (clusterToggle) {
+          clusterToggle.addEventListener('click', () => {
+          const on = clusterToggle.classList.toggle('active');
+          state.colorMode = on ? 'cluster' : 'tier';
+          });
+          }
+          canvas.parentElement.appendChild(legend);
+
       state.legendEl = legend;
 
       const scatterStrip = document.createElement('div');
       scatterStrip.className = 'graph-scatter-strip';
+      scatterStrip.setAttribute('data-interactive-chrome', '');
       scatterStrip.setAttribute('aria-label', 'Density — arrow keys or drag to spread/clump');
       scatterStrip.setAttribute('role', 'slider');
       scatterStrip.setAttribute('aria-orientation', 'vertical');
@@ -1631,6 +1785,7 @@
       const redPill = document.createElement('button');
       redPill.type = 'button';
       redPill.className = 'graph-redpill';
+      redPill.setAttribute('data-interactive-chrome', '');
       redPill.textContent = 'Named Skills';
       redPill.title = 'Highlight Named skills (2★+) with contributor attribution and red glow';
       redPill.addEventListener('mousedown', e => e.stopPropagation());
@@ -1641,119 +1796,46 @@
       canvas.parentElement.appendChild(redPill);
       state.redPillEl = redPill;
 
-      // ── Bottom bar: [pause][labels][titles][speed strip] ──
+      // ── Bottom bar: [pause][reset][zoom][speed strip] ──
       const bottomBar = document.createElement('div');
       bottomBar.className = 'graph-bottom-bar';
+      bottomBar.setAttribute('data-interactive-chrome', '');
       bottomBar.addEventListener('mousedown', e => e.stopPropagation());
 
       const pauseBtn = document.createElement('button');
       pauseBtn.type = 'button';
       pauseBtn.className = 'graph-pause-btn';
-      pauseBtn.textContent = '⏸';
+      pauseBtn.innerHTML = `<svg class="gst-btn-ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#pause"/></svg>`;
       pauseBtn.title = 'Pause / resume rotation';
       pauseBtn.setAttribute('aria-pressed', 'false');
       pauseBtn.addEventListener('click', () => {
         state.paused = !state.paused;
-        pauseBtn.textContent = state.paused ? '▶' : '⏸';
         pauseBtn.classList.toggle('active', state.paused);
         pauseBtn.setAttribute('aria-pressed', String(state.paused));
+        pauseBtn.innerHTML = `<svg class="gst-btn-ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#${state.paused ? 'play' : 'pause'}"/></svg>`;
       });
       bottomBar.appendChild(pauseBtn);
       state.pauseBtnEl = pauseBtn;
 
-      // Defaults to 'all' when the host options didn't seed a useful
-      // mode (e.g. the hero graph starts at 'none'). Remember the last
-      // non-'none' selection so toggling off→on restores the previous
-      // detail level rather than slamming back to the seed value.
-      const _defaultLabelMode = (options.labelMode && options.labelMode !== 'none') ? options.labelMode : 'all';
-      state._lastLabelMode = _defaultLabelMode;
-      const labelsToggle = document.createElement('button');
-      labelsToggle.type = 'button';
-      labelsToggle.className = 'graph-bottom-btn';
-      labelsToggle.textContent = 'Labels';
-      labelsToggle.title = 'Toggle skill labels';
-      // "Pressed" means labels ARE currently showing — initial state
-      // depends on the seeded label mode. Hero graph starts with none,
-      // fullscreen flips to 'all' via setLabelMode().
-      labelsToggle.setAttribute('aria-pressed', String(state.labelMode !== 'none'));
-      labelsToggle.addEventListener('click', () => {
-        if (state.labelMode === 'none') {
-          state.labelMode = state._lastLabelMode || _defaultLabelMode;
-          labelsToggle.classList.remove('off');
-        } else {
-          state._lastLabelMode = state.labelMode;
-          state.labelMode = 'none';
-          labelsToggle.classList.add('off');
-        }
-        labelsToggle.setAttribute('aria-pressed', String(state.labelMode !== 'none'));
-      });
-      bottomBar.appendChild(labelsToggle);
-      state.labelsToggleEl = labelsToggle;
-
-      const labelToggle = document.createElement('button');
-      labelToggle.type = 'button';
-      labelToggle.className = 'graph-bottom-btn';
-      labelToggle.textContent = 'Titles';
-      labelToggle.title = 'Show skill titles instead of /IDs';
-      labelToggle.setAttribute('aria-pressed', 'false');
-      labelToggle.addEventListener('click', () => {
-        state.showTitles = !state.showTitles;
-        labelToggle.classList.toggle('active', state.showTitles);
-        labelToggle.setAttribute('aria-pressed', String(state.showTitles));
-      });
-      bottomBar.appendChild(labelToggle);
-      state.labelToggleEl = labelToggle;
-
-      const nebulaToggle = document.createElement('button');
-      nebulaToggle.type = 'button';
-      nebulaToggle.className = 'graph-bottom-btn';
-      nebulaToggle.textContent = 'Nebula';
-      nebulaToggle.title = 'Toggle nebula cloud atmosphere';
-      nebulaToggle.setAttribute('aria-pressed', 'true');
-      nebulaToggle.addEventListener('click', () => {
-        state.nebula = !state.nebula;
-        nebulaToggle.classList.toggle('active', state.nebula);
-        nebulaToggle.setAttribute('aria-pressed', String(state.nebula));
-      });
-      nebulaToggle.classList.add('active');
-      bottomBar.appendChild(nebulaToggle);
-      state.nebulaToggleEl = nebulaToggle;
-
-      const randomBtn = document.createElement('button');
-      randomBtn.type = 'button';
-      randomBtn.className = 'graph-bottom-btn';
-      randomBtn.textContent = 'Random';
-      randomBtn.title = 'Zoom to a random skill';
-      randomBtn.addEventListener('click', () => {
-        if (!state.skills.length) return;
-        const picked = state.skills[Math.floor(Math.random() * state.skills.length)];
-        state.paused = true;
-        if (state.pauseBtnEl) { state.pauseBtnEl.textContent = '▶'; state.pauseBtnEl.classList.add('active'); state.pauseBtnEl.setAttribute('aria-pressed', 'true'); }
-        state.zoom = 2.2;
-        if (state.zoomCounterEl) state.zoomCounterEl.textContent = state.zoom.toFixed(1) + '×';
-        state.hoveredId = picked.id;
-        state.lastHoveredId = null;
-        const p0 = state.positions[picked.id];
-        if (p0) {
-          const ry = state.t * 0.16 + state.orbitY;
-          const rx = Math.sin(state.t * 0.055) * 0.20 + state.orbitX;
-          const xfP = rotX(rotY(p0, ry), rx);
-          const pr = project(xfP);
-          state.panX += state.width / 2 - pr.sx;
-          state.panY += state.height / 2 - pr.sy;
-        }
-      });
-      bottomBar.appendChild(randomBtn);
-
       const resetBtn = document.createElement('button');
       resetBtn.type = 'button';
-      resetBtn.className = 'graph-bottom-btn';
-      resetBtn.textContent = 'Reset';
-      resetBtn.title = 'Reset all settings to default';
+      resetBtn.className = 'graph-reset-btn';
+      resetBtn.innerHTML = `<svg class="gst-btn-ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#sync"/></svg>`;
+      resetBtn.title = 'Reset View';
       resetBtn.addEventListener('click', () => {
         resetFilters();
       });
       bottomBar.appendChild(resetBtn);
+
+      const randomBtn = document.createElement('button');
+      randomBtn.type = 'button';
+      randomBtn.className = 'graph-random-btn';
+      randomBtn.innerHTML = `<svg class="gst-btn-ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#sparkle"/></svg>`;
+      randomBtn.title = 'Zoom to Random Skill';
+      randomBtn.addEventListener('click', () => {
+        randomZoom();
+      });
+      bottomBar.appendChild(randomBtn);
 
       const zoomCounter = document.createElement('div');
       zoomCounter.className = 'graph-zoom-counter';
@@ -1861,7 +1943,7 @@
       if (!_lastRect) _lastRect = canvas.getBoundingClientRect();
       const rect = _lastRect;
       if (_opts.draggable && state.dragging) {
-        if (state.dragMode === 'orbit') {
+        if (state._activeDragMode === 'orbit') {
           state.orbitY += (event.clientX - state.dragLastX) * 0.007;
           state.orbitX += (event.clientY - state.dragLastY) * 0.007;
         } else {
@@ -1902,13 +1984,17 @@
       _lastRect = canvas.getBoundingClientRect();
 
       state.dragging = true;
-      state.dragMode = (e.button === 1 || e.ctrlKey) ? 'orbit' : 'pan';
+      // Respect toggled dragMode. Ctrl/Middle-click swaps to the other mode.
+      const base = state.dragMode || 'orbit';
+      const other = base === 'orbit' ? 'pan' : 'orbit';
+      state._activeDragMode = (e.button === 1 || e.ctrlKey) ? other : base;
+
       state.dragMoved = false;
       state.dragStartX = e.clientX;
       state.dragStartY = e.clientY;
       state.dragLastX = e.clientX;
       state.dragLastY = e.clientY;
-      canvas.style.cursor = state.dragMode === 'orbit' ? 'grabbing' : 'move';
+      canvas.style.cursor = state._activeDragMode === 'orbit' ? 'grabbing' : 'move';
     });
     window.addEventListener('mouseup', e => {
       if (!state.dragging) return;
@@ -2081,13 +2167,68 @@
       if (mode !== 'none') state._lastLabelMode = mode;
       if (state.labelsToggleEl) {
         state.labelsToggleEl.classList.toggle('off', mode === 'none');
+        state.labelsToggleEl.classList.toggle('priority', mode === 'priority');
         state.labelsToggleEl.setAttribute('aria-pressed', String(mode !== 'none'));
       }
     }
     function getStatusEl() { return state.statusEl; }
     function setStatusEl(el) { state.statusEl = el; setSkills(state.skills); }
 
-    return { setSkills, setNamedMap, setTitleMap, setOriginMap, resize, start, stop, resetFilters, setInteractive, setLabelMode, getStatusEl, setStatusEl };
+    function setMeta(meta) {
+      state.meta = meta;
+    }
+
+    function setLayoutMode(mode) {
+      state.layoutMode = mode;
+      state.positions = buildPositions(state.skills, state.scale, mode);
+    }
+    function setAutoRotate(on) {
+      state.autoRotate = on;
+    }
+    function setColorMode(mode) {
+      state.colorMode = mode;
+    }
+
+    function setDragMode(mode) {
+      state.dragMode = mode;
+    }
+
+    function randomZoom() {
+      if (!state.skills.length) return;
+      const picked = state.skills[Math.floor(Math.random() * state.skills.length)];
+      state.paused = true;
+      if (state.pauseBtnEl) { state.pauseBtnEl.textContent = '▶'; state.pauseBtnEl.classList.add('active'); state.pauseBtnEl.setAttribute('aria-pressed', 'true'); }
+      state.zoom = 2.2;
+      if (state.zoomCounterEl) state.zoomCounterEl.textContent = state.zoom.toFixed(1) + '×';
+      state.hoveredId = picked.id;
+      state.lastHoveredId = null;
+      const p0 = state.positions[picked.id];
+      if (p0) {
+        const ry = state.t * 0.16 + state.orbitY;
+        const rx = Math.sin(state.t * 0.055) * 0.20 + state.orbitX;
+        // Calculate projected center for the current rotation
+        let p = p0;
+        if (state.layoutMode === 'semantic' || state.layoutMode === 'spectral') {
+          p = rotY(rotX(p, rx), ry);
+          p = rotXW(p, state.t * 0.12);
+          p = rotYW(p, state.t * 0.06);
+        } else {
+          p = rotX(rotY(p0, ry), rx);
+        }
+        const pr = project(p);
+        state.panX += state.width / 2 - pr.sx;
+        state.panY += state.height / 2 - pr.sy;
+      }
+    }
+
+    function setPaused(on) {
+      state.paused = on;
+    }
+    function isPaused() {
+      return state.paused;
+    }
+
+    return { setSkills, setNamedMap, setTitleMap, setOriginMap, resize, start, stop, resetFilters, setInteractive, setLabelMode, getStatusEl, setStatusEl, setMeta, setLayoutMode, setAutoRotate, setColorMode, setDragMode, randomZoom, setPaused, isPaused };
   }
 
   const hero = document.getElementById('hero');
@@ -2155,10 +2296,14 @@
   _graphCloseOverlay.className = 'graph-fullscreen-chrome';
   _graphCloseOverlay.innerHTML =
     '<div class="graph-fullscreen-header">' +
+    '<div class="graph-atlas-controls">' +
+    '<button type="button" class="graph-action-btn" data-graph-layout title="Layout: Semantic/Deterministic"><svg class="ico" width="18" height="18" aria-hidden="true"><use href="assets/icons.svg#switch"/></svg><span>Semantic</span></button>' +
+    '<button type="button" class="graph-action-btn active" data-graph-labels title="Labels: None/Priority"><svg class="ico" width="18" height="18" aria-hidden="true"><use href="assets/icons.svg#view-list"/></svg><span>Labels</span></button>' +
+    '<button type="button" class="graph-action-btn" data-graph-mouse title="Interaction: Orbit/Pan"><svg class="ico" width="18" height="18" aria-hidden="true"><use href="assets/icons.svg#rotate"/></svg><span>Orbit</span></button>' +
+    '</div>' +
     '<div class="graph-dialog-actions">' +
     '<a class="graph-action-btn" href="graph/gaia.json" aria-label="Download JSON" download><svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#download"/></svg><span>JSON</span></a>' +
     '<a class="graph-action-btn" href="graph/gaia.gexf" aria-label="Download GEXF" download><svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#download"/></svg><span>GEXF</span></a>' +
-    '<a class="graph-action-btn" href="graph/gaia.svg" aria-label="Download SVG" download><svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#download"/></svg><span>SVG</span></a>' +
     '<button type="button" class="graph-action-btn" data-graph-fullscreen-close aria-label="Close skill graph"><svg class="ico" width="20" height="20" aria-hidden="true"><use href="assets/icons.svg#close-x"/></svg></button>' +
     '</div>' +
     '</div>';
@@ -2219,6 +2364,15 @@
     heroGraph.setInteractive(true);
     heroGraph.setLabelMode('all');
     heroGraph.setStatusEl(_graphStatusBar);
+
+    // Sync header button states
+    const layoutBtn = _graphCloseOverlay.querySelector('[data-graph-layout]');
+    if (layoutBtn) layoutBtn.querySelector('span').textContent = 'Semantic';
+    const labelsBtn = _graphCloseOverlay.querySelector('[data-graph-labels]');
+    if (labelsBtn) labelsBtn.classList.add('active');
+    const mouseBtn = _graphCloseOverlay.querySelector('[data-graph-mouse]');
+    if (mouseBtn) mouseBtn.querySelector('span').textContent = 'Orbit';
+
     heroGraph.resize();
 
     const colPanel = hero.querySelector('.graph-collection-panel');
@@ -2274,6 +2428,43 @@
   // Close button inside the fullscreen chrome
   _graphCloseOverlay.querySelector('[data-graph-fullscreen-close]').addEventListener('click', closeGraphFullscreen);
 
+  // 4D Atlas Toggles
+  _graphCloseOverlay.querySelector('[data-graph-layout]').addEventListener('click', (e) => {
+    const btn = e.currentTarget;
+    const modes = ['semantic', 'deterministic'];
+    const current = modes.indexOf(heroGraph.layoutMode || 'semantic');
+    const next = modes[(current + 1) % modes.length];
+    heroGraph.setLayoutMode(next);
+    btn.querySelector('span').textContent = next.charAt(0).toUpperCase() + next.slice(1);
+    heroGraph.layoutMode = next;
+  });
+
+  _graphCloseOverlay.querySelector('[data-graph-labels]').addEventListener('click', (e) => {
+    const btn = e.currentTarget;
+    const modes = ['none', 'all'];
+    const current = modes.indexOf(heroGraph.labelMode || 'none');
+    const next = modes[(current + 1) % modes.length];
+    heroGraph.setLabelMode(next);
+    btn.classList.toggle('active', next !== 'none');
+    heroGraph.labelMode = next;
+  });
+
+  _graphCloseOverlay.querySelector('[data-graph-mouse]').addEventListener('click', (e) => {
+    const btn = e.currentTarget;
+    const isOrbit = btn.querySelector('span').textContent === 'Orbit';
+    const next = isOrbit ? 'pan' : 'orbit';
+    btn.querySelector('span').textContent = next.charAt(0).toUpperCase() + next.slice(1);
+    btn.querySelector('use').setAttribute('href', 'assets/icons.svg#' + (isOrbit ? 'hud-toggle' : 'rotate'));
+    heroGraph.setDragMode(next);
+  });
+
+  const _randomBtn = _graphCloseOverlay.querySelector('[data-graph-random]');
+  if (_randomBtn) {
+    _randomBtn.addEventListener('click', () => {
+      heroGraph.randomZoom();
+    });
+  }
+
   // Escape key to exit
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && _graphFullscreen) {
@@ -2316,15 +2507,28 @@
   _svgFallbackLink.style.cssText = 'position:absolute;left:-9999px;';
   hero.appendChild(_svgFallbackLink);
 
-  fetch(GRAPH_JSON_URL)
+  // Probe the graph directory first so we get a clear diagnostic if the
+  // static-asset host isn't serving JSON files from graph/.
+  const _pingOk = fetch('/graph/ping.json', { cache: 'no-store' })
+    .then(r => r.ok && r.json()).then(d => !!(d && d.ok)).catch(() => false);
+
+  fetch(GRAPH_JSON_URL, { cache: 'reload' })
     .then(response => {
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      if (!response.ok) throw new Error(`HTTP ${response.status} from ${GRAPH_JSON_URL}`);
+      const ct = response.headers.get('content-type') || '';
+      if (!ct.includes('json') && !ct.includes('text/plain')) {
+        return response.text().then(body => {
+          throw new Error(`Expected JSON, got ${ct || 'no content-type'}; body starts: ${body.slice(0, 80)}`);
+        });
+      }
       return response.json();
     })
     .then(graph => {
       _initMetaGraph(graph.meta);
+      if (heroGraph) heroGraph.setMeta(graph.meta);
       return normalizeSkills(graph);
     })
+
     .then(skills => {
       if (heroGraph) heroGraph.setSkills(skills);
       _ariaSkillsCount = skills.length;
@@ -2334,11 +2538,14 @@
     })
     .catch(error => {
       console.warn('Using embedded fallback skill graph:', error);
-      const status = document.querySelector('[data-graph-status]');
-      if (status) status.textContent = 'Using embedded preview graph. Run the page from docs/ to load the full graph.';
+      _pingOk.then(ping => {
+        const status = document.querySelector('[data-graph-status]');
+        const pingMsg = ping ? 'graph/ dir reachable' : 'graph/ dir UNREACHABLE';
+        if (status) status.textContent = `Fallback graph active (${pingMsg}). Fetch error: ${error && error.message ? error.message : String(error)}`;
+      });
     });
 
-  fetch('graph/named/index.json' + version)
+  fetch('/graph/named/index.json' + version)
     .then(r => r.ok ? r.json() : Promise.reject())
     .then(indexData => {
       const map = {};

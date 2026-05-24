@@ -10,6 +10,8 @@ description: Use when you want to retrieve semi-quantitative protein expression 
   spatial localisation data from the Human Protein Atlas (HPA).
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
+links:
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/human_protein_atlas_database
 ---
 
 # Human Protein Atlas (HPA) Database Integration

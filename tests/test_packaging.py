@@ -292,6 +292,34 @@ def test_install_cache_honors_gaia_home(tmp_path, monkeypatch):
     assert (gaia_home / "skills" / "alice" / "repo").exists()
 
 
+def test_parse_frontmatter_nested_links(tmp_path):
+    """_parse_frontmatter must return a dict with a dict under 'links', not a string."""
+    from gaia_cli.install import _parse_frontmatter
+    md = tmp_path / "skill.md"
+    md.write_text(
+        "---\nid: alice/skill\nlinks:\n  github: https://github.com/alice/repo\n---\ncontent",
+        encoding="utf-8",
+    )
+    meta = _parse_frontmatter(str(md))
+    assert isinstance(meta, dict), "frontmatter must parse to a dict"
+    links = meta.get("links", {})
+    assert isinstance(links, dict), f"'links' must be a dict, got {type(links)}"
+    assert links.get("github") == "https://github.com/alice/repo"
+
+
+def test_sigpipe_exits_cleanly():
+    """gaia skills list | head should exit 0 with no BrokenPipeError traceback."""
+    result = subprocess.run(
+        "python -m gaia_cli --global skills list 2>&1 | head -n1; exit ${PIPESTATUS[0]}",
+        shell=True,
+        capture_output=True,
+        text=True,
+        env={**os.environ, "PYTHONPATH": str(REPO_ROOT / "src")},
+    )
+    assert "BrokenPipeError" not in result.stdout
+    assert "BrokenPipeError" not in result.stderr
+
+
 @pytest.mark.packaging
 def test_built_wheel_contains_only_python_package_data(tmp_path):
     require_build_package()

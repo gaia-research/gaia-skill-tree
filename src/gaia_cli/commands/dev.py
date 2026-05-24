@@ -124,6 +124,31 @@ def _find_named_file(named_dir, skill_id):
             return p
     return None
 
+def _replace_section(body: str, section_heading: str, new_content: str) -> str:
+    """Replace (or append) a top-level markdown section in the body text.
+
+    Matches ``## {section_heading}`` through the next ``##``-level heading
+    or end-of-string, then substitutes new_content.  If the section is not
+    found it is appended.
+
+    .. warning::
+        The lookahead ``(?=\\n##\\s|\\Z)`` is not fenced-code-block-aware.
+        A ``## Heading`` line *inside* a fenced code block (e.g. a HEREDOC
+        example) will be treated as a real section boundary, causing the
+        replacement to truncate too early.  This is acceptable for the
+        current named-skill corpus (no production file has bare ``## ``
+        lines inside Installation fences), but callers should avoid
+        embedding bare ``## `` lines inside fenced blocks in the
+        ``new_content`` they pass in.
+    """
+    import re
+    pattern = rf"(##\s+{re.escape(section_heading)}\s*\n)(.*?)(?=\n##\s|\Z)"
+    replacement = rf"\g<1>{new_content}\n"
+    result, n = re.subn(pattern, replacement, body, flags=re.DOTALL)
+    if n == 0:
+        result = body.rstrip("\n") + f"\n\n## {section_heading}\n\n{new_content}\n"
+    return result
+
 def _update_named_skill_ref(md_path: Path, old_ref: str, new_ref: str):
     """Update genericSkillRef in a named skill markdown file."""
     meta, body = _parse_md(md_path)
@@ -674,7 +699,10 @@ def meta_add_command(args):
         if getattr(args, "extra_fields", None):
             try:
                 extra = json.loads(args.extra_fields)
-                data.update(extra)
+                if isinstance(extra, dict):
+                    data.update({k: v for k, v in extra.items() if v is not None})
+                else:
+                    print("Warning: --extra-fields must be a JSON object. Skipping.")
             except json.JSONDecodeError:
                 print("Warning: Could not parse extra-fields JSON. Skipping.")
 
@@ -921,11 +949,35 @@ def meta_update_named_command(args):
     if getattr(args, "suite_components", None):
         meta["suiteComponents"] = [s.strip() for s in args.suite_components.split(",")]
         changed = True
-        
+
+    if getattr(args, "suite_ref", None):
+        meta["suiteRef"] = args.suite_ref
+        changed = True
+
+    if getattr(args, "installation_file", None):
+        install_path = Path(args.installation_file)
+        if not install_path.exists():
+            print(f"Error: Installation file '{install_path}' not found.")
+            sys.exit(1)
+        new_content = install_path.read_text(encoding="utf-8").strip()
+        body = _replace_section(body, "Installation", new_content)
+        changed = True
+
     if changed:
         meta["updatedAt"] = datetime.date.today().isoformat()
         _write_md(target_file, meta, body)
         print(f"Updated named skill frontmatter: {target_file}")
+
+        # Record timeline events for mutations that affect suite topology or content.
+        registry_path = args.registry
+        contributor = _get_contributor()
+        if getattr(args, "suite_ref", None):
+            append_skill_event(skill_id, "suite_ref_set", contributor,
+                               f"Set suiteRef to {args.suite_ref}", registry_path=registry_path)
+        if getattr(args, "installation_file", None):
+            append_skill_event(skill_id, "installation_updated", contributor,
+                               f"Replaced ## Installation section from {args.installation_file}",
+                               registry_path=registry_path)
         
         if not getattr(args, "no_build", False):
             print("Regenerating registry and documentation...")
@@ -934,3 +986,285 @@ def meta_update_named_command(args):
             print("Skipping documentation rebuild as requested (--no-build).")
     else:
         print("No changes specified.")
+
+
+# ---------------------------------------------------------------------------
+# Paths treated as generated noise (always skipped by dev diff)
+# ---------------------------------------------------------------------------
+_GENERATED_PREFIXES = (
+    "docs/",
+    "skill-trees/",
+    "registry/gaia.gexf",
+    "registry/gaia.svg",
+    "registry/named-skills.json",
+    "registry/combinations.md",
+    "registry/registry.md",
+    "registry/skill-sources.md",
+)
+_GENERATED_SUFFIXES = (
+    ".gexf",
+    ".svg",
+    ".html",
+)
+_GENERATED_EXACT = {
+    "uv.lock",
+    "docs/css/tokens.css",
+    "docs/tree.md",
+}
+_VERSION_FILES = {
+    "pyproject.toml",
+    "packages/cli-npm/package.json",
+    "packages/mcp/package.json",
+    "registry/gaia.json",
+    "docs/graph/gaia.json",
+}
+
+
+def _is_generated(path):
+    if path in _GENERATED_EXACT:
+        return True
+    for prefix in _GENERATED_PREFIXES:
+        if path.startswith(prefix):
+            return True
+    for suffix in _GENERATED_SUFFIXES:
+        if path.endswith(suffix):
+            return True
+    return False
+
+
+def _parse_named_frontmatter(content):
+    """Extract key/value pairs from YAML frontmatter in a named skill file."""
+    if not content.startswith("---"):
+        return {}
+    lines = content.split("\n")
+    end = None
+    for i, line in enumerate(lines[1:], 1):
+        if line.strip() == "---":
+            end = i
+            break
+    if end is None:
+        return {}
+    meta = {}
+    for line in lines[1:end]:
+        if ":" in line:
+            key, _, val = line.partition(":")
+            meta[key.strip()] = val.strip().strip("'\"")
+    return meta
+
+
+def meta_diff_command(args):
+    """Show substantive registry additions in a branch vs main, stripping generated noise."""
+    ref = getattr(args, "ref", None)
+    base = getattr(args, "base", "origin/main")
+
+    if ref:
+        compare_ref = ref if ref.startswith(("origin/", "HEAD", "refs/")) else f"origin/{ref}"
+    else:
+        r = subprocess.run(
+            ["git", "rev-parse", "--abbrev-ref", "HEAD"],
+            capture_output=True, text=True,
+        )
+        current = r.stdout.strip()
+        if not current or current in ("HEAD", "main"):
+            print("Error: specify a branch, e.g.  gaia dev diff review/meta/my-branch")
+            sys.exit(1)
+        compare_ref = current
+
+    print(f"\n  Comparing {base}...{compare_ref}\n")
+
+    def _git_json(git_ref, path):
+        r = subprocess.run(
+            ["git", "show", f"{git_ref}:{path}"],
+            capture_output=True, text=True,
+        )
+        if r.returncode != 0:
+            return None
+        try:
+            return json.loads(r.stdout)
+        except json.JSONDecodeError:
+            return None
+
+    def _git_text(git_ref, path):
+        r = subprocess.run(
+            ["git", "show", f"{git_ref}:{path}"],
+            capture_output=True, text=True,
+        )
+        return r.stdout if r.returncode == 0 else ""
+
+    # Gather changed files, separate generated noise from substantive paths
+    r = subprocess.run(
+        ["git", "diff", "--name-status", f"{base}...{compare_ref}"],
+        capture_output=True, text=True,
+    )
+    if r.returncode != 0:
+        print(f"Error running git diff: {r.stderr.strip()}")
+        sys.exit(1)
+
+    skipped = 0
+    substantive = []
+    for line in r.stdout.splitlines():
+        parts = line.split("\t", 1)
+        if len(parts) != 2:
+            continue
+        status, path = parts[0].rstrip(), parts[1]
+        if _is_generated(path):
+            skipped += 1
+        else:
+            substantive.append((status, path))
+
+    # Diff registry/gaia.json as structured JSON (most reliable approach)
+    base_graph = _git_json(base, "registry/gaia.json") or {"skills": [], "edges": []}
+    branch_graph = _git_json(compare_ref, "registry/gaia.json") or {"skills": [], "edges": []}
+
+    base_ids = {s["id"] for s in base_graph.get("skills", [])}
+    branch_ids = {s["id"] for s in branch_graph.get("skills", [])}
+
+    new_skill_ids = branch_ids - base_ids
+    removed_skill_ids = base_ids - branch_ids
+    new_skills = sorted(
+        [s for s in branch_graph.get("skills", []) if s["id"] in new_skill_ids],
+        key=lambda s: s["id"],
+    )
+
+    def _edge_key(e):
+        return (e["sourceSkillId"], e["targetSkillId"], e.get("edgeType", ""))
+
+    base_edges = {_edge_key(e) for e in base_graph.get("edges", [])}
+    branch_edges = {_edge_key(e) for e in branch_graph.get("edges", [])}
+    new_edges = sorted(branch_edges - base_edges)
+    removed_edges = sorted(base_edges - branch_edges)
+
+    base_version = base_graph.get("version", "?")
+    branch_version = branch_graph.get("version", "?")
+
+    # Categorise substantive paths
+    new_named = sorted(
+        (s, p) for s, p in substantive
+        if s == "A" and p.startswith("registry/named/")
+    )
+    mod_named = sorted(
+        (s, p) for s, p in substantive
+        if s == "M" and p.startswith("registry/named/")
+    )
+    new_node_files = sorted(
+        (s, p) for s, p in substantive
+        if s == "A" and p.startswith("registry/nodes/")
+    )
+    version_paths = [(s, p) for s, p in substantive if p in _VERSION_FILES]
+    other = [
+        (s, p) for s, p in substantive
+        if not p.startswith("registry/named/")
+        and not p.startswith("registry/nodes/")
+        and p not in _VERSION_FILES
+        and p != "registry/gaia.json"
+    ]
+
+    W = 68
+
+    # ── New generic skills ────────────────────────────────────────────
+    if new_skills:
+        print(f"  ── NEW GENERIC SKILLS ({len(new_skills)}) {'─' * max(0, W - 24)}")
+        for s in new_skills:
+            stype = s.get("type", "?")
+            level = s.get("level", "?")
+            status = s.get("status", "?")
+            desc = s.get("description", "")
+            if len(desc) > 65:
+                desc = desc[:62] + "..."
+            prereqs = s.get("prerequisites", [])
+            evidence = s.get("evidence", [])
+            ev_str = f"{len(evidence)}× ({', '.join(e['class'] for e in evidence)})" if evidence else "none"
+            print(f"  + {s['id']}  [{stype} · {level} · {status}]")
+            print(f"    \"{desc}\"")
+            if prereqs:
+                print(f"    Prerequisites: {', '.join(prereqs)}")
+            print(f"    Evidence: {ev_str}")
+        print()
+
+    # ── Removed generic skills (danger) ──────────────────────────────
+    if removed_skill_ids:
+        print(f"  ── ⛔  REMOVED SKILLS ({len(removed_skill_ids)}) {'─' * max(0, W - 24)}")
+        for sid in sorted(removed_skill_ids):
+            print(f"  - {sid}")
+        print()
+
+    # ── New named skill files ─────────────────────────────────────────
+    if new_named:
+        print(f"  ── NEW NAMED SKILLS ({len(new_named)}) {'─' * max(0, W - 22)}")
+        for _, path in new_named:
+            content = _git_text(compare_ref, path)
+            meta = _parse_named_frontmatter(content)
+            skill_id = meta.get("id", path.replace("registry/named/", "").replace(".md", ""))
+            generic = meta.get("genericSkillRef", "—")
+            level = meta.get("level", "?")
+            print(f"  + {skill_id}  → {generic}  [{level}]")
+        print()
+
+    if mod_named:
+        print(f"  ── MODIFIED NAMED SKILLS ({len(mod_named)}) {'─' * max(0, W - 27)}")
+        for _, path in mod_named:
+            print(f"  ~ {path.replace('registry/named/', '')}")
+        print()
+
+    # ── New edges ────────────────────────────────────────────────────
+    if new_edges:
+        print(f"  ── NEW EDGES ({len(new_edges)}) {'─' * max(0, W - 15)}")
+        for src, tgt, etype in new_edges:
+            print(f"  + {src} → {tgt}  ({etype})")
+        print()
+
+    if removed_edges:
+        print(f"  ── ⛔  REMOVED EDGES ({len(removed_edges)}) {'─' * max(0, W - 23)}")
+        for src, tgt, etype in removed_edges:
+            print(f"  - {src} → {tgt}  ({etype})")
+        print()
+
+    # ── Version bump ─────────────────────────────────────────────────
+    if base_version != branch_version:
+        print(f"  ── VERSION BUMP {'─' * max(0, W - 17)}")
+        print(f"  {base_version} → {branch_version}  (will conflict if main has moved)")
+        print()
+
+    # ── Other substantive changes ─────────────────────────────────────
+    if other:
+        print(f"  ── OTHER CHANGES ({len(other)}) {'─' * max(0, W - 19)}")
+        for status, path in other:
+            label = {"A": "new", "M": "mod", "D": "del"}.get(status, status)
+            print(f"  {label}  {path}")
+        print()
+
+    # ── Quality flags ─────────────────────────────────────────────────
+    flags = []
+    for sid in sorted(removed_skill_ids):
+        flags.append(("⛔", f"{sid} — skill removed (verify intentional!)"))
+
+    for _, path in new_named:
+        content = _git_text(compare_ref, path)
+        meta = _parse_named_frontmatter(content)
+        skill_id = meta.get("id", path.replace("registry/named/", "").replace(".md", ""))
+        if "Add installation instructions here" in content:
+            flags.append(("⚠", f"{skill_id} — empty ## Installation body"))
+        if not meta.get("genericSkillRef"):
+            flags.append(("⚠", f"{skill_id} — missing genericSkillRef"))
+
+    for s in new_skills:
+        ev = s.get("evidence", [])
+        if not ev:
+            flags.append(("⚠", f"{s['id']} — no evidence attached"))
+        elif all(e["class"] == "C" for e in ev):
+            flags.append(("⚠", f"{s['id']} — only Class C evidence"))
+        if s.get("rarity"):
+            flags.append(("·", f"{s['id']} — rarity field present (deprecated auto-default, harmless)"))
+
+    if flags:
+        print(f"  ── QUALITY FLAGS {'─' * max(0, W - 18)}")
+        for icon, msg in flags:
+            print(f"  {icon}  {msg}")
+        print()
+
+    # ── Summary ───────────────────────────────────────────────────────
+    if not new_skills and not removed_skill_ids and not new_named and not new_edges and not other:
+        print("  No substantive changes — branch is all generated noise or already merged.")
+
+    print(f"  Skipped {skipped} generated files (SVG, HTML, GEXF, timestamps).")
+    print()

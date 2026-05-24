@@ -12,6 +12,8 @@ description: An ultra-compressed communication mode designed to save tokens by d
 createdAt: '2026-05-21'
 updatedAt: '2026-05-21'
 suiteRef: "mattpocock/productivity"
+links:
+  github: https://github.com/mattpocock/skills/blob/main/skills/productivity/caveman
 ---
 
 ## Installation

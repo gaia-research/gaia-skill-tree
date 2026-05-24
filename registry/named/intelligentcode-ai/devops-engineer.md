@@ -2,7 +2,9 @@
 id: intelligentcode-ai/devops-engineer
 name: DevOps Engineer
 contributor: intelligentcode-ai
-origin: https://github.com/intelligentcode-ai/skills/blob/main/skills/devops-engineer/SKILL.md
+origin: false
+links:
+  github: https://github.com/intelligentcode-ai/skills/blob/main/skills/devops-engineer/SKILL.md
 genericSkillRef: deployment-automation
 status: awakened
 level: "2★"

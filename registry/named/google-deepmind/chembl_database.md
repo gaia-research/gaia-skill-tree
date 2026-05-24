@@ -11,6 +11,8 @@ description: Query the ChEMBL database for bioactive molecules, drug targets, bi
   targets, IC50/Ki values, drug mechanisms, or structure searches.
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
+links:
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/chembl_database
 ---
 
 # ChEMBL Database Query

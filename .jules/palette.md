@@ -13,3 +13,7 @@
 ## 2024-05-24 - Accessible icon-only copy buttons
 **Learning:** Icon-only copy buttons (like the `ns-install-copy` button) were relying solely on the `title` attribute for screen readers. While `title` gives hover tooltips, `aria-label` provides a much more robust and universally supported experience for assistive technologies on icon-only actions.
 **Action:** Always complement or replace visual `title` attributes with explicit `aria-label`s on icon-only buttons (`.ico` wrappers) to guarantee correct semantic parsing by screen readers.
+
+## 2024-06-25 - App-Wide Focus Ring Convention
+**Learning:** Found that multiple interactive elements (.btn, .mr-tab, .ns-tab, .os-tab, .se-tab-btn, .se-flow-btn) were missing keyboard focus indicators. The codebase has an established focus ring pattern for some components using `outline: 2px solid var(--tier-extra); outline-offset: 2px;`, which should be explicitly extended to generic buttons and tabs.
+**Action:** Always check for missing `:focus-visible` styles on interactive components and apply the `var(--tier-extra)` focus ring to maintain a consistent keyboard navigation experience across the app.
