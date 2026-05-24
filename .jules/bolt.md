@@ -9,6 +9,11 @@
 ## 2024-05-25 - Layout thrashing in CLI Python graph render
 **Learning:** The generated HTML graph in `src/gaia_cli/graph.py` also contained a layout thrashing issue in its interactive script. Inside `handlePointerMove`, it was executing `canvas.getBoundingClientRect()` on every `mousemove`. Similar to the issue found in `docs/js/skill-graph.js`, calling layout-triggering methods on high-frequency events tanks performance.
 **Action:** Consistently apply layout thrashing mitigations across all generated and static assets. Always cache the bounding rect on initial fetch and only invalidate it during window resizing, scrolling, or specific user interactions (e.g., `mousedown`).
+<<<<<<< HEAD
+## 2026-05-24 - Optimize load_canonical_skills with lru_cache
+**Learning:** The `load_canonical_skills` method was being called from `resolve_skills`, which in turn gets called repeatedly by tools relying on path resolution and graph parsing. Because `resolve_skills` gets called potentially 100+ times during these processes, `load_canonical_skills` incurred an O(N) execution that repeated every call causing an O(N^2) file I/O pattern. Wrapping it in `@functools.lru_cache(maxsize=1)` reduced the time by 98.6%.
+**Action:** Use memoization decorators like `@functools.lru_cache` for static configuration parsing or repeated file I/O access in loops.
+=======
 
 <<<<<<< HEAD
 ## 2026-05-24 - Optimize _build_named_map using pre-compiled index
@@ -26,8 +31,12 @@
 ## 2026-05-24 - CLI stats loading performance
 **Learning:** The CLI stats command (`_iter_named_skill_metadata` in `stats.py`) was performing synchronous O(N^2) file I/O and frontmatter parsing using `root.rglob("*.md")` on the `registry/named` directory. This is incredibly slow and forces an expensive file I/O for every single metadata file, leading to significant degradation in response times.
 **Action:** When working with registry data in the Python CLI, always use the pre-compiled JSON indices (like `named-skills.json`) instead of querying the filesystem directly via glob and individually parsing frontmatter. Cache mechanisms via existing endpoints (`named_skills_index_path`) drastically improve performance (e.g. from 1.66s to 0.20s for iterations).
+<<<<<<< HEAD
 =======
 ## 2026-05-24 - CLI stats loading performance
 **Learning:** The CLI stats command (`_iter_named_skill_metadata` in `stats.py`) was performing synchronous O(N^2) file I/O and frontmatter parsing using `root.rglob("*.md")` on the `registry/named` directory. This is incredibly slow and forces an expensive file I/O for every single metadata file, leading to significant degradation in response times.
 **Action:** When working with registry data in the Python CLI, always use the pre-compiled JSON indices (like `named-skills.json`) instead of querying the filesystem directly via glob and individually parsing frontmatter. Cache mechanisms via existing endpoints (`named_skills_index_path`) drastically improve performance (e.g. from 1.66s to 0.20s for iterations).
 >>>>>>> 3bf7bb05 (⚡ Optimize stats command to use named-skills index (#424))
+=======
+>>>>>>> origin/main
+>>>>>>> 141c3495 (⚡ Optimize load_canonical_skills to reduce file I/O overhead (#431))
