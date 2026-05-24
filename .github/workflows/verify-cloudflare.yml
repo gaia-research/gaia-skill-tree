@@ -1,0 +1,17 @@
+name: Verify Cloudflare Token
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [infra/update-branch-scope-conventions]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify Token
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: whoami
