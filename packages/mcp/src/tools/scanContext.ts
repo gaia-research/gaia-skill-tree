@@ -3,18 +3,36 @@ import { resolveIdentity } from "../config/identity.js";
 import { detectCombinations } from "../advisor/fusionEngine.js";
 import { detectSkillsFromTools, detectSkillsFromSignals } from "../advisor/detector.js";
 import { scoreNovelty } from "../advisor/noveltyScorer.js";
+import { runGaia } from "../utils/gaia.js";
 import type { UserSkillTree, GaiaGraph } from "../graph/types.js";
 
 export async function scanContext(
   connectedTools?: string[],
-  projectSignals?: string[]
+  projectSignals?: string[],
+  deepScan?: boolean
 ): Promise<string> {
   const graph = await loadGraph();
   const user = resolveIdentity();
 
   const detectedFromTools = connectedTools ? detectSkillsFromTools(connectedTools) : [];
   const detectedFromSignals = projectSignals ? detectSkillsFromSignals(projectSignals) : [];
-  const allDetected = [...new Set([...detectedFromTools, ...detectedFromSignals])];
+  let allDetected = [...new Set([...detectedFromTools, ...detectedFromSignals])];
+
+  if (deepScan) {
+    try {
+      const deepOutput = await runGaia(["scan", "--json"]);
+      const parsed = JSON.parse(deepOutput);
+      if (parsed.matched && Array.isArray(parsed.matched)) {
+        for (const skill of parsed.matched) {
+          allDetected.push(skill);
+        }
+      }
+    } catch (err) {
+      console.warn("Deep scan failed, falling back to heuristic scan:", err);
+    }
+  }
+
+  allDetected = [...new Set(allDetected)];
 
   let ownedSkillIds: string[] = [];
   if (user) {

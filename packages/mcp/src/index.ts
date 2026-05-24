@@ -67,9 +67,10 @@ export function createServer(): McpServer {
     {
       connectedTools: z.array(z.string()).optional().describe("MCP tool names currently available (e.g. 'web_search', 'read_file', 'bash')"),
       projectSignals: z.array(z.string()).optional().describe("Descriptions of project capabilities (e.g. 'cheerio in package.json', 'building a web scraper')"),
+      deepScan: z.boolean().optional().describe("If true, invokes the local 'gaia' CLI to perform a deep source code scan for skill tokens."),
     },
-    withErrorHandling(async ({ connectedTools, projectSignals }) => {
-      return await scanContext(connectedTools, projectSignals);
+    withErrorHandling(async ({ connectedTools, projectSignals, deepScan }) => {
+      return await scanContext(connectedTools, projectSignals, deepScan);
     })
   );
 
