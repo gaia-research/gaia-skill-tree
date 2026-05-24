@@ -178,6 +178,8 @@ def _update_named_skill_ref(md_path: Path, old_ref: str, new_ref: str):
         return True
     return False
 
+<<<<<<< HEAD
+=======
 
 <<<<<<< HEAD
 =======
@@ -205,6 +207,11 @@ def _merge_named_skills(registry_path, target_id, sources):
         if "links" in source_meta:
             target_meta.setdefault("links", {}).update(source_meta["links"])
         if "tags" in source_meta:
+<<<<<<< HEAD
+            target_meta["tags"] = list(set(target_meta.get("tags", [])) | set(source_meta["tags"]))
+        if "knownAgents" in source_meta:
+            target_meta["knownAgents"] = list(set(target_meta.get("knownAgents", [])) | set(source_meta["knownAgents"]))
+=======
             target_meta["tags"] = list(
                 set(target_meta.get("tags", [])) | set(source_meta["tags"])
             )
@@ -213,6 +220,7 @@ def _merge_named_skills(registry_path, target_id, sources):
                 set(target_meta.get("knownAgents", []))
                 | set(source_meta["knownAgents"])
             )
+>>>>>>> origin/main
 
         # Append body
         target_body += f"\n\n--- Merged from {source_id} ---\n\n" + source_body
@@ -224,12 +232,18 @@ def _merge_named_skills(registry_path, target_id, sources):
 
     with open(target_file, "w", encoding="utf-8") as f:
         import yaml
+<<<<<<< HEAD
+=======
 
+>>>>>>> origin/main
         f.write("---\n")
         yaml.dump(target_meta, f, sort_keys=False, allow_unicode=True)
         f.write("---\n")
         f.write(target_body)
 
+<<<<<<< HEAD
+    append_skill_event(target_id, "merge", _get_contributor(), f"Merged named skills {', '.join(sources)} into {target_id}", registry_path=registry_path)
+=======
     append_skill_event(
         target_id,
         "merge",
@@ -238,6 +252,7 @@ def _merge_named_skills(registry_path, target_id, sources):
         registry_path=registry_path,
     )
 
+>>>>>>> origin/main
 
 def _merge_generic_skills(registry_path, target_id, sources):
     # Generic skill merging
@@ -278,11 +293,19 @@ def _merge_generic_skills(registry_path, target_id, sources):
                         break
                 except json.JSONDecodeError:
                     continue
+<<<<<<< HEAD
+        
+        if not source_file:
+            print(f"Warning: Source skill '{source_id}' not found. Skipping.")
+            continue
+        
+=======
 
         if not source_file:
             print(f"Warning: Source skill '{source_id}' not found. Skipping.")
             continue
 
+>>>>>>> origin/main
         source_files.append(source_file)
         merged_evidence.extend(source_data.get("evidence", []) or [])
         merged_prereqs.update(source_data.get("prerequisites", []) or [])
@@ -336,6 +359,13 @@ def _merge_generic_skills(registry_path, target_id, sources):
                 if dr not in sources or target_id != data["id"]
             ]
             seen = set()
+<<<<<<< HEAD
+            new_derivatives = [x for x in new_derivatives if not (x in seen or seen.add(x))]
+            if new_derivatives != data["derivatives"]:
+                data["derivatives"] = new_derivatives
+                changed = True
+            
+=======
             new_derivatives = [
                 x for x in new_derivatives if not (x in seen or seen.add(x))
             ]
@@ -343,6 +373,7 @@ def _merge_generic_skills(registry_path, target_id, sources):
                 data["derivatives"] = new_derivatives
                 changed = True
 
+>>>>>>> origin/main
         if changed:
             with open(p, "w", encoding="utf-8") as f:
                 json.dump(data, f, indent=2, ensure_ascii=False)
@@ -356,6 +387,9 @@ def _merge_generic_skills(registry_path, target_id, sources):
             if _update_named_skill_ref(p, source_id, target_id):
                 print(f"Updated genericSkillRef in {p}")
 
+<<<<<<< HEAD
+    append_skill_event(target_id, "merge", _get_contributor(), f"Merged {', '.join(sources)} into {target_id}", registry_path=registry_path)
+=======
     append_skill_event(
         target_id,
         "merge",
@@ -364,6 +398,7 @@ def _merge_generic_skills(registry_path, target_id, sources):
         registry_path=registry_path,
     )
 
+>>>>>>> origin/main
 
 >>>>>>> origin/main
 def meta_merge_command(args):
