@@ -179,6 +179,8 @@ def _update_named_skill_ref(md_path: Path, old_ref: str, new_ref: str):
     return False
 
 
+<<<<<<< HEAD
+=======
 def _merge_named_skills(registry_path, target_id, sources):
     # Named skill merging
     named_dir = Path(named_skills_dir(registry_path))
@@ -363,6 +365,7 @@ def _merge_generic_skills(registry_path, target_id, sources):
     )
 
 
+>>>>>>> origin/main
 def meta_merge_command(args):
     registry_path = args.registry
     target_id = args.target.lstrip("/")
@@ -373,9 +376,194 @@ def meta_merge_command(args):
         sys.exit(1)
 
     if "/" in target_id:
+<<<<<<< HEAD
+        # Named skill merging
+        named_dir = Path(named_skills_dir(registry_path))
+        target_file = _find_named_file(named_dir, target_id)
+
+        if not target_file:
+            print(f"Error: Target named skill '{target_id}' not found.")
+            sys.exit(1)
+
+        target_meta, target_body = _parse_md(target_file)
+
+        for source_id in sources:
+            source_file = _find_named_file(named_dir, source_id)
+
+            if not source_file:
+                print(f"Warning: Source named skill '{source_id}' not found. Skipping.")
+                continue
+
+            source_meta, source_body = _parse_md(source_file)
+
+            # Merge metadata
+            if "links" in source_meta:
+                target_meta.setdefault("links", {}).update(source_meta["links"])
+            if "tags" in source_meta:
+                target_meta["tags"] = list(
+                    set(target_meta.get("tags", [])) | set(source_meta["tags"])
+                )
+            if "knownAgents" in source_meta:
+                target_meta["knownAgents"] = list(
+                    set(target_meta.get("knownAgents", []))
+                    | set(source_meta["knownAgents"])
+                )
+
+            # Append body
+            target_body += f"\n\n--- Merged from {source_id} ---\n\n" + source_body
+
+            source_file.unlink()
+            print(f"Merged and deleted source file: {source_file}")
+
+        target_meta["updatedAt"] = datetime.date.today().isoformat()
+
+        with open(target_file, "w", encoding="utf-8") as f:
+            import yaml
+
+            f.write("---\n")
+            yaml.dump(target_meta, f, sort_keys=False, allow_unicode=True)
+            f.write("---\n")
+            f.write(target_body)
+
+        append_skill_event(
+            target_id,
+            "merge",
+            _get_contributor(),
+            f"Merged named skills {', '.join(sources)} into {target_id}",
+            registry_path=registry_path,
+        )
+    else:
+        # Generic skill merging
+        nodes_dir = Path(registry_nodes_dir(registry_path))
+        target_file = None
+        target_data = None
+
+        for p in nodes_dir.glob("**/*.json"):
+            with open(p, "r", encoding="utf-8") as f:
+                try:
+                    data = json.load(f)
+                    if data.get("id") == target_id:
+                        target_file = p
+                        target_data = data
+                        break
+                except json.JSONDecodeError:
+                    continue
+
+        if not target_file:
+            print(f"Error: Target skill '{target_id}' not found in registry nodes.")
+            sys.exit(1)
+
+        merged_evidence = target_data.get("evidence", []) or []
+        merged_prereqs = set(target_data.get("prerequisites", []) or [])
+        merged_derivatives = set(target_data.get("derivatives", []) or [])
+        merged_agents = set(target_data.get("knownAgents", []) or [])
+
+        source_files = []
+        for source_id in sources:
+            source_file = None
+            for p in nodes_dir.glob("**/*.json"):
+                with open(p, "r", encoding="utf-8") as f:
+                    try:
+                        data = json.load(f)
+                        if data.get("id") == source_id:
+                            source_file = p
+                            source_data = data
+                            break
+                    except json.JSONDecodeError:
+                        continue
+
+            if not source_file:
+                print(f"Warning: Source skill '{source_id}' not found. Skipping.")
+                continue
+
+            source_files.append(source_file)
+            merged_evidence.extend(source_data.get("evidence", []) or [])
+            merged_prereqs.update(source_data.get("prerequisites", []) or [])
+            merged_derivatives.update(source_data.get("derivatives", []) or [])
+            merged_agents.update(source_data.get("knownAgents", []) or [])
+
+        to_remove = set(sources) | {target_id}
+        merged_prereqs -= to_remove
+        merged_derivatives -= to_remove
+
+        target_data["evidence"] = merged_evidence
+        target_data["prerequisites"] = sorted(list(merged_prereqs))
+        target_data["derivatives"] = sorted(list(merged_derivatives))
+        target_data["knownAgents"] = sorted(list(merged_agents))
+        target_data["updatedAt"] = datetime.date.today().isoformat()
+
+        with open(target_file, "w", encoding="utf-8") as f:
+            json.dump(target_data, f, indent=2, ensure_ascii=False)
+            f.write("\n")
+
+        for sf in source_files:
+            sf.unlink()
+            print(f"Deleted source skill file: {sf}")
+
+        for p in nodes_dir.glob("**/*.json"):
+            if p == target_file:
+                continue
+            with open(p, "r", encoding="utf-8") as f:
+                try:
+                    data = json.load(f)
+                except json.JSONDecodeError:
+                    continue
+
+            changed = False
+            if data.get("prerequisites"):
+                new_prereqs = [
+                    target_id if pr in sources and target_id != data["id"] else pr
+                    for pr in data["prerequisites"]
+                    if pr not in sources or target_id != data["id"]
+                ]
+                seen = set()
+                new_prereqs = [x for x in new_prereqs if not (x in seen or seen.add(x))]
+                if new_prereqs != data["prerequisites"]:
+                    data["prerequisites"] = new_prereqs
+                    changed = True
+
+            if data.get("derivatives"):
+                new_derivatives = [
+                    target_id if dr in sources and target_id != data["id"] else dr
+                    for dr in data["derivatives"]
+                    if dr not in sources or target_id != data["id"]
+                ]
+                seen = set()
+                new_derivatives = [
+                    x for x in new_derivatives if not (x in seen or seen.add(x))
+                ]
+                if new_derivatives != data["derivatives"]:
+                    data["derivatives"] = new_derivatives
+                    changed = True
+
+            if changed:
+                with open(p, "w", encoding="utf-8") as f:
+                    json.dump(data, f, indent=2, ensure_ascii=False)
+                    f.write("\n")
+                print(f"Updated references in {p}")
+
+        # Update named skill references
+        named_dir = Path(named_skills_dir(registry_path))
+        sources_set = set(sources)
+        for p in named_dir.glob("**/*.md"):
+            meta, body = _parse_md(p)
+            if meta.get("genericSkillRef") in sources_set:
+                meta["genericSkillRef"] = target_id
+                _write_md(p, meta, body)
+                print(f"Updated genericSkillRef in {p}")
+
+        append_skill_event(
+            target_id,
+            "merge",
+            _get_contributor(),
+            f"Merged {', '.join(sources)} into {target_id}",
+            registry_path=registry_path,
+        )
+=======
         _merge_named_skills(registry_path, target_id, sources)
     else:
         _merge_generic_skills(registry_path, target_id, sources)
+>>>>>>> origin/main
 
     print("Regenerating registry and documentation...")
     _run_docs_build(args.registry)
