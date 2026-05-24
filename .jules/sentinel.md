@@ -16,3 +16,7 @@
 **Vulnerability:** Found multiple instances of `innerHTML` being set with unsanitized data (e.g. `skill.name`, `skill.id`) in `docs/js/skill-graph.js`, specifically when rendering tooltips, neighbor cards, and the skill panel.
 **Learning:** While the primary data source (`graph/gaia.json`) is considered trusted registry data, relying solely on upstream data trust creates a defense-in-depth gap. If the registry data generation is compromised or modified to contain malicious HTML, the UI will execute it.
 **Prevention:** Always implement and use an HTML escaping function (like `esc`) when dynamically building HTML strings for `innerHTML`, even if the data source is nominally "trusted".
+## 2025-02-28 - Automatic Execution of Local Shell Script Fix
+**Vulnerability:** `subprocess.run` was blindly executing a `scripts/install-git-hooks.sh` without checking the context.
+**Learning:** This introduces a Remote Code Execution risk inside an untrusted repository.
+**Prevention:** Avoid blindly executing files. Prompt the user and suggest running it manually.
