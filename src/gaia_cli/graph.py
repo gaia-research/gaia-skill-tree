@@ -57,14 +57,23 @@ def _stable_angle(skill_id: str, index: int, total: int) -> float:
     return math.tau * index / max(total, 1) + jitter - math.pi / 2
 
 
-def build_render_graph(graph: dict[str, Any], width: int = 1280, height: int = 880) -> dict[str, Any]:
+def build_render_graph(
+    graph: dict[str, Any], width: int = 1280, height: int = 880
+) -> dict[str, Any]:
     skills = graph.get("skills", [])
-    groups: dict[str, list[dict[str, Any]]] = {"basic": [], "extra": [], "unique": [], "ultimate": []}
+    groups: dict[str, list[dict[str, Any]]] = {
+        "basic": [],
+        "extra": [],
+        "unique": [],
+        "ultimate": [],
+    }
     for skill in skills:
         groups.setdefault(skill.get("type", "basic"), []).append(skill)
 
     for bucket in groups.values():
-        bucket.sort(key=lambda s: (str(s.get("level", "")), str(s.get("name", s.get("id", "")))))
+        bucket.sort(
+            key=lambda s: (str(s.get("level", "")), str(s.get("name", s.get("id", ""))))
+        )
 
     cx, cy = width / 2, height / 2
     nodes: list[dict[str, Any]] = []
@@ -102,9 +111,17 @@ def build_render_graph(graph: dict[str, Any], width: int = 1280, height: int = 8
             continue
         for source in skill.get("prerequisites", []) or []:
             if source in skill_ids:
-                edges.append({"source": source, "target": target, "type": skill.get("type", "basic")})
+                edges.append(
+                    {
+                        "source": source,
+                        "target": target,
+                        "type": skill.get("type", "basic"),
+                    }
+                )
 
-    nodes.sort(key=lambda n: (TYPE_ORDER.get(str(n.get("type")), 9), str(n.get("label", ""))))
+    nodes.sort(
+        key=lambda n: (TYPE_ORDER.get(str(n.get("type")), 9), str(n.get("label", "")))
+    )
     return {
         "version": graph.get("version"),
         "generatedAt": graph.get("generatedAt"),
@@ -133,9 +150,9 @@ def render_svg(render_graph: dict[str, Any]) -> str:
         "</defs>",
         f'<rect width="{width}" height="{height}" fill="url(#bg)"/>',
         '<g opacity="0.32" stroke="#334155" stroke-width="1" fill="none">',
-        f'<circle cx="{width/2:.1f}" cy="{height/2:.1f}" r="{RADIUS_BY_TYPE["basic"]}"/>',
-        f'<circle cx="{width/2:.1f}" cy="{height/2:.1f}" r="{RADIUS_BY_TYPE["extra"]}"/>',
-        f'<circle cx="{width/2:.1f}" cy="{height/2:.1f}" r="{RADIUS_BY_TYPE["ultimate"]}"/>',
+        f'<circle cx="{width / 2:.1f}" cy="{height / 2:.1f}" r="{RADIUS_BY_TYPE["basic"]}"/>',
+        f'<circle cx="{width / 2:.1f}" cy="{height / 2:.1f}" r="{RADIUS_BY_TYPE["extra"]}"/>',
+        f'<circle cx="{width / 2:.1f}" cy="{height / 2:.1f}" r="{RADIUS_BY_TYPE["ultimate"]}"/>',
         "</g>",
         '<g class="edges" fill="none">',
     ]
@@ -159,10 +176,15 @@ def render_svg(render_graph: dict[str, Any]) -> str:
         )
     lines.append("</g>")
 
-    lines.append('<g class="labels" font-family="Inter, ui-sans-serif, system-ui, sans-serif" text-anchor="middle">')
+    lines.append(
+        '<g class="labels" font-family="Inter, ui-sans-serif, system-ui, sans-serif" text-anchor="middle">'
+    )
     for node in nodes:
         typ = str(node.get("type"))
-        if typ == "basic" and int(sum(ord(c) for c in str(node.get("id", ""))) % 4) != 0:
+        if (
+            typ == "basic"
+            and int(sum(ord(c) for c in str(node.get("id", ""))) % 4) != 0
+        ):
             continue
         color = PALETTE.get(typ, PALETTE["basic"])["fill"]
         size = 10 if typ == "basic" else 12 if typ == "extra" else 16
@@ -185,8 +207,12 @@ def render_svg(render_graph: dict[str, Any]) -> str:
         y = legend_y + i * 28
         color = PALETTE[skill_type]
         count = sum(1 for node in nodes if node.get("type") == skill_type)
-        lines.append(f'<circle cx="{legend_x + 8}" cy="{y - 5}" r="6" fill="{color["fill"]}"/>')
-        lines.append(f'<text x="{legend_x + 24}" y="{y}">{color["label"]}: {count}</text>')
+        lines.append(
+            f'<circle cx="{legend_x + 8}" cy="{y - 5}" r="6" fill="{color["fill"]}"/>'
+        )
+        lines.append(
+            f'<text x="{legend_x + 24}" y="{y}">{color["label"]}: {count}</text>'
+        )
     lines.append("</g>")
     lines.append("</svg>")
     return "\n".join(lines) + "\n"
@@ -196,7 +222,9 @@ def _html_json(data: dict[str, Any]) -> str:
     return escape(json.dumps(data, indent=2, ensure_ascii=False), quote=False)
 
 
-def render_html(graph: dict[str, Any], named_skills: dict[str, Any] | None = None) -> str:
+def render_html(
+    graph: dict[str, Any], named_skills: dict[str, Any] | None = None
+) -> str:
     named_skills = named_skills or {"buckets": {}}
     return f"""<!doctype html>
 <html lang="en">
@@ -862,8 +890,15 @@ def render_html(graph: dict[str, Any], named_skills: dict[str, Any] | None = Non
     if (state.labelToggleEl) state.labelToggleEl.classList.remove('active');
   }}
 
+  // Performance optimization: Cache canvas bounds to prevent layout thrashing
+  // on high-frequency mousemove events. Invalidate on scroll/resize/mousedown.
+  let _lastRect = null;
+  window.addEventListener('resize', () => {{ _lastRect = null; }});
+  window.addEventListener('scroll', () => {{ _lastRect = null; }}, {{ passive: true }});
+
   function handlePointerMove(event) {{
-    const rect = canvas.getBoundingClientRect();
+    if (!_lastRect) _lastRect = canvas.getBoundingClientRect();
+    const rect = _lastRect;
     if (state.dragging) {{
       state.orbitY += (event.clientX - state.dragLastX) * 0.007;
       state.orbitX += (event.clientY - state.dragLastY) * 0.007;
@@ -887,6 +922,7 @@ def render_html(graph: dict[str, Any], named_skills: dict[str, Any] | None = Non
 
   function handleMouseDown(event) {{
     event.preventDefault();
+    _lastRect = canvas.getBoundingClientRect();
     state.potentialClickId = state.hoveredId;
     state.dragging = true;
     state.dragMoved = false;
@@ -960,7 +996,9 @@ def write_graph_artifact(
     out_path.parent.mkdir(parents=True, exist_ok=True)
 
     if fmt == "html":
-        out_path.write_text(render_html(graph, load_named_skills(root)), encoding="utf-8")
+        out_path.write_text(
+            render_html(graph, load_named_skills(root)), encoding="utf-8"
+        )
     elif fmt == "svg":
         out_path.write_text(render_svg(render_graph), encoding="utf-8")
     elif fmt == "json":
@@ -989,7 +1027,9 @@ def open_path(path: Path) -> None:
 def graph_command(args: Any) -> None:
     fmt = getattr(args, "format", "html") or "html"
     output = getattr(args, "output", None)
-    out_path = write_graph_artifact(getattr(args, "registry", "."), output=output, fmt=fmt)
+    out_path = write_graph_artifact(
+        getattr(args, "registry", "."), output=output, fmt=fmt
+    )
     print(f"  saved {os.path.basename(out_path)}")
     if getattr(args, "open", True):
         open_path(out_path)
