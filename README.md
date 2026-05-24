@@ -388,6 +388,19 @@ The Gaia registry is programmatically managed. All meta shifts (adding, merging,
 
 ---
 
+## Privacy
+
+Gaia does not store personal information.
+
+- **Skills are summarised, not stored.** `gaia scan` records capability type, level, and evidence class — never file contents, prompt text, or conversation history.
+- **Only public repo links.** The registry stores your public GitHub username and a public repo URL when you explicitly submit a named skill. Nothing else.
+- **Generalised by default.** Skill descriptions capture capability categories, not personal details about you or your agent's behaviour.
+- **No telemetry.** The CLI and the static website collect zero analytics or usage data.
+
+Full details: [PRIVACY.md](PRIVACY.md) · [gaia.tiongson.co/privacy.html](https://gaia.tiongson.co/privacy.html)
+
+---
+
 ## License
 
 MIT: see [LICENSE](LICENSE).
