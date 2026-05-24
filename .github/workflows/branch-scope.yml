@@ -56,7 +56,7 @@ jobs:
           echo "Detected prefix: $PREFIX"
           echo ""
 
-          # unrestricted branches (dev/*, claude/*, codex/*) have no forward restriction
+          # unrestricted branches (dev/*, claude/*, codex/*, chore/*) have no forward restriction
           if [ "$PREFIX" = "unrestricted" ]; then
             echo "✓ $BRANCH has no scope restrictions."
             exit 0
