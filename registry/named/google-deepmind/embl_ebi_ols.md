@@ -13,6 +13,8 @@ description: Query and search the EMBL-EBI Ontology Lookup Service (OLS) for bio
   suggestions, or access ontology metadata and statistics.
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
+links:
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/embl_ebi_ols
 ---
 
 # EMBL-EBI Ontology Lookup Service (OLS)

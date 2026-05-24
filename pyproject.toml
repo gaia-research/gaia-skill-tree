@@ -45,7 +45,9 @@ tui = [
 ]
 dev = [
     "build>=1.2.0",
+    "numpy>=1.21.0",
     "pytest>=8.0",
+    "scipy>=1.7.0",
     "setuptools>=68.0",
     "textual>=0.50.0",
     "twine>=5.0",

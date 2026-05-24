@@ -125,30 +125,15 @@ def resolve_named_skill_reference(skill_ref, registry_path):
     return None, None
 
 
-def install_skill(skill_id: str, registry_path: str, visited: set[str] | None = None) -> bool:
-    """Install a skill by fetching from source and linking to agent directory."""
-    if visited is None:
-        visited = set()
-    if skill_id in visited:
-        return True
-    visited.add(skill_id)
+def _install_single(sid: str, meta: dict, registry_path: str, visited: set[str]) -> bool:
+    """Clone/symlink a single skill entry, bypassing suite-component detection.
 
-    sid, meta = resolve_named_skill_reference(skill_id, registry_path)
-    if not sid:
-        print(f"Error: Skill '{skill_id}' not found in registry.", file=sys.stderr)
-        return False
-
-    # Check for suite components
-    suite_components = meta.get("suiteComponents", [])
-    # Fallback to prerequisites for Ultimates if suiteComponents is missing
-    if not suite_components and meta.get("ultimate"):
-        # We'd need to load gaia.json to find generic prerequisites. 
-        # But per plan, we prefer explicit suiteComponents.
-        pass
-
-    if suite_components:
-        return install_suite(sid, registry_path, visited)
-
+    Called by both install_skill (for non-suite skills) and install_suite (for
+    the optional suite-root artifact that has its own links.github). Using this
+    helper in install_suite avoids infinite recursion that would arise if we
+    called install_skill(sid) there — install_skill would detect suiteComponents
+    and re-enter install_suite.
+    """
     links = meta.get("links", {}) if isinstance(meta, dict) else {}
     github_url = links.get("github") if isinstance(links, dict) else None
     if not github_url:
@@ -158,7 +143,7 @@ def install_skill(skill_id: str, registry_path: str, visited: set[str] | None = 
     repo_url, branch, subpath = _parse_github_url(github_url)
     owner = sid.split("/", 1)[0]
     repo_name = repo_url.split("/")[-1].replace(".git", "")
-    
+
     # 1. Clone/Fetch to global cache
     global_cache = os.path.join(get_global_cache_dir(), owner, repo_name)
     if not os.path.exists(global_cache):
@@ -177,13 +162,12 @@ def install_skill(skill_id: str, registry_path: str, visited: set[str] | None = 
     # 2. Symlink to local agent directory
     target_dir = get_repo_skills_dir()
     os.makedirs(target_dir, exist_ok=True)
-    
+
     skill_slug = sid.split("/", 1)[1]
     local_skill_path = os.path.join(target_dir, skill_slug)
-    
-    # Source path in cache
+
     source_skill_path = os.path.join(global_cache, subpath)
-    
+
     if os.path.exists(local_skill_path) or os.path.islink(local_skill_path):
         if os.path.islink(local_skill_path):
             os.remove(local_skill_path)
@@ -208,7 +192,7 @@ def install_skill(skill_id: str, registry_path: str, visited: set[str] | None = 
         "installedAt": datetime.now(timezone.utc).isoformat(),
         "repoUrl": repo_url,
         "subpath": subpath,
-        "localPath": local_skill_path
+        "localPath": local_skill_path,
     }
     if existing:
         existing.update(entry)
@@ -220,19 +204,50 @@ def install_skill(skill_id: str, registry_path: str, visited: set[str] | None = 
     return True
 
 
-def install_suite(suite_id: str, registry_path: str, visited: set[str] | None = None) -> bool:
-    """Recursive installation of a skill suite and its components."""
+def install_skill(skill_id: str, registry_path: str, visited: set[str] | None = None) -> bool:
+    """Install a skill by fetching from source and linking to agent directory."""
     if visited is None:
         visited = set()
-    
+    if skill_id in visited:
+        return True
+    visited.add(skill_id)
+
+    sid, meta = resolve_named_skill_reference(skill_id, registry_path)
+    if not sid:
+        print(f"Error: Skill '{skill_id}' not found in registry.", file=sys.stderr)
+        return False
+
+    # Check for suite components
+    suite_components = meta.get("suiteComponents", [])
+    # Fallback to prerequisites for Ultimates if suiteComponents is missing
+    if not suite_components and meta.get("ultimate"):
+        # We'd need to load gaia.json to find generic prerequisites.
+        # But per plan, we prefer explicit suiteComponents.
+        pass
+
+    if suite_components:
+        return install_suite(sid, registry_path, visited)
+
+    return _install_single(sid, meta, registry_path, visited)
+
+
+def install_suite(suite_id: str, registry_path: str, visited: set[str] | None = None) -> bool:
+    """Recursive installation of a skill suite and its components.
+
+    Returns True only when every component (and the suite root, if it has its
+    own links.github) installs successfully. Partial or total failures cause
+    a False return and a summary listing the failed component IDs.
+    """
+    if visited is None:
+        visited = set()
+
     sid, meta = resolve_named_skill_reference(suite_id, registry_path)
     if not sid:
         return False
-    
+
     components = meta.get("suiteComponents", [])
     if not components:
         # If no explicit components, treat it as a regular skill
-        # (Though usually suites should have components)
         github_url = meta.get("links", {}).get("github")
         if github_url:
             return install_skill(sid, registry_path, visited)
@@ -240,15 +255,36 @@ def install_suite(suite_id: str, registry_path: str, visited: set[str] | None = 
 
     print(f"\nInstalling suite: {sid} ({len(components)} components)...")
     success_count = 0
+    failed: list[str] = []
     for comp_id in components:
         if install_skill(comp_id, registry_path, visited):
             success_count += 1
-    
-    # Finally install the suite metadata/root itself if it has a source
-    if meta.get("links", {}).get("github"):
-        install_skill(sid, registry_path, visited)
+        else:
+            failed.append(comp_id)
 
-    print(f"\n✓ Suite {sid} complete: {success_count} component(s) installed.")
+    # Install the suite root itself if it has its own github source.
+    # Use _install_single directly to bypass suite-component detection and
+    # avoid re-entering install_suite (which would cause infinite recursion).
+    root_ok = True
+    root_attempted = False
+    if meta.get("links", {}).get("github"):
+        root_attempted = True
+        root_ok = _install_single(sid, meta, registry_path, visited)
+        if not root_ok:
+            failed.append(sid)
+
+    total = len(components) + (1 if root_attempted else 0)
+    achieved = success_count + (1 if root_attempted and root_ok else 0)
+
+    if failed:
+        print(
+            f"\n⚠ Suite {sid}: {achieved}/{total} installed. "
+            f"Failed: {', '.join(failed)}",
+            file=sys.stderr,
+        )
+        return False
+
+    print(f"\n✓ Suite {sid} complete: {achieved}/{total} component(s) installed.")
     return True
 
 

@@ -11,6 +11,8 @@ description: Search Europe PMC for scientific literature and download open-acces
   and bibliography.
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
+links:
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_europepmc
 ---
 
 # Europe PMC Database

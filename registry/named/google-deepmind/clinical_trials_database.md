@@ -12,6 +12,8 @@ description: Query ClinicalTrials.gov via APIv2. Use when you want to search for
   identify a sponsor's trial portfolio; find recruiting trials for patient matching.
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
+links:
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/clinical_trials_database
 ---
 
 # Clinical Trials Database

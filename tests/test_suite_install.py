@@ -515,10 +515,10 @@ class TestSuiteInstallBugs:
     def test_install_suite_returns_true_even_when_zero_components_installed(
         self, tmp_path, monkeypatch
     ):
-        """BUG (install.py:251): install_suite returns True even when 0/N components install.
+        """BUG FIXED (install.py): install_suite now returns False when 0/N components install.
 
-        Components lacking links.github cannot be installed. The suite should
-        signal failure, but currently always returns True regardless.
+        Components lacking links.github cannot be installed. The suite
+        correctly signals failure when no components install successfully.
         """
         _setup_install_env(tmp_path, monkeypatch)
         _make_json_registry(
@@ -541,17 +541,14 @@ class TestSuiteInstallBugs:
 
         result = install_suite("testuser/empty-suite", str(tmp_path))
 
-        # BUG: returns True even though nothing was installed
-        assert result is True, (
-            "BUG still present: install_suite should return False on total failure"
-        )
+        assert result is False
         manifest = load_manifest()
         assert len(manifest["installed"]) == 0, "No components should have been installed"
 
     def test_install_suite_with_partial_failures_returns_true(
         self, tmp_path, monkeypatch
     ):
-        """BUG (install.py:251): install_suite returns True when only 1/3 components succeed."""
+        """BUG FIXED (install.py): install_suite now returns False when only 1/3 components succeed."""
         _setup_install_env(tmp_path, monkeypatch)
         _make_json_registry(
             tmp_path,
@@ -578,10 +575,7 @@ class TestSuiteInstallBugs:
 
         result = install_suite("testuser/partial-suite", str(tmp_path))
 
-        # BUG: partial failure still returns True
-        assert result is True, (
-            "BUG still present: partial suite failure should not unconditionally return True"
-        )
+        assert result is False
         manifest = load_manifest()
         installed_ids = {e["id"] for e in manifest["installed"]}
         assert "testuser/ok-skill" in installed_ids
@@ -591,12 +585,11 @@ class TestSuiteInstallBugs:
     def test_suite_root_with_github_link_not_installed_due_to_visited_set(
         self, tmp_path, monkeypatch
     ):
-        """BUG (install.py:247-248): Suite root is never installed when it has suiteComponents
+        """BUG FIXED (install.py): Suite root is now installed when it has suiteComponents
         AND links.github.
 
-        install_skill adds suite_id to `visited` before delegating to install_suite.
-        install_suite then tries to install the root at line 247 via
-        install_skill(sid, ..., visited), but sid is already visited → instant True no-op.
+        The fix uses visited.discard(sid) before the recursive install_skill call
+        for the suite root, so the root is no longer blocked by the visited set.
         """
         _setup_install_env(tmp_path, monkeypatch)
         _make_json_registry(
@@ -630,10 +623,8 @@ class TestSuiteInstallBugs:
         # Component IS installed correctly
         assert "testuser/alpha" in installed_ids
 
-        # BUG: suite root itself is NOT in the manifest (blocked by visited set)
-        assert "testuser/my-suite" not in installed_ids, (
-            "BUG still present: suite root should be installed when it has its own github link"
-        )
+        # BUG FIXED: suite root IS now in the manifest (visited.discard unblocks it)
+        assert "testuser/my-suite" in installed_ids
 
 
 # ---------------------------------------------------------------------------

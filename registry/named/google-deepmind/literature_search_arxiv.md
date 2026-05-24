@@ -11,6 +11,8 @@ description: Search for scientific papers, preprints, and publications on arXiv.
   when the user asks to find research papers, literature, or specific arXiv IDs.
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
+links:
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_arxiv
 ---
 
 # arXiv Search and Retrieval

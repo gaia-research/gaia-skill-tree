@@ -14,6 +14,8 @@ description: Query the Genome Aggregation Database (gnomAD). Use when determinin
   requesting raw sequencing reads (use ENA).
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
+links:
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/gnomad_database
 ---
 
 # gnomAD Database

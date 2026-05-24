@@ -13,6 +13,8 @@ description: Query the QuickGO and Evidence & Conclusion Ontology (ECO) REST API
   or mechanistic signaling pathway diagrams (use KEGG).
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
+links:
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/quickgo_database
 ---
 
 # QuickGO Database Skill

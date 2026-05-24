@@ -13,6 +13,8 @@ description: Retrieve protein and nucleotide sequences from NCBI databases using
   locus tag, PubMed ID, or patent number.
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
+links:
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/ncbi_sequence_fetch
 ---
 
 # NCBI Sequence Fetch

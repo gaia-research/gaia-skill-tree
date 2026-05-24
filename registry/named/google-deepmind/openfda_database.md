@@ -13,6 +13,8 @@ description: Query, search, and download data from the openFDA API for drugs, de
   28 API endpoints.
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
+links:
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/openfda_database
 ---
 
 # openFDA Search and Query

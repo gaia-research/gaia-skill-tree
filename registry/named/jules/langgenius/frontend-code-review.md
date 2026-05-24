@@ -9,6 +9,8 @@ level: 2★
 description: Trigger when the user requests a review of frontend files.
 createdAt: '2026-05-20'
 updatedAt: '2026-05-20'
+links:
+  github: https://github.com/langgenius/dify/blob/main/.agents/skills/frontend-code-review
 ---
 
 ## Installation

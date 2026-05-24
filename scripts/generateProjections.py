@@ -19,6 +19,7 @@ if _SCRIPTS_DIR not in sys.path:
     sys.path.insert(0, _SCRIPTS_DIR)
 from _atlas_helpers import markdown_handle_link  # noqa: E402
 from _tree_renderer import render_tree  # noqa: E402
+from build_layouts_3d import generate_layouts # noqa: E402
 
 
 def _run_generate_named_index():
@@ -42,8 +43,7 @@ def _run_generate_named_index():
             ts = gdata.get("generatedAt", "")
             today = (ts.split("T")[0] if "T" in ts else ts) if ts else datetime.date.today().isoformat()
             named_skills = mod.load_named_skills(named_dir)
-            valid_ids = {s["id"] for s in gdata.get("skills", [])}
-            errors, buckets, awaiting_classification, by_contributor = mod.validate_and_group(named_skills, valid_ids)
+            errors, buckets, awaiting_classification, by_contributor = mod.validate_and_group(named_skills, gdata)
             if errors:
                 print(f"Warning: named skill validation errors ({len(errors)}):")
                 for err in errors:
@@ -195,6 +195,28 @@ def _render_subtree(root_id, skill_map, meta, prefix, is_last, seen,
 def main():
     with open("registry/gaia.json", "r", encoding="utf-8") as f:
         data = json.load(f)
+
+    # 4D Hyper-Atlas Integration: Generate layout data.
+    # Per-skill cluster/positions are schema-addition-properties and must NOT
+    # be written into registry/gaia.json (additionalProperties:false on Skill).
+    # They are saved to generated-output/layouts.json and merged into
+    # docs/graph/gaia.json by syncDocsGraphAssets.py at sync time.
+    layout_data = generate_layouts()
+    if layout_data:
+        data["meta"]["clusterNames"] = layout_data.get("clusterNames", {})
+        data["meta"]["centroids"] = layout_data.get("centroids", [])
+        # Save registry/gaia.json with only meta additions — no per-skill fields
+        with open("registry/gaia.json", "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2, ensure_ascii=False)
+            f.write("\n")
+        # Write per-skill layout nodes to a generated artifact for the sync step
+        generated_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "generated-output")
+        os.makedirs(generated_dir, exist_ok=True)
+        layouts_out = os.path.join(generated_dir, "layouts.json")
+        with open(layouts_out, "w", encoding="utf-8") as f:
+            json.dump(layout_data["nodes"], f, indent=2, ensure_ascii=False)
+            f.write("\n")
+        print("Saved 4D Hyper-Atlas layout nodes to generated-output/layouts.json")
 
     version = data.get("version", "0.1.0")
     timestamp = data.get("generatedAt", datetime.datetime.now().isoformat() + "Z")

@@ -12,6 +12,8 @@ description: Use when you want to search for or download experimentally-determin
   Also use to get metadata about biomolecular structure experiments.
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
+links:
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/pdb_database
 ---
 
 # RCSB Protein Data Bank skill

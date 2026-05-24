@@ -13,6 +13,8 @@ description: Distills a completed user workflow or interaction into a reusable a
   from scratch without an existing workflow (use a generic skill-creator for that).
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
+links:
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator
 ---
 
 # Workflow-to-Skill Distiller

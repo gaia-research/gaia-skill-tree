@@ -11,6 +11,8 @@ description: Use when needing clinical significance, pathogenicity classificatio
   positive" benchmark controls for human genomic variants.
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
+links:
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/clinvar_database
 ---
 
 # ClinVar Database

@@ -12,6 +12,8 @@ description: Use when you want to look up, map, and search for short genetic var
   clinical significance, allele frequencies, and genomic coordinates (GRCh38).
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
+links:
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/dbsnp_database
 ---
 
 # dbSNP Database Integration

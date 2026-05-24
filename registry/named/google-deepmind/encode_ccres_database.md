@@ -12,6 +12,8 @@ description: Query the ENCODE Registry of cis-Regulatory Elements (cCREs) via th
   or raw experimental data across human cell types.
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
+links:
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/encode_ccres_database
 ---
 
 # ENCODE Database Skill

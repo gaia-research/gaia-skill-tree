@@ -2,7 +2,9 @@
 id: intelligentcode-ai/requirements-engineer
 name: Requirements Engineer
 contributor: intelligentcode-ai
-origin: https://github.com/intelligentcode-ai/skills/blob/main/skills/requirements-engineer/SKILL.md
+origin: false
+links:
+  github: https://github.com/intelligentcode-ai/skills/blob/main/skills/requirements-engineer/SKILL.md
 genericSkillRef: requirements-analysis
 status: awakened
 level: "2★"

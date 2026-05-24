@@ -12,6 +12,8 @@ description: Browse, filter, and download life sciences, biology, and medical pr
   date ranges MUST be narrow (1-4 weeks) with a category to prevent timeouts.
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
+links:
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_biorxiv
 ---
 
 # bioRxiv and medRxiv Literature Search

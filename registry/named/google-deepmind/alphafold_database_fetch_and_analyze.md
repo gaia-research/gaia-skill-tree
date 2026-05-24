@@ -13,6 +13,8 @@ description: Retrieve and analyze AlphaFold predicted structures for a protein. 
   UniProt ID first.
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
+links:
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze
 ---
 
 # AlphaFold Database: Fetch and Analyze

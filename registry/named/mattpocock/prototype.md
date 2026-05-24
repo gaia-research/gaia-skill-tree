@@ -12,6 +12,8 @@ description: Build throwaway prototypes to answer specific design or logic quest
 createdAt: '2026-05-21'
 updatedAt: '2026-05-21'
 suiteRef: "mattpocock/engineering"
+links:
+  github: https://github.com/mattpocock/skills/blob/main/skills/engineering/prototype
 ---
 
 ## Installation

@@ -13,6 +13,8 @@ description: Performs 3D structural searches of proteins against various databas
   gene name, or UniProt ID.
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
+links:
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/foldseek_structural_search
 ---
 
 ## Prerequisites

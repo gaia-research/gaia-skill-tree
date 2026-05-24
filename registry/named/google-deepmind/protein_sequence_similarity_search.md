@@ -13,6 +13,8 @@ description: Searches for homologous protein sequences using MMseqs2 (fast, defa
   to infer protein function based on structural similarity.
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
+links:
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_similarity_search
 ---
 
 ## Prerequisites

@@ -11,6 +11,8 @@ description: Query PubChem, search by name/CID/SMILES, retrieve properties, simi
   chemical, drug, or molecule.
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
+links:
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/pubchem_database
 ---
 
 # PubChem Database

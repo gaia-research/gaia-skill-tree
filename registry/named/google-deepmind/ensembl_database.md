@@ -12,6 +12,8 @@ description: Query the Ensembl database to resolve gene, transcript, and protein
   genomic sequence database and variant effect prediction tool.
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
+links:
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/ensembl_database
 ---
 
 # Ensembl Database: ID Mapping and Genomic Features

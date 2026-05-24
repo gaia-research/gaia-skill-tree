@@ -13,6 +13,8 @@ description: Query the OpenAlex scholarly database for research papers, authors,
   exploring the research taxonomies, or performing DOI lookups.
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
+links:
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_openalex
 ---
 
 # OpenAlex Skill

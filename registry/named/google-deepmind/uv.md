@@ -10,6 +10,8 @@ description: Checks whether the uv Python package manager is installed and insta
   it if missing. Ensures uv is on PATH. Use when another skill requires uv as a prerequisite.
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
+links:
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/uv
 ---
 
 # uv (Python Package Manager)

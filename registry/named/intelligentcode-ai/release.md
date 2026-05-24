@@ -2,7 +2,9 @@
 id: intelligentcode-ai/release
 name: Release
 contributor: intelligentcode-ai
-origin: https://github.com/intelligentcode-ai/skills/blob/main/skills/release/SKILL.md
+origin: false
+links:
+  github: https://github.com/intelligentcode-ai/skills/blob/main/skills/release/SKILL.md
 genericSkillRef: release-automation
 status: awakened
 level: "2★"

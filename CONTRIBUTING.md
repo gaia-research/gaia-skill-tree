@@ -68,6 +68,8 @@ gaia dev link target-id prereq-id-1,prereq-id-2 [--reset]
 
 # Update named skill frontmatter
 gaia dev update-named author/skill --status awakened --suite-components c1,c2
+gaia dev update-named author/skill --suite-ref capstone/suite
+gaia dev update-named capstone/suite --installation-file path/to/setup.md
 
 # Remove a skill
 gaia dev rm skill-id
@@ -296,20 +298,34 @@ If a tab's markdown contains a table with columns `Agent` (or `Host`) and `Flag`
 
 ### Editing and Submitting a PR
 
-1. **Modify the files:**
-   Make edits to the named skill markdown files under `registry/named/` and suite manifests under `registry/suites/`.
+Use `gaia dev` commands — do not edit files manually or invoke build scripts directly (see §1.B).
 
-2. **Extract and Rebuild:**
-   Run the index generator and documentation build scripts to extract the new frontmatter and regenerate the site:
+1. **Set suiteComponents on the capstone skill:**
    ```bash
-   python3 scripts/validate.py
-   python3 scripts/build_docs.py
+   gaia dev update-named garrytan/gstack --no-build \
+     --suite-components "garrytan/browse,garrytan/cso,garrytan/design-review,garrytan/garrytan,garrytan/office-hours"
    ```
 
-3. **Submit the PR:**
-   - Create a `dev/` branch for your changes (e.g. `dev/gstack-custom-setup`).
-   - Add and commit both the source named skill markdown files and the generated index files (`registry/named-skills.json`, `docs/graph/named/index.json`, `docs/css/styles.css`, `docs/js/skill-explorer.js`).
-   - Open your PR on GitHub for maintainer review.
+2. **Link each constituent skill back to the capstone:**
+   ```bash
+   gaia dev update-named garrytan/browse --suite-ref garrytan/gstack --no-build
+   gaia dev update-named garrytan/cso    --suite-ref garrytan/gstack --no-build
+   # …repeat for each component
+   ```
+
+3. **Replace the `## Installation` section from a markdown file:**
+   ```bash
+   gaia dev update-named garrytan/gstack --installation-file path/to/setup-guide.md --no-build
+   gaia dev build   # single rebuild after all edits are complete
+   ```
+
+4. **Validate and open the PR:**
+   ```bash
+   gaia validate
+   ```
+   Create a `cli/` or `dev/` branch. If your branch also touches `CONTRIBUTING.md` or other
+   files outside the `cli/` scope, add the **`skip-scope-check`** label to the PR so CI scope
+   enforcement is bypassed.
 
 ---
 
@@ -318,4 +334,97 @@ If a tab's markdown contains a table with columns `Agent` (or `Host`) and `Flag`
 The registry is supported by several automated workflows:
 - **Auto-Sync:** On every push to a branch, a GitHub Action automatically runs the versioning and regeneration scripts. You no longer need to run these manually before pushing.
 - **Validation:** Every PR is automatically validated for schema correctness, DAG integrity, and evidence quality.
+
+---
+
+## 12) Named Skill Installability Policy
+
+Named skills are only installable if they have a valid `links.github` field pointing to a public repository. This policy defines how curators and AI agents handle skills that lack one.
+
+> **Suites are exempt.** Any skill with a `suiteComponents` list (e.g. `mattpocock/skills`, `garrytan/gstack`) installs by iterating its components — it does not need its own `links.github`. Do not flag suites as uninstallable and do not add `installable: false` to them.
+
+### The rule: stars determine fate (non-suite skills only)
+
+| Stars | No `links.github` | Action |
+|-------|-------------------|--------|
+| 0★–2★ | Allowed — kept as **registry-only** | Tag `installable: false` in frontmatter |
+| 3★+ | **Not allowed** — must have a verified GitHub link | Demote to 2★ until a link is confirmed |
+
+The rationale: a 3★ (Evolved) or higher skill claims reproducible, documented evidence (`≥ 1 Tier B`). A public repository link is the minimum verification for that claim. If no link exists, the skill has not met the bar for Evolved rank.
+
+### Tagging registry-only skills
+
+For skills at 2★ or below with no known public repository, add `installable: false` to the frontmatter:
+
+```yaml
+---
+id: contributor/skill-name
+name: Skill Name
+status: named
+level: "2★"
+installable: false   # No public source repo — registry-only
+# No links: block
+---
+```
+
+This field is a curator signal. The install pipeline already rejects skills without `links.github`; the field makes the intent explicit and prevents repeated web-research attempts.
+
+### Demotion workflow for 3★+ skills with missing links
+
+```bash
+# 1. Confirm no public repo can be found (web search, contributor contact)
+# 2. Demote via CLI
+gaia dev calibrate contributor/skill-name "2★"
+
+# 3. Add installable: false flag via direct frontmatter edit
+# registry/named/contributor/skill-name.md → add `installable: false`
+
+# 4. Regenerate index
+python scripts/generateNamedIndex.py
+
+# 5. Validate
+gaia validate
+```
+
+### Auto-rejection during intake (`gaia push`)
+
+The following conditions auto-reject a named skill submission or trigger a mandatory reviewer flag:
+
+| Condition | Outcome |
+|-----------|---------|
+| `links.github` missing and proposed level ≥ 3★ | **Rejected** — downgrade to 2★ required before merge |
+| `links.github` present but URL is a bare repo root (no `/blob/branch/subpath`) | **Flagged** — reviewer must verify subpath or skill is undiscoverable |
+| `origin: <URL>` (URL in boolean field) | **Rejected** — move URL to `links.github:`, set `origin: false` |
+| `links.repo`, `links.docs`, `links.arxiv` (wrong key) | **Rejected** — only `links.github` is read by the installer |
+| Suite component listed in `suiteComponents` with no `links.github` | **Flagged** — install will partially fail; must resolve before promotion |
+
+### `links.github` URL format
+
+URLs **must** use the `blob/` path format so the installer extracts the subpath correctly:
+
+```yaml
+# Correct — installer extracts subpath `.agents/skills/my-skill`
+links:
+  github: https://github.com/owner/repo/blob/main/.agents/skills/my-skill
+
+# Broken — installs entire repo root, skill is undiscoverable
+links:
+  github: https://github.com/owner/repo
+```
+
+The install pipeline (`src/gaia_cli/install.py::_parse_github_url`) only recognises the `blob/` pattern. Using `tree/` (GitHub's directory URL format) is also not recognised — always use `blob/`.
+
+### Skills currently exempt (registry-only, installable: false)
+
+These **non-suite** skills are intentionally kept in the registry without a source link. Do not attempt to find links for them on repeated audit passes.
+
+| Skill ID | Reason |
+|----------|--------|
+| `stanfordnlp/dspy` | Source is a Python library, no SKILL.md structure |
+| `openai/few-shot-learning` | Research technique (arxiv); no installable skill repo found |
+| `openai/self-consistency` | Research technique (arxiv); no installable skill repo found |
+| `Taoidle/plan-decompose-gh-plan-cascade` | No public source repo confirmed |
+| `changkun/plan-decompose-gh-wallfacer` | Wallfacer repo exists but skill not published |
+| `pexp13/sentiment-analysis` | No public source repo confirmed |
+
 

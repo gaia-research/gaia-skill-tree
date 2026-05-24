@@ -11,6 +11,8 @@ description: Query Open Targets Platform for target-disease associations, drug t
   target identification.
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
+links:
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/opentargets_database
 ---
 
 # Open Targets Database Skill
