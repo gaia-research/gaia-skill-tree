@@ -2,7 +2,9 @@
 id: intelligentcode-ai/security-engineer
 name: Security Engineer
 contributor: intelligentcode-ai
-origin: https://github.com/intelligentcode-ai/skills/blob/main/skills/security-engineer/SKILL.md
+origin: false
+links:
+  github: https://github.com/intelligentcode-ai/skills/blob/main/skills/security-engineer/SKILL.md
 genericSkillRef: security-audit
 status: awakened
 level: "2★"

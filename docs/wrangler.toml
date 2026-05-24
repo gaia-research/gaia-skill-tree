@@ -1,0 +1,5 @@
+name = "gaia-skill-tree"
+compatibility_date = "2026-05-22"
+
+[assets]
+directory = "."

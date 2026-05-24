@@ -13,6 +13,8 @@ description: Identify domains, families, and sites in proteins; find all protein
   and sequence coverage with deep learning. Includes domain architecture (IDA) search.
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
+links:
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/interpro_database
 ---
 
 # InterPro Database Access

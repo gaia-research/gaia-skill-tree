@@ -127,6 +127,73 @@ Available gstack skills:
 
 ## Agent-Managed Files (Hermes Ownership)
 
+## Known Graph Issues
+
+**`docs/js/skill-graph.js` bootstrap guard** (fixed in PR #365 `9fa66b8`): Any `querySelector(...).addEventListener(...)` call at module bootstrap level will silently abort the entire IIFE if the selector returns null, causing the canvas to fall back to the embedded `FALLBACK_SKILLS` (~18 legacy nodes) instead of fetching `docs/graph/gaia.json`. Always null-check overlay button selectors before wiring events. Grep for `_graphCloseOverlay.querySelector` if the 3D graph regresses to fallback mode.
+
+**Stale `skills/` root directory** (removed in PR #365 `96c44df`): a pre-merge snapshot (`gaia.json v2.1.4`, 2026-04-30) that carried the legacy id `autonomous-research-agent` at `[VI · Transcendent ★]` with double-misencoded star glyphs. Do not recreate it; canonical data lives under `registry/` and `docs/graph/gaia.json`.
+
+---
+
+## Curation & CI Pain Points (agent cache — read before touching registry/named/)
+
+These are recurring failure modes discovered during issues #390/#391. Cache them to avoid repeat failures.
+
+### 1. Stale docs crash CI
+
+Any change to `registry/named/` or `registry/nodes/` makes `docs/graph/named/index.json` and contributor profile HTML stale. The `Schema + DAG + Integrity Checks` CI job runs `gaia docs build --check` and fails if these are out of date.
+
+**Fix**: run `gaia docs build` and commit the result before pushing. Add `[skip-gen]` to the commit message to prevent the `Regenerate and Commit Artifacts` CI workflow from looping.
+
+```bash
+gaia docs build
+git add docs/ registry/gaia.json
+git commit -m "chore(docs): regenerate after registry edits [skip-gen]"
+```
+
+### 2. `links.github` URL must use `blob/` not `tree/`
+
+`src/gaia_cli/install.py::_parse_github_url` only recognises `https://github.com/owner/repo/blob/branch/subpath`. A bare repo URL (`https://github.com/owner/repo`) installs to the repo root and makes the skill undiscoverable (symlink has no `SKILL.md` at top level). GitHub's directory-view URLs use `tree/` — convert them to `blob/` manually.
+
+### 3. Only `links.github` is read by the installer
+
+The install pipeline reads `meta.get("links", {}).get("github")` and nothing else. Wrong keys seen in the wild and their fixes:
+
+| Wrong key | Fix |
+|-----------|-----|
+| `links.repo:` | rename to `links.github:` |
+| `links.docs:` | rename to `links.github:` (strip any `#fragment`) |
+| `links.arxiv:` | add `links.github:` alongside (keep arxiv) |
+| `origin: https://...` | move URL to `links.github:`, set `origin: false` |
+
+### 4. Suites never need `links.github` — do not flag them as uninstallable
+
+Any skill with `suiteComponents` (e.g. `mattpocock/skills`, `garrytan/gstack`) installs by iterating its components. It has no installation directory of its own and does not need `links.github`. Only **non-suite** individual skills need `links.github`.
+
+For non-suite skills at 2★ or below with no known public repo: mark `installable: false` in frontmatter and do not re-research on repeated audit passes. See **CONTRIBUTING.md §12** for the full exempt list and the 3★+ demotion rule.
+
+### 5. Suite component links need subpaths
+
+A suite skill (has `suiteComponents`) whose `links.github` is a bare repo root will install symlinks pointing to the repo root. Every component must have a `blob/branch/subpath` URL pointing to its actual skill directory.
+
+### 6. Pre-existing test failures (not regressions)
+
+These tests fail in the current environment and are **not caused by changes to `install.py`**:
+
+- `tests/test_tui_tokens.py` (5 tests) — `textual` package not installed (optional TUI dep)
+- `tests/test_meta_ops.py::test_meta_merge` — `pyyaml` not installed in test isolation
+- `tests/test_packaging.py::test_docs_build_can_run_from_registry_clone_without_registry_flag` — `numpy` missing in test isolation
+
+These surface in `gaia test all` / `Test, Build, and Smoke Test` CI. Do not try to "fix" them in unrelated PRs; they require separate optional-dependency configuration work.
+
+### 7. Version lockstep — four files must match
+
+`pyproject.toml`, `packages/cli-npm/package.json`, `packages/mcp/package.json`, and `registry/gaia.json` must carry the same version string. The pre-commit hook enforces this and will block commits if they diverge. Use `gaia release patch|minor|major` (never hand-edit versions).
+
+---
+
+## Agent-Managed Files (Hermes Ownership)
+
 The following files are managed by an autonomous agent (Hermes) and should **not** be modified, staged, or deleted:
 
 - `STEWARDSHIP_PLAN.md`

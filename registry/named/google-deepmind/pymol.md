@@ -13,6 +13,8 @@ description: Visualize, analyze, and render protein and molecular structures usi
   Do not use for docking, molecular dynamics, or sequence-only analysis.
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
+links:
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/pymol
 ---
 
 # PyMOL

@@ -12,6 +12,8 @@ description: Fetch Evolutionary Conservation scores (phyloP, phastCons) and Tran
   or bounded by TF regulators across major projects (ENCODE, JASPAR, ReMap).
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
+links:
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/ucsc_conservation_and_tfbs
 ---
 
 # Conservation Scores & TFBS Lookup (UCSC)

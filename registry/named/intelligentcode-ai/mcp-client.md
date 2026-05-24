@@ -2,7 +2,9 @@
 id: intelligentcode-ai/mcp-client
 name: MCP Client
 contributor: intelligentcode-ai
-origin: https://github.com/intelligentcode-ai/skills/blob/main/skills/mcp-client/SKILL.md
+origin: false
+links:
+  github: https://github.com/intelligentcode-ai/skills/blob/main/skills/mcp-client/SKILL.md
 genericSkillRef: mcp-integration
 status: awakened
 level: "3★"
