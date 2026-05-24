@@ -2,7 +2,7 @@ name: Auto-merge small PRs
 
 on:
   pull_request:
-    types: [opened, reopened, labeled]
+    types: [opened, reopened, labeled, ready_for_review]
 
 # Cancel any in-progress run for the same PR when a new one starts.
 # This prevents a queue of stale runs from piling up and spamming notifications.
@@ -18,7 +18,6 @@ jobs:
   auto-merge:
     name: Auto-merge if eligible
     runs-on: ubuntu-latest
-    if: contains(github.event.pull_request.labels.*.name, 'auto-merge')
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -27,15 +26,28 @@ jobs:
 
       - name: Check PR size and eligibility
         id: check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Count changed files
           CHANGED_FILES=$(git diff --name-only origin/main...HEAD | wc -l)
           echo "changed_files=$CHANGED_FILES" >> $GITHUB_OUTPUT
 
           # Auto-merge is safe if:
-          # 1. PR has 'auto-merge' label (already checked in 'if')
+          # 1. PR has 'auto-merge' label OR is a bot PR (Jules/Codex)
           # 2. Fewer than 20 files changed
           # 3. Doesn't modify critical files (.github, pyproject.toml, package.json)
+
+          # Fetch labels and body to check for eligibility
+          PR_DATA=$(gh pr view ${{ github.event.pull_request.number }} --json labels,body)
+          HAS_LABEL=$(echo "$PR_DATA" | jq -r '.labels[].name' | grep -q "auto-merge" && echo "true" || echo "false")
+          IS_BOT=$(echo "$PR_DATA" | jq -r '.body' | grep -E '(jules\.google\.com/task|chatgpt\.com/codex)' > /dev/null && echo "true" || echo "false")
+
+          if [ "$HAS_LABEL" != "true" ] && [ "$IS_BOT" != "true" ]; then
+            echo "eligible=false" >> $GITHUB_OUTPUT
+            echo "Skipping auto-merge: PR lacks 'auto-merge' label and bot signature"
+            exit 0
+          fi
 
           if [ "$CHANGED_FILES" -lt 20 ]; then
             CRITICAL_FILES=$(git diff --name-only origin/main...HEAD | grep -E '(^\.github/|^pyproject\.toml|package\.json|package-lock\.json)' || true)
@@ -76,6 +88,12 @@ jobs:
       - name: Merge PR
         if: steps.check.outputs.eligible == 'true'
         run: |
+          # If it's a draft, mark as ready first
+          IS_DRAFT=$(gh pr view ${{ github.event.pull_request.number }} --json isDraft -q .isDraft)
+          if [ "$IS_DRAFT" = "true" ]; then
+            gh pr ready ${{ github.event.pull_request.number }}
+          fi
+
           gh pr merge ${{ github.event.pull_request.number }} \
             --squash \
             --delete-branch || echo "PR already merged or merge blocked by checks"
