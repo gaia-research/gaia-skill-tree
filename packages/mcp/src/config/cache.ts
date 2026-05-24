@@ -8,7 +8,8 @@ interface CacheEntry {
   filePath: string;
 }
 
-const CACHE_DIR = join(homedir(), ".gaia", "cache");
+const GAIA_HOME = process.env.GAIA_HOME || join(homedir(), ".gaia");
+const CACHE_DIR = join(GAIA_HOME, "cache");
 const CACHE_META = join(CACHE_DIR, "meta.json");
 const TTL_MS = 5 * 60 * 1000;
 
