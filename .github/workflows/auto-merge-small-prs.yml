@@ -66,10 +66,8 @@ jobs:
           # Update PR body with [skip-gen] marker
           BODY=$(gh pr view ${{ github.event.pull_request.number }} --json body -q .body)
           if ! echo "$BODY" | grep -q "\[skip-gen\]"; then
-            gh pr edit ${{ github.event.pull_request.number }} \
-              --body "$BODY
-
-[skip-gen]"
+            NEW_BODY="$(printf '%s\n\n[skip-gen]' "$BODY")"
+            gh pr edit ${{ github.event.pull_request.number }} --body "$NEW_BODY"
           fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
