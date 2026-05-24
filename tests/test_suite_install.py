@@ -653,23 +653,20 @@ class TestSuiteInstallBugs:
 class TestUninstallEdgeCases:
     """Edge-case and bug tests for uninstall_skill."""
 
-    def test_uninstall_nonexistent_skill_incorrectly_returns_true(
+    def test_uninstall_nonexistent_skill_returns_false(
         self, tmp_path, monkeypatch
     ):
-        """BUG (install.py:299-302): uninstall_skill returns True for skills never installed.
+        """uninstall_skill returns False for skills never installed.
 
-        When skill_id is not in the manifest, the filter is a no-op and the function
-        still prints "Uninstalled:" and returns True. Should return False.
+        When skill_id is not in the manifest, the function
+        prints "Skill not installed" and returns False.
         """
         monkeypatch.chdir(tmp_path)
         save_manifest({"installed": []})
 
         result = uninstall_skill("never/installed")
 
-        # BUG: should be False but is True
-        assert result is True, (
-            "BUG still present: uninstall of non-existent skill should return False"
-        )
+        assert result is False
         manifest = load_manifest()
         assert manifest["installed"] == []
 
