@@ -113,6 +113,18 @@ Then, if you have fused a 5★ Ultimate as another part of a suite, you can crea
 
 <!-- gaia:version-start -->
 Current Gaia CLI version: `3.23.9`.
+
+Python install:
+
+```bash
+pip install gaia-cli
+```
+
+npm wrapper alternative:
+
+```bash
+npm install -g @gaia-registry/cli
+```
 <!-- gaia:version-end -->
 Python install:
 
