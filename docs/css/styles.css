@@ -891,7 +891,13 @@ h1 em {
 .graph-legend-drawer-toggle:focus-visible,
 .graph-action-btn:focus-visible,
 .ult-claim:focus-visible,
-.footer-link-btn:focus-visible {
+.footer-link-btn:focus-visible,
+.ns-view-btn:focus-visible,
+.se-btn-ghost:focus-visible,
+.se-btn-action:focus-visible,
+.nav-tree:focus-visible,
+.meta-btn-icon:focus-visible,
+.usp-x:focus-visible {
   outline: 2px solid var(--tier-extra);
   outline-offset: 2px;
 }
