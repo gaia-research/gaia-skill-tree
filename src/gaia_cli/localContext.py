@@ -12,7 +12,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Optional
 
-from gaia_cli.registry import registry_graph_path, registry_nodes_dir, named_skills_dir, user_tree_path
+from gaia_cli.registry import registry_graph_path, registry_nodes_dir, named_skills_dir
 from gaia_cli.treeManager import load_tree
 from gaia_cli.pathEngine import load_paths
 
@@ -25,13 +25,17 @@ class LocalContext:
     owned_ids: set[str] = field(default_factory=set)
     detected_ids: set[str] = field(default_factory=set)
     novel_ids: set[str] = field(default_factory=set)
-    named_map: dict[str, str] = field(default_factory=dict)  # generic_skill_id -> "contributor/name"
+    named_map: dict[str, str] = field(
+        default_factory=dict
+    )  # generic_skill_id -> "contributor/name"
     tree_data: Optional[dict] = None
     graph_data: Optional[dict] = None
     _skill_map: dict[str, dict] = field(default_factory=dict, repr=False)
 
     @classmethod
-    def load(cls, registry_path: str, username: str, *, include_scan: bool = True) -> "LocalContext":
+    def load(
+        cls, registry_path: str, username: str, *, include_scan: bool = True
+    ) -> "LocalContext":
         """Build context from local state.
 
         Args:
@@ -43,13 +47,17 @@ class LocalContext:
         tree_data = load_tree(username, registry_path=registry_path)
         owned_ids = set()
         if tree_data:
-            owned_ids = {s.get('skillId') for s in tree_data.get('unlockedSkills', []) if s.get('skillId')}
+            owned_ids = {
+                s.get("skillId")
+                for s in tree_data.get("unlockedSkills", [])
+                if s.get("skillId")
+            }
 
         # Load canon graph metadata (for type symbols etc)
         graph_path = registry_graph_path(registry_path)
         graph_data = None
         if os.path.isfile(graph_path):
-            with open(graph_path, 'r', encoding='utf-8') as f:
+            with open(graph_path, "r", encoding="utf-8") as f:
                 graph_data = json.load(f)
 
         # Load skills from modular nodes
@@ -61,9 +69,11 @@ class LocalContext:
                 for file in files:
                     if file.endswith(".json"):
                         try:
-                            with open(os.path.join(root, file), 'r', encoding='utf-8') as f:
+                            with open(
+                                os.path.join(root, file), "r", encoding="utf-8"
+                            ) as f:
                                 skill = json.load(f)
-                                sid = skill.get('id')
+                                sid = skill.get("id")
                                 if sid:
                                     skill_map[sid] = skill
                                     canon_ids.add(sid)
@@ -71,8 +81,8 @@ class LocalContext:
                             continue
         elif graph_data:
             # Fallback to legacy gaia.json if nodes dir missing
-            for skill in graph_data.get('skills', []):
-                sid = skill.get('id')
+            for skill in graph_data.get("skills", []):
+                sid = skill.get("id")
                 if sid:
                     skill_map[sid] = skill
                     canon_ids.add(sid)
@@ -133,46 +143,48 @@ class LocalContext:
     def skill_level(self, skill_id: str) -> str:
         """Get the user's level for a skill, or canon level, or '0★'."""
         if self.tree_data:
-            for s in self.tree_data.get('unlockedSkills', []):
-                if s.get('skillId') == skill_id:
-                    return s.get('level', '0★')
+            for s in self.tree_data.get("unlockedSkills", []):
+                if s.get("skillId") == skill_id:
+                    return s.get("level", "0★")
         skill = self._skill_map.get(skill_id)
         if skill:
-            return skill.get('level', '0★')
+            return skill.get("level", "0★")
         return "0★"
 
     def skill_type(self, skill_id: str) -> str:
         """Get skill type (basic/extra/ultimate)."""
         skill = self._skill_map.get(skill_id)
         if skill:
-            return skill.get('type', 'basic')
-        return 'basic'
+            return skill.get("type", "basic")
+        return "basic"
 
     def all_skills(self) -> list[dict]:
         """Return merged skill list: canon + novel local skills."""
         skills = list(self._skill_map.values())
         for novel_id in self.novel_ids:
             if novel_id not in self._skill_map:
-                skills.append({
-                    "id": novel_id,
-                    "name": novel_id,
-                    "type": "basic",
-                    "level": "0★",
-                    "rarity": "common",
-                    "prerequisites": [],
-                    "derivatives": [],
-                    "local": True,
-                })
+                skills.append(
+                    {
+                        "id": novel_id,
+                        "name": novel_id,
+                        "type": "basic",
+                        "level": "0★",
+                        "rarity": "common",
+                        "prerequisites": [],
+                        "derivatives": [],
+                        "local": True,
+                    }
+                )
         return skills
 
     def display_name(self, skill_id: str, canon: bool = False) -> str:
         """Return the best display name for a skill.
 
-        Priority (Local-First): 
+        Priority (Local-First):
         - Nickname ID (e.g. /gaia-curate or karpathy/autoresearch)
         - Human-readable Name (e.g. Research)
         - Generic ID as fallback (/research)
-        
+
         If canon=True, always returns /skill-id.
         """
         if canon:
@@ -197,9 +209,49 @@ class LocalContext:
 
 
 def _build_named_map(registry_path: str) -> dict[str, str]:
-    """Scan registry/named/ to build generic_skill_id -> 'contributor/name' map."""
-    named_dir = Path(named_skills_dir(registry_path))
+    """Scan registry/named/ to build generic_skill_id -> 'contributor/name' map.
+    Optimized to use pre-compiled named-skills.json index when available."""
     named_map: dict[str, str] = {}
+
+    # Try fast path: load from pre-compiled index
+    from gaia_cli.registry import named_skills_index_path
+
+    index_path = named_skills_index_path(registry_path)
+    if os.path.isfile(index_path):
+        try:
+            with open(index_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+
+                # Combine named and awakened skills
+                all_skills = []
+                for bucket, skills in data.get("buckets", {}).items():
+                    all_skills.extend(skills)
+                all_skills.extend(data.get("awaitingClassification", []))
+
+                # Reconstruct path logic for stable overwrite order (matches sorted glob)
+                valid_skills = []
+                for s in all_skills:
+                    skill_id = s.get("id")
+                    if not skill_id:
+                        continue
+
+                    rel_path = f"{skill_id}.md"
+                    if rel_path.count("/") == 1:
+                        valid_skills.append((rel_path, s))
+
+                valid_skills.sort(key=lambda x: x[0])
+
+                for path, skill in valid_skills:
+                    generic_ref = skill.get("genericSkillRef")
+                    skill_id = skill.get("id")
+                    if generic_ref and skill_id:
+                        named_map[generic_ref] = skill_id
+            return named_map
+        except (OSError, json.JSONDecodeError):
+            pass
+
+    # Fallback to scanning markdown files directly
+    named_dir = Path(named_skills_dir(registry_path))
     if not named_dir.is_dir():
         return named_map
     for md_path in sorted(named_dir.glob("*/*.md")):
