@@ -83,6 +83,7 @@ export interface UserSkillTree {
 export interface GaiaConfig {
   gaiaUser: string;
   gaiaRegistryRef: string;
+  localRegistryPath?: string;
   scanPaths: string[];
   autoPromptCombinations: boolean;
   lastScan?: string;
