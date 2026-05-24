@@ -8,6 +8,7 @@ import { suggest } from "./tools/suggest.js";
 import { scanContext } from "./tools/scanContext.js";
 import { propose } from "./tools/propose.js";
 import { getRegistryResource, getUserTreeResource } from "./resources/registry.js";
+import { withErrorHandling } from "./utils/errors.js";
 
 const require = createRequire(import.meta.url);
 
@@ -34,20 +35,18 @@ export function createServer(): McpServer {
     "gaia_lookup",
     "Look up a skill in the Gaia registry by ID or fuzzy name. Returns full metadata, prerequisites, derivatives, evidence, and graph context.",
     { query: z.string().describe("Skill ID (e.g. 'web-scrape') or fuzzy name (e.g. 'web scraping')") },
-    async ({ query }) => {
-      const result = await lookupSkill(query);
-      return { content: [{ type: "text", text: result }] };
-    }
+    withErrorHandling(async ({ query }) => {
+      return await lookupSkill(query);
+    })
   );
 
   server.tool(
     "gaia_my_tree",
     "Show the current user's Gaia skill tree — unlocked skills, pending fusions, and progression stats.",
     { username: z.string().regex(/^[a-zA-Z0-9][a-zA-Z0-9-]*$/, "Invalid GitHub username").max(39).optional().describe("GitHub username (defaults to configured GAIA_USER)") },
-    async ({ username }) => {
-      const result = await getMyTree(username);
-      return { content: [{ type: "text", text: result }] };
-    }
+    withErrorHandling(async ({ username }) => {
+      return await getMyTree(username);
+    })
   );
 
   server.tool(
@@ -57,10 +56,9 @@ export function createServer(): McpServer {
       context: z.array(z.string()).optional().describe("Project signals — descriptions of what you're building, package names, file patterns"),
       tools: z.array(z.string()).optional().describe("Names of MCP tools currently connected (e.g. 'web_search', 'bash', 'fetch')"),
     },
-    async ({ context, tools }) => {
-      const result = await suggest(context, tools);
-      return { content: [{ type: "text", text: result }] };
-    }
+    withErrorHandling(async ({ context, tools }) => {
+      return await suggest(context, tools);
+    })
   );
 
   server.tool(
@@ -70,10 +68,9 @@ export function createServer(): McpServer {
       connectedTools: z.array(z.string()).optional().describe("MCP tool names currently available (e.g. 'web_search', 'read_file', 'bash')"),
       projectSignals: z.array(z.string()).optional().describe("Descriptions of project capabilities (e.g. 'cheerio in package.json', 'building a web scraper')"),
     },
-    async ({ connectedTools, projectSignals }) => {
-      const result = await scanContext(connectedTools, projectSignals);
-      return { content: [{ type: "text", text: result }] };
-    }
+    withErrorHandling(async ({ connectedTools, projectSignals }) => {
+      return await scanContext(connectedTools, projectSignals);
+    })
   );
 
   server.tool(
@@ -86,10 +83,9 @@ export function createServer(): McpServer {
       type: z.enum(["basic", "extra", "unique", "ultimate"]).optional().describe("Skill type"),
       prerequisites: z.array(z.string()).optional().describe("Prerequisite skill IDs for extra/ultimate proposals"),
     },
-    async (input) => {
-      const result = await propose(input);
-      return { content: [{ type: "text", text: result }] };
-    }
+    withErrorHandling(async (input) => {
+      return await propose(input);
+    })
   );
 
   server.resource(
