@@ -5,3 +5,7 @@
 ## 2024-05-21 - Layout thrashing in graph render loops
 **Learning:** During the rendering of flowcharts/DAGs in `docs/js/named-skills.js` and `docs/js/skill-explorer.js`, the code was calling `getBoundingClientRect()` for the source and target nodes inside an `.forEach` loop over all edges, then subsequently mutating the DOM by writing generated SVG strings or appending paths. Interleaving DOM reads (`getBoundingClientRect`) with DOM writes (or style recalculations) within a loop causes "layout thrashing" as the browser is forced to synchronously recalculate layout on each iteration. For complex graphs, this heavily blocks the main thread.
 **Action:** Always batch DOM reads and writes. Pre-calculate all node bounding rects in a single, separate pass before entering loops that construct paths or mutate the DOM. Use `DocumentFragment` to batch insertions.
+
+## 2024-05-25 - Layout thrashing in CLI Python graph render
+**Learning:** The generated HTML graph in `src/gaia_cli/graph.py` also contained a layout thrashing issue in its interactive script. Inside `handlePointerMove`, it was executing `canvas.getBoundingClientRect()` on every `mousemove`. Similar to the issue found in `docs/js/skill-graph.js`, calling layout-triggering methods on high-frequency events tanks performance.
+**Action:** Consistently apply layout thrashing mitigations across all generated and static assets. Always cache the bounding rect on initial fetch and only invalidate it during window resizing, scrolling, or specific user interactions (e.g., `mousedown`).
