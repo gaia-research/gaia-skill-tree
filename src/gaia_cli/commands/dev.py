@@ -7,7 +7,6 @@ import sys
 import datetime
 import subprocess
 from pathlib import Path
-from typing import Any
 
 from gaia_cli.registry import (
     registry_graph_path,
@@ -581,7 +580,11 @@ def meta_audit_command(args):
                     best_class = "B"
                 elif "C" in classes:
                     best_class = "C"
+<<<<<<< HEAD
+            
+=======
 
+>>>>>>> origin/main
             # Evidence Floor Checks (from GEMINI.md)
             # 2★ needs Tier C
             if level >= 2 and not evidence:
@@ -1198,6 +1201,153 @@ def _parse_named_frontmatter(content):
     return meta
 
 
+
+def _gather_substantive_changes(base, compare_ref):
+    r = subprocess.run(
+        ["git", "diff", "--name-status", f"{base}...{compare_ref}"],
+        capture_output=True, text=True,
+    )
+    if r.returncode != 0:
+        print(f"Error running git diff: {r.stderr.strip()}")
+        sys.exit(1)
+
+    skipped = 0
+    substantive = []
+    for line in r.stdout.splitlines():
+        parts = line.split("\t", 1)
+        if len(parts) != 2:
+            continue
+        status, path = parts[0].rstrip(), parts[1]
+        if _is_generated(path):
+            skipped += 1
+        else:
+            substantive.append((status, path))
+    return skipped, substantive
+
+
+def _git_json(git_ref, path):
+    r = subprocess.run(
+        ["git", "show", f"{git_ref}:{path}"],
+        capture_output=True, text=True,
+    )
+    if r.returncode != 0:
+        return None
+    try:
+        import json
+        return json.loads(r.stdout)
+    except Exception:
+        return None
+
+
+def _git_text(git_ref, path):
+    r = subprocess.run(
+        ["git", "show", f"{git_ref}:{path}"],
+        capture_output=True, text=True,
+    )
+    return r.stdout if r.returncode == 0 else ""
+
+
+def _print_generic_skills(new_skills, W):
+    if new_skills:
+        print(f"  ── NEW GENERIC SKILLS ({len(new_skills)}) {'─' * max(0, W - 24)}")
+        for s in new_skills:
+            stype = s.get("type", "?")
+            level = s.get("level", "?")
+            status = s.get("status", "?")
+            desc = s.get("description", "")
+            if len(desc) > 65:
+                desc = desc[:62] + "..."
+            prereqs = s.get("prerequisites", [])
+            evidence = s.get("evidence", [])
+            ev_str = f"{len(evidence)}× ({', '.join(e['class'] for e in evidence)})" if evidence else "none"
+            print(f"  + {s['id']}  [{stype} · {level} · {status}]")
+            print(f"    \"{desc}\"")
+            if prereqs:
+                print(f"    Prerequisites: {', '.join(prereqs)}")
+            print(f"    Evidence: {ev_str}")
+        print()
+
+
+def _print_removed_skills(removed_skill_ids, W):
+    if removed_skill_ids:
+        print(f"  ── ⛔  REMOVED SKILLS ({len(removed_skill_ids)}) {'─' * max(0, W - 24)}")
+        for sid in sorted(removed_skill_ids):
+            print(f"  - {sid}")
+        print()
+
+
+def _print_named_skills(new_named, mod_named, compare_ref, W):
+    if new_named:
+        print(f"  ── NEW NAMED SKILLS ({len(new_named)}) {'─' * max(0, W - 22)}")
+        for _, path in new_named:
+            content = _git_text(compare_ref, path)
+            meta = _parse_named_frontmatter(content)
+            skill_id = meta.get("id", path.replace("registry/named/", "").replace(".md", ""))
+            generic = meta.get("genericSkillRef", "—")
+            level = meta.get("level", "?")
+            print(f"  + {skill_id}  → {generic}  [{level}]")
+        print()
+
+    if mod_named:
+        print(f"  ── MODIFIED NAMED SKILLS ({len(mod_named)}) {'─' * max(0, W - 27)}")
+        for _, path in mod_named:
+            print(f"  ~ {path.replace('registry/named/', '')}")
+        print()
+
+
+def _print_edges(new_edges, removed_edges, W):
+    if new_edges:
+        print(f"  ── NEW EDGES ({len(new_edges)}) {'─' * max(0, W - 15)}")
+        for src, tgt, etype in new_edges:
+            print(f"  + {src} → {tgt}  ({etype})")
+        print()
+
+    if removed_edges:
+        print(f"  ── ⛔  REMOVED EDGES ({len(removed_edges)}) {'─' * max(0, W - 23)}")
+        for src, tgt, etype in removed_edges:
+            print(f"  - {src} → {tgt}  ({etype})")
+        print()
+
+
+def _print_other_changes(other, W):
+    if other:
+        print(f"  ── OTHER CHANGES ({len(other)}) {'─' * max(0, W - 19)}")
+        for status, path in other:
+            label = {"A": "new", "M": "mod", "D": "del"}.get(status, status)
+            print(f"  {label}  {path}")
+        print()
+
+
+def _print_quality_flags(removed_skill_ids, new_named, new_skills, compare_ref, W):
+    flags = []
+    for sid in sorted(removed_skill_ids):
+        flags.append(("⛔", f"{sid} — skill removed (verify intentional!)"))
+
+    for _, path in new_named:
+        content = _git_text(compare_ref, path)
+        meta = _parse_named_frontmatter(content)
+        skill_id = meta.get("id", path.replace("registry/named/", "").replace(".md", ""))
+        if "Add installation instructions here" in content:
+            flags.append(("⚠", f"{skill_id} — empty ## Installation body"))
+        if not meta.get("genericSkillRef"):
+            flags.append(("⚠", f"{skill_id} — missing genericSkillRef"))
+
+    for s in new_skills:
+        ev = s.get("evidence", [])
+        if not ev:
+            flags.append(("⚠", f"{s['id']} — no evidence attached"))
+        elif all(e["class"] == "C" for e in ev):
+            flags.append(("⚠", f"{s['id']} — only Class C evidence"))
+        if s.get("rarity"):
+            flags.append(("·", f"{s['id']} — rarity field present (deprecated auto-default, harmless)"))
+
+    if flags:
+        print(f"  ── QUALITY FLAGS {'─' * max(0, W - 18)}")
+        for icon, msg in flags:
+            print(f"  {icon}  {msg}")
+        print()
+
+
 def meta_diff_command(args):
     """Show substantive registry additions in a branch vs main, stripping generated noise."""
     ref = getattr(args, "ref", None)
@@ -1221,6 +1371,9 @@ def meta_diff_command(args):
 
     print(f"\n  Comparing {base}...{compare_ref}\n")
 
+<<<<<<< HEAD
+    skipped, substantive = _gather_substantive_changes(base, compare_ref)
+=======
     def _git_json(git_ref, path):
         r = subprocess.run(
             ["git", "show", f"{git_ref}:{path}"],
@@ -1263,6 +1416,7 @@ def meta_diff_command(args):
             skipped += 1
         else:
             substantive.append((status, path))
+>>>>>>> origin/main
 
     # Diff registry/gaia.json as structured JSON (most reliable approach)
     base_graph = _git_json(base, "registry/gaia.json") or {"skills": [], "edges": []}
@@ -1299,10 +1453,13 @@ def meta_diff_command(args):
     mod_named = sorted(
         (s, p) for s, p in substantive if s == "M" and p.startswith("registry/named/")
     )
+<<<<<<< HEAD
+=======
     new_node_files = sorted(
         (s, p) for s, p in substantive if s == "A" and p.startswith("registry/nodes/")
     )
     version_paths = [(s, p) for s, p in substantive if p in _VERSION_FILES]
+>>>>>>> origin/main
     other = [
         (s, p)
         for s, p in substantive
@@ -1314,6 +1471,12 @@ def meta_diff_command(args):
 
     W = 68
 
+<<<<<<< HEAD
+    _print_generic_skills(new_skills, W)
+    _print_removed_skills(removed_skill_ids, W)
+    _print_named_skills(new_named, mod_named, compare_ref, W)
+    _print_edges(new_edges, removed_edges, W)
+=======
     # ── New generic skills ────────────────────────────────────────────
     if new_skills:
         print(f"  ── NEW GENERIC SKILLS ({len(new_skills)}) {'─' * max(0, W - 24)}")
@@ -1379,6 +1542,7 @@ def meta_diff_command(args):
         for src, tgt, etype in removed_edges:
             print(f"  - {src} → {tgt}  ({etype})")
         print()
+>>>>>>> origin/main
 
     # ── Version bump ─────────────────────────────────────────────────
     if base_version != branch_version:
@@ -1386,6 +1550,10 @@ def meta_diff_command(args):
         print(f"  {base_version} → {branch_version}  (will conflict if main has moved)")
         print()
 
+<<<<<<< HEAD
+    _print_other_changes(other, W)
+    _print_quality_flags(removed_skill_ids, new_named, new_skills, compare_ref, W)
+=======
     # ── Other substantive changes ─────────────────────────────────────
     if other:
         print(f"  ── OTHER CHANGES ({len(other)}) {'─' * max(0, W - 19)}")
@@ -1429,6 +1597,7 @@ def meta_diff_command(args):
         for icon, msg in flags:
             print(f"  {icon}  {msg}")
         print()
+>>>>>>> origin/main
 
     # ── Summary ───────────────────────────────────────────────────────
     if (
