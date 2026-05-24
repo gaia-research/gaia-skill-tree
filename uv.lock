@@ -349,7 +349,7 @@ wheels = [
 
 [[package]]
 name = "gaia-cli"
-version = "3.21.3"
+version = "3.23.9"
 source = { editable = "." }
 dependencies = [
     { name = "jsonschema" },
@@ -359,7 +359,11 @@ dependencies = [
 [package.optional-dependencies]
 dev = [
     { name = "build" },
+    { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
+    { name = "numpy", version = "2.4.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
     { name = "pytest" },
+    { name = "scipy", version = "1.15.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
+    { name = "scipy", version = "1.17.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
     { name = "setuptools" },
     { name = "textual" },
     { name = "twine" },
@@ -381,10 +385,12 @@ tui = [
 requires-dist = [
     { name = "build", marker = "extra == 'dev'", specifier = ">=1.2.0" },
     { name = "jsonschema", specifier = ">=4.17.0" },
+    { name = "numpy", marker = "extra == 'dev'", specifier = ">=1.21.0" },
     { name = "numpy", marker = "extra == 'embeddings'", specifier = ">=1.21.0" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.0" },
     { name = "pyyaml", specifier = ">=6.0" },
     { name = "questionary", marker = "extra == 'interactive'", specifier = ">=2.0.0" },
+    { name = "scipy", marker = "extra == 'dev'", specifier = ">=1.7.0" },
     { name = "sentence-transformers", marker = "extra == 'embeddings'", specifier = ">=2.2.0" },
     { name = "setuptools", marker = "extra == 'dev'", specifier = ">=68.0" },
     { name = "textual", marker = "extra == 'dev'", specifier = ">=0.50.0" },

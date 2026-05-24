@@ -51,3 +51,4 @@ generated-output/
 *.bak
 scratch/
 .hermes
+perf_registry2/
