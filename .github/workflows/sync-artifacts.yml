@@ -45,7 +45,7 @@ jobs:
           if echo "$MSG" | grep -Eq '^feat(\([^)]*\))?:'; then BUMP="minor"; fi
           
           # 2. Apply version bump and regenerate artifacts via CLI
-          gaia release $BUMP
+          gaia release $BUMP --sync
           gaia docs build
 
       - name: Commit and Push Changes
