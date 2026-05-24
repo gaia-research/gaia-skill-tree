@@ -26,4 +26,4 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy docs --project-name=gaia-skill-tree --branch=${{ github.event.inputs.branch || github.ref_name }} --commit-dirty=true
+          command: deploy --minify
