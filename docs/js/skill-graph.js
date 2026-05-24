@@ -259,6 +259,14 @@
     })).filter(skill => skill.id);
   }
 
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
   function stableHash(str) {
     let h = 2166136261;
     for (let i = 0; i < str.length; i += 1) {
@@ -1154,16 +1162,16 @@
               if (parts.length === 2) {
                 const rm2 = skill.level ? RANK_META[skill.level] : null;
                 const slugColor = rm2 ? rm2.hex : `rgba(${col.rgb},1)`;
-                namedLine = `<div class="gst-named-id"><span class="gst-named-handle">@${parts[0]}</span><span class="gst-named-slug" style="color:${slugColor}">/${parts[1]}</span></div>`;
+                namedLine = `<div class="gst-named-id"><span class="gst-named-handle">@${esc(parts[0])}</span><span class="gst-named-slug" style="color:${slugColor}">/${esc(parts[1])}</span></div>`;
               } else {
-                namedLine = `<div class="gst-named-id"><span class="gst-named-handle">@${namedId}</span></div>`;
+                namedLine = `<div class="gst-named-id"><span class="gst-named-handle">@${esc(namedId)}</span></div>`;
               }
             }
             state.tooltipEl.innerHTML =
-              `<div class="skill-tooltip-name" style="color:rgba(${col.rgb},1)">${skill.name}</div>` +
+              `<div class="skill-tooltip-name" style="color:rgba(${col.rgb},1)">${esc(skill.name)}</div>` +
               namedLine +
-              `<div class="gst-skill-id">${skill.id}</div>` +
-              `<div class="skill-tooltip-row"><span class="skill-tooltip-badge ${typeClass}">${skill.type.toUpperCase()}</span>${rankPill}${effectivePill}</div>` +
+              `<div class="gst-skill-id">${esc(skill.id)}</div>` +
+              `<div class="skill-tooltip-row"><span class="skill-tooltip-badge ${typeClass}">${esc(skill.type.toUpperCase())}</span>${rankPill}${effectivePill}</div>` +
               demeritNote +
               `<button class="graph-tooltip-add" title="Add to collection" aria-label="Add to collection">+</button>`;
             if (skill.level) state.tooltipEl.setAttribute('data-level', skill.level);
@@ -1217,7 +1225,7 @@
               card.className = 'graph-neighbor-card';
               card.dataset.nid = nid;
               card.dataset.type = ns.type || 'basic';
-              card.innerHTML = `<span style="color:rgba(${col.rgb},.9)">${ns.name}</span>`;
+              card.innerHTML = `<span style="color:rgba(${col.rgb},.9)">${esc(ns.name)}</span>`;
               card.addEventListener('mousedown', e => e.stopPropagation());
               card.addEventListener('click', e => {
                 e.stopPropagation();
@@ -1429,15 +1437,15 @@
             const parts = namedId.split('/');
             if (parts.length === 2) {
               const rm = state.meta && state.meta.levelColors ? state.meta.levelColors[skill.level || 0] : null;
-              formattedNamedId = `<div class="graph-collection-card-named"><span class="gst-honor">@${parts[0]}</span><span style="color:${rm ? rm.hex : `rgba(${col.rgb},1)`}">/${parts[1]}</span></div>`;
+              formattedNamedId = `<div class="graph-collection-card-named"><span class="gst-honor">@${esc(parts[0])}</span><span style="color:${rm ? rm.hex : `rgba(${col.rgb},1)`}">/${esc(parts[1])}</span></div>`;
             } else {
-              formattedNamedId = `<div class="graph-collection-card-named">${namedId}</div>`;
+              formattedNamedId = `<div class="graph-collection-card-named">${esc(namedId)}</div>`;
             }
           }
           html +=
-            `<div class="plaque--mini graph-collection-card" data-cid="${id}" data-tier="${skill.type}"${ghostAttr}>` +
+            `<div class="plaque--mini graph-collection-card" data-cid="${esc(id)}" data-tier="${esc(skill.type)}"${ghostAttr}>` +
             `<div class="graph-collection-card-top">` +
-            `<span class="graph-collection-card-name" style="color:rgba(${col.rgb},1)">${skill.name}</span>` +
+            `<span class="graph-collection-card-name" style="color:rgba(${col.rgb},1)">${esc(skill.name)}</span>` +
             `<div class="graph-collection-card-btns">${shareLink}` +
             `<button class="graph-collection-remove" data-cid="${id}" title="Remove" aria-label="Remove from collection">` +
             `<svg class="gst-btn-ico" width="12" height="12" aria-hidden="true"><use href="assets/icons.svg#close-x"/></svg>` +
@@ -1484,7 +1492,7 @@
         const wasPaused = state.paused;
         state.paused = true;
         let c = `<div class="graph-skill-panel-header">`;
-        c += `<div class="graph-skill-panel-name" style="color:rgba(${col.rgb},1)">${skill.name}</div>`;
+        c += `<div class="graph-skill-panel-name" style="color:rgba(${col.rgb},1)">${esc(skill.name)}</div>`;
         c += `<button class="graph-skill-panel-close" title="Close" aria-label="Close panel">×</button>`;
         c += `</div>`;
         c += `<div class="graph-skill-panel-body">`;
@@ -1492,22 +1500,22 @@
           const parts = namedId.split('/');
           if (parts.length === 2) {
             const slugColor = rm ? rm.hex : `rgba(${col.rgb},1)`;
-            c += `<div class="graph-skill-panel-named-id"><span class="gst-named-handle">@${parts[0]}</span><span class="gst-named-slug" style="color:${slugColor}">/${parts[1]}</span></div>`;
+            c += `<div class="graph-skill-panel-named-id"><span class="gst-named-handle">@${esc(parts[0])}</span><span class="gst-named-slug" style="color:${slugColor}">/${esc(parts[1])}</span></div>`;
           } else {
-            c += `<div class="graph-skill-panel-named-id"><span class="gst-named-handle">@${namedId}</span></div>`;
+            c += `<div class="graph-skill-panel-named-id"><span class="gst-named-handle">@${esc(namedId)}</span></div>`;
           }
         }
-        if (namedId && titleText) c += `<div class="graph-skill-panel-title">"${titleText}"</div>`;
+        if (namedId && titleText) c += `<div class="graph-skill-panel-title">"${esc(titleText)}"</div>`;
         c += `<div class="graph-skill-panel-type-row">`;
-        c += `<span class="skill-tooltip-badge skill-tooltip-type-${skill.type}">${skill.type.toUpperCase()}</span>`;
-        if (rm) c += `<span style="display:inline-block;padding:.12rem .42rem;border-radius:999px;font-size:.62rem;font-weight:700;background:${rm.bg};color:${rm.hex}">${skill.level}</span>`;
+        c += `<span class="skill-tooltip-badge skill-tooltip-type-${esc(skill.type)}">${esc(skill.type.toUpperCase())}</span>`;
+        if (rm) c += `<span style="display:inline-block;padding:.12rem .42rem;border-radius:999px;font-size:.62rem;font-weight:700;background:${rm.bg};color:${rm.hex}">${esc(skill.level)}</span>`;
         c += `</div>`;
         c += `<div class="graph-skill-panel-terminal">`;
         if (namedId) {
-          c += `<code class="graph-skill-panel-cmd" data-cmd="gaia install ${namedId}">$ gaia install ${namedId}</code>`;
-          c += `<a class="graph-skill-panel-explorer-link" href="#explorer/${namedId}">Open in Explorer →</a>`;
+          c += `<code class="graph-skill-panel-cmd" data-cmd="gaia install ${esc(namedId)}">$ gaia install ${esc(namedId)}</code>`;
+          c += `<a class="graph-skill-panel-explorer-link" href="#explorer/${esc(namedId)}">Open in Explorer →</a>`;
         } else {
-          c += `<code class="graph-skill-panel-cmd" data-cmd="gaia propose /${skill.id}">$ gaia propose /${skill.id}</code>`;
+          c += `<code class="graph-skill-panel-cmd" data-cmd="gaia propose /${esc(skill.id)}">$ gaia propose /${esc(skill.id)}</code>`;
           c += `<div class="graph-skill-panel-hint">Claim this skill as your own named implementation</div>`;
         }
         c += `</div></div>`;
