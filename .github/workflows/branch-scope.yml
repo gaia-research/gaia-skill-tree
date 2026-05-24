@@ -44,7 +44,10 @@ jobs:
             design/*)           PREFIX="design" ;;
             review/gaia-push/*) PREFIX="review-push" ;;
             review/meta/*)      PREFIX="review-meta" ;;
-            dev/*)              PREFIX="dev" ;;
+            jules/*)            PREFIX="jules" ;;
+            claude/*)           PREFIX="unrestricted" ;;
+            codex/*)            PREFIX="unrestricted" ;;
+            dev/*)              PREFIX="unrestricted" ;;
             infra/*)            PREFIX="infra" ;;
             *)                  PREFIX="other" ;;
           esac
@@ -53,9 +56,9 @@ jobs:
           echo "Detected prefix: $PREFIX"
           echo ""
 
-          # dev/* branches are consolidation branches — no forward restriction
-          if [ "$PREFIX" = "dev" ]; then
-            echo "✓ dev/ branches have no scope restrictions."
+          # unrestricted branches (dev/*, claude/*, codex/*) have no forward restriction
+          if [ "$PREFIX" = "unrestricted" ]; then
+            echo "✓ $BRANCH has no scope restrictions."
             exit 0
           fi
 
@@ -102,14 +105,14 @@ jobs:
             case "$PREFIX" in
               schema)
                 case "$file" in
-                  registry/schema/*) ;; # allowed
-                  *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (schema/ branches may only touch registry/schema/)" ;;
+                  registry/schema/*|*.md) ;; # allowed
+                  *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (schema/ branches may only touch registry/schema/ or *.md files)" ;;
                 esac
                 ;;
               cli)
                 case "$file" in
-                  src/*|packages/*|tests/*) ;; # allowed
-                  *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (cli/ branches may only touch src/, packages/, or tests/)" ;;
+                  src/*|packages/*|tests/*|*.md) ;; # allowed
+                  *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (cli/ branches may only touch src/, packages/, tests/, or *.md files)" ;;
                 esac
                 ;;
               docs)
@@ -120,35 +123,41 @@ jobs:
                 ;;
               design)
                 case "$file" in
-                  docs/*) ;; # allowed
-                  *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (design/ branches may only touch docs/)" ;;
+                  docs/*|*.md) ;; # allowed
+                  *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (design/ branches may only touch docs/ or *.md files)" ;;
                 esac
                 ;;
               review-push)
                 case "$file" in
-                  registry-for-review/*) ;; # allowed
-                  *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (review/gaia-push branches may only touch registry-for-review/)" ;;
+                  registry-for-review/*|*.md) ;; # allowed
+                  *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (review/gaia-push branches may only touch registry-for-review/ or *.md files)" ;;
                 esac
                 ;;
               review-meta)
                 case "$file" in
-                  registry/*) # allowed, but not schema
+                  registry/*|*.md) # allowed, but not schema
                     case "$file" in
                       registry/schema/*) VIOLATIONS="$VIOLATIONS\n  ❌ $file (review/meta branches may not touch registry/schema/)" ;;
                       *) ;; # allowed
                     esac
                     ;;
-                  *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (review/meta branches may only touch registry/ (excluding registry/schema/))" ;;
+                  *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (review/meta branches may only touch registry/ (excluding registry/schema/) or *.md files)" ;;
+                esac
+                ;;
+              jules)
+                case "$file" in
+                  .jules/*|*.md) ;; # allowed
+                  *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (jules/ branches may only touch .jules/ or *.md files)" ;;
                 esac
                 ;;
               infra)
                 case "$file" in
-                  .github/*|scripts/*|.claude/skills/*|.agents/skills/*) ;; # allowed
-                  *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (infra/ branches may only touch .github/, scripts/, .claude/skills/, or .agents/skills/)" ;;
+                  .github/*|scripts/*|.claude/skills/*|.agents/skills/*|*.md|docs/*.html) ;; # allowed
+                  *) VIOLATIONS="$VIOLATIONS\n  ❌ $file (infra/ branches may only touch .github/, scripts/, .claude/skills/, .agents/skills/, *.md, or docs/*.html files)" ;;
                 esac
                 ;;
               other)
-                VIOLATIONS="$VIOLATIONS\n  ❌ $file (unrecognized branch prefix; use schema/, cli/, docs/, design/, review/gaia-push/, review/meta/, dev/, or infra/)"
+                VIOLATIONS="$VIOLATIONS\n  ❌ $file (unrecognized branch prefix; use schema/, cli/, docs/, design/, review/gaia-push/, review/meta/, dev/, claude/, codex/, jules/, or infra/)"
                 ;;
             esac
           done <<< "$FILES"
@@ -164,7 +173,7 @@ jobs:
             esac
           done <<< "$FILES"
 
-          if [ -n "$SCHEMA_CHANGED" ] && [ "$PREFIX" != "schema" ] && [ "$PREFIX" != "infra" ] && [ "$PREFIX" != "dev" ]; then
+          if [ -n "$SCHEMA_CHANGED" ] && [ "$PREFIX" != "schema" ] && [ "$PREFIX" != "infra" ] && [ "$PREFIX" != "unrestricted" ]; then
             echo "::error::Schema files changed on a non-schema branch. Use a schema/ branch for nomenclature changes."
             echo ""
             echo "Files touching registry/schema/:"
@@ -172,7 +181,7 @@ jobs:
               echo "  - $f"
             done
             echo ""
-            echo "Create your branch as: schema/<description>, use a dev/* consolidation branch, or add the 'skip-scope-check' label."
+            echo "Create your branch as: schema/<description>, use an unrestricted branch (dev/*, claude/*, codex/*), or add the 'skip-scope-check' label."
             exit 1
           fi
 

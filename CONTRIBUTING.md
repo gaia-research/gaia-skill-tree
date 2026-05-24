@@ -103,14 +103,14 @@ Open a PR with the programmatic changes. The pre-commit hooks will automatically
 
 | Prefix | Use for | Scope |
 |---|---|---|
-| `schema/...` | schema + terminology changes | `registry/schema/` only |
-| `cli/...` | CLI / package code | `src/gaia_cli/`, `packages/`, `tests/` |
+| `schema/...` | schema + terminology changes | `registry/schema/`, `*.md` |
+| `cli/...` | CLI / package code | `src/gaia_cli/`, `packages/`, `tests/`, `*.md` |
 | `docs/...` | markdown/docs content | `docs/`, `*.md` |
-| `design/...` | website UI assets | `docs/` HTML/CSS/JS |
-| `review/gaia-push/...` | intake PRs | `registry-for-review/` |
-| `review/meta/...` | registry curation | `registry/` (excluding schema) |
-| `infra/...` | CI/tooling/config | `.github/`, `scripts/`, config |
-| `dev/...` | experiments | unrestricted |
+| `design/...` | website UI assets | `docs/` HTML/CSS/JS, `*.md` |
+| `review/gaia-push/...` | intake PRs | `registry-for-review/`, `*.md` |
+| `review/meta/...` | registry curation | `registry/`, `*.md` |
+| `infra/...` | CI/tooling/config | `.github/`, `scripts/`, `docs/*.html`, `*.md` |
+| `dev/...`, `claude/...`, `codex/...` | experiments | unrestricted |
 | `feat/...`, `fix/...` | general changes | unrestricted (schema rules still enforced) |
 
 Hard rule: any schema file change must come from a `schema/...` branch.
