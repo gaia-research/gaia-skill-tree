@@ -1,7 +1,12 @@
 {
   "$schema": "./schema/skill.schema.json",
+<<<<<<< HEAD
   "version": "3.23.10",
   "generatedAt": "2026-05-24T16:45:27.622756Z",
+=======
+  "version": "3.23.9",
+  "generatedAt": "2026-05-24T15:51:50.098763Z",
+>>>>>>> 2250fbe0 (🧹 [Code Health] Remove unused import load_and_render (#417))
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -86,6 +91,7 @@
       "niche-integration": "Niche integrations",
       "experimental-feature": "Experimental features",
       "heavyweight-dependency": "Heavyweight dependencies"
+<<<<<<< HEAD
     },
     "clusterNames": {
       "0": "Platform & Agent",
@@ -147,6 +153,9 @@
         -0.1669121385427238
       ]
     ]
+=======
+    }
+>>>>>>> 2250fbe0 (🧹 [Code Health] Remove unused import load_and_render (#417))
   },
   "skills": [
     {
