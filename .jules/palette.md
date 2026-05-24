@@ -17,3 +17,7 @@
 ## 2024-06-25 - App-Wide Focus Ring Convention
 **Learning:** Found that multiple interactive elements (.btn, .mr-tab, .ns-tab, .os-tab, .se-tab-btn, .se-flow-btn) were missing keyboard focus indicators. The codebase has an established focus ring pattern for some components using `outline: 2px solid var(--tier-extra); outline-offset: 2px;`, which should be explicitly extended to generic buttons and tabs.
 **Action:** Always check for missing `:focus-visible` styles on interactive components and apply the `var(--tier-extra)` focus ring to maintain a consistent keyboard navigation experience across the app.
+
+## 2026-05-23 - App-Wide Focus Ring Convention
+**Learning:** Found that multiple interactive elements (.tree-act-btn, .tree-close-x, .graph-legend-drawer-toggle, .graph-action-btn, .ult-claim, .footer-link-btn) were missing keyboard focus indicators. The codebase has an established focus ring pattern for some components using `outline: 2px solid var(--tier-extra); outline-offset: 2px;`, which should be explicitly extended to all interactive generic buttons and tabs.
+**Action:** Always check for missing `:focus-visible` styles on interactive components and apply the app-wide focus ring to maintain a consistent and accessible keyboard navigation experience.
