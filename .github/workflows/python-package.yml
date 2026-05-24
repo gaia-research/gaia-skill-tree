@@ -6,7 +6,6 @@ on:
       - main
     paths:
       - 'pyproject.toml'
-      - 'README.md'
       - 'src/**'
       - 'packages/cli-npm/cli/**'
       - 'tests/**'
@@ -14,7 +13,6 @@ on:
   pull_request:
     paths:
       - 'pyproject.toml'
-      - 'README.md'
       - 'src/**'
       - 'packages/cli-npm/cli/**'
       - 'tests/**'
