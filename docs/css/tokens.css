@@ -3,10 +3,14 @@
  * Source of truth: registry/gaia.json meta block.
  * DO NOT EDIT BY HAND. Run scripts/generateCssTokens.py to refresh.
 <<<<<<< HEAD
+<<<<<<< HEAD
  * version=3.23.10 generatedAt=2026-05-24T16:45:27.622756Z
 =======
  * version=3.23.9 generatedAt=2026-05-24T15:51:50.098763Z
 >>>>>>> 2250fbe0 (🧹 [Code Health] Remove unused import load_and_render (#417))
+=======
+ * version=3.23.9 generatedAt=2026-05-24T15:58:08.673482Z
+>>>>>>> dd20468a (🧹 Refactor complex main command dispatch (#423))
  */
 
 :root {
