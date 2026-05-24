@@ -67,6 +67,13 @@ export async function createPullRequest(
   if (!prRes.ok) {
     const errText = await prRes.text();
     if (errText.includes("A pull request already exists")) {
+      const listRes = await fetch(`${baseUrl}/pulls?head=${owner}:${branch}&state=open`, {
+        headers,
+      });
+      if (listRes.ok) {
+        const pulls = (await listRes.json()) as Array<{ html_url: string }>;
+        if (pulls.length > 0) return pulls[0].html_url;
+      }
       return `PR already exists for branch ${branch}`;
     }
     throw new Error(`Failed to create PR: ${prRes.status} ${errText}`);
