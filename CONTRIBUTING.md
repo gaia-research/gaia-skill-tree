@@ -138,7 +138,7 @@ Use the schema star notation for all new and updated registry entries. The old r
 | `3★` | Evolved | ≥ 1 Tier B |
 | `4★` | Hardened | ≥ 1 Tier B/A |
 | `5★` | Transcendent | ≥ 1 Tier B/A |
-| `6★` | Transcendent ★ | Tier A + peer review |
+| `6★` | Apex | Tier A + peer review |
 
 Legacy mapping for reviewers: `0`/`I` → `0★`/`1★`, `II` → `2★`, `III` → `3★`, `IV` → `4★`, `V` → `5★`, and `VI` → `6★`.
 
