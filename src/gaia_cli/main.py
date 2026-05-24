@@ -310,7 +310,9 @@ def scan_command(args):
         print("Gaia not initialized. Run `gaia init` first.")
         return
     quiet = getattr(args, 'quiet', False)
-    if not quiet:
+    use_json = getattr(args, 'json', False)
+    
+    if not quiet and not use_json:
         print("Scanning repository...")
     scan_result = scan_repo_detailed()
     raw_tokens = {t.lstrip('/') for t in scan_result["tokens"]}
@@ -322,6 +324,15 @@ def scan_command(args):
     
     # Unified local context for display
     ctx = LocalContext.load(args.registry, username or "", include_scan=False)
+
+    if use_json:
+        out = {
+            "scanned": scan_result["files_scanned"],
+            "candidates": scan_result["candidate_count"],
+            "matched": sorted(list(resolved)),
+        }
+        print(json.dumps(out, indent=2))
+        return
 
     if not quiet:
         print(
@@ -1349,7 +1360,15 @@ def mcp_command(args):
         print(f"MCP server build not found: {script}", file=sys.stderr)
         print("Run `npm run build` in packages/mcp first.", file=sys.stderr)
         sys.exit(1)
-    raise SystemExit(subprocess.call(["node", str(script)]))
+    
+    env = os.environ.copy()
+    env["GAIA_REGISTRY_PATH"] = str(args.registry)
+    
+    config = load_config()
+    if config and config.get("gaiaUser"):
+        env["GAIA_USER"] = config["gaiaUser"]
+        
+    raise SystemExit(subprocess.call(["node", str(script)], env=env))
 
 
 def docs_command(args):
@@ -1417,6 +1436,7 @@ def get_parser():
     scan_parser = subparsers.add_parser('scan', help="Scan configured paths for skill evidence")
     scan_parser.add_argument('--quiet', action='store_true', help="Suppress scan output; only show notifications")
     scan_parser.add_argument('--auto-promote', action='store_true', help="Promote every scan-recommended candidate after scanning")
+    scan_parser.add_argument('--json', action='store_true', help="Output scan results as JSON")
     subparsers.add_parser('pull', help="Refresh registry data from origin")
     subparsers.add_parser('update', help="Update all installed remote skills")
     
