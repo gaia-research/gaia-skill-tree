@@ -1092,6 +1092,15 @@ def name_command(args):
     print(f"Named skill created: {named_path}")
     print(f"Batch lifecycle updated: '{skill_data['id']}' -> named")
 
+def _resolve_install_location(args) -> str:
+    """Extract location from --global/--local flags, defaulting to 'local'."""
+    if getattr(args, 'install_global', False):
+        return "global"
+    if getattr(args, 'install_local', False):
+        return "local"
+    return "local"  # Default to local
+
+
 def install_command(args):
     from gaia_cli.install import interactive_install, install_skill, install_suite, update_skills
     if args.list:
@@ -1101,13 +1110,15 @@ def install_command(args):
         # Bare 'gaia install' -> update/sync all
         update_skills(args.registry)
         return
-    
+
+    location = _resolve_install_location(args)
+
     # Use suite logic if flagged or implicitly requested
     if getattr(args, 'ultimate', False) or getattr(args, 'suite', False):
-        success = install_suite(args.skill_id, args.registry)
+        success = install_suite(args.skill_id, args.registry, location=location)
     else:
-        success = install_skill(args.skill_id, args.registry)
-    
+        success = install_skill(args.skill_id, args.registry, location=location)
+
     if not success:
         sys.exit(1)
 
@@ -1157,10 +1168,11 @@ def skills_command(args):
     pending = [] if getattr(args, "exclude_pending", False) else _pending_skills(args.registry, username)
     verb = getattr(args, "skills_command", None)
     if verb == "install":
+        location = _resolve_install_location(args)
         if getattr(args, "suite", False):
-            success = install_suite(args.skill_id, args.registry)
+            success = install_suite(args.skill_id, args.registry, location=location)
         else:
-            success = install_skill(args.skill_id, args.registry)
+            success = install_skill(args.skill_id, args.registry, location=location)
         if not success:
             sys.exit(1)
         return
@@ -1429,6 +1441,8 @@ def get_parser():
     install_parser.add_argument('--list', action='store_true', help="List and interactively select skills to install")
     install_parser.add_argument('--ultimate', action='store_true', help="Batch-install all component skills (alias for --suite)")
     install_parser.add_argument('--suite', action='store_true', help="Batch-install all component skills for a suite")
+    install_parser.add_argument('--global', dest='install_global', action='store_true', help='Install to ~/.gaia/skills')
+    install_parser.add_argument('--local', dest='install_local', action='store_true', help='Install to project agent skills (.agents/.claude)')
     uninstall_parser = subparsers.add_parser('uninstall', help="Uninstall a named skill")
     uninstall_parser.add_argument('skill_id', help="Skill ID to uninstall")
 
