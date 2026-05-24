@@ -7,8 +7,6 @@ on:
         description: 'Branch to deploy'
         required: true
         default: 'main'
-  push:
-    branches: [infra/update-branch-scope-conventions]
 
 jobs:
   deploy:
