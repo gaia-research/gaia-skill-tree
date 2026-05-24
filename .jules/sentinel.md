@@ -21,3 +21,8 @@
 **Vulnerability:** Argument injection when running `xdg-open` or `open` with `subprocess.run()`. Directly passing user-supplied input to these commands could result in arguments beginning with a hyphen (`-`) being treated as options instead of arguments.
 **Learning:** Using `str(path)` directly allows an attacker to supply a path starting with `-` (e.g., `-a`) leading to arbitrary option execution.
 **Prevention:** Resolve paths to absolute paths `path.resolve()` when passing them to commands so they always begin with `/` or drive letter instead of `-`. Alternatively, prefix the argument with `--`.
+
+## 2025-02-28 - Automatic Execution of Local Shell Script Fix
+**Vulnerability:** `subprocess.run` was blindly executing a `scripts/install-git-hooks.sh` without checking the context.
+**Learning:** This introduces a Remote Code Execution risk inside an untrusted repository.
+**Prevention:** Avoid blindly executing files. Prompt the user and suggest running it manually.
