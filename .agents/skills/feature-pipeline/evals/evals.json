@@ -1,0 +1,23 @@
+{
+  "skill_name": "feature-pipeline",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Explore gaia scan and run the feature pipeline on it",
+      "expected_output": "ORCHESTRATOR spawns LIGHTER with Phase 1 brief for 'gaia scan', waits for issues, prints STOP HOOK M1 banner, proceeds through phases with correct model-tier assignments and stop hooks at each milestone.",
+      "files": [".agents/skills/feature-pipeline/SKILL.md"]
+    },
+    {
+      "id": 2,
+      "prompt": "Run /feature-pipeline on the --canon flag to see what's broken",
+      "expected_output": "ORCHESTRATOR spawns LIGHTER to explore '--canon flag', files issues, reaches M1 stop hook, then correctly transitions to Phase 2 with HEAVIER planning once user says 'continue'. Handover protocol is mentioned if spawning is unavailable.",
+      "files": [".agents/skills/feature-pipeline/SKILL.md"]
+    },
+    {
+      "id": 3,
+      "prompt": "I want to test and ship the packages/mcp module — run the full pipeline and don't bother me until CI is green",
+      "expected_output": "ORCHESTRATOR correctly identifies this should use /feature-pipeline, delegates all phases to LIGHTER/HEAVIER per the skill, notes stop hooks exist but clarifies they require user acknowledgment ('continue') between phases even with 'don't bother me' instruction — or surfaces the tension and asks for preference.",
+      "files": [".agents/skills/feature-pipeline/SKILL.md"]
+    }
+  ]
+}
