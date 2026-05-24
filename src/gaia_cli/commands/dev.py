@@ -558,20 +558,27 @@ def meta_split_command(args):
         print(f"Error: Source skill '{source_id}' not found.")
         sys.exit(1)
 
+    # Pre-cache existing IDs to avoid O(T * N) file I/O
+    existing_ids = set()
+    for p in nodes_dir.glob("**/*.json"):
+        try:
+            with open(p, "r", encoding="utf-8") as f:
+                d = json.load(f)
+                if "id" in d:
+                    existing_ids.add(d["id"])
+        except Exception:
+            continue
+
     for target_id in targets:
         target_file = source_file.parent / f"{target_id}.json"
         if target_file.exists():
             print(f"Error: split target '{target_id}' already exists on disk.")
             sys.exit(1)
-        for p in nodes_dir.glob("**/*.json"):
-            try:
-                with open(p, "r", encoding="utf-8") as f:
-                    d = json.load(f)
-                if d.get("id") == target_id:
-                    print(f"Error: split target '{target_id}' already exists in registry.")
-                    sys.exit(1)
-            except Exception:
-                continue
+
+        if target_id in existing_ids:
+            print(f"Error: split target '{target_id}' already exists in registry.")
+            sys.exit(1)
+
         target_data = copy.deepcopy(source_data)
         target_data["id"] = target_id
         target_data["name"] = target_id.replace("-", " ").title()

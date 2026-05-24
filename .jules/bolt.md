@@ -9,6 +9,9 @@
 ## 2024-05-25 - Layout thrashing in CLI Python graph render
 **Learning:** The generated HTML graph in `src/gaia_cli/graph.py` also contained a layout thrashing issue in its interactive script. Inside `handlePointerMove`, it was executing `canvas.getBoundingClientRect()` on every `mousemove`. Similar to the issue found in `docs/js/skill-graph.js`, calling layout-triggering methods on high-frequency events tanks performance.
 **Action:** Consistently apply layout thrashing mitigations across all generated and static assets. Always cache the bounding rect on initial fetch and only invalidate it during window resizing, scrolling, or specific user interactions (e.g., `mousedown`).
+## 2026-05-24 - File I/O Optimization in dev.py
+**Learning:** Pre-caching existing file data outside of nested loops avoids repeated File I/O which can otherwise cause severe performance degradation (O(N^2)).
+**Action:** When iterating over a directory to find items multiple times, build a set or dictionary of the relevant data before the loop and use that for fast O(1) lookups inside the loop.
 
 ## 2026-05-24 - Optimize _build_named_map using pre-compiled index
 **Learning:** File system metadata reading inside a loop `sorted(named_dir.glob("*/*.md"))` when repeatedly called causes I/O bottlenecks and O(N^2) overheads in tightly executed command paths.
@@ -25,3 +28,4 @@
 ## 2026-05-24 - CLI stats loading performance
 **Learning:** The CLI stats command (`_iter_named_skill_metadata` in `stats.py`) was performing synchronous O(N^2) file I/O and frontmatter parsing using `root.rglob("*.md")` on the `registry/named` directory. This is incredibly slow and forces an expensive file I/O for every single metadata file, leading to significant degradation in response times.
 **Action:** When working with registry data in the Python CLI, always use the pre-compiled JSON indices (like `named-skills.json`) instead of querying the filesystem directly via glob and individually parsing frontmatter. Cache mechanisms via existing endpoints (`named_skills_index_path`) drastically improve performance (e.g. from 1.66s to 0.20s for iterations).
+
