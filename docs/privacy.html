@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>window.GAIA_VERSION = "3.23.9";</script>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Notice — Gaia</title>
+  <meta name="description" content="Gaia does not store personal information. Skills are summarised, not stored. Only public repo links are recorded.">
+  <!-- Stage 1 — Web fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="icon" type="image/svg+xml" href="assets/marks/diamond-seal.svg">
+  <link rel="stylesheet" href="css/styles.css?v=3.23.9">
+  <!-- Stage 1 — icon sprite helper, loaded BEFORE other UI scripts. -->
+  <script src="js/icons.js?v=3.23.9"></script>
+  <!-- Stage 2 — shared rank-badge primitive. -->
+  <script src="js/rank-badge.js?v=3.23.9"></script>
+  <style>
+    /* ── Privacy page local overrides ── */
+    .privacy-hero {
+      text-align: center;
+      padding: 4rem 1.5rem 2.5rem;
+    }
+    .privacy-hero .hero-eyebrow {
+      font-size: .75rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--color-accent, #c084fc);
+      margin-bottom: .75rem;
+    }
+    .privacy-hero h1 {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 500;
+      margin: 0 0 1rem;
+    }
+    .privacy-hero .hero-sub {
+      max-width: 560px;
+      margin: 0 auto;
+      color: var(--color-muted, #9ca3af);
+      line-height: 1.6;
+    }
+    .privacy-body {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 1.5rem 5rem;
+    }
+    .privacy-body h2 {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 500;
+      margin: 2.5rem 0 .75rem;
+      border-bottom: 1px solid var(--color-border, rgba(255,255,255,.08));
+      padding-bottom: .5rem;
+    }
+    .privacy-body p,
+    .privacy-body li {
+      line-height: 1.7;
+      color: var(--color-text-secondary, #d1d5db);
+    }
+    .privacy-body ul {
+      padding-left: 1.4rem;
+      margin: .5rem 0 1rem;
+    }
+    .privacy-body li { margin-bottom: .35rem; }
+    .privacy-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0 1.5rem;
+      font-size: .9rem;
+    }
+    .privacy-table th {
+      text-align: left;
+      padding: .5rem .75rem;
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-weight: 600;
+      font-size: .8rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--color-muted, #9ca3af);
+      border-bottom: 1px solid var(--color-border, rgba(255,255,255,.08));
+    }
+    .privacy-table td {
+      padding: .55rem .75rem;
+      border-bottom: 1px solid var(--color-border, rgba(255,255,255,.05));
+      vertical-align: top;
+      color: var(--color-text-secondary, #d1d5db);
+    }
+    .privacy-table tr:last-child td { border-bottom: none; }
+    .badge-yes {
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem;
+      color: #86efac;
+      font-weight: 500;
+    }
+    .badge-no {
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem;
+      color: #f87171;
+      font-weight: 500;
+    }
+    .badge-never {
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem;
+      color: var(--color-muted, #9ca3af);
+      font-weight: 500;
+    }
+    .callout {
+      border-left: 3px solid var(--color-accent, #c084fc);
+      background: rgba(192, 132, 252, .06);
+      border-radius: 0 6px 6px 0;
+      padding: 1rem 1.25rem;
+      margin: 1.5rem 0;
+    }
+    .callout p { margin: 0; color: var(--color-text-secondary, #d1d5db); }
+    .privacy-footer-note {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--color-border, rgba(255,255,255,.08));
+      font-size: .85rem;
+      color: var(--color-muted, #9ca3af);
+    }
+    .privacy-footer-note a { color: var(--color-accent, #c084fc); }
+  </style>
+</head>
+
+<body>
+
+  <!-- ─── NAV ─── -->
+  <nav class="site-nav" aria-label="Site navigation">
+    <a href="index.html" class="nav-wordmark" aria-label="Gaia home">
+      <svg class="ico nav-seal" aria-hidden="true" focusable="false"><use href="assets/icons.svg#seal-diamond"/></svg>
+      <span>Gaia</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Atlas</a>
+      <a href="codex.html">Codex</a>
+      <a href="how-we-do-things.html">How We Do Things</a>
+      <a href="https://github.com/mbtiongson1/gaia-skill-tree" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </nav>
+
+  <!-- ─── HERO ─── -->
+  <section class="privacy-hero">
+    <p class="hero-eyebrow">Privacy Notice</p>
+    <h1>We don't store your data.</h1>
+    <p class="hero-sub">
+      Gaia is a public, open-source skill registry. Skills are summarised — not stored.
+      We record public repo links only, and we generalise by default.
+    </p>
+  </section>
+
+  <!-- ─── BODY ─── -->
+  <main class="privacy-body">
+
+    <div class="callout">
+      <p><strong>Short version:</strong> We only store public GitHub usernames and public repo URLs — and only when you explicitly submit them. No emails, no personal details, no conversation history, no telemetry.</p>
+    </div>
+
+    <h2>What We Store</h2>
+    <table class="privacy-table" aria-label="Data storage overview">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Stored?</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Public GitHub usernames</td>
+          <td><span class="badge-yes">✅ Yes</span></td>
+          <td>Only when you explicitly submit a named skill under your handle</td>
+        </tr>
+        <tr>
+          <td>Public repository URLs</td>
+          <td><span class="badge-yes">✅ Yes</span></td>
+          <td><code>links.github</code> pointing to your public skill repo</td>
+        </tr>
+        <tr>
+          <td>Skill descriptions</td>
+          <td><span class="badge-yes">✅ Yes</span></td>
+          <td>Generalised capability summaries — not personal narratives</td>
+        </tr>
+        <tr>
+          <td>Code or file contents</td>
+          <td><span class="badge-no">❌ No</span></td>
+          <td>Only a skill's <em>type</em>, <em>level</em>, and <em>evidence class</em> are recorded</td>
+        </tr>
+        <tr>
+          <td>Personal details</td>
+          <td><span class="badge-never">❌ Never</span></td>
+          <td>Names, emails, locations, private repo paths — none of this enters the registry</td>
+        </tr>
+        <tr>
+          <td>In-skill implementation details</td>
+          <td><span class="badge-no">❌ No</span></td>
+          <td>The CLI summarises what a skill <em>does</em>; it does not capture prompt contents, conversation history, or output</td>
+        </tr>
+        <tr>
+          <td>Analytics or telemetry</td>
+          <td><span class="badge-never">❌ Never</span></td>
+          <td>No tracking pixels, analytics scripts, or usage telemetry on this site</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>How Skills Are Recorded</h2>
+    <p>
+      <code>gaia scan</code> analyses your repository structure to detect evidence of agent capabilities. It:
+    </p>
+    <ul>
+      <li>Reads <strong>file shapes and patterns</strong> (tool calls, function signatures, test coverage) to infer skill presence.</li>
+      <li>Records a <strong>capability summary</strong> — the <em>type</em> of skill and its evidence class (A / B / C).</li>
+      <li>Does <strong>not</strong> read, store, or transmit file contents, prompt text, or any personal information.</li>
+    </ul>
+    <p>
+      When you run <code>gaia push</code>, only the summarised skill metadata (skill id, level, evidence class, and your chosen public GitHub repo URL) is included in the draft batch sent for review. Reviewers never see raw source.
+    </p>
+
+    <h2>Named Skills</h2>
+    <p>
+      A <em>named skill</em> (2★+) attaches a public GitHub username as the skill's credited author. This is:
+    </p>
+    <ul>
+      <li><strong>Opt-in</strong> — you run <code>gaia propose</code> or <code>gaia push</code> to submit your name.</li>
+      <li><strong>Public-only</strong> — only your GitHub handle and a public repo URL are recorded. Never an email, real name, or private identifier.</li>
+      <li><strong>Generalised by default</strong> — the description field captures the capability category, not personal details about you or your agent's behaviour.</li>
+    </ul>
+
+    <h2>What We Do Not Collect</h2>
+    <ul>
+      <li>Email addresses</li>
+      <li>IP addresses or device identifiers</li>
+      <li>Conversation history or LLM outputs</li>
+      <li>Private repository contents or paths</li>
+      <li>Any data from users who have not explicitly submitted a skill</li>
+    </ul>
+
+    <h2>Third Parties</h2>
+    <p>
+      The Gaia registry is a static GitHub repository. We do not operate any backend server, database, or analytics service. This site is hosted on GitHub Pages and does not set tracking cookies or collect telemetry. Google Fonts are loaded for typography — standard browser-level network request, no cookies set by us.
+    </p>
+
+    <h2>Changes</h2>
+    <p>
+      This notice lives in <a href="https://github.com/mbtiongson1/gaia-skill-tree/blob/main/PRIVACY.md" target="_blank" rel="noopener"><code>PRIVACY.md</code></a> at the root of the repository. Any changes are recorded in the git history and visible to everyone.
+    </p>
+
+    <div class="privacy-footer-note">
+      Questions? Open an issue at <a href="https://github.com/mbtiongson1/gaia-skill-tree/issues" target="_blank" rel="noopener">github.com/mbtiongson1/gaia-skill-tree</a>.
+    </div>
+
+  </main>
+
+  <!-- ─── FOOTER ─── -->
+  <footer>
+    <div class="footer-mark">
+      <svg class="ico footer-seal" aria-hidden="true" focusable="false"><use href="assets/icons.svg#seal-diamond"/></svg>
+      <span class="footer-wordmark">Gaia</span>
+    </div>
+    <p>
+      <a href="index.html">Home</a> ·
+      <a href="https://github.com/mbtiongson1/gaia-skill-tree" target="_blank" rel="noopener">GitHub</a> ·
+      MIT ·
+      <a href="codex.html">The Codex</a> ·
+      <a href="privacy.html" aria-current="page">Privacy</a>
+    </p>
+  </footer>
+
+</body>
+</html>
