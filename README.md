@@ -16,6 +16,8 @@
 
 **Brand & product:** [PRODUCT.md](PRODUCT.md) · [CONTEXT.md](CONTEXT.md) · [DESIGN.md](DESIGN.md)
 
+**Keywords:** AI Agent Skills • Skill Registry • LLM Ops • Agent Framework
+
 ---
 
 ## The Registry
