@@ -10,9 +10,6 @@ on:
       - 'src/**'
       - 'packages/cli-npm/cli/**'
       - 'tests/**'
-      - 'registry/gaia.json'
-      - 'registry/named/**'
-      - 'registry/schema/**'
       - '.github/workflows/python-package.yml'
   pull_request:
     paths:
@@ -21,9 +18,6 @@ on:
       - 'src/**'
       - 'packages/cli-npm/cli/**'
       - 'tests/**'
-      - 'registry/gaia.json'
-      - 'registry/named/**'
-      - 'registry/schema/**'
       - '.github/workflows/python-package.yml'
   workflow_dispatch: {}
 

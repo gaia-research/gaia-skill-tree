@@ -1688,17 +1688,17 @@ def validate_command(args):
 def test_command(args):
     """Run self-verification tests."""
     repo_root = Path(__file__).parent.parent.parent
-    pytest_path = repo_root / ".venv" / "bin" / "pytest"
-    if not pytest_path.exists():
-        # Fallback to system pytest
-        pytest_path = "pytest"
-    
-    cmd = [str(pytest_path)]
+
+    # Always use the same Python that is running gaia so the test process
+    # inherits the correct virtual-env / site-packages (including gaia_cli
+    # itself, pyyaml, textual, etc.).  Relying on a bare "pytest" from PATH
+    # can pick up an isolated uv-tool pytest that lacks these packages.
+    cmd = [sys.executable, "-m", "pytest"]
     if args.suite == "meta":
         cmd.append(str(repo_root / "tests" / "test_dev.py"))
     elif args.suite == "all":
         cmd.append(str(repo_root / "tests"))
-    
+
     print(f"Running tests: {' '.join(cmd)}")
     result = subprocess.run(cmd, cwd=str(repo_root))
     if result.returncode != 0:

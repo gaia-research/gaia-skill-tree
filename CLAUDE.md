@@ -178,13 +178,19 @@ A suite skill (has `suiteComponents`) whose `links.github` is a bare repo root w
 
 ### 6. Pre-existing test failures (not regressions)
 
-These tests fail in the current environment and are **not caused by changes to `install.py`**:
+As of v3.23.9 the previously documented failures (textual, pyyaml, numpy) are **resolved**. The
+remaining known CI failure modes are:
 
-- `tests/test_tui_tokens.py` (5 tests) — `textual` package not installed (optional TUI dep)
-- `tests/test_meta_ops.py::test_meta_merge` — `pyyaml` not installed in test isolation
-- `tests/test_packaging.py::test_docs_build_can_run_from_registry_clone_without_registry_flag` — `numpy` missing in test isolation
+- `tests/test_packaging.py::test_built_wheel_contains_only_python_package_data` and
+  `test_wheel_install_smoke_tests_console_script` — fail when `setuptools<77` is installed.
+  Fixed by `[dev]` requiring `setuptools>=77`. If these resurface, run
+  `pip install "setuptools>=77"` and retry.
+- `tests/test_packaging.py::test_docs_build_can_run_from_registry_clone_without_registry_flag`
+  — fails when the embedded CLI help in `README.md` is stale after a CLI change.
+  Fix: run `gaia docs build` and commit the result before pushing.
 
-These surface in `gaia test all` / `Test, Build, and Smoke Test` CI. Do not try to "fix" them in unrelated PRs; they require separate optional-dependency configuration work.
+If `gaia test all` reports failures, check whether they are in the above categories before
+treating them as regressions.
 
 ### 7. Version lockstep — four files must match
 
