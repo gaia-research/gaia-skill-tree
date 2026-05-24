@@ -1349,7 +1349,15 @@ def mcp_command(args):
         print(f"MCP server build not found: {script}", file=sys.stderr)
         print("Run `npm run build` in packages/mcp first.", file=sys.stderr)
         sys.exit(1)
-    raise SystemExit(subprocess.call(["node", str(script)]))
+    
+    env = os.environ.copy()
+    env["GAIA_REGISTRY_PATH"] = str(args.registry)
+    
+    config = load_config()
+    if config and config.get("gaiaUser"):
+        env["GAIA_USER"] = config["gaiaUser"]
+        
+    raise SystemExit(subprocess.call(["node", str(script)], env=env))
 
 
 def docs_command(args):
