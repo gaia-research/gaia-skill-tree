@@ -6,25 +6,20 @@ line-by-line parser that cannot handle nested YAML (links.github, suiteComponent
 Tests that call install_skill() must therefore use named-skills.json as the
 registry source (pure JSON, no YAML parsing needed).
 """
+
 import json
 import os
 import sys
-import tempfile
-from unittest.mock import patch
-import pytest
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from gaia_cli.install import (
     install_skill,
     load_manifest,
-    resolve_named_skill_reference,
     save_manifest,
     uninstall_skill,
-    list_installed,
-    get_manifest_path,
-    get_repo_skills_dir,
     _parse_github_url,
+    _run_git,
 )
 
 
@@ -41,11 +36,25 @@ def _write_json_registry(tmp_path, entries: list[dict]) -> None:
         encoding="utf-8",
     )
 
+
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 class TestInstallInfra:
     """Tests for low-level install infrastructure utilities."""
+
+    def test_run_git_error_handling(self, monkeypatch, capsys):
+        """_run_git catches CalledProcessError and returns False."""
+        import subprocess
+
+        def mock_run(*args, **kwargs):
+            raise subprocess.CalledProcessError(1, ["git", "clone"])
+
+        monkeypatch.setattr("subprocess.run", mock_run)
+        result = _run_git(["clone", "http://example.com/repo.git"])
+        assert result is False
+        captured = capsys.readouterr()
+        assert "Git error:" in captured.err
 
     def test_parse_github_url(self):
         """_parse_github_url correctly splits repo, branch, and path."""
@@ -119,7 +128,9 @@ class TestInstallInfra:
         monkeypatch.chdir(tmp_path)
         # .gaia does NOT exist yet
         save_manifest({"installed": []})
-        assert os.path.exists(os.path.join(str(tmp_path), ".gaia", "install-manifest.json"))
+        assert os.path.exists(
+            os.path.join(str(tmp_path), ".gaia", "install-manifest.json")
+        )
 
 
 class TestInstallFlow:
@@ -170,7 +181,9 @@ class TestInstallFlow:
         # Flat frontmatter only (naive parser can handle this)
         skill_dir = tmp_path / "registry" / "named" / "testuser"
         skill_dir.mkdir(parents=True)
-        (skill_dir / "my-skill.md").write_text("---\nid: testuser/my-skill\n---\nNo link.")
+        (skill_dir / "my-skill.md").write_text(
+            "---\nid: testuser/my-skill\n---\nNo link."
+        )
 
         result = install_skill("testuser/my-skill", str(tmp_path))
         assert result is False
@@ -187,7 +200,7 @@ class TestInstallFlow:
         manifest = {
             "installed": [
                 {"id": "testuser/my-skill", "localPath": str(test_path)},
-                {"id": "other/skill", "localPath": "some/path"}
+                {"id": "other/skill", "localPath": "some/path"},
             ]
         }
         save_manifest(manifest)

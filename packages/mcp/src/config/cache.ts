@@ -1,62 +1,54 @@
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
+import * as fs from "node:fs";
 import { join } from "node:path";
 import { homedir } from "node:os";
 
-interface CacheEntry {
-  etag: string;
-  lastFetch: number;
-  filePath: string;
-}
-
 const GAIA_HOME = process.env.GAIA_HOME || join(homedir(), ".gaia");
 const CACHE_DIR = join(GAIA_HOME, "cache");
-const CACHE_META = join(CACHE_DIR, "meta.json");
-const TTL_MS = 5 * 60 * 1000;
+const CACHE_TTL_MS = 5 * 60 * 1000;
 
 function ensureCacheDir(): void {
-  if (!existsSync(CACHE_DIR)) {
-    mkdirSync(CACHE_DIR, { recursive: true });
+  if (!fs.existsSync(CACHE_DIR)) {
+    fs.mkdirSync(CACHE_DIR, { recursive: true });
   }
 }
 
-function readMeta(): Record<string, CacheEntry> {
-  try {
-    return JSON.parse(readFileSync(CACHE_META, "utf-8"));
-  } catch {
-    return {};
-  }
-}
-
-function writeMeta(meta: Record<string, CacheEntry>): void {
-  ensureCacheDir();
-  writeFileSync(CACHE_META, JSON.stringify(meta, null, 2));
+export function getCachePath(key: string): string {
+  return join(CACHE_DIR, `${key.replace(/[^a-z0-9]/gi, "_")}.json`);
 }
 
 export function getCached(key: string): { data: string; stale: boolean } | null {
-  const meta = readMeta();
-  const entry = meta[key];
-  if (!entry) return null;
+  const p = getCachePath(key);
+  if (!fs.existsSync(p)) return null;
+
+  const stats = fs.statSync(p);
+  const ageMs = Date.now() - stats.mtimeMs;
+  const stale = ageMs > CACHE_TTL_MS;
 
   try {
-    const data = readFileSync(entry.filePath, "utf-8");
-    const stale = Date.now() - entry.lastFetch > TTL_MS;
-    return { data, stale };
+    return { data: fs.readFileSync(p, "utf8"), stale };
   } catch {
     return null;
   }
 }
 
 export function getEtag(key: string): string | null {
-  const meta = readMeta();
-  return meta[key]?.etag ?? null;
+  const p = getCachePath(key) + ".etag";
+  if (!fs.existsSync(p)) return null;
+  try {
+    return fs.readFileSync(p, "utf8");
+  } catch {
+    return null;
+  }
 }
 
 export function putCache(key: string, data: string, etag: string): void {
   ensureCacheDir();
-  const filePath = join(CACHE_DIR, `${key.replace(/[^a-z0-9]/gi, "_")}.json`);
-  writeFileSync(filePath, data);
-
-  const meta = readMeta();
-  meta[key] = { etag, lastFetch: Date.now(), filePath };
-  writeMeta(meta);
+  const filePath = getCachePath(key);
+  fs.writeFileSync(filePath, data);
+  const etagPath = filePath + ".etag";
+  if (etag) {
+    fs.writeFileSync(etagPath, etag);
+  } else if (fs.existsSync(etagPath)) {
+    fs.unlinkSync(etagPath);
+  }
 }

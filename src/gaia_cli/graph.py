@@ -1017,11 +1017,11 @@ def open_path(path: Path) -> None:
     if opened:
         return
     if sys.platform == "darwin":
-        subprocess.run(["open", str(path)], check=False)
+        subprocess.run(["open", str(path.resolve())], check=False)
     elif os.name == "nt":
-        os.startfile(str(path))  # type: ignore[attr-defined]
+        os.startfile(str(path.resolve()))  # type: ignore[attr-defined]
     else:
-        subprocess.run(["xdg-open", str(path)], check=False)
+        subprocess.run(["xdg-open", str(path.resolve())], check=False)
 
 
 def graph_command(args: Any) -> None:

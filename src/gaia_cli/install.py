@@ -323,7 +323,11 @@ def uninstall_skill(skill_id):
     manifest = load_manifest()
     entry = next((s for s in manifest["installed"] if s["id"] == skill_id), None)
     
-    if entry and "localPath" in entry:
+    if not entry:
+        print(f"Skill {skill_id} is not installed.")
+        return False
+
+    if "localPath" in entry:
         lp = entry["localPath"]
         if os.path.exists(lp) or os.path.islink(lp):
             if os.path.islink(lp):

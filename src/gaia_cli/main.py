@@ -285,23 +285,7 @@ def init_command(args):
         # Auto-install git hooks
         hook_script = os.path.join(registry_abs, "scripts", "install-git-hooks.sh")
         if os.path.exists(hook_script):
-            try:
-                # Windows doesn't always have bash in PATH; skip or use sh if available
-                if sys.platform == "win32":
-                    # Check if 'sh' or 'bash' exists before running
-                    if subprocess.run(["where", "bash"], capture_output=True).returncode == 0:
-                        subprocess.run(["bash", hook_script], check=True)
-                        print("  git hooks:  installed automatically")
-                    elif subprocess.run(["where", "sh"], capture_output=True).returncode == 0:
-                        subprocess.run(["sh", hook_script], check=True)
-                        print("  git hooks:  installed automatically")
-                    else:
-                        print("  git hooks:  bash/sh not found, skipping auto-install")
-                else:
-                    subprocess.run(["bash", hook_script], check=True)
-                    print("  git hooks:  installed automatically")
-            except Exception:
-                print("  git hooks:  failed to install automatically")
+            print("  git hooks:  found hook script (run manually if trusted: sh scripts/install-git-hooks.sh)")
 
 
 def scan_command(args):

@@ -13,6 +13,7 @@ jobs:
     if: >-
       !contains(github.event.pull_request.labels.*.name, 'skip-scope-check') &&
       !contains(github.event.pull_request.labels.*.name, 'jules') &&
+      !contains(github.event.pull_request.labels.*.name, 'Jules') &&
       !contains(github.event.pull_request.labels.*.name, 'codex') &&
       !contains(github.event.pull_request.labels.*.name, 'claude-bot')
     permissions:
@@ -48,6 +49,7 @@ jobs:
             claude/*)           PREFIX="unrestricted" ;;
             codex/*)            PREFIX="unrestricted" ;;
             dev/*)              PREFIX="unrestricted" ;;
+            fix/*)              PREFIX="unrestricted" ;;
             infra/*)            PREFIX="infra" ;;
             *)                  PREFIX="other" ;;
           esac

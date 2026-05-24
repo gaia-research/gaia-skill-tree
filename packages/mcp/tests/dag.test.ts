@@ -99,5 +99,10 @@ describe("dag", () => {
       expect(basics.every((s) => s.type === "basic")).toBe(true);
       expect(basics.length).toBe(5);
     });
+
+    it("returns empty array for types not in the graph", () => {
+      const emptyResult = getSkillsByType(mockGraph, "fusion" as any);
+      expect(emptyResult).toHaveLength(0);
+    });
   });
 });
