@@ -2,7 +2,7 @@ name: Auto-Sync Registry Artifacts
 
 on:
   push:
-    branches: [main, 'dev/**', 'fix/**', 'feat/**', 'review/**', 'infra/**', 'workflow/**']
+    branches: [main, 'dev/**', 'fix/**', 'feat/**', 'review/**', 'infra/**', 'workflow/**', 'chore/**']
     paths:
       - 'registry/nodes/**'
       - 'registry/named/**'
@@ -60,7 +60,7 @@ jobs:
           fi
 
       - name: Sync Wiki Pages
-        if: ${{ secrets.WIKI_PAT != '' }}
+        if: github.event_name != 'pull_request' && github.repository == 'mbtiongson1/gaia-skill-tree'
         env:
           WIKI_PAT: ${{ secrets.WIKI_PAT }}
         run: |
