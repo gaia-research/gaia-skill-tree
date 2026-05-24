@@ -2,7 +2,7 @@ name: Auto-Sync Registry Artifacts
 
 on:
   push:
-    branches: [main, 'dev/**', 'fix/**', 'feat/**', 'review/**', 'infra/**', 'workflow/**', 'chore/**']
+    branches: [main, 'dev/**', 'fix/**', 'feat/**', 'review/**', 'infra/**', 'workflow/**', 'chore/**', 'jules/**', 'claude/**', 'codex/**']
     paths:
       - 'registry/nodes/**'
       - 'registry/named/**'
