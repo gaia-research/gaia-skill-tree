@@ -16,9 +16,9 @@ from gaia_cli.treeManager import load_tree, save_tree, show_status, show_tree
 from gaia_cli.prWriter import open_pr, open_intake_pr
 from gaia_cli.push import build_skill_batch, write_skill_batch, build_proposed_skill, detect_source_repo
 from gaia_cli.embeddings import generate_embeddings
-from gaia_cli.semantic_search import search as semantic_search, load_embeddings
-from gaia_cli.name import find_awakened_skill, promote_to_named, update_batch_lifecycle
-from gaia_cli.install import install_skill, install_suite, update_skills, uninstall_skill, list_installed, interactive_install, list_available
+from gaia_cli.semantic_search import search as semantic_search
+from gaia_cli.name import promote_to_named, update_batch_lifecycle
+from gaia_cli.install import install_skill, install_suite, update_skills, uninstall_skill, interactive_install, list_available
 from gaia_cli.graph import graph_command
 from gaia_cli.commands.stats import stats_command
 from gaia_cli.commands.dev import (
@@ -40,9 +40,7 @@ from gaia_cli.commands.dev import (
 from gaia_cli.registry import (
     generated_output_dir,
     embeddings_path,
-    named_skills_dir,
     named_skills_index_path,
-    promotion_candidates_path,
     registry_graph_path,
     skill_batches_dir,
     user_tree_path,
@@ -52,34 +50,27 @@ from gaia_cli.registry import (
 )
 from gaia_cli.pathEngine import compute_paths, load_paths, save_paths, diff_paths
 from gaia_cli.cardRenderer import (
-    render_card,
     render_appraise_card,
     render_unlock_card,
     render_path_summary,
     render_promotion_prompt,
-    load_and_render,
 )
 from gaia_cli.promotion import (
     check_promotion_eligibility,
     detect_unique_candidates,
     load_promotion_candidates,
     promote_from_candidates,
-    promote_skill,
     promotable_candidates,
     promotion_state,
     write_promotion_candidates,
-    next_level,
     LEVEL_NAMES,
 )
 from gaia_cli.hook import hook_entry
 from gaia_cli.formatting import (
     format_skill_plain,
     format_skill_colored,
-    format_type_label,
     format_type_colored,
     format_level_colored,
-    fusion_equation,
-    TIER_COLORS,
     RANK_COLORS,
     TYPE_SYMBOLS,
     COLOR_CONTRIBUTOR,
@@ -87,7 +78,6 @@ from gaia_cli.formatting import (
     _fg,
     _reset,
     _bold,
-    _use_color,
 )
 from gaia_cli.localContext import LocalContext
 from gaia_cli.cardRenderer import render_fusion_diagram
@@ -285,23 +275,7 @@ def init_command(args):
         # Auto-install git hooks
         hook_script = os.path.join(registry_abs, "scripts", "install-git-hooks.sh")
         if os.path.exists(hook_script):
-            try:
-                # Windows doesn't always have bash in PATH; skip or use sh if available
-                if sys.platform == "win32":
-                    # Check if 'sh' or 'bash' exists before running
-                    if subprocess.run(["where", "bash"], capture_output=True).returncode == 0:
-                        subprocess.run(["bash", hook_script], check=True)
-                        print("  git hooks:  installed automatically")
-                    elif subprocess.run(["where", "sh"], capture_output=True).returncode == 0:
-                        subprocess.run(["sh", hook_script], check=True)
-                        print("  git hooks:  installed automatically")
-                    else:
-                        print("  git hooks:  bash/sh not found, skipping auto-install")
-                else:
-                    subprocess.run(["bash", hook_script], check=True)
-                    print("  git hooks:  installed automatically")
-            except Exception:
-                print("  git hooks:  failed to install automatically")
+            print("  git hooks:  found hook script (run manually if trusted: sh scripts/install-git-hooks.sh)")
 
 
 def scan_command(args):
@@ -1109,7 +1083,6 @@ def name_command(args):
     print(f"Batch lifecycle updated: '{skill_data['id']}' -> named")
 
 def install_command(args):
-    from gaia_cli.install import interactive_install, install_skill, install_suite, update_skills
     if args.list:
         interactive_install(args.registry)
         return
@@ -1129,7 +1102,6 @@ def install_command(args):
 
 
 def uninstall_command(args):
-    from gaia_cli.install import uninstall_skill
     success = uninstall_skill(args.skill_id)
     if not success:
         sys.exit(1)
@@ -1167,7 +1139,6 @@ def _pending_skills(registry_path: str, username: str | None = None) -> list[dic
 
 
 def skills_command(args):
-    from gaia_cli.install import list_available, install_skill, install_suite, uninstall_skill, update_skills
     config = load_config() or {}
     username = config.get("gaiaUser") or config.get("username")
     pending = [] if getattr(args, "exclude_pending", False) else _pending_skills(args.registry, username)
@@ -1576,7 +1547,7 @@ def get_parser():
     dev_evidence.add_argument('--notes', help="Optional notes about the evaluation")
     dev_evidence.add_argument('--no-build', action='store_true', help="Skip rebuilding docs and graph assets after adding evidence")
 
-    dev_build = dev_sub.add_parser('build', help="Regenerate registry and documentation site")
+    dev_sub.add_parser('build', help="Regenerate registry and documentation site")
 
     dev_audit = dev_sub.add_parser('audit', help="Run registry maintenance linter")
     dev_audit.add_argument('--level', type=int, help="Filter audit by level threshold")
@@ -1622,7 +1593,7 @@ def get_parser():
     skills_install.add_argument('--suite', action='store_true', help="Install as a suite (recursive)")
     skills_install.add_argument('--global', dest='install_global', action='store_true', help='Install to ~/.gaia/skills')
     skills_install.add_argument('--local', dest='install_local', action='store_true', help='Install to project agent skills')
-    skills_update = skills_sub.add_parser('update', help="Update all installed skills from source")
+    skills_sub.add_parser('update', help="Update all installed skills from source")
     skills_uninstall = skills_sub.add_parser('uninstall', help="Uninstall a named skill")
     skills_uninstall.add_argument('skill_id', help="Skill ID to uninstall")
     hook_parser = subparsers.add_parser('_hook', help=argparse.SUPPRESS)
@@ -1665,6 +1636,48 @@ def test_command(args):
     if result.returncode != 0:
         sys.exit(result.returncode)
 
+
+COMMANDS = {
+    'init': init_command,
+    'scan': scan_command,
+    'pull': pull_command,
+    'update': update_command,
+    'install': install_command,
+    'uninstall': uninstall_command,
+    'tree': tree_command,
+    'push': push_command,
+    'propose': propose_command,
+    'version': version_command,
+    'mcp': mcp_command,
+    'release': release_command,
+    'graph': graph_command,
+    'stats': stats_command,
+    'appraise': appraise_command,
+    'promote': promote_command,
+    'fuse': fuse_command,
+    'lookup': lookup_command,
+    'validate': validate_command,
+    'test': test_command,
+    '_hook': hook_command,
+}
+
+DEV_COMMANDS = {
+    'list': meta_list_command,
+    'merge': meta_merge_command,
+    'split': meta_split_command,
+    'rename': meta_rename_command,
+    'calibrate': meta_calibrate_command,
+    'add': meta_add_command,
+    'rm': meta_remove_command,
+    'link': meta_link_command,
+    'reclassify': meta_reclassify_command,
+    'update-named': meta_update_named_command,
+    'evidence': meta_evidence_command,
+    'build': meta_build_command,
+    'audit': meta_audit_command,
+    'diff': meta_diff_command,
+}
+
 def main():
     # Suppress BrokenPipeError traceback when output is piped to head/less/etc.
     # Placed here (not __main__.py) so it covers all entry paths: console script,
@@ -1690,93 +1703,32 @@ def main():
     args = parser.parse_args()
     args.registry = resolve_registry_path(args.registry, global_flag=args.global_flag)
     require_explicit_writable_registry(parser, args)
+
     if args.version:
         version_command(args)
         return
-    if args.command == 'init':
-        init_command(args)
-    elif args.command == 'help':
+
+    if args.command == 'help':
         parser.print_help()
-    elif args.command == 'scan':
-        scan_command(args)
-    elif args.command == 'pull':
-        pull_command(args)
-    elif args.command == 'update':
-        update_command(args)
-    elif args.command == 'install':
-        install_command(args)
-    elif args.command == 'uninstall':
-        uninstall_command(args)
-    elif args.command == 'tree':
-        tree_command(args)
-    elif args.command == 'push':
-        push_command(args)
-    elif args.command == 'propose':
-        propose_command(args)
-    elif args.command == 'version':
-        version_command(args)
-    elif args.command == 'mcp':
-        mcp_command(args)
-    elif args.command == 'release':
-        release_command(args)
-    elif args.command == 'graph':
-        graph_command(args)
-    elif args.command == 'stats':
-        stats_command(args)
-    elif args.command == 'appraise':
-        appraise_command(args)
-    elif args.command == 'promote':
-        promote_command(args)
-    elif args.command == 'fuse':
-        fuse_command(args)
-    elif args.command == 'docs' and getattr(args, 'docs_command', None) == 'build':
-        docs_command(args)
-    elif args.command == 'lookup':
-        lookup_command(args)
+    elif args.command == 'docs':
+        if getattr(args, 'docs_command', None) == 'build':
+            docs_command(args)
+        else:
+            parser.print_help()
     elif args.command == 'dev':
         dev_cmd = getattr(args, 'dev_command', None)
-        if dev_cmd == 'list':
-            meta_list_command(args)
-        elif dev_cmd == 'merge':
-            meta_merge_command(args)
-        elif dev_cmd == 'split':
-            meta_split_command(args)
-        elif dev_cmd == 'rename':
-            meta_rename_command(args)
-        elif dev_cmd == 'calibrate':
-            meta_calibrate_command(args)
-        elif dev_cmd == 'add':
-            meta_add_command(args)
-        elif dev_cmd == 'rm':
-            meta_remove_command(args)
-        elif dev_cmd == 'link':
-            meta_link_command(args)
-        elif dev_cmd == 'reclassify':
-            meta_reclassify_command(args)
-        elif dev_cmd == 'update-named':
-            meta_update_named_command(args)
-        elif dev_cmd == 'evidence':
-            meta_evidence_command(args)
-        elif dev_cmd == 'build':
-            meta_build_command(args)
-        elif dev_cmd == 'audit':
-            meta_audit_command(args)
-        elif dev_cmd == 'diff':
-            meta_diff_command(args)
+        if dev_cmd in DEV_COMMANDS:
+            DEV_COMMANDS[dev_cmd](args)
         else:
             _, subparsers = get_parser()
             subparsers.choices['dev'].print_help()
-    elif args.command == 'validate':
-        validate_command(args)
-    elif args.command == 'test':
-        test_command(args)
     elif args.command == 'skills':
-        if not getattr(args, 'skills_command', None):
+        if getattr(args, 'skills_command', None):
+            skills_command(args)
+        else:
             skills_parser.print_help()
-            return
-        skills_command(args)
-    elif args.command == '_hook':
-        hook_command(args)
+    elif args.command in COMMANDS:
+        COMMANDS[args.command](args)
     else:
         parser.print_help()
 
