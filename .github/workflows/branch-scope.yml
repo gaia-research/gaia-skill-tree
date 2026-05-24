@@ -48,6 +48,7 @@ jobs:
             claude/*)           PREFIX="unrestricted" ;;
             codex/*)            PREFIX="unrestricted" ;;
             dev/*)              PREFIX="unrestricted" ;;
+            fix/*)              PREFIX="unrestricted" ;;
             infra/*)            PREFIX="infra" ;;
             *)                  PREFIX="other" ;;
           esac
