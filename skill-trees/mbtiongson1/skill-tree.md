@@ -23,7 +23,7 @@
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — mbtiongson1  ·  generated 2026-05-23
+GAIA SKILL TREE — mbtiongson1  ·  generated 2026-05-24
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = stars · [0★ · Pure] = Unawakened rank pill · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.

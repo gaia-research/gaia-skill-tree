@@ -63,14 +63,14 @@ All commands default to **local-first** output — showing the user's own skill 
 
 | Prefix | Purpose | Scope |
 |---|---|---|
-| `schema/...` | Nomenclature/terminology changes | `registry/schema/` only |
-| `cli/...` | CLI source changes | `src/`, `packages/`, `tests/` |
+| `schema/...` | Nomenclature/terminology changes | `registry/schema/`, `*.md` |
+| `cli/...` | CLI source changes | `src/`, `packages/`, `tests/`, `*.md` |
 | `docs/...` | Documentation | `docs/`, `*.md` |
-| `design/...` | Website design | `docs/` (HTML/CSS/JS) |
-| `review/gaia-push/...` | Intake layer (`gaia push`) | `registry-for-review/` |
-| `review/meta/...` | Registry curation/promotion | `registry/` (not schema) |
-| `dev/...` | Experimental (unrestricted) | any |
-| `infra/...` | CI/tooling changes | `.github/`, `scripts/` |
+| `design/...` | Website design | `docs/` (HTML/CSS/JS), `*.md` |
+| `review/gaia-push/...` | Intake layer (`gaia push`) | `registry-for-review/`, `*.md` |
+| `review/meta/...` | Registry curation/promotion | `registry/`, `*.md` |
+| `dev/...`, `claude/...`, `codex/...` | Experimental (unrestricted) | any |
+| `infra/...` | CI/tooling changes | `.github/`, `scripts/`, `docs/*.html`, `*.md` |
 
 CI enforces scope via `.github/workflows/branch-scope.yml`. Schema changes (`registry/schema/`) MUST use a `schema/` branch. Add label `skip-scope-check` to bypass in emergencies.
 
@@ -87,7 +87,7 @@ The pre-commit hook keeps these in lockstep:
 - `packages/mcp/package.json`
 - `registry/gaia.json`
 
-If they disagree before the bump, the hook fails loudly. Do not silently repair version drift without calling it out.
+If they disagree before the bump, the hook fails loudly. Use `gaia release <type> --sync` to force align manifests to the highest version before bumping. Use `gaia release patch|minor|major` to bump all at once.
 
 ## Wiki Management
 

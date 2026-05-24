@@ -125,21 +125,20 @@
         <tr><th>Prefix</th><th>Purpose</th><th>Allowed Scope</th></tr>
       </thead>
       <tbody>
-        <tr><td><code>schema/…</code></td><td>Nomenclature &amp; terminology</td><td><code>registry/schema/</code> only</td></tr>
-        <tr><td><code>cli/…</code></td><td>CLI source changes</td><td><code>src/</code>, <code>packages/</code>, <code>tests/</code></td></tr>
+        <tr><td><code>schema/…</code></td><td>Nomenclature &amp; terminology</td><td><code>registry/schema/</code>, <code>*.md</code></td></tr>
+        <tr><td><code>cli/…</code></td><td>CLI source changes</td><td><code>src/</code>, <code>packages/</code>, <code>tests/</code>, <code>*.md</code></td></tr>
         <tr><td><code>docs/…</code></td><td>Documentation</td><td><code>docs/</code>, <code>*.md</code></td></tr>
-        <tr><td><code>design/…</code></td><td>Website design (HTML/CSS/JS)</td><td><code>docs/</code> (HTML, CSS, JS)</td></tr>
-        <tr><td><code>review/gaia-push/…</code></td><td>Intake layer (<code>gaia push</code>)</td><td><code>registry-for-review/</code></td></tr>
-        <tr><td><code>review/meta/…</code></td><td>Registry curation/promotion</td><td><code>registry/</code> (not schema)</td></tr>
-        <tr><td><code>dev/…</code></td><td>Experimental (unrestricted)</td><td>any</td></tr>
-        <tr><td><code>infra/…</code></td><td>CI / tooling changes</td><td><code>.github/</code>, <code>scripts/</code></td></tr>
-      </tbody>
-    </table>
-    <p style="margin-top:1rem">
-      Schema changes (<code>registry/schema/</code>) <strong>must</strong> use a <code>schema/</code> branch.
-      Add label <code>skip-scope-check</code> to bypass in emergencies.
-      <code>dev/</code> branches are unrestricted escape hatches for experimentation.
-    </p>
+        <tr><td><code>design/…</code></td><td>Website design (HTML/CSS/JS)</td><td><code>docs/</code> (HTML, CSS, JS), <code>*.md</code></td></tr>
+        <tr><td><code>review/gaia-push/…</code></td><td>Intake layer (<code>gaia push</code>)</td><td><code>registry-for-review/</code>, <code>*.md</code></td></tr>
+        <tr><td><code>review/meta/…</code></td><td>Registry curation/promotion</td><td><code>registry/</code>, <code>*.md</code></td></tr>
+        <tr><td><code>dev/…, claude/…, codex/…</code></td><td>Experimental (unrestricted)</td><td>any</td></tr>
+        <tr><td><code>infra/…</code></td><td>CI / tooling changes</td><td><code>.github/</code>, <code>scripts/</code>, <code>docs/*.html</code>, <code>*.md</code></td></tr>
+        </tbody>
+        </table>        <p style="margin-top:1rem">
+        Schema changes (<code>registry/schema/</code>) <strong>must</strong> use a <code>schema/</code> branch.
+        Add label <code>skip-scope-check</code> to bypass in emergencies.
+        <code>dev/</code>, <code>claude/</code>, and <code>codex/</code> branches are unrestricted escape hatches for experimentation.
+        </p>
     <a class="btn btn-ghost" href="https://github.com/mbtiongson1/gaia-skill-tree/blob/main/CONTRIBUTING.md" target="_blank">Read Contributing</a>
   </section>
 </main>

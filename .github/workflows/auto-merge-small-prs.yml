@@ -32,7 +32,9 @@ jobs:
           # 3. Doesn't modify critical files (.github, pyproject.toml, package.json)
 
           if [ "$CHANGED_FILES" -lt 20 ]; then
-            CRITICAL_FILES=$(git diff --name-only origin/main...HEAD | grep -E '(\.github|pyproject\.toml|package\.json|package-lock\.json)' || true)
+            # We allow .jules/ changes but still block critical files in .github/
+            # and package manifest files.
+            CRITICAL_FILES=$(git diff --name-only origin/main...HEAD | grep -E '(^\.github/|^pyproject\.toml|package\.json|package-lock\.json)' || true)
             if [ -z "$CRITICAL_FILES" ]; then
               echo "eligible=true" >> $GITHUB_OUTPUT
             else

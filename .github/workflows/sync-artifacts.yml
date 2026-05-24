@@ -2,14 +2,19 @@ name: Auto-Sync Registry Artifacts
 
 on:
   push:
-    branches: [main, 'dev/**', 'fix/**', 'feat/**', 'review/**', 'infra/**', 'workflow/**']
+    branches: [main, 'dev/**', 'fix/**', 'feat/**', 'review/**', 'infra/**', 'workflow/**', 'chore/**', 'jules/**', 'claude/**', 'codex/**']
     paths:
       - 'registry/nodes/**'
       - 'registry/named/**'
       - 'registry/schema/**'
       - 'registry/suites/**'
       - 'scripts/**'
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      deploy:
+        description: 'Trigger Cloudflare deployment after sync'
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -45,7 +50,7 @@ jobs:
           if echo "$MSG" | grep -Eq '^feat(\([^)]*\))?:'; then BUMP="minor"; fi
           
           # 2. Apply version bump and regenerate artifacts via CLI
-          gaia release $BUMP
+          gaia release $BUMP --sync
           gaia docs build
 
       - name: Commit and Push Changes
@@ -60,7 +65,7 @@ jobs:
           fi
 
       - name: Sync Wiki Pages
-        if: ${{ secrets.WIKI_PAT != '' }}
+        if: github.event_name != 'pull_request' && github.repository == 'mbtiongson1/gaia-skill-tree'
         env:
           WIKI_PAT: ${{ secrets.WIKI_PAT }}
         run: |
@@ -69,3 +74,10 @@ jobs:
 
           # Sync README marker regions → wiki pages and push to master
           python scripts/sync_wiki.py --wiki-dir ../gaia-wiki --push
+
+      - name: Trigger Cloudflare Deploy
+        if: github.event.inputs.deploy == 'true'
+        run: |
+          gh workflow run cloudflare-deploy.yml --ref ${{ github.ref_name }} -f branch=${{ github.ref_name }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
