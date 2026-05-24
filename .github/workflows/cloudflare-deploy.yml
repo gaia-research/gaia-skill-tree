@@ -18,7 +18,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.inputs.branch }}
+          ref: ${{ github.event.inputs.branch || github.ref_name }}
           fetch-depth: 0
 
       - name: Deploy
@@ -26,4 +26,4 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy docs --project-name=gaia-skill-tree --branch=${{ github.event.inputs.branch }}
+          command: pages deploy docs --project-name=gaia-skill-tree --branch=${{ github.event.inputs.branch || github.ref_name }} --commit-dirty=true
