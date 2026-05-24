@@ -1361,7 +1361,15 @@ def docs_command(args):
 
 
 def release_command(args):
-    from gaia_cli.versioning import bump_versions
+    from gaia_cli.versioning import bump_versions, read_versions, sync_versions
+
+    if args.sync:
+        # If --sync is provided, we first align everything to the highest version
+        # found among the manifest files to resolve any drift.
+        versions = read_versions(args.registry)
+        target = max(versions.values())
+        sync_versions(args.registry, target)
+        print(f"Force-synced manifest files to version {target}.")
 
     new_version = bump_versions(args.registry, args.release_type)
     print(f"Gaia version bumped to {new_version}.")
@@ -1446,6 +1454,7 @@ def get_parser():
     )
     release_parser = subparsers.add_parser('release', help="Bump release version files")
     release_parser.add_argument('release_type', choices=('patch', 'minor', 'major'))
+    release_parser.add_argument('--sync', action='store_true', help="Force sync versions if they disagree before bump")
     graph_parser = subparsers.add_parser('graph', help="Generate and open the Gaia skill graph")
     graph_parser.add_argument('--format', choices=('html', 'svg', 'json'), default='html', help="Graph artifact format (default: html)")
     graph_parser.add_argument('-o', '--output', help="Output path (default: registry/render/gaia.html)")
