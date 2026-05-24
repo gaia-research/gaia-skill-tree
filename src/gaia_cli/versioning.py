@@ -80,8 +80,13 @@ def bump_versions(root: str | Path, bump: str) -> str:
     root = Path(root)
     current = ensure_versions_in_sync(root)
     new_version = bump_version(current, bump)
-    _replace_pyproject_version(root / "pyproject.toml", new_version)
-    _replace_package_version(root / "packages" / "cli-npm" / "package.json", new_version)
-    _replace_package_version(root / "packages" / "mcp" / "package.json", new_version)
-    _replace_registry_version(Path(registry_graph_path(root)), new_version)
-    return new_version
+    return sync_versions(root, new_version)
+
+
+def sync_versions(root: str | Path, version: str) -> str:
+    root = Path(root)
+    _replace_pyproject_version(root / "pyproject.toml", version)
+    _replace_package_version(root / "packages" / "cli-npm" / "package.json", version)
+    _replace_package_version(root / "packages" / "mcp" / "package.json", version)
+    _replace_registry_version(Path(registry_graph_path(root)), version)
+    return version

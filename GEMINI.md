@@ -6,7 +6,11 @@ Agent guidance for the gaia-skill-tree repository. See CLAUDE.md for full detail
 
 ### 1. Stale docs crash CI
 
-Changes to `registry/named/` or `registry/nodes/` make generated docs stale. Run `gaia docs build` and commit with `[skip-gen]` tag before pushing to avoid CI failure.
+Changes to `registry/named/` or `registry/nodes/` make generated docs stale.
+
+**Primary Fix:** Trigger the **Auto-Sync Registry Artifacts** GitHub Action manually (`workflow_dispatch`) for your branch. This is the safest way to regenerate artifacts.
+
+**Alternative Fix (Local):** Run `gaia docs build` and commit the updated files with `[skip-gen]` tag before pushing to avoid CI failure.
 
 ### 2. `links.github` URL must use `blob/` not `tree/`
 

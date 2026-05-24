@@ -97,12 +97,12 @@ If you are an agent modifying this repository, you must adhere to these rules:
 ### Branch Naming Conventions
 | Prefix | Target Scope |
 | :--- | :--- |
-| `schema/` | `registry/schema/` changes only |
-| `cli/` | `src/gaia_cli/`, `packages/`, `tests/` |
+| `schema/` | `registry/schema/`, `*.md` |
+| `cli/` | `src/gaia_cli/`, `packages/`, `tests/`, `*.md` |
 | `docs/` | `docs/`, `*.md` |
-| `review/gaia-push/` | Intake PRs (`registry-for-review/`) |
-| `review/meta/` | Registry curation (`registry/` except schema) |
-| `infra/` | CI, scripts, `.github/` |
+| `review/gaia-push/` | Intake PRs (`registry-for-review/`), `*.md` |
+| `review/meta/` | Registry curation (`registry/`), `*.md` |
+| `infra/` | CI, scripts, `.github/`, `docs/*.html`, `*.md` |
 
 ### Agent-Managed Files (Hermes Ownership)
 **DO NOT** modify, stage, or delete these files:

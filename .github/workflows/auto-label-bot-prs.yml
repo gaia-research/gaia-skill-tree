@@ -47,9 +47,13 @@ jobs:
             }
 
             console.log(`Detected ${label} PR — adding label.`);
+            const labelsToAdd = [label];
+            if (label === 'jules' || label === 'codex') {
+              labelsToAdd.push('auto-merge');
+            }
             await github.rest.issues.addLabels({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: prNumber,
-              labels: [label],
+              labels: labelsToAdd,
             });
