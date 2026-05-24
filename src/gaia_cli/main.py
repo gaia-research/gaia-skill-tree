@@ -275,23 +275,7 @@ def init_command(args):
         # Auto-install git hooks
         hook_script = os.path.join(registry_abs, "scripts", "install-git-hooks.sh")
         if os.path.exists(hook_script):
-            try:
-                # Windows doesn't always have bash in PATH; skip or use sh if available
-                if sys.platform == "win32":
-                    # Check if 'sh' or 'bash' exists before running
-                    if subprocess.run(["where", "bash"], capture_output=True).returncode == 0:
-                        subprocess.run(["bash", hook_script], check=True)
-                        print("  git hooks:  installed automatically")
-                    elif subprocess.run(["where", "sh"], capture_output=True).returncode == 0:
-                        subprocess.run(["sh", hook_script], check=True)
-                        print("  git hooks:  installed automatically")
-                    else:
-                        print("  git hooks:  bash/sh not found, skipping auto-install")
-                else:
-                    subprocess.run(["bash", hook_script], check=True)
-                    print("  git hooks:  installed automatically")
-            except Exception:
-                print("  git hooks:  failed to install automatically")
+            print("  git hooks:  found hook script (run manually if trusted: sh scripts/install-git-hooks.sh)")
 
 
 def scan_command(args):
@@ -1099,7 +1083,10 @@ def name_command(args):
     print(f"Batch lifecycle updated: '{skill_data['id']}' -> named")
 
 def install_command(args):
+<<<<<<< HEAD
     from gaia_cli.install import install_skill, install_suite, update_skills
+=======
+>>>>>>> origin/main
     if args.list:
         interactive_install(args.registry)
         return
@@ -1119,7 +1106,6 @@ def install_command(args):
 
 
 def uninstall_command(args):
-    from gaia_cli.install import uninstall_skill
     success = uninstall_skill(args.skill_id)
     if not success:
         sys.exit(1)
@@ -1156,6 +1142,7 @@ def _pending_skills(registry_path: str, username: str | None = None) -> list[dic
     return pending
 
 
+<<<<<<< HEAD
 def _handle_skills_install(args):
     if getattr(args, "suite", False):
         success = install_suite(args.skill_id, args.registry)
@@ -1163,6 +1150,29 @@ def _handle_skills_install(args):
         success = install_skill(args.skill_id, args.registry)
     if not success:
         sys.exit(1)
+=======
+def skills_command(args):
+    config = load_config() or {}
+    username = config.get("gaiaUser") or config.get("username")
+    pending = [] if getattr(args, "exclude_pending", False) else _pending_skills(args.registry, username)
+    verb = getattr(args, "skills_command", None)
+    if verb == "install":
+        if getattr(args, "suite", False):
+            success = install_suite(args.skill_id, args.registry)
+        else:
+            success = install_skill(args.skill_id, args.registry)
+        if not success:
+            sys.exit(1)
+        return
+    if verb == "update":
+        update_skills(args.registry)
+        return
+    if verb == "uninstall":
+        success = uninstall_skill(args.skill_id.lstrip("/"))
+        if not success:
+            sys.exit(1)
+        return
+>>>>>>> origin/main
 
 def _handle_skills_update(args):
     update_skills(args.registry)
@@ -1672,6 +1682,48 @@ def test_command(args):
     if result.returncode != 0:
         sys.exit(result.returncode)
 
+
+COMMANDS = {
+    'init': init_command,
+    'scan': scan_command,
+    'pull': pull_command,
+    'update': update_command,
+    'install': install_command,
+    'uninstall': uninstall_command,
+    'tree': tree_command,
+    'push': push_command,
+    'propose': propose_command,
+    'version': version_command,
+    'mcp': mcp_command,
+    'release': release_command,
+    'graph': graph_command,
+    'stats': stats_command,
+    'appraise': appraise_command,
+    'promote': promote_command,
+    'fuse': fuse_command,
+    'lookup': lookup_command,
+    'validate': validate_command,
+    'test': test_command,
+    '_hook': hook_command,
+}
+
+DEV_COMMANDS = {
+    'list': meta_list_command,
+    'merge': meta_merge_command,
+    'split': meta_split_command,
+    'rename': meta_rename_command,
+    'calibrate': meta_calibrate_command,
+    'add': meta_add_command,
+    'rm': meta_remove_command,
+    'link': meta_link_command,
+    'reclassify': meta_reclassify_command,
+    'update-named': meta_update_named_command,
+    'evidence': meta_evidence_command,
+    'build': meta_build_command,
+    'audit': meta_audit_command,
+    'diff': meta_diff_command,
+}
+
 def main():
     # Suppress BrokenPipeError traceback when output is piped to head/less/etc.
     # Placed here (not __main__.py) so it covers all entry paths: console script,
@@ -1697,93 +1749,32 @@ def main():
     args = parser.parse_args()
     args.registry = resolve_registry_path(args.registry, global_flag=args.global_flag)
     require_explicit_writable_registry(parser, args)
+
     if args.version:
         version_command(args)
         return
-    if args.command == 'init':
-        init_command(args)
-    elif args.command == 'help':
+
+    if args.command == 'help':
         parser.print_help()
-    elif args.command == 'scan':
-        scan_command(args)
-    elif args.command == 'pull':
-        pull_command(args)
-    elif args.command == 'update':
-        update_command(args)
-    elif args.command == 'install':
-        install_command(args)
-    elif args.command == 'uninstall':
-        uninstall_command(args)
-    elif args.command == 'tree':
-        tree_command(args)
-    elif args.command == 'push':
-        push_command(args)
-    elif args.command == 'propose':
-        propose_command(args)
-    elif args.command == 'version':
-        version_command(args)
-    elif args.command == 'mcp':
-        mcp_command(args)
-    elif args.command == 'release':
-        release_command(args)
-    elif args.command == 'graph':
-        graph_command(args)
-    elif args.command == 'stats':
-        stats_command(args)
-    elif args.command == 'appraise':
-        appraise_command(args)
-    elif args.command == 'promote':
-        promote_command(args)
-    elif args.command == 'fuse':
-        fuse_command(args)
-    elif args.command == 'docs' and getattr(args, 'docs_command', None) == 'build':
-        docs_command(args)
-    elif args.command == 'lookup':
-        lookup_command(args)
+    elif args.command == 'docs':
+        if getattr(args, 'docs_command', None) == 'build':
+            docs_command(args)
+        else:
+            parser.print_help()
     elif args.command == 'dev':
         dev_cmd = getattr(args, 'dev_command', None)
-        if dev_cmd == 'list':
-            meta_list_command(args)
-        elif dev_cmd == 'merge':
-            meta_merge_command(args)
-        elif dev_cmd == 'split':
-            meta_split_command(args)
-        elif dev_cmd == 'rename':
-            meta_rename_command(args)
-        elif dev_cmd == 'calibrate':
-            meta_calibrate_command(args)
-        elif dev_cmd == 'add':
-            meta_add_command(args)
-        elif dev_cmd == 'rm':
-            meta_remove_command(args)
-        elif dev_cmd == 'link':
-            meta_link_command(args)
-        elif dev_cmd == 'reclassify':
-            meta_reclassify_command(args)
-        elif dev_cmd == 'update-named':
-            meta_update_named_command(args)
-        elif dev_cmd == 'evidence':
-            meta_evidence_command(args)
-        elif dev_cmd == 'build':
-            meta_build_command(args)
-        elif dev_cmd == 'audit':
-            meta_audit_command(args)
-        elif dev_cmd == 'diff':
-            meta_diff_command(args)
+        if dev_cmd in DEV_COMMANDS:
+            DEV_COMMANDS[dev_cmd](args)
         else:
             _, subparsers = get_parser()
             subparsers.choices['dev'].print_help()
-    elif args.command == 'validate':
-        validate_command(args)
-    elif args.command == 'test':
-        test_command(args)
     elif args.command == 'skills':
-        if not getattr(args, 'skills_command', None):
+        if getattr(args, 'skills_command', None):
+            skills_command(args)
+        else:
             skills_parser.print_help()
-            return
-        skills_command(args)
-    elif args.command == '_hook':
-        hook_command(args)
+    elif args.command in COMMANDS:
+        COMMANDS[args.command](args)
     else:
         parser.print_help()
 
