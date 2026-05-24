@@ -827,6 +827,26 @@ def meta_audit_command(args):
                     f"[P0] {skill_id}: Level {level_str} but only has Class {best_class} evidence (needs A/B)."
                 )
 
+            # Meta-Audit Stricter Evidence for 4★+ Skills & Repo-Root Prohibition
+            for e in evidence:
+                src_url = e.get("source", "")
+
+                # Ban gaia-registry/gaia seed evidence for 4★+
+                if level >= 4:
+                    if "gaia-registry/gaia" in src_url or "docs/evidence/seed" in src_url or "docs/evidence/autonomousDebug" in src_url or "docs/evidence/" in src_url:
+                        issues.append(f"[P0] {skill_id}: Level {level_str} relies on banned seed evidence ({src_url}).")
+
+                # Prohibition of Repo-Root Links for Named Claims (and general entries)
+                try:
+                    from urllib.parse import urlparse
+                    parsed = urlparse(src_url)
+                    if parsed.netloc == "github.com":
+                        path_parts = [p for p in parsed.path.split("/") if p]
+                        if len(path_parts) == 2:
+                            issues.append(f"[P1] {skill_id}: Evidence source is a generic repo root or homepage ({src_url}).")
+                except Exception:
+                    pass
+
             # Orphan check
             if (
                 not data.get("prerequisites")
