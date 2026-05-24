@@ -380,7 +380,7 @@ def test_skills_uninstall_removes_skill_via_cli(tmp_path, monkeypatch):
     assert not any(e["id"] == "testuser/test-skill" for e in manifest["installed"])
 
 
-def test_skills_uninstall_nonexistent_exits_zero_bug(tmp_path, monkeypatch):
+def test_skills_uninstall_nonexistent_exits_nonzero(tmp_path, monkeypatch):
     """BUG: gaia skills uninstall on a non-installed skill exits 0 (should exit 1).
 
     Because uninstall_skill() returns True for non-existent skills,
@@ -393,7 +393,9 @@ def test_skills_uninstall_nonexistent_exits_zero_bug(tmp_path, monkeypatch):
 
     # BUG: should raise SystemExit(1) but currently succeeds (exits 0 silently)
     # If the bug is fixed, this line will raise SystemExit, changing test behaviour.
-    run_cli(monkeypatch, ["skills", "uninstall", "nobody/not-installed"])
+    with pytest.raises(SystemExit) as excinfo:
+        run_cli(monkeypatch, ["skills", "uninstall", "nobody/not-installed"])
+    assert excinfo.value.code == 1
 
 
 def test_gaia_install_command_installs_skill(tmp_path, monkeypatch):

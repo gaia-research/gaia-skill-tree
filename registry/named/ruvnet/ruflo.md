@@ -93,3 +93,15 @@ First published by @ruvnet as part of the Ruflo orchestration platform. This is 
 This 6★ Apex unites all suite fusions: flow-nexus (4★) + agentdb (5★ Ultimate) + github-suite (4★) + hive-mind-coordination + reasoningbank (3★) + ruflo-v3 (4★) + dual-mode (3★) + all standalones.
 
 Sourced from the Ruflo platform (ruvnet/ruflo, 34k+ stars).
+
+## Installation
+
+```bash
+# Global installation
+npm install -g claude-flow
+
+# Or via npx
+npx claude-flow@latest
+```
+
+> See [docs/USERGUIDE.md](https://github.com/ruvnet/ruflo/blob/main/docs/USERGUIDE.md#quick-start) for detailed setup and usage.
