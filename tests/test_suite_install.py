@@ -39,6 +39,7 @@ REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Helpers
 # ---------------------------------------------------------------------------
 
+
 def _make_json_registry(tmp_path, entries: list[dict]) -> str:
     """Write registry/named-skills.json from a list of skill meta dicts.
 
@@ -102,7 +103,9 @@ def _make_git_mock(tmp_path, subpath_contents: dict):
             for subpath, content in subpath_contents.items():
                 skill_dir = os.path.join(dest, subpath)
                 os.makedirs(skill_dir, exist_ok=True)
-                with open(os.path.join(skill_dir, "SKILL.md"), "w", encoding="utf-8") as f:
+                with open(
+                    os.path.join(skill_dir, "SKILL.md"), "w", encoding="utf-8"
+                ) as f:
                     f.write(content)
         # pull is a no-op in tests
         return True
@@ -144,7 +147,10 @@ class TestSuiteInstallDetection:
             "gaia_cli.install._run_git",
             _make_git_mock(
                 tmp_path,
-                {"alpha": "Alpha actual skill content", "beta": "Beta actual skill content"},
+                {
+                    "alpha": "Alpha actual skill content",
+                    "beta": "Beta actual skill content",
+                },
             ),
         )
 
@@ -285,9 +291,7 @@ class TestSuiteInstallFlow:
             f"Symlink target {link_target!r} is not inside cache dir {cache_base!r}"
         )
 
-    def test_install_suite_prevents_circular_recursion(
-        self, tmp_path, monkeypatch
-    ):
+    def test_install_suite_prevents_circular_recursion(self, tmp_path, monkeypatch):
         """Suite component referencing back to the suite does not cause infinite recursion."""
         _setup_install_env(tmp_path, monkeypatch)
         # cycle-suite → component-a → cycle-suite (circular)
@@ -410,7 +414,9 @@ class TestSuiteInstallFlow:
         install_suite("testuser/my-suite", str(tmp_path))
 
         manifest = load_manifest()
-        alpha_entries = [e for e in manifest["installed"] if e["id"] == "testuser/alpha"]
+        alpha_entries = [
+            e for e in manifest["installed"] if e["id"] == "testuser/alpha"
+        ]
         assert len(alpha_entries) == 1, (
             f"Expected exactly 1 manifest entry for testuser/alpha, got {len(alpha_entries)}"
         )
@@ -494,15 +500,25 @@ class TestSuiteInstallFlow:
         install_skill("testuser/parent-suite", str(tmp_path))
 
         manifest = load_manifest()
-        shared_entries = [e for e in manifest["installed"] if e["id"] == "testuser/shared-skill"]
+        shared_entries = [
+            e for e in manifest["installed"] if e["id"] == "testuser/shared-skill"
+        ]
         assert len(shared_entries) == 1, (
             f"Expected shared-skill installed exactly once, got {len(shared_entries)} entries"
         )
 
+    # ---------------------------------------------------------------------------
+    # TestSuiteInstallBugs  (regression tests documenting known bugs)
+    # ---------------------------------------------------------------------------
 
-# ---------------------------------------------------------------------------
-# TestSuiteInstallBugs  (regression tests documenting known bugs)
-# ---------------------------------------------------------------------------
+    def test_install_suite_unknown_suite_returns_false(self, tmp_path, monkeypatch):
+        """install_suite returns False when the suite ID is not found in the registry."""
+        monkeypatch.chdir(tmp_path)
+        _make_json_registry(tmp_path, [])
+
+        result = install_suite("nobody/nonexistent", str(tmp_path))
+
+        assert result is False
 
 
 class TestSuiteInstallBugs:
@@ -543,7 +559,9 @@ class TestSuiteInstallBugs:
 
         assert result is False
         manifest = load_manifest()
-        assert len(manifest["installed"]) == 0, "No components should have been installed"
+        assert len(manifest["installed"]) == 0, (
+            "No components should have been installed"
+        )
 
     def test_install_suite_with_partial_failures_returns_true(
         self, tmp_path, monkeypatch
@@ -682,7 +700,11 @@ class TestUninstallEdgeCases:
         (skill_dir / "SKILL.md").write_text("content")
 
         save_manifest(
-            {"installed": [{"id": "testuser/my-dir-skill", "localPath": str(skill_dir)}]}
+            {
+                "installed": [
+                    {"id": "testuser/my-dir-skill", "localPath": str(skill_dir)}
+                ]
+            }
         )
 
         uninstall_skill("testuser/my-dir-skill")
@@ -703,17 +725,21 @@ class TestUninstallEdgeCases:
         (alpha_dir / "SKILL.md").write_text("alpha content")
         (beta_dir / "SKILL.md").write_text("beta content")
 
-        save_manifest({
-            "installed": [
-                {"id": "testuser/alpha", "localPath": str(alpha_dir)},
-                {"id": "testuser/beta", "localPath": str(beta_dir)},
-            ]
-        })
+        save_manifest(
+            {
+                "installed": [
+                    {"id": "testuser/alpha", "localPath": str(alpha_dir)},
+                    {"id": "testuser/beta", "localPath": str(beta_dir)},
+                ]
+            }
+        )
 
         uninstall_skill("testuser/alpha")
 
         assert not alpha_dir.exists()
-        assert beta_dir.exists(), "beta skill dir should remain after uninstalling alpha"
+        assert beta_dir.exists(), (
+            "beta skill dir should remain after uninstalling alpha"
+        )
         remaining_ids = {e["id"] for e in load_manifest()["installed"]}
         assert "testuser/beta" in remaining_ids
         assert "testuser/alpha" not in remaining_ids
@@ -732,19 +758,21 @@ class TestListAvailable:
         registry = tmp_path / "registry"
         registry.mkdir()
         (registry / "named-skills.json").write_text(
-            json.dumps({
-                "buckets": {
-                    "web-search": [
-                        {
-                            "id": "alice/search",
-                            "name": "Alice Search",
-                            "level": "2★",
-                            "description": "Fast web search.",
-                        }
-                    ]
-                },
-                "awaitingClassification": [],
-            }),
+            json.dumps(
+                {
+                    "buckets": {
+                        "web-search": [
+                            {
+                                "id": "alice/search",
+                                "name": "Alice Search",
+                                "level": "2★",
+                                "description": "Fast web search.",
+                            }
+                        ]
+                    },
+                    "awaitingClassification": [],
+                }
+            ),
             encoding="utf-8",
         )
 
@@ -758,16 +786,22 @@ class TestListAvailable:
         registry = tmp_path / "registry"
         registry.mkdir()
         (registry / "named-skills.json").write_text(
-            json.dumps({
-                "buckets": {
-                    "web-search": [
-                        {"id": "alice/search", "name": "Alice Search", "level": "2★"}
-                    ]
-                },
-                "awaitingClassification": [
-                    {"id": "bob/pending", "name": "Bob Pending", "level": "1★"}
-                ],
-            }),
+            json.dumps(
+                {
+                    "buckets": {
+                        "web-search": [
+                            {
+                                "id": "alice/search",
+                                "name": "Alice Search",
+                                "level": "2★",
+                            }
+                        ]
+                    },
+                    "awaitingClassification": [
+                        {"id": "bob/pending", "name": "Bob Pending", "level": "1★"}
+                    ],
+                }
+            ),
             encoding="utf-8",
         )
 
@@ -781,19 +815,21 @@ class TestListAvailable:
         registry = tmp_path / "registry"
         registry.mkdir()
         (registry / "named-skills.json").write_text(
-            json.dumps({
-                "buckets": {
-                    "suite-skill": [
-                        {
-                            "id": "testuser/my-suite",
-                            "name": "My Suite",
-                            "level": "5★",
-                            "suiteComponents": ["testuser/alpha", "testuser/beta"],
-                        }
-                    ]
-                },
-                "awaitingClassification": [],
-            }),
+            json.dumps(
+                {
+                    "buckets": {
+                        "suite-skill": [
+                            {
+                                "id": "testuser/my-suite",
+                                "name": "My Suite",
+                                "level": "5★",
+                                "suiteComponents": ["testuser/alpha", "testuser/beta"],
+                            }
+                        ]
+                    },
+                    "awaitingClassification": [],
+                }
+            ),
             encoding="utf-8",
         )
 
@@ -874,7 +910,8 @@ class TestRealRegistryIntegrity:
         missing_links = [
             cid
             for cid in components
-            if cid in all_entries and not all_entries[cid].get("links", {}).get("github")
+            if cid in all_entries
+            and not all_entries[cid].get("links", {}).get("github")
         ]
         assert missing_links == [], (
             f"These garrytan/gstack components lack links.github: {missing_links}"
@@ -901,7 +938,9 @@ class TestRealRegistryIntegrity:
             for bucket in real_index.get("buckets", {}).values()
             for entry in bucket
         }
-        assert "mattpocock/skills" in all_entries, "mattpocock/skills missing from index"
+        assert "mattpocock/skills" in all_entries, (
+            "mattpocock/skills missing from index"
+        )
         suite = all_entries["mattpocock/skills"]
         components = suite.get("suiteComponents", [])
         assert len(components) > 0, "mattpocock/skills has no suiteComponents"
@@ -922,7 +961,8 @@ class TestRealRegistryIntegrity:
         no_link = [
             cid
             for cid in components
-            if cid in all_entries and not all_entries[cid].get("links", {}).get("github")
+            if cid in all_entries
+            and not all_entries[cid].get("links", {}).get("github")
         ]
         assert len(no_link) > 0, (
             "Expected at least one mattpocock/skills component to lack a github link "
