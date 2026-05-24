@@ -18,6 +18,7 @@ from gaia_cli.registry import (
 from gaia_cli.scanner import load_config
 from gaia_cli.timeline import append_skill_event
 
+
 def _run_docs_build(registry_path) -> None:
     cmd = [sys.executable, "-m", "gaia_cli"]
     if registry_path:
@@ -25,9 +26,11 @@ def _run_docs_build(registry_path) -> None:
     cmd += ["docs", "build"]
     subprocess.run(cmd, check=True)
 
+
 def _get_contributor():
     config = load_config() or {}
     return config.get("gaiaUser") or config.get("username") or "unknown"
+
 
 def meta_list_command(args):
     registry_path = args.registry
@@ -48,7 +51,7 @@ def meta_list_command(args):
                     item["level"] = skill.get("level")
                 if getattr(args, "evidence", False):
                     item["evidence_count"] = len(skill.get("evidence", []))
-                
+
                 if getattr(args, "extra", None):
                     for field in args.extra:
                         if field in skill:
@@ -61,14 +64,19 @@ def meta_list_command(args):
                 named_data = json.load(f)
             for bucket_id, bucket_items in named_data.get("buckets", {}).items():
                 for skill in bucket_items:
-                    item = {"id": skill["id"], "name": skill.get("name"), "kind": "named", "genericSkillRef": bucket_id}
+                    item = {
+                        "id": skill["id"],
+                        "name": skill.get("name"),
+                        "kind": "named",
+                        "genericSkillRef": bucket_id,
+                    }
                     if getattr(args, "description", False):
                         item["description"] = skill.get("description")
                     if getattr(args, "level", False):
                         item["level"] = skill.get("level")
                     if getattr(args, "contributor", False):
                         item["contributor"] = skill.get("contributor")
-                    
+
                     if getattr(args, "extra", None):
                         for field in args.extra:
                             if field in skill:
@@ -92,30 +100,40 @@ def meta_list_command(args):
                 line += f" by {item['contributor']}"
             if "evidence_count" in item:
                 line += f" [{item['evidence_count']} evidence]"
-            
+
             if "description" in item:
                 line += f"\n    {item['description']}"
-            
+
             if getattr(args, "extra", None):
                 for field in args.extra:
-                    if field in item and field not in ("id", "name", "kind", "description"):
+                    if field in item and field not in (
+                        "id",
+                        "name",
+                        "kind",
+                        "description",
+                    ):
                         line += f"\n    {field}: {item[field]}"
             print(line)
 
+
 def _parse_md(path):
     import yaml
+
     content = path.read_text(encoding="utf-8")
     if not content.startswith("---"):
         return {}, content
     _, frontmatter, body = content.split("---", 2)
     return (yaml.safe_load(frontmatter) or {}), body
 
+
 def _write_md(path, meta, body) -> None:
     import yaml
+
     path.write_text(
         "---\n" + yaml.dump(meta, sort_keys=False, allow_unicode=True) + "---" + body,
         encoding="utf-8",
     )
+
 
 def _find_named_file(named_dir, skill_id):
     for p in named_dir.glob("**/*.md"):
@@ -123,6 +141,7 @@ def _find_named_file(named_dir, skill_id):
         if meta.get("id") == skill_id:
             return p
     return None
+
 
 def _replace_section(body: str, section_heading: str, new_content: str) -> str:
     """Replace (or append) a top-level markdown section in the body text.
@@ -142,12 +161,14 @@ def _replace_section(body: str, section_heading: str, new_content: str) -> str:
         ``new_content`` they pass in.
     """
     import re
+
     pattern = rf"(##\s+{re.escape(section_heading)}\s*\n)(.*?)(?=\n##\s|\Z)"
     replacement = rf"\g<1>{new_content}\n"
     result, n = re.subn(pattern, replacement, body, flags=re.DOTALL)
     if n == 0:
         result = body.rstrip("\n") + f"\n\n## {section_heading}\n\n{new_content}\n"
     return result
+
 
 def _update_named_skill_ref(md_path: Path, old_ref: str, new_ref: str):
     """Update genericSkillRef in a named skill markdown file."""
@@ -157,6 +178,191 @@ def _update_named_skill_ref(md_path: Path, old_ref: str, new_ref: str):
         _write_md(md_path, meta, body)
         return True
     return False
+
+
+def _merge_named_skills(registry_path, target_id, sources):
+    # Named skill merging
+    named_dir = Path(named_skills_dir(registry_path))
+    target_file = _find_named_file(named_dir, target_id)
+
+    if not target_file:
+        print(f"Error: Target named skill '{target_id}' not found.")
+        sys.exit(1)
+
+    target_meta, target_body = _parse_md(target_file)
+
+    for source_id in sources:
+        source_file = _find_named_file(named_dir, source_id)
+
+        if not source_file:
+            print(f"Warning: Source named skill '{source_id}' not found. Skipping.")
+            continue
+
+        source_meta, source_body = _parse_md(source_file)
+
+        # Merge metadata
+        if "links" in source_meta:
+            target_meta.setdefault("links", {}).update(source_meta["links"])
+        if "tags" in source_meta:
+            target_meta["tags"] = list(
+                set(target_meta.get("tags", [])) | set(source_meta["tags"])
+            )
+        if "knownAgents" in source_meta:
+            target_meta["knownAgents"] = list(
+                set(target_meta.get("knownAgents", []))
+                | set(source_meta["knownAgents"])
+            )
+
+        # Append body
+        target_body += f"\n\n--- Merged from {source_id} ---\n\n" + source_body
+
+        source_file.unlink()
+        print(f"Merged and deleted source file: {source_file}")
+
+    target_meta["updatedAt"] = datetime.date.today().isoformat()
+
+    with open(target_file, "w", encoding="utf-8") as f:
+        import yaml
+
+        f.write("---\n")
+        yaml.dump(target_meta, f, sort_keys=False, allow_unicode=True)
+        f.write("---\n")
+        f.write(target_body)
+
+    append_skill_event(
+        target_id,
+        "merge",
+        _get_contributor(),
+        f"Merged named skills {', '.join(sources)} into {target_id}",
+        registry_path=registry_path,
+    )
+
+
+def _merge_generic_skills(registry_path, target_id, sources):
+    # Generic skill merging
+    nodes_dir = Path(registry_nodes_dir(registry_path))
+    target_file = None
+    target_data = None
+
+    for p in nodes_dir.glob("**/*.json"):
+        with open(p, "r", encoding="utf-8") as f:
+            try:
+                data = json.load(f)
+                if data.get("id") == target_id:
+                    target_file = p
+                    target_data = data
+                    break
+            except json.JSONDecodeError:
+                continue
+
+    if not target_file:
+        print(f"Error: Target skill '{target_id}' not found in registry nodes.")
+        sys.exit(1)
+
+    merged_evidence = target_data.get("evidence", []) or []
+    merged_prereqs = set(target_data.get("prerequisites", []) or [])
+    merged_derivatives = set(target_data.get("derivatives", []) or [])
+    merged_agents = set(target_data.get("knownAgents", []) or [])
+
+    source_files = []
+    for source_id in sources:
+        source_file = None
+        for p in nodes_dir.glob("**/*.json"):
+            with open(p, "r", encoding="utf-8") as f:
+                try:
+                    data = json.load(f)
+                    if data.get("id") == source_id:
+                        source_file = p
+                        source_data = data
+                        break
+                except json.JSONDecodeError:
+                    continue
+
+        if not source_file:
+            print(f"Warning: Source skill '{source_id}' not found. Skipping.")
+            continue
+
+        source_files.append(source_file)
+        merged_evidence.extend(source_data.get("evidence", []) or [])
+        merged_prereqs.update(source_data.get("prerequisites", []) or [])
+        merged_derivatives.update(source_data.get("derivatives", []) or [])
+        merged_agents.update(source_data.get("knownAgents", []) or [])
+
+    to_remove = set(sources) | {target_id}
+    merged_prereqs -= to_remove
+    merged_derivatives -= to_remove
+
+    target_data["evidence"] = merged_evidence
+    target_data["prerequisites"] = sorted(list(merged_prereqs))
+    target_data["derivatives"] = sorted(list(merged_derivatives))
+    target_data["knownAgents"] = sorted(list(merged_agents))
+    target_data["updatedAt"] = datetime.date.today().isoformat()
+
+    with open(target_file, "w", encoding="utf-8") as f:
+        json.dump(target_data, f, indent=2, ensure_ascii=False)
+        f.write("\n")
+
+    for sf in source_files:
+        sf.unlink()
+        print(f"Deleted source skill file: {sf}")
+
+    for p in nodes_dir.glob("**/*.json"):
+        if p == target_file:
+            continue
+        with open(p, "r", encoding="utf-8") as f:
+            try:
+                data = json.load(f)
+            except json.JSONDecodeError:
+                continue
+
+        changed = False
+        if data.get("prerequisites"):
+            new_prereqs = [
+                target_id if pr in sources and target_id != data["id"] else pr
+                for pr in data["prerequisites"]
+                if pr not in sources or target_id != data["id"]
+            ]
+            seen = set()
+            new_prereqs = [x for x in new_prereqs if not (x in seen or seen.add(x))]
+            if new_prereqs != data["prerequisites"]:
+                data["prerequisites"] = new_prereqs
+                changed = True
+
+        if data.get("derivatives"):
+            new_derivatives = [
+                target_id if dr in sources and target_id != data["id"] else dr
+                for dr in data["derivatives"]
+                if dr not in sources or target_id != data["id"]
+            ]
+            seen = set()
+            new_derivatives = [
+                x for x in new_derivatives if not (x in seen or seen.add(x))
+            ]
+            if new_derivatives != data["derivatives"]:
+                data["derivatives"] = new_derivatives
+                changed = True
+
+        if changed:
+            with open(p, "w", encoding="utf-8") as f:
+                json.dump(data, f, indent=2, ensure_ascii=False)
+                f.write("\n")
+            print(f"Updated references in {p}")
+
+    # Update named skill references
+    named_dir = Path(named_skills_dir(registry_path))
+    for p in named_dir.glob("**/*.md"):
+        for source_id in sources:
+            if _update_named_skill_ref(p, source_id, target_id):
+                print(f"Updated genericSkillRef in {p}")
+
+    append_skill_event(
+        target_id,
+        "merge",
+        _get_contributor(),
+        f"Merged {', '.join(sources)} into {target_id}",
+        registry_path=registry_path,
+    )
+
 
 def meta_merge_command(args):
     registry_path = args.registry
@@ -168,170 +374,15 @@ def meta_merge_command(args):
         sys.exit(1)
 
     if "/" in target_id:
-        # Named skill merging
-        named_dir = Path(named_skills_dir(registry_path))
-        target_file = _find_named_file(named_dir, target_id)
-
-        if not target_file:
-            print(f"Error: Target named skill '{target_id}' not found.")
-            sys.exit(1)
-
-        target_meta, target_body = _parse_md(target_file)
-
-        for source_id in sources:
-            source_file = _find_named_file(named_dir, source_id)
-
-            if not source_file:
-                print(f"Warning: Source named skill '{source_id}' not found. Skipping.")
-                continue
-
-            source_meta, source_body = _parse_md(source_file)
-            
-            # Merge metadata
-            if "links" in source_meta:
-                target_meta.setdefault("links", {}).update(source_meta["links"])
-            if "tags" in source_meta:
-                target_meta["tags"] = list(set(target_meta.get("tags", [])) | set(source_meta["tags"]))
-            if "knownAgents" in source_meta:
-                target_meta["knownAgents"] = list(set(target_meta.get("knownAgents", [])) | set(source_meta["knownAgents"]))
-            
-            # Append body
-            target_body += f"\n\n--- Merged from {source_id} ---\n\n" + source_body
-            
-            source_file.unlink()
-            print(f"Merged and deleted source file: {source_file}")
-
-        target_meta["updatedAt"] = datetime.date.today().isoformat()
-        
-        with open(target_file, "w", encoding="utf-8") as f:
-            import yaml
-            f.write("---\n")
-            yaml.dump(target_meta, f, sort_keys=False, allow_unicode=True)
-            f.write("---\n")
-            f.write(target_body)
-
-        append_skill_event(target_id, "merge", _get_contributor(), f"Merged named skills {', '.join(sources)} into {target_id}", registry_path=registry_path)
+        _merge_named_skills(registry_path, target_id, sources)
     else:
-        # Generic skill merging
-        nodes_dir = Path(registry_nodes_dir(registry_path))
-        target_file = None
-        target_data = None
-        
-        for p in nodes_dir.glob("**/*.json"):
-            with open(p, "r", encoding="utf-8") as f:
-                try:
-                    data = json.load(f)
-                    if data.get("id") == target_id:
-                        target_file = p
-                        target_data = data
-                        break
-                except json.JSONDecodeError:
-                    continue
-        
-        if not target_file:
-            print(f"Error: Target skill '{target_id}' not found in registry nodes.")
-            sys.exit(1)
-
-        merged_evidence = target_data.get("evidence", []) or []
-        merged_prereqs = set(target_data.get("prerequisites", []) or [])
-        merged_derivatives = set(target_data.get("derivatives", []) or [])
-        merged_agents = set(target_data.get("knownAgents", []) or [])
-        
-        source_files = []
-        for source_id in sources:
-            source_file = None
-            for p in nodes_dir.glob("**/*.json"):
-                with open(p, "r", encoding="utf-8") as f:
-                    try:
-                        data = json.load(f)
-                        if data.get("id") == source_id:
-                            source_file = p
-                            source_data = data
-                            break
-                    except json.JSONDecodeError:
-                        continue
-            
-            if not source_file:
-                print(f"Warning: Source skill '{source_id}' not found. Skipping.")
-                continue
-            
-            source_files.append(source_file)
-            merged_evidence.extend(source_data.get("evidence", []) or [])
-            merged_prereqs.update(source_data.get("prerequisites", []) or [])
-            merged_derivatives.update(source_data.get("derivatives", []) or [])
-            merged_agents.update(source_data.get("knownAgents", []) or [])
-
-        to_remove = set(sources) | {target_id}
-        merged_prereqs -= to_remove
-        merged_derivatives -= to_remove
-
-        target_data["evidence"] = merged_evidence
-        target_data["prerequisites"] = sorted(list(merged_prereqs))
-        target_data["derivatives"] = sorted(list(merged_derivatives))
-        target_data["knownAgents"] = sorted(list(merged_agents))
-        target_data["updatedAt"] = datetime.date.today().isoformat()
-
-        with open(target_file, "w", encoding="utf-8") as f:
-            json.dump(target_data, f, indent=2, ensure_ascii=False)
-            f.write("\n")
-
-        for sf in source_files:
-            sf.unlink()
-            print(f"Deleted source skill file: {sf}")
-
-        for p in nodes_dir.glob("**/*.json"):
-            if p == target_file:
-                continue
-            with open(p, "r", encoding="utf-8") as f:
-                try:
-                    data = json.load(f)
-                except json.JSONDecodeError:
-                    continue
-            
-            changed = False
-            if data.get("prerequisites"):
-                new_prereqs = [
-                    target_id if pr in sources and target_id != data["id"] else pr
-                    for pr in data["prerequisites"]
-                    if pr not in sources or target_id != data["id"]
-                ]
-                seen = set()
-                new_prereqs = [x for x in new_prereqs if not (x in seen or seen.add(x))]
-                if new_prereqs != data["prerequisites"]:
-                    data["prerequisites"] = new_prereqs
-                    changed = True
-
-            if data.get("derivatives"):
-                new_derivatives = [
-                    target_id if dr in sources and target_id != data["id"] else dr
-                    for dr in data["derivatives"]
-                    if dr not in sources or target_id != data["id"]
-                ]
-                seen = set()
-                new_derivatives = [x for x in new_derivatives if not (x in seen or seen.add(x))]
-                if new_derivatives != data["derivatives"]:
-                    data["derivatives"] = new_derivatives
-                    changed = True
-                
-            if changed:
-                with open(p, "w", encoding="utf-8") as f:
-                    json.dump(data, f, indent=2, ensure_ascii=False)
-                    f.write("\n")
-                print(f"Updated references in {p}")
-
-        # Update named skill references
-        named_dir = Path(named_skills_dir(registry_path))
-        for p in named_dir.glob("**/*.md"):
-            for source_id in sources:
-                if _update_named_skill_ref(p, source_id, target_id):
-                    print(f"Updated genericSkillRef in {p}")
-
-        append_skill_event(target_id, "merge", _get_contributor(), f"Merged {', '.join(sources)} into {target_id}", registry_path=registry_path)
+        _merge_generic_skills(registry_path, target_id, sources)
 
     print("Regenerating registry and documentation...")
     _run_docs_build(args.registry)
 
     print(f"Successfully merged skills into '{target_id}'.")
+
 
 def meta_rename_command(args):
     registry_path = args.registry
@@ -341,7 +392,7 @@ def meta_rename_command(args):
     nodes_dir = Path(registry_nodes_dir(registry_path))
     old_file = None
     skill_data = None
-    
+
     for p in nodes_dir.glob("**/*.json"):
         with open(p, "r", encoding="utf-8") as f:
             try:
@@ -352,7 +403,7 @@ def meta_rename_command(args):
                     break
             except json.JSONDecodeError:
                 continue
-    
+
     if not old_file:
         print(f"Error: Skill '{old_id}' not found.")
         sys.exit(1)
@@ -360,7 +411,9 @@ def meta_rename_command(args):
     # Rename the file and update ID
     new_file = old_file.parent / f"{new_id}.json"
     if new_file.exists():
-        print(f"Error: '{new_id}' already exists on disk at {new_file}. Rename aborted.")
+        print(
+            f"Error: '{new_id}' already exists on disk at {new_file}. Rename aborted."
+        )
         sys.exit(1)
     for p in nodes_dir.glob("**/*.json"):
         try:
@@ -377,7 +430,7 @@ def meta_rename_command(args):
     with open(new_file, "w", encoding="utf-8") as f:
         json.dump(skill_data, f, indent=2, ensure_ascii=False)
         f.write("\n")
-    
+
     old_file.unlink()
     print(f"Renamed {old_file} to {new_file}")
 
@@ -390,18 +443,22 @@ def meta_rename_command(args):
                 data = json.load(f)
             except json.JSONDecodeError:
                 continue
-        
+
         changed = False
         if "prerequisites" in data:
             if old_id in data["prerequisites"]:
-                data["prerequisites"] = [new_id if pr == old_id else pr for pr in data["prerequisites"]]
+                data["prerequisites"] = [
+                    new_id if pr == old_id else pr for pr in data["prerequisites"]
+                ]
                 changed = True
-        
+
         if "derivatives" in data:
             if old_id in data["derivatives"]:
-                data["derivatives"] = [new_id if dr == old_id else dr for dr in data["derivatives"]]
+                data["derivatives"] = [
+                    new_id if dr == old_id else dr for dr in data["derivatives"]
+                ]
                 changed = True
-        
+
         if changed:
             with open(p, "w", encoding="utf-8") as f:
                 json.dump(data, f, indent=2, ensure_ascii=False)
@@ -414,17 +471,24 @@ def meta_rename_command(args):
         if _update_named_skill_ref(p, old_id, new_id):
             print(f"Updated genericSkillRef in {p}")
 
-    append_skill_event(new_id, "rename", _get_contributor(), f"Renamed from {old_id} to {new_id}", registry_path=registry_path)
-    
+    append_skill_event(
+        new_id,
+        "rename",
+        _get_contributor(),
+        f"Renamed from {old_id} to {new_id}",
+        registry_path=registry_path,
+    )
+
     print("Regenerating registry and documentation...")
     _run_docs_build(args.registry)
     print(f"Successfully renamed '{old_id}' to '{new_id}'.")
+
 
 def meta_calibrate_command(args):
     registry_path = args.registry
     skill_id = args.skill_id.lstrip("/")
     level = args.level
-    
+
     # Validation
     ALLOWED_LEVELS = ["0★", "1★", "2★", "3★", "4★", "5★", "6★"]
     if level not in ALLOWED_LEVELS:
@@ -434,7 +498,7 @@ def meta_calibrate_command(args):
     nodes_dir = Path(registry_nodes_dir(registry_path))
     node_file = None
     skill_data = None
-    
+
     for p in nodes_dir.glob("**/*.json"):
         with open(p, "r", encoding="utf-8") as f:
             try:
@@ -445,7 +509,7 @@ def meta_calibrate_command(args):
                     break
             except json.JSONDecodeError:
                 continue
-    
+
     if not node_file:
         print(f"Error: Skill '{skill_id}' not found.")
         sys.exit(1)
@@ -460,11 +524,19 @@ def meta_calibrate_command(args):
 
     ALLOWED_LEVELS = ["0★", "1★", "2★", "3★", "4★", "5★", "6★"]
     level_num = ALLOWED_LEVELS.index(level)
-    old_level_num = ALLOWED_LEVELS.index(old_level) if old_level in ALLOWED_LEVELS else 0
+    old_level_num = (
+        ALLOWED_LEVELS.index(old_level) if old_level in ALLOWED_LEVELS else 0
+    )
     action = "rank_up" if level_num > old_level_num else "demote"
 
-    append_skill_event(skill_id, action, _get_contributor(), f"Calibrated level from {old_level} to {level}", registry_path=registry_path)
-    
+    append_skill_event(
+        skill_id,
+        action,
+        _get_contributor(),
+        f"Calibrated level from {old_level} to {level}",
+        registry_path=registry_path,
+    )
+
     if not getattr(args, "no_build", False):
         print("Regenerating registry and documentation...")
         _run_docs_build(args.registry)
@@ -472,21 +544,22 @@ def meta_calibrate_command(args):
         print("Skipping documentation rebuild as requested (--no-build).")
     print(f"Successfully calibrated '{skill_id}' to {level}.")
 
+
 def meta_audit_command(args):
     """Registry linter for maintenance issues."""
     registry_path = args.registry
     nodes_dir = Path(registry_nodes_dir(registry_path))
     threshold = getattr(args, "level", 0)
-    
+
     issues = []
-    
+
     for p in nodes_dir.glob("**/*.json"):
         with open(p, "r", encoding="utf-8") as f:
             try:
                 data = json.load(f)
             except json.JSONDecodeError:
                 continue
-            
+
             skill_id = data.get("id")
             level_str = data.get("level") or "0★"
             try:
@@ -494,7 +567,7 @@ def meta_audit_command(args):
             except (ValueError, IndexError):
                 issues.append(f"[P0] {skill_id}: Malformed level {level_str!r}")
                 continue
-            
+
             if threshold and level < threshold:
                 continue
 
@@ -502,26 +575,41 @@ def meta_audit_command(args):
             best_class = "D"
             if evidence:
                 classes = [e.get("class", "C") for e in evidence]
-                if "A" in classes: best_class = "A"
-                elif "B" in classes: best_class = "B"
-                elif "C" in classes: best_class = "C"
-            
+                if "A" in classes:
+                    best_class = "A"
+                elif "B" in classes:
+                    best_class = "B"
+                elif "C" in classes:
+                    best_class = "C"
+
             # Evidence Floor Checks (from GEMINI.md)
             # 2★ needs Tier C
             if level >= 2 and not evidence:
-                issues.append(f"[P1] {skill_id}: Level {level_str} but has NO evidence.")
-            
+                issues.append(
+                    f"[P1] {skill_id}: Level {level_str} but has NO evidence."
+                )
+
             # 3★ needs Tier B
             if level == 3 and best_class == "C":
-                issues.append(f"[P1] {skill_id}: Level {level_str} but only has Class C evidence (needs B).")
-            
+                issues.append(
+                    f"[P1] {skill_id}: Level {level_str} but only has Class C evidence (needs B)."
+                )
+
             # 4★+ needs Tier B/A
             if level >= 4 and best_class not in ["A", "B"]:
-                issues.append(f"[P0] {skill_id}: Level {level_str} but only has Class {best_class} evidence (needs A/B).")
+                issues.append(
+                    f"[P0] {skill_id}: Level {level_str} but only has Class {best_class} evidence (needs A/B)."
+                )
 
             # Orphan check
-            if not data.get("prerequisites") and data.get("type") != "basic" and data.get("type") != "unique":
-                issues.append(f"[P2] {skill_id}: Orphaned {data.get('type')} skill (no prerequisites).")
+            if (
+                not data.get("prerequisites")
+                and data.get("type") != "basic"
+                and data.get("type") != "unique"
+            ):
+                issues.append(
+                    f"[P2] {skill_id}: Orphaned {data.get('type')} skill (no prerequisites)."
+                )
 
             # Missing description
             if not data.get("description") or len(data.get("description")) < 10:
@@ -534,6 +622,7 @@ def meta_audit_command(args):
         for issue in sorted(issues):
             print(f"  {issue}")
 
+
 def meta_split_command(args):
     registry_path = args.registry
     source_id = args.source.lstrip("/")
@@ -542,7 +631,7 @@ def meta_split_command(args):
     nodes_dir = Path(registry_nodes_dir(registry_path))
     source_file = None
     source_data = None
-    
+
     for p in nodes_dir.glob("**/*.json"):
         with open(p, "r", encoding="utf-8") as f:
             try:
@@ -553,7 +642,7 @@ def meta_split_command(args):
                     break
             except json.JSONDecodeError:
                 continue
-    
+
     if not source_file:
         print(f"Error: Source skill '{source_id}' not found.")
         sys.exit(1)
@@ -568,7 +657,9 @@ def meta_split_command(args):
                 with open(p, "r", encoding="utf-8") as f:
                     d = json.load(f)
                 if d.get("id") == target_id:
-                    print(f"Error: split target '{target_id}' already exists in registry.")
+                    print(
+                        f"Error: split target '{target_id}' already exists in registry."
+                    )
                     sys.exit(1)
             except Exception:
                 continue
@@ -592,7 +683,7 @@ def meta_split_command(args):
                 data = json.load(f)
             except json.JSONDecodeError:
                 continue
-        
+
         changed = False
         if "prerequisites" in data:
             new_prereqs = []
@@ -604,18 +695,21 @@ def meta_split_command(args):
                 else:
                     new_prereqs.append(pr)
             data["prerequisites"] = new_prereqs
-            
+
         if "derivatives" in data:
             new_derivatives = []
             for dr in data["derivatives"]:
                 if dr == source_id:
-                    if first_target not in new_derivatives and first_target != data["id"]:
+                    if (
+                        first_target not in new_derivatives
+                        and first_target != data["id"]
+                    ):
                         new_derivatives.append(first_target)
                         changed = True
                 else:
                     new_derivatives.append(dr)
             data["derivatives"] = new_derivatives
-            
+
         if changed:
             with open(p, "w", encoding="utf-8") as f:
                 json.dump(data, f, indent=2, ensure_ascii=False)
@@ -630,16 +724,23 @@ def meta_split_command(args):
 
     source_file.unlink()
     print(f"Deleted source skill file: {source_file}")
-    append_skill_event(first_target, "split", _get_contributor(), f"Split {source_id} into {', '.join(targets)}", registry_path=registry_path)
+    append_skill_event(
+        first_target,
+        "split",
+        _get_contributor(),
+        f"Split {source_id} into {', '.join(targets)}",
+        registry_path=registry_path,
+    )
 
     print("Regenerating registry and documentation...")
     _run_docs_build(args.registry)
+
 
 def meta_add_command(args):
     registry_path = args.registry
     skill_name = args.name
     skill_id = args.id or skill_name.lower().replace(" ", "-")
-    
+
     if getattr(args, "named", False):
         contributor = getattr(args, "contributor", "gaiabot")
         dest_dir = Path(named_skills_dir(registry_path)) / contributor
@@ -648,7 +749,9 @@ def meta_add_command(args):
 
         desc = (getattr(args, "description", None) or "").strip()
         if len(desc) < 10:
-            print("Error: --description must be at least 10 characters (schema requirement).")
+            print(
+                "Error: --description must be at least 10 characters (schema requirement)."
+            )
             sys.exit(1)
 
         meta = {
@@ -666,7 +769,13 @@ def meta_add_command(args):
         body = "\n\n## Installation\nAdd installation instructions here.\n"
         _write_md(dest_file, meta, body)
         print(f"Created named skill: {dest_file}")
-        append_skill_event(f"{contributor}/{skill_id}", "add", _get_contributor(), f"Added named skill {contributor}/{skill_id}", registry_path=registry_path)
+        append_skill_event(
+            f"{contributor}/{skill_id}",
+            "add",
+            _get_contributor(),
+            f"Added named skill {contributor}/{skill_id}",
+            registry_path=registry_path,
+        )
     else:
         skill_type = getattr(args, "type", "basic")
         dest_dir = Path(registry_nodes_dir(registry_path)) / skill_type
@@ -675,7 +784,9 @@ def meta_add_command(args):
 
         desc = (getattr(args, "description", None) or "").strip()
         if len(desc) < 10:
-            print("Error: --description must be at least 10 characters (schema requirement).")
+            print(
+                "Error: --description must be at least 10 characters (schema requirement)."
+            )
             sys.exit(1)
 
         data = {
@@ -692,9 +803,9 @@ def meta_add_command(args):
             "status": "provisional",
             "createdAt": datetime.date.today().isoformat(),
             "updatedAt": datetime.date.today().isoformat(),
-            "version": "0.1.0"
+            "version": "0.1.0",
         }
-        
+
         # Add any extra fields passed
         if getattr(args, "extra_fields", None):
             try:
@@ -710,7 +821,13 @@ def meta_add_command(args):
             json.dump(data, f, indent=2, ensure_ascii=False)
             f.write("\n")
         print(f"Created generic skill: {dest_file}")
-        append_skill_event(skill_id, "add", _get_contributor(), f"Added generic skill {skill_id}", registry_path=registry_path)
+        append_skill_event(
+            skill_id,
+            "add",
+            _get_contributor(),
+            f"Added generic skill {skill_id}",
+            registry_path=registry_path,
+        )
 
     if not getattr(args, "no_build", False):
         print("Regenerating registry and documentation...")
@@ -718,10 +835,11 @@ def meta_add_command(args):
     else:
         print("Skipping documentation rebuild as requested (--no-build).")
 
+
 def meta_evidence_command(args):
     registry_path = args.registry
     skill_id = args.skill_id.lstrip("/")
-    
+
     nodes_dir = Path(registry_nodes_dir(registry_path))
     node_file = None
     for p in nodes_dir.glob("**/*.json"):
@@ -733,7 +851,7 @@ def meta_evidence_command(args):
                     break
             except json.JSONDecodeError:
                 continue
-    
+
     if not node_file:
         print(f"Error: Skill '{skill_id}' not found.")
         sys.exit(1)
@@ -752,16 +870,22 @@ def meta_evidence_command(args):
 
     if "evidence" not in data:
         data["evidence"] = []
-    
+
     data["evidence"].append(evidence)
     data["updatedAt"] = datetime.date.today().isoformat()
 
     with open(node_file, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
         f.write("\n")
-    
+
     print(f"Added evidence to skill: {skill_id}")
-    append_skill_event(skill_id, "evidence_added", _get_contributor(), f"Added {evidence['class']} evidence from {evidence['source']}", registry_path=registry_path)
+    append_skill_event(
+        skill_id,
+        "evidence_added",
+        _get_contributor(),
+        f"Added {evidence['class']} evidence from {evidence['source']}",
+        registry_path=registry_path,
+    )
 
     if not getattr(args, "no_build", False):
         print("Regenerating registry and documentation...")
@@ -769,11 +893,13 @@ def meta_evidence_command(args):
     else:
         print("Skipping documentation rebuild as requested (--no-build).")
 
+
 def meta_build_command(args):
     """Explicitly rebuild registry artifacts and documentation."""
     print("Regenerating registry and documentation...")
     _run_docs_build(args.registry)
     print("Build complete.")
+
 
 def meta_remove_command(args):
     registry_path = args.registry
@@ -781,7 +907,7 @@ def meta_remove_command(args):
 
     nodes_dir = Path(registry_nodes_dir(registry_path))
     node_file = None
-    
+
     for p in nodes_dir.glob("**/*.json"):
         with open(p, "r", encoding="utf-8") as f:
             try:
@@ -791,7 +917,7 @@ def meta_remove_command(args):
                     break
             except json.JSONDecodeError:
                 continue
-    
+
     if not node_file:
         print(f"Error: Generic skill '{skill_id}' not found.")
         sys.exit(1)
@@ -806,7 +932,7 @@ def meta_remove_command(args):
                 data = json.load(f)
             except json.JSONDecodeError:
                 continue
-        
+
         changed = False
         if "prerequisites" in data and skill_id in data["prerequisites"]:
             data["prerequisites"].remove(skill_id)
@@ -814,7 +940,7 @@ def meta_remove_command(args):
         if "derivatives" in data and skill_id in data["derivatives"]:
             data["derivatives"].remove(skill_id)
             changed = True
-            
+
         if changed:
             with open(p, "w", encoding="utf-8") as f:
                 json.dump(data, f, indent=2, ensure_ascii=False)
@@ -827,6 +953,7 @@ def meta_remove_command(args):
     else:
         print("Skipping documentation rebuild as requested (--no-build).")
 
+
 def meta_link_command(args):
     registry_path = args.registry
     target_id = args.target.lstrip("/")
@@ -834,7 +961,7 @@ def meta_link_command(args):
 
     nodes_dir = Path(registry_nodes_dir(registry_path))
     target_file = None
-    
+
     for p in nodes_dir.glob("**/*.json"):
         with open(p, "r", encoding="utf-8") as f:
             try:
@@ -845,7 +972,7 @@ def meta_link_command(args):
                     break
             except json.JSONDecodeError:
                 continue
-    
+
     if not target_file:
         print(f"Error: Target skill '{target_id}' not found.")
         sys.exit(1)
@@ -872,6 +999,7 @@ def meta_link_command(args):
     else:
         print("Skipping documentation rebuild as requested (--no-build).")
 
+
 def meta_reclassify_command(args):
     registry_path = args.registry
     skill_id = args.skill_id.lstrip("/")
@@ -880,7 +1008,7 @@ def meta_reclassify_command(args):
     nodes_dir = Path(registry_nodes_dir(registry_path))
     node_file = None
     skill_data = None
-    
+
     for p in nodes_dir.glob("**/*.json"):
         with open(p, "r", encoding="utf-8") as f:
             try:
@@ -891,7 +1019,7 @@ def meta_reclassify_command(args):
                     break
             except json.JSONDecodeError:
                 continue
-    
+
     if not node_file:
         print(f"Error: Skill '{skill_id}' not found.")
         sys.exit(1)
@@ -912,11 +1040,19 @@ def meta_reclassify_command(args):
     with open(new_file, "w", encoding="utf-8") as f:
         json.dump(skill_data, f, indent=2, ensure_ascii=False)
         f.write("\n")
-    
-    node_file.unlink()
-    print(f"Reclassified '{skill_id}' from {old_type} to {new_type} and moved to {new_file}")
 
-    append_skill_event(skill_id, "type_change", _get_contributor(), f"Reclassified from {old_type} to {new_type}", registry_path=registry_path)
+    node_file.unlink()
+    print(
+        f"Reclassified '{skill_id}' from {old_type} to {new_type} and moved to {new_file}"
+    )
+
+    append_skill_event(
+        skill_id,
+        "type_change",
+        _get_contributor(),
+        f"Reclassified from {old_type} to {new_type}",
+        registry_path=registry_path,
+    )
 
     if not getattr(args, "no_build", False):
         print("Regenerating registry and documentation...")
@@ -924,28 +1060,29 @@ def meta_reclassify_command(args):
     else:
         print("Skipping documentation rebuild as requested (--no-build).")
 
+
 def meta_update_named_command(args):
     registry_path = args.registry
     skill_id = args.skill_id.lstrip("/")
-    
+
     named_dir = Path(named_skills_dir(registry_path))
     target_file = _find_named_file(named_dir, skill_id)
-    
+
     if not target_file:
         print(f"Error: Named skill '{skill_id}' not found.")
         sys.exit(1)
-        
+
     meta, body = _parse_md(target_file)
     changed = False
-    
+
     if getattr(args, "status", None):
         meta["status"] = args.status
         changed = True
-        
+
     if getattr(args, "generic_ref", None):
         meta["genericSkillRef"] = args.generic_ref
         changed = True
-        
+
     if getattr(args, "suite_components", None):
         meta["suiteComponents"] = [s.strip() for s in args.suite_components.split(",")]
         changed = True
@@ -972,13 +1109,22 @@ def meta_update_named_command(args):
         registry_path = args.registry
         contributor = _get_contributor()
         if getattr(args, "suite_ref", None):
-            append_skill_event(skill_id, "suite_ref_set", contributor,
-                               f"Set suiteRef to {args.suite_ref}", registry_path=registry_path)
+            append_skill_event(
+                skill_id,
+                "suite_ref_set",
+                contributor,
+                f"Set suiteRef to {args.suite_ref}",
+                registry_path=registry_path,
+            )
         if getattr(args, "installation_file", None):
-            append_skill_event(skill_id, "installation_updated", contributor,
-                               f"Replaced ## Installation section from {args.installation_file}",
-                               registry_path=registry_path)
-        
+            append_skill_event(
+                skill_id,
+                "installation_updated",
+                contributor,
+                f"Replaced ## Installation section from {args.installation_file}",
+                registry_path=registry_path,
+            )
+
         if not getattr(args, "no_build", False):
             print("Regenerating registry and documentation...")
             _run_docs_build(args.registry)
@@ -1058,11 +1204,14 @@ def meta_diff_command(args):
     base = getattr(args, "base", "origin/main")
 
     if ref:
-        compare_ref = ref if ref.startswith(("origin/", "HEAD", "refs/")) else f"origin/{ref}"
+        compare_ref = (
+            ref if ref.startswith(("origin/", "HEAD", "refs/")) else f"origin/{ref}"
+        )
     else:
         r = subprocess.run(
             ["git", "rev-parse", "--abbrev-ref", "HEAD"],
-            capture_output=True, text=True,
+            capture_output=True,
+            text=True,
         )
         current = r.stdout.strip()
         if not current or current in ("HEAD", "main"):
@@ -1075,7 +1224,8 @@ def meta_diff_command(args):
     def _git_json(git_ref, path):
         r = subprocess.run(
             ["git", "show", f"{git_ref}:{path}"],
-            capture_output=True, text=True,
+            capture_output=True,
+            text=True,
         )
         if r.returncode != 0:
             return None
@@ -1087,14 +1237,16 @@ def meta_diff_command(args):
     def _git_text(git_ref, path):
         r = subprocess.run(
             ["git", "show", f"{git_ref}:{path}"],
-            capture_output=True, text=True,
+            capture_output=True,
+            text=True,
         )
         return r.stdout if r.returncode == 0 else ""
 
     # Gather changed files, separate generated noise from substantive paths
     r = subprocess.run(
         ["git", "diff", "--name-status", f"{base}...{compare_ref}"],
-        capture_output=True, text=True,
+        capture_output=True,
+        text=True,
     )
     if r.returncode != 0:
         print(f"Error running git diff: {r.stderr.strip()}")
@@ -1114,7 +1266,10 @@ def meta_diff_command(args):
 
     # Diff registry/gaia.json as structured JSON (most reliable approach)
     base_graph = _git_json(base, "registry/gaia.json") or {"skills": [], "edges": []}
-    branch_graph = _git_json(compare_ref, "registry/gaia.json") or {"skills": [], "edges": []}
+    branch_graph = _git_json(compare_ref, "registry/gaia.json") or {
+        "skills": [],
+        "edges": [],
+    }
 
     base_ids = {s["id"] for s in base_graph.get("skills", [])}
     branch_ids = {s["id"] for s in branch_graph.get("skills", [])}
@@ -1139,20 +1294,18 @@ def meta_diff_command(args):
 
     # Categorise substantive paths
     new_named = sorted(
-        (s, p) for s, p in substantive
-        if s == "A" and p.startswith("registry/named/")
+        (s, p) for s, p in substantive if s == "A" and p.startswith("registry/named/")
     )
     mod_named = sorted(
-        (s, p) for s, p in substantive
-        if s == "M" and p.startswith("registry/named/")
+        (s, p) for s, p in substantive if s == "M" and p.startswith("registry/named/")
     )
     new_node_files = sorted(
-        (s, p) for s, p in substantive
-        if s == "A" and p.startswith("registry/nodes/")
+        (s, p) for s, p in substantive if s == "A" and p.startswith("registry/nodes/")
     )
     version_paths = [(s, p) for s, p in substantive if p in _VERSION_FILES]
     other = [
-        (s, p) for s, p in substantive
+        (s, p)
+        for s, p in substantive
         if not p.startswith("registry/named/")
         and not p.startswith("registry/nodes/")
         and p not in _VERSION_FILES
@@ -1173,9 +1326,13 @@ def meta_diff_command(args):
                 desc = desc[:62] + "..."
             prereqs = s.get("prerequisites", [])
             evidence = s.get("evidence", [])
-            ev_str = f"{len(evidence)}× ({', '.join(e['class'] for e in evidence)})" if evidence else "none"
+            ev_str = (
+                f"{len(evidence)}× ({', '.join(e['class'] for e in evidence)})"
+                if evidence
+                else "none"
+            )
             print(f"  + {s['id']}  [{stype} · {level} · {status}]")
-            print(f"    \"{desc}\"")
+            print(f'    "{desc}"')
             if prereqs:
                 print(f"    Prerequisites: {', '.join(prereqs)}")
             print(f"    Evidence: {ev_str}")
@@ -1183,7 +1340,9 @@ def meta_diff_command(args):
 
     # ── Removed generic skills (danger) ──────────────────────────────
     if removed_skill_ids:
-        print(f"  ── ⛔  REMOVED SKILLS ({len(removed_skill_ids)}) {'─' * max(0, W - 24)}")
+        print(
+            f"  ── ⛔  REMOVED SKILLS ({len(removed_skill_ids)}) {'─' * max(0, W - 24)}"
+        )
         for sid in sorted(removed_skill_ids):
             print(f"  - {sid}")
         print()
@@ -1194,7 +1353,9 @@ def meta_diff_command(args):
         for _, path in new_named:
             content = _git_text(compare_ref, path)
             meta = _parse_named_frontmatter(content)
-            skill_id = meta.get("id", path.replace("registry/named/", "").replace(".md", ""))
+            skill_id = meta.get(
+                "id", path.replace("registry/named/", "").replace(".md", "")
+            )
             generic = meta.get("genericSkillRef", "—")
             level = meta.get("level", "?")
             print(f"  + {skill_id}  → {generic}  [{level}]")
@@ -1241,7 +1402,9 @@ def meta_diff_command(args):
     for _, path in new_named:
         content = _git_text(compare_ref, path)
         meta = _parse_named_frontmatter(content)
-        skill_id = meta.get("id", path.replace("registry/named/", "").replace(".md", ""))
+        skill_id = meta.get(
+            "id", path.replace("registry/named/", "").replace(".md", "")
+        )
         if "Add installation instructions here" in content:
             flags.append(("⚠", f"{skill_id} — empty ## Installation body"))
         if not meta.get("genericSkillRef"):
@@ -1254,7 +1417,12 @@ def meta_diff_command(args):
         elif all(e["class"] == "C" for e in ev):
             flags.append(("⚠", f"{s['id']} — only Class C evidence"))
         if s.get("rarity"):
-            flags.append(("·", f"{s['id']} — rarity field present (deprecated auto-default, harmless)"))
+            flags.append(
+                (
+                    "·",
+                    f"{s['id']} — rarity field present (deprecated auto-default, harmless)",
+                )
+            )
 
     if flags:
         print(f"  ── QUALITY FLAGS {'─' * max(0, W - 18)}")
@@ -1263,8 +1431,16 @@ def meta_diff_command(args):
         print()
 
     # ── Summary ───────────────────────────────────────────────────────
-    if not new_skills and not removed_skill_ids and not new_named and not new_edges and not other:
-        print("  No substantive changes — branch is all generated noise or already merged.")
+    if (
+        not new_skills
+        and not removed_skill_ids
+        and not new_named
+        and not new_edges
+        and not other
+    ):
+        print(
+            "  No substantive changes — branch is all generated noise or already merged."
+        )
 
     print(f"  Skipped {skipped} generated files (SVG, HTML, GEXF, timestamps).")
     print()
