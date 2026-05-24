@@ -16,9 +16,9 @@ from gaia_cli.treeManager import load_tree, save_tree, show_status, show_tree
 from gaia_cli.prWriter import open_pr, open_intake_pr
 from gaia_cli.push import build_skill_batch, write_skill_batch, build_proposed_skill, detect_source_repo
 from gaia_cli.embeddings import generate_embeddings
-from gaia_cli.semantic_search import search as semantic_search, load_embeddings
-from gaia_cli.name import find_awakened_skill, promote_to_named, update_batch_lifecycle
-from gaia_cli.install import install_skill, install_suite, update_skills, uninstall_skill, list_installed, interactive_install, list_available
+from gaia_cli.semantic_search import search as semantic_search
+from gaia_cli.name import promote_to_named, update_batch_lifecycle
+from gaia_cli.install import install_skill, install_suite, update_skills, uninstall_skill, interactive_install, list_available
 from gaia_cli.graph import graph_command
 from gaia_cli.commands.stats import stats_command
 from gaia_cli.commands.dev import (
@@ -40,9 +40,7 @@ from gaia_cli.commands.dev import (
 from gaia_cli.registry import (
     generated_output_dir,
     embeddings_path,
-    named_skills_dir,
     named_skills_index_path,
-    promotion_candidates_path,
     registry_graph_path,
     skill_batches_dir,
     user_tree_path,
@@ -52,34 +50,27 @@ from gaia_cli.registry import (
 )
 from gaia_cli.pathEngine import compute_paths, load_paths, save_paths, diff_paths
 from gaia_cli.cardRenderer import (
-    render_card,
     render_appraise_card,
     render_unlock_card,
     render_path_summary,
     render_promotion_prompt,
-    load_and_render,
 )
 from gaia_cli.promotion import (
     check_promotion_eligibility,
     detect_unique_candidates,
     load_promotion_candidates,
     promote_from_candidates,
-    promote_skill,
     promotable_candidates,
     promotion_state,
     write_promotion_candidates,
-    next_level,
     LEVEL_NAMES,
 )
 from gaia_cli.hook import hook_entry
 from gaia_cli.formatting import (
     format_skill_plain,
     format_skill_colored,
-    format_type_label,
     format_type_colored,
     format_level_colored,
-    fusion_equation,
-    TIER_COLORS,
     RANK_COLORS,
     TYPE_SYMBOLS,
     COLOR_CONTRIBUTOR,
@@ -87,7 +78,6 @@ from gaia_cli.formatting import (
     _fg,
     _reset,
     _bold,
-    _use_color,
 )
 from gaia_cli.localContext import LocalContext
 from gaia_cli.cardRenderer import render_fusion_diagram
@@ -1109,7 +1099,6 @@ def name_command(args):
     print(f"Batch lifecycle updated: '{skill_data['id']}' -> named")
 
 def install_command(args):
-    from gaia_cli.install import interactive_install, install_skill, install_suite, update_skills
     if args.list:
         interactive_install(args.registry)
         return
@@ -1129,7 +1118,6 @@ def install_command(args):
 
 
 def uninstall_command(args):
-    from gaia_cli.install import uninstall_skill
     success = uninstall_skill(args.skill_id)
     if not success:
         sys.exit(1)
@@ -1167,7 +1155,6 @@ def _pending_skills(registry_path: str, username: str | None = None) -> list[dic
 
 
 def skills_command(args):
-    from gaia_cli.install import list_available, install_skill, install_suite, uninstall_skill, update_skills
     config = load_config() or {}
     username = config.get("gaiaUser") or config.get("username")
     pending = [] if getattr(args, "exclude_pending", False) else _pending_skills(args.registry, username)
