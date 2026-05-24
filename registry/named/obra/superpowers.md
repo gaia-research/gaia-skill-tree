@@ -39,3 +39,126 @@ Superpowers by @obra is the fusion of all 11 obra discipline skills into a unifi
 ## Origin
 
 First published by @obra as the obra/superpowers skill library. This is the origin implementation for the `superpowers` ultimate skill. The repository has accumulated 196k+ GitHub stars and 17.5k forks across multi-platform adoption (Claude Code, Codex CLI, Factory Droid, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI), confirming it as the most widely adopted AI agent discipline framework.
+
+## Installation
+
+Installation differs by harness. If you use more than one, install Superpowers separately for each one.
+
+### Claude Code
+
+Superpowers is available via the [official Claude plugin marketplace](https://claude.com/plugins/superpowers)
+
+#### Official Marketplace
+
+- Install the plugin from Anthropic's official marketplace:
+
+  ```bash
+  /plugin install superpowers@claude-plugins-official
+  ```
+
+#### Superpowers Marketplace
+
+The Superpowers marketplace provides Superpowers and some other related plugins for Claude Code.
+
+- Register the marketplace:
+
+  ```bash
+  /plugin marketplace add obra/superpowers-marketplace
+  ```
+
+- Install the plugin from this marketplace:
+
+  ```bash
+  /plugin install superpowers@superpowers-marketplace
+  ```
+
+### Codex CLI
+
+Superpowers is available via the [official Codex plugin marketplace](https://github.com/openai/plugins).
+
+- Open the plugin search interface:
+
+  ```bash
+  /plugins
+  ```
+
+- Search for Superpowers:
+
+  ```bash
+  superpowers
+  ```
+
+- Select `Install Plugin`.
+
+### Codex App
+
+Superpowers is available via the [official Codex plugin marketplace](https://github.com/openai/plugins).
+
+- In the Codex app, click on Plugins in the sidebar.
+- You should see `Superpowers` in the Coding section.
+- Click the `+` next to Superpowers and follow the prompts.
+
+### Factory Droid
+
+- Register the marketplace:
+
+  ```bash
+  droid plugin marketplace add https://github.com/obra/superpowers
+  ```
+
+- Install the plugin:
+
+  ```bash
+  droid plugin install superpowers@superpowers
+  ```
+
+### Gemini CLI
+
+- Install the extension:
+
+  ```bash
+  gemini extensions install https://github.com/obra/superpowers
+  ```
+
+- Update later:
+
+  ```bash
+  gemini extensions update superpowers
+  ```
+
+### OpenCode
+
+OpenCode uses its own plugin install; install Superpowers separately even if you
+already use it in another harness.
+
+- Tell OpenCode:
+
+  ```
+  Fetch and follow instructions from https://raw.githubusercontent.com/obra/superpowers/refs/heads/main/.opencode/INSTALL.md
+  ```
+
+- Detailed docs: [docs/README.opencode.md](docs/README.opencode.md)
+
+### Cursor
+
+- In Cursor Agent chat, install from marketplace:
+
+  ```text
+  /add-plugin superpowers
+  ```
+
+- Or search for "superpowers" in the plugin marketplace.
+
+### GitHub Copilot CLI
+
+- Register the marketplace:
+
+  ```bash
+  copilot plugin marketplace add obra/superpowers-marketplace
+  ```
+
+- Install the plugin:
+
+  ```bash
+  copilot plugin install superpowers@superpowers-marketplace
+  ```
