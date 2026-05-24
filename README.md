@@ -348,17 +348,25 @@ Thank you to everyone who has expanded the Gaia registry.
 | [@mbtiongson1](https://github.com/mbtiongson1) | Creator and maintainer: graph design, CLI, MCP server, curation pipeline |
 | [@rico-tiongson](https://github.com/rico-tiongson) | Coding cowork buddy and collaborator: early feature contributions and ongoing pair programming |
 | [@Juno](https://github.com/Juno) | Key contributor: graph browser expansion, function-calling skill, RAG pipeline evidence, and CLI DX improvements |
+| [@garrytan](https://github.com/garrytan) | Named skills: 47 skills across the gstack ecosystem — browse, benchmark, qa, ship, review, learn, canary, and 40 others |
+| [@google-deepmind](https://github.com/google-deepmind) | Named skills: 37 bioinformatics and AI research skills — alphafold, alphagenome, ensembl, clinvar, foldseek, and 32 others |
+| [@mattpocock](https://github.com/mattpocock) | Named skills: 20 skills — diagnose, tdd, to-prd, triage, zoom-out, grill-me, ubiquitous-language, and 13 others |
+| [@ruvnet](https://github.com/ruvnet) | Named skills: 48 skills — agentdb, flow-nexus, hive-mind-coordination, dual-collect, and 44 others |
+| [@obra](https://github.com/obra) | Named skills: 12 skills from the superpowers ecosystem — systematic-debugging, dispatching-parallel-agents, subagent-driven-development, and 9 others |
+| [@intelligentcode-ai](https://github.com/intelligentcode-ai) | Named skills: 8 skills — database-engineer, devops-engineer, mcp-client, security-engineer, requirements-engineer, and 3 others |
+| [@huggingface](https://github.com/huggingface) | Named skills: 7 skills — hf-cli, huggingface-llm-trainer, huggingface-datasets, transformers-js, and 3 others |
 | [@karpathy](https://github.com/karpathy) | Origin named skill: `karpathy/autoresearch` |
-| [@mattpocock](https://github.com/mattpocock) | Named skills: diagnose, tdd, to-prd, triage, zoom-out, and 6 others |
-| [@intelligentcode-ai](https://github.com/intelligentcode-ai) | Named skills: database-engineer, devops-engineer, mcp-client, security-engineer, and 5 others |
-| [@ruvnet](https://github.com/ruvnet) | Named skill: `ruvnet/flow-nexus-swarm` |
-| [@GLINCKER](https://github.com/GLINCKER) | Named skill: `glincker/readme-generator` |
+| [@devin-ai](https://github.com/devin-ai) | Named skill: `devin-ai/autonomous-swe` |
+| [@addy-osmani](https://github.com/addy-osmani) | Named skill: `addy-osmani/test-driven-development` |
+| [@anthropic](https://github.com/anthropic) | Named skills: `anthropic/pptx`, `anthropic/skill-creator` |
+| [@openai](https://github.com/openai) | Named skills: `openai/few-shot-learning`, `openai/self-consistency` |
+| [@jules](https://github.com/jules) | Named skills: `jules/gaia-triage`, `jules/repo-docs-before-pr` |
+| [@glincker](https://github.com/GLINCKER) | Named skill: `glincker/readme-generator` |
 | [@spring-ai-alibaba](https://github.com/spring-ai-alibaba) | Named skill: `spring-ai/readme-generate` |
 | [@pexp13](https://github.com/pexp13) | Named skill: `pexp13/sentiment-analysis` |
-| [@kriptoburak](https://github.com/kriptoburak) | Named skill: `kriptoburak/x-twitter-automation` |
+| [@kriptoburak](https://github.com/kriptoburak) | Evidence evaluator: `x-twitter-automation` evidence review |
 | [@balukosuri](https://github.com/balukosuri) | Evidence: community reproduction of Karpathy's autoresearch as a universal skill |
 | @gemini-cli | Curation: added generative-media, mathematical-animation, and other generic skills from Hermes ecosystem |
-| [@obra](https://github.com/obra) | Named skills: 11 skills from the superpowers ecosystem |
 
 ---
 
