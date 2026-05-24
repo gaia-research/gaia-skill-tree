@@ -1,5 +1,13 @@
 # Gaia Skill Registry — .gitignore
 
+# feature-pipeline runtime state (local, per-machine)
+.fp-state.json
+.fp-handover.md
+feature-pipeline-workspace/
+
+# Externally installed agent skills (managed by `gaia skills install`)
+.agents/skills/skill-creator
+
 # Python
 __pycache__/
 *.py[cod]
