@@ -28,8 +28,25 @@ def get_global_cache_dir():
     return os.path.join(get_gaia_home(), "skills")
 
 
-def get_repo_skills_dir():
-    """Return the local agent skills directory, prioritising .agents/skills."""
+def get_repo_skills_dir(location: str = "local") -> str:
+    """Return the target agent skills directory.
+
+    Args:
+        location: "local" (project-relative .agents/.claude) or "global" (~/.gaia/skills)
+
+    Returns:
+        Absolute path to the skills directory.
+
+    Raises:
+        ValueError: If location is not "local" or "global"
+    """
+    if location not in ("local", "global"):
+        raise ValueError(f"Invalid location '{location}'; must be 'local' or 'global'")
+
+    if location == "global":
+        return os.path.join(get_gaia_home(), "skills")
+
+    # Local: project-relative (.agents/.claude)
     if os.path.isdir(".agents"):
         return os.path.abspath(".agents/skills")
     if os.path.isdir(".claude"):
@@ -125,7 +142,7 @@ def resolve_named_skill_reference(skill_ref, registry_path):
     return None, None
 
 
-def _install_single(sid: str, meta: dict, registry_path: str, visited: set[str]) -> bool:
+def _install_single(sid: str, meta: dict, registry_path: str, visited: set[str], location: str = "local") -> bool:
     """Clone/symlink a single skill entry, bypassing suite-component detection.
 
     Called by both install_skill (for non-suite skills) and install_suite (for
@@ -133,6 +150,9 @@ def _install_single(sid: str, meta: dict, registry_path: str, visited: set[str])
     helper in install_suite avoids infinite recursion that would arise if we
     called install_skill(sid) there — install_skill would detect suiteComponents
     and re-enter install_suite.
+
+    Args:
+        location: "local" (default, .agents/.claude) or "global" (~/.gaia/skills)
     """
     links = meta.get("links", {}) if isinstance(meta, dict) else {}
     github_url = links.get("github") if isinstance(links, dict) else None
@@ -159,8 +179,8 @@ def _install_single(sid: str, meta: dict, registry_path: str, visited: set[str])
         print(f"Updating {repo_name}...")
         _run_git(["pull"], cwd=global_cache)
 
-    # 2. Symlink to local agent directory
-    target_dir = get_repo_skills_dir()
+    # 2. Symlink to target agent directory
+    target_dir = get_repo_skills_dir(location=location)
     os.makedirs(target_dir, exist_ok=True)
 
     skill_slug = sid.split("/", 1)[1]
@@ -184,7 +204,7 @@ def _install_single(sid: str, meta: dict, registry_path: str, visited: set[str])
         else:
             shutil.copy2(source_skill_path, local_skill_path)
 
-    # 3. Update manifest
+    # 3. Update manifest and clean up old installation if location changed
     manifest = load_manifest()
     existing = next((s for s in manifest["installed"] if s["id"] == sid), None)
     entry = {
@@ -193,8 +213,22 @@ def _install_single(sid: str, meta: dict, registry_path: str, visited: set[str])
         "repoUrl": repo_url,
         "subpath": subpath,
         "localPath": local_skill_path,
+        "location": location,
     }
     if existing:
+        # If reinstalling with different location, clean up old path
+        old_path = existing.get("localPath")
+        old_location = existing.get("location", "local")
+        if old_path and old_location != location and (os.path.exists(old_path) or os.path.islink(old_path)):
+            try:
+                if os.path.islink(old_path):
+                    os.remove(old_path)
+                elif os.path.isdir(old_path):
+                    shutil.rmtree(old_path)
+                else:
+                    os.remove(old_path)
+            except Exception as e:
+                print(f"Warning: could not remove old installation at {old_path}: {e}", file=sys.stderr)
         existing.update(entry)
     else:
         manifest["installed"].append(entry)
@@ -204,8 +238,12 @@ def _install_single(sid: str, meta: dict, registry_path: str, visited: set[str])
     return True
 
 
-def install_skill(skill_id: str, registry_path: str, visited: set[str] | None = None) -> bool:
-    """Install a skill by fetching from source and linking to agent directory."""
+def install_skill(skill_id: str, registry_path: str, visited: set[str] | None = None, location: str = "local") -> bool:
+    """Install a skill by fetching from source and linking to agent directory.
+
+    Args:
+        location: "local" (default, .agents/.claude) or "global" (~/.gaia/skills)
+    """
     if visited is None:
         visited = set()
     if skill_id in visited:
@@ -226,17 +264,20 @@ def install_skill(skill_id: str, registry_path: str, visited: set[str] | None = 
         pass
 
     if suite_components:
-        return install_suite(sid, registry_path, visited)
+        return install_suite(sid, registry_path, visited, location=location)
 
-    return _install_single(sid, meta, registry_path, visited)
+    return _install_single(sid, meta, registry_path, visited, location=location)
 
 
-def install_suite(suite_id: str, registry_path: str, visited: set[str] | None = None) -> bool:
+def install_suite(suite_id: str, registry_path: str, visited: set[str] | None = None, location: str = "local") -> bool:
     """Recursive installation of a skill suite and its components.
 
     Returns True only when every component (and the suite root, if it has its
     own links.github) installs successfully. Partial or total failures cause
     a False return and a summary listing the failed component IDs.
+
+    Args:
+        location: "local" (default, .agents/.claude) or "global" (~/.gaia/skills)
     """
     if visited is None:
         visited = set()
@@ -250,14 +291,14 @@ def install_suite(suite_id: str, registry_path: str, visited: set[str] | None = 
         # If no explicit components, treat it as a regular skill
         github_url = meta.get("links", {}).get("github")
         if github_url:
-            return install_skill(sid, registry_path, visited)
+            return install_skill(sid, registry_path, visited, location=location)
         return False
 
     print(f"\nInstalling suite: {sid} ({len(components)} components)...")
     success_count = 0
     failed: list[str] = []
     for comp_id in components:
-        if install_skill(comp_id, registry_path, visited):
+        if install_skill(comp_id, registry_path, visited, location=location):
             success_count += 1
         else:
             failed.append(comp_id)
@@ -269,7 +310,7 @@ def install_suite(suite_id: str, registry_path: str, visited: set[str] | None = 
     root_attempted = False
     if meta.get("links", {}).get("github"):
         root_attempted = True
-        root_ok = _install_single(sid, meta, registry_path, visited)
+        root_ok = _install_single(sid, meta, registry_path, visited, location=location)
         if not root_ok:
             failed.append(sid)
 
@@ -445,8 +486,12 @@ def list_installed():
         print(f"{entry['id']:<35} {entry['installedAt'][:19]:<25} {rel_loc}")
 
 
-def interactive_install(registry_path):
-    """Display all available named skills and let the user pick which to install."""
+def interactive_install(registry_path, location: str = "local"):
+    """Display all available named skills and let the user pick which to install.
+
+    Args:
+        location: "local" (default, .agents/.claude) or "global" (~/.gaia/skills)
+    """
     skills = list_available(registry_path)
     if not skills:
         print("No named skills found in registry.")
@@ -463,7 +508,8 @@ def interactive_install(registry_path):
         print(f"{i:<4}{marker} {sid:<38} {name:<30} {level}")
 
     print("\n✓ = already installed")
-    print("Enter numbers to install (space or comma separated), or press Enter to cancel:")
+    loc_hint = "(global)" if location == "global" else "(local)"
+    print(f"Enter numbers to install {loc_hint} (space or comma separated), or press Enter to cancel:")
     try:
         raw = input("> ").strip()
     except (EOFError, KeyboardInterrupt):
@@ -494,4 +540,4 @@ def interactive_install(registry_path):
 
     print()
     for sid in selected:
-        install_skill(sid, registry_path)
+        install_skill(sid, registry_path, location=location)
