@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import * as fs from 'node:fs';
 
@@ -127,6 +128,8 @@ describe('cache utility', () => {
     const cached = getCached('strange/key*with:chars');
     expect(cached?.data).toBe('data');
 =======
+=======
+>>>>>>> 20140742 (🧪 Add tests for caching utility in mcp package (#421))
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import * as fs from "node:fs";
 
@@ -263,6 +266,9 @@ describe("cache utility", () => {
       );
       expect(writeEtagCall).toBeUndefined();
     });
+<<<<<<< HEAD
 >>>>>>> origin/main
+=======
+>>>>>>> 20140742 (🧪 Add tests for caching utility in mcp package (#421))
   });
 });
