@@ -1346,6 +1346,15 @@ def _pending_skills(registry_path: str, username: str | None = None) -> list[dic
     return pending
 
 
+<<<<<<< HEAD
+def _handle_skills_install(args):
+    if getattr(args, "suite", False):
+        success = install_suite(args.skill_id, args.registry)
+    else:
+        success = install_skill(args.skill_id, args.registry)
+    if not success:
+        sys.exit(1)
+=======
 def skills_command(args):
 <<<<<<< HEAD
 
@@ -1375,6 +1384,7 @@ def skills_command(args):
         if not success:
             sys.exit(1)
         return
+>>>>>>> origin/main
 
     available = [
         {
@@ -1387,6 +1397,7 @@ def skills_command(args):
     ]
     items = available + pending
     query = getattr(args, "query", None)
+    verb = getattr(args, "skills_command", None)
     if verb == "search" and query:
         q = query.lower()
         items = [
@@ -1482,6 +1493,41 @@ def skills_command(args):
         # Use plain width for padding since ANSI codes don't count
         pad = width - len(plain_display)
         print(f"{display}{' ' * max(0, pad)}  {level_col:<5}  {type_col}{suffix}")
+
+def skills_command(args):
+    config = load_config() or {}
+    username = config.get("gaiaUser") or config.get("username")
+    verb = getattr(args, "skills_command", None)
+
+    if verb == "install":
+        _handle_skills_install(args)
+        return
+    elif verb == "update":
+        _handle_skills_update(args)
+        return
+    elif verb == "uninstall":
+        _handle_skills_uninstall(args)
+        return
+
+    pending = [] if getattr(args, "exclude_pending", False) else _pending_skills(args.registry, username)
+    available = [
+        {"id": sid, "name": meta.get("name") or sid, "level": meta.get("level", "?"), "description": meta.get("description", "")}
+        for sid, meta in list_available(args.registry)
+    ]
+    items = available + pending
+
+    ctx_user = username or ""
+    try:
+        ctx = LocalContext.load(args.registry, ctx_user, include_scan=False)
+    except Exception:
+        ctx = None
+
+    if verb == "info":
+        _handle_skills_info(args, items, ctx, ctx_user)
+        return
+    else:
+        _handle_skills_search_or_list(args, items, ctx, ctx_user)
+        return
 
 
 def pull_command(args):
