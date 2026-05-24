@@ -7,7 +7,6 @@ import sys
 import datetime
 import subprocess
 from pathlib import Path
-from typing import Any
 
 from gaia_cli.registry import (
     registry_graph_path,
@@ -179,7 +178,11 @@ def _update_named_skill_ref(md_path: Path, old_ref: str, new_ref: str):
         return True
     return False
 
+<<<<<<< HEAD
+=======
 
+<<<<<<< HEAD
+=======
 def _merge_named_skills(registry_path, target_id, sources):
     # Named skill merging
     named_dir = Path(named_skills_dir(registry_path))
@@ -204,6 +207,11 @@ def _merge_named_skills(registry_path, target_id, sources):
         if "links" in source_meta:
             target_meta.setdefault("links", {}).update(source_meta["links"])
         if "tags" in source_meta:
+<<<<<<< HEAD
+            target_meta["tags"] = list(set(target_meta.get("tags", [])) | set(source_meta["tags"]))
+        if "knownAgents" in source_meta:
+            target_meta["knownAgents"] = list(set(target_meta.get("knownAgents", [])) | set(source_meta["knownAgents"]))
+=======
             target_meta["tags"] = list(
                 set(target_meta.get("tags", [])) | set(source_meta["tags"])
             )
@@ -212,6 +220,7 @@ def _merge_named_skills(registry_path, target_id, sources):
                 set(target_meta.get("knownAgents", []))
                 | set(source_meta["knownAgents"])
             )
+>>>>>>> origin/main
 
         # Append body
         target_body += f"\n\n--- Merged from {source_id} ---\n\n" + source_body
@@ -223,12 +232,18 @@ def _merge_named_skills(registry_path, target_id, sources):
 
     with open(target_file, "w", encoding="utf-8") as f:
         import yaml
+<<<<<<< HEAD
+=======
 
+>>>>>>> origin/main
         f.write("---\n")
         yaml.dump(target_meta, f, sort_keys=False, allow_unicode=True)
         f.write("---\n")
         f.write(target_body)
 
+<<<<<<< HEAD
+    append_skill_event(target_id, "merge", _get_contributor(), f"Merged named skills {', '.join(sources)} into {target_id}", registry_path=registry_path)
+=======
     append_skill_event(
         target_id,
         "merge",
@@ -237,6 +252,7 @@ def _merge_named_skills(registry_path, target_id, sources):
         registry_path=registry_path,
     )
 
+>>>>>>> origin/main
 
 def _merge_generic_skills(registry_path, target_id, sources):
     # Generic skill merging
@@ -277,11 +293,19 @@ def _merge_generic_skills(registry_path, target_id, sources):
                         break
                 except json.JSONDecodeError:
                     continue
+<<<<<<< HEAD
+        
+        if not source_file:
+            print(f"Warning: Source skill '{source_id}' not found. Skipping.")
+            continue
+        
+=======
 
         if not source_file:
             print(f"Warning: Source skill '{source_id}' not found. Skipping.")
             continue
 
+>>>>>>> origin/main
         source_files.append(source_file)
         merged_evidence.extend(source_data.get("evidence", []) or [])
         merged_prereqs.update(source_data.get("prerequisites", []) or [])
@@ -335,6 +359,13 @@ def _merge_generic_skills(registry_path, target_id, sources):
                 if dr not in sources or target_id != data["id"]
             ]
             seen = set()
+<<<<<<< HEAD
+            new_derivatives = [x for x in new_derivatives if not (x in seen or seen.add(x))]
+            if new_derivatives != data["derivatives"]:
+                data["derivatives"] = new_derivatives
+                changed = True
+            
+=======
             new_derivatives = [
                 x for x in new_derivatives if not (x in seen or seen.add(x))
             ]
@@ -342,6 +373,7 @@ def _merge_generic_skills(registry_path, target_id, sources):
                 data["derivatives"] = new_derivatives
                 changed = True
 
+>>>>>>> origin/main
         if changed:
             with open(p, "w", encoding="utf-8") as f:
                 json.dump(data, f, indent=2, ensure_ascii=False)
@@ -355,6 +387,9 @@ def _merge_generic_skills(registry_path, target_id, sources):
             if _update_named_skill_ref(p, source_id, target_id):
                 print(f"Updated genericSkillRef in {p}")
 
+<<<<<<< HEAD
+    append_skill_event(target_id, "merge", _get_contributor(), f"Merged {', '.join(sources)} into {target_id}", registry_path=registry_path)
+=======
     append_skill_event(
         target_id,
         "merge",
@@ -363,7 +398,9 @@ def _merge_generic_skills(registry_path, target_id, sources):
         registry_path=registry_path,
     )
 
+>>>>>>> origin/main
 
+>>>>>>> origin/main
 def meta_merge_command(args):
     registry_path = args.registry
     target_id = args.target.lstrip("/")
@@ -374,9 +411,194 @@ def meta_merge_command(args):
         sys.exit(1)
 
     if "/" in target_id:
+<<<<<<< HEAD
+        # Named skill merging
+        named_dir = Path(named_skills_dir(registry_path))
+        target_file = _find_named_file(named_dir, target_id)
+
+        if not target_file:
+            print(f"Error: Target named skill '{target_id}' not found.")
+            sys.exit(1)
+
+        target_meta, target_body = _parse_md(target_file)
+
+        for source_id in sources:
+            source_file = _find_named_file(named_dir, source_id)
+
+            if not source_file:
+                print(f"Warning: Source named skill '{source_id}' not found. Skipping.")
+                continue
+
+            source_meta, source_body = _parse_md(source_file)
+
+            # Merge metadata
+            if "links" in source_meta:
+                target_meta.setdefault("links", {}).update(source_meta["links"])
+            if "tags" in source_meta:
+                target_meta["tags"] = list(
+                    set(target_meta.get("tags", [])) | set(source_meta["tags"])
+                )
+            if "knownAgents" in source_meta:
+                target_meta["knownAgents"] = list(
+                    set(target_meta.get("knownAgents", []))
+                    | set(source_meta["knownAgents"])
+                )
+
+            # Append body
+            target_body += f"\n\n--- Merged from {source_id} ---\n\n" + source_body
+
+            source_file.unlink()
+            print(f"Merged and deleted source file: {source_file}")
+
+        target_meta["updatedAt"] = datetime.date.today().isoformat()
+
+        with open(target_file, "w", encoding="utf-8") as f:
+            import yaml
+
+            f.write("---\n")
+            yaml.dump(target_meta, f, sort_keys=False, allow_unicode=True)
+            f.write("---\n")
+            f.write(target_body)
+
+        append_skill_event(
+            target_id,
+            "merge",
+            _get_contributor(),
+            f"Merged named skills {', '.join(sources)} into {target_id}",
+            registry_path=registry_path,
+        )
+    else:
+        # Generic skill merging
+        nodes_dir = Path(registry_nodes_dir(registry_path))
+        target_file = None
+        target_data = None
+
+        for p in nodes_dir.glob("**/*.json"):
+            with open(p, "r", encoding="utf-8") as f:
+                try:
+                    data = json.load(f)
+                    if data.get("id") == target_id:
+                        target_file = p
+                        target_data = data
+                        break
+                except json.JSONDecodeError:
+                    continue
+
+        if not target_file:
+            print(f"Error: Target skill '{target_id}' not found in registry nodes.")
+            sys.exit(1)
+
+        merged_evidence = target_data.get("evidence", []) or []
+        merged_prereqs = set(target_data.get("prerequisites", []) or [])
+        merged_derivatives = set(target_data.get("derivatives", []) or [])
+        merged_agents = set(target_data.get("knownAgents", []) or [])
+
+        source_files = []
+        for source_id in sources:
+            source_file = None
+            for p in nodes_dir.glob("**/*.json"):
+                with open(p, "r", encoding="utf-8") as f:
+                    try:
+                        data = json.load(f)
+                        if data.get("id") == source_id:
+                            source_file = p
+                            source_data = data
+                            break
+                    except json.JSONDecodeError:
+                        continue
+
+            if not source_file:
+                print(f"Warning: Source skill '{source_id}' not found. Skipping.")
+                continue
+
+            source_files.append(source_file)
+            merged_evidence.extend(source_data.get("evidence", []) or [])
+            merged_prereqs.update(source_data.get("prerequisites", []) or [])
+            merged_derivatives.update(source_data.get("derivatives", []) or [])
+            merged_agents.update(source_data.get("knownAgents", []) or [])
+
+        to_remove = set(sources) | {target_id}
+        merged_prereqs -= to_remove
+        merged_derivatives -= to_remove
+
+        target_data["evidence"] = merged_evidence
+        target_data["prerequisites"] = sorted(list(merged_prereqs))
+        target_data["derivatives"] = sorted(list(merged_derivatives))
+        target_data["knownAgents"] = sorted(list(merged_agents))
+        target_data["updatedAt"] = datetime.date.today().isoformat()
+
+        with open(target_file, "w", encoding="utf-8") as f:
+            json.dump(target_data, f, indent=2, ensure_ascii=False)
+            f.write("\n")
+
+        for sf in source_files:
+            sf.unlink()
+            print(f"Deleted source skill file: {sf}")
+
+        for p in nodes_dir.glob("**/*.json"):
+            if p == target_file:
+                continue
+            with open(p, "r", encoding="utf-8") as f:
+                try:
+                    data = json.load(f)
+                except json.JSONDecodeError:
+                    continue
+
+            changed = False
+            if data.get("prerequisites"):
+                new_prereqs = [
+                    target_id if pr in sources and target_id != data["id"] else pr
+                    for pr in data["prerequisites"]
+                    if pr not in sources or target_id != data["id"]
+                ]
+                seen = set()
+                new_prereqs = [x for x in new_prereqs if not (x in seen or seen.add(x))]
+                if new_prereqs != data["prerequisites"]:
+                    data["prerequisites"] = new_prereqs
+                    changed = True
+
+            if data.get("derivatives"):
+                new_derivatives = [
+                    target_id if dr in sources and target_id != data["id"] else dr
+                    for dr in data["derivatives"]
+                    if dr not in sources or target_id != data["id"]
+                ]
+                seen = set()
+                new_derivatives = [
+                    x for x in new_derivatives if not (x in seen or seen.add(x))
+                ]
+                if new_derivatives != data["derivatives"]:
+                    data["derivatives"] = new_derivatives
+                    changed = True
+
+            if changed:
+                with open(p, "w", encoding="utf-8") as f:
+                    json.dump(data, f, indent=2, ensure_ascii=False)
+                    f.write("\n")
+                print(f"Updated references in {p}")
+
+        # Update named skill references
+        named_dir = Path(named_skills_dir(registry_path))
+        sources_set = set(sources)
+        for p in named_dir.glob("**/*.md"):
+            meta, body = _parse_md(p)
+            if meta.get("genericSkillRef") in sources_set:
+                meta["genericSkillRef"] = target_id
+                _write_md(p, meta, body)
+                print(f"Updated genericSkillRef in {p}")
+
+        append_skill_event(
+            target_id,
+            "merge",
+            _get_contributor(),
+            f"Merged {', '.join(sources)} into {target_id}",
+            registry_path=registry_path,
+        )
+=======
         _merge_named_skills(registry_path, target_id, sources)
     else:
         _merge_generic_skills(registry_path, target_id, sources)
+>>>>>>> origin/main
 
     print("Regenerating registry and documentation...")
     _run_docs_build(args.registry)
@@ -581,7 +803,11 @@ def meta_audit_command(args):
                     best_class = "B"
                 elif "C" in classes:
                     best_class = "C"
+<<<<<<< HEAD
+            
+=======
 
+>>>>>>> origin/main
             # Evidence Floor Checks (from GEMINI.md)
             # 2★ needs Tier C
             if level >= 2 and not evidence:
@@ -1198,6 +1424,153 @@ def _parse_named_frontmatter(content):
     return meta
 
 
+
+def _gather_substantive_changes(base, compare_ref):
+    r = subprocess.run(
+        ["git", "diff", "--name-status", f"{base}...{compare_ref}"],
+        capture_output=True, text=True,
+    )
+    if r.returncode != 0:
+        print(f"Error running git diff: {r.stderr.strip()}")
+        sys.exit(1)
+
+    skipped = 0
+    substantive = []
+    for line in r.stdout.splitlines():
+        parts = line.split("\t", 1)
+        if len(parts) != 2:
+            continue
+        status, path = parts[0].rstrip(), parts[1]
+        if _is_generated(path):
+            skipped += 1
+        else:
+            substantive.append((status, path))
+    return skipped, substantive
+
+
+def _git_json(git_ref, path):
+    r = subprocess.run(
+        ["git", "show", f"{git_ref}:{path}"],
+        capture_output=True, text=True,
+    )
+    if r.returncode != 0:
+        return None
+    try:
+        import json
+        return json.loads(r.stdout)
+    except Exception:
+        return None
+
+
+def _git_text(git_ref, path):
+    r = subprocess.run(
+        ["git", "show", f"{git_ref}:{path}"],
+        capture_output=True, text=True,
+    )
+    return r.stdout if r.returncode == 0 else ""
+
+
+def _print_generic_skills(new_skills, W):
+    if new_skills:
+        print(f"  ── NEW GENERIC SKILLS ({len(new_skills)}) {'─' * max(0, W - 24)}")
+        for s in new_skills:
+            stype = s.get("type", "?")
+            level = s.get("level", "?")
+            status = s.get("status", "?")
+            desc = s.get("description", "")
+            if len(desc) > 65:
+                desc = desc[:62] + "..."
+            prereqs = s.get("prerequisites", [])
+            evidence = s.get("evidence", [])
+            ev_str = f"{len(evidence)}× ({', '.join(e['class'] for e in evidence)})" if evidence else "none"
+            print(f"  + {s['id']}  [{stype} · {level} · {status}]")
+            print(f"    \"{desc}\"")
+            if prereqs:
+                print(f"    Prerequisites: {', '.join(prereqs)}")
+            print(f"    Evidence: {ev_str}")
+        print()
+
+
+def _print_removed_skills(removed_skill_ids, W):
+    if removed_skill_ids:
+        print(f"  ── ⛔  REMOVED SKILLS ({len(removed_skill_ids)}) {'─' * max(0, W - 24)}")
+        for sid in sorted(removed_skill_ids):
+            print(f"  - {sid}")
+        print()
+
+
+def _print_named_skills(new_named, mod_named, compare_ref, W):
+    if new_named:
+        print(f"  ── NEW NAMED SKILLS ({len(new_named)}) {'─' * max(0, W - 22)}")
+        for _, path in new_named:
+            content = _git_text(compare_ref, path)
+            meta = _parse_named_frontmatter(content)
+            skill_id = meta.get("id", path.replace("registry/named/", "").replace(".md", ""))
+            generic = meta.get("genericSkillRef", "—")
+            level = meta.get("level", "?")
+            print(f"  + {skill_id}  → {generic}  [{level}]")
+        print()
+
+    if mod_named:
+        print(f"  ── MODIFIED NAMED SKILLS ({len(mod_named)}) {'─' * max(0, W - 27)}")
+        for _, path in mod_named:
+            print(f"  ~ {path.replace('registry/named/', '')}")
+        print()
+
+
+def _print_edges(new_edges, removed_edges, W):
+    if new_edges:
+        print(f"  ── NEW EDGES ({len(new_edges)}) {'─' * max(0, W - 15)}")
+        for src, tgt, etype in new_edges:
+            print(f"  + {src} → {tgt}  ({etype})")
+        print()
+
+    if removed_edges:
+        print(f"  ── ⛔  REMOVED EDGES ({len(removed_edges)}) {'─' * max(0, W - 23)}")
+        for src, tgt, etype in removed_edges:
+            print(f"  - {src} → {tgt}  ({etype})")
+        print()
+
+
+def _print_other_changes(other, W):
+    if other:
+        print(f"  ── OTHER CHANGES ({len(other)}) {'─' * max(0, W - 19)}")
+        for status, path in other:
+            label = {"A": "new", "M": "mod", "D": "del"}.get(status, status)
+            print(f"  {label}  {path}")
+        print()
+
+
+def _print_quality_flags(removed_skill_ids, new_named, new_skills, compare_ref, W):
+    flags = []
+    for sid in sorted(removed_skill_ids):
+        flags.append(("⛔", f"{sid} — skill removed (verify intentional!)"))
+
+    for _, path in new_named:
+        content = _git_text(compare_ref, path)
+        meta = _parse_named_frontmatter(content)
+        skill_id = meta.get("id", path.replace("registry/named/", "").replace(".md", ""))
+        if "Add installation instructions here" in content:
+            flags.append(("⚠", f"{skill_id} — empty ## Installation body"))
+        if not meta.get("genericSkillRef"):
+            flags.append(("⚠", f"{skill_id} — missing genericSkillRef"))
+
+    for s in new_skills:
+        ev = s.get("evidence", [])
+        if not ev:
+            flags.append(("⚠", f"{s['id']} — no evidence attached"))
+        elif all(e["class"] == "C" for e in ev):
+            flags.append(("⚠", f"{s['id']} — only Class C evidence"))
+        if s.get("rarity"):
+            flags.append(("·", f"{s['id']} — rarity field present (deprecated auto-default, harmless)"))
+
+    if flags:
+        print(f"  ── QUALITY FLAGS {'─' * max(0, W - 18)}")
+        for icon, msg in flags:
+            print(f"  {icon}  {msg}")
+        print()
+
+
 def meta_diff_command(args):
     """Show substantive registry additions in a branch vs main, stripping generated noise."""
     ref = getattr(args, "ref", None)
@@ -1221,6 +1594,9 @@ def meta_diff_command(args):
 
     print(f"\n  Comparing {base}...{compare_ref}\n")
 
+<<<<<<< HEAD
+    skipped, substantive = _gather_substantive_changes(base, compare_ref)
+=======
     def _git_json(git_ref, path):
         r = subprocess.run(
             ["git", "show", f"{git_ref}:{path}"],
@@ -1263,6 +1639,7 @@ def meta_diff_command(args):
             skipped += 1
         else:
             substantive.append((status, path))
+>>>>>>> origin/main
 
     # Diff registry/gaia.json as structured JSON (most reliable approach)
     base_graph = _git_json(base, "registry/gaia.json") or {"skills": [], "edges": []}
@@ -1299,10 +1676,13 @@ def meta_diff_command(args):
     mod_named = sorted(
         (s, p) for s, p in substantive if s == "M" and p.startswith("registry/named/")
     )
+<<<<<<< HEAD
+=======
     new_node_files = sorted(
         (s, p) for s, p in substantive if s == "A" and p.startswith("registry/nodes/")
     )
     version_paths = [(s, p) for s, p in substantive if p in _VERSION_FILES]
+>>>>>>> origin/main
     other = [
         (s, p)
         for s, p in substantive
@@ -1314,6 +1694,12 @@ def meta_diff_command(args):
 
     W = 68
 
+<<<<<<< HEAD
+    _print_generic_skills(new_skills, W)
+    _print_removed_skills(removed_skill_ids, W)
+    _print_named_skills(new_named, mod_named, compare_ref, W)
+    _print_edges(new_edges, removed_edges, W)
+=======
     # ── New generic skills ────────────────────────────────────────────
     if new_skills:
         print(f"  ── NEW GENERIC SKILLS ({len(new_skills)}) {'─' * max(0, W - 24)}")
@@ -1379,6 +1765,7 @@ def meta_diff_command(args):
         for src, tgt, etype in removed_edges:
             print(f"  - {src} → {tgt}  ({etype})")
         print()
+>>>>>>> origin/main
 
     # ── Version bump ─────────────────────────────────────────────────
     if base_version != branch_version:
@@ -1386,6 +1773,10 @@ def meta_diff_command(args):
         print(f"  {base_version} → {branch_version}  (will conflict if main has moved)")
         print()
 
+<<<<<<< HEAD
+    _print_other_changes(other, W)
+    _print_quality_flags(removed_skill_ids, new_named, new_skills, compare_ref, W)
+=======
     # ── Other substantive changes ─────────────────────────────────────
     if other:
         print(f"  ── OTHER CHANGES ({len(other)}) {'─' * max(0, W - 19)}")
@@ -1429,6 +1820,7 @@ def meta_diff_command(args):
         for icon, msg in flags:
             print(f"  {icon}  {msg}")
         print()
+>>>>>>> origin/main
 
     # ── Summary ───────────────────────────────────────────────────────
     if (

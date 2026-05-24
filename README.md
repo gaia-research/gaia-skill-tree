@@ -110,7 +110,11 @@ Then, if you have fused a 5★ Ultimate as another part of a suite, you can crea
 **1. Install the CLI**
 
 <!-- gaia:version-start -->
+<<<<<<< HEAD
+Current Gaia CLI version: `3.23.7`.
+=======
 Current Gaia CLI version: `3.23.9`.
+>>>>>>> origin/main
 
 Python install:
 
