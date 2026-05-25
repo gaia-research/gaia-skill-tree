@@ -487,6 +487,22 @@
         return isNaN(n) ? 0 : n;
       }
 
+      function trustScore(ns) {
+        var score = 0;
+        var level = levelNum(ns.level) || 2;
+        score += level * 1000;
+        if (ns.origin) score += 500;
+        var evidence = Array.isArray(ns.evidence) ? ns.evidence : [];
+        evidence.forEach(function(e) {
+          if (e.class === 'A') score += 300;
+          else if (e.class === 'B') score += 100;
+          else if (e.class === 'C') score += 10;
+          if (e.verified) score += 200;
+          if (e.disputed) score -= 400;
+        });
+        return score;
+      }
+
       function groupHeader(type, id) {
         var tm = TYPE_META_G[type]; if (!tm) return '';
         return '<div class="ns-group-header" id="ns-group-'+id+'">' +
@@ -495,12 +511,6 @@
         '</div>';
       }
 
-      // Within-group sort. Direction rule:
-      //   default (level-desc) — most-prestigious first (6★ → 2★)
-      //   level-asc            — easiest first (rare; the "what can I unlock?" use case)
-      //   creator              — alphabetical by contributor
-      //   name                 — alphabetical by skill name
-      // Group order itself (ultimate→unique→extra→basic) is owned by TYPE_ORDER.
       function withinGroupSort(items) {
         if (sortMode === 'creator') {
           return items.slice().sort(function(a,b){return (a.contributor||'').localeCompare(b.contributor||'');});
@@ -514,10 +524,12 @@
             return d !== 0 ? d : String(a.id).localeCompare(String(b.id));
           });
         }
-        // 'level-desc' (default) — also catches legacy 'level' value.
         return items.slice().sort(function(a,b){
           var d = levelNum(b.level) - levelNum(a.level);
-          return d !== 0 ? d : String(a.id).localeCompare(String(b.id));
+          if (d !== 0) return d;
+          var tsA = trustScore(a), tsB = trustScore(b);
+          if (tsA !== tsB) return tsB - tsA;
+          return String(a.id).localeCompare(String(b.id));
         });
       }
 
@@ -534,16 +546,32 @@
         if (!filtered.length) { grid.innerHTML='<div class="ns-empty">No skills match.</div>'; return; }
 
         if (viewMode === 'flow') {
-          // Tree-view DAG owns its own ordering (depth + type+level within
-          // each depth) — see renderFlowchartView for the direction rule.
           grid.className = 'ns-grid-flow';
           grid.innerHTML = renderFlowchartView(filtered);
           return;
         }
 
-        // Group by type: ultimate → unique → extra → basic (TYPE_ORDER).
+        // Champion System: Group by genericSkillRef to featured the highest trust implementation
+        var buckets = {};
+        filtered.forEach(function(ns) {
+          var ref = ns.genericSkillRef || ns.id;
+          if (!buckets[ref]) buckets[ref] = [];
+          buckets[ref].push(ns);
+        });
+
+        var champions = [];
+        Object.keys(buckets).forEach(function(ref) {
+          var items = buckets[ref];
+          items.sort(function(a, b) {
+            return trustScore(b) - trustScore(a);
+          });
+          var champ = items[0];
+          champ.variants = items.slice(1);
+          champions.push(champ);
+        });
+
         var groups = { ultimate:[], unique:[], extra:[], basic:[] };
-        filtered.forEach(function(ns){ var t=nsType(ns); (groups[t]||(groups[t]=[])).push(ns); });
+        champions.forEach(function(ns){ var t=nsType(ns); (groups[t]||(groups[t]=[])).push(ns); });
         var html = '';
         TYPE_ORDER.forEach(function(type) {
           var items = groups[type]; if (!items || !items.length) return;

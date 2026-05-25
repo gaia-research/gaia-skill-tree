@@ -1565,6 +1565,14 @@ def get_parser():
     dev_rename.add_argument('old_id', help="Original skill ID")
     dev_rename.add_argument('new_id', help="New skill ID")
 
+    dev_verify = dev_sub.add_parser('verify', help="Verify or dispute a skill's evidence")
+    dev_verify.add_argument('skill_id', help="Skill ID to verify")
+    dev_verify.add_argument('--index', type=int, required=True, help="Index of the evidence entry to verify")
+    dev_verify.add_argument('--dispute', action='store_true', help="Mark evidence as disputed instead of verified")
+    dev_verify.add_argument('--notes', help="Optional notes about the verification/dispute")
+    dev_verify.add_argument('--source', help="URL to the verification discussion or PR")
+    dev_verify.add_argument('--no-build', action='store_true', help="Skip rebuilding docs and graph assets after verification")
+
     dev_calibrate = dev_sub.add_parser('calibrate', help="Update the level of a skill")
     dev_calibrate.add_argument('skill_id', help="Skill ID to calibrate")
     dev_calibrate.add_argument('level', help="New level (e.g. 3★)")
@@ -1782,6 +1790,8 @@ def main():
             meta_split_command(args)
         elif dev_cmd == 'rename':
             meta_rename_command(args)
+        elif dev_cmd == 'verify':
+            meta_verify_command(args)
         elif dev_cmd == 'calibrate':
             meta_calibrate_command(args)
         elif dev_cmd == 'add':
