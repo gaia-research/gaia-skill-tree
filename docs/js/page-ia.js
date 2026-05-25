@@ -291,7 +291,7 @@
       plates.innerHTML = rendered;
     }
 
-    // --- META REPORT (Synthesize Timeline) ---
+    // --- META REPORT (Synthesize Changelog) ---
     var tlEvents = [];
     var ACTION_ICON = {
       rank_up: 'sparkle',
@@ -449,7 +449,7 @@
         }
         mrTimeline.innerHTML = '<div class="mr-empty">' +
           '<div class="mr-empty-icon">' + emptyIcon + '</div>' +
-          '<div class="mr-empty-text">No events match this filter.</div>' +
+          '<div class="mr-empty-text">No changelog events match this filter.</div>' +
           '</div>';
         var mrPagination = document.getElementById('mrPagination');
         if (mrPagination) mrPagination.style.display = 'none';
@@ -597,7 +597,7 @@
       var metaSidebarBackdrop = document.getElementById('metaSidebarBackdrop');
       var metaNavBtn = document.getElementById('metaNavBtn');
       var metaFooterBtn = document.getElementById('metaFooterBtn');
-      var metaReportCalloutBtn = document.getElementById('metaReportCalloutBtn');
+      var metaChangelogBtnDoor = document.getElementById('metaChangelogBtnDoor');
       var metaCloseBtn = document.getElementById('metaCloseBtn');
 
       function openMetaSidebar() {
@@ -625,11 +625,39 @@
         document.documentElement.style.overflow = '';
       }
 
-      if (metaNavBtn) metaNavBtn.addEventListener('click', openMetaSidebar);
+      if (metaNavBtn) metaNavBtn.addEventListener('click', function(e) {
+        // If metaNavBtn is an <a>, don't prevent default, but maybe we want to open sidebar?
+        // User said: '"Meta Report" on the nav bar should open the meta report.'
+        // I made it an <a> to the report page, so it should navigate.
+        // But for other triggers (like door btn), we open sidebar.
+      });
+      
+      if (metaChangelogBtnDoor) metaChangelogBtnDoor.addEventListener('click', openMetaSidebar);
       if (metaFooterBtn) metaFooterBtn.addEventListener('click', openMetaSidebar);
-      if (metaReportCalloutBtn) metaReportCalloutBtn.addEventListener('click', openMetaSidebar);
       if (metaCloseBtn) metaCloseBtn.addEventListener('click', closeMetaSidebar);
       if (metaSidebarBackdrop) metaSidebarBackdrop.addEventListener('click', closeMetaSidebar);
+
+      // Global search nav: scroll to Named Skills section and focus the search input
+      function focusNamedSearch() {
+        var named = document.getElementById('named');
+        if (named) named.scrollIntoView({ behavior: 'smooth' });
+        setTimeout(function () {
+          var input = document.getElementById('nsSearch');
+          if (input) { input.focus(); input.select(); }
+        }, 520);
+      }
+      var navSearch = document.getElementById('navSearchBtn');
+      if (navSearch) navSearch.addEventListener('click', focusNamedSearch);
+      
+      var navSearchMobile = document.getElementById('navSearchBtnMobile');
+      if (navSearchMobile) navSearchMobile.addEventListener('click', function() {
+        document.body.classList.add('search-mode');
+        var navMobileSearch = document.getElementById('navMobileSearch');
+        if (navMobileSearch) {
+          navMobileSearch.focus();
+          navMobileSearch.select();
+        }
+      });
 
       // ESC key support
       document.addEventListener('keydown', function(e) {
@@ -679,11 +707,11 @@
         });
       }
 
-      // Copy entire timeline in Markdown format
+      // Copy entire changelog in Markdown format
       var metaCopyBtn = document.getElementById('metaCopyBtn');
       if (metaCopyBtn) {
         metaCopyBtn.addEventListener('click', function() {
-          var text = '# Gaia Skill Tree - Registry Meta Report\n';
+          var text = '# Gaia Skill Tree - Meta Changelog\n';
           text += 'Generated: ' + new Date().toISOString().replace('T', ' ').substring(0, 19) + ' UTC\n\n';
           text += 'A living chronicle of registry evolution: every rank-up, name claim, fusion, and evidence review recorded.\n\n';
           
@@ -717,11 +745,11 @@
         });
       }
 
-      // Download entire timeline in Markdown format
+      // Download entire changelog in Markdown format
       var metaDownloadBtn = document.getElementById('metaDownloadBtn');
       if (metaDownloadBtn) {
         metaDownloadBtn.addEventListener('click', function() {
-          var text = '# Gaia Skill Tree - Registry Meta Report\n';
+          var text = '# Gaia Skill Tree - Meta Changelog\n';
           text += 'Generated: ' + new Date().toISOString().replace('T', ' ').substring(0, 19) + ' UTC\n\n';
           text += 'A living chronicle of registry evolution: every rank-up, name claim, fusion, and evidence review recorded.\n\n';
           

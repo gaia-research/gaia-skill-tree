@@ -187,14 +187,101 @@
       text-decoration: none;
     }
 
+    /* Floating Changelog Button */
+    .floating-changelog-btn {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      z-index: 1000;
+      background: #000;
+      color: #fff;
+      border: 1px solid #333;
+      padding: 0.6rem 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      cursor: pointer;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+      transition: all 0.2s;
+    }
+
+    .floating-changelog-btn:hover {
+      border-color: #ef4444; /* Honor Red */
+    }
+
+    /* Compact Sidebar for Report Page */
+    .meta-sidebar {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 400px;
+      background: #000;
+      color: #fff;
+      z-index: 2000;
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      border-left: 1px solid #222;
+    }
+
+    .meta-sidebar.open {
+      transform: translateX(0);
+    }
+
+    .ms-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid #222;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .ms-header h2 {
+      margin: 0 !important;
+      border: none !important;
+      font-size: 1.2rem !important;
+      counter-reset: none !important;
+    }
+    .ms-header h2::before { content: none !important; }
+
+    .ms-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem;
+      font-family: 'Bricolage Grotesque', sans-serif;
+    }
+
+    .ms-close {
+      background: none;
+      border: none;
+      color: #666;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
     @media (max-width: 768px) {
       .paper { padding: 3rem 2rem; }
       .two-column { grid-template-columns: 1fr; }
       body { padding: 1rem 0; }
+      .floating-changelog-btn { top: 0.75rem; right: 0.75rem; padding: 0.4rem 0.8rem; font-size: 0.7rem; }
+      .meta-sidebar { width: 100%; }
     }
   </style>
 </head>
 <body>
+
+  <button type="button" class="floating-changelog-btn" id="viewChangelogBtn">View Changelog</button>
+
+  <aside id="metaSidebar" class="meta-sidebar">
+    <div class="ms-header">
+      <h2>Meta Changelog</h2>
+      <button type="button" class="ms-close" id="closeChangelogBtn">✕</button>
+    </div>
+    <div class="ms-body" id="changelogBody">
+      <div style="color: #666; font-size: 0.9rem;">Loading registry changelog…</div>
+    </div>
+  </aside>
 
   <article class="paper">
     <header>
@@ -337,11 +424,59 @@
     </div>
 
     <div class="footer-nav">
-      <a href="../../meta.html">← Back to Meta Reports</a>
+      <a href="../../index.html">← Back to Hunter's Atlas</a>
     </div>
   </article>
 
   <script>
+    // --- Changelog Logic ---
+    const sidebar = document.getElementById('metaSidebar');
+    const openBtn = document.getElementById('viewChangelogBtn');
+    const closeBtn = document.getElementById('closeChangelogBtn');
+
+    if (openBtn) openBtn.addEventListener('click', () => sidebar.classList.add('open'));
+    if (closeBtn) closeBtn.addEventListener('click', () => sidebar.classList.remove('open'));
+
+    async function loadChangelog() {
+      try {
+        const response = await fetch('../../registry/gaia.json');
+        const gaia = await response.json();
+        const body = document.getElementById('changelogBody');
+        body.innerHTML = '';
+
+        // Collect all timeline events
+        let events = [];
+        gaia.skills.forEach(s => {
+          if (s.timeline) {
+            s.timeline.forEach(e => {
+              events.push({ ...e, skillName: s.name, type: s.type });
+            });
+          }
+        });
+
+        // Sort by timestamp desc
+        events.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+        events.slice(0, 50).forEach(ev => {
+          const item = document.createElement('div');
+          item.style.marginBottom = '1rem';
+          item.style.paddingBottom = '1rem';
+          item.style.borderBottom = '1px solid #111';
+          item.innerHTML = `
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: #666; margin-bottom: 0.3rem;">
+              ${new Date(ev.timestamp).toLocaleDateString()} · ${ev.action.toUpperCase()}
+            </div>
+            <div style="font-weight: 500; font-size: 0.9rem; color: #fff;">${ev.skillName}</div>
+            <div style="font-size: 0.8rem; color: #aaa; margin-top: 0.2rem;">${ev.details}</div>
+          `;
+          body.appendChild(item);
+        });
+      } catch (e) {
+        console.error('Failed to load changelog', e);
+      }
+    }
+    loadChangelog();
+
     async function initChart() {
       const response = await fetch('may-2026-timeline.json');
       const data = await response.json();

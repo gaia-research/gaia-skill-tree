@@ -33,19 +33,21 @@ window.switchOsTab = function(btn) {
 
     function open() {
       nav.classList.add('nav-open');
+      setTimeout(function(){ nav.classList.add('active'); }, 10);
       toggle.setAttribute('aria-expanded', 'true');
       document.body.style.overflow = 'hidden';
     }
 
     function close() {
-      nav.classList.remove('nav-open');
+      nav.classList.remove('active');
+      setTimeout(function(){ nav.classList.remove('nav-open'); }, 400);
       toggle.setAttribute('aria-expanded', 'false');
       document.body.style.overflow = '';
     }
 
     toggle.addEventListener('click', function(e) {
       e.stopPropagation();
-      nav.classList.contains('nav-open') ? close() : open();
+      nav.classList.contains('active') ? close() : open();
     });
 
     /* Close when clicking links */

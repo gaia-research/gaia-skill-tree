@@ -25,33 +25,31 @@ Ensure your audit results are summarized. If a timeline plot is needed, run `scr
 Author your report as a standalone HTML page in `docs/meta/reports/YYYY-MM-DD-title.html`. Use the LaTeX academic template:
 - White paper aesthetic (EB Garamond font).
 - Abstract, Numbered Sections, References.
+- Floating "View Changelog" button (upper right).
 - Embedded Chart.js for timeline plots.
-- A "Back to Meta Reports" footer link.
+- A "Back to Hunter's Atlas" footer link.
 
-### Step 3: Update the Landing Page
+### Step 3: Update Path B Queue
 
-Add a new card to `docs/meta.html` using this template:
+Add the report to the `door-meta-queue` in `docs/index.html` using this template:
 
 ```html
-<article class="meta-report-card">
-  <div class="meta-report-date">Month DD, YYYY</div>
-  <h3 class="meta-report-title">REPORT_TITLE</h3>
-  <p class="meta-report-summary">
-    Short 2-3 sentence assessment summary.
-  </p>
-  <a href="meta/reports/YYYY-MM-DD-filename.html" class="btn btn-ghost meta-report-link">Read Full Report →</a>
-</article>
+<a href="meta/reports/YYYY-MM-DD-filename.html" class="dmq-post" target="_blank">
+  <span class="dmq-label">Latest Audit</span>
+  <h4 class="dmq-title">REPORT_TITLE</h4>
+  <p class="dmq-summary">Short summary.</p>
+</a>
 ```
 
-### Step 4: Update the Hero Sneak Peek
+### Step 4: Update the Hero Notification Peek
 
-Update the `hero-meta-peek` anchor in `docs/index.html` to point to the latest report and update the date/title.
+Update the `hero-meta-peek` anchor in `docs/index.html` to point to the latest report. Ensure it looks like a push notification.
 
 ## Constraints
 
-- **Language**: Avoid banned terms (apex tier, Atomic Basics, card, etc.).
-- **Design**: Strictly follow `DESIGN.md`. Hero peek MUST remain compact and visible on all screen sizes.
-- **Plots**: Prefer data-driven Chart.js line plots for timelines.
+- **Language**: Avoid banned terms (apex tier, Atomic Basics, card, etc.). Rename "Timeline" to "Changelog".
+- **Design**: Strictly follow `DESIGN.md`. Boxy borders for all meta components.
+- **Plots**: Prefer data-driven Chart.js line plots.
 
 ## Example
 
