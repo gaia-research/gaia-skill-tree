@@ -1,0 +1,1048 @@
+{
+  "userId": "garrytan",
+  "updatedAt": "2026-05-25",
+  "unlockedSkills": [
+    {
+      "skillId": "garrytan/benchmark-models",
+      "level": "3★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/benchmark",
+      "level": "4★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "4★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/browse",
+      "level": "3★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/canary",
+      "level": "4★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "4★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/careful",
+      "level": "2★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/codex",
+      "level": "3★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/context-restore",
+      "level": "2★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/context-save",
+      "level": "2★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/cso",
+      "level": "4★",
+      "unlockedAt": "2026-05-12T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "4★",
+          "achievedAt": "2026-05-12T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/design-consultation",
+      "level": "4★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "4★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/design-html",
+      "level": "4★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "4★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/design-review",
+      "level": "3★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/design-shotgun",
+      "level": "4★",
+      "unlockedAt": "2026-05-12T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "4★",
+          "achievedAt": "2026-05-12T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/devex-review",
+      "level": "3★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/document-generate",
+      "level": "4★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "4★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/document-release",
+      "level": "2★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/freeze",
+      "level": "2★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/garrytan",
+      "level": "5★",
+      "unlockedAt": "2026-05-12T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "5★",
+          "achievedAt": "2026-05-12T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/gstack-upgrade",
+      "level": "2★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/gstack",
+      "level": "5★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "5★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/guard",
+      "level": "3★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/health",
+      "level": "3★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/investigate",
+      "level": "4★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "4★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/land-and-deploy",
+      "level": "4★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "4★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/landing-report",
+      "level": "2★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/learn",
+      "level": "3★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/make-pdf",
+      "level": "3★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/office-hours",
+      "level": "4★",
+      "unlockedAt": "2026-05-12T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "4★",
+          "achievedAt": "2026-05-12T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/open-gstack-browser",
+      "level": "2★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/pair-agent",
+      "level": "3★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/plan-ceo-review",
+      "level": "4★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "4★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/plan-design-review",
+      "level": "4★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "4★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/plan-devex-review",
+      "level": "4★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "4★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/plan-eng-review",
+      "level": "4★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "4★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/plan-tune",
+      "level": "2★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/qa-only",
+      "level": "2★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/qa",
+      "level": "4★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "4★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/retro",
+      "level": "3★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/review",
+      "level": "4★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "4★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/scrape",
+      "level": "3★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/setup-browser-cookies",
+      "level": "2★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/setup-deploy",
+      "level": "2★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/setup-gbrain",
+      "level": "2★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/ship",
+      "level": "4★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "4★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/skillify",
+      "level": "4★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "4★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/sync-gbrain",
+      "level": "2★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "garrytan/unfreeze",
+      "level": "2★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "garrytan/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-05-12T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/cso",
+      "details": "Registered named skill garrytan/cso",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-05-12T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/design-shotgun",
+      "details": "Registered named skill garrytan/design-shotgun",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-05-12T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/garrytan",
+      "details": "Registered named skill garrytan/garrytan",
+      "previousValue": null,
+      "newValue": "5★"
+    },
+    {
+      "timestamp": "2026-05-12T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/office-hours",
+      "details": "Registered named skill garrytan/office-hours",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/benchmark-models",
+      "details": "Registered named skill garrytan/benchmark-models",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/benchmark",
+      "details": "Registered named skill garrytan/benchmark",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/browse",
+      "details": "Registered named skill garrytan/browse",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/canary",
+      "details": "Registered named skill garrytan/canary",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/careful",
+      "details": "Registered named skill garrytan/careful",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/codex",
+      "details": "Registered named skill garrytan/codex",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/context-restore",
+      "details": "Registered named skill garrytan/context-restore",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/context-save",
+      "details": "Registered named skill garrytan/context-save",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/design-consultation",
+      "details": "Registered named skill garrytan/design-consultation",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/design-html",
+      "details": "Registered named skill garrytan/design-html",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/design-review",
+      "details": "Registered named skill garrytan/design-review",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/devex-review",
+      "details": "Registered named skill garrytan/devex-review",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/document-generate",
+      "details": "Registered named skill garrytan/document-generate",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/document-release",
+      "details": "Registered named skill garrytan/document-release",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/freeze",
+      "details": "Registered named skill garrytan/freeze",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/gstack-upgrade",
+      "details": "Registered named skill garrytan/gstack-upgrade",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/gstack",
+      "details": "Registered named skill garrytan/gstack",
+      "previousValue": null,
+      "newValue": "5★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/guard",
+      "details": "Registered named skill garrytan/guard",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/health",
+      "details": "Registered named skill garrytan/health",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/investigate",
+      "details": "Registered named skill garrytan/investigate",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/land-and-deploy",
+      "details": "Registered named skill garrytan/land-and-deploy",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/landing-report",
+      "details": "Registered named skill garrytan/landing-report",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/learn",
+      "details": "Registered named skill garrytan/learn",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/make-pdf",
+      "details": "Registered named skill garrytan/make-pdf",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/open-gstack-browser",
+      "details": "Registered named skill garrytan/open-gstack-browser",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/pair-agent",
+      "details": "Registered named skill garrytan/pair-agent",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/plan-ceo-review",
+      "details": "Registered named skill garrytan/plan-ceo-review",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/plan-design-review",
+      "details": "Registered named skill garrytan/plan-design-review",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/plan-devex-review",
+      "details": "Registered named skill garrytan/plan-devex-review",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/plan-eng-review",
+      "details": "Registered named skill garrytan/plan-eng-review",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/plan-tune",
+      "details": "Registered named skill garrytan/plan-tune",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/qa-only",
+      "details": "Registered named skill garrytan/qa-only",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/qa",
+      "details": "Registered named skill garrytan/qa",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/retro",
+      "details": "Registered named skill garrytan/retro",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/review",
+      "details": "Registered named skill garrytan/review",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/scrape",
+      "details": "Registered named skill garrytan/scrape",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/setup-browser-cookies",
+      "details": "Registered named skill garrytan/setup-browser-cookies",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/setup-deploy",
+      "details": "Registered named skill garrytan/setup-deploy",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/setup-gbrain",
+      "details": "Registered named skill garrytan/setup-gbrain",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/ship",
+      "details": "Registered named skill garrytan/ship",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/skillify",
+      "details": "Registered named skill garrytan/skillify",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/sync-gbrain",
+      "details": "Registered named skill garrytan/sync-gbrain",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "garrytan/unfreeze",
+      "details": "Registered named skill garrytan/unfreeze",
+      "previousValue": null,
+      "newValue": "2★"
+    }
+  ],
+  "stats": {
+    "totalUnlocked": 47,
+    "highestRarity": "uncommon",
+    "deepestLineage": 1
+  },
+  "pendingCombinations": []
+}

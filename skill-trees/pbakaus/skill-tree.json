@@ -1,0 +1,36 @@
+{
+  "userId": "pbakaus",
+  "updatedAt": "2026-05-25",
+  "unlockedSkills": [
+    {
+      "skillId": "pbakaus/impeccable",
+      "level": "4★",
+      "unlockedAt": "2026-05-14T00:00:00Z",
+      "unlockedIn": "pbakaus/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "4★",
+          "achievedAt": "2026-05-14T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-05-14T00:00:00Z",
+      "action": "register",
+      "skillId": "pbakaus/impeccable",
+      "details": "Registered named skill pbakaus/impeccable",
+      "previousValue": null,
+      "newValue": "4★"
+    }
+  ],
+  "stats": {
+    "totalUnlocked": 1,
+    "highestRarity": "uncommon",
+    "deepestLineage": 1
+  },
+  "pendingCombinations": []
+}

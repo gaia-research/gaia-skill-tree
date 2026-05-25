@@ -1,0 +1,36 @@
+{
+  "userId": "browserbase",
+  "updatedAt": "2026-05-25",
+  "unlockedSkills": [
+    {
+      "skillId": "browserbase/stagehand",
+      "level": "2★",
+      "unlockedAt": "2026-05-17T00:00:00Z",
+      "unlockedIn": "browserbase/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-17T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-05-17T00:00:00Z",
+      "action": "register",
+      "skillId": "browserbase/stagehand",
+      "details": "Registered named skill browserbase/stagehand",
+      "previousValue": null,
+      "newValue": "2★"
+    }
+  ],
+  "stats": {
+    "totalUnlocked": 1,
+    "highestRarity": "uncommon",
+    "deepestLineage": 1
+  },
+  "pendingCombinations": []
+}

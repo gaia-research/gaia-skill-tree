@@ -76,7 +76,7 @@
   <p class="profile-section-sub">Skill rank progression over time. Hover for details.</p>
   <div id="profile-timeline" class="profile-timeline" role="img" aria-label="Skill progression timeline"></div>
 </section>
-<script>window.PROFILE_TIMELINE = JSON.parse("{\"skills\": [], \"events\": []}");</script>
+<script>window.PROFILE_TIMELINE = JSON.parse("{\"skills\": [{\"id\": \"getagentseal/codeburn\", \"name\": \"CodeBurn\", \"type\": \"basic\", \"origin\": true, \"levelHistory\": [{\"level\": \"2\\u2605\", \"achievedAt\": \"2026-05-14T00:00:00Z\", \"source\": \"promotion\"}]}], \"events\": [{\"timestamp\": \"2026-05-14T00:00:00Z\", \"action\": \"register\", \"skillId\": \"getagentseal/codeburn\", \"details\": \"Registered named skill getagentseal/codeburn\", \"previousValue\": null, \"newValue\": \"2\\u2605\"}]}");</script>
 
   <!-- ─── SKILL PLAQUES ─── -->
   <section class="profile-section">
@@ -118,7 +118,14 @@
   <section class="profile-section" id="profile-activity">
   <h2 class="profile-section-title">Activity</h2>
   <p class="profile-section-sub">Recent progression events from this contributor's skill tree.</p>
-  <p class="profile-activity-empty">No recorded activity yet.</p>
+  <ul class="profile-activity-list">
+    <li class="profile-activity-item" data-action="register" data-skill-id="getagentseal/codeburn">
+      <time class="profile-activity-time" datetime="2026-05-14T00:00:00Z">May 2026</time>
+      <span class="profile-activity-action">REGISTER</span>
+      <span class="profile-activity-skill">/CodeBurn</span>
+      <span class="profile-activity-change">→ 2★</span>
+    </li>
+  </ul>
 </section>
 
   <footer>

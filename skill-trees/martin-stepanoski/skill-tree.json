@@ -1,0 +1,36 @@
+{
+  "userId": "martin-stepanoski",
+  "updatedAt": "2026-05-25",
+  "unlockedSkills": [
+    {
+      "skillId": "martin-stepanoski/nielsen-heuristics-audit",
+      "level": "2★",
+      "unlockedAt": "2026-04-30T00:00:00Z",
+      "unlockedIn": "martin-stepanoski/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-04-30T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-04-30T00:00:00Z",
+      "action": "register",
+      "skillId": "martin-stepanoski/nielsen-heuristics-audit",
+      "details": "Registered named skill martin-stepanoski/nielsen-heuristics-audit",
+      "previousValue": null,
+      "newValue": "2★"
+    }
+  ],
+  "stats": {
+    "totalUnlocked": 1,
+    "highestRarity": "uncommon",
+    "deepestLineage": 1
+  },
+  "pendingCombinations": []
+}

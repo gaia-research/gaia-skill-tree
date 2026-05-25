@@ -1,0 +1,828 @@
+{
+  "userId": "google-deepmind",
+  "updatedAt": "2026-05-25",
+  "unlockedSkills": [
+    {
+      "skillId": "google-deepmind/alphafold_database_fetch_and_analyze",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "google-deepmind/alphagenome_single_variant_analysis",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "google-deepmind/chembl_database",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "google-deepmind/clinical_trials_database",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "google-deepmind/clinvar_database",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "google-deepmind/dbsnp_database",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "google-deepmind/embl_ebi_ols",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "google-deepmind/encode_ccres_database",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "google-deepmind/ensembl_database",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "google-deepmind/foldseek_structural_search",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "google-deepmind/gnomad_database",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "google-deepmind/gtex_database",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "google-deepmind/human_protein_atlas_database",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "google-deepmind/interpro_database",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "google-deepmind/jaspar_database",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "google-deepmind/literature_search_arxiv",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "google-deepmind/literature_search_biorxiv",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "google-deepmind/literature_search_europepmc",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "google-deepmind/literature_search_openalex",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "google-deepmind/ncbi_sequence_fetch",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "google-deepmind/openfda_database",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "google-deepmind/opentargets_database",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "google-deepmind/pdb_database",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "google-deepmind/protein_sequence_msa",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "google-deepmind/protein_sequence_similarity_search",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "google-deepmind/pubchem_database",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "google-deepmind/pubmed_database",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "google-deepmind/pymol",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "google-deepmind/quickgo_database",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "google-deepmind/reactome_database",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "google-deepmind/science_skills_common",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "google-deepmind/string_database",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "google-deepmind/ucsc_conservation_and_tfbs",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "google-deepmind/unibind_database",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "google-deepmind/uniprot_database",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "google-deepmind/uv",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "google-deepmind/workflow_skill_creator",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "google-deepmind/alphafold_database_fetch_and_analyze",
+      "details": "Registered named skill google-deepmind/alphafold_database_fetch_and_analyze",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "google-deepmind/alphagenome_single_variant_analysis",
+      "details": "Registered named skill google-deepmind/alphagenome_single_variant_analysis",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "google-deepmind/chembl_database",
+      "details": "Registered named skill google-deepmind/chembl_database",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "google-deepmind/clinical_trials_database",
+      "details": "Registered named skill google-deepmind/clinical_trials_database",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "google-deepmind/clinvar_database",
+      "details": "Registered named skill google-deepmind/clinvar_database",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "google-deepmind/dbsnp_database",
+      "details": "Registered named skill google-deepmind/dbsnp_database",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "google-deepmind/embl_ebi_ols",
+      "details": "Registered named skill google-deepmind/embl_ebi_ols",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "google-deepmind/encode_ccres_database",
+      "details": "Registered named skill google-deepmind/encode_ccres_database",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "google-deepmind/ensembl_database",
+      "details": "Registered named skill google-deepmind/ensembl_database",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "google-deepmind/foldseek_structural_search",
+      "details": "Registered named skill google-deepmind/foldseek_structural_search",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "google-deepmind/gnomad_database",
+      "details": "Registered named skill google-deepmind/gnomad_database",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "google-deepmind/gtex_database",
+      "details": "Registered named skill google-deepmind/gtex_database",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "google-deepmind/human_protein_atlas_database",
+      "details": "Registered named skill google-deepmind/human_protein_atlas_database",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "google-deepmind/interpro_database",
+      "details": "Registered named skill google-deepmind/interpro_database",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "google-deepmind/jaspar_database",
+      "details": "Registered named skill google-deepmind/jaspar_database",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "google-deepmind/literature_search_arxiv",
+      "details": "Registered named skill google-deepmind/literature_search_arxiv",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "google-deepmind/literature_search_biorxiv",
+      "details": "Registered named skill google-deepmind/literature_search_biorxiv",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "google-deepmind/literature_search_europepmc",
+      "details": "Registered named skill google-deepmind/literature_search_europepmc",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "google-deepmind/literature_search_openalex",
+      "details": "Registered named skill google-deepmind/literature_search_openalex",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "google-deepmind/ncbi_sequence_fetch",
+      "details": "Registered named skill google-deepmind/ncbi_sequence_fetch",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "google-deepmind/openfda_database",
+      "details": "Registered named skill google-deepmind/openfda_database",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "google-deepmind/opentargets_database",
+      "details": "Registered named skill google-deepmind/opentargets_database",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "google-deepmind/pdb_database",
+      "details": "Registered named skill google-deepmind/pdb_database",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "google-deepmind/protein_sequence_msa",
+      "details": "Registered named skill google-deepmind/protein_sequence_msa",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "google-deepmind/protein_sequence_similarity_search",
+      "details": "Registered named skill google-deepmind/protein_sequence_similarity_search",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "google-deepmind/pubchem_database",
+      "details": "Registered named skill google-deepmind/pubchem_database",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "google-deepmind/pubmed_database",
+      "details": "Registered named skill google-deepmind/pubmed_database",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "google-deepmind/pymol",
+      "details": "Registered named skill google-deepmind/pymol",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "google-deepmind/quickgo_database",
+      "details": "Registered named skill google-deepmind/quickgo_database",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "google-deepmind/reactome_database",
+      "details": "Registered named skill google-deepmind/reactome_database",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "google-deepmind/science_skills_common",
+      "details": "Registered named skill google-deepmind/science_skills_common",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "google-deepmind/string_database",
+      "details": "Registered named skill google-deepmind/string_database",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "google-deepmind/ucsc_conservation_and_tfbs",
+      "details": "Registered named skill google-deepmind/ucsc_conservation_and_tfbs",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "google-deepmind/unibind_database",
+      "details": "Registered named skill google-deepmind/unibind_database",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "google-deepmind/uniprot_database",
+      "details": "Registered named skill google-deepmind/uniprot_database",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "google-deepmind/uv",
+      "details": "Registered named skill google-deepmind/uv",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "google-deepmind/workflow_skill_creator",
+      "details": "Registered named skill google-deepmind/workflow_skill_creator",
+      "previousValue": null,
+      "newValue": "2★"
+    }
+  ],
+  "stats": {
+    "totalUnlocked": 37,
+    "highestRarity": "uncommon",
+    "deepestLineage": 1
+  },
+  "pendingCombinations": []
+}

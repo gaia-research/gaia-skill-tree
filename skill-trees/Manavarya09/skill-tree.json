@@ -1,0 +1,36 @@
+{
+  "userId": "Manavarya09",
+  "updatedAt": "2026-05-25",
+  "unlockedSkills": [
+    {
+      "skillId": "Manavarya09/design-extract",
+      "level": "2★",
+      "unlockedAt": "2026-05-14T00:00:00Z",
+      "unlockedIn": "Manavarya09/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-14T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-05-14T00:00:00Z",
+      "action": "register",
+      "skillId": "Manavarya09/design-extract",
+      "details": "Registered named skill Manavarya09/design-extract",
+      "previousValue": null,
+      "newValue": "2★"
+    }
+  ],
+  "stats": {
+    "totalUnlocked": 1,
+    "highestRarity": "uncommon",
+    "deepestLineage": 1
+  },
+  "pendingCombinations": []
+}

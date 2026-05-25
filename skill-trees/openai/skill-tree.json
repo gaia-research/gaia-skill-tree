@@ -1,0 +1,58 @@
+{
+  "userId": "openai",
+  "updatedAt": "2026-05-25",
+  "unlockedSkills": [
+    {
+      "skillId": "openai/few-shot-learning",
+      "level": "4★",
+      "unlockedAt": "2026-05-15T00:00:00Z",
+      "unlockedIn": "openai/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "4★",
+          "achievedAt": "2026-05-15T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "openai/self-consistency",
+      "level": "4★",
+      "unlockedAt": "2026-05-15T00:00:00Z",
+      "unlockedIn": "openai/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "4★",
+          "achievedAt": "2026-05-15T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-05-15T00:00:00Z",
+      "action": "register",
+      "skillId": "openai/few-shot-learning",
+      "details": "Registered named skill openai/few-shot-learning",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-05-15T00:00:00Z",
+      "action": "register",
+      "skillId": "openai/self-consistency",
+      "details": "Registered named skill openai/self-consistency",
+      "previousValue": null,
+      "newValue": "4★"
+    }
+  ],
+  "stats": {
+    "totalUnlocked": 2,
+    "highestRarity": "uncommon",
+    "deepestLineage": 1
+  },
+  "pendingCombinations": []
+}

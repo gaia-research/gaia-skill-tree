@@ -1,0 +1,36 @@
+{
+  "userId": "browser-use",
+  "updatedAt": "2026-05-25",
+  "unlockedSkills": [
+    {
+      "skillId": "browser-use/browser-harness",
+      "level": "2★",
+      "unlockedAt": "2026-05-14T00:00:00Z",
+      "unlockedIn": "browser-use/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-14T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-05-14T00:00:00Z",
+      "action": "register",
+      "skillId": "browser-use/browser-harness",
+      "details": "Registered named skill browser-use/browser-harness",
+      "previousValue": null,
+      "newValue": "2★"
+    }
+  ],
+  "stats": {
+    "totalUnlocked": 1,
+    "highestRarity": "uncommon",
+    "deepestLineage": 1
+  },
+  "pendingCombinations": []
+}

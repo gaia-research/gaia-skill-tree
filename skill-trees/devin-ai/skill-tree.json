@@ -1,0 +1,36 @@
+{
+  "userId": "devin-ai",
+  "updatedAt": "2026-05-25",
+  "unlockedSkills": [
+    {
+      "skillId": "devin-ai/autonomous-swe",
+      "level": "3★",
+      "unlockedAt": "2026-04-29T00:00:00Z",
+      "unlockedIn": "devin-ai/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-04-29T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-04-29T00:00:00Z",
+      "action": "register",
+      "skillId": "devin-ai/autonomous-swe",
+      "details": "Registered named skill devin-ai/autonomous-swe",
+      "previousValue": null,
+      "newValue": "3★"
+    }
+  ],
+  "stats": {
+    "totalUnlocked": 1,
+    "highestRarity": "uncommon",
+    "deepestLineage": 1
+  },
+  "pendingCombinations": []
+}

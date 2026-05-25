@@ -1,0 +1,36 @@
+{
+  "userId": "safishamsi",
+  "updatedAt": "2026-05-25",
+  "unlockedSkills": [
+    {
+      "skillId": "safishamsi/graphify",
+      "level": "3★",
+      "unlockedAt": "2026-05-14T00:00:00Z",
+      "unlockedIn": "safishamsi/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-05-14T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-05-14T00:00:00Z",
+      "action": "register",
+      "skillId": "safishamsi/graphify",
+      "details": "Registered named skill safishamsi/graphify",
+      "previousValue": null,
+      "newValue": "3★"
+    }
+  ],
+  "stats": {
+    "totalUnlocked": 1,
+    "highestRarity": "uncommon",
+    "deepestLineage": 1
+  },
+  "pendingCombinations": []
+}

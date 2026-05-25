@@ -76,7 +76,7 @@
   <p class="profile-section-sub">Skill rank progression over time. Hover for details.</p>
   <div id="profile-timeline" class="profile-timeline" role="img" aria-label="Skill progression timeline"></div>
 </section>
-<script>window.PROFILE_TIMELINE = JSON.parse("{\"skills\": [{\"id\": \"route-intent\", \"name\": \"route-intent\", \"type\": \"basic\", \"origin\": false, \"levelHistory\": []}, {\"id\": \"plan-decompose\", \"name\": \"plan-decompose\", \"type\": \"basic\", \"origin\": false, \"levelHistory\": []}, {\"id\": \"tool-select\", \"name\": \"tool-select\", \"type\": \"basic\", \"origin\": false, \"levelHistory\": []}, {\"id\": \"plan-and-execute\", \"name\": \"plan-and-execute\", \"type\": \"basic\", \"origin\": false, \"levelHistory\": []}], \"events\": []}");</script>
+<script>window.PROFILE_TIMELINE = JSON.parse("{\"skills\": [{\"id\": \"route-intent\", \"name\": \"route-intent\", \"type\": \"basic\", \"origin\": false, \"levelHistory\": []}, {\"id\": \"plan-decompose\", \"name\": \"plan-decompose\", \"type\": \"basic\", \"origin\": false, \"levelHistory\": []}, {\"id\": \"tool-select\", \"name\": \"tool-select\", \"type\": \"basic\", \"origin\": false, \"levelHistory\": []}, {\"id\": \"plan-and-execute\", \"name\": \"plan-and-execute\", \"type\": \"basic\", \"origin\": false, \"levelHistory\": []}, {\"id\": \"gaiabot/gaia-triage\", \"name\": \"Gaia Triage (Internal)\", \"type\": \"basic\", \"origin\": false, \"levelHistory\": [{\"level\": \"2\\u2605\", \"achievedAt\": \"2026-05-25T00:00:00Z\", \"source\": \"promotion\"}]}, {\"id\": \"gaiabot/repo-docs-before-pr\", \"name\": \"Repo Docs Before PR\", \"type\": \"basic\", \"origin\": false, \"levelHistory\": [{\"level\": \"2\\u2605\", \"achievedAt\": \"2026-05-25T00:00:00Z\", \"source\": \"promotion\"}]}, {\"id\": \"dify-agent-suite\", \"name\": \"dify-agent-suite\", \"type\": \"basic\", \"origin\": false, \"levelHistory\": []}], \"events\": [{\"timestamp\": \"2026-04-20\", \"action\": \"register\", \"skillId\": \"route-intent\", \"details\": \"Registered named skill route-intent\", \"previousValue\": null, \"newValue\": \"2\\u2605\"}, {\"timestamp\": \"2026-04-21\", \"action\": \"register\", \"skillId\": \"plan-decompose\", \"details\": \"Registered named skill plan-decompose\", \"previousValue\": null, \"newValue\": \"2\\u2605\"}, {\"timestamp\": \"2026-04-22\", \"action\": \"register\", \"skillId\": \"tool-select\", \"details\": \"Registered named skill tool-select\", \"previousValue\": null, \"newValue\": \"2\\u2605\"}, {\"timestamp\": \"2026-04-26\", \"action\": \"register\", \"skillId\": \"plan-and-execute\", \"details\": \"Registered named skill plan-and-execute\", \"previousValue\": null, \"newValue\": \"3\\u2605\"}, {\"timestamp\": \"2026-05-20T23:14:03Z\", \"action\": \"add\", \"details\": \"Added generic skill dify-agent-suite\", \"skillId\": \"dify-agent-suite\"}, {\"timestamp\": \"2026-05-20T23:14:48Z\", \"action\": \"evidence_added\", \"details\": \"Added B evidence from https://github.com/langgenius/dify\", \"skillId\": \"dify-agent-suite\"}, {\"timestamp\": \"2026-05-25T00:00:00Z\", \"action\": \"register\", \"skillId\": \"gaiabot/gaia-triage\", \"details\": \"Registered named skill gaiabot/gaia-triage\", \"previousValue\": null, \"newValue\": \"2\\u2605\"}, {\"timestamp\": \"2026-05-25T00:00:00Z\", \"action\": \"register\", \"skillId\": \"gaiabot/repo-docs-before-pr\", \"details\": \"Registered named skill gaiabot/repo-docs-before-pr\", \"previousValue\": null, \"newValue\": \"2\\u2605\"}]}");</script>
 
   <!-- ─── SKILL PLAQUES ─── -->
   <section class="profile-section">
@@ -119,7 +119,56 @@
   <section class="profile-section" id="profile-activity">
   <h2 class="profile-section-title">Activity</h2>
   <p class="profile-section-sub">Recent progression events from this contributor's skill tree.</p>
-  <p class="profile-activity-empty">No recorded activity yet.</p>
+  <ul class="profile-activity-list">
+    <li class="profile-activity-item" data-action="register" data-skill-id="gaiabot/gaia-triage">
+      <time class="profile-activity-time" datetime="2026-05-25T00:00:00Z">May 2026</time>
+      <span class="profile-activity-action">REGISTER</span>
+      <span class="profile-activity-skill">/Gaia Triage (Internal)</span>
+      <span class="profile-activity-change">→ 2★</span>
+    </li>
+    <li class="profile-activity-item" data-action="register" data-skill-id="gaiabot/repo-docs-before-pr">
+      <time class="profile-activity-time" datetime="2026-05-25T00:00:00Z">May 2026</time>
+      <span class="profile-activity-action">REGISTER</span>
+      <span class="profile-activity-skill">/Repo Docs Before PR</span>
+      <span class="profile-activity-change">→ 2★</span>
+    </li>
+    <li class="profile-activity-item" data-action="evidence_added" data-skill-id="dify-agent-suite">
+      <time class="profile-activity-time" datetime="2026-05-20T23:14:48Z">May 2026</time>
+      <span class="profile-activity-action">EVIDENCE ADDED</span>
+      <span class="profile-activity-skill">/dify-agent-suite</span>
+      
+    </li>
+    <li class="profile-activity-item" data-action="add" data-skill-id="dify-agent-suite">
+      <time class="profile-activity-time" datetime="2026-05-20T23:14:03Z">May 2026</time>
+      <span class="profile-activity-action">ADD</span>
+      <span class="profile-activity-skill">/dify-agent-suite</span>
+      
+    </li>
+    <li class="profile-activity-item" data-action="register" data-skill-id="plan-and-execute">
+      <time class="profile-activity-time" datetime="2026-04-26">Apr 2026</time>
+      <span class="profile-activity-action">REGISTER</span>
+      <span class="profile-activity-skill">/plan-and-execute</span>
+      <span class="profile-activity-change">→ 3★</span>
+    </li>
+    <li class="profile-activity-item" data-action="register" data-skill-id="tool-select">
+      <time class="profile-activity-time" datetime="2026-04-22">Apr 2026</time>
+      <span class="profile-activity-action">REGISTER</span>
+      <span class="profile-activity-skill">/tool-select</span>
+      <span class="profile-activity-change">→ 2★</span>
+    </li>
+    <li class="profile-activity-item" data-action="register" data-skill-id="plan-decompose">
+      <time class="profile-activity-time" datetime="2026-04-21">Apr 2026</time>
+      <span class="profile-activity-action">REGISTER</span>
+      <span class="profile-activity-skill">/plan-decompose</span>
+      <span class="profile-activity-change">→ 2★</span>
+    </li>
+    <li class="profile-activity-item" data-action="register" data-skill-id="route-intent">
+      <time class="profile-activity-time" datetime="2026-04-20">Apr 2026</time>
+      <span class="profile-activity-action">REGISTER</span>
+      <span class="profile-activity-skill">/route-intent</span>
+      <span class="profile-activity-change">→ 2★</span>
+    </li>
+  </ul>
 </section>
 
   <footer>

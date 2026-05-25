@@ -1,0 +1,190 @@
+{
+  "userId": "intelligentcode-ai",
+  "updatedAt": "2026-05-25",
+  "unlockedSkills": [
+    {
+      "skillId": "intelligentcode-ai/database-engineer",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "intelligentcode-ai/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "intelligentcode-ai/devops-engineer",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "intelligentcode-ai/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "intelligentcode-ai/mcp-client",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "intelligentcode-ai/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "intelligentcode-ai/parallel-execution",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "intelligentcode-ai/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "intelligentcode-ai/release",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "intelligentcode-ai/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "intelligentcode-ai/requirements-engineer",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "intelligentcode-ai/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "intelligentcode-ai/security-engineer",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "intelligentcode-ai/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "intelligentcode-ai/user-tester",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "intelligentcode-ai/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "intelligentcode-ai/database-engineer",
+      "details": "Registered named skill intelligentcode-ai/database-engineer",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "intelligentcode-ai/devops-engineer",
+      "details": "Registered named skill intelligentcode-ai/devops-engineer",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "intelligentcode-ai/mcp-client",
+      "details": "Registered named skill intelligentcode-ai/mcp-client",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "intelligentcode-ai/parallel-execution",
+      "details": "Registered named skill intelligentcode-ai/parallel-execution",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "intelligentcode-ai/release",
+      "details": "Registered named skill intelligentcode-ai/release",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "intelligentcode-ai/requirements-engineer",
+      "details": "Registered named skill intelligentcode-ai/requirements-engineer",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "intelligentcode-ai/security-engineer",
+      "details": "Registered named skill intelligentcode-ai/security-engineer",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "intelligentcode-ai/user-tester",
+      "details": "Registered named skill intelligentcode-ai/user-tester",
+      "previousValue": null,
+      "newValue": "2★"
+    }
+  ],
+  "stats": {
+    "totalUnlocked": 8,
+    "highestRarity": "uncommon",
+    "deepestLineage": 1
+  },
+  "pendingCombinations": []
+}

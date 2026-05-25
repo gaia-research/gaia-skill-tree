@@ -33,12 +33,110 @@
         "plan-decompose",
         "tool-select"
       ]
+    },
+    {
+      "skillId": "gaiabot/gaia-triage",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "gaiabot/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "gaiabot/repo-docs-before-pr",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "gaiabot/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "dify-agent-suite",
+      "level": "2★",
+      "unlockedAt": "2026-05-20T23:14:03Z",
+      "unlockedIn": "gaiabot/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": []
     }
   ],
   "pendingCombinations": [],
   "stats": {
-    "totalUnlocked": 4,
+    "totalUnlocked": 7,
     "highestRarity": "common",
     "deepestLineage": 1
-  }
+  },
+  "timeline": [
+    {
+      "timestamp": "2026-04-20",
+      "action": "register",
+      "skillId": "route-intent",
+      "details": "Registered named skill route-intent",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-04-21",
+      "action": "register",
+      "skillId": "plan-decompose",
+      "details": "Registered named skill plan-decompose",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-04-22",
+      "action": "register",
+      "skillId": "tool-select",
+      "details": "Registered named skill tool-select",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-04-26",
+      "action": "register",
+      "skillId": "plan-and-execute",
+      "details": "Registered named skill plan-and-execute",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-05-20T23:14:03Z",
+      "action": "add",
+      "details": "Added generic skill dify-agent-suite",
+      "skillId": "dify-agent-suite"
+    },
+    {
+      "timestamp": "2026-05-20T23:14:48Z",
+      "action": "evidence_added",
+      "details": "Added B evidence from https://github.com/langgenius/dify",
+      "skillId": "dify-agent-suite"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "gaiabot/gaia-triage",
+      "details": "Registered named skill gaiabot/gaia-triage",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "gaiabot/repo-docs-before-pr",
+      "details": "Registered named skill gaiabot/repo-docs-before-pr",
+      "previousValue": null,
+      "newValue": "2★"
+    }
+  ]
 }

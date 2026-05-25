@@ -1,0 +1,36 @@
+{
+  "userId": "Taoidle",
+  "updatedAt": "2026-05-25",
+  "unlockedSkills": [
+    {
+      "skillId": "Taoidle/plan-decompose-gh-plan-cascade",
+      "level": "2★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "Taoidle/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-05-25T00:00:00Z",
+      "action": "register",
+      "skillId": "Taoidle/plan-decompose-gh-plan-cascade",
+      "details": "Registered named skill Taoidle/plan-decompose-gh-plan-cascade",
+      "previousValue": null,
+      "newValue": "2★"
+    }
+  ],
+  "stats": {
+    "totalUnlocked": 1,
+    "highestRarity": "uncommon",
+    "deepestLineage": 1
+  },
+  "pendingCombinations": []
+}
