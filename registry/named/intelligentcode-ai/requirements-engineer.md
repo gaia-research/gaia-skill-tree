@@ -8,7 +8,6 @@ links:
 genericSkillRef: requirements-analysis
 status: named
 title: The Logic Sculptor
-catalogRef: intelligentcode-ai-requirements-engineer
 level: 2★
 description: Business analysis specialist bridging stakeholders and technical teams
   — requirements gathering, user story writing, acceptance criteria, and full requirements

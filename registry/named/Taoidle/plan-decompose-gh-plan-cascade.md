@@ -5,7 +5,6 @@ contributor: Taoidle
 origin: false
 genericSkillRef: autonomous-engineering-platform
 status: awakened
-title: Plan Cascade
 level: 2★
 description: AI-powered cascading development framework.
 createdAt: '2026-05-23'

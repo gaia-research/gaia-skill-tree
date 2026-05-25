@@ -8,7 +8,6 @@ links:
 genericSkillRef: e2e-testing
 status: named
 title: The Human Lens
-catalogRef: intelligentcode-ai-user-tester
 level: 2★
 description: E2E testing specialist with Puppeteer/Playwright automation — cross-browser
   validation, full user journey simulation, and visual regression detection.

@@ -8,7 +8,6 @@ links:
 genericSkillRef: deployment-automation
 status: named
 title: The DevOps Sentinel
-catalogRef: intelligentcode-ai-devops-engineer
 level: 2★
 description: CI/CD pipeline design and deployment automation specialist — build systems,
   artifact publishing, environment promotion, and rollback strategies.
