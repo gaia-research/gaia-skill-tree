@@ -250,6 +250,19 @@
         "notes": {
           "type": "string",
           "description": "Optional notes about the evaluation."
+        },
+        "verified": {
+          "type": "boolean",
+          "description": "True if the evidence has been verified by a Verifier (4★+ contributor)."
+        },
+        "disputed": {
+          "type": "boolean",
+          "description": "True if the evidence is currently under dispute."
+        },
+        "verificationSource": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to the verification discussion or PR."
         }
       }
     },
@@ -281,7 +294,9 @@
             "rename",
             "add",
             "evidence_added",
-            "type_change"
+            "type_change",
+            "verified",
+            "disputed"
           ],
           "description": "The meta-action that occurred."
         },

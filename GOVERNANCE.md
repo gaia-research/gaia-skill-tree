@@ -24,6 +24,13 @@ Core Maintainers have final approval authority and manage:
 - Dispute resolution.
 - Ultimate skill validation (requires two Core Maintainer approvals). See [META.md](META.md#42-ultimate--apex-pathways) for the technical promotion criteria.
 
+### 1.4 Verifiers
+Verifiers are trusted members of the community who hold at least one **4★ (Hardened)** skill implementation. They have the authority to:
+- Review evidence for new skill submissions.
+- Mark evidence as `verified` or `disputed` via the `gaia dev verify` command.
+- Verification from a Verifier reduces the requirement for Maintainer review for 3★ promotions.
+- 4★+ promotions still require final Maintainer sign-off, but Verifier confirmation is the primary weight in that decision.
+
 ## 2. Decision Making
 
 Decisions are made through Pull Requests. Most PRs require one Maintainer approval.

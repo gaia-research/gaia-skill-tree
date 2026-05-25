@@ -141,6 +141,14 @@
       icon('github', 14) + '</a>';
   }
 
+  function _fieldVariantsBadge(ns) {
+    if (!ns || !ns.variants || !ns.variants.length) return '';
+    var count = ns.variants.length;
+    return '<div class="plaque__variants-badge ns-variants-badge" title="' + count + ' additional implementation(s) available">' +
+      '+' + count + ' implementation' + (count > 1 ? 's' : '') +
+      '</div>';
+  }
+
   function _fieldOriginBadge(ns) {
     if (!ns || !ns.origin) return '';
     // Stage 4 — render the origin badge from the shared sprite so it inherits

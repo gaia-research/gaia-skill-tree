@@ -37,13 +37,19 @@ Evidence is categorized by "Class," representing the level of third-party verifi
 - **Class C (Credible Demo)**: Blog posts, social media demos, or "coming soon" repositories with code.
 
 ### 2.2 The "Prestige Pivot" Roadmap (RFC #457)
-*Items marked [PENDING] are currently under deliberation/development.*
 
-- **[PENDING] Web of Trust**: Contributors holding a **4★ (Hardened)** skill may act as "Verifiers" for new evidence, reducing reliance on central maintainers.
-- **[PENDING] Liveness Heartbeat**: Automated monthly checks for URL health and repository activity. Dead or inactive repositories are flagged for demotion.
-- **[PENDING] Specialist Path**: A rubric allowing vendor-locked skills (e.g., Palantir, Salesforce) to reach 4★+ by proving "Depth of Integration" (robustness and production usage) rather than general portability.
+- **Web of Trust**: Contributors holding a **4★ (Hardened)** skill may act as "Verifiers" for new evidence, reducing reliance on central maintainers. Verified evidence is marked in the schema and visualized in the Skill Explorer history.
+- **Liveness Heartbeat**: Automated monthly checks for URL health and repository activity. Dead or inactive repositories are flagged for demotion. Stable, "finished" software with Class A/B evidence is protected from rot demerits.
+- **Specialist Path**: A rubric allowing vendor-locked skills (e.g., Palantir, Salesforce) to reach 4★+ by proving "Depth of Integration" (robustness and production usage) rather than general portability.
 
-### 2.3 Meta-Audit & Curation Standards
+### 2.3 Specialist Path Rubric (4★+ Promotion)
+To reach Hardened (4★) or higher as a Specialist (vendor-locked) skill, the implementation must meet the **Depth of Integration** bar:
+1. **Production Evidence**: Documented usage in a real-world production environment (Case study, blog post, or Class A/B evidence).
+2. **Robustness**: Comprehensive test suite covering edge cases of the vendor's API/Platform.
+3. **Documentation**: Detailed "How-to" and "Reference" docs specifically for the vendor-locked context.
+4. **Maintenance**: Active updates or a "Stable/Finished" status with verified liveness.
+
+### 2.4 Meta-Audit & Curation Standards
 - **4★+ Evidence Verification**: Seed evidence (e.g., placeholder files in the gaia repo) is insufficient. 4★+ skills MUST have live, verifiable usage evidence.
 - **Specific URL Requirement**: Links for named claims must point to concrete implementation files (`SKILL.md`, source code, etc.), not generic repository roots.
 - **Installability (The Star Bar)**: 

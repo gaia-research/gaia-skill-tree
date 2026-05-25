@@ -953,7 +953,8 @@
   var SE_ACTION_ICON = {
     rank_up: '↑', ascend: '✦', name: '@', fuse: '⊕',
     push: '+', evidence: '✓', demote: '↓', propose: '◆',
-    bond: '⊙', register: '◎', commit: '·'
+    bond: '⊙', register: '◎', commit: '·',
+    verified: '✓', disputed: '⚠', evidence_added: '⊕'
   };
 
   function demeritLabel(id) {
@@ -975,9 +976,9 @@
     }];
   }
 
-  function structuredTimelineEvents(generic) {
-    if (!generic || !Array.isArray(generic.timeline) || !generic.timeline.length) return [];
-    return generic.timeline.map(function(t) {
+  function structuredTimelineEvents(node) {
+    if (!node || !Array.isArray(node.timeline) || !node.timeline.length) return [];
+    return node.timeline.map(function(t) {
       return {
         date: (t.timestamp || t.date || '').slice(0, 10),
         action: t.action || 'commit',
@@ -988,15 +989,16 @@
     });
   }
 
-  function mergeTimeline(evts, generic) {
+  function mergeTimeline(evts, generic, ns) {
     var all = (evts || [])
       .concat(demeritTimelineEvents(generic))
-      .concat(structuredTimelineEvents(generic));
-    // Deduplicate by date+action (structured events take priority)
+      .concat(structuredTimelineEvents(generic))
+      .concat(structuredTimelineEvents(ns));
+    // Deduplicate by date+action+msg
     var seen = {};
     var deduped = [];
     all.forEach(function(ev) {
-      var key = (ev.date || '') + '|' + (ev.action || 'commit') + '|' + (ev.msg || '').slice(0, 40);
+      var key = (ev.date || '') + '|' + (ev.action || 'commit') + '|' + (ev.msg || '').slice(0, 60);
       if (!seen[key]) { seen[key] = true; deduped.push(ev); }
     });
     return deduped.sort(function(a, b) {
@@ -1018,7 +1020,7 @@
           var evts = [];
           if (ns.createdAt) evts.push({ date: ns.createdAt, action: 'push', msg: 'Skill created', sha: '' });
           if (ns.updatedAt && ns.updatedAt !== ns.createdAt) evts.push({ date: ns.updatedAt, action: 'commit', msg: 'Skill updated', sha: '' });
-          renderTimelineEvents(el, mergeTimeline(evts, generic));
+          renderTimelineEvents(el, mergeTimeline(evts, generic, ns));
           return;
         }
         var evts = commits.map(function(c){
@@ -1029,13 +1031,13 @@
             sha: c.sha ? c.sha.slice(0,7) : ''
           };
         });
-        renderTimelineEvents(el, mergeTimeline(evts, generic));
+        renderTimelineEvents(el, mergeTimeline(evts, generic, ns));
       })
       .catch(function(){
         var evts = [];
         if (ns.createdAt) evts.push({ date: ns.createdAt, action: 'push', msg: 'Skill created', sha: '' });
         if (ns.updatedAt && ns.updatedAt !== ns.createdAt) evts.push({ date: ns.updatedAt, action: 'commit', msg: 'Skill updated', sha: '' });
-        renderTimelineEvents(el, mergeTimeline(evts, generic));
+        renderTimelineEvents(el, mergeTimeline(evts, generic, ns));
       });
   }
 
@@ -1062,6 +1064,24 @@
         '</div>';
       }).join('') +
     '</div>';
+  }
+
+  function renderVariants(ns) {
+    var el = document.getElementById('se-upgrade');
+    if (!el) return;
+    if (!ns.variants || !ns.variants.length) { el.innerHTML = ''; return; }
+    
+    var html = '<div class="se-variants-list">' +
+      '<div class="se-flow-h">' + _se_icon('view-list') + ' Other Implementations (' + ns.variants.length + ')</div>' +
+      '<div class="se-variants-grid">' +
+        ns.variants.map(function(v) {
+          return '<div class="se-variant-item" onclick="openSkillExplorer(\'' + v.id.replace(/'/g,"\\'") + '\')">' +
+            '<span class="se-variant-handle">@' + esc(v.contributor) + '</span>' +
+            '<span class="se-variant-level">' + esc(v.level) + '</span>' +
+          '</div>';
+        }).join('') +
+      '</div></div>';
+    el.innerHTML = html;
   }
 
   // ── MAIN OPEN / CLOSE ────────────────────────────────────────
