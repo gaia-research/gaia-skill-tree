@@ -183,12 +183,19 @@
         "minOriginContributions": 1
       }
     },
+    "5★": {
+      "description": "Ultimate path: Platform capstones requires 5+ named prerequisites + Origin Fusion + 10k repository stars.",
+      "ultimatePath": {
+        "minNamedPrereqs": 5,
+        "minOriginContributions": 1,
+        "minRepoStars": 10000
+      }
+    },
     "6★": {
-      "description": "Apex path: Fuse at least one 5★ Ultimate skills AND the proposer's GitHub repo has 30k+ stars.",
+      "description": "Apex path: Reaching Apex rank requires Tier A evidence and a fusion involving at least one Origin 5★ Transcendent skill.",
       "apexPath": {
         "minUltimateSkills": 1,
-        "minUltimateLevel": "5★",
-        "minRepoStars": 10000
+        "minUltimateLevel": "5★"
       }
     }
   },
