@@ -98,6 +98,8 @@ Gaia uses a tiered star system (**0★–6★**) to rank agent capabilities.
 | ◇ Extra | Composite workflow | 2★ → 4★ |
 | ◆ Ultimate | Platform capstone | 5★ → 6★ |
 
+Skills rank up through **verifiable evidence** (Class A/B/C) and can be demoted by **demerits**.
+
 > **Detailed Policy:** See [META.md](META.md) for the full evidence methodology, ranking floors, and prestige requirements.
 
 ---
