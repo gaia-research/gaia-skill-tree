@@ -2,7 +2,7 @@
   "id": "autonomous-debug",
   "name": "Autonomous Debug",
   "type": "extra",
-  "level": "3★",
+  "level": "1★",
   "rarity": "rare",
   "description": "Independently identifies, diagnoses, and fixes software bugs through code generation and execution.",
   "prerequisites": [
@@ -32,6 +32,15 @@
       "action": "demote",
       "contributor": "mbtiongson1",
       "details": "Calibrated level from 4★ to 3★"
+    },
+    {
+      "timestamp": "2026-05-25T04:25:30Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 3★ to 2★"
     }
+  ],
+  "demerits": [
+    "broken-evidence"
   ]
 }

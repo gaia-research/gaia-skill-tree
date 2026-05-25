@@ -2,7 +2,7 @@
   "id": "ubiquitous-language",
   "name": "Ubiquitous Language",
   "type": "extra",
-  "level": "4★",
+  "level": "2★",
   "rarity": "rare",
   "description": "Establishes and maintains a consistent, domain-driven vocabulary between the agent and human, formalising terminology in a shared glossary (typically CONTEXT.md) to reduce ambiguity and token waste.",
   "prerequisites": [
@@ -25,6 +25,17 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-15",
-  "updatedAt": "2026-05-15",
-  "version": "0.1.0"
+  "updatedAt": "2026-05-25",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-25T04:25:35Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 4★ to 3★"
+    }
+  ],
+  "demerits": [
+    "broken-evidence"
+  ]
 }

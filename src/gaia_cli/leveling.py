@@ -45,7 +45,8 @@ def effective_level(skill: dict) -> str:
         return current
     base_idx = level_index(current)
     floor_idx = level_index(MIN_EFFECTIVE_LEVEL)
-    lowered = max(floor_idx, base_idx - demerit_penalty(skill))
+    penalty = demerit_penalty(skill)
+    lowered = max(floor_idx, base_idx - penalty)
     return LEVEL_ORDER[lowered]
 
 

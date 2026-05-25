@@ -1,8 +1,8 @@
-# /embed-text  [1★ · Awakened]
+# /embed-text  [0★ · Basic]
 **ID:** embed-text  
 **Type:** Basic Skill  
-**Level:** 1★  
-**Tier:** Awakened  
+**Level:** 0★  
+**Tier:** Basic  
 **Skill Call:** `/embed-text`
 
 ---

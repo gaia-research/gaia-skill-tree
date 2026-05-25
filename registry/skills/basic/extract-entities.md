@@ -1,8 +1,8 @@
-# /extract-entities  [1★ · Awakened]
+# /extract-entities  [0★ · Basic]
 **ID:** extract-entities  
 **Type:** Basic Skill  
-**Level:** 1★  
-**Tier:** Awakened  
+**Level:** 0★  
+**Tier:** Basic  
 **Skill Call:** `/extract-entities`
 
 ---

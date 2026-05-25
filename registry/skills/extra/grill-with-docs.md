@@ -1,8 +1,10 @@
-# [mattpocock](../../../docs/u/mattpocock/)/grill-with-docs  [3★ · Evolved]
+# [mattpocock](../../../docs/u/mattpocock/)/grill-with-docs  [1★ · Awakened]
 **ID:** grill-with-docs  
 **Type:** Extra Skill  
-**Level:** 3★  
-**Tier:** Evolved  
+**Level:** 1★  
+**Tier:** Awakened  
+**Potential:** 0★  
+**Demerits:** broken-evidence  
 **Skill Call:** `/grill-with-docs`
 
 ---

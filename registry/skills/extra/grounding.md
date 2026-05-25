@@ -1,8 +1,10 @@
-# /grounding  [3★ · Evolved]
+# /grounding  [1★ · Awakened]
 **ID:** grounding  
 **Type:** Extra Skill  
-**Level:** 3★  
-**Tier:** Evolved  
+**Level:** 1★  
+**Tier:** Awakened  
+**Potential:** 0★  
+**Demerits:** broken-evidence  
 **Skill Call:** `/grounding`
 
 ---

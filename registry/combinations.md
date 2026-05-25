@@ -12,7 +12,7 @@
 | ◇ /architecture-diagram | Extra Skill | Data Visualize, Format Output, Write Report | 4★ | Requires enough system context to identify components, relationships, boundaries, and rendering constraints. |
 | ◇ [0xdarkmatter](../docs/u/0xdarkmatter/)/pytest-patterns | Extra Skill | Generate Test, Code Execution, Error Interpretation | 3★ |  |
 | ◇ /autonomous-data-scientist | Extra Skill | Data Analysis, Math Reason, Research | 5★ | Requires dataset access and compute environment. Minimum 3 Class A/B evidence sources. |
-| ◇ [devin-ai](../docs/u/devin-ai/)/autonomous-swe | Extra Skill | Code Generation, Code Execution, Error Interpretation | 3★ |  |
+| ◇ [devin-ai](../docs/u/devin-ai/)/autonomous-swe | Extra Skill | Code Generation, Code Execution, Error Interpretation | 1★ → 0★ |  |
 | ◇ [karpathy](../docs/u/karpathy/)/autoresearch | Extra Skill | Ghostwrite, Knowledge Harvest, Research, Web Scrape, Web Search | 4★ | Requires a multi-step crawling engine and mapping logic to resolve site structures. |
 | ◇ [obra](../docs/u/obra/)/brainstorming | Extra Skill | Requirements Analysis, Question Answer | 1★ |  |
 | ◇ [gooseworks](../docs/u/gooseworks/)/notte-browser | Extra Skill | Web Search, Computer Use | 3★ |  |
@@ -22,7 +22,7 @@
 | ◇ /collaborative-diagramming | Extra Skill | API Call, Data Visualize | 2★ |  |
 | ◇ /computational-biology-workflows | Extra Skill | Bioinformatic Sequence Analysis, Genomic Data Retrieval, Molecular Databases, Protein Structure Analysis, Proteomic Data Retrieval | 4★ |  |
 | ◇ /content-moderation | Extra Skill | Classify, Sentiment Analysis, Extract Entities | 2★ |  |
-| ◇ /conversational-agent | Extra Skill | Question Answer, Memory Manage, Route Intent | 3★ | Requires persistent memory store across turns. |
+| ◇ /conversational-agent | Extra Skill | Question Answer, Memory Manage, Route Intent | 1★ → 0★ | Requires persistent memory store across turns. |
 | ◇ [huggingface](../docs/u/huggingface/)/huggingface-datasets | Extra Skill | Generate SQL, Data Visualize, Summarize | 3★ |  |
 | ◇ [garrytan](../docs/u/garrytan/)/land-and-deploy | Extra Skill | Workflow Automation, Code Execution | 2★ → 1★ | Requires environment credentials and a configured pipeline definition. |
 | ◇ [nexu-io](../docs/u/nexu-io/)/open-design | Extra Skill | Code Generation, Visual Question Answering | 3★ |  |
@@ -33,7 +33,7 @@
 | ◇ [obra](../docs/u/obra/)/dispatching-parallel-agents | Extra Skill | Plan and Decompose, Parallel Execution | 4★ |  |
 | ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus-neural | Extra Skill | Parallel Execution, Embed Text | 3★ |  |
 | ◇ [ruvnet](../docs/u/ruvnet/)/agentdb-advanced | Extra Skill | Vector Search, Memory Manage | 3★ |  |
-| ◇ /document-analyst | Extra Skill | Extract Entities, Format Output, OCR, Parse JSON, Parse PDF, Summarize | 3★ |  |
+| ◇ /document-analyst | Extra Skill | Extract Entities, Format Output, OCR, Parse JSON, Parse PDF, Summarize | 1★ → 0★ |  |
 | ◇ [ruvnet](../docs/u/ruvnet/)/dual-mode | Extra Skill | Headless Worker Spawn, Headless Worker Collect, Hybrid Workflow Coordination | 3★ |  |
 | ◇ [garrytan](../docs/u/garrytan/)/qa-only | Extra Skill | Browser Automation, Automated Testing | 3★ | Requires a live or containerised target environment; browser automation must be available. |
 | ◇ [obra](../docs/u/obra/)/executing-plans | Extra Skill | Writing Plans, Tool Use | 2★ |  |
@@ -47,8 +47,8 @@
 | ◇ /ghostwrite | Extra Skill | Research, Write Report, Audience Model | 1★ | Requires research output as input context. |
 | ◇ [ruvnet](../docs/u/ruvnet/)/github-suite | Extra Skill | Code Review Pipeline, Multi-Repo Coordination, Deployment Automation, Project Management, Workflow Automation | 3★ |  |
 | ◇ [mattpocock](../docs/u/mattpocock/)/grill-me | Extra Skill | Design Review, Self-Critique | 4★ | Enforces a strict questioning loop that prevents the agent from proceeding to implementation until all branches are resolved. |
-| ◇ [mattpocock](../docs/u/mattpocock/)/grill-with-docs | Extra Skill | Grill Me, Ubiquitous Language, Document Editing | 3★ | Requires the agent to maintain a live glossary (CONTEXT.md) and generate ADRs for all non-trivial trade-offs discovered during the grill. |
-| ◇ /grounding | Extra Skill | Retrieve, Cite Sources, Evaluate Output | 3★ |  |
+| ◇ [mattpocock](../docs/u/mattpocock/)/grill-with-docs | Extra Skill | Grill Me, Ubiquitous Language, Document Editing | 1★ → 0★ | Requires the agent to maintain a live glossary (CONTEXT.md) and generate ADRs for all non-trivial trade-offs discovered during the grill. |
+| ◇ /grounding | Extra Skill | Retrieve, Cite Sources, Evaluate Output | 1★ → 0★ |  |
 | ◆ [garrytan](../docs/u/garrytan/)/gstack | Ultimate Skill | Question Answer, Evaluate Output, Code Review Pipeline, UX Audit, Vertical Slice Planning, Design System Extraction, Design Review, Code Generation, Systematic Debugging, End-to-End Testing, Finishing a Development Branch, Deployment Automation, Detect Anomaly, Document Editing, Browser Automation, Security Audit, Browser Control, Web Scrape, Skill Authoring, Write Report, Multi-Agent Debate, Skill Performance Benchmarking, Automated Testing, MCP Integration, Memory Manage, Guardrails, Knowledge Management, Format Output, Workspace Automation, Project Management, Prompt Optimization | 5★ | Requires demonstrating all 31 garrytan discipline skills together in a real multi-step context. |
 | ◇ [garrytan](../docs/u/garrytan/)/careful | Extra Skill | Evaluate Output, Classify, Structured Output Generation | 3★ | Requires a defined policy schema and an evaluation loop. |
 | ◇ /humanize-prose | Extra Skill | Document Editing, Audience Model, Format Output | 4★ | Requires explicit user permission to revise voice, tone, and stylistic markers without changing factual claims. |
@@ -61,7 +61,7 @@
 | ◇ [mattpocock](../docs/u/mattpocock/)/personal | Extra Skill | Document Editing, personal-knowledge-management | 4★ |  |
 | ◇ [mattpocock](../docs/u/mattpocock/)/productivity | Extra Skill | agent-handoff, Context Compression, Grill Me, Tool Creation | 4★ |  |
 | ◆ [mattpocock](../docs/u/mattpocock/)/skills | Ultimate Skill | mattpocock-engineering, mattpocock-productivity, mattpocock-personal, Tool Creation, Ubiquitous Language | 6★ |  |
-| ◇ /mcp-debugger-control | Extra Skill | MCP Integration, Refactor Code | 4★ → 3★ | Requires a target debugger integration and a supported MCP client. |
+| ◇ /mcp-debugger-control | Extra Skill | MCP Integration, Refactor Code | 2★ → 0★ | Requires a target debugger integration and a supported MCP client. |
 | ◇ /mcp-server-creation | Extra Skill | MCP Integration, Tool Creation, API Call | 4★ | Requires an integration target, a supported MCP SDK, tool schemas, authentication handling, and local validation against an MCP client. |
 | ◇ [garrytan](../docs/u/garrytan/)/learn | Extra Skill | Context Compression, Retrieve | 2★ |  |
 | ◇ /ml-artifact-management | Extra Skill | API Call, Classify | 2★ |  |
@@ -86,7 +86,7 @@
 | ◇ /registry-curation | Extra Skill | Research, Code Generation, Code Execution | 4★ | Requires write access to the canonical graph and a passing validation suite. |
 | ◇ [intelligentcode-ai](../docs/u/intelligentcode-ai/)/release | Extra Skill | Workflow Automation, Code Execution, Generate Text | 2★ | Requires write access to the repository and a configured release token. |
 | ◇ [obra](../docs/u/obra/)/requesting-code-review | Extra Skill | Code Review Pipeline, Dispatching Parallel Agents | 3★ |  |
-| ◇ /research | Extra Skill | Web Search, Summarize, Cite Sources | 3★ |  |
+| ◇ /research | Extra Skill | Web Search, Summarize, Cite Sources | 1★ → 0★ |  |
 | ◆ [ruvnet](../docs/u/ruvnet/)/ruflo | Ultimate Skill | Flow Nexus Orchestration, Agent Memory Platform, GitHub Platform Mastery, Reasoning Pattern Bank, Platform Modernization Sprint, Dual Mode | 6★ | Requires demonstrating all 6 Ruflo suite fusions together in a production multi-agent context. Grandmaster Path: 34k+ stars on ruvnet/ruflo + agent-memory-platform 5★ Ultimate. |
 | ◇ /scientific-discovery | Extra Skill | Computational Biology Workflows, Hypothesis Generation, Math Reason, Research | 5★ | Requires laboratory tool access or simulation environment. Minimum 3 Class A/B evidence sources. |
 | ◇ /scientific-writing | Extra Skill | Write Report, Cite Sources, Scientific Visualization | 3★ |  |
@@ -94,7 +94,7 @@
 | ◇ [garrytan](../docs/u/garrytan/)/skillify | Extra Skill | Generate Text, Structured Output Generation, Code Generation | 4★ | Requires a target agent skill format and a repeatable evaluation loop for trigger accuracy and task success. |
 | ◇ [garrytan](../docs/u/garrytan/)/benchmark-models | Extra Skill | Agent Evaluation, Skill Discovery, Statistical Analysis | 4★ | Requires a skill corpus, benchmark tasks, success rubrics, and variance-aware reporting across multiple runs. |
 | ◇ /skill-security-analysis | Extra Skill | Security Audit, Prompt Injection Defense, Skill Discovery | 2★ | Requires access to the skill manifest, referenced files, source repository context, and a policy for trusted permissions. |
-| ◇ /stealth-browser-interaction | Extra Skill | Browser Automation, Computer Use | 4★ → 3★ | Requires a stealth-enabled browser driver and session management infrastructure. |
+| ◇ /stealth-browser-interaction | Extra Skill | Browser Automation, Computer Use | 2★ → 0★ | Requires a stealth-enabled browser driver and session management infrastructure. |
 | ◇ [obra](../docs/u/obra/)/subagent-driven-development | Extra Skill | Executing Plans, Dispatching Parallel Agents, Code Review Pipeline | 4★ |  |
 | ◆ [obra](../docs/u/obra/)/superpowers | Ultimate Skill | Brainstorming, Dispatching Parallel Agents, Executing Plans, Finishing a Development Branch, Receiving Code Review, Requesting Code Review, Subagent-Driven Development, Systematic Debugging, Using Git Worktrees, Verification Before Completion, Writing Plans | 5★ | Requires demonstrating all 11 obra discipline skills together in a real multi-step development context. |
 | ◇ [obra](../docs/u/obra/)/systematic-debugging | Extra Skill | Hypothesis Generation, Error Interpretation | 3★ |  |
@@ -103,13 +103,13 @@
 | ◇ [anthropic](../docs/u/anthropic/)/skill-creator | Extra Skill | Code Generation, Tool Use | 4★ |  |
 | ◇ /translation-pipeline | Extra Skill | Translate, Sentiment Analysis, Audience Model | 2★ |  |
 | ◇ /tree-of-thought | Extra Skill | Chain-of-Thought Reasoning, Plan and Decompose | 4★ |  |
-| ◇ [mattpocock](../docs/u/mattpocock/)/ubiquitous-language | Extra Skill | Extract Entities, Requirements Analysis | 4★ | Requires active persistence of terms and immediate conflict resolution during sessions. |
+| ◇ [mattpocock](../docs/u/mattpocock/)/ubiquitous-language | Extra Skill | Extract Entities, Requirements Analysis | 2★ → 1★ | Requires active persistence of terms and immediate conflict resolution during sessions. |
 | ◇ [obra](../docs/u/obra/)/using-git-worktrees | Extra Skill | Code Execution, Tool Use | 1★ |  |
 | ◇ [obra](../docs/u/obra/)/verification-before-completion | Extra Skill | Code Execution, Self-Critique | 1★ |  |
 | ◇ [mattpocock](../docs/u/mattpocock/)/to-issues | Extra Skill | Plan and Decompose, Route Intent | 3★ |  |
 | ◇ [bradautomates](../docs/u/bradautomates/)/claude-video | Extra Skill | Multimodal Reasoning, Speech to Text | 3★ | Requires FFmpeg and multimodal LLM support. |
 | ◇ /voice-agent | Extra Skill | Speech to Text, Question Answer, Text to Speech | 3★ → 2★ | Requires real-time audio I/O or audio file access. |
-| ◇ [firecrawl](../docs/u/firecrawl/)/firecrawl | Extra Skill | Web Search, Parse HTML, Extract Entities | 3★ | Structured output mode required. |
+| ◇ [firecrawl](../docs/u/firecrawl/)/firecrawl | Extra Skill | Web Search, Parse HTML, Extract Entities | 1★ → 0★ | Structured output mode required. |
 | ◇ /wiki-search | Extra Skill | Retrieve, Embed Text, Summarize | 4★ | Requires an accessible local wiki or markdown knowledge-base directory and a consistent linking or indexing convention. |
 | ◇ [ruvnet](../docs/u/ruvnet/)/github-workflow-automation | Extra Skill | Plan and Decompose, Tool Use, API Call | 4★ |  |
 | ◇ [garrytan](../docs/u/garrytan/)/gstack-upgrade | Extra Skill | API Call, Document Editing | 2★ |  |

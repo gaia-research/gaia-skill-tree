@@ -1,8 +1,8 @@
-# /cite-sources  [1★ · Awakened]
+# /cite-sources  [0★ · Basic]
 **ID:** cite-sources  
 **Type:** Basic Skill  
-**Level:** 1★  
-**Tier:** Awakened  
+**Level:** 0★  
+**Tier:** Basic  
 **Skill Call:** `/cite-sources`
 
 ---

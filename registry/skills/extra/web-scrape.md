@@ -1,8 +1,10 @@
-# [firecrawl](../../../docs/u/firecrawl/)/firecrawl  [3★ · Evolved]
+# [firecrawl](../../../docs/u/firecrawl/)/firecrawl  [1★ · Awakened]
 **ID:** web-scrape  
 **Type:** Extra Skill  
-**Level:** 3★  
-**Tier:** Evolved  
+**Level:** 1★  
+**Tier:** Awakened  
+**Potential:** 0★  
+**Demerits:** broken-evidence  
 **Skill Call:** `/web-scrape`
 
 ---

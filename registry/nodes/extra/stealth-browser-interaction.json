@@ -2,7 +2,7 @@
   "id": "stealth-browser-interaction",
   "name": "Stealth Browser Interaction",
   "type": "extra",
-  "level": "4\u2605",
+  "level": "2★",
   "rarity": "uncommon",
   "description": "Operates web browsers through an advanced stealth layer that handles bot-detection, fingerprinting, session rotation, and human-like interaction patterns to maintain resilient access to protected domains.",
   "prerequisites": [
@@ -27,10 +27,19 @@
     "apify/crawlee"
   ],
   "demerits": [
-    "heavyweight-dependency"
+    "heavyweight-dependency",
+    "broken-evidence"
   ],
   "status": "provisional",
   "createdAt": "2026-05-14",
-  "updatedAt": "2026-05-14",
-  "version": "0.1.0"
+  "updatedAt": "2026-05-25",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-25T04:25:35Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 4★ to 3★"
+    }
+  ]
 }
