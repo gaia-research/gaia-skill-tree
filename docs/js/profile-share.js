@@ -143,15 +143,19 @@
 
   // ─── Open ─────────────────────────────────────────────────────────────────
 
-  // Reject anything that isn't a same-origin relative path or an http(s) URL.
-  // Blocks `javascript:` / `data:` / `vbscript:` smuggling via the data-og
-  // attribute, which CodeQL flags as js/xss-through-dom on .src / .href sinks.
-  function sanitizeOgUrl(raw) {
+  // Resolve data-og against location.origin and reject anything that isn't an
+  // http(s) URL. Using URL() (rather than a regex) is the form CodeQL models
+  // as a proper js/xss-through-dom sanitizer — the alternate-protocol check
+  // on the parsed object is what kills the taint flow.
+  function safeOgUrl(raw) {
     if (!raw) return '';
-    var s = String(raw).trim();
-    if (s.charAt(0) === '/') return s;
-    if (/^https?:\/\//i.test(s)) return s;
-    return '';
+    try {
+      var u = new URL(String(raw), location.origin);
+      if (u.protocol !== 'http:' && u.protocol !== 'https:') return '';
+      return u.href;
+    } catch (_e) {
+      return '';
+    }
   }
 
   function openShareModal(btn) {
@@ -160,13 +164,7 @@
     var skillId   = btn.getAttribute('data-skill-id')   || '';
     var skillName = btn.getAttribute('data-skill-name') || '';
     var handle    = btn.getAttribute('data-handle')     || '';
-    var ogPath    = sanitizeOgUrl(btn.getAttribute('data-og') || '');
-
-    // Compute absolute OG URL.
-    var ogUrl = ogPath;
-    if (ogPath && ogPath.charAt(0) === '/') {
-      ogUrl = location.origin + ogPath;
-    }
+    var ogUrl     = safeOgUrl(btn.getAttribute('data-og') || '');
 
     // Compute permalink.
     var base = (window.PROFILE_PERMALINK_BASE || (location.origin + location.pathname));
