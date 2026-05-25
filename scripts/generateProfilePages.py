@@ -409,22 +409,20 @@ def _plaque_actions_html(ns: dict, handle: str = "") -> str:
     skill_id_short = skill_id.split("/")[-1] if "/" in skill_id else skill_id
     skill_name = ns.get("title", "") or ns.get("name", "") or skill_id_short
 
-    # Share button — only if the OG PNG exists on disk
+    # Share button — always rendered (OG PNG may be generated later)
     share_btn_html = ""
     if handle and skill_id_short:
-        og_rel = f"/og/{handle}/{skill_id_short}.png"
-        og_abs = os.path.join(REPO_ROOT, "docs", "og", handle, f"{skill_id_short}.png")
-        if os.path.exists(og_abs):
-            share_btn_html = (
-                f'<button class="plaque__share-btn" type="button"'
-                f' data-skill-id="{html.escape(skill_id)}"'
-                f' data-skill-name="{html.escape(skill_name)}"'
-                f' data-handle="{html.escape(handle)}"'
-                f' data-og="{html.escape(og_rel)}" aria-label="Share">'
-                f'<svg class="ico" width="14" height="14" aria-hidden="true">'
-                f'<use href="{ICON_SPRITE_REL}#share"></use></svg>'
-                f'</button>'
-            )
+        og_rel = f"../../og/{handle}/{skill_id_short}.png"
+        share_btn_html = (
+            f'<button class="plaque__share-btn" type="button"'
+            f' data-skill-id="{html.escape(skill_id)}"'
+            f' data-skill-name="{html.escape(skill_name)}"'
+            f' data-handle="{html.escape(handle)}"'
+            f' data-og="{html.escape(og_rel)}" aria-label="Share">'
+            f'<svg class="ico" width="14" height="14" aria-hidden="true">'
+            f'<use href="{ICON_SPRITE_REL}#share"></use></svg>'
+            f'</button>'
+        )
 
     claim_btn_html = (
         f'<button class="plaque__claim-btn" type="button"'
@@ -810,12 +808,16 @@ def build_profile_page(handle: str, skills: list, named_index: dict | None = Non
 
   {NAV_HTML}
 
+  <!-- ─── PROFILE BACK ─── -->
+  <div class="profile-back-row">
+    <a class="profile-back" href="../" aria-label="Back" onclick="event.preventDefault(); history.back();">
+      <svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#arrow-back"/></svg>
+      <span>Back</span>
+    </a>
+  </div>
+
   <!-- ─── PROFILE HERO ─── -->
   <div class="profile-hero">
-    <a class="profile-back" href="../" aria-label="Back to contributors">
-      <svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#arrow-back"/></svg>
-      <span>Contributors</span>
-    </a>
     <h1 class="profile-handle">{safe_handle}{f'<span class="profile-handle-origin" data-tooltip="Origin contributor: The creator of the first skill version" aria-label="Origin contributor"><svg class="ico" width="20" height="20" aria-hidden="true"><use href="../../assets/icons.svg#origin-badge"></use></svg><span class="origin-info"><svg class="ico" width="11" height="11" aria-hidden="true"><use href="../../assets/icons.svg#info"></use></svg></span></span>' if origin_count else ''}</h1>
     <div class="profile-meta">
       {skill_count} named skill{'s' if skill_count != 1 else ''} · highest rank {highest_level}
