@@ -70,9 +70,8 @@
     if (!currentGrid) return;
 
     const articles = Array.from(currentGrid.querySelectorAll('article'));
-    const visible = articles.filter(a => !a.hasAttribute('hidden'));
 
-    visible.sort((a, b) => {
+    articles.sort((a, b) => {
       if (currentSort === 'rank') {
         const levelA = parseInt(a.getAttribute('data-level') || '0', 10);
         const levelB = parseInt(b.getAttribute('data-level') || '0', 10);
@@ -95,7 +94,7 @@
     });
 
     const fragment = document.createDocumentFragment();
-    visible.forEach(article => {
+    articles.forEach(article => {
       fragment.appendChild(article);
     });
     currentGrid.appendChild(fragment);

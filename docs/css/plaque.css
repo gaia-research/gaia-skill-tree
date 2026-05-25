@@ -1729,3 +1729,96 @@ button.plaque__slug:focus-visible {
   .profile-activity-skill { grid-column: 1 / -1; }
   .profile-activity-change { grid-column: 1 / -1; text-align: left; }
 }
+
+/* ── Contributor Directory custom styles ─────────────────────── */
+.contributor-card {
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.contributor-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.contributor-card-handle-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.contributor-card-handle {
+  font-family: var(--font-body, 'Bricolage Grotesque', sans-serif);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--honor-red, #ef4444);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+}
+.contributor-card-handle:hover {
+  text-decoration: underline;
+}
+.contributor-card-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-mono, 'Departure Mono', 'JetBrains Mono', ui-monospace, monospace);
+  font-size: 0.76rem;
+  color: var(--muted, #64748b);
+  border-bottom: 1px dashed var(--border);
+  padding-bottom: 0.6rem;
+}
+.contributor-stat-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.contributor-card-skills-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 0.5rem;
+}
+.dir-skill-chip {
+  font-family: var(--font-mono, 'Departure Mono', 'JetBrains Mono', ui-monospace, monospace);
+  font-size: 0.68rem;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--text);
+  transition: border-color 0.15s, background 0.15s;
+}
+/* Color skill chip depending on level */
+.dir-skill-chip[data-level="1"] { color: var(--rank-1); border-color: rgba(var(--rank-1-rgb), 0.15); background: rgba(var(--rank-1-rgb), 0.03); }
+.dir-skill-chip[data-level="2"] { color: var(--rank-2); border-color: rgba(var(--rank-2-rgb), 0.15); background: rgba(var(--rank-2-rgb), 0.03); }
+.dir-skill-chip[data-level="3"] { color: var(--rank-3); border-color: rgba(var(--rank-3-rgb), 0.15); background: rgba(var(--rank-3-rgb), 0.03); }
+.dir-skill-chip[data-level="4"] { color: var(--rank-4); border-color: rgba(var(--rank-4-rgb), 0.15); background: rgba(var(--rank-4-rgb), 0.03); }
+.dir-skill-chip[data-level="5"] { color: var(--rank-5); border-color: rgba(var(--rank-5-rgb), 0.15); background: rgba(var(--rank-5-rgb), 0.03); }
+.dir-skill-chip[data-level="6"] { color: var(--rank-6); border-color: rgba(var(--rank-6-rgb), 0.15); background: rgba(var(--rank-6-rgb), 0.03); }
+
+.contributor-card-link-btn {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono, 'Departure Mono', 'JetBrains Mono', ui-monospace, monospace);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  background: var(--bg, #030712);
+  border: 1px solid var(--border, #1e293b);
+  color: var(--text, #e2e8f0);
+  padding: 0.6rem 0.9rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, color 0.15s, box-shadow 0.15s;
+}
+.contributor-card-link-btn:hover {
+  background: var(--surface, #0f172a);
+  border-color: var(--tier-basic);
+  color: var(--tier-basic);
+  box-shadow: 0 0 16px rgba(var(--tier-basic-rgb), 0.2);
+}

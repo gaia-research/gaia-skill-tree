@@ -891,6 +891,227 @@ def collect_by_contributor(data: dict) -> dict:
     return by_handle
 
 
+def build_directory_page(by_contributor: dict) -> str:
+    """Build the full HTML for the contributors directory page at docs/u/index.html."""
+    total_contributors = len(by_contributor)
+    total_skills = sum(len(skills) for skills in by_contributor.values())
+
+    cards_list = []
+    
+    # Sort contributors alphabetically by handle
+    for handle, skills in sorted(by_contributor.items(), key=lambda x: x[0].lower()):
+        skill_count = len(skills)
+        s_suffix = "s" if skill_count != 1 else ""
+        origin_count = sum(1 for s in skills if s.get("origin"))
+        max_level = max((level_num(s.get("level", "")) for s in skills), default=0)
+        highest_level = f"{max_level}★" if max_level else "—"
+
+        # Origin badge HTML if they have any origin skills
+        origin_badge_html = ""
+        if origin_count > 0:
+            origin_badge_html = (
+                f'<span class="plaque__origin ns-origin" '
+                f'data-tooltip="Origin contributor: The creator of the first skill version" '
+                f'aria-label="Origin contributor: The creator of the first skill version">'
+                f'<svg class="ico" width="16" height="16" aria-hidden="true">'
+                f'<use href="../assets/icons.svg#origin-badge"></use></svg>'
+                f'</span>'
+            )
+
+        # Rank badge for highest rank reached
+        rank_badge_dir_html = ""
+        if max_level > 0:
+            rank_badge_dir_html = rank_badge_html(f"{max_level}★", variant="chip", size="sm")
+
+        # Top 3 skills preview
+        sorted_skills = sorted(skills, key=lambda s: level_num(s.get("level")), reverse=True)[:3]
+        skills_preview_parts = []
+        skills_list = []
+        for s in sorted_skills:
+            skill_id = s.get("id", "")
+            skill_id_short = skill_id.split("/")[-1] if "/" in skill_id else skill_id
+            level = s.get("level", "")
+            skills_list.append(skill_id_short)
+            
+            # Simple small chip
+            skills_preview_parts.append(
+                f'<span class="dir-skill-chip" data-level="{level_num(level)}">'
+                f'/{html.escape(skill_id_short)} {html.escape(level)}'
+                f'</span>'
+            )
+        
+        skills_preview_html = "".join(skills_preview_parts)
+        skills_list_str = " ".join(skills_list)
+
+        card_html = f"""
+    <article class="contributor-card plaque" data-handle="{html.escape(handle)}" data-skills="{html.escape(skills_list_str)}">
+      <div class="contributor-card-header">
+        <div class="contributor-card-handle-wrap">
+          <a class="contributor-card-handle" href="./{html.escape(handle)}/">@{html.escape(handle)}</a>
+          {origin_badge_html}
+        </div>
+        {rank_badge_dir_html}
+      </div>
+      
+      <div class="contributor-card-stats">
+        <span class="contributor-stat-item">
+          <svg class="ico" width="13" height="13" aria-hidden="true"><use href="../assets/icons.svg#view-tile"/></svg>
+          {skill_count} named skill{s_suffix}
+        </span>
+        <span class="contributor-stat-item contributor-stat-level">
+          Highest rank: {html.escape(highest_level)}
+        </span>
+      </div>
+
+      <div class="contributor-card-skills-preview">
+        {skills_preview_html}
+      </div>
+
+      <a class="contributor-card-link-btn" href="./{html.escape(handle)}/">
+        <span>View Profile</span>
+        <svg class="ico" width="12" height="12" aria-hidden="true" style="transform: rotate(180deg);"><use href="../assets/icons.svg#arrow-back"/></svg>
+      </a>
+    </article>"""
+        cards_list.append(card_html)
+
+    contributors_cards_html = "\n".join(cards_list)
+
+    NAV_DIR_HTML = f"""<nav>
+  <a href="../" class="nav-logo" aria-label="Gaia home">
+    <svg class="ico nav-seal" aria-hidden="true" focusable="false"><use href="../assets/icons.svg#seal-diamond"/></svg>
+    <span class="nav-wordmark">Gaia</span>
+    </a>
+    <button type="button" class="nav-search-back" id="navSearchBack" aria-label="Back">
+      <svg class="ico" width="20" height="20" aria-hidden="true"><use href="../assets/icons.svg#arrow-back"/></svg>
+    </button>
+    <input type="search" id="navMobileSearch" class="nav-mobile-search" placeholder="Search skills…" autocomplete="off" aria-label="Search skills">
+    <button class="nav-menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+  <ul>
+    <li><a href="../#paths">Registry</a></li>
+    <li><a href="../#hall-of-heroes">Hall of Heroes</a></li>
+    <li><a href="../codex.html">The Codex</a></li>
+    <li><a href="../#tree" class="nav-tree">Tree</a></li>
+    <li><a href="../#search" class="nav-search-btn" aria-label="Search skills"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#search"/></svg></a></li>
+  </ul>
+</nav>"""
+
+    FOOTER_DIR_HTML = f"""<footer>
+  <div class="footer-mark">
+    <svg class="ico footer-seal" aria-hidden="true" focusable="false"><use href="../assets/icons.svg#seal-diamond"/></svg>
+    <span class="footer-wordmark">Gaia</span>
+  </div>
+  <p>
+    <a href="https://github.com/mbtiongson1/gaia-skill-tree" target="_blank">GitHub</a> ·
+    MIT ·
+    <a href="../codex.html">The Codex</a>
+  </p>
+</footer>"""
+
+    page_title = "Contributors Directory — Gaia Skill Registry"
+    og_description = (
+        f"Browse the contributors of the Gaia Skill Registry. "
+        f"{total_contributors} active builders with {total_skills} named skills claimed."
+    )
+
+    html_content = f"""<!DOCTYPE html>
+<html lang="en" data-icon-base="../assets/icons.svg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{page_title}</title>
+  <meta name="description" content="{html.escape(og_description)}">
+  <!-- OG meta -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{page_title}">
+  <meta property="og:description" content="{html.escape(og_description)}">
+  <meta property="og:url" content="https://mbtiongson1.github.io/gaia-skill-tree/u/">
+  <!-- Stage 1 — Web fonts (EB Garamond display, Bricolage body, JetBrains Mono fallback). -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/plaque.css">
+  <!-- Stage 1 — icon sprite helper, loaded BEFORE other UI scripts. -->
+  <script src="../js/icons.js"></script>
+  <!-- Stage 2 — rank-badge component, loaded after icons.js. -->
+  <script src="../js/rank-badge.js"></script>
+  <script src="../js/ui.js" defer></script>
+</head>
+<body class="profile-directory-page">
+
+  {NAV_DIR_HTML}
+
+  <!-- ─── PROFILE BACK ─── -->
+  <div class="profile-back-row">
+    <a class="profile-back" href="../" aria-label="Back">
+      <svg class="ico" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#arrow-back"/></svg>
+      <span>Back</span>
+    </a>
+  </div>
+
+  <!-- ─── PROFILE HERO ─── -->
+  <div class="profile-hero">
+    <h1 class="profile-directory-title" style="font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 600; color: var(--text); margin-bottom: 0.5rem;">The Guild of Contributors</h1>
+    <div class="profile-meta">
+      {total_contributors} active builders · {total_skills} named skills claimed
+    </div>
+  </div>
+
+  <!-- ─── CONTRIBUTORS GRID ─── -->
+  <section class="profile-section">
+    <div class="directory-controls" style="max-width: 600px; margin: 0 auto 2.5rem; position: relative;">
+      <input type="search" id="directorySearch" class="directory-search" aria-label="Search contributors by handle or skills" placeholder="Search contributors or skills…" autocomplete="off" style="width: 100%; padding: 0.75rem 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-family: var(--font-body); font-size: 0.95rem; outline: none; transition: border-color 0.2s;">
+    </div>
+    
+    <div class="plaque-grid" id="contributorGrid">
+      {contributors_cards_html}
+    </div>
+  </section>
+
+  {FOOTER_DIR_HTML}
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {{
+      const searchInput = document.getElementById('directorySearch');
+      const cards = Array.from(document.querySelectorAll('.contributor-card'));
+      
+      if (searchInput) {{
+        searchInput.addEventListener('input', () => {{
+          const query = searchInput.value.toLowerCase().trim();
+          cards.forEach(card => {{
+            const handle = card.getAttribute('data-handle').toLowerCase();
+            const skills = card.getAttribute('data-skills').toLowerCase();
+            const match = handle.includes(query) || skills.includes(query);
+            if (match) {{
+              card.removeAttribute('hidden');
+            }} else {{
+              card.setAttribute('hidden', '');
+            }}
+          }});
+        }});
+        
+        // Add active outline border on focus
+        searchInput.addEventListener('focus', () => {{
+          searchInput.style.borderColor = 'var(--tier-basic)';
+        }});
+        searchInput.addEventListener('blur', () => {{
+          searchInput.style.borderColor = 'var(--border)';
+        }});
+      }}
+    }});
+  </script>
+
+</body>
+</html>
+"""
+    return _apply_cache_busting(html_content, _read_version())
+
+
 def generate_pages(named_path: Path, out_dir: Path) -> int:
     """Generate all profile pages. Returns number of pages written."""
     global TYPE_LOOKUP
@@ -914,6 +1135,13 @@ def generate_pages(named_path: Path, out_dir: Path) -> int:
             f.write(page_html)
         print(f"  Generated: docs/u/{handle}/index.html ({len(skills)} skill(s))")
         count += 1
+
+    # Generate the main directory page
+    dir_html = build_directory_page(by_contributor)
+    dir_file = out_dir / "index.html"
+    with open(dir_file, "w", encoding="utf-8") as f:
+        f.write(dir_html)
+    print(f"  Generated: docs/u/index.html ({len(by_contributor)} contributor(s))")
 
     return count
 
