@@ -30,9 +30,9 @@
 ]]></style>
   <defs>
     <linearGradient id="grad-ruvnet-v3-integration-deep" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.04"/>
-      <stop offset="50%" stop-color="#fbbf24" stop-opacity="0.08"/>
-      <stop offset="100%" stop-color="#fbbf24" stop-opacity="0.02"/>
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.05"/>
+      <stop offset="50%" stop-color="#38bdf8" stop-opacity="0.09"/>
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.02"/>
     </linearGradient>
   </defs>
   
@@ -74,7 +74,7 @@
 
   <!-- Tier glyph (large) -->
   <text x="48" y="175" font-family="Georgia,serif" font-size="52"
-    fill="#fbbf24" opacity="0.85">○</text>
+    fill="#38bdf8" opacity="0.85">○</text>
 
   <!-- Stars (.plaque__rank stars variant) -->
   <polygon points="64.00,426.00 66.12,432.09 72.56,432.22 67.42,436.11 69.29,442.28 64.00,438.60 58.71,442.28 60.58,436.11 55.44,432.22 61.88,432.09" fill="#fbbf24" opacity="1"/>
@@ -86,21 +86,21 @@
 
   <!-- Vertical rule -->
   <line x1="220" y1="40" x2="220" y2="590"
-    stroke="rgba(251,191,36,0.12)" stroke-width="1"/>
+    stroke="rgba(56,189,248, 0.12)" stroke-width="1"/>
 
   <!-- ─── Right column (slug / title / description / tags / install) ─── -->
   <!-- Slug (.plaque__slug) -->
   <text class="plaque__slug" x="264" y="150"
     font-family="EB Garamond,Georgia,serif"
     font-size="52" font-weight="600"
-    fill="#fbbf24" dominant-baseline="middle">V3 Integration Deep</text>
+    fill="#38bdf8" dominant-baseline="middle">V3 Integration Deep</text>
 
   <!-- Title (.plaque__title — italic subtitle) -->
   <text class="plaque__title" x="264" y="210" font-family="EB Garamond,Georgia,serif" font-size="22" font-style="italic" fill="rgba(226,232,240,0.5)" dominant-baseline="middle">The Integration Weaver</text>
 
   <!-- Horizontal rule -->
   <line x1="264" y1="240" x2="1152" y2="240"
-    stroke="rgba(251,191,36,0.2)" stroke-width="1"/>
+    stroke="rgba(56,189,248, 0.16)" stroke-width="1"/>
 
   <!-- Description (.plaque__description) -->
   <text class="plaque__description" x="264" y="278"

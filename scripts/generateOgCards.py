@@ -369,12 +369,24 @@ def build_og_svg(skill: dict) -> str:
         f'<tspan x="264" dy="{"0" if i == 0 else "26"}">{html.escape(line)}</tspan>'
         for i, line in enumerate(description_lines)
     )
-    glyph = tier_glyph(level)
     ev_class = evidence_class(level)
     n_lvl = level_num(level)
     is_apex = n_lvl >= 6
 
     tier_type = resolve_type_for_og(skill)
+
+    # Cohesive color and symbol spec per DESIGN.md and plaque.css
+    TIER_SPEC = {
+        "basic":    {"glyph": "○", "hex": "#38bdf8", "rgb": "56,189,248",   "slug_fill": "#38bdf8"},
+        "extra":    {"glyph": "◇", "hex": "#c084fc", "rgb": "192,132,252",  "slug_fill": "#c084fc"},
+        "unique":   {"glyph": "◉", "hex": "#7c3aed", "rgb": "124,58,237",   "slug_fill": "#7c3aed"},
+        "ultimate": {"glyph": "◆", "hex": "#f59e0b", "rgb": "245,158,11",    "slug_fill": "#fbbf24"},  # APEX_GOLD slug
+    }
+    spec = TIER_SPEC.get(tier_type, TIER_SPEC["basic"])
+    glyph = spec["glyph"]
+    tier_color = spec["hex"]
+    tier_rgb = spec["rgb"]
+    slug_fill = spec["slug_fill"]
 
     # Gradient IDs need to be unique per card
     sid = skill.get("id", "unknown").replace("/", "-").replace(" ", "-")
@@ -404,9 +416,9 @@ def build_og_svg(skill: dict) -> str:
   {style_block}
   <defs>
     <linearGradient id="{grad_id}" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="{APEX_GOLD}" stop-opacity="0.04"/>
-      <stop offset="50%" stop-color="{APEX_GOLD}" stop-opacity="0.08"/>
-      <stop offset="100%" stop-color="{APEX_GOLD}" stop-opacity="0.02"/>
+      <stop offset="0%" stop-color="{tier_color}" stop-opacity="0.05"/>
+      <stop offset="50%" stop-color="{tier_color}" stop-opacity="0.09"/>
+      <stop offset="100%" stop-color="{tier_color}" stop-opacity="0.02"/>
     </linearGradient>
   </defs>
   {apex_effects}
@@ -448,28 +460,28 @@ def build_og_svg(skill: dict) -> str:
 
   <!-- Tier glyph (large) -->
   <text x="48" y="175" font-family="Georgia,serif" font-size="52"
-    fill="{APEX_GOLD}" opacity="0.85">{glyph}</text>
+    fill="{tier_color}" opacity="0.85">{glyph}</text>
 
   <!-- Stars (.plaque__rank stars variant) -->
   {stars_svg}
 
   <!-- Vertical rule -->
   <line x1="220" y1="40" x2="220" y2="{OG_H-40}"
-    stroke="rgba(251,191,36,0.12)" stroke-width="1"/>
+    stroke="rgba({tier_rgb}, 0.12)" stroke-width="1"/>
 
   <!-- ─── Right column (slug / title / description / tags / install) ─── -->
   <!-- Slug (.plaque__slug) -->
   <text class="plaque__slug" x="264" y="150"
     font-family="EB Garamond,Georgia,serif"
     font-size="52" font-weight="600"
-    fill="{APEX_GOLD}" dominant-baseline="middle">{name}</text>
+    fill="{slug_fill}" dominant-baseline="middle">{name}</text>
 
   <!-- Title (.plaque__title — italic subtitle) -->
   {'<text class="plaque__title" x="264" y="210" font-family="EB Garamond,Georgia,serif" font-size="22" font-style="italic" fill="rgba(226,232,240,0.5)" dominant-baseline="middle">' + title + '</text>' if title else ''}
 
   <!-- Horizontal rule -->
   <line x1="264" y1="240" x2="{OG_W-48}" y2="240"
-    stroke="rgba(251,191,36,0.2)" stroke-width="1"/>
+    stroke="rgba({tier_rgb}, 0.16)" stroke-width="1"/>
 
   <!-- Description (.plaque__description) -->
   <text class="plaque__description" x="264" y="278"
