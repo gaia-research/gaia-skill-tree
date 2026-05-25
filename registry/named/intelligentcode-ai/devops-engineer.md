@@ -6,10 +6,21 @@ origin: false
 links:
   github: https://github.com/intelligentcode-ai/skills/blob/main/skills/devops-engineer/SKILL.md
 genericSkillRef: deployment-automation
-status: awakened
-level: "2★"
-description: CI/CD pipeline design and deployment automation specialist — build systems, artifact publishing, environment promotion, and rollback strategies.
-tags: [cicd, deployment, pipeline, docker, kubernetes, terraform, rollback]
+status: named
+title: The DevOps Sentinel
+catalogRef: intelligentcode-ai-devops-engineer
+level: 2★
+description: CI/CD pipeline design and deployment automation specialist — build systems,
+  artifact publishing, environment promotion, and rollback strategies.
+tags:
+- cicd
+- deployment
+- pipeline
+- docker
+- kubernetes
+- terraform
+- rollback
+updatedAt: '2026-05-25'
 ---
 
 ## Overview

@@ -6,10 +6,21 @@ origin: false
 links:
   github: https://github.com/intelligentcode-ai/skills/blob/main/skills/security-engineer/SKILL.md
 genericSkillRef: security-audit
-status: awakened
-level: "2★"
-description: Security architecture specialist — vulnerability assessment, zero-trust design, compliance management, and incident response with severity-classified remediation guidance.
-tags: [security, vulnerability, zero-trust, compliance, owasp, penetration-testing]
+status: named
+title: The Bastion's Eye
+catalogRef: intelligentcode-ai-security-engineer
+level: 2★
+description: Security architecture specialist — vulnerability assessment, zero-trust
+  design, compliance management, and incident response with severity-classified remediation
+  guidance.
+tags:
+- security
+- vulnerability
+- zero-trust
+- compliance
+- owasp
+- penetration-testing
+updatedAt: '2026-05-25'
 ---
 
 ## Overview

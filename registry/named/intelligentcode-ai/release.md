@@ -6,10 +6,20 @@ origin: false
 links:
   github: https://github.com/intelligentcode-ai/skills/blob/main/skills/release/SKILL.md
 genericSkillRef: release-automation
-status: awakened
-level: "2★"
-description: Automates the full release cycle — semantic version bump, CHANGELOG update, PR merge, git tag, and GitHub release creation with multiple verification gates.
-tags: [release, semver, changelog, git-tag, github-release, automation]
+status: named
+title: The Shipwright's Will
+catalogRef: intelligentcode-ai-release
+level: 2★
+description: Automates the full release cycle — semantic version bump, CHANGELOG update,
+  PR merge, git tag, and GitHub release creation with multiple verification gates.
+tags:
+- release
+- semver
+- changelog
+- git-tag
+- github-release
+- automation
+updatedAt: '2026-05-25'
 ---
 
 ## Overview

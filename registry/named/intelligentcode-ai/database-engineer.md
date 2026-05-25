@@ -6,10 +6,21 @@ origin: false
 links:
   github: https://github.com/intelligentcode-ai/skills/blob/main/skills/database-engineer/SKILL.md
 genericSkillRef: schema-design
-status: awakened
-level: "2★"
-description: Schema design and query optimization expert across relational, NoSQL, graph, time-series, and data warehouse stores with sub-second response targets.
-tags: [database, schema, sql, nosql, graph-db, time-series, normalization]
+status: named
+title: The Database Oracle
+catalogRef: intelligentcode-ai-database-engineer
+level: 2★
+description: Schema design and query optimization expert across relational, NoSQL,
+  graph, time-series, and data warehouse stores with sub-second response targets.
+tags:
+- database
+- schema
+- sql
+- nosql
+- graph-db
+- time-series
+- normalization
+updatedAt: '2026-05-25'
 ---
 
 ## Overview
