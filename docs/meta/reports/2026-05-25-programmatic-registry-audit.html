@@ -498,7 +498,7 @@
 
     async function loadChangelog() {
       try {
-        const response = await fetch('../../registry/gaia.json');
+        const response = await fetch('../../graph/gaia.json');
         const gaia = await response.json();
         const body = document.getElementById('changelogBody');
         body.innerHTML = '';

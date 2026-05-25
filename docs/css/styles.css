@@ -557,109 +557,6 @@ button.nav-copy-agent {
   color: var(--tier-ultimate);
 }
 
-/* Path Meta Queue (Academic/Prestige Variant) */
-.path-meta-queue {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  text-align: left;
-  margin-top: 2.5rem;
-  padding-top: 2rem;
-  border-top: 1px solid var(--border);
-}
-
-.pmq-post {
-  display: block;
-  padding: 1.5rem;
-  background: #ffffff; /* White-on-black context (inside dark Path B) */
-  color: #111111;
-  border: 1px solid #ffffff;
-  border-radius: 0;
-  text-decoration: none;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-}
-
-.pmq-post:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.6);
-  border-color: var(--apex-gold);
-}
-
-.pmq-label {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: var(--honor-red); /* Honor Red for Audit label */
-  display: block;
-  margin-bottom: 0.75rem;
-  font-weight: 600;
-}
-
-.pmq-title {
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  color: #000;
-  margin: 0 0 0.6rem 0;
-  font-weight: 500;
-  line-height: 1.1;
-}
-
-.pmq-summary {
-  font-family: var(--font-body);
-  font-size: 0.95rem;
-  color: #444;
-  line-height: 1.5;
-  margin: 0;
-  font-style: italic; /* Journal abstract style */
-}
-
-.pmq-changelog-btn {
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--muted);
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  padding: 0.75rem 1.25rem;
-  cursor: pointer;
-  border-radius: 0;
-  transition: all 0.2s;
-  align-self: flex-start;
-  margin-top: 0.5rem;
-}
-
-.pmq-changelog-btn:hover {
-  color: var(--text);
-  border-color: var(--text);
-  background: rgba(255,255,255,0.03);
-}
-
-.pmq-changelog-btn:hover {
-  color: var(--text);
-  border-color: var(--text);
-}
-
-@media (max-width: 768px) {
-  .hero-audit-btn {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    margin: 0;
-    justify-content: center;
-    border-radius: 0;
-    border-left: none;
-    border-right: none;
-    border-top: none;
-    background: rgba(0, 0, 0, 0.95);
-    backdrop-filter: blur(10px);
-    z-index: 10000;
-  }
-}
 
 
 .hero-title,
@@ -7371,13 +7268,12 @@ button.nav-graph-trigger:hover {
 .pmq-post {
   display: block;
   padding: 1.5rem;
-  background: #ffffff; /* White-on-black context (inside dark Path B) */
-  color: #111111;
-  border: 1px solid #ffffff;
+  background: #000;
+  color: #fff;
+  border: 1px solid var(--border);
   border-radius: 0;
   text-decoration: none;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 .pmq-post:hover {
@@ -7400,7 +7296,7 @@ button.nav-graph-trigger:hover {
 .pmq-title {
   font-family: var(--font-display);
   font-size: 1.5rem;
-  color: #000;
+  color: #fff;
   margin: 0 0 0.6rem 0;
   font-weight: 500;
   line-height: 1.1;
@@ -7409,7 +7305,7 @@ button.nav-graph-trigger:hover {
 .pmq-summary {
   font-family: var(--font-body);
   font-size: 0.95rem;
-  color: #444;
+  color: #ccc;
   line-height: 1.5;
   margin: 0;
   font-style: italic; /* Journal abstract style */
@@ -7437,9 +7333,8 @@ button.nav-graph-trigger:hover {
   background: rgba(255,255,255,0.03);
 }
 
-.pmq-changelog-btn:hover {
-  color: var(--text);
-  border-color: var(--text);
+.nav-search-btn-mobile {
+  display: none;
 }
 
 @media (max-width: 700px) {
@@ -7472,23 +7367,7 @@ button.nav-graph-trigger:hover {
   .nav-search-btn-mobile:hover {
     color: var(--text);
   }
-
-  nav.nav-open ul {
-    transform: translateY(100%);
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    top: auto;
-    bottom: 0;
-    height: auto;
-    max-height: 80vh;
-    border-top: 1px solid var(--border);
-    border-radius: 20px 20px 0 0;
-  }
-
-  nav.nav-open.active ul {
-    transform: translateY(0);
-  }
 }
-
 
 .door::before {
   content: '';
