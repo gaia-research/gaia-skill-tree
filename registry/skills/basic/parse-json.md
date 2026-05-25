@@ -1,8 +1,8 @@
-# /parse-json  [1★ · Awakened]
+# /parse-json  [0★ · Basic]
 **ID:** parse-json  
 **Type:** Basic Skill  
-**Level:** 1★  
-**Tier:** Awakened  
+**Level:** 0★  
+**Tier:** Basic  
 **Skill Call:** `/parse-json`
 
 ---

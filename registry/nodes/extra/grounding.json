@@ -2,7 +2,7 @@
   "id": "grounding",
   "name": "Grounding",
   "type": "extra",
-  "level": "3★",
+  "level": "1★",
   "rarity": "uncommon",
   "description": "Verifies generated claims against retrieved evidence, identifies unsupported or contradicted assertions, and anchors outputs in traceable, cited sources.",
   "prerequisites": [
@@ -31,6 +31,17 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-04-30",
-  "version": "0.2.0"
+  "updatedAt": "2026-05-25",
+  "version": "0.2.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-25T04:25:33Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 3★ to 2★"
+    }
+  ],
+  "demerits": [
+    "broken-evidence"
+  ]
 }

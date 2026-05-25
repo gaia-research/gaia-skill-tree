@@ -114,6 +114,7 @@
       "items": {
         "type": "string",
         "enum": [
+          "broken-evidence",
           "niche-integration",
           "experimental-feature",
           "heavyweight-dependency"

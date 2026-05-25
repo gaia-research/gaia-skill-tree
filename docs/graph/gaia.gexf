@@ -94,7 +94,7 @@
       </node>
       <node id="audience-model" label="Audience Model">
         <attvalues>
-          <attvalue for="level" value="1★" />
+          <attvalue for="level" value="0★" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -118,7 +118,7 @@
       </node>
       <node id="autonomous-debug" label="Autonomous Debug">
         <attvalues>
-          <attvalue for="level" value="3★" />
+          <attvalue for="level" value="1★" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -182,7 +182,7 @@
       </node>
       <node id="chain-of-thought" label="Chain-of-Thought Reasoning">
         <attvalues>
-          <attvalue for="level" value="1★" />
+          <attvalue for="level" value="0★" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -190,7 +190,7 @@
       </node>
       <node id="chunk-document" label="Chunk Document">
         <attvalues>
-          <attvalue for="level" value="1★" />
+          <attvalue for="level" value="0★" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -198,7 +198,7 @@
       </node>
       <node id="cite-sources" label="Cite Sources">
         <attvalues>
-          <attvalue for="level" value="1★" />
+          <attvalue for="level" value="0★" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -238,7 +238,7 @@
       </node>
       <node id="code-execution" label="Code Execution">
         <attvalues>
-          <attvalue for="level" value="2★" />
+          <attvalue for="level" value="0★" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -254,7 +254,7 @@
       </node>
       <node id="code-generation" label="Code Generation">
         <attvalues>
-          <attvalue for="level" value="1★" />
+          <attvalue for="level" value="0★" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -310,7 +310,7 @@
       </node>
       <node id="conversational-agent" label="Conversational Agent">
         <attvalues>
-          <attvalue for="level" value="3★" />
+          <attvalue for="level" value="1★" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -382,7 +382,7 @@
       </node>
       <node id="diff-content" label="Diff Content">
         <attvalues>
-          <attvalue for="level" value="1★" />
+          <attvalue for="level" value="0★" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -422,7 +422,7 @@
       </node>
       <node id="document-analyst" label="Document Analyst">
         <attvalues>
-          <attvalue for="level" value="3★" />
+          <attvalue for="level" value="1★" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -454,7 +454,7 @@
       </node>
       <node id="embed-text" label="Embed Text">
         <attvalues>
-          <attvalue for="level" value="1★" />
+          <attvalue for="level" value="0★" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -462,7 +462,7 @@
       </node>
       <node id="error-interpretation" label="Error Interpretation">
         <attvalues>
-          <attvalue for="level" value="1★" />
+          <attvalue for="level" value="0★" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -470,7 +470,7 @@
       </node>
       <node id="evaluate-output" label="Evaluate Output">
         <attvalues>
-          <attvalue for="level" value="1★" />
+          <attvalue for="level" value="0★" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -486,7 +486,7 @@
       </node>
       <node id="extract-entities" label="Extract Entities">
         <attvalues>
-          <attvalue for="level" value="1★" />
+          <attvalue for="level" value="0★" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -654,7 +654,7 @@
       </node>
       <node id="grill-with-docs" label="Grill With Docs">
         <attvalues>
-          <attvalue for="level" value="3★" />
+          <attvalue for="level" value="1★" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -662,7 +662,7 @@
       </node>
       <node id="grounding" label="Grounding">
         <attvalues>
-          <attvalue for="level" value="3★" />
+          <attvalue for="level" value="1★" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -854,7 +854,7 @@
       </node>
       <node id="mcp-debugger-control" label="MCP Debugger Control">
         <attvalues>
-          <attvalue for="level" value="4★" />
+          <attvalue for="level" value="2★" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -974,7 +974,7 @@
       </node>
       <node id="parse-html" label="Parse HTML">
         <attvalues>
-          <attvalue for="level" value="1★" />
+          <attvalue for="level" value="0★" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -982,7 +982,7 @@
       </node>
       <node id="parse-json" label="Parse JSON">
         <attvalues>
-          <attvalue for="level" value="1★" />
+          <attvalue for="level" value="0★" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1030,7 +1030,7 @@
       </node>
       <node id="plan-decompose" label="Plan and Decompose">
         <attvalues>
-          <attvalue for="level" value="1★" />
+          <attvalue for="level" value="0★" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1126,7 +1126,7 @@
       </node>
       <node id="rank" label="Rank">
         <attvalues>
-          <attvalue for="level" value="1★" />
+          <attvalue for="level" value="0★" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1214,7 +1214,7 @@
       </node>
       <node id="research" label="Research">
         <attvalues>
-          <attvalue for="level" value="3★" />
+          <attvalue for="level" value="1★" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1222,7 +1222,7 @@
       </node>
       <node id="retrieve" label="Retrieve">
         <attvalues>
-          <attvalue for="level" value="1★" />
+          <attvalue for="level" value="0★" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1238,7 +1238,7 @@
       </node>
       <node id="route-intent" label="Route Intent">
         <attvalues>
-          <attvalue for="level" value="1★" />
+          <attvalue for="level" value="0★" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1286,7 +1286,7 @@
       </node>
       <node id="score-relevance" label="Score Relevance">
         <attvalues>
-          <attvalue for="level" value="1★" />
+          <attvalue for="level" value="0★" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1390,7 +1390,7 @@
       </node>
       <node id="stealth-browser-interaction" label="Stealth Browser Interaction">
         <attvalues>
-          <attvalue for="level" value="4★" />
+          <attvalue for="level" value="2★" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1510,7 +1510,7 @@
       </node>
       <node id="tool-select" label="Tool Select">
         <attvalues>
-          <attvalue for="level" value="1★" />
+          <attvalue for="level" value="0★" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1550,7 +1550,7 @@
       </node>
       <node id="ubiquitous-language" label="Ubiquitous Language">
         <attvalues>
-          <attvalue for="level" value="4★" />
+          <attvalue for="level" value="2★" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1630,7 +1630,7 @@
       </node>
       <node id="web-scrape" label="Web Scrape">
         <attvalues>
-          <attvalue for="level" value="3★" />
+          <attvalue for="level" value="1★" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1638,7 +1638,7 @@
       </node>
       <node id="web-search" label="Web Search">
         <attvalues>
-          <attvalue for="level" value="1★" />
+          <attvalue for="level" value="0★" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1678,7 +1678,7 @@
       </node>
       <node id="write-report" label="Write Report">
         <attvalues>
-          <attvalue for="level" value="1★" />
+          <attvalue for="level" value="0★" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />

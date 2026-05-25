@@ -157,23 +157,27 @@
   },
   "demerits": {
     "order": [
+      "broken-evidence",
       "niche-integration",
       "experimental-feature",
       "heavyweight-dependency"
     ],
     "labels": {
+      "broken-evidence": "Broken evidence",
       "niche-integration": "Niche integrations",
       "experimental-feature": "Experimental features",
       "heavyweight-dependency": "Heavyweight dependencies"
     },
     "eligibleLevels": [
+      "0★",
+      "1★",
       "2★",
       "3★",
       "4★",
       "5★",
       "6★"
     ],
-    "minimumEffectiveLevel": "1★"
+    "minimumEffectiveLevel": "0★"
   },
   "alternativePathways": {
     "4★": {

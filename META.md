@@ -64,11 +64,12 @@ To reach Hardened (4★) or higher as a Specialist (vendor-locked) skill, the im
 The **Canonical Level** (e.g., 4★) is the claimed tier based on evidence. The **Effective Level** is the level used for runtime advice and fusion, adjusted by demerits.
 
 ### 3.1 Canonical Demerits
+- **`broken-evidence`**: URL(s) in the evidence array are dead or inaccessible.
 - **`niche-integration`**: Tied to a narrow or obscure platform.
 - **`experimental-feature`**: Unstable API or alpha-status code.
 - **`heavyweight-dependency`**: Requires massive local resources or complex setup.
 
-**Rule**: Each demerit lowers the Effective Level by **1 star**, floored at `1★`.
+**Rule**: Each demerit lowers the Effective Level by **1 star**, floored at **0★**.
 
 ---
 

@@ -56,7 +56,28 @@ Promoting the **IntelligentCode-AI** suite to **Named** (2★) rank with behavio
 |---|---|---|
 | `intelligentcode-ai/*` | Promote (8 skills) | `gaia dev update-named intelligentcode-ai/<id> --status named` |
 
-## 6. Execution protocol
+## 6. Evidence Health Demotions (Liveness Heartbeat)
+
+Automated demotions based on `scripts/verify_evidence.py` results. Affected skills are demoted by one level and assigned the `broken-evidence` demerit.
+
+| Skill ID | Previous Rank | New Rank | Demerit |
+|---|---|---|---|
+| `audience-model` | 1★ | 0★ | `broken-evidence` |
+| `autonomous-debug` | 2★ | 1★ | `broken-evidence` |
+| `conversational-agent` | 2★ | 1★ | `broken-evidence` |
+| `document-analyst` | 2★ | 1★ | `broken-evidence` |
+| `grill-with-docs` | 2★ | 1★ | `broken-evidence` |
+| `grounding` | 2★ | 1★ | `broken-evidence` |
+| `mcp-debugger-control` | 3★ | 2★ | `broken-evidence` |
+| `research` | 2★ | 1★ | `broken-evidence` |
+| `stealth-browser-interaction` | 3★ | 2★ | `broken-evidence` |
+| `ubiquitous-language` | 3★ | 2★ | `broken-evidence` |
+| `web-scrape` | 2★ | 1★ | `broken-evidence` |
+| `...` | ... | ... | `broken-evidence` |
+
+*(Note: Total of 35 skills processed for evidence rot.)*
+
+## 7. Execution protocol
 
 1. Commit METASHIFT.md.
 2. Execute batch CLI commands.

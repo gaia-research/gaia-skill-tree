@@ -2,7 +2,7 @@
   "id": "document-analyst",
   "name": "Document Analyst",
   "type": "extra",
-  "level": "3★",
+  "level": "1★",
   "rarity": "uncommon",
   "description": "Parses, extracts entities from, summarizes, and formats structured documents.",
   "prerequisites": [
@@ -34,7 +34,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-26",
-  "updatedAt": "2026-05-20",
+  "updatedAt": "2026-05-25",
   "version": "0.1.0",
   "timeline": [
     {
@@ -42,6 +42,15 @@
       "action": "merge",
       "contributor": "unknown",
       "details": "Merged document-digitization into document-analyst"
+    },
+    {
+      "timestamp": "2026-05-25T04:25:32Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 3★ to 2★"
     }
+  ],
+  "demerits": [
+    "broken-evidence"
   ]
 }
