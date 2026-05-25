@@ -1,10 +1,10 @@
-# /stealth-browser-interaction  [4★ · Hardened]
+# /stealth-browser-interaction  [2★ · Named]
 **ID:** stealth-browser-interaction  
 **Type:** Extra Skill  
-**Level:** 4★  
-**Tier:** Hardened  
-**Potential:** 3★  
-**Demerits:** heavyweight-dependency  
+**Level:** 2★  
+**Tier:** Named  
+**Potential:** 0★  
+**Demerits:** heavyweight-dependency, broken-evidence  
 **Skill Call:** `/stealth-browser-interaction`
 
 ---

@@ -2,7 +2,7 @@
   "id": "code-execution",
   "name": "Code Execution",
   "type": "basic",
-  "level": "2★",
+  "level": "0★",
   "rarity": "common",
   "description": "Writes and executes code in a sandboxed environment, uses the runtime output to verify correctness, and iterates until the result is correct.",
   "prerequisites": [],
@@ -43,7 +43,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-05-20",
+  "updatedAt": "2026-05-25",
   "version": "0.2.0",
   "timeline": [
     {
@@ -51,6 +51,15 @@
       "action": "merge",
       "contributor": "unknown",
       "details": "Merged execute-bash into code-execution"
+    },
+    {
+      "timestamp": "2026-05-25T04:25:31Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 2★ to 1★"
     }
+  ],
+  "demerits": [
+    "broken-evidence"
   ]
 }

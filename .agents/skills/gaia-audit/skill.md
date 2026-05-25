@@ -34,7 +34,7 @@ Audit exactly one Gaia skill, named skill, or real-skill catalog item and submit
    - If a skill is promoted to Named status, ensure its `registry/named/` file exists and the real-skill catalog entry is updated.
    - Run:
      ```bash
-     gaia docs build
+     gaia dev build
      ```
 7. Verify:
    ```bash
@@ -44,13 +44,21 @@ Audit exactly one Gaia skill, named skill, or real-skill catalog item and submit
    git diff --check
    ```
 
-## Demotion Rules
+## Demotion Rules (Audit Enforcement)
 
-- Keep real skills in `registry/real-skills.json` when the source is valid but remove unsupported promotion fields.
-- Remove `promotedNamedSkillId` when the item does not justify the named claim.
-- Remove or downgrade `status: named`, `title`, or `catalogRef` when reviewer classification is unsupported.
-- Remap broad `mapsToGaia` links to narrower accurate IDs when evidence supports only a smaller capability.
-- Do not claim Ultimate tier or 5★+ stars from installability or source-directory presence alone.
+- **Star Bar Enforcement**: Any skill at **3★+** MUST have a verified GitHub implementation link (usually in `links.github`). If missing or dead, demote to **Named (2★)**.
+- **Unique Skill Reclassification**: Unique skills demoted below **4★** must be reclassified to **Basic** (or **Extra**) to pass validation. Use `gaia dev reclassify`.
+- **Evidence Health (Liveness)**: Use `scripts/verify_evidence.py`. Any skill with dead links must be assigned the **`broken-evidence`** demerit and demoted by one level.
+- **Pruning Placeholder Evidence**: Skills with placeholder or non-verifiable evidence should be demoted to **Awakened (1★)** status using `gaia dev update-named --status awakened`.
+- **Suite Components**: Suites do not need `links.github` themselves but their components must have specific `blob/branch/subpath` URLs.
+
+## Gaia CLI Commands for Audit
+
+- **Calibrate Level**: `gaia dev calibrate <skill_id> <level>★`
+- **Reclassify Type**: `gaia dev reclassify <skill_id> <type>`
+- **Update Named Status**: `gaia dev update-named <skill_id> --status <status>`
+- **Add Demerit**: Use `gaia dev add` with `--extra-fields` to patch `demerits: ["broken-evidence"]` or edit JSON directly.
+- **Build Registry**: `gaia dev build` (always run after manual edits).
 
 ## Output
 

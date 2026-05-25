@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/skill.schema.json",
-  "version": "3.24.0",
-  "generatedAt": "2026-05-25T02:49:14.628136Z",
+  "version": "3.25.0",
+  "generatedAt": "2026-05-25T04:46:09.119320Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -83,6 +83,7 @@
       "ultimate": "◆"
     },
     "demeritLabels": {
+      "broken-evidence": "Broken evidence",
       "niche-integration": "Niche integrations",
       "experimental-feature": "Experimental features",
       "heavyweight-dependency": "Heavyweight dependencies"
@@ -454,7 +455,7 @@
       "id": "audience-model",
       "name": "Audience Model",
       "type": "basic",
-      "level": "1★",
+      "level": "0★",
       "rarity": "common",
       "description": "Adapts tone, complexity, and framing of output to match a target audience profile.",
       "prerequisites": [],
@@ -476,8 +477,19 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-05-06",
-      "version": "0.1.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-25T04:25:30Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 1★ to 0★"
+        }
+      ],
+      "demerits": [
+        "broken-evidence"
+      ]
     },
     {
       "id": "automated-testing",
@@ -561,7 +573,7 @@
       "id": "autonomous-debug",
       "name": "Autonomous Debug",
       "type": "extra",
-      "level": "4★",
+      "level": "1★",
       "rarity": "rare",
       "description": "Independently identifies, diagnoses, and fixes software bugs through code generation and execution.",
       "prerequisites": [
@@ -583,8 +595,25 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-04-26",
-      "version": "0.1.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-25T03:46:19Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 4★ to 3★"
+        },
+        {
+          "timestamp": "2026-05-25T04:25:30Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 3★ to 2★"
+        }
+      ],
+      "demerits": [
+        "broken-evidence"
+      ]
     },
     {
       "id": "autonomous-engineering-platform",
@@ -867,7 +896,7 @@
       "id": "chain-of-thought",
       "name": "Chain-of-Thought Reasoning",
       "type": "basic",
-      "level": "1★",
+      "level": "0★",
       "rarity": "uncommon",
       "description": "Produces explicit intermediate reasoning steps before arriving at a final answer, dramatically improving accuracy on multi-step problems.",
       "prerequisites": [],
@@ -897,14 +926,25 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-04-30",
-      "version": "0.2.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-25T04:25:31Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 1★ to 0★"
+        }
+      ],
+      "demerits": [
+        "broken-evidence"
+      ]
     },
     {
       "id": "chunk-document",
       "name": "Chunk Document",
       "type": "basic",
-      "level": "1★",
+      "level": "0★",
       "rarity": "common",
       "description": "Splits a document into semantically meaningful segments optimized for embedding and retrieval.",
       "prerequisites": [],
@@ -924,14 +964,25 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-04-26",
-      "version": "0.1.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-25T04:25:31Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 1★ to 0★"
+        }
+      ],
+      "demerits": [
+        "broken-evidence"
+      ]
     },
     {
       "id": "cite-sources",
       "name": "Cite Sources",
       "type": "basic",
-      "level": "1★",
+      "level": "0★",
       "rarity": "common",
       "description": "Attributes claims to specific sources with proper references, URLs, or bibliographic entries.",
       "prerequisites": [],
@@ -955,8 +1006,19 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-04-30",
-      "version": "0.1.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-25T04:25:31Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 1★ to 0★"
+        }
+      ],
+      "demerits": [
+        "broken-evidence"
+      ]
     },
     {
       "id": "classify",
@@ -983,8 +1045,11 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-04-29",
-      "version": "0.1.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.1.0",
+      "demerits": [
+        "broken-evidence"
+      ]
     },
     {
       "id": "cli-modernization",
@@ -1133,7 +1198,7 @@
       "id": "code-execution",
       "name": "Code Execution",
       "type": "basic",
-      "level": "2★",
+      "level": "0★",
       "rarity": "common",
       "description": "Writes and executes code in a sandboxed environment, uses the runtime output to verify correctness, and iterates until the result is correct.",
       "prerequisites": [],
@@ -1174,7 +1239,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-05-20",
+      "updatedAt": "2026-05-25",
       "version": "0.2.0",
       "timeline": [
         {
@@ -1182,7 +1247,16 @@
           "action": "merge",
           "contributor": "unknown",
           "details": "Merged execute-bash into code-execution"
+        },
+        {
+          "timestamp": "2026-05-25T04:25:31Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 2★ to 1★"
         }
+      ],
+      "demerits": [
+        "broken-evidence"
       ]
     },
     {
@@ -1224,7 +1298,7 @@
       "id": "code-generation",
       "name": "Code Generation",
       "type": "basic",
-      "level": "1★",
+      "level": "0★",
       "rarity": "common",
       "description": "Produces syntactically correct and functionally appropriate source code from specifications or prompts.",
       "prerequisites": [],
@@ -1250,14 +1324,25 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-05-18",
-      "version": "0.1.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-25T04:25:31Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 1★ to 0★"
+        }
+      ],
+      "demerits": [
+        "broken-evidence"
+      ]
     },
     {
       "id": "code-review-pipeline",
       "name": "Code Review Pipeline",
       "type": "extra",
-      "level": "3★",
+      "level": "2★",
       "rarity": "uncommon",
       "description": "Performs automated code review by generating, diffing, and evaluating code changes for correctness, style, security, and maintainability.",
       "prerequisites": [
@@ -1286,8 +1371,16 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-05-18",
-      "version": "0.2.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-25T03:45:35Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 3★ to 2★"
+        }
+      ]
     },
     {
       "id": "collaborative-diagramming",
@@ -1440,7 +1533,7 @@
       "id": "content-moderation",
       "name": "Content Moderation",
       "type": "extra",
-      "level": "3★",
+      "level": "2★",
       "rarity": "uncommon",
       "description": "Detects policy-violating content by combining intent classification, sentiment scoring, and entity extraction across text, images, and mixed media.",
       "prerequisites": [
@@ -1462,8 +1555,16 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-04-28",
-      "version": "0.2.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-25T03:45:36Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 3★ to 2★"
+        }
+      ]
     },
     {
       "id": "context-compression",
@@ -1510,7 +1611,7 @@
       "id": "conversational-agent",
       "name": "Conversational Agent",
       "type": "extra",
-      "level": "3★",
+      "level": "1★",
       "rarity": "uncommon",
       "description": "Manages coherent multi-turn dialogue by routing intent, maintaining memory across turns, and generating contextually appropriate responses.",
       "prerequisites": [
@@ -1532,8 +1633,19 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-04-28",
-      "version": "0.2.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-25T04:25:32Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 3★ to 2★"
+        }
+      ],
+      "demerits": [
+        "broken-evidence"
+      ]
     },
     {
       "id": "core-platform-implementation",
@@ -1841,7 +1953,7 @@
       "id": "diff-content",
       "name": "Diff Content",
       "type": "basic",
-      "level": "1★",
+      "level": "0★",
       "rarity": "common",
       "description": "Compares two versions of content and produces a structured delta highlighting additions, deletions, and modifications.",
       "prerequisites": [],
@@ -1862,8 +1974,19 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-04-26",
-      "version": "0.1.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-25T04:25:32Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 1★ to 0★"
+        }
+      ],
+      "demerits": [
+        "broken-evidence"
+      ]
     },
     {
       "id": "dify-agent-suite",
@@ -1999,7 +2122,7 @@
       "id": "document-analyst",
       "name": "Document Analyst",
       "type": "extra",
-      "level": "3★",
+      "level": "1★",
       "rarity": "uncommon",
       "description": "Parses, extracts entities from, summarizes, and formats structured documents.",
       "prerequisites": [
@@ -2031,7 +2154,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-05-20",
+      "updatedAt": "2026-05-25",
       "version": "0.1.0",
       "timeline": [
         {
@@ -2039,7 +2162,16 @@
           "action": "merge",
           "contributor": "unknown",
           "details": "Merged document-digitization into document-analyst"
+        },
+        {
+          "timestamp": "2026-05-25T04:25:32Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 3★ to 2★"
         }
+      ],
+      "demerits": [
+        "broken-evidence"
       ]
     },
     {
@@ -2140,7 +2272,7 @@
       "id": "embed-text",
       "name": "Embed Text",
       "type": "basic",
-      "level": "1★",
+      "level": "0★",
       "rarity": "common",
       "description": "Converts text into dense vector representations suitable for similarity search and clustering.",
       "prerequisites": [],
@@ -2162,14 +2294,25 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-05-06",
-      "version": "0.1.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-25T04:25:32Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 1★ to 0★"
+        }
+      ],
+      "demerits": [
+        "broken-evidence"
+      ]
     },
     {
       "id": "error-interpretation",
       "name": "Error Interpretation",
       "type": "basic",
-      "level": "1★",
+      "level": "0★",
       "rarity": "common",
       "description": "Diagnoses error messages, stack traces, and failure modes to identify root causes and suggest fixes.",
       "prerequisites": [],
@@ -2192,14 +2335,25 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-04-26",
-      "version": "0.1.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-25T04:25:32Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 1★ to 0★"
+        }
+      ],
+      "demerits": [
+        "broken-evidence"
+      ]
     },
     {
       "id": "evaluate-output",
       "name": "Evaluate Output",
       "type": "basic",
-      "level": "1★",
+      "level": "0★",
       "rarity": "common",
       "description": "Assesses the quality, correctness, or safety of generated output against defined criteria.",
       "prerequisites": [],
@@ -2229,8 +2383,19 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-05-18",
-      "version": "0.1.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-25T04:25:33Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 1★ to 0★"
+        }
+      ],
+      "demerits": [
+        "broken-evidence"
+      ]
     },
     {
       "id": "executing-plans",
@@ -2267,7 +2432,7 @@
       "id": "extract-entities",
       "name": "Extract Entities",
       "type": "basic",
-      "level": "1★",
+      "level": "0★",
       "rarity": "common",
       "description": "Identifies and extracts named entities such as people, organizations, dates, and locations from text.",
       "prerequisites": [],
@@ -2291,8 +2456,19 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-04-28",
-      "version": "0.1.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-25T04:25:33Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 1★ to 0★"
+        }
+      ],
+      "demerits": [
+        "broken-evidence"
+      ]
     },
     {
       "id": "feed-monitoring",
@@ -2324,8 +2500,8 @@
     {
       "id": "few-shot-learning",
       "name": "Few-Shot Learning",
-      "type": "unique",
-      "level": "4★",
+      "type": "basic",
+      "level": "2★",
       "rarity": "common",
       "description": "Conditions a language model on a small number of input-output demonstrations within the prompt, enabling task adaptation without weight updates.",
       "prerequisites": [],
@@ -2346,8 +2522,22 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-29",
-      "updatedAt": "2026-04-29",
-      "version": "0.2.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-25T03:44:41Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Reclassified from unique to basic"
+        },
+        {
+          "timestamp": "2026-05-25T03:45:37Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 4★ to 2★"
+        }
+      ]
     },
     {
       "id": "fine-tune",
@@ -2477,8 +2667,11 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-05-06",
-      "version": "0.1.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.1.0",
+      "demerits": [
+        "broken-evidence"
+      ]
     },
     {
       "id": "framework-upgrade",
@@ -2553,7 +2746,7 @@
       "id": "function-calling",
       "name": "Function Calling",
       "type": "extra",
-      "level": "3★",
+      "level": "2★",
       "rarity": "uncommon",
       "description": "Selects an external callable, emits schema-valid arguments, invokes the function or API, and integrates the returned result into the agent loop.",
       "prerequisites": [
@@ -2582,8 +2775,16 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-29",
-      "updatedAt": "2026-04-29",
-      "version": "0.1.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-25T03:45:36Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 3★ to 2★"
+        }
+      ]
     },
     {
       "id": "gaia-audit",
@@ -2726,8 +2927,11 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-05-10",
-      "version": "0.1.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.1.0",
+      "demerits": [
+        "broken-evidence"
+      ]
     },
     {
       "id": "generative-media",
@@ -3028,7 +3232,7 @@
       "id": "grill-with-docs",
       "name": "Grill With Docs",
       "type": "extra",
-      "level": "3★",
+      "level": "1★",
       "rarity": "uncommon",
       "description": "The apex of agentic design alignment. Fuses relentless Socratic questioning with deep domain awareness, ensuring every decision is cross-referenced against a persistent ubiquitous language and documented via real-time ADR generation.",
       "prerequisites": [
@@ -3057,15 +3261,26 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-15",
-      "updatedAt": "2026-05-15",
+      "updatedAt": "2026-05-25",
       "version": "0.1.0",
-      "title": "The Domain Sovereign"
+      "title": "The Domain Sovereign",
+      "timeline": [
+        {
+          "timestamp": "2026-05-25T04:25:33Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 3★ to 2★"
+        }
+      ],
+      "demerits": [
+        "broken-evidence"
+      ]
     },
     {
       "id": "grounding",
       "name": "Grounding",
       "type": "extra",
-      "level": "3★",
+      "level": "1★",
       "rarity": "uncommon",
       "description": "Verifies generated claims against retrieved evidence, identifies unsupported or contradicted assertions, and anchors outputs in traceable, cited sources.",
       "prerequisites": [
@@ -3094,8 +3309,19 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-04-30",
-      "version": "0.2.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-25T04:25:33Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 3★ to 2★"
+        }
+      ],
+      "demerits": [
+        "broken-evidence"
+      ]
     },
     {
       "id": "gstack",
@@ -3829,7 +4055,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-22",
-      "updatedAt": "2026-05-22",
+      "updatedAt": "2026-05-25",
       "version": "0.1.0",
       "timeline": [
         {
@@ -3843,6 +4069,12 @@
           "action": "evidence_added",
           "contributor": "mbtiongson1",
           "details": "Added B evidence from https://github.com/mattpocock/skills"
+        },
+        {
+          "timestamp": "2026-05-25T03:46:20Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 5★ to 5★"
         }
       ]
     },
@@ -3971,12 +4203,19 @@
           "evaluator": "mbtiongson1",
           "date": "2026-05-22",
           "notes": "Peer-reviewed ultimate capstone suite consolidation."
+        },
+        {
+          "class": "A",
+          "source": "https://github.com/mattpocock/skills",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-25",
+          "notes": "Matt Pocock complete agent discipline library with 100k+ GitHub stars across the ecosystem."
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-22",
-      "updatedAt": "2026-05-22",
+      "updatedAt": "2026-05-25",
       "version": "0.1.0",
       "timeline": [
         {
@@ -3996,6 +4235,18 @@
           "action": "evidence_added",
           "contributor": "mbtiongson1",
           "details": "Added A evidence from https://github.com/mbtiongson1/gaia-skill-tree/pull/352"
+        },
+        {
+          "timestamp": "2026-05-25T03:46:19Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 6★ to 6★"
+        },
+        {
+          "timestamp": "2026-05-25T03:46:20Z",
+          "action": "evidence_added",
+          "contributor": "mbtiongson1",
+          "details": "Added A evidence from https://github.com/mattpocock/skills"
         }
       ]
     },
@@ -4003,7 +4254,7 @@
       "id": "mcp-debugger-control",
       "name": "MCP Debugger Control",
       "type": "extra",
-      "level": "4★",
+      "level": "2★",
       "rarity": "rare",
       "description": "Exposes low-level debugger capabilities (breakpoints, stepping, stack inspection, variable evaluation) to AI agents via the Model Context Protocol, enabling real-time runtime diagnosis and autonomous bug fixing.",
       "prerequisites": [
@@ -4027,12 +4278,21 @@
         "ladislav-sopko/mcp-vs"
       ],
       "demerits": [
-        "niche-integration"
+        "niche-integration",
+        "broken-evidence"
       ],
       "status": "provisional",
       "createdAt": "2026-05-14",
-      "updatedAt": "2026-05-14",
-      "version": "0.1.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-25T04:25:33Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 4★ to 3★"
+        }
+      ]
     },
     {
       "id": "mcp-integration",
@@ -4312,7 +4572,7 @@
       "id": "multi-agent-debate",
       "name": "Multi-Agent Debate",
       "type": "extra",
-      "level": "4★",
+      "level": "2★",
       "rarity": "rare",
       "description": "Runs multiple LLM agents that propose, critique, and iteratively refine answers across structured debate rounds, converging on more accurate and well-reasoned responses than any single agent achieves.",
       "prerequisites": [
@@ -4343,8 +4603,16 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-04-30",
-      "version": "0.2.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-25T03:45:37Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 4★ to 2★"
+        }
+      ]
     },
     {
       "id": "multi-agent-orchestration-v",
@@ -4405,7 +4673,7 @@
       "id": "multimodal-reasoning",
       "name": "Multimodal Reasoning",
       "type": "extra",
-      "level": "3★",
+      "level": "2★",
       "rarity": "rare",
       "description": "Integrates information from images and text to answer questions requiring visual grounding and logical inference across modalities.",
       "prerequisites": [
@@ -4430,8 +4698,16 @@
       ],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-04-28",
-      "version": "0.2.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-25T03:45:36Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 3★ to 2★"
+        }
+      ]
     },
     {
       "id": "object-detection",
@@ -4533,7 +4809,7 @@
       "id": "parse-html",
       "name": "Parse HTML",
       "type": "basic",
-      "level": "1★",
+      "level": "0★",
       "rarity": "common",
       "description": "Extracts structured content from raw HTML, navigating DOM trees and handling malformed markup.",
       "prerequisites": [],
@@ -4553,14 +4829,25 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-04-26",
-      "version": "0.1.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-25T04:25:33Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 1★ to 0★"
+        }
+      ],
+      "demerits": [
+        "broken-evidence"
+      ]
     },
     {
       "id": "parse-json",
       "name": "Parse JSON",
       "type": "basic",
-      "level": "1★",
+      "level": "0★",
       "rarity": "common",
       "description": "Extracts structured data from JSON-formatted input, handling nested objects and arrays.",
       "prerequisites": [],
@@ -4581,8 +4868,19 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-04-26",
-      "version": "0.1.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-25T04:25:34Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 1★ to 0★"
+        }
+      ],
+      "demerits": [
+        "broken-evidence"
+      ]
     },
     {
       "id": "parse-pdf",
@@ -4789,7 +5087,7 @@
       "id": "plan-decompose",
       "name": "Plan and Decompose",
       "type": "basic",
-      "level": "1★",
+      "level": "0★",
       "rarity": "common",
       "description": "Breaks a complex objective into an ordered sequence of executable sub-tasks.",
       "prerequisites": [],
@@ -4817,8 +5115,19 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-04-29",
-      "version": "0.1.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-25T04:25:34Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 1★ to 0★"
+        }
+      ],
+      "demerits": [
+        "broken-evidence"
+      ]
     },
     {
       "id": "platform-modernization-sprint",
@@ -5314,7 +5623,7 @@
       "id": "rank",
       "name": "Rank",
       "type": "basic",
-      "level": "1★",
+      "level": "0★",
       "rarity": "common",
       "description": "Orders a set of candidate items by relevance, quality, or fitness for a given objective.",
       "prerequisites": [],
@@ -5334,8 +5643,19 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-04-26",
-      "version": "0.1.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-25T04:25:34Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 1★ to 0★"
+        }
+      ],
+      "demerits": [
+        "broken-evidence"
+      ]
     },
     {
       "id": "re-act-reasoning",
@@ -5677,7 +5997,7 @@
       "id": "research",
       "name": "Research",
       "type": "extra",
-      "level": "3★",
+      "level": "1★",
       "rarity": "uncommon",
       "description": "Conducts multi-source information gathering, synthesis, and citation for a given topic.",
       "prerequisites": [
@@ -5705,14 +6025,25 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-04-30",
-      "version": "0.1.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-25T04:25:34Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 3★ to 2★"
+        }
+      ],
+      "demerits": [
+        "broken-evidence"
+      ]
     },
     {
       "id": "retrieve",
       "name": "Retrieve",
       "type": "basic",
-      "level": "1★",
+      "level": "0★",
       "rarity": "common",
       "description": "Fetches relevant documents or passages from an indexed corpus given a query.",
       "prerequisites": [],
@@ -5736,8 +6067,19 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-05-06",
-      "version": "0.1.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-25T04:25:34Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 1★ to 0★"
+        }
+      ],
+      "demerits": [
+        "broken-evidence"
+      ]
     },
     {
       "id": "reward-modeling",
@@ -5778,7 +6120,7 @@
       "id": "route-intent",
       "name": "Route Intent",
       "type": "basic",
-      "level": "1★",
+      "level": "0★",
       "rarity": "common",
       "description": "Classifies user intent and directs execution to the appropriate handler, tool, or sub-agent.",
       "prerequisites": [],
@@ -5800,8 +6142,19 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-04-26",
-      "version": "0.1.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-25T04:25:35Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 1★ to 0★"
+        }
+      ],
+      "demerits": [
+        "broken-evidence"
+      ]
     },
     {
       "id": "ruflo",
@@ -6011,7 +6364,7 @@
       "id": "score-relevance",
       "name": "Score Relevance",
       "type": "basic",
-      "level": "1★",
+      "level": "0★",
       "rarity": "common",
       "description": "Assigns a numerical relevance score to candidate items relative to a query or objective.",
       "prerequisites": [],
@@ -6032,8 +6385,19 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-04-26",
-      "version": "0.1.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-25T04:25:35Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 1★ to 0★"
+        }
+      ],
+      "demerits": [
+        "broken-evidence"
+      ]
     },
     {
       "id": "security-audit",
@@ -6076,8 +6440,8 @@
     {
       "id": "self-consistency",
       "name": "Self-Consistency",
-      "type": "unique",
-      "level": "4★",
+      "type": "basic",
+      "level": "2★",
       "rarity": "rare",
       "description": "Samples multiple independent reasoning paths for the same problem and selects the answer by majority vote, improving robustness without any additional training.",
       "prerequisites": [],
@@ -6098,8 +6462,22 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-29",
-      "updatedAt": "2026-04-29",
-      "version": "0.2.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-25T03:44:42Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Reclassified from unique to basic"
+        },
+        {
+          "timestamp": "2026-05-25T03:45:37Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 4★ to 2★"
+        }
+      ]
     },
     {
       "id": "self-critique",
@@ -6436,7 +6814,7 @@
       "id": "skill-security-analysis",
       "name": "Skill Security Analysis",
       "type": "extra",
-      "level": "4★",
+      "level": "2★",
       "rarity": "rare",
       "description": "Assesses third-party agent skills for malicious behavior, unsafe permissions, prompt-injection exposure, repository-context mismatch, and supply-chain risk before installation or invocation.",
       "prerequisites": [
@@ -6475,8 +6853,16 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-10",
-      "updatedAt": "2026-05-10",
-      "version": "0.1.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-25T03:45:37Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 4★ to 2★"
+        }
+      ]
     },
     {
       "id": "speech-to-text",
@@ -6544,7 +6930,7 @@
       "id": "stealth-browser-interaction",
       "name": "Stealth Browser Interaction",
       "type": "extra",
-      "level": "4★",
+      "level": "2★",
       "rarity": "uncommon",
       "description": "Operates web browsers through an advanced stealth layer that handles bot-detection, fingerprinting, session rotation, and human-like interaction patterns to maintain resilient access to protected domains.",
       "prerequisites": [
@@ -6569,12 +6955,21 @@
         "apify/crawlee"
       ],
       "demerits": [
-        "heavyweight-dependency"
+        "heavyweight-dependency",
+        "broken-evidence"
       ],
       "status": "provisional",
       "createdAt": "2026-05-14",
-      "updatedAt": "2026-05-14",
-      "version": "0.1.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-25T04:25:35Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 4★ to 3★"
+        }
+      ]
     },
     {
       "id": "structured-output",
@@ -6673,8 +7068,11 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-05-06",
-      "version": "0.1.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.1.0",
+      "demerits": [
+        "broken-evidence"
+      ]
     },
     {
       "id": "superpowers",
@@ -6710,7 +7108,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-18",
-      "updatedAt": "2026-05-18",
+      "updatedAt": "2026-05-25",
       "version": "0.1.0",
       "timeline": [
         {
@@ -6718,6 +7116,12 @@
           "action": "fuse",
           "contributor": "mbtiongson1",
           "details": "Fused 11 obra/superpowers discipline skills into /superpowers ultimate. Components: brainstorming, writing-plans, executing-plans, dispatching-parallel-agents, subagent-driven-development, requesting-code-review, receiving-code-review, systematic-debugging, verification-before-completion, using-git-worktrees, finishing-a-development-branch. Promoted to 5 star on evidence: obra/superpowers v5.1.0, 196k+ stars, multi-platform adoption."
+        },
+        {
+          "timestamp": "2026-05-25T03:46:20Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 5★ to 5★"
         }
       ]
     },
@@ -6865,7 +7269,7 @@
       "id": "text-to-sql-pipeline",
       "name": "Text-to-SQL Pipeline",
       "type": "extra",
-      "level": "3★",
+      "level": "2★",
       "rarity": "uncommon",
       "description": "Converts natural-language queries into validated, executable SQL against a target schema and returns formatted result sets.",
       "prerequisites": [
@@ -6887,8 +7291,16 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-04-28",
-      "version": "0.2.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-25T03:45:36Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 3★ to 2★"
+        }
+      ]
     },
     {
       "id": "token-observability",
@@ -7022,7 +7434,7 @@
       "id": "tool-select",
       "name": "Tool Select",
       "type": "basic",
-      "level": "1★",
+      "level": "0★",
       "rarity": "common",
       "description": "Chooses the most appropriate tool or API from a set of available options given a task description.",
       "prerequisites": [],
@@ -7044,8 +7456,19 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-04-28",
-      "version": "0.1.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-25T04:25:35Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 1★ to 0★"
+        }
+      ],
+      "demerits": [
+        "broken-evidence"
+      ]
     },
     {
       "id": "tool-use",
@@ -7117,7 +7540,7 @@
       "id": "translation-pipeline",
       "name": "Translation Pipeline",
       "type": "extra",
-      "level": "3★",
+      "level": "2★",
       "rarity": "uncommon",
       "description": "Translates content end-to-end while preserving sentiment and adapting tone and register for the target audience.",
       "prerequisites": [
@@ -7139,8 +7562,16 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-04-28",
-      "version": "0.2.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-25T03:45:36Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 3★ to 2★"
+        }
+      ]
     },
     {
       "id": "tree-of-thought",
@@ -7183,7 +7614,7 @@
       "id": "ubiquitous-language",
       "name": "Ubiquitous Language",
       "type": "extra",
-      "level": "4★",
+      "level": "2★",
       "rarity": "rare",
       "description": "Establishes and maintains a consistent, domain-driven vocabulary between the agent and human, formalising terminology in a shared glossary (typically CONTEXT.md) to reduce ambiguity and token waste.",
       "prerequisites": [
@@ -7206,8 +7637,19 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-15",
-      "updatedAt": "2026-05-15",
-      "version": "0.1.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-25T04:25:35Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 4★ to 3★"
+        }
+      ],
+      "demerits": [
+        "broken-evidence"
+      ]
     },
     {
       "id": "using-git-worktrees",
@@ -7418,7 +7860,7 @@
       "id": "vision-qa",
       "name": "Visual Question Answering",
       "type": "basic",
-      "level": "3★",
+      "level": "2★",
       "rarity": "uncommon",
       "description": "Answers natural-language questions grounded in a specific image or screenshot by combining visual perception with language reasoning, enabling visual debugging, UI analysis, and document-image Q&A.",
       "prerequisites": [],
@@ -7443,8 +7885,16 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-04-30",
-      "version": "0.1.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-25T03:45:36Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 3★ to 2★"
+        }
+      ]
     },
     {
       "id": "voice-agent",
@@ -7484,7 +7934,7 @@
       "id": "web-scrape",
       "name": "Web Scrape",
       "type": "extra",
-      "level": "3★",
+      "level": "1★",
       "rarity": "uncommon",
       "description": "Retrieves and structures data from web pages into usable entities.",
       "prerequisites": [
@@ -7510,14 +7960,25 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-04-28",
-      "version": "0.1.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-25T04:25:36Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 3★ to 2★"
+        }
+      ],
+      "demerits": [
+        "broken-evidence"
+      ]
     },
     {
       "id": "web-search",
       "name": "Web Search",
       "type": "basic",
-      "level": "1★",
+      "level": "0★",
       "rarity": "common",
       "description": "Queries external search engines or APIs and retrieves relevant result sets.",
       "prerequisites": [],
@@ -7540,8 +8001,19 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-05-06",
-      "version": "0.1.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-25T04:25:36Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 1★ to 0★"
+        }
+      ],
+      "demerits": [
+        "broken-evidence"
+      ]
     },
     {
       "id": "wiki-search",
@@ -7682,7 +8154,7 @@
       "id": "write-report",
       "name": "Write Report",
       "type": "basic",
-      "level": "1★",
+      "level": "0★",
       "rarity": "common",
       "description": "Produces structured, multi-section written output with headings, citations, and coherent narrative.",
       "prerequisites": [],
@@ -7706,8 +8178,19 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-05-06",
-      "version": "0.1.0"
+      "updatedAt": "2026-05-25",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-25T04:25:36Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 1★ to 0★"
+        }
+      ],
+      "demerits": [
+        "broken-evidence"
+      ]
     },
     {
       "id": "writing-plans",

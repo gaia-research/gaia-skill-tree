@@ -1,8 +1,10 @@
-# [devin-ai](../../../docs/u/devin-ai/)/autonomous-swe  [4★ · Hardened]
+# [devin-ai](../../../docs/u/devin-ai/)/autonomous-swe  [1★ · Awakened]
 **ID:** autonomous-debug  
 **Type:** Extra Skill  
-**Level:** 4★  
-**Tier:** Hardened  
+**Level:** 1★  
+**Tier:** Awakened  
+**Potential:** 0★  
+**Demerits:** broken-evidence  
 **Skill Call:** `/autonomous-debug`
 
 ---

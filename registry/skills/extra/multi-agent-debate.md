@@ -1,8 +1,8 @@
-# [garrytan](../../../docs/u/garrytan/)/codex  [4★ · Hardened]
+# [garrytan](../../../docs/u/garrytan/)/codex  [2★ · Named]
 **ID:** multi-agent-debate  
 **Type:** Extra Skill  
-**Level:** 4★  
-**Tier:** Hardened  
+**Level:** 2★  
+**Tier:** Named  
 **Skill Call:** `/multi-agent-debate`
 
 ---

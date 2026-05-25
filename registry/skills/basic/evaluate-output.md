@@ -1,8 +1,8 @@
-# [garrytan](../../../docs/u/garrytan/)/benchmark  [1★ · Awakened]
+# [garrytan](../../../docs/u/garrytan/)/benchmark  [0★ · Basic]
 **ID:** evaluate-output  
 **Type:** Basic Skill  
-**Level:** 1★  
-**Tier:** Awakened  
+**Level:** 0★  
+**Tier:** Basic  
 **Skill Call:** `/evaluate-output`
 
 ---

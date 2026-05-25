@@ -4,12 +4,11 @@ name: Plan Cascade
 contributor: Taoidle
 origin: false
 genericSkillRef: autonomous-engineering-platform
-status: named
-title: "Plan Cascade"
-level: "2★"
+status: awakened
+level: 2★
 description: AI-powered cascading development framework.
 createdAt: '2026-05-23'
-updatedAt: '2026-05-23'
+updatedAt: '2026-05-25'
 ---
 
 ## Installation
