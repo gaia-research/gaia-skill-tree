@@ -224,9 +224,13 @@ def _field_orb(ns: dict, size_modifier: str = "") -> str:
 def _field_slug(ns: dict) -> str:
     raw_id = ns.get("id", "")
     slug = html.escape(named_slug(ns))
+    safe_id = html.escape(raw_id, quote=True)
     return (
-        f'<div class="plaque__slug plaque-skill-name named-slug" '
-        f'title="{html.escape(raw_id)}">{slug}</div>'
+        f'<button type="button" class="plaque__slug plaque-skill-name named-slug" '
+        f'data-skill-id="{safe_id}" '
+        f'title="{safe_id}" '
+        f'onclick="event.stopPropagation(); if(window.openSkillExplorer)window.openSkillExplorer(\'{safe_id}\');">'
+        f'{slug}</button>'
     )
 
 
@@ -638,12 +642,14 @@ FILTER_BAR_HTML = """<div class="profile-filter-bar" role="toolbar" aria-label="
     <button class="profile-filter-chip" type="button" data-value="5" aria-pressed="false">5★</button>
     <button class="profile-filter-chip" type="button" data-value="6" aria-pressed="false">6★</button>
   </fieldset>
-  <fieldset class="profile-filter-group" data-filter-type="sort">
-    <legend class="profile-filter-legend">Sort</legend>
-    <button class="profile-filter-chip" type="button" data-sort="rank" aria-pressed="true">Rank desc</button>
-    <button class="profile-filter-chip" type="button" data-sort="alpha" aria-pressed="false">A–Z</button>
-    <button class="profile-filter-chip" type="button" data-sort="type" aria-pressed="false">Type</button>
-  </fieldset>
+  <div class="ns-sort-wrap profile-sort-wrap">
+    <svg class="ico ns-sort-icon" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#sort-arrows"/></svg>
+    <select id="profileSort" class="ns-sort-sel" aria-label="Sort skills">
+      <option value="rank" selected>Rank · high → low</option>
+      <option value="alpha">A → Z</option>
+      <option value="type">Type</option>
+    </select>
+  </div>
   <button class="profile-filter-reset" type="button">Reset</button>
 </div>"""
 
@@ -789,6 +795,7 @@ def build_profile_page(handle: str, skills: list, named_index: dict | None = Non
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../../css/tokens.css">
   <link rel="stylesheet" href="../../css/styles.css">
   <link rel="stylesheet" href="../../css/plaque.css">
   <!-- Stage 1 — icon sprite helper, loaded BEFORE other UI scripts. -->
@@ -805,12 +812,18 @@ def build_profile_page(handle: str, skills: list, named_index: dict | None = Non
 
   <!-- ─── PROFILE HERO ─── -->
   <div class="profile-hero">
-    <h1 class="profile-handle">{safe_handle}</h1>
+    <a class="profile-back" href="../" aria-label="Back to contributors">
+      <svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#arrow-back"/></svg>
+      <span>Contributors</span>
+    </a>
+    <h1 class="profile-handle">{safe_handle}{f'<span class="profile-handle-origin" data-tooltip="Origin contributor: The creator of the first skill version" aria-label="Origin contributor"><svg class="ico" width="20" height="20" aria-hidden="true"><use href="../../assets/icons.svg#origin-badge"></use></svg><span class="origin-info"><svg class="ico" width="11" height="11" aria-hidden="true"><use href="../../assets/icons.svg#info"></use></svg></span></span>' if origin_count else ''}</h1>
     <div class="profile-meta">
       {skill_count} named skill{'s' if skill_count != 1 else ''} · highest rank {highest_level}
     </div>
-    {f'<span class="profile-origin-badge">◆ Origin Contributor · {origin_count} origin{"s" if origin_count != 1 else ""}</span>' if origin_count else ''}
   </div>
+
+  <!-- ─── PROGRESSION TIMELINE ─── -->
+  {timeline_section_html}
 
   <!-- ─── SKILL PLAQUES ─── -->
   <section class="profile-section">
@@ -821,9 +834,6 @@ def build_profile_page(handle: str, skills: list, named_index: dict | None = Non
       {plaques_html}
     </div>
   </section>
-
-  <!-- ─── PROGRESSION TIMELINE ─── -->
-  {timeline_section_html}
 
   <!-- ─── ACTIVITY LOG ─── -->
   {activity_section_html}

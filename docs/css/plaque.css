@@ -231,6 +231,27 @@
   letter-spacing: 0.02em;
   color: var(--plaque-accent);
 }
+/* When emitted as a <button> (profile pages), strip native control
+   chrome so it renders identically to the legacy <div>. The hover
+   feedback comes from cursor:pointer; the visual styling stays in
+   the typography rules above. */
+button.plaque__slug {
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  display: block;
+}
+button.plaque__slug:hover,
+button.plaque__slug:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  outline: none;
+}
 /* Ultimate carries the brand-voice Apex Gold via the tier token. */
 .plaque[data-type="ultimate"] .plaque__slug,
 .plaque[data-type="ultimate"] .plaque-skill-name {
@@ -1095,10 +1116,33 @@
 
 /* ── Profile page hero (settled context) ─────────────────────── */
 .profile-hero {
-  padding: 6rem 1.5rem 3rem;
+  padding: 5rem 1.5rem 3rem;
   max-width: 960px;
   margin: 0 auto;
   text-align: center;
+}
+/* Back link — mirrors the Explorer modal's se-btn-ghost back affordance:
+   flows in-document above the h1 so the fixed top-nav never overlaps it. */
+.profile-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--text, #e2e8f0);
+  text-decoration: none;
+  font-family: var(--font-body, 'Bricolage Grotesque', sans-serif);
+  font-size: 0.82rem;
+  background: transparent;
+  border: 1px solid var(--border, #1e293b);
+  border-radius: 6px;
+  padding: 0.38rem 0.9rem;
+  margin-bottom: 1.5rem;
+  transition: border-color 0.2s, color 0.2s;
+}
+.profile-back:hover,
+.profile-back:focus-visible {
+  border-color: var(--tier-basic, #38bdf8);
+  color: var(--tier-basic, #38bdf8);
+  outline: none;
 }
 .profile-handle {
   font-family: var(--font-body, 'Bricolage Grotesque', sans-serif);
@@ -1113,26 +1157,25 @@
   font-size: 0.75em;
   vertical-align: middle;
 }
+.profile-handle-origin {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: 0.4em;
+  color: var(--apex-gold);
+  vertical-align: middle;
+}
+.profile-handle-origin .origin-info {
+  margin-left: 3px;
+  color: var(--muted);
+  opacity: 0.7;
+}
 .profile-meta {
   font-family: var(--font-mono, 'Departure Mono', monospace);
   font-size: 13px;
   color: rgba(226, 232, 240, 0.45);
   letter-spacing: 0.06em;
   margin-bottom: 1rem;
-}
-.profile-origin-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--apex-gold, #fbbf24);
-  background: rgba(var(--apex-gold-rgb), 0.1);
-  border: 1px solid rgba(var(--apex-gold-rgb), 0.3);
-  border-radius: 999px;
-  padding: 4px 12px;
 }
 .profile-section {
   max-width: 960px;
@@ -1322,6 +1365,48 @@
   color: var(--apex-gold, #fbbf24);
 }
 
+/* Tier-aware active states for Type filter chips */
+.profile-filter-group[data-filter-type="type"] .profile-filter-chip[data-value="basic"][aria-pressed="true"] {
+  border-color: var(--tier-basic);
+  background: var(--tier-basic-bg);
+  color: var(--tier-basic);
+}
+.profile-filter-group[data-filter-type="type"] .profile-filter-chip[data-value="extra"][aria-pressed="true"] {
+  border-color: var(--tier-extra);
+  background: var(--tier-extra-bg);
+  color: var(--tier-extra);
+}
+.profile-filter-group[data-filter-type="type"] .profile-filter-chip[data-value="unique"][aria-pressed="true"] {
+  border-color: var(--tier-unique);
+  background: var(--tier-unique-bg);
+  color: var(--tier-unique);
+}
+.profile-filter-group[data-filter-type="type"] .profile-filter-chip[data-value="ultimate"][aria-pressed="true"] {
+  border-color: var(--tier-ultimate);
+  background: var(--tier-ultimate-bg);
+  color: var(--tier-ultimate);
+}
+
+/* Rank-aware active states for Rank filter chips */
+.profile-filter-group[data-filter-type="rank"] .profile-filter-chip[data-value="1"][aria-pressed="true"] {
+  border-color: var(--rank-1); background: var(--rank-1-bg); color: var(--rank-1);
+}
+.profile-filter-group[data-filter-type="rank"] .profile-filter-chip[data-value="2"][aria-pressed="true"] {
+  border-color: var(--rank-2); background: var(--rank-2-bg); color: var(--rank-2);
+}
+.profile-filter-group[data-filter-type="rank"] .profile-filter-chip[data-value="3"][aria-pressed="true"] {
+  border-color: var(--rank-3); background: var(--rank-3-bg); color: var(--rank-3);
+}
+.profile-filter-group[data-filter-type="rank"] .profile-filter-chip[data-value="4"][aria-pressed="true"] {
+  border-color: var(--rank-4); background: var(--rank-4-bg); color: var(--rank-4);
+}
+.profile-filter-group[data-filter-type="rank"] .profile-filter-chip[data-value="5"][aria-pressed="true"] {
+  border-color: var(--rank-5); background: var(--rank-5-bg); color: var(--rank-5);
+}
+.profile-filter-group[data-filter-type="rank"] .profile-filter-chip[data-value="6"][aria-pressed="true"] {
+  border-color: var(--rank-6); background: var(--rank-6-bg); color: var(--rank-6);
+}
+
 .profile-filter-reset {
   font-family: var(--font-mono, 'JetBrains Mono', monospace);
   font-size: 0.72rem;
@@ -1347,6 +1432,15 @@
   position: absolute;
   top: 0.6rem;
   right: 0.6rem;
+}
+
+/* Detail variant: actions are a flow row at the bottom of the left column,
+   not a corner overlay. Base .plaque__actions + .plaque__share-btn /
+   .plaque__claim-btn rules provide the visual — no size overrides needed. */
+.plaque-detail-actions {
+  position: static;
+  margin-top: auto;
+  padding-top: 0.75rem;
 }
 
 .plaque__share-btn {

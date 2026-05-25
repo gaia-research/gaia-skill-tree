@@ -266,7 +266,7 @@ def build_rank_chip_svg(level: str, x: float, y: float, anchor: str = "end") -> 
     return (
         f'<rect x="{pill_x}" y="{pill_y}" width="{label_w}" height="{pill_h}" rx="13" '
         f'fill="{palette["bg"]}" stroke="{palette["border"]}" stroke-width="1"/>'
-        f'<text x="{text_x}" y="{y}" font-family="\'Departure Mono\',\'JetBrains Mono\',monospace" '
+        f'<text x="{text_x}" y="{y}" font-family="\'Departure Mono\',\'JetBrains Mono\',ui-monospace,monospace" '
         f'font-size="13" font-weight="600" letter-spacing="1.2" fill="{palette["hex"]}" '
         f'text-anchor="{anchor}" dominant-baseline="middle">{label}</text>'
     )
@@ -323,7 +323,7 @@ def _build_tags_svg(skill: dict, x: float, y: float, max_tags: int = 4) -> str:
         )
         parts.append(
             f'<text class="plaque__tag" x="{cursor_x + 9}" y="{y + 15}" '
-            f'font-family="\'Departure Mono\',\'JetBrains Mono\',monospace" font-size="11" '
+            f'font-family="\'Departure Mono\',\'JetBrains Mono\',ui-monospace,monospace" font-size="11" '
             f'letter-spacing="0.5">{text}</text>'
         )
         cursor_x += pill_w + 6
@@ -341,10 +341,10 @@ def _build_install_row_svg(skill: dict, x: float, y: float, w: float) -> str:
         f'<rect class="plaque__install-bg" x="{x}" y="{y}" width="{w}" height="32" rx="4" '
         f'fill="rgba(0,0,0,0.4)" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>'
         f'<text class="plaque__install-prompt" x="{x + 12}" y="{y + 21}" '
-        f'font-family="\'Departure Mono\',\'JetBrains Mono\',monospace" font-size="13" '
+        f'font-family="\'Departure Mono\',\'JetBrains Mono\',ui-monospace,monospace" font-size="13" '
         f'fill="{APEX_GOLD}">$</text>'
         f'<text class="plaque__install-cmd" x="{x + 28}" y="{y + 21}" '
-        f'font-family="\'Departure Mono\',\'JetBrains Mono\',monospace" font-size="13" '
+        f'font-family="\'Departure Mono\',\'JetBrains Mono\',ui-monospace,monospace" font-size="13" '
         f'fill="rgba(226,232,240,0.75)">{cmd}</text>'
     )
 
@@ -473,7 +473,7 @@ def build_og_svg(skill: dict) -> str:
 
   <!-- Description (.plaque__description) -->
   <text class="plaque__description" x="264" y="278"
-    font-family="Bricolage Grotesque,Helvetica,Arial,sans-serif"
+    font-family="Bricolage Grotesque,Inter,system-ui,sans-serif"
     font-size="18" fill="rgba(226,232,240,0.65)">
     {description_tspans}
   </text>
@@ -496,7 +496,7 @@ def build_og_svg(skill: dict) -> str:
 
   <!-- Contributor handle (.plaque__handle) -->
   <text class="plaque__handle" x="264" y="605"
-    font-family="'Bricolage Grotesque',sans-serif" font-size="18" font-weight="600"
+    font-family="'Bricolage Grotesque',Inter,system-ui,sans-serif" font-size="18" font-weight="600"
     fill="{HONOR_RED}" dominant-baseline="middle">@{contributor}</text>
 
   <!-- Gaia wordmark (bottom-right) -->
