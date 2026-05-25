@@ -445,5 +445,39 @@
       });
     })();
   </script>
+
+  <!-- ── Share modal (single instance) — opened from plaque__share-btn ── -->
+  <div class="share-modal" hidden role="dialog" aria-modal="true" aria-labelledby="share-modal-title" id="shareModal">
+    <div class="share-modal__backdrop" data-share-close></div>
+    <div class="share-modal__panel" role="document">
+      <button class="share-modal__close" type="button" data-share-close aria-label="Close">×</button>
+      <h2 id="share-modal-title" class="share-modal__title">Share</h2>
+      <p class="share-modal__caption" data-share-caption></p>
+      <img class="share-modal__preview" data-share-preview alt="OG card preview">
+      <div class="share-modal__actions">
+        <a class="share-action share-action--download" data-share-action="download" download>
+          <svg class="ico" width="16" height="16"><use href="../assets/icons.svg#download"></use></svg> Download
+        </a>
+        <button class="share-action share-action--copy" type="button" data-share-action="copy">
+          <svg class="ico" width="16" height="16"><use href="../assets/icons.svg#copy"></use></svg> Copy link
+        </button>
+        <a class="share-action share-action--x" data-share-action="x" target="_blank" rel="noopener">
+          <svg class="ico" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M2.5 2.5 L13.5 13.5 M13.5 2.5 L2.5 13.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg> X
+        </a>
+        <button class="share-action share-action--instagram" type="button" data-share-action="instagram">
+          <svg class="ico" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="2" y="2" width="12" height="12" rx="3.5" stroke="currentColor" stroke-width="1.5"/>
+            <circle cx="8" cy="8" r="2.8" stroke="currentColor" stroke-width="1.5"/>
+            <circle cx="11.4" cy="4.6" r="0.8" fill="currentColor"/>
+          </svg> Instagram
+        </button>
+      </div>
+      <div class="share-modal__toast" hidden role="status" data-share-toast></div>
+    </div>
+  </div>
+  <script src="../js/profile-share.js"></script>
+  <script src="../js/profile-claim.js"></script>
 </body>
 </html>

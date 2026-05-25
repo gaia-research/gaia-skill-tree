@@ -271,13 +271,14 @@
       el.addEventListener('click', closeShareModal);
     });
 
-    // Bind all share trigger buttons.
-    qsa('.plaque__share-btn').forEach(function (btn) {
-      btn.addEventListener('click', function (e) {
-        e.stopPropagation(); // Prevent parent plaque click handlers from firing.
-        previousFocus = document.activeElement;
-        openShareModal(btn);
-      });
+    // Delegated listener so buttons injected after DOMContentLoaded
+    // (e.g. inside renderDetail) are also handled without re-init.
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest('.plaque__share-btn');
+      if (!btn) return;
+      e.stopPropagation(); // Prevent parent plaque click handlers from firing.
+      previousFocus = document.activeElement;
+      openShareModal(btn);
     });
   }
 

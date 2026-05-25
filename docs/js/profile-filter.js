@@ -114,14 +114,19 @@
 
       chips.forEach(chip => {
         chip.addEventListener('click', () => {
-          if (filterType === 'sort') {
-            handleSortChipClick(chip, group);
-          } else {
-            handleFilterChipClick(chip, filterType);
-          }
+          handleFilterChipClick(chip, filterType);
         });
       });
     });
+
+    const sortSel = bar.querySelector('#profileSort');
+    if (sortSel) {
+      sortSel.addEventListener('change', () => {
+        currentSort = sortSel.value;
+        sortArticles();
+        announceFilterStatus();
+      });
+    }
 
     const resetBtn = bar.querySelector('.profile-filter-reset');
     if (resetBtn) {
@@ -133,13 +138,11 @@
         filterGroups.forEach(group => {
           const chips = group.querySelectorAll('.profile-filter-chip');
           chips.forEach(chip => {
-            if (group.getAttribute('data-filter-type') === 'sort') {
-              chip.setAttribute('aria-pressed', chip.getAttribute('data-sort') === 'rank' ? 'true' : 'false');
-            } else {
-              chip.setAttribute('aria-pressed', 'false');
-            }
+            chip.setAttribute('aria-pressed', 'false');
           });
         });
+
+        if (sortSel) sortSel.value = 'rank';
 
         const articles = grid.querySelectorAll('article');
         articles.forEach(a => a.removeAttribute('hidden'));
@@ -166,19 +169,6 @@
     applyFilters();
   }
 
-  function handleSortChipClick(chip, group) {
-    const newSort = chip.getAttribute('data-sort');
-    const allChips = group.querySelectorAll('.profile-filter-chip');
-
-    allChips.forEach(c => {
-      c.setAttribute('aria-pressed', c === chip ? 'true' : 'false');
-    });
-
-    currentSort = newSort;
-    sortArticles();
-    announceFilterStatus();
-  }
-
   function findFollowingGrid(bar) {
     let current = bar.nextElementSibling;
     while (current) {
@@ -200,7 +190,6 @@
     const bars = document.querySelectorAll('.profile-filter-bar');
     bars.forEach(bar => {
       initBar(bar);
-      currentGrid = null;
     });
   });
 })();
