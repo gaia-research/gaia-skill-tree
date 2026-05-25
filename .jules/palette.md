@@ -21,3 +21,7 @@
 ## 2026-05-23 - App-Wide Focus Ring Convention
 **Learning:** Found that multiple interactive elements (.tree-act-btn, .tree-close-x, .graph-legend-drawer-toggle, .graph-action-btn, .ult-claim, .footer-link-btn) were missing keyboard focus indicators. The codebase has an established focus ring pattern for some components using `outline: 2px solid var(--tier-extra); outline-offset: 2px;`, which should be explicitly extended to all interactive generic buttons and tabs.
 **Action:** Always check for missing `:focus-visible` styles on interactive components and apply the app-wide focus ring to maintain a consistent and accessible keyboard navigation experience.
+
+## 2026-05-24 - App-Wide Focus Ring for Graph Collection
+**Learning:** Found that multiple interactive elements (.graph-collection-copy-all, .graph-collection-clear-all, .graph-collection-minimize, .graph-collection-share, .graph-collection-remove, .graph-skill-panel-close) in the newly added graph collection panel were missing keyboard focus indicators. The codebase has an established focus ring pattern using `outline: 2px solid var(--tier-extra); outline-offset: 2px;`, which should be explicitly extended to all interactive generic buttons and tabs.
+**Action:** Added these missing selectors to the app-wide focus ring block in `docs/css/styles.css` to maintain a consistent and accessible keyboard navigation experience.
