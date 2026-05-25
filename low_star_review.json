@@ -1,0 +1,2252 @@
+[
+  {
+    "id": "adaptive-pattern-learning",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "advanced-swarm-coordination",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "agent-environment-setup",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "agent-eval",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "agent-handoff",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "agent-memory-learning",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "agent-memory-platform",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "agentic-workflow-design",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "api-call",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "architecture-diagram",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "audience-model",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "automated-testing",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "autonomous-data-scientist",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "autonomous-debug",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "autonomous-engineering-platform",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "autonomous-web-research",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "bioinformatic-sequence-analysis",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "brainstorming",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "browser-automation",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "browser-control",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "career-operations",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "chain-of-thought",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "chunk-document",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "cite-sources",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "classify",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "cli-modernization",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "clinical-data-retrieval",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "cloud-platform-management",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "code-execution",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "code-explain",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "code-generation",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "code-review-pipeline",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "collaborative-diagramming",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "computational-biology-workflows",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "computer-use",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "content-moderation",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "context-compression",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "conversational-agent",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "core-platform-implementation",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "data-analysis",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "data-visualize",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "deployment-automation",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "design-generation",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "design-review",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "design-system-extraction",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "detect-anomaly",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "diff-content",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "dify-agent-suite",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "dispatching-parallel-agents",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "distributed-neural-training",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "distributed-vector-memory",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "document-analyst",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "document-editing",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "dual-mode",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "e2e-testing",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "embed-text",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "error-interpretation",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "evaluate-output",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "executing-plans",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "extract-entities",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "feed-monitoring",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "few-shot-learning",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "fine-tune",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "finishing-a-development-branch",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "flow-nexus-orchestration",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "format-output",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "framework-upgrade",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "full-stack-developer",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "function-calling",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "gaia-audit",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "gaia-meta-audit",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "generate-sql",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "generate-test",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "generate-text",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "generative-media",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "genomic-data-retrieval",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "ghostwrite",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "git-diff-risk-analysis",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "github-platform-mastery",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "grill-me",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "grill-with-docs",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "grounding",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "gstack",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "guardrails",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "headless-worker-collect",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "headless-worker-spawn",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "hive-mind-coordination",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "humanize-prose",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "hybrid-workflow-coordination",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "hypothesis-generate",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "image-caption",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "image-generate",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "issue-triage",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "knowledge-graph-build",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "knowledge-harvest",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "knowledge-management",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "literature-review",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "literature-search",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "logical-inference",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "math-reason",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "mathematical-animation",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "mattpocock-engineering",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "mattpocock-personal",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "mattpocock-productivity",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "mattpocock-skills",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "mcp-debugger-control",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "mcp-integration",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "mcp-server-creation",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "memory-manage",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "memory-pattern-design",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "ml-artifact-management",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "ml-pipeline",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "molecular-databases",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "multi-agent-debate",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "multi-agent-orchestration-v",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "multi-repo-coordination",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "multimodal-reasoning",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "object-detection",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "optical-character-recognition",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "parallel-execution",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "parse-html",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "parse-json",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "parse-pdf",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "pathway-ontology-retrieval",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "performance-tuning",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "personal-knowledge-management",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "plan-and-execute",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "plan-decompose",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "platform-modernization-sprint",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "prd-generation",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "prediction-market-analysis",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "project-management",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "prompt-injection-defense",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "prompt-optimization",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "protein-structure-analysis",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "proteomic-data-retrieval",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "prototype",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "question-answer",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "rag-pipeline",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "rank",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "re-act-reasoning",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "real-time-voice-assistant",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "reasoning-pattern-bank",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "receiving-code-review",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "recursive-self-improvement",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "refactor-code",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "registry-curation",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "release-automation",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "requesting-code-review",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "requirements-analysis",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "research",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "retrieve",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "reward-modeling",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "route-intent",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "ruflo",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "schema-design",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "scientific-discovery",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "scientific-visualization",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "scientific-writing",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "score-relevance",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "security-audit",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "self-consistency",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "self-critique",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "semantic-cache",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "sentiment-analysis",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "sequential-agent-pipeline",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "skill-authoring",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "skill-discovery",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "skill-performance-benchmarking",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "skill-security-analysis",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "speech-to-text",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "statistical-analysis",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "stealth-browser-interaction",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "structured-output",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "subagent-driven-development",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "summarize",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "superpowers",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "swarm-topology-management",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "system-integration",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "systematic-debugging",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "test-driven-development",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "text-to-speech",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "text-to-sql-pipeline",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "token-observability",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "tokenize",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "tool-chaining",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "tool-creation",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "tool-select",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "tool-use",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "translate",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "translation-pipeline",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "tree-of-thought",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "ubiquitous-language",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "using-git-worktrees",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "ux-audit",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "vector-db-optimization",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "vector-search",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "verification-before-completion",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "vertical-slice-planning",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "video-intelligence",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "vision-qa",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "voice-agent",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "web-scrape",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "web-search",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "wiki-search",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "worker-agent-dispatch",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "workflow-automation",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "workspace-automation",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "write-report",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "writing-plans",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "x-twitter-automation",
+    "level": null,
+    "kind": "generic",
+    "evidence": null
+  },
+  {
+    "id": "0xdarkmatter/pytest-patterns",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/health",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "Manavarya09/design-extract",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/design-consultation",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "Taoidle/plan-decompose-gh-plan-cascade",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "changkun/plan-decompose-gh-wallfacer",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "addy-osmani/test-driven-development",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "anthropic/pptx",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/document-generate",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/document-release",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "mattpocock/edit-article",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "anthropic/skill-creator",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "mattpocock/write-a-skill",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "bradautomates/claude-video",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "browser-use/browser-harness",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/browse",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/open-gstack-browser",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/setup-browser-cookies",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "browserbase/stagehand",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "gooseworks/notte-browser",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/browser",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "devin-ai/autonomous-swe",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "mattpocock/diagnose",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "firecrawl/firecrawl",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/scrape",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/benchmark-models",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/worker-benchmarks",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/benchmark",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/plan-ceo-review",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/canary",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/careful",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/freeze",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/guard",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/unfreeze",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/codex",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/context-restore",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/context-save",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "mattpocock/caveman",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/cso",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/v3-security-overhaul",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/design-html",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/design-review",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/devex-review",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/plan-design-review",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/plan-devex-review",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "martin-stepanoski/nielsen-heuristics-audit",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "pbakaus/impeccable",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/design-shotgun",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/garrytan",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "mattpocock/to-issues",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/gstack-upgrade",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/gstack",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/investigate",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "obra/systematic-debugging",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/land-and-deploy",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/setup-deploy",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/landing-report",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/github-project-management",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/learn",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/v3-memory-unification",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/make-pdf",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/office-hours",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/pair-agent",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/v3-mcp-optimization",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/plan-eng-review",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/review",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/github-code-review",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/plan-tune",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "stanfordnlp/dspy",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/qa-only",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/qa",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/retro",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "glincker/readme-generator",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "spring-ai/readme-generate",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/setup-gbrain",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/sync-gbrain",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/ship",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "obra/finishing-a-development-branch",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "garrytan/skillify",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/skill-builder",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "getagentseal/codeburn",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "huggingface/hf-cli",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "huggingface/huggingface-datasets",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "huggingface/huggingface-llm-trainer",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "huggingface/huggingface-papers",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "huggingface/huggingface-vision-trainer",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "huggingface/semantic-cache",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "huggingface/transformers-js",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "karpathy/autoresearch",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "laravel/upgrade-laravel-v13",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "mattpocock/engineering",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "mattpocock/grill-me",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "mattpocock/grill-with-docs",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "mattpocock/handoff",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "mattpocock/improve-codebase-architecture",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "mattpocock/obsidian-vault",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "mattpocock/personal",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "mattpocock/productivity",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "mattpocock/prototype",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "mattpocock/setup-matt-pocock-skills",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "mattpocock/skills",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "mattpocock/to-prd",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "mattpocock/triage",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "mattpocock/ubiquitous-language",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/v3-ddd-architecture",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "mattpocock/zoom-out",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "nexu-io/open-design",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "nousresearch/feed-monitoring",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "obra/brainstorming",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "obra/dispatching-parallel-agents",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "obra/executing-plans",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "obra/receiving-code-review",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "obra/requesting-code-review",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "obra/subagent-driven-development",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/pair-programming",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "obra/superpowers",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "obra/using-git-worktrees",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "obra/verification-before-completion",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/verification-quality",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "obra/writing-plans",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "openai/few-shot-learning",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "openai/self-consistency",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/agentdb-advanced",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/agentdb-learning",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/reasoningbank-agentdb",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/agentdb-memory-patterns",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/agentdb-optimization",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/agentdb-vector-search",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/agentdb",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/agentic-jujutsu",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/dual-collect",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/dual-coordinate",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/dual-mode",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/dual-spawn",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/flow-nexus-neural",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/flow-nexus-platform",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/flow-nexus-swarm",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/v3-swarm-coordination",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/flow-nexus",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/github-multi-repo",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/github-release-management",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/github-suite",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/github-workflow-automation",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/hooks-automation",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/hive-mind-coordination",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/performance-analysis",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/v3-performance-optimization",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/reasoningbank-intelligence",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/reasoningbank",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/ruflo-v3",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/ruflo",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/sparc-methodology",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/stream-chain",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/swarm-advanced",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/swarm-orchestration",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/v3-cli-modernization",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/v3-core-implementation",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/v3-integration-deep",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "ruvnet/worker-integration",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "safishamsi/graphify",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "santifer/career-ops",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "upsonic/unittest-generator",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "vercel/find-skills",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  },
+  {
+    "id": "yonatangross/orchestkit-rag",
+    "level": null,
+    "kind": "named",
+    "evidence": null
+  }
+]
