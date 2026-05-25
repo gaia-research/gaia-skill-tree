@@ -132,6 +132,33 @@
         "$ref": "#/definitions/timelineEvent"
       },
       "description": "Chronological history of meta-changes for this named skill implementation."
+    },
+    "installations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "userId",
+          "installedAt"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "userId": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]*$",
+            "description": "GitHub username of the adopter."
+          },
+          "installedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "repository": {
+            "type": "string",
+            "description": "Repo (owner/repo format) where the skill was installed."
+          }
+        }
+      },
+      "description": "Users who have adopted this named skill via gaia install."
     }
   },
   "definitions": {
@@ -229,6 +256,17 @@
         "details": {
           "type": "string",
           "description": "Additional context or human-readable details."
+        },
+        "previousValue": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The level/status before this event (e.g. '2★'). Null for first-time events such as 'add'."
+        },
+        "newValue": {
+          "type": "string",
+          "description": "The level/status after this event (e.g. '3★')."
         }
       }
     }
