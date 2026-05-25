@@ -7447,10 +7447,14 @@ button.nav-graph-trigger:hover {
     background: transparent;
     border-bottom: none;
     padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 
   .home-page .nav-logo {
-    display: none !important;
+    display: flex !important;
+    margin-right: auto;
   }
 
   .nav-search-btn-mobile {
@@ -7462,7 +7466,7 @@ button.nav-graph-trigger:hover {
     color: var(--muted);
     cursor: pointer;
     padding: 0.5rem;
-    margin-right: auto;
+    margin-right: 0.5rem;
   }
 
   .nav-search-btn-mobile:hover {
