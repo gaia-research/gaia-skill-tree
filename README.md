@@ -107,7 +107,19 @@ Gaia uses a tiered star system (**0★–6★**) to rank agent capabilities.
 **1. Install the CLI**
 
 <!-- gaia:version-start -->
-Current Gaia CLI version: `3.23.9`.
+Current Gaia CLI version: `3.23.10`.
+
+Python install:
+
+```bash
+pip install gaia-cli
+```
+
+npm wrapper alternative:
+
+```bash
+npm install -g @gaia-registry/cli
+```
 <!-- gaia:version-end -->
 Python install:
 
