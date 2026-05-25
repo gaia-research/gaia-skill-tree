@@ -188,7 +188,7 @@
       "apexPath": {
         "minUltimateSkills": 1,
         "minUltimateLevel": "5★",
-        "minRepoStars": 30000
+        "minRepoStars": 10000
       }
     }
   },
