@@ -514,6 +514,51 @@ button.nav-copy-agent {
   max-width: 700px
 }
 
+/* Meta Audit Hero Button (Boxy) */
+.hero-audit-btn {
+  position: absolute;
+  top: 72px; /* Sit just below the fixed nav */
+  right: 1.5rem;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: #000;
+  border: 1px solid var(--border);
+  border-radius: 0; /* Boxy */
+  padding: 0.6rem 1rem;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-decoration: none;
+  transition: all 0.2s;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+  animation: audit-fade-in 1.2s ease forwards;
+  opacity: 0;
+}
+
+@keyframes audit-fade-in {
+  from { opacity: 0; transform: translateX(10px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.hero-audit-btn:hover {
+  border-color: var(--tier-ultimate);
+  background: #111;
+  transform: translateX(-4px);
+}
+
+.hero-audit-btn-arrow {
+  color: var(--muted);
+  transition: color 0.2s;
+}
+
+.hero-audit-btn:hover .hero-audit-btn-arrow {
+  color: var(--tier-ultimate);
+}
+
+
+
 .hero-title,
 .hero-sub,
 .hero-cta,
@@ -547,11 +592,13 @@ button.nav-copy-agent {
 #hero.hero-graph-peek .hero-cta,
 #hero.hero-graph-peek .two-doors,
 #hero.hero-graph-peek .ledger-strip,
-#hero.hero-graph-peek .scroll-hint {
-  opacity: 0;
+#hero.hero-graph-peek .scroll-hint,
+#hero.hero-graph-peek .hero-audit-btn {
+  opacity: 0 !important;
   filter: blur(8px);
   pointer-events: none;
   transform: translateY(10px);
+  animation: none !important;
 }
 
 .hero-pills {
@@ -667,6 +714,20 @@ button.nav-copy-agent {
   opacity: .18;
   pointer-events: none;
   transition: opacity .4s ease;
+}
+
+#hero.hero-hud-mode .hero-audit-btn {
+  opacity: 0 !important;
+  pointer-events: none;
+  animation: none !important;
+  transition: opacity .4s ease;
+}
+
+#hero.hero-graph-fullscreen .hero-audit-btn {
+  opacity: 0 !important;
+  pointer-events: none;
+  animation: none !important;
+  transition: none;
 }
 
 /* ── FULLSCREEN GRAPH MODE ── */
@@ -1497,7 +1558,7 @@ tr:hover td {
   position: relative;
   background: var(--surface);
   border: 1px solid rgba(56, 189, 248, .35);
-  border-radius: 16px;
+  border-radius: 2px; /* Boxy */
   padding: 1.8rem 2rem 1.6rem;
   width: min(420px, 92vw);
   box-shadow: 0 24px 70px rgba(0, 0, 0, .65), 0 0 40px rgba(56, 189, 248, .1);
@@ -4625,6 +4686,9 @@ tr:hover td {
 #nsGrid {
   cursor: grab;
   user-select: none;
+  max-height: 78vh;
+  overflow-y: auto;
+  padding-right: 4px;
 }
 
 #named.ns-grabbing,
@@ -6302,7 +6366,7 @@ h4.se-install-sub-h { font-size: .85rem; }
   padding: .65rem .9rem;
   background: rgba(255,255,255,.02);
   border: 1px solid rgba(255,255,255,.04);
-  border-radius: 8px;
+  border-radius: 0; /* Strictly Boxy */
   transition: background .2s, border-color .2s;
   animation: mr-fade-in .35s cubic-bezier(.2,.8,.2,1) both;
 }
@@ -6881,15 +6945,25 @@ code {
   nav.nav-open ul {
     display: flex;
     position: fixed;
-    inset: 0;
-    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: auto;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 1.5rem;
-    background: var(--bg);
+    background: #000;
     z-index: 9999;
-    padding: 2rem;
+    padding: 2.5rem 2rem;
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    border-top: 1px solid var(--border);
+    border-radius: 20px 20px 0 0;
+  }
+
+  nav.nav-open.active ul {
+    transform: translateY(0);
   }
 
   nav.nav-open ul li {
@@ -7173,6 +7247,13 @@ button.nav-graph-trigger:hover {
   max-width: 28rem;
 }
 
+.door-b-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
 .door {
   flex: 1;
   display: flex;
@@ -7189,6 +7270,119 @@ button.nav-graph-trigger:hover {
   transition: border-color .25s, box-shadow .25s;
   position: relative;
   overflow: hidden;
+}
+
+/* Path Meta Queue (Academic/Prestige Variant) */
+.path-meta-queue {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  text-align: left;
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+}
+
+.pmq-post {
+  display: block;
+  padding: 1.5rem;
+  background: #000;
+  color: #fff;
+  border: 1px solid var(--border);
+  border-radius: 0;
+  text-decoration: none;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.pmq-post:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+  border-color: var(--apex-gold);
+}
+
+.pmq-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--honor-red); /* Honor Red for Audit label */
+  display: block;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+.pmq-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: #fff;
+  margin: 0 0 0.6rem 0;
+  font-weight: 500;
+  line-height: 1.1;
+}
+
+.pmq-summary {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: #ccc;
+  line-height: 1.5;
+  margin: 0;
+  font-style: italic; /* Journal abstract style */
+}
+
+.pmq-changelog-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.6rem 1.25rem;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: border-color .2s, color .2s;
+  align-self: flex-start;
+  margin-top: 0.5rem;
+}
+
+.pmq-changelog-btn:hover {
+  border-color: var(--basic);
+  color: var(--basic);
+}
+
+.nav-search-btn-mobile {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  .home-page nav {
+    background: transparent;
+    border-bottom: none;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .home-page .nav-logo {
+    display: flex !important;
+    margin-right: auto;
+  }
+
+  .nav-search-btn-mobile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    padding: 0.5rem;
+    margin-right: 0.5rem;
+  }
+
+  .nav-search-btn-mobile:hover {
+    color: var(--text);
+  }
 }
 
 .door::before {
@@ -7566,26 +7760,20 @@ button.nav-graph-trigger:hover {
    scrollable with snap. Reduced-motion gets the manual mode unconditionally. */
 .hoh-track-wrap {
   position: relative;
-  overflow: hidden;
   margin: 2rem auto;
   max-width: 1200px;
-  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
 }
 
 .hoh-track {
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
-  width: max-width;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  padding-bottom: 1rem;
-  scroll-padding-left: 1.5rem;
+  justify-content: center;
+  padding-bottom: 0.5rem;
 }
 
 .hoh-track>* {
-  scroll-snap-align: start
+  flex: 0 0 auto;
 }
 
 /* Stage 2 — Hall of Heroes mini-plaque stars now render through the
@@ -7600,28 +7788,6 @@ button.nav-graph-trigger:hover {
 .hoh-footer {
   margin-top: 1.5rem;
   text-align: center
-}
-
-@keyframes hoh-drift {
-  from {
-    transform: translateX(0)
-  }
-
-  to {
-    transform: translateX(-50%)
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hoh-track {
-    animation: none;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-  }
-
-  .hoh-track>* {
-    scroll-snap-align: start
-  }
 }
 
 /* ── ASCENSION CYCLE ── */
@@ -8631,23 +8797,34 @@ button.nav-graph-trigger:hover {
 
 /* Sidebar and Backdrop foundation */
 .meta-sidebar-backdrop {
-  display: none !important; /* absolutely hidden on desktop! */
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: transparent;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.meta-sidebar-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .meta-sidebar {
   position: fixed;
-  top: 80px; /* sit below the top nav bar with a nice margin */
+  top: 80px;
   right: 24px;
   width: 460px;
-  height: calc(100vh - 104px); /* full height minus top and bottom margins */
-  z-index: 999;
-  background: rgba(13, 10, 22, 0.96); /* premium deeply-tinted brand slate */
+  height: calc(100vh - 104px);
+  z-index: 10000;
+  background: rgba(13, 10, 22, 0.96);
   border: 1px solid rgba(192, 132, 252, 0.25);
-  border-radius: 16px;
+  border-radius: 0;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 35px rgba(192, 132, 252, 0.05);
   display: flex;
   flex-direction: column;
-  transform: translateX(calc(100% + 40px)); /* slide out with space */
+  transform: translateX(calc(100% + 40px));
   transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
   visibility: hidden;
   overflow: hidden;
@@ -8884,11 +9061,11 @@ button.nav-graph-trigger:hover {
 .mr-pagination {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   padding: 0.6rem 0.4rem 0;
   border-top: 1px solid var(--border);
   flex-shrink: 0;
-  gap: 1rem;
+  gap: 0.5rem;
 }
 
 .mr-page-num {
@@ -8896,12 +9073,38 @@ button.nav-graph-trigger:hover {
   font-size: 0.72rem;
   color: var(--muted);
   letter-spacing: 0.02em;
+  min-width: 80px;
+  text-align: center;
 }
 
 .mr-pagination .meta-btn-icon:disabled {
   opacity: 0.25;
   pointer-events: none;
   border-color: var(--border);
+}
+
+/* Date filter row */
+.mr-date-row {
+  margin-top: 0.5rem;
+}
+
+.mr-year-select {
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+  width: 100%;
+  transition: border-color .2s;
+}
+
+.mr-year-select:hover,
+.mr-year-select:focus {
+  border-color: rgba(192,132,252,.5);
+  outline: none;
 }
 
 /* Swiping animation support */
@@ -8912,16 +9115,10 @@ button.nav-graph-trigger:hover {
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .meta-sidebar-backdrop {
-    display: block !important;
-    position: fixed;
-    inset: 0;
-    z-index: 998;
     background: rgba(3, 7, 18, 0.75);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 9999;
   }
-  
+
   .meta-sidebar-backdrop.open {
     opacity: 1;
     pointer-events: auto;

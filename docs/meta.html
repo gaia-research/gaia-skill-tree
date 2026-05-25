@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>window.GAIA_VERSION = "3.25.0";</script>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meta Reports - Gaia</title>
+<!-- Stage 1 — Web fonts (EB Garamond display, Bricolage body, JetBrains Mono fallback). -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="css/styles.css?v=3.25.0">
+<!-- Stage 1 — icon sprite helper, loaded BEFORE other UI scripts. -->
+<script src="js/icons.js?v=3.25.0"></script>
+<!-- Stage 2 — shared rank-badge primitive. -->
+<script src="js/rank-badge.js?v=3.25.0"></script>
+<!-- Stage 3 — plaque component family. -->
+<script src="js/plaque.js?v=3.25.0"></script>
+<style>
+  .meta-report-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+  .meta-report-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 0; /* Strictly Boxy */
+    padding: 1.5rem;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .meta-report-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--tier-ultimate);
+  }
+  .meta-report-date {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  .meta-report-title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+  .meta-report-summary {
+    font-size: 0.95rem;
+    color: var(--text);
+    opacity: 0.9;
+    flex-grow: 1;
+  }
+  .meta-report-link {
+    align-self: flex-start;
+    margin-top: 0.5rem;
+  }
+</style>
+</head>
+<body class="process-page">
+
+<nav>
+    <a href="index.html" class="nav-logo" aria-label="Gaia home">
+      <svg class="ico nav-seal" aria-hidden="true" focusable="false"><use href="assets/icons.svg#seal-diamond"/></svg>
+      <span class="nav-wordmark">Gaia</span>
+    </a>
+    <button type="button" class="nav-search-back" id="navSearchBack" aria-label="Back">
+      <svg class="ico" width="20" height="20" aria-hidden="true"><use href="assets/icons.svg#arrow-back"/></svg>
+    </button>
+    <input type="search" id="navMobileSearch" class="nav-mobile-search" placeholder="Search named…" autocomplete="off" aria-label="Search named">
+    <button class="nav-menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <ul>
+      <li><a href="index.html" class="nav-graph-trigger">Registry</a></li>
+      <li><a href="index.html#hall-of-heroes">Hall of Heroes</a></li>
+      <li><a href="codex.html">The Codex</a></li>
+      <li><a href="meta.html" aria-current="page">Meta Reports</a></li>
+      <li><button type="button" class="nav-copy-agent" id="copyAgentBtn" title="Copy Agent-friendly Markdown for LLMs/Agents" aria-label="Copy page context for agents"><svg class="ico" width="15" height="15" aria-hidden="true"><use href="assets/icons.svg#copy"/></svg></button></li>
+    </ul>
+  </nav>
+
+<main>
+  <section class="process-hero">
+    <p class="process-kicker">Integrity, Evolution, and Governance</p>
+    <h1>Meta Reports</h1>
+    <p class="process-lede">
+      Dedicated assessments of the Gaia Registry's evolution. These reports document major shifts in nomenclature, 
+      prestige rules, and structural audits executed via programmatic meta-shifts.
+    </p>
+    <div class="process-actions">
+      <a class="btn btn-primary" href="#reports">View Reports</a>
+      <a class="btn btn-ghost" href="codex.html">Governance Codex →</a>
+    </div>
+  </section>
+
+  <section class="process-section" id="reports">
+    <h2>Major Registry Assessments</h2>
+    <p class="section-sub">A living chronicle of how the graph matures and adapts to new evidence classes.</p>
+    
+    <div class="meta-report-grid">
+      <!-- May 2026 Audit -->
+      <article class="meta-report-card">
+        <div class="meta-report-date">May 25, 2026</div>
+        <h3 class="meta-report-title">Programmatic Registry Audit</h3>
+        <p class="meta-report-summary">
+          A comprehensive meta-shift enforcing hardened prestige rules, star bar requirements, and evidence health 
+          across 211 skills. Includes reclassifications for structural integrity.
+        </p>
+        <a href="meta/reports/2026-05-25-programmatic-registry-audit.html" class="btn btn-ghost meta-report-link">Read Full Report →</a>
+      </article>
+
+      <!-- More reports can be added here -->
+    </div>
+  </section>
+
+  <section class="process-section">
+    <h2>Meta Timeline</h2>
+    <p class="section-sub">The raw record of every rank-up, name claim, and fusion in the canonical registry.</p>
+    <div class="process-actions">
+      <a class="btn btn-ghost" href="index.html#meta-report-callout">Open Live Timeline →</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-mark">
+    <svg class="ico footer-seal" aria-hidden="true" focusable="false"><use href="assets/icons.svg#seal-diamond"/></svg>
+    <span class="footer-wordmark">Gaia</span>
+  </div>
+  <p>
+    <a href="index.html">Home</a> ·
+    <a href="https://github.com/mbtiongson1/gaia-skill-tree" target="_blank">GitHub</a> ·
+    MIT ·
+    <a href="codex.html">The Codex</a> ·
+    <a href="privacy.html">Privacy</a>
+  </p>
+  <button id="scrollToTop" class="scroll-to-top" aria-label="Scroll to top">
+    <svg class="ico" width="20" height="20" aria-hidden="true"><use href="assets/icons.svg#arrow-up"/></svg>
+  </button>
+
+  <!-- ─── SCRIPTS ─── -->
+  <script src="js/atlas-helpers.js?v=3.25.0"></script>
+  <script src="js/ui.js?v=3.25.0"></script>
+  <script src="js/page-ia.js?v=3.25.0"></script>
+
+</body>
+</html>

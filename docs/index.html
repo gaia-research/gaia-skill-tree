@@ -34,10 +34,7 @@
       <svg class="ico nav-seal" aria-hidden="true" focusable="false"><use href="assets/icons.svg#seal-diamond"/></svg>
       <span class="nav-wordmark">Gaia</span>
     </a>
-    <button type="button" class="nav-search-back" id="navSearchBack" aria-label="Back">
-      <svg class="ico" width="20" height="20" aria-hidden="true"><use href="assets/icons.svg#arrow-back"/></svg>
-    </button>
-    <input type="search" id="navMobileSearch" class="nav-mobile-search" placeholder="Search named…" autocomplete="off" aria-label="Search named">
+    <button type="button" class="nav-search-btn-mobile" id="navSearchBtnMobile" aria-label="Search named"><svg class="ico" width="18" height="18" aria-hidden="true"><use href="assets/icons.svg#search"/></svg></button>
     <button class="nav-menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false">
       <span></span>
       <span></span>
@@ -48,7 +45,7 @@
       <li><a href="#hall-of-heroes">Hall of Heroes</a></li>
       <li><a href="codex.html">The Codex</a></li>
       <li><button type="button" class="nav-tree" id="treeNavBtn">Tree</button></li>
-      <li><button type="button" class="nav-meta" id="metaNavBtn">Meta Report</button></li>
+      <li><a href="meta/reports/2026-05-25-programmatic-registry-audit.html" class="nav-meta" target="_blank" id="metaNavBtn">Meta Report</a></li>
       <li><button type="button" class="nav-copy-agent" id="copyAgentBtn" title="Copy Agent-friendly Markdown for LLMs/Agents" aria-label="Copy page context for agents"><svg class="ico" width="15" height="15" aria-hidden="true"><use href="assets/icons.svg#copy"/></svg></button></li>
       <li><button type="button" class="nav-search-btn" id="navSearchBtn" aria-label="Search named"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#search"/></svg></button></li>
     </ul>
@@ -103,6 +100,13 @@
         <span class="ls-updated" id="ledgerDate"></span>
       </div>
     </div>
+    <!-- gaia-hero-post-start -->
+    <a href="meta/reports/2026-05-25-programmatic-registry-audit.html" class="hero-audit-btn" target="_blank" aria-label="View May 2026 Audit">
+      <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#info"/></svg>
+      <span>May 2026 Meta Updates</span>
+      <span class="hero-audit-btn-arrow">↗</span>
+    </a>
+    <!-- gaia-hero-post-end -->
     <div class="scroll-hint">
       <span>scroll</span>
       <svg class="ico" aria-hidden="true"><use href="assets/icons.svg#chevron-down"/></svg>
@@ -235,6 +239,17 @@
             Propose a new Ultimate →
           </a>
         </div>
+        <div class="path-meta-queue">
+          <!-- gaia-posts-start -->
+          <a href="meta/reports/2026-05-25-programmatic-registry-audit.html" class="pmq-post" target="_blank">
+            <span class="pmq-label">Latest Audit</span>
+            <h4 class="pmq-title">May 2026 Meta-Shift <span class="meta-peek-arrow" style="float: right;">↗</span></h4>
+            <p class="pmq-summary">Enforcing prestige rules and star bar requirements.</p>
+          </a>
+          <!-- gaia-posts-end -->
+          <button type="button" class="pmq-changelog-btn" id="metaChangelogBtnPath">Open Meta Changelog →</button>
+        </div>
+
       </div>
 
     </div>
@@ -308,18 +323,6 @@
           <span class="asc-sub"><span class="rank-badge" data-level="6" data-variant="chip" role="img" aria-label="Rank 6 of 6"><span class="rank-badge__chip">6★</span></span> · Class A</span>
         </div>
       </div>
-    </div>
-  </section>
-
-  <div class="section-divider section-divider--glow"></div>
-
-  <!-- ─── META REPORT CALLOUT ─── -->
-  <section id="meta-report-callout" class="reveal section-callout" data-section="meta-report-callout">
-    <div class="callout-inner">
-      <span class="callout-glyph">◆</span>
-      <h2>Registry Meta Report</h2>
-      <p class="section-sub">Inspect the living chronicle of registry evolution: every rank-up, name claim, fusion, and evidence review recorded.</p>
-      <button type="button" class="btn btn-ghost" id="metaReportCalloutBtn">Open Meta Report →</button>
     </div>
   </section>
 
@@ -419,36 +422,37 @@
       <div class="se-flow" id="seFlow">
         <div id="se-install" class="se-flow-section"></div>
         <div id="se-docs" class="se-flow-section"></div>
-        <div id="se-timeline" class="se-flow-section"></div>
+        <div id="se-changelog" class="se-flow-section"></div>
       </div>
     </div>
   </div>
 
-  <!-- ─── META REPORT SIDEBAR ─── -->
+  <!-- ─── META REPORT SIDEBAR (CHANGELOG) ─── -->
   <div id="metaSidebarBackdrop" class="meta-sidebar-backdrop"></div>
-  <div id="metaSidebar" class="meta-sidebar" role="dialog" aria-modal="true" aria-label="Meta Report" tabindex="-1">
+  <div id="metaSidebar" class="meta-sidebar" role="dialog" aria-modal="true" aria-label="Meta Changelog" tabindex="-1">
     <div class="meta-sidebar-header">
-      <span class="meta-sidebar-title">Meta Report</span>
+      <span class="meta-sidebar-title">Meta Changelog</span>
       <div class="meta-sidebar-actions">
-        <button id="metaCopyBtn" class="meta-btn-icon" title="Copy entire timeline in Markdown format" aria-label="Copy timeline"><svg class="ico" width="15" height="15" aria-hidden="true"><use href="assets/icons.svg#copy"/></svg></button>
-        <button id="metaDownloadBtn" class="meta-btn-icon" title="Download timeline as gaia-meta-report.md" aria-label="Download timeline"><svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#download"/></svg></button>
-        <button id="metaCloseBtn" class="meta-btn-icon meta-btn-close" title="Minimize Meta Report" aria-label="Minimize"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#chevron-down"/></svg></button>
+        <button id="metaCopyBtn" class="meta-btn-icon" title="Copy entire changelog in Markdown format" aria-label="Copy changelog"><svg class="ico" width="15" height="15" aria-hidden="true"><use href="assets/icons.svg#copy"/></svg></button>
+        <button id="metaDownloadBtn" class="meta-btn-icon" title="Download changelog as gaia-meta-changelog.md" aria-label="Download changelog"><svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#download"/></svg></button>
+        <button id="metaCloseBtn" class="meta-btn-icon meta-btn-close" title="Minimize Meta Changelog" aria-label="Minimize"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#chevron-down"/></svg></button>
       </div>
     </div>
     <div class="meta-sidebar-body">
       <p class="meta-sidebar-intro">A living chronicle of registry evolution: every rank-up, name claim, fusion, and evidence review recorded.</p>
       <div class="mr-controls">
-        <div class="mr-filter-tabs" id="mrFilterTabs" role="tablist" aria-label="Meta report filter">
+        <div class="mr-filter-tabs" id="mrFilterTabs" role="tablist" aria-label="Meta changelog filter">
           <button class="mr-tab active" type="button" data-action="all" role="tab" aria-selected="true">All</button>
-          <button class="mr-tab" type="button" data-action="name" role="tab" aria-selected="false">Named</button>
-          <button class="mr-tab" type="button" data-action="rank_up" role="tab" aria-selected="false">Rank Up</button>
-          <button class="mr-tab" type="button" data-action="fuse" role="tab" aria-selected="false">Fused</button>
-          <button class="mr-tab" type="button" data-action="push" role="tab" aria-selected="false">Created</button>
+          <button class="mr-tab" type="button" data-action="promoted" role="tab" aria-selected="false">Promoted</button>
+          <button class="mr-tab" type="button" data-action="named" role="tab" aria-selected="false">Named</button>
           <button class="mr-tab" type="button" data-action="evidence" role="tab" aria-selected="false">Evidence</button>
+          <button class="mr-tab" type="button" data-action="added" role="tab" aria-selected="false">Added</button>
+          <button class="mr-tab" type="button" data-action="fused" role="tab" aria-selected="false">Fused</button>
+          <button class="mr-tab" type="button" data-action="demoted" role="tab" aria-selected="false">Demoted</button>
         </div>
       </div>
       <div class="mr-timeline" id="mrTimeline">
-        <div class="mr-loading">Synthesizing timeline…</div>
+        <div class="mr-loading">Synthesizing changelog…</div>
       </div>
       
       <!-- ─── PAGINATION CONTROLS ─── -->
