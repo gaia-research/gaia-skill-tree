@@ -23,7 +23,7 @@
 
   function esc(v) {
     return String(v == null ? '':''+v)
-      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+      .replace(/\\/g,'\\\\').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
   function effectiveLabel(skill) {
@@ -356,14 +356,21 @@
       '</div>';
   }
 
+  function isGithubUrl(url) {
+    try {
+      var h = new URL(url).hostname;
+      return h === 'github.com' || h === 'raw.githubusercontent.com' || h.endsWith('.github.com');
+    } catch(e) { return false; }
+  }
+
   function renderInstall(ns) {
     var el = document.getElementById('se-install');
     var id = ns.id;
     var links = ns.links || {};
     var repoUrl = links.github || links.npm || '';
-    var cloneUrl = repoUrl && repoUrl.includes('github.com') ? repoUrl.replace(/\.git$/,'') : repoUrl;
+    var cloneUrl = repoUrl && isGithubUrl(repoUrl) ? repoUrl.replace(/\.git$/,'') : repoUrl;
     var skillsAddRef = repoUrl || id;
-    if (repoUrl && repoUrl.includes('github.com')) {
+    if (repoUrl && isGithubUrl(repoUrl)) {
       skillsAddRef = repoUrl
         .replace('/blob/', '/tree/')
         .replace(/\/SKILL\.md$/i, '')
@@ -459,7 +466,7 @@
     var links = ns.links || {};
     var repoUrl = links.github || links.npm || '';
     var issuesUrl = 'https://github.com/' + REPO_SLUG + '/issues';
-    var readmeUrl = repoUrl && repoUrl.includes('github.com') ? repoUrl.replace(/\.(git|\/?)$/,'') : '';
+    var readmeUrl = repoUrl && isGithubUrl(repoUrl) ? repoUrl.replace(/\.(git|\/?)$/,'') : '';
 
     var evidenceHtml = '';
     if (generic && Array.isArray(generic.evidence) && generic.evidence.length) {
@@ -685,9 +692,9 @@
         // Label-click navigation: named → open skill explorer, ghost → propose dialog.
         var navAttr;
         if (hasNamed) {
-          navAttr = ' onclick="event.stopPropagation();openSkillExplorer(\'' + nb.id.replace(/'/g,"\\'") + '\');"';
+          navAttr = ' onclick="event.stopPropagation();openSkillExplorer(\'' + nb.id.replace(/\\/g,'\\\\').replace(/'/g,"\\'") + '\');"';
         } else {
-          navAttr = ' onclick="event.stopPropagation();(function(id){var sm=window._gaiaSkillMap||{};var g=sm[id];if(g&&typeof window.openUnnamedPopup===\'function\')window.openUnnamedPopup(g);})(\'' + id.replace(/'/g,"\\'") + '\');"';
+          navAttr = ' onclick="event.stopPropagation();(function(id){var sm=window._gaiaSkillMap||{};var g=sm[id];if(g&&typeof window.openUnnamedPopup===\'function\')window.openUnnamedPopup(g);})(\'' + id.replace(/\\/g,'\\\\').replace(/'/g,"\\'") + '\');"';
         }
 
         return '<div class="git-node' + extraMainClass + '"' +
@@ -819,7 +826,7 @@
       document.querySelectorAll('.git-node.selected').forEach(function(n) { n.classList.remove('selected'); });
       document.querySelectorAll('.git-node.show-label').forEach(function(n) { n.classList.remove('show-label'); });
 
-      var node = document.querySelector('.git-node[data-id="' + nodeId.replace(/"/g, '\\"') + '"]');
+      var node = document.querySelector('.git-node[data-id="' + nodeId.replace(/\\/g,'\\\\').replace(/"/g, '\\"') + '"]');
       if (node) {
         node.classList.add('selected');
         window._selectedFlowNode = nodeId;
@@ -877,7 +884,7 @@
       });
 
       Object.keys(relatedNodes).forEach(function(id) {
-        var node = document.querySelector('.git-node[data-id="' + id.replace(/"/g, '\\"') + '"]');
+        var node = document.querySelector('.git-node[data-id="' + id.replace(/\\/g,'\\\\').replace(/"/g, '\\"') + '"]');
         if (node) node.classList.add('show-label');
       });
     };
@@ -897,7 +904,7 @@
       document.querySelectorAll('.git-node.show-label').forEach(function(n) { n.classList.remove('show-label'); });
       document.querySelectorAll('.git-path').forEach(function(p) { p.classList.remove('active-path','dimmed'); });
 
-      var focus = document.querySelector('.git-node[data-id="' + nodeId.replace(/"/g, '\\"') + '"]');
+      var focus = document.querySelector('.git-node[data-id="' + nodeId.replace(/\\/g,'\\\\').replace(/"/g, '\\"') + '"]');
       if (focus) focus.classList.add('selected');
       window._selectedFlowNode = nodeId;
 
@@ -911,7 +918,7 @@
       });
 
       Object.keys(ancestors).forEach(function(id) {
-        var n = document.querySelector('.git-node[data-id="' + id.replace(/"/g, '\\"') + '"]');
+        var n = document.querySelector('.git-node[data-id="' + id.replace(/\\/g,'\\\\').replace(/"/g, '\\"') + '"]');
         if (n) n.classList.add('show-label');
       });
     };
@@ -1284,7 +1291,7 @@
       if (docsBtn) {
         var readmeUrlRaw = '';
         var repoUrl = (ns.links && (ns.links.github || ns.links.npm)) || '';
-        if (repoUrl && repoUrl.includes('github.com')) {
+        if (repoUrl && isGithubUrl(repoUrl)) {
           var base = repoUrl.replace(/\.(git|\/?)$/, '').replace('github.com', 'raw.githubusercontent.com');
           readmeUrlRaw = base + '/main/SKILL.md';
         }

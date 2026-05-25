@@ -7,6 +7,9 @@ on:
       - '.github/workflows/cli-wrapper.yml'
   workflow_dispatch: {}
 
+permissions:
+  contents: read
+
 jobs:
   test:
     name: Build, Test, and Package

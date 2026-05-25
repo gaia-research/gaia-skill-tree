@@ -25,6 +25,9 @@ on:
       - '.github/workflows/**'
   workflow_dispatch: {}
 
+permissions:
+  contents: read
+
 jobs:
   validate:
     name: Schema + DAG + Integrity Checks

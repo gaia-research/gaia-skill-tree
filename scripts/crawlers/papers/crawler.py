@@ -9,6 +9,7 @@ import json
 import os
 import sys
 import time
+from urllib.parse import urlparse
 import xml.etree.ElementTree as ET
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
@@ -236,7 +237,8 @@ def main():
         if best_paper and best_score >= 20:
             paper_url = best_paper.get("url", "")
             # Normalize arXiv URLs to abs format
-            if "arxiv.org" in paper_url and "/abs/" not in paper_url:
+            _parsed_url = urlparse(paper_url)
+            if _parsed_url.netloc in ("arxiv.org", "www.arxiv.org") and "/abs/" not in paper_url:
                 arxiv_id = paper_url.rstrip("/").split("/")[-1]
                 paper_url = f"https://arxiv.org/abs/{arxiv_id}"
 

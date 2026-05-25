@@ -330,7 +330,7 @@
     };
 
     function esc(s) {
-      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+      return String(s).replace(/\\/g,'\\\\').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     }
 
     function getTier(type, level) {
@@ -434,7 +434,7 @@
       document.querySelectorAll('.git-node.selected').forEach(function(n) { n.classList.remove('selected'); });
       document.querySelectorAll('.git-node.show-label').forEach(function(n) { n.classList.remove('show-label'); });
 
-      var node = document.querySelector('.git-node[data-id="' + nodeId.replace(/"/g, '\\"') + '"]');
+      var node = document.querySelector('.git-node[data-id="' + nodeId.replace(/\\/g,'\\\\').replace(/"/g, '\\"') + '"]');
       if (node) {
         node.classList.add('selected');
         globalFlowState.selectedNode = nodeId;
@@ -460,7 +460,7 @@
 
     function showFlowDownstreamLabels(relatedNodes) {
       Object.keys(relatedNodes).forEach(function(id) {
-        var node = document.querySelector('.git-node[data-id="' + id.replace(/"/g, '\\"') + '"]');
+        var node = document.querySelector('.git-node[data-id="' + id.replace(/\\/g,'\\\\').replace(/"/g, '\\"') + '"]');
         if (node) {
           node.classList.add('show-label');
         }
@@ -546,8 +546,8 @@
           + ' data-type="' + esc(type) + '"'
           + ' data-level="' + esc(level) + '"'
           + ' data-ghost="' + isGhost + '"'
-          + ' onclick="window.selectFlowNode && window.selectFlowNode(\'' + id.replace(/'/g,"\\'") + '\')"'
-          + ' onmouseenter="!window.globalFlowState.selectedNode && window.highlightPaths&&window.highlightPaths(\'' + id.replace(/'/g,"\\'") + '\')"'
+          + ' onclick="window.selectFlowNode && window.selectFlowNode(\'' + id.replace(/\\/g,'\\\\').replace(/'/g,"\\'") + '\')"'
+          + ' onmouseenter="!window.globalFlowState.selectedNode && window.highlightPaths&&window.highlightPaths(\'' + id.replace(/\\/g,'\\\\').replace(/'/g,"\\'") + '\')"'
           + ' onmouseleave="!window.globalFlowState.selectedNode && window.unhighlightPaths&&window.unhighlightPaths()"'
           + '>'
           + '<div class="git-commit-dot" style="--dot-color:' + colorVar + '"></div>'
