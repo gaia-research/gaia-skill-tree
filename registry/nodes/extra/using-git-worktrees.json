@@ -26,5 +26,23 @@
   "status": "provisional",
   "createdAt": "2026-05-18",
   "updatedAt": "2026-05-19",
-  "version": "0.1.0"
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-18T14:11:08Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 1★ (provisional)",
+      "previousValue": null,
+      "newValue": "1★"
+    },
+    {
+      "timestamp": "2026-05-19T13:55:59Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Type adjusted from basic to extra",
+      "previousValue": "basic",
+      "newValue": "extra"
+    }
+  ]
 }

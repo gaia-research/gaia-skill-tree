@@ -27,5 +27,31 @@
   "status": "provisional",
   "createdAt": "2026-05-03",
   "updatedAt": "2026-05-03",
-  "version": "0.1.0"
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-13T21:50:25Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 2★ (provisional)",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-19T22:44:52Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated/demoted rank from 2★ to 4★",
+      "previousValue": "2★",
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-05-19T22:44:52Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/skill.md",
+      "previousValue": null,
+      "newValue": "4★"
+    }
+  ]
 }

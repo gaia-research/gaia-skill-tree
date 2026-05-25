@@ -27,5 +27,15 @@
   "status": "provisional",
   "createdAt": "2026-05-14",
   "updatedAt": "2026-05-18",
-  "version": "0.1.0"
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-14T09:36:10Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 3★ (provisional)",
+      "previousValue": null,
+      "newValue": "3★"
+    }
+  ]
 }

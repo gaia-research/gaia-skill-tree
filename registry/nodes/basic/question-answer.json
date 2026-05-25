@@ -34,5 +34,31 @@
   "status": "provisional",
   "createdAt": "2026-04-28",
   "updatedAt": "2026-04-29",
-  "version": "0.2.0"
+  "version": "0.2.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-13T21:50:25Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 0★ (provisional)",
+      "previousValue": null,
+      "newValue": "0★"
+    },
+    {
+      "timestamp": "2026-05-19T22:44:52Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated/demoted rank from 0★ to 4★",
+      "previousValue": "0★",
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-05-19T22:44:52Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/registry/named/garrytan/office-hours.md",
+      "previousValue": null,
+      "newValue": "4★"
+    }
+  ]
 }

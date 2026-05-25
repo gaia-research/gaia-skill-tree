@@ -31,5 +31,23 @@
   "status": "provisional",
   "createdAt": "2026-05-14",
   "updatedAt": "2026-05-14",
-  "version": "0.1.0"
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-14T07:54:42Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 5★ (provisional)",
+      "previousValue": null,
+      "newValue": "5★"
+    },
+    {
+      "timestamp": "2026-05-19T22:44:52Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated/demoted rank from 5★ to 3★",
+      "previousValue": "5★",
+      "newValue": "3★"
+    }
+  ]
 }

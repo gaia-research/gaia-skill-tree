@@ -119,12 +119,6 @@
       "timestamp": "2026-05-22T20:22:25Z",
       "action": "evidence_added",
       "contributor": "unknown",
-      "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/encode_ccres_database/SKILL.md"
-    },
-    {
-      "timestamp": "2026-05-22T20:22:25Z",
-      "action": "evidence_added",
-      "contributor": "unknown",
       "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/gtex_database/SKILL.md"
     },
     {
@@ -150,6 +144,14 @@
       "action": "evidence_added",
       "contributor": "unknown",
       "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/gnomad_database/SKILL.md"
+    },
+    {
+      "timestamp": "2026-05-22T20:28:53Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 2★ (provisional)",
+      "previousValue": null,
+      "newValue": "2★"
     }
   ]
 }

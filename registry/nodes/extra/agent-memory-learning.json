@@ -34,6 +34,14 @@
   "version": "0.1.0",
   "timeline": [
     {
+      "timestamp": "2026-05-19T16:29:16Z",
+      "action": "propose",
+      "contributor": "claude",
+      "details": "Skill created as 3★ (provisional)",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
       "timestamp": "2026-05-20T00:01:32Z",
       "action": "merge",
       "contributor": "unknown",

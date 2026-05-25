@@ -27,5 +27,15 @@
   "status": "provisional",
   "createdAt": "2026-05-15",
   "updatedAt": "2026-05-15",
-  "version": "0.1.0"
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-15T09:42:29Z",
+      "action": "propose",
+      "contributor": "kriptoburak",
+      "details": "Skill created as 4★ (provisional)",
+      "previousValue": null,
+      "newValue": "4★"
+    }
+  ]
 }

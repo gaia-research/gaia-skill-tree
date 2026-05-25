@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/skill.schema.json",
   "version": "3.25.2",
-  "generatedAt": "2026-05-25T15:16:34.076045Z",
+  "generatedAt": "2026-05-25T19:51:26.525094Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -173,7 +173,17 @@
       "status": "provisional",
       "createdAt": "2026-05-19",
       "updatedAt": "2026-05-19",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-19T16:29:16Z",
+          "action": "propose",
+          "contributor": "claude",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "advanced-swarm-coordination",
@@ -201,7 +211,17 @@
       "status": "provisional",
       "createdAt": "2026-05-19",
       "updatedAt": "2026-05-19",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-19T16:29:16Z",
+          "action": "propose",
+          "contributor": "claude",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        }
+      ]
     },
     {
       "id": "agent-environment-setup",
@@ -237,10 +257,34 @@
           "details": "Added generic skill agent-environment-setup"
         },
         {
+          "timestamp": "2026-05-21T16:31:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 1★ (provisional)",
+          "previousValue": null,
+          "newValue": "1★"
+        },
+        {
           "timestamp": "2026-05-21T17:16:01Z",
           "action": "evidence_added",
           "contributor": "mbtiongson1",
           "details": "Added B evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/setup-matt-pocock-skills/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-21T17:19:20Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 1★ to 3★",
+          "previousValue": "1★",
+          "newValue": "3★"
+        },
+        {
+          "timestamp": "2026-05-21T17:19:20Z",
+          "action": "evidence_added",
+          "contributor": "mbtiongson1",
+          "details": "Added evidence: https://github.com/mattpocock/skills/blob/main/skills/engineering/setup-matt-pocock-skills/SKILL.md",
+          "previousValue": null,
+          "newValue": "3★"
         }
       ]
     },
@@ -286,7 +330,17 @@
       "status": "provisional",
       "createdAt": "2026-04-30",
       "updatedAt": "2026-05-10",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        }
+      ]
     },
     {
       "id": "agent-handoff",
@@ -323,10 +377,34 @@
           "details": "Added generic skill agent-handoff"
         },
         {
+          "timestamp": "2026-05-21T16:31:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 1★ (provisional)",
+          "previousValue": null,
+          "newValue": "1★"
+        },
+        {
           "timestamp": "2026-05-21T17:16:21Z",
           "action": "evidence_added",
           "contributor": "mbtiongson1",
           "details": "Added B evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/handoff/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-21T17:19:20Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 1★ to 4★",
+          "previousValue": "1★",
+          "newValue": "4★"
+        },
+        {
+          "timestamp": "2026-05-21T17:19:20Z",
+          "action": "evidence_added",
+          "contributor": "mbtiongson1",
+          "details": "Added evidence: https://github.com/mattpocock/skills/blob/main/skills/productivity/handoff/SKILL.md",
+          "previousValue": null,
+          "newValue": "4★"
         }
       ]
     },
@@ -365,6 +443,14 @@
       "updatedAt": "2026-05-20",
       "version": "0.1.0",
       "timeline": [
+        {
+          "timestamp": "2026-05-19T16:29:16Z",
+          "action": "propose",
+          "contributor": "claude",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        },
         {
           "timestamp": "2026-05-20T00:01:32Z",
           "action": "merge",
@@ -409,6 +495,14 @@
           "action": "fuse",
           "contributor": "mbtiongson1",
           "details": "Fused 5 ruvnet/agentdb discipline skills into /agent-memory-platform ultimate. Components: distributed-vector-memory, agent-memory-learning, memory-pattern-design, vector-db-optimization, vector-search. Promoted to 5★ on evidence: ruvnet/ruflo — 34k+ stars, AgentDB production deployment."
+        },
+        {
+          "timestamp": "2026-05-19T16:29:16Z",
+          "action": "propose",
+          "contributor": "claude",
+          "details": "Skill created as 5★ (provisional)",
+          "previousValue": null,
+          "newValue": "5★"
         }
       ]
     },
@@ -445,7 +539,25 @@
       "status": "provisional",
       "createdAt": "2026-05-14",
       "updatedAt": "2026-05-14",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-14T07:54:42Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 5★ (provisional)",
+          "previousValue": null,
+          "newValue": "5★"
+        },
+        {
+          "timestamp": "2026-05-19T22:44:52Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 5★ to 3★",
+          "previousValue": "5★",
+          "newValue": "3★"
+        }
+      ]
     },
     {
       "id": "api-call",
@@ -474,7 +586,17 @@
       "status": "provisional",
       "createdAt": "2026-04-28",
       "updatedAt": "2026-05-10",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "architecture-diagram",
@@ -505,7 +627,17 @@
       "status": "provisional",
       "createdAt": "2026-05-06",
       "updatedAt": "2026-05-06",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 4★ (provisional)",
+          "previousValue": null,
+          "newValue": "4★"
+        }
+      ]
     },
     {
       "id": "audience-model",
@@ -537,10 +669,26 @@
       "version": "0.1.0",
       "timeline": [
         {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 1★ (provisional)",
+          "previousValue": null,
+          "newValue": "1★"
+        },
+        {
           "timestamp": "2026-05-25T04:25:30Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 1★ to 0★"
+        },
+        {
+          "timestamp": "2026-05-25T04:44:23Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 1★ to 0★",
+          "previousValue": "1★",
+          "newValue": "0★"
         }
       ],
       "demerits": [
@@ -579,7 +727,17 @@
       "status": "provisional",
       "createdAt": "2026-04-28",
       "updatedAt": "2026-04-30",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        }
+      ]
     },
     {
       "id": "autonomous-data-scientist",
@@ -623,7 +781,25 @@
       "createdAt": "2026-04-28",
       "updatedAt": "2026-04-28",
       "version": "0.2.0",
-      "title": "Primordial Oracle"
+      "title": "Primordial Oracle",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 5★ (provisional)",
+          "previousValue": null,
+          "newValue": "5★"
+        },
+        {
+          "timestamp": "2026-05-18T15:45:47Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Type adjusted from ultimate to extra",
+          "previousValue": "ultimate",
+          "newValue": "extra"
+        }
+      ]
     },
     {
       "id": "autonomous-debug",
@@ -655,16 +831,48 @@
       "version": "0.1.0",
       "timeline": [
         {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 4★ (provisional)",
+          "previousValue": null,
+          "newValue": "4★"
+        },
+        {
+          "timestamp": "2026-05-18T09:04:22Z",
+          "action": "evidence_added",
+          "contributor": "jules",
+          "details": "Added evidence: https://github.com/cognition-labs/devin",
+          "previousValue": null,
+          "newValue": "4★"
+        },
+        {
           "timestamp": "2026-05-25T03:46:19Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 4★ to 3★"
         },
         {
+          "timestamp": "2026-05-25T03:46:22Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 4★ to 3★",
+          "previousValue": "4★",
+          "newValue": "3★"
+        },
+        {
           "timestamp": "2026-05-25T04:25:30Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 3★ to 2★"
+        },
+        {
+          "timestamp": "2026-05-25T04:44:23Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 3★ to 1★",
+          "previousValue": "3★",
+          "newValue": "1★"
         }
       ],
       "demerits": [
@@ -719,6 +927,14 @@
           "action": "evidence_added",
           "contributor": "unknown",
           "details": "Added B evidence from https://github.com/Taoidle/plan-cascade"
+        },
+        {
+          "timestamp": "2026-05-22T20:53:00Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
         }
       ]
     },
@@ -763,10 +979,26 @@
       "version": "0.1.0",
       "timeline": [
         {
+          "timestamp": "2026-05-14T07:54:42Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 4★ (provisional)",
+          "previousValue": null,
+          "newValue": "4★"
+        },
+        {
           "timestamp": "2026-05-20T00:01:42Z",
           "action": "merge",
           "contributor": "unknown",
           "details": "Merged autonomous-research-agent into autonomous-web-research"
+        },
+        {
+          "timestamp": "2026-05-20T00:05:31Z",
+          "action": "evidence_added",
+          "contributor": "mbtiongson1",
+          "details": "Added evidence: https://github.com/balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill",
+          "previousValue": null,
+          "newValue": "4★"
         }
       ]
     },
@@ -818,6 +1050,14 @@
           "action": "evidence_added",
           "contributor": "unknown",
           "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_similarity_search/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:28:53Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
         }
       ]
     },
@@ -849,7 +1089,25 @@
       "status": "provisional",
       "createdAt": "2026-05-18",
       "updatedAt": "2026-05-19",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-18T14:11:08Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 1★ (provisional)",
+          "previousValue": null,
+          "newValue": "1★"
+        },
+        {
+          "timestamp": "2026-05-19T13:55:59Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Type adjusted from basic to extra",
+          "previousValue": "basic",
+          "newValue": "extra"
+        }
+      ]
     },
     {
       "id": "browser-automation",
@@ -889,7 +1147,17 @@
       "status": "provisional",
       "createdAt": "2026-04-28",
       "updatedAt": "2026-04-28",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        }
+      ]
     },
     {
       "id": "browser-control",
@@ -920,7 +1188,17 @@
       "status": "provisional",
       "createdAt": "2026-05-14",
       "updatedAt": "2026-05-14",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-14T09:36:10Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "career-operations",
@@ -949,7 +1227,17 @@
       "status": "provisional",
       "createdAt": "2026-05-14",
       "updatedAt": "2026-05-14",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-14T09:36:10Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        }
+      ]
     },
     {
       "id": "chain-of-thought",
@@ -989,10 +1277,26 @@
       "version": "0.2.0",
       "timeline": [
         {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 1★ (provisional)",
+          "previousValue": null,
+          "newValue": "1★"
+        },
+        {
           "timestamp": "2026-05-25T04:25:31Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 1★ to 0★"
+        },
+        {
+          "timestamp": "2026-05-25T04:44:23Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 1★ to 0★",
+          "previousValue": "1★",
+          "newValue": "0★"
         }
       ],
       "demerits": [
@@ -1027,10 +1331,26 @@
       "version": "0.1.0",
       "timeline": [
         {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 1★ (provisional)",
+          "previousValue": null,
+          "newValue": "1★"
+        },
+        {
           "timestamp": "2026-05-25T04:25:31Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 1★ to 0★"
+        },
+        {
+          "timestamp": "2026-05-25T04:44:23Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 1★ to 0★",
+          "previousValue": "1★",
+          "newValue": "0★"
         }
       ],
       "demerits": [
@@ -1069,10 +1389,26 @@
       "version": "0.1.0",
       "timeline": [
         {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 1★ (provisional)",
+          "previousValue": null,
+          "newValue": "1★"
+        },
+        {
           "timestamp": "2026-05-25T04:25:31Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 1★ to 0★"
+        },
+        {
+          "timestamp": "2026-05-25T04:44:23Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 1★ to 0★",
+          "previousValue": "1★",
+          "newValue": "0★"
         }
       ],
       "demerits": [
@@ -1108,6 +1444,16 @@
       "version": "0.1.0",
       "demerits": [
         "broken-evidence"
+      ],
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 0★ (provisional)",
+          "previousValue": null,
+          "newValue": "0★"
+        }
       ]
     },
     {
@@ -1133,7 +1479,17 @@
       "status": "provisional",
       "createdAt": "2026-05-19",
       "updatedAt": "2026-05-19",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-19T16:29:16Z",
+          "action": "propose",
+          "contributor": "claude",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "clinical-data-retrieval",
@@ -1222,6 +1578,14 @@
           "action": "evidence_added",
           "contributor": "unknown",
           "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/opentargets_database/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:28:53Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
         }
       ]
     },
@@ -1251,7 +1615,17 @@
       "status": "provisional",
       "createdAt": "2026-05-19",
       "updatedAt": "2026-05-19",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-19T16:29:16Z",
+          "action": "propose",
+          "contributor": "claude",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        }
+      ]
     },
     {
       "id": "code-execution",
@@ -1302,16 +1676,40 @@
       "version": "0.2.0",
       "timeline": [
         {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        },
+        {
           "timestamp": "2026-05-20T00:01:39Z",
           "action": "merge",
           "contributor": "unknown",
           "details": "Merged execute-bash into code-execution"
         },
         {
+          "timestamp": "2026-05-20T00:05:31Z",
+          "action": "evidence_added",
+          "contributor": "mbtiongson1",
+          "details": "Added evidence: https://github.com/gaia-registry/gaia/blob/main/docs/evidence/executeBash.md",
+          "previousValue": null,
+          "newValue": "2★"
+        },
+        {
           "timestamp": "2026-05-25T04:25:31Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 2★ to 1★"
+        },
+        {
+          "timestamp": "2026-05-25T04:44:23Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 2★ to 0★",
+          "previousValue": "2★",
+          "newValue": "0★"
         }
       ],
       "demerits": [
@@ -1351,7 +1749,17 @@
       "status": "provisional",
       "createdAt": "2026-04-30",
       "updatedAt": "2026-04-30",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "code-generation",
@@ -1387,10 +1795,26 @@
       "version": "0.1.0",
       "timeline": [
         {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 1★ (provisional)",
+          "previousValue": null,
+          "newValue": "1★"
+        },
+        {
           "timestamp": "2026-05-25T04:25:31Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 1★ to 0★"
+        },
+        {
+          "timestamp": "2026-05-25T04:44:23Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 1★ to 0★",
+          "previousValue": "1★",
+          "newValue": "0★"
         }
       ],
       "demerits": [
@@ -1434,10 +1858,26 @@
       "version": "0.2.0",
       "timeline": [
         {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        },
+        {
           "timestamp": "2026-05-25T03:45:35Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 3★ to 2★"
+        },
+        {
+          "timestamp": "2026-05-25T03:46:10Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 3★ to 2★",
+          "previousValue": "3★",
+          "newValue": "2★"
         }
       ]
     },
@@ -1469,7 +1909,17 @@
       "status": "provisional",
       "createdAt": "2026-05-17",
       "updatedAt": "2026-05-17",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-17T13:00:26Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "computational-biology-workflows",
@@ -1551,6 +2001,14 @@
           "action": "evidence_added",
           "contributor": "unknown",
           "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_msa/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:28:53Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 4★ (provisional)",
+          "previousValue": null,
+          "newValue": "4★"
         }
       ]
     },
@@ -1586,7 +2044,17 @@
       "status": "provisional",
       "createdAt": "2026-04-28",
       "updatedAt": "2026-04-28",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "content-moderation",
@@ -1618,10 +2086,26 @@
       "version": "0.2.0",
       "timeline": [
         {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        },
+        {
           "timestamp": "2026-05-25T03:45:36Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 3★ to 2★"
+        },
+        {
+          "timestamp": "2026-05-25T03:46:10Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 3★ to 2★",
+          "previousValue": "3★",
+          "newValue": "2★"
         }
       ]
     },
@@ -1664,7 +2148,17 @@
       "status": "provisional",
       "createdAt": "2026-04-30",
       "updatedAt": "2026-04-30",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        }
+      ]
     },
     {
       "id": "conversational-agent",
@@ -1696,10 +2190,26 @@
       "version": "0.2.0",
       "timeline": [
         {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        },
+        {
           "timestamp": "2026-05-25T04:25:32Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 3★ to 2★"
+        },
+        {
+          "timestamp": "2026-05-25T04:44:23Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 3★ to 1★",
+          "previousValue": "3★",
+          "newValue": "1★"
         }
       ],
       "demerits": [
@@ -1760,6 +2270,14 @@
       "version": "0.1.0",
       "timeline": [
         {
+          "timestamp": "2026-05-19T16:29:16Z",
+          "action": "propose",
+          "contributor": "claude",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        },
+        {
           "timestamp": "2026-05-22T20:20:44Z",
           "action": "evidence_added",
           "contributor": "unknown",
@@ -1775,13 +2293,15 @@
           "timestamp": "2026-05-22T20:22:44Z",
           "action": "evidence_added",
           "contributor": "unknown",
-          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common/SKILL.md"
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md"
         },
         {
-          "timestamp": "2026-05-22T20:22:44Z",
+          "timestamp": "2026-05-22T20:28:53Z",
           "action": "evidence_added",
-          "contributor": "unknown",
-          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md"
+          "contributor": "mbtiongson1",
+          "details": "Added evidence: https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md, https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common/SKILL.md",
+          "previousValue": null,
+          "newValue": "2★"
         }
       ]
     },
@@ -1816,7 +2336,17 @@
       "status": "provisional",
       "createdAt": "2026-04-28",
       "updatedAt": "2026-05-06",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        }
+      ]
     },
     {
       "id": "data-visualize",
@@ -1844,7 +2374,17 @@
       "status": "provisional",
       "createdAt": "2026-04-28",
       "updatedAt": "2026-05-06",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "deployment-automation",
@@ -1877,7 +2417,17 @@
       "status": "provisional",
       "createdAt": "2026-04-30",
       "updatedAt": "2026-05-18",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "design-generation",
@@ -1907,7 +2457,17 @@
       "status": "provisional",
       "createdAt": "2026-05-14",
       "updatedAt": "2026-05-14",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-14T09:36:10Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        }
+      ]
     },
     {
       "id": "design-review",
@@ -1944,7 +2504,17 @@
       "status": "provisional",
       "createdAt": "2026-04-30",
       "updatedAt": "2026-04-30",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        }
+      ]
     },
     {
       "id": "design-system-extraction",
@@ -1975,7 +2545,17 @@
       "status": "provisional",
       "createdAt": "2026-05-14",
       "updatedAt": "2026-05-18",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-14T09:36:10Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        }
+      ]
     },
     {
       "id": "detect-anomaly",
@@ -2006,7 +2586,25 @@
       "status": "provisional",
       "createdAt": "2026-04-28",
       "updatedAt": "2026-05-18",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        },
+        {
+          "timestamp": "2026-05-18T16:24:05Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Type adjusted from basic to extra",
+          "previousValue": "basic",
+          "newValue": "extra"
+        }
+      ]
     },
     {
       "id": "diff-content",
@@ -2037,10 +2635,26 @@
       "version": "0.1.0",
       "timeline": [
         {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 1★ (provisional)",
+          "previousValue": null,
+          "newValue": "1★"
+        },
+        {
           "timestamp": "2026-05-25T04:25:32Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 1★ to 0★"
+        },
+        {
+          "timestamp": "2026-05-25T04:44:23Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 1★ to 0★",
+          "previousValue": "1★",
+          "newValue": "0★"
         }
       ],
       "demerits": [
@@ -2086,6 +2700,14 @@
           "action": "evidence_added",
           "contributor": "gaiabot",
           "details": "Added B evidence from https://github.com/langgenius/dify"
+        },
+        {
+          "timestamp": "2026-05-22T22:29:32Z",
+          "action": "propose",
+          "contributor": "claude",
+          "details": "Skill created as 1★ (provisional)",
+          "previousValue": null,
+          "newValue": "1★"
         }
       ]
     },
@@ -2119,7 +2741,25 @@
       "status": "provisional",
       "createdAt": "2026-05-18",
       "updatedAt": "2026-05-19",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-18T14:11:08Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 4★ (provisional)",
+          "previousValue": null,
+          "newValue": "4★"
+        },
+        {
+          "timestamp": "2026-05-19T13:55:59Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Type adjusted from basic to extra",
+          "previousValue": "basic",
+          "newValue": "extra"
+        }
+      ]
     },
     {
       "id": "distributed-neural-training",
@@ -2147,7 +2787,17 @@
       "status": "provisional",
       "createdAt": "2026-05-19",
       "updatedAt": "2026-05-19",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-19T16:29:16Z",
+          "action": "propose",
+          "contributor": "claude",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        }
+      ]
     },
     {
       "id": "distributed-vector-memory",
@@ -2175,7 +2825,17 @@
       "status": "provisional",
       "createdAt": "2026-05-19",
       "updatedAt": "2026-05-19",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-19T16:29:16Z",
+          "action": "propose",
+          "contributor": "claude",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        }
+      ]
     },
     {
       "id": "document-analyst",
@@ -2217,16 +2877,40 @@
       "version": "0.1.0",
       "timeline": [
         {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        },
+        {
           "timestamp": "2026-05-20T00:01:36Z",
           "action": "merge",
           "contributor": "unknown",
           "details": "Merged document-digitization into document-analyst"
         },
         {
+          "timestamp": "2026-05-20T00:05:31Z",
+          "action": "evidence_added",
+          "contributor": "mbtiongson1",
+          "details": "Added evidence: https://github.com/VikParuchuri/marker",
+          "previousValue": null,
+          "newValue": "3★"
+        },
+        {
           "timestamp": "2026-05-25T04:25:32Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 3★ to 2★"
+        },
+        {
+          "timestamp": "2026-05-25T04:44:23Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 3★ to 1★",
+          "previousValue": "3★",
+          "newValue": "1★"
         }
       ],
       "demerits": [
@@ -2259,7 +2943,17 @@
       "status": "provisional",
       "createdAt": "2026-04-30",
       "updatedAt": "2026-05-18",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 0★ (provisional)",
+          "previousValue": null,
+          "newValue": "0★"
+        }
+      ]
     },
     {
       "id": "dual-mode",
@@ -2288,7 +2982,17 @@
       "status": "provisional",
       "createdAt": "2026-05-19",
       "updatedAt": "2026-05-19",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-19T16:29:16Z",
+          "action": "propose",
+          "contributor": "claude",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        }
+      ]
     },
     {
       "id": "e2e-testing",
@@ -2325,7 +3029,17 @@
       "status": "provisional",
       "createdAt": "2026-04-30",
       "updatedAt": "2026-05-18",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        }
+      ]
     },
     {
       "id": "embed-text",
@@ -2357,10 +3071,26 @@
       "version": "0.1.0",
       "timeline": [
         {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 1★ (provisional)",
+          "previousValue": null,
+          "newValue": "1★"
+        },
+        {
           "timestamp": "2026-05-25T04:25:32Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 1★ to 0★"
+        },
+        {
+          "timestamp": "2026-05-25T04:44:23Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 1★ to 0★",
+          "previousValue": "1★",
+          "newValue": "0★"
         }
       ],
       "demerits": [
@@ -2398,10 +3128,26 @@
       "version": "0.1.0",
       "timeline": [
         {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 1★ (provisional)",
+          "previousValue": null,
+          "newValue": "1★"
+        },
+        {
           "timestamp": "2026-05-25T04:25:32Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 1★ to 0★"
+        },
+        {
+          "timestamp": "2026-05-25T04:44:23Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 1★ to 0★",
+          "previousValue": "1★",
+          "newValue": "0★"
         }
       ],
       "demerits": [
@@ -2446,10 +3192,26 @@
       "version": "0.1.0",
       "timeline": [
         {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 1★ (provisional)",
+          "previousValue": null,
+          "newValue": "1★"
+        },
+        {
           "timestamp": "2026-05-25T04:25:33Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 1★ to 0★"
+        },
+        {
+          "timestamp": "2026-05-25T04:44:23Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 1★ to 0★",
+          "previousValue": "1★",
+          "newValue": "0★"
         }
       ],
       "demerits": [
@@ -2485,7 +3247,25 @@
       "status": "provisional",
       "createdAt": "2026-05-18",
       "updatedAt": "2026-05-19",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-18T14:11:08Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        },
+        {
+          "timestamp": "2026-05-19T13:55:59Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Type adjusted from basic to extra",
+          "previousValue": "basic",
+          "newValue": "extra"
+        }
+      ]
     },
     {
       "id": "extract-entities",
@@ -2519,10 +3299,26 @@
       "version": "0.1.0",
       "timeline": [
         {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 1★ (provisional)",
+          "previousValue": null,
+          "newValue": "1★"
+        },
+        {
           "timestamp": "2026-05-25T04:25:33Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 1★ to 0★"
+        },
+        {
+          "timestamp": "2026-05-25T04:44:23Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 1★ to 0★",
+          "previousValue": "1★",
+          "newValue": "0★"
         }
       ],
       "demerits": [
@@ -2554,7 +3350,25 @@
       "status": "provisional",
       "createdAt": "2026-05-06",
       "updatedAt": "2026-05-06",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 4★ (provisional)",
+          "previousValue": null,
+          "newValue": "4★"
+        },
+        {
+          "timestamp": "2026-05-14T20:30:46Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Type adjusted from basic to unique",
+          "previousValue": "basic",
+          "newValue": "unique"
+        }
+      ]
     },
     {
       "id": "few-shot-learning",
@@ -2585,16 +3399,48 @@
       "version": "0.2.0",
       "timeline": [
         {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 4★ (provisional)",
+          "previousValue": null,
+          "newValue": "4★"
+        },
+        {
+          "timestamp": "2026-05-14T20:30:46Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Type adjusted from basic to unique",
+          "previousValue": "basic",
+          "newValue": "unique"
+        },
+        {
           "timestamp": "2026-05-25T03:44:41Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
           "details": "Reclassified from unique to basic"
         },
         {
+          "timestamp": "2026-05-25T03:45:22Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Type adjusted from unique to basic",
+          "previousValue": "unique",
+          "newValue": "basic"
+        },
+        {
           "timestamp": "2026-05-25T03:45:37Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 4★ to 2★"
+        },
+        {
+          "timestamp": "2026-05-25T03:46:10Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 4★ to 2★",
+          "previousValue": "4★",
+          "newValue": "2★"
         }
       ]
     },
@@ -2635,7 +3481,17 @@
       "status": "provisional",
       "createdAt": "2026-04-30",
       "updatedAt": "2026-04-30",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 4★ (provisional)",
+          "previousValue": null,
+          "newValue": "4★"
+        }
+      ]
     },
     {
       "id": "finishing-a-development-branch",
@@ -2667,7 +3523,25 @@
       "status": "provisional",
       "createdAt": "2026-05-18",
       "updatedAt": "2026-05-18",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-18T14:11:08Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        },
+        {
+          "timestamp": "2026-05-18T16:24:05Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Type adjusted from basic to extra",
+          "previousValue": "basic",
+          "newValue": "extra"
+        }
+      ]
     },
     {
       "id": "flow-nexus-orchestration",
@@ -2696,7 +3570,17 @@
       "status": "provisional",
       "createdAt": "2026-05-19",
       "updatedAt": "2026-05-19",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-19T16:29:16Z",
+          "action": "propose",
+          "contributor": "claude",
+          "details": "Skill created as 4★ (provisional)",
+          "previousValue": null,
+          "newValue": "4★"
+        }
+      ]
     },
     {
       "id": "format-output",
@@ -2730,6 +3614,16 @@
       "version": "0.1.0",
       "demerits": [
         "broken-evidence"
+      ],
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 0★ (provisional)",
+          "previousValue": null,
+          "newValue": "0★"
+        }
       ]
     },
     {
@@ -2755,7 +3649,17 @@
       "status": "provisional",
       "createdAt": "2026-04-30",
       "updatedAt": "2026-04-30",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 0★ (provisional)",
+          "previousValue": null,
+          "newValue": "0★"
+        }
+      ]
     },
     {
       "id": "full-stack-developer",
@@ -2799,7 +3703,25 @@
       "createdAt": "2026-04-28",
       "updatedAt": "2026-04-28",
       "version": "0.2.0",
-      "title": "Sovereign Craftsman"
+      "title": "Sovereign Craftsman",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 5★ (provisional)",
+          "previousValue": null,
+          "newValue": "5★"
+        },
+        {
+          "timestamp": "2026-05-18T15:45:47Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Type adjusted from ultimate to extra",
+          "previousValue": "ultimate",
+          "newValue": "extra"
+        }
+      ]
     },
     {
       "id": "function-calling",
@@ -2838,10 +3760,26 @@
       "version": "0.1.0",
       "timeline": [
         {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        },
+        {
           "timestamp": "2026-05-25T03:45:36Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 3★ to 2★"
+        },
+        {
+          "timestamp": "2026-05-25T03:46:10Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 3★ to 2★",
+          "previousValue": "3★",
+          "newValue": "2★"
         }
       ]
     },
@@ -2874,7 +3812,33 @@
       "status": "provisional",
       "createdAt": "2026-05-03",
       "updatedAt": "2026-05-03",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        },
+        {
+          "timestamp": "2026-05-19T22:44:52Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 2★ to 4★",
+          "previousValue": "2★",
+          "newValue": "4★"
+        },
+        {
+          "timestamp": "2026-05-19T22:44:52Z",
+          "action": "evidence_added",
+          "contributor": "mbtiongson1",
+          "details": "Added evidence: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/skill.md",
+          "previousValue": null,
+          "newValue": "4★"
+        }
+      ]
     },
     {
       "id": "gaia-meta-audit",
@@ -2903,7 +3867,17 @@
       "status": "provisional",
       "createdAt": "2026-05-03",
       "updatedAt": "2026-05-03",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        }
+      ]
     },
     {
       "id": "generate-sql",
@@ -2931,7 +3905,17 @@
       "status": "provisional",
       "createdAt": "2026-04-28",
       "updatedAt": "2026-04-28",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "generate-test",
@@ -2958,7 +3942,17 @@
       "status": "provisional",
       "createdAt": "2026-04-28",
       "updatedAt": "2026-04-28",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "generate-text",
@@ -2990,6 +3984,16 @@
       "version": "0.1.0",
       "demerits": [
         "broken-evidence"
+      ],
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 0★ (provisional)",
+          "previousValue": null,
+          "newValue": "0★"
+        }
       ]
     },
     {
@@ -3023,7 +4027,17 @@
       "status": "provisional",
       "createdAt": "2026-05-17",
       "updatedAt": "2026-05-17",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-17T13:00:26Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        }
+      ]
     },
     {
       "id": "genomic-data-retrieval",
@@ -3146,12 +4160,6 @@
           "timestamp": "2026-05-22T20:22:25Z",
           "action": "evidence_added",
           "contributor": "unknown",
-          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/encode_ccres_database/SKILL.md"
-        },
-        {
-          "timestamp": "2026-05-22T20:22:25Z",
-          "action": "evidence_added",
-          "contributor": "unknown",
           "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/gtex_database/SKILL.md"
         },
         {
@@ -3177,6 +4185,14 @@
           "action": "evidence_added",
           "contributor": "unknown",
           "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/gnomad_database/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:28:53Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
         }
       ]
     },
@@ -3199,7 +4215,25 @@
       "status": "provisional",
       "createdAt": "2026-04-26",
       "updatedAt": "2026-04-26",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 4★ (provisional)",
+          "previousValue": null,
+          "newValue": "4★"
+        },
+        {
+          "timestamp": "2026-05-18T09:04:22Z",
+          "action": "demote",
+          "contributor": "jules",
+          "details": "Calibrated/demoted rank from 4★ to 1★",
+          "previousValue": "4★",
+          "newValue": "1★"
+        }
+      ]
     },
     {
       "id": "git-diff-risk-analysis",
@@ -3224,7 +4258,17 @@
       "status": "provisional",
       "createdAt": "2026-05-19",
       "updatedAt": "2026-05-19",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-19T16:29:16Z",
+          "action": "propose",
+          "contributor": "claude",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "github-platform-mastery",
@@ -3255,7 +4299,25 @@
       "status": "provisional",
       "createdAt": "2026-05-19",
       "updatedAt": "2026-05-19",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-19T16:29:16Z",
+          "action": "propose",
+          "contributor": "claude",
+          "details": "Skill created as 4★ (provisional)",
+          "previousValue": null,
+          "newValue": "4★"
+        },
+        {
+          "timestamp": "2026-05-19T22:44:52Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 4★ to 3★",
+          "previousValue": "4★",
+          "newValue": "3★"
+        }
+      ]
     },
     {
       "id": "grill-me",
@@ -3285,7 +4347,17 @@
       "status": "provisional",
       "createdAt": "2026-05-15",
       "updatedAt": "2026-05-15",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-14T20:30:46Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 4★ (provisional)",
+          "previousValue": null,
+          "newValue": "4★"
+        }
+      ]
     },
     {
       "id": "grill-with-docs",
@@ -3325,10 +4397,42 @@
       "title": "The Domain Sovereign",
       "timeline": [
         {
+          "timestamp": "2026-05-14T20:30:46Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 5★ (provisional)",
+          "previousValue": null,
+          "newValue": "5★"
+        },
+        {
+          "timestamp": "2026-05-18T15:45:47Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Type adjusted from ultimate to extra",
+          "previousValue": "ultimate",
+          "newValue": "extra"
+        },
+        {
+          "timestamp": "2026-05-19T22:44:52Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 5★ to 3★",
+          "previousValue": "5★",
+          "newValue": "3★"
+        },
+        {
           "timestamp": "2026-05-25T04:25:33Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 3★ to 2★"
+        },
+        {
+          "timestamp": "2026-05-25T04:44:23Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 3★ to 1★",
+          "previousValue": "3★",
+          "newValue": "1★"
         }
       ],
       "demerits": [
@@ -3372,10 +4476,26 @@
       "version": "0.2.0",
       "timeline": [
         {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        },
+        {
           "timestamp": "2026-05-25T04:25:33Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 3★ to 2★"
+        },
+        {
+          "timestamp": "2026-05-25T04:44:23Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 3★ to 1★",
+          "previousValue": "3★",
+          "newValue": "1★"
         }
       ],
       "demerits": [
@@ -3446,16 +4566,24 @@
           "details": "Fused 5 garrytan/gstack skills into /gstacks ultimate. Components: security-audit, design-review, vertical-slice-planning, browser-automation, question-answer. Promoted to 5★ on evidence: garrytan/gstack 98.9k stars, 8+ platform adoption (Claude Code, Codex CLI, OpenCode, Cursor, Factory Droid, Slate, Kiro, Hermes)."
         },
         {
+          "timestamp": "2026-05-18T00:00:00Z",
+          "action": "rank_up",
+          "contributor": "mbtiongson1",
+          "details": "Expanded gstack prerequisites from 25 → 31 via prerequisite graph analysis. Added to gstack: guardrails, knowledge-management, format-output, workspace-automation, project-management, prompt-optimization. Promoted 3 basic nodes to extra tier to carry workflow chain prerequisites: finishing-a-development-branch (prereqs: code-review-pipeline, diff-content), detect-anomaly (prereqs: evaluate-output, error-interpretation), memory-manage (prereqs: context-compression, retrieve)."
+        },
+        {
           "timestamp": "2026-05-18T12:00:00Z",
           "action": "rank_up",
           "contributor": "mbtiongson1",
           "details": "Expanded prerequisites from 5 to 16 to cover the full garrytan/gstack suite. Added 14 new named skills: plan-ceo-review, plan-eng-review, plan-design-review, plan-devex-review, review, investigate, qa, ship, land-and-deploy, canary, document-generate, design-html, design-consultation, benchmark. Upgraded evidence from Class B to Class A (>=5 named-skills criterion met: 19 named skills). Total named garrytan skills: 19."
         },
         {
-          "timestamp": "2026-05-18T00:00:00Z",
-          "action": "rank_up",
+          "timestamp": "2026-05-18T16:24:05Z",
+          "action": "propose",
           "contributor": "mbtiongson1",
-          "details": "Expanded gstack prerequisites from 25 → 31 via prerequisite graph analysis. Added to gstack: guardrails, knowledge-management, format-output, workspace-automation, project-management, prompt-optimization. Promoted 3 basic nodes to extra tier to carry workflow chain prerequisites: finishing-a-development-branch (prereqs: code-review-pipeline, diff-content), detect-anomaly (prereqs: evaluate-output, error-interpretation), memory-manage (prereqs: context-compression, retrieve)."
+          "details": "Skill created as 5★ (provisional)",
+          "previousValue": null,
+          "newValue": "5★"
         }
       ]
     },
@@ -3495,7 +4623,17 @@
       "status": "provisional",
       "createdAt": "2026-04-30",
       "updatedAt": "2026-04-30",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        }
+      ]
     },
     {
       "id": "headless-worker-collect",
@@ -3520,7 +4658,17 @@
       "status": "provisional",
       "createdAt": "2026-05-19",
       "updatedAt": "2026-05-19",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-19T16:29:16Z",
+          "action": "propose",
+          "contributor": "claude",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "headless-worker-spawn",
@@ -3545,7 +4693,17 @@
       "status": "provisional",
       "createdAt": "2026-05-19",
       "updatedAt": "2026-05-19",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-19T16:29:16Z",
+          "action": "propose",
+          "contributor": "claude",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "hive-mind-coordination",
@@ -3570,7 +4728,17 @@
       "status": "provisional",
       "createdAt": "2026-05-19",
       "updatedAt": "2026-05-19",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-19T16:29:16Z",
+          "action": "propose",
+          "contributor": "claude",
+          "details": "Skill created as 4★ (provisional)",
+          "previousValue": null,
+          "newValue": "4★"
+        }
+      ]
     },
     {
       "id": "humanize-prose",
@@ -3601,7 +4769,17 @@
       "status": "provisional",
       "createdAt": "2026-05-06",
       "updatedAt": "2026-05-06",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 4★ (provisional)",
+          "previousValue": null,
+          "newValue": "4★"
+        }
+      ]
     },
     {
       "id": "hybrid-workflow-coordination",
@@ -3626,7 +4804,17 @@
       "status": "provisional",
       "createdAt": "2026-05-19",
       "updatedAt": "2026-05-19",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-19T16:29:16Z",
+          "action": "propose",
+          "contributor": "claude",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "hypothesis-generate",
@@ -3668,7 +4856,17 @@
       "status": "provisional",
       "createdAt": "2026-04-28",
       "updatedAt": "2026-04-28",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "image-caption",
@@ -3695,7 +4893,17 @@
       "status": "provisional",
       "createdAt": "2026-04-28",
       "updatedAt": "2026-04-30",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "image-generate",
@@ -3720,7 +4928,17 @@
       "status": "provisional",
       "createdAt": "2026-04-28",
       "updatedAt": "2026-04-28",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "issue-triage",
@@ -3759,7 +4977,17 @@
       "status": "provisional",
       "createdAt": "2026-04-30",
       "updatedAt": "2026-04-30",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 4★ (provisional)",
+          "previousValue": null,
+          "newValue": "4★"
+        }
+      ]
     },
     {
       "id": "knowledge-graph-build",
@@ -3797,7 +5025,17 @@
       "status": "provisional",
       "createdAt": "2026-04-28",
       "updatedAt": "2026-04-28",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        }
+      ]
     },
     {
       "id": "knowledge-harvest",
@@ -3818,7 +5056,25 @@
       "status": "provisional",
       "createdAt": "2026-04-26",
       "updatedAt": "2026-04-26",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 4★ (provisional)",
+          "previousValue": null,
+          "newValue": "4★"
+        },
+        {
+          "timestamp": "2026-05-18T09:04:22Z",
+          "action": "demote",
+          "contributor": "jules",
+          "details": "Calibrated/demoted rank from 4★ to 1★",
+          "previousValue": "4★",
+          "newValue": "1★"
+        }
+      ]
     },
     {
       "id": "knowledge-management",
@@ -3851,7 +5107,17 @@
       "status": "provisional",
       "createdAt": "2026-05-17",
       "updatedAt": "2026-05-17",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-17T13:00:26Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "literature-review",
@@ -3888,7 +5154,17 @@
       "status": "provisional",
       "createdAt": "2026-04-30",
       "updatedAt": "2026-05-23",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 4★ (provisional)",
+          "previousValue": null,
+          "newValue": "4★"
+        }
+      ]
     },
     {
       "id": "literature-search",
@@ -3971,12 +5247,6 @@
           "timestamp": "2026-05-22T20:22:15Z",
           "action": "evidence_added",
           "contributor": "unknown",
-          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_arxiv/SKILL.md"
-        },
-        {
-          "timestamp": "2026-05-22T20:22:15Z",
-          "action": "evidence_added",
-          "contributor": "unknown",
           "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_biorxiv/SKILL.md"
         },
         {
@@ -3990,6 +5260,14 @@
           "action": "evidence_added",
           "contributor": "unknown",
           "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_openalex/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:28:53Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
         }
       ]
     },
@@ -4019,7 +5297,17 @@
       "status": "provisional",
       "createdAt": "2026-04-28",
       "updatedAt": "2026-04-28",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 1★ (provisional)",
+          "previousValue": null,
+          "newValue": "1★"
+        }
+      ]
     },
     {
       "id": "math-reason",
@@ -4047,7 +5335,17 @@
       "status": "provisional",
       "createdAt": "2026-04-28",
       "updatedAt": "2026-04-28",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "mathematical-animation",
@@ -4080,7 +5378,17 @@
       "status": "provisional",
       "createdAt": "2026-05-17",
       "updatedAt": "2026-05-17",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-17T13:00:26Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        }
+      ]
     },
     {
       "id": "mattpocock-engineering",
@@ -4124,10 +5432,42 @@
           "details": "Added generic skill mattpocock-engineering"
         },
         {
+          "timestamp": "2026-05-21T16:31:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 1★ (provisional)",
+          "previousValue": null,
+          "newValue": "1★"
+        },
+        {
           "timestamp": "2026-05-21T17:17:01Z",
           "action": "evidence_added",
           "contributor": "mbtiongson1",
           "details": "Added B evidence from https://github.com/mattpocock/skills"
+        },
+        {
+          "timestamp": "2026-05-21T17:19:20Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 1★ to 5★",
+          "previousValue": "1★",
+          "newValue": "5★"
+        },
+        {
+          "timestamp": "2026-05-21T17:19:20Z",
+          "action": "evidence_added",
+          "contributor": "mbtiongson1",
+          "details": "Added evidence: https://github.com/mattpocock/skills",
+          "previousValue": null,
+          "newValue": "5★"
+        },
+        {
+          "timestamp": "2026-05-21T19:14:10Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Type adjusted from extra to ultimate",
+          "previousValue": "extra",
+          "newValue": "ultimate"
         },
         {
           "timestamp": "2026-05-25T03:46:20Z",
@@ -4171,10 +5511,34 @@
           "details": "Added generic skill mattpocock-personal"
         },
         {
+          "timestamp": "2026-05-21T16:31:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 1★ (provisional)",
+          "previousValue": null,
+          "newValue": "1★"
+        },
+        {
           "timestamp": "2026-05-21T17:17:41Z",
           "action": "evidence_added",
           "contributor": "mbtiongson1",
           "details": "Added B evidence from https://github.com/mattpocock/skills"
+        },
+        {
+          "timestamp": "2026-05-21T17:19:20Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 1★ to 4★",
+          "previousValue": "1★",
+          "newValue": "4★"
+        },
+        {
+          "timestamp": "2026-05-21T17:19:20Z",
+          "action": "evidence_added",
+          "contributor": "mbtiongson1",
+          "details": "Added evidence: https://github.com/mattpocock/skills",
+          "previousValue": null,
+          "newValue": "4★"
         },
         {
           "timestamp": "2026-05-21T19:04:11Z",
@@ -4220,10 +5584,34 @@
           "details": "Added generic skill mattpocock-productivity"
         },
         {
+          "timestamp": "2026-05-21T16:31:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 1★ (provisional)",
+          "previousValue": null,
+          "newValue": "1★"
+        },
+        {
           "timestamp": "2026-05-21T17:17:21Z",
           "action": "evidence_added",
           "contributor": "mbtiongson1",
           "details": "Added B evidence from https://github.com/mattpocock/skills"
+        },
+        {
+          "timestamp": "2026-05-21T17:19:20Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 1★ to 4★",
+          "previousValue": "1★",
+          "newValue": "4★"
+        },
+        {
+          "timestamp": "2026-05-21T17:19:20Z",
+          "action": "evidence_added",
+          "contributor": "mbtiongson1",
+          "details": "Added evidence: https://github.com/mattpocock/skills",
+          "previousValue": null,
+          "newValue": "4★"
         },
         {
           "timestamp": "2026-05-21T19:04:11Z",
@@ -4284,6 +5672,14 @@
           "details": "Added generic skill mattpocock-skills"
         },
         {
+          "timestamp": "2026-05-21T16:31:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 1★ (provisional)",
+          "previousValue": null,
+          "newValue": "1★"
+        },
+        {
           "timestamp": "2026-05-21T17:18:01Z",
           "action": "evidence_added",
           "contributor": "mbtiongson1",
@@ -4294,6 +5690,22 @@
           "action": "evidence_added",
           "contributor": "mbtiongson1",
           "details": "Added A evidence from https://github.com/mbtiongson1/gaia-skill-tree/pull/352"
+        },
+        {
+          "timestamp": "2026-05-21T17:19:20Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 1★ to 6★",
+          "previousValue": "1★",
+          "newValue": "6★"
+        },
+        {
+          "timestamp": "2026-05-21T17:19:20Z",
+          "action": "evidence_added",
+          "contributor": "mbtiongson1",
+          "details": "Added evidence: https://github.com/mbtiongson1/gaia-skill-tree/pull/352, https://github.com/mattpocock/skills",
+          "previousValue": null,
+          "newValue": "6★"
         },
         {
           "timestamp": "2026-05-25T03:46:19Z",
@@ -4346,10 +5758,26 @@
       "version": "0.1.0",
       "timeline": [
         {
+          "timestamp": "2026-05-14T07:54:42Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 4★ (provisional)",
+          "previousValue": null,
+          "newValue": "4★"
+        },
+        {
           "timestamp": "2026-05-25T04:25:33Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 4★ to 3★"
+        },
+        {
+          "timestamp": "2026-05-25T04:44:23Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 4★ to 2★",
+          "previousValue": "4★",
+          "newValue": "2★"
         }
       ]
     },
@@ -4396,7 +5824,17 @@
       "status": "provisional",
       "createdAt": "2026-04-30",
       "updatedAt": "2026-05-10",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        }
+      ]
     },
     {
       "id": "mcp-server-creation",
@@ -4438,7 +5876,17 @@
       "status": "provisional",
       "createdAt": "2026-05-10",
       "updatedAt": "2026-05-10",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 4★ (provisional)",
+          "previousValue": null,
+          "newValue": "4★"
+        }
+      ]
     },
     {
       "id": "memory-manage",
@@ -4470,7 +5918,25 @@
       "status": "provisional",
       "createdAt": "2026-04-28",
       "updatedAt": "2026-04-28",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        },
+        {
+          "timestamp": "2026-05-18T16:24:05Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Type adjusted from basic to extra",
+          "previousValue": "basic",
+          "newValue": "extra"
+        }
+      ]
     },
     {
       "id": "memory-pattern-design",
@@ -4495,7 +5961,17 @@
       "status": "provisional",
       "createdAt": "2026-05-19",
       "updatedAt": "2026-05-19",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-19T16:29:16Z",
+          "action": "propose",
+          "contributor": "claude",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "ml-artifact-management",
@@ -4525,7 +6001,17 @@
       "status": "provisional",
       "createdAt": "2026-05-17",
       "updatedAt": "2026-05-17",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-17T13:00:26Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "ml-pipeline",
@@ -4561,7 +6047,17 @@
       "status": "provisional",
       "createdAt": "2026-04-30",
       "updatedAt": "2026-04-30",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 4★ (provisional)",
+          "previousValue": null,
+          "newValue": "4★"
+        }
+      ]
     },
     {
       "id": "molecular-databases",
@@ -4617,13 +6113,15 @@
           "timestamp": "2026-05-22T20:22:21Z",
           "action": "evidence_added",
           "contributor": "unknown",
-          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/chembl_database/SKILL.md"
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/pubchem_database/SKILL.md"
         },
         {
-          "timestamp": "2026-05-22T20:22:21Z",
-          "action": "evidence_added",
-          "contributor": "unknown",
-          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/pubchem_database/SKILL.md"
+          "timestamp": "2026-05-22T20:28:53Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
         }
       ]
     },
@@ -4666,10 +6164,26 @@
       "version": "0.2.0",
       "timeline": [
         {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 4★ (provisional)",
+          "previousValue": null,
+          "newValue": "4★"
+        },
+        {
           "timestamp": "2026-05-25T03:45:37Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 4★ to 2★"
+        },
+        {
+          "timestamp": "2026-05-25T03:46:10Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 4★ to 2★",
+          "previousValue": "4★",
+          "newValue": "2★"
         }
       ]
     },
@@ -4701,7 +6215,41 @@
       "createdAt": "2026-04-26",
       "updatedAt": "2026-04-26",
       "version": "0.1.0",
-      "title": "Grand Conductor"
+      "title": "Grand Conductor",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 5★ (provisional)",
+          "previousValue": null,
+          "newValue": "5★"
+        },
+        {
+          "timestamp": "2026-05-18T09:04:22Z",
+          "action": "evidence_added",
+          "contributor": "jules",
+          "details": "Added evidence: https://github.com/ruvnet/ruflo",
+          "previousValue": null,
+          "newValue": "5★"
+        },
+        {
+          "timestamp": "2026-05-18T15:45:47Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Type adjusted from ultimate to extra",
+          "previousValue": "ultimate",
+          "newValue": "extra"
+        },
+        {
+          "timestamp": "2026-05-19T22:44:52Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 5★ to 3★",
+          "previousValue": "5★",
+          "newValue": "3★"
+        }
+      ]
     },
     {
       "id": "multi-repo-coordination",
@@ -4726,7 +6274,17 @@
       "status": "provisional",
       "createdAt": "2026-05-19",
       "updatedAt": "2026-05-19",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-19T16:29:16Z",
+          "action": "propose",
+          "contributor": "claude",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "multimodal-reasoning",
@@ -4761,10 +6319,26 @@
       "version": "0.2.0",
       "timeline": [
         {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        },
+        {
           "timestamp": "2026-05-25T03:45:36Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 3★ to 2★"
+        },
+        {
+          "timestamp": "2026-05-25T03:46:10Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 3★ to 2★",
+          "previousValue": "3★",
+          "newValue": "2★"
         }
       ]
     },
@@ -4801,7 +6375,17 @@
       "status": "provisional",
       "createdAt": "2026-04-30",
       "updatedAt": "2026-04-30",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "optical-character-recognition",
@@ -4835,7 +6419,17 @@
       "status": "provisional",
       "createdAt": "2026-04-30",
       "updatedAt": "2026-04-30",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-19T22:59:16Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "parallel-execution",
@@ -4862,7 +6456,17 @@
       "status": "provisional",
       "createdAt": "2026-04-30",
       "updatedAt": "2026-04-30",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "parse-html",
@@ -4892,10 +6496,26 @@
       "version": "0.1.0",
       "timeline": [
         {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 1★ (provisional)",
+          "previousValue": null,
+          "newValue": "1★"
+        },
+        {
           "timestamp": "2026-05-25T04:25:33Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 1★ to 0★"
+        },
+        {
+          "timestamp": "2026-05-25T04:44:23Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 1★ to 0★",
+          "previousValue": "1★",
+          "newValue": "0★"
         }
       ],
       "demerits": [
@@ -4931,10 +6551,26 @@
       "version": "0.1.0",
       "timeline": [
         {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 1★ (provisional)",
+          "previousValue": null,
+          "newValue": "1★"
+        },
+        {
           "timestamp": "2026-05-25T04:25:34Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 1★ to 0★"
+        },
+        {
+          "timestamp": "2026-05-25T04:44:23Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 1★ to 0★",
+          "previousValue": "1★",
+          "newValue": "0★"
         }
       ],
       "demerits": [
@@ -4966,7 +6602,17 @@
       "status": "provisional",
       "createdAt": "2026-04-28",
       "updatedAt": "2026-04-28",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 1★ (provisional)",
+          "previousValue": null,
+          "newValue": "1★"
+        }
+      ]
     },
     {
       "id": "pathway-ontology-retrieval",
@@ -5035,13 +6681,15 @@
           "timestamp": "2026-05-22T20:22:35Z",
           "action": "evidence_added",
           "contributor": "unknown",
-          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/quickgo_database/SKILL.md"
+          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/embl_ebi_ols/SKILL.md"
         },
         {
-          "timestamp": "2026-05-22T20:22:35Z",
-          "action": "evidence_added",
-          "contributor": "unknown",
-          "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/embl_ebi_ols/SKILL.md"
+          "timestamp": "2026-05-22T20:28:53Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
         }
       ]
     },
@@ -5068,7 +6716,17 @@
       "status": "provisional",
       "createdAt": "2026-05-19",
       "updatedAt": "2026-05-19",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-19T16:29:16Z",
+          "action": "propose",
+          "contributor": "claude",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "personal-knowledge-management",
@@ -5104,10 +6762,34 @@
           "details": "Added generic skill personal-knowledge-management"
         },
         {
+          "timestamp": "2026-05-21T16:31:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 1★ (provisional)",
+          "previousValue": null,
+          "newValue": "1★"
+        },
+        {
           "timestamp": "2026-05-21T17:16:41Z",
           "action": "evidence_added",
           "contributor": "mbtiongson1",
           "details": "Added B evidence from https://github.com/mattpocock/skills/blob/main/skills/personal/obsidian-vault/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-21T17:19:20Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 1★ to 3★",
+          "previousValue": "1★",
+          "newValue": "3★"
+        },
+        {
+          "timestamp": "2026-05-21T17:19:20Z",
+          "action": "evidence_added",
+          "contributor": "mbtiongson1",
+          "details": "Added evidence: https://github.com/mattpocock/skills/blob/main/skills/personal/obsidian-vault/SKILL.md",
+          "previousValue": null,
+          "newValue": "3★"
         }
       ]
     },
@@ -5140,7 +6822,25 @@
       "status": "provisional",
       "createdAt": "2026-04-26",
       "updatedAt": "2026-04-26",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 4★ (provisional)",
+          "previousValue": null,
+          "newValue": "4★"
+        },
+        {
+          "timestamp": "2026-05-18T09:04:22Z",
+          "action": "evidence_added",
+          "contributor": "jules",
+          "details": "Added evidence: https://github.com/Skyvern-AI/skyvern",
+          "previousValue": null,
+          "newValue": "4★"
+        }
+      ]
     },
     {
       "id": "plan-decompose",
@@ -5178,10 +6878,26 @@
       "version": "0.1.0",
       "timeline": [
         {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 1★ (provisional)",
+          "previousValue": null,
+          "newValue": "1★"
+        },
+        {
           "timestamp": "2026-05-25T04:25:34Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 1★ to 0★"
+        },
+        {
+          "timestamp": "2026-05-25T04:44:23Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 1★ to 0★",
+          "previousValue": "1★",
+          "newValue": "0★"
         }
       ],
       "demerits": [
@@ -5217,7 +6933,17 @@
       "status": "provisional",
       "createdAt": "2026-05-19",
       "updatedAt": "2026-05-19",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-19T16:29:16Z",
+          "action": "propose",
+          "contributor": "claude",
+          "details": "Skill created as 4★ (provisional)",
+          "previousValue": null,
+          "newValue": "4★"
+        }
+      ]
     },
     {
       "id": "prd-generation",
@@ -5262,7 +6988,17 @@
       "status": "provisional",
       "createdAt": "2026-04-30",
       "updatedAt": "2026-04-30",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 4★ (provisional)",
+          "previousValue": null,
+          "newValue": "4★"
+        }
+      ]
     },
     {
       "id": "prediction-market-analysis",
@@ -5293,7 +7029,17 @@
       "status": "provisional",
       "createdAt": "2026-05-06",
       "updatedAt": "2026-05-06",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 4★ (provisional)",
+          "previousValue": null,
+          "newValue": "4★"
+        }
+      ]
     },
     {
       "id": "project-management",
@@ -5325,7 +7071,17 @@
       "status": "provisional",
       "createdAt": "2026-05-17",
       "updatedAt": "2026-05-17",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-17T13:00:26Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "prompt-injection-defense",
@@ -5366,7 +7122,17 @@
       "status": "provisional",
       "createdAt": "2026-04-30",
       "updatedAt": "2026-05-10",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        }
+      ]
     },
     {
       "id": "prompt-optimization",
@@ -5404,7 +7170,17 @@
       "status": "provisional",
       "createdAt": "2026-04-29",
       "updatedAt": "2026-04-29",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 4★ (provisional)",
+          "previousValue": null,
+          "newValue": "4★"
+        }
+      ]
     },
     {
       "id": "protein-structure-analysis",
@@ -5467,6 +7243,14 @@
           "action": "evidence_added",
           "contributor": "unknown",
           "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/foldseek_structural_search/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:28:53Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
         }
       ]
     },
@@ -5557,6 +7341,14 @@
           "action": "evidence_added",
           "contributor": "unknown",
           "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/string_database/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:28:53Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
         }
       ]
     },
@@ -5594,10 +7386,34 @@
           "details": "Added generic skill prototype"
         },
         {
+          "timestamp": "2026-05-21T16:31:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 1★ (provisional)",
+          "previousValue": null,
+          "newValue": "1★"
+        },
+        {
           "timestamp": "2026-05-21T17:15:41Z",
           "action": "evidence_added",
           "contributor": "mbtiongson1",
           "details": "Added B evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/prototype/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-21T17:19:20Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 1★ to 3★",
+          "previousValue": "1★",
+          "newValue": "3★"
+        },
+        {
+          "timestamp": "2026-05-21T17:19:20Z",
+          "action": "evidence_added",
+          "contributor": "mbtiongson1",
+          "details": "Added evidence: https://github.com/mattpocock/skills/blob/main/skills/engineering/prototype/SKILL.md",
+          "previousValue": null,
+          "newValue": "3★"
         }
       ]
     },
@@ -5637,7 +7453,33 @@
       "status": "provisional",
       "createdAt": "2026-04-28",
       "updatedAt": "2026-04-29",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 0★ (provisional)",
+          "previousValue": null,
+          "newValue": "0★"
+        },
+        {
+          "timestamp": "2026-05-19T22:44:52Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 0★ to 4★",
+          "previousValue": "0★",
+          "newValue": "4★"
+        },
+        {
+          "timestamp": "2026-05-19T22:44:52Z",
+          "action": "evidence_added",
+          "contributor": "mbtiongson1",
+          "details": "Added evidence: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/registry/named/garrytan/office-hours.md",
+          "previousValue": null,
+          "newValue": "4★"
+        }
+      ]
     },
     {
       "id": "rag-pipeline",
@@ -5676,7 +7518,17 @@
       "status": "provisional",
       "createdAt": "2026-04-26",
       "updatedAt": "2026-04-29",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        }
+      ]
     },
     {
       "id": "rank",
@@ -5706,10 +7558,26 @@
       "version": "0.1.0",
       "timeline": [
         {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 1★ (provisional)",
+          "previousValue": null,
+          "newValue": "1★"
+        },
+        {
           "timestamp": "2026-05-25T04:25:34Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 1★ to 0★"
+        },
+        {
+          "timestamp": "2026-05-25T04:44:23Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 1★ to 0★",
+          "previousValue": "1★",
+          "newValue": "0★"
         }
       ],
       "demerits": [
@@ -5752,7 +7620,17 @@
       "status": "provisional",
       "createdAt": "2026-04-28",
       "updatedAt": "2026-04-28",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        }
+      ]
     },
     {
       "id": "real-time-voice-assistant",
@@ -5796,7 +7674,25 @@
       "createdAt": "2026-04-28",
       "updatedAt": "2026-04-28",
       "version": "0.2.0",
-      "title": "Eternal Herald"
+      "title": "Eternal Herald",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 5★ (provisional)",
+          "previousValue": null,
+          "newValue": "5★"
+        },
+        {
+          "timestamp": "2026-05-18T15:45:47Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Type adjusted from ultimate to extra",
+          "previousValue": "ultimate",
+          "newValue": "extra"
+        }
+      ]
     },
     {
       "id": "reasoning-pattern-bank",
@@ -5824,7 +7720,17 @@
       "status": "provisional",
       "createdAt": "2026-05-19",
       "updatedAt": "2026-05-19",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-19T16:29:16Z",
+          "action": "propose",
+          "contributor": "claude",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        }
+      ]
     },
     {
       "id": "receiving-code-review",
@@ -5854,7 +7760,25 @@
       "status": "provisional",
       "createdAt": "2026-05-18",
       "updatedAt": "2026-05-19",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-18T14:11:08Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        },
+        {
+          "timestamp": "2026-05-19T13:55:59Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Type adjusted from basic to extra",
+          "previousValue": "basic",
+          "newValue": "extra"
+        }
+      ]
     },
     {
       "id": "recursive-self-improvement",
@@ -5876,7 +7800,33 @@
       "createdAt": "2026-04-26",
       "updatedAt": "2026-04-26",
       "version": "0.1.0",
-      "title": "Unbound Sage"
+      "title": "Unbound Sage",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 5★ (provisional)",
+          "previousValue": null,
+          "newValue": "5★"
+        },
+        {
+          "timestamp": "2026-05-18T09:04:22Z",
+          "action": "demote",
+          "contributor": "jules",
+          "details": "Calibrated/demoted rank from 5★ to 1★",
+          "previousValue": "5★",
+          "newValue": "1★"
+        },
+        {
+          "timestamp": "2026-05-18T15:45:47Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Type adjusted from ultimate to extra",
+          "previousValue": "ultimate",
+          "newValue": "extra"
+        }
+      ]
     },
     {
       "id": "refactor-code",
@@ -5903,7 +7853,17 @@
       "status": "provisional",
       "createdAt": "2026-04-28",
       "updatedAt": "2026-04-28",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "registry-curation",
@@ -5962,7 +7922,17 @@
       "status": "provisional",
       "createdAt": "2026-04-28",
       "updatedAt": "2026-04-30",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 4★ (provisional)",
+          "previousValue": null,
+          "newValue": "4★"
+        }
+      ]
     },
     {
       "id": "release-automation",
@@ -5991,7 +7961,17 @@
       "status": "provisional",
       "createdAt": "2026-04-30",
       "updatedAt": "2026-04-30",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "requesting-code-review",
@@ -6022,7 +8002,25 @@
       "status": "provisional",
       "createdAt": "2026-05-18",
       "updatedAt": "2026-05-19",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-18T14:11:08Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        },
+        {
+          "timestamp": "2026-05-19T13:55:59Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Type adjusted from basic to extra",
+          "previousValue": "basic",
+          "newValue": "extra"
+        }
+      ]
     },
     {
       "id": "requirements-analysis",
@@ -6050,7 +8048,17 @@
       "status": "provisional",
       "createdAt": "2026-04-30",
       "updatedAt": "2026-04-30",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "research",
@@ -6088,10 +8096,26 @@
       "version": "0.1.0",
       "timeline": [
         {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        },
+        {
           "timestamp": "2026-05-25T04:25:34Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 3★ to 2★"
+        },
+        {
+          "timestamp": "2026-05-25T04:44:23Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 3★ to 1★",
+          "previousValue": "3★",
+          "newValue": "1★"
         }
       ],
       "demerits": [
@@ -6130,10 +8154,26 @@
       "version": "0.1.0",
       "timeline": [
         {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 1★ (provisional)",
+          "previousValue": null,
+          "newValue": "1★"
+        },
+        {
           "timestamp": "2026-05-25T04:25:34Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 1★ to 0★"
+        },
+        {
+          "timestamp": "2026-05-25T04:44:23Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 1★ to 0★",
+          "previousValue": "1★",
+          "newValue": "0★"
         }
       ],
       "demerits": [
@@ -6173,7 +8213,17 @@
       "status": "provisional",
       "createdAt": "2026-04-30",
       "updatedAt": "2026-04-30",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "route-intent",
@@ -6205,10 +8255,26 @@
       "version": "0.1.0",
       "timeline": [
         {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 1★ (provisional)",
+          "previousValue": null,
+          "newValue": "1★"
+        },
+        {
           "timestamp": "2026-05-25T04:25:35Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 1★ to 0★"
+        },
+        {
+          "timestamp": "2026-05-25T04:44:23Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 1★ to 0★",
+          "previousValue": "1★",
+          "newValue": "0★"
         }
       ],
       "demerits": [
@@ -6252,6 +8318,14 @@
           "action": "fuse",
           "contributor": "mbtiongson1",
           "details": "Fused 6 Ruflo suite skills into /ruflo 6★ apex ultimate. Components: flow-nexus-orchestration, agent-memory-platform, github-platform-mastery, hive-mind-coordination, reasoning-pattern-bank, platform-modernization-sprint."
+        },
+        {
+          "timestamp": "2026-05-19T16:29:16Z",
+          "action": "propose",
+          "contributor": "claude",
+          "details": "Skill created as 6★ (provisional)",
+          "previousValue": null,
+          "newValue": "6★"
         }
       ]
     },
@@ -6278,7 +8352,17 @@
       "status": "provisional",
       "createdAt": "2026-04-30",
       "updatedAt": "2026-04-30",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "scientific-discovery",
@@ -6323,7 +8407,25 @@
       "createdAt": "2026-04-28",
       "updatedAt": "2026-05-23",
       "version": "0.2.0",
-      "title": "The Doctor"
+      "title": "The Doctor",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 5★ (provisional)",
+          "previousValue": null,
+          "newValue": "5★"
+        },
+        {
+          "timestamp": "2026-05-18T15:45:47Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Type adjusted from ultimate to extra",
+          "previousValue": "ultimate",
+          "newValue": "extra"
+        }
+      ]
     },
     {
       "id": "scientific-visualization",
@@ -6370,6 +8472,14 @@
       "version": "0.1.0",
       "timeline": [
         {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        },
+        {
           "timestamp": "2026-05-22T20:19:38Z",
           "action": "evidence_added",
           "contributor": "unknown",
@@ -6380,6 +8490,14 @@
           "action": "evidence_added",
           "contributor": "unknown",
           "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:28:53Z",
+          "action": "evidence_added",
+          "contributor": "mbtiongson1",
+          "details": "Added evidence: https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md",
+          "previousValue": null,
+          "newValue": "2★"
         }
       ]
     },
@@ -6417,7 +8535,17 @@
       "status": "provisional",
       "createdAt": "2026-04-30",
       "updatedAt": "2026-04-30",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        }
+      ]
     },
     {
       "id": "score-relevance",
@@ -6448,10 +8576,26 @@
       "version": "0.1.0",
       "timeline": [
         {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 1★ (provisional)",
+          "previousValue": null,
+          "newValue": "1★"
+        },
+        {
           "timestamp": "2026-05-25T04:25:35Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 1★ to 0★"
+        },
+        {
+          "timestamp": "2026-05-25T04:44:23Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 1★ to 0★",
+          "previousValue": "1★",
+          "newValue": "0★"
         }
       ],
       "demerits": [
@@ -6494,7 +8638,17 @@
       "status": "provisional",
       "createdAt": "2026-04-30",
       "updatedAt": "2026-05-10",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "self-consistency",
@@ -6525,16 +8679,48 @@
       "version": "0.2.0",
       "timeline": [
         {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 4★ (provisional)",
+          "previousValue": null,
+          "newValue": "4★"
+        },
+        {
+          "timestamp": "2026-05-14T20:30:46Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Type adjusted from basic to unique",
+          "previousValue": "basic",
+          "newValue": "unique"
+        },
+        {
           "timestamp": "2026-05-25T03:44:42Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
           "details": "Reclassified from unique to basic"
         },
         {
+          "timestamp": "2026-05-25T03:45:22Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Type adjusted from unique to basic",
+          "previousValue": "unique",
+          "newValue": "basic"
+        },
+        {
           "timestamp": "2026-05-25T03:45:37Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 4★ to 2★"
+        },
+        {
+          "timestamp": "2026-05-25T03:46:10Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 4★ to 2★",
+          "previousValue": "4★",
+          "newValue": "2★"
         }
       ]
     },
@@ -6572,7 +8758,17 @@
       "status": "provisional",
       "createdAt": "2026-04-28",
       "updatedAt": "2026-04-30",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 1★ (provisional)",
+          "previousValue": null,
+          "newValue": "1★"
+        }
+      ]
     },
     {
       "id": "semantic-cache",
@@ -6611,7 +8807,25 @@
       "status": "provisional",
       "createdAt": "2026-04-30",
       "updatedAt": "2026-04-30",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 4★ (provisional)",
+          "previousValue": null,
+          "newValue": "4★"
+        },
+        {
+          "timestamp": "2026-05-14T20:30:46Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Type adjusted from basic to unique",
+          "previousValue": "basic",
+          "newValue": "unique"
+        }
+      ]
     },
     {
       "id": "sentiment-analysis",
@@ -6695,7 +8909,33 @@
       "status": "provisional",
       "createdAt": "2026-04-28",
       "updatedAt": "2026-05-17",
-      "version": "1.0.0"
+      "version": "1.0.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 0★ (provisional)",
+          "previousValue": null,
+          "newValue": "0★"
+        },
+        {
+          "timestamp": "2026-05-17T11:00:41Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 0★ to 3★",
+          "previousValue": "0★",
+          "newValue": "3★"
+        },
+        {
+          "timestamp": "2026-05-17T11:00:41Z",
+          "action": "evidence_added",
+          "contributor": "mbtiongson1",
+          "details": "Added evidence: https://ojs.aaai.org/index.php/ICWSM/article/view/14550, https://github.com/declare-lab/conv-emotion and 6 more",
+          "previousValue": null,
+          "newValue": "3★"
+        }
+      ]
     },
     {
       "id": "sequential-agent-pipeline",
@@ -6720,7 +8960,17 @@
       "status": "provisional",
       "createdAt": "2026-05-19",
       "updatedAt": "2026-05-19",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-19T16:29:16Z",
+          "action": "propose",
+          "contributor": "claude",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "skill-authoring",
@@ -6779,6 +9029,14 @@
       "version": "0.1.0",
       "timeline": [
         {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 4★ (provisional)",
+          "previousValue": null,
+          "newValue": "4★"
+        },
+        {
           "timestamp": "2026-05-22T20:20:42Z",
           "action": "evidence_added",
           "contributor": "unknown",
@@ -6789,6 +9047,14 @@
           "action": "evidence_added",
           "contributor": "unknown",
           "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md"
+        },
+        {
+          "timestamp": "2026-05-22T20:28:53Z",
+          "action": "evidence_added",
+          "contributor": "mbtiongson1",
+          "details": "Added evidence: https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md",
+          "previousValue": null,
+          "newValue": "4★"
         }
       ]
     },
@@ -6818,7 +9084,25 @@
       "status": "provisional",
       "createdAt": "2026-04-30",
       "updatedAt": "2026-05-10",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 0★ (provisional)",
+          "previousValue": null,
+          "newValue": "0★"
+        },
+        {
+          "timestamp": "2026-05-19T22:44:52Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 0★ to 3★",
+          "previousValue": "0★",
+          "newValue": "3★"
+        }
+      ]
     },
     {
       "id": "skill-performance-benchmarking",
@@ -6867,7 +9151,17 @@
       "status": "provisional",
       "createdAt": "2026-05-10",
       "updatedAt": "2026-05-10",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 4★ (provisional)",
+          "previousValue": null,
+          "newValue": "4★"
+        }
+      ]
     },
     {
       "id": "skill-security-analysis",
@@ -6916,10 +9210,26 @@
       "version": "0.1.0",
       "timeline": [
         {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 4★ (provisional)",
+          "previousValue": null,
+          "newValue": "4★"
+        },
+        {
           "timestamp": "2026-05-25T03:45:37Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 4★ to 2★"
+        },
+        {
+          "timestamp": "2026-05-25T03:46:10Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 4★ to 2★",
+          "previousValue": "4★",
+          "newValue": "2★"
         }
       ]
     },
@@ -6948,7 +9258,17 @@
       "status": "provisional",
       "createdAt": "2026-04-28",
       "updatedAt": "2026-04-28",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "statistical-analysis",
@@ -6983,7 +9303,17 @@
       "status": "provisional",
       "createdAt": "2026-04-30",
       "updatedAt": "2026-05-10",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        }
+      ]
     },
     {
       "id": "stealth-browser-interaction",
@@ -7023,10 +9353,26 @@
       "version": "0.1.0",
       "timeline": [
         {
+          "timestamp": "2026-05-14T07:54:42Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 4★ (provisional)",
+          "previousValue": null,
+          "newValue": "4★"
+        },
+        {
           "timestamp": "2026-05-25T04:25:35Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 4★ to 3★"
+        },
+        {
+          "timestamp": "2026-05-25T04:44:23Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 4★ to 2★",
+          "previousValue": "4★",
+          "newValue": "2★"
         }
       ]
     },
@@ -7066,7 +9412,17 @@
       "status": "provisional",
       "createdAt": "2026-04-28",
       "updatedAt": "2026-05-10",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 1★ (provisional)",
+          "previousValue": null,
+          "newValue": "1★"
+        }
+      ]
     },
     {
       "id": "subagent-driven-development",
@@ -7097,7 +9453,25 @@
       "status": "provisional",
       "createdAt": "2026-05-18",
       "updatedAt": "2026-05-19",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-18T14:11:08Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 4★ (provisional)",
+          "previousValue": null,
+          "newValue": "4★"
+        },
+        {
+          "timestamp": "2026-05-19T13:55:59Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Type adjusted from basic to extra",
+          "previousValue": "basic",
+          "newValue": "extra"
+        }
+      ]
     },
     {
       "id": "summarize",
@@ -7131,6 +9505,16 @@
       "version": "0.1.0",
       "demerits": [
         "broken-evidence"
+      ],
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 0★ (provisional)",
+          "previousValue": null,
+          "newValue": "0★"
+        }
       ]
     },
     {
@@ -7177,6 +9561,14 @@
           "details": "Fused 11 obra/superpowers discipline skills into /superpowers ultimate. Components: brainstorming, writing-plans, executing-plans, dispatching-parallel-agents, subagent-driven-development, requesting-code-review, receiving-code-review, systematic-debugging, verification-before-completion, using-git-worktrees, finishing-a-development-branch. Promoted to 5 star on evidence: obra/superpowers v5.1.0, 196k+ stars, multi-platform adoption."
         },
         {
+          "timestamp": "2026-05-18T14:11:08Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 5★ (provisional)",
+          "previousValue": null,
+          "newValue": "5★"
+        },
+        {
           "timestamp": "2026-05-25T03:46:20Z",
           "action": "demote",
           "contributor": "mbtiongson1",
@@ -7207,7 +9599,17 @@
       "status": "provisional",
       "createdAt": "2026-05-19",
       "updatedAt": "2026-05-19",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-19T16:29:16Z",
+          "action": "propose",
+          "contributor": "claude",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "system-integration",
@@ -7232,7 +9634,17 @@
       "status": "provisional",
       "createdAt": "2026-05-19",
       "updatedAt": "2026-05-19",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-19T16:29:16Z",
+          "action": "propose",
+          "contributor": "claude",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "systematic-debugging",
@@ -7263,7 +9675,25 @@
       "status": "provisional",
       "createdAt": "2026-05-18",
       "updatedAt": "2026-05-19",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-18T14:11:08Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        },
+        {
+          "timestamp": "2026-05-19T13:55:59Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Type adjusted from basic to extra",
+          "previousValue": "basic",
+          "newValue": "extra"
+        }
+      ]
     },
     {
       "id": "test-driven-development",
@@ -7295,7 +9725,33 @@
       "status": "provisional",
       "createdAt": "2026-04-30",
       "updatedAt": "2026-04-30",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 0★ (provisional)",
+          "previousValue": null,
+          "newValue": "0★"
+        },
+        {
+          "timestamp": "2026-05-19T22:44:52Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 0★ to 3★",
+          "previousValue": "0★",
+          "newValue": "3★"
+        },
+        {
+          "timestamp": "2026-05-19T22:44:52Z",
+          "action": "evidence_added",
+          "contributor": "mbtiongson1",
+          "details": "Added evidence: https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md",
+          "previousValue": null,
+          "newValue": "3★"
+        }
+      ]
     },
     {
       "id": "text-to-speech",
@@ -7322,7 +9778,17 @@
       "status": "provisional",
       "createdAt": "2026-04-28",
       "updatedAt": "2026-04-28",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "text-to-sql-pipeline",
@@ -7354,10 +9820,26 @@
       "version": "0.2.0",
       "timeline": [
         {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        },
+        {
           "timestamp": "2026-05-25T03:45:36Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 3★ to 2★"
+        },
+        {
+          "timestamp": "2026-05-25T03:46:10Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 3★ to 2★",
+          "previousValue": "3★",
+          "newValue": "2★"
         }
       ]
     },
@@ -7389,7 +9871,17 @@
       "status": "provisional",
       "createdAt": "2026-05-14",
       "updatedAt": "2026-05-22",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-14T09:36:10Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "tokenize",
@@ -7408,10 +9900,26 @@
       "knownAgents": [],
       "timeline": [
         {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 0★ (provisional)",
+          "previousValue": null,
+          "newValue": "0★"
+        },
+        {
           "timestamp": "2026-05-20T00:02:47Z",
           "action": "add",
           "contributor": "unknown",
           "details": "Added generic skill tokenize"
+        },
+        {
+          "timestamp": "2026-05-20T00:05:31Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 0★ to 1★",
+          "previousValue": "0★",
+          "newValue": "1★"
         }
       ]
     },
@@ -7448,7 +9956,17 @@
       "status": "provisional",
       "createdAt": "2026-04-30",
       "updatedAt": "2026-04-30",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        }
+      ]
     },
     {
       "id": "tool-creation",
@@ -7487,7 +10005,17 @@
       "status": "provisional",
       "createdAt": "2026-04-29",
       "updatedAt": "2026-05-10",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 4★ (provisional)",
+          "previousValue": null,
+          "newValue": "4★"
+        }
+      ]
     },
     {
       "id": "tool-select",
@@ -7519,10 +10047,26 @@
       "version": "0.1.0",
       "timeline": [
         {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 1★ (provisional)",
+          "previousValue": null,
+          "newValue": "1★"
+        },
+        {
           "timestamp": "2026-05-25T04:25:35Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 1★ to 0★"
+        },
+        {
+          "timestamp": "2026-05-25T04:44:23Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 1★ to 0★",
+          "previousValue": "1★",
+          "newValue": "0★"
         }
       ],
       "demerits": [
@@ -7566,7 +10110,17 @@
       "status": "provisional",
       "createdAt": "2026-04-28",
       "updatedAt": "2026-04-29",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 1★ (provisional)",
+          "previousValue": null,
+          "newValue": "1★"
+        }
+      ]
     },
     {
       "id": "translate",
@@ -7593,7 +10147,17 @@
       "status": "provisional",
       "createdAt": "2026-04-28",
       "updatedAt": "2026-04-28",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 0★ (provisional)",
+          "previousValue": null,
+          "newValue": "0★"
+        }
+      ]
     },
     {
       "id": "translation-pipeline",
@@ -7625,10 +10189,26 @@
       "version": "0.2.0",
       "timeline": [
         {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        },
+        {
           "timestamp": "2026-05-25T03:45:36Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 3★ to 2★"
+        },
+        {
+          "timestamp": "2026-05-25T03:46:10Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 3★ to 2★",
+          "previousValue": "3★",
+          "newValue": "2★"
         }
       ]
     },
@@ -7667,7 +10247,17 @@
       "status": "provisional",
       "createdAt": "2026-04-29",
       "updatedAt": "2026-04-29",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 4★ (provisional)",
+          "previousValue": null,
+          "newValue": "4★"
+        }
+      ]
     },
     {
       "id": "ubiquitous-language",
@@ -7700,10 +10290,26 @@
       "version": "0.1.0",
       "timeline": [
         {
+          "timestamp": "2026-05-14T20:30:46Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 4★ (provisional)",
+          "previousValue": null,
+          "newValue": "4★"
+        },
+        {
           "timestamp": "2026-05-25T04:25:35Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 4★ to 3★"
+        },
+        {
+          "timestamp": "2026-05-25T04:44:23Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 4★ to 2★",
+          "previousValue": "4★",
+          "newValue": "2★"
         }
       ],
       "demerits": [
@@ -7738,7 +10344,25 @@
       "status": "provisional",
       "createdAt": "2026-05-18",
       "updatedAt": "2026-05-19",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-18T14:11:08Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 1★ (provisional)",
+          "previousValue": null,
+          "newValue": "1★"
+        },
+        {
+          "timestamp": "2026-05-19T13:55:59Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Type adjusted from basic to extra",
+          "previousValue": "basic",
+          "newValue": "extra"
+        }
+      ]
     },
     {
       "id": "ux-audit",
@@ -7772,7 +10396,33 @@
       "status": "provisional",
       "createdAt": "2026-04-30",
       "updatedAt": "2026-05-18",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 0★ (provisional)",
+          "previousValue": null,
+          "newValue": "0★"
+        },
+        {
+          "timestamp": "2026-05-19T22:44:52Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 0★ to 4★",
+          "previousValue": "0★",
+          "newValue": "4★"
+        },
+        {
+          "timestamp": "2026-05-19T22:44:52Z",
+          "action": "evidence_added",
+          "contributor": "mbtiongson1",
+          "details": "Added evidence: https://github.com/pbakaus/impeccable",
+          "previousValue": null,
+          "newValue": "4★"
+        }
+      ]
     },
     {
       "id": "vector-db-optimization",
@@ -7797,7 +10447,17 @@
       "status": "provisional",
       "createdAt": "2026-05-19",
       "updatedAt": "2026-05-19",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-19T16:29:16Z",
+          "action": "propose",
+          "contributor": "claude",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "vector-search",
@@ -7822,7 +10482,17 @@
       "status": "provisional",
       "createdAt": "2026-05-19",
       "updatedAt": "2026-05-19",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-19T16:29:16Z",
+          "action": "propose",
+          "contributor": "claude",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "verification-before-completion",
@@ -7853,7 +10523,25 @@
       "status": "provisional",
       "createdAt": "2026-05-18",
       "updatedAt": "2026-05-19",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-18T14:11:08Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 1★ (provisional)",
+          "previousValue": null,
+          "newValue": "1★"
+        },
+        {
+          "timestamp": "2026-05-19T13:55:59Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Type adjusted from basic to extra",
+          "previousValue": "basic",
+          "newValue": "extra"
+        }
+      ]
     },
     {
       "id": "vertical-slice-planning",
@@ -7883,7 +10571,17 @@
       "status": "provisional",
       "createdAt": "2026-04-30",
       "updatedAt": "2026-04-30",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        }
+      ]
     },
     {
       "id": "video-intelligence",
@@ -7913,7 +10611,17 @@
       "status": "provisional",
       "createdAt": "2026-05-14",
       "updatedAt": "2026-05-14",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-14T09:36:10Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        }
+      ]
     },
     {
       "id": "vision-qa",
@@ -7948,10 +10656,26 @@
       "version": "0.1.0",
       "timeline": [
         {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        },
+        {
           "timestamp": "2026-05-25T03:45:36Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 3★ to 2★"
+        },
+        {
+          "timestamp": "2026-05-25T03:46:10Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 3★ to 2★",
+          "previousValue": "3★",
+          "newValue": "2★"
         }
       ]
     },
@@ -7987,7 +10711,17 @@
       "status": "provisional",
       "createdAt": "2026-04-28",
       "updatedAt": "2026-04-28",
-      "version": "0.2.0"
+      "version": "0.2.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        }
+      ]
     },
     {
       "id": "web-scrape",
@@ -8023,10 +10757,26 @@
       "version": "0.1.0",
       "timeline": [
         {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        },
+        {
           "timestamp": "2026-05-25T04:25:36Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 3★ to 2★"
+        },
+        {
+          "timestamp": "2026-05-25T04:44:23Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 3★ to 1★",
+          "previousValue": "3★",
+          "newValue": "1★"
         }
       ],
       "demerits": [
@@ -8064,10 +10814,26 @@
       "version": "0.1.0",
       "timeline": [
         {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 1★ (provisional)",
+          "previousValue": null,
+          "newValue": "1★"
+        },
+        {
           "timestamp": "2026-05-25T04:25:36Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 1★ to 0★"
+        },
+        {
+          "timestamp": "2026-05-25T04:44:23Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 1★ to 0★",
+          "previousValue": "1★",
+          "newValue": "0★"
         }
       ],
       "demerits": [
@@ -8103,7 +10869,17 @@
       "status": "provisional",
       "createdAt": "2026-05-06",
       "updatedAt": "2026-05-06",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 4★ (provisional)",
+          "previousValue": null,
+          "newValue": "4★"
+        }
+      ]
     },
     {
       "id": "worker-agent-dispatch",
@@ -8128,7 +10904,17 @@
       "status": "provisional",
       "createdAt": "2026-05-19",
       "updatedAt": "2026-05-19",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-19T16:29:16Z",
+          "action": "propose",
+          "contributor": "claude",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "workflow-automation",
@@ -8175,7 +10961,17 @@
       "status": "provisional",
       "createdAt": "2026-04-30",
       "updatedAt": "2026-04-30",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 4★ (provisional)",
+          "previousValue": null,
+          "newValue": "4★"
+        }
+      ]
     },
     {
       "id": "workspace-automation",
@@ -8207,7 +11003,17 @@
       "status": "provisional",
       "createdAt": "2026-05-17",
       "updatedAt": "2026-05-17",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-17T13:00:26Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        }
+      ]
     },
     {
       "id": "write-report",
@@ -8241,10 +11047,26 @@
       "version": "0.1.0",
       "timeline": [
         {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 1★ (provisional)",
+          "previousValue": null,
+          "newValue": "1★"
+        },
+        {
           "timestamp": "2026-05-25T04:25:36Z",
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 1★ to 0★"
+        },
+        {
+          "timestamp": "2026-05-25T04:44:23Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 1★ to 0★",
+          "previousValue": "1★",
+          "newValue": "0★"
         }
       ],
       "demerits": [
@@ -8280,7 +11102,25 @@
       "status": "provisional",
       "createdAt": "2026-05-18",
       "updatedAt": "2026-05-19",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-18T14:11:08Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        },
+        {
+          "timestamp": "2026-05-19T13:55:59Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Type adjusted from basic to extra",
+          "previousValue": "basic",
+          "newValue": "extra"
+        }
+      ]
     },
     {
       "id": "x-twitter-automation",
@@ -8311,7 +11151,17 @@
       "status": "provisional",
       "createdAt": "2026-05-15",
       "updatedAt": "2026-05-15",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-15T09:42:29Z",
+          "action": "propose",
+          "contributor": "kriptoburak",
+          "details": "Skill created as 4★ (provisional)",
+          "previousValue": null,
+          "newValue": "4★"
+        }
+      ]
     }
   ],
   "edges": [

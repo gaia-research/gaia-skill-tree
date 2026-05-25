@@ -34,10 +34,34 @@
       "details": "Added generic skill mattpocock-productivity"
     },
     {
+      "timestamp": "2026-05-21T16:31:25Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 1★ (provisional)",
+      "previousValue": null,
+      "newValue": "1★"
+    },
+    {
       "timestamp": "2026-05-21T17:17:21Z",
       "action": "evidence_added",
       "contributor": "mbtiongson1",
       "details": "Added B evidence from https://github.com/mattpocock/skills"
+    },
+    {
+      "timestamp": "2026-05-21T17:19:20Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated/demoted rank from 1★ to 4★",
+      "previousValue": "1★",
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-05-21T17:19:20Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence: https://github.com/mattpocock/skills",
+      "previousValue": null,
+      "newValue": "4★"
     },
     {
       "timestamp": "2026-05-21T19:04:11Z",

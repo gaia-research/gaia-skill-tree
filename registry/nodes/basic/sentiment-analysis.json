@@ -80,5 +80,31 @@
   "status": "provisional",
   "createdAt": "2026-04-28",
   "updatedAt": "2026-05-17",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-13T21:50:25Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 0★ (provisional)",
+      "previousValue": null,
+      "newValue": "0★"
+    },
+    {
+      "timestamp": "2026-05-17T11:00:41Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated/demoted rank from 0★ to 3★",
+      "previousValue": "0★",
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-05-17T11:00:41Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence: https://ojs.aaai.org/index.php/ICWSM/article/view/14550, https://github.com/declare-lab/conv-emotion and 6 more",
+      "previousValue": null,
+      "newValue": "3★"
+    }
+  ]
 }
