@@ -594,10 +594,11 @@ button.nav-copy-agent {
 #hero.hero-graph-peek .ledger-strip,
 #hero.hero-graph-peek .scroll-hint,
 #hero.hero-graph-peek .hero-audit-btn {
-  opacity: 0;
+  opacity: 0 !important;
   filter: blur(8px);
   pointer-events: none;
   transform: translateY(10px);
+  animation: none !important;
 }
 
 .hero-pills {
@@ -709,10 +710,16 @@ button.nav-copy-agent {
 #hero.hero-hud-mode .hero-cta,
 #hero.hero-hud-mode .two-doors,
 #hero.hero-hud-mode .ledger-strip,
-#hero.hero-hud-mode .scroll-hint,
-#hero.hero-hud-mode .hero-audit-btn {
+#hero.hero-hud-mode .scroll-hint {
   opacity: .18;
   pointer-events: none;
+  transition: opacity .4s ease;
+}
+
+#hero.hero-hud-mode .hero-audit-btn {
+  opacity: 0 !important;
+  pointer-events: none;
+  animation: none !important;
   transition: opacity .4s ease;
 }
 
@@ -4672,7 +4679,7 @@ tr:hover td {
 #nsGrid {
   cursor: grab;
   user-select: none;
-  max-height: 65vh;
+  max-height: 78vh;
   overflow-y: auto;
   padding-right: 4px;
 }
@@ -7324,7 +7331,7 @@ button.nav-graph-trigger:hover {
   font-weight: 600;
   padding: 0.6rem 1.25rem;
   cursor: pointer;
-  border-radius: 999px;
+  border-radius: 8px;
   transition: border-color .2s, color .2s;
   align-self: flex-start;
   margin-top: 0.5rem;
@@ -7746,26 +7753,20 @@ button.nav-graph-trigger:hover {
    scrollable with snap. Reduced-motion gets the manual mode unconditionally. */
 .hoh-track-wrap {
   position: relative;
-  overflow: hidden;
   margin: 2rem auto;
   max-width: 1200px;
-  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
 }
 
 .hoh-track {
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
-  width: max-width;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  padding-bottom: 1rem;
-  scroll-padding-left: 1.5rem;
+  justify-content: center;
+  padding-bottom: 0.5rem;
 }
 
 .hoh-track>* {
-  scroll-snap-align: start
+  flex: 0 0 auto;
 }
 
 /* Stage 2 — Hall of Heroes mini-plaque stars now render through the
@@ -7780,28 +7781,6 @@ button.nav-graph-trigger:hover {
 .hoh-footer {
   margin-top: 1.5rem;
   text-align: center
-}
-
-@keyframes hoh-drift {
-  from {
-    transform: translateX(0)
-  }
-
-  to {
-    transform: translateX(-50%)
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hoh-track {
-    animation: none;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-  }
-
-  .hoh-track>* {
-    scroll-snap-align: start
-  }
 }
 
 /* ── ASCENSION CYCLE ── */
@@ -8811,23 +8790,34 @@ button.nav-graph-trigger:hover {
 
 /* Sidebar and Backdrop foundation */
 .meta-sidebar-backdrop {
-  display: none !important; /* absolutely hidden on desktop! */
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: transparent;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.meta-sidebar-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .meta-sidebar {
   position: fixed;
-  top: 80px; /* sit below the top nav bar with a nice margin */
+  top: 80px;
   right: 24px;
   width: 460px;
-  height: calc(100vh - 104px); /* full height minus top and bottom margins */
-  z-index: 999;
-  background: rgba(13, 10, 22, 0.96); /* premium deeply-tinted brand slate */
+  height: calc(100vh - 104px);
+  z-index: 10000;
+  background: rgba(13, 10, 22, 0.96);
   border: 1px solid rgba(192, 132, 252, 0.25);
-  border-radius: 0; /* Strictly Boxy */
+  border-radius: 0;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 35px rgba(192, 132, 252, 0.05);
   display: flex;
   flex-direction: column;
-  transform: translateX(calc(100% + 40px)); /* slide out with space */
+  transform: translateX(calc(100% + 40px));
   transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
   visibility: hidden;
   overflow: hidden;
@@ -9064,11 +9054,11 @@ button.nav-graph-trigger:hover {
 .mr-pagination {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   padding: 0.6rem 0.4rem 0;
   border-top: 1px solid var(--border);
   flex-shrink: 0;
-  gap: 1rem;
+  gap: 0.5rem;
 }
 
 .mr-page-num {
@@ -9076,12 +9066,38 @@ button.nav-graph-trigger:hover {
   font-size: 0.72rem;
   color: var(--muted);
   letter-spacing: 0.02em;
+  min-width: 80px;
+  text-align: center;
 }
 
 .mr-pagination .meta-btn-icon:disabled {
   opacity: 0.25;
   pointer-events: none;
   border-color: var(--border);
+}
+
+/* Date filter row */
+.mr-date-row {
+  margin-top: 0.5rem;
+}
+
+.mr-year-select {
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+  width: 100%;
+  transition: border-color .2s;
+}
+
+.mr-year-select:hover,
+.mr-year-select:focus {
+  border-color: rgba(192,132,252,.5);
+  outline: none;
 }
 
 /* Swiping animation support */
@@ -9092,16 +9108,10 @@ button.nav-graph-trigger:hover {
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .meta-sidebar-backdrop {
-    display: block !important;
-    position: fixed;
-    inset: 0;
-    z-index: 998;
     background: rgba(3, 7, 18, 0.75);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 9999;
   }
-  
+
   .meta-sidebar-backdrop.open {
     opacity: 1;
     pointer-events: auto;

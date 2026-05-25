@@ -391,19 +391,70 @@
     tlEvents.sort(function (a, b) {
       return b.date - a.date;
     });
-    
-    // Render Timeline
+
+    // Build year-filter select dynamically from event data
+    (function() {
+      var yearSet = {};
+      tlEvents.forEach(function(ev) { yearSet[new Date(ev.date).getFullYear()] = true; });
+      var years = Object.keys(yearSet).sort(function(a, b) { return b - a; });
+      var mrControls = document.querySelector('.mr-controls');
+      if (!mrControls || !years.length) return;
+      var row = document.createElement('div');
+      row.className = 'mr-date-row';
+      var sel = document.createElement('select');
+      sel.className = 'mr-year-select';
+      sel.id = 'mrYearSelect';
+      sel.setAttribute('aria-label', 'Filter by year');
+      var optAll = document.createElement('option');
+      optAll.value = 'all';
+      optAll.textContent = 'All years';
+      sel.appendChild(optAll);
+      years.forEach(function(y) {
+        var opt = document.createElement('option');
+        opt.value = y;
+        opt.textContent = y;
+        sel.appendChild(opt);
+      });
+      row.appendChild(sel);
+      mrControls.appendChild(row);
+    })();
     var mrTimeline = document.getElementById('mrTimeline');
     var mrFooter = document.getElementById('mrFooter');
     var mrFilterTabs = document.getElementById('mrFilterTabs');
     var currentPage = 1;
-    var pageSize = 12; // Display 12 events per page for maximum compactness
+    var pageSize = 15;
     var currentFilter = 'all';
+    var currentYear = 'all';
+
+    // Maps tab data-action → array of raw schema actions that match
+    var FILTER_GROUPS = {
+      'all':      null,
+      'promoted': ['rank_up', 'ascend'],
+      'named':    ['name'],
+      'evidence': ['evidence'],
+      'added':    ['push', 'propose', 'register'],
+      'fused':    ['fuse', 'bond'],
+      'demoted':  ['demote']
+    };
     
-    // Count events per action for tab badges
+    // Count events per filter group for tab badges
     function countByAction(action) {
-      if (action === 'all') return tlEvents.length;
-      return tlEvents.filter(function (ev) { return ev.action === action; }).length;
+      var base = currentYear === 'all' ? tlEvents : tlEvents.filter(matchesYear);
+      if (action === 'all') return base.length;
+      var actions = FILTER_GROUPS[action];
+      if (!actions) return 0;
+      return base.filter(function (ev) { return actions.indexOf(ev.action) !== -1; }).length;
+    }
+
+    function matchesFilter(ev) {
+      if (currentFilter === 'all') return true;
+      var actions = FILTER_GROUPS[currentFilter];
+      return actions ? actions.indexOf(ev.action) !== -1 : false;
+    }
+
+    function matchesYear(ev) {
+      if (currentYear === 'all') return true;
+      return new Date(ev.date).getFullYear() === parseInt(currentYear, 10);
     }
 
     function updateTabCounts() {
@@ -430,7 +481,7 @@
       if (!mrTimeline) return;
 
       var filteredEvents = tlEvents.filter(function (ev) {
-        return currentFilter === 'all' || ev.action === currentFilter;
+        return matchesFilter(ev) && matchesYear(ev);
       });
 
       var totalEvents = filteredEvents.length;
@@ -482,7 +533,7 @@
         }
 
         var dateStr = new Date(ev.date).toISOString().split('T')[0];
-        var delay = (staggerIdx % 12) * 0.03;
+        var delay = (staggerIdx % 15) * 0.03;
         staggerIdx++;
 
         var clickAttr = ' role="button" tabindex="0" onclick="if(typeof openSkillExplorer===\'function\')openSkillExplorer(\'' + jsStr(ev.skillId) + '\')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();this.click();}"';
@@ -566,8 +617,19 @@
           btn.setAttribute('aria-selected', 'true');
 
           currentFilter = btn.dataset.action || 'all';
-          currentPage = 1; // Reset to page 1 on filter click
+          currentPage = 1;
           renderMetaReport();
+        });
+      }
+
+      // Year filter
+      var mrYearSelect = document.getElementById('mrYearSelect');
+      if (mrYearSelect) {
+        mrYearSelect.addEventListener('change', function() {
+          currentYear = this.value;
+          currentPage = 1;
+          renderMetaReport();
+          updateTabCounts();
         });
       }
 
@@ -709,17 +771,14 @@
           text += 'Generated: ' + new Date().toISOString().replace('T', ' ').substring(0, 19) + ' UTC\n\n';
           text += 'A living chronicle of registry evolution: every rank-up, name claim, fusion, and evidence review recorded.\n\n';
           
-          var filteredEvents = tlEvents;
-          if (currentFilter !== 'all') {
-            filteredEvents = tlEvents.filter(function (ev) { return ev.action === currentFilter; });
-          }
-          
+          var filteredEvents = tlEvents.filter(function (ev) { return matchesFilter(ev) && matchesYear(ev); });
+
           filteredEvents.forEach(function(ev) {
             var dateStr = new Date(ev.date).toISOString().split('T')[0];
             var actionStr = ev.action.toUpperCase().replace('_', ' ');
             text += '- **[' + dateStr + ']** [' + actionStr + '] ' + ev.name + ' (' + ev.type + '): ' + ev.details + '\n';
           });
-          
+
           if (window.copyToClipboard) {
             window.copyToClipboard(text).then(function() {
               var svgUse = metaCopyBtn.querySelector('use');
@@ -747,17 +806,14 @@
           text += 'Generated: ' + new Date().toISOString().replace('T', ' ').substring(0, 19) + ' UTC\n\n';
           text += 'A living chronicle of registry evolution: every rank-up, name claim, fusion, and evidence review recorded.\n\n';
           
-          var filteredEvents = tlEvents;
-          if (currentFilter !== 'all') {
-            filteredEvents = tlEvents.filter(function (ev) { return ev.action === currentFilter; });
-          }
-          
+          var filteredEvents = tlEvents.filter(function (ev) { return matchesFilter(ev) && matchesYear(ev); });
+
           filteredEvents.forEach(function(ev) {
             var dateStr = new Date(ev.date).toISOString().split('T')[0];
             var actionStr = ev.action.toUpperCase().replace('_', ' ');
             text += '- **[' + dateStr + ']** [' + actionStr + '] ' + ev.name + ' (' + ev.type + '): ' + ev.details + '\n';
           });
-          
+
           var blob = new Blob([text], { type: 'text/markdown;charset=utf-8;' });
           var url = URL.createObjectURL(blob);
           var link = document.createElement('a');
