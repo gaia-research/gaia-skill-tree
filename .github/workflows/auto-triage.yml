@@ -82,8 +82,9 @@ jobs:
     steps:
       - name: Check evidence threshold
         id: gate
+        env:
+          SCORE: ${{ needs.classify.outputs.evidence_score }}
         run: |
-          SCORE=${{ needs.classify.outputs.evidence_score }}
           if [ "${SCORE:-0}" -ge 60 ]; then
             echo "pass=true" >> $GITHUB_OUTPUT
           else

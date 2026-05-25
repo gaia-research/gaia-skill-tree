@@ -38,10 +38,10 @@
 (function () {
   function esc(str) {
     return String(str == null ? '' : str)
-      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+      .replace(/\\/g,'\\\\').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
-  function nsClick(id) { return 'onclick="openSkillExplorer(\''+id.replace(/'/g,"\\'")+'\')\"'; }
+  function nsClick(id) { return 'onclick="openSkillExplorer(\''+id.replace(/\\/g,'\\\\').replace(/'/g,"\\'")+'\')\"'; }
   function nsDisplayName(ns) { return ns.name || ns.id.split('/')[1] || ns.id; }
   // Phase 8d — atlas-helpers fallbacks if the helper script failed to load.
   function nsSlug(ns) {
@@ -193,7 +193,7 @@
         };
         if (isGhost) {
           // Ghost plaque click opens the "gaia propose" dialog so the user can claim the unnamed skill.
-          dagOpts.onclick = 'event.stopPropagation();(function(id){var sm=window._gaiaSkillMap||{};var g=sm[id];if(g&&typeof window.openUnnamedPopup===\'function\')window.openUnnamedPopup(g);})(\'' + String(id).replace(/'/g,"\\'") + '\')';
+          dagOpts.onclick = 'event.stopPropagation();(function(id){var sm=window._gaiaSkillMap||{};var g=sm[id];if(g&&typeof window.openUnnamedPopup===\'function\')window.openUnnamedPopup(g);})(\'' + String(id).replace(/\\/g,'\\\\').replace(/'/g,"\\'") + '\')';
         }
         var miniHtml = (window.plaque && typeof window.plaque.renderMini === 'function')
           ? window.plaque.renderMini(miniNs, dagOpts)
@@ -274,7 +274,7 @@
         }
         trace(nodeId);
         Object.keys(related).forEach(function(id) {
-          var node = document.querySelector('#nsDag .git-node[data-id="' + id.replace(/"/g, '\\"') + '"]');
+          var node = document.querySelector('#nsDag .git-node[data-id="' + id.replace(/\\/g,'\\\\').replace(/"/g, '\\"') + '"]');
           if (node) node.classList.add('show-label');
         });
       };
@@ -295,7 +295,7 @@
         document.querySelectorAll('#nsDag .git-node.show-label').forEach(function(n) { n.classList.remove('show-label'); });
         document.querySelectorAll('#nsDagSvg .git-path').forEach(function(p) { p.classList.remove('active-path','dimmed'); });
 
-        var node = document.querySelector('#nsDag .git-node[data-id="' + nodeId.replace(/"/g, '\\"') + '"]');
+        var node = document.querySelector('#nsDag .git-node[data-id="' + nodeId.replace(/\\/g,'\\\\').replace(/"/g, '\\"') + '"]');
         if (!node) return;
         node.classList.add('selected');
         window._selectedTreeNode = nodeId;
@@ -323,7 +323,7 @@
 
         // Show labels on every related node (ancestors + descendants)
         Object.keys(related).forEach(function(id) {
-          var n = document.querySelector('#nsDag .git-node[data-id="' + id.replace(/"/g, '\\"') + '"]');
+          var n = document.querySelector('#nsDag .git-node[data-id="' + id.replace(/\\/g,'\\\\').replace(/"/g, '\\"') + '"]');
           if (n) n.classList.add('show-label');
         });
       };
