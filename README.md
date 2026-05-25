@@ -34,7 +34,7 @@ Every AI agent capability exists somewhere on this graph. Skills start at the fo
   │  │  ├─ ○ huggingface/hf-cli  [2★]
   │  │  └─ ○ /tool-use  [1★]
   │  └─ ◇ ruvnet/flow-nexus-neural  [3★]
-  │     ├─ ○ /parallel-execution  [2★]
+  │     ├─ ○ intelligentcode-ai/parallel-execution  [2★]
   │     └─ ○ /embed-text  [1★]
   ├─ ◆ ruvnet/agentdb  [5★]
   │  ├─ ◇ ruvnet/agentdb-advanced  [3★]
@@ -44,7 +44,7 @@ Every AI agent capability exists somewhere on this graph. Skills start at the fo
 
 ◆ mattpocock/skills  [6★]
   ├─ ◆ mattpocock/engineering  [5★]
-  │  ├─ ◇ devin-ai/autonomous-swe  [4★]
+  │  ├─ ◇ devin-ai/autonomous-swe  [3★]
   │  │  ├─ ○ garrytan/design-html  [1★]
   │  │  ├─ ○ /code-execution  [2★]
   │  │  └─ ○ /error-interpretation  [1★]
@@ -60,10 +60,9 @@ Every AI agent capability exists somewhere on this graph. Skills start at the fo
 
 Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
   ◉ nousresearch/feed-monitoring  [4★ · Hardened]
-  ◉ openai/few-shot-learning  [4★ · Hardened]
   ◉ huggingface/huggingface-llm-trainer  [4★ · Hardened]
   ◉ ruvnet/hive-mind-coordination  [4★ · Hardened]
-  ◉ openai/self-consistency  [4★ · Hardened]
+  ◉ huggingface/semantic-cache  [4★ · Hardened]
 
 (211 skills total — see docs/tree.md)
 ```

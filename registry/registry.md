@@ -15,7 +15,7 @@
 | ○ /audience-model | Basic Skill | 1★ | Awakened | `/audience-model` |
 | ◇ [0xdarkmatter](../docs/u/0xdarkmatter/)/pytest-patterns | Extra Skill | 3★ | Evolved | `/automated-testing` |
 | ◇ /autonomous-data-scientist | Extra Skill | 5★ | Transcendent | `/autonomous-data-scientist` |
-| ◇ [devin-ai](../docs/u/devin-ai/)/autonomous-swe | Extra Skill | 4★ | Hardened | `/autonomous-debug` |
+| ◇ [devin-ai](../docs/u/devin-ai/)/autonomous-swe | Extra Skill | 3★ | Evolved | `/autonomous-debug` |
 | ◇ [karpathy](../docs/u/karpathy/)/autoresearch | Extra Skill | 4★ | Hardened | `/autonomous-web-research` |
 | ○ /bioinformatic-sequence-analysis | Basic Skill | 2★ | Named | `/bioinformatic-sequence-analysis` |
 | ◇ [obra](../docs/u/obra/)/brainstorming | Extra Skill | 1★ | Awakened | `/brainstorming` |
@@ -31,11 +31,11 @@
 | ○ /code-execution | Basic Skill | 2★ | Named | `/code-execution` |
 | ○ [mattpocock](../docs/u/mattpocock/)/zoom-out | Basic Skill | 2★ | Named | `/code-explain` |
 | ○ [garrytan](../docs/u/garrytan/)/design-html | Basic Skill | 1★ | Awakened | `/code-generation` |
-| ◇ [garrytan](../docs/u/garrytan/)/plan-eng-review | Extra Skill | 3★ | Evolved | `/code-review-pipeline` |
+| ◇ [garrytan](../docs/u/garrytan/)/plan-eng-review | Extra Skill | 2★ | Named | `/code-review-pipeline` |
 | ◇ /collaborative-diagramming | Extra Skill | 2★ | Named | `/collaborative-diagramming` |
 | ◇ /computational-biology-workflows | Extra Skill | 4★ | Hardened | `/computational-biology-workflows` |
 | ○ /computer-use | Basic Skill | 2★ | Named | `/computer-use` |
-| ◇ /content-moderation | Extra Skill | 3★ | Evolved | `/content-moderation` |
+| ◇ /content-moderation | Extra Skill | 2★ | Named | `/content-moderation` |
 | ○ [garrytan](../docs/u/garrytan/)/context-restore | Basic Skill | 3★ | Evolved | `/context-compression` |
 | ◇ /conversational-agent | Extra Skill | 3★ | Evolved | `/conversational-agent` |
 | ○ [ruvnet](../docs/u/ruvnet/)/v3-core-implementation | Basic Skill | 2★ | Named | `/core-platform-implementation` |
@@ -61,13 +61,12 @@
 | ◇ [obra](../docs/u/obra/)/executing-plans | Extra Skill | 2★ | Named | `/executing-plans` |
 | ○ /extract-entities | Basic Skill | 1★ | Awakened | `/extract-entities` |
 | ◉ [nousresearch](../docs/u/nousresearch/)/feed-monitoring | Unique Skill | 4★ | Hardened | `/feed-monitoring` |
-| ◉ [openai](../docs/u/openai/)/few-shot-learning | Unique Skill | 4★ | Hardened | `/few-shot-learning` |
 | ◉ [huggingface](../docs/u/huggingface/)/huggingface-llm-trainer | Unique Skill | 4★ | Hardened | `/fine-tune` |
 | ◇ [obra](../docs/u/obra/)/finishing-a-development-branch | Extra Skill | 2★ | Named | `/finishing-a-development-branch` |
 | ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus | Extra Skill | 4★ | Hardened | `/flow-nexus-orchestration` |
 | ○ [garrytan](../docs/u/garrytan/)/make-pdf | Basic Skill | 0★ | Basic | `/format-output` |
 | ◇ /full-stack-developer | Extra Skill | 5★ | Transcendent | `/full-stack-developer` |
-| ◇ /function-calling | Extra Skill | 3★ | Evolved | `/function-calling` |
+| ◇ /function-calling | Extra Skill | 2★ | Named | `/function-calling` |
 | ◇ /gaia-audit | Extra Skill | 4★ | Hardened | `/gaia-audit` |
 | ◇ /gaia-meta-audit | Extra Skill | 3★ | Evolved | `/gaia-meta-audit` |
 | ○ /generate-sql | Basic Skill | 2★ | Named | `/generate-sql` |
@@ -110,12 +109,12 @@
 | ◇ /ml-artifact-management | Extra Skill | 2★ | Named | `/ml-artifact-management` |
 | ◇ /ml-pipeline | Extra Skill | 4★ | Hardened | `/ml-pipeline` |
 | ○ /molecular-databases | Basic Skill | 2★ | Named | `/molecular-databases` |
-| ◇ [garrytan](../docs/u/garrytan/)/codex | Extra Skill | 4★ | Hardened | `/multi-agent-debate` |
+| ◇ [garrytan](../docs/u/garrytan/)/codex | Extra Skill | 2★ | Named | `/multi-agent-debate` |
 | ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus-swarm | Extra Skill | 3★ | Evolved | `/multi-agent-orchestration-v` |
 | ○ [ruvnet](../docs/u/ruvnet/)/github-multi-repo | Basic Skill | 2★ | Named | `/multi-repo-coordination` |
-| ◇ [huggingface](../docs/u/huggingface/)/transformers-js | Extra Skill | 3★ → 2★ | Evolved | `/multimodal-reasoning` |
+| ◇ [huggingface](../docs/u/huggingface/)/transformers-js | Extra Skill | 2★ → 1★ | Named | `/multimodal-reasoning` |
 | ○ /optical-character-recognition | Basic Skill | 2★ | Named | `/optical-character-recognition` |
-| ○ /parallel-execution | Basic Skill | 2★ | Named | `/parallel-execution` |
+| ○ [intelligentcode-ai](../docs/u/intelligentcode-ai/)/parallel-execution | Basic Skill | 2★ | Named | `/parallel-execution` |
 | ○ /parse-html | Basic Skill | 1★ | Awakened | `/parse-html` |
 | ○ /parse-json | Basic Skill | 1★ | Awakened | `/parse-json` |
 | ○ /parse-pdf | Basic Skill | 1★ | Awakened | `/parse-pdf` |
@@ -142,9 +141,9 @@
 | ◇ /recursive-self-improvement | Extra Skill | 1★ | Awakened | `/recursive-self-improvement` |
 | ○ [mattpocock](../docs/u/mattpocock/)/improve-codebase-architecture | Basic Skill | 2★ | Named | `/refactor-code` |
 | ◇ /registry-curation | Extra Skill | 4★ | Hardened | `/registry-curation` |
-| ◇ [ruvnet](../docs/u/ruvnet/)/github-release-management | Extra Skill | 2★ | Named | `/release-automation` |
+| ◇ [intelligentcode-ai](../docs/u/intelligentcode-ai/)/release | Extra Skill | 2★ | Named | `/release-automation` |
 | ◇ [obra](../docs/u/obra/)/requesting-code-review | Extra Skill | 3★ | Evolved | `/requesting-code-review` |
-| ○ /requirements-analysis | Basic Skill | 2★ | Named | `/requirements-analysis` |
+| ○ [intelligentcode-ai](../docs/u/intelligentcode-ai/)/requirements-engineer | Basic Skill | 2★ | Named | `/requirements-analysis` |
 | ◇ /research | Extra Skill | 3★ | Evolved | `/research` |
 | ○ /retrieve | Basic Skill | 1★ | Awakened | `/retrieve` |
 | ○ /route-intent | Basic Skill | 1★ | Awakened | `/route-intent` |
@@ -154,14 +153,13 @@
 | ◇ /scientific-writing | Extra Skill | 3★ | Evolved | `/scientific-writing` |
 | ○ /score-relevance | Basic Skill | 1★ | Awakened | `/score-relevance` |
 | ◇ [garrytan](../docs/u/garrytan/)/cso | Extra Skill | 2★ | Named | `/security-audit` |
-| ◉ [openai](../docs/u/openai/)/self-consistency | Unique Skill | 4★ | Hardened | `/self-consistency` |
 | ○ /self-critique | Basic Skill | 1★ | Awakened | `/self-critique` |
 | ◉ [huggingface](../docs/u/huggingface/)/semantic-cache | Unique Skill | 4★ | Hardened | `/semantic-cache` |
 | ○ /sentiment-analysis | Basic Skill | 3★ | Evolved | `/sentiment-analysis` |
 | ◇ [garrytan](../docs/u/garrytan/)/skillify | Extra Skill | 4★ | Hardened | `/skill-authoring` |
 | ○ [vercel](../docs/u/vercel/)/find-skills | Basic Skill | 3★ | Evolved | `/skill-discovery` |
 | ◇ [garrytan](../docs/u/garrytan/)/benchmark-models | Extra Skill | 4★ | Hardened | `/skill-performance-benchmarking` |
-| ◇ /skill-security-analysis | Extra Skill | 4★ | Hardened | `/skill-security-analysis` |
+| ◇ /skill-security-analysis | Extra Skill | 2★ | Named | `/skill-security-analysis` |
 | ○ /speech-to-text | Basic Skill | 2★ | Named | `/speech-to-text` |
 | ○ /statistical-analysis | Basic Skill | 3★ | Evolved | `/statistical-analysis` |
 | ◇ /stealth-browser-interaction | Extra Skill | 4★ → 3★ | Hardened | `/stealth-browser-interaction` |
@@ -173,14 +171,14 @@
 | ○ [ruvnet](../docs/u/ruvnet/)/v3-integration-deep | Basic Skill | 2★ | Named | `/system-integration` |
 | ◇ [obra](../docs/u/obra/)/systematic-debugging | Extra Skill | 3★ | Evolved | `/systematic-debugging` |
 | ○ /text-to-speech | Basic Skill | 2★ | Named | `/text-to-speech` |
-| ◇ /text-to-sql-pipeline | Extra Skill | 3★ | Evolved | `/text-to-sql-pipeline` |
+| ◇ /text-to-sql-pipeline | Extra Skill | 2★ | Named | `/text-to-sql-pipeline` |
 | ○ /tokenize | Basic Skill | 1★ | Awakened | `/tokenize` |
 | ◇ /tool-chaining | Extra Skill | 3★ | Evolved | `/tool-chaining` |
 | ◇ [anthropic](../docs/u/anthropic/)/skill-creator | Extra Skill | 4★ | Hardened | `/tool-creation` |
 | ○ /tool-select | Basic Skill | 1★ | Awakened | `/tool-select` |
 | ○ /tool-use | Basic Skill | 1★ | Awakened | `/tool-use` |
 | ○ /translate | Basic Skill | 0★ | Basic | `/translate` |
-| ◇ /translation-pipeline | Extra Skill | 3★ | Evolved | `/translation-pipeline` |
+| ◇ /translation-pipeline | Extra Skill | 2★ | Named | `/translation-pipeline` |
 | ◇ /tree-of-thought | Extra Skill | 4★ | Hardened | `/tree-of-thought` |
 | ◇ [mattpocock](../docs/u/mattpocock/)/ubiquitous-language | Extra Skill | 4★ | Hardened | `/ubiquitous-language` |
 | ◇ [obra](../docs/u/obra/)/using-git-worktrees | Extra Skill | 1★ | Awakened | `/using-git-worktrees` |
@@ -190,7 +188,7 @@
 | ◇ [obra](../docs/u/obra/)/verification-before-completion | Extra Skill | 1★ | Awakened | `/verification-before-completion` |
 | ◇ [mattpocock](../docs/u/mattpocock/)/to-issues | Extra Skill | 3★ | Evolved | `/vertical-slice-planning` |
 | ◇ [bradautomates](../docs/u/bradautomates/)/claude-video | Extra Skill | 3★ | Evolved | `/video-intelligence` |
-| ○ /vision-qa | Basic Skill | 3★ | Evolved | `/vision-qa` |
+| ○ /vision-qa | Basic Skill | 2★ | Named | `/vision-qa` |
 | ◇ /voice-agent | Extra Skill | 3★ → 2★ | Evolved | `/voice-agent` |
 | ◇ [firecrawl](../docs/u/firecrawl/)/firecrawl | Extra Skill | 3★ | Evolved | `/web-scrape` |
 | ○ /web-search | Basic Skill | 1★ | Awakened | `/web-search` |
@@ -208,10 +206,8 @@
 | Name | Class | Rank | Tier | Skill Call |
 |---|---|---|---|---|
 | ◉ [nousresearch](../docs/u/nousresearch/)/feed-monitoring | Unique Skill | 4★ | Hardened | `/feed-monitoring` |
-| ◉ [openai](../docs/u/openai/)/few-shot-learning | Unique Skill | 4★ | Hardened | `/few-shot-learning` |
 | ◉ [huggingface](../docs/u/huggingface/)/huggingface-llm-trainer | Unique Skill | 4★ | Hardened | `/fine-tune` |
 | ◉ [ruvnet](../docs/u/ruvnet/)/hive-mind-coordination | Unique Skill | 4★ | Hardened | `/hive-mind-coordination` |
-| ◉ [openai](../docs/u/openai/)/self-consistency | Unique Skill | 4★ | Hardened | `/self-consistency` |
 | ◉ [huggingface](../docs/u/huggingface/)/semantic-cache | Unique Skill | 4★ | Hardened | `/semantic-cache` |
 
 ## Basics
@@ -222,6 +218,7 @@
 |---|---|---|---|---|
 | ○ Autonomous Engineering Platform | Intrinsic Skill | 2★ | Named | `/autonomous-engineering-platform` |
 | ○ Clinical Data Retrieval | Intrinsic Skill | 2★ | Named | `/clinical-data-retrieval` |
+| ○ Few-Shot Learning | Intrinsic Skill | 2★ | Named | `/few-shot-learning` |
 | ○ Framework Upgrade | Intrinsic Skill | 0★ | Basic | `/framework-upgrade` |
 | ○ Git Diff Risk Analysis | Intrinsic Skill | 2★ | Named | `/git-diff-risk-analysis` |
 | ○ Image Generate | Intrinsic Skill | 2★ | Named | `/image-generate` |
@@ -229,6 +226,7 @@
 | ○ Pathway Ontology Retrieval | Intrinsic Skill | 2★ | Named | `/pathway-ontology-retrieval` |
 | ○ Reward Modeling | Intrinsic Skill | 2★ | Named | `/reward-modeling` |
 | ○ Schema Design | Intrinsic Skill | 2★ | Named | `/schema-design` |
+| ○ Self-Consistency | Intrinsic Skill | 2★ | Named | `/self-consistency` |
 | ○ Sequential Agent Pipeline | Intrinsic Skill | 2★ | Named | `/sequential-agent-pipeline` |
 | ○ Test-Driven Development | Intrinsic Skill | 3★ | Evolved | `/test-driven-development` |
 | ○ Token Observability | Intrinsic Skill | 2★ | Named | `/token-observability` |

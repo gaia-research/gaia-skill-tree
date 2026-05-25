@@ -1,8 +1,8 @@
-# [garrytan](../../../docs/u/garrytan/)/plan-eng-review  [3★ · Evolved]
+# [garrytan](../../../docs/u/garrytan/)/plan-eng-review  [2★ · Named]
 **ID:** code-review-pipeline  
 **Type:** Extra Skill  
-**Level:** 3★  
-**Tier:** Evolved  
+**Level:** 2★  
+**Tier:** Named  
 **Skill Call:** `/code-review-pipeline`
 
 ---

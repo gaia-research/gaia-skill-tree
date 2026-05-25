@@ -22,7 +22,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  ├─ ○ huggingface/hf-cli  [2★]
   │  │  └─ ○ /tool-use  [1★]
   │  └─ ◇ ruvnet/flow-nexus-neural  [3★]
-  │     ├─ ○ /parallel-execution  [2★]
+  │     ├─ ○ intelligentcode-ai/parallel-execution  [2★]
   │     └─ ○ /embed-text  [1★]
   ├─ ◆ ruvnet/agentdb  [5★]
   │  ├─ ◇ ruvnet/agentdb-advanced  [3★]
@@ -37,7 +37,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ ○ ruvnet/agentdb-optimization  [2★]
   │  └─ ○ ruvnet/agentdb-vector-search  [2★]  (↑ see above)
   ├─ ◇ ruvnet/github-suite  [3★]
-  │  ├─ ◇ garrytan/plan-eng-review  [3★]
+  │  ├─ ◇ garrytan/plan-eng-review  [2★]
   │  │  ├─ ○ garrytan/design-html  [1★]
   │  │  ├─ ○ /diff-content  [1★]
   │  │  └─ ○ garrytan/benchmark  [1★]
@@ -62,7 +62,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ ○ ruvnet/performance-analysis  [2★]
   │  └─ ◇ ruvnet/swarm-advanced  [3★]
   │     ├─ ○ ruvnet/swarm-orchestration  [2★]
-  │     └─ ◇ garrytan/codex  [4★]
+  │     └─ ◇ garrytan/codex  [2★]
   │        ├─ ○ /self-critique  [1★]
   │        ├─ ○ garrytan/benchmark  [1★]  (↑ see above)
   │        └─ ○ /chain-of-thought  [1★]
@@ -74,7 +74,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 ◆ mattpocock/skills  [6★]
 ─────────────────────────────────────────────────────────────────
   ├─ ◆ mattpocock/engineering  [5★]
-  │  ├─ ◇ devin-ai/autonomous-swe  [4★]
+  │  ├─ ◇ devin-ai/autonomous-swe  [3★]
   │  │  ├─ ○ garrytan/design-html  [1★]
   │  │  ├─ ○ /code-execution  [2★]
   │  │  └─ ○ /error-interpretation  [1★]
@@ -88,7 +88,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ ○ mattpocock/triage  [4★]
   │  ├─ ◇ mattpocock/ubiquitous-language  [4★]
   │  │  ├─ ○ /extract-entities  [1★]
-  │  │  └─ ○ /requirements-analysis  [2★]
+  │  │  └─ ○ intelligentcode-ai/requirements-engineer  [2★]
   │  ├─ ○ mattpocock/zoom-out  [2★]
   │  ├─ ◇ mattpocock/grill-with-docs  [3★]
   │  │  ├─ ◇ mattpocock/grill-me  [4★]
@@ -140,7 +140,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 ─────────────────────────────────────────────────────────────────
   ├─ ○ garrytan/office-hours  [4★]
   ├─ ○ garrytan/benchmark  [1★]
-  ├─ ◇ garrytan/plan-eng-review  [3★]
+  ├─ ◇ garrytan/plan-eng-review  [2★]
   │  ├─ ○ garrytan/design-html  [1★]
   │  ├─ ○ /diff-content  [1★]
   │  └─ ○ garrytan/benchmark  [1★]  (↑ see above)
@@ -167,7 +167,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │     ├─ ○ /code-execution  [2★]
   │     └─ ○ /error-interpretation  [1★]  (↑ see above)
   ├─ ◇ obra/finishing-a-development-branch  [2★]
-  │  ├─ ◇ garrytan/plan-eng-review  [3★]  (↑ see above)
+  │  ├─ ◇ garrytan/plan-eng-review  [2★]  (↑ see above)
   │  └─ ○ /diff-content  [1★]  (↑ see above)
   ├─ ◇ garrytan/land-and-deploy  [2★]
   │  ├─ ◇ ruvnet/github-workflow-automation  [4★]
@@ -181,7 +181,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ ○ anthropic/pptx  [0★]
   ├─ ◇ gooseworks/notte-browser  [3★]  (↑ see above)
   ├─ ◇ garrytan/cso  [2★]
-  │  ├─ ◇ garrytan/plan-eng-review  [3★]  (↑ see above)
+  │  ├─ ◇ garrytan/plan-eng-review  [2★]  (↑ see above)
   │  └─ ○ garrytan/benchmark  [1★]  (↑ see above)
   ├─ ○ browser-use/browser-harness  [2★]
   ├─ ◇ firecrawl/firecrawl  [3★]
@@ -193,7 +193,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ ○ /structured-output  [1★]
   │  └─ ○ garrytan/design-html  [1★]  (↑ see above)
   ├─ ○ glincker/readme-generator  [1★]
-  ├─ ◇ garrytan/codex  [4★]
+  ├─ ◇ garrytan/codex  [2★]
   │  ├─ ○ /self-critique  [1★]
   │  ├─ ○ garrytan/benchmark  [1★]  (↑ see above)
   │  └─ ○ /chain-of-thought  [1★]
@@ -229,25 +229,25 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 ◆ obra/superpowers  [5★]
 ─────────────────────────────────────────────────────────────────
   ├─ ◇ obra/brainstorming  [1★]
-  │  ├─ ○ /requirements-analysis  [2★]
+  │  ├─ ○ intelligentcode-ai/requirements-engineer  [2★]
   │  └─ ○ garrytan/office-hours  [4★]
   ├─ ◇ obra/dispatching-parallel-agents  [4★]
   │  ├─ ○ /plan-decompose  [1★]
-  │  └─ ○ /parallel-execution  [2★]
+  │  └─ ○ intelligentcode-ai/parallel-execution  [2★]
   ├─ ◇ obra/executing-plans  [2★]
   │  ├─ ◇ obra/writing-plans  [2★]
   │  │  ├─ ○ /plan-decompose  [1★]  (↑ see above)
-  │  │  └─ ○ /requirements-analysis  [2★]  (↑ see above)
+  │  │  └─ ○ intelligentcode-ai/requirements-engineer  [2★]  (↑ see above)
   │  └─ ○ /tool-use  [1★]
   ├─ ◇ obra/finishing-a-development-branch  [2★]
-  │  ├─ ◇ garrytan/plan-eng-review  [3★]
+  │  ├─ ◇ garrytan/plan-eng-review  [2★]
   │  │  ├─ ○ garrytan/design-html  [1★]
   │  │  ├─ ○ /diff-content  [1★]
   │  │  └─ ○ garrytan/benchmark  [1★]
   │  └─ ○ /diff-content  [1★]  (↑ see above)
   ├─ ◇ obra/receiving-code-review  [2★]
   │  ├─ ◇ obra/requesting-code-review  [3★]
-  │  │  ├─ ◇ garrytan/plan-eng-review  [3★]  (↑ see above)
+  │  │  ├─ ◇ garrytan/plan-eng-review  [2★]  (↑ see above)
   │  │  └─ ◇ obra/dispatching-parallel-agents  [4★]  (↑ see above)
   │  └─ ◇ obra/verification-before-completion  [1★]
   │     ├─ ○ /code-execution  [2★]
@@ -256,7 +256,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ ◇ obra/subagent-driven-development  [4★]
   │  ├─ ◇ obra/executing-plans  [2★]  (↑ see above)
   │  ├─ ◇ obra/dispatching-parallel-agents  [4★]  (↑ see above)
-  │  └─ ◇ garrytan/plan-eng-review  [3★]  (↑ see above)
+  │  └─ ◇ garrytan/plan-eng-review  [2★]  (↑ see above)
   ├─ ◇ obra/systematic-debugging  [3★]
   │  ├─ ○ /hypothesis-generate  [2★]
   │  └─ ○ /error-interpretation  [1★]
@@ -268,7 +268,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 
 ◆ mattpocock/engineering  [5★]
 ─────────────────────────────────────────────────────────────────
-  ├─ ◇ devin-ai/autonomous-swe  [4★]
+  ├─ ◇ devin-ai/autonomous-swe  [3★]
   │  ├─ ○ garrytan/design-html  [1★]
   │  ├─ ○ /code-execution  [2★]
   │  └─ ○ /error-interpretation  [1★]
@@ -282,7 +282,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ ○ mattpocock/triage  [4★]
   ├─ ◇ mattpocock/ubiquitous-language  [4★]
   │  ├─ ○ /extract-entities  [1★]
-  │  └─ ○ /requirements-analysis  [2★]
+  │  └─ ○ intelligentcode-ai/requirements-engineer  [2★]
   ├─ ○ mattpocock/zoom-out  [2★]
   ├─ ◇ mattpocock/grill-with-docs  [3★]
   │  ├─ ◇ mattpocock/grill-me  [4★]
@@ -304,25 +304,25 @@ Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) throu
 ══════════════════════════════════════════════════════════════════════
 
   ◉ nousresearch/feed-monitoring  [4★ · Hardened]
-  ◉ openai/few-shot-learning  [4★ · Hardened]
   ◉ huggingface/huggingface-llm-trainer  [4★ · Hardened]
   ◉ ruvnet/hive-mind-coordination  [4★ · Hardened]
-  ◉ openai/self-consistency  [4★ · Hardened]
   ◉ huggingface/semantic-cache  [4★ · Hardened]
 
 ══════════════════════════════════════════════════════════════════════
 Basics — basic-tier skills not wired into an upgrade path yet.  (0★ skills carry a [0★ · Pure] rank pill inline.)
 ══════════════════════════════════════════════════════════════════════
 
-  ○ Taoidle/plan-decompose-gh-plan-cascade  [2★]
+  ○ /autonomous-engineering-platform  [2★]
   ○ /clinical-data-retrieval  [2★]
+  ○ openai/few-shot-learning  [2★]
   ○ laravel/upgrade-laravel-v13  [0★ · Pure]
   ○ ruvnet/agentic-jujutsu  [2★]
   ○ /image-generate  [2★]
   ○ huggingface/huggingface-vision-trainer  [2★]
   ○ /pathway-ontology-retrieval  [2★]
   ○ /reward-modeling  [2★]
-  ○ /schema-design  [2★]
+  ○ intelligentcode-ai/database-engineer  [2★]
+  ○ openai/self-consistency  [2★]
   ○ ruvnet/stream-chain  [2★]
   ○ addy-osmani/test-driven-development  [3★]
   ○ getagentseal/codeburn  [2★]

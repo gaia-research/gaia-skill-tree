@@ -118,7 +118,7 @@
       </node>
       <node id="autonomous-debug" label="Autonomous Debug">
         <attvalues>
-          <attvalue for="level" value="4★" />
+          <attvalue for="level" value="3★" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -262,7 +262,7 @@
       </node>
       <node id="code-review-pipeline" label="Code Review Pipeline">
         <attvalues>
-          <attvalue for="level" value="3★" />
+          <attvalue for="level" value="2★" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -294,7 +294,7 @@
       </node>
       <node id="content-moderation" label="Content Moderation">
         <attvalues>
-          <attvalue for="level" value="3★" />
+          <attvalue for="level" value="2★" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -502,10 +502,10 @@
       </node>
       <node id="few-shot-learning" label="Few-Shot Learning">
         <attvalues>
-          <attvalue for="level" value="4★" />
+          <attvalue for="level" value="2★" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="unique" />
+          <attvalue for="type" value="basic" />
         </attvalues>
       </node>
       <node id="fine-tune" label="Fine-Tune">
@@ -558,7 +558,7 @@
       </node>
       <node id="function-calling" label="Function Calling">
         <attvalues>
-          <attvalue for="level" value="3★" />
+          <attvalue for="level" value="2★" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -918,7 +918,7 @@
       </node>
       <node id="multi-agent-debate" label="Multi-Agent Debate">
         <attvalues>
-          <attvalue for="level" value="4★" />
+          <attvalue for="level" value="2★" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -942,7 +942,7 @@
       </node>
       <node id="multimodal-reasoning" label="Multimodal Reasoning">
         <attvalues>
-          <attvalue for="level" value="3★" />
+          <attvalue for="level" value="2★" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1302,10 +1302,10 @@
       </node>
       <node id="self-consistency" label="Self-Consistency">
         <attvalues>
-          <attvalue for="level" value="4★" />
+          <attvalue for="level" value="2★" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="unique" />
+          <attvalue for="type" value="basic" />
         </attvalues>
       </node>
       <node id="self-critique" label="Self-Critique">
@@ -1366,7 +1366,7 @@
       </node>
       <node id="skill-security-analysis" label="Skill Security Analysis">
         <attvalues>
-          <attvalue for="level" value="4★" />
+          <attvalue for="level" value="2★" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1470,7 +1470,7 @@
       </node>
       <node id="text-to-sql-pipeline" label="Text-to-SQL Pipeline">
         <attvalues>
-          <attvalue for="level" value="3★" />
+          <attvalue for="level" value="2★" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1534,7 +1534,7 @@
       </node>
       <node id="translation-pipeline" label="Translation Pipeline">
         <attvalues>
-          <attvalue for="level" value="3★" />
+          <attvalue for="level" value="2★" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1614,7 +1614,7 @@
       </node>
       <node id="vision-qa" label="Visual Question Answering">
         <attvalues>
-          <attvalue for="level" value="3★" />
+          <attvalue for="level" value="2★" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />

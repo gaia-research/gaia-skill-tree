@@ -1,4 +1,4 @@
-# /requirements-analysis  [2★ · Named]
+# [intelligentcode-ai](../../../docs/u/intelligentcode-ai/)/requirements-engineer  [2★ · Named]
 **ID:** requirements-analysis  
 **Type:** Basic Skill  
 **Level:** 2★  

@@ -1,4 +1,4 @@
-# /parallel-execution  [2★ · Named]
+# [intelligentcode-ai](../../../docs/u/intelligentcode-ai/)/parallel-execution  [2★ · Named]
 **ID:** parallel-execution  
 **Type:** Basic Skill  
 **Level:** 2★  
