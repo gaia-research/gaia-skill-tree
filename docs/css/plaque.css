@@ -313,7 +313,7 @@ button.plaque__slug:focus-visible {
 }
 .plaque__tag,
 .plaque-tag {
-  font-family: var(--font-mono, 'Departure Mono', monospace);
+  font-family: var(--font-mono, 'Departure Mono', 'JetBrains Mono', ui-monospace, monospace);
   font-size: 10px;
   color: rgba(226, 232, 240, 0.4);
   background: rgba(255, 255, 255, 0.04);
@@ -385,7 +385,7 @@ button.plaque__slug:focus-visible {
   padding: 5px 10px;
   border-radius: 6px;
   font-size: 10px;
-  font-family: var(--font-body, system-ui, sans-serif);
+  font-family: var(--font-body, 'Bricolage Grotesque', Inter, system-ui, sans-serif);
   font-weight: 500;
   white-space: nowrap;
   letter-spacing: 0.02em;
@@ -427,7 +427,7 @@ button.plaque__slug:focus-visible {
   background: rgba(0, 0, 0, 0.4);
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 4px;
-  font-family: var(--font-mono, 'Departure Mono', monospace);
+  font-family: var(--font-mono, 'Departure Mono', 'JetBrains Mono', ui-monospace, monospace);
   font-size: 12px;
   margin-top: auto;
 }
@@ -496,7 +496,7 @@ button.plaque__slug:focus-visible {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-family: var(--font-mono, 'Departure Mono', monospace);
+  font-family: var(--font-mono, 'Departure Mono', 'JetBrains Mono', ui-monospace, monospace);
   font-size: 11px;
   font-weight: 400;
   letter-spacing: 0.1em;
@@ -1085,7 +1085,7 @@ button.plaque__slug:focus-visible {
   overflow: hidden;
 }
 .ascension-log-header {
-  font-family: var(--font-mono, 'Departure Mono', monospace);
+  font-family: var(--font-mono, 'Departure Mono', 'JetBrains Mono', ui-monospace, monospace);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -1101,7 +1101,7 @@ button.plaque__slug:focus-visible {
   gap: 12px;
   align-items: center;
   padding: 10px 16px;
-  font-family: var(--font-mono, 'Departure Mono', monospace);
+  font-family: var(--font-mono, 'Departure Mono', 'JetBrains Mono', ui-monospace, monospace);
   font-size: 12px;
   border-bottom: 1px solid rgba(30, 41, 59, 0.6);
   transition: background 0.15s;
@@ -1115,14 +1115,20 @@ button.plaque__slug:focus-visible {
 
 
 /* ── Profile page hero (settled context) ─────────────────────── */
+.profile-back-row {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 5rem 1.5rem 0;
+  text-align: left;
+}
 .profile-hero {
-  padding: 5rem 1.5rem 3rem;
+  padding: 2rem 1.5rem 3rem;
   max-width: 960px;
   margin: 0 auto;
   text-align: center;
 }
 /* Back link — mirrors the Explorer modal's se-btn-ghost back affordance:
-   flows in-document above the h1 so the fixed top-nav never overlaps it. */
+   flows in-document above the hero so the fixed top-nav never overlaps it. */
 .profile-back {
   display: inline-flex;
   align-items: center;
@@ -1135,7 +1141,6 @@ button.plaque__slug:focus-visible {
   border: 1px solid var(--border, #1e293b);
   border-radius: 6px;
   padding: 0.38rem 0.9rem;
-  margin-bottom: 1.5rem;
   transition: border-color 0.2s, color 0.2s;
 }
 .profile-back:hover,
@@ -1171,7 +1176,7 @@ button.plaque__slug:focus-visible {
   opacity: 0.7;
 }
 .profile-meta {
-  font-family: var(--font-mono, 'Departure Mono', monospace);
+  font-family: var(--font-mono, 'Departure Mono', 'JetBrains Mono', ui-monospace, monospace);
   font-size: 13px;
   color: rgba(226, 232, 240, 0.45);
   letter-spacing: 0.06em;
@@ -1303,7 +1308,7 @@ button.plaque__slug:focus-visible {
 }
 .profile-section-sub {
   color: var(--muted, #64748b);
-  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-family: var(--font-mono, 'Departure Mono', 'JetBrains Mono', ui-monospace, monospace);
   font-size: 0.8rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -1331,7 +1336,7 @@ button.plaque__slug:focus-visible {
 }
 
 .profile-filter-legend {
-  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-family: var(--font-mono, 'Departure Mono', 'JetBrains Mono', ui-monospace, monospace);
   font-size: 0.7rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -1342,11 +1347,11 @@ button.plaque__slug:focus-visible {
 }
 
 .profile-filter-chip {
-  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-family: var(--font-mono, 'Departure Mono', 'JetBrains Mono', ui-monospace, monospace);
   font-size: 0.72rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  background: var(--surface, #0f172a);
+  background: transparent;
   border: 1px solid var(--border, #1e293b);
   color: var(--muted, #64748b);
   padding: 0.3rem 0.75rem;
@@ -1408,7 +1413,7 @@ button.plaque__slug:focus-visible {
 }
 
 .profile-filter-reset {
-  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-family: var(--font-mono, 'Departure Mono', 'JetBrains Mono', ui-monospace, monospace);
   font-size: 0.72rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -1463,7 +1468,7 @@ button.plaque__slug:focus-visible {
 }
 
 .plaque__claim-btn {
-  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-family: var(--font-mono, 'Departure Mono', 'JetBrains Mono', ui-monospace, monospace);
   font-size: 0.68rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -1551,7 +1556,7 @@ button.plaque__slug:focus-visible {
 }
 
 .share-modal__caption {
-  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-family: var(--font-mono, 'Departure Mono', 'JetBrains Mono', ui-monospace, monospace);
   font-size: 0.78rem;
   color: var(--muted, #64748b);
   letter-spacing: 0.03em;
@@ -1580,7 +1585,7 @@ button.plaque__slug:focus-visible {
   align-items: center;
   justify-content: center;
   gap: 0.45rem;
-  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-family: var(--font-mono, 'Departure Mono', 'JetBrains Mono', ui-monospace, monospace);
   font-size: 0.78rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -1618,7 +1623,7 @@ button.plaque__slug:focus-visible {
 .share-modal__toast {
   margin-top: 0.75rem;
   text-align: center;
-  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-family: var(--font-mono, 'Departure Mono', 'JetBrains Mono', ui-monospace, monospace);
   font-size: 0.78rem;
   color: var(--apex-gold, #fbbf24);
   background: var(--surface, #0f172a);
@@ -1665,7 +1670,7 @@ button.plaque__slug:focus-visible {
   align-items: center;
   padding: 0.45rem 0;
   border-bottom: 1px solid var(--border, #1e293b);
-  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-family: var(--font-mono, 'Departure Mono', 'JetBrains Mono', ui-monospace, monospace);
   font-size: 0.78rem;
 }
 .profile-activity-item:last-child {
