@@ -532,11 +532,22 @@ button.plaque__slug:focus-visible {
 }
 
 /* Named-slug context — keeps the .named-slug class hooks working
-   on links inside the slug span (legacy callers still pass it). */
+   on links inside the slug span (legacy callers still pass it).
+   Per DESIGN.md §Naming Conventions: "Skill names after the slash:
+   colored by rank level from meta.json level colors". Override the
+   tier-based --plaque-accent with the rank-level color token. */
 .plaque__slug.named-slug,
 .plaque-skill-name.named-slug {
   font-family: var(--font-display, 'EB Garamond', Georgia, serif);
 }
+/* Rank-level color for named-slug skill names (levels 0–6). */
+.plaque[data-level="0"] .plaque-skill-name.named-slug { color: var(--rank-0, #94a3b8); }
+.plaque[data-level="1"] .plaque-skill-name.named-slug { color: var(--rank-1, #38bdf8); }
+.plaque[data-level="2"] .plaque-skill-name.named-slug { color: var(--rank-2, #63cab7); }
+.plaque[data-level="3"] .plaque-skill-name.named-slug { color: var(--rank-3, #a78bfa); }
+.plaque[data-level="4"] .plaque-skill-name.named-slug { color: var(--rank-4, #e879f9); }
+.plaque[data-level="5"] .plaque-skill-name.named-slug { color: var(--rank-5, #fbbf24); }
+.plaque[data-level="6"] .plaque-skill-name.named-slug { color: var(--rank-6, #fbbf24); }
 
 
 /* ── .plaque-orb — canonical tier glyph orb ──────────────────────
