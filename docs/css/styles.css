@@ -557,55 +557,62 @@ button.nav-copy-agent {
   color: var(--tier-ultimate);
 }
 
-/* Path Meta Queue */
+/* Path Meta Queue (Academic/Prestige Variant) */
 .path-meta-queue {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1rem;
   text-align: left;
-  margin-top: 2rem;
+  margin-top: 2.5rem;
   padding-top: 2rem;
   border-top: 1px solid var(--border);
 }
 
 .pmq-post {
   display: block;
-  padding: 1.25rem;
-  background: #000;
-  border: 1px solid var(--border);
-  border-radius: 0; /* Strictly Boxy */
+  padding: 1.5rem;
+  background: #ffffff; /* White-on-black context (inside dark Path B) */
+  color: #111111;
+  border: 1px solid #ffffff;
+  border-radius: 0;
   text-decoration: none;
-  transition: border-color 0.2s;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
 }
 
 .pmq-post:hover {
-  border-color: var(--tier-ultimate);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+  border-color: var(--apex-gold);
 }
 
 .pmq-label {
   font-family: var(--font-mono);
-  font-size: 0.6rem;
+  font-size: 0.65rem;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--tier-ultimate);
+  letter-spacing: 0.15em;
+  color: var(--honor-red); /* Honor Red for Audit label */
   display: block;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
 }
 
 .pmq-title {
   font-family: var(--font-display);
-  font-size: 1.3rem;
-  color: #fff;
-  margin: 0 0 0.5rem 0;
+  font-size: 1.5rem;
+  color: #000;
+  margin: 0 0 0.6rem 0;
   font-weight: 500;
-  font-style: italic; /* LaTeX style */
+  line-height: 1.1;
 }
 
 .pmq-summary {
-  font-size: 0.9rem;
-  color: #ccc;
-  line-height: 1.4;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: #444;
+  line-height: 1.5;
   margin: 0;
+  font-style: italic; /* Journal abstract style */
 }
 
 .pmq-changelog-btn {
@@ -613,12 +620,21 @@ button.nav-copy-agent {
   border: 1px solid var(--border);
   color: var(--muted);
   font-family: var(--font-mono);
-  font-size: 0.75rem;
-  padding: 0.6rem 1rem;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.75rem 1.25rem;
   cursor: pointer;
-  border-radius: 0; /* Strictly Boxy */
+  border-radius: 0;
   transition: all 0.2s;
   align-self: flex-start;
+  margin-top: 0.5rem;
+}
+
+.pmq-changelog-btn:hover {
+  color: var(--text);
+  border-color: var(--text);
+  background: rgba(255,255,255,0.03);
 }
 
 .pmq-changelog-btn:hover {
@@ -628,7 +644,20 @@ button.nav-copy-agent {
 
 @media (max-width: 768px) {
   .hero-audit-btn {
-    display: none; /* Mobile entry via Path B queue */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    margin: 0;
+    justify-content: center;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 10000;
   }
 }
 
@@ -7328,55 +7357,62 @@ button.nav-graph-trigger:hover {
   overflow: hidden;
 }
 
-/* Path Meta Queue */
+/* Path Meta Queue (Academic/Prestige Variant) */
 .path-meta-queue {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1rem;
   text-align: left;
-  margin-top: 2rem;
+  margin-top: 2.5rem;
   padding-top: 2rem;
   border-top: 1px solid var(--border);
 }
 
 .pmq-post {
   display: block;
-  padding: 1.25rem;
-  background: #000;
-  border: 1px solid var(--border);
-  border-radius: 0; /* Strictly Boxy */
+  padding: 1.5rem;
+  background: #ffffff; /* White-on-black context (inside dark Path B) */
+  color: #111111;
+  border: 1px solid #ffffff;
+  border-radius: 0;
   text-decoration: none;
-  transition: border-color 0.2s;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
 }
 
 .pmq-post:hover {
-  border-color: var(--tier-ultimate);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+  border-color: var(--apex-gold);
 }
 
 .pmq-label {
   font-family: var(--font-mono);
-  font-size: 0.6rem;
+  font-size: 0.65rem;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--tier-ultimate);
+  letter-spacing: 0.15em;
+  color: var(--honor-red); /* Honor Red for Audit label */
   display: block;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
 }
 
 .pmq-title {
   font-family: var(--font-display);
-  font-size: 1.3rem;
-  color: #fff;
-  margin: 0 0 0.5rem 0;
+  font-size: 1.5rem;
+  color: #000;
+  margin: 0 0 0.6rem 0;
   font-weight: 500;
-  font-style: italic; /* LaTeX style */
+  line-height: 1.1;
 }
 
 .pmq-summary {
-  font-size: 0.9rem;
-  color: #ccc;
-  line-height: 1.4;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: #444;
+  line-height: 1.5;
   margin: 0;
+  font-style: italic; /* Journal abstract style */
 }
 
 .pmq-changelog-btn {
@@ -7384,12 +7420,21 @@ button.nav-graph-trigger:hover {
   border: 1px solid var(--border);
   color: var(--muted);
   font-family: var(--font-mono);
-  font-size: 0.75rem;
-  padding: 0.6rem 1rem;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.75rem 1.25rem;
   cursor: pointer;
-  border-radius: 0; /* Strictly Boxy */
+  border-radius: 0;
   transition: all 0.2s;
   align-self: flex-start;
+  margin-top: 0.5rem;
+}
+
+.pmq-changelog-btn:hover {
+  color: var(--text);
+  border-color: var(--text);
+  background: rgba(255,255,255,0.03);
 }
 
 .pmq-changelog-btn:hover {
