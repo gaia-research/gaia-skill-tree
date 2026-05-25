@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema#",
-  "description": "Gaia schema metadata — single source of truth for nomenclature, theming, and validation rules",
+  "description": "Gaia schema metadata — single source of truth for nomenclature, theming, and validation rules. Technical policy is documented in META.md.",
   "levels": {
     "order": [
       "0★",

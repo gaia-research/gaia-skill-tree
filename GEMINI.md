@@ -43,3 +43,8 @@ Each component in a suite must have a `blob/branch/subpath` URL, not a bare repo
 **Atomic Refactors:** When moving code (e.g., extracting functions from `main.py` to a new module), do it in a standalone "Move-Only" PR. Do not combine structural refactors with logic changes in the same PR; this causes semantic merge conflicts that Git cannot resolve automatically.
 
 **Verify after Merge:** Always run a simple smoke test (e.g., `gaia --version`) after resolving merge conflicts to ensure no Git merge markers (`<<<<<<< HEAD`) were accidentally committed.
+
+## Meta Strategy (Source of Truth)
+
+The registry's taxonomy, evidence methodology, and ranking strategy are defined in [META.md](./META.md). This is the single source of truth for all "Meta" rules.
+
