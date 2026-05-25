@@ -1,8 +1,8 @@
-# /content-moderation  [3★ · Evolved]
+# /content-moderation  [2★ · Named]
 **ID:** content-moderation  
 **Type:** Extra Skill  
-**Level:** 3★  
-**Tier:** Evolved  
+**Level:** 2★  
+**Tier:** Named  
 **Skill Call:** `/content-moderation`
 
 ---

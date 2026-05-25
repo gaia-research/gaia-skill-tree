@@ -1,9 +1,9 @@
-# [huggingface](../../../docs/u/huggingface/)/transformers-js  [3★ · Evolved]
+# [huggingface](../../../docs/u/huggingface/)/transformers-js  [2★ · Named]
 **ID:** multimodal-reasoning  
 **Type:** Extra Skill  
-**Level:** 3★  
-**Tier:** Evolved  
-**Potential:** 2★  
+**Level:** 2★  
+**Tier:** Named  
+**Potential:** 1★  
 **Demerits:** experimental-feature  
 **Skill Call:** `/multimodal-reasoning`
 

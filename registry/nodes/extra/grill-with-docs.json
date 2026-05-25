@@ -2,7 +2,7 @@
   "id": "grill-with-docs",
   "name": "Grill With Docs",
   "type": "extra",
-  "level": "3★",
+  "level": "1★",
   "rarity": "uncommon",
   "description": "The apex of agentic design alignment. Fuses relentless Socratic questioning with deep domain awareness, ensuring every decision is cross-referenced against a persistent ubiquitous language and documented via real-time ADR generation.",
   "prerequisites": [
@@ -31,7 +31,18 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-15",
-  "updatedAt": "2026-05-15",
+  "updatedAt": "2026-05-25",
   "version": "0.1.0",
-  "title": "The Domain Sovereign"
+  "title": "The Domain Sovereign",
+  "timeline": [
+    {
+      "timestamp": "2026-05-25T04:25:33Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 3★ to 2★"
+    }
+  ],
+  "demerits": [
+    "broken-evidence"
+  ]
 }

@@ -2,7 +2,7 @@
   "id": "skill-security-analysis",
   "name": "Skill Security Analysis",
   "type": "extra",
-  "level": "4★",
+  "level": "2★",
   "rarity": "rare",
   "description": "Assesses third-party agent skills for malicious behavior, unsafe permissions, prompt-injection exposure, repository-context mismatch, and supply-chain risk before installation or invocation.",
   "prerequisites": [
@@ -41,6 +41,14 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-10",
-  "updatedAt": "2026-05-10",
-  "version": "0.1.0"
+  "updatedAt": "2026-05-25",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-25T03:45:37Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 4★ to 2★"
+    }
+  ]
 }

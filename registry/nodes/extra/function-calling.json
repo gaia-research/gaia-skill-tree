@@ -2,7 +2,7 @@
   "id": "function-calling",
   "name": "Function Calling",
   "type": "extra",
-  "level": "3★",
+  "level": "2★",
   "rarity": "uncommon",
   "description": "Selects an external callable, emits schema-valid arguments, invokes the function or API, and integrates the returned result into the agent loop.",
   "prerequisites": [
@@ -31,6 +31,14 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-29",
-  "updatedAt": "2026-04-29",
-  "version": "0.1.0"
+  "updatedAt": "2026-05-25",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-25T03:45:36Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 3★ to 2★"
+    }
+  ]
 }

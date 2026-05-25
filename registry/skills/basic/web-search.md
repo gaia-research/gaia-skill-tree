@@ -1,8 +1,8 @@
-# /web-search  [1★ · Awakened]
+# /web-search  [0★ · Basic]
 **ID:** web-search  
 **Type:** Basic Skill  
-**Level:** 1★  
-**Tier:** Awakened  
+**Level:** 0★  
+**Tier:** Basic  
 **Skill Call:** `/web-search`
 
 ---

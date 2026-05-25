@@ -1,8 +1,8 @@
-# /chain-of-thought  [1★ · Awakened]
+# /chain-of-thought  [0★ · Basic]
 **ID:** chain-of-thought  
 **Type:** Basic Skill  
-**Level:** 1★  
-**Tier:** Awakened  
+**Level:** 0★  
+**Tier:** Basic  
 **Skill Call:** `/chain-of-thought`
 
 ---

@@ -1,8 +1,8 @@
-# /text-to-sql-pipeline  [3★ · Evolved]
+# /text-to-sql-pipeline  [2★ · Named]
 **ID:** text-to-sql-pipeline  
 **Type:** Extra Skill  
-**Level:** 3★  
-**Tier:** Evolved  
+**Level:** 2★  
+**Tier:** Named  
 **Skill Call:** `/text-to-sql-pipeline`
 
 ---

@@ -1,8 +1,8 @@
-# [garrytan](../../../docs/u/garrytan/)/design-html  [1★ · Awakened]
+# [garrytan](../../../docs/u/garrytan/)/design-html  [0★ · Basic]
 **ID:** code-generation  
 **Type:** Basic Skill  
-**Level:** 1★  
-**Tier:** Awakened  
+**Level:** 0★  
+**Tier:** Basic  
 **Skill Call:** `/code-generation`
 
 ---

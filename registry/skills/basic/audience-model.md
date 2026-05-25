@@ -1,8 +1,8 @@
-# /audience-model  [1★ · Awakened]
+# /audience-model  [0★ · Basic]
 **ID:** audience-model  
 **Type:** Basic Skill  
-**Level:** 1★  
-**Tier:** Awakened  
+**Level:** 0★  
+**Tier:** Basic  
 **Skill Call:** `/audience-model`
 
 ---

@@ -2,7 +2,7 @@
   "id": "parse-json",
   "name": "Parse JSON",
   "type": "basic",
-  "level": "1★",
+  "level": "0★",
   "rarity": "common",
   "description": "Extracts structured data from JSON-formatted input, handling nested objects and arrays.",
   "prerequisites": [],
@@ -23,6 +23,17 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-26",
-  "updatedAt": "2026-04-26",
-  "version": "0.1.0"
+  "updatedAt": "2026-05-25",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-25T04:25:34Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 1★ to 0★"
+    }
+  ],
+  "demerits": [
+    "broken-evidence"
+  ]
 }

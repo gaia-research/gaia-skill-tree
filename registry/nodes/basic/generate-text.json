@@ -24,6 +24,9 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-26",
-  "updatedAt": "2026-05-10",
-  "version": "0.1.0"
+  "updatedAt": "2026-05-25",
+  "version": "0.1.0",
+  "demerits": [
+    "broken-evidence"
+  ]
 }

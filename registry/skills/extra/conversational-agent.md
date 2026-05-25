@@ -1,8 +1,10 @@
-# /conversational-agent  [3★ · Evolved]
+# /conversational-agent  [1★ · Awakened]
 **ID:** conversational-agent  
 **Type:** Extra Skill  
-**Level:** 3★  
-**Tier:** Evolved  
+**Level:** 1★  
+**Tier:** Awakened  
+**Potential:** 0★  
+**Demerits:** broken-evidence  
 **Skill Call:** `/conversational-agent`
 
 ---

@@ -1,4 +1,4 @@
-# /schema-design  [2★ · Named]
+# [intelligentcode-ai](../../../docs/u/intelligentcode-ai/)/database-engineer  [2★ · Named]
 **ID:** schema-design  
 **Type:** Basic Skill  
 **Level:** 2★  

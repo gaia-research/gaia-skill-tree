@@ -34,8 +34,8 @@ Every AI agent capability exists somewhere on this graph. Skills start at the fo
   │  │  ├─ ○ huggingface/hf-cli  [2★]
   │  │  └─ ○ /tool-use  [1★]
   │  └─ ◇ ruvnet/flow-nexus-neural  [3★]
-  │     ├─ ○ /parallel-execution  [2★]
-  │     └─ ○ /embed-text  [1★]
+  │     ├─ ○ intelligentcode-ai/parallel-execution  [2★]
+  │     └─ ○ /embed-text  [0★]
   ├─ ◆ ruvnet/agentdb  [5★]
   │  ├─ ◇ ruvnet/agentdb-advanced  [3★]
   │  │  ├─ ○ ruvnet/agentdb-vector-search  [2★]
@@ -44,26 +44,25 @@ Every AI agent capability exists somewhere on this graph. Skills start at the fo
 
 ◆ mattpocock/skills  [6★]
   ├─ ◆ mattpocock/engineering  [5★]
-  │  ├─ ◇ devin-ai/autonomous-swe  [4★]
-  │  │  ├─ ○ garrytan/design-html  [1★]
-  │  │  ├─ ○ /code-execution  [2★]
-  │  │  └─ ○ /error-interpretation  [1★]
+  │  ├─ ◇ devin-ai/autonomous-swe  [1★]
+  │  │  ├─ ○ garrytan/design-html  [0★]
+  │  │  ├─ ○ /code-execution  [0★]
+  │  │  └─ ○ /error-interpretation  [0★]
   │  ├─ ○ mattpocock/improve-codebase-architecture  [2★]
   │  ├─ ◇ mattpocock/to-issues  [3★]
-  │  │  ├─ ○ /plan-decompose  [1★]
-  │  │  └─ ○ /route-intent  [1★]
+  │  │  ├─ ○ /plan-decompose  [0★]
+  │  │  └─ ○ /route-intent  [0★]
   │  ├─ ◇ mattpocock/to-prd  [4★]
-  │  │  ├─ ○ glincker/readme-generator  [1★]
+  │  │  ├─ ○ glincker/readme-generator  [0★]
   │  ├─ ○ mattpocock/triage  [4★]
-  │  ├─ ◇ mattpocock/ubiquitous-language  [4★]
-  │  │  ├─ ○ /extract-entities  [1★]
+  │  ├─ ◇ mattpocock/ubiquitous-language  [2★]
+  │  │  ├─ ○ /extract-entities  [0★]
 
 Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
   ◉ nousresearch/feed-monitoring  [4★ · Hardened]
-  ◉ openai/few-shot-learning  [4★ · Hardened]
   ◉ huggingface/huggingface-llm-trainer  [4★ · Hardened]
   ◉ ruvnet/hive-mind-coordination  [4★ · Hardened]
-  ◉ openai/self-consistency  [4★ · Hardened]
+  ◉ huggingface/semantic-cache  [4★ · Hardened]
 
 (211 skills total — see docs/tree.md)
 ```
@@ -109,7 +108,7 @@ Skills rank up through **verifiable evidence** (Class A/B/C) and can be demoted 
 **1. Install the CLI**
 
 <!-- gaia:version-start -->
-Current Gaia CLI version: `3.24.0`.
+Current Gaia CLI version: `3.25.0`.
 
 Python install:
 
