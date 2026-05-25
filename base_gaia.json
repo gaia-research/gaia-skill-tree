@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/skill.schema.json",
-  "version": "3.25.0",
-  "generatedAt": "2026-05-25T03:56:54.204347Z",
+  "version": "3.24.0",
+  "generatedAt": "2026-05-25T02:49:14.628136Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -561,7 +561,7 @@
       "id": "autonomous-debug",
       "name": "Autonomous Debug",
       "type": "extra",
-      "level": "3★",
+      "level": "4★",
       "rarity": "rare",
       "description": "Independently identifies, diagnoses, and fixes software bugs through code generation and execution.",
       "prerequisites": [
@@ -583,16 +583,8 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-05-25",
-      "version": "0.1.0",
-      "timeline": [
-        {
-          "timestamp": "2026-05-25T03:46:19Z",
-          "action": "demote",
-          "contributor": "mbtiongson1",
-          "details": "Calibrated level from 4★ to 3★"
-        }
-      ]
+      "updatedAt": "2026-04-26",
+      "version": "0.1.0"
     },
     {
       "id": "autonomous-engineering-platform",
@@ -1265,7 +1257,7 @@
       "id": "code-review-pipeline",
       "name": "Code Review Pipeline",
       "type": "extra",
-      "level": "2★",
+      "level": "3★",
       "rarity": "uncommon",
       "description": "Performs automated code review by generating, diffing, and evaluating code changes for correctness, style, security, and maintainability.",
       "prerequisites": [
@@ -1294,16 +1286,8 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-05-25",
-      "version": "0.2.0",
-      "timeline": [
-        {
-          "timestamp": "2026-05-25T03:45:35Z",
-          "action": "demote",
-          "contributor": "mbtiongson1",
-          "details": "Calibrated level from 3★ to 2★"
-        }
-      ]
+      "updatedAt": "2026-05-18",
+      "version": "0.2.0"
     },
     {
       "id": "collaborative-diagramming",
@@ -1456,7 +1440,7 @@
       "id": "content-moderation",
       "name": "Content Moderation",
       "type": "extra",
-      "level": "2★",
+      "level": "3★",
       "rarity": "uncommon",
       "description": "Detects policy-violating content by combining intent classification, sentiment scoring, and entity extraction across text, images, and mixed media.",
       "prerequisites": [
@@ -1478,16 +1462,8 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-05-25",
-      "version": "0.2.0",
-      "timeline": [
-        {
-          "timestamp": "2026-05-25T03:45:36Z",
-          "action": "demote",
-          "contributor": "mbtiongson1",
-          "details": "Calibrated level from 3★ to 2★"
-        }
-      ]
+      "updatedAt": "2026-04-28",
+      "version": "0.2.0"
     },
     {
       "id": "context-compression",
@@ -2348,8 +2324,8 @@
     {
       "id": "few-shot-learning",
       "name": "Few-Shot Learning",
-      "type": "basic",
-      "level": "2★",
+      "type": "unique",
+      "level": "4★",
       "rarity": "common",
       "description": "Conditions a language model on a small number of input-output demonstrations within the prompt, enabling task adaptation without weight updates.",
       "prerequisites": [],
@@ -2370,22 +2346,8 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-29",
-      "updatedAt": "2026-05-25",
-      "version": "0.2.0",
-      "timeline": [
-        {
-          "timestamp": "2026-05-25T03:44:41Z",
-          "action": "type_change",
-          "contributor": "mbtiongson1",
-          "details": "Reclassified from unique to basic"
-        },
-        {
-          "timestamp": "2026-05-25T03:45:37Z",
-          "action": "demote",
-          "contributor": "mbtiongson1",
-          "details": "Calibrated level from 4★ to 2★"
-        }
-      ]
+      "updatedAt": "2026-04-29",
+      "version": "0.2.0"
     },
     {
       "id": "fine-tune",
@@ -2591,7 +2553,7 @@
       "id": "function-calling",
       "name": "Function Calling",
       "type": "extra",
-      "level": "2★",
+      "level": "3★",
       "rarity": "uncommon",
       "description": "Selects an external callable, emits schema-valid arguments, invokes the function or API, and integrates the returned result into the agent loop.",
       "prerequisites": [
@@ -2620,16 +2582,8 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-29",
-      "updatedAt": "2026-05-25",
-      "version": "0.1.0",
-      "timeline": [
-        {
-          "timestamp": "2026-05-25T03:45:36Z",
-          "action": "demote",
-          "contributor": "mbtiongson1",
-          "details": "Calibrated level from 3★ to 2★"
-        }
-      ]
+      "updatedAt": "2026-04-29",
+      "version": "0.1.0"
     },
     {
       "id": "gaia-audit",
@@ -3875,7 +3829,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-22",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-05-22",
       "version": "0.1.0",
       "timeline": [
         {
@@ -3889,12 +3843,6 @@
           "action": "evidence_added",
           "contributor": "mbtiongson1",
           "details": "Added B evidence from https://github.com/mattpocock/skills"
-        },
-        {
-          "timestamp": "2026-05-25T03:46:20Z",
-          "action": "demote",
-          "contributor": "mbtiongson1",
-          "details": "Calibrated level from 5★ to 5★"
         }
       ]
     },
@@ -4023,19 +3971,12 @@
           "evaluator": "mbtiongson1",
           "date": "2026-05-22",
           "notes": "Peer-reviewed ultimate capstone suite consolidation."
-        },
-        {
-          "class": "A",
-          "source": "https://github.com/mattpocock/skills",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-25",
-          "notes": "Matt Pocock complete agent discipline library with 100k+ GitHub stars across the ecosystem."
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-22",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-05-22",
       "version": "0.1.0",
       "timeline": [
         {
@@ -4055,18 +3996,6 @@
           "action": "evidence_added",
           "contributor": "mbtiongson1",
           "details": "Added A evidence from https://github.com/mbtiongson1/gaia-skill-tree/pull/352"
-        },
-        {
-          "timestamp": "2026-05-25T03:46:19Z",
-          "action": "demote",
-          "contributor": "mbtiongson1",
-          "details": "Calibrated level from 6★ to 6★"
-        },
-        {
-          "timestamp": "2026-05-25T03:46:20Z",
-          "action": "evidence_added",
-          "contributor": "mbtiongson1",
-          "details": "Added A evidence from https://github.com/mattpocock/skills"
         }
       ]
     },
@@ -4383,7 +4312,7 @@
       "id": "multi-agent-debate",
       "name": "Multi-Agent Debate",
       "type": "extra",
-      "level": "2★",
+      "level": "4★",
       "rarity": "rare",
       "description": "Runs multiple LLM agents that propose, critique, and iteratively refine answers across structured debate rounds, converging on more accurate and well-reasoned responses than any single agent achieves.",
       "prerequisites": [
@@ -4414,16 +4343,8 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-05-25",
-      "version": "0.2.0",
-      "timeline": [
-        {
-          "timestamp": "2026-05-25T03:45:37Z",
-          "action": "demote",
-          "contributor": "mbtiongson1",
-          "details": "Calibrated level from 4★ to 2★"
-        }
-      ]
+      "updatedAt": "2026-04-30",
+      "version": "0.2.0"
     },
     {
       "id": "multi-agent-orchestration-v",
@@ -4484,7 +4405,7 @@
       "id": "multimodal-reasoning",
       "name": "Multimodal Reasoning",
       "type": "extra",
-      "level": "2★",
+      "level": "3★",
       "rarity": "rare",
       "description": "Integrates information from images and text to answer questions requiring visual grounding and logical inference across modalities.",
       "prerequisites": [
@@ -4509,16 +4430,8 @@
       ],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-05-25",
-      "version": "0.2.0",
-      "timeline": [
-        {
-          "timestamp": "2026-05-25T03:45:36Z",
-          "action": "demote",
-          "contributor": "mbtiongson1",
-          "details": "Calibrated level from 3★ to 2★"
-        }
-      ]
+      "updatedAt": "2026-04-28",
+      "version": "0.2.0"
     },
     {
       "id": "object-detection",
@@ -6163,8 +6076,8 @@
     {
       "id": "self-consistency",
       "name": "Self-Consistency",
-      "type": "basic",
-      "level": "2★",
+      "type": "unique",
+      "level": "4★",
       "rarity": "rare",
       "description": "Samples multiple independent reasoning paths for the same problem and selects the answer by majority vote, improving robustness without any additional training.",
       "prerequisites": [],
@@ -6185,22 +6098,8 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-29",
-      "updatedAt": "2026-05-25",
-      "version": "0.2.0",
-      "timeline": [
-        {
-          "timestamp": "2026-05-25T03:44:42Z",
-          "action": "type_change",
-          "contributor": "mbtiongson1",
-          "details": "Reclassified from unique to basic"
-        },
-        {
-          "timestamp": "2026-05-25T03:45:37Z",
-          "action": "demote",
-          "contributor": "mbtiongson1",
-          "details": "Calibrated level from 4★ to 2★"
-        }
-      ]
+      "updatedAt": "2026-04-29",
+      "version": "0.2.0"
     },
     {
       "id": "self-critique",
@@ -6537,7 +6436,7 @@
       "id": "skill-security-analysis",
       "name": "Skill Security Analysis",
       "type": "extra",
-      "level": "2★",
+      "level": "4★",
       "rarity": "rare",
       "description": "Assesses third-party agent skills for malicious behavior, unsafe permissions, prompt-injection exposure, repository-context mismatch, and supply-chain risk before installation or invocation.",
       "prerequisites": [
@@ -6576,16 +6475,8 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-10",
-      "updatedAt": "2026-05-25",
-      "version": "0.1.0",
-      "timeline": [
-        {
-          "timestamp": "2026-05-25T03:45:37Z",
-          "action": "demote",
-          "contributor": "mbtiongson1",
-          "details": "Calibrated level from 4★ to 2★"
-        }
-      ]
+      "updatedAt": "2026-05-10",
+      "version": "0.1.0"
     },
     {
       "id": "speech-to-text",
@@ -6819,7 +6710,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-18",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-05-18",
       "version": "0.1.0",
       "timeline": [
         {
@@ -6827,12 +6718,6 @@
           "action": "fuse",
           "contributor": "mbtiongson1",
           "details": "Fused 11 obra/superpowers discipline skills into /superpowers ultimate. Components: brainstorming, writing-plans, executing-plans, dispatching-parallel-agents, subagent-driven-development, requesting-code-review, receiving-code-review, systematic-debugging, verification-before-completion, using-git-worktrees, finishing-a-development-branch. Promoted to 5 star on evidence: obra/superpowers v5.1.0, 196k+ stars, multi-platform adoption."
-        },
-        {
-          "timestamp": "2026-05-25T03:46:20Z",
-          "action": "demote",
-          "contributor": "mbtiongson1",
-          "details": "Calibrated level from 5★ to 5★"
         }
       ]
     },
@@ -6980,7 +6865,7 @@
       "id": "text-to-sql-pipeline",
       "name": "Text-to-SQL Pipeline",
       "type": "extra",
-      "level": "2★",
+      "level": "3★",
       "rarity": "uncommon",
       "description": "Converts natural-language queries into validated, executable SQL against a target schema and returns formatted result sets.",
       "prerequisites": [
@@ -7002,16 +6887,8 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-05-25",
-      "version": "0.2.0",
-      "timeline": [
-        {
-          "timestamp": "2026-05-25T03:45:36Z",
-          "action": "demote",
-          "contributor": "mbtiongson1",
-          "details": "Calibrated level from 3★ to 2★"
-        }
-      ]
+      "updatedAt": "2026-04-28",
+      "version": "0.2.0"
     },
     {
       "id": "token-observability",
@@ -7240,7 +7117,7 @@
       "id": "translation-pipeline",
       "name": "Translation Pipeline",
       "type": "extra",
-      "level": "2★",
+      "level": "3★",
       "rarity": "uncommon",
       "description": "Translates content end-to-end while preserving sentiment and adapting tone and register for the target audience.",
       "prerequisites": [
@@ -7262,16 +7139,8 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-05-25",
-      "version": "0.2.0",
-      "timeline": [
-        {
-          "timestamp": "2026-05-25T03:45:36Z",
-          "action": "demote",
-          "contributor": "mbtiongson1",
-          "details": "Calibrated level from 3★ to 2★"
-        }
-      ]
+      "updatedAt": "2026-04-28",
+      "version": "0.2.0"
     },
     {
       "id": "tree-of-thought",
@@ -7549,7 +7418,7 @@
       "id": "vision-qa",
       "name": "Visual Question Answering",
       "type": "basic",
-      "level": "2★",
+      "level": "3★",
       "rarity": "uncommon",
       "description": "Answers natural-language questions grounded in a specific image or screenshot by combining visual perception with language reasoning, enabling visual debugging, UI analysis, and document-image Q&A.",
       "prerequisites": [],
@@ -7574,16 +7443,8 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-05-25",
-      "version": "0.1.0",
-      "timeline": [
-        {
-          "timestamp": "2026-05-25T03:45:36Z",
-          "action": "demote",
-          "contributor": "mbtiongson1",
-          "details": "Calibrated level from 3★ to 2★"
-        }
-      ]
+      "updatedAt": "2026-04-30",
+      "version": "0.1.0"
     },
     {
       "id": "voice-agent",
