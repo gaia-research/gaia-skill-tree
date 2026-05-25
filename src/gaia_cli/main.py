@@ -31,6 +31,7 @@ from gaia_cli.commands.dev import (
     meta_reclassify_command,
     meta_update_named_command,
     meta_rename_command,
+    meta_verify_command,
     meta_calibrate_command,
     meta_evidence_command,
     meta_build_command,

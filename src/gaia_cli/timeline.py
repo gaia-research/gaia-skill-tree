@@ -83,12 +83,12 @@ def append_skill_event(skill_id, action, contributor, details, registry_path="."
         return
 
     # 2. Search in named skills (Markdown)
-    named_base = Path(named_skills_dir(registry_path))
+    named_base = Path(named_skills_dir(registry_path)).resolve()
     target_file = None
     if "/" in skill_id:
         # Direct path guess
-        guess = named_base / f"{skill_id}.md"
-        if guess.exists():
+        guess = (named_base / f"{skill_id}.md").resolve()
+        if guess.exists() and guess.is_relative_to(named_base):
             target_file = guess
     
     if not target_file:

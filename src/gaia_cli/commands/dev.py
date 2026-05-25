@@ -57,7 +57,9 @@ def meta_verify_command(args):
 
     contributor = _get_contributor()
     if not _is_verifier(contributor, registry_path):
-        print(f"Warning: {contributor} is not a Verifier (no 4★+ skill found).")
+        print(f"Error: {contributor} is not a Verifier (no 4★+ skill found).")
+        print("Only contributors with at least one 4★ implementation can verify evidence.")
+        sys.exit(1)
 
     # 1. Check generic nodes
     nodes_dir = Path(registry_nodes_dir(registry_path))
