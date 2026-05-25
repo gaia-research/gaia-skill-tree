@@ -1,0 +1,454 @@
+{
+  "userId": "mattpocock",
+  "updatedAt": "2026-05-25",
+  "unlockedSkills": [
+    {
+      "skillId": "mattpocock/caveman",
+      "level": "3★",
+      "unlockedAt": "2026-05-21T00:00:00Z",
+      "unlockedIn": "mattpocock/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-05-21T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "mattpocock/diagnose",
+      "level": "2★",
+      "unlockedAt": "2026-04-30T00:00:00Z",
+      "unlockedIn": "mattpocock/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-04-30T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "mattpocock/edit-article",
+      "level": "2★",
+      "unlockedAt": "2026-04-30T00:00:00Z",
+      "unlockedIn": "mattpocock/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-04-30T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "mattpocock/engineering",
+      "level": "5★",
+      "unlockedAt": "2026-05-21T00:00:00Z",
+      "unlockedIn": "mattpocock/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "5★",
+          "achievedAt": "2026-05-21T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "mattpocock/grill-me",
+      "level": "4★",
+      "unlockedAt": "2026-04-30T00:00:00Z",
+      "unlockedIn": "mattpocock/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "4★",
+          "achievedAt": "2026-04-30T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "mattpocock/grill-with-docs",
+      "level": "3★",
+      "unlockedAt": "2026-04-30T00:00:00Z",
+      "unlockedIn": "mattpocock/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-04-30T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "mattpocock/handoff",
+      "level": "4★",
+      "unlockedAt": "2026-05-21T00:00:00Z",
+      "unlockedIn": "mattpocock/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "4★",
+          "achievedAt": "2026-05-21T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "mattpocock/improve-codebase-architecture",
+      "level": "3★",
+      "unlockedAt": "2026-04-30T00:00:00Z",
+      "unlockedIn": "mattpocock/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-04-30T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "mattpocock/obsidian-vault",
+      "level": "3★",
+      "unlockedAt": "2026-05-21T00:00:00Z",
+      "unlockedIn": "mattpocock/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-05-21T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "mattpocock/personal",
+      "level": "4★",
+      "unlockedAt": "2026-05-21T00:00:00Z",
+      "unlockedIn": "mattpocock/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "4★",
+          "achievedAt": "2026-05-21T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "mattpocock/productivity",
+      "level": "4★",
+      "unlockedAt": "2026-05-21T00:00:00Z",
+      "unlockedIn": "mattpocock/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "4★",
+          "achievedAt": "2026-05-21T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "mattpocock/prototype",
+      "level": "3★",
+      "unlockedAt": "2026-05-21T00:00:00Z",
+      "unlockedIn": "mattpocock/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-05-21T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "mattpocock/setup-matt-pocock-skills",
+      "level": "3★",
+      "unlockedAt": "2026-05-21T00:00:00Z",
+      "unlockedIn": "mattpocock/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-05-21T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "mattpocock/skills",
+      "level": "6★",
+      "unlockedAt": "2026-05-22T00:00:00Z",
+      "unlockedIn": "mattpocock/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "6★",
+          "achievedAt": "2026-05-22T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "mattpocock/to-issues",
+      "level": "3★",
+      "unlockedAt": "2026-04-30T00:00:00Z",
+      "unlockedIn": "mattpocock/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-04-30T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "mattpocock/to-prd",
+      "level": "2★",
+      "unlockedAt": "2026-04-30T00:00:00Z",
+      "unlockedIn": "mattpocock/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-04-30T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "mattpocock/triage",
+      "level": "3★",
+      "unlockedAt": "2026-04-30T00:00:00Z",
+      "unlockedIn": "mattpocock/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-04-30T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "mattpocock/ubiquitous-language",
+      "level": "4★",
+      "unlockedAt": "2026-05-15T00:00:00Z",
+      "unlockedIn": "mattpocock/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "4★",
+          "achievedAt": "2026-05-15T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "mattpocock/write-a-skill",
+      "level": "3★",
+      "unlockedAt": "2026-04-30T00:00:00Z",
+      "unlockedIn": "mattpocock/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-04-30T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "mattpocock/zoom-out",
+      "level": "2★",
+      "unlockedAt": "2026-04-30T00:00:00Z",
+      "unlockedIn": "mattpocock/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-04-30T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-04-30T00:00:00Z",
+      "action": "register",
+      "skillId": "mattpocock/diagnose",
+      "details": "Registered named skill mattpocock/diagnose",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-04-30T00:00:00Z",
+      "action": "register",
+      "skillId": "mattpocock/edit-article",
+      "details": "Registered named skill mattpocock/edit-article",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-04-30T00:00:00Z",
+      "action": "register",
+      "skillId": "mattpocock/grill-me",
+      "details": "Registered named skill mattpocock/grill-me",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-04-30T00:00:00Z",
+      "action": "register",
+      "skillId": "mattpocock/grill-with-docs",
+      "details": "Registered named skill mattpocock/grill-with-docs",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-04-30T00:00:00Z",
+      "action": "register",
+      "skillId": "mattpocock/improve-codebase-architecture",
+      "details": "Registered named skill mattpocock/improve-codebase-architecture",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-04-30T00:00:00Z",
+      "action": "register",
+      "skillId": "mattpocock/to-issues",
+      "details": "Registered named skill mattpocock/to-issues",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-04-30T00:00:00Z",
+      "action": "register",
+      "skillId": "mattpocock/to-prd",
+      "details": "Registered named skill mattpocock/to-prd",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-04-30T00:00:00Z",
+      "action": "register",
+      "skillId": "mattpocock/triage",
+      "details": "Registered named skill mattpocock/triage",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-04-30T00:00:00Z",
+      "action": "register",
+      "skillId": "mattpocock/write-a-skill",
+      "details": "Registered named skill mattpocock/write-a-skill",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-04-30T00:00:00Z",
+      "action": "register",
+      "skillId": "mattpocock/zoom-out",
+      "details": "Registered named skill mattpocock/zoom-out",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-15T00:00:00Z",
+      "action": "register",
+      "skillId": "mattpocock/ubiquitous-language",
+      "details": "Registered named skill mattpocock/ubiquitous-language",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-05-21T00:00:00Z",
+      "action": "register",
+      "skillId": "mattpocock/caveman",
+      "details": "Registered named skill mattpocock/caveman",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-05-21T00:00:00Z",
+      "action": "register",
+      "skillId": "mattpocock/engineering",
+      "details": "Registered named skill mattpocock/engineering",
+      "previousValue": null,
+      "newValue": "5★"
+    },
+    {
+      "timestamp": "2026-05-21T00:00:00Z",
+      "action": "register",
+      "skillId": "mattpocock/handoff",
+      "details": "Registered named skill mattpocock/handoff",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-05-21T00:00:00Z",
+      "action": "register",
+      "skillId": "mattpocock/obsidian-vault",
+      "details": "Registered named skill mattpocock/obsidian-vault",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-05-21T00:00:00Z",
+      "action": "register",
+      "skillId": "mattpocock/personal",
+      "details": "Registered named skill mattpocock/personal",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-05-21T00:00:00Z",
+      "action": "register",
+      "skillId": "mattpocock/productivity",
+      "details": "Registered named skill mattpocock/productivity",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-05-21T00:00:00Z",
+      "action": "register",
+      "skillId": "mattpocock/prototype",
+      "details": "Registered named skill mattpocock/prototype",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-05-21T00:00:00Z",
+      "action": "register",
+      "skillId": "mattpocock/setup-matt-pocock-skills",
+      "details": "Registered named skill mattpocock/setup-matt-pocock-skills",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-05-22T00:00:00Z",
+      "action": "register",
+      "skillId": "mattpocock/skills",
+      "details": "Registered named skill mattpocock/skills",
+      "previousValue": null,
+      "newValue": "6★"
+    }
+  ],
+  "stats": {
+    "totalUnlocked": 20,
+    "highestRarity": "uncommon",
+    "deepestLineage": 1
+  },
+  "pendingCombinations": []
+}

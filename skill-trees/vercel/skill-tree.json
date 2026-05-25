@@ -1,0 +1,36 @@
+{
+  "userId": "vercel",
+  "updatedAt": "2026-05-25",
+  "unlockedSkills": [
+    {
+      "skillId": "vercel/find-skills",
+      "level": "2★",
+      "unlockedAt": "2026-04-30T00:00:00Z",
+      "unlockedIn": "vercel/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-04-30T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-04-30T00:00:00Z",
+      "action": "register",
+      "skillId": "vercel/find-skills",
+      "details": "Registered named skill vercel/find-skills",
+      "previousValue": null,
+      "newValue": "2★"
+    }
+  ],
+  "stats": {
+    "totalUnlocked": 1,
+    "highestRarity": "uncommon",
+    "deepestLineage": 1
+  },
+  "pendingCombinations": []
+}

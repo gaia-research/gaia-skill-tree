@@ -1,0 +1,278 @@
+{
+  "userId": "obra",
+  "updatedAt": "2026-05-25",
+  "unlockedSkills": [
+    {
+      "skillId": "obra/brainstorming",
+      "level": "2★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "obra/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "obra/dispatching-parallel-agents",
+      "level": "4★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "obra/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "4★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "obra/executing-plans",
+      "level": "2★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "obra/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "obra/finishing-a-development-branch",
+      "level": "2★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "obra/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "obra/receiving-code-review",
+      "level": "2★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "obra/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "obra/requesting-code-review",
+      "level": "3★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "obra/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "obra/subagent-driven-development",
+      "level": "4★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "obra/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "4★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "obra/superpowers",
+      "level": "5★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "obra/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "5★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "obra/systematic-debugging",
+      "level": "3★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "obra/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "obra/using-git-worktrees",
+      "level": "2★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "obra/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "obra/verification-before-completion",
+      "level": "2★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "obra/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "obra/writing-plans",
+      "level": "2★",
+      "unlockedAt": "2026-05-18T00:00:00Z",
+      "unlockedIn": "obra/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-18T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "obra/brainstorming",
+      "details": "Registered named skill obra/brainstorming",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "obra/dispatching-parallel-agents",
+      "details": "Registered named skill obra/dispatching-parallel-agents",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "obra/executing-plans",
+      "details": "Registered named skill obra/executing-plans",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "obra/finishing-a-development-branch",
+      "details": "Registered named skill obra/finishing-a-development-branch",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "obra/receiving-code-review",
+      "details": "Registered named skill obra/receiving-code-review",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "obra/requesting-code-review",
+      "details": "Registered named skill obra/requesting-code-review",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "obra/subagent-driven-development",
+      "details": "Registered named skill obra/subagent-driven-development",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "obra/superpowers",
+      "details": "Registered named skill obra/superpowers",
+      "previousValue": null,
+      "newValue": "5★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "obra/systematic-debugging",
+      "details": "Registered named skill obra/systematic-debugging",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "obra/using-git-worktrees",
+      "details": "Registered named skill obra/using-git-worktrees",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "obra/verification-before-completion",
+      "details": "Registered named skill obra/verification-before-completion",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "register",
+      "skillId": "obra/writing-plans",
+      "details": "Registered named skill obra/writing-plans",
+      "previousValue": null,
+      "newValue": "2★"
+    }
+  ],
+  "stats": {
+    "totalUnlocked": 12,
+    "highestRarity": "uncommon",
+    "deepestLineage": 1
+  },
+  "pendingCombinations": []
+}

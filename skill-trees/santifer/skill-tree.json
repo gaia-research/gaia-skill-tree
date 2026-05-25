@@ -1,0 +1,36 @@
+{
+  "userId": "santifer",
+  "updatedAt": "2026-05-25",
+  "unlockedSkills": [
+    {
+      "skillId": "santifer/career-ops",
+      "level": "3★",
+      "unlockedAt": "2026-05-14T00:00:00Z",
+      "unlockedIn": "santifer/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-05-14T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-05-14T00:00:00Z",
+      "action": "register",
+      "skillId": "santifer/career-ops",
+      "details": "Registered named skill santifer/career-ops",
+      "previousValue": null,
+      "newValue": "3★"
+    }
+  ],
+  "stats": {
+    "totalUnlocked": 1,
+    "highestRarity": "uncommon",
+    "deepestLineage": 1
+  },
+  "pendingCombinations": []
+}

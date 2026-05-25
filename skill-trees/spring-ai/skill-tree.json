@@ -1,0 +1,36 @@
+{
+  "userId": "spring-ai",
+  "updatedAt": "2026-05-25",
+  "unlockedSkills": [
+    {
+      "skillId": "spring-ai/readme-generate",
+      "level": "2★",
+      "unlockedAt": "2026-04-30T00:00:00Z",
+      "unlockedIn": "spring-ai/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-04-30T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-04-30T00:00:00Z",
+      "action": "register",
+      "skillId": "spring-ai/readme-generate",
+      "details": "Registered named skill spring-ai/readme-generate",
+      "previousValue": null,
+      "newValue": "2★"
+    }
+  ],
+  "stats": {
+    "totalUnlocked": 1,
+    "highestRarity": "uncommon",
+    "deepestLineage": 1
+  },
+  "pendingCombinations": []
+}

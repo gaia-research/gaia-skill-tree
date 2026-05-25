@@ -1,0 +1,168 @@
+{
+  "userId": "huggingface",
+  "updatedAt": "2026-05-25",
+  "unlockedSkills": [
+    {
+      "skillId": "huggingface/hf-cli",
+      "level": "2★",
+      "unlockedAt": "2026-05-03T00:00:00Z",
+      "unlockedIn": "huggingface/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-03T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "huggingface/huggingface-datasets",
+      "level": "2★",
+      "unlockedAt": "2026-05-03T00:00:00Z",
+      "unlockedIn": "huggingface/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-03T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "huggingface/huggingface-llm-trainer",
+      "level": "3★",
+      "unlockedAt": "2026-05-03T00:00:00Z",
+      "unlockedIn": "huggingface/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-05-03T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "huggingface/huggingface-papers",
+      "level": "2★",
+      "unlockedAt": "2026-05-03T00:00:00Z",
+      "unlockedIn": "huggingface/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-03T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "huggingface/huggingface-vision-trainer",
+      "level": "3★",
+      "unlockedAt": "2026-05-03T00:00:00Z",
+      "unlockedIn": "huggingface/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-05-03T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "huggingface/semantic-cache",
+      "level": "4★",
+      "unlockedAt": "2026-05-15T00:00:00Z",
+      "unlockedIn": "huggingface/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "4★",
+          "achievedAt": "2026-05-15T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "huggingface/transformers-js",
+      "level": "2★",
+      "unlockedAt": "2026-05-03T00:00:00Z",
+      "unlockedIn": "huggingface/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-03T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-05-03T00:00:00Z",
+      "action": "register",
+      "skillId": "huggingface/hf-cli",
+      "details": "Registered named skill huggingface/hf-cli",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-03T00:00:00Z",
+      "action": "register",
+      "skillId": "huggingface/huggingface-datasets",
+      "details": "Registered named skill huggingface/huggingface-datasets",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-03T00:00:00Z",
+      "action": "register",
+      "skillId": "huggingface/huggingface-llm-trainer",
+      "details": "Registered named skill huggingface/huggingface-llm-trainer",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-05-03T00:00:00Z",
+      "action": "register",
+      "skillId": "huggingface/huggingface-papers",
+      "details": "Registered named skill huggingface/huggingface-papers",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-03T00:00:00Z",
+      "action": "register",
+      "skillId": "huggingface/huggingface-vision-trainer",
+      "details": "Registered named skill huggingface/huggingface-vision-trainer",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-05-03T00:00:00Z",
+      "action": "register",
+      "skillId": "huggingface/transformers-js",
+      "details": "Registered named skill huggingface/transformers-js",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-15T00:00:00Z",
+      "action": "register",
+      "skillId": "huggingface/semantic-cache",
+      "details": "Registered named skill huggingface/semantic-cache",
+      "previousValue": null,
+      "newValue": "4★"
+    }
+  ],
+  "stats": {
+    "totalUnlocked": 7,
+    "highestRarity": "uncommon",
+    "deepestLineage": 1
+  },
+  "pendingCombinations": []
+}

@@ -1,0 +1,36 @@
+{
+  "userId": "nousresearch",
+  "updatedAt": "2026-05-25",
+  "unlockedSkills": [
+    {
+      "skillId": "nousresearch/feed-monitoring",
+      "level": "4★",
+      "unlockedAt": "2026-05-15T00:00:00Z",
+      "unlockedIn": "nousresearch/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "4★",
+          "achievedAt": "2026-05-15T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-05-15T00:00:00Z",
+      "action": "register",
+      "skillId": "nousresearch/feed-monitoring",
+      "details": "Registered named skill nousresearch/feed-monitoring",
+      "previousValue": null,
+      "newValue": "4★"
+    }
+  ],
+  "stats": {
+    "totalUnlocked": 1,
+    "highestRarity": "uncommon",
+    "deepestLineage": 1
+  },
+  "pendingCombinations": []
+}

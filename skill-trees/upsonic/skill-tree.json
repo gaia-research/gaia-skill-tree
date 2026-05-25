@@ -1,0 +1,36 @@
+{
+  "userId": "upsonic",
+  "updatedAt": "2026-05-25",
+  "unlockedSkills": [
+    {
+      "skillId": "upsonic/unittest-generator",
+      "level": "2★",
+      "unlockedAt": "2026-04-30T00:00:00Z",
+      "unlockedIn": "upsonic/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-04-30T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-04-30T00:00:00Z",
+      "action": "register",
+      "skillId": "upsonic/unittest-generator",
+      "details": "Registered named skill upsonic/unittest-generator",
+      "previousValue": null,
+      "newValue": "2★"
+    }
+  ],
+  "stats": {
+    "totalUnlocked": 1,
+    "highestRarity": "uncommon",
+    "deepestLineage": 1
+  },
+  "pendingCombinations": []
+}

@@ -1,0 +1,36 @@
+{
+  "userId": "getagentseal",
+  "updatedAt": "2026-05-25",
+  "unlockedSkills": [
+    {
+      "skillId": "getagentseal/codeburn",
+      "level": "2★",
+      "unlockedAt": "2026-05-14T00:00:00Z",
+      "unlockedIn": "getagentseal/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-14T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-05-14T00:00:00Z",
+      "action": "register",
+      "skillId": "getagentseal/codeburn",
+      "details": "Registered named skill getagentseal/codeburn",
+      "previousValue": null,
+      "newValue": "2★"
+    }
+  ],
+  "stats": {
+    "totalUnlocked": 1,
+    "highestRarity": "uncommon",
+    "deepestLineage": 1
+  },
+  "pendingCombinations": []
+}
