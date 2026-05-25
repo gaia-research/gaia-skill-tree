@@ -1,7 +1,7 @@
 {
   "id": "few-shot-learning",
   "name": "Few-Shot Learning",
-  "type": "unique",
+  "type": "basic",
   "level": "4★",
   "rarity": "common",
   "description": "Conditions a language model on a small number of input-output demonstrations within the prompt, enabling task adaptation without weight updates.",
@@ -23,6 +23,14 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-29",
-  "updatedAt": "2026-04-29",
-  "version": "0.2.0"
+  "updatedAt": "2026-05-25",
+  "version": "0.2.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-25T03:44:41Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from unique to basic"
+    }
+  ]
 }
