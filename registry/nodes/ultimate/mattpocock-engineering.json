@@ -30,7 +30,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-22",
-  "updatedAt": "2026-05-22",
+  "updatedAt": "2026-05-25",
   "version": "0.1.0",
   "timeline": [
     {
@@ -44,6 +44,12 @@
       "action": "evidence_added",
       "contributor": "mbtiongson1",
       "details": "Added B evidence from https://github.com/mattpocock/skills"
+    },
+    {
+      "timestamp": "2026-05-25T03:46:20Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 5★ to 5★"
     }
   ]
 }

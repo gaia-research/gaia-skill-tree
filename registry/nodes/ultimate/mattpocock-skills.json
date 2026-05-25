@@ -27,12 +27,19 @@
       "evaluator": "mbtiongson1",
       "date": "2026-05-22",
       "notes": "Peer-reviewed ultimate capstone suite consolidation."
+    },
+    {
+      "class": "A",
+      "source": "https://github.com/mattpocock/skills",
+      "evaluator": "mbtiongson1",
+      "date": "2026-05-25",
+      "notes": "Matt Pocock complete agent discipline library with 100k+ GitHub stars across the ecosystem."
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-22",
-  "updatedAt": "2026-05-22",
+  "updatedAt": "2026-05-25",
   "version": "0.1.0",
   "timeline": [
     {
@@ -52,6 +59,18 @@
       "action": "evidence_added",
       "contributor": "mbtiongson1",
       "details": "Added A evidence from https://github.com/mbtiongson1/gaia-skill-tree/pull/352"
+    },
+    {
+      "timestamp": "2026-05-25T03:46:19Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 6★ to 6★"
+    },
+    {
+      "timestamp": "2026-05-25T03:46:20Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added A evidence from https://github.com/mattpocock/skills"
     }
   ]
 }
