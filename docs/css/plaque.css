@@ -1236,3 +1236,397 @@
 .plaque--mini.plaque--ghost .plaque__gh-link {
   display: none;
 }
+
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Profile Enhancements — Stage 4d
+   Components: filter bar · plaque actions (share/claim) · share modal ·
+               progression timeline · activity log
+   Token-only colors: NO bare hex literals — always var(--token) or
+   var(--token, #hex) fallback form only.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Profile section wrapper ─────────────────────────────────── */
+.profile-section {
+  margin-block: 3rem;
+}
+.profile-section h2,
+.profile-section-title {
+  font-family: var(--font-display, 'EB Garamond', Georgia, serif);
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+  font-weight: 600;
+  color: var(--text, #e2e8f0);
+  margin-bottom: 0.25rem;
+}
+.profile-section-sub {
+  color: var(--muted, #64748b);
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+}
+
+/* ── Filter bar ───────────────────────────────────────────────── */
+.profile-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  align-items: flex-start;
+  margin-bottom: 1.25rem;
+}
+
+/* fieldset reset */
+.profile-filter-group {
+  border: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.profile-filter-legend {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted, #64748b);
+  margin-right: 0.35rem;
+  float: left;
+  padding-top: 0.3rem;
+}
+
+.profile-filter-chip {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: var(--surface, #0f172a);
+  border: 1px solid var(--border, #1e293b);
+  color: var(--muted, #64748b);
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, color 0.15s, transform 0.1s;
+}
+.profile-filter-chip:hover {
+  border-color: var(--tier-basic, #38bdf8);
+  color: var(--text, #e2e8f0);
+  transform: translateY(-1px);
+}
+.profile-filter-chip[aria-pressed="true"] {
+  border-color: var(--apex-gold, #fbbf24);
+  background: rgba(251, 191, 36, 0.08);
+  color: var(--apex-gold, #fbbf24);
+}
+
+.profile-filter-reset {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: none;
+  border: none;
+  color: var(--muted, #64748b);
+  cursor: pointer;
+  padding: 0.3rem 0.5rem;
+  transition: color 0.15s;
+  align-self: center;
+}
+.profile-filter-reset:hover {
+  color: var(--text, #e2e8f0);
+}
+
+/* ── Plaque action buttons (share + claim) ────────────────────── */
+.plaque__actions {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+}
+
+.plaque__share-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: var(--muted, #64748b);
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+  padding: 0;
+}
+.plaque__share-btn:hover {
+  border-color: var(--tier-basic, #38bdf8);
+  color: var(--tier-basic, #38bdf8);
+}
+
+.plaque__claim-btn {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: transparent;
+  border: 1px solid var(--muted, #64748b);
+  color: var(--muted, #64748b);
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+.plaque__claim-btn[data-claim="claimed"] {
+  border-color: var(--honor-red, #ef4444);
+  background: rgba(239, 68, 68, 0.07);
+  color: var(--honor-red, #ef4444);
+}
+.plaque__claim-btn:hover {
+  border-color: var(--text, #e2e8f0);
+  color: var(--text, #e2e8f0);
+}
+
+/* ── Share modal ──────────────────────────────────────────────── */
+.share-modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9000;
+}
+.share-modal[hidden] {
+  display: none;
+}
+
+.share-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(3, 7, 18, 0.75);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  cursor: pointer;
+}
+
+.share-modal__panel {
+  position: relative;
+  z-index: 1;
+  width: min(460px, calc(100vw - 2rem));
+  background: var(--surface, #0f172a);
+  border: 1px solid var(--border, #1e293b);
+  border-radius: 14px;
+  padding: 1.5rem 1.75rem 1.75rem;
+  box-shadow: 0 24px 64px rgba(3, 7, 18, 0.7);
+}
+
+.share-modal__close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: var(--muted, #64748b);
+  font-size: 1.1rem;
+  cursor: pointer;
+  line-height: 1;
+  transition: border-color 0.15s, color 0.15s;
+  padding: 0;
+}
+.share-modal__close:hover {
+  border-color: var(--border, #1e293b);
+  color: var(--text, #e2e8f0);
+}
+
+.share-modal__title {
+  font-family: var(--font-display, 'EB Garamond', Georgia, serif);
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--text, #e2e8f0);
+  margin: 0 0 0.25rem;
+}
+
+.share-modal__caption {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.78rem;
+  color: var(--muted, #64748b);
+  letter-spacing: 0.03em;
+  margin: 0 0 0.9rem;
+}
+
+.share-modal__preview {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1200 / 630;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid var(--border, #1e293b);
+  margin-bottom: 1rem;
+  background: var(--bg, #030712);
+}
+
+.share-modal__actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+}
+
+.share-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  background: var(--bg, #030712);
+  border: 1px solid var(--border, #1e293b);
+  color: var(--text, #e2e8f0);
+  padding: 0.6rem 0.9rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.share-action:hover {
+  background: var(--surface, #0f172a);
+  border-color: var(--muted, #64748b);
+}
+/* X: neutral with var(--text) — matches brand neutral tone */
+.share-action--x {
+  border-color: var(--border, #1e293b);
+  color: var(--text, #e2e8f0);
+}
+.share-action--x:hover {
+  border-color: var(--text, #e2e8f0);
+}
+/* Instagram: var(--tier-extra) border suggests gradient without new colors */
+.share-action--instagram {
+  border-color: var(--tier-extra, #c084fc);
+  color: var(--tier-extra, #c084fc);
+}
+.share-action--instagram:hover {
+  background: rgba(192, 132, 252, 0.07);
+  border-color: var(--tier-extra, #c084fc);
+}
+
+.share-modal__toast {
+  margin-top: 0.75rem;
+  text-align: center;
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.78rem;
+  color: var(--apex-gold, #fbbf24);
+  background: var(--surface, #0f172a);
+  border: 1px solid var(--apex-gold, #fbbf24);
+  border-radius: 6px;
+  padding: 0.45rem 0.75rem;
+  animation: share-toast-fade 0.2s ease;
+}
+.share-modal__toast[hidden] {
+  display: none;
+}
+@keyframes share-toast-fade {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Progression timeline canvas ─────────────────────────────── */
+.profile-timeline {
+  aspect-ratio: 4 / 2;
+  width: 100%;
+  background: var(--surface, #0f172a);
+  border: 1px solid var(--border, #1e293b);
+  border-radius: 10px;
+  display: block;
+}
+.profile-timeline:hover {
+  cursor: crosshair;
+}
+
+/* ── Activity log ─────────────────────────────────────────────── */
+.profile-activity-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.profile-activity-item {
+  display: grid;
+  grid-template-columns: 7rem 6rem 1fr auto;
+  gap: 0.5rem 1rem;
+  align-items: center;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid var(--border, #1e293b);
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 0.78rem;
+}
+.profile-activity-item:last-child {
+  border-bottom: none;
+}
+
+.profile-activity-time {
+  color: var(--muted, #64748b);
+  font-size: 0.74rem;
+}
+
+.profile-activity-action {
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+/* Per-action color via data attribute */
+.profile-activity-action[data-action="rank_up"]  { color: var(--rank-3, #a78bfa); }
+.profile-activity-action[data-action="fuse"]     { color: var(--tier-extra, #c084fc); }
+.profile-activity-action[data-action="ascend"]   { color: var(--apex-gold, #fbbf24); }
+.profile-activity-action[data-action="name"]     { color: var(--tier-basic, #38bdf8); }
+.profile-activity-action[data-action="promote"]  { color: var(--apex-gold, #fbbf24); }
+.profile-activity-action[data-action="evidence"] { color: var(--rank-3, #a78bfa); }
+
+.profile-activity-skill {
+  color: var(--honor-red, #ef4444);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profile-activity-change {
+  color: var(--muted, #64748b);
+  white-space: nowrap;
+  text-align: right;
+}
+
+@media (max-width: 700px) {
+  .profile-activity-item {
+    grid-template-columns: 5.5rem 5rem 1fr;
+    grid-template-rows: auto auto;
+  }
+  .profile-activity-change {
+    grid-column: 3;
+    text-align: left;
+  }
+}
+@media (max-width: 480px) {
+  .profile-activity-item {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+  }
+  .profile-activity-time { grid-column: 1; }
+  .profile-activity-action { grid-column: 2; text-align: right; }
+  .profile-activity-skill { grid-column: 1 / -1; }
+  .profile-activity-change { grid-column: 1 / -1; text-align: left; }
+}

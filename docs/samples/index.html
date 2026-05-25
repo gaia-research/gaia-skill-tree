@@ -543,6 +543,51 @@
       </div>
       </a>
 
+      <!-- Stage 4d: Profile Enhancements -->
+      <a class="si-card" href="profile-enhancements.html">
+      <div class="si-thumb" aria-hidden="true">
+        <!-- Mini line graph: rank rising 1→6 over time, stair-step style -->
+        <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+          <!-- Background surface -->
+          <rect x="20" y="10" width="160" height="72" rx="6" fill="rgba(15,23,42,0.9)" stroke="rgba(30,41,59,0.8)" stroke-width="1"/>
+          <!-- Axis lines -->
+          <line x1="32" y1="72" x2="172" y2="72" stroke="rgba(100,116,139,0.35)" stroke-width="0.8"/>
+          <line x1="32" y1="72" x2="32" y2="18" stroke="rgba(100,116,139,0.35)" stroke-width="0.8"/>
+          <!-- Stair-step polyline: rank 1→2→3→4→5→6 ascending left to right -->
+          <!-- Points: (32,67) rank1 → (58,67) → (58,54) rank2 → (84,54) → (84,41) rank3 → (108,41) → (108,31) rank4 → (135,31) → (135,22) rank5 → (158,22) → (158,16) rank6 -->
+          <polyline
+            points="32,67 58,67 58,54 84,54 84,41 108,41 108,31 135,31 135,22 158,22 158,16"
+            fill="none"
+            stroke="var(--apex-gold, #fbbf24)"
+            stroke-width="1.6"
+            stroke-linejoin="round"
+            opacity="0.85"/>
+          <!-- Step dots colored by tier -->
+          <circle cx="32"  cy="67" r="3" fill="var(--rank-1, #38bdf8)"/>
+          <circle cx="58"  cy="54" r="3" fill="var(--rank-2, #63cab7)"/>
+          <circle cx="84"  cy="41" r="3" fill="var(--rank-3, #a78bfa)"/>
+          <circle cx="108" cy="31" r="3" fill="var(--rank-4, #e879f9)"/>
+          <circle cx="135" cy="22" r="3" fill="var(--rank-5, #fbbf24)"/>
+          <circle cx="158" cy="16" r="4" fill="var(--apex-gold, #fbbf24)" opacity="0.95">
+            <animate attributeName="r" values="3.5;4.5;3.5" dur="2s" repeatCount="indefinite"/>
+          </circle>
+          <!-- Rank labels -->
+          <text x="25" y="70" font-family="monospace" font-size="5.5" fill="rgba(100,116,139,0.7)" text-anchor="middle">1</text>
+          <text x="25" y="57" font-family="monospace" font-size="5.5" fill="rgba(100,116,139,0.7)" text-anchor="middle">2</text>
+          <text x="25" y="44" font-family="monospace" font-size="5.5" fill="rgba(100,116,139,0.7)" text-anchor="middle">3</text>
+          <text x="25" y="34" font-family="monospace" font-size="5.5" fill="rgba(100,116,139,0.7)" text-anchor="middle">4</text>
+          <text x="25" y="25" font-family="monospace" font-size="5.5" fill="rgba(100,116,139,0.7)" text-anchor="middle">5</text>
+          <text x="25" y="19" font-family="monospace" font-size="5.5" fill="rgba(251,191,36,0.85)" text-anchor="middle">6</text>
+        </svg>
+      </div>
+      <div class="si-card-body">
+        <div class="si-stage-label">Stage 4d</div>
+        <div class="si-card-title">Profile Enhancements</div>
+        <div class="si-card-desc">Filterable Named Skills grid, settled-plaque Share modal (download / X / Instagram), Claim badge placeholder, and an interactive Progression Timeline reading the new <code>levelHistory[]</code> + <code>timeline[]</code> schema.</div>
+        <div class="si-card-link">profile-enhancements.html &rsaquo;</div>
+      </div>
+      </a>
+
       </div>
 
   <!-- ── Footer reference links ── -->
