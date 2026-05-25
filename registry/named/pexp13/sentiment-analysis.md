@@ -5,7 +5,7 @@ contributor: pexp13
 origin: true
 genericSkillRef: sentiment-analysis
 status: awakened
-level: "3★"
+level: "2★"
 description: >
   Classifies the affective polarity (positive / negative / neutral, or fine-grained)
   of user-generated text. Covers the full pipeline from raw noisy input through

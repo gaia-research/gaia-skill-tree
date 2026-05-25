@@ -2,7 +2,7 @@
   "id": "multi-agent-debate",
   "name": "Multi-Agent Debate",
   "type": "extra",
-  "level": "4★",
+  "level": "2★",
   "rarity": "rare",
   "description": "Runs multiple LLM agents that propose, critique, and iteratively refine answers across structured debate rounds, converging on more accurate and well-reasoned responses than any single agent achieves.",
   "prerequisites": [
@@ -33,6 +33,14 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-04-30",
-  "version": "0.2.0"
+  "updatedAt": "2026-05-25",
+  "version": "0.2.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-25T03:45:37Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 4★ to 2★"
+    }
+  ]
 }

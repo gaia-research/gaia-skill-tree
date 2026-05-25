@@ -2,7 +2,7 @@
   "id": "self-consistency",
   "name": "Self-Consistency",
   "type": "basic",
-  "level": "4★",
+  "level": "2★",
   "rarity": "rare",
   "description": "Samples multiple independent reasoning paths for the same problem and selects the answer by majority vote, improving robustness without any additional training.",
   "prerequisites": [],
@@ -31,6 +31,12 @@
       "action": "type_change",
       "contributor": "mbtiongson1",
       "details": "Reclassified from unique to basic"
+    },
+    {
+      "timestamp": "2026-05-25T03:45:37Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 4★ to 2★"
     }
   ]
 }
