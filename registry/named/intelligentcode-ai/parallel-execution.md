@@ -8,7 +8,6 @@ links:
 genericSkillRef: parallel-execution
 status: named
 title: The Concurrency Master
-catalogRef: intelligentcode-ai-parallel-execution
 level: 2★
 description: Manages concurrent work item execution with independence verification,
   queue-based state tracking, and configurable concurrency limits (default 5).

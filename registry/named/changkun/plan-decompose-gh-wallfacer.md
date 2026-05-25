@@ -5,7 +5,6 @@ contributor: changkun
 origin: false
 genericSkillRef: autonomous-engineering-platform
 status: awakened
-title: Wallfacer
 level: 2★
 description: Chat, specs, tasks, and code. An autonomous engineering platform.
 createdAt: '2026-05-23'

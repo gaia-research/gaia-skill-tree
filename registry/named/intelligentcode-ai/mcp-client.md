@@ -8,7 +8,6 @@ links:
 genericSkillRef: mcp-integration
 status: named
 title: The Protocol Bridge
-catalogRef: intelligentcode-ai-mcp-client
 level: 2★
 description: Portable CLI tool that connects to MCP servers on-demand, enumerates
   available tools, displays them, and executes calls — works with any MCP-compatible

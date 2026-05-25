@@ -8,7 +8,6 @@ links:
 genericSkillRef: schema-design
 status: named
 title: The Database Oracle
-catalogRef: intelligentcode-ai-database-engineer
 level: 2★
 description: Schema design and query optimization expert across relational, NoSQL,
   graph, time-series, and data warehouse stores with sub-second response targets.

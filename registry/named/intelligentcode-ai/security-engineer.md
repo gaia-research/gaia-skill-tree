@@ -8,7 +8,6 @@ links:
 genericSkillRef: security-audit
 status: named
 title: The Bastion's Eye
-catalogRef: intelligentcode-ai-security-engineer
 level: 2★
 description: Security architecture specialist — vulnerability assessment, zero-trust
   design, compliance management, and incident response with severity-classified remediation
