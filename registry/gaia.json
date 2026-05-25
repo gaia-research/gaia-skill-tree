@@ -1,6 +1,6 @@
 {
   "$schema": "./schema/skill.schema.json",
-  "version": "3.25.1",
+  "version": "3.25.2",
   "generatedAt": "2026-05-25T12:59:36.823997Z",
   "meta": {
     "typeLabels": {
@@ -10,49 +10,49 @@
       "ultimate": "Ultimate Skill"
     },
     "levelLabels": {
-      "0★": "Basic",
-      "1★": "Awakened",
-      "2★": "Named",
-      "3★": "Evolved",
-      "4★": "Hardened",
-      "5★": "Transcendent",
-      "6★": "Apex"
+      "0\u2605": "Basic",
+      "1\u2605": "Awakened",
+      "2\u2605": "Named",
+      "3\u2605": "Evolved",
+      "4\u2605": "Hardened",
+      "5\u2605": "Transcendent",
+      "6\u2605": "Apex"
     },
     "rarityLabels": {
       "legendary": "Divine"
     },
     "levelColors": {
-      "0★": {
+      "0\u2605": {
         "hex": "#94a3b8",
         "bg": "rgba(148,163,184,.12)",
         "border": "rgba(148,163,184,.4)"
       },
-      "1★": {
+      "1\u2605": {
         "hex": "#38bdf8",
         "bg": "rgba(56,189,248,.12)",
         "border": "rgba(56,189,248,.4)"
       },
-      "2★": {
+      "2\u2605": {
         "hex": "#63cab7",
         "bg": "rgba(99,202,183,.15)",
         "border": "rgba(99,202,183,.4)"
       },
-      "3★": {
+      "3\u2605": {
         "hex": "#a78bfa",
         "bg": "rgba(167,139,250,.15)",
         "border": "rgba(167,139,250,.4)"
       },
-      "4★": {
+      "4\u2605": {
         "hex": "#e879f9",
         "bg": "rgba(232,121,249,.15)",
         "border": "rgba(232,121,249,.4)"
       },
-      "5★": {
+      "5\u2605": {
         "hex": "#fbbf24",
         "bg": "rgba(251,191,36,.15)",
         "border": "rgba(251,191,36,.4)"
       },
-      "6★": {
+      "6\u2605": {
         "hex": "#fbbf24",
         "bg": "rgba(251,191,36,.22)",
         "border": "rgba(251,191,36,.55)"
@@ -77,10 +77,10 @@
       }
     },
     "typeSymbols": {
-      "basic": "○",
-      "extra": "◇",
-      "unique": "◉",
-      "ultimate": "◆"
+      "basic": "\u25cb",
+      "extra": "\u25c7",
+      "unique": "\u25c9",
+      "ultimate": "\u25c6"
     },
     "demeritLabels": {
       "broken-evidence": "Broken evidence",
@@ -154,7 +154,7 @@
       "id": "adaptive-pattern-learning",
       "name": "Adaptive Pattern Learning",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "common",
       "description": "Records task outcomes and identifies recurring scenarios to rank optimal response strategies over time.",
       "prerequisites": [],
@@ -166,7 +166,7 @@
           "source": "https://github.com/ruvnet/ruflo",
           "evaluator": "mbtiongson1",
           "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          "notes": "Ruflo orchestration platform \u2014 34k+ GitHub stars."
         }
       ],
       "knownAgents": [],
@@ -179,7 +179,7 @@
       "id": "advanced-swarm-coordination",
       "name": "Advanced Swarm Coordination",
       "type": "extra",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "uncommon",
       "description": "Domain-specific swarm patterns for research, development, testing, and analysis workflows with neural learning and cross-session state persistence.",
       "prerequisites": [
@@ -194,7 +194,7 @@
           "source": "https://github.com/ruvnet/ruflo",
           "evaluator": "mbtiongson1",
           "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          "notes": "Ruflo orchestration platform \u2014 34k+ GitHub stars."
         }
       ],
       "knownAgents": [],
@@ -207,7 +207,7 @@
       "id": "agent-environment-setup",
       "name": "agent-environment-setup",
       "type": "extra",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "common",
       "description": "Scaffolding per-repo configuration for other engineering skills.",
       "prerequisites": [
@@ -248,7 +248,7 @@
       "id": "agent-eval",
       "name": "Agent Evaluation",
       "type": "extra",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "uncommon",
       "description": "Holistically evaluates an AI agent's performance on multi-step tasks by running standardised benchmarks, scoring full interaction trajectories, and producing reproducible capability reports.",
       "prerequisites": [
@@ -292,7 +292,7 @@
       "id": "agent-handoff",
       "name": "agent-handoff",
       "type": "extra",
-      "level": "4★",
+      "level": "4\u2605",
       "rarity": "common",
       "description": "Compacting the current conversation into a summary for a fresh agent.",
       "prerequisites": [
@@ -334,7 +334,7 @@
       "id": "agent-memory-learning",
       "name": "Agent Memory Learning",
       "type": "extra",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "uncommon",
       "description": "Builds self-improving agent memory by analyzing task success patterns and adapting retrieval strategies with AgentDB-backed persistence.",
       "prerequisites": [
@@ -349,14 +349,14 @@
           "source": "https://github.com/ruvnet/ruflo",
           "evaluator": "mbtiongson1",
           "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          "notes": "Ruflo orchestration platform \u2014 34k+ GitHub stars."
         },
         {
           "class": "B",
           "source": "https://github.com/ruvnet/ruflo",
           "evaluator": "mbtiongson1",
           "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          "notes": "Ruflo orchestration platform \u2014 34k+ GitHub stars."
         }
       ],
       "knownAgents": [],
@@ -377,7 +377,7 @@
       "id": "agent-memory-platform",
       "name": "Agent Memory Platform",
       "type": "ultimate",
-      "level": "5★",
+      "level": "5\u2605",
       "rarity": "legendary",
       "description": "Complete AgentDB vector memory ecosystem: QUIC-synchronized distributed vector storage, adaptive pattern learning, memory pattern design, database optimization, and semantic vector search.",
       "prerequisites": [
@@ -395,7 +395,7 @@
           "source": "https://github.com/ruvnet/ruflo",
           "evaluator": "mbtiongson1",
           "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          "notes": "Ruflo orchestration platform \u2014 34k+ GitHub stars."
         }
       ],
       "knownAgents": [],
@@ -408,7 +408,7 @@
           "timestamp": "2026-05-19T00:00:00Z",
           "action": "fuse",
           "contributor": "mbtiongson1",
-          "details": "Fused 5 ruvnet/agentdb discipline skills into /agent-memory-platform ultimate. Components: distributed-vector-memory, agent-memory-learning, memory-pattern-design, vector-db-optimization, vector-search. Promoted to 5★ on evidence: ruvnet/ruflo — 34k+ stars, AgentDB production deployment."
+          "details": "Fused 5 ruvnet/agentdb discipline skills into /agent-memory-platform ultimate. Components: distributed-vector-memory, agent-memory-learning, memory-pattern-design, vector-db-optimization, vector-search. Promoted to 5\u2605 on evidence: ruvnet/ruflo \u2014 34k+ stars, AgentDB production deployment."
         }
       ]
     },
@@ -416,7 +416,7 @@
       "id": "agentic-workflow-design",
       "name": "Agentic Workflow Design",
       "type": "extra",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "uncommon",
       "description": "Autonomously designs, authors, and iterates on complex multi-step workflows by translating high-level goals into executable DAGs or playbooks, managing task dependencies and distributed execution environments.",
       "prerequisites": [
@@ -451,7 +451,7 @@
       "id": "api-call",
       "name": "API Call",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "common",
       "description": "Constructs, executes, and handles responses from HTTP APIs by interpreting documentation and selecting appropriate endpoints and parameters.",
       "prerequisites": [],
@@ -467,7 +467,7 @@
           "source": "https://arxiv.org/abs/2305.15334",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "Gorilla (Patil et al.) â€” LLM that generates accurate API calls across TorchHub, TensorFlow Hub, and HuggingFace; 20.43% AST accuracy improvement over GPT-4."
+          "notes": "Gorilla (Patil et al.) \u00e2\u20ac\u201d LLM that generates accurate API calls across TorchHub, TensorFlow Hub, and HuggingFace; 20.43% AST accuracy improvement over GPT-4."
         }
       ],
       "knownAgents": [],
@@ -480,7 +480,7 @@
       "id": "architecture-diagram",
       "name": "Architecture Diagram",
       "type": "extra",
-      "level": "4★",
+      "level": "4\u2605",
       "rarity": "uncommon",
       "description": "Generates technical architecture, infrastructure, or cloud diagrams as structured visual artifacts from natural-language system descriptions.",
       "prerequisites": [
@@ -511,7 +511,7 @@
       "id": "audience-model",
       "name": "Audience Model",
       "type": "basic",
-      "level": "0★",
+      "level": "0\u2605",
       "rarity": "common",
       "description": "Adapts tone, complexity, and framing of output to match a target audience profile.",
       "prerequisites": [],
@@ -540,7 +540,7 @@
           "timestamp": "2026-05-25T04:25:30Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 1★ to 0★"
+          "details": "Calibrated level from 1\u2605 to 0\u2605"
         }
       ],
       "demerits": [
@@ -551,7 +551,7 @@
       "id": "automated-testing",
       "name": "Automated Testing",
       "type": "extra",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "uncommon",
       "description": "Generates test suites, executes them in a sandbox, interprets failures, and iterates until the target pass rate is reached.",
       "prerequisites": [
@@ -572,7 +572,7 @@
           "source": "https://github.com/princeton-nlp/SWE-bench",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "SWE-bench Verified â€” open-source evaluation harness where agents fix GitHub issues by generating and passing test suites; full execution logs archived."
+          "notes": "SWE-bench Verified \u00e2\u20ac\u201d open-source evaluation harness where agents fix GitHub issues by generating and passing test suites; full execution logs archived."
         }
       ],
       "knownAgents": [],
@@ -585,7 +585,7 @@
       "id": "autonomous-data-scientist",
       "name": "Autonomous Data Scientist",
       "type": "extra",
-      "level": "5★",
+      "level": "5\u2605",
       "rarity": "epic",
       "description": "Conducts end-to-end data science workflows autonomously: hypothesis generation, data analysis, statistical modeling, and insight reporting.",
       "prerequisites": [
@@ -601,21 +601,21 @@
           "source": "https://arxiv.org/abs/2210.12641",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "DS-1000 â€” benchmark of 1000 data science problems across NumPy/Pandas/Scikit-learn; GPT-4 achieves 43.3% pass@1, establishing reproducible DS evaluation."
+          "notes": "DS-1000 \u00e2\u20ac\u201d benchmark of 1000 data science problems across NumPy/Pandas/Scikit-learn; GPT-4 achieves 43.3% pass@1, establishing reproducible DS evaluation."
         },
         {
           "class": "A",
           "source": "https://arxiv.org/abs/2208.01756",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "AutoML Survey (He et al., ACM CSUR) â€” systematic review of autonomous ML pipeline search; demonstrates automated feature engineering, model selection, and HPO."
+          "notes": "AutoML Survey (He et al., ACM CSUR) \u00e2\u20ac\u201d systematic review of autonomous ML pipeline search; demonstrates automated feature engineering, model selection, and HPO."
         },
         {
           "class": "B",
           "source": "https://github.com/microsoft/autogen",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "AutoGen (Microsoft) â€” multi-agent framework with reproducible data science notebooks; science agent achieves 44.3% on DS-1000 with full execution logs."
+          "notes": "AutoGen (Microsoft) \u00e2\u20ac\u201d multi-agent framework with reproducible data science notebooks; science agent achieves 44.3% on DS-1000 with full execution logs."
         }
       ],
       "knownAgents": [],
@@ -629,7 +629,7 @@
       "id": "autonomous-debug",
       "name": "Autonomous Debug",
       "type": "extra",
-      "level": "1★",
+      "level": "1\u2605",
       "rarity": "rare",
       "description": "Independently identifies, diagnoses, and fixes software bugs through code generation and execution.",
       "prerequisites": [
@@ -658,13 +658,13 @@
           "timestamp": "2026-05-25T03:46:19Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 4★ to 3★"
+          "details": "Calibrated level from 4\u2605 to 3\u2605"
         },
         {
           "timestamp": "2026-05-25T04:25:30Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 3★ to 2★"
+          "details": "Calibrated level from 3\u2605 to 2\u2605"
         }
       ],
       "demerits": [
@@ -675,7 +675,7 @@
       "id": "autonomous-engineering-platform",
       "name": "Autonomous Engineering Platform",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "common",
       "description": "An autonomous engineering platform integrating chat, specs, tasks, and code for full agentic software delivery.",
       "prerequisites": [],
@@ -726,7 +726,7 @@
       "id": "autonomous-web-research",
       "name": "Autonomous Web Research",
       "type": "extra",
-      "level": "4★",
+      "level": "4\u2605",
       "rarity": "rare",
       "description": "Independently surveys, maps, and extracts structured information from the web by autonomously deciding which domains to crawl and synthesizing data into comprehensive research reports.",
       "prerequisites": [
@@ -774,7 +774,7 @@
       "id": "bioinformatic-sequence-analysis",
       "name": "Bioinformatic Sequence Analysis",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "common",
       "description": "Performs biological sequence alignment, similarity searches, multiple sequence alignment (MSA), and genomic variant analysis using standard bioinformatics tools and databases.",
       "prerequisites": [],
@@ -825,7 +825,7 @@
       "id": "brainstorming",
       "name": "Brainstorming",
       "type": "extra",
-      "level": "1★",
+      "level": "1\u2605",
       "rarity": "common",
       "description": "Explores user intent, requirements, and design before implementation.",
       "prerequisites": [
@@ -842,7 +842,7 @@
           "source": "https://github.com/obra/superpowers/blob/main/skills/brainstorming/SKILL.md",
           "evaluator": "mbtiongson1",
           "date": "2026-05-18",
-          "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
+          "notes": "obra/superpowers \u2014 complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
         }
       ],
       "knownAgents": [],
@@ -855,7 +855,7 @@
       "id": "browser-automation",
       "name": "Browser Automation",
       "type": "extra",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "uncommon",
       "description": "Navigates web pages, fills forms, clicks elements, and extracts information by combining web search with screenshot-based GUI control to complete multi-step web tasks.",
       "prerequisites": [
@@ -875,14 +875,14 @@
           "source": "https://arxiv.org/abs/2401.13919",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "WebVoyager (He et al., 2024) â€” end-to-end web agent with GPT-4V; 59.1% task success on real-world web tasks across 15 popular websites."
+          "notes": "WebVoyager (He et al., 2024) \u00e2\u20ac\u201d end-to-end web agent with GPT-4V; 59.1% task success on real-world web tasks across 15 popular websites."
         },
         {
           "class": "B",
           "source": "https://github.com/web-arena-x/webarena",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "WebArena â€” self-hosted web environment with 812 realistic tasks; reproducible benchmark with ground-truth evaluation scripts."
+          "notes": "WebArena \u00e2\u20ac\u201d self-hosted web environment with 812 realistic tasks; reproducible benchmark with ground-truth evaluation scripts."
         }
       ],
       "knownAgents": [],
@@ -895,7 +895,7 @@
       "id": "browser-control",
       "name": "Browser Control",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "uncommon",
       "summary": "A foundational skill for interacting directly with the web browser using Chrome DevTools Protocol (CDP).",
       "description": "Directly controls a web browser via low-level protocols (like CDP) to manipulate the DOM, manage cookies, intercept network traffic, and simulate user interactions (clicking via coordinates, taking screenshots) without relying on heavy wrapper frameworks like Playwright or Puppeteer.",
@@ -926,7 +926,7 @@
       "id": "career-operations",
       "name": "Career Operations",
       "type": "extra",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "legendary",
       "description": "Orchestrates an end-to-end job application pipeline, including automated search, fit evaluation, and tailored CV/cover letter generation.",
       "prerequisites": [
@@ -955,7 +955,7 @@
       "id": "chain-of-thought",
       "name": "Chain-of-Thought Reasoning",
       "type": "basic",
-      "level": "0★",
+      "level": "0\u2605",
       "rarity": "uncommon",
       "description": "Produces explicit intermediate reasoning steps before arriving at a final answer, dramatically improving accuracy on multi-step problems.",
       "prerequisites": [],
@@ -972,14 +972,14 @@
           "source": "https://arxiv.org/abs/2201.11903",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "Wei et al. (2022) â€” Chain-of-Thought Prompting; +18% on GSM8K and +14% on MATH with PaLM 540B vs standard prompting."
+          "notes": "Wei et al. (2022) \u00e2\u20ac\u201d Chain-of-Thought Prompting; +18% on GSM8K and +14% on MATH with PaLM 540B vs standard prompting."
         },
         {
           "class": "B",
           "source": "https://github.com/princeton-nlp/chain-of-thought-hub",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "Chain-of-Thought Hub â€” reproducible evaluation suite covering 10+ reasoning benchmarks with CoT prompts and baselines."
+          "notes": "Chain-of-Thought Hub \u00e2\u20ac\u201d reproducible evaluation suite covering 10+ reasoning benchmarks with CoT prompts and baselines."
         }
       ],
       "knownAgents": [],
@@ -992,7 +992,7 @@
           "timestamp": "2026-05-25T04:25:31Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 1★ to 0★"
+          "details": "Calibrated level from 1\u2605 to 0\u2605"
         }
       ],
       "demerits": [
@@ -1003,7 +1003,7 @@
       "id": "chunk-document",
       "name": "Chunk Document",
       "type": "basic",
-      "level": "0★",
+      "level": "0\u2605",
       "rarity": "common",
       "description": "Splits a document into semantically meaningful segments optimized for embedding and retrieval.",
       "prerequisites": [],
@@ -1030,7 +1030,7 @@
           "timestamp": "2026-05-25T04:25:31Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 1★ to 0★"
+          "details": "Calibrated level from 1\u2605 to 0\u2605"
         }
       ],
       "demerits": [
@@ -1041,7 +1041,7 @@
       "id": "cite-sources",
       "name": "Cite Sources",
       "type": "basic",
-      "level": "0★",
+      "level": "0\u2605",
       "rarity": "common",
       "description": "Attributes claims to specific sources with proper references, URLs, or bibliographic entries.",
       "prerequisites": [],
@@ -1072,7 +1072,7 @@
           "timestamp": "2026-05-25T04:25:31Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 1★ to 0★"
+          "details": "Calibrated level from 1\u2605 to 0\u2605"
         }
       ],
       "demerits": [
@@ -1083,7 +1083,7 @@
       "id": "classify",
       "name": "Classify",
       "type": "basic",
-      "level": "0★",
+      "level": "0\u2605",
       "rarity": "common",
       "description": "Assigns one or more categorical labels to an input based on learned or rule-based criteria.",
       "prerequisites": [],
@@ -1114,7 +1114,7 @@
       "id": "cli-modernization",
       "name": "CLI Modernization",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "common",
       "description": "Refactors command-line interfaces for improved UX, plugin architecture, and extensibility.",
       "prerequisites": [],
@@ -1126,7 +1126,7 @@
           "source": "https://github.com/ruvnet/ruflo",
           "evaluator": "mbtiongson1",
           "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          "notes": "Ruflo orchestration platform \u2014 34k+ GitHub stars."
         }
       ],
       "knownAgents": [],
@@ -1139,7 +1139,7 @@
       "id": "clinical-data-retrieval",
       "name": "Clinical Data Retrieval",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "common",
       "description": "Retrieves and parses clinical trial records, drug approvals, regulatory filings, or medical variant databases (e.g. ClinicalTrials.gov, OpenFDA, ClinVar).",
       "prerequisites": [],
@@ -1229,7 +1229,7 @@
       "id": "cloud-platform-management",
       "name": "Cloud Platform Management",
       "type": "extra",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "uncommon",
       "description": "Full lifecycle management of cloud AI platforms including user auth, sandbox environments, app store deployment, payments, and challenge systems. Home of the Queen Seraphina AI assistant.",
       "prerequisites": [
@@ -1244,7 +1244,7 @@
           "source": "https://github.com/ruvnet/ruflo",
           "evaluator": "mbtiongson1",
           "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          "notes": "Ruflo orchestration platform \u2014 34k+ GitHub stars."
         }
       ],
       "knownAgents": [],
@@ -1257,7 +1257,7 @@
       "id": "code-execution",
       "name": "Code Execution",
       "type": "basic",
-      "level": "0★",
+      "level": "0\u2605",
       "rarity": "common",
       "description": "Writes and executes code in a sandboxed environment, uses the runtime output to verify correctness, and iterates until the result is correct.",
       "prerequisites": [],
@@ -1278,14 +1278,14 @@
           "source": "https://arxiv.org/abs/2211.10435",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "PAL (Gao et al., 2023) â€” Program-Aided Language Models; delegates computation to Python interpreter, achieving +7% on GSM8K over direct CoT."
+          "notes": "PAL (Gao et al., 2023) \u00e2\u20ac\u201d Program-Aided Language Models; delegates computation to Python interpreter, achieving +7% on GSM8K over direct CoT."
         },
         {
           "class": "B",
           "source": "https://github.com/reasoning-machines/pal",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "PAL repo â€” reproducible harness across 13 reasoning benchmarks; evaluation scripts and baseline comparisons included."
+          "notes": "PAL repo \u00e2\u20ac\u201d reproducible harness across 13 reasoning benchmarks; evaluation scripts and baseline comparisons included."
         },
         {
           "class": "C",
@@ -1311,7 +1311,7 @@
           "timestamp": "2026-05-25T04:25:31Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 2★ to 1★"
+          "details": "Calibrated level from 2\u2605 to 1\u2605"
         }
       ],
       "demerits": [
@@ -1322,7 +1322,7 @@
       "id": "code-explain",
       "name": "Code Explain",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "common",
       "description": "Generates accurate natural-language explanations of source code, describing intent, logic flow, and key decisions at function or module level.",
       "prerequisites": [],
@@ -1357,7 +1357,7 @@
       "id": "code-generation",
       "name": "Code Generation",
       "type": "basic",
-      "level": "0★",
+      "level": "0\u2605",
       "rarity": "common",
       "description": "Produces syntactically correct and functionally appropriate source code from specifications or prompts.",
       "prerequisites": [],
@@ -1390,7 +1390,7 @@
           "timestamp": "2026-05-25T04:25:31Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 1★ to 0★"
+          "details": "Calibrated level from 1\u2605 to 0\u2605"
         }
       ],
       "demerits": [
@@ -1401,7 +1401,7 @@
       "id": "code-review-pipeline",
       "name": "Code Review Pipeline",
       "type": "extra",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "uncommon",
       "description": "Performs automated code review by generating, diffing, and evaluating code changes for correctness, style, security, and maintainability.",
       "prerequisites": [
@@ -1424,7 +1424,7 @@
           "source": "https://arxiv.org/abs/2203.09095",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "CodeReviewer (Microsoft) â€” pre-trained model for code review tasks; 28.7% BLEU improvement on comment generation and change quality prediction."
+          "notes": "CodeReviewer (Microsoft) \u00e2\u20ac\u201d pre-trained model for code review tasks; 28.7% BLEU improvement on comment generation and change quality prediction."
         }
       ],
       "knownAgents": [],
@@ -1437,7 +1437,7 @@
           "timestamp": "2026-05-25T03:45:35Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 3★ to 2★"
+          "details": "Calibrated level from 3\u2605 to 2\u2605"
         }
       ]
     },
@@ -1445,7 +1445,7 @@
       "id": "collaborative-diagramming",
       "name": "Collaborative Diagramming",
       "type": "extra",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "common",
       "description": "Generates and manages digital diagrams, flowcharts, and architecture maps in web-native or collaborative formats, optimized for hand-drawn aesthetics or structured vector output.",
       "prerequisites": [
@@ -1475,7 +1475,7 @@
       "id": "computational-biology-workflows",
       "name": "Computational Biology Workflows",
       "type": "extra",
-      "level": "4★",
+      "level": "4\u2605",
       "rarity": "common",
       "description": "Integrates structural, genomic, proteomic, and molecular database querying with bioinformatics analysis (such as sequence alignment, structure prediction, and molecular rendering) to solve multi-step, complex computational biology tasks.",
       "prerequisites": [
@@ -1558,7 +1558,7 @@
       "id": "computer-use",
       "name": "Computer Use",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "rare",
       "description": "Controls desktop GUIs and web browsers by interpreting screenshots, issuing mouse/keyboard actions, and verifying visual state to complete open-ended computer tasks.",
       "prerequisites": [],
@@ -1572,14 +1572,14 @@
           "source": "https://arxiv.org/abs/2307.13854",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "WebArena (Zhou et al., 2023) â€” realistic 812-task benchmark for autonomous web agents; establishes controlled eval for GUI-based computer use."
+          "notes": "WebArena (Zhou et al., 2023) \u00e2\u20ac\u201d realistic 812-task benchmark for autonomous web agents; establishes controlled eval for GUI-based computer use."
         },
         {
           "class": "B",
           "source": "https://github.com/xlang-ai/OSWorld",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "OSWorld â€” 369 computer tasks across real OS environments (Windows, macOS, Ubuntu); reproducible VM-based evaluation harness."
+          "notes": "OSWorld \u00e2\u20ac\u201d 369 computer tasks across real OS environments (Windows, macOS, Ubuntu); reproducible VM-based evaluation harness."
         }
       ],
       "knownAgents": [],
@@ -1592,7 +1592,7 @@
       "id": "content-moderation",
       "name": "Content Moderation",
       "type": "extra",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "uncommon",
       "description": "Detects policy-violating content by combining intent classification, sentiment scoring, and entity extraction across text, images, and mixed media.",
       "prerequisites": [
@@ -1608,7 +1608,7 @@
           "source": "https://platform.openai.com/docs/guides/moderation",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "OpenAI Moderation API â€” publicly documented multi-category content classifier with reproducible API calls, category scores, and evaluation methodology."
+          "notes": "OpenAI Moderation API \u00e2\u20ac\u201d publicly documented multi-category content classifier with reproducible API calls, category scores, and evaluation methodology."
         }
       ],
       "knownAgents": [],
@@ -1621,7 +1621,7 @@
           "timestamp": "2026-05-25T03:45:36Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 3★ to 2★"
+          "details": "Calibrated level from 3\u2605 to 2\u2605"
         }
       ]
     },
@@ -1629,7 +1629,7 @@
       "id": "context-compression",
       "name": "Context Compression",
       "type": "basic",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "common",
       "description": "Reduces the length of prompts or retrieved context to fit token limits while preserving semantic content, using techniques such as selective token removal, summarization, or token-classification-based pruning (e.g. LLMLingua).",
       "prerequisites": [],
@@ -1643,14 +1643,14 @@
           "source": "https://arxiv.org/abs/2403.12968",
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
-          "notes": "LLMLingua-2 (ACL 2024 Findings) — data-distillation for efficient task-agnostic prompt compression; 3x-6x speed-up, BERT-base token classifier; demonstrates measurable perplexity-based faithfulness."
+          "notes": "LLMLingua-2 (ACL 2024 Findings) \u2014 data-distillation for efficient task-agnostic prompt compression; 3x-6x speed-up, BERT-base token classifier; demonstrates measurable perplexity-based faithfulness."
         },
         {
           "class": "B",
           "source": "https://github.com/microsoft/LLMLingua",
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
-          "notes": "Microsoft LLMLingua — reproducible open-source implementation of LLMLingua-1/2/LongLLMLingua; CI, README, Apache-2.0 license."
+          "notes": "Microsoft LLMLingua \u2014 reproducible open-source implementation of LLMLingua-1/2/LongLLMLingua; CI, README, Apache-2.0 license."
         },
         {
           "class": "C",
@@ -1670,7 +1670,7 @@
       "id": "conversational-agent",
       "name": "Conversational Agent",
       "type": "extra",
-      "level": "1★",
+      "level": "1\u2605",
       "rarity": "uncommon",
       "description": "Manages coherent multi-turn dialogue by routing intent, maintaining memory across turns, and generating contextually appropriate responses.",
       "prerequisites": [
@@ -1686,7 +1686,7 @@
           "source": "https://github.com/langchain-ai/langchain/tree/master/libs/langchain/langchain/chains/conversation",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "LangChain ConversationChain â€” reproducible open-source multi-turn conversational agent with buffer and summary memory backends."
+          "notes": "LangChain ConversationChain \u00e2\u20ac\u201d reproducible open-source multi-turn conversational agent with buffer and summary memory backends."
         }
       ],
       "knownAgents": [],
@@ -1699,7 +1699,7 @@
           "timestamp": "2026-05-25T04:25:32Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 3★ to 2★"
+          "details": "Calibrated level from 3\u2605 to 2\u2605"
         }
       ],
       "demerits": [
@@ -1710,7 +1710,7 @@
       "id": "core-platform-implementation",
       "name": "Core Platform Implementation",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "common",
       "description": "Implements foundational platform architecture including plugin discovery, server lifecycle management, and API contracts.",
       "prerequisites": [],
@@ -1722,7 +1722,7 @@
           "source": "https://github.com/ruvnet/ruflo",
           "evaluator": "mbtiongson1",
           "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          "notes": "Ruflo orchestration platform \u2014 34k+ GitHub stars."
         },
         {
           "class": "B",
@@ -1789,7 +1789,7 @@
       "id": "data-analysis",
       "name": "Data Analysis",
       "type": "extra",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "uncommon",
       "description": "Conducts end-to-end quantitative analysis: queries data via SQL, computes statistics, generates visualizations, and summarizes findings.",
       "prerequisites": [
@@ -1809,7 +1809,7 @@
           "source": "https://github.com/Sinaptik-AI/pandas-ai",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "pandas-ai â€” open-source agent for natural-language data analysis over pandas DataFrames; reproducible demos with logging and output artifacts."
+          "notes": "pandas-ai \u00e2\u20ac\u201d open-source agent for natural-language data analysis over pandas DataFrames; reproducible demos with logging and output artifacts."
         }
       ],
       "knownAgents": [],
@@ -1822,7 +1822,7 @@
       "id": "data-visualize",
       "name": "Data Visualize",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "common",
       "description": "Generates charts, graphs, and visual summaries from datasets by selecting appropriate visualization types and mapping data dimensions.",
       "prerequisites": [],
@@ -1837,7 +1837,7 @@
           "source": "https://github.com/microsoft/lida",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "LIDA (Microsoft) â€” open-source LLM-based data visualization tool with reproducible generation pipeline; evaluated on diverse real-world datasets."
+          "notes": "LIDA (Microsoft) \u00e2\u20ac\u201d open-source LLM-based data visualization tool with reproducible generation pipeline; evaluated on diverse real-world datasets."
         }
       ],
       "knownAgents": [],
@@ -1850,9 +1850,9 @@
       "id": "deployment-automation",
       "name": "Deployment Automation",
       "type": "extra",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "uncommon",
-      "description": "Automate CI/CD pipeline execution and deployment to target environments — build, test, artifact publishing, environment promotion, and rollback strategies.",
+      "description": "Automate CI/CD pipeline execution and deployment to target environments \u2014 build, test, artifact publishing, environment promotion, and rollback strategies.",
       "prerequisites": [
         "workflow-automation",
         "code-execution"
@@ -1867,7 +1867,7 @@
           "source": "https://github.com/intelligentcode-ai/skills/blob/main/skills/devops-engineer/SKILL.md",
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
-          "notes": "intelligentcode-ai/skills devops-engineer — CI/CD pipeline design and deployment automation with build systems and release management."
+          "notes": "intelligentcode-ai/skills devops-engineer \u2014 CI/CD pipeline design and deployment automation with build systems and release management."
         }
       ],
       "knownAgents": [],
@@ -1883,7 +1883,7 @@
       "id": "design-generation",
       "name": "Design Generation",
       "type": "extra",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "rare",
       "description": "Generates high-fidelity visual assets, prototypes, and UI components from design intent or discovery forms, adhering to brand and UX standards.",
       "prerequisites": [
@@ -1913,9 +1913,9 @@
       "id": "design-review",
       "name": "Design Review",
       "type": "extra",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "rare",
-      "description": "Stress-tests a plan or design through relentless targeted questioning, walking the decision tree branch-by-branch, resolving concept dependencies, surfacing contradictions against the existing codebase, and crystallising ubiquitous language — optionally persisting resolved decisions to CONTEXT.md and ADRs.",
+      "description": "Stress-tests a plan or design through relentless targeted questioning, walking the decision tree branch-by-branch, resolving concept dependencies, surfacing contradictions against the existing codebase, and crystallising ubiquitous language \u2014 optionally persisting resolved decisions to CONTEXT.md and ADRs.",
       "prerequisites": [
         "evaluate-output",
         "plan-decompose"
@@ -1950,7 +1950,7 @@
       "id": "design-system-extraction",
       "name": "Design System Extraction",
       "type": "extra",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "rare",
       "description": "Automates the discovery and extraction of design tokens, component architectures, and CSS configurations from live web applications or URLs.",
       "prerequisites": [
@@ -1981,7 +1981,7 @@
       "id": "detect-anomaly",
       "name": "Detect Anomaly",
       "type": "extra",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "uncommon",
       "description": "Identifies statistical outliers, novel patterns, or deviations from expected behavior in structured or unstructured data.",
       "prerequisites": [
@@ -1999,7 +1999,7 @@
           "source": "https://arxiv.org/abs/2007.02500",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "Deep Learning for Anomaly Detection survey (Pang et al., ACM CSUR) â€” comprehensive benchmark of 30+ methods across fraud, intrusion, and medical anomaly detection."
+          "notes": "Deep Learning for Anomaly Detection survey (Pang et al., ACM CSUR) \u00e2\u20ac\u201d comprehensive benchmark of 30+ methods across fraud, intrusion, and medical anomaly detection."
         }
       ],
       "knownAgents": [],
@@ -2012,7 +2012,7 @@
       "id": "diff-content",
       "name": "Diff Content",
       "type": "basic",
-      "level": "0★",
+      "level": "0\u2605",
       "rarity": "common",
       "description": "Compares two versions of content and produces a structured delta highlighting additions, deletions, and modifications.",
       "prerequisites": [],
@@ -2040,7 +2040,7 @@
           "timestamp": "2026-05-25T04:25:32Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 1★ to 0★"
+          "details": "Calibrated level from 1\u2605 to 0\u2605"
         }
       ],
       "demerits": [
@@ -2051,7 +2051,7 @@
       "id": "dify-agent-suite",
       "name": "Dify Agent Suite",
       "type": "extra",
-      "level": "1★",
+      "level": "1\u2605",
       "rarity": "common",
       "description": "An integrated suite of frontend, backend, testing, and review capabilities for the Dify LLM application development platform.",
       "prerequisites": [
@@ -2093,7 +2093,7 @@
       "id": "dispatching-parallel-agents",
       "name": "Dispatching Parallel Agents",
       "type": "extra",
-      "level": "4★",
+      "level": "4\u2605",
       "rarity": "uncommon",
       "description": "Delegates independent tasks to specialized agents with isolated context to work concurrently.",
       "prerequisites": [
@@ -2112,7 +2112,7 @@
           "source": "https://github.com/obra/superpowers/blob/main/skills/dispatching-parallel-agents/SKILL.md",
           "evaluator": "mbtiongson1",
           "date": "2026-05-18",
-          "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
+          "notes": "obra/superpowers \u2014 complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
         }
       ],
       "knownAgents": [],
@@ -2125,7 +2125,7 @@
       "id": "distributed-neural-training",
       "name": "Distributed Neural Training",
       "type": "extra",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "uncommon",
       "description": "Trains neural networks (feedforward, LSTM, GAN, autoencoder, transformer) across distributed E2B sandbox clusters with federated learning and model marketplace publishing.",
       "prerequisites": [
@@ -2140,7 +2140,7 @@
           "source": "https://github.com/ruvnet/ruflo",
           "evaluator": "mbtiongson1",
           "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          "notes": "Ruflo orchestration platform \u2014 34k+ GitHub stars."
         }
       ],
       "knownAgents": [],
@@ -2153,7 +2153,7 @@
       "id": "distributed-vector-memory",
       "name": "Distributed Vector Memory",
       "type": "extra",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "uncommon",
       "description": "Sub-millisecond cross-node vector synchronization using QUIC protocol with hybrid metadata-filtered search and MMR diversity retrieval.",
       "prerequisites": [
@@ -2168,7 +2168,7 @@
           "source": "https://github.com/ruvnet/ruflo",
           "evaluator": "mbtiongson1",
           "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          "notes": "Ruflo orchestration platform \u2014 34k+ GitHub stars."
         }
       ],
       "knownAgents": [],
@@ -2181,7 +2181,7 @@
       "id": "document-analyst",
       "name": "Document Analyst",
       "type": "extra",
-      "level": "1★",
+      "level": "1\u2605",
       "rarity": "uncommon",
       "description": "Parses, extracts entities from, summarizes, and formats structured documents.",
       "prerequisites": [
@@ -2207,7 +2207,7 @@
           "source": "https://github.com/VikParuchuri/marker",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "Marker â€” open-source PDF-to-markdown pipeline with reproducible benchmarks; outperforms Nougat on edit distance across 1000+ arXiv PDFs."
+          "notes": "Marker \u00e2\u20ac\u201d open-source PDF-to-markdown pipeline with reproducible benchmarks; outperforms Nougat on edit distance across 1000+ arXiv PDFs."
         }
       ],
       "knownAgents": [],
@@ -2226,7 +2226,7 @@
           "timestamp": "2026-05-25T04:25:32Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 3★ to 2★"
+          "details": "Calibrated level from 3\u2605 to 2\u2605"
         }
       ],
       "demerits": [
@@ -2237,7 +2237,7 @@
       "id": "document-editing",
       "name": "Document Editing",
       "type": "basic",
-      "level": "0★",
+      "level": "0\u2605",
       "rarity": "common",
       "description": "Reads, edits, repacks, and applies styling or design principles to structured binary document formats such as PPTX, DOCX, and XLSX.",
       "prerequisites": [],
@@ -2265,7 +2265,7 @@
       "id": "dual-mode",
       "name": "Dual Mode",
       "type": "extra",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "uncommon",
       "description": "Orchestrates hybrid Claude+Codex workflows: spawns headless parallel workers, coordinates task routing between interactive and background phases, and collects distributed results.",
       "prerequisites": [
@@ -2281,7 +2281,7 @@
           "source": "https://github.com/ruvnet/ruflo",
           "evaluator": "mbtiongson1",
           "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          "notes": "Ruflo orchestration platform \u2014 34k+ GitHub stars."
         }
       ],
       "knownAgents": [],
@@ -2294,7 +2294,7 @@
       "id": "e2e-testing",
       "name": "End-to-End Testing",
       "type": "extra",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "uncommon",
       "description": "Execute full end-to-end user journey tests using browser automation frameworks (Playwright/Puppeteer), validating complete workflows from UI to backend across real environments.",
       "prerequisites": [
@@ -2311,14 +2311,14 @@
           "source": "https://github.com/zachblume/autospec",
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
-          "notes": "autospec — AI agent that takes a web app URL and autonomously QAs it, saving passing specs as E2E test code (59 stars, active)."
+          "notes": "autospec \u2014 AI agent that takes a web app URL and autonomously QAs it, saving passing specs as E2E test code (59 stars, active)."
         },
         {
           "class": "C",
           "source": "https://github.com/intelligentcode-ai/skills/blob/main/skills/user-tester/SKILL.md",
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
-          "notes": "intelligentcode-ai/skills user-tester — E2E testing specialist with Puppeteer/Playwright automation and cross-browser user journey validation."
+          "notes": "intelligentcode-ai/skills user-tester \u2014 E2E testing specialist with Puppeteer/Playwright automation and cross-browser user journey validation."
         }
       ],
       "knownAgents": [],
@@ -2331,7 +2331,7 @@
       "id": "embed-text",
       "name": "Embed Text",
       "type": "basic",
-      "level": "0★",
+      "level": "0\u2605",
       "rarity": "common",
       "description": "Converts text into dense vector representations suitable for similarity search and clustering.",
       "prerequisites": [],
@@ -2360,7 +2360,7 @@
           "timestamp": "2026-05-25T04:25:32Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 1★ to 0★"
+          "details": "Calibrated level from 1\u2605 to 0\u2605"
         }
       ],
       "demerits": [
@@ -2371,7 +2371,7 @@
       "id": "error-interpretation",
       "name": "Error Interpretation",
       "type": "basic",
-      "level": "0★",
+      "level": "0\u2605",
       "rarity": "common",
       "description": "Diagnoses error messages, stack traces, and failure modes to identify root causes and suggest fixes.",
       "prerequisites": [],
@@ -2401,7 +2401,7 @@
           "timestamp": "2026-05-25T04:25:32Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 1★ to 0★"
+          "details": "Calibrated level from 1\u2605 to 0\u2605"
         }
       ],
       "demerits": [
@@ -2412,7 +2412,7 @@
       "id": "evaluate-output",
       "name": "Evaluate Output",
       "type": "basic",
-      "level": "0★",
+      "level": "0\u2605",
       "rarity": "common",
       "description": "Assesses the quality, correctness, or safety of generated output against defined criteria.",
       "prerequisites": [],
@@ -2449,7 +2449,7 @@
           "timestamp": "2026-05-25T04:25:33Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 1★ to 0★"
+          "details": "Calibrated level from 1\u2605 to 0\u2605"
         }
       ],
       "demerits": [
@@ -2460,7 +2460,7 @@
       "id": "executing-plans",
       "name": "Executing Plans",
       "type": "extra",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "common",
       "description": "Loads a written implementation plan, reviews it critically, executes all tasks sequentially, and reports when complete.",
       "prerequisites": [
@@ -2478,7 +2478,7 @@
           "source": "https://github.com/obra/superpowers/blob/main/skills/executing-plans/SKILL.md",
           "evaluator": "mbtiongson1",
           "date": "2026-05-18",
-          "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
+          "notes": "obra/superpowers \u2014 complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
         }
       ],
       "knownAgents": [],
@@ -2491,7 +2491,7 @@
       "id": "extract-entities",
       "name": "Extract Entities",
       "type": "basic",
-      "level": "0★",
+      "level": "0\u2605",
       "rarity": "common",
       "description": "Identifies and extracts named entities such as people, organizations, dates, and locations from text.",
       "prerequisites": [],
@@ -2522,7 +2522,7 @@
           "timestamp": "2026-05-25T04:25:33Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 1★ to 0★"
+          "details": "Calibrated level from 1\u2605 to 0\u2605"
         }
       ],
       "demerits": [
@@ -2533,7 +2533,7 @@
       "id": "feed-monitoring",
       "name": "Feed Monitoring",
       "type": "unique",
-      "level": "4★",
+      "level": "4\u2605",
       "rarity": "common",
       "description": "Monitors RSS, Atom, blog, or other recurring content feeds, discovers updates, tracks read state, and surfaces new signals for downstream agent workflows.",
       "prerequisites": [],
@@ -2560,7 +2560,7 @@
       "id": "few-shot-learning",
       "name": "Few-Shot Learning",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "common",
       "description": "Conditions a language model on a small number of input-output demonstrations within the prompt, enabling task adaptation without weight updates.",
       "prerequisites": [],
@@ -2575,7 +2575,7 @@
           "source": "https://arxiv.org/abs/2005.14165",
           "evaluator": "mbtiongson1",
           "date": "2026-04-29",
-          "notes": "Brown et al. (2020) â€” Language Models are Few-Shot Learners (GPT-3); in-context learning from 1-100 examples achieves near-SOTA on SuperGLUE, translation, and QA benchmarks."
+          "notes": "Brown et al. (2020) \u00e2\u20ac\u201d Language Models are Few-Shot Learners (GPT-3); in-context learning from 1-100 examples achieves near-SOTA on SuperGLUE, translation, and QA benchmarks."
         }
       ],
       "knownAgents": [],
@@ -2594,7 +2594,7 @@
           "timestamp": "2026-05-25T03:45:37Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 4★ to 2★"
+          "details": "Calibrated level from 4\u2605 to 2\u2605"
         }
       ]
     },
@@ -2602,7 +2602,7 @@
       "id": "fine-tune",
       "name": "Fine-Tune",
       "type": "unique",
-      "level": "4★",
+      "level": "4\u2605",
       "rarity": "uncommon",
       "description": "Adapts a pre-trained model to a new task or domain by updating model weights using parameter-efficient methods such as LoRA, QLoRA, or full supervised fine-tuning, without retraining from scratch.",
       "prerequisites": [],
@@ -2641,7 +2641,7 @@
       "id": "finishing-a-development-branch",
       "name": "Finishing a Development Branch",
       "type": "extra",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "common",
       "description": "Guides completion of development work by presenting structured options for merge, PR, or cleanup, verifying tests first.",
       "prerequisites": [
@@ -2660,7 +2660,7 @@
           "source": "https://github.com/obra/superpowers/blob/main/skills/finishing-a-development-branch/SKILL.md",
           "evaluator": "mbtiongson1",
           "date": "2026-05-18",
-          "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
+          "notes": "obra/superpowers \u2014 complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
         }
       ],
       "knownAgents": [],
@@ -2673,7 +2673,7 @@
       "id": "flow-nexus-orchestration",
       "name": "Flow Nexus Orchestration",
       "type": "extra",
-      "level": "4★",
+      "level": "4\u2605",
       "rarity": "rare",
       "description": "Complete Flow Nexus platform: multi-topology swarm deployment, cloud platform management, and distributed neural training unified into one orchestration layer.",
       "prerequisites": [
@@ -2689,7 +2689,7 @@
           "source": "https://github.com/ruvnet/ruflo",
           "evaluator": "mbtiongson1",
           "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          "notes": "Ruflo orchestration platform \u2014 34k+ GitHub stars."
         }
       ],
       "knownAgents": [],
@@ -2702,7 +2702,7 @@
       "id": "format-output",
       "name": "Format Output",
       "type": "basic",
-      "level": "0★",
+      "level": "0\u2605",
       "rarity": "common",
       "description": "Structures raw output into a specified format such as markdown, JSON, CSV, or HTML.",
       "prerequisites": [],
@@ -2736,7 +2736,7 @@
       "id": "framework-upgrade",
       "name": "Framework Upgrade",
       "type": "basic",
-      "level": "0★",
+      "level": "0\u2605",
       "rarity": "common",
       "description": "Guides an agent through upgrading a project from one major framework version to another, including breaking-change detection, migration steps, and post-upgrade validation.",
       "prerequisites": [],
@@ -2761,7 +2761,7 @@
       "id": "full-stack-developer",
       "name": "Full-Stack Developer",
       "type": "extra",
-      "level": "5★",
+      "level": "5\u2605",
       "rarity": "epic",
       "description": "Autonomously implements, reviews, tests, and refactors complete software features across the full development lifecycle from specification to merged PR.",
       "prerequisites": [
@@ -2777,21 +2777,21 @@
           "source": "https://arxiv.org/abs/2310.06770",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "SWE-bench â€” 2294 real GitHub issues; Claude 3.5 Sonnet (Cognition) resolves 49% on Verified, demonstrating full-cycle autonomous development."
+          "notes": "SWE-bench \u00e2\u20ac\u201d 2294 real GitHub issues; Claude 3.5 Sonnet (Cognition) resolves 49% on Verified, demonstrating full-cycle autonomous development."
         },
         {
           "class": "B",
           "source": "https://github.com/princeton-nlp/SWE-agent",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "SWE-agent â€” open-source agent with AgentComputer Interface; reproducible harness achieving 12.5% on SWE-bench full with logs and eval scripts."
+          "notes": "SWE-agent \u00e2\u20ac\u201d open-source agent with AgentComputer Interface; reproducible harness achieving 12.5% on SWE-bench full with logs and eval scripts."
         },
         {
           "class": "A",
           "source": "https://arxiv.org/abs/2402.01030",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "CodeAct â€” executable code action space for LLM agents; +20% task completion vs JSON/text-based actions across 17 programming benchmarks."
+          "notes": "CodeAct \u00e2\u20ac\u201d executable code action space for LLM agents; +20% task completion vs JSON/text-based actions across 17 programming benchmarks."
         }
       ],
       "knownAgents": [],
@@ -2805,7 +2805,7 @@
       "id": "function-calling",
       "name": "Function Calling",
       "type": "extra",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "uncommon",
       "description": "Selects an external callable, emits schema-valid arguments, invokes the function or API, and integrates the returned result into the agent loop.",
       "prerequisites": [
@@ -2841,7 +2841,7 @@
           "timestamp": "2026-05-25T03:45:36Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 3★ to 2★"
+          "details": "Calibrated level from 3\u2605 to 2\u2605"
         }
       ]
     },
@@ -2849,7 +2849,7 @@
       "id": "gaia-audit",
       "name": "Gaia Audit",
       "type": "extra",
-      "level": "4★",
+      "level": "4\u2605",
       "rarity": "rare",
       "description": "Reviews one Gaia skill, named skill, or real-skill catalog item against current evidence, source URLs, taxonomy mapping, promotion status, and demotion criteria, then proposes the smallest source-of-truth correction. Implements a sophisticated 7-phase audit discipline including evidence re-verification, demotion checks, and automatic asset regeneration.",
       "prerequisites": [
@@ -2880,7 +2880,7 @@
       "id": "gaia-meta-audit",
       "name": "Gaia Meta Audit",
       "type": "extra",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "rare",
       "description": "Scans Gaia registry and real-skill catalog entries for review candidates whose evidence may be outdated, superseded, overpromoted, unmapped, stale, or insufficient for their current level or named-skill claim.",
       "prerequisites": [
@@ -2909,7 +2909,7 @@
       "id": "generate-sql",
       "name": "Generate SQL",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "common",
       "description": "Translates natural-language data questions into syntactically correct, executable SQL queries against a given schema.",
       "prerequisites": [],
@@ -2924,7 +2924,7 @@
           "source": "https://arxiv.org/abs/1809.08887",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "Spider benchmark â€” cross-domain text-to-SQL dataset; LLM baselines reach >85% exact match, establishing reproducible evaluation methodology."
+          "notes": "Spider benchmark \u00e2\u20ac\u201d cross-domain text-to-SQL dataset; LLM baselines reach >85% exact match, establishing reproducible evaluation methodology."
         }
       ],
       "knownAgents": [],
@@ -2937,7 +2937,7 @@
       "id": "generate-test",
       "name": "Generate Test",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "common",
       "description": "Produces unit tests, integration tests, and edge-case test cases from source code or natural-language specifications.",
       "prerequisites": [],
@@ -2951,7 +2951,7 @@
           "source": "https://arxiv.org/abs/2107.03374",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "Codex/HumanEval (Chen et al.) â€” evaluates LLMs on writing Python functions that pass hand-crafted unit tests; pass@1 72.0% for GPT-4."
+          "notes": "Codex/HumanEval (Chen et al.) \u00e2\u20ac\u201d evaluates LLMs on writing Python functions that pass hand-crafted unit tests; pass@1 72.0% for GPT-4."
         }
       ],
       "knownAgents": [],
@@ -2964,7 +2964,7 @@
       "id": "generate-text",
       "name": "Generate Text",
       "type": "basic",
-      "level": "0★",
+      "level": "0\u2605",
       "rarity": "common",
       "description": "Produces coherent natural language output given a prompt, instruction, or context window.",
       "prerequisites": [],
@@ -2996,7 +2996,7 @@
       "id": "generative-media",
       "name": "Generative Media",
       "type": "extra",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "rare",
       "description": "Generates and manipulates images, video, and audio through complex node-based or scripted generative workflows, managing model dependencies and parameter injection.",
       "prerequisites": [
@@ -3029,7 +3029,7 @@
       "id": "genomic-data-retrieval",
       "name": "Genomic Data Retrieval",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "common",
       "description": "Queries and retrieves DNA sequence data, transcription factor binding models, cis-regulatory elements, and genetic annotations from genomic repositories (e.g. Ensembl, GTEx, JASPAR, UniBind, ENCODE, UCSC, dbSNP).",
       "prerequisites": [],
@@ -3184,7 +3184,7 @@
       "id": "ghostwrite",
       "name": "Ghostwrite",
       "type": "extra",
-      "level": "1★",
+      "level": "1\u2605",
       "rarity": "rare",
       "description": "Produces audience-tailored, research-backed long-form written content.",
       "prerequisites": [
@@ -3205,7 +3205,7 @@
       "id": "git-diff-risk-analysis",
       "name": "Git Diff Risk Analysis",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "common",
       "description": "Analyzes git diffs for complexity, churn, and risk scores to prioritize review attention and flag dangerous changes.",
       "prerequisites": [],
@@ -3217,7 +3217,7 @@
           "source": "https://github.com/ruvnet/ruflo",
           "evaluator": "mbtiongson1",
           "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          "notes": "Ruflo orchestration platform \u2014 34k+ GitHub stars."
         }
       ],
       "knownAgents": [],
@@ -3230,7 +3230,7 @@
       "id": "github-platform-mastery",
       "name": "GitHub Platform Mastery",
       "type": "extra",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "uncommon",
       "description": "Full GitHub platform automation: code review pipelines, multi-repo coordination, project management, release management, and workflow automation.",
       "prerequisites": [
@@ -3248,7 +3248,7 @@
           "source": "https://github.com/ruvnet/ruflo",
           "evaluator": "mbtiongson1",
           "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          "notes": "Ruflo orchestration platform \u2014 34k+ GitHub stars."
         }
       ],
       "knownAgents": [],
@@ -3261,7 +3261,7 @@
       "id": "grill-me",
       "name": "Grill Me",
       "type": "extra",
-      "level": "4★",
+      "level": "4\u2605",
       "rarity": "rare",
       "description": "Conducts a relentless, one-question-at-a-time Socratic interview to stress-test designs and force the resolution of hidden assumptions before code is written.",
       "prerequisites": [
@@ -3291,7 +3291,7 @@
       "id": "grill-with-docs",
       "name": "Grill With Docs",
       "type": "extra",
-      "level": "1★",
+      "level": "1\u2605",
       "rarity": "uncommon",
       "description": "The apex of agentic design alignment. Fuses relentless Socratic questioning with deep domain awareness, ensuring every decision is cross-referenced against a persistent ubiquitous language and documented via real-time ADR generation.",
       "prerequisites": [
@@ -3328,7 +3328,7 @@
           "timestamp": "2026-05-25T04:25:33Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 3★ to 2★"
+          "details": "Calibrated level from 3\u2605 to 2\u2605"
         }
       ],
       "demerits": [
@@ -3339,7 +3339,7 @@
       "id": "grounding",
       "name": "Grounding",
       "type": "extra",
-      "level": "1★",
+      "level": "1\u2605",
       "rarity": "uncommon",
       "description": "Verifies generated claims against retrieved evidence, identifies unsupported or contradicted assertions, and anchors outputs in traceable, cited sources.",
       "prerequisites": [
@@ -3375,7 +3375,7 @@
           "timestamp": "2026-05-25T04:25:33Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 3★ to 2★"
+          "details": "Calibrated level from 3\u2605 to 2\u2605"
         }
       ],
       "demerits": [
@@ -3386,7 +3386,7 @@
       "id": "gstack",
       "name": "Founder Mode",
       "type": "ultimate",
-      "level": "5★",
+      "level": "5\u2605",
       "rarity": "legendary",
       "description": "Garry Tan's complete autonomous agent discipline suite spanning 19 named skills: browser QA, security auditing, design system creation, HTML generation, plan reviews (CEO/eng/design/DX), code review, root-cause debugging, E2E testing, ship/deploy automation, post-deploy canary monitoring, documentation, and founder-mode orchestration.",
       "prerequisites": [
@@ -3430,7 +3430,7 @@
           "source": "https://github.com/garrytan/gstack",
           "evaluator": "mbtiongson1",
           "date": "2026-05-18",
-          "notes": "garrytan/gstack — 19 named garrytan skills registered in Gaia across 16 generic skill buckets; meets the >=5 named-skills threshold for Class A designation. Additionally: 98.9k GitHub stars, multi-platform adoption across 8+ runtimes (Claude Code, OpenAI Codex CLI, OpenCode, Cursor, Factory Droid, Slate, Kiro, Hermes)."
+          "notes": "garrytan/gstack \u2014 19 named garrytan skills registered in Gaia across 16 generic skill buckets; meets the >=5 named-skills threshold for Class A designation. Additionally: 98.9k GitHub stars, multi-platform adoption across 8+ runtimes (Claude Code, OpenAI Codex CLI, OpenCode, Cursor, Factory Droid, Slate, Kiro, Hermes)."
         }
       ],
       "knownAgents": [],
@@ -3443,7 +3443,7 @@
           "timestamp": "2026-05-18T00:00:00Z",
           "action": "fuse",
           "contributor": "mbtiongson1",
-          "details": "Fused 5 garrytan/gstack skills into /gstacks ultimate. Components: security-audit, design-review, vertical-slice-planning, browser-automation, question-answer. Promoted to 5★ on evidence: garrytan/gstack 98.9k stars, 8+ platform adoption (Claude Code, Codex CLI, OpenCode, Cursor, Factory Droid, Slate, Kiro, Hermes)."
+          "details": "Fused 5 garrytan/gstack skills into /gstacks ultimate. Components: security-audit, design-review, vertical-slice-planning, browser-automation, question-answer. Promoted to 5\u2605 on evidence: garrytan/gstack 98.9k stars, 8+ platform adoption (Claude Code, Codex CLI, OpenCode, Cursor, Factory Droid, Slate, Kiro, Hermes)."
         },
         {
           "timestamp": "2026-05-18T12:00:00Z",
@@ -3455,7 +3455,7 @@
           "timestamp": "2026-05-18T00:00:00Z",
           "action": "rank_up",
           "contributor": "mbtiongson1",
-          "details": "Expanded gstack prerequisites from 25 → 31 via prerequisite graph analysis. Added to gstack: guardrails, knowledge-management, format-output, workspace-automation, project-management, prompt-optimization. Promoted 3 basic nodes to extra tier to carry workflow chain prerequisites: finishing-a-development-branch (prereqs: code-review-pipeline, diff-content), detect-anomaly (prereqs: evaluate-output, error-interpretation), memory-manage (prereqs: context-compression, retrieve)."
+          "details": "Expanded gstack prerequisites from 25 \u2192 31 via prerequisite graph analysis. Added to gstack: guardrails, knowledge-management, format-output, workspace-automation, project-management, prompt-optimization. Promoted 3 basic nodes to extra tier to carry workflow chain prerequisites: finishing-a-development-branch (prereqs: code-review-pipeline, diff-content), detect-anomaly (prereqs: evaluate-output, error-interpretation), memory-manage (prereqs: context-compression, retrieve)."
         }
       ]
     },
@@ -3463,7 +3463,7 @@
       "id": "guardrails",
       "name": "Guardrails",
       "type": "extra",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "uncommon",
       "description": "Wraps LLM outputs with programmatic safety rules, content filters, and topical constraints that detect policy violations and enforce compliant, on-policy responses before they reach the user.",
       "prerequisites": [
@@ -3501,7 +3501,7 @@
       "id": "headless-worker-collect",
       "name": "Headless Worker Collect",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "common",
       "description": "Aggregates and formats results from distributed headless workers stored in shared memory with filtering and status reporting.",
       "prerequisites": [],
@@ -3513,7 +3513,7 @@
           "source": "https://github.com/ruvnet/ruflo",
           "evaluator": "mbtiongson1",
           "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          "notes": "Ruflo orchestration platform \u2014 34k+ GitHub stars."
         }
       ],
       "knownAgents": [],
@@ -3526,7 +3526,7 @@
       "id": "headless-worker-spawn",
       "name": "Headless Worker Spawn",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "common",
       "description": "Launches headless AI worker processes for parallel background task execution with configurable worker types and shared memory coordination.",
       "prerequisites": [],
@@ -3538,7 +3538,7 @@
           "source": "https://github.com/ruvnet/ruflo",
           "evaluator": "mbtiongson1",
           "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          "notes": "Ruflo orchestration platform \u2014 34k+ GitHub stars."
         }
       ],
       "knownAgents": [],
@@ -3551,7 +3551,7 @@
       "id": "hive-mind-coordination",
       "name": "Hive Mind Coordination",
       "type": "unique",
-      "level": "4★",
+      "level": "4\u2605",
       "rarity": "rare",
       "description": "Queen-led collective intelligence with Byzantine, majority, and weighted consensus mechanisms, eight worker specializations, and persistent collective SQLite memory with LRU caching.",
       "prerequisites": [],
@@ -3563,7 +3563,7 @@
           "source": "https://github.com/ruvnet/ruflo",
           "evaluator": "mbtiongson1",
           "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          "notes": "Ruflo orchestration platform \u2014 34k+ GitHub stars."
         }
       ],
       "knownAgents": [],
@@ -3576,7 +3576,7 @@
       "id": "humanize-prose",
       "name": "Humanize Prose",
       "type": "extra",
-      "level": "4★",
+      "level": "4\u2605",
       "rarity": "uncommon",
       "description": "Audits and rewrites prose to remove generic AI-writing patterns, preserve author intent, and adapt tone toward a more natural human voice.",
       "prerequisites": [
@@ -3607,7 +3607,7 @@
       "id": "hybrid-workflow-coordination",
       "name": "Hybrid Workflow Coordination",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "common",
       "description": "Routes tasks between interactive reasoning phases and parallel background execution with configurable workflow templates.",
       "prerequisites": [],
@@ -3619,7 +3619,7 @@
           "source": "https://github.com/ruvnet/ruflo",
           "evaluator": "mbtiongson1",
           "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          "notes": "Ruflo orchestration platform \u2014 34k+ GitHub stars."
         }
       ],
       "knownAgents": [],
@@ -3632,7 +3632,7 @@
       "id": "hypothesis-generate",
       "name": "Hypothesis Generation",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "rare",
       "description": "Formulates novel, testable scientific hypotheses by synthesising existing literature, identifying knowledge gaps, and proposing mechanistic explanations.",
       "prerequisites": [],
@@ -3647,21 +3647,21 @@
           "source": "https://arxiv.org/abs/2304.05376",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "ChemCrow (Bran et al., 2023) â€” LLM augmented with 18 chemistry tools autonomously proposes and validates synthesis routes; GPT-4 outperforms on Chem. benchmark."
+          "notes": "ChemCrow (Bran et al., 2023) \u00e2\u20ac\u201d LLM augmented with 18 chemistry tools autonomously proposes and validates synthesis routes; GPT-4 outperforms on Chem. benchmark."
         },
         {
           "class": "A",
           "source": "https://arxiv.org/abs/2304.05332",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "Coscientist (Boiko et al., 2023) â€” autonomous LLM system designs and executes chemistry experiments; independently re-derived Suzuki coupling conditions."
+          "notes": "Coscientist (Boiko et al., 2023) \u00e2\u20ac\u201d autonomous LLM system designs and executes chemistry experiments; independently re-derived Suzuki coupling conditions."
         },
         {
           "class": "B",
           "source": "https://github.com/SakanaAI/AI-Scientist",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "The AI Scientist (Sakana AI) â€” end-to-end pipeline generating ideas, running experiments, and writing ML papers; 50+ auto-generated manuscripts reviewed."
+          "notes": "The AI Scientist (Sakana AI) \u00e2\u20ac\u201d end-to-end pipeline generating ideas, running experiments, and writing ML papers; 50+ auto-generated manuscripts reviewed."
         }
       ],
       "knownAgents": [],
@@ -3674,7 +3674,7 @@
       "id": "image-caption",
       "name": "Image Caption",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "uncommon",
       "description": "Generates accurate natural-language descriptions of images, capturing objects, actions, and spatial relationships.",
       "prerequisites": [],
@@ -3688,7 +3688,7 @@
           "source": "https://arxiv.org/abs/2301.12597",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "BLIP-2 â€” bootstrapped language-image pre-training achieving SOTA on COCO Captions (CIDEr 145.8) and NoCaps benchmarks."
+          "notes": "BLIP-2 \u00e2\u20ac\u201d bootstrapped language-image pre-training achieving SOTA on COCO Captions (CIDEr 145.8) and NoCaps benchmarks."
         }
       ],
       "knownAgents": [],
@@ -3701,7 +3701,7 @@
       "id": "image-generate",
       "name": "Image Generate",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "uncommon",
       "description": "Creates photorealistic or stylized images from text prompts using diffusion-based or autoregressive generative models.",
       "prerequisites": [],
@@ -3713,7 +3713,7 @@
           "source": "https://arxiv.org/abs/2112.10752",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "Latent Diffusion Models (Rombach et al.) â€” foundational paper for Stable Diffusion; achieves FID 5.11 on LSUN-Beds at 200Ã— less compute than pixel-space diffusion."
+          "notes": "Latent Diffusion Models (Rombach et al.) \u00e2\u20ac\u201d foundational paper for Stable Diffusion; achieves FID 5.11 on LSUN-Beds at 200\u00c3\u2014 less compute than pixel-space diffusion."
         }
       ],
       "knownAgents": [],
@@ -3726,7 +3726,7 @@
       "id": "issue-triage",
       "name": "Issue Triage",
       "type": "basic",
-      "level": "4★",
+      "level": "4\u2605",
       "rarity": "uncommon",
       "description": "Classifies incoming issue reports through a structured state machine, assigns triage roles (bug/enhancement, needs-info/ready-for-agent/wontfix), reproduces bugs, requests missing detail, and produces structured resolution briefs for agent or human handoff.",
       "prerequisites": [],
@@ -3765,7 +3765,7 @@
       "id": "knowledge-graph-build",
       "name": "Knowledge Graph Construction",
       "type": "extra",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "uncommon",
       "description": "Extracts entities and relations from unstructured text, resolves co-references, and assembles them into a queryable graph structure with typed edges.",
       "prerequisites": [
@@ -3783,14 +3783,14 @@
           "source": "https://arxiv.org/abs/2306.08302",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "Pan et al. (2024) â€” Unifying Large Language Models and Knowledge Graphs: A Roadmap; comprehensive survey showing LLM-KG synergy improves downstream tasks by 5-15%."
+          "notes": "Pan et al. (2024) \u00e2\u20ac\u201d Unifying Large Language Models and Knowledge Graphs: A Roadmap; comprehensive survey showing LLM-KG synergy improves downstream tasks by 5-15%."
         },
         {
           "class": "B",
           "source": "https://github.com/microsoft/graphrag",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "Microsoft GraphRAG â€” production KG construction pipeline; extracts community summaries and entity graphs from corpora, enabling global sensemaking queries."
+          "notes": "Microsoft GraphRAG \u00e2\u20ac\u201d production KG construction pipeline; extracts community summaries and entity graphs from corpora, enabling global sensemaking queries."
         }
       ],
       "knownAgents": [],
@@ -3803,7 +3803,7 @@
       "id": "knowledge-harvest",
       "name": "Knowledge Harvest",
       "type": "extra",
-      "level": "1★",
+      "level": "1\u2605",
       "rarity": "rare",
       "description": "Extracts, structures, and embeds knowledge from web sources into a searchable corpus.",
       "prerequisites": [
@@ -3824,7 +3824,7 @@
       "id": "knowledge-management",
       "name": "Knowledge Management",
       "type": "extra",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "common",
       "description": "Organizes, relates, and retrieves information across structured pages, databases, and shared knowledge bases, maintaining semantic links between information nodes.",
       "prerequisites": [
@@ -3857,7 +3857,7 @@
       "id": "literature-review",
       "name": "Literature Review",
       "type": "extra",
-      "level": "4★",
+      "level": "4\u2605",
       "rarity": "uncommon",
       "description": "Conducts systematic multi-database academic literature searches following PRISMA/SWARM protocols, screens and synthesises findings, verifies all citations, and generates a structured review report.",
       "prerequisites": [
@@ -3874,14 +3874,14 @@
           "source": "https://arxiv.org/abs/2501.05468",
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
-          "notes": "Rouzrokh et al. (2025) — LatteReview: multi-agent framework for systematic review automation; modular agents for title/abstract screening, relevance scoring, and structured data extraction with RAG and multimodal support."
+          "notes": "Rouzrokh et al. (2025) \u2014 LatteReview: multi-agent framework for systematic review automation; modular agents for title/abstract screening, relevance scoring, and structured data extraction with RAG and multimodal support."
         },
         {
           "class": "B",
           "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/literature-review/SKILL.md",
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
-          "notes": "K-Dense-AI scientific-agent-skills — reproducible literature-review skill: seven-phase workflow from research-question planning through multi-database search, screening, extraction, synthesis, citation verification to final PDF output."
+          "notes": "K-Dense-AI scientific-agent-skills \u2014 reproducible literature-review skill: seven-phase workflow from research-question planning through multi-database search, screening, extraction, synthesis, citation verification to final PDF output."
         }
       ],
       "knownAgents": [],
@@ -3894,7 +3894,7 @@
       "id": "literature-search",
       "name": "Literature Search",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "common",
       "description": "Queries and searches academic literature databases (e.g. PubMed, arXiv, bioRxiv, OpenAlex) to locate papers, retrieve abstracts, resolve citations, and fetch full-text documents.",
       "prerequisites": [],
@@ -3997,7 +3997,7 @@
       "id": "logical-inference",
       "name": "Logical Inference",
       "type": "basic",
-      "level": "1★",
+      "level": "1\u2605",
       "rarity": "uncommon",
       "description": "Applies deductive, inductive, or abductive reasoning to derive valid conclusions from premises and structured knowledge.",
       "prerequisites": [],
@@ -4012,7 +4012,7 @@
           "source": "https://arxiv.org/abs/2201.11903",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "Chain-of-Thought prompting (Wei et al.) â€” few-shot CoT elicits multi-step reasoning; +18% on GSM8K and +15% on SVAMP over standard prompting."
+          "notes": "Chain-of-Thought prompting (Wei et al.) \u00e2\u20ac\u201d few-shot CoT elicits multi-step reasoning; +18% on GSM8K and +15% on SVAMP over standard prompting."
         }
       ],
       "knownAgents": [],
@@ -4025,7 +4025,7 @@
       "id": "math-reason",
       "name": "Math Reason",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "uncommon",
       "description": "Solves multi-step mathematical problems including arithmetic, algebra, calculus, and competition mathematics through symbolic and numeric reasoning.",
       "prerequisites": [],
@@ -4040,7 +4040,7 @@
           "source": "https://arxiv.org/abs/2206.14858",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "Minerva (Google) â€” 50.3% on MATH and 78.5% on MMLU-STEM benchmarks using chain-of-thought over scientific literature."
+          "notes": "Minerva (Google) \u00e2\u20ac\u201d 50.3% on MATH and 78.5% on MMLU-STEM benchmarks using chain-of-thought over scientific literature."
         }
       ],
       "knownAgents": [],
@@ -4053,7 +4053,7 @@
       "id": "mathematical-animation",
       "name": "Mathematical Animation",
       "type": "extra",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "rare",
       "description": "Produces programmatic mathematical and algorithmic animations with high pedagogical and visual quality, utilizing LaTeX for notation and geometric coordinate systems for spatial layout.",
       "prerequisites": [
@@ -4086,7 +4086,7 @@
       "id": "mattpocock-engineering",
       "name": "mattpocock-engineering",
       "type": "ultimate",
-      "level": "5★",
+      "level": "5\u2605",
       "rarity": "common",
       "description": "Engineering category suite for Matt Pocock's skills.",
       "prerequisites": [
@@ -4133,7 +4133,7 @@
           "timestamp": "2026-05-25T03:46:20Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 5★ to 5★"
+          "details": "Calibrated level from 5\u2605 to 5\u2605"
         }
       ]
     },
@@ -4141,7 +4141,7 @@
       "id": "mattpocock-personal",
       "name": "mattpocock-personal",
       "type": "extra",
-      "level": "4★",
+      "level": "4\u2605",
       "rarity": "common",
       "description": "Personal category suite for Matt Pocock's skills.",
       "prerequisites": [
@@ -4188,7 +4188,7 @@
       "id": "mattpocock-productivity",
       "name": "mattpocock-productivity",
       "type": "extra",
-      "level": "4★",
+      "level": "4\u2605",
       "rarity": "common",
       "description": "Productivity category suite for Matt Pocock's skills.",
       "prerequisites": [
@@ -4237,7 +4237,7 @@
       "id": "mattpocock-skills",
       "name": "mattpocock-skills",
       "type": "ultimate",
-      "level": "6★",
+      "level": "6\u2605",
       "rarity": "common",
       "description": "Ultimate capstone suite for Matt Pocock's skills.",
       "prerequisites": [
@@ -4299,7 +4299,7 @@
           "timestamp": "2026-05-25T03:46:19Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 6★ to 6★"
+          "details": "Calibrated level from 6\u2605 to 6\u2605"
         },
         {
           "timestamp": "2026-05-25T03:46:20Z",
@@ -4313,7 +4313,7 @@
       "id": "mcp-debugger-control",
       "name": "MCP Debugger Control",
       "type": "extra",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "rare",
       "description": "Exposes low-level debugger capabilities (breakpoints, stepping, stack inspection, variable evaluation) to AI agents via the Model Context Protocol, enabling real-time runtime diagnosis and autonomous bug fixing.",
       "prerequisites": [
@@ -4349,7 +4349,7 @@
           "timestamp": "2026-05-25T04:25:33Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 4★ to 3★"
+          "details": "Calibrated level from 4\u2605 to 3\u2605"
         }
       ]
     },
@@ -4357,9 +4357,9 @@
       "id": "mcp-integration",
       "name": "MCP Integration",
       "type": "basic",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "uncommon",
-      "description": "Connect to and invoke tools exposed by Model Context Protocol (MCP) servers — enumerate available tools, execute calls, and handle responses across any MCP-compatible backend.",
+      "description": "Connect to and invoke tools exposed by Model Context Protocol (MCP) servers \u2014 enumerate available tools, execute calls, and handle responses across any MCP-compatible backend.",
       "prerequisites": [],
       "derivatives": [
         "mcp-server-creation",
@@ -4386,7 +4386,7 @@
           "source": "https://github.com/intelligentcode-ai/skills/blob/main/skills/mcp-client/SKILL.md",
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
-          "notes": "intelligentcode-ai/skills mcp-client — portable CLI MCP client with server enumeration, tool display, and on-demand execution."
+          "notes": "intelligentcode-ai/skills mcp-client \u2014 portable CLI MCP client with server enumeration, tool display, and on-demand execution."
         }
       ],
       "knownAgents": [],
@@ -4402,7 +4402,7 @@
       "id": "mcp-server-creation",
       "name": "MCP Server Creation",
       "type": "extra",
-      "level": "4★",
+      "level": "4\u2605",
       "rarity": "rare",
       "description": "Designs and implements Model Context Protocol servers that expose external APIs, files, or services as well-typed tools with clear schemas, authentication, and testable agent workflows.",
       "prerequisites": [
@@ -4444,7 +4444,7 @@
       "id": "memory-manage",
       "name": "Memory Manage",
       "type": "extra",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "uncommon",
       "description": "Maintains, indexes, and retrieves conversational and long-term memory across sessions, managing context window constraints.",
       "prerequisites": [
@@ -4463,7 +4463,7 @@
           "source": "https://arxiv.org/abs/2310.08560",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "MemGPT â€” virtual context management system enabling LLMs to handle unbounded memory; benchmarked on multi-session dialogue and document QA."
+          "notes": "MemGPT \u00e2\u20ac\u201d virtual context management system enabling LLMs to handle unbounded memory; benchmarked on multi-session dialogue and document QA."
         }
       ],
       "knownAgents": [],
@@ -4476,7 +4476,7 @@
       "id": "memory-pattern-design",
       "name": "Memory Pattern Design",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "common",
       "description": "Designs recurring memory storage patterns for AI agents with LRU caching, SQLite persistence, and associative retrieval.",
       "prerequisites": [],
@@ -4488,7 +4488,7 @@
           "source": "https://github.com/ruvnet/ruflo",
           "evaluator": "mbtiongson1",
           "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          "notes": "Ruflo orchestration platform \u2014 34k+ GitHub stars."
         }
       ],
       "knownAgents": [],
@@ -4501,7 +4501,7 @@
       "id": "ml-artifact-management",
       "name": "ML Artifact Management",
       "type": "extra",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "uncommon",
       "description": "Manages machine learning models, datasets, and experiment logs through centralized hub or tracking repositories, handling versioning and metadata extraction.",
       "prerequisites": [
@@ -4531,7 +4531,7 @@
       "id": "ml-pipeline",
       "name": "ML Pipeline",
       "type": "extra",
-      "level": "4★",
+      "level": "4\u2605",
       "rarity": "rare",
       "description": "Designs and implements production ML pipelines with experiment tracking (MLflow, W&B), feature stores (Feast), orchestration (Kubeflow, Airflow), and automated retraining workflows including model evaluation gates and A/B deployment.",
       "prerequisites": [
@@ -4547,14 +4547,14 @@
           "source": "https://arxiv.org/abs/2502.18530",
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
-          "notes": "Xue et al. (2025) — IMPROVE: Iterative Model Pipeline Refinement and Optimization Leveraging LLM Experts; iterative component-level refinement consistently outperforms single-step zero-shot LLM-based ML pipeline optimization with theoretical convergence guarantees."
+          "notes": "Xue et al. (2025) \u2014 IMPROVE: Iterative Model Pipeline Refinement and Optimization Leveraging LLM Experts; iterative component-level refinement consistently outperforms single-step zero-shot LLM-based ML pipeline optimization with theoretical convergence guarantees."
         },
         {
           "class": "B",
           "source": "https://github.com/Jeffallan/claude-skills/blob/main/skills/ml-pipeline/SKILL.md",
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
-          "notes": "Jeffallan/claude-skills — reproducible ml-pipeline skill: full lifecycle from data validation and feature engineering through distributed training, experiment tracking, model evaluation gates, A/B testing, and automated retraining with DVC/Feast/MLflow/Kubeflow."
+          "notes": "Jeffallan/claude-skills \u2014 reproducible ml-pipeline skill: full lifecycle from data validation and feature engineering through distributed training, experiment tracking, model evaluation gates, A/B testing, and automated retraining with DVC/Feast/MLflow/Kubeflow."
         }
       ],
       "knownAgents": [],
@@ -4567,7 +4567,7 @@
       "id": "molecular-databases",
       "name": "Molecular Databases",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "common",
       "description": "Queries and retrieves structural, chemical, and biological activity data for small molecules, chemical compounds, or drug candidates from molecular repositories (e.g., ChEMBL, PubChem).",
       "prerequisites": [],
@@ -4631,7 +4631,7 @@
       "id": "multi-agent-debate",
       "name": "Multi-Agent Debate",
       "type": "extra",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "rare",
       "description": "Runs multiple LLM agents that propose, critique, and iteratively refine answers across structured debate rounds, converging on more accurate and well-reasoned responses than any single agent achieves.",
       "prerequisites": [
@@ -4669,7 +4669,7 @@
           "timestamp": "2026-05-25T03:45:37Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 4★ to 2★"
+          "details": "Calibrated level from 4\u2605 to 2\u2605"
         }
       ]
     },
@@ -4677,7 +4677,7 @@
       "id": "multi-agent-orchestration-v",
       "name": "Multi-Agent Orchestration",
       "type": "extra",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "uncommon",
       "description": "Coordinates multiple specialized agents across complex workflows with dynamic task allocation and conflict resolution.",
       "prerequisites": [
@@ -4707,7 +4707,7 @@
       "id": "multi-repo-coordination",
       "name": "Multi-Repo Coordination",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "common",
       "description": "Manages synchronized operations across multiple repositories including cross-repo PRs, dependency tracking, and bulk workflow automation.",
       "prerequisites": [],
@@ -4719,7 +4719,7 @@
           "source": "https://github.com/ruvnet/ruflo",
           "evaluator": "mbtiongson1",
           "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          "notes": "Ruflo orchestration platform \u2014 34k+ GitHub stars."
         }
       ],
       "knownAgents": [],
@@ -4732,7 +4732,7 @@
       "id": "multimodal-reasoning",
       "name": "Multimodal Reasoning",
       "type": "extra",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "rare",
       "description": "Integrates information from images and text to answer questions requiring visual grounding and logical inference across modalities.",
       "prerequisites": [
@@ -4748,7 +4748,7 @@
           "source": "https://arxiv.org/abs/2304.08485",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "LLaVA â€” large language and vision assistant; 85.1% on ScienceQA and 64.3% on TextVQA, establishing reproducible multimodal reasoning benchmark."
+          "notes": "LLaVA \u00e2\u20ac\u201d large language and vision assistant; 85.1% on ScienceQA and 64.3% on TextVQA, establishing reproducible multimodal reasoning benchmark."
         }
       ],
       "knownAgents": [],
@@ -4764,7 +4764,7 @@
           "timestamp": "2026-05-25T03:45:36Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 3★ to 2★"
+          "details": "Calibrated level from 3\u2605 to 2\u2605"
         }
       ]
     },
@@ -4772,7 +4772,7 @@
       "id": "object-detection",
       "name": "Object Detection",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "uncommon",
       "description": "Locates and classifies multiple objects within images by producing bounding boxes, confidence scores, and category labels in a single forward pass.",
       "prerequisites": [],
@@ -4807,7 +4807,7 @@
       "id": "optical-character-recognition",
       "name": "OCR",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "uncommon",
       "description": "Extracts machine-readable text from raster images, scanned pages, and photo documents using optical character recognition, preserving layout and handling skew, noise, and varied fonts.",
       "prerequisites": [],
@@ -4841,7 +4841,7 @@
       "id": "parallel-execution",
       "name": "Parallel Execution",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "uncommon",
       "description": "Decompose a task into independent sub-tasks and execute them concurrently, merging results with configurable concurrency limits and queue-based state tracking.",
       "prerequisites": [],
@@ -4855,7 +4855,7 @@
           "source": "https://github.com/intelligentcode-ai/skills/blob/main/skills/parallel-execution/SKILL.md",
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
-          "notes": "intelligentcode-ai/skills parallel-execution — concurrent work item execution with independence verification and configurable concurrency (default 5)."
+          "notes": "intelligentcode-ai/skills parallel-execution \u2014 concurrent work item execution with independence verification and configurable concurrency (default 5)."
         }
       ],
       "knownAgents": [],
@@ -4868,7 +4868,7 @@
       "id": "parse-html",
       "name": "Parse HTML",
       "type": "basic",
-      "level": "0★",
+      "level": "0\u2605",
       "rarity": "common",
       "description": "Extracts structured content from raw HTML, navigating DOM trees and handling malformed markup.",
       "prerequisites": [],
@@ -4895,7 +4895,7 @@
           "timestamp": "2026-05-25T04:25:33Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 1★ to 0★"
+          "details": "Calibrated level from 1\u2605 to 0\u2605"
         }
       ],
       "demerits": [
@@ -4906,7 +4906,7 @@
       "id": "parse-json",
       "name": "Parse JSON",
       "type": "basic",
-      "level": "0★",
+      "level": "0\u2605",
       "rarity": "common",
       "description": "Extracts structured data from JSON-formatted input, handling nested objects and arrays.",
       "prerequisites": [],
@@ -4934,7 +4934,7 @@
           "timestamp": "2026-05-25T04:25:34Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 1★ to 0★"
+          "details": "Calibrated level from 1\u2605 to 0\u2605"
         }
       ],
       "demerits": [
@@ -4945,7 +4945,7 @@
       "id": "parse-pdf",
       "name": "Parse PDF",
       "type": "basic",
-      "level": "1★",
+      "level": "1\u2605",
       "rarity": "common",
       "description": "Extracts text, tables, equations, and structure from PDF documents, preserving layout and reading order.",
       "prerequisites": [],
@@ -4959,7 +4959,7 @@
           "source": "https://arxiv.org/abs/2308.13418",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "Nougat (Meta AI) â€” visual transformer for scientific PDF parsing; 7.6% edit distance on arXiv papers, handling LaTeX, tables, and equations."
+          "notes": "Nougat (Meta AI) \u00e2\u20ac\u201d visual transformer for scientific PDF parsing; 7.6% edit distance on arXiv papers, handling LaTeX, tables, and equations."
         }
       ],
       "knownAgents": [],
@@ -4972,7 +4972,7 @@
       "id": "pathway-ontology-retrieval",
       "name": "Pathway Ontology Retrieval",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "common",
       "description": "Queries, parses, and resolves biological pathway models, cellular reactions, and hierarchical ontology metadata from pathway and ontology search systems (e.g., Reactome, QuickGO, EMBL-EBI OLS).",
       "prerequisites": [],
@@ -5049,7 +5049,7 @@
       "id": "performance-tuning",
       "name": "Performance Tuning",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "common",
       "description": "Profiles execution hotspots, measures throughput and latency, and applies targeted optimizations to reduce resource consumption.",
       "prerequisites": [],
@@ -5061,7 +5061,7 @@
           "source": "https://github.com/ruvnet/ruflo",
           "evaluator": "mbtiongson1",
           "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          "notes": "Ruflo orchestration platform \u2014 34k+ GitHub stars."
         }
       ],
       "knownAgents": [],
@@ -5074,7 +5074,7 @@
       "id": "personal-knowledge-management",
       "name": "personal-knowledge-management",
       "type": "extra",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "common",
       "description": "Managing notes and organization in a specific vault.",
       "prerequisites": [
@@ -5115,7 +5115,7 @@
       "id": "plan-and-execute",
       "name": "Plan and Execute",
       "type": "extra",
-      "level": "4★",
+      "level": "4\u2605",
       "rarity": "rare",
       "description": "Decomposes complex objectives into sub-tasks, selects tools, and orchestrates execution.",
       "prerequisites": [
@@ -5146,7 +5146,7 @@
       "id": "plan-decompose",
       "name": "Plan and Decompose",
       "type": "basic",
-      "level": "0★",
+      "level": "0\u2605",
       "rarity": "common",
       "description": "Breaks a complex objective into an ordered sequence of executable sub-tasks.",
       "prerequisites": [],
@@ -5181,7 +5181,7 @@
           "timestamp": "2026-05-25T04:25:34Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 1★ to 0★"
+          "details": "Calibrated level from 1\u2605 to 0\u2605"
         }
       ],
       "demerits": [
@@ -5192,7 +5192,7 @@
       "id": "platform-modernization-sprint",
       "name": "Platform Modernization Sprint",
       "type": "extra",
-      "level": "4★",
+      "level": "4\u2605",
       "rarity": "rare",
       "description": "Systematic v3 platform overhaul: CLI modernization, core implementation, DDD architecture, deep integration, MCP optimization, memory unification, performance tuning, security overhaul, and swarm coordination.",
       "prerequisites": [
@@ -5210,7 +5210,7 @@
           "source": "https://github.com/ruvnet/ruflo",
           "evaluator": "mbtiongson1",
           "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          "notes": "Ruflo orchestration platform \u2014 34k+ GitHub stars."
         }
       ],
       "knownAgents": [],
@@ -5223,7 +5223,7 @@
       "id": "prd-generation",
       "name": "PRD Generation",
       "type": "extra",
-      "level": "4★",
+      "level": "4\u2605",
       "rarity": "uncommon",
       "summary": "Synthesizes conversational context and codebase knowledge into a structured Product Requirements Document.",
       "description": "Synthesizes conversation context and codebase knowledge into a structured Product Requirements Document containing a problem statement, extensive user stories, implementation decisions, module boundaries, testing decisions, and out-of-scope items. It sketches major modules with deep-module opportunities, confirms scope with the user, and produces a strict issue tracker format without brittle code snippets.",
@@ -5268,7 +5268,7 @@
       "id": "prediction-market-analysis",
       "name": "Prediction Market Analysis",
       "type": "extra",
-      "level": "4★",
+      "level": "4\u2605",
       "rarity": "rare",
       "description": "Queries prediction-market data, compares market probabilities and price history, and summarizes probabilistic signals for forecasting or decision-support workflows.",
       "prerequisites": [
@@ -5299,7 +5299,7 @@
       "id": "project-management",
       "name": "Project Management",
       "type": "extra",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "uncommon",
       "description": "Manages issues, tasks, projects, and team workflows through structured project management platforms, handling state transitions and priority levels.",
       "prerequisites": [
@@ -5331,7 +5331,7 @@
       "id": "prompt-injection-defense",
       "name": "Prompt Injection Defense",
       "type": "basic",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "uncommon",
       "description": "Detects and neutralizes adversarial instructions injected into agent context from untrusted external sources (indirect prompt injection), using techniques such as context isolation, hierarchical intent verification, or semantic consistency checks.",
       "prerequisites": [],
@@ -5345,21 +5345,21 @@
           "source": "https://arxiv.org/abs/2604.10134",
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
-          "notes": "PlanGuard (2026) — training-free indirect prompt injection defense; planning-based consistency verification reduces InjecAgent attack success rate from 72.8% to 0%."
+          "notes": "PlanGuard (2026) \u2014 training-free indirect prompt injection defense; planning-based consistency verification reduces InjecAgent attack success rate from 72.8% to 0%."
         },
         {
           "class": "B",
           "source": "https://github.com/tldrsec/prompt-injection-defenses",
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
-          "notes": "tldrsec/prompt-injection-defenses (682 stars) — curated, reproducible catalog of defense techniques with implementation references; actively maintained."
+          "notes": "tldrsec/prompt-injection-defenses (682 stars) \u2014 curated, reproducible catalog of defense techniques with implementation references; actively maintained."
         },
         {
           "class": "C",
           "source": "https://skillsmp.com/api/v1/skills/search?q=prompt-injection-defense",
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
-          "notes": "SkillsMP top hit: openclaw/prompt-injection-defense (4,419 stars) — 'Harden agent sessions against prompt injection from untrusted content'; references CaMeL benchmark."
+          "notes": "SkillsMP top hit: openclaw/prompt-injection-defense (4,419 stars) \u2014 'Harden agent sessions against prompt injection from untrusted content'; references CaMeL benchmark."
         }
       ],
       "knownAgents": [],
@@ -5372,7 +5372,7 @@
       "id": "prompt-optimization",
       "name": "Prompt Optimization",
       "type": "extra",
-      "level": "4★",
+      "level": "4\u2605",
       "rarity": "uncommon",
       "description": "Automatically improves prompt instructions through iterative compilation, treating prompts as programs that can be optimized against a metric using LLM-driven feedback loops.",
       "prerequisites": [
@@ -5390,14 +5390,14 @@
           "source": "https://arxiv.org/abs/2310.03714",
           "evaluator": "mbtiongson1",
           "date": "2026-04-29",
-          "notes": "Khattab et al. (2023) â€” DSPy: Compiling Declarative Language Model Calls into Self-Improving Pipelines; automated prompt tuning matches or exceeds hand-crafted prompts on GSM8K, HotPotQA, and FEVER."
+          "notes": "Khattab et al. (2023) \u00e2\u20ac\u201d DSPy: Compiling Declarative Language Model Calls into Self-Improving Pipelines; automated prompt tuning matches or exceeds hand-crafted prompts on GSM8K, HotPotQA, and FEVER."
         },
         {
           "class": "B",
           "source": "https://github.com/stanfordnlp/dspy",
           "evaluator": "mbtiongson1",
           "date": "2026-04-29",
-          "notes": "DSPy â€” Stanford NLP library for programmable LM pipelines; 18k+ GitHub stars, supports multiple optimizers (BootstrapFewShot, MIPRO, COPRO) across any LM."
+          "notes": "DSPy \u00e2\u20ac\u201d Stanford NLP library for programmable LM pipelines; 18k+ GitHub stars, supports multiple optimizers (BootstrapFewShot, MIPRO, COPRO) across any LM."
         }
       ],
       "knownAgents": [],
@@ -5410,7 +5410,7 @@
       "id": "protein-structure-analysis",
       "name": "Protein Structure Analysis",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "common",
       "description": "Analyzes, searches, and aligns three-dimensional macromolecular structures using structural databases, alignment search algorithms (e.g. Foldseek, PDB search), or molecular modeling tools.",
       "prerequisites": [],
@@ -5474,7 +5474,7 @@
       "id": "proteomic-data-retrieval",
       "name": "Proteomic Data Retrieval",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "common",
       "description": "Queries and retrieves amino acid sequences, protein families, functional domains, tissue distribution, and protein-protein interactions from proteomic repositories (e.g. UniProt, InterPro, Human Protein Atlas, STRING).",
       "prerequisites": [],
@@ -5564,7 +5564,7 @@
       "id": "prototype",
       "name": "prototype",
       "type": "extra",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "common",
       "description": "Building throwaway prototypes to answer specific design or logic questions.",
       "prerequisites": [
@@ -5605,7 +5605,7 @@
       "id": "question-answer",
       "name": "Question Answer",
       "type": "basic",
-      "level": "4★",
+      "level": "4\u2605",
       "rarity": "common",
       "description": "Produces accurate, context-grounded answers to natural-language questions, handling unanswerable cases.",
       "prerequisites": [],
@@ -5623,7 +5623,7 @@
           "source": "https://arxiv.org/abs/1806.03822",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "SQuAD 2.0 — reading comprehension benchmark with 150K questions; modern LLMs exceed human F1 (90.9), providing rigorous reproducible evaluation."
+          "notes": "SQuAD 2.0 \u2014 reading comprehension benchmark with 150K questions; modern LLMs exceed human F1 (90.9), providing rigorous reproducible evaluation."
         },
         {
           "class": "B",
@@ -5643,7 +5643,7 @@
       "id": "rag-pipeline",
       "name": "RAG Pipeline",
       "type": "extra",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "uncommon",
       "description": "End-to-end retrieval-augmented generation combining document chunking, embedding, retrieval, and relevance scoring.",
       "prerequisites": [
@@ -5682,7 +5682,7 @@
       "id": "rank",
       "name": "Rank",
       "type": "basic",
-      "level": "0★",
+      "level": "0\u2605",
       "rarity": "common",
       "description": "Orders a set of candidate items by relevance, quality, or fitness for a given objective.",
       "prerequisites": [],
@@ -5709,7 +5709,7 @@
           "timestamp": "2026-05-25T04:25:34Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 1★ to 0★"
+          "details": "Calibrated level from 1\u2605 to 0\u2605"
         }
       ],
       "demerits": [
@@ -5720,7 +5720,7 @@
       "id": "re-act-reasoning",
       "name": "ReAct Reasoning",
       "type": "extra",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "uncommon",
       "description": "Interleaves free-form reasoning traces with discrete tool actions in a single loop, enabling agents to plan, act, observe, and update beliefs step-by-step.",
       "prerequisites": [
@@ -5738,14 +5738,14 @@
           "source": "https://arxiv.org/abs/2210.03629",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "ReAct (Yao et al., 2023) â€” reasoning+acting paradigm; +34% on HotpotQA and +10% on ALFWorld vs chain-of-thought-only baselines."
+          "notes": "ReAct (Yao et al., 2023) \u00e2\u20ac\u201d reasoning+acting paradigm; +34% on HotpotQA and +10% on ALFWorld vs chain-of-thought-only baselines."
         },
         {
           "class": "B",
           "source": "https://github.com/ysymyth/ReAct",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "ReAct repo â€” reproducible prompts and evaluation harness for HotpotQA, FEVER, ALFWorld, and WebShop benchmarks."
+          "notes": "ReAct repo \u00e2\u20ac\u201d reproducible prompts and evaluation harness for HotpotQA, FEVER, ALFWorld, and WebShop benchmarks."
         }
       ],
       "knownAgents": [],
@@ -5758,7 +5758,7 @@
       "id": "real-time-voice-assistant",
       "name": "Real-Time Voice Assistant",
       "type": "extra",
-      "level": "5★",
+      "level": "5\u2605",
       "rarity": "epic",
       "description": "Provides low-latency spoken interactions combining real-time speech I/O, persistent memory, and goal-directed task execution across multi-session conversations.",
       "prerequisites": [
@@ -5774,21 +5774,21 @@
           "source": "https://arxiv.org/abs/2312.11805",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "AudioPaLM (Google) â€” unified audio language model supporting real-time spoken dialogue; SOTA on ASR and speech translation, demonstrating end-to-end voice assistant capability."
+          "notes": "AudioPaLM (Google) \u00e2\u20ac\u201d unified audio language model supporting real-time spoken dialogue; SOTA on ASR and speech translation, demonstrating end-to-end voice assistant capability."
         },
         {
           "class": "A",
           "source": "https://arxiv.org/abs/2305.11206",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "VoiceBox (Meta AI) â€” generative speech model with zero-shot TTS; enables real-time voice assistants with <100ms synthesis latency benchmarked on VCTK."
+          "notes": "VoiceBox (Meta AI) \u00e2\u20ac\u201d generative speech model with zero-shot TTS; enables real-time voice assistants with <100ms synthesis latency benchmarked on VCTK."
         },
         {
           "class": "B",
           "source": "https://github.com/openai/whisper",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "Whisper + LLM integration demos â€” open-source real-time voice assistant pipelines combining Whisper STT, LLM reasoning, and TTS with documented latency benchmarks."
+          "notes": "Whisper + LLM integration demos \u00e2\u20ac\u201d open-source real-time voice assistant pipelines combining Whisper STT, LLM reasoning, and TTS with documented latency benchmarks."
         }
       ],
       "knownAgents": [],
@@ -5802,7 +5802,7 @@
       "id": "reasoning-pattern-bank",
       "name": "Reasoning Pattern Bank",
       "type": "extra",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "uncommon",
       "description": "Fuses adaptive pattern learning with persistent vector memory to build a self-improving agent knowledge base across sessions.",
       "prerequisites": [
@@ -5817,7 +5817,7 @@
           "source": "https://github.com/ruvnet/ruflo",
           "evaluator": "mbtiongson1",
           "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          "notes": "Ruflo orchestration platform \u2014 34k+ GitHub stars."
         }
       ],
       "knownAgents": [],
@@ -5830,7 +5830,7 @@
       "id": "receiving-code-review",
       "name": "Receiving Code Review",
       "type": "extra",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "common",
       "description": "Processes code review feedback with technical rigor and verification before implementation, questioning unclear feedback.",
       "prerequisites": [
@@ -5847,7 +5847,7 @@
           "source": "https://github.com/obra/superpowers/blob/main/skills/receiving-code-review/SKILL.md",
           "evaluator": "mbtiongson1",
           "date": "2026-05-18",
-          "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
+          "notes": "obra/superpowers \u2014 complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
         }
       ],
       "knownAgents": [],
@@ -5860,7 +5860,7 @@
       "id": "recursive-self-improvement",
       "name": "Recursive Self-Improvement",
       "type": "extra",
-      "level": "1★",
+      "level": "1\u2605",
       "rarity": "epic",
       "description": "Agent iteratively refines its own prompts, tools, or strategies based on performance feedback loops.",
       "prerequisites": [
@@ -5882,7 +5882,7 @@
       "id": "refactor-code",
       "name": "Refactor Code",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "uncommon",
       "description": "Restructures existing source code to improve readability, maintainability, or performance without changing observable behavior.",
       "prerequisites": [],
@@ -5896,7 +5896,7 @@
           "source": "https://arxiv.org/abs/2310.06770",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "SWE-bench â€” 2294 real GitHub issues benchmark; agents that resolve issues must safely refactor code while passing existing test suites."
+          "notes": "SWE-bench \u00e2\u20ac\u201d 2294 real GitHub issues benchmark; agents that resolve issues must safely refactor code while passing existing test suites."
         }
       ],
       "knownAgents": [],
@@ -5909,7 +5909,7 @@
       "id": "registry-curation",
       "name": "Registry Curation",
       "type": "extra",
-      "level": "4★",
+      "level": "4\u2605",
       "rarity": "rare",
       "description": "Systematically discovers, evaluates, and ingests new skill definitions into a structured skill registry: researching capabilities, sourcing reproducible evidence, scripting graph updates, validating schema and DAG integrity, and publishing via pull request.",
       "prerequisites": [
@@ -5927,7 +5927,7 @@
           "source": "https://github.com/mbtiongson1/gaia-skill-tree/pull/2",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "Reproducible demonstration: Claude Code agent researched 30 popular AI skills, sourced 22 peer-reviewed papers, generated gaia.json via script, passed all 6 validator checks, and submitted PR â€” full inputs/outputs archived in the PR diff."
+          "notes": "Reproducible demonstration: Claude Code agent researched 30 popular AI skills, sourced 22 peer-reviewed papers, generated gaia.json via script, passed all 6 validator checks, and submitted PR \u00e2\u20ac\u201d full inputs/outputs archived in the PR diff."
         },
         {
           "class": "B",
@@ -5941,7 +5941,7 @@
           "source": "https://github.com/mbtiongson1/gaia-skill-tree",
           "evaluator": "mbtiongson1",
           "date": "2026-04-29",
-          "notes": "Batch 3 curation: 5 skills added (2 atomic, 3 composite) â€” self-consistency, few-shot-learning, tree-of-thought, prompt-optimization, tool-creation."
+          "notes": "Batch 3 curation: 5 skills added (2 atomic, 3 composite) \u00e2\u20ac\u201d self-consistency, few-shot-learning, tree-of-thought, prompt-optimization, tool-creation."
         },
         {
           "class": "B",
@@ -5968,7 +5968,7 @@
       "id": "release-automation",
       "name": "Release Automation",
       "type": "extra",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "uncommon",
       "description": "Automate the full software release cycle: determine semantic version bump, update CHANGELOG, commit, create a git tag, and publish a GitHub release with release notes.",
       "prerequisites": [
@@ -5984,7 +5984,7 @@
           "source": "https://github.com/intelligentcode-ai/skills/blob/main/skills/release/SKILL.md",
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
-          "notes": "intelligentcode-ai/skills release — automates semantic versioning, CHANGELOG updates, PR merging, git tagging, and GitHub release creation with verification gates."
+          "notes": "intelligentcode-ai/skills release \u2014 automates semantic versioning, CHANGELOG updates, PR merging, git tagging, and GitHub release creation with verification gates."
         }
       ],
       "knownAgents": [],
@@ -5997,7 +5997,7 @@
       "id": "requesting-code-review",
       "name": "Requesting Code Review",
       "type": "extra",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "uncommon",
       "description": "Dispatches a code reviewer subagent to catch issues before they cascade, providing isolated context for evaluation.",
       "prerequisites": [
@@ -6015,7 +6015,7 @@
           "source": "https://github.com/obra/superpowers/blob/main/skills/requesting-code-review/SKILL.md",
           "evaluator": "mbtiongson1",
           "date": "2026-05-18",
-          "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
+          "notes": "obra/superpowers \u2014 complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
         }
       ],
       "knownAgents": [],
@@ -6028,9 +6028,9 @@
       "id": "requirements-analysis",
       "name": "Requirements Analysis",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "common",
-      "description": "Elicit and structure requirements from stakeholder inputs into formal specifications — user stories, acceptance criteria, and traceability matrices.",
+      "description": "Elicit and structure requirements from stakeholder inputs into formal specifications \u2014 user stories, acceptance criteria, and traceability matrices.",
       "prerequisites": [],
       "derivatives": [
         "writing-plans",
@@ -6043,7 +6043,7 @@
           "source": "https://github.com/intelligentcode-ai/skills/blob/main/skills/requirements-engineer/SKILL.md",
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
-          "notes": "intelligentcode-ai/skills requirements-engineer — business analysis specialist bridging stakeholders and technical teams for full requirements lifecycle."
+          "notes": "intelligentcode-ai/skills requirements-engineer \u2014 business analysis specialist bridging stakeholders and technical teams for full requirements lifecycle."
         }
       ],
       "knownAgents": [],
@@ -6056,7 +6056,7 @@
       "id": "research",
       "name": "Research",
       "type": "extra",
-      "level": "1★",
+      "level": "1\u2605",
       "rarity": "uncommon",
       "description": "Conducts multi-source information gathering, synthesis, and citation for a given topic.",
       "prerequisites": [
@@ -6091,7 +6091,7 @@
           "timestamp": "2026-05-25T04:25:34Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 3★ to 2★"
+          "details": "Calibrated level from 3\u2605 to 2\u2605"
         }
       ],
       "demerits": [
@@ -6102,7 +6102,7 @@
       "id": "retrieve",
       "name": "Retrieve",
       "type": "basic",
-      "level": "0★",
+      "level": "0\u2605",
       "rarity": "common",
       "description": "Fetches relevant documents or passages from an indexed corpus given a query.",
       "prerequisites": [],
@@ -6133,7 +6133,7 @@
           "timestamp": "2026-05-25T04:25:34Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 1★ to 0★"
+          "details": "Calibrated level from 1\u2605 to 0\u2605"
         }
       ],
       "demerits": [
@@ -6144,7 +6144,7 @@
       "id": "reward-modeling",
       "name": "Reward Modeling",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "rare",
       "description": "Learns a scalar reward signal from human preference comparisons between model outputs, enabling reinforcement learning from human feedback (RLHF) to align model behavior with human values.",
       "prerequisites": [],
@@ -6179,7 +6179,7 @@
       "id": "route-intent",
       "name": "Route Intent",
       "type": "basic",
-      "level": "0★",
+      "level": "0\u2605",
       "rarity": "common",
       "description": "Classifies user intent and directs execution to the appropriate handler, tool, or sub-agent.",
       "prerequisites": [],
@@ -6208,7 +6208,7 @@
           "timestamp": "2026-05-25T04:25:35Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 1★ to 0★"
+          "details": "Calibrated level from 1\u2605 to 0\u2605"
         }
       ],
       "demerits": [
@@ -6219,7 +6219,7 @@
       "id": "ruflo",
       "name": "Ruflo",
       "type": "ultimate",
-      "level": "6★",
+      "level": "6\u2605",
       "rarity": "legendary",
       "description": "The complete Ruflo AI orchestration platform: multi-topology swarm deployment, cloud platform management, GitHub automation, hive-mind consensus, reasoning memory bank, and full v3 architecture modernization.",
       "prerequisites": [
@@ -6231,14 +6231,14 @@
         "dual-mode"
       ],
       "derivatives": [],
-      "conditions": "Requires demonstrating all 6 Ruflo suite fusions together in a production multi-agent context. Grandmaster Path: 34k+ stars on ruvnet/ruflo + agent-memory-platform 5★ Ultimate.",
+      "conditions": "Requires demonstrating all 6 Ruflo suite fusions together in a production multi-agent context. Grandmaster Path: 34k+ stars on ruvnet/ruflo + agent-memory-platform 5\u2605 Ultimate.",
       "evidence": [
         {
           "class": "A",
           "source": "https://github.com/ruvnet/ruflo",
           "evaluator": "mbtiongson1",
           "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars. Meets Class A threshold: ≥5 named skills registered across 6 generic buckets in Gaia."
+          "notes": "Ruflo orchestration platform \u2014 34k+ GitHub stars. Meets Class A threshold: \u22655 named skills registered across 6 generic buckets in Gaia."
         }
       ],
       "knownAgents": [],
@@ -6251,7 +6251,7 @@
           "timestamp": "2026-05-19T00:00:00Z",
           "action": "fuse",
           "contributor": "mbtiongson1",
-          "details": "Fused 6 Ruflo suite skills into /ruflo 6★ apex ultimate. Components: flow-nexus-orchestration, agent-memory-platform, github-platform-mastery, hive-mind-coordination, reasoning-pattern-bank, platform-modernization-sprint."
+          "details": "Fused 6 Ruflo suite skills into /ruflo 6\u2605 apex ultimate. Components: flow-nexus-orchestration, agent-memory-platform, github-platform-mastery, hive-mind-coordination, reasoning-pattern-bank, platform-modernization-sprint."
         }
       ]
     },
@@ -6259,9 +6259,9 @@
       "id": "schema-design",
       "name": "Schema Design",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "common",
-      "description": "Design database schemas across relational, NoSQL, graph, and time-series stores — entity modelling, normalization, indexing strategies, and migration planning.",
+      "description": "Design database schemas across relational, NoSQL, graph, and time-series stores \u2014 entity modelling, normalization, indexing strategies, and migration planning.",
       "prerequisites": [],
       "derivatives": [],
       "conditions": "",
@@ -6271,7 +6271,7 @@
           "source": "https://github.com/intelligentcode-ai/skills/blob/main/skills/database-engineer/SKILL.md",
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
-          "notes": "intelligentcode-ai/skills database-engineer — schema design and query optimization expert across relational, NoSQL, graph, time-series, and data warehouses."
+          "notes": "intelligentcode-ai/skills database-engineer \u2014 schema design and query optimization expert across relational, NoSQL, graph, time-series, and data warehouses."
         }
       ],
       "knownAgents": [],
@@ -6284,9 +6284,9 @@
       "id": "scientific-discovery",
       "name": "Autonomous Scientific Discovery",
       "type": "extra",
-      "level": "5★",
+      "level": "5\u2605",
       "rarity": "epic",
-      "description": "Autonomously generates novel scientific hypotheses, designs and executes experiments, analyses results, and produces a written report â€” completing a full research cycle without human intervention.",
+      "description": "Autonomously generates novel scientific hypotheses, designs and executes experiments, analyses results, and produces a written report \u00e2\u20ac\u201d completing a full research cycle without human intervention.",
       "prerequisites": [
         "computational-biology-workflows",
         "hypothesis-generate",
@@ -6301,21 +6301,21 @@
           "source": "https://arxiv.org/abs/2304.05376",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "ChemCrow (Bran et al., 2023) â€” autonomous chemistry agent completes synthesis planning and molecular design tasks rated expert-level by human chemists."
+          "notes": "ChemCrow (Bran et al., 2023) \u00e2\u20ac\u201d autonomous chemistry agent completes synthesis planning and molecular design tasks rated expert-level by human chemists."
         },
         {
           "class": "A",
           "source": "https://arxiv.org/abs/2304.05332",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "Coscientist (Boiko et al., 2023) â€” autonomously planned and executed real wet-lab chemistry experiments, confirmed by GC-MS analysis."
+          "notes": "Coscientist (Boiko et al., 2023) \u00e2\u20ac\u201d autonomously planned and executed real wet-lab chemistry experiments, confirmed by GC-MS analysis."
         },
         {
           "class": "B",
           "source": "https://github.com/SakanaAI/AI-Scientist",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "AI Scientist (Lu et al., 2024) â€” generates idea, writes code, runs experiments, and produces a full NeurIPS-style paper; 50+ manuscripts auto-generated."
+          "notes": "AI Scientist (Lu et al., 2024) \u00e2\u20ac\u201d generates idea, writes code, runs experiments, and produces a full NeurIPS-style paper; 50+ manuscripts auto-generated."
         }
       ],
       "knownAgents": [],
@@ -6329,7 +6329,7 @@
       "id": "scientific-visualization",
       "name": "Scientific Visualization",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "uncommon",
       "summary": "Creates publication-ready scientific figures and visualizes molecular structures.",
       "description": "Creates publication-ready scientific figures with multi-panel layouts, statistical annotations, colorblind-safe palettes, and journal-specific formatting (Nature, Science, Cell) using matplotlib, seaborn, and plotly. It also includes visualizing, analyzing, and rendering protein and molecular structures without a hardware-accelerated GUI.",
@@ -6346,7 +6346,7 @@
           "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/scientific-visualization/SKILL.md",
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
-          "notes": "K-Dense-AI scientific-agent-skills — reproducible scientific-visualization skill orchestrating matplotlib, seaborn, and plotly for journal-quality multi-panel figures with PDF/EPS/TIFF/PNG export and accessibility annotations."
+          "notes": "K-Dense-AI scientific-agent-skills \u2014 reproducible scientific-visualization skill orchestrating matplotlib, seaborn, and plotly for journal-quality multi-panel figures with PDF/EPS/TIFF/PNG export and accessibility annotations."
         },
         {
           "class": "B",
@@ -6387,7 +6387,7 @@
       "id": "scientific-writing",
       "name": "Scientific Writing",
       "type": "extra",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "uncommon",
       "description": "Composes research manuscripts in IMRAD structure with reporting-guideline compliance (CONSORT, STROBE, PRISMA), citation management, publication-quality figures, and LaTeX/PDF formatting.",
       "prerequisites": [
@@ -6403,14 +6403,14 @@
           "source": "https://arxiv.org/abs/2405.20477",
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
-          "notes": "Chamoun et al. (ACL 2024 Findings) — SWIFT: automated focused feedback for scientific writing; multi-component LLM system (planner, investigator, reviewer, controller) rated more specific and helpful than human reviewers on 300 peer-reviewed manuscripts."
+          "notes": "Chamoun et al. (ACL 2024 Findings) \u2014 SWIFT: automated focused feedback for scientific writing; multi-component LLM system (planner, investigator, reviewer, controller) rated more specific and helpful than human reviewers on 300 peer-reviewed manuscripts."
         },
         {
           "class": "B",
           "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/scientific-writing/SKILL.md",
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
-          "notes": "K-Dense-AI scientific-agent-skills — reproducible scientific-writing skill: two-stage outline-to-prose pipeline with IMRAD structure, multi-style citation management, and reporting-guideline validation (CONSORT, STROBE, PRISMA, STARD, TRIPOD)."
+          "notes": "K-Dense-AI scientific-agent-skills \u2014 reproducible scientific-writing skill: two-stage outline-to-prose pipeline with IMRAD structure, multi-style citation management, and reporting-guideline validation (CONSORT, STROBE, PRISMA, STARD, TRIPOD)."
         }
       ],
       "knownAgents": [],
@@ -6423,7 +6423,7 @@
       "id": "score-relevance",
       "name": "Score Relevance",
       "type": "basic",
-      "level": "0★",
+      "level": "0\u2605",
       "rarity": "common",
       "description": "Assigns a numerical relevance score to candidate items relative to a query or objective.",
       "prerequisites": [],
@@ -6451,7 +6451,7 @@
           "timestamp": "2026-05-25T04:25:35Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 1★ to 0★"
+          "details": "Calibrated level from 1\u2605 to 0\u2605"
         }
       ],
       "demerits": [
@@ -6462,7 +6462,7 @@
       "id": "security-audit",
       "name": "Security Audit",
       "type": "extra",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "rare",
       "description": "Systematically identify security vulnerabilities, assess attack surface, and produce actionable remediation guidance across code, dependencies, and infrastructure.",
       "prerequisites": [
@@ -6480,14 +6480,14 @@
           "source": "https://github.com/intelligentcode-ai/skills/blob/main/skills/security-engineer/SKILL.md",
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
-          "notes": "intelligentcode-ai/skills security-engineer — vulnerability assessment and security architecture with zero-trust principles and compliance management."
+          "notes": "intelligentcode-ai/skills security-engineer \u2014 vulnerability assessment and security architecture with zero-trust principles and compliance management."
         },
         {
           "class": "C",
           "source": "https://github.com/microsoft/PromptKit",
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
-          "notes": "microsoft/PromptKit (42 stars) — composable prompt components for security audits, code review, and bug investigation with any LLM."
+          "notes": "microsoft/PromptKit (42 stars) \u2014 composable prompt components for security audits, code review, and bug investigation with any LLM."
         }
       ],
       "knownAgents": [],
@@ -6500,7 +6500,7 @@
       "id": "self-consistency",
       "name": "Self-Consistency",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "rare",
       "description": "Samples multiple independent reasoning paths for the same problem and selects the answer by majority vote, improving robustness without any additional training.",
       "prerequisites": [],
@@ -6515,7 +6515,7 @@
           "source": "https://arxiv.org/abs/2203.11171",
           "evaluator": "mbtiongson1",
           "date": "2026-04-29",
-          "notes": "Wang et al. (2022) â€” Self-Consistency Improves Chain of Thought Reasoning in Language Models; +17.9% on GSM8K and +11.0% on MATH over greedy CoT decoding."
+          "notes": "Wang et al. (2022) \u00e2\u20ac\u201d Self-Consistency Improves Chain of Thought Reasoning in Language Models; +17.9% on GSM8K and +11.0% on MATH over greedy CoT decoding."
         }
       ],
       "knownAgents": [],
@@ -6534,7 +6534,7 @@
           "timestamp": "2026-05-25T03:45:37Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 4★ to 2★"
+          "details": "Calibrated level from 4\u2605 to 2\u2605"
         }
       ]
     },
@@ -6542,7 +6542,7 @@
       "id": "self-critique",
       "name": "Self-Critique",
       "type": "basic",
-      "level": "1★",
+      "level": "1\u2605",
       "rarity": "uncommon",
       "description": "Iteratively evaluates and refines its own outputs using self-generated feedback, improving quality without external supervision.",
       "prerequisites": [],
@@ -6558,14 +6558,14 @@
           "source": "https://arxiv.org/abs/2303.17651",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "Self-Refine (Madaan et al., 2023) â€” iterative self-feedback loop; +20% on code generation and +13% on math reasoning vs single-pass generation."
+          "notes": "Self-Refine (Madaan et al., 2023) \u00e2\u20ac\u201d iterative self-feedback loop; +20% on code generation and +13% on math reasoning vs single-pass generation."
         },
         {
           "class": "B",
           "source": "https://github.com/madaan/self-refine",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "Self-Refine repo â€” reproducible demos across 7 tasks (code, math, dialogue, sentiment reversal) with evaluation scripts."
+          "notes": "Self-Refine repo \u00e2\u20ac\u201d reproducible demos across 7 tasks (code, math, dialogue, sentiment reversal) with evaluation scripts."
         }
       ],
       "knownAgents": [],
@@ -6578,7 +6578,7 @@
       "id": "semantic-cache",
       "name": "Semantic Cache",
       "type": "unique",
-      "level": "4★",
+      "level": "4\u2605",
       "rarity": "rare",
       "description": "Stores LLM responses keyed by embedding similarity so that semantically equivalent queries are served from cache, reducing inference latency and token cost without sacrificing answer quality.",
       "prerequisites": [],
@@ -6617,7 +6617,7 @@
       "id": "sentiment-analysis",
       "name": "Sentiment Analysis",
       "type": "basic",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "common",
       "description": "Classifies the affective polarity (positive / negative / neutral, or fine-grained) of user-generated text. Covers pipelines from raw noisy input through preprocessing, inference (Transformer, Lexicon, or LLM), and output normalisation.",
       "prerequisites": [],
@@ -6632,7 +6632,7 @@
           "source": "https://arxiv.org/abs/1810.04805",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "BERT paper — achieves SOTA on SST-2 sentiment benchmark (93.5% accuracy), foundational evidence for LLM-based sentiment analysis."
+          "notes": "BERT paper \u2014 achieves SOTA on SST-2 sentiment benchmark (93.5% accuracy), foundational evidence for LLM-based sentiment analysis."
         },
         {
           "class": "A",
@@ -6701,7 +6701,7 @@
       "id": "sequential-agent-pipeline",
       "name": "Sequential Agent Pipeline",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "common",
       "description": "Chains agent outputs sequentially so each step's result feeds the next, enabling multi-stage data transformation and coordinated processing.",
       "prerequisites": [],
@@ -6713,7 +6713,7 @@
           "source": "https://github.com/ruvnet/ruflo",
           "evaluator": "mbtiongson1",
           "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          "notes": "Ruflo orchestration platform \u2014 34k+ GitHub stars."
         }
       ],
       "knownAgents": [],
@@ -6726,7 +6726,7 @@
       "id": "skill-authoring",
       "name": "Skill Authoring",
       "type": "extra",
-      "level": "4★",
+      "level": "4\u2605",
       "rarity": "rare",
       "description": "Designs, writes, packages, and iteratively improves reusable agent skill directories with metadata, progressive instructions, supporting assets, and measurable trigger criteria.",
       "prerequisites": [
@@ -6796,7 +6796,7 @@
       "id": "skill-discovery",
       "name": "Skill Discovery",
       "type": "basic",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "common",
       "description": "Searches a skill or tool registry, ranks results by relevance and install count, and surfaces candidates for the agent to adopt or invoke.",
       "prerequisites": [],
@@ -6824,7 +6824,7 @@
       "id": "skill-performance-benchmarking",
       "name": "Skill Performance Benchmarking",
       "type": "extra",
-      "level": "4★",
+      "level": "4\u2605",
       "rarity": "rare",
       "description": "Builds and runs task suites that measure whether agents select, invoke, and complete installed skills correctly across artifact-rich workflows and repeated trials.",
       "prerequisites": [
@@ -6873,7 +6873,7 @@
       "id": "skill-security-analysis",
       "name": "Skill Security Analysis",
       "type": "extra",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "rare",
       "description": "Assesses third-party agent skills for malicious behavior, unsafe permissions, prompt-injection exposure, repository-context mismatch, and supply-chain risk before installation or invocation.",
       "prerequisites": [
@@ -6919,7 +6919,7 @@
           "timestamp": "2026-05-25T03:45:37Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 4★ to 2★"
+          "details": "Calibrated level from 4\u2605 to 2\u2605"
         }
       ]
     },
@@ -6927,7 +6927,7 @@
       "id": "speech-to-text",
       "name": "Speech to Text",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "common",
       "description": "Transcribes spoken audio into accurate text, handling diverse accents, noise conditions, and multiple languages.",
       "prerequisites": [],
@@ -6941,7 +6941,7 @@
           "source": "https://arxiv.org/abs/2212.04356",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "Whisper (OpenAI) â€” large-scale weak supervision across 680K hours of audio achieves near-human WER on LibriSpeech and multilingual benchmarks."
+          "notes": "Whisper (OpenAI) \u00e2\u20ac\u201d large-scale weak supervision across 680K hours of audio achieves near-human WER on LibriSpeech and multilingual benchmarks."
         }
       ],
       "knownAgents": [],
@@ -6954,7 +6954,7 @@
       "id": "statistical-analysis",
       "name": "Statistical Analysis",
       "type": "basic",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "uncommon",
       "description": "Performs hypothesis testing, regression analysis, and Bayesian modelling with effect size calculation and APA-formatted statistical reporting using scipy, statsmodels, and PyMC.",
       "prerequisites": [],
@@ -6969,14 +6969,14 @@
           "source": "https://arxiv.org/abs/2511.06701",
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
-          "notes": "Sargsyan (2025) — Structural Enforcement of Statistical Rigor in AI-Driven Discovery; monadic architecture achieves 1.1% false discovery rate vs 41% for naive LLM approaches across automated hypothesis-testing pipelines."
+          "notes": "Sargsyan (2025) \u2014 Structural Enforcement of Statistical Rigor in AI-Driven Discovery; monadic architecture achieves 1.1% false discovery rate vs 41% for naive LLM approaches across automated hypothesis-testing pipelines."
         },
         {
           "class": "B",
           "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/statistical-analysis/SKILL.md",
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
-          "notes": "K-Dense-AI scientific-agent-skills — reproducible statistical-analysis skill covering parametric, non-parametric, and Bayesian workflows with scipy/statsmodels/pingouin/PyMC and APA-formatted output."
+          "notes": "K-Dense-AI scientific-agent-skills \u2014 reproducible statistical-analysis skill covering parametric, non-parametric, and Bayesian workflows with scipy/statsmodels/pingouin/PyMC and APA-formatted output."
         }
       ],
       "knownAgents": [],
@@ -6989,7 +6989,7 @@
       "id": "stealth-browser-interaction",
       "name": "Stealth Browser Interaction",
       "type": "extra",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "uncommon",
       "description": "Operates web browsers through an advanced stealth layer that handles bot-detection, fingerprinting, session rotation, and human-like interaction patterns to maintain resilient access to protected domains.",
       "prerequisites": [
@@ -7026,7 +7026,7 @@
           "timestamp": "2026-05-25T04:25:35Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 4★ to 3★"
+          "details": "Calibrated level from 4\u2605 to 3\u2605"
         }
       ]
     },
@@ -7034,7 +7034,7 @@
       "id": "structured-output",
       "name": "Structured Output Generation",
       "type": "basic",
-      "level": "1★",
+      "level": "1\u2605",
       "rarity": "common",
       "description": "Generates output guaranteed to conform to a given schema (JSON, YAML, Pydantic model, etc.) using constrained decoding or grammar-guided generation.",
       "prerequisites": [],
@@ -7052,14 +7052,14 @@
           "source": "https://arxiv.org/abs/2307.09702",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "Willard & Louf (2023) â€” Efficient Guided Generation for LLMs; finite-state machine approach guarantees schema-valid output with <1% throughput overhead."
+          "notes": "Willard & Louf (2023) \u00e2\u20ac\u201d Efficient Guided Generation for LLMs; finite-state machine approach guarantees schema-valid output with <1% throughput overhead."
         },
         {
           "class": "B",
           "source": "https://github.com/outlines-dev/outlines",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "Outlines library â€” production-grade constrained decoding supporting JSON Schema, regex, and CFG grammars; 2k+ GitHub stars."
+          "notes": "Outlines library \u00e2\u20ac\u201d production-grade constrained decoding supporting JSON Schema, regex, and CFG grammars; 2k+ GitHub stars."
         }
       ],
       "knownAgents": [],
@@ -7072,7 +7072,7 @@
       "id": "subagent-driven-development",
       "name": "Subagent-Driven Development",
       "type": "extra",
-      "level": "4★",
+      "level": "4\u2605",
       "rarity": "uncommon",
       "description": "Executes plans by dispatching a fresh subagent per task with a two-stage review (spec compliance then code quality).",
       "prerequisites": [
@@ -7090,7 +7090,7 @@
           "source": "https://github.com/obra/superpowers/blob/main/skills/subagent-driven-development/SKILL.md",
           "evaluator": "mbtiongson1",
           "date": "2026-05-18",
-          "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
+          "notes": "obra/superpowers \u2014 complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
         }
       ],
       "knownAgents": [],
@@ -7103,7 +7103,7 @@
       "id": "summarize",
       "name": "Summarize",
       "type": "basic",
-      "level": "0★",
+      "level": "0\u2605",
       "rarity": "common",
       "description": "Condenses longer input into a shorter representation that preserves key information and intent.",
       "prerequisites": [],
@@ -7137,7 +7137,7 @@
       "id": "superpowers",
       "name": "Superpowers",
       "type": "ultimate",
-      "level": "5★",
+      "level": "5\u2605",
       "rarity": "legendary",
       "description": "A complete software development methodology for coding agents: combines brainstorming, planning, parallel execution, systematic debugging, code review loops, and branch discipline into a unified agentic workflow.",
       "prerequisites": [
@@ -7161,7 +7161,7 @@
           "source": "https://github.com/obra/superpowers",
           "evaluator": "mbtiongson1",
           "date": "2026-05-18",
-          "notes": "obra/superpowers v5.1.0 — 196k+ GitHub stars, 17.5k forks, multi-platform adoption (Claude Code, Codex CLI, Factory Droid, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI). Most widely adopted AI agent discipline framework; confirms landmark methodology status."
+          "notes": "obra/superpowers v5.1.0 \u2014 196k+ GitHub stars, 17.5k forks, multi-platform adoption (Claude Code, Codex CLI, Factory Droid, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI). Most widely adopted AI agent discipline framework; confirms landmark methodology status."
         }
       ],
       "knownAgents": [],
@@ -7180,7 +7180,7 @@
           "timestamp": "2026-05-25T03:46:20Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 5★ to 5★"
+          "details": "Calibrated level from 5\u2605 to 5\u2605"
         }
       ]
     },
@@ -7188,7 +7188,7 @@
       "id": "swarm-topology-management",
       "name": "Swarm Topology Management",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "common",
       "description": "Initializes and manages multi-agent swarm network topologies (hierarchical, mesh, ring, star) with load balancing and fault tolerance.",
       "prerequisites": [],
@@ -7200,7 +7200,7 @@
           "source": "https://github.com/ruvnet/ruflo",
           "evaluator": "mbtiongson1",
           "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          "notes": "Ruflo orchestration platform \u2014 34k+ GitHub stars."
         }
       ],
       "knownAgents": [],
@@ -7213,7 +7213,7 @@
       "id": "system-integration",
       "name": "System Integration",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "common",
       "description": "Connects disparate subsystems via shared contracts, event buses, and compatibility layers for coherent cross-component operation.",
       "prerequisites": [],
@@ -7225,7 +7225,7 @@
           "source": "https://github.com/ruvnet/ruflo",
           "evaluator": "mbtiongson1",
           "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          "notes": "Ruflo orchestration platform \u2014 34k+ GitHub stars."
         }
       ],
       "knownAgents": [],
@@ -7238,7 +7238,7 @@
       "id": "systematic-debugging",
       "name": "Systematic Debugging",
       "type": "extra",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "uncommon",
       "description": "Finds the root cause before attempting fixes when encountering bugs, test failures, or unexpected behavior.",
       "prerequisites": [
@@ -7256,7 +7256,7 @@
           "source": "https://github.com/obra/superpowers/blob/main/skills/systematic-debugging/SKILL.md",
           "evaluator": "mbtiongson1",
           "date": "2026-05-18",
-          "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
+          "notes": "obra/superpowers \u2014 complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
         }
       ],
       "knownAgents": [],
@@ -7269,7 +7269,7 @@
       "id": "test-driven-development",
       "name": "Test-Driven Development",
       "type": "basic",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "uncommon",
       "description": "Enforces a strict red-green-refactor TDD loop: writes failing tests before implementation, blocks code generation that skips the test step, and validates coverage thresholds before marking tasks complete.",
       "prerequisites": [],
@@ -7301,7 +7301,7 @@
       "id": "text-to-speech",
       "name": "Text to Speech",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "common",
       "description": "Synthesizes natural-sounding speech audio from text input, supporting voice cloning and prosody control.",
       "prerequisites": [],
@@ -7315,7 +7315,7 @@
           "source": "https://arxiv.org/abs/2301.02111",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "VALL-E (Microsoft) â€” neural codec language model achieving SOTA speech synthesis with 3-second voice cloning on LibriSpeech."
+          "notes": "VALL-E (Microsoft) \u00e2\u20ac\u201d neural codec language model achieving SOTA speech synthesis with 3-second voice cloning on LibriSpeech."
         }
       ],
       "knownAgents": [],
@@ -7328,7 +7328,7 @@
       "id": "text-to-sql-pipeline",
       "name": "Text-to-SQL Pipeline",
       "type": "extra",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "uncommon",
       "description": "Converts natural-language queries into validated, executable SQL against a target schema and returns formatted result sets.",
       "prerequisites": [
@@ -7344,7 +7344,7 @@
           "source": "https://arxiv.org/abs/2304.11015",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "DIN-SQL â€” decomposed in-context learning for text-to-SQL; 82.8% execution accuracy on Spider dev, demonstrating end-to-end pipeline."
+          "notes": "DIN-SQL \u00e2\u20ac\u201d decomposed in-context learning for text-to-SQL; 82.8% execution accuracy on Spider dev, demonstrating end-to-end pipeline."
         }
       ],
       "knownAgents": [],
@@ -7357,7 +7357,7 @@
           "timestamp": "2026-05-25T03:45:36Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 3★ to 2★"
+          "details": "Calibrated level from 3\u2605 to 2\u2605"
         }
       ]
     },
@@ -7365,7 +7365,7 @@
       "id": "token-observability",
       "name": "Token Observability",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "uncommon",
       "summary": "Observability tool for tracking AI coding agent token spend locally.",
       "description": "Tracks and analyzes token usage and cost across multiple AI models and agents, providing session-level and project-level spending metrics. Operates locally by reading session data directly from disk and utilizes local pricing calculation, ensuring no proxies or API keys are required. Features CLI commands to optimize token waste, compare models, and track yield.",
@@ -7395,7 +7395,7 @@
       "id": "tokenize",
       "name": "Tokenize",
       "type": "basic",
-      "level": "1★",
+      "level": "1\u2605",
       "rarity": "common",
       "description": "Splits input text into discrete tokens suitable for downstream processing by language models.",
       "prerequisites": [],
@@ -7419,7 +7419,7 @@
       "id": "tool-chaining",
       "name": "Tool Chaining",
       "type": "extra",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "uncommon",
       "description": "Sequences multiple tool invocations into a dependency graph where the output of each tool feeds as structured input to the next, handling state propagation, intermediate result validation, and error recovery across multi-step execution pipelines.",
       "prerequisites": [
@@ -7434,7 +7434,7 @@
           "source": "https://arxiv.org/abs/2604.07223",
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
-          "notes": "TraceSafe (2026) — first benchmark with 1,000+ instances explicitly evaluating sequential multi-step tool-calling trajectories across 12 risk categories; establishes tool-chaining as a distinct, measurable capability surface."
+          "notes": "TraceSafe (2026) \u2014 first benchmark with 1,000+ instances explicitly evaluating sequential multi-step tool-calling trajectories across 12 risk categories; establishes tool-chaining as a distinct, measurable capability surface."
         },
         {
           "class": "C",
@@ -7454,7 +7454,7 @@
       "id": "tool-creation",
       "name": "Tool Creation",
       "type": "extra",
-      "level": "4★",
+      "level": "4\u2605",
       "rarity": "rare",
       "description": "Dynamically generates reusable tool functions (code) at runtime to solve novel sub-tasks, then invokes those tools to complete the overall objective without human-written APIs.",
       "prerequisites": [
@@ -7473,14 +7473,14 @@
           "source": "https://arxiv.org/abs/2305.17126",
           "evaluator": "mbtiongson1",
           "date": "2026-04-29",
-          "notes": "Cai et al. (2023) â€” Large Language Models as Tool Makers (LATM); LLM-generated tools reused across problem instances achieve +8.7% on BigBench Hard vs per-instance CoT."
+          "notes": "Cai et al. (2023) \u00e2\u20ac\u201d Large Language Models as Tool Makers (LATM); LLM-generated tools reused across problem instances achieve +8.7% on BigBench Hard vs per-instance CoT."
         },
         {
           "class": "B",
           "source": "https://github.com/ctlllll/LLM-ToolMaker",
           "evaluator": "mbtiongson1",
           "date": "2026-04-29",
-          "notes": "LATM repo â€” reproducible tool-maker/tool-user pipeline with evaluation on BigBench Hard tasks and tool reuse across problem batches."
+          "notes": "LATM repo \u00e2\u20ac\u201d reproducible tool-maker/tool-user pipeline with evaluation on BigBench Hard tasks and tool reuse across problem batches."
         }
       ],
       "knownAgents": [],
@@ -7493,7 +7493,7 @@
       "id": "tool-select",
       "name": "Tool Select",
       "type": "basic",
-      "level": "0★",
+      "level": "0\u2605",
       "rarity": "common",
       "description": "Chooses the most appropriate tool or API from a set of available options given a task description.",
       "prerequisites": [],
@@ -7522,7 +7522,7 @@
           "timestamp": "2026-05-25T04:25:35Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 1★ to 0★"
+          "details": "Calibrated level from 1\u2605 to 0\u2605"
         }
       ],
       "demerits": [
@@ -7533,7 +7533,7 @@
       "id": "tool-use",
       "name": "Tool Use",
       "type": "basic",
-      "level": "1★",
+      "level": "1\u2605",
       "rarity": "uncommon",
       "description": "Invokes external functions or APIs by generating well-formed call signatures, parsing results, and incorporating them into reasoning.",
       "prerequisites": [],
@@ -7552,14 +7552,14 @@
           "source": "https://arxiv.org/abs/2302.04761",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "Toolformer (Schick et al., 2023) â€” self-supervised method teaching LLMs to call APIs; zero-shot tool use surpasses GPT-3 175B on several benchmarks."
+          "notes": "Toolformer (Schick et al., 2023) \u00e2\u20ac\u201d self-supervised method teaching LLMs to call APIs; zero-shot tool use surpasses GPT-3 175B on several benchmarks."
         },
         {
           "class": "B",
           "source": "https://github.com/OpenBMB/ToolBench",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "ToolBench â€” open benchmark with 16,000+ real-world APIs; end-to-end tool-use training and evaluation harness."
+          "notes": "ToolBench \u00e2\u20ac\u201d open benchmark with 16,000+ real-world APIs; end-to-end tool-use training and evaluation harness."
         }
       ],
       "knownAgents": [],
@@ -7572,7 +7572,7 @@
       "id": "translate",
       "name": "Translate",
       "type": "basic",
-      "level": "0★",
+      "level": "0\u2605",
       "rarity": "common",
       "description": "Converts text from one natural language to another while preserving meaning, tone, and formatting.",
       "prerequisites": [],
@@ -7586,7 +7586,7 @@
           "source": "https://arxiv.org/abs/2207.04672",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "NLLB (No Language Left Behind) â€” Meta AI paper demonstrating 200-language translation at human-level quality on FLORES-200 benchmark."
+          "notes": "NLLB (No Language Left Behind) \u00e2\u20ac\u201d Meta AI paper demonstrating 200-language translation at human-level quality on FLORES-200 benchmark."
         }
       ],
       "knownAgents": [],
@@ -7599,7 +7599,7 @@
       "id": "translation-pipeline",
       "name": "Translation Pipeline",
       "type": "extra",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "uncommon",
       "description": "Translates content end-to-end while preserving sentiment and adapting tone and register for the target audience.",
       "prerequisites": [
@@ -7615,7 +7615,7 @@
           "source": "https://arxiv.org/abs/2308.11596",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "SeamlessM4T (Meta AI) â€” unified speech and text translation model with tone and register control; BLEU +3.3 over NLLB on FLORES-200."
+          "notes": "SeamlessM4T (Meta AI) \u00e2\u20ac\u201d unified speech and text translation model with tone and register control; BLEU +3.3 over NLLB on FLORES-200."
         }
       ],
       "knownAgents": [],
@@ -7628,7 +7628,7 @@
           "timestamp": "2026-05-25T03:45:36Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 3★ to 2★"
+          "details": "Calibrated level from 3\u2605 to 2\u2605"
         }
       ]
     },
@@ -7636,7 +7636,7 @@
       "id": "tree-of-thought",
       "name": "Tree of Thought",
       "type": "extra",
-      "level": "4★",
+      "level": "4\u2605",
       "rarity": "rare",
       "description": "Frames problem solving as a search over a tree of partial solutions, using LLM-generated evaluations to prune unpromising branches and backtrack, dramatically improving success on complex reasoning tasks.",
       "prerequisites": [
@@ -7653,14 +7653,14 @@
           "source": "https://arxiv.org/abs/2305.10601",
           "evaluator": "mbtiongson1",
           "date": "2026-04-29",
-          "notes": "Yao et al. (2023) â€” Tree of Thoughts: Deliberate Problem Solving with LLMs; +74% on Game of 24 and +4% on Creative Writing vs chain-of-thought baseline."
+          "notes": "Yao et al. (2023) \u00e2\u20ac\u201d Tree of Thoughts: Deliberate Problem Solving with LLMs; +74% on Game of 24 and +4% on Creative Writing vs chain-of-thought baseline."
         },
         {
           "class": "B",
           "source": "https://github.com/princeton-nlp/tree-of-thought-llm",
           "evaluator": "mbtiongson1",
           "date": "2026-04-29",
-          "notes": "Princeton-NLP ToT repo â€” reproducible breadth-first and depth-first tree search implementations with evaluation scripts for Game of 24 and Mini Crosswords."
+          "notes": "Princeton-NLP ToT repo \u00e2\u20ac\u201d reproducible breadth-first and depth-first tree search implementations with evaluation scripts for Game of 24 and Mini Crosswords."
         }
       ],
       "knownAgents": [],
@@ -7673,7 +7673,7 @@
       "id": "ubiquitous-language",
       "name": "Ubiquitous Language",
       "type": "extra",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "rare",
       "description": "Establishes and maintains a consistent, domain-driven vocabulary between the agent and human, formalising terminology in a shared glossary (typically CONTEXT.md) to reduce ambiguity and token waste.",
       "prerequisites": [
@@ -7703,7 +7703,7 @@
           "timestamp": "2026-05-25T04:25:35Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 4★ to 3★"
+          "details": "Calibrated level from 4\u2605 to 3\u2605"
         }
       ],
       "demerits": [
@@ -7714,7 +7714,7 @@
       "id": "using-git-worktrees",
       "name": "Using Git Worktrees",
       "type": "extra",
-      "level": "1★",
+      "level": "1\u2605",
       "rarity": "common",
       "description": "Ensures work happens in an isolated workspace via native tools or git worktree fallback before starting feature work.",
       "prerequisites": [
@@ -7731,7 +7731,7 @@
           "source": "https://github.com/obra/superpowers/blob/main/skills/using-git-worktrees/SKILL.md",
           "evaluator": "mbtiongson1",
           "date": "2026-05-18",
-          "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
+          "notes": "obra/superpowers \u2014 complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
         }
       ],
       "knownAgents": [],
@@ -7744,7 +7744,7 @@
       "id": "ux-audit",
       "name": "UX Audit",
       "type": "basic",
-      "level": "4★",
+      "level": "4\u2605",
       "rarity": "uncommon",
       "description": "Systematically evaluates a user interface against established usability heuristics or accessibility standards, producing a scored finding report with remediation recommendations.",
       "prerequisites": [],
@@ -7778,7 +7778,7 @@
       "id": "vector-db-optimization",
       "name": "Vector DB Optimization",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "common",
       "description": "Tunes vector database indices, sharding strategies, and multi-database coordination for production-scale retrieval.",
       "prerequisites": [],
@@ -7790,7 +7790,7 @@
           "source": "https://github.com/ruvnet/ruflo",
           "evaluator": "mbtiongson1",
           "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          "notes": "Ruflo orchestration platform \u2014 34k+ GitHub stars."
         }
       ],
       "knownAgents": [],
@@ -7803,7 +7803,7 @@
       "id": "vector-search",
       "name": "Vector Search",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "common",
       "description": "Performs similarity search over high-dimensional embeddings using cosine, Euclidean, dot-product, or custom distance metrics.",
       "prerequisites": [],
@@ -7815,7 +7815,7 @@
           "source": "https://github.com/ruvnet/ruflo",
           "evaluator": "mbtiongson1",
           "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          "notes": "Ruflo orchestration platform \u2014 34k+ GitHub stars."
         }
       ],
       "knownAgents": [],
@@ -7828,7 +7828,7 @@
       "id": "verification-before-completion",
       "name": "Verification Before Completion",
       "type": "extra",
-      "level": "1★",
+      "level": "1\u2605",
       "rarity": "common",
       "description": "Requires running verification commands and confirming output before claiming work is complete, fixed, or passing.",
       "prerequisites": [
@@ -7846,7 +7846,7 @@
           "source": "https://github.com/obra/superpowers/blob/main/skills/verification-before-completion/SKILL.md",
           "evaluator": "mbtiongson1",
           "date": "2026-05-18",
-          "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
+          "notes": "obra/superpowers \u2014 complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
         }
       ],
       "knownAgents": [],
@@ -7859,7 +7859,7 @@
       "id": "vertical-slice-planning",
       "name": "Vertical Slice Planning",
       "type": "extra",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "uncommon",
       "description": "Decomposes a product plan into independently-demoable vertical slices that each cut through all integration layers end-to-end. Classifies each slice as HITL (human-in-the-loop) or AFK (autonomous), identifies dependency ordering, and publishes structured issues with acceptance criteria.",
       "prerequisites": [
@@ -7889,7 +7889,7 @@
       "id": "video-intelligence",
       "name": "Video Intelligence",
       "type": "extra",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "rare",
       "description": "Processes video streams by extracting frames, transcribing audio, and applying multimodal reasoning to understand temporal and visual context.",
       "prerequisites": [
@@ -7919,7 +7919,7 @@
       "id": "vision-qa",
       "name": "Visual Question Answering",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "uncommon",
       "description": "Answers natural-language questions grounded in a specific image or screenshot by combining visual perception with language reasoning, enabling visual debugging, UI analysis, and document-image Q&A.",
       "prerequisites": [],
@@ -7931,7 +7931,7 @@
           "source": "https://arxiv.org/abs/2604.17488",
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
-          "notes": "AutoVQA-G (ICASSP 2026) — self-improving agentic framework for automated VQA and grounding annotation; uses Chain-of-Thought verification + prompt optimization to generate high-quality VQA-G datasets."
+          "notes": "AutoVQA-G (ICASSP 2026) \u2014 self-improving agentic framework for automated VQA and grounding annotation; uses Chain-of-Thought verification + prompt optimization to generate high-quality VQA-G datasets."
         },
         {
           "class": "C",
@@ -7951,7 +7951,7 @@
           "timestamp": "2026-05-25T03:45:36Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 3★ to 2★"
+          "details": "Calibrated level from 3\u2605 to 2\u2605"
         }
       ]
     },
@@ -7959,7 +7959,7 @@
       "id": "voice-agent",
       "name": "Voice Agent",
       "type": "extra",
-      "level": "3★",
+      "level": "3\u2605",
       "rarity": "uncommon",
       "description": "Handles spoken interactions end-to-end: transcribes audio input, produces language responses, and synthesizes speech output.",
       "prerequisites": [
@@ -7977,7 +7977,7 @@
           "source": "https://github.com/rasa/rasa",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
-          "notes": "Rasa Open Source â€” production voice agent framework with ASR/TTS integrations; reproducible pipeline with test suite and documented benchmarks."
+          "notes": "Rasa Open Source \u00e2\u20ac\u201d production voice agent framework with ASR/TTS integrations; reproducible pipeline with test suite and documented benchmarks."
         }
       ],
       "knownAgents": [],
@@ -7993,7 +7993,7 @@
       "id": "web-scrape",
       "name": "Web Scrape",
       "type": "extra",
-      "level": "1★",
+      "level": "1\u2605",
       "rarity": "uncommon",
       "description": "Retrieves and structures data from web pages into usable entities.",
       "prerequisites": [
@@ -8026,7 +8026,7 @@
           "timestamp": "2026-05-25T04:25:36Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 3★ to 2★"
+          "details": "Calibrated level from 3\u2605 to 2\u2605"
         }
       ],
       "demerits": [
@@ -8037,7 +8037,7 @@
       "id": "web-search",
       "name": "Web Search",
       "type": "basic",
-      "level": "0★",
+      "level": "0\u2605",
       "rarity": "common",
       "description": "Queries external search engines or APIs and retrieves relevant result sets.",
       "prerequisites": [],
@@ -8067,7 +8067,7 @@
           "timestamp": "2026-05-25T04:25:36Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 1★ to 0★"
+          "details": "Calibrated level from 1\u2605 to 0\u2605"
         }
       ],
       "demerits": [
@@ -8078,7 +8078,7 @@
       "id": "wiki-search",
       "name": "Wiki Search",
       "type": "extra",
-      "level": "4★",
+      "level": "4\u2605",
       "rarity": "uncommon",
       "description": "Builds, maintains, and queries an interlinked markdown or wiki-style knowledge base so an agent can retrieve durable local context across research sessions.",
       "prerequisites": [
@@ -8109,7 +8109,7 @@
       "id": "worker-agent-dispatch",
       "name": "Worker Agent Dispatch",
       "type": "basic",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "common",
       "description": "Maps trigger events to optimal agent combinations for background task execution with performance tracking and continuous feedback.",
       "prerequisites": [],
@@ -8121,7 +8121,7 @@
           "source": "https://github.com/ruvnet/ruflo",
           "evaluator": "mbtiongson1",
           "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          "notes": "Ruflo orchestration platform \u2014 34k+ GitHub stars."
         }
       ],
       "knownAgents": [],
@@ -8134,7 +8134,7 @@
       "id": "workflow-automation",
       "name": "Workflow Automation",
       "type": "extra",
-      "level": "4★",
+      "level": "4\u2605",
       "rarity": "uncommon",
       "description": "Designs, configures, and runs trigger-based multi-step automation pipelines that connect external services, schedule jobs, and orchestrate tool sequences without continuous human supervision.",
       "prerequisites": [
@@ -8181,7 +8181,7 @@
       "id": "workspace-automation",
       "name": "Workspace Automation",
       "type": "extra",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "uncommon",
       "description": "Orchestrates productivity tasks across email, calendar, drive, and documents through unified office suite integrations, automating scheduling and file management.",
       "prerequisites": [
@@ -8213,7 +8213,7 @@
       "id": "write-report",
       "name": "Write Report",
       "type": "basic",
-      "level": "0★",
+      "level": "0\u2605",
       "rarity": "common",
       "description": "Produces structured, multi-section written output with headings, citations, and coherent narrative.",
       "prerequisites": [],
@@ -8244,7 +8244,7 @@
           "timestamp": "2026-05-25T04:25:36Z",
           "action": "demote",
           "contributor": "mbtiongson1",
-          "details": "Calibrated level from 1★ to 0★"
+          "details": "Calibrated level from 1\u2605 to 0\u2605"
         }
       ],
       "demerits": [
@@ -8255,7 +8255,7 @@
       "id": "writing-plans",
       "name": "Writing Plans",
       "type": "extra",
-      "level": "2★",
+      "level": "2\u2605",
       "rarity": "common",
       "description": "Writes comprehensive implementation plans breaking down multi-step tasks into bite-sized sub-tasks.",
       "prerequisites": [
@@ -8273,7 +8273,7 @@
           "source": "https://github.com/obra/superpowers/blob/main/skills/writing-plans/SKILL.md",
           "evaluator": "mbtiongson1",
           "date": "2026-05-18",
-          "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
+          "notes": "obra/superpowers \u2014 complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
         }
       ],
       "knownAgents": [],
@@ -8286,7 +8286,7 @@
       "id": "x-twitter-automation",
       "name": "X/Twitter Automation",
       "type": "extra",
-      "level": "4★",
+      "level": "4\u2605",
       "rarity": "rare",
       "description": "Coordinates platform-specific X/Twitter search, tweet and reply retrieval, user lookup, follower export, monitoring, and approval-gated write workflows for social-media agent tasks.",
       "prerequisites": [
