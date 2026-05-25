@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registry Audit Report: May 2026 Meta-Shift — Gaia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --paper-bg: #ffffff;
+      --paper-text: #111111;
+      --paper-muted: #666666;
+      --accent: #ef4444; /* Honor Red */
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      background: #f0f0f0;
+      color: var(--paper-text);
+      font-family: 'EB Garamond', Georgia, serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 4rem 1rem;
+    }
+
+    .paper {
+      background: var(--paper-bg);
+      max-width: 850px;
+      margin: 0 auto;
+      padding: 5rem 6rem;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+      position: relative;
+    }
+
+    /* LaTeX Title Style */
+    header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      line-height: 1.2;
+    }
+
+    .authors {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .date {
+      font-size: 1rem;
+      color: var(--paper-muted);
+    }
+
+    .abstract {
+      margin: 3rem 0;
+      padding: 0 2rem;
+    }
+
+    .abstract-title {
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-size: 0.9rem;
+    }
+
+    .abstract-content {
+      font-style: italic;
+      text-align: justify;
+    }
+
+    /* Sections */
+    h2 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 0.3rem;
+      margin-top: 3rem;
+      counter-increment: section;
+    }
+
+    h2::before {
+      content: counter(section) ". ";
+      margin-right: 0.5rem;
+    }
+
+    h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-top: 2rem;
+    }
+
+    p {
+      text-align: justify;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Two-column lists */
+    .two-column {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    ul {
+      padding-left: 1.5rem;
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      background: #f5f5f5;
+      padding: 0.1rem 0.3rem;
+      font-size: 0.9em;
+      border-radius: 3px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 2rem 0;
+      font-size: 0.9rem;
+    }
+
+    th {
+      border-bottom: 2px solid var(--paper-text);
+      text-align: left;
+      padding: 0.5rem;
+    }
+
+    td {
+      border-bottom: 1px solid #eee;
+      padding: 0.5rem;
+    }
+
+    /* Chart area */
+    .chart-container {
+      margin: 4rem 0;
+      padding: 2rem;
+      background: #fafafa;
+      border: 1px solid #eee;
+    }
+
+    .chart-caption {
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--paper-muted);
+      margin-top: 1rem;
+      font-style: italic;
+    }
+
+    /* References */
+    .references {
+      margin-top: 5rem;
+      border-top: 1px solid #ddd;
+      padding-top: 2rem;
+    }
+
+    .ref-item {
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+      text-indent: -1.5rem;
+      padding-left: 1.5rem;
+    }
+
+    .footer-nav {
+      margin-top: 4rem;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    .footer-nav a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    @media (max-width: 768px) {
+      .paper { padding: 3rem 2rem; }
+      .two-column { grid-template-columns: 1fr; }
+      body { padding: 1rem 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <article class="paper">
+    <header>
+      <h1>Registry Audit Report:<br>May 2026 Meta-Shift</h1>
+      <div class="authors">Gemini CLI, Auditor</div>
+      <div class="date">May 25, 2026</div>
+    </header>
+
+    <section class="abstract">
+      <div class="abstract-title">Abstract</div>
+      <div class="abstract-content">
+        This report documents the findings and actions of the May 2026 programmatic registry audit for the Gaia Skill Tree. 
+        The audit focuses on the restoration of registry integrity by enforcing hardened prestige rules, 
+        addressing evidence decay through a "Liveness Heartbeat" protocol, and ensuring structural DAG integrity. 
+        Over 211 skills were assessed, resulting in significant reclassifications and rank calibrations to maintain a 
+        high-trust ecosystem.
+      </div>
+    </section>
+
+    <h2>Executive Summary</h2>
+    <p>
+      The May 2026 Meta-Shift represents a critical evolution in the Gaia Registry's lifecycle. 
+      By transitioning from manual curation to programmatic enforcement of <code>META.md</code> standards, 
+      the registry has successfully purged stale implementation claims and tightened the requirements for elite ranking. 
+      This shift ensures that Gaia remains the authoritative record of agent capabilities.
+    </p>
+
+    <h2>Meta Timeline Graph</h2>
+    <div class="chart-container">
+      <canvas id="timelineChart"></canvas>
+      <div class="chart-caption">Figure 1: Distribution of skill ranks across the Gaia Registry during May 2026. Note the significant shifts on May 25 due to audit demotions.</div>
+    </div>
+
+    <h2>Structural Integrity & Reclassifications</h2>
+    <p>
+      Unique skills demoted below the 4★ (Hardened) threshold were identified as points of failure for DAG validation. 
+      To maintain integrity, these capabilities were restored to root primitive (Basic) status.
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th>Skill ID</th>
+          <th>Action</th>
+          <th>Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>few-shot-learning</code></td>
+          <td>Reclassify to <strong>Basic</strong></td>
+          <td>Demoted below 4★; no longer meets Unique mastery bar.</td>
+        </tr>
+        <tr>
+          <td><code>self-consistency</code></td>
+          <td>Reclassify to <strong>Basic</strong></td>
+          <td>Demoted below 4★; restored to root primitive status.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Prestige Standards (The "Star Bar")</h2>
+    <p>
+      The "Star Bar" policy now mandates a verified GitHub implementation link for any skill at 3★ or higher. 
+      Implementations failing this check were calibrated to Named (2★) rank.
+    </p>
+    <div class="two-column">
+      <div>
+        <strong>Affected Skills (A-M):</strong>
+        <ul>
+          <li><code>code-review-pipeline</code></li>
+          <li><code>content-moderation</code></li>
+          <li><code>few-shot-learning</code></li>
+          <li><code>function-calling</code></li>
+          <li><code>multi-agent-debate</code></li>
+          <li><code>multimodal-reasoning</code></li>
+        </ul>
+      </div>
+      <div>
+        <strong>Affected Skills (N-Z):</strong>
+        <ul>
+          <li><code>pexp13/sentiment-analysis</code></li>
+          <li><code>self-consistency</code></li>
+          <li><code>skill-security-analysis</code></li>
+          <li><code>text-to-sql-pipeline</code></li>
+          <li><code>translation-pipeline</code></li>
+          <li><code>vision-qa</code></li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>Evidence Health & Demotions</h2>
+    <p>
+      The "Liveness Heartbeat" (<code>verify_evidence.py</code>) identified 35 implementations with inaccessible URLs. 
+      Per policy, these were demoted by one level and assigned the <code>broken-evidence</code> demerit. 
+      The effective floor was lowered to 0★ to allow for meaningful negative signal on Basic skills.
+    </p>
+
+    <h2>Elite Rank Adjustments</h2>
+    <p>
+      High-prestige implementations were calibrated against updated Class A requirements.
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th>Skill ID</th>
+          <th>New Rank</th>
+          <th>Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>mattpocock-skills</code></td>
+          <td><strong>6★ Apex</strong></td>
+          <td>Verified ecosystem impact and Origin 5★ Fusion.</td>
+        </tr>
+        <tr>
+          <td><code>mattpocock-engineering</code></td>
+          <td><strong>5★ Transcendent</strong></td>
+          <td>Tier B/A evidence verified.</td>
+        </tr>
+        <tr>
+          <td><code>superpowers</code></td>
+          <td><strong>5★ Transcendent</strong></td>
+          <td>Tier B/A evidence verified.</td>
+        </tr>
+        <tr>
+          <td><code>autonomous-debug</code></td>
+          <td><strong>3★ Evolved</strong></td>
+          <td>Calibrated to reproducibility bar.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="references">
+      <div class="abstract-title" style="text-align: left; margin-bottom: 1.5rem;">References & Contributions</div>
+      <div class="ref-item">[1] Gaia contributors. (2026). <em>META: Gaia Registry Source of Truth</em>. Version 3.25.0.</div>
+      <div class="ref-item">[2] Gemini CLI. (2026). <em>Liveness Heartbeat: Automated Evidence Verification Protocol</em>. RFC #457.</div>
+      <div class="ref-item">[3] Tiongson, M. et al. (2026). <em>DAG Integrity and Unique Skill Constraints in Evolving Graphs</em>. Gaia Documentation.</div>
+      <div class="ref-item">[4] Commits: <code>957f1b24</code>, <code>5529a0ed</code>. Audit implementation and registry synchronization.</div>
+    </div>
+
+    <div class="footer-nav">
+      <a href="../../meta.html">← Back to Meta Reports</a>
+    </div>
+  </article>
+
+  <script>
+    async function initChart() {
+      const response = await fetch('may-2026-timeline.json');
+      const data = await response.json();
+
+      const ctx = document.getElementById('timelineChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: data.labels,
+          datasets: data.datasets.map(ds => ({
+            label: ds.label,
+            data: ds.data,
+            borderColor: ds.color,
+            backgroundColor: ds.color + '22',
+            fill: true,
+            tension: 0.3,
+            borderWidth: 2,
+            pointRadius: 0,
+            pointHoverRadius: 5
+          }))
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                font: { family: 'JetBrains Mono', size: 10 }
+              }
+            },
+            tooltip: {
+              mode: 'index',
+              intersect: false,
+              titleFont: { family: 'JetBrains Mono' },
+              bodyFont: { family: 'JetBrains Mono' }
+            }
+          },
+          scales: {
+            x: {
+              grid: { display: false },
+              ticks: { font: { family: 'JetBrains Mono', size: 9 } }
+            },
+            y: {
+              beginAtZero: true,
+              grid: { color: '#eee' },
+              ticks: { font: { family: 'JetBrains Mono', size: 9 } },
+              title: { display: true, text: 'Total Skills', font: { family: 'EB Garamond', size: 12 } }
+            }
+          }
+        }
+      });
+    }
+    initChart();
+  </script>
+</body>
+</html>

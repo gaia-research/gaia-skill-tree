@@ -16,52 +16,42 @@ Publish a dedicated Meta Report to the registry's public assessment list. This s
 
 ## Instructions
 
-### Step 1: Prepare the Report
+### Step 1: Prepare the Report Data
 
-Ensure your report is written in Markdown and saved as `METASHIFT.md` in the project root. It should include:
-- Executive Summary
-- Key Actions Taken (e.g., rank adjustments, reclassifications)
-- Affected Skill IDs and rationale
-- Verification status (schema, tests)
+Ensure your audit results are summarized. If a timeline plot is needed, run `scripts/_extract_timeline.py` to update `may-2026-timeline.json`.
 
-### Step 2: Run the Meta-Post
+### Step 2: Create the Standalone HTML Report
 
-Execute the publication process. Provide a title and a short summary for the landing page.
+Author your report as a standalone HTML page in `docs/meta/reports/YYYY-MM-DD-title.html`. Use the LaTeX academic template:
+- White paper aesthetic (EB Garamond font).
+- Abstract, Numbered Sections, References.
+- Embedded Chart.js for timeline plots.
+- A "Back to Meta Reports" footer link.
 
-```bash
-# Example usage (Agent logic):
-# 1. Move report to docs/meta/reports/YYYY-MM-DD-title.md
-# 2. Update docs/meta.html with a new <article> card
-# 3. Update docs/index.html hero version/stat if needed
-```
+### Step 3: Update the Landing Page
 
-### Step 3: Format the Card
-
-When adding the report to `docs/meta.html`, use the following HTML template:
+Add a new card to `docs/meta.html` using this template:
 
 ```html
 <article class="meta-report-card">
   <div class="meta-report-date">Month DD, YYYY</div>
   <h3 class="meta-report-title">REPORT_TITLE</h3>
   <p class="meta-report-summary">
-    REPORT_SUMMARY_OR_ASSESSMENT
+    Short 2-3 sentence assessment summary.
   </p>
-  <a href="meta/reports/YYYY-MM-DD-filename.md" class="btn btn-ghost meta-report-link">Read Full Report →</a>
+  <a href="meta/reports/YYYY-MM-DD-filename.html" class="btn btn-ghost meta-report-link">Read Full Report →</a>
 </article>
 ```
 
-### Step 4: Verify and Commit
+### Step 4: Update the Hero Sneak Peek
 
-Check the new page and the link:
-1. Open `docs/meta.html` locally.
-2. Verify the hero link in `docs/index.html` works.
-3. Commit with prefix `docs(meta): publish [TITLE] report`.
+Update the `hero-meta-peek` anchor in `docs/index.html` to point to the latest report and update the date/title.
 
 ## Constraints
 
-- **Language**: Avoid banned terms (apex tier, Atomic Basics, card, etc.) as defined in `CONTEXT.md`.
-- **Design**: Maintain compliance with `DESIGN.md` (EB Garamond for titles, Bricolage for body).
-- **Icons**: Use the `info` icon for report-related affordances.
+- **Language**: Avoid banned terms (apex tier, Atomic Basics, card, etc.).
+- **Design**: Strictly follow `DESIGN.md`. Hero peek MUST remain compact and visible on all screen sizes.
+- **Plots**: Prefer data-driven Chart.js line plots for timelines.
 
 ## Example
 
