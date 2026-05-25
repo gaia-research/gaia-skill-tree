@@ -517,7 +517,7 @@ button.nav-copy-agent {
 /* Meta Audit Hero Button (Boxy) */
 .hero-audit-btn {
   position: absolute;
-  top: 130px; /* Clear the nav and peek area */
+  top: 72px; /* Sit just below the fixed nav */
   right: 1.5rem;
   z-index: 100;
   display: flex;
