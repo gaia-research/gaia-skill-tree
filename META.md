@@ -16,14 +16,14 @@ Gaia uses a tiered star system (`0★`–`6★`) to rank skills. Levels are both
 | **2★** | **Named** | Minimum level for named implementations. | Tier C |
 | **3★** | **Evolved** | Demonstrates reproducibility and stability. | Tier B |
 | **4★** | **Hardened** | Production-ready, well-documented, reliable. | Tier B/A |
-| **5★** | **Transcendent** | Mastery level, often an Ultimate capstone. | Tier B/A |
-| **6★** | **Apex** | The pinnacle of Gaia; extreme ecosystem impact. | Tier A + Review |
+| **5★** | **Transcendent** | Mastery level, often an Ultimate capstone. | Tier B/A + 10k★ |
+| **6★** | **Apex** | The pinnacle of Gaia; extreme ecosystem impact. | Tier A + Origin 5★ Fusion |
 
 ### 1.2 Skill Types
 - **○ Basic Skill**: Root primitives. 0 prerequisites.
 - **◇ Extra Skill**: Composite workflows. Requires ≥ 2 prerequisites.
 - **◉ Unique Skill**: Specialized depth. Level 4★+, 0 prerequisites, graph-isolated.
-- **◆ Ultimate Skill**: Platform capstones. Requires ≥ 5 named prerequisites + Origin Fusion.
+- **◆ Ultimate Skill**: Platform capstones. Requires ≥ 5 named prerequisites + Origin Fusion. **Requirement**: ≥ 10k repository stars.
 
 ---
 
@@ -80,8 +80,9 @@ The **Canonical Level** (e.g., 4★) is the claimed tier based on evidence. The 
 - **Origin Status**: The first contributor to implement an abstract generic skill in a bucket holds permanent "Origin" status.
 
 ### 4.2 Ultimate & Apex Pathways
-- **Ultimate Fusion**: Proposer must hold Origin status on at least 1 of the 5+ named prerequisites.
-- **Grandmaster Path (6★ Apex)**: Requires Tier A evidence OR holding 2+ skills at 5★ Ultimate tier with 10k+ repository stars.
+- **Ultimate Fusion**: Proposer must hold Origin status on at least 1 of the 5+ named prerequisites. Requires ≥ 10k repository stars.
+- **The Ascension Cycle (6★ Apex)**: Reaching the **Apex** rank requires Tier A evidence AND that the skill is the product of a fusion involving at least one **Origin 5★ Transcendent** skill.
+
 
 ---
 
