@@ -1041,8 +1041,8 @@
   }
 
   function renderTimeline(ns, generic) {
-    var el = document.getElementById('se-timeline');
-    el.innerHTML = '<div class="se-flow-h">' + _se_icon('hud-toggle') + ' Evolution Timeline</div><div class="se-empty">Loading history…</div>';
+    var el = document.getElementById('se-changelog');
+    el.innerHTML = '<div class="se-flow-h">' + _se_icon('hud-toggle') + ' Evolution Changelog</div><div class="se-empty">Loading history…</div>';
     var parts = ns.id.split('/');
     var contributor = parts[0], skillName = parts[1] || '';
     var apiUrl = 'https://api.github.com/repos/' + REPO_SLUG +
@@ -1076,8 +1076,8 @@
   }
 
   function renderTimelineEvents(el, evts) {
-    if (!evts.length) { el.innerHTML = '<div class="se-flow-h">' + _se_icon('hud-toggle') + ' Evolution Timeline</div><div class="se-empty">No history available.</div>'; return; }
-    el.innerHTML = '<div class="se-flow-h">' + _se_icon('hud-toggle') + ' Evolution Timeline</div><div class="se-timeline">' +
+    if (!evts.length) { el.innerHTML = '<div class="se-flow-h">' + _se_icon('hud-toggle') + ' Evolution Changelog</div><div class="se-empty">No history available.</div>'; return; }
+    el.innerHTML = '<div class="se-flow-h">' + _se_icon('hud-toggle') + ' Evolution Changelog</div><div class="se-timeline">' +
       evts.map(function(ev){
         var action = ev.action || 'commit';
         var icon = SE_ACTION_ICON[action] || '·';
