@@ -128,32 +128,17 @@ Hard rule: any schema file change must come from a `schema/...` branch.
 
 ### Evidence by star level
 
-Use the schema star notation for all new and updated registry entries. The old roman numeral labels are legacy-only and should not appear in `level` values.
+Taxonomy definitions, evidence floors, and ranking rules have been consolidated.
 
-| Level value | Rank label | Evidence floor |
-|---|---|---|
-| `0★` | Basic | no evidence required |
-| `1★` | Awakened | no evidence required |
-| `2★` | Named | ≥ 1 Tier C |
-| `3★` | Evolved | ≥ 1 Tier B |
-| `4★` | Hardened | ≥ 1 Tier B/A |
-| `5★` | Transcendent | ≥ 1 Tier B/A |
-| `6★` | Apex | Tier A + peer review |
-
-Legacy mapping for reviewers: `0`/`I` → `0★`/`1★`, `II` → `2★`, `III` → `3★`, `IV` → `4★`, `V` → `5★`, and `VI` → `6★`.
+> **Source of Truth:** See [META.md](META.md) for the full evidence methodology, star tiers, and ranking rules.
 
 ### Ultimate (`ultimate`) requirements
 
-- At least 3 Tier A/B evidence items
-- 2 maintainer approvals
-- Must be `validated` at merge
+See [META.md](META.md#42-ultimate--apex-pathways) for the detailed fusion and origin requirements for Ultimate skills.
 
 ### Demerits and effective level
 
-- Demerits are allowed only on claimed levels `2★` and above.
-- Allowed demerit IDs are canonical and schema-validated: `niche-integration`, `experimental-feature`, `heavyweight-dependency`.
-- Each demerit demotes the skill by one star, floored at `1★`.
-- Named skill claims stay constrained by canonical level requirements; demerits do not bypass evidence floors.
+See [META.md](META.md#3-effective-level--demerits) for demerit IDs and effective level calculation rules.
 
 ---
 
@@ -190,7 +175,7 @@ In the [Wiki](https://github.com/mbtiongson1/gaia-skill-tree/wiki) (review stand
 
 - [README](../README.md)
 - [Docs site](docs/index.html)
-- [Governance](docs/GOVERNANCE.md)
+- [Governance](GOVERNANCE.md)
 - [Wiki](https://github.com/mbtiongson1/gaia-skill-tree/wiki) · [Wiki git repo](https://github.com/mbtiongson1/gaia-skill-tree.wiki.git)
 
 
@@ -214,44 +199,11 @@ Reviewer workflow:
 
 ## 9) Unique Skill Promotion
 
-A **Unique Skill** (◉) is a graph-isolated intrinsic skill that has reached elite mastery through individual depth rather than fusion/combination. Unique skills occupy their own tier between Extra and Ultimate in prestige.
-
-### Eligibility Criteria
-
-A basic skill may be promoted to `type: "unique"` when ALL of the following are true:
-
-1. **Level ≥ 4★** (Hardened or above)
-2. **Zero prerequisites** (`prerequisites: []`)
-3. **Graph-isolated** — not referenced as a prerequisite by any other skill
-4. **Has at least one named implementation** in `registry/named/`
-
-### Promotion Workflow
+See [META.md](META.md#12-skill-types) for eligibility criteria. Use the CLI to promote:
 
 ```bash
-# 1. Scan detects eligible skills automatically
-gaia scan
-
-# 2. Review unique-eligible candidates in the output
-cat generated-output/promotion-candidates.json | grep '"promotionType": "unique"'
-
-# 3. Promote via CLI (updates type field in gaia.json)
 gaia promote <skill-id> --unique
 ```
-
-### Validation Rules
-
-The schema and validator enforce:
-- Unique skills MUST be level 4★, 5★, or 6★
-- Unique skills MUST have `prerequisites: []`
-- Unique skills MUST NOT appear in any other skill's `prerequisites` array
-- Unique skills CANNOT become extra or ultimate (no fusion path)
-- Further level-up within unique (4★ → 5★ → 6★) follows standard evidence requirements
-
-### Approval Requirements
-
-- PRs promoting a skill to unique require maintainer approval
-- Evidence must meet the standard floor for the skill's level (B/A class for 4★+)
-- Reviewers should use `/gaia-audit` to verify isolation and evidence quality before approving
 
 ---
 

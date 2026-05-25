@@ -21,18 +21,4 @@ This page is a lightweight, read-only entrypoint for browsing the registry from 
 
 The canonical graph lives in [`registry/gaia.json`](../registry/gaia.json). Public registry projections live in `registry/`; per-user renders live in `generated-output/`; and `docs/graph/*` mirrors static assets for GitHub Pages.
 
-For graph changes, edit `registry/gaia.json` and run:
-
-```bash
-python3 scripts/validate.py
-python3 scripts/generateProjections.py
-python3 scripts/exportGexf.py
-python3 scripts/renderGraphSvg.py --format svg --output registry/gaia.svg
-python3 scripts/syncDocsGraphAssets.py
-```
-
-Maintainers can install the pre-commit helper so those generated artifacts refresh automatically:
-
-```bash
-bash scripts/install-git-hooks.sh
-```
+**Important:** The graph is programmatically managed. See [META.md](../META.md) for the registry source of truth and the [Contributing Guide](../CONTRIBUTING.md) for usage of the `gaia dev` CLI commands.

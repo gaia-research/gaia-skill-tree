@@ -1,0 +1,129 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://gaia-registry.github.io/schema/realSkillCatalog.schema.json",
+  "title": "Gaia Real Skill Catalog",
+  "description": "Upstream curation catalog of real-world skill implementations discovered across the ecosystem. Items are the primary identity unit — each item is a real, named skill from a contributor's repo. Abstract Gaia skill IDs (mapsToGaia) serve as the taxonomy backing. Populated by crawlers and maintainers; reviewed before items are promoted to named skills.",
+  "type": "object",
+  "required": ["version", "generatedAt", "items"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Schema version for this catalog file."
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO 8601 date when this catalog was last updated."
+    },
+    "sources": {
+      "type": "array",
+      "description": "Origin repositories crawled or manually curated for this catalog.",
+      "items": {
+        "type": "object",
+        "required": ["repo", "description"],
+        "additionalProperties": false,
+        "properties": {
+          "repo": {
+            "type": "string",
+            "description": "GitHub repo in owner/repo format (e.g. paulirish/superpowers)."
+          },
+          "description": {
+            "type": "string",
+            "description": "What this repo provides."
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Direct URL to the repo or skill index page."
+          },
+          "crawledAt": {
+            "type": "string",
+            "format": "date",
+            "description": "Date this source was last crawled."
+          }
+        }
+      }
+    },
+    "items": {
+      "type": "array",
+      "description": "Individual real-world skill implementations. Each item represents a specific skill from a contributor's repo.",
+      "items": {
+        "$ref": "#/definitions/catalogItem"
+      }
+    }
+  },
+  "definitions": {
+    "catalogItem": {
+      "type": "object",
+      "required": ["id", "name", "contributor", "mapsToGaia", "description"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_-]*(-[a-z0-9_-]+)*$",
+          "description": "Stable slug for this catalog item (e.g. karpathy-autoresearch). Used as catalogRef in named skills."
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Human-readable name of this real-world skill (e.g. karpathy/autoresearch or superpowers/brainstorming)."
+        },
+        "contributor": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]*$",
+          "description": "GitHub username of the contributor who created or owns this skill."
+        },
+        "title": {
+          "type": "string",
+          "description": "Reviewer-assigned RPG epithet (e.g. 'The Scholar's Compass'). Set only after reviewer classification."
+        },
+        "description": {
+          "type": "string",
+          "minLength": 10,
+          "description": "What this real-world skill implementation does."
+        },
+        "path": {
+          "type": "string",
+          "description": "Path to the SKILL.md or implementation file within the source repo."
+        },
+        "sourceRepo": {
+          "type": "string",
+          "description": "GitHub repo in owner/repo format where this skill lives."
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Direct URL to the skill file or landing page."
+        },
+        "mapsToGaia": {
+          "type": "array",
+          "description": "Abstract Gaia skill IDs this real-world skill corresponds to. Many-to-many: one real skill may map to multiple abstract IDs. These are taxonomy backings, not primary identity.",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
+          }
+        },
+        "promotedNamedSkillId": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_-]*/[a-z0-9][a-z0-9_-]*$",
+          "description": "Set post-promotion. The namedSkill id (contributor/skill-name) that this catalog item was promoted into. Closes the bidirectional link."
+        },
+        "addedAt": {
+          "type": "string",
+          "format": "date",
+          "description": "ISO 8601 date when this item was added to the catalog."
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$"
+          },
+          "description": "Lowercase tags for search and categorization."
+        }
+      }
+    }
+  }
+}

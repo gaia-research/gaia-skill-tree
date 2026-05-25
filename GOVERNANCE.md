@@ -22,7 +22,7 @@ Core Maintainers have final approval authority and manage:
 - Project vision and roadmap.
 - Repository settings and branch protection.
 - Dispute resolution.
-- Ultimate skill validation (requires two Core Maintainer approvals). Validation now includes confirming the named-fusion criteria: 5+ named prerequisites with ≥1 origin contribution from the proposer.
+- Ultimate skill validation (requires two Core Maintainer approvals). See [META.md](META.md#42-ultimate--apex-pathways) for the technical promotion criteria.
 
 ## 2. Decision Making
 
@@ -58,28 +58,12 @@ Decisions are made through Pull Requests. Most PRs require one Maintainer approv
 
 ## 2.2 Ultimate Skill Promotion
 
-### Origin-Fusion Requirement
-To propose a new `◆ Ultimate` skill, the contributor must satisfy all of:
-- All 5+ prerequisite skills must have named implementations in `registry/named/`
-- The proposer must hold `origin: true` status on at least 1 prerequisite named skill
-- ≥3 Class A/B evidence sources required — **Class A may be waived** if the proposer has ≥5 named skills in `registry/named/` (origin count is not required for the waiver)
+Technical requirements for Ultimate and Apex skills (prerequisite counts, origin fusion, and evidence floors) are maintained in the central meta-strategy document.
 
-### 4★ Alternative Pathway (Origin-Fusion)
-A contributor may reach **4★ (Hardened)** through either:
-- Evidence path: ≥1 Tier B/A evidence source (existing rule)
-- **Fusion path**: 3+ skill fuses with ≥1 origin named skill among them
-
-### 6★ Grandmaster Path
-A contributor may reach **6★ (Apex)** through either:
-- Standard path: Tier A evidence + peer review (existing rule)
-- **Grandmaster path**: Hold 2+ skills at 5★ Ultimate tier AND the proposer's GitHub repository has ≥10,000 stars
+> **Technical Specification:** See [META.md](META.md#42-ultimate--apex-pathways) for promotion pathways and the Grandmaster path criteria.
 
 ### Reclassification Notice
-Existing Ultimate skills registered under the old 3-prerequisite rule that do not meet the new 5-named-prereq criteria will be reclassified to `extra` tier in a `review/meta/` follow-up PR. Affected skills:
-- `autonomous-research-agent` (3 prereqs → demoted to extra)
-- `full-stack-developer` (3 prereqs → demoted to extra)
-- `autonomous-data-scientist` (3 prereqs → demoted to extra)
-- `gstacks` (5 prereqs — provisional; requires named-skill verification before retaining ultimate status)
+Existing Ultimate skills registered under the old 3-prerequisite rule that do not meet the current criteria will be reclassified to `extra` tier in a `review/meta/` follow-up PR.
 
 ## 3. Dispute Resolution
 
