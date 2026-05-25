@@ -2,7 +2,7 @@
   "id": "few-shot-learning",
   "name": "Few-Shot Learning",
   "type": "basic",
-  "level": "4★",
+  "level": "2★",
   "rarity": "common",
   "description": "Conditions a language model on a small number of input-output demonstrations within the prompt, enabling task adaptation without weight updates.",
   "prerequisites": [],
@@ -31,6 +31,12 @@
       "action": "type_change",
       "contributor": "mbtiongson1",
       "details": "Reclassified from unique to basic"
+    },
+    {
+      "timestamp": "2026-05-25T03:45:37Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 4★ to 2★"
     }
   ]
 }

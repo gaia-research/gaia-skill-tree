@@ -2,7 +2,7 @@
   "id": "translation-pipeline",
   "name": "Translation Pipeline",
   "type": "extra",
-  "level": "3★",
+  "level": "2★",
   "rarity": "uncommon",
   "description": "Translates content end-to-end while preserving sentiment and adapting tone and register for the target audience.",
   "prerequisites": [
@@ -24,6 +24,14 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-04-28",
-  "version": "0.2.0"
+  "updatedAt": "2026-05-25",
+  "version": "0.2.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-25T03:45:36Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 3★ to 2★"
+    }
+  ]
 }
