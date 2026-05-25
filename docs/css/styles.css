@@ -723,6 +723,13 @@ button.nav-copy-agent {
   transition: opacity .4s ease;
 }
 
+#hero.hero-graph-fullscreen .hero-audit-btn {
+  opacity: 0 !important;
+  pointer-events: none;
+  animation: none !important;
+  transition: none;
+}
+
 /* ── FULLSCREEN GRAPH MODE ── */
 /* Enables interactive canvas controls on the hero without pulling
      it out of document flow (position:fixed removed so user can scroll). */
