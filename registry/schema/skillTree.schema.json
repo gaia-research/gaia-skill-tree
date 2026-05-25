@@ -78,8 +78,11 @@
         },
         "unlockedAt": {
           "type": "string",
-          "format": "date-time",
-          "description": "ISO 8601 timestamp when the skill was first unlocked."
+          "anyOf": [
+            { "format": "date" },
+            { "format": "date-time" }
+          ],
+          "description": "ISO 8601 date or date-time when the skill was first unlocked. New entries are written as date-time (#473); legacy entries written as YYYY-MM-DD remain valid."
         },
         "unlockedIn": {
           "type": "string",
