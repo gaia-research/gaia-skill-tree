@@ -4,7 +4,7 @@ import os
 import json
 import signal
 import subprocess
-from datetime import date
+from datetime import date, datetime, timezone
 from contextlib import redirect_stdout
 from io import StringIO
 from pathlib import Path
@@ -923,7 +923,7 @@ def fuse_command(args):
         tree.setdefault('unlockedSkills', []).append({
             "skillId": target,
             "level": combo_match.get('levelFloor'),
-            "unlockedAt": date.today().isoformat(),
+            "unlockedAt": datetime.now(timezone.utc).isoformat(),
             "unlockedIn": "local-repo",
             "combinedFrom": combo_match.get('detectedSkills', [])
         })
