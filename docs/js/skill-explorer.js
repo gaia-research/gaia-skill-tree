@@ -508,7 +508,7 @@
     var currentType = (ns && ns.type) || genericObj.type || 'basic';
 
     // Slash-name label: contributor in honor-red, skill name in text.
-    function createNodeLabel(labelSource, navAttr) {
+    function createNodeLabel(labelSource, navType, navTarget) {
       var parts = String(labelSource).split('/');
       var contrib = parts[0] || '';
       var skillName = parts[1] || labelSource;
@@ -520,7 +520,8 @@
       } else {
         inner = '<span class="dag-node-label-name">' + esc(labelSource) + '</span>';
       }
-      return '<div class="dag-node-label"' + (navAttr || '') + '>' + inner + '</div>';
+      var navAttr = (navType && navTarget) ? ' data-nav-type="' + esc(navType) + '" data-nav-target="' + esc(navTarget) + '"' : '';
+      return '<div class="dag-node-label"' + navAttr + '>' + inner + '</div>';
     }
 
     // Action-buttons header (Show Fusion).
@@ -552,8 +553,7 @@
         : 'var(--tier-unique, var(--muted))';
       var labelId = (ns && ns.id) ? ns.id : genericId;
       var uniqueNodeHtml = '<div class="git-node git-node--main" data-id="' + esc(genericId) +
-          '" data-type="unique" data-level="' + esc((ns && ns.level) || '') + '" data-ghost="false"' +
-          ' onclick="if(window.selectFlowNode)window.selectFlowNode(\''+esc(genericId)+'\');">' +
+          '" data-type="unique" data-level="' + esc((ns && ns.level) || '') + '" data-ghost="false">' +
         '<div class="git-commit-dot" style="--dot-color:' + uColor + '"></div>' +
         createNodeLabel(labelId) +
       '</div>';
@@ -696,12 +696,9 @@
             ' data-level="' + esc(nodeLevel) + '"' +
             ' data-ghost="' + (hasNamed ? 'false' : 'true') + '"' +
             ' style="--staggerY:' + staggerY + 'px"' +
-            ' onclick="if(window.selectFlowNode)window.selectFlowNode(\''+esc(id)+'\');"' +
-            ' onmouseenter="if(!window._selectedFlowNode&&window.highlightPaths)window.highlightPaths(\''+esc(id)+'\')"' +
-            ' onmouseleave="if(!window._selectedFlowNode&&window.unhighlightPaths)window.unhighlightPaths()"' +
             '>' +
           '<div class="git-commit-dot" style="--dot-color: ' + dotColor + '"></div>' +
-          createNodeLabel(labelSource, navAttr) +
+          createNodeLabel(labelSource, hasNamed ? 'named' : 'ghost', hasNamed ? nb.id : id) +
         '</div>';
       }).join('');
       
@@ -724,6 +721,43 @@
       fusionHtml;
 
     wireFlowActions(genericId);
+
+    // Centralized event delegation for the flowchart
+    if (!el._flowWired) {
+      el.addEventListener('click', function(e) {
+        var node = e.target.closest('.git-node');
+        if (node && node.dataset.id) {
+          if (window.selectFlowNode) window.selectFlowNode(node.dataset.id);
+          return;
+        }
+        var label = e.target.closest('.dag-node-label');
+        if (label && label.dataset.navType && label.dataset.navTarget) {
+          e.stopPropagation();
+          var target = label.dataset.navTarget;
+          if (label.dataset.navType === 'named') {
+            openExplorer(target);
+          } else {
+            var sm = window._gaiaSkillMap || {};
+            var g = sm[target];
+            if (g && typeof window.openUnnamedPopup === 'function') window.openUnnamedPopup(g);
+          }
+        }
+      });
+      el.addEventListener('mouseover', function(e) {
+        var node = e.target.closest('.git-node');
+        if (node && node.dataset.id) {
+          if (!window._selectedFlowNode && window.highlightPaths) window.highlightPaths(node.dataset.id);
+        }
+      });
+      el.addEventListener('mouseout', function(e) {
+        var node = e.target.closest('.git-node');
+        if (node && node.dataset.id) {
+          if (!window._selectedFlowNode && window.unhighlightPaths) window.unhighlightPaths();
+        }
+      });
+      el._flowWired = true;
+    }
+
     setTimeout(function(){ drawFlowEdges(edges); }, 80);
   }
 
@@ -953,7 +987,8 @@
   var SE_ACTION_ICON = {
     rank_up: '↑', ascend: '✦', name: '@', fuse: '⊕',
     push: '+', evidence: '✓', demote: '↓', propose: '◆',
-    bond: '⊙', register: '◎', commit: '·'
+    bond: '⊙', register: '◎', commit: '·',
+    verified: '✓', disputed: '⚠', evidence_added: '⊕'
   };
 
   function demeritLabel(id) {
@@ -975,9 +1010,9 @@
     }];
   }
 
-  function structuredTimelineEvents(generic) {
-    if (!generic || !Array.isArray(generic.timeline) || !generic.timeline.length) return [];
-    return generic.timeline.map(function(t) {
+  function structuredTimelineEvents(node) {
+    if (!node || !Array.isArray(node.timeline) || !node.timeline.length) return [];
+    return node.timeline.map(function(t) {
       return {
         date: (t.timestamp || t.date || '').slice(0, 10),
         action: t.action || 'commit',
@@ -988,15 +1023,16 @@
     });
   }
 
-  function mergeTimeline(evts, generic) {
+  function mergeTimeline(evts, generic, ns) {
     var all = (evts || [])
       .concat(demeritTimelineEvents(generic))
-      .concat(structuredTimelineEvents(generic));
-    // Deduplicate by date+action (structured events take priority)
+      .concat(structuredTimelineEvents(generic))
+      .concat(structuredTimelineEvents(ns));
+    // Deduplicate by date+action+msg
     var seen = {};
     var deduped = [];
     all.forEach(function(ev) {
-      var key = (ev.date || '') + '|' + (ev.action || 'commit') + '|' + (ev.msg || '').slice(0, 40);
+      var key = (ev.date || '') + '|' + (ev.action || 'commit') + '|' + (ev.msg || '').slice(0, 60);
       if (!seen[key]) { seen[key] = true; deduped.push(ev); }
     });
     return deduped.sort(function(a, b) {
@@ -1018,7 +1054,7 @@
           var evts = [];
           if (ns.createdAt) evts.push({ date: ns.createdAt, action: 'push', msg: 'Skill created', sha: '' });
           if (ns.updatedAt && ns.updatedAt !== ns.createdAt) evts.push({ date: ns.updatedAt, action: 'commit', msg: 'Skill updated', sha: '' });
-          renderTimelineEvents(el, mergeTimeline(evts, generic));
+          renderTimelineEvents(el, mergeTimeline(evts, generic, ns));
           return;
         }
         var evts = commits.map(function(c){
@@ -1029,13 +1065,13 @@
             sha: c.sha ? c.sha.slice(0,7) : ''
           };
         });
-        renderTimelineEvents(el, mergeTimeline(evts, generic));
+        renderTimelineEvents(el, mergeTimeline(evts, generic, ns));
       })
       .catch(function(){
         var evts = [];
         if (ns.createdAt) evts.push({ date: ns.createdAt, action: 'push', msg: 'Skill created', sha: '' });
         if (ns.updatedAt && ns.updatedAt !== ns.createdAt) evts.push({ date: ns.updatedAt, action: 'commit', msg: 'Skill updated', sha: '' });
-        renderTimelineEvents(el, mergeTimeline(evts, generic));
+        renderTimelineEvents(el, mergeTimeline(evts, generic, ns));
       });
   }
 
@@ -1062,6 +1098,36 @@
         '</div>';
       }).join('') +
     '</div>';
+  }
+
+  function renderVariants(ns) {
+    var el = document.getElementById('se-upgrade');
+    if (!el) return;
+    
+    // Wire up variant clicks via delegation
+    if (!el._wired) {
+      el.addEventListener('click', function(e) {
+        var item = e.target.closest('.se-variant-item');
+        if (item && item.dataset.id) {
+          openExplorer(item.dataset.id);
+        }
+      });
+      el._wired = true;
+    }
+
+    if (!ns.variants || !ns.variants.length) { el.innerHTML = ''; return; }
+    
+    var html = '<div class="se-variants-list">' +
+      '<div class="se-flow-h">' + _se_icon('view-list') + ' Other Implementations (' + ns.variants.length + ')</div>' +
+      '<div class="se-variants-grid">' +
+        ns.variants.map(function(v) {
+          return '<div class="se-variant-item" data-id="' + esc(v.id) + '">' +
+            '<span class="se-variant-handle">@' + esc(v.contributor) + '</span>' +
+            '<span class="se-variant-level">' + esc(v.level) + '</span>' +
+          '</div>';
+        }).join('') +
+      '</div></div>';
+    el.innerHTML = html;
   }
 
   // ── MAIN OPEN / CLOSE ────────────────────────────────────────
@@ -1118,10 +1184,22 @@
     if (!existingLink) {
       var link = document.createElement('div');
       link.className = 'usp-details-link';
-      link.innerHTML = '<a href="#" onclick="document.getElementById(\'unnamedSkillPopup\').classList.remove(\'open\');document.body.style.overflow=\'\';openSkillExplorer(\'' + ns.id.replace(/'/g,"\\'") + '\');return false;">View full details →</a>';
+      link.innerHTML = '<a href="#" class="usp-details-anchor">View full details →</a>';
       pop.querySelector('.usp-card').appendChild(link);
+      existingLink = link;
     } else {
-      existingLink.innerHTML = '<a href="#" onclick="document.getElementById(\'unnamedSkillPopup\').classList.remove(\'open\');document.body.style.overflow=\'\';openSkillExplorer(\'' + ns.id.replace(/'/g,"\\'") + '\');return false;">View full details →</a>';
+      existingLink.innerHTML = '<a href="#" class="usp-details-anchor">View full details →</a>';
+    }
+
+    // Wire up the link click
+    var anchor = existingLink.querySelector('.usp-details-anchor');
+    if (anchor) {
+      anchor.onclick = function(e) {
+        e.preventDefault();
+        document.getElementById('unnamedSkillPopup').classList.remove('open');
+        document.body.style.overflow = '';
+        openExplorer(ns.id);
+      };
     }
     pop.classList.add('open');
     document.body.style.overflow = 'hidden';

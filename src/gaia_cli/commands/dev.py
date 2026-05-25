@@ -29,6 +29,104 @@ def _get_contributor():
     config = load_config() or {}
     return config.get("gaiaUser") or config.get("username") or "unknown"
 
+def _is_verifier(username, registry_path=".") -> bool:
+    """Check if the user holds at least one 4★ skill implementation."""
+    index_path = named_skills_index_path(registry_path)
+    if not os.path.exists(index_path):
+        return False
+    try:
+        with open(index_path, "r", encoding="utf-8") as f:
+            index = json.load(f)
+        for entries in index.get("buckets", {}).values():
+            for e in entries:
+                if e.get("contributor") == username:
+                    level = e.get("level", "2★")
+                    if level and level[0].isdigit() and int(level[0]) >= 4:
+                        return True
+    except Exception:
+        pass
+    return False
+
+def meta_verify_command(args):
+    registry_path = args.registry
+    skill_id = args.skill_id.lstrip("/")
+    evidence_index = args.index
+    is_dispute = getattr(args, "dispute", False)
+    notes = getattr(args, "notes", None)
+    v_source = getattr(args, "source", None)
+
+    contributor = _get_contributor()
+    if not _is_verifier(contributor, registry_path):
+        print(f"Error: {contributor} is not a Verifier (no 4★+ skill found).")
+        print("Only contributors with at least one 4★ implementation can verify evidence.")
+        sys.exit(1)
+
+    # 1. Check generic nodes
+    nodes_dir = Path(registry_nodes_dir(registry_path))
+    node_file = None
+    skill_data = None
+    for p in nodes_dir.glob("**/*.json"):
+        with open(p, "r", encoding="utf-8") as f:
+            try:
+                data = json.load(f)
+                if data.get("id") == skill_id:
+                    node_file = p
+                    skill_data = data
+                    break
+            except json.JSONDecodeError:
+                continue
+
+    if node_file:
+        evidence = skill_data.get("evidence", [])
+        if evidence_index >= len(evidence):
+            print(f"Error: Evidence index {evidence_index} out of range (total {len(evidence)}).")
+            sys.exit(1)
+        
+        ev = evidence[evidence_index]
+        ev["verified"] = not is_dispute
+        ev["disputed"] = is_dispute
+        if notes: ev["notes"] = notes
+        if v_source: ev["verificationSource"] = v_source
+        
+        skill_data["updatedAt"] = datetime.date.today().isoformat()
+        with open(node_file, "w", encoding="utf-8") as f:
+            json.dump(skill_data, f, indent=2, ensure_ascii=False)
+            f.write("\n")
+        
+        action = "disputed" if is_dispute else "verified"
+        print(f"{action.capitalize()} evidence index {evidence_index} for skill {skill_id}.")
+        append_skill_event(skill_id, action, contributor, f"{action.capitalize()} evidence index {evidence_index} from {ev.get('source')}", registry_path=registry_path)
+    else:
+        # 2. Check named skills
+        named_dir = Path(named_skills_dir(registry_path))
+        target_file = _find_named_file(named_dir, skill_id)
+        if not target_file:
+            print(f"Error: Skill '{skill_id}' not found.")
+            sys.exit(1)
+            
+        meta, body = _parse_md(target_file)
+        evidence = meta.get("evidence", [])
+        if evidence_index >= len(evidence):
+            print(f"Error: Evidence index {evidence_index} out of range (total {len(evidence)}).")
+            sys.exit(1)
+            
+        ev = evidence[evidence_index]
+        ev["verified"] = not is_dispute
+        ev["disputed"] = is_dispute
+        if notes: ev["notes"] = notes
+        if v_source: ev["verificationSource"] = v_source
+        
+        meta["updatedAt"] = datetime.date.today().isoformat()
+        _write_md(target_file, meta, body)
+        
+        action = "disputed" if is_dispute else "verified"
+        print(f"{action.capitalize()} evidence index {evidence_index} for named skill {skill_id}.")
+        append_skill_event(skill_id, action, contributor, f"{action.capitalize()} evidence index {evidence_index} from {ev.get('source')}", registry_path=registry_path)
+
+    if not getattr(args, "no_build", False):
+        print("Regenerating registry and documentation...")
+        _run_docs_build(args.registry)
+
 def meta_list_command(args):
     registry_path = args.registry
     graph_path = registry_graph_path(registry_path)
