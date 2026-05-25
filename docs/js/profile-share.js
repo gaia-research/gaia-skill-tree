@@ -10,31 +10,50 @@
 (function () {
   var ICON_BASE = document.documentElement.getAttribute('data-icon-base') || '../../assets/icons.svg';
 
-  /* ── design tokens (must match styles.css + plaque.css) ──── */
-  var T = {
-    bg:      '#030712',
-    surface: '#0f172a',
-    border:  '#1e293b',
-    text:    '#e2e8f0',
-    muted:   '#64748b',
-    red:     '#ef4444',
-    gold:    '#fbbf24',
-    basic:   '#38bdf8',
-    extra:   '#c084fc',
-    unique:  '#a78bfa',
-    ultimate:'#f59e0b',
-  };
+  /* ── design tokens — read from CSS custom properties at draw time ── */
+  var _T = null;
+  var _RC = null;
 
-  var RANK_COLORS = ['#94a3b8','#38bdf8','#63cab7','#a78bfa','#e879f9','#fbbf24','#fbbf24'];
+  function getT() {
+    if (_T) return _T;
+    var cs = getComputedStyle(document.documentElement);
+    function v(n) { return cs.getPropertyValue(n).trim(); }
+    var apexGold = v('--apex-gold');
+    if (apexGold.indexOf('var(') === 0) apexGold = v('--rank-5');
+    _T = {
+      bg:      v('--bg')       || '#030712',
+      surface: v('--surface')  || '#0f172a',
+      border:  v('--border')   || '#1e293b',
+      text:    v('--text')     || '#e2e8f0',
+      muted:   v('--muted')    || '#64748b',
+      red:     v('--honor-red') || '#ef4444',
+      gold:    apexGold,
+      basic:   v('--tier-basic'),
+      extra:   v('--tier-extra'),
+      unique:  v('--tier-unique'),
+      ultimate:v('--tier-ultimate'),
+    };
+    return _T;
+  }
+
+  function getRankColors() {
+    if (_RC) return _RC;
+    var cs = getComputedStyle(document.documentElement);
+    function v(n) { return cs.getPropertyValue(n).trim(); }
+    _RC = [v('--rank-0'),v('--rank-1'),v('--rank-2'),v('--rank-3'),v('--rank-4'),v('--rank-5'),v('--rank-6')];
+    return _RC;
+  }
 
   /* ── canvas card renderer ─────────────────────────────────── */
   function drawCard(ns, canvas) {
+    var T  = getT();
+    var RC = getRankColors();
     var S = 1080;
     canvas.width = canvas.height = S;
     var ctx = canvas.getContext('2d');
     var n   = parseInt(ns.levelNum || ns.level || 0, 10);
     var typ = ns.type || 'basic';
-    var rankColor = RANK_COLORS[Math.min(n, 6)] || RANK_COLORS[0];
+    var rankColor = RC[Math.min(n, 6)] || RC[0];
 
     /* ── background ── */
     ctx.fillStyle = T.bg;
@@ -66,7 +85,7 @@
     var orbR = 36, orbX = pad + 72, orbY = pad + 100;
     var orbGrds = {
       basic:    ['#7dd3fc','#0ea5e9'], extra:   ['#d8b4fe','#9333ea'],
-      unique:   ['#a78bfa','#6d28d9'], ultimate:['#fde68a','#d97706'],
+      unique:   [T.unique, '#6d28d9'], ultimate:['#fde68a','#d97706'],
     };
     var og = orbGrds[typ] || orbGrds.basic;
     var orbGrd = ctx.createRadialGradient(orbX - orbR * 0.3, orbY - orbR * 0.3, 0, orbX, orbY, orbR);

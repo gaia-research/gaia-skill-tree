@@ -6,12 +6,12 @@
   var ICON_BASE = document.documentElement.getAttribute('data-icon-base') || '../../assets/icons.svg';
 
   var TAG_PAL = [
-    { c:'#38bdf8', bg:'rgba(56,189,248,.12)',  bd:'rgba(56,189,248,.3)'  },
-    { c:'#c084fc', bg:'rgba(192,132,252,.12)', bd:'rgba(192,132,252,.3)' },
-    { c:'#63cab7', bg:'rgba(99,202,183,.12)',  bd:'rgba(99,202,183,.3)'  },
-    { c:'#a78bfa', bg:'rgba(167,139,250,.12)', bd:'rgba(167,139,250,.3)' },
-    { c:'#f59e0b', bg:'rgba(245,158,11,.12)',  bd:'rgba(245,158,11,.3)'  },
-    { c:'#e879f9', bg:'rgba(232,121,249,.12)', bd:'rgba(232,121,249,.3)' },
+    { c:'var(--tier-basic, #38bdf8)',    bg:'var(--tier-basic-bg, rgba(56,189,248,.12))',   bd:'var(--tier-basic-border, rgba(56,189,248,.3))'    },
+    { c:'var(--tier-extra, #c084fc)',    bg:'var(--tier-extra-bg, rgba(192,132,252,.12))',  bd:'var(--tier-extra-border, rgba(192,132,252,.3))'   },
+    { c:'var(--rank-2, #63cab7)',        bg:'var(--rank-2-bg, rgba(99,202,183,.12))',       bd:'var(--rank-2-border, rgba(99,202,183,.3))'        },
+    { c:'var(--rank-3, #a78bfa)',        bg:'var(--rank-3-bg, rgba(167,139,250,.12))',      bd:'var(--rank-3-border, rgba(167,139,250,.3))'       },
+    { c:'var(--tier-ultimate, #f59e0b)', bg:'var(--tier-ultimate-bg, rgba(245,158,11,.12))',bd:'var(--tier-ultimate-border, rgba(245,158,11,.3))' },
+    { c:'var(--rank-4, #e879f9)',        bg:'var(--rank-4-bg, rgba(232,121,249,.12))',      bd:'var(--rank-4-border, rgba(232,121,249,.3))'       },
   ];
 
   function esc(s) {

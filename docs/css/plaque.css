@@ -1,20 +1,8 @@
 /*
  * plaque.css — Gaia Skill Registry
  * Profile pages, plaque cards, ascension log, sort bar, share popover, timeline.
- * All tokens inherit from styles.css :root. Honor red + apex gold added here.
+ * All tokens inherit from styles.css :root (via tokens.css).
  */
-
-:root {
-  --honor-red:     #ef4444;
-  --honor-red-rgb: 239,68,68;
-  --apex-gold:     #fbbf24;
-  --apex-gold-rgb: 251,191,36;
-  --rank-2: #63cab7;
-  --rank-3: #a78bfa;
-  --rank-4: #e879f9;
-  --rank-5: #fbbf24;
-  --rank-6: #fbbf24;
-}
 
 /* ── PROFILE HERO ─────────────────────────────────────────────────── */
 
@@ -208,7 +196,7 @@
 }
 .plaque-orb[data-type="basic"]    { background: radial-gradient(circle at 38% 35%, #7dd3fc, #0ea5e9); box-shadow: 0 0 12px rgba(56,189,248,.6); }
 .plaque-orb[data-type="extra"]    { background: radial-gradient(circle at 38% 35%, #d8b4fe, #9333ea); box-shadow: 0 0 12px rgba(192,132,252,.6); }
-.plaque-orb[data-type="unique"]   { background: radial-gradient(circle at 38% 35%, #a78bfa, #6d28d9); box-shadow: 0 0 12px rgba(124,58,237,.7); }
+.plaque-orb[data-type="unique"]   { background: radial-gradient(circle at 38% 35%, var(--tier-unique, #a78bfa), #6d28d9); box-shadow: 0 0 12px rgba(124,58,237,.7); }
 .plaque-orb[data-type="ultimate"] { background: radial-gradient(circle at 38% 35%, #fde68a, #d97706); box-shadow: 0 0 14px rgba(245,158,11,.65); }
 
 /* rank chip */
@@ -600,10 +588,10 @@
 .pt-chip:hover::after { opacity: 1; }
 
 /* chip colors by type */
-.pt-chip[data-type="basic"]    { color: #38bdf8; background: rgba(56,189,248,.1);  border-color: rgba(56,189,248,.3);  }
-.pt-chip[data-type="extra"]    { color: #c084fc; background: rgba(192,132,252,.1); border-color: rgba(192,132,252,.3); }
-.pt-chip[data-type="unique"]   { color: #a78bfa; background: rgba(124,58,237,.1);  border-color: rgba(167,139,250,.3); }
-.pt-chip[data-type="ultimate"] { color: #f59e0b; background: rgba(245,158,11,.1);  border-color: rgba(245,158,11,.3);  }
+.pt-chip[data-type="basic"]    { color: var(--tier-basic, #38bdf8);    background: rgba(56,189,248,.1);  border-color: rgba(56,189,248,.3);  }
+.pt-chip[data-type="extra"]    { color: var(--tier-extra, #c084fc);    background: rgba(192,132,252,.1); border-color: rgba(192,132,252,.3); }
+.pt-chip[data-type="unique"]   { color: var(--tier-unique, #a78bfa);   background: rgba(124,58,237,.1);  border-color: rgba(167,139,250,.3); }
+.pt-chip[data-type="ultimate"] { color: var(--tier-ultimate, #f59e0b); background: rgba(245,158,11,.1);  border-color: rgba(245,158,11,.3);  }
 
 .pt-chip-star { font-size: .65rem; opacity: .75; }
 
@@ -637,9 +625,9 @@
   }
 
   .profile-timeline { padding-left: 80px; }
-  .pt-spine         { left: 66px; }
-  .pt-date          { left: -82px; width: 68px; font-size: .65rem; }
-  .pt-row::before   { left: -16px; }
+  .pt-spine         { left: 62px; }
+  .pt-date          { left: -75px; width: 65px; font-size: .65rem; }
+  .pt-row::before   { left: -14px; }
 }
 
 @media (max-width: 400px) {

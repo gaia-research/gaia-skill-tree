@@ -4,13 +4,6 @@
  */
 (function () {
 
-  var TYPE_COLORS = {
-    basic:    { c:'#38bdf8', bg:'rgba(56,189,248,.1)',  bd:'rgba(56,189,248,.3)'  },
-    extra:    { c:'#c084fc', bg:'rgba(192,132,252,.1)', bd:'rgba(192,132,252,.3)' },
-    unique:   { c:'#a78bfa', bg:'rgba(124,58,237,.1)',  bd:'rgba(167,139,250,.3)' },
-    ultimate: { c:'#f59e0b', bg:'rgba(245,158,11,.1)',  bd:'rgba(245,158,11,.3)'  },
-  };
-
   var MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
   function fmtDate(iso) {

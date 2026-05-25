@@ -584,7 +584,11 @@ def generate_pages(named_path: Path, out_dir: Path) -> int:
         output_path = handle_dir / "index.html"
         output_path.write_text(page_html, encoding="utf-8")
         count += 1
-        print(f"  wrote {output_path.relative_to(REPO_ROOT)}")
+        try:
+            rel = output_path.relative_to(REPO_ROOT)
+        except ValueError:
+            rel = output_path
+        print(f"  wrote {rel}")
 
     return count
 
@@ -600,7 +604,11 @@ def main():
 
     print(f"Reading {named_path} …")
     count = generate_pages(named_path, out_dir)
-    print(f"Generated {count} profile page(s) under {out_dir.relative_to(REPO_ROOT)}")
+    try:
+        rel_dir = out_dir.relative_to(REPO_ROOT)
+    except ValueError:
+        rel_dir = out_dir
+    print(f"Generated {count} profile page(s) under {rel_dir}")
 
 
 if __name__ == "__main__":

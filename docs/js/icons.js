@@ -25,7 +25,7 @@
     var base = document.documentElement.getAttribute('data-icon-base') || 'assets/icons.svg';
     return (
       '<svg class="ico" width="' + size + '" height="' + size + '" ' +
-      'aria-hidden="true" focusable="false" viewBox="0 0 ' + size + ' ' + size + '">' +
+      'aria-hidden="true" focusable="false">' +
       '<use href="' + base + '#' + id + '"/></svg>'
     );
   };
