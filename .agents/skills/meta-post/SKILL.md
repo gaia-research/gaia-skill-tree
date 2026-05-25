@@ -31,19 +31,19 @@ Author your report as a standalone HTML page in `docs/meta/reports/YYYY-MM-DD-ti
 
 ### Step 3: Update Path B Queue
 
-Add the report to the `door-meta-queue` in `docs/index.html` using this template:
+Add the report to the `path-meta-queue` in `docs/index.html` (inside the `#ultimates` section) using this template:
 
 ```html
-<a href="meta/reports/YYYY-MM-DD-filename.html" class="dmq-post" target="_blank">
-  <span class="dmq-label">Latest Audit</span>
-  <h4 class="dmq-title">REPORT_TITLE</h4>
-  <p class="dmq-summary">Short summary.</p>
+<a href="meta/reports/YYYY-MM-DD-filename.html" class="pmq-post" target="_blank">
+  <span class="pmq-label">Latest Audit</span>
+  <h4 class="pmq-title">REPORT_TITLE</h4>
+  <p class="pmq-summary">Short summary.</p>
 </a>
 ```
 
-### Step 4: Update the Hero Notification Peek
+### Step 4: Update the Hero Audit Button
 
-Update the `hero-meta-peek` anchor in `docs/index.html` to point to the latest report. Ensure it looks like a push notification.
+Update the `hero-audit-btn` anchor in `docs/index.html` to point to the latest report.
 
 ## Constraints
 

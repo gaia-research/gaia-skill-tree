@@ -597,7 +597,7 @@
       var metaSidebarBackdrop = document.getElementById('metaSidebarBackdrop');
       var metaNavBtn = document.getElementById('metaNavBtn');
       var metaFooterBtn = document.getElementById('metaFooterBtn');
-      var metaChangelogBtnDoor = document.getElementById('metaChangelogBtnDoor');
+      var metaChangelogBtnPath = document.getElementById('metaChangelogBtnPath');
       var metaCloseBtn = document.getElementById('metaCloseBtn');
 
       function openMetaSidebar() {
@@ -626,13 +626,12 @@
       }
 
       if (metaNavBtn) metaNavBtn.addEventListener('click', function(e) {
-        // If metaNavBtn is an <a>, don't prevent default, but maybe we want to open sidebar?
+        // Navigate if it's a link, but maybe open sidebar?
         // User said: '"Meta Report" on the nav bar should open the meta report.'
-        // I made it an <a> to the report page, so it should navigate.
-        // But for other triggers (like door btn), we open sidebar.
+        // It's currently an <a> to the report page.
       });
       
-      if (metaChangelogBtnDoor) metaChangelogBtnDoor.addEventListener('click', openMetaSidebar);
+      if (metaChangelogBtnPath) metaChangelogBtnPath.addEventListener('click', openMetaSidebar);
       if (metaFooterBtn) metaFooterBtn.addEventListener('click', openMetaSidebar);
       if (metaCloseBtn) metaCloseBtn.addEventListener('click', closeMetaSidebar);
       if (metaSidebarBackdrop) metaSidebarBackdrop.addEventListener('click', closeMetaSidebar);
@@ -651,12 +650,7 @@
       
       var navSearchMobile = document.getElementById('navSearchBtnMobile');
       if (navSearchMobile) navSearchMobile.addEventListener('click', function() {
-        document.body.classList.add('search-mode');
-        var navMobileSearch = document.getElementById('navMobileSearch');
-        if (navMobileSearch) {
-          navMobileSearch.focus();
-          navMobileSearch.select();
-        }
+        focusNamedSearch();
       });
 
       // ESC key support

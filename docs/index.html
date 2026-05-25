@@ -30,14 +30,6 @@
 
   <!-- ─── NAV ─── -->
   <nav>
-    <a href="/" class="nav-logo" aria-label="Gaia home">
-      <svg class="ico nav-seal" aria-hidden="true" focusable="false"><use href="assets/icons.svg#seal-diamond"/></svg>
-      <span class="nav-wordmark">Gaia</span>
-    </a>
-    <button type="button" class="nav-search-back" id="navSearchBack" aria-label="Back">
-      <svg class="ico" width="20" height="20" aria-hidden="true"><use href="assets/icons.svg#arrow-back"/></svg>
-    </button>
-    <input type="search" id="navMobileSearch" class="nav-mobile-search" placeholder="Search named…" autocomplete="off" aria-label="Search named">
     <button type="button" class="nav-search-btn-mobile" id="navSearchBtnMobile" aria-label="Search named"><svg class="ico" width="18" height="18" aria-hidden="true"><use href="assets/icons.svg#search"/></svg></button>
     <button class="nav-menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false">
       <span></span>
@@ -79,21 +71,11 @@
           <span class="door-label">Register repo</span>
           <span class="door-caption">4 steps to join</span>
         </a>
-        <div class="door-b-col">
-          <a href="#ultimates" class="door door-b">
-            <span class="door-icon">◈</span>
-            <span class="door-label">Claim Ultimate</span>
-            <span class="door-caption" id="doorBCaption">loading…</span>
-          </a>
-          <div class="door-meta-queue">
-            <a href="meta/reports/2026-05-25-programmatic-registry-audit.html" class="dmq-post" target="_blank">
-              <span class="dmq-label">Latest Audit</span>
-              <h4 class="dmq-title">May 2026 Meta Shift</h4>
-              <p class="dmq-summary">Enforcing prestige rules and star bar requirements.</p>
-            </a>
-            <button type="button" class="dmq-changelog-btn" id="metaChangelogBtnDoor">Open Meta Changelog →</button>
-          </div>
-        </div>
+        <a href="#ultimates" class="door door-b">
+          <span class="door-icon">◈</span>
+          <span class="door-label">Claim Ultimate</span>
+          <span class="door-caption" id="doorBCaption">loading…</span>
+        </a>
       </div>
       <div class="ledger-strip">
         <span class="ls-stat">
@@ -250,6 +232,14 @@
             <svg class="ico propose-gh" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#github"/></svg>
             Propose a new Ultimate →
           </a>
+        </div>
+        <div class="path-meta-queue">
+          <a href="meta/reports/2026-05-25-programmatic-registry-audit.html" class="pmq-post" target="_blank">
+            <span class="pmq-label">Latest Audit</span>
+            <h4 class="pmq-title">May 2026 Meta Shift</h4>
+            <p class="pmq-summary">Enforced hardened prestige rules and star bar requirements.</p>
+          </a>
+          <button type="button" class="pmq-changelog-btn" id="metaChangelogBtnPath">Open Meta Changelog →</button>
         </div>
       </div>
 

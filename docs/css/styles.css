@@ -517,7 +517,7 @@ button.nav-copy-agent {
 /* Meta Audit Hero Button (Boxy) */
 .hero-audit-btn {
   position: absolute;
-  top: 100px; /* Clear the nav */
+  top: 130px; /* Clear the nav and peek area */
   right: 1.5rem;
   z-index: 100;
   display: flex;
@@ -557,13 +557,73 @@ button.nav-copy-agent {
   color: var(--tier-ultimate);
 }
 
-.dmq-title {
+/* Path Meta Queue */
+.path-meta-queue {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  text-align: left;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+}
+
+.pmq-post {
+  display: block;
+  padding: 1.25rem;
+  background: #000;
+  border: 1px solid var(--border);
+  border-radius: 0; /* Strictly Boxy */
+  text-decoration: none;
+  transition: border-color 0.2s;
+}
+
+.pmq-post:hover {
+  border-color: var(--tier-ultimate);
+}
+
+.pmq-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--tier-ultimate);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.pmq-title {
   font-family: var(--font-display);
   font-size: 1.3rem;
   color: #fff;
   margin: 0 0 0.5rem 0;
   font-weight: 500;
   font-style: italic; /* LaTeX style */
+}
+
+.pmq-summary {
+  font-size: 0.9rem;
+  color: #ccc;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.pmq-changelog-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  border-radius: 0; /* Strictly Boxy */
+  transition: all 0.2s;
+  align-self: flex-start;
+}
+
+.pmq-changelog-btn:hover {
+  color: var(--text);
+  border-color: var(--text);
 }
 
 @media (max-width: 768px) {
@@ -7268,15 +7328,18 @@ button.nav-graph-trigger:hover {
   overflow: hidden;
 }
 
-/* Door Meta Queue */
-.door-meta-queue {
+/* Path Meta Queue */
+.path-meta-queue {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
   text-align: left;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
 }
 
-.dmq-post {
+.pmq-post {
   display: block;
   padding: 1.25rem;
   background: #000;
@@ -7286,11 +7349,11 @@ button.nav-graph-trigger:hover {
   transition: border-color 0.2s;
 }
 
-.dmq-post:hover {
+.pmq-post:hover {
   border-color: var(--tier-ultimate);
 }
 
-.dmq-label {
+.pmq-label {
   font-family: var(--font-mono);
   font-size: 0.6rem;
   text-transform: uppercase;
@@ -7300,22 +7363,23 @@ button.nav-graph-trigger:hover {
   margin-bottom: 0.5rem;
 }
 
-.dmq-title {
+.pmq-title {
   font-family: var(--font-display);
   font-size: 1.3rem;
   color: #fff;
   margin: 0 0 0.5rem 0;
   font-weight: 500;
+  font-style: italic; /* LaTeX style */
 }
 
-.dmq-summary {
+.pmq-summary {
   font-size: 0.9rem;
   color: #ccc;
   line-height: 1.4;
   margin: 0;
 }
 
-.dmq-changelog-btn {
+.pmq-changelog-btn {
   background: transparent;
   border: 1px solid var(--border);
   color: var(--muted);
@@ -7328,7 +7392,7 @@ button.nav-graph-trigger:hover {
   align-self: flex-start;
 }
 
-.dmq-changelog-btn:hover {
+.pmq-changelog-btn:hover {
   color: var(--text);
   border-color: var(--text);
 }
