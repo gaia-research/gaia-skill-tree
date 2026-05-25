@@ -32,7 +32,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-18",
-  "updatedAt": "2026-05-18",
+  "updatedAt": "2026-05-25",
   "version": "0.1.0",
   "timeline": [
     {
@@ -40,6 +40,12 @@
       "action": "fuse",
       "contributor": "mbtiongson1",
       "details": "Fused 11 obra/superpowers discipline skills into /superpowers ultimate. Components: brainstorming, writing-plans, executing-plans, dispatching-parallel-agents, subagent-driven-development, requesting-code-review, receiving-code-review, systematic-debugging, verification-before-completion, using-git-worktrees, finishing-a-development-branch. Promoted to 5 star on evidence: obra/superpowers v5.1.0, 196k+ stars, multi-platform adoption."
+    },
+    {
+      "timestamp": "2026-05-25T03:46:20Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 5★ to 5★"
     }
   ]
 }
