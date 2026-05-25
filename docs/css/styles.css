@@ -592,7 +592,8 @@ button.nav-copy-agent {
 #hero.hero-graph-peek .hero-cta,
 #hero.hero-graph-peek .two-doors,
 #hero.hero-graph-peek .ledger-strip,
-#hero.hero-graph-peek .scroll-hint {
+#hero.hero-graph-peek .scroll-hint,
+#hero.hero-graph-peek .hero-audit-btn {
   opacity: 0;
   filter: blur(8px);
   pointer-events: none;
@@ -708,7 +709,8 @@ button.nav-copy-agent {
 #hero.hero-hud-mode .hero-cta,
 #hero.hero-hud-mode .two-doors,
 #hero.hero-hud-mode .ledger-strip,
-#hero.hero-hud-mode .scroll-hint {
+#hero.hero-hud-mode .scroll-hint,
+#hero.hero-hud-mode .hero-audit-btn {
   opacity: .18;
   pointer-events: none;
   transition: opacity .4s ease;
@@ -4670,6 +4672,9 @@ tr:hover td {
 #nsGrid {
   cursor: grab;
   user-select: none;
+  max-height: 65vh;
+  overflow-y: auto;
+  padding-right: 4px;
 }
 
 #named.ns-grabbing,
@@ -7222,11 +7227,10 @@ button.nav-graph-trigger:hover {
 /* ── TWO DOORS ── */
 .two-doors {
   display: flex;
-  gap: 1.5rem;
-  margin: 3rem auto 0;
+  gap: 1rem;
+  margin: 2.5rem auto 0;
   width: 100%;
-  max-width: 42rem;
-  align-items: flex-start;
+  max-width: 28rem;
 }
 
 .door-b-col {
@@ -7237,14 +7241,14 @@ button.nav-graph-trigger:hover {
 }
 
 .door {
-  width: 100%;
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: .5rem;
-  padding: 1.5rem 1rem;
-  border-radius: 0; /* Strictly Boxy */
+  padding: 1.25rem 1rem;
+  border-radius: 12px;
   border: 1px solid var(--border);
   text-decoration: none;
   color: var(--text);
@@ -7314,23 +7318,21 @@ button.nav-graph-trigger:hover {
 .pmq-changelog-btn {
   background: transparent;
   border: 1px solid var(--border);
-  color: var(--muted);
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  padding: 0.75rem 1.25rem;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.6rem 1.25rem;
   cursor: pointer;
-  border-radius: 0;
-  transition: all 0.2s;
+  border-radius: 999px;
+  transition: border-color .2s, color .2s;
   align-self: flex-start;
   margin-top: 0.5rem;
 }
 
 .pmq-changelog-btn:hover {
-  color: var(--text);
-  border-color: var(--text);
-  background: rgba(255,255,255,0.03);
+  border-color: var(--basic);
+  color: var(--basic);
 }
 
 .nav-search-btn-mobile {
