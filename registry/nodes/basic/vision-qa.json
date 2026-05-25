@@ -2,7 +2,7 @@
   "id": "vision-qa",
   "name": "Visual Question Answering",
   "type": "basic",
-  "level": "3★",
+  "level": "2★",
   "rarity": "uncommon",
   "description": "Answers natural-language questions grounded in a specific image or screenshot by combining visual perception with language reasoning, enabling visual debugging, UI analysis, and document-image Q&A.",
   "prerequisites": [],
@@ -27,6 +27,14 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-04-30",
-  "version": "0.1.0"
+  "updatedAt": "2026-05-25",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-25T03:45:36Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 3★ to 2★"
+    }
+  ]
 }

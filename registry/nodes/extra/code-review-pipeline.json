@@ -2,7 +2,7 @@
   "id": "code-review-pipeline",
   "name": "Code Review Pipeline",
   "type": "extra",
-  "level": "3★",
+  "level": "2★",
   "rarity": "uncommon",
   "description": "Performs automated code review by generating, diffing, and evaluating code changes for correctness, style, security, and maintainability.",
   "prerequisites": [
@@ -31,6 +31,14 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-05-18",
-  "version": "0.2.0"
+  "updatedAt": "2026-05-25",
+  "version": "0.2.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-25T03:45:35Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 3★ to 2★"
+    }
+  ]
 }
