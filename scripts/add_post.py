@@ -333,6 +333,35 @@ _REPORT_CSS = """\
       counter-reset: section;
     }
     header { text-align: center; margin-bottom: 5rem; }
+    .paper-journal-header {{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 1.5rem;
+      margin-bottom: 3rem;
+      border-bottom: 1px solid #e0e0dc;
+    }}
+    .paper-journal-logo {{
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      color: #c8a84b;
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.04em;
+    }}
+    .paper-journal-logo img {{
+      filter: invert(72%) sepia(40%) saturate(600%) hue-rotate(5deg) brightness(95%);
+    }}
+    .paper-journal-series {{
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #999;
+    }}
     h1 {
       font-family: var(--font-serif);
       font-size: 2.6rem;
@@ -519,6 +548,7 @@ def render_report_html(
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{title} — Gaia</title>
+  <link rel="icon" type="image/svg+xml" href="../../assets/marks/diamond-seal.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -542,6 +572,13 @@ def render_report_html(
   </aside>
 
   <article class="paper">
+    <div class="paper-journal-header">
+      <a href="../../index.html" class="paper-journal-logo" aria-label="Gaia Registry">
+        <img src="../../assets/marks/diamond-seal.svg" alt="Gaia" width="28" height="28">
+        <span>Gaia Registry</span>
+      </a>
+      <span class="paper-journal-series">Meta Audit Series</span>
+    </div>
     <header>
       <h1>{title}</h1>
       <div class="authors">{author}</div>
