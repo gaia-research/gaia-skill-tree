@@ -309,6 +309,17 @@
         "details": {
           "type": "string",
           "description": "Additional context or human-readable details."
+        },
+        "previousValue": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The level/status before this event (e.g. '2★'). Null for first-time events such as 'add'."
+        },
+        "newValue": {
+          "type": "string",
+          "description": "The level/status after this event (e.g. '3★')."
         }
       }
     }

@@ -78,8 +78,8 @@
         },
         "unlockedAt": {
           "type": "string",
-          "format": "date",
-          "description": "Date when the skill was unlocked."
+          "format": "date-time",
+          "description": "ISO 8601 timestamp when the skill was first unlocked."
         },
         "unlockedIn": {
           "type": "string",
@@ -92,6 +92,42 @@
             "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
           },
           "description": "Parent skill IDs used in fusion (for extra/ultimate skills)."
+        },
+        "levelHistory": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "level",
+              "achievedAt"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "level": {
+                "type": "string",
+                "enum": [
+                  "1★",
+                  "2★",
+                  "3★",
+                  "4★",
+                  "5★"
+                ]
+              },
+              "achievedAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "source": {
+                "type": "string",
+                "enum": [
+                  "evidence",
+                  "fusion",
+                  "promotion"
+                ]
+              }
+            }
+          },
+          "description": "Each level this skill reached, in ascending order."
         }
       }
     },
@@ -205,6 +241,17 @@
         "details": {
           "type": "string",
           "description": "Additional context or human-readable details."
+        },
+        "previousValue": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The level/status before this event (e.g. '2★'). Null for first-time events such as 'register'."
+        },
+        "newValue": {
+          "type": "string",
+          "description": "The level/status after this event (e.g. '3★')."
         }
       }
     }
