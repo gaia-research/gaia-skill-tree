@@ -44,6 +44,11 @@ SLATE = "#94a3b8"
 AMBER = "#fbbf24"
 WHITE = "#ffffff"
 
+# Filenames produced by the primary badges — per-skill variants whose slug
+# collides with one of these are renamed with a `~` suffix so they don't
+# overwrite the primary file (e.g., @mattpocock/skills → skills~.svg).
+RESERVED_FILENAMES = {"rank", "skills", "handle", "index", "powered-by-gaia"}
+
 # Verdana 11px bold approximate per-character widths (in pixels).
 # Conservative — we over-pad rather than clip.
 CHAR_WIDTH = {
@@ -310,6 +315,9 @@ def write_user_badges(handle: str, info: dict, scan: dict | None,
             slabel = f"Gaia: @{handle}{sslash} {srank} stars"
             # filename: slash-skill without leading slash, e.g. /health -> health.svg
             fname = sslash.lstrip("/").replace("/", "-") or "skill"
+            if fname in RESERVED_FILENAMES:
+                # Avoid clobbering rank.svg / skills.svg / handle.svg.
+                fname = f"{fname}~"
             ssvg = badge_handle(handle, sslash, srank, scolor, slabel)
             (user_dir / f"{fname}.svg").write_text(ssvg, encoding="utf-8")
 
@@ -317,6 +325,74 @@ def write_user_badges(handle: str, info: dict, scan: dict | None,
 def write_static_badges(out_dir: Path) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "powered-by-gaia.svg").write_text(badge_powered_by(), encoding="utf-8")
+
+
+def extract_repo(url: str) -> str | None:
+    """Pull '<owner>/<repo>' from a GitHub URL.
+
+    Accepts the `blob/branch/path` form documented by install.py — bare
+    repo URLs work too. Returns None for anything that doesn't look like
+    a GitHub URL.
+    """
+    if not url:
+        return None
+    m = re.match(r"^https?://github\.com/([\w.-]+)/([\w.-]+)", url)
+    if not m:
+        return None
+    owner, repo = m.group(1), m.group(2)
+    # Strip trailing `.git` if present (common in clone URLs).
+    if repo.endswith(".git"):
+        repo = repo[:-4]
+    return f"{owner}/{repo}"
+
+
+def build_registry(contributors: dict[str, dict]) -> dict:
+    """Build the public approved-repos manifest consumed by the sampler and
+    the future Cloudflare Worker that validates `?repo=` on each request.
+    """
+    out: dict[str, dict] = {}
+    for handle, info in contributors.items():
+        repos: dict[str, list[str]] = {}
+        for skill in info["named_skills"]:
+            url = (skill.get("links") or {}).get("github")
+            repo = extract_repo(url) if url else None
+            if not repo:
+                continue
+            repos.setdefault(repo, []).append(skill.get("id", ""))
+        if not repos:
+            continue
+        out[handle] = {
+            "repos": sorted(repos.keys()),
+            "skillsByRepo": {r: sorted(ids) for r, ids in repos.items()},
+            "topSkill": info["top_skill"].get("id", "") if info.get("top_skill") else None,
+            "topRank": info.get("top_rank", 0),
+            "count": info.get("count", 0),
+        }
+    return out
+
+
+def write_registry_json(contributors: dict[str, dict], out_dir: Path) -> None:
+    """Write docs/badges/registry.json — the public per-contributor manifest."""
+    payload = {
+        "generatedAt": _today_iso(),
+        "schema": "gaia-badges-registry/1",
+        "description": (
+            "Approved repos per contributor for Gaia README badges. "
+            "Derived from registry/named-skills.json `links.github` URLs. "
+            "The forthcoming validator turns badges red when the `?repo=` "
+            "query string does not match a repo listed here."
+        ),
+        "contributors": contributors,
+    }
+    (out_dir / "registry.json").write_text(
+        json.dumps(payload, indent=2, sort_keys=False) + "\n",
+        encoding="utf-8",
+    )
+
+
+def _today_iso() -> str:
+    from datetime import datetime, timezone
+    return datetime.now(timezone.utc).date().isoformat()
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -344,7 +420,10 @@ def main(argv: list[str] | None = None) -> int:
         written += 1
 
     write_static_badges(out_dir)
-    print(f"Wrote badges for {written} contributors to {out_dir}")
+    registry = build_registry(contributors)
+    write_registry_json(registry, out_dir)
+    print(f"Wrote badges for {written} contributors to {out_dir} "
+          f"({len(registry)} with approved repos in registry.json)")
     return 0
 
 

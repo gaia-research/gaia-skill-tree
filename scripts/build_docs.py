@@ -224,9 +224,9 @@ def _badges() -> str:
     )
     snippet = (
         "```markdown\n"
-        "[![Gaia](https://gaia.tiongson.co/badges/<handle>/handle.svg)](https://gaia.tiongson.co/u/<handle>/)\n"
-        "[![Gaia rank](https://gaia.tiongson.co/badges/<handle>/rank.svg)](https://gaia.tiongson.co/u/<handle>/)\n"
-        "[![Gaia skills](https://gaia.tiongson.co/badges/<handle>/skills.svg)](https://gaia.tiongson.co/u/<handle>/)\n"
+        "[![Gaia](https://gaia.tiongson.co/badges/<handle>/handle.svg?repo=<owner/name>)](https://gaia.tiongson.co/u/<handle>/)\n"
+        "[![Gaia rank](https://gaia.tiongson.co/badges/<handle>/rank.svg?repo=<owner/name>)](https://gaia.tiongson.co/u/<handle>/)\n"
+        "[![Gaia skills](https://gaia.tiongson.co/badges/<handle>/skills.svg?repo=<owner/name>)](https://gaia.tiongson.co/u/<handle>/)\n"
         "```"
     )
     return (
@@ -236,7 +236,9 @@ def _badges() -> str:
         "Badges regenerate on every `gaia docs build`, so values track the live registry.\n\n"
         f"{live_badges}\n\n"
         f"{snippet}\n\n"
-        "Replace `<handle>` with your Gaia username. Preview every variant — "
+        "Replace `<handle>` with your Gaia username and `<owner/name>` with the GitHub repo "
+        "the badge is embedded in — the forthcoming edge validator flags badges in repos "
+        "not on the contributor's `links.github` list. Preview every variant — "
         "including the single-line `@handle/skill · N★` identity badge — at "
         "[gaia.tiongson.co/badges/](https://gaia.tiongson.co/badges/)."
     )

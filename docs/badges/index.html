@@ -208,6 +208,42 @@
     .bd-copy:hover { color: var(--text); border-color: var(--rank-5, #fbbf24); }
     .bd-copy.is-copied { color: var(--rank-2, #63cab7); border-color: var(--rank-2, #63cab7); }
 
+    /* ── Repo picker (validation) ── */
+    .bd-repos {
+      display: flex;
+      gap: .4rem;
+      flex-wrap: wrap;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .bd-repos label {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      padding: .35rem .7rem;
+      font-family: var(--font-mono);
+      font-size: .8rem;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      cursor: pointer;
+      color: var(--muted);
+      transition: border-color .12s, color .12s, background .12s;
+    }
+    .bd-repos label:has(input:checked) {
+      color: var(--text);
+      border-color: var(--rank-5, #fbbf24);
+      background: rgba(251, 191, 36, 0.08);
+    }
+    .bd-repos input { position: absolute; opacity: 0; pointer-events: none; }
+    .bd-validate-note {
+      font-family: var(--font-mono);
+      font-size: .76rem;
+      color: var(--rank-3, #a78bfa);
+      letter-spacing: .03em;
+      margin: .25rem 0 0;
+    }
+
     /* ── Variant table ── */
     .bd-variants {
       display: grid;
@@ -308,7 +344,9 @@
   <h2>Generate yours</h2>
   <p class="bd-section-lede">
     Enter your Gaia handle. Badges live at <code>gaia.tiongson.co/badges/&lt;handle&gt;/</code> and
-    link back to your contributor profile at <code>/u/&lt;handle&gt;/</code>.
+    link back to your contributor profile at <code>/u/&lt;handle&gt;/</code>. The snippet bakes in
+    <code>?repo=&lt;owner/name&gt;</code> so the upcoming edge validator can flag misuse — badges
+    embedded in a repo not on your <code>links.github</code> list render red.
   </p>
   <div class="bd-gen">
     <div class="bd-gen-row">
@@ -317,6 +355,11 @@
     </div>
     <div class="bd-gen-preview" id="bd-preview">
       <div class="bd-gen-status" id="bd-status"></div>
+      <div id="bd-repo-block" style="display:none;">
+        <p class="bd-section-lede" style="margin:.4rem 0;">Pick the repo where this badge will live — the URL bakes it in so the validator can flag misuse.</p>
+        <fieldset class="bd-repos" id="bd-repos" style="border:0;padding:0;"></fieldset>
+        <p class="bd-validate-note" id="bd-validate-note"></p>
+      </div>
       <div class="bd-gen-badges" id="bd-badges"></div>
       <pre class="bd-snippet" id="bd-snippet"></pre>
       <button class="bd-copy" type="button" id="bd-copy">Copy markdown</button>
@@ -375,6 +418,19 @@
     const badges = document.getElementById("bd-badges");
     const snippet = document.getElementById("bd-snippet");
     const copyBtn = document.getElementById("bd-copy");
+    const repoBlock = document.getElementById("bd-repo-block");
+    const repoList = document.getElementById("bd-repos");
+    const validateNote = document.getElementById("bd-validate-note");
+
+    let registryPromise = null;
+    function getRegistry() {
+      if (!registryPromise) {
+        registryPromise = fetch("./registry.json")
+          .then((r) => r.ok ? r.json() : { contributors: {} })
+          .catch(() => ({ contributors: {} }));
+      }
+      return registryPromise;
+    }
 
     async function exists(url) {
       try {
@@ -383,6 +439,56 @@
       } catch (e) {
         return false;
       }
+    }
+
+    let currentState = { handle: "", repos: [], selectedRepo: "", hasRank: false, hasSkills: false, hasHandle: false, linkTarget: "" };
+
+    function renderSnippet() {
+      const { handle, selectedRepo, hasRank, hasSkills, hasHandle, linkTarget } = currentState;
+      badges.innerHTML = "";
+      const q = selectedRepo ? `?repo=${encodeURIComponent(selectedRepo)}` : "";
+      const lines = [];
+      if (hasHandle) {
+        const url = `${BASE}/badges/${handle}/handle.svg${q}`;
+        lines.push(`[![Gaia](${url})](${linkTarget})`);
+        badges.insertAdjacentHTML("beforeend",
+          `<a href="${linkTarget}"><img src="./${handle}/handle.svg" alt="@${handle} on Gaia"></a>`);
+      }
+      if (hasRank) {
+        const url = `${BASE}/badges/${handle}/rank.svg${q}`;
+        lines.push(`[![Gaia rank](${url})](${linkTarget})`);
+        badges.insertAdjacentHTML("beforeend",
+          `<a href="${linkTarget}"><img src="./${handle}/rank.svg" alt="Gaia rank"></a>`);
+      }
+      if (hasSkills) {
+        const url = `${BASE}/badges/${handle}/skills.svg${q}`;
+        lines.push(`[![Gaia skills](${url})](${linkTarget})`);
+        badges.insertAdjacentHTML("beforeend",
+          `<a href="${linkTarget}"><img src="./${handle}/skills.svg" alt="Gaia skills"></a>`);
+      }
+      snippet.textContent = lines.join("\n");
+    }
+
+    function renderRepoPicker(repos) {
+      currentState.repos = repos;
+      if (!repos.length) {
+        repoBlock.style.display = "none";
+        currentState.selectedRepo = "";
+        validateNote.textContent = "";
+        return;
+      }
+      repoBlock.style.display = "block";
+      currentState.selectedRepo = repos[0];
+      repoList.innerHTML = repos.map((r, i) => (
+        `<label><input type="radio" name="bd-repo" value="${r}" ${i === 0 ? "checked" : ""}>${r}</label>`
+      )).join("");
+      repoList.querySelectorAll("input[name='bd-repo']").forEach((el) => {
+        el.addEventListener("change", () => {
+          currentState.selectedRepo = el.value;
+          renderSnippet();
+        });
+      });
+      validateNote.textContent = "validation: ?repo= will be enforced by the Gaia edge validator (rolling out soon).";
     }
 
     async function generate() {
@@ -394,13 +500,15 @@
       status.classList.remove("is-error");
       badges.innerHTML = "";
       snippet.textContent = "";
+      repoBlock.style.display = "none";
 
       const base = `./${encodeURIComponent(handle)}`;
-      const [hasRank, hasSkills, hasHandle, hasProfile] = await Promise.all([
+      const [hasRank, hasSkills, hasHandle, hasProfile, registry] = await Promise.all([
         exists(`${base}/rank.svg`),
         exists(`${base}/skills.svg`),
         exists(`${base}/handle.svg`),
         exists(`../u/${encodeURIComponent(handle)}/`),
+        getRegistry(),
       ]);
 
       if (!hasRank && !hasSkills && !hasHandle) {
@@ -409,30 +517,21 @@
         return;
       }
 
-      const linkTarget = hasProfile
-        ? `${BASE}/u/${handle}/`
-        : `${BASE}/`;
+      const linkTarget = hasProfile ? `${BASE}/u/${handle}/` : `${BASE}/`;
+      currentState = { handle, repos: [], selectedRepo: "", hasRank, hasSkills, hasHandle, linkTarget };
 
-      const lines = [];
-      if (hasHandle) {
-        lines.push(`[![Gaia](${BASE}/badges/${handle}/handle.svg)](${linkTarget})`);
-        badges.insertAdjacentHTML("beforeend",
-          `<a href="${linkTarget}"><img src="${base}/handle.svg" alt="@${handle} on Gaia"></a>`);
-      }
-      if (hasRank) {
-        lines.push(`[![Gaia rank](${BASE}/badges/${handle}/rank.svg)](${linkTarget})`);
-        badges.insertAdjacentHTML("beforeend",
-          `<a href="${linkTarget}"><img src="${base}/rank.svg" alt="Gaia rank"></a>`);
-      }
-      if (hasSkills) {
-        lines.push(`[![Gaia skills](${BASE}/badges/${handle}/skills.svg)](${linkTarget})`);
-        badges.insertAdjacentHTML("beforeend",
-          `<a href="${linkTarget}"><img src="${base}/skills.svg" alt="Gaia skills"></a>`);
-      }
-      snippet.textContent = lines.join("\n");
-      status.textContent = hasProfile
-        ? `Found badges for @${handle}.`
-        : `Found badges for @${handle}. No /u/ page — linking to the registry home.`;
+      const approved = (registry.contributors && registry.contributors[handle]) || null;
+      const repos = approved ? approved.repos || [] : [];
+
+      renderRepoPicker(repos);
+      renderSnippet();
+
+      const tail = repos.length
+        ? ` — ${repos.length} approved repo${repos.length === 1 ? "" : "s"} on file.`
+        : hasProfile
+          ? " — no `links.github` on record yet; copy without `?repo=` for now."
+          : " — no /u/ page yet; linking to the registry home.";
+      status.textContent = `Found badges for @${handle}${tail}`;
     }
 
     function copySnippet() {

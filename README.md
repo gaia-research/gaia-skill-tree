@@ -325,12 +325,12 @@ Contributors with named skills (currently 7 unlocked here, highest **4★**) can
 [![Gaia skills](https://gaia.tiongson.co/badges/mbtiongson1/skills.svg)](https://gaia.tiongson.co/u/mbtiongson1/)
 
 ```markdown
-[![Gaia](https://gaia.tiongson.co/badges/<handle>/handle.svg)](https://gaia.tiongson.co/u/<handle>/)
-[![Gaia rank](https://gaia.tiongson.co/badges/<handle>/rank.svg)](https://gaia.tiongson.co/u/<handle>/)
-[![Gaia skills](https://gaia.tiongson.co/badges/<handle>/skills.svg)](https://gaia.tiongson.co/u/<handle>/)
+[![Gaia](https://gaia.tiongson.co/badges/<handle>/handle.svg?repo=<owner/name>)](https://gaia.tiongson.co/u/<handle>/)
+[![Gaia rank](https://gaia.tiongson.co/badges/<handle>/rank.svg?repo=<owner/name>)](https://gaia.tiongson.co/u/<handle>/)
+[![Gaia skills](https://gaia.tiongson.co/badges/<handle>/skills.svg?repo=<owner/name>)](https://gaia.tiongson.co/u/<handle>/)
 ```
 
-Replace `<handle>` with your Gaia username. Preview every variant — including the single-line `@handle/skill · N★` identity badge — at [gaia.tiongson.co/badges/](https://gaia.tiongson.co/badges/).
+Replace `<handle>` with your Gaia username and `<owner/name>` with the GitHub repo the badge is embedded in — the forthcoming edge validator flags badges in repos not on the contributor's `links.github` list. Preview every variant — including the single-line `@handle/skill · N★` identity badge — at [gaia.tiongson.co/badges/](https://gaia.tiongson.co/badges/).
 <!-- gaia:badges-end -->
 
 ---
