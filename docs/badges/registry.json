@@ -1,0 +1,533 @@
+{
+  "generatedAt": "2026-05-26",
+  "schema": "gaia-badges-registry/1",
+  "description": "Approved repos per contributor for Gaia README badges. Derived from registry/named-skills.json `links.github` URLs. The forthcoming validator turns badges red when the `?repo=` query string does not match a repo listed here.",
+  "contributors": {
+    "0xdarkmatter": {
+      "repos": [
+        "aiskillstore/marketplace"
+      ],
+      "skillsByRepo": {
+        "aiskillstore/marketplace": [
+          "0xdarkmatter/pytest-patterns"
+        ]
+      },
+      "topSkill": "0xdarkmatter/pytest-patterns",
+      "topRank": 3,
+      "count": 1
+    },
+    "garrytan": {
+      "repos": [
+        "garrytan/gstack"
+      ],
+      "skillsByRepo": {
+        "garrytan/gstack": [
+          "garrytan/benchmark",
+          "garrytan/benchmark-models",
+          "garrytan/browse",
+          "garrytan/canary",
+          "garrytan/careful",
+          "garrytan/codex",
+          "garrytan/context-restore",
+          "garrytan/context-save",
+          "garrytan/cso",
+          "garrytan/design-consultation",
+          "garrytan/design-html",
+          "garrytan/design-review",
+          "garrytan/design-shotgun",
+          "garrytan/devex-review",
+          "garrytan/document-generate",
+          "garrytan/document-release",
+          "garrytan/freeze",
+          "garrytan/garrytan",
+          "garrytan/gstack",
+          "garrytan/gstack-upgrade",
+          "garrytan/guard",
+          "garrytan/health",
+          "garrytan/investigate",
+          "garrytan/land-and-deploy",
+          "garrytan/landing-report",
+          "garrytan/learn",
+          "garrytan/make-pdf",
+          "garrytan/office-hours",
+          "garrytan/open-gstack-browser",
+          "garrytan/pair-agent",
+          "garrytan/plan-ceo-review",
+          "garrytan/plan-design-review",
+          "garrytan/plan-devex-review",
+          "garrytan/plan-eng-review",
+          "garrytan/plan-tune",
+          "garrytan/qa",
+          "garrytan/qa-only",
+          "garrytan/retro",
+          "garrytan/review",
+          "garrytan/scrape",
+          "garrytan/setup-browser-cookies",
+          "garrytan/setup-deploy",
+          "garrytan/setup-gbrain",
+          "garrytan/ship",
+          "garrytan/skillify",
+          "garrytan/sync-gbrain",
+          "garrytan/unfreeze"
+        ]
+      },
+      "topSkill": "garrytan/gstack",
+      "topRank": 5,
+      "count": 47
+    },
+    "Manavarya09": {
+      "repos": [
+        "Manavarya09/design-extract"
+      ],
+      "skillsByRepo": {
+        "Manavarya09/design-extract": [
+          "Manavarya09/design-extract"
+        ]
+      },
+      "topSkill": "Manavarya09/design-extract",
+      "topRank": 2,
+      "count": 1
+    },
+    "addy-osmani": {
+      "repos": [
+        "addyosmani/agent-skills"
+      ],
+      "skillsByRepo": {
+        "addyosmani/agent-skills": [
+          "addy-osmani/test-driven-development"
+        ]
+      },
+      "topSkill": "addy-osmani/test-driven-development",
+      "topRank": 3,
+      "count": 1
+    },
+    "anthropic": {
+      "repos": [
+        "anthropics/skills"
+      ],
+      "skillsByRepo": {
+        "anthropics/skills": [
+          "anthropic/pptx",
+          "anthropic/skill-creator"
+        ]
+      },
+      "topSkill": "anthropic/pptx",
+      "topRank": 2,
+      "count": 2
+    },
+    "mattpocock": {
+      "repos": [
+        "mattpocock/skills"
+      ],
+      "skillsByRepo": {
+        "mattpocock/skills": [
+          "mattpocock/caveman",
+          "mattpocock/diagnose",
+          "mattpocock/edit-article",
+          "mattpocock/grill-me",
+          "mattpocock/grill-with-docs",
+          "mattpocock/handoff",
+          "mattpocock/improve-codebase-architecture",
+          "mattpocock/obsidian-vault",
+          "mattpocock/prototype",
+          "mattpocock/setup-matt-pocock-skills",
+          "mattpocock/to-issues",
+          "mattpocock/to-prd",
+          "mattpocock/triage",
+          "mattpocock/ubiquitous-language",
+          "mattpocock/write-a-skill",
+          "mattpocock/zoom-out"
+        ]
+      },
+      "topSkill": "mattpocock/skills",
+      "topRank": 6,
+      "count": 20
+    },
+    "bradautomates": {
+      "repos": [
+        "bradautomates/claude-video"
+      ],
+      "skillsByRepo": {
+        "bradautomates/claude-video": [
+          "bradautomates/claude-video"
+        ]
+      },
+      "topSkill": "bradautomates/claude-video",
+      "topRank": 2,
+      "count": 1
+    },
+    "browser-use": {
+      "repos": [
+        "browser-use/browser-harness"
+      ],
+      "skillsByRepo": {
+        "browser-use/browser-harness": [
+          "browser-use/browser-harness"
+        ]
+      },
+      "topSkill": "browser-use/browser-harness",
+      "topRank": 2,
+      "count": 1
+    },
+    "browserbase": {
+      "repos": [
+        "browserbase/stagehand"
+      ],
+      "skillsByRepo": {
+        "browserbase/stagehand": [
+          "browserbase/stagehand"
+        ]
+      },
+      "topSkill": "browserbase/stagehand",
+      "topRank": 2,
+      "count": 1
+    },
+    "gooseworks": {
+      "repos": [
+        "gooseworks-ai/goose-skills"
+      ],
+      "skillsByRepo": {
+        "gooseworks-ai/goose-skills": [
+          "gooseworks/notte-browser"
+        ]
+      },
+      "topSkill": "gooseworks/notte-browser",
+      "topRank": 3,
+      "count": 1
+    },
+    "ruvnet": {
+      "repos": [
+        "ruvnet/ruflo"
+      ],
+      "skillsByRepo": {
+        "ruvnet/ruflo": [
+          "ruvnet/agentdb",
+          "ruvnet/agentdb-advanced",
+          "ruvnet/agentdb-learning",
+          "ruvnet/agentdb-memory-patterns",
+          "ruvnet/agentdb-optimization",
+          "ruvnet/agentdb-vector-search",
+          "ruvnet/agentic-jujutsu",
+          "ruvnet/browser",
+          "ruvnet/dual-collect",
+          "ruvnet/dual-coordinate",
+          "ruvnet/dual-mode",
+          "ruvnet/dual-spawn",
+          "ruvnet/flow-nexus",
+          "ruvnet/flow-nexus-neural",
+          "ruvnet/flow-nexus-platform",
+          "ruvnet/flow-nexus-swarm",
+          "ruvnet/github-code-review",
+          "ruvnet/github-multi-repo",
+          "ruvnet/github-project-management",
+          "ruvnet/github-release-management",
+          "ruvnet/github-suite",
+          "ruvnet/github-workflow-automation",
+          "ruvnet/hive-mind-coordination",
+          "ruvnet/hooks-automation",
+          "ruvnet/pair-programming",
+          "ruvnet/performance-analysis",
+          "ruvnet/reasoningbank",
+          "ruvnet/reasoningbank-agentdb",
+          "ruvnet/reasoningbank-intelligence",
+          "ruvnet/ruflo",
+          "ruvnet/ruflo-v3",
+          "ruvnet/skill-builder",
+          "ruvnet/sparc-methodology",
+          "ruvnet/stream-chain",
+          "ruvnet/swarm-advanced",
+          "ruvnet/swarm-orchestration",
+          "ruvnet/v3-cli-modernization",
+          "ruvnet/v3-core-implementation",
+          "ruvnet/v3-ddd-architecture",
+          "ruvnet/v3-integration-deep",
+          "ruvnet/v3-mcp-optimization",
+          "ruvnet/v3-memory-unification",
+          "ruvnet/v3-performance-optimization",
+          "ruvnet/v3-security-overhaul",
+          "ruvnet/v3-swarm-coordination",
+          "ruvnet/verification-quality",
+          "ruvnet/worker-benchmarks",
+          "ruvnet/worker-integration"
+        ]
+      },
+      "topSkill": "ruvnet/ruflo",
+      "topRank": 6,
+      "count": 48
+    },
+    "devin-ai": {
+      "repos": [
+        "cognition-labs/devin"
+      ],
+      "skillsByRepo": {
+        "cognition-labs/devin": [
+          "devin-ai/autonomous-swe"
+        ]
+      },
+      "topSkill": "devin-ai/autonomous-swe",
+      "topRank": 3,
+      "count": 1
+    },
+    "firecrawl": {
+      "repos": [
+        "firecrawl/firecrawl"
+      ],
+      "skillsByRepo": {
+        "firecrawl/firecrawl": [
+          "firecrawl/firecrawl"
+        ]
+      },
+      "topSkill": "firecrawl/firecrawl",
+      "topRank": 2,
+      "count": 1
+    },
+    "intelligentcode-ai": {
+      "repos": [
+        "intelligentcode-ai/skills"
+      ],
+      "skillsByRepo": {
+        "intelligentcode-ai/skills": [
+          "intelligentcode-ai/database-engineer",
+          "intelligentcode-ai/devops-engineer",
+          "intelligentcode-ai/mcp-client",
+          "intelligentcode-ai/parallel-execution",
+          "intelligentcode-ai/release",
+          "intelligentcode-ai/requirements-engineer",
+          "intelligentcode-ai/security-engineer",
+          "intelligentcode-ai/user-tester"
+        ]
+      },
+      "topSkill": "intelligentcode-ai/database-engineer",
+      "topRank": 2,
+      "count": 8
+    },
+    "martin-stepanoski": {
+      "repos": [
+        "mastepanoski/claude-skills"
+      ],
+      "skillsByRepo": {
+        "mastepanoski/claude-skills": [
+          "martin-stepanoski/nielsen-heuristics-audit"
+        ]
+      },
+      "topSkill": "martin-stepanoski/nielsen-heuristics-audit",
+      "topRank": 2,
+      "count": 1
+    },
+    "pbakaus": {
+      "repos": [
+        "pbakaus/impeccable"
+      ],
+      "skillsByRepo": {
+        "pbakaus/impeccable": [
+          "pbakaus/impeccable"
+        ]
+      },
+      "topSkill": "pbakaus/impeccable",
+      "topRank": 4,
+      "count": 1
+    },
+    "obra": {
+      "repos": [
+        "obra/superpowers"
+      ],
+      "skillsByRepo": {
+        "obra/superpowers": [
+          "obra/brainstorming",
+          "obra/dispatching-parallel-agents",
+          "obra/executing-plans",
+          "obra/finishing-a-development-branch",
+          "obra/receiving-code-review",
+          "obra/requesting-code-review",
+          "obra/subagent-driven-development",
+          "obra/superpowers",
+          "obra/systematic-debugging",
+          "obra/using-git-worktrees",
+          "obra/verification-before-completion",
+          "obra/writing-plans"
+        ]
+      },
+      "topSkill": "obra/superpowers",
+      "topRank": 5,
+      "count": 12
+    },
+    "glincker": {
+      "repos": [
+        "GLINCKER/claude-code-marketplace"
+      ],
+      "skillsByRepo": {
+        "GLINCKER/claude-code-marketplace": [
+          "glincker/readme-generator"
+        ]
+      },
+      "topSkill": "glincker/readme-generator",
+      "topRank": 2,
+      "count": 1
+    },
+    "spring-ai": {
+      "repos": [
+        "spring-ai-alibaba/examples"
+      ],
+      "skillsByRepo": {
+        "spring-ai-alibaba/examples": [
+          "spring-ai/readme-generate"
+        ]
+      },
+      "topSkill": "spring-ai/readme-generate",
+      "topRank": 2,
+      "count": 1
+    },
+    "getagentseal": {
+      "repos": [
+        "getagentseal/codeburn"
+      ],
+      "skillsByRepo": {
+        "getagentseal/codeburn": [
+          "getagentseal/codeburn"
+        ]
+      },
+      "topSkill": "getagentseal/codeburn",
+      "topRank": 2,
+      "count": 1
+    },
+    "huggingface": {
+      "repos": [
+        "codefuse-ai/ModelCache",
+        "huggingface/skills"
+      ],
+      "skillsByRepo": {
+        "huggingface/skills": [
+          "huggingface/hf-cli",
+          "huggingface/huggingface-datasets",
+          "huggingface/huggingface-llm-trainer",
+          "huggingface/huggingface-papers",
+          "huggingface/huggingface-vision-trainer",
+          "huggingface/transformers-js"
+        ],
+        "codefuse-ai/ModelCache": [
+          "huggingface/semantic-cache"
+        ]
+      },
+      "topSkill": "huggingface/semantic-cache",
+      "topRank": 4,
+      "count": 7
+    },
+    "karpathy": {
+      "repos": [
+        "karpathy/autoresearch"
+      ],
+      "skillsByRepo": {
+        "karpathy/autoresearch": [
+          "karpathy/autoresearch"
+        ]
+      },
+      "topSkill": "karpathy/autoresearch",
+      "topRank": 3,
+      "count": 1
+    },
+    "laravel": {
+      "repos": [
+        "laravel/boost"
+      ],
+      "skillsByRepo": {
+        "laravel/boost": [
+          "laravel/upgrade-laravel-v13"
+        ]
+      },
+      "topSkill": "laravel/upgrade-laravel-v13",
+      "topRank": 2,
+      "count": 1
+    },
+    "nexu-io": {
+      "repos": [
+        "nexu-io/open-design"
+      ],
+      "skillsByRepo": {
+        "nexu-io/open-design": [
+          "nexu-io/open-design"
+        ]
+      },
+      "topSkill": "nexu-io/open-design",
+      "topRank": 3,
+      "count": 1
+    },
+    "nousresearch": {
+      "repos": [
+        "NousResearch/hermes-agent"
+      ],
+      "skillsByRepo": {
+        "NousResearch/hermes-agent": [
+          "nousresearch/feed-monitoring"
+        ]
+      },
+      "topSkill": "nousresearch/feed-monitoring",
+      "topRank": 4,
+      "count": 1
+    },
+    "safishamsi": {
+      "repos": [
+        "safishamsi/graphify"
+      ],
+      "skillsByRepo": {
+        "safishamsi/graphify": [
+          "safishamsi/graphify"
+        ]
+      },
+      "topSkill": "safishamsi/graphify",
+      "topRank": 3,
+      "count": 1
+    },
+    "santifer": {
+      "repos": [
+        "santifer/career-ops"
+      ],
+      "skillsByRepo": {
+        "santifer/career-ops": [
+          "santifer/career-ops"
+        ]
+      },
+      "topSkill": "santifer/career-ops",
+      "topRank": 3,
+      "count": 1
+    },
+    "upsonic": {
+      "repos": [
+        "Upsonic/Upsonic"
+      ],
+      "skillsByRepo": {
+        "Upsonic/Upsonic": [
+          "upsonic/unittest-generator"
+        ]
+      },
+      "topSkill": "upsonic/unittest-generator",
+      "topRank": 2,
+      "count": 1
+    },
+    "vercel": {
+      "repos": [
+        "vercel-labs/skills"
+      ],
+      "skillsByRepo": {
+        "vercel-labs/skills": [
+          "vercel/find-skills"
+        ]
+      },
+      "topSkill": "vercel/find-skills",
+      "topRank": 2,
+      "count": 1
+    },
+    "yonatangross": {
+      "repos": [
+        "yonatangross/orchestkit"
+      ],
+      "skillsByRepo": {
+        "yonatangross/orchestkit": [
+          "yonatangross/orchestkit-rag"
+        ]
+      },
+      "topSkill": "yonatangross/orchestkit-rag",
+      "topRank": 3,
+      "count": 1
+    }
+  }
+}
