@@ -1,8 +1,8 @@
-# /translation-pipeline  [3★ · Evolved]
+# /translation-pipeline  [2★ · Named]
 **ID:** translation-pipeline  
 **Type:** Extra Skill  
-**Level:** 3★  
-**Tier:** Evolved  
+**Level:** 2★  
+**Tier:** Named  
 **Skill Call:** `/translation-pipeline`
 
 ---

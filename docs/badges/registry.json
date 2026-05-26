@@ -281,6 +281,26 @@
       "topRank": 2,
       "count": 1
     },
+    "intelligentcode-ai": {
+      "repos": [
+        "intelligentcode-ai/skills"
+      ],
+      "skillsByRepo": {
+        "intelligentcode-ai/skills": [
+          "intelligentcode-ai/database-engineer",
+          "intelligentcode-ai/devops-engineer",
+          "intelligentcode-ai/mcp-client",
+          "intelligentcode-ai/parallel-execution",
+          "intelligentcode-ai/release",
+          "intelligentcode-ai/requirements-engineer",
+          "intelligentcode-ai/security-engineer",
+          "intelligentcode-ai/user-tester"
+        ]
+      },
+      "topSkill": "intelligentcode-ai/database-engineer",
+      "topRank": 2,
+      "count": 8
+    },
     "martin-stepanoski": {
       "repos": [
         "mastepanoski/claude-skills"

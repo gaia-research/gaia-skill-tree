@@ -1,8 +1,8 @@
-# /skill-security-analysis  [4★ · Hardened]
+# /skill-security-analysis  [2★ · Named]
 **ID:** skill-security-analysis  
 **Type:** Extra Skill  
-**Level:** 4★  
-**Tier:** Hardened  
+**Level:** 2★  
+**Tier:** Named  
 **Skill Call:** `/skill-security-analysis`
 
 ---

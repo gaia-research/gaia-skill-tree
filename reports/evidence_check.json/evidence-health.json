@@ -1,0 +1,3363 @@
+{
+  "generated_at": "2026-05-25T04:24:39Z",
+  "summary": {
+    "total": 335,
+    "alive": 300,
+    "redirect": 0,
+    "dead": 35,
+    "timeout": 0,
+    "error": 0
+  },
+  "results": [
+    {
+      "url": "https://github.com/ruvnet/ruflo",
+      "skill_id": "adaptive-pattern-learning",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 801,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/ruvnet/ruflo",
+      "skill_id": "advanced-swarm-coordination",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 166,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/mattpocock/skills/blob/main/skills/engineering/setup-matt-pocock-skills/SKILL.md",
+      "skill_id": "agent-environment-setup",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 768,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2412.14470",
+      "skill_id": "agent-eval",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 114,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/truera/trulens",
+      "skill_id": "agent-eval",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 907,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/Giskard-AI/giskard-oss",
+      "skill_id": "agent-eval",
+      "evidence_index": 2,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 922,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/mattpocock/skills/blob/main/skills/productivity/handoff/SKILL.md",
+      "skill_id": "agent-handoff",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 919,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/ruvnet/ruflo",
+      "skill_id": "agent-memory-learning",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 165,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/ruvnet/ruflo",
+      "skill_id": "agent-memory-learning",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 181,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/ruvnet/ruflo",
+      "skill_id": "agent-memory-platform",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 167,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/apache/airflow/blob/main/AGENTS.md",
+      "skill_id": "agentic-workflow-design",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 810,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2305.15334",
+      "skill_id": "api-call",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 58,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/NousResearch/hermes-agent/blob/main/skills/creative/architecture-diagram/SKILL.md",
+      "skill_id": "architecture-diagram",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 863,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/audienceModel.md",
+      "skill_id": "audience-model",
+      "evidence_index": 0,
+      "evidence_class": "C",
+      "status": "dead",
+      "http_code": 404,
+      "latency_ms": 507,
+      "detail": "Not Found"
+    },
+    {
+      "url": "https://github.com/princeton-nlp/SWE-bench",
+      "skill_id": "automated-testing",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 1540,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2210.12641",
+      "skill_id": "autonomous-data-scientist",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 60,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2208.01756",
+      "skill_id": "autonomous-data-scientist",
+      "evidence_index": 1,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 59,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/microsoft/autogen",
+      "skill_id": "autonomous-data-scientist",
+      "evidence_index": 2,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 859,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/cognition-labs/devin",
+      "skill_id": "autonomous-debug",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "dead",
+      "http_code": 404,
+      "latency_ms": 654,
+      "detail": "Not Found"
+    },
+    {
+      "url": "https://github.com/changkun/wallfacer",
+      "skill_id": "autonomous-engineering-platform",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 1093,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/Taoidle/plan-cascade",
+      "skill_id": "autonomous-engineering-platform",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 854,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/firecrawl/firecrawl-mcp-server",
+      "skill_id": "autonomous-web-research",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 1014,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill",
+      "skill_id": "autonomous-web-research",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 1024,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills",
+      "skill_id": "bioinformatic-sequence-analysis",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 819,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_similarity_search/SKILL.md",
+      "skill_id": "bioinformatic-sequence-analysis",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 919,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/obra/superpowers/blob/main/skills/brainstorming/SKILL.md",
+      "skill_id": "brainstorming",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 819,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2401.13919",
+      "skill_id": "browser-automation",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 63,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/web-arena-x/webarena",
+      "skill_id": "browser-automation",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 956,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/browser-use/browser-harness",
+      "skill_id": "browser-control",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 903,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/santifer/career-ops",
+      "skill_id": "career-operations",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 838,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2201.11903",
+      "skill_id": "chain-of-thought",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 71,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/princeton-nlp/chain-of-thought-hub",
+      "skill_id": "chain-of-thought",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "dead",
+      "http_code": 404,
+      "latency_ms": 654,
+      "detail": "Not Found"
+    },
+    {
+      "url": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/chunkDocument.md",
+      "skill_id": "chunk-document",
+      "evidence_index": 0,
+      "evidence_class": "C",
+      "status": "dead",
+      "http_code": 404,
+      "latency_ms": 605,
+      "detail": "Not Found"
+    },
+    {
+      "url": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/citeSources.md",
+      "skill_id": "cite-sources",
+      "evidence_index": 0,
+      "evidence_class": "C",
+      "status": "dead",
+      "http_code": 404,
+      "latency_ms": 608,
+      "detail": "Not Found"
+    },
+    {
+      "url": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/classify.md",
+      "skill_id": "classify",
+      "evidence_index": 0,
+      "evidence_class": "C",
+      "status": "dead",
+      "http_code": 404,
+      "latency_ms": 612,
+      "detail": "Not Found"
+    },
+    {
+      "url": "https://github.com/ruvnet/ruflo",
+      "skill_id": "cli-modernization",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 209,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills",
+      "skill_id": "clinical-data-retrieval",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 163,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills/blob/main/skills/clinical_trials_database/SKILL.md",
+      "skill_id": "clinical-data-retrieval",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 855,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills/blob/main/skills/openfda_database/SKILL.md",
+      "skill_id": "clinical-data-retrieval",
+      "evidence_index": 2,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 916,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills/blob/main/skills/clinvar_database/SKILL.md",
+      "skill_id": "clinical-data-retrieval",
+      "evidence_index": 3,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 923,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills/blob/main/skills/opentargets_database/SKILL.md",
+      "skill_id": "clinical-data-retrieval",
+      "evidence_index": 4,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 934,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/ruvnet/ruflo",
+      "skill_id": "cloud-platform-management",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 166,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2211.10435",
+      "skill_id": "code-execution",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 52,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/reasoning-machines/pal",
+      "skill_id": "code-execution",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 876,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/executeBash.md",
+      "skill_id": "code-execution",
+      "evidence_index": 2,
+      "evidence_class": "C",
+      "status": "dead",
+      "http_code": 404,
+      "latency_ms": 628,
+      "detail": "Not Found"
+    },
+    {
+      "url": "https://arxiv.org/abs/2109.00859",
+      "skill_id": "code-explain",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 66,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/salesforce/CodeT5",
+      "skill_id": "code-explain",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 952,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/codeGeneration.md",
+      "skill_id": "code-generation",
+      "evidence_index": 0,
+      "evidence_class": "C",
+      "status": "dead",
+      "http_code": 404,
+      "latency_ms": 584,
+      "detail": "Not Found"
+    },
+    {
+      "url": "https://arxiv.org/abs/2203.09095",
+      "skill_id": "code-review-pipeline",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 61,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/excalidraw/excalidraw",
+      "skill_id": "collaborative-diagramming",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 884,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills",
+      "skill_id": "computational-biology-workflows",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 157,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze/SKILL.md",
+      "skill_id": "computational-biology-workflows",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 764,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills/blob/main/skills/alphagenome_single_variant_analysis/SKILL.md",
+      "skill_id": "computational-biology-workflows",
+      "evidence_index": 2,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 810,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_msa/SKILL.md",
+      "skill_id": "computational-biology-workflows",
+      "evidence_index": 3,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 792,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2307.13854",
+      "skill_id": "computer-use",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 48,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/xlang-ai/OSWorld",
+      "skill_id": "computer-use",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 848,
+      "detail": null
+    },
+    {
+      "url": "https://platform.openai.com/docs/guides/moderation",
+      "skill_id": "content-moderation",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 1475,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2403.12968",
+      "skill_id": "context-compression",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 49,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/microsoft/LLMLingua",
+      "skill_id": "context-compression",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 993,
+      "detail": null
+    },
+    {
+      "url": "https://skillsmp.com/api/v1/skills/search?q=context-compression",
+      "skill_id": "context-compression",
+      "evidence_index": 2,
+      "evidence_class": "C",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 736,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/langchain-ai/langchain/tree/master/libs/langchain/langchain/chains/conversation",
+      "skill_id": "conversational-agent",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "dead",
+      "http_code": 404,
+      "latency_ms": 795,
+      "detail": "Not Found"
+    },
+    {
+      "url": "https://github.com/ruvnet/ruflo",
+      "skill_id": "core-platform-implementation",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 185,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common/SKILL.md",
+      "skill_id": "core-platform-implementation",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 837,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md",
+      "skill_id": "core-platform-implementation",
+      "evidence_index": 2,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 819,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common/SKILL.md",
+      "skill_id": "core-platform-implementation",
+      "evidence_index": 3,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 170,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md",
+      "skill_id": "core-platform-implementation",
+      "evidence_index": 4,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 169,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/Sinaptik-AI/pandas-ai",
+      "skill_id": "data-analysis",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 782,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/microsoft/lida",
+      "skill_id": "data-visualize",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 1023,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/intelligentcode-ai/skills/blob/main/skills/devops-engineer/SKILL.md",
+      "skill_id": "deployment-automation",
+      "evidence_index": 0,
+      "evidence_class": "C",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 918,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/nexu-io/open-design",
+      "skill_id": "design-generation",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 1024,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md",
+      "skill_id": "design-review",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 729,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/mattpocock/skills/blob/main/skills/engineering/grill-with-docs/SKILL.md",
+      "skill_id": "design-review",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 805,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/Manavarya09/design-extract",
+      "skill_id": "design-system-extraction",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 919,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2007.02500",
+      "skill_id": "detect-anomaly",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 60,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/diffContent.md",
+      "skill_id": "diff-content",
+      "evidence_index": 0,
+      "evidence_class": "C",
+      "status": "dead",
+      "http_code": 404,
+      "latency_ms": 756,
+      "detail": "Not Found"
+    },
+    {
+      "url": "https://github.com/langgenius/dify",
+      "skill_id": "dify-agent-suite",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 920,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/obra/superpowers/blob/main/skills/dispatching-parallel-agents/SKILL.md",
+      "skill_id": "dispatching-parallel-agents",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 922,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/ruvnet/ruflo",
+      "skill_id": "distributed-neural-training",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 163,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/ruvnet/ruflo",
+      "skill_id": "distributed-vector-memory",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 160,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/documentAnalyst.md",
+      "skill_id": "document-analyst",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "dead",
+      "http_code": 404,
+      "latency_ms": 517,
+      "detail": "Not Found"
+    },
+    {
+      "url": "https://github.com/VikParuchuri/marker",
+      "skill_id": "document-analyst",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 1405,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/anthropics/skills/blob/main/skills/pptx/SKILL.md",
+      "skill_id": "document-editing",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 920,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/ruvnet/ruflo",
+      "skill_id": "dual-mode",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 175,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/zachblume/autospec",
+      "skill_id": "e2e-testing",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 1052,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/intelligentcode-ai/skills/blob/main/skills/user-tester/SKILL.md",
+      "skill_id": "e2e-testing",
+      "evidence_index": 1,
+      "evidence_class": "C",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 920,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/embedText.md",
+      "skill_id": "embed-text",
+      "evidence_index": 0,
+      "evidence_class": "C",
+      "status": "dead",
+      "http_code": 404,
+      "latency_ms": 608,
+      "detail": "Not Found"
+    },
+    {
+      "url": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/errorInterpretation.md",
+      "skill_id": "error-interpretation",
+      "evidence_index": 0,
+      "evidence_class": "C",
+      "status": "dead",
+      "http_code": 404,
+      "latency_ms": 618,
+      "detail": "Not Found"
+    },
+    {
+      "url": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/evaluateOutput.md",
+      "skill_id": "evaluate-output",
+      "evidence_index": 0,
+      "evidence_class": "C",
+      "status": "dead",
+      "http_code": 404,
+      "latency_ms": 612,
+      "detail": "Not Found"
+    },
+    {
+      "url": "https://github.com/obra/superpowers/blob/main/skills/executing-plans/SKILL.md",
+      "skill_id": "executing-plans",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 921,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/extractEntities.md",
+      "skill_id": "extract-entities",
+      "evidence_index": 0,
+      "evidence_class": "C",
+      "status": "dead",
+      "http_code": 404,
+      "latency_ms": 612,
+      "detail": "Not Found"
+    },
+    {
+      "url": "https://github.com/NousResearch/hermes-agent/blob/main/skills/research/blogwatcher/SKILL.md",
+      "skill_id": "feed-monitoring",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 921,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2005.14165",
+      "skill_id": "few-shot-learning",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 74,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2604.22783",
+      "skill_id": "fine-tune",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 59,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/huggingface/peft",
+      "skill_id": "fine-tune",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 989,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/hiyouga/LlamaFactory",
+      "skill_id": "fine-tune",
+      "evidence_index": 2,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 1121,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/obra/superpowers/blob/main/skills/finishing-a-development-branch/SKILL.md",
+      "skill_id": "finishing-a-development-branch",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 818,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/ruvnet/ruflo",
+      "skill_id": "flow-nexus-orchestration",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 164,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/formatOutput.md",
+      "skill_id": "format-output",
+      "evidence_index": 0,
+      "evidence_class": "C",
+      "status": "dead",
+      "http_code": 404,
+      "latency_ms": 550,
+      "detail": "Not Found"
+    },
+    {
+      "url": "https://github.com/laravel/boost/issues/698",
+      "skill_id": "framework-upgrade",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 1230,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2310.06770",
+      "skill_id": "full-stack-developer",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 58,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/princeton-nlp/SWE-agent",
+      "skill_id": "full-stack-developer",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 1372,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2402.01030",
+      "skill_id": "full-stack-developer",
+      "evidence_index": 2,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 65,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2307.16789",
+      "skill_id": "function-calling",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 65,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2305.15334",
+      "skill_id": "function-calling",
+      "evidence_index": 1,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 63,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/skill.md",
+      "skill_id": "gaia-audit",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 827,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/mbtiongson1/gaia-skill-tree",
+      "skill_id": "gaia-meta-audit",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 915,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/1809.08887",
+      "skill_id": "generate-sql",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 65,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2107.03374",
+      "skill_id": "generate-test",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 62,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/generateText.md",
+      "skill_id": "generate-text",
+      "evidence_index": 0,
+      "evidence_class": "C",
+      "status": "dead",
+      "http_code": 404,
+      "latency_ms": 589,
+      "detail": "Not Found"
+    },
+    {
+      "url": "https://github.com/comfyanonymous/ComfyUI",
+      "skill_id": "generative-media",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 1535,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills",
+      "skill_id": "genomic-data-retrieval",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 176,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills/blob/main/skills/ensembl_database/SKILL.md",
+      "skill_id": "genomic-data-retrieval",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 844,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills/blob/main/skills/jaspar_database/SKILL.md",
+      "skill_id": "genomic-data-retrieval",
+      "evidence_index": 2,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 818,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills/blob/main/skills/unibind_database/SKILL.md",
+      "skill_id": "genomic-data-retrieval",
+      "evidence_index": 3,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 819,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills/blob/main/skills/encode_ccres_database/SKILL.md",
+      "skill_id": "genomic-data-retrieval",
+      "evidence_index": 4,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 816,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills/blob/main/skills/gtex_database/SKILL.md",
+      "skill_id": "genomic-data-retrieval",
+      "evidence_index": 5,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 918,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills/blob/main/skills/ucsc_conservation_and_tfbs/SKILL.md",
+      "skill_id": "genomic-data-retrieval",
+      "evidence_index": 6,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 925,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills/blob/main/skills/dbsnp_database/SKILL.md",
+      "skill_id": "genomic-data-retrieval",
+      "evidence_index": 7,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 1018,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills/blob/main/skills/ncbi_sequence_fetch/SKILL.md",
+      "skill_id": "genomic-data-retrieval",
+      "evidence_index": 8,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 821,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills/blob/main/skills/gnomad_database/SKILL.md",
+      "skill_id": "genomic-data-retrieval",
+      "evidence_index": 9,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 817,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/ruvnet/ruflo",
+      "skill_id": "git-diff-risk-analysis",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 148,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/ruvnet/ruflo",
+      "skill_id": "github-platform-mastery",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 153,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md",
+      "skill_id": "grill-me",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 157,
+      "detail": null
+    },
+    {
+      "url": "https://aihero.dev/mattpocock/i-stopped-using-grill-me-for-coding",
+      "skill_id": "grill-with-docs",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "dead",
+      "http_code": 404,
+      "latency_ms": 770,
+      "detail": "Not Found"
+    },
+    {
+      "url": "https://github.com/mattpocock/skills/blob/main/skills/engineering/grill-with-docs/SKILL.md",
+      "skill_id": "grill-with-docs",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 180,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2210.08726",
+      "skill_id": "grounding",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 95,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/shmsw25/FActScoring",
+      "skill_id": "grounding",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "dead",
+      "http_code": 404,
+      "latency_ms": 502,
+      "detail": "Not Found"
+    },
+    {
+      "url": "https://github.com/garrytan/gstack",
+      "skill_id": "gstack",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 1160,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2603.25176",
+      "skill_id": "guardrails",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 60,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/NVIDIA-NeMo/Guardrails",
+      "skill_id": "guardrails",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 962,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/ruvnet/ruflo",
+      "skill_id": "headless-worker-collect",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 175,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/ruvnet/ruflo",
+      "skill_id": "headless-worker-spawn",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 156,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/ruvnet/ruflo",
+      "skill_id": "hive-mind-coordination",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 153,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/NousResearch/hermes-agent/blob/main/skills/creative/humanizer/SKILL.md",
+      "skill_id": "humanize-prose",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 942,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/ruvnet/ruflo",
+      "skill_id": "hybrid-workflow-coordination",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 155,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2304.05376",
+      "skill_id": "hypothesis-generate",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 48,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2304.05332",
+      "skill_id": "hypothesis-generate",
+      "evidence_index": 1,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 51,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/SakanaAI/AI-Scientist",
+      "skill_id": "hypothesis-generate",
+      "evidence_index": 2,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 967,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2301.12597",
+      "skill_id": "image-caption",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 305,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2112.10752",
+      "skill_id": "image-generate",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 306,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/mattpocock/skills/blob/main/skills/engineering/triage/SKILL.md",
+      "skill_id": "issue-triage",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 818,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2501.18908",
+      "skill_id": "issue-triage",
+      "evidence_index": 1,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 125,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2504.18804",
+      "skill_id": "issue-triage",
+      "evidence_index": 2,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 44,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2306.08302",
+      "skill_id": "knowledge-graph-build",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 45,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/microsoft/graphrag",
+      "skill_id": "knowledge-graph-build",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 1115,
+      "detail": null
+    },
+    {
+      "url": "https://hermes-agent.nousresearch.com/docs/skills",
+      "skill_id": "knowledge-management",
+      "evidence_index": 0,
+      "evidence_class": "C",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 938,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2501.05468",
+      "skill_id": "literature-review",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 54,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/literature-review/SKILL.md",
+      "skill_id": "literature-review",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 1052,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills",
+      "skill_id": "literature-search",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 143,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills/blob/main/skills/pubmed_database/SKILL.md",
+      "skill_id": "literature-search",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 843,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_arxiv/SKILL.md",
+      "skill_id": "literature-search",
+      "evidence_index": 2,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 958,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_biorxiv/SKILL.md",
+      "skill_id": "literature-search",
+      "evidence_index": 3,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 816,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_europepmc/SKILL.md",
+      "skill_id": "literature-search",
+      "evidence_index": 4,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 821,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_openalex/SKILL.md",
+      "skill_id": "literature-search",
+      "evidence_index": 5,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 819,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2201.11903",
+      "skill_id": "logical-inference",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 46,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2206.14858",
+      "skill_id": "math-reason",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 55,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/ManimCommunity/manim",
+      "skill_id": "mathematical-animation",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 916,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/mattpocock/skills",
+      "skill_id": "mattpocock-engineering",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 821,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/mattpocock/skills",
+      "skill_id": "mattpocock-personal",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 163,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/mattpocock/skills",
+      "skill_id": "mattpocock-productivity",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 158,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/mattpocock/skills",
+      "skill_id": "mattpocock-skills",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 161,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/mbtiongson1/gaia-skill-tree/pull/352",
+      "skill_id": "mattpocock-skills",
+      "evidence_index": 1,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 841,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/mattpocock/skills",
+      "skill_id": "mattpocock-skills",
+      "evidence_index": 2,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 160,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/LadislavSopko/mcp-server-for-vs",
+      "skill_id": "mcp-debugger-control",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "dead",
+      "http_code": 404,
+      "latency_ms": 557,
+      "detail": "Not Found"
+    },
+    {
+      "url": "https://github.com/modelcontextprotocol/go-sdk",
+      "skill_id": "mcp-integration",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 1021,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/nanbingxyz/5ire",
+      "skill_id": "mcp-integration",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 921,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/intelligentcode-ai/skills/blob/main/skills/mcp-client/SKILL.md",
+      "skill_id": "mcp-integration",
+      "evidence_index": 2,
+      "evidence_class": "C",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 922,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/anthropics/skills/blob/main/skills/mcp-builder/SKILL.md",
+      "skill_id": "mcp-server-creation",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 917,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/modelcontextprotocol/python-sdk",
+      "skill_id": "mcp-server-creation",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 922,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2310.08560",
+      "skill_id": "memory-manage",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 63,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/ruvnet/ruflo",
+      "skill_id": "memory-pattern-design",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 168,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/huggingface/huggingface_hub",
+      "skill_id": "ml-artifact-management",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 992,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2502.18530",
+      "skill_id": "ml-pipeline",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 73,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/Jeffallan/claude-skills/blob/main/skills/ml-pipeline/SKILL.md",
+      "skill_id": "ml-pipeline",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 949,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills",
+      "skill_id": "molecular-databases",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 201,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills/blob/main/skills/chembl_database/SKILL.md",
+      "skill_id": "molecular-databases",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 920,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills/blob/main/skills/pubchem_database/SKILL.md",
+      "skill_id": "molecular-databases",
+      "evidence_index": 2,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 923,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2305.14325",
+      "skill_id": "multi-agent-debate",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 304,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2308.07201",
+      "skill_id": "multi-agent-debate",
+      "evidence_index": 1,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 313,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/ruvnet/ruflo",
+      "skill_id": "multi-agent-orchestration-v",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 178,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/ruvnet/ruflo",
+      "skill_id": "multi-repo-coordination",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 172,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2304.08485",
+      "skill_id": "multimodal-reasoning",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 356,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2005.12872",
+      "skill_id": "object-detection",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 306,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/ultralytics/ultralytics",
+      "skill_id": "object-detection",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 1024,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2109.10282",
+      "skill_id": "optical-character-recognition",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 63,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/JaidedAI/EasyOCR",
+      "skill_id": "optical-character-recognition",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 853,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/intelligentcode-ai/skills/blob/main/skills/parallel-execution/SKILL.md",
+      "skill_id": "parallel-execution",
+      "evidence_index": 0,
+      "evidence_class": "C",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 823,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/parseHtml.md",
+      "skill_id": "parse-html",
+      "evidence_index": 0,
+      "evidence_class": "C",
+      "status": "dead",
+      "http_code": 404,
+      "latency_ms": 607,
+      "detail": "Not Found"
+    },
+    {
+      "url": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/parseJson.md",
+      "skill_id": "parse-json",
+      "evidence_index": 0,
+      "evidence_class": "C",
+      "status": "dead",
+      "http_code": 404,
+      "latency_ms": 613,
+      "detail": "Not Found"
+    },
+    {
+      "url": "https://arxiv.org/abs/2308.13418",
+      "skill_id": "parse-pdf",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 61,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills",
+      "skill_id": "pathway-ontology-retrieval",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 162,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills/blob/main/skills/reactome_database/SKILL.md",
+      "skill_id": "pathway-ontology-retrieval",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 1099,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills/blob/main/skills/quickgo_database/SKILL.md",
+      "skill_id": "pathway-ontology-retrieval",
+      "evidence_index": 2,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 918,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills/blob/main/skills/embl_ebi_ols/SKILL.md",
+      "skill_id": "pathway-ontology-retrieval",
+      "evidence_index": 3,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 821,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/ruvnet/ruflo",
+      "skill_id": "performance-tuning",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 149,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/mattpocock/skills/blob/main/skills/personal/obsidian-vault/SKILL.md",
+      "skill_id": "personal-knowledge-management",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 769,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/Skyvern-AI/skyvern",
+      "skill_id": "plan-and-execute",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 908,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/planDecompose.md",
+      "skill_id": "plan-decompose",
+      "evidence_index": 0,
+      "evidence_class": "C",
+      "status": "dead",
+      "http_code": 404,
+      "latency_ms": 537,
+      "detail": "Not Found"
+    },
+    {
+      "url": "https://github.com/ruvnet/ruflo",
+      "skill_id": "platform-modernization-sprint",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 165,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-prd/SKILL.md",
+      "skill_id": "prd-generation",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 715,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2507.19113",
+      "skill_id": "prd-generation",
+      "evidence_index": 1,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 49,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-prd/SKILL.md",
+      "skill_id": "prd-generation",
+      "evidence_index": 2,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 165,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/NousResearch/hermes-agent/blob/main/skills/research/polymarket/SKILL.md",
+      "skill_id": "prediction-market-analysis",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 733,
+      "detail": null
+    },
+    {
+      "url": "https://hermes-agent.nousresearch.com/docs/skills",
+      "skill_id": "project-management",
+      "evidence_index": 0,
+      "evidence_class": "C",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 166,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2604.10134",
+      "skill_id": "prompt-injection-defense",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 62,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/tldrsec/prompt-injection-defenses",
+      "skill_id": "prompt-injection-defense",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 894,
+      "detail": null
+    },
+    {
+      "url": "https://skillsmp.com/api/v1/skills/search?q=prompt-injection-defense",
+      "skill_id": "prompt-injection-defense",
+      "evidence_index": 2,
+      "evidence_class": "C",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 318,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2310.03714",
+      "skill_id": "prompt-optimization",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 55,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/stanfordnlp/dspy",
+      "skill_id": "prompt-optimization",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 753,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills",
+      "skill_id": "protein-structure-analysis",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 154,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills/blob/main/skills/pdb_database/SKILL.md",
+      "skill_id": "protein-structure-analysis",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 970,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills/blob/main/skills/foldseek_structural_search/SKILL.md",
+      "skill_id": "protein-structure-analysis",
+      "evidence_index": 2,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 813,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills",
+      "skill_id": "proteomic-data-retrieval",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 153,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills/blob/main/skills/uniprot_database/SKILL.md",
+      "skill_id": "proteomic-data-retrieval",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 1077,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills/blob/main/skills/interpro_database/SKILL.md",
+      "skill_id": "proteomic-data-retrieval",
+      "evidence_index": 2,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 919,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills/blob/main/skills/human_protein_atlas_database/SKILL.md",
+      "skill_id": "proteomic-data-retrieval",
+      "evidence_index": 3,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 819,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills/blob/main/skills/string_database/SKILL.md",
+      "skill_id": "proteomic-data-retrieval",
+      "evidence_index": 4,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 819,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/mattpocock/skills/blob/main/skills/engineering/prototype/SKILL.md",
+      "skill_id": "prototype",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 715,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/1806.03822",
+      "skill_id": "question-answer",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 55,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/registry/named/garrytan/office-hours.md",
+      "skill_id": "question-answer",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 969,
+      "detail": null
+    },
+    {
+      "url": "https://aclanthology.org/2024.eacl-demo.16/",
+      "skill_id": "rag-pipeline",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 839,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/vibrantlabsai/ragas",
+      "skill_id": "rag-pipeline",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 1003,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/rank.md",
+      "skill_id": "rank",
+      "evidence_index": 0,
+      "evidence_class": "C",
+      "status": "dead",
+      "http_code": 404,
+      "latency_ms": 563,
+      "detail": "Not Found"
+    },
+    {
+      "url": "https://arxiv.org/abs/2210.03629",
+      "skill_id": "re-act-reasoning",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 47,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/ysymyth/ReAct",
+      "skill_id": "re-act-reasoning",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 819,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2312.11805",
+      "skill_id": "real-time-voice-assistant",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 50,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2305.11206",
+      "skill_id": "real-time-voice-assistant",
+      "evidence_index": 1,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 52,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/openai/whisper",
+      "skill_id": "real-time-voice-assistant",
+      "evidence_index": 2,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 820,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/ruvnet/ruflo",
+      "skill_id": "reasoning-pattern-bank",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 216,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/obra/superpowers/blob/main/skills/receiving-code-review/SKILL.md",
+      "skill_id": "receiving-code-review",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 905,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2310.06770",
+      "skill_id": "refactor-code",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 67,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/mbtiongson1/gaia-skill-tree/pull/2",
+      "skill_id": "registry-curation",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 954,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/mbtiongson1/gaia-skill-tree",
+      "skill_id": "registry-curation",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 920,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/mbtiongson1/gaia-skill-tree",
+      "skill_id": "registry-curation",
+      "evidence_index": 2,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 178,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/mbtiongson1/gaia-skill-tree",
+      "skill_id": "registry-curation",
+      "evidence_index": 3,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 178,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/mbtiongson1/gaia-skill-tree",
+      "skill_id": "registry-curation",
+      "evidence_index": 4,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 162,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/intelligentcode-ai/skills/blob/main/skills/release/SKILL.md",
+      "skill_id": "release-automation",
+      "evidence_index": 0,
+      "evidence_class": "C",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 1011,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/obra/superpowers/blob/main/skills/requesting-code-review/SKILL.md",
+      "skill_id": "requesting-code-review",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 781,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/intelligentcode-ai/skills/blob/main/skills/requirements-engineer/SKILL.md",
+      "skill_id": "requirements-analysis",
+      "evidence_index": 0,
+      "evidence_class": "C",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 799,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/research.md",
+      "skill_id": "research",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "dead",
+      "http_code": 404,
+      "latency_ms": 536,
+      "detail": "Not Found"
+    },
+    {
+      "url": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/retrieve.md",
+      "skill_id": "retrieve",
+      "evidence_index": 0,
+      "evidence_class": "C",
+      "status": "dead",
+      "http_code": 404,
+      "latency_ms": 541,
+      "detail": "Not Found"
+    },
+    {
+      "url": "https://arxiv.org/abs/2203.02155",
+      "skill_id": "reward-modeling",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 305,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/huggingface/trl",
+      "skill_id": "reward-modeling",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 919,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/routeIntent.md",
+      "skill_id": "route-intent",
+      "evidence_index": 0,
+      "evidence_class": "C",
+      "status": "dead",
+      "http_code": 404,
+      "latency_ms": 511,
+      "detail": "Not Found"
+    },
+    {
+      "url": "https://github.com/ruvnet/ruflo",
+      "skill_id": "ruflo",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 173,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/intelligentcode-ai/skills/blob/main/skills/database-engineer/SKILL.md",
+      "skill_id": "schema-design",
+      "evidence_index": 0,
+      "evidence_class": "C",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 847,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2304.05376",
+      "skill_id": "scientific-discovery",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 69,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2304.05332",
+      "skill_id": "scientific-discovery",
+      "evidence_index": 1,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 73,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/SakanaAI/AI-Scientist",
+      "skill_id": "scientific-discovery",
+      "evidence_index": 2,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 1081,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/scientific-visualization/SKILL.md",
+      "skill_id": "scientific-visualization",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 1023,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md",
+      "skill_id": "scientific-visualization",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 819,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md",
+      "skill_id": "scientific-visualization",
+      "evidence_index": 2,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 170,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2405.20477",
+      "skill_id": "scientific-writing",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 68,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/scientific-writing/SKILL.md",
+      "skill_id": "scientific-writing",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 881,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/scoreRelevance.md",
+      "skill_id": "score-relevance",
+      "evidence_index": 0,
+      "evidence_class": "C",
+      "status": "dead",
+      "http_code": 404,
+      "latency_ms": 614,
+      "detail": "Not Found"
+    },
+    {
+      "url": "https://github.com/intelligentcode-ai/skills/blob/main/skills/security-engineer/SKILL.md",
+      "skill_id": "security-audit",
+      "evidence_index": 0,
+      "evidence_class": "C",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 921,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/microsoft/PromptKit",
+      "skill_id": "security-audit",
+      "evidence_index": 1,
+      "evidence_class": "C",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 1023,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2203.11171",
+      "skill_id": "self-consistency",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 83,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2303.17651",
+      "skill_id": "self-critique",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 64,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/madaan/self-refine",
+      "skill_id": "self-critique",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 972,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2604.20021",
+      "skill_id": "semantic-cache",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 67,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/codefuse-ai/ModelCache",
+      "skill_id": "semantic-cache",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 850,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/vcache-project/vCache",
+      "skill_id": "semantic-cache",
+      "evidence_index": 2,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 923,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/1810.04805",
+      "skill_id": "sentiment-analysis",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 63,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2202.03829",
+      "skill_id": "sentiment-analysis",
+      "evidence_index": 1,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 59,
+      "detail": null
+    },
+    {
+      "url": "https://aclanthology.org/S17-2088/",
+      "skill_id": "sentiment-analysis",
+      "evidence_index": 2,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 899,
+      "detail": null
+    },
+    {
+      "url": "https://ojs.aaai.org/index.php/ICWSM/article/view/14550",
+      "skill_id": "sentiment-analysis",
+      "evidence_index": 3,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 1532,
+      "detail": null
+    },
+    {
+      "url": "https://huggingface.co/nlptown/bert-base-multilingual-uncased-sentiment",
+      "skill_id": "sentiment-analysis",
+      "evidence_index": 4,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 615,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/declare-lab/conv-emotion",
+      "skill_id": "sentiment-analysis",
+      "evidence_index": 5,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 911,
+      "detail": null
+    },
+    {
+      "url": "https://gluebenchmark.com/tasks",
+      "skill_id": "sentiment-analysis",
+      "evidence_index": 6,
+      "evidence_class": "C",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 1820,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2203.01054",
+      "skill_id": "sentiment-analysis",
+      "evidence_index": 7,
+      "evidence_class": "C",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 59,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/declare-lab/awesome-sentiment-analysis",
+      "skill_id": "sentiment-analysis",
+      "evidence_index": 8,
+      "evidence_class": "C",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 885,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/ruvnet/ruflo",
+      "skill_id": "sequential-agent-pipeline",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 156,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2602.08004",
+      "skill_id": "skill-authoring",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 51,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md",
+      "skill_id": "skill-authoring",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 798,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md",
+      "skill_id": "skill-authoring",
+      "evidence_index": 2,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 937,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md",
+      "skill_id": "skill-authoring",
+      "evidence_index": 3,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 168,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/vercel-labs/skills/blob/main/skills/find-skills/SKILL.md",
+      "skill_id": "skill-discovery",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 854,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2603.02176",
+      "skill_id": "skill-performance-benchmarking",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 53,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md",
+      "skill_id": "skill-performance-benchmarking",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 182,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/ynulihao/AgentSkillOS",
+      "skill_id": "skill-performance-benchmarking",
+      "evidence_index": 2,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 890,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2603.16572",
+      "skill_id": "skill-security-analysis",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 61,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2602.12430",
+      "skill_id": "skill-security-analysis",
+      "evidence_index": 1,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 345,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2604.25109",
+      "skill_id": "skill-security-analysis",
+      "evidence_index": 2,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 63,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2212.04356",
+      "skill_id": "speech-to-text",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 65,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2511.06701",
+      "skill_id": "statistical-analysis",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 50,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/statistical-analysis/SKILL.md",
+      "skill_id": "statistical-analysis",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 840,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/apify/crawlee-python/blob/main/AGENTS.md",
+      "skill_id": "stealth-browser-interaction",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "dead",
+      "http_code": 404,
+      "latency_ms": 718,
+      "detail": "Not Found"
+    },
+    {
+      "url": "https://arxiv.org/abs/2307.09702",
+      "skill_id": "structured-output",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 63,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/outlines-dev/outlines",
+      "skill_id": "structured-output",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 1468,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/obra/superpowers/blob/main/skills/subagent-driven-development/SKILL.md",
+      "skill_id": "subagent-driven-development",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 878,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/summarize.md",
+      "skill_id": "summarize",
+      "evidence_index": 0,
+      "evidence_class": "C",
+      "status": "dead",
+      "http_code": 404,
+      "latency_ms": 554,
+      "detail": "Not Found"
+    },
+    {
+      "url": "https://github.com/obra/superpowers",
+      "skill_id": "superpowers",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 671,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/ruvnet/ruflo",
+      "skill_id": "swarm-topology-management",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 173,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/ruvnet/ruflo",
+      "skill_id": "system-integration",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 173,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/obra/superpowers/blob/main/skills/systematic-debugging/SKILL.md",
+      "skill_id": "systematic-debugging",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 922,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md",
+      "skill_id": "test-driven-development",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 919,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md",
+      "skill_id": "test-driven-development",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 819,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2301.02111",
+      "skill_id": "text-to-speech",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 126,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2304.11015",
+      "skill_id": "text-to-sql-pipeline",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 382,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/getagentseal/codeburn",
+      "skill_id": "token-observability",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 1022,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2604.07223",
+      "skill_id": "tool-chaining",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 70,
+      "detail": null
+    },
+    {
+      "url": "https://skillsmp.com/api/v1/skills/search?q=tool-chaining",
+      "skill_id": "tool-chaining",
+      "evidence_index": 1,
+      "evidence_class": "C",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 436,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2305.17126",
+      "skill_id": "tool-creation",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 55,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/ctlllll/LLM-ToolMaker",
+      "skill_id": "tool-creation",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 970,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/toolSelect.md",
+      "skill_id": "tool-select",
+      "evidence_index": 0,
+      "evidence_class": "C",
+      "status": "dead",
+      "http_code": 404,
+      "latency_ms": 509,
+      "detail": "Not Found"
+    },
+    {
+      "url": "https://arxiv.org/abs/2302.04761",
+      "skill_id": "tool-use",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 305,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/OpenBMB/ToolBench",
+      "skill_id": "tool-use",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 1025,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2207.04672",
+      "skill_id": "translate",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 70,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2308.11596",
+      "skill_id": "translation-pipeline",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 68,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2305.10601",
+      "skill_id": "tree-of-thought",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 366,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/princeton-nlp/tree-of-thought-llm",
+      "skill_id": "tree-of-thought",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 1023,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/mattpocock/skills/blob/main/skills/engineering/ubiquitous-language/SKILL.md",
+      "skill_id": "ubiquitous-language",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "dead",
+      "http_code": 404,
+      "latency_ms": 718,
+      "detail": "Not Found"
+    },
+    {
+      "url": "https://github.com/obra/superpowers/blob/main/skills/using-git-worktrees/SKILL.md",
+      "skill_id": "using-git-worktrees",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 917,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/mastepanoski/claude-skills/blob/main/skills/nielsen-heuristics-audit/SKILL.md",
+      "skill_id": "ux-audit",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 922,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/pbakaus/impeccable",
+      "skill_id": "ux-audit",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 920,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/ruvnet/ruflo",
+      "skill_id": "vector-db-optimization",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 195,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/ruvnet/ruflo",
+      "skill_id": "vector-search",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 168,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/obra/superpowers/blob/main/skills/verification-before-completion/SKILL.md",
+      "skill_id": "verification-before-completion",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 862,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-issues/SKILL.md",
+      "skill_id": "vertical-slice-planning",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 919,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/bradautomates/claude-video",
+      "skill_id": "video-intelligence",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 919,
+      "detail": null
+    },
+    {
+      "url": "https://arxiv.org/abs/2604.17488",
+      "skill_id": "vision-qa",
+      "evidence_index": 0,
+      "evidence_class": "A",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 61,
+      "detail": null
+    },
+    {
+      "url": "https://skillsmp.com/api/v1/skills/search?q=vision-qa",
+      "skill_id": "vision-qa",
+      "evidence_index": 1,
+      "evidence_class": "C",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 349,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/rasa/rasa",
+      "skill_id": "voice-agent",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 1121,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/webScrape.md",
+      "skill_id": "web-scrape",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "dead",
+      "http_code": 404,
+      "latency_ms": 614,
+      "detail": "Not Found"
+    },
+    {
+      "url": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/webSearch.md",
+      "skill_id": "web-search",
+      "evidence_index": 0,
+      "evidence_class": "C",
+      "status": "dead",
+      "http_code": 404,
+      "latency_ms": 612,
+      "detail": "Not Found"
+    },
+    {
+      "url": "https://github.com/NousResearch/hermes-agent/blob/main/skills/research/llm-wiki/SKILL.md",
+      "skill_id": "wiki-search",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 1023,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/ruvnet/ruflo",
+      "skill_id": "worker-agent-dispatch",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 177,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/n8n-io/n8n",
+      "skill_id": "workflow-automation",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 946,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/activepieces/activepieces",
+      "skill_id": "workflow-automation",
+      "evidence_index": 1,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 715,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/FlowiseAI/Flowise",
+      "skill_id": "workflow-automation",
+      "evidence_index": 2,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 919,
+      "detail": null
+    },
+    {
+      "url": "https://hermes-agent.nousresearch.com/docs/skills",
+      "skill_id": "workspace-automation",
+      "evidence_index": 0,
+      "evidence_class": "C",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 199,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/writeReport.md",
+      "skill_id": "write-report",
+      "evidence_index": 0,
+      "evidence_class": "C",
+      "status": "dead",
+      "http_code": 404,
+      "latency_ms": 515,
+      "detail": "Not Found"
+    },
+    {
+      "url": "https://github.com/obra/superpowers/blob/main/skills/writing-plans/SKILL.md",
+      "skill_id": "writing-plans",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 817,
+      "detail": null
+    },
+    {
+      "url": "https://github.com/Xquik-dev/hermes-tweet",
+      "skill_id": "x-twitter-automation",
+      "evidence_index": 0,
+      "evidence_class": "B",
+      "status": "alive",
+      "http_code": 200,
+      "latency_ms": 835,
+      "detail": null
+    }
+  ]
+}

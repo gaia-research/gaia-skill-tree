@@ -23,7 +23,7 @@
 
   function esc(v) {
     return String(v == null ? '':''+v)
-      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+      .replace(/\\/g,'\\\\').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
   function effectiveLabel(skill) {
@@ -356,14 +356,21 @@
       '</div>';
   }
 
+  function isGithubUrl(url) {
+    try {
+      var h = new URL(url).hostname;
+      return h === 'github.com' || h === 'raw.githubusercontent.com' || h.endsWith('.github.com');
+    } catch(e) { return false; }
+  }
+
   function renderInstall(ns) {
     var el = document.getElementById('se-install');
     var id = ns.id;
     var links = ns.links || {};
     var repoUrl = links.github || links.npm || '';
-    var cloneUrl = repoUrl && repoUrl.includes('github.com') ? repoUrl.replace(/\.git$/,'') : repoUrl;
+    var cloneUrl = repoUrl && isGithubUrl(repoUrl) ? repoUrl.replace(/\.git$/,'') : repoUrl;
     var skillsAddRef = repoUrl || id;
-    if (repoUrl && repoUrl.includes('github.com')) {
+    if (repoUrl && isGithubUrl(repoUrl)) {
       skillsAddRef = repoUrl
         .replace('/blob/', '/tree/')
         .replace(/\/SKILL\.md$/i, '')
@@ -459,7 +466,7 @@
     var links = ns.links || {};
     var repoUrl = links.github || links.npm || '';
     var issuesUrl = 'https://github.com/' + REPO_SLUG + '/issues';
-    var readmeUrl = repoUrl && repoUrl.includes('github.com') ? repoUrl.replace(/\.(git|\/?)$/,'') : '';
+    var readmeUrl = repoUrl && isGithubUrl(repoUrl) ? repoUrl.replace(/\.(git|\/?)$/,'') : '';
 
     var evidenceHtml = '';
     if (generic && Array.isArray(generic.evidence) && generic.evidence.length) {
@@ -508,7 +515,7 @@
     var currentType = (ns && ns.type) || genericObj.type || 'basic';
 
     // Slash-name label: contributor in honor-red, skill name in text.
-    function createNodeLabel(labelSource, navAttr) {
+    function createNodeLabel(labelSource, navType, navTarget) {
       var parts = String(labelSource).split('/');
       var contrib = parts[0] || '';
       var skillName = parts[1] || labelSource;
@@ -520,7 +527,8 @@
       } else {
         inner = '<span class="dag-node-label-name">' + esc(labelSource) + '</span>';
       }
-      return '<div class="dag-node-label"' + (navAttr || '') + '>' + inner + '</div>';
+      var navAttr = (navType && navTarget) ? ' data-nav-type="' + esc(navType) + '" data-nav-target="' + esc(navTarget) + '"' : '';
+      return '<div class="dag-node-label"' + navAttr + '>' + inner + '</div>';
     }
 
     // Action-buttons header (Show Fusion).
@@ -552,8 +560,7 @@
         : 'var(--tier-unique, var(--muted))';
       var labelId = (ns && ns.id) ? ns.id : genericId;
       var uniqueNodeHtml = '<div class="git-node git-node--main" data-id="' + esc(genericId) +
-          '" data-type="unique" data-level="' + esc((ns && ns.level) || '') + '" data-ghost="false"' +
-          ' onclick="if(window.selectFlowNode)window.selectFlowNode(\''+esc(genericId)+'\');">' +
+          '" data-type="unique" data-level="' + esc((ns && ns.level) || '') + '" data-ghost="false">' +
         '<div class="git-commit-dot" style="--dot-color:' + uColor + '"></div>' +
         createNodeLabel(labelId) +
       '</div>';
@@ -685,9 +692,9 @@
         // Label-click navigation: named → open skill explorer, ghost → propose dialog.
         var navAttr;
         if (hasNamed) {
-          navAttr = ' onclick="event.stopPropagation();openSkillExplorer(\'' + nb.id.replace(/'/g,"\\'") + '\');"';
+          navAttr = ' onclick="event.stopPropagation();openSkillExplorer(\'' + nb.id.replace(/\\/g,'\\\\').replace(/'/g,"\\'") + '\');"';
         } else {
-          navAttr = ' onclick="event.stopPropagation();(function(id){var sm=window._gaiaSkillMap||{};var g=sm[id];if(g&&typeof window.openUnnamedPopup===\'function\')window.openUnnamedPopup(g);})(\'' + id.replace(/'/g,"\\'") + '\');"';
+          navAttr = ' onclick="event.stopPropagation();(function(id){var sm=window._gaiaSkillMap||{};var g=sm[id];if(g&&typeof window.openUnnamedPopup===\'function\')window.openUnnamedPopup(g);})(\'' + id.replace(/\\/g,'\\\\').replace(/'/g,"\\'") + '\');"';
         }
 
         return '<div class="git-node' + extraMainClass + '"' +
@@ -696,12 +703,9 @@
             ' data-level="' + esc(nodeLevel) + '"' +
             ' data-ghost="' + (hasNamed ? 'false' : 'true') + '"' +
             ' style="--staggerY:' + staggerY + 'px"' +
-            ' onclick="if(window.selectFlowNode)window.selectFlowNode(\''+esc(id)+'\');"' +
-            ' onmouseenter="if(!window._selectedFlowNode&&window.highlightPaths)window.highlightPaths(\''+esc(id)+'\')"' +
-            ' onmouseleave="if(!window._selectedFlowNode&&window.unhighlightPaths)window.unhighlightPaths()"' +
             '>' +
           '<div class="git-commit-dot" style="--dot-color: ' + dotColor + '"></div>' +
-          createNodeLabel(labelSource, navAttr) +
+          createNodeLabel(labelSource, hasNamed ? 'named' : 'ghost', hasNamed ? nb.id : id) +
         '</div>';
       }).join('');
       
@@ -724,6 +728,43 @@
       fusionHtml;
 
     wireFlowActions(genericId);
+
+    // Centralized event delegation for the flowchart
+    if (!el._flowWired) {
+      el.addEventListener('click', function(e) {
+        var node = e.target.closest('.git-node');
+        if (node && node.dataset.id) {
+          if (window.selectFlowNode) window.selectFlowNode(node.dataset.id);
+          return;
+        }
+        var label = e.target.closest('.dag-node-label');
+        if (label && label.dataset.navType && label.dataset.navTarget) {
+          e.stopPropagation();
+          var target = label.dataset.navTarget;
+          if (label.dataset.navType === 'named') {
+            openExplorer(target);
+          } else {
+            var sm = window._gaiaSkillMap || {};
+            var g = sm[target];
+            if (g && typeof window.openUnnamedPopup === 'function') window.openUnnamedPopup(g);
+          }
+        }
+      });
+      el.addEventListener('mouseover', function(e) {
+        var node = e.target.closest('.git-node');
+        if (node && node.dataset.id) {
+          if (!window._selectedFlowNode && window.highlightPaths) window.highlightPaths(node.dataset.id);
+        }
+      });
+      el.addEventListener('mouseout', function(e) {
+        var node = e.target.closest('.git-node');
+        if (node && node.dataset.id) {
+          if (!window._selectedFlowNode && window.unhighlightPaths) window.unhighlightPaths();
+        }
+      });
+      el._flowWired = true;
+    }
+
     setTimeout(function(){ drawFlowEdges(edges); }, 80);
   }
 
@@ -785,7 +826,7 @@
       document.querySelectorAll('.git-node.selected').forEach(function(n) { n.classList.remove('selected'); });
       document.querySelectorAll('.git-node.show-label').forEach(function(n) { n.classList.remove('show-label'); });
 
-      var node = document.querySelector('.git-node[data-id="' + nodeId.replace(/"/g, '\\"') + '"]');
+      var node = document.querySelector('.git-node[data-id="' + nodeId.replace(/\\/g,'\\\\').replace(/"/g, '\\"') + '"]');
       if (node) {
         node.classList.add('selected');
         window._selectedFlowNode = nodeId;
@@ -843,7 +884,7 @@
       });
 
       Object.keys(relatedNodes).forEach(function(id) {
-        var node = document.querySelector('.git-node[data-id="' + id.replace(/"/g, '\\"') + '"]');
+        var node = document.querySelector('.git-node[data-id="' + id.replace(/\\/g,'\\\\').replace(/"/g, '\\"') + '"]');
         if (node) node.classList.add('show-label');
       });
     };
@@ -863,7 +904,7 @@
       document.querySelectorAll('.git-node.show-label').forEach(function(n) { n.classList.remove('show-label'); });
       document.querySelectorAll('.git-path').forEach(function(p) { p.classList.remove('active-path','dimmed'); });
 
-      var focus = document.querySelector('.git-node[data-id="' + nodeId.replace(/"/g, '\\"') + '"]');
+      var focus = document.querySelector('.git-node[data-id="' + nodeId.replace(/\\/g,'\\\\').replace(/"/g, '\\"') + '"]');
       if (focus) focus.classList.add('selected');
       window._selectedFlowNode = nodeId;
 
@@ -877,7 +918,7 @@
       });
 
       Object.keys(ancestors).forEach(function(id) {
-        var n = document.querySelector('.git-node[data-id="' + id.replace(/"/g, '\\"') + '"]');
+        var n = document.querySelector('.git-node[data-id="' + id.replace(/\\/g,'\\\\').replace(/"/g, '\\"') + '"]');
         if (n) n.classList.add('show-label');
       });
     };
@@ -953,7 +994,8 @@
   var SE_ACTION_ICON = {
     rank_up: '↑', ascend: '✦', name: '@', fuse: '⊕',
     push: '+', evidence: '✓', demote: '↓', propose: '◆',
-    bond: '⊙', register: '◎', commit: '·'
+    bond: '⊙', register: '◎', commit: '·',
+    verified: '✓', disputed: '⚠', evidence_added: '⊕'
   };
 
   function demeritLabel(id) {
@@ -975,9 +1017,9 @@
     }];
   }
 
-  function structuredTimelineEvents(generic) {
-    if (!generic || !Array.isArray(generic.timeline) || !generic.timeline.length) return [];
-    return generic.timeline.map(function(t) {
+  function structuredTimelineEvents(node) {
+    if (!node || !Array.isArray(node.timeline) || !node.timeline.length) return [];
+    return node.timeline.map(function(t) {
       return {
         date: (t.timestamp || t.date || '').slice(0, 10),
         action: t.action || 'commit',
@@ -988,15 +1030,16 @@
     });
   }
 
-  function mergeTimeline(evts, generic) {
+  function mergeTimeline(evts, generic, ns) {
     var all = (evts || [])
       .concat(demeritTimelineEvents(generic))
-      .concat(structuredTimelineEvents(generic));
-    // Deduplicate by date+action (structured events take priority)
+      .concat(structuredTimelineEvents(generic))
+      .concat(structuredTimelineEvents(ns));
+    // Deduplicate by date+action+msg
     var seen = {};
     var deduped = [];
     all.forEach(function(ev) {
-      var key = (ev.date || '') + '|' + (ev.action || 'commit') + '|' + (ev.msg || '').slice(0, 40);
+      var key = (ev.date || '') + '|' + (ev.action || 'commit') + '|' + (ev.msg || '').slice(0, 60);
       if (!seen[key]) { seen[key] = true; deduped.push(ev); }
     });
     return deduped.sort(function(a, b) {
@@ -1005,8 +1048,8 @@
   }
 
   function renderTimeline(ns, generic) {
-    var el = document.getElementById('se-timeline');
-    el.innerHTML = '<div class="se-flow-h">' + _se_icon('hud-toggle') + ' Evolution Timeline</div><div class="se-empty">Loading history…</div>';
+    var el = document.getElementById('se-changelog');
+    el.innerHTML = '<div class="se-flow-h">' + _se_icon('hud-toggle') + ' Evolution Changelog</div><div class="se-empty">Loading history…</div>';
     var parts = ns.id.split('/');
     var contributor = parts[0], skillName = parts[1] || '';
     var apiUrl = 'https://api.github.com/repos/' + REPO_SLUG +
@@ -1018,7 +1061,7 @@
           var evts = [];
           if (ns.createdAt) evts.push({ date: ns.createdAt, action: 'push', msg: 'Skill created', sha: '' });
           if (ns.updatedAt && ns.updatedAt !== ns.createdAt) evts.push({ date: ns.updatedAt, action: 'commit', msg: 'Skill updated', sha: '' });
-          renderTimelineEvents(el, mergeTimeline(evts, generic));
+          renderTimelineEvents(el, mergeTimeline(evts, generic, ns));
           return;
         }
         var evts = commits.map(function(c){
@@ -1029,19 +1072,19 @@
             sha: c.sha ? c.sha.slice(0,7) : ''
           };
         });
-        renderTimelineEvents(el, mergeTimeline(evts, generic));
+        renderTimelineEvents(el, mergeTimeline(evts, generic, ns));
       })
       .catch(function(){
         var evts = [];
         if (ns.createdAt) evts.push({ date: ns.createdAt, action: 'push', msg: 'Skill created', sha: '' });
         if (ns.updatedAt && ns.updatedAt !== ns.createdAt) evts.push({ date: ns.updatedAt, action: 'commit', msg: 'Skill updated', sha: '' });
-        renderTimelineEvents(el, mergeTimeline(evts, generic));
+        renderTimelineEvents(el, mergeTimeline(evts, generic, ns));
       });
   }
 
   function renderTimelineEvents(el, evts) {
-    if (!evts.length) { el.innerHTML = '<div class="se-flow-h">' + _se_icon('hud-toggle') + ' Evolution Timeline</div><div class="se-empty">No history available.</div>'; return; }
-    el.innerHTML = '<div class="se-flow-h">' + _se_icon('hud-toggle') + ' Evolution Timeline</div><div class="se-timeline">' +
+    if (!evts.length) { el.innerHTML = '<div class="se-flow-h">' + _se_icon('hud-toggle') + ' Evolution Changelog</div><div class="se-empty">No history available.</div>'; return; }
+    el.innerHTML = '<div class="se-flow-h">' + _se_icon('hud-toggle') + ' Evolution Changelog</div><div class="se-timeline">' +
       evts.map(function(ev){
         var action = ev.action || 'commit';
         var icon = SE_ACTION_ICON[action] || '·';
@@ -1062,6 +1105,36 @@
         '</div>';
       }).join('') +
     '</div>';
+  }
+
+  function renderVariants(ns) {
+    var el = document.getElementById('se-upgrade');
+    if (!el) return;
+    
+    // Wire up variant clicks via delegation
+    if (!el._wired) {
+      el.addEventListener('click', function(e) {
+        var item = e.target.closest('.se-variant-item');
+        if (item && item.dataset.id) {
+          openExplorer(item.dataset.id);
+        }
+      });
+      el._wired = true;
+    }
+
+    if (!ns.variants || !ns.variants.length) { el.innerHTML = ''; return; }
+    
+    var html = '<div class="se-variants-list">' +
+      '<div class="se-flow-h">' + _se_icon('view-list') + ' Other Implementations (' + ns.variants.length + ')</div>' +
+      '<div class="se-variants-grid">' +
+        ns.variants.map(function(v) {
+          return '<div class="se-variant-item" data-id="' + esc(v.id) + '">' +
+            '<span class="se-variant-handle">@' + esc(v.contributor) + '</span>' +
+            '<span class="se-variant-level">' + esc(v.level) + '</span>' +
+          '</div>';
+        }).join('') +
+      '</div></div>';
+    el.innerHTML = html;
   }
 
   // ── MAIN OPEN / CLOSE ────────────────────────────────────────
@@ -1118,10 +1191,22 @@
     if (!existingLink) {
       var link = document.createElement('div');
       link.className = 'usp-details-link';
-      link.innerHTML = '<a href="#" onclick="document.getElementById(\'unnamedSkillPopup\').classList.remove(\'open\');document.body.style.overflow=\'\';openSkillExplorer(\'' + ns.id.replace(/'/g,"\\'") + '\');return false;">View full details →</a>';
+      link.innerHTML = '<a href="#" class="usp-details-anchor">View full details →</a>';
       pop.querySelector('.usp-card').appendChild(link);
+      existingLink = link;
     } else {
-      existingLink.innerHTML = '<a href="#" onclick="document.getElementById(\'unnamedSkillPopup\').classList.remove(\'open\');document.body.style.overflow=\'\';openSkillExplorer(\'' + ns.id.replace(/'/g,"\\'") + '\');return false;">View full details →</a>';
+      existingLink.innerHTML = '<a href="#" class="usp-details-anchor">View full details →</a>';
+    }
+
+    // Wire up the link click
+    var anchor = existingLink.querySelector('.usp-details-anchor');
+    if (anchor) {
+      anchor.onclick = function(e) {
+        e.preventDefault();
+        document.getElementById('unnamedSkillPopup').classList.remove('open');
+        document.body.style.overflow = '';
+        openExplorer(ns.id);
+      };
     }
     pop.classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -1206,7 +1291,7 @@
       if (docsBtn) {
         var readmeUrlRaw = '';
         var repoUrl = (ns.links && (ns.links.github || ns.links.npm)) || '';
-        if (repoUrl && repoUrl.includes('github.com')) {
+        if (repoUrl && isGithubUrl(repoUrl)) {
           var base = repoUrl.replace(/\.(git|\/?)$/, '').replace('github.com', 'raw.githubusercontent.com');
           readmeUrlRaw = base + '/main/SKILL.md';
         }

@@ -4,6 +4,7 @@ import re
 import subprocess
 from datetime import datetime, timezone
 from difflib import SequenceMatcher
+from urllib.parse import urlparse
 
 try:
     from gaia_cli.resolver import load_canonical_skills
@@ -62,8 +63,10 @@ def detect_source_repo(config):
         cleaned = remote.removesuffix(".git")
         if cleaned.startswith("git@") and ":" in cleaned:
             return cleaned.split(":", 1)[1]
-        if "github.com/" in cleaned:
-            return cleaned.split("github.com/", 1)[1]
+        parsed = urlparse(cleaned if "://" in cleaned else "https://" + cleaned)
+        host = parsed.netloc.lower().lstrip("www.")
+        if host == "github.com" or host.endswith(".github.com"):
+            return parsed.path.lstrip("/")
 
     return f"{config.get('gaiaUser', 'unknown')}/local-repo"
 

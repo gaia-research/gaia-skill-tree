@@ -1,8 +1,10 @@
-# /document-analyst  [3★ · Evolved]
+# /document-analyst  [1★ · Awakened]
 **ID:** document-analyst  
 **Type:** Extra Skill  
-**Level:** 3★  
-**Tier:** Evolved  
+**Level:** 1★  
+**Tier:** Awakened  
+**Potential:** 0★  
+**Demerits:** broken-evidence  
 **Skill Call:** `/document-analyst`
 
 ---

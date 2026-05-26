@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-24",
+  "generatedAt": "2026-05-26",
   "buckets": {
     "automated-testing": [
       {
@@ -104,40 +104,6 @@
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
         "type": "extra",
-        "role": "variant"
-      }
-    ],
-    "autonomous-engineering-platform": [
-      {
-        "id": "Taoidle/plan-decompose-gh-plan-cascade",
-        "name": "Plan Cascade",
-        "contributor": "Taoidle",
-        "origin": false,
-        "genericSkillRef": "autonomous-engineering-platform",
-        "status": "named",
-        "level": "2★",
-        "description": "AI-powered cascading development framework.",
-        "title": "Plan Cascade",
-        "createdAt": "2026-05-23",
-        "updatedAt": "2026-05-23",
-        "type": "basic",
-        "installBody": "Add installation instructions here.",
-        "role": "variant"
-      },
-      {
-        "id": "changkun/plan-decompose-gh-wallfacer",
-        "name": "Wallfacer",
-        "contributor": "changkun",
-        "origin": false,
-        "genericSkillRef": "autonomous-engineering-platform",
-        "status": "named",
-        "level": "2★",
-        "description": "Chat, specs, tasks, and code. An autonomous engineering platform.",
-        "title": "Wallfacer",
-        "createdAt": "2026-05-23",
-        "updatedAt": "2026-05-23",
-        "type": "basic",
-        "installBody": "Add installation instructions here.",
         "role": "variant"
       }
     ],
@@ -1008,6 +974,24 @@
         "role": "origin"
       },
       {
+        "id": "intelligentcode-ai/security-engineer",
+        "name": "Security Engineer",
+        "contributor": "intelligentcode-ai",
+        "origin": false,
+        "genericSkillRef": "security-audit",
+        "status": "named",
+        "level": "2★",
+        "description": "Security architecture specialist — vulnerability assessment, zero-trust",
+        "title": "The Bastion's Eye",
+        "tags": {},
+        "links": {
+          "github": "https://github.com/intelligentcode-ai/skills/blob/main/skills/security-engineer/SKILL.md"
+        },
+        "updatedAt": "2026-05-25",
+        "type": "extra",
+        "role": "variant"
+      },
+      {
         "id": "ruvnet/v3-security-overhaul",
         "name": "V3 Security Overhaul",
         "contributor": "ruvnet",
@@ -1519,6 +1503,24 @@
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant"
+      },
+      {
+        "id": "intelligentcode-ai/devops-engineer",
+        "name": "DevOps Engineer",
+        "contributor": "intelligentcode-ai",
+        "origin": false,
+        "genericSkillRef": "deployment-automation",
+        "status": "named",
+        "level": "2★",
+        "description": "CI/CD pipeline design and deployment automation specialist — build systems,",
+        "title": "The DevOps Sentinel",
+        "tags": {},
+        "links": {
+          "github": "https://github.com/intelligentcode-ai/skills/blob/main/skills/devops-engineer/SKILL.md"
+        },
+        "updatedAt": "2026-05-25",
+        "type": "extra",
+        "role": "variant"
       }
     ],
     "project-management": [
@@ -1708,6 +1710,24 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "basic",
+        "role": "variant"
+      },
+      {
+        "id": "intelligentcode-ai/mcp-client",
+        "name": "MCP Client",
+        "contributor": "intelligentcode-ai",
+        "origin": false,
+        "genericSkillRef": "mcp-integration",
+        "status": "named",
+        "level": "2★",
+        "description": "Portable CLI tool that connects to MCP servers on-demand, enumerates",
+        "title": "The Protocol Bridge",
+        "tags": {},
+        "links": {
+          "github": "https://github.com/intelligentcode-ai/skills/blob/main/skills/mcp-client/SKILL.md"
+        },
+        "updatedAt": "2026-05-25",
         "type": "basic",
         "role": "variant"
       },
@@ -1909,6 +1929,24 @@
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
+        "type": "extra",
+        "role": "variant"
+      },
+      {
+        "id": "intelligentcode-ai/user-tester",
+        "name": "User Tester",
+        "contributor": "intelligentcode-ai",
+        "origin": false,
+        "genericSkillRef": "e2e-testing",
+        "status": "named",
+        "level": "2★",
+        "description": "E2E testing specialist with Puppeteer/Playwright automation — cross-browser",
+        "title": "The Human Lens",
+        "tags": {},
+        "links": {
+          "github": "https://github.com/intelligentcode-ai/skills/blob/main/skills/user-tester/SKILL.md"
+        },
+        "updatedAt": "2026-05-25",
         "type": "extra",
         "role": "variant"
       }
@@ -2369,6 +2407,113 @@
         "createdAt": "2026-05-03",
         "updatedAt": "2026-05-03",
         "type": "extra",
+        "role": "variant"
+      }
+    ],
+    "schema-design": [
+      {
+        "id": "intelligentcode-ai/database-engineer",
+        "name": "Database Engineer",
+        "contributor": "intelligentcode-ai",
+        "origin": false,
+        "genericSkillRef": "schema-design",
+        "status": "named",
+        "level": "2★",
+        "description": "Schema design and query optimization expert across relational, NoSQL,",
+        "title": "The Database Oracle",
+        "tags": {},
+        "links": {
+          "github": "https://github.com/intelligentcode-ai/skills/blob/main/skills/database-engineer/SKILL.md"
+        },
+        "updatedAt": "2026-05-25",
+        "type": "basic",
+        "role": "variant"
+      }
+    ],
+    "parallel-execution": [
+      {
+        "id": "intelligentcode-ai/parallel-execution",
+        "name": "Parallel Execution",
+        "contributor": "intelligentcode-ai",
+        "origin": false,
+        "genericSkillRef": "parallel-execution",
+        "status": "named",
+        "level": "2★",
+        "description": "Manages concurrent work item execution with independence verification,",
+        "title": "The Concurrency Master",
+        "tags": {},
+        "links": {
+          "github": "https://github.com/intelligentcode-ai/skills/blob/main/skills/parallel-execution/SKILL.md"
+        },
+        "updatedAt": "2026-05-25",
+        "type": "basic",
+        "role": "variant"
+      }
+    ],
+    "release-automation": [
+      {
+        "id": "intelligentcode-ai/release",
+        "name": "Release",
+        "contributor": "intelligentcode-ai",
+        "origin": false,
+        "genericSkillRef": "release-automation",
+        "status": "named",
+        "level": "2★",
+        "description": "Automates the full release cycle — semantic version bump, CHANGELOG update,",
+        "title": "The Shipwright's Will",
+        "tags": {},
+        "links": {
+          "github": "https://github.com/intelligentcode-ai/skills/blob/main/skills/release/SKILL.md"
+        },
+        "updatedAt": "2026-05-25",
+        "type": "extra",
+        "role": "variant"
+      },
+      {
+        "id": "ruvnet/github-release-management",
+        "name": "GitHub Release Management",
+        "contributor": "ruvnet",
+        "origin": false,
+        "genericSkillRef": "release-automation",
+        "status": "named",
+        "level": "3★",
+        "description": "Automates GitHub release creation, changelog generation, semantic versioning, and release note publishing.",
+        "title": "The Release Gatekeeper",
+        "catalogRef": "ruvnet-github-release-management",
+        "tags": [
+          "github",
+          "release",
+          "versioning",
+          "changelog",
+          "automation"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/github-suite",
+        "type": "extra",
+        "role": "variant"
+      }
+    ],
+    "requirements-analysis": [
+      {
+        "id": "intelligentcode-ai/requirements-engineer",
+        "name": "Requirements Engineer",
+        "contributor": "intelligentcode-ai",
+        "origin": false,
+        "genericSkillRef": "requirements-analysis",
+        "status": "named",
+        "level": "2★",
+        "description": "Business analysis specialist bridging stakeholders and technical teams",
+        "title": "The Logic Sculptor",
+        "tags": {},
+        "links": {
+          "github": "https://github.com/intelligentcode-ai/skills/blob/main/skills/requirements-engineer/SKILL.md"
+        },
+        "updatedAt": "2026-05-25",
+        "type": "basic",
         "role": "variant"
       }
     ],
@@ -3289,7 +3434,7 @@
         },
         "createdAt": "2026-05-15",
         "updatedAt": "2026-05-15",
-        "type": "unique",
+        "type": "basic",
         "role": "origin"
       }
     ],
@@ -3317,7 +3462,7 @@
         },
         "createdAt": "2026-05-15",
         "updatedAt": "2026-05-15",
-        "type": "unique",
+        "type": "basic",
         "role": "variant"
       }
     ],
@@ -3851,35 +3996,6 @@
         "suiteRef": "ruvnet/github-suite",
         "type": "basic",
         "role": "origin"
-      }
-    ],
-    "release-automation": [
-      {
-        "id": "ruvnet/github-release-management",
-        "name": "GitHub Release Management",
-        "contributor": "ruvnet",
-        "origin": false,
-        "genericSkillRef": "release-automation",
-        "status": "named",
-        "level": "3★",
-        "description": "Automates GitHub release creation, changelog generation, semantic versioning, and release note publishing.",
-        "title": "The Release Gatekeeper",
-        "catalogRef": "ruvnet-github-release-management",
-        "tags": [
-          "github",
-          "release",
-          "versioning",
-          "changelog",
-          "automation"
-        ],
-        "links": {
-          "github": "https://github.com/ruvnet/ruflo"
-        },
-        "createdAt": "2026-05-19",
-        "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/github-suite",
-        "type": "extra",
-        "role": "variant"
       }
     ],
     "github-platform-mastery": [
@@ -4610,6 +4726,34 @@
   },
   "awaitingClassification": [
     {
+      "id": "Taoidle/plan-decompose-gh-plan-cascade",
+      "name": "Plan Cascade",
+      "contributor": "Taoidle",
+      "origin": false,
+      "genericSkillRef": "autonomous-engineering-platform",
+      "status": "awakened",
+      "level": "2★",
+      "description": "AI-powered cascading development framework.",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-25",
+      "type": "basic",
+      "installBody": "Add installation instructions here."
+    },
+    {
+      "id": "changkun/plan-decompose-gh-wallfacer",
+      "name": "Wallfacer",
+      "contributor": "changkun",
+      "origin": false,
+      "genericSkillRef": "autonomous-engineering-platform",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Chat, specs, tasks, and code. An autonomous engineering platform.",
+      "createdAt": "2026-05-23",
+      "updatedAt": "2026-05-25",
+      "type": "basic",
+      "installBody": "Add installation instructions here."
+    },
+    {
       "id": "gaiabot/gaia-triage",
       "name": "Gaia Triage (Internal)",
       "contributor": "gaiabot",
@@ -5248,179 +5392,6 @@
       "type": "extra"
     },
     {
-      "id": "intelligentcode-ai/database-engineer",
-      "name": "Database Engineer",
-      "contributor": "intelligentcode-ai",
-      "origin": false,
-      "genericSkillRef": "schema-design",
-      "status": "awakened",
-      "level": "2★",
-      "description": "Schema design and query optimization expert across relational, NoSQL, graph, time-series, and data warehouse stores with sub-second response targets.",
-      "tags": [
-        "database",
-        "schema",
-        "sql",
-        "nosql",
-        "graph-db",
-        "time-series",
-        "normalization"
-      ],
-      "links": {
-        "github": "https://github.com/intelligentcode-ai/skills/blob/main/skills/database-engineer/SKILL.md"
-      },
-      "type": "basic"
-    },
-    {
-      "id": "intelligentcode-ai/devops-engineer",
-      "name": "DevOps Engineer",
-      "contributor": "intelligentcode-ai",
-      "origin": false,
-      "genericSkillRef": "deployment-automation",
-      "status": "awakened",
-      "level": "2★",
-      "description": "CI/CD pipeline design and deployment automation specialist — build systems, artifact publishing, environment promotion, and rollback strategies.",
-      "tags": [
-        "cicd",
-        "deployment",
-        "pipeline",
-        "docker",
-        "kubernetes",
-        "terraform",
-        "rollback"
-      ],
-      "links": {
-        "github": "https://github.com/intelligentcode-ai/skills/blob/main/skills/devops-engineer/SKILL.md"
-      },
-      "type": "extra"
-    },
-    {
-      "id": "intelligentcode-ai/mcp-client",
-      "name": "MCP Client",
-      "contributor": "intelligentcode-ai",
-      "origin": false,
-      "genericSkillRef": "mcp-integration",
-      "status": "awakened",
-      "level": "3★",
-      "description": "Portable CLI tool that connects to MCP servers on-demand, enumerates available tools, displays them, and executes calls — works with any MCP-compatible backend without platform lock-in.",
-      "tags": [
-        "mcp",
-        "model-context-protocol",
-        "tool-integration",
-        "cli"
-      ],
-      "links": {
-        "github": "https://github.com/intelligentcode-ai/skills/blob/main/skills/mcp-client/SKILL.md"
-      },
-      "type": "basic"
-    },
-    {
-      "id": "intelligentcode-ai/parallel-execution",
-      "name": "Parallel Execution",
-      "contributor": "intelligentcode-ai",
-      "origin": false,
-      "genericSkillRef": "parallel-execution",
-      "status": "awakened",
-      "level": "2★",
-      "description": "Manages concurrent work item execution with independence verification, queue-based state tracking, and configurable concurrency limits (default 5).",
-      "tags": [
-        "parallelism",
-        "concurrency",
-        "task-execution",
-        "queue"
-      ],
-      "links": {
-        "github": "https://github.com/intelligentcode-ai/skills/blob/main/skills/parallel-execution/SKILL.md"
-      },
-      "type": "basic"
-    },
-    {
-      "id": "intelligentcode-ai/release",
-      "name": "Release",
-      "contributor": "intelligentcode-ai",
-      "origin": false,
-      "genericSkillRef": "release-automation",
-      "status": "awakened",
-      "level": "2★",
-      "description": "Automates the full release cycle — semantic version bump, CHANGELOG update, PR merge, git tag, and GitHub release creation with multiple verification gates.",
-      "tags": [
-        "release",
-        "semver",
-        "changelog",
-        "git-tag",
-        "github-release",
-        "automation"
-      ],
-      "links": {
-        "github": "https://github.com/intelligentcode-ai/skills/blob/main/skills/release/SKILL.md"
-      },
-      "type": "extra"
-    },
-    {
-      "id": "intelligentcode-ai/requirements-engineer",
-      "name": "Requirements Engineer",
-      "contributor": "intelligentcode-ai",
-      "origin": false,
-      "genericSkillRef": "requirements-analysis",
-      "status": "awakened",
-      "level": "2★",
-      "description": "Business analysis specialist bridging stakeholders and technical teams — requirements gathering, user story writing, acceptance criteria, and full requirements lifecycle management.",
-      "tags": [
-        "requirements",
-        "brd",
-        "user-stories",
-        "acceptance-criteria",
-        "specification"
-      ],
-      "links": {
-        "github": "https://github.com/intelligentcode-ai/skills/blob/main/skills/requirements-engineer/SKILL.md"
-      },
-      "type": "basic"
-    },
-    {
-      "id": "intelligentcode-ai/security-engineer",
-      "name": "Security Engineer",
-      "contributor": "intelligentcode-ai",
-      "origin": false,
-      "genericSkillRef": "security-audit",
-      "status": "awakened",
-      "level": "2★",
-      "description": "Security architecture specialist — vulnerability assessment, zero-trust design, compliance management, and incident response with severity-classified remediation guidance.",
-      "tags": [
-        "security",
-        "vulnerability",
-        "zero-trust",
-        "compliance",
-        "owasp",
-        "penetration-testing"
-      ],
-      "links": {
-        "github": "https://github.com/intelligentcode-ai/skills/blob/main/skills/security-engineer/SKILL.md"
-      },
-      "type": "extra"
-    },
-    {
-      "id": "intelligentcode-ai/user-tester",
-      "name": "User Tester",
-      "contributor": "intelligentcode-ai",
-      "origin": false,
-      "genericSkillRef": "e2e-testing",
-      "status": "awakened",
-      "level": "3★",
-      "description": "E2E testing specialist with Puppeteer/Playwright automation — cross-browser validation, full user journey simulation, and visual regression detection.",
-      "tags": [
-        "e2e",
-        "playwright",
-        "puppeteer",
-        "cross-browser",
-        "user-journey",
-        "visual-regression"
-      ],
-      "links": {
-        "github": "https://github.com/intelligentcode-ai/skills/blob/main/skills/user-tester/SKILL.md"
-      },
-      "type": "extra"
-    },
-    {
       "id": "jules/langgenius/backend-code-review",
       "name": "Backend Code Review",
       "contributor": "jules",
@@ -5512,7 +5483,7 @@
       "origin": true,
       "genericSkillRef": "sentiment-analysis",
       "status": "awakened",
-      "level": "3★",
+      "level": "2★",
       "description": ">",
       "createdAt": "2026-05-17",
       "updatedAt": "2026-05-17",

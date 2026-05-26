@@ -1,4 +1,4 @@
-# [ruvnet](../../../docs/u/ruvnet/)/github-release-management  [2★ · Named]
+# [intelligentcode-ai](../../../docs/u/intelligentcode-ai/)/release  [2★ · Named]
 **ID:** release-automation  
 **Type:** Extra Skill  
 **Level:** 2★  

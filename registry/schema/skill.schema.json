@@ -114,6 +114,7 @@
       "items": {
         "type": "string",
         "enum": [
+          "broken-evidence",
           "niche-integration",
           "experimental-feature",
           "heavyweight-dependency"
@@ -250,6 +251,19 @@
         "notes": {
           "type": "string",
           "description": "Optional notes about the evaluation."
+        },
+        "verified": {
+          "type": "boolean",
+          "description": "True if the evidence has been verified by a Verifier (4★+ contributor)."
+        },
+        "disputed": {
+          "type": "boolean",
+          "description": "True if the evidence is currently under dispute."
+        },
+        "verificationSource": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to the verification discussion or PR."
         }
       }
     },
@@ -281,7 +295,9 @@
             "rename",
             "add",
             "evidence_added",
-            "type_change"
+            "type_change",
+            "verified",
+            "disputed"
           ],
           "description": "The meta-action that occurred."
         },
@@ -293,6 +309,17 @@
         "details": {
           "type": "string",
           "description": "Additional context or human-readable details."
+        },
+        "previousValue": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The level/status before this event (e.g. '2★'). Null for first-time events such as 'add'."
+        },
+        "newValue": {
+          "type": "string",
+          "description": "The level/status after this event (e.g. '3★')."
         }
       }
     }

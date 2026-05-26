@@ -21,6 +21,9 @@ on:
       - '.github/workflows/python-package.yml'
   workflow_dispatch: {}
 
+permissions:
+  contents: read
+
 jobs:
   package:
     name: Test, Build, and Smoke Test

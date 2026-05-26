@@ -118,6 +118,157 @@
       "type": "string",
       "format": "date",
       "description": "ISO 8601 date of last modification."
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/evidenceEntry"
+      },
+      "description": "Array of evidence entries supporting the skill's level claim."
+    },
+    "timeline": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/timelineEvent"
+      },
+      "description": "Chronological history of meta-changes for this named skill implementation."
+    },
+    "installations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "userId",
+          "installedAt"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "userId": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]*$",
+            "description": "GitHub username of the adopter."
+          },
+          "installedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "repository": {
+            "type": "string",
+            "description": "Repo (owner/repo format) where the skill was installed."
+          }
+        }
+      },
+      "description": "Users who have adopted this named skill via gaia install."
+    }
+  },
+  "definitions": {
+    "evidenceEntry": {
+      "type": "object",
+      "required": [
+        "class",
+        "source",
+        "evaluator",
+        "date"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "class": {
+          "type": "string",
+          "enum": [
+            "A",
+            "B",
+            "C"
+          ],
+          "description": "Evidence class: A (peer-reviewed), B (reproducible demo), C (credible demo)."
+        },
+        "source": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to the evidence source."
+        },
+        "evaluator": {
+          "type": "string",
+          "description": "GitHub username of the person who evaluated the evidence."
+        },
+        "date": {
+          "type": "string",
+          "format": "date",
+          "description": "Date of evaluation."
+        },
+        "notes": {
+          "type": "string",
+          "description": "Optional notes about the evaluation."
+        },
+        "verified": {
+          "type": "boolean",
+          "description": "True if the evidence has been verified by a Verifier (4★+ contributor)."
+        },
+        "disputed": {
+          "type": "boolean",
+          "description": "True if the evidence is currently under dispute."
+        },
+        "verificationSource": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to the verification discussion or PR."
+        }
+      }
+    },
+    "timelineEvent": {
+      "type": "object",
+      "required": [
+        "timestamp",
+        "action"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 date-time of the event."
+        },
+        "action": {
+          "type": "string",
+          "enum": [
+            "rank_up",
+            "fuse",
+            "propose",
+            "name",
+            "demote",
+            "ascend",
+            "rejected",
+            "merge",
+            "split",
+            "rename",
+            "add",
+            "evidence_added",
+            "type_change",
+            "verified",
+            "disputed"
+          ],
+          "description": "The meta-action that occurred."
+        },
+        "contributor": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-]*$",
+          "description": "The GitHub username responsible for the change."
+        },
+        "details": {
+          "type": "string",
+          "description": "Additional context or human-readable details."
+        },
+        "previousValue": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The level/status before this event (e.g. '2★'). Null for first-time events such as 'add'."
+        },
+        "newValue": {
+          "type": "string",
+          "description": "The level/status after this event (e.g. '3★')."
+        }
+      }
     }
   }
 }

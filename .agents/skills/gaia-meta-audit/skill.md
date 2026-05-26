@@ -17,6 +17,8 @@ Build a prioritized queue of Gaia skills or catalog items that need focused revi
    - `registry/real-skills.json`
    - `docs/skill_source_contributions.md`
 2. Scan for red flags:
+   - **Liveness Heartbeat**: Run `python3 scripts/verify_evidence.py` to identify dead links in evidence.
+   - **Star Bar Scan**: Identify skills at **3★+** missing a valid `links.github` (installer-ready) URL.
    - `promotedNamedSkillId` entries with weak or broad source evidence
    - named skills claiming Ultimate or high-level nodes
    - catalog URLs that point to directories, homepages, or stale paths instead of specific files
@@ -28,18 +30,19 @@ Build a prioritized queue of Gaia skills or catalog items that need focused revi
    - **Missing Demerits**: Skills with known heavyweight dependencies or niche integrations that are not yet flagged in the registry.
 3. Re-check only enough external evidence to rank candidates. Do not perform every focused audit in the meta pass.
 4. Prioritize:
-   - P0: unsupported Ultimate claim or unsupported named-origin claim
-   - P1: wrong `promotedNamedSkillId`, stale source URL, or likely superseded origin
-   - P2: broad `mapsToGaia`, duplicate catalog item, or weak evidence tier
-   - P3: documentation cleanup or generated-output drift
+   - P0: Unsupported Ultimate claim or unsupported named-origin claim.
+   - P1: Dead evidence links (Liveness Heartbeat failure) or missing 3★+ Star Bar implementation.
+   - P2: Wrong `promotedNamedSkillId`, stale source URL, or likely superseded origin.
+   - P3: Broad `mapsToGaia`, duplicate catalog item, or weak evidence tier.
+   - P4: Documentation cleanup or generated-output drift.
 
    Do not flag candidates on rarity grounds — the rarity axis is deprecated (see `CONTEXT.md` § Rarity).
 5. Present a queue with target, reason, suggested action, and source files to inspect.
 6. For each accepted candidate, hand off to `/gaia-audit` as a separate focused correction, or use the **Meta Review CLI commands** for direct registry maintenance:
-   - `gaia merge` for deduplicating or merging superseded skills.
-   - `gaia split` for correcting broad mappings into specific capabilities.
-   - `gaia evidence` for patching weak or stale source evidence.
-   - `gaia add` for creating new Extra Skills suggested by fusion candidate clusters.
+   - `gaia dev calibrate` for level adjustments.
+   - `gaia dev reclassify` for type changes (e.g. Unique to Basic).
+   - `gaia dev update-named` for status/naming changes.
+   - `gaia dev build` for regenerating artifacts.
 
 ## Output
 

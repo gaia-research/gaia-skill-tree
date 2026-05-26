@@ -28,6 +28,7 @@ _None specified._
 |---|---|---|---|
 | B | https://github.com/mattpocock/skills | mbtiongson1 | 2026-05-22 |
 | A | https://github.com/mbtiongson1/gaia-skill-tree/pull/352 | mbtiongson1 | 2026-05-22 |
+| A | https://github.com/mattpocock/skills | mbtiongson1 | 2026-05-25 |
 
 ## Known Agents
 _None verified yet._

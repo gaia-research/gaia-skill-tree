@@ -413,7 +413,7 @@
       document.querySelectorAll('.dag-node.selected').forEach(function(n) { n.classList.remove('selected'); });
       document.querySelectorAll('.dag-node.show-label').forEach(function(n) { n.classList.remove('show-label'); });
 
-      var node = document.querySelector('.dag-node[data-id="' + nodeId.replace(/"/g, '\\"') + '"]');
+      var node = document.querySelector('.dag-node[data-id="' + nodeId.replace(/\\/g,'\\\\').replace(/"/g, '\\"') + '"]');
       if (node) {
         node.classList.add('selected');
         globalState.selectedNode = nodeId;
@@ -439,7 +439,7 @@
 
     function showDownstreamLabels(relatedNodes) {
       Object.keys(relatedNodes).forEach(function(id) {
-        var node = document.querySelector('.dag-node[data-id="' + id.replace(/"/g, '\\"') + '"]');
+        var node = document.querySelector('.dag-node[data-id="' + id.replace(/\\/g,'\\\\').replace(/"/g, '\\"') + '"]');
         if (node) {
           node.classList.add('show-label');
         }
@@ -521,8 +521,8 @@
             + ' data-level="' + (s.level || '') + '"'
             + ' data-ghost="' + isGhost + '"'
             + ' style="--staggerY: ' + staggerY + 'px"'
-            + ' onclick="window.selectNode && window.selectNode(\'' + id.replace(/'/g,"\\'") + '\')"'
-            + ' onmouseenter="!window.globalState.selectedNode && window.highlightPaths && window.highlightPaths(\'' + id.replace(/'/g,"\\'") + '\')"'
+            + ' onclick="window.selectNode && window.selectNode(\'' + id.replace(/\\/g,'\\\\').replace(/'/g,"\\'") + '\')"'
+            + ' onmouseenter="!window.globalState.selectedNode && window.highlightPaths && window.highlightPaths(\'' + id.replace(/\\/g,'\\\\').replace(/'/g,"\\'") + '\')"'
             + ' onmouseleave="!window.globalState.selectedNode && window.unhighlightPaths && window.unhighlightPaths()"'
             + '>'
             + '<div class="dag-dot"></div>'
@@ -558,8 +558,8 @@
         svg.setAttribute('height', inner.scrollHeight);
 
         globalState.edges.forEach(function(e) {
-          var fromEl = inner.querySelector('.dag-node[data-id="' + e.from.replace(/"/g, '\\"') + '"]');
-          var toEl   = inner.querySelector('.dag-node[data-id="' + e.to.replace(/"/g, '\\"') + '"]');
+          var fromEl = inner.querySelector('.dag-node[data-id="' + e.from.replace(/\\/g,'\\\\').replace(/"/g, '\\"') + '"]');
+          var toEl   = inner.querySelector('.dag-node[data-id="' + e.to.replace(/\\/g,'\\\\').replace(/"/g, '\\"') + '"]');
           if (!fromEl || !toEl) return;
 
           var fromDot = fromEl.querySelector('.dag-dot');

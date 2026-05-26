@@ -8,6 +8,9 @@ on:
         required: true
         default: 'main'
 
+permissions:
+  contents: read
+
 jobs:
   deploy:
     name: Deploy to Cloudflare Pages

@@ -6,10 +6,19 @@ origin: false
 links:
   github: https://github.com/intelligentcode-ai/skills/blob/main/skills/user-tester/SKILL.md
 genericSkillRef: e2e-testing
-status: awakened
-level: "3★"
-description: E2E testing specialist with Puppeteer/Playwright automation — cross-browser validation, full user journey simulation, and visual regression detection.
-tags: [e2e, playwright, puppeteer, cross-browser, user-journey, visual-regression]
+status: named
+title: The Human Lens
+level: 2★
+description: E2E testing specialist with Puppeteer/Playwright automation — cross-browser
+  validation, full user journey simulation, and visual regression detection.
+tags:
+- e2e
+- playwright
+- puppeteer
+- cross-browser
+- user-journey
+- visual-regression
+updatedAt: '2026-05-25'
 ---
 
 ## Overview

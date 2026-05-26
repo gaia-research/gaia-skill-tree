@@ -1,10 +1,10 @@
-# /mcp-debugger-control  [4★ · Hardened]
+# /mcp-debugger-control  [2★ · Named]
 **ID:** mcp-debugger-control  
 **Type:** Extra Skill  
-**Level:** 4★  
-**Tier:** Hardened  
-**Potential:** 3★  
-**Demerits:** niche-integration  
+**Level:** 2★  
+**Tier:** Named  
+**Potential:** 0★  
+**Demerits:** niche-integration, broken-evidence  
 **Skill Call:** `/mcp-debugger-control`
 
 ---

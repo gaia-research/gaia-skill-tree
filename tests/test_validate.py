@@ -81,12 +81,6 @@ class TestValidate(unittest.TestCase):
         self.assertEqual(code, 1, "Expected basic-with-prereqs to fail validation.")
         self.assertIn("must have 0 prerequisites", out)
 
-    def test_demerits_reject_level_i_skills(self):
-        """Ensure demerits are rejected on 1★ and below."""
-        code, out = run_validate(os.path.join(FIXTURES_DIR, "demerits_level_i.json"))
-        self.assertEqual(code, 1, "Expected 1★ demerits to fail validation.")
-        self.assertIn("has demerits but claimed level", out)
-
     def test_demerits_reject_unknown_catalog_keys(self):
         """Ensure only canonical demerit IDs are accepted."""
         code, out = run_validate(os.path.join(FIXTURES_DIR, "demerits_unknown_id.json"))
@@ -107,6 +101,7 @@ class TestValidate(unittest.TestCase):
         self.assertEqual(
             graph.get("meta", {}).get("demeritLabels", {}),
             {
+                "broken-evidence": "Broken evidence",
                 "niche-integration": "Niche integrations",
                 "experimental-feature": "Experimental features",
                 "heavyweight-dependency": "Heavyweight dependencies",

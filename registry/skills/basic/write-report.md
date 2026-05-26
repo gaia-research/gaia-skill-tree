@@ -1,8 +1,8 @@
-# [glincker](../../../docs/u/glincker/)/readme-generator  [1★ · Awakened]
+# [glincker](../../../docs/u/glincker/)/readme-generator  [0★ · Basic]
 **ID:** write-report  
 **Type:** Basic Skill  
-**Level:** 1★  
-**Tier:** Awakened  
+**Level:** 0★  
+**Tier:** Basic  
 **Skill Call:** `/write-report`
 
 ---

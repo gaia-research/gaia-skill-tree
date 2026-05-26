@@ -2,7 +2,7 @@
   "id": "research",
   "name": "Research",
   "type": "extra",
-  "level": "3★",
+  "level": "1★",
   "rarity": "uncommon",
   "description": "Conducts multi-source information gathering, synthesis, and citation for a given topic.",
   "prerequisites": [
@@ -30,6 +30,17 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-26",
-  "updatedAt": "2026-04-30",
-  "version": "0.1.0"
+  "updatedAt": "2026-05-25",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-25T04:25:34Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 3★ to 2★"
+    }
+  ],
+  "demerits": [
+    "broken-evidence"
+  ]
 }

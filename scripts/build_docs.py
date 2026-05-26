@@ -198,10 +198,14 @@ def _registry_tree() -> str:
 def _badges() -> str:
     """Build the 'Get your Gaia badge' README region.
 
-    Pulls the maintainer's current totals from skill-trees/mbtiongson1/
-    so the live preview self-updates on each docs build.
+    Showcases the full set of badges available for the maintainer
+    (currently rank + skills + the generic powered-by-gaia fallback),
+    pulls live totals from skill-trees/mbtiongson1/, and provides the
+    copy-paste snippets — one with mbtiongson1's exact URLs, one with
+    placeholders for other contributors.
     """
     owner = "mbtiongson1"
+    repo = "mbtiongson1/gaia-skill-tree"
     tree_path = ROOT / "skill-trees" / owner / "skill-tree.json"
     rank, count = 0, 0
     if tree_path.exists():
@@ -218,11 +222,29 @@ def _badges() -> str:
 
     base = "https://gaia.tiongson.co/badges"
     profile = f"https://gaia.tiongson.co/u/{owner}/"
-    live_badges = (
-        f"[![Gaia rank]({base}/{owner}/rank.svg)]({profile})\n"
-        f"[![Gaia skills]({base}/{owner}/skills.svg)]({profile})"
+    q = f"?repo={repo}"
+    sampler = "https://gaia.tiongson.co/badges/"
+
+    # Showcase table — every badge variant available for the maintainer.
+    showcase = (
+        "| Variant | Badge |\n"
+        "|---|---|\n"
+        f"| **Rank** — highest star earned ({rank}★) | "
+        f"[![Gaia rank]({base}/{owner}/rank.svg{q})]({profile}) |\n"
+        f"| **Skills** — total unlocked ({count}) | "
+        f"[![Gaia skills]({base}/{owner}/skills.svg{q})]({profile}) |\n"
+        f"| **Powered by Gaia** — generic fallback for non-contributors | "
+        f"[![Powered by Gaia]({base}/powered-by-gaia.svg)]({sampler}) |\n"
     )
-    snippet = (
+
+    snippet_owner = (
+        "```markdown\n"
+        f"[![Gaia rank]({base}/{owner}/rank.svg{q})]({profile})\n"
+        f"[![Gaia skills]({base}/{owner}/skills.svg{q})]({profile})\n"
+        f"[![Powered by Gaia]({base}/powered-by-gaia.svg)]({sampler})\n"
+        "```"
+    )
+    snippet_template = (
         "```markdown\n"
         "[![Gaia](https://gaia.tiongson.co/badges/<handle>/handle.svg?repo=<owner/name>)](https://gaia.tiongson.co/u/<handle>/)\n"
         "[![Gaia rank](https://gaia.tiongson.co/badges/<handle>/rank.svg?repo=<owner/name>)](https://gaia.tiongson.co/u/<handle>/)\n"
@@ -231,16 +253,19 @@ def _badges() -> str:
     )
     return (
         "## Get your Gaia badge\n\n"
-        f"Contributors with named skills (currently {count} unlocked here, "
-        f"highest **{rank}★**) can wear their rank in their own repo READMEs. "
-        "Badges regenerate on every `gaia docs build`, so values track the live registry.\n\n"
-        f"{live_badges}\n\n"
-        f"{snippet}\n\n"
+        f"Contributors with named skills can wear their rank in their own repo READMEs. "
+        f"Badges regenerate on every `gaia docs build`, so values track the live registry. "
+        f"The maintainer (`@{owner}`) currently runs the three badges below in this repo's "
+        f"header.\n\n"
+        f"{showcase}\n"
+        "Copy-paste for this repo:\n\n"
+        f"{snippet_owner}\n\n"
+        "Template for any contributor:\n\n"
+        f"{snippet_template}\n\n"
         "Replace `<handle>` with your Gaia username and `<owner/name>` with the GitHub repo "
         "the badge is embedded in — the forthcoming edge validator flags badges in repos "
-        "not on the contributor's `links.github` list. Preview every variant — "
-        "including the single-line `@handle/skill · N★` identity badge — at "
-        "[gaia.tiongson.co/badges/](https://gaia.tiongson.co/badges/)."
+        "not on the contributor's `links.github` list. Preview every variant — including the "
+        f"single-line `@handle/skill · N★` identity badge — at [{sampler}]({sampler})."
     )
 
 
