@@ -143,6 +143,32 @@
       "topRank": 6,
       "count": 20
     },
+    "mbtiongson1": {
+      "repos": [
+        "mbtiongson1/gaia-skill-tree"
+      ],
+      "skillsByRepo": {
+        "mbtiongson1/gaia-skill-tree": [
+          "mbtiongson1/gaia-audit",
+          "mbtiongson1/gaia-bot-curate",
+          "mbtiongson1/gaia-curate",
+          "mbtiongson1/gaia-curation-review",
+          "mbtiongson1/gaia-docs-sync",
+          "mbtiongson1/gaia-draft-curate",
+          "mbtiongson1/gaia-integrity",
+          "mbtiongson1/gaia-meta-audit",
+          "mbtiongson1/gaia-preview",
+          "mbtiongson1/gaia-triage",
+          "mbtiongson1/gaia-wiki-sync",
+          "mbtiongson1/graphify-triage",
+          "mbtiongson1/research",
+          "mbtiongson1/web-scrape"
+        ]
+      },
+      "topSkill": "mbtiongson1/gaia-curate",
+      "topRank": 4,
+      "count": 14
+    },
     "bradautomates": {
       "repos": [
         "bradautomates/claude-video"
