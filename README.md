@@ -113,6 +113,18 @@ Then, if you have fused a 5★ Ultimate as another part of a suite, you can crea
 
 <!-- gaia:version-start -->
 Current Gaia CLI version: `3.23.9`.
+
+Python install:
+
+```bash
+pip install gaia-cli
+```
+
+npm wrapper alternative:
+
+```bash
+npm install -g @gaia-registry/cli
+```
 <!-- gaia:version-end -->
 Python install:
 
@@ -301,6 +313,25 @@ Quick usage:
 | Any MCP client | Command: `npx`, args: `@gaia-registry/mcp-server` |
 
 Set `GAIA_USER=your-github-username` and optionally `GITHUB_TOKEN` for PR tools. See [`packages/mcp/`](packages/mcp/) for full docs and agent-specific config examples.
+
+---
+
+<!-- gaia:badges-start -->
+## Get your Gaia badge
+
+Contributors with named skills (currently 7 unlocked here, highest **4★**) can wear their rank in their own repo READMEs. Badges regenerate on every `gaia docs build`, so values track the live registry.
+
+[![Gaia rank](https://gaia.tiongson.co/badges/mbtiongson1/rank.svg)](https://gaia.tiongson.co/u/mbtiongson1/)
+[![Gaia skills](https://gaia.tiongson.co/badges/mbtiongson1/skills.svg)](https://gaia.tiongson.co/u/mbtiongson1/)
+
+```markdown
+[![Gaia](https://gaia.tiongson.co/badges/<handle>/handle.svg)](https://gaia.tiongson.co/u/<handle>/)
+[![Gaia rank](https://gaia.tiongson.co/badges/<handle>/rank.svg)](https://gaia.tiongson.co/u/<handle>/)
+[![Gaia skills](https://gaia.tiongson.co/badges/<handle>/skills.svg)](https://gaia.tiongson.co/u/<handle>/)
+```
+
+Replace `<handle>` with your Gaia username. Preview every variant — including the single-line `@handle/skill · N★` identity badge — at [gaia.tiongson.co/badges/](https://gaia.tiongson.co/badges/).
+<!-- gaia:badges-end -->
 
 ---
 

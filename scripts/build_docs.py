@@ -195,6 +195,53 @@ def _registry_tree() -> str:
     return f"```text\n{final_body}\n\n({total_skills} skills total — see docs/tree.md)\n```"
 
 
+def _badges() -> str:
+    """Build the 'Get your Gaia badge' README region.
+
+    Pulls the maintainer's current totals from skill-trees/mbtiongson1/
+    so the live preview self-updates on each docs build.
+    """
+    owner = "mbtiongson1"
+    tree_path = ROOT / "skill-trees" / owner / "skill-tree.json"
+    rank, count = 0, 0
+    if tree_path.exists():
+        try:
+            data = json.loads(tree_path.read_text(encoding="utf-8"))
+            unlocked = data.get("unlockedSkills", [])
+            count = data.get("stats", {}).get("totalUnlocked", len(unlocked))
+            for s in unlocked:
+                digits = "".join(c for c in s.get("level", "") if c.isdigit())
+                if digits:
+                    rank = max(rank, int(digits))
+        except (json.JSONDecodeError, ValueError):
+            pass
+
+    base = "https://gaia.tiongson.co/badges"
+    profile = f"https://gaia.tiongson.co/u/{owner}/"
+    live_badges = (
+        f"[![Gaia rank]({base}/{owner}/rank.svg)]({profile})\n"
+        f"[![Gaia skills]({base}/{owner}/skills.svg)]({profile})"
+    )
+    snippet = (
+        "```markdown\n"
+        "[![Gaia](https://gaia.tiongson.co/badges/<handle>/handle.svg)](https://gaia.tiongson.co/u/<handle>/)\n"
+        "[![Gaia rank](https://gaia.tiongson.co/badges/<handle>/rank.svg)](https://gaia.tiongson.co/u/<handle>/)\n"
+        "[![Gaia skills](https://gaia.tiongson.co/badges/<handle>/skills.svg)](https://gaia.tiongson.co/u/<handle>/)\n"
+        "```"
+    )
+    return (
+        "## Get your Gaia badge\n\n"
+        f"Contributors with named skills (currently {count} unlocked here, "
+        f"highest **{rank}★**) can wear their rank in their own repo READMEs. "
+        "Badges regenerate on every `gaia docs build`, so values track the live registry.\n\n"
+        f"{live_badges}\n\n"
+        f"{snippet}\n\n"
+        "Replace `<handle>` with your Gaia username. Preview every variant — "
+        "including the single-line `@handle/skill · N★` identity badge — at "
+        "[gaia.tiongson.co/badges/](https://gaia.tiongson.co/badges/)."
+    )
+
+
 def build_readme(check: bool) -> bool:
     path = ROOT / "README.md"
     text = path.read_text(encoding="utf-8")
@@ -204,6 +251,7 @@ def build_readme(check: bool) -> bool:
         ("<!-- gaia:registry-start -->", "<!-- gaia:registry-end -->", _registry_tree()),
         ("<!-- gaia:cli-start -->", "<!-- gaia:cli-end -->", _cli_help()),
         ("<!-- gaia:layout-start -->", "<!-- gaia:layout-end -->", _layout()),
+        ("<!-- gaia:badges-start -->", "<!-- gaia:badges-end -->", _badges()),
     ):
         text, did_change = _replace_region(text, start, end, body)
         if did_change and check:
@@ -278,7 +326,7 @@ def _apply_cache_busting(text: str, version: str) -> str:
 def build_html_cache_busting(check: bool) -> bool:
     version = _read_version()
     changed = False
-    for filename in ("index.html", "codex.html"):
+    for filename in ("index.html", "codex.html", "badges/index.html"):
         path = ROOT / "docs" / filename
         if not path.exists():
             continue
@@ -479,6 +527,45 @@ def build_profile_pages(check: bool) -> bool:
         return True
 
 
+def build_badges(check: bool) -> bool:
+    """Run generateBadges.py to a tempdir and diff against docs/badges/."""
+    script = SCRIPTS / "generateBadges.py"
+    if not script.exists():
+        return False
+    committed = ROOT / "docs" / "badges"
+    with tempfile.TemporaryDirectory() as tmp:
+        out_dir = Path(tmp) / "badges"
+        rc, output = _run_script(script, ["--out-dir", str(out_dir)])
+        if rc != 0:
+            if check:
+                print(f"diff docs/badges/ (regen failed: rc={rc})")
+                print(output)
+            return True
+        # Preserve hand-authored docs/badges/index.html across regeneration
+        # by copying it into the candidate tree before diffing.
+        sampler = committed / "index.html"
+        if sampler.exists():
+            (out_dir / "index.html").write_bytes(sampler.read_bytes())
+        if not committed.exists():
+            if check:
+                print("diff docs/badges/ (missing)")
+            else:
+                import shutil
+                shutil.copytree(out_dir, committed)
+            return True
+        drifts = _diff_tree(committed, out_dir)
+        if not drifts:
+            return False
+        if check:
+            for d in drifts:
+                print(f"diff docs/badges/{d}")
+        else:
+            import shutil
+            shutil.rmtree(committed)
+            shutil.copytree(out_dir, committed)
+        return True
+
+
 def build_og_cards(check: bool) -> bool:
     """Run generateOgCards.py to a tempdir and diff SVG outputs against docs/og/."""
     script = SCRIPTS / "generateOgCards.py"
@@ -625,6 +712,7 @@ def main(argv: list[str] | None = None) -> int:
     named_index_changed = build_named_index(args.check)
     docs_named_changed = build_docs_named_index(args.check)
     profiles_changed = build_profile_pages(args.check)
+    badges_changed = build_badges(args.check)
     og_changed = build_og_cards(args.check)
     tree_changed = build_tree_md(args.check)
     ruflo_curation_changed = build_ruflo_curation(args.check)
@@ -654,6 +742,7 @@ def main(argv: list[str] | None = None) -> int:
         or named_index_changed
         or docs_named_changed
         or profiles_changed
+        or badges_changed
         or og_changed
         or tree_changed
         or ruflo_curation_changed
