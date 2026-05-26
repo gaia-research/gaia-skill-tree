@@ -464,6 +464,19 @@
       "topRank": 2,
       "count": 1
     },
+    "safishamsi": {
+      "repos": [
+        "safishamsi/graphify"
+      ],
+      "skillsByRepo": {
+        "safishamsi/graphify": [
+          "safishamsi/graphify"
+        ]
+      },
+      "topSkill": "safishamsi/graphify",
+      "topRank": 3,
+      "count": 1
+    },
     "nexu-io": {
       "repos": [
         "nexu-io/open-design"
@@ -488,19 +501,6 @@
       },
       "topSkill": "nousresearch/feed-monitoring",
       "topRank": 4,
-      "count": 1
-    },
-    "safishamsi": {
-      "repos": [
-        "safishamsi/graphify"
-      ],
-      "skillsByRepo": {
-        "safishamsi/graphify": [
-          "safishamsi/graphify"
-        ]
-      },
-      "topSkill": "safishamsi/graphify",
-      "topRank": 3,
       "count": 1
     },
     "santifer": {
