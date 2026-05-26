@@ -373,19 +373,30 @@ def meta_merge_command(args):
     else:
         # Generic skill merging
         nodes_dir = Path(registry_nodes_dir(registry_path))
+
+        # ⚡ Bolt: Single pass read of all nodes
+        all_nodes = []
         target_file = None
         target_data = None
+        source_data_map = {}
+        source_file_map = {}
 
         for p in nodes_dir.glob("**/*.json"):
             with open(p, "r", encoding="utf-8") as f:
                 try:
                     data = json.load(f)
-                    if data.get("id") == target_id:
-                        target_file = p
-                        target_data = data
-                        break
                 except json.JSONDecodeError:
                     continue
+
+            node_id = data.get("id")
+            all_nodes.append((p, data))
+
+            if node_id == target_id:
+                target_file = p
+                target_data = data
+            elif node_id in sources:
+                source_file_map[node_id] = p
+                source_data_map[node_id] = data
 
         if not target_file:
             print(f"Error: Target skill '{target_id}' not found in registry nodes.")
@@ -398,17 +409,8 @@ def meta_merge_command(args):
 
         source_files = []
         for source_id in sources:
-            source_file = None
-            for p in nodes_dir.glob("**/*.json"):
-                with open(p, "r", encoding="utf-8") as f:
-                    try:
-                        data = json.load(f)
-                        if data.get("id") == source_id:
-                            source_file = p
-                            source_data = data
-                            break
-                    except json.JSONDecodeError:
-                        continue
+            source_file = source_file_map.get(source_id)
+            source_data = source_data_map.get(source_id)
 
             if not source_file:
                 print(f"Warning: Source skill '{source_id}' not found. Skipping.")
@@ -438,21 +440,17 @@ def meta_merge_command(args):
             sf.unlink()
             print(f"Deleted source skill file: {sf}")
 
-        for p in nodes_dir.glob("**/*.json"):
-            if p == target_file:
+        sources_set = set(sources)
+        for p, data in all_nodes:
+            if p == target_file or p in source_files:
                 continue
-            with open(p, "r", encoding="utf-8") as f:
-                try:
-                    data = json.load(f)
-                except json.JSONDecodeError:
-                    continue
 
             changed = False
             if data.get("prerequisites"):
                 new_prereqs = [
-                    target_id if pr in sources and target_id != data["id"] else pr
+                    target_id if pr in sources_set and target_id != data["id"] else pr
                     for pr in data["prerequisites"]
-                    if pr not in sources or target_id != data["id"]
+                    if pr not in sources_set or target_id != data["id"]
                 ]
                 seen = set()
                 new_prereqs = [x for x in new_prereqs if not (x in seen or seen.add(x))]
@@ -462,9 +460,9 @@ def meta_merge_command(args):
 
             if data.get("derivatives"):
                 new_derivatives = [
-                    target_id if dr in sources and target_id != data["id"] else dr
+                    target_id if dr in sources_set and target_id != data["id"] else dr
                     for dr in data["derivatives"]
-                    if dr not in sources or target_id != data["id"]
+                    if dr not in sources_set or target_id != data["id"]
                 ]
                 seen = set()
                 new_derivatives = [

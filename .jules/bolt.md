@@ -9,6 +9,7 @@
 ## 2024-05-25 - Layout thrashing in CLI Python graph render
 **Learning:** The generated HTML graph in `src/gaia_cli/graph.py` also contained a layout thrashing issue in its interactive script. Inside `handlePointerMove`, it was executing `canvas.getBoundingClientRect()` on every `mousemove`. Similar to the issue found in `docs/js/skill-graph.js`, calling layout-triggering methods on high-frequency events tanks performance.
 **Action:** Consistently apply layout thrashing mitigations across all generated and static assets. Always cache the bounding rect on initial fetch and only invalidate it during window resizing, scrolling, or specific user interactions (e.g., `mousedown`).
+
 ## 2026-05-24 - File I/O Optimization in dev.py
 **Learning:** Pre-caching existing file data outside of nested loops avoids repeated File I/O which can otherwise cause severe performance degradation (O(N^2)).
 **Action:** When iterating over a directory to find items multiple times, build a set or dictionary of the relevant data before the loop and use that for fast O(1) lookups inside the loop.
@@ -32,3 +33,7 @@
 ## 2026-05-25 - Optimize meta_merge_command Named Skill Ref Update
 **Learning:** In Python, avoiding nested loops (O(N*M)) over files and expensive operations like parsing JSON/Markdown from disk is crucial. `meta_merge_command` checked every possible merge source `source_id` against every named skill file independently, resulting in redundant disk reads equal to the number of source IDs for each file.
 **Action:** Replaced the nested loop with a single pass over the files. By loading the source IDs into a set `sources_set`, each file is parsed exactly once. Its `genericSkillRef` is then checked against the `sources_set` (an O(1) operation). Always load match targets into sets and perform parsing once per file.
+
+## 2026-05-26 - O(N^2) nested glob loops in dev.py meta_merge_command
+**Learning:** `meta_merge_command` in `src/gaia_cli/commands/dev.py` was looping over all files multiple times via `nodes_dir.glob("**/*.json")`. First to find `target_file`, then inside a `for source_id in sources:` loop it was calling `nodes_dir.glob("**/*.json")` AGAIN, and then calling it one more time to update references. This causes an O(S * N) + O(N) File I/O bottleneck where S is the number of sources and N is the number of files.
+**Action:** When working with multiple files that need to be read, always pre-load the files into a dictionary or list in a single pass (O(N)), and then operate on that dictionary.
