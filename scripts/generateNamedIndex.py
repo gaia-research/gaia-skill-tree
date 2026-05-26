@@ -200,6 +200,13 @@ def _parse_frontmatter_full(fm_lines):
             i += 1
             continue
 
+        # Skip indented continuation lines — they belong to a preceding block
+        # (e.g. nested timeline entries like "  contributor: testuser") and
+        # must not overwrite top-level fields when key.strip() collides.
+        if line[0] in (" ", "\t"):
+            i += 1
+            continue
+
         # Top-level key
         key, _, rest = line.partition(":")
         key = key.strip()
