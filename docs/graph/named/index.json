@@ -241,6 +241,48 @@
         "suiteRef": "mattpocock/personal",
         "type": "basic",
         "role": "variant"
+      },
+      {
+        "id": "mbtiongson1/gaia-docs-sync",
+        "name": "Gaia Docs Sync",
+        "contributor": "mbtiongson1",
+        "origin": false,
+        "genericSkillRef": "document-editing",
+        "status": "named",
+        "level": "2★",
+        "description": "Keeps the generated Gaia documentation site in sync with the registry",
+        "title": "The Docs Steward",
+        "tags": {},
+        "links": {
+          "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-docs-sync/SKILL.md"
+        },
+        "createdAt": "2026-05-27",
+        "updatedAt": "2026-05-27",
+        "timeline": {},
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant"
+      },
+      {
+        "id": "mbtiongson1/gaia-wiki-sync",
+        "name": "Gaia Wiki Sync",
+        "contributor": "mbtiongson1",
+        "origin": false,
+        "genericSkillRef": "document-editing",
+        "status": "named",
+        "level": "2★",
+        "description": "Synchronizes the Gaia project wiki with the current registry state —",
+        "title": "The Wiki Keeper",
+        "tags": {},
+        "links": {
+          "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-wiki-sync/SKILL.md"
+        },
+        "createdAt": "2026-05-27",
+        "updatedAt": "2026-05-27",
+        "timeline": {},
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant"
       }
     ],
     "tool-creation": [
@@ -605,6 +647,27 @@
         "updatedAt": "2026-05-18",
         "suiteRef": "garrytan/gstack",
         "type": "extra",
+        "role": "variant"
+      },
+      {
+        "id": "mbtiongson1/web-scrape",
+        "name": "Web Scrape",
+        "contributor": "mbtiongson1",
+        "origin": false,
+        "genericSkillRef": "web-scrape",
+        "status": "named",
+        "level": "4★",
+        "description": "Fetches, parses, and structures web content into clean Markdown or JSON",
+        "title": "The Registry Crawler",
+        "tags": {},
+        "links": {
+          "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/scrape/SKILL.md"
+        },
+        "createdAt": "2026-05-27",
+        "updatedAt": "2026-05-27",
+        "timeline": {},
+        "type": "extra",
+        "installBody": "Add installation instructions here.",
         "role": "variant"
       }
     ],
@@ -3010,6 +3073,270 @@
         "role": "origin"
       }
     ],
+    "gaia-audit": [
+      {
+        "id": "mbtiongson1/gaia-audit",
+        "name": "Gaia Audit",
+        "contributor": "mbtiongson1",
+        "origin": true,
+        "genericSkillRef": "gaia-audit",
+        "status": "named",
+        "level": "3★",
+        "description": "Performs a focused source-level correction for one target registry entry",
+        "title": "The Source Detective",
+        "tags": {},
+        "links": {
+          "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/SKILL.md"
+        },
+        "createdAt": "2026-05-27",
+        "updatedAt": "2026-05-27",
+        "timeline": {},
+        "type": "extra",
+        "installBody": "Add installation instructions here.",
+        "role": "origin"
+      }
+    ],
+    "registry-curation": [
+      {
+        "id": "mbtiongson1/gaia-bot-curate",
+        "name": "Gaia Bot Curate",
+        "contributor": "mbtiongson1",
+        "origin": false,
+        "genericSkillRef": "registry-curation",
+        "status": "named",
+        "level": "3★",
+        "description": "Runs an automated batch curation pass over the Gaia skill registry —",
+        "title": "The Automated Curator",
+        "tags": {},
+        "links": {
+          "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-bot-curate/SKILL.md"
+        },
+        "createdAt": "2026-05-27",
+        "updatedAt": "2026-05-27",
+        "timeline": {},
+        "type": "extra",
+        "installBody": "Add installation instructions here.",
+        "role": "variant"
+      },
+      {
+        "id": "mbtiongson1/gaia-curate",
+        "name": "Gaia Curate",
+        "contributor": "mbtiongson1",
+        "origin": true,
+        "genericSkillRef": "registry-curation",
+        "status": "named",
+        "level": "4★",
+        "description": "Expands the Gaia skill registry with new, fully evidenced AI agent skills",
+        "title": "The Registrar",
+        "tags": {},
+        "links": {
+          "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-curate/SKILL.md"
+        },
+        "createdAt": "2026-05-27",
+        "updatedAt": "2026-05-27",
+        "timeline": {},
+        "type": "extra",
+        "installBody": "Add installation instructions here.",
+        "role": "origin"
+      },
+      {
+        "id": "mbtiongson1/gaia-curation-review",
+        "name": "Gaia Curation Review",
+        "contributor": "mbtiongson1",
+        "origin": false,
+        "genericSkillRef": "registry-curation",
+        "status": "named",
+        "level": "3★",
+        "description": "Reviews pending skill submissions against registry standards — checking",
+        "title": "The Quality Gate",
+        "tags": {},
+        "links": {
+          "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-curate/SKILL.md"
+        },
+        "createdAt": "2026-05-27",
+        "updatedAt": "2026-05-27",
+        "timeline": {},
+        "type": "extra",
+        "installBody": "Add installation instructions here.",
+        "role": "variant"
+      },
+      {
+        "id": "mbtiongson1/gaia-draft-curate",
+        "name": "Gaia Draft Curate",
+        "contributor": "mbtiongson1",
+        "origin": false,
+        "genericSkillRef": "registry-curation",
+        "status": "named",
+        "level": "3★",
+        "description": "Creates structured draft skill entries for registry review — staging",
+        "title": "The Draft Architect",
+        "tags": {},
+        "links": {
+          "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-draft-curate/SKILL.md"
+        },
+        "createdAt": "2026-05-27",
+        "updatedAt": "2026-05-27",
+        "timeline": {},
+        "type": "extra",
+        "installBody": "Add installation instructions here.",
+        "role": "variant"
+      },
+      {
+        "id": "mbtiongson1/gaia-integrity",
+        "name": "Gaia Integrity",
+        "contributor": "mbtiongson1",
+        "origin": false,
+        "genericSkillRef": "registry-curation",
+        "status": "named",
+        "level": "3★",
+        "description": "Validates the structural integrity of the Gaia registry — checking schema",
+        "title": "The Schema Sentinel",
+        "tags": {},
+        "links": {
+          "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-integrity/SKILL.md"
+        },
+        "createdAt": "2026-05-27",
+        "updatedAt": "2026-05-27",
+        "timeline": {},
+        "type": "extra",
+        "installBody": "Add installation instructions here.",
+        "role": "variant"
+      },
+      {
+        "id": "mbtiongson1/gaia-preview",
+        "name": "Gaia Preview",
+        "contributor": "mbtiongson1",
+        "origin": false,
+        "genericSkillRef": "registry-curation",
+        "status": "named",
+        "level": "2★",
+        "description": "Generates a preview render of proposed registry changes — showing how",
+        "title": "The Change Previewer",
+        "tags": {},
+        "links": {
+          "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-curate/SKILL.md"
+        },
+        "createdAt": "2026-05-27",
+        "updatedAt": "2026-05-27",
+        "timeline": {},
+        "type": "extra",
+        "installBody": "Add installation instructions here.",
+        "role": "variant"
+      },
+      {
+        "id": "mbtiongson1/gaia-triage",
+        "name": "Gaia Triage",
+        "contributor": "mbtiongson1",
+        "origin": false,
+        "genericSkillRef": "registry-curation",
+        "status": "named",
+        "level": "2★",
+        "description": "Triages incoming skill proposals and issues against the Gaia registry",
+        "title": "The Issue Sorter",
+        "tags": {},
+        "links": {
+          "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-triage/SKILL.md"
+        },
+        "createdAt": "2026-05-27",
+        "updatedAt": "2026-05-27",
+        "timeline": {},
+        "type": "extra",
+        "installBody": "Add installation instructions here.",
+        "role": "variant"
+      }
+    ],
+    "gaia-meta-audit": [
+      {
+        "id": "mbtiongson1/gaia-meta-audit",
+        "name": "Gaia Meta Audit",
+        "contributor": "mbtiongson1",
+        "origin": true,
+        "genericSkillRef": "gaia-meta-audit",
+        "status": "named",
+        "level": "4★",
+        "description": "Produces a prioritized review queue of Gaia registry entries needing",
+        "title": "The Triage Director",
+        "tags": {},
+        "links": {
+          "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-meta-audit/SKILL.md"
+        },
+        "createdAt": "2026-05-27",
+        "updatedAt": "2026-05-27",
+        "timeline": {},
+        "type": "extra",
+        "installBody": "Add installation instructions here.",
+        "role": "origin"
+      }
+    ],
+    "knowledge-graph-build": [
+      {
+        "id": "mbtiongson1/graphify-triage",
+        "name": "Graphify Triage",
+        "contributor": "mbtiongson1",
+        "origin": false,
+        "genericSkillRef": "knowledge-graph-build",
+        "status": "named",
+        "level": "3★",
+        "description": "Analyzes the Gaia skill dependency graph to surface orphaned nodes, missing",
+        "title": "The Graph Surgeon",
+        "tags": {},
+        "links": {
+          "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/graphify-triage/SKILL.md"
+        },
+        "createdAt": "2026-05-27",
+        "updatedAt": "2026-05-27",
+        "timeline": {},
+        "type": "extra",
+        "installBody": "Add installation instructions here.",
+        "role": "variant"
+      },
+      {
+        "id": "safishamsi/graphify",
+        "name": "Graphify",
+        "contributor": "safishamsi",
+        "origin": true,
+        "genericSkillRef": "knowledge-graph-build",
+        "status": "named",
+        "level": "3★",
+        "description": "Maps codebases and documentation into a queryable knowledge graph using AST analysis and semantic extraction.",
+        "title": "The Structural Muse",
+        "tags": [
+          "knowledge-graph",
+          "rag",
+          "ast"
+        ],
+        "links": {
+          "github": "https://github.com/safishamsi/graphify"
+        },
+        "createdAt": "2026-05-14",
+        "updatedAt": "2026-05-14",
+        "type": "extra",
+        "role": "origin"
+      }
+    ],
+    "research": [
+      {
+        "id": "mbtiongson1/research",
+        "name": "Research",
+        "contributor": "mbtiongson1",
+        "origin": true,
+        "genericSkillRef": "research",
+        "status": "named",
+        "level": "3★",
+        "description": "Conducts multi-source research by decomposing a topic into sub-questions,",
+        "title": "The Cartographer",
+        "tags": {},
+        "links": {
+          "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-curate/SKILL.md"
+        },
+        "createdAt": "2026-05-27",
+        "updatedAt": "2026-05-27",
+        "timeline": {},
+        "type": "extra",
+        "installBody": "Add installation instructions here.",
+        "role": "origin"
+      }
+    ],
     "design-generation": [
       {
         "id": "nexu-io/open-design",
@@ -4588,31 +4915,6 @@
         "role": "origin"
       }
     ],
-    "knowledge-graph-build": [
-      {
-        "id": "safishamsi/graphify",
-        "name": "Graphify",
-        "contributor": "safishamsi",
-        "origin": true,
-        "genericSkillRef": "knowledge-graph-build",
-        "status": "named",
-        "level": "3★",
-        "description": "Maps codebases and documentation into a queryable knowledge graph using AST analysis and semantic extraction.",
-        "title": "The Structural Muse",
-        "tags": [
-          "knowledge-graph",
-          "rag",
-          "ast"
-        ],
-        "links": {
-          "github": "https://github.com/safishamsi/graphify"
-        },
-        "createdAt": "2026-05-14",
-        "updatedAt": "2026-05-14",
-        "type": "extra",
-        "role": "origin"
-      }
-    ],
     "career-operations": [
       {
         "id": "santifer/career-ops",
@@ -5706,6 +6008,22 @@
       "mattpocock/ubiquitous-language",
       "mattpocock/write-a-skill",
       "mattpocock/zoom-out"
+    ],
+    "mbtiongson1": [
+      "mbtiongson1/gaia-audit",
+      "mbtiongson1/gaia-bot-curate",
+      "mbtiongson1/gaia-curate",
+      "mbtiongson1/gaia-curation-review",
+      "mbtiongson1/gaia-docs-sync",
+      "mbtiongson1/gaia-draft-curate",
+      "mbtiongson1/gaia-integrity",
+      "mbtiongson1/gaia-meta-audit",
+      "mbtiongson1/gaia-preview",
+      "mbtiongson1/gaia-triage",
+      "mbtiongson1/gaia-wiki-sync",
+      "mbtiongson1/graphify-triage",
+      "mbtiongson1/research",
+      "mbtiongson1/web-scrape"
     ],
     "nexu-io": [
       "nexu-io/open-design"

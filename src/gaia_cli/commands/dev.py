@@ -890,6 +890,23 @@ def meta_add_command(args):
             "createdAt": datetime.date.today().isoformat(),
             "updatedAt": datetime.date.today().isoformat(),
         }
+
+        # Apply --title if provided
+        title = getattr(args, "title", None)
+        if title:
+            meta["title"] = title
+
+        # Apply --extra-fields for named skills (links, tags, catalogRef, origin, etc.)
+        if getattr(args, "extra_fields", None):
+            try:
+                extra = json.loads(args.extra_fields)
+                if isinstance(extra, dict):
+                    meta.update({k: v for k, v in extra.items() if v is not None})
+                else:
+                    print("Warning: --extra-fields must be a JSON object. Skipping.")
+            except json.JSONDecodeError:
+                print("Warning: Could not parse extra-fields JSON. Skipping.")
+
         body = "\n\n## Installation\nAdd installation instructions here.\n"
         _write_md(dest_file, meta, body)
         print(f"Created named skill: {dest_file}")
