@@ -1,216 +1,260 @@
 (function () {
   // ──────────────────────────────────────────────────────────────────
-  // profile-timeline.js — Skill Progression Timeline (vertical, linear)
+  // profile-timeline.js — Dual-panel Progression Timeline
+  //
+  // Left panel:  SVG step-line chart (rank over time, per skill)
+  // Right panel: Infinite-scrollable chronological event list
   //
   // Data contract: window.PROFILE_TIMELINE = { skills[], events[] }
-  // Render target:  <div id="profile-timeline" ...>
-  //
-  // Design: chronological event list grouped by month, with a
-  // continuous vertical connector line and tier-coloured markers.
+  // Render target: <div id="profile-timeline">
   // ──────────────────────────────────────────────────────────────────
 
-  // ── CSS injected once ─────────────────────────────────────────────
+  // ── CSS (self-injected once) ──────────────────────────────────────
   var _cssInjected = false;
   function _injectStyles() {
     if (_cssInjected || typeof document === 'undefined') return;
     _cssInjected = true;
-    var style = document.createElement('style');
-    style.id = 'profile-timeline-styles';
-    style.textContent = [
-      /* Container */
-      '.ptl { position: relative; padding: 0; }',
+    var el = document.createElement('style');
+    el.id = 'ptl2-styles';
+    el.textContent = [
+      /* ── Wrapper ── */
+      '.ptl2 {',
+      '  display: grid;',
+      '  grid-template-columns: 1fr 340px;',
+      '  gap: 0;',
+      '  border: 1px solid var(--border,#1e293b);',
+      '  border-radius: 10px;',
+      '  overflow: hidden;',
+      '  background: rgba(15,23,42,0.6);',
+      '  min-height: 360px;',
+      '}',
 
-      /* Continuous vertical spine */
-      '.ptl__spine {',
+      /* ── Left: chart panel ── */
+      '.ptl2__chart-panel {',
+      '  position: relative;',
+      '  padding: 20px 16px 16px 16px;',
+      '  border-right: 1px solid var(--border,#1e293b);',
+      '  min-width: 0;',
+      '}',
+      '.ptl2__chart-title {',
+      '  font-family: var(--font-mono,monospace);',
+      '  font-size: 0.6rem;',
+      '  letter-spacing: 0.12em;',
+      '  text-transform: uppercase;',
+      '  color: rgba(226,232,240,0.3);',
+      '  margin-bottom: 12px;',
+      '}',
+      '.ptl2__chart-svg {',
+      '  display: block;',
+      '  width: 100%;',
+      '  height: auto;',
+      '  overflow: visible;',
+      '}',
+
+      /* ── Legend ── */
+      '.ptl2__legend {',
+      '  display: flex;',
+      '  flex-wrap: wrap;',
+      '  gap: 4px 12px;',
+      '  margin-top: 10px;',
+      '}',
+      '.ptl2__legend-item {',
+      '  display: inline-flex;',
+      '  align-items: center;',
+      '  gap: 5px;',
+      '  font-family: var(--font-body,sans-serif);',
+      '  font-size: 0.68rem;',
+      '  color: rgba(226,232,240,0.5);',
+      '  cursor: pointer;',
+      '  border-radius: 3px;',
+      '  padding: 1px 5px 1px 2px;',
+      '  transition: color 0.15s, background 0.15s;',
+      '}',
+      '.ptl2__legend-item:hover { color: var(--text,#e2e8f0); background: rgba(255,255,255,0.04); }',
+      '.ptl2__legend-item.is-muted { opacity: 0.3; }',
+      '.ptl2__legend-dot {',
+      '  width: 8px; height: 8px;',
+      '  border-radius: 50%;',
+      '  flex-shrink: 0;',
+      '}',
+
+      /* ── Right: scrollable event list ── */
+      '.ptl2__feed-panel {',
+      '  display: flex;',
+      '  flex-direction: column;',
+      '  min-width: 0;',
+      '}',
+      '.ptl2__feed-header {',
+      '  padding: 12px 16px 10px;',
+      '  border-bottom: 1px solid var(--border,#1e293b);',
+      '  font-family: var(--font-mono,monospace);',
+      '  font-size: 0.6rem;',
+      '  letter-spacing: 0.12em;',
+      '  text-transform: uppercase;',
+      '  color: rgba(226,232,240,0.3);',
+      '  flex-shrink: 0;',
+      '}',
+      '.ptl2__feed-scroll {',
+      '  flex: 1;',
+      '  overflow-y: auto;',
+      '  overscroll-behavior: contain;',
+      '  scrollbar-width: thin;',
+      '  scrollbar-color: rgba(100,116,139,0.3) transparent;',
+      '  max-height: 440px;',
+      '}',
+      '.ptl2__feed-scroll::-webkit-scrollbar { width: 4px; }',
+      '.ptl2__feed-scroll::-webkit-scrollbar-thumb { background: rgba(100,116,139,0.3); border-radius: 2px; }',
+
+      /* Spine inside feed */
+      '.ptl2__feed-inner { position: relative; padding: 8px 0 16px 0; }',
+      '.ptl2__feed-spine {',
       '  position: absolute;',
-      '  left: 20px;',
-      '  top: 8px;',
-      '  bottom: 0;',
+      '  left: 22px;',
+      '  top: 0; bottom: 0;',
       '  width: 1px;',
-      '  background: linear-gradient(to bottom,',
-      '    transparent 0%,',
-      '    var(--border, #1e293b) 6%,',
-      '    var(--border, #1e293b) 94%,',
-      '    transparent 100%);',
+      '  background: var(--border,#1e293b);',
+      '  pointer-events: none;',
       '}',
 
       /* Month group */
-      '.ptl__month { position: relative; margin-bottom: 0; }',
-
-      /* Month header label */
-      '.ptl__month-label {',
-      '  position: sticky;',
-      '  top: 64px;',
-      '  z-index: 2;',
-      '  display: inline-flex;',
-      '  align-items: center;',
-      '  gap: 0.5rem;',
-      '  margin-left: 48px;',
-      '  margin-bottom: 1rem;',
-      '  margin-top: 1.5rem;',
-      '  padding: 0.2rem 0.65rem;',
-      '  font-family: var(--font-mono, monospace);',
-      '  font-size: 0.65rem;',
-      '  letter-spacing: 0.12em;',
-      '  text-transform: uppercase;',
-      '  color: rgba(226, 232, 240, 0.35);',
-      '  background: var(--bg, #030712);',
-      '  border: 1px solid var(--border, #1e293b);',
-      '  border-radius: 3px;',
-      '  pointer-events: none;',
-      '}',
-      '.ptl__month:first-child .ptl__month-label { margin-top: 0; }',
-
-      /* Each event row */
-      '.ptl__event {',
-      '  position: relative;',
-      '  display: grid;',
-      '  grid-template-columns: 41px 1fr;',
-      '  gap: 0;',
-      '  margin-bottom: 2px;',
-      '  align-items: start;',
-      '}',
-
-      /* Marker column (holds the dot) */
-      '.ptl__marker-col {',
-      '  display: flex;',
-      '  flex-direction: column;',
-      '  align-items: center;',
-      '  padding-top: 13px;',
-      '}',
-
-      /* The dot */
-      '.ptl__dot {',
-      '  width: 9px;',
-      '  height: 9px;',
-      '  border-radius: 50%;',
-      '  border: 1.5px solid var(--border, #1e293b);',
-      '  background: var(--bg, #030712);',
-      '  flex-shrink: 0;',
-      '  transition: transform 0.15s, box-shadow 0.15s;',
-      '}',
-      '.ptl__dot--rank { width: 11px; height: 11px; border-width: 2px; }',
-      '.ptl__dot--basic    { border-color: var(--tier-basic, #38bdf8);    background: rgba(56,189,248,.12); }',
-      '.ptl__dot--extra    { border-color: var(--tier-extra, #c084fc);    background: rgba(192,132,252,.12); }',
-      '.ptl__dot--unique   { border-color: var(--tier-unique, #7c3aed);   background: #000; }',
-      '.ptl__dot--ultimate { border-color: var(--tier-ultimate, #f59e0b); background: rgba(245,158,11,.12); }',
-      '.ptl__event--rank-up .ptl__dot--basic    { box-shadow: 0 0 8px  rgba(56,189,248,.5); }',
-      '.ptl__event--rank-up .ptl__dot--extra    { box-shadow: 0 0 8px  rgba(192,132,252,.5); }',
-      '.ptl__event--rank-up .ptl__dot--unique   { box-shadow: 0 0 10px rgba(124,58,237,.7); }',
-      '.ptl__event--rank-up .ptl__dot--ultimate { box-shadow: 0 0 10px rgba(245,158,11,.6); }',
-
-      /* Card */
-      '.ptl__card {',
-      '  padding: 8px 14px 8px 16px;',
-      '  border-radius: 6px;',
-      '  transition: background 0.15s;',
-      '}',
-      '.ptl__card:hover { background: rgba(255,255,255,0.03); }',
-
-      /* Card head */
-      '.ptl__card-head {',
-      '  display: flex;',
-      '  align-items: baseline;',
-      '  gap: 0.45rem;',
-      '  flex-wrap: wrap;',
-      '}',
-
-      '.ptl__skill-name {',
-      '  font-family: var(--font-body, sans-serif);',
-      '  font-size: 0.88rem;',
-      '  font-weight: 600;',
-      '  color: var(--text, #e2e8f0);',
-      '  line-height: 1.4;',
-      '}',
-
-      /* Action chip */
-      '.ptl__action-chip {',
-      '  display: inline-block;',
-      '  font-family: var(--font-mono, monospace);',
+      '.ptl2__month { position: relative; }',
+      '.ptl2__month-label {',
+      '  display: block;',
+      '  margin: 10px 0 6px 42px;',
+      '  font-family: var(--font-mono,monospace);',
       '  font-size: 0.58rem;',
       '  letter-spacing: 0.1em;',
       '  text-transform: uppercase;',
-      '  font-weight: 700;',
-      '  padding: 2px 7px;',
-      '  border-radius: 3px;',
-      '  flex-shrink: 0;',
-      '  line-height: 1.6;',
-      '}',
-      '.ptl__action-chip--register { color: var(--muted,#64748b); background: rgba(100,116,139,.1); border: 1px solid rgba(100,116,139,.2); }',
-      '.ptl__action-chip--propose  { color: var(--tier-basic,#38bdf8); background: rgba(56,189,248,.08); border: 1px solid rgba(56,189,248,.2); }',
-      '.ptl__action-chip--add      { color: var(--tier-basic,#38bdf8); background: rgba(56,189,248,.08); border: 1px solid rgba(56,189,248,.2); }',
-      '.ptl__action-chip--rank_up  { color: #86efac; background: rgba(134,239,172,.08); border: 1px solid rgba(134,239,172,.22); }',
-      '.ptl__action-chip--ascend   { color: #86efac; background: rgba(134,239,172,.08); border: 1px solid rgba(134,239,172,.22); }',
-      '.ptl__action-chip--promote  { color: #86efac; background: rgba(134,239,172,.08); border: 1px solid rgba(134,239,172,.22); }',
-      '.ptl__action-chip--demote   { color: var(--honor-red,#ef4444); background: rgba(239,68,68,.08); border: 1px solid rgba(239,68,68,.2); }',
-      '.ptl__action-chip--fuse     { color: var(--tier-ultimate,#f59e0b); background: rgba(245,158,11,.08); border: 1px solid rgba(245,158,11,.2); }',
-      '.ptl__action-chip--default  { color: var(--muted,#64748b); background: rgba(100,116,139,.08); border: 1px solid rgba(100,116,139,.18); }',
-
-      /* Rank change */
-      '.ptl__rank-change {',
-      '  display: inline-flex;',
-      '  align-items: center;',
-      '  gap: 4px;',
-      '  font-family: var(--font-mono,monospace);',
-      '  font-size: 0.72rem;',
-      '  color: rgba(226,232,240,0.5);',
-      '  flex-shrink: 0;',
-      '}',
-      '.ptl__rank-from  { text-decoration: line-through; opacity: 0.55; }',
-      '.ptl__rank-to    { color: #86efac; font-weight: 700; }',
-      '.ptl__rank-arrow { opacity: 0.4; font-size: 0.6rem; }',
-
-      /* Details & date */
-      '.ptl__details {',
-      '  margin-top: 2px;',
-      '  font-size: 0.76rem;',
-      '  color: rgba(226,232,240,0.35);',
-      '  line-height: 1.4;',
-      '}',
-      '.ptl__date {',
-      '  font-family: var(--font-mono,monospace);',
-      '  font-size: 0.62rem;',
       '  color: rgba(226,232,240,0.22);',
-      '  letter-spacing: 0.04em;',
-      '  margin-top: 2px;',
+      '}',
+      '.ptl2__month:first-child .ptl2__month-label { margin-top: 4px; }',
+
+      /* Event row */
+      '.ptl2__event {',
+      '  display: grid;',
+      '  grid-template-columns: 44px 1fr;',
+      '  align-items: start;',
+      '  margin-bottom: 1px;',
+      '}',
+      '.ptl2__marker-col {',
+      '  display: flex;',
+      '  align-items: flex-start;',
+      '  justify-content: center;',
+      '  padding-top: 11px;',
+      '}',
+      '.ptl2__dot {',
+      '  width: 7px; height: 7px;',
+      '  border-radius: 50%;',
+      '  border: 1.5px solid var(--border,#1e293b);',
+      '  background: var(--bg,#030712);',
+      '  flex-shrink: 0;',
+      '}',
+      '.ptl2__dot--basic    { border-color: var(--tier-basic,#38bdf8);    background: rgba(56,189,248,.15); }',
+      '.ptl2__dot--extra    { border-color: var(--tier-extra,#c084fc);    background: rgba(192,132,252,.15); }',
+      '.ptl2__dot--unique   { border-color: var(--tier-unique,#7c3aed);   background: #000; }',
+      '.ptl2__dot--ultimate { border-color: var(--tier-ultimate,#f59e0b); background: rgba(245,158,11,.15); }',
+      '.ptl2__dot--rank { width: 9px; height: 9px; border-width: 2px; }',
+      '.ptl2__event--rank-up .ptl2__dot--basic    { box-shadow: 0 0 6px rgba(56,189,248,.5); }',
+      '.ptl2__event--rank-up .ptl2__dot--extra    { box-shadow: 0 0 6px rgba(192,132,252,.5); }',
+      '.ptl2__event--rank-up .ptl2__dot--unique   { box-shadow: 0 0 8px rgba(124,58,237,.7); }',
+      '.ptl2__event--rank-up .ptl2__dot--ultimate { box-shadow: 0 0 8px rgba(245,158,11,.6); }',
+
+      /* Card */
+      '.ptl2__card {',
+      '  padding: 7px 14px 7px 0;',
+      '  border-radius: 4px;',
+      '  transition: background 0.12s;',
+      '}',
+      '.ptl2__card:hover { background: rgba(255,255,255,0.025); }',
+      '.ptl2__card-head {',
+      '  display: flex;',
+      '  align-items: baseline;',
+      '  gap: 5px;',
+      '  flex-wrap: wrap;',
+      '}',
+      '.ptl2__skill-name {',
+      '  font-size: 0.8rem;',
+      '  font-weight: 600;',
+      '  color: var(--text,#e2e8f0);',
+      '  line-height: 1.35;',
+      '  flex-shrink: 1;',
+      '  min-width: 0;',
+      '}',
+      '.ptl2__chip {',
+      '  font-family: var(--font-mono,monospace);',
+      '  font-size: 0.54rem;',
+      '  letter-spacing: 0.08em;',
+      '  text-transform: uppercase;',
+      '  font-weight: 700;',
+      '  padding: 1px 5px;',
+      '  border-radius: 2px;',
+      '  flex-shrink: 0;',
+      '  line-height: 1.7;',
+      '}',
+      '.ptl2__chip--register { color: var(--muted,#64748b); background: rgba(100,116,139,.1); border: 1px solid rgba(100,116,139,.2); }',
+      '.ptl2__chip--propose  { color: var(--tier-basic,#38bdf8); background: rgba(56,189,248,.07); border: 1px solid rgba(56,189,248,.2); }',
+      '.ptl2__chip--add      { color: var(--tier-basic,#38bdf8); background: rgba(56,189,248,.07); border: 1px solid rgba(56,189,248,.2); }',
+      '.ptl2__chip--rank_up  { color: #86efac; background: rgba(134,239,172,.07); border: 1px solid rgba(134,239,172,.2); }',
+      '.ptl2__chip--ascend   { color: #86efac; background: rgba(134,239,172,.07); border: 1px solid rgba(134,239,172,.2); }',
+      '.ptl2__chip--promote  { color: #86efac; background: rgba(134,239,172,.07); border: 1px solid rgba(134,239,172,.2); }',
+      '.ptl2__chip--demote   { color: #ef4444; background: rgba(239,68,68,.07);   border: 1px solid rgba(239,68,68,.2); }',
+      '.ptl2__chip--fuse     { color: var(--tier-ultimate,#f59e0b); background: rgba(245,158,11,.07); border: 1px solid rgba(245,158,11,.2); }',
+      '.ptl2__chip--default  { color: var(--muted,#64748b); background: rgba(100,116,139,.07); border: 1px solid rgba(100,116,139,.15); }',
+
+      /* Rank delta */
+      '.ptl2__rank-delta {',
+      '  display: inline-flex; align-items: center; gap: 3px;',
+      '  font-family: var(--font-mono,monospace);',
+      '  font-size: 0.68rem; color: rgba(226,232,240,0.45);',
+      '  flex-shrink: 0;',
+      '}',
+      '.ptl2__rank-from { text-decoration: line-through; opacity: 0.5; }',
+      '.ptl2__rank-to   { color: #86efac; font-weight: 700; }',
+      '.ptl2__rank-arr  { opacity: 0.35; }',
+      '.ptl2__date {',
+      '  font-family: var(--font-mono,monospace);',
+      '  font-size: 0.58rem;',
+      '  color: rgba(226,232,240,0.18);',
+      '  margin-top: 1px;',
       '}',
 
-      /* Empty state */
-      '.ptl__empty {',
-      '  padding: 3rem 0;',
-      '  text-align: center;',
+      /* Empty */
+      '.ptl2__empty {',
+      '  display: flex; align-items: center; justify-content: center;',
+      '  min-height: 200px;',
       '  font-family: var(--font-mono,monospace);',
-      '  font-size: 0.8rem;',
-      '  color: rgba(226,232,240,0.25);',
+      '  font-size: 0.75rem;',
+      '  color: rgba(226,232,240,0.2);',
       '  letter-spacing: 0.08em;',
       '}',
 
-      /* Entrance animation */
-      '@keyframes ptl-slide-in {',
-      '  from { opacity: 0; transform: translateX(-6px); }',
+      /* Entrance */
+      '@keyframes ptl2-in {',
+      '  from { opacity: 0; transform: translateX(-4px); }',
       '  to   { opacity: 1; transform: translateX(0); }',
       '}',
-      '.ptl__event {',
-      '  opacity: 0;',
-      '  animation: ptl-slide-in 0.28s ease-out forwards;',
-      '}',
+      '.ptl2__event { opacity: 0; animation: ptl2-in 0.22s ease-out forwards; }',
+      '@media (prefers-reduced-motion: reduce) { .ptl2__event { animation: none !important; opacity: 1 !important; } }',
 
-      /* Reduced motion */
-      '@media (prefers-reduced-motion: reduce) {',
-      '  .ptl__event { animation: none !important; opacity: 1 !important; }',
-      '}',
-
-      /* Responsive */
-      '@media (max-width: 480px) {',
-      '  .ptl__skill-name   { font-size: 0.82rem; }',
-      '  .ptl__action-chip  { font-size: 0.52rem; }',
-      '  .ptl__rank-change  { font-size: 0.65rem; }',
+      /* Responsive: stack on narrow */
+      '@media (max-width: 700px) {',
+      '  .ptl2 { grid-template-columns: 1fr; }',
+      '  .ptl2__chart-panel { border-right: none; border-bottom: 1px solid var(--border,#1e293b); }',
+      '  .ptl2__feed-scroll { max-height: 320px; }',
       '}',
     ].join('\n');
-    document.head.appendChild(style);
+    document.head.appendChild(el);
   }
 
-  // ── Helpers ───────────────────────────────────────────────────────
+  // ── Utility ───────────────────────────────────────────────────────
+  var NS = 'http://www.w3.org/2000/svg';
+  function svgEl(tag, attrs, textContent) {
+    var el = document.createElementNS(NS, tag);
+    if (attrs) Object.keys(attrs).forEach(function (k) { el.setAttribute(k, attrs[k]); });
+    if (textContent != null) el.textContent = textContent;
+    return el;
+  }
+
   function esc(s) {
     return String(s == null ? '' : s)
       .replace(/&/g, '&amp;').replace(/</g, '&lt;')
@@ -222,208 +266,509 @@
     var s = String(level);
     var m = s.match(/^(\d)/);
     if (m) return Math.min(6, parseInt(m[1], 10));
-    var stars = (s.match(/★/g) || []).length;
-    if (stars > 0) return Math.min(6, stars);
-    return 0;
+    return Math.min(6, (s.match(/★/g) || []).length);
   }
 
-  function fmtMonthYear(d) {
-    return d.toLocaleString('en', { month: 'long', year: 'numeric', timeZone: 'UTC' });
-  }
+  var TIER_COLOR = {
+    basic:    'var(--tier-basic,#38bdf8)',
+    extra:    'var(--tier-extra,#c084fc)',
+    unique:   'var(--tier-unique,#7c3aed)',
+    ultimate: 'var(--tier-ultimate,#f59e0b)',
+  };
+  var TIER_HEX = {
+    basic: '#38bdf8', extra: '#c084fc', unique: '#7c3aed', ultimate: '#f59e0b',
+  };
 
-  function fmtDay(d) {
-    return d.toLocaleString('en', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
-  }
-
-  function monthKey(d) {
-    return d.getUTCFullYear() + '-' + String(d.getUTCMonth() + 1).padStart(2, '0');
-  }
-
-  var ACTION_CHIP_MAP = {
+  var ACTION_CHIP = {
     register: 'register', propose: 'propose', add: 'add',
     rank_up: 'rank_up', ascend: 'ascend', promote: 'promote',
     demote: 'demote', fuse: 'fuse',
   };
-
   var ACTION_LABEL = {
     register: 'Registered', propose: 'Proposed', add: 'Added',
     rank_up: 'Ranked Up', ascend: 'Ascended', promote: 'Promoted',
     demote: 'Demoted', fuse: 'Fused',
   };
-
-  function isRankAction(action) {
-    return action === 'rank_up' || action === 'ascend' || action === 'fuse'
-      || action === 'promote' || action === 'demote';
+  function isRankAction(a) {
+    return a === 'rank_up' || a === 'ascend' || a === 'fuse' || a === 'promote' || a === 'demote';
   }
 
-  // ── Build unified event list ──────────────────────────────────────
+  function fmtMonth(d) { return d.toLocaleString('en', { month: 'short', year: 'numeric', timeZone: 'UTC' }); }
+  function fmtDay(d)   { return d.toLocaleString('en', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }); }
+  function monthKey(d) { return d.getUTCFullYear() + '-' + String(d.getUTCMonth() + 1).padStart(2, '0'); }
+
+  // ── Build events ──────────────────────────────────────────────────
   function buildEvents(data) {
     var skillMap = {};
     (data.skills || []).forEach(function (s) { skillMap[s.id] = s; });
 
     var events = [];
+    var seenKeys = {};
 
-    // 1. Level-history from each skill's levelHistory
+    // Level history entries
     (data.skills || []).forEach(function (skill) {
       (skill.levelHistory || []).forEach(function (h) {
         var ts = new Date(h.achievedAt);
-        if (isNaN(ts.getTime())) return;
-        events.push({
-          ts: ts,
-          skillId: skill.id,
-          skillName: skill.name || skill.id,
-          type: skill.type || 'basic',
-          action: h.source === 'promotion' ? 'rank_up' : (h.source || 'rank_up'),
-          newValue: h.level || null,
-          previousValue: null,
-          details: null,
-        });
+        if (isNaN(ts)) return;
+        var k = ts.toISOString() + '|rank_up|' + skill.id;
+        if (seenKeys[k]) return;
+        seenKeys[k] = true;
+        events.push({ ts: ts, skillId: skill.id, skillName: skill.name || skill.id,
+          type: skill.type || 'basic', action: 'rank_up',
+          newValue: h.level || null, previousValue: null, details: null });
       });
     });
 
-    // 2. Explicit events, deduplicated
-    var seenKeys = {};
-    events.forEach(function (e) {
-      seenKeys[e.ts.toISOString() + '|' + e.action + '|' + e.skillId] = true;
-    });
-
+    // Explicit events
     (data.events || []).forEach(function (ev) {
       var ts = new Date(ev.timestamp);
-      if (isNaN(ts.getTime())) return;
-      var key = ts.toISOString() + '|' + (ev.action || '') + '|' + (ev.skillId || '');
-      if (seenKeys[key]) return;
-      seenKeys[key] = true;
+      if (isNaN(ts)) return;
+      var k = ts.toISOString() + '|' + (ev.action||'') + '|' + (ev.skillId||'');
+      if (seenKeys[k]) return;
+      seenKeys[k] = true;
       var skill = skillMap[ev.skillId] || {};
-      events.push({
-        ts: ts,
-        skillId: ev.skillId,
-        skillName: skill.name || ev.skillId,
-        type: skill.type || 'basic',
-        action: ev.action || 'register',
-        newValue: ev.newValue || null,
-        previousValue: ev.previousValue || null,
-        details: ev.details || null,
-      });
+      events.push({ ts: ts, skillId: ev.skillId, skillName: skill.name || ev.skillId,
+        type: skill.type || 'basic', action: ev.action || 'register',
+        newValue: ev.newValue || null, previousValue: ev.previousValue || null,
+        details: ev.details || null });
     });
 
-    // Newest first
     events.sort(function (a, b) { return b.ts - a.ts; });
     return events;
   }
 
-  // ── Group by month ────────────────────────────────────────────────
-  function groupByMonth(events) {
-    var groups = [];
-    var groupMap = {};
-    events.forEach(function (ev) {
-      var k = monthKey(ev.ts);
-      if (!groupMap[k]) {
-        groupMap[k] = { key: k, label: fmtMonthYear(ev.ts), events: [] };
-        groups.push(groupMap[k]);
-      }
-      groupMap[k].events.push(ev);
-    });
-    return groups;
-  }
+  // ── META-SHIFT detection ──────────────────────────────────────────
+  // A "meta shift" boundary is a gap > GAP_DAYS between any two
+  // consecutive event dates. We collect these timestamps to draw
+  // dashed separator lines on the chart.
+  var GAP_DAYS = 7;
 
-  // ── Render one event ──────────────────────────────────────────────
-  function renderEvent(ev, idx) {
-    var action = ev.action || 'register';
-    var chipClass = 'ptl__action-chip--' + (ACTION_CHIP_MAP[action] || 'default');
-    var label = ACTION_LABEL[action] || action.replace(/_/g, ' ').replace(/\b\w/g, function (c) { return c.toUpperCase(); });
-    var isRank = isRankAction(action);
-
-    var dotClass = 'ptl__dot ptl__dot--' + (ev.type || 'basic') + (isRank ? ' ptl__dot--rank' : '');
-    var rowClass = 'ptl__event' + (isRank ? ' ptl__event--rank-up' : '');
-
-    var rankChangeHtml = '';
-    if (ev.newValue) {
-      if (isRank && ev.previousValue) {
-        rankChangeHtml = '<span class="ptl__rank-change">'
-          + '<span class="ptl__rank-from">' + esc(ev.previousValue) + '</span>'
-          + '<span class="ptl__rank-arrow"> → </span>'
-          + '<span class="ptl__rank-to">' + esc(ev.newValue) + '</span>'
-          + '</span>';
-      } else if (isRank) {
-        rankChangeHtml = '<span class="ptl__rank-change">'
-          + '<span class="ptl__rank-to">' + esc(ev.newValue) + '</span>'
-          + '</span>';
+  function detectMetaShifts(events) {
+    var sorted = events.slice().sort(function (a, b) { return a.ts - b.ts; });
+    var shifts = []; // ms timestamps where a shift starts
+    for (var i = 1; i < sorted.length; i++) {
+      var gap = (sorted[i].ts - sorted[i - 1].ts) / 86400000;
+      if (gap >= GAP_DAYS) {
+        // midpoint between the two clusters
+        shifts.push((sorted[i].ts.getTime() + sorted[i - 1].ts.getTime()) / 2);
       }
     }
+    return shifts;
+  }
 
-    var detailsHtml = (ev.details && action !== 'register')
-      ? '<div class="ptl__details">' + esc(ev.details) + '</div>'
-      : '';
+  // ── SVG Chart ─────────────────────────────────────────────────────
+  var M = { top: 28, right: 20, bottom: 36, left: 44 };
+  var VW = 560, VH = 280;
+  var IW = VW - M.left - M.right;
+  var IH = VH - M.top - M.bottom;
 
-    var delay = Math.min(idx * 25, 500);
+  function buildChart(data, events) {
+    var skills = (data.skills || []).filter(function (s) {
+      return s.levelHistory && s.levelHistory.length > 0;
+    });
+    if (skills.length === 0) return null;
 
-    return '<div class="' + rowClass + '" role="listitem" style="animation-delay:' + delay + 'ms">'
-      + '<div class="ptl__marker-col" aria-hidden="true">'
-      +   '<span class="' + esc(dotClass) + '"></span>'
-      + '</div>'
-      + '<div class="ptl__card">'
-      +   '<div class="ptl__card-head">'
-      +     '<span class="ptl__skill-name">' + esc(ev.skillName) + '</span>'
-      +     '<span class="ptl__action-chip ' + chipClass + '" aria-label="' + esc(label) + '">' + esc(label) + '</span>'
-      +     rankChangeHtml
-      +   '</div>'
-      +   detailsHtml
-      +   '<time class="ptl__date" datetime="' + esc(ev.ts.toISOString()) + '">' + esc(fmtDay(ev.ts)) + '</time>'
-      + '</div>'
-      + '</div>';
+    // Time domain: earliest event → now + 7 days padding
+    var allTs = [];
+    skills.forEach(function (s) {
+      (s.levelHistory || []).forEach(function (h) { allTs.push(new Date(h.achievedAt).getTime()); });
+    });
+    (data.events || []).forEach(function (e) { allTs.push(new Date(e.timestamp).getTime()); });
+
+    var tMin = Math.min.apply(null, allTs);
+    var tMax = Date.now();
+    // Pad left 3 days, right 5 days
+    tMin -= 3 * 86400000;
+    tMax += 5 * 86400000;
+    var tSpan = tMax - tMin || 1;
+
+    function xScale(ms) { return (ms - tMin) / tSpan * IW; }
+    function yScale(rank) { return IH - (rank / 6) * IH; }
+
+    // Detect meta-shift separators
+    var shifts = detectMetaShifts(events);
+
+    var svg = svgEl('svg', {
+      viewBox: '0 0 ' + VW + ' ' + VH,
+      'aria-hidden': 'true',
+      role: 'presentation',
+      class: 'ptl2__chart-svg',
+    });
+
+    // Defs: glow filter
+    var defs = svgEl('defs');
+    var filt = svgEl('filter', { id: 'ptl2-glow', x: '-50%', y: '-50%', width: '200%', height: '200%' });
+    filt.appendChild(svgEl('feGaussianBlur', { in: 'SourceGraphic', stdDeviation: '2.5', result: 'blur' }));
+    var fm = svgEl('feMerge');
+    fm.appendChild(svgEl('feMergeNode', { in: 'blur' }));
+    fm.appendChild(svgEl('feMergeNode', { in: 'SourceGraphic' }));
+    filt.appendChild(fm);
+    defs.appendChild(filt);
+    svg.appendChild(defs);
+
+    var g = svgEl('g', { transform: 'translate(' + M.left + ',' + M.top + ')' });
+    svg.appendChild(g);
+
+    var mutedC = 'rgba(100,116,139,0.35)';
+    var mutedLabel = 'rgba(100,116,139,0.6)';
+
+    // ── Y gridlines & labels (ranks 1–6) ──
+    for (var r = 0; r <= 6; r++) {
+      var gy = yScale(r);
+      if (r > 0) {
+        g.appendChild(svgEl('line', {
+          x1: '0', y1: String(gy), x2: String(IW), y2: String(gy),
+          stroke: mutedC, 'stroke-width': '0.5', 'stroke-dasharray': '3 5',
+        }));
+      }
+      g.appendChild(svgEl('text', {
+        x: '-8', y: String(gy + 4),
+        'text-anchor': 'end', 'font-size': '10', fill: mutedLabel,
+        'font-family': 'var(--font-mono,monospace)',
+      }, r + '★'));
+    }
+
+    // ── X axis baseline ──
+    g.appendChild(svgEl('line', {
+      x1: '0', y1: String(IH), x2: String(IW), y2: String(IH),
+      stroke: mutedC, 'stroke-width': '0.75',
+    }));
+
+    // ── X tick labels (month boundaries) ──
+    var tickMs = tMin;
+    var d0 = new Date(tMin);
+    // Advance to first of next month
+    tickMs = new Date(Date.UTC(d0.getUTCFullYear(), d0.getUTCMonth() + 1, 1)).getTime();
+    var fmt = new Intl.DateTimeFormat('en', { month: 'short', year: '2-digit', timeZone: 'UTC' });
+    while (tickMs <= tMax) {
+      var tx = xScale(tickMs);
+      g.appendChild(svgEl('line', {
+        x1: String(tx), y1: String(IH), x2: String(tx), y2: String(IH + 4),
+        stroke: mutedC, 'stroke-width': '1',
+      }));
+      g.appendChild(svgEl('text', {
+        x: String(tx), y: String(IH + 15),
+        'text-anchor': 'middle', 'font-size': '9', fill: mutedLabel,
+        'font-family': 'var(--font-mono,monospace)',
+      }, fmt.format(new Date(tickMs))));
+      // next month
+      var nd = new Date(tickMs);
+      tickMs = new Date(Date.UTC(nd.getUTCFullYear(), nd.getUTCMonth() + 1, 1)).getTime();
+    }
+
+    // ── Meta-shift separator lines ──
+    shifts.forEach(function (shiftMs) {
+      var sx = xScale(shiftMs);
+      var shiftLine = svgEl('line', {
+        x1: String(sx), y1: '-4', x2: String(sx), y2: String(IH + 4),
+        stroke: 'rgba(245,158,11,0.25)',
+        'stroke-width': '1',
+        'stroke-dasharray': '4 4',
+      });
+      g.appendChild(shiftLine);
+      // Label
+      g.appendChild(svgEl('text', {
+        x: String(sx + 3), y: '-8',
+        'font-size': '8', fill: 'rgba(245,158,11,0.45)',
+        'font-family': 'var(--font-mono,monospace)',
+        'letter-spacing': '0.06em',
+      }, 'META SHIFT'));
+    });
+
+    // ── Per-skill step-after lines ──
+    // Build skill groups for interactivity
+    var skillGroups = {};
+
+    skills.forEach(function (skill) {
+      var sorted = (skill.levelHistory || []).slice().sort(function (a, b) {
+        return new Date(a.achievedAt) - new Date(b.achievedAt);
+      });
+      if (sorted.length === 0) return;
+
+      var color = TIER_HEX[skill.type] || '#64748b';
+      var grpId = 'ptl2-sg-' + skill.id.replace(/[^a-z0-9]/gi, '-');
+
+      var grp = svgEl('g', { 'data-skill-id': skill.id, id: grpId });
+      g.appendChild(grp);
+      skillGroups[skill.id] = grp;
+
+      // Build step-after points: for each rank change, draw horizontal then vertical
+      var pts = [];
+      var prevRank = 0;
+      sorted.forEach(function (h) {
+        var ms = new Date(h.achievedAt).getTime();
+        var rank = parseRank(h.level);
+        if (pts.length > 0) {
+          // Horizontal step at old rank to this timestamp
+          pts.push({ x: xScale(ms), y: yScale(prevRank) });
+        }
+        pts.push({ x: xScale(ms), y: yScale(rank) });
+        prevRank = rank;
+      });
+
+      // Extend line to "now" (right edge)
+      if (pts.length > 0) {
+        pts.push({ x: IW, y: pts[pts.length - 1].y });
+      }
+
+      if (pts.length > 1) {
+        var ptsStr = pts.map(function (p) { return p.x.toFixed(2) + ',' + p.y.toFixed(2); }).join(' ');
+        grp.appendChild(svgEl('polyline', {
+          points: ptsStr,
+          fill: 'none',
+          stroke: color,
+          'stroke-width': '1.5',
+          'stroke-linejoin': 'round',
+          'stroke-linecap': 'round',
+          opacity: '0.75',
+        }));
+      }
+
+      // Dots at each rank change
+      sorted.forEach(function (h) {
+        var ms = new Date(h.achievedAt).getTime();
+        var rank = parseRank(h.level);
+        var cx = xScale(ms);
+        var cy = yScale(rank);
+        var dot = svgEl('circle', {
+          cx: String(cx.toFixed(2)), cy: String(cy.toFixed(2)),
+          r: rank >= 5 ? '4.5' : '3',
+          fill: color,
+          stroke: 'var(--bg,#030712)',
+          'stroke-width': '1.5',
+        });
+        if (rank >= 5) dot.setAttribute('filter', 'url(#ptl2-glow)');
+        grp.appendChild(dot);
+      });
+    });
+
+    return { svg: svg, skillGroups: skillGroups };
+  }
+
+  // ── Feed (scrollable event list) ─────────────────────────────────
+  function renderFeed(events) {
+    var groups = [];
+    var gmap = {};
+    events.forEach(function (ev) {
+      var k = monthKey(ev.ts);
+      if (!gmap[k]) { gmap[k] = { key: k, label: fmtMonth(ev.ts), events: [] }; groups.push(gmap[k]); }
+      gmap[k].events.push(ev);
+    });
+
+    var inner = document.createElement('div');
+    inner.className = 'ptl2__feed-inner';
+
+    var spine = document.createElement('div');
+    spine.className = 'ptl2__feed-spine';
+    spine.setAttribute('aria-hidden', 'true');
+    inner.appendChild(spine);
+
+    var globalIdx = 0;
+    groups.forEach(function (grp) {
+      var monthEl = document.createElement('div');
+      monthEl.className = 'ptl2__month';
+      monthEl.setAttribute('role', 'group');
+      monthEl.setAttribute('aria-label', grp.label);
+
+      var labelEl = document.createElement('span');
+      labelEl.className = 'ptl2__month-label';
+      labelEl.setAttribute('aria-hidden', 'true');
+      labelEl.textContent = grp.label;
+      monthEl.appendChild(labelEl);
+
+      grp.events.forEach(function (ev) {
+        var action = ev.action || 'register';
+        var chipCls = 'ptl2__chip ptl2__chip--' + (ACTION_CHIP[action] || 'default');
+        var chipLabel = ACTION_LABEL[action] || action.replace(/_/g, ' ');
+        var isRank = isRankAction(action);
+        var dotCls = 'ptl2__dot ptl2__dot--' + (ev.type || 'basic') + (isRank ? ' ptl2__dot--rank' : '');
+        var rowCls = 'ptl2__event' + (isRank ? ' ptl2__event--rank-up' : '');
+        var delay = Math.min(globalIdx * 20, 400);
+
+        var row = document.createElement('div');
+        row.className = rowCls;
+        row.setAttribute('role', 'listitem');
+        row.setAttribute('data-skill-id', ev.skillId || '');
+        row.style.animationDelay = delay + 'ms';
+
+        var mCol = document.createElement('div');
+        mCol.className = 'ptl2__marker-col';
+        mCol.setAttribute('aria-hidden', 'true');
+        var dot = document.createElement('span');
+        dot.className = dotCls;
+        mCol.appendChild(dot);
+        row.appendChild(mCol);
+
+        var card = document.createElement('div');
+        card.className = 'ptl2__card';
+
+        var head = document.createElement('div');
+        head.className = 'ptl2__card-head';
+
+        var nameEl = document.createElement('span');
+        nameEl.className = 'ptl2__skill-name';
+        nameEl.textContent = ev.skillName || ev.skillId || '';
+        head.appendChild(nameEl);
+
+        var chip = document.createElement('span');
+        chip.className = chipCls;
+        chip.textContent = chipLabel;
+        head.appendChild(chip);
+
+        if (ev.newValue) {
+          var delta = document.createElement('span');
+          delta.className = 'ptl2__rank-delta';
+          if (isRank && ev.previousValue) {
+            var from = document.createElement('span');
+            from.className = 'ptl2__rank-from';
+            from.textContent = ev.previousValue;
+            var arr = document.createElement('span');
+            arr.className = 'ptl2__rank-arr';
+            arr.textContent = '→';
+            var to = document.createElement('span');
+            to.className = 'ptl2__rank-to';
+            to.textContent = ev.newValue;
+            delta.appendChild(from); delta.appendChild(arr); delta.appendChild(to);
+          } else if (isRank) {
+            var to2 = document.createElement('span');
+            to2.className = 'ptl2__rank-to';
+            to2.textContent = ev.newValue;
+            delta.appendChild(to2);
+          }
+          if (delta.childNodes.length > 0) head.appendChild(delta);
+        }
+
+        card.appendChild(head);
+
+        var dateEl = document.createElement('time');
+        dateEl.className = 'ptl2__date';
+        dateEl.setAttribute('datetime', ev.ts.toISOString());
+        dateEl.textContent = fmtDay(ev.ts);
+        card.appendChild(dateEl);
+
+        row.appendChild(card);
+        monthEl.appendChild(row);
+        globalIdx++;
+      });
+
+      inner.appendChild(monthEl);
+    });
+
+    return inner;
+  }
+
+  // ── Legend with toggle ────────────────────────────────────────────
+  function buildLegend(skills, skillGroups) {
+    var div = document.createElement('div');
+    div.className = 'ptl2__legend';
+    skills.forEach(function (skill) {
+      if (!skill.levelHistory || skill.levelHistory.length === 0) return;
+      var item = document.createElement('span');
+      item.className = 'ptl2__legend-item';
+      item.setAttribute('role', 'checkbox');
+      item.setAttribute('aria-checked', 'true');
+      item.setAttribute('tabindex', '0');
+      item.setAttribute('data-skill-id', skill.id);
+
+      var dot = document.createElement('span');
+      dot.className = 'ptl2__legend-dot';
+      dot.style.background = TIER_HEX[skill.type] || '#64748b';
+      item.appendChild(dot);
+
+      var label = document.createElement('span');
+      label.textContent = skill.name || skill.id.split('/').pop();
+      item.appendChild(label);
+
+      function toggle() {
+        var grp = skillGroups[skill.id];
+        var muted = item.classList.toggle('is-muted');
+        item.setAttribute('aria-checked', muted ? 'false' : 'true');
+        if (grp) grp.style.opacity = muted ? '0' : '';
+      }
+      item.addEventListener('click', toggle);
+      item.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+      });
+
+      div.appendChild(item);
+    });
+    return div;
   }
 
   // ── Main render ───────────────────────────────────────────────────
   function renderProfileTimeline(container, data) {
     _injectStyles();
-
     while (container.firstChild) container.removeChild(container.firstChild);
 
     var hasSkills = data && data.skills && data.skills.length > 0;
     if (!hasSkills) {
-      container.innerHTML = '<div class="ptl__empty">No progression data yet.</div>';
+      container.innerHTML = '<div class="ptl2__empty">No progression data yet.</div>';
       return;
     }
 
     var events = buildEvents(data);
     if (events.length === 0) {
-      container.innerHTML = '<div class="ptl__empty">No progression data yet.</div>';
+      container.innerHTML = '<div class="ptl2__empty">No progression data yet.</div>';
       return;
     }
 
-    var groups = groupByMonth(events);
+    var wrapper = document.createElement('div');
+    wrapper.className = 'ptl2';
 
-    var html = '<div class="ptl">'
-      + '<div class="ptl__spine" aria-hidden="true"></div>';
+    // ── Left: chart panel ──
+    var chartPanel = document.createElement('div');
+    chartPanel.className = 'ptl2__chart-panel';
 
-    var globalIdx = 0;
-    groups.forEach(function (group) {
-      html += '<div class="ptl__month" role="group" aria-label="' + esc(group.label) + '">';
-      html += '<div class="ptl__month-label" aria-hidden="true">' + esc(group.label) + '</div>';
-      group.events.forEach(function (ev) {
-        html += renderEvent(ev, globalIdx++);
-      });
-      html += '</div>';
-    });
+    var chartTitle = document.createElement('div');
+    chartTitle.className = 'ptl2__chart-title';
+    chartTitle.textContent = 'Rank Progression · ' + (data.skills || []).filter(function (s) {
+      return s.levelHistory && s.levelHistory.length > 0;
+    }).length + ' skills';
+    chartPanel.appendChild(chartTitle);
 
-    html += '</div>';
-    container.innerHTML = html;
+    var chartResult = buildChart(data, events);
+    var skillGroups = {};
+    if (chartResult) {
+      chartPanel.appendChild(chartResult.svg);
+      skillGroups = chartResult.skillGroups;
+      var legend = buildLegend(data.skills || [], skillGroups);
+      chartPanel.appendChild(legend);
+    }
+
+    wrapper.appendChild(chartPanel);
+
+    // ── Right: feed panel ──
+    var feedPanel = document.createElement('div');
+    feedPanel.className = 'ptl2__feed-panel';
+
+    var feedHeader = document.createElement('div');
+    feedHeader.className = 'ptl2__feed-header';
+    feedHeader.textContent = 'Events · ' + events.length + ' total';
+    feedPanel.appendChild(feedHeader);
+
+    var feedScroll = document.createElement('div');
+    feedScroll.className = 'ptl2__feed-scroll';
+    feedScroll.setAttribute('role', 'list');
+    feedScroll.setAttribute('aria-label', 'Skill progression events');
+    feedScroll.appendChild(renderFeed(events));
+    feedPanel.appendChild(feedScroll);
+
+    wrapper.appendChild(feedPanel);
+    container.appendChild(wrapper);
   }
 
   // ── Auto-render ───────────────────────────────────────────────────
-  function _autoRender() {
+  function _auto() {
     var el = document.getElementById('profile-timeline');
-    if (el && window.PROFILE_TIMELINE) {
-      renderProfileTimeline(el, window.PROFILE_TIMELINE);
-    }
+    if (el && window.PROFILE_TIMELINE) renderProfileTimeline(el, window.PROFILE_TIMELINE);
   }
 
   if (typeof window !== 'undefined') {
     window.renderProfileTimeline = renderProfileTimeline;
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', _autoRender);
+      document.addEventListener('DOMContentLoaded', _auto);
     } else {
-      _autoRender();
+      _auto();
     }
   }
 })();
