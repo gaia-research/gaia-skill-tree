@@ -9,10 +9,9 @@ level: 4★
 description: Fetches, parses, and structures web content into clean Markdown or JSON
   — strips boilerplate, extracts main content, and preserves source provenance for
   downstream AI pipelines.
-createdAt: '2026-05-26'
-updatedAt: '2026-05-26'
+createdAt: '2026-05-27'
+updatedAt: '2026-05-27'
 title: The Registry Crawler
-catalogRef: mbtiongson1-web-scrape
 links:
   github: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/scrape/SKILL.md
 tags:
@@ -21,7 +20,7 @@ tags:
 - markdown
 - structured-data
 timeline:
-- timestamp: '2026-05-26T13:39:30Z'
+- timestamp: '2026-05-26T16:36:57Z'
   action: add
   contributor: testuser
   details: Added named skill mbtiongson1/web-scrape
