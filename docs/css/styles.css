@@ -8075,13 +8075,15 @@ button.nav-graph-trigger:hover {
 .intro-skip {
   position: absolute;
   bottom: 2rem;
-  right: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
   font-family: var(--font-mono);
-  font-size: .7rem;
+  font-size: .75rem;
   letter-spacing: .1em;
   text-transform: uppercase;
   color: var(--muted);
-  opacity: .6;
+  opacity: .8;
+  white-space: nowrap;
 }
 
 /* ── PHASE 3 MOBILE — disable 3D HUD, show static SVG fallback ── */

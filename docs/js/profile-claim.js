@@ -40,7 +40,7 @@
 
   function updateButtonText(btn) {
     const isClaimed = btn.getAttribute('data-claim') === 'claimed';
-    btn.textContent = isClaimed ? '✓ Claimed' : 'Claim';
+    btn.textContent = isClaimed ? '✓ Claimed' : 'Add to README';
   }
 
   function handleClaimClick(e) {

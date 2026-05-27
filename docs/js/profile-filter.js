@@ -219,7 +219,7 @@
     });
 
     // ── 2. Filter & Re-render timeline ──
-    if (timelineContainer && window.PROFILE_TIMELINE) {
+    if (timelineContainer && window.PROFILE_TIMELINE && typeof window.renderProfileTimeline === 'function') {
       window.renderProfileTimeline(timelineContainer, window.PROFILE_TIMELINE, {
         activeSkills: matchingSkillIds,
         minDate: state.minDate,
