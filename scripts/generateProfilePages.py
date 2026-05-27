@@ -428,7 +428,7 @@ def _plaque_actions_html(ns: dict, handle: str = "") -> str:
     claim_btn_html = (
         f'<a class="plaque__claim-btn" '
         f' href="{claim_href}" '
-        f' title="Claim Badge">Claim</a>'
+        f' title="Get README badge">Add to README</a>'
     )
     return f'<div class="plaque__actions">{share_btn_html}{claim_btn_html}</div>'
 
@@ -894,10 +894,12 @@ def build_profile_page(handle: str, skills: list, named_index: dict | None = Non
   {FOOTER_HTML}
 
   <script src="../../js/plaque-reveal.js" defer></script>
+  <script src="../../js/profile-timeline.js" defer></script>
   <script src="../../js/profile-filter.js" defer></script>
   <script src="../../js/profile-share.js" defer></script>
-  <script src="../../js/profile-timeline.js" defer></script>
   <script src="../../js/profile-claim.js" defer></script>
+  <script src="../../js/named-skills.js" defer></script>
+  <script src="../../js/skill-explorer.js" defer></script>
 
   <button id="scrollToTop" class="scroll-to-top" aria-label="Scroll to top">
     <svg class="ico" width="20" height="20" aria-hidden="true"><use href="../../assets/icons.svg#arrow-up"/></svg>

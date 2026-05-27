@@ -335,7 +335,7 @@
         '</button>' +
         '<button type="button" class="plaque__claim-btn" data-claim="unclaimed" ' +
           'aria-disabled="true" title="Badge claim coming soon">' +
-          'Claim' +
+          'Add to README' +
         '</button>' +
       '</div>';
 
