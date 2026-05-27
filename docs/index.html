@@ -44,6 +44,7 @@
       <li><button type="button" class="nav-graph-trigger" data-graph-trigger>Graph (3D)</button></li>
       <li><a href="#hall-of-heroes">Hall of Heroes</a></li>
       <li><a href="codex.html">The Codex</a></li>
+      <li><a href="badges/" style="color: var(--honor-red);">Badges</a></li>
       <li><button type="button" class="nav-tree" id="treeNavBtn">Tree</button></li>
       <li><a href="meta/reports/2026-05-25-programmatic-registry-audit.html" class="nav-meta" target="_blank" id="metaNavBtn">Meta Report</a></li>
       <li><button type="button" class="nav-copy-agent" id="copyAgentBtn" title="Copy Agent-friendly Markdown for LLMs/Agents" aria-label="Copy page context for agents"><svg class="ico" width="15" height="15" aria-hidden="true"><use href="assets/icons.svg#copy"/></svg></button></li>
@@ -75,9 +76,9 @@
           <span class="door-label">Register repo</span>
           <span class="door-caption">4 steps to join</span>
         </a>
-        <a href="#ultimates" class="door door-b">
+        <a href="badges/" class="door door-b">
           <span class="door-icon">◈</span>
-          <span class="door-label">Claim Ultimate</span>
+          <span class="door-label">Claim Badges</span>
           <span class="door-caption" id="doorBCaption">loading…</span>
         </a>
       </div>
@@ -535,7 +536,46 @@
       <div class="share-modal__toast" hidden role="status" data-share-toast></div>
     </div>
   </div>
+
+  <!-- ─── HALL OF HEROES FULLSCREEN OG VIEW ─── -->
+  <div id="hohFullscreenModal" class="hoh-fs-modal" aria-hidden="true" tabindex="-1">
+    <div class="hoh-fs-header">
+      <button class="hoh-fs-btn" data-fs-action="download" title="Download OG Image Card" aria-label="Download OG Image Card">
+        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#download"></use></svg>
+      </button>
+      <button class="hoh-fs-btn" data-fs-action="x" title="Share Permalink" aria-label="Share Permalink">
+        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#link"></use></svg>
+      </button>
+      <button class="hoh-fs-btn" data-fs-action="instagram" title="Copy OG Link & Open Instagram" aria-label="Copy OG Link & Open Instagram">
+        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#instagram"></use></svg>
+      </button>
+      <button class="hoh-fs-btn hoh-fs-btn--close" data-fs-action="close" title="Close modal" aria-label="Close modal">
+        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#close-x"></use></svg>
+      </button>
+    </div>
+
+    <div class="hoh-fs-stage" id="hohFsStage">
+      <!-- Renders plaque.renderOg() dynamically here -->
+    </div>
+
+    <div class="hoh-fs-overlay">
+      <div class="hoh-fs-overlay-title">Are you <span id="hohFsHandleText">@handle</span>? add to your README.md!</div>
+      <div class="hoh-fs-overlay-body">
+        <img id="hohFsBadgePreview" class="hoh-fs-badge-img" src="" alt="Gaia contributor badge">
+        <div class="hoh-fs-code-wrap">
+          <code id="hohFsCodeBlock" class="hoh-fs-code">[![Gaia](https://gaia.tiongson.co/badges/handle/handle.svg)](https://gaia.tiongson.co/u/handle/)</code>
+          <button id="hohFsCopyBtn" class="hoh-fs-copy-btn" type="button">
+            <svg class="ico" width="12" height="12" aria-hidden="true"><use href="assets/icons.svg#copy"></use></svg> Copy markdown
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="hohFsToast" class="hoh-fs-toast" role="status" aria-live="polite">Permalink copied!</div>
+
   <script src="js/profile-share.js?v=3.25.2"></script>
+  <script src="js/hoh-modal.js?v=3.25.2"></script>
   <script src="js/profile-claim.js?v=3.25.2"></script>
 
 </body>
