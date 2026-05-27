@@ -13,9 +13,14 @@
 [![Validate](https://github.com/mbtiongson1/gaia-skill-tree/actions/workflows/validate.yml/badge.svg)](https://github.com/mbtiongson1/gaia-skill-tree/actions/workflows/validate.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-c084fc.svg)](LICENSE)
 [![Website](https://img.shields.io/badge/Website-gaia.tiongson.co-f59e0b)](https://gaia.tiongson.co/)
-[![Gaia rank](https://gaia.tiongson.co/badges/mbtiongson1/rank.svg?repo=mbtiongson1/gaia-skill-tree)](https://gaia.tiongson.co/u/mbtiongson1/)
-[![Gaia skills](https://gaia.tiongson.co/badges/mbtiongson1/skills.svg?repo=mbtiongson1/gaia-skill-tree)](https://gaia.tiongson.co/u/mbtiongson1/)
-[![Powered by Gaia](https://gaia.tiongson.co/badges/powered-by-gaia.svg)](https://gaia.tiongson.co/badges/)
+
+# NEW! Badges
+
+Have a named skill? Get yours now! Should look like this:
+
+[![Gaia](https://gaia.tiongson.co/badges/mbtiongson1/handle.svg?repo=mbtiongson1%2Fgaia-skill-tree)](https://gaia.tiongson.co/u/mbtiongson1/)
+[![Gaia rank](https://gaia.tiongson.co/badges/mbtiongson1/rank.svg?repo=mbtiongson1%2Fgaia-skill-tree)](https://gaia.tiongson.co/u/mbtiongson1/)
+[![Gaia skills](https://gaia.tiongson.co/badges/mbtiongson1/skills.svg?repo=mbtiongson1%2Fgaia-skill-tree)](https://gaia.tiongson.co/u/mbtiongson1/)
 
 **Brand & product:** [PRODUCT.md](PRODUCT.md) · [CONTEXT.md](CONTEXT.md) · [DESIGN.md](DESIGN.md)
 
