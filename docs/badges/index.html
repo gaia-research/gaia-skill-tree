@@ -287,8 +287,28 @@
   </style>
 </head>
 <body>
-  <nav style="margin-bottom:2.5rem;">
-    <a href="../" style="font-family:var(--font-mono);font-size:.82rem;color:var(--muted);text-decoration:none;letter-spacing:.06em;">← gaia.tiongson.co</a>
+  <nav>
+    <a href="../" class="nav-logo" aria-label="Gaia home">
+      <svg class="ico nav-seal" aria-hidden="true" focusable="false"><use href="../assets/icons.svg#seal-diamond"/></svg>
+      <span class="nav-wordmark">Gaia</span>
+    </a>
+    <button type="button" class="nav-search-back" id="navSearchBack" aria-label="Back">
+      <svg class="ico" width="20" height="20" aria-hidden="true"><use href="../assets/icons.svg#arrow-back"/></svg>
+    </button>
+    <input type="search" id="navMobileSearch" class="nav-mobile-search" placeholder="Search skills…" autocomplete="off" aria-label="Search skills">
+    <button class="nav-menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <ul>
+      <li><a href="../#paths">Registry</a></li>
+      <li><a href="../#hall-of-heroes">Hall of Heroes</a></li>
+      <li><a href="../codex.html">The Codex</a></li>
+      <li><a href="./" style="color: var(--honor-red);" aria-current="page">Badges</a></li>
+      <li><a href="../#tree" class="nav-tree">Tree</a></li>
+      <li><a href="../#search" class="nav-search-btn" aria-label="Search skills"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#search"/></svg></a></li>
+    </ul>
   </nav>
 
   <div class="bd-eyebrow">README badges</div>

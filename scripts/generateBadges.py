@@ -105,6 +105,9 @@ def diamond_seal(color: str = WHITE) -> str:
         f'<path d="M 12 3 L 19 10 L 12 17 L 5 10 Z" '
         f'fill="none" stroke="{color}" stroke-width="1.4" '
         f'stroke-linejoin="miter"/>'
+        f'<text x="12" y="10" font-family="EB Garamond, Georgia, serif" '
+        f'font-weight="600" font-size="9" fill="{color}" '
+        f'text-anchor="middle" dominant-baseline="central">G</text>'
     )
 
 
@@ -133,8 +136,8 @@ def _left_panel() -> str:
 def _gaia_wordmark() -> str:
     return (
         f'{diamond_seal()}'
-        f'<text x="24" y="{TEXT_Y}" font-family="Verdana,DejaVu Sans,sans-serif" '
-        f'font-size="11" font-weight="700" fill="#fff" letter-spacing="0.5">GAIA</text>'
+        f'<text x="24" y="{TEXT_Y}" font-family="EB Garamond, Georgia, serif" '
+        f'font-size="12" font-weight="600" fill="#fff" letter-spacing="0.5">Gaia</text>'
     )
 
 
@@ -163,11 +166,11 @@ def badge_simple(value: str, panel_color: str, label: str) -> str:
     width = LEFT_WIDTH + right_w
     body = (
         f'{_left_panel()}'
-        f'<rect x="{LEFT_WIDTH}" width="{right_w}" height="20" fill="{panel_color}"/>'
+        f'<rect x="{LEFT_WIDTH}" width="{right_w}" height="20" fill="{INK}"/>'
         f'{_gaia_wordmark()}'
         f'<text x="{LEFT_WIDTH + right_w / 2:.1f}" y="{TEXT_Y}" '
         f'font-family="Verdana,DejaVu Sans,sans-serif" font-size="11" '
-        f'font-weight="700" fill="#fff" text-anchor="middle">{_xml(value)}</text>'
+        f'font-weight="700" fill="{panel_color}" text-anchor="middle">{_xml(value)}</text>'
     )
     return _wrap(width, body, label)
 

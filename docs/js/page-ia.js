@@ -111,7 +111,7 @@
 
     // Door B caption
     var doorCap = document.getElementById('doorBCaption');
-    if (doorCap) doorCap.textContent = unclaimed.length + ' currently unclaimed';
+    if (doorCap) doorCap.textContent = unclaimed.length + ' ultimates to claim';
 
     // Path B — all Ultimates (claimed + unclaimed), sorted unclaimed first
     var list = document.getElementById('ultimatesList');

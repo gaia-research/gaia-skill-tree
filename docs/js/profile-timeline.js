@@ -281,16 +281,16 @@
 
   var ACTION_CHIP = {
     register: 'register', propose: 'propose', add: 'add',
-    rank_up: 'rank_up', ascend: 'ascend', promote: 'promote',
-    demote: 'demote', fuse: 'fuse',
+    rank_up: 'rank_up', rank_down: 'demote', rank_retain: 'default',
+    ascend: 'ascend', promote: 'promote', demote: 'demote', fuse: 'fuse'
   };
   var ACTION_LABEL = {
     register: 'Registered', propose: 'Proposed', add: 'Added',
-    rank_up: 'Ranked Up', ascend: 'Ascended', promote: 'Promoted',
-    demote: 'Demoted', fuse: 'Fused',
+    rank_up: 'Ranked Up', rank_down: 'Ranked Down', rank_retain: 'Retained Rank',
+    ascend: 'Ascended', promote: 'Promoted', demote: 'Demoted', fuse: 'Fused'
   };
   function isRankAction(a) {
-    return a === 'rank_up' || a === 'ascend' || a === 'fuse' || a === 'promote' || a === 'demote';
+    return a === 'rank_up' || a === 'rank_down' || a === 'rank_retain' || a === 'ascend' || a === 'fuse' || a === 'promote' || a === 'demote';
   }
 
   function fmtMonth(d) { return d.toLocaleString('en', { month: 'short', year: 'numeric', timeZone: 'UTC' }); }
@@ -305,32 +305,78 @@
     var events = [];
     var seenKeys = {};
 
-    // Level history entries
+    // Level history entries with chronological diff calculation
     (data.skills || []).forEach(function (skill) {
-      (skill.levelHistory || []).forEach(function (h) {
+      var sortedHistory = (skill.levelHistory || []).slice().sort(function (a, b) {
+        return new Date(a.achievedAt) - new Date(b.achievedAt);
+      });
+
+      sortedHistory.forEach(function (h, idx) {
         var ts = new Date(h.achievedAt);
         if (isNaN(ts)) return;
-        var k = ts.toISOString() + '|rank_up|' + skill.id;
+
+        var currentRank = parseRank(h.level);
+        var prevRank = 0;
+        if (idx > 0) {
+          prevRank = parseRank(sortedHistory[idx - 1].level);
+        }
+
+        var diff = currentRank - prevRank;
+        var action = 'rank_up';
+        if (idx > 0) {
+          if (diff < 0) {
+            action = 'rank_down';
+          } else if (diff === 0) {
+            action = 'rank_retain';
+          }
+        }
+
+        var k = ts.toISOString() + '|' + action + '|' + skill.id;
         if (seenKeys[k]) return;
         seenKeys[k] = true;
-        events.push({ ts: ts, skillId: skill.id, skillName: skill.name || skill.id,
-          type: skill.type || 'basic', action: 'rank_up',
-          newValue: h.level || null, previousValue: null, details: null });
+
+        events.push({
+          ts: ts, skillId: skill.id, skillName: skill.name || skill.id,
+          type: skill.type || 'basic', action: action,
+          newValue: h.level || null, previousValue: idx > 0 ? sortedHistory[idx - 1].level : null,
+          diff: diff, details: null
+        });
       });
     });
 
-    // Explicit events
+    // Explicit events mapping
     (data.events || []).forEach(function (ev) {
       var ts = new Date(ev.timestamp);
       if (isNaN(ts)) return;
-      var k = ts.toISOString() + '|' + (ev.action||'') + '|' + (ev.skillId||'');
+      var skill = skillMap[ev.skillId] || {};
+
+      var diff = 0;
+      var action = ev.action || 'register';
+      if (ev.newValue && ev.previousValue) {
+        var currentRank = parseRank(ev.newValue);
+        var prevRank = parseRank(ev.previousValue);
+        diff = currentRank - prevRank;
+        if (isRankAction(action) || action === 'rank_up' || action === 'rank_down' || action === 'rank_retain') {
+          if (diff < 0) {
+            action = 'rank_down';
+          } else if (diff === 0) {
+            action = 'rank_retain';
+          } else {
+            action = 'rank_up';
+          }
+        }
+      }
+
+      var k = ts.toISOString() + '|' + action + '|' + (ev.skillId || '');
       if (seenKeys[k]) return;
       seenKeys[k] = true;
-      var skill = skillMap[ev.skillId] || {};
-      events.push({ ts: ts, skillId: ev.skillId, skillName: skill.name || ev.skillId,
-        type: skill.type || 'basic', action: ev.action || 'register',
+
+      events.push({
+        ts: ts, skillId: ev.skillId, skillName: skill.name || ev.skillId,
+        type: skill.type || 'basic', action: action,
         newValue: ev.newValue || null, previousValue: ev.previousValue || null,
-        details: ev.details || null });
+        diff: diff, details: ev.details || null
+      });
     });
 
     events.sort(function (a, b) { return b.ts - a.ts; });
@@ -338,18 +384,14 @@
   }
 
   // ── META-SHIFT detection ──────────────────────────────────────────
-  // A "meta shift" boundary is a gap > GAP_DAYS between any two
-  // consecutive event dates. We collect these timestamps to draw
-  // dashed separator lines on the chart.
   var GAP_DAYS = 7;
 
   function detectMetaShifts(events) {
     var sorted = events.slice().sort(function (a, b) { return a.ts - b.ts; });
-    var shifts = []; // ms timestamps where a shift starts
+    var shifts = [];
     for (var i = 1; i < sorted.length; i++) {
       var gap = (sorted[i].ts - sorted[i - 1].ts) / 86400000;
       if (gap >= GAP_DAYS) {
-        // midpoint between the two clusters
         shifts.push((sorted[i].ts.getTime() + sorted[i - 1].ts.getTime()) / 2);
       }
     }
@@ -362,13 +404,16 @@
   var IW = VW - M.left - M.right;
   var IH = VH - M.top - M.bottom;
 
-  function buildChart(data, events) {
+  function buildChart(data, events, filterOptions) {
+    filterOptions = filterOptions || {};
+    var activeSkills = filterOptions.activeSkills;
+
     var skills = (data.skills || []).filter(function (s) {
+      if (activeSkills && !activeSkills.has(s.id)) return false;
       return s.levelHistory && s.levelHistory.length > 0;
     });
     if (skills.length === 0) return null;
 
-    // Time domain: earliest event → now + 7 days padding
     var allTs = [];
     skills.forEach(function (s) {
       (s.levelHistory || []).forEach(function (h) { allTs.push(new Date(h.achievedAt).getTime()); });
@@ -377,16 +422,30 @@
 
     var tMin = Math.min.apply(null, allTs);
     var tMax = Date.now();
-    // Pad left 3 days, right 5 days
-    tMin -= 3 * 86400000;
-    tMax += 5 * 86400000;
+
+    if (filterOptions.minDate) {
+      tMin = new Date(filterOptions.minDate).getTime();
+    } else {
+      tMin -= 3 * 86400000;
+    }
+
+    if (filterOptions.maxDate) {
+      tMax = new Date(filterOptions.maxDate).getTime();
+    } else {
+      tMax += 5 * 86400000;
+    }
+
+    if (tMin >= tMax) {
+      tMax = tMin + 24 * 3600 * 1000;
+    }
     var tSpan = tMax - tMin || 1;
 
     function xScale(ms) { return (ms - tMin) / tSpan * IW; }
     function yScale(rank) { return IH - (rank / 6) * IH; }
 
-    // Detect meta-shift separators
-    var shifts = detectMetaShifts(events);
+    var shifts = detectMetaShifts(events).filter(function (ms) {
+      return ms >= tMin && ms <= tMax;
+    });
 
     var svg = svgEl('svg', {
       viewBox: '0 0 ' + VW + ' ' + VH,
@@ -395,7 +454,6 @@
       class: 'ptl2__chart-svg',
     });
 
-    // Defs: glow filter
     var defs = svgEl('defs');
     var filt = svgEl('filter', { id: 'ptl2-glow', x: '-50%', y: '-50%', width: '200%', height: '200%' });
     filt.appendChild(svgEl('feGaussianBlur', { in: 'SourceGraphic', stdDeviation: '2.5', result: 'blur' }));
@@ -412,7 +470,6 @@
     var mutedC = 'rgba(100,116,139,0.35)';
     var mutedLabel = 'rgba(100,116,139,0.6)';
 
-    // ── Y gridlines & labels (ranks 1–6) ──
     for (var r = 0; r <= 6; r++) {
       var gy = yScale(r);
       if (r > 0) {
@@ -428,55 +485,62 @@
       }, r + '★'));
     }
 
-    // ── X axis baseline ──
     g.appendChild(svgEl('line', {
       x1: '0', y1: String(IH), x2: String(IW), y2: String(IH),
       stroke: mutedC, 'stroke-width': '0.75',
     }));
 
-    // ── X tick labels (month boundaries) ──
     var tickMs = tMin;
     var d0 = new Date(tMin);
-    // Advance to first of next month
     tickMs = new Date(Date.UTC(d0.getUTCFullYear(), d0.getUTCMonth() + 1, 1)).getTime();
     var fmt = new Intl.DateTimeFormat('en', { month: 'short', year: '2-digit', timeZone: 'UTC' });
-    while (tickMs <= tMax) {
-      var tx = xScale(tickMs);
-      g.appendChild(svgEl('line', {
-        x1: String(tx), y1: String(IH), x2: String(tx), y2: String(IH + 4),
-        stroke: mutedC, 'stroke-width': '1',
-      }));
-      g.appendChild(svgEl('text', {
-        x: String(tx), y: String(IH + 15),
-        'text-anchor': 'middle', 'font-size': '9', fill: mutedLabel,
-        'font-family': 'var(--font-mono,monospace)',
-      }, fmt.format(new Date(tickMs))));
-      // next month
-      var nd = new Date(tickMs);
-      tickMs = new Date(Date.UTC(nd.getUTCFullYear(), nd.getUTCMonth() + 1, 1)).getTime();
+
+    var monthsStep = 1;
+    var daysDiff = tSpan / 86400000;
+    if (daysDiff > 365 * 2) {
+      monthsStep = 6;
+    } else if (daysDiff > 365) {
+      monthsStep = 3;
+    } else if (daysDiff > 180) {
+      monthsStep = 2;
     }
 
-    // ── Meta-shift separator lines ──
+    while (tickMs <= tMax) {
+      var tx = xScale(tickMs);
+      if (tx >= 0 && tx <= IW) {
+        g.appendChild(svgEl('line', {
+          x1: String(tx), y1: String(IH), x2: String(tx), y2: String(IH + 4),
+          stroke: mutedC, 'stroke-width': '1',
+        }));
+        g.appendChild(svgEl('text', {
+          x: String(tx), y: String(IH + 15),
+          'text-anchor': 'middle', 'font-size': '9', fill: mutedLabel,
+          'font-family': 'var(--font-mono,monospace)',
+        }, fmt.format(new Date(tickMs))));
+      }
+      var nd = new Date(tickMs);
+      tickMs = new Date(Date.UTC(nd.getUTCFullYear(), nd.getUTCMonth() + monthsStep, 1)).getTime();
+    }
+
     shifts.forEach(function (shiftMs) {
       var sx = xScale(shiftMs);
-      var shiftLine = svgEl('line', {
-        x1: String(sx), y1: '-4', x2: String(sx), y2: String(IH + 4),
-        stroke: 'rgba(245,158,11,0.25)',
-        'stroke-width': '1',
-        'stroke-dasharray': '4 4',
-      });
-      g.appendChild(shiftLine);
-      // Label
-      g.appendChild(svgEl('text', {
-        x: String(sx + 3), y: '-8',
-        'font-size': '8', fill: 'rgba(245,158,11,0.45)',
-        'font-family': 'var(--font-mono,monospace)',
-        'letter-spacing': '0.06em',
-      }, 'META SHIFT'));
+      if (sx >= 0 && sx <= IW) {
+        var shiftLine = svgEl('line', {
+          x1: String(sx), y1: '-4', x2: String(sx), y2: String(IH + 4),
+          stroke: 'rgba(245,158,11,0.25)',
+          'stroke-width': '1',
+          'stroke-dasharray': '4 4',
+        });
+        g.appendChild(shiftLine);
+        g.appendChild(svgEl('text', {
+          x: String(sx + 3), y: '-8',
+          'font-size': '8', fill: 'rgba(245,158,11,0.45)',
+          'font-family': 'var(--font-mono,monospace)',
+          'letter-spacing': '0.06em',
+        }, 'META SHIFT'));
+      }
     });
 
-    // ── Per-skill step-after lines ──
-    // Build skill groups for interactivity
     var skillGroups = {};
 
     skills.forEach(function (skill) {
@@ -488,25 +552,35 @@
       var color = TIER_HEX[skill.type] || '#64748b';
       var grpId = 'ptl2-sg-' + skill.id.replace(/[^a-z0-9]/gi, '-');
 
-      var grp = svgEl('g', { 'data-skill-id': skill.id, id: grpId });
+      var grp = svgEl('g', { 'data-skill-id': skill.id, id: grpId, class: 'ptl2__chart-curve-group' });
       g.appendChild(grp);
       skillGroups[skill.id] = grp;
 
-      // Build step-after points: for each rank change, draw horizontal then vertical
       var pts = [];
-      var prevRank = 0;
+      var baseRank = 0;
+
+      for (var j = 0; j < sorted.length; j++) {
+        var ms = new Date(sorted[j].achievedAt).getTime();
+        if (ms < tMin) {
+          baseRank = parseRank(sorted[j].level);
+        }
+      }
+
+      pts.push({ x: 0, y: yScale(baseRank) });
+
       sorted.forEach(function (h) {
         var ms = new Date(h.achievedAt).getTime();
         var rank = parseRank(h.level);
-        if (pts.length > 0) {
-          // Horizontal step at old rank to this timestamp
-          pts.push({ x: xScale(ms), y: yScale(prevRank) });
+
+        if (ms >= tMin && ms <= tMax) {
+          var cx = xScale(ms);
+          if (pts.length > 0) {
+            pts.push({ x: cx, y: pts[pts.length - 1].y });
+          }
+          pts.push({ x: cx, y: yScale(rank) });
         }
-        pts.push({ x: xScale(ms), y: yScale(rank) });
-        prevRank = rank;
       });
 
-      // Extend line to "now" (right edge)
       if (pts.length > 0) {
         pts.push({ x: IW, y: pts[pts.length - 1].y });
       }
@@ -517,28 +591,33 @@
           points: ptsStr,
           fill: 'none',
           stroke: color,
-          'stroke-width': '1.5',
+          'stroke-width': '2.0',
           'stroke-linejoin': 'round',
           'stroke-linecap': 'round',
-          opacity: '0.75',
+          opacity: '0.8',
+          class: 'ptl2__chart-line'
         }));
       }
 
-      // Dots at each rank change
       sorted.forEach(function (h) {
         var ms = new Date(h.achievedAt).getTime();
         var rank = parseRank(h.level);
-        var cx = xScale(ms);
-        var cy = yScale(rank);
-        var dot = svgEl('circle', {
-          cx: String(cx.toFixed(2)), cy: String(cy.toFixed(2)),
-          r: rank >= 5 ? '4.5' : '3',
-          fill: color,
-          stroke: 'var(--bg,#030712)',
-          'stroke-width': '1.5',
-        });
-        if (rank >= 5) dot.setAttribute('filter', 'url(#ptl2-glow)');
-        grp.appendChild(dot);
+        if (ms >= tMin && ms <= tMax) {
+          var cx = xScale(ms);
+          var cy = yScale(rank);
+          var dot = svgEl('circle', {
+            cx: String(cx.toFixed(2)), cy: String(cy.toFixed(2)),
+            r: rank >= 5 ? '5.5' : '4.0',
+            fill: color,
+            stroke: 'var(--bg,#030712)',
+            'stroke-width': '1.5',
+            'data-rank': rank + '★',
+            'data-date': fmtDay(new Date(ms)),
+            class: 'ptl2__chart-dot'
+          });
+          if (rank >= 5) dot.setAttribute('filter', 'url(#ptl2-glow)');
+          grp.appendChild(dot);
+        }
       });
     });
 
@@ -582,7 +661,18 @@
         var chipLabel = ACTION_LABEL[action] || action.replace(/_/g, ' ');
         var isRank = isRankAction(action);
         var dotCls = 'ptl2__dot ptl2__dot--' + (ev.type || 'basic') + (isRank ? ' ptl2__dot--rank' : '');
-        var rowCls = 'ptl2__event' + (isRank ? ' ptl2__event--rank-up' : '');
+        
+        var rowCls = 'ptl2__event';
+        if (isRank) {
+          if (action === 'rank_down' || action === 'demote' || ev.diff < 0) {
+            rowCls += ' ptl2__event--rank-down';
+          } else if (action === 'rank_retain' || ev.diff === 0) {
+            rowCls += ' ptl2__event--rank-retain';
+          } else {
+            rowCls += ' ptl2__event--rank-up';
+          }
+        }
+
         var delay = Math.min(globalIdx * 20, 400);
 
         var row = document.createElement('div');
@@ -624,7 +714,7 @@
             from.textContent = ev.previousValue;
             var arr = document.createElement('span');
             arr.className = 'ptl2__rank-arr';
-            arr.textContent = '→';
+            arr.textContent = ' → ';
             var to = document.createElement('span');
             to.className = 'ptl2__rank-to';
             to.textContent = ev.newValue;
@@ -636,6 +726,18 @@
             delta.appendChild(to2);
           }
           if (delta.childNodes.length > 0) head.appendChild(delta);
+        }
+
+        if (isRank && ev.diff !== 0 && ev.diff !== undefined) {
+          var badge = document.createElement('span');
+          if (ev.diff > 0) {
+            badge.className = 'ptl2__delta-badge ptl2__delta-badge--pos';
+            badge.textContent = '+' + ev.diff;
+          } else {
+            badge.className = 'ptl2__delta-badge ptl2__delta-badge--neg';
+            badge.textContent = ev.diff;
+          }
+          head.appendChild(badge);
         }
 
         card.appendChild(head);
@@ -696,9 +798,12 @@
   }
 
   // ── Main render ───────────────────────────────────────────────────
-  function renderProfileTimeline(container, data) {
+  function renderProfileTimeline(container, data, filterOptions) {
     _injectStyles();
     while (container.firstChild) container.removeChild(container.firstChild);
+
+    filterOptions = filterOptions || {};
+    var activeSkills = filterOptions.activeSkills;
 
     var hasSkills = data && data.skills && data.skills.length > 0;
     if (!hasSkills) {
@@ -706,38 +811,58 @@
       return;
     }
 
-    var events = buildEvents(data);
+    var allEvents = buildEvents(data);
+
+    var events = allEvents.filter(function (ev) {
+      if (activeSkills && !activeSkills.has(ev.skillId)) return false;
+      if (filterOptions.minDate) {
+        var tMin = new Date(filterOptions.minDate).getTime();
+        if (ev.ts.getTime() < tMin) return false;
+      }
+      if (filterOptions.maxDate) {
+        var tMax = new Date(filterOptions.maxDate).getTime();
+        if (ev.ts.getTime() > tMax) return false;
+      }
+      return true;
+    });
+
     if (events.length === 0) {
-      container.innerHTML = '<div class="ptl2__empty">No progression data yet.</div>';
+      container.innerHTML = '<div class="ptl2__empty">No events matching filters.</div>';
       return;
     }
 
     var wrapper = document.createElement('div');
     wrapper.className = 'ptl2';
 
-    // ── Left: chart panel ──
     var chartPanel = document.createElement('div');
     chartPanel.className = 'ptl2__chart-panel';
 
+    var activeChartSkills = (data.skills || []).filter(function (s) {
+      if (activeSkills && !activeSkills.has(s.id)) return false;
+      return s.levelHistory && s.levelHistory.length > 0;
+    });
+
     var chartTitle = document.createElement('div');
     chartTitle.className = 'ptl2__chart-title';
-    chartTitle.textContent = 'Rank Progression · ' + (data.skills || []).filter(function (s) {
-      return s.levelHistory && s.levelHistory.length > 0;
-    }).length + ' skills';
+    chartTitle.textContent = 'Rank Progression · ' + activeChartSkills.length + ' skills';
     chartPanel.appendChild(chartTitle);
 
-    var chartResult = buildChart(data, events);
+    var chartResult = buildChart(data, events, filterOptions);
     var skillGroups = {};
     if (chartResult) {
       chartPanel.appendChild(chartResult.svg);
       skillGroups = chartResult.skillGroups;
-      var legend = buildLegend(data.skills || [], skillGroups);
+
+      var legendSkills = data.skills.filter(function (s) {
+        if (activeSkills && !activeSkills.has(s.id)) return false;
+        return true;
+      });
+      var legend = buildLegend(legendSkills, skillGroups);
       chartPanel.appendChild(legend);
     }
 
     wrapper.appendChild(chartPanel);
 
-    // ── Right: feed panel ──
     var feedPanel = document.createElement('div');
     feedPanel.className = 'ptl2__feed-panel';
 
@@ -755,9 +880,112 @@
 
     wrapper.appendChild(feedPanel);
     container.appendChild(wrapper);
+
+    var tooltip = document.querySelector('.ptl2__tooltip');
+    if (!tooltip) {
+      tooltip = document.createElement('div');
+      tooltip.className = 'ptl2__tooltip';
+      document.body.appendChild(tooltip);
+    }
+
+    if (chartResult) {
+      Object.keys(skillGroups).forEach(function (skillId) {
+        var grp = skillGroups[skillId];
+        var skillEntry = data.skills.find(function (s) { return s.id === skillId; }) || {};
+
+        grp.addEventListener('mouseenter', function (e) {
+          Object.keys(skillGroups).forEach(function (sid) {
+            if (sid !== skillId) {
+              skillGroups[sid].style.opacity = '0.15';
+            } else {
+              skillGroups[sid].style.opacity = '1.0';
+            }
+          });
+
+          var legendItem = container.querySelector('.ptl2__legend-item[data-skill-id="' + skillId + '"]');
+          if (legendItem) legendItem.classList.add('is-highlighted');
+
+          var bareId = skillId.includes('/') ? skillId.split('/').pop() : skillId;
+          var plaqueCard = document.querySelector('article.plaque[data-skill-id$="' + bareId + '"]');
+          if (plaqueCard) {
+            plaqueCard.classList.add('is-highlighted');
+          }
+
+          tooltip.innerHTML = '';
+
+          var titleRow = document.createElement('div');
+          titleRow.className = 'ptl2__tooltip-title-row';
+
+          var nameSpan = document.createElement('span');
+          nameSpan.className = 'ptl2__tooltip-name';
+          nameSpan.textContent = skillEntry.name || skillId.split('/').pop();
+          titleRow.appendChild(nameSpan);
+
+          var tierSpan = document.createElement('span');
+          tierSpan.className = 'ptl2__tooltip-tier ptl2__tooltip-tier--' + (skillEntry.type || 'basic');
+          tierSpan.textContent = skillEntry.type || 'basic';
+          titleRow.appendChild(tierSpan);
+
+          titleRow.appendChild(tierSpan);
+          tooltip.appendChild(titleRow);
+
+          var detailRow = document.createElement('div');
+          detailRow.className = 'ptl2__tooltip-detail-row';
+
+          var rankSpan = document.createElement('span');
+          rankSpan.className = 'ptl2__tooltip-rank';
+          rankSpan.textContent = 'Current Rank';
+          detailRow.appendChild(rankSpan);
+
+          var dateSpan = document.createElement('span');
+          dateSpan.className = 'ptl2__tooltip-date';
+          dateSpan.textContent = '';
+          detailRow.appendChild(dateSpan);
+
+          detailRow.appendChild(dateSpan);
+          tooltip.appendChild(detailRow);
+
+          tooltip.classList.add('is-visible');
+        });
+
+        grp.addEventListener('mousemove', function (e) {
+          tooltip.style.left = (e.pageX + 16) + 'px';
+          tooltip.style.top = (e.pageY + 16) + 'px';
+
+          var targetDot = e.target;
+          if (targetDot && targetDot.classList.contains('ptl2__chart-dot')) {
+            var rank = targetDot.getAttribute('data-rank');
+            var date = targetDot.getAttribute('data-date');
+
+            var rankSpan = tooltip.querySelector('.ptl2__tooltip-rank');
+            var dateSpan = tooltip.querySelector('.ptl2__tooltip-date');
+            if (rankSpan && dateSpan) {
+              rankSpan.textContent = 'Ranked to ' + rank;
+              dateSpan.textContent = date;
+            }
+          }
+        });
+
+        grp.addEventListener('mouseleave', function (e) {
+          Object.keys(skillGroups).forEach(function (sid) {
+            skillGroups[sid].style.opacity = '';
+          });
+
+          var legendItem = container.querySelector('.ptl2__legend-item[data-skill-id="' + skillId + '"]');
+          if (legendItem) legendItem.classList.remove('is-highlighted');
+
+          var bareId = skillId.includes('/') ? skillId.split('/').pop() : skillId;
+          var plaqueCard = document.querySelector('article.plaque[data-skill-id$="' + bareId + '"]');
+          if (plaqueCard) {
+            plaqueCard.classList.remove('is-highlighted');
+          }
+
+          tooltip.classList.remove('is-visible');
+        });
+      });
+    }
   }
 
-  // ── Auto-render ───────────────────────────────────────────────────
   function _auto() {
     var el = document.getElementById('profile-timeline');
     if (el && window.PROFILE_TIMELINE) renderProfileTimeline(el, window.PROFILE_TIMELINE);
@@ -772,3 +1000,4 @@
     }
   }
 })();
+

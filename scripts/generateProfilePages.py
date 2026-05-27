@@ -424,10 +424,11 @@ def _plaque_actions_html(ns: dict, handle: str = "") -> str:
             f'</button>'
         )
 
+    claim_href = f'../../badges/?u={html.escape(handle)}' if handle else '../../badges/'
     claim_btn_html = (
-        f'<button class="plaque__claim-btn" type="button"'
-        f' data-claim="unclaimed" aria-disabled="true"'
-        f' title="Badge claim coming soon">Claim</button>'
+        f'<a class="plaque__claim-btn" '
+        f' href="{claim_href}" '
+        f' title="Claim Badge">Claim</a>'
     )
     return f'<div class="plaque__actions">{share_btn_html}{claim_btn_html}</div>'
 
@@ -605,6 +606,7 @@ NAV_HTML = f"""<nav>
     <li><a href="../../#paths">Registry</a></li>
     <li><a href="../../#hall-of-heroes">Hall of Heroes</a></li>
     <li><a href="../../codex.html">The Codex</a></li>
+    <li><a href="../../badges/" style="color: var(--honor-red);">Badges</a></li>
     <li><a href="../../#tree" class="nav-tree">Tree</a></li>
     <li><a href="../../#search" class="nav-search-btn" aria-label="Search skills"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="{ICON_SPRITE_REL}#search"/></svg></a></li>
   </ul>
@@ -623,33 +625,68 @@ FOOTER_HTML = f"""<footer>
 </footer>"""
 
 
-FILTER_BAR_HTML = """<div class="profile-filter-bar" role="toolbar" aria-label="Plaque filters">
+SIDEBAR_HTML = """<aside class="profile-sidebar" id="profileSidebar" aria-label="Filters">
+  <!-- Search -->
+  <div class="profile-sidebar-section">
+    <label class="profile-filter-legend" for="profileSearch" style="float:none; display:block; margin-bottom:0.5rem;">Search</label>
+    <input type="search" id="profileSearch" class="sidebar-search-input" placeholder="Search implementations…" autocomplete="off" aria-label="Search skills">
+  </div>
+
+  <!-- Type -->
   <fieldset class="profile-filter-group" data-filter-type="type">
     <legend class="profile-filter-legend">Type</legend>
-    <button class="profile-filter-chip" type="button" data-value="basic" aria-pressed="false">Basic</button>
-    <button class="profile-filter-chip" type="button" data-value="extra" aria-pressed="false">Extra</button>
-    <button class="profile-filter-chip" type="button" data-value="unique" aria-pressed="false">Unique</button>
-    <button class="profile-filter-chip" type="button" data-value="ultimate" aria-pressed="false">Ultimate</button>
+    <div style="display:flex; flex-wrap:wrap; gap:0.4rem; width:100%;">
+      <button class="profile-filter-chip" type="button" data-value="basic" aria-pressed="false">Basic</button>
+      <button class="profile-filter-chip" type="button" data-value="extra" aria-pressed="false">Extra</button>
+      <button class="profile-filter-chip" type="button" data-value="unique" aria-pressed="false">Unique</button>
+      <button class="profile-filter-chip" type="button" data-value="ultimate" aria-pressed="false">Ultimate</button>
+    </div>
   </fieldset>
+
+  <!-- Rank -->
   <fieldset class="profile-filter-group" data-filter-type="rank">
     <legend class="profile-filter-legend">Rank</legend>
-    <button class="profile-filter-chip" type="button" data-value="1" aria-pressed="false">1★</button>
-    <button class="profile-filter-chip" type="button" data-value="2" aria-pressed="false">2★</button>
-    <button class="profile-filter-chip" type="button" data-value="3" aria-pressed="false">3★</button>
-    <button class="profile-filter-chip" type="button" data-value="4" aria-pressed="false">4★</button>
-    <button class="profile-filter-chip" type="button" data-value="5" aria-pressed="false">5★</button>
-    <button class="profile-filter-chip" type="button" data-value="6" aria-pressed="false">6★</button>
+    <div style="display:flex; flex-wrap:wrap; gap:0.4rem; width:100%;">
+      <button class="profile-filter-chip" type="button" data-value="1" aria-pressed="false">1★</button>
+      <button class="profile-filter-chip" type="button" data-value="2" aria-pressed="false">2★</button>
+      <button class="profile-filter-chip" type="button" data-value="3" aria-pressed="false">3★</button>
+      <button class="profile-filter-chip" type="button" data-value="4" aria-pressed="false">4★</button>
+      <button class="profile-filter-chip" type="button" data-value="5" aria-pressed="false">5★</button>
+      <button class="profile-filter-chip" type="button" data-value="6" aria-pressed="false">6★</button>
+    </div>
   </fieldset>
-  <div class="ns-sort-wrap profile-sort-wrap">
-    <svg class="ico ns-sort-icon" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#sort-arrows"/></svg>
-    <select id="profileSort" class="ns-sort-sel" aria-label="Sort skills">
-      <option value="rank" selected>Rank · high → low</option>
-      <option value="alpha">A → Z</option>
-      <option value="type">Type</option>
-    </select>
+
+  <!-- Date Range -->
+  <div class="profile-sidebar-section">
+    <span class="profile-filter-legend" style="float:none; display:block; margin-bottom:0.5rem;">Date Range</span>
+    <div class="date-presets" style="margin-bottom:0.75rem;">
+      <button class="profile-filter-chip" type="button" data-preset="30d" aria-pressed="false">30D</button>
+      <button class="profile-filter-chip" type="button" data-preset="6m" aria-pressed="false">6M</button>
+      <button class="profile-filter-chip" type="button" data-preset="all" aria-pressed="true">All</button>
+    </div>
+    <div style="display:flex; gap:0.5rem; align-items:center;">
+      <input type="date" id="profileDateMin" class="sidebar-date-input" aria-label="Minimum date" placeholder="Min">
+      <span style="color:var(--muted); font-size:0.7rem;">to</span>
+      <input type="date" id="profileDateMax" class="sidebar-date-input" aria-label="Maximum date" placeholder="Max">
+    </div>
   </div>
-  <button class="profile-filter-reset" type="button">Reset</button>
-</div>"""
+
+  <!-- Sort -->
+  <div class="profile-sidebar-section">
+    <label class="profile-filter-legend" for="profileSort" style="float:none; display:block; margin-bottom:0.5rem;">Sort Order</label>
+    <div class="ns-sort-wrap profile-sort-wrap" style="width:100%;">
+      <svg class="ico ns-sort-icon" width="14" height="14" aria-hidden="true" style="left:10px;"><use href="../../assets/icons.svg#sort-arrows"/></svg>
+      <select id="profileSort" class="ns-sort-sel" aria-label="Sort skills" style="width:100%; padding-left:30px; font-family:var(--font-mono); font-size:0.72rem;">
+        <option value="rank" selected>Rank · high → low</option>
+        <option value="alpha">A → Z</option>
+        <option value="type">Type</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Reset -->
+  <button class="profile-filter-reset" type="button" style="width:100%; text-align:center; padding:0.5rem; background:var(--bg); border:1px solid var(--border); border-radius:6px; color:var(--muted); font-family:var(--font-mono); font-size:0.72rem; cursor:pointer; transition:color 0.15s, border-color 0.15s;">Reset Filters</button>
+</aside>"""
 
 
 def _build_share_modal() -> str:
@@ -708,12 +745,21 @@ def _build_timeline_section(tree: dict, named_index: dict) -> str:
 
     return (
         '<section class="profile-section" id="profile-timeline-section">\n'
-        '  <h2 class="profile-section-title">Progression Timeline</h2>\n'
-        '  <p class="profile-section-sub">Skill rank progression over time. Hover for details.</p>\n'
+        '  <div class="profile-section-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">\n'
+        '    <div>\n'
+        '      <h2 class="profile-section-title" style="margin:0;">Progression Timeline</h2>\n'
+        '      <p class="profile-section-sub" style="margin:0.25rem 0 0 0;">Skill rank progression over time. Hover for details.</p>\n'
+        '    </div>\n'
+        '    <button class="profile-timeline-filter-btn" id="desktopFilterToggle" aria-label="Toggle filters" style="display:inline-flex; align-items:center; gap:6px; font-family:var(--font-mono); font-size:0.72rem; letter-spacing:0.05em; text-transform:uppercase; background:var(--surface); border:1px solid var(--border); color:var(--text); padding:0.4rem 0.8rem; border-radius:6px; cursor:pointer; transition:border-color 0.15s, color 0.15s;">\n'
+        '      <svg class="ico" width="14" height="14" aria-hidden="true" style="fill:currentColor;"><use href="../../assets/icons.svg#filter"/></svg>\n'
+        '      <span>Filter</span>\n'
+        '    </button>\n'
+        '  </div>\n'
         '  <div id="profile-timeline" class="profile-timeline" role="img" aria-label="Skill progression timeline"></div>\n'
         '</section>\n'
         f'<script>window.PROFILE_TIMELINE = JSON.parse({json_data_str});</script>'
     )
+
 
 
 def _load_user_tree(handle: str) -> dict:
@@ -808,37 +854,42 @@ def build_profile_page(handle: str, skills: list, named_index: dict | None = Non
 
   {NAV_HTML}
 
-  <!-- ─── PROFILE BACK ─── -->
-  <div class="profile-back-row">
-    <a class="profile-back" href="../" aria-label="Back" onclick="event.preventDefault(); history.back();">
-      <svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#arrow-back"/></svg>
-      <span>Back</span>
-    </a>
+  <div class="profile-grid-container">
+    <main class="profile-main">
+      <!-- ─── PROFILE BACK ─── -->
+      <div class="profile-back-row">
+        <a class="profile-back" href="../" aria-label="Back" onclick="event.preventDefault(); history.back();">
+          <svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#arrow-back"/></svg>
+          <span>Back</span>
+        </a>
+      </div>
+
+      <!-- ─── PROFILE HERO ─── -->
+      <div class="profile-hero">
+        <h1 class="profile-handle">{safe_handle}</h1>
+        <div class="profile-meta">
+          {skill_count} named skill{'s' if skill_count != 1 else ''} · highest rank {highest_level}
+        </div>
+      </div>
+
+      <!-- ─── PROGRESSION TIMELINE ─── -->
+      {timeline_section_html}
+
+      <!-- ─── SKILL PLAQUES ─── -->
+      <section class="profile-section">
+        <h2 class="profile-section-title">Named Skills</h2>
+        <p class="profile-section-sub">All named implementations attributed to @{safe_handle} in the Gaia registry.</p>
+        <div class="plaque-grid">
+          {plaques_html}
+        </div>
+      </section>
+
+      <!-- ─── ACTIVITY LOG ─── -->
+      {activity_section_html}
+    </main>
+
+    {SIDEBAR_HTML}
   </div>
-
-  <!-- ─── PROFILE HERO ─── -->
-  <div class="profile-hero">
-    <h1 class="profile-handle">{safe_handle}{f'<span class="profile-handle-origin" data-tooltip="Origin contributor: The creator of the first skill version" aria-label="Origin contributor"><svg class="ico" width="20" height="20" aria-hidden="true"><use href="../../assets/icons.svg#origin-badge"></use></svg><span class="origin-info"><svg class="ico" width="11" height="11" aria-hidden="true"><use href="../../assets/icons.svg#info"></use></svg></span></span>' if origin_count else ''}</h1>
-    <div class="profile-meta">
-      {skill_count} named skill{'s' if skill_count != 1 else ''} · highest rank {highest_level}
-    </div>
-  </div>
-
-  <!-- ─── PROGRESSION TIMELINE ─── -->
-  {timeline_section_html}
-
-  <!-- ─── SKILL PLAQUES ─── -->
-  <section class="profile-section">
-    <h2 class="profile-section-title">Named Skills</h2>
-    <p class="profile-section-sub">All named implementations attributed to @{safe_handle} in the Gaia registry.</p>
-    {FILTER_BAR_HTML}
-    <div class="plaque-grid">
-      {plaques_html}
-    </div>
-  </section>
-
-  <!-- ─── ACTIVITY LOG ─── -->
-  {activity_section_html}
 
   {FOOTER_HTML}
 
@@ -850,6 +901,13 @@ def build_profile_page(handle: str, skills: list, named_index: dict | None = Non
 
   <button id="scrollToTop" class="scroll-to-top" aria-label="Scroll to top">
     <svg class="ico" width="20" height="20" aria-hidden="true"><use href="../../assets/icons.svg#arrow-up"/></svg>
+  </button>
+
+  <!-- Floating Mobile Filters Toggle -->
+  <div class="profile-sidebar-backdrop" id="sidebarBackdrop"></div>
+  <button class="profile-filter-toggle" id="mobileFilterToggle" aria-label="Toggle filters">
+    <svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#filter"/></svg>
+    <span>Filters</span>
   </button>
 
   {share_modal_html}
@@ -994,6 +1052,7 @@ def build_directory_page(by_contributor: dict) -> str:
     <li><a href="../#paths">Registry</a></li>
     <li><a href="../#hall-of-heroes">Hall of Heroes</a></li>
     <li><a href="../codex.html">The Codex</a></li>
+    <li><a href="../badges/" style="color: var(--honor-red);">Badges</a></li>
     <li><a href="../#tree" class="nav-tree">Tree</a></li>
     <li><a href="../#search" class="nav-search-btn" aria-label="Search skills"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#search"/></svg></a></li>
   </ul>
@@ -1056,7 +1115,7 @@ def build_directory_page(by_contributor: dict) -> str:
 
   <!-- ─── PROFILE HERO ─── -->
   <div class="profile-hero">
-    <h1 class="profile-directory-title" style="font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 600; color: var(--text); margin-bottom: 0.5rem;">The Guild of Contributors</h1>
+    <h1 class="profile-directory-title" style="font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 600; color: var(--text); margin-bottom: 0.5rem;">Named Contributors</h1>
     <div class="profile-meta">
       {total_contributors} active builders · {total_skills} named skills claimed
     </div>
