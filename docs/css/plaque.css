@@ -2060,6 +2060,20 @@ button.plaque__slug:focus-visible {
   }
 }
 
+/* Desktop: sidebar always visible as a persistent right panel */
+@media (min-width: 861px) {
+  .profile-sidebar {
+    right: 0;
+    box-shadow: none;
+  }
+  .profile-sidebar-backdrop {
+    display: none !important;
+  }
+  .profile-grid-container {
+    margin-right: 296px;
+  }
+}
+
 /* ── Sidebar & Feed Additions (DESIGN.md solid aesthetics) ── */
 .sidebar-search-input {
   width: 100%;
