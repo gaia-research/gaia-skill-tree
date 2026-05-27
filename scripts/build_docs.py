@@ -347,6 +347,10 @@ def _apply_cache_busting(text: str, version: str) -> str:
         fr'src="\1?v={version}"',
         text
     )
+
+    # 4. Update the human-readable footer version literal ("v3.x.x ·").
+    text = re.sub(r'\bv\d+\.\d+\.\d+(?=\s+·)', f'v{version}', text)
+
     return text
 
 
