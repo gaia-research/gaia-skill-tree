@@ -275,9 +275,16 @@
     unique:   'var(--tier-unique,#7c3aed)',
     ultimate: 'var(--tier-ultimate,#f59e0b)',
   };
-  var TIER_HEX = {
-    basic: '#38bdf8', extra: '#c084fc', unique: '#7c3aed', ultimate: '#f59e0b',
-  };
+  var TIER_HEX = (function () {
+    var s = typeof getComputedStyle !== 'undefined' ? getComputedStyle(document.documentElement) : null;
+    function cv(prop, fb) { return s ? (s.getPropertyValue(prop).trim() || fb) : fb; }
+    return {
+      basic:    cv('--tier-basic',    '#38bdf8'),
+      extra:    cv('--tier-extra',    '#c084fc'),
+      unique:   cv('--tier-unique',   '#7c3aed'),
+      ultimate: cv('--tier-ultimate', '#f59e0b'),
+    };
+  }());
 
   var ACTION_CHIP = {
     register: 'register', propose: 'propose', add: 'add',

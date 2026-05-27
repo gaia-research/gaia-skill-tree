@@ -558,7 +558,7 @@
         var filtered = allNamed.filter(function(ns) {
           if (typeFilter !== 'all' && (ns.type || 'basic') !== typeFilter) return false;
           if (q) {
-            var hay = (nsDisplayName(ns)+' '+ns.id+' '+(ns.tags||[]).join(' ')+' '+(ns.contributor||'')).toLowerCase();
+            var hay = (nsDisplayName(ns)+' '+ns.id+' '+(Array.isArray(ns.tags)?ns.tags:[]).join(' ')+' '+(ns.contributor||'')).toLowerCase();
             if (hay.indexOf(q) === -1) return false;
           }
           return true;

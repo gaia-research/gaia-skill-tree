@@ -111,6 +111,7 @@
     // Action: Instagram
     var igBtn = modal.querySelector('[data-fs-action="instagram"]');
     if (igBtn) {
+      igBtn.childNodes.forEach(function(n) { if (n.nodeType === 3) n.textContent = ' Copy for Instagram'; });
       igBtn.onclick = function () {
         if (navigator.clipboard && navigator.clipboard.writeText) {
           navigator.clipboard.writeText(fullOgUrl).then(function () {

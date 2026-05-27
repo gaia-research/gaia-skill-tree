@@ -226,6 +226,7 @@
     if (igBtn) {
       var igClone = igBtn.cloneNode(true);
       igBtn.parentNode.replaceChild(igClone, igBtn);
+      igClone.childNodes.forEach(function(n) { if (n.nodeType === 3) n.textContent = ' Copy for Instagram'; });
       igClone.addEventListener('click', function () {
         if (navigator.clipboard && navigator.clipboard.writeText) {
           navigator.clipboard.writeText(ogUrl).then(

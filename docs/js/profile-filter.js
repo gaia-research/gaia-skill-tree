@@ -229,6 +229,20 @@
 
     sortArticles();
     announceFilterStatus();
+
+    // Show inline empty state when every plaque is hidden
+    let emptyState = plaquesGrid.querySelector('.profile-empty-state');
+    if (!emptyState) {
+      emptyState = document.createElement('p');
+      emptyState.className = 'profile-empty-state';
+      emptyState.innerHTML = 'No skills match these filters. <button type="button" class="profile-empty-reset">Reset</button>';
+      emptyState.querySelector('.profile-empty-reset').addEventListener('click', function() {
+        const mainReset = document.querySelector('.profile-sidebar .profile-filter-reset');
+        if (mainReset) mainReset.click();
+      });
+      plaquesGrid.after(emptyState);
+    }
+    emptyState.style.display = matchingSkillIds.size === 0 ? 'block' : 'none';
   }
 
   function sortArticles() {

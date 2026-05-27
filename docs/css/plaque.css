@@ -2060,6 +2060,30 @@ button.plaque__slug:focus-visible {
   }
 }
 
+/* Empty-state message when all plaques are filtered out */
+.profile-empty-state {
+  display: none;
+  text-align: center;
+  color: var(--muted, #64748b);
+  font-family: var(--font-mono, monospace);
+  font-size: 0.82rem;
+  padding: 2.5rem 1rem;
+  grid-column: 1 / -1;
+}
+.profile-empty-reset {
+  background: none;
+  border: 1px solid var(--border, #1e293b);
+  color: var(--text, #e2e8f0);
+  border-radius: 6px;
+  padding: 0.25rem 0.75rem;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  margin-left: 0.5rem;
+  transition: border-color 0.15s;
+}
+.profile-empty-reset:hover { border-color: var(--tier-basic, #38bdf8); }
+
 /* Desktop: sidebar always visible as a persistent right panel */
 @media (min-width: 861px) {
   .profile-sidebar {
