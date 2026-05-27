@@ -177,6 +177,38 @@
       '</div>';
   }
 
+  function _fieldSlugInteractive(ns, onclickAttr) {
+    var slug = namedSlug(ns);
+    var id = ns && ns.id || '';
+    if (onclickAttr) {
+      return '<button class="plaque__slug plaque-skill-name named-slug plaque__slug--clickable" type="button" title="' + esc(id) + '" onclick="event.stopPropagation(); ' + onclickAttr + '">' + esc(slug) + '</button>';
+    }
+    return _fieldSlug(ns);
+  }
+
+  function _fieldFullscreenBtn(ns) {
+    if (!ns || !ns.id) return '';
+    var skillId = ns.id;
+    var handle = ns.contributor || '';
+    var name = ns.name || '';
+    var level = ns.level || '';
+    var type = ns.type || '';
+    var origin = ns.origin ? 'true' : 'false';
+    var slashIdx = skillId.indexOf('/');
+    var skillIdShort = slashIdx !== -1 ? skillId.slice(slashIdx + 1) : skillId;
+    var ogPath = handle && skillIdShort ? 'og/' + handle + '/' + skillIdShort + '.png' : '';
+    return '<button class="plaque__fs-btn" type="button" aria-label="Fullscreen View" title="Show Fullscreen Social Card" ' +
+      'data-skill-id="' + esc(skillId) + '" ' +
+      'data-handle="' + esc(handle) + '" ' +
+      'data-skill-name="' + esc(name) + '" ' +
+      'data-level="' + esc(level) + '" ' +
+      'data-type="' + esc(type) + '" ' +
+      'data-origin="' + esc(origin) + '" ' +
+      'data-og="' + esc(ogPath) + '">' +
+      icon('share', 12) +
+      '</button>';
+  }
+
   // ── plaque shell ─────────────────────────────────────────────────
   function _shell(variant, ns, innerHtml, extraOpts) {
     var type = (ns && ns.type) || 'basic';
@@ -211,17 +243,7 @@
   function renderMini(ns, opts) {
     opts = opts || {};
     var isGhost = !!opts.ghost;
-    var inner =
-      _fieldOrb(ns) +
-      _fieldSlug(ns) +
-      (isGhost ? '' : _fieldHandleRow(ns)) +
-      (isGhost ? '' : _fieldRank(ns, 'stars')) +
-      (isGhost ? '' : _fieldGhLink(ns));
-
-    var shellOpts = {};
-    if (opts.onclick) shellOpts.onclick = opts.onclick;
-    if (opts.click === false) shellOpts.click = false;
-    if (opts.role) shellOpts.role = opts.role;
+    var shellOpts = { click: false };
     var extra = opts.extraClass || '';
     if (isGhost) extra = (extra ? extra + ' ' : '') + 'plaque--ghost';
     if (extra) shellOpts.extraClass = extra;
@@ -229,6 +251,16 @@
     if (opts.dagId) attrs += ' data-id="' + esc(opts.dagId) + '"';
     if (isGhost) attrs += ' data-ghost="true"';
     if (attrs) shellOpts.attrs = attrs;
+
+    var slugOnclick = opts.onclick || ('(function(id){if(typeof openSkillExplorer===\'function\')openSkillExplorer(id);})(\'' + jsStr(ns.id) + '\')');
+
+    var inner =
+      _fieldOrb(ns) +
+      (isGhost ? '' : _fieldHandleRow(ns)) +
+      (isGhost ? '' : _fieldRank(ns, 'stars')) +
+      (isGhost ? _fieldSlug(ns) : _fieldSlugInteractive(ns, slugOnclick)) +
+      (isGhost ? '' : _fieldFullscreenBtn(ns)) +
+      (isGhost ? '' : _fieldGhLink(ns));
 
     return _shell('mini', ns, inner, shellOpts);
   }
