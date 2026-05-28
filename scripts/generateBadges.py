@@ -53,7 +53,15 @@ RANK_NAMES = {
 # Filenames produced by the primary badges — per-skill variants whose slug
 # collides with one of these are renamed with a `~` suffix so they don't
 # overwrite the primary file (e.g., @mattpocock/skills → skills~.svg).
-RESERVED_FILENAMES = {"rank", "skills", "handle", "index", "powered-by-gaia"}
+# Filenames produced by the primary badges — per-skill variants whose slug
+# collides with one of these are renamed with a `~` suffix so they don't
+# overwrite the primary file (e.g., @mattpocock/skills → skills~.svg).
+# Both wordmark and seal-only forms are reserved so a user-named skill called
+# e.g. "rank-seal" can't clobber the canonical seal file.
+RESERVED_FILENAMES = {
+    "rank", "skills", "handle", "index", "powered-by-gaia", "not-found",
+    "rank-seal", "skills-seal", "handle-seal",
+}
 
 # Verdana 11px bold approximate per-character widths (in pixels).
 # Conservative — we over-pad rather than clip.
@@ -118,7 +126,8 @@ def diamond_seal(color: str = WHITE) -> str:
 
 
 # ─── Badge builders ──────────────────────────────────────────────────────────
-LEFT_WIDTH = 62  # left "GAIA" panel — fixed
+LEFT_WIDTH = 62       # left "GAIA" panel — fixed (full wordmark)
+LEFT_WIDTH_SEAL = 26  # seal-only panel — diamond + 6px padding each side
 TEXT_Y = 14
 
 
@@ -132,18 +141,51 @@ def _shadow_defs(uid: str = "g") -> str:
     )
 
 
-def _left_panel() -> str:
-    """Inlined diamond + GAIA wordmark on the dark ink left panel."""
-    return (
-        f'<rect width="{LEFT_WIDTH}" height="20" fill="{INK}"/>'
-    )
+def _left_panel(seal_only: bool = False) -> str:
+    """Dark-ink rectangle behind the seal (and optional 'Gaia' wordmark).
+
+    Width depends on `seal_only` — seal-only badges have a much narrower
+    panel so the right (data) panel can do most of the talking.
+    """
+    width = LEFT_WIDTH_SEAL if seal_only else LEFT_WIDTH
+    return f'<rect width="{width}" height="20" fill="{INK}"/>'
 
 
-def _gaia_wordmark() -> str:
+def _gaia_wordmark(seal_only: bool = False) -> str:
+    """Inlined diamond seal + (optional) 'Gaia' wordmark on the dark left panel.
+
+    When `seal_only=True`, the diamond is centered in the narrower seal panel
+    and the wordmark is omitted so contributors can drop the badge into a
+    README without the "Gaia" copy clashing with their own brand.
+    """
+    if seal_only:
+        # Center the 14×14 diamond inside the LEFT_WIDTH_SEAL (26) panel.
+        # diamond_seal() draws at top-left (5, 3) by default — for the seal
+        # panel we shift left by (LEFT_WIDTH - LEFT_WIDTH_SEAL) / 2 ≈ -18
+        # so the diamond sits at x≈3..17.
+        return _diamond_seal_at(x=6)
     return (
         f'{diamond_seal()}'
         f'<text x="24" y="{TEXT_Y}" font-family="EB Garamond, Georgia, serif" '
         f'font-size="12" font-weight="600" fill="#fff" letter-spacing="0.5">Gaia</text>'
+    )
+
+
+def _diamond_seal_at(x: int) -> str:
+    """Render the diamond seal with its bounding box left-edge at `x`.
+
+    Used for seal-only badges. The default `diamond_seal()` is hard-coded to
+    x=5; this lets us re-position it without rewriting the path.
+    """
+    # Original path corners: (12,3) (19,10) (12,17) (5,10) → shift by (x-5)
+    dx = x - 5
+    return (
+        f'<path d="M {12 + dx} 3 L {19 + dx} 10 L {12 + dx} 17 L {5 + dx} 10 Z" '
+        f'fill="none" stroke="{WHITE}" stroke-width="1.4" '
+        f'stroke-linejoin="miter"/>'
+        f'<text x="{12 + dx}" y="10" font-family="EB Garamond, Georgia, serif" '
+        f'font-weight="600" font-size="9" fill="{WHITE}" '
+        f'text-anchor="middle" dominant-baseline="central">G</text>'
     )
 
 
@@ -165,50 +207,57 @@ def _wrap(width: int, body: str, label: str) -> str:
     )
 
 
-def badge_simple(value: str, panel_color: str, label: str) -> str:
-    """Two-tone badge: GAIA on left, single-color value on right."""
+def badge_simple(value: str, panel_color: str, label: str, seal_only: bool = False) -> str:
+    """Two-tone badge: GAIA on left, single-color value on right.
+
+    When `seal_only=True`, the left panel shrinks to just the diamond seal —
+    the "Gaia" wordmark is omitted entirely.
+    """
+    left_w = LEFT_WIDTH_SEAL if seal_only else LEFT_WIDTH
     value_w = text_width(value) + 18  # 9px padding each side
     right_w = max(value_w, 32)
-    width = LEFT_WIDTH + right_w
-    
+    width = left_w + right_w
+
     if panel_color == "white-gold":
         right_bg = "#fbbf24"
         text_element = f'<tspan fill="#ffffff">{_xml(value)}</tspan>'
     else:
         right_bg = INK
         text_element = f'<tspan fill="{panel_color}">{_xml(value)}</tspan>'
-        
+
     body = (
-        f'{_left_panel()}'
-        f'<rect x="{LEFT_WIDTH}" width="{right_w}" height="20" fill="{right_bg}"/>'
-        f'{_gaia_wordmark()}'
-        f'<text x="{LEFT_WIDTH + right_w / 2:.1f}" y="{TEXT_Y}" '
+        f'{_left_panel(seal_only)}'
+        f'<rect x="{left_w}" width="{right_w}" height="20" fill="{right_bg}"/>'
+        f'{_gaia_wordmark(seal_only)}'
+        f'<text x="{left_w + right_w / 2:.1f}" y="{TEXT_Y}" '
         f'font-family="Verdana,DejaVu Sans,sans-serif" font-size="11" '
         f'font-weight="700" text-anchor="middle">{text_element}</text>'
     )
     return _wrap(width, body, label)
 
 
-def badge_handle(handle: str, slash: str, rank: int, rank_color: str, label: str) -> str:
+def badge_handle(handle: str, slash: str, rank: int, rank_color: str, label: str,
+                 seal_only: bool = False) -> str:
     """Identity badge: '@handle/slash · N★' with multi-color tspans on dark right panel."""
+    left_w = LEFT_WIDTH_SEAL if seal_only else LEFT_WIDTH
     star_value = f"{rank}★" if rank else "★"
     handle_text = f"@{handle}"
     sep = "  ·  "  # double-spaced middot reads cleaner
     text_inner = f"{handle_text}{slash}{sep}{star_value}"
     value_w = text_width(text_inner) + 22  # 11px padding each side
     right_w = max(value_w, 40)
-    width = LEFT_WIDTH + right_w
+    width = left_w + right_w
 
     gold_rect = ""
     if rank_color == "white-gold":
         slash_tspan = f'<tspan fill="#fbbf24">{_xml(slash)}</tspan>'
-        
+
         # Calculate position for 6★ background gold rect
         width_before = text_width(handle_text + slash + sep)
-        star_x = LEFT_WIDTH + 11 + width_before
+        star_x = left_w + 11 + width_before
         star_w = text_width(star_value) + 6
         gold_rect = f'<rect x="{star_x - 3}" y="3" width="{star_w}" height="14" fill="#fbbf24" rx="2"/>'
-        
+
         star_tspan = f'<tspan fill="#ffffff">{_xml(star_value)}</tspan>'
     else:
         slash_tspan = f'<tspan fill="{rank_color}">{_xml(slash)}</tspan>'
@@ -216,11 +265,11 @@ def badge_handle(handle: str, slash: str, rank: int, rank_color: str, label: str
 
     # Two-tone background: keep dark ink on the right to let colored text pop.
     body = (
-        f'{_left_panel()}'
-        f'<rect x="{LEFT_WIDTH}" width="{right_w}" height="20" fill="{INK}"/>'
+        f'{_left_panel(seal_only)}'
+        f'<rect x="{left_w}" width="{right_w}" height="20" fill="{INK}"/>'
         f'{gold_rect}'
-        f'{_gaia_wordmark()}'
-        f'<text x="{LEFT_WIDTH + 11}" y="{TEXT_Y}" '
+        f'{_gaia_wordmark(seal_only)}'
+        f'<text x="{left_w + 11}" y="{TEXT_Y}" '
         f'font-family="Verdana,DejaVu Sans,sans-serif" font-size="11" font-weight="700">'
         f'<tspan fill="{HONOR_RED}">{_xml(handle_text)}</tspan>'
         f'{slash_tspan}'
@@ -234,6 +283,34 @@ def badge_handle(handle: str, slash: str, rank: int, rank_color: str, label: str
 def badge_powered_by() -> str:
     """Static 'Powered by Gaia' fallback badge."""
     return badge_simple("powered by gaia", "#475569", "Powered by Gaia")
+
+
+def badge_not_found() -> str:
+    """Validating-state badge: shown when a `?repo=` query doesn't match the
+    contributor's approved repos.
+
+    Visually almost-blank: 20px tall (so READMEs don't reflow), seal-only
+    dark-ink panel on the left and a muted slate panel on the right reading
+    "validating…". The intent is for users to recognise the state as
+    "checking, may take up to 24 hours" rather than "broken image".
+    """
+    label = "Gaia: validating badge — repo not registered yet"
+    # Match the seal-only width math from badge_simple() so the badge feels
+    # like a real Gaia badge, not a generic placeholder.
+    value = "validating…"
+    value_w = text_width(value) + 18
+    right_w = max(value_w, 80)
+    width = LEFT_WIDTH_SEAL + right_w
+    body = (
+        f'{_left_panel(seal_only=True)}'
+        f'<rect x="{LEFT_WIDTH_SEAL}" width="{right_w}" height="20" fill="#1e293b"/>'
+        f'{_gaia_wordmark(seal_only=True)}'
+        f'<text x="{LEFT_WIDTH_SEAL + right_w / 2:.1f}" y="{TEXT_Y}" '
+        f'font-family="Verdana,DejaVu Sans,sans-serif" font-size="10" '
+        f'font-weight="500" fill="{SLATE}" text-anchor="middle" '
+        f'font-style="italic">{value}</text>'
+    )
+    return _wrap(width, body, label)
 
 
 def _xml(s: str) -> str:
@@ -332,20 +409,28 @@ def write_user_badges(handle: str, info: dict, scan: dict | None,
         rank_name = RANK_NAMES.get(top_rank, f"{top_rank}★")
         # "Hardened · 4★" — rank class name anchors meaning, star count is numeric
         value = f"{rank_name} · {top_rank}★" if top_rank < 6 else f"{rank_name} · 6★"
-        svg = badge_simple(value, _rank_color(top_rank), f"Gaia rank: {rank_name} ({top_rank} stars)")
-        (user_dir / "rank.svg").write_text(svg, encoding="utf-8")
+        label = f"Gaia rank: {rank_name} ({top_rank} stars)"
+        (user_dir / "rank.svg").write_text(
+            badge_simple(value, _rank_color(top_rank), label), encoding="utf-8")
+        (user_dir / "rank-seal.svg").write_text(
+            badge_simple(value, _rank_color(top_rank), label, seal_only=True),
+            encoding="utf-8")
 
     if count > 0:
         value = f"{count} named skills" if count != 1 else "1 named skill"
-        svg = badge_simple(value, _rank_color(top_rank), f"Gaia: {value}")
-        (user_dir / "skills.svg").write_text(svg, encoding="utf-8")
+        label = f"Gaia: {value}"
+        (user_dir / "skills.svg").write_text(
+            badge_simple(value, _rank_color(top_rank), label), encoding="utf-8")
+        (user_dir / "skills-seal.svg").write_text(
+            badge_simple(value, _rank_color(top_rank), label, seal_only=True),
+            encoding="utf-8")
 
     # handle.svg + per-skill badges require named skills (need a slash)
     if info and info.get("top_skill"):
         top = info["top_skill"]
         slash = named_slug(top)
         rank = level_num(top.get("level", ""))
-        
+
         is_unique = top.get("type") == "unique"
         if is_unique:
             color = "#7c3aed"
@@ -353,16 +438,19 @@ def write_user_badges(handle: str, info: dict, scan: dict | None,
             color = "white-gold"
         else:
             color = rank_colors.get(rank, AMBER)
-            
-        label = f"Gaia: @{handle}{slash} {rank} stars"
-        svg = badge_handle(handle, slash, rank, color, label)
-        (user_dir / "handle.svg").write_text(svg, encoding="utf-8")
 
-        # Per-skill variants
+        label = f"Gaia: @{handle}{slash} {rank} stars"
+        (user_dir / "handle.svg").write_text(
+            badge_handle(handle, slash, rank, color, label), encoding="utf-8")
+        (user_dir / "handle-seal.svg").write_text(
+            badge_handle(handle, slash, rank, color, label, seal_only=True),
+            encoding="utf-8")
+
+        # Per-skill variants — write both wordmark and seal-only forms
         for skill in info["named_skills"]:
             sslash = named_slug(skill)
             srank = level_num(skill.get("level", ""))
-            
+
             is_sunique = skill.get("type") == "unique"
             if is_sunique:
                 scolor = "#7c3aed"
@@ -370,38 +458,56 @@ def write_user_badges(handle: str, info: dict, scan: dict | None,
                 scolor = "white-gold"
             else:
                 scolor = rank_colors.get(srank, AMBER)
-                
+
             slabel = f"Gaia: @{handle}{sslash} {srank} stars"
             # filename: slash-skill without leading slash, e.g. /health -> health.svg
             fname = sslash.lstrip("/").replace("/", "-") or "skill"
             if fname in RESERVED_FILENAMES:
                 # Avoid clobbering rank.svg / skills.svg / handle.svg.
                 fname = f"{fname}~"
-            ssvg = badge_handle(handle, sslash, srank, scolor, slabel)
-            (user_dir / f"{fname}.svg").write_text(ssvg, encoding="utf-8")
+            (user_dir / f"{fname}.svg").write_text(
+                badge_handle(handle, sslash, srank, scolor, slabel),
+                encoding="utf-8")
+            (user_dir / f"{fname}-seal.svg").write_text(
+                badge_handle(handle, sslash, srank, scolor, slabel, seal_only=True),
+                encoding="utf-8")
 
 
 def write_static_badges(out_dir: Path) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "powered-by-gaia.svg").write_text(badge_powered_by(), encoding="utf-8")
+    # The "validating…" badge served by the Cloudflare Pages Function whenever
+    # a `?repo=` query param doesn't match the contributor's approved repos.
+    # Page UI explains the 24h propagation window so users don't read this
+    # as "broken" — see docs/badges/index.html § "Why is my badge blank?".
+    (out_dir / "not-found.svg").write_text(badge_not_found(), encoding="utf-8")
 
 
 def write_sample_badges(rank_colors: dict[int, str], out_dir: Path) -> None:
     """Write 6 demo rank.svg files (1★ → 6★) plus a `unique` sample used by the
-    badges-page sampler."""
+    badges-page sampler. Each rank also gets a `-seal.svg` variant so the page
+    can preview the seal-only mode under the "Hide Gaia" toggle."""
     samples_dir = out_dir / "samples"
     samples_dir.mkdir(parents=True, exist_ok=True)
     for n in range(1, 7):
         color = "white-gold" if n == 6 else rank_colors.get(n, AMBER)
         rank_name = RANK_NAMES.get(n, f"{n}★")
         value = f"{rank_name} · {n}★" if n < 6 else f"{rank_name} · 6★"
-        svg = badge_simple(value, color, f"Gaia rank sample: {rank_name} ({n} stars)")
-        (samples_dir / f"rank-{n}.svg").write_text(svg, encoding="utf-8")
+        label = f"Gaia rank sample: {rank_name} ({n} stars)"
+        (samples_dir / f"rank-{n}.svg").write_text(
+            badge_simple(value, color, label), encoding="utf-8")
+        (samples_dir / f"rank-{n}-seal.svg").write_text(
+            badge_simple(value, color, label, seal_only=True), encoding="utf-8")
     # Unique tier (purple) — not part of the 1–6 ramp; rendered with the
     # tier-unique purple from docs/css/tokens.css.
     unique_value = "Unique"
-    unique_svg = badge_simple(unique_value, "#7c3aed", "Gaia rank sample: Unique")
-    (samples_dir / "rank-unique.svg").write_text(unique_svg, encoding="utf-8")
+    (samples_dir / "rank-unique.svg").write_text(
+        badge_simple(unique_value, "#7c3aed", "Gaia rank sample: Unique"),
+        encoding="utf-8")
+    (samples_dir / "rank-unique-seal.svg").write_text(
+        badge_simple(unique_value, "#7c3aed", "Gaia rank sample: Unique",
+                     seal_only=True),
+        encoding="utf-8")
 
 
 def extract_repo(url: str) -> str | None:
@@ -452,6 +558,7 @@ def build_registry(contributors: dict[str, dict]) -> dict:
                 "type": skill.get("type", ""),
                 "slash": slash,
                 "file": f"{fname}.svg",
+                "fileSeal": f"{fname}-seal.svg",
             })
         # Sort: rank desc, then origin first, then alphabetical by id.
         named_skills_payload.sort(key=lambda s: (-s["rank"], 0 if s.get("type") == "unique" else 1, s["id"]))
@@ -476,12 +583,14 @@ def write_registry_json(contributors: dict[str, dict], out_dir: Path) -> None:
     """Write docs/badges/registry.json — the public per-contributor manifest."""
     payload = {
         "generatedAt": _today_iso(),
-        "schema": "gaia-badges-registry/1",
+        "schema": "gaia-badges-registry/2",
         "description": (
             "Approved repos per contributor for Gaia README badges. "
             "Derived from registry/named-skills.json `links.github` URLs. "
-            "The forthcoming validator turns badges red when the `?repo=` "
-            "query string does not match a repo listed here."
+            "The Cloudflare Pages Function at functions/badges/[handle]/[file].js "
+            "serves the `validating…` SVG (docs/badges/not-found.svg) when the "
+            "`?repo=` query string doesn't match a repo listed here. Schema v2 "
+            "adds `fileSeal` for the seal-only (no 'Gaia' wordmark) variant."
         ),
         "contributors": contributors,
     }
