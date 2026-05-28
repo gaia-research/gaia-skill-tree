@@ -47,6 +47,32 @@ const PASSTHROUGH_HANDLES = new Set([
   "samples",
 ]);
 
+/**
+ * Structured log line — one JSON object per badge decision. Cloudflare Workers
+ * Logs picks these up automatically (no binding required, free up to ~5M
+ * events/day). Tail with `wrangler pages deployment tail` or query in the
+ * Cloudflare dashboard → Workers & Pages → <project> → Logs.
+ *
+ * Schema (kept stable so jq queries don't break):
+ *   evt           "badge_request"
+ *   handle        the @handle in the URL
+ *   file          the requested SVG filename
+ *   repo_claimed  the ?repo= value, or null if absent
+ *   state         "valid" | "validating" | "passthrough_no_repo" | "passthrough_static"
+ *
+ * Path B (Workers Analytics Engine for queryable time-series) is tracked in
+ * a separate enhancement issue — wire it here when that lands.
+ */
+function logEvent(handle, file, repo, state) {
+  console.log(JSON.stringify({
+    evt: "badge_request",
+    handle,
+    file,
+    repo_claimed: repo || null,
+    state,
+  }));
+}
+
 export async function onRequestGet({ request, env, params }) {
   const url = new URL(request.url);
   const handle = params.handle;
@@ -55,6 +81,7 @@ export async function onRequestGet({ request, env, params }) {
   // Pass-through directories (samples/) and pass-through files
   // (powered-by-gaia.svg, not-found.svg) skip validation entirely.
   if (PASSTHROUGH_HANDLES.has(handle) || PASSTHROUGH_FILES.has(file)) {
+    logEvent(handle, file, null, "passthrough_static");
     return env.ASSETS.fetch(request);
   }
 
@@ -64,6 +91,7 @@ export async function onRequestGet({ request, env, params }) {
   // Serve the real SVG; the page UI hands out the validated form going
   // forward, so this branch shrinks naturally over time.
   if (!repo) {
+    logEvent(handle, file, null, "passthrough_no_repo");
     return passThrough(request, env);
   }
 
@@ -72,12 +100,14 @@ export async function onRequestGet({ request, env, params }) {
   const approved = await getApprovedRepos(handle, env, request);
 
   if (approved && approved.includes(repo)) {
+    logEvent(handle, file, repo, "valid");
     return passThrough(request, env);
   }
 
   // Repo doesn't match (or unknown handle) — serve the validating badge.
   // Fetch the raw SVG bytes from the static assets and return them at THIS
   // URL so camo caches a stable image per (handle, file, repo) tuple.
+  logEvent(handle, file, repo, "validating");
   const notFoundUrl = new URL("/badges/not-found.svg", url.origin);
   const notFoundResp = await env.ASSETS.fetch(new Request(notFoundUrl, request));
   if (!notFoundResp.ok) {

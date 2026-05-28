@@ -42,6 +42,31 @@ Every response should carry `cache-control: public, max-age=86400, s-maxage=8640
 response is fast — the registry.json fetch should be served from the in-process
 cache (no extra fetch in `wrangler pages dev` logs).
 
+## Structured log lines
+
+Every request emits one JSON line via `console.log`. In `wrangler pages dev`
+they print to stdout; in production, `wrangler pages deployment tail` shows
+them in real time, or use **Cloudflare → Pages → gaia-skill-tree → Logs**.
+
+Schema:
+```json
+{"evt":"badge_request","handle":"...","file":"...","repo_claimed":"...|null","state":"valid|validating|passthrough_no_repo|passthrough_static"}
+```
+
+Quick aggregation queries (paste into a terminal once you've tailed for a bit):
+
+```bash
+# Top spoof attempts (claimed-but-wrong repos)
+wrangler pages deployment tail \
+  | jq -r 'select(.message | fromjson | .state == "validating") | .message | fromjson | .repo_claimed' \
+  | sort | uniq -c | sort -rn | head -10
+
+# Most-embedded contributors (valid hits)
+wrangler pages deployment tail \
+  | jq -r 'select(.message | fromjson | .state == "valid") | .message | fromjson | .handle' \
+  | sort | uniq -c | sort -rn | head -10
+```
+
 ## Curl one-liners
 
 ```bash

@@ -161,13 +161,16 @@ state to clean up.
 - **No Referer-based validation.** GitHub camo strips `Referer`, so we can't
   prove the README *actually* lives on the claimed repo — we only check the
   `?repo=` string against the approved list. A bad actor could still copy
-  someone's badge URL verbatim into their own README. This is unsolvable
-  without server-rendered badges (e.g., a Vercel OG-image-style endpoint),
-  which is out of scope for this iteration.
-- **Per-repo analytics.** The function already logs `x-gaia-badge-handle`
-  and `x-gaia-badge-repo-claimed` headers. If we ever wire Cloudflare
-  Analytics → Workers Analytics Engine, we could see which repos/handles
-  trigger the most lookups for free.
-- **Bulk-register repos.** If a contributor has many repos, they'd want a
-  bulk path-A flow rather than re-running `gaia push` per repo. Not blocking
-  this work.
+  someone's badge URL verbatim into their own README. **Tracked as a sub-task
+  of #155** (NEW UI - sign in to github) since the real fix is GitHub OAuth
+  → signed token-bound rendering.
+- **Per-repo analytics — Path A is live.** The function emits one structured
+  log line per request via `console.log`. Tail with
+  `wrangler pages deployment tail` or **Cloudflare Dashboard → Pages →
+  gaia-skill-tree → Logs**. Schema is documented in
+  `tests/test_badges_function.md` § "Structured log lines", with ready-made
+  jq queries for "top spoof attempts" and "most-embedded contributors".
+- **Per-repo analytics — Path B is queued.** Workers Analytics Engine for
+  queryable historical time-series + admin dashboard tracked under #455
+  (Github Badges).
+
