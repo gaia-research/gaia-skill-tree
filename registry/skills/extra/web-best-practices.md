@@ -1,8 +1,8 @@
 # /web-best-practices  [2★ · Named]
-**ID:** web-best-practices
-**Type:** Extra Skill
-**Level:** 2★
-**Tier:** Named
+**ID:** web-best-practices  
+**Type:** Extra Skill  
+**Level:** 2★  
+**Tier:** Named  
 **Skill Call:** `/web-best-practices`
 
 ---
