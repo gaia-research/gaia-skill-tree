@@ -192,7 +192,7 @@
     var downloadEl = qs('[data-share-action="download"]', modal);
     if (downloadEl) {
       downloadEl.href = ogUrl;
-      downloadEl.setAttribute('download', handle + '-' + skillIdShort + '.png');
+      downloadEl.setAttribute('download', handle + '-' + skillIdShort + '.svg');
       // download anchor is same-origin — no rel="noopener" needed.
     }
 

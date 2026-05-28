@@ -847,9 +847,9 @@ def build_profile_page(handle: str, skills: list, named_index: dict | None = Non
     share_modal_html = _build_share_modal()
     skill_explorer_modal_html = _build_skill_explorer_modal()
 
-    # OG image tag (raster PNG for social crawlers; SVG sibling exists at the same path)
+    # OG image tag (vector SVG for social crawlers)
     og_image_tags = "\n".join(
-        f'  <meta property="og:image" content="../../og/{html.escape(handle)}/{html.escape(s["id"].split("/")[-1])}.png">'
+        f'  <meta property="og:image" content="../../og/{html.escape(handle)}/{html.escape(s["id"].split("/")[-1])}.svg">'
         for s in skills[:1]  # use first skill for og:image
     )
 
