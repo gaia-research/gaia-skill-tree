@@ -157,7 +157,9 @@
         contributor: ns.contributor,
         origin: ns.origin,
         level: ns.level,
-        type: ns.type
+        type: ns.type,
+        description: ns.description,
+        tags: ns.tags
       };
       // renderOg sanitizes all interpolated values via escapeHtml; safe by construction. CodeQL alert dismissed.
       stage.innerHTML = window.plaque.renderOg(ogNs);
@@ -214,7 +216,6 @@
     // Action: Instagram
     var igBtn = modal.querySelector('[data-fs-action="instagram"]');
     if (igBtn) {
-      igBtn.childNodes.forEach(function(n) { if (n.nodeType === 3) n.textContent = ' Copy for Instagram'; });
       igBtn.onclick = function () {
         if (navigator.clipboard && navigator.clipboard.writeText) {
           navigator.clipboard.writeText(fullOgUrl).then(function () {
@@ -224,6 +225,20 @@
         } else {
           window.open('https://www.instagram.com/', '_blank', 'noopener');
           showToast('Opening Instagram...');
+        }
+      };
+    }
+
+    // Action: Copy Link
+    var copyLinkBtn = modal.querySelector('[data-fs-action="copy"]');
+    if (copyLinkBtn) {
+      copyLinkBtn.onclick = function () {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(permalink).then(function () {
+            showToast('Permalink copied.');
+          });
+        } else {
+          showToast('Copy failed. Long press link to copy.');
         }
       };
     }
@@ -299,6 +314,10 @@
       var type = btn.getAttribute('data-type');
       var origin = btn.getAttribute('data-origin') === 'true';
       var ogPath = btn.getAttribute('data-og');
+      var desc = btn.getAttribute('data-desc') || '';
+      var tagsRaw = btn.getAttribute('data-tags');
+      var tags = [];
+      try { if (tagsRaw) tags = JSON.parse(tagsRaw); } catch(e) {}
 
       openHohFullscreenModal({
         id: skillId,
@@ -307,7 +326,9 @@
         level: level,
         type: type,
         origin: origin,
-        ogPath: ogPath
+        ogPath: ogPath,
+        description: desc,
+        tags: tags
       });
     });
 

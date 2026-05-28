@@ -958,16 +958,26 @@ button.plaque__slug:focus-visible {
 .plaque--og:hover { transform: none; }
 .plaque--og .plaque__slug,
 .plaque--og .plaque-skill-name {
-  font-size: 44px;
+  font-size: 64px;
 }
 .plaque--og .plaque__title,
 .plaque--og .plaque-title {
-  font-size: 22px;
+  font-size: 32px;
 }
 .plaque--og .plaque__description,
 .plaque--og .plaque-description {
-  font-size: 16px;
+  font-size: 28px;
+  line-height: 1.4;
   -webkit-line-clamp: 3;
+}
+.plaque--og .plaque__tags {
+  font-size: 20px;
+  gap: 12px;
+  margin-top: 12px;
+}
+.plaque--og .plaque__install {
+  font-size: 24px;
+  margin-top: auto;
 }
 .plaque--og .plaque__og-seal { display: inline-flex; color: var(--apex-gold); }
 
@@ -2371,10 +2381,15 @@ button.plaque__slug:focus-visible {
   width: 1200px;
   height: 630px;
   transform-origin: center center;
-  transform: scale(0.7); /* Scale slightly to fit laptop displays nicely */
+  transform: scale(0.85); /* Scale slightly to fit laptop displays nicely */
   box-shadow: 0 32px 64px rgba(0, 0, 0, 0.6), 0 0 100px rgba(var(--plaque-accent-rgb), 0.15);
 }
 
+@media (max-width: 1400px) {
+  .hoh-fs-stage .plaque--og {
+    transform: scale(0.7);
+  }
+}
 @media (max-width: 1200px) {
   .hoh-fs-stage .plaque--og {
     transform: scale(0.55);
@@ -2395,7 +2410,6 @@ button.plaque__slug:focus-visible {
 .hoh-fs-overlay {
   width: 100%;
   max-width: 680px;
-  margin-bottom: 32px;
   padding: 20px 24px;
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -2408,13 +2422,17 @@ button.plaque__slug:focus-visible {
   gap: 12px;
   z-index: 1010;
   box-sizing: border-box;
-  transform: translateY(40px);
+  
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%) translateY(40px);
   opacity: 0;
   transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;
 }
 
 .hoh-fs-modal.is-active .hoh-fs-overlay {
-  transform: translateY(0);
+  transform: translateX(-50%) translateY(0);
   opacity: 1;
 }
 
