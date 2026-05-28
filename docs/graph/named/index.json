@@ -5042,6 +5042,102 @@
       "installBody": "Add installation instructions here."
     },
     {
+      "id": "addyosmani/accessibility",
+      "name": "accessibility",
+      "contributor": "addyosmani",
+      "origin": false,
+      "genericSkillRef": "web-accessibility",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Accessibility skill.",
+      "createdAt": "2026-05-24",
+      "updatedAt": "2026-05-24",
+      "suiteRef": "addyosmani/web-quality-audit",
+      "type": "extra",
+      "installBody": "Add installation instructions here."
+    },
+    {
+      "id": "addyosmani/best-practices",
+      "name": "best-practices",
+      "contributor": "addyosmani",
+      "origin": false,
+      "genericSkillRef": "web-best-practices",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Best practices skill.",
+      "createdAt": "2026-05-24",
+      "updatedAt": "2026-05-24",
+      "suiteRef": "addyosmani/web-quality-audit",
+      "type": "extra",
+      "installBody": "Add installation instructions here."
+    },
+    {
+      "id": "addyosmani/core-web-vitals",
+      "name": "core-web-vitals",
+      "contributor": "addyosmani",
+      "origin": false,
+      "genericSkillRef": "performance-tuning",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Core Web Vitals skill.",
+      "createdAt": "2026-05-24",
+      "updatedAt": "2026-05-24",
+      "suiteRef": "addyosmani/web-quality-audit",
+      "type": "basic",
+      "installBody": "Add installation instructions here."
+    },
+    {
+      "id": "addyosmani/performance",
+      "name": "performance",
+      "contributor": "addyosmani",
+      "origin": false,
+      "genericSkillRef": "performance-tuning",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Performance skill.",
+      "createdAt": "2026-05-24",
+      "updatedAt": "2026-05-24",
+      "suiteRef": "addyosmani/web-quality-audit",
+      "type": "basic",
+      "installBody": "Add installation instructions here."
+    },
+    {
+      "id": "addyosmani/seo",
+      "name": "seo",
+      "contributor": "addyosmani",
+      "origin": false,
+      "genericSkillRef": "search-engine-optimization",
+      "status": "awakened",
+      "level": "2★",
+      "description": "SEO skill.",
+      "createdAt": "2026-05-24",
+      "updatedAt": "2026-05-24",
+      "suiteRef": "addyosmani/web-quality-audit",
+      "type": "extra",
+      "installBody": "Add installation instructions here."
+    },
+    {
+      "id": "addyosmani/web-quality-audit",
+      "name": "web-quality-audit",
+      "contributor": "addyosmani",
+      "origin": false,
+      "genericSkillRef": "web-quality-audit",
+      "status": "awakened",
+      "level": "3★",
+      "description": "Comprehensive web quality audit covering performance, accessibility,",
+      "createdAt": "2026-05-24",
+      "updatedAt": "2026-05-24",
+      "suiteComponents": [
+        "addyosmani/accessibility",
+        "addyosmani/best-practices",
+        "addyosmani/core-web-vitals",
+        "addyosmani/performance",
+        "addyosmani/seo"
+      ],
+      "type": "ultimate",
+      "installBody": "Add installation instructions here."
+    },
+    {
       "id": "changkun/plan-decompose-gh-wallfacer",
       "name": "Wallfacer",
       "contributor": "changkun",
@@ -5792,6 +5888,49 @@
       "type": "basic"
     },
     {
+      "id": "sickn33/ai-dev-jobs-mcp",
+      "name": "ai-dev-jobs-mcp",
+      "contributor": "sickn33",
+      "origin": false,
+      "genericSkillRef": "mcp-integration",
+      "status": "awakened",
+      "level": "2★",
+      "description": "MCP tool for finding AI dev jobs.",
+      "createdAt": "2026-05-22",
+      "updatedAt": "2026-05-22",
+      "type": "basic",
+      "installBody": "Add installation instructions here."
+    },
+    {
+      "id": "sickn33/mcp-builder",
+      "name": "sickn33 MCP Builder",
+      "contributor": "sickn33",
+      "origin": false,
+      "genericSkillRef": "mcp-server-creation",
+      "status": "awakened",
+      "level": "3★",
+      "description": "A community implementation of the MCP builder skill from the antigravity-awesome-skills",
+      "createdAt": "2026-05-27",
+      "updatedAt": "2026-05-27",
+      "timeline": {},
+      "type": "extra",
+      "installBody": "Add installation instructions here."
+    },
+    {
+      "id": "sickn33/n8n-mcp-tools-expert",
+      "name": "n8n-mcp-tools-expert",
+      "contributor": "sickn33",
+      "origin": false,
+      "genericSkillRef": "mcp-integration",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Expert at integrating n8n with MCP (Model Context Protocol). Build n8n",
+      "createdAt": "2026-05-22",
+      "updatedAt": "2026-05-22",
+      "type": "basic",
+      "installBody": "Add installation instructions here."
+    },
+    {
       "id": "xquik-dev/hermes-tweet",
       "name": "Hermes Tweet",
       "contributor": "xquik-dev",
@@ -5814,6 +5953,20 @@
       "createdAt": "2026-05-15",
       "updatedAt": "2026-05-15",
       "type": "extra"
+    },
+    {
+      "id": "yundu-ai/mcp-tool-developer",
+      "name": "mcp-tool-developer",
+      "contributor": "yundu-ai",
+      "origin": false,
+      "genericSkillRef": "mcp-integration",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Build Model Context Protocol (MCP) servers and tools from scratch. Full-stack",
+      "createdAt": "2026-05-22",
+      "updatedAt": "2026-05-22",
+      "type": "basic",
+      "installBody": "Add installation instructions here."
     }
   ],
   "byContributor": {
@@ -5828,6 +5981,14 @@
     ],
     "addy-osmani": [
       "addy-osmani/test-driven-development"
+    ],
+    "addyosmani": [
+      "addyosmani/accessibility",
+      "addyosmani/best-practices",
+      "addyosmani/core-web-vitals",
+      "addyosmani/performance",
+      "addyosmani/seo",
+      "addyosmani/web-quality-audit"
     ],
     "anthropic": [
       "anthropic/pptx",
@@ -6111,6 +6272,11 @@
     "santifer": [
       "santifer/career-ops"
     ],
+    "sickn33": [
+      "sickn33/ai-dev-jobs-mcp",
+      "sickn33/mcp-builder",
+      "sickn33/n8n-mcp-tools-expert"
+    ],
     "spring-ai": [
       "spring-ai/readme-generate"
     ],
@@ -6128,6 +6294,9 @@
     ],
     "yonatangross": [
       "yonatangross/orchestkit-rag"
+    ],
+    "yundu-ai": [
+      "yundu-ai/mcp-tool-developer"
     ]
   }
 }

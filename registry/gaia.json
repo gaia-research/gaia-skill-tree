@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/skill.schema.json",
   "version": "3.25.2",
-  "generatedAt": "2026-05-28T03:35:07.942957Z",
+  "generatedAt": "2026-05-28T23:24:24.624256Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -565,7 +565,7 @@
       "type": "basic",
       "level": "2★",
       "rarity": "common",
-      "description": "Constructs, executes, and handles responses from HTTP APIs by interpreting documentation and selecting appropriate endpoints and parameters.",
+      "description": "Constructs, executes, and handles responses from HTTP APIs by interpreting documentation and selecting appropriate endpoints and parameters. This skill allows agents to fetch dynamic data, trigger remote actions, and interact with external systems programmatically by adhering to OpenAPI or other API specifications.",
       "prerequisites": [],
       "derivatives": [
         "function-calling",
@@ -587,16 +587,9 @@
       "createdAt": "2026-04-28",
       "updatedAt": "2026-05-10",
       "version": "0.2.0",
-      "timeline": [
-        {
-          "timestamp": "2026-05-13T21:50:25Z",
-          "action": "propose",
-          "contributor": "mbtiongson1",
-          "details": "Skill created as 2★ (provisional)",
-          "previousValue": null,
-          "newValue": "2★"
-        }
-      ]
+      "summary": "A fundamental skill that enables agents to interact with external services via HTTP API calls.",
+      "useCase": "Useful for tasks that require real-time data fetching, invoking external web services, integrating with SaaS platforms (e.g., GitHub, Slack, JIRA), or triggering automated workflows via standard REST or GraphQL endpoints.",
+      "directives": "- Identify the correct HTTP method (GET, POST, PUT, DELETE) and endpoint for the task.\n- Parse the API documentation to construct the required headers, authentication tokens, and request body.\n- Handle API responses gracefully, checking HTTP status codes and parsing JSON or XML payloads.\n- Implement retry logic or error handling for rate limits, timeouts, and unexpected responses."
     },
     {
       "id": "architecture-diagram",
@@ -5871,6 +5864,12 @@
           "evaluator": "codex",
           "date": "2026-05-10",
           "notes": "Official MCP Python SDK is active and provides FastMCP server examples for exposing tools, resources, prompts, structured outputs, transports, and inspector-based testing."
+        },
+        {
+          "class": "B",
+          "source": "https://raw.githubusercontent.com/sickn33/antigravity-awesome-skills/main/skills/mcp-builder/SKILL.md",
+          "evaluator": "codex",
+          "date": "2026-05-27"
         }
       ],
       "knownAgents": [
@@ -5878,16 +5877,14 @@
       ],
       "status": "provisional",
       "createdAt": "2026-05-10",
-      "updatedAt": "2026-05-10",
+      "updatedAt": "2026-05-27",
       "version": "0.1.0",
       "timeline": [
         {
-          "timestamp": "2026-05-13T21:50:25Z",
-          "action": "propose",
-          "contributor": "mbtiongson1",
-          "details": "Skill created as 4★ (provisional)",
-          "previousValue": null,
-          "newValue": "4★"
+          "timestamp": "2026-05-27T23:24:31Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://raw.githubusercontent.com/sickn33/antigravity-awesome-skills/main/skills/mcp-builder/SKILL.md"
         }
       ]
     },
@@ -8606,6 +8603,52 @@
       ]
     },
     {
+      "id": "search-engine-optimization",
+      "name": "search-engine-optimization",
+      "type": "extra",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Search Engine Optimization",
+      "prerequisites": [
+        "parse-html",
+        "parse-json"
+      ],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "A",
+          "source": "https://github.com/addyosmani/web-quality-skills",
+          "evaluator": "addyosmani",
+          "date": "2026-05-24"
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-24",
+      "updatedAt": "2026-05-24",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-24T16:03:55Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added generic skill search-engine-optimization"
+        },
+        {
+          "timestamp": "2026-05-24T16:06:55Z",
+          "action": "rank_up",
+          "contributor": "unknown",
+          "details": "Calibrated level from None to 2★"
+        },
+        {
+          "timestamp": "2026-05-24T16:09:12Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added A evidence from https://github.com/addyosmani/web-quality-skills"
+        }
+      ]
+    },
+    {
       "id": "security-audit",
       "name": "Security Audit",
       "type": "extra",
@@ -10727,6 +10770,147 @@
       ]
     },
     {
+      "id": "web-accessibility",
+      "name": "web-accessibility",
+      "type": "extra",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Accessibility",
+      "prerequisites": [
+        "browser-control",
+        "ux-audit"
+      ],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "A",
+          "source": "https://github.com/addyosmani/web-quality-skills",
+          "evaluator": "addyosmani",
+          "date": "2026-05-24"
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-24",
+      "updatedAt": "2026-05-24",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-24T16:02:41Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added generic skill web-accessibility"
+        },
+        {
+          "timestamp": "2026-05-24T16:08:04Z",
+          "action": "rank_up",
+          "contributor": "unknown",
+          "details": "Calibrated level from None to 2★"
+        },
+        {
+          "timestamp": "2026-05-24T16:10:23Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added A evidence from https://github.com/addyosmani/web-quality-skills"
+        }
+      ]
+    },
+    {
+      "id": "web-best-practices",
+      "name": "web-best-practices",
+      "type": "extra",
+      "level": "2★",
+      "rarity": "common",
+      "description": "Web Best Practices",
+      "prerequisites": [
+        "code-review-pipeline",
+        "performance-tuning"
+      ],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "A",
+          "source": "https://github.com/addyosmani/web-quality-skills",
+          "evaluator": "addyosmani",
+          "date": "2026-05-24"
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-24",
+      "updatedAt": "2026-05-24",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-24T16:03:24Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added generic skill web-best-practices"
+        },
+        {
+          "timestamp": "2026-05-24T16:07:27Z",
+          "action": "rank_up",
+          "contributor": "unknown",
+          "details": "Calibrated level from None to 2★"
+        },
+        {
+          "timestamp": "2026-05-24T16:09:50Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added A evidence from https://github.com/addyosmani/web-quality-skills"
+        }
+      ]
+    },
+    {
+      "id": "web-quality-audit",
+      "name": "web-quality-audit",
+      "type": "ultimate",
+      "level": "3★",
+      "rarity": "common",
+      "description": "Comprehensive web quality audit.",
+      "prerequisites": [
+        "gaia-meta-audit",
+        "performance-tuning",
+        "search-engine-optimization",
+        "web-accessibility",
+        "web-best-practices"
+      ],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "A",
+          "source": "https://github.com/addyosmani/web-quality-skills",
+          "evaluator": "addyosmani",
+          "date": "2026-05-24"
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-24",
+      "updatedAt": "2026-05-24",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-24T16:02:01Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added generic skill web-quality-audit"
+        },
+        {
+          "timestamp": "2026-05-24T16:08:33Z",
+          "action": "rank_up",
+          "contributor": "unknown",
+          "details": "Calibrated level from None to 3★"
+        },
+        {
+          "timestamp": "2026-05-24T16:11:10Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added A evidence from https://github.com/addyosmani/web-quality-skills"
+        }
+      ]
+    },
+    {
       "id": "web-scrape",
       "name": "Web Scrape",
       "type": "extra",
@@ -11359,6 +11543,11 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "browser-control",
+      "targetSkillId": "web-accessibility",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "chain-of-thought",
       "targetSkillId": "multi-agent-debate",
       "edgeType": "prerequisite"
@@ -11556,6 +11745,11 @@
     {
       "sourceSkillId": "code-review-pipeline",
       "targetSkillId": "subagent-driven-development",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "code-review-pipeline",
+      "targetSkillId": "web-best-practices",
       "edgeType": "prerequisite"
     },
     {
@@ -11949,6 +12143,11 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "gaia-meta-audit",
+      "targetSkillId": "web-quality-audit",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "generate-sql",
       "targetSkillId": "data-analysis",
       "edgeType": "prerequisite"
@@ -12200,12 +12399,22 @@
     },
     {
       "sourceSkillId": "parse-html",
+      "targetSkillId": "search-engine-optimization",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "parse-html",
       "targetSkillId": "web-scrape",
       "edgeType": "prerequisite"
     },
     {
       "sourceSkillId": "parse-json",
       "targetSkillId": "document-analyst",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "parse-json",
+      "targetSkillId": "search-engine-optimization",
       "edgeType": "prerequisite"
     },
     {
@@ -12221,6 +12430,16 @@
     {
       "sourceSkillId": "performance-tuning",
       "targetSkillId": "platform-modernization-sprint",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "performance-tuning",
+      "targetSkillId": "web-best-practices",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "performance-tuning",
+      "targetSkillId": "web-quality-audit",
       "edgeType": "prerequisite"
     },
     {
@@ -12529,6 +12748,11 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "search-engine-optimization",
+      "targetSkillId": "web-quality-audit",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "security-audit",
       "targetSkillId": "gstack",
       "edgeType": "prerequisite"
@@ -12794,6 +13018,11 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "ux-audit",
+      "targetSkillId": "web-accessibility",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "vector-db-optimization",
       "targetSkillId": "agent-memory-platform",
       "edgeType": "prerequisite"
@@ -12836,6 +13065,16 @@
     {
       "sourceSkillId": "voice-agent",
       "targetSkillId": "real-time-voice-assistant",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "web-accessibility",
+      "targetSkillId": "web-quality-audit",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "web-best-practices",
+      "targetSkillId": "web-quality-audit",
       "edgeType": "prerequisite"
     },
     {

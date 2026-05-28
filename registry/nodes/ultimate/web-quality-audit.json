@@ -1,0 +1,49 @@
+{
+  "id": "web-quality-audit",
+  "name": "web-quality-audit",
+  "type": "ultimate",
+  "level": "3★",
+  "rarity": "common",
+  "description": "Comprehensive web quality audit.",
+  "prerequisites": [
+    "gaia-meta-audit",
+    "performance-tuning",
+    "search-engine-optimization",
+    "web-accessibility",
+    "web-best-practices"
+  ],
+  "derivatives": [],
+  "evidence": [
+    {
+      "class": "A",
+      "source": "https://github.com/addyosmani/web-quality-skills",
+      "evaluator": "addyosmani",
+      "date": "2026-05-24"
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-05-24",
+  "updatedAt": "2026-05-24",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-24T16:02:01Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill web-quality-audit"
+    },
+    {
+      "timestamp": "2026-05-24T16:08:33Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Calibrated level from None to 3★"
+    },
+    {
+      "timestamp": "2026-05-24T16:11:10Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added A evidence from https://github.com/addyosmani/web-quality-skills"
+    }
+  ]
+}

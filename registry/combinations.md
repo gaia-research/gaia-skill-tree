@@ -90,6 +90,7 @@
 | ◆ [ruvnet](../docs/u/ruvnet/)/ruflo | Ultimate Skill | Flow Nexus Orchestration, Agent Memory Platform, GitHub Platform Mastery, Reasoning Pattern Bank, Platform Modernization Sprint, Dual Mode | 6★ | Requires demonstrating all 6 Ruflo suite fusions together in a production multi-agent context. Grandmaster Path: 34k+ stars on ruvnet/ruflo + agent-memory-platform 5★ Ultimate. |
 | ◇ /scientific-discovery | Extra Skill | Computational Biology Workflows, Hypothesis Generation, Math Reason, Research | 5★ | Requires laboratory tool access or simulation environment. Minimum 3 Class A/B evidence sources. |
 | ◇ /scientific-writing | Extra Skill | Write Report, Cite Sources, Scientific Visualization | 3★ |  |
+| ◇ /search-engine-optimization | Extra Skill | Parse HTML, Parse JSON | 2★ |  |
 | ◇ [garrytan](../docs/u/garrytan/)/cso | Extra Skill | Code Review Pipeline, Evaluate Output | 2★ | Requires access to the full codebase or diff; output must include severity classification and reproduction steps. |
 | ◇ [garrytan](../docs/u/garrytan/)/skillify | Extra Skill | Generate Text, Structured Output Generation, Code Generation | 4★ | Requires a target agent skill format and a repeatable evaluation loop for trigger accuracy and task success. |
 | ◇ [garrytan](../docs/u/garrytan/)/benchmark-models | Extra Skill | Agent Evaluation, Skill Discovery, Statistical Analysis | 4★ | Requires a skill corpus, benchmark tasks, success rubrics, and variance-aware reporting across multiple runs. |
@@ -109,6 +110,9 @@
 | ◇ [mattpocock](../docs/u/mattpocock/)/to-issues | Extra Skill | Plan and Decompose, Route Intent | 3★ |  |
 | ◇ [bradautomates](../docs/u/bradautomates/)/claude-video | Extra Skill | Multimodal Reasoning, Speech to Text | 3★ | Requires FFmpeg and multimodal LLM support. |
 | ◇ /voice-agent | Extra Skill | Speech to Text, Question Answer, Text to Speech | 3★ → 2★ | Requires real-time audio I/O or audio file access. |
+| ◇ /web-accessibility | Extra Skill | Browser Control, UX Audit | 2★ |  |
+| ◇ /web-best-practices | Extra Skill | Code Review Pipeline, Performance Tuning | 2★ |  |
+| ◆ /web-quality-audit | Ultimate Skill | Gaia Meta Audit, Performance Tuning, search-engine-optimization, web-accessibility, web-best-practices | 3★ |  |
 | ◇ [firecrawl](../docs/u/firecrawl/)/firecrawl | Extra Skill | Web Search, Parse HTML, Extract Entities | 1★ → 0★ | Structured output mode required. |
 | ◇ /wiki-search | Extra Skill | Retrieve, Embed Text, Summarize | 4★ | Requires an accessible local wiki or markdown knowledge-base directory and a consistent linking or indexing convention. |
 | ◇ [ruvnet](../docs/u/ruvnet/)/github-workflow-automation | Extra Skill | Plan and Decompose, Tool Use, API Call | 4★ |  |

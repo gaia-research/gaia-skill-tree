@@ -31,6 +31,7 @@ Authoritative list of known skill sources and marketplaces. `gaia-curate` agents
 | NousResearch/hermes-agent | https://github.com/NousResearch/hermes-agent | github-repo | `gh api repos/NousResearch/hermes-agent/contents/skills` and `gh api repos/NousResearch/hermes-agent/contents/optional-skills` |
 | obra/superpowers | https://github.com/obra/superpowers | github-repo | `gh api repos/obra/superpowers/contents/skills` |
 | google-deepmind/science-skills | https://github.com/google-deepmind/science-skills | github-repo | `gh api repos/google-deepmind/science-skills/contents/skills` |
+| sickn33/antigravity-awesome-skills | https://github.com/sickn33/antigravity-awesome-skills | github-repo | `gh api repos/sickn33/antigravity-awesome-skills/contents/skills` |
 
 ## Academic / Evidence Sources
 

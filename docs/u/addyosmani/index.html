@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en" data-icon-base="../../assets/icons.svg">
+<head>
+  <script>window.GAIA_VERSION = "3.25.2";</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>@addyosmani — Gaia Skill Registry</title>
+  <meta name="description" content="Contributor profile for @addyosmani on the Gaia Skill Registry. 6 named skills, highest rank 3★.">
+  <!-- OG meta -->
+  <meta property="og:type" content="profile">
+  <meta property="og:title" content="@addyosmani — Gaia Skill Registry">
+  <meta property="og:description" content="Contributor profile for @addyosmani on the Gaia Skill Registry. 6 named skills, highest rank 3★.">
+  <meta property="og:url" content="https://mbtiongson1.github.io/gaia-skill-tree/u/addyosmani/">
+  <meta property="og:image" content="../../og/addyosmani/accessibility.svg">
+  <!-- Stage 1 — Web fonts (EB Garamond display, Bricolage body, JetBrains Mono fallback). -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../../css/tokens.css?v=3.25.2">
+  <link rel="stylesheet" href="../../css/styles.css?v=3.25.2">
+  <link rel="stylesheet" href="../../css/plaque.css?v=3.25.2">
+  <!-- Stage 1 — icon sprite helper, loaded BEFORE other UI scripts. -->
+  <script src="../../js/icons.js?v=3.25.2"></script>
+  <!-- Stage 2 — rank-badge component, loaded after icons.js. -->
+  <script src="../../js/rank-badge.js?v=3.25.2"></script>
+  <!-- Stage 3 — plaque component family, loaded after rank-badge.js. -->
+  <script src="../../js/plaque.js?v=3.25.2"></script>
+  <script src="../../js/ui.js?v=3.25.2" defer></script>
+</head>
+<body class="profile-page">
+
+  <nav>
+  <a href="../../" class="nav-logo" aria-label="Gaia home">
+    <svg class="ico nav-seal" aria-hidden="true" focusable="false"><use href="../../assets/icons.svg#seal-diamond"/></svg>
+    <span class="nav-wordmark">Gaia</span>
+  </a>
+  <button type="button" class="nav-search-back" id="navSearchBack" aria-label="Back">
+    <svg class="ico" width="20" height="20" aria-hidden="true"><use href="../../assets/icons.svg#arrow-back"/></svg>
+  </button>
+  <input type="search" id="navMobileSearch" class="nav-mobile-search" placeholder="Search named…" autocomplete="off" aria-label="Search named">
+  <button class="nav-menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+  <ul>
+    <li><a href="../../index.html" class="nav-graph-trigger">Graph</a></li>
+    <li><a href="../../badges/" style="color: var(--honor-red);">Badges</a></li>
+    <li><a href="../../codex.html" style="color: var(--tier-basic);">The Codex</a></li>
+    <li><button type="button" class="nav-tree" id="treeNavBtn">Tree</button></li>
+    <li><a href="../../meta.html" class="nav-meta" id="metaNavBtn">Meta Reports</a></li>
+    <li><button type="button" class="nav-search-btn" id="navSearchBtn" aria-label="Search named"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#search"/></svg></button></li>
+  </ul>
+</nav>
+
+  <div class="profile-grid-container">
+    <main class="profile-main">
+      <!-- ─── PROFILE BACK ─── -->
+      <div class="profile-back-row">
+        <a class="profile-back" href="../" aria-label="Back" onclick="if(history.length>1){event.preventDefault();history.back();}">
+          <svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#arrow-back"/></svg>
+          <span>Back</span>
+        </a>
+      </div>
+
+      <!-- ─── PROFILE HERO ─── -->
+      <div class="profile-hero">
+        <h1 class="profile-handle">addyosmani</h1>
+        <div class="profile-meta">
+          6 named skills · highest rank 3★
+        </div>
+      </div>
+
+      <!-- ─── PROGRESSION TIMELINE ─── -->
+      <section class="profile-section" id="profile-timeline-section">
+  <div class="profile-section-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+    <div>
+      <h2 class="profile-section-title" style="margin:0;">Progression Timeline</h2>
+      <p class="profile-section-sub" style="margin:0.25rem 0 0 0;">Skill rank progression over time. Hover for details.</p>
+    </div>
+    <button class="profile-timeline-filter-btn" id="desktopFilterToggle" aria-label="Toggle filters" style="display:inline-flex; align-items:center; gap:6px; font-family:var(--font-mono); font-size:0.72rem; letter-spacing:0.05em; text-transform:uppercase; background:var(--surface); border:1px solid var(--border); color:var(--text); padding:0.4rem 0.8rem; border-radius:6px; cursor:pointer; transition:border-color 0.15s, color 0.15s;">
+      <svg class="ico" width="14" height="14" aria-hidden="true" style="fill:currentColor;"><use href="../../assets/icons.svg#filter"/></svg>
+      <span>Filter</span>
+    </button>
+  </div>
+  <div id="profile-timeline" class="profile-timeline" role="img" aria-label="Skill progression timeline"></div>
+</section>
+<script>window.PROFILE_TIMELINE = JSON.parse("{\"skills\": [], \"events\": []}");</script>
+
+      <!-- ─── SKILL PLAQUES ─── -->
+      <section class="profile-section">
+        <h2 class="profile-section-title">Named Skills</h2>
+        <p class="profile-section-sub">All named implementations attributed to @addyosmani in the Gaia registry.</p>
+        <div class="plaque-grid">
+          <article class="plaque plaque--settled" data-skill-id="addyosmani/accessibility" data-type="extra" data-level="2" data-skill-name="accessibility"><div class="plaque__header plaque-header"><div class="plaque-orb plaque-orb--extra" aria-hidden="true"></div><div class="plaque__rank"><span class="rank-badge" data-level="2" data-variant="chip" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__chip">2★</span></span></div></div><button type="button" class="plaque__slug plaque-skill-name named-slug" data-skill-id="addyosmani/accessibility" title="addyosmani/accessibility" onclick="event.stopPropagation(); if(window.openSkillExplorer)window.openSkillExplorer('addyosmani/accessibility');">/accessibility</button><div class="plaque__title plaque-title">accessibility</div><div class="plaque__handle plaque-contrib-row"><a class="atlas-handle plaque-contributor" href="../../u/addyosmani/">@addyosmani</a></div><p class="plaque__description plaque-description">Accessibility skill.</p><div class="plaque__rank"><span class="rank-badge" data-level="2" data-variant="stars" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span></div><div class="plaque__evidence plaque-evidence">CLASS C</div><div class="plaque__underline plaque-underline plaque-underline--settled"></div><div class="plaque__actions"><button class="plaque__share-btn" type="button" data-skill-id="addyosmani/accessibility" data-skill-name="accessibility" data-handle="addyosmani" data-og="../../og/addyosmani/accessibility.png" aria-label="Share"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#share"></use></svg></button><a class="plaque__claim-btn"  href="../../badges/?u=addyosmani"  title="Get README badge">Add to README</a></div></article>
+<article class="plaque plaque--settled" data-skill-id="addyosmani/best-practices" data-type="extra" data-level="2" data-skill-name="best-practices"><div class="plaque__header plaque-header"><div class="plaque-orb plaque-orb--extra" aria-hidden="true"></div><div class="plaque__rank"><span class="rank-badge" data-level="2" data-variant="chip" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__chip">2★</span></span></div></div><button type="button" class="plaque__slug plaque-skill-name named-slug" data-skill-id="addyosmani/best-practices" title="addyosmani/best-practices" onclick="event.stopPropagation(); if(window.openSkillExplorer)window.openSkillExplorer('addyosmani/best-practices');">/best-practices</button><div class="plaque__title plaque-title">best-practices</div><div class="plaque__handle plaque-contrib-row"><a class="atlas-handle plaque-contributor" href="../../u/addyosmani/">@addyosmani</a></div><p class="plaque__description plaque-description">Best practices skill.</p><div class="plaque__rank"><span class="rank-badge" data-level="2" data-variant="stars" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span></div><div class="plaque__evidence plaque-evidence">CLASS C</div><div class="plaque__underline plaque-underline plaque-underline--settled"></div><div class="plaque__actions"><button class="plaque__share-btn" type="button" data-skill-id="addyosmani/best-practices" data-skill-name="best-practices" data-handle="addyosmani" data-og="../../og/addyosmani/best-practices.png" aria-label="Share"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#share"></use></svg></button><a class="plaque__claim-btn"  href="../../badges/?u=addyosmani"  title="Get README badge">Add to README</a></div></article>
+<article class="plaque plaque--settled" data-skill-id="addyosmani/core-web-vitals" data-type="basic" data-level="2" data-skill-name="core-web-vitals"><div class="plaque__header plaque-header"><div class="plaque-orb plaque-orb--basic" aria-hidden="true"></div><div class="plaque__rank"><span class="rank-badge" data-level="2" data-variant="chip" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__chip">2★</span></span></div></div><button type="button" class="plaque__slug plaque-skill-name named-slug" data-skill-id="addyosmani/core-web-vitals" title="addyosmani/core-web-vitals" onclick="event.stopPropagation(); if(window.openSkillExplorer)window.openSkillExplorer('addyosmani/core-web-vitals');">/core-web-vitals</button><div class="plaque__title plaque-title">core-web-vitals</div><div class="plaque__handle plaque-contrib-row"><a class="atlas-handle plaque-contributor" href="../../u/addyosmani/">@addyosmani</a></div><p class="plaque__description plaque-description">Core Web Vitals skill.</p><div class="plaque__rank"><span class="rank-badge" data-level="2" data-variant="stars" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span></div><div class="plaque__evidence plaque-evidence">CLASS C</div><div class="plaque__underline plaque-underline plaque-underline--settled"></div><div class="plaque__actions"><button class="plaque__share-btn" type="button" data-skill-id="addyosmani/core-web-vitals" data-skill-name="core-web-vitals" data-handle="addyosmani" data-og="../../og/addyosmani/core-web-vitals.png" aria-label="Share"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#share"></use></svg></button><a class="plaque__claim-btn"  href="../../badges/?u=addyosmani"  title="Get README badge">Add to README</a></div></article>
+<article class="plaque plaque--settled" data-skill-id="addyosmani/performance" data-type="basic" data-level="2" data-skill-name="performance"><div class="plaque__header plaque-header"><div class="plaque-orb plaque-orb--basic" aria-hidden="true"></div><div class="plaque__rank"><span class="rank-badge" data-level="2" data-variant="chip" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__chip">2★</span></span></div></div><button type="button" class="plaque__slug plaque-skill-name named-slug" data-skill-id="addyosmani/performance" title="addyosmani/performance" onclick="event.stopPropagation(); if(window.openSkillExplorer)window.openSkillExplorer('addyosmani/performance');">/performance</button><div class="plaque__title plaque-title">performance</div><div class="plaque__handle plaque-contrib-row"><a class="atlas-handle plaque-contributor" href="../../u/addyosmani/">@addyosmani</a></div><p class="plaque__description plaque-description">Performance skill.</p><div class="plaque__rank"><span class="rank-badge" data-level="2" data-variant="stars" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span></div><div class="plaque__evidence plaque-evidence">CLASS C</div><div class="plaque__underline plaque-underline plaque-underline--settled"></div><div class="plaque__actions"><button class="plaque__share-btn" type="button" data-skill-id="addyosmani/performance" data-skill-name="performance" data-handle="addyosmani" data-og="../../og/addyosmani/performance.png" aria-label="Share"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#share"></use></svg></button><a class="plaque__claim-btn"  href="../../badges/?u=addyosmani"  title="Get README badge">Add to README</a></div></article>
+<article class="plaque plaque--settled" data-skill-id="addyosmani/seo" data-type="extra" data-level="2" data-skill-name="seo"><div class="plaque__header plaque-header"><div class="plaque-orb plaque-orb--extra" aria-hidden="true"></div><div class="plaque__rank"><span class="rank-badge" data-level="2" data-variant="chip" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__chip">2★</span></span></div></div><button type="button" class="plaque__slug plaque-skill-name named-slug" data-skill-id="addyosmani/seo" title="addyosmani/seo" onclick="event.stopPropagation(); if(window.openSkillExplorer)window.openSkillExplorer('addyosmani/seo');">/seo</button><div class="plaque__title plaque-title">seo</div><div class="plaque__handle plaque-contrib-row"><a class="atlas-handle plaque-contributor" href="../../u/addyosmani/">@addyosmani</a></div><p class="plaque__description plaque-description">SEO skill.</p><div class="plaque__rank"><span class="rank-badge" data-level="2" data-variant="stars" data-size="md" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span></div><div class="plaque__evidence plaque-evidence">CLASS C</div><div class="plaque__underline plaque-underline plaque-underline--settled"></div><div class="plaque__actions"><button class="plaque__share-btn" type="button" data-skill-id="addyosmani/seo" data-skill-name="seo" data-handle="addyosmani" data-og="../../og/addyosmani/seo.png" aria-label="Share"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#share"></use></svg></button><a class="plaque__claim-btn"  href="../../badges/?u=addyosmani"  title="Get README badge">Add to README</a></div></article>
+<article class="plaque plaque--settled" data-skill-id="addyosmani/web-quality-audit" data-type="ultimate" data-level="3" data-skill-name="web-quality-audit"><div class="plaque__header plaque-header"><div class="plaque-orb plaque-orb--ultimate" aria-hidden="true"></div><div class="plaque__rank"><span class="rank-badge" data-level="3" data-variant="chip" data-size="md" role="img" aria-label="Rank 3 of 6"><span class="rank-badge__chip">3★</span></span></div></div><button type="button" class="plaque__slug plaque-skill-name named-slug" data-skill-id="addyosmani/web-quality-audit" title="addyosmani/web-quality-audit" onclick="event.stopPropagation(); if(window.openSkillExplorer)window.openSkillExplorer('addyosmani/web-quality-audit');">/web-quality-audit</button><div class="plaque__title plaque-title">web-quality-audit</div><div class="plaque__handle plaque-contrib-row"><a class="atlas-handle plaque-contributor" href="../../u/addyosmani/">@addyosmani</a></div><p class="plaque__description plaque-description">Comprehensive web quality audit covering performance, accessibility,</p><div class="plaque__rank"><span class="rank-badge" data-level="3" data-variant="stars" data-size="md" role="img" aria-label="Rank 3 of 6"><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span></div><div class="plaque__evidence plaque-evidence">CLASS B</div><div class="plaque__underline plaque-underline plaque-underline--settled"></div><div class="plaque__actions"><button class="plaque__share-btn" type="button" data-skill-id="addyosmani/web-quality-audit" data-skill-name="web-quality-audit" data-handle="addyosmani" data-og="../../og/addyosmani/web-quality-audit.png" aria-label="Share"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#share"></use></svg></button><a class="plaque__claim-btn"  href="../../badges/?u=addyosmani"  title="Get README badge">Add to README</a></div></article>
+        </div>
+      </section>
+
+      <!-- ─── ADD MORE SKILLS CTA ─── -->
+      <div class="profile-add-skills-cta">
+        <p>Want to add more skills?</p>
+        <a href="../../index.html#paths" class="profile-cta-link">Register your repo →</a>
+      </div>
+    </main>
+
+    <aside class="profile-sidebar" id="profileSidebar" aria-label="Filters">
+  <!-- Search row with close button -->
+  <div class="profile-sidebar-section">
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+      <label class="profile-filter-legend" for="profileSearch" style="margin:0;">Search</label>
+      <button type="button" class="profile-sidebar-close" id="sidebarCloseBtn" aria-label="Close filters" style="background:none;border:none;color:var(--muted);cursor:pointer;padding:2px;display:inline-flex;align-items:center;"><svg class="ico" width="16" height="16" aria-hidden="true"><use href="../../assets/icons.svg#close-x"/></svg></button>
+    </div>
+    <input type="search" id="profileSearch" class="sidebar-search-input" placeholder="Search implementations…" autocomplete="off" aria-label="Search skills">
+  </div>
+
+  <!-- Type -->
+  <fieldset class="profile-filter-group" data-filter-type="type">
+    <legend class="profile-filter-legend">Type</legend>
+    <div style="display:flex; flex-wrap:wrap; gap:0.4rem; width:100%;">
+      <button class="profile-filter-chip" type="button" data-value="basic" aria-pressed="false"><svg class="ico" width="13" height="13" aria-hidden="true" style="vertical-align:middle;margin-right:3px"><use href="../../assets/icons.svg#tier-glyph-basic"/></svg>Basic</button>
+      <button class="profile-filter-chip" type="button" data-value="extra" aria-pressed="false"><svg class="ico" width="13" height="13" aria-hidden="true" style="vertical-align:middle;margin-right:3px"><use href="../../assets/icons.svg#tier-glyph-extra"/></svg>Extra</button>
+      <button class="profile-filter-chip" type="button" data-value="unique" aria-pressed="false"><svg class="ico" width="13" height="13" aria-hidden="true" style="vertical-align:middle;margin-right:3px"><use href="../../assets/icons.svg#tier-glyph-unique"/></svg>Unique</button>
+      <button class="profile-filter-chip" type="button" data-value="ultimate" aria-pressed="false"><svg class="ico" width="13" height="13" aria-hidden="true" style="vertical-align:middle;margin-right:3px"><use href="../../assets/icons.svg#tier-glyph-ultimate"/></svg>Ultimate</button>
+    </div>
+  </fieldset>
+
+  <!-- Rank -->
+  <fieldset class="profile-filter-group" data-filter-type="rank">
+    <legend class="profile-filter-legend">Rank</legend>
+    <div style="display:flex; flex-wrap:wrap; gap:0.4rem; width:100%;">
+      <button class="profile-filter-chip" type="button" data-value="1" aria-pressed="false">1★</button>
+      <button class="profile-filter-chip" type="button" data-value="2" aria-pressed="false">2★</button>
+      <button class="profile-filter-chip" type="button" data-value="3" aria-pressed="false">3★</button>
+      <button class="profile-filter-chip" type="button" data-value="4" aria-pressed="false">4★</button>
+      <button class="profile-filter-chip" type="button" data-value="5" aria-pressed="false">5★</button>
+      <button class="profile-filter-chip" type="button" data-value="6" aria-pressed="false">6★</button>
+    </div>
+  </fieldset>
+
+  <!-- Date Range -->
+  <div class="profile-sidebar-section">
+    <span class="profile-filter-legend" style="float:none; display:block; margin-bottom:0.5rem;">Date Range</span>
+    <div class="date-presets" style="margin-bottom:0.75rem;">
+      <button class="profile-filter-chip" type="button" data-preset="30d" aria-pressed="false">30D</button>
+      <button class="profile-filter-chip" type="button" data-preset="6m" aria-pressed="false">6M</button>
+      <button class="profile-filter-chip" type="button" data-preset="all" aria-pressed="true">All</button>
+    </div>
+    <div style="display:flex; gap:0.5rem; align-items:center;">
+      <input type="date" id="profileDateMin" class="sidebar-date-input" aria-label="Minimum date" placeholder="Min">
+      <span style="color:var(--muted); font-size:0.7rem;">to</span>
+      <input type="date" id="profileDateMax" class="sidebar-date-input" aria-label="Maximum date" placeholder="Max">
+    </div>
+  </div>
+
+  <!-- Sort -->
+  <div class="profile-sidebar-section">
+    <label class="profile-filter-legend" for="profileSort" style="float:none; display:block; margin-bottom:0.5rem;">Sort Order</label>
+    <div class="ns-sort-wrap profile-sort-wrap" style="width:100%;">
+      <svg class="ico ns-sort-icon" width="14" height="14" aria-hidden="true" style="left:10px;"><use href="../../assets/icons.svg#sort-arrows"/></svg>
+      <select id="profileSort" class="ns-sort-sel" aria-label="Sort skills" style="width:100%; padding-left:30px; font-family:var(--font-mono); font-size:0.72rem;">
+        <option value="rank" selected>Rank · high → low</option>
+        <option value="alpha">A → Z</option>
+        <option value="type">Type</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Reset -->
+  <button class="profile-filter-reset" type="button" style="width:100%; text-align:center; padding:0.5rem; background:var(--bg); border:1px solid var(--border); border-radius:6px; color:var(--muted); font-family:var(--font-mono); font-size:0.72rem; cursor:pointer; transition:color 0.15s, border-color 0.15s;">Reset Filters</button>
+</aside>
+  </div>
+
+  <footer>
+  <div class="footer-mark">
+    <svg class="ico footer-seal" aria-hidden="true" focusable="false"><use href="../../assets/icons.svg#seal-diamond"/></svg>
+    <span class="footer-wordmark">Gaia</span>
+  </div>
+  <p>
+    <a href="https://github.com/mbtiongson1/gaia-skill-tree" target="_blank" rel="noopener">GitHub</a> ·
+    MIT ·
+    <a href="../../privacy.html">Privacy</a> ·
+    <a href="../../codex.html">The Codex</a> ·
+    <a href="../../meta.html">Meta Reports</a> ·
+    <a href="../../samples/mobile.html">Samples</a> ·
+    <a href="../../badges/">Badges</a> ·
+    <button id="copyAgentFooterBtn" type="button" class="footer-link-btn" aria-label="Copy page context for agents">Copy Page</button>
+  </p>
+</footer>
+
+  <script src="../../js/plaque-reveal.js?v=3.25.2" defer></script>
+  <script src="../../js/profile-timeline.js?v=3.25.2" defer></script>
+  <script src="../../js/profile-filter.js?v=3.25.2" defer></script>
+  <script src="../../js/profile-share.js?v=3.25.2" defer></script>
+  <script src="../../js/profile-claim.js?v=3.25.2" defer></script>
+  <script src="../../js/named-skills.js?v=3.25.2" defer></script>
+  <script src="../../js/skill-explorer.js?v=3.25.2" defer></script>
+
+  <button id="scrollToTop" class="scroll-to-top" aria-label="Scroll to top">
+    <svg class="ico" width="20" height="20" aria-hidden="true"><use href="../../assets/icons.svg#arrow-up"/></svg>
+  </button>
+
+  <!-- Floating Mobile Filters Toggle -->
+  <div class="profile-sidebar-backdrop" id="sidebarBackdrop"></div>
+  <button class="profile-filter-toggle" id="mobileFilterToggle" aria-label="Toggle filters">
+    <svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#filter"/></svg>
+    <span>Filters</span>
+  </button>
+
+  <div class="share-modal" hidden role="dialog" aria-modal="true" aria-labelledby="share-modal-title">
+  <div class="share-modal__backdrop" data-share-close></div>
+  <div class="share-modal__panel" role="document">
+    <button class="share-modal__close" type="button" data-share-close aria-label="Close">×</button>
+    <h2 id="share-modal-title" class="share-modal__title">Share</h2>
+    <p class="share-modal__caption" data-share-caption></p>
+    <img class="share-modal__preview" data-share-preview alt="OG card preview">
+    <div class="share-modal__actions">
+      <a class="share-action share-action--download" data-share-action="download" download>
+        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="../../assets/icons.svg#download"></use></svg> Download
+      </a>
+      <button class="share-action share-action--copy" type="button" data-share-action="copy">
+        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="../../assets/icons.svg#link"></use></svg> Copy link
+      </button>
+      <a class="share-action share-action--x" data-share-action="x" target="_blank" rel="noopener">
+        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="../../assets/icons.svg#x"></use></svg> X
+      </a>
+      <button class="share-action share-action--instagram" type="button" data-share-action="instagram">
+        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="../../assets/icons.svg#instagram"></use></svg> Instagram
+      </button>
+    </div>
+    <div class="share-modal__toast" hidden role="status" data-share-toast></div>
+  </div>
+</div>
+
+  <div id="skillExplorer" class="skill-explorer" role="dialog" aria-modal="true" aria-label="Skill Explorer" tabindex="-1">
+    <div class="se-topbar">
+      <button id="seBack" class="se-btn-ghost"><svg class="ico" width="16" height="16" aria-hidden="true"><use href="../../assets/icons.svg#arrow-back"/></svg> Back</button>
+      <span id="seBreadcrumb" class="se-breadcrumb"></span>
+      <div class="se-topbar-actions">
+        <button id="seOpenRepo" class="se-btn-action"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#github"/></svg> Repo</button>
+        <button id="seSkillDocs" class="se-btn-action"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#external-link"/></svg> SKILL.md</button>
+        <button id="seShare" class="se-btn-action"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#share"/></svg> Share</button>
+        <button id="seClose" class="se-btn-ghost se-close-x" aria-label="Close"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#close-x"/></svg></button>
+      </div>
+    </div>
+    <div class="se-body">
+      <div class="se-hero">
+        <div id="seHero"></div>
+        <div id="se-upgrade" class="se-flow-section"></div>
+      </div>
+      <div class="se-flow" id="seFlow">
+        <div id="se-install" class="se-flow-section"></div>
+        <div id="se-docs" class="se-flow-section"></div>
+        <div id="se-changelog" class="se-flow-section"></div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
