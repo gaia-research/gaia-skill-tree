@@ -1591,7 +1591,8 @@
       treeDialogPre.textContent = SKELETON;
       treeDialogPre.classList.add('tree-skeleton');
       var version = window.GAIA_VERSION ? '?v=' + window.GAIA_VERSION : '';
-      fetch('tree.md' + version)
+      var prefix = (typeof window.gaiaIconBase === 'function') ? window.gaiaIconBase().replace('assets/icons.svg', '') : '';
+      fetch(prefix + 'tree.md' + version)
         .then(function(r) { return r.ok ? r.text() : Promise.reject(r.status); })
         .then(function(text) {
           _treeContent = text;

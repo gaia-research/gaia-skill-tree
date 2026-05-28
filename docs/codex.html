@@ -37,13 +37,12 @@
       <span></span>
     </button>
     <ul>
-      <li><a href="index.html" class="nav-graph-trigger">Graph (3D)</a></li>
-      <li><a href="index.html#hall-of-heroes">Hall of Heroes</a></li>
-      <li><a href="codex.html" aria-current="page">The Codex</a></li>
+      <li><a href="index.html" class="nav-graph-trigger">Graph</a></li>
       <li><a href="badges/" style="color: var(--honor-red);">Badges</a></li>
-      <li><a href="index.html#tree" class="nav-tree">Tree</a></li>
-      <li><button type="button" class="nav-copy-agent" id="copyAgentBtn" title="Copy Agent-friendly Markdown for LLMs/Agents" aria-label="Copy page context for agents"><svg class="ico" width="15" height="15" aria-hidden="true"><use href="assets/icons.svg#copy"/></svg></button></li>
-      <li><a href="index.html#named" class="nav-search-btn" aria-label="Search named"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#search"/></svg></a></li>
+      <li><a href="codex.html" style="color: var(--tier-basic);" aria-current="page">The Codex</a></li>
+      <li><button type="button" class="nav-tree" id="treeNavBtn">Tree</button></li>
+      <li><a href="meta.html" class="nav-meta" id="metaNavBtn">Meta Reports</a></li>
+      <li><button type="button" class="nav-search-btn" id="navSearchBtn" aria-label="Search named"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#search"/></svg></button></li>
     </ul>
   </nav>
 
@@ -63,15 +62,7 @@
     </div>
   </section>
 
-  <nav class="codex-toc" aria-label="Table of contents">
-    <p class="codex-toc__title">On this page</p>
-    <ol class="codex-toc__list">
-      <li><a href="#operating-loop">The Operating Loop</a></li>
-      <li><a href="#what-automation-does">What Automation Does</a></li>
-      <li><a href="#reviewer-path">Reviewer Path</a></li>
-      <li><a href="#branch-naming-convention">Branch Naming Convention</a></li>
-    </ol>
-  </nav>
+
 
   <section class="process-section">
     <h2 id="operating-loop">The Operating Loop</h2>
@@ -174,18 +165,41 @@
     <span class="footer-wordmark">Gaia</span>
   </div>
   <p>
-    <a href="index.html">Home</a> ·
     <a href="https://github.com/mbtiongson1/gaia-skill-tree" target="_blank">GitHub</a> ·
     MIT ·
-    <a href="https://github.com/mbtiongson1/gaia-skill-tree/blob/main/CONTRIBUTING.md" target="_blank">Contributing</a> ·
-    <a href="privacy.html">Privacy</a>
+    <a href="privacy.html">Privacy</a> ·
+    <a href="codex.html">The Codex</a> ·
+    <a href="meta.html">Meta Reports</a> ·
+    <a href="samples/mobile.html">Samples</a> ·
+    <a href="badges/">Badges</a> ·
+    <button id="copyAgentFooterBtn" type="button" class="footer-link-btn" aria-label="Copy page context for agents">Copy Page</button>
   </p>
+</footer>
+
+  <!-- ─── TREE DIALOG ─── -->
+  <a id="tree" tabindex="-1" aria-hidden="true"></a>
+  <dialog id="treeDialog" class="tree-dialog" aria-labelledby="treeDialogTitle">
+    <div class="tree-dialog-inner">
+      <div class="tree-dialog-header">
+        <div id="treeDialogTitle" class="tree-dialog-title">Gaia Skill Tree</div>
+        <div class="tree-dialog-actions">
+          <button type="button" class="tree-act-btn" id="treeCopyBtn">Copy</button>
+          <button type="button" class="tree-act-btn" id="treeDownloadBtn">Download</button>
+          <button type="button" class="tree-close-x" id="treeCloseBtn" aria-label="Close tree">✕</button>
+        </div>
+      </div>
+      <div class="tree-dialog-body">
+        <pre id="treeDialogPre">Loading…</pre>
+      </div>
+    </div>
+  </dialog>
   <button id="scrollToTop" class="scroll-to-top" aria-label="Scroll to top">
     <svg class="ico" width="20" height="20" aria-hidden="true"><use href="assets/icons.svg#arrow-up"/></svg>
   </button>
 
   <!-- ─── SCRIPTS ─── -->
   <script src="js/atlas-helpers.js?v=3.25.2"></script>
+  <script src="js/skill-explorer.js?v=3.25.2"></script>
   <script src="js/ui.js?v=3.25.2"></script>
   <script src="js/page-ia.js?v=3.25.2"></script>
 

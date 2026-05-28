@@ -7284,13 +7284,13 @@ button.nav-graph-trigger {
   cursor: pointer;
   font: inherit;
   font-size: .9rem;
-  color: var(--muted);
-  padding: 0;
+  color: var(--basic) !important;
+  padding: .1rem .25rem;
   transition: color .2s;
 }
 
 button.nav-graph-trigger:hover {
-  color: var(--text)
+  color: #7dd3fc !important;
 }
 
 /* ── TWO DOORS ── */
