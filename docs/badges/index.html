@@ -1004,6 +1004,7 @@
       samplerEl.style.display = "flex";
       preview.classList.remove("is-visible");
       checksEl.classList.remove("is-visible");
+      ctaBlock.style.display = "none";
       seedSample();
     });
 
@@ -1401,6 +1402,7 @@
       repoBlock.style.display = "none";
       pickerWrap.style.display = "none";
       checksEl.classList.remove("is-visible");
+      ctaBlock.style.display = "none";
 
       const base = `./${encodeURIComponent(handle)}`;
       const [hasRank, hasSkills, hasHandle, hasProfile, registry] = await Promise.all([
@@ -1435,6 +1437,7 @@
       renderRepoPicker(repos);
       renderSkillPicker(namedSkills, topSkillId);
       updateCheckboxes(hasHandle, hasRank, hasSkills);
+      renderCTAs(handle, repos);
       renderRows();
       updateVariantCards(handle, registry);
 
@@ -1444,6 +1447,68 @@
           ? " — no `links.github` on record yet; copy without `?repo=` for now."
           : " — no /u/ page yet; linking to the registry home.";
       status.textContent = `Found badges for @${handle}${tail}`;
+    }
+
+    // ── Register-repo + edit-readme CTAs ─────────────────────────────────────
+    // When a contributor has no approved repos on file, show a Path A redirect
+    // so they know how to register one. Otherwise, surface a direct GitHub
+    // edit link to each approved repo's README so they can drop the markdown
+    // in immediately.
+    function renderCTAs(handle, repos) {
+      ctaBlock.classList.remove("bd-cta-register");
+      ctaBlock.innerHTML = "";
+      if (!handle || handle === "gaia-bot") {
+        ctaBlock.style.display = "none";
+        return;
+      }
+
+      if (!repos || repos.length === 0) {
+        // No approved repos — push the user to Path A.
+        ctaBlock.classList.add("bd-cta-register");
+        ctaBlock.style.display = "block";
+        ctaBlock.innerHTML = `
+          <h3 class="bd-cta-title">
+            <svg class="ico bd-cta-icon" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#info"/></svg>
+            Your badge isn't repo-locked yet
+          </h3>
+          <p class="bd-cta-sub">
+            Register a repo so your badge stays valid in your README. Add
+            <code>links.github: https://github.com/&lt;owner&gt;/&lt;repo&gt;/blob/main/skills/&lt;slug&gt;/SKILL.md</code>
+            to your skill's frontmatter, then run <code>gaia push</code>.
+          </p>
+          <div class="bd-cta-actions">
+            <a class="bd-cta-btn bd-cta-btn-primary" href="../index.html#paths">
+              Register your repo (Path A)
+              <span aria-hidden="true" style="font-size: .85rem; line-height: 1;">→</span>
+            </a>
+            <a class="bd-cta-btn" href="../codex.html">
+              Browse the Codex
+            </a>
+          </div>
+        `;
+        return;
+      }
+
+      // Approved repos exist — surface direct edit links.
+      ctaBlock.style.display = "block";
+      const repoRows = repos.map((repo) => `
+        <div class="bd-cta-repo-row">
+          <span class="bd-cta-repo-name" title="${repo}">${repo}</span>
+          <a class="bd-cta-btn" href="https://github.com/${repo}/edit/main/README.md" target="_blank" rel="noopener noreferrer">
+            Edit README <span aria-hidden="true">↗</span>
+          </a>
+          <a class="bd-cta-btn" href="https://github.com/${repo}" target="_blank" rel="noopener noreferrer">
+            View repo <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      `).join("");
+      ctaBlock.innerHTML = `
+        <h3 class="bd-cta-title">Drop the markdown above into one of your approved repos</h3>
+        <p class="bd-cta-sub">
+          GitHub's <code>/edit/main/README.md</code> deep-link opens the README in their in-browser editor. If your default branch isn't <code>main</code>, GitHub redirects you to the right one.
+        </p>
+        ${repoRows}
+      `;
     }
 
     goBtn.addEventListener("click", generate);
