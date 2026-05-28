@@ -63,8 +63,18 @@
     </div>
   </section>
 
+  <nav class="codex-toc" aria-label="Table of contents">
+    <p class="codex-toc__title">On this page</p>
+    <ol class="codex-toc__list">
+      <li><a href="#operating-loop">The Operating Loop</a></li>
+      <li><a href="#what-automation-does">What Automation Does</a></li>
+      <li><a href="#reviewer-path">Reviewer Path</a></li>
+      <li><a href="#branch-naming-convention">Branch Naming Convention</a></li>
+    </ol>
+  </nav>
+
   <section class="process-section">
-    <h2>The Operating Loop</h2>
+    <h2 id="operating-loop">The Operating Loop</h2>
     <p class="section-sub">A simple path keeps public contributions readable and keeps the canonical graph intentional.</p>
     <div class="process-lanes">
       <article class="process-lane">
@@ -92,7 +102,7 @@
 
   <section class="process-section process-band">
     <div>
-      <h2>What Automation Does</h2>
+      <h2 id="what-automation-does">What Automation Does</h2>
       <p class="section-sub">Automation helps with formatting, triage, and repeat checks. Humans still decide what the registry means.</p>
     </div>
     <div class="process-checklist">
@@ -112,7 +122,7 @@
   </section>
 
   <section class="process-section">
-    <h2>Reviewer Path</h2>
+    <h2 id="reviewer-path">Reviewer Path</h2>
     <p class="section-sub">A reviewer should be able to decide what happens next without reverse-engineering the whole repo.</p>
     <div class="review-grid">
       <div class="review-card">
@@ -135,7 +145,7 @@
   </section>
 
   <section class="process-section">
-    <h2>Branch Naming Convention</h2>
+    <h2 id="branch-naming-convention">Branch Naming Convention</h2>
     <p class="section-sub">CI enforces scope — each branch prefix restricts which files can change.</p>
     <table class="branch-table">
       <thead>

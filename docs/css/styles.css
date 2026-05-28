@@ -1752,6 +1752,56 @@ tr:hover td {
   margin-top: 2rem
 }
 
+/* Codex Table of Contents — in-flow anchor list above the first H2 */
+.codex-toc {
+  max-width: 1000px;
+  padding: 1rem 1.25rem;
+  margin-block-end: 2.5rem;
+  border-inline-start: 2px solid var(--border);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+}
+
+.codex-toc__title {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin: 0 0 0.75rem;
+}
+
+.codex-toc__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.codex-toc__list a {
+  color: var(--text);
+  text-decoration: none;
+  border-block-end: 1px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.codex-toc__list a:hover,
+.codex-toc__list a:focus {
+  color: var(--tier-extra);
+  border-block-end-color: currentColor;
+}
+
+@media (max-width: 860px) {
+  .codex-toc {
+    border-inline-start: none;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-block-end: 2rem;
+  }
+}
+
 .process-section {
   max-width: 1000px
 }
