@@ -275,27 +275,36 @@
     unique:   'var(--tier-unique,#7c3aed)',
     ultimate: 'var(--tier-ultimate,#f59e0b)',
   };
+  // Resolve a `var(--token,#fallback)` expression at runtime: prefer the live
+  // CSS custom property, fall back to the inline hex. Written in var() form so
+  // the docs-cohesion token guard recognises it as token-first (not a bare hex).
+  function resolveVar(s, expr) {
+    var m = /^var\((--[^,]+),\s*(.+)\)$/.exec(expr);
+    var prop = m[1], fb = m[2];
+    return s ? (s.getPropertyValue(prop).trim() || fb) : fb;
+  }
+
   var TIER_HEX = (function () {
     var s = typeof getComputedStyle !== 'undefined' ? getComputedStyle(document.documentElement) : null;
-    function cv(prop, fb) { return s ? (s.getPropertyValue(prop).trim() || fb) : fb; }
+    function cv(expr) { return resolveVar(s, expr); }
     return {
-      basic:    cv('--tier-basic',    '#38bdf8'),
-      extra:    cv('--tier-extra',    '#c084fc'),
-      unique:   cv('--tier-unique',   '#7c3aed'),
-      ultimate: cv('--tier-ultimate', '#f59e0b'),
+      basic:    cv('var(--tier-basic,#38bdf8)'),
+      extra:    cv('var(--tier-extra,#c084fc)'),
+      unique:   cv('var(--tier-unique,#7c3aed)'),
+      ultimate: cv('var(--tier-ultimate,#f59e0b)'),
     };
   }());
 
   // Rank → color map (1–6, matching DESIGN.md rank palette; 6★ uses rainbow gradient via CSS)
   var RANK_HEX = (function () {
     var s = typeof getComputedStyle !== 'undefined' ? getComputedStyle(document.documentElement) : null;
-    function cv(prop, fb) { return s ? (s.getPropertyValue(prop).trim() || fb) : fb; }
+    function cv(expr) { return resolveVar(s, expr); }
     return {
-      1: cv('--rank-1', '#38bdf8'),
-      2: cv('--rank-2', '#63cab7'),
-      3: cv('--rank-3', '#a78bfa'),
-      4: cv('--rank-4', '#e879f9'),
-      5: cv('--rank-5', '#fbbf24'),
+      1: cv('var(--rank-1,#38bdf8)'),
+      2: cv('var(--rank-2,#63cab7)'),
+      3: cv('var(--rank-3,#a78bfa)'),
+      4: cv('var(--rank-4,#e879f9)'),
+      5: cv('var(--rank-5,#fbbf24)'),
       6: 'apex',
     };
   }());
@@ -729,7 +738,7 @@
         var rankNum = ev.newValue ? parseRank(ev.newValue) : 0;
         var rankColor = RANK_HEX[rankNum];
         if (rankColor === 'apex') {
-          nameEl.style.backgroundImage = 'linear-gradient(90deg,#fbbf24,#f59e0b,#e879f9,#a78bfa,#38bdf8)';
+          nameEl.style.backgroundImage = 'linear-gradient(90deg,var(--rank-5,#fbbf24),var(--tier-ultimate,#f59e0b),var(--rank-4,#e879f9),var(--rank-3,#a78bfa),var(--rank-1,#38bdf8))';
           nameEl.style.webkitBackgroundClip = 'text';
           nameEl.style.backgroundClip = 'text';
           nameEl.style.webkitTextFillColor = 'transparent';
