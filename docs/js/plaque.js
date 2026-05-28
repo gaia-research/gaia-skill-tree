@@ -196,7 +196,7 @@
     var origin = ns.origin ? 'true' : 'false';
     var slashIdx = skillId.indexOf('/');
     var skillIdShort = slashIdx !== -1 ? skillId.slice(slashIdx + 1) : skillId;
-    var ogPath = handle && skillIdShort ? 'og/' + handle + '/' + skillIdShort + '.png' : '';
+    var ogPath = handle && skillIdShort ? 'og/' + handle + '/' + skillIdShort + '.svg' : '';
     return '<button class="plaque__fs-btn" type="button" aria-label="Fullscreen View" title="Show Fullscreen Social Card" ' +
       'data-skill-id="' + esc(skillId) + '" ' +
       'data-handle="' + esc(handle) + '" ' +
@@ -322,7 +322,7 @@
     var skillIdShort = slashIdx !== -1 ? skillId.slice(slashIdx + 1) : skillId;
     var handle = (ns && ns.contributor) || '';
     var skillName = (ns && ns.name) || '';
-    var ogPath = handle && skillIdShort ? '/og/' + handle + '/' + skillIdShort + '.png' : '';
+    var ogPath = handle && skillIdShort ? '/og/' + handle + '/' + skillIdShort + '.svg' : '';
     var actions =
       '<div class="plaque__actions plaque-detail-actions">' +
         '<button type="button" class="plaque__share-btn" ' +
