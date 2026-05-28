@@ -49,14 +49,23 @@ def _read_version() -> str:
 
 
 def _apply_cache_busting(text: str, version: str) -> str:
-    # 1. Inject or update Cache-Control meta tags inside <head>
-    cache_meta = (
-        '\n  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">\n'
-        '  <meta http-equiv="Pragma" content="no-cache">\n'
-        '  <meta http-equiv="Expires" content="0">'
+    # 1. Strip legacy no-cache meta tags if present (they break back/forward cache
+    #    and prevent the browser from honoring our versioned query strings).
+    text = re.sub(
+        r'\n?\s*<meta\s+http-equiv="Cache-Control"\s+content="no-cache, no-store, must-revalidate">',
+        '',
+        text,
     )
-    if 'http-equiv="Cache-Control"' not in text:
-        text = text.replace("<head>", f"<head>{cache_meta}", 1)
+    text = re.sub(
+        r'\n?\s*<meta\s+http-equiv="Pragma"\s+content="no-cache">',
+        '',
+        text,
+    )
+    text = re.sub(
+        r'\n?\s*<meta\s+http-equiv="Expires"\s+content="0">',
+        '',
+        text,
+    )
 
     # 2. Inject or update window.GAIA_VERSION in <head>
     version_script = f'\n  <script>window.GAIA_VERSION = "{version}";</script>'
