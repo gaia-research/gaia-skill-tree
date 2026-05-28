@@ -1,4 +1,4 @@
-# /gaia-audit  [4★ · Hardened]
+# [mbtiongson1](../../../docs/u/mbtiongson1/)/gaia-audit  [4★ · Hardened]
 **ID:** gaia-audit  
 **Type:** Extra Skill  
 **Level:** 4★  

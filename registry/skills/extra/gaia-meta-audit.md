@@ -1,4 +1,4 @@
-# /gaia-meta-audit  [3★ · Evolved]
+# [mbtiongson1](../../../docs/u/mbtiongson1/)/gaia-meta-audit  [3★ · Evolved]
 **ID:** gaia-meta-audit  
 **Type:** Extra Skill  
 **Level:** 3★  
