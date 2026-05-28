@@ -862,11 +862,16 @@
     // Global search nav: scroll to Named Skills section and focus the search input
     function focusNamedSearch() {
       var named = document.getElementById('named');
-      if (named) named.scrollIntoView({ behavior: 'smooth' });
-      setTimeout(function () {
-        var input = document.getElementById('nsSearch');
-        if (input) { input.focus(); input.select(); }
-      }, 520);
+      if (named) {
+        named.scrollIntoView({ behavior: 'smooth' });
+        setTimeout(function () {
+          var input = document.getElementById('nsSearch');
+          if (input) { input.focus(); input.select(); }
+        }, 520);
+      } else {
+        var prefix = (typeof window.gaiaIconBase === 'function') ? window.gaiaIconBase().replace('assets/icons.svg', '') : '';
+        window.location.href = prefix + 'index.html#search';
+      }
     }
     var navSearch = document.getElementById('navSearchBtn');
     if (navSearch) navSearch.addEventListener('click', focusNamedSearch);
