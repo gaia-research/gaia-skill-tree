@@ -133,12 +133,7 @@
         list.addEventListener('click', function (ev) {
           var btn = ev.target.closest && ev.target.closest('.ult-claim');
           if (!btn) return;
-          openClaim({
-            id: btn.dataset.skillId,
-            name: btn.dataset.skillName || btn.dataset.skillId,
-            level: btn.dataset.skillLevel || '',
-            type: 'ultimate',
-          });
+          window.location.href = 'badges/';
         });
         list.dataset.claimDelegated = '1';
       }

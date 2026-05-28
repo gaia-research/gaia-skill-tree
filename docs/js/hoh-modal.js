@@ -11,6 +11,21 @@
   var inertedSiblings = [];
   var trapKeydownHandler = null;
 
+  // Lazy registry cache — mirrors how badges/index.html fetches registry.json
+  var _registryPromise = null;
+  function getRegistry() {
+    if (!_registryPromise) {
+      _registryPromise = fetch('badges/registry.json')
+        .then(function (r) { return r.ok ? r.json() : { contributors: {} }; })
+        .catch(function () { return { contributors: {} }; });
+    }
+    return _registryPromise;
+  }
+  function firstApprovedRepo(registry, handle) {
+    var entry = registry && registry.contributors && registry.contributors[handle];
+    return (entry && entry.repos && entry.repos[0]) || null;
+  }
+
   var FOCUSABLE_SELECTOR = [
     'a[href]',
     'button:not([disabled])',
@@ -171,18 +186,62 @@
       handleText.textContent = '@' + ns.contributor;
     }
 
-    // Load dynamic handle README badge
+    // Load dynamic handle README badge + markdown (with ?repo= if available)
     var badgePreview = document.getElementById('hohFsBadgePreview');
+    var codeBlock = document.getElementById('hohFsCodeBlock');
+    var copyBtn = document.getElementById('hohFsCopyBtn');
+    var badgesLink = document.getElementById('hohFsBadgesLink');
+
+    var badgeBase = 'https://gaia.tiongson.co/badges/' + ns.contributor + '/handle.svg';
+    var profileUrl = 'https://gaia.tiongson.co/u/' + ns.contributor + '/';
+
+    // Set immediately without ?repo= so the badge shows right away, then
+    // update both src and markdown once the registry resolves.
     if (badgePreview) {
+      badgePreview.alt = '@' + ns.contributor + ' on Gaia';
       badgePreview.src = 'badges/' + encodeURIComponent(ns.contributor) + '/handle.svg';
     }
+    var markdown = '[![Gaia](' + badgeBase + ')](' + profileUrl + ')';
+    if (codeBlock) codeBlock.textContent = markdown;
+    if (badgesLink) badgesLink.href = 'badges/?u=' + encodeURIComponent(ns.contributor);
 
-    // Generate markdown badge copy block
-    var codeBlock = document.getElementById('hohFsCodeBlock');
-    var markdown = '[![Gaia](https://gaia.tiongson.co/badges/' + ns.contributor + '/handle.svg)](https://gaia.tiongson.co/u/' + ns.contributor + '/)';
-    if (codeBlock) {
-      codeBlock.textContent = markdown;
-    }
+    getRegistry().then(function (registry) {
+      var repo = firstApprovedRepo(registry, ns.contributor);
+      if (repo) {
+        var q = '?repo=' + encodeURIComponent(repo);
+        if (badgePreview) {
+          badgePreview.src = 'badges/' + encodeURIComponent(ns.contributor) + '/handle.svg' + q;
+        }
+        markdown = '[![Gaia](' + badgeBase + q + ')](' + profileUrl + ')';
+        if (codeBlock) codeBlock.textContent = markdown;
+      }
+      // Re-wire copy button with the (possibly updated) markdown value
+      if (copyBtn) {
+        copyBtn.onclick = function () {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(markdown).then(function () {
+              showCopySuccess(copyBtn);
+            });
+          } else {
+            try {
+              var ta = document.createElement('textarea');
+              ta.value = markdown;
+              ta.style.position = 'fixed';
+              ta.style.opacity = '0';
+              document.body.appendChild(ta);
+              ta.focus();
+              ta.select();
+              var ok = document.execCommand('copy');
+              document.body.removeChild(ta);
+              if (ok) { showCopySuccess(copyBtn); }
+              else { showToast('Copy failed — please manually copy the markdown block.'); }
+            } catch (_e) {
+              showToast('Copy failed — please manually copy the markdown block.');
+            }
+          }
+        };
+      }
+    });
 
     // Dynamic Permalinks & URLs
     var permalink = 'https://gaia.tiongson.co/u/' + ns.contributor + '/#' + ns.id.replace('/', '-');
@@ -243,36 +302,6 @@
       };
     }
 
-    // Action: Copy Markdown
-    var copyBtn = document.getElementById('hohFsCopyBtn');
-    if (copyBtn) {
-      copyBtn.onclick = function () {
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(markdown).then(function () {
-            showCopySuccess(copyBtn);
-          });
-        } else {
-          try {
-            var ta = document.createElement('textarea');
-            ta.value = markdown;
-            ta.style.position = 'fixed';
-            ta.style.opacity = '0';
-            document.body.appendChild(ta);
-            ta.focus();
-            ta.select();
-            var ok = document.execCommand('copy');
-            document.body.removeChild(ta);
-            if (ok) {
-              showCopySuccess(copyBtn);
-            } else {
-              showToast('Copy failed — please manually copy the markdown block.');
-            }
-          } catch (_e) {
-            showToast('Copy failed — please manually copy the markdown block.');
-          }
-        }
-      };
-    }
 
     // Show the modal with transition
     modal.classList.add('is-active');
