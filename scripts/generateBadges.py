@@ -314,15 +314,25 @@ def write_user_badges(handle: str, info: dict, scan: dict | None,
         top_rank = max(top_rank, scan["top_rank"])
         count = max(count, scan["count"])
 
+    # Unique-tier sweep: when the contributor's top named skill is a unique
+    # ultimate, paint rank.svg + skills.svg in unique purple to match handle.svg.
+    top_skill_obj = info.get("top_skill") if info else None
+    top_is_unique = bool(top_skill_obj and top_skill_obj.get("type") == "unique")
+
+    def _panel_color(rank: int) -> str:
+        if top_is_unique:
+            return "#7c3aed"
+        if rank == 6:
+            return "white-gold"
+        return rank_colors.get(rank, AMBER)
+
     if top_rank > 0:
-        color = "white-gold" if top_rank == 6 else rank_colors.get(top_rank, AMBER)
-        svg = badge_simple(f"{top_rank}★", color, f"Gaia rank: {top_rank} stars")
+        svg = badge_simple(f"{top_rank}★", _panel_color(top_rank), f"Gaia rank: {top_rank} stars")
         (user_dir / "rank.svg").write_text(svg, encoding="utf-8")
 
     if count > 0:
-        color = "white-gold" if top_rank == 6 else rank_colors.get(top_rank, AMBER)
         value = f"{count} skills" if count != 1 else "1 skill"
-        svg = badge_simple(value, color, f"Gaia: {value}")
+        svg = badge_simple(value, _panel_color(top_rank), f"Gaia: {value}")
         (user_dir / "skills.svg").write_text(svg, encoding="utf-8")
 
     # handle.svg + per-skill badges require named skills (need a slash)
@@ -371,6 +381,16 @@ def write_static_badges(out_dir: Path) -> None:
     (out_dir / "powered-by-gaia.svg").write_text(badge_powered_by(), encoding="utf-8")
 
 
+def write_sample_badges(rank_colors: dict[int, str], out_dir: Path) -> None:
+    """Write 6 demo rank.svg files (1★ → 6★) used by the badges-page sampler."""
+    samples_dir = out_dir / "samples"
+    samples_dir.mkdir(parents=True, exist_ok=True)
+    for n in range(1, 7):
+        color = "white-gold" if n == 6 else rank_colors.get(n, AMBER)
+        svg = badge_simple(f"{n}★", color, f"Gaia rank sample: {n} stars")
+        (samples_dir / f"rank-{n}.svg").write_text(svg, encoding="utf-8")
+
+
 def extract_repo(url: str) -> str | None:
     """Pull '<owner>/<repo>' from a GitHub URL.
 
@@ -403,15 +423,39 @@ def build_registry(contributors: dict[str, dict]) -> dict:
             if not repo:
                 continue
             repos.setdefault(repo, []).append(skill.get("id", ""))
-        if not repos:
-            continue
+
+        # Per-skill picker payload — includes the resolved on-disk filename so
+        # the page doesn't need to recompute the reserved-name suffix logic.
+        named_skills_payload = []
+        for skill in info["named_skills"]:
+            slash = named_slug(skill)
+            fname = slash.lstrip("/").replace("/", "-") or "skill"
+            if fname in RESERVED_FILENAMES:
+                fname = f"{fname}~"
+            named_skills_payload.append({
+                "id": skill.get("id", ""),
+                "name": skill.get("name", ""),
+                "rank": level_num(skill.get("level", "")),
+                "type": skill.get("type", ""),
+                "slash": slash,
+                "file": f"{fname}.svg",
+            })
+        # Sort: rank desc, then origin first, then alphabetical by id.
+        named_skills_payload.sort(key=lambda s: (-s["rank"], 0 if s.get("type") == "unique" else 1, s["id"]))
+
+        top_skill_obj = info.get("top_skill")
+        top_is_unique = bool(top_skill_obj and top_skill_obj.get("type") == "unique")
         out[handle] = {
             "repos": sorted(repos.keys()),
             "skillsByRepo": {r: sorted(ids) for r, ids in repos.items()},
-            "topSkill": info["top_skill"].get("id", "") if info.get("top_skill") else None,
+            "topSkill": top_skill_obj.get("id", "") if top_skill_obj else None,
             "topRank": info.get("top_rank", 0),
+            "topIsUnique": top_is_unique,
             "count": info.get("count", 0),
+            "namedSkills": named_skills_payload,
         }
+        if not repos and not named_skills_payload:
+            del out[handle]
     return out
 
 
@@ -464,6 +508,7 @@ def main(argv: list[str] | None = None) -> int:
         written += 1
 
     write_static_badges(out_dir)
+    write_sample_badges(rank_colors, out_dir)
     registry = build_registry(contributors)
     write_registry_json(registry, out_dir)
     print(f"Wrote badges for {written} contributors to {out_dir} "
