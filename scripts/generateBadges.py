@@ -166,27 +166,15 @@ def badge_simple(value: str, panel_color: str, label: str) -> str:
     width = LEFT_WIDTH + right_w
     
     if panel_color == "white-gold":
-        if "★" in value:
-            num_part = value.replace("★", "")
-            text_element = (
-                f'<tspan fill="#ffffff">{_xml(num_part)}</tspan>'
-                f'<tspan fill="#fbbf24">★</tspan>'
-            )
-        else:
-            parts = value.split(" ")
-            if len(parts) == 2:
-                text_element = (
-                    f'<tspan fill="#ffffff">{_xml(parts[0])} </tspan>'
-                    f'<tspan fill="#fbbf24">{_xml(parts[1])}</tspan>'
-                )
-            else:
-                text_element = f'<tspan fill="#ffffff">{_xml(value)}</tspan>'
+        right_bg = "#fbbf24"
+        text_element = f'<tspan fill="#ffffff">{_xml(value)}</tspan>'
     else:
+        right_bg = INK
         text_element = f'<tspan fill="{panel_color}">{_xml(value)}</tspan>'
         
     body = (
         f'{_left_panel()}'
-        f'<rect x="{LEFT_WIDTH}" width="{right_w}" height="20" fill="{INK}"/>'
+        f'<rect x="{LEFT_WIDTH}" width="{right_w}" height="20" fill="{right_bg}"/>'
         f'{_gaia_wordmark()}'
         f'<text x="{LEFT_WIDTH + right_w / 2:.1f}" y="{TEXT_Y}" '
         f'font-family="Verdana,DejaVu Sans,sans-serif" font-size="11" '
@@ -205,9 +193,17 @@ def badge_handle(handle: str, slash: str, rank: int, rank_color: str, label: str
     right_w = max(value_w, 40)
     width = LEFT_WIDTH + right_w
 
+    gold_rect = ""
     if rank_color == "white-gold":
-        slash_tspan = f'<tspan fill="#ffffff">{_xml(slash)}</tspan>'
-        star_tspan = f'<tspan fill="#ffffff">6</tspan><tspan fill="#fbbf24">★</tspan>'
+        slash_tspan = f'<tspan fill="#fbbf24">{_xml(slash)}</tspan>'
+        
+        # Calculate position for 6★ background gold rect
+        width_before = text_width(handle_text + slash + sep)
+        star_x = LEFT_WIDTH + 11 + width_before
+        star_w = text_width(star_value) + 6
+        gold_rect = f'<rect x="{star_x - 3}" y="3" width="{star_w}" height="14" fill="#fbbf24" rx="2"/>'
+        
+        star_tspan = f'<tspan fill="#ffffff">{_xml(star_value)}</tspan>'
     else:
         slash_tspan = f'<tspan fill="{rank_color}">{_xml(slash)}</tspan>'
         star_tspan = f'<tspan fill="{rank_color}">{_xml(star_value)}</tspan>'
@@ -216,6 +212,7 @@ def badge_handle(handle: str, slash: str, rank: int, rank_color: str, label: str
     body = (
         f'{_left_panel()}'
         f'<rect x="{LEFT_WIDTH}" width="{right_w}" height="20" fill="{INK}"/>'
+        f'{gold_rect}'
         f'{_gaia_wordmark()}'
         f'<text x="{LEFT_WIDTH + 11}" y="{TEXT_Y}" '
         f'font-family="Verdana,DejaVu Sans,sans-serif" font-size="11" font-weight="700">'
