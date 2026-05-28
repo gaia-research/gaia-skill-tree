@@ -7,10 +7,10 @@
   <meta http-equiv="Expires" content="0">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gaia Badges — Wear your rank</title>
+  <title>Github Badges — Gaia</title>
   <meta name="description" content="Generate a Gaia-branded README badge for any contributor — highest rank, total skills, or the single-line @handle/skill identity badge.">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Gaia Badges — Wear your rank">
+  <meta property="og:title" content="Github Badges — Wear your rank">
   <meta property="og:description" content="Drop a Gaia-branded badge in your README and link back to your contributor profile.">
   <meta property="og:url" content="https://gaia.tiongson.co/badges/">
   <link rel="icon" type="image/svg+xml" href="../assets/marks/diamond-seal.svg">
@@ -20,39 +20,7 @@
   <link rel="stylesheet" href="../css/tokens.css?v=3.25.2">
   <link rel="stylesheet" href="../css/styles.css?v=3.25.2">
   <style>
-    body {
-      padding: 3.5rem 1.5rem 6rem;
-      max-width: 980px;
-      margin: 0 auto;
-      font-family: var(--font-body);
-      color: var(--text);
-      background: var(--bg);
-    }
     a { color: inherit; }
-    .bd-eyebrow {
-      font-family: var(--font-mono);
-      font-size: .72rem;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: var(--rank-5, #fbbf24);
-      margin-bottom: .7rem;
-    }
-    h1.bd-title {
-      font-family: var(--font-display);
-      font-size: clamp(2rem, 4.5vw, 3rem);
-      font-weight: 600;
-      line-height: 1.1;
-      margin: 0 0 1rem;
-      letter-spacing: -.01em;
-    }
-    .bd-lede {
-      font-size: 1.05rem;
-      line-height: 1.65;
-      color: var(--muted);
-      max-width: 64ch;
-      margin: 0 0 2rem;
-    }
-    .bd-lede strong { color: var(--text); }
     .bd-live {
       display: flex;
       gap: .6rem;
@@ -62,7 +30,8 @@
       background: rgba(15,23,42,.55);
       border: 1px solid var(--border);
       border-radius: 12px;
-      margin-bottom: 3rem;
+      margin-top: 1.5rem;
+      width: fit-content;
     }
     .bd-live img { display: block; height: 20px; }
     .bd-live .bd-live-label {
@@ -74,60 +43,13 @@
       margin-right: .4rem;
     }
 
-    h2 {
-      font-family: var(--font-display);
-      font-size: 1.55rem;
-      font-weight: 600;
-      margin: 2.8rem 0 1.2rem;
-      letter-spacing: -.005em;
-    }
-    .bd-section-lede {
-      color: var(--muted);
-      font-size: .96rem;
-      line-height: 1.6;
-      max-width: 64ch;
-      margin: 0 0 1.4rem;
-    }
-
-    /* ── Gallery ── */
-    .bd-gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-    .bd-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.2rem 1.3rem;
-      display: flex;
-      flex-direction: column;
-      gap: .65rem;
-      text-decoration: none;
-      color: inherit;
-      transition: border-color .15s, transform .15s;
-    }
-    .bd-card:hover {
-      border-color: var(--rank-5, #fbbf24);
-      transform: translateY(-1px);
-    }
-    .bd-card-handle {
-      font-family: var(--font-mono);
-      font-size: .82rem;
-      color: var(--honor, #ef4444);
-      font-weight: 600;
-    }
-    .bd-card img { display: block; height: 20px; }
-    .bd-card .bd-pair { display: flex; gap: .45rem; flex-wrap: wrap; }
-
-    /* ── Generator ── */
+    /* ── Generator Layout & Simulator ── */
     .bd-gen {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 14px;
-      padding: 1.6rem 1.8rem;
-      margin: 1rem 0 3rem;
+      padding: 1.8rem 2rem;
+      margin: 1.5rem 0 3rem;
     }
     .bd-gen-row {
       display: flex;
@@ -163,21 +85,35 @@
       transition: filter .12s;
     }
     .bd-gen button:hover { filter: brightness(1.08); }
+    
     .bd-gen-preview {
-      margin-top: 1.4rem;
+      margin-top: 1.6rem;
       display: none;
       flex-direction: column;
       gap: .9rem;
     }
     .bd-gen-preview.is-visible { display: flex; }
-    .bd-gen-badges { display: flex; flex-direction: column; gap: .45rem; }
-    .bd-gen-badges img { height: 20px; align-self: flex-start; }
+    
+    .bd-gen-layout {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 2.2rem;
+      align-items: start;
+    }
+    @media (max-width: 860px) {
+      .bd-gen-layout { grid-template-columns: 1fr; }
+    }
+    
     .bd-gen-status {
       font-family: var(--font-mono);
       font-size: .82rem;
       color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.6rem;
+      margin-bottom: 0.4rem;
     }
-    .bd-gen-status.is-error { color: var(--honor, #ef4444); }
+    .bd-gen-status.is-error { color: var(--honor, #ef4444); border-bottom: none; }
+    
     pre.bd-snippet {
       background: rgba(15,23,42,.7);
       border: 1px solid var(--border);
@@ -207,6 +143,63 @@
     }
     .bd-copy:hover { color: var(--text); border-color: var(--rank-5, #fbbf24); }
     .bd-copy.is-copied { color: var(--rank-2, #63cab7); border-color: var(--rank-2, #63cab7); }
+
+    /* README Simulator */
+    .readme-simulator {
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 24px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+      color: #c9d1d9;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+      align-self: start;
+    }
+    .readme-header {
+      border-bottom: 1px solid #21262d;
+      padding-bottom: 10px;
+      margin-bottom: 18px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #8b949e;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .readme-header svg {
+      fill: currentColor;
+      flex-shrink: 0;
+    }
+    .readme-body h3 {
+      font-size: 20px;
+      font-weight: 600;
+      border-bottom: 1px solid #21262d;
+      padding-bottom: 8px;
+      margin-top: 0;
+      margin-bottom: 14px;
+      color: #f0f6fc;
+      font-family: inherit !important;
+    }
+    .readme-body p {
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 16px;
+      color: #c9d1d9;
+      font-family: inherit !important;
+    }
+    .readme-badges-preview {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .readme-badges-preview img {
+      height: 20px;
+      display: block;
+    }
+    .readme-badges-preview a {
+      display: block;
+    }
 
     /* ── Repo picker (validation) ── */
     .bd-repos {
@@ -286,7 +279,7 @@
     }
   </style>
 </head>
-<body>
+<body class="process-page">
   <nav>
     <a href="../" class="nav-logo" aria-label="Gaia home">
       <svg class="ico nav-seal" aria-hidden="true" focusable="false"><use href="../assets/icons.svg#seal-diamond"/></svg>
@@ -311,117 +304,106 @@
     </ul>
   </nav>
 
-  <div class="bd-eyebrow">README badges</div>
-  <h1 class="bd-title">Wear your Gaia rank.</h1>
-  <p class="bd-lede">
-    Contributors who earn named skills can drop a Gaia-branded badge into their own repo READMEs.
-    Three variants — <strong>highest rank</strong>, <strong>total skills</strong>, and the single-line
-    <strong>@handle/skill · N★</strong> identity badge — all regenerate on every <code>gaia docs build</code>,
-    so the values track the live registry.
-  </p>
+  <main>
+    <section class="process-hero" style="min-height: auto; padding-top: 5rem; padding-bottom: 2rem;">
+      <p class="process-kicker">README badges</p>
+      <h1>Github Badges</h1>
+      <p class="process-lede">
+        Contributors who earn named skills can drop a Gaia-branded badge into their own repo READMEs.
+        These badges track your highest rank, total skills, or top skill in real-time, regenerating on every release.
+      </p>
+      <div class="bd-live">
+        <span class="bd-live-label">live</span>
+        <img src="./mbtiongson1/handle.svg" alt="Owner identity badge" onerror="this.style.display='none'">
+        <img src="./mbtiongson1/rank.svg" alt="Owner rank badge">
+        <img src="./mbtiongson1/skills.svg" alt="Owner skills count badge">
+      </div>
+    </section>
 
-  <div class="bd-live">
-    <span class="bd-live-label">live</span>
-    <img src="./mbtiongson1/handle.svg" alt="Owner identity badge" onerror="this.style.display='none'">
-    <img src="./mbtiongson1/rank.svg" alt="Owner rank badge">
-    <img src="./mbtiongson1/skills.svg" alt="Owner skills count badge">
-  </div>
+    <!-- Priority 1: Generate Yours -->
+    <section class="process-section" id="generate-section">
+      <h2>Generate yours</h2>
+      <p class="section-sub">
+        Enter your Gaia handle to retrieve your custom badges. The bakes in <code>?repo=</code> query parameter enables the upcoming edge validator to flag misuse.
+      </p>
+      
+      <div class="bd-gen">
+        <div class="bd-gen-row">
+          <input id="bd-handle" type="text" placeholder="your-gaia-handle" autocomplete="off" spellcheck="false">
+          <button id="bd-go" type="button">Preview</button>
+        </div>
+        
+        <div class="bd-gen-preview" id="bd-preview">
+          <div class="bd-gen-status" id="bd-status"></div>
+          
+          <div class="bd-gen-layout">
+            <!-- Left Side: Config & Snippet -->
+            <div class="bd-gen-left">
+              <div id="bd-repo-block" style="display:none; margin-bottom: 1.2rem;">
+                <p class="bd-section-lede" style="margin:.4rem 0;">Pick the repo where this badge will live — the URL bakes it in so the validator can flag misuse.</p>
+                <fieldset class="bd-repos" id="bd-repos" style="border:0;padding:0;"></fieldset>
+                <p class="bd-validate-note" id="bd-validate-note"></p>
+              </div>
+              <pre class="bd-snippet" id="bd-snippet" style="margin-bottom: 1rem;"></pre>
+              <button class="bd-copy" type="button" id="bd-copy">Copy markdown</button>
+            </div>
+            
+            <!-- Right Side: Real-time README Simulator -->
+            <div class="bd-gen-right">
+              <div class="readme-simulator">
+                <div class="readme-header">
+                  <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M2 1.75C2 .784 2.784 0 3.75 0h8.5C13.216 0 14 .784 14 1.75v12.5A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V1.75a.25.25 0 0 0-.25-.25Zm9 11.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0Zm-1-11.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0Z"></path></svg>
+                  <span>README.md</span>
+                </div>
+                <div class="readme-body">
+                  <h3 id="readme-sim-title">my-project</h3>
+                  <div class="readme-badges-preview" id="bd-badges"></div>
+                  <p>Welcome to my repository. Check out my official Gaia contributor rank and verified agent skills above!</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  <h2>Variants</h2>
-  <div class="bd-variants">
-    <div class="bd-variant">
-      <img src="./garrytan/handle.svg" alt="@garrytan handle badge">
-      <div>
-        <div class="bd-variant-name">handle.svg</div>
-        <div class="bd-variant-desc">Single-line identity. <code>@handle</code> in honor red, top
-        named skill in its rank color, star count in the same hue.</div>
+    <!-- Section 2: Show and Tell (Variants) -->
+    <section class="process-section">
+      <h2>Variants</h2>
+      <p class="section-sub">Four distinct formats serving fallback, aggregate, and highly precise identity views.</p>
+      
+      <div class="bd-variants">
+        <div class="bd-variant">
+          <img src="./garrytan/handle.svg" alt="@garrytan handle badge">
+          <div>
+            <div class="bd-variant-name">handle.svg</div>
+            <div class="bd-variant-desc">Single-line identity. <code>@handle</code> in honor red, top named skill in its rank color, star count in the same hue.</div>
+          </div>
+        </div>
+        <div class="bd-variant">
+          <img src="./garrytan/rank.svg" alt="garrytan rank badge">
+          <div>
+            <div class="bd-variant-name">rank.svg</div>
+            <div class="bd-variant-desc">Highest rank earned. Right panel color is the rank tier (1★ cyan → 5/6★ gold).</div>
+          </div>
+        </div>
+        <div class="bd-variant">
+          <img src="./garrytan/skills.svg" alt="garrytan skills badge">
+          <div>
+            <div class="bd-variant-name">skills.svg</div>
+            <div class="bd-variant-desc">Total skill count. Amber panel, always.</div>
+          </div>
+        </div>
+        <div class="bd-variant">
+          <img src="./powered-by-gaia.svg" alt="Powered by Gaia">
+          <div>
+            <div class="bd-variant-name">powered-by-gaia.svg</div>
+            <div class="bd-variant-desc">Generic fallback for non-contributors who use the registry.</div>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="bd-variant">
-      <img src="./garrytan/rank.svg" alt="garrytan rank badge">
-      <div>
-        <div class="bd-variant-name">rank.svg</div>
-        <div class="bd-variant-desc">Highest rank earned. Right panel color is the rank tier
-        (1★ cyan → 5/6★ gold).</div>
-      </div>
-    </div>
-    <div class="bd-variant">
-      <img src="./garrytan/skills.svg" alt="garrytan skills badge">
-      <div>
-        <div class="bd-variant-name">skills.svg</div>
-        <div class="bd-variant-desc">Total skill count. Amber panel, always.</div>
-      </div>
-    </div>
-    <div class="bd-variant">
-      <img src="./powered-by-gaia.svg" alt="Powered by Gaia">
-      <div>
-        <div class="bd-variant-name">powered-by-gaia.svg</div>
-        <div class="bd-variant-desc">Generic fallback for non-contributors who use the registry.</div>
-      </div>
-    </div>
-  </div>
-
-  <h2>Generate yours</h2>
-  <p class="bd-section-lede">
-    Enter your Gaia handle. Badges live at <code>gaia.tiongson.co/badges/&lt;handle&gt;/</code> and
-    link back to your contributor profile at <code>/u/&lt;handle&gt;/</code>. The snippet bakes in
-    <code>?repo=&lt;owner/name&gt;</code> so the upcoming edge validator can flag misuse — badges
-    embedded in a repo not on your <code>links.github</code> list render red.
-  </p>
-  <div class="bd-gen">
-    <div class="bd-gen-row">
-      <input id="bd-handle" type="text" placeholder="your-gaia-handle" autocomplete="off" spellcheck="false">
-      <button id="bd-go" type="button">Preview</button>
-    </div>
-    <div class="bd-gen-preview" id="bd-preview">
-      <div class="bd-gen-status" id="bd-status"></div>
-      <div id="bd-repo-block" style="display:none;">
-        <p class="bd-section-lede" style="margin:.4rem 0;">Pick the repo where this badge will live — the URL bakes it in so the validator can flag misuse.</p>
-        <fieldset class="bd-repos" id="bd-repos" style="border:0;padding:0;"></fieldset>
-        <p class="bd-validate-note" id="bd-validate-note"></p>
-      </div>
-      <div class="bd-gen-badges" id="bd-badges"></div>
-      <pre class="bd-snippet" id="bd-snippet"></pre>
-      <button class="bd-copy" type="button" id="bd-copy">Copy markdown</button>
-    </div>
-  </div>
-
-  <h2>Marquee contributors</h2>
-  <p class="bd-section-lede">A few of the registry's named-skill contributors with their live badges.</p>
-  <div class="bd-gallery">
-    <a class="bd-card" href="../u/garrytan/">
-      <div class="bd-card-handle">@garrytan</div>
-      <div class="bd-pair"><img src="./garrytan/handle.svg" alt=""></div>
-      <div class="bd-pair">
-        <img src="./garrytan/rank.svg" alt="">
-        <img src="./garrytan/skills.svg" alt="">
-      </div>
-    </a>
-    <a class="bd-card" href="../u/ruvnet/">
-      <div class="bd-card-handle">@ruvnet</div>
-      <div class="bd-pair"><img src="./ruvnet/handle.svg" alt=""></div>
-      <div class="bd-pair">
-        <img src="./ruvnet/rank.svg" alt="">
-        <img src="./ruvnet/skills.svg" alt="">
-      </div>
-    </a>
-    <a class="bd-card" href="../u/mattpocock/">
-      <div class="bd-card-handle">@mattpocock</div>
-      <div class="bd-pair"><img src="./mattpocock/handle.svg" alt=""></div>
-      <div class="bd-pair">
-        <img src="./mattpocock/rank.svg" alt="">
-        <img src="./mattpocock/skills.svg" alt="">
-      </div>
-    </a>
-    <a class="bd-card" href="../u/karpathy/">
-      <div class="bd-card-handle">@karpathy</div>
-      <div class="bd-pair"><img src="./karpathy/handle.svg" alt=""></div>
-      <div class="bd-pair">
-        <img src="./karpathy/rank.svg" alt="">
-        <img src="./karpathy/skills.svg" alt="">
-      </div>
-    </a>
-  </div>
+    </section>
+  </main>
 
   <div class="bd-foot">
     Badges are static SVGs regenerated by <code>gaia docs build</code> and served from
@@ -541,6 +523,7 @@
         copyBtn.setAttribute("aria-disabled", "true");
         copyBtn.style.opacity = ".5";
         copyBtn.style.pointerEvents = "none";
+        document.getElementById("readme-sim-title").textContent = "my-project";
         return;
       }
 
@@ -549,6 +532,7 @@
       copyBtn.removeAttribute("aria-disabled");
       copyBtn.style.opacity = "";
       copyBtn.style.pointerEvents = "";
+      document.getElementById("readme-sim-title").textContent = handle;
 
       const linkTarget = hasProfile ? `${BASE}/u/${handle}/` : `${BASE}/`;
       currentState = { handle, repos: [], selectedRepo: "", hasRank, hasSkills, hasHandle, linkTarget };

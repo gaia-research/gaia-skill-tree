@@ -164,13 +164,33 @@ def badge_simple(value: str, panel_color: str, label: str) -> str:
     value_w = text_width(value) + 18  # 9px padding each side
     right_w = max(value_w, 32)
     width = LEFT_WIDTH + right_w
+    
+    if panel_color == "white-gold":
+        if "★" in value:
+            num_part = value.replace("★", "")
+            text_element = (
+                f'<tspan fill="#ffffff">{_xml(num_part)}</tspan>'
+                f'<tspan fill="#fbbf24">★</tspan>'
+            )
+        else:
+            parts = value.split(" ")
+            if len(parts) == 2:
+                text_element = (
+                    f'<tspan fill="#ffffff">{_xml(parts[0])} </tspan>'
+                    f'<tspan fill="#fbbf24">{_xml(parts[1])}</tspan>'
+                )
+            else:
+                text_element = f'<tspan fill="#ffffff">{_xml(value)}</tspan>'
+    else:
+        text_element = f'<tspan fill="{panel_color}">{_xml(value)}</tspan>'
+        
     body = (
         f'{_left_panel()}'
         f'<rect x="{LEFT_WIDTH}" width="{right_w}" height="20" fill="{INK}"/>'
         f'{_gaia_wordmark()}'
         f'<text x="{LEFT_WIDTH + right_w / 2:.1f}" y="{TEXT_Y}" '
         f'font-family="Verdana,DejaVu Sans,sans-serif" font-size="11" '
-        f'font-weight="700" fill="{panel_color}" text-anchor="middle">{_xml(value)}</text>'
+        f'font-weight="700" text-anchor="middle">{text_element}</text>'
     )
     return _wrap(width, body, label)
 
@@ -185,6 +205,13 @@ def badge_handle(handle: str, slash: str, rank: int, rank_color: str, label: str
     right_w = max(value_w, 40)
     width = LEFT_WIDTH + right_w
 
+    if rank_color == "white-gold":
+        slash_tspan = f'<tspan fill="#ffffff">{_xml(slash)}</tspan>'
+        star_tspan = f'<tspan fill="#ffffff">6</tspan><tspan fill="#fbbf24">★</tspan>'
+    else:
+        slash_tspan = f'<tspan fill="{rank_color}">{_xml(slash)}</tspan>'
+        star_tspan = f'<tspan fill="{rank_color}">{_xml(star_value)}</tspan>'
+
     # Two-tone background: keep dark ink on the right to let colored text pop.
     body = (
         f'{_left_panel()}'
@@ -193,9 +220,9 @@ def badge_handle(handle: str, slash: str, rank: int, rank_color: str, label: str
         f'<text x="{LEFT_WIDTH + 11}" y="{TEXT_Y}" '
         f'font-family="Verdana,DejaVu Sans,sans-serif" font-size="11" font-weight="700">'
         f'<tspan fill="{HONOR_RED}">{_xml(handle_text)}</tspan>'
-        f'<tspan fill="{rank_color}">{_xml(slash)}</tspan>'
+        f'{slash_tspan}'
         f'<tspan fill="{SLATE}">{_xml(sep)}</tspan>'
-        f'<tspan fill="{rank_color}">{_xml(star_value)}</tspan>'
+        f'{star_tspan}'
         f'</text>'
     )
     return _wrap(width, body, label)
@@ -291,13 +318,14 @@ def write_user_badges(handle: str, info: dict, scan: dict | None,
         count = max(count, scan["count"])
 
     if top_rank > 0:
-        color = rank_colors.get(top_rank, AMBER)
+        color = "white-gold" if top_rank == 6 else rank_colors.get(top_rank, AMBER)
         svg = badge_simple(f"{top_rank}★", color, f"Gaia rank: {top_rank} stars")
         (user_dir / "rank.svg").write_text(svg, encoding="utf-8")
 
     if count > 0:
+        color = "white-gold" if top_rank == 6 else rank_colors.get(top_rank, AMBER)
         value = f"{count} skills" if count != 1 else "1 skill"
-        svg = badge_simple(value, AMBER, f"Gaia: {value}")
+        svg = badge_simple(value, color, f"Gaia: {value}")
         (user_dir / "skills.svg").write_text(svg, encoding="utf-8")
 
     # handle.svg + per-skill badges require named skills (need a slash)
@@ -305,7 +333,15 @@ def write_user_badges(handle: str, info: dict, scan: dict | None,
         top = info["top_skill"]
         slash = named_slug(top)
         rank = level_num(top.get("level", ""))
-        color = rank_colors.get(rank, AMBER)
+        
+        is_unique = top.get("type") == "unique"
+        if is_unique:
+            color = "#7c3aed"
+        elif rank == 6:
+            color = "white-gold"
+        else:
+            color = rank_colors.get(rank, AMBER)
+            
         label = f"Gaia: @{handle}{slash} {rank} stars"
         svg = badge_handle(handle, slash, rank, color, label)
         (user_dir / "handle.svg").write_text(svg, encoding="utf-8")
@@ -314,7 +350,15 @@ def write_user_badges(handle: str, info: dict, scan: dict | None,
         for skill in info["named_skills"]:
             sslash = named_slug(skill)
             srank = level_num(skill.get("level", ""))
-            scolor = rank_colors.get(srank, AMBER)
+            
+            is_sunique = skill.get("type") == "unique"
+            if is_sunique:
+                scolor = "#7c3aed"
+            elif srank == 6:
+                scolor = "white-gold"
+            else:
+                scolor = rank_colors.get(srank, AMBER)
+                
             slabel = f"Gaia: @{handle}{sslash} {srank} stars"
             # filename: slash-skill without leading slash, e.g. /health -> health.svg
             fname = sslash.lstrip("/").replace("/", "-") or "skill"
