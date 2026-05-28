@@ -67,8 +67,8 @@
 | ○ [garrytan](../docs/u/garrytan/)/make-pdf | Basic Skill | 0★ | Basic | `/format-output` |
 | ◇ /full-stack-developer | Extra Skill | 5★ | Transcendent | `/full-stack-developer` |
 | ◇ /function-calling | Extra Skill | 2★ | Named | `/function-calling` |
-| ◇ /gaia-audit | Extra Skill | 4★ | Hardened | `/gaia-audit` |
-| ◇ /gaia-meta-audit | Extra Skill | 3★ | Evolved | `/gaia-meta-audit` |
+| ◇ [mbtiongson1](../docs/u/mbtiongson1/)/gaia-audit | Extra Skill | 4★ | Hardened | `/gaia-audit` |
+| ◇ [mbtiongson1](../docs/u/mbtiongson1/)/gaia-meta-audit | Extra Skill | 3★ | Evolved | `/gaia-meta-audit` |
 | ○ /generate-sql | Basic Skill | 2★ | Named | `/generate-sql` |
 | ○ [upsonic](../docs/u/upsonic/)/unittest-generator | Basic Skill | 2★ | Named | `/generate-test` |
 | ○ /generate-text | Basic Skill | 0★ | Basic | `/generate-text` |
@@ -140,11 +140,11 @@
 | ◇ [obra](../docs/u/obra/)/receiving-code-review | Extra Skill | 2★ | Named | `/receiving-code-review` |
 | ◇ /recursive-self-improvement | Extra Skill | 1★ | Awakened | `/recursive-self-improvement` |
 | ○ [mattpocock](../docs/u/mattpocock/)/improve-codebase-architecture | Basic Skill | 2★ | Named | `/refactor-code` |
-| ◇ /registry-curation | Extra Skill | 4★ | Hardened | `/registry-curation` |
+| ◇ [mbtiongson1](../docs/u/mbtiongson1/)/gaia-curate | Extra Skill | 4★ | Hardened | `/registry-curation` |
 | ◇ [intelligentcode-ai](../docs/u/intelligentcode-ai/)/release | Extra Skill | 2★ | Named | `/release-automation` |
 | ◇ [obra](../docs/u/obra/)/requesting-code-review | Extra Skill | 3★ | Evolved | `/requesting-code-review` |
 | ○ [intelligentcode-ai](../docs/u/intelligentcode-ai/)/requirements-engineer | Basic Skill | 2★ | Named | `/requirements-analysis` |
-| ◇ /research | Extra Skill | 1★ → 0★ | Awakened | `/research` |
+| ◇ [mbtiongson1](../docs/u/mbtiongson1/)/research | Extra Skill | 1★ → 0★ | Awakened | `/research` |
 | ○ /retrieve | Basic Skill | 0★ | Basic | `/retrieve` |
 | ○ /route-intent | Basic Skill | 0★ | Basic | `/route-intent` |
 | ◆ [ruvnet](../docs/u/ruvnet/)/ruflo | Ultimate Skill | 6★ | Apex | `/ruflo` |
@@ -152,6 +152,7 @@
 | ○ /scientific-visualization | Basic Skill | 2★ | Named | `/scientific-visualization` |
 | ◇ /scientific-writing | Extra Skill | 3★ | Evolved | `/scientific-writing` |
 | ○ /score-relevance | Basic Skill | 0★ | Basic | `/score-relevance` |
+| ◇ /search-engine-optimization | Extra Skill | 2★ | Named | `/search-engine-optimization` |
 | ◇ [garrytan](../docs/u/garrytan/)/cso | Extra Skill | 2★ | Named | `/security-audit` |
 | ○ /self-critique | Basic Skill | 1★ | Awakened | `/self-critique` |
 | ◉ [huggingface](../docs/u/huggingface/)/semantic-cache | Unique Skill | 4★ | Hardened | `/semantic-cache` |
@@ -190,6 +191,9 @@
 | ◇ [bradautomates](../docs/u/bradautomates/)/claude-video | Extra Skill | 3★ | Evolved | `/video-intelligence` |
 | ○ /vision-qa | Basic Skill | 2★ | Named | `/vision-qa` |
 | ◇ /voice-agent | Extra Skill | 3★ → 2★ | Evolved | `/voice-agent` |
+| ◇ /web-accessibility | Extra Skill | 2★ | Named | `/web-accessibility` |
+| ◇ /web-best-practices | Extra Skill | 2★ | Named | `/web-best-practices` |
+| ◆ /web-quality-audit | Ultimate Skill | 3★ | Evolved | `/web-quality-audit` |
 | ◇ [firecrawl](../docs/u/firecrawl/)/firecrawl | Extra Skill | 1★ → 0★ | Awakened | `/web-scrape` |
 | ○ /web-search | Basic Skill | 0★ | Basic | `/web-search` |
 | ◇ /wiki-search | Extra Skill | 4★ | Hardened | `/wiki-search` |
@@ -231,4 +235,12 @@
 | ○ Test-Driven Development | Intrinsic Skill | 3★ | Evolved | `/test-driven-development` |
 | ○ Token Observability | Intrinsic Skill | 2★ | Named | `/token-observability` |
 | ○ Worker Agent Dispatch | Intrinsic Skill | 2★ | Named | `/worker-agent-dispatch` |
+
+## Ultimate Skills Awaiting Name
+
+*These Ultimate skills have no named implementation yet. The first contributor to submit a valid named implementation claims the title slot.  Submit with `gaia propose /<skill_id> --ultimate` and open a PR.*
+
+| Skill Call | Level | Prerequisites |
+|---|---|---|
+| `/web-quality-audit` | 3★ | `/gaia-meta-audit`, `/performance-tuning`, `/search-engine-optimization`, `/web-accessibility`, `/web-best-practices` |
 

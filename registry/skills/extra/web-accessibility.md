@@ -1,8 +1,8 @@
 # /web-accessibility  [2★ · Named]
-**ID:** web-accessibility
-**Type:** Extra Skill
-**Level:** 2★
-**Tier:** Named
+**ID:** web-accessibility  
+**Type:** Extra Skill  
+**Level:** 2★  
+**Tier:** Named  
 **Skill Call:** `/web-accessibility`
 
 ---

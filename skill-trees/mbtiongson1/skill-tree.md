@@ -23,7 +23,7 @@
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — mbtiongson1  ·  generated 2026-05-26
+GAIA SKILL TREE — mbtiongson1  ·  generated 2026-05-28
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = stars · [0★ · Pure] = Unawakened rank pill · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -313,6 +313,36 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   └─ · ◇ mattpocock/setup-matt-pocock-skills  [3★]
      ├─ · ○ anthropic/pptx  [0★]  (↑ see above)
      └─ · ○ /tool-use  [1★]
+
+· ◆ /web-quality-audit  [3★ · Unclaimed]
+  ├─ · ◇ mbtiongson1/gaia-meta-audit  [3★]
+  │  ├─ · ◇ mbtiongson1/gaia-audit  [4★]
+  │  │  ├─ · ○ /retrieve  [0★]
+  │  │  ├─ ✓ ○ /cite-sources  [0★]
+  │  │  └─ · ○ garrytan/benchmark  [0★]
+  │  ├─ · ◇ mbtiongson1/gaia-curate  [4★]
+  │  │  ├─ ✓ ◇ mbtiongson1/research  [1★]
+  │  │  │  ├─ ✓ ○ /web-search  [0★]
+  │  │  │  ├─ ✓ ○ /summarize  [0★]
+  │  │  │  └─ ✓ ○ /cite-sources  [0★]  (↑ see above)
+  │  │  ├─ · ○ garrytan/design-html  [0★]
+  │  │  └─ · ○ /code-execution  [0★]
+  │  └─ · ◇ garrytan/canary  [2★]
+  │     ├─ · ○ garrytan/benchmark  [0★]  (↑ see above)
+  │     └─ · ○ /error-interpretation  [0★]
+  ├─ · ○ ruvnet/performance-analysis  [2★]
+  ├─ · ◇ /search-engine-optimization  [2★]
+  │  ├─ ✓ ○ /parse-html  [0★]
+  │  └─ · ○ /parse-json  [0★]
+  ├─ · ◇ /web-accessibility  [2★]
+  │  ├─ · ○ browser-use/browser-harness  [2★]
+  │  └─ · ○ martin-stepanoski/nielsen-heuristics-audit  [4★]
+  └─ · ◇ /web-best-practices  [2★]
+     ├─ · ◇ garrytan/plan-eng-review  [2★]
+     │  ├─ · ○ garrytan/design-html  [0★]  (↑ see above)
+     │  ├─ · ○ /diff-content  [0★]
+     │  └─ · ○ garrytan/benchmark  [0★]  (↑ see above)
+     └─ · ○ ruvnet/performance-analysis  [2★]  (↑ see above)
 
 ══════════════════════════════════════════════════════════════════════
 Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
