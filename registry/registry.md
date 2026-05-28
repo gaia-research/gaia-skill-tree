@@ -67,8 +67,8 @@
 | ○ [garrytan](../docs/u/garrytan/)/make-pdf | Basic Skill | 0★ | Basic | `/format-output` |
 | ◇ /full-stack-developer | Extra Skill | 5★ | Transcendent | `/full-stack-developer` |
 | ◇ /function-calling | Extra Skill | 2★ | Named | `/function-calling` |
-| ◇ /gaia-audit | Extra Skill | 4★ | Hardened | `/gaia-audit` |
-| ◇ /gaia-meta-audit | Extra Skill | 3★ | Evolved | `/gaia-meta-audit` |
+| ◇ [mbtiongson1](../docs/u/mbtiongson1/)/gaia-audit | Extra Skill | 4★ | Hardened | `/gaia-audit` |
+| ◇ [mbtiongson1](../docs/u/mbtiongson1/)/gaia-meta-audit | Extra Skill | 3★ | Evolved | `/gaia-meta-audit` |
 | ○ /generate-sql | Basic Skill | 2★ | Named | `/generate-sql` |
 | ○ [upsonic](../docs/u/upsonic/)/unittest-generator | Basic Skill | 2★ | Named | `/generate-test` |
 | ○ /generate-text | Basic Skill | 0★ | Basic | `/generate-text` |
@@ -140,11 +140,11 @@
 | ◇ [obra](../docs/u/obra/)/receiving-code-review | Extra Skill | 2★ | Named | `/receiving-code-review` |
 | ◇ /recursive-self-improvement | Extra Skill | 1★ | Awakened | `/recursive-self-improvement` |
 | ○ [mattpocock](../docs/u/mattpocock/)/improve-codebase-architecture | Basic Skill | 2★ | Named | `/refactor-code` |
-| ◇ /registry-curation | Extra Skill | 4★ | Hardened | `/registry-curation` |
+| ◇ [mbtiongson1](../docs/u/mbtiongson1/)/gaia-curate | Extra Skill | 4★ | Hardened | `/registry-curation` |
 | ◇ [intelligentcode-ai](../docs/u/intelligentcode-ai/)/release | Extra Skill | 2★ | Named | `/release-automation` |
 | ◇ [obra](../docs/u/obra/)/requesting-code-review | Extra Skill | 3★ | Evolved | `/requesting-code-review` |
 | ○ [intelligentcode-ai](../docs/u/intelligentcode-ai/)/requirements-engineer | Basic Skill | 2★ | Named | `/requirements-analysis` |
-| ◇ /research | Extra Skill | 1★ → 0★ | Awakened | `/research` |
+| ◇ [mbtiongson1](../docs/u/mbtiongson1/)/research | Extra Skill | 1★ → 0★ | Awakened | `/research` |
 | ○ /retrieve | Basic Skill | 0★ | Basic | `/retrieve` |
 | ○ /route-intent | Basic Skill | 0★ | Basic | `/route-intent` |
 | ◆ [ruvnet](../docs/u/ruvnet/)/ruflo | Ultimate Skill | 6★ | Apex | `/ruflo` |

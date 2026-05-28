@@ -273,5 +273,29 @@
   </div>
 </div>
 
+  <div id="skillExplorer" class="skill-explorer" role="dialog" aria-modal="true" aria-label="Skill Explorer" tabindex="-1">
+    <div class="se-topbar">
+      <button id="seBack" class="se-btn-ghost"><svg class="ico" width="16" height="16" aria-hidden="true"><use href="../../assets/icons.svg#arrow-back"/></svg> Back</button>
+      <span id="seBreadcrumb" class="se-breadcrumb"></span>
+      <div class="se-topbar-actions">
+        <button id="seOpenRepo" class="se-btn-action"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#github"/></svg> Repo</button>
+        <button id="seSkillDocs" class="se-btn-action"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#external-link"/></svg> SKILL.md</button>
+        <button id="seShare" class="se-btn-action"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#share"/></svg> Share</button>
+        <button id="seClose" class="se-btn-ghost se-close-x" aria-label="Close"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#close-x"/></svg></button>
+      </div>
+    </div>
+    <div class="se-body">
+      <div class="se-hero">
+        <div id="seHero"></div>
+        <div id="se-upgrade" class="se-flow-section"></div>
+      </div>
+      <div class="se-flow" id="seFlow">
+        <div id="se-install" class="se-flow-section"></div>
+        <div id="se-docs" class="se-flow-section"></div>
+        <div id="se-changelog" class="se-flow-section"></div>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
