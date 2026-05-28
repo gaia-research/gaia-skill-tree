@@ -5,7 +5,9 @@ Guidance for AI coding agents working in this repository.
 ## Commands
 
 ```bash
-pip install -e ".[embeddings,dev]"  # dev includes build/pytest for the full test suite
+pip install -e ".[embeddings,dev]"  # dev includes build/pytest/numpy/scipy for the full test suite + docs build
+# Slim alternative if you only need to run `gaia docs build`:
+# pip install -e ".[docs]"  # just numpy + scipy (required by tree.md / 3D layout regen)
 gaia init --user <username>
 gaia scan
 gaia appraise
@@ -150,6 +152,15 @@ gaia docs build
 git add docs/ registry/gaia.json
 git commit -m "chore(docs): regenerate after registry edits [skip-gen]"
 ```
+
+**Dependencies**: `gaia docs build` needs **`numpy`** and **`scipy`** at runtime — `scripts/build_layouts_3d.py` (called from `scripts/generateProjections.py` during `tree.md` regen) imports `scipy.linalg` for the 3D layout solve. Without them, the build emits `ModuleNotFoundError: No module named 'numpy'` / `'scipy'` and `tree.md` regen fails, which then trips the `--check` job in CI.
+
+Install via either:
+- `pip install -e ".[dev]"` — full kit (recommended; also covers pytest, build, twine, textual)
+- `pip install -e ".[docs]"` — slim, just numpy + scipy
+- `pip install numpy scipy` — manual, no extra
+
+If `gaia docs build` regenerates `docs/og/**.svg` but mysteriously deletes `docs/og/**.png`, that's `build_og_cards` in `scripts/build_docs.py:641` doing `rmtree + copytree` from a candidate dir that has no PNGs because `cairosvg` isn't installed. Either `pip install cairosvg` or restore the PNGs with `git checkout HEAD -- docs/og/` before committing.
 
 ### 2. `links.github` URL must use `blob/` not `tree/`
 
