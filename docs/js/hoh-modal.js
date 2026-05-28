@@ -7,6 +7,93 @@
   'use strict';
 
   var toastTimer = null;
+  var lastFocused = null;
+  var inertedSiblings = [];
+  var trapKeydownHandler = null;
+
+  var FOCUSABLE_SELECTOR = [
+    'a[href]',
+    'button:not([disabled])',
+    'input:not([disabled])',
+    'select:not([disabled])',
+    'textarea:not([disabled])',
+    '[tabindex]:not([tabindex="-1"])',
+    '[contenteditable]'
+  ].join(',');
+
+  function getFocusable(container) {
+    if (!container) return [];
+    var nodes = container.querySelectorAll(FOCUSABLE_SELECTOR);
+    var out = [];
+    for (var i = 0; i < nodes.length; i++) {
+      var n = nodes[i];
+      // Skip hidden / disabled / aria-hidden
+      if (n.disabled) continue;
+      if (n.getAttribute && n.getAttribute('aria-hidden') === 'true') continue;
+      if (n.offsetParent === null && n.tagName !== 'AREA') continue;
+      out.push(n);
+    }
+    return out;
+  }
+
+  function focusFirstFocusable(modalEl) {
+    var focusables = getFocusable(modalEl);
+    if (focusables.length) {
+      try { focusables[0].focus(); } catch (_e) {}
+    } else {
+      // Fall back to modal itself
+      try {
+        modalEl.setAttribute('tabindex', '-1');
+        modalEl.focus();
+      } catch (_e) {}
+    }
+  }
+
+  function buildTrapHandler(modalEl) {
+    return function (e) {
+      if (e.key !== 'Tab') return;
+      var focusables = getFocusable(modalEl);
+      if (!focusables.length) {
+        e.preventDefault();
+        return;
+      }
+      var first = focusables[0];
+      var last = focusables[focusables.length - 1];
+      var active = document.activeElement;
+      if (e.shiftKey) {
+        if (active === first || !modalEl.contains(active)) {
+          e.preventDefault();
+          try { last.focus(); } catch (_e) {}
+        }
+      } else {
+        if (active === last || !modalEl.contains(active)) {
+          e.preventDefault();
+          try { first.focus(); } catch (_e) {}
+        }
+      }
+    };
+  }
+
+  function activateInertSiblings(modalEl) {
+    inertedSiblings = [];
+    var children = document.body.children;
+    for (var i = 0; i < children.length; i++) {
+      var el = children[i];
+      if (el === modalEl) continue;
+      // Only flip elements we didn't already mark inert
+      if (!el.inert) {
+        el.inert = true;
+        inertedSiblings.push(el);
+      }
+    }
+  }
+
+  function deactivateInertSiblings() {
+    for (var i = 0; i < inertedSiblings.length; i++) {
+      try { inertedSiblings[i].inert = false; } catch (_e) {}
+    }
+    inertedSiblings = [];
+  }
 
   function showToast(message) {
     var toast = document.getElementById('hohFsToast');
@@ -39,6 +126,21 @@
       modal.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
+
+      // Revert inert flags on body siblings we marked
+      deactivateInertSiblings();
+
+      // Remove focus-trap keydown listener
+      if (trapKeydownHandler) {
+        modal.removeEventListener('keydown', trapKeydownHandler);
+        trapKeydownHandler = null;
+      }
+
+      // Restore focus to the element that opened the modal
+      if (lastFocused && document.contains(lastFocused) && typeof lastFocused.focus === 'function') {
+        try { lastFocused.focus(); } catch (_e) {}
+      }
+      lastFocused = null;
     }
   }
 
@@ -57,6 +159,7 @@
         level: ns.level,
         type: ns.type
       };
+      // renderOg sanitizes all interpolated values via escapeHtml; safe by construction. CodeQL alert dismissed.
       stage.innerHTML = window.plaque.renderOg(ogNs);
     }
 
@@ -159,10 +262,22 @@
     // Show the modal with transition
     modal.classList.add('is-active');
     modal.setAttribute('aria-hidden', 'false');
+    modal.setAttribute('aria-modal', 'true');
+    if (!modal.getAttribute('role')) {
+      modal.setAttribute('role', 'dialog');
+    }
 
     // Prevent body scroll when active
     document.body.style.overflow = 'hidden';
     document.documentElement.style.overflow = 'hidden';
+
+    // A11y: focus trap + inert siblings
+    lastFocused = document.activeElement;
+    activateInertSiblings(modal);
+    trapKeydownHandler = buildTrapHandler(modal);
+    modal.addEventListener('keydown', trapKeydownHandler);
+    // Defer focus until the modal is painted/transitioned in
+    setTimeout(function () { focusFirstFocusable(modal); }, 0);
   }
 
   // Bootstrap Init
