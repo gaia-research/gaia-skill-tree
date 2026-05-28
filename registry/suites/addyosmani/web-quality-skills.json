@@ -1,0 +1,25 @@
+{
+  "id": "addyosmani/web-quality-audit",
+  "name": "Web Quality Skills",
+  "contributor": "addyosmani",
+  "description": "Comprehensive web quality skills covering performance, accessibility, SEO, and best practices.",
+  "version": "1.0.0",
+  "capstone": "addyosmani/web-quality-audit",
+  "suites": [
+    {
+      "id": "web-quality",
+      "name": "Web Quality",
+      "fusion": "addyosmani/web-quality-audit",
+      "members": [
+        "addyosmani/accessibility",
+        "addyosmani/best-practices",
+        "addyosmani/core-web-vitals",
+        "addyosmani/performance",
+        "addyosmani/seo"
+      ]
+    }
+  ],
+  "standalones": [],
+  "createdAt": "2026-05-23",
+  "updatedAt": "2026-05-23"
+}

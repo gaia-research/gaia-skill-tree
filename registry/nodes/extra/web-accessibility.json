@@ -1,0 +1,46 @@
+{
+  "id": "web-accessibility",
+  "name": "web-accessibility",
+  "type": "extra",
+  "level": "2★",
+  "rarity": "common",
+  "description": "Accessibility",
+  "prerequisites": [
+    "browser-control",
+    "ux-audit"
+  ],
+  "derivatives": [],
+  "evidence": [
+    {
+      "class": "A",
+      "source": "https://github.com/addyosmani/web-quality-skills",
+      "evaluator": "addyosmani",
+      "date": "2026-05-24"
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-05-24",
+  "updatedAt": "2026-05-24",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-24T16:02:41Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill web-accessibility"
+    },
+    {
+      "timestamp": "2026-05-24T16:08:04Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Calibrated level from None to 2★"
+    },
+    {
+      "timestamp": "2026-05-24T16:10:23Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added A evidence from https://github.com/addyosmani/web-quality-skills"
+    }
+  ]
+}
