@@ -194,6 +194,8 @@
     var level = ns.level || '';
     var type = ns.type || '';
     var origin = ns.origin ? 'true' : 'false';
+    var desc = ns.description || '';
+    var tagsRaw = (ns.tags && ns.tags.length) ? JSON.stringify(ns.tags) : '';
     var slashIdx = skillId.indexOf('/');
     var skillIdShort = slashIdx !== -1 ? skillId.slice(slashIdx + 1) : skillId;
     var ogPath = handle && skillIdShort ? 'og/' + handle + '/' + skillIdShort + '.svg' : '';
@@ -204,6 +206,8 @@
       'data-level="' + esc(level) + '" ' +
       'data-type="' + esc(type) + '" ' +
       'data-origin="' + esc(origin) + '" ' +
+      'data-desc="' + esc(desc) + '" ' +
+      'data-tags="' + esc(tagsRaw) + '" ' +
       'data-og="' + esc(ogPath) + '">' +
       icon('share', 12) +
       '</button>';
