@@ -532,8 +532,8 @@ def write_user_badges(handle: str, info: dict, scan: dict | None,
 def write_static_badges(out_dir: Path) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "powered-by-gaia.svg").write_text(badge_powered_by(), encoding="utf-8")
-    # The "validating…" badge served by the Cloudflare Pages Function whenever
-    # a `?repo=` query param doesn't match the contributor's approved repos.
+    # The "validating…" badge served by the site Worker (worker/index.js)
+    # whenever a `?repo=` query param doesn't match the contributor's approved repos.
     # Page UI explains the 24h propagation window so users don't read this
     # as "broken" — see docs/badges/index.html § "Why is my badge blank?".
     (out_dir / "not-found.svg").write_text(badge_not_found(), encoding="utf-8")
@@ -648,7 +648,7 @@ def write_registry_json(contributors: dict[str, dict], out_dir: Path) -> None:
         "description": (
             "Approved repos per contributor for Gaia README badges. "
             "Derived from registry/named-skills.json `links.github` URLs. "
-            "The Cloudflare Pages Function at functions/badges/[handle]/[file].js "
+            "The site Worker at worker/index.js "
             "serves the `validating…` SVG (docs/badges/not-found.svg) when the "
             "`?repo=` query string doesn't match a repo listed here. Schema v2 "
             "adds `fileSeal` for the seal-only (no 'Gaia' wordmark) variant."

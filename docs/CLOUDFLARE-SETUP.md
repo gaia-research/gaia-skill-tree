@@ -1,176 +1,167 @@
 # Cloudflare Setup — Repo-bound badge validation
 
-This document walks through enabling the **Pages Function** that gates Gaia
-README badges on a `?repo=` query parameter, and verifies the deploy
-end-to-end.
+This document explains the **Worker** that gates Gaia README badges on a
+`?repo=` query parameter, and how to verify it locally and in production.
 
 ## What this does
 
-- Today, every badge under `https://gaia.tiongson.co/badges/<handle>/<file>.svg`
-  is a static SVG. Anyone can drop `mattpocock`'s badge into any random repo's
-  README — there's no validation.
-- After this rolls out, badge URLs include `?repo=<owner>/<repo>` (the page
-  generator already produces them). Cloudflare runs a Pages Function on every
-  request, looks up `<owner>/<repo>` in `docs/badges/registry.json`, and
-  serves the **validating badge** (`docs/badges/not-found.svg` — a faint
-  *"validating…"* SVG) when the repo isn't registered to that handle.
-- 24-hour cache TTL on both valid and invalid responses. Newly-registered
-  repos go live within 24h via natural cache expiry, matching GitHub camo's
-  own caching window.
+- Every badge under `https://gaia.tiongson.co/badges/<handle>/<file>.svg` is a
+  static SVG committed in `docs/badges/`. On its own, anyone can drop
+  `mattpocock`'s badge into any random repo's README — there's no validation.
+- Badge URLs now include `?repo=<owner>/<repo>` (the badges page generates
+  them). The site Worker (`worker/index.js`) looks `<owner>/<repo>` up in
+  `docs/badges/registry.json` and serves the **validating badge**
+  (`docs/badges/not-found.svg` — a faint *"validating…"* SVG) when the repo
+  isn't registered to that handle.
+- 24-hour cache TTL on both valid and invalid responses, matching GitHub
+  camo's own caching window. Newly-registered repos go live within 24h via
+  natural cache expiry.
 
-## Prerequisites
+## Why a Worker, not a Pages Function
 
-- A Cloudflare account with the `gaia-skill-tree` Pages project already
-  connected to the GitHub repo. (You're presumably already deploying
-  `docs/` from `wrangler.toml` — that part stays unchanged.)
-- The branch `design/profile-enhancements-rev` (or whichever branch this
-  lands on) merged to `main`, or a Preview deployment of the branch.
+This project deploys as a **Cloudflare Worker with Static Assets**
+(`wrangler deploy`, `[assets] directory = "docs"`), *not* as Cloudflare Pages.
+Two consequences drove this design:
 
-## What's already in the repo
+1. **`functions/` is Pages-only.** A `functions/badges/[handle]/[file].js`
+   Pages Function is **not deployed** by `wrangler deploy`. (An earlier version
+   of this feature shipped exactly that file — it never ran in production.)
+2. **Static assets beat Functions.** Even under `wrangler pages dev`, a
+   Function cannot intercept a request that resolves to an existing static
+   asset. Since every badge *is* a static SVG, static serving always won and
+   the `?repo=` gate never executed.
+
+The fix is `run_worker_first` in `wrangler.toml`:
+
+```toml
+name = "gaia-skill-tree"
+main = "worker/index.js"
+compatibility_date = "2026-05-22"
+
+[assets]
+directory = "docs"
+binding = "ASSETS"
+run_worker_first = ["/badges/*"]
+```
+
+`run_worker_first = ["/badges/*"]` makes the Worker execute **before**
+static-asset serving for `/badges/*` only. The Worker inspects `?repo=`, then
+serves either the real SVG (`env.ASSETS.fetch`) or the validating badge.
+Everything outside `/badges/*` is served straight from static assets — the
+Worker isn't even invoked, so there's no latency cost on the rest of the site.
+
+## What's in the repo
 
 | Path | Role |
 |---|---|
-| `wrangler.toml` | Asset binding `directory = "docs"`. **No change needed** — Pages auto-picks up the `functions/` directory below. |
-| `functions/badges/[handle]/[file].js` | The validator. Pages auto-discovers it on the next deploy. |
-| `docs/badges/registry.json` | Approved-repos lookup the function reads. Schema `gaia-badges-registry/2`. |
+| `wrangler.toml` | Worker entry (`main`) + `[assets]` + `run_worker_first = ["/badges/*"]`. **Authoritative** config; deploy root is `/`. |
+| `worker/index.js` | The validator. Runs first on `/badges/*`, passes everything else through to static assets. |
+| `docs/badges/registry.json` | Approved-repos lookup the Worker reads. Schema `gaia-badges-registry/2`. |
 | `docs/badges/not-found.svg` | The "validating…" badge served on `?repo=` mismatch. |
-| `tests/test_badges_function.md` | 11-case manual smoke-test list runnable via `wrangler pages dev docs`. |
+| `docs/wrangler.toml` | Secondary/fallback config (assets only, no worker). Not used by the configured deploy. |
+| `tests/test_badges_function.md` | 11-case manual smoke-test list runnable via `wrangler dev`. |
 
-## Cloudflare side: enable Pages Functions
+## Cloudflare side
 
-If your project was created before Pages Functions launched, the **Functions**
-toggle may need flipping once:
+No dashboard toggle is required — the Worker and its asset binding are defined
+entirely in `wrangler.toml`. Confirm in the Cloudflare dashboard only that:
 
-1. Cloudflare Dashboard → **Pages** → `gaia-skill-tree` → **Settings** → **Functions**.
-2. Confirm **"Enable Pages Functions"** is on. (For projects deployed in 2023+
-   this is on by default.)
-3. Confirm the **Compatibility date** is `2026-05-22` or later (matches
-   `wrangler.toml`). Older dates won't break things but newer JS features
-   may fall back.
-4. **Build & deploy** settings — no change. Pages auto-detects the
-   `functions/` directory at the repo root and builds it. There's nothing to
-   set in `Build command` or `Build output directory` beyond what's already
-   there.
-5. **Compatibility flags** — none needed. The function uses only standard
-   Workers APIs (`Request`, `Response`, `URL`, `env.ASSETS.fetch`).
+1. **Workers & Pages → `gaia-skill-tree` → Settings → Build** has **Root
+   directory = `/`** (so the repo-root `wrangler.toml` is the one used).
+2. The deploy command is `wrangler deploy` (it is, via the git-integrated
+   Workers Build and `.github/workflows/cloudflare-deploy.yml`).
+3. The wrangler version in the build environment supports `run_worker_first`
+   (wrangler ≥ 3.84 / any current 4.x). If an older pinned wrangler ignores it,
+   the Worker would fall back to *not* running ahead of assets — see the
+   production check below to catch that.
 
 ## Local verification (before pushing)
 
 ```bash
 # In the repo root:
-npm install -g wrangler         # if you haven't already
-wrangler pages dev docs --compatibility-date=2026-05-22
-# Pages Functions auto-load from functions/ — no extra flags needed.
-# Local server: http://localhost:8788
+npm install -g wrangler            # if you haven't already
+wrangler dev                       # reads ./wrangler.toml; serves on :8787
 ```
 
-Then run the curl checks from `tests/test_badges_function.md`:
+Then run the curl checks from `tests/test_badges_function.md`, e.g.:
 
 ```bash
-# 1 — back-compat (no ?repo=) → real badge
-curl -sI http://localhost:8788/badges/mbtiongson1/handle.svg \
-  | grep -i 'x-gaia\|status\|cache-control'
-
-# 2 — happy path (registered repo) → real badge
-curl -sI 'http://localhost:8788/badges/mbtiongson1/handle.svg?repo=mbtiongson1/gaia-skill-tree' \
-  | grep -i 'x-gaia\|status'
+# 1 — back-compat (no ?repo=) → real badge, x-gaia-badge-state: valid
+curl -sI http://localhost:8787/badges/mbtiongson1/handle.svg \
+  | grep -i 'x-gaia\|cache-control'
 
 # 3 — wrong repo → validating badge
-curl -sI 'http://localhost:8788/badges/mbtiongson1/handle.svg?repo=evil/repo' \
-  | grep -i 'x-gaia\|status'
-curl -s 'http://localhost:8788/badges/mbtiongson1/handle.svg?repo=evil/repo' \
+curl -s 'http://localhost:8787/badges/mbtiongson1/handle.svg?repo=evil/repo' \
   | grep -o 'validating' || echo 'MISSING validating text'
+curl -sI 'http://localhost:8787/badges/mbtiongson1/handle.svg?repo=evil/repo' \
+  | grep -i 'x-gaia-badge-state'   # → validating
 ```
 
-Expected `x-gaia-badge-state` header values:
+`x-gaia-badge-state` header values:
 - `valid` — pass-through, real badge served
-- `validating` — `?repo=` didn't match, blank/faint badge served
+- `validating` — `?repo=` didn't match, faint badge served
 
 ## Production verification (after deploy)
 
-Once Cloudflare picks up the new branch:
+Once Cloudflare deploys the branch:
 
 ```bash
-# 1 — production back-compat (existing badges in READMEs keep working)
-curl -sI https://gaia.tiongson.co/badges/mbtiongson1/handle.svg \
-  | grep -i 'x-gaia\|cache-control'
+# back-compat (existing badges keep working)
+curl -sI https://gaia.tiongson.co/badges/mbtiongson1/handle.svg | grep -i 'x-gaia\|cache-control'
 
-# 2 — production happy path
-curl -sI 'https://gaia.tiongson.co/badges/mbtiongson1/handle.svg?repo=mbtiongson1/gaia-skill-tree' \
-  | grep -i 'x-gaia'
+# happy path
+curl -sI 'https://gaia.tiongson.co/badges/mbtiongson1/handle.svg?repo=mbtiongson1/gaia-skill-tree' | grep -i 'x-gaia'
 
-# 3 — production wrong repo (should serve validating badge)
-curl -s 'https://gaia.tiongson.co/badges/mbtiongson1/handle.svg?repo=evil/repo' \
-  | grep -o 'validating'
+# wrong repo (MUST serve validating badge)
+curl -s 'https://gaia.tiongson.co/badges/mbtiongson1/handle.svg?repo=evil/repo' | grep -o 'validating'
 ```
 
-If case #3 returns the real SVG (no `validating` text), the function isn't
-wired. Check the deploy log in **Cloudflare → Pages → gaia-skill-tree →
-Deployments → latest → Functions** — there should be one function listed:
-`/badges/[handle]/[file]`. If it's missing, the build didn't pick up
-`functions/`. Most common causes:
+If case #3 returns the real SVG (no `validating` text and no
+`x-gaia-badge-state: validating` header), the Worker isn't running ahead of the
+static asset. Check, in order:
 
-- The build's output directory is set to a subfolder that doesn't include
-  `functions/`. Check **Settings → Build & deployments → Build output
-  directory** is empty or set to `docs` (root pages assets).
-- The Functions toggle is off (see above).
-- The Pages project is older than 2022-11. Re-deploy with a fresh project
-  if so.
+- **Root directory** is `/` (so repo-root `wrangler.toml` is used, not
+  `docs/wrangler.toml`).
+- The build log shows `main = worker/index.js` bundled and the
+  `run_worker_first` asset rule applied.
+- The build-environment wrangler version supports `run_worker_first`.
 
 ## How invalidation works
 
 - **Edge cache:** `Cache-Control: public, max-age=86400, s-maxage=86400`. After
-  24h, Cloudflare re-runs the function and pulls fresh `registry.json`.
-- **In-process registry cache:** the function holds the parsed `registry.json`
-  in module scope for 24h to avoid re-fetching on every hit. **A redeploy
-  resets this** — pushing a commit to `main` automatically invalidates the
-  module-scope cache because Cloudflare spins up a fresh worker bundle.
+  24h, Cloudflare re-runs the Worker and pulls fresh `registry.json`.
+- **In-process registry cache:** the Worker holds the parsed `registry.json` in
+  module scope for 24h. **A redeploy resets it** — pushing a commit spins up a
+  fresh Worker bundle, so a newly-registered repo is live immediately for
+  direct hits.
 - **GitHub camo:** ~24h regardless of our headers. Users can force-refresh
-  their own README on github.com to bump it.
-
-So the worst-case "I just registered my repo" timeline is:
-
-1. PR merged → CI regenerates `registry.json` → Cloudflare auto-deploys
-   (~2 min).
-2. Edge function picks up the new registry on the next request to any badge
-   (the in-process cache is fresh because the worker was just spun up).
-3. The user's README still shows the validating badge for up to 24h because
-   GitHub camo cached the old response.
-4. The user (or anyone) hits the badge URL directly in a browser → sees the
-   real badge → loads their README → camo refetches → valid badge appears.
-
-This is documented in `docs/badges/index.html` under the **"Why might my
-badge appear blank in my README?"** disclosure on the badges page.
+  their README on github.com to bump it.
 
 ## Rollback
 
-If something goes wrong and you want the old static-only behaviour back:
+To revert to static-only behaviour (no `?repo=` validation):
 
 ```bash
-git rm functions/badges/[handle]/[file].js
-git commit -m "revert: badges Pages Function"
+# Remove the worker entry + run_worker_first; keep assets serving.
+# wrangler.toml → delete `main` and the `run_worker_first` line.
+git rm worker/index.js
+git commit -m "revert: badge validation worker"
 git push
 ```
 
-Cloudflare auto-deploys without the function on the next push. Static SVGs
-are served directly again, with no `?repo=` validation. No infrastructure
-state to clean up.
+Static SVGs are then served directly again, with no validation. No
+infrastructure state to clean up.
 
-## Open questions / future work
+## Known limitations / future work
 
 - **No Referer-based validation.** GitHub camo strips `Referer`, so we can't
   prove the README *actually* lives on the claimed repo — we only check the
   `?repo=` string against the approved list. A bad actor could still copy
-  someone's badge URL verbatim into their own README. **Tracked as a sub-task
-  of #155** (NEW UI - sign in to github) since the real fix is GitHub OAuth
-  → signed token-bound rendering.
-- **Per-repo analytics — Path A is live.** The function emits one structured
-  log line per request via `console.log`. Tail with
-  `wrangler pages deployment tail` or **Cloudflare Dashboard → Pages →
-  gaia-skill-tree → Logs**. Schema is documented in
-  `tests/test_badges_function.md` § "Structured log lines", with ready-made
-  jq queries for "top spoof attempts" and "most-embedded contributors".
-- **Per-repo analytics — Path B is queued.** Workers Analytics Engine for
-  queryable historical time-series + admin dashboard tracked under #455
-  (Github Badges).
-
+  someone's badge URL verbatim. **Tracked under #155** (sign in to GitHub);
+  the real fix is OAuth → signed token-bound rendering.
+- **Analytics — Path A is live.** The Worker emits one structured log line per
+  request via `console.log`. Tail with `wrangler tail` or
+  **Cloudflare → Workers & Pages → gaia-skill-tree → Logs**. Schema and jq
+  queries are in `tests/test_badges_function.md` § "Structured log lines".
+- **Analytics — Path B is queued.** Workers Analytics Engine for queryable
+  time-series + an admin dashboard, tracked under #455.

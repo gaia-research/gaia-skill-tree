@@ -1,3 +1,9 @@
+# SECONDARY / fallback config. The configured Cloudflare deploy uses repo root
+# as the root directory (Root directory = "/", Build output = "docs"; see
+# docs/plans/cloudflare-pages-preview.md), so the authoritative config — and the
+# /badges/* validation worker — lives in the repo-root wrangler.toml. This file
+# only applies if someone deploys from inside docs/, which serves assets WITHOUT
+# the badge-validation worker. Prefer `wrangler deploy` from the repo root.
 name = "gaia-skill-tree"
 compatibility_date = "2026-05-22"
 
