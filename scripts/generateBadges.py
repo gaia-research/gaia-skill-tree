@@ -47,7 +47,7 @@ WHITE = "#ffffff"
 # Rank display names for badge right-panel text (e.g. "Hardened · 4★")
 RANK_NAMES = {
     1: "Awakened", 2: "Named", 3: "Evolved",
-    4: "Hardened", 5: "Transcendent", 6: "Transcendent ★",
+    4: "Hardened", 5: "Transcendent", 6: "Apex",
 }
 
 # Filenames produced by the primary badges — per-skill variants whose slug

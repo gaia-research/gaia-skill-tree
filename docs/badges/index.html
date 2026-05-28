@@ -43,7 +43,7 @@
       margin-right: .4rem;
     }
 
-    /* ── Sampler strip ── */
+    /* ── Rank sampler (inside generator card) ── */
     .bd-sampler {
       display: flex;
       gap: .75rem;
@@ -189,6 +189,44 @@
       flex-direction: column;
       gap: .3rem;
     }
+
+    /* ── Per-badge individual rows ── */
+    .bd-rows-header {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      margin-bottom: .5rem;
+    }
+    .bd-copy-all {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      padding: .3rem .7rem;
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      letter-spacing: .06em;
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid rgba(251,191,36,.35);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: color .12s, border-color .12s;
+    }
+    .bd-copy-all:hover { color: var(--text); border-color: rgba(251,191,36,.8); }
+    .bd-row-item {
+      display: grid;
+      grid-template-columns: 24px 1fr auto;
+      gap: .6rem;
+      align-items: flex-start;
+      margin-bottom: .55rem;
+    }
+    .bd-row-item:last-child { margin-bottom: 0; }
+    .bd-row-badge {
+      padding-top: .45rem;
+      flex-shrink: 0;
+    }
+    .bd-row-badge img { display: block; height: 20px; }
+
     /* Wider usp-row text for markdown legibility */
     #bd-rows .usp-row,
     .bd-generic .usp-row {
@@ -208,6 +246,20 @@
       margin-top: .1rem;
       flex-shrink: 0;
     }
+
+    /* ── Sampler inside generator ── */
+    .bd-gen-sampler {
+      display: flex;
+      gap: .75rem;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+      padding: .8rem 1rem;
+      background: rgba(15,23,42,.5);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+    .bd-gen-sampler img { display: block; height: 20px; }
 
     /* README Simulator */
     .readme-simulator {
@@ -396,16 +448,6 @@
         <img src="./mbtiongson1/skills.svg" alt="Owner skills count badge">
       </div>
 
-      <!-- Sampler: cycle 1★ → 6★ rank preview -->
-      <div class="bd-sampler">
-        <span class="bd-live-label">sampler</span>
-        <img id="bd-sampler-img" src="./samples/rank-1.svg" alt="Sample rank badge" height="20">
-        <button id="bd-sampler-btn" type="button" class="bd-sampler-cycle">
-          <svg class="ico" width="13" height="13" aria-hidden="true"><use href="../assets/icons.svg#sync"/></svg>
-          <span id="bd-sampler-lbl">1★ · click to cycle</span>
-        </button>
-      </div>
-
       <!-- Generic "Powered by Gaia" snippet — always visible, no handle needed -->
       <div class="bd-generic">
         <div class="bd-generic-title">Generic badge — paste into any README</div>
@@ -431,6 +473,16 @@
           <button id="bd-go" type="button" class="bd-go-btn">Preview</button>
         </div>
 
+        <!-- Sampler lives inside the card, always visible -->
+        <div class="bd-gen-sampler">
+          <span class="bd-live-label">rank sampler</span>
+          <img id="bd-sampler-img" src="./samples/rank-1.svg" alt="Sample rank badge" height="20">
+          <button id="bd-sampler-btn" type="button" class="bd-sampler-cycle">
+            <svg class="ico" width="13" height="13" aria-hidden="true"><use href="../assets/icons.svg#sync"/></svg>
+            <span id="bd-sampler-lbl">Awakened · 1★</span>
+          </button>
+        </div>
+
         <div class="bd-gen-preview" id="bd-preview">
           <div class="bd-gen-status" id="bd-status"></div>
 
@@ -441,7 +493,7 @@
           </div>
 
           <div class="bd-gen-layout">
-            <!-- Left: repo picker + single copy block -->
+            <!-- Left: repo picker + per-badge rows -->
             <div class="bd-gen-left">
               <div id="bd-repo-block" style="display:none; margin-bottom: 1.2rem;">
                 <p class="bd-section-lede" style="margin:.4rem 0;">Pick the repo where this badge will live — the URL bakes it in so the validator can flag misuse.</p>
@@ -449,7 +501,7 @@
                 <p class="bd-validate-note" id="bd-validate-note"></p>
               </div>
 
-              <!-- Single copy block (all badge lines in one row) -->
+              <!-- Per-badge rows with Copy All header -->
               <div id="bd-rows"></div>
             </div>
 
@@ -543,14 +595,22 @@
     const pickerEl = document.getElementById("bd-skill-picker");
 
     // ── Sampler ──────────────────────────────────────────────────────────────
-    const STAR_LABELS = ["1★", "2★", "3★", "4★", "5★", "6★"];
+    const SAMPLER_RANKS = [
+      { n: 1, label: "Awakened · 1★" },
+      { n: 2, label: "Named · 2★" },
+      { n: 3, label: "Evolved · 3★" },
+      { n: 4, label: "Hardened · 4★" },
+      { n: 5, label: "Transcendent · 5★" },
+      { n: 6, label: "Apex · 6★" },
+    ];
     let samplerIdx = 0;
     const samplerImg = document.getElementById("bd-sampler-img");
     const samplerLbl = document.getElementById("bd-sampler-lbl");
     document.getElementById("bd-sampler-btn").addEventListener("click", () => {
-      samplerIdx = (samplerIdx + 1) % 6;
-      samplerImg.src = `./samples/rank-${samplerIdx + 1}.svg`;
-      samplerLbl.textContent = `${STAR_LABELS[samplerIdx]} · click to cycle`;
+      samplerIdx = (samplerIdx + 1) % SAMPLER_RANKS.length;
+      const r = SAMPLER_RANKS[samplerIdx];
+      samplerImg.src = `./samples/rank-${r.n}.svg`;
+      samplerLbl.textContent = r.label;
     });
 
     // ── Generic copy ─────────────────────────────────────────────────────────
@@ -613,47 +673,87 @@
       badges.innerHTML = "";
 
       const q = selectedRepo ? `?repo=${encodeURIComponent(selectedRepo)}` : "";
-      const lines = [];
 
+      // Build entries: { localSrc, url, alt, md }
+      const entries = [];
       if (hasHandle) {
         const url = `${BASE}/badges/${handle}/${pickedFile}${q}`;
-        lines.push(`[![Gaia](${url})](${linkTarget})`);
-        badges.insertAdjacentHTML("beforeend",
-          `<a href="${linkTarget}"><img src="./${handle}/${pickedFile}" alt="@${handle} on Gaia"></a>`);
+        entries.push({
+          localSrc: `./${handle}/${pickedFile}`,
+          alt: `@${handle} on Gaia`,
+          md: `[![Gaia](${url})](${linkTarget})`,
+        });
       }
       if (hasRank) {
         const url = `${BASE}/badges/${handle}/rank.svg${q}`;
-        lines.push(`[![Gaia rank](${url})](${linkTarget})`);
-        badges.insertAdjacentHTML("beforeend",
-          `<a href="${linkTarget}"><img src="./${handle}/rank.svg" alt="Gaia rank"></a>`);
+        entries.push({
+          localSrc: `./${handle}/rank.svg`,
+          alt: "Gaia rank",
+          md: `[![Gaia rank](${url})](${linkTarget})`,
+        });
       }
       if (hasSkills) {
         const url = `${BASE}/badges/${handle}/skills.svg${q}`;
-        lines.push(`[![Gaia skills](${url})](${linkTarget})`);
-        badges.insertAdjacentHTML("beforeend",
-          `<a href="${linkTarget}"><img src="./${handle}/skills.svg" alt="Gaia skills"></a>`);
+        entries.push({
+          localSrc: `./${handle}/skills.svg`,
+          alt: "Gaia skills",
+          md: `[![Gaia skills](${url})](${linkTarget})`,
+        });
       }
 
-      if (!lines.length) return;
+      if (!entries.length) return;
 
-      // Single copy block — all badge lines in one block, one copy button
-      const wrap = document.createElement("div");
-      wrap.className = "bd-snip-row";
+      // Populate README simulator
+      entries.forEach(({ localSrc, alt, md }) => {
+        badges.insertAdjacentHTML("beforeend",
+          `<a href="${linkTarget}"><img src="${localSrc}" alt="${alt}"></a>`);
+      });
 
-      const row = document.createElement("div");
-      row.className = "usp-row";
+      // Copy All header
+      const header = document.createElement("div");
+      header.className = "bd-rows-header";
+      const allMd = entries.map(e => e.md).join("\n");
+      const copyAllBtn = document.createElement("button");
+      copyAllBtn.className = "bd-copy-all";
+      copyAllBtn.type = "button";
+      copyAllBtn.innerHTML = '<svg class="ico" width="13" height="13" aria-hidden="true"><use href="../assets/icons.svg#copy"/></svg> Copy all';
+      copyAllBtn.addEventListener("click", () => {
+        navigator.clipboard.writeText(allMd).then(() => {
+          copyAllBtn.innerHTML = '<svg class="ico" width="13" height="13" aria-hidden="true"><use href="../assets/icons.svg#copy-check"/></svg> Copied';
+          setTimeout(() => {
+            copyAllBtn.innerHTML = '<svg class="ico" width="13" height="13" aria-hidden="true"><use href="../assets/icons.svg#copy"/></svg> Copy all';
+          }, 1600);
+        });
+      });
+      header.appendChild(copyAllBtn);
+      rowsEl.appendChild(header);
 
-      const code = document.createElement("code");
-      code.className = "usp-cmd";
-      code.textContent = lines.join("\n");
-      row.appendChild(code);
+      // Individual rows: badge preview | code | per-row copy
+      entries.forEach(({ localSrc, alt, md }) => {
+        const item = document.createElement("div");
+        item.className = "bd-row-item";
 
-      const btn = makeCopyBtn();
-      wireCopyBtn(btn, code);
-      row.appendChild(btn);
+        // Badge thumbnail
+        const thumb = document.createElement("div");
+        thumb.className = "bd-row-badge";
+        thumb.innerHTML = `<img src="${localSrc}" alt="${alt}">`;
+        item.appendChild(thumb);
 
-      wrap.appendChild(row);
-      rowsEl.appendChild(wrap);
+        // Code row
+        const row = document.createElement("div");
+        row.className = "usp-row";
+        const code = document.createElement("code");
+        code.className = "usp-cmd";
+        code.textContent = md;
+        row.appendChild(code);
+
+        const btn = makeCopyBtn();
+        wireCopyBtn(btn, code);
+        row.appendChild(btn);
+
+        item.appendChild(row);
+        rowsEl.appendChild(item);
+      });
     }
 
     function renderRepoPicker(repos) {
@@ -778,6 +878,84 @@
     if (params.has("u")) {
       handleInput.value = params.get("u") || "";
       generate();
+    } else {
+      // Seed with a sample 1★ state so the generator is never empty on first load.
+      seedSample();
+    }
+
+    function seedSample() {
+      preview.classList.add("is-visible");
+      status.textContent = "Sample preview — enter your handle above to generate your own.";
+      status.classList.remove("is-error");
+
+      const sampleHandle = "gaia-bot";
+      const linkTarget = `${BASE}/`;
+      currentState = {
+        handle: sampleHandle, repos: [], selectedRepo: "",
+        hasRank: true, hasSkills: true, hasHandle: false,
+        linkTarget, namedSkills: [], pickedFile: "handle.svg",
+      };
+
+      document.getElementById("readme-sim-title").textContent = "my-project";
+      rowsEl.innerHTML = "";
+      badges.innerHTML = "";
+
+      const entries = [
+        {
+          localSrc: "./samples/rank-1.svg",
+          alt: "Awakened · 1★",
+          md: `[![Gaia rank](${BASE}/badges/gaia-bot/rank.svg)](${linkTarget})`,
+        },
+        {
+          localSrc: "./samples/rank-1.svg",
+          alt: "1 named skill",
+          md: `[![Gaia skills](${BASE}/badges/gaia-bot/skills.svg)](${linkTarget})`,
+        },
+      ];
+
+      entries.forEach(({ localSrc, alt }) => {
+        badges.insertAdjacentHTML("beforeend",
+          `<a href="${linkTarget}"><img src="${localSrc}" alt="${alt}"></a>`);
+      });
+
+      // Copy All
+      const header = document.createElement("div");
+      header.className = "bd-rows-header";
+      const allMd = entries.map(e => e.md).join("\n");
+      const copyAllBtn = document.createElement("button");
+      copyAllBtn.className = "bd-copy-all";
+      copyAllBtn.type = "button";
+      copyAllBtn.innerHTML = '<svg class="ico" width="13" height="13" aria-hidden="true"><use href="../assets/icons.svg#copy"/></svg> Copy all';
+      copyAllBtn.addEventListener("click", () => {
+        navigator.clipboard.writeText(allMd).then(() => {
+          copyAllBtn.innerHTML = '<svg class="ico" width="13" height="13" aria-hidden="true"><use href="../assets/icons.svg#copy-check"/></svg> Copied';
+          setTimeout(() => {
+            copyAllBtn.innerHTML = '<svg class="ico" width="13" height="13" aria-hidden="true"><use href="../assets/icons.svg#copy"/></svg> Copy all';
+          }, 1600);
+        });
+      });
+      header.appendChild(copyAllBtn);
+      rowsEl.appendChild(header);
+
+      entries.forEach(({ localSrc, alt, md }) => {
+        const item = document.createElement("div");
+        item.className = "bd-row-item";
+        const thumb = document.createElement("div");
+        thumb.className = "bd-row-badge";
+        thumb.innerHTML = `<img src="${localSrc}" alt="${alt}">`;
+        item.appendChild(thumb);
+        const row = document.createElement("div");
+        row.className = "usp-row";
+        const code = document.createElement("code");
+        code.className = "usp-cmd";
+        code.textContent = md;
+        row.appendChild(code);
+        const btn = makeCopyBtn();
+        wireCopyBtn(btn, code);
+        row.appendChild(btn);
+        item.appendChild(row);
+        rowsEl.appendChild(item);
+      });
     }
   </script>
 
