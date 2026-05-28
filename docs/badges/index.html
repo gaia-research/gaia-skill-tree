@@ -214,18 +214,17 @@
     }
     .bd-copy-all:hover { color: var(--text); border-color: rgba(251,191,36,.8); }
     .bd-row-item {
-      display: grid;
-      grid-template-columns: 24px 1fr auto;
-      gap: .6rem;
-      align-items: flex-start;
-      margin-bottom: .55rem;
+      display: flex;
+      flex-direction: column;
+      gap: .4rem;
+      margin-bottom: .8rem;
     }
     .bd-row-item:last-child { margin-bottom: 0; }
     .bd-row-badge {
-      padding-top: .45rem;
       flex-shrink: 0;
+      line-height: 1;
     }
-    .bd-row-badge img { display: block; height: 20px; }
+    .bd-row-badge img { display: block; height: 20px; max-width: 100%; }
 
     /* Wider usp-row text for markdown legibility */
     #bd-rows .usp-row,
@@ -611,6 +610,10 @@
       const r = SAMPLER_RANKS[samplerIdx];
       samplerImg.src = `./samples/rank-${r.n}.svg`;
       samplerLbl.textContent = r.label;
+      // Update README sim only when still showing the seeded sample state
+      if (currentState.handle === "gaia-bot") {
+        badges.innerHTML = `<img src="./samples/rank-${r.n}.svg" alt="${r.label}" style="height:20px;display:block;">`;
+      }
     });
 
     // ── Generic copy ─────────────────────────────────────────────────────────
@@ -898,7 +901,8 @@
 
       document.getElementById("readme-sim-title").textContent = "my-project";
       rowsEl.innerHTML = "";
-      badges.innerHTML = "";
+      // README sim shows only the initial sample badge (sampler click updates it)
+      badges.innerHTML = `<img src="./samples/rank-1.svg" alt="Awakened · 1★" style="height:20px;display:block;">`;
 
       const entries = [
         {
@@ -913,30 +917,7 @@
         },
       ];
 
-      entries.forEach(({ localSrc, alt }) => {
-        badges.insertAdjacentHTML("beforeend",
-          `<a href="${linkTarget}"><img src="${localSrc}" alt="${alt}"></a>`);
-      });
-
-      // Copy All
-      const header = document.createElement("div");
-      header.className = "bd-rows-header";
-      const allMd = entries.map(e => e.md).join("\n");
-      const copyAllBtn = document.createElement("button");
-      copyAllBtn.className = "bd-copy-all";
-      copyAllBtn.type = "button";
-      copyAllBtn.innerHTML = '<svg class="ico" width="13" height="13" aria-hidden="true"><use href="../assets/icons.svg#copy"/></svg> Copy all';
-      copyAllBtn.addEventListener("click", () => {
-        navigator.clipboard.writeText(allMd).then(() => {
-          copyAllBtn.innerHTML = '<svg class="ico" width="13" height="13" aria-hidden="true"><use href="../assets/icons.svg#copy-check"/></svg> Copied';
-          setTimeout(() => {
-            copyAllBtn.innerHTML = '<svg class="ico" width="13" height="13" aria-hidden="true"><use href="../assets/icons.svg#copy"/></svg> Copy all';
-          }, 1600);
-        });
-      });
-      header.appendChild(copyAllBtn);
-      rowsEl.appendChild(header);
-
+      // No Copy All and no copy buttons in the seed state — preview only
       entries.forEach(({ localSrc, alt, md }) => {
         const item = document.createElement("div");
         item.className = "bd-row-item";
@@ -950,9 +931,6 @@
         code.className = "usp-cmd";
         code.textContent = md;
         row.appendChild(code);
-        const btn = makeCopyBtn();
-        wireCopyBtn(btn, code);
-        row.appendChild(btn);
         item.appendChild(row);
         rowsEl.appendChild(item);
       });
