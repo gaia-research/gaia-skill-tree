@@ -484,6 +484,7 @@ button.nav-copy-agent {
   height: 100%;
   pointer-events: none;
   opacity: 1;
+  touch-action: none;
   transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.8s ease;
 }
 
@@ -3052,6 +3053,7 @@ tr:hover td {
   border-right: 1px solid var(--border);
   cursor: ns-resize;
   user-select: none;
+  touch-action: none;
 }
 
 .graph-scatter-edge {
@@ -3211,6 +3213,7 @@ tr:hover td {
   position: relative;
   cursor: ew-resize;
   user-select: none;
+  touch-action: none;
 }
 
 .graph-speed-edge {
@@ -3888,37 +3891,52 @@ tr:hover td {
   }
 
   #hero.hero-graph-fullscreen .graph-bottom-bar {
-    height: 44px;
+    height: 52px;
   }
 
   #hero.hero-graph-fullscreen .graph-pause-btn {
-    flex: 0 0 40px;
-    font-size: 1rem;
+    flex: 0 0 48px;
+    min-height: 48px;
+    font-size: 1.05rem;
   }
 
   #hero.hero-graph-fullscreen .graph-bottom-btn {
-    padding: 0 .5rem;
-    font-size: .58rem;
+    padding: 0 .65rem;
+    min-height: 48px;
+    min-width: 48px;
+    font-size: .62rem;
     letter-spacing: .04em;
   }
 
   #hero.hero-graph-fullscreen .graph-zoom-counter {
-    padding: 0 .5rem;
-    font-size: .62rem;
+    padding: 0 .6rem;
+    min-height: 48px;
+    min-width: 48px;
+    font-size: .64rem;
   }
 
   #hero.hero-graph-fullscreen .graph-speed-edge {
-    padding: 0 .35rem;
-    font-size: .75rem;
+    padding: 0 .4rem;
+    font-size: .78rem;
   }
 
   #hero.hero-graph-fullscreen .graph-speed-title {
-    font-size: .6rem;
+    font-size: .62rem;
   }
 
   #hero.hero-graph-fullscreen .graph-scatter-strip {
-    width: 44px;
-    bottom: 44px;
+    width: 56px;
+    bottom: 52px;
+  }
+
+  #hero.hero-graph-fullscreen .graph-action-btn {
+    min-height: 44px;
+    padding: .5rem .8rem;
+  }
+
+  #hero.hero-graph-fullscreen .graph-hud-toggle-btn {
+    min-height: 44px;
+    padding: .55rem .9rem;
   }
 
   #hero.hero-graph-fullscreen .graph-search-help-popover {
@@ -3941,44 +3959,54 @@ tr:hover td {
     order: 1 !important;
     width: 100% !important;
     flex: 0 0 100% !important;
-    height: 38px !important;
+    height: 48px !important;
+    min-height: 48px !important;
     border-bottom: 1px solid var(--border) !important;
   }
 
   #hero.hero-graph-fullscreen .graph-pause-btn {
     order: 2 !important;
-    height: 38px !important;
+    height: 48px !important;
+    min-height: 48px !important;
+    min-width: 48px !important;
     flex: 1 1 auto !important;
     border-right: 1px solid var(--border) !important;
   }
 
   #hero.hero-graph-fullscreen .graph-bottom-btn {
     order: 2 !important;
-    height: 38px !important;
+    height: 48px !important;
+    min-height: 48px !important;
+    min-width: 48px !important;
     flex: 1 1 auto !important;
     border-right: 1px solid var(--border) !important;
   }
 
   #hero.hero-graph-fullscreen .graph-zoom-counter {
     order: 2 !important;
-    height: 38px !important;
+    height: 48px !important;
+    min-height: 48px !important;
+    min-width: 48px !important;
     flex: 1 1 auto !important;
   }
 
   #hero.hero-graph-fullscreen .graph-hud-toggle-btn {
-    bottom: calc(76px + .65rem) !important;
+    bottom: calc(96px + .65rem) !important;
+    min-height: 44px !important;
+    padding: .55rem .9rem !important;
   }
 
   #hero.hero-graph-fullscreen .graph-redpill {
-    bottom: calc(76px + .65rem) !important;
+    bottom: calc(96px + .65rem) !important;
   }
 
   #hero.hero-graph-fullscreen .graph-search-wrap {
-    bottom: calc(76px + 3.2rem) !important;
+    bottom: calc(96px + 3.2rem) !important;
   }
 
   #hero.hero-graph-fullscreen .graph-scatter-strip {
-    bottom: 76px !important;
+    bottom: 96px !important;
+    width: 56px !important;
   }
 }
 

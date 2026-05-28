@@ -944,7 +944,11 @@
         state.nodeAlphas[skill.id] += (targetVis - state.nodeAlphas[skill.id]) * 0.15;
       });
       state.stars.forEach(star => {
-        const p = rotX(rotY(star, ry), rx);
+        let p = rotX(rotY(star, ry), rx);
+        if (state.layoutMode === 'semantic' || state.layoutMode === 'spectral') {
+          p = rotXW(p, rw);
+          p = rotYW(p, rw * 0.5);
+        }
         const pr = project(p);
         if (pr.scale < 0.01) return;
         ctx.beginPath();
@@ -2347,20 +2351,21 @@
   const _graphStatusBar = document.createElement('div');
   _graphStatusBar.className = 'graph-fullscreen-status';
   _graphStatusBar.setAttribute('data-graph-status', '');
+  _graphStatusBar.setAttribute('data-interactive-chrome', '');
   hero.appendChild(_graphStatusBar);
 
   // Build the close button overlay for fullscreen mode
   const _graphCloseOverlay = document.createElement('div');
   _graphCloseOverlay.className = 'graph-fullscreen-chrome';
+  _graphCloseOverlay.setAttribute('data-interactive-chrome', '');
   _graphCloseOverlay.innerHTML =
     '<div class="graph-fullscreen-header">' +
     '<div class="graph-atlas-controls">' +
     '<button type="button" class="graph-action-btn" data-graph-layout title="Layout: Semantic/Deterministic"><svg class="ico" width="18" height="18" aria-hidden="true"><use href="assets/icons.svg#switch"/></svg><span>Semantic</span></button>' +
-    '<button type="button" class="graph-action-btn active" data-graph-labels title="Labels: None/Priority"><svg class="ico" width="18" height="18" aria-hidden="true"><use href="assets/icons.svg#view-list"/></svg><span>Labels</span></button>' +
+    '<button type="button" class="graph-action-btn" data-graph-labels title="Labels: None/Priority"><svg class="ico" width="18" height="18" aria-hidden="true"><use href="assets/icons.svg#view-list"/></svg><span>Labels</span></button>' +
     '<button type="button" class="graph-action-btn" data-graph-mouse title="Interaction: Orbit/Pan"><svg class="ico" width="18" height="18" aria-hidden="true"><use href="assets/icons.svg#rotate"/></svg><span>Orbit</span></button>' +
     '</div>' +
     '<div class="graph-dialog-actions">' +
-    '<a class="graph-action-btn" href="graph/gaia.json" aria-label="Download JSON" download><svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#download"/></svg><span>JSON</span></a>' +
     '<a class="graph-action-btn" href="graph/gaia.gexf" aria-label="Download GEXF" download><svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#download"/></svg><span>GEXF</span></a>' +
     '<button type="button" class="graph-action-btn" data-graph-fullscreen-close aria-label="Close skill graph"><svg class="ico" width="20" height="20" aria-hidden="true"><use href="assets/icons.svg#close-x"/></svg></button>' +
     '</div>' +
@@ -2420,14 +2425,14 @@
     hudToggleBtn.querySelector('span').textContent = 'Hide Controls';
 
     heroGraph.setInteractive(true);
-    heroGraph.setLabelMode('all');
+    heroGraph.setLabelMode('none');
     heroGraph.setStatusEl(_graphStatusBar);
 
     // Sync header button states
     const layoutBtn = _graphCloseOverlay.querySelector('[data-graph-layout]');
     if (layoutBtn) layoutBtn.querySelector('span').textContent = 'Semantic';
     const labelsBtn = _graphCloseOverlay.querySelector('[data-graph-labels]');
-    if (labelsBtn) labelsBtn.classList.add('active');
+    if (labelsBtn) labelsBtn.classList.remove('active');
     const mouseBtn = _graphCloseOverlay.querySelector('[data-graph-mouse]');
     if (mouseBtn) mouseBtn.querySelector('span').textContent = 'Orbit';
 
