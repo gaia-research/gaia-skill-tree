@@ -727,6 +727,34 @@ def _build_share_modal() -> str:
 </div>"""
 
 
+def _build_skill_explorer_modal() -> str:
+    """One-per-page Skill Explorer modal so /slash-skill clicks open in-place."""
+    icon_base = ICON_SPRITE_REL
+    return f"""<div id="skillExplorer" class="skill-explorer" role="dialog" aria-modal="true" aria-label="Skill Explorer" tabindex="-1">
+    <div class="se-topbar">
+      <button id="seBack" class="se-btn-ghost"><svg class="ico" width="16" height="16" aria-hidden="true"><use href="{icon_base}#arrow-back"/></svg> Back</button>
+      <span id="seBreadcrumb" class="se-breadcrumb"></span>
+      <div class="se-topbar-actions">
+        <button id="seOpenRepo" class="se-btn-action"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="{icon_base}#github"/></svg> Repo</button>
+        <button id="seSkillDocs" class="se-btn-action"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="{icon_base}#external-link"/></svg> SKILL.md</button>
+        <button id="seShare" class="se-btn-action"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="{icon_base}#share"/></svg> Share</button>
+        <button id="seClose" class="se-btn-ghost se-close-x" aria-label="Close"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="{icon_base}#close-x"/></svg></button>
+      </div>
+    </div>
+    <div class="se-body">
+      <div class="se-hero">
+        <div id="seHero"></div>
+        <div id="se-upgrade" class="se-flow-section"></div>
+      </div>
+      <div class="se-flow" id="seFlow">
+        <div id="se-install" class="se-flow-section"></div>
+        <div id="se-docs" class="se-flow-section"></div>
+        <div id="se-changelog" class="se-flow-section"></div>
+      </div>
+    </div>
+  </div>"""
+
+
 def _build_timeline_section(tree: dict, named_index: dict) -> str:
     """Build the Progression Timeline section with embedded JSON payload."""
     unlocked = tree.get("unlockedSkills", []) if isinstance(tree, dict) else []
@@ -817,6 +845,7 @@ def build_profile_page(handle: str, skills: list, named_index: dict | None = Non
     activity_section_html = build_activity_log(tree, named_index)
     timeline_section_html = _build_timeline_section(tree, named_index)
     share_modal_html = _build_share_modal()
+    skill_explorer_modal_html = _build_skill_explorer_modal()
 
     # OG image tag (raster PNG for social crawlers; SVG sibling exists at the same path)
     og_image_tags = "\n".join(
@@ -922,6 +951,8 @@ def build_profile_page(handle: str, skills: list, named_index: dict | None = Non
   </button>
 
   {share_modal_html}
+
+  {skill_explorer_modal_html}
 
 </body>
 </html>
