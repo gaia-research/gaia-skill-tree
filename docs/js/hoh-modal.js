@@ -193,7 +193,7 @@
         var a = document.createElement('a');
         a.href = ns.ogPath;
         var skillIdShort = ns.id.split('/').pop();
-        a.download = ns.contributor + '-' + skillIdShort + '.png';
+        a.download = ns.contributor + '-' + skillIdShort + '.svg';
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
