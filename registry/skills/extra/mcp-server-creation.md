@@ -28,6 +28,7 @@ Requires an integration target, a supported MCP SDK, tool schemas, authenticatio
 |---|---|---|---|
 | B | https://github.com/anthropics/skills/blob/main/skills/mcp-builder/SKILL.md | codex | 2026-05-10 |
 | B | https://github.com/modelcontextprotocol/python-sdk | codex | 2026-05-10 |
+| B | https://raw.githubusercontent.com/sickn33/antigravity-awesome-skills/main/skills/mcp-builder/SKILL.md | codex | 2026-05-27 |
 
 ## Known Agents
 - Claude
