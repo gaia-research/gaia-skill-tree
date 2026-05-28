@@ -387,7 +387,8 @@ def write_static_badges(out_dir: Path) -> None:
 
 
 def write_sample_badges(rank_colors: dict[int, str], out_dir: Path) -> None:
-    """Write 6 demo rank.svg files (1★ → 6★) used by the badges-page sampler."""
+    """Write 6 demo rank.svg files (1★ → 6★) plus a `unique` sample used by the
+    badges-page sampler."""
     samples_dir = out_dir / "samples"
     samples_dir.mkdir(parents=True, exist_ok=True)
     for n in range(1, 7):
@@ -396,6 +397,11 @@ def write_sample_badges(rank_colors: dict[int, str], out_dir: Path) -> None:
         value = f"{rank_name} · {n}★" if n < 6 else f"{rank_name} · 6★"
         svg = badge_simple(value, color, f"Gaia rank sample: {rank_name} ({n} stars)")
         (samples_dir / f"rank-{n}.svg").write_text(svg, encoding="utf-8")
+    # Unique tier (purple) — not part of the 1–6 ramp; rendered with the
+    # tier-unique purple from docs/css/tokens.css.
+    unique_value = "Unique"
+    unique_svg = badge_simple(unique_value, "#7c3aed", "Gaia rank sample: Unique")
+    (samples_dir / "rank-unique.svg").write_text(unique_svg, encoding="utf-8")
 
 
 def extract_repo(url: str) -> str | None:

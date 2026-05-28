@@ -122,7 +122,9 @@
       border-top: 1px solid var(--border);
     }
     .bd-sampler-img-slot {
-      width: 152px;
+      /* Widen so the longest sample ("Transcendent · 5★") doesn't crowd the
+         cycle button on its right. Empirical: 5★ badge ≈ 188px; pad to 200px. */
+      width: 200px;
       flex-shrink: 0;
       display: flex;
       align-items: center;
@@ -804,6 +806,7 @@
       { n: 4, label: "Hardened · 4★" },
       { n: 5, label: "Transcendent · 5★" },
       { n: 6, label: "Apex · 6★" },
+      { n: "unique", label: "Unique" },
     ];
     let samplerIdx = 0;
     const samplerImg = document.getElementById("bd-sampler-img");
