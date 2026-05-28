@@ -258,7 +258,8 @@ def _field_handle_row(ns: dict, rel: str = "../../u/") -> str:
     )
     if not contributor_link:
         return ""
-    return f'<div class="plaque__handle plaque-contrib-row">{contributor_link}</div>'
+    origin_badge = _field_origin_star(ns)
+    return f'<div class="plaque__handle plaque-contrib-row">{contributor_link}{origin_badge}</div>'
 
 
 def _field_description(ns: dict) -> str:
@@ -325,17 +326,13 @@ def _field_gh_link(ns: dict) -> str:
 def _field_origin_star(ns: dict) -> str:
     if not ns.get("origin"):
         return ""
-    # Stage 4 — SVG sprite-driven origin badge, mirrors plaque.js _fieldOriginBadge exactly.
+    # SVG sprite-driven origin badge shown inline beside @handle
     return (
         '<span class="plaque__origin ns-origin"'
         ' data-tooltip="Origin contributor: The creator of the first skill version"'
-        ' aria-label="Origin contributor: The creator of the first skill version">'
-        f'<svg class="ico" width="16" height="16" aria-hidden="true">'
+        ' aria-label="Origin contributor">'
+        f'<svg class="ico" width="14" height="14" aria-hidden="true">'
         f'<use href="{ICON_SPRITE_REL}#origin-badge"></use></svg>'
-        '<span class="origin-info" style="margin-left:3px;color:var(--muted);opacity:.7">'
-        f'<svg class="ico" width="10" height="10" aria-hidden="true">'
-        f'<use href="{ICON_SPRITE_REL}#info"></use></svg>'
-        "</span>"
         "</span>"
     )
 
@@ -396,7 +393,6 @@ def plaque_tile_html(ns: dict) -> str:
         '<div class="plaque__header plaque-header">'
         + _field_orb(ns)
         + _field_rank(ns, "chip")
-        + _field_origin_star(ns)
         + _field_gh_link(ns)
         + "</div>"
     )
@@ -454,7 +450,6 @@ def plaque_settled_html(ns: dict, handle: str = "") -> str:
         '<div class="plaque__header plaque-header">'
         + _field_orb(ns)
         + _field_rank(ns, "chip")
-        + _field_origin_star(ns)
         + _field_gh_link(ns)
         + "</div>"
     )
@@ -641,9 +636,12 @@ FOOTER_HTML = f"""<footer>
 
 
 SIDEBAR_HTML = """<aside class="profile-sidebar" id="profileSidebar" aria-label="Filters">
-  <!-- Search -->
+  <!-- Search row with close button -->
   <div class="profile-sidebar-section">
-    <label class="profile-filter-legend" for="profileSearch" style="float:none; display:block; margin-bottom:0.5rem;">Search</label>
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+      <label class="profile-filter-legend" for="profileSearch" style="margin:0;">Search</label>
+      <button type="button" class="profile-sidebar-close" id="sidebarCloseBtn" aria-label="Close filters" style="background:none;border:none;color:var(--muted);cursor:pointer;padding:2px;display:inline-flex;align-items:center;"><svg class="ico" width="16" height="16" aria-hidden="true"><use href="../../assets/icons.svg#close-x"/></svg></button>
+    </div>
     <input type="search" id="profileSearch" class="sidebar-search-input" placeholder="Search implementations…" autocomplete="off" aria-label="Search skills">
   </div>
 
@@ -651,10 +649,10 @@ SIDEBAR_HTML = """<aside class="profile-sidebar" id="profileSidebar" aria-label=
   <fieldset class="profile-filter-group" data-filter-type="type">
     <legend class="profile-filter-legend">Type</legend>
     <div style="display:flex; flex-wrap:wrap; gap:0.4rem; width:100%;">
-      <button class="profile-filter-chip" type="button" data-value="basic" aria-pressed="false">Basic</button>
-      <button class="profile-filter-chip" type="button" data-value="extra" aria-pressed="false">Extra</button>
-      <button class="profile-filter-chip" type="button" data-value="unique" aria-pressed="false">Unique</button>
-      <button class="profile-filter-chip" type="button" data-value="ultimate" aria-pressed="false">Ultimate</button>
+      <button class="profile-filter-chip" type="button" data-value="basic" aria-pressed="false"><svg class="ico" width="13" height="13" aria-hidden="true" style="vertical-align:middle;margin-right:3px"><use href="../../assets/icons.svg#tier-glyph-basic"/></svg>Basic</button>
+      <button class="profile-filter-chip" type="button" data-value="extra" aria-pressed="false"><svg class="ico" width="13" height="13" aria-hidden="true" style="vertical-align:middle;margin-right:3px"><use href="../../assets/icons.svg#tier-glyph-extra"/></svg>Extra</button>
+      <button class="profile-filter-chip" type="button" data-value="unique" aria-pressed="false"><svg class="ico" width="13" height="13" aria-hidden="true" style="vertical-align:middle;margin-right:3px"><use href="../../assets/icons.svg#tier-glyph-unique"/></svg>Unique</button>
+      <button class="profile-filter-chip" type="button" data-value="ultimate" aria-pressed="false"><svg class="ico" width="13" height="13" aria-hidden="true" style="vertical-align:middle;margin-right:3px"><use href="../../assets/icons.svg#tier-glyph-ultimate"/></svg>Ultimate</button>
     </div>
   </fieldset>
 
@@ -848,7 +846,6 @@ def build_profile_page(handle: str, skills: list, named_index: dict | None = Non
     if named_index is None:
         named_index = _build_named_index_for_handle(skills)
 
-    activity_section_html = build_activity_log(tree, named_index)
     timeline_section_html = _build_timeline_section(tree, named_index)
     share_modal_html = _build_share_modal()
     skill_explorer_modal_html = _build_skill_explorer_modal()
@@ -928,8 +925,11 @@ def build_profile_page(handle: str, skills: list, named_index: dict | None = Non
         </div>
       </section>
 
-      <!-- ─── ACTIVITY LOG ─── -->
-      {activity_section_html}
+      <!-- ─── ADD MORE SKILLS CTA ─── -->
+      <div class="profile-add-skills-cta">
+        <p>Want to add more skills?</p>
+        <a href="../../index.html#paths" class="profile-cta-link">Register your repo →</a>
+      </div>
     </main>
 
     {SIDEBAR_HTML}

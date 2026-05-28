@@ -1676,7 +1676,7 @@ button.plaque__slug:focus-visible {
   display: block;
 }
 .profile-timeline:hover {
-  cursor: crosshair;
+  cursor: default;
 }
 
 /* ── Activity log ─────────────────────────────────────────────── */
@@ -1864,11 +1864,11 @@ button.plaque__slug:focus-visible {
 }
 .profile-sidebar {
   position: fixed;
-  top: 0;
+  top: 58px;
   right: -320px;
   width: 280px;
-  height: 100vh;
-  max-height: 100vh;
+  height: calc(100vh - 58px);
+  max-height: calc(100vh - 58px);
   border-radius: 0;
   border-left: 1px solid var(--border, #1e293b);
   border-top: none; border-bottom: none; border-right: none;
@@ -2094,19 +2094,37 @@ button.plaque__slug:focus-visible {
 }
 .profile-empty-reset:hover { border-color: var(--tier-basic, #38bdf8); }
 
-/* Desktop: sidebar always visible as a persistent right panel */
+/* ── Add-more-skills CTA ──────────────────────────────────────── */
+.profile-add-skills-cta {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: var(--muted, #64748b);
+  font-family: var(--font-mono, monospace);
+  font-size: 0.82rem;
+}
+.profile-add-skills-cta p {
+  margin: 0 0 0.5rem;
+}
+.profile-cta-link {
+  color: var(--tier-basic, #38bdf8);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s;
+}
+.profile-cta-link:hover {
+  border-bottom-color: var(--tier-basic, #38bdf8);
+}
+
+/* Origin badge beside handle ──────────────────────────────────── */
+.plaque__handle .plaque__origin {
+  color: var(--honor-red, #ef4444);
+  margin-left: 4px;
+  vertical-align: middle;
+}
+
+/* Desktop: backdrop stays hidden; sidebar and filter button use same slide-in/toggle as mobile */
 @media (min-width: 861px) {
-  .profile-sidebar {
-    right: 0;
-    box-shadow: none;
-  }
   .profile-sidebar-backdrop {
-    display: none !important;
-  }
-  .profile-grid-container {
-    margin-right: 296px;
-  }
-  .profile-timeline-filter-btn {
     display: none !important;
   }
 }

@@ -177,6 +177,8 @@
     if (desktopToggle) desktopToggle.addEventListener('click', toggleSidebar);
     if (mobileToggle) mobileToggle.addEventListener('click', toggleSidebar);
     if (backdrop) backdrop.addEventListener('click', closeSidebar);
+    const sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
+    if (sidebarCloseBtn) sidebarCloseBtn.addEventListener('click', closeSidebar);
 
     // Initial Filter Run
     applyFilters();
@@ -231,9 +233,10 @@
     announceFilterStatus();
 
     // Show inline empty state when every plaque is hidden
-    let emptyState = plaquesGrid.querySelector('.profile-empty-state');
+    let emptyState = document.getElementById('profileEmptyState');
     if (!emptyState) {
       emptyState = document.createElement('p');
+      emptyState.id = 'profileEmptyState';
       emptyState.className = 'profile-empty-state';
       emptyState.innerHTML = 'No skills match these filters. <button type="button" class="profile-empty-reset">Reset</button>';
       emptyState.querySelector('.profile-empty-reset').addEventListener('click', function() {

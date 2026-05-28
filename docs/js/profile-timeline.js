@@ -286,6 +286,20 @@
     };
   }());
 
+  // Rank → color map (1–6, matching DESIGN.md rank palette; 6★ uses rainbow gradient via CSS)
+  var RANK_HEX = (function () {
+    var s = typeof getComputedStyle !== 'undefined' ? getComputedStyle(document.documentElement) : null;
+    function cv(prop, fb) { return s ? (s.getPropertyValue(prop).trim() || fb) : fb; }
+    return {
+      1: cv('--rank-1', '#38bdf8'),
+      2: cv('--rank-2', '#63cab7'),
+      3: cv('--rank-3', '#a78bfa'),
+      4: cv('--rank-4', '#e879f9'),
+      5: cv('--rank-5', '#fbbf24'),
+      6: 'apex',
+    };
+  }());
+
   var ACTION_CHIP = {
     register: 'register', propose: 'propose', add: 'add',
     rank_up: 'rank_up', rank_down: 'demote', rank_retain: 'default',
@@ -704,7 +718,25 @@
 
         var nameEl = document.createElement('span');
         nameEl.className = 'ptl2__skill-name';
-        nameEl.textContent = ev.skillName || ev.skillId || '';
+        var rawId = ev.skillId || '';
+        var shortSlug = rawId.includes('/') ? rawId.split('/').pop() : rawId;
+        nameEl.textContent = '/' + shortSlug;
+        nameEl.title = ev.skillName || rawId;
+        // Color by current rank; EB Garamond for the typographic slash-name look
+        nameEl.style.fontFamily = "'EB Garamond', Georgia, serif";
+        nameEl.style.fontWeight = '500';
+        nameEl.style.fontSize = '0.9rem';
+        var rankNum = ev.newValue ? parseRank(ev.newValue) : 0;
+        var rankColor = RANK_HEX[rankNum];
+        if (rankColor === 'apex') {
+          nameEl.style.backgroundImage = 'linear-gradient(90deg,#fbbf24,#f59e0b,#e879f9,#a78bfa,#38bdf8)';
+          nameEl.style.webkitBackgroundClip = 'text';
+          nameEl.style.backgroundClip = 'text';
+          nameEl.style.webkitTextFillColor = 'transparent';
+          nameEl.style.color = 'transparent';
+        } else if (rankColor) {
+          nameEl.style.color = rankColor;
+        }
         head.appendChild(nameEl);
 
         var chip = document.createElement('span');
@@ -991,6 +1023,38 @@
         });
       });
     }
+
+    // Wire click handlers on feed event rows to highlight the timeline
+    var pinnedSkillId = null;
+    var feedRows = container.querySelectorAll('.ptl2__event[data-skill-id]');
+    feedRows.forEach(function (row) {
+      row.style.cursor = 'pointer';
+      row.addEventListener('click', function () {
+        var skillId = row.getAttribute('data-skill-id');
+        if (!skillId) return;
+        if (pinnedSkillId === skillId) {
+          // Deselect — restore all chart opacities and legend
+          pinnedSkillId = null;
+          feedRows.forEach(function (r) { r.classList.remove('is-highlighted'); });
+          Object.keys(skillGroups).forEach(function (sid) { skillGroups[sid].style.opacity = ''; });
+          var legendItem = container.querySelector('.ptl2__legend-item[data-skill-id="' + skillId + '"]');
+          if (legendItem) legendItem.classList.remove('is-highlighted');
+          return;
+        }
+        pinnedSkillId = skillId;
+        feedRows.forEach(function (r) { r.classList.remove('is-highlighted'); });
+        row.classList.add('is-highlighted');
+        // Highlight matching chart curve, dim others
+        Object.keys(skillGroups).forEach(function (sid) {
+          skillGroups[sid].style.opacity = (sid === skillId) ? '1.0' : '0.15';
+        });
+        // Highlight matching legend item
+        var prevLegend = container.querySelector('.ptl2__legend-item.is-highlighted');
+        if (prevLegend) prevLegend.classList.remove('is-highlighted');
+        var legendItem = container.querySelector('.ptl2__legend-item[data-skill-id="' + skillId + '"]');
+        if (legendItem) legendItem.classList.add('is-highlighted');
+      });
+    });
   }
 
   function _auto() {

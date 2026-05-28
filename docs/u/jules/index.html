@@ -100,85 +100,20 @@
         </div>
       </section>
 
-      <!-- ─── ACTIVITY LOG ─── -->
-      <section class="profile-section" id="profile-activity">
-  <h2 class="profile-section-title">Activity</h2>
-  <p class="profile-section-sub">Recent progression events from this contributor's skill tree.</p>
-  <ul class="profile-activity-list">
-    <li class="profile-activity-item" data-action="register" data-skill-id="jules/langgenius/backend-code-review">
-      <time class="profile-activity-time" datetime="2026-05-25T00:00:00Z">May 2026</time>
-      <span class="profile-activity-action">REGISTER</span>
-      <span class="profile-activity-skill">/Backend Code Review</span>
-      <span class="profile-activity-change">→ 2★</span>
-    </li>
-    <li class="profile-activity-item" data-action="register" data-skill-id="jules/langgenius/component-refactoring">
-      <time class="profile-activity-time" datetime="2026-05-25T00:00:00Z">May 2026</time>
-      <span class="profile-activity-action">REGISTER</span>
-      <span class="profile-activity-skill">/Component Refactoring</span>
-      <span class="profile-activity-change">→ 2★</span>
-    </li>
-    <li class="profile-activity-item" data-action="register" data-skill-id="jules/langgenius/e2e-cucumber-playwright">
-      <time class="profile-activity-time" datetime="2026-05-25T00:00:00Z">May 2026</time>
-      <span class="profile-activity-action">REGISTER</span>
-      <span class="profile-activity-skill">/E2E Cucumber Playwright</span>
-      <span class="profile-activity-change">→ 2★</span>
-    </li>
-    <li class="profile-activity-item" data-action="register" data-skill-id="jules/langgenius/frontend-code-review">
-      <time class="profile-activity-time" datetime="2026-05-25T00:00:00Z">May 2026</time>
-      <span class="profile-activity-action">REGISTER</span>
-      <span class="profile-activity-skill">/Frontend Code Review</span>
-      <span class="profile-activity-change">→ 2★</span>
-    </li>
-    <li class="profile-activity-item" data-action="register" data-skill-id="jules/langgenius/frontend-testing">
-      <time class="profile-activity-time" datetime="2026-05-25T00:00:00Z">May 2026</time>
-      <span class="profile-activity-action">REGISTER</span>
-      <span class="profile-activity-skill">/Frontend Testing</span>
-      <span class="profile-activity-change">→ 2★</span>
-    </li>
-    <li class="profile-activity-item" data-action="evidence_added" data-skill-id="autonomous-debug">
-      <time class="profile-activity-time" datetime="2026-05-18T09:04:22Z">May 2026</time>
-      <span class="profile-activity-action">EVIDENCE ADDED</span>
-      <span class="profile-activity-skill">/autonomous-debug</span>
-      <span class="profile-activity-change">→ 4★</span>
-    </li>
-    <li class="profile-activity-item" data-action="demote" data-skill-id="ghostwrite">
-      <time class="profile-activity-time" datetime="2026-05-18T09:04:22Z">May 2026</time>
-      <span class="profile-activity-action">DEMOTE</span>
-      <span class="profile-activity-skill">/ghostwrite</span>
-      <span class="profile-activity-change">4★ → 1★</span>
-    </li>
-    <li class="profile-activity-item" data-action="demote" data-skill-id="knowledge-harvest">
-      <time class="profile-activity-time" datetime="2026-05-18T09:04:22Z">May 2026</time>
-      <span class="profile-activity-action">DEMOTE</span>
-      <span class="profile-activity-skill">/knowledge-harvest</span>
-      <span class="profile-activity-change">4★ → 1★</span>
-    </li>
-    <li class="profile-activity-item" data-action="evidence_added" data-skill-id="multi-agent-orchestration-v">
-      <time class="profile-activity-time" datetime="2026-05-18T09:04:22Z">May 2026</time>
-      <span class="profile-activity-action">EVIDENCE ADDED</span>
-      <span class="profile-activity-skill">/multi-agent-orchestration-v</span>
-      <span class="profile-activity-change">→ 5★</span>
-    </li>
-    <li class="profile-activity-item" data-action="evidence_added" data-skill-id="plan-and-execute">
-      <time class="profile-activity-time" datetime="2026-05-18T09:04:22Z">May 2026</time>
-      <span class="profile-activity-action">EVIDENCE ADDED</span>
-      <span class="profile-activity-skill">/plan-and-execute</span>
-      <span class="profile-activity-change">→ 4★</span>
-    </li>
-    <li class="profile-activity-item" data-action="demote" data-skill-id="recursive-self-improvement">
-      <time class="profile-activity-time" datetime="2026-05-18T09:04:22Z">May 2026</time>
-      <span class="profile-activity-action">DEMOTE</span>
-      <span class="profile-activity-skill">/recursive-self-improvement</span>
-      <span class="profile-activity-change">5★ → 1★</span>
-    </li>
-  </ul>
-</section>
+      <!-- ─── ADD MORE SKILLS CTA ─── -->
+      <div class="profile-add-skills-cta">
+        <p>Want to add more skills?</p>
+        <a href="../../index.html#paths" class="profile-cta-link">Register your repo →</a>
+      </div>
     </main>
 
     <aside class="profile-sidebar" id="profileSidebar" aria-label="Filters">
-  <!-- Search -->
+  <!-- Search row with close button -->
   <div class="profile-sidebar-section">
-    <label class="profile-filter-legend" for="profileSearch" style="float:none; display:block; margin-bottom:0.5rem;">Search</label>
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+      <label class="profile-filter-legend" for="profileSearch" style="margin:0;">Search</label>
+      <button type="button" class="profile-sidebar-close" id="sidebarCloseBtn" aria-label="Close filters" style="background:none;border:none;color:var(--muted);cursor:pointer;padding:2px;display:inline-flex;align-items:center;"><svg class="ico" width="16" height="16" aria-hidden="true"><use href="../../assets/icons.svg#close-x"/></svg></button>
+    </div>
     <input type="search" id="profileSearch" class="sidebar-search-input" placeholder="Search implementations…" autocomplete="off" aria-label="Search skills">
   </div>
 
@@ -186,10 +121,10 @@
   <fieldset class="profile-filter-group" data-filter-type="type">
     <legend class="profile-filter-legend">Type</legend>
     <div style="display:flex; flex-wrap:wrap; gap:0.4rem; width:100%;">
-      <button class="profile-filter-chip" type="button" data-value="basic" aria-pressed="false">Basic</button>
-      <button class="profile-filter-chip" type="button" data-value="extra" aria-pressed="false">Extra</button>
-      <button class="profile-filter-chip" type="button" data-value="unique" aria-pressed="false">Unique</button>
-      <button class="profile-filter-chip" type="button" data-value="ultimate" aria-pressed="false">Ultimate</button>
+      <button class="profile-filter-chip" type="button" data-value="basic" aria-pressed="false"><svg class="ico" width="13" height="13" aria-hidden="true" style="vertical-align:middle;margin-right:3px"><use href="../../assets/icons.svg#tier-glyph-basic"/></svg>Basic</button>
+      <button class="profile-filter-chip" type="button" data-value="extra" aria-pressed="false"><svg class="ico" width="13" height="13" aria-hidden="true" style="vertical-align:middle;margin-right:3px"><use href="../../assets/icons.svg#tier-glyph-extra"/></svg>Extra</button>
+      <button class="profile-filter-chip" type="button" data-value="unique" aria-pressed="false"><svg class="ico" width="13" height="13" aria-hidden="true" style="vertical-align:middle;margin-right:3px"><use href="../../assets/icons.svg#tier-glyph-unique"/></svg>Unique</button>
+      <button class="profile-filter-chip" type="button" data-value="ultimate" aria-pressed="false"><svg class="ico" width="13" height="13" aria-hidden="true" style="vertical-align:middle;margin-right:3px"><use href="../../assets/icons.svg#tier-glyph-ultimate"/></svg>Ultimate</button>
     </div>
   </fieldset>
 
