@@ -349,6 +349,166 @@
       accent-color: var(--rank-5, #fbbf24);
       cursor: pointer;
     }
+    /* Visually separate the "Hide Gaia" toggle (it changes appearance,
+       not which badges are included) by pushing it to the row's end and
+       muting its label until the user has touched it. */
+    .bd-check-seal-wrap {
+      margin-left: auto;
+      padding-left: .8rem;
+      border-left: 1px dashed var(--border);
+      color: var(--muted);
+    }
+    .bd-check-seal-wrap:has(input:checked) { color: var(--text); }
+    @media (max-width: 480px) {
+      .bd-check-seal-wrap {
+        margin-left: 0;
+        padding-left: 0;
+        border-left: none;
+        width: 100%;
+        padding-top: .55rem;
+        border-top: 1px dashed var(--border);
+      }
+    }
+
+    /* ── Validating-state explainer ── */
+    .bd-validating-note {
+      margin-top: .9rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: rgba(15, 23, 42, .35);
+      overflow: hidden;
+    }
+    .bd-validating-note > summary {
+      list-style: none;
+      cursor: pointer;
+      padding: .55rem .85rem;
+      font-family: var(--font-mono);
+      font-size: .76rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: .45rem;
+      user-select: none;
+      transition: color .12s, background .12s;
+    }
+    .bd-validating-note > summary:hover { color: var(--text); }
+    .bd-validating-note > summary::-webkit-details-marker { display: none; }
+    .bd-validating-note[open] > summary {
+      color: var(--text);
+      border-bottom: 1px solid var(--border);
+    }
+    .bd-validating-body {
+      padding: .65rem .9rem .85rem;
+      font-size: .82rem;
+      line-height: 1.55;
+      color: var(--muted);
+    }
+    .bd-validating-body p { margin: .35rem 0; }
+    .bd-validating-body code {
+      font-family: var(--font-mono);
+      font-size: .78rem;
+      background: rgba(251, 191, 36, .08);
+      padding: 1px 5px;
+      border-radius: 3px;
+      color: var(--text);
+    }
+    .bd-validating-body strong { color: var(--rank-5, #fbbf24); }
+
+    /* ── CTA block (register repo / open README) ── */
+    .bd-cta-block {
+      margin-top: .9rem;
+      padding: .95rem 1.05rem;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: linear-gradient(135deg, rgba(239, 68, 68, .04), rgba(251, 191, 36, .04));
+    }
+    .bd-cta-block.bd-cta-register {
+      border-color: rgba(239, 68, 68, .35);
+      background: linear-gradient(135deg, rgba(239, 68, 68, .08), rgba(15, 23, 42, .35));
+    }
+    .bd-cta-title {
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: .92rem;
+      color: var(--text);
+      margin: 0 0 .35rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+    .bd-cta-title .bd-cta-icon {
+      flex-shrink: 0;
+      color: var(--honor-red, #ef4444);
+    }
+    .bd-cta-sub {
+      font-size: .82rem;
+      line-height: 1.55;
+      color: var(--muted);
+      margin: 0 0 .65rem;
+    }
+    .bd-cta-sub code {
+      font-family: var(--font-mono);
+      font-size: .78rem;
+      background: rgba(15, 23, 42, .55);
+      padding: 1px 5px;
+      border-radius: 3px;
+      color: var(--text);
+    }
+    .bd-cta-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .45rem;
+    }
+    .bd-cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      padding: .45rem .85rem;
+      font-family: var(--font-mono);
+      font-size: .78rem;
+      letter-spacing: .03em;
+      background: rgba(15, 23, 42, .65);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: border-color .12s, background .12s, color .12s;
+    }
+    .bd-cta-btn:hover {
+      border-color: var(--rank-5, #fbbf24);
+      background: rgba(251, 191, 36, .08);
+    }
+    .bd-cta-btn-primary {
+      background: var(--honor-red, #ef4444);
+      border-color: var(--honor-red, #ef4444);
+      color: #fff;
+    }
+    .bd-cta-btn-primary:hover {
+      background: #dc2626;
+      border-color: #dc2626;
+      color: #fff;
+    }
+    .bd-cta-repo-row {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      padding: .35rem 0;
+      font-family: var(--font-mono);
+      font-size: .82rem;
+      color: var(--muted);
+    }
+    .bd-cta-repo-row + .bd-cta-repo-row {
+      border-top: 1px dashed var(--border);
+    }
+    .bd-cta-repo-name {
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: var(--text);
+    }
     .bd-checks-label {
       width: 100%;
       font-family: var(--font-mono);
@@ -597,6 +757,8 @@
         <img src="./mbtiongson1/handle.svg" alt="Owner identity badge" onerror="this.style.display='none'">
         <img src="./mbtiongson1/rank.svg" alt="Owner rank badge">
         <img src="./mbtiongson1/skills.svg" alt="Owner skills count badge">
+        <span class="bd-live-label" style="margin-left: .4rem;">seal-only</span>
+        <img src="./mbtiongson1/handle-seal.svg" alt="Owner identity badge — seal-only variant" onerror="this.style.display='none'">
       </div>
     </section>
 
@@ -675,7 +837,41 @@
                   <input type="checkbox" id="bd-check-skills" checked>
                   Skills
                 </label>
+                <label class="bd-check-label bd-check-seal-wrap" id="bd-check-seal-wrap" title="Render badges with just the diamond seal — no &quot;Gaia&quot; wordmark next to it.">
+                  <input type="checkbox" id="bd-check-seal">
+                  Hide &ldquo;Gaia&rdquo;
+                </label>
               </div>
+
+              <!-- 3b. CTA block — register repo OR open README on each approved repo -->
+              <div id="bd-cta-block" class="bd-cta-block" style="display:none;"></div>
+
+              <!-- 3c. Validating-state explainer — folds open when a badge URL with ?repo= is in the rows -->
+              <details id="bd-validating-note" class="bd-validating-note">
+                <summary>
+                  <svg class="ico" width="13" height="13" aria-hidden="true"><use href="../assets/icons.svg#info"/></svg>
+                  Why might my badge appear blank in my README?
+                </summary>
+                <div class="bd-validating-body">
+                  <p>
+                    Gaia validates each badge against the repo it&rsquo;s embedded in &mdash; the
+                    <code>?repo=</code> query in your markdown must match a repo registered to your
+                    handle (see <code>links.github</code> on your skill&rsquo;s frontmatter).
+                  </p>
+                  <p>
+                    If the repo isn&rsquo;t registered yet, you&rsquo;ll see a faint
+                    <em>&ldquo;validating&hellip;&rdquo;</em> badge instead of your real one.
+                    <strong>Allow up to 24 hours</strong> after registering a new repo for the badge
+                    to go live &mdash; GitHub&rsquo;s image proxy caches badge images for that
+                    long, and so does our edge cache to match.
+                  </p>
+                  <p>
+                    To check immediately: load the badge URL directly in a new tab. If you see your
+                    real Gaia badge, it&rsquo;s already valid &mdash; only GitHub&rsquo;s cache is
+                    stale, and a hard-refresh of your repo will pick up the change.
+                  </p>
+                </div>
+              </details>
 
               <!-- 4. Per-badge rows with Copy All -->
               <div id="bd-rows"></div>
@@ -781,6 +977,19 @@
     const chkHandle   = document.getElementById("bd-check-handle");
     const chkRank     = document.getElementById("bd-check-rank");
     const chkSkills   = document.getElementById("bd-check-skills");
+    const chkSeal     = document.getElementById("bd-check-seal");
+    const ctaBlock    = document.getElementById("bd-cta-block");
+
+    // Persist the "Hide Gaia" toggle across page loads.
+    const SEAL_STORAGE_KEY = "gaia.badges.sealOnly";
+    try {
+      chkSeal.checked = localStorage.getItem(SEAL_STORAGE_KEY) === "1";
+    } catch { /* private mode / disabled storage */ }
+    chkSeal.addEventListener("change", () => {
+      try {
+        localStorage.setItem(SEAL_STORAGE_KEY, chkSeal.checked ? "1" : "0");
+      } catch { /* ignore */ }
+    });
 
     // ── Clear button + sampler visibility ───────────────────────────────────
     handleInput.addEventListener("input", () => {
@@ -811,15 +1020,27 @@
     let samplerIdx = 0;
     const samplerImg = document.getElementById("bd-sampler-img");
     const samplerLbl = document.getElementById("bd-sampler-lbl");
+    function sampleSrc(n) {
+      // Sampler honours the Hide-Gaia toggle so the empty-state preview
+      // matches what the user will see in their README.
+      const suffix = chkSeal.checked ? "-seal" : "";
+      return `./samples/rank-${n}${suffix}.svg`;
+    }
+    function refreshSamplerImg() {
+      const r = SAMPLER_RANKS[samplerIdx];
+      samplerImg.src = sampleSrc(r.n);
+      if (currentState.handle === "gaia-bot") {
+        badges.innerHTML = `<img src="${sampleSrc(r.n)}" alt="${r.label}" style="height:20px;display:block;">`;
+      }
+    }
     document.getElementById("bd-sampler-btn").addEventListener("click", () => {
       samplerIdx = (samplerIdx + 1) % SAMPLER_RANKS.length;
-      const r = SAMPLER_RANKS[samplerIdx];
-      samplerImg.src = `./samples/rank-${r.n}.svg`;
-      samplerLbl.textContent = r.label;
-      if (currentState.handle === "gaia-bot") {
-        badges.innerHTML = `<img src="./samples/rank-${r.n}.svg" alt="${r.label}" style="height:20px;display:block;">`;
-      }
+      samplerLbl.textContent = SAMPLER_RANKS[samplerIdx].label;
+      refreshSamplerImg();
     });
+    chkSeal.addEventListener("change", refreshSamplerImg);
+    // Apply persisted seal-toggle to the initial sampler image on load.
+    refreshSamplerImg();
 
     // ── Generic copy ─────────────────────────────────────────────────────────
     wireCopyBtn(document.getElementById("bd-generic-copy"),
@@ -876,7 +1097,7 @@
     };
 
     // ── Checkbox change → re-render rows ─────────────────────────────────────
-    [chkHandle, chkRank, chkSkills].forEach(cb => cb.addEventListener("change", renderRows));
+    [chkHandle, chkRank, chkSkills, chkSeal].forEach(cb => cb.addEventListener("change", renderRows));
 
     // ── Per-badge rows renderer ───────────────────────────────────────────────
     function renderRows() {
@@ -885,31 +1106,39 @@
       badges.innerHTML = "";
 
       const q = selectedRepo ? `?repo=${encodeURIComponent(selectedRepo)}` : "";
+      // Map a wordmark filename to its seal-only sibling. The generator
+      // guarantees both exist; if seal is checked, every URL swaps.
+      const sealify = (file) => chkSeal.checked
+        ? file.replace(/\.svg$/, "-seal.svg")
+        : file;
       const files = (pickedFiles && pickedFiles.length) ? pickedFiles : ["handle.svg"];
 
       const entries = [];
       if (hasHandle && chkHandle.checked) {
         files.forEach((file) => {
-          const url = `${BASE}/badges/${handle}/${file}${q}`;
+          const sealed = sealify(file);
+          const url = `${BASE}/badges/${handle}/${sealed}${q}`;
           entries.push({
-            localSrc: `./${handle}/${file}`,
+            localSrc: `./${handle}/${sealed}`,
             alt: `@${handle} on Gaia`,
             md: `[![Gaia](${url})](${linkTarget})`,
           });
         });
       }
       if (hasRank && chkRank.checked) {
-        const url = `${BASE}/badges/${handle}/rank.svg${q}`;
+        const sealed = sealify("rank.svg");
+        const url = `${BASE}/badges/${handle}/${sealed}${q}`;
         entries.push({
-          localSrc: `./${handle}/rank.svg`,
+          localSrc: `./${handle}/${sealed}`,
           alt: "Gaia rank",
           md: `[![Gaia rank](${url})](${linkTarget})`,
         });
       }
       if (hasSkills && chkSkills.checked) {
-        const url = `${BASE}/badges/${handle}/skills.svg${q}`;
+        const sealed = sealify("skills.svg");
+        const url = `${BASE}/badges/${handle}/${sealed}${q}`;
         entries.push({
-          localSrc: `./${handle}/skills.svg`,
+          localSrc: `./${handle}/${sealed}`,
           alt: "Gaia skills",
           md: `[![Gaia skills](${url})](${linkTarget})`,
         });
@@ -1246,7 +1475,9 @@
 
       document.getElementById("readme-sim-title").textContent = "my-project";
       rowsEl.innerHTML = "";
-      badges.innerHTML = `<img src="./samples/rank-1.svg" alt="Awakened · 1★" style="height:20px;display:block;">`;
+      const seedSampleSrc = sampleSrc(SAMPLER_RANKS[samplerIdx].n);
+      const seedLabel = SAMPLER_RANKS[samplerIdx].label;
+      badges.innerHTML = `<img src="${seedSampleSrc}" alt="${seedLabel}" style="height:20px;display:block;">`;
 
       // Show rank checkbox only; no copy buttons in seed state
       checksEl.classList.add("is-visible");
@@ -1259,13 +1490,14 @@
       item.className = "bd-row-item";
       const thumb = document.createElement("div");
       thumb.className = "bd-row-badge";
-      thumb.innerHTML = `<img src="./samples/rank-1.svg" alt="Awakened · 1★">`;
+      thumb.innerHTML = `<img src="${seedSampleSrc}" alt="${seedLabel}">`;
       item.appendChild(thumb);
       const row = document.createElement("div");
       row.className = "usp-row";
       const code = document.createElement("code");
       code.className = "usp-cmd";
-      code.textContent = `[![Gaia rank](${BASE}/badges/gaia-bot/rank.svg)](${linkTarget})`;
+      const seedFile = chkSeal.checked ? "rank-seal.svg" : "rank.svg";
+      code.textContent = `[![Gaia rank](${BASE}/badges/gaia-bot/${seedFile})](${linkTarget})`;
       row.appendChild(code);
       item.appendChild(row);
       rowsEl.appendChild(item);
