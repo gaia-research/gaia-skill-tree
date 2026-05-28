@@ -960,14 +960,38 @@ def collect_by_contributor(data: dict) -> dict:
     return by_handle
 
 
+def _peak_rank_to_tier(peak: int) -> tuple[int, str]:
+    """Map a contributor's peak rank (1-6) to a tier index and display label.
+
+    Returns (tier_index, tier_title) where tier_index is 1-4 used for
+    data-tier attribute styling. Contributors with peak rank 0 (no rated
+    skills yet) are grouped with Tier I — Foundations.
+    """
+    if peak >= 6:
+        return 4, "Tier IV — Apex"
+    if peak >= 5:
+        return 3, "Tier III — Originators"
+    if peak >= 3:
+        return 2, "Tier II — Builders"
+    return 1, "Tier I — Foundations"
+
+
 def build_directory_page(by_contributor: dict) -> str:
-    """Build the full HTML for the contributors directory page at docs/u/index.html."""
+    """Build the full HTML for the contributors directory page at docs/u/index.html.
+
+    Contributors are grouped into tier sections by their peak rank so visitors
+    see Apex/Originators/Builders/Foundations bands rather than a flat wall of
+    handles. Cards within each tier are sorted alphabetically by handle.
+    """
     total_contributors = len(by_contributor)
     total_skills = sum(len(skills) for skills in by_contributor.values())
 
-    cards_list = []
-    
-    # Sort contributors alphabetically by handle
+    # Group contributors by tier (derived from peak rank). Tier 4 = Apex (6★+),
+    # Tier 3 = Originators (5★), Tier 2 = Builders (3-4★), Tier 1 = Foundations (1-2★).
+    tier_buckets: dict[int, list[tuple[str, str]]] = {1: [], 2: [], 3: [], 4: []}
+    tier_titles: dict[int, str] = {}
+
+    # Sort contributors alphabetically by handle (stable secondary sort)
     for handle, skills in sorted(by_contributor.items(), key=lambda x: x[0].lower()):
         skill_count = len(skills)
         s_suffix = "s" if skill_count != 1 else ""
@@ -1041,9 +1065,27 @@ def build_directory_page(by_contributor: dict) -> str:
         <svg class="ico" width="12" height="12" aria-hidden="true" style="transform: rotate(180deg);"><use href="../assets/icons.svg#arrow-back"/></svg>
       </a>
     </article>"""
-        cards_list.append(card_html)
+        tier_idx, tier_title = _peak_rank_to_tier(max_level)
+        tier_buckets[tier_idx].append((handle, card_html))
+        tier_titles[tier_idx] = tier_title
 
-    contributors_cards_html = "\n".join(cards_list)
+    # Render tier sections, top tier (Apex) first so visitors see the heaviest
+    # hitters before scrolling down to Foundations.
+    tier_sections = []
+    for tier_idx in (4, 3, 2, 1):
+        bucket = tier_buckets.get(tier_idx, [])
+        if not bucket:
+            continue
+        title = tier_titles.get(tier_idx, "")
+        cards_html = "\n".join(card for _handle, card in bucket)
+        tier_sections.append(
+            f'    <section class="directory-tier" data-tier="{tier_idx}">\n'
+            f'      <h2 class="directory-tier__title">{html.escape(title)}</h2>\n'
+            f'      <div class="plaque-grid">\n{cards_html}\n      </div>\n'
+            f'    </section>'
+        )
+
+    contributors_cards_html = "\n".join(tier_sections)
 
     NAV_DIR_HTML = f"""<nav>
   <a href="../" class="nav-logo" aria-label="Gaia home">
@@ -1135,11 +1177,11 @@ def build_directory_page(by_contributor: dict) -> str:
   <!-- ─── CONTRIBUTORS GRID ─── -->
   <section class="profile-section">
     <div class="directory-controls" style="max-width: 600px; margin: 0 auto 2.5rem; position: relative;">
-      <input type="search" id="directorySearch" class="directory-search" aria-label="Search contributors by handle or skills" placeholder="Search contributors or skills…" autocomplete="off" style="width: 100%; padding: 0.75rem 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-family: var(--font-body); font-size: 0.95rem; outline: none; transition: border-color 0.2s;">
+      <input type="search" id="directorySearch" class="directory-search" aria-label="Search contributors by handle or skills" placeholder="Search contributors or skills…" autocomplete="off">
     </div>
-    
-    <div class="plaque-grid" id="contributorGrid">
-      {contributors_cards_html}
+
+    <div id="contributorGrid">
+{contributors_cards_html}
     </div>
   </section>
 
@@ -1163,14 +1205,15 @@ def build_directory_page(by_contributor: dict) -> str:
               card.setAttribute('hidden', '');
             }}
           }});
-        }});
-        
-        // Add active outline border on focus
-        searchInput.addEventListener('focus', () => {{
-          searchInput.style.borderColor = 'var(--tier-basic)';
-        }});
-        searchInput.addEventListener('blur', () => {{
-          searchInput.style.borderColor = 'var(--border)';
+          // Hide tier sections whose cards are all filtered out
+          document.querySelectorAll('.directory-tier').forEach(section => {{
+            const visible = section.querySelectorAll('.contributor-card:not([hidden])').length;
+            if (visible === 0) {{
+              section.setAttribute('hidden', '');
+            }} else {{
+              section.removeAttribute('hidden');
+            }}
+          }});
         }});
       }}
     }});
