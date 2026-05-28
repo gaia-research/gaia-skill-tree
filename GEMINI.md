@@ -12,6 +12,8 @@ Changes to `registry/named/` or `registry/nodes/` make generated docs stale.
 
 **Alternative Fix (Local):** Run `gaia docs build` and commit the updated files with `[skip-gen]` tag before pushing to avoid CI failure.
 
+**Local dependencies:** `gaia docs build` requires `numpy` + `scipy` (used by `scripts/build_layouts_3d.py` for the 3D layout solve during `tree.md` regen). Install via `pip install -e ".[dev]"` (full kit) or `pip install -e ".[docs]"` (slim — just numpy + scipy). If you skip these, the build fails with `ModuleNotFoundError: No module named 'numpy'` / `'scipy'`, `tree.md` won't regenerate, and `gaia docs build --check` will trip in CI.
+
 ### 2. `links.github` URL must use `blob/` not `tree/`
 
 GitHub directory URLs use `tree/` but the installer only recognizes `blob/branch/subpath`. Convert manually to ensure skills are discoverable.
