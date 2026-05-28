@@ -1521,6 +1521,11 @@
 /* ─── SKILL EXPLORER OVERLAY ─── */
 (function() {
   var treeDialog = document.getElementById('treeDialog');
+  // Bootstrap guard: tree-dialog UI lives only on the homepage. On profile
+  // pages, #treeDialog is absent and any treeDialog.* access below would
+  // throw and silently abort the rest of this IIFE (per CLAUDE.md note on
+  // skill-graph.js PR #365). Early-return keeps profile pages clean.
+  if (!treeDialog) return;
   var treeNavBtn = document.getElementById('treeNavBtn');
   var treeCloseBtn = document.getElementById('treeCloseBtn');
   var treeCopyBtn = document.getElementById('treeCopyBtn');
