@@ -183,46 +183,30 @@
     }
     .bd-skill-picker:focus { outline: none; border-color: var(--rank-5, #fbbf24); }
 
-    /* ── Per-badge copy rows ── */
-    .bd-rows {
-      display: flex;
-      flex-direction: column;
-      gap: .65rem;
-    }
+    /* ── Single copy block ── */
     .bd-snip-row {
       display: flex;
       flex-direction: column;
       gap: .3rem;
     }
-    .bd-snip-label {
-      font-family: var(--font-mono);
-      font-size: .68rem;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
     /* Wider usp-row text for markdown legibility */
-    .bd-rows .usp-row,
+    #bd-rows .usp-row,
     .bd-generic .usp-row {
       font-size: .78rem;
       padding: .5rem .85rem;
       align-items: flex-start;
     }
-    .bd-rows .usp-row .usp-cmd,
-    .bd-generic .usp-row .usp-cmd {
+    #bd-rows .usp-cmd,
+    .bd-generic .usp-cmd {
       white-space: pre-wrap;
       word-break: break-all;
       line-height: 1.5;
       flex: 1;
     }
-    .bd-rows .usp-copy,
+    #bd-rows .usp-copy,
     .bd-generic .usp-copy {
       margin-top: .1rem;
       flex-shrink: 0;
-    }
-    /* Copy-all row accent */
-    .bd-snip-row.is-all .usp-row {
-      border-color: rgba(251,191,36,.4);
     }
 
     /* README Simulator */
@@ -450,8 +434,14 @@
         <div class="bd-gen-preview" id="bd-preview">
           <div class="bd-gen-status" id="bd-status"></div>
 
+          <!-- Skill picker spans full width above the two-col layout -->
+          <div id="bd-picker-wrap" class="bd-skill-picker-wrap" style="display:none;">
+            <div class="bd-skill-picker-label">Showcase your best skill!</div>
+            <select class="bd-skill-picker" id="bd-skill-picker"></select>
+          </div>
+
           <div class="bd-gen-layout">
-            <!-- Left: skill picker + per-badge copy rows -->
+            <!-- Left: repo picker + single copy block -->
             <div class="bd-gen-left">
               <div id="bd-repo-block" style="display:none; margin-bottom: 1.2rem;">
                 <p class="bd-section-lede" style="margin:.4rem 0;">Pick the repo where this badge will live — the URL bakes it in so the validator can flag misuse.</p>
@@ -459,14 +449,8 @@
                 <p class="bd-validate-note" id="bd-validate-note"></p>
               </div>
 
-              <!-- Skill picker (shown when contributor has multiple named skills) -->
-              <div id="bd-picker-wrap" class="bd-skill-picker-wrap" style="display:none;">
-                <div class="bd-skill-picker-label">Named skill for handle badge</div>
-                <select class="bd-skill-picker" id="bd-skill-picker"></select>
-              </div>
-
-              <!-- Per-badge copy rows + Copy All -->
-              <div class="bd-rows" id="bd-rows"></div>
+              <!-- Single copy block (all badge lines in one row) -->
+              <div id="bd-rows"></div>
             </div>
 
             <!-- Right: README simulator -->
@@ -623,31 +607,6 @@
       linkTarget: "", namedSkills: [], pickedFile: "handle.svg",
     };
 
-    function makeRow(labelText, markdown, isAll) {
-      const wrap = document.createElement("div");
-      wrap.className = "bd-snip-row" + (isAll ? " is-all" : "");
-
-      const lbl = document.createElement("span");
-      lbl.className = "bd-snip-label";
-      lbl.textContent = labelText;
-      wrap.appendChild(lbl);
-
-      const row = document.createElement("div");
-      row.className = "usp-row";
-
-      const code = document.createElement("code");
-      code.className = "usp-cmd";
-      code.textContent = markdown;
-      row.appendChild(code);
-
-      const btn = makeCopyBtn();
-      wireCopyBtn(btn, code);
-      row.appendChild(btn);
-
-      wrap.appendChild(row);
-      return wrap;
-    }
-
     function renderRows() {
       const { handle, selectedRepo, hasRank, hasSkills, hasHandle, linkTarget, pickedFile } = currentState;
       rowsEl.innerHTML = "";
@@ -658,32 +617,43 @@
 
       if (hasHandle) {
         const url = `${BASE}/badges/${handle}/${pickedFile}${q}`;
-        const md = `[![Gaia](${url})](${linkTarget})`;
-        lines.push(md);
-        rowsEl.appendChild(makeRow("handle.svg", md, false));
+        lines.push(`[![Gaia](${url})](${linkTarget})`);
         badges.insertAdjacentHTML("beforeend",
           `<a href="${linkTarget}"><img src="./${handle}/${pickedFile}" alt="@${handle} on Gaia"></a>`);
       }
       if (hasRank) {
         const url = `${BASE}/badges/${handle}/rank.svg${q}`;
-        const md = `[![Gaia rank](${url})](${linkTarget})`;
-        lines.push(md);
-        rowsEl.appendChild(makeRow("rank.svg", md, false));
+        lines.push(`[![Gaia rank](${url})](${linkTarget})`);
         badges.insertAdjacentHTML("beforeend",
           `<a href="${linkTarget}"><img src="./${handle}/rank.svg" alt="Gaia rank"></a>`);
       }
       if (hasSkills) {
         const url = `${BASE}/badges/${handle}/skills.svg${q}`;
-        const md = `[![Gaia skills](${url})](${linkTarget})`;
-        lines.push(md);
-        rowsEl.appendChild(makeRow("skills.svg", md, false));
+        lines.push(`[![Gaia skills](${url})](${linkTarget})`);
         badges.insertAdjacentHTML("beforeend",
           `<a href="${linkTarget}"><img src="./${handle}/skills.svg" alt="Gaia skills"></a>`);
       }
 
-      if (lines.length > 1) {
-        rowsEl.insertBefore(makeRow("Copy all", lines.join("\n"), true), rowsEl.firstChild);
-      }
+      if (!lines.length) return;
+
+      // Single copy block — all badge lines in one block, one copy button
+      const wrap = document.createElement("div");
+      wrap.className = "bd-snip-row";
+
+      const row = document.createElement("div");
+      row.className = "usp-row";
+
+      const code = document.createElement("code");
+      code.className = "usp-cmd";
+      code.textContent = lines.join("\n");
+      row.appendChild(code);
+
+      const btn = makeCopyBtn();
+      wireCopyBtn(btn, code);
+      row.appendChild(btn);
+
+      wrap.appendChild(row);
+      rowsEl.appendChild(wrap);
     }
 
     function renderRepoPicker(repos) {

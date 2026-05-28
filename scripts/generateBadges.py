@@ -44,6 +44,12 @@ SLATE = "#94a3b8"
 AMBER = "#fbbf24"
 WHITE = "#ffffff"
 
+# Rank display names for badge right-panel text (e.g. "Hardened · 4★")
+RANK_NAMES = {
+    1: "Awakened", 2: "Named", 3: "Evolved",
+    4: "Hardened", 5: "Transcendent", 6: "Transcendent ★",
+}
+
 # Filenames produced by the primary badges — per-skill variants whose slug
 # collides with one of these are renamed with a `~` suffix so they don't
 # overwrite the primary file (e.g., @mattpocock/skills → skills~.svg).
@@ -314,25 +320,24 @@ def write_user_badges(handle: str, info: dict, scan: dict | None,
         top_rank = max(top_rank, scan["top_rank"])
         count = max(count, scan["count"])
 
-    # Unique-tier sweep: when the contributor's top named skill is a unique
-    # ultimate, paint rank.svg + skills.svg in unique purple to match handle.svg.
-    top_skill_obj = info.get("top_skill") if info else None
-    top_is_unique = bool(top_skill_obj and top_skill_obj.get("type") == "unique")
-
-    def _panel_color(rank: int) -> str:
-        if top_is_unique:
-            return "#7c3aed"
+    # Rank badges always follow the rank color ramp — never the tier accent.
+    # Tier colors (unique purple, tier-extra, etc.) live on handle/per-skill
+    # badges only, which carry explicit tier context.
+    def _rank_color(rank: int) -> str:
         if rank == 6:
             return "white-gold"
         return rank_colors.get(rank, AMBER)
 
     if top_rank > 0:
-        svg = badge_simple(f"{top_rank}★", _panel_color(top_rank), f"Gaia rank: {top_rank} stars")
+        rank_name = RANK_NAMES.get(top_rank, f"{top_rank}★")
+        # "Hardened · 4★" — rank class name anchors meaning, star count is numeric
+        value = f"{rank_name} · {top_rank}★" if top_rank < 6 else f"{rank_name} · 6★"
+        svg = badge_simple(value, _rank_color(top_rank), f"Gaia rank: {rank_name} ({top_rank} stars)")
         (user_dir / "rank.svg").write_text(svg, encoding="utf-8")
 
     if count > 0:
-        value = f"{count} skills" if count != 1 else "1 skill"
-        svg = badge_simple(value, _panel_color(top_rank), f"Gaia: {value}")
+        value = f"{count} named skills" if count != 1 else "1 named skill"
+        svg = badge_simple(value, _rank_color(top_rank), f"Gaia: {value}")
         (user_dir / "skills.svg").write_text(svg, encoding="utf-8")
 
     # handle.svg + per-skill badges require named skills (need a slash)
@@ -387,7 +392,9 @@ def write_sample_badges(rank_colors: dict[int, str], out_dir: Path) -> None:
     samples_dir.mkdir(parents=True, exist_ok=True)
     for n in range(1, 7):
         color = "white-gold" if n == 6 else rank_colors.get(n, AMBER)
-        svg = badge_simple(f"{n}★", color, f"Gaia rank sample: {n} stars")
+        rank_name = RANK_NAMES.get(n, f"{n}★")
+        value = f"{rank_name} · {n}★" if n < 6 else f"{rank_name} · 6★"
+        svg = badge_simple(value, color, f"Gaia rank sample: {rank_name} ({n} stars)")
         (samples_dir / f"rank-{n}.svg").write_text(svg, encoding="utf-8")
 
 
