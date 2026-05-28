@@ -719,6 +719,9 @@
 </head>
 <body class="process-page">
   <nav>
+    <a href="../" class="nav-back-home" aria-label="Back to home" style="display:inline-flex;align-items:center;padding:.35rem .5rem;color:var(--muted);text-decoration:none;flex-shrink:0">
+      <svg class="ico" width="16" height="16" aria-hidden="true"><use href="../assets/icons.svg#arrow-back"/></svg>
+    </a>
     <a href="../" class="nav-logo" aria-label="Gaia home">
       <svg class="ico nav-seal" aria-hidden="true" focusable="false"><use href="../assets/icons.svg#seal-diamond"/></svg>
       <span class="nav-wordmark">Gaia</span>
@@ -733,11 +736,12 @@
       <span></span>
     </button>
     <ul>
-      <li><a href="../index.html" class="nav-graph-trigger">Graph</a></li>
-      <li><a href="./" style="color: var(--honor-red);" aria-current="page">Badges</a></li>
+      <li><a href="../index.html" style="color: var(--text);">Home</a></li>
+      <li><button type="button" class="nav-tree" id="treeNavBtn" style="color: #34d399;">Skill Tree</button></li>
+      <li><a href="../index.html" class="nav-graph-trigger" style="color: #38bdf8;">Skill Graph</a></li>
       <li><a href="../codex.html" style="color: var(--tier-basic);">The Codex</a></li>
-      <li><button type="button" class="nav-tree" id="treeNavBtn">Tree</button></li>
       <li><a href="../meta.html" class="nav-meta" id="metaNavBtn">Meta Reports</a></li>
+      <li><a href="./" style="color: var(--honor-red);" aria-current="page">Github Badges</a></li>
       <li><button type="button" class="nav-search-btn" id="navSearchBtn" aria-label="Search named"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#search"/></svg></button></li>
     </ul>
   </nav>
@@ -757,7 +761,8 @@
         <img src="./mbtiongson1/handle.svg" alt="Owner identity badge" onerror="this.style.display='none'">
         <img src="./mbtiongson1/rank.svg" alt="Owner rank badge">
         <img src="./mbtiongson1/skills.svg" alt="Owner skills count badge">
-        <span class="bd-live-label" style="margin-left: .4rem;">seal-only</span>
+        <div style="flex-basis: 100%; height: 0;"></div>
+        <span class="bd-live-label">seal-only</span>
         <img src="./mbtiongson1/handle-seal.svg" alt="Owner identity badge — seal-only variant" onerror="this.style.display='none'">
       </div>
     </section>
@@ -1040,6 +1045,16 @@
       refreshSamplerImg();
     });
     chkSeal.addEventListener("change", refreshSamplerImg);
+
+    // ── State ─────────────────────────────────────────────────────────────────
+    // Must be declared before the first refreshSamplerImg() call below, which
+    // reads currentState.handle (let is not hoisted — TDZ crash otherwise).
+    let currentState = {
+      handle: "", repos: [], selectedRepo: "",
+      hasRank: false, hasSkills: false, hasHandle: false,
+      linkTarget: "", namedSkills: [], pickedFiles: ["handle.svg"],
+    };
+
     // Apply persisted seal-toggle to the initial sampler image on load.
     refreshSamplerImg();
 
@@ -1089,13 +1104,6 @@
       btn.innerHTML = '<svg class="ico" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#copy"/></svg>';
       return btn;
     }
-
-    // ── State ─────────────────────────────────────────────────────────────────
-    let currentState = {
-      handle: "", repos: [], selectedRepo: "",
-      hasRank: false, hasSkills: false, hasHandle: false,
-      linkTarget: "", namedSkills: [], pickedFiles: ["handle.svg"],
-    };
 
     // ── Checkbox change → re-render rows ─────────────────────────────────────
     [chkHandle, chkRank, chkSkills, chkSeal].forEach(cb => cb.addEventListener("change", renderRows));
