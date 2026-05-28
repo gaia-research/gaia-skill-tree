@@ -7,10 +7,10 @@
   <meta http-equiv="Expires" content="0">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Github Badges — Gaia</title>
+  <title>Claim your Badge — Github Badges for your Repo</title>
   <meta name="description" content="Generate a Gaia-branded README badge for any contributor — highest rank, total skills, or the single-line @handle/skill identity badge.">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Github Badges — Wear your rank">
+  <meta property="og:title" content="Claim your Badge — Github Badges for your Repo">
   <meta property="og:description" content="Drop a Gaia-branded badge in your README and link back to your contributor profile.">
   <meta property="og:url" content="https://gaia.tiongson.co/badges/">
   <link rel="icon" type="image/svg+xml" href="../assets/marks/diamond-seal.svg">
@@ -715,6 +715,76 @@
       color: var(--muted);
       line-height: 1.6;
     }
+
+    /* ── Badge meaning table ── */
+    .bd-meaning-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .85rem;
+      margin-top: 1.2rem;
+    }
+    .bd-meaning-table th {
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: .55rem .75rem;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      white-space: nowrap;
+    }
+    .bd-meaning-table td {
+      padding: .75rem .75rem;
+      border-bottom: 1px solid rgba(255,255,255,.04);
+      color: var(--muted);
+      line-height: 1.55;
+      vertical-align: top;
+    }
+    .bd-meaning-table td:first-child {
+      font-family: var(--font-mono);
+      font-size: .8rem;
+      color: var(--rank-1, #38bdf8);
+      white-space: nowrap;
+    }
+    .bd-meaning-table td:last-child {
+      color: var(--muted);
+      font-size: .82rem;
+    }
+    .bd-meaning-table tr:last-child td { border-bottom: none; }
+    .bd-meaning-table code {
+      font-family: var(--font-mono);
+      font-size: .78rem;
+      background: rgba(255,255,255,.05);
+      padding: 1px 5px;
+      border-radius: 3px;
+      color: var(--text);
+    }
+
+    /* ── Rank swatch chip ── */
+    .bd-rank-swatch {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: .35rem;
+      flex-shrink: 0;
+      vertical-align: middle;
+      position: relative;
+      top: -1px;
+    }
+    .bd-rank-table td:nth-child(3) {
+      white-space: nowrap;
+      font-family: var(--font-mono);
+      font-size: .78rem;
+    }
+    .bd-rank-table td:first-child {
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: .85rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
   </style>
 </head>
 <body class="process-page">
@@ -744,11 +814,13 @@
 
   <main>
     <section class="process-hero" style="min-height: auto; padding-top: 5rem; padding-bottom: 2rem;">
-      <p class="process-kicker">README badges</p>
+      <p class="process-kicker">For those who have named their skill</p>
       <h1>Github Badges</h1>
       <p class="process-lede">
-        Contributors who earn named skills can drop a Gaia-branded badge into their own repo READMEs.
-        These badges track your highest rank, total skills, or top skill in real-time, regenerating on every release.
+        You earned a named skill — now wear it. Drop a Gaia-branded badge into your repo README and link back to your contributor profile. Badges update automatically on every release, reflecting your highest rank, total skills, or the specific skill you want to showcase.
+      </p>
+      <p class="process-lede" style="margin-top:.85rem;">
+        This prestige is yours to keep — built through evidence, discipline, and real work. Not self-assigned. Not purchased. Every badge in this registry was reviewed, challenged, and earned. The diamond seal on your README is a permanent record of that.
       </p>
 
       <!-- Live preview strip -->
@@ -765,9 +837,9 @@
 
     <!-- Priority 1: Generate Yours -->
     <section class="process-section" id="generate-section">
-      <h2>Generate yours</h2>
+      <h2>Claim your badge</h2>
       <p class="section-sub">
-        Enter your Gaia handle to retrieve your custom badges.
+        Enter your Gaia handle to preview and copy your badge markdown.
       </p>
 
       <div class="bd-gen">
@@ -948,7 +1020,118 @@
           </button>
         </div>
       </div>
+    <!-- Section: Rank table -->
+    <section class="process-section">
+      <h2>The rank system</h2>
+      <p class="section-sub">Every badge panel color maps to a rank. Here is what each rank means — earned through evidence, never declared.</p>
+      <table class="bd-meaning-table bd-rank-table">
+        <thead>
+          <tr>
+            <th>Stars</th>
+            <th>Rank</th>
+            <th>Color</th>
+            <th>Evidence floor</th>
+            <th>What it takes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>0★</td>
+            <td><span style="color:#94a3b8;font-weight:600;">Unawakened</span></td>
+            <td><span class="bd-rank-swatch" style="background:#94a3b8;"></span>Slate</td>
+            <td>None</td>
+            <td>Generic primitive — catalogued but not yet verified by any implementation.</td>
+          </tr>
+          <tr>
+            <td>1★</td>
+            <td><span style="color:#38bdf8;font-weight:600;">Awakened</span></td>
+            <td><span class="bd-rank-swatch" style="background:#38bdf8;"></span>Sky blue</td>
+            <td>None</td>
+            <td>Verified as a real, distinct capability. First sighting confirmed.</td>
+          </tr>
+          <tr>
+            <td>2★</td>
+            <td><span style="color:#63cab7;font-weight:600;">Named</span></td>
+            <td><span class="bd-rank-swatch" style="background:#63cab7;"></span>Teal</td>
+            <td>Class C</td>
+            <td>Minimum rank for a Named Skill. A contributor's handle goes on the registry permanently at this threshold.</td>
+          </tr>
+          <tr>
+            <td>3★</td>
+            <td><span style="color:#a78bfa;font-weight:600;">Evolved</span></td>
+            <td><span class="bd-rank-swatch" style="background:#a78bfa;"></span>Violet</td>
+            <td>Class B</td>
+            <td>Reproducible and stable. The implementation can be demonstrated consistently, with docs and a public repo link required.</td>
+          </tr>
+          <tr>
+            <td>4★</td>
+            <td><span style="color:#e879f9;font-weight:600;">Hardened</span></td>
+            <td><span class="bd-rank-swatch" style="background:#e879f9;"></span>Fuchsia</td>
+            <td>Class B/A</td>
+            <td>Production-ready. Comprehensive tests, active maintenance, and documented reliability in real-world usage.</td>
+          </tr>
+          <tr style="border-top:1px solid rgba(124,58,237,.3);">
+            <td>4★+</td>
+            <td><span style="color:#7c3aed;font-weight:600;">◉ Unique</span></td>
+            <td><span class="bd-rank-swatch" style="background:#7c3aed;"></span>Deep violet</td>
+            <td>Class B/A</td>
+            <td>A separate tier — not a rank step. A Basic Skill that reached elite mastery through depth alone, without ever fusing. Graph-isolated, no fusion path forward. Badge renders in deep violet on a black panel.</td>
+          </tr>
+          <tr>
+            <td>5★</td>
+            <td><span style="color:#fbbf24;font-weight:600;">Transcendent</span></td>
+            <td><span class="bd-rank-swatch" style="background:#fbbf24;"></span>Amber</td>
+            <td>Class B/A + 10k★</td>
+            <td>Mastery. Often an Ultimate capstone. Requires a repository with 10,000+ stars and peer-reviewed or battle-tested evidence.</td>
+          </tr>
+          <tr>
+            <td>6★</td>
+            <td><span style="color:#fbbf24;font-weight:700;letter-spacing:.02em;">Apex</span></td>
+            <td><span class="bd-rank-swatch" style="background:linear-gradient(90deg,#fbbf24,#38bdf8);"></span>Gold → Cyan</td>
+            <td>Class A + Origin 5★ Fusion</td>
+            <td>The pinnacle of Gaia. Extreme ecosystem impact. Must emerge from a fusion involving at least one Origin 5★ Transcendent skill, with Tier A evidence.</td>
+          </tr>
+        </tbody>
+      </table>
     </section>
+
+    <!-- Section: What your badge means -->    <section class="process-section">
+      <h2>What your badge means</h2>
+      <p class="section-sub">Every badge tells a specific story. Here's what each one signals to anyone who reads your README.</p>
+      <table class="bd-meaning-table">
+        <thead>
+          <tr>
+            <th>Badge</th>
+            <th>What it signals</th>
+            <th>Who earns it</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>handle.svg</code></td>
+            <td>Your identity as a named contributor — <code>@handle</code> in honor red, your top skill in its rank color, star count alongside. The full picture at a glance.</td>
+            <td>Contributors with at least one named skill in the registry.</td>
+          </tr>
+          <tr>
+            <td><code>rank.svg</code></td>
+            <td>Your highest earned rank (1★ Awakened → 6★ Apex). Color-coded by tier — cyan at 1★, gold at 5–6★. Regenerates on every release so it always reflects your current standing.</td>
+            <td>Anyone with a promoted skill in their tree.</td>
+          </tr>
+          <tr>
+            <td><code>skills.svg</code></td>
+            <td>Total named skills you hold in the canonical registry. A measure of breadth — how many distinct capabilities you've proven, reviewed, and shipped.</td>
+            <td>Contributors with multiple named skills.</td>
+          </tr>
+          <tr>
+            <td><code>/skill-slug.svg</code></td>
+            <td>A badge for a specific named skill — same format as <code>handle.svg</code> but pinned to one capability. Use it in the repo where that skill lives.</td>
+            <td>Named contributors showcasing a single skill in context.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+
   </main>
 
   <div class="bd-foot">

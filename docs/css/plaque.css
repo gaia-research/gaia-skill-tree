@@ -540,14 +540,46 @@ button.plaque__slug:focus-visible {
 .plaque-skill-name.named-slug {
   font-family: var(--font-display, 'EB Garamond', Georgia, serif);
 }
-/* Rank-level color for named-slug skill names (levels 0–6). */
-.plaque[data-level="0"] .plaque-skill-name.named-slug { color: var(--rank-0, #94a3b8); }
-.plaque[data-level="1"] .plaque-skill-name.named-slug { color: var(--rank-1, #38bdf8); }
-.plaque[data-level="2"] .plaque-skill-name.named-slug { color: var(--rank-2, #63cab7); }
-.plaque[data-level="3"] .plaque-skill-name.named-slug { color: var(--rank-3, #a78bfa); }
-.plaque[data-level="4"] .plaque-skill-name.named-slug { color: var(--rank-4, #e879f9); }
-.plaque[data-level="5"] .plaque-skill-name.named-slug { color: var(--rank-5, #fbbf24); }
-.plaque[data-level="6"] .plaque-skill-name.named-slug { color: var(--rank-6, #fbbf24); }
+/* Rank-level color for named-slug skill names (levels 0–6).
+   Also matches per-row scope inside .plaque--mini-stack so each stacked
+   skill row resolves its OWN tier/level color (Phase D1). */
+.plaque[data-level="0"] .plaque-skill-name.named-slug,
+.plaque__stack-row[data-level="0"] .plaque-skill-name.named-slug { color: var(--rank-0, #94a3b8); }
+.plaque[data-level="1"] .plaque-skill-name.named-slug,
+.plaque__stack-row[data-level="1"] .plaque-skill-name.named-slug { color: var(--rank-1, #38bdf8); }
+.plaque[data-level="2"] .plaque-skill-name.named-slug,
+.plaque__stack-row[data-level="2"] .plaque-skill-name.named-slug { color: var(--rank-2, #63cab7); }
+.plaque[data-level="3"] .plaque-skill-name.named-slug,
+.plaque__stack-row[data-level="3"] .plaque-skill-name.named-slug { color: var(--rank-3, #a78bfa); }
+.plaque[data-level="4"] .plaque-skill-name.named-slug,
+.plaque__stack-row[data-level="4"] .plaque-skill-name.named-slug { color: var(--rank-4, #e879f9); }
+.plaque[data-level="5"] .plaque-skill-name.named-slug,
+.plaque__stack-row[data-level="5"] .plaque-skill-name.named-slug { color: var(--rank-5, #fbbf24); }
+.plaque[data-level="6"] .plaque-skill-name.named-slug,
+.plaque__stack-row[data-level="6"] .plaque-skill-name.named-slug { color: var(--rank-6, #fbbf24); }
+
+/* Tier-aware overrides — emitted AFTER the rank-level rules so the tier
+   color wins for Unique (deep violet) and Ultimate (apex gold). Without
+   these, a Unique skill at rank IV (Hardened) would render fuchsia from
+   the rank-4 rule above instead of its tier-native deep violet. */
+.plaque[data-type="unique"] .plaque__slug.named-slug,
+.plaque[data-type="unique"] .plaque-skill-name.named-slug,
+.plaque__stack-row[data-type="unique"] .plaque__slug.named-slug,
+.plaque__stack-row[data-type="unique"] .plaque-skill-name.named-slug {
+  color: var(--tier-unique, #7c3aed);
+}
+.plaque[data-type="ultimate"] .plaque__slug.named-slug,
+.plaque[data-type="ultimate"] .plaque-skill-name.named-slug,
+.plaque__stack-row[data-type="ultimate"] .plaque__slug.named-slug,
+.plaque__stack-row[data-type="ultimate"] .plaque-skill-name.named-slug {
+  color: var(--apex-gold, #fbbf24);
+}
+.plaque[data-type="ultimate"][data-level="6"] .plaque__slug.named-slug,
+.plaque[data-type="ultimate"][data-level="6"] .plaque-skill-name.named-slug,
+.plaque__stack-row[data-type="ultimate"][data-level="6"] .plaque__slug.named-slug,
+.plaque__stack-row[data-type="ultimate"][data-level="6"] .plaque-skill-name.named-slug {
+  animation: tree-rainbow-glow 4s linear infinite;
+}
 
 
 /* ── .plaque-orb — canonical tier glyph orb ──────────────────────
@@ -798,6 +830,104 @@ button.plaque__slug:focus-visible {
 }
 .plaque--mini .rank-badge__star { font-size: 12px; }
 /* Mini drops description + tags + install row by NOT emitting them. */
+
+
+/* ── .plaque--mini-stack — HoH plate listing N skills per contributor ──
+   Wider than .plaque--mini (single skill) so multiple slash-skill rows
+   can sit on one line each. Header (orb + handle + share button) is one
+   horizontal row; body is a vertical list of .plaque__stack-row entries,
+   each carrying its OWN data-type / data-level so per-row CSS resolves
+   the correct slug colour (see slug rules above). +N more overflow row
+   sits at the bottom in muted text.
+   ============================================================ */
+.plaque--mini-stack {
+  width: 260px;
+  max-width: 260px;
+  min-height: 220px;
+  padding: 16px;
+  gap: 0.6rem;
+  flex-shrink: 0;
+  flex-direction: column;
+  align-items: stretch;
+  text-align: left;
+}
+.plaque--mini-stack .plaque__stack-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+}
+.plaque--mini-stack .plaque__stack-header .plaque-orb {
+  flex-shrink: 0;
+}
+.plaque--mini-stack .plaque__stack-header .plaque__handle,
+.plaque--mini-stack .plaque__stack-header .plaque-contrib-row {
+  flex: 1 1 auto;
+  margin-top: 0;
+  font-size: 13px;
+}
+.plaque--mini-stack .plaque__stack-header .plaque__fs-btn {
+  position: static;
+  flex-shrink: 0;
+}
+.plaque--mini-stack .plaque__stack-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 4px;
+}
+.plaque--mini-stack .plaque__stack-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  transition: background 0.18s ease, border-color 0.18s ease;
+}
+.plaque--mini-stack .plaque__stack-row:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+.plaque--mini-stack .plaque__stack-glyph {
+  font-size: 14px;
+  flex-shrink: 0;
+  width: 16px;
+  text-align: center;
+  line-height: 1;
+}
+.plaque--mini-stack .plaque__stack-row .plaque__slug,
+.plaque--mini-stack .plaque__stack-row .plaque-skill-name {
+  font-size: 16px;
+  flex: 1 1 auto;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+.plaque--mini-stack .plaque__stack-rank {
+  flex-shrink: 0;
+  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+}
+.plaque--mini-stack .plaque__stack-rank .rank-badge[data-variant="stars"],
+.plaque--mini-stack .plaque__stack-rank .rank-badge {
+  font-size: 11px;
+  gap: 1px;
+}
+.plaque--mini-stack .plaque__stack-rank .rank-badge__star {
+  font-size: 10px;
+}
+.plaque--mini-stack .plaque__stack-more {
+  font-size: 11px;
+  color: var(--muted);
+  padding: 4px 8px 0;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  letter-spacing: 0.02em;
+}
 
 
 /* ── .plaque--tile — Named Skills Explorer tile ─────────────────
@@ -2402,6 +2532,14 @@ button.plaque__slug:focus-visible {
   transform: scale(0.85); /* Scale slightly to fit laptop displays nicely */
   box-shadow: 0 32px 64px rgba(0, 0, 0, 0.6), 0 0 100px rgba(var(--plaque-accent-rgb), 0.15);
 }
+/* When the stage hosts the canonical inline SVG (svg.plaque--og), make
+   sure its intrinsic width/height attributes don't fight the scale rule.
+   The :is() block keeps the SVG sized exactly like the HTML mock so the
+   transform: scale() math remains identical. */
+.hoh-fs-stage svg.plaque--og {
+  display: block;
+  border-radius: 14px;
+}
 
 @media (max-width: 1400px) {
   .hoh-fs-stage .plaque--og {
@@ -2459,6 +2597,19 @@ button.plaque__slug:focus-visible {
   font-size: 16px;
   font-weight: 600;
   color: var(--text);
+}
+
+.hoh-fs-disclaimer {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.hoh-fs-disclaimer-handle {
+  color: var(--honor-red, #ef4444);
+  font-weight: 600;
 }
 
 .hoh-fs-overlay-body {

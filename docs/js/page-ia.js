@@ -111,7 +111,7 @@
 
     // Door B caption
     var doorCap = document.getElementById('doorBCaption');
-    if (doorCap) doorCap.textContent = unclaimed.length + ' ultimates to claim';
+    if (doorCap) doorCap.textContent = ultimates.length + ' ultimate' + (ultimates.length !== 1 ? 's' : '');
 
     // Path B — all Ultimates (claimed + unclaimed), sorted unclaimed first
     var list = document.getElementById('ultimatesList');
@@ -133,7 +133,10 @@
         list.addEventListener('click', function (ev) {
           var btn = ev.target.closest && ev.target.closest('.ult-claim');
           if (!btn) return;
-          window.location.href = 'badges/';
+          var contributor = btn.dataset.contributor;
+          window.location.href = contributor
+            ? 'badges/?u=' + encodeURIComponent(contributor) + '#generate-section'
+            : 'badges/#generate-section';
         });
         list.dataset.claimDelegated = '1';
       }
@@ -172,7 +175,11 @@
             contribLink + originHtml +
             '</div>' +
             levelChip +
-            '<span class="ult-claimed">Claimed</span>' +
+            '<button class="ult-claim" type="button" ' +
+              'data-skill-id="' + esc(u.id) + '"' +
+              ' data-skill-name="' + esc(u.name || u.id) + '"' +
+              ' data-skill-level="' + esc(u.level || '') + '"' +
+              ' data-contributor="' + esc(claim.contributor || '') + '">Claim →</button>' +
             '</div>';
         }
         // Phase 8c — unclaimed Ultimates keep the canonical slug, rendered in
@@ -224,29 +231,47 @@
     var elNamed = document.getElementById('ledgerNamed');
     if (elNamed) elNamed.textContent = totalNamedCount;
 
-    // Pick diverse top-8: at most one per contributor, ensure at least 2 Uniques if available
-    var seenContrib = new Set();
-    var primary = [];
+    // Pick diverse top-8 contributors: GROUP all of a contributor's
+    // qualifying origin skills into a single plate (instead of dropping
+    // their lower-ranked entries). This lets ruvnet's /ruflo (Ultimate)
+    // and /hive-mind-coordination (Unique) appear in one plate together,
+    // each row coloured by its OWN tier/level via .plaque__stack-row.
+    var byContrib = Object.create(null);
     allOrigin.forEach(function (item) {
       var c = item.entry.contributor || '';
-      if (!seenContrib.has(c)) {
-        primary.push(item);
-        seenContrib.add(c);
-      }
+      if (!c) return;
+      if (!byContrib[c]) byContrib[c] = [];
+      byContrib[c].push(item);
     });
-    var top = primary.slice(0, 8);
-    var topIds = new Set(top.map(function (it) { return it.canonicalId; }));
-    var uniqueCount = top.filter(function (it) { return it.type === 'unique'; }).length;
-    if (uniqueCount < 2) {
-      var needed = 2 - uniqueCount;
-      var extraUniques = allOrigin.filter(function (it) {
-        return it.type === 'unique' && !topIds.has(it.canonicalId);
+    // Sort within each group: highest-rank skill first.
+    Object.keys(byContrib).forEach(function (c) {
+      byContrib[c].sort(function (a, b) {
+        var ld = levelNum(b.entry.level) - levelNum(a.entry.level);
+        if (ld !== 0) return ld;
+        return (TYPE_RANK[a.type] || 9) - (TYPE_RANK[b.type] || 9);
+      });
+    });
+    // Order contributors by their primary (best) skill.
+    var contribOrder = Object.keys(byContrib).sort(function (a, b) {
+      var ai = byContrib[a][0], bi = byContrib[b][0];
+      var ld = levelNum(bi.entry.level) - levelNum(ai.entry.level);
+      if (ld !== 0) return ld;
+      return (TYPE_RANK[ai.type] || 9) - (TYPE_RANK[bi.type] || 9);
+    });
+    var top = contribOrder.slice(0, 8).map(function (c) { return byContrib[c]; });
+    // Diversity guard — ensure ≥2 contributors whose group includes a Unique.
+    var hasUnique = function (group) { return group.some(function (it) { return it.type === 'unique'; }); };
+    var uniqueProviding = top.filter(hasUnique).length;
+    if (uniqueProviding < 2) {
+      var needed = 2 - uniqueProviding;
+      var topContribs = new Set(contribOrder.slice(0, 8));
+      var spareUniqueContribs = contribOrder.slice(8).filter(function (c) {
+        return !topContribs.has(c) && hasUnique(byContrib[c]);
       }).slice(0, needed);
-      // Replace the lowest-ranked non-Unique entries with these Uniques
-      var nonUniqueIdxs = [];
-      for (var i = top.length - 1; i >= 0 && extraUniques.length; i--) {
-        if (top[i].type !== 'unique') {
-          top[i] = extraUniques.shift();
+      // Replace lowest-ranked non-Unique-providing groups.
+      for (var i = top.length - 1; i >= 0 && spareUniqueContribs.length; i--) {
+        if (!hasUnique(top[i])) {
+          top[i] = byContrib[spareUniqueContribs.shift()];
         }
       }
     }
@@ -254,34 +279,34 @@
     var plates = document.getElementById('hohPlates');
     if (plates && top.length) {
       // Stage 3 — Hall of Heroes mini-plates emitted by the shared
-      // plaque component family. Each plate carries:
-      //   - the canonical type (from canonical skill — Ultimate / Unique only)
-      //   - the named entry's level + contributor + tags
-      //   - data-skill-id pointing at the CANONICAL id so click → openSkillExplorer
-      // The named entry's id is preserved on the entry object so namedSlug()
-      // still yields '/<skill-slug>'.
-      var rendered = top.map(function (it) {
-        var e = it.entry;
-        var miniNs = {
-          id: e.id,
-          name: e.name,
-          contributor: e.contributor,
-          origin: e.origin,
-          level: e.level,
-          type: it.type,
-          genericSkillRef: e.genericSkillRef,
-          // Override click target to use the canonical id (so unnamed
-          // siblings resolve to the same explorer view as the named one).
-        };
-        var canonClick = '(function(){if(typeof openSkillExplorer===\'function\')openSkillExplorer(\'' +
-          jsStr(it.canonicalId) + '\');})()';
-        return (window.plaque && typeof window.plaque.renderMini === 'function')
-          ? window.plaque.renderMini(miniNs, {
-              onclick: canonClick,
-              role: 'button',
-              attrs: ' onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();this.click();}"',
-            })
-          : '';
+      // plaque component family. Each plate now STACKS all qualifying
+      // skills for one contributor (cap 3 visible; +N more for overflow).
+      // Per-row data-type/data-level lets each slug resolve its OWN tier
+      // colour even when the outer plate carries the contributor's
+      // primary tier (see plaque.css ~ line 561 .plaque__stack-row rules).
+      var rendered = top.map(function (group) {
+        if (!window.plaque || typeof window.plaque.renderMiniStack !== 'function') return '';
+        // Wire each row's click to its canonical id (so the explorer
+        // opens the right skill). The plate's share button targets the
+        // primary (highest-ranked) skill's OG SVG.
+        var skills = group.map(function (it) {
+          var e = it.entry;
+          return {
+            id: e.id,
+            name: e.name,
+            contributor: e.contributor,
+            origin: e.origin,
+            level: e.level,
+            type: it.type,
+            genericSkillRef: e.genericSkillRef,
+            canonicalId: it.canonicalId,
+            onclick: '(function(){if(typeof openSkillExplorer===\'function\')openSkillExplorer(\'' +
+              jsStr(it.canonicalId) + '\');})()',
+          };
+        });
+        return window.plaque.renderMiniStack(skills, {
+          maxRows: 3,
+        });
       }).join('');
       plates.innerHTML = rendered;
     }

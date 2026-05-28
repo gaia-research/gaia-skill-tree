@@ -163,9 +163,12 @@
     var modal = document.getElementById('hohFullscreenModal');
     if (!modal) return;
 
-    // Center Stage: render large --og plaque
+    // Center Stage: render the canonical OG SVG (docs/og/{handle}/{slug}.svg)
+    // when available, falling back to plaque.renderOg() HTML mock if the
+    // SVG hasn't been generated yet (e.g. brand-new contributor before the
+    // next `gaia docs build`).
     var stage = document.getElementById('hohFsStage');
-    if (stage && window.plaque && typeof window.plaque.renderOg === 'function') {
+    if (stage) {
       var ogNs = {
         id: ns.id,
         name: ns.name,
@@ -176,14 +179,39 @@
         description: ns.description,
         tags: ns.tags
       };
-      // renderOg sanitizes all interpolated values via escapeHtml; safe by construction. CodeQL alert dismissed.
-      stage.innerHTML = window.plaque.renderOg(ogNs);
+      var renderMock = function () {
+        if (window.plaque && typeof window.plaque.renderOg === 'function') {
+          // renderOg sanitizes all interpolated values via escapeHtml; safe by construction.
+          stage.innerHTML = window.plaque.renderOg(ogNs);
+        }
+      };
+      var ogPath = ns.ogPath || '';
+      if (ogPath) {
+        // Show mock immediately so the modal isn't blank during the fetch.
+        renderMock();
+        fetch(ogPath)
+          .then(function (r) { return r.ok ? r.text() : Promise.reject(); })
+          .then(function (svgText) {
+            // Strip XML prolog so the SVG inlines cleanly.
+            var clean = svgText.replace(/^<\?xml[^>]*\?>\s*/, '');
+            stage.innerHTML = clean;
+          })
+          .catch(function () { /* keep mock */ });
+      } else {
+        renderMock();
+      }
     }
 
     // Set dynamic handle texts
     var handleText = document.getElementById('hohFsHandleText');
     if (handleText) {
       handleText.textContent = '@' + ns.contributor;
+    }
+    var disclaimer = document.getElementById('hohFsDisclaimer');
+    if (disclaimer) {
+      disclaimer.querySelectorAll('.hoh-fs-disclaimer-handle').forEach(function (el) {
+        el.textContent = '@' + ns.contributor;
+      });
     }
 
     // Load dynamic handle README badge + markdown (with ?repo= if available)
