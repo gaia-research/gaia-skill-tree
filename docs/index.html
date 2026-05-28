@@ -79,7 +79,7 @@
         <a href="badges/" class="door door-b">
           <span class="door-icon">◈</span>
           <span class="door-label">Claim Badges</span>
-          <span class="door-caption" id="doorBCaption">loading…</span>
+          <span class="door-caption" id="doorBCaption">Browse all</span>
         </a>
       </div>
       <div class="ledger-strip">
@@ -115,6 +115,7 @@
   </section>
 
   <!-- ─── TREE DIALOG ─── -->
+  <a id="tree" tabindex="-1" aria-hidden="true"></a>
   <dialog id="treeDialog" class="tree-dialog" aria-labelledby="treeDialogTitle">
     <div class="tree-dialog-inner">
       <div class="tree-dialog-header">
@@ -358,9 +359,9 @@
             <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#view-list"/></svg>
             List
           </button>
-          <button class="ns-view-btn" data-view="flow" title="Tree / flowchart view" aria-pressed="false">
+          <button class="ns-view-btn" data-view="flow" title="Flow / flowchart view" aria-label="Flow view" aria-pressed="false">
             <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#view-tree"/></svg>
-            Tree
+            Flow
           </button>
         </div>
         <!-- Stage 4 — sort dropdown.
