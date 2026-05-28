@@ -529,7 +529,7 @@
         const edgeCount = skills.reduce((sum, skill) => sum + skill.prerequisites.length, 0);
         const uniqueCount = skills.filter(s => s.type === 'unique').length;
         const mb = (fill) => `<svg class="gst-icon" viewBox="0 0 10 15" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"><rect x=".7" y=".7" width="8.6" height="13.6" rx="4.3"/><path d="M5 .7v5.8" stroke-width="1"/><path d="M.7 6.5h8.6" stroke-width="1"/>${fill}</svg>`;
-        const iL = mb('<rect x=".7" y=".7" width="4.3" height="5.8" rx="2 0 0 2" stroke="none" fill="currentColor" opacity=".55"/>');
+        const iL = mb('<rect x=".7" y=".7" width="4.3" height="5.8" rx="2" stroke="none" fill="currentColor" opacity=".55"/>');
         const iM = mb('<rect x="3.4" y="1.4" width="3.2" height="4.2" rx="1.6" stroke="none" fill="currentColor" opacity=".55"/>');
         const iS = mb('<rect x="3.4" y="1.4" width="3.2" height="4.2" rx="1.6" stroke-width=".9" opacity=".5"/><path d="M5 2.2v3.2M4 3.1 5 2.2 6 3.1M4 4.5 5 5.4 6 4.5" stroke-width=".9"/>');
         const stat = `<span class="gst-stat">${skills.length}<span class="gst-dim"> skills</span> · ${edgeCount}<span class="gst-dim"> links</span>` +

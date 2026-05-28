@@ -31,7 +31,7 @@
     if (!skillId) return;
 
     const key = `plaque-claim-${skillId}`;
-    const stored = sessionStorage.getItem(key);
+    const stored = localStorage.getItem(key);
     if (stored === 'claimed') {
       btn.setAttribute('data-claim', 'claimed');
       updateButtonText(btn);
@@ -57,9 +57,9 @@
     if (skillId) {
       const key = `plaque-claim-${skillId}`;
       if (newState === 'claimed') {
-        sessionStorage.setItem(key, 'claimed');
+        localStorage.setItem(key, 'claimed');
       } else {
-        sessionStorage.removeItem(key);
+        localStorage.removeItem(key);
       }
     }
 

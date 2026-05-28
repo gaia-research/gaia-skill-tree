@@ -534,8 +534,21 @@
       if (!hasRank && !hasSkills && !hasHandle) {
         status.classList.add("is-error");
         status.textContent = `No badges yet for @${handle}. Contribute a named skill, or run \`gaia scan\` to register your tree.`;
+        // Disable Copy + replace dead markdown with a CTA
+        badges.innerHTML = "";
+        snippet.innerHTML = `No badges yet for <strong>@${handle}</strong>. <a href="../codex.html">Contribute a skill first &rarr;</a>`;
+        copyBtn.disabled = true;
+        copyBtn.setAttribute("aria-disabled", "true");
+        copyBtn.style.opacity = ".5";
+        copyBtn.style.pointerEvents = "none";
         return;
       }
+
+      // Known handle: ensure Copy is re-enabled (recovers from prior unknown lookup)
+      copyBtn.disabled = false;
+      copyBtn.removeAttribute("aria-disabled");
+      copyBtn.style.opacity = "";
+      copyBtn.style.pointerEvents = "";
 
       const linkTarget = hasProfile ? `${BASE}/u/${handle}/` : `${BASE}/`;
       currentState = { handle, repos: [], selectedRepo: "", hasRank, hasSkills, hasHandle, linkTarget };

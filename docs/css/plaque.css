@@ -2515,3 +2515,36 @@ button.plaque__slug:focus-visible {
   opacity: 1;
 }
 
+/* ─── Contributors directory (docs/u/index.html) ─── */
+/* Search input — extracted from inline styles in build_directory_page. */
+.directory-search {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.directory-search:focus {
+  border-color: var(--accent, var(--tier-extra));
+}
+
+/* Tier sections — contributors are grouped by peak rank into bands. */
+.directory-tier { margin-block: 2.5rem; }
+.directory-tier__title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  margin-block-end: 1rem;
+  padding-block-end: 0.5rem;
+  border-block-end: 1px solid var(--border);
+  letter-spacing: 0.01em;
+}
+.directory-tier[data-tier="4"] .directory-tier__title { color: var(--tier-ultimate); }
+.directory-tier[data-tier="3"] .directory-tier__title { color: var(--tier-unique); }
+.directory-tier[data-tier="2"] .directory-tier__title { color: var(--tier-extra); }
+.directory-tier[data-tier="1"] .directory-tier__title { color: var(--tier-basic); }
+
