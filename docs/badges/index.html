@@ -26,11 +26,10 @@
       gap: .6rem;
       flex-wrap: wrap;
       align-items: center;
-      padding: 1.4rem 1.6rem;
-      background: rgba(15,23,42,.55);
+      padding: .7rem 1rem;
       border: 1px solid var(--border);
-      border-radius: 12px;
-      margin-top: 1.5rem;
+      border-radius: 8px;
+      margin-top: 1.2rem;
       width: fit-content;
     }
     .bd-live img { display: block; height: 20px; }
@@ -43,78 +42,62 @@
       margin-right: .4rem;
     }
 
-    /* ── Rank sampler (inside generator card) ── */
-    .bd-sampler {
-      display: flex;
-      gap: .75rem;
-      flex-wrap: wrap;
-      align-items: center;
-      margin-top: 1rem;
-    }
-    .bd-sampler img { display: block; height: 20px; }
-    .bd-sampler-cycle {
-      display: inline-flex;
-      align-items: center;
-      gap: .35rem;
-      padding: .3rem .7rem;
-      font-family: var(--font-mono);
-      font-size: .72rem;
-      letter-spacing: .06em;
-      background: transparent;
-      color: var(--muted);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      cursor: pointer;
-      transition: color .12s, border-color .12s;
-    }
-    .bd-sampler-cycle:hover { color: var(--text); border-color: var(--rank-5, #fbbf24); }
-
-    /* ── Generic snippet block (always visible) ── */
-    .bd-generic {
-      margin-top: 1.8rem;
-      padding: 1.2rem 1.4rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-    }
-    .bd-generic-title {
-      font-family: var(--font-mono);
-      font-size: .7rem;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: .75rem;
-    }
-
     /* ── Generator Layout & Simulator ── */
     .bd-gen {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 14px;
-      padding: 1.8rem 2rem;
-      margin: 1.5rem 0 3rem;
+      padding: 1.4rem 1.6rem 1.6rem;
+      margin: 1.2rem 0 2rem;
     }
+
+    /* ── Input row with clear button ── */
     .bd-gen-row {
       display: flex;
       gap: .65rem;
       align-items: stretch;
       flex-wrap: wrap;
     }
-    .bd-gen input {
+    .bd-input-wrap {
       flex: 1;
       min-width: 200px;
-      padding: .7rem .9rem;
+      position: relative;
+      display: flex;
+    }
+    .bd-gen input[type="text"],
+    .bd-gen input[type="search"] {
+      flex: 1;
+      padding: .7rem 2.2rem .7rem .9rem;
       font-family: var(--font-mono);
       font-size: .95rem;
       background: rgba(15,23,42,.6);
       border: 1px solid var(--border);
       border-radius: 8px;
       color: var(--text);
+      min-width: 0;
     }
-    .bd-gen input:focus {
+    .bd-gen input[type="text"]:focus,
+    .bd-gen input[type="search"]:focus {
       outline: none;
       border-color: var(--rank-5, #fbbf24);
     }
+    .bd-clear-btn {
+      position: absolute;
+      right: .55rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      padding: .2rem .3rem;
+      font-size: .9rem;
+      line-height: 1;
+      display: none;
+      border-radius: 4px;
+      transition: color .12s;
+    }
+    .bd-clear-btn:hover { color: var(--text); }
     .bd-gen .bd-go-btn {
       padding: .7rem 1.2rem;
       font-family: var(--font-body);
@@ -129,6 +112,41 @@
     }
     .bd-gen .bd-go-btn:hover { filter: brightness(1.08); }
 
+    /* ── Rank sampler ── */
+    .bd-gen-sampler {
+      display: flex;
+      gap: .6rem;
+      align-items: center;
+      margin-top: .8rem;
+      padding-top: .8rem;
+      border-top: 1px solid var(--border);
+    }
+    .bd-sampler-img-slot {
+      width: 152px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+    }
+    .bd-sampler-img-slot img { display: block; height: 20px; }
+    .bd-sampler-cycle {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      padding: .3rem .7rem;
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      letter-spacing: .06em;
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: color .12s, border-color .12s;
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+    .bd-sampler-cycle:hover { color: var(--text); border-color: var(--rank-5, #fbbf24); }
+
     .bd-gen-preview {
       margin-top: 1.6rem;
       display: none;
@@ -139,10 +157,11 @@
 
     .bd-gen-layout {
       display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 2.2rem;
+      grid-template-columns: minmax(0, 1fr) 360px;
+      gap: 2rem;
       align-items: start;
     }
+    .bd-gen-left, .bd-gen-right { min-width: 0; }
     @media (max-width: 860px) {
       .bd-gen-layout { grid-template-columns: 1fr; }
     }
@@ -152,172 +171,20 @@
       font-size: .82rem;
       color: var(--muted);
       border-bottom: 1px solid var(--border);
-      padding-bottom: 0.6rem;
-      margin-bottom: 0.4rem;
+      padding-bottom: 0.5rem;
+      margin-bottom: 0.3rem;
     }
     .bd-gen-status.is-error { color: var(--honor, #ef4444); border-bottom: none; }
 
-    /* ── Skill picker ── */
-    .bd-skill-picker-wrap {
-      margin-bottom: .9rem;
-    }
-    .bd-skill-picker-label {
+    /* ── Repo picker ── */
+    .bd-repo-label {
       font-family: var(--font-mono);
       font-size: .7rem;
       letter-spacing: .1em;
       text-transform: uppercase;
       color: var(--muted);
-      margin-bottom: .4rem;
-    }
-    .bd-skill-picker {
-      width: 100%;
-      padding: .45rem .7rem;
-      font-family: var(--font-mono);
-      font-size: .8rem;
-      background: rgba(15,23,42,.7);
-      border: 1px solid var(--border);
-      border-radius: 7px;
-      color: var(--text);
-      cursor: pointer;
-      appearance: auto;
-    }
-    .bd-skill-picker:focus { outline: none; border-color: var(--rank-5, #fbbf24); }
-
-    /* ── Single copy block ── */
-    .bd-snip-row {
-      display: flex;
-      flex-direction: column;
-      gap: .3rem;
-    }
-
-    /* ── Per-badge individual rows ── */
-    .bd-rows-header {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
       margin-bottom: .5rem;
     }
-    .bd-copy-all {
-      display: inline-flex;
-      align-items: center;
-      gap: .35rem;
-      padding: .3rem .7rem;
-      font-family: var(--font-mono);
-      font-size: .7rem;
-      letter-spacing: .06em;
-      background: transparent;
-      color: var(--muted);
-      border: 1px solid rgba(251,191,36,.35);
-      border-radius: 6px;
-      cursor: pointer;
-      transition: color .12s, border-color .12s;
-    }
-    .bd-copy-all:hover { color: var(--text); border-color: rgba(251,191,36,.8); }
-    .bd-row-item {
-      display: flex;
-      flex-direction: column;
-      gap: .4rem;
-      margin-bottom: .8rem;
-    }
-    .bd-row-item:last-child { margin-bottom: 0; }
-    .bd-row-badge {
-      flex-shrink: 0;
-      line-height: 1;
-    }
-    .bd-row-badge img { display: block; height: 20px; max-width: 100%; }
-
-    /* Wider usp-row text for markdown legibility */
-    #bd-rows .usp-row,
-    .bd-generic .usp-row {
-      font-size: .78rem;
-      padding: .5rem .85rem;
-      align-items: flex-start;
-    }
-    #bd-rows .usp-cmd,
-    .bd-generic .usp-cmd {
-      white-space: pre-wrap;
-      word-break: break-all;
-      line-height: 1.5;
-      flex: 1;
-    }
-    #bd-rows .usp-copy,
-    .bd-generic .usp-copy {
-      margin-top: .1rem;
-      flex-shrink: 0;
-    }
-
-    /* ── Sampler inside generator ── */
-    .bd-gen-sampler {
-      display: flex;
-      gap: .75rem;
-      align-items: center;
-      flex-wrap: wrap;
-      margin-top: 1rem;
-      padding: .8rem 1rem;
-      background: rgba(15,23,42,.5);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-    }
-    .bd-gen-sampler img { display: block; height: 20px; }
-
-    /* README Simulator */
-    .readme-simulator {
-      background: #0d1117;
-      border: 1px solid #30363d;
-      border-radius: 6px;
-      padding: 24px;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
-      color: #c9d1d9;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.35);
-      align-self: start;
-    }
-    .readme-header {
-      border-bottom: 1px solid #21262d;
-      padding-bottom: 10px;
-      margin-bottom: 18px;
-      font-size: 13px;
-      font-weight: 600;
-      color: #8b949e;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .readme-header svg {
-      fill: currentColor;
-      flex-shrink: 0;
-    }
-    .readme-body h3 {
-      font-size: 20px;
-      font-weight: 600;
-      border-bottom: 1px solid #21262d;
-      padding-bottom: 8px;
-      margin-top: 0;
-      margin-bottom: 14px;
-      color: #f0f6fc;
-      font-family: inherit !important;
-    }
-    .readme-body p {
-      font-size: 14px;
-      line-height: 1.5;
-      margin-bottom: 16px;
-      color: #c9d1d9;
-      font-family: inherit !important;
-    }
-    .readme-badges-preview {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      margin-bottom: 16px;
-    }
-    .readme-badges-preview img {
-      height: 20px;
-      display: block;
-    }
-    .readme-badges-preview a {
-      display: block;
-    }
-
-    /* ── Repo picker (validation) ── */
     .bd-repos {
       display: flex;
       gap: .4rem;
@@ -345,30 +212,310 @@
       background: rgba(251, 191, 36, 0.08);
     }
     .bd-repos input { position: absolute; opacity: 0; pointer-events: none; }
-    .bd-validate-note {
-      font-family: var(--font-mono);
-      font-size: .76rem;
-      color: var(--rank-3, #a78bfa);
-      letter-spacing: .03em;
-      margin: .25rem 0 0;
+
+    /* ── Skill picker ── */
+    .bd-skill-picker-wrap {
+      margin-top: .85rem;
+      max-width: 420px;
     }
+    .bd-skill-picker-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: .4rem;
+      gap: .75rem;
+    }
+    .bd-skill-picker-label {
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .bd-skill-clear {
+      display: none;
+      background: transparent;
+      border: 0;
+      padding: 0;
+      font-family: var(--font-mono);
+      font-size: .68rem;
+      letter-spacing: .04em;
+      color: var(--muted);
+      cursor: pointer;
+      transition: color .12s;
+    }
+    .bd-skill-clear.is-visible { display: inline-flex; }
+    .bd-skill-clear:hover { color: var(--honor-red, #ef4444); }
+    .bd-skill-row {
+      display: flex;
+      align-items: center;
+      gap: .35rem;
+      margin-bottom: .4rem;
+    }
+    .bd-skill-row:last-child { margin-bottom: 0; }
+    .bd-skill-row input[type="checkbox"] {
+      width: 13px;
+      height: 13px;
+      accent-color: var(--rank-5, #fbbf24);
+      cursor: pointer;
+      flex-shrink: 0;
+      margin: 0;
+    }
+    .bd-skill-picker {
+      flex: 1;
+      min-width: 0;
+      padding: .45rem .7rem;
+      font-family: var(--font-mono);
+      font-size: .8rem;
+      background: rgba(15,23,42,.7);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      color: var(--text);
+      cursor: pointer;
+      appearance: auto;
+    }
+    .bd-skill-picker:focus { outline: none; border-color: var(--rank-5, #fbbf24); }
+    .bd-skill-remove {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--muted);
+      width: 26px;
+      height: 26px;
+      font-size: .9rem;
+      line-height: 1;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: color .12s, border-color .12s;
+    }
+    .bd-skill-remove:hover { color: var(--text); border-color: var(--honor-red, #ef4444); }
+    .bd-skill-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .5rem;
+      /* indent left edge so "Add more" aligns under the dropdown
+         (checkbox 13px + row gap .35rem) */
+      padding-left: calc(13px + .35rem);
+      /* leave room on the right so we don't sit under the ✕ column */
+      padding-right: calc(26px + .35rem);
+      margin-top: .35rem;
+    }
+    .bd-skill-add,
+    .bd-skill-addall {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      padding: .3rem .6rem;
+      background: transparent;
+      border: 1px dashed var(--border);
+      border-radius: 6px;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      cursor: pointer;
+      transition: color .12s, border-color .12s;
+    }
+    .bd-skill-add:hover,
+    .bd-skill-addall:hover { color: var(--text); border-color: var(--rank-5, #fbbf24); }
+    .bd-skill-addall { display: none; }
+    .bd-skill-addall.is-visible { display: inline-flex; }
+
+    /* ── Real checkboxes (badge selectors) ── */
+    .bd-checks {
+      display: none;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: .85rem;
+      padding-top: .75rem;
+      border-top: 1px solid var(--border);
+    }
+    .bd-checks.is-visible { display: flex; }
+    .bd-check-label {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      font-family: var(--font-mono);
+      font-size: .78rem;
+      color: var(--text);
+      cursor: pointer;
+      user-select: none;
+    }
+    .bd-check-label input[type="checkbox"] {
+      width: 14px;
+      height: 14px;
+      accent-color: var(--rank-5, #fbbf24);
+      cursor: pointer;
+    }
+    .bd-checks-label {
+      width: 100%;
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: -.2rem;
+    }
+
+    /* ── Per-badge rows ── */
+    .bd-rows-header {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      margin-top: .85rem;
+      margin-bottom: .35rem;
+    }
+    .bd-copy-all {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      padding: .3rem .7rem;
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      letter-spacing: .06em;
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid rgba(251,191,36,.35);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: color .12s, border-color .12s;
+    }
+    .bd-copy-all:hover { color: var(--text); border-color: rgba(251,191,36,.8); }
+    .bd-row-item {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: .6rem;
+      margin-bottom: .45rem;
+      min-width: 0;
+    }
+    .bd-row-item:last-child { margin-bottom: 0; }
+    .bd-row-badge {
+      flex-shrink: 0;
+      line-height: 1;
+    }
+    .bd-row-badge img { display: block; height: 20px; }
+
+    /* Badge code rows — single-line truncation */
+    #bd-rows .usp-row,
+    .bd-generic .usp-row {
+      font-size: .78rem;
+      padding: .4rem .75rem;
+      align-items: center;
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+    }
+    #bd-rows .usp-cmd,
+    .bd-generic .usp-cmd {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.5;
+      min-width: 0;
+      flex: 1;
+    }
+    #bd-rows .usp-copy,
+    .bd-generic .usp-copy {
+      flex-shrink: 0;
+    }
+
+    /* ── Single copy block ── */
+    .bd-snip-row {
+      display: flex;
+      flex-direction: column;
+      gap: .3rem;
+    }
+
+    /* README Simulator */
+    .readme-simulator {
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 24px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+      color: #c9d1d9;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+      position: sticky;
+      top: 5.5rem;
+    }
+    .readme-header {
+      border-bottom: 1px solid #21262d;
+      padding-bottom: 10px;
+      margin-bottom: 18px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #8b949e;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .readme-header svg { fill: currentColor; flex-shrink: 0; }
+    .readme-body h3 {
+      font-size: 20px;
+      font-weight: 600;
+      border-bottom: 1px solid #21262d;
+      padding-bottom: 8px;
+      margin-top: 0;
+      margin-bottom: 14px;
+      color: #f0f6fc;
+      font-family: inherit !important;
+    }
+    .readme-body p {
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 16px;
+      color: #c9d1d9;
+      font-family: inherit !important;
+    }
+    .readme-badges-preview {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .readme-badges-preview img { height: 20px; display: block; }
+    .readme-badges-preview a { display: block; }
+
+    /* ── Powered-by block ── */
+    .bd-powered {
+      margin-top: 2.5rem;
+      padding: 1.1rem 1.3rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+    .bd-powered-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: .75rem;
+    }
+    .bd-powered-title {
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .bd-powered-badge img { display: block; height: 20px; }
 
     /* ── Variant table ── */
     .bd-variants {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 1rem;
+      gap: .75rem;
       margin-bottom: 2rem;
     }
     .bd-variant {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.1rem 1.3rem;
+      border-radius: 10px;
+      padding: .85rem 1.1rem;
       display: grid;
-      grid-template-columns: 200px 1fr;
-      gap: 1.2rem;
-      align-items: start;
+      grid-template-columns: 180px 1fr;
+      gap: 1.4rem;
+      align-items: center;
     }
     @media (max-width: 640px) {
       .bd-variant { grid-template-columns: 1fr; }
@@ -376,13 +523,16 @@
     .bd-variant-preview {
       display: flex;
       flex-direction: column;
-      gap: .5rem;
+      gap: .35rem;
     }
     .bd-variant img { height: 20px; }
     .bd-variant-stat {
       font-family: var(--font-mono);
-      font-size: .72rem;
+      font-size: .68rem;
       color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .bd-variant-name {
       font-family: var(--font-mono);
@@ -446,36 +596,31 @@
         <img src="./mbtiongson1/rank.svg" alt="Owner rank badge">
         <img src="./mbtiongson1/skills.svg" alt="Owner skills count badge">
       </div>
-
-      <!-- Generic "Powered by Gaia" snippet — always visible, no handle needed -->
-      <div class="bd-generic">
-        <div class="bd-generic-title">Generic badge — paste into any README</div>
-        <div class="usp-row">
-          <code class="usp-cmd" id="bd-generic-code">[![Powered by Gaia](https://gaia.tiongson.co/badges/powered-by-gaia.svg)](https://gaia.tiongson.co/)</code>
-          <button class="usp-copy" type="button" id="bd-generic-copy" aria-label="Copy generic badge markdown">
-            <svg class="ico" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#copy"/></svg>
-          </button>
-        </div>
-      </div>
     </section>
 
     <!-- Priority 1: Generate Yours -->
     <section class="process-section" id="generate-section">
       <h2>Generate yours</h2>
       <p class="section-sub">
-        Enter your Gaia handle to retrieve your custom badges. The <code>?repo=</code> query parameter bakes in your repo URL so the upcoming edge validator can flag misuse.
+        Enter your Gaia handle to retrieve your custom badges.
       </p>
 
       <div class="bd-gen">
+        <!-- Input row with clear button -->
         <div class="bd-gen-row">
-          <input id="bd-handle" type="text" placeholder="your-gaia-handle" autocomplete="off" spellcheck="false">
+          <div class="bd-input-wrap">
+            <input id="bd-handle" type="text" placeholder="your-gaia-handle" autocomplete="off" spellcheck="false">
+            <button id="bd-clear" type="button" class="bd-clear-btn" aria-label="Clear handle">✕</button>
+          </div>
           <button id="bd-go" type="button" class="bd-go-btn">Preview</button>
         </div>
 
-        <!-- Sampler lives inside the card, always visible -->
-        <div class="bd-gen-sampler">
+        <!-- Rank sampler — only visible when input is empty -->
+        <div id="bd-sampler" class="bd-gen-sampler">
           <span class="bd-live-label">rank sampler</span>
-          <img id="bd-sampler-img" src="./samples/rank-1.svg" alt="Sample rank badge" height="20">
+          <div class="bd-sampler-img-slot">
+            <img id="bd-sampler-img" src="./samples/rank-1.svg" alt="Sample rank badge">
+          </div>
           <button id="bd-sampler-btn" type="button" class="bd-sampler-cycle">
             <svg class="ico" width="13" height="13" aria-hidden="true"><use href="../assets/icons.svg#sync"/></svg>
             <span id="bd-sampler-lbl">Awakened · 1★</span>
@@ -485,22 +630,52 @@
         <div class="bd-gen-preview" id="bd-preview">
           <div class="bd-gen-status" id="bd-status"></div>
 
-          <!-- Skill picker spans full width above the two-col layout -->
-          <div id="bd-picker-wrap" class="bd-skill-picker-wrap" style="display:none;">
-            <div class="bd-skill-picker-label">Showcase your best skill!</div>
-            <select class="bd-skill-picker" id="bd-skill-picker"></select>
-          </div>
-
           <div class="bd-gen-layout">
-            <!-- Left: repo picker + per-badge rows -->
+            <!-- Left: repo picker → skill picker → checkboxes → badge rows -->
             <div class="bd-gen-left">
-              <div id="bd-repo-block" style="display:none; margin-bottom: 1.2rem;">
-                <p class="bd-section-lede" style="margin:.4rem 0;">Pick the repo where this badge will live — the URL bakes it in so the validator can flag misuse.</p>
+
+              <!-- 1. Repo picker -->
+              <div id="bd-repo-block" style="display:none;">
+                <div class="bd-repo-label">Pick a repo</div>
                 <fieldset class="bd-repos" id="bd-repos" style="border:0;padding:0;"></fieldset>
-                <p class="bd-validate-note" id="bd-validate-note"></p>
               </div>
 
-              <!-- Per-badge rows with Copy All header -->
+              <!-- 2. Skill picker (multi-select via + button) -->
+              <div id="bd-picker-wrap" class="bd-skill-picker-wrap" style="display:none;">
+                <div class="bd-skill-picker-header">
+                  <div class="bd-skill-picker-label">Showcase skill</div>
+                  <button id="bd-skill-clear-btn" type="button" class="bd-skill-clear">Clear all</button>
+                </div>
+                <div id="bd-skill-rows"></div>
+                <div class="bd-skill-actions">
+                  <button id="bd-skill-add-btn" type="button" class="bd-skill-add">
+                    <span aria-hidden="true" style="font-size: .85rem; line-height: 1;">+</span>
+                    Add more
+                  </button>
+                  <button id="bd-skill-addall-btn" type="button" class="bd-skill-addall">
+                    Add all
+                  </button>
+                </div>
+              </div>
+
+              <!-- 3. Badge selection checkboxes (real checkboxes) -->
+              <div class="bd-checks" id="bd-checks">
+                <div class="bd-checks-label">Include in README</div>
+                <label class="bd-check-label" id="bd-check-handle-wrap">
+                  <input type="checkbox" id="bd-check-handle" checked>
+                  Identity
+                </label>
+                <label class="bd-check-label" id="bd-check-rank-wrap">
+                  <input type="checkbox" id="bd-check-rank" checked>
+                  Rank
+                </label>
+                <label class="bd-check-label" id="bd-check-skills-wrap">
+                  <input type="checkbox" id="bd-check-skills" checked>
+                  Skills
+                </label>
+              </div>
+
+              <!-- 4. Per-badge rows with Copy All -->
               <div id="bd-rows"></div>
             </div>
 
@@ -526,7 +701,7 @@
     <!-- Section 2: Variants -->
     <section class="process-section">
       <h2>Variants</h2>
-      <p class="section-sub">Four distinct formats — identity, rank, count, and generic.</p>
+      <p class="section-sub">Three contributor formats plus a generic badge for any project.</p>
 
       <div class="bd-variants">
         <div class="bd-variant">
@@ -536,7 +711,7 @@
           </div>
           <div>
             <div class="bd-variant-name">handle.svg</div>
-            <div class="bd-variant-desc">Single-line identity. <code>@handle</code> in honor red, selected named skill in its rank color, star count in the same hue. Use the picker above to swap skills.</div>
+            <div class="bd-variant-desc">Single-line identity. <code>@handle</code> in honor red, selected named skill in its rank color, star count in the same hue.</div>
           </div>
         </div>
         <div class="bd-variant">
@@ -559,15 +734,19 @@
             <div class="bd-variant-desc">Total named skills contributed. Panel color matches rank tier.</div>
           </div>
         </div>
-        <div class="bd-variant">
-          <div class="bd-variant-preview">
-            <img src="./powered-by-gaia.svg" alt="Powered by Gaia">
-            <div class="bd-variant-stat">everyone · no handle needed</div>
-          </div>
-          <div>
-            <div class="bd-variant-name">powered-by-gaia.svg</div>
-            <div class="bd-variant-desc">Generic badge for any project using the Gaia registry. Copy the snippet above — no account required.</div>
-          </div>
+      </div>
+
+      <!-- Powered by Gaia — for everyone, no handle needed -->
+      <div class="bd-powered">
+        <div class="bd-powered-header">
+          <div class="bd-powered-badge"><img src="./powered-by-gaia.svg" alt="Powered by Gaia"></div>
+          <div class="bd-powered-title">For anyone — no account required</div>
+        </div>
+        <div class="usp-row">
+          <code class="usp-cmd" id="bd-generic-code">[![Powered by Gaia](https://gaia.tiongson.co/badges/powered-by-gaia.svg)](https://gaia.tiongson.co/)</code>
+          <button class="usp-copy" type="button" id="bd-generic-copy" aria-label="Copy generic badge markdown">
+            <svg class="ico" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#copy"/></svg>
+          </button>
         </div>
       </div>
     </section>
@@ -582,16 +761,40 @@
   <script>
     const BASE = "https://gaia.tiongson.co";
     const handleInput = document.getElementById("bd-handle");
-    const goBtn = document.getElementById("bd-go");
-    const preview = document.getElementById("bd-preview");
-    const status = document.getElementById("bd-status");
-    const badges = document.getElementById("bd-badges");
-    const rowsEl = document.getElementById("bd-rows");
-    const repoBlock = document.getElementById("bd-repo-block");
-    const repoList = document.getElementById("bd-repos");
-    const validateNote = document.getElementById("bd-validate-note");
-    const pickerWrap = document.getElementById("bd-picker-wrap");
-    const pickerEl = document.getElementById("bd-skill-picker");
+    const clearBtn    = document.getElementById("bd-clear");
+    const goBtn       = document.getElementById("bd-go");
+    const preview     = document.getElementById("bd-preview");
+    const status      = document.getElementById("bd-status");
+    const badges      = document.getElementById("bd-badges");
+    const rowsEl      = document.getElementById("bd-rows");
+    const repoBlock   = document.getElementById("bd-repo-block");
+    const repoList    = document.getElementById("bd-repos");
+    const pickerWrap  = document.getElementById("bd-picker-wrap");
+    const skillRowsEl = document.getElementById("bd-skill-rows");
+    const skillAddBtn = document.getElementById("bd-skill-add-btn");
+    const skillAddAllBtn = document.getElementById("bd-skill-addall-btn");
+    const skillClearBtn  = document.getElementById("bd-skill-clear-btn");
+    const samplerEl   = document.getElementById("bd-sampler");
+    const checksEl    = document.getElementById("bd-checks");
+    const chkHandle   = document.getElementById("bd-check-handle");
+    const chkRank     = document.getElementById("bd-check-rank");
+    const chkSkills   = document.getElementById("bd-check-skills");
+
+    // ── Clear button + sampler visibility ───────────────────────────────────
+    handleInput.addEventListener("input", () => {
+      const hasText = handleInput.value.length > 0;
+      clearBtn.style.display = hasText ? "block" : "none";
+      samplerEl.style.display = hasText ? "none" : "flex";
+    });
+
+    clearBtn.addEventListener("click", () => {
+      handleInput.value = "";
+      clearBtn.style.display = "none";
+      samplerEl.style.display = "flex";
+      preview.classList.remove("is-visible");
+      checksEl.classList.remove("is-visible");
+      seedSample();
+    });
 
     // ── Sampler ──────────────────────────────────────────────────────────────
     const SAMPLER_RANKS = [
@@ -610,7 +813,6 @@
       const r = SAMPLER_RANKS[samplerIdx];
       samplerImg.src = `./samples/rank-${r.n}.svg`;
       samplerLbl.textContent = r.label;
-      // Update README sim only when still showing the seeded sample state
       if (currentState.handle === "gaia-bot") {
         badges.innerHTML = `<img src="./samples/rank-${r.n}.svg" alt="${r.label}" style="height:20px;display:block;">`;
       }
@@ -663,31 +865,37 @@
       return btn;
     }
 
-    // ── Per-badge rows renderer ───────────────────────────────────────────────
+    // ── State ─────────────────────────────────────────────────────────────────
     let currentState = {
       handle: "", repos: [], selectedRepo: "",
       hasRank: false, hasSkills: false, hasHandle: false,
-      linkTarget: "", namedSkills: [], pickedFile: "handle.svg",
+      linkTarget: "", namedSkills: [], pickedFiles: ["handle.svg"],
     };
 
+    // ── Checkbox change → re-render rows ─────────────────────────────────────
+    [chkHandle, chkRank, chkSkills].forEach(cb => cb.addEventListener("change", renderRows));
+
+    // ── Per-badge rows renderer ───────────────────────────────────────────────
     function renderRows() {
-      const { handle, selectedRepo, hasRank, hasSkills, hasHandle, linkTarget, pickedFile } = currentState;
+      const { handle, selectedRepo, hasRank, hasSkills, hasHandle, linkTarget, pickedFiles } = currentState;
       rowsEl.innerHTML = "";
       badges.innerHTML = "";
 
       const q = selectedRepo ? `?repo=${encodeURIComponent(selectedRepo)}` : "";
+      const files = (pickedFiles && pickedFiles.length) ? pickedFiles : ["handle.svg"];
 
-      // Build entries: { localSrc, url, alt, md }
       const entries = [];
-      if (hasHandle) {
-        const url = `${BASE}/badges/${handle}/${pickedFile}${q}`;
-        entries.push({
-          localSrc: `./${handle}/${pickedFile}`,
-          alt: `@${handle} on Gaia`,
-          md: `[![Gaia](${url})](${linkTarget})`,
+      if (hasHandle && chkHandle.checked) {
+        files.forEach((file) => {
+          const url = `${BASE}/badges/${handle}/${file}${q}`;
+          entries.push({
+            localSrc: `./${handle}/${file}`,
+            alt: `@${handle} on Gaia`,
+            md: `[![Gaia](${url})](${linkTarget})`,
+          });
         });
       }
-      if (hasRank) {
+      if (hasRank && chkRank.checked) {
         const url = `${BASE}/badges/${handle}/rank.svg${q}`;
         entries.push({
           localSrc: `./${handle}/rank.svg`,
@@ -695,7 +903,7 @@
           md: `[![Gaia rank](${url})](${linkTarget})`,
         });
       }
-      if (hasSkills) {
+      if (hasSkills && chkSkills.checked) {
         const url = `${BASE}/badges/${handle}/skills.svg${q}`;
         entries.push({
           localSrc: `./${handle}/skills.svg`,
@@ -706,8 +914,8 @@
 
       if (!entries.length) return;
 
-      // Populate README simulator
-      entries.forEach(({ localSrc, alt, md }) => {
+      // README simulator
+      entries.forEach(({ localSrc, alt }) => {
         badges.insertAdjacentHTML("beforeend",
           `<a href="${linkTarget}"><img src="${localSrc}" alt="${alt}"></a>`);
       });
@@ -731,18 +939,15 @@
       header.appendChild(copyAllBtn);
       rowsEl.appendChild(header);
 
-      // Individual rows: badge preview | code | per-row copy
       entries.forEach(({ localSrc, alt, md }) => {
         const item = document.createElement("div");
         item.className = "bd-row-item";
 
-        // Badge thumbnail
         const thumb = document.createElement("div");
         thumb.className = "bd-row-badge";
         thumb.innerHTML = `<img src="${localSrc}" alt="${alt}">`;
         item.appendChild(thumb);
 
-        // Code row
         const row = document.createElement("div");
         row.className = "usp-row";
         const code = document.createElement("code");
@@ -764,7 +969,6 @@
       if (!repos.length) {
         repoBlock.style.display = "none";
         currentState.selectedRepo = "";
-        validateNote.textContent = "";
         return;
       }
       repoBlock.style.display = "block";
@@ -778,41 +982,176 @@
           renderRows();
         });
       });
-      validateNote.textContent = "validation: ?repo= will be enforced by the Gaia edge validator (rolling out soon).";
     }
 
     function renderSkillPicker(namedSkills, topSkillId) {
       currentState.namedSkills = namedSkills;
-      if (!namedSkills || namedSkills.length < 2) {
+      skillRowsEl.innerHTML = "";
+      currentState.pickedFiles = [];
+      if (!namedSkills || namedSkills.length === 0) {
         pickerWrap.style.display = "none";
-        currentState.pickedFile = "handle.svg";
+        currentState.pickedFiles = ["handle.svg"];
+        updatePickerActions();
         return;
       }
       pickerWrap.style.display = "block";
-      pickerEl.innerHTML = namedSkills.map((s) => {
+
+      // Default: just the top skill (or first available)
+      const defaultSkill = namedSkills.find(s => s.id === topSkillId) || namedSkills[0];
+      addSkillRow(defaultSkill.file);
+
+      updatePickerActions();
+    }
+
+    // Centralized visibility for Clear all / Add more / Add all.
+    // Clear all → any row exists.
+    // Add more  → at least one un-picked skill remains.
+    // Add all   → ≥2 rows on the canvas AND remaining skills exist.
+    function updatePickerActions() {
+      const namedSkills = currentState.namedSkills || [];
+      const rowCount = skillRowsEl.querySelectorAll(".bd-skill-row").length;
+      const remaining = namedSkills.filter(s => !currentState.pickedFiles.includes(s.file));
+
+      skillClearBtn.classList.toggle("is-visible", rowCount > 0);
+      skillAddBtn.style.display = (namedSkills.length > 1 && remaining.length > 0) ? "inline-flex" : "none";
+      skillAddBtn.disabled = remaining.length === 0;
+      skillAddBtn.style.opacity = remaining.length === 0 ? "0.4" : "1";
+      skillAddAllBtn.classList.toggle("is-visible", rowCount >= 2 && remaining.length > 0);
+    }
+
+    function buildSkillOptions(currentValue) {
+      const namedSkills = currentState.namedSkills || [];
+      // Disable already-picked options (except this row's current value) so each row stays unique
+      return namedSkills.map((s) => {
         const stars = "★".repeat(s.rank);
         const label = `${s.slash} · ${stars}${s.type === "unique" ? " · unique" : ""}`;
-        const sel = s.id === topSkillId ? " selected" : "";
-        return `<option value="${s.file}"${sel}>${label}</option>`;
+        const taken = currentState.pickedFiles.includes(s.file) && s.file !== currentValue;
+        const sel = s.file === currentValue ? " selected" : "";
+        const dis = taken ? " disabled" : "";
+        return `<option value="${s.file}"${sel}${dis}>${label}${taken ? " (already added)" : ""}</option>`;
       }).join("");
+    }
 
-      // Set initial file from selected option
-      currentState.pickedFile = pickerEl.value || "handle.svg";
+    function addSkillRow(initialFile) {
+      const namedSkills = currentState.namedSkills || [];
+      if (!namedSkills.length) return;
 
-      pickerEl.addEventListener("change", () => {
-        currentState.pickedFile = pickerEl.value;
+      // Pick first un-picked skill if no initial passed
+      const startFile = initialFile || namedSkills.find(s => !currentState.pickedFiles.includes(s.file))?.file;
+      if (!startFile) return;
+      if (!currentState.pickedFiles.includes(startFile)) {
+        currentState.pickedFiles.push(startFile);
+      }
+
+      const row = document.createElement("div");
+      row.className = "bd-skill-row";
+
+      const cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.checked = true;
+      cb.title = "Include this skill";
+      row.appendChild(cb);
+
+      const sel = document.createElement("select");
+      sel.className = "bd-skill-picker";
+      sel.value = startFile;
+      sel.innerHTML = buildSkillOptions(startFile);
+      sel.value = startFile;
+      row.appendChild(sel);
+
+      const removeBtn = document.createElement("button");
+      removeBtn.type = "button";
+      removeBtn.className = "bd-skill-remove";
+      removeBtn.setAttribute("aria-label", "Remove this skill");
+      removeBtn.textContent = "✕";
+      row.appendChild(removeBtn);
+
+      skillRowsEl.appendChild(row);
+
+      // Track this row's current selection so we can update pickedFiles atomically
+      let rowFile = startFile;
+      let rowChecked = true;
+
+      function syncPickedFiles() {
+        const active = [];
+        skillRowsEl.querySelectorAll(".bd-skill-row").forEach((r) => {
+          const c = r.querySelector("input[type=checkbox]");
+          const s = r.querySelector("select");
+          if (c && c.checked && s) active.push(s.value);
+        });
+        currentState.pickedFiles = active.length ? active : [];
+        // Refresh disabled options on every other row
+        skillRowsEl.querySelectorAll(".bd-skill-row select").forEach((s) => {
+          const cur = s.value;
+          s.innerHTML = buildSkillOptions(cur);
+          s.value = cur;
+        });
+        updatePickerActions();
+      }
+
+      sel.addEventListener("change", () => {
+        rowFile = sel.value;
+        syncPickedFiles();
         renderRows();
       });
+      cb.addEventListener("change", () => {
+        rowChecked = cb.checked;
+        sel.disabled = !cb.checked;
+        syncPickedFiles();
+        renderRows();
+      });
+      removeBtn.addEventListener("click", () => {
+        row.remove();
+        syncPickedFiles();
+        renderRows();
+      });
+
+      syncPickedFiles();
+    }
+
+    skillAddBtn.addEventListener("click", () => {
+      const namedSkills = currentState.namedSkills || [];
+      const remaining = namedSkills.filter(s => !currentState.pickedFiles.includes(s.file));
+      if (!remaining.length) return;
+      addSkillRow(remaining[0].file);
+      renderRows();
+    });
+
+    skillAddAllBtn.addEventListener("click", () => {
+      const namedSkills = currentState.namedSkills || [];
+      const remaining = namedSkills.filter(s => !currentState.pickedFiles.includes(s.file));
+      remaining.forEach((s) => addSkillRow(s.file));
+      renderRows();
+    });
+
+    skillClearBtn.addEventListener("click", () => {
+      skillRowsEl.innerHTML = "";
+      currentState.pickedFiles = [];
+      updatePickerActions();
+      renderRows();
+    });
+
+    function updateCheckboxes(hasHandle, hasRank, hasSkills) {
+      checksEl.classList.add("is-visible");
+      const wHandle = document.getElementById("bd-check-handle-wrap");
+      const wRank   = document.getElementById("bd-check-rank-wrap");
+      const wSkills = document.getElementById("bd-check-skills-wrap");
+      wHandle.style.display = hasHandle ? "inline-flex" : "none";
+      wRank.style.display   = hasRank   ? "inline-flex" : "none";
+      wSkills.style.display = hasSkills ? "inline-flex" : "none";
+      chkHandle.checked = hasHandle;
+      chkRank.checked   = hasRank;
+      chkSkills.checked = hasSkills;
     }
 
     // ── Variant cards updater ────────────────────────────────────────────────
     function updateVariantCards(handle, registry) {
       const entry = registry.contributors && registry.contributors[handle];
       if (!entry) return;
-      const rankStat = document.getElementById("bd-v-rank-stat");
+      const rankStat   = document.getElementById("bd-v-rank-stat");
       const skillsStat = document.getElementById("bd-v-skills-stat");
       const handleStat = document.getElementById("bd-v-handle-stat");
-      if (rankStat) rankStat.textContent = `Highest rank: ${entry.topRank}★`;
+      if (rankStat)   rankStat.textContent   = `Highest rank: ${entry.topRank}★`;
       if (skillsStat) skillsStat.textContent = `${entry.count} named skill${entry.count !== 1 ? "s" : ""}`;
       if (handleStat) handleStat.textContent = `@${handle} · ${entry.namedSkills && entry.namedSkills.length ? entry.namedSkills[0].slash : "top skill"}`;
     }
@@ -829,6 +1168,7 @@
       badges.innerHTML = "";
       repoBlock.style.display = "none";
       pickerWrap.style.display = "none";
+      checksEl.classList.remove("is-visible");
 
       const base = `./${encodeURIComponent(handle)}`;
       const [hasRank, hasSkills, hasHandle, hasProfile, registry] = await Promise.all([
@@ -849,19 +1189,20 @@
 
       document.getElementById("readme-sim-title").textContent = handle;
       const linkTarget = hasProfile ? `${BASE}/u/${handle}/` : `${BASE}/`;
-      const approved = (registry.contributors && registry.contributors[handle]) || null;
-      const repos = approved ? (approved.repos || []) : [];
+      const approved   = (registry.contributors && registry.contributors[handle]) || null;
+      const repos      = approved ? (approved.repos || []) : [];
       const namedSkills = approved ? (approved.namedSkills || []) : [];
-      const topSkillId = approved ? approved.topSkill : null;
+      const topSkillId  = approved ? approved.topSkill : null;
 
       currentState = {
         handle, repos: [], selectedRepo: "",
         hasRank, hasSkills, hasHandle, linkTarget,
-        namedSkills, pickedFile: "handle.svg",
+        namedSkills, pickedFiles: ["handle.svg"],
       };
 
       renderRepoPicker(repos);
       renderSkillPicker(namedSkills, topSkillId);
+      updateCheckboxes(hasHandle, hasRank, hasSkills);
       renderRows();
       updateVariantCards(handle, registry);
 
@@ -876,13 +1217,14 @@
     goBtn.addEventListener("click", generate);
     handleInput.addEventListener("keydown", (e) => { if (e.key === "Enter") generate(); });
 
-    // Prefill from ?u= query param so you can deep-link sample URLs.
+    // Prefill from ?u= param
     const params = new URLSearchParams(window.location.search);
     if (params.has("u")) {
       handleInput.value = params.get("u") || "";
+      clearBtn.style.display = "block";
+      samplerEl.style.display = "none";
       generate();
     } else {
-      // Seed with a sample 1★ state so the generator is never empty on first load.
       seedSample();
     }
 
@@ -895,45 +1237,35 @@
       const linkTarget = `${BASE}/`;
       currentState = {
         handle: sampleHandle, repos: [], selectedRepo: "",
-        hasRank: true, hasSkills: true, hasHandle: false,
-        linkTarget, namedSkills: [], pickedFile: "handle.svg",
+        hasRank: true, hasSkills: false, hasHandle: false,
+        linkTarget, namedSkills: [], pickedFiles: ["handle.svg"],
       };
 
       document.getElementById("readme-sim-title").textContent = "my-project";
       rowsEl.innerHTML = "";
-      // README sim shows only the initial sample badge (sampler click updates it)
       badges.innerHTML = `<img src="./samples/rank-1.svg" alt="Awakened · 1★" style="height:20px;display:block;">`;
 
-      const entries = [
-        {
-          localSrc: "./samples/rank-1.svg",
-          alt: "Awakened · 1★",
-          md: `[![Gaia rank](${BASE}/badges/gaia-bot/rank.svg)](${linkTarget})`,
-        },
-        {
-          localSrc: "./samples/rank-1.svg",
-          alt: "1 named skill",
-          md: `[![Gaia skills](${BASE}/badges/gaia-bot/skills.svg)](${linkTarget})`,
-        },
-      ];
+      // Show rank checkbox only; no copy buttons in seed state
+      checksEl.classList.add("is-visible");
+      document.getElementById("bd-check-handle-wrap").style.display = "none";
+      document.getElementById("bd-check-rank-wrap").style.display   = "inline-flex";
+      document.getElementById("bd-check-skills-wrap").style.display = "none";
+      chkRank.checked = true;
 
-      // No Copy All and no copy buttons in the seed state — preview only
-      entries.forEach(({ localSrc, alt, md }) => {
-        const item = document.createElement("div");
-        item.className = "bd-row-item";
-        const thumb = document.createElement("div");
-        thumb.className = "bd-row-badge";
-        thumb.innerHTML = `<img src="${localSrc}" alt="${alt}">`;
-        item.appendChild(thumb);
-        const row = document.createElement("div");
-        row.className = "usp-row";
-        const code = document.createElement("code");
-        code.className = "usp-cmd";
-        code.textContent = md;
-        row.appendChild(code);
-        item.appendChild(row);
-        rowsEl.appendChild(item);
-      });
+      const item = document.createElement("div");
+      item.className = "bd-row-item";
+      const thumb = document.createElement("div");
+      thumb.className = "bd-row-badge";
+      thumb.innerHTML = `<img src="./samples/rank-1.svg" alt="Awakened · 1★">`;
+      item.appendChild(thumb);
+      const row = document.createElement("div");
+      row.className = "usp-row";
+      const code = document.createElement("code");
+      code.className = "usp-cmd";
+      code.textContent = `[![Gaia rank](${BASE}/badges/gaia-bot/rank.svg)](${linkTarget})`;
+      row.appendChild(code);
+      item.appendChild(row);
+      rowsEl.appendChild(item);
     }
   </script>
 
