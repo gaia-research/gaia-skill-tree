@@ -1,0 +1,46 @@
+{
+  "id": "web-best-practices",
+  "name": "web-best-practices",
+  "type": "extra",
+  "level": "2★",
+  "rarity": "common",
+  "description": "Web Best Practices",
+  "prerequisites": [
+    "code-review-pipeline",
+    "performance-tuning"
+  ],
+  "derivatives": [],
+  "evidence": [
+    {
+      "class": "A",
+      "source": "https://github.com/addyosmani/web-quality-skills",
+      "evaluator": "addyosmani",
+      "date": "2026-05-24"
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-05-24",
+  "updatedAt": "2026-05-24",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-24T16:03:24Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill web-best-practices"
+    },
+    {
+      "timestamp": "2026-05-24T16:07:27Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Calibrated level from None to 2★"
+    },
+    {
+      "timestamp": "2026-05-24T16:09:50Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added A evidence from https://github.com/addyosmani/web-quality-skills"
+    }
+  ]
+}
