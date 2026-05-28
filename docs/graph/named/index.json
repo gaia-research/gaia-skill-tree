@@ -5792,6 +5792,34 @@
       "type": "basic"
     },
     {
+      "id": "sickn33/ai-dev-jobs-mcp",
+      "name": "ai-dev-jobs-mcp",
+      "contributor": "sickn33",
+      "origin": false,
+      "genericSkillRef": "mcp-integration",
+      "status": "awakened",
+      "level": "2★",
+      "description": "MCP tool for finding AI dev jobs.",
+      "createdAt": "2026-05-22",
+      "updatedAt": "2026-05-22",
+      "type": "basic",
+      "installBody": "Add installation instructions here."
+    },
+    {
+      "id": "sickn33/n8n-mcp-tools-expert",
+      "name": "n8n-mcp-tools-expert",
+      "contributor": "sickn33",
+      "origin": false,
+      "genericSkillRef": "mcp-integration",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Expert at integrating n8n with MCP (Model Context Protocol). Build n8n",
+      "createdAt": "2026-05-22",
+      "updatedAt": "2026-05-22",
+      "type": "basic",
+      "installBody": "Add installation instructions here."
+    },
+    {
       "id": "xquik-dev/hermes-tweet",
       "name": "Hermes Tweet",
       "contributor": "xquik-dev",
@@ -5814,6 +5842,20 @@
       "createdAt": "2026-05-15",
       "updatedAt": "2026-05-15",
       "type": "extra"
+    },
+    {
+      "id": "yundu-ai/mcp-tool-developer",
+      "name": "mcp-tool-developer",
+      "contributor": "yundu-ai",
+      "origin": false,
+      "genericSkillRef": "mcp-integration",
+      "status": "awakened",
+      "level": "2★",
+      "description": "Build Model Context Protocol (MCP) servers and tools from scratch. Full-stack",
+      "createdAt": "2026-05-22",
+      "updatedAt": "2026-05-22",
+      "type": "basic",
+      "installBody": "Add installation instructions here."
     }
   ],
   "byContributor": {
@@ -6111,6 +6153,10 @@
     "santifer": [
       "santifer/career-ops"
     ],
+    "sickn33": [
+      "sickn33/ai-dev-jobs-mcp",
+      "sickn33/n8n-mcp-tools-expert"
+    ],
     "spring-ai": [
       "spring-ai/readme-generate"
     ],
@@ -6128,6 +6174,9 @@
     ],
     "yonatangross": [
       "yonatangross/orchestkit-rag"
+    ],
+    "yundu-ai": [
+      "yundu-ai/mcp-tool-developer"
     ]
   }
 }
