@@ -53,9 +53,6 @@ RANK_NAMES = {
 # Filenames produced by the primary badges — per-skill variants whose slug
 # collides with one of these are renamed with a `~` suffix so they don't
 # overwrite the primary file (e.g., @mattpocock/skills → skills~.svg).
-# Filenames produced by the primary badges — per-skill variants whose slug
-# collides with one of these are renamed with a `~` suffix so they don't
-# overwrite the primary file (e.g., @mattpocock/skills → skills~.svg).
 # Both wordmark and seal-only forms are reserved so a user-named skill called
 # e.g. "rank-seal" can't clobber the canonical seal file.
 RESERVED_FILENAMES = {
@@ -101,6 +98,42 @@ def load_rank_colors() -> dict[int, str]:
     for m in re.finditer(r"--rank-(\d):\s*(#[0-9a-fA-F]+)", text):
         colors[int(m.group(1))] = m.group(2).lower()
     return colors
+
+
+def load_tier_color(tier: str) -> str:
+    """Resolve a tier accent hex from the canonical sources used by tokens.css.
+
+    Order of preference matches the documented source-of-truth chain in
+    DESIGN.md:
+        1. registry/gaia.json -> meta.typeColors.<tier>.hex
+        2. docs/css/tokens.css -> --tier-<tier>: #hex
+    Falls back to a sane default ONLY if both lookups fail (defensive — both
+    files ship in the repo).
+    """
+    # 1. registry/gaia.json
+    gaia_json = REPO_ROOT / "registry" / "gaia.json"
+    if gaia_json.exists():
+        try:
+            data = json.loads(gaia_json.read_text(encoding="utf-8"))
+            hex_val = (
+                data.get("meta", {})
+                    .get("typeColors", {})
+                    .get(tier, {})
+                    .get("hex")
+            )
+            if hex_val:
+                return hex_val.lower()
+        except (json.JSONDecodeError, OSError):
+            pass
+    # 2. tokens.css
+    if TOKENS_CSS.exists():
+        text = TOKENS_CSS.read_text(encoding="utf-8")
+        m = re.search(rf"--tier-{re.escape(tier)}:\s*(#[0-9a-fA-F]+)", text)
+        if m:
+            return m.group(1).lower()
+    # Defensive fallback only
+    return {"basic": "#38bdf8", "extra": "#c084fc",
+            "unique": "#7c3aed", "ultimate": "#f59e0b"}.get(tier, SLATE)
 
 
 def level_num(level: str) -> int:
@@ -207,11 +240,17 @@ def _wrap(width: int, body: str, label: str) -> str:
     )
 
 
-def badge_simple(value: str, panel_color: str, label: str, seal_only: bool = False) -> str:
+def badge_simple(value: str, panel_color: str, label: str, seal_only: bool = False,
+                 right_bg_override: str | None = None) -> str:
     """Two-tone badge: GAIA on left, single-color value on right.
 
     When `seal_only=True`, the left panel shrinks to just the diamond seal —
     the "Gaia" wordmark is omitted entirely.
+
+    `right_bg_override` lets callers force a specific right-panel fill (e.g.
+    pure black `#000000` for the Unique tier) instead of the default INK
+    slate. Ignored for `panel_color == "white-gold"` since that branch already
+    paints its own gold rectangle.
     """
     left_w = LEFT_WIDTH_SEAL if seal_only else LEFT_WIDTH
     value_w = text_width(value) + 18  # 9px padding each side
@@ -222,7 +261,7 @@ def badge_simple(value: str, panel_color: str, label: str, seal_only: bool = Fal
         right_bg = "#fbbf24"
         text_element = f'<tspan fill="#ffffff">{_xml(value)}</tspan>'
     else:
-        right_bg = INK
+        right_bg = right_bg_override or INK
         text_element = f'<tspan fill="{panel_color}">{_xml(value)}</tspan>'
 
     body = (
@@ -237,8 +276,12 @@ def badge_simple(value: str, panel_color: str, label: str, seal_only: bool = Fal
 
 
 def badge_handle(handle: str, slash: str, rank: int, rank_color: str, label: str,
-                 seal_only: bool = False) -> str:
-    """Identity badge: '@handle/slash · N★' with multi-color tspans on dark right panel."""
+                 seal_only: bool = False, right_bg_override: str | None = None) -> str:
+    """Identity badge: '@handle/slash · N★' with multi-color tspans on dark right panel.
+
+    `right_bg_override` lets unique-tier callers swap the default INK slate
+    for pure black so the purple text reads as off-spectrum.
+    """
     left_w = LEFT_WIDTH_SEAL if seal_only else LEFT_WIDTH
     star_value = f"{rank}★" if rank else "★"
     handle_text = f"@{handle}"
@@ -259,14 +302,16 @@ def badge_handle(handle: str, slash: str, rank: int, rank_color: str, label: str
         gold_rect = f'<rect x="{star_x - 3}" y="3" width="{star_w}" height="14" fill="#fbbf24" rx="2"/>'
 
         star_tspan = f'<tspan fill="#ffffff">{_xml(star_value)}</tspan>'
+        right_bg = INK
     else:
         slash_tspan = f'<tspan fill="{rank_color}">{_xml(slash)}</tspan>'
         star_tspan = f'<tspan fill="{rank_color}">{_xml(star_value)}</tspan>'
+        right_bg = right_bg_override or INK
 
     # Two-tone background: keep dark ink on the right to let colored text pop.
     body = (
         f'{_left_panel(seal_only)}'
-        f'<rect x="{left_w}" width="{right_w}" height="20" fill="{INK}"/>'
+        f'<rect x="{left_w}" width="{right_w}" height="20" fill="{right_bg}"/>'
         f'{gold_rect}'
         f'{_gaia_wordmark(seal_only)}'
         f'<text x="{left_w + 11}" y="{TEXT_Y}" '
@@ -405,6 +450,11 @@ def write_user_badges(handle: str, info: dict, scan: dict | None,
             return "white-gold"
         return rank_colors.get(rank, AMBER)
 
+    # Tier-unique purple — pulled from registry/gaia.json typeColors so we
+    # don't hardcode the hex. Used for handle / per-skill badges whose
+    # underlying skill carries `type: unique`.
+    unique_color = load_tier_color("unique")
+
     if top_rank > 0:
         rank_name = RANK_NAMES.get(top_rank, f"{top_rank}★")
         # "Hardened · 4★" — rank class name anchors meaning, star count is numeric
@@ -433,17 +483,20 @@ def write_user_badges(handle: str, info: dict, scan: dict | None,
 
         is_unique = top.get("type") == "unique"
         if is_unique:
-            color = "#7c3aed"
+            color = unique_color
         elif rank == 6:
             color = "white-gold"
         else:
             color = rank_colors.get(rank, AMBER)
 
         label = f"Gaia: @{handle}{slash} {rank} stars"
+        bg = "#000000" if is_unique else None
         (user_dir / "handle.svg").write_text(
-            badge_handle(handle, slash, rank, color, label), encoding="utf-8")
+            badge_handle(handle, slash, rank, color, label,
+                         right_bg_override=bg), encoding="utf-8")
         (user_dir / "handle-seal.svg").write_text(
-            badge_handle(handle, slash, rank, color, label, seal_only=True),
+            badge_handle(handle, slash, rank, color, label, seal_only=True,
+                         right_bg_override=bg),
             encoding="utf-8")
 
         # Per-skill variants — write both wordmark and seal-only forms
@@ -453,23 +506,26 @@ def write_user_badges(handle: str, info: dict, scan: dict | None,
 
             is_sunique = skill.get("type") == "unique"
             if is_sunique:
-                scolor = "#7c3aed"
+                scolor = unique_color
             elif srank == 6:
                 scolor = "white-gold"
             else:
                 scolor = rank_colors.get(srank, AMBER)
 
             slabel = f"Gaia: @{handle}{sslash} {srank} stars"
+            sbg = "#000000" if is_sunique else None
             # filename: slash-skill without leading slash, e.g. /health -> health.svg
             fname = sslash.lstrip("/").replace("/", "-") or "skill"
             if fname in RESERVED_FILENAMES:
                 # Avoid clobbering rank.svg / skills.svg / handle.svg.
                 fname = f"{fname}~"
             (user_dir / f"{fname}.svg").write_text(
-                badge_handle(handle, sslash, srank, scolor, slabel),
+                badge_handle(handle, sslash, srank, scolor, slabel,
+                             right_bg_override=sbg),
                 encoding="utf-8")
             (user_dir / f"{fname}-seal.svg").write_text(
-                badge_handle(handle, sslash, srank, scolor, slabel, seal_only=True),
+                badge_handle(handle, sslash, srank, scolor, slabel, seal_only=True,
+                             right_bg_override=sbg),
                 encoding="utf-8")
 
 
@@ -498,15 +554,20 @@ def write_sample_badges(rank_colors: dict[int, str], out_dir: Path) -> None:
             badge_simple(value, color, label), encoding="utf-8")
         (samples_dir / f"rank-{n}-seal.svg").write_text(
             badge_simple(value, color, label, seal_only=True), encoding="utf-8")
-    # Unique tier (purple) — not part of the 1–6 ramp; rendered with the
-    # tier-unique purple from docs/css/tokens.css.
-    unique_value = "Unique"
+    # Unique tier — rank 4★, purple text on a deep black panel (the unique
+    # tier overrides the default INK slate to read as "rare / off-spectrum").
+    # Color is pulled from registry/gaia.json.meta.typeColors.unique
+    # (DESIGN.md source of truth) so we never hardcode the hex.
+    unique_color = load_tier_color("unique")
+    unique_value = "Unique · 4★"
+    unique_label = "Gaia rank sample: Unique (4 stars)"
     (samples_dir / "rank-unique.svg").write_text(
-        badge_simple(unique_value, "#7c3aed", "Gaia rank sample: Unique"),
+        badge_simple(unique_value, unique_color, unique_label,
+                     right_bg_override="#000000"),
         encoding="utf-8")
     (samples_dir / "rank-unique-seal.svg").write_text(
-        badge_simple(unique_value, "#7c3aed", "Gaia rank sample: Unique",
-                     seal_only=True),
+        badge_simple(unique_value, unique_color, unique_label, seal_only=True,
+                     right_bg_override="#000000"),
         encoding="utf-8")
 
 
