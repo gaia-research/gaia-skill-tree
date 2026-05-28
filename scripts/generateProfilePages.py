@@ -867,7 +867,7 @@ def build_profile_page(handle: str, skills: list, named_index: dict | None = Non
     <main class="profile-main">
       <!-- ─── PROFILE BACK ─── -->
       <div class="profile-back-row">
-        <a class="profile-back" href="../" aria-label="Back" onclick="event.preventDefault(); history.back();">
+        <a class="profile-back" href="../" aria-label="Back" onclick="if(history.length>1){{event.preventDefault();history.back();}}">
           <svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#arrow-back"/></svg>
           <span>Back</span>
         </a>

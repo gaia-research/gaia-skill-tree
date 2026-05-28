@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-27",
+  "generatedAt": "2026-05-28",
   "schema": "gaia-badges-registry/1",
   "description": "Approved repos per contributor for Gaia README badges. Derived from registry/named-skills.json `links.github` URLs. The forthcoming validator turns badges red when the `?repo=` query string does not match a repo listed here.",
   "contributors": {

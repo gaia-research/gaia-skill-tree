@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/skill.schema.json",
   "version": "3.25.2",
-  "generatedAt": "2026-05-25T20:10:30.780334Z",
+  "generatedAt": "2026-05-28T03:24:51.858735Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -87,67 +87,7 @@
       "niche-integration": "Niche integrations",
       "experimental-feature": "Experimental features",
       "heavyweight-dependency": "Heavyweight dependencies"
-    },
-    "clusterNames": {
-      "0": "Code & Generation",
-      "1": "Text & Generate",
-      "2": "Agent & Browser",
-      "3": "Analysis & Tool",
-      "4": "Retrieval & Web",
-      "5": "Coordination & Platform",
-      "6": "Reasoning & Chain-of-thought",
-      "7": "Pattern & Memory"
-    },
-    "centroids": [
-      [
-        -0.08567232346614116,
-        0.34416820300746587,
-        -0.07924053675417485,
-        -0.29303183754893974
-      ],
-      [
-        0.47228665659006325,
-        0.22392409050076886,
-        0.009032397236641728,
-        0.06418031095135956
-      ],
-      [
-        -0.3813658187357185,
-        0.020280771027904067,
-        0.13863480501806053,
-        -0.04295866442225666
-      ],
-      [
-        -0.2758257615319825,
-        -0.020846119351636112,
-        -0.321630371919483,
-        0.08369383425603572
-      ],
-      [
-        0.6810858711027369,
-        -0.30372124298936504,
-        -0.16616056891214753,
-        0.06524777218174675
-      ],
-      [
-        -0.2876522237754484,
-        -0.4995536277670463,
-        0.18328144584210893,
-        0.16990025691782915
-      ],
-      [
-        0.05718686862323432,
-        0.350163070487304,
-        0.3137406292809767,
-        0.011721563433835342
-      ],
-      [
-        0.06126689682595167,
-        -0.0989634329818568,
-        0.4339825553745219,
-        -0.2617677283489071
-      ]
-    ]
+    }
   },
   "skills": [
     {
@@ -3923,7 +3863,10 @@
       "type": "basic",
       "level": "2★",
       "rarity": "common",
-      "description": "Produces unit tests, integration tests, and edge-case test cases from source code or natural-language specifications.",
+      "summary": "Produces comprehensive unit, integration, and edge-case test suites from source code.",
+      "description": "Analyzes source code or natural-language specifications to identify functions, classes, and their dependencies, and generates thorough, maintainable test suites. It handles test case structuring, setup and teardown fixtures, mocking external dependencies, and validating normal operation alongside boundary and error conditions.",
+      "useCase": "A developer just finished writing an authentication module (`auth.py`) and needs comprehensive unit tests. The skill is invoked to create properly structured tests using the `unittest.TestCase` format, handling edge-case validation and mock generation without requiring explicit per-file prompting.",
+      "directives": "Tests must use established frameworks (e.g., `unittest.TestCase` format) with proper naming conventions (e.g., 'test_' prefix). Tests should be organized into concept-based subfolders within a `tests/` directory (e.g., `tests/auth/`). Ensure test coverage includes happy paths, boundary conditions, and error paths, utilizing appropriate assertions and mocking techniques to maintain test independence.",
       "prerequisites": [],
       "derivatives": [
         "automated-testing"

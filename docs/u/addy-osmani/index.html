@@ -2,9 +2,6 @@
 <html lang="en" data-icon-base="../../assets/icons.svg">
 <head>
   <script>window.GAIA_VERSION = "3.25.2";</script>
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>@addy-osmani — Gaia Skill Registry</title>
@@ -75,8 +72,16 @@
 
       <!-- ─── PROGRESSION TIMELINE ─── -->
       <section class="profile-section" id="profile-timeline-section">
-  <h2 class="profile-section-title">Progression Timeline</h2>
-  <p class="profile-section-sub">Skill rank progression over time. Hover for details.</p>
+  <div class="profile-section-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">
+    <div>
+      <h2 class="profile-section-title" style="margin:0;">Progression Timeline</h2>
+      <p class="profile-section-sub" style="margin:0.25rem 0 0 0;">Skill rank progression over time. Hover for details.</p>
+    </div>
+    <button class="profile-timeline-filter-btn" id="desktopFilterToggle" aria-label="Toggle filters" style="display:inline-flex; align-items:center; gap:6px; font-family:var(--font-mono); font-size:0.72rem; letter-spacing:0.05em; text-transform:uppercase; background:var(--surface); border:1px solid var(--border); color:var(--text); padding:0.4rem 0.8rem; border-radius:6px; cursor:pointer; transition:border-color 0.15s, color 0.15s;">
+      <svg class="ico" width="14" height="14" aria-hidden="true" style="fill:currentColor;"><use href="../../assets/icons.svg#filter"/></svg>
+      <span>Filter</span>
+    </button>
+  </div>
   <div id="profile-timeline" class="profile-timeline" role="img" aria-label="Skill progression timeline"></div>
 </section>
 <script>window.PROFILE_TIMELINE = JSON.parse("{\"skills\": [{\"id\": \"addy-osmani/test-driven-development\", \"name\": \"Test-Driven Development\", \"type\": \"basic\", \"origin\": true, \"levelHistory\": [{\"level\": \"3\\u2605\", \"achievedAt\": \"2026-04-30T00:00:00Z\", \"source\": \"promotion\"}]}], \"events\": [{\"timestamp\": \"2026-04-30T00:00:00Z\", \"action\": \"register\", \"skillId\": \"addy-osmani/test-driven-development\", \"details\": \"Registered named skill addy-osmani/test-driven-development\", \"previousValue\": null, \"newValue\": \"3\\u2605\"}]}");</script>
