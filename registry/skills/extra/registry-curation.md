@@ -1,4 +1,4 @@
-# /registry-curation  [4★ · Hardened]
+# [mbtiongson1](../../../docs/u/mbtiongson1/)/gaia-curate  [4★ · Hardened]
 **ID:** registry-curation  
 **Type:** Extra Skill  
 **Level:** 4★  
