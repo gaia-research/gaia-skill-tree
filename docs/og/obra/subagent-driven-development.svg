@@ -92,43 +92,43 @@
   <!-- Slug (.plaque__slug) -->
   <text class="plaque__slug" x="264" y="150"
     font-family="EB Garamond,Georgia,serif"
-    font-size="52" font-weight="600"
+    font-size="64" font-weight="600"
     fill="#c084fc" dominant-baseline="middle">Subagent-Driven Development</text>
 
   <!-- Title (.plaque__title — italic subtitle) -->
-  <text class="plaque__title" x="264" y="210" font-family="EB Garamond,Georgia,serif" font-size="22" font-style="italic" fill="rgba(226,232,240,0.5)" dominant-baseline="middle">The Swarm Architect</text>
+  <text class="plaque__title" x="264" y="220" font-family="EB Garamond,Georgia,serif" font-size="32" font-style="italic" fill="rgba(226,232,240,0.5)" dominant-baseline="middle">The Swarm Architect</text>
 
   <!-- Horizontal rule -->
-  <line x1="264" y1="240" x2="1152" y2="240"
+  <line x1="264" y1="260" x2="1152" y2="260"
     stroke="rgba(192,132,252, 0.16)" stroke-width="1"/>
 
   <!-- Description (.plaque__description) -->
-  <text class="plaque__description" x="264" y="278"
+  <text class="plaque__description" x="264" y="308"
     font-family="Bricolage Grotesque,Inter,system-ui,sans-serif"
-    font-size="18" fill="rgba(226,232,240,0.65)">
-    <tspan x="264" dy="0">Executes plans by dispatching a fresh subagent per task</tspan>
-<tspan x="264" dy="26">with a two-stage review (spec compliance then code</tspan>
-<tspan x="264" dy="26">quality), keeping the orchestrator context clean…</tspan>
+    font-size="28" fill="rgba(226,232,240,0.65)">
+    <tspan x="264" dy="0">Executes plans by dispatching a fresh subagent</tspan>
+<tspan x="264" dy="36">per task with a two-stage review (spec</tspan>
+<tspan x="264" dy="36">compliance then code quality), keeping the…</tspan>
   </text>
 
   <!-- Tags row (.plaque__tags / .plaque__tag) -->
-  <rect class="plaque__tag-bg" x="264" y="470" width="82" height="22" rx="3" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
-  <text class="plaque__tag" x="273" y="485" font-family="'Departure Mono','JetBrains Mono',ui-monospace,monospace" font-size="11" letter-spacing="0.5">subagent</text>
-  <rect class="plaque__tag-bg" x="352" y="470" width="122" height="22" rx="3" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
-  <text class="plaque__tag" x="361" y="485" font-family="'Departure Mono','JetBrains Mono',ui-monospace,monospace" font-size="11" letter-spacing="0.5">orchestration</text>
-  <rect class="plaque__tag-bg" x="480" y="470" width="130" height="22" rx="3" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
-  <text class="plaque__tag" x="489" y="485" font-family="'Departure Mono','JetBrains Mono',ui-monospace,monospace" font-size="11" letter-spacing="0.5">plan-execution</text>
-  <rect class="plaque__tag-bg" x="616" y="470" width="146" height="22" rx="3" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
-  <text class="plaque__tag" x="625" y="485" font-family="'Departure Mono','JetBrains Mono',ui-monospace,monospace" font-size="11" letter-spacing="0.5">two-stage-review</text>
+  <rect class="plaque__tag-bg" x="264" y="470" width="120" height="32" rx="4" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+  <text class="plaque__tag" x="276" y="492" font-family="'Departure Mono','JetBrains Mono',ui-monospace,monospace" font-size="20" letter-spacing="0.5">subagent</text>
+  <rect class="plaque__tag-bg" x="396" y="470" width="180" height="32" rx="4" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+  <text class="plaque__tag" x="408" y="492" font-family="'Departure Mono','JetBrains Mono',ui-monospace,monospace" font-size="20" letter-spacing="0.5">orchestration</text>
+  <rect class="plaque__tag-bg" x="588" y="470" width="192" height="32" rx="4" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+  <text class="plaque__tag" x="600" y="492" font-family="'Departure Mono','JetBrains Mono',ui-monospace,monospace" font-size="20" letter-spacing="0.5">plan-execution</text>
+  <rect class="plaque__tag-bg" x="792" y="470" width="216" height="32" rx="4" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+  <text class="plaque__tag" x="804" y="492" font-family="'Departure Mono','JetBrains Mono',ui-monospace,monospace" font-size="20" letter-spacing="0.5">two-stage-review</text>
 
   <!-- Install row (.plaque__install-row) -->
-  <rect class="plaque__install-bg" x="264" y="510" width="888" height="32" rx="4" fill="rgba(0,0,0,0.4)" stroke="rgba(255,255,255,0.06)" stroke-width="1"/><text class="plaque__install-prompt" x="276" y="531" font-family="'Departure Mono','JetBrains Mono',ui-monospace,monospace" font-size="13" fill="#fbbf24">$</text><text class="plaque__install-cmd" x="292" y="531" font-family="'Departure Mono','JetBrains Mono',ui-monospace,monospace" font-size="13" fill="rgba(226,232,240,0.75)">gaia install obra/subagent-driven-development</text>
+  <rect class="plaque__install-bg" x="264" y="510" width="888" height="44" rx="6" fill="rgba(0,0,0,0.4)" stroke="rgba(255,255,255,0.06)" stroke-width="1"/><text class="plaque__install-prompt" x="280" y="538" font-family="'Departure Mono','JetBrains Mono',ui-monospace,monospace" font-size="24" fill="#fbbf24">$</text><text class="plaque__install-cmd" x="304" y="538" font-family="'Departure Mono','JetBrains Mono',ui-monospace,monospace" font-size="24" fill="rgba(226,232,240,0.75)">gaia install obra/subagent-driven-development</text>
 
   <!-- Evidence class chip (.plaque__evidence) -->
-  <rect class="plaque__evidence-bg" x="264" y="560" width="80" height="22"
-    rx="3" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-  <text class="plaque__evidence" x="276" y="575"
-    font-family="monospace" font-size="11" letter-spacing="1.5"
+  <rect class="plaque__evidence-bg" x="264" y="560" width="108" height="28"
+    rx="4" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <text class="plaque__evidence" x="276" y="579"
+    font-family="monospace" font-size="14" letter-spacing="1.5"
     fill="rgba(226,232,240,0.5)" dominant-baseline="middle">CLASS A</text>
 
   <!-- Level chip (.plaque__rank chip variant — mirrors Stage 2 sibling) -->
@@ -136,12 +136,12 @@
 
   <!-- Contributor handle (.plaque__handle) -->
   <text class="plaque__handle" x="264" y="605"
-    font-family="'Bricolage Grotesque',Inter,system-ui,sans-serif" font-size="18" font-weight="600"
+    font-family="'Bricolage Grotesque',Inter,system-ui,sans-serif" font-size="22" font-weight="600"
     fill="#ef4444" dominant-baseline="middle">@obra</text>
 
   <!-- Gaia wordmark (bottom-right) -->
   <text x="1136" y="605"
-    font-family="EB Garamond,Georgia,serif" font-size="18" font-weight="600"
+    font-family="EB Garamond,Georgia,serif" font-size="22" font-weight="600"
     fill="rgba(226,232,240,0.3)" text-anchor="end" dominant-baseline="middle">Gaia</text>
 
   <!-- Bottom underline accent (.plaque__underline) -->

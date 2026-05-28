@@ -316,17 +316,17 @@ def _build_tags_svg(skill: dict, x: float, y: float, max_tags: int = 4) -> str:
     cursor_x = x
     for t in tags:
         text = html.escape(str(t))
-        pill_w = max(60, len(text) * 8 + 18)
+        pill_w = max(70, len(text) * 12 + 24)
         parts.append(
-            f'<rect class="plaque__tag-bg" x="{cursor_x}" y="{y}" width="{pill_w}" height="22" rx="3" '
+            f'<rect class="plaque__tag-bg" x="{cursor_x}" y="{y}" width="{pill_w}" height="32" rx="4" '
             f'fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>'
         )
         parts.append(
-            f'<text class="plaque__tag" x="{cursor_x + 9}" y="{y + 15}" '
-            f'font-family="\'Departure Mono\',\'JetBrains Mono\',ui-monospace,monospace" font-size="11" '
+            f'<text class="plaque__tag" x="{cursor_x + 12}" y="{y + 22}" '
+            f'font-family="\'Departure Mono\',\'JetBrains Mono\',ui-monospace,monospace" font-size="20" '
             f'letter-spacing="0.5">{text}</text>'
         )
-        cursor_x += pill_w + 6
+        cursor_x += pill_w + 12
     return "\n  ".join(parts)
 
 
@@ -338,13 +338,13 @@ def _build_install_row_svg(skill: dict, x: float, y: float, w: float) -> str:
         return ""
     cmd = html.escape(f"gaia install {skill_id}")
     return (
-        f'<rect class="plaque__install-bg" x="{x}" y="{y}" width="{w}" height="32" rx="4" '
+        f'<rect class="plaque__install-bg" x="{x}" y="{y}" width="{w}" height="44" rx="6" '
         f'fill="rgba(0,0,0,0.4)" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>'
-        f'<text class="plaque__install-prompt" x="{x + 12}" y="{y + 21}" '
-        f'font-family="\'Departure Mono\',\'JetBrains Mono\',ui-monospace,monospace" font-size="13" '
+        f'<text class="plaque__install-prompt" x="{x + 16}" y="{y + 28}" '
+        f'font-family="\'Departure Mono\',\'JetBrains Mono\',ui-monospace,monospace" font-size="24" '
         f'fill="{APEX_GOLD}">$</text>'
-        f'<text class="plaque__install-cmd" x="{x + 28}" y="{y + 21}" '
-        f'font-family="\'Departure Mono\',\'JetBrains Mono\',ui-monospace,monospace" font-size="13" '
+        f'<text class="plaque__install-cmd" x="{x + 40}" y="{y + 28}" '
+        f'font-family="\'Departure Mono\',\'JetBrains Mono\',ui-monospace,monospace" font-size="24" '
         f'fill="rgba(226,232,240,0.75)">{cmd}</text>'
     )
 
@@ -364,9 +364,9 @@ def build_og_svg(skill: dict) -> str:
     level = skill.get("level", "2★")
     title = html.escape(truncate(skill.get("title", ""), 55))
     description_raw = truncate(skill.get("description", ""), 240)
-    description_lines = _wrap_text(description_raw, max_chars=58, max_lines=3)
+    description_lines = _wrap_text(description_raw, max_chars=48, max_lines=3)
     description_tspans = "\n".join(
-        f'<tspan x="264" dy="{"0" if i == 0 else "26"}">{html.escape(line)}</tspan>'
+        f'<tspan x="264" dy="{"0" if i == 0 else "36"}">{html.escape(line)}</tspan>'
         for i, line in enumerate(description_lines)
     )
     ev_class = evidence_class(level)
@@ -473,20 +473,20 @@ def build_og_svg(skill: dict) -> str:
   <!-- Slug (.plaque__slug) -->
   <text class="plaque__slug" x="264" y="150"
     font-family="EB Garamond,Georgia,serif"
-    font-size="52" font-weight="600"
+    font-size="64" font-weight="600"
     fill="{slug_fill}" dominant-baseline="middle">{name}</text>
 
   <!-- Title (.plaque__title — italic subtitle) -->
-  {'<text class="plaque__title" x="264" y="210" font-family="EB Garamond,Georgia,serif" font-size="22" font-style="italic" fill="rgba(226,232,240,0.5)" dominant-baseline="middle">' + title + '</text>' if title else ''}
+  {'<text class="plaque__title" x="264" y="220" font-family="EB Garamond,Georgia,serif" font-size="32" font-style="italic" fill="rgba(226,232,240,0.5)" dominant-baseline="middle">' + title + '</text>' if title else ''}
 
   <!-- Horizontal rule -->
-  <line x1="264" y1="240" x2="{OG_W-48}" y2="240"
+  <line x1="264" y1="260" x2="{OG_W-48}" y2="260"
     stroke="rgba({tier_rgb}, 0.16)" stroke-width="1"/>
 
   <!-- Description (.plaque__description) -->
-  <text class="plaque__description" x="264" y="278"
+  <text class="plaque__description" x="264" y="308"
     font-family="Bricolage Grotesque,Inter,system-ui,sans-serif"
-    font-size="18" fill="rgba(226,232,240,0.65)">
+    font-size="28" fill="rgba(226,232,240,0.65)">
     {description_tspans}
   </text>
 
@@ -497,10 +497,10 @@ def build_og_svg(skill: dict) -> str:
   {install_row_svg}
 
   <!-- Evidence class chip (.plaque__evidence) -->
-  <rect class="plaque__evidence-bg" x="264" y="560" width="{len(ev_class) * 8 + 24}" height="22"
-    rx="3" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-  <text class="plaque__evidence" x="276" y="575"
-    font-family="monospace" font-size="11" letter-spacing="1.5"
+  <rect class="plaque__evidence-bg" x="264" y="560" width="{len(ev_class) * 12 + 24}" height="28"
+    rx="4" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <text class="plaque__evidence" x="276" y="579"
+    font-family="monospace" font-size="14" letter-spacing="1.5"
     fill="rgba(226,232,240,0.5)" dominant-baseline="middle">{ev_class}</text>
 
   <!-- Level chip (.plaque__rank chip variant — mirrors Stage 2 sibling) -->
@@ -508,12 +508,12 @@ def build_og_svg(skill: dict) -> str:
 
   <!-- Contributor handle (.plaque__handle) -->
   <text class="plaque__handle" x="264" y="605"
-    font-family="'Bricolage Grotesque',Inter,system-ui,sans-serif" font-size="18" font-weight="600"
+    font-family="'Bricolage Grotesque',Inter,system-ui,sans-serif" font-size="22" font-weight="600"
     fill="{HONOR_RED}" dominant-baseline="middle">@{contributor}</text>
 
   <!-- Gaia wordmark (bottom-right) -->
   <text x="{OG_W - 64}" y="605"
-    font-family="EB Garamond,Georgia,serif" font-size="18" font-weight="600"
+    font-family="EB Garamond,Georgia,serif" font-size="22" font-weight="600"
     fill="rgba(226,232,240,0.3)" text-anchor="end" dominant-baseline="middle">Gaia</text>
 
   <!-- Bottom underline accent (.plaque__underline) -->
