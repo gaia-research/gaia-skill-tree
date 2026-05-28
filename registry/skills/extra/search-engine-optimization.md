@@ -1,8 +1,8 @@
 # /search-engine-optimization  [2★ · Named]
-**ID:** search-engine-optimization
-**Type:** Extra Skill
-**Level:** 2★
-**Tier:** Named
+**ID:** search-engine-optimization  
+**Type:** Extra Skill  
+**Level:** 2★  
+**Tier:** Named  
 **Skill Call:** `/search-engine-optimization`
 
 ---

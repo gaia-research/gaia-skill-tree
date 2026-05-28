@@ -1,8 +1,8 @@
 # /web-quality-audit  [3★ · Evolved]
-**ID:** web-quality-audit
-**Type:** Ultimate Skill
-**Level:** 3★
-**Tier:** Evolved
+**ID:** web-quality-audit  
+**Type:** Ultimate Skill  
+**Level:** 3★  
+**Tier:** Evolved  
 **Skill Call:** `/web-quality-audit`
 
 ---
