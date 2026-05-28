@@ -1334,10 +1334,17 @@
 
       if (!entries.length) return;
 
-      // README simulator
+      // README simulator. Build nodes via the DOM API (not innerHTML) so the
+      // user-derived handle/linkTarget/localSrc/alt values are set as element
+      // properties and never reinterpreted as HTML (avoids DOM-XSS).
       entries.forEach(({ localSrc, alt }) => {
-        badges.insertAdjacentHTML("beforeend",
-          `<a href="${linkTarget}"><img src="${localSrc}" alt="${alt}"></a>`);
+        const link = document.createElement("a");
+        link.href = linkTarget;
+        const img = document.createElement("img");
+        img.src = localSrc;
+        img.alt = alt;
+        link.appendChild(img);
+        badges.appendChild(link);
       });
 
       // Copy All header
@@ -1365,7 +1372,10 @@
 
         const thumb = document.createElement("div");
         thumb.className = "bd-row-badge";
-        thumb.innerHTML = `<img src="${localSrc}" alt="${alt}">`;
+        const thumbImg = document.createElement("img");
+        thumbImg.src = localSrc;
+        thumbImg.alt = alt;
+        thumb.appendChild(thumbImg);
         item.appendChild(thumb);
 
         const row = document.createElement("div");
