@@ -698,22 +698,6 @@
       if (metaCloseBtn) metaCloseBtn.addEventListener('click', closeMetaSidebar);
       if (metaSidebarBackdrop) metaSidebarBackdrop.addEventListener('click', closeMetaSidebar);
 
-      // Global search nav: scroll to Named Skills section and focus the search input
-      function focusNamedSearch() {
-        var named = document.getElementById('named');
-        if (named) named.scrollIntoView({ behavior: 'smooth' });
-        setTimeout(function () {
-          var input = document.getElementById('nsSearch');
-          if (input) { input.focus(); input.select(); }
-        }, 520);
-      }
-      var navSearch = document.getElementById('navSearchBtn');
-      if (navSearch) navSearch.addEventListener('click', focusNamedSearch);
-      
-      var navSearchMobile = document.getElementById('navSearchBtnMobile');
-      if (navSearchMobile) navSearchMobile.addEventListener('click', function() {
-        focusNamedSearch();
-      });
 
       // ESC key support
       document.addEventListener('keydown', function(e) {
@@ -859,22 +843,28 @@
       if (navMeta) setTimeout(function () { navMeta.click(); }, 50);
     }
 
-    // Global search nav: scroll to Named Skills section and focus the search input
-    function focusNamedSearch() {
+    // Search nav buttons: always go to index.html#search.
+    // On the home page this fires the #search hash handler (in-page smooth scroll + focus).
+    // On any other page it navigates there directly.
+    function goToSearch() {
       var named = document.getElementById('named');
       if (named) {
+        // Already on the home page — scroll and focus in-place.
         named.scrollIntoView({ behavior: 'smooth' });
         setTimeout(function () {
           var input = document.getElementById('nsSearch');
           if (input) { input.focus(); input.select(); }
         }, 520);
       } else {
+        // Any other page — navigate to the home page search section.
         var prefix = (typeof window.gaiaIconBase === 'function') ? window.gaiaIconBase().replace('assets/icons.svg', '') : '';
         window.location.href = prefix + 'index.html#search';
       }
     }
     var navSearch = document.getElementById('navSearchBtn');
-    if (navSearch) navSearch.addEventListener('click', focusNamedSearch);
+    if (navSearch) navSearch.addEventListener('click', goToSearch);
+    var navSearchMobileTrigger = document.getElementById('navSearchBtnMobile');
+    if (navSearchMobileTrigger) navSearchMobileTrigger.addEventListener('click', goToSearch);
     
     var navMobileSearch = document.getElementById('navMobileSearch');
     var navSearchBack = document.getElementById('navSearchBack');
@@ -918,7 +908,7 @@
       }
     });
 
-    if (location.hash === '#search') focusNamedSearch();
+    if (location.hash === '#search') goToSearch();
 
   });
 })();
