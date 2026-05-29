@@ -568,6 +568,16 @@ button.plaque__slug:focus-visible {
 .plaque__stack-row[data-type="unique"] .plaque-skill-name.named-slug {
   color: var(--tier-unique, #7c3aed);
 }
+/* Unique type always overrides level-based rank color on stars */
+.plaque[data-type="unique"] .rank-badge__star[data-on],
+.plaque__stack-row[data-type="unique"] .rank-badge__star[data-on] {
+  color: var(--tier-unique, #7c3aed);
+  text-shadow: 0 0 6px rgba(var(--tier-unique-rgb), .5);
+}
+.plaque[data-type="unique"] .rank-badge__star[data-off],
+.plaque__stack-row[data-type="unique"] .rank-badge__star[data-off] {
+  color: rgba(var(--tier-unique-rgb), .15);
+}
 .plaque[data-type="ultimate"] .plaque__slug.named-slug,
 .plaque[data-type="ultimate"] .plaque-skill-name.named-slug,
 .plaque__stack-row[data-type="ultimate"] .plaque__slug.named-slug,
