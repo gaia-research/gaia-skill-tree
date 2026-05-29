@@ -209,7 +209,7 @@
       'data-desc="' + esc(desc) + '" ' +
       'data-tags="' + esc(tagsRaw) + '" ' +
       'data-og="' + esc(ogPath) + '">' +
-      icon('share', 12) +
+      icon('share', 14) +
       '</button>';
   }
 

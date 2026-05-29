@@ -1133,9 +1133,54 @@ button.plaque__slug:focus-visible {
 }
 .plaque--hall .plaque__hall-meta .plaque__fs-btn {
   position: absolute;
-  top: -2px;
+  top: -4px;
   right: 0;
   flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  background: rgba(15, 23, 42, 0.55);
+  color: rgba(226, 232, 240, 0.65);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease,
+    transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  z-index: 5;
+}
+.plaque--hall .plaque__hall-meta .plaque__fs-btn .ico,
+.plaque--hall .plaque__hall-meta .plaque__fs-btn svg {
+  width: 14px;
+  height: 14px;
+  display: block;
+}
+.plaque--hall .plaque__hall-meta .plaque__fs-btn:hover,
+.plaque--hall .plaque__hall-meta .plaque__fs-btn:focus-visible {
+  color: rgba(var(--plaque-accent-rgb, 245, 158, 11), 1);
+  border-color: rgba(var(--plaque-accent-rgb, 245, 158, 11), 0.5);
+  background: rgba(var(--plaque-accent-rgb, 245, 158, 11), 0.1);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(var(--plaque-accent-rgb, 245, 158, 11), 0.18);
+  outline: none;
+}
+.plaque--hall .plaque__hall-meta .plaque__fs-btn:focus-visible {
+  outline: 2px solid rgba(var(--plaque-accent-rgb, 245, 158, 11), 0.55);
+  outline-offset: 2px;
+}
+/* Featured plates get a slightly larger, more confident hit target. */
+.plaque--hall-featured .plaque__hall-meta .plaque__fs-btn {
+  width: 32px;
+  height: 32px;
+  top: -6px;
+  border-radius: 7px;
+}
+.plaque--hall-featured .plaque__hall-meta .plaque__fs-btn .ico,
+.plaque--hall-featured .plaque__hall-meta .plaque__fs-btn svg {
+  width: 16px;
+  height: 16px;
 }
 
 /* Roman-numeral rank divider — Garamond italic between two hairlines. */
