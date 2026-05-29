@@ -13,7 +13,7 @@ createdAt: '2026-05-27'
 updatedAt: '2026-05-30'
 title: The Change Previewer
 links:
-  github: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-curate/SKILL.md
+  github: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md
 tags:
 - registry-curation
 - preview
