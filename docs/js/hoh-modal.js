@@ -10,6 +10,32 @@
   var lastFocused = null;
   var inertedSiblings = [];
   var trapKeydownHandler = null;
+  var idleTimer = null;
+  var idleHandlersBound = false;
+
+  function setIdle(modal) {
+    modal.classList.add('is-idle');
+  }
+  function wakeChrome(modal) {
+    modal.classList.remove('is-idle');
+    if (idleTimer) {
+      clearTimeout(idleTimer);
+    }
+    idleTimer = setTimeout(function () { setIdle(modal); }, 2000);
+  }
+  function bindIdleHandlers(modal) {
+    if (idleHandlersBound) return;
+    idleHandlersBound = true;
+    var wake = function () { wakeChrome(modal); };
+    modal.addEventListener('mousemove', wake);
+    modal.addEventListener('mousedown', wake);
+    modal.addEventListener('keydown', wake);
+    modal.addEventListener('touchstart', wake, { passive: true });
+    // Keep chrome visible while pointer is over an actionable region.
+    modal.querySelectorAll('.hoh-fs-header, .hoh-fs-confirm, .hoh-fs-overlay').forEach(function (region) {
+      region.addEventListener('mouseenter', wake);
+    });
+  }
 
   // Lazy registry cache — mirrors how badges/index.html fetches registry.json
   var _registryPromise = null;
@@ -127,7 +153,11 @@
   function showCopySuccess(btn) {
     btn.classList.add('copied');
     var originalHtml = btn.innerHTML;
-    btn.innerHTML = '<svg class="ico" width="12" height="12" aria-hidden="true"><use href="assets/icons.svg#check"></use></svg> Copied!';
+    var iconBase = (typeof window.gaiaIconBase === 'function')
+      ? window.gaiaIconBase()
+      : 'assets/icons.svg';
+    btn.innerHTML = '<svg class="ico" width="14" height="14" aria-hidden="true"><use href="' +
+      iconBase + '#copy-check"></use></svg>';
     setTimeout(function () {
       btn.classList.remove('copied');
       btn.innerHTML = originalHtml;
@@ -137,26 +167,61 @@
   function closeHohFullscreenModal() {
     var modal = document.getElementById('hohFullscreenModal');
     if (modal) {
-      modal.classList.remove('is-active');
-      modal.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
-      document.documentElement.style.overflow = '';
-
-      // Revert inert flags on body siblings we marked
-      deactivateInertSiblings();
-
-      // Remove focus-trap keydown listener
-      if (trapKeydownHandler) {
-        modal.removeEventListener('keydown', trapKeydownHandler);
-        trapKeydownHandler = null;
+      // If we're currently in native fullscreen on this modal, exit first —
+      // otherwise the browser stays in fullscreen mode showing the now
+      // opacity:0 / pointer-events:none modal, which reads as a blank page.
+      var fsEl = document.fullscreenElement || document.webkitFullscreenElement;
+      if (fsEl === modal) {
+        var exit = document.exitFullscreen || document.webkitExitFullscreen;
+        if (exit) {
+          try {
+            var p = exit.call(document);
+            if (p && typeof p.then === 'function') {
+              // Wait for the exit to settle before tearing the modal down so
+              // the page paint order is: fullscreen exit → modal hide.
+              p.then(function () { _finishClose(modal); }, function () { _finishClose(modal); });
+              return;
+            }
+          } catch (_e) { /* fall through */ }
+        }
       }
-
-      // Restore focus to the element that opened the modal
-      if (lastFocused && document.contains(lastFocused) && typeof lastFocused.focus === 'function') {
-        try { lastFocused.focus(); } catch (_e) {}
-      }
-      lastFocused = null;
+      _finishClose(modal);
     }
+  }
+
+  function _finishClose(modal) {
+    modal.classList.remove('is-active');
+    modal.classList.remove('is-idle');
+    modal.classList.remove('is-fullscreen');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    document.documentElement.style.overflow = '';
+
+    if (idleTimer) { clearTimeout(idleTimer); idleTimer = null; }
+
+    // Re-hide the README panel + restore the confirm pill so the next open
+    // always starts in the same compact state.
+    var overlay = document.getElementById('hohFsOverlay');
+    if (overlay) overlay.hidden = true;
+    var confirm = document.getElementById('hohFsConfirm');
+    if (confirm) confirm.hidden = false;
+    var restore = document.getElementById('hohFsOverlayRestore');
+    if (restore) restore.hidden = true;
+
+    // Revert inert flags on body siblings we marked
+    deactivateInertSiblings();
+
+    // Remove focus-trap keydown listener
+    if (trapKeydownHandler) {
+      modal.removeEventListener('keydown', trapKeydownHandler);
+      trapKeydownHandler = null;
+    }
+
+    // Restore focus to the element that opened the modal
+    if (lastFocused && document.contains(lastFocused) && typeof lastFocused.focus === 'function') {
+      try { lastFocused.focus(); } catch (_e) {}
+    }
+    lastFocused = null;
   }
 
   function openHohFullscreenModal(ns) {
@@ -331,6 +396,72 @@
     }
 
 
+    // Action: Confirm Yes — reveal the README badge panel.
+    var confirmEl = document.getElementById('hohFsConfirm');
+    var overlayEl = document.getElementById('hohFsOverlay');
+    var restoreEl = document.getElementById('hohFsOverlayRestore');
+    var yesBtn = modal.querySelector('[data-fs-action="confirm-yes"]');
+    var noBtn = modal.querySelector('[data-fs-action="confirm-no"]');
+    if (yesBtn) {
+      yesBtn.onclick = function () {
+        if (confirmEl) confirmEl.hidden = true;
+        if (overlayEl) overlayEl.hidden = false;
+        if (restoreEl) restoreEl.hidden = true;
+        wakeChrome(modal);
+      };
+    }
+    // Action: Confirm No — only dismiss the pill itself; keep the modal open.
+    if (noBtn) {
+      noBtn.onclick = function () {
+        if (confirmEl) confirmEl.hidden = true;
+        wakeChrome(modal);
+      };
+    }
+
+    // Action: Minimize the README overlay → show the small restore chip.
+    var minBtn = modal.querySelector('[data-fs-action="overlay-minimize"]');
+    if (minBtn) {
+      minBtn.onclick = function () {
+        if (overlayEl) overlayEl.hidden = true;
+        if (restoreEl) restoreEl.hidden = false;
+        wakeChrome(modal);
+      };
+    }
+    // Action: Close the README overlay outright (no restore chip).
+    var ovCloseBtn = modal.querySelector('[data-fs-action="overlay-close"]');
+    if (ovCloseBtn) {
+      ovCloseBtn.onclick = function () {
+        if (overlayEl) overlayEl.hidden = true;
+        if (restoreEl) restoreEl.hidden = true;
+        wakeChrome(modal);
+      };
+    }
+    // Action: Restore — re-open the README panel from the chip.
+    if (restoreEl) {
+      restoreEl.onclick = function () {
+        if (overlayEl) overlayEl.hidden = false;
+        restoreEl.hidden = true;
+        wakeChrome(modal);
+      };
+    }
+
+    // Action: Fullscreen toggle — request/exit native fullscreen on the modal.
+    var fsBtn = modal.querySelector('[data-fs-action="fullscreen"]');
+    if (fsBtn) {
+      fsBtn.onclick = function () {
+        var inFs = !!(document.fullscreenElement || document.webkitFullscreenElement);
+        if (inFs) {
+          (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+        } else {
+          var req = modal.requestFullscreen || modal.webkitRequestFullscreen;
+          if (req) {
+            try { req.call(modal); } catch (_e) {}
+          }
+        }
+      };
+    }
+
+
     // Show the modal with transition
     modal.classList.add('is-active');
     modal.setAttribute('aria-hidden', 'false');
@@ -350,6 +481,11 @@
     modal.addEventListener('keydown', trapKeydownHandler);
     // Defer focus until the modal is painted/transitioned in
     setTimeout(function () { focusFirstFocusable(modal); }, 0);
+
+    // Idle behavior: chrome visible briefly on open, then fades unless the
+    // user moves the mouse / presses a key.
+    bindIdleHandlers(modal);
+    wakeChrome(modal);
   }
 
   // Bootstrap Init
@@ -405,9 +541,22 @@
     // Global Key Bindings
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') {
-        closeHohFullscreenModal();
+        // Native fullscreen swallows the first Escape itself — only close the
+        // modal if we're not already inside fullscreen.
+        var inFs = !!(document.fullscreenElement || document.webkitFullscreenElement);
+        if (!inFs) {
+          closeHohFullscreenModal();
+        }
       }
     });
+
+    // Reflect native fullscreen state on the modal so the icon swaps.
+    function syncFullscreenClass() {
+      var fsEl = document.fullscreenElement || document.webkitFullscreenElement;
+      modal.classList.toggle('is-fullscreen', fsEl === modal);
+    }
+    document.addEventListener('fullscreenchange', syncFullscreenClass);
+    document.addEventListener('webkitfullscreenchange', syncFullscreenClass);
   }
 
   if (document.readyState === 'loading') {

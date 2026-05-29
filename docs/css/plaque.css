@@ -930,6 +930,469 @@ button.plaque__slug:focus-visible {
 }
 
 
+/* ── .plaque--hall — Hall of Heroes redesigned plate ────────────
+   Per-contributor plate with a celestial-atlas crest medallion at
+   the top, the same OG art echoed faintly behind the body, an
+   @handle row in Honor Red, a Roman-numeral rank divider, and up
+   to N skill rows reusing the .plaque__stack-row markup so per-
+   row tier colours just work.
+
+   Two sizes: standard (260px wide, mono handle, 64px crest) and
+   featured (full-width, Garamond display handle, 90px crest).
+   Apex (6★) plates inherit the existing plaque--apex-vi rainbow
+   shimmer; non-apex featured plates carry a slow conic edge sweep.
+   ============================================================ */
+.plaque--hall {
+  --plaque-glow-intensity: 0.5;
+  --hall-crest-size: 48px;
+  width: 100%;
+  min-height: 0;
+  height: fit-content;
+  align-self: start;
+  padding: 14px 14px 12px;
+  gap: 0.4rem;
+  flex-direction: column;
+  align-items: stretch;
+  text-align: left;
+  overflow: hidden;
+  border-color: rgba(var(--plaque-accent-rgb), 0.32);
+  background:
+    radial-gradient(circle at 50% -20%, rgba(var(--plaque-accent-rgb), 0.08), transparent 60%),
+    var(--surface, #0f172a);
+}
+
+.plaque--hall-featured {
+  --hall-crest-size: 68px;
+  min-height: 0;
+  padding: 18px 18px 14px;
+  gap: 0.5rem;
+}
+
+/* Backdrop — faint blurred copy of the primary skill OG art. Fades
+   in only after the <img> loads (data-art-loaded=true) so a 404
+   never leaves a half-rendered fragment. */
+.plaque--hall .plaque__hall-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.6s ease-out;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 25%, #000 75%, transparent 100%);
+          mask-image: linear-gradient(180deg, transparent 0%, #000 25%, #000 75%, transparent 100%);
+}
+.plaque--hall[data-art-loaded="true"] .plaque__hall-backdrop {
+  opacity: 0.08;
+}
+.plaque--hall-featured[data-art-loaded="true"] .plaque__hall-backdrop {
+  opacity: 0.11;
+}
+.plaque--hall .plaque__hall-backdrop img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(14px) saturate(1.15);
+  display: block;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .plaque--hall:hover .plaque__hall-backdrop {
+    transform: scale(1.06) translateY(-2px);
+  }
+}
+
+/* Content sits above the backdrop. */
+.plaque--hall .plaque__hall-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.plaque--hall-featured .plaque__hall-content {
+  gap: 0.5rem;
+}
+
+/* Crest medallion — circular framed thumbnail of the primary skill's
+   OG art, with the tier glyph as a small badge bottom-right. */
+.plaque--hall .plaque__hall-crest {
+  position: relative;
+  width: var(--hall-crest-size);
+  height: var(--hall-crest-size);
+  margin: 0 auto;
+  border-radius: 50%;
+  border: 1.5px solid rgba(var(--plaque-accent-rgb), 0.6);
+  background:
+    radial-gradient(circle at 30% 30%, rgba(var(--plaque-accent-rgb), 0.18), transparent 65%),
+    rgba(0, 0, 0, 0.55);
+  box-shadow:
+    0 0 18px rgba(var(--plaque-accent-rgb), 0.32),
+    inset 0 0 12px rgba(0, 0, 0, 0.55);
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+.plaque--hall-featured .plaque__hall-crest {
+  margin-top: 2px;
+}
+.plaque--hall .plaque__hall-crest-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+.plaque--hall .plaque__hall-crest[data-crest-fail="true"] {
+  /* Render a starburst ring when the OG fetch fails so the plate still
+     reads as ceremonial (no broken image). */
+  background:
+    repeating-conic-gradient(
+      from 0deg,
+      rgba(var(--plaque-accent-rgb), 0.55) 0 8deg,
+      transparent 8deg 24deg
+    ),
+    rgba(0, 0, 0, 0.6);
+}
+.plaque--hall .plaque__hall-crest-glyph {
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  line-height: 1;
+  color: var(--plaque-accent);
+  background: var(--bg, #030712);
+  border: 1.5px solid rgba(var(--plaque-accent-rgb), 0.7);
+  box-shadow: 0 0 7px rgba(var(--plaque-accent-rgb), 0.5);
+  font-family: var(--font-mono, ui-monospace, monospace);
+}
+.plaque--hall-featured .plaque__hall-crest-glyph {
+  width: 24px;
+  height: 24px;
+  font-size: 13px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .plaque--hall:hover .plaque__hall-crest {
+    transform: scale(1.05);
+    box-shadow:
+      0 0 36px rgba(var(--plaque-accent-rgb), 0.55),
+      inset 0 0 14px rgba(0, 0, 0, 0.55);
+  }
+  .plaque--hall-featured .plaque__hall-crest {
+    animation: hall-crest-breath 4.6s ease-in-out infinite;
+  }
+}
+
+@keyframes hall-crest-breath {
+  0%, 100% {
+    box-shadow:
+      0 0 22px rgba(var(--plaque-accent-rgb), 0.35),
+      inset 0 0 14px rgba(0, 0, 0, 0.55);
+  }
+  50% {
+    box-shadow:
+      0 0 30px rgba(var(--plaque-accent-rgb), 0.5),
+      inset 0 0 14px rgba(0, 0, 0, 0.55);
+  }
+}
+
+/* Meta row — handle (Honor Red via existing atlas-handle) + share btn. */
+.plaque--hall .plaque__hall-meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  position: relative;
+  text-align: center;
+  margin-top: 2px;
+}
+.plaque--hall .plaque__hall-meta .plaque__handle,
+.plaque--hall .plaque__hall-meta .plaque-contrib-row {
+  flex: 0 1 auto;
+  margin-top: 0;
+  font-size: 0.85rem;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  line-height: 1.1;
+}
+.plaque--hall-featured .plaque__hall-meta .plaque__handle,
+.plaque--hall-featured .plaque__hall-meta .plaque-contrib-row {
+  font-family: var(--font-display, 'EB Garamond', Georgia, serif);
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+.plaque--hall .plaque__hall-meta .plaque__fs-btn {
+  position: absolute;
+  top: -4px;
+  right: 0;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  background: rgba(15, 23, 42, 0.55);
+  color: rgba(226, 232, 240, 0.65);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease,
+    transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  z-index: 5;
+}
+.plaque--hall .plaque__hall-meta .plaque__fs-btn .ico,
+.plaque--hall .plaque__hall-meta .plaque__fs-btn svg {
+  width: 14px;
+  height: 14px;
+  display: block;
+}
+.plaque--hall .plaque__hall-meta .plaque__fs-btn:hover,
+.plaque--hall .plaque__hall-meta .plaque__fs-btn:focus-visible {
+  color: rgba(var(--plaque-accent-rgb, 245, 158, 11), 1);
+  border-color: rgba(var(--plaque-accent-rgb, 245, 158, 11), 0.5);
+  background: rgba(var(--plaque-accent-rgb, 245, 158, 11), 0.1);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(var(--plaque-accent-rgb, 245, 158, 11), 0.18);
+  outline: none;
+}
+.plaque--hall .plaque__hall-meta .plaque__fs-btn:focus-visible {
+  outline: 2px solid rgba(var(--plaque-accent-rgb, 245, 158, 11), 0.55);
+  outline-offset: 2px;
+}
+/* Featured plates get a slightly larger, more confident hit target. */
+.plaque--hall-featured .plaque__hall-meta .plaque__fs-btn {
+  width: 32px;
+  height: 32px;
+  top: -6px;
+  border-radius: 7px;
+}
+.plaque--hall-featured .plaque__hall-meta .plaque__fs-btn .ico,
+.plaque--hall-featured .plaque__hall-meta .plaque__fs-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Roman-numeral rank divider — Garamond italic between two hairlines. */
+.plaque--hall .plaque__hall-divider {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: var(--muted, #64748b);
+}
+.plaque--hall .plaque__hall-divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(var(--plaque-accent-rgb), 0.32) 50%,
+    transparent 100%
+  );
+}
+.plaque--hall .plaque__hall-divider-numeral {
+  font-family: var(--font-display, 'EB Garamond', Georgia, serif);
+  font-style: italic;
+  font-size: 0.85rem;
+  letter-spacing: 0.18em;
+  color: rgba(var(--plaque-accent-rgb), 0.85);
+  text-shadow: 0 0 6px rgba(var(--plaque-accent-rgb), 0.35);
+  flex-shrink: 0;
+  line-height: 1;
+}
+.plaque--hall-featured .plaque__hall-divider-numeral {
+  font-size: 1rem;
+}
+
+/* Skill rows — reuse .plaque__stack-row from .plaque--mini-stack but
+   override row backgrounds so the faint backdrop doesn't bleed through
+   the row labels. Featured plates get a touch more breathing room. */
+.plaque--hall .plaque__hall-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 0;
+}
+.plaque--hall .plaque__stack-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  border-radius: 7px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(var(--plaque-accent-rgb), 0.08);
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+.plaque--hall .plaque__stack-row:hover {
+  background: rgba(0, 0, 0, 0.45);
+  border-color: rgba(var(--plaque-accent-rgb), 0.28);
+  transform: translateX(2px);
+}
+.plaque--hall-featured .plaque__stack-row {
+  padding: 6px 10px;
+}
+.plaque--hall .plaque__stack-glyph {
+  font-size: 13px;
+  flex-shrink: 0;
+  width: 14px;
+  text-align: center;
+  line-height: 1;
+}
+.plaque--hall .plaque__stack-row .plaque__slug,
+.plaque--hall .plaque__stack-row .plaque-skill-name {
+  font-size: 14px;
+  flex: 1 1 auto;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+.plaque--hall-featured .plaque__stack-row .plaque__slug {
+  font-size: 16px;
+}
+
+/* Slug colour follows the row's rank, not its tier — the existing
+   tier-aware override (plaque.css ~line 565) forces every Unique
+   slug to deep violet and every non-6★ Ultimate slug to apex gold,
+   which mismatches the rank-coloured stars right next to them. The
+   rules below restore parity by colouring the slug from the row's
+   rank token; 6★ Ultimate alone retains apex gold + the rainbow
+   cycle so the apex affordance stays distinct. */
+.plaque--hall .plaque__stack-row[data-level="0"] .plaque-skill-name.named-slug,
+.plaque--hall .plaque__stack-row[data-level="0"] .plaque__slug.named-slug { color: var(--rank-0, #94a3b8); }
+.plaque--hall .plaque__stack-row[data-level="1"] .plaque-skill-name.named-slug,
+.plaque--hall .plaque__stack-row[data-level="1"] .plaque__slug.named-slug { color: var(--rank-1, #38bdf8); }
+.plaque--hall .plaque__stack-row[data-level="2"] .plaque-skill-name.named-slug,
+.plaque--hall .plaque__stack-row[data-level="2"] .plaque__slug.named-slug { color: var(--rank-2, #63cab7); }
+.plaque--hall .plaque__stack-row[data-level="3"] .plaque-skill-name.named-slug,
+.plaque--hall .plaque__stack-row[data-level="3"] .plaque__slug.named-slug { color: var(--rank-3, #a78bfa); }
+.plaque--hall .plaque__stack-row[data-level="4"] .plaque-skill-name.named-slug,
+.plaque--hall .plaque__stack-row[data-level="4"] .plaque__slug.named-slug { color: var(--rank-4, #e879f9); }
+.plaque--hall .plaque__stack-row[data-level="5"] .plaque-skill-name.named-slug,
+.plaque--hall .plaque__stack-row[data-level="5"] .plaque__slug.named-slug { color: var(--rank-5, #fbbf24); }
+/* 6★ Ultimate retains apex gold + rainbow — preserves the existing
+   tree-rainbow-glow animation on .plaque__stack-row[data-type="ultimate"][data-level="6"]. */
+.plaque--hall .plaque__stack-row[data-level="6"][data-type="ultimate"] .plaque-skill-name.named-slug,
+.plaque--hall .plaque__stack-row[data-level="6"][data-type="ultimate"] .plaque__slug.named-slug { color: var(--apex-gold, #fbbf24); }
+/* Non-Ultimate 6★ (e.g. a hypothetical Unique 6★) just uses rank-6 amber. */
+.plaque--hall .plaque__stack-row[data-level="6"]:not([data-type="ultimate"]) .plaque-skill-name.named-slug,
+.plaque--hall .plaque__stack-row[data-level="6"]:not([data-type="ultimate"]) .plaque__slug.named-slug { color: var(--rank-6, #fbbf24); }
+
+/* Unique tier exception — deep violet wins over the rank colour for
+   every Unique skill row regardless of rank. The Unique branch is the
+   standalone-mastery tier (a Basic that ascended without ever fusing)
+   and must read in its tier-native deep violet across surfaces. The
+   stars in this row also get deep violet (overriding rank-4 fuchsia)
+   so slug + stars stay in lockstep. */
+.plaque--hall .plaque__stack-row[data-type="unique"] .plaque-skill-name.named-slug,
+.plaque--hall .plaque__stack-row[data-type="unique"] .plaque__slug.named-slug {
+  color: var(--tier-unique, #7c3aed);
+}
+.plaque--hall .plaque__stack-row[data-type="unique"] .rank-badge__star[data-on] {
+  color: var(--tier-unique, #7c3aed);
+  text-shadow: 0 0 6px rgba(var(--tier-unique-rgb), .5);
+}
+.plaque--hall .plaque__stack-row[data-type="unique"] .rank-badge__star[data-off] {
+  color: rgba(var(--tier-unique-rgb), .15);
+}
+
+.plaque--hall .plaque__stack-rank {
+  flex-shrink: 0;
+  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+}
+.plaque--hall .plaque__stack-rank .rank-badge[data-variant="stars"],
+.plaque--hall .plaque__stack-rank .rank-badge {
+  font-size: 11px;
+  gap: 1px;
+}
+.plaque--hall .plaque__stack-rank .rank-badge__star {
+  font-size: 11px;
+}
+.plaque--hall-featured .plaque__stack-rank .rank-badge,
+.plaque--hall-featured .plaque__stack-rank .rank-badge__star {
+  font-size: 12px;
+}
+.plaque--hall .plaque__stack-more {
+  font-size: 10.5px;
+  color: var(--muted);
+  padding: 2px 8px 0;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+/* Skill-row scroll-reveal cascade — picks up the existing .reveal
+   IntersectionObserver on #hall-of-heroes; rows light up top-to-bottom.
+   The default state is fully visible; the cascade only animates when
+   the section first scrolls into view (initial transform). */
+@media (prefers-reduced-motion: no-preference) {
+  .plaque--hall .plaque__stack-row {
+    animation: hall-row-rise 0.45s ease-out backwards;
+    animation-delay: calc(var(--row-index, 0) * 70ms);
+  }
+}
+@keyframes hall-row-rise {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Featured edge sweep (non-apex only) — slow conic edge animation
+   driven by the plaque accent. Apex 6★ plates already run the rainbow
+   shimmer (.plaque--apex-vi keyframes) so we explicitly skip them. */
+.plaque--hall-featured:not(.plaque--apex-vi)::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from 0deg,
+    rgba(var(--plaque-accent-rgb), 0.0) 0deg,
+    rgba(var(--plaque-accent-rgb), 0.55) 80deg,
+    rgba(var(--plaque-accent-rgb), 0.0) 160deg,
+    rgba(var(--plaque-accent-rgb), 0.0) 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+  z-index: 2;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .plaque--hall-featured:not(.plaque--apex-vi)::after {
+    animation: hall-edge-sweep 12s linear infinite;
+  }
+}
+@keyframes hall-edge-sweep {
+  to { transform: rotate(360deg); }
+}
+
+/* Apex 6★ on .plaque--hall — register the variant for shard support
+   (matches the existing rule pattern at ~plaque.css:692). The shimmer
+   itself is inherited from .plaque--apex-vi. */
+.plaque--hall.plaque--apex-vi::before,
+.plaque--hall.plaque--apex-vi::after {
+  /* Apex hall plates lean on the shared rainbow shimmer; the conic
+     featured-edge sweep above is suppressed by :not(.plaque--apex-vi). */
+}
+
+
 /* ── .plaque--tile — Named Skills Explorer tile ─────────────────
    Grid cell, min-height 280px. Header row hosts orb + level chip
    + origin + gh. Body stacks vertically; install row is sticky-
@@ -2702,6 +3165,228 @@ button.plaque__slug:focus-visible {
   opacity: 0;
   pointer-events: none;
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ─── Idle-fade chrome (controls hidden by default; reveal on mousemove) ─── */
+.hoh-fs-overlay[hidden] { display: none !important; }
+.hoh-fs-confirm[hidden] { display: none !important; }
+.hoh-fs-modal.is-idle .hoh-fs-header,
+.hoh-fs-modal.is-idle .hoh-fs-confirm,
+.hoh-fs-modal.is-idle .hoh-fs-overlay {
+  opacity: 0;
+  pointer-events: none;
+}
+.hoh-fs-header,
+.hoh-fs-confirm,
+.hoh-fs-overlay {
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ─── Compact confirm pill ─── */
+.hoh-fs-confirm {
+  position: absolute;
+  top: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  color: rgba(226, 232, 240, 0.85);
+  z-index: 1010;
+}
+.hoh-fs-confirm[hidden] { display: none; }
+.hoh-fs-confirm-text #hohFsHandleText {
+  color: var(--honor-red, #ef4444);
+  font-weight: 600;
+}
+.hoh-fs-confirm-btn {
+  appearance: none;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(226, 232, 240, 0.9);
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: color 0.18s ease, background 0.18s ease,
+              border-color 0.18s ease, transform 0.18s ease;
+}
+.hoh-fs-confirm-btn:hover,
+.hoh-fs-confirm-btn:focus-visible {
+  outline: none;
+  transform: translateY(-1px);
+}
+.hoh-fs-confirm-btn--yes:hover,
+.hoh-fs-confirm-btn--yes:focus-visible {
+  color: #ffffff;
+  background: rgba(16, 185, 129, 0.18);
+  border-color: rgba(16, 185, 129, 0.55);
+}
+.hoh-fs-confirm-btn--no:hover,
+.hoh-fs-confirm-btn--no:focus-visible {
+  color: #ffffff;
+  background: rgba(239, 68, 68, 0.18);
+  border-color: rgba(239, 68, 68, 0.55);
+}
+
+/* ─── Icon-only copy button (foundation-sampler shape) ─── */
+.hoh-fs-copy-btn--icon {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(226, 232, 240, 0.75);
+  transition: color 0.18s ease, background 0.18s ease,
+              border-color 0.18s ease, transform 0.18s ease;
+}
+.hoh-fs-copy-btn--icon:hover,
+.hoh-fs-copy-btn--icon:focus-visible {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.22);
+  transform: translateY(-1px);
+  outline: none;
+}
+.hoh-fs-copy-btn--icon.copied {
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.45);
+}
+.hoh-fs-copy-btn--icon .ico {
+  width: 14px;
+  height: 14px;
+  display: block;
+}
+
+/* ─── README overlay header (minimize + close) ─── */
+.hoh-fs-overlay-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.hoh-fs-overlay-controls {
+  display: inline-flex;
+  gap: 6px;
+}
+.hoh-fs-overlay-ctl {
+  appearance: none;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  color: rgba(226, 232, 240, 0.7);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: color 0.18s ease, background 0.18s ease,
+              border-color 0.18s ease, transform 0.18s ease;
+}
+.hoh-fs-overlay-ctl:hover,
+.hoh-fs-overlay-ctl:focus-visible {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.22);
+  outline: none;
+  transform: translateY(-1px);
+}
+.hoh-fs-overlay-ctl .ico { display: block; }
+
+/* Minimized chip — shows when the README panel is collapsed. */
+.hoh-fs-overlay-restore {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: rgba(226, 232, 240, 0.85);
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: color 0.18s ease, background 0.18s ease,
+              border-color 0.18s ease, transform 0.18s ease;
+  z-index: 1010;
+}
+.hoh-fs-overlay-restore[hidden] { display: none !important; }
+.hoh-fs-overlay-restore:hover,
+.hoh-fs-overlay-restore:focus-visible {
+  color: var(--text);
+  background: rgba(30, 41, 59, 0.85);
+  border-color: rgba(255, 255, 255, 0.25);
+  outline: none;
+  transform: translateX(-50%) translateY(-1px);
+}
+
+/* Fullscreen toggle — pinned bottom-right of the modal. */
+.hoh-fs-fullscreen-btn {
+  position: absolute;
+  right: 24px;
+  bottom: 24px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  color: rgba(226, 232, 240, 0.7);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              background 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+  z-index: 1010;
+}
+.hoh-fs-fullscreen-btn:hover,
+.hoh-fs-fullscreen-btn:focus-visible {
+  color: var(--text);
+  border-color: rgba(255, 255, 255, 0.22);
+  background: rgba(30, 41, 59, 0.8);
+  transform: translateY(-2px);
+  outline: none;
+}
+.hoh-fs-fullscreen-btn .hoh-fs-fullscreen-exit { display: none; }
+.hoh-fs-modal.is-fullscreen .hoh-fs-fullscreen-btn .hoh-fs-fullscreen-enter { display: none; }
+.hoh-fs-modal.is-fullscreen .hoh-fs-fullscreen-btn .hoh-fs-fullscreen-exit { display: block; }
+.hoh-fs-modal.is-idle .hoh-fs-fullscreen-btn {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .hoh-fs-toast.is-active {

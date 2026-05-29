@@ -286,17 +286,14 @@
 
     var plates = document.getElementById('hohPlates');
     if (plates && top.length) {
-      // Stage 3 — Hall of Heroes mini-plates emitted by the shared
-      // plaque component family. Each plate now STACKS all qualifying
-      // skills for one contributor (cap 3 visible; +N more for overflow).
-      // Per-row data-type/data-level lets each slug resolve its OWN tier
-      // colour even when the outer plate carries the contributor's
-      // primary tier (see plaque.css ~ line 561 .plaque__stack-row rules).
-      var rendered = top.map(function (group) {
-        if (!window.plaque || typeof window.plaque.renderMiniStack !== 'function') return '';
-        // Wire each row's click to its canonical id (so the explorer
-        // opens the right skill). The plate's share button targets the
-        // primary (highest-ranked) skill's OG SVG.
+      // Phase 9 — Hall of Heroes redesigned plates. Each contributor's
+      // group is rendered through plaque.renderHallPlate (atlas crest +
+      // faint backdrop + Roman-numeral divider + stack rows). Plates whose
+      // primary skill is 6★ get featured: true (larger card, Garamond
+      // handle); the first plate is always featured even if no 6★ exists,
+      // so the hero never feels flat. Featured plates render in
+      // .hoh-featured (responsive 1–2 columns); the rest in .hoh-grid.
+      var groupsRendered = top.map(function (group) {
         var skills = group.map(function (it) {
           var e = it.entry;
           return {
@@ -312,11 +309,49 @@
               jsStr(it.canonicalId) + '\');})()',
           };
         });
-        return window.plaque.renderMiniStack(skills, {
-          maxRows: 3,
+        return { skills: skills, primaryLevel: levelNum(group[0].entry.level) };
+      });
+
+      var hasApex = groupsRendered.some(function (g) { return g.primaryLevel >= 6; });
+      var featuredCap = hasApex ? 2 : 1;
+      var featured = [];
+      var standard = [];
+      groupsRendered.forEach(function (g) {
+        if (g.primaryLevel >= 6 && featured.length < featuredCap) {
+          featured.push(g);
+        } else if (!hasApex && featured.length < featuredCap) {
+          // No 6★ in the set — promote the very top group to featured.
+          featured.push(g);
+        } else {
+          standard.push(g);
+        }
+      });
+
+      var renderGroup = function (g, isFeatured) {
+        if (!window.plaque || typeof window.plaque.renderHallPlate !== 'function') {
+          // Fallback to mini-stack if the new plate isn't available.
+          if (window.plaque && typeof window.plaque.renderMiniStack === 'function') {
+            return window.plaque.renderMiniStack(g.skills, { maxRows: 3 });
+          }
+          return '';
+        }
+        return window.plaque.renderHallPlate(g.skills, {
+          maxRows: isFeatured ? 4 : 3,
+          featured: !!isFeatured,
         });
-      }).join('');
-      plates.innerHTML = rendered;
+      };
+
+      var featuredHtml = featured.length
+        ? '<div class="hoh-featured">' +
+            featured.map(function (g) { return renderGroup(g, true); }).join('') +
+          '</div>'
+        : '';
+      var standardHtml = standard.length
+        ? '<div class="hoh-grid">' +
+            standard.map(function (g) { return renderGroup(g, false); }).join('') +
+          '</div>'
+        : '';
+      plates.innerHTML = featuredHtml + standardHtml;
     }
 
     // --- META REPORT (Synthesize Changelog) ---
