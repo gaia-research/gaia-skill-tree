@@ -545,6 +545,24 @@
   <!-- ─── HALL OF HEROES FULLSCREEN OG VIEW ─── -->
   <div id="hohFullscreenModal" class="hoh-fs-modal" aria-hidden="true" tabindex="-1">
     <div class="hoh-fs-header">
+      <button class="hoh-fs-btn hoh-fs-btn--close" data-fs-action="close" title="Close modal" aria-label="Close modal">
+        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#close-x"></use></svg>
+      </button>
+    </div>
+
+    <div class="hoh-fs-stage" id="hohFsStage">
+      <!-- Renders plaque.renderOg() dynamically here -->
+    </div>
+
+    <!-- Compact confirm pill — visible by default; clicking Yes reveals the README panel. -->
+    <div class="hoh-fs-confirm" id="hohFsConfirm" role="group" aria-label="Confirm contributor">
+      <span class="hoh-fs-confirm-text">Are you <span id="hohFsHandleText">@handle</span>?</span>
+      <button type="button" class="hoh-fs-confirm-btn hoh-fs-confirm-btn--yes" data-fs-action="confirm-yes" aria-label="Yes, this is me">Yes</button>
+      <button type="button" class="hoh-fs-confirm-btn hoh-fs-confirm-btn--no" data-fs-action="confirm-no" aria-label="No, dismiss notification">No</button>
+    </div>
+
+    <!-- Share/download actions — bottom right, out of the way of card text -->
+    <div class="hoh-fs-footer">
       <div class="hoh-dl-wrap" id="hohDlWrap">
         <button class="hoh-fs-btn" data-fs-action="download" title="Download OG Image Card" aria-label="Download OG Image Card" aria-expanded="false" aria-controls="hohDlPopover">
           <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#download"></use></svg>
@@ -570,20 +588,6 @@
       <button class="hoh-fs-btn" data-fs-action="instagram" title="Copy OG Link & Open Instagram" aria-label="Copy OG Link & Open Instagram">
         <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#instagram"></use></svg>
       </button>
-      <button class="hoh-fs-btn hoh-fs-btn--close" data-fs-action="close" title="Close modal" aria-label="Close modal">
-        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#close-x"></use></svg>
-      </button>
-    </div>
-
-    <div class="hoh-fs-stage" id="hohFsStage">
-      <!-- Renders plaque.renderOg() dynamically here -->
-    </div>
-
-    <!-- Compact confirm pill — visible by default; clicking Yes reveals the README panel. -->
-    <div class="hoh-fs-confirm" id="hohFsConfirm" role="group" aria-label="Confirm contributor">
-      <span class="hoh-fs-confirm-text">Are you <span id="hohFsHandleText">@handle</span>?</span>
-      <button type="button" class="hoh-fs-confirm-btn hoh-fs-confirm-btn--yes" data-fs-action="confirm-yes" aria-label="Yes, this is me">Yes</button>
-      <button type="button" class="hoh-fs-confirm-btn hoh-fs-confirm-btn--no" data-fs-action="confirm-no" aria-label="No, dismiss notification">No</button>
     </div>
 
     <div class="hoh-fs-overlay" id="hohFsOverlay" hidden>

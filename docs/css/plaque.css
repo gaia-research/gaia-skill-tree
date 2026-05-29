@@ -2928,10 +2928,21 @@ button.plaque__slug:focus-visible {
   pointer-events: auto;
 }
 
-/* Close/Action Bar at upper right */
+/* Close button — top right */
 .hoh-fs-header {
   position: absolute;
   top: 24px;
+  right: 24px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  z-index: 1010;
+}
+
+/* Share/download actions — bottom right */
+.hoh-fs-footer {
+  position: absolute;
+  bottom: 24px;
   right: 24px;
   display: flex;
   gap: 12px;
@@ -3171,12 +3182,14 @@ button.plaque__slug:focus-visible {
 .hoh-fs-overlay[hidden] { display: none !important; }
 .hoh-fs-confirm[hidden] { display: none !important; }
 .hoh-fs-modal.is-idle .hoh-fs-header,
+.hoh-fs-modal.is-idle .hoh-fs-footer,
 .hoh-fs-modal.is-idle .hoh-fs-confirm,
 .hoh-fs-modal.is-idle .hoh-fs-overlay {
   opacity: 0;
   pointer-events: none;
 }
 .hoh-fs-header,
+.hoh-fs-footer,
 .hoh-fs-confirm,
 .hoh-fs-overlay {
   transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
@@ -3401,7 +3414,8 @@ button.plaque__slug:focus-visible {
 
 .hoh-dl-popover {
   position: absolute;
-  top: calc(100% + 10px);
+  bottom: calc(100% + 10px);
+  top: auto;
   left: 50%;
   transform: translateX(-50%) scale(0.94);
   min-width: 180px;
@@ -3420,14 +3434,15 @@ button.plaque__slug:focus-visible {
 .hoh-dl-popover::before {
   content: '';
   position: absolute;
-  top: -6px;
+  bottom: -6px;
+  top: auto;
   left: 50%;
   transform: translateX(-50%) rotate(45deg);
   width: 10px;
   height: 10px;
   background: rgba(15, 23, 42, 0.96);
-  border-left: 1px solid rgba(255, 255, 255, 0.1);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .hoh-dl-popover.is-open {
