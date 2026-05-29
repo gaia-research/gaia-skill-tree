@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>/qa — Hall Plate · Gaia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Departure+Mono&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink-night: #0e0d20;
+      --cream: #ebe5d4;
+      --honor: #ef4444;
+      --apex-gold: #fbbf24;
+      --amber-star: #f59e0b;
+      --violet-halo: #7c3aed;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: #050414; }
+    body {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      font-family: 'EB Garamond', Georgia, serif;
+      color: var(--cream);
+    }
+    .plate {
+      width: min(100vw, 1200px);
+      aspect-ratio: 1200 / 630;
+      background: var(--ink-night);
+      color: var(--cream);
+      display: grid;
+      grid-template-rows: 56px 1fr 96px;
+      padding: 24px 48px;
+      gap: 0;
+      position: relative;
+      overflow: hidden;
+      font-family: 'EB Garamond', Georgia, serif;
+    }
+    .plate__chrome--top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      letter-spacing: 1.6px;
+      font-family: 'Departure Mono', ui-monospace, monospace;
+      font-size: clamp(9px, 0.9vw, 11px);
+      color: var(--cream);
+      opacity: 0.42;
+    }
+    .plate__plate-no {
+      letter-spacing: 3.2px;
+      opacity: 0.92;
+      font-size: clamp(13px, 1.5vw, 18px);
+    }
+    .plate__stage {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 32px;
+      padding: 8px 0;
+    }
+    .plate__designation {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;  /* let the slug clamp without overflowing */
+    }
+    .plate__prefix {
+      font-family: 'Departure Mono', ui-monospace, monospace;
+      font-size: clamp(18px, 2.2vw, 28px);
+      letter-spacing: 4.4px;
+      opacity: 0.7;
+    }
+    .plate__slug {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-weight: 600;
+      font-size: clamp(40px, 6vw, 88px);
+      line-height: 0.96;
+      margin: 0;
+      color: var(--cream);
+      overflow-wrap: anywhere;
+      hyphens: auto;
+    }
+    .plate__kicker {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-style: italic;
+      font-size: clamp(15px, 1.7vw, 22px);
+      opacity: 0.6;
+      margin-top: 6px;
+    }
+    .plate__subject {
+      width: 100%;
+      height: 100%;
+      max-height: 380px;
+      display: block;
+    }
+    .plate__footer {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      justify-content: flex-end;
+    }
+    .plate__signature {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-style: italic;
+      font-size: clamp(15px, 1.7vw, 22px);
+      color: var(--honor);
+      letter-spacing: 0.2px;
+    }
+    .plate__signature .plate__cataloged { font-style: normal; opacity: 0.82; }
+    .plate__signature .plate__handle { font-style: normal; font-weight: 600; }
+    .plate__signature .plate__origin {
+      font-style: normal;
+      letter-spacing: 2.2px;
+      font-size: clamp(12px, 1.4vw, 18px);
+      opacity: 0.9;
+      padding: 0 8px;
+    }
+    .plate__signature .plate__sep { opacity: 0.5; padding: 0 6px; }
+    .plate__signature .plate__year { font-style: normal; opacity: 0.7; }
+    .plate__rule {
+      border: 0;
+      height: 1px;
+      width: 100%;
+      background: var(--cream);
+      opacity: 0.35;
+      margin: 0;
+    }
+    .plate__band {
+      font-family: 'Departure Mono', ui-monospace, monospace;
+      font-size: clamp(10px, 1.1vw, 13px);
+      letter-spacing: 1.5px;
+      color: var(--cream);
+      opacity: 0.7;
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .plate__band .plate__band-sep { opacity: 0.4; letter-spacing: 1px; }
+    .plate__seal {
+      position: absolute;
+      top: 24px;
+      left: 48px;
+      width: 30px;
+      height: 30px;
+    }
+    /* ─── Plate VI · APEX SUPERNOVA ─── */
+    .plate--apex .plate__slug { color: var(--cream); }
+    /* ─── Plate V · STELLAR ─── */
+    .plate--stellar .plate__designation { order: 0; }
+    .plate--stellar .plate__subject-wrap { order: 1; }
+    /* ─── Plate IV · SINGULARITY ─── */
+    .plate--singularity { }
+    /* ─── Default fallback ─── */
+    .plate--default .plate__stage { grid-template-columns: 1fr; }
+
+    @media (max-aspect-ratio: 16/10) {
+      .plate__seal { display: none; }
+    }
+    </style>
+</head>
+<body>
+  <article class="plate plate--default" data-plate="III" data-level="4">
+    <header class="plate__chrome--top">
+    <div class="plate__radec">+20° &nbsp;·&nbsp; +10° &nbsp;·&nbsp; 0° &nbsp;·&nbsp; −10° &nbsp;·&nbsp; −20°</div>
+    <div class="plate__plate-no">PLATE III</div>
+  </header>
+    <div class="plate__stage">
+    <div class="plate__designation" style="grid-column: 1 / -1; align-items: center; text-align: center;">
+      <h1 class="plate__slug">/qa</h1>
+      <div class="plate__kicker">‘Gstack QA’</div>
+    </div>
+  </div>
+    <footer class="plate__footer">
+    <div class="plate__signature">
+      <span class="plate__cataloged">Cataloged by</span> <span class="plate__handle">@garrytan</span><span class="plate__sep">·</span><span class="plate__year">2026</span>
+    </div>
+    <hr class="plate__rule" />
+    <div class="plate__band">
+      <span>MAG 4.0</span><span class="plate__band-sep">···</span><span>CLASS A</span><span class="plate__band-sep">···</span><span>★★★</span><span class="plate__band-sep">···</span><span>GAIA · III · 2026</span>
+    </div>
+  </footer>
+  </article>
+</body>
+</html>

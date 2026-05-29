@@ -3,10 +3,39 @@
   width="1200" height="630" viewBox="0 0 1200 630"
   class="plate plate--singularity" data-plate="IV" data-type="unique" data-level="4">
   <defs>
+    <!-- True-black void: deeper than the surrounding sky -->
     <radialGradient id="bh-void-huggingface-semantic-cache" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#050410" stop-opacity="1"/>
-      <stop offset="85%" stop-color="#050410" stop-opacity="1"/>
+      <stop offset="0%" stop-color="#000000" stop-opacity="1"/>
+      <stop offset="82%" stop-color="#020108" stop-opacity="1"/>
       <stop offset="100%" stop-color="#0e0d20" stop-opacity="1"/>
+    </radialGradient>
+    <!-- Approaching (top) half of the disk — bright violet → white knot -->
+    <linearGradient id="bh-disk-top-huggingface-semantic-cache" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#7c3aed" stop-opacity="0.55"/>
+      <stop offset="45%" stop-color="#d8b4fe" stop-opacity="0.95"/>
+      <stop offset="58%" stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="75%" stop-color="#d8b4fe" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#7c3aed" stop-opacity="0.45"/>
+    </linearGradient>
+    <!-- Receding (bottom) half — dimmer violet only -->
+    <linearGradient id="bh-disk-bot-huggingface-semantic-cache" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#7c3aed" stop-opacity="0.30"/>
+      <stop offset="50%" stop-color="#7c3aed" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#7c3aed" stop-opacity="0.30"/>
+    </linearGradient>
+    <!-- Top/bottom halves clipped relative to the (untilted) disk centre.    -->
+    <!-- The whole disk group is then rotated -12deg around (cx,cy).          -->
+    <clipPath id="bh-top-huggingface-semantic-cache">
+      <rect x="160" y="90" width="400" height="200"/>
+    </clipPath>
+    <clipPath id="bh-bot-huggingface-semantic-cache">
+      <rect x="160" y="290" width="400" height="200"/>
+    </clipPath>
+    <!-- Approaching-side hot spot — small localized brightening -->
+    <radialGradient id="bh-hotspot-huggingface-semantic-cache" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="55%" stop-color="#e9d5ff" stop-opacity="0.75"/>
+      <stop offset="100%" stop-color="#7c3aed" stop-opacity="0"/>
     </radialGradient>
   </defs>
 
@@ -25,30 +54,43 @@
 <line x1="48" y1="558" x2="1152" y2="558" stroke="#ebe5d4" stroke-opacity="0.35" stroke-width="1"/>
 
   <!-- Lensing-displaced stellar field -->
-  <circle cx="195" cy="215" r="1.6" fill="#ebe5d4" fill-opacity="0.55"/>
-  <line x1="180" y1="200" x2="195" y2="215" stroke="#ebe5d4" stroke-opacity="0.12" stroke-width="0.6"/>
+  <circle cx="198" cy="212" r="1.6" fill="#ebe5d4" fill-opacity="0.6"/>
+  <line x1="170" y1="180" x2="198" y2="212" stroke="#ebe5d4" stroke-opacity="0.16" stroke-width="0.6"/>
+  <circle cx="205" cy="388" r="1.6" fill="#ebe5d4" fill-opacity="0.55"/>
+  <line x1="180" y1="410" x2="205" y2="388" stroke="#ebe5d4" stroke-opacity="0.16" stroke-width="0.6"/>
   <circle cx="560" cy="200" r="1.6" fill="#ebe5d4" fill-opacity="0.5"/>
-  <circle cx="545" cy="365" r="1.6" fill="#ebe5d4" fill-opacity="0.55"/>
-  <line x1="560" y1="380" x2="545" y2="365" stroke="#ebe5d4" stroke-opacity="0.12" stroke-width="0.6"/>
-  <circle cx="180" cy="400" r="1.6" fill="#ebe5d4" fill-opacity="0.45"/>
-  <circle cx="300" cy="130" r="1.6" fill="#ebe5d4" fill-opacity="0.4"/>
+  <circle cx="547" cy="360" r="1.6" fill="#ebe5d4" fill-opacity="0.55"/>
+  <line x1="560" y1="380" x2="547" y2="360" stroke="#ebe5d4" stroke-opacity="0.16" stroke-width="0.6"/>
+  <circle cx="263" cy="148" r="1.6" fill="#ebe5d4" fill-opacity="0.45"/>
+  <line x1="255" y1="130" x2="263" y2="148" stroke="#ebe5d4" stroke-opacity="0.16" stroke-width="0.6"/>
+  <circle cx="140" cy="280" r="1.6" fill="#ebe5d4" fill-opacity="0.45"/>
+  <circle cx="470" cy="130" r="1.6" fill="#ebe5d4" fill-opacity="0.4"/>
+  <circle cx="300" cy="460" r="1.6" fill="#ebe5d4" fill-opacity="0.4"/>
 
-  <!-- Accretion-disk hairline ring (thin violet) -->
-  <circle cx="360" cy="290" r="96" fill="none" stroke="#7c3aed"
-    stroke-opacity="0.85" stroke-width="1.4"/>
-  <circle cx="360" cy="290" r="93.0" fill="none"
-    stroke="#7c3aed" stroke-opacity="0.35" stroke-width="0.6"/>
+  <!-- Tilted accretion disks (rotated -12° around the BH centre).             -->
+  <!-- Outer to inner: dim → bright. Top halves are Doppler-boosted; bottom    -->
+  <!-- halves render with the muted gradient.                                  -->
+  <g transform="rotate(-12 360 290)">
+    <g clip-path="url(#bh-top-huggingface-semantic-cache)"><ellipse cx="360" cy="290" rx="126" ry="27" fill="url(#bh-disk-top-huggingface-semantic-cache)" fill-opacity="0.42"/></g><g clip-path="url(#bh-bot-huggingface-semantic-cache)"><ellipse cx="360" cy="290" rx="126" ry="27" fill="url(#bh-disk-bot-huggingface-semantic-cache)" fill-opacity="0.18"/></g>
+    <g clip-path="url(#bh-top-huggingface-semantic-cache)"><ellipse cx="360" cy="290" rx="108" ry="23" fill="url(#bh-disk-top-huggingface-semantic-cache)" fill-opacity="0.62"/></g><g clip-path="url(#bh-bot-huggingface-semantic-cache)"><ellipse cx="360" cy="290" rx="108" ry="23" fill="url(#bh-disk-bot-huggingface-semantic-cache)" fill-opacity="0.22"/></g>
+    <g clip-path="url(#bh-top-huggingface-semantic-cache)"><ellipse cx="360" cy="290" rx="92" ry="20" fill="url(#bh-disk-top-huggingface-semantic-cache)" fill-opacity="0.85"/></g><g clip-path="url(#bh-bot-huggingface-semantic-cache)"><ellipse cx="360" cy="290" rx="92" ry="20" fill="url(#bh-disk-bot-huggingface-semantic-cache)" fill-opacity="0.3"/></g>
+    <!-- Hot spot on the approaching (top-left) side of the inner disk -->
+    <ellipse cx="302" cy="284" rx="22" ry="7" fill="url(#bh-hotspot-huggingface-semantic-cache)"/>
+  </g>
 
-  <!-- The void itself: same colour as the page, slightly darker, no glyph -->
-  <circle cx="360" cy="290" r="80" fill="url(#bh-void-huggingface-semantic-cache)"/>
+  <!-- Photon sphere ring — thin cream, 1.5× the event horizon -->
+  <circle cx="360" cy="290" r="96" fill="none" stroke="#ebe5d4"
+    stroke-opacity="0.55" stroke-width="0.9"/>
+
+  <!-- The void itself: true-black radial gradient, no glyph -->
+  <circle cx="360" cy="290" r="64" fill="url(#bh-void-huggingface-semantic-cache)"/>
 
   <!-- BH designation (catalogue prefix) -->
   <text x="640" y="222" font-family="'Departure Mono','JetBrains Mono',ui-monospace,monospace"
     font-size="28" letter-spacing="4.4" fill="#ebe5d4" fill-opacity="0.7">BH-</text>
 
-  <!-- Slash-skill slug -->
-  <text x="640" y="286" font-family="'EB Garamond',Georgia,serif" font-weight="600"
-    font-size="79" fill="#ebe5d4" dominant-baseline="middle">/semantic-cache</text>
+  <!-- Slash-skill slug (with optional <tspan> line break for long slugs) -->
+  <text x="640" y="286" font-family="'EB Garamond',Georgia,serif" font-weight="600" font-size="72" fill="#ebe5d4" dominant-baseline="middle">/semantic-cache</text>
 
   <!-- Title kicker -->
   <text x="640" y="336" font-family="'EB Garamond',Georgia,serif" font-style="italic"
