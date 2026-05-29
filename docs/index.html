@@ -545,18 +545,6 @@
   <!-- ─── HALL OF HEROES FULLSCREEN OG VIEW ─── -->
   <div id="hohFullscreenModal" class="hoh-fs-modal" aria-hidden="true" tabindex="-1">
     <div class="hoh-fs-header">
-      <button class="hoh-fs-btn" data-fs-action="download" title="Download OG Image Card" aria-label="Download OG Image Card">
-        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#download"></use></svg>
-      </button>
-      <button class="hoh-fs-btn" data-fs-action="copy" title="Copy Link" aria-label="Copy Link">
-        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#link"></use></svg>
-      </button>
-      <button class="hoh-fs-btn" data-fs-action="x" title="Share on X" aria-label="Share on X">
-        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#x"></use></svg>
-      </button>
-      <button class="hoh-fs-btn" data-fs-action="instagram" title="Copy OG Link & Open Instagram" aria-label="Copy OG Link & Open Instagram">
-        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#instagram"></use></svg>
-      </button>
       <button class="hoh-fs-btn hoh-fs-btn--close" data-fs-action="close" title="Close modal" aria-label="Close modal">
         <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#close-x"></use></svg>
       </button>
@@ -571,6 +559,35 @@
       <span class="hoh-fs-confirm-text">Are you <span id="hohFsHandleText">@handle</span>?</span>
       <button type="button" class="hoh-fs-confirm-btn hoh-fs-confirm-btn--yes" data-fs-action="confirm-yes" aria-label="Yes, this is me">Yes</button>
       <button type="button" class="hoh-fs-confirm-btn hoh-fs-confirm-btn--no" data-fs-action="confirm-no" aria-label="No, dismiss notification">No</button>
+    </div>
+
+    <!-- Share/download actions — bottom right, out of the way of card text -->
+    <div class="hoh-fs-footer">
+      <div class="hoh-dl-wrap" id="hohDlWrap">
+        <button class="hoh-fs-btn" data-fs-action="download" title="Download OG Image Card" aria-label="Download OG Image Card" aria-expanded="false" aria-controls="hohDlPopover">
+          <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#download"></use></svg>
+        </button>
+        <div class="hoh-dl-popover" id="hohDlPopover" role="dialog" aria-label="Choose download format" hidden>
+          <div class="hoh-dl-popover-hint">1200×630px &middot; For social media sharing</div>
+          <button class="hoh-dl-choice" data-dl-format="png" type="button">
+            <span class="hoh-dl-choice-fmt">PNG</span>
+            <span class="hoh-dl-choice-sub">Recommended</span>
+          </button>
+          <button class="hoh-dl-choice" data-dl-format="svg" type="button">
+            <span class="hoh-dl-choice-fmt">SVG</span>
+            <span class="hoh-dl-choice-sub">Vector / lossless</span>
+          </button>
+        </div>
+      </div>
+      <button class="hoh-fs-btn" data-fs-action="copy" title="Copy Link" aria-label="Copy Link">
+        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#link"></use></svg>
+      </button>
+      <button class="hoh-fs-btn" data-fs-action="x" title="Share on X" aria-label="Share on X">
+        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#x"></use></svg>
+      </button>
+      <button class="hoh-fs-btn" data-fs-action="instagram" title="Copy OG Link & Open Instagram" aria-label="Copy OG Link & Open Instagram">
+        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#instagram"></use></svg>
+      </button>
     </div>
 
     <div class="hoh-fs-overlay" id="hohFsOverlay" hidden>

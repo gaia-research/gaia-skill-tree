@@ -260,13 +260,13 @@ def _radec_ticks() -> str:
     return "\n  ".join(parts)
 
 
-def _plate_number(roman: str) -> str:
-    """Top-right roman-numeral plate number, mono caps tracked +0.18em."""
+def _plate_number(label: str) -> str:
+    """Top-right skill-type label, mono caps tracked +0.18em."""
     return (
         f'<text x="{OG_W - MARGIN}" y="{PLATE_NO_Y}" '
         f'font-family="\'Departure Mono\',\'JetBrains Mono\',ui-monospace,monospace" '
         f'font-size="18" letter-spacing="3.2" fill="{CREAM_ENGRAVED}" fill-opacity="0.7" '
-        f'text-anchor="end" dominant-baseline="middle">PLATE {html.escape(roman)}</text>'
+        f'text-anchor="end" dominant-baseline="middle">{html.escape(label)}</text>'
     )
 
 
@@ -300,7 +300,7 @@ def _magnitude_band(magnitude: str, ev_class: str, stars_or_word: str, designati
 def _catalog_signature(contributor: str, is_origin: bool, year: str) -> str:
     """Discoverer's signature in honor red, EB Garamond italic 22px.
 
-    Atlas convention: the literal word “Cataloged”, then the @handle, then —
+    Atlas convention: the literal word "Cataloged", then the @handle, then —
     if origin is set — an inline `· ORIGIN ·` token, then the year.
     """
     handle = html.escape(contributor or "")
@@ -338,14 +338,14 @@ def _diamond_seal(x: float, y: float, size: float = 28.0) -> str:
     )
 
 
-def _shared_frame(plate_roman: str) -> str:
-    """The four pieces every plate shares: ground, RA/Dec ticks, plate number,
+def _shared_frame(plate_label: str) -> str:
+    """The four pieces every plate shares: ground, RA/Dec ticks, plate label,
     engraved rule. Caller is responsible for the magnitude band + signature
     (because their text varies per plate)."""
     return (
         f'<rect width="{OG_W}" height="{OG_H}" fill="{INK_NIGHT}"/>\n'
         + _radec_ticks() + "\n"
-        + _plate_number(plate_roman) + "\n"
+        + _plate_number(plate_label) + "\n"
         + _engraved_rule()
     )
 
@@ -425,7 +425,7 @@ def build_supernova_plate(skill: dict) -> str:
     </radialGradient>
   </defs>
 
-  {_shared_frame('VI')}
+  {_shared_frame('Ultimate Skill - Apex')}
 
   <!-- Diamond Seal (Apex only — atlas publisher's mark) -->
   {_diamond_seal(MARGIN, MARGIN + 4, size=28)}
@@ -450,7 +450,7 @@ def build_supernova_plate(skill: dict) -> str:
 
   <!-- Title kicker -->
   <text x=\"{slug_x}\" y=\"{kicker_y}\" font-family=\"'EB Garamond',Georgia,serif\" font-style=\"italic\"
-    font-size=\"24\" fill=\"{CREAM_ENGRAVED}\" fill-opacity=\"0.6\" dominant-baseline=\"middle\">‘{title}’</text>
+    font-size=\"24\" fill=\"{CREAM_ENGRAVED}\" fill-opacity=\"0.6\" dominant-baseline=\"middle\">'{title}'</text>
 
   <!-- Discoverer signature -->
   {_catalog_signature(contributor, is_origin, year)}
@@ -536,7 +536,7 @@ def build_stellar_plate(skill: dict) -> str:
     </radialGradient>
   </defs>
 
-  {_shared_frame('V')}
+  {_shared_frame('Ultimate Skill')}
 
   <!-- Two concentric orbital tracks -->
   {orbits}
@@ -558,7 +558,7 @@ def build_stellar_plate(skill: dict) -> str:
 
   <!-- Title kicker -->
   <text x=\"{slug_x}\" y=\"{kicker_y}\" font-family=\"'EB Garamond',Georgia,serif\" font-style=\"italic\"
-    font-size=\"24\" fill=\"{CREAM_ENGRAVED}\" fill-opacity=\"0.6\" dominant-baseline=\"middle\">‘{title}’</text>
+    font-size=\"24\" fill=\"{CREAM_ENGRAVED}\" fill-opacity=\"0.6\" dominant-baseline=\"middle\">'{title}'</text>
 
   <!-- Discoverer signature -->
   {_catalog_signature(contributor, is_origin, year)}
@@ -654,7 +654,7 @@ def build_singularity_plate(skill: dict) -> str:
     </radialGradient>
   </defs>
 
-  {_shared_frame('IV')}
+  {_shared_frame('Unique Skill')}
 
   <!-- Lensing-displaced stellar field -->
   {field_svg}
@@ -678,7 +678,7 @@ def build_singularity_plate(skill: dict) -> str:
 
   <!-- Title kicker -->
   <text x=\"{slug_x}\" y=\"{kicker_y}\" font-family=\"'EB Garamond',Georgia,serif\" font-style=\"italic\"
-    font-size=\"24\" fill=\"{CREAM_ENGRAVED}\" fill-opacity=\"0.6\" dominant-baseline=\"middle\">‘{title}’</text>
+    font-size=\"24\" fill=\"{CREAM_ENGRAVED}\" fill-opacity=\"0.6\" dominant-baseline=\"middle\">'{title}'</text>
 
   <!-- Discoverer signature -->
   {_catalog_signature(contributor, is_origin, year)}
@@ -708,7 +708,9 @@ def build_default_plate(skill: dict) -> str:
     year = designation_year(skill)
     is_origin = bool(skill.get("origin"))
     n_lvl = level_num(skill.get("level", "2★"))
-    plate_roman = to_roman(max(1, min(3, n_lvl - 1))) or "I"
+    tier_type = resolve_type_for_og(skill)
+    plate_label = "Extra Skill" if tier_type == "extra" else "Basic Skill"
+    plate_css_val = plate_label.lower().replace(" ", "-")
 
     slug_x = MARGIN + 12
     slug_w = OG_W - slug_x - MARGIN
@@ -716,22 +718,22 @@ def build_default_plate(skill: dict) -> str:
     slug_y = 290
     kicker_y = slug_y + 46
 
-    stars = ("★" * max(1, min(3, n_lvl))) + ("☆" * max(0, 3 - n_lvl))
-    designation = f"GAIA · {plate_roman} · {year}"
+    stars = "★" * max(1, min(6, n_lvl))
+    designation = f"GAIA · {year}"
     mag_value = f"{n_lvl}.0" if n_lvl > 0 else "·"
 
     return f"""<?xml version=\"1.0\" encoding=\"UTF-8\"?>
 <svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"
   width=\"{OG_W}\" height=\"{OG_H}\" viewBox=\"0 0 {OG_W} {OG_H}\"
-  class=\"plate plate--default\" data-plate=\"{plate_roman}\" data-level=\"{n_lvl}\">
-  {_shared_frame(plate_roman)}
+  class=\"plate plate--default\" data-plate=\"{plate_css_val}\" data-level=\"{n_lvl}\">
+  {_shared_frame(plate_label)}
 
   <!-- Slash-skill slug (no celestial subject for sub-4★ skills) -->
   <text x=\"{slug_x}\" y=\"{slug_y}\" font-family=\"'EB Garamond',Georgia,serif\" font-weight=\"600\"
     font-size=\"{slug_size}\" fill=\"{CREAM_ENGRAVED}\" dominant-baseline=\"middle\">/{slug}</text>
 
   <text x=\"{slug_x}\" y=\"{kicker_y}\" font-family=\"'EB Garamond',Georgia,serif\" font-style=\"italic\"
-    font-size=\"24\" fill=\"{CREAM_ENGRAVED}\" fill-opacity=\"0.6\" dominant-baseline=\"middle\">‘{title}’</text>
+    font-size=\"24\" fill=\"{CREAM_ENGRAVED}\" fill-opacity=\"0.6\" dominant-baseline=\"middle\">'{title}'</text>
 
   {_catalog_signature(contributor, is_origin, year)}
 
