@@ -1331,6 +1331,9 @@
 
       var type = (generic && generic.type) || ns.type || 'basic';
       var color = (LEVEL_META_SE && LEVEL_META_SE[ns.level]) ? LEVEL_META_SE[ns.level].color : 'inherit';
+      // Type overrides rank color for unique and ultimate (matches plaque CSS rule)
+      if (type === 'unique') { color = 'var(--tier-unique, #7c3aed)'; }
+      else if (type === 'ultimate') { color = 'var(--apex-gold, #fbbf24)'; }
 
       var bHtml = '';
       if (hasSlash) {
