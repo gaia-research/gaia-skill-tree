@@ -120,7 +120,7 @@ Skills rank up through **verifiable evidence** (Class A/B/C) and can be demoted 
 **1. Install the CLI**
 
 <!-- gaia:version-start -->
-Current Gaia CLI version: `3.26.2`.
+Current Gaia CLI version: `3.26.3`.
 
 ```bash
 curl -fsSL https://gaia.tiongson.co/install.sh | sh
@@ -265,9 +265,11 @@ options:
                         global registry.
   --global, -g          Use global GAIA_HOME registry, ignoring any local .gaia/ config.
   --version, -v         Print the Gaia CLI version and exit.
+  --tui                 Launch the TUI (Terminal User Interface).
   --canon               Show canonical registry data instead of local-first view.
 
 Quick usage:
+  gaia                        Launch the TUI (interactive dashboard)
   gaia init [--user <name>] [--scan <path>] [--yes]
   gaia scan [--quiet] [--auto-promote]
   gaia pull

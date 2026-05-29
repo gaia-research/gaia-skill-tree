@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 import re
 import subprocess
 import sys
@@ -76,6 +77,10 @@ class ScanScreen(Screen):
         matched = 0
         unlocked = 0
 
+        # We want ANSI colors even though we're piping
+        env = os.environ.copy()
+        env["FORCE_COLOR"] = "1"
+
         try:
             proc = subprocess.Popen(
                 [sys.executable, "-m", "gaia_cli.main", "scan"],
@@ -83,15 +88,20 @@ class ScanScreen(Screen):
                 stderr=subprocess.STDOUT,
                 text=True,
                 bufsize=1,
+                env=env,
             )
             for raw_line in proc.stdout:  # type: ignore[union-attr]
                 line = raw_line.rstrip("\n")
-                styled = self._style_line(line)
+                
+                # Render the ANSI-colored line directly
+                styled = Text.from_ansi("  " + line + "\n")
                 self.app.call_from_thread(log.write, styled)
 
-                if _SKILL_RE.search(line):
+                # Strip ANSI for count matching to ensure robustness
+                plain_line = Text.from_ansi(line).plain
+                if _SKILL_RE.search(plain_line):
                     matched += 1
-                if _UNLOCK_RE.search(line):
+                if _UNLOCK_RE.search(plain_line):
                     unlocked += 1
 
                 self.app.call_from_thread(
@@ -110,54 +120,9 @@ class ScanScreen(Screen):
                 Text(f"\n  ✗ Scan error: {exc}\n", style=T.STATE_INSTALL_ERROR),
             )
 
-    _GLYPH_TO_TIER = {"○": "basic", "◇": "extra", "◉": "unique", "◆": "ultimate"}
-
     def _style_line(self, line: str) -> Text:
-        """Apply tier colors to scan output lines."""
-        t = Text()
-
-        # Skill unlock banner
-        if _UNLOCK_RE.search(line):
-            t.append("  " + line + "\n", style=f"{T.TIER_ULTIMATE} bold")
-            return t
-
-        # Matched skill lines (◇ /skill-id etc)
-        m = _SKILL_RE.search(line)
-        if m:
-            glyph = m.group(1)
-            sid = m.group(2)
-            tier_key = self._GLYPH_TO_TIER.get(glyph, "basic")
-            glyph_color = T.TIER_BY_KEY.get(tier_key, T.TIER_BASIC)
-            pre = line[:m.start()]
-            post = line[m.end():]
-            
-            t.append("  " + pre, style=T.NEUTRAL_TEXT_MUTED)
-            t.append(glyph + " ", style=glyph_color)
-            
-            # Name rendering: @handle/slug
-            if "/" in sid:
-                contrib, name = sid.split("/", 1)
-                t.append("@" + contrib, style=T.BRAND_HONOR_RED)
-                t.append("/" + name, style=T.NEUTRAL_TEXT)
-            else:
-                t.append(sid, style=T.NEUTRAL_TEXT)
-                
-            t.append(post + "\n", style=T.RANK_UNAWAKENED)
-            return t
-
-        # Fusion lines
-        if "──▶" in line or "─┤" in line or "─┘" in line:
-            t.append("  " + line + "\n", style=T.TIER_EXTRA)
-            return t
-
-        # Status / count lines
-        if line.startswith("⚡") or "reachable" in line or "saved" in line:
-            t.append("  " + line + "\n", style=T.STATE_SCAN_COMPLETE)
-            return t
-
-        # Default dim
-        t.append("  " + line + "\n", style=T.NEUTRAL_TEXT_DIM)
-        return t
+        """Legacy helper, now mostly unused by pass-through."""
+        return Text.from_ansi("  " + line + "\n")
 
     def action_goto_agent(self) -> None:
         self.app.pop_screen()

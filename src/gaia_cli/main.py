@@ -98,6 +98,7 @@ DEFAULT_REGISTRY_REF = "https://github.com/mbtiongson1/gaia-skill-tree"
 
 COMMAND_USAGE = """\
 Quick usage:
+  gaia                        Launch the TUI (interactive dashboard)
   gaia init [--user <name>] [--scan <path>] [--yes]
   gaia scan [--quiet] [--auto-promote]
   gaia pull
@@ -1456,6 +1457,11 @@ def get_parser():
         help="Print the Gaia CLI version and exit.",
     )
     parser.add_argument(
+        '--tui',
+        action='store_true',
+        help="Launch the TUI (Terminal User Interface).",
+    )
+    parser.add_argument(
         '--canon',
         action='store_true',
         help="Show canonical registry data instead of local-first view.",
@@ -1725,17 +1731,24 @@ def main():
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
         sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
-    # No args + interactive terminal → launch TUI
-    if len(sys.argv) == 1 and sys.stdin.isatty() and sys.stdout.isatty():
+    parser, skills_parser = get_parser()
+    args = parser.parse_args()
+
+    # Launch TUI if explicitly requested OR if no args + interactive terminal
+    wants_tui = args.tui or (len(sys.argv) == 1 and sys.stdin.isatty() and sys.stdout.isatty())
+
+    if wants_tui:
         try:
             from gaia_cli.tui import GaiaApp
             GaiaApp().run()
             return
         except ImportError:
-            pass  # textual not installed, fall through to argparse
+            if args.tui:
+                # Explicit request failed -> error
+                print("TUI requires the 'textual' package. Install with: pip install 'gaia-cli[tui]'", file=sys.stderr)
+                sys.exit(1)
+            # Implicit request failed -> fall through to argparse
 
-    parser, skills_parser = get_parser()
-    args = parser.parse_args()
     args.registry = resolve_registry_path(args.registry, global_flag=args.global_flag)
     require_explicit_writable_registry(parser, args)
     if args.version:
