@@ -21,14 +21,17 @@ import os
 from typing import Final
 
 
+from gaia_cli.registry import resolve_registry_path
+
+
 def _hex_to_rgb(value: str) -> tuple[int, int, int]:
     h = value.lstrip("#")
     return int(h[0:2], 16), int(h[2:4], 16), int(h[4:6], 16)
 
 
 def _load_meta() -> dict:
-    here = os.path.dirname(os.path.abspath(__file__))
-    root = os.path.dirname(os.path.dirname(os.path.dirname(here)))
+    # Use centralized resolution to find gaia.json
+    root = resolve_registry_path()
     path = os.path.join(root, "registry", "gaia.json")
     try:
         with open(path, "r", encoding="utf-8") as fh:

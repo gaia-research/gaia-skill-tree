@@ -14,11 +14,17 @@ import os
 import sys
 
 
+from gaia_cli.registry import resolve_registry_path
+
+
 # --- ANSI helpers (minimal, reuses pattern from cardRenderer) ---
 
 def _use_color() -> bool:
     if os.environ.get("NO_COLOR"):
         return False
+    # Support explicit force flags (standard in many CLIs)
+    if os.environ.get("FORCE_COLOR") or os.environ.get("CLICOLOR_FORCE"):
+        return True
     if not hasattr(sys.stdout, "isatty"):
         return False
     return sys.stdout.isatty()
@@ -67,8 +73,7 @@ def _load_palette_from_registry() -> tuple[dict, dict]:
         "6★": (251, 191, 36),
     }
     try:
-        _here = os.path.dirname(os.path.abspath(__file__))
-        _root = os.path.dirname(os.path.dirname(_here))
+        _root = resolve_registry_path()
         _path = os.path.join(_root, "registry", "gaia.json")
         with open(_path, "r", encoding="utf-8") as _f:
             _data = json.load(_f)
