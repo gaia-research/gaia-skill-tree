@@ -42,6 +42,50 @@
       margin-right: .4rem;
     }
 
+    /* ── Honesty Mode pill (read-only indicator) ── */
+    .bd-honesty-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: .55rem;
+      margin-top: .9rem;
+      padding: .45rem .85rem .45rem .7rem;
+      background: rgba(34, 197, 94, .08);
+      border: 1px solid rgba(34, 197, 94, .35);
+      border-radius: 999px;
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: .76rem;
+      letter-spacing: .04em;
+      cursor: help;
+    }
+    .bd-honesty-pill[data-state="off"] {
+      background: rgba(148, 163, 184, .08);
+      border-color: rgba(148, 163, 184, .3);
+      color: var(--muted);
+    }
+    .bd-honesty-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 0 3px rgba(34, 197, 94, .15);
+      flex-shrink: 0;
+    }
+    .bd-honesty-pill[data-state="off"] .bd-honesty-dot {
+      background: #94a3b8;
+      box-shadow: 0 0 0 3px rgba(148, 163, 184, .12);
+    }
+    .bd-honesty-label {
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      font-size: .68rem;
+      color: var(--muted);
+    }
+    .bd-honesty-state {
+      font-weight: 600;
+      letter-spacing: .08em;
+    }
+
     /* ── Generator Layout & Simulator ── */
     .bd-gen {
       background: var(--surface);
@@ -821,16 +865,31 @@
         This prestige is yours to keep — built through evidence, discipline, and real work. Not self-assigned. Not purchased. Every badge in this registry was reviewed, challenged, and earned. The diamond seal on your README is a permanent record of that.
       </p>
 
-      <!-- Live preview strip -->
+      <!-- Live preview strip — always reads from _assets/ so the strip renders
+           without the Cloudflare Worker (local dev, preview deploys, or when
+           the worker is bypassed by Honesty Mode). The 2-segment public route
+           is for embedded README badges only. -->
       <div class="bd-live">
         <span class="bd-live-label">live</span>
-        <img src="./mbtiongson1/handle.svg" alt="Owner identity badge" onerror="this.style.display='none'">
-        <img src="./mbtiongson1/rank.svg" alt="Owner rank badge">
-        <img src="./mbtiongson1/skills.svg" alt="Owner skills count badge">
+        <img src="./_assets/mbtiongson1/handle.svg" alt="Owner identity badge" onerror="this.style.display='none'">
+        <img src="./_assets/mbtiongson1/rank.svg" alt="Owner rank badge">
+        <img src="./_assets/mbtiongson1/skills.svg" alt="Owner skills count badge">
         <div style="flex-basis: 100%; height: 0;"></div>
         <span class="bd-live-label">seal-only</span>
-        <img src="./mbtiongson1/handle-seal.svg" alt="Owner identity badge — seal-only variant" onerror="this.style.display='none'">
+        <img src="./_assets/mbtiongson1/handle-seal.svg" alt="Owner identity badge — seal-only variant" onerror="this.style.display='none'">
       </div>
+
+      <!-- Honesty Mode indicator — read-only visibility chip. The mode itself
+           is a config constant (HONESTY_MODE) set in the script below; flip it
+           via PR. ON bypasses the Cloudflare Worker entirely and emits direct
+           _assets/ URLs into the copied markdown. OFF restores worker-validated
+           URLs with ?repo= binding. See docs/badges/CLAUDE.md. -->
+      <span id="bd-honesty-pill" class="bd-honesty-pill" data-state="on"
+            title="Honesty Mode reflects the current build config — ON means copied markdown points at the static _assets/ path (no Cloudflare Worker, no ?repo= validation). Change via PR.">
+        <span class="bd-honesty-dot" aria-hidden="true"></span>
+        <span class="bd-honesty-label">Honesty Mode</span>
+        <span class="bd-honesty-state">ON</span>
+      </span>
     </section>
 
     <!-- Priority 1: Generate Yours -->
@@ -975,7 +1034,7 @@
       <div class="bd-variants">
         <div class="bd-variant">
           <div class="bd-variant-preview">
-            <img src="./garrytan/handle.svg" alt="@garrytan handle badge">
+            <img src="./_assets/garrytan/handle.svg" alt="@garrytan handle badge">
             <div class="bd-variant-stat" id="bd-v-handle-stat">@garrytan · top skill</div>
           </div>
           <div>
@@ -985,7 +1044,7 @@
         </div>
         <div class="bd-variant">
           <div class="bd-variant-preview">
-            <img src="./garrytan/rank.svg" alt="garrytan rank badge" id="bd-v-rank-img">
+            <img src="./_assets/garrytan/rank.svg" alt="garrytan rank badge" id="bd-v-rank-img">
             <div class="bd-variant-stat" id="bd-v-rank-stat">Highest rank: 4★</div>
           </div>
           <div>
@@ -995,7 +1054,7 @@
         </div>
         <div class="bd-variant">
           <div class="bd-variant-preview">
-            <img src="./garrytan/skills.svg" alt="garrytan skills badge" id="bd-v-skills-img">
+            <img src="./_assets/garrytan/skills.svg" alt="garrytan skills badge" id="bd-v-skills-img">
             <div class="bd-variant-stat" id="bd-v-skills-stat">4 named skills</div>
           </div>
           <div>
@@ -1161,6 +1220,32 @@
     const chkSkills   = document.getElementById("bd-check-skills");
     const chkSeal     = document.getElementById("bd-check-seal");
     const ctaBlock    = document.getElementById("bd-cta-block");
+    const honestyPill = document.getElementById("bd-honesty-pill");
+
+    // ── Honesty Mode (build-time toggle) ────────────────────────────────────
+    // Flip this constant via PR. There is intentionally no runtime UI to change
+    // it — the pill above is a read-only indicator so anyone viewing the page
+    // can see which mode it's in. See docs/badges/CLAUDE.md.
+    //
+    //   true  → copied markdown points at the static _assets/ path.
+    //           No Cloudflare Worker, no ?repo= validation. Embeddable anywhere.
+    //   false → copied markdown points at the worker-validated 2-segment route.
+    //           Requires the Cloudflare Worker to be deployed and serving.
+    const HONESTY_MODE = true;
+
+    // Paint the indicator to match the constant.
+    honestyPill.dataset.state = HONESTY_MODE ? "on" : "off";
+    honestyPill.querySelector(".bd-honesty-state").textContent = HONESTY_MODE ? "ON" : "OFF";
+
+    // Build the URL that lands in the user's clipboard. Honesty Mode swaps
+    // the route between the validated public path and the direct _assets path.
+    function badgeMarkdownUrl(handle, file, repoQuery) {
+      if (HONESTY_MODE) {
+        // Static, no worker, no ?repo=. Renders identically from any context.
+        return `${BASE}/badges/_assets/${handle}/${file}`;
+      }
+      return `${BASE}/badges/${handle}/${file}${repoQuery}`;
+    }
 
     // Persist the "Hide Gaia" toggle across page loads.
     const SEAL_STORAGE_KEY = "gaia.badges.sealOnly";
@@ -1299,13 +1384,17 @@
         : file;
       const files = (pickedFiles && pickedFiles.length) ? pickedFiles : ["handle.svg"];
 
+      // Local previews always read from _assets/ — these don't go through the
+      // Cloudflare Worker, so they render correctly in any environment.
+      const previewSrc = (file) => `./_assets/${handle}/${file}`;
+
       const entries = [];
       if (hasHandle && chkHandle.checked) {
         files.forEach((file) => {
           const sealed = sealify(file);
-          const url = `${BASE}/badges/${handle}/${sealed}${q}`;
+          const url = badgeMarkdownUrl(handle, sealed, q);
           entries.push({
-            localSrc: `./${handle}/${sealed}`,
+            localSrc: previewSrc(sealed),
             alt: `@${handle} on Gaia`,
             md: `[![Gaia](${url})](${linkTarget})`,
           });
@@ -1313,18 +1402,18 @@
       }
       if (hasRank && chkRank.checked) {
         const sealed = sealify("rank.svg");
-        const url = `${BASE}/badges/${handle}/${sealed}${q}`;
+        const url = badgeMarkdownUrl(handle, sealed, q);
         entries.push({
-          localSrc: `./${handle}/${sealed}`,
+          localSrc: previewSrc(sealed),
           alt: "Gaia rank",
           md: `[![Gaia rank](${url})](${linkTarget})`,
         });
       }
       if (hasSkills && chkSkills.checked) {
         const sealed = sealify("skills.svg");
-        const url = `${BASE}/badges/${handle}/${sealed}${q}`;
+        const url = badgeMarkdownUrl(handle, sealed, q);
         entries.push({
-          localSrc: `./${handle}/${sealed}`,
+          localSrc: previewSrc(sealed),
           alt: "Gaia skills",
           md: `[![Gaia skills](${url})](${linkTarget})`,
         });
@@ -1599,7 +1688,12 @@
       checksEl.classList.remove("is-visible");
       ctaBlock.style.display = "none";
 
-      const base = `./${encodeURIComponent(handle)}`;
+      // Probe the actual static files (under _assets/) — the public 2-segment
+      // path /badges/<handle>/<file>.svg only resolves through the Cloudflare
+      // Worker, so HEAD-checking it would return 404 in any environment that
+      // serves the docs/ folder directly (local dev, preview deploys, Honesty
+      // Mode). The real SVGs always live at /badges/_assets/<handle>/.
+      const base = `./_assets/${encodeURIComponent(handle)}`;
       const [hasRank, hasSkills, hasHandle, hasProfile, registry] = await Promise.all([
         exists(`${base}/rank.svg`),
         exists(`${base}/skills.svg`),
