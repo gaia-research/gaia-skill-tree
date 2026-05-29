@@ -425,9 +425,82 @@
     return _shell('og', ns, inner, shellOpts);
   }
 
+  // ── variant: mini-stack (HoH track plate, multi-skill per contributor) ─
+  // Lists up to N qualifying slash-skills for ONE contributor, each in its
+  // own row with row-level data-type/data-level so per-skill CSS rules
+  // resolve the correct tier/rank colour. The plate's outer data-type +
+  // data-level reflect the contributor's PRIMARY (highest-ranked) skill —
+  // that's what drives the orb glow + Apex shimmer halo.
+  //
+  // Inputs:
+  //   skills  Array of { id, name, contributor, level, type, origin,
+  //                       canonicalId, onclick }  — pre-sorted highest first.
+  //   opts.maxRows  default 3.  More than maxRows → "+N more" overflow row.
+  function renderMiniStack(skills, opts) {
+    opts = opts || {};
+    if (!Array.isArray(skills) || !skills.length) return '';
+    var TYPE_RANK = { ultimate: 0, unique: 1, extra: 2, basic: 3 };
+    var sorted = skills.slice().sort(function (a, b) {
+      var ld = levelNum(b.level) - levelNum(a.level);
+      if (ld !== 0) return ld;
+      return (TYPE_RANK[a.type] || 9) - (TYPE_RANK[b.type] || 9);
+    });
+    var primary = sorted[0];
+    var maxRows = (typeof opts.maxRows === 'number') ? opts.maxRows : 3;
+    var visible = sorted.slice(0, maxRows);
+    var overflow = Math.max(0, sorted.length - visible.length);
+
+    var anyOrigin = sorted.some(function (s) { return !!s.origin; });
+    var primaryNs = {
+      id: primary.id,
+      name: primary.name,
+      contributor: primary.contributor,
+      origin: anyOrigin,
+      level: primary.level,
+      type: primary.type,
+    };
+
+    var TIER_GLYPH = { ultimate: '◆', unique: '◉', extra: '◇', basic: '○' };
+
+    var header =
+      '<div class="plaque__stack-header">' +
+        _fieldOrb(primaryNs) +
+        _fieldHandleRow(primaryNs) +
+        _fieldFullscreenBtn(primaryNs) +
+      '</div>';
+
+    var rows = visible.map(function (s) {
+      var n = levelNum(s.level);
+      var glyph = TIER_GLYPH[s.type] || TIER_GLYPH.basic;
+      var slug = namedSlug(s);
+      var slugTitle = s.id || '';
+      var clickAttr = s.onclick
+        ? 'event.stopPropagation(); ' + s.onclick
+        : '(function(id){if(typeof openSkillExplorer===\'function\')openSkillExplorer(id);})(\'' + jsStr(s.canonicalId || s.id) + '\')';
+      var stars = rankBadge(s.level, { variant: 'stars', label: s.level, tier: s.type });
+      return '<div class="plaque__stack-row" data-type="' + esc(s.type || 'basic') +
+        '" data-level="' + esc(n) + '">' +
+          '<span class="plaque__stack-glyph tier-glyph" data-type="' + esc(s.type || 'basic') +
+            '" aria-hidden="true">' + glyph + '</span>' +
+          '<button class="plaque__slug plaque-skill-name named-slug plaque__slug--clickable" type="button" ' +
+            'title="' + esc(slugTitle) + '" onclick="' + clickAttr + '">' + esc(slug) + '</button>' +
+          (stars ? '<span class="plaque__stack-rank">' + stars + '</span>' : '') +
+        '</div>';
+    }).join('');
+
+    var moreRow = overflow
+      ? '<div class="plaque__stack-more">+' + overflow + ' more</div>'
+      : '';
+
+    var inner = header + '<div class="plaque__stack-body">' + rows + moreRow + '</div>';
+    var shellOpts = { click: false, extraClass: 'plaque--mini-stack' };
+    return _shell('mini', primaryNs, inner, shellOpts);
+  }
+
   // ── public API ───────────────────────────────────────────────────
   var plaque = {
     renderMini: renderMini,
+    renderMiniStack: renderMiniStack,
     renderTile: renderTile,
     renderRow: renderRow,
     renderDetail: renderDetail,
