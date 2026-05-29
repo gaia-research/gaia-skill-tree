@@ -34,21 +34,19 @@
     <svg class="ico nav-seal" aria-hidden="true" focusable="false"><use href="../../assets/icons.svg#seal-diamond"/></svg>
     <span class="nav-wordmark">Gaia</span>
   </a>
-  <button type="button" class="nav-search-back" id="navSearchBack" aria-label="Back">
-    <svg class="ico" width="20" height="20" aria-hidden="true"><use href="../../assets/icons.svg#arrow-back"/></svg>
-  </button>
-  <input type="search" id="navMobileSearch" class="nav-mobile-search" placeholder="Search named…" autocomplete="off" aria-label="Search named">
+  <button type="button" class="nav-search-btn-mobile" id="navSearchBtnMobile" aria-label="Search named"><svg class="ico" width="18" height="18" aria-hidden="true"><use href="../../assets/icons.svg#search"/></svg></button>
   <button class="nav-menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false">
     <span></span>
     <span></span>
     <span></span>
   </button>
   <ul>
-    <li><a href="../../index.html" class="nav-graph-trigger">Graph</a></li>
-    <li><a href="../../badges/" style="color: var(--honor-red);">Badges</a></li>
+    <li><a href="../../" style="color: var(--text);">Home</a></li>
+    <li><button type="button" class="nav-tree" id="treeNavBtn" style="color: #34d399;">Skill Tree</button></li>
+    <li><button type="button" class="nav-graph-trigger" data-graph-trigger style="color: #38bdf8;">Skill Graph</button></li>
     <li><a href="../../codex.html" style="color: var(--tier-basic);">The Codex</a></li>
-    <li><button type="button" class="nav-tree" id="treeNavBtn">Tree</button></li>
     <li><a href="../../meta.html" class="nav-meta" id="metaNavBtn">Meta Reports</a></li>
+    <li><a href="../../badges/" style="color: var(--honor-red);">Github Badges</a></li>
     <li><button type="button" class="nav-search-btn" id="navSearchBtn" aria-label="Search named"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#search"/></svg></button></li>
   </ul>
 </nav>
@@ -222,7 +220,7 @@
   <div class="profile-sidebar-backdrop" id="sidebarBackdrop"></div>
   <button class="profile-filter-toggle" id="mobileFilterToggle" aria-label="Toggle filters">
     <svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#filter"/></svg>
-    <span>Filters</span>
+    <span>Filter</span>
   </button>
 
   <div class="share-modal" hidden role="dialog" aria-modal="true" aria-labelledby="share-modal-title">
