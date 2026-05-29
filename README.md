@@ -22,6 +22,8 @@ Have a named skill? Get yours now! Should look like this:
 [![Gaia rank](https://gaia.tiongson.co/badges/mbtiongson1/rank.svg?repo=mbtiongson1%2Fgaia-skill-tree)](https://gaia.tiongson.co/u/mbtiongson1/)
 [![Gaia skills](https://gaia.tiongson.co/badges/mbtiongson1/skills.svg?repo=mbtiongson1%2Fgaia-skill-tree)](https://gaia.tiongson.co/u/mbtiongson1/)
 
+Generate yours at **[gaia.tiongson.co/badges/](https://gaia.tiongson.co/badges/)**.
+
 **Brand & product:** [PRODUCT.md](PRODUCT.md) · [CONTEXT.md](CONTEXT.md) · [DESIGN.md](DESIGN.md)
 
 **Keywords:** AI Agent Skills • Skill Registry • LLM Ops • Agent Framework
@@ -331,23 +333,7 @@ Contributors with named skills can wear their rank in their own repo READMEs. Ba
 | **Skills** — total unlocked (7) | [![Gaia skills](https://gaia.tiongson.co/badges/mbtiongson1/skills.svg?repo=mbtiongson1/gaia-skill-tree)](https://gaia.tiongson.co/u/mbtiongson1/) |
 | **Powered by Gaia** — generic fallback for non-contributors | [![Powered by Gaia](https://gaia.tiongson.co/badges/powered-by-gaia.svg)](https://gaia.tiongson.co/badges/) |
 
-Copy-paste for this repo:
-
-```markdown
-[![Gaia rank](https://gaia.tiongson.co/badges/mbtiongson1/rank.svg?repo=mbtiongson1/gaia-skill-tree)](https://gaia.tiongson.co/u/mbtiongson1/)
-[![Gaia skills](https://gaia.tiongson.co/badges/mbtiongson1/skills.svg?repo=mbtiongson1/gaia-skill-tree)](https://gaia.tiongson.co/u/mbtiongson1/)
-[![Powered by Gaia](https://gaia.tiongson.co/badges/powered-by-gaia.svg)](https://gaia.tiongson.co/badges/)
-```
-
-Template for any contributor:
-
-```markdown
-[![Gaia](https://gaia.tiongson.co/badges/<handle>/handle.svg?repo=<owner/name>)](https://gaia.tiongson.co/u/<handle>/)
-[![Gaia rank](https://gaia.tiongson.co/badges/<handle>/rank.svg?repo=<owner/name>)](https://gaia.tiongson.co/u/<handle>/)
-[![Gaia skills](https://gaia.tiongson.co/badges/<handle>/skills.svg?repo=<owner/name>)](https://gaia.tiongson.co/u/<handle>/)
-```
-
-Replace `<handle>` with your Gaia username and `<owner/name>` with the GitHub repo the badge is embedded in — the forthcoming edge validator flags badges in repos not on the contributor's `links.github` list. Preview every variant — including the single-line `@handle/skill · N★` identity badge — at [https://gaia.tiongson.co/badges/](https://gaia.tiongson.co/badges/).
+Generate your badge snippet at **[gaia.tiongson.co/badges/](https://gaia.tiongson.co/badges/)** — preview every variant and get the ready-to-paste Markdown for your repo.
 <!-- gaia:badges-end -->
 
 ---
