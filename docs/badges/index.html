@@ -578,10 +578,12 @@
       display: flex;
       align-items: center;
       justify-content: flex-end;
+      gap: .4rem;
       margin-top: .85rem;
       margin-bottom: .35rem;
     }
-    .bd-copy-all {
+    .bd-copy-all,
+    .bd-copy-perline {
       display: inline-flex;
       align-items: center;
       gap: .35rem;
@@ -596,7 +598,8 @@
       cursor: pointer;
       transition: color .12s, border-color .12s;
     }
-    .bd-copy-all:hover { color: var(--text); border-color: rgba(251,191,36,.8); }
+    .bd-copy-all:hover,
+    .bd-copy-perline:hover { color: var(--text); border-color: rgba(251,191,36,.8); }
     .bd-row-item {
       display: flex;
       flex-direction: row;
@@ -1461,23 +1464,42 @@
         badges.appendChild(link);
       });
 
-      // Copy All header
+      // Header row: "One-liner" + "Per line" copy buttons
       const header = document.createElement("div");
       header.className = "bd-rows-header";
-      const allMd = entries.map(e => e.md).join("\n");
-      const copyAllBtn = document.createElement("button");
-      copyAllBtn.className = "bd-copy-all";
-      copyAllBtn.type = "button";
-      copyAllBtn.innerHTML = '<svg class="ico" width="13" height="13" aria-hidden="true"><use href="../assets/icons.svg#copy"/></svg> Copy all';
+      const allMd = entries.map(e => e.md).join(" ");
+      const perLineMd = entries.map(e => e.md).join("<br>\n");
+
+      function makeCopyGroupBtn(cls, label) {
+        const btn = document.createElement("button");
+        btn.className = cls;
+        btn.type = "button";
+        btn.innerHTML = `<svg class="ico" width="13" height="13" aria-hidden="true"><use href="../assets/icons.svg#copy"/></svg> ${label}`;
+        return btn;
+      }
+
+      const copyAllBtn = makeCopyGroupBtn("bd-copy-all", "One-liner");
       copyAllBtn.addEventListener("click", () => {
         navigator.clipboard.writeText(allMd).then(() => {
           copyAllBtn.innerHTML = '<svg class="ico" width="13" height="13" aria-hidden="true"><use href="../assets/icons.svg#copy-check"/></svg> Copied';
           setTimeout(() => {
-            copyAllBtn.innerHTML = '<svg class="ico" width="13" height="13" aria-hidden="true"><use href="../assets/icons.svg#copy"/></svg> Copy all';
+            copyAllBtn.innerHTML = '<svg class="ico" width="13" height="13" aria-hidden="true"><use href="../assets/icons.svg#copy"/></svg> One-liner';
           }, 1600);
         });
       });
+
+      const copyPerLineBtn = makeCopyGroupBtn("bd-copy-perline", "Per line");
+      copyPerLineBtn.addEventListener("click", () => {
+        navigator.clipboard.writeText(perLineMd).then(() => {
+          copyPerLineBtn.innerHTML = '<svg class="ico" width="13" height="13" aria-hidden="true"><use href="../assets/icons.svg#copy-check"/></svg> Copied';
+          setTimeout(() => {
+            copyPerLineBtn.innerHTML = '<svg class="ico" width="13" height="13" aria-hidden="true"><use href="../assets/icons.svg#copy"/></svg> Per line';
+          }, 1600);
+        });
+      });
+
       header.appendChild(copyAllBtn);
+      header.appendChild(copyPerLineBtn);
       rowsEl.appendChild(header);
 
       entries.forEach(({ localSrc, alt, md }) => {
