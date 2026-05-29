@@ -3,7 +3,7 @@ id: mbtiongson1/gaia-meta-audit
 name: Gaia Meta Audit
 contributor: mbtiongson1
 origin: true
-genericSkillRef: gaia-meta-audit
+genericSkillRef: registry-health-scan
 status: named
 level: 4★
 description: Produces a prioritized review queue of Gaia registry entries needing

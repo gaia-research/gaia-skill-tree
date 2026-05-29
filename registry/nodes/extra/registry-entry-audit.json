@@ -1,5 +1,5 @@
 {
-  "id": "gaia-audit",
+  "id": "registry-entry-audit",
   "name": "Gaia Audit",
   "type": "extra",
   "level": "4★",
@@ -11,7 +11,7 @@
     "evaluate-output"
   ],
   "derivatives": [
-    "gaia-meta-audit"
+    "registry-health-scan"
   ],
   "conditions": "Requires a specific Gaia skill ID, named skill ID, or real-skill catalog item plus access to the registry source files and current public evidence sources.",
   "evidence": [
@@ -26,7 +26,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-03",
-  "updatedAt": "2026-05-03",
+  "updatedAt": "2026-05-30",
   "version": "0.1.0",
   "timeline": [
     {
@@ -52,6 +52,12 @@
       "details": "Added evidence: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/skill.md",
       "previousValue": null,
       "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-05-29T18:12:02Z",
+      "action": "rename",
+      "contributor": "unknown",
+      "details": "Renamed from gaia-audit to registry-entry-audit"
     }
   ]
 }

@@ -11,7 +11,7 @@
 Comprehensive web quality audit.
 
 ## Prerequisites
-- [Gaia Meta Audit](../extra/gaia-meta-audit.md)
+- [Gaia Meta Audit](../extra/registry-health-scan.md)
 - [Performance Tuning](../basic/performance-tuning.md)
 - [search-engine-optimization](../extra/search-engine-optimization.md)
 - [web-accessibility](../extra/web-accessibility.md)

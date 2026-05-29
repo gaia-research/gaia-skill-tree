@@ -6,7 +6,7 @@
   "rarity": "common",
   "description": "Comprehensive web quality audit.",
   "prerequisites": [
-    "gaia-meta-audit",
+    "registry-health-scan",
     "performance-tuning",
     "search-engine-optimization",
     "web-accessibility",

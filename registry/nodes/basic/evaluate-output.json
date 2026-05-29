@@ -8,7 +8,7 @@
   "prerequisites": [],
   "derivatives": [
     "code-review-pipeline",
-    "gaia-audit",
+    "registry-entry-audit",
     "grounding",
     "multi-agent-debate",
     "prompt-optimization",

@@ -1,4 +1,4 @@
-# [mbtiongson1](../../../docs/u/mbtiongson1/)/research  [1★ · Awakened]
+# /research  [1★ · Awakened]
 **ID:** research  
 **Type:** Extra Skill  
 **Level:** 1★  

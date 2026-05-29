@@ -16,7 +16,7 @@ Systematically discovers, evaluates, and ingests new skill definitions into a st
 - [Code Execution](../basic/code-execution.md)
 
 ## Unlocks
-- [Gaia Meta Audit](../extra/gaia-meta-audit.md)
+- [Gaia Meta Audit](../extra/registry-health-scan.md)
 
 ## Fusion Condition
 Requires write access to the canonical graph and a passing validation suite.

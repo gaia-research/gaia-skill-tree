@@ -14,7 +14,7 @@ Attributes claims to specific sources with proper references, URLs, or bibliogra
 _None._
 
 ## Unlocks
-- [Gaia Audit](../extra/gaia-audit.md)
+- [Gaia Audit](../extra/registry-entry-audit.md)
 - [Grounding](../extra/grounding.md)
 - [Research](../extra/research.md)
 - [Literature Review](../extra/literature-review.md)

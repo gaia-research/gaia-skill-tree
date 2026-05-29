@@ -14,7 +14,7 @@ Fetches relevant documents or passages from an indexed corpus given a query.
 _None._
 
 ## Unlocks
-- [Gaia Audit](../extra/gaia-audit.md)
+- [Gaia Audit](../extra/registry-entry-audit.md)
 - [Grounding](../extra/grounding.md)
 - [RAG Pipeline](../extra/rag-pipeline.md)
 - [Wiki Search](../extra/wiki-search.md)

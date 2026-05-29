@@ -3,7 +3,7 @@ id: mbtiongson1/gaia-audit
 name: Gaia Audit
 contributor: mbtiongson1
 origin: true
-genericSkillRef: gaia-audit
+genericSkillRef: registry-entry-audit
 status: named
 level: 3★
 description: Performs a focused source-level correction for one target registry entry
