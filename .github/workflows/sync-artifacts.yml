@@ -27,7 +27,6 @@ jobs:
     # must NOT commit registry/gaia.json or docs/graph/gaia.json (see CLAUDE.md §8):
     # doing so manufactures merge conflicts in the four version-lockstep files.
     if: |
-      github.ref_name == github.event.repository.default_branch &&
       github.actor != 'github-actions[bot]' &&
       !contains(github.event.head_commit.message, '[skip-gen]')
     steps:

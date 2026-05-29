@@ -265,9 +265,11 @@ options:
                         global registry.
   --global, -g          Use global GAIA_HOME registry, ignoring any local .gaia/ config.
   --version, -v         Print the Gaia CLI version and exit.
+  --tui                 Launch the TUI (Terminal User Interface).
   --canon               Show canonical registry data instead of local-first view.
 
 Quick usage:
+  gaia                        Launch the TUI (interactive dashboard)
   gaia init [--user <name>] [--scan <path>] [--yes]
   gaia scan [--quiet] [--auto-promote]
   gaia pull
