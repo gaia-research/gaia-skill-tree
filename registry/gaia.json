@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/skill.schema.json",
   "version": "3.25.2",
-  "generatedAt": "2026-05-29T00:26:03.434797Z",
+  "generatedAt": "2026-05-29T10:06:02.448310Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -100,52 +100,52 @@
     },
     "centroids": [
       [
-        -0.08567232346614119,
-        -0.3441682030074642,
-        0.0792405367541792,
-        0.2930318375489396
+        -0.08567232346614126,
+        -0.3441682030074648,
+        0.07924053675417546,
+        0.29303183754893897
       ],
       [
-        0.47228665659006236,
-        -0.22392409050076856,
-        -0.00903239723663889,
-        -0.06418031095135984
+        0.4722866565900627,
+        -0.2239240905007686,
+        -0.009032397236642233,
+        -0.06418031095135893
       ],
       [
-        -0.3813658187357182,
-        -0.020280771027905722,
-        -0.13863480501806044,
-        0.04295866442225621
+        -0.38136581873571834,
+        -0.020280771027904147,
+        -0.13863480501805991,
+        0.04295866442225787
       ],
       [
-        -0.2758257615319823,
-        0.02084611935163986,
-        0.3216303719194822,
-        -0.083693834256036
+        -0.27582576153198185,
+        0.020846119351635987,
+        0.3216303719194823,
+        -0.08369383425603684
       ],
       [
-        0.6810858711027361,
-        0.30372124298936665,
-        0.16616056891214404,
-        -0.0652477721817471
+        0.6810858711027364,
+        0.30372124298936487,
+        0.16616056891214626,
+        -0.06524777218174681
       ],
       [
-        -0.2876522237754478,
-        0.4995536277670433,
-        -0.18328144584211511,
-        -0.16990025691782842
+        -0.2876522237754483,
+        0.4995536277670454,
+        -0.18328144584210868,
+        -0.16990025691782956
       ],
       [
-        0.057186868623234424,
-        -0.350163070487307,
-        -0.3137406292809719,
-        -0.011721563433833977
+        0.057186868623233925,
+        -0.3501630704873034,
+        -0.3137406292809759,
+        -0.011721563433835331
       ],
       [
-        0.06126689682595193,
-        0.09896343298185149,
-        -0.43398255537452257,
-        0.26176772834890744
+        0.06126689682595106,
+        0.09896343298185689,
+        -0.4339825553745209,
+        0.26176772834890805
       ]
     ]
   },
@@ -156,7 +156,10 @@
       "type": "basic",
       "level": "2★",
       "rarity": "common",
-      "description": "Records task outcomes and identifies recurring scenarios to rank optimal response strategies over time.",
+      "summary": "Implements adaptive learning through pattern recognition and strategy optimization.",
+      "description": "Records task outcomes and identifies recurring scenarios to rank optimal response strategies over time. It enables genuine self-improvement through a feedback learning loop by matching scenarios and transferring knowledge across related domains via vector similarity.",
+      "useCase": "An autonomous AI agent dynamically records task outcomes over time to optimize responses to recurring patterns. It leverages historical performance metrics to rank strategies per scenario, enabling cross-domain knowledge transfer for continuous self-improvement.",
+      "directives": "Record all task outcomes with relevant metrics and success indicators. Identify optimal strategies for specific scenarios. Use historical performance data to prioritize approaches. Build meta-learning insights and transfer knowledge across domains via vector similarity matching.",
       "prerequisites": [],
       "derivatives": [],
       "conditions": "",
