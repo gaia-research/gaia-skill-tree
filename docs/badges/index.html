@@ -1012,7 +1012,7 @@
           <div class="bd-powered-title">For anyone — no account required</div>
         </div>
         <div class="usp-row">
-          <code class="usp-cmd" id="bd-generic-code">[![Powered by Gaia](https://gaia.tiongson.co/badges/powered-by-gaia.svg)](https://gaia.tiongson.co/)</code>
+          <code class="usp-cmd" id="bd-generic-code">[![Powered by Gaia](https://gaia-skill-tree.marco-tngsn.workers.dev/badges/powered-by-gaia.svg)](https://gaia.tiongson.co/)</code>
           <button class="usp-copy" type="button" id="bd-generic-copy" aria-label="Copy generic badge markdown">
             <svg class="ico" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#copy"/></svg>
           </button>
@@ -1140,6 +1140,9 @@
 
   <script>
     const BASE = "https://gaia.tiongson.co";
+    // Badge SVGs are served (and ?repo=-validated) by the Worker on workers.dev.
+    // Page/profile links stay on the brand domain. See docs/CLOUDFLARE-SETUP.md.
+    const IMG_BASE = "https://gaia-skill-tree.marco-tngsn.workers.dev";
     const handleInput = document.getElementById("bd-handle");
     const clearBtn    = document.getElementById("bd-clear");
     const goBtn       = document.getElementById("bd-go");
@@ -1303,7 +1306,7 @@
       if (hasHandle && chkHandle.checked) {
         files.forEach((file) => {
           const sealed = sealify(file);
-          const url = `${BASE}/badges/${handle}/${sealed}${q}`;
+          const url = `${IMG_BASE}/badges/${handle}/${sealed}${q}`;
           entries.push({
             localSrc: `./${handle}/${sealed}`,
             alt: `@${handle} on Gaia`,
@@ -1313,7 +1316,7 @@
       }
       if (hasRank && chkRank.checked) {
         const sealed = sealify("rank.svg");
-        const url = `${BASE}/badges/${handle}/${sealed}${q}`;
+        const url = `${IMG_BASE}/badges/${handle}/${sealed}${q}`;
         entries.push({
           localSrc: `./${handle}/${sealed}`,
           alt: "Gaia rank",
@@ -1322,7 +1325,7 @@
       }
       if (hasSkills && chkSkills.checked) {
         const sealed = sealify("skills.svg");
-        const url = `${BASE}/badges/${handle}/${sealed}${q}`;
+        const url = `${IMG_BASE}/badges/${handle}/${sealed}${q}`;
         entries.push({
           localSrc: `./${handle}/${sealed}`,
           alt: "Gaia skills",
@@ -1757,7 +1760,7 @@
       const code = document.createElement("code");
       code.className = "usp-cmd";
       const seedFile = chkSeal.checked ? "rank-seal.svg" : "rank.svg";
-      code.textContent = `[![Gaia rank](${BASE}/badges/gaia-bot/${seedFile})](${linkTarget})`;
+      code.textContent = `[![Gaia rank](${IMG_BASE}/badges/gaia-bot/${seedFile})](${linkTarget})`;
       row.appendChild(code);
       item.appendChild(row);
       rowsEl.appendChild(item);

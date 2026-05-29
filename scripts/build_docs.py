@@ -220,7 +220,9 @@ def _badges() -> str:
         except (json.JSONDecodeError, ValueError):
             pass
 
-    base = "https://gaia.tiongson.co/badges"
+    # Badge SVGs are served + ?repo=-validated by the Worker on workers.dev;
+    # profile/landing links stay on the brand domain. See docs/CLOUDFLARE-SETUP.md.
+    base = "https://gaia-skill-tree.marco-tngsn.workers.dev/badges"
     profile = f"https://gaia.tiongson.co/u/{owner}/"
     q = f"?repo={repo}"
     sampler = "https://gaia.tiongson.co/badges/"
@@ -246,9 +248,9 @@ def _badges() -> str:
     )
     snippet_template = (
         "```markdown\n"
-        "[![Gaia](https://gaia.tiongson.co/badges/<handle>/handle.svg?repo=<owner/name>)](https://gaia.tiongson.co/u/<handle>/)\n"
-        "[![Gaia rank](https://gaia.tiongson.co/badges/<handle>/rank.svg?repo=<owner/name>)](https://gaia.tiongson.co/u/<handle>/)\n"
-        "[![Gaia skills](https://gaia.tiongson.co/badges/<handle>/skills.svg?repo=<owner/name>)](https://gaia.tiongson.co/u/<handle>/)\n"
+        "[![Gaia](https://gaia-skill-tree.marco-tngsn.workers.dev/badges/<handle>/handle.svg?repo=<owner/name>)](https://gaia.tiongson.co/u/<handle>/)\n"
+        "[![Gaia rank](https://gaia-skill-tree.marco-tngsn.workers.dev/badges/<handle>/rank.svg?repo=<owner/name>)](https://gaia.tiongson.co/u/<handle>/)\n"
+        "[![Gaia skills](https://gaia-skill-tree.marco-tngsn.workers.dev/badges/<handle>/skills.svg?repo=<owner/name>)](https://gaia.tiongson.co/u/<handle>/)\n"
         "```"
     )
     return (

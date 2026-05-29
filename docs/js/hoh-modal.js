@@ -220,7 +220,8 @@
     var copyBtn = document.getElementById('hohFsCopyBtn');
     var badgesLink = document.getElementById('hohFsBadgesLink');
 
-    var badgeBase = 'https://gaia.tiongson.co/badges/' + ns.contributor + '/handle.svg';
+    // Badge SVG is served + ?repo=-validated by the Worker on workers.dev.
+    var badgeBase = 'https://gaia-skill-tree.marco-tngsn.workers.dev/badges/' + ns.contributor + '/handle.svg';
     var profileUrl = 'https://gaia.tiongson.co/u/' + ns.contributor + '/';
 
     // Set immediately without ?repo= so the badge shows right away, then
