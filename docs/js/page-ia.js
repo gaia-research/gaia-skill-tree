@@ -95,6 +95,14 @@
         }
       });
     });
+    // Also treat awakened (status != "named") ultimate entries as claimed so they
+    // don't surface as free-to-claim in the ultimates list.
+    (namedData.awaitingClassification || []).forEach(function (e) {
+      var primary = e.genericSkillRef || (e.id && e.id.split('/').pop());
+      if (primary && byId[primary] && byId[primary].type === 'ultimate' && !claimedBy[primary]) {
+        claimedBy[primary] = e;
+      }
+    });
 
     var ultimates = skills.filter(function (s) { return s.type === 'ultimate'; });
     var unclaimed = ultimates.filter(function (u) { return !claimedBy[u.id]; });

@@ -2173,6 +2173,10 @@ button.plaque__slug:focus-visible {
 
 /* Responsive side-panel behaviour */
 @media (max-width: 860px) {
+  .profile-timeline-filter-btn {
+    display: none;
+  }
+
   .profile-filter-toggle {
     display: flex;
     align-items: center;
