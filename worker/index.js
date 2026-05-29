@@ -4,17 +4,20 @@
  * Deploy model: Cloudflare **Worker with Static Assets** (`wrangler deploy`,
  * `[assets] directory = "docs"`).
  *
- * ## Why this design (no run_worker_first)
+ * ## Why this design (run_worker_first + relocated assets)
  *
- * Cloudflare serves a matching static asset *before* invoking the Worker, and
- * `run_worker_first` (which would flip that) proved unreliable across this
- * project's deploy pipeline. So instead of fighting precedence, we remove the
- * conflict: the real badge SVGs are generated to /badges/_assets/<handle>/
- * (a 3-segment path), leaving the public /badges/<handle>/<file>.svg
- * (2-segment) path with NO static asset. The Worker therefore runs as the
- * normal no-asset fallback for every badge request — the one behaviour that
- * works reliably in production — validates `?repo=`, and serves the real SVG
- * from the _assets source (or the validating badge on a mismatch).
+ * Two facts about this project's Cloudflare deploy, both verified empirically
+ * on PR preview deploys:
+ *   - The Worker is only invoked when `run_worker_first = true` is set in
+ *     wrangler.toml. Without it, non-asset paths 404 and the Worker never runs.
+ *   - Even with run_worker_first, a committed static asset is served ahead of
+ *     the Worker, so badges that exist as static SVGs bypass validation.
+ *
+ * The fix uses BOTH levers: keep `run_worker_first = true`, AND generate the
+ * real badge SVGs to /badges/_assets/<handle>/ (a 3-segment path) so the public
+ * /badges/<handle>/<file>.svg (2-segment) path has NO static asset. The Worker
+ * then runs for that path, validates `?repo=`, and serves the real SVG from the
+ * _assets source (or the validating badge on a mismatch).
  *
  * Routes:
  *   /badges/<handle>/<file>.svg              → validated (this worker)

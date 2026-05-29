@@ -3,13 +3,13 @@
 The site Worker at `worker/index.js` gates badge serving on a `?repo=` query
 matching the contributor's approved repos in `docs/badges/registry.json`.
 
-It does **not** use `run_worker_first`. The real SVGs are generated under
-`docs/badges/_assets/<handle>/`, so the public `/badges/<handle>/<file>.svg`
-path has no static asset and the Worker runs as the no-asset fallback for it,
-serving the real SVG from `_assets` (or `not-found.svg` on a mismatch). Worker
-fetch handlers don't run under pytest, so this is a manual smoke-test list — run
-it locally before merging changes to the Worker or to `generateBadges.py`'s
-output layout.
+It needs **both** `run_worker_first = true` (so the Worker runs at all in this
+deploy) **and** the real SVGs relocated to `docs/badges/_assets/<handle>/` (so
+the public `/badges/<handle>/<file>.svg` path has no static asset shadowing the
+Worker). The Worker serves the real SVG from `_assets` (or `not-found.svg` on a
+mismatch). Worker fetch handlers don't run under pytest, so this is a manual
+smoke-test list — run it locally (`wrangler dev`) and against the PR preview
+deploy before merging changes to the Worker or to `generateBadges.py`'s layout.
 
 ## Setup
 

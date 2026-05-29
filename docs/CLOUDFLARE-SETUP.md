@@ -15,31 +15,31 @@ This document explains the **Worker** that gates Gaia README badges on a
 - 24-hour `max-age` so GitHub camo (which keys on the full URL incl. query)
   caches each `(handle, file, repo)` image for ~24h.
 
-## The design — relocated assets, no `run_worker_first`
+## The design — `run_worker_first` + relocated assets
 
 This project deploys as a **Cloudflare Worker with Static Assets**
-(`wrangler deploy`, `[assets] directory = "docs"`). Two hard facts shaped the
-design:
+(`wrangler deploy`, `[assets] directory = "docs"`). Three facts shaped the
+design (the last two verified on PR **preview deploys**):
 
 1. **`functions/` is Pages-only** — a Pages Function is never deployed by
    `wrangler deploy`.
-2. **Static assets are served before the Worker.** `run_worker_first` is
-   supposed to flip that, but it proved unreliable across this project's deploy
-   pipeline (silently not applied, so the worker only ran as the no-asset
-   fallback and real badges bypassed validation).
+2. **The Worker only runs when `run_worker_first = true`.** Without it, a
+   request that doesn't match a static asset returns 404 and the Worker is
+   never invoked (a preview deploy with it removed 404'd every
+   `/badges/<handle>/<file>.svg`).
+3. **A committed static asset is served *ahead of* the Worker** even with
+   `run_worker_first`. So a badge that exists as a static SVG would still
+   bypass validation.
 
-So rather than depend on `run_worker_first`, we **remove the conflict**:
+The fix uses **both** levers together:
 
+- Keep `run_worker_first = true` (so the Worker runs).
 - `generateBadges.py` writes the real SVGs to **`docs/badges/_assets/<handle>/`**
-  (a 3-segment path).
-- The public badge URL stays **`/badges/<handle>/<file>.svg`** (2-segment),
-  which now has **no static asset**.
-- The Worker therefore runs as the normal **no-asset fallback** for every
-  `/badges/<handle>/<file>.svg` request — the one behaviour that works reliably
-  in production — validates `?repo=`, and serves the real SVG from the
-  `_assets` source (or `not-found.svg` on a mismatch).
+  (a 3-segment path), so the public **`/badges/<handle>/<file>.svg`**
+  (2-segment) path has **no static asset** to be served ahead of the Worker.
 
-`wrangler.toml` needs only `main` + the asset binding (no `run_worker_first`):
+The Worker then runs for `/badges/<handle>/<file>.svg`, validates `?repo=`, and
+serves the real SVG from the `_assets` source (or `not-found.svg` on a mismatch).
 
 ```toml
 name = "gaia-skill-tree"
@@ -49,6 +49,7 @@ compatibility_date = "2026-05-22"
 [assets]
 directory = "docs"
 binding = "ASSETS"
+run_worker_first = true
 ```
 
 ### Routing summary
