@@ -7884,17 +7884,38 @@ button.nav-graph-trigger:hover {
   text-align: left;
 }
 
+.hoh-section #hohPlates > .hoh-featured,
+.hoh-section #hohPlates > .hoh-grid {
+  flex: 0 0 auto;
+}
+
 .hoh-featured {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+@media (min-width: 820px) {
+  .hoh-featured {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.hoh-featured > * {
+  align-self: start;
 }
 
 .hoh-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 1.1rem;
-  align-items: stretch;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+@media (min-width: 560px) {
+  .hoh-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (min-width: 880px) {
+  .hoh-grid { grid-template-columns: 1fr 1fr 1fr; }
+}
+.hoh-grid > * {
+  align-self: start;
 }
 
 @media (max-width: 720px) {
