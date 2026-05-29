@@ -80,10 +80,8 @@ def _versions() -> str:
     version = _read_version()
     return f"""Current Gaia CLI version: `{version}`.
 
-Python install:
-
 ```bash
-pip install gaia-cli
+curl -fsSL https://gaia.tiongson.co/install.sh | sh
 ```
 
 npm wrapper alternative:

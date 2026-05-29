@@ -30,6 +30,9 @@ Put the `gaia` command on your `PATH` and interact with the registry.
 
 ### Installation
 ```bash
+# One-line installer (macOS / Linux — requires Python 3.8+)
+curl -fsSL https://gaia.tiongson.co/install.sh | sh
+
 # Python install
 pip install gaia-cli
 
