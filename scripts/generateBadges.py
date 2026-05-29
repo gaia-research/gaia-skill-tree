@@ -44,7 +44,7 @@ from _atlas_helpers import named_slug  # noqa: E402
 
 
 HONOR_RED = "#ef4444"
-INK = "#0f172a"
+INK = "#030712"
 SLATE = "#94a3b8"
 AMBER = "#fbbf24"
 WHITE = "#ffffff"
