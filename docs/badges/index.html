@@ -1252,8 +1252,9 @@
     // the route between the validated public path and the direct _assets path.
     function badgeMarkdownUrl(handle, file, repoQuery) {
       if (HONESTY_MODE) {
-        // Static, no worker, no ?repo=. Renders identically from any context.
-        return `${BASE}/badges/_assets/${handle}/${file}`;
+        // Direct static path, bypasses the worker. Still appends ?repo= so
+        // GitHub's camo proxy caches per (handle, file, repo) tuple.
+        return `${BASE}/badges/_assets/${handle}/${file}${repoQuery}`;
       }
       return `${BASE}/badges/${handle}/${file}${repoQuery}`;
     }
