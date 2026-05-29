@@ -163,9 +163,12 @@
   padding: .35rem .85rem;
 }
 
-/* Stars row — 6 stars, gold-filled by data-on, dim by data-off.
-     Gold colour comes from --apex-gold so the row reads identically on
-     every surface; the dim opacity matches the prior .plaque-star--dim. */
+/* Stars row — 6 stars, lit by data-on, dim by data-off.
+     Lit colour follows the rank palette (per DESIGN.md): apex gold is
+     reserved for 6★ Ultimate only. 4★ reads as fuchsia, 5★ amber,
+     6★ apex gold + white shimmer. Off-stars are a neutral white at low
+     alpha so the lit colour reads cleanly against unlit slots regardless
+     of rank. */
 .rank-badge__stars {
   display: inline-flex;
   gap: 2px;
@@ -187,16 +190,45 @@
 .rank-badge__star {
   display: inline-block;
   line-height: 1;
-}
-
-.rank-badge__star[data-on] {
-  color: var(--apex-gold);
-  text-shadow: 0 0 6px rgba(var(--apex-gold-rgb), .4);
+  color: rgba(255, 255, 255, .12);
+  text-shadow: none;
+  transition: color .18s ease, text-shadow .18s ease;
 }
 
 .rank-badge__star[data-off] {
-  color: rgba(var(--apex-gold-rgb), .18);
+  color: rgba(255, 255, 255, .12);
   text-shadow: none;
+}
+
+/* Lit-star colour follows the rank-of-the-row, NOT a blanket apex-gold.
+     Each level uses its rank token from tokens.css :root. */
+.rank-badge[data-level="0"] .rank-badge__star[data-on] {
+  color: var(--rank-0, #94a3b8);
+  text-shadow: 0 0 5px rgba(148, 163, 184, .35);
+}
+.rank-badge[data-level="1"] .rank-badge__star[data-on] {
+  color: var(--rank-1, #38bdf8);
+  text-shadow: 0 0 5px rgba(56, 189, 248, .4);
+}
+.rank-badge[data-level="2"] .rank-badge__star[data-on] {
+  color: var(--rank-2, #63cab7);
+  text-shadow: 0 0 5px rgba(99, 202, 183, .4);
+}
+.rank-badge[data-level="3"] .rank-badge__star[data-on] {
+  color: var(--rank-3, #a78bfa);
+  text-shadow: 0 0 6px rgba(167, 139, 250, .45);
+}
+.rank-badge[data-level="4"] .rank-badge__star[data-on] {
+  color: var(--rank-4, #e879f9);
+  text-shadow: 0 0 6px rgba(232, 121, 249, .5);
+}
+.rank-badge[data-level="5"] .rank-badge__star[data-on] {
+  color: var(--rank-5, #fbbf24);
+  text-shadow: 0 0 6px rgba(251, 191, 36, .45);
+}
+.rank-badge[data-level="6"] .rank-badge__star[data-on] {
+  color: var(--apex-gold, #fbbf24);
+  text-shadow: 0 0 8px rgba(251, 191, 36, .6), 0 0 2px rgba(255, 255, 255, .9);
 }
 
 /* 6★ apex — The shimmer animation is retired here; the 6★ badge 
