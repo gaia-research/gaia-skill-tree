@@ -572,14 +572,21 @@
       <!-- Renders plaque.renderOg() dynamically here -->
     </div>
 
-    <div class="hoh-fs-overlay">
-      <div class="hoh-fs-overlay-title">Are you <span id="hohFsHandleText">@handle</span>? add to your README.md!</div>
+    <!-- Compact confirm pill — visible by default; clicking Yes reveals the README panel. -->
+    <div class="hoh-fs-confirm" id="hohFsConfirm" role="group" aria-label="Confirm contributor">
+      <span class="hoh-fs-confirm-text">Are you <span id="hohFsHandleText">@handle</span>?</span>
+      <button type="button" class="hoh-fs-confirm-btn hoh-fs-confirm-btn--yes" data-fs-action="confirm-yes" aria-label="Yes, this is me">Yes</button>
+      <button type="button" class="hoh-fs-confirm-btn hoh-fs-confirm-btn--no" data-fs-action="confirm-no" aria-label="No, dismiss">No</button>
+    </div>
+
+    <div class="hoh-fs-overlay" id="hohFsOverlay" hidden>
+      <div class="hoh-fs-overlay-title">Add to your README.md!</div>
       <div class="hoh-fs-overlay-body">
         <img id="hohFsBadgePreview" class="hoh-fs-badge-img" src="" alt="Gaia contributor badge">
         <div class="hoh-fs-code-wrap">
           <code id="hohFsCodeBlock" class="hoh-fs-code">[![Gaia](https://gaia.tiongson.co/badges/handle/handle.svg)](https://gaia.tiongson.co/u/handle/)</code>
-          <button id="hohFsCopyBtn" class="hoh-fs-copy-btn" type="button">
-            <svg class="ico" width="12" height="12" aria-hidden="true"><use href="assets/icons.svg#copy"></use></svg> Copy markdown
+          <button id="hohFsCopyBtn" class="hoh-fs-copy-btn hoh-fs-copy-btn--icon" type="button" aria-label="Copy markdown" title="Copy markdown">
+            <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#copy"></use></svg>
           </button>
         </div>
       </div>

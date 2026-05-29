@@ -10,6 +10,32 @@
   var lastFocused = null;
   var inertedSiblings = [];
   var trapKeydownHandler = null;
+  var idleTimer = null;
+  var idleHandlersBound = false;
+
+  function setIdle(modal) {
+    modal.classList.add('is-idle');
+  }
+  function wakeChrome(modal) {
+    modal.classList.remove('is-idle');
+    if (idleTimer) {
+      clearTimeout(idleTimer);
+    }
+    idleTimer = setTimeout(function () { setIdle(modal); }, 2000);
+  }
+  function bindIdleHandlers(modal) {
+    if (idleHandlersBound) return;
+    idleHandlersBound = true;
+    var wake = function () { wakeChrome(modal); };
+    modal.addEventListener('mousemove', wake);
+    modal.addEventListener('mousedown', wake);
+    modal.addEventListener('keydown', wake);
+    modal.addEventListener('touchstart', wake, { passive: true });
+    // Keep chrome visible while pointer is over an actionable region.
+    modal.querySelectorAll('.hoh-fs-header, .hoh-fs-confirm, .hoh-fs-overlay').forEach(function (region) {
+      region.addEventListener('mouseenter', wake);
+    });
+  }
 
   // Lazy registry cache — mirrors how badges/index.html fetches registry.json
   var _registryPromise = null;
@@ -127,7 +153,11 @@
   function showCopySuccess(btn) {
     btn.classList.add('copied');
     var originalHtml = btn.innerHTML;
-    btn.innerHTML = '<svg class="ico" width="12" height="12" aria-hidden="true"><use href="assets/icons.svg#check"></use></svg> Copied!';
+    var iconBase = (typeof window.gaiaIconBase === 'function')
+      ? window.gaiaIconBase()
+      : 'assets/icons.svg';
+    btn.innerHTML = '<svg class="ico" width="14" height="14" aria-hidden="true"><use href="' +
+      iconBase + '#copy-check"></use></svg>';
     setTimeout(function () {
       btn.classList.remove('copied');
       btn.innerHTML = originalHtml;
@@ -138,9 +168,19 @@
     var modal = document.getElementById('hohFullscreenModal');
     if (modal) {
       modal.classList.remove('is-active');
+      modal.classList.remove('is-idle');
       modal.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
+
+      if (idleTimer) { clearTimeout(idleTimer); idleTimer = null; }
+
+      // Re-hide the README panel + restore the confirm pill so the next open
+      // starts in the same compact state.
+      var overlay = document.getElementById('hohFsOverlay');
+      if (overlay) overlay.hidden = true;
+      var confirm = document.getElementById('hohFsConfirm');
+      if (confirm) confirm.hidden = false;
 
       // Revert inert flags on body siblings we marked
       deactivateInertSiblings();
@@ -331,6 +371,25 @@
     }
 
 
+    // Action: Confirm Yes — reveal the README badge panel.
+    var confirmEl = document.getElementById('hohFsConfirm');
+    var overlayEl = document.getElementById('hohFsOverlay');
+    var yesBtn = modal.querySelector('[data-fs-action="confirm-yes"]');
+    var noBtn = modal.querySelector('[data-fs-action="confirm-no"]');
+    if (yesBtn) {
+      yesBtn.onclick = function () {
+        if (confirmEl) confirmEl.hidden = true;
+        if (overlayEl) overlayEl.hidden = false;
+        wakeChrome(modal);
+      };
+    }
+    if (noBtn) {
+      noBtn.onclick = function () {
+        closeHohFullscreenModal();
+      };
+    }
+
+
     // Show the modal with transition
     modal.classList.add('is-active');
     modal.setAttribute('aria-hidden', 'false');
@@ -350,6 +409,11 @@
     modal.addEventListener('keydown', trapKeydownHandler);
     // Defer focus until the modal is painted/transitioned in
     setTimeout(function () { focusFirstFocusable(modal); }, 0);
+
+    // Idle behavior: chrome visible briefly on open, then fades unless the
+    // user moves the mouse / presses a key.
+    bindIdleHandlers(modal);
+    wakeChrome(modal);
   }
 
   // Bootstrap Init

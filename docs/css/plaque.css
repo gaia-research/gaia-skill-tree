@@ -3167,6 +3167,116 @@ button.plaque__slug:focus-visible {
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* ─── Idle-fade chrome (controls hidden by default; reveal on mousemove) ─── */
+.hoh-fs-overlay[hidden] { display: none !important; }
+.hoh-fs-confirm[hidden] { display: none !important; }
+.hoh-fs-modal.is-idle .hoh-fs-header,
+.hoh-fs-modal.is-idle .hoh-fs-confirm,
+.hoh-fs-modal.is-idle .hoh-fs-overlay {
+  opacity: 0;
+  pointer-events: none;
+}
+.hoh-fs-header,
+.hoh-fs-confirm,
+.hoh-fs-overlay {
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ─── Compact confirm pill ─── */
+.hoh-fs-confirm {
+  position: absolute;
+  top: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  color: rgba(226, 232, 240, 0.85);
+  z-index: 1010;
+}
+.hoh-fs-confirm[hidden] { display: none; }
+.hoh-fs-confirm-text #hohFsHandleText {
+  color: var(--honor-red, #ef4444);
+  font-weight: 600;
+}
+.hoh-fs-confirm-btn {
+  appearance: none;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(226, 232, 240, 0.9);
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: color 0.18s ease, background 0.18s ease,
+              border-color 0.18s ease, transform 0.18s ease;
+}
+.hoh-fs-confirm-btn:hover,
+.hoh-fs-confirm-btn:focus-visible {
+  outline: none;
+  transform: translateY(-1px);
+}
+.hoh-fs-confirm-btn--yes:hover,
+.hoh-fs-confirm-btn--yes:focus-visible {
+  color: #ffffff;
+  background: rgba(16, 185, 129, 0.18);
+  border-color: rgba(16, 185, 129, 0.55);
+}
+.hoh-fs-confirm-btn--no:hover,
+.hoh-fs-confirm-btn--no:focus-visible {
+  color: #ffffff;
+  background: rgba(239, 68, 68, 0.18);
+  border-color: rgba(239, 68, 68, 0.55);
+}
+
+/* ─── Icon-only copy button (foundation-sampler shape) ─── */
+.hoh-fs-copy-btn--icon {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(226, 232, 240, 0.75);
+  transition: color 0.18s ease, background 0.18s ease,
+              border-color 0.18s ease, transform 0.18s ease;
+}
+.hoh-fs-copy-btn--icon:hover,
+.hoh-fs-copy-btn--icon:focus-visible {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.22);
+  transform: translateY(-1px);
+  outline: none;
+}
+.hoh-fs-copy-btn--icon.copied {
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.45);
+}
+.hoh-fs-copy-btn--icon .ico {
+  width: 14px;
+  height: 14px;
+  display: block;
+}
+
 .hoh-fs-toast.is-active {
   transform: translateX(-50%) translateY(0);
   opacity: 1;
