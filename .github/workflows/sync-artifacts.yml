@@ -23,9 +23,6 @@ jobs:
   sync:
     name: Regenerate and Commit Artifacts
     runs-on: ubuntu-latest
-    # Only auto-version + commit artifacts on the default branch. Feature branches
-    # must NOT commit registry/gaia.json or docs/graph/gaia.json (see CLAUDE.md §8):
-    # doing so manufactures merge conflicts in the four version-lockstep files.
     if: |
       github.actor != 'github-actions[bot]' &&
       !contains(github.event.head_commit.message, '[skip-gen]')
@@ -44,13 +41,6 @@ jobs:
       - name: Install dependencies
         run: pip install -e ".[dev]"
 
-      - name: Configure git identity
-        # Must run BEFORE `gaia release`, which creates its own version-bump
-        # commit. Without an identity here git aborts with "empty ident name".
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
       - name: Auto-Versioning and Regeneration
         run: |
           # 1. Classify bump type from commit message
@@ -58,62 +48,43 @@ jobs:
           BUMP="patch"
           if echo "$MSG" | grep -Eq 'BREAKING CHANGE|^[a-zA-Z]+(\([^)]*\))?!:'; then BUMP="major"; fi
           if echo "$MSG" | grep -Eq '^feat(\([^)]*\))?:'; then BUMP="minor"; fi
-
+          
           # 2. Apply version bump and regenerate artifacts via CLI
-          gaia release "$BUMP" --sync
+          gaia release $BUMP --sync
           gaia docs build
 
       - name: Commit and Push Changes
         run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
           if [[ -n "$(git status --porcelain)" ]]; then
             git add .
             git commit -m "chore(auto): regenerate registry artifacts and sync docs [skip-gen]"
-
-            # Push with rebase + exponential backoff to survive concurrent pushes
-            # landing on the branch between checkout and push (non-fast-forward).
-            n=0
-            until [[ $n -ge 4 ]]; do
-              if git push; then
-                break
-              fi
-              n=$((n + 1))
-              echo "Push failed (attempt $n/4) — rebasing on origin/${GITHUB_REF_NAME} and retrying in $((2 ** n))s."
-              git pull --rebase origin "${GITHUB_REF_NAME}"
-              sleep $((2 ** n))
-            done
-            if [[ $n -ge 4 ]]; then
-              echo "::error::Unable to push regenerated artifacts after 4 attempts."
-              exit 1
-            fi
+            git push
           fi
 
-      - name: Tag Release
-        # Push a version tag so release.yml fires and creates a GitHub Release.
-        # The tag MUST be pushed with a PAT (RELEASE_PAT): pushes made with the
-        # default GITHUB_TOKEN do NOT trigger other workflows, so a token-pushed
-        # tag would silently never invoke release.yml.
-        env:
-          RELEASE_PAT: ${{ secrets.RELEASE_PAT }}
-        run: |
-          if [[ -z "${RELEASE_PAT}" ]]; then
-            echo "::warning::RELEASE_PAT is not set — skipping tag push. release.yml will NOT fire."
-            echo "          Add a repo/PAT secret named RELEASE_PAT (contents:write) to enable releases."
-            exit 0
-          fi
-
+          # Push a version tag so release.yml fires and creates a GitHub Release.
           # Extract version from pyproject.toml (source of truth after gaia release).
           VERSION=$(grep '^version = ' pyproject.toml | sed 's/version = "\(.*\)"/\1/')
           TAG="v${VERSION}"
 
-          # Skip if this tag already exists remotely (idempotent).
-          if git ls-remote --tags origin "${TAG}" | grep -q "refs/tags/${TAG}$"; then
-            echo "Tag ${TAG} already exists on remote — skipping."
-            exit 0
-          fi
+          # Only tag on the default branch to avoid duplicate releases from other branches.
+          DEFAULT_BRANCH=$(git remote show origin | awk '/HEAD branch/ {print $NF}')
+          CURRENT_BRANCH="${GITHUB_REF_NAME}"
 
-          git tag "${TAG}"
-          git push "https://x-access-token:${RELEASE_PAT}@github.com/${GITHUB_REPOSITORY}.git" "${TAG}"
-          echo "Pushed tag ${TAG} → release.yml will create the GitHub Release."
+          if [[ "${CURRENT_BRANCH}" == "${DEFAULT_BRANCH}" ]]; then
+            # Skip if this tag already exists remotely (idempotent).
+            if git ls-remote --tags origin "${TAG}" | grep -q "${TAG}"; then
+              echo "Tag ${TAG} already exists on remote — skipping."
+            else
+              git tag "${TAG}"
+              git push origin "${TAG}"
+              echo "Pushed tag ${TAG} → release.yml will create the GitHub Release."
+            fi
+          else
+            echo "Not on default branch (${CURRENT_BRANCH}) — skipping tag push."
+          fi
 
       - name: Sync Wiki Pages
         if: github.event_name != 'pull_request' && github.repository == 'mbtiongson1/gaia-skill-tree'
