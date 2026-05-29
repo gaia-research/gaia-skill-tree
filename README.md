@@ -116,7 +116,7 @@ Skills rank up through **verifiable evidence** (Class A/B/C) and can be demoted 
 **1. Install the CLI**
 
 <!-- gaia:version-start -->
-Current Gaia CLI version: `3.25.3`.
+Current Gaia CLI version: `3.25.4`.
 
 Python install:
 
