@@ -497,10 +497,140 @@
     return _shell('mini', primaryNs, inner, shellOpts);
   }
 
+  // ── variant: hall (Hall of Heroes redesigned plate) ─────────────
+  // Per-contributor plate with:
+  //   • celestial-atlas crest medallion (primary skill OG art)
+  //   • faint blurred backdrop echo of the same OG art
+  //   • Honor Red @handle + share button
+  //   • Roman-numeral rank divider for the contributor's primary
+  //   • Up to N skill rows, each carrying its own data-type/data-level
+  //
+  // Featured plates (opts.featured === true) render larger with a
+  // Garamond display handle; standard plates use the mono ledger style.
+  // The crest <img> falls back to a rendered ring if the OG SVG 404s.
+  function renderHallPlate(skills, opts) {
+    opts = opts || {};
+    if (!Array.isArray(skills) || !skills.length) return '';
+    var TYPE_RANK = { ultimate: 0, unique: 1, extra: 2, basic: 3 };
+    var sorted = skills.slice().sort(function (a, b) {
+      var ld = levelNum(b.level) - levelNum(a.level);
+      if (ld !== 0) return ld;
+      return (TYPE_RANK[a.type] || 9) - (TYPE_RANK[b.type] || 9);
+    });
+    var primary = sorted[0];
+    var maxRows = (typeof opts.maxRows === 'number') ? opts.maxRows : 3;
+    var visible = sorted.slice(0, maxRows);
+    var overflow = Math.max(0, sorted.length - visible.length);
+
+    var anyOrigin = sorted.some(function (s) { return !!s.origin; });
+    var primaryNs = {
+      id: primary.id,
+      name: primary.name,
+      contributor: primary.contributor,
+      origin: anyOrigin,
+      level: primary.level,
+      type: primary.type,
+    };
+
+    var TIER_GLYPH = { ultimate: '◆', unique: '◉', extra: '◇', basic: '○' };
+    var ROMAN = ['', 'I', 'II', 'III', 'IV', 'V', 'VI'];
+
+    // Resolve OG art path (primary skill).
+    var handle = primary.contributor || '';
+    var primaryId = primary.id || '';
+    var slashIdx = primaryId.indexOf('/');
+    var skillSlug = slashIdx !== -1 ? primaryId.slice(slashIdx + 1) : primaryId;
+    var ogPath = handle && skillSlug ? 'og/' + handle + '/' + skillSlug + '.svg' : '';
+
+    // Backdrop & crest <img> with onerror that flags the parent.
+    var artHtml = '';
+    if (ogPath) {
+      var loadAttr =
+        'this.parentNode.parentNode.setAttribute(\'data-art-loaded\',\'true\')';
+      var errAttr =
+        'this.parentNode.parentNode.setAttribute(\'data-art-loaded\',\'fail\');' +
+        'this.style.display=\'none\'';
+      artHtml =
+        '<div class="plaque__hall-backdrop" aria-hidden="true" role="presentation">' +
+          '<img src="' + esc(ogPath) + '" alt="" decoding="async" loading="lazy" ' +
+            'onload="' + loadAttr + '" onerror="' + errAttr + '">' +
+        '</div>';
+    }
+
+    var primaryGlyph = TIER_GLYPH[primary.type] || TIER_GLYPH.basic;
+    var crestImg = ogPath
+      ? '<img class="plaque__hall-crest-img" src="' + esc(ogPath) + '" alt="" ' +
+          'decoding="async" loading="lazy" ' +
+          'onerror="this.parentNode.setAttribute(\'data-crest-fail\',\'true\');this.style.display=\'none\'">'
+      : '';
+    var crestHtml =
+      '<div class="plaque__hall-crest" data-type="' + esc(primary.type || 'basic') + '" ' +
+        'data-level="' + esc(levelNum(primary.level)) + '">' +
+        crestImg +
+        '<span class="plaque__hall-crest-glyph" aria-hidden="true">' + primaryGlyph + '</span>' +
+      '</div>';
+
+    // Meta row: handle + share button.
+    var metaHtml =
+      '<div class="plaque__hall-meta">' +
+        _fieldHandleRow(primaryNs) +
+        _fieldFullscreenBtn(primaryNs) +
+      '</div>';
+
+    // Roman-numeral divider keyed off the primary's rank.
+    var rNum = ROMAN[Math.max(0, Math.min(6, levelNum(primary.level)))] || '';
+    var dividerHtml = rNum
+      ? '<div class="plaque__hall-divider" aria-hidden="true">' +
+          '<span class="plaque__hall-divider-line"></span>' +
+          '<span class="plaque__hall-divider-numeral">' + esc(rNum) + '</span>' +
+          '<span class="plaque__hall-divider-line"></span>' +
+        '</div>'
+      : '';
+
+    // Skill rows — reuse the existing .plaque__stack-row markup so the
+    // tier-aware per-row CSS in plaque.css just works.
+    var rows = visible.map(function (s, idx) {
+      var n = levelNum(s.level);
+      var glyph = TIER_GLYPH[s.type] || TIER_GLYPH.basic;
+      var slug = namedSlug(s);
+      var slugTitle = s.id || '';
+      var clickAttr = s.onclick
+        ? 'event.stopPropagation(); ' + s.onclick
+        : '(function(id){if(typeof openSkillExplorer===\'function\')openSkillExplorer(id);})(\'' + jsStr(s.canonicalId || s.id) + '\')';
+      var stars = rankBadge(s.level, { variant: 'stars', label: s.level, tier: s.type });
+      return '<div class="plaque__stack-row" data-type="' + esc(s.type || 'basic') +
+        '" data-level="' + esc(n) + '" style="--row-index:' + idx + '">' +
+          '<span class="plaque__stack-glyph tier-glyph" data-type="' + esc(s.type || 'basic') +
+            '" aria-hidden="true">' + glyph + '</span>' +
+          '<button class="plaque__slug plaque-skill-name named-slug plaque__slug--clickable" type="button" ' +
+            'title="' + esc(slugTitle) + '" onclick="' + clickAttr + '">' + esc(slug) + '</button>' +
+          (stars ? '<span class="plaque__stack-rank">' + stars + '</span>' : '') +
+        '</div>';
+    }).join('');
+
+    var moreRow = overflow
+      ? '<div class="plaque__stack-more">+' + overflow + ' more</div>'
+      : '';
+
+    var inner =
+      artHtml +
+      '<div class="plaque__hall-content">' +
+        crestHtml +
+        metaHtml +
+        dividerHtml +
+        '<div class="plaque__hall-rows plaque__stack-body">' + rows + moreRow + '</div>' +
+      '</div>';
+
+    var extraClass = 'plaque--hall' + (opts.featured ? ' plaque--hall-featured' : '');
+    var shellOpts = { click: false, extraClass: extraClass };
+    return _shell('hall', primaryNs, inner, shellOpts);
+  }
+
   // ── public API ───────────────────────────────────────────────────
   var plaque = {
     renderMini: renderMini,
     renderMiniStack: renderMiniStack,
+    renderHallPlate: renderHallPlate,
     renderTile: renderTile,
     renderRow: renderRow,
     renderDetail: renderDetail,
