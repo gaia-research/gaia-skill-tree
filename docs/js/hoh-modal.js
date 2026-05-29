@@ -292,14 +292,15 @@
     var copyBtn = document.getElementById('hohFsCopyBtn');
     var badgesLink = document.getElementById('hohFsBadgesLink');
 
-    var badgeBase = 'https://gaia.tiongson.co/badges/' + ns.contributor + '/handle.svg';
+    var slug = ns.id ? ns.id.split('/').pop() : ns.contributor;
+    var badgeBase = 'https://gaia.tiongson.co/badges/_assets/' + ns.contributor + '/' + slug + '.svg';
     var profileUrl = 'https://gaia.tiongson.co/u/' + ns.contributor + '/';
 
     // Set immediately without ?repo= so the badge shows right away, then
     // update both src and markdown once the registry resolves.
     if (badgePreview) {
-      badgePreview.alt = '@' + ns.contributor + ' on Gaia';
-      badgePreview.src = 'badges/' + encodeURIComponent(ns.contributor) + '/handle.svg';
+      badgePreview.alt = ns.contributor + '/' + slug + ' on Gaia';
+      badgePreview.src = 'badges/_assets/' + encodeURIComponent(ns.contributor) + '/' + encodeURIComponent(slug) + '.svg';
     }
     var markdown = '[![Gaia](' + badgeBase + ')](' + profileUrl + ')';
     if (codeBlock) codeBlock.textContent = markdown;
@@ -310,7 +311,7 @@
       if (repo) {
         var q = '?repo=' + encodeURIComponent(repo);
         if (badgePreview) {
-          badgePreview.src = 'badges/' + encodeURIComponent(ns.contributor) + '/handle.svg' + q;
+          badgePreview.src = 'badges/_assets/' + encodeURIComponent(ns.contributor) + '/' + encodeURIComponent(slug) + '.svg' + q;
         }
         markdown = '[![Gaia](' + badgeBase + q + ')](' + profileUrl + ')';
         if (codeBlock) codeBlock.textContent = markdown;
