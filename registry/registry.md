@@ -193,7 +193,7 @@
 | ◇ /voice-agent | Extra Skill | 3★ → 2★ | Evolved | `/voice-agent` |
 | ◇ /web-accessibility | Extra Skill | 2★ | Named | `/web-accessibility` |
 | ◇ /web-best-practices | Extra Skill | 2★ | Named | `/web-best-practices` |
-| ◆ /web-quality-audit | Ultimate Skill | 3★ | Evolved | `/web-quality-audit` |
+| ◇ /web-quality-audit | Extra Skill | 3★ | Evolved | `/web-quality-audit` |
 | ◇ [firecrawl](../docs/u/firecrawl/)/firecrawl | Extra Skill | 1★ → 0★ | Awakened | `/web-scrape` |
 | ○ /web-search | Basic Skill | 0★ | Basic | `/web-search` |
 | ◇ /wiki-search | Extra Skill | 4★ | Hardened | `/wiki-search` |
@@ -235,12 +235,4 @@
 | ○ Test-Driven Development | Intrinsic Skill | 3★ | Evolved | `/test-driven-development` |
 | ○ Token Observability | Intrinsic Skill | 2★ | Named | `/token-observability` |
 | ○ Worker Agent Dispatch | Intrinsic Skill | 2★ | Named | `/worker-agent-dispatch` |
-
-## Ultimate Skills Awaiting Name
-
-*These Ultimate skills have no named implementation yet. The first contributor to submit a valid named implementation claims the title slot.  Submit with `gaia propose /<skill_id> --ultimate` and open a PR.*
-
-| Skill Call | Level | Prerequisites |
-|---|---|---|
-| `/web-quality-audit` | 3★ | `/gaia-meta-audit`, `/performance-tuning`, `/search-engine-optimization`, `/web-accessibility`, `/web-best-practices` |
 

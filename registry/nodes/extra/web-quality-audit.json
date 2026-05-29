@@ -1,7 +1,7 @@
 {
   "id": "web-quality-audit",
   "name": "web-quality-audit",
-  "type": "ultimate",
+  "type": "extra",
   "level": "3★",
   "rarity": "common",
   "description": "Comprehensive web quality audit.",
@@ -24,7 +24,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-24",
-  "updatedAt": "2026-05-24",
+  "updatedAt": "2026-05-29",
   "version": "0.1.0",
   "timeline": [
     {
@@ -44,6 +44,18 @@
       "action": "evidence_added",
       "contributor": "unknown",
       "details": "Added A evidence from https://github.com/addyosmani/web-quality-skills"
+    },
+    {
+      "timestamp": "2026-05-29T12:54:51Z",
+      "action": "type_change",
+      "contributor": "unknown",
+      "details": "Reclassified from ultimate to unique"
+    },
+    {
+      "timestamp": "2026-05-29T12:59:34Z",
+      "action": "type_change",
+      "contributor": "unknown",
+      "details": "Reclassified from unique to extra"
     }
   ]
 }
