@@ -18,7 +18,7 @@
 
 Have a named skill? Get yours now! Should look like this:
 
-[![Gaia](https://gaia.tiongson.co/badges/mbtiongson1/handle.svg?repo=mbtiongson1%2Fgaia-skill-tree)](https://gaia.tiongson.co/u/mbtiongson1/)
+[![Gaia](https://gaia.tiongson.co/badges/mbtiongson1/gaia-curate.svg?repo=mbtiongson1%2Fgaia-skill-tree)](https://gaia.tiongson.co/u/mbtiongson1/)
 [![Gaia rank](https://gaia.tiongson.co/badges/mbtiongson1/rank.svg?repo=mbtiongson1%2Fgaia-skill-tree)](https://gaia.tiongson.co/u/mbtiongson1/)
 [![Gaia skills](https://gaia.tiongson.co/badges/mbtiongson1/skills.svg?repo=mbtiongson1%2Fgaia-skill-tree)](https://gaia.tiongson.co/u/mbtiongson1/)
 
