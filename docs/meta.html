@@ -61,6 +61,39 @@
     align-self: flex-start;
     margin-top: 0.5rem;
   }
+  .meta-report-footer {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.25rem;
+  }
+  .meta-report-footer .meta-report-link {
+    margin-top: 0;
+    flex: 1;
+  }
+  .meta-report-action {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 0;
+    color: var(--muted);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    transition: color 0.15s, border-color 0.15s;
+    flex-shrink: 0;
+  }
+  .meta-report-action:hover {
+    color: var(--text);
+    border-color: var(--text);
+  }
+  .meta-report-action.copied {
+    color: #34d399;
+    border-color: #34d399;
+  }
 </style>
 </head>
 <body class="process-page">
@@ -114,7 +147,24 @@
           A comprehensive meta-shift enforcing hardened prestige rules, star bar requirements, and evidence health 
           across 211 skills. Includes reclassifications for structural integrity.
         </p>
-        <a href="meta/reports/2026-05-25-programmatic-registry-audit.html" class="btn btn-ghost meta-report-link">Read Full Report →</a>
+        <div class="meta-report-footer">
+          <a href="meta/reports/2026-05-25-programmatic-registry-audit.html" class="btn btn-ghost meta-report-link">Read Full Report →</a>
+          <button type="button" class="meta-report-action" aria-label="Share report"
+            data-report-url="meta/reports/2026-05-25-programmatic-registry-audit.html"
+            data-report-title="Programmatic Registry Audit"
+            onclick="metaReportShare(this)">
+            <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#share"/></svg>
+          </button>
+          <a href="meta/reports/2026-05-25-programmatic-registry-audit.pdf" download
+            class="meta-report-action" aria-label="Download as PDF">
+            <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#download"/></svg>
+          </a>
+          <button type="button" class="meta-report-action" aria-label="Copy link"
+            data-report-url="meta/reports/2026-05-25-programmatic-registry-audit.html"
+            onclick="metaReportCopyLink(this)">
+            <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#link"/></svg>
+          </button>
+        </div>
       </article>
 
       <!-- More reports can be added here -->
@@ -174,6 +224,34 @@
   <script src="js/skill-explorer.js?v=3.25.2"></script>
   <script src="js/ui.js?v=3.25.2"></script>
   <script src="js/page-ia.js?v=3.25.2"></script>
+  <script>
+  function metaReportShare(btn) {
+    const rel = btn.dataset.reportUrl;
+    const title = btn.dataset.reportTitle || document.title;
+    const url = new URL(rel, location.href).href;
+    if (navigator.share) {
+      navigator.share({ title, url }).catch(() => {});
+    } else {
+      navigator.clipboard.writeText(url).then(() => {
+        btn.classList.add('copied');
+        setTimeout(() => btn.classList.remove('copied'), 1500);
+      });
+    }
+  }
+  function metaReportCopyLink(btn) {
+    const rel = btn.dataset.reportUrl;
+    const url = new URL(rel, location.href).href;
+    navigator.clipboard.writeText(url).then(() => {
+      btn.classList.add('copied');
+      const use = btn.querySelector('use');
+      if (use) use.setAttribute('href', 'assets/icons.svg#copy-check');
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        if (use) use.setAttribute('href', 'assets/icons.svg#link');
+      }, 1500);
+    });
+  }
+  </script>
 
 </body>
 </html>
