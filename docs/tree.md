@@ -299,37 +299,6 @@ Shared prerequisites marked (↑ see above) on second occurrence.
      ├─ ○ anthropic/pptx  [0★]  (↑ see above)
      └─ ○ /tool-use  [1★]
 
-◆ /web-quality-audit  [3★ · Unclaimed]
-─────────────────────────────────────────────────────────────────
-  ├─ ◇ mbtiongson1/gaia-meta-audit  [3★]
-  │  ├─ ◇ mbtiongson1/gaia-audit  [4★]
-  │  │  ├─ ○ /retrieve  [0★]
-  │  │  ├─ ○ /cite-sources  [0★]
-  │  │  └─ ○ garrytan/benchmark  [0★]
-  │  ├─ ◇ mbtiongson1/gaia-curate  [4★]
-  │  │  ├─ ◇ mbtiongson1/research  [1★]
-  │  │  │  ├─ ○ /web-search  [0★]
-  │  │  │  ├─ ○ /summarize  [0★]
-  │  │  │  └─ ○ /cite-sources  [0★]  (↑ see above)
-  │  │  ├─ ○ garrytan/design-html  [0★]
-  │  │  └─ ○ /code-execution  [0★]
-  │  └─ ◇ garrytan/canary  [2★]
-  │     ├─ ○ garrytan/benchmark  [0★]  (↑ see above)
-  │     └─ ○ /error-interpretation  [0★]
-  ├─ ○ ruvnet/performance-analysis  [2★]
-  ├─ ◇ /search-engine-optimization  [2★]
-  │  ├─ ○ /parse-html  [0★]
-  │  └─ ○ /parse-json  [0★]
-  ├─ ◇ /web-accessibility  [2★]
-  │  ├─ ○ browser-use/browser-harness  [2★]
-  │  └─ ○ martin-stepanoski/nielsen-heuristics-audit  [4★]
-  └─ ◇ /web-best-practices  [2★]
-     ├─ ◇ garrytan/plan-eng-review  [2★]
-     │  ├─ ○ garrytan/design-html  [0★]  (↑ see above)
-     │  ├─ ○ /diff-content  [0★]
-     │  └─ ○ garrytan/benchmark  [0★]  (↑ see above)
-     └─ ○ ruvnet/performance-analysis  [2★]  (↑ see above)
-
 ══════════════════════════════════════════════════════════════════════
 Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
 ══════════════════════════════════════════════════════════════════════
@@ -338,6 +307,7 @@ Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) throu
   ◉ huggingface/huggingface-llm-trainer  [4★ · Hardened]
   ◉ ruvnet/hive-mind-coordination  [4★ · Hardened]
   ◉ huggingface/semantic-cache  [4★ · Hardened]
+  ◉ /web-quality-audit  [3★ · Evolved]
 
 ══════════════════════════════════════════════════════════════════════
 Basics — basic-tier skills not wired into an upgrade path yet.  (0★ skills carry a [0★ · Pure] rank pill inline.)
