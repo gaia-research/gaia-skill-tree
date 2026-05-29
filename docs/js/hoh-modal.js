@@ -167,41 +167,61 @@
   function closeHohFullscreenModal() {
     var modal = document.getElementById('hohFullscreenModal');
     if (modal) {
-      modal.classList.remove('is-active');
-      modal.classList.remove('is-idle');
-      modal.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
-      document.documentElement.style.overflow = '';
-
-      if (idleTimer) { clearTimeout(idleTimer); idleTimer = null; }
-
-      // Re-hide the README panel + restore the confirm pill so the next open
-      // always starts in the same compact state.
-      var overlay = document.getElementById('hohFsOverlay');
-      if (overlay) overlay.hidden = true;
-      var confirm = document.getElementById('hohFsConfirm');
-      if (confirm) confirm.hidden = false;
-      var restore = document.getElementById('hohFsOverlayRestore');
-      if (restore) restore.hidden = true;
-      // Drop the fullscreen class — if we requested fullscreen on this modal,
-      // browsers exit automatically when the element is hidden.
-      modal.classList.remove('is-fullscreen');
-
-      // Revert inert flags on body siblings we marked
-      deactivateInertSiblings();
-
-      // Remove focus-trap keydown listener
-      if (trapKeydownHandler) {
-        modal.removeEventListener('keydown', trapKeydownHandler);
-        trapKeydownHandler = null;
+      // If we're currently in native fullscreen on this modal, exit first —
+      // otherwise the browser stays in fullscreen mode showing the now
+      // opacity:0 / pointer-events:none modal, which reads as a blank page.
+      var fsEl = document.fullscreenElement || document.webkitFullscreenElement;
+      if (fsEl === modal) {
+        var exit = document.exitFullscreen || document.webkitExitFullscreen;
+        if (exit) {
+          try {
+            var p = exit.call(document);
+            if (p && typeof p.then === 'function') {
+              // Wait for the exit to settle before tearing the modal down so
+              // the page paint order is: fullscreen exit → modal hide.
+              p.then(function () { _finishClose(modal); }, function () { _finishClose(modal); });
+              return;
+            }
+          } catch (_e) { /* fall through */ }
+        }
       }
-
-      // Restore focus to the element that opened the modal
-      if (lastFocused && document.contains(lastFocused) && typeof lastFocused.focus === 'function') {
-        try { lastFocused.focus(); } catch (_e) {}
-      }
-      lastFocused = null;
+      _finishClose(modal);
     }
+  }
+
+  function _finishClose(modal) {
+    modal.classList.remove('is-active');
+    modal.classList.remove('is-idle');
+    modal.classList.remove('is-fullscreen');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    document.documentElement.style.overflow = '';
+
+    if (idleTimer) { clearTimeout(idleTimer); idleTimer = null; }
+
+    // Re-hide the README panel + restore the confirm pill so the next open
+    // always starts in the same compact state.
+    var overlay = document.getElementById('hohFsOverlay');
+    if (overlay) overlay.hidden = true;
+    var confirm = document.getElementById('hohFsConfirm');
+    if (confirm) confirm.hidden = false;
+    var restore = document.getElementById('hohFsOverlayRestore');
+    if (restore) restore.hidden = true;
+
+    // Revert inert flags on body siblings we marked
+    deactivateInertSiblings();
+
+    // Remove focus-trap keydown listener
+    if (trapKeydownHandler) {
+      modal.removeEventListener('keydown', trapKeydownHandler);
+      trapKeydownHandler = null;
+    }
+
+    // Restore focus to the element that opened the modal
+    if (lastFocused && document.contains(lastFocused) && typeof lastFocused.focus === 'function') {
+      try { lastFocused.focus(); } catch (_e) {}
+    }
+    lastFocused = null;
   }
 
   function openHohFullscreenModal(ns) {
