@@ -228,70 +228,13 @@ def autoscale_font(text: str, default_px: int, available_w: float, avg_glyph_rat
     sizes we render. This is approximate but good enough for the slug — long
     skill slugs (e.g. /agent-systems-architecture-toolkit) need to drop from
     88px down toward 56px to clear the right margin.
-
-    Floor raised to 56px because the SVG is now demoted to og:image only —
-    standalone viewers (file://) lose the EB Garamond webfont and fall back
-    to Times Roman, which renders ~30% wider per glyph. Anything below 56px
-    is unreadable in social previews; anything above starts to overflow.
     """
     if not text:
         return default_px
     needed = len(text) * default_px * avg_glyph_ratio
     if needed <= available_w:
         return default_px
-    return max(56, int(default_px * available_w / needed))
-
-
-def _slug_text_block(slug_raw: str, slug_x: float, slug_y_baseline: float,
-                     available_w: float, default_px: int = 80) -> dict:
-    """Render the slash-skill slug as <text>, with optional <tspan> line break.
-
-    Long slugs (>22 chars) are split on the last hyphen at-or-below the 22-char
-    boundary and rendered as two <tspan> lines so the slug never runs off the
-    right margin even when the EB Garamond webfont fails to load.
-
-    Returns:
-      { "svg": "<text …>", "kicker_y": <int> } — kicker_y already accounts for
-      the second line of the slug if the slug wrapped, so the title kicker
-      below the slug doesn't collide with the wrapped second line.
-    """
-    slug = html.escape(slug_raw)
-    if len(slug_raw) <= 22:
-        size = autoscale_font(slug_raw, default_px=default_px, available_w=available_w)
-        svg = (
-            f'<text x="{slug_x}" y="{slug_y_baseline}" font-family="\'EB Garamond\',Georgia,serif" '
-            f'font-weight="600" font-size="{size}" fill="{CREAM_ENGRAVED}" '
-            f'dominant-baseline="middle">/{slug}</text>'
-        )
-        return {"svg": svg, "kicker_y": int(slug_y_baseline + 50)}
-
-    # Long slug — split on the last hyphen at-or-below position 22.
-    cutoff = slug_raw.rfind("-", 0, 23)
-    if cutoff == -1:
-        # No hyphen in the first 22 chars — hard split at 22.
-        cutoff = 22
-        first = slug_raw[:cutoff]
-        second = slug_raw[cutoff:]
-    else:
-        first = slug_raw[:cutoff]
-        second = slug_raw[cutoff + 1:]  # drop the hyphen at the break
-
-    first_e = html.escape(first)
-    second_e = html.escape(second)
-    longest = max(len(first), len(second) + 1)  # +1 to model the trailing hyphen
-    size = autoscale_font("x" * longest, default_px=default_px, available_w=available_w)
-    line_dy = int(size * 0.92)
-    # Shift the slug up so the two lines stay vertically centred on slug_y_baseline.
-    top_y = int(slug_y_baseline - line_dy / 2)
-    svg = (
-        f'<text x="{slug_x}" y="{top_y}" font-family="\'EB Garamond\',Georgia,serif" '
-        f'font-weight="600" font-size="{size}" fill="{CREAM_ENGRAVED}" '
-        f'dominant-baseline="middle">'
-        f'<tspan x="{slug_x}">/{first_e}-</tspan>'
-        f'<tspan x="{slug_x}" dy="{line_dy}">{second_e}</tspan>'
-        f'</text>'
-    )
-    return {"svg": svg, "kicker_y": int(slug_y_baseline + line_dy / 2 + 50)}
+    return max(40, int(default_px * available_w / needed))
 
 
 # ─── Shared atlas grammar (every plate uses these) ────────────────────────────
@@ -421,6 +364,7 @@ def build_supernova_plate(skill: dict) -> str:
     title_text = skill.get("title") or skill.get("name") or ""
     title = html.escape(truncate(title_text, 64))
     slug_raw = slug_after_slash(skill)
+    slug = html.escape(slug_raw)
     year = designation_year(skill)
     is_origin = bool(skill.get("origin"))
     n_lvl = level_num(skill.get("level", "6★"))
@@ -461,10 +405,9 @@ def build_supernova_plate(skill: dict) -> str:
     # Slug + kicker — right of the supernova, vertically centered with the core.
     slug_x = 660
     slug_w = OG_W - slug_x - MARGIN
-    slug_inner = _slug_text_block(slug_raw, slug_x, slug_y_baseline=286,
-                                  available_w=slug_w, default_px=84)
-    kicker_y = slug_inner["kicker_y"]
-    sn_prefix_y = 222
+    slug_size = autoscale_font(slug_raw, default_px=88, available_w=slug_w)
+    slug_y = 286
+    kicker_y = slug_y + 50
 
     # Magnitude band — apex reads "★★★★★★ · α 6 OBS · YYYY".
     stars_word = "★" * max(1, min(6, n_lvl))
@@ -498,11 +441,12 @@ def build_supernova_plate(skill: dict) -> str:
   <circle cx=\"{cx}\" cy=\"{cy}\" r=\"{core_r}\" fill=\"#fff7d6\"/>
 
   <!-- SN designation (catalogue prefix) -->
-  <text x=\"{slug_x}\" y=\"{sn_prefix_y}\" font-family=\"'Departure Mono','JetBrains Mono',ui-monospace,monospace\"
+  <text x=\"{slug_x}\" y=\"{slug_y - 64}\" font-family=\"'Departure Mono','JetBrains Mono',ui-monospace,monospace\"
     font-size=\"28\" letter-spacing=\"4.4\" fill=\"{CREAM_ENGRAVED}\" fill-opacity=\"0.7\">SN</text>
 
   <!-- Slash-skill slug (catalogue designation) -->
-  {slug_inner["svg"]}
+  <text x=\"{slug_x}\" y=\"{slug_y}\" font-family=\"'EB Garamond',Georgia,serif\" font-weight=\"600\"
+    font-size=\"{slug_size}\" fill=\"{CREAM_ENGRAVED}\" dominant-baseline=\"middle\">/{slug}</text>
 
   <!-- Title kicker -->
   <text x=\"{slug_x}\" y=\"{kicker_y}\" font-family=\"'EB Garamond',Georgia,serif\" font-style=\"italic\"
@@ -531,6 +475,7 @@ def build_stellar_plate(skill: dict) -> str:
     title_text = skill.get("title") or skill.get("name") or ""
     title = html.escape(truncate(title_text, 64))
     slug_raw = slug_after_slash(skill)
+    slug = html.escape(slug_raw)
     year = designation_year(skill)
     is_origin = bool(skill.get("origin"))
     n_lvl = level_num(skill.get("level", "5★"))
@@ -568,12 +513,12 @@ def build_stellar_plate(skill: dict) -> str:
     # Slug — left third.
     slug_x = MARGIN + 12
     slug_w = 560
-    slug_inner = _slug_text_block(slug_raw, slug_x, slug_y_baseline=268,
-                                  available_w=slug_w, default_px=76)
+    slug_size = autoscale_font(slug_raw, default_px=80, available_w=slug_w)
+    slug_y = 268
 
     # Bayer prefix sits ABOVE the slug.
-    bayer_y = 200
-    kicker_y = slug_inner["kicker_y"]
+    bayer_y = slug_y - 56
+    kicker_y = slug_y + 48
 
     # Magnitude band — Stellar reads "5.0 · CLASS A · ★★★★★ · α SLUG · YYYY".
     stars_word = "★" * max(1, min(6, n_lvl))
@@ -608,7 +553,8 @@ def build_stellar_plate(skill: dict) -> str:
     font-size=\"28\" letter-spacing=\"4.4\" fill=\"{CREAM_ENGRAVED}\" fill-opacity=\"0.7\">α</text>
 
   <!-- Slash-skill slug -->
-  {slug_inner["svg"]}
+  <text x=\"{slug_x}\" y=\"{slug_y}\" font-family=\"'EB Garamond',Georgia,serif\" font-weight=\"600\"
+    font-size=\"{slug_size}\" fill=\"{CREAM_ENGRAVED}\" dominant-baseline=\"middle\">/{slug}</text>
 
   <!-- Title kicker -->
   <text x=\"{slug_x}\" y=\"{kicker_y}\" font-family=\"'EB Garamond',Georgia,serif\" font-style=\"italic\"
@@ -626,32 +572,21 @@ def build_stellar_plate(skill: dict) -> str:
 # ─── Plate IV · SINGULARITY ───────────────────────────────────────────────────
 
 def build_singularity_plate(skill: dict) -> str:
-    """Plate IV — black hole, with real identity (Sgr A* / M87 visual register).
+    """Plate IV — black hole.
 
-    Composition (post-pivot upgrade):
-      - True-black radial-gradient void (#000 at center → INK_NIGHT at edge),
-        visibly darker than the surrounding sky.
-      - Photon sphere: thin cream ring at 1.5× the event horizon — the
-        gravitational lensing of light passing behind the BH that gives Sgr A*
-        and M87 their iconic silhouette.
-      - Three concentric accretion disks rendered as rotated ellipses
-        (rotate(-12deg) scaleY(0.22)) so they read as a tilted disk seen at an
-        angle, not flat rings. Each disk has a Doppler-asymmetric brightness
-        gradient — the approaching (top) side is brighter than the receding
-        (bottom) side, modelled as two halves with different fill opacities.
-      - Hot spot: a tiny localized brightening on the approaching side, like
-        the orbital knot in Sgr A* time-lapse imaging.
-      - 8 lensing-displaced field dots; 4 of them bent visibly toward the void
-        with faint streak lines so the lensing tic reads at first glance.
-
-    The marginal magnitude band reads `MAG ∞`; the star-count cell is replaced
-    by a word (HARDENED / TRANSCENDENT) because a black hole has mass but no
-    luminosity to count.
+    Composition: a slightly-darker disc (pure negative space) ringed by a
+    thin violet accretion hairline. Four stellar-field dots scattered
+    nearby; two of them displaced toward the void to render gravitational
+    lensing. The marginal magnitude band reads `MAG ∞` — a black hole
+    has mass but no luminosity. The star-count cell is replaced by a word
+    (`HARDENED`, `EVOLVED`, etc.) because there are no stars to count when
+    there's no light.
     """
     contributor = skill.get("contributor", "")
     title_text = skill.get("title") or skill.get("name") or ""
     title = html.escape(truncate(title_text, 64))
     slug_raw = slug_after_slash(skill)
+    slug = html.escape(slug_raw)
     year = designation_year(skill)
     is_origin = bool(skill.get("origin"))
     n_lvl = level_num(skill.get("level", "4★"))
@@ -659,70 +594,42 @@ def build_singularity_plate(skill: dict) -> str:
 
     # Black hole sits left-of-centre. Slug right.
     cx, cy = 360, 290
-    void_r = 64                   # event horizon (the dark disc)
-    photon_r = int(void_r * 1.5)  # photon sphere — iconic 1.5× radius
+    void_r = 80
+    ring_r_outer = 96
+    ring_r_inner = 90
 
-    # Three concentric accretion disks. Outer → inner radii on the major axis.
-    disk_radii = [126, 108, 92]
-
-    # Lensing-displaced stellar field — 8 dots, 4 leaning toward the void.
-    # (orig_x, orig_y, displaced_x, displaced_y, opacity, is_lensed)
-    lensed_pairs = [
-        (170, 180, 198, 212, 0.60, True),    # upper-left, strong lensing
-        (180, 410, 205, 388, 0.55, True),    # lower-left, strong lensing
-        (560, 200, 560, 200, 0.50, False),   # untouched far-right
-        (560, 380, 547, 360, 0.55, True),    # right, mild lensing
-        (255, 130, 263, 148, 0.45, True),    # top, mild lensing
-        (140, 280, 140, 280, 0.45, False),   # far-left untouched
-        (470, 130, 470, 130, 0.40, False),   # upper-right untouched
-        (300, 460, 300, 460, 0.40, False),   # lower-centre untouched
-    ]
+    # Lensing-displaced stellar field — 4 dots, 2 leaning toward the void.
+    # Original positions vs. lensed positions (the displacement IS the joke).
     field_dots = []
+    lensed_pairs = [
+        # (x, y, displaced_x, displaced_y, opacity, is_lensed)
+        (180, 200, 195, 215, 0.55, True),    # leans toward void
+        (560, 200, 560, 200, 0.50, False),   # untouched, off to the right
+        (560, 380, 545, 365, 0.55, True),    # leans toward void
+        (180, 400, 180, 400, 0.45, False),   # untouched, lower-left
+        (300, 130, 300, 130, 0.40, False),
+    ]
     for ox, oy, dx, dy, op, is_lensed in lensed_pairs:
         field_dots.append(
             f'<circle cx="{dx}" cy="{dy}" r="1.6" fill="{CREAM_ENGRAVED}" fill-opacity="{op}"/>'
         )
         if is_lensed:
+            # Faint streak from original to displaced position — reads as the
+            # lensing path. Cream at very low alpha so it doesn't shout.
             field_dots.append(
                 f'<line x1="{ox}" y1="{oy}" x2="{dx}" y2="{dy}" stroke="{CREAM_ENGRAVED}" '
-                f'stroke-opacity="0.16" stroke-width="0.6"/>'
+                f'stroke-opacity="0.12" stroke-width="0.6"/>'
             )
     field_svg = "\n  ".join(field_dots)
 
-    # Build the three accretion disks with Doppler-asymmetric gradients.
-    # Each disk = one ellipse for the approaching (top) half (brighter) +
-    # one ellipse for the receding (bottom) half (dimmer), clipped via two
-    # half-rectangle clip paths. The whole stack is tilted -12°.
-    disk_alphas = [
-        # (top_alpha, bottom_alpha) — outer dim, middle bright, inner brightest
-        (0.42, 0.18),  # outer
-        (0.62, 0.22),  # middle
-        (0.85, 0.30),  # inner
-    ]
-    disks = []
-    for i, r in enumerate(disk_radii):
-        ry = max(6, int(r * 0.22))
-        top_a, bot_a = disk_alphas[i]
-        disks.append(
-            f'<g clip-path="url(#bh-top-{sid})">'
-            f'<ellipse cx="{cx}" cy="{cy}" rx="{r}" ry="{ry}" '
-            f'fill="url(#bh-disk-top-{sid})" fill-opacity="{top_a}"/>'
-            f'</g>'
-            f'<g clip-path="url(#bh-bot-{sid})">'
-            f'<ellipse cx="{cx}" cy="{cy}" rx="{r}" ry="{ry}" '
-            f'fill="url(#bh-disk-bot-{sid})" fill-opacity="{bot_a}"/>'
-            f'</g>'
-        )
-    disks_svg = "\n    ".join(disks)
-
-    # Slug — right side. Conservative size + tspan line break for long slugs.
+    # Slug — right side.
     slug_x = 640
     slug_w = OG_W - slug_x - MARGIN
-    slug_inner = _slug_text_block(slug_raw, slug_x, slug_y_baseline=286,
-                                  available_w=slug_w, default_px=72)
+    slug_size = autoscale_font(slug_raw, default_px=84, available_w=slug_w)
+    slug_y = 286
 
-    bh_prefix_y = 222
-    kicker_y = slug_inner["kicker_y"]
+    bh_prefix_y = slug_y - 64
+    kicker_y = slug_y + 50
 
     # Rank word (replaces the star-count cell on the magnitude band).
     rank_words = {
@@ -740,39 +647,10 @@ def build_singularity_plate(skill: dict) -> str:
   width=\"{OG_W}\" height=\"{OG_H}\" viewBox=\"0 0 {OG_W} {OG_H}\"
   class=\"plate plate--singularity\" data-plate=\"IV\" data-type=\"unique\" data-level=\"{n_lvl}\">
   <defs>
-    <!-- True-black void: deeper than the surrounding sky -->
     <radialGradient id=\"bh-void-{sid}\" cx=\"50%\" cy=\"50%\" r=\"50%\">
-      <stop offset=\"0%\" stop-color=\"#000000\" stop-opacity=\"1\"/>
-      <stop offset=\"82%\" stop-color=\"#020108\" stop-opacity=\"1\"/>
+      <stop offset=\"0%\" stop-color=\"#050410\" stop-opacity=\"1\"/>
+      <stop offset=\"85%\" stop-color=\"#050410\" stop-opacity=\"1\"/>
       <stop offset=\"100%\" stop-color=\"{INK_NIGHT}\" stop-opacity=\"1\"/>
-    </radialGradient>
-    <!-- Approaching (top) half of the disk — bright violet → white knot -->
-    <linearGradient id=\"bh-disk-top-{sid}\" x1=\"0%\" y1=\"50%\" x2=\"100%\" y2=\"50%\">
-      <stop offset=\"0%\" stop-color=\"{VIOLET_HALO}\" stop-opacity=\"0.55\"/>
-      <stop offset=\"45%\" stop-color=\"#d8b4fe\" stop-opacity=\"0.95\"/>
-      <stop offset=\"58%\" stop-color=\"#ffffff\" stop-opacity=\"1\"/>
-      <stop offset=\"75%\" stop-color=\"#d8b4fe\" stop-opacity=\"0.85\"/>
-      <stop offset=\"100%\" stop-color=\"{VIOLET_HALO}\" stop-opacity=\"0.45\"/>
-    </linearGradient>
-    <!-- Receding (bottom) half — dimmer violet only -->
-    <linearGradient id=\"bh-disk-bot-{sid}\" x1=\"0%\" y1=\"50%\" x2=\"100%\" y2=\"50%\">
-      <stop offset=\"0%\" stop-color=\"{VIOLET_HALO}\" stop-opacity=\"0.30\"/>
-      <stop offset=\"50%\" stop-color=\"{VIOLET_HALO}\" stop-opacity=\"0.55\"/>
-      <stop offset=\"100%\" stop-color=\"{VIOLET_HALO}\" stop-opacity=\"0.30\"/>
-    </linearGradient>
-    <!-- Top/bottom halves clipped relative to the (untilted) disk centre.    -->
-    <!-- The whole disk group is then rotated -12deg around (cx,cy).          -->
-    <clipPath id=\"bh-top-{sid}\">
-      <rect x=\"{cx - 200}\" y=\"{cy - 200}\" width=\"400\" height=\"200\"/>
-    </clipPath>
-    <clipPath id=\"bh-bot-{sid}\">
-      <rect x=\"{cx - 200}\" y=\"{cy}\" width=\"400\" height=\"200\"/>
-    </clipPath>
-    <!-- Approaching-side hot spot — small localized brightening -->
-    <radialGradient id=\"bh-hotspot-{sid}\" cx=\"50%\" cy=\"50%\" r=\"50%\">
-      <stop offset=\"0%\" stop-color=\"#ffffff\" stop-opacity=\"1\"/>
-      <stop offset=\"55%\" stop-color=\"#e9d5ff\" stop-opacity=\"0.75\"/>
-      <stop offset=\"100%\" stop-color=\"{VIOLET_HALO}\" stop-opacity=\"0\"/>
     </radialGradient>
   </defs>
 
@@ -781,28 +659,22 @@ def build_singularity_plate(skill: dict) -> str:
   <!-- Lensing-displaced stellar field -->
   {field_svg}
 
-  <!-- Tilted accretion disks (rotated -12° around the BH centre).             -->
-  <!-- Outer to inner: dim → bright. Top halves are Doppler-boosted; bottom    -->
-  <!-- halves render with the muted gradient.                                  -->
-  <g transform=\"rotate(-12 {cx} {cy})\">
-    {disks_svg}
-    <!-- Hot spot on the approaching (top-left) side of the inner disk -->
-    <ellipse cx=\"{cx - 58}\" cy=\"{cy - 6}\" rx=\"22\" ry=\"7\" fill=\"url(#bh-hotspot-{sid})\"/>
-  </g>
+  <!-- Accretion-disk hairline ring (thin violet) -->
+  <circle cx=\"{cx}\" cy=\"{cy}\" r=\"{ring_r_outer}\" fill=\"none\" stroke=\"{VIOLET_HALO}\"
+    stroke-opacity=\"0.85\" stroke-width=\"1.4\"/>
+  <circle cx=\"{cx}\" cy=\"{cy}\" r=\"{(ring_r_outer + ring_r_inner) / 2}\" fill=\"none\"
+    stroke=\"{VIOLET_HALO}\" stroke-opacity=\"0.35\" stroke-width=\"0.6\"/>
 
-  <!-- Photon sphere ring — thin cream, 1.5× the event horizon -->
-  <circle cx=\"{cx}\" cy=\"{cy}\" r=\"{photon_r}\" fill=\"none\" stroke=\"{CREAM_ENGRAVED}\"
-    stroke-opacity=\"0.55\" stroke-width=\"0.9\"/>
-
-  <!-- The void itself: true-black radial gradient, no glyph -->
+  <!-- The void itself: same colour as the page, slightly darker, no glyph -->
   <circle cx=\"{cx}\" cy=\"{cy}\" r=\"{void_r}\" fill=\"url(#bh-void-{sid})\"/>
 
   <!-- BH designation (catalogue prefix) -->
   <text x=\"{slug_x}\" y=\"{bh_prefix_y}\" font-family=\"'Departure Mono','JetBrains Mono',ui-monospace,monospace\"
     font-size=\"28\" letter-spacing=\"4.4\" fill=\"{CREAM_ENGRAVED}\" fill-opacity=\"0.7\">BH-</text>
 
-  <!-- Slash-skill slug (with optional <tspan> line break for long slugs) -->
-  {slug_inner["svg"]}
+  <!-- Slash-skill slug -->
+  <text x=\"{slug_x}\" y=\"{slug_y}\" font-family=\"'EB Garamond',Georgia,serif\" font-weight=\"600\"
+    font-size=\"{slug_size}\" fill=\"{CREAM_ENGRAVED}\" dominant-baseline=\"middle\">/{slug}</text>
 
   <!-- Title kicker -->
   <text x=\"{slug_x}\" y=\"{kicker_y}\" font-family=\"'EB Garamond',Georgia,serif\" font-style=\"italic\"
@@ -832,6 +704,7 @@ def build_default_plate(skill: dict) -> str:
     title_text = skill.get("title") or skill.get("name") or ""
     title = html.escape(truncate(title_text, 64))
     slug_raw = slug_after_slash(skill)
+    slug = html.escape(slug_raw)
     year = designation_year(skill)
     is_origin = bool(skill.get("origin"))
     n_lvl = level_num(skill.get("level", "2★"))
@@ -839,9 +712,9 @@ def build_default_plate(skill: dict) -> str:
 
     slug_x = MARGIN + 12
     slug_w = OG_W - slug_x - MARGIN
-    slug_inner = _slug_text_block(slug_raw, slug_x, slug_y_baseline=290,
-                                  available_w=slug_w, default_px=68)
-    kicker_y = slug_inner["kicker_y"]
+    slug_size = autoscale_font(slug_raw, default_px=72, available_w=slug_w)
+    slug_y = 290
+    kicker_y = slug_y + 46
 
     stars = ("★" * max(1, min(3, n_lvl))) + ("☆" * max(0, 3 - n_lvl))
     designation = f"GAIA · {plate_roman} · {year}"
@@ -854,7 +727,8 @@ def build_default_plate(skill: dict) -> str:
   {_shared_frame(plate_roman)}
 
   <!-- Slash-skill slug (no celestial subject for sub-4★ skills) -->
-  {slug_inner["svg"]}
+  <text x=\"{slug_x}\" y=\"{slug_y}\" font-family=\"'EB Garamond',Georgia,serif\" font-weight=\"600\"
+    font-size=\"{slug_size}\" fill=\"{CREAM_ENGRAVED}\" dominant-baseline=\"middle\">/{slug}</text>
 
   <text x=\"{slug_x}\" y=\"{kicker_y}\" font-family=\"'EB Garamond',Georgia,serif\" font-style=\"italic\"
     font-size=\"24\" fill=\"{CREAM_ENGRAVED}\" fill-opacity=\"0.6\" dominant-baseline=\"middle\">‘{title}’</text>
@@ -887,624 +761,6 @@ def build_og_svg(skill: dict) -> str:
     if tier_type == "unique":
         return build_singularity_plate(skill)
     return build_default_plate(skill)
-
-
-# ═══════════════════════════════════════════════════════════════════════════════
-# HTML Plates — canonical experience (post-pivot)
-# ═══════════════════════════════════════════════════════════════════════════════
-#
-# The HTML plate is the canonical artifact: it reflows via CSS grid + clamp()
-# so the slug fits regardless of length, it carries the EB Garamond webfont via
-# Google Fonts CDN so standalone-opened files look correct, and it embeds the
-# celestial subject as inline SVG inside the document so a single .html file
-# is fully self-contained (download → double-click → identical render).
-#
-# The SVG plate (above) survives in a vestigial role purely for og:image —
-# Twitter / Open Graph crawlers can't read HTML for og:image, so we keep
-# generating a raster-friendly .svg sibling.
-# ═══════════════════════════════════════════════════════════════════════════════
-
-
-def _html_googlefonts_link() -> str:
-    """The single Google Fonts <link> tag every HTML plate carries."""
-    return (
-        '<link rel="preconnect" href="https://fonts.googleapis.com">\n  '
-        '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n  '
-        '<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400'
-        '&family=Departure+Mono&display=swap" rel="stylesheet">'
-    )
-
-
-def _html_base_css() -> str:
-    """Shared CSS for every HTML plate.
-
-    Inlined into every emitted .html file so a downloaded plate is fully
-    self-contained — no network dependency beyond the Google Fonts link.
-
-    Layout strategy: the .plate is a CSS grid with three rows
-    (chrome / stage / footer) locked to 1200×630 inside the modal stage but
-    fluid via aspect-ratio: 1200/630 + width: min(100vw, 1200px) when
-    opened standalone in a browser. The slug uses clamp(40px, 6vw, 88px)
-    so reflow handles every length without a Python autoscale guess.
-    """
-    return f"""
-    :root {{
-      --ink-night: {INK_NIGHT};
-      --cream: {CREAM_ENGRAVED};
-      --honor: {HONOR_RED};
-      --apex-gold: {APEX_GOLD};
-      --amber-star: {AMBER_STAR};
-      --violet-halo: {VIOLET_HALO};
-    }}
-    *, *::before, *::after {{ box-sizing: border-box; }}
-    html, body {{ margin: 0; padding: 0; background: #050414; }}
-    body {{
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      font-family: 'EB Garamond', Georgia, serif;
-      color: var(--cream);
-    }}
-    .plate {{
-      width: min(100vw, 1200px);
-      aspect-ratio: 1200 / 630;
-      background: var(--ink-night);
-      color: var(--cream);
-      display: grid;
-      grid-template-rows: 56px 1fr 96px;
-      padding: 24px 48px;
-      gap: 0;
-      position: relative;
-      overflow: hidden;
-      font-family: 'EB Garamond', Georgia, serif;
-    }}
-    .plate__chrome--top {{
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      letter-spacing: 1.6px;
-      font-family: 'Departure Mono', ui-monospace, monospace;
-      font-size: clamp(9px, 0.9vw, 11px);
-      color: var(--cream);
-      opacity: 0.42;
-    }}
-    .plate__plate-no {{
-      letter-spacing: 3.2px;
-      opacity: 0.92;
-      font-size: clamp(13px, 1.5vw, 18px);
-    }}
-    .plate__stage {{
-      position: relative;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      align-items: center;
-      gap: 32px;
-      padding: 8px 0;
-    }}
-    .plate__designation {{
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      min-width: 0;  /* let the slug clamp without overflowing */
-    }}
-    .plate__prefix {{
-      font-family: 'Departure Mono', ui-monospace, monospace;
-      font-size: clamp(18px, 2.2vw, 28px);
-      letter-spacing: 4.4px;
-      opacity: 0.7;
-    }}
-    .plate__slug {{
-      font-family: 'EB Garamond', Georgia, serif;
-      font-weight: 600;
-      font-size: clamp(40px, 6vw, 88px);
-      line-height: 0.96;
-      margin: 0;
-      color: var(--cream);
-      overflow-wrap: anywhere;
-      hyphens: auto;
-    }}
-    .plate__kicker {{
-      font-family: 'EB Garamond', Georgia, serif;
-      font-style: italic;
-      font-size: clamp(15px, 1.7vw, 22px);
-      opacity: 0.6;
-      margin-top: 6px;
-    }}
-    .plate__subject {{
-      width: 100%;
-      height: 100%;
-      max-height: 380px;
-      display: block;
-    }}
-    .plate__footer {{
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      justify-content: flex-end;
-    }}
-    .plate__signature {{
-      font-family: 'EB Garamond', Georgia, serif;
-      font-style: italic;
-      font-size: clamp(15px, 1.7vw, 22px);
-      color: var(--honor);
-      letter-spacing: 0.2px;
-    }}
-    .plate__signature .plate__cataloged {{ font-style: normal; opacity: 0.82; }}
-    .plate__signature .plate__handle {{ font-style: normal; font-weight: 600; }}
-    .plate__signature .plate__origin {{
-      font-style: normal;
-      letter-spacing: 2.2px;
-      font-size: clamp(12px, 1.4vw, 18px);
-      opacity: 0.9;
-      padding: 0 8px;
-    }}
-    .plate__signature .plate__sep {{ opacity: 0.5; padding: 0 6px; }}
-    .plate__signature .plate__year {{ font-style: normal; opacity: 0.7; }}
-    .plate__rule {{
-      border: 0;
-      height: 1px;
-      width: 100%;
-      background: var(--cream);
-      opacity: 0.35;
-      margin: 0;
-    }}
-    .plate__band {{
-      font-family: 'Departure Mono', ui-monospace, monospace;
-      font-size: clamp(10px, 1.1vw, 13px);
-      letter-spacing: 1.5px;
-      color: var(--cream);
-      opacity: 0.7;
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
-    }}
-    .plate__band .plate__band-sep {{ opacity: 0.4; letter-spacing: 1px; }}
-    .plate__seal {{
-      position: absolute;
-      top: 24px;
-      left: 48px;
-      width: 30px;
-      height: 30px;
-    }}
-    /* ─── Plate VI · APEX SUPERNOVA ─── */
-    .plate--apex .plate__slug {{ color: var(--cream); }}
-    /* ─── Plate V · STELLAR ─── */
-    .plate--stellar .plate__designation {{ order: 0; }}
-    .plate--stellar .plate__subject-wrap {{ order: 1; }}
-    /* ─── Plate IV · SINGULARITY ─── */
-    .plate--singularity {{ }}
-    /* ─── Default fallback ─── */
-    .plate--default .plate__stage {{ grid-template-columns: 1fr; }}
-
-    @media (max-aspect-ratio: 16/10) {{
-      .plate__seal {{ display: none; }}
-    }}
-    """
-
-
-def _html_chrome(plate_roman: str) -> str:
-    """Top-of-plate RA/Dec ticks + roman-numeral plate number."""
-    labels = ["+20°", "+10°", "0°", "−10°", "−20°"]
-    ticks = " &nbsp;·&nbsp; ".join(html.escape(l) for l in labels)
-    return (
-        f'<header class="plate__chrome--top">\n'
-        f'    <div class="plate__radec">{ticks}</div>\n'
-        f'    <div class="plate__plate-no">PLATE {html.escape(plate_roman)}</div>\n'
-        f'  </header>'
-    )
-
-
-def _html_signature(contributor: str, is_origin: bool, year: str) -> str:
-    """Honor-red discoverer signature (HTML version of _catalog_signature)."""
-    handle = html.escape(contributor or "")
-    origin_span = (
-        '<span class="plate__origin">· ORIGIN ·</span>'
-        if is_origin else
-        '<span class="plate__sep">·</span>'
-    )
-    return (
-        f'<div class="plate__signature">\n'
-        f'      <span class="plate__cataloged">Cataloged by</span> '
-        f'<span class="plate__handle">@{handle}</span>'
-        f'{origin_span}'
-        f'<span class="plate__year">{html.escape(year)}</span>\n'
-        f'    </div>'
-    )
-
-
-def _html_band(magnitude: str, ev_class: str, stars_or_word: str, designation: str) -> str:
-    """Marginal mono data band (HTML version of _magnitude_band)."""
-    parts = [
-        f'<span>MAG {html.escape(magnitude)}</span>',
-        '<span class="plate__band-sep">···</span>',
-        f'<span>{html.escape(ev_class)}</span>',
-        '<span class="plate__band-sep">···</span>',
-        f'<span>{html.escape(stars_or_word)}</span>',
-        '<span class="plate__band-sep">···</span>',
-        f'<span>{html.escape(designation)}</span>',
-    ]
-    return f'<div class="plate__band">\n      {"".join(parts)}\n    </div>'
-
-
-def _html_footer(contributor: str, is_origin: bool, year: str,
-                 magnitude: str, ev_class: str, stars_or_word: str, designation: str) -> str:
-    """Bottom-of-plate signature + rule + magnitude band."""
-    return (
-        f'<footer class="plate__footer">\n'
-        f'    {_html_signature(contributor, is_origin, year)}\n'
-        f'    <hr class="plate__rule" />\n'
-        f'    {_html_band(magnitude, ev_class, stars_or_word, designation)}\n'
-        f'  </footer>'
-    )
-
-
-def _html_diamond_seal_svg() -> str:
-    """Inline SVG of the Diamond Seal — Apex publisher's mark."""
-    return (
-        '<svg class="plate__seal" viewBox="0 0 64 64" aria-hidden="true">\n'
-        '    <path d="M 32 4 L 60 32 L 32 60 L 4 32 Z" fill="none" '
-        'stroke="var(--cream)" stroke-width="2.4" stroke-linejoin="miter" opacity="0.78"/>\n'
-        '    <text x="32" y="34" font-family="\'EB Garamond\',Georgia,serif" font-weight="600" '
-        'font-size="28" fill="var(--cream)" text-anchor="middle" dominant-baseline="central" '
-        'opacity="0.8">G</text>\n'
-        '  </svg>'
-    )
-
-
-def _html_doc_wrap(title_text: str, plate_class: str, plate_data_attrs: str,
-                   chrome_html: str, stage_html: str, footer_html: str) -> str:
-    """Wrap a plate's <article> body in a self-contained HTML document."""
-    css = _html_base_css()
-    fonts = _html_googlefonts_link()
-    return f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>{html.escape(title_text)} — Hall Plate · Gaia</title>
-  {fonts}
-  <style>{css}</style>
-</head>
-<body>
-  <article class="plate {plate_class}" {plate_data_attrs}>
-    {chrome_html}
-    {stage_html}
-    {footer_html}
-  </article>
-</body>
-</html>
-"""
-
-
-# ─── Plate VI · APEX SUPERNOVA (HTML) ─────────────────────────────────────────
-
-def build_supernova_html(skill: dict) -> str:
-    """HTML version of Plate VI — supernova remnant."""
-    contributor = skill.get("contributor", "")
-    title_text = skill.get("title") or skill.get("name") or ""
-    title = html.escape(truncate(title_text, 64))
-    slug_raw = slug_after_slash(skill)
-    slug = html.escape(slug_raw)
-    year = designation_year(skill)
-    is_origin = bool(skill.get("origin"))
-    n_lvl = level_num(skill.get("level", "6★"))
-    sid = (skill.get("id") or "unknown").replace("/", "-").replace(" ", "-")
-
-    # Inline SVG of the supernova subject — same geometry as the SVG plate
-    # but the parent <div> sizes it via CSS grid so it scales with the plate.
-    cx, cy = 200, 175
-    rays = []
-    ray_lens = [150, 138, 158, 145, 132, 148]
-    for i, length in enumerate(ray_lens):
-        angle = -math.pi / 2 + i * (math.pi * 2 / 6)
-        ex = cx + length * math.cos(angle)
-        ey = cy + length * math.sin(angle)
-        mx = (cx + ex) / 2 + 8 * math.cos(angle + math.pi / 2)
-        my = (cy + ey) / 2 + 8 * math.sin(angle + math.pi / 2)
-        rays.append(
-            f'<path d="M {cx} {cy} Q {mx:.1f} {my:.1f} {ex:.1f} {ey:.1f}" '
-            f'stroke="var(--apex-gold)" stroke-opacity="0.78" stroke-width="1.5" '
-            f'stroke-linecap="round" fill="none"/>'
-        )
-    rays_svg = "\n      ".join(rays)
-    field_dots = "\n      ".join(
-        f'<circle cx="{fx}" cy="{fy}" r="1.4" fill="var(--cream)" fill-opacity="{op}"/>'
-        for fx, fy, op in [
-            (60, 110, 0.5), (340, 130, 0.45), (90, 230, 0.5),
-            (320, 250, 0.55), (170, 60, 0.4), (290, 280, 0.4),
-        ]
-    )
-    subject_svg = f"""<svg class="plate__subject" viewBox="0 0 400 350" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-      <defs>
-        <radialGradient id="sn-core-{sid}" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#fff7d6" stop-opacity="1"/>
-          <stop offset="40%" stop-color="var(--apex-gold)" stop-opacity="0.95"/>
-          <stop offset="100%" stop-color="var(--apex-gold)" stop-opacity="0"/>
-        </radialGradient>
-      </defs>
-      {field_dots}
-      {rays_svg}
-      <circle cx="{cx}" cy="{cy}" r="42" fill="url(#sn-core-{sid})"/>
-      <circle cx="{cx}" cy="{cy}" r="9" fill="#fff7d6"/>
-    </svg>"""
-
-    stars_word = "★" * max(1, min(6, n_lvl))
-    designation = f"α 6 OBS · {year}"
-    stage_html = f"""<div class="plate__stage">
-    <div class="plate__subject-wrap">
-      {subject_svg}
-    </div>
-    <div class="plate__designation">
-      <div class="plate__prefix">SN</div>
-      <h1 class="plate__slug">/{slug}</h1>
-      <div class="plate__kicker">‘{title}’</div>
-    </div>
-    {_html_diamond_seal_svg()}
-  </div>"""
-    return _html_doc_wrap(
-        title_text=f"/{slug_raw}",
-        plate_class="plate--apex",
-        plate_data_attrs=f'data-plate="VI" data-type="ultimate" data-level="{n_lvl}"',
-        chrome_html=_html_chrome("VI"),
-        stage_html=stage_html,
-        footer_html=_html_footer(contributor, is_origin, year,
-                                 "6.0", "CLASS A", stars_word, designation),
-    )
-
-
-# ─── Plate V · STELLAR (HTML) ─────────────────────────────────────────────────
-
-def build_stellar_html(skill: dict) -> str:
-    """HTML version of Plate V — main-sequence star with two orbital tracks."""
-    contributor = skill.get("contributor", "")
-    title_text = skill.get("title") or skill.get("name") or ""
-    title = html.escape(truncate(title_text, 64))
-    slug_raw = slug_after_slash(skill)
-    slug = html.escape(slug_raw)
-    year = designation_year(skill)
-    is_origin = bool(skill.get("origin"))
-    n_lvl = level_num(skill.get("level", "5★"))
-    sid = (skill.get("id") or "unknown").replace("/", "-").replace(" ", "-")
-
-    cx, cy = 200, 175
-    r1, r2 = 70, 120
-    companions = [
-        (r1, -math.pi / 6),
-        (r1,  math.pi - math.pi / 8),
-        (r2,  math.pi / 3),
-        (r2, -math.pi + math.pi / 7),
-    ]
-    dots = "\n      ".join(
-        f'<circle cx="{cx + r * math.cos(a):.1f}" cy="{cy + r * math.sin(a):.1f}" '
-        f'r="3" fill="var(--cream)" fill-opacity="0.85"/>'
-        for r, a in companions
-    )
-    subject_svg = f"""<svg class="plate__subject" viewBox="0 0 400 350" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-      <defs>
-        <radialGradient id="st-core-{sid}" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#fde2a4" stop-opacity="1"/>
-          <stop offset="55%" stop-color="var(--amber-star)" stop-opacity="0.95"/>
-          <stop offset="100%" stop-color="var(--amber-star)" stop-opacity="0"/>
-        </radialGradient>
-      </defs>
-      <circle cx="{cx}" cy="{cy}" r="{r1}" fill="none" stroke="var(--cream)" stroke-opacity="0.45" stroke-width="1" stroke-dasharray="6 4"/>
-      <circle cx="{cx}" cy="{cy}" r="{r2}" fill="none" stroke="var(--cream)" stroke-opacity="0.32" stroke-width="1" stroke-dasharray="8 6"/>
-      {dots}
-      <circle cx="{cx}" cy="{cy}" r="58" fill="url(#st-core-{sid})"/>
-      <circle cx="{cx}" cy="{cy}" r="32" fill="var(--amber-star)"/>
-    </svg>"""
-
-    stars_word = "★" * max(1, min(6, n_lvl))
-    designation = f"α {slug_raw[:18].upper()} · {year}"
-    stage_html = f"""<div class="plate__stage">
-    <div class="plate__designation">
-      <div class="plate__prefix">α</div>
-      <h1 class="plate__slug">/{slug}</h1>
-      <div class="plate__kicker">‘{title}’</div>
-    </div>
-    <div class="plate__subject-wrap">
-      {subject_svg}
-    </div>
-  </div>"""
-    return _html_doc_wrap(
-        title_text=f"/{slug_raw}",
-        plate_class="plate--stellar",
-        plate_data_attrs=f'data-plate="V" data-type="ultimate" data-level="{n_lvl}"',
-        chrome_html=_html_chrome("V"),
-        stage_html=stage_html,
-        footer_html=_html_footer(contributor, is_origin, year,
-                                 "5.0", "CLASS A", stars_word, designation),
-    )
-
-
-# ─── Plate IV · SINGULARITY (HTML) — the real black-hole identity ────────────
-
-def build_singularity_html(skill: dict) -> str:
-    """HTML version of Plate IV — black hole with full identity treatment.
-
-    Photon sphere, three tilted accretion disks with Doppler asymmetry, hot
-    spot on the approaching side, true-black void, 8 lensing-displaced field
-    dots (4 visibly bent toward the void).
-    """
-    contributor = skill.get("contributor", "")
-    title_text = skill.get("title") or skill.get("name") or ""
-    title = html.escape(truncate(title_text, 64))
-    slug_raw = slug_after_slash(skill)
-    slug = html.escape(slug_raw)
-    year = designation_year(skill)
-    is_origin = bool(skill.get("origin"))
-    n_lvl = level_num(skill.get("level", "4★"))
-    sid = (skill.get("id") or "unknown").replace("/", "-").replace(" ", "-")
-
-    cx, cy = 200, 175
-    void_r = 38
-    photon_r = int(void_r * 1.5)
-    disk_radii = [82, 68, 56]
-    disk_alphas = [(0.42, 0.18), (0.62, 0.22), (0.85, 0.30)]
-
-    lensed_pairs = [
-        (60, 70, 78, 90, 0.60, True),
-        (60, 290, 80, 270, 0.55, True),
-        (340, 80, 340, 80, 0.50, False),
-        (340, 270, 322, 252, 0.55, True),
-        (130, 35, 142, 50, 0.45, True),
-        (40, 175, 40, 175, 0.45, False),
-        (290, 35, 290, 35, 0.40, False),
-        (175, 320, 175, 320, 0.40, False),
-    ]
-    field_parts = []
-    for ox, oy, dx, dy, op, is_lensed in lensed_pairs:
-        field_parts.append(
-            f'<circle cx="{dx}" cy="{dy}" r="1.6" fill="var(--cream)" fill-opacity="{op}"/>'
-        )
-        if is_lensed:
-            field_parts.append(
-                f'<line x1="{ox}" y1="{oy}" x2="{dx}" y2="{dy}" stroke="var(--cream)" '
-                f'stroke-opacity="0.18" stroke-width="0.6"/>'
-            )
-    field_dots = "\n      ".join(field_parts)
-
-    # Three Doppler-asymmetric disks, each split into top / bottom halves via clip.
-    disks = []
-    for i, r in enumerate(disk_radii):
-        ry = max(4, int(r * 0.22))
-        top_a, bot_a = disk_alphas[i]
-        disks.append(
-            f'<g clip-path="url(#bh-h-top-{sid})">'
-            f'<ellipse cx="{cx}" cy="{cy}" rx="{r}" ry="{ry}" '
-            f'fill="url(#bh-h-disk-top-{sid})" fill-opacity="{top_a}"/>'
-            f'</g>'
-            f'<g clip-path="url(#bh-h-bot-{sid})">'
-            f'<ellipse cx="{cx}" cy="{cy}" rx="{r}" ry="{ry}" '
-            f'fill="url(#bh-h-disk-bot-{sid})" fill-opacity="{bot_a}"/>'
-            f'</g>'
-        )
-    disks_svg = "\n        ".join(disks)
-
-    subject_svg = f"""<svg class="plate__subject" viewBox="0 0 400 350" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-      <defs>
-        <radialGradient id="bh-h-void-{sid}" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#000000" stop-opacity="1"/>
-          <stop offset="82%" stop-color="#020108" stop-opacity="1"/>
-          <stop offset="100%" stop-color="var(--ink-night)" stop-opacity="1"/>
-        </radialGradient>
-        <linearGradient id="bh-h-disk-top-{sid}" x1="0%" y1="50%" x2="100%" y2="50%">
-          <stop offset="0%" stop-color="var(--violet-halo)" stop-opacity="0.55"/>
-          <stop offset="45%" stop-color="#d8b4fe" stop-opacity="0.95"/>
-          <stop offset="58%" stop-color="#ffffff" stop-opacity="1"/>
-          <stop offset="75%" stop-color="#d8b4fe" stop-opacity="0.85"/>
-          <stop offset="100%" stop-color="var(--violet-halo)" stop-opacity="0.45"/>
-        </linearGradient>
-        <linearGradient id="bh-h-disk-bot-{sid}" x1="0%" y1="50%" x2="100%" y2="50%">
-          <stop offset="0%" stop-color="var(--violet-halo)" stop-opacity="0.30"/>
-          <stop offset="50%" stop-color="var(--violet-halo)" stop-opacity="0.55"/>
-          <stop offset="100%" stop-color="var(--violet-halo)" stop-opacity="0.30"/>
-        </linearGradient>
-        <clipPath id="bh-h-top-{sid}">
-          <rect x="{cx - 130}" y="{cy - 130}" width="260" height="130"/>
-        </clipPath>
-        <clipPath id="bh-h-bot-{sid}">
-          <rect x="{cx - 130}" y="{cy}" width="260" height="130"/>
-        </clipPath>
-        <radialGradient id="bh-h-hotspot-{sid}" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
-          <stop offset="55%" stop-color="#e9d5ff" stop-opacity="0.75"/>
-          <stop offset="100%" stop-color="var(--violet-halo)" stop-opacity="0"/>
-        </radialGradient>
-      </defs>
-      {field_dots}
-      <g transform="rotate(-12 {cx} {cy})">
-        {disks_svg}
-        <ellipse cx="{cx - 38}" cy="{cy - 4}" rx="14" ry="5" fill="url(#bh-h-hotspot-{sid})"/>
-      </g>
-      <circle cx="{cx}" cy="{cy}" r="{photon_r}" fill="none" stroke="var(--cream)" stroke-opacity="0.55" stroke-width="0.9"/>
-      <circle cx="{cx}" cy="{cy}" r="{void_r}" fill="url(#bh-h-void-{sid})"/>
-    </svg>"""
-
-    rank_words = {2: "NAMED", 3: "EVOLVED", 4: "HARDENED",
-                  5: "TRANSCENDENT", 6: "TRANSCENDENT ★"}
-    rank_word = rank_words.get(n_lvl, "AWAITED")
-    designation = f"BH {to_roman(max(1, n_lvl))} · {year}"
-    stage_html = f"""<div class="plate__stage">
-    <div class="plate__subject-wrap">
-      {subject_svg}
-    </div>
-    <div class="plate__designation">
-      <div class="plate__prefix">BH-</div>
-      <h1 class="plate__slug">/{slug}</h1>
-      <div class="plate__kicker">‘{title}’</div>
-    </div>
-  </div>"""
-    return _html_doc_wrap(
-        title_text=f"/{slug_raw}",
-        plate_class="plate--singularity",
-        plate_data_attrs=f'data-plate="IV" data-type="unique" data-level="{n_lvl}"',
-        chrome_html=_html_chrome("IV"),
-        stage_html=stage_html,
-        footer_html=_html_footer(contributor, is_origin, year,
-                                 "∞", "CLASS A", f"⊘ {rank_word}", designation),
-    )
-
-
-# ─── Default fallback (HTML) ──────────────────────────────────────────────────
-
-def build_default_html(skill: dict) -> str:
-    """Minimal HTML plate for basic / extra skills.
-
-    Same atlas grammar as the SVG default; no celestial subject. Reflows
-    via clamp() so the slug always fits.
-    """
-    contributor = skill.get("contributor", "")
-    title_text = skill.get("title") or skill.get("name") or ""
-    title = html.escape(truncate(title_text, 64))
-    slug_raw = slug_after_slash(skill)
-    slug = html.escape(slug_raw)
-    year = designation_year(skill)
-    is_origin = bool(skill.get("origin"))
-    n_lvl = level_num(skill.get("level", "2★"))
-    plate_roman = to_roman(max(1, min(3, n_lvl - 1))) or "I"
-
-    stars = ("★" * max(1, min(3, n_lvl))) + ("☆" * max(0, 3 - n_lvl))
-    designation = f"GAIA · {plate_roman} · {year}"
-    mag_value = f"{n_lvl}.0" if n_lvl > 0 else "·"
-
-    stage_html = f"""<div class="plate__stage">
-    <div class="plate__designation" style="grid-column: 1 / -1; align-items: center; text-align: center;">
-      <h1 class="plate__slug">/{slug}</h1>
-      <div class="plate__kicker">‘{title}’</div>
-    </div>
-  </div>"""
-    return _html_doc_wrap(
-        title_text=f"/{slug_raw}",
-        plate_class="plate--default",
-        plate_data_attrs=f'data-plate="{plate_roman}" data-level="{n_lvl}"',
-        chrome_html=_html_chrome(plate_roman),
-        stage_html=stage_html,
-        footer_html=_html_footer(contributor, is_origin, year,
-                                 mag_value, evidence_class(skill.get("level", "")),
-                                 stars, designation),
-    )
-
-
-# ─── HTML Dispatcher ──────────────────────────────────────────────────────────
-
-def build_og_html(skill: dict) -> str:
-    """Pick the right HTML Hall Plate based on tier + rank.
-
-    Mirrors build_og_svg's routing: 6★ → Apex, ultimate <6 → Stellar,
-    unique → Singularity, everything else → default.
-    """
-    level = skill.get("level", "")
-    n_lvl = level_num(level)
-    tier_type = resolve_type_for_og(skill)
-
-    if n_lvl >= 6:
-        return build_supernova_html(skill)
-    if tier_type == "ultimate":
-        return build_stellar_html(skill)
-    if tier_type == "unique":
-        return build_singularity_html(skill)
-    return build_default_html(skill)
 
 
 # ─── Raster fallback (optional cairosvg / wand pipeline) ──────────────────────
@@ -1557,12 +813,7 @@ def collect_all_skills(data: dict) -> list:
 
 
 def generate_og_cards(named_path: Path, out_dir: Path) -> int:
-    """Generate Hall Plate HTML + SVG (and PNGs if possible). Returns total count.
-
-    HTML is the canonical experience (modal + download); SVG is the og:image
-    fallback consumed by Twitter / Open-Graph crawlers; PNG is rasterised from
-    the SVG via cairosvg / wand when available.
-    """
+    """Generate Hall Plate SVGs (and PNGs if possible). Returns total count."""
     data = load_named_data(named_path)
     skills = collect_all_skills(data)
 
@@ -1571,7 +822,6 @@ def generate_og_cards(named_path: Path, out_dir: Path) -> int:
         return 0
 
     out_dir.mkdir(parents=True, exist_ok=True)
-    html_count = 0
     svg_count = 0
     png_count = 0
 
@@ -1586,34 +836,25 @@ def generate_og_cards(named_path: Path, out_dir: Path) -> int:
         handle_dir = out_dir / handle
         handle_dir.mkdir(parents=True, exist_ok=True)
 
-        # Canonical: HTML plate (reflows, self-contained, downloadable)
-        html_path = handle_dir / f"{skill_slug}.html"
-        html_content = build_og_html(skill)
-        with open(html_path, "w", encoding="utf-8") as f:
-            f.write(html_content)
-        html_count += 1
-
-        # og:image: SVG sibling (Twitter/Open-Graph crawlers can't read HTML)
         svg_path = handle_dir / f"{skill_slug}.svg"
         svg_content = build_og_svg(skill)
         with open(svg_path, "w", encoding="utf-8") as f:
             f.write(svg_content)
         svg_count += 1
 
-        # Optional raster
         png_path = handle_dir / f"{skill_slug}.png"
         if try_render_png(svg_content, png_path):
             png_count += 1
-            print(f"  HTML+SVG+PNG: docs/og/{handle}/{skill_slug}.{{html,svg,png}}")
+            print(f"  SVG+PNG: docs/og/{handle}/{skill_slug}.{{svg,png}}")
         else:
-            print(f"  HTML+SVG:     docs/og/{handle}/{skill_slug}.{{html,svg}}")
+            print(f"  SVG:     docs/og/{handle}/{skill_slug}.svg")
 
-    print(f"\nGenerated {html_count} HTML, {svg_count} SVG, {png_count} PNG plate(s).")
+    print(f"\nGenerated {svg_count} SVG plate(s), {png_count} PNG render(s).")
     if png_count == 0:
         print(
             "  Note: Install cairosvg (`pip install cairosvg`) to enable PNG rendering."
         )
-    return html_count
+    return svg_count
 
 
 def main() -> None:

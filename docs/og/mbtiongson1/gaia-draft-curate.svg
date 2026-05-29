@@ -17,9 +17,10 @@
 <line x1="48" y1="558" x2="1152" y2="558" stroke="#ebe5d4" stroke-opacity="0.35" stroke-width="1"/>
 
   <!-- Slash-skill slug (no celestial subject for sub-4★ skills) -->
-  <text x="60" y="290" font-family="'EB Garamond',Georgia,serif" font-weight="600" font-size="68" fill="#ebe5d4" dominant-baseline="middle">/gaia-draft-curate</text>
+  <text x="60" y="290" font-family="'EB Garamond',Georgia,serif" font-weight="600"
+    font-size="72" fill="#ebe5d4" dominant-baseline="middle">/gaia-draft-curate</text>
 
-  <text x="60" y="340" font-family="'EB Garamond',Georgia,serif" font-style="italic"
+  <text x="60" y="336" font-family="'EB Garamond',Georgia,serif" font-style="italic"
     font-size="24" fill="#ebe5d4" fill-opacity="0.6" dominant-baseline="middle">‘The Draft Architect’</text>
 
   <text x="48" y="538" font-family="'EB Garamond',Georgia,serif" font-size="22" font-style="italic" fill="#ef4444" dominant-baseline="middle"><tspan font-style="normal" fill-opacity="0.82">Cataloged by </tspan><tspan font-weight="600">@mbtiongson1</tspan> <tspan font-style="normal" fill-opacity="0.5">·</tspan> <tspan font-style="normal" fill-opacity="0.7"> 2026</tspan></text>
