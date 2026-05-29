@@ -22,9 +22,10 @@ tags:
 timeline:
 - timestamp: '2026-05-26T16:37:00Z'
   action: add
-  contributor: testuser
+  contributor: mbtiongson1
   details: Added named skill mbtiongson1/gaia-integrity
 ---
 
-## Installation
-Add installation instructions here.
+## Overview
+
+Validates the structural integrity of the Gaia registry: runs `gaia validate`, checks schema compliance, detects duplicate IDs, verifies cross-references between `registry/nodes/` and `registry/skills/`, and surfaces orphan documentation. Includes safe-archival of stale `.md` files via timestamped `registry/archive/`. Run before submitting a PR or after large registry shifts.

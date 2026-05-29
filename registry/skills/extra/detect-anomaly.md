@@ -15,7 +15,7 @@ Identifies statistical outliers, novel patterns, or deviations from expected beh
 - [Error Interpretation](../basic/error-interpretation.md)
 
 ## Unlocks
-- [Gaia Meta Audit](../extra/gaia-meta-audit.md)
+- [Gaia Meta Audit](../extra/registry-health-scan.md)
 - [Founder Mode](../ultimate/gstack.md)
 
 ## Fusion Condition

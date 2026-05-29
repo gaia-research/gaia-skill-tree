@@ -3,7 +3,7 @@ id: mbtiongson1/gaia-audit
 name: Gaia Audit
 contributor: mbtiongson1
 origin: true
-genericSkillRef: gaia-audit
+genericSkillRef: registry-entry-audit
 status: named
 level: 3★
 description: Performs a focused source-level correction for one target registry entry
@@ -22,9 +22,10 @@ tags:
 timeline:
 - timestamp: '2026-05-26T16:36:57Z'
   action: add
-  contributor: testuser
+  contributor: mbtiongson1
   details: Added named skill mbtiongson1/gaia-audit
 ---
 
-## Installation
-Add installation instructions here.
+## Overview
+
+Performs a focused source-level correction for one target registry entry — verifying links, checking evidence classes, validating taxonomy mapping, and filing an inline-diff fix PR with full citations. The 7-phase audit discipline includes evidence re-verification, demotion checks, and automatic asset regeneration via `gaia dev`. Used after `gaia-meta-audit` produces a prioritized queue.

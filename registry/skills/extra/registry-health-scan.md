@@ -1,9 +1,9 @@
 # [mbtiongson1](../../../docs/u/mbtiongson1/)/gaia-meta-audit  [3★ · Evolved]
-**ID:** gaia-meta-audit  
+**ID:** registry-health-scan  
 **Type:** Extra Skill  
 **Level:** 3★  
 **Tier:** Evolved  
-**Skill Call:** `/gaia-meta-audit`
+**Skill Call:** `/registry-health-scan`
 
 ---
 
@@ -11,7 +11,7 @@
 Scans Gaia registry and real-skill catalog entries for review candidates whose evidence may be outdated, superseded, overpromoted, unmapped, stale, or insufficient for their current level or named-skill claim.
 
 ## Prerequisites
-- [Gaia Audit](../extra/gaia-audit.md)
+- [Gaia Audit](../extra/registry-entry-audit.md)
 - [Registry Curation](../extra/registry-curation.md)
 - [Detect Anomaly](../extra/detect-anomaly.md)
 

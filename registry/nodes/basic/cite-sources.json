@@ -7,7 +7,7 @@
   "description": "Attributes claims to specific sources with proper references, URLs, or bibliographic entries.",
   "prerequisites": [],
   "derivatives": [
-    "gaia-audit",
+    "registry-entry-audit",
     "grounding",
     "research",
     "literature-review",

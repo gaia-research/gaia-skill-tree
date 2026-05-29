@@ -120,14 +120,17 @@ class TestValidate(unittest.TestCase):
             graph = json.load(f)
         skills = {skill["id"]: skill for skill in graph.get("skills", [])}
 
-        self.assertIn("gaia-audit", skills)
-        self.assertIn("gaia-meta-audit", skills)
+        # PR #525: brand-coupled `gaia-audit` / `gaia-meta-audit` were renamed
+        # to abstract generics per META §1. The repo-local slash skills at
+        # .agents/skills/gaia-{audit,meta-audit}/ implement these generics.
+        self.assertIn("registry-entry-audit", skills)
+        self.assertIn("registry-health-scan", skills)
         self.assertEqual(
-            skills["gaia-audit"]["prerequisites"],
+            skills["registry-entry-audit"]["prerequisites"],
             ["retrieve", "cite-sources", "evaluate-output"],
         )
-        self.assertIn("gaia-audit", skills["gaia-meta-audit"]["prerequisites"])
-        self.assertIn("registry-curation", skills["gaia-meta-audit"]["prerequisites"])
+        self.assertIn("registry-entry-audit", skills["registry-health-scan"]["prerequisites"])
+        self.assertIn("registry-curation", skills["registry-health-scan"]["prerequisites"])
 
     def test_contributing_documents_demotion_criteria(self):
         """Ensure review policy documents when skills should be demoted."""
@@ -146,8 +149,10 @@ class TestValidate(unittest.TestCase):
 
     def test_agents_audit_skills_exist(self):
         """Ensure the repo-local audit slash skills are present."""
+        # PR #525: standardized SKILL.md (uppercase) across all .agents/skills/
+        # entries to fix Star Bar 404s on case-sensitive GitHub raw paths.
         for skill_name in ("gaia-audit", "gaia-meta-audit"):
-            path = os.path.join(REPO_ROOT, ".agents", "skills", skill_name, "skill.md")
+            path = os.path.join(REPO_ROOT, ".agents", "skills", skill_name, "SKILL.md")
             self.assertTrue(os.path.exists(path), f"Missing {path}")
             with open(path, encoding="utf-8") as f:
                 text = f.read()

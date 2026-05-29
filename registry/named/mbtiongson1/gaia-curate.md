@@ -23,9 +23,10 @@ tags:
 timeline:
 - timestamp: '2026-05-26T16:36:56Z'
   action: add
-  contributor: testuser
+  contributor: mbtiongson1
   details: Added named skill mbtiongson1/gaia-curate
 ---
 
-## Installation
-Add installation instructions here.
+## Overview
+
+Expands the Gaia skill registry with new fully-evidenced AI agent skills: researches skill sources, sources reproducible (Tier B/A) evidence, runs schema and DAG validation, scripts graph updates via `gaia dev add` / `gaia dev link` / `gaia dev evidence`, opens versioned PRs, and appends discovered marketplaces to the sources registry. End-to-end registry-curation playbook.

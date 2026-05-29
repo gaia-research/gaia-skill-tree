@@ -1,9 +1,9 @@
 # [mbtiongson1](../../../docs/u/mbtiongson1/)/gaia-audit  [4★ · Hardened]
-**ID:** gaia-audit  
+**ID:** registry-entry-audit  
 **Type:** Extra Skill  
 **Level:** 4★  
 **Tier:** Hardened  
-**Skill Call:** `/gaia-audit`
+**Skill Call:** `/registry-entry-audit`
 
 ---
 
@@ -16,7 +16,7 @@ Reviews one Gaia skill, named skill, or real-skill catalog item against current 
 - [Evaluate Output](../basic/evaluate-output.md)
 
 ## Unlocks
-- [Gaia Meta Audit](../extra/gaia-meta-audit.md)
+- [Gaia Meta Audit](../extra/registry-health-scan.md)
 
 ## Fusion Condition
 Requires a specific Gaia skill ID, named skill ID, or real-skill catalog item plus access to the registry source files and current public evidence sources.

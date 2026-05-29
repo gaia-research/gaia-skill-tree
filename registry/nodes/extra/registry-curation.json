@@ -11,7 +11,7 @@
     "code-execution"
   ],
   "derivatives": [
-    "gaia-meta-audit"
+    "registry-health-scan"
   ],
   "conditions": "Requires write access to the canonical graph and a passing validation suite.",
   "evidence": [

@@ -1,12 +1,12 @@
 {
-  "id": "gaia-meta-audit",
+  "id": "registry-health-scan",
   "name": "Gaia Meta Audit",
   "type": "extra",
   "level": "3★",
   "rarity": "rare",
   "description": "Scans Gaia registry and real-skill catalog entries for review candidates whose evidence may be outdated, superseded, overpromoted, unmapped, stale, or insufficient for their current level or named-skill claim.",
   "prerequisites": [
-    "gaia-audit",
+    "registry-entry-audit",
     "registry-curation",
     "detect-anomaly"
   ],
@@ -24,7 +24,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-03",
-  "updatedAt": "2026-05-03",
+  "updatedAt": "2026-05-30",
   "version": "0.1.0",
   "timeline": [
     {
@@ -34,6 +34,12 @@
       "details": "Skill created as 3★ (provisional)",
       "previousValue": null,
       "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-05-29T18:12:27Z",
+      "action": "rename",
+      "contributor": "unknown",
+      "details": "Renamed from gaia-meta-audit to registry-health-scan"
     }
   ]
 }

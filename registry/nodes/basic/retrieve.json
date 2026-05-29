@@ -7,7 +7,7 @@
   "description": "Fetches relevant documents or passages from an indexed corpus given a query.",
   "prerequisites": [],
   "derivatives": [
-    "gaia-audit",
+    "registry-entry-audit",
     "grounding",
     "rag-pipeline",
     "wiki-search",

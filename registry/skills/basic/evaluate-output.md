@@ -15,7 +15,7 @@ _None._
 
 ## Unlocks
 - [Code Review Pipeline](../extra/code-review-pipeline.md)
-- [Gaia Audit](../extra/gaia-audit.md)
+- [Gaia Audit](../extra/registry-entry-audit.md)
 - [Grounding](../extra/grounding.md)
 - [Multi-Agent Debate](../extra/multi-agent-debate.md)
 - [Prompt Optimization](../extra/prompt-optimization.md)

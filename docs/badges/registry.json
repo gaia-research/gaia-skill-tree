@@ -809,161 +809,6 @@
         }
       ]
     },
-    "mbtiongson1": {
-      "repos": [
-        "mbtiongson1/gaia-skill-tree"
-      ],
-      "skillsByRepo": {
-        "mbtiongson1/gaia-skill-tree": [
-          "mbtiongson1/gaia-audit",
-          "mbtiongson1/gaia-bot-curate",
-          "mbtiongson1/gaia-curate",
-          "mbtiongson1/gaia-curation-review",
-          "mbtiongson1/gaia-docs-sync",
-          "mbtiongson1/gaia-draft-curate",
-          "mbtiongson1/gaia-integrity",
-          "mbtiongson1/gaia-meta-audit",
-          "mbtiongson1/gaia-preview",
-          "mbtiongson1/gaia-triage",
-          "mbtiongson1/gaia-wiki-sync",
-          "mbtiongson1/graphify-triage",
-          "mbtiongson1/research",
-          "mbtiongson1/web-scrape"
-        ]
-      },
-      "topSkill": "mbtiongson1/gaia-curate",
-      "topRank": 4,
-      "topIsUnique": false,
-      "count": 14,
-      "namedSkills": [
-        {
-          "id": "mbtiongson1/gaia-curate",
-          "name": "Gaia Curate",
-          "rank": 4,
-          "type": "extra",
-          "slash": "/gaia-curate",
-          "file": "gaia-curate.svg",
-          "fileSeal": "gaia-curate-seal.svg"
-        },
-        {
-          "id": "mbtiongson1/gaia-meta-audit",
-          "name": "Gaia Meta Audit",
-          "rank": 4,
-          "type": "extra",
-          "slash": "/gaia-meta-audit",
-          "file": "gaia-meta-audit.svg",
-          "fileSeal": "gaia-meta-audit-seal.svg"
-        },
-        {
-          "id": "mbtiongson1/web-scrape",
-          "name": "Web Scrape",
-          "rank": 4,
-          "type": "extra",
-          "slash": "/web-scrape",
-          "file": "web-scrape.svg",
-          "fileSeal": "web-scrape-seal.svg"
-        },
-        {
-          "id": "mbtiongson1/gaia-audit",
-          "name": "Gaia Audit",
-          "rank": 3,
-          "type": "extra",
-          "slash": "/gaia-audit",
-          "file": "gaia-audit.svg",
-          "fileSeal": "gaia-audit-seal.svg"
-        },
-        {
-          "id": "mbtiongson1/gaia-bot-curate",
-          "name": "Gaia Bot Curate",
-          "rank": 3,
-          "type": "extra",
-          "slash": "/gaia-bot-curate",
-          "file": "gaia-bot-curate.svg",
-          "fileSeal": "gaia-bot-curate-seal.svg"
-        },
-        {
-          "id": "mbtiongson1/gaia-curation-review",
-          "name": "Gaia Curation Review",
-          "rank": 3,
-          "type": "extra",
-          "slash": "/gaia-curation-review",
-          "file": "gaia-curation-review.svg",
-          "fileSeal": "gaia-curation-review-seal.svg"
-        },
-        {
-          "id": "mbtiongson1/gaia-draft-curate",
-          "name": "Gaia Draft Curate",
-          "rank": 3,
-          "type": "extra",
-          "slash": "/gaia-draft-curate",
-          "file": "gaia-draft-curate.svg",
-          "fileSeal": "gaia-draft-curate-seal.svg"
-        },
-        {
-          "id": "mbtiongson1/gaia-integrity",
-          "name": "Gaia Integrity",
-          "rank": 3,
-          "type": "extra",
-          "slash": "/gaia-integrity",
-          "file": "gaia-integrity.svg",
-          "fileSeal": "gaia-integrity-seal.svg"
-        },
-        {
-          "id": "mbtiongson1/graphify-triage",
-          "name": "Graphify Triage",
-          "rank": 3,
-          "type": "extra",
-          "slash": "/graphify-triage",
-          "file": "graphify-triage.svg",
-          "fileSeal": "graphify-triage-seal.svg"
-        },
-        {
-          "id": "mbtiongson1/research",
-          "name": "Research",
-          "rank": 3,
-          "type": "extra",
-          "slash": "/research",
-          "file": "research.svg",
-          "fileSeal": "research-seal.svg"
-        },
-        {
-          "id": "mbtiongson1/gaia-docs-sync",
-          "name": "Gaia Docs Sync",
-          "rank": 2,
-          "type": "basic",
-          "slash": "/gaia-docs-sync",
-          "file": "gaia-docs-sync.svg",
-          "fileSeal": "gaia-docs-sync-seal.svg"
-        },
-        {
-          "id": "mbtiongson1/gaia-preview",
-          "name": "Gaia Preview",
-          "rank": 2,
-          "type": "extra",
-          "slash": "/gaia-preview",
-          "file": "gaia-preview.svg",
-          "fileSeal": "gaia-preview-seal.svg"
-        },
-        {
-          "id": "mbtiongson1/gaia-triage",
-          "name": "Gaia Triage",
-          "rank": 2,
-          "type": "extra",
-          "slash": "/gaia-triage",
-          "file": "gaia-triage.svg",
-          "fileSeal": "gaia-triage-seal.svg"
-        },
-        {
-          "id": "mbtiongson1/gaia-wiki-sync",
-          "name": "Gaia Wiki Sync",
-          "rank": 2,
-          "type": "basic",
-          "slash": "/gaia-wiki-sync",
-          "file": "gaia-wiki-sync.svg",
-          "fileSeal": "gaia-wiki-sync-seal.svg"
-        }
-      ]
-    },
     "bradautomates": {
       "repos": [
         "bradautomates/claude-video"
@@ -1889,6 +1734,141 @@
         }
       ]
     },
+    "mbtiongson1": {
+      "repos": [
+        "mbtiongson1/gaia-skill-tree"
+      ],
+      "skillsByRepo": {
+        "mbtiongson1/gaia-skill-tree": [
+          "mbtiongson1/gaia-audit",
+          "mbtiongson1/gaia-bot-curate",
+          "mbtiongson1/gaia-curate",
+          "mbtiongson1/gaia-curation-review",
+          "mbtiongson1/gaia-docs-sync",
+          "mbtiongson1/gaia-draft-curate",
+          "mbtiongson1/gaia-integrity",
+          "mbtiongson1/gaia-meta-audit",
+          "mbtiongson1/gaia-preview",
+          "mbtiongson1/gaia-triage",
+          "mbtiongson1/gaia-wiki-sync",
+          "mbtiongson1/graphify-triage"
+        ]
+      },
+      "topSkill": "mbtiongson1/gaia-curate",
+      "topRank": 4,
+      "topIsUnique": false,
+      "count": 12,
+      "namedSkills": [
+        {
+          "id": "mbtiongson1/gaia-curate",
+          "name": "Gaia Curate",
+          "rank": 4,
+          "type": "extra",
+          "slash": "/gaia-curate",
+          "file": "gaia-curate.svg",
+          "fileSeal": "gaia-curate-seal.svg"
+        },
+        {
+          "id": "mbtiongson1/gaia-audit",
+          "name": "Gaia Audit",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/gaia-audit",
+          "file": "gaia-audit.svg",
+          "fileSeal": "gaia-audit-seal.svg"
+        },
+        {
+          "id": "mbtiongson1/gaia-bot-curate",
+          "name": "Gaia Bot Curate",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/gaia-bot-curate",
+          "file": "gaia-bot-curate.svg",
+          "fileSeal": "gaia-bot-curate-seal.svg"
+        },
+        {
+          "id": "mbtiongson1/gaia-curation-review",
+          "name": "Gaia Curation Review",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/gaia-curation-review",
+          "file": "gaia-curation-review.svg",
+          "fileSeal": "gaia-curation-review-seal.svg"
+        },
+        {
+          "id": "mbtiongson1/gaia-draft-curate",
+          "name": "Gaia Draft Curate",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/gaia-draft-curate",
+          "file": "gaia-draft-curate.svg",
+          "fileSeal": "gaia-draft-curate-seal.svg"
+        },
+        {
+          "id": "mbtiongson1/gaia-integrity",
+          "name": "Gaia Integrity",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/gaia-integrity",
+          "file": "gaia-integrity.svg",
+          "fileSeal": "gaia-integrity-seal.svg"
+        },
+        {
+          "id": "mbtiongson1/gaia-meta-audit",
+          "name": "Gaia Meta Audit",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/gaia-meta-audit",
+          "file": "gaia-meta-audit.svg",
+          "fileSeal": "gaia-meta-audit-seal.svg"
+        },
+        {
+          "id": "mbtiongson1/graphify-triage",
+          "name": "Graphify Triage",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/graphify-triage",
+          "file": "graphify-triage.svg",
+          "fileSeal": "graphify-triage-seal.svg"
+        },
+        {
+          "id": "mbtiongson1/gaia-docs-sync",
+          "name": "Gaia Docs Sync",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/gaia-docs-sync",
+          "file": "gaia-docs-sync.svg",
+          "fileSeal": "gaia-docs-sync-seal.svg"
+        },
+        {
+          "id": "mbtiongson1/gaia-preview",
+          "name": "Gaia Preview",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/gaia-preview",
+          "file": "gaia-preview.svg",
+          "fileSeal": "gaia-preview-seal.svg"
+        },
+        {
+          "id": "mbtiongson1/gaia-triage",
+          "name": "Gaia Triage",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/gaia-triage",
+          "file": "gaia-triage.svg",
+          "fileSeal": "gaia-triage-seal.svg"
+        },
+        {
+          "id": "mbtiongson1/gaia-wiki-sync",
+          "name": "Gaia Wiki Sync",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/gaia-wiki-sync",
+          "file": "gaia-wiki-sync.svg",
+          "fileSeal": "gaia-wiki-sync-seal.svg"
+        }
+      ]
+    },
     "stanfordnlp": {
       "repos": [],
       "skillsByRepo": {},
@@ -2121,31 +2101,6 @@
         }
       ]
     },
-    "safishamsi": {
-      "repos": [
-        "safishamsi/graphify"
-      ],
-      "skillsByRepo": {
-        "safishamsi/graphify": [
-          "safishamsi/graphify"
-        ]
-      },
-      "topSkill": "safishamsi/graphify",
-      "topRank": 3,
-      "topIsUnique": false,
-      "count": 1,
-      "namedSkills": [
-        {
-          "id": "safishamsi/graphify",
-          "name": "Graphify",
-          "rank": 3,
-          "type": "extra",
-          "slash": "/graphify",
-          "file": "graphify.svg",
-          "fileSeal": "graphify-seal.svg"
-        }
-      ]
-    },
     "nexu-io": {
       "repos": [
         "nexu-io/open-design"
@@ -2221,6 +2176,31 @@
           "slash": "/self-consistency",
           "file": "self-consistency.svg",
           "fileSeal": "self-consistency-seal.svg"
+        }
+      ]
+    },
+    "safishamsi": {
+      "repos": [
+        "safishamsi/graphify"
+      ],
+      "skillsByRepo": {
+        "safishamsi/graphify": [
+          "safishamsi/graphify"
+        ]
+      },
+      "topSkill": "safishamsi/graphify",
+      "topRank": 3,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "safishamsi/graphify",
+          "name": "Graphify",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/graphify",
+          "file": "graphify.svg",
+          "fileSeal": "graphify-seal.svg"
         }
       ]
     },

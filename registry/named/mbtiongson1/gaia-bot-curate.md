@@ -21,9 +21,10 @@ tags:
 timeline:
 - timestamp: '2026-05-26T16:36:58Z'
   action: add
-  contributor: testuser
+  contributor: mbtiongson1
   details: Added named skill mbtiongson1/gaia-bot-curate
 ---
 
-## Installation
-Add installation instructions here.
+## Overview
+
+Runs an automated batch curation pass over the Gaia skill registry: scans configured `bot/*` crawl branches for new candidate skills, validates evidence classes, normalizes the resulting batch, and opens versioned draft PRs without human intervention. Designed for headless CI use; complements human-driven `gaia-curate`.

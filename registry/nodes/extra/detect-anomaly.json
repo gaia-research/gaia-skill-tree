@@ -10,7 +10,7 @@
     "error-interpretation"
   ],
   "derivatives": [
-    "gaia-meta-audit",
+    "registry-health-scan",
     "gstack"
   ],
   "conditions": "",
