@@ -286,6 +286,65 @@ Use `gaia dev` commands — do not edit files manually or invoke build scripts d
 The registry is supported by several automated workflows:
 - **Auto-Sync:** On every push to a branch, a GitHub Action automatically runs the versioning and regeneration scripts. You no longer need to run these manually before pushing.
 - **Validation:** Every PR is automatically validated for schema correctness, DAG integrity, and evidence quality.
+- **Monthly Meta Sweep (`/gaia-meta-sweep`):** Once per month a maintainer runs the `/gaia-meta-sweep` skill (see `.claude/skills/gaia-meta-sweep/SKILL.md`) to audit the entire registry against [META.md](META.md). The sweep produces a journal-style report under `docs/meta/reports/<YYYY-MM-DD>-meta-audit.html` plus a machine-readable `<slug>.findings.json` and `<YYYY-MM>-timeline.json`. See §13 below for the cadence and operating procedure.
+
+---
+
+## 13) Monthly Meta Sweep (Cadence)
+
+Gaia runs a **monthly registry-wide audit** to keep the canonical graph aligned with [META.md](META.md) — the source of truth for star tiers, evidence classes, demerits, Origin attribution, and Semantic Fusion (§6.2).
+
+### Cadence
+
+| When | Who | Output |
+|---|---|---|
+| **First Monday of each month** (or the next business day) | Designated meta auditor for the month (see rotation in the Wiki) | New report at `docs/meta/reports/<YYYY-MM-DD>-meta-audit.html` |
+
+The sweep is required even when the prior month was quiet — it produces the timeline JSON that the public Skill Explorer charts against, so a missing month leaves a visible gap.
+
+### How to run
+
+```bash
+# 1. Start from a clean main
+git checkout main && git pull
+
+# 2. Branch under review/meta/ (CLAUDE.md §Branch Naming)
+git checkout -b review/meta/<YYYY-MM>-meta-sweep
+
+# 3. Invoke the skill in Claude Code
+/gaia-meta-sweep
+```
+
+The skill orchestrates a 5-phase Workflow:
+
+1. **Survey** — 12 parallel agents, one per audit dimension from META.md §2.4 + §3 (Star Bar, Liveness Heartbeat, Origin attribution, level overshoot, brand-coupled IDs, missing demerits, installability, placeholder bodies, `testuser` timelines, Champion clusters, Unique isolation, evidence Class mismatch).
+2. **Fuse** — surface Semantic Fusion candidates per META §6.2. Ultimate-tier fusions (≥10k★) are **not** in scope here — route those to `/gaia-fuse-full-suite`.
+3. **Propose** — propose new generic skill IDs for the schema where repeated named skills lack a canonical generic to map to.
+4. **Verify** — adversarial 3-skeptic pass per finding; only findings ≥2/3 of skeptics agree are real survive.
+5. **Report** — emit the HTML report (LaTeX-journal layout matching the existing 2026-05-25 report), the timeline JSON, and the findings JSON.
+
+### What the report must contain
+
+Every entry must be **tagged with the META.md section** that justifies it:
+
+- Demotions / calibrations → §1, §2, §3
+- Origin flips → §4.1
+- Semantic Fusion candidates → §6.2
+- New generic skill proposals → §1
+- Demerits → §3
+- Star Bar / Liveness — §2.2, §2.4
+
+A "Mutations Applied" or "Mutations Proposed" section lists every `gaia dev` command produced by the sweep, so reviewers can replay or reject them individually.
+
+### Follow-up
+
+- Each P0/P1 finding should be opened as a focused `/gaia-audit` correction (one PR per target).
+- Each accepted Semantic Fusion candidate becomes a separate `review/meta/<new-generic-id>` PR.
+- Each new generic skill proposal goes through a `schema/...` branch (see §3 Branch naming) — schema changes are gated by the schema branch policy.
+
+### Reference run
+
+The May 2026 sweep (`docs/meta/reports/2026-05-25-programmatic-registry-audit.html` + PR #525) is the canonical worked example. It exercised all 12 audit dimensions on mbtiongson1's 14 named skills and produced 2 removals, 2 generic renames, 1 new Extra fusion generic, 5 `genericSkillRef` remaps, 1 origin flip, 1 level demotion, 9 link fixes, and 24 placeholder/timeline backfills.
 
 ---
 
