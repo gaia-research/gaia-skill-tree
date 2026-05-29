@@ -1388,19 +1388,31 @@
         }
       }
 
-      // Share button
+      // Share button — opens HOH fullscreen share modal (PNG download as primary action)
       document.getElementById('seShare').onclick = function(){
-        var url = location.origin + location.pathname + '#explorer/' + ns.id;
-        if (navigator.share) {
-          navigator.share({ title: ns.name || ns.id, url: url }).catch(function(){});
-        } else {
-          navigator.clipboard.writeText(url).then(function(){
-            var btn = document.getElementById('seShare');
-            var orig = btn.textContent;
-            btn.textContent = 'Copied!';
-            setTimeout(function(){ btn.textContent = orig; }, 1600);
+        if (typeof window.openHohFullscreenModal === 'function') {
+          var slug = ns.id.split('/').pop();
+          window.openHohFullscreenModal({
+            id: ns.id,
+            contributor: ns.contributor || handle,
+            name: ns.name || skillName,
+            level: ns.level || '',
+            type: type,
+            origin: !!ns.origin,
+            ogPath: 'og/' + (ns.contributor || handle) + '/' + slug + '.svg',
+            description: ns.description || '',
+            tags: Array.isArray(ns.tags) ? ns.tags : [],
           });
+          return;
         }
+        // Fallback: copy permalink to clipboard
+        var url = location.origin + location.pathname + '#explorer/' + ns.id;
+        navigator.clipboard.writeText(url).then(function(){
+          var btn = document.getElementById('seShare');
+          var orig = btn.textContent;
+          btn.textContent = 'Copied!';
+          setTimeout(function(){ btn.textContent = orig; }, 1600);
+        }).catch(function(){});
       };
 
       // Push hash (skip if already correct)

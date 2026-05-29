@@ -850,7 +850,7 @@ def build_profile_page(handle: str, skills: list, named_index: dict | None = Non
 
     # OG image tag (vector SVG for social crawlers)
     og_image_tags = "\n".join(
-        f'  <meta property="og:image" content="../../og/{html.escape(handle)}/{html.escape(s["id"].split("/")[-1])}.svg">'
+        f'  <meta property="og:image" content="../../og/{html.escape(handle)}/{html.escape(s["id"].split("/")[-1])}.png">'
         for s in skills[:1]  # use first skill for og:image
     )
 

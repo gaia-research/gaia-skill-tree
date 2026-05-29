@@ -203,6 +203,10 @@
     // always starts in the same compact state.
     var overlay = document.getElementById('hohFsOverlay');
     if (overlay) overlay.hidden = true;
+    var dlPop = document.getElementById('hohDlPopover');
+    if (dlPop) { dlPop.hidden = true; dlPop.classList.remove('is-open'); }
+    var dlBtnClose = modal.querySelector('[data-fs-action="download"]');
+    if (dlBtnClose) { dlBtnClose.setAttribute('aria-expanded','false'); dlBtnClose.classList.remove('is-active'); }
     var confirm = document.getElementById('hohFsConfirm');
     if (confirm) confirm.hidden = false;
     var restore = document.getElementById('hohFsOverlayRestore');
@@ -340,18 +344,50 @@
     var permalink = 'https://gaia.tiongson.co/u/' + ns.contributor + '/#' + ns.id.replace('/', '-');
     var fullOgUrl = 'https://gaia.tiongson.co/' + ns.ogPath;
 
-    // Action: Download
+    // Action: Download — popover bubble with PNG / SVG choices
     var downloadBtn = modal.querySelector('[data-fs-action="download"]');
-    if (downloadBtn) {
-      downloadBtn.onclick = function () {
-        var a = document.createElement('a');
-        a.href = ns.ogPath;
-        var skillIdShort = ns.id.split('/').pop();
-        a.download = ns.contributor + '-' + skillIdShort + '.svg';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
+    var dlPopover   = document.getElementById('hohDlPopover');
+    function closeDlPopover() {
+      if (dlPopover) {
+        dlPopover.hidden = true;
+        dlPopover.classList.remove('is-open');
+      }
+      if (downloadBtn) {
+        downloadBtn.setAttribute('aria-expanded', 'false');
+        downloadBtn.classList.remove('is-active');
+      }
+    }
+    if (downloadBtn && dlPopover) {
+      downloadBtn.onclick = function (e) {
+        e.stopPropagation();
+        var open = !dlPopover.hidden;
+        if (open) {
+          closeDlPopover();
+        } else {
+          dlPopover.hidden = false;
+          dlPopover.classList.add('is-open');
+          downloadBtn.setAttribute('aria-expanded', 'true');
+          downloadBtn.classList.add('is-active');
+        }
       };
+      dlPopover.querySelectorAll('[data-dl-format]').forEach(function (btn) {
+        btn.onclick = function (e) {
+          e.stopPropagation();
+          var fmt  = btn.getAttribute('data-dl-format');
+          var slug = ns.id.split('/').pop();
+          var href = fmt === 'png'
+            ? 'og/' + ns.contributor + '/' + slug + '.png'
+            : (ns.ogPath || 'og/' + ns.contributor + '/' + slug + '.svg');
+          var a = document.createElement('a');
+          a.href = href;
+          a.download = ns.contributor + '-' + slug + '.' + fmt;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          closeDlPopover();
+          showToast('Downloading ' + fmt.toUpperCase() + ' card…');
+        };
+      });
     }
 
     // Action: X (Twitter)
@@ -533,6 +569,16 @@
 
     // Backdrop click close
     modal.addEventListener('click', function (e) {
+      // Close download popover if click is outside the dl-wrap
+      var dlWrap = document.getElementById('hohDlWrap');
+      if (dlWrap && !dlWrap.contains(e.target)) {
+        var popover = document.getElementById('hohDlPopover');
+        if (popover && !popover.hidden) {
+          var dlBtn = modal.querySelector('[data-fs-action="download"]');
+          if (popover) { popover.hidden = true; popover.classList.remove('is-open'); }
+          if (dlBtn) { dlBtn.setAttribute('aria-expanded','false'); dlBtn.classList.remove('is-active'); }
+        }
+      }
       if (e.target === modal || e.target.classList.contains('hoh-fs-stage')) {
         closeHohFullscreenModal();
       }
