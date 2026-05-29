@@ -337,10 +337,11 @@
           'aria-label="Share this skill">' +
           icon('share', 14) +
         '</button>' +
-        '<button type="button" class="plaque__claim-btn" data-claim="unclaimed" ' +
-          'aria-disabled="true" title="Badge claim coming soon">' +
+        '<a class="plaque__claim-btn" ' +
+          'href="badges/?u=' + encodeURIComponent(handle) + '" ' +
+          'target="_blank" rel="noopener">' +
           'Add to README' +
-        '</button>' +
+        '</a>' +
       '</div>';
 
     var left =

@@ -1388,32 +1388,7 @@
         }
       }
 
-      // Share button — opens HOH fullscreen share modal (PNG download as primary action)
-      document.getElementById('seShare').onclick = function(){
-        if (typeof window.openHohFullscreenModal === 'function') {
-          var slug = ns.id.split('/').pop();
-          window.openHohFullscreenModal({
-            id: ns.id,
-            contributor: ns.contributor || handle,
-            name: ns.name || skillName,
-            level: ns.level || '',
-            type: type,
-            origin: !!ns.origin,
-            ogPath: 'og/' + (ns.contributor || handle) + '/' + slug + '.svg',
-            description: ns.description || '',
-            tags: Array.isArray(ns.tags) ? ns.tags : [],
-          });
-          return;
-        }
-        // Fallback: copy permalink to clipboard
-        var url = location.origin + location.pathname + '#explorer/' + ns.id;
-        navigator.clipboard.writeText(url).then(function(){
-          var btn = document.getElementById('seShare');
-          var orig = btn.textContent;
-          btn.textContent = 'Copied!';
-          setTimeout(function(){ btn.textContent = orig; }, 1600);
-        }).catch(function(){});
-      };
+
 
       // Push hash (skip if already correct)
       var newHash = '#explorer/' + ns.id;
@@ -1441,6 +1416,35 @@
 
     var closeEl = document.getElementById('seClose');
     if (closeEl) closeEl.onclick = function(){ closeExplorer(); history.pushState(null, '', location.pathname); };
+
+    // Delegate plaque__share-btn clicks inside the explorer → HOH fullscreen modal
+    var explorerBody = document.getElementById('skillExplorer');
+    if (explorerBody) {
+      explorerBody.addEventListener('click', function(e) {
+        var btn = e.target.closest('.plaque__share-btn');
+        if (!btn) return;
+        e.stopPropagation();
+        if (typeof window.openHohFullscreenModal !== 'function') return;
+        var skillId = btn.getAttribute('data-skill-id') || '';
+        var handle  = btn.getAttribute('data-handle') || skillId.split('/')[0];
+        var name    = btn.getAttribute('data-skill-name') || skillId.split('/').pop();
+        var ogPath  = btn.getAttribute('data-og') || ('og/' + handle + '/' + skillId.split('/').pop() + '.svg');
+        // Pull level/type from the rendered plaque if available
+        var ns = (window._gaiaNamedBuckets && window._gaiaNamedBuckets[handle]) || [];
+        var nsEntry = ns.find(function(s){ return s.id === skillId; }) || {};
+        window.openHohFullscreenModal({
+          id: skillId,
+          contributor: handle,
+          name: name,
+          level: nsEntry.level || '',
+          type: nsEntry.type || 'basic',
+          origin: !!nsEntry.origin,
+          ogPath: ogPath,
+          description: nsEntry.description || '',
+          tags: Array.isArray(nsEntry.tags) ? nsEntry.tags : [],
+        });
+      });
+    }
 
     // Unnamed popup close + copy
     var pop = document.getElementById('unnamedSkillPopup');
