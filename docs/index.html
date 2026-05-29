@@ -151,7 +151,8 @@
                 <button type="button" class="os-tab" data-os="win" onclick="switchOsTab(this)" role="tab" aria-selected="false">Windows</button>
               </div>
               <div class="os-panel active" data-os="unix" role="tabpanel">
-                <pre><span class="cmd">pip install</span> gaia-cli</pre>
+                <pre><span class="cmd">curl -fsSL</span> https://gaia.tiongson.co/install.sh | sh</pre>
+                <div class="qs-tip mt-sm"><span class="qs-tip-icon">💡</span><span>Requires Python 3.8+. Alternatively: <code>pip install gaia-cli</code></span></div>
               </div>
               <div class="os-panel" data-os="win" role="tabpanel">
                 <pre><span class="cmd">py -m pip install</span> gaia-cli</pre>
