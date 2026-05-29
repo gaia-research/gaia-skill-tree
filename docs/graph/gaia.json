@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/skill.schema.json",
   "version": "3.25.2",
-  "generatedAt": "2026-05-29T00:26:03.434797Z",
+  "generatedAt": "2026-05-29T10:06:02.448310Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -156,7 +156,10 @@
       "type": "basic",
       "level": "2★",
       "rarity": "common",
-      "description": "Records task outcomes and identifies recurring scenarios to rank optimal response strategies over time.",
+      "summary": "Implements adaptive learning through pattern recognition and strategy optimization.",
+      "description": "Records task outcomes and identifies recurring scenarios to rank optimal response strategies over time. It enables genuine self-improvement through a feedback learning loop by matching scenarios and transferring knowledge across related domains via vector similarity.",
+      "useCase": "An autonomous AI agent dynamically records task outcomes over time to optimize responses to recurring patterns. It leverages historical performance metrics to rank strategies per scenario, enabling cross-domain knowledge transfer for continuous self-improvement.",
+      "directives": "Record all task outcomes with relevant metrics and success indicators. Identify optimal strategies for specific scenarios. Use historical performance data to prioritize approaches. Build meta-learning insights and transfer knowledge across domains via vector similarity matching.",
       "prerequisites": [],
       "derivatives": [],
       "conditions": "",
