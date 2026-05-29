@@ -41,11 +41,10 @@
 | ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus | Extra Skill | Multi-Agent Orchestration, Cloud Platform Management, Distributed Neural Training | 4★ |  |
 | ◇ /full-stack-developer | Extra Skill | Code Review Pipeline, Automated Testing, Refactor Code | 5★ | Requires access to repository, execution environment, and test runner. Minimum 3 Class A/B evidence sources. |
 | ◇ /function-calling | Extra Skill | Structured Output Generation, API Call, Tool Select | 2★ | Requires an available function or tool catalog with machine-readable argument schemas and result contracts. |
-| ◇ [mbtiongson1](../docs/u/mbtiongson1/)/gaia-audit | Extra Skill | Retrieve, Cite Sources, Evaluate Output | 4★ | Requires a specific Gaia skill ID, named skill ID, or real-skill catalog item plus access to the registry source files and current public evidence sources. |
-| ◇ [mbtiongson1](../docs/u/mbtiongson1/)/gaia-meta-audit | Extra Skill | Gaia Audit, Registry Curation, Detect Anomaly | 3★ | Requires the current registry, named-skill index, real-skill catalog, and permission to compare against current source URLs or discovery indexes. |
 | ◇ /generative-media | Extra Skill | API Call, Data Visualize | 3★ → 2★ |  |
 | ◇ /ghostwrite | Extra Skill | Research, Write Report, Audience Model | 1★ | Requires research output as input context. |
 | ◇ [ruvnet](../docs/u/ruvnet/)/github-suite | Extra Skill | Code Review Pipeline, Multi-Repo Coordination, Deployment Automation, Project Management, Workflow Automation | 3★ |  |
+| ◇ [mbtiongson1](../docs/u/mbtiongson1/)/graphify-triage | Extra Skill | Issue Triage, Knowledge Graph Construction | 3★ |  |
 | ◇ [mattpocock](../docs/u/mattpocock/)/grill-me | Extra Skill | Design Review, Self-Critique | 4★ | Enforces a strict questioning loop that prevents the agent from proceeding to implementation until all branches are resolved. |
 | ◇ [mattpocock](../docs/u/mattpocock/)/grill-with-docs | Extra Skill | Grill Me, Ubiquitous Language, Document Editing | 1★ → 0★ | Requires the agent to maintain a live glossary (CONTEXT.md) and generate ADRs for all non-trivial trade-offs discovered during the grill. |
 | ◇ /grounding | Extra Skill | Retrieve, Cite Sources, Evaluate Output | 1★ → 0★ |  |
@@ -84,9 +83,11 @@
 | ◇ [obra](../docs/u/obra/)/receiving-code-review | Extra Skill | Requesting Code Review, Verification Before Completion | 2★ |  |
 | ◇ /recursive-self-improvement | Extra Skill | Autonomous Debug, Evaluate Output, Plan and Execute | 1★ | Requires extensive multi-system validation before level advancement. |
 | ◇ [mbtiongson1](../docs/u/mbtiongson1/)/gaia-curate | Extra Skill | Research, Code Generation, Code Execution | 4★ | Requires write access to the canonical graph and a passing validation suite. |
+| ◇ [mbtiongson1](../docs/u/mbtiongson1/)/gaia-audit | Extra Skill | Retrieve, Cite Sources, Evaluate Output | 4★ | Requires a specific Gaia skill ID, named skill ID, or real-skill catalog item plus access to the registry source files and current public evidence sources. |
+| ◇ [mbtiongson1](../docs/u/mbtiongson1/)/gaia-meta-audit | Extra Skill | Gaia Audit, Registry Curation, Detect Anomaly | 3★ | Requires the current registry, named-skill index, real-skill catalog, and permission to compare against current source URLs or discovery indexes. |
 | ◇ [intelligentcode-ai](../docs/u/intelligentcode-ai/)/release | Extra Skill | Workflow Automation, Code Execution, Generate Text | 2★ | Requires write access to the repository and a configured release token. |
 | ◇ [obra](../docs/u/obra/)/requesting-code-review | Extra Skill | Code Review Pipeline, Dispatching Parallel Agents | 3★ |  |
-| ◇ [mbtiongson1](../docs/u/mbtiongson1/)/research | Extra Skill | Web Search, Summarize, Cite Sources | 1★ → 0★ |  |
+| ◇ /research | Extra Skill | Web Search, Summarize, Cite Sources | 1★ → 0★ |  |
 | ◆ [ruvnet](../docs/u/ruvnet/)/ruflo | Ultimate Skill | Flow Nexus Orchestration, Agent Memory Platform, GitHub Platform Mastery, Reasoning Pattern Bank, Platform Modernization Sprint, Dual Mode | 6★ | Requires demonstrating all 6 Ruflo suite fusions together in a production multi-agent context. Grandmaster Path: 34k+ stars on ruvnet/ruflo + agent-memory-platform 5★ Ultimate. |
 | ◇ /scientific-discovery | Extra Skill | Computational Biology Workflows, Hypothesis Generation, Math Reason, Research | 5★ | Requires laboratory tool access or simulation environment. Minimum 3 Class A/B evidence sources. |
 | ◇ /scientific-writing | Extra Skill | Write Report, Cite Sources, Scientific Visualization | 3★ |  |
