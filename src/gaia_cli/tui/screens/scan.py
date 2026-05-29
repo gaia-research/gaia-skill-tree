@@ -13,7 +13,7 @@ from textual.binding import Binding
 from textual.screen import Screen
 from textual.widgets import Static, RichLog
 from textual.reactive import reactive
-from textual import work
+from textual import events, on, work
 from rich.text import Text
 
 from gaia_cli.tui import tokens as T
@@ -57,6 +57,14 @@ class ScanScreen(Screen):
 
     def on_mount(self) -> None:
         self._run_scan()
+
+    @on(events.Resize)
+    def on_resize(self, event: events.Resize) -> None:
+        """Handle screen resize to toggle mobile layout."""
+        if event.size.width < 85:
+            self.add_class("-mobile")
+        else:
+            self.remove_class("-mobile")
 
     def action_rescan(self) -> None:
         log = self.query_one("#scan-log", RichLog)

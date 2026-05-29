@@ -12,12 +12,12 @@ from typing import Any
 
 from textual.app import ComposeResult
 from textual.binding import Binding
-from textual.containers import Horizontal, Vertical, ScrollableContainer
+from textual.containers import Container, Vertical, ScrollableContainer
 from textual.screen import Screen
 from textual.widgets import Tree, Static, Label, Rule, Input
 from textual.widgets.tree import TreeNode
 from textual.reactive import reactive
-from textual import on
+from textual import events, on
 from rich.text import Text
 
 from gaia_cli.tui import tokens as T
@@ -223,7 +223,7 @@ class SkillTreeScreen(Screen):
         with Static(id="search-container"):
             yield Input(placeholder="Search skills…", id="tree-search")
 
-        with Horizontal(id="tree-layout"):
+        with Container(id="tree-layout"):
             with ScrollableContainer(id="tree-panel"):
                 yield Tree("Skills", id="skill-tree")
             yield SkillDetail({}, id="detail-panel")
@@ -248,8 +248,16 @@ class SkillTreeScreen(Screen):
         detected = len(self._detected)
         total = len(skills)
         self.query_one("#status-counts", Static).update(
-            f"{total} skills  ·  {owned} owned  ·  {detected} detected"
+            f"  [b]{owned}[/] owned  [b]{detected}[/] detected  [dim]of {total}[/]"
         )
+
+    @on(events.Resize)
+    def on_resize(self, event: events.Resize) -> None:
+        """Handle screen resize to toggle mobile layout."""
+        if event.size.width < 85:
+            self.add_class("-mobile")
+        else:
+            self.remove_class("-mobile")
 
     def _populate_tree(self, query: str = "") -> None:
         tree = self.query_one("#skill-tree", Tree)
