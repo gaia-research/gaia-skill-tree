@@ -78,8 +78,14 @@ image. The 24h `max-age` is for GitHub camo's per-URL cache.
 | `docs/badges/_assets/<handle>/` | The real per-contributor SVGs (generated). |
 | `docs/badges/registry.json` | Approved-repos lookup the Worker reads. Schema `gaia-badges-registry/2`. |
 | `docs/badges/not-found.svg` | The "validating…" badge served on `?repo=` mismatch. |
-| `docs/wrangler.toml` | Secondary/fallback config (assets only). Not used by the configured deploy. |
 | `tests/test_badges_function.md` | Manual smoke-test list runnable via `wrangler dev`. |
+
+> **One config, at the repo root.** There is intentionally no `docs/wrangler.toml`.
+> A second, assets-only config inside `docs/` was the footgun behind the
+> "worker never runs" incidents: when the Cloudflare Workers Build's *root
+> directory* was `docs/`, `wrangler deploy` picked up that file and deployed the
+> site **without** the validation worker. The Workers Build root directory must
+> be the repo root (`/`) so it uses this `wrangler.toml`.
 
 ## Local verification
 
