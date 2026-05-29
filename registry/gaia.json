@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/skill.schema.json",
-  "version": "3.26.2",
-  "generatedAt": "2026-05-29T18:02:13.346393Z",
+  "version": "3.26.0",
+  "generatedAt": "2026-05-29T18:25:38.052368Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -90,62 +90,62 @@
     },
     "clusterNames": {
       "0": "Code & Generation",
-      "1": "Text & Generate",
-      "2": "Agent & Browser",
+      "1": "Document & Generate",
+      "2": "Automation & Agent",
       "3": "Analysis & Tool",
       "4": "Retrieval & Web",
-      "5": "Coordination & Platform",
-      "6": "Reasoning & Chain-of-thought",
-      "7": "Pattern & Memory"
+      "5": "Platform & Coordination",
+      "6": "Agent & Memory",
+      "7": "Agent-handoff & Knowledge"
     },
     "centroids": [
       [
-        -0.08567232346614126,
-        -0.3441682030074648,
-        0.07924053675417546,
-        0.29303183754893897
+        0.07390860926516597,
+        0.36829182855185477,
+        0.058408811027813284,
+        -0.2499179965605067
       ],
       [
-        0.4722866565900627,
-        -0.2239240905007686,
-        -0.009032397236642233,
-        -0.06418031095135893
+        -0.4800783888325995,
+        0.19837419559891178,
+        0.03813911074571775,
+        0.05654637721801849
       ],
       [
-        -0.38136581873571834,
-        -0.020280771027904147,
-        -0.13863480501805991,
-        0.04295866442225787
+        0.41894771219713867,
+        -0.05222269969959846,
+        0.06433575486571952,
+        -0.016639526118996783
       ],
       [
-        -0.27582576153198185,
-        0.020846119351635987,
-        0.3216303719194823,
-        -0.08369383425603684
+        0.29754493787042324,
+        7.58341469796777e-05,
+        -0.27404477578282743,
+        0.04691003907665294
       ],
       [
-        0.6810858711027364,
-        0.30372124298936487,
-        0.16616056891214626,
-        -0.06524777218174681
+        -0.6072450040557184,
+        -0.3399715050785533,
+        -0.22741861557588092,
+        0.05644792138777113
       ],
       [
-        -0.2876522237754483,
-        0.4995536277670454,
-        -0.18328144584210868,
-        -0.16990025691782956
+        0.25836210358599754,
+        -0.5318916731147555,
+        0.13000175908504394,
+        0.151905219373398
       ],
       [
-        0.057186868623233925,
-        -0.3501630704873034,
-        -0.3137406292809759,
-        -0.011721563433835331
+        0.06081298927133051,
+        0.08345347476583251,
+        0.6404921174021945,
+        0.12601141631802792
       ],
       [
-        0.06126689682595106,
-        0.09896343298185689,
-        -0.4339825553745209,
-        0.26176772834890805
+        -0.045007243884344,
+        -0.007561727118830323,
+        0.18019130956353857,
+        -0.24099074694296832
       ]
     ]
   },
@@ -1362,7 +1362,7 @@
       "description": "Attributes claims to specific sources with proper references, URLs, or bibliographic entries.",
       "prerequisites": [],
       "derivatives": [
-        "gaia-audit",
+        "registry-entry-audit",
         "grounding",
         "research",
         "literature-review",
@@ -2565,7 +2565,7 @@
         "error-interpretation"
       ],
       "derivatives": [
-        "gaia-meta-audit",
+        "registry-health-scan",
         "gstack"
       ],
       "conditions": "",
@@ -3160,7 +3160,7 @@
       "prerequisites": [],
       "derivatives": [
         "code-review-pipeline",
-        "gaia-audit",
+        "registry-entry-audit",
         "grounding",
         "multi-agent-debate",
         "prompt-optimization",
@@ -3780,102 +3780,6 @@
       ]
     },
     {
-      "id": "gaia-audit",
-      "name": "Gaia Audit",
-      "type": "extra",
-      "level": "4★",
-      "rarity": "rare",
-      "description": "Reviews one Gaia skill, named skill, or real-skill catalog item against current evidence, source URLs, taxonomy mapping, promotion status, and demotion criteria, then proposes the smallest source-of-truth correction. Implements a sophisticated 7-phase audit discipline including evidence re-verification, demotion checks, and automatic asset regeneration.",
-      "prerequisites": [
-        "retrieve",
-        "cite-sources",
-        "evaluate-output"
-      ],
-      "derivatives": [
-        "gaia-meta-audit"
-      ],
-      "conditions": "Requires a specific Gaia skill ID, named skill ID, or real-skill catalog item plus access to the registry source files and current public evidence sources.",
-      "evidence": [
-        {
-          "class": "A",
-          "source": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/skill.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-20",
-          "notes": "Codified audit skill with 7-phase workflow, demotion rules, and registry-sync automation. Powers the gaia-meta-audit process."
-        }
-      ],
-      "knownAgents": [],
-      "status": "provisional",
-      "createdAt": "2026-05-03",
-      "updatedAt": "2026-05-03",
-      "version": "0.1.0",
-      "timeline": [
-        {
-          "timestamp": "2026-05-13T21:50:25Z",
-          "action": "propose",
-          "contributor": "mbtiongson1",
-          "details": "Skill created as 2★ (provisional)",
-          "previousValue": null,
-          "newValue": "2★"
-        },
-        {
-          "timestamp": "2026-05-19T22:44:52Z",
-          "action": "demote",
-          "contributor": "mbtiongson1",
-          "details": "Calibrated/demoted rank from 2★ to 4★",
-          "previousValue": "2★",
-          "newValue": "4★"
-        },
-        {
-          "timestamp": "2026-05-19T22:44:52Z",
-          "action": "evidence_added",
-          "contributor": "mbtiongson1",
-          "details": "Added evidence: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/skill.md",
-          "previousValue": null,
-          "newValue": "4★"
-        }
-      ]
-    },
-    {
-      "id": "gaia-meta-audit",
-      "name": "Gaia Meta Audit",
-      "type": "extra",
-      "level": "3★",
-      "rarity": "rare",
-      "description": "Scans Gaia registry and real-skill catalog entries for review candidates whose evidence may be outdated, superseded, overpromoted, unmapped, stale, or insufficient for their current level or named-skill claim.",
-      "prerequisites": [
-        "gaia-audit",
-        "registry-curation",
-        "detect-anomaly"
-      ],
-      "derivatives": [],
-      "conditions": "Requires the current registry, named-skill index, real-skill catalog, and permission to compare against current source URLs or discovery indexes.",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/mbtiongson1/gaia-skill-tree",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-03",
-          "notes": "Derived from registry hygiene work that audits source-backed named skills, generated projections, and demotion candidates across canonical and real-skill review surfaces."
-        }
-      ],
-      "knownAgents": [],
-      "status": "provisional",
-      "createdAt": "2026-05-03",
-      "updatedAt": "2026-05-03",
-      "version": "0.1.0",
-      "timeline": [
-        {
-          "timestamp": "2026-05-13T21:50:25Z",
-          "action": "propose",
-          "contributor": "mbtiongson1",
-          "details": "Skill created as 3★ (provisional)",
-          "previousValue": null,
-          "newValue": "3★"
-        }
-      ]
-    },
-    {
       "id": "generate-sql",
       "name": "Generate SQL",
       "type": "basic",
@@ -4315,6 +4219,53 @@
           "details": "Calibrated/demoted rank from 4★ to 3★",
           "previousValue": "4★",
           "newValue": "3★"
+        }
+      ]
+    },
+    {
+      "id": "graph-driven-issue-triage",
+      "name": "Graph-Driven Issue Triage",
+      "type": "extra",
+      "level": "3★",
+      "rarity": "common",
+      "description": "Combines codebase or knowledge-graph construction with automated issue triage: ingest a graph artifact, surface architectural debt or missing-prerequisite signals from the graph topology, and convert each finding into a tracked issue with reproducible evidence.",
+      "prerequisites": [
+        "issue-triage",
+        "knowledge-graph-build"
+      ],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/graphify-triage/SKILL.md",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-30",
+          "notes": "Reproducible playbook: graphify-triage script ingests safishamsi/graphify GRAPH_REPORT.md output, parses architectural-debt findings, and converts each into a tracked GitHub issue via gh issue create. First implementation of the fusion generic (graphify + triage)."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-30",
+      "updatedAt": "2026-05-30",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-29T18:12:50Z",
+          "action": "add",
+          "contributor": "mbtiongson1",
+          "details": "Added generic skill graph-driven-issue-triage to capture the safishamsi/graphify + mattpocock/triage fusion (META §6.2)"
+        },
+        {
+          "timestamp": "2026-05-29T18:13:06Z",
+          "action": "rank_up",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from None to 3★"
+        },
+        {
+          "timestamp": "2026-05-29T18:20:48Z",
+          "action": "evidence_added",
+          "contributor": "mbtiongson1",
+          "details": "Added B evidence from https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/graphify-triage/SKILL.md"
         }
       ]
     },
@@ -7881,7 +7832,7 @@
         "code-execution"
       ],
       "derivatives": [
-        "gaia-meta-audit"
+        "registry-health-scan"
       ],
       "conditions": "Requires write access to the canonical graph and a passing validation suite.",
       "evidence": [
@@ -7934,6 +7885,114 @@
           "details": "Skill created as 4★ (provisional)",
           "previousValue": null,
           "newValue": "4★"
+        }
+      ]
+    },
+    {
+      "id": "registry-entry-audit",
+      "name": "Gaia Audit",
+      "type": "extra",
+      "level": "4★",
+      "rarity": "rare",
+      "description": "Reviews one Gaia skill, named skill, or real-skill catalog item against current evidence, source URLs, taxonomy mapping, promotion status, and demotion criteria, then proposes the smallest source-of-truth correction. Implements a sophisticated 7-phase audit discipline including evidence re-verification, demotion checks, and automatic asset regeneration.",
+      "prerequisites": [
+        "retrieve",
+        "cite-sources",
+        "evaluate-output"
+      ],
+      "derivatives": [
+        "registry-health-scan"
+      ],
+      "conditions": "Requires a specific Gaia skill ID, named skill ID, or real-skill catalog item plus access to the registry source files and current public evidence sources.",
+      "evidence": [
+        {
+          "class": "A",
+          "source": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/skill.md",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-20",
+          "notes": "Codified audit skill with 7-phase workflow, demotion rules, and registry-sync automation. Powers the gaia-meta-audit process."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-03",
+      "updatedAt": "2026-05-30",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 2★ (provisional)",
+          "previousValue": null,
+          "newValue": "2★"
+        },
+        {
+          "timestamp": "2026-05-19T22:44:52Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated/demoted rank from 2★ to 4★",
+          "previousValue": "2★",
+          "newValue": "4★"
+        },
+        {
+          "timestamp": "2026-05-19T22:44:52Z",
+          "action": "evidence_added",
+          "contributor": "mbtiongson1",
+          "details": "Added evidence: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/skill.md",
+          "previousValue": null,
+          "newValue": "4★"
+        },
+        {
+          "timestamp": "2026-05-29T18:12:02Z",
+          "action": "rename",
+          "contributor": "unknown",
+          "details": "Renamed from gaia-audit to registry-entry-audit"
+        }
+      ]
+    },
+    {
+      "id": "registry-health-scan",
+      "name": "Gaia Meta Audit",
+      "type": "extra",
+      "level": "3★",
+      "rarity": "rare",
+      "description": "Scans Gaia registry and real-skill catalog entries for review candidates whose evidence may be outdated, superseded, overpromoted, unmapped, stale, or insufficient for their current level or named-skill claim.",
+      "prerequisites": [
+        "registry-entry-audit",
+        "registry-curation",
+        "detect-anomaly"
+      ],
+      "derivatives": [],
+      "conditions": "Requires the current registry, named-skill index, real-skill catalog, and permission to compare against current source URLs or discovery indexes.",
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/mbtiongson1/gaia-skill-tree",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-03",
+          "notes": "Derived from registry hygiene work that audits source-backed named skills, generated projections, and demotion candidates across canonical and real-skill review surfaces."
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-03",
+      "updatedAt": "2026-05-30",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-13T21:50:25Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 3★ (provisional)",
+          "previousValue": null,
+          "newValue": "3★"
+        },
+        {
+          "timestamp": "2026-05-29T18:12:27Z",
+          "action": "rename",
+          "contributor": "unknown",
+          "details": "Renamed from gaia-meta-audit to registry-health-scan"
         }
       ]
     },
@@ -8134,7 +8193,7 @@
       "description": "Fetches relevant documents or passages from an indexed corpus given a query.",
       "prerequisites": [],
       "derivatives": [
-        "gaia-audit",
+        "registry-entry-audit",
         "grounding",
         "rag-pipeline",
         "wiki-search",
@@ -9167,7 +9226,7 @@
       ],
       "derivatives": [
         "registry-curation",
-        "gaia-meta-audit",
+        "registry-health-scan",
         "gstack"
       ],
       "conditions": "Requires a skill corpus, benchmark tasks, success rubrics, and variance-aware reporting across multiple runs.",
@@ -10872,7 +10931,7 @@
       "rarity": "common",
       "description": "Comprehensive web quality audit.",
       "prerequisites": [
-        "gaia-meta-audit",
+        "registry-health-scan",
         "performance-tuning",
         "search-engine-optimization",
         "web-accessibility",
@@ -11579,17 +11638,17 @@
     },
     {
       "sourceSkillId": "cite-sources",
-      "targetSkillId": "gaia-audit",
-      "edgeType": "prerequisite"
-    },
-    {
-      "sourceSkillId": "cite-sources",
       "targetSkillId": "grounding",
       "edgeType": "prerequisite"
     },
     {
       "sourceSkillId": "cite-sources",
       "targetSkillId": "literature-review",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "cite-sources",
+      "targetSkillId": "registry-entry-audit",
       "edgeType": "prerequisite"
     },
     {
@@ -11874,12 +11933,12 @@
     },
     {
       "sourceSkillId": "detect-anomaly",
-      "targetSkillId": "gaia-meta-audit",
+      "targetSkillId": "gstack",
       "edgeType": "prerequisite"
     },
     {
       "sourceSkillId": "detect-anomaly",
-      "targetSkillId": "gstack",
+      "targetSkillId": "registry-health-scan",
       "edgeType": "prerequisite"
     },
     {
@@ -12034,11 +12093,6 @@
     },
     {
       "sourceSkillId": "evaluate-output",
-      "targetSkillId": "gaia-audit",
-      "edgeType": "prerequisite"
-    },
-    {
-      "sourceSkillId": "evaluate-output",
       "targetSkillId": "grounding",
       "edgeType": "prerequisite"
     },
@@ -12065,6 +12119,11 @@
     {
       "sourceSkillId": "evaluate-output",
       "targetSkillId": "recursive-self-improvement",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "evaluate-output",
+      "targetSkillId": "registry-entry-audit",
       "edgeType": "prerequisite"
     },
     {
@@ -12150,16 +12209,6 @@
     {
       "sourceSkillId": "format-output",
       "targetSkillId": "text-to-sql-pipeline",
-      "edgeType": "prerequisite"
-    },
-    {
-      "sourceSkillId": "gaia-audit",
-      "targetSkillId": "gaia-meta-audit",
-      "edgeType": "prerequisite"
-    },
-    {
-      "sourceSkillId": "gaia-meta-audit",
-      "targetSkillId": "web-quality-audit",
       "edgeType": "prerequisite"
     },
     {
@@ -12259,12 +12308,22 @@
     },
     {
       "sourceSkillId": "issue-triage",
+      "targetSkillId": "graph-driven-issue-triage",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "issue-triage",
       "targetSkillId": "mattpocock-engineering",
       "edgeType": "prerequisite"
     },
     {
       "sourceSkillId": "issue-triage",
       "targetSkillId": "project-management",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "knowledge-graph-build",
+      "targetSkillId": "graph-driven-issue-triage",
       "edgeType": "prerequisite"
     },
     {
@@ -12634,7 +12693,17 @@
     },
     {
       "sourceSkillId": "registry-curation",
-      "targetSkillId": "gaia-meta-audit",
+      "targetSkillId": "registry-health-scan",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "registry-entry-audit",
+      "targetSkillId": "registry-health-scan",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "registry-health-scan",
+      "targetSkillId": "web-quality-audit",
       "edgeType": "prerequisite"
     },
     {
@@ -12694,11 +12763,6 @@
     },
     {
       "sourceSkillId": "retrieve",
-      "targetSkillId": "gaia-audit",
-      "edgeType": "prerequisite"
-    },
-    {
-      "sourceSkillId": "retrieve",
       "targetSkillId": "grounding",
       "edgeType": "prerequisite"
     },
@@ -12720,6 +12784,11 @@
     {
       "sourceSkillId": "retrieve",
       "targetSkillId": "rag-pipeline",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "retrieve",
+      "targetSkillId": "registry-entry-audit",
       "edgeType": "prerequisite"
     },
     {
