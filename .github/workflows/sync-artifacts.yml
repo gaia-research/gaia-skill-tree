@@ -45,6 +45,13 @@ jobs:
       - name: Install dependencies
         run: pip install -e ".[dev]"
 
+      - name: Configure git identity
+        # Must run BEFORE `gaia release`, which creates its own version-bump
+        # commit. Without an identity here git aborts with "empty ident name".
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
       - name: Auto-Versioning and Regeneration
         run: |
           # 1. Classify bump type from commit message
@@ -59,9 +66,6 @@ jobs:
 
       - name: Commit and Push Changes
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
           if [[ -n "$(git status --porcelain)" ]]; then
             git add .
             git commit -m "chore(auto): regenerate registry artifacts and sync docs [skip-gen]"
