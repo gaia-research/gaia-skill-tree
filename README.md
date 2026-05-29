@@ -133,10 +133,6 @@ npm install -g @gaia-registry/cli
 ```
 <!-- gaia:version-end -->
 
-```bash
-curl -fsSL https://gaia.tiongson.co/install.sh | sh
-```
-
 Requires Python 3.8+. The script prefers `pipx` if available, otherwise falls back to `pip install --user` and prints a PATH hint if needed.
 
 <details>
