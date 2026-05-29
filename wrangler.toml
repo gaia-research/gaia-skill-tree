@@ -2,15 +2,13 @@ name = "gaia-skill-tree"
 main = "worker/index.js"
 compatibility_date = "2026-05-22"
 
-# Static assets live in docs/. The worker (worker/index.js) runs FIRST for every
-# request (run_worker_first = true) so it can validate the ?repo= query on
-# /badges/* before the static SVG is served. We use the boolean form (not a
-# path-glob list) for the widest wrangler-version compatibility — the glob form
-# is silently ignored by older wranglers, which leaves assets served ahead of
-# the worker (validation never runs). For non-/badges paths the worker
-# immediately delegates to env.ASSETS.fetch, so there's no behavioural change
-# elsewhere. `binding = "ASSETS"` exposes env.ASSETS.fetch().
+# Static assets live in docs/. The badge validator (worker/index.js) does NOT
+# rely on run_worker_first: the real badge SVGs are generated under
+# /badges/_assets/<handle>/, so the public /badges/<handle>/<file>.svg path has
+# no static asset and the worker runs as the normal no-asset fallback for it
+# (the behaviour that works reliably in production). Every other path resolves
+# to a static asset and is served directly. `binding = "ASSETS"` exposes
+# env.ASSETS.fetch() so the worker can read the real SVGs / registry.json.
 [assets]
 directory = "docs"
 binding = "ASSETS"
-run_worker_first = true
