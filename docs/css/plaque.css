@@ -930,6 +930,377 @@ button.plaque__slug:focus-visible {
 }
 
 
+/* ── .plaque--hall — Hall of Heroes redesigned plate ────────────
+   Per-contributor plate with a celestial-atlas crest medallion at
+   the top, the same OG art echoed faintly behind the body, an
+   @handle row in Honor Red, a Roman-numeral rank divider, and up
+   to N skill rows reusing the .plaque__stack-row markup so per-
+   row tier colours just work.
+
+   Two sizes: standard (260px wide, mono handle, 64px crest) and
+   featured (full-width, Garamond display handle, 90px crest).
+   Apex (6★) plates inherit the existing plaque--apex-vi rainbow
+   shimmer; non-apex featured plates carry a slow conic edge sweep.
+   ============================================================ */
+.plaque--hall {
+  --plaque-glow-intensity: 0.6;
+  --hall-crest-size: 64px;
+  width: 100%;
+  min-height: 240px;
+  padding: 18px 18px 16px;
+  gap: 0.55rem;
+  flex-direction: column;
+  align-items: stretch;
+  text-align: left;
+  overflow: hidden;
+  border-color: rgba(var(--plaque-accent-rgb), 0.32);
+  background:
+    radial-gradient(circle at 50% -20%, rgba(var(--plaque-accent-rgb), 0.08), transparent 60%),
+    var(--surface, #0f172a);
+}
+
+.plaque--hall-featured {
+  --hall-crest-size: 92px;
+  min-height: 300px;
+  padding: 22px 22px 20px;
+  gap: 0.7rem;
+}
+
+/* Backdrop — faint blurred copy of the primary skill OG art. Fades
+   in only after the <img> loads (data-art-loaded=true) so a 404
+   never leaves a half-rendered fragment. */
+.plaque--hall .plaque__hall-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.6s ease-out;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 25%, #000 75%, transparent 100%);
+          mask-image: linear-gradient(180deg, transparent 0%, #000 25%, #000 75%, transparent 100%);
+}
+.plaque--hall[data-art-loaded="true"] .plaque__hall-backdrop {
+  opacity: 0.08;
+}
+.plaque--hall-featured[data-art-loaded="true"] .plaque__hall-backdrop {
+  opacity: 0.11;
+}
+.plaque--hall .plaque__hall-backdrop img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(14px) saturate(1.15);
+  display: block;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .plaque--hall:hover .plaque__hall-backdrop {
+    transform: scale(1.06) translateY(-2px);
+  }
+}
+
+/* Content sits above the backdrop. */
+.plaque--hall .plaque__hall-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+.plaque--hall-featured .plaque__hall-content {
+  gap: 0.75rem;
+}
+
+/* Crest medallion — circular framed thumbnail of the primary skill's
+   OG art, with the tier glyph as a small badge bottom-right. */
+.plaque--hall .plaque__hall-crest {
+  position: relative;
+  width: var(--hall-crest-size);
+  height: var(--hall-crest-size);
+  margin: 4px auto 2px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(var(--plaque-accent-rgb), 0.6);
+  background:
+    radial-gradient(circle at 30% 30%, rgba(var(--plaque-accent-rgb), 0.18), transparent 65%),
+    rgba(0, 0, 0, 0.55);
+  box-shadow:
+    0 0 22px rgba(var(--plaque-accent-rgb), 0.35),
+    inset 0 0 14px rgba(0, 0, 0, 0.55);
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+.plaque--hall-featured .plaque__hall-crest {
+  margin-top: 6px;
+}
+.plaque--hall .plaque__hall-crest-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+.plaque--hall .plaque__hall-crest[data-crest-fail="true"] {
+  /* Render a starburst ring when the OG fetch fails so the plate still
+     reads as ceremonial (no broken image). */
+  background:
+    repeating-conic-gradient(
+      from 0deg,
+      rgba(var(--plaque-accent-rgb), 0.55) 0 8deg,
+      transparent 8deg 24deg
+    ),
+    rgba(0, 0, 0, 0.6);
+}
+.plaque--hall .plaque__hall-crest-glyph {
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  line-height: 1;
+  color: var(--plaque-accent);
+  background: var(--bg, #030712);
+  border: 1.5px solid rgba(var(--plaque-accent-rgb), 0.7);
+  box-shadow: 0 0 8px rgba(var(--plaque-accent-rgb), 0.5);
+  font-family: var(--font-mono, ui-monospace, monospace);
+}
+.plaque--hall-featured .plaque__hall-crest-glyph {
+  width: 28px;
+  height: 28px;
+  font-size: 14px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .plaque--hall:hover .plaque__hall-crest {
+    transform: scale(1.05);
+    box-shadow:
+      0 0 36px rgba(var(--plaque-accent-rgb), 0.55),
+      inset 0 0 14px rgba(0, 0, 0, 0.55);
+  }
+  .plaque--hall-featured .plaque__hall-crest {
+    animation: hall-crest-breath 4.6s ease-in-out infinite;
+  }
+}
+
+@keyframes hall-crest-breath {
+  0%, 100% {
+    box-shadow:
+      0 0 22px rgba(var(--plaque-accent-rgb), 0.35),
+      inset 0 0 14px rgba(0, 0, 0, 0.55);
+  }
+  50% {
+    box-shadow:
+      0 0 30px rgba(var(--plaque-accent-rgb), 0.5),
+      inset 0 0 14px rgba(0, 0, 0, 0.55);
+  }
+}
+
+/* Meta row — handle (Honor Red via existing atlas-handle) + share btn. */
+.plaque--hall .plaque__hall-meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  position: relative;
+  text-align: center;
+}
+.plaque--hall .plaque__hall-meta .plaque__handle,
+.plaque--hall .plaque__hall-meta .plaque-contrib-row {
+  flex: 0 1 auto;
+  margin-top: 0;
+  font-size: 0.9rem;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.plaque--hall-featured .plaque__hall-meta .plaque__handle,
+.plaque--hall-featured .plaque__hall-meta .plaque-contrib-row {
+  font-family: var(--font-display, 'EB Garamond', Georgia, serif);
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+.plaque--hall .plaque__hall-meta .plaque__fs-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  flex-shrink: 0;
+}
+
+/* Roman-numeral rank divider — Garamond italic between two hairlines. */
+.plaque--hall .plaque__hall-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 2px 0 4px;
+  color: var(--muted, #64748b);
+}
+.plaque--hall .plaque__hall-divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(var(--plaque-accent-rgb), 0.32) 50%,
+    transparent 100%
+  );
+}
+.plaque--hall .plaque__hall-divider-numeral {
+  font-family: var(--font-display, 'EB Garamond', Georgia, serif);
+  font-style: italic;
+  font-size: 0.95rem;
+  letter-spacing: 0.18em;
+  color: rgba(var(--plaque-accent-rgb), 0.85);
+  text-shadow: 0 0 6px rgba(var(--plaque-accent-rgb), 0.35);
+  flex-shrink: 0;
+}
+.plaque--hall-featured .plaque__hall-divider-numeral {
+  font-size: 1.1rem;
+}
+
+/* Skill rows — reuse .plaque__stack-row from .plaque--mini-stack but
+   override row backgrounds so the faint backdrop doesn't bleed through
+   the row labels. Featured plates get a touch more breathing room. */
+.plaque--hall .plaque__hall-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 2px;
+}
+.plaque--hall .plaque__stack-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(var(--plaque-accent-rgb), 0.08);
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+.plaque--hall .plaque__stack-row:hover {
+  background: rgba(0, 0, 0, 0.45);
+  border-color: rgba(var(--plaque-accent-rgb), 0.28);
+  transform: translateX(2px);
+}
+.plaque--hall-featured .plaque__stack-row {
+  padding: 8px 12px;
+}
+.plaque--hall .plaque__stack-glyph {
+  font-size: 14px;
+  flex-shrink: 0;
+  width: 16px;
+  text-align: center;
+  line-height: 1;
+}
+.plaque--hall .plaque__stack-row .plaque__slug,
+.plaque--hall .plaque__stack-row .plaque-skill-name {
+  font-size: 15px;
+  flex: 1 1 auto;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+.plaque--hall-featured .plaque__stack-row .plaque__slug {
+  font-size: 17px;
+}
+.plaque--hall .plaque__stack-rank {
+  flex-shrink: 0;
+  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+}
+.plaque--hall .plaque__stack-rank .rank-badge[data-variant="stars"],
+.plaque--hall .plaque__stack-rank .rank-badge {
+  font-size: 11px;
+  gap: 1px;
+}
+.plaque--hall .plaque__stack-rank .rank-badge__star {
+  font-size: 11px;
+}
+.plaque--hall-featured .plaque__stack-rank .rank-badge,
+.plaque--hall-featured .plaque__stack-rank .rank-badge__star {
+  font-size: 13px;
+}
+.plaque--hall .plaque__stack-more {
+  font-size: 11px;
+  color: var(--muted);
+  padding: 4px 10px 0;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+/* Skill-row scroll-reveal cascade — picks up the existing .reveal
+   IntersectionObserver on #hall-of-heroes; rows light up top-to-bottom. */
+.plaque--hall .plaque__stack-row {
+  opacity: 0.55;
+  transition: opacity 0.45s ease, transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+  transition-delay: calc(var(--row-index, 0) * 70ms);
+}
+.reveal.is-visible .plaque--hall .plaque__stack-row,
+.is-visible .plaque--hall .plaque__stack-row,
+.plaque--hall:hover .plaque__stack-row {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .plaque--hall .plaque__stack-row {
+    opacity: 1;
+    transition-delay: 0s;
+  }
+}
+
+/* Featured edge sweep (non-apex only) — slow conic edge animation
+   driven by the plaque accent. Apex 6★ plates already run the rainbow
+   shimmer (.plaque--apex-vi keyframes) so we explicitly skip them. */
+.plaque--hall-featured:not(.plaque--apex-vi)::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from 0deg,
+    rgba(var(--plaque-accent-rgb), 0.0) 0deg,
+    rgba(var(--plaque-accent-rgb), 0.55) 80deg,
+    rgba(var(--plaque-accent-rgb), 0.0) 160deg,
+    rgba(var(--plaque-accent-rgb), 0.0) 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+  z-index: 2;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .plaque--hall-featured:not(.plaque--apex-vi)::after {
+    animation: hall-edge-sweep 12s linear infinite;
+  }
+}
+@keyframes hall-edge-sweep {
+  to { transform: rotate(360deg); }
+}
+
+/* Apex 6★ on .plaque--hall — register the variant for shard support
+   (matches the existing rule pattern at ~plaque.css:692). The shimmer
+   itself is inherited from .plaque--apex-vi. */
+.plaque--hall.plaque--apex-vi::before,
+.plaque--hall.plaque--apex-vi::after {
+  /* Apex hall plates lean on the shared rainbow shimmer; the conic
+     featured-edge sweep above is suppressed by :not(.plaque--apex-vi). */
+}
+
+
 /* ── .plaque--tile — Named Skills Explorer tile ─────────────────
    Grid cell, min-height 280px. Header row hosts orb + level chip
    + origin + gh. Body stacks vertically; install row is sticky-
