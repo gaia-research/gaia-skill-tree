@@ -1,0 +1,38 @@
+name: Regen OG PNGs from SVGs
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/og/**/*.svg'
+      - 'scripts/regen_og_pngs.js'
+      - 'scripts/generateOgCards.py'
+
+permissions:
+  contents: write
+
+jobs:
+  regen:
+    name: Convert OG SVGs to PNGs (sequential)
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip-gen]')"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install sharp
+        run: npm install --no-save sharp
+
+      - name: Regen PNGs
+        run: node scripts/regen_og_pngs.js
+
+      - name: Commit PNGs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add 'docs/og'
+          git diff --cached --quiet || git commit -m "chore(og): regen PNG cards from SVGs [skip-gen]" && git push

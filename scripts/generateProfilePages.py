@@ -414,10 +414,10 @@ def _plaque_actions_html(ns: dict, handle: str = "") -> str:
     skill_id_short = skill_id.split("/")[-1] if "/" in skill_id else skill_id
     skill_name = ns.get("title", "") or ns.get("name", "") or skill_id_short
 
-    # Share button — always rendered (OG PNG may be generated later)
+    # Share button — always rendered (OG SVG for inline display; PNG for download)
     share_btn_html = ""
     if handle and skill_id_short:
-        og_rel = f"../../og/{handle}/{skill_id_short}.png"
+        og_rel = f"../../og/{handle}/{skill_id_short}.svg"
         share_btn_html = (
             f'<button class="plaque__share-btn" type="button"'
             f' data-skill-id="{html.escape(skill_id)}"'
@@ -700,32 +700,100 @@ SIDEBAR_HTML = """<aside class="profile-sidebar" id="profileSidebar" aria-label=
 </aside>"""
 
 
-def _build_share_modal() -> str:
-    """Build the one-per-page share modal markup."""
-    icon_base = ICON_SPRITE_REL
-    return f"""<div class="share-modal" hidden role="dialog" aria-modal="true" aria-labelledby="share-modal-title">
-  <div class="share-modal__backdrop" data-share-close></div>
-  <div class="share-modal__panel" role="document">
-    <button class="share-modal__close" type="button" data-share-close aria-label="Close">×</button>
-    <h2 id="share-modal-title" class="share-modal__title">Share</h2>
-    <p class="share-modal__caption" data-share-caption></p>
-    <img class="share-modal__preview" data-share-preview alt="OG card preview">
-    <div class="share-modal__actions">
-      <a class="share-action share-action--download" data-share-action="download" download>
-        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="{icon_base}#download"></use></svg> Download
-      </a>
-      <button class="share-action share-action--copy" type="button" data-share-action="copy">
-        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="{icon_base}#link"></use></svg> Copy link
-      </button>
-      <a class="share-action share-action--x" data-share-action="x" target="_blank" rel="noopener">
-        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="{icon_base}#x"></use></svg> X
-      </a>
-      <button class="share-action share-action--instagram" type="button" data-share-action="instagram">
-        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="{icon_base}#instagram"></use></svg> Instagram
-      </button>
-    </div>
-    <div class="share-modal__toast" hidden role="status" data-share-toast></div>
+def _build_hoh_modal() -> str:
+    """HOH fullscreen share modal — same experience as docs/index.html."""
+    ic = ICON_SPRITE_REL
+    return f"""<div id="hohFullscreenModal" class="hoh-fs-modal" aria-hidden="true" tabindex="-1">
+  <div class="hoh-fs-header">
+    <button class="hoh-fs-btn hoh-fs-btn--close" data-fs-action="close" title="Close modal" aria-label="Close modal">
+      <svg class="ico" width="16" height="16" aria-hidden="true"><use href="{ic}#close-x"></use></svg>
+    </button>
   </div>
+
+  <div class="hoh-fs-stage" id="hohFsStage"></div>
+
+  <div class="hoh-fs-confirm" id="hohFsConfirm" role="group" aria-label="Confirm contributor">
+    <span class="hoh-fs-confirm-text">Are you <span id="hohFsHandleText">@handle</span>?</span>
+    <button type="button" class="hoh-fs-confirm-btn hoh-fs-confirm-btn--yes" data-fs-action="confirm-yes" aria-label="Yes, this is me">Yes</button>
+    <button type="button" class="hoh-fs-confirm-btn hoh-fs-confirm-btn--no" data-fs-action="confirm-no" aria-label="No, dismiss notification">No</button>
+  </div>
+
+  <div class="hoh-fs-footer">
+    <div class="hoh-dl-wrap" id="hohDlWrap">
+      <button class="hoh-fs-btn" data-fs-action="download" title="Download OG Image Card" aria-label="Download OG Image Card" aria-expanded="false" aria-controls="hohDlPopover">
+        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="{ic}#download"></use></svg>
+      </button>
+      <div class="hoh-dl-popover" id="hohDlPopover" role="dialog" aria-label="Choose download format" hidden>
+        <div class="hoh-dl-popover-hint">1200&times;630px &middot; For social media sharing</div>
+        <button class="hoh-dl-choice" data-dl-format="png" type="button">
+          <span class="hoh-dl-choice-fmt">PNG</span>
+          <span class="hoh-dl-choice-sub">Recommended</span>
+        </button>
+        <button class="hoh-dl-choice" data-dl-format="svg" type="button">
+          <span class="hoh-dl-choice-fmt">SVG</span>
+          <span class="hoh-dl-choice-sub">Vector / lossless</span>
+        </button>
+      </div>
+    </div>
+    <button class="hoh-fs-btn" data-fs-action="copy" title="Copy Link" aria-label="Copy Link">
+      <svg class="ico" width="16" height="16" aria-hidden="true"><use href="{ic}#link"></use></svg>
+    </button>
+    <button class="hoh-fs-btn" data-fs-action="x" title="Share on X" aria-label="Share on X">
+      <svg class="ico" width="16" height="16" aria-hidden="true"><use href="{ic}#x"></use></svg>
+    </button>
+    <button class="hoh-fs-btn" data-fs-action="instagram" title="Copy OG Link &amp; Open Instagram" aria-label="Copy OG Link &amp; Open Instagram">
+      <svg class="ico" width="16" height="16" aria-hidden="true"><use href="{ic}#instagram"></use></svg>
+    </button>
+  </div>
+
+  <div class="hoh-fs-overlay" id="hohFsOverlay" hidden>
+    <div class="hoh-fs-overlay-header">
+      <div class="hoh-fs-overlay-title">Add to your README.md!</div>
+      <div class="hoh-fs-overlay-controls">
+        <button type="button" class="hoh-fs-overlay-ctl" data-fs-action="overlay-minimize" aria-label="Minimize" title="Minimize">
+          <svg class="ico" width="14" height="14" aria-hidden="true" viewBox="0 0 16 16"><path d="M3 12h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </button>
+        <button type="button" class="hoh-fs-overlay-ctl" data-fs-action="overlay-close" aria-label="Close panel" title="Close panel">
+          <svg class="ico" width="14" height="14" aria-hidden="true"><use href="{ic}#close-x"></use></svg>
+        </button>
+      </div>
+    </div>
+    <div class="hoh-fs-overlay-body">
+      <img id="hohFsBadgePreview" class="hoh-fs-badge-img" src="" alt="Gaia contributor badge">
+      <div class="hoh-fs-code-wrap">
+        <code id="hohFsCodeBlock" class="hoh-fs-code"></code>
+        <button id="hohFsCopyBtn" class="hoh-fs-copy-btn hoh-fs-copy-btn--icon" type="button" aria-label="Copy markdown" title="Copy markdown">
+          <svg class="ico" width="14" height="14" aria-hidden="true"><use href="{ic}#copy"></use></svg>
+        </button>
+      </div>
+    </div>
+    <p id="hohFsDisclaimer" class="hoh-fs-disclaimer">Are you <span class="hoh-fs-disclaimer-handle"></span>? This will only work on <span class="hoh-fs-disclaimer-handle"></span>&rsquo;s repo!</p>
+    <div>
+      <a id="hohFsBadgesLink" href="../../badges/" class="hoh-fs-copy-btn" style="text-decoration:none;font-size:11px;">
+        <svg class="ico" width="12" height="12" aria-hidden="true"><use href="{ic}#seal-diamond"></use></svg> Get all your badges &rarr;
+      </a>
+    </div>
+  </div>
+
+  <button type="button" class="hoh-fs-overlay-restore" id="hohFsOverlayRestore" data-fs-action="overlay-restore" aria-label="Show README panel" hidden>
+    <svg class="ico" width="14" height="14" aria-hidden="true"><use href="{ic}#seal-diamond"></use></svg>
+    <span>Add to README</span>
+  </button>
+
+  <button type="button" class="hoh-fs-fullscreen-btn" data-fs-action="fullscreen" aria-label="Toggle fullscreen" title="Toggle fullscreen">
+    <svg class="ico hoh-fs-fullscreen-enter" width="16" height="16" aria-hidden="true" viewBox="0 0 16 16">
+      <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 6V2h4"/><path d="M14 6V2h-4"/>
+        <path d="M2 10v4h4"/><path d="M14 10v4h-4"/>
+      </g>
+    </svg>
+    <svg class="ico hoh-fs-fullscreen-exit" width="16" height="16" aria-hidden="true" viewBox="0 0 16 16">
+      <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 2v4H2"/><path d="M10 2v4h4"/>
+        <path d="M6 14v-4H2"/><path d="M10 14v-4h4"/>
+      </g>
+    </svg>
+  </button>
 </div>"""
 
 
@@ -845,12 +913,12 @@ def build_profile_page(handle: str, skills: list, named_index: dict | None = Non
         named_index = _build_named_index_for_handle(skills)
 
     timeline_section_html = _build_timeline_section(tree, named_index)
-    share_modal_html = _build_share_modal()
+    hoh_modal_html = _build_hoh_modal()
     skill_explorer_modal_html = _build_skill_explorer_modal()
 
     # OG image tag (vector SVG for social crawlers)
     og_image_tags = "\n".join(
-        f'  <meta property="og:image" content="../../og/{html.escape(handle)}/{html.escape(s["id"].split("/")[-1])}.svg">'
+        f'  <meta property="og:image" content="../../og/{html.escape(handle)}/{html.escape(s["id"].split("/")[-1])}.png">'
         for s in skills[:1]  # use first skill for og:image
     )
 
@@ -938,10 +1006,9 @@ def build_profile_page(handle: str, skills: list, named_index: dict | None = Non
   <script src="../../js/plaque-reveal.js" defer></script>
   <script src="../../js/profile-timeline.js" defer></script>
   <script src="../../js/profile-filter.js" defer></script>
-  <script src="../../js/profile-share.js" defer></script>
-  <script src="../../js/profile-claim.js" defer></script>
   <script src="../../js/named-skills.js" defer></script>
   <script src="../../js/skill-explorer.js" defer></script>
+  <script src="../../js/hoh-modal.js" defer></script>
 
   <button id="scrollToTop" class="scroll-to-top" aria-label="Scroll to top">
     <svg class="ico" width="20" height="20" aria-hidden="true"><use href="../../assets/icons.svg#arrow-up"/></svg>
@@ -954,7 +1021,7 @@ def build_profile_page(handle: str, skills: list, named_index: dict | None = Non
     <span>Filter</span>
   </button>
 
-  {share_modal_html}
+  {hoh_modal_html}
 
   {skill_explorer_modal_html}
 

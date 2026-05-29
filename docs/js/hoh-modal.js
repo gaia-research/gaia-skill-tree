@@ -203,6 +203,10 @@
     // always starts in the same compact state.
     var overlay = document.getElementById('hohFsOverlay');
     if (overlay) overlay.hidden = true;
+    var dlPop = document.getElementById('hohDlPopover');
+    if (dlPop) { dlPop.hidden = true; dlPop.classList.remove('is-open'); }
+    var dlBtnClose = modal.querySelector('[data-fs-action="download"]');
+    if (dlBtnClose) { dlBtnClose.setAttribute('aria-expanded','false'); dlBtnClose.classList.remove('is-active'); }
     var confirm = document.getElementById('hohFsConfirm');
     if (confirm) confirm.hidden = false;
     var restore = document.getElementById('hohFsOverlayRestore');
@@ -254,7 +258,10 @@
       if (ogPath) {
         // Show mock immediately so the modal isn't blank during the fetch.
         renderMock();
-        fetch(ogPath)
+        // Always fetch the SVG for inline display — if given a .png path
+        // (e.g. from profile pages), derive the .svg sibling.
+        var svgPath = ogPath.replace(/\.png(\?.*)?$/, '.svg');
+        fetch(svgPath)
           .then(function (r) { return r.ok ? r.text() : Promise.reject(); })
           .then(function (svgText) {
             // Strip XML prolog so the SVG inlines cleanly.
@@ -285,14 +292,15 @@
     var copyBtn = document.getElementById('hohFsCopyBtn');
     var badgesLink = document.getElementById('hohFsBadgesLink');
 
-    var badgeBase = 'https://gaia.tiongson.co/badges/' + ns.contributor + '/handle.svg';
+    var slug = ns.id ? ns.id.split('/').pop() : ns.contributor;
+    var badgeBase = 'https://gaia.tiongson.co/badges/_assets/' + ns.contributor + '/' + slug + '.svg';
     var profileUrl = 'https://gaia.tiongson.co/u/' + ns.contributor + '/';
 
     // Set immediately without ?repo= so the badge shows right away, then
     // update both src and markdown once the registry resolves.
     if (badgePreview) {
-      badgePreview.alt = '@' + ns.contributor + ' on Gaia';
-      badgePreview.src = 'badges/' + encodeURIComponent(ns.contributor) + '/handle.svg';
+      badgePreview.alt = ns.contributor + '/' + slug + ' on Gaia';
+      badgePreview.src = 'badges/_assets/' + encodeURIComponent(ns.contributor) + '/' + encodeURIComponent(slug) + '.svg';
     }
     var markdown = '[![Gaia](' + badgeBase + ')](' + profileUrl + ')';
     if (codeBlock) codeBlock.textContent = markdown;
@@ -303,7 +311,7 @@
       if (repo) {
         var q = '?repo=' + encodeURIComponent(repo);
         if (badgePreview) {
-          badgePreview.src = 'badges/' + encodeURIComponent(ns.contributor) + '/handle.svg' + q;
+          badgePreview.src = 'badges/_assets/' + encodeURIComponent(ns.contributor) + '/' + encodeURIComponent(slug) + '.svg' + q;
         }
         markdown = '[![Gaia](' + badgeBase + q + ')](' + profileUrl + ')';
         if (codeBlock) codeBlock.textContent = markdown;
@@ -340,18 +348,50 @@
     var permalink = 'https://gaia.tiongson.co/u/' + ns.contributor + '/#' + ns.id.replace('/', '-');
     var fullOgUrl = 'https://gaia.tiongson.co/' + ns.ogPath;
 
-    // Action: Download
+    // Action: Download — popover bubble with PNG / SVG choices
     var downloadBtn = modal.querySelector('[data-fs-action="download"]');
-    if (downloadBtn) {
-      downloadBtn.onclick = function () {
-        var a = document.createElement('a');
-        a.href = ns.ogPath;
-        var skillIdShort = ns.id.split('/').pop();
-        a.download = ns.contributor + '-' + skillIdShort + '.svg';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
+    var dlPopover   = document.getElementById('hohDlPopover');
+    function closeDlPopover() {
+      if (dlPopover) {
+        dlPopover.hidden = true;
+        dlPopover.classList.remove('is-open');
+      }
+      if (downloadBtn) {
+        downloadBtn.setAttribute('aria-expanded', 'false');
+        downloadBtn.classList.remove('is-active');
+      }
+    }
+    if (downloadBtn && dlPopover) {
+      downloadBtn.onclick = function (e) {
+        e.stopPropagation();
+        var open = !dlPopover.hidden;
+        if (open) {
+          closeDlPopover();
+        } else {
+          dlPopover.hidden = false;
+          dlPopover.classList.add('is-open');
+          downloadBtn.setAttribute('aria-expanded', 'true');
+          downloadBtn.classList.add('is-active');
+        }
       };
+      dlPopover.querySelectorAll('[data-dl-format]').forEach(function (btn) {
+        btn.onclick = function (e) {
+          e.stopPropagation();
+          var fmt  = btn.getAttribute('data-dl-format');
+          var slug = ns.id.split('/').pop();
+          var href = fmt === 'png'
+            ? 'og/' + ns.contributor + '/' + slug + '.png'
+            : (ns.ogPath || 'og/' + ns.contributor + '/' + slug + '.svg');
+          var a = document.createElement('a');
+          a.href = href;
+          a.download = ns.contributor + '-' + slug + '.' + fmt;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          closeDlPopover();
+          showToast('Downloading ' + fmt.toUpperCase() + ' card…');
+        };
+      });
     }
 
     // Action: X (Twitter)
@@ -525,6 +565,30 @@
       });
     });
 
+    // Delegated click listener for .plaque__share-btn (profile pages + explorer detail)
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest('.plaque__share-btn');
+      if (!btn) return;
+      e.stopPropagation();
+      var skillId = btn.getAttribute('data-skill-id') || '';
+      var handle  = btn.getAttribute('data-handle')   || skillId.split('/')[0];
+      var name    = btn.getAttribute('data-skill-name') || skillId.split('/').pop();
+      var ogPath  = btn.getAttribute('data-og') || ('og/' + handle + '/' + skillId.split('/').pop() + '.svg');
+      var ns = (window._gaiaNamedBuckets && window._gaiaNamedBuckets[handle]) || [];
+      var entry = ns.find(function(s){ return s.id === skillId; }) || {};
+      openHohFullscreenModal({
+        id: skillId,
+        contributor: handle,
+        name: name,
+        level: entry.level || '',
+        type: entry.type || 'basic',
+        origin: !!entry.origin,
+        ogPath: ogPath,
+        description: entry.description || '',
+        tags: Array.isArray(entry.tags) ? entry.tags : []
+      });
+    });
+
     // Close actions
     var closeBtn = modal.querySelector('[data-fs-action="close"]');
     if (closeBtn) {
@@ -533,6 +597,16 @@
 
     // Backdrop click close
     modal.addEventListener('click', function (e) {
+      // Close download popover if click is outside the dl-wrap
+      var dlWrap = document.getElementById('hohDlWrap');
+      if (dlWrap && !dlWrap.contains(e.target)) {
+        var popover = document.getElementById('hohDlPopover');
+        if (popover && !popover.hidden) {
+          var dlBtn = modal.querySelector('[data-fs-action="download"]');
+          if (popover) { popover.hidden = true; popover.classList.remove('is-open'); }
+          if (dlBtn) { dlBtn.setAttribute('aria-expanded','false'); dlBtn.classList.remove('is-active'); }
+        }
+      }
       if (e.target === modal || e.target.classList.contains('hoh-fs-stage')) {
         closeHohFullscreenModal();
       }
@@ -558,6 +632,8 @@
     document.addEventListener('fullscreenchange', syncFullscreenClass);
     document.addEventListener('webkitfullscreenchange', syncFullscreenClass);
   }
+
+  window.openHohFullscreenModal = openHohFullscreenModal;
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);

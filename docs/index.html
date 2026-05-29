@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <script>window.GAIA_VERSION = "3.25.5";</script>
+  <script>window.GAIA_VERSION = "3.26.0";</script>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -16,14 +16,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
   <link rel="icon" type="image/svg+xml" href="assets/marks/diamond-seal.svg">
-  <link rel="stylesheet" href="css/styles.css?v=3.25.5">
-  <link rel="stylesheet" href="css/plaque.css?v=3.25.5">
+  <link rel="stylesheet" href="css/styles.css?v=3.26.0">
+  <link rel="stylesheet" href="css/plaque.css?v=3.26.0">
   <!-- Stage 1 — icon sprite helper, loaded BEFORE other UI scripts. -->
-  <script src="js/icons.js?v=3.25.5"></script>
+  <script src="js/icons.js?v=3.26.0"></script>
   <!-- Stage 2 — shared rank-badge primitive, loaded after icons. -->
-  <script src="js/rank-badge.js?v=3.25.5"></script>
+  <script src="js/rank-badge.js?v=3.26.0"></script>
   <!-- Stage 3 — plaque component family, loaded after rank-badge. -->
-  <script src="js/plaque.js?v=3.25.5"></script>
+  <script src="js/plaque.js?v=3.26.0"></script>
 </head>
 
 <body class="home-page">
@@ -500,15 +500,15 @@
 
   <!-- ─── SCRIPTS ─── -->
   <!-- icons.js already loaded in <head> so gaiaIcon() is available before any of these. -->
-  <script src="js/atlas-helpers.js?v=3.25.5"></script>
-  <script src="js/skill-graph.js?v=3.25.5"></script>
-  <script src="js/hud-toggle.js?v=3.25.5"></script>
-  <script src="js/scroll-reveal.js?v=3.25.5"></script>
-  <script src="js/named-skills.js?v=3.25.5"></script>
-  <script src="js/skill-explorer.js?v=3.25.5"></script>
-  <script src="js/ui.js?v=3.25.5"></script>
-  <script src="js/page-ia.js?v=3.25.5"></script>
-  <script src="js/plaque-reveal.js?v=3.25.5" defer></script>
+  <script src="js/atlas-helpers.js?v=3.26.0"></script>
+  <script src="js/skill-graph.js?v=3.26.0"></script>
+  <script src="js/hud-toggle.js?v=3.26.0"></script>
+  <script src="js/scroll-reveal.js?v=3.26.0"></script>
+  <script src="js/named-skills.js?v=3.26.0"></script>
+  <script src="js/skill-explorer.js?v=3.26.0"></script>
+  <script src="js/ui.js?v=3.26.0"></script>
+  <script src="js/page-ia.js?v=3.26.0"></script>
+  <script src="js/plaque-reveal.js?v=3.26.0" defer></script>
 
   <!-- ── Share modal (single instance) — opened from plaque__share-btn ── -->
   <div class="share-modal" hidden role="dialog" aria-modal="true" aria-labelledby="share-modal-title" id="shareModal">
@@ -545,18 +545,6 @@
   <!-- ─── HALL OF HEROES FULLSCREEN OG VIEW ─── -->
   <div id="hohFullscreenModal" class="hoh-fs-modal" aria-hidden="true" tabindex="-1">
     <div class="hoh-fs-header">
-      <button class="hoh-fs-btn" data-fs-action="download" title="Download OG Image Card" aria-label="Download OG Image Card">
-        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#download"></use></svg>
-      </button>
-      <button class="hoh-fs-btn" data-fs-action="copy" title="Copy Link" aria-label="Copy Link">
-        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#link"></use></svg>
-      </button>
-      <button class="hoh-fs-btn" data-fs-action="x" title="Share on X" aria-label="Share on X">
-        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#x"></use></svg>
-      </button>
-      <button class="hoh-fs-btn" data-fs-action="instagram" title="Copy OG Link & Open Instagram" aria-label="Copy OG Link & Open Instagram">
-        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#instagram"></use></svg>
-      </button>
       <button class="hoh-fs-btn hoh-fs-btn--close" data-fs-action="close" title="Close modal" aria-label="Close modal">
         <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#close-x"></use></svg>
       </button>
@@ -571,6 +559,35 @@
       <span class="hoh-fs-confirm-text">Are you <span id="hohFsHandleText">@handle</span>?</span>
       <button type="button" class="hoh-fs-confirm-btn hoh-fs-confirm-btn--yes" data-fs-action="confirm-yes" aria-label="Yes, this is me">Yes</button>
       <button type="button" class="hoh-fs-confirm-btn hoh-fs-confirm-btn--no" data-fs-action="confirm-no" aria-label="No, dismiss notification">No</button>
+    </div>
+
+    <!-- Share/download actions — bottom right, out of the way of card text -->
+    <div class="hoh-fs-footer">
+      <div class="hoh-dl-wrap" id="hohDlWrap">
+        <button class="hoh-fs-btn" data-fs-action="download" title="Download OG Image Card" aria-label="Download OG Image Card" aria-expanded="false" aria-controls="hohDlPopover">
+          <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#download"></use></svg>
+        </button>
+        <div class="hoh-dl-popover" id="hohDlPopover" role="dialog" aria-label="Choose download format" hidden>
+          <div class="hoh-dl-popover-hint">1200×630px &middot; For social media sharing</div>
+          <button class="hoh-dl-choice" data-dl-format="png" type="button">
+            <span class="hoh-dl-choice-fmt">PNG</span>
+            <span class="hoh-dl-choice-sub">Recommended</span>
+          </button>
+          <button class="hoh-dl-choice" data-dl-format="svg" type="button">
+            <span class="hoh-dl-choice-fmt">SVG</span>
+            <span class="hoh-dl-choice-sub">Vector / lossless</span>
+          </button>
+        </div>
+      </div>
+      <button class="hoh-fs-btn" data-fs-action="copy" title="Copy Link" aria-label="Copy Link">
+        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#link"></use></svg>
+      </button>
+      <button class="hoh-fs-btn" data-fs-action="x" title="Share on X" aria-label="Share on X">
+        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#x"></use></svg>
+      </button>
+      <button class="hoh-fs-btn" data-fs-action="instagram" title="Copy OG Link & Open Instagram" aria-label="Copy OG Link & Open Instagram">
+        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#instagram"></use></svg>
+      </button>
     </div>
 
     <div class="hoh-fs-overlay" id="hohFsOverlay" hidden>
@@ -627,14 +644,14 @@
 
   <div id="hohFsToast" class="hoh-fs-toast" role="status" aria-live="polite">Permalink copied!</div>
 
-  <script src="js/profile-share.js?v=3.25.5"></script>
-  <script src="js/hoh-modal.js?v=3.25.5"></script>
-  <script src="js/profile-claim.js?v=3.25.5"></script>
+  <script src="js/profile-share.js?v=3.26.0"></script>
+  <script src="js/hoh-modal.js?v=3.26.0"></script>
+  <script src="js/profile-claim.js?v=3.26.0"></script>
 
 </body>
 
 </html>
 
 <!-- gaia:stats-start -->
-<!-- skills=215; namedSkills=184; uniqueSkills=4; version=3.25.5 -->
+<!-- skills=215; namedSkills=184; uniqueSkills=4; version=3.26.0 -->
 <!-- gaia:stats-end -->
