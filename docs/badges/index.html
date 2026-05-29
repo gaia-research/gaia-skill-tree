@@ -42,48 +42,58 @@
       margin-right: .4rem;
     }
 
-    /* ── Honesty Mode pill (read-only indicator) ── */
+    /* ── Honesty Mode pill (tiny read-only indicator, top-right of hero) ── */
     .bd-honesty-pill {
+      position: absolute;
+      top: 5.4rem;
+      right: 1.4rem;
       display: inline-flex;
       align-items: center;
-      gap: .55rem;
-      margin-top: .9rem;
-      padding: .45rem .85rem .45rem .7rem;
-      background: rgba(34, 197, 94, .08);
-      border: 1px solid rgba(34, 197, 94, .35);
+      gap: .35rem;
+      padding: .2rem .55rem .2rem .45rem;
+      background: rgba(34, 197, 94, .06);
+      border: 1px solid rgba(34, 197, 94, .25);
       border-radius: 999px;
-      color: var(--text);
+      color: var(--muted);
       font-family: var(--font-mono);
-      font-size: .76rem;
+      font-size: .62rem;
       letter-spacing: .04em;
       cursor: help;
+      opacity: .75;
+      transition: opacity .15s;
+      z-index: 2;
     }
+    .bd-honesty-pill:hover { opacity: 1; }
     .bd-honesty-pill[data-state="off"] {
-      background: rgba(148, 163, 184, .08);
-      border-color: rgba(148, 163, 184, .3);
-      color: var(--muted);
+      background: rgba(148, 163, 184, .06);
+      border-color: rgba(148, 163, 184, .22);
     }
     .bd-honesty-dot {
-      width: 8px;
-      height: 8px;
+      width: 5px;
+      height: 5px;
       border-radius: 50%;
       background: #22c55e;
-      box-shadow: 0 0 0 3px rgba(34, 197, 94, .15);
+      box-shadow: 0 0 0 2px rgba(34, 197, 94, .14);
       flex-shrink: 0;
     }
     .bd-honesty-pill[data-state="off"] .bd-honesty-dot {
       background: #94a3b8;
-      box-shadow: 0 0 0 3px rgba(148, 163, 184, .12);
+      box-shadow: 0 0 0 2px rgba(148, 163, 184, .12);
     }
     .bd-honesty-label {
       text-transform: uppercase;
-      letter-spacing: .1em;
-      font-size: .68rem;
+      letter-spacing: .09em;
+      font-size: .58rem;
       color: var(--muted);
     }
     .bd-honesty-state {
       font-weight: 600;
-      letter-spacing: .08em;
+      letter-spacing: .06em;
+      color: var(--text);
+    }
+    .bd-honesty-pill[data-state="off"] .bd-honesty-state { color: var(--muted); }
+    @media (max-width: 640px) {
+      .bd-honesty-pill { top: 4.6rem; right: .8rem; }
     }
 
     /* ── Generator Layout & Simulator ── */
@@ -855,7 +865,20 @@
   </nav>
 
   <main>
-    <section class="process-hero" style="min-height: auto; padding-top: 5rem; padding-bottom: 2rem;">
+    <section class="process-hero" style="min-height: auto; padding-top: 5rem; padding-bottom: 2rem; position: relative;">
+      <!-- Honesty Mode indicator — tiny, read-only, top-right of the hero.
+           The mode itself is a build-time config constant (HONESTY_MODE) set
+           in the script below; flip it via PR. ON bypasses the Cloudflare
+           Worker entirely and emits direct _assets/ URLs into the copied
+           markdown. OFF restores worker-validated URLs with ?repo= binding.
+           See docs/badges/CLAUDE.md. -->
+      <span id="bd-honesty-pill" class="bd-honesty-pill" data-state="on"
+            title="Honesty Mode reflects the current build config — ON means copied markdown points at the static _assets/ path (no Cloudflare Worker, no ?repo= validation). Change via PR.">
+        <span class="bd-honesty-dot" aria-hidden="true"></span>
+        <span class="bd-honesty-label">Honesty</span>
+        <span class="bd-honesty-state">ON</span>
+      </span>
+
       <p class="process-kicker">For those who have named their skill</p>
       <h1>Github Badges</h1>
       <p class="process-lede">
@@ -878,18 +901,6 @@
         <span class="bd-live-label">seal-only</span>
         <img src="./_assets/mbtiongson1/handle-seal.svg" alt="Owner identity badge — seal-only variant" onerror="this.style.display='none'">
       </div>
-
-      <!-- Honesty Mode indicator — read-only visibility chip. The mode itself
-           is a config constant (HONESTY_MODE) set in the script below; flip it
-           via PR. ON bypasses the Cloudflare Worker entirely and emits direct
-           _assets/ URLs into the copied markdown. OFF restores worker-validated
-           URLs with ?repo= binding. See docs/badges/CLAUDE.md. -->
-      <span id="bd-honesty-pill" class="bd-honesty-pill" data-state="on"
-            title="Honesty Mode reflects the current build config — ON means copied markdown points at the static _assets/ path (no Cloudflare Worker, no ?repo= validation). Change via PR.">
-        <span class="bd-honesty-dot" aria-hidden="true"></span>
-        <span class="bd-honesty-label">Honesty Mode</span>
-        <span class="bd-honesty-state">ON</span>
-      </span>
     </section>
 
     <!-- Priority 1: Generate Yours -->
@@ -1368,7 +1379,19 @@
     }
 
     // ── Checkbox change → re-render rows ─────────────────────────────────────
-    [chkHandle, chkRank, chkSkills, chkSeal].forEach(cb => cb.addEventListener("change", renderRows));
+    // In seed state (no real handle entered) currentState.handle is "gaia-bot",
+    // which has no `_assets/gaia-bot/` directory. renderRows() would happily
+    // emit `./_assets/gaia-bot/rank-seal.svg` and break the README simulator
+    // and the per-row thumbnail. Re-route through seedSample() in that case so
+    // the sampler/seed previews stay in sync with the Hide-Gaia toggle.
+    function onCheckboxChange() {
+      if (currentState.handle === "gaia-bot") {
+        seedSample();
+        return;
+      }
+      renderRows();
+    }
+    [chkHandle, chkRank, chkSkills, chkSeal].forEach(cb => cb.addEventListener("change", onCheckboxChange));
 
     // ── Per-badge rows renderer ───────────────────────────────────────────────
     function renderRows() {
@@ -1851,7 +1874,11 @@
       const code = document.createElement("code");
       code.className = "usp-cmd";
       const seedFile = chkSeal.checked ? "rank-seal.svg" : "rank.svg";
-      code.textContent = `[![Gaia rank](${BASE}/badges/gaia-bot/${seedFile})](${linkTarget})`;
+      // Use the same Honesty-Mode-aware URL builder as the real generator so
+      // the seed clipboard text matches what real handles emit (and stays a
+      // valid URL — pre-Honesty this hardcoded the worker route, which 404s
+      // when the worker isn't intercepting).
+      code.textContent = `[![Gaia rank](${badgeMarkdownUrl("gaia-bot", seedFile, "")})](${linkTarget})`;
       row.appendChild(code);
       item.appendChild(row);
       rowsEl.appendChild(item);
