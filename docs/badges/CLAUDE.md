@@ -12,6 +12,26 @@ This split is intentional and load-bearing — see the long doc-comment at the t
 `worker/index.js` for the full reasoning. **Do not** create files at the 2-segment public
 path; that would shadow the worker and bypass `?repo=` validation.
 
+### `docs/.nojekyll` is load-bearing
+
+Production traffic for `gaia.tiongson.co` is served by **GitHub Pages** (Cloudflare is
+a CDN/proxy in front; the worker config in `wrangler.toml` is a separate deploy lane
+that isn't currently in the request path — confirm with `curl -sI https://gaia.tiongson.co/`
+and look for the `X-Github-Request-Id` / `Via: 1.1 varnish` headers).
+
+GitHub Pages runs Jekyll by default, and **Jekyll silently strips any path segment that
+starts with `_`**. Without `docs/.nojekyll`, the entire `_assets/` directory is dropped
+from the deploy and every Honesty-Mode-ON URL 404s. That cascades into:
+
+- `exists()` HEAD probes return false → page says "No badges yet for @<handle>".
+- `<img src="./_assets/...">` 404s → live strip + variant cards + README simulator
+  show broken images.
+- `chkSeal` flip swaps to `*-seal.svg` URLs that also 404 → "Hide Gaia breaks rank.svg".
+
+**Do not delete `docs/.nojekyll`.** If `_assets/` ever stops resolving in production,
+that's the first thing to check (`curl -sI https://gaia.tiongson.co/badges/_assets/<handle>/handle.svg`
+should return 200, not 404 with a GitHub-Pages 404 body).
+
 ## Honesty Mode toggle (the page-visible switch)
 
 Without the Worker (local dev, any preview deploy that doesn't run the worker, or any
