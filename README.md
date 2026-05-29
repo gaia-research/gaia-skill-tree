@@ -20,8 +20,8 @@
 
 Have a named skill? Get yours now! Should look like this:
 
-[![Gaia](https://gaia.tiongson.co/badges/_assets/mbtiongson1/gaia-curate.svg?repo=mbtiongson1%2Fgaia-skill-tree)](https://gaia.tiongson.co/u/mbtiongson1/)
-[![Gaia rank](https://gaia.tiongson.co/badges/_assets/mbtiongson1/rank.svg?repo=mbtiongson1%2Fgaia-skill-tree)](https://gaia.tiongson.co/u/mbtiongson1/)
+[![Gaia](https://gaia.tiongson.co/badges/_assets/mbtiongson1/gaia-curate.svg?repo=mbtiongson1%2Fgaia-skill-tree)](https://gaia.tiongson.co/u/mbtiongson1/)<br>
+[![Gaia rank](https://gaia.tiongson.co/badges/_assets/mbtiongson1/rank.svg?repo=mbtiongson1%2Fgaia-skill-tree)](https://gaia.tiongson.co/u/mbtiongson1/)<br>
 [![Gaia skills](https://gaia.tiongson.co/badges/_assets/mbtiongson1/skills.svg?repo=mbtiongson1%2Fgaia-skill-tree)](https://gaia.tiongson.co/u/mbtiongson1/)
 
 Generate yours at **[gaia.tiongson.co/badges/](https://gaia.tiongson.co/badges/)**.
@@ -120,12 +120,10 @@ Skills rank up through **verifiable evidence** (Class A/B/C) and can be demoted 
 **1. Install the CLI**
 
 <!-- gaia:version-start -->
-Current Gaia CLI version: `3.25.5`.
-
-Python install:
+Current Gaia CLI version: `3.26.0`.
 
 ```bash
-pip install gaia-cli
+curl -fsSL https://gaia.tiongson.co/install.sh | sh
 ```
 
 npm wrapper alternative:
@@ -134,32 +132,35 @@ npm wrapper alternative:
 npm install -g @gaia-registry/cli
 ```
 <!-- gaia:version-end -->
-Python install:
 
+Requires Python 3.8+. The script prefers `pipx` if available, otherwise falls back to `pip install --user` and prints a PATH hint if needed.
+
+<details>
+<summary>pip / npm / pipx / Windows alternatives</summary>
+
+**pip (Python):**
 ```bash
 pip install gaia-cli
 ```
-
-<details>
-<summary>npm / pipx / Windows alternatives</summary>
 
 **npm wrapper:**
 ```bash
 npm install -g @gaia-registry/cli
 ```
 
-**pipx (if pip fails):**
+**pipx:**
 ```bash
 brew install pipx        # macOS
 pipx install gaia-cli
 ```
 
-**Windows PATH fix** (if `gaia` isn't found after install):
+**Windows** (PowerShell — curl installer doesn't apply):
 ```powershell
+py -m pip install gaia-cli
 $env:PATH += ";" + (python -c "import sysconfig; print(sysconfig.get_path('scripts', 'nt_user'))")
 ```
 
-**Registry development** (editable install):
+**Registry development** (editable install with all extras):
 ```bash
 git clone https://github.com/mbtiongson1/gaia-skill-tree.git
 cd gaia-skill-tree
