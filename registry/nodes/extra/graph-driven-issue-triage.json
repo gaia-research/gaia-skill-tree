@@ -10,7 +10,15 @@
     "knowledge-graph-build"
   ],
   "derivatives": [],
-  "evidence": [],
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/graphify-triage/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-05-30",
+      "notes": "Reproducible playbook: graphify-triage script ingests safishamsi/graphify GRAPH_REPORT.md output, parses architectural-debt findings, and converts each into a tracked GitHub issue via gh issue create. First implementation of the fusion generic (graphify + triage)."
+    }
+  ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-30",
@@ -28,6 +36,12 @@
       "action": "rank_up",
       "contributor": "mbtiongson1",
       "details": "Calibrated level from None to 3★"
+    },
+    {
+      "timestamp": "2026-05-29T18:20:48Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added B evidence from https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/graphify-triage/SKILL.md"
     }
   ]
 }
