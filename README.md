@@ -417,6 +417,8 @@ Gaia does not store personal information.
 
 Full details: [PRIVACY.md](PRIVACY.md) · [gaia.tiongson.co/privacy.html](https://gaia.tiongson.co/privacy.html)
 
+**Topics:** gaia-skill-tree, ai-agents, skill-registry, llm-ops, agent-framework
+
 ---
 
 ## License
@@ -426,11 +428,3 @@ MIT: see [LICENSE](LICENSE).
 ---
 
 *Graph is canonical. Everything else is a shadow.*
-
-
-
-## Resources
-
-- [Quick Start](https://github.com/mbtiongson1/gaia-skill-tree#quick-start)
-- [Dashboard](./hermes_agent/www/ADOPTION.html)
-**Topics:** gaia-skill-tree, ai-agents, skill-registry, llm-ops, agent-framework
