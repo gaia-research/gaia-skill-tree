@@ -2,12 +2,17 @@
 """Gaia Skill Registry — README badge SVG generator.
 
 Reads registry/named-skills.json and skill-trees/<user>/skill-tree.json
-and writes shields.io-style flat SVG badges to docs/badges/<handle>/:
+and writes shields.io-style flat SVG badges to docs/badges/_assets/<handle>/:
 
     rank.svg          highest rank earned, color-coded by tier
     skills.svg        total skill count, amber panel
     handle.svg        '@handle/top-skill · N★', honor-red handle, rank-color skill
     <skill-slug>.svg  per-named-skill badge, format same as handle.svg
+
+The public badge URL stays /badges/<handle>/<file>.svg — the validation worker
+(worker/index.js) serves it from the _assets/ source above after checking the
+?repo= query. Keeping the real SVGs out of the 2-segment /badges/<handle>/ path
+is what lets the worker intercept every badge request. See docs/CLOUDFLARE-SETUP.md.
 
 Plus a generic docs/badges/powered-by-gaia.svg.
 
@@ -429,8 +434,15 @@ def collect_scan_users() -> dict[str, dict]:
 # ─── Output ──────────────────────────────────────────────────────────────────
 def write_user_badges(handle: str, info: dict, scan: dict | None,
                        rank_colors: dict[int, str], out_dir: Path) -> None:
-    """Write rank.svg + skills.svg + handle.svg (+ per-skill variants) for one handle."""
-    user_dir = out_dir / handle
+    """Write rank.svg + skills.svg + handle.svg (+ per-skill variants) for one handle.
+
+    Per-contributor SVGs live under ``<out_dir>/_assets/<handle>/`` — NOT directly
+    at ``<out_dir>/<handle>/``. That keeps the public 2-segment path
+    ``/badges/<handle>/<file>.svg`` free of any static asset, so the validation
+    worker (worker/index.js) handles it and serves the real SVG from
+    ``/badges/_assets/<handle>/<file>.svg``. See docs/CLOUDFLARE-SETUP.md.
+    """
+    user_dir = out_dir / "_assets" / handle
     user_dir.mkdir(parents=True, exist_ok=True)
 
     top_rank = info["top_rank"] if info else 0
@@ -648,10 +660,11 @@ def write_registry_json(contributors: dict[str, dict], out_dir: Path) -> None:
         "description": (
             "Approved repos per contributor for Gaia README badges. "
             "Derived from registry/named-skills.json `links.github` URLs. "
-            "The site Worker at worker/index.js "
-            "serves the `validating…` SVG (docs/badges/not-found.svg) when the "
-            "`?repo=` query string doesn't match a repo listed here. Schema v2 "
-            "adds `fileSeal` for the seal-only (no 'Gaia' wordmark) variant."
+            "The site Worker at worker/index.js handles /badges/<handle>/<file>.svg "
+            "(the real SVGs live at /badges/_assets/<handle>/<file>.svg) and serves "
+            "the `validating…` SVG (docs/badges/not-found.svg) when the `?repo=` "
+            "query string doesn't match a repo listed here. Schema v2 adds "
+            "`fileSeal` for the seal-only (no 'Gaia' wordmark) variant."
         ),
         "contributors": contributors,
     }
