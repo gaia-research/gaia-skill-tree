@@ -609,8 +609,10 @@
     .bd-row-badge {
       flex-shrink: 0;
       line-height: 1;
+      max-width: 200px;
+      overflow: hidden;
     }
-    .bd-row-badge img { display: block; height: 20px; }
+    .bd-row-badge img { display: block; height: 20px; max-width: 100%; }
 
     /* Badge code rows — single-line truncation */
     #bd-rows .usp-row,
@@ -740,8 +742,9 @@
       display: flex;
       flex-direction: column;
       gap: .35rem;
+      overflow: hidden;
     }
-    .bd-variant img { height: 20px; }
+    .bd-variant img { height: 20px; max-width: 100%; }
     .bd-variant-stat {
       font-family: var(--font-mono);
       font-size: .68rem;
