@@ -16,7 +16,13 @@
 
 # NEW! Badges
 
-Have a named skill? Get yours at **[gaia.tiongson.co/badges/](https://gaia.tiongson.co/badges/)**.
+Have a named skill? Get yours now! Should look like this:
+
+[![Gaia](https://gaia.tiongson.co/badges/mbtiongson1/gaia-curate.svg?repo=mbtiongson1%2Fgaia-skill-tree)](https://gaia.tiongson.co/u/mbtiongson1/)
+[![Gaia rank](https://gaia.tiongson.co/badges/mbtiongson1/rank.svg?repo=mbtiongson1%2Fgaia-skill-tree)](https://gaia.tiongson.co/u/mbtiongson1/)
+[![Gaia skills](https://gaia.tiongson.co/badges/mbtiongson1/skills.svg?repo=mbtiongson1%2Fgaia-skill-tree)](https://gaia.tiongson.co/u/mbtiongson1/)
+
+Generate yours at **[gaia.tiongson.co/badges/](https://gaia.tiongson.co/badges/)**.
 
 **Brand & product:** [PRODUCT.md](PRODUCT.md) · [CONTEXT.md](CONTEXT.md) · [DESIGN.md](DESIGN.md)
 
