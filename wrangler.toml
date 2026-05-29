@@ -2,13 +2,18 @@ name = "gaia-skill-tree"
 main = "worker/index.js"
 compatibility_date = "2026-05-22"
 
-# Static assets live in docs/. The badge validator (worker/index.js) does NOT
-# rely on run_worker_first: the real badge SVGs are generated under
-# /badges/_assets/<handle>/, so the public /badges/<handle>/<file>.svg path has
-# no static asset and the worker runs as the normal no-asset fallback for it
-# (the behaviour that works reliably in production). Every other path resolves
-# to a static asset and is served directly. `binding = "ASSETS"` exposes
-# env.ASSETS.fetch() so the worker can read the real SVGs / registry.json.
+# Badge validation needs BOTH of these together:
+#   1. run_worker_first = true — in this project's deploy, the worker is only
+#      invoked when this is set (without it, non-asset paths 404 and the worker
+#      never runs — verified on a PR preview deploy).
+#   2. the real SVGs relocated to /badges/_assets/<handle>/ (see generateBadges.py)
+#      so the public /badges/<handle>/<file>.svg path has NO static asset to be
+#      served ahead of the worker.
+# With both, the worker runs for /badges/<handle>/<file>.svg, validates ?repo=,
+# and serves the real SVG from _assets. Other paths resolve to static assets;
+# the worker delegates to env.ASSETS.fetch for them. `binding = "ASSETS"`
+# exposes env.ASSETS.fetch() so the worker can read the real SVGs / registry.json.
 [assets]
 directory = "docs"
 binding = "ASSETS"
+run_worker_first = true
