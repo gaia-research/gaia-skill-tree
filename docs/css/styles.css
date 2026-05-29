@@ -7867,12 +7867,45 @@ button.nav-graph-trigger:hover {
   text-align: center
 }
 
-/* Phase 8c — HoH ambient drift track.
-   The wrapper clips overflow and masks the edges; the inner track is a
-   flex strip that scrolls left infinitely via the hoh-drift keyframes.
-   `.is-manual` is toggled by page-ia.js when the visitor drags or wheels
-   to take manual control — the animation pauses and overflow becomes
-   scrollable with snap. Reduced-motion gets the manual mode unconditionally. */
+/* Phase 9 — HoH plate redesign.
+   Layout is a featured row (1–2 large plates whose primary skill is 6★)
+   stacked above a uniform grid of standard plates. CSS Grid (not flex-
+   wrap) gives deterministic row alignment so the previous overlap bug
+   between adjacent plates can't reappear. The legacy .hoh-track-wrap /
+   .hoh-track classes are retained as no-op fallbacks for any cached
+   page-ia.js still emitting the old DOM shape. */
+.hoh-section #hohPlates {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  text-align: left;
+}
+
+.hoh-featured {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 1.5rem;
+}
+
+.hoh-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.1rem;
+  align-items: stretch;
+}
+
+@media (max-width: 720px) {
+  .hoh-featured,
+  .hoh-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Legacy fallback — keep flex-wrap minus the overlap risk for any
+   transient deploy where page-ia.js still emits the old .hoh-track. */
 .hoh-track-wrap {
   position: relative;
   margin: 2rem auto;
@@ -7884,10 +7917,11 @@ button.nav-graph-trigger:hover {
   flex-wrap: wrap;
   gap: 1rem;
   justify-content: center;
+  align-items: stretch;
   padding-bottom: 0.5rem;
 }
 
-.hoh-track>* {
+.hoh-track > * {
   flex: 0 0 auto;
 }
 
