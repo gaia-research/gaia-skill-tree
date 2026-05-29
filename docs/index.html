@@ -550,18 +550,11 @@
       <button class="hoh-fs-btn" data-fs-action="copy" title="Copy Link" aria-label="Copy Link">
         <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#link"></use></svg>
       </button>
-      <button class="hoh-fs-btn" data-fs-action="x" title="Share Permalink" aria-label="Share Permalink">
-        <svg class="ico" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M2.5 2.5 L13.5 13.5 M13.5 2.5 L2.5 13.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-        </svg>
+      <button class="hoh-fs-btn" data-fs-action="x" title="Share on X" aria-label="Share on X">
+        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#x"></use></svg>
       </button>
-      <button class="hoh-fs-btn" data-fs-action="instagram" title="Copy OG Link & Open Instagram" aria-label="Copy OG Link & Open Instagram" style="width: auto; padding: 0 16px; border-radius: 20px;">
-        <svg class="ico" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <rect x="2" y="2" width="12" height="12" rx="3.5" stroke="currentColor" stroke-width="1.5"/>
-          <circle cx="8" cy="8" r="2.8" stroke="currentColor" stroke-width="1.5"/>
-          <circle cx="11.4" cy="4.6" r="0.8" fill="currentColor"/>
-        </svg>
-        <span style="margin-left: 8px; font-family: var(--font-body); font-size: 13px; font-weight: 500;">Copy for Instagram</span>
+      <button class="hoh-fs-btn" data-fs-action="instagram" title="Copy OG Link & Open Instagram" aria-label="Copy OG Link & Open Instagram">
+        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#instagram"></use></svg>
       </button>
       <button class="hoh-fs-btn hoh-fs-btn--close" data-fs-action="close" title="Close modal" aria-label="Close modal">
         <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#close-x"></use></svg>
@@ -576,11 +569,21 @@
     <div class="hoh-fs-confirm" id="hohFsConfirm" role="group" aria-label="Confirm contributor">
       <span class="hoh-fs-confirm-text">Are you <span id="hohFsHandleText">@handle</span>?</span>
       <button type="button" class="hoh-fs-confirm-btn hoh-fs-confirm-btn--yes" data-fs-action="confirm-yes" aria-label="Yes, this is me">Yes</button>
-      <button type="button" class="hoh-fs-confirm-btn hoh-fs-confirm-btn--no" data-fs-action="confirm-no" aria-label="No, dismiss">No</button>
+      <button type="button" class="hoh-fs-confirm-btn hoh-fs-confirm-btn--no" data-fs-action="confirm-no" aria-label="No, dismiss notification">No</button>
     </div>
 
     <div class="hoh-fs-overlay" id="hohFsOverlay" hidden>
-      <div class="hoh-fs-overlay-title">Add to your README.md!</div>
+      <div class="hoh-fs-overlay-header">
+        <div class="hoh-fs-overlay-title">Add to your README.md!</div>
+        <div class="hoh-fs-overlay-controls">
+          <button type="button" class="hoh-fs-overlay-ctl" data-fs-action="overlay-minimize" aria-label="Minimize" title="Minimize">
+            <svg class="ico" width="14" height="14" aria-hidden="true" viewBox="0 0 16 16"><path d="M3 12h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </button>
+          <button type="button" class="hoh-fs-overlay-ctl" data-fs-action="overlay-close" aria-label="Close panel" title="Close panel">
+            <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#close-x"></use></svg>
+          </button>
+        </div>
+      </div>
       <div class="hoh-fs-overlay-body">
         <img id="hohFsBadgePreview" class="hoh-fs-badge-img" src="" alt="Gaia contributor badge">
         <div class="hoh-fs-code-wrap">
@@ -597,6 +600,28 @@
         </a>
       </div>
     </div>
+
+    <!-- Minimized chip — appears after the README panel is minimized so the user can re-open it. -->
+    <button type="button" class="hoh-fs-overlay-restore" id="hohFsOverlayRestore" data-fs-action="overlay-restore" aria-label="Show README panel" hidden>
+      <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#seal-diamond"></use></svg>
+      <span>Add to README</span>
+    </button>
+
+    <!-- Fullscreen toggle — always pinned bottom-right. -->
+    <button type="button" class="hoh-fs-fullscreen-btn" data-fs-action="fullscreen" aria-label="Toggle fullscreen" title="Toggle fullscreen">
+      <svg class="ico hoh-fs-fullscreen-enter" width="16" height="16" aria-hidden="true" viewBox="0 0 16 16">
+        <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 6V2h4"/><path d="M14 6V2h-4"/>
+          <path d="M2 10v4h4"/><path d="M14 10v4h-4"/>
+        </g>
+      </svg>
+      <svg class="ico hoh-fs-fullscreen-exit" width="16" height="16" aria-hidden="true" viewBox="0 0 16 16">
+        <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2v4H2"/><path d="M10 2v4h4"/>
+          <path d="M6 14v-4H2"/><path d="M10 14v-4h4"/>
+        </g>
+      </svg>
+    </button>
   </div>
 
   <div id="hohFsToast" class="hoh-fs-toast" role="status" aria-live="polite">Permalink copied!</div>

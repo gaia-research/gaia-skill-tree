@@ -176,11 +176,16 @@
       if (idleTimer) { clearTimeout(idleTimer); idleTimer = null; }
 
       // Re-hide the README panel + restore the confirm pill so the next open
-      // starts in the same compact state.
+      // always starts in the same compact state.
       var overlay = document.getElementById('hohFsOverlay');
       if (overlay) overlay.hidden = true;
       var confirm = document.getElementById('hohFsConfirm');
       if (confirm) confirm.hidden = false;
+      var restore = document.getElementById('hohFsOverlayRestore');
+      if (restore) restore.hidden = true;
+      // Drop the fullscreen class — if we requested fullscreen on this modal,
+      // browsers exit automatically when the element is hidden.
+      modal.classList.remove('is-fullscreen');
 
       // Revert inert flags on body siblings we marked
       deactivateInertSiblings();
@@ -374,18 +379,65 @@
     // Action: Confirm Yes — reveal the README badge panel.
     var confirmEl = document.getElementById('hohFsConfirm');
     var overlayEl = document.getElementById('hohFsOverlay');
+    var restoreEl = document.getElementById('hohFsOverlayRestore');
     var yesBtn = modal.querySelector('[data-fs-action="confirm-yes"]');
     var noBtn = modal.querySelector('[data-fs-action="confirm-no"]');
     if (yesBtn) {
       yesBtn.onclick = function () {
         if (confirmEl) confirmEl.hidden = true;
         if (overlayEl) overlayEl.hidden = false;
+        if (restoreEl) restoreEl.hidden = true;
         wakeChrome(modal);
       };
     }
+    // Action: Confirm No — only dismiss the pill itself; keep the modal open.
     if (noBtn) {
       noBtn.onclick = function () {
-        closeHohFullscreenModal();
+        if (confirmEl) confirmEl.hidden = true;
+        wakeChrome(modal);
+      };
+    }
+
+    // Action: Minimize the README overlay → show the small restore chip.
+    var minBtn = modal.querySelector('[data-fs-action="overlay-minimize"]');
+    if (minBtn) {
+      minBtn.onclick = function () {
+        if (overlayEl) overlayEl.hidden = true;
+        if (restoreEl) restoreEl.hidden = false;
+        wakeChrome(modal);
+      };
+    }
+    // Action: Close the README overlay outright (no restore chip).
+    var ovCloseBtn = modal.querySelector('[data-fs-action="overlay-close"]');
+    if (ovCloseBtn) {
+      ovCloseBtn.onclick = function () {
+        if (overlayEl) overlayEl.hidden = true;
+        if (restoreEl) restoreEl.hidden = true;
+        wakeChrome(modal);
+      };
+    }
+    // Action: Restore — re-open the README panel from the chip.
+    if (restoreEl) {
+      restoreEl.onclick = function () {
+        if (overlayEl) overlayEl.hidden = false;
+        restoreEl.hidden = true;
+        wakeChrome(modal);
+      };
+    }
+
+    // Action: Fullscreen toggle — request/exit native fullscreen on the modal.
+    var fsBtn = modal.querySelector('[data-fs-action="fullscreen"]');
+    if (fsBtn) {
+      fsBtn.onclick = function () {
+        var inFs = !!(document.fullscreenElement || document.webkitFullscreenElement);
+        if (inFs) {
+          (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+        } else {
+          var req = modal.requestFullscreen || modal.webkitRequestFullscreen;
+          if (req) {
+            try { req.call(modal); } catch (_e) {}
+          }
+        }
       };
     }
 
@@ -469,9 +521,22 @@
     // Global Key Bindings
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') {
-        closeHohFullscreenModal();
+        // Native fullscreen swallows the first Escape itself — only close the
+        // modal if we're not already inside fullscreen.
+        var inFs = !!(document.fullscreenElement || document.webkitFullscreenElement);
+        if (!inFs) {
+          closeHohFullscreenModal();
+        }
       }
     });
+
+    // Reflect native fullscreen state on the modal so the icon swaps.
+    function syncFullscreenClass() {
+      var fsEl = document.fullscreenElement || document.webkitFullscreenElement;
+      modal.classList.toggle('is-fullscreen', fsEl === modal);
+    }
+    document.addEventListener('fullscreenchange', syncFullscreenClass);
+    document.addEventListener('webkitfullscreenchange', syncFullscreenClass);
   }
 
   if (document.readyState === 'loading') {
