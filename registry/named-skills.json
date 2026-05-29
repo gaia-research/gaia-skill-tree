@@ -5134,7 +5134,7 @@
         "addyosmani/performance",
         "addyosmani/seo"
       ],
-      "type": "unique",
+      "type": "extra",
       "installBody": "Add installation instructions here."
     },
     {

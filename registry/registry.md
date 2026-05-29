@@ -193,7 +193,7 @@
 | ◇ /voice-agent | Extra Skill | 3★ → 2★ | Evolved | `/voice-agent` |
 | ◇ /web-accessibility | Extra Skill | 2★ | Named | `/web-accessibility` |
 | ◇ /web-best-practices | Extra Skill | 2★ | Named | `/web-best-practices` |
-| ◉ /web-quality-audit | Unique Skill | 3★ | Evolved | `/web-quality-audit` |
+| ◇ /web-quality-audit | Extra Skill | 3★ | Evolved | `/web-quality-audit` |
 | ◇ [firecrawl](../docs/u/firecrawl/)/firecrawl | Extra Skill | 1★ → 0★ | Awakened | `/web-scrape` |
 | ○ /web-search | Basic Skill | 0★ | Basic | `/web-search` |
 | ◇ /wiki-search | Extra Skill | 4★ | Hardened | `/wiki-search` |
@@ -213,7 +213,6 @@
 | ◉ [huggingface](../docs/u/huggingface/)/huggingface-llm-trainer | Unique Skill | 4★ | Hardened | `/fine-tune` |
 | ◉ [ruvnet](../docs/u/ruvnet/)/hive-mind-coordination | Unique Skill | 4★ | Hardened | `/hive-mind-coordination` |
 | ◉ [huggingface](../docs/u/huggingface/)/semantic-cache | Unique Skill | 4★ | Hardened | `/semantic-cache` |
-| ◉ /web-quality-audit | Unique Skill | 3★ | Evolved | `/web-quality-audit` |
 
 ## Basics
 

@@ -352,7 +352,6 @@ Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) throu
   · ◉ huggingface/huggingface-llm-trainer  [4★ · Hardened]
   · ◉ ruvnet/hive-mind-coordination  [4★ · Hardened]
   · ◉ huggingface/semantic-cache  [4★ · Hardened]
-  · ◉ /web-quality-audit  [3★ · Evolved]
 
 ══════════════════════════════════════════════════════════════════════
 Basics — basic-tier skills not wired into an upgrade path yet.  (0★ skills carry a [0★ · Pure] rank pill inline.)

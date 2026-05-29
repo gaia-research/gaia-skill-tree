@@ -71,7 +71,6 @@ Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) throu
   ◉ huggingface/huggingface-llm-trainer  [4★ · Hardened]
   ◉ ruvnet/hive-mind-coordination  [4★ · Hardened]
   ◉ huggingface/semantic-cache  [4★ · Hardened]
-  ◉ /web-quality-audit  [3★ · Evolved]
 
 (215 skills total — see docs/tree.md)
 ```

@@ -112,6 +112,7 @@
 | ◇ /voice-agent | Extra Skill | Speech to Text, Question Answer, Text to Speech | 3★ → 2★ | Requires real-time audio I/O or audio file access. |
 | ◇ /web-accessibility | Extra Skill | Browser Control, UX Audit | 2★ |  |
 | ◇ /web-best-practices | Extra Skill | Code Review Pipeline, Performance Tuning | 2★ |  |
+| ◇ /web-quality-audit | Extra Skill | Gaia Meta Audit, Performance Tuning, search-engine-optimization, web-accessibility, web-best-practices | 3★ |  |
 | ◇ [firecrawl](../docs/u/firecrawl/)/firecrawl | Extra Skill | Web Search, Parse HTML, Extract Entities | 1★ → 0★ | Structured output mode required. |
 | ◇ /wiki-search | Extra Skill | Retrieve, Embed Text, Summarize | 4★ | Requires an accessible local wiki or markdown knowledge-base directory and a consistent linking or indexing convention. |
 | ◇ [ruvnet](../docs/u/ruvnet/)/github-workflow-automation | Extra Skill | Plan and Decompose, Tool Use, API Call | 4★ |  |

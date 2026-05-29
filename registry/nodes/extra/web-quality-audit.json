@@ -1,7 +1,7 @@
 {
   "id": "web-quality-audit",
   "name": "web-quality-audit",
-  "type": "unique",
+  "type": "extra",
   "level": "3★",
   "rarity": "common",
   "description": "Comprehensive web quality audit.",
@@ -50,6 +50,12 @@
       "action": "type_change",
       "contributor": "unknown",
       "details": "Reclassified from ultimate to unique"
+    },
+    {
+      "timestamp": "2026-05-29T12:59:34Z",
+      "action": "type_change",
+      "contributor": "unknown",
+      "details": "Reclassified from unique to extra"
     }
   ]
 }
