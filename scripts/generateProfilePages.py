@@ -414,10 +414,10 @@ def _plaque_actions_html(ns: dict, handle: str = "") -> str:
     skill_id_short = skill_id.split("/")[-1] if "/" in skill_id else skill_id
     skill_name = ns.get("title", "") or ns.get("name", "") or skill_id_short
 
-    # Share button — always rendered (OG PNG may be generated later)
+    # Share button — always rendered (OG SVG for inline display; PNG for download)
     share_btn_html = ""
     if handle and skill_id_short:
-        og_rel = f"../../og/{handle}/{skill_id_short}.png"
+        og_rel = f"../../og/{handle}/{skill_id_short}.svg"
         share_btn_html = (
             f'<button class="plaque__share-btn" type="button"'
             f' data-skill-id="{html.escape(skill_id)}"'

@@ -258,7 +258,10 @@
       if (ogPath) {
         // Show mock immediately so the modal isn't blank during the fetch.
         renderMock();
-        fetch(ogPath)
+        // Always fetch the SVG for inline display — if given a .png path
+        // (e.g. from profile pages), derive the .svg sibling.
+        var svgPath = ogPath.replace(/\.png(\?.*)?$/, '.svg');
+        fetch(svgPath)
           .then(function (r) { return r.ok ? r.text() : Promise.reject(); })
           .then(function (svgText) {
             // Strip XML prolog so the SVG inlines cleanly.
