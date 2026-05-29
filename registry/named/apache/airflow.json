@@ -9,5 +9,15 @@
   "status": "named",
   "addedAt": "2026-05-14",
   "updatedAt": "2026-05-14",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-14T07:54:42Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 0★ (named)",
+      "previousValue": null,
+      "newValue": "0★"
+    }
+  ]
 }

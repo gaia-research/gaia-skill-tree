@@ -26,5 +26,39 @@
   "createdAt": "2026-04-26",
   "updatedAt": "2026-04-26",
   "version": "0.1.0",
-  "title": "Grand Conductor"
+  "title": "Grand Conductor",
+  "timeline": [
+    {
+      "timestamp": "2026-05-13T21:50:25Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 5★ (provisional)",
+      "previousValue": null,
+      "newValue": "5★"
+    },
+    {
+      "timestamp": "2026-05-18T09:04:22Z",
+      "action": "evidence_added",
+      "contributor": "jules",
+      "details": "Added evidence: https://github.com/ruvnet/ruflo",
+      "previousValue": null,
+      "newValue": "5★"
+    },
+    {
+      "timestamp": "2026-05-18T15:45:47Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Type adjusted from ultimate to extra",
+      "previousValue": "ultimate",
+      "newValue": "extra"
+    },
+    {
+      "timestamp": "2026-05-19T22:44:52Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated/demoted rank from 5★ to 3★",
+      "previousValue": "5★",
+      "newValue": "3★"
+    }
+  ]
 }

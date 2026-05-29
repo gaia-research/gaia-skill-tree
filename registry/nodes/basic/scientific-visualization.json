@@ -43,6 +43,14 @@
   "version": "0.1.0",
   "timeline": [
     {
+      "timestamp": "2026-05-13T21:50:25Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 2★ (provisional)",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
       "timestamp": "2026-05-22T20:19:38Z",
       "action": "evidence_added",
       "contributor": "unknown",
@@ -53,6 +61,14 @@
       "action": "evidence_added",
       "contributor": "unknown",
       "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md"
+    },
+    {
+      "timestamp": "2026-05-22T20:28:53Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence: https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md",
+      "previousValue": null,
+      "newValue": "2★"
     }
   ]
 }

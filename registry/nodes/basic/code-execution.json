@@ -47,16 +47,40 @@
   "version": "0.2.0",
   "timeline": [
     {
+      "timestamp": "2026-05-13T21:50:25Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 2★ (provisional)",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
       "timestamp": "2026-05-20T00:01:39Z",
       "action": "merge",
       "contributor": "unknown",
       "details": "Merged execute-bash into code-execution"
     },
     {
+      "timestamp": "2026-05-20T00:05:31Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence: https://github.com/gaia-registry/gaia/blob/main/docs/evidence/executeBash.md",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
       "timestamp": "2026-05-25T04:25:31Z",
       "action": "demote",
       "contributor": "mbtiongson1",
       "details": "Calibrated level from 2★ to 1★"
+    },
+    {
+      "timestamp": "2026-05-25T04:44:23Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated/demoted rank from 2★ to 0★",
+      "previousValue": "2★",
+      "newValue": "0★"
     }
   ],
   "demerits": [

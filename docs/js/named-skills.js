@@ -413,6 +413,26 @@
     // state and existing <option value="level"> markup.
     var sortMode = 'level-desc';
 
+    // Bind search inputs synchronously so keystrokes work even if the registry
+    // fetch is slow or fails. triggerRender() is a no-op until the Promise
+    // resolves and assigns it to the real renderCurrent().
+    var triggerRender = function(){};
+    var mobileSearchEl = document.getElementById('navMobileSearch');
+    if (searchEl) {
+      searchEl.addEventListener('input', function(){
+        searchQuery = searchEl.value;
+        if(mobileSearchEl && mobileSearchEl.value !== searchQuery) mobileSearchEl.value = searchQuery;
+        triggerRender();
+      });
+    }
+    if (mobileSearchEl) {
+      mobileSearchEl.addEventListener('input', function(){
+        searchQuery = mobileSearchEl.value;
+        if(searchEl && searchEl.value !== searchQuery) searchEl.value = searchQuery;
+        triggerRender();
+      });
+    }
+
     // Stage 4 — Schema source-of-truth. The named index and meta block both
     // come from generated assets. If either fetch fails we render an empty
     // state with a hint to run the sync script. No fallbacks, no silent drift.
@@ -538,7 +558,7 @@
         var filtered = allNamed.filter(function(ns) {
           if (typeFilter !== 'all' && (ns.type || 'basic') !== typeFilter) return false;
           if (q) {
-            var hay = (nsDisplayName(ns)+' '+ns.id+' '+(ns.tags||[]).join(' ')+' '+(ns.contributor||'')).toLowerCase();
+            var hay = (nsDisplayName(ns)+' '+ns.id+' '+(Array.isArray(ns.tags)?ns.tags:[]).join(' ')+' '+(ns.contributor||'')).toLowerCase();
             if (hay.indexOf(q) === -1) return false;
           }
           return true;
@@ -614,21 +634,9 @@
         });
       }
 
-      var mobileSearchEl = document.getElementById('navMobileSearch');
-      if (searchEl) {
-        searchEl.addEventListener('input', function(){
-          searchQuery = searchEl.value;
-          if(mobileSearchEl && mobileSearchEl.value !== searchQuery) mobileSearchEl.value = searchQuery;
-          renderCurrent();
-        });
-      }
-      if (mobileSearchEl) {
-        mobileSearchEl.addEventListener('input', function(){
-          searchQuery = mobileSearchEl.value;
-          if(searchEl && searchEl.value !== searchQuery) searchEl.value = searchQuery;
-          renderCurrent();
-        });
-      }
+      // Search input listeners are bound at init time (outside the Promise).
+      // Activate them now that data has loaded.
+      triggerRender = renderCurrent;
 
       if (sortEl) {
         // Initialise to current sortMode (back-compat: 'level' → 'level-desc').

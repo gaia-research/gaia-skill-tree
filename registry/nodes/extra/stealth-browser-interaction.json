@@ -36,10 +36,26 @@
   "version": "0.1.0",
   "timeline": [
     {
+      "timestamp": "2026-05-14T07:54:42Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 4★ (provisional)",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
       "timestamp": "2026-05-25T04:25:35Z",
       "action": "demote",
       "contributor": "mbtiongson1",
       "details": "Calibrated level from 4★ to 3★"
+    },
+    {
+      "timestamp": "2026-05-25T04:44:23Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated/demoted rank from 4★ to 2★",
+      "previousValue": "4★",
+      "newValue": "2★"
     }
   ]
 }

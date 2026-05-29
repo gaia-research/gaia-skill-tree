@@ -1,68 +1,36 @@
 <!DOCTYPE html>
 <html lang="en" data-icon-base="../assets/icons.svg">
 <head>
-  <script>window.GAIA_VERSION = "3.25.1";</script>
+  <script>window.GAIA_VERSION = "3.25.2";</script>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gaia Badges — Wear your rank</title>
+  <title>Claim your Badge — Github Badges for your Repo</title>
   <meta name="description" content="Generate a Gaia-branded README badge for any contributor — highest rank, total skills, or the single-line @handle/skill identity badge.">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Gaia Badges — Wear your rank">
+  <meta property="og:title" content="Claim your Badge — Github Badges for your Repo">
   <meta property="og:description" content="Drop a Gaia-branded badge in your README and link back to your contributor profile.">
   <meta property="og:url" content="https://gaia.tiongson.co/badges/">
   <link rel="icon" type="image/svg+xml" href="../assets/marks/diamond-seal.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="../css/tokens.css?v=3.25.1">
-  <link rel="stylesheet" href="../css/styles.css?v=3.25.1">
+  <link rel="stylesheet" href="../css/tokens.css?v=3.25.2">
+  <link rel="stylesheet" href="../css/styles.css?v=3.25.2">
   <style>
-    body {
-      padding: 3.5rem 1.5rem 6rem;
-      max-width: 980px;
-      margin: 0 auto;
-      font-family: var(--font-body);
-      color: var(--text);
-      background: var(--bg);
-    }
     a { color: inherit; }
-    .bd-eyebrow {
-      font-family: var(--font-mono);
-      font-size: .72rem;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: var(--rank-5, #fbbf24);
-      margin-bottom: .7rem;
-    }
-    h1.bd-title {
-      font-family: var(--font-display);
-      font-size: clamp(2rem, 4.5vw, 3rem);
-      font-weight: 600;
-      line-height: 1.1;
-      margin: 0 0 1rem;
-      letter-spacing: -.01em;
-    }
-    .bd-lede {
-      font-size: 1.05rem;
-      line-height: 1.65;
-      color: var(--muted);
-      max-width: 64ch;
-      margin: 0 0 2rem;
-    }
-    .bd-lede strong { color: var(--text); }
     .bd-live {
       display: flex;
       gap: .6rem;
       flex-wrap: wrap;
       align-items: center;
-      padding: 1.4rem 1.6rem;
-      background: rgba(15,23,42,.55);
+      padding: .7rem 1rem;
       border: 1px solid var(--border);
-      border-radius: 12px;
-      margin-bottom: 3rem;
+      border-radius: 8px;
+      margin-top: 1.2rem;
+      width: fit-content;
     }
     .bd-live img { display: block; height: 20px; }
     .bd-live .bd-live-label {
@@ -74,83 +42,63 @@
       margin-right: .4rem;
     }
 
-    h2 {
-      font-family: var(--font-display);
-      font-size: 1.55rem;
-      font-weight: 600;
-      margin: 2.8rem 0 1.2rem;
-      letter-spacing: -.005em;
-    }
-    .bd-section-lede {
-      color: var(--muted);
-      font-size: .96rem;
-      line-height: 1.6;
-      max-width: 64ch;
-      margin: 0 0 1.4rem;
-    }
-
-    /* ── Gallery ── */
-    .bd-gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-    .bd-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.2rem 1.3rem;
-      display: flex;
-      flex-direction: column;
-      gap: .65rem;
-      text-decoration: none;
-      color: inherit;
-      transition: border-color .15s, transform .15s;
-    }
-    .bd-card:hover {
-      border-color: var(--rank-5, #fbbf24);
-      transform: translateY(-1px);
-    }
-    .bd-card-handle {
-      font-family: var(--font-mono);
-      font-size: .82rem;
-      color: var(--honor, #ef4444);
-      font-weight: 600;
-    }
-    .bd-card img { display: block; height: 20px; }
-    .bd-card .bd-pair { display: flex; gap: .45rem; flex-wrap: wrap; }
-
-    /* ── Generator ── */
+    /* ── Generator Layout & Simulator ── */
     .bd-gen {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 14px;
-      padding: 1.6rem 1.8rem;
-      margin: 1rem 0 3rem;
+      padding: 1.4rem 1.6rem 1.6rem;
+      margin: 1.2rem 0 2rem;
     }
+
+    /* ── Input row with clear button ── */
     .bd-gen-row {
       display: flex;
       gap: .65rem;
       align-items: stretch;
       flex-wrap: wrap;
     }
-    .bd-gen input {
+    .bd-input-wrap {
       flex: 1;
       min-width: 200px;
-      padding: .7rem .9rem;
+      position: relative;
+      display: flex;
+    }
+    .bd-gen input[type="text"],
+    .bd-gen input[type="search"] {
+      flex: 1;
+      padding: .7rem 2.2rem .7rem .9rem;
       font-family: var(--font-mono);
       font-size: .95rem;
       background: rgba(15,23,42,.6);
       border: 1px solid var(--border);
       border-radius: 8px;
       color: var(--text);
+      min-width: 0;
     }
-    .bd-gen input:focus {
+    .bd-gen input[type="text"]:focus,
+    .bd-gen input[type="search"]:focus {
       outline: none;
       border-color: var(--rank-5, #fbbf24);
     }
-    .bd-gen button {
+    .bd-clear-btn {
+      position: absolute;
+      right: .55rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      padding: .2rem .3rem;
+      font-size: .9rem;
+      line-height: 1;
+      display: none;
+      border-radius: 4px;
+      transition: color .12s;
+    }
+    .bd-clear-btn:hover { color: var(--text); }
+    .bd-gen .bd-go-btn {
       padding: .7rem 1.2rem;
       font-family: var(--font-body);
       font-weight: 600;
@@ -162,53 +110,83 @@
       cursor: pointer;
       transition: filter .12s;
     }
-    .bd-gen button:hover { filter: brightness(1.08); }
-    .bd-gen-preview {
-      margin-top: 1.4rem;
-      display: none;
-      flex-direction: column;
-      gap: .9rem;
+    .bd-gen .bd-go-btn:hover { filter: brightness(1.08); }
+
+    /* ── Rank sampler ── */
+    .bd-gen-sampler {
+      display: flex;
+      gap: .6rem;
+      align-items: center;
+      margin-top: .8rem;
+      padding-top: .8rem;
+      border-top: 1px solid var(--border);
     }
-    .bd-gen-preview.is-visible { display: flex; }
-    .bd-gen-badges { display: flex; flex-direction: column; gap: .45rem; }
-    .bd-gen-badges img { height: 20px; align-self: flex-start; }
-    .bd-gen-status {
-      font-family: var(--font-mono);
-      font-size: .82rem;
-      color: var(--muted);
+    .bd-sampler-img-slot {
+      /* Widen so the longest sample ("Transcendent · 5★") doesn't crowd the
+         cycle button on its right. Empirical: 5★ badge ≈ 188px; pad to 200px. */
+      width: 200px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
     }
-    .bd-gen-status.is-error { color: var(--honor, #ef4444); }
-    pre.bd-snippet {
-      background: rgba(15,23,42,.7);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1rem 1.2rem;
-      overflow-x: auto;
+    .bd-sampler-img-slot img { display: block; height: 20px; }
+    .bd-sampler-cycle {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      padding: .3rem .7rem;
       font-family: var(--font-mono);
-      font-size: .82rem;
-      line-height: 1.55;
-      color: var(--text);
-      margin: 0;
-      white-space: pre-wrap;
-      word-break: break-all;
-    }
-    .bd-copy {
-      align-self: flex-start;
-      padding: .45rem .85rem;
-      font-size: .78rem;
-      font-family: var(--font-mono);
-      letter-spacing: .04em;
+      font-size: .72rem;
+      letter-spacing: .06em;
       background: transparent;
       color: var(--muted);
       border: 1px solid var(--border);
       border-radius: 6px;
       cursor: pointer;
       transition: color .12s, border-color .12s;
+      flex-shrink: 0;
+      white-space: nowrap;
     }
-    .bd-copy:hover { color: var(--text); border-color: var(--rank-5, #fbbf24); }
-    .bd-copy.is-copied { color: var(--rank-2, #63cab7); border-color: var(--rank-2, #63cab7); }
+    .bd-sampler-cycle:hover { color: var(--text); border-color: var(--rank-5, #fbbf24); }
 
-    /* ── Repo picker (validation) ── */
+    .bd-gen-preview {
+      margin-top: 1.6rem;
+      display: none;
+      flex-direction: column;
+      gap: .9rem;
+    }
+    .bd-gen-preview.is-visible { display: flex; }
+
+    .bd-gen-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 360px;
+      gap: 2rem;
+      align-items: start;
+    }
+    .bd-gen-left, .bd-gen-right { min-width: 0; }
+    @media (max-width: 860px) {
+      .bd-gen-layout { grid-template-columns: 1fr; }
+    }
+
+    .bd-gen-status {
+      font-family: var(--font-mono);
+      font-size: .82rem;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.5rem;
+      margin-bottom: 0.3rem;
+    }
+    .bd-gen-status.is-error { color: var(--honor, #ef4444); border-bottom: none; }
+
+    /* ── Repo picker ── */
+    .bd-repo-label {
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: .5rem;
+    }
     .bd-repos {
       display: flex;
       gap: .4rem;
@@ -236,35 +214,488 @@
       background: rgba(251, 191, 36, 0.08);
     }
     .bd-repos input { position: absolute; opacity: 0; pointer-events: none; }
-    .bd-validate-note {
+
+    /* ── Skill picker ── */
+    .bd-skill-picker-wrap {
+      margin-top: .85rem;
+      max-width: 420px;
+    }
+    .bd-skill-picker-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: .4rem;
+      gap: .75rem;
+    }
+    .bd-skill-picker-label {
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .bd-skill-clear {
+      display: none;
+      background: transparent;
+      border: 0;
+      padding: 0;
+      font-family: var(--font-mono);
+      font-size: .68rem;
+      letter-spacing: .04em;
+      color: var(--muted);
+      cursor: pointer;
+      transition: color .12s;
+    }
+    .bd-skill-clear.is-visible { display: inline-flex; }
+    .bd-skill-clear:hover { color: var(--honor-red, #ef4444); }
+    .bd-skill-row {
+      display: flex;
+      align-items: center;
+      gap: .35rem;
+      margin-bottom: .4rem;
+    }
+    .bd-skill-row:last-child { margin-bottom: 0; }
+    .bd-skill-row input[type="checkbox"] {
+      width: 13px;
+      height: 13px;
+      accent-color: var(--rank-5, #fbbf24);
+      cursor: pointer;
+      flex-shrink: 0;
+      margin: 0;
+    }
+    .bd-skill-picker {
+      flex: 1;
+      min-width: 0;
+      padding: .45rem .7rem;
+      font-family: var(--font-mono);
+      font-size: .8rem;
+      background: rgba(15,23,42,.7);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      color: var(--text);
+      cursor: pointer;
+      appearance: auto;
+    }
+    .bd-skill-picker:focus { outline: none; border-color: var(--rank-5, #fbbf24); }
+    .bd-skill-remove {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--muted);
+      width: 26px;
+      height: 26px;
+      font-size: .9rem;
+      line-height: 1;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: color .12s, border-color .12s;
+    }
+    .bd-skill-remove:hover { color: var(--text); border-color: var(--honor-red, #ef4444); }
+    .bd-skill-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .5rem;
+      /* indent left edge so "Add more" aligns under the dropdown
+         (checkbox 13px + row gap .35rem) */
+      padding-left: calc(13px + .35rem);
+      /* leave room on the right so we don't sit under the ✕ column */
+      padding-right: calc(26px + .35rem);
+      margin-top: .35rem;
+    }
+    .bd-skill-add,
+    .bd-skill-addall {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      padding: .3rem .6rem;
+      background: transparent;
+      border: 1px dashed var(--border);
+      border-radius: 6px;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      cursor: pointer;
+      transition: color .12s, border-color .12s;
+    }
+    .bd-skill-add:hover,
+    .bd-skill-addall:hover { color: var(--text); border-color: var(--rank-5, #fbbf24); }
+    .bd-skill-addall { display: none; }
+    .bd-skill-addall.is-visible { display: inline-flex; }
+
+    /* ── Real checkboxes (badge selectors) ── */
+    .bd-checks {
+      display: none;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: .85rem;
+      padding-top: .75rem;
+      border-top: 1px solid var(--border);
+    }
+    .bd-checks.is-visible { display: flex; }
+    .bd-check-label {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      font-family: var(--font-mono);
+      font-size: .78rem;
+      color: var(--text);
+      cursor: pointer;
+      user-select: none;
+    }
+    .bd-check-label input[type="checkbox"] {
+      width: 14px;
+      height: 14px;
+      accent-color: var(--rank-5, #fbbf24);
+      cursor: pointer;
+    }
+    /* Visually separate the "Hide Gaia" toggle (it changes appearance,
+       not which badges are included) by pushing it to the row's end and
+       muting its label until the user has touched it. */
+    .bd-check-seal-wrap {
+      margin-left: auto;
+      padding-left: .8rem;
+      border-left: 1px dashed var(--border);
+      color: var(--muted);
+    }
+    .bd-check-seal-wrap:has(input:checked) { color: var(--text); }
+    @media (max-width: 480px) {
+      .bd-check-seal-wrap {
+        margin-left: 0;
+        padding-left: 0;
+        border-left: none;
+        width: 100%;
+        padding-top: .55rem;
+        border-top: 1px dashed var(--border);
+      }
+    }
+
+    /* ── Validating-state explainer ── */
+    .bd-validating-note {
+      margin-top: .9rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: rgba(15, 23, 42, .35);
+      overflow: hidden;
+    }
+    .bd-validating-note > summary {
+      list-style: none;
+      cursor: pointer;
+      padding: .55rem .85rem;
       font-family: var(--font-mono);
       font-size: .76rem;
-      color: var(--rank-3, #a78bfa);
-      letter-spacing: .03em;
-      margin: .25rem 0 0;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: .45rem;
+      user-select: none;
+      transition: color .12s, background .12s;
     }
+    .bd-validating-note > summary:hover { color: var(--text); }
+    .bd-validating-note > summary::-webkit-details-marker { display: none; }
+    .bd-validating-note[open] > summary {
+      color: var(--text);
+      border-bottom: 1px solid var(--border);
+    }
+    .bd-validating-body {
+      padding: .65rem .9rem .85rem;
+      font-size: .82rem;
+      line-height: 1.55;
+      color: var(--muted);
+    }
+    .bd-validating-body p { margin: .35rem 0; }
+    .bd-validating-body code {
+      font-family: var(--font-mono);
+      font-size: .78rem;
+      background: rgba(251, 191, 36, .08);
+      padding: 1px 5px;
+      border-radius: 3px;
+      color: var(--text);
+    }
+    .bd-validating-body strong { color: var(--rank-5, #fbbf24); }
+
+    /* ── CTA block (register repo / open README) ── */
+    .bd-cta-block {
+      margin-top: .9rem;
+      padding: .95rem 1.05rem;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: linear-gradient(135deg, rgba(239, 68, 68, .04), rgba(251, 191, 36, .04));
+    }
+    .bd-cta-block.bd-cta-register {
+      border-color: rgba(239, 68, 68, .35);
+      background: linear-gradient(135deg, rgba(239, 68, 68, .08), rgba(15, 23, 42, .35));
+    }
+    .bd-cta-title {
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: .92rem;
+      color: var(--text);
+      margin: 0 0 .35rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+    .bd-cta-title .bd-cta-icon {
+      flex-shrink: 0;
+      color: var(--honor-red, #ef4444);
+    }
+    .bd-cta-sub {
+      font-size: .82rem;
+      line-height: 1.55;
+      color: var(--muted);
+      margin: 0 0 .65rem;
+    }
+    .bd-cta-sub code {
+      font-family: var(--font-mono);
+      font-size: .78rem;
+      background: rgba(15, 23, 42, .55);
+      padding: 1px 5px;
+      border-radius: 3px;
+      color: var(--text);
+    }
+    .bd-cta-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .45rem;
+    }
+    .bd-cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      padding: .45rem .85rem;
+      font-family: var(--font-mono);
+      font-size: .78rem;
+      letter-spacing: .03em;
+      background: rgba(15, 23, 42, .65);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: border-color .12s, background .12s, color .12s;
+    }
+    .bd-cta-btn:hover {
+      border-color: var(--rank-5, #fbbf24);
+      background: rgba(251, 191, 36, .08);
+    }
+    .bd-cta-btn-primary {
+      background: var(--honor-red, #ef4444);
+      border-color: var(--honor-red, #ef4444);
+      color: #fff;
+    }
+    .bd-cta-btn-primary:hover {
+      background: #dc2626;
+      border-color: #dc2626;
+      color: #fff;
+    }
+    .bd-cta-repo-row {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      padding: .35rem 0;
+      font-family: var(--font-mono);
+      font-size: .82rem;
+      color: var(--muted);
+    }
+    .bd-cta-repo-row + .bd-cta-repo-row {
+      border-top: 1px dashed var(--border);
+    }
+    .bd-cta-repo-name {
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: var(--text);
+    }
+    .bd-checks-label {
+      width: 100%;
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: -.2rem;
+    }
+
+    /* ── Per-badge rows ── */
+    .bd-rows-header {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      margin-top: .85rem;
+      margin-bottom: .35rem;
+    }
+    .bd-copy-all {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      padding: .3rem .7rem;
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      letter-spacing: .06em;
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid rgba(251,191,36,.35);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: color .12s, border-color .12s;
+    }
+    .bd-copy-all:hover { color: var(--text); border-color: rgba(251,191,36,.8); }
+    .bd-row-item {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: .6rem;
+      margin-bottom: .45rem;
+      min-width: 0;
+    }
+    .bd-row-item:last-child { margin-bottom: 0; }
+    .bd-row-badge {
+      flex-shrink: 0;
+      line-height: 1;
+    }
+    .bd-row-badge img { display: block; height: 20px; }
+
+    /* Badge code rows — single-line truncation */
+    #bd-rows .usp-row,
+    .bd-generic .usp-row {
+      font-size: .78rem;
+      padding: .4rem .75rem;
+      align-items: center;
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+    }
+    #bd-rows .usp-cmd,
+    .bd-generic .usp-cmd {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.5;
+      min-width: 0;
+      flex: 1;
+    }
+    #bd-rows .usp-copy,
+    .bd-generic .usp-copy {
+      flex-shrink: 0;
+    }
+
+    /* ── Single copy block ── */
+    .bd-snip-row {
+      display: flex;
+      flex-direction: column;
+      gap: .3rem;
+    }
+
+    /* README Simulator */
+    .readme-simulator {
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 24px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+      color: #c9d1d9;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+      position: sticky;
+      top: 5.5rem;
+    }
+    .readme-header {
+      border-bottom: 1px solid #21262d;
+      padding-bottom: 10px;
+      margin-bottom: 18px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #8b949e;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .readme-header svg { fill: currentColor; flex-shrink: 0; }
+    .readme-body h3 {
+      font-size: 20px;
+      font-weight: 600;
+      border-bottom: 1px solid #21262d;
+      padding-bottom: 8px;
+      margin-top: 0;
+      margin-bottom: 14px;
+      color: #f0f6fc;
+      font-family: inherit !important;
+    }
+    .readme-body p {
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 16px;
+      color: #c9d1d9;
+      font-family: inherit !important;
+    }
+    .readme-badges-preview {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .readme-badges-preview img { height: 20px; display: block; }
+    .readme-badges-preview a { display: block; }
+
+    /* ── Powered-by block ── */
+    .bd-powered {
+      margin-top: 2.5rem;
+      padding: 1.1rem 1.3rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+    .bd-powered-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: .75rem;
+    }
+    .bd-powered-title {
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .bd-powered-badge img { display: block; height: 20px; }
 
     /* ── Variant table ── */
     .bd-variants {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 1rem;
+      gap: .75rem;
       margin-bottom: 2rem;
     }
     .bd-variant {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.1rem 1.3rem;
+      border-radius: 10px;
+      padding: .85rem 1.1rem;
       display: grid;
-      grid-template-columns: 200px 1fr;
-      gap: 1.2rem;
+      grid-template-columns: 180px 1fr;
+      gap: 1.4rem;
       align-items: center;
     }
     @media (max-width: 640px) {
       .bd-variant { grid-template-columns: 1fr; }
     }
+    .bd-variant-preview {
+      display: flex;
+      flex-direction: column;
+      gap: .35rem;
+    }
     .bd-variant img { height: 20px; }
+    .bd-variant-stat {
+      font-family: var(--font-mono);
+      font-size: .68rem;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
     .bd-variant-name {
       font-family: var(--font-mono);
       font-size: .82rem;
@@ -284,124 +715,424 @@
       color: var(--muted);
       line-height: 1.6;
     }
+
+    /* ── Badge meaning table ── */
+    .bd-meaning-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .85rem;
+      margin-top: 1.2rem;
+    }
+    .bd-meaning-table th {
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: .55rem .75rem;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      white-space: nowrap;
+    }
+    .bd-meaning-table td {
+      padding: .75rem .75rem;
+      border-bottom: 1px solid rgba(255,255,255,.04);
+      color: var(--muted);
+      line-height: 1.55;
+      vertical-align: top;
+    }
+    .bd-meaning-table td:first-child {
+      font-family: var(--font-mono);
+      font-size: .8rem;
+      color: var(--rank-1, #38bdf8);
+      white-space: nowrap;
+    }
+    .bd-meaning-table td:last-child {
+      color: var(--muted);
+      font-size: .82rem;
+    }
+    .bd-meaning-table tr:last-child td { border-bottom: none; }
+    .bd-meaning-table code {
+      font-family: var(--font-mono);
+      font-size: .78rem;
+      background: rgba(255,255,255,.05);
+      padding: 1px 5px;
+      border-radius: 3px;
+      color: var(--text);
+    }
+
+    /* ── Rank swatch chip ── */
+    .bd-rank-swatch {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: .35rem;
+      flex-shrink: 0;
+      vertical-align: middle;
+      position: relative;
+      top: -1px;
+    }
+    .bd-rank-table td:nth-child(3) {
+      white-space: nowrap;
+      font-family: var(--font-mono);
+      font-size: .78rem;
+    }
+    .bd-rank-table td:first-child {
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: .85rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
   </style>
 </head>
-<body>
-  <nav style="margin-bottom:2.5rem;">
-    <a href="../" style="font-family:var(--font-mono);font-size:.82rem;color:var(--muted);text-decoration:none;letter-spacing:.06em;">← gaia.tiongson.co</a>
+<body class="process-page">
+  <nav>
+    <a href="../" class="nav-back-home" aria-label="Back to home" style="display:inline-flex;align-items:center;padding:.35rem .5rem;color:var(--muted);text-decoration:none;flex-shrink:0">
+      <svg class="ico" width="16" height="16" aria-hidden="true"><use href="../assets/icons.svg#arrow-back"/></svg>
+    </a>
+    <button type="button" class="nav-search-back" id="navSearchBack" aria-label="Back">
+      <svg class="ico" width="20" height="20" aria-hidden="true"><use href="../assets/icons.svg#arrow-back"/></svg>
+    </button>
+    <input type="search" id="navMobileSearch" class="nav-mobile-search" placeholder="Search named…" autocomplete="off" aria-label="Search named">
+    <button class="nav-menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <ul>
+      <li><a href="../index.html" style="color: var(--text);">Home</a></li>
+      <li><button type="button" class="nav-tree" id="treeNavBtn" style="color: #34d399;">Skill Tree</button></li>
+      <li><a href="../index.html" class="nav-graph-trigger" style="color: #38bdf8;">Skill Graph</a></li>
+      <li><a href="../codex.html" style="color: var(--tier-basic);">The Codex</a></li>
+      <li><a href="../meta.html" class="nav-meta" id="metaNavBtn">Meta Reports</a></li>
+      <li><a href="./" style="color: var(--honor-red);" aria-current="page">Github Badges</a></li>
+      <li><button type="button" class="nav-search-btn" id="navSearchBtn" aria-label="Search named"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#search"/></svg></button></li>
+    </ul>
   </nav>
 
-  <div class="bd-eyebrow">README badges</div>
-  <h1 class="bd-title">Wear your Gaia rank.</h1>
-  <p class="bd-lede">
-    Contributors who earn named skills can drop a Gaia-branded badge into their own repo READMEs.
-    Three variants — <strong>highest rank</strong>, <strong>total skills</strong>, and the single-line
-    <strong>@handle/skill · N★</strong> identity badge — all regenerate on every <code>gaia docs build</code>,
-    so the values track the live registry.
-  </p>
+  <main>
+    <section class="process-hero" style="min-height: auto; padding-top: 5rem; padding-bottom: 2rem;">
+      <p class="process-kicker">For those who have named their skill</p>
+      <h1>Github Badges</h1>
+      <p class="process-lede">
+        You earned a named skill — now wear it. Drop a Gaia-branded badge into your repo README and link back to your contributor profile. Badges update automatically on every release, reflecting your highest rank, total skills, or the specific skill you want to showcase.
+      </p>
+      <p class="process-lede" style="margin-top:.85rem;">
+        This prestige is yours to keep — built through evidence, discipline, and real work. Not self-assigned. Not purchased. Every badge in this registry was reviewed, challenged, and earned. The diamond seal on your README is a permanent record of that.
+      </p>
 
-  <div class="bd-live">
-    <span class="bd-live-label">live</span>
-    <img src="./mbtiongson1/handle.svg" alt="Owner identity badge" onerror="this.style.display='none'">
-    <img src="./mbtiongson1/rank.svg" alt="Owner rank badge">
-    <img src="./mbtiongson1/skills.svg" alt="Owner skills count badge">
-  </div>
+      <!-- Live preview strip -->
+      <div class="bd-live">
+        <span class="bd-live-label">live</span>
+        <img src="./mbtiongson1/handle.svg" alt="Owner identity badge" onerror="this.style.display='none'">
+        <img src="./mbtiongson1/rank.svg" alt="Owner rank badge">
+        <img src="./mbtiongson1/skills.svg" alt="Owner skills count badge">
+        <div style="flex-basis: 100%; height: 0;"></div>
+        <span class="bd-live-label">seal-only</span>
+        <img src="./mbtiongson1/handle-seal.svg" alt="Owner identity badge — seal-only variant" onerror="this.style.display='none'">
+      </div>
+    </section>
 
-  <h2>Variants</h2>
-  <div class="bd-variants">
-    <div class="bd-variant">
-      <img src="./garrytan/handle.svg" alt="@garrytan handle badge">
-      <div>
-        <div class="bd-variant-name">handle.svg</div>
-        <div class="bd-variant-desc">Single-line identity. <code>@handle</code> in honor red, top
-        named skill in its rank color, star count in the same hue.</div>
-      </div>
-    </div>
-    <div class="bd-variant">
-      <img src="./garrytan/rank.svg" alt="garrytan rank badge">
-      <div>
-        <div class="bd-variant-name">rank.svg</div>
-        <div class="bd-variant-desc">Highest rank earned. Right panel color is the rank tier
-        (1★ cyan → 5/6★ gold).</div>
-      </div>
-    </div>
-    <div class="bd-variant">
-      <img src="./garrytan/skills.svg" alt="garrytan skills badge">
-      <div>
-        <div class="bd-variant-name">skills.svg</div>
-        <div class="bd-variant-desc">Total skill count. Amber panel, always.</div>
-      </div>
-    </div>
-    <div class="bd-variant">
-      <img src="./powered-by-gaia.svg" alt="Powered by Gaia">
-      <div>
-        <div class="bd-variant-name">powered-by-gaia.svg</div>
-        <div class="bd-variant-desc">Generic fallback for non-contributors who use the registry.</div>
-      </div>
-    </div>
-  </div>
+    <!-- Priority 1: Generate Yours -->
+    <section class="process-section" id="generate-section">
+      <h2>Claim your badge</h2>
+      <p class="section-sub">
+        Enter your Gaia handle to preview and copy your badge markdown.
+      </p>
 
-  <h2>Generate yours</h2>
-  <p class="bd-section-lede">
-    Enter your Gaia handle. Badges live at <code>gaia.tiongson.co/badges/&lt;handle&gt;/</code> and
-    link back to your contributor profile at <code>/u/&lt;handle&gt;/</code>. The snippet bakes in
-    <code>?repo=&lt;owner/name&gt;</code> so the upcoming edge validator can flag misuse — badges
-    embedded in a repo not on your <code>links.github</code> list render red.
-  </p>
-  <div class="bd-gen">
-    <div class="bd-gen-row">
-      <input id="bd-handle" type="text" placeholder="your-gaia-handle" autocomplete="off" spellcheck="false">
-      <button id="bd-go" type="button">Preview</button>
-    </div>
-    <div class="bd-gen-preview" id="bd-preview">
-      <div class="bd-gen-status" id="bd-status"></div>
-      <div id="bd-repo-block" style="display:none;">
-        <p class="bd-section-lede" style="margin:.4rem 0;">Pick the repo where this badge will live — the URL bakes it in so the validator can flag misuse.</p>
-        <fieldset class="bd-repos" id="bd-repos" style="border:0;padding:0;"></fieldset>
-        <p class="bd-validate-note" id="bd-validate-note"></p>
-      </div>
-      <div class="bd-gen-badges" id="bd-badges"></div>
-      <pre class="bd-snippet" id="bd-snippet"></pre>
-      <button class="bd-copy" type="button" id="bd-copy">Copy markdown</button>
-    </div>
-  </div>
+      <div class="bd-gen">
+        <!-- Input row with clear button -->
+        <div class="bd-gen-row">
+          <div class="bd-input-wrap">
+            <input id="bd-handle" type="text" placeholder="your-gaia-handle" autocomplete="off" spellcheck="false">
+            <button id="bd-clear" type="button" class="bd-clear-btn" aria-label="Clear handle">✕</button>
+          </div>
+          <button id="bd-go" type="button" class="bd-go-btn">Preview</button>
+        </div>
 
-  <h2>Marquee contributors</h2>
-  <p class="bd-section-lede">A few of the registry's named-skill contributors with their live badges.</p>
-  <div class="bd-gallery">
-    <a class="bd-card" href="../u/garrytan/">
-      <div class="bd-card-handle">@garrytan</div>
-      <div class="bd-pair"><img src="./garrytan/handle.svg" alt=""></div>
-      <div class="bd-pair">
-        <img src="./garrytan/rank.svg" alt="">
-        <img src="./garrytan/skills.svg" alt="">
+        <!-- Rank sampler — only visible when input is empty -->
+        <div id="bd-sampler" class="bd-gen-sampler">
+          <span class="bd-live-label">rank sampler</span>
+          <div class="bd-sampler-img-slot">
+            <img id="bd-sampler-img" src="./samples/rank-1.svg" alt="Sample rank badge">
+          </div>
+          <button id="bd-sampler-btn" type="button" class="bd-sampler-cycle">
+            <svg class="ico" width="13" height="13" aria-hidden="true"><use href="../assets/icons.svg#sync"/></svg>
+            <span id="bd-sampler-lbl">Awakened · 1★</span>
+          </button>
+        </div>
+
+        <div class="bd-gen-preview" id="bd-preview">
+          <div class="bd-gen-status" id="bd-status"></div>
+
+          <div class="bd-gen-layout">
+            <!-- Left: repo picker → skill picker → checkboxes → badge rows -->
+            <div class="bd-gen-left">
+
+              <!-- 1. Repo picker -->
+              <div id="bd-repo-block" style="display:none;">
+                <div class="bd-repo-label">Pick a repo</div>
+                <fieldset class="bd-repos" id="bd-repos" style="border:0;padding:0;"></fieldset>
+              </div>
+
+              <!-- 2. Skill picker (multi-select via + button) -->
+              <div id="bd-picker-wrap" class="bd-skill-picker-wrap" style="display:none;">
+                <div class="bd-skill-picker-header">
+                  <div class="bd-skill-picker-label">Showcase skill</div>
+                  <button id="bd-skill-clear-btn" type="button" class="bd-skill-clear">Clear all</button>
+                </div>
+                <div id="bd-skill-rows"></div>
+                <div class="bd-skill-actions">
+                  <button id="bd-skill-add-btn" type="button" class="bd-skill-add">
+                    <span aria-hidden="true" style="font-size: .85rem; line-height: 1;">+</span>
+                    Add more
+                  </button>
+                  <button id="bd-skill-addall-btn" type="button" class="bd-skill-addall">
+                    Add all
+                  </button>
+                </div>
+              </div>
+
+              <!-- 3. Badge selection checkboxes (real checkboxes) -->
+              <div class="bd-checks" id="bd-checks">
+                <div class="bd-checks-label">Include in README</div>
+                <label class="bd-check-label" id="bd-check-handle-wrap">
+                  <input type="checkbox" id="bd-check-handle" checked>
+                  Identity
+                </label>
+                <label class="bd-check-label" id="bd-check-rank-wrap">
+                  <input type="checkbox" id="bd-check-rank" checked>
+                  Rank
+                </label>
+                <label class="bd-check-label" id="bd-check-skills-wrap">
+                  <input type="checkbox" id="bd-check-skills" checked>
+                  Skills
+                </label>
+                <label class="bd-check-label bd-check-seal-wrap" id="bd-check-seal-wrap" title="Render badges with just the diamond seal — no &quot;Gaia&quot; wordmark next to it.">
+                  <input type="checkbox" id="bd-check-seal">
+                  Hide &ldquo;Gaia&rdquo;
+                </label>
+              </div>
+
+              <!-- 3b. CTA block — register repo OR open README on each approved repo -->
+              <div id="bd-cta-block" class="bd-cta-block" style="display:none;"></div>
+
+              <!-- 3c. Validating-state explainer — folds open when a badge URL with ?repo= is in the rows -->
+              <details id="bd-validating-note" class="bd-validating-note">
+                <summary>
+                  <svg class="ico" width="13" height="13" aria-hidden="true"><use href="../assets/icons.svg#info"/></svg>
+                  Why might my badge appear blank in my README?
+                </summary>
+                <div class="bd-validating-body">
+                  <p>
+                    Gaia validates each badge against the repo it&rsquo;s embedded in &mdash; the
+                    <code>?repo=</code> query in your markdown must match a repo registered to your
+                    handle (see <code>links.github</code> on your skill&rsquo;s frontmatter).
+                  </p>
+                  <p>
+                    If the repo isn&rsquo;t registered yet, you&rsquo;ll see a faint
+                    <em>&ldquo;validating&hellip;&rdquo;</em> badge instead of your real one.
+                    <strong>Allow up to 24 hours</strong> after registering a new repo for the badge
+                    to go live &mdash; GitHub&rsquo;s image proxy caches badge images for that
+                    long, and so does our edge cache to match.
+                  </p>
+                  <p>
+                    To check immediately: load the badge URL directly in a new tab. If you see your
+                    real Gaia badge, it&rsquo;s already valid &mdash; only GitHub&rsquo;s cache is
+                    stale, and a hard-refresh of your repo will pick up the change.
+                  </p>
+                </div>
+              </details>
+
+              <!-- 4. Per-badge rows with Copy All -->
+              <div id="bd-rows"></div>
+            </div>
+
+            <!-- Right: README simulator -->
+            <div class="bd-gen-right">
+              <div class="readme-simulator">
+                <div class="readme-header">
+                  <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M2 1.75C2 .784 2.784 0 3.75 0h8.5C13.216 0 14 .784 14 1.75v12.5A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V1.75a.25.25 0 0 0-.25-.25Zm9 11.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0Zm-1-11.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0Z"></path></svg>
+                  <span>README.md</span>
+                </div>
+                <div class="readme-body">
+                  <h3 id="readme-sim-title">my-project</h3>
+                  <div class="readme-badges-preview" id="bd-badges"></div>
+                  <p>Welcome to my repository. Check out my official Gaia contributor rank and verified agent skills above!</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </a>
-    <a class="bd-card" href="../u/ruvnet/">
-      <div class="bd-card-handle">@ruvnet</div>
-      <div class="bd-pair"><img src="./ruvnet/handle.svg" alt=""></div>
-      <div class="bd-pair">
-        <img src="./ruvnet/rank.svg" alt="">
-        <img src="./ruvnet/skills.svg" alt="">
+    </section>
+
+    <!-- Section 2: Variants -->
+    <section class="process-section">
+      <h2>Variants</h2>
+      <p class="section-sub">Three contributor formats plus a generic badge for any project.</p>
+
+      <div class="bd-variants">
+        <div class="bd-variant">
+          <div class="bd-variant-preview">
+            <img src="./garrytan/handle.svg" alt="@garrytan handle badge">
+            <div class="bd-variant-stat" id="bd-v-handle-stat">@garrytan · top skill</div>
+          </div>
+          <div>
+            <div class="bd-variant-name">handle.svg</div>
+            <div class="bd-variant-desc">Single-line identity. <code>@handle</code> in honor red, selected named skill in its rank color, star count in the same hue.</div>
+          </div>
+        </div>
+        <div class="bd-variant">
+          <div class="bd-variant-preview">
+            <img src="./garrytan/rank.svg" alt="garrytan rank badge" id="bd-v-rank-img">
+            <div class="bd-variant-stat" id="bd-v-rank-stat">Highest rank: 4★</div>
+          </div>
+          <div>
+            <div class="bd-variant-name">rank.svg</div>
+            <div class="bd-variant-desc">Highest rank earned. Right panel color is the rank tier (1★ cyan → 5/6★ gold, unique → purple). Regenerates on every release.</div>
+          </div>
+        </div>
+        <div class="bd-variant">
+          <div class="bd-variant-preview">
+            <img src="./garrytan/skills.svg" alt="garrytan skills badge" id="bd-v-skills-img">
+            <div class="bd-variant-stat" id="bd-v-skills-stat">4 named skills</div>
+          </div>
+          <div>
+            <div class="bd-variant-name">skills.svg</div>
+            <div class="bd-variant-desc">Total named skills contributed. Panel color matches rank tier.</div>
+          </div>
+        </div>
       </div>
-    </a>
-    <a class="bd-card" href="../u/mattpocock/">
-      <div class="bd-card-handle">@mattpocock</div>
-      <div class="bd-pair"><img src="./mattpocock/handle.svg" alt=""></div>
-      <div class="bd-pair">
-        <img src="./mattpocock/rank.svg" alt="">
-        <img src="./mattpocock/skills.svg" alt="">
+
+      <!-- Powered by Gaia — for everyone, no handle needed -->
+      <div class="bd-powered">
+        <div class="bd-powered-header">
+          <div class="bd-powered-badge"><img src="./powered-by-gaia.svg" alt="Powered by Gaia"></div>
+          <div class="bd-powered-title">For anyone — no account required</div>
+        </div>
+        <div class="usp-row">
+          <code class="usp-cmd" id="bd-generic-code">[![Powered by Gaia](https://gaia.tiongson.co/badges/powered-by-gaia.svg)](https://gaia.tiongson.co/)</code>
+          <button class="usp-copy" type="button" id="bd-generic-copy" aria-label="Copy generic badge markdown">
+            <svg class="ico" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#copy"/></svg>
+          </button>
+        </div>
       </div>
-    </a>
-    <a class="bd-card" href="../u/karpathy/">
-      <div class="bd-card-handle">@karpathy</div>
-      <div class="bd-pair"><img src="./karpathy/handle.svg" alt=""></div>
-      <div class="bd-pair">
-        <img src="./karpathy/rank.svg" alt="">
-        <img src="./karpathy/skills.svg" alt="">
-      </div>
-    </a>
-  </div>
+    <!-- Section: Rank table -->
+    <section class="process-section">
+      <h2>The rank system</h2>
+      <p class="section-sub">Every badge panel color maps to a rank. Here is what each rank means — earned through evidence, never declared.</p>
+      <table class="bd-meaning-table bd-rank-table">
+        <thead>
+          <tr>
+            <th>Stars</th>
+            <th>Rank</th>
+            <th>Color</th>
+            <th>Evidence floor</th>
+            <th>What it takes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>0★</td>
+            <td><span style="color:#94a3b8;font-weight:600;">Unawakened</span></td>
+            <td><span class="bd-rank-swatch" style="background:#94a3b8;"></span>Slate</td>
+            <td>None</td>
+            <td>Generic primitive — catalogued but not yet verified by any implementation.</td>
+          </tr>
+          <tr>
+            <td>1★</td>
+            <td><span style="color:#38bdf8;font-weight:600;">Awakened</span></td>
+            <td><span class="bd-rank-swatch" style="background:#38bdf8;"></span>Sky blue</td>
+            <td>None</td>
+            <td>Verified as a real, distinct capability. First sighting confirmed.</td>
+          </tr>
+          <tr>
+            <td>2★</td>
+            <td><span style="color:#63cab7;font-weight:600;">Named</span></td>
+            <td><span class="bd-rank-swatch" style="background:#63cab7;"></span>Teal</td>
+            <td>Class C</td>
+            <td>Minimum rank for a Named Skill. A contributor's handle goes on the registry permanently at this threshold.</td>
+          </tr>
+          <tr>
+            <td>3★</td>
+            <td><span style="color:#a78bfa;font-weight:600;">Evolved</span></td>
+            <td><span class="bd-rank-swatch" style="background:#a78bfa;"></span>Violet</td>
+            <td>Class B</td>
+            <td>Reproducible and stable. The implementation can be demonstrated consistently, with docs and a public repo link required.</td>
+          </tr>
+          <tr>
+            <td>4★</td>
+            <td><span style="color:#e879f9;font-weight:600;">Hardened</span></td>
+            <td><span class="bd-rank-swatch" style="background:#e879f9;"></span>Fuchsia</td>
+            <td>Class B/A</td>
+            <td>Production-ready. Comprehensive tests, active maintenance, and documented reliability in real-world usage.</td>
+          </tr>
+          <tr style="border-top:1px solid rgba(124,58,237,.3);">
+            <td>4★+</td>
+            <td><span style="color:#7c3aed;font-weight:600;">◉ Unique</span></td>
+            <td><span class="bd-rank-swatch" style="background:#7c3aed;"></span>Deep violet</td>
+            <td>Class B/A</td>
+            <td>A separate tier — not a rank step. A Basic Skill that reached elite mastery through depth alone, without ever fusing. Graph-isolated, no fusion path forward. Badge renders in deep violet on a black panel.</td>
+          </tr>
+          <tr>
+            <td>5★</td>
+            <td><span style="color:#fbbf24;font-weight:600;">Transcendent</span></td>
+            <td><span class="bd-rank-swatch" style="background:#fbbf24;"></span>Amber</td>
+            <td>Class B/A + 10k★</td>
+            <td>Mastery. Often an Ultimate capstone. Requires a repository with 10,000+ stars and peer-reviewed or battle-tested evidence.</td>
+          </tr>
+          <tr>
+            <td>6★</td>
+            <td><span style="color:#fbbf24;font-weight:700;letter-spacing:.02em;">Apex</span></td>
+            <td><span class="bd-rank-swatch" style="background:linear-gradient(90deg,#fbbf24,#38bdf8);"></span>Gold → Cyan</td>
+            <td>Class A + Origin 5★ Fusion</td>
+            <td>The pinnacle of Gaia. Extreme ecosystem impact. Must emerge from a fusion involving at least one Origin 5★ Transcendent skill, with Tier A evidence.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Section: What your badge means -->    <section class="process-section">
+      <h2>What your badge means</h2>
+      <p class="section-sub">Every badge tells a specific story. Here's what each one signals to anyone who reads your README.</p>
+      <table class="bd-meaning-table">
+        <thead>
+          <tr>
+            <th>Badge</th>
+            <th>What it signals</th>
+            <th>Who earns it</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>handle.svg</code></td>
+            <td>Your identity as a named contributor — <code>@handle</code> in honor red, your top skill in its rank color, star count alongside. The full picture at a glance.</td>
+            <td>Contributors with at least one named skill in the registry.</td>
+          </tr>
+          <tr>
+            <td><code>rank.svg</code></td>
+            <td>Your highest earned rank (1★ Awakened → 6★ Apex). Color-coded by tier — cyan at 1★, gold at 5–6★. Regenerates on every release so it always reflects your current standing.</td>
+            <td>Anyone with a promoted skill in their tree.</td>
+          </tr>
+          <tr>
+            <td><code>skills.svg</code></td>
+            <td>Total named skills you hold in the canonical registry. A measure of breadth — how many distinct capabilities you've proven, reviewed, and shipped.</td>
+            <td>Contributors with multiple named skills.</td>
+          </tr>
+          <tr>
+            <td><code>/skill-slug.svg</code></td>
+            <td>A badge for a specific named skill — same format as <code>handle.svg</code> but pinned to one capability. Use it in the repo where that skill lives.</td>
+            <td>Named contributors showcasing a single skill in context.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+
+  </main>
 
   <div class="bd-foot">
     Badges are static SVGs regenerated by <code>gaia docs build</code> and served from
@@ -412,16 +1143,105 @@
   <script>
     const BASE = "https://gaia.tiongson.co";
     const handleInput = document.getElementById("bd-handle");
-    const goBtn = document.getElementById("bd-go");
-    const preview = document.getElementById("bd-preview");
-    const status = document.getElementById("bd-status");
-    const badges = document.getElementById("bd-badges");
-    const snippet = document.getElementById("bd-snippet");
-    const copyBtn = document.getElementById("bd-copy");
-    const repoBlock = document.getElementById("bd-repo-block");
-    const repoList = document.getElementById("bd-repos");
-    const validateNote = document.getElementById("bd-validate-note");
+    const clearBtn    = document.getElementById("bd-clear");
+    const goBtn       = document.getElementById("bd-go");
+    const preview     = document.getElementById("bd-preview");
+    const status      = document.getElementById("bd-status");
+    const badges      = document.getElementById("bd-badges");
+    const rowsEl      = document.getElementById("bd-rows");
+    const repoBlock   = document.getElementById("bd-repo-block");
+    const repoList    = document.getElementById("bd-repos");
+    const pickerWrap  = document.getElementById("bd-picker-wrap");
+    const skillRowsEl = document.getElementById("bd-skill-rows");
+    const skillAddBtn = document.getElementById("bd-skill-add-btn");
+    const skillAddAllBtn = document.getElementById("bd-skill-addall-btn");
+    const skillClearBtn  = document.getElementById("bd-skill-clear-btn");
+    const samplerEl   = document.getElementById("bd-sampler");
+    const checksEl    = document.getElementById("bd-checks");
+    const chkHandle   = document.getElementById("bd-check-handle");
+    const chkRank     = document.getElementById("bd-check-rank");
+    const chkSkills   = document.getElementById("bd-check-skills");
+    const chkSeal     = document.getElementById("bd-check-seal");
+    const ctaBlock    = document.getElementById("bd-cta-block");
 
+    // Persist the "Hide Gaia" toggle across page loads.
+    const SEAL_STORAGE_KEY = "gaia.badges.sealOnly";
+    try {
+      chkSeal.checked = localStorage.getItem(SEAL_STORAGE_KEY) === "1";
+    } catch { /* private mode / disabled storage */ }
+    chkSeal.addEventListener("change", () => {
+      try {
+        localStorage.setItem(SEAL_STORAGE_KEY, chkSeal.checked ? "1" : "0");
+      } catch { /* ignore */ }
+    });
+
+    // ── Clear button + sampler visibility ───────────────────────────────────
+    handleInput.addEventListener("input", () => {
+      const hasText = handleInput.value.length > 0;
+      clearBtn.style.display = hasText ? "block" : "none";
+      samplerEl.style.display = hasText ? "none" : "flex";
+    });
+
+    clearBtn.addEventListener("click", () => {
+      handleInput.value = "";
+      clearBtn.style.display = "none";
+      samplerEl.style.display = "flex";
+      preview.classList.remove("is-visible");
+      checksEl.classList.remove("is-visible");
+      ctaBlock.style.display = "none";
+      seedSample();
+    });
+
+    // ── Sampler ──────────────────────────────────────────────────────────────
+    const SAMPLER_RANKS = [
+      { n: 1, label: "Awakened · 1★" },
+      { n: 2, label: "Named · 2★" },
+      { n: 3, label: "Evolved · 3★" },
+      { n: 4, label: "Hardened · 4★" },
+      { n: 5, label: "Transcendent · 5★" },
+      { n: 6, label: "Apex · 6★" },
+      { n: "unique", label: "Unique · 4★" },
+    ];
+    let samplerIdx = 0;
+    const samplerImg = document.getElementById("bd-sampler-img");
+    const samplerLbl = document.getElementById("bd-sampler-lbl");
+    function sampleSrc(n) {
+      // Sampler honours the Hide-Gaia toggle so the empty-state preview
+      // matches what the user will see in their README.
+      const suffix = chkSeal.checked ? "-seal" : "";
+      return `./samples/rank-${n}${suffix}.svg`;
+    }
+    function refreshSamplerImg() {
+      const r = SAMPLER_RANKS[samplerIdx];
+      samplerImg.src = sampleSrc(r.n);
+      if (currentState.handle === "gaia-bot") {
+        badges.innerHTML = `<img src="${sampleSrc(r.n)}" alt="${r.label}" style="height:20px;display:block;">`;
+      }
+    }
+    document.getElementById("bd-sampler-btn").addEventListener("click", () => {
+      samplerIdx = (samplerIdx + 1) % SAMPLER_RANKS.length;
+      samplerLbl.textContent = SAMPLER_RANKS[samplerIdx].label;
+      refreshSamplerImg();
+    });
+    chkSeal.addEventListener("change", refreshSamplerImg);
+
+    // ── State ─────────────────────────────────────────────────────────────────
+    // Must be declared before the first refreshSamplerImg() call below, which
+    // reads currentState.handle (let is not hoisted — TDZ crash otherwise).
+    let currentState = {
+      handle: "", repos: [], selectedRepo: "",
+      hasRank: false, hasSkills: false, hasHandle: false,
+      linkTarget: "", namedSkills: [], pickedFiles: ["handle.svg"],
+    };
+
+    // Apply persisted seal-toggle to the initial sampler image on load.
+    refreshSamplerImg();
+
+    // ── Generic copy ─────────────────────────────────────────────────────────
+    wireCopyBtn(document.getElementById("bd-generic-copy"),
+                document.getElementById("bd-generic-code"));
+
+    // ── Registry ─────────────────────────────────────────────────────────────
     let registryPromise = null;
     function getRegistry() {
       if (!registryPromise) {
@@ -436,37 +1256,142 @@
       try {
         const r = await fetch(url, { method: "HEAD" });
         return r.ok;
-      } catch (e) {
-        return false;
-      }
+      } catch { return false; }
     }
 
-    let currentState = { handle: "", repos: [], selectedRepo: "", hasRank: false, hasSkills: false, hasHandle: false, linkTarget: "" };
+    // ── Copy helper ──────────────────────────────────────────────────────────
+    function wireCopyBtn(btn, codeEl) {
+      if (!btn || !codeEl) return;
+      btn.addEventListener("click", () => {
+        const text = codeEl.textContent.trim();
+        if (!text) return;
+        navigator.clipboard.writeText(text).then(() => {
+          const use = btn.querySelector("use");
+          if (use) use.setAttribute("href", "../assets/icons.svg#copy-check");
+          setTimeout(() => {
+            if (use) use.setAttribute("href", "../assets/icons.svg#copy");
+          }, 1600);
+        });
+      });
+    }
 
-    function renderSnippet() {
-      const { handle, selectedRepo, hasRank, hasSkills, hasHandle, linkTarget } = currentState;
+    function makeCopyBtn() {
+      const btn = document.createElement("button");
+      btn.className = "usp-copy";
+      btn.type = "button";
+      btn.setAttribute("aria-label", "Copy markdown");
+      btn.innerHTML = '<svg class="ico" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#copy"/></svg>';
+      return btn;
+    }
+
+    // ── Checkbox change → re-render rows ─────────────────────────────────────
+    [chkHandle, chkRank, chkSkills, chkSeal].forEach(cb => cb.addEventListener("change", renderRows));
+
+    // ── Per-badge rows renderer ───────────────────────────────────────────────
+    function renderRows() {
+      const { handle, selectedRepo, hasRank, hasSkills, hasHandle, linkTarget, pickedFiles } = currentState;
+      rowsEl.innerHTML = "";
       badges.innerHTML = "";
+
       const q = selectedRepo ? `?repo=${encodeURIComponent(selectedRepo)}` : "";
-      const lines = [];
-      if (hasHandle) {
-        const url = `${BASE}/badges/${handle}/handle.svg${q}`;
-        lines.push(`[![Gaia](${url})](${linkTarget})`);
-        badges.insertAdjacentHTML("beforeend",
-          `<a href="${linkTarget}"><img src="./${handle}/handle.svg" alt="@${handle} on Gaia"></a>`);
+      // Map a wordmark filename to its seal-only sibling. The generator
+      // guarantees both exist; if seal is checked, every URL swaps.
+      const sealify = (file) => chkSeal.checked
+        ? file.replace(/\.svg$/, "-seal.svg")
+        : file;
+      const files = (pickedFiles && pickedFiles.length) ? pickedFiles : ["handle.svg"];
+
+      const entries = [];
+      if (hasHandle && chkHandle.checked) {
+        files.forEach((file) => {
+          const sealed = sealify(file);
+          const url = `${BASE}/badges/${handle}/${sealed}${q}`;
+          entries.push({
+            localSrc: `./${handle}/${sealed}`,
+            alt: `@${handle} on Gaia`,
+            md: `[![Gaia](${url})](${linkTarget})`,
+          });
+        });
       }
-      if (hasRank) {
-        const url = `${BASE}/badges/${handle}/rank.svg${q}`;
-        lines.push(`[![Gaia rank](${url})](${linkTarget})`);
-        badges.insertAdjacentHTML("beforeend",
-          `<a href="${linkTarget}"><img src="./${handle}/rank.svg" alt="Gaia rank"></a>`);
+      if (hasRank && chkRank.checked) {
+        const sealed = sealify("rank.svg");
+        const url = `${BASE}/badges/${handle}/${sealed}${q}`;
+        entries.push({
+          localSrc: `./${handle}/${sealed}`,
+          alt: "Gaia rank",
+          md: `[![Gaia rank](${url})](${linkTarget})`,
+        });
       }
-      if (hasSkills) {
-        const url = `${BASE}/badges/${handle}/skills.svg${q}`;
-        lines.push(`[![Gaia skills](${url})](${linkTarget})`);
-        badges.insertAdjacentHTML("beforeend",
-          `<a href="${linkTarget}"><img src="./${handle}/skills.svg" alt="Gaia skills"></a>`);
+      if (hasSkills && chkSkills.checked) {
+        const sealed = sealify("skills.svg");
+        const url = `${BASE}/badges/${handle}/${sealed}${q}`;
+        entries.push({
+          localSrc: `./${handle}/${sealed}`,
+          alt: "Gaia skills",
+          md: `[![Gaia skills](${url})](${linkTarget})`,
+        });
       }
-      snippet.textContent = lines.join("\n");
+
+      if (!entries.length) return;
+
+      // README simulator. Build nodes via the DOM API (not innerHTML) so the
+      // user-derived handle/linkTarget/localSrc/alt values are set as element
+      // properties and never reinterpreted as HTML (avoids DOM-XSS).
+      entries.forEach(({ localSrc, alt }) => {
+        const link = document.createElement("a");
+        link.href = linkTarget;
+        const img = document.createElement("img");
+        img.src = localSrc;
+        img.alt = alt;
+        link.appendChild(img);
+        badges.appendChild(link);
+      });
+
+      // Copy All header
+      const header = document.createElement("div");
+      header.className = "bd-rows-header";
+      const allMd = entries.map(e => e.md).join("\n");
+      const copyAllBtn = document.createElement("button");
+      copyAllBtn.className = "bd-copy-all";
+      copyAllBtn.type = "button";
+      copyAllBtn.innerHTML = '<svg class="ico" width="13" height="13" aria-hidden="true"><use href="../assets/icons.svg#copy"/></svg> Copy all';
+      copyAllBtn.addEventListener("click", () => {
+        navigator.clipboard.writeText(allMd).then(() => {
+          copyAllBtn.innerHTML = '<svg class="ico" width="13" height="13" aria-hidden="true"><use href="../assets/icons.svg#copy-check"/></svg> Copied';
+          setTimeout(() => {
+            copyAllBtn.innerHTML = '<svg class="ico" width="13" height="13" aria-hidden="true"><use href="../assets/icons.svg#copy"/></svg> Copy all';
+          }, 1600);
+        });
+      });
+      header.appendChild(copyAllBtn);
+      rowsEl.appendChild(header);
+
+      entries.forEach(({ localSrc, alt, md }) => {
+        const item = document.createElement("div");
+        item.className = "bd-row-item";
+
+        const thumb = document.createElement("div");
+        thumb.className = "bd-row-badge";
+        const thumbImg = document.createElement("img");
+        thumbImg.src = localSrc;
+        thumbImg.alt = alt;
+        thumb.appendChild(thumbImg);
+        item.appendChild(thumb);
+
+        const row = document.createElement("div");
+        row.className = "usp-row";
+        const code = document.createElement("code");
+        code.className = "usp-cmd";
+        code.textContent = md;
+        row.appendChild(code);
+
+        const btn = makeCopyBtn();
+        wireCopyBtn(btn, code);
+        row.appendChild(btn);
+
+        item.appendChild(row);
+        rowsEl.appendChild(item);
+      });
     }
 
     function renderRepoPicker(repos) {
@@ -474,23 +1399,194 @@
       if (!repos.length) {
         repoBlock.style.display = "none";
         currentState.selectedRepo = "";
-        validateNote.textContent = "";
         return;
       }
       repoBlock.style.display = "block";
       currentState.selectedRepo = repos[0];
-      repoList.innerHTML = repos.map((r, i) => (
+      repoList.innerHTML = repos.map((r, i) =>
         `<label><input type="radio" name="bd-repo" value="${r}" ${i === 0 ? "checked" : ""}>${r}</label>`
-      )).join("");
+      ).join("");
       repoList.querySelectorAll("input[name='bd-repo']").forEach((el) => {
         el.addEventListener("change", () => {
           currentState.selectedRepo = el.value;
-          renderSnippet();
+          renderRows();
         });
       });
-      validateNote.textContent = "validation: ?repo= will be enforced by the Gaia edge validator (rolling out soon).";
     }
 
+    function renderSkillPicker(namedSkills, topSkillId) {
+      currentState.namedSkills = namedSkills;
+      skillRowsEl.innerHTML = "";
+      currentState.pickedFiles = [];
+      if (!namedSkills || namedSkills.length === 0) {
+        pickerWrap.style.display = "none";
+        currentState.pickedFiles = ["handle.svg"];
+        updatePickerActions();
+        return;
+      }
+      pickerWrap.style.display = "block";
+
+      // Default: just the top skill (or first available)
+      const defaultSkill = namedSkills.find(s => s.id === topSkillId) || namedSkills[0];
+      addSkillRow(defaultSkill.file);
+
+      updatePickerActions();
+    }
+
+    // Centralized visibility for Clear all / Add more / Add all.
+    // Clear all → any row exists.
+    // Add more  → at least one un-picked skill remains.
+    // Add all   → ≥2 rows on the canvas AND remaining skills exist.
+    function updatePickerActions() {
+      const namedSkills = currentState.namedSkills || [];
+      const rowCount = skillRowsEl.querySelectorAll(".bd-skill-row").length;
+      const remaining = namedSkills.filter(s => !currentState.pickedFiles.includes(s.file));
+
+      skillClearBtn.classList.toggle("is-visible", rowCount > 0);
+      skillAddBtn.style.display = (namedSkills.length > 1 && remaining.length > 0) ? "inline-flex" : "none";
+      skillAddBtn.disabled = remaining.length === 0;
+      skillAddBtn.style.opacity = remaining.length === 0 ? "0.4" : "1";
+      skillAddAllBtn.classList.toggle("is-visible", rowCount >= 2 && remaining.length > 0);
+    }
+
+    function buildSkillOptions(currentValue) {
+      const namedSkills = currentState.namedSkills || [];
+      // Disable already-picked options (except this row's current value) so each row stays unique
+      return namedSkills.map((s) => {
+        const stars = "★".repeat(s.rank);
+        const label = `${s.slash} · ${stars}${s.type === "unique" ? " · unique" : ""}`;
+        const taken = currentState.pickedFiles.includes(s.file) && s.file !== currentValue;
+        const sel = s.file === currentValue ? " selected" : "";
+        const dis = taken ? " disabled" : "";
+        return `<option value="${s.file}"${sel}${dis}>${label}${taken ? " (already added)" : ""}</option>`;
+      }).join("");
+    }
+
+    function addSkillRow(initialFile) {
+      const namedSkills = currentState.namedSkills || [];
+      if (!namedSkills.length) return;
+
+      // Pick first un-picked skill if no initial passed
+      const startFile = initialFile || namedSkills.find(s => !currentState.pickedFiles.includes(s.file))?.file;
+      if (!startFile) return;
+      if (!currentState.pickedFiles.includes(startFile)) {
+        currentState.pickedFiles.push(startFile);
+      }
+
+      const row = document.createElement("div");
+      row.className = "bd-skill-row";
+
+      const cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.checked = true;
+      cb.title = "Include this skill";
+      row.appendChild(cb);
+
+      const sel = document.createElement("select");
+      sel.className = "bd-skill-picker";
+      sel.value = startFile;
+      sel.innerHTML = buildSkillOptions(startFile);
+      sel.value = startFile;
+      row.appendChild(sel);
+
+      const removeBtn = document.createElement("button");
+      removeBtn.type = "button";
+      removeBtn.className = "bd-skill-remove";
+      removeBtn.setAttribute("aria-label", "Remove this skill");
+      removeBtn.textContent = "✕";
+      row.appendChild(removeBtn);
+
+      skillRowsEl.appendChild(row);
+
+      // Track this row's current selection so we can update pickedFiles atomically
+      let rowFile = startFile;
+      let rowChecked = true;
+
+      function syncPickedFiles() {
+        const active = [];
+        skillRowsEl.querySelectorAll(".bd-skill-row").forEach((r) => {
+          const c = r.querySelector("input[type=checkbox]");
+          const s = r.querySelector("select");
+          if (c && c.checked && s) active.push(s.value);
+        });
+        currentState.pickedFiles = active.length ? active : [];
+        // Refresh disabled options on every other row
+        skillRowsEl.querySelectorAll(".bd-skill-row select").forEach((s) => {
+          const cur = s.value;
+          s.innerHTML = buildSkillOptions(cur);
+          s.value = cur;
+        });
+        updatePickerActions();
+      }
+
+      sel.addEventListener("change", () => {
+        rowFile = sel.value;
+        syncPickedFiles();
+        renderRows();
+      });
+      cb.addEventListener("change", () => {
+        rowChecked = cb.checked;
+        sel.disabled = !cb.checked;
+        syncPickedFiles();
+        renderRows();
+      });
+      removeBtn.addEventListener("click", () => {
+        row.remove();
+        syncPickedFiles();
+        renderRows();
+      });
+
+      syncPickedFiles();
+    }
+
+    skillAddBtn.addEventListener("click", () => {
+      const namedSkills = currentState.namedSkills || [];
+      const remaining = namedSkills.filter(s => !currentState.pickedFiles.includes(s.file));
+      if (!remaining.length) return;
+      addSkillRow(remaining[0].file);
+      renderRows();
+    });
+
+    skillAddAllBtn.addEventListener("click", () => {
+      const namedSkills = currentState.namedSkills || [];
+      const remaining = namedSkills.filter(s => !currentState.pickedFiles.includes(s.file));
+      remaining.forEach((s) => addSkillRow(s.file));
+      renderRows();
+    });
+
+    skillClearBtn.addEventListener("click", () => {
+      skillRowsEl.innerHTML = "";
+      currentState.pickedFiles = [];
+      updatePickerActions();
+      renderRows();
+    });
+
+    function updateCheckboxes(hasHandle, hasRank, hasSkills) {
+      checksEl.classList.add("is-visible");
+      const wHandle = document.getElementById("bd-check-handle-wrap");
+      const wRank   = document.getElementById("bd-check-rank-wrap");
+      const wSkills = document.getElementById("bd-check-skills-wrap");
+      wHandle.style.display = hasHandle ? "inline-flex" : "none";
+      wRank.style.display   = hasRank   ? "inline-flex" : "none";
+      wSkills.style.display = hasSkills ? "inline-flex" : "none";
+      chkHandle.checked = hasHandle;
+      chkRank.checked   = hasRank;
+      chkSkills.checked = hasSkills;
+    }
+
+    // ── Variant cards updater ────────────────────────────────────────────────
+    function updateVariantCards(handle, registry) {
+      const entry = registry.contributors && registry.contributors[handle];
+      if (!entry) return;
+      const rankStat   = document.getElementById("bd-v-rank-stat");
+      const skillsStat = document.getElementById("bd-v-skills-stat");
+      const handleStat = document.getElementById("bd-v-handle-stat");
+      if (rankStat)   rankStat.textContent   = `Highest rank: ${entry.topRank}★`;
+      if (skillsStat) skillsStat.textContent = `${entry.count} named skill${entry.count !== 1 ? "s" : ""}`;
+      if (handleStat) handleStat.textContent = `@${handle} · ${entry.namedSkills && entry.namedSkills.length ? entry.namedSkills[0].slash : "top skill"}`;
+    }
+
+    // ── Main generator ────────────────────────────────────────────────────────
     async function generate() {
       const raw = handleInput.value.trim().replace(/^@/, "");
       if (!raw) return;
@@ -498,9 +1594,12 @@
       preview.classList.add("is-visible");
       status.textContent = "Checking…";
       status.classList.remove("is-error");
+      rowsEl.innerHTML = "";
       badges.innerHTML = "";
-      snippet.textContent = "";
       repoBlock.style.display = "none";
+      pickerWrap.style.display = "none";
+      checksEl.classList.remove("is-visible");
+      ctaBlock.style.display = "none";
 
       const base = `./${encodeURIComponent(handle)}`;
       const [hasRank, hasSkills, hasHandle, hasProfile, registry] = await Promise.all([
@@ -514,17 +1613,30 @@
       if (!hasRank && !hasSkills && !hasHandle) {
         status.classList.add("is-error");
         status.textContent = `No badges yet for @${handle}. Contribute a named skill, or run \`gaia scan\` to register your tree.`;
+        rowsEl.innerHTML = `<div class="bd-snip-row"><div class="usp-row"><code class="usp-cmd">No badges yet. <a href="../codex.html">Contribute a named skill first →</a></code></div></div>`;
+        document.getElementById("readme-sim-title").textContent = "my-project";
         return;
       }
 
+      document.getElementById("readme-sim-title").textContent = handle;
       const linkTarget = hasProfile ? `${BASE}/u/${handle}/` : `${BASE}/`;
-      currentState = { handle, repos: [], selectedRepo: "", hasRank, hasSkills, hasHandle, linkTarget };
+      const approved   = (registry.contributors && registry.contributors[handle]) || null;
+      const repos      = approved ? (approved.repos || []) : [];
+      const namedSkills = approved ? (approved.namedSkills || []) : [];
+      const topSkillId  = approved ? approved.topSkill : null;
 
-      const approved = (registry.contributors && registry.contributors[handle]) || null;
-      const repos = approved ? approved.repos || [] : [];
+      currentState = {
+        handle, repos: [], selectedRepo: "",
+        hasRank, hasSkills, hasHandle, linkTarget,
+        namedSkills, pickedFiles: ["handle.svg"],
+      };
 
       renderRepoPicker(repos);
-      renderSnippet();
+      renderSkillPicker(namedSkills, topSkillId);
+      updateCheckboxes(hasHandle, hasRank, hasSkills);
+      renderCTAs(handle, repos);
+      renderRows();
+      updateVariantCards(handle, registry);
 
       const tail = repos.length
         ? ` — ${repos.length} approved repo${repos.length === 1 ? "" : "s"} on file.`
@@ -534,31 +1646,166 @@
       status.textContent = `Found badges for @${handle}${tail}`;
     }
 
-    function copySnippet() {
-      const text = snippet.textContent;
-      if (!text) return;
-      navigator.clipboard.writeText(text).then(() => {
-        copyBtn.textContent = "Copied ✓";
-        copyBtn.classList.add("is-copied");
-        setTimeout(() => {
-          copyBtn.textContent = "Copy markdown";
-          copyBtn.classList.remove("is-copied");
-        }, 1600);
-      });
+    // ── Register-repo + edit-readme CTAs ─────────────────────────────────────
+    // When a contributor has no approved repos on file, show a Path A redirect
+    // so they know how to register one. Otherwise, surface a direct GitHub
+    // edit link to each approved repo's README so they can drop the markdown
+    // in immediately.
+    function renderCTAs(handle, repos) {
+      ctaBlock.classList.remove("bd-cta-register");
+      ctaBlock.innerHTML = "";
+      if (!handle || handle === "gaia-bot") {
+        ctaBlock.style.display = "none";
+        return;
+      }
+
+      if (!repos || repos.length === 0) {
+        // No approved repos — push the user to Path A.
+        ctaBlock.classList.add("bd-cta-register");
+        ctaBlock.style.display = "block";
+        ctaBlock.innerHTML = `
+          <h3 class="bd-cta-title">
+            <svg class="ico bd-cta-icon" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#info"/></svg>
+            Your badge isn't repo-locked yet
+          </h3>
+          <p class="bd-cta-sub">
+            Register a repo so your badge stays valid in your README. Add
+            <code>links.github: https://github.com/&lt;owner&gt;/&lt;repo&gt;/blob/main/skills/&lt;slug&gt;/SKILL.md</code>
+            to your skill's frontmatter, then run <code>gaia push</code>.
+          </p>
+          <div class="bd-cta-actions">
+            <a class="bd-cta-btn bd-cta-btn-primary" href="../index.html#paths">
+              Register your repo (Path A)
+              <span aria-hidden="true" style="font-size: .85rem; line-height: 1;">→</span>
+            </a>
+            <a class="bd-cta-btn" href="../codex.html">
+              Browse the Codex
+            </a>
+          </div>
+        `;
+        return;
+      }
+
+      // Approved repos exist — surface direct edit links.
+      ctaBlock.style.display = "block";
+      const repoRows = repos.map((repo) => `
+        <div class="bd-cta-repo-row">
+          <span class="bd-cta-repo-name" title="${repo}">${repo}</span>
+          <a class="bd-cta-btn" href="https://github.com/${repo}/edit/main/README.md" target="_blank" rel="noopener noreferrer">
+            Edit README <span aria-hidden="true">↗</span>
+          </a>
+          <a class="bd-cta-btn" href="https://github.com/${repo}" target="_blank" rel="noopener noreferrer">
+            View repo <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      `).join("");
+      ctaBlock.innerHTML = `
+        <h3 class="bd-cta-title">Drop the markdown above into one of your approved repos</h3>
+        <p class="bd-cta-sub">
+          GitHub's <code>/edit/main/README.md</code> deep-link opens the README in their in-browser editor. If your default branch isn't <code>main</code>, GitHub redirects you to the right one.
+        </p>
+        ${repoRows}
+      `;
     }
 
     goBtn.addEventListener("click", generate);
-    handleInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") generate();
-    });
-    copyBtn.addEventListener("click", copySnippet);
+    handleInput.addEventListener("keydown", (e) => { if (e.key === "Enter") generate(); });
 
-    // Prefill from ?u= query param so you can deep-link sample URLs.
+    // Prefill from ?u= param
     const params = new URLSearchParams(window.location.search);
     if (params.has("u")) {
       handleInput.value = params.get("u") || "";
+      clearBtn.style.display = "block";
+      samplerEl.style.display = "none";
       generate();
+    } else {
+      seedSample();
+    }
+
+    function seedSample() {
+      preview.classList.add("is-visible");
+      status.textContent = "Sample preview — enter your handle above to generate your own.";
+      status.classList.remove("is-error");
+
+      const sampleHandle = "gaia-bot";
+      const linkTarget = `${BASE}/`;
+      currentState = {
+        handle: sampleHandle, repos: [], selectedRepo: "",
+        hasRank: true, hasSkills: false, hasHandle: false,
+        linkTarget, namedSkills: [], pickedFiles: ["handle.svg"],
+      };
+
+      document.getElementById("readme-sim-title").textContent = "my-project";
+      rowsEl.innerHTML = "";
+      const seedSampleSrc = sampleSrc(SAMPLER_RANKS[samplerIdx].n);
+      const seedLabel = SAMPLER_RANKS[samplerIdx].label;
+      badges.innerHTML = `<img src="${seedSampleSrc}" alt="${seedLabel}" style="height:20px;display:block;">`;
+
+      // Show rank checkbox only; no copy buttons in seed state
+      checksEl.classList.add("is-visible");
+      document.getElementById("bd-check-handle-wrap").style.display = "none";
+      document.getElementById("bd-check-rank-wrap").style.display   = "inline-flex";
+      document.getElementById("bd-check-skills-wrap").style.display = "none";
+      chkRank.checked = true;
+
+      const item = document.createElement("div");
+      item.className = "bd-row-item";
+      const thumb = document.createElement("div");
+      thumb.className = "bd-row-badge";
+      thumb.innerHTML = `<img src="${seedSampleSrc}" alt="${seedLabel}">`;
+      item.appendChild(thumb);
+      const row = document.createElement("div");
+      row.className = "usp-row";
+      const code = document.createElement("code");
+      code.className = "usp-cmd";
+      const seedFile = chkSeal.checked ? "rank-seal.svg" : "rank.svg";
+      code.textContent = `[![Gaia rank](${BASE}/badges/gaia-bot/${seedFile})](${linkTarget})`;
+      row.appendChild(code);
+      item.appendChild(row);
+      rowsEl.appendChild(item);
     }
   </script>
+
+  <!-- ─── FOOTER ─── -->
+  <footer>
+    <div class="footer-mark">
+      <svg class="ico footer-seal" aria-hidden="true" focusable="false"><use href="../assets/icons.svg#seal-diamond"/></svg>
+      <span class="footer-wordmark">Gaia</span>
+    </div>
+    <p>
+      <a href="https://github.com/mbtiongson1/gaia-skill-tree" target="_blank" rel="noopener">GitHub</a> ·
+      MIT ·
+      <a href="../privacy.html">Privacy</a> ·
+      <a href="../codex.html">The Codex</a> ·
+      <a href="../meta.html">Meta Reports</a> ·
+      <a href="../samples/mobile.html">Samples</a> ·
+      <a href="./">Badges</a> ·
+      <button id="copyAgentFooterBtn" type="button" class="footer-link-btn" aria-label="Copy page context for agents">Copy Page</button>
+    </p>
+  </footer>
+
+  <!-- ─── TREE DIALOG ─── -->
+  <a id="tree" tabindex="-1" aria-hidden="true"></a>
+  <dialog id="treeDialog" class="tree-dialog" aria-labelledby="treeDialogTitle">
+    <div class="tree-dialog-inner">
+      <div class="tree-dialog-header">
+        <div id="treeDialogTitle" class="tree-dialog-title">Gaia Skill Tree</div>
+        <div class="tree-dialog-actions">
+          <button type="button" class="tree-act-btn" id="treeCopyBtn">Copy</button>
+          <button type="button" class="tree-act-btn" id="treeDownloadBtn">Download</button>
+          <button type="button" class="tree-close-x" id="treeCloseBtn" aria-label="Close tree">✕</button>
+        </div>
+      </div>
+      <div class="tree-dialog-body">
+        <pre id="treeDialogPre">Loading…</pre>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- ─── SCRIPTS ─── -->
+  <script src="../js/atlas-helpers.js?v=3.25.2"></script>
+  <script src="../js/skill-explorer.js?v=3.25.2"></script>
+  <script src="../js/ui.js?v=3.25.2"></script>
+  <script src="../js/page-ia.js?v=3.25.2"></script>
 </body>
 </html>

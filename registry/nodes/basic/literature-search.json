@@ -79,12 +79,6 @@
       "timestamp": "2026-05-22T20:22:15Z",
       "action": "evidence_added",
       "contributor": "unknown",
-      "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_arxiv/SKILL.md"
-    },
-    {
-      "timestamp": "2026-05-22T20:22:15Z",
-      "action": "evidence_added",
-      "contributor": "unknown",
       "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_biorxiv/SKILL.md"
     },
     {
@@ -98,6 +92,14 @@
       "action": "evidence_added",
       "contributor": "unknown",
       "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_openalex/SKILL.md"
+    },
+    {
+      "timestamp": "2026-05-22T20:28:53Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 2★ (provisional)",
+      "previousValue": null,
+      "newValue": "2★"
     }
   ]
 }

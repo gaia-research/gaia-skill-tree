@@ -1,0 +1,36 @@
+{
+  "userId": "0xdarkmatter",
+  "updatedAt": "2026-05-25",
+  "unlockedSkills": [
+    {
+      "skillId": "0xdarkmatter/pytest-patterns",
+      "level": "3★",
+      "unlockedAt": "2026-04-30T00:00:00Z",
+      "unlockedIn": "0xdarkmatter/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-04-30T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-04-30T00:00:00Z",
+      "action": "register",
+      "skillId": "0xdarkmatter/pytest-patterns",
+      "details": "Registered named skill 0xdarkmatter/pytest-patterns",
+      "previousValue": null,
+      "newValue": "3★"
+    }
+  ],
+  "stats": {
+    "totalUnlocked": 1,
+    "highestRarity": "uncommon",
+    "deepestLineage": 1
+  },
+  "pendingCombinations": []
+}

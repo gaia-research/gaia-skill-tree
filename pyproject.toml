@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "gaia-cli"
-version = "3.25.1"
+version = "3.25.2"
 description = "Gaia AI Agent Skill Registry CLI"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -42,6 +42,14 @@ interactive = [
 ]
 tui = [
     "textual>=0.50.0",
+]
+# Minimum set required to run `gaia docs build` end-to-end.
+# scripts/build_layouts_3d.py (invoked by scripts/generateProjections.py
+# during tree.md regen) needs numpy + scipy.linalg for the 3D layout solve.
+# Install with `pip install -e ".[docs]"` if you don't want the full [dev] extra.
+docs = [
+    "numpy>=1.21.0",
+    "scipy>=1.7.0",
 ]
 dev = [
     "build>=1.2.0",

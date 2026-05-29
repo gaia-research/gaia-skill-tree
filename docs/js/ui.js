@@ -121,16 +121,16 @@ window.switchOsTab = function(btn) {
     document.addEventListener('click', dismiss, { once: true });
     document.addEventListener('keydown', dismiss, { once: true });
 
-    /* Sequence: line1 at 0.4s, line2 at 1.1s, dismiss at 3.0s */
+    /* Sequence: line1 at 0.3s, line2 at 0.9s, dismiss at 1.8s */
     timers.push(setTimeout(function() {
       if (!skipped) line1.classList.add('visible');
-    }, 400));
+    }, 300));
     timers.push(setTimeout(function() {
       if (!skipped) line2.classList.add('visible');
-    }, 1100));
+    }, 900));
     timers.push(setTimeout(function() {
       dismiss();
-    }, 3000));
+    }, 1800));
   }
 
   /* ─────────────────────────────────────────

@@ -1212,12 +1212,85 @@
     document.body.style.overflow = 'hidden';
   };
 
+  // Cache the original .se-body markup so we can restore it after a
+  // cold-load placeholder is shown. Captured lazily on the first call.
+  var _seBodyOriginalHTML = null;
+  function _ensureSeLoadingStyles() {
+    if (document.getElementById('se-loading-styles')) return;
+    var style = document.createElement('style');
+    style.id = 'se-loading-styles';
+    style.textContent =
+      '.skill-explorer-loading,.skill-explorer-error{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;padding:4rem 2rem;text-align:center;color:var(--muted);}' +
+      '.skill-explorer-spinner{width:36px;height:36px;border:3px solid var(--border,rgba(255,255,255,.1));border-top-color:var(--rank-5,#fbbf24);border-radius:50%;animation:se-spin 0.8s linear infinite;}' +
+      '@keyframes se-spin{to{transform:rotate(1turn);}}' +
+      '.skill-explorer-error button{margin-left:.5rem;padding:.4rem .9rem;font:inherit;background:var(--rank-5,#fbbf24);color:#0f172a;border:none;border-radius:6px;cursor:pointer;}';
+    document.head.appendChild(style);
+  }
+  function _showSeLoading(explorerEl) {
+    _ensureSeLoadingStyles();
+    var bodyEl = explorerEl.querySelector('.se-body');
+    if (!bodyEl) return;
+    if (_seBodyOriginalHTML === null) _seBodyOriginalHTML = bodyEl.innerHTML;
+    bodyEl.innerHTML =
+      '<div class="skill-explorer-loading" data-testid="loading">' +
+        '<div class="skill-explorer-spinner" aria-hidden="true"></div>' +
+        '<p>Loading skill…</p>' +
+      '</div>';
+  }
+  function _showSeError(explorerEl, id) {
+    _ensureSeLoadingStyles();
+    var bodyEl = explorerEl.querySelector('.se-body');
+    if (!bodyEl) return;
+    bodyEl.innerHTML =
+      '<div class="skill-explorer-error" role="alert">' +
+        '<p>Couldn\'t load skill data. <button type="button" id="skillExplorerRetry">Try again</button></p>' +
+      '</div>';
+    var retry = bodyEl.querySelector('#skillExplorerRetry');
+    if (retry) retry.onclick = function(){ openExplorer(id); };
+  }
+  function _restoreSeBody(explorerEl) {
+    if (_seBodyOriginalHTML === null) return;
+    var bodyEl = explorerEl.querySelector('.se-body');
+    if (bodyEl) bodyEl.innerHTML = _seBodyOriginalHTML;
+  }
+
   function openExplorer(id) {
     var explorerEl = document.getElementById('skillExplorer');
     if (explorerEl && !explorerEl.classList.contains('open')) {
       lastActiveElement = document.activeElement;
     }
-    waitForData(function(){
+    // Immediately open modal with loading placeholder — no 6s silent wait.
+    if (explorerEl) {
+      explorerEl.classList.add('open');
+      explorerEl.scrollTop = 0;
+      document.body.style.overflow = 'hidden';
+      _showSeLoading(explorerEl);
+    }
+    // Wrap waitForData to distinguish cold-cache timeout vs. success.
+    function _waitWithTimeout(cb) {
+      var tries = 0;
+      function check() {
+        if (window._gaiaSkillMap && window._gaiaNamedBuckets) {
+          cb(true);
+          return;
+        }
+        if (++tries > 40) {
+          cb(false);
+          return;
+        }
+        setTimeout(check, 150);
+      }
+      check();
+    }
+    _waitWithTimeout(function(success){
+      if (!success) {
+        // Cold-load timeout — show error with retry
+        if (explorerEl) _showSeError(explorerEl, id);
+        return;
+      }
+      // Data is ready — restore the original .se-body skeleton so the
+      // child ids (#seHero, #se-install, etc.) exist for render functions.
+      if (explorerEl) _restoreSeBody(explorerEl);
       // Stage 4 — meta source-of-truth is registry/gaia.json.meta (loaded
       // by named-skills.js into window._gaiaMeta). No local fallback dicts;
       // if meta is missing, the open is a no-op + console error.
@@ -1225,6 +1298,7 @@
       if (!LEVEL_META_SE) {
         // eslint-disable-next-line no-console
         console.error('[gaia] Explorer meta missing — cannot open detail.');
+        if (explorerEl) _showSeError(explorerEl, id);
         return;
       }
 
@@ -1235,7 +1309,14 @@
         if (buckets[id] && buckets[id].length) { ns = buckets[id][0]; }
       }
       if (!ns) {
-        // no named implementation — show the "claim this skill" popup if it's a known generic skill
+        // no named implementation — close the explorer (it was opened
+        // immediately with a loading placeholder) and show the "claim
+        // this skill" popup if it's a known generic skill.
+        if (explorerEl) {
+          explorerEl.classList.remove('open');
+          document.body.style.overflow = '';
+          _restoreSeBody(explorerEl);
+        }
         var genericSkill = (window._gaiaSkillMap || {})[id];
         if (genericSkill) window.openUnnamedPopup(genericSkill);
         return;
@@ -1440,6 +1521,11 @@
 /* ─── SKILL EXPLORER OVERLAY ─── */
 (function() {
   var treeDialog = document.getElementById('treeDialog');
+  // Bootstrap guard: tree-dialog UI lives only on the homepage. On profile
+  // pages, #treeDialog is absent and any treeDialog.* access below would
+  // throw and silently abort the rest of this IIFE (per CLAUDE.md note on
+  // skill-graph.js PR #365). Early-return keeps profile pages clean.
+  if (!treeDialog) return;
   var treeNavBtn = document.getElementById('treeNavBtn');
   var treeCloseBtn = document.getElementById('treeCloseBtn');
   var treeCopyBtn = document.getElementById('treeCopyBtn');
@@ -1505,7 +1591,8 @@
       treeDialogPre.textContent = SKELETON;
       treeDialogPre.classList.add('tree-skeleton');
       var version = window.GAIA_VERSION ? '?v=' + window.GAIA_VERSION : '';
-      fetch('tree.md' + version)
+      var prefix = (typeof window.gaiaIconBase === 'function') ? window.gaiaIconBase().replace('assets/icons.svg', '') : '';
+      fetch(prefix + 'tree.md' + version)
         .then(function(r) { return r.ok ? r.text() : Promise.reject(r.status); })
         .then(function(text) {
           _treeContent = text;

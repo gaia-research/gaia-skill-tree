@@ -1,0 +1,1070 @@
+{
+  "userId": "ruvnet",
+  "updatedAt": "2026-05-25",
+  "unlockedSkills": [
+    {
+      "skillId": "ruvnet/agentdb-advanced",
+      "level": "3★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/agentdb-learning",
+      "level": "3★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/agentdb-memory-patterns",
+      "level": "2★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/agentdb-optimization",
+      "level": "2★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/agentdb-vector-search",
+      "level": "2★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/agentdb",
+      "level": "5★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "5★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/agentic-jujutsu",
+      "level": "2★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/browser",
+      "level": "2★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/dual-collect",
+      "level": "2★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/dual-coordinate",
+      "level": "2★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/dual-mode",
+      "level": "3★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/dual-spawn",
+      "level": "2★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/flow-nexus-neural",
+      "level": "3★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/flow-nexus-platform",
+      "level": "3★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/flow-nexus-swarm",
+      "level": "3★",
+      "unlockedAt": "2026-04-30T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-04-30T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/flow-nexus",
+      "level": "4★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "4★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/github-code-review",
+      "level": "3★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/github-multi-repo",
+      "level": "2★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/github-project-management",
+      "level": "2★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/github-release-management",
+      "level": "3★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/github-suite",
+      "level": "4★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "4★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/github-workflow-automation",
+      "level": "3★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/hive-mind-coordination",
+      "level": "4★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "4★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/hooks-automation",
+      "level": "2★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/pair-programming",
+      "level": "2★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/performance-analysis",
+      "level": "2★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/reasoningbank-agentdb",
+      "level": "2★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/reasoningbank-intelligence",
+      "level": "3★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/reasoningbank",
+      "level": "3★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/ruflo-v3",
+      "level": "4★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "4★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/ruflo",
+      "level": "6★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "6★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/skill-builder",
+      "level": "2★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/sparc-methodology",
+      "level": "3★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/stream-chain",
+      "level": "2★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/swarm-advanced",
+      "level": "3★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/swarm-orchestration",
+      "level": "3★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/v3-cli-modernization",
+      "level": "2★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/v3-core-implementation",
+      "level": "2★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/v3-ddd-architecture",
+      "level": "2★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/v3-integration-deep",
+      "level": "2★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/v3-mcp-optimization",
+      "level": "2★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/v3-memory-unification",
+      "level": "2★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/v3-performance-optimization",
+      "level": "2★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/v3-security-overhaul",
+      "level": "2★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/v3-swarm-coordination",
+      "level": "3★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "3★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/verification-quality",
+      "level": "2★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/worker-benchmarks",
+      "level": "2★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    },
+    {
+      "skillId": "ruvnet/worker-integration",
+      "level": "2★",
+      "unlockedAt": "2026-05-19T00:00:00Z",
+      "unlockedIn": "ruvnet/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-19T00:00:00Z",
+          "source": "promotion"
+        }
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-04-30T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/flow-nexus-swarm",
+      "details": "Registered named skill ruvnet/flow-nexus-swarm",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/agentdb-advanced",
+      "details": "Registered named skill ruvnet/agentdb-advanced",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/agentdb-learning",
+      "details": "Registered named skill ruvnet/agentdb-learning",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/agentdb-memory-patterns",
+      "details": "Registered named skill ruvnet/agentdb-memory-patterns",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/agentdb-optimization",
+      "details": "Registered named skill ruvnet/agentdb-optimization",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/agentdb-vector-search",
+      "details": "Registered named skill ruvnet/agentdb-vector-search",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/agentdb",
+      "details": "Registered named skill ruvnet/agentdb",
+      "previousValue": null,
+      "newValue": "5★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/agentic-jujutsu",
+      "details": "Registered named skill ruvnet/agentic-jujutsu",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/browser",
+      "details": "Registered named skill ruvnet/browser",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/dual-collect",
+      "details": "Registered named skill ruvnet/dual-collect",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/dual-coordinate",
+      "details": "Registered named skill ruvnet/dual-coordinate",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/dual-mode",
+      "details": "Registered named skill ruvnet/dual-mode",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/dual-spawn",
+      "details": "Registered named skill ruvnet/dual-spawn",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/flow-nexus-neural",
+      "details": "Registered named skill ruvnet/flow-nexus-neural",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/flow-nexus-platform",
+      "details": "Registered named skill ruvnet/flow-nexus-platform",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/flow-nexus",
+      "details": "Registered named skill ruvnet/flow-nexus",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/github-code-review",
+      "details": "Registered named skill ruvnet/github-code-review",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/github-multi-repo",
+      "details": "Registered named skill ruvnet/github-multi-repo",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/github-project-management",
+      "details": "Registered named skill ruvnet/github-project-management",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/github-release-management",
+      "details": "Registered named skill ruvnet/github-release-management",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/github-suite",
+      "details": "Registered named skill ruvnet/github-suite",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/github-workflow-automation",
+      "details": "Registered named skill ruvnet/github-workflow-automation",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/hive-mind-coordination",
+      "details": "Registered named skill ruvnet/hive-mind-coordination",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/hooks-automation",
+      "details": "Registered named skill ruvnet/hooks-automation",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/pair-programming",
+      "details": "Registered named skill ruvnet/pair-programming",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/performance-analysis",
+      "details": "Registered named skill ruvnet/performance-analysis",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/reasoningbank-agentdb",
+      "details": "Registered named skill ruvnet/reasoningbank-agentdb",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/reasoningbank-intelligence",
+      "details": "Registered named skill ruvnet/reasoningbank-intelligence",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/reasoningbank",
+      "details": "Registered named skill ruvnet/reasoningbank",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/ruflo-v3",
+      "details": "Registered named skill ruvnet/ruflo-v3",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/ruflo",
+      "details": "Registered named skill ruvnet/ruflo",
+      "previousValue": null,
+      "newValue": "6★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/skill-builder",
+      "details": "Registered named skill ruvnet/skill-builder",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/sparc-methodology",
+      "details": "Registered named skill ruvnet/sparc-methodology",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/stream-chain",
+      "details": "Registered named skill ruvnet/stream-chain",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/swarm-advanced",
+      "details": "Registered named skill ruvnet/swarm-advanced",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/swarm-orchestration",
+      "details": "Registered named skill ruvnet/swarm-orchestration",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/v3-cli-modernization",
+      "details": "Registered named skill ruvnet/v3-cli-modernization",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/v3-core-implementation",
+      "details": "Registered named skill ruvnet/v3-core-implementation",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/v3-ddd-architecture",
+      "details": "Registered named skill ruvnet/v3-ddd-architecture",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/v3-integration-deep",
+      "details": "Registered named skill ruvnet/v3-integration-deep",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/v3-mcp-optimization",
+      "details": "Registered named skill ruvnet/v3-mcp-optimization",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/v3-memory-unification",
+      "details": "Registered named skill ruvnet/v3-memory-unification",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/v3-performance-optimization",
+      "details": "Registered named skill ruvnet/v3-performance-optimization",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/v3-security-overhaul",
+      "details": "Registered named skill ruvnet/v3-security-overhaul",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/v3-swarm-coordination",
+      "details": "Registered named skill ruvnet/v3-swarm-coordination",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/verification-quality",
+      "details": "Registered named skill ruvnet/verification-quality",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/worker-benchmarks",
+      "details": "Registered named skill ruvnet/worker-benchmarks",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-19T00:00:00Z",
+      "action": "register",
+      "skillId": "ruvnet/worker-integration",
+      "details": "Registered named skill ruvnet/worker-integration",
+      "previousValue": null,
+      "newValue": "2★"
+    }
+  ],
+  "stats": {
+    "totalUnlocked": 48,
+    "highestRarity": "uncommon",
+    "deepestLineage": 1
+  },
+  "pendingCombinations": []
+}

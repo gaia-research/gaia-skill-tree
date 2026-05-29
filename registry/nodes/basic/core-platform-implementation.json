@@ -52,6 +52,14 @@
   "version": "0.1.0",
   "timeline": [
     {
+      "timestamp": "2026-05-19T16:29:16Z",
+      "action": "propose",
+      "contributor": "claude",
+      "details": "Skill created as 2★ (provisional)",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
       "timestamp": "2026-05-22T20:20:44Z",
       "action": "evidence_added",
       "contributor": "unknown",
@@ -67,13 +75,15 @@
       "timestamp": "2026-05-22T20:22:44Z",
       "action": "evidence_added",
       "contributor": "unknown",
-      "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common/SKILL.md"
+      "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md"
     },
     {
-      "timestamp": "2026-05-22T20:22:44Z",
+      "timestamp": "2026-05-22T20:28:53Z",
       "action": "evidence_added",
-      "contributor": "unknown",
-      "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md"
+      "contributor": "mbtiongson1",
+      "details": "Added evidence: https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md, https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common/SKILL.md",
+      "previousValue": null,
+      "newValue": "2★"
     }
   ]
 }

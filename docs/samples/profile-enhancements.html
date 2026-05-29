@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en" data-icon-base="../assets/icons.svg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile Enhancements Sampler — Gaia (Stage 4d)</title>
+  <meta name="description" content="Design preview of five profile-page enhancement components: origin badge, sortable/filterable plaque grid, share modal, claim badge placeholder, progression timeline, and activity log.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/plaque.css">
+  <script src="../js/icons.js"></script>
+  <script src="../js/rank-badge.js"></script>
+  <script src="../js/atlas-helpers.js"></script>
+  <script src="../js/plaque.js"></script>
+  <script src="../js/profile-filter.js" defer></script>
+  <script src="../js/profile-share.js" defer></script>
+  <script src="../js/profile-claim.js" defer></script>
+  <style>
+    /* ── Sampler page chrome only — component CSS lives in plaque.css ── */
+    body {
+      padding: 4rem 1.5rem 6rem;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+    .sampler-h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      font-weight: 600;
+      margin-bottom: .25rem;
+    }
+    .sampler-sub {
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: .85rem;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      margin-bottom: 2.5rem;
+    }
+    .sampler-section {
+      margin: 3rem 0;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .sampler-section > h2 {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 600;
+      margin-bottom: .15rem;
+    }
+    .sampler-section .density {
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: .8rem;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+    }
+    .sampler-stage {
+      position: relative;
+      padding: 1.25rem;
+      background: rgba(255, 255, 255, 0.015);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+    .sampler-stage--block {
+      display: block;
+    }
+    /* Origin badge check */
+    .origin-compare-row {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .origin-compare-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .5rem;
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .origin-badge-standalone {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+    /* Tile grid */
+    .plaque-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+      width: 100%;
+    }
+    /* Settled card grid */
+    .settled-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+    }
+    .settled-grid .plaque--settled {
+      position: relative; /* needed for absolute .plaque__actions */
+    }
+    /* Open modal button */
+    .open-modal-btn {
+      font-family: var(--font-mono);
+      font-size: .8rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: .6rem 1.2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      transition: border-color .15s;
+    }
+    .open-modal-btn:hover {
+      border-color: var(--tier-basic);
+    }
+    .open-modal-btn .ico { flex-shrink: 0; }
+    /* Timeline section */
+    #profile-timeline-section .profile-timeline {
+      width: 100%;
+      max-width: 860px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 class="sampler-h1">Profile Enhancements Sampler</h1>
+  <p class="sampler-sub">Stage 4d · Origin badge · Filter grid · Share modal · Claim · Timeline · Activity</p>
+
+  <p style="color: var(--muted); margin-bottom: 1.4rem; max-width: 70ch;">
+    Five new profile-page components previewed against the
+    <code style="color:var(--honor-red);font-family:var(--font-mono)">karpathy</code> demo handle.
+    The plaque grid reads <code>FALLBACK_SKILLS</code> inline so the page works at <code>file://</code>
+    with no network required. Timeline and activity log read <code>window.PROFILE_TIMELINE</code>
+    injected below.
+  </p>
+
+  <!-- ── 1. Origin badge consistency check ────────────────────────── -->
+  <section class="sampler-section">
+    <h2>1 · Origin Badge Consistency</h2>
+    <p class="density">SVG sprite use vs plaque.js::_fieldOriginBadge() — should match visually</p>
+    <div class="sampler-stage" id="stageOrigin">
+      <div class="origin-compare-row">
+        <div class="origin-compare-item">
+          <div class="origin-badge-standalone">
+            <svg class="ico" width="20" height="20" aria-label="Origin badge (sprite)">
+              <use href="../assets/icons.svg#origin-badge"></use>
+            </svg>
+            <span style="font-family:var(--font-mono);font-size:.8rem;color:var(--muted)">
+              <code>#origin-badge</code> from icons.svg sprite
+            </span>
+          </div>
+          <span>standalone sprite</span>
+        </div>
+        <div class="origin-compare-item">
+          <div id="originMiniPlaque"></div>
+          <span>plaque.renderMini() — origin=true</span>
+        </div>
+      </div>
+      <p style="margin-top:1rem;color:var(--muted);font-family:var(--font-mono);font-size:.75rem;max-width:60ch;">
+        Caption: the badge above and the one emitted by
+        <code>plaque.js::_fieldOriginBadge()</code> in the mini plaque should use
+        the same <code>#origin-badge</code> symbol and render at identical size/color.
+        If they diverge, check that <code>plaque.js</code> references
+        <code>icons.svg#origin-badge</code> and not an inline path.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── 2. Plaque grid with filter bar ───────────────────────────── -->
+  <section class="sampler-section">
+    <h2>2 · Plaque Grid · Filter Bar</h2>
+    <p class="density">profile-filter.js wires aria-pressed chips → hides/sorts .plaque-grid children</p>
+    <div class="sampler-stage sampler-stage--block" id="stageFilter">
+
+      <div class="profile-filter-bar" role="toolbar" aria-label="Plaque filters" id="profileFilterBar">
+        <fieldset class="profile-filter-group" data-filter-type="type">
+          <legend class="profile-filter-legend">Type</legend>
+          <button class="profile-filter-chip" type="button" data-value="basic"    aria-pressed="false">Basic</button>
+          <button class="profile-filter-chip" type="button" data-value="extra"    aria-pressed="false">Extra</button>
+          <button class="profile-filter-chip" type="button" data-value="unique"   aria-pressed="false">Unique</button>
+          <button class="profile-filter-chip" type="button" data-value="ultimate" aria-pressed="false">Ultimate</button>
+        </fieldset>
+        <fieldset class="profile-filter-group" data-filter-type="rank">
+          <legend class="profile-filter-legend">Rank</legend>
+          <button class="profile-filter-chip" type="button" data-value="1" aria-pressed="false">1★</button>
+          <button class="profile-filter-chip" type="button" data-value="2" aria-pressed="false">2★</button>
+          <button class="profile-filter-chip" type="button" data-value="3" aria-pressed="false">3★</button>
+          <button class="profile-filter-chip" type="button" data-value="4" aria-pressed="false">4★</button>
+          <button class="profile-filter-chip" type="button" data-value="5" aria-pressed="false">5★</button>
+          <button class="profile-filter-chip" type="button" data-value="6" aria-pressed="false">6★</button>
+        </fieldset>
+        <fieldset class="profile-filter-group" data-filter-type="sort">
+          <legend class="profile-filter-legend">Sort</legend>
+          <button class="profile-filter-chip" type="button" data-sort="rank"  aria-pressed="true">Rank desc</button>
+          <button class="profile-filter-chip" type="button" data-sort="alpha" aria-pressed="false">A–Z</button>
+          <button class="profile-filter-chip" type="button" data-sort="type"  aria-pressed="false">Type</button>
+        </fieldset>
+        <button class="profile-filter-reset" type="button">Reset</button>
+      </div>
+
+      <div class="plaque-grid" id="profilePlaqueGrid">
+        <!-- Tiles injected by inline JS below -->
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── 3. Settled plaque + Share + Claim buttons ─────────────────── -->
+  <section class="sampler-section">
+    <h2>3 · Settled Plaques · Share + Claim</h2>
+    <p class="density">Two settled cards; .plaque__actions injected manually post-render to preview both states</p>
+    <div class="sampler-stage" id="stageSettled">
+      <div class="settled-grid" id="settledGrid">
+        <!-- Settled plaques injected by inline JS below -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 4. Share modal trigger ────────────────────────────────────── -->
+  <section class="sampler-section">
+    <h2>4 · Share Modal</h2>
+    <p class="density">Single modal instance per page; triggered by .plaque__share-btn or button below</p>
+    <div class="sampler-stage">
+      <button class="open-modal-btn" id="openShareModal"
+              data-skill-id="karpathy/autoresearch"
+              type="button">
+        <svg class="ico" width="16" height="16"><use href="../assets/icons.svg#share"></use></svg>
+        Open share modal for karpathy/autoresearch
+      </button>
+      <p style="color:var(--muted);font-family:var(--font-mono);font-size:.75rem;margin-top:.75rem;width:100%;">
+        The modal is emitted once at the bottom of &lt;body&gt; and populated by
+        <code>profile-share.js</code> from <code>data-skill-id</code> / <code>data-og</code>
+        attributes on the triggering button.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── 5. Progression timeline ───────────────────────────────────── -->
+  <section class="profile-section" id="profile-timeline-section">
+    <h2>Progression Timeline</h2>
+    <p class="profile-section-sub">profile-timeline.js — reads window.PROFILE_TIMELINE.skills[].levelHistory</p>
+    <div id="profile-timeline" class="profile-timeline"></div>
+  </section>
+
+  <!-- ── 6. Activity log ───────────────────────────────────────────── -->
+  <section class="profile-section" id="profile-activity">
+    <h2>Activity</h2>
+    <p class="profile-section-sub">Rendered from window.PROFILE_TIMELINE.events — most recent first</p>
+    <ul class="profile-activity-list" id="profileActivityList">
+      <!-- Items injected by inline JS below -->
+    </ul>
+  </section>
+
+  <!-- ── Share modal (single instance) ────────────────────────────── -->
+  <div class="share-modal" hidden role="dialog" aria-modal="true" aria-labelledby="share-modal-title" id="shareModal">
+    <div class="share-modal__backdrop" data-share-close></div>
+    <div class="share-modal__panel" role="document">
+      <button class="share-modal__close" type="button" data-share-close aria-label="Close">×</button>
+      <h2 id="share-modal-title" class="share-modal__title">Share</h2>
+      <p class="share-modal__caption" data-share-caption></p>
+      <img class="share-modal__preview" data-share-preview alt="OG card preview">
+      <div class="share-modal__actions">
+        <a class="share-action share-action--download" data-share-action="download" download>
+          <svg class="ico" width="16" height="16"><use href="../assets/icons.svg#download"></use></svg> Download
+        </a>
+        <button class="share-action share-action--copy" type="button" data-share-action="copy">
+          <svg class="ico" width="16" height="16"><use href="../assets/icons.svg#copy"></use></svg> Copy link
+        </button>
+        <!-- #x not in sprite — inline SVG fallback (letter-X glyph) -->
+        <a class="share-action share-action--x" data-share-action="x" target="_blank" rel="noopener">
+          <svg class="ico" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M2.5 2.5 L13.5 13.5 M13.5 2.5 L2.5 13.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg> X
+        </a>
+        <!-- #instagram not in sprite — inline SVG fallback (camera glyph) -->
+        <button class="share-action share-action--instagram" type="button" data-share-action="instagram">
+          <svg class="ico" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="2" y="2" width="12" height="12" rx="3.5" stroke="currentColor" stroke-width="1.5"/>
+            <circle cx="8" cy="8" r="2.8" stroke="currentColor" stroke-width="1.5"/>
+            <circle cx="11.4" cy="4.6" r="0.8" fill="currentColor"/>
+          </svg> Instagram
+        </button>
+      </div>
+      <div class="share-modal__toast" hidden role="status" data-share-toast></div>
+    </div>
+  </div>
+
+  <!-- ── Data fixture ──────────────────────────────────────────────── -->
+  <script>
+    window.PROFILE_TIMELINE = {
+      skills: [
+        { id: 'karpathy/autoresearch', name: 'AutoResearch', type: 'ultimate', origin: true,
+          levelHistory: [
+            { level: '1★', achievedAt: '2024-09-01T10:00:00Z', source: 'evidence' },
+            { level: '3★', achievedAt: '2025-01-15T14:30:00Z', source: 'evidence' },
+            { level: '5★', achievedAt: '2025-08-12T09:00:00Z', source: 'fusion' },
+            { level: '6★', achievedAt: '2026-03-04T18:45:00Z', source: 'promotion' }
+          ]
+        },
+        { id: 'anthropic/skill-creator', name: 'Skill Creator', type: 'unique', origin: true,
+          levelHistory: [
+            { level: '1★', achievedAt: '2024-11-02T11:00:00Z', source: 'evidence' },
+            { level: '3★', achievedAt: '2025-06-20T13:00:00Z', source: 'evidence' }
+          ]
+        },
+        { id: 'mattpocock/skills', name: 'Matt Pocock Skills', type: 'extra', origin: false,
+          levelHistory: [
+            { level: '1★', achievedAt: '2025-03-10T08:00:00Z', source: 'evidence' },
+            { level: '2★', achievedAt: '2025-09-05T16:00:00Z', source: 'evidence' }
+          ]
+        },
+        { id: 'garrytan/gstack', name: 'gstack', type: 'unique', origin: false,
+          levelHistory: [
+            { level: '1★', achievedAt: '2025-04-18T12:00:00Z', source: 'evidence' },
+            { level: '2★', achievedAt: '2025-11-22T09:30:00Z', source: 'evidence' },
+            { level: '3★', achievedAt: '2026-02-14T15:00:00Z', source: 'fusion' }
+          ]
+        }
+      ],
+      events: [
+        { timestamp: '2025-08-12T09:00:00Z', action: 'fuse',    skillId: 'karpathy/autoresearch',   previousValue: '4★', newValue: '5★', details: 'Fused with research-agent' },
+        { timestamp: '2026-03-04T18:45:00Z', action: 'ascend',  skillId: 'karpathy/autoresearch',   previousValue: '5★', newValue: '6★' },
+        { timestamp: '2025-06-20T13:00:00Z', action: 'rank_up', skillId: 'anthropic/skill-creator', previousValue: '2★', newValue: '3★' },
+        { timestamp: '2026-01-10T10:00:00Z', action: 'name',    skillId: 'mattpocock/skills',        newValue: 'named' },
+        { timestamp: '2026-02-14T15:00:00Z', action: 'fuse',    skillId: 'garrytan/gstack',          previousValue: '2★', newValue: '3★', details: 'Suite fusion' },
+        { timestamp: '2025-11-22T09:30:00Z', action: 'rank_up', skillId: 'garrytan/gstack',          previousValue: '1★', newValue: '2★' }
+      ]
+    };
+  </script>
+
+  <!-- ── Sampler harness ──────────────────────────────────────────── -->
+  <script>
+  (function () {
+    /* ── Fallback skill fixtures ── */
+    var FALLBACK_SKILLS = [
+      {
+        id: 'karpathy/autoresearch', name: 'AutoResearch', contributor: 'karpathy',
+        origin: true, status: 'named', level: '6★', type: 'ultimate',
+        title: "The Scholar's Compass",
+        description: 'Autonomous research agent that iteratively searches, reads, and synthesizes academic papers into structured summaries.',
+        tags: ['research', 'autonomous', 'paper-synthesis'],
+        links: { github: 'https://github.com/karpathy/autoresearch' }
+      },
+      {
+        id: 'anthropic/skill-creator', name: 'Skill Creator', contributor: 'anthropic',
+        origin: true, status: 'named', level: '3★', type: 'unique',
+        title: 'Skill Creator',
+        description: 'Drafts, validates, and publishes new named skills to the Gaia registry with full schema compliance.',
+        tags: ['registry', 'curation', 'publishing'],
+        links: { github: 'https://github.com/anthropic/skill-creator' }
+      },
+      {
+        id: 'mattpocock/skills', name: 'Matt Pocock Skills', contributor: 'mattpocock',
+        origin: false, status: 'named', level: '2★', type: 'basic',
+        title: 'TypeScript Wizardry',
+        description: 'Suite of TypeScript skills for advanced type-level programming and library authoring.',
+        tags: ['typescript', 'programming'],
+        links: { github: 'https://github.com/mattpocock/skills' }
+      },
+      {
+        id: 'garrytan/gstack', name: 'gstack', contributor: 'garrytan',
+        origin: false, status: 'named', level: '3★', type: 'unique',
+        title: 'gstack',
+        description: 'Full-stack AI coding agent toolkit covering design, deploy, QA, and documentation.',
+        tags: ['ai-coding', 'devtools', 'automation'],
+        links: { github: 'https://github.com/garrytan/gstack' }
+      },
+      {
+        id: 'addy-osmani/web-perf', name: 'Web Performance', contributor: 'addy-osmani',
+        origin: false, status: 'named', level: '4★', type: 'extra',
+        title: 'Web Performance Mastery',
+        description: 'Comprehensive web performance analysis, profiling, and optimization across Core Web Vitals.',
+        tags: ['performance', 'web', 'core-web-vitals'],
+        links: { github: 'https://github.com/addyosmani/web-perf' }
+      },
+      {
+        id: 'anthropic/pptx', name: 'PPTX Generator', contributor: 'anthropic',
+        origin: false, status: 'named', level: '2★', type: 'basic',
+        title: 'PPTX Generator',
+        description: 'Generates polished PowerPoint presentations from structured outlines and design tokens.',
+        tags: ['documents', 'presentations'],
+        links: { github: 'https://github.com/anthropic/pptx' }
+      },
+      {
+        id: 'garrytan/browse', name: 'Browse', contributor: 'garrytan',
+        origin: false, status: 'named', level: '1★', type: 'basic',
+        title: 'Browse',
+        description: 'Authenticated browser-based web search and scraping using persistent session cookies.',
+        tags: ['browsing', 'research', 'scraping'],
+        links: { github: 'https://github.com/garrytan/browse' }
+      },
+      {
+        id: 'mattpocock/diagnose', name: 'Diagnose', contributor: 'mattpocock',
+        origin: false, status: 'named', level: '1★', type: 'basic',
+        title: 'Diagnose',
+        description: 'Systematically diagnoses TypeScript errors and runtime failures with root-cause analysis.',
+        tags: ['debugging', 'typescript'],
+        links: { github: 'https://github.com/mattpocock/diagnose' }
+      },
+      {
+        id: 'firecrawl/scrape', name: 'Firecrawl Scrape', contributor: 'firecrawl',
+        origin: false, status: 'named', level: '2★', type: 'extra',
+        title: 'Firecrawl Scrape',
+        description: 'Structured web scraping at scale using the Firecrawl API with intelligent content extraction.',
+        tags: ['scraping', 'data-extraction'],
+        links: { github: 'https://github.com/firecrawl/scrape' }
+      },
+      {
+        id: 'browser-use/browse', name: 'Browser Use', contributor: 'browser-use',
+        origin: false, status: 'named', level: '5★', type: 'ultimate',
+        title: 'Browser Use Agent',
+        description: 'LLM-driven browser agent capable of end-to-end web task automation.',
+        tags: ['automation', 'browser', 'agent'],
+        links: { github: 'https://github.com/browser-use/browse' }
+      }
+    ];
+
+    /* ── plaque.js guard ── */
+    var p = window.plaque;
+    if (!p) {
+      var msg = document.createElement('p');
+      msg.style.cssText = 'color:var(--honor-red);font-family:var(--font-mono)';
+      msg.textContent = 'window.plaque missing — plaque.js failed to load.';
+      document.body.prepend(msg);
+      return;
+    }
+
+    /* ── 1. Origin badge mini plaque ── */
+    var originSkill = FALLBACK_SKILLS[0]; // karpathy/autoresearch
+    var originEl = document.getElementById('originMiniPlaque');
+    if (originEl) originEl.innerHTML = p.renderMini(originSkill);
+
+    /* ── 2. Plaque tile grid ── */
+    var grid = document.getElementById('profilePlaqueGrid');
+    if (grid) {
+      var html = '';
+      FALLBACK_SKILLS.forEach(function (ns) {
+        var wrap = '<div class="plaque-grid-item"' +
+          ' data-skill-id="' + ns.id + '"' +
+          ' data-skill-type="' + (ns.type || 'basic') + '"' +
+          ' data-skill-rank="' + ((ns.level || '1★').replace('★','')) + '">';
+        html += wrap + p.renderTile(ns) + '</div>';
+      });
+      grid.innerHTML = html;
+    }
+
+    /* ── 3. Settled plaques with injected actions ── */
+    var settledGrid = document.getElementById('settledGrid');
+    if (settledGrid) {
+      var s1 = FALLBACK_SKILLS[0]; // karpathy/autoresearch — unclaimed
+      var s2 = FALLBACK_SKILLS[1]; // anthropic/skill-creator — claimed
+      settledGrid.innerHTML =
+        '<div class="plaque--settled-wrap" style="position:relative">' + p.renderSettled(s1) + '</div>' +
+        '<div class="plaque--settled-wrap" style="position:relative">' + p.renderSettled(s2) + '</div>';
+
+      // Inject .plaque__actions blocks after render (plaque.js doesn't emit them yet)
+      var wraps = settledGrid.querySelectorAll('.plaque--settled-wrap');
+
+      // First card: unclaimed
+      var actions1 = _buildActions(s1.id, s1.name, 'karpathy', '/og/karpathy/autoresearch.png', 'unclaimed');
+      if (wraps[0]) {
+        var settled1 = wraps[0].querySelector('.plaque--settled') || wraps[0];
+        settled1.style.position = 'relative';
+        settled1.insertAdjacentHTML('beforeend', actions1);
+      }
+
+      // Second card: claimed
+      var actions2 = _buildActions(s2.id, s2.name, 'anthropic', '/og/anthropic/skill-creator.png', 'claimed');
+      if (wraps[1]) {
+        var settled2 = wraps[1].querySelector('.plaque--settled') || wraps[1];
+        settled2.style.position = 'relative';
+        settled2.insertAdjacentHTML('beforeend', actions2);
+      }
+    }
+
+    function _buildActions(skillId, skillName, handle, ogPath, claimState) {
+      return '<div class="plaque__actions">' +
+        '<button class="plaque__share-btn" type="button"' +
+        ' data-skill-id="' + skillId + '"' +
+        ' data-skill-name="' + skillName + '"' +
+        ' data-handle="' + handle + '"' +
+        ' data-og="' + ogPath + '"' +
+        ' aria-label="Share">' +
+        '<svg class="ico" width="14" height="14"><use href="../assets/icons.svg#share"></use></svg>' +
+        '</button>' +
+        '<button class="plaque__claim-btn" type="button"' +
+        ' data-claim="' + claimState + '"' +
+        ' aria-disabled="true"' +
+        ' title="Badge claim coming soon">' +
+        (claimState === 'claimed' ? 'Claimed' : 'Claim') +
+        '</button>' +
+        '</div>';
+    }
+
+    /* ── 4. Share modal — "Open modal" button ── */
+    var openBtn = document.getElementById('openShareModal');
+    var modal   = document.getElementById('shareModal');
+    if (openBtn && modal) {
+      openBtn.addEventListener('click', function () {
+        // Populate preview
+        var ogSrc = '/og/karpathy/autoresearch.png';
+        var preview = modal.querySelector('[data-share-preview]');
+        var caption = modal.querySelector('[data-share-caption]');
+        if (preview) preview.src = '../..' + ogSrc;
+        if (caption) caption.textContent = 'karpathy/autoresearch · 6★ Ultimate';
+        modal.removeAttribute('hidden');
+        modal.querySelector('.share-modal__close').focus();
+      });
+
+      // Close triggers
+      modal.addEventListener('click', function (e) {
+        if (e.target.hasAttribute('data-share-close') || e.target.closest('[data-share-close]')) {
+          modal.setAttribute('hidden', '');
+        }
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && !modal.hasAttribute('hidden')) {
+          modal.setAttribute('hidden', '');
+        }
+      });
+
+      // Download action
+      modal.addEventListener('click', function (e) {
+        var btn = e.target.closest('[data-share-action]');
+        if (!btn) return;
+        var action = btn.getAttribute('data-share-action');
+        if (action === 'copy') {
+          var toast = modal.querySelector('[data-share-toast]');
+          navigator.clipboard && navigator.clipboard.writeText(location.href).then(function () {
+            if (toast) { toast.textContent = 'Link copied!'; toast.removeAttribute('hidden'); setTimeout(function(){ toast.setAttribute('hidden',''); }, 2200); }
+          });
+        }
+        if (action === 'download') {
+          var preview = modal.querySelector('[data-share-preview]');
+          if (preview && preview.src) btn.href = preview.src;
+        }
+        if (action === 'x') {
+          btn.href = 'https://x.com/intent/tweet?text=Check+out+karpathy%2Fautoresearch+on+%40GaiaRegistry';
+        }
+        if (action === 'instagram') {
+          var toast = modal.querySelector('[data-share-toast]');
+          if (toast) { toast.textContent = 'Download the image and post to Instagram.'; toast.removeAttribute('hidden'); setTimeout(function(){ toast.setAttribute('hidden',''); }, 3000); }
+        }
+      });
+    }
+
+    /* ── 6. Activity log ── */
+    var activityList = document.getElementById('profileActivityList');
+    var events = (window.PROFILE_TIMELINE && window.PROFILE_TIMELINE.events) || [];
+    var sorted = events.slice().sort(function (a, b) { return b.timestamp.localeCompare(a.timestamp); });
+    var MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var activityHtml = '';
+    sorted.forEach(function (ev) {
+      var d = new Date(ev.timestamp);
+      var label = MONTH_NAMES[d.getUTCMonth()] + ' ' + d.getUTCFullYear();
+      var change = '';
+      if (ev.previousValue && ev.newValue) change = ev.previousValue + ' → ' + ev.newValue;
+      else if (ev.newValue)              change = '→ ' + ev.newValue;
+      activityHtml +=
+        '<li class="profile-activity-item">' +
+        '<time class="profile-activity-time" datetime="' + ev.timestamp + '">' + label + '</time>' +
+        '<span class="profile-activity-action" data-action="' + ev.action + '">' + ev.action.toUpperCase().replace('_', ' ') + '</span>' +
+        '<span class="profile-activity-skill">/' + ev.skillId + '</span>' +
+        (change ? '<span class="profile-activity-change">' + change + '</span>' : '<span class="profile-activity-change"></span>') +
+        '</li>';
+    });
+    if (activityList) activityList.innerHTML = activityHtml || '<li style="color:var(--muted)">No events.</li>';
+
+  })();
+  </script>
+
+  <!-- profile-timeline.js loads deferred and reads window.PROFILE_TIMELINE -->
+  <script src="../js/profile-timeline.js" defer></script>
+
+</body>
+</html>

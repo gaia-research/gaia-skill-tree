@@ -347,6 +347,10 @@ def _apply_cache_busting(text: str, version: str) -> str:
         fr'src="\1?v={version}"',
         text
     )
+
+    # 4. Update the human-readable footer version literal ("v3.x.x ·").
+    text = re.sub(r'\bv\d+\.\d+\.\d+(?=\s+·)', f'v{version}', text)
+
     return text
 
 
@@ -634,8 +638,22 @@ def build_og_cards(check: bool) -> bool:
                 print(f"diff docs/og/{d}")
         else:
             import shutil
-            shutil.rmtree(committed)
-            shutil.copytree(out_dir, committed)
+            # Non-destructive merge: update SVGs, preserve PNGs
+            # 1. Copy all candidate SVGs into committed dir
+            for svg_rel in candidate_svgs:
+                src = out_dir / svg_rel
+                dst = committed / svg_rel
+                dst.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(src, dst)
+            # 2. Remove committed SVGs that are no longer generated
+            for svg_rel in committed_svgs - candidate_svgs:
+                stale = committed / svg_rel
+                if stale.exists():
+                    stale.unlink()
+            # 3. Remove empty handle directories
+            for handle_dir in committed.iterdir():
+                if handle_dir.is_dir() and not any(handle_dir.iterdir()):
+                    handle_dir.rmdir()
         return True
 
 

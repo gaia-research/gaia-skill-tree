@@ -266,7 +266,7 @@ def build_rank_chip_svg(level: str, x: float, y: float, anchor: str = "end") -> 
     return (
         f'<rect x="{pill_x}" y="{pill_y}" width="{label_w}" height="{pill_h}" rx="13" '
         f'fill="{palette["bg"]}" stroke="{palette["border"]}" stroke-width="1"/>'
-        f'<text x="{text_x}" y="{y}" font-family="\'Departure Mono\',\'JetBrains Mono\',monospace" '
+        f'<text x="{text_x}" y="{y}" font-family="\'Departure Mono\',\'JetBrains Mono\',ui-monospace,monospace" '
         f'font-size="13" font-weight="600" letter-spacing="1.2" fill="{palette["hex"]}" '
         f'text-anchor="{anchor}" dominant-baseline="middle">{label}</text>'
     )
@@ -316,17 +316,17 @@ def _build_tags_svg(skill: dict, x: float, y: float, max_tags: int = 4) -> str:
     cursor_x = x
     for t in tags:
         text = html.escape(str(t))
-        pill_w = max(60, len(text) * 8 + 18)
+        pill_w = max(70, len(text) * 12 + 24)
         parts.append(
-            f'<rect class="plaque__tag-bg" x="{cursor_x}" y="{y}" width="{pill_w}" height="22" rx="3" '
+            f'<rect class="plaque__tag-bg" x="{cursor_x}" y="{y}" width="{pill_w}" height="32" rx="4" '
             f'fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>'
         )
         parts.append(
-            f'<text class="plaque__tag" x="{cursor_x + 9}" y="{y + 15}" '
-            f'font-family="\'Departure Mono\',\'JetBrains Mono\',monospace" font-size="11" '
+            f'<text class="plaque__tag" x="{cursor_x + 12}" y="{y + 22}" '
+            f'font-family="\'Departure Mono\',\'JetBrains Mono\',ui-monospace,monospace" font-size="20" '
             f'letter-spacing="0.5">{text}</text>'
         )
-        cursor_x += pill_w + 6
+        cursor_x += pill_w + 12
     return "\n  ".join(parts)
 
 
@@ -338,13 +338,13 @@ def _build_install_row_svg(skill: dict, x: float, y: float, w: float) -> str:
         return ""
     cmd = html.escape(f"gaia install {skill_id}")
     return (
-        f'<rect class="plaque__install-bg" x="{x}" y="{y}" width="{w}" height="32" rx="4" '
+        f'<rect class="plaque__install-bg" x="{x}" y="{y}" width="{w}" height="44" rx="6" '
         f'fill="rgba(0,0,0,0.4)" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>'
-        f'<text class="plaque__install-prompt" x="{x + 12}" y="{y + 21}" '
-        f'font-family="\'Departure Mono\',\'JetBrains Mono\',monospace" font-size="13" '
+        f'<text class="plaque__install-prompt" x="{x + 16}" y="{y + 28}" '
+        f'font-family="\'Departure Mono\',\'JetBrains Mono\',ui-monospace,monospace" font-size="24" '
         f'fill="{APEX_GOLD}">$</text>'
-        f'<text class="plaque__install-cmd" x="{x + 28}" y="{y + 21}" '
-        f'font-family="\'Departure Mono\',\'JetBrains Mono\',monospace" font-size="13" '
+        f'<text class="plaque__install-cmd" x="{x + 40}" y="{y + 28}" '
+        f'font-family="\'Departure Mono\',\'JetBrains Mono\',ui-monospace,monospace" font-size="24" '
         f'fill="rgba(226,232,240,0.75)">{cmd}</text>'
     )
 
@@ -364,17 +364,29 @@ def build_og_svg(skill: dict) -> str:
     level = skill.get("level", "2★")
     title = html.escape(truncate(skill.get("title", ""), 55))
     description_raw = truncate(skill.get("description", ""), 240)
-    description_lines = _wrap_text(description_raw, max_chars=58, max_lines=3)
+    description_lines = _wrap_text(description_raw, max_chars=48, max_lines=3)
     description_tspans = "\n".join(
-        f'<tspan x="264" dy="{"0" if i == 0 else "26"}">{html.escape(line)}</tspan>'
+        f'<tspan x="264" dy="{"0" if i == 0 else "36"}">{html.escape(line)}</tspan>'
         for i, line in enumerate(description_lines)
     )
-    glyph = tier_glyph(level)
     ev_class = evidence_class(level)
     n_lvl = level_num(level)
     is_apex = n_lvl >= 6
 
     tier_type = resolve_type_for_og(skill)
+
+    # Cohesive color and symbol spec per DESIGN.md and plaque.css
+    TIER_SPEC = {
+        "basic":    {"glyph": "○", "hex": "#38bdf8", "rgb": "56,189,248",   "slug_fill": "#38bdf8"},
+        "extra":    {"glyph": "◇", "hex": "#c084fc", "rgb": "192,132,252",  "slug_fill": "#c084fc"},
+        "unique":   {"glyph": "◉", "hex": "#7c3aed", "rgb": "124,58,237",   "slug_fill": "#7c3aed"},
+        "ultimate": {"glyph": "◆", "hex": "#f59e0b", "rgb": "245,158,11",    "slug_fill": "#fbbf24"},  # APEX_GOLD slug
+    }
+    spec = TIER_SPEC.get(tier_type, TIER_SPEC["basic"])
+    glyph = spec["glyph"]
+    tier_color = spec["hex"]
+    tier_rgb = spec["rgb"]
+    slug_fill = spec["slug_fill"]
 
     # Gradient IDs need to be unique per card
     sid = skill.get("id", "unknown").replace("/", "-").replace(" ", "-")
@@ -404,9 +416,9 @@ def build_og_svg(skill: dict) -> str:
   {style_block}
   <defs>
     <linearGradient id="{grad_id}" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="{APEX_GOLD}" stop-opacity="0.04"/>
-      <stop offset="50%" stop-color="{APEX_GOLD}" stop-opacity="0.08"/>
-      <stop offset="100%" stop-color="{APEX_GOLD}" stop-opacity="0.02"/>
+      <stop offset="0%" stop-color="{tier_color}" stop-opacity="0.05"/>
+      <stop offset="50%" stop-color="{tier_color}" stop-opacity="0.09"/>
+      <stop offset="100%" stop-color="{tier_color}" stop-opacity="0.02"/>
     </linearGradient>
   </defs>
   {apex_effects}
@@ -448,33 +460,33 @@ def build_og_svg(skill: dict) -> str:
 
   <!-- Tier glyph (large) -->
   <text x="48" y="175" font-family="Georgia,serif" font-size="52"
-    fill="{APEX_GOLD}" opacity="0.85">{glyph}</text>
+    fill="{tier_color}" opacity="0.85">{glyph}</text>
 
   <!-- Stars (.plaque__rank stars variant) -->
   {stars_svg}
 
   <!-- Vertical rule -->
   <line x1="220" y1="40" x2="220" y2="{OG_H-40}"
-    stroke="rgba(251,191,36,0.12)" stroke-width="1"/>
+    stroke="rgba({tier_rgb}, 0.12)" stroke-width="1"/>
 
   <!-- ─── Right column (slug / title / description / tags / install) ─── -->
   <!-- Slug (.plaque__slug) -->
   <text class="plaque__slug" x="264" y="150"
     font-family="EB Garamond,Georgia,serif"
-    font-size="52" font-weight="600"
-    fill="{APEX_GOLD}" dominant-baseline="middle">{name}</text>
+    font-size="64" font-weight="600"
+    fill="{slug_fill}" dominant-baseline="middle">{name}</text>
 
   <!-- Title (.plaque__title — italic subtitle) -->
-  {'<text class="plaque__title" x="264" y="210" font-family="EB Garamond,Georgia,serif" font-size="22" font-style="italic" fill="rgba(226,232,240,0.5)" dominant-baseline="middle">' + title + '</text>' if title else ''}
+  {'<text class="plaque__title" x="264" y="220" font-family="EB Garamond,Georgia,serif" font-size="32" font-style="italic" fill="rgba(226,232,240,0.5)" dominant-baseline="middle">' + title + '</text>' if title else ''}
 
   <!-- Horizontal rule -->
-  <line x1="264" y1="240" x2="{OG_W-48}" y2="240"
-    stroke="rgba(251,191,36,0.2)" stroke-width="1"/>
+  <line x1="264" y1="260" x2="{OG_W-48}" y2="260"
+    stroke="rgba({tier_rgb}, 0.16)" stroke-width="1"/>
 
   <!-- Description (.plaque__description) -->
-  <text class="plaque__description" x="264" y="278"
-    font-family="Bricolage Grotesque,Helvetica,Arial,sans-serif"
-    font-size="18" fill="rgba(226,232,240,0.65)">
+  <text class="plaque__description" x="264" y="308"
+    font-family="Bricolage Grotesque,Inter,system-ui,sans-serif"
+    font-size="28" fill="rgba(226,232,240,0.65)">
     {description_tspans}
   </text>
 
@@ -485,10 +497,10 @@ def build_og_svg(skill: dict) -> str:
   {install_row_svg}
 
   <!-- Evidence class chip (.plaque__evidence) -->
-  <rect class="plaque__evidence-bg" x="264" y="560" width="{len(ev_class) * 8 + 24}" height="22"
-    rx="3" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
-  <text class="plaque__evidence" x="276" y="575"
-    font-family="monospace" font-size="11" letter-spacing="1.5"
+  <rect class="plaque__evidence-bg" x="264" y="560" width="{len(ev_class) * 12 + 24}" height="28"
+    rx="4" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <text class="plaque__evidence" x="276" y="579"
+    font-family="monospace" font-size="14" letter-spacing="1.5"
     fill="rgba(226,232,240,0.5)" dominant-baseline="middle">{ev_class}</text>
 
   <!-- Level chip (.plaque__rank chip variant — mirrors Stage 2 sibling) -->
@@ -496,12 +508,12 @@ def build_og_svg(skill: dict) -> str:
 
   <!-- Contributor handle (.plaque__handle) -->
   <text class="plaque__handle" x="264" y="605"
-    font-family="'Bricolage Grotesque',sans-serif" font-size="18" font-weight="600"
+    font-family="'Bricolage Grotesque',Inter,system-ui,sans-serif" font-size="22" font-weight="600"
     fill="{HONOR_RED}" dominant-baseline="middle">@{contributor}</text>
 
   <!-- Gaia wordmark (bottom-right) -->
   <text x="{OG_W - 64}" y="605"
-    font-family="EB Garamond,Georgia,serif" font-size="18" font-weight="600"
+    font-family="EB Garamond,Georgia,serif" font-size="22" font-weight="600"
     fill="rgba(226,232,240,0.3)" text-anchor="end" dominant-baseline="middle">Gaia</text>
 
   <!-- Bottom underline accent (.plaque__underline) -->

@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <script>window.GAIA_VERSION = "3.25.1";</script>
+  <script>window.GAIA_VERSION = "3.25.2";</script>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -16,14 +16,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
   <link rel="icon" type="image/svg+xml" href="assets/marks/diamond-seal.svg">
-  <link rel="stylesheet" href="css/styles.css?v=3.25.1">
-  <link rel="stylesheet" href="css/plaque.css?v=3.25.1">
+  <link rel="stylesheet" href="css/styles.css?v=3.25.2">
+  <link rel="stylesheet" href="css/plaque.css?v=3.25.2">
   <!-- Stage 1 — icon sprite helper, loaded BEFORE other UI scripts. -->
-  <script src="js/icons.js?v=3.25.1"></script>
+  <script src="js/icons.js?v=3.25.2"></script>
   <!-- Stage 2 — shared rank-badge primitive, loaded after icons. -->
-  <script src="js/rank-badge.js?v=3.25.1"></script>
+  <script src="js/rank-badge.js?v=3.25.2"></script>
   <!-- Stage 3 — plaque component family, loaded after rank-badge. -->
-  <script src="js/plaque.js?v=3.25.1"></script>
+  <script src="js/plaque.js?v=3.25.2"></script>
 </head>
 
 <body class="home-page">
@@ -41,12 +41,12 @@
       <span></span>
     </button>
     <ul>
-      <li><button type="button" class="nav-graph-trigger" data-graph-trigger>Graph (3D)</button></li>
-      <li><a href="#hall-of-heroes">Hall of Heroes</a></li>
-      <li><a href="codex.html">The Codex</a></li>
-      <li><button type="button" class="nav-tree" id="treeNavBtn">Tree</button></li>
-      <li><a href="meta/reports/2026-05-25-programmatic-registry-audit.html" class="nav-meta" target="_blank" id="metaNavBtn">Meta Report</a></li>
-      <li><button type="button" class="nav-copy-agent" id="copyAgentBtn" title="Copy Agent-friendly Markdown for LLMs/Agents" aria-label="Copy page context for agents"><svg class="ico" width="15" height="15" aria-hidden="true"><use href="assets/icons.svg#copy"/></svg></button></li>
+      <li><a href="/" style="color: var(--text);" aria-current="page">Home</a></li>
+      <li><button type="button" class="nav-tree" id="treeNavBtn" style="color: #34d399;">Skill Tree</button></li>
+      <li><button type="button" class="nav-graph-trigger" data-graph-trigger style="color: #38bdf8;">Skill Graph</button></li>
+      <li><a href="codex.html" style="color: var(--tier-basic);">The Codex</a></li>
+      <li><a href="meta.html" class="nav-meta" id="metaNavBtn">Meta Reports</a></li>
+      <li><a href="badges/" style="color: var(--honor-red);">Github Badges</a></li>
       <li><button type="button" class="nav-search-btn" id="navSearchBtn" aria-label="Search named"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#search"/></svg></button></li>
     </ul>
   </nav>
@@ -77,8 +77,8 @@
         </a>
         <a href="#ultimates" class="door door-b">
           <span class="door-icon">◈</span>
-          <span class="door-label">Claim Ultimate</span>
-          <span class="door-caption" id="doorBCaption">loading…</span>
+          <span class="door-label">Claim an Ultimate</span>
+          <span class="door-caption" id="doorBCaption">Browse all</span>
         </a>
       </div>
       <div class="ledger-strip">
@@ -114,6 +114,7 @@
   </section>
 
   <!-- ─── TREE DIALOG ─── -->
+  <a id="tree" tabindex="-1" aria-hidden="true"></a>
   <dialog id="treeDialog" class="tree-dialog" aria-labelledby="treeDialogTitle">
     <div class="tree-dialog-inner">
       <div class="tree-dialog-header">
@@ -229,17 +230,21 @@
       <div class="path-b" id="ultimates">
         <div class="path-plate-num">Path B — Unclaimed Ultimates</div>
         <h2>Claim an Ultimate</h2>
-        <p class="path-intro mt-sm">These Ultimate skills have no named implementation yet. Build one, submit for review, and your handle goes on the registry — permanently.</p>
+        <p class="path-intro mt-sm">The highest-tier skills in the registry. Claim one, build a real implementation, and your handle goes on the registry permanently — then drop your badge in your README.</p>
         <div class="ultimates-list" id="ultimatesList" aria-live="polite">
           <div class="ult-loading">Loading ultimates…</div>
         </div>
-        <div class="path-cta">
+        <div class="path-cta" style="display:flex;gap:.75rem;flex-wrap:wrap;align-items:center;">
           <a href="https://github.com/mbtiongson1/gaia-skill-tree/issues" target="_blank" rel="noopener" class="btn btn-ghost propose-cta text-sm">
             <svg class="ico propose-gh" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#github"/></svg>
             Propose a new Ultimate →
           </a>
+          <a href="badges/" class="btn btn-ghost propose-cta text-sm">
+            <svg class="ico propose-gh" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#seal-diamond"/></svg>
+            Get Badges →
+          </a>
         </div>
-        <div class="path-meta-queue">
+        <div class="path-meta-queue" id="meta-report-callout">
           <!-- gaia-posts-start -->
           <a href="meta/reports/2026-05-25-programmatic-registry-audit.html" class="pmq-post" target="_blank">
             <span class="pmq-label">Latest Audit</span>
@@ -257,13 +262,17 @@
 
   <div class="section-divider"></div>
 
-  <!-- ─── HALL OF HEROES ─── -->
+  <!-- ─── HALL OF HEROES (temporarily disabled) ─── -->
+  <!-- Hall of Heroes is temporarily disabled — deferring a new feature here.
+       Re-enable by removing this comment wrapper (and the trailing divider below).
+       JS hooks (page-ia.js #hohPlates / #browseAllBtn, plaque-reveal.js) are all
+       null-guarded, so the page renders cleanly with this section absent.
   <section id="hall-of-heroes" class="reveal hoh-section" data-section="hoh">
     <h2>Hall of Heroes</h2>
     <p class="section-sub">The highest-ranked named implementations in the registry, by level.</p>
     <div class="hoh-track-wrap">
       <div class="hoh-track" id="hohPlates">
-        <!-- Populated by page-ia.js -->
+        Populated by page-ia.js
       </div>
     </div>
     <div class="hoh-footer">
@@ -272,6 +281,7 @@
   </section>
 
   <div class="section-divider"></div>
+  -->
 
   <!-- ─── ASCENSION CYCLE ─── -->
   <!-- Stage 2/4 — the Ascension Cycle is the SOLE catalog that reads
@@ -357,9 +367,9 @@
             <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#view-list"/></svg>
             List
           </button>
-          <button class="ns-view-btn" data-view="flow" title="Tree / flowchart view" aria-pressed="false">
+          <button class="ns-view-btn" data-view="flow" title="Flow / flowchart view" aria-label="Flow view" aria-pressed="false">
             <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#view-tree"/></svg>
-            Tree
+            Flow
           </button>
         </div>
         <!-- Stage 4 — sort dropdown.
@@ -393,11 +403,11 @@
     <p>
       <a href="https://github.com/mbtiongson1/gaia-skill-tree" target="_blank">GitHub</a> ·
       MIT ·
-      v3.9.2 ·
-      <a href="codex.html">The Codex</a> ·
       <a href="privacy.html">Privacy</a> ·
-      <button id="treeFooterBtn" type="button" class="footer-link-btn">Your Tree</button> ·
-      <button id="metaFooterBtn" type="button" class="footer-link-btn">Meta Report</button> ·
+      <a href="codex.html">The Codex</a> ·
+      <a href="meta.html">Meta Reports</a> ·
+      <a href="samples/mobile.html">Samples</a> ·
+      <a href="badges/">Badges</a> ·
       <button id="copyAgentFooterBtn" type="button" class="footer-link-btn" aria-label="Copy page context for agents">Copy Page</button>
     </p>
   </footer>
@@ -494,20 +504,109 @@
 
   <!-- ─── SCRIPTS ─── -->
   <!-- icons.js already loaded in <head> so gaiaIcon() is available before any of these. -->
-  <script src="js/atlas-helpers.js?v=3.25.1"></script>
-  <script src="js/skill-graph.js?v=3.25.1"></script>
-  <script src="js/hud-toggle.js?v=3.25.1"></script>
-  <script src="js/scroll-reveal.js?v=3.25.1"></script>
-  <script src="js/named-skills.js?v=3.25.1"></script>
-  <script src="js/skill-explorer.js?v=3.25.1"></script>
-  <script src="js/ui.js?v=3.25.1"></script>
-  <script src="js/page-ia.js?v=3.25.1"></script>
-  <script src="js/plaque-reveal.js?v=3.25.1" defer></script>
+  <script src="js/atlas-helpers.js?v=3.25.2"></script>
+  <script src="js/skill-graph.js?v=3.25.2"></script>
+  <script src="js/hud-toggle.js?v=3.25.2"></script>
+  <script src="js/scroll-reveal.js?v=3.25.2"></script>
+  <script src="js/named-skills.js?v=3.25.2"></script>
+  <script src="js/skill-explorer.js?v=3.25.2"></script>
+  <script src="js/ui.js?v=3.25.2"></script>
+  <script src="js/page-ia.js?v=3.25.2"></script>
+  <script src="js/plaque-reveal.js?v=3.25.2" defer></script>
+
+  <!-- ── Share modal (single instance) — opened from plaque__share-btn ── -->
+  <div class="share-modal" hidden role="dialog" aria-modal="true" aria-labelledby="share-modal-title" id="shareModal">
+    <div class="share-modal__backdrop" data-share-close></div>
+    <div class="share-modal__panel" role="document">
+      <button class="share-modal__close" type="button" data-share-close aria-label="Close">×</button>
+      <h2 id="share-modal-title" class="share-modal__title">Share</h2>
+      <p class="share-modal__caption" data-share-caption></p>
+      <img class="share-modal__preview" data-share-preview alt="OG card preview">
+      <div class="share-modal__actions">
+        <a class="share-action share-action--download" data-share-action="download" download>
+          <svg class="ico" width="16" height="16"><use href="assets/icons.svg#download"></use></svg> Download
+        </a>
+        <button class="share-action share-action--copy" type="button" data-share-action="copy">
+          <svg class="ico" width="16" height="16"><use href="assets/icons.svg#copy"></use></svg> Copy link
+        </button>
+        <a class="share-action share-action--x" data-share-action="x" target="_blank" rel="noopener">
+          <svg class="ico" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M2.5 2.5 L13.5 13.5 M13.5 2.5 L2.5 13.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg> X
+        </a>
+        <button class="share-action share-action--instagram" type="button" data-share-action="instagram">
+          <svg class="ico" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="2" y="2" width="12" height="12" rx="3.5" stroke="currentColor" stroke-width="1.5"/>
+            <circle cx="8" cy="8" r="2.8" stroke="currentColor" stroke-width="1.5"/>
+            <circle cx="11.4" cy="4.6" r="0.8" fill="currentColor"/>
+          </svg> Instagram
+        </button>
+      </div>
+      <div class="share-modal__toast" hidden role="status" data-share-toast></div>
+    </div>
+  </div>
+
+  <!-- ─── HALL OF HEROES FULLSCREEN OG VIEW ─── -->
+  <div id="hohFullscreenModal" class="hoh-fs-modal" aria-hidden="true" tabindex="-1">
+    <div class="hoh-fs-header">
+      <button class="hoh-fs-btn" data-fs-action="download" title="Download OG Image Card" aria-label="Download OG Image Card">
+        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#download"></use></svg>
+      </button>
+      <button class="hoh-fs-btn" data-fs-action="copy" title="Copy Link" aria-label="Copy Link">
+        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#link"></use></svg>
+      </button>
+      <button class="hoh-fs-btn" data-fs-action="x" title="Share Permalink" aria-label="Share Permalink">
+        <svg class="ico" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M2.5 2.5 L13.5 13.5 M13.5 2.5 L2.5 13.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <button class="hoh-fs-btn" data-fs-action="instagram" title="Copy OG Link & Open Instagram" aria-label="Copy OG Link & Open Instagram" style="width: auto; padding: 0 16px; border-radius: 20px;">
+        <svg class="ico" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="2" y="2" width="12" height="12" rx="3.5" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="8" cy="8" r="2.8" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="11.4" cy="4.6" r="0.8" fill="currentColor"/>
+        </svg>
+        <span style="margin-left: 8px; font-family: var(--font-body); font-size: 13px; font-weight: 500;">Copy for Instagram</span>
+      </button>
+      <button class="hoh-fs-btn hoh-fs-btn--close" data-fs-action="close" title="Close modal" aria-label="Close modal">
+        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#close-x"></use></svg>
+      </button>
+    </div>
+
+    <div class="hoh-fs-stage" id="hohFsStage">
+      <!-- Renders plaque.renderOg() dynamically here -->
+    </div>
+
+    <div class="hoh-fs-overlay">
+      <div class="hoh-fs-overlay-title">Are you <span id="hohFsHandleText">@handle</span>? add to your README.md!</div>
+      <div class="hoh-fs-overlay-body">
+        <img id="hohFsBadgePreview" class="hoh-fs-badge-img" src="" alt="Gaia contributor badge">
+        <div class="hoh-fs-code-wrap">
+          <code id="hohFsCodeBlock" class="hoh-fs-code">[![Gaia](https://gaia.tiongson.co/badges/handle/handle.svg)](https://gaia.tiongson.co/u/handle/)</code>
+          <button id="hohFsCopyBtn" class="hoh-fs-copy-btn" type="button">
+            <svg class="ico" width="12" height="12" aria-hidden="true"><use href="assets/icons.svg#copy"></use></svg> Copy markdown
+          </button>
+        </div>
+      </div>
+      <p id="hohFsDisclaimer" class="hoh-fs-disclaimer">Are you <span class="hoh-fs-disclaimer-handle"></span>? This will only work on <span class="hoh-fs-disclaimer-handle"></span>&rsquo;s repo!</p>
+      <div>
+        <a id="hohFsBadgesLink" href="badges/" class="hoh-fs-copy-btn" style="text-decoration:none;font-size:11px;">
+          <svg class="ico" width="12" height="12" aria-hidden="true"><use href="assets/icons.svg#seal-diamond"></use></svg> Get all your badges →
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div id="hohFsToast" class="hoh-fs-toast" role="status" aria-live="polite">Permalink copied!</div>
+
+  <script src="js/profile-share.js?v=3.25.2"></script>
+  <script src="js/hoh-modal.js?v=3.25.2"></script>
+  <script src="js/profile-claim.js?v=3.25.2"></script>
 
 </body>
 
 </html>
 
 <!-- gaia:stats-start -->
-<!-- skills=215; namedSkills=184; uniqueSkills=4; version=3.25.1 -->
+<!-- skills=215; namedSkills=184; uniqueSkills=4; version=3.25.2 -->
 <!-- gaia:stats-end -->

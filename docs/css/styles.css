@@ -16,8 +16,7 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: local('Departure Mono'),
-    url('../assets/fonts/DepartureMono-Regular.woff2') format('woff2');
+  src: local('Departure Mono');
 }
 
 :root {
@@ -485,6 +484,7 @@ button.nav-copy-agent {
   height: 100%;
   pointer-events: none;
   opacity: 1;
+  touch-action: none;
   transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.8s ease;
 }
 
@@ -1753,6 +1753,56 @@ tr:hover td {
   margin-top: 2rem
 }
 
+/* Codex Table of Contents — in-flow anchor list above the first H2 */
+.codex-toc {
+  max-width: 1000px;
+  padding: 1rem 1.25rem;
+  margin-block-end: 2.5rem;
+  border-inline-start: 2px solid var(--border);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+}
+
+.codex-toc__title {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin: 0 0 0.75rem;
+}
+
+.codex-toc__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.codex-toc__list a {
+  color: var(--text);
+  text-decoration: none;
+  border-block-end: 1px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.codex-toc__list a:hover,
+.codex-toc__list a:focus {
+  color: var(--tier-extra);
+  border-block-end-color: currentColor;
+}
+
+@media (max-width: 860px) {
+  .codex-toc {
+    border-inline-start: none;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-block-end: 2rem;
+  }
+}
+
 .process-section {
   max-width: 1000px
 }
@@ -3003,6 +3053,7 @@ tr:hover td {
   border-right: 1px solid var(--border);
   cursor: ns-resize;
   user-select: none;
+  touch-action: none;
 }
 
 .graph-scatter-edge {
@@ -3162,6 +3213,7 @@ tr:hover td {
   position: relative;
   cursor: ew-resize;
   user-select: none;
+  touch-action: none;
 }
 
 .graph-speed-edge {
@@ -3839,37 +3891,52 @@ tr:hover td {
   }
 
   #hero.hero-graph-fullscreen .graph-bottom-bar {
-    height: 44px;
+    height: 52px;
   }
 
   #hero.hero-graph-fullscreen .graph-pause-btn {
-    flex: 0 0 40px;
-    font-size: 1rem;
+    flex: 0 0 48px;
+    min-height: 48px;
+    font-size: 1.05rem;
   }
 
   #hero.hero-graph-fullscreen .graph-bottom-btn {
-    padding: 0 .5rem;
-    font-size: .58rem;
+    padding: 0 .65rem;
+    min-height: 48px;
+    min-width: 48px;
+    font-size: .62rem;
     letter-spacing: .04em;
   }
 
   #hero.hero-graph-fullscreen .graph-zoom-counter {
-    padding: 0 .5rem;
-    font-size: .62rem;
+    padding: 0 .6rem;
+    min-height: 48px;
+    min-width: 48px;
+    font-size: .64rem;
   }
 
   #hero.hero-graph-fullscreen .graph-speed-edge {
-    padding: 0 .35rem;
-    font-size: .75rem;
+    padding: 0 .4rem;
+    font-size: .78rem;
   }
 
   #hero.hero-graph-fullscreen .graph-speed-title {
-    font-size: .6rem;
+    font-size: .62rem;
   }
 
   #hero.hero-graph-fullscreen .graph-scatter-strip {
-    width: 44px;
-    bottom: 44px;
+    width: 56px;
+    bottom: 52px;
+  }
+
+  #hero.hero-graph-fullscreen .graph-action-btn {
+    min-height: 44px;
+    padding: .5rem .8rem;
+  }
+
+  #hero.hero-graph-fullscreen .graph-hud-toggle-btn {
+    min-height: 44px;
+    padding: .55rem .9rem;
   }
 
   #hero.hero-graph-fullscreen .graph-search-help-popover {
@@ -3892,44 +3959,54 @@ tr:hover td {
     order: 1 !important;
     width: 100% !important;
     flex: 0 0 100% !important;
-    height: 38px !important;
+    height: 48px !important;
+    min-height: 48px !important;
     border-bottom: 1px solid var(--border) !important;
   }
 
   #hero.hero-graph-fullscreen .graph-pause-btn {
     order: 2 !important;
-    height: 38px !important;
+    height: 48px !important;
+    min-height: 48px !important;
+    min-width: 48px !important;
     flex: 1 1 auto !important;
     border-right: 1px solid var(--border) !important;
   }
 
   #hero.hero-graph-fullscreen .graph-bottom-btn {
     order: 2 !important;
-    height: 38px !important;
+    height: 48px !important;
+    min-height: 48px !important;
+    min-width: 48px !important;
     flex: 1 1 auto !important;
     border-right: 1px solid var(--border) !important;
   }
 
   #hero.hero-graph-fullscreen .graph-zoom-counter {
     order: 2 !important;
-    height: 38px !important;
+    height: 48px !important;
+    min-height: 48px !important;
+    min-width: 48px !important;
     flex: 1 1 auto !important;
   }
 
   #hero.hero-graph-fullscreen .graph-hud-toggle-btn {
-    bottom: calc(76px + .65rem) !important;
+    bottom: calc(96px + .65rem) !important;
+    min-height: 44px !important;
+    padding: .55rem .9rem !important;
   }
 
   #hero.hero-graph-fullscreen .graph-redpill {
-    bottom: calc(76px + .65rem) !important;
+    bottom: calc(96px + .65rem) !important;
   }
 
   #hero.hero-graph-fullscreen .graph-search-wrap {
-    bottom: calc(76px + 3.2rem) !important;
+    bottom: calc(96px + 3.2rem) !important;
   }
 
   #hero.hero-graph-fullscreen .graph-scatter-strip {
-    bottom: 76px !important;
+    bottom: 96px !important;
+    width: 56px !important;
   }
 }
 
@@ -7235,13 +7312,13 @@ button.nav-graph-trigger {
   cursor: pointer;
   font: inherit;
   font-size: .9rem;
-  color: var(--muted);
-  padding: 0;
+  color: var(--basic) !important;
+  padding: .1rem .25rem;
   transition: color .2s;
 }
 
 button.nav-graph-trigger:hover {
-  color: var(--text)
+  color: #7dd3fc !important;
 }
 
 /* ── TWO DOORS ── */
@@ -8076,13 +8153,15 @@ button.nav-graph-trigger:hover {
 .intro-skip {
   position: absolute;
   bottom: 2rem;
-  right: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
   font-family: var(--font-mono);
-  font-size: .7rem;
+  font-size: .75rem;
   letter-spacing: .1em;
   text-transform: uppercase;
   color: var(--muted);
-  opacity: .6;
+  opacity: .8;
+  white-space: nowrap;
 }
 
 /* ── PHASE 3 MOBILE — disable 3D HUD, show static SVG fallback ── */

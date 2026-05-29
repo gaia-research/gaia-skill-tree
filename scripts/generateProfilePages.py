@@ -49,14 +49,23 @@ def _read_version() -> str:
 
 
 def _apply_cache_busting(text: str, version: str) -> str:
-    # 1. Inject or update Cache-Control meta tags inside <head>
-    cache_meta = (
-        '\n  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">\n'
-        '  <meta http-equiv="Pragma" content="no-cache">\n'
-        '  <meta http-equiv="Expires" content="0">'
+    # 1. Strip legacy no-cache meta tags if present (they break back/forward cache
+    #    and prevent the browser from honoring our versioned query strings).
+    text = re.sub(
+        r'\n?\s*<meta\s+http-equiv="Cache-Control"\s+content="no-cache, no-store, must-revalidate">',
+        '',
+        text,
     )
-    if 'http-equiv="Cache-Control"' not in text:
-        text = text.replace("<head>", f"<head>{cache_meta}", 1)
+    text = re.sub(
+        r'\n?\s*<meta\s+http-equiv="Pragma"\s+content="no-cache">',
+        '',
+        text,
+    )
+    text = re.sub(
+        r'\n?\s*<meta\s+http-equiv="Expires"\s+content="0">',
+        '',
+        text,
+    )
 
     # 2. Inject or update window.GAIA_VERSION in <head>
     version_script = f'\n  <script>window.GAIA_VERSION = "{version}";</script>'
@@ -224,9 +233,13 @@ def _field_orb(ns: dict, size_modifier: str = "") -> str:
 def _field_slug(ns: dict) -> str:
     raw_id = ns.get("id", "")
     slug = html.escape(named_slug(ns))
+    safe_id = html.escape(raw_id, quote=True)
     return (
-        f'<div class="plaque__slug plaque-skill-name named-slug" '
-        f'title="{html.escape(raw_id)}">{slug}</div>'
+        f'<button type="button" class="plaque__slug plaque-skill-name named-slug" '
+        f'data-skill-id="{safe_id}" '
+        f'title="{safe_id}" '
+        f'onclick="event.stopPropagation(); if(window.openSkillExplorer)window.openSkillExplorer(\'{safe_id}\');">'
+        f'{slug}</button>'
     )
 
 
@@ -245,7 +258,8 @@ def _field_handle_row(ns: dict, rel: str = "../../u/") -> str:
     )
     if not contributor_link:
         return ""
-    return f'<div class="plaque__handle plaque-contrib-row">{contributor_link}</div>'
+    origin_badge = _field_origin_star(ns)
+    return f'<div class="plaque__handle plaque-contrib-row">{contributor_link}{origin_badge}</div>'
 
 
 def _field_description(ns: dict) -> str:
@@ -312,7 +326,15 @@ def _field_gh_link(ns: dict) -> str:
 def _field_origin_star(ns: dict) -> str:
     if not ns.get("origin"):
         return ""
-    return '<span class="plaque__origin ns-origin" title="Origin contributor">★</span>'
+    # SVG sprite-driven origin badge shown inline beside @handle
+    return (
+        '<span class="plaque__origin ns-origin"'
+        ' data-tooltip="Origin contributor: The creator of the first skill version"'
+        ' aria-label="Origin contributor">'
+        f'<svg class="ico" width="14" height="14" aria-hidden="true">'
+        f'<use href="{ICON_SPRITE_REL}#origin-badge"></use></svg>'
+        "</span>"
+    )
 
 
 # Public dispatch table: name → builder. Useful for diagnostics and
@@ -331,16 +353,17 @@ PLAQUE_FIELDS = {
 }
 
 
-def _plaque_shell(variant: str, ns: dict, inner: str, extra_class: str = "") -> str:
+def _plaque_shell(variant: str, ns: dict, inner: str, extra_class: str = "", skill_name: str = "") -> str:
     """Wrap a field-set string in the canonical .plaque shell."""
     n = level_num(ns.get("level", ""))
     apex = " plaque--apex-vi" if n >= 6 else ""
     type_str = resolve_type(ns)
     extra = f" {extra_class}" if extra_class else ""
     skill_id = html.escape(ns.get("id", ""))
+    name_attr = f' data-skill-name="{html.escape(skill_name)}"' if skill_name else ""
     return (
         f'<article class="plaque plaque--{variant}{apex}{extra}" '
-        f'data-skill-id="{skill_id}" data-type="{type_str}" data-level="{n}">'
+        f'data-skill-id="{skill_id}" data-type="{type_str}" data-level="{n}"{name_attr}>'
         f"{inner}"
         f"</article>"
     )
@@ -370,7 +393,6 @@ def plaque_tile_html(ns: dict) -> str:
         '<div class="plaque__header plaque-header">'
         + _field_orb(ns)
         + _field_rank(ns, "chip")
-        + _field_origin_star(ns)
         + _field_gh_link(ns)
         + "</div>"
     )
@@ -386,7 +408,37 @@ def plaque_tile_html(ns: dict) -> str:
     return _plaque_shell("tile", ns, inner)
 
 
-def plaque_settled_html(ns: dict) -> str:
+def _plaque_actions_html(ns: dict, handle: str = "") -> str:
+    """Build the .plaque__actions block with Share (OG-conditional) and Claim buttons."""
+    skill_id = ns.get("id", "")
+    skill_id_short = skill_id.split("/")[-1] if "/" in skill_id else skill_id
+    skill_name = ns.get("title", "") or ns.get("name", "") or skill_id_short
+
+    # Share button — always rendered (OG PNG may be generated later)
+    share_btn_html = ""
+    if handle and skill_id_short:
+        og_rel = f"../../og/{handle}/{skill_id_short}.png"
+        share_btn_html = (
+            f'<button class="plaque__share-btn" type="button"'
+            f' data-skill-id="{html.escape(skill_id)}"'
+            f' data-skill-name="{html.escape(skill_name)}"'
+            f' data-handle="{html.escape(handle)}"'
+            f' data-og="{html.escape(og_rel)}" aria-label="Share">'
+            f'<svg class="ico" width="14" height="14" aria-hidden="true">'
+            f'<use href="{ICON_SPRITE_REL}#share"></use></svg>'
+            f'</button>'
+        )
+
+    claim_href = f'../../badges/?u={html.escape(handle)}' if handle else '../../badges/'
+    claim_btn_html = (
+        f'<a class="plaque__claim-btn" '
+        f' href="{claim_href}" '
+        f' title="Get README badge">Add to README</a>'
+    )
+    return f'<div class="plaque__actions">{share_btn_html}{claim_btn_html}</div>'
+
+
+def plaque_settled_html(ns: dict, handle: str = "") -> str:
     """Stage 3 — Python sibling of window.plaque.renderSettled(ns).
 
     Profile trophy card. Tile field set + rank stars + evidence-class
@@ -398,7 +450,6 @@ def plaque_settled_html(ns: dict) -> str:
         '<div class="plaque__header plaque-header">'
         + _field_orb(ns)
         + _field_rank(ns, "chip")
-        + _field_origin_star(ns)
         + _field_gh_link(ns)
         + "</div>"
     )
@@ -412,11 +463,12 @@ def plaque_settled_html(ns: dict) -> str:
         + _field_rank(ns, "stars")
         + f'<div class="plaque__evidence plaque-evidence">{html.escape(evidence_class(ns.get("level", "")))}</div>'
         + '<div class="plaque__underline plaque-underline plaque-underline--settled"></div>'
+        + _plaque_actions_html(ns, handle)
     )
-    return _plaque_shell("settled", ns, inner)
+    return _plaque_shell("settled", ns, inner, skill_name=ns.get("title", "") or ns.get("name", "") or "")
 
 
-def build_plaque_card(skill: dict) -> str:
+def build_plaque_card(skill: dict, handle: str = "") -> str:
     """Build a settled plaque card HTML for a named skill.
 
     Stage 3 — delegates to plaque_settled_html so this code path and
@@ -425,46 +477,143 @@ def build_plaque_card(skill: dict) -> str:
     settled variant now uses the canonical orb-led header that
     matches the explorer modal's two-column hero.
     """
-    return plaque_settled_html(skill)
+    return plaque_settled_html(skill, handle=handle)
+
+
+def _parse_iso_timestamp(ts: str) -> datetime.datetime | None:
+    """Parse an ISO 8601 date or date-time string into a datetime object."""
+    if not ts:
+        return None
+    # Normalise trailing Z to +00:00 so fromisoformat works on Python < 3.11
+    ts_norm = ts
+    if ts_norm.endswith("Z"):
+        ts_norm = ts_norm[:-1] + "+00:00"
+    try:
+        return datetime.datetime.fromisoformat(ts_norm)
+    except ValueError:
+        # Fall back: try parsing as a plain date
+        try:
+            d = datetime.date.fromisoformat(ts_norm[:10])
+            return datetime.datetime(d.year, d.month, d.day)
+        except ValueError:
+            return None
+
+
+def build_activity_log(tree: dict, named_index: dict) -> str:
+    """Build an Activity section from tree['timeline'] events.
+
+    Replaces the old Ascension Log. Reads the top-level `timeline[]` on
+    the user tree (per skillTree.schema.json), sorts newest-first, and
+    renders the last 25 events.
+    """
+    events = tree.get("timeline", []) if isinstance(tree, dict) else []
+
+    # Sort newest-first; events without parseable timestamps sort to the end
+    def _sort_key(ev):
+        dt = _parse_iso_timestamp(ev.get("timestamp", ""))
+        if dt is None:
+            return datetime.datetime.min
+        # Make offset-naive for comparison
+        if dt.tzinfo is not None:
+            dt = dt.replace(tzinfo=None)
+        return dt
+
+    sorted_events = sorted(events, key=_sort_key, reverse=True)[:25]
+
+    if not sorted_events:
+        return (
+            '<section class="profile-section" id="profile-activity">\n'
+            '  <h2 class="profile-section-title">Activity</h2>\n'
+            '  <p class="profile-section-sub">Recent progression events from this contributor\'s skill tree.</p>\n'
+            '  <p class="profile-activity-empty">No recorded activity yet.</p>\n'
+            '</section>'
+        )
+
+    items = []
+    for ev in sorted_events:
+        ts = ev.get("timestamp", "")
+        action = ev.get("action", "")
+        skill_id = ev.get("skillId", "")
+        prev_val = ev.get("previousValue")
+        new_val = ev.get("newValue", "")
+
+        # Format date as "MMM YYYY"
+        dt = _parse_iso_timestamp(ts)
+        if dt:
+            date_display = dt.strftime("%b %Y")
+        else:
+            date_display = "—"
+
+        # Display name from named index, or bare id
+        ns_entry = named_index.get(skill_id, {})
+        display_name = ns_entry.get("name") or ns_entry.get("title") or f"/{skill_id}"
+        if not display_name.startswith("/"):
+            display_name = f"/{display_name}"
+
+        action_display = html.escape(action.upper().replace("_", " "))
+        skill_display = html.escape(display_name)
+        safe_skill_id = html.escape(skill_id)
+        safe_action = html.escape(action)
+
+        change_html = ""
+        if prev_val and new_val:
+            change_html = (
+                f'<span class="profile-activity-change">'
+                f'{html.escape(str(prev_val))} → {html.escape(str(new_val))}</span>'
+            )
+        elif new_val:
+            change_html = (
+                f'<span class="profile-activity-change">'
+                f'→ {html.escape(str(new_val))}</span>'
+            )
+
+        items.append(
+            f'    <li class="profile-activity-item" data-action="{safe_action}" data-skill-id="{safe_skill_id}">\n'
+            f'      <time class="profile-activity-time" datetime="{html.escape(ts)}">{html.escape(date_display)}</time>\n'
+            f'      <span class="profile-activity-action">{action_display}</span>\n'
+            f'      <span class="profile-activity-skill">{skill_display}</span>\n'
+            f'      {change_html}\n'
+            f'    </li>'
+        )
+
+    rows_html = "\n".join(items)
+    return (
+        '<section class="profile-section" id="profile-activity">\n'
+        '  <h2 class="profile-section-title">Activity</h2>\n'
+        '  <p class="profile-section-sub">Recent progression events from this contributor\'s skill tree.</p>\n'
+        '  <ul class="profile-activity-list">\n'
+        f'{rows_html}\n'
+        '  </ul>\n'
+        '</section>'
+    )
 
 
 def build_ascension_log(skills: list) -> str:
-    """Build ascension log rows for all skills."""
-    rows = []
-    for skill in sorted(skills, key=lambda s: -level_num(s.get("level", ""))):
-        skill_id = html.escape(skill.get("id", ""))
-        level = html.escape(skill.get("level", "—"))
-        generic_ref = html.escape(skill.get("genericSkillRef", skill.get("id", "")))
-        rows.append(f"""<div class="ascension-log-row">
-  <span class="al-date">—</span>
-  <span class="al-action">NAMED</span>
-  <span class="al-skill">{skill_id}</span>
-  <span class="al-level">{level}</span>
-</div>""")
-    if not rows:
-        return '<div class="ascension-log-row"><span style="color:var(--muted);font-size:.85rem">No entries yet.</span></div>'
-    return "\n".join(rows)
+    """Deprecated — kept for compatibility. Returns empty string; callers use build_activity_log."""
+    return ""
 
 
 NAV_HTML = f"""<nav>
   <a href="../../" class="nav-logo" aria-label="Gaia home">
     <svg class="ico nav-seal" aria-hidden="true" focusable="false"><use href="{ICON_SPRITE_REL}#seal-diamond"/></svg>
     <span class="nav-wordmark">Gaia</span>
-    </a>
-    <button type="button" class="nav-search-back" id="navSearchBack" aria-label="Back">
-      <svg class="ico" width="20" height="20" aria-hidden="true"><use href="{ICON_SPRITE_REL}#arrow-back"/></svg>
-    </button>
-    <input type="search" id="navMobileSearch" class="nav-mobile-search" placeholder="Search skills…" autocomplete="off" aria-label="Search skills">
-    <button class="nav-menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false">    <span></span>
+  </a>
+  <button type="button" class="nav-search-back" id="navSearchBack" aria-label="Back">
+    <svg class="ico" width="20" height="20" aria-hidden="true"><use href="{ICON_SPRITE_REL}#arrow-back"/></svg>
+  </button>
+  <input type="search" id="navMobileSearch" class="nav-mobile-search" placeholder="Search named…" autocomplete="off" aria-label="Search named">
+  <button class="nav-menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false">
+    <span></span>
     <span></span>
     <span></span>
   </button>
   <ul>
-    <li><a href="../../#paths">Registry</a></li>
-    <li><a href="../../#hall-of-heroes">Hall of Heroes</a></li>
-    <li><a href="../../codex.html">The Codex</a></li>
-    <li><a href="../../#tree" class="nav-tree">Tree</a></li>
-    <li><a href="../../#search" class="nav-search-btn" aria-label="Search skills"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="{ICON_SPRITE_REL}#search"/></svg></a></li>
+    <li><a href="../../index.html" class="nav-graph-trigger">Graph</a></li>
+    <li><a href="../../badges/" style="color: var(--honor-red);">Badges</a></li>
+    <li><a href="../../codex.html" style="color: var(--tier-basic);">The Codex</a></li>
+    <li><button type="button" class="nav-tree" id="treeNavBtn">Tree</button></li>
+    <li><a href="../../meta.html" class="nav-meta" id="metaNavBtn">Meta Reports</a></li>
+    <li><button type="button" class="nav-search-btn" id="navSearchBtn" aria-label="Search named"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="{ICON_SPRITE_REL}#search"/></svg></button></li>
   </ul>
 </nav>"""
 
@@ -474,14 +623,213 @@ FOOTER_HTML = f"""<footer>
     <span class="footer-wordmark">Gaia</span>
   </div>
   <p>
-    <a href="https://github.com/mbtiongson1/gaia-skill-tree" target="_blank">GitHub</a> ·
+    <a href="https://github.com/mbtiongson1/gaia-skill-tree" target="_blank" rel="noopener">GitHub</a> ·
     MIT ·
-    <a href="../../codex.html">The Codex</a>
+    <a href="../../privacy.html">Privacy</a> ·
+    <a href="../../codex.html">The Codex</a> ·
+    <a href="../../meta.html">Meta Reports</a> ·
+    <a href="../../samples/mobile.html">Samples</a> ·
+    <a href="../../badges/">Badges</a> ·
+    <button id="copyAgentFooterBtn" type="button" class="footer-link-btn" aria-label="Copy page context for agents">Copy Page</button>
   </p>
 </footer>"""
 
 
-def build_profile_page(handle: str, skills: list) -> str:
+SIDEBAR_HTML = """<aside class="profile-sidebar" id="profileSidebar" aria-label="Filters">
+  <!-- Search row with close button -->
+  <div class="profile-sidebar-section">
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+      <label class="profile-filter-legend" for="profileSearch" style="margin:0;">Search</label>
+      <button type="button" class="profile-sidebar-close" id="sidebarCloseBtn" aria-label="Close filters" style="background:none;border:none;color:var(--muted);cursor:pointer;padding:2px;display:inline-flex;align-items:center;"><svg class="ico" width="16" height="16" aria-hidden="true"><use href="../../assets/icons.svg#close-x"/></svg></button>
+    </div>
+    <input type="search" id="profileSearch" class="sidebar-search-input" placeholder="Search implementations…" autocomplete="off" aria-label="Search skills">
+  </div>
+
+  <!-- Type -->
+  <fieldset class="profile-filter-group" data-filter-type="type">
+    <legend class="profile-filter-legend">Type</legend>
+    <div style="display:flex; flex-wrap:wrap; gap:0.4rem; width:100%;">
+      <button class="profile-filter-chip" type="button" data-value="basic" aria-pressed="false"><svg class="ico" width="13" height="13" aria-hidden="true" style="vertical-align:middle;margin-right:3px"><use href="../../assets/icons.svg#tier-glyph-basic"/></svg>Basic</button>
+      <button class="profile-filter-chip" type="button" data-value="extra" aria-pressed="false"><svg class="ico" width="13" height="13" aria-hidden="true" style="vertical-align:middle;margin-right:3px"><use href="../../assets/icons.svg#tier-glyph-extra"/></svg>Extra</button>
+      <button class="profile-filter-chip" type="button" data-value="unique" aria-pressed="false"><svg class="ico" width="13" height="13" aria-hidden="true" style="vertical-align:middle;margin-right:3px"><use href="../../assets/icons.svg#tier-glyph-unique"/></svg>Unique</button>
+      <button class="profile-filter-chip" type="button" data-value="ultimate" aria-pressed="false"><svg class="ico" width="13" height="13" aria-hidden="true" style="vertical-align:middle;margin-right:3px"><use href="../../assets/icons.svg#tier-glyph-ultimate"/></svg>Ultimate</button>
+    </div>
+  </fieldset>
+
+  <!-- Rank -->
+  <fieldset class="profile-filter-group" data-filter-type="rank">
+    <legend class="profile-filter-legend">Rank</legend>
+    <div style="display:flex; flex-wrap:wrap; gap:0.4rem; width:100%;">
+      <button class="profile-filter-chip" type="button" data-value="1" aria-pressed="false">1★</button>
+      <button class="profile-filter-chip" type="button" data-value="2" aria-pressed="false">2★</button>
+      <button class="profile-filter-chip" type="button" data-value="3" aria-pressed="false">3★</button>
+      <button class="profile-filter-chip" type="button" data-value="4" aria-pressed="false">4★</button>
+      <button class="profile-filter-chip" type="button" data-value="5" aria-pressed="false">5★</button>
+      <button class="profile-filter-chip" type="button" data-value="6" aria-pressed="false">6★</button>
+    </div>
+  </fieldset>
+
+  <!-- Date Range -->
+  <div class="profile-sidebar-section">
+    <span class="profile-filter-legend" style="float:none; display:block; margin-bottom:0.5rem;">Date Range</span>
+    <div class="date-presets" style="margin-bottom:0.75rem;">
+      <button class="profile-filter-chip" type="button" data-preset="30d" aria-pressed="false">30D</button>
+      <button class="profile-filter-chip" type="button" data-preset="6m" aria-pressed="false">6M</button>
+      <button class="profile-filter-chip" type="button" data-preset="all" aria-pressed="true">All</button>
+    </div>
+    <div style="display:flex; gap:0.5rem; align-items:center;">
+      <input type="date" id="profileDateMin" class="sidebar-date-input" aria-label="Minimum date" placeholder="Min">
+      <span style="color:var(--muted); font-size:0.7rem;">to</span>
+      <input type="date" id="profileDateMax" class="sidebar-date-input" aria-label="Maximum date" placeholder="Max">
+    </div>
+  </div>
+
+  <!-- Sort -->
+  <div class="profile-sidebar-section">
+    <label class="profile-filter-legend" for="profileSort" style="float:none; display:block; margin-bottom:0.5rem;">Sort Order</label>
+    <div class="ns-sort-wrap profile-sort-wrap" style="width:100%;">
+      <svg class="ico ns-sort-icon" width="14" height="14" aria-hidden="true" style="left:10px;"><use href="../../assets/icons.svg#sort-arrows"/></svg>
+      <select id="profileSort" class="ns-sort-sel" aria-label="Sort skills" style="width:100%; padding-left:30px; font-family:var(--font-mono); font-size:0.72rem;">
+        <option value="rank" selected>Rank · high → low</option>
+        <option value="alpha">A → Z</option>
+        <option value="type">Type</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Reset -->
+  <button class="profile-filter-reset" type="button" style="width:100%; text-align:center; padding:0.5rem; background:var(--bg); border:1px solid var(--border); border-radius:6px; color:var(--muted); font-family:var(--font-mono); font-size:0.72rem; cursor:pointer; transition:color 0.15s, border-color 0.15s;">Reset Filters</button>
+</aside>"""
+
+
+def _build_share_modal() -> str:
+    """Build the one-per-page share modal markup."""
+    icon_base = ICON_SPRITE_REL
+    return f"""<div class="share-modal" hidden role="dialog" aria-modal="true" aria-labelledby="share-modal-title">
+  <div class="share-modal__backdrop" data-share-close></div>
+  <div class="share-modal__panel" role="document">
+    <button class="share-modal__close" type="button" data-share-close aria-label="Close">×</button>
+    <h2 id="share-modal-title" class="share-modal__title">Share</h2>
+    <p class="share-modal__caption" data-share-caption></p>
+    <img class="share-modal__preview" data-share-preview alt="OG card preview">
+    <div class="share-modal__actions">
+      <a class="share-action share-action--download" data-share-action="download" download>
+        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="{icon_base}#download"></use></svg> Download
+      </a>
+      <button class="share-action share-action--copy" type="button" data-share-action="copy">
+        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="{icon_base}#link"></use></svg> Copy link
+      </button>
+      <a class="share-action share-action--x" data-share-action="x" target="_blank" rel="noopener">
+        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="{icon_base}#x"></use></svg> X
+      </a>
+      <button class="share-action share-action--instagram" type="button" data-share-action="instagram">
+        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="{icon_base}#instagram"></use></svg> Instagram
+      </button>
+    </div>
+    <div class="share-modal__toast" hidden role="status" data-share-toast></div>
+  </div>
+</div>"""
+
+
+def _build_skill_explorer_modal() -> str:
+    """One-per-page Skill Explorer modal so /slash-skill clicks open in-place."""
+    icon_base = ICON_SPRITE_REL
+    return f"""<div id="skillExplorer" class="skill-explorer" role="dialog" aria-modal="true" aria-label="Skill Explorer" tabindex="-1">
+    <div class="se-topbar">
+      <button id="seBack" class="se-btn-ghost"><svg class="ico" width="16" height="16" aria-hidden="true"><use href="{icon_base}#arrow-back"/></svg> Back</button>
+      <span id="seBreadcrumb" class="se-breadcrumb"></span>
+      <div class="se-topbar-actions">
+        <button id="seOpenRepo" class="se-btn-action"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="{icon_base}#github"/></svg> Repo</button>
+        <button id="seSkillDocs" class="se-btn-action"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="{icon_base}#external-link"/></svg> SKILL.md</button>
+        <button id="seShare" class="se-btn-action"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="{icon_base}#share"/></svg> Share</button>
+        <button id="seClose" class="se-btn-ghost se-close-x" aria-label="Close"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="{icon_base}#close-x"/></svg></button>
+      </div>
+    </div>
+    <div class="se-body">
+      <div class="se-hero">
+        <div id="seHero"></div>
+        <div id="se-upgrade" class="se-flow-section"></div>
+      </div>
+      <div class="se-flow" id="seFlow">
+        <div id="se-install" class="se-flow-section"></div>
+        <div id="se-docs" class="se-flow-section"></div>
+        <div id="se-changelog" class="se-flow-section"></div>
+      </div>
+    </div>
+  </div>"""
+
+
+def _build_timeline_section(tree: dict, named_index: dict) -> str:
+    """Build the Progression Timeline section with embedded JSON payload."""
+    unlocked = tree.get("unlockedSkills", []) if isinstance(tree, dict) else []
+    timeline_events = tree.get("timeline", []) if isinstance(tree, dict) else []
+
+    skills_payload = []
+    for skill in unlocked:
+        skill_id = skill.get("skillId") or skill.get("id", "")
+        ns_entry = named_index.get(skill_id, {})
+        skills_payload.append({
+            "id": skill_id,
+            "name": ns_entry.get("name") or ns_entry.get("title") or skill_id.split("/")[-1],
+            "type": ns_entry.get("type", "basic"),
+            "origin": bool(ns_entry.get("origin", False)),
+            "levelHistory": skill.get("levelHistory", []),
+        })
+
+    timeline_payload = {
+        "skills": skills_payload,
+        "events": timeline_events,
+    }
+
+    # Double-encode: JSON.parse(string) avoids </script> injection risks
+    json_data_str = json.dumps(json.dumps(timeline_payload))
+
+    return (
+        '<section class="profile-section" id="profile-timeline-section">\n'
+        '  <div class="profile-section-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem;">\n'
+        '    <div>\n'
+        '      <h2 class="profile-section-title" style="margin:0;">Progression Timeline</h2>\n'
+        '      <p class="profile-section-sub" style="margin:0.25rem 0 0 0;">Skill rank progression over time. Hover for details.</p>\n'
+        '    </div>\n'
+        '    <button class="profile-timeline-filter-btn" id="desktopFilterToggle" aria-label="Toggle filters" style="display:inline-flex; align-items:center; gap:6px; font-family:var(--font-mono); font-size:0.72rem; letter-spacing:0.05em; text-transform:uppercase; background:var(--surface); border:1px solid var(--border); color:var(--text); padding:0.4rem 0.8rem; border-radius:6px; cursor:pointer; transition:border-color 0.15s, color 0.15s;">\n'
+        '      <svg class="ico" width="14" height="14" aria-hidden="true" style="fill:currentColor;"><use href="../../assets/icons.svg#filter"/></svg>\n'
+        '      <span>Filter</span>\n'
+        '    </button>\n'
+        '  </div>\n'
+        '  <div id="profile-timeline" class="profile-timeline" role="img" aria-label="Skill progression timeline"></div>\n'
+        '</section>\n'
+        f'<script>window.PROFILE_TIMELINE = JSON.parse({json_data_str});</script>'
+    )
+
+
+
+def _load_user_tree(handle: str) -> dict:
+    """Load a user's skill-tree.json if it exists, else return empty tree dict."""
+    tree_path = REPO_ROOT / "skill-trees" / handle / "skill-tree.json"
+    if tree_path.exists():
+        try:
+            with open(tree_path, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except (json.JSONDecodeError, OSError):
+            pass
+    return {}
+
+
+def _build_named_index_for_handle(skills: list) -> dict:
+    """Build a simple skillId -> entry dict from the named skills list for a contributor."""
+    index = {}
+    for s in skills:
+        skill_id = s.get("id", "")
+        if skill_id:
+            # strip contributor prefix if present (e.g. "mbtiongson1/web-scrape" -> keyed by both)
+            index[skill_id] = s
+            if "/" in skill_id:
+                bare = skill_id.split("/", 1)[1]
+                index[bare] = s
+    return index
+
+
+def build_profile_page(handle: str, skills: list, named_index: dict | None = None) -> str:
     """Build the full HTML for a contributor profile page."""
     safe_handle = html.escape(handle)
     skill_count = len(skills)
@@ -489,12 +837,22 @@ def build_profile_page(handle: str, skills: list) -> str:
     max_level = max((level_num(s.get("level", "")) for s in skills), default=0)
     highest_level = f"{max_level}★" if max_level else "—"
 
-    plaques_html = "\n".join(build_plaque_card(s) for s in skills)
-    log_html = build_ascension_log(skills)
+    plaques_html = "\n".join(build_plaque_card(s, handle) for s in skills)
 
-    # OG image tag (raster PNG for social crawlers; SVG sibling exists at the same path)
+    # Load user's own skill tree for timeline/activity data
+    tree = _load_user_tree(handle)
+
+    # Build a named_index keyed by skillId for lookup in activity/timeline sections
+    if named_index is None:
+        named_index = _build_named_index_for_handle(skills)
+
+    timeline_section_html = _build_timeline_section(tree, named_index)
+    share_modal_html = _build_share_modal()
+    skill_explorer_modal_html = _build_skill_explorer_modal()
+
+    # OG image tag (vector SVG for social crawlers)
     og_image_tags = "\n".join(
-        f'  <meta property="og:image" content="../../og/{html.escape(handle)}/{html.escape(s["id"].split("/")[-1])}.png">'
+        f'  <meta property="og:image" content="../../og/{html.escape(handle)}/{html.escape(s["id"].split("/")[-1])}.svg">'
         for s in skills[:1]  # use first skill for og:image
     )
 
@@ -522,6 +880,7 @@ def build_profile_page(handle: str, skills: list) -> str:
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../../css/tokens.css">
   <link rel="stylesheet" href="../../css/styles.css">
   <link rel="stylesheet" href="../../css/plaque.css">
   <!-- Stage 1 — icon sprite helper, loaded BEFORE other UI scripts. -->
@@ -536,41 +895,70 @@ def build_profile_page(handle: str, skills: list) -> str:
 
   {NAV_HTML}
 
-  <!-- ─── PROFILE HERO ─── -->
-  <div class="profile-hero">
-    <h1 class="profile-handle">{safe_handle}</h1>
-    <div class="profile-meta">
-      {skill_count} named skill{'s' if skill_count != 1 else ''} · highest rank {highest_level}
-    </div>
-    {f'<span class="profile-origin-badge">◆ Origin Contributor · {origin_count} origin{"s" if origin_count != 1 else ""}</span>' if origin_count else ''}
+  <div class="profile-grid-container">
+    <main class="profile-main">
+      <!-- ─── PROFILE BACK ─── -->
+      <div class="profile-back-row">
+        <a class="profile-back" href="../" aria-label="Back" onclick="if(history.length>1){{event.preventDefault();history.back();}}">
+          <svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#arrow-back"/></svg>
+          <span>Back</span>
+        </a>
+      </div>
+
+      <!-- ─── PROFILE HERO ─── -->
+      <div class="profile-hero">
+        <h1 class="profile-handle">{safe_handle}</h1>
+        <div class="profile-meta">
+          {skill_count} named skill{'s' if skill_count != 1 else ''} · highest rank {highest_level}
+        </div>
+      </div>
+
+      <!-- ─── PROGRESSION TIMELINE ─── -->
+      {timeline_section_html}
+
+      <!-- ─── SKILL PLAQUES ─── -->
+      <section class="profile-section">
+        <h2 class="profile-section-title">Named Skills</h2>
+        <p class="profile-section-sub">All named implementations attributed to @{safe_handle} in the Gaia registry.</p>
+        <div class="plaque-grid">
+          {plaques_html}
+        </div>
+      </section>
+
+      <!-- ─── ADD MORE SKILLS CTA ─── -->
+      <div class="profile-add-skills-cta">
+        <p>Want to add more skills?</p>
+        <a href="../../index.html#paths" class="profile-cta-link">Register your repo →</a>
+      </div>
+    </main>
+
+    {SIDEBAR_HTML}
   </div>
-
-  <!-- ─── SKILL PLAQUES ─── -->
-  <section class="profile-section">
-    <h2 class="profile-section-title">Named Skills</h2>
-    <p class="profile-section-sub">All named implementations attributed to @{safe_handle} in the Gaia registry.</p>
-    <div class="plaque-grid">
-      {plaques_html}
-    </div>
-  </section>
-
-  <!-- ─── ASCENSION LOG ─── -->
-  <section class="profile-section">
-    <h2 class="profile-section-title">Ascension Log</h2>
-    <p class="profile-section-sub">Registry events attributed to this contributor, in descending rank order.</p>
-    <div class="ascension-log">
-      <div class="ascension-log-header">Date · Action · Skill ID · Level</div>
-      {log_html}
-    </div>
-  </section>
 
   {FOOTER_HTML}
 
   <script src="../../js/plaque-reveal.js" defer></script>
+  <script src="../../js/profile-timeline.js" defer></script>
+  <script src="../../js/profile-filter.js" defer></script>
+  <script src="../../js/profile-share.js" defer></script>
+  <script src="../../js/profile-claim.js" defer></script>
+  <script src="../../js/named-skills.js" defer></script>
+  <script src="../../js/skill-explorer.js" defer></script>
 
   <button id="scrollToTop" class="scroll-to-top" aria-label="Scroll to top">
     <svg class="ico" width="20" height="20" aria-hidden="true"><use href="../../assets/icons.svg#arrow-up"/></svg>
   </button>
+
+  <!-- Floating Mobile Filters Toggle -->
+  <div class="profile-sidebar-backdrop" id="sidebarBackdrop"></div>
+  <button class="profile-filter-toggle" id="mobileFilterToggle" aria-label="Toggle filters">
+    <svg class="ico" width="14" height="14" aria-hidden="true"><use href="../../assets/icons.svg#filter"/></svg>
+    <span>Filters</span>
+  </button>
+
+  {share_modal_html}
+
+  {skill_explorer_modal_html}
 
 </body>
 </html>
@@ -609,6 +997,276 @@ def collect_by_contributor(data: dict) -> dict:
     return by_handle
 
 
+def _peak_rank_to_tier(peak: int) -> tuple[int, str]:
+    """Map a contributor's peak rank (1-6) to a tier index and display label.
+
+    Returns (tier_index, tier_title) where tier_index is 1-4 used for
+    data-tier attribute styling. Contributors with peak rank 0 (no rated
+    skills yet) are grouped with Tier I — Foundations.
+    """
+    if peak >= 6:
+        return 4, "Tier IV — Apex"
+    if peak >= 5:
+        return 3, "Tier III — Originators"
+    if peak >= 3:
+        return 2, "Tier II — Builders"
+    return 1, "Tier I — Foundations"
+
+
+def build_directory_page(by_contributor: dict) -> str:
+    """Build the full HTML for the contributors directory page at docs/u/index.html.
+
+    Contributors are grouped into tier sections by their peak rank so visitors
+    see Apex/Originators/Builders/Foundations bands rather than a flat wall of
+    handles. Cards within each tier are sorted alphabetically by handle.
+    """
+    total_contributors = len(by_contributor)
+    total_skills = sum(len(skills) for skills in by_contributor.values())
+
+    # Group contributors by tier (derived from peak rank). Tier 4 = Apex (6★+),
+    # Tier 3 = Originators (5★), Tier 2 = Builders (3-4★), Tier 1 = Foundations (1-2★).
+    tier_buckets: dict[int, list[tuple[str, str]]] = {1: [], 2: [], 3: [], 4: []}
+    tier_titles: dict[int, str] = {}
+
+    # Sort contributors alphabetically by handle (stable secondary sort)
+    for handle, skills in sorted(by_contributor.items(), key=lambda x: x[0].lower()):
+        skill_count = len(skills)
+        s_suffix = "s" if skill_count != 1 else ""
+        origin_count = sum(1 for s in skills if s.get("origin"))
+        max_level = max((level_num(s.get("level", "")) for s in skills), default=0)
+        highest_level = f"{max_level}★" if max_level else "—"
+
+        # Origin badge HTML if they have any origin skills
+        origin_badge_html = ""
+        if origin_count > 0:
+            origin_badge_html = (
+                f'<span class="plaque__origin ns-origin" '
+                f'data-tooltip="Origin contributor: The creator of the first skill version" '
+                f'aria-label="Origin contributor: The creator of the first skill version">'
+                f'<svg class="ico" width="16" height="16" aria-hidden="true">'
+                f'<use href="../assets/icons.svg#origin-badge"></use></svg>'
+                f'</span>'
+            )
+
+        # Rank badge for highest rank reached
+        rank_badge_dir_html = ""
+        if max_level > 0:
+            rank_badge_dir_html = rank_badge_html(f"{max_level}★", variant="chip", size="sm")
+
+        # Top 3 skills preview
+        sorted_skills = sorted(skills, key=lambda s: level_num(s.get("level")), reverse=True)[:3]
+        skills_preview_parts = []
+        skills_list = []
+        for s in sorted_skills:
+            skill_id = s.get("id", "")
+            skill_id_short = skill_id.split("/")[-1] if "/" in skill_id else skill_id
+            level = s.get("level", "")
+            skills_list.append(skill_id_short)
+            
+            # Simple small chip
+            skills_preview_parts.append(
+                f'<span class="dir-skill-chip" data-level="{level_num(level)}">'
+                f'/{html.escape(skill_id_short)} {html.escape(level)}'
+                f'</span>'
+            )
+        
+        skills_preview_html = "".join(skills_preview_parts)
+        skills_list_str = " ".join(skills_list)
+
+        card_html = f"""
+    <article class="contributor-card plaque" data-handle="{html.escape(handle)}" data-skills="{html.escape(skills_list_str)}">
+      <div class="contributor-card-header">
+        <div class="contributor-card-handle-wrap">
+          <a class="contributor-card-handle" href="./{html.escape(handle)}/">@{html.escape(handle)}</a>
+          {origin_badge_html}
+        </div>
+        {rank_badge_dir_html}
+      </div>
+      
+      <div class="contributor-card-stats">
+        <span class="contributor-stat-item">
+          <svg class="ico" width="13" height="13" aria-hidden="true"><use href="../assets/icons.svg#view-tile"/></svg>
+          {skill_count} named skill{s_suffix}
+        </span>
+        <span class="contributor-stat-item contributor-stat-level">
+          Highest rank: {html.escape(highest_level)}
+        </span>
+      </div>
+
+      <div class="contributor-card-skills-preview">
+        {skills_preview_html}
+      </div>
+
+      <a class="contributor-card-link-btn" href="./{html.escape(handle)}/">
+        <span>View Profile</span>
+        <svg class="ico" width="12" height="12" aria-hidden="true" style="transform: rotate(180deg);"><use href="../assets/icons.svg#arrow-back"/></svg>
+      </a>
+    </article>"""
+        tier_idx, tier_title = _peak_rank_to_tier(max_level)
+        tier_buckets[tier_idx].append((handle, card_html))
+        tier_titles[tier_idx] = tier_title
+
+    # Render tier sections, top tier (Apex) first so visitors see the heaviest
+    # hitters before scrolling down to Foundations.
+    tier_sections = []
+    for tier_idx in (4, 3, 2, 1):
+        bucket = tier_buckets.get(tier_idx, [])
+        if not bucket:
+            continue
+        title = tier_titles.get(tier_idx, "")
+        cards_html = "\n".join(card for _handle, card in bucket)
+        tier_sections.append(
+            f'    <section class="directory-tier" data-tier="{tier_idx}">\n'
+            f'      <h2 class="directory-tier__title">{html.escape(title)}</h2>\n'
+            f'      <div class="plaque-grid">\n{cards_html}\n      </div>\n'
+            f'    </section>'
+        )
+
+    contributors_cards_html = "\n".join(tier_sections)
+
+    NAV_DIR_HTML = f"""<nav>
+  <a href="../" class="nav-logo" aria-label="Gaia home">
+    <svg class="ico nav-seal" aria-hidden="true" focusable="false"><use href="../assets/icons.svg#seal-diamond"/></svg>
+    <span class="nav-wordmark">Gaia</span>
+  </a>
+  <button type="button" class="nav-search-back" id="navSearchBack" aria-label="Back">
+    <svg class="ico" width="20" height="20" aria-hidden="true"><use href="../assets/icons.svg#arrow-back"/></svg>
+  </button>
+  <input type="search" id="navMobileSearch" class="nav-mobile-search" placeholder="Search named…" autocomplete="off" aria-label="Search named">
+  <button class="nav-menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+  <ul>
+    <li><a href="../index.html" class="nav-graph-trigger">Graph</a></li>
+    <li><a href="../badges/" style="color: var(--honor-red);">Badges</a></li>
+    <li><a href="../codex.html" style="color: var(--tier-basic);">The Codex</a></li>
+    <li><button type="button" class="nav-tree" id="treeNavBtn">Tree</button></li>
+    <li><a href="../meta.html" class="nav-meta" id="metaNavBtn">Meta Reports</a></li>
+    <li><button type="button" class="nav-search-btn" id="navSearchBtn" aria-label="Search named"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#search"/></svg></button></li>
+  </ul>
+</nav>"""
+
+    FOOTER_DIR_HTML = f"""<footer>
+  <div class="footer-mark">
+    <svg class="ico footer-seal" aria-hidden="true" focusable="false"><use href="../assets/icons.svg#seal-diamond"/></svg>
+    <span class="footer-wordmark">Gaia</span>
+  </div>
+  <p>
+    <a href="https://github.com/mbtiongson1/gaia-skill-tree" target="_blank" rel="noopener">GitHub</a> ·
+    MIT ·
+    <a href="../privacy.html">Privacy</a> ·
+    <a href="../codex.html">The Codex</a> ·
+    <a href="../meta.html">Meta Reports</a> ·
+    <a href="../samples/mobile.html">Samples</a> ·
+    <a href="../badges/">Badges</a> ·
+    <button id="copyAgentFooterBtn" type="button" class="footer-link-btn" aria-label="Copy page context for agents">Copy Page</button>
+  </p>
+</footer>"""
+
+    page_title = "Contributors Directory — Gaia Skill Registry"
+    og_description = (
+        f"Browse the contributors of the Gaia Skill Registry. "
+        f"{total_contributors} active builders with {total_skills} named skills claimed."
+    )
+
+    html_content = f"""<!DOCTYPE html>
+<html lang="en" data-icon-base="../assets/icons.svg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{page_title}</title>
+  <meta name="description" content="{html.escape(og_description)}">
+  <!-- OG meta -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{page_title}">
+  <meta property="og:description" content="{html.escape(og_description)}">
+  <meta property="og:url" content="https://mbtiongson1.github.io/gaia-skill-tree/u/">
+  <!-- Stage 1 — Web fonts (EB Garamond display, Bricolage body, JetBrains Mono fallback). -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/plaque.css">
+  <!-- Stage 1 — icon sprite helper, loaded BEFORE other UI scripts. -->
+  <script src="../js/icons.js"></script>
+  <!-- Stage 2 — rank-badge component, loaded after icons.js. -->
+  <script src="../js/rank-badge.js"></script>
+  <script src="../js/ui.js" defer></script>
+</head>
+<body class="profile-directory-page">
+
+  {NAV_DIR_HTML}
+
+  <!-- ─── PROFILE BACK ─── -->
+  <div class="profile-back-row">
+    <a class="profile-back" href="../" aria-label="Back">
+      <svg class="ico" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#arrow-back"/></svg>
+      <span>Back</span>
+    </a>
+  </div>
+
+  <!-- ─── PROFILE HERO ─── -->
+  <div class="profile-hero">
+    <h1 class="profile-directory-title" style="font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 600; color: var(--text); margin-bottom: 0.5rem;">Named Contributors</h1>
+    <div class="profile-meta">
+      {total_contributors} active builders · {total_skills} named skills claimed
+    </div>
+  </div>
+
+  <!-- ─── CONTRIBUTORS GRID ─── -->
+  <section class="profile-section">
+    <div class="directory-controls" style="max-width: 600px; margin: 0 auto 2.5rem; position: relative;">
+      <input type="search" id="directorySearch" class="directory-search" aria-label="Search contributors by handle or skills" placeholder="Search contributors or skills…" autocomplete="off">
+    </div>
+
+    <div id="contributorGrid">
+{contributors_cards_html}
+    </div>
+  </section>
+
+  {FOOTER_DIR_HTML}
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {{
+      const searchInput = document.getElementById('directorySearch');
+      const cards = Array.from(document.querySelectorAll('.contributor-card'));
+      
+      if (searchInput) {{
+        searchInput.addEventListener('input', () => {{
+          const query = searchInput.value.toLowerCase().trim();
+          cards.forEach(card => {{
+            const handle = card.getAttribute('data-handle').toLowerCase();
+            const skills = card.getAttribute('data-skills').toLowerCase();
+            const match = handle.includes(query) || skills.includes(query);
+            if (match) {{
+              card.removeAttribute('hidden');
+            }} else {{
+              card.setAttribute('hidden', '');
+            }}
+          }});
+          // Hide tier sections whose cards are all filtered out
+          document.querySelectorAll('.directory-tier').forEach(section => {{
+            const visible = section.querySelectorAll('.contributor-card:not([hidden])').length;
+            if (visible === 0) {{
+              section.setAttribute('hidden', '');
+            }} else {{
+              section.removeAttribute('hidden');
+            }}
+          }});
+        }});
+      }}
+    }});
+  </script>
+
+</body>
+</html>
+"""
+    return _apply_cache_busting(html_content, _read_version())
+
+
 def generate_pages(named_path: Path, out_dir: Path) -> int:
     """Generate all profile pages. Returns number of pages written."""
     global TYPE_LOOKUP
@@ -632,6 +1290,13 @@ def generate_pages(named_path: Path, out_dir: Path) -> int:
             f.write(page_html)
         print(f"  Generated: docs/u/{handle}/index.html ({len(skills)} skill(s))")
         count += 1
+
+    # Generate the main directory page
+    dir_html = build_directory_page(by_contributor)
+    dir_file = out_dir / "index.html"
+    with open(dir_file, "w", encoding="utf-8") as f:
+        f.write(dir_html)
+    print(f"  Generated: docs/u/index.html ({len(by_contributor)} contributor(s))")
 
     return count
 
