@@ -22,7 +22,7 @@ tags:
 timeline:
 - timestamp: '2026-05-26T16:36:56Z'
   action: add
-  contributor: testuser
+  contributor: mbtiongson1
   details: Added named skill mbtiongson1/gaia-meta-audit
 - timestamp: '2026-05-30T00:00:00Z'
   action: demote
@@ -33,5 +33,6 @@ timeline:
   newValue: 3★
 ---
 
-## Installation
-Add installation instructions here.
+## Overview
+
+Produces a prioritized review queue of Gaia registry entries needing attention: scans `registry/gaia.json`, `registry/named/**`, and the real-skill catalog for stale evidence, broken links, mis-classified tiers, brand-coupled IDs, missing 3★+ Star Bar implementations, and likely fusion candidates. Output is a P0–P4 table that hands off each accepted candidate to `/gaia-audit`.

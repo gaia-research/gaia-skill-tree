@@ -21,9 +21,10 @@ tags:
 timeline:
 - timestamp: '2026-05-26T16:36:59Z'
   action: add
-  contributor: testuser
+  contributor: mbtiongson1
   details: Added named skill mbtiongson1/gaia-curation-review
 ---
 
-## Installation
-Add installation instructions here.
+## Overview
+
+Reviews an open curation PR (or branch) to determine exactly what it adds to the registry, surfaces quality issues against META standards (evidence class thresholds, naming conventions, tier accuracy, brand-coupled IDs), and recommends `merge` / `close` / `needs-work`. Optimized for stale Jules-generated PRs where the GitHub diff is buried in generated-file noise. A `registry-entry-audit` variant focused on PR-level review.

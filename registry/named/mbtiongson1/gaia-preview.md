@@ -21,9 +21,10 @@ tags:
 timeline:
 - timestamp: '2026-05-26T16:37:01Z'
   action: add
-  contributor: testuser
+  contributor: mbtiongson1
   details: Added named skill mbtiongson1/gaia-preview
 ---
 
-## Installation
-Add installation instructions here.
+## Overview
+
+Triggers a remote documentation regeneration and Cloudflare deployment for the current branch via `gh workflow run sync-artifacts.yml -f deploy=true`. Preferred for design previews when working in containerized environments where `localhost` is not available. Zero local footprint, consistent canonical build environment, automatic deployment.

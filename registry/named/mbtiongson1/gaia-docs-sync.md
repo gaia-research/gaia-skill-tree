@@ -21,9 +21,10 @@ tags:
 timeline:
 - timestamp: '2026-05-26T16:37:00Z'
   action: add
-  contributor: testuser
+  contributor: mbtiongson1
   details: Added named skill mbtiongson1/gaia-docs-sync
 ---
 
-## Installation
-Add installation instructions here.
+## Overview
+
+Synchronizes the generated Gaia documentation site with the current registry state: rebuilds HTML pages, updates skill indexes, regenerates badges, and pushes both the main repo and the adjacent wiki repo so all surfaces stay in sync. Run after registry mutations to prevent the `Schema + DAG + Integrity Checks` CI job from failing on stale `docs/graph/named/index.json` or contributor profiles.

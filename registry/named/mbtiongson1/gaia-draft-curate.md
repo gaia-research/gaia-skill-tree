@@ -21,9 +21,10 @@ tags:
 timeline:
 - timestamp: '2026-05-26T16:36:58Z'
   action: add
-  contributor: testuser
+  contributor: mbtiongson1
   details: Added named skill mbtiongson1/gaia-draft-curate
 ---
 
-## Installation
-Add installation instructions here.
+## Overview
+
+Reviews pending Gaia draft skill intake batches in `registry-for-review/skill-batches/` and opens draft PRs. Classifies each proposed skill (`accept` / `rename` / `duplicate` / `needs-evidence` / `reject`) without touching `registry/gaia.json` directly. Optionally triggers a promotion PR for accepted skills via `gaia promote`.

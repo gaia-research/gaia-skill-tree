@@ -21,9 +21,10 @@ tags:
 timeline:
 - timestamp: '2026-05-26T16:36:59Z'
   action: add
-  contributor: testuser
+  contributor: mbtiongson1
   details: Added named skill mbtiongson1/gaia-wiki-sync
 ---
 
-## Installation
-Add installation instructions here.
+## Overview
+
+Synchronizes the Gaia GitHub wiki (`gaia-skill-tree.wiki.git`) with recent merged PRs, README, CONTRIBUTING, and schema changes. Clones the wiki repo adjacent to the workspace (`../gaia-wiki`), updates pages, commits, and pushes from there. Preserves the wiki folder for subsequent updates per CLAUDE.md Wiki Management policy.

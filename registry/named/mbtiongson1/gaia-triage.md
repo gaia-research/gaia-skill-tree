@@ -21,9 +21,10 @@ tags:
 timeline:
 - timestamp: '2026-05-26T16:37:01Z'
   action: add
-  contributor: testuser
+  contributor: mbtiongson1
   details: Added named skill mbtiongson1/gaia-triage
 ---
 
-## Installation
-Add installation instructions here.
+## Overview
+
+Triages and audits GitHub issues for the Gaia Skill Tree project: identifies stale issues, gathers evidence from the codebase, manages the issue lifecycle via the `gh` CLI, and bulk-applies labels/closures based on rule-based classification. A project-specific implementation of `issue-triage` for registry-curation backlog management.
