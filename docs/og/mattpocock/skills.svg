@@ -52,8 +52,7 @@
     font-size="28" letter-spacing="4.4" fill="#ebe5d4" fill-opacity="0.7">SN</text>
 
   <!-- Slash-skill slug (catalogue designation) -->
-  <text x="660" y="286" font-family="'EB Garamond',Georgia,serif" font-weight="600"
-    font-size="88" fill="#ebe5d4" dominant-baseline="middle">/skills</text>
+  <text x="660" y="286" font-family="'EB Garamond',Georgia,serif" font-weight="600" font-size="84" fill="#ebe5d4" dominant-baseline="middle">/skills</text>
 
   <!-- Title kicker -->
   <text x="660" y="336" font-family="'EB Garamond',Georgia,serif" font-style="italic"

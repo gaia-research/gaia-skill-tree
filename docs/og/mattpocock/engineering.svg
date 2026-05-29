@@ -38,15 +38,14 @@
   <circle cx="880" cy="290" r="42" fill="#f59e0b"/>
 
   <!-- Bayer designation (catalogue prefix) -->
-  <text x="60" y="212" font-family="'Departure Mono','JetBrains Mono',ui-monospace,monospace"
+  <text x="60" y="200" font-family="'Departure Mono','JetBrains Mono',ui-monospace,monospace"
     font-size="28" letter-spacing="4.4" fill="#ebe5d4" fill-opacity="0.7">α</text>
 
   <!-- Slash-skill slug -->
-  <text x="60" y="268" font-family="'EB Garamond',Georgia,serif" font-weight="600"
-    font-size="80" fill="#ebe5d4" dominant-baseline="middle">/engineering</text>
+  <text x="60" y="268" font-family="'EB Garamond',Georgia,serif" font-weight="600" font-size="76" fill="#ebe5d4" dominant-baseline="middle">/engineering</text>
 
   <!-- Title kicker -->
-  <text x="60" y="316" font-family="'EB Garamond',Georgia,serif" font-style="italic"
+  <text x="60" y="318" font-family="'EB Garamond',Georgia,serif" font-style="italic"
     font-size="24" fill="#ebe5d4" fill-opacity="0.6" dominant-baseline="middle">‘The Matt Pocock Engineering Discipline’</text>
 
   <!-- Discoverer signature -->
