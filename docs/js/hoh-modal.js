@@ -561,6 +561,30 @@
       });
     });
 
+    // Delegated click listener for .plaque__share-btn (profile pages + explorer detail)
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest('.plaque__share-btn');
+      if (!btn) return;
+      e.stopPropagation();
+      var skillId = btn.getAttribute('data-skill-id') || '';
+      var handle  = btn.getAttribute('data-handle')   || skillId.split('/')[0];
+      var name    = btn.getAttribute('data-skill-name') || skillId.split('/').pop();
+      var ogPath  = btn.getAttribute('data-og') || ('og/' + handle + '/' + skillId.split('/').pop() + '.svg');
+      var ns = (window._gaiaNamedBuckets && window._gaiaNamedBuckets[handle]) || [];
+      var entry = ns.find(function(s){ return s.id === skillId; }) || {};
+      openHohFullscreenModal({
+        id: skillId,
+        contributor: handle,
+        name: name,
+        level: entry.level || '',
+        type: entry.type || 'basic',
+        origin: !!entry.origin,
+        ogPath: ogPath,
+        description: entry.description || '',
+        tags: Array.isArray(entry.tags) ? entry.tags : []
+      });
+    });
+
     // Close actions
     var closeBtn = modal.querySelector('[data-fs-action="close"]');
     if (closeBtn) {
