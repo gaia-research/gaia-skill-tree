@@ -53,7 +53,7 @@ The fix has two parts and both ship in `index.html`:
 
    | Mode | URL emitted into copied markdown | Where it works |
    |---|---|---|
-   | **`HONESTY_MODE = true`** *(current default)* | `https://gaia.tiongson.co/badges/_assets/<handle>/<file>.svg` | Anywhere — bypasses worker entirely, no `?repo=` |
+   | **`HONESTY_MODE = true`** *(current default)* | `https://gaia.tiongson.co/badges/_assets/<handle>/<file>.svg?repo=<repo>` | Anywhere — bypasses worker, `?repo=` still included for camo caching |
    | **`HONESTY_MODE = false`** | `https://gaia.tiongson.co/badges/<handle>/<file>.svg?repo=<repo>` | Only when worker is deployed; enforces `?repo=` validation |
 
    The pill renders green with state `ON` when `HONESTY_MODE === true` and slate
