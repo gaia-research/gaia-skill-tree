@@ -2,15 +2,15 @@
 id: mbtiongson1/graphify-triage
 name: Graphify Triage
 contributor: mbtiongson1
-origin: false
-genericSkillRef: knowledge-graph-build
+origin: true
+genericSkillRef: graph-driven-issue-triage
 status: named
 level: 3★
 description: Analyzes the Gaia skill dependency graph to surface orphaned nodes, missing
   prerequisites, and structural inconsistencies — producing a prioritized list of
   graph fixes needed.
 createdAt: '2026-05-27'
-updatedAt: '2026-05-27'
+updatedAt: '2026-05-30'
 title: The Graph Surgeon
 links:
   github: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/graphify-triage/SKILL.md
