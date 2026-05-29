@@ -27,4 +27,10 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          # Pin wrangler so the deploy uses a version that honours
+          # [assets] run_worker_first (the badge ?repo= validator in
+          # worker/index.js). The action's default wrangler was too old to
+          # apply it, so the worker only ran as the no-asset fallback and
+          # real badges bypassed validation.
+          wranglerVersion: "4.95.0"
           command: deploy --minify
