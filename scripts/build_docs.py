@@ -193,80 +193,6 @@ def _registry_tree() -> str:
     return f"```text\n{final_body}\n\n({total_skills} skills total — see docs/tree.md)\n```"
 
 
-def _badges() -> str:
-    """Build the 'Get your Gaia badge' README region.
-
-    Showcases the full set of badges available for the maintainer
-    (currently rank + skills + the generic powered-by-gaia fallback),
-    pulls live totals from skill-trees/mbtiongson1/, and provides the
-    copy-paste snippets — one with mbtiongson1's exact URLs, one with
-    placeholders for other contributors.
-    """
-    owner = "mbtiongson1"
-    repo = "mbtiongson1/gaia-skill-tree"
-    tree_path = ROOT / "skill-trees" / owner / "skill-tree.json"
-    rank, count = 0, 0
-    if tree_path.exists():
-        try:
-            data = json.loads(tree_path.read_text(encoding="utf-8"))
-            unlocked = data.get("unlockedSkills", [])
-            count = data.get("stats", {}).get("totalUnlocked", len(unlocked))
-            for s in unlocked:
-                digits = "".join(c for c in s.get("level", "") if c.isdigit())
-                if digits:
-                    rank = max(rank, int(digits))
-        except (json.JSONDecodeError, ValueError):
-            pass
-
-    base = "https://gaia.tiongson.co/badges"
-    profile = f"https://gaia.tiongson.co/u/{owner}/"
-    q = f"?repo={repo}"
-    sampler = "https://gaia.tiongson.co/badges/"
-
-    # Showcase table — every badge variant available for the maintainer.
-    showcase = (
-        "| Variant | Badge |\n"
-        "|---|---|\n"
-        f"| **Rank** — highest star earned ({rank}★) | "
-        f"[![Gaia rank]({base}/{owner}/rank.svg{q})]({profile}) |\n"
-        f"| **Skills** — total unlocked ({count}) | "
-        f"[![Gaia skills]({base}/{owner}/skills.svg{q})]({profile}) |\n"
-        f"| **Powered by Gaia** — generic fallback for non-contributors | "
-        f"[![Powered by Gaia]({base}/powered-by-gaia.svg)]({sampler}) |\n"
-    )
-
-    snippet_owner = (
-        "```markdown\n"
-        f"[![Gaia rank]({base}/{owner}/rank.svg{q})]({profile})\n"
-        f"[![Gaia skills]({base}/{owner}/skills.svg{q})]({profile})\n"
-        f"[![Powered by Gaia]({base}/powered-by-gaia.svg)]({sampler})\n"
-        "```"
-    )
-    snippet_template = (
-        "```markdown\n"
-        "[![Gaia](https://gaia.tiongson.co/badges/<handle>/handle.svg?repo=<owner/name>)](https://gaia.tiongson.co/u/<handle>/)\n"
-        "[![Gaia rank](https://gaia.tiongson.co/badges/<handle>/rank.svg?repo=<owner/name>)](https://gaia.tiongson.co/u/<handle>/)\n"
-        "[![Gaia skills](https://gaia.tiongson.co/badges/<handle>/skills.svg?repo=<owner/name>)](https://gaia.tiongson.co/u/<handle>/)\n"
-        "```"
-    )
-    return (
-        "## Get your Gaia badge\n\n"
-        f"Contributors with named skills can wear their rank in their own repo READMEs. "
-        f"Badges regenerate on every `gaia docs build`, so values track the live registry. "
-        f"The maintainer (`@{owner}`) currently runs the three badges below in this repo's "
-        f"header.\n\n"
-        f"{showcase}\n"
-        "Copy-paste for this repo:\n\n"
-        f"{snippet_owner}\n\n"
-        "Template for any contributor:\n\n"
-        f"{snippet_template}\n\n"
-        "Replace `<handle>` with your Gaia username and `<owner/name>` with the GitHub repo "
-        "the badge is embedded in — the forthcoming edge validator flags badges in repos "
-        "not on the contributor's `links.github` list. Preview every variant — including the "
-        f"single-line `@handle/skill · N★` identity badge — at [{sampler}]({sampler})."
-    )
-
-
 def build_readme(check: bool) -> bool:
     path = ROOT / "README.md"
     text = path.read_text(encoding="utf-8")
@@ -276,7 +202,6 @@ def build_readme(check: bool) -> bool:
         ("<!-- gaia:registry-start -->", "<!-- gaia:registry-end -->", _registry_tree()),
         ("<!-- gaia:cli-start -->", "<!-- gaia:cli-end -->", _cli_help()),
         ("<!-- gaia:layout-start -->", "<!-- gaia:layout-end -->", _layout()),
-        ("<!-- gaia:badges-start -->", "<!-- gaia:badges-end -->", _badges()),
     ):
         text, did_change = _replace_region(text, start, end, body)
         if did_change and check:
