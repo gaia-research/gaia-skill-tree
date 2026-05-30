@@ -13,12 +13,14 @@ import os
 import subprocess
 import sys
 import webbrowser
+import xml.etree.ElementTree as ET
+from datetime import datetime, timezone
 from html import escape
 from pathlib import Path
 from typing import Any
 
 from gaia_cli.leveling import level_summary
-from gaia_cli.registry import named_skills_index_path, registry_graph_path
+from gaia_cli.registry import named_skills_index_path, registry_graph_path, registry_nodes_dir
 
 PALETTE = {
     "basic": {"fill": "#38bdf8", "stroke": "#7dd3fc", "label": "Basic"},
@@ -132,6 +134,115 @@ def build_render_graph(
     }
 
 
+def write_gexf(
+    registry_path: str | os.PathLike[str] = ".",
+    output: str | os.PathLike[str] | None = None,
+) -> Path:
+    """Generate GEXF 1.2 from registry/nodes/ and write to output (default: docs/graph/gaia.gexf).
+
+    Uses only xml.etree.ElementTree from the stdlib — no lxml required.
+    """
+    root = _registry_root(registry_path)
+    nodes_dir = registry_nodes_dir(root)
+
+    # Collect skills from nodes directory
+    skills: list[dict[str, Any]] = []
+    if os.path.isdir(nodes_dir):
+        for dirpath, _dirs, files in os.walk(nodes_dir):
+            for fname in sorted(files):
+                if fname.endswith(".json"):
+                    fpath = os.path.join(dirpath, fname)
+                    try:
+                        with open(fpath, "r", encoding="utf-8") as f:
+                            skill = json.load(f)
+                        if skill.get("id"):
+                            skills.append(skill)
+                    except (OSError, json.JSONDecodeError):
+                        continue
+
+    # Also fallback to gaia.json skills if nodes dir is empty
+    if not skills:
+        graph = load_graph(root)
+        skills = graph.get("skills", [])
+
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+
+    # Build XML tree
+    ET.register_namespace("", "http://www.gexf.net/1.2draft")
+    gexf_el = ET.Element("gexf")
+    gexf_el.set("xmlns", "http://www.gexf.net/1.2draft")
+    gexf_el.set("version", "1.2")
+
+    meta_el = ET.SubElement(gexf_el, "meta")
+    meta_el.set("lastmodifieddate", today)
+    ET.SubElement(meta_el, "creator").text = "Gaia"
+    ET.SubElement(meta_el, "description").text = "Gaia Skill Registry Graph"
+
+    graph_el = ET.SubElement(gexf_el, "graph")
+    graph_el.set("defaultedgetype", "directed")
+    graph_el.set("mode", "static")
+
+    # Attribute declarations
+    attrs_el = ET.SubElement(graph_el, "attributes")
+    attrs_el.set("class", "node")
+    for attr_id in ("level", "rarity", "status", "type"):
+        attr_el = ET.SubElement(attrs_el, "attribute")
+        attr_el.set("id", attr_id)
+        attr_el.set("title", attr_id)
+        attr_el.set("type", "string")
+
+    # Nodes
+    nodes_el = ET.SubElement(graph_el, "nodes")
+    skill_ids: set[str] = set()
+    for skill in sorted(skills, key=lambda s: str(s.get("id", ""))):
+        sid = skill.get("id", "")
+        if not sid:
+            continue
+        skill_ids.add(sid)
+        node_el = ET.SubElement(nodes_el, "node")
+        node_el.set("id", sid)
+        node_el.set("label", skill.get("name") or sid)
+        attvalues_el = ET.SubElement(node_el, "attvalues")
+        for attr_id in ("level", "rarity", "status", "type"):
+            val = skill.get(attr_id, "")
+            if val:
+                av = ET.SubElement(attvalues_el, "attvalue")
+                av.set("for", attr_id)
+                av.set("value", str(val))
+
+    # Edges
+    edges_el = ET.SubElement(graph_el, "edges")
+    edge_idx = 0
+    for skill in skills:
+        target = skill.get("id", "")
+        if target not in skill_ids:
+            continue
+        for prereq in skill.get("prerequisites", []) or []:
+            if prereq in skill_ids:
+                edge_el = ET.SubElement(edges_el, "edge")
+                edge_el.set("id", str(edge_idx))
+                edge_el.set("source", prereq)
+                edge_el.set("target", target)
+                edge_idx += 1
+
+    # Determine output path
+    if output is None:
+        out_path = root / "docs" / "graph" / "gaia.gexf"
+    else:
+        out_path = Path(output)
+        if not out_path.is_absolute():
+            out_path = root / out_path
+
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+
+    tree = ET.ElementTree(gexf_el)
+    ET.indent(tree, space="  ")
+    with out_path.open("wb") as f:
+        tree.write(f, xml_declaration=True, encoding="UTF-8")
+
+    return out_path
+
+
 def render_svg(render_graph: dict[str, Any]) -> str:
     width = int(render_graph.get("width", 1280))
     height = int(render_graph.get("height", 880))
@@ -223,9 +334,18 @@ def _html_json(data: dict[str, Any]) -> str:
 
 
 def render_html(
-    graph: dict[str, Any], named_skills: dict[str, Any] | None = None
+    graph: dict[str, Any],
+    named_skills: dict[str, Any] | None = None,
+    *,
+    user_ctx: dict[str, Any] | None = None,
 ) -> str:
     named_skills = named_skills or {"buckets": {}}
+    # Build the user context JSON script tag (empty dict when no user)
+    user_ctx_data: dict[str, Any] = user_ctx if user_ctx is not None else {}
+    user_ctx_tag = f'<script type="application/json" id="gaia-user-ctx">{_html_json(user_ctx_data)}</script>'
+    # Title text for h1 — use username when available
+    _username = user_ctx.get("username", "") if user_ctx else ""
+    _title_text = f"{_username}'s Skill Graph" if _username else "Gaia Skill Graph"
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -347,12 +467,13 @@ def render_html(
   <canvas id="gaiaGraphCanvas"></canvas>
 </main>
 <div class="title-panel">
-  <h1>Gaia Skill Graph</h1>
+  <h1>{_title_text}</h1>
   <div class="meta" id="graphMeta">Loading…</div>
   <button id="resetView" type="button">Reset</button>
 </div>
 <script type="application/json" id="gaia-graph-data">{_html_json(graph)}</script>
 <script type="application/json" id="gaia-named-skills">{_html_json(named_skills)}</script>
+{user_ctx_tag}
 <script>
 (() => {{
   const graph = JSON.parse(document.getElementById('gaia-graph-data').textContent);
@@ -377,6 +498,12 @@ def render_html(
   }};
    const SCALE = 1.25;
 
+  // Parse user context (may be empty {{}} when no user is logged in)
+  const userCtxEl = document.getElementById('gaia-user-ctx');
+  const userCtx = userCtxEl ? JSON.parse(userCtxEl.textContent) : {{}};
+  const ownedIds = new Set(Array.isArray(userCtx.owned_ids) ? userCtx.owned_ids : []);
+  const userNamedMap = (userCtx.named_map && typeof userCtx.named_map === 'object') ? userCtx.named_map : {{}};
+
   const namedMap = {{}}, titleMap = {{}};
   Object.entries(namedIndex.buckets || {{}}).forEach(([skillId, entries]) => {{
     if (!Array.isArray(entries) || !entries.length) return;
@@ -385,21 +512,21 @@ def render_html(
     if (origin?.title) titleMap[skillId] = origin.title;
   }});
 
-   function normalizeSkills(graph) {{
-     const TYPE_ALIASES = {{ atomic: 'basic', composite: 'extra', legendary: 'ultimate' }};
-     const skills = (graph && graph.skills) ? graph.skills : [];
-     return skills.map(skill => ({{
-       id: skill.id,
-       name: skill.name || skill.id,
-       type: TYPE_ALIASES[skill.type] || skill.type || 'basic',
-       level: skill.level || '',
-       rarity: skill.rarity || '',
-       description: skill.description || '',
-       prerequisites: Array.isArray(skill.prerequisites) ? skill.prerequisites : [],
-       named: namedMap[skill.id] || '',
-       namedTitle: titleMap[skill.id] || '',
-     }})).filter(skill => skill.id);
-   }}
+  function normalizeSkills(graph) {{
+    const TYPE_ALIASES = {{ atomic: 'basic', composite: 'extra', legendary: 'ultimate' }};
+    const skills = (graph && graph.skills) ? graph.skills : [];
+    return skills.map(skill => ({{
+      id: skill.id,
+      name: skill.name || skill.id,
+      type: TYPE_ALIASES[skill.type] || skill.type || 'basic',
+      level: skill.level || '',
+      rarity: skill.rarity || '',
+      description: skill.description || '',
+      prerequisites: Array.isArray(skill.prerequisites) ? skill.prerequisites : [],
+      named: namedMap[skill.id] || '',
+      namedTitle: titleMap[skill.id] || '',
+    }})).filter(skill => skill.id);
+  }}
 
   function stableHash(str) {{
     let h = 2166136261;
@@ -410,36 +537,58 @@ def render_html(
     return Math.abs(h >>> 0);
   }}
 
-  function spherePoint(radius, seed, index, count) {{
-    const golden = Math.PI * (3 - Math.sqrt(5));
-    const i = index + (seed % 17) / 17;
-    const y = 1 - (i / Math.max(count - 1, 1)) * 2;
-    const ring = Math.sqrt(Math.max(0, 1 - y * y));
-    const theta = golden * i + (seed % 360) * Math.PI / 180;
+  // 2D ring layout: concentric circles by skill type, matching build_render_graph logic
+  function ringPoint(radius, skillId, index, count) {{
+    const seed = stableHash(skillId);
+    const jitter = ((seed % 997) / 997.0 - 0.5) * (2 * Math.PI / Math.max(count, 1)) * 0.35;
+    const angle = 2 * Math.PI * index / Math.max(count, 1) + jitter - Math.PI / 2;
+    const r = count > 1 ? radius : 0;
     return {{
-      x: Math.cos(theta) * ring * radius,
-      y: y * radius,
-      z: Math.sin(theta) * ring * radius,
+      x: Math.cos(angle) * r,
+      y: Math.sin(angle) * r,
       phase: (seed % 628) / 100,
     }};
   }}
 
-  function buildPositions(skills, scale) {{
-    const groups = {{ basic:[], extra:[], ultimate:[] }};
-    skills.forEach(skill => (groups[skill.type] || groups.basic).push(skill));
-    Object.values(groups).forEach(group => group.sort((a,b) => (a.name || a.id).localeCompare(b.name || b.id)));
+  function buildPositions(skills) {{
+    const TYPE_ORDER = ['basic', 'extra', 'unique', 'ultimate'];
+    const RADII = {{ basic: 285, extra: 170, unique: 112, ultimate: 54 }};
+    const groups = {{ basic:[], extra:[], unique:[], ultimate:[] }};
+    skills.forEach(skill => {{
+      const bucket = groups[skill.type] || groups.basic;
+      if (!groups[skill.type]) groups[skill.type] = bucket;
+      bucket.push(skill);
+    }});
+    TYPE_ORDER.forEach(type => {{
+      if (groups[type]) {{
+        groups[type].sort((a, b) => {{
+          const la = String(a.level || ''), lb = String(b.level || '');
+          return la !== lb ? la.localeCompare(lb) : (a.name || a.id).localeCompare(b.name || b.id);
+        }});
+      }}
+    }});
     const positions = {{}};
-    const radii = {{ basic: 250 * scale, extra: 145 * scale, ultimate: 44 * scale }};
     Object.entries(groups).forEach(([type, group]) => {{
+      const radius = RADII[type] || RADII.basic;
       group.forEach((skill, index) => {{
-        positions[skill.id] = spherePoint(radii[type] || radii.basic, stableHash(skill.id), index, group.length);
+        positions[skill.id] = ringPoint(radius, skill.id, index, group.length);
       }});
     }});
     return positions;
   }}
 
   const skills = normalizeSkills(graph);
-  const positions = buildPositions(skills, SCALE);
+  const positions = buildPositions(skills);
+
+  // project: apply pan+zoom and map ring coords to screen space
+  function project(p) {{
+    const z = state.zoom;
+    return {{
+      sx: state.width / 2 + p.x * z + state.panX,
+      sy: state.height / 2 + p.y * z + state.panY,
+      scale: z,
+    }};
+  }}
 
   const state = {{
     skills,
@@ -448,21 +597,19 @@ def render_html(
     width: 0,
     height: 0,
     t: 0,
-     orbitX: 0,
-     orbitY: 0,
-     zoom: 1,
-     panX: 0,
-     panY: 0,
-     dragging: false,
+    zoom: 1,
+    panX: 0,
+    panY: 0,
+    dragging: false,
     dragLastX: 0,
     dragLastY: 0,
     dragStartX: 0,
     dragStartY: 0,
-     dragMoved: false,
-     hoveredId: null,
-     focusedId: null,
-     potentialClickId: null,
-     projectedNodes: {{}},
+    dragMoved: false,
+    hoveredId: null,
+    focusedId: null,
+    potentialClickId: null,
+    projectedNodes: {{}},
     nodeAlphas: {{}},
     searchText: '',
     legendFilterType: null,
@@ -479,21 +626,6 @@ def render_html(
     redPillEl: null,
     labelToggleEl: null,
   }};
-
-  function rotX(p, a) {{
-    const c = Math.cos(a), s = Math.sin(a);
-    return {{ x: p.x, y: c*p.y - s*p.z, z: s*p.y + c*p.z, phase: p.phase }};
-  }}
-  function rotY(p, a) {{
-    const c = Math.cos(a), s = Math.sin(a);
-    return {{ x: c*p.x + s*p.z, y: p.y, z: -s*p.x + c*p.z, phase: p.phase }};
-  }}
-  function project(p) {{
-    const fov = Math.min(state.width, state.height) * 0.75;
-    const dist = fov / (fov + p.z + 360 * SCALE);
-    const z = state.zoom;
-    return {{ sx: state.width / 2 + p.x * dist * z + state.panX, sy: state.height / 2 + p.y * dist * z + state.panY, scale: dist * z }};
-  }}
   function drawNode(sx, sy, r, color, alpha) {{
     const grad = ctx.createRadialGradient(sx, sy, 0, sx, sy, r * 3.9);
     grad.addColorStop(0, `rgba(${{color.rgb}},${{Math.min(alpha * 0.68, 1).toFixed(2)}})`);
@@ -563,14 +695,7 @@ def render_html(
   function fitBoundingBoxForFocusedNode() {{
     if (!state.focusedId) return;
     const ids = Array.from(getNeighborSet(state.focusedId));
-    const fov = Math.min(state.width, state.height) * 0.75;
-    const points = ids.map(id => {{
-      const p0 = state.positions[id];
-      if (!p0) return null;
-      const p = rotX(rotY(p0, state.orbitY), state.orbitX);
-      const dist = fov / (fov + p.z + 360 * SCALE);
-      return {{ x: p.x * dist, y: p.y * dist }};
-    }}).filter(Boolean);
+    const points = ids.map(id => state.positions[id]).filter(Boolean);
     if (!points.length) return;
 
     let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
@@ -600,10 +725,17 @@ def render_html(
     canvas.style.width = state.width + 'px';
     canvas.style.height = state.height + 'px';
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    // Static 2D stars scattered around the canvas background
     state.stars = Array.from({{ length: 260 }}, (_, i) => {{
       const seed = i * 7919 + 97;
-      const point = spherePoint((500 + (seed % 280)) * SCALE, seed, i, 260);
-      return {{ ...point, size: 0.4 + (seed % 13) / 10, alpha: 0.22 + (seed % 55) / 100 }};
+      const angle = (seed % 6283) / 1000;
+      const r = 200 + (seed % 380);
+      return {{
+        x: Math.cos(angle) * r,
+        y: Math.sin(angle) * r,
+        size: 0.4 + (seed % 13) / 10,
+        alpha: 0.22 + (seed % 55) / 100,
+      }};
     }});
   }}
 
@@ -612,16 +744,6 @@ def render_html(
     ctx.clearRect(0, 0, state.width, state.height);
     state.projectedNodes = {{}};
 
-     const ry = state.orbitY;
-     const rx = state.orbitX;
-
-    const xf = {{}};
-    state.skills.forEach(skill => {{
-      const p0 = state.positions[skill.id];
-      if (!p0) return;
-      xf[skill.id] = rotX(rotY(p0, ry), rx);
-    }});
-
     const highlightRoot = state.focusedId !== null ? state.focusedId : state.hoveredId;
     const isHighlighting = Boolean(highlightRoot);
     const neighborSet = highlightRoot ? getNeighborSet(highlightRoot) : new Set();
@@ -629,6 +751,7 @@ def render_html(
     const searchQuery = isSearchActive ? state.searchText.toLowerCase() : '';
     const legendHovering = Boolean(state.legendHoverType || state.legendHoverRank);
     const legendFiltering = Boolean(state.legendFilterType || state.legendFilterRank);
+    const hasUserCtx = ownedIds.size > 0;
 
     state.skills.forEach(skill => {{
       let targetVis;
@@ -650,6 +773,9 @@ def render_html(
         }}
       }} else if (isSearchActive) {{
         targetVis = (skill.name || skill.id).toLowerCase().includes(searchQuery) ? 1.0 : 0.12;
+      }} else if (hasUserCtx) {{
+        // When user context present: dim unowned nodes to 35%, owned stay full
+        targetVis = ownedIds.has(skill.id) ? 1.0 : 0.35;
       }} else {{
         targetVis = 1.0;
       }}
@@ -658,55 +784,56 @@ def render_html(
       state.nodeAlphas[skill.id] += (targetVis - state.nodeAlphas[skill.id]) * 0.15;
     }});
 
+    // Draw background stars (2D, static)
     state.stars.forEach(star => {{
-      const p = rotX(rotY(star, ry), rx);
-      const pr = project(p);
-      if (pr.scale < 0.01) return;
+      const pr = project(star);
       ctx.beginPath();
-      ctx.arc(pr.sx, pr.sy, star.size * pr.scale * 1.55, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(255,255,255,${{(star.alpha * Math.min(pr.scale * 2, 1)).toFixed(2)}})`; ctx.fill();
+      ctx.arc(pr.sx, pr.sy, star.size * 1.55, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255,255,255,${{star.alpha.toFixed(2)}})`; ctx.fill();
     }});
 
-    const edges = [];
+    // Draw edges
     state.skills.forEach(skill => {{
-      if (!xf[skill.id]) return;
+      const p0 = state.positions[skill.id]; if (!p0) return;
       skill.prerequisites.forEach(pid => {{
-        if (!xf[pid]) return;
-        edges.push({{ from: pid, to: skill.id, type: skill.type, avgZ: (xf[skill.id].z + xf[pid].z) / 2 }});
+        const pp = state.positions[pid]; if (!pp) return;
+        const pa = project(p0), pb = project(pp);
+        const col = PALETTE[skill.type] || PALETTE.basic;
+        const isNeighborEdge = isHighlighting && neighborSet.has(skill.id) && neighborSet.has(pid);
+        const fromVis = state.nodeAlphas[skill.id] ?? 1.0;
+        const toVis   = state.nodeAlphas[pid]       ?? 1.0;
+        const edgeVis = (fromVis + toVis) / 2;
+        const baseEdgeAlpha = isNeighborEdge ? 0.72 : 0.31;
+        ctx.beginPath(); ctx.moveTo(pa.sx, pa.sy); ctx.lineTo(pb.sx, pb.sy);
+        ctx.strokeStyle = `rgba(${{col.rgb}},${{(baseEdgeAlpha * edgeVis).toFixed(2)}})`;
+        ctx.lineWidth = isNeighborEdge ? (skill.type === 'ultimate' ? 2.2 : 1.4) : (skill.type === 'ultimate' ? 1.55 : 0.92);
+        ctx.stroke();
       }});
     }});
-    edges.sort((a,b) => a.avgZ - b.avgZ);
-    edges.forEach(edge => {{
-      const pa = project(xf[edge.from]), pb = project(xf[edge.to]);
-      const col = PALETTE[edge.type] || PALETTE.basic;
-      const depthAlpha = Math.min(Math.max((xf[edge.to].z + 430 * SCALE) / (860 * SCALE), 0.08), 1);
-      const isNeighborEdge = isHighlighting && neighborSet.has(edge.from) && neighborSet.has(edge.to);
-      const fromVis = state.nodeAlphas[edge.from] ?? 1.0;
-      const toVis   = state.nodeAlphas[edge.to]   ?? 1.0;
-      const edgeVis = (fromVis + toVis) / 2;
-      const baseEdgeAlpha = isNeighborEdge ? 0.72 : 0.31;
-      ctx.beginPath(); ctx.moveTo(pa.sx, pa.sy); ctx.lineTo(pb.sx, pb.sy);
-      ctx.strokeStyle = `rgba(${{col.rgb}},${{(depthAlpha * baseEdgeAlpha * edgeVis).toFixed(2)}})`;
-      ctx.lineWidth = isNeighborEdge ? (edge.type === 'ultimate' ? 2.2 : 1.4) : (edge.type === 'ultimate' ? 1.55 : 0.92);
-      ctx.stroke();
-    }});
 
-    const nodes = state.skills.map(skill => ({{ skill, z: xf[skill.id] ? xf[skill.id].z : -9999 }})).sort((a,b) => a.z - b.z);
-    nodes.forEach(({{ skill }}) => {{
-      const p = xf[skill.id]; if (!p) return;
+    // Draw nodes
+    state.skills.forEach(skill => {{
+      const p = state.positions[skill.id]; if (!p) return;
       const pr = project(p);
       state.projectedNodes[skill.id] = pr;
       const pulse = 0.84 + 0.16 * Math.sin(state.t * 2.2 + p.phase);
-      const depthAlpha = Math.min(Math.max((p.z + 430 * SCALE) / (860 * SCALE), 0.16), 1);
       const col = PALETTE[skill.type] || PALETTE.basic;
-      const baseR = skill.type === 'ultimate' ? 12.5 : skill.type === 'extra' ? 6.9 : 3.5;
+      const baseR = skill.type === 'ultimate' ? 12.5 : skill.type === 'extra' ? 6.9 : skill.type === 'unique' ? 10 : 3.5;
       const vis = state.nodeAlphas[skill.id] ?? 1.0;
+      const owned = hasUserCtx && ownedIds.has(skill.id);
       if (skill.level === '6★') {{
-        drawNodeVI(pr.sx, pr.sy, baseR * SCALE * pr.scale * pulse, depthAlpha * vis, state.t, p);
+        drawNodeVI(pr.sx, pr.sy, baseR * pr.scale * pulse, vis, state.t, p);
       }} else if (state.redPillActive && state.namedMap[skill.id]) {{
-        drawNodeNamed(pr.sx, pr.sy, baseR * SCALE * pr.scale * pulse, depthAlpha * vis);
+        drawNodeNamed(pr.sx, pr.sy, baseR * pr.scale * pulse, vis);
+      }} else if (owned) {{
+        // Owned node: full saturation + soft glow
+        ctx.save();
+        ctx.shadowBlur = 12;
+        ctx.shadowColor = col.hex;
+        drawNode(pr.sx, pr.sy, baseR * pr.scale * pulse, col, vis);
+        ctx.restore();
       }} else {{
-        drawNode(pr.sx, pr.sy, baseR * SCALE * pr.scale * pulse, col, depthAlpha * vis);
+        drawNode(pr.sx, pr.sy, baseR * pr.scale * pulse, col, vis);
       }}
     }});
 
@@ -716,8 +843,8 @@ def render_html(
       if (skill && pr) {{
         const p0 = state.positions[skill.id];
         const pulse = 0.84 + 0.16 * Math.sin(state.t * 2.2 + (p0 ? p0.phase : 0));
-        const baseR = skill.type === 'ultimate' ? 12.5 : skill.type === 'extra' ? 6.9 : 3.5;
-        const r = baseR * SCALE * pr.scale * pulse + 5;
+        const baseR = skill.type === 'ultimate' ? 12.5 : skill.type === 'extra' ? 6.9 : skill.type === 'unique' ? 10 : 3.5;
+        const r = baseR * pr.scale * pulse + 5;
         ctx.beginPath();
         ctx.arc(pr.sx, pr.sy, r, 0, Math.PI * 2);
         ctx.strokeStyle = '#fff';
@@ -726,33 +853,42 @@ def render_html(
       }}
     }}
 
-    const labelNodes = nodes.filter(({{ skill }}) => shouldLabel(skill));
+    const labelNodes = state.skills.filter(skill => shouldLabel(skill));
     function drawLabel(skill, highlighted) {{
-      const p = xf[skill.id]; if (!p) return;
+      const p = state.positions[skill.id]; if (!p) return;
       const pr = project(p);
-      const depthAlpha = Math.min(Math.max((p.z + 430 * SCALE) / (860 * SCALE), 0), 1);
-      if (!highlighted && depthAlpha < 0.22) return;
       const vis = state.nodeAlphas[skill.id] ?? 1.0;
-      const labelAlpha = highlighted ? 1.0 : depthAlpha * Math.max(0.22, vis) * 0.9;
+      const labelAlpha = highlighted ? 1.0 : Math.max(0.22, vis) * 0.9;
       if (labelAlpha < 0.04) return;
-      const col = (state.redPillActive && state.namedMap[skill.id])
-        ? {{ rgb:'239,68,68' }}
-        : (PALETTE[skill.type] || PALETTE.basic);
+      // Label color: user's named_map > red-pill namedMap > palette
+      const userNamed = userNamedMap[skill.id];
+      const col = userNamed
+        ? {{ rgb:'56,189,248' }}
+        : (state.redPillActive && state.namedMap[skill.id])
+          ? {{ rgb:'239,68,68' }}
+          : (PALETTE[skill.type] || PALETTE.basic);
       const size = skill.type === 'ultimate' ? 13 : skill.type === 'extra' ? 10 : 8;
       ctx.font = `bold ${{Math.max(6, Math.round(size * pr.scale * 1.16))}}px Inter,system-ui,sans-serif`;
       ctx.fillStyle = `rgba(${{col.rgb}},${{labelAlpha.toFixed(2)}})`; ctx.textAlign = 'center';
-      const labelText = (state.redPillActive && state.namedMap && state.namedMap[skill.id])
-        ? state.namedMap[skill.id]
-        : state.showTitles
-          ? ((state.titleMap && state.titleMap[skill.id]) || skill.name)
-          : '/' + skill.id;
+      // Label text priority: user's named_map (strip contributor prefix) > red-pill namedMap > showTitles > skill id
+      let labelText;
+      if (userNamed) {{
+        // Strip "contributor/" prefix for own skills
+        labelText = userNamed.includes('/') ? userNamed.split('/').slice(1).join('/') : userNamed;
+      }} else if (state.redPillActive && state.namedMap && state.namedMap[skill.id]) {{
+        labelText = state.namedMap[skill.id];
+      }} else if (state.showTitles) {{
+        labelText = (state.titleMap && state.titleMap[skill.id]) || skill.name;
+      }} else {{
+        labelText = '/' + skill.id;
+      }}
       ctx.fillText(labelText, pr.sx, pr.sy + 18 * pr.scale);
     }}
-    labelNodes.forEach(({{ skill }}) => {{
+    labelNodes.forEach(skill => {{
       const vis = state.nodeAlphas[skill.id] ?? 1.0;
       if (vis <= 0.95) drawLabel(skill, false);
     }});
-    labelNodes.forEach(({{ skill }}) => {{
+    labelNodes.forEach(skill => {{
       const vis = state.nodeAlphas[skill.id] ?? 1.0;
       if (vis > 0.95) drawLabel(skill, true);
     }});
@@ -900,8 +1036,9 @@ def render_html(
     if (!_lastRect) _lastRect = canvas.getBoundingClientRect();
     const rect = _lastRect;
     if (state.dragging) {{
-      state.orbitY += (event.clientX - state.dragLastX) * 0.007;
-      state.orbitX += (event.clientY - state.dragLastY) * 0.007;
+      // 2D pan: translate the canvas view
+      state.panX += (event.clientX - state.dragLastX);
+      state.panY += (event.clientY - state.dragLastY);
       state.dragLastX = event.clientX;
       state.dragLastY = event.clientY;
       if (Math.hypot(event.clientX - state.dragStartX, event.clientY - state.dragStartY) > 5) state.dragMoved = true;
@@ -978,6 +1115,8 @@ def write_graph_artifact(
     registry_path: str | os.PathLike[str] = ".",
     output: str | os.PathLike[str] | None = None,
     fmt: str = "html",
+    *,
+    user_ctx: dict[str, Any] | None = None,
 ) -> Path:
     root = _registry_root(registry_path)
     graph = load_graph(root)
@@ -997,7 +1136,8 @@ def write_graph_artifact(
 
     if fmt == "html":
         out_path.write_text(
-            render_html(graph, load_named_skills(root)), encoding="utf-8"
+            render_html(graph, load_named_skills(root), user_ctx=user_ctx),
+            encoding="utf-8",
         )
     elif fmt == "svg":
         out_path.write_text(render_svg(render_graph), encoding="utf-8")
@@ -1027,9 +1167,35 @@ def open_path(path: Path) -> None:
 def graph_command(args: Any) -> None:
     fmt = getattr(args, "format", "html") or "html"
     output = getattr(args, "output", None)
-    out_path = write_graph_artifact(
-        getattr(args, "registry", "."), output=output, fmt=fmt
-    )
+    registry_path = getattr(args, "registry", ".")
+
+    # Build local user context if a username is configured
+    user_ctx: dict[str, Any] | None = None
+    try:
+        from gaia_cli import scanner
+        from gaia_cli.localContext import LocalContext
+
+        config = scanner.load_config()
+        username = (config or {}).get("gaiaUser") or (config or {}).get("username") or ""
+        if username:
+            ctx = LocalContext.load(str(registry_path), username, include_scan=False)
+            user_ctx = {
+                "username": ctx.username,
+                "owned_ids": list(ctx.owned_ids),
+                "named_map": ctx.named_map,
+            }
+    except Exception:
+        pass  # Degrade gracefully to canon mode
+
+    out_path = write_graph_artifact(registry_path, output=output, fmt=fmt, user_ctx=user_ctx)
     print(f"  saved {os.path.basename(out_path)}")
+
+    # Regenerate the GEXF from current node data
+    if fmt == "html":
+        try:
+            write_gexf(registry_path)
+        except Exception:
+            pass  # GEXF regen is best-effort
+
     if getattr(args, "open", True):
         open_path(out_path)
