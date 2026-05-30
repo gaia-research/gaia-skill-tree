@@ -61,20 +61,33 @@ jobs:
           if echo "$MSG" | grep -Eq '^feat(\([^)]*\))?:'; then BUMP="minor"; fi
 
           # 2. Apply version bump and regenerate artifacts via CLI
-          gaia release "$BUMP" --sync
+          # We use --no-push because gaia release uses GITHUB_TOKEN by default,
+          # which won't trigger the Release workflow on tag push.
+          gaia release "$BUMP" --sync --no-push
           gaia docs build
 
       - name: Commit and Push Changes
         run: |
+          # 1. Consolidate any unstaged changes (e.g. from docs build) into the commit
           if [[ -n "$(git status --porcelain)" ]]; then
             git add .
-            git commit -m "chore(auto): regenerate registry artifacts and sync docs [skip-gen]"
+            LAST_MSG=$(git log -1 --format=%B)
+            if [[ "$LAST_MSG" == chore:\ release\ v* ]]; then
+               echo "Amending release commit with regenerated artifacts..."
+               git commit --amend --no-edit
+            else
+               echo "Creating auto-sync commit..."
+               git commit -m "chore(auto): regenerate registry artifacts and sync docs [skip-gen]"
+            fi
+          fi
 
-            # Push with rebase + exponential backoff to survive concurrent pushes
-            # landing on the branch between checkout and push (non-fast-forward).
+          # 2. Push with rebase + exponential backoff to survive concurrent pushes
+          # This handles both the release commit and the auto-sync commit.
+          if [[ -n "$(git log origin/${GITHUB_REF_NAME}..HEAD)" ]]; then
             n=0
             until [[ $n -ge 4 ]]; do
               if git push; then
+                echo "Successfully pushed changes to origin/${GITHUB_REF_NAME}."
                 break
               fi
               n=$((n + 1))
@@ -83,9 +96,11 @@ jobs:
               sleep $((2 ** n))
             done
             if [[ $n -ge 4 ]]; then
-              echo "::error::Unable to push regenerated artifacts after 4 attempts."
+              echo "::error::Unable to push changes after 4 attempts."
               exit 1
             fi
+          else
+            echo "No local commits to push."
           fi
 
       - name: Tag Release
@@ -106,13 +121,15 @@ jobs:
           VERSION=$(grep '^version = ' pyproject.toml | sed 's/version = "\(.*\)"/\1/')
           TAG="v${VERSION}"
 
+          # Update the local tag to point to the final amended/rebased commit.
+          git tag -f "${TAG}"
+
           # Skip if this tag already exists remotely (idempotent).
           if git ls-remote --tags origin "${TAG}" | grep -q "refs/tags/${TAG}$"; then
             echo "Tag ${TAG} already exists on remote — skipping."
             exit 0
           fi
 
-          git tag "${TAG}"
           git push "https://x-access-token:${RELEASE_PAT}@github.com/${GITHUB_REPOSITORY}.git" "${TAG}"
           echo "Pushed tag ${TAG} → release.yml will create the GitHub Release."
 
