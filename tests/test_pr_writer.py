@@ -8,11 +8,11 @@ from unittest.mock import patch
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, REPO_ROOT)
 
-from gaia_cli.prWriter import _run, build_intake_pr_body
+from gaia_cli.prWriter import _run, build_intake_issue_body
 
 
 class TestPrWriter(unittest.TestCase):
-    def test_build_intake_pr_body_contains_summary_table_and_checklists(self):
+    def test_build_intake_issue_body_contains_summary_table_and_checklists(self):
         batch = {
             "batchId": "20260429000000-tester-repo",
             "userId": "tester",
@@ -35,9 +35,9 @@ class TestPrWriter(unittest.TestCase):
                 }
             ],
         }
-        body = build_intake_pr_body(batch)
-        self.assertIn("Known skills: `1`", body)
-        self.assertIn("Proposed skills: `1`", body)
+        body = build_intake_issue_body(batch)
+        self.assertIn("Known canonical skills:** `1`", body)
+        self.assertIn("Proposed new skills:** `1`", body)
         self.assertIn("`semantic-search`", body)
         self.assertIn("`web-search` (0.730)", body)
         self.assertIn("### Reviewer Checklist", body)
