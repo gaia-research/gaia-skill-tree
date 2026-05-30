@@ -170,31 +170,92 @@ def _read_skill_md(filepath):
     return fm
 
 
-def scan_skill_mds(root: str = ".") -> list:
-    """Detect installed custom skills from .agents/skills/ and .claude/skills/.
+def _skill_search_dirs(root: str = ".") -> list[str]:
+    """Return all directories to search for skill subdirectories, deduplicated by real path.
 
-    Returns a list of dicts: {"id": str, "name": str, "description": str}
-    Each entry represents one installed skill directory.
+    Priority order:
+      1. Project-local dirs (under root) — checked first so project installs win
+      2. Global user dirs (~/.agents/skills, ~/.claude/skills, XDG)
+      3. Config-driven dirs from .gaia/config.toml skillDirs key
     """
-    skill_dirs = [
-        d for d in (
-            os.path.join(root, ".agents", "skills"),
-            os.path.join(root, ".claude", "skills"),
-        )
-        if os.path.isdir(d)
-    ]
-    found = []
-    seen_ids = set()
+    candidates: list[str] = []
 
-    for skills_root in skill_dirs:
+    # 1. Project-local — every known agent/tool convention that uses subdir-per-skill
+    for rel in (
+        os.path.join(".agents", "skills"),       # primary (gaia, agent-agnostic)
+        os.path.join(".claude", "skills"),       # Claude Code legacy
+        os.path.join(".antigravity", "skills"),  # Antigravity legacy
+        os.path.join(".cursor", "rules"),        # Cursor IDE
+        os.path.join(".windsurf", "rules"),      # Windsurf IDE
+        os.path.join(".copilot", "skills"),      # GitHub Copilot (speculative)
+        os.path.join(".zed", "skills"),          # Zed editor (speculative)
+    ):
+        candidates.append(os.path.join(root, rel))
+
+    # 2. Global user dirs — skills installed outside any single project
+    home = os.path.expanduser("~")
+    candidates.append(os.path.join(home, ".agents", "skills"))   # global agent-agnostic
+    candidates.append(os.path.join(home, ".claude", "skills"))   # Claude Code global skills
+    # XDG_DATA_HOME (Linux/macOS standard; ignored on Windows where it's usually unset)
+    xdg_data = os.environ.get("XDG_DATA_HOME") or os.path.join(home, ".local", "share")
+    candidates.append(os.path.join(xdg_data, "gaia", "skills"))
+
+    # 3. Config-driven custom dirs
+    config = load_config()
+    if config:
+        for d in config.get("skillDirs", []):
+            expanded = os.path.expanduser(d)
+            if not os.path.isabs(expanded):
+                expanded = os.path.join(root, expanded)
+            candidates.append(expanded)
+
+    # Deduplicate by real path while preserving priority order; skip missing dirs
+    seen_real: set[str] = set()
+    result: list[str] = []
+    for d in candidates:
+        if not os.path.isdir(d):
+            continue
+        real = os.path.realpath(d)
+        if real in seen_real:
+            continue
+        seen_real.add(real)
+        result.append(d)
+    return result
+
+
+def scan_skill_mds(root: str = ".") -> list:
+    """Detect installed custom skills from all known skill directories.
+
+    Checks project-local dirs (.agents/skills, .claude/skills, .cursor/rules,
+    .windsurf/rules, .antigravity/skills), global user dirs (~/.agents/skills,
+    ~/.claude/skills, XDG), and any paths listed under skillDirs in
+    .gaia/config.toml.
+
+    Symlinked skill directories are followed transparently (os.path.isdir
+    dereferences symlinks, so a symlink → real skill dir is treated as a dir).
+
+    Returns a list of dicts: {"id": str, "name": str, "description": str,
+    "source_dir": str}
+    """
+    found = []
+    seen_ids: set[str] = set()
+    seen_real_paths: set[str] = set()
+
+    for skills_root in _skill_search_dirs(root):
         try:
             entries = sorted(os.listdir(skills_root))
         except OSError:
             continue
         for entry in entries:
             entry_path = os.path.join(skills_root, entry)
+            # os.path.isdir follows symlinks — symlinked skill dirs are included
             if not os.path.isdir(entry_path) or entry.startswith("."):
                 continue
+            # Deduplicate by resolved real path (handles symlinks to shared cache)
+            real_path = os.path.realpath(entry_path)
+            if real_path in seen_real_paths:
+                continue
+            seen_real_paths.add(real_path)
             skill_id = entry
             if skill_id in seen_ids:
                 continue
@@ -206,15 +267,23 @@ def scan_skill_mds(root: str = ".") -> list:
                     md_path = p
                     break
             if not md_path:
-                for f in sorted(os.listdir(entry_path)):
-                    if f.endswith(".md"):
-                        md_path = os.path.join(entry_path, f)
-                        break
+                try:
+                    for f in sorted(os.listdir(entry_path)):
+                        if f.endswith(".md"):
+                            md_path = os.path.join(entry_path, f)
+                            break
+                except OSError:
+                    pass
             fm = _read_skill_md(md_path) if md_path else {}
             seen_ids.add(skill_id)
             name = fm.get("name", skill_id)
             description = fm.get("description", fm.get("_body_snippet", ""))
-            found.append({"id": skill_id, "name": name, "description": description})
+            found.append({
+                "id": skill_id,
+                "name": name,
+                "description": description,
+                "source_dir": skills_root,
+            })
 
     return found
 
