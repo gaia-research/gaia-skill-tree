@@ -5,7 +5,7 @@ import os
 
 import pytest
 
-from gaia_cli.localContext import LocalContext, _build_named_map
+from gaia_cli.localContext import LocalContext, _build_named_map, _build_local_first_map, _build_install_map
 
 
 # ---------------------------------------------------------------------------
@@ -449,3 +449,120 @@ class TestBuildNamedMap:
             "web-frameworks": "alice/flask-pro",
             "testing": "bob/pytest-guru",
         }
+
+
+# ---------------------------------------------------------------------------
+# Tests: local-first map (install manifest + agent dirs + registry)
+# ---------------------------------------------------------------------------
+
+INSTALL_MANIFEST = {
+    "installed": [
+        {
+            "id": "marco/gaia-curate",
+            "installedAt": "2026-01-01T00:00:00Z",
+            "repoUrl": "https://example.com/repo",
+            "subpath": "registry/named/marco/gaia-curate",
+            "localPath": ".agents/skills/gaia-curate",
+        }
+    ]
+}
+
+INSTALLED_SKILL_MD = """\
+---
+id: marco/gaia-curate
+genericSkillRef: web-frameworks
+contributor: marco
+---
+
+# Gaia Curate
+"""
+
+
+class TestLocalFirstMap:
+    def test_manifest_entry_beats_registry(self, tmp_path, monkeypatch):
+        """Install manifest takes priority over registry named-skills."""
+        monkeypatch.chdir(str(tmp_path))
+        # Registry has alice's version
+        _write_text(
+            tmp_path / "registry" / "named" / "alice" / "flask-mastery.md",
+            NAMED_SKILL_MD,
+        )
+        # Manifest has marco's local install that also maps web-frameworks
+        skills_dir = tmp_path / ".agents" / "skills" / "gaia-curate"
+        skills_dir.mkdir(parents=True)
+        _write_text(skills_dir / "skill.md", INSTALLED_SKILL_MD)
+        _write_json(tmp_path / ".gaia" / "install-manifest.json", INSTALL_MANIFEST)
+
+        result = _build_local_first_map(str(tmp_path), [], "marco")
+        assert result["web-frameworks"] == "marco/gaia-curate"
+
+    def test_install_map_extracts_from_local_path(self, tmp_path, monkeypatch):
+        """_build_install_map reads genericSkillRef from localPath skill dir."""
+        monkeypatch.chdir(str(tmp_path))
+        skills_dir = tmp_path / ".agents" / "skills" / "gaia-curate"
+        skills_dir.mkdir(parents=True)
+        _write_text(skills_dir / "skill.md", INSTALLED_SKILL_MD)
+        _write_json(tmp_path / ".gaia" / "install-manifest.json", INSTALL_MANIFEST)
+
+        result = _build_install_map(str(tmp_path))
+        assert result == {"web-frameworks": "marco/gaia-curate"}
+
+    def test_install_map_falls_back_to_registry(self, tmp_path, monkeypatch):
+        """_build_install_map falls back to registry/named/ when localPath missing."""
+        monkeypatch.chdir(str(tmp_path))
+        # No localPath dir, but registry has the file
+        _write_text(
+            tmp_path / "registry" / "named" / "marco" / "gaia-curate.md",
+            INSTALLED_SKILL_MD,
+        )
+        # Manifest points to non-existent localPath
+        manifest = {
+            "installed": [
+                {
+                    "id": "marco/gaia-curate",
+                    "installedAt": "2026-01-01T00:00:00Z",
+                    "localPath": ".agents/skills/gaia-curate",  # does not exist
+                }
+            ]
+        }
+        _write_json(tmp_path / ".gaia" / "install-manifest.json", manifest)
+
+        result = _build_install_map(str(tmp_path))
+        assert result == {"web-frameworks": "marco/gaia-curate"}
+
+    def test_empty_username_skips_agent_dirs(self, tmp_path, monkeypatch):
+        """An empty username must not produce broken contributor/ prefixes."""
+        monkeypatch.chdir(str(tmp_path))
+        result = _build_local_first_map(str(tmp_path), [], "")
+        assert result == {}
+
+    def test_display_name_uses_manifest(self, mock_registry, monkeypatch):
+        """display_name returns /localdir for the user's own installed skill."""
+        monkeypatch.chdir(mock_registry)
+        # Install marco's version of web-frameworks
+        skills_dir = os.path.join(mock_registry, ".agents", "skills", "gaia-curate")
+        os.makedirs(skills_dir, exist_ok=True)
+        _write_text(
+            os.path.join(mock_registry, ".agents", "skills", "gaia-curate", "skill.md"),
+            INSTALLED_SKILL_MD,
+        )
+        manifest = {
+            "installed": [
+                {
+                    "id": "marco/gaia-curate",
+                    "installedAt": "2026-01-01T00:00:00Z",
+                    "localPath": os.path.join(mock_registry, ".agents", "skills", "gaia-curate"),
+                }
+            ]
+        }
+        _write_json(os.path.join(mock_registry, ".gaia", "install-manifest.json"), manifest)
+
+        ctx = LocalContext.load(mock_registry, "marco", include_scan=False)
+        assert ctx.display_name("web-frameworks") == "/gaia-curate"
+
+    def test_no_manifest_falls_back_gracefully(self, mock_registry, monkeypatch):
+        """Without a manifest, local-first map behaves like registry-only named map."""
+        monkeypatch.chdir(mock_registry)
+        ctx = LocalContext.load(mock_registry, "testuser", include_scan=False)
+        # alice/flask-mastery from the registry is still used
+        assert ctx.display_name("web-frameworks") == "alice/flask-mastery"

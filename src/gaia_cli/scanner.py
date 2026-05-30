@@ -170,13 +170,19 @@ def _read_skill_md(filepath):
     return fm
 
 
-def scan_skill_mds():
+def scan_skill_mds(root: str = ".") -> list:
     """Detect installed custom skills from .agents/skills/ and .claude/skills/.
 
     Returns a list of dicts: {"id": str, "name": str, "description": str}
     Each entry represents one installed skill directory.
     """
-    skill_dirs = [d for d in (".agents/skills", ".claude/skills") if os.path.isdir(d)]
+    skill_dirs = [
+        d for d in (
+            os.path.join(root, ".agents", "skills"),
+            os.path.join(root, ".claude", "skills"),
+        )
+        if os.path.isdir(d)
+    ]
     found = []
     seen_ids = set()
 
