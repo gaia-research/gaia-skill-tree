@@ -65,44 +65,81 @@ def _load_named_lookup(registry_path):
     return result
 
 
-def _load_local_lookup(registry_path):
+_SKILL_MD_CANDIDATES = ("skill.md", "SKILL.md", "README.md", "readme.md")
+
+
+def _iter_manifest_refs(registry_path):
+    """Yield (generic_ref, entry) for each installed skill with a resolved genericSkillRef."""
     manifest_path = os.path.join(".gaia", "install-manifest.json")
     if not os.path.exists(manifest_path):
-        return {}
+        return
     with open(manifest_path, "r", encoding="utf-8") as f:
         manifest = json.load(f)
-    result = {}
+
     for entry in manifest.get("installed", []):
-        source_ref = entry.get("sourceRef", "")
-        source_path = os.path.join(registry_path, source_ref)
-        if not os.path.exists(source_path):
+        sid = entry.get("id", "")
+        md_path = None
+
+        # Modern manifests: localPath points to the installed/symlinked dir
+        local_path = entry.get("localPath", "")
+        if local_path and os.path.isdir(local_path):
+            for candidate in _SKILL_MD_CANDIDATES:
+                p = os.path.join(local_path, candidate)
+                if os.path.isfile(p):
+                    md_path = p
+                    break
+
+        # Fallback: registry/named/<contrib>/<name>.md
+        if not md_path and sid and "/" in sid:
+            contrib, name = sid.split("/", 1)
+            p = os.path.join(registry_path, "registry", "named", contrib, f"{name}.md")
+            if os.path.isfile(p):
+                md_path = p
+
+        # Legacy: sourceRef
+        if not md_path:
+            source_ref = entry.get("sourceRef", "")
+            if source_ref:
+                p = os.path.join(registry_path, source_ref)
+                if os.path.isfile(p):
+                    md_path = p
+
+        if not md_path:
             continue
+
         try:
-            with open(source_path, "r", encoding="utf-8") as sf:
+            with open(md_path, "r", encoding="utf-8") as sf:
                 text = sf.read()
             m = re.match(r"^---\n(.*?)\n---", text, re.DOTALL)
-            if m:
-                try:
-                    import yaml
-                    fm = yaml.safe_load(m.group(1)) or {}
-                except ImportError:
-                    fm = {}
-                    for line in m.group(1).split('\n'):
-                        line = line.strip()
-                        if not line or line.startswith('#'): continue
-                        if ':' in line:
-                            k, v = line.split(':', 1)
-                            k = k.strip()
-                            v = v.strip().strip('"').strip("'")
-                            if v.lower() == 'true': v = True
-                            elif v.lower() == 'false': v = False
-                            fm[k] = v
-                ref = fm.get("genericSkillRef")
-                if ref:
-                    result[ref] = entry
+            if not m:
+                continue
+            try:
+                import yaml
+                fm = yaml.safe_load(m.group(1)) or {}
+            except ImportError:
+                fm = {}
+                for line in m.group(1).split('\n'):
+                    line = line.strip()
+                    if not line or line.startswith('#'):
+                        continue
+                    if ':' in line:
+                        k, v = line.split(':', 1)
+                        k = k.strip()
+                        v = v.strip().strip('"').strip("'")
+                        if v.lower() == 'true':
+                            v = True
+                        elif v.lower() == 'false':
+                            v = False
+                        fm[k] = v
+            ref = fm.get("genericSkillRef")
+            if ref:
+                yield ref, entry
         except Exception:
             pass
-    return result
+
+
+def _load_local_lookup(registry_path):
+    return {ref: entry for ref, entry in _iter_manifest_refs(registry_path)}
 
 
 # ─── color helpers ────────────────────────────────────────────────────────────

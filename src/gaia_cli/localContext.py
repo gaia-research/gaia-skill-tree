@@ -102,8 +102,8 @@ class LocalContext:
                 # Novel = detected but not in canon
                 novel_ids = detected_ids - canon_ids
 
-        # Build named_map from registry/named/
-        named_map = _build_named_map(registry_path)
+        # Build named_map: local-first merge of registry, agent dirs, and manifest
+        named_map = _build_local_first_map(registry_path, list(skill_map.values()), username)
 
         ctx = cls(
             username=username,
@@ -281,3 +281,59 @@ def _build_named_map(registry_path: str) -> dict[str, str]:
         if generic_ref and skill_id:
             named_map[generic_ref] = skill_id
     return named_map
+
+
+def _build_install_map(registry_path: str) -> dict[str, str]:
+    """Build {generic_ref: contributor/name} from .gaia/install-manifest.json."""
+    from gaia_cli.treeManager import _iter_manifest_refs
+    result: dict[str, str] = {}
+    for ref, entry in _iter_manifest_refs(registry_path):
+        sid = entry.get("id", "")
+        if sid:
+            result[ref] = sid
+    return result
+
+
+def _build_agent_dir_map(
+    canonical_skills: list,
+    manifest_covered: set,
+    username: str,
+    root: str = ".",
+) -> dict[str, str]:
+    """Build {canonical_id: username/dirname} for agent skill dirs not already in manifest."""
+    if not username:
+        return {}
+    from gaia_cli.scanner import scan_skill_mds, match_skill_to_canonical
+    result: dict[str, str] = {}
+    for entry in scan_skill_mds(root=root):
+        dir_name = entry["id"]
+        if dir_name in manifest_covered:
+            continue
+        match = match_skill_to_canonical(
+            entry["id"], entry["name"], entry["description"], canonical_skills
+        )
+        if match:
+            canonical_id, _ = match
+            result[canonical_id] = f"{username}/{dir_name}"
+    return result
+
+
+def _build_local_first_map(
+    registry_path: str,
+    canonical_skills: list,
+    username: str,
+) -> dict[str, str]:
+    """Merge named_map sources with priority: install > agent-dirs > registry."""
+    base = _build_named_map(registry_path)                          # priority 3
+    install = _build_install_map(registry_path)                    # priority 1 (highest)
+    manifest_covered = {
+        v.split("/", 1)[1] if "/" in v else v
+        for v in install.values()
+    }
+    if username:
+        agents = _build_agent_dir_map(
+            canonical_skills, manifest_covered, username
+        )
+        base.update(agents)                                        # priority 2
+    base.update(install)
+    return base

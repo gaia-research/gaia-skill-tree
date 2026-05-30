@@ -139,7 +139,7 @@ def test_top_level_help_shows_all_public_commands_with_usage(monkeypatch, capsys
     ]:
         assert command in output
     assert "_hook" not in output
-    assert "gaia scan [--quiet] [--auto-promote]" in output
+    assert "gaia scan [--quiet]" in output
     assert "gaia skills search <query>" in output
 
 

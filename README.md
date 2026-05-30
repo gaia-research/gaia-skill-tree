@@ -236,13 +236,13 @@ positional arguments:
   {help,init,scan,pull,update,install,uninstall,tree,push,propose,version,mcp,release,graph,stats,appraise,promote,fuse,docs,lookup,dev,validate,test,skills}
     help                Show command help
     init                Create or update local Gaia config
-    scan                Scan configured paths for skill evidence
+    scan                Scan configured paths and installed skills for skill evidence
     pull                Refresh registry data from origin
     update              Update all installed remote skills
     install             Install a named skill
     uninstall           Uninstall a named skill
     tree                Show your Gaia skill tree
-    push                Prepare detected skills for review
+    push                Prepare detected skills for review and file a GitHub issue
     propose             Propose a single canonical skill as a named PR
     version             Print the Gaia CLI version
     mcp                 Run the bundled Gaia MCP server
@@ -271,10 +271,10 @@ options:
 Quick usage:
   gaia                        Launch the TUI (interactive dashboard)
   gaia init [--user <name>] [--scan <path>] [--yes]
-  gaia scan [--quiet] [--auto-promote]
+  gaia scan [--quiet]
   gaia pull
   gaia tree [--named] [--title]
-  gaia push [--dry-run] [--no-pr]
+  gaia push [--dry-run] [--no-issue]
   gaia propose [<skillId>] [--ultimate] [--target <name>] [--no-pr]
   gaia version
   gaia mcp

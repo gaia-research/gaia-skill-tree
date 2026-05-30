@@ -98,7 +98,7 @@ class TestGaiaPush(unittest.TestCase):
             )
 
             self.assertEqual(result.returncode, 0, result.stderr)
-            self.assertIn("Skipped PR creation (--no-pr).", result.stdout)
+            self.assertIn("Skipped issue creation", result.stdout)
             self.assertIn("saved ", result.stdout)
             self.assertTrue(os.listdir(os.path.join(registry, "registry-for-review", "skill-batches")))
 

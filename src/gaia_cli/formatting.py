@@ -103,35 +103,59 @@ COLOR_LOCAL_USER  = (134, 239, 172)  # #86efac -- bright green for local/user sk
 
 # --- Public formatting API ---
 
-def format_skill_plain(skill_id: str, *, named_contributor: str | None = None,
+def _split_named_ref(named_ref: str, local_user: str | None) -> tuple[str, str, bool]:
+    """Split 'contributor/nickname' into (contributor, nickname, is_own)."""
+    if "/" in named_ref:
+        contrib, nickname = named_ref.split("/", 1)
+        return contrib, nickname, bool(local_user and contrib == local_user)
+    return "", named_ref.lstrip("/"), False
+
+
+def format_skill_plain(skill_id: str, *, named_ref: str | None = None,
+                       named_contributor: str | None = None,
                        is_local: bool = False, local_user: str | None = None) -> str:
-    """Return plain display string without ANSI codes."""
+    """Return plain display string without ANSI codes.
+
+    Prefer named_ref ('contributor/nickname') over the legacy named_contributor param.
+    """
+    if named_ref:
+        contrib, nickname, is_own = _split_named_ref(named_ref, local_user)
+        if is_own:
+            return f"/{nickname}"
+        return f"{contrib}/{nickname}" if contrib else f"/{nickname}"
     if named_contributor:
         return f"{named_contributor}/{skill_id}"
-    if is_local:
-        return f"/{skill_id}"
     return f"/{skill_id}"
 
 
 def format_skill_colored(skill_id: str, level: str = "0★", *,
+                         named_ref: str | None = None,
                          named_contributor: str | None = None,
                          is_local: bool = False, local_user: str | None = None) -> str:
     """Return ANSI-colored display string.
 
-    - Named: RED contributor + rank-colored skill name
-    - Local: GREEN slash and skill name
+    - Own named (named_ref, contrib == local_user): GREEN /nickname
+    - Other named: RED contributor / rank-colored nickname
+    - Local novel: GREEN /skill-id
     - Canon: rank-colored /skill-id
     """
     r = _reset()
     rank_color = RANK_COLORS.get(level, RANK_COLORS["0★"])
-    skill_colored = f"{_fg(*rank_color)}{skill_id}{r}"
+
+    if named_ref:
+        contrib, nickname, is_own = _split_named_ref(named_ref, local_user)
+        if is_own:
+            return f"{_fg(*COLOR_LOCAL_USER)}/{nickname}{r}"
+        nick_colored = f"{_fg(*rank_color)}{nickname}{r}"
+        if contrib:
+            return f"{_fg(*COLOR_CONTRIBUTOR)}{contrib}{r}/{nick_colored}"
+        return f"{_fg(*COLOR_CONTRIBUTOR)}/{nickname}{r}"
 
     if named_contributor:
         contrib_colored = f"{_fg(*COLOR_CONTRIBUTOR)}{named_contributor}{r}"
+        skill_colored = f"{_fg(*rank_color)}{skill_id}{r}"
         return f"{contrib_colored}/{skill_colored}"
     if is_local:
-        # Philosophy: Real/local skill names should be displayed with their slash and colored green
-        # to distinguish them from generic canonical concepts.
         return f"{_fg(*COLOR_LOCAL_USER)}/{skill_id}{r}"
     return f"{_fg(*rank_color)}/{skill_id}{r}"
 

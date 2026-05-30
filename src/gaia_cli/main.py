@@ -9,11 +9,11 @@ from contextlib import redirect_stdout
 from io import StringIO
 from pathlib import Path
 
-from gaia_cli.scanner import scan_repo, scan_repo_detailed, load_config
+from gaia_cli.scanner import scan_repo, scan_repo_detailed, load_config, scan_skill_mds, match_skill_to_canonical
 from gaia_cli.resolver import resolve_skills
 from gaia_cli.combinator import get_combinations
 from gaia_cli.treeManager import load_tree, save_tree, show_status, show_tree
-from gaia_cli.prWriter import open_pr, open_intake_pr
+from gaia_cli.prWriter import open_pr, open_intake_issue
 from gaia_cli.push import build_skill_batch, write_skill_batch, build_proposed_skill, detect_source_repo
 from gaia_cli.embeddings import generate_embeddings
 from gaia_cli.semantic_search import search as semantic_search, load_embeddings
@@ -100,10 +100,10 @@ COMMAND_USAGE = """\
 Quick usage:
   gaia                        Launch the TUI (interactive dashboard)
   gaia init [--user <name>] [--scan <path>] [--yes]
-  gaia scan [--quiet] [--auto-promote]
+  gaia scan [--quiet]
   gaia pull
   gaia tree [--named] [--title]
-  gaia push [--dry-run] [--no-pr]
+  gaia push [--dry-run] [--no-issue]
   gaia propose [<skillId>] [--ultimate] [--target <name>] [--no-pr]
   gaia version
   gaia mcp
@@ -365,6 +365,45 @@ def scan_command(args):
         else:
             print('Tip: try `gaia skills search "code review"` or expand scanPaths.')
 
+    # ── Semantic scan: detect installed skill .md files ──────────────────────
+    if not quiet:
+        installed_skills = scan_skill_mds()
+        if installed_skills:
+            with open(graph_path, 'r', encoding='utf-8') as _gf:
+                _gdata_for_match = json.load(_gf)
+            canonical_list = _gdata_for_match.get('skills', [])
+            smap_for_match = {s['id']: s for s in canonical_list}
+
+            novel_installed = []
+            for sk in installed_skills:
+                sid = sk['id']
+                if sid in resolved or sid in smap_for_match:
+                    # Exact canonical match — already shown above or user owns it
+                    if sid in smap_for_match and sid not in resolved:
+                        # It's canonical but not token-detected; add to resolved display
+                        resolved.add(sid)
+                    continue
+                match = match_skill_to_canonical(
+                    sid, sk['name'], sk['description'], canonical_list
+                )
+                novel_installed.append((sid, sk['name'], match))
+
+            if novel_installed:
+                print("\nInstalled custom skills:")
+                for cid, cname, match in novel_installed:
+                    match_note = ""
+                    if match:
+                        canon_id, score = match
+                        canon_sk = smap_for_match.get(canon_id, {})
+                        rank_color = RANK_COLORS.get(canon_sk.get('level', '0★'), RANK_COLORS["0★"])
+                        canon_display = ctx.display_name(canon_id, canon=canon)
+                        match_note = (
+                            f"  {_fg(100,100,100)}→ {_fg(*rank_color)}{canon_display}"
+                            f"{_fg(100,100,100)} ({score:.0%}){_reset()}"
+                        )
+                    user_label = f"{_fg(*COLOR_LOCAL_USER)}{_bold()}/{cid}{_reset()}"
+                    print(f"  ○ {user_label}{match_note}")
+
     tree = load_tree(username, registry_path=args.registry)
     if tree:
         with open(graph_path, 'r', encoding='utf-8') as f:
@@ -405,29 +444,7 @@ def scan_command(args):
         if new_paths.get("nearUnlocks") or new_paths.get("oneAway"):
             print(render_path_summary(new_paths))
 
-        # Promotion hints
-        eligible = check_promotion_eligibility(graph_data, tree)
-        from .graph import load_named_skills
-        named_index = load_named_skills(args.registry)
-        unique_eligible = detect_unique_candidates(graph_data, named_index)
-        candidate_path = write_promotion_candidates(args.registry, username, eligible, unique_eligible)
-        if not quiet:
-            print(f"  saved {os.path.basename(candidate_path)}")
-        if eligible:
-            for promo in eligible[:2]:
-                skill = skill_map.get(promo["skillId"])
-                if skill:
-                    print(render_promotion_prompt(skill, promo.get("suggestedLevel", "2★"), canon=canon, ctx=ctx))
-        if unique_eligible and not quiet:
-            for uc in unique_eligible:
-                print(f"  ◉ {uc['name']} eligible for unique promotion (gaia promote {uc['skillId']} --unique)")
         render_user_tree_outputs(username, tree, graph_data, args.registry, quiet=quiet)
-        if getattr(args, "auto_promote", False) and eligible:
-            promoted = promote_all_candidates(username, args.registry)
-            if promoted and not quiet:
-                print(f"Auto-promoted {len(promoted)} skill(s).")
-            tree = load_tree(username, registry_path=args.registry)
-            render_user_tree_outputs(username, tree, graph_data, args.registry, quiet=quiet)
 
 
 def render_user_tree_outputs(username: str, tree: dict | None, graph_data: dict | None, registry_path: str, quiet: bool = False) -> tuple[str, str] | None:
@@ -802,10 +819,10 @@ def propose_command(args):
     print(f"Proposed named skill: {target_named}")
     print(f"  saved {os.path.basename(batch_path)}")
 
-    if getattr(args, "no_pr", False):
-        print("Skipped PR creation (--no-pr).")
+    if getattr(args, "no_pr", False) or getattr(args, "no_issue", False):
+        print("Skipped issue creation (--no-pr/--no-issue).")
         return
-    open_intake_pr(config.get("gaiaUser", "unknown"), batch, batch_path=batch_path, repo_root=args.registry)
+    open_intake_issue(config.get("gaiaUser", "unknown"), batch, batch_path=batch_path, repo_root=args.registry)
 
 
 def paths_command(args):
@@ -1051,10 +1068,10 @@ def push_command(args):
                 registry_path=args.registry
             )
 
-    if args.no_pr:
-        print("Skipped PR creation (--no-pr).")
+    if getattr(args, 'no_issue', False):
+        print("Skipped issue creation (--no-issue).")
         return
-    open_intake_pr(username, batch, batch_path=batch_path, repo_root=args.registry)
+    open_intake_issue(username, batch, batch_path=batch_path, repo_root=args.registry)
 
 def name_command(args):
     with open(args.batch_file, "r") as f:
@@ -1478,7 +1495,7 @@ def get_parser():
         action='store_true',
         help='Enable automatic prompts for detected skill combinations',
     )
-    scan_parser = subparsers.add_parser('scan', help="Scan configured paths for skill evidence")
+    scan_parser = subparsers.add_parser('scan', help="Scan configured paths and installed skills for skill evidence")
     scan_parser.add_argument('--quiet', action='store_true', help="Suppress scan output; only show notifications")
     scan_parser.add_argument('--auto-promote', action='store_true', help="Promote every scan-recommended candidate after scanning")
     scan_parser.add_argument('--json', action='store_true', help="Output scan results as JSON")
@@ -1499,9 +1516,10 @@ def get_parser():
     tree_parser.add_argument('--title', action='store_true', help="Show display name instead of slash command / contributor ID")
     tree_parser.add_argument('--canon', action='store_true', help="Show canonical registry data instead of local-first view.")
     tree_parser.add_argument('--check', action='store_true', help="Self-test: print all tier glyphs and rank chips in resolved token colors")
-    push_parser = subparsers.add_parser('push', help="Prepare detected skills for review")
+    push_parser = subparsers.add_parser('push', help="Prepare detected skills for review and file a GitHub issue")
     push_parser.add_argument('--dry-run', action='store_true', help="Print the skill batch without writing it")
-    push_parser.add_argument('--no-pr', action='store_true', help="Write intake record without creating a PR")
+    push_parser.add_argument('--no-issue', action='store_true', dest='no_issue', help="Write intake record without creating a GitHub issue")
+    push_parser.add_argument('--no-pr', action='store_true', dest='no_issue', help=argparse.SUPPRESS)  # backward compat alias
     propose_parser = subparsers.add_parser('propose', help="Propose a single canonical skill as a named PR")
     propose_parser.add_argument('skillId', help="Canonical skill ID (accepts /skill-id form)")
     propose_parser.add_argument('--target', help="Named skill target in contributor/skill-name format")
