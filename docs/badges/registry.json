@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-30",
+  "generatedAt": "2026-05-31",
   "schema": "gaia-badges-registry/2",
   "description": "Approved repos per contributor for Gaia README badges. Derived from registry/named-skills.json `links.github` URLs. The site Worker at worker/index.js handles /badges/<handle>/<file>.svg (the real SVGs live at /badges/_assets/<handle>/<file>.svg) and serves the `validating\u2026` SVG (docs/badges/not-found.svg) when the `?repo=` query string doesn't match a repo listed here. Schema v2 adds `fileSeal` for the seal-only (no 'Gaia' wordmark) variant.",
   "contributors": {
@@ -544,14 +544,24 @@
       ],
       "skillsByRepo": {
         "addyosmani/agent-skills": [
+          "addy-osmani/performance-optimization",
           "addy-osmani/test-driven-development"
         ]
       },
       "topSkill": "addy-osmani/test-driven-development",
       "topRank": 3,
       "topIsUnique": false,
-      "count": 1,
+      "count": 2,
       "namedSkills": [
+        {
+          "id": "addy-osmani/performance-optimization",
+          "name": "Performance Optimization",
+          "rank": 3,
+          "type": "basic",
+          "slash": "/performance-optimization",
+          "file": "performance-optimization.svg",
+          "fileSeal": "performance-optimization-seal.svg"
+        },
         {
           "id": "addy-osmani/test-driven-development",
           "name": "Test-Driven Development",
@@ -560,352 +570,6 @@
           "slash": "/test-driven-development",
           "file": "test-driven-development.svg",
           "fileSeal": "test-driven-development-seal.svg"
-        }
-      ]
-    },
-    "anthropic": {
-      "repos": [
-        "anthropics/skills"
-      ],
-      "skillsByRepo": {
-        "anthropics/skills": [
-          "anthropic/pptx",
-          "anthropic/skill-creator"
-        ]
-      },
-      "topSkill": "anthropic/pptx",
-      "topRank": 2,
-      "topIsUnique": false,
-      "count": 2,
-      "namedSkills": [
-        {
-          "id": "anthropic/pptx",
-          "name": "PPTX Editor",
-          "rank": 2,
-          "type": "basic",
-          "slash": "/pptx",
-          "file": "pptx.svg",
-          "fileSeal": "pptx-seal.svg"
-        },
-        {
-          "id": "anthropic/skill-creator",
-          "name": "Skill Creator",
-          "rank": 2,
-          "type": "extra",
-          "slash": "/skill-creator",
-          "file": "skill-creator.svg",
-          "fileSeal": "skill-creator-seal.svg"
-        }
-      ]
-    },
-    "mattpocock": {
-      "repos": [
-        "mattpocock/skills"
-      ],
-      "skillsByRepo": {
-        "mattpocock/skills": [
-          "mattpocock/caveman",
-          "mattpocock/diagnose",
-          "mattpocock/edit-article",
-          "mattpocock/grill-me",
-          "mattpocock/grill-with-docs",
-          "mattpocock/handoff",
-          "mattpocock/improve-codebase-architecture",
-          "mattpocock/obsidian-vault",
-          "mattpocock/prototype",
-          "mattpocock/setup-matt-pocock-skills",
-          "mattpocock/to-issues",
-          "mattpocock/to-prd",
-          "mattpocock/triage",
-          "mattpocock/ubiquitous-language",
-          "mattpocock/write-a-skill",
-          "mattpocock/zoom-out"
-        ]
-      },
-      "topSkill": "mattpocock/skills",
-      "topRank": 6,
-      "topIsUnique": false,
-      "count": 20,
-      "namedSkills": [
-        {
-          "id": "mattpocock/skills",
-          "name": "Matt Pocock Skills",
-          "rank": 6,
-          "type": "ultimate",
-          "slash": "/skills",
-          "file": "skills~.svg",
-          "fileSeal": "skills~-seal.svg"
-        },
-        {
-          "id": "mattpocock/engineering",
-          "name": "Engineering",
-          "rank": 5,
-          "type": "ultimate",
-          "slash": "/engineering",
-          "file": "engineering.svg",
-          "fileSeal": "engineering-seal.svg"
-        },
-        {
-          "id": "mattpocock/grill-me",
-          "name": "Grill Me",
-          "rank": 4,
-          "type": "extra",
-          "slash": "/grill-me",
-          "file": "grill-me.svg",
-          "fileSeal": "grill-me-seal.svg"
-        },
-        {
-          "id": "mattpocock/handoff",
-          "name": "Handoff",
-          "rank": 4,
-          "type": "extra",
-          "slash": "/handoff",
-          "file": "handoff.svg",
-          "fileSeal": "handoff-seal.svg"
-        },
-        {
-          "id": "mattpocock/personal",
-          "name": "Personal",
-          "rank": 4,
-          "type": "extra",
-          "slash": "/personal",
-          "file": "personal.svg",
-          "fileSeal": "personal-seal.svg"
-        },
-        {
-          "id": "mattpocock/productivity",
-          "name": "Productivity",
-          "rank": 4,
-          "type": "extra",
-          "slash": "/productivity",
-          "file": "productivity.svg",
-          "fileSeal": "productivity-seal.svg"
-        },
-        {
-          "id": "mattpocock/ubiquitous-language",
-          "name": "Ubiquitous Language",
-          "rank": 4,
-          "type": "extra",
-          "slash": "/ubiquitous-language",
-          "file": "ubiquitous-language.svg",
-          "fileSeal": "ubiquitous-language-seal.svg"
-        },
-        {
-          "id": "mattpocock/caveman",
-          "name": "Caveman Mode",
-          "rank": 3,
-          "type": "basic",
-          "slash": "/caveman",
-          "file": "caveman.svg",
-          "fileSeal": "caveman-seal.svg"
-        },
-        {
-          "id": "mattpocock/grill-with-docs",
-          "name": "Grill With Docs",
-          "rank": 3,
-          "type": "extra",
-          "slash": "/grill-with-docs",
-          "file": "grill-with-docs.svg",
-          "fileSeal": "grill-with-docs-seal.svg"
-        },
-        {
-          "id": "mattpocock/improve-codebase-architecture",
-          "name": "Improve Codebase Architecture",
-          "rank": 3,
-          "type": "basic",
-          "slash": "/improve-codebase-architecture",
-          "file": "improve-codebase-architecture.svg",
-          "fileSeal": "improve-codebase-architecture-seal.svg"
-        },
-        {
-          "id": "mattpocock/obsidian-vault",
-          "name": "Obsidian Vault Manager",
-          "rank": 3,
-          "type": "extra",
-          "slash": "/obsidian-vault",
-          "file": "obsidian-vault.svg",
-          "fileSeal": "obsidian-vault-seal.svg"
-        },
-        {
-          "id": "mattpocock/prototype",
-          "name": "Prototype",
-          "rank": 3,
-          "type": "extra",
-          "slash": "/prototype",
-          "file": "prototype.svg",
-          "fileSeal": "prototype-seal.svg"
-        },
-        {
-          "id": "mattpocock/setup-matt-pocock-skills",
-          "name": "Setup Matt Pocock Skills",
-          "rank": 3,
-          "type": "extra",
-          "slash": "/setup-matt-pocock-skills",
-          "file": "setup-matt-pocock-skills.svg",
-          "fileSeal": "setup-matt-pocock-skills-seal.svg"
-        },
-        {
-          "id": "mattpocock/to-issues",
-          "name": "To Issues",
-          "rank": 3,
-          "type": "extra",
-          "slash": "/to-issues",
-          "file": "to-issues.svg",
-          "fileSeal": "to-issues-seal.svg"
-        },
-        {
-          "id": "mattpocock/triage",
-          "name": "Triage",
-          "rank": 3,
-          "type": "basic",
-          "slash": "/triage",
-          "file": "triage.svg",
-          "fileSeal": "triage-seal.svg"
-        },
-        {
-          "id": "mattpocock/write-a-skill",
-          "name": "Write a Skill",
-          "rank": 3,
-          "type": "extra",
-          "slash": "/write-a-skill",
-          "file": "write-a-skill.svg",
-          "fileSeal": "write-a-skill-seal.svg"
-        },
-        {
-          "id": "mattpocock/diagnose",
-          "name": "Diagnose",
-          "rank": 2,
-          "type": "extra",
-          "slash": "/diagnose",
-          "file": "diagnose.svg",
-          "fileSeal": "diagnose-seal.svg"
-        },
-        {
-          "id": "mattpocock/edit-article",
-          "name": "Edit Article",
-          "rank": 2,
-          "type": "basic",
-          "slash": "/edit-article",
-          "file": "edit-article.svg",
-          "fileSeal": "edit-article-seal.svg"
-        },
-        {
-          "id": "mattpocock/to-prd",
-          "name": "To PRD",
-          "rank": 2,
-          "type": "extra",
-          "slash": "/to-prd",
-          "file": "to-prd.svg",
-          "fileSeal": "to-prd-seal.svg"
-        },
-        {
-          "id": "mattpocock/zoom-out",
-          "name": "Zoom Out",
-          "rank": 2,
-          "type": "basic",
-          "slash": "/zoom-out",
-          "file": "zoom-out.svg",
-          "fileSeal": "zoom-out-seal.svg"
-        }
-      ]
-    },
-    "bradautomates": {
-      "repos": [
-        "bradautomates/claude-video"
-      ],
-      "skillsByRepo": {
-        "bradautomates/claude-video": [
-          "bradautomates/claude-video"
-        ]
-      },
-      "topSkill": "bradautomates/claude-video",
-      "topRank": 2,
-      "topIsUnique": false,
-      "count": 1,
-      "namedSkills": [
-        {
-          "id": "bradautomates/claude-video",
-          "name": "Claude Video",
-          "rank": 2,
-          "type": "extra",
-          "slash": "/claude-video",
-          "file": "claude-video.svg",
-          "fileSeal": "claude-video-seal.svg"
-        }
-      ]
-    },
-    "browser-use": {
-      "repos": [
-        "browser-use/browser-harness"
-      ],
-      "skillsByRepo": {
-        "browser-use/browser-harness": [
-          "browser-use/browser-harness"
-        ]
-      },
-      "topSkill": "browser-use/browser-harness",
-      "topRank": 2,
-      "topIsUnique": false,
-      "count": 1,
-      "namedSkills": [
-        {
-          "id": "browser-use/browser-harness",
-          "name": "Browser Harness",
-          "rank": 2,
-          "type": "basic",
-          "slash": "/browser-harness",
-          "file": "browser-harness.svg",
-          "fileSeal": "browser-harness-seal.svg"
-        }
-      ]
-    },
-    "browserbase": {
-      "repos": [
-        "browserbase/stagehand"
-      ],
-      "skillsByRepo": {
-        "browserbase/stagehand": [
-          "browserbase/stagehand"
-        ]
-      },
-      "topSkill": "browserbase/stagehand",
-      "topRank": 2,
-      "topIsUnique": false,
-      "count": 1,
-      "namedSkills": [
-        {
-          "id": "browserbase/stagehand",
-          "name": "Stagehand",
-          "rank": 2,
-          "type": "extra",
-          "slash": "/stagehand",
-          "file": "stagehand.svg",
-          "fileSeal": "stagehand-seal.svg"
-        }
-      ]
-    },
-    "gooseworks": {
-      "repos": [
-        "gooseworks-ai/goose-skills"
-      ],
-      "skillsByRepo": {
-        "gooseworks-ai/goose-skills": [
-          "gooseworks/notte-browser"
-        ]
-      },
-      "topSkill": "gooseworks/notte-browser",
-      "topRank": 3,
-      "topIsUnique": false,
-      "count": 1,
-      "namedSkills": [
-        {
-          "id": "gooseworks/notte-browser",
-          "name": "Notte Browser",
-          "rank": 3,
-          "type": "extra",
-          "slash": "/notte-browser",
-          "file": "notte-browser.svg",
-          "fileSeal": "notte-browser-seal.svg"
         }
       ]
     },
@@ -1401,6 +1065,352 @@
           "slash": "/worker-integration",
           "file": "worker-integration.svg",
           "fileSeal": "worker-integration-seal.svg"
+        }
+      ]
+    },
+    "anthropic": {
+      "repos": [
+        "anthropics/skills"
+      ],
+      "skillsByRepo": {
+        "anthropics/skills": [
+          "anthropic/pptx",
+          "anthropic/skill-creator"
+        ]
+      },
+      "topSkill": "anthropic/pptx",
+      "topRank": 2,
+      "topIsUnique": false,
+      "count": 2,
+      "namedSkills": [
+        {
+          "id": "anthropic/pptx",
+          "name": "PPTX Editor",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/pptx",
+          "file": "pptx.svg",
+          "fileSeal": "pptx-seal.svg"
+        },
+        {
+          "id": "anthropic/skill-creator",
+          "name": "Skill Creator",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/skill-creator",
+          "file": "skill-creator.svg",
+          "fileSeal": "skill-creator-seal.svg"
+        }
+      ]
+    },
+    "mattpocock": {
+      "repos": [
+        "mattpocock/skills"
+      ],
+      "skillsByRepo": {
+        "mattpocock/skills": [
+          "mattpocock/caveman",
+          "mattpocock/diagnose",
+          "mattpocock/edit-article",
+          "mattpocock/grill-me",
+          "mattpocock/grill-with-docs",
+          "mattpocock/handoff",
+          "mattpocock/improve-codebase-architecture",
+          "mattpocock/obsidian-vault",
+          "mattpocock/prototype",
+          "mattpocock/setup-matt-pocock-skills",
+          "mattpocock/to-issues",
+          "mattpocock/to-prd",
+          "mattpocock/triage",
+          "mattpocock/ubiquitous-language",
+          "mattpocock/write-a-skill",
+          "mattpocock/zoom-out"
+        ]
+      },
+      "topSkill": "mattpocock/skills",
+      "topRank": 6,
+      "topIsUnique": false,
+      "count": 20,
+      "namedSkills": [
+        {
+          "id": "mattpocock/skills",
+          "name": "Matt Pocock Skills",
+          "rank": 6,
+          "type": "ultimate",
+          "slash": "/skills",
+          "file": "skills~.svg",
+          "fileSeal": "skills~-seal.svg"
+        },
+        {
+          "id": "mattpocock/engineering",
+          "name": "Engineering",
+          "rank": 5,
+          "type": "ultimate",
+          "slash": "/engineering",
+          "file": "engineering.svg",
+          "fileSeal": "engineering-seal.svg"
+        },
+        {
+          "id": "mattpocock/grill-me",
+          "name": "Grill Me",
+          "rank": 4,
+          "type": "extra",
+          "slash": "/grill-me",
+          "file": "grill-me.svg",
+          "fileSeal": "grill-me-seal.svg"
+        },
+        {
+          "id": "mattpocock/handoff",
+          "name": "Handoff",
+          "rank": 4,
+          "type": "extra",
+          "slash": "/handoff",
+          "file": "handoff.svg",
+          "fileSeal": "handoff-seal.svg"
+        },
+        {
+          "id": "mattpocock/personal",
+          "name": "Personal",
+          "rank": 4,
+          "type": "extra",
+          "slash": "/personal",
+          "file": "personal.svg",
+          "fileSeal": "personal-seal.svg"
+        },
+        {
+          "id": "mattpocock/productivity",
+          "name": "Productivity",
+          "rank": 4,
+          "type": "extra",
+          "slash": "/productivity",
+          "file": "productivity.svg",
+          "fileSeal": "productivity-seal.svg"
+        },
+        {
+          "id": "mattpocock/ubiquitous-language",
+          "name": "Ubiquitous Language",
+          "rank": 4,
+          "type": "extra",
+          "slash": "/ubiquitous-language",
+          "file": "ubiquitous-language.svg",
+          "fileSeal": "ubiquitous-language-seal.svg"
+        },
+        {
+          "id": "mattpocock/caveman",
+          "name": "Caveman Mode",
+          "rank": 3,
+          "type": "basic",
+          "slash": "/caveman",
+          "file": "caveman.svg",
+          "fileSeal": "caveman-seal.svg"
+        },
+        {
+          "id": "mattpocock/grill-with-docs",
+          "name": "Grill With Docs",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/grill-with-docs",
+          "file": "grill-with-docs.svg",
+          "fileSeal": "grill-with-docs-seal.svg"
+        },
+        {
+          "id": "mattpocock/improve-codebase-architecture",
+          "name": "Improve Codebase Architecture",
+          "rank": 3,
+          "type": "basic",
+          "slash": "/improve-codebase-architecture",
+          "file": "improve-codebase-architecture.svg",
+          "fileSeal": "improve-codebase-architecture-seal.svg"
+        },
+        {
+          "id": "mattpocock/obsidian-vault",
+          "name": "Obsidian Vault Manager",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/obsidian-vault",
+          "file": "obsidian-vault.svg",
+          "fileSeal": "obsidian-vault-seal.svg"
+        },
+        {
+          "id": "mattpocock/prototype",
+          "name": "Prototype",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/prototype",
+          "file": "prototype.svg",
+          "fileSeal": "prototype-seal.svg"
+        },
+        {
+          "id": "mattpocock/setup-matt-pocock-skills",
+          "name": "Setup Matt Pocock Skills",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/setup-matt-pocock-skills",
+          "file": "setup-matt-pocock-skills.svg",
+          "fileSeal": "setup-matt-pocock-skills-seal.svg"
+        },
+        {
+          "id": "mattpocock/to-issues",
+          "name": "To Issues",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/to-issues",
+          "file": "to-issues.svg",
+          "fileSeal": "to-issues-seal.svg"
+        },
+        {
+          "id": "mattpocock/triage",
+          "name": "Triage",
+          "rank": 3,
+          "type": "basic",
+          "slash": "/triage",
+          "file": "triage.svg",
+          "fileSeal": "triage-seal.svg"
+        },
+        {
+          "id": "mattpocock/write-a-skill",
+          "name": "Write a Skill",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/write-a-skill",
+          "file": "write-a-skill.svg",
+          "fileSeal": "write-a-skill-seal.svg"
+        },
+        {
+          "id": "mattpocock/diagnose",
+          "name": "Diagnose",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/diagnose",
+          "file": "diagnose.svg",
+          "fileSeal": "diagnose-seal.svg"
+        },
+        {
+          "id": "mattpocock/edit-article",
+          "name": "Edit Article",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/edit-article",
+          "file": "edit-article.svg",
+          "fileSeal": "edit-article-seal.svg"
+        },
+        {
+          "id": "mattpocock/to-prd",
+          "name": "To PRD",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/to-prd",
+          "file": "to-prd.svg",
+          "fileSeal": "to-prd-seal.svg"
+        },
+        {
+          "id": "mattpocock/zoom-out",
+          "name": "Zoom Out",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/zoom-out",
+          "file": "zoom-out.svg",
+          "fileSeal": "zoom-out-seal.svg"
+        }
+      ]
+    },
+    "bradautomates": {
+      "repos": [
+        "bradautomates/claude-video"
+      ],
+      "skillsByRepo": {
+        "bradautomates/claude-video": [
+          "bradautomates/claude-video"
+        ]
+      },
+      "topSkill": "bradautomates/claude-video",
+      "topRank": 2,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "bradautomates/claude-video",
+          "name": "Claude Video",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/claude-video",
+          "file": "claude-video.svg",
+          "fileSeal": "claude-video-seal.svg"
+        }
+      ]
+    },
+    "browser-use": {
+      "repos": [
+        "browser-use/browser-harness"
+      ],
+      "skillsByRepo": {
+        "browser-use/browser-harness": [
+          "browser-use/browser-harness"
+        ]
+      },
+      "topSkill": "browser-use/browser-harness",
+      "topRank": 2,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "browser-use/browser-harness",
+          "name": "Browser Harness",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/browser-harness",
+          "file": "browser-harness.svg",
+          "fileSeal": "browser-harness-seal.svg"
+        }
+      ]
+    },
+    "browserbase": {
+      "repos": [
+        "browserbase/stagehand"
+      ],
+      "skillsByRepo": {
+        "browserbase/stagehand": [
+          "browserbase/stagehand"
+        ]
+      },
+      "topSkill": "browserbase/stagehand",
+      "topRank": 2,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "browserbase/stagehand",
+          "name": "Stagehand",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/stagehand",
+          "file": "stagehand.svg",
+          "fileSeal": "stagehand-seal.svg"
+        }
+      ]
+    },
+    "gooseworks": {
+      "repos": [
+        "gooseworks-ai/goose-skills"
+      ],
+      "skillsByRepo": {
+        "gooseworks-ai/goose-skills": [
+          "gooseworks/notte-browser"
+        ]
+      },
+      "topSkill": "gooseworks/notte-browser",
+      "topRank": 3,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "gooseworks/notte-browser",
+          "name": "Notte Browser",
+          "rank": 3,
+          "type": "extra",
+          "slash": "/notte-browser",
+          "file": "notte-browser.svg",
+          "fileSeal": "notte-browser-seal.svg"
         }
       ]
     },

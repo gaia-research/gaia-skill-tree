@@ -21,6 +21,7 @@ _None._
 |---|---|---|---|
 | B | https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md | mbtiongson1 | 2026-04-30 |
 | B | https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md | mbtiongson1 | 2026-04-30 |
+| A | https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md | mbtiongson1 | 2026-05-31 |
 
 ## Known Agents
 _None verified yet._

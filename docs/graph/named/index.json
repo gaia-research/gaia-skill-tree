@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-30",
+  "generatedAt": "2026-05-31",
   "buckets": {
     "automated-testing": [
       {
@@ -107,6 +107,84 @@
         "role": "variant"
       }
     ],
+    "performance-tuning": [
+      {
+        "id": "addy-osmani/performance-optimization",
+        "name": "Performance Optimization",
+        "contributor": "addy-osmani",
+        "origin": false,
+        "genericSkillRef": "performance-tuning",
+        "status": "named",
+        "level": "3★",
+        "description": "Measurement-driven performance workflow: baseline with Lighthouse and",
+        "title": "The Perf Loop",
+        "tags": {},
+        "links": {
+          "github": "https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md"
+        },
+        "createdAt": "2026-05-31",
+        "updatedAt": "2026-05-31",
+        "timeline": {},
+        "type": "basic",
+        "installBody": "Install via [gaia](https://github.com/mbtiongson1/gaia-skill-tree):\n\n```bash\ngaia skills install https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md\n```\n\nOr copy the raw skill file directly into your agent context:\n\n```\nhttps://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md\n```\n\n**Usage**: Invoke `/performance-optimization` (Claude Code) to trigger the measurement-driven 5-step performance audit workflow.",
+        "role": "variant"
+      },
+      {
+        "id": "ruvnet/performance-analysis",
+        "name": "Performance Analysis",
+        "contributor": "ruvnet",
+        "origin": true,
+        "genericSkillRef": "performance-tuning",
+        "status": "named",
+        "level": "2★",
+        "description": "Profiles agent and system execution for CPU, memory, and I/O hotspots and produces actionable optimization recommendations.",
+        "title": "The Bottleneck Hunter",
+        "catalogRef": "ruvnet-performance-analysis",
+        "tags": [
+          "performance",
+          "profiling",
+          "bottleneck",
+          "optimization",
+          "benchmarking"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
+        "type": "basic",
+        "role": "origin"
+      },
+      {
+        "id": "ruvnet/v3-performance-optimization",
+        "name": "V3 Performance Optimization",
+        "contributor": "ruvnet",
+        "origin": false,
+        "genericSkillRef": "performance-tuning",
+        "status": "named",
+        "level": "2★",
+        "description": "Profiles and optimizes Ruflo v3 platform performance across startup time, request latency, memory footprint, and throughput.",
+        "title": "The Speed Sculptor",
+        "catalogRef": "ruvnet-v3-performance-optimization",
+        "tags": [
+          "performance",
+          "profiling",
+          "optimization",
+          "latency",
+          "throughput",
+          "v3-sprint"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo-v3",
+        "type": "basic",
+        "role": "variant"
+      }
+    ],
     "test-driven-development": [
       {
         "id": "addy-osmani/test-driven-development",
@@ -116,24 +194,18 @@
         "genericSkillRef": "test-driven-development",
         "status": "named",
         "level": "3★",
-        "description": "Forces the AI agent to follow a strict red-green-refactor TDD workflow — explicitly blocking horizontal slicing (all tests first, then all code). Tests verify behaviour through public interfaces only, blocking code generation that skips the test step, and enforcing coverage thresholds before completing a task.",
+        "description": "Forces the AI agent to follow a strict red-green-refactor TDD workflow",
         "title": "The Red-Green Oath",
         "catalogRef": "addy-osmani-test-driven-development",
-        "tags": [
-          "tdd",
-          "testing",
-          "red-green-refactor",
-          "workflow-enforcement",
-          "software-quality",
-          "vertical-slicing",
-          "tracer-bullet"
-        ],
+        "tags": {},
         "links": {
           "github": "https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md"
         },
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-04-30",
+        "updatedAt": "2026-05-31",
+        "timeline": {},
         "type": "basic",
+        "installBody": "Install via [gaia](https://github.com/mbtiongson1/gaia-skill-tree):\n\n```bash\ngaia skills install https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md\n```\n\nOr copy the raw skill file directly into your agent context:\n\n```\nhttps://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md\n```\n\n**Usage**: Invoke `/test-driven-development` (Claude Code) to enforce the red-green-refactor TDD cycle. The skill blocks horizontal slicing and enforces coverage thresholds before marking any task complete.",
         "role": "origin"
       }
     ],
@@ -4365,63 +4437,6 @@
         "role": "origin"
       }
     ],
-    "performance-tuning": [
-      {
-        "id": "ruvnet/performance-analysis",
-        "name": "Performance Analysis",
-        "contributor": "ruvnet",
-        "origin": true,
-        "genericSkillRef": "performance-tuning",
-        "status": "named",
-        "level": "2★",
-        "description": "Profiles agent and system execution for CPU, memory, and I/O hotspots and produces actionable optimization recommendations.",
-        "title": "The Bottleneck Hunter",
-        "catalogRef": "ruvnet-performance-analysis",
-        "tags": [
-          "performance",
-          "profiling",
-          "bottleneck",
-          "optimization",
-          "benchmarking"
-        ],
-        "links": {
-          "github": "https://github.com/ruvnet/ruflo"
-        },
-        "createdAt": "2026-05-19",
-        "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
-        "type": "basic",
-        "role": "origin"
-      },
-      {
-        "id": "ruvnet/v3-performance-optimization",
-        "name": "V3 Performance Optimization",
-        "contributor": "ruvnet",
-        "origin": false,
-        "genericSkillRef": "performance-tuning",
-        "status": "named",
-        "level": "2★",
-        "description": "Profiles and optimizes Ruflo v3 platform performance across startup time, request latency, memory footprint, and throughput.",
-        "title": "The Speed Sculptor",
-        "catalogRef": "ruvnet-v3-performance-optimization",
-        "tags": [
-          "performance",
-          "profiling",
-          "optimization",
-          "latency",
-          "throughput",
-          "v3-sprint"
-        ],
-        "links": {
-          "github": "https://github.com/ruvnet/ruflo"
-        },
-        "createdAt": "2026-05-19",
-        "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo-v3",
-        "type": "basic",
-        "role": "variant"
-      }
-    ],
     "adaptive-pattern-learning": [
       {
         "id": "ruvnet/reasoningbank-intelligence",
@@ -4985,102 +5000,6 @@
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-25",
       "type": "basic",
-      "installBody": "Add installation instructions here."
-    },
-    {
-      "id": "addyosmani/accessibility",
-      "name": "accessibility",
-      "contributor": "addyosmani",
-      "origin": false,
-      "genericSkillRef": "web-accessibility",
-      "status": "awakened",
-      "level": "2★",
-      "description": "Accessibility skill.",
-      "createdAt": "2026-05-24",
-      "updatedAt": "2026-05-24",
-      "suiteRef": "addyosmani/web-quality-audit",
-      "type": "extra",
-      "installBody": "Add installation instructions here."
-    },
-    {
-      "id": "addyosmani/best-practices",
-      "name": "best-practices",
-      "contributor": "addyosmani",
-      "origin": false,
-      "genericSkillRef": "web-best-practices",
-      "status": "awakened",
-      "level": "2★",
-      "description": "Best practices skill.",
-      "createdAt": "2026-05-24",
-      "updatedAt": "2026-05-24",
-      "suiteRef": "addyosmani/web-quality-audit",
-      "type": "extra",
-      "installBody": "Add installation instructions here."
-    },
-    {
-      "id": "addyosmani/core-web-vitals",
-      "name": "core-web-vitals",
-      "contributor": "addyosmani",
-      "origin": false,
-      "genericSkillRef": "performance-tuning",
-      "status": "awakened",
-      "level": "2★",
-      "description": "Core Web Vitals skill.",
-      "createdAt": "2026-05-24",
-      "updatedAt": "2026-05-24",
-      "suiteRef": "addyosmani/web-quality-audit",
-      "type": "basic",
-      "installBody": "Add installation instructions here."
-    },
-    {
-      "id": "addyosmani/performance",
-      "name": "performance",
-      "contributor": "addyosmani",
-      "origin": false,
-      "genericSkillRef": "performance-tuning",
-      "status": "awakened",
-      "level": "2★",
-      "description": "Performance skill.",
-      "createdAt": "2026-05-24",
-      "updatedAt": "2026-05-24",
-      "suiteRef": "addyosmani/web-quality-audit",
-      "type": "basic",
-      "installBody": "Add installation instructions here."
-    },
-    {
-      "id": "addyosmani/seo",
-      "name": "seo",
-      "contributor": "addyosmani",
-      "origin": false,
-      "genericSkillRef": "search-engine-optimization",
-      "status": "awakened",
-      "level": "2★",
-      "description": "SEO skill.",
-      "createdAt": "2026-05-24",
-      "updatedAt": "2026-05-24",
-      "suiteRef": "addyosmani/web-quality-audit",
-      "type": "extra",
-      "installBody": "Add installation instructions here."
-    },
-    {
-      "id": "addyosmani/web-quality-audit",
-      "name": "web-quality-audit",
-      "contributor": "addyosmani",
-      "origin": false,
-      "genericSkillRef": "web-quality-audit",
-      "status": "awakened",
-      "level": "3★",
-      "description": "Comprehensive web quality audit covering performance, accessibility,",
-      "createdAt": "2026-05-24",
-      "updatedAt": "2026-05-24",
-      "suiteComponents": [
-        "addyosmani/accessibility",
-        "addyosmani/best-practices",
-        "addyosmani/core-web-vitals",
-        "addyosmani/performance",
-        "addyosmani/seo"
-      ],
-      "type": "extra",
       "installBody": "Add installation instructions here."
     },
     {
@@ -5736,9 +5655,9 @@
       "type": "extra"
     },
     {
-      "id": "jules/langgenius/backend-code-review",
+      "id": "langgenius/backend-code-review",
       "name": "Backend Code Review",
-      "contributor": "jules",
+      "contributor": "langgenius",
       "origin": false,
       "genericSkillRef": "code-review-pipeline",
       "status": "awakened",
@@ -5747,15 +5666,16 @@
       "links": {
         "github": "https://github.com/langgenius/dify/blob/main/.agents/skills/backend-code-review"
       },
-      "createdAt": "2026-05-20",
-      "updatedAt": "2026-05-20",
+      "createdAt": "2026-05-31",
+      "updatedAt": "2026-05-31",
+      "timeline": {},
       "type": "extra",
       "installBody": "Add installation instructions here."
     },
     {
-      "id": "jules/langgenius/component-refactoring",
+      "id": "langgenius/component-refactoring",
       "name": "Component Refactoring",
-      "contributor": "jules",
+      "contributor": "langgenius",
       "origin": false,
       "genericSkillRef": "refactor-code",
       "status": "awakened",
@@ -5764,15 +5684,16 @@
       "links": {
         "github": "https://github.com/langgenius/dify/blob/main/.agents/skills/component-refactoring"
       },
-      "createdAt": "2026-05-20",
-      "updatedAt": "2026-05-20",
+      "createdAt": "2026-05-31",
+      "updatedAt": "2026-05-31",
+      "timeline": {},
       "type": "basic",
       "installBody": "Add installation instructions here."
     },
     {
-      "id": "jules/langgenius/e2e-cucumber-playwright",
+      "id": "langgenius/e2e-cucumber-playwright",
       "name": "E2E Cucumber Playwright",
-      "contributor": "jules",
+      "contributor": "langgenius",
       "origin": false,
       "genericSkillRef": "e2e-testing",
       "status": "awakened",
@@ -5781,15 +5702,16 @@
       "links": {
         "github": "https://github.com/langgenius/dify/blob/main/.agents/skills/e2e-cucumber-playwright"
       },
-      "createdAt": "2026-05-20",
-      "updatedAt": "2026-05-20",
+      "createdAt": "2026-05-31",
+      "updatedAt": "2026-05-31",
+      "timeline": {},
       "type": "extra",
       "installBody": "Add installation instructions here."
     },
     {
-      "id": "jules/langgenius/frontend-code-review",
+      "id": "langgenius/frontend-code-review",
       "name": "Frontend Code Review",
-      "contributor": "jules",
+      "contributor": "langgenius",
       "origin": false,
       "genericSkillRef": "code-review-pipeline",
       "status": "awakened",
@@ -5798,15 +5720,16 @@
       "links": {
         "github": "https://github.com/langgenius/dify/blob/main/.agents/skills/frontend-code-review"
       },
-      "createdAt": "2026-05-20",
-      "updatedAt": "2026-05-20",
+      "createdAt": "2026-05-31",
+      "updatedAt": "2026-05-31",
+      "timeline": {},
       "type": "extra",
       "installBody": "Add installation instructions here."
     },
     {
-      "id": "jules/langgenius/frontend-testing",
+      "id": "langgenius/frontend-testing",
       "name": "Frontend Testing",
-      "contributor": "jules",
+      "contributor": "langgenius",
       "origin": false,
       "genericSkillRef": "automated-testing",
       "status": "awakened",
@@ -5815,8 +5738,9 @@
       "links": {
         "github": "https://github.com/langgenius/dify/blob/main/.agents/skills/frontend-testing"
       },
-      "createdAt": "2026-05-20",
-      "updatedAt": "2026-05-20",
+      "createdAt": "2026-05-31",
+      "updatedAt": "2026-05-31",
+      "timeline": {},
       "type": "extra",
       "installBody": "Add installation instructions here."
     },
@@ -5926,15 +5850,8 @@
       "Taoidle/plan-decompose-gh-plan-cascade"
     ],
     "addy-osmani": [
+      "addy-osmani/performance-optimization",
       "addy-osmani/test-driven-development"
-    ],
-    "addyosmani": [
-      "addyosmani/accessibility",
-      "addyosmani/best-practices",
-      "addyosmani/core-web-vitals",
-      "addyosmani/performance",
-      "addyosmani/seo",
-      "addyosmani/web-quality-audit"
     ],
     "anthropic": [
       "anthropic/pptx",
@@ -6078,15 +5995,15 @@
       "intelligentcode-ai/security-engineer",
       "intelligentcode-ai/user-tester"
     ],
-    "jules": [
-      "jules/langgenius/backend-code-review",
-      "jules/langgenius/component-refactoring",
-      "jules/langgenius/e2e-cucumber-playwright",
-      "jules/langgenius/frontend-code-review",
-      "jules/langgenius/frontend-testing"
-    ],
     "karpathy": [
       "karpathy/autoresearch"
+    ],
+    "langgenius": [
+      "langgenius/backend-code-review",
+      "langgenius/component-refactoring",
+      "langgenius/e2e-cucumber-playwright",
+      "langgenius/frontend-code-review",
+      "langgenius/frontend-testing"
     ],
     "laravel": [
       "laravel/upgrade-laravel-v13"
