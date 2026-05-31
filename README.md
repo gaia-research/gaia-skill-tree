@@ -186,7 +186,7 @@ Detects skills your agent demonstrates.
 gaia push
 ```
 
-A GitHub PR opens automatically. Maintainers review; your name attaches at 2★.
+A GitHub issue opens automatically. Maintainers review and promote; your name attaches at 2★.
 
 **4. Bond your agent (optional)**
 

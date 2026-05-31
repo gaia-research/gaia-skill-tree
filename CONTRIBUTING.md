@@ -26,7 +26,7 @@ Useful variants:
 
 ```bash
 gaia push --dry-run
-gaia push --no-pr
+gaia push --no-issue
 python3 scripts/validate_intake.py
 ```
 
