@@ -996,7 +996,16 @@ h1 em {
 .graph-collection-minimize:focus-visible,
 .graph-collection-share:focus-visible,
 .graph-collection-remove:focus-visible,
-.graph-skill-panel-close:focus-visible {
+.graph-skill-panel-close:focus-visible,
+.nav-search-btn-mobile:focus-visible,
+.pmq-changelog-btn:focus-visible,
+.scroll-to-top:focus-visible,
+.mr-pagination-prev:focus-visible,
+.mr-pagination-next:focus-visible,
+.hero-audit-btn:focus-visible,
+.propose-cta:focus-visible,
+.meta-btn-close:focus-visible,
+.se-close-x:focus-visible {
   outline: 2px solid var(--tier-extra);
   outline-offset: 2px;
 }

@@ -25,3 +25,7 @@
 ## 2026-05-24 - App-Wide Focus Ring for Graph Collection
 **Learning:** Found that multiple interactive elements (.graph-collection-copy-all, .graph-collection-clear-all, .graph-collection-minimize, .graph-collection-share, .graph-collection-remove, .graph-skill-panel-close) in the newly added graph collection panel were missing keyboard focus indicators. The codebase has an established focus ring pattern using `outline: 2px solid var(--tier-extra); outline-offset: 2px;`, which should be explicitly extended to all interactive generic buttons and tabs.
 **Action:** Added these missing selectors to the app-wide focus ring block in `docs/css/styles.css` to maintain a consistent and accessible keyboard navigation experience.
+
+## 2024-05-25 - Focus Rings for All Interactive Elements
+**Learning:** Found several missing focus-visible classes on various buttons and interactive elements (`.nav-search-btn-mobile`, `.pmq-changelog-btn`, `.scroll-to-top`, `.mr-pagination-prev`, `.mr-pagination-next`, `.hero-audit-btn`, `.propose-cta`, `.meta-btn-close`, `.se-close-x`, `.hoh-fs-overlay-restore`, `.hoh-fs-btn`, `.hoh-fs-btn--close`, `.hoh-fs-copy-btn`), impacting keyboard accessibility.
+**Action:** Always verify keyboard accessibility on all buttons by checking if they belong to the central grouped selector for `:focus-visible` in `styles.css` or `plaque.css`. Ensure new buttons receive `outline: 2px solid var(--tier-extra); outline-offset: 2px;`.
