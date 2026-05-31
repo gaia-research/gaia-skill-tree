@@ -478,7 +478,10 @@ button.plaque__slug:focus-visible {
   filter: none;
 }
 .plaque__install-copy:focus-visible,
-.ns-install-copy:focus-visible {
+.hoh-fs-overlay-restore:focus-visible,
+.hoh-fs-btn:focus-visible,
+.hoh-fs-btn--close:focus-visible,
+.hoh-fs-copy-btn:focus-visible {
   outline: 2px solid var(--tier-extra);
   outline-offset: 2px;
 }
