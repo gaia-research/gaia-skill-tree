@@ -1,0 +1,48 @@
+---
+id: addy-osmani/performance-optimization
+name: Performance Optimization
+contributor: addy-osmani
+origin: false
+genericSkillRef: performance-tuning
+status: named
+level: 3★
+description: 'Measurement-driven performance workflow: baseline with Lighthouse and
+  RUM, identify bottlenecks via profiling, fix targeted issues (N+1 queries, render
+  blocking, unoptimized images), verify against Core Web Vitals thresholds (LCP ≤2.5s,
+  INP ≤200ms, CLS ≤0.1), and guard against regression with perf budgets.'
+createdAt: '2026-05-31'
+updatedAt: '2026-05-31'
+title: The Perf Loop
+links:
+  github: https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md
+tags:
+- performance
+- core-web-vitals
+- lighthouse
+- profiling
+- web-performance
+timeline:
+- timestamp: '2026-05-31T02:15:44Z'
+  action: add
+  contributor: unknown
+  details: Added named skill addy-osmani/performance-optimization
+- timestamp: '2026-05-31T02:16:53Z'
+  action: installation_updated
+  contributor: unknown
+  details: 'Replaced ## Installation section from /tmp/perf_install.md'
+---
+
+## Installation
+Install via [gaia](https://github.com/mbtiongson1/gaia-skill-tree):
+
+```bash
+gaia skills install https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md
+```
+
+Or copy the raw skill file directly into your agent context:
+
+```
+https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md
+```
+
+**Usage**: Invoke `/performance-optimization` (Claude Code) to trigger the measurement-driven 5-step performance audit workflow.
