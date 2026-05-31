@@ -39,7 +39,7 @@ function formatTree(tree: UserSkillTree, graph: GaiaGraph): string {
 export async function getMyTree(username?: string): Promise<string> {
   const user = username ?? resolveIdentity();
   if (!user) {
-    return "No Gaia user configured. Set GAIA_USER environment variable or create .gaia/config.json with a gaiaUser field.";
+    return "No Gaia user configured. Set GAIA_USER in your environment or .mcp.json env block, OR create a .gaia/config.json file with a \"gaiaUser\" field at the repo root.";
   }
 
   const [graph, rawTree] = await Promise.all([

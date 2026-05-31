@@ -15,6 +15,176 @@ PATHS_FILE = ".gaia/paths.json"
 MAX_BFS_DISTANCE = 5
 
 
+def unlock_path(graph_data: dict, target_id: str, owned_ids: set) -> dict:
+    """Build a prerequisite unlock-path tree for a target skill.
+
+    Recursively walks the prerequisite graph from *target_id* downwards,
+    marking each node as owned or missing.  A node that is already owned
+    does not recurse further into its own prerequisites.
+
+    Raises ValueError when *target_id* does not exist in the graph.
+    Raises ValueError when a cycle is detected.
+
+    Args:
+        graph_data: parsed gaia.json with a ``skills`` list.
+        target_id:  canonical skill ID to build the path toward.
+        owned_ids:  set of skill IDs the user already owns.
+
+    Returns:
+        A nested dict tree::
+
+            {
+                "id":       str,
+                "owned":    bool,
+                "children": [<same shape>, ...],   # empty if owned or leaf
+            }
+    """
+    skill_map = {s['id']: s for s in graph_data.get('skills', [])}
+
+    if target_id not in skill_map:
+        raise ValueError(f"Skill '{target_id}' not found in registry.")
+
+    def _build(sid: str, ancestors: frozenset) -> dict:
+        if sid in ancestors:
+            raise ValueError(
+                f"Cycle detected involving skill '{sid}' in prerequisite graph."
+            )
+        owned = sid in owned_ids
+        skill = skill_map.get(sid, {})
+        prereqs = skill.get('prerequisites', [])
+        # If already owned or no prerequisites, stop recursing.
+        if owned or not prereqs:
+            return {"id": sid, "owned": owned, "children": []}
+        new_ancestors = ancestors | {sid}
+        children = [_build(p, new_ancestors) for p in prereqs]
+        return {"id": sid, "owned": owned, "children": children}
+
+    return _build(target_id, frozenset())
+
+
+def _render_path_tree(
+    node: dict,
+    skill_map: dict,
+    owned_only: bool,
+    prefix: str = "",
+    is_last: bool = True,
+) -> list[str]:
+    """Recursively render a path tree node into display lines.
+
+    Args:
+        node:       unlock_path tree node.
+        skill_map:  id -> skill dict for name look-ups.
+        owned_only: when True, skip subtrees where the root is already owned.
+        prefix:     accumulated tree-drawing prefix for child indentation.
+        is_last:    whether this node is the last sibling (affects connector glyph).
+
+    Returns:
+        List of display strings (one per line).
+    """
+    if owned_only and node['owned'] and node['children']:
+        # Prune branches that are fully owned; leaf-owned nodes are still shown.
+        return []
+
+    sid = node['id']
+    skill = skill_map.get(sid, {})
+    name = skill.get('name') or sid
+    marker = "✓ owned" if node['owned'] else "✗ missing"
+
+    connector = "└── " if is_last else "├── "
+    line = f"{prefix}{connector}{sid}  [{marker}]  — {name}"
+    if not prefix:
+        # Root node: no connector
+        line = f"{sid}  [{marker}]  — {name}"
+
+    lines = [line]
+
+    children = node.get('children', [])
+    if owned_only:
+        children = [c for c in children if not c['owned']]
+
+    child_prefix = prefix + ("    " if is_last else "│   ")
+    for i, child in enumerate(children):
+        last = i == len(children) - 1
+        lines.extend(_render_path_tree(child, skill_map, owned_only, child_prefix, last))
+
+    return lines
+
+
+def render_unlock_path(
+    graph_data: dict,
+    target_id: str,
+    owned_ids: set,
+    owned_only: bool = False,
+) -> str:
+    """Render a human-readable prerequisite unlock-path tree.
+
+    Args:
+        graph_data: parsed gaia.json.
+        target_id:  skill to render paths toward.
+        owned_ids:  set of owned skill IDs.
+        owned_only: if True, prune already-owned branches.
+
+    Returns:
+        Multi-line string with tree drawing and a summary footer.
+
+    Raises:
+        ValueError on unknown target_id or cycles.
+    """
+    tree = unlock_path(graph_data, target_id, owned_ids)
+    skill_map = {s['id']: s for s in graph_data.get('skills', [])}
+
+    # Count totals across the whole tree (not just visible nodes).
+    def _count(node: dict) -> tuple[int, int]:
+        """Return (owned_count, total_count) for the subtree."""
+        owned = 1 if node['owned'] else 0
+        total = 1
+        for child in node.get('children', []):
+            c_owned, c_total = _count(child)
+            owned += c_owned
+            total += c_total
+        return owned, total
+
+    owned_count, total_count = _count(tree)
+
+    # Render root line manually.
+    root_sid = tree['id']
+    root_skill = skill_map.get(root_sid, {})
+    root_name = root_skill.get('name') or root_sid
+    root_marker = "✓ owned" if tree['owned'] else "✗ missing"
+    root_type = root_skill.get('type', 'basic')
+
+    lines = [f"{root_sid}  [{root_type}]  [{root_marker}]  — {root_name}"]
+
+    children = tree.get('children', [])
+    if owned_only:
+        children = [c for c in children if not c['owned']]
+
+    for i, child in enumerate(children):
+        last = i == len(children) - 1
+        lines.extend(_render_path_tree(child, skill_map, owned_only, "", last))
+
+    missing_count = total_count - owned_count
+    lines.append(
+        f"\n{owned_count} / {total_count} prerequisites owned.  "
+        f"{missing_count} skill(s) needed to unlock."
+    )
+    return "\n".join(lines)
+
+
+def _path_tree_to_dict(node: dict, skill_map: dict) -> dict:
+    """Convert an unlock_path node to a JSON-serialisable dict with names."""
+    sid = node['id']
+    skill = skill_map.get(sid, {})
+    out = {
+        "id": sid,
+        "name": skill.get('name') or sid,
+        "type": skill.get('type', 'basic'),
+        "owned": node['owned'],
+        "children": [_path_tree_to_dict(c, skill_map) for c in node.get('children', [])],
+    }
+    return out
+
+
 def compute_paths(graph_data: dict, owned_ids: list, detected_ids: list) -> dict:
     """
     Compute progression paths from current state.

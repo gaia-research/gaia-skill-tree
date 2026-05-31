@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/skill.schema.json",
   "version": "3.26.3",
-  "generatedAt": "2026-05-30T22:50:09.672790Z",
+  "generatedAt": "2026-05-31T02:20:59.264166Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -6664,12 +6664,19 @@
           "evaluator": "mbtiongson1",
           "date": "2026-05-19",
           "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+        },
+        {
+          "class": "A",
+          "source": "https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-31",
+          "notes": "Addy Osmani's performance-optimization SKILL.md in agent-skills repo (47.2k stars, verified 2026-05-31). Defines a measurement-driven 5-step workflow (Measure → Identify → Fix → Verify → Guard) with explicit Core Web Vitals thresholds. Qualifies for Class A per META §2.1 large-scale adoption criterion."
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-19",
-      "updatedAt": "2026-05-19",
+      "updatedAt": "2026-05-31",
       "version": "0.1.0",
       "timeline": [
         {
@@ -6679,6 +6686,12 @@
           "details": "Skill created as 2★ (provisional)",
           "previousValue": null,
           "newValue": "2★"
+        },
+        {
+          "timestamp": "2026-05-31T02:16:29Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added A evidence from https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md"
         }
       ]
     },
@@ -9827,12 +9840,19 @@
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
           "notes": "Matt Pocock /tdd -- Vertical-slice TDD enforcement with anti-horizontal-slicing rules."
+        },
+        {
+          "class": "A",
+          "source": "https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-31",
+          "notes": "Addy Osmani's agent-skills repo has 47.2k GitHub stars (verified 2026-05-31), qualifying for Class A adoption evidence per META §2.1. The TDD skill is the most-linked individual skill in the repo and is cited in Addy's public engineering talks. The blob link is the canonical SKILL.md implementation."
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-04-30",
+      "updatedAt": "2026-05-31",
       "version": "0.1.0",
       "timeline": [
         {
@@ -9858,6 +9878,12 @@
           "details": "Added evidence: https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md",
           "previousValue": null,
           "newValue": "3★"
+        },
+        {
+          "timestamp": "2026-05-31T02:16:22Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added A evidence from https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md"
         }
       ]
     },
@@ -10929,7 +10955,7 @@
       "type": "extra",
       "level": "3★",
       "rarity": "common",
-      "description": "Comprehensive web quality audit.",
+      "description": "Orchestrates a multi-axis web quality audit covering performance (Core Web Vitals), accessibility (WCAG), SEO, and best practices, producing actionable remediation plans from Lighthouse and real-user data.",
       "prerequisites": [
         "registry-health-scan",
         "performance-tuning",
@@ -10940,16 +10966,17 @@
       "derivatives": [],
       "evidence": [
         {
-          "class": "A",
-          "source": "https://github.com/addyosmani/web-quality-skills",
-          "evaluator": "addyosmani",
-          "date": "2026-05-24"
+          "class": "B",
+          "source": "https://github.com/addyosmani/agent-skills",
+          "evaluator": "mbtiongson1",
+          "date": "2026-05-31",
+          "notes": "Addy Osmani's agent-skills repo (47k stars) contains performance-optimization, code-review-and-quality, security-and-hardening and other skills that compose a web quality audit workflow. The prior URL (addyosmani/web-quality-skills) was a non-existent repo — corrected to the verified canonical repo."
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-24",
-      "updatedAt": "2026-05-29",
+      "updatedAt": "2026-05-31",
       "version": "0.1.0",
       "timeline": [
         {
@@ -10981,6 +11008,12 @@
           "action": "type_change",
           "contributor": "unknown",
           "details": "Reclassified from unique to extra"
+        },
+        {
+          "timestamp": "2026-05-31T02:15:44Z",
+          "action": "evidence_added",
+          "contributor": "mbtiongson1",
+          "details": "Replaced broken evidence URL (addyosmani/web-quality-skills — non-existent repo) with verified canonical source (addyosmani/agent-skills, 47k stars). Downgraded from Class A to Class B (Class A requires 10k+ stars AND verified repo-level adoption; bare repo URL does not meet §2.1 specificity requirement). Updated description from stub to meaningful copy."
         }
       ]
     },

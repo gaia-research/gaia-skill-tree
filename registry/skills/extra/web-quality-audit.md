@@ -8,7 +8,7 @@
 ---
 
 ## Description
-Comprehensive web quality audit.
+Orchestrates a multi-axis web quality audit covering performance (Core Web Vitals), accessibility (WCAG), SEO, and best practices, producing actionable remediation plans from Lighthouse and real-user data.
 
 ## Prerequisites
 - [Gaia Meta Audit](../extra/registry-health-scan.md)
@@ -26,7 +26,7 @@ _None specified._
 ## Evidence
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
-| A | https://github.com/addyosmani/web-quality-skills | addyosmani | 2026-05-24 |
+| B | https://github.com/addyosmani/agent-skills | mbtiongson1 | 2026-05-31 |
 
 ## Known Agents
 _None verified yet._

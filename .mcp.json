@@ -3,7 +3,12 @@
     "gaia": {
       "type": "stdio",
       "command": "node",
-      "args": ["packages/mcp/dist/bin/gaia-mcp.js"]
+      "args": [
+        "packages/mcp/dist/bin/gaia-mcp.js"
+      ],
+      "env": {
+        "GAIA_USER": "your-github-username"
+      }
     }
   }
 }

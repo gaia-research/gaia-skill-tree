@@ -18,7 +18,7 @@ export async function propose(input: ProposeInput): Promise<string> {
   const token = process.env.GITHUB_TOKEN ?? process.env.GH_TOKEN;
 
   if (!user) {
-    return "No Gaia user configured. Set GAIA_USER environment variable.";
+    return "No Gaia user configured. Set GAIA_USER in your environment or .mcp.json env block, OR create a .gaia/config.json file with a \"gaiaUser\" field at the repo root.";
   }
   if (!token) {
     return "No GitHub token found. Set GITHUB_TOKEN or GH_TOKEN environment variable to open PRs.";

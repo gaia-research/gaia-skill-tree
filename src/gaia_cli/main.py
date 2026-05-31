@@ -51,7 +51,15 @@ from gaia_cli.registry import (
     resolve_registry_path,
     write_global_registry,
 )
-from gaia_cli.pathEngine import compute_paths, load_paths, save_paths, diff_paths
+from gaia_cli.pathEngine import (
+    compute_paths,
+    load_paths,
+    save_paths,
+    diff_paths,
+    render_unlock_path,
+    _path_tree_to_dict,
+    unlock_path,
+)
 from gaia_cli.cardRenderer import (
     render_card,
     render_appraise_card,
@@ -137,6 +145,7 @@ Quick usage:
   gaia skills info <skill_id> [--exclude-pending]
   gaia skills install <skill> [--global | --local]
   gaia skills uninstall <skill_id>
+  gaia path <skillId> [--owned-only] [--json]
 """
 
 SKILLS_USAGE = """\
@@ -169,6 +178,7 @@ PUBLIC_COMMANDS = (
     "fuse",
     "docs",
     "lookup",
+    "path",
     "dev",
     "validate",
     "test",
@@ -857,6 +867,53 @@ def paths_command(args):
         if len(one_away) > 8:
             print(f"  ... and {len(one_away) - 8} more")
         print()
+
+
+def path_command(args):
+    """Print a prerequisite unlock-path tree toward a target skill.
+
+    Accepts canonical IDs or slash-form IDs (leading slash is stripped).
+    Exits with code 1 when the skill ID is unknown or a cycle is detected.
+    """
+    graph_path = registry_graph_path(args.registry)
+    if not os.path.exists(graph_path):
+        print("Registry graph not found.", file=sys.stderr)
+        sys.exit(1)
+
+    with open(graph_path, "r", encoding="utf-8") as f:
+        graph_data = json.load(f)
+
+    # Accept /skill-id form and plain id form.
+    skill_id = args.skillId.strip().lstrip("/")
+
+    # Resolve owned skills from user tree.
+    config = load_config() or {}
+    username = config.get("gaiaUser") or ""
+    tree = load_tree(username, registry_path=args.registry) if username else None
+    owned_ids: set[str] = set()
+    if tree:
+        owned_ids = {s["skillId"] for s in tree.get("unlockedSkills", []) if s.get("skillId")}
+
+    use_json = getattr(args, "json", False)
+    owned_only = getattr(args, "owned_only", False)
+
+    try:
+        if use_json:
+            from gaia_cli.pathEngine import unlock_path, _path_tree_to_dict
+            tree_node = unlock_path(graph_data, skill_id, owned_ids)
+            skill_map = {s["id"]: s for s in graph_data.get("skills", [])}
+            out = {
+                "skillId": skill_id,
+                "ownedIds": sorted(owned_ids),
+                "tree": _path_tree_to_dict(tree_node, skill_map),
+            }
+            print(json.dumps(out, indent=2, ensure_ascii=False))
+        else:
+            text = render_unlock_path(graph_data, skill_id, owned_ids, owned_only=owned_only)
+            print(text)
+    except ValueError as exc:
+        print(str(exc), file=sys.stderr)
+        sys.exit(1)
 
 
 def hook_command(args):
@@ -1563,7 +1620,24 @@ def get_parser():
     docs_build.add_argument('--check', action='store_true', help="Fail if docs are stale without writing")
     lookup_parser = subparsers.add_parser('lookup', help="Look up a canonical skill and its named implementations")
     lookup_parser.add_argument('skillId', help='Skill ID to inspect')
-    
+
+    path_parser = subparsers.add_parser(
+        'path',
+        help="Show prerequisite unlock-path tree toward a target skill",
+    )
+    path_parser.add_argument('skillId', help="Canonical skill ID (or /slash-form) to build the path toward")
+    path_parser.add_argument(
+        '--owned-only',
+        action='store_true',
+        dest='owned_only',
+        help="Prune already-owned branches; show only skills still needed",
+    )
+    path_parser.add_argument(
+        '--json',
+        action='store_true',
+        help="Emit machine-readable JSON instead of the tree display",
+    )
+
     dev_parser = subparsers.add_parser('dev', help="Registry development and maintenance (requires writable registry)")
     dev_sub = dev_parser.add_subparsers(dest='dev_command')
 
@@ -1847,6 +1921,8 @@ def main():
         else:
             _, subparsers = get_parser()
             subparsers.choices['dev'].print_help()
+    elif args.command == 'path':
+        path_command(args)
     elif args.command == 'validate':
         validate_command(args)
     elif args.command == 'test':

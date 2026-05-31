@@ -1,6 +1,7 @@
 import { readFileSync, existsSync } from "node:fs";
-import { join } from "node:path";
+import { join, dirname } from "node:path";
 import { homedir } from "node:os";
+import { fileURLToPath } from "node:url";
 import type { GaiaConfig } from "../graph/types.js";
 
 function parseGaiaConfig(raw: string): Partial<GaiaConfig> {
@@ -19,19 +20,53 @@ function parseGaiaConfig(raw: string): Partial<GaiaConfig> {
   return config;
 }
 
+/**
+ * Walk up the directory tree starting from `startDir`, looking for a
+ * `.gaia/config.toml` or `.gaia/config.json` file. Returns the first config
+ * found, or null if none exists before the filesystem root.
+ */
+function walkUpForConfig(startDir: string): Partial<GaiaConfig> | null {
+  let current = startDir;
+  while (true) {
+    const tomlPath = join(current, ".gaia", "config.toml");
+    if (existsSync(tomlPath)) {
+      try {
+        return parseGaiaConfig(readFileSync(tomlPath, "utf-8"));
+      } catch {}
+    }
+    const jsonPath = join(current, ".gaia", "config.json");
+    if (existsSync(jsonPath)) {
+      try {
+        return JSON.parse(readFileSync(jsonPath, "utf-8"));
+      } catch {}
+    }
+
+    const parent = dirname(current);
+    if (parent === current) {
+      // Reached the filesystem root without finding a config
+      break;
+    }
+    current = parent;
+  }
+  return null;
+}
+
+/**
+ * Locate `.gaia/config.*` by walking up from the module's own location
+ * (reliable regardless of cwd), then fall back to process.cwd() if the
+ * module-relative walk finds nothing.
+ */
 function readLocalConfig(): Partial<GaiaConfig> | null {
-  const tomlPath = join(process.cwd(), ".gaia", "config.toml");
-  if (existsSync(tomlPath)) {
-    try {
-      return parseGaiaConfig(readFileSync(tomlPath, "utf-8"));
-    } catch {}
-  }
-  const jsonPath = join(process.cwd(), ".gaia", "config.json");
-  if (existsSync(jsonPath)) {
-    try {
-      return JSON.parse(readFileSync(jsonPath, "utf-8"));
-    } catch {}
-  }
+  // Primary: walk up from the directory that contains this compiled module file.
+  // This resolves correctly even when the MCP host sets cwd to something unrelated.
+  const moduleDir = dirname(fileURLToPath(import.meta.url));
+  const fromModule = walkUpForConfig(moduleDir);
+  if (fromModule) return fromModule;
+
+  // Fallback: walk up from process.cwd() for back-compat with direct repo-root usage.
+  const fromCwd = walkUpForConfig(process.cwd());
+  if (fromCwd) return fromCwd;
+
   return null;
 }
 
@@ -93,7 +128,18 @@ export function resolveRegistryPath(): string | null {
     return defaultReg;
   }
 
-  // Check if CWD is a registry
+  // Check if the module's walk-up root contains a registry, then fall back to CWD.
+  const moduleDir = dirname(fileURLToPath(import.meta.url));
+  let current = moduleDir;
+  while (true) {
+    if (existsSync(join(current, "registry", "gaia.json"))) {
+      return current;
+    }
+    const parent = dirname(current);
+    if (parent === current) break;
+    current = parent;
+  }
+
   const cwd = process.cwd();
   if (existsSync(join(cwd, "registry", "gaia.json"))) {
     return cwd;

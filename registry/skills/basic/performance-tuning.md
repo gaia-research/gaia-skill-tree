@@ -20,6 +20,7 @@ _None._
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | B | https://github.com/ruvnet/ruflo | mbtiongson1 | 2026-05-19 |
+| A | https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md | mbtiongson1 | 2026-05-31 |
 
 ## Known Agents
 _None verified yet._

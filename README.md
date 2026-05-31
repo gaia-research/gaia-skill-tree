@@ -227,13 +227,13 @@ Requires `textual` (included with `pip install gaia-cli`).
 <!-- gaia:cli-start -->
 ```text
 usage: gaia [-h] [--registry REGISTRY] [--global] [--version]
-            {help,init,scan,pull,update,install,uninstall,tree,push,propose,version,mcp,release,graph,stats,appraise,promote,fuse,docs,lookup,dev,validate,test,skills}
+            {help,init,scan,pull,update,install,uninstall,tree,push,propose,version,mcp,release,graph,stats,appraise,promote,fuse,docs,lookup,path,dev,validate,test,skills}
             ...
 
 Gaia Registry CLI
 
 positional arguments:
-  {help,init,scan,pull,update,install,uninstall,tree,push,propose,version,mcp,release,graph,stats,appraise,promote,fuse,docs,lookup,dev,validate,test,skills}
+  {help,init,scan,pull,update,install,uninstall,tree,push,propose,version,mcp,release,graph,stats,appraise,promote,fuse,docs,lookup,path,dev,validate,test,skills}
     help                Show command help
     init                Create or update local Gaia config
     scan                Scan configured paths and installed skills for skill evidence
@@ -254,6 +254,7 @@ positional arguments:
     fuse                Confirm a skill combination or promotion candidate
     docs                Documentation maintenance commands
     lookup              Look up a canonical skill and its named implementations
+    path                Show prerequisite unlock-path tree toward a target skill
     dev                 Registry development and maintenance (requires writable registry)
     validate            Validate the Gaia registry
     test                Run self-verification tests
@@ -308,6 +309,7 @@ Quick usage:
   gaia skills info <skill_id> [--exclude-pending]
   gaia skills install <skill> [--global | --local]
   gaia skills uninstall <skill_id>
+  gaia path <skillId> [--owned-only] [--json]
 
 ```
 <!-- gaia:cli-end -->
