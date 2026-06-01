@@ -61,27 +61,27 @@
     color: var(--muted, #64748b); font-size: .9rem;
   }
 
-  /* Three-column layout */
+  /* Four-column layout */
   .starless-layout {
-    display: grid; grid-template-columns: 40px 1fr 300px; gap: 2rem;
+    display: grid; grid-template-columns: 30px 1fr 180px 30px; gap: 1.5rem;
     margin-bottom: 3rem;
   }
 
   /* Alphabetical index sidebar */
   .starless-alpha {
-    display: flex; flex-direction: column; gap: .1rem; position: sticky; top: 100px;
-    font-size: .7rem; text-transform: uppercase; font-family: var(--font-mono);
-    font-weight: 500;
+    display: flex; flex-direction: column; gap: .08rem; position: sticky; top: 100px;
+    font-size: .65rem; text-transform: uppercase; font-family: var(--font-mono);
+    font-weight: 500; height: fit-content;
   }
 
   .starless-alpha-letter {
-    width: 30px; padding: .3rem 0; text-align: center; cursor: pointer;
-    color: var(--muted, #64748b); transition: color .2s;
+    padding: .2rem 0; text-align: center; cursor: pointer;
+    color: var(--muted, #64748b); transition: color .2s; line-height: 1;
   }
 
   .starless-alpha-letter.active { color: var(--tier-basic, #38bdf8); font-weight: 700; }
   .starless-alpha-letter:hover { color: var(--text, #e2e8f0); }
-  .starless-alpha-letter.empty { cursor: default; opacity: .3; }
+  .starless-alpha-letter.empty { cursor: default; opacity: .2; }
 
   /* Main list */
   .starless-list {
@@ -110,66 +110,39 @@
 
   .starless-entry.empty .starless-entry-badge { display: none; }
 
-  /* Named skills panel */
-  .starless-panel {
-    position: sticky; top: 100px; max-height: calc(100vh - 120px); overflow-y: auto;
-    padding: 1rem; background-color: var(--surface, #0f172a); border: 1px solid var(--border, #1e293b);
-    border-radius: 6px; display: flex; flex-direction: column;
+  /* Named skills column */
+  .starless-named-col {
+    display: flex; flex-direction: column; gap: 0; overflow-y: auto; max-height: auto;
   }
 
-  .starless-panel.hidden { display: none; }
-
-  .starless-panel-header {
-    font-weight: 600; color: var(--text, #e2e8f0); margin-bottom: 1rem;
-    border-bottom: 1px solid var(--border, #1e293b); padding-bottom: .75rem;
-    font-size: .95rem;
+  .starless-named-item {
+    padding: .4rem 0; border-bottom: 1px solid rgba(30, 41, 59, .4);
+    display: flex; flex-direction: column; gap: .1rem; font-size: .75rem;
   }
 
-  .starless-panel-content {
-    flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: .5rem;
-  }
-
-  .starless-named-row {
-    padding: .5rem; border-bottom: 1px solid rgba(30, 41, 59, .5);
-    display: grid; grid-template-columns: 1fr auto auto;
-    gap: .5rem; align-items: baseline; font-size: .85rem;
-  }
-
-  .starless-named-row:last-child { border-bottom: none; }
-
-  .starless-named-name {
-    color: var(--text, #e2e8f0); font-weight: 500;
-  }
+  .starless-named-item:last-child { border-bottom: none; }
 
   .starless-named-contributor {
     color: var(--honor-red, #ef4444); font-family: var(--font-mono);
-    font-size: .75rem; text-align: right;
+    font-weight: 600;
   }
 
-  .starless-named-level {
-    color: var(--tier-basic, #38bdf8); font-family: var(--font-mono);
-    font-size: .8rem; text-align: right;
-  }
-
-  .starless-panel-empty {
-    color: var(--muted, #64748b); font-style: italic; text-align: center;
-    padding: 2rem 0; font-size: .9rem;
+  .starless-named-skill {
+    color: var(--text, #e2e8f0); font-weight: 500; font-size: .8rem;
   }
 
   /* Mobile responsive */
-  @media (max-width: 1024px) {
-    .starless-layout { grid-template-columns: 1fr 250px; }
-    .starless-alpha { display: none; }
+  @media (max-width: 1200px) {
+    .starless-layout { grid-template-columns: 30px 1fr 30px; }
+    .starless-named-col { display: none; }
   }
 
   @media (max-width: 768px) {
     .starless-layout { grid-template-columns: 1fr; }
+    .starless-alpha { display: none; }
+    .starless-named-col { display: none; }
     .starless-controls { gap: .5rem; }
     .starless-export-btn { white-space: nowrap; }
-    .starless-panel {
-      position: static; max-height: none; margin-top: 2rem;
-    }
-    .starless-panel.hidden { display: none; }
   }
 </style>
 </head>
@@ -218,7 +191,7 @@
                placeholder="Search generic references or named skills…" aria-label="Search starless">
         <button type="button" class="starless-search-clear" id="starlessSearchClear" aria-label="Clear search">✕</button>
       </div>
-      <button type="button" class="starless-export-btn" id="starlessExportBtn">Copy as TSV</button>
+      <button type="button" class="starless-export-btn" id="starlessExportBtn">Copy as CSV</button>
       <span class="starless-stats" id="starlessStats"></span>
     </div>
 
@@ -229,10 +202,9 @@
         <li class="starless-empty">Loading the taxonomy…</li>
       </ul>
 
-      <div class="starless-panel hidden" id="starlessPanel">
-        <div class="starless-panel-header" id="starlessPanelHeader"></div>
-        <div class="starless-panel-content" id="starlessPanelContent"></div>
-      </div>
+      <div class="starless-named-col" id="starlessNamedCol"></div>
+
+      <div class="starless-alpha" id="starlessAlphaRight"></div>
     </div>
   </section>
 </main>
@@ -282,14 +254,13 @@
       "use strict";
 
       var listEl = document.getElementById("starlessList");
-      var panelEl = document.getElementById("starlessPanel");
-      var panelHeaderEl = document.getElementById("starlessPanelHeader");
-      var panelContentEl = document.getElementById("starlessPanelContent");
+      var namedColEl = document.getElementById("starlessNamedCol");
       var searchEl = document.getElementById("starlessSearch");
       var searchClearEl = document.getElementById("starlessSearchClear");
       var exportBtn = document.getElementById("starlessExportBtn");
       var statsEl = document.getElementById("starlessStats");
       var alphaEl = document.getElementById("starlessAlpha");
+      var alphaRightEl = document.getElementById("starlessAlphaRight");
 
       var allSkills = [];
       var allBuckets = {};
@@ -311,39 +282,38 @@
         return div.innerHTML;
       }
 
-      function renderNamedPanel(skill, children) {
-        panelHeaderEl.textContent = skill.name || skill.id || "Skill";
-        panelContentEl.innerHTML = "";
+      function renderNamedColumn(skills) {
+        namedColEl.innerHTML = "";
 
-        if (!children || !children.length) {
-          var empty = document.createElement("div");
-          empty.className = "starless-panel-empty";
-          empty.appendChild(escapeText("No named implementations yet"));
-          panelContentEl.appendChild(empty);
+        if (!skills || !skills.length) {
           return;
         }
 
-        children.slice().sort(byName).forEach(function (child) {
-          var row = document.createElement("div");
-          row.className = "starless-named-row";
+        skills.slice().sort(byName).forEach(function (child) {
+          var item = document.createElement("div");
+          item.className = "starless-named-item";
 
-          var nameSpan = document.createElement("span");
-          nameSpan.className = "starless-named-name";
-          nameSpan.appendChild(escapeText(child.name || child.title || child.id || "Unnamed"));
-          row.appendChild(nameSpan);
-
-          var contribSpan = document.createElement("span");
+          var contribSpan = document.createElement("div");
           contribSpan.className = "starless-named-contributor";
-          contribSpan.appendChild(escapeText(child.contributor || "—"));
-          row.appendChild(contribSpan);
+          contribSpan.appendChild(escapeText("@" + (child.contributor || "—")));
+          item.appendChild(contribSpan);
 
-          var levelSpan = document.createElement("span");
-          levelSpan.className = "starless-named-level";
-          levelSpan.appendChild(escapeText(child.level || "—"));
-          row.appendChild(levelSpan);
+          var skillSpan = document.createElement("div");
+          skillSpan.className = "starless-named-skill";
+          var levelColor = getLevelColor(child.level);
+          skillSpan.style.color = levelColor;
+          skillSpan.appendChild(escapeText("/" + (child.name || child.title || child.id || "unnamed").toLowerCase().replace(/\s+/g, "-")));
+          item.appendChild(skillSpan);
 
-          panelContentEl.appendChild(row);
+          namedColEl.appendChild(item);
         });
+      }
+
+      function getLevelColor(level) {
+        var levelMap = {
+          "2★": "#38bdf8", "3★": "#63cab7", "4★": "#a78bfa", "5★": "#fbbf24", "6★": "#fbbf24"
+        };
+        return levelMap[level] || "#e2e8f0";
       }
 
       function renderEntry(skill, children) {
@@ -368,15 +338,17 @@
             el.classList.remove("active");
           });
           entry.classList.add("active");
-          renderNamedPanel(skill, children);
-          panelEl.classList.remove("hidden");
+          renderNamedColumn(children);
+        });
+
+        entry.addEventListener("mouseenter", function () {
+          renderNamedColumn(children);
         });
 
         return entry;
       }
 
       function renderAlphaIndex(skills) {
-        alphaEl.innerHTML = "";
         var letters = new Set();
         skills.forEach(function (skill) {
           var first = (skill.name || skill.id || "")[0].toUpperCase();
@@ -385,23 +357,31 @@
           }
         });
 
-        for (var i = 65; i <= 90; i++) {
-          var letter = String.fromCharCode(i);
-          var letterBtn = document.createElement("button");
-          letterBtn.className = "starless-alpha-letter";
-          if (!letters.has(letter)) {
-            letterBtn.className += " empty";
-            letterBtn.disabled = true;
-          }
-          letterBtn.appendChild(escapeText(letter));
-          letterBtn.addEventListener("click", function () {
-            var target = document.querySelector("[data-first='" + letter + "']");
-            if (target) {
-              target.scrollIntoView({ behavior: "smooth", block: "start" });
+        function buildAlpha(container) {
+          container.innerHTML = "";
+          for (var i = 65; i <= 90; i++) {
+            var letter = String.fromCharCode(i);
+            var letterBtn = document.createElement("button");
+            letterBtn.className = "starless-alpha-letter";
+            letterBtn.setAttribute("data-letter", letter);
+            if (!letters.has(letter)) {
+              letterBtn.className += " empty";
+              letterBtn.disabled = true;
             }
-          });
-          alphaEl.appendChild(letterBtn);
+            letterBtn.appendChild(escapeText(letter));
+            letterBtn.addEventListener("click", function (e) {
+              var l = e.target.textContent;
+              var target = document.querySelector("[data-first='" + l + "']");
+              if (target) {
+                target.scrollIntoView({ behavior: "smooth", block: "start" });
+              }
+            });
+            container.appendChild(letterBtn);
+          }
         }
+
+        buildAlpha(alphaEl);
+        buildAlpha(alphaRightEl);
       }
 
       function updateAlphaScroll() {
@@ -492,22 +472,30 @@
         updateAlphaScroll();
       }
 
-      function generateTsv() {
-        var lines = ["Generic Reference\tNamed Skill\tContributor\tLevel"];
+      function escapeCSV(value) {
+        value = String(value || "");
+        if (value.indexOf(",") !== -1 || value.indexOf('"') !== -1 || value.indexOf("\n") !== -1) {
+          return '"' + value.replace(/"/g, '""') + '"';
+        }
+        return value;
+      }
+
+      function generateCsv() {
+        var lines = ["Generic Reference,Named Skill,Contributor,Level"];
 
         filteredSkills.forEach(function (skill) {
           var children = allBuckets[skill.id] || [];
           if (children.length) {
             children.forEach(function (child) {
               lines.push([
-                skill.name || skill.id || "",
-                child.name || child.title || child.id || "",
-                child.contributor || "—",
-                child.level || "—"
-              ].join("\t"));
+                escapeCSV(skill.name || skill.id || ""),
+                escapeCSV(child.name || child.title || child.id || ""),
+                escapeCSV(child.contributor || "—"),
+                escapeCSV(child.level || "—")
+              ].join(","));
             });
           } else {
-            lines.push([(skill.name || skill.id || ""), "—", "—", "—"].join("\t"));
+            lines.push([escapeCSV(skill.name || skill.id || ""), "—", "—", "—"].join(","));
           }
         });
 
@@ -534,8 +522,8 @@
       });
 
       exportBtn.addEventListener("click", function () {
-        var tsv = generateTsv();
-        navigator.clipboard.writeText(tsv).then(function () {
+        var csv = generateCsv();
+        navigator.clipboard.writeText(csv).then(function () {
           var originalText = exportBtn.textContent;
           exportBtn.textContent = "Copied!";
           setTimeout(function () {
