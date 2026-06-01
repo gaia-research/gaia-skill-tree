@@ -5,12 +5,12 @@ contributor: mbtiongson1
 origin: true
 genericSkillRef: registry-health-scan
 status: named
-level: 3★
+level: 2★
 description: Produces a prioritized review queue of Gaia registry entries needing
   attention — flagging stale evidence, broken links, mis-classified tiers, and naming
   inconsistencies in one structured audit pass.
 createdAt: '2026-05-27'
-updatedAt: '2026-05-30'
+updatedAt: '2026-06-01'
 title: The Triage Director
 links:
   github: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-meta-audit/SKILL.md
@@ -31,6 +31,10 @@ timeline:
     must not exceed generic per META §1).
   previousValue: 4★
   newValue: 3★
+- timestamp: '2026-06-01T15:13:08Z'
+  action: demote
+  contributor: unknown
+  details: Calibrated level from 3★ to 2★
 evidence:
 - class: B
   source: https://github.com/mbtiongson1/gaia-skill-tree

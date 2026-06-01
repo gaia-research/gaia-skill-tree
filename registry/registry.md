@@ -76,7 +76,7 @@
 | ○ /genomic-data-retrieval | Basic Skill | — | `/genomic-data-retrieval` |
 | ◇ /ghostwrite | Extra Skill | — | `/ghostwrite` |
 | ◇ [ruvnet](../docs/u/ruvnet/)/github-suite | Extra Skill | 4★ | `/github-platform-mastery` |
-| ◇ [mbtiongson1](../docs/u/mbtiongson1/)/graphify-triage | Extra Skill | 3★ | `/graph-driven-issue-triage` |
+| ◇ [mbtiongson1](../docs/u/mbtiongson1/)/graphify-triage | Extra Skill | 2★ | `/graph-driven-issue-triage` |
 | ◇ [mattpocock](../docs/u/mattpocock/)/grill-me | Extra Skill | 4★ | `/grill-me` |
 | ◇ [mattpocock](../docs/u/mattpocock/)/grill-with-docs | Extra Skill | 3★ | `/grill-with-docs` |
 | ◇ /grounding | Extra Skill | — | `/grounding` |
@@ -141,9 +141,9 @@
 | ◇ [obra](../docs/u/obra/)/receiving-code-review | Extra Skill | 2★ | `/receiving-code-review` |
 | ◇ /recursive-self-improvement | Extra Skill | — | `/recursive-self-improvement` |
 | ○ [mattpocock](../docs/u/mattpocock/)/improve-codebase-architecture | Basic Skill | 3★ | `/refactor-code` |
-| ◇ [mbtiongson1](../docs/u/mbtiongson1/)/gaia-curate | Extra Skill | 4★ | `/registry-curation` |
-| ◇ [mbtiongson1](../docs/u/mbtiongson1/)/gaia-audit | Extra Skill | 3★ | `/registry-entry-audit` |
-| ◇ [mbtiongson1](../docs/u/mbtiongson1/)/gaia-meta-audit | Extra Skill | 3★ | `/registry-health-scan` |
+| ◇ [mbtiongson1](../docs/u/mbtiongson1/)/gaia-curate | Extra Skill | 2★ | `/registry-curation` |
+| ◇ [mbtiongson1](../docs/u/mbtiongson1/)/gaia-audit | Extra Skill | 2★ | `/registry-entry-audit` |
+| ◇ [mbtiongson1](../docs/u/mbtiongson1/)/gaia-meta-audit | Extra Skill | 2★ | `/registry-health-scan` |
 | ◇ [intelligentcode-ai](../docs/u/intelligentcode-ai/)/release | Extra Skill | 3★ | `/release-automation` |
 | ◇ [obra](../docs/u/obra/)/requesting-code-review | Extra Skill | 3★ | `/requesting-code-review` |
 | ○ [intelligentcode-ai](../docs/u/intelligentcode-ai/)/requirements-engineer | Basic Skill | 2★ | `/requirements-analysis` |

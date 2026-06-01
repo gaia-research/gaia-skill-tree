@@ -1,8 +1,8 @@
-# [mbtiongson1](../../../docs/u/mbtiongson1/)/gaia-curate  [4★]
+# [mbtiongson1](../../../docs/u/mbtiongson1/)/gaia-curate  [2★]
 **ID:** registry-curation  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
-**Top named variant:** 4★  
+**Top named variant:** 2★  
 **Skill Call:** `/registry-curation`
 
 ---
@@ -24,11 +24,11 @@ Requires write access to the canonical graph and a passing validation suite.
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| mbtiongson1/gaia-curate ⭑ | mbtiongson1 | 4★ | 0 |
-| mbtiongson1/gaia-bot-curate | mbtiongson1 | 3★ | 0 |
+| mbtiongson1/gaia-curate ⭑ | mbtiongson1 | 2★ | 0 |
+| mbtiongson1/gaia-bot-curate | mbtiongson1 | 2★ | 0 |
 | mbtiongson1/gaia-docs-sync | mbtiongson1 | 2★ | 0 |
-| mbtiongson1/gaia-draft-curate | mbtiongson1 | 3★ | 0 |
-| mbtiongson1/gaia-integrity | mbtiongson1 | 3★ | 0 |
+| mbtiongson1/gaia-draft-curate | mbtiongson1 | 2★ | 0 |
+| mbtiongson1/gaia-integrity | mbtiongson1 | 2★ | 0 |
 | mbtiongson1/gaia-wiki-sync | mbtiongson1 | 2★ | 0 |
 
 ## Evidence (inherited capability)
