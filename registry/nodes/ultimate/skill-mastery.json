@@ -1,13 +1,13 @@
 {
-  "id": "mattpocock-skills",
+  "id": "skill-mastery",
   "name": "mattpocock-skills",
   "type": "ultimate",
   "rarity": "common",
   "description": "Ultimate capstone suite for Matt Pocock's skills.",
   "prerequisites": [
-    "mattpocock-engineering",
-    "mattpocock-productivity",
-    "mattpocock-personal",
+    "engineering-discipline",
+    "productivity",
+    "personal",
     "tool-creation",
     "ubiquitous-language"
   ],
@@ -94,6 +94,12 @@
       "action": "evidence_added",
       "contributor": "mbtiongson1",
       "details": "Added A evidence from https://github.com/mattpocock/skills"
+    },
+    {
+      "timestamp": "2026-06-01T15:39:59Z",
+      "action": "rename",
+      "contributor": "unknown",
+      "details": "Renamed from mattpocock-skills to skill-mastery"
     }
   ]
 }

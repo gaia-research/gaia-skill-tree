@@ -1,20 +1,12 @@
 {
-  "id": "mattpocock-engineering",
-  "name": "mattpocock-engineering",
-  "type": "ultimate",
+  "id": "personal",
+  "name": "mattpocock-personal",
+  "type": "extra",
   "rarity": "common",
-  "description": "Engineering category suite for Matt Pocock's skills.",
+  "description": "Personal category suite for Matt Pocock's skills.",
   "prerequisites": [
-    "autonomous-debug",
-    "refactor-code",
-    "vertical-slice-planning",
-    "prd-generation",
-    "issue-triage",
-    "ubiquitous-language",
-    "code-explain",
-    "grill-with-docs",
-    "prototype",
-    "agent-environment-setup"
+    "document-editing",
+    "personal-knowledge-management"
   ],
   "derivatives": [],
   "evidence": [
@@ -23,7 +15,7 @@
       "source": "https://github.com/mattpocock/skills",
       "evaluator": "mbtiongson1",
       "date": "2026-05-22",
-      "notes": "Consolidated engineering suite for Matt Pocock's skills."
+      "notes": "Consolidated personal suite for Matt Pocock's skills."
     }
   ],
   "knownAgents": [],
@@ -33,10 +25,10 @@
   "version": "0.1.0",
   "timeline": [
     {
-      "timestamp": "2026-05-21T16:24:36Z",
+      "timestamp": "2026-05-21T16:25:11Z",
       "action": "add",
       "contributor": "mbtiongson1",
-      "details": "Added generic skill mattpocock-engineering"
+      "details": "Added generic skill mattpocock-personal"
     },
     {
       "timestamp": "2026-05-21T16:31:25Z",
@@ -47,7 +39,7 @@
       "newValue": "1★"
     },
     {
-      "timestamp": "2026-05-21T17:17:01Z",
+      "timestamp": "2026-05-21T17:17:41Z",
       "action": "evidence_added",
       "contributor": "mbtiongson1",
       "details": "Added B evidence from https://github.com/mattpocock/skills"
@@ -56,9 +48,9 @@
       "timestamp": "2026-05-21T17:19:20Z",
       "action": "demote",
       "contributor": "mbtiongson1",
-      "details": "Calibrated/demoted rank from 1★ to 5★",
+      "details": "Calibrated/demoted rank from 1★ to 4★",
       "previousValue": "1★",
-      "newValue": "5★"
+      "newValue": "4★"
     },
     {
       "timestamp": "2026-05-21T17:19:20Z",
@@ -66,21 +58,19 @@
       "contributor": "mbtiongson1",
       "details": "Added evidence: https://github.com/mattpocock/skills",
       "previousValue": null,
-      "newValue": "5★"
+      "newValue": "4★"
     },
     {
-      "timestamp": "2026-05-21T19:14:10Z",
+      "timestamp": "2026-05-21T19:04:11Z",
       "action": "type_change",
       "contributor": "mbtiongson1",
-      "details": "Type adjusted from extra to ultimate",
-      "previousValue": "extra",
-      "newValue": "ultimate"
+      "details": "Reclassified from ultimate to extra"
     },
     {
-      "timestamp": "2026-05-25T03:46:20Z",
-      "action": "demote",
-      "contributor": "mbtiongson1",
-      "details": "Calibrated level from 5★ to 5★"
+      "timestamp": "2026-06-01T15:39:54Z",
+      "action": "rename",
+      "contributor": "unknown",
+      "details": "Renamed from mattpocock-personal to personal"
     }
   ]
 }

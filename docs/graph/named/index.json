@@ -2976,13 +2976,13 @@
         "role": "origin"
       }
     ],
-    "mattpocock-engineering": [
+    "engineering-discipline": [
       {
         "id": "mattpocock/engineering",
         "name": "Engineering",
         "contributor": "mattpocock",
         "origin": true,
-        "genericSkillRef": "mattpocock-engineering",
+        "genericSkillRef": "engineering-discipline",
         "status": "named",
         "level": "5★",
         "description": "Engineering category suite for Matt Pocock's skills.",
@@ -3177,13 +3177,13 @@
         "role": "variant"
       }
     ],
-    "mattpocock-personal": [
+    "personal": [
       {
         "id": "mattpocock/personal",
         "name": "Personal",
         "contributor": "mattpocock",
         "origin": true,
-        "genericSkillRef": "mattpocock-personal",
+        "genericSkillRef": "personal",
         "status": "named",
         "level": "4★",
         "description": "Personal category suite for Matt Pocock's skills.",
@@ -3200,13 +3200,13 @@
         "role": "origin"
       }
     ],
-    "mattpocock-productivity": [
+    "productivity": [
       {
         "id": "mattpocock/productivity",
         "name": "Productivity",
         "contributor": "mattpocock",
         "origin": true,
-        "genericSkillRef": "mattpocock-productivity",
+        "genericSkillRef": "productivity",
         "status": "named",
         "level": "4★",
         "description": "Productivity category suite for Matt Pocock's skills.",
@@ -3287,13 +3287,13 @@
         "role": "variant"
       }
     ],
-    "mattpocock-skills": [
+    "skill-mastery": [
       {
         "id": "mattpocock/skills",
         "name": "Matt Pocock Skills",
         "contributor": "mattpocock",
         "origin": true,
-        "genericSkillRef": "mattpocock-skills",
+        "genericSkillRef": "skill-mastery",
         "status": "named",
         "level": "6★",
         "description": "The ultimate capstone suite encompassing all of Matt Pocock's engineering, productivity, and personal skills.",
@@ -5075,13 +5075,13 @@
         "role": "variant"
       }
     ],
-    "flow-nexus-orchestration": [
+    "multi-node-orchestration": [
       {
         "id": "ruvnet/flow-nexus",
         "name": "Flow Nexus",
         "contributor": "ruvnet",
         "origin": true,
-        "genericSkillRef": "flow-nexus-orchestration",
+        "genericSkillRef": "multi-node-orchestration",
         "status": "named",
         "level": "4★",
         "description": "Complete Flow Nexus platform: multi-topology swarm deployment, cloud platform management with Queen Seraphina AI assistant, and distributed neural training.",
@@ -5157,13 +5157,13 @@
         "role": "origin"
       }
     ],
-    "github-platform-mastery": [
+    "git-integration": [
       {
         "id": "ruvnet/github-suite",
         "name": "GitHub Suite",
         "contributor": "ruvnet",
         "origin": true,
-        "genericSkillRef": "github-platform-mastery",
+        "genericSkillRef": "git-integration",
         "status": "named",
         "level": "4★",
         "description": "Full GitHub platform automation fused from 5 skills — code review, multi-repo coordination, project management, release management, and workflow automation.",
@@ -5257,13 +5257,13 @@
         "role": "variant"
       }
     ],
-    "hive-mind-coordination": [
+    "distributed-consensus-coordination": [
       {
         "id": "ruvnet/hive-mind-coordination",
         "name": "Hive Mind Coordination",
         "contributor": "ruvnet",
         "origin": true,
-        "genericSkillRef": "hive-mind-coordination",
+        "genericSkillRef": "distributed-consensus-coordination",
         "status": "named",
         "level": "4★",
         "description": "Queen-led collective intelligence with Byzantine, majority, and weighted consensus mechanisms, eight worker specializations, and persistent collective SQLite memory with LRU caching.",
@@ -5424,13 +5424,13 @@
         "role": "origin"
       }
     ],
-    "ruflo": [
+    "multi-topology-orchestration": [
       {
         "id": "ruvnet/ruflo",
         "name": "Ruflo",
         "contributor": "ruvnet",
         "origin": true,
-        "genericSkillRef": "ruflo",
+        "genericSkillRef": "multi-topology-orchestration",
         "status": "named",
         "level": "6★",
         "description": "The complete Ruflo orchestration platform: flow nexus, AgentDB memory sovereignty, GitHub operations, hive-mind consensus, reasoning bank, and v3 modernization — unified at 6★ apex.",

@@ -1,5 +1,5 @@
 {
-  "id": "hive-mind-coordination",
+  "id": "distributed-consensus-coordination",
   "name": "Hive Mind Coordination",
   "type": "unique",
   "rarity": "rare",
@@ -21,6 +21,12 @@
       "details": "Skill created as 4★ (provisional)",
       "previousValue": null,
       "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-06-01T15:39:49Z",
+      "action": "rename",
+      "contributor": "unknown",
+      "details": "Renamed from hive-mind-coordination to distributed-consensus-coordination"
     }
   ]
 }

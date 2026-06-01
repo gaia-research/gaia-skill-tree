@@ -3,7 +3,7 @@ id: ruvnet/ruflo
 name: Ruflo
 contributor: ruvnet
 origin: true
-genericSkillRef: ruflo
+genericSkillRef: multi-topology-orchestration
 status: named
 title: The Agentic Sovereign
 catalogRef: ruvnet-ruflo

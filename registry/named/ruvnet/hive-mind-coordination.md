@@ -3,7 +3,7 @@ id: ruvnet/hive-mind-coordination
 name: Hive Mind Coordination
 contributor: ruvnet
 origin: true
-genericSkillRef: hive-mind-coordination
+genericSkillRef: distributed-consensus-coordination
 status: named
 title: Queen Seraphina's Hive
 level: 4★

@@ -68,12 +68,12 @@ Every AI agent capability exists somewhere on this graph. Skills start at the fo
   │  │  └─ ○ /computer-use
 
 Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
+  ◉ ruvnet/hive-mind-coordination  [4★]
   ◉ nousresearch/feed-monitoring  [4★]
   ◉ huggingface/huggingface-llm-trainer  [3★]
-  ◉ ruvnet/hive-mind-coordination  [4★]
   ◉ huggingface/semantic-cache  [4★]
 
-(216 skills total — see docs/tree.md)
+(215 skills total — see docs/tree.md)
 ```
 <!-- gaia:registry-end -->
 

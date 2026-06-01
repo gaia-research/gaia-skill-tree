@@ -1,12 +1,14 @@
 {
-  "id": "mattpocock-personal",
-  "name": "mattpocock-personal",
+  "id": "productivity",
+  "name": "mattpocock-productivity",
   "type": "extra",
   "rarity": "common",
-  "description": "Personal category suite for Matt Pocock's skills.",
+  "description": "Productivity category suite for Matt Pocock's skills.",
   "prerequisites": [
-    "document-editing",
-    "personal-knowledge-management"
+    "agent-handoff",
+    "context-compression",
+    "grill-me",
+    "tool-creation"
   ],
   "derivatives": [],
   "evidence": [
@@ -15,7 +17,7 @@
       "source": "https://github.com/mattpocock/skills",
       "evaluator": "mbtiongson1",
       "date": "2026-05-22",
-      "notes": "Consolidated personal suite for Matt Pocock's skills."
+      "notes": "Consolidated productivity suite for Matt Pocock's skills."
     }
   ],
   "knownAgents": [],
@@ -25,10 +27,10 @@
   "version": "0.1.0",
   "timeline": [
     {
-      "timestamp": "2026-05-21T16:25:11Z",
+      "timestamp": "2026-05-21T16:24:53Z",
       "action": "add",
       "contributor": "mbtiongson1",
-      "details": "Added generic skill mattpocock-personal"
+      "details": "Added generic skill mattpocock-productivity"
     },
     {
       "timestamp": "2026-05-21T16:31:25Z",
@@ -39,7 +41,7 @@
       "newValue": "1★"
     },
     {
-      "timestamp": "2026-05-21T17:17:41Z",
+      "timestamp": "2026-05-21T17:17:21Z",
       "action": "evidence_added",
       "contributor": "mbtiongson1",
       "details": "Added B evidence from https://github.com/mattpocock/skills"
@@ -65,6 +67,12 @@
       "action": "type_change",
       "contributor": "mbtiongson1",
       "details": "Reclassified from ultimate to extra"
+    },
+    {
+      "timestamp": "2026-06-01T15:39:57Z",
+      "action": "rename",
+      "contributor": "unknown",
+      "details": "Renamed from mattpocock-productivity to productivity"
     }
   ]
 }
