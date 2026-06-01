@@ -23,10 +23,11 @@ body[data-arail="right"] footer { padding-right: var(--arail-w); }
 body[data-arail="left"] main,
 body[data-arail="left"] footer { padding-left: var(--arail-w); }
 
+/* Wide, transparent, click-through host: gives magnified letters room to pop
+   without being clipped. Only the narrow track inside it is interactive. */
 .arail {
-  position: fixed; top: 0; bottom: 0; width: var(--arail-w);
-  z-index: 60; overflow: hidden; touch-action: none;
-  user-select: none; -webkit-user-select: none;
+  position: fixed; top: 0; bottom: 0; width: 168px;
+  z-index: 60; pointer-events: none;
   /* fade the strip out at the top and bottom so letters float off-screen */
   -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 13%, #000 87%, transparent 100%);
           mask-image: linear-gradient(to bottom, transparent 0, #000 13%, #000 87%, transparent 100%);
@@ -35,13 +36,15 @@ body[data-arail="left"] footer { padding-left: var(--arail-w); }
 .arail[data-side="left"]  { left: 0; }
 
 .arail-track {
-  position: absolute; left: 0; right: 0; top: 0;
+  position: absolute; top: 0; width: var(--arail-w);
   display: flex; flex-direction: column;
-  transition: transform .32s cubic-bezier(.22, 1, .36, 1);
+  pointer-events: auto; touch-action: none;
+  user-select: none; -webkit-user-select: none;
+  transition: transform .2s cubic-bezier(.22, 1, .36, 1);
   will-change: transform;
 }
-.arail[data-side="right"] .arail-track { align-items: flex-end;  padding-right: 7px; }
-.arail[data-side="left"]  .arail-track { align-items: flex-start; padding-left: 7px; }
+.arail[data-side="right"] .arail-track { right: 0; align-items: flex-end;  padding-right: 7px; }
+.arail[data-side="left"]  .arail-track { left: 0;  align-items: flex-start; padding-left: 7px; }
 
 .arail-letter {
   position: relative; height: 15px; min-height: 15px;

@@ -237,16 +237,30 @@
       // ledger to that letter's group; scroll position feeds back via setActive.
       var rail = new AlphaRail({
         side: "right",
-        onSelect: function (L) {
+        onSelect: function (L, instant) {
           var t = document.getElementById("L-" + L);
-          if (t) t.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "start" });
+          if (t) t.scrollIntoView({ behavior: (instant || REDUCED) ? "auto" : "smooth", block: "start" });
         }
       });
+
+      // Continuous scroll-follow: map the viewport centre's position within the
+      // ledger to 0..1 and let the rail glide to match (no aggressive snapping).
+      var followQueued = false;
+      function syncRail(instant) {
+        var r = ledgerEl.getBoundingClientRect();
+        if (r.height <= 0) return;
+        var p = (window.innerHeight / 2 - r.top) / r.height;
+        rail.follow(p, instant);
+      }
+      window.addEventListener("scroll", function () {
+        if (followQueued) return;
+        followQueued = true;
+        requestAnimationFrame(function () { followQueued = false; syncRail(false); });
+      }, { passive: true });
 
       var allSkills = [];     // starless generic refs
       var buckets   = {};     // id -> [named skills]
       var hideEmpty = false;
-      var observer  = null;
 
       function nameOf(x) { return (x && (x.name || x.title || x.id)) || ""; }
       function byName(a, b) {
@@ -370,19 +384,8 @@
         });
 
         rail.render(counts);
-        observeLetters();
         updateStats(view);
-      }
-
-      // Feed scroll position back to the rail so the active letter recenters.
-      function observeLetters() {
-        if (observer) observer.disconnect();
-        observer = new IntersectionObserver(function (entries) {
-          entries.forEach(function (e) {
-            if (e.isIntersecting) rail.setActive(e.target.getAttribute("data-letter"));
-          });
-        }, { rootMargin: "-8% 0px -88% 0px", threshold: 0 });
-        ledgerEl.querySelectorAll(".sl-letter").forEach(function (h) { observer.observe(h); });
+        syncRail(true);
       }
 
       function updateStats(view) {
