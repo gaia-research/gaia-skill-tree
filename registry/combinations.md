@@ -29,16 +29,15 @@
 | ◇ [garrytan](../docs/u/garrytan/)/design-shotgun | Extra Skill | Evaluate Output, Plan and Decompose | 4★ |  |
 | ◇ [Manavarya09](../docs/u/Manavarya09/)/design-extract | Extra Skill | Browser Automation, Parse HTML | 4★ | Requires headless browser (Playwright/Puppeteer). |
 | ◇ [garrytan](../docs/u/garrytan/)/canary | Extra Skill | Evaluate Output, Error Interpretation | 4★ |  |
-| ◇ /dify-agent-suite | Extra Skill | Code Review Pipeline, Refactor Code, Automated Testing, End-to-End Testing | — |  |
 | ◇ [obra](../docs/u/obra/)/dispatching-parallel-agents | Extra Skill | Plan and Decompose, Parallel Execution | 4★ |  |
 | ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus-neural | Extra Skill | Parallel Execution, Embed Text | 3★ |  |
 | ◇ [ruvnet](../docs/u/ruvnet/)/agentdb-advanced | Extra Skill | Vector Search, Memory Manage | 3★ |  |
 | ◇ /document-analyst | Extra Skill | Extract Entities, Format Output, OCR, Parse JSON, Parse PDF, Summarize | — |  |
 | ◇ [ruvnet](../docs/u/ruvnet/)/dual-mode | Extra Skill | Headless Worker Spawn, Headless Worker Collect, Hybrid Workflow Coordination | 3★ |  |
 | ◇ [garrytan](../docs/u/garrytan/)/qa-only | Extra Skill | Browser Automation, Automated Testing | 4★ | Requires a live or containerised target environment; browser automation must be available. |
+| ◆ [mattpocock](../docs/u/mattpocock/)/engineering | Ultimate Skill | Autonomous Debug, Refactor Code, Vertical Slice Planning, PRD Generation, Issue Triage, Ubiquitous Language, Code Explain, Grill With Docs, prototype, agent-environment-setup | 5★ |  |
 | ◇ [obra](../docs/u/obra/)/executing-plans | Extra Skill | Writing Plans, Tool Use | 2★ |  |
 | ◇ [obra](../docs/u/obra/)/finishing-a-development-branch | Extra Skill | Code Review Pipeline, Diff Content | 4★ |  |
-| ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus | Extra Skill | Multi-Agent Orchestration, Cloud Platform Management, Distributed Neural Training | 4★ |  |
 | ◇ /full-stack-developer | Extra Skill | Code Review Pipeline, Automated Testing, Refactor Code | — | Requires access to repository, execution environment, and test runner. Minimum 3 Class A/B evidence sources. |
 | ◇ /function-calling | Extra Skill | Structured Output Generation, API Call, Tool Select | — | Requires an available function or tool catalog with machine-readable argument schemas and result contracts. |
 | ◇ /generative-media | Extra Skill | API Call, Data Visualize | — |  |
@@ -56,10 +55,6 @@
 | ◇ [garrytan](../docs/u/garrytan/)/setup-gbrain | Extra Skill | API Call, Retrieve | 2★ |  |
 | ◇ [huggingface](../docs/u/huggingface/)/huggingface-papers | Extra Skill | Cite Sources, Literature Search, Research, Summarize | 2★ | Requires access to academic databases (PubMed, bioRxiv, ChEMBL, or equivalent). |
 | ◇ /mathematical-animation | Extra Skill | Code Execution, Data Visualize | — |  |
-| ◆ [mattpocock](../docs/u/mattpocock/)/engineering | Ultimate Skill | Autonomous Debug, Refactor Code, Vertical Slice Planning, PRD Generation, Issue Triage, Ubiquitous Language, Code Explain, Grill With Docs, prototype, agent-environment-setup | 5★ |  |
-| ◇ [mattpocock](../docs/u/mattpocock/)/personal | Extra Skill | Document Editing, personal-knowledge-management | 4★ |  |
-| ◇ [mattpocock](../docs/u/mattpocock/)/productivity | Extra Skill | agent-handoff, Context Compression, Grill Me, Tool Creation | 4★ |  |
-| ◆ [mattpocock](../docs/u/mattpocock/)/skills | Ultimate Skill | mattpocock-engineering, mattpocock-productivity, mattpocock-personal, Tool Creation, Ubiquitous Language | 6★ |  |
 | ◇ /mcp-debugger-control | Extra Skill | MCP Integration, Refactor Code | — | Requires a target debugger integration and a supported MCP client. |
 | ◇ /mcp-server-creation | Extra Skill | MCP Integration, Tool Creation, API Call | — | Requires an integration target, a supported MCP SDK, tool schemas, authentication handling, and local validation against an MCP client. |
 | ◇ [garrytan](../docs/u/garrytan/)/learn | Extra Skill | Context Compression, Retrieve | 3★ |  |
@@ -67,12 +62,16 @@
 | ◇ /ml-pipeline | Extra Skill | Data Analysis, Automated Testing, Code Generation | — | Requires access to a container orchestration environment and model registry. |
 | ◇ [garrytan](../docs/u/garrytan/)/codex | Extra Skill | Self-Critique, Evaluate Output, Chain-of-Thought Reasoning | 3★ |  |
 | ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus-swarm | Extra Skill | Plan and Execute, Route Intent, Tool Select | 3★ | Requires extensive multi-system validation before level advancement. |
+| ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus | Extra Skill | Multi-Agent Orchestration, Cloud Platform Management, Distributed Neural Training | 4★ |  |
+| ◆ [ruvnet](../docs/u/ruvnet/)/ruflo | Ultimate Skill | Flow Nexus Orchestration, Agent Memory Platform, GitHub Platform Mastery, Reasoning Pattern Bank, Platform Modernization Sprint, Dual Mode | 6★ | Requires demonstrating all 6 Ruflo suite fusions together in a production multi-agent context. Grandmaster Path: 34k+ stars on ruvnet/ruflo + agent-memory-platform 5★ Ultimate. |
 | ◇ [huggingface](../docs/u/huggingface/)/transformers-js | Extra Skill | Image Caption, Question Answer, Logical Inference | 2★ | Requires vision-language model capability. |
+| ◇ [mattpocock](../docs/u/mattpocock/)/personal | Extra Skill | Document Editing, personal-knowledge-management | 4★ |  |
 | ◇ [mattpocock](../docs/u/mattpocock/)/obsidian-vault | Extra Skill | Retrieve, Context Compression | 3★ |  |
 | ◇ /plan-and-execute | Extra Skill | Route Intent, Plan and Decompose, Tool Select | — |  |
 | ◇ [ruvnet](../docs/u/ruvnet/)/ruflo-v3 | Extra Skill | CLI Modernization, Core Platform Implementation, System Integration, Performance Tuning, Advanced Swarm Coordination | 4★ |  |
 | ◇ [mattpocock](../docs/u/mattpocock/)/to-prd | Extra Skill | Write Report, Plan and Decompose | 2★ |  |
 | ◇ /prediction-market-analysis | Extra Skill | Data Analysis, Web Search, Statistical Analysis | — | Requires read-only market data sources and clear separation between analysis output and financial advice or trade execution. |
+| ◇ [mattpocock](../docs/u/mattpocock/)/productivity | Extra Skill | agent-handoff, Context Compression, Grill Me, Tool Creation | 4★ |  |
 | ◇ [garrytan](../docs/u/garrytan/)/landing-report | Extra Skill | API Call, Issue Triage | 2★ |  |
 | ◇ [stanfordnlp](../docs/u/stanfordnlp/)/dspy | Extra Skill | Evaluate Output, Generate Text | 3★ |  |
 | ◇ [mattpocock](../docs/u/mattpocock/)/prototype | Extra Skill | Code Generation, Code Execution | 3★ |  |
@@ -88,12 +87,12 @@
 | ◇ [intelligentcode-ai](../docs/u/intelligentcode-ai/)/release | Extra Skill | Workflow Automation, Code Execution, Generate Text | 3★ | Requires write access to the repository and a configured release token. |
 | ◇ [obra](../docs/u/obra/)/requesting-code-review | Extra Skill | Code Review Pipeline, Dispatching Parallel Agents | 3★ |  |
 | ◇ /research | Extra Skill | Web Search, Summarize, Cite Sources | — |  |
-| ◆ [ruvnet](../docs/u/ruvnet/)/ruflo | Ultimate Skill | Flow Nexus Orchestration, Agent Memory Platform, GitHub Platform Mastery, Reasoning Pattern Bank, Platform Modernization Sprint, Dual Mode | 6★ | Requires demonstrating all 6 Ruflo suite fusions together in a production multi-agent context. Grandmaster Path: 34k+ stars on ruvnet/ruflo + agent-memory-platform 5★ Ultimate. |
 | ◇ /scientific-discovery | Extra Skill | Computational Biology Workflows, Hypothesis Generation, Math Reason, Research | — | Requires laboratory tool access or simulation environment. Minimum 3 Class A/B evidence sources. |
 | ◇ /scientific-writing | Extra Skill | Write Report, Cite Sources, Scientific Visualization | — |  |
 | ◇ /search-engine-optimization | Extra Skill | Parse HTML, Parse JSON | — |  |
 | ◇ [garrytan](../docs/u/garrytan/)/cso | Extra Skill | Code Review Pipeline, Evaluate Output | 4★ | Requires access to the full codebase or diff; output must include severity classification and reproduction steps. |
 | ◇ [garrytan](../docs/u/garrytan/)/skillify | Extra Skill | Generate Text, Structured Output Generation, Code Generation | 4★ | Requires a target agent skill format and a repeatable evaluation loop for trigger accuracy and task success. |
+| ◆ [mattpocock](../docs/u/mattpocock/)/skills | Ultimate Skill | mattpocock-engineering, mattpocock-productivity, mattpocock-personal, Tool Creation, Ubiquitous Language | 6★ |  |
 | ◇ [garrytan](../docs/u/garrytan/)/benchmark-models | Extra Skill | Agent Evaluation, Skill Discovery, Statistical Analysis | 3★ | Requires a skill corpus, benchmark tasks, success rubrics, and variance-aware reporting across multiple runs. |
 | ◇ /skill-security-analysis | Extra Skill | Security Audit, Prompt Injection Defense, Skill Discovery | — | Requires access to the skill manifest, referenced files, source repository context, and a policy for trusted permissions. |
 | ◇ /stealth-browser-interaction | Extra Skill | Browser Automation, Computer Use | — | Requires a stealth-enabled browser driver and session management infrastructure. |

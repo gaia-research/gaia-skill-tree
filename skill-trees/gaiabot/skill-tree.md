@@ -16,7 +16,7 @@
 | ◇ Plan and Execute | Extra Skill | 3★ | Evolved | local-repo | 2026-04-26 |
 | ○ gaiabot/gaia-triage | Basic Skill | 2★ | Named | gaiabot/gaia-skill-tree | 2026-05-25T00:00:00Z |
 | ○ gaiabot/repo-docs-before-pr | Basic Skill | 2★ | Named | gaiabot/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ◇ Dify Agent Suite | Extra Skill | 2★ | Named | gaiabot/gaia-skill-tree | 2026-05-20T23:14:03Z |
+| ○ dify-agent-suite | Basic Skill | 2★ | Named | gaiabot/gaia-skill-tree | 2026-05-20T23:14:03Z |
 
 ---
 
@@ -318,9 +318,9 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
 ══════════════════════════════════════════════════════════════════════
 
+  · ◉ ruvnet/hive-mind-coordination  [4★]
   · ◉ nousresearch/feed-monitoring  [4★]
   · ◉ huggingface/huggingface-llm-trainer  [3★]
-  · ◉ ruvnet/hive-mind-coordination  [4★]
   · ◉ huggingface/semantic-cache  [4★]
 
 ══════════════════════════════════════════════════════════════════════
