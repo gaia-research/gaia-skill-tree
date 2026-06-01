@@ -27,6 +27,12 @@
     opts = opts || {};
     this.side = opts.side === "left" ? "left" : "right";
     this.onSelect = typeof opts.onSelect === "function" ? opts.onSelect : function () {};
+    // Optional continuous-scrub hooks. When onScrub is supplied, dragging the
+    // rail reports a smooth 0..1 progress instead of snapping to the nearest
+    // marker — the in-between ticks become live scrub positions. Tap-to-jump
+    // (onSelect) still fires for a click without a drag.
+    this.onScrub = typeof opts.onScrub === "function" ? opts.onScrub : null;
+    this.onScrubEnd = typeof opts.onScrubEnd === "function" ? opts.onScrubEnd : function () {};
     this.tickPer = opts.tickPer || 1;        // ticks per unit of count
     this.maxScale = opts.maxScale || 2.7;    // dock peak magnification (mouse)
     this.radius = opts.radius || 82;         // px magnify falloff radius
@@ -39,6 +45,7 @@
     this._ty = 0;            // current track translateY
     this._touch = false;
     this._scrubbing = false;
+    this._dragged = false;   // pointer moved during this press (drag vs click)
     this._raf = null;
     this._pointerY = null;
     this._present = [];      // present (selectable) marker keys in order
@@ -140,7 +147,10 @@
       self._markEls[m.key] = b;
       if (!empty) {
         self._present.push(m.key);
-        b.addEventListener("click", function () { self.select(m.key, false); });
+        b.addEventListener("click", function () {
+          if (self._dragged) return;   // a drag-scrub already moved the view
+          self.select(m.key, false);
+        });
       } else {
         b.disabled = true;
       }
@@ -269,6 +279,20 @@
   };
 
   AlphaRail.prototype._scrubTo = function (y) {
+    if (!this._present.length) return;
+
+    // Continuous mode: map the pointer to a smooth 0..1 progress across the
+    // marker span and hand it back. The host suppresses follow() while the
+    // strip is held (see onScrub callers), so _ty is stable and the rail does
+    // not fight the user — the scroll glides instead of snapping to a header.
+    if (this.onScrub) {
+      var span = this._lastCenter - this._firstCenter;
+      var p = span > 0 ? ((y - this._ty) - this._firstCenter) / span : 0;
+      this.onScrub(Math.max(0, Math.min(1, p)));
+      return;
+    }
+
+    // Legacy mode: snap to the nearest present marker (A-Z rail).
     var best = null, bestD = Infinity;
     for (var i = 0; i < this._present.length; i++) {
       var L = this._present[i];
@@ -285,7 +309,7 @@
     t.addEventListener("pointermove", function (e) {
       self._touch = e.pointerType === "touch";
       self._scheduleMagnify(e.clientY);
-      if (self._scrubbing) self._scrubTo(e.clientY);
+      if (self._scrubbing) { self._dragged = true; self._scrubTo(e.clientY); }
     });
     t.addEventListener("pointerleave", function () {
       if (!self._scrubbing) self._scheduleMagnify(null);
@@ -293,6 +317,7 @@
     t.addEventListener("pointerdown", function (e) {
       self._touch = e.pointerType === "touch";
       self._scrubbing = true;
+      self._dragged = false;
       try { t.setPointerCapture(e.pointerId); } catch (_) {}
       self._scrubTo(e.clientY);
       self._scheduleMagnify(e.clientY);
@@ -303,6 +328,7 @@
       self._scrubbing = false;
       try { t.releasePointerCapture(e.pointerId); } catch (_) {}
       self._scheduleMagnify(null);          // relax magnification
+      if (self._dragged && self.onScrub) self.onScrubEnd();   // settle the rail
     }
     t.addEventListener("pointerup", end);
     t.addEventListener("pointercancel", end);

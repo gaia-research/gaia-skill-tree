@@ -41,7 +41,20 @@
     if (el) el.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "start" });
   }
 
-  var rail = new window.AlphaRail({ side: "right", onSelect: onSelect });
+  function docMax() {
+    return Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+  }
+
+  // Continuous scrub: dragging the rail scrolls the page proportionally to the
+  // pointer (the in-between ticks are live positions), rather than snapping to a
+  // header. follow() is suppressed while held (see the scroll listener) so the
+  // strip stays put and the scroll stays smooth.
+  function onScrub(p) { window.scrollTo(0, p * docMax()); }
+  function onScrubEnd() { syncRail(true); }
+
+  var rail = new window.AlphaRail({
+    side: "right", onSelect: onSelect, onScrub: onScrub, onScrubEnd: onScrubEnd
+  });
 
   // Map a section descriptor to a rail marker (the red accent marker carries
   // the honor-red token; the rest are muted dots).
@@ -82,13 +95,14 @@
 
   // Continuous global scroll-follow.
   function syncRail(instant) {
-    var max = document.documentElement.scrollHeight - window.innerHeight;
+    var max = docMax();
     var p = max > 0 ? (window.scrollY || window.pageYOffset) / max : 0;
     rail.follow(p, instant);
   }
 
   var followQueued = false;
   window.addEventListener("scroll", function () {
+    if (rail._scrubbing) return;   // the user is driving the scroll; don't fight it
     if (followQueued) return;
     followQueued = true;
     requestAnimationFrame(function () { followQueued = false; syncRail(false); });
