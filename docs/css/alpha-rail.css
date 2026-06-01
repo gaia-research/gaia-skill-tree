@@ -1,0 +1,87 @@
+/* ───────────────────────────────────────────────────────────────────────
+   AlphaRail — a universal, reusable alphabetical scrubber.
+
+   A vertical A-Z index pinned to either screen edge. Letters are spaced
+   proportionally to how many entries sit under each one, and the gaps are
+   filled with uniform tick lines. It behaves like a wheel: the active letter
+   is pulled to the vertical centre and the strip overflows + fades off the
+   top and bottom edges. Hovering/scrubbing magnifies the nearest items like
+   a macOS dock. The active letter carries a super-subtle star.
+
+   Geometry/behaviour live in js/alpha-rail.js; this file is presentation only.
+   Colours use design tokens (docs/css/tokens.css) so the cohesion guard and
+   theming stay intact. Drop-in: include this CSS + the JS, then
+   `new AlphaRail({ side, onSelect })`.
+   ─────────────────────────────────────────────────────────────────────── */
+
+:root { --arail-w: 36px; }
+@media (max-width: 720px) { :root { --arail-w: 26px; } }
+
+/* Host reserves a lane so page content never slides under the rail. */
+body[data-arail="right"] main,
+body[data-arail="right"] footer { padding-right: var(--arail-w); }
+body[data-arail="left"] main,
+body[data-arail="left"] footer { padding-left: var(--arail-w); }
+
+/* Wide, transparent, click-through host: gives magnified letters room to pop
+   without being clipped. Only the narrow track inside it is interactive. */
+.arail {
+  position: fixed; top: 0; bottom: 0; width: 168px;
+  z-index: 60; pointer-events: none;
+  /* fade the strip out at the top and bottom so letters float off-screen */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 13%, #000 87%, transparent 100%);
+          mask-image: linear-gradient(to bottom, transparent 0, #000 13%, #000 87%, transparent 100%);
+}
+.arail[data-side="right"] { right: 0; }
+.arail[data-side="left"]  { left: 0; }
+
+.arail-track {
+  position: absolute; top: 0; width: var(--arail-w);
+  display: flex; flex-direction: column;
+  pointer-events: auto; touch-action: none;
+  user-select: none; -webkit-user-select: none;
+  transition: transform .2s cubic-bezier(.22, 1, .36, 1);
+  will-change: transform;
+}
+.arail[data-side="right"] .arail-track { right: 0; align-items: flex-end;  padding-right: 7px; }
+.arail[data-side="left"]  .arail-track { left: 0;  align-items: flex-start; padding-left: 7px; }
+
+.arail-letter {
+  position: relative; height: 15px; min-height: 15px;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0; margin: 0; border: 0; background: none; cursor: pointer;
+  font: 600 .64rem/1 var(--font-mono); letter-spacing: .02em;
+  color: var(--muted); transform-origin: right center;
+  transition: color .18s ease; will-change: transform;
+}
+.arail[data-side="left"] .arail-letter { transform-origin: left center; }
+.arail-letter.is-empty { opacity: .16; pointer-events: none; }
+.arail-letter:hover:not(.is-empty) { color: var(--text); }
+.arail-letter[aria-current="true"] { color: var(--tier-basic); }
+
+/* uniform tick fillers between letters */
+.arail-tick {
+  display: block; width: 7px; height: 1px; margin: 2px 0;
+  background: var(--muted); opacity: .16; transform-origin: right center;
+}
+.arail[data-side="left"] .arail-tick { transform-origin: left center; }
+
+/* super-subtle star on the active letter */
+.arail-letter[aria-current="true"]::after {
+  content: "\2726"; position: absolute; right: 100%; margin-right: .28em;
+  font-size: .52em; line-height: 1; color: var(--tier-basic);
+  opacity: 0; pointer-events: none;
+  animation: arail-twinkle 3.8s ease-in-out infinite;
+}
+.arail[data-side="left"] .arail-letter[aria-current="true"]::after {
+  right: auto; left: 100%; margin-right: 0; margin-left: .28em;
+}
+@keyframes arail-twinkle {
+  0%, 100% { opacity: 0;   transform: scale(.6); }
+  50%      { opacity: .55; transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arail-track { transition: none; }
+  .arail-letter[aria-current="true"]::after { animation: none; opacity: .4; }
+}

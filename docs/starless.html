@@ -13,31 +13,114 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="css/styles.css?v=3.27.0">
+<link rel="stylesheet" href="css/alpha-rail.css?v=3.27.0">
 <!-- Stage 1 — icon sprite helper, loaded BEFORE other UI scripts. -->
 <script src="js/icons.js?v=3.27.0"></script>
 <!-- Stage 2 — shared rank-badge primitive. -->
 <script src="js/rank-badge.js?v=3.27.0"></script>
 <!-- Stage 3 — plaque component family. -->
 <script src="js/plaque.js?v=3.27.0"></script>
+<!-- Universal alphabetical scrubber component. -->
+<script src="js/alpha-rail.js?v=3.27.0"></script>
 <style>
-  /* Starless taxonomy — a starless/generic reference renders as the
-     word "generic" in italic + greyed-out styling. */
-  .starless-list { list-style: none; margin: 2rem 0 0; padding: 0; display: grid; gap: 1.5rem; }
-  .starless-entry { border-top: 1px solid var(--border, rgba(148,163,184,.2)); padding-top: 1.25rem; }
-  .starless-head { display: flex; align-items: baseline; gap: .6rem; flex-wrap: wrap; }
-  .starless-name { font-family: "EB Garamond", Georgia, serif; font-size: 1.35rem; font-weight: 500; }
-  .starless-generic { font-style: italic; color: var(--muted, #94a3b8); }
-  .starless-tag {
-    font-family: "JetBrains Mono", monospace; font-size: .65rem; letter-spacing: .08em;
-    text-transform: uppercase; font-style: italic; color: var(--muted, #94a3b8);
-    border: 1px solid var(--muted, #94a3b8); border-radius: 999px; padding: .1rem .5rem; opacity: .8;
+  /* ───────────────────────────────────────────────────────────────────
+     Starless taxonomy — a single-page ledger.
+     Left: the generic (starless) reference, italic + muted per DESIGN.md.
+     Right: its named implementations, Ultimate-first, as @handle/slug chips
+            (honor-red handle + per-rank slug colour).
+     A sleek floating A-Z rail lives in the right gutter; it touches nothing.
+     ─────────────────────────────────────────────────────────────────── */
+
+  /* Controls strip */
+  .sl-controls {
+    display: flex; gap: .9rem; align-items: center; flex-wrap: wrap;
+    margin: 1.5rem 0 .5rem;
   }
-  .starless-children { list-style: none; margin: .75rem 0 0; padding: 0 0 0 1rem; display: grid; gap: .4rem; }
-  .starless-child { display: flex; align-items: baseline; gap: .6rem; flex-wrap: wrap; }
-  .starless-child-name { font-weight: 500; }
-  .starless-child-by { color: var(--muted, #94a3b8); font-size: .9rem; }
-  .starless-child-level { font-family: "JetBrains Mono", monospace; font-size: .8rem; color: var(--tier-basic, #38bdf8); }
-  .starless-empty { color: var(--muted, #94a3b8); font-style: italic; margin: .6rem 0 0 1rem; }
+  .sl-search-wrap { position: relative; flex: 1 1 280px; max-width: 420px; }
+  .sl-search {
+    width: 100%; padding: .6rem 2.2rem .6rem .9rem; font-size: .95rem;
+    font-family: var(--font-body); color: var(--text);
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    transition: border-color .15s;
+  }
+  .sl-search:focus { outline: none; border-color: var(--tier-basic); }
+  .sl-search::placeholder { color: var(--muted); }
+  .sl-search-clear {
+    position: absolute; right: .55rem; top: 50%; transform: translateY(-50%);
+    width: 22px; height: 22px; display: none; align-items: center; justify-content: center;
+    background: none; border: 0; cursor: pointer; color: var(--muted); font-size: 1rem; line-height: 1;
+  }
+  .sl-search-clear:hover { color: var(--text); }
+  .sl-search:not(:placeholder-shown) ~ .sl-search-clear { display: flex; }
+
+  .sl-btn {
+    padding: .55rem .9rem; font-size: .82rem; font-family: var(--font-mono);
+    letter-spacing: .02em; color: var(--text); background: transparent;
+    border: 1px solid var(--border); border-radius: 8px; cursor: pointer;
+    transition: border-color .15s, color .15s, background-color .15s; white-space: nowrap;
+  }
+  .sl-btn:hover { border-color: var(--tier-basic); color: var(--tier-basic); }
+  .sl-btn[aria-pressed="true"] {
+    border-color: var(--tier-basic); color: var(--tier-basic);
+    background: rgba(var(--tier-basic-rgb), .08);
+  }
+  .sl-stats {
+    margin-left: auto; color: var(--muted); font-family: var(--font-mono);
+    font-size: .78rem; letter-spacing: .03em; white-space: nowrap;
+  }
+
+  /* The ledger */
+  .sl-ledger { list-style: none; margin: 1.25rem 0 4rem; padding: 0; }
+
+  .sl-letter {
+    font: 400 1.4rem/1 var(--font-display); color: var(--muted);
+    opacity: .5; letter-spacing: .03em;
+    margin: 2.4rem 0 .35rem; padding-bottom: .35rem;
+    border-bottom: 1px solid var(--border); scroll-margin-top: 90px;
+  }
+  .sl-letter:first-child { margin-top: .5rem; }
+
+  .sl-row {
+    display: grid; grid-template-columns: minmax(170px, 16rem) 1fr;
+    gap: .35rem 2rem; align-items: baseline;
+    padding: .5rem 0; border-bottom: 1px solid var(--border);
+    transition: background-color .12s;
+  }
+  .sl-row:hover { background: rgba(var(--tier-basic-rgb), .035); }
+
+  .sl-generic {
+    font: italic 400 1.02rem/1.4 var(--font-display); color: var(--muted);
+  }
+  .sl-row.is-empty .sl-generic { opacity: .55; }
+
+  .sl-named {
+    display: flex; flex-wrap: wrap; gap: .2rem 1.1rem;
+    font: 500 .8rem/1.55 var(--font-mono);
+  }
+  .sl-chip { white-space: nowrap; text-decoration: none; }
+  .sl-chip .at,
+  .sl-chip .handle { color: var(--honor-red); }
+  .sl-chip .slash { color: var(--muted); opacity: .55; }
+  .sl-chip .slug { color: var(--text); }              /* rank colour set inline */
+  .sl-chip:hover .slug { text-decoration: underline; text-underline-offset: 2px; }
+  .sl-none { color: var(--muted); opacity: .4; font-style: italic; font-family: var(--font-body); }
+
+  .sl-msg { color: var(--muted); font-style: italic; padding: 2rem 0; }
+
+  /* The floating A-Z rail is the universal AlphaRail component
+     (css/alpha-rail.css + js/alpha-rail.js); it reserves its own lane. */
+
+  @media (max-width: 720px) {
+    .sl-row { grid-template-columns: 1fr; gap: .3rem; padding: .7rem 0; }
+    .sl-generic { font-size: 1.05rem; }
+    .sl-named { gap: .25rem .85rem; }
+    .sl-chip { white-space: normal; overflow-wrap: anywhere; }
+    .sl-stats { margin-left: 0; flex-basis: 100%; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sl-row, .sl-search { transition: none; }
+  }
 </style>
 </head>
 <body class="process-page">
@@ -70,19 +153,28 @@
     <p class="process-kicker">Rank-less taxonomy</p>
     <h1>Starless</h1>
     <p class="process-lede">
-      Starless skills are the rank-less generic taxonomy — pure reference nodes that
-      carry no stars of their own. Stars live only on their <strong>named-skill children</strong>:
-      the concrete, contributed implementations underneath each generic reference. Below,
-      every starless reference is listed alphabetically, each rendered as <span class="starless-generic">generic</span>,
-      with its named children and their star levels beneath it.
+      Generic taxonomy nodes that carry no stars of their own. Stars live on the
+      <strong>named implementations</strong> beside each one: the concrete, contributed
+      skills, listed highest rank first.
     </p>
   </section>
 
   <section class="process-section">
     <h2 id="taxonomy">The Starless Taxonomy</h2>
-    <p class="section-sub">All generic references, alphabetical, with their named implementations.</p>
-    <ul class="starless-list" id="starlessList">
-      <li class="starless-empty">Loading the taxonomy…</li>
+
+    <div class="sl-controls">
+      <div class="sl-search-wrap">
+        <input type="text" class="sl-search" id="slSearch"
+               placeholder="Search starless or named skills…" aria-label="Search the taxonomy">
+        <button type="button" class="sl-search-clear" id="slSearchClear" aria-label="Clear search">✕</button>
+      </div>
+      <button type="button" class="sl-btn" id="slToggleEmpty" aria-pressed="false">Hide empty</button>
+      <button type="button" class="sl-btn" id="slCsv">Copy CSV</button>
+      <span class="sl-stats" id="slStats"></span>
+    </div>
+
+    <ul class="sl-ledger" id="slLedger">
+      <li class="sl-msg">Loading the taxonomy…</li>
     </ul>
   </section>
 </main>
@@ -130,116 +222,225 @@
   <script>
     (function () {
       "use strict";
-      var listEl = document.getElementById("starlessList");
 
+      var ledgerEl = document.getElementById("slLedger");
+      var searchEl = document.getElementById("slSearch");
+      var clearEl  = document.getElementById("slSearchClear");
+      var emptyBtn = document.getElementById("slToggleEmpty");
+      var csvBtn   = document.getElementById("slCsv");
+      var statsEl  = document.getElementById("slStats");
+
+      var REDUCED = window.matchMedia &&
+                    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      // Universal alphabetical scrubber. Tapping/scrubbing a letter scrolls the
+      // ledger to that letter's group; scroll position feeds back via setActive.
+      var rail = new AlphaRail({
+        side: "right",
+        onSelect: function (L, instant) {
+          var t = document.getElementById("L-" + L);
+          if (t) t.scrollIntoView({ behavior: (instant || REDUCED) ? "auto" : "smooth", block: "start" });
+        }
+      });
+
+      // Continuous scroll-follow: map the viewport centre's position within the
+      // ledger to 0..1 and let the rail glide to match (no aggressive snapping).
+      var followQueued = false;
+      function syncRail(instant) {
+        var r = ledgerEl.getBoundingClientRect();
+        if (r.height <= 0) return;
+        var p = (window.innerHeight / 2 - r.top) / r.height;
+        rail.follow(p, instant);
+      }
+      window.addEventListener("scroll", function () {
+        if (followQueued) return;
+        followQueued = true;
+        requestAnimationFrame(function () { followQueued = false; syncRail(false); });
+      }, { passive: true });
+
+      var allSkills = [];     // starless generic refs
+      var buckets   = {};     // id -> [named skills]
+      var hideEmpty = false;
+
+      function nameOf(x) { return (x && (x.name || x.title || x.id)) || ""; }
       function byName(a, b) {
-        var an = (a && a.name ? a.name : "").toLowerCase();
-        var bn = (b && b.name ? b.name : "").toLowerCase();
+        var an = nameOf(a).toLowerCase(), bn = nameOf(b).toLowerCase();
         return an < bn ? -1 : an > bn ? 1 : 0;
       }
+      function starOf(child) {
+        var m = /(\d+)/.exec(child && child.level ? String(child.level) : "");
+        return m ? parseInt(m[1], 10) : 0;
+      }
+      // Ultimate-first: highest rank leads, name breaks ties.
+      function byRankDesc(a, b) { return starOf(b) - starOf(a) || byName(a, b); }
 
-      function escapeText(value) {
-        return document.createTextNode(value == null ? "" : String(value));
+      function firstLetter(skill) {
+        var c = nameOf(skill).charAt(0).toUpperCase();
+        return /[A-Z]/.test(c) ? c : "#";
+      }
+      function txt(v) { return document.createTextNode(v == null ? "" : String(v)); }
+
+      // Split a named id ("handle/slug") into handle + slug, with fallbacks.
+      function splitHandle(child) {
+        var id = child && child.id ? String(child.id) : "";
+        var slash = id.indexOf("/");
+        if (slash > 0) return { handle: id.slice(0, slash), slug: id.slice(slash + 1) };
+        var handle = (child && child.contributor) || "";
+        var slug = nameOf(child).toLowerCase().replace(/\s+/g, "-");
+        return { handle: handle, slug: slug };
       }
 
-      function renderChild(child) {
+      function chip(child) {
+        var parts = splitHandle(child);
+        var star = starOf(child);
+        var url = child && child.links && child.links.github;
+        var el = document.createElement(url ? "a" : "span");
+        el.className = "sl-chip";
+        if (url) { el.href = url; el.target = "_blank"; el.rel = "noopener"; }
+        el.title = nameOf(child) + (child.level ? "  ·  " + child.level : "");
+
+        var at = document.createElement("span");
+        at.className = "handle"; at.appendChild(txt("@" + parts.handle));
+        var sep = document.createElement("span");
+        sep.className = "slash"; sep.appendChild(txt("/"));
+        var slug = document.createElement("span");
+        slug.className = "slug"; slug.appendChild(txt(parts.slug));
+        if (star >= 2 && star <= 6) slug.style.color = "var(--rank-" + star + ")";
+
+        el.appendChild(at); el.appendChild(sep); el.appendChild(slug);
+        return el;
+      }
+
+      function row(skill) {
+        var kids = (buckets[skill.id] || []).slice().sort(byRankDesc);
         var li = document.createElement("li");
-        li.className = "starless-child";
+        li.className = "sl-row" + (kids.length ? "" : " is-empty");
 
-        var nameEl = document.createElement("span");
-        nameEl.className = "starless-child-name";
-        nameEl.appendChild(escapeText(child.name || child.title || child.id || "Unnamed"));
-        li.appendChild(nameEl);
+        var gen = document.createElement("div");
+        gen.className = "sl-generic";
+        gen.appendChild(txt(nameOf(skill)));
+        li.appendChild(gen);
 
-        if (child.contributor) {
-          var byEl = document.createElement("span");
-          byEl.className = "starless-child-by";
-          byEl.appendChild(escapeText("by " + child.contributor));
-          li.appendChild(byEl);
+        var named = document.createElement("div");
+        named.className = "sl-named";
+        if (kids.length) {
+          kids.forEach(function (k) { named.appendChild(chip(k)); });
+        } else {
+          var none = document.createElement("span");
+          none.className = "sl-none"; none.appendChild(txt("no named skills yet"));
+          named.appendChild(none);
         }
-
-        if (child.level) {
-          var lvlEl = document.createElement("span");
-          lvlEl.className = "starless-child-level";
-          lvlEl.appendChild(escapeText(child.level));
-          li.appendChild(lvlEl);
-        }
+        li.appendChild(named);
         return li;
       }
 
-      function renderEntry(skill, children) {
-        var entry = document.createElement("li");
-        entry.className = "starless-entry";
-
-        var head = document.createElement("div");
-        head.className = "starless-head";
-
-        var nameEl = document.createElement("span");
-        nameEl.className = "starless-name";
-        nameEl.appendChild(escapeText(skill.name || skill.id || "Unnamed"));
-        head.appendChild(nameEl);
-
-        var genericEl = document.createElement("span");
-        genericEl.className = "starless-generic";
-        genericEl.appendChild(escapeText("generic"));
-        head.appendChild(genericEl);
-
-        var tag = document.createElement("span");
-        tag.className = "starless-tag";
-        tag.appendChild(escapeText("starless"));
-        head.appendChild(tag);
-
-        entry.appendChild(head);
-
-        if (children && children.length) {
-          var ul = document.createElement("ul");
-          ul.className = "starless-children";
-          children.slice().sort(byName).forEach(function (child) {
-            ul.appendChild(renderChild(child));
-          });
-          entry.appendChild(ul);
-        } else {
-          var empty = document.createElement("p");
-          empty.className = "starless-empty";
-          empty.appendChild(escapeText("— no named implementations yet"));
-          entry.appendChild(empty);
-        }
-        return entry;
-      }
-
-      function render(skills, buckets) {
-        listEl.textContent = "";
-        var generics = (skills || []).slice().sort(byName);
-        if (!generics.length) {
-          var none = document.createElement("li");
-          none.className = "starless-empty";
-          none.appendChild(escapeText("No starless references found."));
-          listEl.appendChild(none);
-          return;
-        }
-        generics.forEach(function (skill) {
-          var children = (buckets && buckets[skill.id]) || [];
-          listEl.appendChild(renderEntry(skill, children));
+      function matches(skill, q) {
+        if (nameOf(skill).toLowerCase().indexOf(q) !== -1) return true;
+        return (buckets[skill.id] || []).some(function (k) {
+          return nameOf(k).toLowerCase().indexOf(q) !== -1 ||
+                 String(k.id || "").toLowerCase().indexOf(q) !== -1 ||
+                 String(k.contributor || "").toLowerCase().indexOf(q) !== -1;
         });
       }
 
-      function showError(message) {
-        listEl.textContent = "";
-        var li = document.createElement("li");
-        li.className = "starless-empty";
-        li.appendChild(escapeText(message));
-        listEl.appendChild(li);
+      function currentView() {
+        var q = searchEl.value.toLowerCase().trim();
+        return allSkills.filter(function (s) {
+          if (hideEmpty && !(buckets[s.id] || []).length) return false;
+          if (q && !matches(s, q)) return false;
+          return true;
+        }).sort(byName);
       }
 
+      function render() {
+        var view = currentView();
+        ledgerEl.innerHTML = "";
+
+        if (!view.length) {
+          var msg = document.createElement("li");
+          msg.className = "sl-msg";
+          msg.appendChild(txt("Nothing matches that search."));
+          ledgerEl.appendChild(msg);
+          rail.render({});
+          updateStats(view);
+          return;
+        }
+
+        var counts = {};
+        var letter = null;
+        view.forEach(function (skill) {
+          var L = firstLetter(skill);
+          if (L >= "A" && L <= "Z") counts[L] = (counts[L] || 0) + 1;
+          if (L !== letter) {
+            letter = L;
+            var head = document.createElement("li");
+            head.className = "sl-letter";
+            head.id = "L-" + L;
+            head.setAttribute("data-letter", L);
+            head.appendChild(txt(L === "#" ? "#" : L));
+            ledgerEl.appendChild(head);
+          }
+          ledgerEl.appendChild(row(skill));
+        });
+
+        rail.render(counts);
+        updateStats(view);
+        syncRail(true);
+      }
+
+      function updateStats(view) {
+        var named = view.reduce(function (n, s) { return n + (buckets[s.id] || []).length; }, 0);
+        statsEl.textContent = view.length + " starless · " + named + " named";
+      }
+
+      function csvCell(v) {
+        v = String(v == null ? "" : v);
+        return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
+      }
+      function copyCsv() {
+        var rows = ["Starless,Named Skill,Contributor,Level"];
+        currentView().forEach(function (s) {
+          var kids = (buckets[s.id] || []).slice().sort(byRankDesc);
+          if (kids.length) {
+            kids.forEach(function (k) {
+              rows.push([csvCell(nameOf(s)), csvCell(k.id || nameOf(k)),
+                         csvCell(k.contributor || ""), csvCell(k.level || "")].join(","));
+            });
+          } else {
+            rows.push([csvCell(nameOf(s)), "", "", ""].join(","));
+          }
+        });
+        navigator.clipboard.writeText(rows.join("\n")).then(function () {
+          var was = csvBtn.textContent; csvBtn.textContent = "Copied ✓";
+          setTimeout(function () { csvBtn.textContent = was; }, 1800);
+        }).catch(function () { csvBtn.textContent = "Copy failed"; });
+      }
+
+      // Events
+      searchEl.addEventListener("input", render);
+      clearEl.addEventListener("click", function () { searchEl.value = ""; searchEl.focus(); render(); });
+      emptyBtn.addEventListener("click", function () {
+        hideEmpty = !hideEmpty;
+        emptyBtn.setAttribute("aria-pressed", String(hideEmpty));
+        emptyBtn.textContent = hideEmpty ? "Show empty" : "Hide empty";
+        render();
+      });
+      csvBtn.addEventListener("click", copyCsv);
+
+      // Load
       Promise.all([
         fetch("graph/gaia.json").then(function (r) { return r.json(); }),
         fetch("graph/named/index.json").then(function (r) { return r.json(); })
-      ]).then(function (results) {
-        var skills = (results[0] && results[0].skills) || [];
-        var buckets = (results[1] && results[1].buckets) || {};
-        render(skills, buckets);
+      ]).then(function (res) {
+        allSkills = (res[0] && res[0].skills) || [];
+        buckets   = (res[1] && res[1].buckets) || {};
+        render();
       }).catch(function () {
-        showError("Could not load the starless taxonomy. Please try again.");
+        ledgerEl.innerHTML = "";
+        var li = document.createElement("li");
+        li.className = "sl-msg";
+        li.appendChild(txt("Could not load the starless taxonomy. Please try again."));
+        ledgerEl.appendChild(li);
       });
     })();
   </script>
