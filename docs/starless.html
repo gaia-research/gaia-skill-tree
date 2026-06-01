@@ -20,144 +20,119 @@
 <!-- Stage 3 — plaque component family. -->
 <script src="js/plaque.js?v=3.27.0"></script>
 <style>
-  /* Starless taxonomy — compact, searchable view with alphabetical index */
+  /* ───────────────────────────────────────────────────────────────────
+     Starless taxonomy — a single-page ledger.
+     Left: the generic (starless) reference, italic + muted per DESIGN.md.
+     Right: its named implementations, Ultimate-first, as @handle/slug chips
+            (honor-red handle + per-rank slug colour).
+     A sleek floating A-Z rail lives in the right gutter; it touches nothing.
+     ─────────────────────────────────────────────────────────────────── */
 
-  .starless-controls {
-    display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; align-items: center;
+  /* Controls strip */
+  .sl-controls {
+    display: flex; gap: .9rem; align-items: center; flex-wrap: wrap;
+    margin: 1.5rem 0 .5rem;
+  }
+  .sl-search-wrap { position: relative; flex: 1 1 280px; max-width: 420px; }
+  .sl-search {
+    width: 100%; padding: .6rem 2.2rem .6rem .9rem; font-size: .95rem;
+    font-family: var(--font-body); color: var(--text);
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    transition: border-color .15s;
+  }
+  .sl-search:focus { outline: none; border-color: var(--tier-basic); }
+  .sl-search::placeholder { color: var(--muted); }
+  .sl-search-clear {
+    position: absolute; right: .55rem; top: 50%; transform: translateY(-50%);
+    width: 22px; height: 22px; display: none; align-items: center; justify-content: center;
+    background: none; border: 0; cursor: pointer; color: var(--muted); font-size: 1rem; line-height: 1;
+  }
+  .sl-search-clear:hover { color: var(--text); }
+  .sl-search:not(:placeholder-shown) ~ .sl-search-clear { display: flex; }
+
+  .sl-btn {
+    padding: .55rem .9rem; font-size: .82rem; font-family: var(--font-mono);
+    letter-spacing: .02em; color: var(--text); background: transparent;
+    border: 1px solid var(--border); border-radius: 8px; cursor: pointer;
+    transition: border-color .15s, color .15s, background-color .15s; white-space: nowrap;
+  }
+  .sl-btn:hover { border-color: var(--tier-basic); color: var(--tier-basic); }
+  .sl-btn[aria-pressed="true"] {
+    border-color: var(--tier-basic); color: var(--tier-basic);
+    background: rgba(var(--tier-basic-rgb), .08);
+  }
+  .sl-stats {
+    margin-left: auto; color: var(--muted); font-family: var(--font-mono);
+    font-size: .78rem; letter-spacing: .03em; white-space: nowrap;
   }
 
-  .starless-search-wrapper {
-    flex: 1; min-width: 250px; position: relative;
+  /* The ledger */
+  .sl-ledger { list-style: none; margin: 1.25rem 0 4rem; padding: 0; }
+
+  .sl-letter {
+    font: 400 1.4rem/1 var(--font-display); color: var(--muted);
+    opacity: .5; letter-spacing: .03em;
+    margin: 2.4rem 0 .35rem; padding-bottom: .35rem;
+    border-bottom: 1px solid var(--border); scroll-margin-top: 90px;
+  }
+  .sl-letter:first-child { margin-top: .5rem; }
+
+  .sl-row {
+    display: grid; grid-template-columns: minmax(170px, 16rem) 1fr;
+    gap: .35rem 2rem; align-items: baseline;
+    padding: .5rem 0; border-bottom: 1px solid var(--border);
+    transition: background-color .12s;
+  }
+  .sl-row:hover { background: rgba(var(--tier-basic-rgb), .035); }
+
+  .sl-generic {
+    font: italic 400 1.02rem/1.4 var(--font-display); color: var(--muted);
+  }
+  .sl-row.is-empty .sl-generic { opacity: .55; }
+
+  .sl-named {
+    display: flex; flex-wrap: wrap; gap: .2rem 1.1rem;
+    font: 500 .8rem/1.55 var(--font-mono);
+  }
+  .sl-chip { white-space: nowrap; text-decoration: none; }
+  .sl-chip .at,
+  .sl-chip .handle { color: var(--honor-red); }
+  .sl-chip .slash { color: var(--muted); opacity: .55; }
+  .sl-chip .slug { color: var(--text); }              /* rank colour set inline */
+  .sl-chip:hover .slug { text-decoration: underline; text-underline-offset: 2px; }
+  .sl-none { color: var(--muted); opacity: .4; font-style: italic; font-family: var(--font-body); }
+
+  .sl-msg { color: var(--muted); font-style: italic; padding: 2rem 0; }
+
+  /* Floating A-Z rail — hugs the right edge of the 1000px content gutter */
+  .sl-rail {
+    position: fixed; top: 50%; transform: translateY(-50%);
+    right: calc((100vw - 1000px) / 2 - 2.4rem);
+    display: flex; flex-direction: column; align-items: center;
+    gap: clamp(1px, .3vh, 4px); z-index: 40; padding: .3rem .15rem;
+    user-select: none; -webkit-user-select: none;
+  }
+  .sl-rail button {
+    font: 600 .62rem/1 var(--font-mono); letter-spacing: .02em;
+    color: var(--muted); background: none; border: 0; cursor: pointer;
+    padding: 1px 4px; border-radius: 4px;
+    transition: color .15s ease, transform .15s ease;
+  }
+  .sl-rail button:hover { color: var(--text); transform: scale(1.45); }
+  .sl-rail button[aria-current="true"] { color: var(--tier-basic); }
+  .sl-rail button:disabled { opacity: .2; cursor: default; }
+
+  @media (max-width: 1120px) { .sl-rail { display: none; } }
+
+  @media (max-width: 720px) {
+    .sl-row { grid-template-columns: 1fr; gap: .3rem; padding: .7rem 0; }
+    .sl-generic { font-size: 1.05rem; }
+    .sl-stats { margin-left: 0; flex-basis: 100%; }
   }
 
-  .starless-search {
-    width: 100%; padding: .75rem 1rem; font-size: 1rem;
-    background-color: var(--surface, #0f172a); color: var(--text, #e2e8f0);
-    border: 1px solid var(--border, #1e293b); border-radius: 6px;
-    font-family: var(--font-body);
-  }
-
-  .starless-search::placeholder { color: var(--muted, #64748b); }
-
-  .starless-search-clear {
-    position: absolute; right: 1rem; top: 50%; transform: translateY(-50%);
-    background: none; border: none; color: var(--muted, #64748b);
-    cursor: pointer; font-size: 1.2rem; padding: 0; width: 24px; height: 24px;
-    display: none; align-items: center; justify-content: center;
-  }
-
-  .starless-search:not(:placeholder-shown) ~ .starless-search-clear { display: flex; }
-
-  .starless-export-btn {
-    padding: .75rem 1rem; font-size: .9rem; font-family: var(--font-body);
-    background-color: transparent; color: var(--text, #e2e8f0);
-    border: 1px solid var(--border, #1e293b); border-radius: 6px;
-    cursor: pointer; transition: border-color .2s, background-color .2s;
-  }
-
-  .starless-export-btn:hover { border-color: var(--tier-basic, #38bdf8); background-color: rgba(56, 189, 248, .1); }
-
-  .starless-stats {
-    color: var(--muted, #64748b); font-size: .9rem;
-  }
-
-  /* Two-column ledger layout */
-  .starless-layout {
-    display: grid; grid-template-columns: 35px 1fr 1fr; gap: 3rem;
-    margin-bottom: 3rem;
-  }
-
-  /* Alphabetical index sidebar */
-  .starless-alpha {
-    display: flex; flex-direction: column; gap: .15rem; position: sticky; top: 100px;
-    font-size: .7rem; text-transform: uppercase; font-family: var(--font-mono);
-    font-weight: 600; height: fit-content; letter-spacing: .05em;
-  }
-
-  .starless-alpha-letter {
-    padding: .3rem 0; text-align: center; cursor: pointer;
-    color: var(--muted, #64748b); transition: color .2s; line-height: 1.2;
-  }
-
-  .starless-alpha-letter.active { color: var(--tier-basic, #38bdf8); }
-  .starless-alpha-letter:hover { color: var(--text, #e2e8f0); }
-  .starless-alpha-letter.empty { cursor: default; opacity: .15; }
-
-  /* Main list */
-  .starless-list {
-    list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2.5rem;
-  }
-
-  .starless-entry {
-    padding: 0; border: none; cursor: pointer; transition: opacity .2s;
-    display: flex; flex-direction: column; gap: .75rem;
-  }
-
-  .starless-entry:hover { opacity: .8; }
-  .starless-entry.active { opacity: 1; }
-
-  .starless-entry-name {
-    font-family: var(--font-display); font-size: 1.1rem; font-style: italic;
-    color: var(--muted, #64748b); font-weight: 400;
-  }
-
-  .starless-entry-badge {
-    font-size: .8rem; color: var(--muted, #64748b); font-family: var(--font-mono);
-    display: inline-block; width: fit-content;
-  }
-
-  .starless-entry.empty .starless-entry-badge { display: none; }
-
-  /* Named skills column */
-  .starless-named-col {
-    display: flex; flex-direction: column; gap: 2.5rem; overflow-y: auto; max-height: auto;
-  }
-
-  .starless-named-section {
-    display: flex; flex-direction: column; gap: .5rem;
-  }
-
-  .starless-named-section-title {
-    font-family: var(--font-display); font-size: .95rem; font-style: italic;
-    color: var(--muted, #64748b); font-weight: 400; margin-bottom: .5rem;
-  }
-
-  .starless-named-item {
-    padding: .5rem 0; border-bottom: 1px solid rgba(30, 41, 59, .3);
-    display: grid; grid-template-columns: 1fr auto auto; gap: .75rem;
-    align-items: baseline; font-size: .9rem;
-  }
-
-  .starless-named-item:last-child { border-bottom: none; }
-
-  .starless-named-contributor {
-    color: var(--honor-red, #ef4444); font-family: var(--font-mono);
-    font-weight: 600; font-size: .85rem; grid-column: 1;
-  }
-
-  .starless-named-skill {
-    color: var(--text, #e2e8f0); font-weight: 500; font-size: .9rem;
-    font-family: var(--font-body); grid-column: 1;
-  }
-
-  .starless-named-level {
-    color: var(--tier-basic, #38bdf8); font-family: var(--font-mono);
-    font-size: .75rem; text-align: right; grid-column: 2 / 4;
-  }
-
-  /* Mobile responsive */
-  @media (max-width: 1024px) {
-    .starless-layout { grid-template-columns: 35px 1fr; }
-    .starless-named-col { display: none; }
-  }
-
-  @media (max-width: 768px) {
-    .starless-layout { grid-template-columns: 1fr; }
-    .starless-alpha { display: none; }
-    .starless-list { gap: 1.5rem; }
-    .starless-entry { gap: .5rem; }
-    .starless-controls { gap: .5rem; }
-    .starless-export-btn { white-space: nowrap; }
+  @media (prefers-reduced-motion: reduce) {
+    .sl-rail button, .sl-row, .sl-search { transition: none; }
+    .sl-rail button:hover { transform: none; }
   }
 </style>
 </head>
@@ -191,36 +166,34 @@
     <p class="process-kicker">Rank-less taxonomy</p>
     <h1>Starless</h1>
     <p class="process-lede">
-      Starless skills are the rank-less generic taxonomy — pure reference nodes that
-      carry no stars of their own. Stars live only on their <strong>named-skill children</strong>:
-      the concrete, contributed implementations underneath each generic reference.
+      Generic taxonomy nodes that carry no stars of their own. Stars live on the
+      <strong>named implementations</strong> beside each one: the concrete, contributed
+      skills, listed highest rank first.
     </p>
   </section>
 
   <section class="process-section">
     <h2 id="taxonomy">The Starless Taxonomy</h2>
 
-    <div class="starless-controls">
-      <div class="starless-search-wrapper">
-        <input type="text" class="starless-search" id="starlessSearch"
-               placeholder="Search generic references or named skills…" aria-label="Search starless">
-        <button type="button" class="starless-search-clear" id="starlessSearchClear" aria-label="Clear search">✕</button>
+    <div class="sl-controls">
+      <div class="sl-search-wrap">
+        <input type="text" class="sl-search" id="slSearch"
+               placeholder="Search starless or named skills…" aria-label="Search the taxonomy">
+        <button type="button" class="sl-search-clear" id="slSearchClear" aria-label="Clear search">✕</button>
       </div>
-      <button type="button" class="starless-export-btn" id="starlessExportBtn">Copy as CSV</button>
-      <span class="starless-stats" id="starlessStats"></span>
+      <button type="button" class="sl-btn" id="slToggleEmpty" aria-pressed="false">Hide empty</button>
+      <button type="button" class="sl-btn" id="slCsv">Copy CSV</button>
+      <span class="sl-stats" id="slStats"></span>
     </div>
 
-    <div class="starless-layout">
-      <div class="starless-alpha" id="starlessAlpha"></div>
-
-      <ul class="starless-list" id="starlessList">
-        <li class="starless-empty">Loading the taxonomy…</li>
-      </ul>
-
-      <div class="starless-named-col" id="starlessNamedCol"></div>
-    </div>
+    <ul class="sl-ledger" id="slLedger">
+      <li class="sl-msg">Loading the taxonomy…</li>
+    </ul>
   </section>
 </main>
+
+<!-- Floating alphabetical rail (built at runtime) -->
+<nav class="sl-rail" id="slRail" aria-label="Jump to letter"></nav>
 
 <footer>
   <div class="footer-mark">
@@ -266,311 +239,234 @@
     (function () {
       "use strict";
 
-      var listEl = document.getElementById("starlessList");
-      var namedColEl = document.getElementById("starlessNamedCol");
-      var searchEl = document.getElementById("starlessSearch");
-      var searchClearEl = document.getElementById("starlessSearchClear");
-      var exportBtn = document.getElementById("starlessExportBtn");
-      var statsEl = document.getElementById("starlessStats");
-      var alphaEl = document.getElementById("starlessAlpha");
+      var ledgerEl = document.getElementById("slLedger");
+      var railEl   = document.getElementById("slRail");
+      var searchEl = document.getElementById("slSearch");
+      var clearEl  = document.getElementById("slSearchClear");
+      var emptyBtn = document.getElementById("slToggleEmpty");
+      var csvBtn   = document.getElementById("slCsv");
+      var statsEl  = document.getElementById("slStats");
 
-      var allSkills = [];
-      var allBuckets = {};
-      var filteredSkills = [];
+      var ALPHA = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
+      var allSkills = [];     // starless generic refs
+      var buckets   = {};     // id -> [named skills]
+      var hideEmpty = false;
+      var observer  = null;
+
+      function nameOf(x) { return (x && (x.name || x.title || x.id)) || ""; }
       function byName(a, b) {
-        var an = (a && a.name ? a.name : "").toLowerCase();
-        var bn = (b && b.name ? b.name : "").toLowerCase();
+        var an = nameOf(a).toLowerCase(), bn = nameOf(b).toLowerCase();
         return an < bn ? -1 : an > bn ? 1 : 0;
       }
+      function starOf(child) {
+        var m = /(\d+)/.exec(child && child.level ? String(child.level) : "");
+        return m ? parseInt(m[1], 10) : 0;
+      }
+      // Ultimate-first: highest rank leads, name breaks ties.
+      function byRankDesc(a, b) { return starOf(b) - starOf(a) || byName(a, b); }
 
-      function escapeText(value) {
-        return document.createTextNode(value == null ? "" : String(value));
+      function firstLetter(skill) {
+        var c = nameOf(skill).charAt(0).toUpperCase();
+        return /[A-Z]/.test(c) ? c : "#";
+      }
+      function txt(v) { return document.createTextNode(v == null ? "" : String(v)); }
+
+      // Split a named id ("handle/slug") into handle + slug, with fallbacks.
+      function splitHandle(child) {
+        var id = child && child.id ? String(child.id) : "";
+        var slash = id.indexOf("/");
+        if (slash > 0) return { handle: id.slice(0, slash), slug: id.slice(slash + 1) };
+        var handle = (child && child.contributor) || "";
+        var slug = nameOf(child).toLowerCase().replace(/\s+/g, "-");
+        return { handle: handle, slug: slug };
       }
 
-      function escapeHtml(str) {
-        var div = document.createElement("div");
-        div.textContent = str;
-        return div.innerHTML;
+      function chip(child) {
+        var parts = splitHandle(child);
+        var star = starOf(child);
+        var url = child && child.links && child.links.github;
+        var el = document.createElement(url ? "a" : "span");
+        el.className = "sl-chip";
+        if (url) { el.href = url; el.target = "_blank"; el.rel = "noopener"; }
+        el.title = nameOf(child) + (child.level ? "  ·  " + child.level : "");
+
+        var at = document.createElement("span");
+        at.className = "handle"; at.appendChild(txt("@" + parts.handle));
+        var sep = document.createElement("span");
+        sep.className = "slash"; sep.appendChild(txt("/"));
+        var slug = document.createElement("span");
+        slug.className = "slug"; slug.appendChild(txt(parts.slug));
+        if (star >= 2 && star <= 6) slug.style.color = "var(--rank-" + star + ")";
+
+        el.appendChild(at); el.appendChild(sep); el.appendChild(slug);
+        return el;
       }
 
-      function renderNamedColumn(skills, parentName) {
-        namedColEl.innerHTML = "";
+      function row(skill) {
+        var kids = (buckets[skill.id] || []).slice().sort(byRankDesc);
+        var li = document.createElement("li");
+        li.className = "sl-row" + (kids.length ? "" : " is-empty");
 
-        if (!skills || !skills.length) {
-          return;
-        }
+        var gen = document.createElement("div");
+        gen.className = "sl-generic";
+        gen.appendChild(txt(nameOf(skill)));
+        li.appendChild(gen);
 
-        var section = document.createElement("div");
-        section.className = "starless-named-section";
-
-        var title = document.createElement("div");
-        title.className = "starless-named-section-title";
-        title.appendChild(escapeText((parentName || "Implementations")));
-        section.appendChild(title);
-
-        skills.slice().sort(byName).forEach(function (child) {
-          var item = document.createElement("div");
-          item.className = "starless-named-item";
-
-          var contribSpan = document.createElement("div");
-          contribSpan.className = "starless-named-contributor";
-          contribSpan.appendChild(escapeText("@" + (child.contributor || "—")));
-          item.appendChild(contribSpan);
-
-          var skillSpan = document.createElement("div");
-          skillSpan.className = "starless-named-skill";
-          skillSpan.appendChild(escapeText(child.name || child.title || child.id || "Unnamed"));
-          item.appendChild(skillSpan);
-
-          var levelSpan = document.createElement("div");
-          levelSpan.className = "starless-named-level";
-          levelSpan.appendChild(escapeText(child.level || "—"));
-          item.appendChild(levelSpan);
-
-          section.appendChild(item);
-        });
-
-        namedColEl.appendChild(section);
-      }
-
-      function getLevelColor(level) {
-        var levelMap = {
-          "2★": "#38bdf8", "3★": "#63cab7", "4★": "#a78bfa", "5★": "#fbbf24", "6★": "#fbbf24"
-        };
-        return levelMap[level] || "#e2e8f0";
-      }
-
-      function renderEntry(skill, children) {
-        var entry = document.createElement("li");
-        entry.className = "starless-entry" + (children && children.length ? "" : " empty");
-        entry.setAttribute("data-id", skill.id);
-
-        var nameEl = document.createElement("span");
-        nameEl.className = "starless-entry-name";
-        nameEl.appendChild(escapeText(skill.name || skill.id || "Unnamed"));
-        entry.appendChild(nameEl);
-
-        if (children && children.length) {
-          var badge = document.createElement("span");
-          badge.className = "starless-entry-badge";
-          badge.appendChild(escapeText(children.length + " named"));
-          entry.appendChild(badge);
-        }
-
-        entry.addEventListener("click", function () {
-          document.querySelectorAll(".starless-entry").forEach(function (el) {
-            el.classList.remove("active");
-          });
-          entry.classList.add("active");
-          renderNamedColumn(children, skill.name || skill.id);
-        });
-
-        entry.addEventListener("mouseenter", function () {
-          renderNamedColumn(children, skill.name || skill.id);
-        });
-
-        return entry;
-      }
-
-      function renderAlphaIndex(skills) {
-        alphaEl.innerHTML = "";
-        var letters = new Set();
-        skills.forEach(function (skill) {
-          var first = (skill.name || skill.id || "")[0].toUpperCase();
-          if (first && /[A-Z]/.test(first)) {
-            letters.add(first);
-          }
-        });
-
-        for (var i = 65; i <= 90; i++) {
-          var letter = String.fromCharCode(i);
-          var letterBtn = document.createElement("button");
-          letterBtn.className = "starless-alpha-letter";
-          letterBtn.setAttribute("data-letter", letter);
-          if (!letters.has(letter)) {
-            letterBtn.className += " empty";
-            letterBtn.disabled = true;
-          }
-          letterBtn.appendChild(escapeText(letter));
-          letterBtn.addEventListener("click", function (e) {
-            var l = e.target.textContent;
-            var target = document.querySelector("[data-first='" + l + "']");
-            if (target) {
-              target.scrollIntoView({ behavior: "smooth", block: "start" });
-            }
-          });
-          alphaEl.appendChild(letterBtn);
-        }
-      }
-
-      function updateAlphaScroll() {
-        var alphaLetters = document.querySelectorAll(".starless-alpha-letter");
-        alphaLetters.forEach(function (btn) {
-          btn.classList.remove("active");
-        });
-
-        var visible = null;
-        var entries = document.querySelectorAll(".starless-entry");
-        entries.forEach(function (entry) {
-          var rect = entry.getBoundingClientRect();
-          if (rect.top >= 0 && rect.top < window.innerHeight / 2) {
-            visible = entry;
-          }
-        });
-
-        if (visible) {
-          var name = visible.querySelector(".starless-entry-name").textContent;
-          var first = name[0].toUpperCase();
-          var btn = document.querySelector("[data-letter='" + first + "']");
-          if (btn) {
-            btn.classList.add("active");
-          }
-        }
-      }
-
-      function filter(query) {
-        query = query.toLowerCase().trim();
-
-        if (!query) {
-          filteredSkills = allSkills.slice();
+        var named = document.createElement("div");
+        named.className = "sl-named";
+        if (kids.length) {
+          kids.forEach(function (k) { named.appendChild(chip(k)); });
         } else {
-          filteredSkills = allSkills.filter(function (skill) {
-            var skillMatch = (skill.name || skill.id || "").toLowerCase().indexOf(query) !== -1;
-            if (skillMatch) return true;
-
-            var children = allBuckets[skill.id] || [];
-            return children.some(function (child) {
-              var nameMatch = (child.name || child.title || child.id || "").toLowerCase().indexOf(query) !== -1;
-              var contribMatch = (child.contributor || "").toLowerCase().indexOf(query) !== -1;
-              return nameMatch || contribMatch;
-            });
-          });
+          var none = document.createElement("span");
+          none.className = "sl-none"; none.appendChild(txt("no named skills yet"));
+          named.appendChild(none);
         }
-
-        render(filteredSkills);
-        updateStats();
+        li.appendChild(named);
+        return li;
       }
 
-      function updateStats() {
-        var childCount = 0;
-        filteredSkills.forEach(function (skill) {
-          var children = allBuckets[skill.id] || [];
-          childCount += children.length;
+      function matches(skill, q) {
+        if (nameOf(skill).toLowerCase().indexOf(q) !== -1) return true;
+        return (buckets[skill.id] || []).some(function (k) {
+          return nameOf(k).toLowerCase().indexOf(q) !== -1 ||
+                 String(k.id || "").toLowerCase().indexOf(q) !== -1 ||
+                 String(k.contributor || "").toLowerCase().indexOf(q) !== -1;
         });
-        statsEl.textContent = filteredSkills.length + " generic · " + childCount + " named";
       }
 
-      function render(skills) {
-        listEl.innerHTML = "";
-        var sorted = (skills || []).slice().sort(byName);
+      function currentView() {
+        var q = searchEl.value.toLowerCase().trim();
+        return allSkills.filter(function (s) {
+          if (hideEmpty && !(buckets[s.id] || []).length) return false;
+          if (q && !matches(s, q)) return false;
+          return true;
+        }).sort(byName);
+      }
 
-        if (!sorted.length) {
-          var none = document.createElement("li");
-          none.className = "starless-empty";
-          none.appendChild(escapeText("No starless references found."));
-          listEl.appendChild(none);
+      function render() {
+        var view = currentView();
+        ledgerEl.innerHTML = "";
+
+        if (!view.length) {
+          var msg = document.createElement("li");
+          msg.className = "sl-msg";
+          msg.appendChild(txt("Nothing matches that search."));
+          ledgerEl.appendChild(msg);
+          buildRail(new Set());
+          updateStats(view);
           return;
         }
 
-        var currentLetter = null;
-        sorted.forEach(function (skill) {
-          var first = (skill.name || skill.id || "")[0].toUpperCase();
-          if (first && first !== currentLetter && /[A-Z]/.test(first)) {
-            currentLetter = first;
-            var anchor = document.createElement("li");
-            anchor.className = "starless-anchor";
-            anchor.setAttribute("data-first", first);
-            anchor.style.display = "none";
-            listEl.appendChild(anchor);
+        var seen = new Set();
+        var letter = null;
+        view.forEach(function (skill) {
+          var L = firstLetter(skill);
+          if (L !== letter) {
+            letter = L; seen.add(L);
+            var head = document.createElement("li");
+            head.className = "sl-letter";
+            head.id = "L-" + L;
+            head.setAttribute("data-letter", L);
+            head.appendChild(txt(L === "#" ? "#" : L));
+            ledgerEl.appendChild(head);
           }
-
-          var children = allBuckets[skill.id] || [];
-          listEl.appendChild(renderEntry(skill, children));
+          ledgerEl.appendChild(row(skill));
         });
 
-        updateAlphaScroll();
+        buildRail(seen);
+        observeLetters();
+        updateStats(view);
       }
 
-      function escapeCSV(value) {
-        value = String(value || "");
-        if (value.indexOf(",") !== -1 || value.indexOf('"') !== -1 || value.indexOf("\n") !== -1) {
-          return '"' + value.replace(/"/g, '""') + '"';
-        }
-        return value;
-      }
-
-      function generateCsv() {
-        var lines = ["Generic Reference,Named Skill,Contributor,Level"];
-
-        filteredSkills.forEach(function (skill) {
-          var children = allBuckets[skill.id] || [];
-          if (children.length) {
-            children.forEach(function (child) {
-              lines.push([
-                escapeCSV(skill.name || skill.id || ""),
-                escapeCSV(child.name || child.title || child.id || ""),
-                escapeCSV(child.contributor || "—"),
-                escapeCSV(child.level || "—")
-              ].join(","));
+      function buildRail(present) {
+        railEl.innerHTML = "";
+        ALPHA.forEach(function (L) {
+          var b = document.createElement("button");
+          b.type = "button";
+          b.appendChild(txt(L));
+          b.setAttribute("aria-label", "Jump to " + L);
+          if (present.has(L)) {
+            b.addEventListener("click", function () {
+              var t = document.getElementById("L-" + L);
+              if (t) t.scrollIntoView({ behavior: "smooth", block: "start" });
             });
           } else {
-            lines.push([escapeCSV(skill.name || skill.id || ""), "—", "—", "—"].join(","));
+            b.disabled = true;
+          }
+          railEl.appendChild(b);
+        });
+      }
+
+      function setActiveLetter(L) {
+        railEl.querySelectorAll("button").forEach(function (b) {
+          b.setAttribute("aria-current", b.textContent === L ? "true" : "false");
+        });
+      }
+
+      function observeLetters() {
+        if (observer) observer.disconnect();
+        observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) setActiveLetter(e.target.getAttribute("data-letter"));
+          });
+        }, { rootMargin: "-8% 0px -88% 0px", threshold: 0 });
+        ledgerEl.querySelectorAll(".sl-letter").forEach(function (h) { observer.observe(h); });
+      }
+
+      function updateStats(view) {
+        var named = view.reduce(function (n, s) { return n + (buckets[s.id] || []).length; }, 0);
+        statsEl.textContent = view.length + " starless · " + named + " named";
+      }
+
+      function csvCell(v) {
+        v = String(v == null ? "" : v);
+        return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
+      }
+      function copyCsv() {
+        var rows = ["Starless,Named Skill,Contributor,Level"];
+        currentView().forEach(function (s) {
+          var kids = (buckets[s.id] || []).slice().sort(byRankDesc);
+          if (kids.length) {
+            kids.forEach(function (k) {
+              rows.push([csvCell(nameOf(s)), csvCell(k.id || nameOf(k)),
+                         csvCell(k.contributor || ""), csvCell(k.level || "")].join(","));
+            });
+          } else {
+            rows.push([csvCell(nameOf(s)), "", "", ""].join(","));
           }
         });
-
-        return lines.join("\n");
+        navigator.clipboard.writeText(rows.join("\n")).then(function () {
+          var was = csvBtn.textContent; csvBtn.textContent = "Copied ✓";
+          setTimeout(function () { csvBtn.textContent = was; }, 1800);
+        }).catch(function () { csvBtn.textContent = "Copy failed"; });
       }
 
-      function showError(message) {
-        listEl.innerHTML = "";
-        var li = document.createElement("li");
-        li.className = "starless-empty";
-        li.appendChild(escapeText(message));
-        listEl.appendChild(li);
-      }
-
-      // Event listeners
-      searchEl.addEventListener("input", function () {
-        filter(searchEl.value);
+      // Events
+      searchEl.addEventListener("input", render);
+      clearEl.addEventListener("click", function () { searchEl.value = ""; searchEl.focus(); render(); });
+      emptyBtn.addEventListener("click", function () {
+        hideEmpty = !hideEmpty;
+        emptyBtn.setAttribute("aria-pressed", String(hideEmpty));
+        emptyBtn.textContent = hideEmpty ? "Show empty" : "Hide empty";
+        render();
       });
+      csvBtn.addEventListener("click", copyCsv);
 
-      searchClearEl.addEventListener("click", function () {
-        searchEl.value = "";
-        filter("");
-        searchEl.focus();
-      });
-
-      exportBtn.addEventListener("click", function () {
-        var csv = generateCsv();
-        navigator.clipboard.writeText(csv).then(function () {
-          var originalText = exportBtn.textContent;
-          exportBtn.textContent = "Copied!";
-          setTimeout(function () {
-            exportBtn.textContent = originalText;
-          }, 2000);
-        }).catch(function () {
-          alert("Could not copy to clipboard. Please try again.");
-        });
-      });
-
-      listEl.addEventListener("scroll", updateAlphaScroll);
-      window.addEventListener("scroll", updateAlphaScroll);
-
-      // Load data
+      // Load
       Promise.all([
         fetch("graph/gaia.json").then(function (r) { return r.json(); }),
         fetch("graph/named/index.json").then(function (r) { return r.json(); })
-      ]).then(function (results) {
-        allSkills = (results[0] && results[0].skills) || [];
-        allBuckets = (results[1] && results[1].buckets) || {};
-        filteredSkills = allSkills.slice();
-
-        renderAlphaIndex(allSkills);
-        render(allSkills);
-        updateStats();
+      ]).then(function (res) {
+        allSkills = (res[0] && res[0].skills) || [];
+        buckets   = (res[1] && res[1].buckets) || {};
+        render();
       }).catch(function () {
-        showError("Could not load the starless taxonomy. Please try again.");
+        ledgerEl.innerHTML = "";
+        var li = document.createElement("li");
+        li.className = "sl-msg";
+        li.appendChild(txt("Could not load the starless taxonomy. Please try again."));
+        ledgerEl.appendChild(li);
       });
     })();
   </script>
