@@ -1,13 +1,13 @@
 {
-  "id": "ruflo",
+  "id": "multi-topology-orchestration",
   "name": "Ruflo",
   "type": "ultimate",
   "rarity": "legendary",
   "description": "The complete Ruflo AI orchestration platform: multi-topology swarm deployment, cloud platform management, GitHub automation, hive-mind consensus, reasoning memory bank, and full v3 architecture modernization.",
   "prerequisites": [
-    "flow-nexus-orchestration",
+    "multi-node-orchestration",
     "agent-memory-platform",
-    "github-platform-mastery",
+    "git-integration",
     "reasoning-pattern-bank",
     "platform-modernization-sprint",
     "dual-mode"
@@ -34,6 +34,12 @@
       "details": "Skill created as 6★ (provisional)",
       "previousValue": null,
       "newValue": "6★"
+    },
+    {
+      "timestamp": "2026-06-01T15:39:42Z",
+      "action": "rename",
+      "contributor": "unknown",
+      "details": "Renamed from ruflo to multi-topology-orchestration"
     }
   ]
 }

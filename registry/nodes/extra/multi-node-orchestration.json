@@ -1,5 +1,5 @@
 {
-  "id": "flow-nexus-orchestration",
+  "id": "multi-node-orchestration",
   "name": "Flow Nexus Orchestration",
   "type": "extra",
   "rarity": "rare",
@@ -25,6 +25,12 @@
       "details": "Skill created as 4★ (provisional)",
       "previousValue": null,
       "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-06-01T15:39:44Z",
+      "action": "rename",
+      "contributor": "unknown",
+      "details": "Renamed from flow-nexus-orchestration to multi-node-orchestration"
     }
   ]
 }

@@ -3,7 +3,7 @@ id: ruvnet/flow-nexus
 name: Flow Nexus
 contributor: ruvnet
 origin: true
-genericSkillRef: flow-nexus-orchestration
+genericSkillRef: multi-node-orchestration
 status: named
 title: The Grand Conductor's Trilogy
 catalogRef: ruvnet-flow-nexus

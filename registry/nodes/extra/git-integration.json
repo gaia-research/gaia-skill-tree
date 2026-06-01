@@ -1,5 +1,5 @@
 {
-  "id": "github-platform-mastery",
+  "id": "git-integration",
   "name": "GitHub Platform Mastery",
   "type": "extra",
   "rarity": "uncommon",
@@ -35,6 +35,12 @@
       "details": "Calibrated/demoted rank from 4★ to 3★",
       "previousValue": "4★",
       "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-06-01T15:39:47Z",
+      "action": "rename",
+      "contributor": "unknown",
+      "details": "Renamed from github-platform-mastery to git-integration"
     }
   ]
 }
