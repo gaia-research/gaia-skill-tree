@@ -95,6 +95,10 @@ _Avoid_: submit, request.
 
 ### Registry mechanics
 
+**Starless**:
+The collective term for generic skill references — rank-less taxonomy nodes that carry no stars of their own. Stars belong only to a starless ref's named-skill implementations (its "children"); a starless ref's *effective rank* is the top star among its named variants. A starless ref also holds the shared, capability-level (Class A / academic) evidence pool that every named child inherits; named skills add their own implementation-specific evidence on top. Whenever a starless reference is shown in UI or copy it renders as *generic* in italic, greyed-out styling — "generic" is retained as the technical descriptor, "starless" is the brand / collective noun.
+_Avoid_: giving a generic skill reference its own stars, level, or tier; "leveled generic", "ranked reference".
+
 **Registry**:
 The canonical, maintainer-reviewed graph of all skills (`registry/gaia.json`). Public, versioned, evidence-backed.
 _Avoid_: database, catalog, index.

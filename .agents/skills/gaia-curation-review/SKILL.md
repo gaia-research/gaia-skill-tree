@@ -6,6 +6,9 @@ version: 1.0.0
 
 # gaia-curation-review
 
+> **Starless (rank-less generics):** Generic skill references carry **no `level`, `demerits`, or stars** — they are *starless* taxonomy. Stars live only on named skills (2★–6★); a generic's effective rank is the top star among its named children. Generic nodes keep capability-level (Class A) evidence that every named child **inherits**; implementation-specific evidence lives on the named skill. Never write a level/demerit to a generic and never `gaia dev calibrate` a generic (calibrate is named-only). Advanced evidence tiers are an upcoming meta shift.
+
+
 Review a curation pull request or branch and produce a structured assessment of what it actually adds to the registry, stripped of all generated noise.
 
 ## Input
@@ -31,7 +34,7 @@ gaia dev diff <branch-name>
 ```
 
 This compares `origin/main..origin/<branch>` using structured JSON parsing of `registry/gaia.json`. It strips all generated files (SVG, HTML, GEXF, timestamps, lock files) and reports only:
-- New generic skill nodes (id, type, level, prerequisites, evidence)
+- New generic skill nodes (id, type, prerequisites, evidence) — generics are rank-less *starless* refs (no level)
 - Removed generic skill nodes (danger — flag loudly)
 - New named skill files (id, genericSkillRef, level)
 - New and removed graph edges

@@ -126,7 +126,15 @@ Hard rule: any schema file change must come from a `schema/...` branch.
 - Skill types in graph: `basic`, `extra`, `ultimate`
 - Keep skills vendor-agnostic
 
-### Evidence by star level
+### Starless generic references vs. named skills
+
+Generic skill references are **starless** — rank-less taxonomy nodes that carry **no stars of their own** (see [`CONTEXT.md`](CONTEXT.md) § Starless). Stars live only on the **named-skill** implementations that hang off a reference (its "children"); a starless ref's *effective rank* is the top star among those children. In the UI a starless reference renders as *generic* in italic, greyed-out styling, with "generic" kept as the technical descriptor. When you add or edit a generic reference via `gaia dev`, do not assign it a level — leave ranking to its named children.
+
+A starless reference holds the **inherited capability pool**: capability-level (Class A / academic) evidence for the abstract capability itself, which every named child inherits as a baseline. Named skills then add their own implementation-specific evidence on top.
+
+> **Upcoming meta shift.** Per-named evidence-floor enforcement (gating each named child on its own evidence) and finer-grained advanced evidence tiers are on the roadmap — forward-looking direction, not yet enforced. See [META.md](META.md#2-evidence-methodology-the-trust-stack).
+
+### Evidence by star level (named implementations)
 
 Taxonomy definitions, evidence floors, and ranking rules have been consolidated.
 

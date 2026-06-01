@@ -39,9 +39,9 @@ Curate remote `bot/*` crawler branches into `registry/real-skills.json` from a f
 
 5. **Integrate and Promote**
    - Main agent executes `gaia add` and `gaia evidence` commands for accepted entries.
-   - For generic nodes: `gaia add "Skill Name" --id <id> --type extra --description "..."`
-   - For named skills: `gaia add "Skill Name" --id <id> --named --generic-ref <ref>`
-   - Use `gaia evidence` to attach the payload URLs and details to the skill.
+   - **For generic (starless) nodes**: `gaia add "Skill Name" --id <id> --type extra --description "..."` — generic skills have no `--level` flag; they are rank-less taxonomy.
+   - **For named skills**: `gaia add "Skill Name" --id <id> --named --contributor <user> --generic-ref <ref>` — named skills receive star levels (2★–6★) in their YAML frontmatter.
+   - Use `gaia evidence` to attach the payload URLs and details to the appropriate skill (generic or named, as applicable).
    - NEVER hand-edit files in `registry/`.
 
 6. **Clean remote bot branches**

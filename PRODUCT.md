@@ -30,9 +30,12 @@ permanently attributed, verifiably earned.
 
 Gaia is the open, evidence-backed skill graph for AI agents. It exists because there
 is no canonical registry of what agents can do — capabilities are scattered,
-undocumented, and unverified. Gaia provides a DAG where every skill is catalogued by
-tier (Basic / Extra / Unique / Ultimate), ranked by evidence (0★–6★), attributed to
-the Origin Contributor who first demonstrated it, and composable into emergent fusions.
+undocumented, and unverified. Gaia provides a DAG where every capability is catalogued by
+tier (Basic / Extra / Unique / Ultimate) as a **starless** generic reference — rank-less
+taxonomy that carries no stars of its own — and each named implementation hanging off it is
+ranked by evidence (0★–6★), attributed to the Origin Contributor who first demonstrated it,
+and composable into emergent fusions. A starless reference's effective rank is the top star
+among its named children; in the UI it reads as *generic* in italic, greyed-out styling.
 
 The Hunter's Atlas is Gaia's public surface: a visual ledger of that graph — a
 discovery layer (what can agents do?), an attribution layer (who demonstrated it

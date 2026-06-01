@@ -6,6 +6,9 @@ version: 1.1.0
 
 # gaia-meta-audit
 
+> **Starless (rank-less generics):** Generic skill references carry **no `level`, `demerits`, or stars** — they are *starless* taxonomy. Stars live only on named skills (2★–6★); a generic's effective rank is the top star among its named children. Generic nodes keep capability-level (Class A) evidence that every named child **inherits**; implementation-specific evidence lives on the named skill. Never write a level/demerit to a generic and never `gaia dev calibrate` a generic (calibrate is named-only). Advanced evidence tiers are an upcoming meta shift.
+
+
 Build a prioritized queue of Gaia skills or catalog items that need focused review.
 
 ## Workflow
@@ -30,7 +33,7 @@ Build a prioritized queue of Gaia skills or catalog items that need focused revi
    - **Wrong-target link**: `links.github` points at a different skill's directory than the named skill claims to implement.
    - **Brand-coupled generic IDs**: A canonical (generic) skill ID containing the product/brand name (e.g. `gaia-audit`, `gaia-meta-audit`) violates META §1 — generics must be abstract capabilities. Rename via `gaia dev rename` to an abstract noun phrase (e.g. `gaia-audit` → `registry-entry-audit`). The brand stays in the **named** layer.
    - **Mis-attributed `origin: true`**: Per META §4.1, only ONE contributor holds Origin per generic — the first to implement it. "Lives in this repo" does not equal "Origin." Verify by sorting all named skills with the same `genericSkillRef` by `createdAt` — only the earliest can claim `origin: true`.
-   - **Level overshoot**: A named skill with `level` exceeding its canonical generic's `level` (META §1: named must not exceed generic). E.g. named claims 4★ but the generic is Extra 3★ — demote the named, not the generic.
+   - **Unbacked star**: a named skill's `level` (star) is not backed by its own + inherited evidence. Generics are rank-less, so there is no generic level to "overshoot" — judge the named star on evidence, not the generic.
    - `promotedNamedSkillId` entries with weak or broad source evidence.
    - Catalog URLs that point to directories, homepages, or stale paths instead of specific files.
    - Repo-root evidence where a specific `SKILL.md` or **agent playbook** should exist.
@@ -46,7 +49,7 @@ Build a prioritized queue of Gaia skills or catalog items that need focused revi
 
 5. Prioritize:
    - **P0**: Unsupported Ultimate claim, unsupported named-origin claim, or named claim with no implementation file in the repo.
-   - **P1**: Dead evidence links (Liveness Heartbeat failure), missing 3★+ Star Bar implementation, link casing miss, wrong-target link, brand-coupled generic ID, level overshoot.
+   - **P1**: Dead evidence links (Liveness Heartbeat failure), missing 3★+ Star Bar implementation, link casing miss, wrong-target link, brand-coupled generic ID, unbacked named star.
    - **P2**: Wrong `promotedNamedSkillId`, stale source URL, likely superseded origin, mis-attributed `origin: true`.
    - **P3**: Broad `mapsToGaia` / `genericSkillRef`, duplicate catalog item, weak evidence tier, Semantic Fusion candidate ready to extract.
    - **P4**: Documentation cleanup, placeholder bodies, `testuser` timelines, generated-output drift.
@@ -66,8 +69,8 @@ Build a prioritized queue of Gaia skills or catalog items that need focused revi
 | Generic-skill rename (cascades to prereqs + named refs) | `gaia dev rename old new` |
 | Add new generic | `gaia dev add "Name" --id <slug> --type extra --description "..."` |
 | Set generic prereqs | `gaia dev link <id> a,b,c` |
-| Calibrate generic level | `gaia dev calibrate <id> 3★` |
-| Add evidence to generic (REQUIRED at 3★+) | `gaia dev evidence <id> <url> --class B --evaluator <user>` |
+| Calibrate **named-skill** star (generics are rank-less) | `gaia dev calibrate <contributor/skill> 3★` |
+| Add **capability** evidence to a generic (inherited by all named) | `gaia dev evidence <id> <url> --class B --evaluator <user>` |
 | Reclassify generic type | `gaia dev reclassify <id> <type>` |
 | Remove generic | `gaia dev rm <id>` |
 | Named-skill `genericSkillRef` change | `gaia dev update-named <author/skill> --generic-ref <new>` |
@@ -82,7 +85,7 @@ After mutating, **always** run `gaia validate` and `gaia docs build`.
 ## Common gotchas (validated in PR #525)
 
 - **Renames leave orphan docs.** `gaia dev rename` renames the node JSON and updates `genericSkillRef` in named files, but leaves stale `registry/skills/<type>/<old-id>.md`. Delete the orphan.
-- **Adding a new generic at 3★+ fails validation without evidence.** After `gaia dev add` + `gaia dev calibrate ... 3★`, immediately `gaia dev evidence ... --class B` or `gaia validate` will fail with "requires evidence but has none."
+- **Generics are rank-less — do not calibrate them.** A generic carries no level; capability (Class A) evidence on a generic is inherited by every named child. Per-named evidence floors are checked on the named skill's star, not on the generic.
 - **`gaia dev` timeline entries land with `contributor: unknown`** when the local user isn't picked up. Edit the JSON to set `mbtiongson1` (or whoever) before committing.
 - **`gaia docs build` after big changes regenerates ~30 files.** Per CLAUDE.md §8, feature/logic PRs should NOT commit `registry/gaia.json` or `docs/graph/gaia.json` (auto-sync CI handles them). For `review/meta/*` branches, the **branch-scope CI** blocks `docs/` and `.agents/` paths — apply the `skip-scope-check` label, OR keep the working tree limited to `registry/**` and let auto-sync regenerate.
 - **`review/meta/*` Schema + DAG CI requires generated docs in lockstep.** This contradicts the §8 guidance. Resolution: commit the regenerated docs WITH the `skip-scope-check` label and a `[skip-gen]` tag on the commit message to suppress the auto-regen workflow.

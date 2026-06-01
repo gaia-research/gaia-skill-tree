@@ -5,6 +5,9 @@ description: Run a multi-phase Workflow that audits the entire Gaia registry aga
 
 # gaia-meta-sweep
 
+> **Starless (rank-less generics):** Generic skill references carry **no `level`, `demerits`, or stars** — they are *starless* taxonomy. Stars live only on named skills (2★–6★); a generic's effective rank is the top star among its named children. Generic nodes keep capability-level (Class A) evidence that every named child **inherits**; implementation-specific evidence lives on the named skill. Never write a level/demerit to a generic and never `gaia dev calibrate` a generic (calibrate is named-only). Advanced evidence tiers are an upcoming meta shift.
+
+
 Orchestrate a registry-wide meta audit with the **Workflow** tool. The skill spawns a fan-out of focused audit agents, an adversarial verification pass, a Semantic-Fusion / new-generic-proposal pass, and a synthesis pass that emits a publish-ready HTML report under `docs/meta/reports/`.
 
 This skill is the macro-level companion to `/gaia-meta-audit` (queue building) and `/gaia-audit` (single-target correction). Where those two operate one target at a time, `/gaia-meta-sweep` covers the whole registry in one shot via Workflow orchestration and produces a single artifact the user can publish.
@@ -26,7 +29,7 @@ Ask the user (or infer) before kicking off:
 
 | Input | Description | Default |
 |---|---|---|
-| `mode` | `read-only` (findings + report only) or `apply-safe` (also runs `gaia dev rename`/`calibrate`/`evidence`/demerit edits for high-confidence corrections) | `read-only` |
+| `mode` | `read-only` (findings + report only) or `apply-safe` (also runs `gaia dev rename`/`calibrate` (named-only)/`evidence` for high-confidence corrections) | `read-only` |
 | `fusion-aggressiveness` | `moderate` (3–8 high-confidence Semantic Fusion candidates, adversarially verified) or `aggressive` (10–20+ including speculative pairings) | `moderate` |
 | `scope` | `all` (every named + generic skill) or a filter expression (e.g. `level>=3★`, `contributor:mbtiongson1`) | `all` |
 | `report-slug` | Filename for the report under `docs/meta/reports/` | `<YYYY-MM-DD>-meta-audit.html` |
@@ -46,8 +49,10 @@ Ask the user (or infer) before kicking off:
    PYTHONIOENCODING=utf-8 python - <<'PY'
    import json, collections
    g = json.load(open("registry/gaia.json", encoding="utf-8"))
-   c = collections.Counter(s.get("level","?") for s in g["skills"])
-   print({k: c[k] for k in ["0★","1★","2★","3★","4★","5★","6★"]})
+   # Generics are rank-less (starless); stars live on named skills.
+   nb = json.load(open("registry/named-skills.json", encoding="utf-8"))["buckets"]
+   c = collections.Counter(e.get("level","?") for v in nb.values() for e in v)
+   print({k: c[k] for k in ["2★","3★","4★","5★","6★"]})
    PY
    ```
    These numbers feed the timeline JSON in step 6.
@@ -83,14 +88,14 @@ Dimensions (each is one agent):
 1. `star-bar` — every 3★+ named skill missing/dead `links.github` (META §2.4)
 2. `liveness` — run `python scripts/verify_evidence.py`, return broken URLs (META §2.2 Liveness Heartbeat)
 3. `origin-attribution` — for every `genericSkillRef`, sort named skills by `createdAt`; flag any non-earliest with `origin: true` (META §4.1)
-4. `level-overshoot` — named whose `level` exceeds canonical generic's level (META §1)
+4. `unbacked-star` — named whose `level` (star) is not backed by its own + inherited evidence (generics are rank-less — no overshoot)
 5. `brand-coupled` — generic IDs containing brand/product names (META §1, §2.4)
-6. `demerits-missing` — 3★+ skills with known heavyweight deps / niche integrations not flagged (META §3)
+6. `heavy-deps` — 3★+ named skills with known heavyweight deps / niche integrations (generic demerits are removed from the schema)
 7. `installability` — 3★+ non-suite skills with `installable: false` or no GitHub link (META §2.4 Star Bar)
 8. `placeholder-bodies` — named markdown with stub `## Installation` only (no `## Overview`)
 9. `testuser-timelines` — `contributor: testuser` survivors
 10. `champion-cluster` — for every generic, surface multi-implementation clusters where no Champion is set (META §6.1)
-11. `unique-isolation` — Unique skills with prerequisites or below 4★ (META §1.2 — Unique = level 4★+, 0 prereqs)
+11. `unique-isolation` — Unique skills with prerequisites or whose top named star is below 4★ (META §1.2 — Unique = 4★+ named star, 0 prereqs)
 12. `class-mismatch` — evidence claiming Class A without peer-review/10k★ marker (META §2.1)
 
 Each agent returns:
@@ -119,12 +124,11 @@ Schema:
 ```json
 { "type":"object","required":["candidates"],
   "properties":{"candidates":{"type":"array","items":{
-    "type":"object","required":["proposedGenericId","proposedName","prerequisites","level","rationale","exampleNamed"],
+    "type":"object","required":["proposedGenericId","proposedName","prerequisites","rationale","exampleNamed"],
     "properties":{
       "proposedGenericId":{"type":"string"},
       "proposedName":{"type":"string"},
       "prerequisites":{"type":"array","items":{"type":"string"},"minItems":2},
-      "level":{"enum":["3★","4★"]},
       "rationale":{"type":"string"},
       "exampleNamed":{"type":"array","items":{"type":"string"}}
     }}}}}
@@ -145,12 +149,11 @@ Schema:
 ```json
 { "type":"object","required":["proposals"],
   "properties":{"proposals":{"type":"array","items":{
-    "type":"object","required":["id","name","type","level","description","prerequisites","reasoning"],
+    "type":"object","required":["id","name","type","description","prerequisites","reasoning"],
     "properties":{
       "id":{"type":"string","pattern":"^[a-z0-9-]+$"},
       "name":{"type":"string"},
       "type":{"enum":["basic","extra","unique"]},
-      "level":{"enum":["0★","1★","2★","3★","4★"]},
       "description":{"type":"string","minLength":10},
       "prerequisites":{"type":"array","items":{"type":"string"}},
       "reasoning":{"type":"string"}
@@ -197,10 +200,10 @@ After Phase 5 produces the findings.json, replay the high-confidence subset prog
 | Finding type | CLI command |
 |---|---|
 | Brand-coupled generic ID | `gaia dev rename <old> <new>` |
-| Level overshoot (named > generic) | direct YAML edit on the named markdown (CLI doesn't expose `level`) |
+| Unbacked named star (generics are rank-less — no overshoot) | `gaia dev calibrate <author/skill> N★` or direct YAML edit on the named markdown |
 | Missing 3★+ evidence | `gaia dev evidence <id> <url> --class B --evaluator <user>` |
-| Dead-link demerit | direct YAML edit: add `broken-evidence` to `demerits` + log a `demote` timeline event |
-| Unique reclassification (below 4★) | `gaia dev reclassify <id> basic` |
+| Dead evidence link | remove/replace the offending evidence entry + log a `demote` timeline event (demerits are removed from the generic schema) |
+| Unique reclassification (top named star below 4★) | `gaia dev reclassify <id> basic` |
 
 After every mutation:
 

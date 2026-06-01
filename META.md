@@ -8,11 +8,13 @@ This document serves as the **single source of truth** for the Gaia Skill Regist
 
 Gaia uses a tiered star system (`0★`–`6★`) to rank skills. Levels are both a measure of technical complexity and a mark of community prestige.
 
-### 1.1 Star Tiers & Rank Labels
+> **Stars live on named skills only.** Generic skill references are **starless** — rank-less taxonomy nodes that carry no stars of their own (see `CONTEXT.md` § Starless). A starless ref's *effective rank* is the top star among its named-skill children. The star table below therefore describes **named implementations**; the starless reference they map to has no level of its own and renders as *generic* (italic, greyed-out) in the UI.
+
+### 1.1 Star Tiers & Rank Labels (named implementations)
 | Level | Label | Significance | Evidence Floor |
 |---|---|---|---|
-| **0★** | **Basic** | Generic primitive, no implementation. | None |
-| **1★** | **Awakened** | Verified generic primitive. | None |
+| **0★** | **Basic** | Pre-named primitive — a freshly scanned candidate against a starless reference. | None |
+| **1★** | **Awakened** | Verified candidate, not yet named. | None |
 | **2★** | **Named** | Minimum level for named implementations. | Tier C |
 | **3★** | **Evolved** | Demonstrates reproducibility and stability. | Tier B |
 | **4★** | **Hardened** | Production-ready, well-documented, reliable. | Tier B/A |
@@ -35,6 +37,17 @@ Evidence is categorized by "Class," representing the level of third-party verifi
 - **Class A (Peer-Reviewed)**: Published papers (arXiv, journals), large-scale adoption (10k+ stars), or official vendor documentation.
 - **Class B (Reproducible Demo)**: Public repositories with clear installation steps, tests, and video/log evidence.
 - **Class C (Credible Demo)**: Blog posts, social media demos, or "coming soon" repositories with code.
+
+### 2.1a Inherited Capability Pool (Starless evidence)
+
+Evidence attaches at two levels:
+
+- **Starless (generic) references** hold the **capability-level** evidence — Class A / academic provenance for the abstract capability itself (the foundational paper, the canonical technique). This is the **inherited capability pool**: every named child of a starless ref inherits this evidence automatically as the baseline for the capability they implement.
+- **Named skills** add their own **implementation-specific** evidence (their repo, tests, adoption, demos) on top of the inherited pool. A named skill's rank is gated by its *own* implementation evidence, not by the inherited capability evidence alone.
+
+This keeps the starless reference rank-less while still letting it carry the shared academic backing that justifies the capability's existence in the graph.
+
+> **Upcoming meta shift.** Per-named **evidence-floor enforcement** (validating each named child's own evidence against the floor for its claimed star, independent of the inherited pool) and finer-grained **advanced evidence tiers** are on the roadmap. The model above is the current, forward-looking direction — exact enforcement thresholds will be settled in a future meta shift.
 
 ### 2.2 The "Prestige Pivot" Roadmap (RFC #457)
 
@@ -117,7 +130,7 @@ To maintain high prestige and avoid "Vendor Bloat," Gaia employs a proactive pru
 
 ## 7. Source of Truth Files
 
-- **`registry/nodes/*.json`**: Canonical generic skill definitions (Managed via `gaia dev`).
+- **`registry/nodes/*.json`**: Canonical generic (starless) skill-reference definitions — rank-less taxonomy nodes plus their inherited capability-evidence pool (Managed via `gaia dev`).
 - **`registry/named/**/*.md`**: Named implementations and their meta-tags.
 - **`registry/schema/meta.json`**: Central registry for nomenclature, colors, symbols, and floors.
 - **`registry/gaia.json`**: Generated artifact; do not hand-edit.
