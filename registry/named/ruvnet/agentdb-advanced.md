@@ -5,21 +5,28 @@ contributor: ruvnet
 origin: true
 genericSkillRef: distributed-vector-memory
 status: named
-title: "The Memory Architect"
+title: The Memory Architect
 catalogRef: ruvnet-agentdb-advanced
-level: "3★"
-description: Implements sub-millisecond cross-node vector synchronization using QUIC protocol with hybrid metadata-filtered search and MMR diversity retrieval.
+level: 3★
+description: Implements sub-millisecond cross-node vector synchronization using QUIC
+  protocol with hybrid metadata-filtered search and MMR diversity retrieval.
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - vector-memory
-  - quic
-  - distributed
-  - hybrid-search
-  - mmr
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/agentdb"
+- vector-memory
+- quic
+- distributed
+- hybrid-search
+- mmr
+createdAt: '2026-05-19'
+updatedAt: '2026-05-19'
+suiteRef: ruvnet/agentdb
+evidence:
+- class: B
+  source: https://github.com/ruvnet/ruflo
+  evaluator: mbtiongson1
+  date: '2026-05-19'
+  notes: Ruflo orchestration platform — 34k+ GitHub stars.
 ---
 
 ## Overview

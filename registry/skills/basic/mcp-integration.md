@@ -1,10 +1,8 @@
-# [garrytan](../../../docs/u/garrytan/)/pair-agent  [3★ · Evolved]
+# [garrytan](../../../docs/u/garrytan/)/pair-agent  [3★]
 **ID:** mcp-integration  
 **Type:** Basic Skill  
-**Level:** 3★  
-**Tier:** Evolved  
-**Potential:** 2★  
-**Demerits:** niche-integration  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
+**Top named variant:** 3★  
 **Skill Call:** `/mcp-integration`
 
 ---
@@ -19,12 +17,20 @@ _None._
 - [MCP Server Creation](../extra/mcp-server-creation.md)
 - [Founder Mode](../ultimate/gstack.md)
 
-## Evidence
+## Named Implementations
+| Named Skill | Contributor | Stars | Evidence |
+|---|---|---|---|
+| garrytan/pair-agent | garrytan | 3★ | 0 |
+| intelligentcode-ai/mcp-client | intelligentcode-ai | 2★ | 1 |
+| ruvnet/v3-mcp-optimization | ruvnet | 2★ | 0 |
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | B | https://github.com/modelcontextprotocol/go-sdk | mbtiongson1 | 2026-04-30 |
 | B | https://github.com/nanbingxyz/5ire | mbtiongson1 | 2026-04-30 |
-| C | https://github.com/intelligentcode-ai/skills/blob/main/skills/mcp-client/SKILL.md | mbtiongson1 | 2026-04-30 |
 
 ## Known Agents
 _None verified yet._

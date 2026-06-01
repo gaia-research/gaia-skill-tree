@@ -2,7 +2,6 @@
   "id": "knowledge-harvest",
   "name": "Knowledge Harvest",
   "type": "extra",
-  "level": "1★",
   "rarity": "rare",
   "description": "Extracts, structures, and embeds knowledge from web sources into a searchable corpus.",
   "prerequisites": [
@@ -16,7 +15,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-26",
-  "updatedAt": "2026-04-26",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

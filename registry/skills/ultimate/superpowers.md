@@ -1,8 +1,8 @@
-# [obra](../../../docs/u/obra/)/superpowers  [5★ · Transcendent]
+# [obra](../../../docs/u/obra/)/superpowers  [5★]
 **ID:** superpowers  
 **Type:** Ultimate Skill  
-**Level:** 5★  
-**Tier:** Transcendent  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
+**Top named variant:** 5★  
 **Skill Call:** `/superpowers`
 
 ---
@@ -29,10 +29,15 @@ _None._
 ## Fusion Condition
 Requires demonstrating all 11 obra discipline skills together in a real multi-step development context.
 
-## Evidence
-| Class | Source | Evaluator | Date |
+## Named Implementations
+| Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| B | https://github.com/obra/superpowers | mbtiongson1 | 2026-05-18 |
+| obra/superpowers ⭑ | obra | 5★ | 1 |
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
+_None._
 
 ## Known Agents
 _None verified yet._

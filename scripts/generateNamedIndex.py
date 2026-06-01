@@ -61,6 +61,7 @@ INDEX_SKILL_FIELDS = [
     "catalogRef",
     "tags",
     "links",
+    "evidence",
     "createdAt",
     "updatedAt",
     "timeline",
@@ -79,192 +80,24 @@ def parse_frontmatter(text):
     """Parse YAML frontmatter from a markdown string.
 
     Returns (frontmatter_dict, body_str) or raises ValueError on malformed input.
-    Supports scalar values, quoted strings, booleans, inline arrays, and one level
-    of nested mappings (e.g. links:).
+    Uses a real YAML parser so nested mappings and block sequences of mappings
+    (e.g. the ``evidence:`` list-of-dicts) round-trip correctly.
     """
-    lines = text.splitlines()
-    if not lines or lines[0].strip() != "---":
+    import yaml
+
+    if not text.startswith("---"):
         raise ValueError("File does not start with '---' frontmatter delimiter.")
-
-    # Find closing ---
-    end = None
-    for i, line in enumerate(lines[1:], start=1):
-        if line.strip() == "---":
-            end = i
-            break
-    if end is None:
+    parts = text.split("---", 2)
+    if len(parts) < 3:
         raise ValueError("Frontmatter closing '---' not found.")
-
-    fm_lines = lines[1:end]
-    body = "\n".join(lines[end + 1:])
-    data = {}
-    current_key = None
-    current_nested = None  # dict being built for a nested block
-
-    def _parse_scalar(raw):
-        """Convert a raw string value to bool/string."""
-        stripped = raw.strip().strip('"').strip("'")
-        if raw.strip().lower() == "true":
-            return True
-        if raw.strip().lower() == "false":
-            return False
-        return stripped
-
-    def _parse_inline_array(raw):
-        """Parse a YAML inline array like [a, b, c]."""
-        inner = raw.strip()[1:-1]  # strip [ ]
-        if not inner.strip():
-            return []
-        return [item.strip().strip('"').strip("'") for item in inner.split(",")]
-
-    for line in fm_lines:
-        # Blank line in frontmatter
-        if not line.strip():
-            continue
-
-        # Continuation of a block sequence (list under a key)
-        if line.startswith("  - ") or line.startswith("    - "):
-            item = line.strip()[2:].strip().strip('"').strip("'")
-            if current_nested is not None:
-                # This shouldn't normally happen in our schema, ignore gracefully
-                pass
-            elif current_key and isinstance(data.get(current_key), list):
-                data[current_key].append(item)
-            continue
-
-        # Nested mapping continuation (2-space indent, key: value, no leading -)
-        if (line.startswith("  ") and not line.startswith("  -")
-                and ":" in line and current_nested is not None):
-            sub_key, _, sub_val = line.strip().partition(":")
-            current_nested[sub_key.strip()] = _parse_scalar(sub_val)
-            continue
-
-        # Flush nested block when we hit a top-level key
-        if current_nested is not None:
-            current_nested = None
-
-        if ":" not in line:
-            continue
-
-        key, _, rest = line.partition(":")
-        key = key.strip()
-        rest = rest.strip()
-
-        if rest == "":
-            # Could be a block sequence start or nested mapping start
-            # We'll decide based on what follows; mark key as current
-            current_key = key
-            # Peek ahead handled by next iteration
-            data[key] = None
-            current_nested = None
-            continue
-
-        # Inline array
-        if rest.startswith("["):
-            data[key] = _parse_inline_array(rest)
-            current_key = key
-            current_nested = None
-            continue
-
-        # Regular scalar
-        data[key] = _parse_scalar(rest)
-        current_key = key
-        current_nested = None
-
-        # If value was empty string after stripping, treat as nested map start
-        # (handles "links:" with no value on same line — already caught above)
-
-    # Second pass: fix None values that should have been block sequences or nested maps.
-    # Any key left as None and not overwritten gets an empty default.
-    for k, v in list(data.items()):
-        if v is None:
-            data[k] = {}
-
-    # Special handling: "tags" and "links" may still be None if lines came later.
-    # Re-parse with awareness of nesting.
-    data, _ = _parse_frontmatter_full(fm_lines)
-
-    return data, body
-
-
-def _parse_frontmatter_full(fm_lines):
-    """Full two-pass parser handling nested maps and block sequences."""
-    data = {}
-    i = 0
-    while i < len(fm_lines):
-        line = fm_lines[i]
-        if not line.strip():
-            i += 1
-            continue
-        if ":" not in line:
-            i += 1
-            continue
-
-        # Skip indented continuation lines — they belong to a preceding block
-        # (e.g. nested timeline entries like "  contributor: testuser") and
-        # must not overwrite top-level fields when key.strip() collides.
-        if line[0] in (" ", "\t"):
-            i += 1
-            continue
-
-        # Top-level key
-        key, _, rest = line.partition(":")
-        key = key.strip()
-        rest = rest.strip()
-
-        if rest == "":
-            # Could be block sequence or nested mapping — look at next lines
-            nested_dict = {}
-            nested_list = []
-            j = i + 1
-            while j < len(fm_lines):
-                nline = fm_lines[j]
-                if not nline.strip():
-                    j += 1
-                    continue
-                if not nline.startswith(" "):
-                    break  # back to top-level
-                stripped = nline.strip()
-                if stripped.startswith("- "):
-                    nested_list.append(stripped[2:].strip().strip('"').strip("'"))
-                    j += 1
-                elif ":" in stripped:
-                    sub_key, _, sub_val = stripped.partition(":")
-                    nested_dict[sub_key.strip()] = _coerce(sub_val.strip())
-                    j += 1
-                else:
-                    j += 1
-            if nested_list:
-                data[key] = nested_list
-                i = j
-            elif nested_dict:
-                data[key] = nested_dict
-                i = j
-            else:
-                data[key] = {}
-                i += 1
-        elif rest.startswith("["):
-            inner = rest.strip()[1:-1]
-            if not inner.strip():
-                data[key] = []
-            else:
-                data[key] = [item.strip().strip('"').strip("'") for item in inner.split(",")]
-            i += 1
-        else:
-            data[key] = _coerce(rest)
-            i += 1
-
-    return data, ""
-
-
-def _coerce(value):
-    """Coerce a raw string to bool or string."""
-    stripped = value.strip().strip('"').strip("'")
-    if value.strip().lower() == "true":
-        return True
-    if value.strip().lower() == "false":
-        return False
-    return stripped
+    _, fm_text, body = parts
+    try:
+        data = yaml.safe_load(fm_text) or {}
+    except yaml.YAMLError as exc:
+        raise ValueError(f"Invalid YAML frontmatter: {exc}")
+    if not isinstance(data, dict):
+        raise ValueError("Frontmatter is not a mapping.")
+    return data, body.lstrip("\n")
 
 
 def load_named_skills(named_dir):

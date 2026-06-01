@@ -1,8 +1,7 @@
-# /function-calling  [2★ · Named]
+# /function-calling
 **ID:** function-calling  
 **Type:** Extra Skill  
-**Level:** 2★  
-**Tier:** Named  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
 **Skill Call:** `/function-calling`
 
 ---
@@ -21,7 +20,12 @@ _None._
 ## Fusion Condition
 Requires an available function or tool catalog with machine-readable argument schemas and result contracts.
 
-## Evidence
+## Named Implementations
+_None yet — be the first to claim this skill._
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | A | https://arxiv.org/abs/2307.16789 | rico-favor | 2026-04-29 |

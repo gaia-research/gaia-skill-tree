@@ -1,8 +1,8 @@
-# [garrytan](../../../docs/u/garrytan/)/plan-eng-review  [2★ · Named]
+# [garrytan](../../../docs/u/garrytan/)/plan-eng-review  [4★]
 **ID:** code-review-pipeline  
 **Type:** Extra Skill  
-**Level:** 2★  
-**Tier:** Named  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
+**Top named variant:** 4★  
 **Skill Call:** `/code-review-pipeline`
 
 ---
@@ -26,7 +26,16 @@ Performs automated code review by generating, diffing, and evaluating code chang
 ## Fusion Condition
 _None specified._
 
-## Evidence
+## Named Implementations
+| Named Skill | Contributor | Stars | Evidence |
+|---|---|---|---|
+| garrytan/plan-eng-review | garrytan | 4★ | 0 |
+| garrytan/review | garrytan | 4★ | 0 |
+| ruvnet/github-code-review | ruvnet | 3★ | 0 |
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | A | https://arxiv.org/abs/2203.09095 | mbtiongson1 | 2026-04-28 |

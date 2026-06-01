@@ -5,20 +5,28 @@ contributor: ruvnet
 origin: true
 genericSkillRef: hive-mind-coordination
 status: named
-title: "Queen Seraphina's Hive"
-level: "4★"
-description: Queen-led collective intelligence with Byzantine, majority, and weighted consensus mechanisms, eight worker specializations, and persistent collective SQLite memory with LRU caching.
+title: Queen Seraphina's Hive
+level: 4★
+description: Queen-led collective intelligence with Byzantine, majority, and weighted
+  consensus mechanisms, eight worker specializations, and persistent collective SQLite
+  memory with LRU caching.
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - multi-agent
-  - consensus
-  - swarm
-  - collective-intelligence
-  - memory
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/ruflo"
+- multi-agent
+- consensus
+- swarm
+- collective-intelligence
+- memory
+createdAt: '2026-05-19'
+updatedAt: '2026-05-19'
+suiteRef: ruvnet/ruflo
+evidence:
+- class: B
+  source: https://github.com/ruvnet/ruflo
+  evaluator: mbtiongson1
+  date: '2026-05-19'
+  notes: Ruflo orchestration platform — 34k+ GitHub stars.
 ---
 
 ## Overview

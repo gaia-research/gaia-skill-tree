@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-31",
+  "generatedAt": "2026-06-01",
   "schema": "gaia-badges-registry/2",
   "description": "Approved repos per contributor for Gaia README badges. Derived from registry/named-skills.json `links.github` URLs. The site Worker at worker/index.js handles /badges/<handle>/<file>.svg (the real SVGs live at /badges/_assets/<handle>/<file>.svg) and serves the `validating\u2026` SVG (docs/badges/not-found.svg) when the `?repo=` query string doesn't match a repo listed here. Schema v2 adds `fileSeal` for the seal-only (no 'Gaia' wordmark) variant.",
   "contributors": {
@@ -1764,24 +1764,15 @@
           "mbtiongson1/graphify-triage"
         ]
       },
-      "topSkill": "mbtiongson1/gaia-curate",
-      "topRank": 4,
+      "topSkill": "mbtiongson1/gaia-audit",
+      "topRank": 2,
       "topIsUnique": false,
       "count": 12,
       "namedSkills": [
         {
-          "id": "mbtiongson1/gaia-curate",
-          "name": "Gaia Curate",
-          "rank": 4,
-          "type": "extra",
-          "slash": "/gaia-curate",
-          "file": "gaia-curate.svg",
-          "fileSeal": "gaia-curate-seal.svg"
-        },
-        {
           "id": "mbtiongson1/gaia-audit",
           "name": "Gaia Audit",
-          "rank": 3,
+          "rank": 2,
           "type": "extra",
           "slash": "/gaia-audit",
           "file": "gaia-audit.svg",
@@ -1790,56 +1781,29 @@
         {
           "id": "mbtiongson1/gaia-bot-curate",
           "name": "Gaia Bot Curate",
-          "rank": 3,
+          "rank": 2,
           "type": "extra",
           "slash": "/gaia-bot-curate",
           "file": "gaia-bot-curate.svg",
           "fileSeal": "gaia-bot-curate-seal.svg"
         },
         {
+          "id": "mbtiongson1/gaia-curate",
+          "name": "Gaia Curate",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/gaia-curate",
+          "file": "gaia-curate.svg",
+          "fileSeal": "gaia-curate-seal.svg"
+        },
+        {
           "id": "mbtiongson1/gaia-curation-review",
           "name": "Gaia Curation Review",
-          "rank": 3,
+          "rank": 2,
           "type": "extra",
           "slash": "/gaia-curation-review",
           "file": "gaia-curation-review.svg",
           "fileSeal": "gaia-curation-review-seal.svg"
-        },
-        {
-          "id": "mbtiongson1/gaia-draft-curate",
-          "name": "Gaia Draft Curate",
-          "rank": 3,
-          "type": "extra",
-          "slash": "/gaia-draft-curate",
-          "file": "gaia-draft-curate.svg",
-          "fileSeal": "gaia-draft-curate-seal.svg"
-        },
-        {
-          "id": "mbtiongson1/gaia-integrity",
-          "name": "Gaia Integrity",
-          "rank": 3,
-          "type": "extra",
-          "slash": "/gaia-integrity",
-          "file": "gaia-integrity.svg",
-          "fileSeal": "gaia-integrity-seal.svg"
-        },
-        {
-          "id": "mbtiongson1/gaia-meta-audit",
-          "name": "Gaia Meta Audit",
-          "rank": 3,
-          "type": "extra",
-          "slash": "/gaia-meta-audit",
-          "file": "gaia-meta-audit.svg",
-          "fileSeal": "gaia-meta-audit-seal.svg"
-        },
-        {
-          "id": "mbtiongson1/graphify-triage",
-          "name": "Graphify Triage",
-          "rank": 3,
-          "type": "extra",
-          "slash": "/graphify-triage",
-          "file": "graphify-triage.svg",
-          "fileSeal": "graphify-triage-seal.svg"
         },
         {
           "id": "mbtiongson1/gaia-docs-sync",
@@ -1849,6 +1813,33 @@
           "slash": "/gaia-docs-sync",
           "file": "gaia-docs-sync.svg",
           "fileSeal": "gaia-docs-sync-seal.svg"
+        },
+        {
+          "id": "mbtiongson1/gaia-draft-curate",
+          "name": "Gaia Draft Curate",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/gaia-draft-curate",
+          "file": "gaia-draft-curate.svg",
+          "fileSeal": "gaia-draft-curate-seal.svg"
+        },
+        {
+          "id": "mbtiongson1/gaia-integrity",
+          "name": "Gaia Integrity",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/gaia-integrity",
+          "file": "gaia-integrity.svg",
+          "fileSeal": "gaia-integrity-seal.svg"
+        },
+        {
+          "id": "mbtiongson1/gaia-meta-audit",
+          "name": "Gaia Meta Audit",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/gaia-meta-audit",
+          "file": "gaia-meta-audit.svg",
+          "fileSeal": "gaia-meta-audit-seal.svg"
         },
         {
           "id": "mbtiongson1/gaia-preview",
@@ -1876,6 +1867,15 @@
           "slash": "/gaia-wiki-sync",
           "file": "gaia-wiki-sync.svg",
           "fileSeal": "gaia-wiki-sync-seal.svg"
+        },
+        {
+          "id": "mbtiongson1/graphify-triage",
+          "name": "Graphify Triage",
+          "rank": 2,
+          "type": "extra",
+          "slash": "/graphify-triage",
+          "file": "graphify-triage.svg",
+          "fileSeal": "graphify-triage-seal.svg"
         }
       ]
     },

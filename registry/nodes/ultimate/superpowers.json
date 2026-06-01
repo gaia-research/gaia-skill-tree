@@ -2,7 +2,6 @@
   "id": "superpowers",
   "name": "Superpowers",
   "type": "ultimate",
-  "level": "5★",
   "rarity": "legendary",
   "description": "A complete software development methodology for coding agents: combines brainstorming, planning, parallel execution, systematic debugging, code review loops, and branch discipline into a unified agentic workflow.",
   "prerequisites": [
@@ -20,19 +19,11 @@
   ],
   "derivatives": [],
   "conditions": "Requires demonstrating all 11 obra discipline skills together in a real multi-step development context.",
-  "evidence": [
-    {
-      "class": "B",
-      "source": "https://github.com/obra/superpowers",
-      "evaluator": "mbtiongson1",
-      "date": "2026-05-18",
-      "notes": "obra/superpowers v5.1.0 — 196k+ GitHub stars, 17.5k forks, multi-platform adoption (Claude Code, Codex CLI, Factory Droid, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI). Most widely adopted AI agent discipline framework; confirms landmark methodology status."
-    }
-  ],
+  "evidence": [],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-18",
-  "updatedAt": "2026-05-25",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

@@ -2,7 +2,6 @@
   "id": "registry-curation",
   "name": "Registry Curation",
   "type": "extra",
-  "level": "4★",
   "rarity": "rare",
   "description": "Systematically discovers, evaluates, and ingests new skill definitions into a structured skill registry: researching capabilities, sourcing reproducible evidence, scripting graph updates, validating schema and DAG integrity, and publishing via pull request.",
   "prerequisites": [
@@ -54,7 +53,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-04-30",
+  "updatedAt": "2026-06-01",
   "version": "0.2.0",
   "timeline": [
     {

@@ -2,7 +2,6 @@
   "id": "prototype",
   "name": "prototype",
   "type": "extra",
-  "level": "3★",
   "rarity": "common",
   "description": "Building throwaway prototypes to answer specific design or logic questions.",
   "prerequisites": [
@@ -10,19 +9,11 @@
     "code-execution"
   ],
   "derivatives": [],
-  "evidence": [
-    {
-      "class": "B",
-      "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/prototype/SKILL.md",
-      "evaluator": "mbtiongson1",
-      "date": "2026-05-22",
-      "notes": "Production interactive prototyping skill."
-    }
-  ],
+  "evidence": [],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-22",
-  "updatedAt": "2026-05-22",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

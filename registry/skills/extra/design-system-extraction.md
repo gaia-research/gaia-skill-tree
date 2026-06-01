@@ -1,8 +1,8 @@
-# [Manavarya09](../../../docs/u/Manavarya09/)/design-extract  [3★ · Evolved]
+# [Manavarya09](../../../docs/u/Manavarya09/)/design-extract  [4★]
 **ID:** design-system-extraction  
 **Type:** Extra Skill  
-**Level:** 3★  
-**Tier:** Evolved  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
+**Top named variant:** 4★  
 **Skill Call:** `/design-system-extraction`
 
 ---
@@ -21,10 +21,16 @@ Automates the discovery and extraction of design tokens, component architectures
 ## Fusion Condition
 Requires headless browser (Playwright/Puppeteer).
 
-## Evidence
-| Class | Source | Evaluator | Date |
+## Named Implementations
+| Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| B | https://github.com/Manavarya09/design-extract | gemini-cli | 2026-05-14 |
+| Manavarya09/design-extract ⭑ | Manavarya09 | 2★ | 1 |
+| garrytan/design-consultation | garrytan | 4★ | 0 |
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
+_None._
 
 ## Known Agents
 _None verified yet._

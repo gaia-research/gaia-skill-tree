@@ -5,21 +5,29 @@ contributor: ruvnet
 origin: true
 genericSkillRef: distributed-neural-training
 status: named
-title: "The Neural Conductor"
+title: The Neural Conductor
 catalogRef: ruvnet-flow-nexus-neural
-level: "3★"
-description: Trains neural networks across distributed E2B sandbox clusters with support for feedforward, LSTM, GAN, autoencoder, and transformer architectures, federated learning, and a model marketplace.
+level: 3★
+description: Trains neural networks across distributed E2B sandbox clusters with support
+  for feedforward, LSTM, GAN, autoencoder, and transformer architectures, federated
+  learning, and a model marketplace.
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - neural-training
-  - distributed
-  - federated-learning
-  - e2b
-  - model-marketplace
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/flow-nexus"
+- neural-training
+- distributed
+- federated-learning
+- e2b
+- model-marketplace
+createdAt: '2026-05-19'
+updatedAt: '2026-05-19'
+suiteRef: ruvnet/flow-nexus
+evidence:
+- class: B
+  source: https://github.com/ruvnet/ruflo
+  evaluator: mbtiongson1
+  date: '2026-05-19'
+  notes: Ruflo orchestration platform — 34k+ GitHub stars.
 ---
 
 ## Overview

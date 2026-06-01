@@ -2,7 +2,6 @@
   "id": "math-reason",
   "name": "Math Reason",
   "type": "basic",
-  "level": "2★",
   "rarity": "uncommon",
   "description": "Solves multi-step mathematical problems including arithmetic, algebra, calculus, and competition mathematics through symbolic and numeric reasoning.",
   "prerequisites": [],
@@ -23,7 +22,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-04-28",
+  "updatedAt": "2026-06-01",
   "version": "0.2.0",
   "timeline": [
     {

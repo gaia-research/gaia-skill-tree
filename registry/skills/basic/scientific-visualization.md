@@ -1,8 +1,7 @@
-# /scientific-visualization  [2★ · Named]
+# /scientific-visualization
 **ID:** scientific-visualization  
 **Type:** Basic Skill  
-**Level:** 2★  
-**Tier:** Named  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
 **Skill Call:** `/scientific-visualization`
 
 ---
@@ -24,12 +23,15 @@ _None._
 ## Unlocks
 - [Scientific Writing](../extra/scientific-writing.md)
 
-## Evidence
+## Named Implementations
+_None yet — be the first to claim this skill._
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | B | https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/scientific-visualization/SKILL.md | mbtiongson1 | 2026-04-30 |
-| B | https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md | unknown | 2026-05-23 |
-| B | https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md | unknown | 2026-05-23 |
 
 ## Known Agents
 _None verified yet._

@@ -1,8 +1,7 @@
-# /prediction-market-analysis  [4★ · Hardened]
+# /prediction-market-analysis
 **ID:** prediction-market-analysis  
 **Type:** Extra Skill  
-**Level:** 4★  
-**Tier:** Hardened  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
 **Skill Call:** `/prediction-market-analysis`
 
 ---
@@ -21,7 +20,12 @@ _None._
 ## Fusion Condition
 Requires read-only market data sources and clear separation between analysis output and financial advice or trade execution.
 
-## Evidence
+## Named Implementations
+_None yet — be the first to claim this skill._
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | B | https://github.com/NousResearch/hermes-agent/blob/main/skills/research/polymarket/SKILL.md | openai-codex | 2026-05-06 |

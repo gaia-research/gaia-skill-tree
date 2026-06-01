@@ -5,21 +5,28 @@ contributor: ruvnet
 origin: true
 genericSkillRef: cli-modernization
 status: named
-title: "The Interface Revamp"
+title: The Interface Revamp
 catalogRef: ruvnet-v3-cli-modernization
-level: "2★"
-description: Refactors the Ruflo CLI for improved UX, plugin architecture, extensibility, and modern command-line conventions.
+level: 2★
+description: Refactors the Ruflo CLI for improved UX, plugin architecture, extensibility,
+  and modern command-line conventions.
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - cli
-  - modernization
-  - plugin-architecture
-  - ux
-  - v3-sprint
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/ruflo-v3"
+- cli
+- modernization
+- plugin-architecture
+- ux
+- v3-sprint
+createdAt: '2026-05-19'
+updatedAt: '2026-05-19'
+suiteRef: ruvnet/ruflo-v3
+evidence:
+- class: B
+  source: https://github.com/ruvnet/ruflo
+  evaluator: mbtiongson1
+  date: '2026-05-19'
+  notes: Ruflo orchestration platform — 34k+ GitHub stars.
 ---
 
 ## Overview

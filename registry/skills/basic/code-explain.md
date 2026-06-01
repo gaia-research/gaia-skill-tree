@@ -1,8 +1,8 @@
-# [mattpocock](../../../docs/u/mattpocock/)/zoom-out  [2★ · Named]
+# [mattpocock](../../../docs/u/mattpocock/)/zoom-out  [2★]
 **ID:** code-explain  
 **Type:** Basic Skill  
-**Level:** 2★  
-**Tier:** Named  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
+**Top named variant:** 2★  
 **Skill Call:** `/code-explain`
 
 ---
@@ -17,7 +17,14 @@ _None._
 - [Code Review Pipeline](../extra/code-review-pipeline.md)
 - [Autonomous Debug](../extra/autonomous-debug.md)
 
-## Evidence
+## Named Implementations
+| Named Skill | Contributor | Stars | Evidence |
+|---|---|---|---|
+| mattpocock/zoom-out ⭑ | mattpocock | 2★ | 0 |
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | A | https://arxiv.org/abs/2109.00859 | mbtiongson1 | 2026-04-30 |

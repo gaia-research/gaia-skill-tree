@@ -2,7 +2,6 @@
   "id": "speech-to-text",
   "name": "Speech to Text",
   "type": "basic",
-  "level": "2★",
   "rarity": "common",
   "description": "Transcribes spoken audio into accurate text, handling diverse accents, noise conditions, and multiple languages.",
   "prerequisites": [],
@@ -22,7 +21,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-04-28",
+  "updatedAt": "2026-06-01",
   "version": "0.2.0",
   "timeline": [
     {

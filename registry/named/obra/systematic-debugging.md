@@ -5,20 +5,30 @@ contributor: obra
 origin: true
 genericSkillRef: systematic-debugging
 status: named
-title: "The Root Cause Hunter"
-level: "3★"
-description: Finds the root cause before attempting any fix — building a minimal reproduction, forming ranked hypotheses, and instrumenting to confirm before writing a single corrective line.
+title: The Root Cause Hunter
+level: 3★
+description: Finds the root cause before attempting any fix — building a minimal reproduction,
+  forming ranked hypotheses, and instrumenting to confirm before writing a single
+  corrective line.
 links:
   github: https://github.com/obra/superpowers/blob/main/skills/systematic-debugging/SKILL.md
 tags:
-  - debugging
-  - root-cause
-  - hypothesis-driven
-  - instrumentation
-  - reproduction
-createdAt: "2026-05-18"
-updatedAt: "2026-05-18"
-suiteRef: "obra/superpowers"
+- debugging
+- root-cause
+- hypothesis-driven
+- instrumentation
+- reproduction
+createdAt: '2026-05-18'
+updatedAt: '2026-05-18'
+suiteRef: obra/superpowers
+evidence:
+- class: B
+  source: https://github.com/obra/superpowers/blob/main/skills/systematic-debugging/SKILL.md
+  evaluator: mbtiongson1
+  date: '2026-05-18'
+  notes: obra/superpowers — complete software development methodology for coding agents,
+    196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode,
+    Cursor, GitHub Copilot CLI.
 ---
 
 ## Overview

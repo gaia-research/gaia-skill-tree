@@ -1,10 +1,7 @@
-# /conversational-agent  [1★ · Awakened]
+# /conversational-agent
 **ID:** conversational-agent  
 **Type:** Extra Skill  
-**Level:** 1★  
-**Tier:** Awakened  
-**Potential:** 0★  
-**Demerits:** broken-evidence  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
 **Skill Call:** `/conversational-agent`
 
 ---
@@ -23,7 +20,12 @@ _None._
 ## Fusion Condition
 Requires persistent memory store across turns.
 
-## Evidence
+## Named Implementations
+_None yet — be the first to claim this skill._
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | B | https://github.com/langchain-ai/langchain/tree/master/libs/langchain/langchain/chains/conversation | mbtiongson1 | 2026-04-28 |

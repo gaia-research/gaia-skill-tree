@@ -2,7 +2,6 @@
   "id": "question-answer",
   "name": "Question Answer",
   "type": "basic",
-  "level": "4★",
   "rarity": "common",
   "description": "Produces accurate, context-grounded answers to natural-language questions, handling unanswerable cases.",
   "prerequisites": [],
@@ -33,7 +32,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-04-29",
+  "updatedAt": "2026-06-01",
   "version": "0.2.0",
   "timeline": [
     {

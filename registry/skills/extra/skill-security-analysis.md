@@ -1,8 +1,7 @@
-# /skill-security-analysis  [2★ · Named]
+# /skill-security-analysis
 **ID:** skill-security-analysis  
 **Type:** Extra Skill  
-**Level:** 2★  
-**Tier:** Named  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
 **Skill Call:** `/skill-security-analysis`
 
 ---
@@ -22,7 +21,12 @@ Assesses third-party agent skills for malicious behavior, unsafe permissions, pr
 ## Fusion Condition
 Requires access to the skill manifest, referenced files, source repository context, and a policy for trusted permissions.
 
-## Evidence
+## Named Implementations
+_None yet — be the first to claim this skill._
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | A | https://arxiv.org/abs/2603.16572 | codex | 2026-05-10 |

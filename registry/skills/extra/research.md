@@ -1,10 +1,7 @@
-# /research  [1★ · Awakened]
+# /research
 **ID:** research  
 **Type:** Extra Skill  
-**Level:** 1★  
-**Tier:** Awakened  
-**Potential:** 0★  
-**Demerits:** broken-evidence  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
 **Skill Call:** `/research`
 
 ---
@@ -27,7 +24,12 @@ Conducts multi-source information gathering, synthesis, and citation for a given
 ## Fusion Condition
 _None specified._
 
-## Evidence
+## Named Implementations
+_None yet — be the first to claim this skill._
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | B | https://github.com/gaia-registry/gaia/blob/main/docs/evidence/research.md | mbtiongson1 | 2026-04-26 |

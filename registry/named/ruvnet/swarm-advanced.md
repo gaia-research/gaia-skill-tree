@@ -5,21 +5,28 @@ contributor: ruvnet
 origin: true
 genericSkillRef: advanced-swarm-coordination
 status: named
-title: "The Grand Swarm Master"
+title: The Grand Swarm Master
 catalogRef: ruvnet-swarm-advanced
-level: "3★"
-description: Domain-specific swarm orchestration patterns for research, development, testing, and analysis workflows with neural learning and cross-session state persistence.
+level: 3★
+description: Domain-specific swarm orchestration patterns for research, development,
+  testing, and analysis workflows with neural learning and cross-session state persistence.
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - advanced-swarm
-  - neural-learning
-  - research-swarm
-  - dev-swarm
-  - state-persistence
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/ruflo-v3"
+- advanced-swarm
+- neural-learning
+- research-swarm
+- dev-swarm
+- state-persistence
+createdAt: '2026-05-19'
+updatedAt: '2026-05-19'
+suiteRef: ruvnet/ruflo-v3
+evidence:
+- class: B
+  source: https://github.com/ruvnet/ruflo
+  evaluator: mbtiongson1
+  date: '2026-05-19'
+  notes: Ruflo orchestration platform — 34k+ GitHub stars.
 ---
 
 ## Overview

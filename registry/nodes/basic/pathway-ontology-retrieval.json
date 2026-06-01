@@ -2,7 +2,6 @@
   "id": "pathway-ontology-retrieval",
   "name": "Pathway Ontology Retrieval",
   "type": "basic",
-  "level": "2★",
   "rarity": "common",
   "description": "Queries, parses, and resolves biological pathway models, cellular reactions, and hierarchical ontology metadata from pathway and ontology search systems (e.g., Reactome, QuickGO, EMBL-EBI OLS).",
   "prerequisites": [],
@@ -14,33 +13,12 @@
       "evaluator": "unknown",
       "date": "2026-05-23",
       "notes": "Foundational canonical generic skill for Pathway Ontology Retrieval."
-    },
-    {
-      "class": "B",
-      "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/reactome_database/SKILL.md",
-      "evaluator": "unknown",
-      "date": "2026-05-23",
-      "notes": "Official Google DeepMind reactome_database science-skill implementation."
-    },
-    {
-      "class": "B",
-      "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/quickgo_database/SKILL.md",
-      "evaluator": "unknown",
-      "date": "2026-05-23",
-      "notes": "Official Google DeepMind quickgo_database science-skill implementation."
-    },
-    {
-      "class": "B",
-      "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/embl_ebi_ols/SKILL.md",
-      "evaluator": "unknown",
-      "date": "2026-05-23",
-      "notes": "Official Google DeepMind embl_ebi_ols science-skill implementation."
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-23",
-  "updatedAt": "2026-05-23",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

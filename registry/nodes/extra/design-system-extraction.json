@@ -2,7 +2,6 @@
   "id": "design-system-extraction",
   "name": "Design System Extraction",
   "type": "extra",
-  "level": "3★",
   "rarity": "rare",
   "description": "Automates the discovery and extraction of design tokens, component architectures, and CSS configurations from live web applications or URLs.",
   "prerequisites": [
@@ -14,19 +13,11 @@
     "gstack"
   ],
   "conditions": "Requires headless browser (Playwright/Puppeteer).",
-  "evidence": [
-    {
-      "class": "B",
-      "source": "https://github.com/Manavarya09/design-extract",
-      "evaluator": "gemini-cli",
-      "date": "2026-05-14",
-      "notes": "Design Extract -- extracts complete design systems (Tailwind, Figma variables, etc.) from any URL."
-    }
-  ],
+  "evidence": [],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-14",
-  "updatedAt": "2026-05-18",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

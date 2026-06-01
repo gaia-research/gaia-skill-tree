@@ -59,10 +59,23 @@ def _stable_angle(skill_id: str, index: int, total: int) -> float:
     return math.tau * index / max(total, 1) + jitter - math.pi / 2
 
 
+def _named_max_levels(named_buckets: dict[str, Any]) -> dict[str, str]:
+    """Map generic skill id -> highest named-variant star (generics are rank-less)."""
+    order = ["2★", "3★", "4★", "5★", "6★"]
+    out: dict[str, str] = {}
+    for ref, entries in (named_buckets or {}).items():
+        levels = [e.get("level") for e in entries if e.get("level") in order]
+        if levels:
+            out[ref] = max(levels, key=order.index)
+    return out
+
+
 def build_render_graph(
-    graph: dict[str, Any], width: int = 1280, height: int = 880
+    graph: dict[str, Any], width: int = 1280, height: int = 880,
+    named_buckets: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     skills = graph.get("skills", [])
+    named_max = _named_max_levels(named_buckets or {})
     groups: dict[str, list[dict[str, Any]]] = {
         "basic": [],
         "extra": [],
@@ -74,7 +87,7 @@ def build_render_graph(
 
     for bucket in groups.values():
         bucket.sort(
-            key=lambda s: (str(s.get("level", "")), str(s.get("name", s.get("id", ""))))
+            key=lambda s: (str(named_max.get(s.get("id"), "")), str(s.get("name", s.get("id", ""))))
         )
 
     cx, cy = width / 2, height / 2
@@ -87,14 +100,17 @@ def build_render_graph(
             local_radius = radius if len(bucket) > 1 else 0
             x = cx + math.cos(angle) * local_radius
             y = cy + math.sin(angle) * local_radius
+            star = named_max.get(skill.get("id"))
             level_meta = level_summary(skill)
             nodes.append(
                 {
                     "id": skill.get("id"),
                     "label": skill.get("name") or skill.get("id"),
                     "type": skill_type,
-                    "level": skill.get("level"),
-                    "effectiveLevel": level_meta["effectiveLevel"],
+                    # Generic refs are rank-less — prefer the top named-variant
+                    # star; fall back to any legacy level for back-compat.
+                    "level": star or skill.get("level", ""),
+                    "effectiveLevel": star or level_meta["effectiveLevel"],
                     "levelMeta": level_meta,
                     "demerits": level_meta["demerits"],
                     "rarity": skill.get("rarity"),
@@ -1120,7 +1136,8 @@ def write_graph_artifact(
 ) -> Path:
     root = _registry_root(registry_path)
     graph = load_graph(root)
-    render_graph = build_render_graph(graph)
+    named_buckets = load_named_skills(root).get("buckets", {})
+    render_graph = build_render_graph(graph, named_buckets=named_buckets)
     fmt = fmt.lower()
     if output is None:
         if fmt == "html":

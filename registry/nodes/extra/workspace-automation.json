@@ -2,7 +2,6 @@
   "id": "workspace-automation",
   "name": "Workspace Automation",
   "type": "extra",
-  "level": "2★",
   "rarity": "uncommon",
   "description": "Orchestrates productivity tasks across email, calendar, drive, and documents through unified office suite integrations, automating scheduling and file management.",
   "prerequisites": [
@@ -27,7 +26,7 @@
   ],
   "status": "provisional",
   "createdAt": "2026-05-17",
-  "updatedAt": "2026-05-17",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

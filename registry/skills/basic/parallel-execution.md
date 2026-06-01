@@ -1,8 +1,8 @@
-# [intelligentcode-ai](../../../docs/u/intelligentcode-ai/)/parallel-execution  [2★ · Named]
+# [intelligentcode-ai](../../../docs/u/intelligentcode-ai/)/parallel-execution  [2★]
 **ID:** parallel-execution  
 **Type:** Basic Skill  
-**Level:** 2★  
-**Tier:** Named  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
+**Top named variant:** 2★  
 **Skill Call:** `/parallel-execution`
 
 ---
@@ -16,10 +16,15 @@ _None._
 ## Unlocks
 - [Dispatching Parallel Agents](../extra/dispatching-parallel-agents.md)
 
-## Evidence
-| Class | Source | Evaluator | Date |
+## Named Implementations
+| Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| C | https://github.com/intelligentcode-ai/skills/blob/main/skills/parallel-execution/SKILL.md | mbtiongson1 | 2026-04-30 |
+| intelligentcode-ai/parallel-execution | intelligentcode-ai | 2★ | 1 |
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
+_None._
 
 ## Known Agents
 _None verified yet._

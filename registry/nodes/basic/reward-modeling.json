@@ -2,7 +2,6 @@
   "id": "reward-modeling",
   "name": "Reward Modeling",
   "type": "basic",
-  "level": "2★",
   "rarity": "rare",
   "description": "Learns a scalar reward signal from human preference comparisons between model outputs, enabling reinforcement learning from human feedback (RLHF) to align model behavior with human values.",
   "prerequisites": [],
@@ -30,7 +29,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-04-30",
+  "updatedAt": "2026-06-01",
   "version": "0.2.0",
   "timeline": [
     {

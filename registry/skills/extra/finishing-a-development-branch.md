@@ -1,8 +1,8 @@
-# [obra](../../../docs/u/obra/)/finishing-a-development-branch  [2★ · Named]
+# [obra](../../../docs/u/obra/)/finishing-a-development-branch  [4★]
 **ID:** finishing-a-development-branch  
 **Type:** Extra Skill  
-**Level:** 2★  
-**Tier:** Named  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
+**Top named variant:** 4★  
 **Skill Call:** `/finishing-a-development-branch`
 
 ---
@@ -22,10 +22,16 @@ Guides completion of development work by presenting structured options for merge
 ## Fusion Condition
 _None specified._
 
-## Evidence
-| Class | Source | Evaluator | Date |
+## Named Implementations
+| Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| B | https://github.com/obra/superpowers/blob/main/skills/finishing-a-development-branch/SKILL.md | mbtiongson1 | 2026-05-18 |
+| obra/finishing-a-development-branch ⭑ | obra | 2★ | 1 |
+| garrytan/ship | garrytan | 4★ | 0 |
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
+_None._
 
 ## Known Agents
 _None verified yet._

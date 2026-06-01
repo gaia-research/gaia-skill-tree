@@ -1,8 +1,8 @@
-# [mbtiongson1](../../../docs/u/mbtiongson1/)/gaia-curate  [4★ · Hardened]
+# [mbtiongson1](../../../docs/u/mbtiongson1/)/gaia-curate  [2★]
 **ID:** registry-curation  
 **Type:** Extra Skill  
-**Level:** 4★  
-**Tier:** Hardened  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
+**Top named variant:** 2★  
 **Skill Call:** `/registry-curation`
 
 ---
@@ -21,7 +21,19 @@ Systematically discovers, evaluates, and ingests new skill definitions into a st
 ## Fusion Condition
 Requires write access to the canonical graph and a passing validation suite.
 
-## Evidence
+## Named Implementations
+| Named Skill | Contributor | Stars | Evidence |
+|---|---|---|---|
+| mbtiongson1/gaia-curate ⭑ | mbtiongson1 | 2★ | 0 |
+| mbtiongson1/gaia-bot-curate | mbtiongson1 | 2★ | 0 |
+| mbtiongson1/gaia-docs-sync | mbtiongson1 | 2★ | 0 |
+| mbtiongson1/gaia-draft-curate | mbtiongson1 | 2★ | 0 |
+| mbtiongson1/gaia-integrity | mbtiongson1 | 2★ | 0 |
+| mbtiongson1/gaia-wiki-sync | mbtiongson1 | 2★ | 0 |
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | B | https://github.com/mbtiongson1/gaia-skill-tree/pull/2 | mbtiongson1 | 2026-04-28 |

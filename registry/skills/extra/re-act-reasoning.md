@@ -1,8 +1,7 @@
-# /re-act-reasoning  [3★ · Evolved]
+# /re-act-reasoning
 **ID:** re-act-reasoning  
 **Type:** Extra Skill  
-**Level:** 3★  
-**Tier:** Evolved  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
 **Skill Call:** `/re-act-reasoning`
 
 ---
@@ -21,7 +20,12 @@ Interleaves free-form reasoning traces with discrete tool actions in a single lo
 ## Fusion Condition
 _None specified._
 
-## Evidence
+## Named Implementations
+_None yet — be the first to claim this skill._
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | A | https://arxiv.org/abs/2210.03629 | mbtiongson1 | 2026-04-28 |

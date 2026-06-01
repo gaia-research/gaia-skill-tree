@@ -2,7 +2,6 @@
   "id": "knowledge-management",
   "name": "Knowledge Management",
   "type": "extra",
-  "level": "2★",
   "rarity": "common",
   "description": "Organizes, relates, and retrieves information across structured pages, databases, and shared knowledge bases, maintaining semantic links between information nodes.",
   "prerequisites": [
@@ -28,7 +27,7 @@
   ],
   "status": "provisional",
   "createdAt": "2026-05-17",
-  "updatedAt": "2026-05-17",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

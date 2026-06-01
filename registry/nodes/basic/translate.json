@@ -2,7 +2,6 @@
   "id": "translate",
   "name": "Translate",
   "type": "basic",
-  "level": "0★",
   "rarity": "common",
   "description": "Converts text from one natural language to another while preserving meaning, tone, and formatting.",
   "prerequisites": [],
@@ -22,7 +21,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-04-28",
+  "updatedAt": "2026-06-01",
   "version": "0.2.0",
   "timeline": [
     {

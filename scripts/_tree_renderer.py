@@ -21,9 +21,17 @@ if _SCRIPTS_DIR not in sys.path:
 # Legend emitted only in canonical mode.
 _LEGEND = (
     "◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic"
-    "   ·   [N★] = stars · [0★ · Pure] = Unawakened rank pill"
+    "   ·   [N★] = top named-variant stars (blank = no named implementation yet)"
     " · (↑ see above) = shared prerequisite"
 )
+
+_LEVEL_ORDER = ["2★", "3★", "4★", "5★", "6★"]
+
+
+def _star_pill(named_level_map, sid) -> str:
+    """Inline star pill from the top named variant, or empty when unclaimed."""
+    star = (named_level_map or {}).get(sid)
+    return f"  [{star}]" if star else ""
 
 # Section separators.
 _SEP70 = "═" * 70
@@ -77,6 +85,7 @@ def render_tree(
     mode: str = "canonical",
     owned_ids: set | None = None,
     named_map: dict | None = None,
+    named_level_map: dict | None = None,
     meta: dict | None = None,
     version: str = "",
     date_str: str = "",
@@ -119,6 +128,8 @@ def render_tree(
         meta = {}
     if named_map is None:
         named_map = {}
+    if named_level_map is None:
+        named_level_map = {}
     if skill_map is None:
         skill_map = {s["id"]: s for s in skills}
     if owned_ids is None:
@@ -137,14 +148,20 @@ def render_tree(
             return nid
         return f"/{sid}"
 
-    def _subtree(rid, sm, m, prefix, is_last, seen, u_ids=None, uid=None, nm=None, hr=None):
+    def _subtree(rid, sm, m, prefix, is_last, seen, u_ids=None, uid=None, nm=None,
+                 named_level_map=None, hr=None):
         return []
 
     def _sorted_ults(sks):
-        order = {"6★": 0, "5★": 1, "4★": 2, "3★": 3, "2★": 4, "1★": 5, "0★": 6}
+        # Generic refs are rank-less — order ultimates by top named-variant star
+        # (descending), then name. Unclaimed ultimates sort last.
+        def _key(s):
+            star = named_level_map.get(s.get("id"))
+            rank = _LEVEL_ORDER.index(star) if star in _LEVEL_ORDER else -1
+            return (-rank, s.get("name", ""))
         return sorted(
             [s for s in sks if s.get("type") == "ultimate"],
-            key=lambda s: (order.get(s.get("level"), 9), s.get("name", "")),
+            key=_key,
         )
 
     _ell = get_effective_level_label or _eff_level_label
@@ -204,14 +221,12 @@ def render_tree(
     # ── Ultimates (upgrade paths) ─────────────────────────────────────────
     for legendary in legendaries:
         lid = legendary.get("id")
-        level_label = _ell(meta, legendary)
         prereq_ids = legendary.get("prerequisites", [])
-        demerit_suffix = _dem(legendary)
         display = _bsd(lid, "ultimate", named_map, handle_rel)
 
-        # Unclaimed ultimates: no named implementation yet
+        # Unclaimed ultimates: no named implementation yet → no star
         is_unclaimed = not (named_map or {}).get(lid)
-        unclaimed_suffix = f"  [{level_label} · Unclaimed]" if is_unclaimed else ""
+        star_pill = _star_pill(named_level_map, lid)
 
         if is_user:
             check = "✓ " if lid in owned_ids else "· "
@@ -219,9 +234,9 @@ def render_tree(
             check = ""
 
         if is_unclaimed:
-            lines.append(f"{check}◆ {display}{unclaimed_suffix}{demerit_suffix}")
+            lines.append(f"{check}◆ {display}  [Unclaimed]")
         else:
-            lines.append(f"{check}◆ {display}  [{level_label}]{demerit_suffix}")
+            lines.append(f"{check}◆ {display}{star_pill}")
         if not is_user:
             lines.append(_SEP65)
 
@@ -238,6 +253,7 @@ def render_tree(
                 unlocked_ids=owned_ids if is_user else None,
                 user_id=user_id if is_user else None,
                 named_map=named_map,
+                named_level_map=named_level_map,
                 handle_rel=handle_rel,
             ):
                 lines.append(sl)
@@ -254,15 +270,13 @@ def render_tree(
         lines.append("")
         for us in unique_skills:
             uid_s = us.get("id")
-            level_label = _get_level_label(meta, us.get("level"))
-            tier_label = _get_tier_label(meta, us.get("level"))
             display = _bsd(uid_s, "unique", named_map, handle_rel)
-            pill = _inline_rank_pill(meta, us.get("level"))
+            star_pill = _star_pill(named_level_map, uid_s)
             if is_user:
                 marker = "✓ " if uid_s in owned_ids else "· "
             else:
                 marker = ""
-            lines.append(f"  {marker}◉ {display}  [{level_label} · {tier_label}]")
+            lines.append(f"  {marker}◉ {display}{star_pill}")
         lines.append("")
 
     # ── Basics (orphan basics) ────────────────────────────────────────────
@@ -270,21 +284,19 @@ def render_tree(
         lines.append(_SEP70)
         lines.append(
             "Basics — basic-tier skills not wired into an upgrade path yet."
-            "  (0★ skills carry a [0★ · Pure] rank pill inline.)"
+            "  ([N★] = top named-variant stars; blank = no named implementation.)"
         )
         lines.append(_SEP70)
         lines.append("")
         for ps in basic_orphans:
             pid = ps.get("id")
-            level = ps.get("level")
-            tier_label = _get_tier_label(meta, level)
             display = _bsd(pid, "basic", named_map, handle_rel)
-            pill = _inline_rank_pill(meta, level)
+            star_pill = _star_pill(named_level_map, pid)
             if is_user:
                 marker = "✓ " if pid in owned_ids else "· "
             else:
                 marker = ""
-            lines.append(f"  {marker}○ {display}  {pill}")
+            lines.append(f"  {marker}○ {display}{star_pill}")
         lines.append("")
 
     return "\n".join(lines)

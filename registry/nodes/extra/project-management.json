@@ -2,7 +2,6 @@
   "id": "project-management",
   "name": "Project Management",
   "type": "extra",
-  "level": "2★",
   "rarity": "uncommon",
   "description": "Manages issues, tasks, projects, and team workflows through structured project management platforms, handling state transitions and priority levels.",
   "prerequisites": [
@@ -27,7 +26,7 @@
   ],
   "status": "provisional",
   "createdAt": "2026-05-17",
-  "updatedAt": "2026-05-17",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

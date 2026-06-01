@@ -1,8 +1,8 @@
-# [mbtiongson1](../../../docs/u/mbtiongson1/)/graphify-triage  [3★ · Evolved]
+# [mbtiongson1](../../../docs/u/mbtiongson1/)/graphify-triage  [2★]
 **ID:** graph-driven-issue-triage  
 **Type:** Extra Skill  
-**Level:** 3★  
-**Tier:** Evolved  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
+**Top named variant:** 2★  
 **Skill Call:** `/graph-driven-issue-triage`
 
 ---
@@ -20,10 +20,15 @@ _None._
 ## Fusion Condition
 _None specified._
 
-## Evidence
-| Class | Source | Evaluator | Date |
+## Named Implementations
+| Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| B | https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/graphify-triage/SKILL.md | mbtiongson1 | 2026-05-30 |
+| mbtiongson1/graphify-triage ⭑ | mbtiongson1 | 2★ | 1 |
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
+_None._
 
 ## Known Agents
 _None verified yet._

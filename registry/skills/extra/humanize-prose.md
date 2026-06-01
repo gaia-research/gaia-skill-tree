@@ -1,8 +1,7 @@
-# /humanize-prose  [4★ · Hardened]
+# /humanize-prose
 **ID:** humanize-prose  
 **Type:** Extra Skill  
-**Level:** 4★  
-**Tier:** Hardened  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
 **Skill Call:** `/humanize-prose`
 
 ---
@@ -21,7 +20,12 @@ _None._
 ## Fusion Condition
 Requires explicit user permission to revise voice, tone, and stylistic markers without changing factual claims.
 
-## Evidence
+## Named Implementations
+_None yet — be the first to claim this skill._
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | B | https://github.com/NousResearch/hermes-agent/blob/main/skills/creative/humanizer/SKILL.md | openai-codex | 2026-05-06 |

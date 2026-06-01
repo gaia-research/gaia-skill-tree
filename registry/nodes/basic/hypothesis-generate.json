@@ -2,7 +2,6 @@
   "id": "hypothesis-generate",
   "name": "Hypothesis Generation",
   "type": "basic",
-  "level": "2★",
   "rarity": "rare",
   "description": "Formulates novel, testable scientific hypotheses by synthesising existing literature, identifying knowledge gaps, and proposing mechanistic explanations.",
   "prerequisites": [],
@@ -37,7 +36,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-04-28",
+  "updatedAt": "2026-06-01",
   "version": "0.2.0",
   "timeline": [
     {

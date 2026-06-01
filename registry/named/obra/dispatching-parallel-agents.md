@@ -5,20 +5,29 @@ contributor: obra
 origin: true
 genericSkillRef: dispatching-parallel-agents
 status: named
-title: "The Parallel Dispatch"
-level: "4★"
-description: Delegates independent tasks to specialized agents with isolated context to work concurrently, dramatically reducing wall-clock time on multi-part problems.
+title: The Parallel Dispatch
+level: 4★
+description: Delegates independent tasks to specialized agents with isolated context
+  to work concurrently, dramatically reducing wall-clock time on multi-part problems.
 links:
   github: https://github.com/obra/superpowers/blob/main/skills/dispatching-parallel-agents/SKILL.md
 tags:
-  - parallel-agents
-  - concurrency
-  - delegation
-  - multi-agent
-  - subagent
-createdAt: "2026-05-18"
-updatedAt: "2026-05-18"
-suiteRef: "obra/superpowers"
+- parallel-agents
+- concurrency
+- delegation
+- multi-agent
+- subagent
+createdAt: '2026-05-18'
+updatedAt: '2026-05-18'
+suiteRef: obra/superpowers
+evidence:
+- class: B
+  source: https://github.com/obra/superpowers/blob/main/skills/dispatching-parallel-agents/SKILL.md
+  evaluator: mbtiongson1
+  date: '2026-05-18'
+  notes: obra/superpowers — complete software development methodology for coding agents,
+    196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode,
+    Cursor, GitHub Copilot CLI.
 ---
 
 ## Overview

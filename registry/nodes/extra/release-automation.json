@@ -2,7 +2,6 @@
   "id": "release-automation",
   "name": "Release Automation",
   "type": "extra",
-  "level": "2★",
   "rarity": "uncommon",
   "description": "Automate the full software release cycle: determine semantic version bump, update CHANGELOG, commit, create a git tag, and publish a GitHub release with release notes.",
   "prerequisites": [
@@ -12,19 +11,11 @@
   ],
   "derivatives": [],
   "conditions": "Requires write access to the repository and a configured release token.",
-  "evidence": [
-    {
-      "class": "C",
-      "source": "https://github.com/intelligentcode-ai/skills/blob/main/skills/release/SKILL.md",
-      "evaluator": "mbtiongson1",
-      "date": "2026-04-30",
-      "notes": "intelligentcode-ai/skills release — automates semantic versioning, CHANGELOG updates, PR merging, git tagging, and GitHub release creation with verification gates."
-    }
-  ],
+  "evidence": [],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-04-30",
+  "updatedAt": "2026-06-01",
   "version": "0.2.0",
   "timeline": [
     {

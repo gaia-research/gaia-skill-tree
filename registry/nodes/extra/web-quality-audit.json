@@ -2,7 +2,6 @@
   "id": "web-quality-audit",
   "name": "web-quality-audit",
   "type": "extra",
-  "level": "3★",
   "rarity": "common",
   "description": "Orchestrates a multi-axis web quality audit covering performance (Core Web Vitals), accessibility (WCAG), SEO, and best practices, producing actionable remediation plans from Lighthouse and real-user data.",
   "prerequisites": [
@@ -25,7 +24,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-24",
-  "updatedAt": "2026-05-31",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

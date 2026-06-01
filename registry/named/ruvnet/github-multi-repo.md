@@ -5,21 +5,28 @@ contributor: ruvnet
 origin: true
 genericSkillRef: multi-repo-coordination
 status: named
-title: "The Repository Conductor"
+title: The Repository Conductor
 catalogRef: ruvnet-github-multi-repo
-level: "2★"
-description: Manages synchronized operations across multiple GitHub repositories including cross-repo PRs, dependency tracking, and bulk workflow automation.
+level: 2★
+description: Manages synchronized operations across multiple GitHub repositories including
+  cross-repo PRs, dependency tracking, and bulk workflow automation.
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - github
-  - multi-repo
-  - cross-repo
-  - dependency-tracking
-  - bulk-operations
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/github-suite"
+- github
+- multi-repo
+- cross-repo
+- dependency-tracking
+- bulk-operations
+createdAt: '2026-05-19'
+updatedAt: '2026-05-19'
+suiteRef: ruvnet/github-suite
+evidence:
+- class: B
+  source: https://github.com/ruvnet/ruflo
+  evaluator: mbtiongson1
+  date: '2026-05-19'
+  notes: Ruflo orchestration platform — 34k+ GitHub stars.
 ---
 
 ## Overview

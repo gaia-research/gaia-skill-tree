@@ -1,8 +1,7 @@
-# /scientific-writing  [3★ · Evolved]
+# /scientific-writing
 **ID:** scientific-writing  
 **Type:** Extra Skill  
-**Level:** 3★  
-**Tier:** Evolved  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
 **Skill Call:** `/scientific-writing`
 
 ---
@@ -21,7 +20,12 @@ _None._
 ## Fusion Condition
 _None specified._
 
-## Evidence
+## Named Implementations
+_None yet — be the first to claim this skill._
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | A | https://arxiv.org/abs/2405.20477 | mbtiongson1 | 2026-04-30 |

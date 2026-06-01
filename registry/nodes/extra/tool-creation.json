@@ -2,7 +2,6 @@
   "id": "tool-creation",
   "name": "Tool Creation",
   "type": "extra",
-  "level": "4★",
   "rarity": "rare",
   "description": "Dynamically generates reusable tool functions (code) at runtime to solve novel sub-tasks, then invokes those tools to complete the overall objective without human-written APIs.",
   "prerequisites": [
@@ -34,7 +33,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-29",
-  "updatedAt": "2026-05-10",
+  "updatedAt": "2026-06-01",
   "version": "0.2.0",
   "timeline": [
     {

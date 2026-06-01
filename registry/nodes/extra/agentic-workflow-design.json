@@ -2,7 +2,6 @@
   "id": "agentic-workflow-design",
   "name": "Agentic Workflow Design",
   "type": "extra",
-  "level": "3★",
   "rarity": "uncommon",
   "description": "Autonomously designs, authors, and iterates on complex multi-step workflows by translating high-level goals into executable DAGs or playbooks, managing task dependencies and distributed execution environments.",
   "prerequisites": [
@@ -25,12 +24,9 @@
   "knownAgents": [
     "apache/airflow"
   ],
-  "demerits": [
-    "heavyweight-dependency"
-  ],
   "status": "provisional",
   "createdAt": "2026-05-14",
-  "updatedAt": "2026-05-14",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

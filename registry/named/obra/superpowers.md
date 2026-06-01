@@ -5,31 +5,42 @@ contributor: obra
 origin: true
 genericSkillRef: superpowers
 status: named
-title: "The Complete Agentic Discipline"
-level: "5★"
-description: A complete software development methodology for coding agents — brainstorming, planning, parallel execution, systematic debugging, code review loops, and branch discipline unified into a single agentic workflow.
+title: The Complete Agentic Discipline
+level: 5★
+description: A complete software development methodology for coding agents — brainstorming,
+  planning, parallel execution, systematic debugging, code review loops, and branch
+  discipline unified into a single agentic workflow.
 links:
   github: https://github.com/obra/superpowers
 tags:
-  - ultimate
-  - methodology
-  - agentic-workflow
-  - discipline
-  - multi-skill
-createdAt: "2026-05-18"
-updatedAt: "2026-05-19"
+- ultimate
+- methodology
+- agentic-workflow
+- discipline
+- multi-skill
+createdAt: '2026-05-18'
+updatedAt: '2026-05-19'
 suiteComponents:
-  - obra/brainstorming
-  - obra/dispatching-parallel-agents
-  - obra/executing-plans
-  - obra/finishing-a-development-branch
-  - obra/receiving-code-review
-  - obra/requesting-code-review
-  - obra/subagent-driven-development
-  - obra/systematic-debugging
-  - obra/using-git-worktrees
-  - obra/verification-before-completion
-  - obra/writing-plans
+- obra/brainstorming
+- obra/dispatching-parallel-agents
+- obra/executing-plans
+- obra/finishing-a-development-branch
+- obra/receiving-code-review
+- obra/requesting-code-review
+- obra/subagent-driven-development
+- obra/systematic-debugging
+- obra/using-git-worktrees
+- obra/verification-before-completion
+- obra/writing-plans
+evidence:
+- class: B
+  source: https://github.com/obra/superpowers
+  evaluator: mbtiongson1
+  date: '2026-05-18'
+  notes: obra/superpowers v5.1.0 — 196k+ GitHub stars, 17.5k forks, multi-platform
+    adoption (Claude Code, Codex CLI, Factory Droid, Gemini CLI, OpenCode, Cursor,
+    GitHub Copilot CLI). Most widely adopted AI agent discipline framework; confirms
+    landmark methodology status.
 ---
 
 ## Overview

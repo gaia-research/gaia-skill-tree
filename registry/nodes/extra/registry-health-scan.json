@@ -2,7 +2,6 @@
   "id": "registry-health-scan",
   "name": "Gaia Meta Audit",
   "type": "extra",
-  "level": "3★",
   "rarity": "rare",
   "description": "Scans Gaia registry and real-skill catalog entries for review candidates whose evidence may be outdated, superseded, overpromoted, unmapped, stale, or insufficient for their current level or named-skill claim.",
   "prerequisites": [
@@ -12,19 +11,11 @@
   ],
   "derivatives": [],
   "conditions": "Requires the current registry, named-skill index, real-skill catalog, and permission to compare against current source URLs or discovery indexes.",
-  "evidence": [
-    {
-      "class": "B",
-      "source": "https://github.com/mbtiongson1/gaia-skill-tree",
-      "evaluator": "mbtiongson1",
-      "date": "2026-05-03",
-      "notes": "Derived from registry hygiene work that audits source-backed named skills, generated projections, and demotion candidates across canonical and real-skill review surfaces."
-    }
-  ],
+  "evidence": [],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-03",
-  "updatedAt": "2026-05-30",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

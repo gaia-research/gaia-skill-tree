@@ -1,8 +1,8 @@
-# [garrytan](../../../docs/u/garrytan/)/landing-report  [2★ · Named]
+# [garrytan](../../../docs/u/garrytan/)/landing-report  [2★]
 **ID:** project-management  
 **Type:** Extra Skill  
-**Level:** 2★  
-**Tier:** Named  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
+**Top named variant:** 2★  
 **Skill Call:** `/project-management`
 
 ---
@@ -20,7 +20,15 @@ Manages issues, tasks, projects, and team workflows through structured project m
 ## Fusion Condition
 _None specified._
 
-## Evidence
+## Named Implementations
+| Named Skill | Contributor | Stars | Evidence |
+|---|---|---|---|
+| garrytan/landing-report | garrytan | 2★ | 0 |
+| ruvnet/github-project-management | ruvnet | 2★ | 0 |
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | C | https://hermes-agent.nousresearch.com/docs/skills | gemini-cli | 2026-05-17 |

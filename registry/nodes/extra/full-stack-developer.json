@@ -2,7 +2,6 @@
   "id": "full-stack-developer",
   "name": "Full-Stack Developer",
   "type": "extra",
-  "level": "5★",
   "rarity": "epic",
   "description": "Autonomously implements, reviews, tests, and refactors complete software features across the full development lifecycle from specification to merged PR.",
   "prerequisites": [
@@ -38,7 +37,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-04-28",
+  "updatedAt": "2026-06-01",
   "version": "0.2.0",
   "title": "Sovereign Craftsman",
   "timeline": [

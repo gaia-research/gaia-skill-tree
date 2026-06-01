@@ -81,38 +81,24 @@ class TestValidate(unittest.TestCase):
         self.assertEqual(code, 1, "Expected basic-with-prereqs to fail validation.")
         self.assertIn("must have 0 prerequisites", out)
 
-    def test_demerits_reject_unknown_catalog_keys(self):
-        """Ensure only canonical demerit IDs are accepted."""
+    def test_demerits_rejected_on_generic_nodes(self):
+        """Generic refs are rank-less — demerits are no longer a valid field
+        and must be rejected by the schema (additionalProperties: false)."""
         code, out = run_validate(os.path.join(FIXTURES_DIR, "demerits_unknown_id.json"))
-        self.assertEqual(code, 1, "Expected unknown demerits to fail validation.")
-        self.assertIn("unknown demerit", out)
+        self.assertEqual(code, 1, "Expected demerits on a generic node to fail validation.")
+        self.assertIn("demerits", out)
+        self.assertIn("Additional properties are not allowed", out)
 
-    def test_demerits_reject_duplicate_ids(self):
-        """Ensure each demerit ID can only be declared once per skill."""
-        code, out = run_validate(os.path.join(FIXTURES_DIR, "demerits_duplicate_id.json"))
-        self.assertEqual(code, 1, "Expected duplicate demerits to fail validation.")
-        self.assertIn("duplicate demerit", out)
-
-    def test_seeded_skill_demerits_match_policy(self):
-        """Ensure the seeded demerit assignments stay aligned with policy."""
+    def test_seeded_skills_have_no_demerits(self):
+        """Generic refs are rank-less, so no seeded skill carries demerits."""
         with open(REAL_GRAPH_PATH, encoding="utf-8") as f:
             graph = json.load(f)
 
+        offenders = [s["id"] for s in graph.get("skills", []) if s.get("demerits")]
         self.assertEqual(
-            graph.get("meta", {}).get("demeritLabels", {}),
-            {
-                "broken-evidence": "Broken evidence",
-                "niche-integration": "Niche integrations",
-                "experimental-feature": "Experimental features",
-                "heavyweight-dependency": "Heavyweight dependencies",
-            },
+            offenders, [],
+            f"No generic skill should carry demerits, but found: {offenders}",
         )
-
-        skills = {skill["id"]: skill for skill in graph.get("skills", [])}
-        self.assertEqual(skills["mcp-integration"].get("demerits"), ["niche-integration"])
-        self.assertEqual(skills["multimodal-reasoning"].get("demerits"), ["experimental-feature"])
-        self.assertEqual(skills["voice-agent"].get("demerits"), ["heavyweight-dependency"])
-        self.assertEqual(skills["deployment-automation"].get("demerits"), ["heavyweight-dependency"])
 
     def test_gaia_audit_skills_are_modeled(self):
         """Ensure Gaia audit workflows are represented as canonical skills."""

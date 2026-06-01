@@ -15,6 +15,12 @@ createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/reactome_database
+evidence:
+- class: B
+  source: https://github.com/google-deepmind/science-skills/blob/main/skills/reactome_database/SKILL.md
+  evaluator: unknown
+  date: '2026-05-23'
+  notes: Official Google DeepMind reactome_database science-skill implementation.
 ---
 
 # Reactome Analysis & Content Service

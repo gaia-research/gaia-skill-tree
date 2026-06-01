@@ -15,6 +15,18 @@ createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_similarity_search
+evidence:
+- class: B
+  source: https://github.com/google-deepmind/science-skills
+  evaluator: unknown
+  date: '2026-05-23'
+  notes: Foundational canonical generic skill for Bioinformatic Sequence Analysis.
+- class: B
+  source: https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_similarity_search/SKILL.md
+  evaluator: unknown
+  date: '2026-05-23'
+  notes: Official Google DeepMind protein_sequence_similarity_search science-skill
+    implementation.
 ---
 
 ## Prerequisites

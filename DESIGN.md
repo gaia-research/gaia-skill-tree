@@ -79,6 +79,18 @@ The rank color sequence intentionally mirrors an RPG rarity ramp: neutral → co
 
 ---
 
+## Starless (generic) references
+
+Generic skill references are **starless** — rank-less taxonomy nodes that carry no stars of their own (stars live only on their named-skill children; see `CONTEXT.md` § Starless). Because they hold no rank, they get no rank colour and no glow token. Instead, wherever a starless reference appears in the UI it renders as *generic* in **italic, greyed-out** styling:
+
+- Font style: italic.
+- Colour: `var(--muted)` (`#64748b`) — the secondary / subdued text token, never a tier or rank colour.
+- The word "generic" is retained as the technical descriptor alongside the *starless* brand noun.
+
+A starless ref's *effective rank* (the top star among its named variants) may be shown beside it for context, but the reference glyph and label themselves stay muted and italic so the eye reads them as taxonomy, not as an earned rank.
+
+---
+
 ## Level VI — Transcendent ★ Special Rendering
 
 VI nodes bypass `drawNode` entirely and use `drawNodeVI`, which runs every animation frame using the shared `state.t` clock:

@@ -2,7 +2,6 @@
   "id": "agent-memory-platform",
   "name": "Agent Memory Platform",
   "type": "ultimate",
-  "level": "5★",
   "rarity": "legendary",
   "description": "Complete AgentDB vector memory ecosystem: QUIC-synchronized distributed vector storage, adaptive pattern learning, memory pattern design, database optimization, and semantic vector search.",
   "prerequisites": [
@@ -14,19 +13,11 @@
   ],
   "derivatives": [],
   "conditions": "Requires demonstrating all 5 AgentDB discipline skills in a production distributed system context.",
-  "evidence": [
-    {
-      "class": "B",
-      "source": "https://github.com/ruvnet/ruflo",
-      "evaluator": "mbtiongson1",
-      "date": "2026-05-19",
-      "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
-    }
-  ],
+  "evidence": [],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-19",
-  "updatedAt": "2026-05-19",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

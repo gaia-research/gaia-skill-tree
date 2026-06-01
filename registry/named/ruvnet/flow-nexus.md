@@ -5,26 +5,33 @@ contributor: ruvnet
 origin: true
 genericSkillRef: flow-nexus-orchestration
 status: named
-title: "The Grand Conductor's Trilogy"
+title: The Grand Conductor's Trilogy
 catalogRef: ruvnet-flow-nexus
-level: "4★"
-description: "Complete Flow Nexus platform: multi-topology swarm deployment, cloud platform management with Queen Seraphina AI assistant, and distributed neural training."
+level: 4★
+description: 'Complete Flow Nexus platform: multi-topology swarm deployment, cloud
+  platform management with Queen Seraphina AI assistant, and distributed neural training.'
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - flow-nexus
-  - orchestration
-  - swarm
-  - cloud-platform
-  - neural-training
-  - queen-seraphina
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/ruflo"
+- flow-nexus
+- orchestration
+- swarm
+- cloud-platform
+- neural-training
+- queen-seraphina
+createdAt: '2026-05-19'
+updatedAt: '2026-05-19'
+suiteRef: ruvnet/ruflo
 suiteComponents:
-  - ruvnet/flow-nexus-neural
-  - ruvnet/flow-nexus-platform
-  - ruvnet/flow-nexus-swarm
+- ruvnet/flow-nexus-neural
+- ruvnet/flow-nexus-platform
+- ruvnet/flow-nexus-swarm
+evidence:
+- class: B
+  source: https://github.com/ruvnet/ruflo
+  evaluator: mbtiongson1
+  date: '2026-05-19'
+  notes: Ruflo orchestration platform — 34k+ GitHub stars.
 ---
 
 ## Overview

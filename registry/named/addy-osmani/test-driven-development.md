@@ -29,6 +29,13 @@ timeline:
   action: installation_updated
   contributor: unknown
   details: 'Replaced ## Installation section from /tmp/tdd_install.md'
+evidence:
+- class: B
+  source: https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md
+  evaluator: mbtiongson1
+  date: '2026-04-30'
+  notes: Addy Osmani /test-driven-development slash command -- forces strict TDD workflow,
+    stopping agents from skipping tests.
 ---
 
 ## Overview

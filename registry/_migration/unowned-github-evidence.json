@@ -1,0 +1,458 @@
+[
+  {
+    "genericSkillRef": "audience-model",
+    "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/audienceModel.md"
+  },
+  {
+    "genericSkillRef": "autonomous-engineering-platform",
+    "source": "https://github.com/changkun/wallfacer"
+  },
+  {
+    "genericSkillRef": "autonomous-engineering-platform",
+    "source": "https://github.com/Taoidle/plan-cascade"
+  },
+  {
+    "genericSkillRef": "chain-of-thought",
+    "source": "https://github.com/princeton-nlp/chain-of-thought-hub"
+  },
+  {
+    "genericSkillRef": "chunk-document",
+    "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/chunkDocument.md"
+  },
+  {
+    "genericSkillRef": "cite-sources",
+    "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/citeSources.md"
+  },
+  {
+    "genericSkillRef": "classify",
+    "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/classify.md"
+  },
+  {
+    "genericSkillRef": "code-execution",
+    "source": "https://github.com/reasoning-machines/pal"
+  },
+  {
+    "genericSkillRef": "code-execution",
+    "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/executeBash.md"
+  },
+  {
+    "genericSkillRef": "code-explain",
+    "source": "https://github.com/salesforce/CodeT5"
+  },
+  {
+    "genericSkillRef": "code-generation",
+    "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/codeGeneration.md"
+  },
+  {
+    "genericSkillRef": "computer-use",
+    "source": "https://github.com/xlang-ai/OSWorld"
+  },
+  {
+    "genericSkillRef": "context-compression",
+    "source": "https://github.com/microsoft/LLMLingua"
+  },
+  {
+    "genericSkillRef": "data-visualize",
+    "source": "https://github.com/microsoft/lida"
+  },
+  {
+    "genericSkillRef": "diff-content",
+    "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/diffContent.md"
+  },
+  {
+    "genericSkillRef": "embed-text",
+    "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/embedText.md"
+  },
+  {
+    "genericSkillRef": "error-interpretation",
+    "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/errorInterpretation.md"
+  },
+  {
+    "genericSkillRef": "evaluate-output",
+    "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/evaluateOutput.md"
+  },
+  {
+    "genericSkillRef": "extract-entities",
+    "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/extractEntities.md"
+  },
+  {
+    "genericSkillRef": "format-output",
+    "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/formatOutput.md"
+  },
+  {
+    "genericSkillRef": "generate-text",
+    "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/generateText.md"
+  },
+  {
+    "genericSkillRef": "hypothesis-generate",
+    "source": "https://github.com/SakanaAI/AI-Scientist"
+  },
+  {
+    "genericSkillRef": "mcp-integration",
+    "source": "https://github.com/modelcontextprotocol/go-sdk"
+  },
+  {
+    "genericSkillRef": "mcp-integration",
+    "source": "https://github.com/nanbingxyz/5ire"
+  },
+  {
+    "genericSkillRef": "object-detection",
+    "source": "https://github.com/ultralytics/ultralytics"
+  },
+  {
+    "genericSkillRef": "optical-character-recognition",
+    "source": "https://github.com/JaidedAI/EasyOCR"
+  },
+  {
+    "genericSkillRef": "parse-html",
+    "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/parseHtml.md"
+  },
+  {
+    "genericSkillRef": "parse-json",
+    "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/parseJson.md"
+  },
+  {
+    "genericSkillRef": "plan-decompose",
+    "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/planDecompose.md"
+  },
+  {
+    "genericSkillRef": "prompt-injection-defense",
+    "source": "https://github.com/tldrsec/prompt-injection-defenses"
+  },
+  {
+    "genericSkillRef": "question-answer",
+    "source": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/registry/named/garrytan/office-hours.md"
+  },
+  {
+    "genericSkillRef": "rank",
+    "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/rank.md"
+  },
+  {
+    "genericSkillRef": "retrieve",
+    "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/retrieve.md"
+  },
+  {
+    "genericSkillRef": "reward-modeling",
+    "source": "https://github.com/huggingface/trl"
+  },
+  {
+    "genericSkillRef": "route-intent",
+    "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/routeIntent.md"
+  },
+  {
+    "genericSkillRef": "scientific-visualization",
+    "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/scientific-visualization/SKILL.md"
+  },
+  {
+    "genericSkillRef": "score-relevance",
+    "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/scoreRelevance.md"
+  },
+  {
+    "genericSkillRef": "self-critique",
+    "source": "https://github.com/madaan/self-refine"
+  },
+  {
+    "genericSkillRef": "sentiment-analysis",
+    "source": "https://github.com/declare-lab/conv-emotion"
+  },
+  {
+    "genericSkillRef": "sentiment-analysis",
+    "source": "https://github.com/declare-lab/awesome-sentiment-analysis"
+  },
+  {
+    "genericSkillRef": "statistical-analysis",
+    "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/statistical-analysis/SKILL.md"
+  },
+  {
+    "genericSkillRef": "structured-output",
+    "source": "https://github.com/outlines-dev/outlines"
+  },
+  {
+    "genericSkillRef": "summarize",
+    "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/summarize.md"
+  },
+  {
+    "genericSkillRef": "test-driven-development",
+    "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md"
+  },
+  {
+    "genericSkillRef": "tool-select",
+    "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/toolSelect.md"
+  },
+  {
+    "genericSkillRef": "tool-use",
+    "source": "https://github.com/OpenBMB/ToolBench"
+  },
+  {
+    "genericSkillRef": "web-search",
+    "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/webSearch.md"
+  },
+  {
+    "genericSkillRef": "write-report",
+    "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/writeReport.md"
+  },
+  {
+    "genericSkillRef": "agent-eval",
+    "source": "https://github.com/truera/trulens"
+  },
+  {
+    "genericSkillRef": "agent-eval",
+    "source": "https://github.com/Giskard-AI/giskard-oss"
+  },
+  {
+    "genericSkillRef": "agentic-workflow-design",
+    "source": "https://github.com/apache/airflow/blob/main/AGENTS.md"
+  },
+  {
+    "genericSkillRef": "architecture-diagram",
+    "source": "https://github.com/NousResearch/hermes-agent/blob/main/skills/creative/architecture-diagram/SKILL.md"
+  },
+  {
+    "genericSkillRef": "automated-testing",
+    "source": "https://github.com/princeton-nlp/SWE-bench"
+  },
+  {
+    "genericSkillRef": "autonomous-data-scientist",
+    "source": "https://github.com/microsoft/autogen"
+  },
+  {
+    "genericSkillRef": "autonomous-web-research",
+    "source": "https://github.com/firecrawl/firecrawl-mcp-server"
+  },
+  {
+    "genericSkillRef": "autonomous-web-research",
+    "source": "https://github.com/balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill"
+  },
+  {
+    "genericSkillRef": "browser-automation",
+    "source": "https://github.com/web-arena-x/webarena"
+  },
+  {
+    "genericSkillRef": "collaborative-diagramming",
+    "source": "https://github.com/excalidraw/excalidraw"
+  },
+  {
+    "genericSkillRef": "conversational-agent",
+    "source": "https://github.com/langchain-ai/langchain/tree/master/libs/langchain/langchain/chains/conversation"
+  },
+  {
+    "genericSkillRef": "data-analysis",
+    "source": "https://github.com/Sinaptik-AI/pandas-ai"
+  },
+  {
+    "genericSkillRef": "design-review",
+    "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md"
+  },
+  {
+    "genericSkillRef": "design-review",
+    "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/grill-with-docs/SKILL.md"
+  },
+  {
+    "genericSkillRef": "dify-agent-suite",
+    "source": "https://github.com/langgenius/dify"
+  },
+  {
+    "genericSkillRef": "document-analyst",
+    "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/documentAnalyst.md"
+  },
+  {
+    "genericSkillRef": "document-analyst",
+    "source": "https://github.com/VikParuchuri/marker"
+  },
+  {
+    "genericSkillRef": "e2e-testing",
+    "source": "https://github.com/zachblume/autospec"
+  },
+  {
+    "genericSkillRef": "full-stack-developer",
+    "source": "https://github.com/princeton-nlp/SWE-agent"
+  },
+  {
+    "genericSkillRef": "generative-media",
+    "source": "https://github.com/comfyanonymous/ComfyUI"
+  },
+  {
+    "genericSkillRef": "grounding",
+    "source": "https://github.com/shmsw25/FActScoring"
+  },
+  {
+    "genericSkillRef": "guardrails",
+    "source": "https://github.com/NVIDIA-NeMo/Guardrails"
+  },
+  {
+    "genericSkillRef": "humanize-prose",
+    "source": "https://github.com/NousResearch/hermes-agent/blob/main/skills/creative/humanizer/SKILL.md"
+  },
+  {
+    "genericSkillRef": "knowledge-graph-build",
+    "source": "https://github.com/microsoft/graphrag"
+  },
+  {
+    "genericSkillRef": "literature-review",
+    "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/literature-review/SKILL.md"
+  },
+  {
+    "genericSkillRef": "mathematical-animation",
+    "source": "https://github.com/ManimCommunity/manim"
+  },
+  {
+    "genericSkillRef": "mattpocock-personal",
+    "source": "https://github.com/mattpocock/skills"
+  },
+  {
+    "genericSkillRef": "mattpocock-productivity",
+    "source": "https://github.com/mattpocock/skills"
+  },
+  {
+    "genericSkillRef": "mcp-debugger-control",
+    "source": "https://github.com/LadislavSopko/mcp-server-for-vs"
+  },
+  {
+    "genericSkillRef": "mcp-server-creation",
+    "source": "https://github.com/anthropics/skills/blob/main/skills/mcp-builder/SKILL.md"
+  },
+  {
+    "genericSkillRef": "mcp-server-creation",
+    "source": "https://github.com/modelcontextprotocol/python-sdk"
+  },
+  {
+    "genericSkillRef": "ml-artifact-management",
+    "source": "https://github.com/huggingface/huggingface_hub"
+  },
+  {
+    "genericSkillRef": "ml-pipeline",
+    "source": "https://github.com/Jeffallan/claude-skills/blob/main/skills/ml-pipeline/SKILL.md"
+  },
+  {
+    "genericSkillRef": "plan-and-execute",
+    "source": "https://github.com/Skyvern-AI/skyvern"
+  },
+  {
+    "genericSkillRef": "prediction-market-analysis",
+    "source": "https://github.com/NousResearch/hermes-agent/blob/main/skills/research/polymarket/SKILL.md"
+  },
+  {
+    "genericSkillRef": "prompt-optimization",
+    "source": "https://github.com/stanfordnlp/dspy"
+  },
+  {
+    "genericSkillRef": "rag-pipeline",
+    "source": "https://github.com/vibrantlabsai/ragas"
+  },
+  {
+    "genericSkillRef": "re-act-reasoning",
+    "source": "https://github.com/ysymyth/ReAct"
+  },
+  {
+    "genericSkillRef": "real-time-voice-assistant",
+    "source": "https://github.com/openai/whisper"
+  },
+  {
+    "genericSkillRef": "research",
+    "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/research.md"
+  },
+  {
+    "genericSkillRef": "scientific-discovery",
+    "source": "https://github.com/SakanaAI/AI-Scientist"
+  },
+  {
+    "genericSkillRef": "scientific-writing",
+    "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/scientific-writing/SKILL.md"
+  },
+  {
+    "genericSkillRef": "search-engine-optimization",
+    "source": "https://github.com/addyosmani/web-quality-skills"
+  },
+  {
+    "genericSkillRef": "security-audit",
+    "source": "https://github.com/microsoft/PromptKit"
+  },
+  {
+    "genericSkillRef": "skill-authoring",
+    "source": "https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md"
+  },
+  {
+    "genericSkillRef": "skill-performance-benchmarking",
+    "source": "https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md"
+  },
+  {
+    "genericSkillRef": "skill-performance-benchmarking",
+    "source": "https://github.com/ynulihao/AgentSkillOS"
+  },
+  {
+    "genericSkillRef": "stealth-browser-interaction",
+    "source": "https://github.com/apify/crawlee-python/blob/main/AGENTS.md"
+  },
+  {
+    "genericSkillRef": "tool-creation",
+    "source": "https://github.com/ctlllll/LLM-ToolMaker"
+  },
+  {
+    "genericSkillRef": "tree-of-thought",
+    "source": "https://github.com/princeton-nlp/tree-of-thought-llm"
+  },
+  {
+    "genericSkillRef": "voice-agent",
+    "source": "https://github.com/rasa/rasa"
+  },
+  {
+    "genericSkillRef": "web-accessibility",
+    "source": "https://github.com/addyosmani/web-quality-skills"
+  },
+  {
+    "genericSkillRef": "web-best-practices",
+    "source": "https://github.com/addyosmani/web-quality-skills"
+  },
+  {
+    "genericSkillRef": "web-quality-audit",
+    "source": "https://github.com/addyosmani/agent-skills"
+  },
+  {
+    "genericSkillRef": "web-scrape",
+    "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/webScrape.md"
+  },
+  {
+    "genericSkillRef": "wiki-search",
+    "source": "https://github.com/NousResearch/hermes-agent/blob/main/skills/research/llm-wiki/SKILL.md"
+  },
+  {
+    "genericSkillRef": "workflow-automation",
+    "source": "https://github.com/n8n-io/n8n"
+  },
+  {
+    "genericSkillRef": "workflow-automation",
+    "source": "https://github.com/activepieces/activepieces"
+  },
+  {
+    "genericSkillRef": "workflow-automation",
+    "source": "https://github.com/FlowiseAI/Flowise"
+  },
+  {
+    "genericSkillRef": "mattpocock-engineering",
+    "source": "https://github.com/mattpocock/skills"
+  },
+  {
+    "genericSkillRef": "mattpocock-skills",
+    "source": "https://github.com/mattpocock/skills"
+  },
+  {
+    "genericSkillRef": "mattpocock-skills",
+    "source": "https://github.com/mbtiongson1/gaia-skill-tree/pull/352"
+  },
+  {
+    "genericSkillRef": "mattpocock-skills",
+    "source": "https://github.com/mattpocock/skills"
+  },
+  {
+    "genericSkillRef": "fine-tune",
+    "source": "https://github.com/huggingface/peft"
+  },
+  {
+    "genericSkillRef": "fine-tune",
+    "source": "https://github.com/hiyouga/LlamaFactory"
+  },
+  {
+    "genericSkillRef": "semantic-cache",
+    "source": "https://github.com/vcache-project/vCache"
+  }
+]

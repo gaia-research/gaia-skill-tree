@@ -248,8 +248,10 @@
       id: skill.id,
       name: skill.name || skill.id,
       type: TYPE_ALIASES[skill.type] || skill.type || 'basic',
-      level: skill.level || '',
-      effectiveLevel: skill.effectiveLevel || (skill.level || ''),
+      // Generic refs are rank-less — the rank legend/coloring reads the top
+      // named-variant star (namedMaxLevel) supplied by syncDocsGraphAssets.py.
+      level: skill.namedMaxLevel || skill.level || '',
+      effectiveLevel: skill.namedMaxLevel || skill.effectiveLevel || skill.level || '',
       demerits: Array.isArray(skill.demerits) ? skill.demerits : [],
       rarity: skill.rarity || '',
       description: skill.description || '',

@@ -2,7 +2,6 @@
   "id": "multi-agent-orchestration-v",
   "name": "Multi-Agent Orchestration",
   "type": "extra",
-  "level": "3★",
   "rarity": "uncommon",
   "description": "Coordinates multiple specialized agents across complex workflows with dynamic task allocation and conflict resolution.",
   "prerequisites": [
@@ -24,7 +23,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-26",
-  "updatedAt": "2026-04-26",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "title": "Grand Conductor",
   "timeline": [

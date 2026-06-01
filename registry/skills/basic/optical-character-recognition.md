@@ -1,8 +1,7 @@
-# /optical-character-recognition  [2★ · Named]
+# /optical-character-recognition
 **ID:** optical-character-recognition  
 **Type:** Basic Skill  
-**Level:** 2★  
-**Tier:** Named  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
 **Skill Call:** `/optical-character-recognition`
 
 ---
@@ -16,7 +15,12 @@ _None._
 ## Unlocks
 - [Document Analyst](../extra/document-analyst.md)
 
-## Evidence
+## Named Implementations
+_None yet — be the first to claim this skill._
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | A | https://arxiv.org/abs/2109.10282 | mbtiongson1 | 2026-04-30 |

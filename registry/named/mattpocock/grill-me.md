@@ -5,22 +5,31 @@ contributor: mattpocock
 origin: false
 genericSkillRef: grill-me
 status: named
-title: "The Griller"
-title: "The Relentless Interviewer"
+title: The Relentless Interviewer
 catalogRef: mattpocock-grill-me
-level: "4★"
-description: Conducts a relentless one-question-at-a-time interview about a plan or design, walking every branch of the decision tree with a recommended answer per question, resolving dependencies in order, and substituting codebase exploration wherever a question can be answered empirically.
+level: 4★
+description: Conducts a relentless one-question-at-a-time interview about a plan or
+  design, walking every branch of the decision tree with a recommended answer per
+  question, resolving dependencies in order, and substituting codebase exploration
+  wherever a question can be answered empirically.
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md
 tags:
-  - design-review
-  - decision-tree
-  - socratic-method
-  - plan-stress-test
-  - one-question-at-a-time
-createdAt: "2026-04-30"
-updatedAt: "2026-05-15"
-suiteRef: "mattpocock/productivity"
+- design-review
+- decision-tree
+- socratic-method
+- plan-stress-test
+- one-question-at-a-time
+createdAt: '2026-04-30'
+updatedAt: '2026-05-15'
+suiteRef: mattpocock/productivity
+evidence:
+- class: B
+  source: https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md
+  evaluator: mbtiongson1
+  date: '2026-05-15'
+  notes: Original implementation by Matt Pocock; viral engineering pattern for disciplined
+    agent alignment.
 ---
 
 ## Overview

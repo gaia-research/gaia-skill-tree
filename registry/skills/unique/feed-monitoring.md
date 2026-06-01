@@ -1,8 +1,8 @@
-# [nousresearch](../../../docs/u/nousresearch/)/feed-monitoring  [4★ · Hardened]
+# [nousresearch](../../../docs/u/nousresearch/)/feed-monitoring  [4★]
 **ID:** feed-monitoring  
 **Type:** Unique Skill  
-**Level:** 4★  
-**Tier:** Hardened  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
+**Top named variant:** 4★  
 **Skill Call:** `/feed-monitoring`
 
 ---
@@ -16,10 +16,15 @@ _None._
 ## Unlocks
 _None._
 
-## Evidence
-| Class | Source | Evaluator | Date |
+## Named Implementations
+| Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| B | https://github.com/NousResearch/hermes-agent/blob/main/skills/research/blogwatcher/SKILL.md | openai-codex | 2026-05-06 |
+| nousresearch/feed-monitoring ⭑ | nousresearch | 4★ | 1 |
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
+_None._
 
 ## Known Agents
 - NousResearch/hermes-agent

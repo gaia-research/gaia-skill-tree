@@ -14,6 +14,12 @@ createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/pdb_database
+evidence:
+- class: B
+  source: https://github.com/google-deepmind/science-skills/blob/main/skills/pdb_database/SKILL.md
+  evaluator: unknown
+  date: '2026-05-23'
+  notes: Official Google DeepMind pdb_database science-skill implementation.
 ---
 
 # RCSB Protein Data Bank skill

@@ -172,7 +172,8 @@ def meta_list_command(args):
                 item = {"id": skill["id"], "name": skill.get("name"), "kind": "generic"}
                 if getattr(args, "description", False):
                     item["description"] = skill.get("description")
-                if getattr(args, "level", False):
+                # Generic refs are rank-less — only named skills carry a level.
+                if getattr(args, "level", False) and skill.get("level"):
                     item["level"] = skill.get("level")
                 if getattr(args, "evidence", False):
                     item["evidence_count"] = len(skill.get("evidence", []))
@@ -609,40 +610,33 @@ def meta_calibrate_command(args):
     skill_id = args.skill_id.lstrip("/")
     level = args.level
 
-    # Validation
-    ALLOWED_LEVELS = ["0★", "1★", "2★", "3★", "4★", "5★", "6★"]
+    # Stars live only on named skills now. Calibrate operates on a named
+    # implementation (contributor/skill), not a rank-less generic ref.
+    ALLOWED_LEVELS = ["2★", "3★", "4★", "5★", "6★"]
     if level not in ALLOWED_LEVELS:
-        print(f"Error: Level must be one of: {', '.join(ALLOWED_LEVELS)}")
+        print(f"Error: Named skill level must be one of: {', '.join(ALLOWED_LEVELS)}")
         sys.exit(1)
 
-    nodes_dir = Path(registry_nodes_dir(registry_path))
-    node_file = None
-    skill_data = None
+    if "/" not in skill_id:
+        print(
+            f"Error: '{skill_id}' is a generic skill reference, which is rank-less. "
+            f"Calibrate a named implementation instead, e.g. "
+            f"'gaia dev calibrate contributor/{skill_id} {level}'."
+        )
+        sys.exit(1)
 
-    for p in nodes_dir.glob("**/*.json"):
-        with open(p, "r", encoding="utf-8") as f:
-            try:
-                data = json.load(f)
-                if data.get("id") == skill_id:
-                    node_file = p
-                    skill_data = data
-                    break
-            except json.JSONDecodeError:
-                continue
-
+    named_dir = Path(named_skills_dir(registry_path))
+    node_file = _find_named_file(named_dir, skill_id)
     if not node_file:
-        print(f"Error: Skill '{skill_id}' not found.")
+        print(f"Error: Named skill '{skill_id}' not found.")
         sys.exit(1)
 
-    old_level = skill_data.get("level", "0★")
+    skill_data, body = _parse_md(node_file)
+    old_level = skill_data.get("level", "2★")
     skill_data["level"] = level
     skill_data["updatedAt"] = datetime.date.today().isoformat()
+    _write_md(node_file, skill_data, body)
 
-    with open(node_file, "w", encoding="utf-8") as f:
-        json.dump(skill_data, f, indent=2, ensure_ascii=False)
-        f.write("\n")
-
-    ALLOWED_LEVELS = ["0★", "1★", "2★", "3★", "4★", "5★", "6★"]
     level_num = ALLOWED_LEVELS.index(level)
     old_level_num = (
         ALLOWED_LEVELS.index(old_level) if old_level in ALLOWED_LEVELS else 0
@@ -931,11 +925,12 @@ def meta_add_command(args):
             )
             sys.exit(1)
 
+        # Generic skill refs are rank-less — no level/demerits. They keep an
+        # (optional) evidence pool inherited by their named implementations.
         data = {
             "id": skill_id,
             "name": skill_name,
             "type": skill_type,
-            "level": getattr(args, "level", "1★"),
             "rarity": getattr(args, "rarity", "common"),
             "description": desc,
             "prerequisites": [],
@@ -979,27 +974,14 @@ def meta_add_command(args):
 
 
 def meta_evidence_command(args):
+    """Attach evidence to a generic ref (capability, inherited) or a named skill.
+
+    A bare id (``research``) targets the generic skill ref — capability-level
+    evidence that every named implementation inherits. A ``contributor/skill``
+    id targets that specific named implementation (e.g. its GitHub repo demo).
+    """
     registry_path = args.registry
     skill_id = args.skill_id.lstrip("/")
-
-    nodes_dir = Path(registry_nodes_dir(registry_path))
-    node_file = None
-    for p in nodes_dir.glob("**/*.json"):
-        with open(p, "r", encoding="utf-8") as f:
-            try:
-                data = json.load(f)
-                if data.get("id") == skill_id:
-                    node_file = p
-                    break
-            except json.JSONDecodeError:
-                continue
-
-    if not node_file:
-        print(f"Error: Skill '{skill_id}' not found.")
-        sys.exit(1)
-
-    with open(node_file, "r", encoding="utf-8") as f:
-        data = json.load(f)
 
     evidence = {
         "class": getattr(args, "evidence_class", "C"),
@@ -1010,15 +992,41 @@ def meta_evidence_command(args):
     if getattr(args, "notes", None):
         evidence["notes"] = args.notes
 
-    if "evidence" not in data:
-        data["evidence"] = []
+    if "/" in skill_id:
+        # Named implementation → write into the named .md frontmatter.
+        named_dir = Path(named_skills_dir(registry_path))
+        named_file = _find_named_file(named_dir, skill_id)
+        if not named_file:
+            print(f"Error: Named skill '{skill_id}' not found.")
+            sys.exit(1)
+        meta, body = _parse_md(named_file)
+        meta.setdefault("evidence", []).append(evidence)
+        meta["updatedAt"] = datetime.date.today().isoformat()
+        _write_md(named_file, meta, body)
+    else:
+        nodes_dir = Path(registry_nodes_dir(registry_path))
+        node_file = None
+        for p in nodes_dir.glob("**/*.json"):
+            with open(p, "r", encoding="utf-8") as f:
+                try:
+                    data = json.load(f)
+                    if data.get("id") == skill_id:
+                        node_file = p
+                        break
+                except json.JSONDecodeError:
+                    continue
 
-    data["evidence"].append(evidence)
-    data["updatedAt"] = datetime.date.today().isoformat()
+        if not node_file:
+            print(f"Error: Skill '{skill_id}' not found.")
+            sys.exit(1)
 
-    with open(node_file, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2, ensure_ascii=False)
-        f.write("\n")
+        with open(node_file, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        data.setdefault("evidence", []).append(evidence)
+        data["updatedAt"] = datetime.date.today().isoformat()
+        with open(node_file, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2, ensure_ascii=False)
+            f.write("\n")
 
     print(f"Added evidence to skill: {skill_id}")
     append_skill_event(

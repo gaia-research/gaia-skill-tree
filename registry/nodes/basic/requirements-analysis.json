@@ -2,7 +2,6 @@
   "id": "requirements-analysis",
   "name": "Requirements Analysis",
   "type": "basic",
-  "level": "2★",
   "rarity": "common",
   "description": "Elicit and structure requirements from stakeholder inputs into formal specifications — user stories, acceptance criteria, and traceability matrices.",
   "prerequisites": [],
@@ -11,19 +10,11 @@
     "brainstorming"
   ],
   "conditions": "",
-  "evidence": [
-    {
-      "class": "C",
-      "source": "https://github.com/intelligentcode-ai/skills/blob/main/skills/requirements-engineer/SKILL.md",
-      "evaluator": "mbtiongson1",
-      "date": "2026-04-30",
-      "notes": "intelligentcode-ai/skills requirements-engineer — business analysis specialist bridging stakeholders and technical teams for full requirements lifecycle."
-    }
-  ],
+  "evidence": [],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-04-30",
+  "updatedAt": "2026-06-01",
   "version": "0.2.0",
   "timeline": [
     {

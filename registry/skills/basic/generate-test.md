@@ -1,8 +1,8 @@
-# [upsonic](../../../docs/u/upsonic/)/unittest-generator  [2★ · Named]
+# [upsonic](../../../docs/u/upsonic/)/unittest-generator  [2★]
 **ID:** generate-test  
 **Type:** Basic Skill  
-**Level:** 2★  
-**Tier:** Named  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
+**Top named variant:** 2★  
 **Skill Call:** `/generate-test`
 
 ---
@@ -24,7 +24,14 @@ _None._
 ## Unlocks
 - [Automated Testing](../extra/automated-testing.md)
 
-## Evidence
+## Named Implementations
+| Named Skill | Contributor | Stars | Evidence |
+|---|---|---|---|
+| upsonic/unittest-generator ⭑ | upsonic | 2★ | 0 |
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | A | https://arxiv.org/abs/2107.03374 | mbtiongson1 | 2026-04-28 |

@@ -2,7 +2,6 @@
   "id": "scientific-writing",
   "name": "Scientific Writing",
   "type": "extra",
-  "level": "3★",
   "rarity": "uncommon",
   "description": "Composes research manuscripts in IMRAD structure with reporting-guideline compliance (CONSORT, STROBE, PRISMA), citation management, publication-quality figures, and LaTeX/PDF formatting.",
   "prerequisites": [
@@ -31,7 +30,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-04-30",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

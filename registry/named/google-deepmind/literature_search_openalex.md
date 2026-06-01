@@ -15,6 +15,12 @@ createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_openalex
+evidence:
+- class: B
+  source: https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_openalex/SKILL.md
+  evaluator: unknown
+  date: '2026-05-23'
+  notes: Official Google DeepMind literature_search_openalex science-skill implementation.
 ---
 
 # OpenAlex Skill

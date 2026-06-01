@@ -1,8 +1,7 @@
-# /parse-json  [0★ · Basic]
+# /parse-json
 **ID:** parse-json  
 **Type:** Basic Skill  
-**Level:** 0★  
-**Tier:** Basic  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
 **Skill Call:** `/parse-json`
 
 ---
@@ -17,7 +16,12 @@ _None._
 - [Document Analyst](../extra/document-analyst.md)
 - [Text-to-SQL Pipeline](../extra/text-to-sql-pipeline.md)
 
-## Evidence
+## Named Implementations
+_None yet — be the first to claim this skill._
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | C | https://github.com/gaia-registry/gaia/blob/main/docs/evidence/parseJson.md | mbtiongson1 | 2026-04-26 |

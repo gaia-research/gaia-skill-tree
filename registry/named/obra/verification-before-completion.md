@@ -5,20 +5,29 @@ contributor: obra
 origin: true
 genericSkillRef: verification-before-completion
 status: named
-title: "The Completion Gate"
-level: "2★"
-description: Requires running verification commands and confirming their output before claiming any work is complete, fixed, or passing — no claim without evidence.
+title: The Completion Gate
+level: 2★
+description: Requires running verification commands and confirming their output before
+  claiming any work is complete, fixed, or passing — no claim without evidence.
 links:
   github: https://github.com/obra/superpowers/blob/main/skills/verification-before-completion/SKILL.md
 tags:
-  - verification
-  - completion
-  - testing
-  - quality-gate
-  - discipline
-createdAt: "2026-05-18"
-updatedAt: "2026-05-18"
-suiteRef: "obra/superpowers"
+- verification
+- completion
+- testing
+- quality-gate
+- discipline
+createdAt: '2026-05-18'
+updatedAt: '2026-05-18'
+suiteRef: obra/superpowers
+evidence:
+- class: B
+  source: https://github.com/obra/superpowers/blob/main/skills/verification-before-completion/SKILL.md
+  evaluator: mbtiongson1
+  date: '2026-05-18'
+  notes: obra/superpowers — complete software development methodology for coding agents,
+    196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode,
+    Cursor, GitHub Copilot CLI.
 ---
 
 ## Overview

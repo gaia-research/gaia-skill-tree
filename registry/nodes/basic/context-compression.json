@@ -2,7 +2,6 @@
   "id": "context-compression",
   "name": "Context Compression",
   "type": "basic",
-  "level": "3★",
   "rarity": "common",
   "description": "Reduces the length of prompts or retrieved context to fit token limits while preserving semantic content, using techniques such as selective token removal, summarization, or token-classification-based pruning (e.g. LLMLingua).",
   "prerequisites": [],
@@ -36,7 +35,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-04-30",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

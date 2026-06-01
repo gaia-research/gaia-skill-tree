@@ -5,27 +5,35 @@ contributor: ruvnet
 origin: true
 genericSkillRef: agent-memory-platform
 status: named
-title: "The Memory Sovereign"
+title: The Memory Sovereign
 catalogRef: ruvnet-agentdb
-level: "5★"
-description: Complete AgentDB vector memory platform fused from 5 discipline skills — QUIC-synchronized distributed storage, pattern learning, memory design, optimization, and vector search.
+level: 5★
+description: Complete AgentDB vector memory platform fused from 5 discipline skills
+  — QUIC-synchronized distributed storage, pattern learning, memory design, optimization,
+  and vector search.
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - agentdb
-  - vector-memory
-  - distributed
-  - ultimate
-  - memory-platform
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/ruflo"
+- agentdb
+- vector-memory
+- distributed
+- ultimate
+- memory-platform
+createdAt: '2026-05-19'
+updatedAt: '2026-05-19'
+suiteRef: ruvnet/ruflo
 suiteComponents:
-  - ruvnet/agentdb-advanced
-  - ruvnet/agentdb-learning
-  - ruvnet/agentdb-memory-patterns
-  - ruvnet/agentdb-optimization
-  - ruvnet/agentdb-vector-search
+- ruvnet/agentdb-advanced
+- ruvnet/agentdb-learning
+- ruvnet/agentdb-memory-patterns
+- ruvnet/agentdb-optimization
+- ruvnet/agentdb-vector-search
+evidence:
+- class: B
+  source: https://github.com/ruvnet/ruflo
+  evaluator: mbtiongson1
+  date: '2026-05-19'
+  notes: Ruflo orchestration platform — 34k+ GitHub stars.
 ---
 
 ## Overview

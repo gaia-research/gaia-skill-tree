@@ -1,10 +1,8 @@
-# [devin-ai](../../../docs/u/devin-ai/)/autonomous-swe  [1★ · Awakened]
+# [devin-ai](../../../docs/u/devin-ai/)/autonomous-swe  [3★]
 **ID:** autonomous-debug  
 **Type:** Extra Skill  
-**Level:** 1★  
-**Tier:** Awakened  
-**Potential:** 0★  
-**Demerits:** broken-evidence  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
+**Top named variant:** 3★  
 **Skill Call:** `/autonomous-debug`
 
 ---
@@ -23,10 +21,16 @@ _None._
 ## Fusion Condition
 _None specified._
 
-## Evidence
-| Class | Source | Evaluator | Date |
+## Named Implementations
+| Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| B | https://github.com/cognition-labs/devin | mbtiongson1 | 2026-05-17 |
+| devin-ai/autonomous-swe ⭑ | devin-ai | 3★ | 1 |
+| mattpocock/diagnose | mattpocock | 2★ | 0 |
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
+_None._
 
 ## Known Agents
 _None verified yet._

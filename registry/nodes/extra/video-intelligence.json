@@ -2,7 +2,6 @@
   "id": "video-intelligence",
   "name": "Video Intelligence",
   "type": "extra",
-  "level": "3★",
   "rarity": "rare",
   "description": "Processes video streams by extracting frames, transcribing audio, and applying multimodal reasoning to understand temporal and visual context.",
   "prerequisites": [
@@ -13,19 +12,11 @@
     "autonomous-web-research"
   ],
   "conditions": "Requires FFmpeg and multimodal LLM support.",
-  "evidence": [
-    {
-      "class": "B",
-      "source": "https://github.com/bradautomates/claude-video",
-      "evaluator": "gemini-cli",
-      "date": "2026-05-14",
-      "notes": "Claude Video -- enables AI agents to watch videos by downloading, frame extraction, and transcription."
-    }
-  ],
+  "evidence": [],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-14",
-  "updatedAt": "2026-05-14",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

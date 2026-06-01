@@ -5,12 +5,12 @@ contributor: mbtiongson1
 origin: true
 genericSkillRef: graph-driven-issue-triage
 status: named
-level: 3★
+level: 2★
 description: Analyzes the Gaia skill dependency graph to surface orphaned nodes, missing
   prerequisites, and structural inconsistencies — producing a prioritized list of
   graph fixes needed.
 createdAt: '2026-05-27'
-updatedAt: '2026-05-30'
+updatedAt: '2026-06-01'
 title: The Graph Surgeon
 links:
   github: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/graphify-triage/SKILL.md
@@ -24,6 +24,19 @@ timeline:
   action: add
   contributor: mbtiongson1
   details: Added named skill mbtiongson1/graphify-triage
+- timestamp: '2026-06-01T15:13:09Z'
+  action: demote
+  contributor: unknown
+  details: Calibrated level from 3★ to 2★
+evidence:
+- class: B
+  source: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/graphify-triage/SKILL.md
+  evaluator: mbtiongson1
+  date: '2026-05-30'
+  notes: 'Reproducible playbook: graphify-triage script ingests safishamsi/graphify
+    GRAPH_REPORT.md output, parses architectural-debt findings, and converts each
+    into a tracked GitHub issue via gh issue create. First implementation of the fusion
+    generic (graphify + triage).'
 ---
 
 ## Overview

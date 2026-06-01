@@ -2,7 +2,6 @@
   "id": "stealth-browser-interaction",
   "name": "Stealth Browser Interaction",
   "type": "extra",
-  "level": "2★",
   "rarity": "uncommon",
   "description": "Operates web browsers through an advanced stealth layer that handles bot-detection, fingerprinting, session rotation, and human-like interaction patterns to maintain resilient access to protected domains.",
   "prerequisites": [
@@ -26,13 +25,9 @@
   "knownAgents": [
     "apify/crawlee"
   ],
-  "demerits": [
-    "heavyweight-dependency",
-    "broken-evidence"
-  ],
   "status": "provisional",
   "createdAt": "2026-05-14",
-  "updatedAt": "2026-05-25",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

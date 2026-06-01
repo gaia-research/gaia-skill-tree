@@ -5,21 +5,28 @@ contributor: ruvnet
 origin: true
 genericSkillRef: core-platform-implementation
 status: named
-title: "The Foundation Layer"
+title: The Foundation Layer
 catalogRef: ruvnet-v3-core-implementation
-level: "2★"
-description: Implements foundational Ruflo v3 platform architecture including plugin discovery, server lifecycle management, and API contract definitions.
+level: 2★
+description: Implements foundational Ruflo v3 platform architecture including plugin
+  discovery, server lifecycle management, and API contract definitions.
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - core-implementation
-  - plugin-discovery
-  - server-lifecycle
-  - api-contracts
-  - v3-sprint
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/ruflo-v3"
+- core-implementation
+- plugin-discovery
+- server-lifecycle
+- api-contracts
+- v3-sprint
+createdAt: '2026-05-19'
+updatedAt: '2026-05-19'
+suiteRef: ruvnet/ruflo-v3
+evidence:
+- class: B
+  source: https://github.com/ruvnet/ruflo
+  evaluator: mbtiongson1
+  date: '2026-05-19'
+  notes: Ruflo orchestration platform — 34k+ GitHub stars.
 ---
 
 ## Overview

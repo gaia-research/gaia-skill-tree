@@ -5,27 +5,34 @@ contributor: ruvnet
 origin: true
 genericSkillRef: github-platform-mastery
 status: named
-title: "The GitHub Maestro"
+title: The GitHub Maestro
 catalogRef: ruvnet-github-suite
-level: "4★"
-description: Full GitHub platform automation fused from 5 skills — code review, multi-repo coordination, project management, release management, and workflow automation.
+level: 4★
+description: Full GitHub platform automation fused from 5 skills — code review, multi-repo
+  coordination, project management, release management, and workflow automation.
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - github
-  - platform-mastery
-  - code-review
-  - releases
-  - automation
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/ruflo"
+- github
+- platform-mastery
+- code-review
+- releases
+- automation
+createdAt: '2026-05-19'
+updatedAt: '2026-05-19'
+suiteRef: ruvnet/ruflo
 suiteComponents:
-  - ruvnet/github-code-review
-  - ruvnet/github-multi-repo
-  - ruvnet/github-project-management
-  - ruvnet/github-release-management
-  - ruvnet/github-workflow-automation
+- ruvnet/github-code-review
+- ruvnet/github-multi-repo
+- ruvnet/github-project-management
+- ruvnet/github-release-management
+- ruvnet/github-workflow-automation
+evidence:
+- class: B
+  source: https://github.com/ruvnet/ruflo
+  evaluator: mbtiongson1
+  date: '2026-05-19'
+  notes: Ruflo orchestration platform — 34k+ GitHub stars.
 ---
 
 ## Overview

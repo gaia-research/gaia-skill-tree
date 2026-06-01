@@ -5,20 +5,27 @@ contributor: devin-ai
 origin: true
 genericSkillRef: autonomous-debug
 status: named
-title: "The Codebreaker's Will"
+title: The Codebreaker's Will
 catalogRef: devin-ai-autonomous-swe
-level: "3★"
-description: Autonomous software engineering agent capable of end-to-end debugging, code generation, and self-correction across complex multi-file codebases.
+level: 3★
+description: Autonomous software engineering agent capable of end-to-end debugging,
+  code generation, and self-correction across complex multi-file codebases.
 links:
   github: https://github.com/cognition-labs/devin
 tags:
-  - software-engineering
-  - autonomous
-  - debugging
-  - code-generation
-  - self-correction
-createdAt: "2026-04-29"
-updatedAt: "2026-04-30"
+- software-engineering
+- autonomous
+- debugging
+- code-generation
+- self-correction
+createdAt: '2026-04-29'
+updatedAt: '2026-04-30'
+evidence:
+- class: B
+  source: https://github.com/cognition-labs/devin
+  evaluator: mbtiongson1
+  date: '2026-05-17'
+  notes: Replaced missing seed evidence with live repository from real-skills catalog.
 ---
 
 ## Overview

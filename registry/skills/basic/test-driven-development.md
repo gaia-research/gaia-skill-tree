@@ -1,8 +1,8 @@
-# [addy-osmani](../../../docs/u/addy-osmani/)/test-driven-development  [3★ · Evolved]
+# [addy-osmani](../../../docs/u/addy-osmani/)/test-driven-development  [3★]
 **ID:** test-driven-development  
 **Type:** Basic Skill  
-**Level:** 3★  
-**Tier:** Evolved  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
+**Top named variant:** 3★  
 **Skill Call:** `/test-driven-development`
 
 ---
@@ -16,12 +16,17 @@ _None._
 ## Unlocks
 _None._
 
-## Evidence
+## Named Implementations
+| Named Skill | Contributor | Stars | Evidence |
+|---|---|---|---|
+| addy-osmani/test-driven-development ⭑ | addy-osmani | 3★ | 1 |
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
-| B | https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md | mbtiongson1 | 2026-04-30 |
 | B | https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md | mbtiongson1 | 2026-04-30 |
-| A | https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md | mbtiongson1 | 2026-05-31 |
 
 ## Known Agents
 _None verified yet._

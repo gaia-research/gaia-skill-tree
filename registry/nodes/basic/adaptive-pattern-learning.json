@@ -2,7 +2,6 @@
   "id": "adaptive-pattern-learning",
   "name": "Adaptive Pattern Learning",
   "type": "basic",
-  "level": "2★",
   "rarity": "common",
   "summary": "Implements adaptive learning through pattern recognition and strategy optimization.",
   "description": "Records task outcomes and identifies recurring scenarios to rank optimal response strategies over time. It enables genuine self-improvement through a feedback learning loop by matching scenarios and transferring knowledge across related domains via vector similarity.",
@@ -11,19 +10,11 @@
   "prerequisites": [],
   "derivatives": [],
   "conditions": "",
-  "evidence": [
-    {
-      "class": "B",
-      "source": "https://github.com/ruvnet/ruflo",
-      "evaluator": "mbtiongson1",
-      "date": "2026-05-19",
-      "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
-    }
-  ],
+  "evidence": [],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-19",
-  "updatedAt": "2026-05-19",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

@@ -5,22 +5,31 @@ contributor: mattpocock
 origin: true
 genericSkillRef: prd-generation
 status: named
-title: "The PRD Generator"
-title: "The PRD Synthesiser"
+title: The PRD Synthesiser
 catalogRef: mattpocock-to-prd
-level: "2★"
-description: Synthesises the current conversation context and codebase knowledge into a fully-structured PRD — problem statement, extensive numbered user stories, implementation decisions (modules, interfaces, schema), testing decisions, and out-of-scope items — then publishes it to the project issue tracker.
+level: 2★
+description: Synthesises the current conversation context and codebase knowledge into
+  a fully-structured PRD — problem statement, extensive numbered user stories, implementation
+  decisions (modules, interfaces, schema), testing decisions, and out-of-scope items
+  — then publishes it to the project issue tracker.
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/engineering/to-prd/SKILL.md
 tags:
-  - prd
-  - requirements
-  - user-stories
-  - product-management
-  - issue-tracker
-createdAt: "2026-04-30"
-updatedAt: "2026-04-30"
-suiteRef: "mattpocock/engineering"
+- prd
+- requirements
+- user-stories
+- product-management
+- issue-tracker
+createdAt: '2026-04-30'
+updatedAt: '2026-04-30'
+suiteRef: mattpocock/engineering
+evidence:
+- class: B
+  source: https://github.com/mattpocock/skills/blob/main/skills/engineering/to-prd/SKILL.md
+  evaluator: mbtiongson1
+  date: '2026-04-30'
+  notes: Production skill that synthesises live conversation context into a fully-structured
+    PRD and publishes it to the issue tracker.
 ---
 
 ## Overview

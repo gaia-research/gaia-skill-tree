@@ -2,7 +2,6 @@
   "id": "guardrails",
   "name": "Guardrails",
   "type": "extra",
-  "level": "3★",
   "rarity": "uncommon",
   "description": "Wraps LLM outputs with programmatic safety rules, content filters, and topical constraints that detect policy violations and enforce compliant, on-policy responses before they reach the user.",
   "prerequisites": [
@@ -33,7 +32,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-04-30",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

@@ -2,7 +2,6 @@
   "id": "prediction-market-analysis",
   "name": "Prediction Market Analysis",
   "type": "extra",
-  "level": "4★",
   "rarity": "rare",
   "description": "Queries prediction-market data, compares market probabilities and price history, and summarizes probabilistic signals for forecasting or decision-support workflows.",
   "prerequisites": [
@@ -26,7 +25,7 @@
   ],
   "status": "provisional",
   "createdAt": "2026-05-06",
-  "updatedAt": "2026-05-06",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

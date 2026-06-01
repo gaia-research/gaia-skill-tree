@@ -2,7 +2,6 @@
   "id": "automated-testing",
   "name": "Automated Testing",
   "type": "extra",
-  "level": "3★",
   "rarity": "uncommon",
   "description": "Generates test suites, executes them in a sandbox, interprets failures, and iterates until the target pass rate is reached.",
   "prerequisites": [
@@ -29,7 +28,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-04-30",
+  "updatedAt": "2026-06-01",
   "version": "0.2.0",
   "timeline": [
     {

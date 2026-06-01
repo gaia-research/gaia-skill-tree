@@ -18,6 +18,13 @@ tags:
 - tool-integration
 - cli
 updatedAt: '2026-05-25'
+evidence:
+- class: C
+  source: https://github.com/intelligentcode-ai/skills/blob/main/skills/mcp-client/SKILL.md
+  evaluator: mbtiongson1
+  date: '2026-04-30'
+  notes: intelligentcode-ai/skills mcp-client — portable CLI MCP client with server
+    enumeration, tool display, and on-demand execution.
 ---
 
 ## Overview

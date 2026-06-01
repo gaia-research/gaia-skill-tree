@@ -2,7 +2,6 @@
   "id": "mcp-integration",
   "name": "MCP Integration",
   "type": "basic",
-  "level": "3★",
   "rarity": "uncommon",
   "description": "Connect to and invoke tools exposed by Model Context Protocol (MCP) servers — enumerate available tools, execute calls, and handle responses across any MCP-compatible backend.",
   "prerequisites": [],
@@ -25,22 +24,12 @@
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
       "notes": "Cross-platform AI assistant with full MCP client support (5.2k stars). Reproduces tool enumeration, execution, and multi-server routing."
-    },
-    {
-      "class": "C",
-      "source": "https://github.com/intelligentcode-ai/skills/blob/main/skills/mcp-client/SKILL.md",
-      "evaluator": "mbtiongson1",
-      "date": "2026-04-30",
-      "notes": "intelligentcode-ai/skills mcp-client — portable CLI MCP client with server enumeration, tool display, and on-demand execution."
     }
   ],
   "knownAgents": [],
-  "demerits": [
-    "niche-integration"
-  ],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-05-10",
+  "updatedAt": "2026-06-01",
   "version": "0.2.0",
   "timeline": [
     {

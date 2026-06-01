@@ -5,21 +5,28 @@ contributor: ruvnet
 origin: true
 genericSkillRef: git-diff-risk-analysis
 status: named
-title: "The Risk Whisperer"
+title: The Risk Whisperer
 catalogRef: ruvnet-agentic-jujutsu
-level: "2★"
-description: Analyzes git diffs for complexity, churn, and risk scores to prioritize review attention and flag dangerous changes.
+level: 2★
+description: Analyzes git diffs for complexity, churn, and risk scores to prioritize
+  review attention and flag dangerous changes.
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - git
-  - diff-analysis
-  - risk-scoring
-  - code-review
-  - churn
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/ruflo"
+- git
+- diff-analysis
+- risk-scoring
+- code-review
+- churn
+createdAt: '2026-05-19'
+updatedAt: '2026-05-19'
+suiteRef: ruvnet/ruflo
+evidence:
+- class: B
+  source: https://github.com/ruvnet/ruflo
+  evaluator: mbtiongson1
+  date: '2026-05-19'
+  notes: Ruflo orchestration platform — 34k+ GitHub stars.
 ---
 
 ## Overview

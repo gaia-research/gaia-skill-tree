@@ -2,7 +2,6 @@
   "id": "deployment-automation",
   "name": "Deployment Automation",
   "type": "extra",
-  "level": "2★",
   "rarity": "uncommon",
   "description": "Automate CI/CD pipeline execution and deployment to target environments — build, test, artifact publishing, environment promotion, and rollback strategies.",
   "prerequisites": [
@@ -13,22 +12,11 @@
     "gstack"
   ],
   "conditions": "Requires environment credentials and a configured pipeline definition.",
-  "evidence": [
-    {
-      "class": "C",
-      "source": "https://github.com/intelligentcode-ai/skills/blob/main/skills/devops-engineer/SKILL.md",
-      "evaluator": "mbtiongson1",
-      "date": "2026-04-30",
-      "notes": "intelligentcode-ai/skills devops-engineer — CI/CD pipeline design and deployment automation with build systems and release management."
-    }
-  ],
+  "evidence": [],
   "knownAgents": [],
-  "demerits": [
-    "heavyweight-dependency"
-  ],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-05-18",
+  "updatedAt": "2026-06-01",
   "version": "0.2.0",
   "timeline": [
     {

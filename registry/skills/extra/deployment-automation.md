@@ -1,10 +1,8 @@
-# [garrytan](../../../docs/u/garrytan/)/land-and-deploy  [2★ · Named]
+# [garrytan](../../../docs/u/garrytan/)/land-and-deploy  [4★]
 **ID:** deployment-automation  
 **Type:** Extra Skill  
-**Level:** 2★  
-**Tier:** Named  
-**Potential:** 1★  
-**Demerits:** heavyweight-dependency  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
+**Top named variant:** 4★  
 **Skill Call:** `/deployment-automation`
 
 ---
@@ -22,10 +20,18 @@ Automate CI/CD pipeline execution and deployment to target environments — buil
 ## Fusion Condition
 Requires environment credentials and a configured pipeline definition.
 
-## Evidence
-| Class | Source | Evaluator | Date |
+## Named Implementations
+| Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| C | https://github.com/intelligentcode-ai/skills/blob/main/skills/devops-engineer/SKILL.md | mbtiongson1 | 2026-04-30 |
+| garrytan/land-and-deploy | garrytan | 4★ | 0 |
+| garrytan/setup-deploy | garrytan | 2★ | 0 |
+| intelligentcode-ai/devops-engineer | intelligentcode-ai | 2★ | 1 |
+| mbtiongson1/gaia-preview | mbtiongson1 | 2★ | 0 |
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
+_None._
 
 ## Known Agents
 _None verified yet._

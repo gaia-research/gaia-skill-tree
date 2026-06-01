@@ -2,7 +2,6 @@
   "id": "text-to-speech",
   "name": "Text to Speech",
   "type": "basic",
-  "level": "2★",
   "rarity": "common",
   "description": "Synthesizes natural-sounding speech audio from text input, supporting voice cloning and prosody control.",
   "prerequisites": [],
@@ -22,7 +21,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-04-28",
+  "updatedAt": "2026-06-01",
   "version": "0.2.0",
   "timeline": [
     {

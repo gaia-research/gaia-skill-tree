@@ -1,8 +1,7 @@
-# /agent-eval  [3★ · Evolved]
+# /agent-eval
 **ID:** agent-eval  
 **Type:** Extra Skill  
-**Level:** 3★  
-**Tier:** Evolved  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
 **Skill Call:** `/agent-eval`
 
 ---
@@ -20,7 +19,12 @@ Holistically evaluates an AI agent's performance on multi-step tasks by running 
 ## Fusion Condition
 _None specified._
 
-## Evidence
+## Named Implementations
+_None yet — be the first to claim this skill._
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | A | https://arxiv.org/abs/2412.14470 | mbtiongson1 | 2026-04-30 |

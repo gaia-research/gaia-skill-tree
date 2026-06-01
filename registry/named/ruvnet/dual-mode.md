@@ -5,25 +5,32 @@ contributor: ruvnet
 origin: true
 genericSkillRef: dual-mode
 status: named
-title: "The Hybrid Conductor"
+title: The Hybrid Conductor
 catalogRef: ruvnet-dual-mode
-level: "3★"
-description: Fuses headless worker spawning, result collection, and hybrid workflow coordination into a complete Claude+Codex parallel orchestration pattern.
+level: 3★
+description: Fuses headless worker spawning, result collection, and hybrid workflow
+  coordination into a complete Claude+Codex parallel orchestration pattern.
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - dual-mode
-  - claude-codex
-  - hybrid
-  - parallel-execution
-  - orchestration
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/ruflo"
+- dual-mode
+- claude-codex
+- hybrid
+- parallel-execution
+- orchestration
+createdAt: '2026-05-19'
+updatedAt: '2026-05-19'
+suiteRef: ruvnet/ruflo
 suiteComponents:
-  - ruvnet/dual-collect
-  - ruvnet/dual-coordinate
-  - ruvnet/dual-spawn
+- ruvnet/dual-collect
+- ruvnet/dual-coordinate
+- ruvnet/dual-spawn
+evidence:
+- class: B
+  source: https://github.com/ruvnet/ruflo
+  evaluator: mbtiongson1
+  date: '2026-05-19'
+  notes: Ruflo orchestration platform — 34k+ GitHub stars.
 ---
 
 ## Overview

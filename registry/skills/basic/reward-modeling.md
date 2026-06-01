@@ -1,8 +1,7 @@
-# /reward-modeling  [2★ · Named]
+# /reward-modeling
 **ID:** reward-modeling  
 **Type:** Basic Skill  
-**Level:** 2★  
-**Tier:** Named  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
 **Skill Call:** `/reward-modeling`
 
 ---
@@ -17,7 +16,12 @@ _None._
 - [Recursive Self-Improvement](../extra/recursive-self-improvement.md)
 - [Prompt Optimization](../extra/prompt-optimization.md)
 
-## Evidence
+## Named Implementations
+_None yet — be the first to claim this skill._
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | A | https://arxiv.org/abs/2203.02155 | mbtiongson1 | 2026-04-30 |

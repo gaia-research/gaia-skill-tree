@@ -2,7 +2,6 @@
   "id": "parallel-execution",
   "name": "Parallel Execution",
   "type": "basic",
-  "level": "2★",
   "rarity": "uncommon",
   "description": "Decompose a task into independent sub-tasks and execute them concurrently, merging results with configurable concurrency limits and queue-based state tracking.",
   "prerequisites": [],
@@ -10,19 +9,11 @@
     "dispatching-parallel-agents"
   ],
   "conditions": "",
-  "evidence": [
-    {
-      "class": "C",
-      "source": "https://github.com/intelligentcode-ai/skills/blob/main/skills/parallel-execution/SKILL.md",
-      "evaluator": "mbtiongson1",
-      "date": "2026-04-30",
-      "notes": "intelligentcode-ai/skills parallel-execution — concurrent work item execution with independence verification and configurable concurrency (default 5)."
-    }
-  ],
+  "evidence": [],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-04-30",
+  "updatedAt": "2026-06-01",
   "version": "0.2.0",
   "timeline": [
     {

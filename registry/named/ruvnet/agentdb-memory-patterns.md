@@ -5,20 +5,27 @@ contributor: ruvnet
 origin: true
 genericSkillRef: memory-pattern-design
 status: named
-title: "The Memory Weaver"
+title: The Memory Weaver
 catalogRef: ruvnet-agentdb-memory-patterns
-level: "2★"
-description: Designs recurring memory storage patterns for AI agents with LRU caching, SQLite persistence, and associative retrieval across multiple memory types.
+level: 2★
+description: Designs recurring memory storage patterns for AI agents with LRU caching,
+  SQLite persistence, and associative retrieval across multiple memory types.
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - memory-patterns
-  - lru-cache
-  - sqlite
-  - associative-retrieval
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/agentdb"
+- memory-patterns
+- lru-cache
+- sqlite
+- associative-retrieval
+createdAt: '2026-05-19'
+updatedAt: '2026-05-19'
+suiteRef: ruvnet/agentdb
+evidence:
+- class: B
+  source: https://github.com/ruvnet/ruflo
+  evaluator: mbtiongson1
+  date: '2026-05-19'
+  notes: Ruflo orchestration platform — 34k+ GitHub stars.
 ---
 
 ## Overview

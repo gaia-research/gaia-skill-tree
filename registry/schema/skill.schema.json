@@ -8,12 +8,10 @@
     "id",
     "name",
     "type",
-    "level",
     "rarity",
     "description",
     "prerequisites",
     "derivatives",
-    "evidence",
     "knownAgents",
     "status",
     "createdAt",
@@ -45,19 +43,6 @@
         "ultimate"
       ],
       "description": "Skill classification type."
-    },
-    "level": {
-      "type": "string",
-      "enum": [
-        "0\u2605",
-        "1\u2605",
-        "2\u2605",
-        "3\u2605",
-        "4\u2605",
-        "5\u2605",
-        "6\u2605"
-      ],
-      "description": "Skill tier in the upgrade path (0\u2605 = Basic, 1\u2605 = Awakened, 6\u2605 = Transcendent \u2605)."
     },
     "rarity": {
       "type": "string",
@@ -107,72 +92,12 @@
       "type": "string",
       "description": "Optional free-text conditions required for fusion or level-up."
     },
-    "demerits": {
-      "type": "array",
-      "description": "Optional canonical demerit IDs that lower effective progression ceiling.",
-      "uniqueItems": true,
-      "items": {
-        "type": "string",
-        "enum": [
-          "broken-evidence",
-          "niche-integration",
-          "experimental-feature",
-          "heavyweight-dependency"
-        ]
-      }
-    },
-    "realVariants": {
-      "type": "array",
-      "description": "Named real-world implementations of this abstract skill. Populated by generateNamedIndex.py from status:named entries \u2014 do not hand-edit.",
-      "items": {
-        "type": "object",
-        "required": [
-          "namedSkillId",
-          "name",
-          "contributor",
-          "level",
-          "origin"
-        ],
-        "additionalProperties": false,
-        "properties": {
-          "namedSkillId": {
-            "type": "string",
-            "pattern": "^[a-z0-9][a-z0-9_-]*/[a-z0-9][a-z0-9_-]*$"
-          },
-          "name": {
-            "type": "string"
-          },
-          "title": {
-            "type": "string"
-          },
-          "contributor": {
-            "type": "string"
-          },
-          "level": {
-            "type": "string",
-            "enum": [
-              "2\u2605",
-              "3\u2605",
-              "4\u2605",
-              "5\u2605",
-              "6\u2605"
-            ]
-          },
-          "origin": {
-            "type": "boolean"
-          },
-          "catalogRef": {
-            "type": "string"
-          }
-        }
-      }
-    },
     "evidence": {
       "type": "array",
       "items": {
         "$ref": "#/definitions/evidenceEntry"
       },
-      "description": "Array of evidence entries supporting the skill's level claim."
+      "description": "Capability-level evidence for this abstract skill (e.g. Class A / academic sources describing the generic capability). Inherited by every named skill that points at this skill via genericSkillRef; named skills may add their own implementation-specific evidence."
     },
     "knownAgents": {
       "type": "array",
@@ -385,13 +310,6 @@
         "properties": {
           "prerequisites": {
             "maxItems": 0
-          },
-          "level": {
-            "enum": [
-              "4\u2605",
-              "5\u2605",
-              "6\u2605"
-            ]
           }
         }
       }

@@ -2,7 +2,6 @@
   "id": "skill-discovery",
   "name": "Skill Discovery",
   "type": "basic",
-  "level": "3★",
   "rarity": "common",
   "description": "Searches a skill or tool registry, ranks results by relevance and install count, and surfaces candidates for the agent to adopt or invoke.",
   "prerequisites": [],
@@ -11,19 +10,11 @@
     "skill-security-analysis"
   ],
   "conditions": "",
-  "evidence": [
-    {
-      "class": "B",
-      "source": "https://github.com/vercel-labs/skills/blob/main/skills/find-skills/SKILL.md",
-      "evaluator": "mbtiongson1",
-      "date": "2026-04-30",
-      "notes": "Vercel /find-skills slash command -- queries the skills.sh registry, checks install counts, and auto-installs matching skills."
-    }
-  ],
+  "evidence": [],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-05-10",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

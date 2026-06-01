@@ -18,12 +18,13 @@ Audit exactly one Gaia skill, named skill, or real-skill catalog item and submit
 3. Re-check current source evidence. Prefer direct `SKILL.md`, paper, benchmark, release note, or reproducible repo URLs over directory listings or homepages.
 4. Separate these questions:
    - Does the skill exist?
+   - Is it a generic (starless) or a named skill? Generic skills have no level; only named implementations have stars (2★–6★).
    - Does it map to the claimed Gaia capability?
-   - Does it justify its stars, tier, named status, or `promotedNamedSkillId`?
+   - Does it justify its stars (for named), tier, named status, or `promotedNamedSkillId`?
    - Is it outdated, superseded, overpromoted, duplicate, or under-sourced?
    - **Upgrade Path & Fusion Analysis**: Can this skill be evolved? Consolidate multiple overlapping basic concepts under a single elegant Basic generic skill (e.g. literature-search) to avoid vendor-bloat. If a set of related basic skills can be combined into a multi-step high-level orchestration, plan to fuse them into a new **Extra** master skill (like `computational-biology-workflows`).
    - **Rigorous Verification**: Does the source include a specific **agent playbook** (e.g., `AGENTS.md`, `CLAUDE.md`, `.claude/skills/`, or a documented autonomous agent workflow)?
-   - **Demerit Check (Strategic)**: Only actively audit demerits for skills at **3★+**. Be lenient toward skills that are portable across platforms. Reward portable, "Generalized" skills by favoring them for promotion to higher stars or Ultimate tier when they remain demerit-free at high levels.
+   - **Demerit Check (Strategic)**: Only actively audit demerits for *named* skills at **3★+** (generics have no demerits). Be lenient toward skills that are portable across platforms. Reward portable, "Generalized" skills by favoring them for promotion to higher stars or Ultimate tier when they remain demerit-free at high levels.
    - Do **not** audit the `rarity` field — the rarity axis is deprecated (see `CONTEXT.md` § Rarity); the schema still requires it but it carries no review signal.
 5. Present findings first. If a correction is warranted, edit only source-of-truth files:
    - `registry/gaia.json` or `registry/nodes/**/*.json`
@@ -54,11 +55,11 @@ Audit exactly one Gaia skill, named skill, or real-skill catalog item and submit
 
 ## Gaia CLI Commands for Audit
 
-- **Calibrate Level**: `gaia dev calibrate <skill_id> <level>★`
-- **Reclassify Type**: `gaia dev reclassify <skill_id> <type>`
-- **Update Named Status**: `gaia dev update-named <skill_id> --status <status>`
-- **Add Demerit**: Use `gaia dev add` with `--extra-fields` to patch `demerits: ["broken-evidence"]` or edit JSON directly.
-- **Build Registry**: `gaia dev build` (always run after manual edits).
+- **Calibrate Level** (named skills only): `gaia dev calibrate <contributor/skill_id> <level>★` — calibrate operates on *named* skills (contributor/skill format), not bare generic IDs. Generic skills have no level to calibrate.
+- **Reclassify Type** (generic only): `gaia dev reclassify <generic_id> <type>` — changes a generic's type (basic/extra/unique).
+- **Update Named Status**: `gaia dev update-named <contributor/skill_id> --status <status>`
+- **Broken evidence**: demerits are removed from the schema (a meta shift toward advanced evidence tiers is underway), so do **not** patch `demerits` on any node. For a dead link, remove/replace the offending evidence entry (direct YAML edit) or log it via `gaia dev evidence`, and add a `demote` timeline event. Always run `gaia validate` after.
+- **Build Registry**: `gaia docs build` (always run after registry edits to sync derivatives).
 
 ## Output
 

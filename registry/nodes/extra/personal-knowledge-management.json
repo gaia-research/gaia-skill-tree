@@ -2,7 +2,6 @@
   "id": "personal-knowledge-management",
   "name": "personal-knowledge-management",
   "type": "extra",
-  "level": "3★",
   "rarity": "common",
   "description": "Managing notes and organization in a specific vault.",
   "prerequisites": [
@@ -10,19 +9,11 @@
     "context-compression"
   ],
   "derivatives": [],
-  "evidence": [
-    {
-      "class": "B",
-      "source": "https://github.com/mattpocock/skills/blob/main/skills/personal/obsidian-vault/SKILL.md",
-      "evaluator": "mbtiongson1",
-      "date": "2026-05-22",
-      "notes": "Obsidian vault management and PKM automation."
-    }
-  ],
+  "evidence": [],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-22",
-  "updatedAt": "2026-05-22",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

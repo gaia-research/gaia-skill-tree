@@ -1,8 +1,7 @@
-# /web-accessibility  [2★ · Named]
+# /web-accessibility
 **ID:** web-accessibility  
 **Type:** Extra Skill  
-**Level:** 2★  
-**Tier:** Named  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
 **Skill Call:** `/web-accessibility`
 
 ---
@@ -20,7 +19,12 @@ _None._
 ## Fusion Condition
 _None specified._
 
-## Evidence
+## Named Implementations
+_None yet — be the first to claim this skill._
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | A | https://github.com/addyosmani/web-quality-skills | addyosmani | 2026-05-24 |

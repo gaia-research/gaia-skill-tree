@@ -5,21 +5,28 @@ contributor: ruvnet
 origin: true
 genericSkillRef: vector-search
 status: named
-title: "The Similarity Engine"
+title: The Similarity Engine
 catalogRef: ruvnet-agentdb-vector-search
-level: "2★"
-description: Performs semantic similarity search over high-dimensional embeddings using cosine, Euclidean, dot-product, or custom distance metrics with HNSW indexing.
+level: 2★
+description: Performs semantic similarity search over high-dimensional embeddings
+  using cosine, Euclidean, dot-product, or custom distance metrics with HNSW indexing.
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - vector-search
-  - cosine-similarity
-  - hnsw
-  - semantic-search
-  - embeddings
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/agentdb"
+- vector-search
+- cosine-similarity
+- hnsw
+- semantic-search
+- embeddings
+createdAt: '2026-05-19'
+updatedAt: '2026-05-19'
+suiteRef: ruvnet/agentdb
+evidence:
+- class: B
+  source: https://github.com/ruvnet/ruflo
+  evaluator: mbtiongson1
+  date: '2026-05-19'
+  notes: Ruflo orchestration platform — 34k+ GitHub stars.
 ---
 
 ## Overview

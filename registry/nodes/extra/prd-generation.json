@@ -2,7 +2,6 @@
   "id": "prd-generation",
   "name": "PRD Generation",
   "type": "extra",
-  "level": "4★",
   "rarity": "uncommon",
   "summary": "Synthesizes conversational context and codebase knowledge into a structured Product Requirements Document.",
   "description": "Synthesizes conversation context and codebase knowledge into a structured Product Requirements Document containing a problem statement, extensive user stories, implementation decisions, module boundaries, testing decisions, and out-of-scope items. It sketches major modules with deep-module opportunities, confirms scope with the user, and produces a strict issue tracker format without brittle code snippets.",
@@ -16,31 +15,17 @@
   "conditions": "",
   "evidence": [
     {
-      "class": "B",
-      "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-prd/SKILL.md",
-      "evaluator": "mbtiongson1",
-      "date": "2026-04-30",
-      "notes": "Production skill that synthesises live conversation context into a fully-structured PRD and publishes it to the issue tracker."
-    },
-    {
       "class": "A",
       "source": "https://arxiv.org/abs/2507.19113",
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
       "notes": "Practical study: LLMs generate Functional Design Specifications and user stories from fragmented requirement sources in an IT consulting deployment."
-    },
-    {
-      "class": "B",
-      "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-prd/SKILL.md",
-      "evaluator": "WRITEY",
-      "date": "2026-05-20",
-      "notes": "Empirical daily curation testing confirmed accurate generation of deep module sketches and strict adherence to PRD templates from conversational context."
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-04-30",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

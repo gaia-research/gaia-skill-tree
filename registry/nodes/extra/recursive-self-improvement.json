@@ -2,7 +2,6 @@
   "id": "recursive-self-improvement",
   "name": "Recursive Self-Improvement",
   "type": "extra",
-  "level": "1★",
   "rarity": "epic",
   "description": "Agent iteratively refines its own prompts, tools, or strategies based on performance feedback loops.",
   "prerequisites": [
@@ -16,7 +15,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-26",
-  "updatedAt": "2026-04-26",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "title": "Unbound Sage",
   "timeline": [

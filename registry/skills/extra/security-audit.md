@@ -1,8 +1,8 @@
-# [garrytan](../../../docs/u/garrytan/)/cso  [2★ · Named]
+# [garrytan](../../../docs/u/garrytan/)/cso  [4★]
 **ID:** security-audit  
 **Type:** Extra Skill  
-**Level:** 2★  
-**Tier:** Named  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
+**Top named variant:** 4★  
 **Skill Call:** `/security-audit`
 
 ---
@@ -21,10 +21,18 @@ Systematically identify security vulnerabilities, assess attack surface, and pro
 ## Fusion Condition
 Requires access to the full codebase or diff; output must include severity classification and reproduction steps.
 
-## Evidence
+## Named Implementations
+| Named Skill | Contributor | Stars | Evidence |
+|---|---|---|---|
+| garrytan/cso ⭑ | garrytan | 4★ | 0 |
+| intelligentcode-ai/security-engineer | intelligentcode-ai | 2★ | 1 |
+| ruvnet/v3-security-overhaul | ruvnet | 2★ | 0 |
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
-| C | https://github.com/intelligentcode-ai/skills/blob/main/skills/security-engineer/SKILL.md | mbtiongson1 | 2026-04-30 |
 | C | https://github.com/microsoft/PromptKit | mbtiongson1 | 2026-04-30 |
 
 ## Known Agents

@@ -1,10 +1,8 @@
-# [mattpocock](../../../docs/u/mattpocock/)/ubiquitous-language  [2★ · Named]
+# [mattpocock](../../../docs/u/mattpocock/)/ubiquitous-language  [4★]
 **ID:** ubiquitous-language  
 **Type:** Extra Skill  
-**Level:** 2★  
-**Tier:** Named  
-**Potential:** 1★  
-**Demerits:** broken-evidence  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
+**Top named variant:** 4★  
 **Skill Call:** `/ubiquitous-language`
 
 ---
@@ -22,10 +20,16 @@ Establishes and maintains a consistent, domain-driven vocabulary between the age
 ## Fusion Condition
 Requires active persistence of terms and immediate conflict resolution during sessions.
 
-## Evidence
-| Class | Source | Evaluator | Date |
+## Named Implementations
+| Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| B | https://github.com/mattpocock/skills/blob/main/skills/engineering/ubiquitous-language/SKILL.md | mbtiongson1 | 2026-05-15 |
+| mattpocock/ubiquitous-language | mattpocock | 4★ | 1 |
+| ruvnet/v3-ddd-architecture | ruvnet | 2★ | 0 |
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
+_None._
 
 ## Known Agents
 _None verified yet._

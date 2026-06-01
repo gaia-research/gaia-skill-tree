@@ -2,7 +2,6 @@
   "id": "browser-control",
   "name": "Browser Control",
   "type": "basic",
-  "level": "2★",
   "rarity": "uncommon",
   "summary": "A foundational skill for interacting directly with the web browser using Chrome DevTools Protocol (CDP).",
   "description": "Directly controls a web browser via low-level protocols (like CDP) to manipulate the DOM, manage cookies, intercept network traffic, and simulate user interactions (clicking via coordinates, taking screenshots) without relying on heavy wrapper frameworks like Playwright or Puppeteer.",
@@ -14,19 +13,11 @@
     "gstack"
   ],
   "conditions": "",
-  "evidence": [
-    {
-      "class": "B",
-      "source": "https://github.com/browser-use/browser-harness",
-      "evaluator": "gemini-cli",
-      "date": "2026-05-14",
-      "notes": "Browser Harness -- self-healing harness connecting LLMs to browser via CDP."
-    }
-  ],
+  "evidence": [],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-14",
-  "updatedAt": "2026-05-14",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

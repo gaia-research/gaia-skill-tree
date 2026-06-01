@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/skill.schema.json",
-  "version": "3.26.3",
-  "generatedAt": "2026-05-31T02:20:59.264166Z",
+  "version": "3.27.0",
+  "generatedAt": "2026-06-01T00:45:39.126988Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -154,7 +154,6 @@
       "id": "adaptive-pattern-learning",
       "name": "Adaptive Pattern Learning",
       "type": "basic",
-      "level": "2★",
       "rarity": "common",
       "summary": "Implements adaptive learning through pattern recognition and strategy optimization.",
       "description": "Records task outcomes and identifies recurring scenarios to rank optimal response strategies over time. It enables genuine self-improvement through a feedback learning loop by matching scenarios and transferring knowledge across related domains via vector similarity.",
@@ -163,19 +162,11 @@
       "prerequisites": [],
       "derivatives": [],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/ruvnet/ruflo",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-19",
-      "updatedAt": "2026-05-19",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -192,7 +183,6 @@
       "id": "advanced-swarm-coordination",
       "name": "Advanced Swarm Coordination",
       "type": "extra",
-      "level": "3★",
       "rarity": "uncommon",
       "description": "Domain-specific swarm patterns for research, development, testing, and analysis workflows with neural learning and cross-session state persistence.",
       "prerequisites": [
@@ -201,19 +191,11 @@
       ],
       "derivatives": [],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/ruvnet/ruflo",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-19",
-      "updatedAt": "2026-05-19",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -230,7 +212,6 @@
       "id": "agent-environment-setup",
       "name": "agent-environment-setup",
       "type": "extra",
-      "level": "3★",
       "rarity": "common",
       "description": "Scaffolding per-repo configuration for other engineering skills.",
       "prerequisites": [
@@ -238,19 +219,11 @@
         "tool-use"
       ],
       "derivatives": [],
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/setup-matt-pocock-skills/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-22",
-          "notes": "Scaffolding skill for Matt Pocock's engineering workspace."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-22",
-      "updatedAt": "2026-05-22",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -295,7 +268,6 @@
       "id": "agent-eval",
       "name": "Agent Evaluation",
       "type": "extra",
-      "level": "3★",
       "rarity": "uncommon",
       "description": "Holistically evaluates an AI agent's performance on multi-step tasks by running standardised benchmarks, scoring full interaction trajectories, and producing reproducible capability reports.",
       "prerequisites": [
@@ -332,7 +304,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-05-10",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -349,7 +321,6 @@
       "id": "agent-handoff",
       "name": "agent-handoff",
       "type": "extra",
-      "level": "4★",
       "rarity": "common",
       "description": "Compacting the current conversation into a summary for a fresh agent.",
       "prerequisites": [
@@ -358,19 +329,11 @@
         "context-compression"
       ],
       "derivatives": [],
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/handoff/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-22",
-          "notes": "High-fidelity agent handoff and context compaction skill."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-22",
-      "updatedAt": "2026-05-22",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -415,7 +378,6 @@
       "id": "agent-memory-learning",
       "name": "Agent Memory Learning",
       "type": "extra",
-      "level": "3★",
       "rarity": "uncommon",
       "description": "Builds self-improving agent memory by analyzing task success patterns and adapting retrieval strategies with AgentDB-backed persistence.",
       "prerequisites": [
@@ -443,7 +405,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-19",
-      "updatedAt": "2026-05-20",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -466,7 +428,6 @@
       "id": "agent-memory-platform",
       "name": "Agent Memory Platform",
       "type": "ultimate",
-      "level": "5★",
       "rarity": "legendary",
       "description": "Complete AgentDB vector memory ecosystem: QUIC-synchronized distributed vector storage, adaptive pattern learning, memory pattern design, database optimization, and semantic vector search.",
       "prerequisites": [
@@ -478,19 +439,11 @@
       ],
       "derivatives": [],
       "conditions": "Requires demonstrating all 5 AgentDB discipline skills in a production distributed system context.",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/ruvnet/ruflo",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-19",
-      "updatedAt": "2026-05-19",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -513,7 +466,6 @@
       "id": "agentic-workflow-design",
       "name": "Agentic Workflow Design",
       "type": "extra",
-      "level": "3★",
       "rarity": "uncommon",
       "description": "Autonomously designs, authors, and iterates on complex multi-step workflows by translating high-level goals into executable DAGs or playbooks, managing task dependencies and distributed execution environments.",
       "prerequisites": [
@@ -536,12 +488,9 @@
       "knownAgents": [
         "apache/airflow"
       ],
-      "demerits": [
-        "heavyweight-dependency"
-      ],
       "status": "provisional",
       "createdAt": "2026-05-14",
-      "updatedAt": "2026-05-14",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -566,7 +515,6 @@
       "id": "api-call",
       "name": "API Call",
       "type": "basic",
-      "level": "2★",
       "rarity": "common",
       "description": "Constructs, executes, and handles responses from HTTP APIs by interpreting documentation and selecting appropriate endpoints and parameters. This skill allows agents to fetch dynamic data, trigger remote actions, and interact with external systems programmatically by adhering to OpenAPI or other API specifications.",
       "prerequisites": [],
@@ -588,7 +536,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-05-10",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "summary": "A fundamental skill that enables agents to interact with external services via HTTP API calls.",
       "useCase": "Useful for tasks that require real-time data fetching, invoking external web services, integrating with SaaS platforms (e.g., GitHub, Slack, JIRA), or triggering automated workflows via standard REST or GraphQL endpoints.",
@@ -598,7 +546,6 @@
       "id": "architecture-diagram",
       "name": "Architecture Diagram",
       "type": "extra",
-      "level": "4★",
       "rarity": "uncommon",
       "description": "Generates technical architecture, infrastructure, or cloud diagrams as structured visual artifacts from natural-language system descriptions.",
       "prerequisites": [
@@ -622,7 +569,7 @@
       ],
       "status": "provisional",
       "createdAt": "2026-05-06",
-      "updatedAt": "2026-05-06",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -639,7 +586,6 @@
       "id": "audience-model",
       "name": "Audience Model",
       "type": "basic",
-      "level": "0★",
       "rarity": "common",
       "description": "Adapts tone, complexity, and framing of output to match a target audience profile.",
       "prerequisites": [],
@@ -661,7 +607,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -686,16 +632,12 @@
           "previousValue": "1★",
           "newValue": "0★"
         }
-      ],
-      "demerits": [
-        "broken-evidence"
       ]
     },
     {
       "id": "automated-testing",
       "name": "Automated Testing",
       "type": "extra",
-      "level": "3★",
       "rarity": "uncommon",
       "description": "Generates test suites, executes them in a sandbox, interprets failures, and iterates until the target pass rate is reached.",
       "prerequisites": [
@@ -722,7 +664,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-04-30",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -739,7 +681,6 @@
       "id": "autonomous-data-scientist",
       "name": "Autonomous Data Scientist",
       "type": "extra",
-      "level": "5★",
       "rarity": "epic",
       "description": "Conducts end-to-end data science workflows autonomously: hypothesis generation, data analysis, statistical modeling, and insight reporting.",
       "prerequisites": [
@@ -775,7 +716,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-04-28",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "title": "Primordial Oracle",
       "timeline": [
@@ -801,7 +742,6 @@
       "id": "autonomous-debug",
       "name": "Autonomous Debug",
       "type": "extra",
-      "level": "1★",
       "rarity": "rare",
       "description": "Independently identifies, diagnoses, and fixes software bugs through code generation and execution.",
       "prerequisites": [
@@ -811,19 +751,11 @@
       ],
       "derivatives": [],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/cognition-labs/devin",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-17",
-          "notes": "Replaced missing seed evidence with live repository from real-skills catalog."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -870,16 +802,12 @@
           "previousValue": "3★",
           "newValue": "1★"
         }
-      ],
-      "demerits": [
-        "broken-evidence"
       ]
     },
     {
       "id": "autonomous-engineering-platform",
       "name": "Autonomous Engineering Platform",
       "type": "basic",
-      "level": "2★",
       "rarity": "common",
       "description": "An autonomous engineering platform integrating chat, specs, tasks, and code for full agentic software delivery.",
       "prerequisites": [],
@@ -903,7 +831,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-05-23",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -938,7 +866,6 @@
       "id": "autonomous-web-research",
       "name": "Autonomous Web Research",
       "type": "extra",
-      "level": "4★",
       "rarity": "rare",
       "description": "Independently surveys, maps, and extracts structured information from the web by autonomously deciding which domains to crawl and synthesizing data into comprehensive research reports.",
       "prerequisites": [
@@ -971,7 +898,7 @@
       ],
       "status": "provisional",
       "createdAt": "2026-05-14",
-      "updatedAt": "2026-05-20",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -1002,31 +929,15 @@
       "id": "bioinformatic-sequence-analysis",
       "name": "Bioinformatic Sequence Analysis",
       "type": "basic",
-      "level": "2★",
       "rarity": "common",
       "description": "Performs biological sequence alignment, similarity searches, multiple sequence alignment (MSA), and genomic variant analysis using standard bioinformatics tools and databases.",
       "prerequisites": [],
       "derivatives": [],
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Foundational canonical generic skill for Bioinformatic Sequence Analysis."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_similarity_search/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind protein_sequence_similarity_search science-skill implementation."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-05-23",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -1061,7 +972,6 @@
       "id": "brainstorming",
       "name": "Brainstorming",
       "type": "extra",
-      "level": "1★",
       "rarity": "common",
       "description": "Explores user intent, requirements, and design before implementation.",
       "prerequisites": [
@@ -1072,19 +982,11 @@
         "superpowers"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/obra/superpowers/blob/main/skills/brainstorming/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-18",
-          "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-18",
-      "updatedAt": "2026-05-19",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -1109,7 +1011,6 @@
       "id": "browser-automation",
       "name": "Browser Automation",
       "type": "extra",
-      "level": "3★",
       "rarity": "uncommon",
       "description": "Navigates web pages, fills forms, clicks elements, and extracts information by combining web search with screenshot-based GUI control to complete multi-step web tasks.",
       "prerequisites": [
@@ -1142,7 +1043,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-04-28",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -1159,7 +1060,6 @@
       "id": "browser-control",
       "name": "Browser Control",
       "type": "basic",
-      "level": "2★",
       "rarity": "uncommon",
       "summary": "A foundational skill for interacting directly with the web browser using Chrome DevTools Protocol (CDP).",
       "description": "Directly controls a web browser via low-level protocols (like CDP) to manipulate the DOM, manage cookies, intercept network traffic, and simulate user interactions (clicking via coordinates, taking screenshots) without relying on heavy wrapper frameworks like Playwright or Puppeteer.",
@@ -1171,19 +1071,11 @@
         "gstack"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/browser-use/browser-harness",
-          "evaluator": "gemini-cli",
-          "date": "2026-05-14",
-          "notes": "Browser Harness -- self-healing harness connecting LLMs to browser via CDP."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-14",
-      "updatedAt": "2026-05-14",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -1200,7 +1092,6 @@
       "id": "career-operations",
       "name": "Career Operations",
       "type": "extra",
-      "level": "3★",
       "rarity": "legendary",
       "description": "Orchestrates an end-to-end job application pipeline, including automated search, fit evaluation, and tailored CV/cover letter generation.",
       "prerequisites": [
@@ -1210,19 +1101,11 @@
       ],
       "derivatives": [],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/santifer/career-ops",
-          "evaluator": "gemini-cli",
-          "date": "2026-05-14",
-          "notes": "Career-Ops -- AI-powered job search system with CV tailoring and dashboard."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-14",
-      "updatedAt": "2026-05-14",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -1239,7 +1122,6 @@
       "id": "chain-of-thought",
       "name": "Chain-of-Thought Reasoning",
       "type": "basic",
-      "level": "0★",
       "rarity": "uncommon",
       "description": "Produces explicit intermediate reasoning steps before arriving at a final answer, dramatically improving accuracy on multi-step problems.",
       "prerequisites": [],
@@ -1269,7 +1151,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -1294,16 +1176,12 @@
           "previousValue": "1★",
           "newValue": "0★"
         }
-      ],
-      "demerits": [
-        "broken-evidence"
       ]
     },
     {
       "id": "chunk-document",
       "name": "Chunk Document",
       "type": "basic",
-      "level": "0★",
       "rarity": "common",
       "description": "Splits a document into semantically meaningful segments optimized for embedding and retrieval.",
       "prerequisites": [],
@@ -1323,7 +1201,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -1348,16 +1226,12 @@
           "previousValue": "1★",
           "newValue": "0★"
         }
-      ],
-      "demerits": [
-        "broken-evidence"
       ]
     },
     {
       "id": "cite-sources",
       "name": "Cite Sources",
       "type": "basic",
-      "level": "0★",
       "rarity": "common",
       "description": "Attributes claims to specific sources with proper references, URLs, or bibliographic entries.",
       "prerequisites": [],
@@ -1381,7 +1255,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -1406,16 +1280,12 @@
           "previousValue": "1★",
           "newValue": "0★"
         }
-      ],
-      "demerits": [
-        "broken-evidence"
       ]
     },
     {
       "id": "classify",
       "name": "Classify",
       "type": "basic",
-      "level": "0★",
       "rarity": "common",
       "description": "Assigns one or more categorical labels to an input based on learned or rule-based criteria.",
       "prerequisites": [],
@@ -1436,11 +1306,8 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
-      "demerits": [
-        "broken-evidence"
-      ],
       "timeline": [
         {
           "timestamp": "2026-05-13T21:50:25Z",
@@ -1456,25 +1323,16 @@
       "id": "cli-modernization",
       "name": "CLI Modernization",
       "type": "basic",
-      "level": "2★",
       "rarity": "common",
       "description": "Refactors command-line interfaces for improved UX, plugin architecture, and extensibility.",
       "prerequisites": [],
       "derivatives": [],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/ruvnet/ruflo",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-19",
-      "updatedAt": "2026-05-19",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -1491,7 +1349,6 @@
       "id": "clinical-data-retrieval",
       "name": "Clinical Data Retrieval",
       "type": "basic",
-      "level": "2★",
       "rarity": "common",
       "description": "Retrieves and parses clinical trial records, drug approvals, regulatory filings, or medical variant databases (e.g. ClinicalTrials.gov, OpenFDA, ClinVar).",
       "prerequisites": [],
@@ -1503,40 +1360,12 @@
           "evaluator": "unknown",
           "date": "2026-05-23",
           "notes": "Foundational canonical generic skill for Clinical Data Retrieval."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/clinical_trials_database/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind clinical_trials_database science-skill implementation."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/openfda_database/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind openfda_database science-skill implementation."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/clinvar_database/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind clinvar_database science-skill implementation."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/opentargets_database/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind opentargets_database science-skill implementation."
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-05-23",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -1589,7 +1418,6 @@
       "id": "cloud-platform-management",
       "name": "Cloud Platform Management",
       "type": "extra",
-      "level": "3★",
       "rarity": "uncommon",
       "description": "Full lifecycle management of cloud AI platforms including user auth, sandbox environments, app store deployment, payments, and challenge systems. Home of the Queen Seraphina AI assistant.",
       "prerequisites": [
@@ -1598,19 +1426,11 @@
       ],
       "derivatives": [],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/ruvnet/ruflo",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-19",
-      "updatedAt": "2026-05-19",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -1627,7 +1447,6 @@
       "id": "code-execution",
       "name": "Code Execution",
       "type": "basic",
-      "level": "0★",
       "rarity": "common",
       "description": "Writes and executes code in a sandboxed environment, uses the runtime output to verify correctness, and iterates until the result is correct.",
       "prerequisites": [],
@@ -1668,7 +1487,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -1707,16 +1526,12 @@
           "previousValue": "2★",
           "newValue": "0★"
         }
-      ],
-      "demerits": [
-        "broken-evidence"
       ]
     },
     {
       "id": "code-explain",
       "name": "Code Explain",
       "type": "basic",
-      "level": "2★",
       "rarity": "common",
       "description": "Generates accurate natural-language explanations of source code, describing intent, logic flow, and key decisions at function or module level.",
       "prerequisites": [],
@@ -1744,7 +1559,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-04-30",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -1761,7 +1576,6 @@
       "id": "code-generation",
       "name": "Code Generation",
       "type": "basic",
-      "level": "0★",
       "rarity": "common",
       "description": "Produces syntactically correct and functionally appropriate source code from specifications or prompts.",
       "prerequisites": [],
@@ -1787,7 +1601,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -1812,16 +1626,12 @@
           "previousValue": "1★",
           "newValue": "0★"
         }
-      ],
-      "demerits": [
-        "broken-evidence"
       ]
     },
     {
       "id": "code-review-pipeline",
       "name": "Code Review Pipeline",
       "type": "extra",
-      "level": "2★",
       "rarity": "uncommon",
       "description": "Performs automated code review by generating, diffing, and evaluating code changes for correctness, style, security, and maintainability.",
       "prerequisites": [
@@ -1850,7 +1660,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -1881,7 +1691,6 @@
       "id": "collaborative-diagramming",
       "name": "Collaborative Diagramming",
       "type": "extra",
-      "level": "2★",
       "rarity": "common",
       "description": "Generates and manages digital diagrams, flowcharts, and architecture maps in web-native or collaborative formats, optimized for hand-drawn aesthetics or structured vector output.",
       "prerequisites": [
@@ -1904,7 +1713,7 @@
       ],
       "status": "provisional",
       "createdAt": "2026-05-17",
-      "updatedAt": "2026-05-17",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -1921,7 +1730,6 @@
       "id": "computational-biology-workflows",
       "name": "Computational Biology Workflows",
       "type": "extra",
-      "level": "4★",
       "rarity": "common",
       "description": "Integrates structural, genomic, proteomic, and molecular database querying with bioinformatics analysis (such as sequence alignment, structure prediction, and molecular rendering) to solve multi-step, complex computational biology tasks.",
       "prerequisites": [
@@ -1939,33 +1747,12 @@
           "evaluator": "unknown",
           "date": "2026-05-23",
           "notes": "Foundational canonical generic skill for Computational Biology Workflows."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind alphafold_database_fetch_and_analyze science-skill implementation."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/alphagenome_single_variant_analysis/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind alphagenome_single_variant_analysis science-skill implementation."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_msa/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind protein_sequence_msa science-skill implementation."
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-05-23",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -2012,7 +1799,6 @@
       "id": "computer-use",
       "name": "Computer Use",
       "type": "basic",
-      "level": "2★",
       "rarity": "rare",
       "description": "Controls desktop GUIs and web browsers by interpreting screenshots, issuing mouse/keyboard actions, and verifying visual state to complete open-ended computer tasks.",
       "prerequisites": [],
@@ -2039,7 +1825,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-04-28",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -2056,7 +1842,6 @@
       "id": "content-moderation",
       "name": "Content Moderation",
       "type": "extra",
-      "level": "2★",
       "rarity": "uncommon",
       "description": "Detects policy-violating content by combining intent classification, sentiment scoring, and entity extraction across text, images, and mixed media.",
       "prerequisites": [
@@ -2078,7 +1863,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -2109,7 +1894,6 @@
       "id": "context-compression",
       "name": "Context Compression",
       "type": "basic",
-      "level": "3★",
       "rarity": "common",
       "description": "Reduces the length of prompts or retrieved context to fit token limits while preserving semantic content, using techniques such as selective token removal, summarization, or token-classification-based pruning (e.g. LLMLingua).",
       "prerequisites": [],
@@ -2143,7 +1927,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-04-30",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -2160,7 +1944,6 @@
       "id": "conversational-agent",
       "name": "Conversational Agent",
       "type": "extra",
-      "level": "1★",
       "rarity": "uncommon",
       "description": "Manages coherent multi-turn dialogue by routing intent, maintaining memory across turns, and generating contextually appropriate responses.",
       "prerequisites": [
@@ -2182,7 +1965,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -2207,62 +1990,22 @@
           "previousValue": "3★",
           "newValue": "1★"
         }
-      ],
-      "demerits": [
-        "broken-evidence"
       ]
     },
     {
       "id": "core-platform-implementation",
       "name": "Core Platform Implementation",
       "type": "basic",
-      "level": "2★",
       "rarity": "common",
       "description": "Implements foundational platform architecture including plugin discovery, server lifecycle management, and API contracts.",
       "prerequisites": [],
       "derivatives": [],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/ruvnet/ruflo",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind science_skills_common science-skill implementation."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind uv science-skill implementation."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind science_skills_common science-skill implementation."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind uv science-skill implementation."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-19",
-      "updatedAt": "2026-05-23",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -2305,7 +2048,6 @@
       "id": "data-analysis",
       "name": "Data Analysis",
       "type": "extra",
-      "level": "3★",
       "rarity": "uncommon",
       "description": "Conducts end-to-end quantitative analysis: queries data via SQL, computes statistics, generates visualizations, and summarizes findings.",
       "prerequisites": [
@@ -2331,7 +2073,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-05-06",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -2348,7 +2090,6 @@
       "id": "data-visualize",
       "name": "Data Visualize",
       "type": "basic",
-      "level": "2★",
       "rarity": "common",
       "description": "Generates charts, graphs, and visual summaries from datasets by selecting appropriate visualization types and mapping data dimensions.",
       "prerequisites": [],
@@ -2369,7 +2110,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-05-06",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -2386,7 +2127,6 @@
       "id": "deployment-automation",
       "name": "Deployment Automation",
       "type": "extra",
-      "level": "2★",
       "rarity": "uncommon",
       "description": "Automate CI/CD pipeline execution and deployment to target environments — build, test, artifact publishing, environment promotion, and rollback strategies.",
       "prerequisites": [
@@ -2397,22 +2137,11 @@
         "gstack"
       ],
       "conditions": "Requires environment credentials and a configured pipeline definition.",
-      "evidence": [
-        {
-          "class": "C",
-          "source": "https://github.com/intelligentcode-ai/skills/blob/main/skills/devops-engineer/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-30",
-          "notes": "intelligentcode-ai/skills devops-engineer — CI/CD pipeline design and deployment automation with build systems and release management."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
-      "demerits": [
-        "heavyweight-dependency"
-      ],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-05-18",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -2429,7 +2158,6 @@
       "id": "design-generation",
       "name": "Design Generation",
       "type": "extra",
-      "level": "3★",
       "rarity": "rare",
       "description": "Generates high-fidelity visual assets, prototypes, and UI components from design intent or discovery forms, adhering to brand and UX standards.",
       "prerequisites": [
@@ -2440,19 +2168,11 @@
         "full-stack-developer"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/nexu-io/open-design",
-          "evaluator": "gemini-cli",
-          "date": "2026-05-14",
-          "notes": "Open Design -- local-first design engine generating high-fidelity prototypes and brand assets."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-14",
-      "updatedAt": "2026-05-14",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -2469,7 +2189,6 @@
       "id": "design-review",
       "name": "Design Review",
       "type": "extra",
-      "level": "3★",
       "rarity": "rare",
       "description": "Stress-tests a plan or design through relentless targeted questioning, walking the decision tree branch-by-branch, resolving concept dependencies, surfacing contradictions against the existing codebase, and crystallising ubiquitous language — optionally persisting resolved decisions to CONTEXT.md and ADRs.",
       "prerequisites": [
@@ -2499,7 +2218,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-04-30",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -2516,7 +2235,6 @@
       "id": "design-system-extraction",
       "name": "Design System Extraction",
       "type": "extra",
-      "level": "3★",
       "rarity": "rare",
       "description": "Automates the discovery and extraction of design tokens, component architectures, and CSS configurations from live web applications or URLs.",
       "prerequisites": [
@@ -2528,19 +2246,11 @@
         "gstack"
       ],
       "conditions": "Requires headless browser (Playwright/Puppeteer).",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/Manavarya09/design-extract",
-          "evaluator": "gemini-cli",
-          "date": "2026-05-14",
-          "notes": "Design Extract -- extracts complete design systems (Tailwind, Figma variables, etc.) from any URL."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-14",
-      "updatedAt": "2026-05-18",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -2557,7 +2267,6 @@
       "id": "detect-anomaly",
       "name": "Detect Anomaly",
       "type": "extra",
-      "level": "2★",
       "rarity": "uncommon",
       "description": "Identifies statistical outliers, novel patterns, or deviations from expected behavior in structured or unstructured data.",
       "prerequisites": [
@@ -2581,7 +2290,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-05-18",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -2606,7 +2315,6 @@
       "id": "diff-content",
       "name": "Diff Content",
       "type": "basic",
-      "level": "0★",
       "rarity": "common",
       "description": "Compares two versions of content and produces a structured delta highlighting additions, deletions, and modifications.",
       "prerequisites": [],
@@ -2627,7 +2335,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -2652,16 +2360,12 @@
           "previousValue": "1★",
           "newValue": "0★"
         }
-      ],
-      "demerits": [
-        "broken-evidence"
       ]
     },
     {
       "id": "dify-agent-suite",
       "name": "Dify Agent Suite",
       "type": "extra",
-      "level": "1★",
       "rarity": "common",
       "description": "An integrated suite of frontend, backend, testing, and review capabilities for the Dify LLM application development platform.",
       "prerequisites": [
@@ -2682,7 +2386,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-20",
-      "updatedAt": "2026-05-20",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -2711,7 +2415,6 @@
       "id": "dispatching-parallel-agents",
       "name": "Dispatching Parallel Agents",
       "type": "extra",
-      "level": "4★",
       "rarity": "uncommon",
       "description": "Delegates independent tasks to specialized agents with isolated context to work concurrently.",
       "prerequisites": [
@@ -2724,19 +2427,11 @@
         "requesting-code-review"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/obra/superpowers/blob/main/skills/dispatching-parallel-agents/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-18",
-          "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-18",
-      "updatedAt": "2026-05-19",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -2761,7 +2456,6 @@
       "id": "distributed-neural-training",
       "name": "Distributed Neural Training",
       "type": "extra",
-      "level": "3★",
       "rarity": "uncommon",
       "description": "Trains neural networks (feedforward, LSTM, GAN, autoencoder, transformer) across distributed E2B sandbox clusters with federated learning and model marketplace publishing.",
       "prerequisites": [
@@ -2770,19 +2464,11 @@
       ],
       "derivatives": [],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/ruvnet/ruflo",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-19",
-      "updatedAt": "2026-05-19",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -2799,7 +2485,6 @@
       "id": "distributed-vector-memory",
       "name": "Distributed Vector Memory",
       "type": "extra",
-      "level": "3★",
       "rarity": "uncommon",
       "description": "Sub-millisecond cross-node vector synchronization using QUIC protocol with hybrid metadata-filtered search and MMR diversity retrieval.",
       "prerequisites": [
@@ -2808,19 +2493,11 @@
       ],
       "derivatives": [],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/ruvnet/ruflo",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-19",
-      "updatedAt": "2026-05-19",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -2837,7 +2514,6 @@
       "id": "document-analyst",
       "name": "Document Analyst",
       "type": "extra",
-      "level": "1★",
       "rarity": "uncommon",
       "description": "Parses, extracts entities from, summarizes, and formats structured documents.",
       "prerequisites": [
@@ -2869,7 +2545,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -2908,16 +2584,12 @@
           "previousValue": "3★",
           "newValue": "1★"
         }
-      ],
-      "demerits": [
-        "broken-evidence"
       ]
     },
     {
       "id": "document-editing",
       "name": "Document Editing",
       "type": "basic",
-      "level": "0★",
       "rarity": "common",
       "description": "Reads, edits, repacks, and applies styling or design principles to structured binary document formats such as PPTX, DOCX, and XLSX.",
       "prerequisites": [],
@@ -2926,19 +2598,11 @@
         "gstack"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/anthropics/skills/blob/main/skills/pptx/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-30",
-          "notes": "Anthropic /pptx slash command -- extracts, edits, packs, and applies design principles to PowerPoint files using markitdown."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-05-18",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -2955,7 +2619,6 @@
       "id": "dual-mode",
       "name": "Dual Mode",
       "type": "extra",
-      "level": "3★",
       "rarity": "uncommon",
       "description": "Orchestrates hybrid Claude+Codex workflows: spawns headless parallel workers, coordinates task routing between interactive and background phases, and collects distributed results.",
       "prerequisites": [
@@ -2965,19 +2628,11 @@
       ],
       "derivatives": [],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/ruvnet/ruflo",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-19",
-      "updatedAt": "2026-05-19",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -2994,7 +2649,6 @@
       "id": "e2e-testing",
       "name": "End-to-End Testing",
       "type": "extra",
-      "level": "3★",
       "rarity": "uncommon",
       "description": "Execute full end-to-end user journey tests using browser automation frameworks (Playwright/Puppeteer), validating complete workflows from UI to backend across real environments.",
       "prerequisites": [
@@ -3012,19 +2666,12 @@
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
           "notes": "autospec — AI agent that takes a web app URL and autonomously QAs it, saving passing specs as E2E test code (59 stars, active)."
-        },
-        {
-          "class": "C",
-          "source": "https://github.com/intelligentcode-ai/skills/blob/main/skills/user-tester/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-30",
-          "notes": "intelligentcode-ai/skills user-tester — E2E testing specialist with Puppeteer/Playwright automation and cross-browser user journey validation."
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-05-18",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -3041,7 +2688,6 @@
       "id": "embed-text",
       "name": "Embed Text",
       "type": "basic",
-      "level": "0★",
       "rarity": "common",
       "description": "Converts text into dense vector representations suitable for similarity search and clustering.",
       "prerequisites": [],
@@ -3063,7 +2709,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -3088,16 +2734,12 @@
           "previousValue": "1★",
           "newValue": "0★"
         }
-      ],
-      "demerits": [
-        "broken-evidence"
       ]
     },
     {
       "id": "error-interpretation",
       "name": "Error Interpretation",
       "type": "basic",
-      "level": "0★",
       "rarity": "common",
       "description": "Diagnoses error messages, stack traces, and failure modes to identify root causes and suggest fixes.",
       "prerequisites": [],
@@ -3120,7 +2762,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -3145,16 +2787,12 @@
           "previousValue": "1★",
           "newValue": "0★"
         }
-      ],
-      "demerits": [
-        "broken-evidence"
       ]
     },
     {
       "id": "evaluate-output",
       "name": "Evaluate Output",
       "type": "basic",
-      "level": "0★",
       "rarity": "common",
       "description": "Assesses the quality, correctness, or safety of generated output against defined criteria.",
       "prerequisites": [],
@@ -3184,7 +2822,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -3209,16 +2847,12 @@
           "previousValue": "1★",
           "newValue": "0★"
         }
-      ],
-      "demerits": [
-        "broken-evidence"
       ]
     },
     {
       "id": "executing-plans",
       "name": "Executing Plans",
       "type": "extra",
-      "level": "2★",
       "rarity": "common",
       "description": "Loads a written implementation plan, reviews it critically, executes all tasks sequentially, and reports when complete.",
       "prerequisites": [
@@ -3230,19 +2864,11 @@
         "subagent-driven-development"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/obra/superpowers/blob/main/skills/executing-plans/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-18",
-          "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-18",
-      "updatedAt": "2026-05-19",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -3267,7 +2893,6 @@
       "id": "extract-entities",
       "name": "Extract Entities",
       "type": "basic",
-      "level": "0★",
       "rarity": "common",
       "description": "Identifies and extracts named entities such as people, organizations, dates, and locations from text.",
       "prerequisites": [],
@@ -3291,7 +2916,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -3316,36 +2941,24 @@
           "previousValue": "1★",
           "newValue": "0★"
         }
-      ],
-      "demerits": [
-        "broken-evidence"
       ]
     },
     {
       "id": "feed-monitoring",
       "name": "Feed Monitoring",
       "type": "unique",
-      "level": "4★",
       "rarity": "common",
       "description": "Monitors RSS, Atom, blog, or other recurring content feeds, discovers updates, tracks read state, and surfaces new signals for downstream agent workflows.",
       "prerequisites": [],
       "derivatives": [],
       "conditions": "Requires configured feed sources and a repeatable polling or discovery mechanism.",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/NousResearch/hermes-agent/blob/main/skills/research/blogwatcher/SKILL.md",
-          "evaluator": "openai-codex",
-          "date": "2026-05-06",
-          "notes": "Hermes Agent blogwatcher skill monitors blogs and RSS/Atom feeds with feed discovery, scraping fallback, OPML import, and read/unread article management."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [
         "NousResearch/hermes-agent"
       ],
       "status": "provisional",
       "createdAt": "2026-05-06",
-      "updatedAt": "2026-05-06",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -3370,7 +2983,6 @@
       "id": "few-shot-learning",
       "name": "Few-Shot Learning",
       "type": "basic",
-      "level": "2★",
       "rarity": "common",
       "description": "Conditions a language model on a small number of input-output demonstrations within the prompt, enabling task adaptation without weight updates.",
       "prerequisites": [],
@@ -3391,7 +3003,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-29",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -3444,7 +3056,6 @@
       "id": "fine-tune",
       "name": "Fine-Tune",
       "type": "unique",
-      "level": "4★",
       "rarity": "uncommon",
       "description": "Adapts a pre-trained model to a new task or domain by updating model weights using parameter-efficient methods such as LoRA, QLoRA, or full supervised fine-tuning, without retraining from scratch.",
       "prerequisites": [],
@@ -3476,7 +3087,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-04-30",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -3493,7 +3104,6 @@
       "id": "finishing-a-development-branch",
       "name": "Finishing a Development Branch",
       "type": "extra",
-      "level": "2★",
       "rarity": "common",
       "description": "Guides completion of development work by presenting structured options for merge, PR, or cleanup, verifying tests first.",
       "prerequisites": [
@@ -3506,19 +3116,11 @@
         "deployment-automation"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/obra/superpowers/blob/main/skills/finishing-a-development-branch/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-18",
-          "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-18",
-      "updatedAt": "2026-05-18",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -3543,7 +3145,6 @@
       "id": "flow-nexus-orchestration",
       "name": "Flow Nexus Orchestration",
       "type": "extra",
-      "level": "4★",
       "rarity": "rare",
       "description": "Complete Flow Nexus platform: multi-topology swarm deployment, cloud platform management, and distributed neural training unified into one orchestration layer.",
       "prerequisites": [
@@ -3553,19 +3154,11 @@
       ],
       "derivatives": [],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/ruvnet/ruflo",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-19",
-      "updatedAt": "2026-05-19",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -3582,7 +3175,6 @@
       "id": "format-output",
       "name": "Format Output",
       "type": "basic",
-      "level": "0★",
       "rarity": "common",
       "description": "Structures raw output into a specified format such as markdown, JSON, CSV, or HTML.",
       "prerequisites": [],
@@ -3606,11 +3198,8 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
-      "demerits": [
-        "broken-evidence"
-      ],
       "timeline": [
         {
           "timestamp": "2026-05-13T21:50:25Z",
@@ -3626,25 +3215,16 @@
       "id": "framework-upgrade",
       "name": "Framework Upgrade",
       "type": "basic",
-      "level": "0★",
       "rarity": "common",
       "description": "Guides an agent through upgrading a project from one major framework version to another, including breaking-change detection, migration steps, and post-upgrade validation.",
       "prerequisites": [],
       "derivatives": [],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/laravel/boost/issues/698",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-30",
-          "notes": "Laravel /upgrade-laravel-v13 slash command -- real-world agentic framework upgrade workflow published by the Laravel team."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-04-30",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -3661,7 +3241,6 @@
       "id": "full-stack-developer",
       "name": "Full-Stack Developer",
       "type": "extra",
-      "level": "5★",
       "rarity": "epic",
       "description": "Autonomously implements, reviews, tests, and refactors complete software features across the full development lifecycle from specification to merged PR.",
       "prerequisites": [
@@ -3697,7 +3276,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-04-28",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "title": "Sovereign Craftsman",
       "timeline": [
@@ -3723,7 +3302,6 @@
       "id": "function-calling",
       "name": "Function Calling",
       "type": "extra",
-      "level": "2★",
       "rarity": "uncommon",
       "description": "Selects an external callable, emits schema-valid arguments, invokes the function or API, and integrates the returned result into the agent loop.",
       "prerequisites": [
@@ -3752,7 +3330,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-29",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -3783,7 +3361,6 @@
       "id": "generate-sql",
       "name": "Generate SQL",
       "type": "basic",
-      "level": "2★",
       "rarity": "common",
       "description": "Translates natural-language data questions into syntactically correct, executable SQL queries against a given schema.",
       "prerequisites": [],
@@ -3804,7 +3381,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-04-28",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -3821,7 +3398,6 @@
       "id": "generate-test",
       "name": "Generate Test",
       "type": "basic",
-      "level": "2★",
       "rarity": "common",
       "summary": "Produces comprehensive unit, integration, and edge-case test suites from source code.",
       "description": "Analyzes source code or natural-language specifications to identify functions, classes, and their dependencies, and generates thorough, maintainable test suites. It handles test case structuring, setup and teardown fixtures, mocking external dependencies, and validating normal operation alongside boundary and error conditions.",
@@ -3844,7 +3420,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-04-28",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -3861,7 +3437,6 @@
       "id": "generate-text",
       "name": "Generate Text",
       "type": "basic",
-      "level": "0★",
       "rarity": "common",
       "description": "Produces coherent natural language output given a prompt, instruction, or context window.",
       "prerequisites": [],
@@ -3883,11 +3458,8 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
-      "demerits": [
-        "broken-evidence"
-      ],
       "timeline": [
         {
           "timestamp": "2026-05-13T21:50:25Z",
@@ -3903,7 +3475,6 @@
       "id": "generative-media",
       "name": "Generative Media",
       "type": "extra",
-      "level": "3★",
       "rarity": "rare",
       "description": "Generates and manipulates images, video, and audio through complex node-based or scripted generative workflows, managing model dependencies and parameter injection.",
       "prerequisites": [
@@ -3924,12 +3495,9 @@
       "knownAgents": [
         "NousResearch/hermes-agent"
       ],
-      "demerits": [
-        "heavyweight-dependency"
-      ],
       "status": "provisional",
       "createdAt": "2026-05-17",
-      "updatedAt": "2026-05-17",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -3946,7 +3514,6 @@
       "id": "genomic-data-retrieval",
       "name": "Genomic Data Retrieval",
       "type": "basic",
-      "level": "2★",
       "rarity": "common",
       "description": "Queries and retrieves DNA sequence data, transcription factor binding models, cis-regulatory elements, and genetic annotations from genomic repositories (e.g. Ensembl, GTEx, JASPAR, UniBind, ENCODE, UCSC, dbSNP).",
       "prerequisites": [],
@@ -3958,75 +3525,12 @@
           "evaluator": "unknown",
           "date": "2026-05-23",
           "notes": "Foundational canonical generic skill for Genomic Data Retrieval."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/ensembl_database/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind ensembl_database science-skill implementation."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/jaspar_database/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind jaspar_database science-skill implementation."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/unibind_database/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind unibind_database science-skill implementation."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/encode_ccres_database/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind encode_ccres_database science-skill implementation."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/gtex_database/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind gtex_database science-skill implementation."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/ucsc_conservation_and_tfbs/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind ucsc_conservation_and_tfbs science-skill implementation."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/dbsnp_database/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind dbsnp_database science-skill implementation."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/ncbi_sequence_fetch/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind ncbi_sequence_fetch science-skill implementation."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/gnomad_database/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind gnomad_database science-skill implementation."
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-05-23",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -4103,7 +3607,6 @@
       "id": "ghostwrite",
       "name": "Ghostwrite",
       "type": "extra",
-      "level": "1★",
       "rarity": "rare",
       "description": "Produces audience-tailored, research-backed long-form written content.",
       "prerequisites": [
@@ -4117,7 +3620,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-04-26",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -4142,25 +3645,16 @@
       "id": "git-diff-risk-analysis",
       "name": "Git Diff Risk Analysis",
       "type": "basic",
-      "level": "2★",
       "rarity": "common",
       "description": "Analyzes git diffs for complexity, churn, and risk scores to prioritize review attention and flag dangerous changes.",
       "prerequisites": [],
       "derivatives": [],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/ruvnet/ruflo",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-19",
-      "updatedAt": "2026-05-19",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -4177,7 +3671,6 @@
       "id": "github-platform-mastery",
       "name": "GitHub Platform Mastery",
       "type": "extra",
-      "level": "3★",
       "rarity": "uncommon",
       "description": "Full GitHub platform automation: code review pipelines, multi-repo coordination, project management, release management, and workflow automation.",
       "prerequisites": [
@@ -4189,19 +3682,11 @@
       ],
       "derivatives": [],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/ruvnet/ruflo",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-19",
-      "updatedAt": "2026-05-19",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -4226,7 +3711,6 @@
       "id": "graph-driven-issue-triage",
       "name": "Graph-Driven Issue Triage",
       "type": "extra",
-      "level": "3★",
       "rarity": "common",
       "description": "Combines codebase or knowledge-graph construction with automated issue triage: ingest a graph artifact, surface architectural debt or missing-prerequisite signals from the graph topology, and convert each finding into a tracked issue with reproducible evidence.",
       "prerequisites": [
@@ -4234,19 +3718,11 @@
         "knowledge-graph-build"
       ],
       "derivatives": [],
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/graphify-triage/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-30",
-          "notes": "Reproducible playbook: graphify-triage script ingests safishamsi/graphify GRAPH_REPORT.md output, parses architectural-debt findings, and converts each into a tracked GitHub issue via gh issue create. First implementation of the fusion generic (graphify + triage)."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-30",
-      "updatedAt": "2026-05-30",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -4273,7 +3749,6 @@
       "id": "grill-me",
       "name": "Grill Me",
       "type": "extra",
-      "level": "4★",
       "rarity": "rare",
       "description": "Conducts a relentless, one-question-at-a-time Socratic interview to stress-test designs and force the resolution of hidden assumptions before code is written.",
       "prerequisites": [
@@ -4284,19 +3759,11 @@
         "grill-with-docs"
       ],
       "conditions": "Enforces a strict questioning loop that prevents the agent from proceeding to implementation until all branches are resolved.",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-15",
-          "notes": "Original implementation by Matt Pocock; viral engineering pattern for disciplined agent alignment."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-15",
-      "updatedAt": "2026-05-15",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -4313,7 +3780,6 @@
       "id": "grill-with-docs",
       "name": "Grill With Docs",
       "type": "extra",
-      "level": "1★",
       "rarity": "uncommon",
       "description": "The apex of agentic design alignment. Fuses relentless Socratic questioning with deep domain awareness, ensuring every decision is cross-referenced against a persistent ubiquitous language and documented via real-time ADR generation.",
       "prerequisites": [
@@ -4330,19 +3796,12 @@
           "evaluator": "mbtiongson1",
           "date": "2026-05-15",
           "notes": "Technical manifesto establishing the 'Real Engineering' pattern for AI agents; demonstrates significant reduction in software entropy through domain-aware alignment."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/grill-with-docs/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-15",
-          "notes": "Production implementation of the Grill With Docs pattern."
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-15",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "title": "The Domain Sovereign",
       "timeline": [
@@ -4384,16 +3843,12 @@
           "previousValue": "3★",
           "newValue": "1★"
         }
-      ],
-      "demerits": [
-        "broken-evidence"
       ]
     },
     {
       "id": "grounding",
       "name": "Grounding",
       "type": "extra",
-      "level": "1★",
       "rarity": "uncommon",
       "description": "Verifies generated claims against retrieved evidence, identifies unsupported or contradicted assertions, and anchors outputs in traceable, cited sources.",
       "prerequisites": [
@@ -4422,7 +3877,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -4447,16 +3902,12 @@
           "previousValue": "3★",
           "newValue": "1★"
         }
-      ],
-      "demerits": [
-        "broken-evidence"
       ]
     },
     {
       "id": "gstack",
       "name": "Founder Mode",
       "type": "ultimate",
-      "level": "5★",
       "rarity": "legendary",
       "description": "Garry Tan's complete autonomous agent discipline suite spanning 19 named skills: browser QA, security auditing, design system creation, HTML generation, plan reviews (CEO/eng/design/DX), code review, root-cause debugging, E2E testing, ship/deploy automation, post-deploy canary monitoring, documentation, and founder-mode orchestration.",
       "prerequisites": [
@@ -4494,19 +3945,11 @@
       ],
       "derivatives": [],
       "conditions": "Requires demonstrating all 31 garrytan discipline skills together in a real multi-step context.",
-      "evidence": [
-        {
-          "class": "A",
-          "source": "https://github.com/garrytan/gstack",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-18",
-          "notes": "garrytan/gstack — 19 named garrytan skills registered in Gaia across 16 generic skill buckets; meets the >=5 named-skills threshold for Class A designation. Additionally: 98.9k GitHub stars, multi-platform adoption across 8+ runtimes (Claude Code, OpenAI Codex CLI, OpenCode, Cursor, Factory Droid, Slate, Kiro, Hermes)."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-18",
-      "updatedAt": "2026-05-18",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -4541,7 +3984,6 @@
       "id": "guardrails",
       "name": "Guardrails",
       "type": "extra",
-      "level": "3★",
       "rarity": "uncommon",
       "description": "Wraps LLM outputs with programmatic safety rules, content filters, and topical constraints that detect policy violations and enforce compliant, on-policy responses before they reach the user.",
       "prerequisites": [
@@ -4572,7 +4014,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-04-30",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -4589,25 +4031,16 @@
       "id": "headless-worker-collect",
       "name": "Headless Worker Collect",
       "type": "basic",
-      "level": "2★",
       "rarity": "common",
       "description": "Aggregates and formats results from distributed headless workers stored in shared memory with filtering and status reporting.",
       "prerequisites": [],
       "derivatives": [],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/ruvnet/ruflo",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-19",
-      "updatedAt": "2026-05-19",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -4624,25 +4057,16 @@
       "id": "headless-worker-spawn",
       "name": "Headless Worker Spawn",
       "type": "basic",
-      "level": "2★",
       "rarity": "common",
       "description": "Launches headless AI worker processes for parallel background task execution with configurable worker types and shared memory coordination.",
       "prerequisites": [],
       "derivatives": [],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/ruvnet/ruflo",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-19",
-      "updatedAt": "2026-05-19",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -4659,25 +4083,16 @@
       "id": "hive-mind-coordination",
       "name": "Hive Mind Coordination",
       "type": "unique",
-      "level": "4★",
       "rarity": "rare",
       "description": "Queen-led collective intelligence with Byzantine, majority, and weighted consensus mechanisms, eight worker specializations, and persistent collective SQLite memory with LRU caching.",
       "prerequisites": [],
       "derivatives": [],
       "conditions": "Requires demonstrating queen-led multi-agent consensus across at least 3 specialized worker types.",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/ruvnet/ruflo",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-19",
-      "updatedAt": "2026-05-19",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -4694,7 +4109,6 @@
       "id": "humanize-prose",
       "name": "Humanize Prose",
       "type": "extra",
-      "level": "4★",
       "rarity": "uncommon",
       "description": "Audits and rewrites prose to remove generic AI-writing patterns, preserve author intent, and adapt tone toward a more natural human voice.",
       "prerequisites": [
@@ -4718,7 +4132,7 @@
       ],
       "status": "provisional",
       "createdAt": "2026-05-06",
-      "updatedAt": "2026-05-06",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -4735,25 +4149,16 @@
       "id": "hybrid-workflow-coordination",
       "name": "Hybrid Workflow Coordination",
       "type": "basic",
-      "level": "2★",
       "rarity": "common",
       "description": "Routes tasks between interactive reasoning phases and parallel background execution with configurable workflow templates.",
       "prerequisites": [],
       "derivatives": [],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/ruvnet/ruflo",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-19",
-      "updatedAt": "2026-05-19",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -4770,7 +4175,6 @@
       "id": "hypothesis-generate",
       "name": "Hypothesis Generation",
       "type": "basic",
-      "level": "2★",
       "rarity": "rare",
       "description": "Formulates novel, testable scientific hypotheses by synthesising existing literature, identifying knowledge gaps, and proposing mechanistic explanations.",
       "prerequisites": [],
@@ -4805,7 +4209,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-04-28",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -4822,7 +4226,6 @@
       "id": "image-caption",
       "name": "Image Caption",
       "type": "basic",
-      "level": "2★",
       "rarity": "uncommon",
       "description": "Generates accurate natural-language descriptions of images, capturing objects, actions, and spatial relationships.",
       "prerequisites": [],
@@ -4842,7 +4245,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-04-30",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -4859,7 +4262,6 @@
       "id": "image-generate",
       "name": "Image Generate",
       "type": "basic",
-      "level": "2★",
       "rarity": "uncommon",
       "description": "Creates photorealistic or stylized images from text prompts using diffusion-based or autoregressive generative models.",
       "prerequisites": [],
@@ -4877,7 +4279,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-04-28",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -4894,20 +4296,12 @@
       "id": "issue-triage",
       "name": "Issue Triage",
       "type": "basic",
-      "level": "4★",
       "rarity": "uncommon",
       "description": "Classifies incoming issue reports through a structured state machine, assigns triage roles (bug/enhancement, needs-info/ready-for-agent/wontfix), reproduces bugs, requests missing detail, and produces structured resolution briefs for agent or human handoff.",
       "prerequisites": [],
       "derivatives": [],
       "conditions": "",
       "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/triage/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-30",
-          "notes": "Production triage skill with state-machine workflow, HITL/AFK routing, and structured agent-brief output."
-        },
         {
           "class": "A",
           "source": "https://arxiv.org/abs/2501.18908",
@@ -4926,7 +4320,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-04-30",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -4943,7 +4337,6 @@
       "id": "knowledge-graph-build",
       "name": "Knowledge Graph Construction",
       "type": "extra",
-      "level": "3★",
       "rarity": "uncommon",
       "description": "Extracts entities and relations from unstructured text, resolves co-references, and assembles them into a queryable graph structure with typed edges.",
       "prerequisites": [
@@ -4974,7 +4367,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-04-28",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -4991,7 +4384,6 @@
       "id": "knowledge-harvest",
       "name": "Knowledge Harvest",
       "type": "extra",
-      "level": "1★",
       "rarity": "rare",
       "description": "Extracts, structures, and embeds knowledge from web sources into a searchable corpus.",
       "prerequisites": [
@@ -5005,7 +4397,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-04-26",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -5030,7 +4422,6 @@
       "id": "knowledge-management",
       "name": "Knowledge Management",
       "type": "extra",
-      "level": "2★",
       "rarity": "common",
       "description": "Organizes, relates, and retrieves information across structured pages, databases, and shared knowledge bases, maintaining semantic links between information nodes.",
       "prerequisites": [
@@ -5056,7 +4447,7 @@
       ],
       "status": "provisional",
       "createdAt": "2026-05-17",
-      "updatedAt": "2026-05-17",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -5073,7 +4464,6 @@
       "id": "literature-review",
       "name": "Literature Review",
       "type": "extra",
-      "level": "4★",
       "rarity": "uncommon",
       "description": "Conducts systematic multi-database academic literature searches following PRISMA/SWARM protocols, screens and synthesises findings, verifies all citations, and generates a structured review report.",
       "prerequisites": [
@@ -5103,7 +4493,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-05-23",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -5120,7 +4510,6 @@
       "id": "literature-search",
       "name": "Literature Search",
       "type": "basic",
-      "level": "2★",
       "rarity": "common",
       "description": "Queries and searches academic literature databases (e.g. PubMed, arXiv, bioRxiv, OpenAlex) to locate papers, retrieve abstracts, resolve citations, and fetch full-text documents.",
       "prerequisites": [],
@@ -5132,47 +4521,12 @@
           "evaluator": "unknown",
           "date": "2026-05-23",
           "notes": "Foundational canonical generic skill for Literature Search."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/pubmed_database/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind pubmed_database science-skill implementation."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_arxiv/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind literature_search_arxiv science-skill implementation."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_biorxiv/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind literature_search_biorxiv science-skill implementation."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_europepmc/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind literature_search_europepmc science-skill implementation."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_openalex/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind literature_search_openalex science-skill implementation."
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-05-23",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -5225,7 +4579,6 @@
       "id": "logical-inference",
       "name": "Logical Inference",
       "type": "basic",
-      "level": "1★",
       "rarity": "uncommon",
       "description": "Applies deductive, inductive, or abductive reasoning to derive valid conclusions from premises and structured knowledge.",
       "prerequisites": [],
@@ -5246,7 +4599,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-04-28",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -5263,7 +4616,6 @@
       "id": "math-reason",
       "name": "Math Reason",
       "type": "basic",
-      "level": "2★",
       "rarity": "uncommon",
       "description": "Solves multi-step mathematical problems including arithmetic, algebra, calculus, and competition mathematics through symbolic and numeric reasoning.",
       "prerequisites": [],
@@ -5284,7 +4636,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-04-28",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -5301,7 +4653,6 @@
       "id": "mathematical-animation",
       "name": "Mathematical Animation",
       "type": "extra",
-      "level": "3★",
       "rarity": "rare",
       "description": "Produces programmatic mathematical and algorithmic animations with high pedagogical and visual quality, utilizing LaTeX for notation and geometric coordinate systems for spatial layout.",
       "prerequisites": [
@@ -5322,12 +4673,9 @@
       "knownAgents": [
         "NousResearch/hermes-agent"
       ],
-      "demerits": [
-        "heavyweight-dependency"
-      ],
       "status": "provisional",
       "createdAt": "2026-05-17",
-      "updatedAt": "2026-05-17",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -5344,7 +4692,6 @@
       "id": "mattpocock-engineering",
       "name": "mattpocock-engineering",
       "type": "ultimate",
-      "level": "5★",
       "rarity": "common",
       "description": "Engineering category suite for Matt Pocock's skills.",
       "prerequisites": [
@@ -5372,7 +4719,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-22",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -5431,7 +4778,6 @@
       "id": "mattpocock-personal",
       "name": "mattpocock-personal",
       "type": "extra",
-      "level": "4★",
       "rarity": "common",
       "description": "Personal category suite for Matt Pocock's skills.",
       "prerequisites": [
@@ -5451,7 +4797,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-22",
-      "updatedAt": "2026-05-22",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -5502,7 +4848,6 @@
       "id": "mattpocock-productivity",
       "name": "mattpocock-productivity",
       "type": "extra",
-      "level": "4★",
       "rarity": "common",
       "description": "Productivity category suite for Matt Pocock's skills.",
       "prerequisites": [
@@ -5524,7 +4869,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-22",
-      "updatedAt": "2026-05-22",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -5575,7 +4920,6 @@
       "id": "mattpocock-skills",
       "name": "mattpocock-skills",
       "type": "ultimate",
-      "level": "6★",
       "rarity": "common",
       "description": "Ultimate capstone suite for Matt Pocock's skills.",
       "prerequisites": [
@@ -5612,7 +4956,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-22",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -5675,7 +5019,6 @@
       "id": "mcp-debugger-control",
       "name": "MCP Debugger Control",
       "type": "extra",
-      "level": "2★",
       "rarity": "rare",
       "description": "Exposes low-level debugger capabilities (breakpoints, stepping, stack inspection, variable evaluation) to AI agents via the Model Context Protocol, enabling real-time runtime diagnosis and autonomous bug fixing.",
       "prerequisites": [
@@ -5698,13 +5041,9 @@
       "knownAgents": [
         "ladislav-sopko/mcp-vs"
       ],
-      "demerits": [
-        "niche-integration",
-        "broken-evidence"
-      ],
       "status": "provisional",
       "createdAt": "2026-05-14",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -5735,7 +5074,6 @@
       "id": "mcp-integration",
       "name": "MCP Integration",
       "type": "basic",
-      "level": "3★",
       "rarity": "uncommon",
       "description": "Connect to and invoke tools exposed by Model Context Protocol (MCP) servers — enumerate available tools, execute calls, and handle responses across any MCP-compatible backend.",
       "prerequisites": [],
@@ -5758,22 +5096,12 @@
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
           "notes": "Cross-platform AI assistant with full MCP client support (5.2k stars). Reproduces tool enumeration, execution, and multi-server routing."
-        },
-        {
-          "class": "C",
-          "source": "https://github.com/intelligentcode-ai/skills/blob/main/skills/mcp-client/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-30",
-          "notes": "intelligentcode-ai/skills mcp-client — portable CLI MCP client with server enumeration, tool display, and on-demand execution."
         }
       ],
       "knownAgents": [],
-      "demerits": [
-        "niche-integration"
-      ],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-05-10",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -5790,7 +5118,6 @@
       "id": "mcp-server-creation",
       "name": "MCP Server Creation",
       "type": "extra",
-      "level": "4★",
       "rarity": "rare",
       "description": "Designs and implements Model Context Protocol servers that expose external APIs, files, or services as well-typed tools with clear schemas, authentication, and testable agent workflows.",
       "prerequisites": [
@@ -5831,7 +5158,7 @@
       ],
       "status": "provisional",
       "createdAt": "2026-05-10",
-      "updatedAt": "2026-05-27",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -5846,7 +5173,6 @@
       "id": "memory-manage",
       "name": "Memory Manage",
       "type": "extra",
-      "level": "2★",
       "rarity": "uncommon",
       "description": "Maintains, indexes, and retrieves conversational and long-term memory across sessions, managing context window constraints.",
       "prerequisites": [
@@ -5871,7 +5197,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-04-28",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -5896,25 +5222,16 @@
       "id": "memory-pattern-design",
       "name": "Memory Pattern Design",
       "type": "basic",
-      "level": "2★",
       "rarity": "common",
       "description": "Designs recurring memory storage patterns for AI agents with LRU caching, SQLite persistence, and associative retrieval.",
       "prerequisites": [],
       "derivatives": [],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/ruvnet/ruflo",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-19",
-      "updatedAt": "2026-05-19",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -5931,7 +5248,6 @@
       "id": "ml-artifact-management",
       "name": "ML Artifact Management",
       "type": "extra",
-      "level": "2★",
       "rarity": "uncommon",
       "description": "Manages machine learning models, datasets, and experiment logs through centralized hub or tracking repositories, handling versioning and metadata extraction.",
       "prerequisites": [
@@ -5954,7 +5270,7 @@
       ],
       "status": "provisional",
       "createdAt": "2026-05-17",
-      "updatedAt": "2026-05-17",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -5971,7 +5287,6 @@
       "id": "ml-pipeline",
       "name": "ML Pipeline",
       "type": "extra",
-      "level": "4★",
       "rarity": "rare",
       "description": "Designs and implements production ML pipelines with experiment tracking (MLflow, W&B), feature stores (Feast), orchestration (Kubeflow, Airflow), and automated retraining workflows including model evaluation gates and A/B deployment.",
       "prerequisites": [
@@ -6000,7 +5315,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-04-30",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -6017,7 +5332,6 @@
       "id": "molecular-databases",
       "name": "Molecular Databases",
       "type": "basic",
-      "level": "2★",
       "rarity": "common",
       "description": "Queries and retrieves structural, chemical, and biological activity data for small molecules, chemical compounds, or drug candidates from molecular repositories (e.g., ChEMBL, PubChem).",
       "prerequisites": [],
@@ -6029,26 +5343,12 @@
           "evaluator": "unknown",
           "date": "2026-05-23",
           "notes": "Foundational canonical generic skill for Molecular Databases."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/chembl_database/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind chembl_database science-skill implementation."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/pubchem_database/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind pubchem_database science-skill implementation."
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-05-23",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -6083,7 +5383,6 @@
       "id": "multi-agent-debate",
       "name": "Multi-Agent Debate",
       "type": "extra",
-      "level": "2★",
       "rarity": "rare",
       "description": "Runs multiple LLM agents that propose, critique, and iteratively refine answers across structured debate rounds, converging on more accurate and well-reasoned responses than any single agent achieves.",
       "prerequisites": [
@@ -6114,7 +5413,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -6145,7 +5444,6 @@
       "id": "multi-agent-orchestration-v",
       "name": "Multi-Agent Orchestration",
       "type": "extra",
-      "level": "3★",
       "rarity": "uncommon",
       "description": "Coordinates multiple specialized agents across complex workflows with dynamic task allocation and conflict resolution.",
       "prerequisites": [
@@ -6167,7 +5465,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-04-26",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "title": "Grand Conductor",
       "timeline": [
@@ -6209,25 +5507,16 @@
       "id": "multi-repo-coordination",
       "name": "Multi-Repo Coordination",
       "type": "basic",
-      "level": "2★",
       "rarity": "common",
       "description": "Manages synchronized operations across multiple repositories including cross-repo PRs, dependency tracking, and bulk workflow automation.",
       "prerequisites": [],
       "derivatives": [],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/ruvnet/ruflo",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-19",
-      "updatedAt": "2026-05-19",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -6244,7 +5533,6 @@
       "id": "multimodal-reasoning",
       "name": "Multimodal Reasoning",
       "type": "extra",
-      "level": "2★",
       "rarity": "rare",
       "description": "Integrates information from images and text to answer questions requiring visual grounding and logical inference across modalities.",
       "prerequisites": [
@@ -6264,12 +5552,9 @@
         }
       ],
       "knownAgents": [],
-      "demerits": [
-        "experimental-feature"
-      ],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -6300,7 +5585,6 @@
       "id": "object-detection",
       "name": "Object Detection",
       "type": "basic",
-      "level": "2★",
       "rarity": "uncommon",
       "description": "Locates and classifies multiple objects within images by producing bounding boxes, confidence scores, and category labels in a single forward pass.",
       "prerequisites": [],
@@ -6328,7 +5612,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-04-30",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -6345,7 +5629,6 @@
       "id": "optical-character-recognition",
       "name": "OCR",
       "type": "basic",
-      "level": "2★",
       "rarity": "uncommon",
       "description": "Extracts machine-readable text from raster images, scanned pages, and photo documents using optical character recognition, preserving layout and handling skew, noise, and varied fonts.",
       "prerequisites": [],
@@ -6372,7 +5655,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-04-30",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -6389,7 +5672,6 @@
       "id": "parallel-execution",
       "name": "Parallel Execution",
       "type": "basic",
-      "level": "2★",
       "rarity": "uncommon",
       "description": "Decompose a task into independent sub-tasks and execute them concurrently, merging results with configurable concurrency limits and queue-based state tracking.",
       "prerequisites": [],
@@ -6397,19 +5679,11 @@
         "dispatching-parallel-agents"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "C",
-          "source": "https://github.com/intelligentcode-ai/skills/blob/main/skills/parallel-execution/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-30",
-          "notes": "intelligentcode-ai/skills parallel-execution — concurrent work item execution with independence verification and configurable concurrency (default 5)."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-04-30",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -6426,7 +5700,6 @@
       "id": "parse-html",
       "name": "Parse HTML",
       "type": "basic",
-      "level": "0★",
       "rarity": "common",
       "description": "Extracts structured content from raw HTML, navigating DOM trees and handling malformed markup.",
       "prerequisites": [],
@@ -6446,7 +5719,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -6471,16 +5744,12 @@
           "previousValue": "1★",
           "newValue": "0★"
         }
-      ],
-      "demerits": [
-        "broken-evidence"
       ]
     },
     {
       "id": "parse-json",
       "name": "Parse JSON",
       "type": "basic",
-      "level": "0★",
       "rarity": "common",
       "description": "Extracts structured data from JSON-formatted input, handling nested objects and arrays.",
       "prerequisites": [],
@@ -6501,7 +5770,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -6526,16 +5795,12 @@
           "previousValue": "1★",
           "newValue": "0★"
         }
-      ],
-      "demerits": [
-        "broken-evidence"
       ]
     },
     {
       "id": "parse-pdf",
       "name": "Parse PDF",
       "type": "basic",
-      "level": "1★",
       "rarity": "common",
       "description": "Extracts text, tables, equations, and structure from PDF documents, preserving layout and reading order.",
       "prerequisites": [],
@@ -6555,7 +5820,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-04-28",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -6572,7 +5837,6 @@
       "id": "pathway-ontology-retrieval",
       "name": "Pathway Ontology Retrieval",
       "type": "basic",
-      "level": "2★",
       "rarity": "common",
       "description": "Queries, parses, and resolves biological pathway models, cellular reactions, and hierarchical ontology metadata from pathway and ontology search systems (e.g., Reactome, QuickGO, EMBL-EBI OLS).",
       "prerequisites": [],
@@ -6584,33 +5848,12 @@
           "evaluator": "unknown",
           "date": "2026-05-23",
           "notes": "Foundational canonical generic skill for Pathway Ontology Retrieval."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/reactome_database/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind reactome_database science-skill implementation."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/quickgo_database/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind quickgo_database science-skill implementation."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/embl_ebi_ols/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind embl_ebi_ols science-skill implementation."
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-05-23",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -6651,7 +5894,6 @@
       "id": "performance-tuning",
       "name": "Performance Tuning",
       "type": "basic",
-      "level": "2★",
       "rarity": "common",
       "description": "Profiles execution hotspots, measures throughput and latency, and applies targeted optimizations to reduce resource consumption.",
       "prerequisites": [],
@@ -6664,19 +5906,12 @@
           "evaluator": "mbtiongson1",
           "date": "2026-05-19",
           "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
-        },
-        {
-          "class": "A",
-          "source": "https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-31",
-          "notes": "Addy Osmani's performance-optimization SKILL.md in agent-skills repo (47.2k stars, verified 2026-05-31). Defines a measurement-driven 5-step workflow (Measure → Identify → Fix → Verify → Guard) with explicit Core Web Vitals thresholds. Qualifies for Class A per META §2.1 large-scale adoption criterion."
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-19",
-      "updatedAt": "2026-05-31",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -6699,7 +5934,6 @@
       "id": "personal-knowledge-management",
       "name": "personal-knowledge-management",
       "type": "extra",
-      "level": "3★",
       "rarity": "common",
       "description": "Managing notes and organization in a specific vault.",
       "prerequisites": [
@@ -6707,19 +5941,11 @@
         "context-compression"
       ],
       "derivatives": [],
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/mattpocock/skills/blob/main/skills/personal/obsidian-vault/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-22",
-          "notes": "Obsidian vault management and PKM automation."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-22",
-      "updatedAt": "2026-05-22",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -6764,7 +5990,6 @@
       "id": "plan-and-execute",
       "name": "Plan and Execute",
       "type": "extra",
-      "level": "4★",
       "rarity": "rare",
       "description": "Decomposes complex objectives into sub-tasks, selects tools, and orchestrates execution.",
       "prerequisites": [
@@ -6788,7 +6013,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-04-26",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -6813,7 +6038,6 @@
       "id": "plan-decompose",
       "name": "Plan and Decompose",
       "type": "basic",
-      "level": "0★",
       "rarity": "common",
       "description": "Breaks a complex objective into an ordered sequence of executable sub-tasks.",
       "prerequisites": [],
@@ -6841,7 +6065,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -6866,16 +6090,12 @@
           "previousValue": "1★",
           "newValue": "0★"
         }
-      ],
-      "demerits": [
-        "broken-evidence"
       ]
     },
     {
       "id": "platform-modernization-sprint",
       "name": "Platform Modernization Sprint",
       "type": "extra",
-      "level": "4★",
       "rarity": "rare",
       "description": "Systematic v3 platform overhaul: CLI modernization, core implementation, DDD architecture, deep integration, MCP optimization, memory unification, performance tuning, security overhaul, and swarm coordination.",
       "prerequisites": [
@@ -6887,19 +6107,11 @@
       ],
       "derivatives": [],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/ruvnet/ruflo",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-19",
-      "updatedAt": "2026-05-19",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -6916,7 +6128,6 @@
       "id": "prd-generation",
       "name": "PRD Generation",
       "type": "extra",
-      "level": "4★",
       "rarity": "uncommon",
       "summary": "Synthesizes conversational context and codebase knowledge into a structured Product Requirements Document.",
       "description": "Synthesizes conversation context and codebase knowledge into a structured Product Requirements Document containing a problem statement, extensive user stories, implementation decisions, module boundaries, testing decisions, and out-of-scope items. It sketches major modules with deep-module opportunities, confirms scope with the user, and produces a strict issue tracker format without brittle code snippets.",
@@ -6930,31 +6141,17 @@
       "conditions": "",
       "evidence": [
         {
-          "class": "B",
-          "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-prd/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-30",
-          "notes": "Production skill that synthesises live conversation context into a fully-structured PRD and publishes it to the issue tracker."
-        },
-        {
           "class": "A",
           "source": "https://arxiv.org/abs/2507.19113",
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
           "notes": "Practical study: LLMs generate Functional Design Specifications and user stories from fragmented requirement sources in an IT consulting deployment."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-prd/SKILL.md",
-          "evaluator": "WRITEY",
-          "date": "2026-05-20",
-          "notes": "Empirical daily curation testing confirmed accurate generation of deep module sketches and strict adherence to PRD templates from conversational context."
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-04-30",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -6971,7 +6168,6 @@
       "id": "prediction-market-analysis",
       "name": "Prediction Market Analysis",
       "type": "extra",
-      "level": "4★",
       "rarity": "rare",
       "description": "Queries prediction-market data, compares market probabilities and price history, and summarizes probabilistic signals for forecasting or decision-support workflows.",
       "prerequisites": [
@@ -6995,7 +6191,7 @@
       ],
       "status": "provisional",
       "createdAt": "2026-05-06",
-      "updatedAt": "2026-05-06",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -7012,7 +6208,6 @@
       "id": "project-management",
       "name": "Project Management",
       "type": "extra",
-      "level": "2★",
       "rarity": "uncommon",
       "description": "Manages issues, tasks, projects, and team workflows through structured project management platforms, handling state transitions and priority levels.",
       "prerequisites": [
@@ -7037,7 +6232,7 @@
       ],
       "status": "provisional",
       "createdAt": "2026-05-17",
-      "updatedAt": "2026-05-17",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -7054,7 +6249,6 @@
       "id": "prompt-injection-defense",
       "name": "Prompt Injection Defense",
       "type": "basic",
-      "level": "3★",
       "rarity": "uncommon",
       "description": "Detects and neutralizes adversarial instructions injected into agent context from untrusted external sources (indirect prompt injection), using techniques such as context isolation, hierarchical intent verification, or semantic consistency checks.",
       "prerequisites": [],
@@ -7088,7 +6282,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-05-10",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -7105,7 +6299,6 @@
       "id": "prompt-optimization",
       "name": "Prompt Optimization",
       "type": "extra",
-      "level": "4★",
       "rarity": "uncommon",
       "description": "Automatically improves prompt instructions through iterative compilation, treating prompts as programs that can be optimized against a metric using LLM-driven feedback loops.",
       "prerequisites": [
@@ -7136,7 +6329,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-29",
-      "updatedAt": "2026-04-29",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -7153,7 +6346,6 @@
       "id": "protein-structure-analysis",
       "name": "Protein Structure Analysis",
       "type": "basic",
-      "level": "2★",
       "rarity": "common",
       "description": "Analyzes, searches, and aligns three-dimensional macromolecular structures using structural databases, alignment search algorithms (e.g. Foldseek, PDB search), or molecular modeling tools.",
       "prerequisites": [],
@@ -7165,26 +6357,12 @@
           "evaluator": "unknown",
           "date": "2026-05-23",
           "notes": "Foundational canonical generic skill for Protein Structure Analysis."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/pdb_database/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind pdb_database science-skill implementation."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/foldseek_structural_search/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind foldseek_structural_search science-skill implementation."
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-05-23",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -7225,7 +6403,6 @@
       "id": "proteomic-data-retrieval",
       "name": "Proteomic Data Retrieval",
       "type": "basic",
-      "level": "2★",
       "rarity": "common",
       "description": "Queries and retrieves amino acid sequences, protein families, functional domains, tissue distribution, and protein-protein interactions from proteomic repositories (e.g. UniProt, InterPro, Human Protein Atlas, STRING).",
       "prerequisites": [],
@@ -7237,40 +6414,12 @@
           "evaluator": "unknown",
           "date": "2026-05-23",
           "notes": "Foundational canonical generic skill for Proteomic Data Retrieval."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/uniprot_database/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind uniprot_database science-skill implementation."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/interpro_database/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind interpro_database science-skill implementation."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/human_protein_atlas_database/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind human_protein_atlas_database science-skill implementation."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/string_database/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind string_database science-skill implementation."
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-05-23",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -7323,7 +6472,6 @@
       "id": "prototype",
       "name": "prototype",
       "type": "extra",
-      "level": "3★",
       "rarity": "common",
       "description": "Building throwaway prototypes to answer specific design or logic questions.",
       "prerequisites": [
@@ -7331,19 +6479,11 @@
         "code-execution"
       ],
       "derivatives": [],
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/prototype/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-22",
-          "notes": "Production interactive prototyping skill."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-22",
-      "updatedAt": "2026-05-22",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -7388,7 +6528,6 @@
       "id": "question-answer",
       "name": "Question Answer",
       "type": "basic",
-      "level": "4★",
       "rarity": "common",
       "description": "Produces accurate, context-grounded answers to natural-language questions, handling unanswerable cases.",
       "prerequisites": [],
@@ -7419,7 +6558,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-04-29",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -7452,7 +6591,6 @@
       "id": "rag-pipeline",
       "name": "RAG Pipeline",
       "type": "extra",
-      "level": "3★",
       "rarity": "uncommon",
       "description": "End-to-end retrieval-augmented generation combining document chunking, embedding, retrieval, and relevance scoring.",
       "prerequisites": [
@@ -7484,7 +6622,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-04-29",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -7501,7 +6639,6 @@
       "id": "rank",
       "name": "Rank",
       "type": "basic",
-      "level": "0★",
       "rarity": "common",
       "description": "Orders a set of candidate items by relevance, quality, or fitness for a given objective.",
       "prerequisites": [],
@@ -7521,7 +6658,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -7546,16 +6683,12 @@
           "previousValue": "1★",
           "newValue": "0★"
         }
-      ],
-      "demerits": [
-        "broken-evidence"
       ]
     },
     {
       "id": "re-act-reasoning",
       "name": "ReAct Reasoning",
       "type": "extra",
-      "level": "3★",
       "rarity": "uncommon",
       "description": "Interleaves free-form reasoning traces with discrete tool actions in a single loop, enabling agents to plan, act, observe, and update beliefs step-by-step.",
       "prerequisites": [
@@ -7586,7 +6719,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-04-28",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -7603,7 +6736,6 @@
       "id": "real-time-voice-assistant",
       "name": "Real-Time Voice Assistant",
       "type": "extra",
-      "level": "5★",
       "rarity": "epic",
       "description": "Provides low-latency spoken interactions combining real-time speech I/O, persistent memory, and goal-directed task execution across multi-session conversations.",
       "prerequisites": [
@@ -7639,7 +6771,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-04-28",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "title": "Eternal Herald",
       "timeline": [
@@ -7665,7 +6797,6 @@
       "id": "reasoning-pattern-bank",
       "name": "Reasoning Pattern Bank",
       "type": "extra",
-      "level": "3★",
       "rarity": "uncommon",
       "description": "Fuses adaptive pattern learning with persistent vector memory to build a self-improving agent knowledge base across sessions.",
       "prerequisites": [
@@ -7674,19 +6805,11 @@
       ],
       "derivatives": [],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/ruvnet/ruflo",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-19",
-      "updatedAt": "2026-05-19",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -7703,7 +6826,6 @@
       "id": "receiving-code-review",
       "name": "Receiving Code Review",
       "type": "extra",
-      "level": "2★",
       "rarity": "common",
       "description": "Processes code review feedback with technical rigor and verification before implementation, questioning unclear feedback.",
       "prerequisites": [
@@ -7714,19 +6836,11 @@
         "superpowers"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/obra/superpowers/blob/main/skills/receiving-code-review/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-18",
-          "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-18",
-      "updatedAt": "2026-05-19",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -7751,7 +6865,6 @@
       "id": "recursive-self-improvement",
       "name": "Recursive Self-Improvement",
       "type": "extra",
-      "level": "1★",
       "rarity": "epic",
       "description": "Agent iteratively refines its own prompts, tools, or strategies based on performance feedback loops.",
       "prerequisites": [
@@ -7765,7 +6878,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-04-26",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "title": "Unbound Sage",
       "timeline": [
@@ -7799,7 +6912,6 @@
       "id": "refactor-code",
       "name": "Refactor Code",
       "type": "basic",
-      "level": "2★",
       "rarity": "uncommon",
       "description": "Restructures existing source code to improve readability, maintainability, or performance without changing observable behavior.",
       "prerequisites": [],
@@ -7819,7 +6931,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-04-28",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -7836,7 +6948,6 @@
       "id": "registry-curation",
       "name": "Registry Curation",
       "type": "extra",
-      "level": "4★",
       "rarity": "rare",
       "description": "Systematically discovers, evaluates, and ingests new skill definitions into a structured skill registry: researching capabilities, sourcing reproducible evidence, scripting graph updates, validating schema and DAG integrity, and publishing via pull request.",
       "prerequisites": [
@@ -7888,7 +6999,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-04-30",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -7905,7 +7016,6 @@
       "id": "registry-entry-audit",
       "name": "Gaia Audit",
       "type": "extra",
-      "level": "4★",
       "rarity": "rare",
       "description": "Reviews one Gaia skill, named skill, or real-skill catalog item against current evidence, source URLs, taxonomy mapping, promotion status, and demotion criteria, then proposes the smallest source-of-truth correction. Implements a sophisticated 7-phase audit discipline including evidence re-verification, demotion checks, and automatic asset regeneration.",
       "prerequisites": [
@@ -7917,19 +7027,11 @@
         "registry-health-scan"
       ],
       "conditions": "Requires a specific Gaia skill ID, named skill ID, or real-skill catalog item plus access to the registry source files and current public evidence sources.",
-      "evidence": [
-        {
-          "class": "A",
-          "source": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/skill.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-20",
-          "notes": "Codified audit skill with 7-phase workflow, demotion rules, and registry-sync automation. Powers the gaia-meta-audit process."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-03",
-      "updatedAt": "2026-05-30",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -7968,7 +7070,6 @@
       "id": "registry-health-scan",
       "name": "Gaia Meta Audit",
       "type": "extra",
-      "level": "3★",
       "rarity": "rare",
       "description": "Scans Gaia registry and real-skill catalog entries for review candidates whose evidence may be outdated, superseded, overpromoted, unmapped, stale, or insufficient for their current level or named-skill claim.",
       "prerequisites": [
@@ -7978,19 +7079,11 @@
       ],
       "derivatives": [],
       "conditions": "Requires the current registry, named-skill index, real-skill catalog, and permission to compare against current source URLs or discovery indexes.",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/mbtiongson1/gaia-skill-tree",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-03",
-          "notes": "Derived from registry hygiene work that audits source-backed named skills, generated projections, and demotion candidates across canonical and real-skill review surfaces."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-03",
-      "updatedAt": "2026-05-30",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -8013,7 +7106,6 @@
       "id": "release-automation",
       "name": "Release Automation",
       "type": "extra",
-      "level": "2★",
       "rarity": "uncommon",
       "description": "Automate the full software release cycle: determine semantic version bump, update CHANGELOG, commit, create a git tag, and publish a GitHub release with release notes.",
       "prerequisites": [
@@ -8023,19 +7115,11 @@
       ],
       "derivatives": [],
       "conditions": "Requires write access to the repository and a configured release token.",
-      "evidence": [
-        {
-          "class": "C",
-          "source": "https://github.com/intelligentcode-ai/skills/blob/main/skills/release/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-30",
-          "notes": "intelligentcode-ai/skills release — automates semantic versioning, CHANGELOG updates, PR merging, git tagging, and GitHub release creation with verification gates."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-04-30",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -8052,7 +7136,6 @@
       "id": "requesting-code-review",
       "name": "Requesting Code Review",
       "type": "extra",
-      "level": "3★",
       "rarity": "uncommon",
       "description": "Dispatches a code reviewer subagent to catch issues before they cascade, providing isolated context for evaluation.",
       "prerequisites": [
@@ -8064,19 +7147,11 @@
         "receiving-code-review"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/obra/superpowers/blob/main/skills/requesting-code-review/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-18",
-          "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-18",
-      "updatedAt": "2026-05-19",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -8101,7 +7176,6 @@
       "id": "requirements-analysis",
       "name": "Requirements Analysis",
       "type": "basic",
-      "level": "2★",
       "rarity": "common",
       "description": "Elicit and structure requirements from stakeholder inputs into formal specifications — user stories, acceptance criteria, and traceability matrices.",
       "prerequisites": [],
@@ -8110,19 +7184,11 @@
         "brainstorming"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "C",
-          "source": "https://github.com/intelligentcode-ai/skills/blob/main/skills/requirements-engineer/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-30",
-          "notes": "intelligentcode-ai/skills requirements-engineer — business analysis specialist bridging stakeholders and technical teams for full requirements lifecycle."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-04-30",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -8139,7 +7205,6 @@
       "id": "research",
       "name": "Research",
       "type": "extra",
-      "level": "1★",
       "rarity": "uncommon",
       "description": "Conducts multi-source information gathering, synthesis, and citation for a given topic.",
       "prerequisites": [
@@ -8167,7 +7232,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -8192,16 +7257,12 @@
           "previousValue": "3★",
           "newValue": "1★"
         }
-      ],
-      "demerits": [
-        "broken-evidence"
       ]
     },
     {
       "id": "retrieve",
       "name": "Retrieve",
       "type": "basic",
-      "level": "0★",
       "rarity": "common",
       "description": "Fetches relevant documents or passages from an indexed corpus given a query.",
       "prerequisites": [],
@@ -8225,7 +7286,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -8250,16 +7311,12 @@
           "previousValue": "1★",
           "newValue": "0★"
         }
-      ],
-      "demerits": [
-        "broken-evidence"
       ]
     },
     {
       "id": "reward-modeling",
       "name": "Reward Modeling",
       "type": "basic",
-      "level": "2★",
       "rarity": "rare",
       "description": "Learns a scalar reward signal from human preference comparisons between model outputs, enabling reinforcement learning from human feedback (RLHF) to align model behavior with human values.",
       "prerequisites": [],
@@ -8287,7 +7344,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-04-30",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -8304,7 +7361,6 @@
       "id": "route-intent",
       "name": "Route Intent",
       "type": "basic",
-      "level": "0★",
       "rarity": "common",
       "description": "Classifies user intent and directs execution to the appropriate handler, tool, or sub-agent.",
       "prerequisites": [],
@@ -8326,7 +7382,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -8351,16 +7407,12 @@
           "previousValue": "1★",
           "newValue": "0★"
         }
-      ],
-      "demerits": [
-        "broken-evidence"
       ]
     },
     {
       "id": "ruflo",
       "name": "Ruflo",
       "type": "ultimate",
-      "level": "6★",
       "rarity": "legendary",
       "description": "The complete Ruflo AI orchestration platform: multi-topology swarm deployment, cloud platform management, GitHub automation, hive-mind consensus, reasoning memory bank, and full v3 architecture modernization.",
       "prerequisites": [
@@ -8373,19 +7425,11 @@
       ],
       "derivatives": [],
       "conditions": "Requires demonstrating all 6 Ruflo suite fusions together in a production multi-agent context. Grandmaster Path: 34k+ stars on ruvnet/ruflo + agent-memory-platform 5★ Ultimate.",
-      "evidence": [
-        {
-          "class": "A",
-          "source": "https://github.com/ruvnet/ruflo",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars. Meets Class A threshold: ≥5 named skills registered across 6 generic buckets in Gaia."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-19",
-      "updatedAt": "2026-05-19",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -8408,25 +7452,16 @@
       "id": "schema-design",
       "name": "Schema Design",
       "type": "basic",
-      "level": "2★",
       "rarity": "common",
       "description": "Design database schemas across relational, NoSQL, graph, and time-series stores — entity modelling, normalization, indexing strategies, and migration planning.",
       "prerequisites": [],
       "derivatives": [],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "C",
-          "source": "https://github.com/intelligentcode-ai/skills/blob/main/skills/database-engineer/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-30",
-          "notes": "intelligentcode-ai/skills database-engineer — schema design and query optimization expert across relational, NoSQL, graph, time-series, and data warehouses."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-04-30",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -8443,7 +7478,6 @@
       "id": "scientific-discovery",
       "name": "Autonomous Scientific Discovery",
       "type": "extra",
-      "level": "5★",
       "rarity": "epic",
       "description": "Autonomously generates novel scientific hypotheses, designs and executes experiments, analyses results, and produces a written report â€” completing a full research cycle without human intervention.",
       "prerequisites": [
@@ -8480,7 +7514,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-05-23",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "title": "The Doctor",
       "timeline": [
@@ -8506,7 +7540,6 @@
       "id": "scientific-visualization",
       "name": "Scientific Visualization",
       "type": "basic",
-      "level": "2★",
       "rarity": "uncommon",
       "summary": "Creates publication-ready scientific figures and visualizes molecular structures.",
       "description": "Creates publication-ready scientific figures with multi-panel layouts, statistical annotations, colorblind-safe palettes, and journal-specific formatting (Nature, Science, Cell) using matplotlib, seaborn, and plotly. It also includes visualizing, analyzing, and rendering protein and molecular structures without a hardware-accelerated GUI.",
@@ -8524,26 +7557,12 @@
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
           "notes": "K-Dense-AI scientific-agent-skills — reproducible scientific-visualization skill orchestrating matplotlib, seaborn, and plotly for journal-quality multi-panel figures with PDF/EPS/TIFF/PNG export and accessibility annotations."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind pymol science-skill implementation."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind pymol science-skill implementation."
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-05-23",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -8580,7 +7599,6 @@
       "id": "scientific-writing",
       "name": "Scientific Writing",
       "type": "extra",
-      "level": "3★",
       "rarity": "uncommon",
       "description": "Composes research manuscripts in IMRAD structure with reporting-guideline compliance (CONSORT, STROBE, PRISMA), citation management, publication-quality figures, and LaTeX/PDF formatting.",
       "prerequisites": [
@@ -8609,7 +7627,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-04-30",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -8626,7 +7644,6 @@
       "id": "score-relevance",
       "name": "Score Relevance",
       "type": "basic",
-      "level": "0★",
       "rarity": "common",
       "description": "Assigns a numerical relevance score to candidate items relative to a query or objective.",
       "prerequisites": [],
@@ -8647,7 +7664,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -8672,16 +7689,12 @@
           "previousValue": "1★",
           "newValue": "0★"
         }
-      ],
-      "demerits": [
-        "broken-evidence"
       ]
     },
     {
       "id": "search-engine-optimization",
       "name": "search-engine-optimization",
       "type": "extra",
-      "level": "2★",
       "rarity": "common",
       "description": "Search Engine Optimization",
       "prerequisites": [
@@ -8700,7 +7713,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-24",
-      "updatedAt": "2026-05-24",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -8727,7 +7740,6 @@
       "id": "security-audit",
       "name": "Security Audit",
       "type": "extra",
-      "level": "2★",
       "rarity": "rare",
       "description": "Systematically identify security vulnerabilities, assess attack surface, and produce actionable remediation guidance across code, dependencies, and infrastructure.",
       "prerequisites": [
@@ -8742,13 +7754,6 @@
       "evidence": [
         {
           "class": "C",
-          "source": "https://github.com/intelligentcode-ai/skills/blob/main/skills/security-engineer/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-30",
-          "notes": "intelligentcode-ai/skills security-engineer — vulnerability assessment and security architecture with zero-trust principles and compliance management."
-        },
-        {
-          "class": "C",
           "source": "https://github.com/microsoft/PromptKit",
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
@@ -8758,7 +7763,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-05-10",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -8775,7 +7780,6 @@
       "id": "self-consistency",
       "name": "Self-Consistency",
       "type": "basic",
-      "level": "2★",
       "rarity": "rare",
       "description": "Samples multiple independent reasoning paths for the same problem and selects the answer by majority vote, improving robustness without any additional training.",
       "prerequisites": [],
@@ -8796,7 +7800,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-29",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -8849,7 +7853,6 @@
       "id": "self-critique",
       "name": "Self-Critique",
       "type": "basic",
-      "level": "1★",
       "rarity": "uncommon",
       "description": "Iteratively evaluates and refines its own outputs using self-generated feedback, improving quality without external supervision.",
       "prerequisites": [],
@@ -8878,7 +7881,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-04-30",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -8895,7 +7898,6 @@
       "id": "semantic-cache",
       "name": "Semantic Cache",
       "type": "unique",
-      "level": "4★",
       "rarity": "rare",
       "description": "Stores LLM responses keyed by embedding similarity so that semantically equivalent queries are served from cache, reducing inference latency and token cost without sacrificing answer quality.",
       "prerequisites": [],
@@ -8911,13 +7913,6 @@
         },
         {
           "class": "B",
-          "source": "https://github.com/codefuse-ai/ModelCache",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-30",
-          "notes": "ModelCache -- LLM semantic caching system reducing response time via cached query-result pairs; reproducible, MIT license."
-        },
-        {
-          "class": "B",
           "source": "https://github.com/vcache-project/vCache",
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
@@ -8927,7 +7922,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-04-30",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -8952,7 +7947,6 @@
       "id": "sentiment-analysis",
       "name": "Sentiment Analysis",
       "type": "basic",
-      "level": "3★",
       "rarity": "common",
       "description": "Classifies the affective polarity (positive / negative / neutral, or fine-grained) of user-generated text. Covers pipelines from raw noisy input through preprocessing, inference (Transformer, Lexicon, or LLM), and output normalisation.",
       "prerequisites": [],
@@ -9029,7 +8023,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-05-17",
+      "updatedAt": "2026-06-01",
       "version": "1.0.0",
       "timeline": [
         {
@@ -9062,25 +8056,16 @@
       "id": "sequential-agent-pipeline",
       "name": "Sequential Agent Pipeline",
       "type": "basic",
-      "level": "2★",
       "rarity": "common",
       "description": "Chains agent outputs sequentially so each step's result feeds the next, enabling multi-stage data transformation and coordinated processing.",
       "prerequisites": [],
       "derivatives": [],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/ruvnet/ruflo",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-19",
-      "updatedAt": "2026-05-19",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -9097,7 +8082,6 @@
       "id": "skill-authoring",
       "name": "Skill Authoring",
       "type": "extra",
-      "level": "4★",
       "rarity": "rare",
       "description": "Designs, writes, packages, and iteratively improves reusable agent skill directories with metadata, progressive instructions, supporting assets, and measurable trigger criteria.",
       "prerequisites": [
@@ -9125,20 +8109,6 @@
           "evaluator": "codex",
           "date": "2026-05-10",
           "notes": "Anthropic skill-creator provides a reproducible workflow for creating, editing, evaluating, benchmarking, and optimizing agent skills."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind workflow_skill_creator science-skill implementation."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md",
-          "evaluator": "unknown",
-          "date": "2026-05-23",
-          "notes": "Official Google DeepMind workflow_skill_creator science-skill implementation."
         }
       ],
       "knownAgents": [
@@ -9146,7 +8116,7 @@
       ],
       "status": "provisional",
       "createdAt": "2026-05-10",
-      "updatedAt": "2026-05-23",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -9183,7 +8153,6 @@
       "id": "skill-discovery",
       "name": "Skill Discovery",
       "type": "basic",
-      "level": "3★",
       "rarity": "common",
       "description": "Searches a skill or tool registry, ranks results by relevance and install count, and surfaces candidates for the agent to adopt or invoke.",
       "prerequisites": [],
@@ -9192,19 +8161,11 @@
         "skill-security-analysis"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/vercel-labs/skills/blob/main/skills/find-skills/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-30",
-          "notes": "Vercel /find-skills slash command -- queries the skills.sh registry, checks install counts, and auto-installs matching skills."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-05-10",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -9229,7 +8190,6 @@
       "id": "skill-performance-benchmarking",
       "name": "Skill Performance Benchmarking",
       "type": "extra",
-      "level": "4★",
       "rarity": "rare",
       "description": "Builds and runs task suites that measure whether agents select, invoke, and complete installed skills correctly across artifact-rich workflows and repeated trials.",
       "prerequisites": [
@@ -9271,7 +8231,7 @@
       ],
       "status": "provisional",
       "createdAt": "2026-05-10",
-      "updatedAt": "2026-05-10",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -9288,7 +8248,6 @@
       "id": "skill-security-analysis",
       "name": "Skill Security Analysis",
       "type": "extra",
-      "level": "2★",
       "rarity": "rare",
       "description": "Assesses third-party agent skills for malicious behavior, unsafe permissions, prompt-injection exposure, repository-context mismatch, and supply-chain risk before installation or invocation.",
       "prerequisites": [
@@ -9327,7 +8286,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-10",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -9358,7 +8317,6 @@
       "id": "speech-to-text",
       "name": "Speech to Text",
       "type": "basic",
-      "level": "2★",
       "rarity": "common",
       "description": "Transcribes spoken audio into accurate text, handling diverse accents, noise conditions, and multiple languages.",
       "prerequisites": [],
@@ -9378,7 +8336,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-04-28",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -9395,7 +8353,6 @@
       "id": "statistical-analysis",
       "name": "Statistical Analysis",
       "type": "basic",
-      "level": "3★",
       "rarity": "uncommon",
       "description": "Performs hypothesis testing, regression analysis, and Bayesian modelling with effect size calculation and APA-formatted statistical reporting using scipy, statsmodels, and PyMC.",
       "prerequisites": [],
@@ -9423,7 +8380,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-05-10",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -9440,7 +8397,6 @@
       "id": "stealth-browser-interaction",
       "name": "Stealth Browser Interaction",
       "type": "extra",
-      "level": "2★",
       "rarity": "uncommon",
       "description": "Operates web browsers through an advanced stealth layer that handles bot-detection, fingerprinting, session rotation, and human-like interaction patterns to maintain resilient access to protected domains.",
       "prerequisites": [
@@ -9464,13 +8420,9 @@
       "knownAgents": [
         "apify/crawlee"
       ],
-      "demerits": [
-        "heavyweight-dependency",
-        "broken-evidence"
-      ],
       "status": "provisional",
       "createdAt": "2026-05-14",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -9501,7 +8453,6 @@
       "id": "structured-output",
       "name": "Structured Output Generation",
       "type": "basic",
-      "level": "1★",
       "rarity": "common",
       "description": "Generates output guaranteed to conform to a given schema (JSON, YAML, Pydantic model, etc.) using constrained decoding or grammar-guided generation.",
       "prerequisites": [],
@@ -9532,7 +8483,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-05-10",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -9549,7 +8500,6 @@
       "id": "subagent-driven-development",
       "name": "Subagent-Driven Development",
       "type": "extra",
-      "level": "4★",
       "rarity": "uncommon",
       "description": "Executes plans by dispatching a fresh subagent per task with a two-stage review (spec compliance then code quality).",
       "prerequisites": [
@@ -9561,19 +8511,11 @@
         "superpowers"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/obra/superpowers/blob/main/skills/subagent-driven-development/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-18",
-          "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-18",
-      "updatedAt": "2026-05-19",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -9598,7 +8540,6 @@
       "id": "summarize",
       "name": "Summarize",
       "type": "basic",
-      "level": "0★",
       "rarity": "common",
       "description": "Condenses longer input into a shorter representation that preserves key information and intent.",
       "prerequisites": [],
@@ -9622,11 +8563,8 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
-      "demerits": [
-        "broken-evidence"
-      ],
       "timeline": [
         {
           "timestamp": "2026-05-13T21:50:25Z",
@@ -9642,7 +8580,6 @@
       "id": "superpowers",
       "name": "Superpowers",
       "type": "ultimate",
-      "level": "5★",
       "rarity": "legendary",
       "description": "A complete software development methodology for coding agents: combines brainstorming, planning, parallel execution, systematic debugging, code review loops, and branch discipline into a unified agentic workflow.",
       "prerequisites": [
@@ -9660,19 +8597,11 @@
       ],
       "derivatives": [],
       "conditions": "Requires demonstrating all 11 obra discipline skills together in a real multi-step development context.",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/obra/superpowers",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-18",
-          "notes": "obra/superpowers v5.1.0 — 196k+ GitHub stars, 17.5k forks, multi-platform adoption (Claude Code, Codex CLI, Factory Droid, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI). Most widely adopted AI agent discipline framework; confirms landmark methodology status."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-18",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -9701,25 +8630,16 @@
       "id": "swarm-topology-management",
       "name": "Swarm Topology Management",
       "type": "basic",
-      "level": "2★",
       "rarity": "common",
       "description": "Initializes and manages multi-agent swarm network topologies (hierarchical, mesh, ring, star) with load balancing and fault tolerance.",
       "prerequisites": [],
       "derivatives": [],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/ruvnet/ruflo",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-19",
-      "updatedAt": "2026-05-19",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -9736,25 +8656,16 @@
       "id": "system-integration",
       "name": "System Integration",
       "type": "basic",
-      "level": "2★",
       "rarity": "common",
       "description": "Connects disparate subsystems via shared contracts, event buses, and compatibility layers for coherent cross-component operation.",
       "prerequisites": [],
       "derivatives": [],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/ruvnet/ruflo",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-19",
-      "updatedAt": "2026-05-19",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -9771,7 +8682,6 @@
       "id": "systematic-debugging",
       "name": "Systematic Debugging",
       "type": "extra",
-      "level": "3★",
       "rarity": "uncommon",
       "description": "Finds the root cause before attempting fixes when encountering bugs, test failures, or unexpected behavior.",
       "prerequisites": [
@@ -9783,19 +8693,11 @@
         "gstack"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/obra/superpowers/blob/main/skills/systematic-debugging/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-18",
-          "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-18",
-      "updatedAt": "2026-05-19",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -9820,7 +8722,6 @@
       "id": "test-driven-development",
       "name": "Test-Driven Development",
       "type": "basic",
-      "level": "3★",
       "rarity": "uncommon",
       "description": "Enforces a strict red-green-refactor TDD loop: writes failing tests before implementation, blocks code generation that skips the test step, and validates coverage thresholds before marking tasks complete.",
       "prerequisites": [],
@@ -9829,30 +8730,16 @@
       "evidence": [
         {
           "class": "B",
-          "source": "https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-30",
-          "notes": "Addy Osmani /test-driven-development slash command -- forces strict TDD workflow, stopping agents from skipping tests."
-        },
-        {
-          "class": "B",
           "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md",
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
           "notes": "Matt Pocock /tdd -- Vertical-slice TDD enforcement with anti-horizontal-slicing rules."
-        },
-        {
-          "class": "A",
-          "source": "https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-31",
-          "notes": "Addy Osmani's agent-skills repo has 47.2k GitHub stars (verified 2026-05-31), qualifying for Class A adoption evidence per META §2.1. The TDD skill is the most-linked individual skill in the repo and is cited in Addy's public engineering talks. The blob link is the canonical SKILL.md implementation."
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-05-31",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -9891,7 +8778,6 @@
       "id": "text-to-speech",
       "name": "Text to Speech",
       "type": "basic",
-      "level": "2★",
       "rarity": "common",
       "description": "Synthesizes natural-sounding speech audio from text input, supporting voice cloning and prosody control.",
       "prerequisites": [],
@@ -9911,7 +8797,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-04-28",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -9928,7 +8814,6 @@
       "id": "text-to-sql-pipeline",
       "name": "Text-to-SQL Pipeline",
       "type": "extra",
-      "level": "2★",
       "rarity": "uncommon",
       "description": "Converts natural-language queries into validated, executable SQL against a target schema and returns formatted result sets.",
       "prerequisites": [
@@ -9950,7 +8835,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -9981,7 +8866,6 @@
       "id": "token-observability",
       "name": "Token Observability",
       "type": "basic",
-      "level": "2★",
       "rarity": "uncommon",
       "summary": "Observability tool for tracking AI coding agent token spend locally.",
       "description": "Tracks and analyzes token usage and cost across multiple AI models and agents, providing session-level and project-level spending metrics. Operates locally by reading session data directly from disk and utilizes local pricing calculation, ensuring no proxies or API keys are required. Features CLI commands to optimize token waste, compare models, and track yield.",
@@ -9992,19 +8876,11 @@
         "data-analysis"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/getagentseal/codeburn",
-          "evaluator": "gemini-cli",
-          "date": "2026-05-14",
-          "notes": "CodeBurn -- provides cost and token observability for AI coding tools; integrated with 20 AI tools. Includes TUI dashboard, macOS menubar, optimization and yield analysis commands."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-14",
-      "updatedAt": "2026-05-22",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -10021,7 +8897,6 @@
       "id": "tokenize",
       "name": "Tokenize",
       "type": "basic",
-      "level": "1★",
       "rarity": "common",
       "description": "Splits input text into discrete tokens suitable for downstream processing by language models.",
       "prerequisites": [],
@@ -10029,7 +8904,7 @@
       "evidence": [],
       "status": "provisional",
       "createdAt": "2026-05-20",
-      "updatedAt": "2026-05-20",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "knownAgents": [],
       "timeline": [
@@ -10061,7 +8936,6 @@
       "id": "tool-chaining",
       "name": "Tool Chaining",
       "type": "extra",
-      "level": "3★",
       "rarity": "uncommon",
       "description": "Sequences multiple tool invocations into a dependency graph where the output of each tool feeds as structured input to the next, handling state propagation, intermediate result validation, and error recovery across multi-step execution pipelines.",
       "prerequisites": [
@@ -10089,7 +8963,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-04-30",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -10106,7 +8980,6 @@
       "id": "tool-creation",
       "name": "Tool Creation",
       "type": "extra",
-      "level": "4★",
       "rarity": "rare",
       "description": "Dynamically generates reusable tool functions (code) at runtime to solve novel sub-tasks, then invokes those tools to complete the overall objective without human-written APIs.",
       "prerequisites": [
@@ -10138,7 +9011,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-29",
-      "updatedAt": "2026-05-10",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -10155,7 +9028,6 @@
       "id": "tool-select",
       "name": "Tool Select",
       "type": "basic",
-      "level": "0★",
       "rarity": "common",
       "description": "Chooses the most appropriate tool or API from a set of available options given a task description.",
       "prerequisites": [],
@@ -10177,7 +9049,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -10202,16 +9074,12 @@
           "previousValue": "1★",
           "newValue": "0★"
         }
-      ],
-      "demerits": [
-        "broken-evidence"
       ]
     },
     {
       "id": "tool-use",
       "name": "Tool Use",
       "type": "basic",
-      "level": "1★",
       "rarity": "uncommon",
       "description": "Invokes external functions or APIs by generating well-formed call signatures, parsing results, and incorporating them into reasoning.",
       "prerequisites": [],
@@ -10243,7 +9111,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-04-29",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -10260,7 +9128,6 @@
       "id": "translate",
       "name": "Translate",
       "type": "basic",
-      "level": "0★",
       "rarity": "common",
       "description": "Converts text from one natural language to another while preserving meaning, tone, and formatting.",
       "prerequisites": [],
@@ -10280,7 +9147,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-04-28",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -10297,7 +9164,6 @@
       "id": "translation-pipeline",
       "name": "Translation Pipeline",
       "type": "extra",
-      "level": "2★",
       "rarity": "uncommon",
       "description": "Translates content end-to-end while preserving sentiment and adapting tone and register for the target audience.",
       "prerequisites": [
@@ -10319,7 +9185,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -10350,7 +9216,6 @@
       "id": "tree-of-thought",
       "name": "Tree of Thought",
       "type": "extra",
-      "level": "4★",
       "rarity": "rare",
       "description": "Frames problem solving as a search over a tree of partial solutions, using LLM-generated evaluations to prune unpromising branches and backtrack, dramatically improving success on complex reasoning tasks.",
       "prerequisites": [
@@ -10380,7 +9245,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-29",
-      "updatedAt": "2026-04-29",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -10397,7 +9262,6 @@
       "id": "ubiquitous-language",
       "name": "Ubiquitous Language",
       "type": "extra",
-      "level": "2★",
       "rarity": "rare",
       "description": "Establishes and maintains a consistent, domain-driven vocabulary between the agent and human, formalising terminology in a shared glossary (typically CONTEXT.md) to reduce ambiguity and token waste.",
       "prerequisites": [
@@ -10408,19 +9272,11 @@
         "grill-with-docs"
       ],
       "conditions": "Requires active persistence of terms and immediate conflict resolution during sessions.",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/ubiquitous-language/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-15",
-          "notes": "Original implementation by Matt Pocock; formalizes DDD principles for AI agent contexts."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-15",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -10445,16 +9301,12 @@
           "previousValue": "4★",
           "newValue": "2★"
         }
-      ],
-      "demerits": [
-        "broken-evidence"
       ]
     },
     {
       "id": "using-git-worktrees",
       "name": "Using Git Worktrees",
       "type": "extra",
-      "level": "1★",
       "rarity": "common",
       "description": "Ensures work happens in an isolated workspace via native tools or git worktree fallback before starting feature work.",
       "prerequisites": [
@@ -10465,19 +9317,11 @@
         "superpowers"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/obra/superpowers/blob/main/skills/using-git-worktrees/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-18",
-          "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-18",
-      "updatedAt": "2026-05-19",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -10502,7 +9346,6 @@
       "id": "ux-audit",
       "name": "UX Audit",
       "type": "basic",
-      "level": "4★",
       "rarity": "uncommon",
       "description": "Systematically evaluates a user interface against established usability heuristics or accessibility standards, producing a scored finding report with remediation recommendations.",
       "prerequisites": [],
@@ -10510,26 +9353,11 @@
         "gstack"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/mastepanoski/claude-skills/blob/main/skills/nielsen-heuristics-audit/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-30",
-          "notes": "Martin Stepanoski @mastepanoski/claude-skills -- /nielsen-heuristics-audit audits UI against Nielsen 10 usability heuristics step-by-step."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/pbakaus/impeccable",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-14",
-          "notes": "Paul Bakaus /impeccable -- Elite design vocabulary and audit tool with 23 specialized polishing commands."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-05-18",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -10562,25 +9390,16 @@
       "id": "vector-db-optimization",
       "name": "Vector DB Optimization",
       "type": "basic",
-      "level": "2★",
       "rarity": "common",
       "description": "Tunes vector database indices, sharding strategies, and multi-database coordination for production-scale retrieval.",
       "prerequisites": [],
       "derivatives": [],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/ruvnet/ruflo",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-19",
-      "updatedAt": "2026-05-19",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -10597,25 +9416,16 @@
       "id": "vector-search",
       "name": "Vector Search",
       "type": "basic",
-      "level": "2★",
       "rarity": "common",
       "description": "Performs similarity search over high-dimensional embeddings using cosine, Euclidean, dot-product, or custom distance metrics.",
       "prerequisites": [],
       "derivatives": [],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/ruvnet/ruflo",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-19",
-      "updatedAt": "2026-05-19",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -10632,7 +9442,6 @@
       "id": "verification-before-completion",
       "name": "Verification Before Completion",
       "type": "extra",
-      "level": "1★",
       "rarity": "common",
       "description": "Requires running verification commands and confirming output before claiming work is complete, fixed, or passing.",
       "prerequisites": [
@@ -10644,19 +9453,11 @@
         "receiving-code-review"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/obra/superpowers/blob/main/skills/verification-before-completion/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-18",
-          "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-18",
-      "updatedAt": "2026-05-19",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -10681,7 +9482,6 @@
       "id": "vertical-slice-planning",
       "name": "Vertical Slice Planning",
       "type": "extra",
-      "level": "3★",
       "rarity": "uncommon",
       "description": "Decomposes a product plan into independently-demoable vertical slices that each cut through all integration layers end-to-end. Classifies each slice as HITL (human-in-the-loop) or AFK (autonomous), identifies dependency ordering, and publishes structured issues with acceptance criteria.",
       "prerequisites": [
@@ -10692,19 +9492,11 @@
         "gstack"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-issues/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-30",
-          "notes": "Production skill implementing tracer-bullet vertical slicing with HITL/AFK classification and issue-tracker publication."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-04-30",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -10721,7 +9513,6 @@
       "id": "video-intelligence",
       "name": "Video Intelligence",
       "type": "extra",
-      "level": "3★",
       "rarity": "rare",
       "description": "Processes video streams by extracting frames, transcribing audio, and applying multimodal reasoning to understand temporal and visual context.",
       "prerequisites": [
@@ -10732,19 +9523,11 @@
         "autonomous-web-research"
       ],
       "conditions": "Requires FFmpeg and multimodal LLM support.",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/bradautomates/claude-video",
-          "evaluator": "gemini-cli",
-          "date": "2026-05-14",
-          "notes": "Claude Video -- enables AI agents to watch videos by downloading, frame extraction, and transcription."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-14",
-      "updatedAt": "2026-05-14",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -10761,7 +9544,6 @@
       "id": "vision-qa",
       "name": "Visual Question Answering",
       "type": "basic",
-      "level": "2★",
       "rarity": "uncommon",
       "description": "Answers natural-language questions grounded in a specific image or screenshot by combining visual perception with language reasoning, enabling visual debugging, UI analysis, and document-image Q&A.",
       "prerequisites": [],
@@ -10786,7 +9568,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -10817,7 +9599,6 @@
       "id": "voice-agent",
       "name": "Voice Agent",
       "type": "extra",
-      "level": "3★",
       "rarity": "uncommon",
       "description": "Handles spoken interactions end-to-end: transcribes audio input, produces language responses, and synthesizes speech output.",
       "prerequisites": [
@@ -10839,12 +9620,9 @@
         }
       ],
       "knownAgents": [],
-      "demerits": [
-        "heavyweight-dependency"
-      ],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-04-28",
+      "updatedAt": "2026-06-01",
       "version": "0.2.0",
       "timeline": [
         {
@@ -10861,7 +9639,6 @@
       "id": "web-accessibility",
       "name": "web-accessibility",
       "type": "extra",
-      "level": "2★",
       "rarity": "common",
       "description": "Accessibility",
       "prerequisites": [
@@ -10880,7 +9657,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-24",
-      "updatedAt": "2026-05-24",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -10907,7 +9684,6 @@
       "id": "web-best-practices",
       "name": "web-best-practices",
       "type": "extra",
-      "level": "2★",
       "rarity": "common",
       "description": "Web Best Practices",
       "prerequisites": [
@@ -10926,7 +9702,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-24",
-      "updatedAt": "2026-05-24",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -10953,7 +9729,6 @@
       "id": "web-quality-audit",
       "name": "web-quality-audit",
       "type": "extra",
-      "level": "3★",
       "rarity": "common",
       "description": "Orchestrates a multi-axis web quality audit covering performance (Core Web Vitals), accessibility (WCAG), SEO, and best practices, producing actionable remediation plans from Lighthouse and real-user data.",
       "prerequisites": [
@@ -10976,7 +9751,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-24",
-      "updatedAt": "2026-05-31",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -11021,7 +9796,6 @@
       "id": "web-scrape",
       "name": "Web Scrape",
       "type": "extra",
-      "level": "1★",
       "rarity": "uncommon",
       "description": "Retrieves and structures data from web pages into usable entities.",
       "prerequisites": [
@@ -11047,7 +9821,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -11072,16 +9846,12 @@
           "previousValue": "3★",
           "newValue": "1★"
         }
-      ],
-      "demerits": [
-        "broken-evidence"
       ]
     },
     {
       "id": "web-search",
       "name": "Web Search",
       "type": "basic",
-      "level": "0★",
       "rarity": "common",
       "description": "Queries external search engines or APIs and retrieves relevant result sets.",
       "prerequisites": [],
@@ -11104,7 +9874,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -11129,16 +9899,12 @@
           "previousValue": "1★",
           "newValue": "0★"
         }
-      ],
-      "demerits": [
-        "broken-evidence"
       ]
     },
     {
       "id": "wiki-search",
       "name": "Wiki Search",
       "type": "extra",
-      "level": "4★",
       "rarity": "uncommon",
       "description": "Builds, maintains, and queries an interlinked markdown or wiki-style knowledge base so an agent can retrieve durable local context across research sessions.",
       "prerequisites": [
@@ -11162,7 +9928,7 @@
       ],
       "status": "provisional",
       "createdAt": "2026-05-06",
-      "updatedAt": "2026-05-06",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -11179,25 +9945,16 @@
       "id": "worker-agent-dispatch",
       "name": "Worker Agent Dispatch",
       "type": "basic",
-      "level": "2★",
       "rarity": "common",
       "description": "Maps trigger events to optimal agent combinations for background task execution with performance tracking and continuous feedback.",
       "prerequisites": [],
       "derivatives": [],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/ruvnet/ruflo",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-19",
-          "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-19",
-      "updatedAt": "2026-05-19",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -11214,7 +9971,6 @@
       "id": "workflow-automation",
       "name": "Workflow Automation",
       "type": "extra",
-      "level": "4★",
       "rarity": "uncommon",
       "description": "Designs, configures, and runs trigger-based multi-step automation pipelines that connect external services, schedule jobs, and orchestrate tool sequences without continuous human supervision.",
       "prerequisites": [
@@ -11254,7 +10010,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-04-30",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -11271,7 +10027,6 @@
       "id": "workspace-automation",
       "name": "Workspace Automation",
       "type": "extra",
-      "level": "2★",
       "rarity": "uncommon",
       "description": "Orchestrates productivity tasks across email, calendar, drive, and documents through unified office suite integrations, automating scheduling and file management.",
       "prerequisites": [
@@ -11296,7 +10051,7 @@
       ],
       "status": "provisional",
       "createdAt": "2026-05-17",
-      "updatedAt": "2026-05-17",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -11313,7 +10068,6 @@
       "id": "write-report",
       "name": "Write Report",
       "type": "basic",
-      "level": "0★",
       "rarity": "common",
       "description": "Produces structured, multi-section written output with headings, citations, and coherent narrative.",
       "prerequisites": [],
@@ -11337,7 +10091,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -11362,16 +10116,12 @@
           "previousValue": "1★",
           "newValue": "0★"
         }
-      ],
-      "demerits": [
-        "broken-evidence"
       ]
     },
     {
       "id": "writing-plans",
       "name": "Writing Plans",
       "type": "extra",
-      "level": "2★",
       "rarity": "common",
       "description": "Writes comprehensive implementation plans breaking down multi-step tasks into bite-sized sub-tasks.",
       "prerequisites": [
@@ -11383,19 +10133,11 @@
         "executing-plans"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/obra/superpowers/blob/main/skills/writing-plans/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-18",
-          "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-18",
-      "updatedAt": "2026-05-19",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -11420,7 +10162,6 @@
       "id": "x-twitter-automation",
       "name": "X/Twitter Automation",
       "type": "extra",
-      "level": "4★",
       "rarity": "rare",
       "description": "Coordinates platform-specific X/Twitter search, tweet and reply retrieval, user lookup, follower export, monitoring, and approval-gated write workflows for social-media agent tasks.",
       "prerequisites": [
@@ -11430,21 +10171,13 @@
       ],
       "derivatives": [],
       "conditions": "Requires configured X/Twitter access, repeatable read paths, and explicit approval gates before posting tweets, replies, DMs, or other write actions.",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/Xquik-dev/hermes-tweet",
-          "evaluator": "kriptoburak",
-          "date": "2026-05-15",
-          "notes": "Hermes Tweet provides an installable Hermes Agent X/Twitter skill and plugin for searching tweets, reading replies, looking up users, monitoring tweets, exporting followers, and gating post, reply, and DM actions."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [
         "Xquik-dev/hermes-tweet"
       ],
       "status": "provisional",
       "createdAt": "2026-05-15",
-      "updatedAt": "2026-05-15",
+      "updatedAt": "2026-06-01",
       "version": "0.1.0",
       "timeline": [
         {

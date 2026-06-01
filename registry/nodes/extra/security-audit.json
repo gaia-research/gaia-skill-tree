@@ -2,7 +2,6 @@
   "id": "security-audit",
   "name": "Security Audit",
   "type": "extra",
-  "level": "2★",
   "rarity": "rare",
   "description": "Systematically identify security vulnerabilities, assess attack surface, and produce actionable remediation guidance across code, dependencies, and infrastructure.",
   "prerequisites": [
@@ -17,13 +16,6 @@
   "evidence": [
     {
       "class": "C",
-      "source": "https://github.com/intelligentcode-ai/skills/blob/main/skills/security-engineer/SKILL.md",
-      "evaluator": "mbtiongson1",
-      "date": "2026-04-30",
-      "notes": "intelligentcode-ai/skills security-engineer — vulnerability assessment and security architecture with zero-trust principles and compliance management."
-    },
-    {
-      "class": "C",
       "source": "https://github.com/microsoft/PromptKit",
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
@@ -33,7 +25,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-05-10",
+  "updatedAt": "2026-06-01",
   "version": "0.2.0",
   "timeline": [
     {

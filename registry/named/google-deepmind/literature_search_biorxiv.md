@@ -14,6 +14,12 @@ createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_biorxiv
+evidence:
+- class: B
+  source: https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_biorxiv/SKILL.md
+  evaluator: unknown
+  date: '2026-05-23'
+  notes: Official Google DeepMind literature_search_biorxiv science-skill implementation.
 ---
 
 # bioRxiv and medRxiv Literature Search

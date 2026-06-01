@@ -5,19 +5,29 @@ contributor: obra
 origin: true
 genericSkillRef: executing-plans
 status: named
-title: "The Faithful Executor"
-level: "2★"
-description: Loads a written implementation plan, reviews it critically, executes all tasks sequentially, and reports when complete — without improvising beyond the plan's scope.
+title: The Faithful Executor
+level: 2★
+description: Loads a written implementation plan, reviews it critically, executes
+  all tasks sequentially, and reports when complete — without improvising beyond the
+  plan's scope.
 links:
   github: https://github.com/obra/superpowers/blob/main/skills/executing-plans/SKILL.md
 tags:
-  - plan-execution
-  - sequential-tasks
-  - implementation
-  - plan-driven
-createdAt: "2026-05-18"
-updatedAt: "2026-05-18"
-suiteRef: "obra/superpowers"
+- plan-execution
+- sequential-tasks
+- implementation
+- plan-driven
+createdAt: '2026-05-18'
+updatedAt: '2026-05-18'
+suiteRef: obra/superpowers
+evidence:
+- class: B
+  source: https://github.com/obra/superpowers/blob/main/skills/executing-plans/SKILL.md
+  evaluator: mbtiongson1
+  date: '2026-05-18'
+  notes: obra/superpowers — complete software development methodology for coding agents,
+    196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode,
+    Cursor, GitHub Copilot CLI.
 ---
 
 ## Overview

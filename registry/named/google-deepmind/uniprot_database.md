@@ -14,6 +14,12 @@ createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/uniprot_database
+evidence:
+- class: B
+  source: https://github.com/google-deepmind/science-skills/blob/main/skills/uniprot_database/SKILL.md
+  evaluator: unknown
+  date: '2026-05-23'
+  notes: Official Google DeepMind uniprot_database science-skill implementation.
 ---
 
 # UniProt Database Access

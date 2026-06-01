@@ -2,7 +2,6 @@
   "id": "tool-chaining",
   "name": "Tool Chaining",
   "type": "extra",
-  "level": "3★",
   "rarity": "uncommon",
   "description": "Sequences multiple tool invocations into a dependency graph where the output of each tool feeds as structured input to the next, handling state propagation, intermediate result validation, and error recovery across multi-step execution pipelines.",
   "prerequisites": [
@@ -30,7 +29,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-04-30",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

@@ -2,7 +2,6 @@
   "id": "mattpocock-engineering",
   "name": "mattpocock-engineering",
   "type": "ultimate",
-  "level": "5★",
   "rarity": "common",
   "description": "Engineering category suite for Matt Pocock's skills.",
   "prerequisites": [
@@ -30,7 +29,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-22",
-  "updatedAt": "2026-05-25",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

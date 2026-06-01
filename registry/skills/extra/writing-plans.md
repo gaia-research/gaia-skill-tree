@@ -1,8 +1,8 @@
-# [obra](../../../docs/u/obra/)/writing-plans  [2★ · Named]
+# [obra](../../../docs/u/obra/)/writing-plans  [2★]
 **ID:** writing-plans  
 **Type:** Extra Skill  
-**Level:** 2★  
-**Tier:** Named  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
+**Top named variant:** 2★  
 **Skill Call:** `/writing-plans`
 
 ---
@@ -21,10 +21,15 @@ Writes comprehensive implementation plans breaking down multi-step tasks into bi
 ## Fusion Condition
 _None specified._
 
-## Evidence
-| Class | Source | Evaluator | Date |
+## Named Implementations
+| Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| B | https://github.com/obra/superpowers/blob/main/skills/writing-plans/SKILL.md | mbtiongson1 | 2026-05-18 |
+| obra/writing-plans ⭑ | obra | 2★ | 1 |
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
+_None._
 
 ## Known Agents
 _None verified yet._

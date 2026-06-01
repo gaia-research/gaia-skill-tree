@@ -1,8 +1,8 @@
-# [garrytan](../../../docs/u/garrytan/)/make-pdf  [0★ · Basic]
+# [garrytan](../../../docs/u/garrytan/)/make-pdf  [3★]
 **ID:** format-output  
 **Type:** Basic Skill  
-**Level:** 0★  
-**Tier:** Basic  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
+**Top named variant:** 3★  
 **Skill Call:** `/format-output`
 
 ---
@@ -20,7 +20,14 @@ _None._
 - [Architecture Diagram](../extra/architecture-diagram.md)
 - [Founder Mode](../ultimate/gstack.md)
 
-## Evidence
+## Named Implementations
+| Named Skill | Contributor | Stars | Evidence |
+|---|---|---|---|
+| garrytan/make-pdf | garrytan | 3★ | 0 |
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | C | https://github.com/gaia-registry/gaia/blob/main/docs/evidence/formatOutput.md | mbtiongson1 | 2026-04-26 |

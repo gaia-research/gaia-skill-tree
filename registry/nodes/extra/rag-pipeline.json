@@ -2,7 +2,6 @@
   "id": "rag-pipeline",
   "name": "RAG Pipeline",
   "type": "extra",
-  "level": "3★",
   "rarity": "uncommon",
   "description": "End-to-end retrieval-augmented generation combining document chunking, embedding, retrieval, and relevance scoring.",
   "prerequisites": [
@@ -34,7 +33,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-26",
-  "updatedAt": "2026-04-29",
+  "updatedAt": "2026-06-01",
   "version": "0.2.0",
   "timeline": [
     {

@@ -139,28 +139,40 @@ def _build_skill_display(skill_id, skill_type, named_map=None, handle_rel=None):
     return named_id_display if named_id else f"/{skill_id}"
 
 def _sorted_ultimates(skills):
-    order = {"6★": 0, "5★": 1, "4★": 2, "3★": 3, "2★": 4, "1★": 5, "0★": 6}
+    # Generic refs are rank-less; order ultimates by name.
     return sorted(
         [s for s in skills if s.get("type") == "ultimate"],
-        key=lambda s: (order.get(s.get("level"), 9), s.get("name", ""))
+        key=lambda s: s.get("name", "")
     )
+
+
+def build_named_level_map(named_index):
+    """Map generic skill id -> top (max) named-variant star across its bucket."""
+    order = ["2★", "3★", "4★", "5★", "6★"]
+    out = {}
+    for ref, entries in (named_index.get("buckets", {}) or {}).items():
+        levels = [e.get("level") for e in entries if e.get("level") in order]
+        if levels:
+            out[ref] = max(levels, key=lambda lv: order.index(lv))
+    return out
 
 
 def _render_subtree(root_id, skill_map, meta, prefix, is_last, seen,
                     unlocked_ids=None, user_id=None, named_map=None,
-                    handle_rel=None):
+                    named_level_map=None, handle_rel=None):
     skill = skill_map.get(root_id)
     if not skill:
         return []
 
     connector = "└─" if is_last else "├─"
     symbol = get_tier_symbol(skill.get("type"))
-    name = skill.get("name")
-    level = skill.get("level")
-    level_label = get_level_label(meta, level)
 
     skill_type = skill.get("type", "basic")
     display = _build_skill_display(root_id, skill_type, named_map, handle_rel)
+
+    # Generic refs are rank-less — show the top named-variant star, if any.
+    star = (named_level_map or {}).get(root_id)
+    star_pill = f"  [{star}]" if star else ""
 
     already_seen = root_id in seen
     back_ref = "  (↑ see above)" if already_seen else ""
@@ -169,7 +181,7 @@ def _render_subtree(root_id, skill_map, meta, prefix, is_last, seen,
     if unlocked_ids is not None:
         check = "✓ " if root_id in unlocked_ids else "· "
 
-    line = f"{prefix}{connector} {check}{symbol} {display}  [{level_label}]{back_ref}"
+    line = f"{prefix}{connector} {check}{symbol} {display}{star_pill}{back_ref}"
     lines = [line]
 
     if already_seen:
@@ -186,7 +198,7 @@ def _render_subtree(root_id, skill_map, meta, prefix, is_last, seen,
         lines.extend(_render_subtree(
             prereq_id, skill_map, meta, child_prefix, is_last_child, seen,
             unlocked_ids=unlocked_ids, user_id=user_id, named_map=named_map,
-            handle_rel=handle_rel,
+            named_level_map=named_level_map, handle_rel=handle_rel,
         ))
 
     return lines
@@ -228,6 +240,7 @@ def main():
     # Build named_map early so skill pages and registry can use it
     _run_generate_named_index()
     named_map = {}
+    named_level_map = {}
     named_index_path = os.path.join("registry", "named-skills.json")
     if os.path.isfile(named_index_path):
         with open(named_index_path, "r", encoding="utf-8") as nf:
@@ -236,6 +249,7 @@ def main():
             if entries:
                 origin = next((e for e in entries if e.get("origin")), entries[0])
                 named_map[_sid] = origin.get("id", "")
+        named_level_map = build_named_level_map(nidx)
 
     os.makedirs("registry/skills/basic", exist_ok=True)
     os.makedirs("registry/skills/extra", exist_ok=True)
@@ -245,20 +259,19 @@ def main():
     skill_map = {s["id"]: s for s in skills}
     date_str = timestamp.split("T")[0] if "T" in timestamp else timestamp
 
+    # Named-skill buckets for per-page "Named implementations" tables.
+    named_buckets = nidx.get("buckets", {}) if os.path.isfile(named_index_path) else {}
+
     for skill in skills:
         skill_type = skill.get("type", "basic")
         skill_id = skill.get("id")
         skill_name = skill.get("name")
-        level = skill.get("level")
         rarity = skill.get("rarity")
         file_path = f"registry/skills/{skill_type}/{skill_id}.md"
 
         type_label = get_type_label(meta, skill_type)
-        level_label = get_level_label(meta, level)
-        tier_label = get_tier_label(meta, level)
-        effective_level_value = effective_level(skill)
-        effective_level_label = get_level_label(meta, effective_level_value)
-        demerits = list(skill.get("demerits", []) or [])
+        top_star = named_level_map.get(skill_id)
+        variants = named_buckets.get(skill_id, [])
 
         with open(file_path, "w", encoding="utf-8") as f:
             # Phase 8d — registry/skills/<type>/<id>.md sits three levels
@@ -269,14 +282,13 @@ def main():
                 skill_id, skill_type, named_map,
                 handle_rel="../../../docs/u/",
             )
-            f.write(f"# {page_display}  [{level_label} · {tier_label}]\n")
+            star_suffix = f"  [{top_star}]" if top_star else ""
+            f.write(f"# {page_display}{star_suffix}\n")
             f.write(f"**ID:** {skill_id}  \n")
             f.write(f"**Type:** {type_label or 'Basic Skill'}  \n")
-            f.write(f"**Level:** {level_label}  \n")
-            f.write(f"**Tier:** {tier_label}  \n")
-            if effective_level_value != str(level):
-                f.write(f"**Potential:** {effective_level_label}  \n")
-                f.write(f"**Demerits:** {', '.join(demerits)}  \n")
+            f.write("**Rank:** _rank-less generic reference — stars are earned by named implementations_  \n")
+            if top_star:
+                f.write(f"**Top named variant:** {top_star}  \n")
             f.write(f"**Skill Call:** `/{skill_id}`\n\n")
             f.write("---\n\n")
 
@@ -330,7 +342,24 @@ def main():
                 else:
                     f.write(f"{conditions}\n\n")
 
-            f.write("## Evidence\n")
+            f.write("## Named Implementations\n")
+            if not variants:
+                f.write("_None yet — be the first to claim this skill._\n\n")
+            else:
+                f.write("| Named Skill | Contributor | Stars | Evidence |\n")
+                f.write("|---|---|---|---|\n")
+                for v in sorted(variants, key=lambda e: (not e.get("origin"), e.get("id", ""))):
+                    ev_count = len(v.get("evidence", []) or [])
+                    origin_mark = " ⭑" if v.get("origin") else ""
+                    f.write(
+                        f"| {v.get('id', '')}{origin_mark} | {v.get('contributor', '')} | "
+                        f"{v.get('level', '')} | {ev_count} |\n"
+                    )
+                f.write("\n")
+
+            f.write("## Evidence (inherited capability)\n")
+            f.write("_Capability-level evidence for this generic reference. "
+                    "Every named implementation above inherits it._\n\n")
             evidence = skill.get("evidence", [])
             if not evidence:
                 f.write("_None._\n\n")
@@ -353,11 +382,17 @@ def main():
             f.write("---\n")
             # f.write(f"*Generated from gaia.json v{version} on {date_str}. Do not edit directly.*\n")
 
+    def _top_star(sid):
+        """Top named-variant star for a generic id, or em-dash when unclaimed."""
+        return named_level_map.get(sid, "—")
+
     # generate registry.md
     with open("registry/registry.md", "w", encoding="utf-8") as f:
         f.write("# Gaia Skill Registry\n\n")
-        f.write("| Name | Class | Rank | Tier | Skill Call |\n")
-        f.write("|---|---|---|---|---|\n")
+        f.write("*Generic references are rank-less taxonomy. The Top ★ column shows the "
+                "highest star among their named implementations (— = none yet).*\n\n")
+        f.write("| Name | Class | Top ★ | Skill Call |\n")
+        f.write("|---|---|---|---|\n")
 
         # collect orphaned basic IDs for the pure section
         all_prereq_ids = set()
@@ -380,12 +415,10 @@ def main():
             skill_type = skill.get("type", "basic")
             symbol = get_tier_symbol(skill_type)
             type_label = get_type_label(meta, skill_type)
-            level_label = get_effective_level_label(meta, skill)
-            tier_label = get_tier_label(meta, skill.get("level"))
             reg_display = _build_skill_display(skill.get('id'), skill_type, named_map, _REG_HANDLE_REL)
             name_display = f"{symbol} {reg_display}"
             skill_call = f"`/{skill.get('id')}`"
-            f.write(f"| {name_display} | {type_label or 'Basic Skill'} | {level_label} | {tier_label} | {skill_call} |\n")
+            f.write(f"| {name_display} | {type_label or 'Basic Skill'} | {_top_star(skill['id'])} | {skill_call} |\n")
 
         f.write("\n")
 
@@ -393,32 +426,28 @@ def main():
         unique_skills = [s for s in skills if s.get("type") == "unique"]
         if unique_skills:
             f.write("## Uniques\n\n")
-            f.write("*Singular mastery skills — graph-isolated, 4★+ with named implementations. Promoted via `/gaia promote --unique`.*\n\n")
-            f.write("| Name | Class | Rank | Tier | Skill Call |\n")
-            f.write("|---|---|---|---|---|\n")
+            f.write("*Singular mastery skills — graph-isolated, with named implementations. Promoted via `/gaia promote --unique`.*\n\n")
+            f.write("| Name | Class | Top ★ | Skill Call |\n")
+            f.write("|---|---|---|---|\n")
             for skill in unique_skills:
-                level_label = get_effective_level_label(meta, skill)
-                tier_label = get_tier_label(meta, skill.get("level"))
                 reg_display = _build_skill_display(skill.get('id'), "unique", named_map, _REG_HANDLE_REL)
                 name_display = f"◉ {reg_display}"
                 skill_call = f"`/{skill.get('id')}`"
-                f.write(f"| {name_display} | Unique Skill | {level_label} | {tier_label} | {skill_call} |\n")
+                f.write(f"| {name_display} | Unique Skill | {_top_star(skill['id'])} | {skill_call} |\n")
             f.write("\n")
 
         f.write("## Basics\n\n")
         f.write("*Basic-tier skills with no connections to the upgrade graph — no prerequisites and not referenced as a component of any other skill.*\n\n")
-        f.write("| Name | Class | Rank | Tier | Skill Call |\n")
-        f.write("|---|---|---|---|---|\n")
+        f.write("| Name | Class | Top ★ | Skill Call |\n")
+        f.write("|---|---|---|---|\n")
         for skill in skills:
             if skill["id"] not in orphan_ids:
                 continue
             if skill.get("type") == "unique":
                 continue
-            level_label = get_effective_level_label(meta, skill)
-            tier_label = get_tier_label(meta, skill.get("level"))
             name_display = f"○ {skill.get('name')}"
             skill_call = f"`/{skill.get('id')}`"
-            f.write(f"| {name_display} | Intrinsic Skill | {level_label} | {tier_label} | {skill_call} |\n")
+            f.write(f"| {name_display} | Intrinsic Skill | {_top_star(skill['id'])} | {skill_call} |\n")
 
         f.write("\n")
 
@@ -431,12 +460,11 @@ def main():
                 "The first contributor to submit a valid named implementation "
                 "claims the title slot.  Submit with `gaia propose /<skill_id> --ultimate` and open a PR.*\n\n"
             )
-            f.write("| Skill Call | Level | Prerequisites |\n")
-            f.write("|---|---|---|\n")
+            f.write("| Skill Call | Prerequisites |\n")
+            f.write("|---|---|\n")
             for s in unclaimed:
                 prereq_names = ", ".join(f"`/{p}`" for p in s.get("prerequisites", []))
-                level_lbl = get_effective_level_label(meta, s)
-                f.write(f"| `/{s['id']}` | {level_lbl} | {prereq_names} |\n")
+                f.write(f"| `/{s['id']}` | {prereq_names} |\n")
             f.write("\n")
 
         # f.write(f"*Generated from gaia.json v{version}.*\n")
@@ -444,7 +472,7 @@ def main():
     # generate combinations.md
     with open("registry/combinations.md", "w", encoding="utf-8") as f:
         f.write("# Combinations\n\n")
-        f.write("| Skill | Class | Prerequisites | Level Floor | Conditions |\n")
+        f.write("| Skill | Class | Prerequisites | Top ★ | Conditions |\n")
         f.write("|---|---|---|---|---|\n")
         # Phase 8d — same relative-path convention as registry.md.
         _COMBO_HANDLE_REL = "../docs/u/"
@@ -453,16 +481,15 @@ def main():
                 skill_type = skill.get("type")
                 symbol = get_tier_symbol(skill_type)
                 type_label = get_type_label(meta, skill_type)
-                level_label = get_effective_level_label(meta, skill)
                 prereqs = [skill_map.get(pid, {}).get("name", pid) for pid in skill.get("prerequisites", [])]
                 prereq_str = ", ".join(prereqs)
                 combo_display = _build_skill_display(skill.get('id'), skill_type, named_map, _COMBO_HANDLE_REL)
                 name_display = f"{symbol} {combo_display}"
-                f.write(f"| {name_display} | {type_label} | {prereq_str} | {level_label} | {skill.get('conditions', '')} |\n")
+                f.write(f"| {name_display} | {type_label} | {prereq_str} | {_top_star(skill['id'])} | {skill.get('conditions', '')} |\n")
         # f.write(f"\n*Generated from gaia.json v{version}.*\n")
 
     # generate tree.md
-    _generate_tree(skills, skill_map, meta, version, date_str, named_map)
+    _generate_tree(skills, skill_map, meta, version, date_str, named_map, named_level_map)
 
     catalog_path = 'registry/real-skills.json'
     if os.path.isfile(catalog_path):
@@ -507,7 +534,7 @@ def main():
                         sk_type = sk.get("type", "basic")
                         symbol = get_tier_symbol(sk_type)
                         type_label = get_type_label(meta, sk_type)
-                        level = us.get("level", sk.get("level", ""))
+                        level = us.get("level") or named_level_map.get(sid, "")
                         level_label = get_level_label(meta, level)
                         tier_label = get_tier_label(meta, level)
                         name_display = f"{symbol} {sk.get('name', sid)}"
@@ -527,13 +554,12 @@ def main():
                     mode="user",
                     owned_ids=unlocked_ids,
                     named_map=named_map,
+                    named_level_map=named_level_map,
                     meta=meta,
                     version=version,
                     date_str=date_str,
                     user_id=user_id,
                     skill_map=skill_map,
-                    get_effective_level_label=get_effective_level_label,
-                    get_demerit_suffix=get_demerit_suffix,
                     build_skill_display=_build_skill_display,
                     render_subtree=_render_subtree,
                     sorted_ultimates=_sorted_ultimates,
@@ -560,18 +586,18 @@ def main():
     print(f"Generated projections for {len(skills)} skills.")
 
 
-def _generate_tree(skills, skill_map, meta, version, date_str, named_map=None):
+def _generate_tree(skills, skill_map, meta, version, date_str, named_map=None,
+                   named_level_map=None):
     """Render canonical tree.md via the shared render_tree contract."""
     body = render_tree(
         skills,
         mode="canonical",
         named_map=named_map,
+        named_level_map=named_level_map,
         meta=meta,
         version=version,
         date_str=date_str,
         skill_map=skill_map,
-        get_effective_level_label=get_effective_level_label,
-        get_demerit_suffix=get_demerit_suffix,
         build_skill_display=_build_skill_display,
         render_subtree=_render_subtree,
         sorted_ultimates=_sorted_ultimates,

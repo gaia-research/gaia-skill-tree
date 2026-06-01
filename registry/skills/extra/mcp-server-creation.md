@@ -1,8 +1,7 @@
-# /mcp-server-creation  [4★ · Hardened]
+# /mcp-server-creation
 **ID:** mcp-server-creation  
 **Type:** Extra Skill  
-**Level:** 4★  
-**Tier:** Hardened  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
 **Skill Call:** `/mcp-server-creation`
 
 ---
@@ -23,7 +22,12 @@ Designs and implements Model Context Protocol servers that expose external APIs,
 ## Fusion Condition
 Requires an integration target, a supported MCP SDK, tool schemas, authentication handling, and local validation against an MCP client.
 
-## Evidence
+## Named Implementations
+_None yet — be the first to claim this skill._
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | B | https://github.com/anthropics/skills/blob/main/skills/mcp-builder/SKILL.md | codex | 2026-05-10 |

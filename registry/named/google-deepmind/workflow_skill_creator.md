@@ -15,6 +15,12 @@ createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator
+evidence:
+- class: B
+  source: https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md
+  evaluator: unknown
+  date: '2026-05-23'
+  notes: Official Google DeepMind workflow_skill_creator science-skill implementation.
 ---
 
 # Workflow-to-Skill Distiller

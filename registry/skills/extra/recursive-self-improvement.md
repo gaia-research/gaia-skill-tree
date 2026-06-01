@@ -1,8 +1,7 @@
-# /recursive-self-improvement  [1★ · Awakened]
+# /recursive-self-improvement
 **ID:** recursive-self-improvement  
 **Type:** Extra Skill  
-**Level:** 1★  
-**Tier:** Awakened  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
 **Skill Call:** `/recursive-self-improvement`
 
 ---
@@ -21,7 +20,12 @@ _None._
 ## Fusion Condition
 Requires extensive multi-system validation before level advancement.
 
-## Evidence
+## Named Implementations
+_None yet — be the first to claim this skill._
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 _None._
 
 ## Known Agents
