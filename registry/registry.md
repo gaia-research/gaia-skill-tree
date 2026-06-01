@@ -49,8 +49,8 @@
 | ◇ [Manavarya09](../docs/u/Manavarya09/)/design-extract | Extra Skill | 4★ | `/design-system-extraction` |
 | ◇ [garrytan](../docs/u/garrytan/)/canary | Extra Skill | 4★ | `/detect-anomaly` |
 | ○ /diff-content | Basic Skill | — | `/diff-content` |
-| ◇ /dify-agent-suite | Extra Skill | — | `/dify-agent-suite` |
 | ◇ [obra](../docs/u/obra/)/dispatching-parallel-agents | Extra Skill | 4★ | `/dispatching-parallel-agents` |
+| ◉ [ruvnet](../docs/u/ruvnet/)/hive-mind-coordination | Unique Skill | 4★ | `/distributed-consensus-coordination` |
 | ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus-neural | Extra Skill | 3★ | `/distributed-neural-training` |
 | ◇ [ruvnet](../docs/u/ruvnet/)/agentdb-advanced | Extra Skill | 3★ | `/distributed-vector-memory` |
 | ◇ /document-analyst | Extra Skill | — | `/document-analyst` |
@@ -58,6 +58,7 @@
 | ◇ [ruvnet](../docs/u/ruvnet/)/dual-mode | Extra Skill | 3★ | `/dual-mode` |
 | ◇ [garrytan](../docs/u/garrytan/)/qa-only | Extra Skill | 4★ | `/e2e-testing` |
 | ○ /embed-text | Basic Skill | — | `/embed-text` |
+| ◆ [mattpocock](../docs/u/mattpocock/)/engineering | Ultimate Skill | 5★ | `/engineering-discipline` |
 | ○ /error-interpretation | Basic Skill | — | `/error-interpretation` |
 | ○ [garrytan](../docs/u/garrytan/)/benchmark | Basic Skill | 4★ | `/evaluate-output` |
 | ◇ [obra](../docs/u/obra/)/executing-plans | Extra Skill | 2★ | `/executing-plans` |
@@ -65,7 +66,6 @@
 | ◉ [nousresearch](../docs/u/nousresearch/)/feed-monitoring | Unique Skill | 4★ | `/feed-monitoring` |
 | ◉ [huggingface](../docs/u/huggingface/)/huggingface-llm-trainer | Unique Skill | 3★ | `/fine-tune` |
 | ◇ [obra](../docs/u/obra/)/finishing-a-development-branch | Extra Skill | 4★ | `/finishing-a-development-branch` |
-| ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus | Extra Skill | 4★ | `/flow-nexus-orchestration` |
 | ○ [garrytan](../docs/u/garrytan/)/make-pdf | Basic Skill | 3★ | `/format-output` |
 | ◇ /full-stack-developer | Extra Skill | — | `/full-stack-developer` |
 | ◇ /function-calling | Extra Skill | — | `/function-calling` |
@@ -75,7 +75,7 @@
 | ◇ /generative-media | Extra Skill | — | `/generative-media` |
 | ○ /genomic-data-retrieval | Basic Skill | — | `/genomic-data-retrieval` |
 | ◇ /ghostwrite | Extra Skill | — | `/ghostwrite` |
-| ◇ [ruvnet](../docs/u/ruvnet/)/github-suite | Extra Skill | 4★ | `/github-platform-mastery` |
+| ◇ [ruvnet](../docs/u/ruvnet/)/github-suite | Extra Skill | 4★ | `/git-integration` |
 | ◇ [mbtiongson1](../docs/u/mbtiongson1/)/graphify-triage | Extra Skill | 2★ | `/graph-driven-issue-triage` |
 | ◇ [mattpocock](../docs/u/mattpocock/)/grill-me | Extra Skill | 4★ | `/grill-me` |
 | ◇ [mattpocock](../docs/u/mattpocock/)/grill-with-docs | Extra Skill | 3★ | `/grill-with-docs` |
@@ -84,7 +84,6 @@
 | ◇ [garrytan](../docs/u/garrytan/)/careful | Extra Skill | 3★ | `/guardrails` |
 | ○ [ruvnet](../docs/u/ruvnet/)/dual-collect | Basic Skill | 2★ | `/headless-worker-collect` |
 | ○ [ruvnet](../docs/u/ruvnet/)/dual-spawn | Basic Skill | 2★ | `/headless-worker-spawn` |
-| ◉ [ruvnet](../docs/u/ruvnet/)/hive-mind-coordination | Unique Skill | 4★ | `/hive-mind-coordination` |
 | ◇ /humanize-prose | Extra Skill | — | `/humanize-prose` |
 | ○ [ruvnet](../docs/u/ruvnet/)/dual-coordinate | Basic Skill | 2★ | `/hybrid-workflow-coordination` |
 | ○ /hypothesis-generate | Basic Skill | — | `/hypothesis-generate` |
@@ -98,10 +97,6 @@
 | ○ /logical-inference | Basic Skill | — | `/logical-inference` |
 | ○ /math-reason | Basic Skill | — | `/math-reason` |
 | ◇ /mathematical-animation | Extra Skill | — | `/mathematical-animation` |
-| ◆ [mattpocock](../docs/u/mattpocock/)/engineering | Ultimate Skill | 5★ | `/mattpocock-engineering` |
-| ◇ [mattpocock](../docs/u/mattpocock/)/personal | Extra Skill | 4★ | `/mattpocock-personal` |
-| ◇ [mattpocock](../docs/u/mattpocock/)/productivity | Extra Skill | 4★ | `/mattpocock-productivity` |
-| ◆ [mattpocock](../docs/u/mattpocock/)/skills | Ultimate Skill | 6★ | `/mattpocock-skills` |
 | ◇ /mcp-debugger-control | Extra Skill | — | `/mcp-debugger-control` |
 | ○ [garrytan](../docs/u/garrytan/)/pair-agent | Basic Skill | 3★ | `/mcp-integration` |
 | ◇ /mcp-server-creation | Extra Skill | — | `/mcp-server-creation` |
@@ -112,7 +107,9 @@
 | ○ /molecular-databases | Basic Skill | — | `/molecular-databases` |
 | ◇ [garrytan](../docs/u/garrytan/)/codex | Extra Skill | 3★ | `/multi-agent-debate` |
 | ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus-swarm | Extra Skill | 3★ | `/multi-agent-orchestration-v` |
+| ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus | Extra Skill | 4★ | `/multi-node-orchestration` |
 | ○ [ruvnet](../docs/u/ruvnet/)/github-multi-repo | Basic Skill | 2★ | `/multi-repo-coordination` |
+| ◆ [ruvnet](../docs/u/ruvnet/)/ruflo | Ultimate Skill | 6★ | `/multi-topology-orchestration` |
 | ◇ [huggingface](../docs/u/huggingface/)/transformers-js | Extra Skill | 2★ | `/multimodal-reasoning` |
 | ○ /optical-character-recognition | Basic Skill | — | `/optical-character-recognition` |
 | ○ [intelligentcode-ai](../docs/u/intelligentcode-ai/)/parallel-execution | Basic Skill | 2★ | `/parallel-execution` |
@@ -120,12 +117,14 @@
 | ○ /parse-json | Basic Skill | — | `/parse-json` |
 | ○ /parse-pdf | Basic Skill | — | `/parse-pdf` |
 | ○ [ruvnet](../docs/u/ruvnet/)/performance-analysis | Basic Skill | 3★ | `/performance-tuning` |
+| ◇ [mattpocock](../docs/u/mattpocock/)/personal | Extra Skill | 4★ | `/personal` |
 | ◇ [mattpocock](../docs/u/mattpocock/)/obsidian-vault | Extra Skill | 3★ | `/personal-knowledge-management` |
 | ◇ /plan-and-execute | Extra Skill | — | `/plan-and-execute` |
 | ○ /plan-decompose | Basic Skill | — | `/plan-decompose` |
 | ◇ [ruvnet](../docs/u/ruvnet/)/ruflo-v3 | Extra Skill | 4★ | `/platform-modernization-sprint` |
 | ◇ [mattpocock](../docs/u/mattpocock/)/to-prd | Extra Skill | 2★ | `/prd-generation` |
 | ◇ /prediction-market-analysis | Extra Skill | — | `/prediction-market-analysis` |
+| ◇ [mattpocock](../docs/u/mattpocock/)/productivity | Extra Skill | 4★ | `/productivity` |
 | ◇ [garrytan](../docs/u/garrytan/)/landing-report | Extra Skill | 2★ | `/project-management` |
 | ○ /prompt-injection-defense | Basic Skill | — | `/prompt-injection-defense` |
 | ◇ [stanfordnlp](../docs/u/stanfordnlp/)/dspy | Extra Skill | 3★ | `/prompt-optimization` |
@@ -150,7 +149,6 @@
 | ◇ /research | Extra Skill | — | `/research` |
 | ○ /retrieve | Basic Skill | — | `/retrieve` |
 | ○ /route-intent | Basic Skill | — | `/route-intent` |
-| ◆ [ruvnet](../docs/u/ruvnet/)/ruflo | Ultimate Skill | 6★ | `/ruflo` |
 | ◇ /scientific-discovery | Extra Skill | — | `/scientific-discovery` |
 | ○ /scientific-visualization | Basic Skill | — | `/scientific-visualization` |
 | ◇ /scientific-writing | Extra Skill | — | `/scientific-writing` |
@@ -162,6 +160,7 @@
 | ○ /sentiment-analysis | Basic Skill | — | `/sentiment-analysis` |
 | ◇ [garrytan](../docs/u/garrytan/)/skillify | Extra Skill | 4★ | `/skill-authoring` |
 | ○ [vercel](../docs/u/vercel/)/find-skills | Basic Skill | 2★ | `/skill-discovery` |
+| ◆ [mattpocock](../docs/u/mattpocock/)/skills | Ultimate Skill | 6★ | `/skill-mastery` |
 | ◇ [garrytan](../docs/u/garrytan/)/benchmark-models | Extra Skill | 3★ | `/skill-performance-benchmarking` |
 | ◇ /skill-security-analysis | Extra Skill | — | `/skill-security-analysis` |
 | ○ /speech-to-text | Basic Skill | — | `/speech-to-text` |
@@ -212,9 +211,9 @@
 
 | Name | Class | Top ★ | Skill Call |
 |---|---|---|---|
+| ◉ [ruvnet](../docs/u/ruvnet/)/hive-mind-coordination | Unique Skill | 4★ | `/distributed-consensus-coordination` |
 | ◉ [nousresearch](../docs/u/nousresearch/)/feed-monitoring | Unique Skill | 4★ | `/feed-monitoring` |
 | ◉ [huggingface](../docs/u/huggingface/)/huggingface-llm-trainer | Unique Skill | 3★ | `/fine-tune` |
-| ◉ [ruvnet](../docs/u/ruvnet/)/hive-mind-coordination | Unique Skill | 4★ | `/hive-mind-coordination` |
 | ◉ [huggingface](../docs/u/huggingface/)/semantic-cache | Unique Skill | 4★ | `/semantic-cache` |
 
 ## Basics
