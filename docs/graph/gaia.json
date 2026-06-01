@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/skill.schema.json",
   "version": "3.27.0",
-  "generatedAt": "2026-06-01T00:45:39.126988Z",
+  "generatedAt": "2026-06-01T15:15:00.973579Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -5428,7 +5428,7 @@
           0.000922646411979515
         ]
       },
-      "namedMaxLevel": "3★"
+      "namedMaxLevel": "2★"
     },
     {
       "id": "grill-me",
@@ -10161,7 +10161,7 @@
           -0.5010148609468286
         ]
       },
-      "namedMaxLevel": "4★"
+      "namedMaxLevel": "2★"
     },
     {
       "id": "registry-entry-audit",
@@ -10237,7 +10237,7 @@
           0.0008269228283573998
         ]
       },
-      "namedMaxLevel": "3★"
+      "namedMaxLevel": "2★"
     },
     {
       "id": "registry-health-scan",
@@ -10295,7 +10295,7 @@
           0.0007766460260103683
         ]
       },
-      "namedMaxLevel": "3★"
+      "namedMaxLevel": "2★"
     },
     {
       "id": "release-automation",

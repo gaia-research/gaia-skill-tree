@@ -3536,7 +3536,7 @@
         "origin": true,
         "genericSkillRef": "registry-entry-audit",
         "status": "named",
-        "level": "3★",
+        "level": "2★",
         "description": "Performs a focused source-level correction for one target registry entry — verifying links, checking evidence classes, and filing an inline-diff fix PR with full citations.",
         "title": "The Source Detective",
         "tags": [
@@ -3558,13 +3558,19 @@
           }
         ],
         "createdAt": "2026-05-27",
-        "updatedAt": "2026-05-27",
+        "updatedAt": "2026-06-01",
         "timeline": [
           {
             "timestamp": "2026-05-26T16:36:57Z",
             "action": "add",
             "contributor": "mbtiongson1",
             "details": "Added named skill mbtiongson1/gaia-audit"
+          },
+          {
+            "timestamp": "2026-06-01T15:13:07Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 3★ to 2★"
           }
         ],
         "type": "extra",
@@ -3577,7 +3583,7 @@
         "origin": false,
         "genericSkillRef": "registry-entry-audit",
         "status": "named",
-        "level": "3★",
+        "level": "2★",
         "description": "Reviews pending skill submissions against registry standards — checking evidence class thresholds, naming conventions, and tier accuracy before approving or requesting revisions.",
         "title": "The Quality Gate",
         "tags": [
@@ -3589,13 +3595,19 @@
           "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-curation-review/SKILL.md"
         },
         "createdAt": "2026-05-27",
-        "updatedAt": "2026-05-30",
+        "updatedAt": "2026-06-01",
         "timeline": [
           {
             "timestamp": "2026-05-26T16:36:59Z",
             "action": "add",
             "contributor": "mbtiongson1",
             "details": "Added named skill mbtiongson1/gaia-curation-review"
+          },
+          {
+            "timestamp": "2026-06-01T15:13:08Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 3★ to 2★"
           }
         ],
         "type": "extra",
@@ -3610,7 +3622,7 @@
         "origin": false,
         "genericSkillRef": "registry-curation",
         "status": "named",
-        "level": "3★",
+        "level": "2★",
         "description": "Runs an automated batch curation pass over the Gaia skill registry — scanning for new agent skills, validating evidence, and opening versioned draft PRs without human intervention.",
         "title": "The Automated Curator",
         "tags": [
@@ -3622,13 +3634,19 @@
           "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-bot-curate/SKILL.md"
         },
         "createdAt": "2026-05-27",
-        "updatedAt": "2026-05-27",
+        "updatedAt": "2026-06-01",
         "timeline": [
           {
             "timestamp": "2026-05-26T16:36:58Z",
             "action": "add",
             "contributor": "mbtiongson1",
             "details": "Added named skill mbtiongson1/gaia-bot-curate"
+          },
+          {
+            "timestamp": "2026-06-01T15:13:07Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 3★ to 2★"
           }
         ],
         "type": "extra",
@@ -3641,7 +3659,7 @@
         "origin": true,
         "genericSkillRef": "registry-curation",
         "status": "named",
-        "level": "4★",
+        "level": "2★",
         "description": "Expands the Gaia skill registry with new, fully evidenced AI agent skills — researching skill sources, running validation, opening versioned PRs, and appending discovered marketplaces to the sources registry in one end-to-end workflow.",
         "title": "The Registrar",
         "tags": [
@@ -3655,13 +3673,19 @@
           "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-curate/SKILL.md"
         },
         "createdAt": "2026-05-27",
-        "updatedAt": "2026-05-27",
+        "updatedAt": "2026-06-01",
         "timeline": [
           {
             "timestamp": "2026-05-26T16:36:56Z",
             "action": "add",
             "contributor": "mbtiongson1",
             "details": "Added named skill mbtiongson1/gaia-curate"
+          },
+          {
+            "timestamp": "2026-06-01T15:13:07Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 4★ to 2★"
           }
         ],
         "type": "extra",
@@ -3705,7 +3729,7 @@
         "origin": false,
         "genericSkillRef": "registry-curation",
         "status": "named",
-        "level": "3★",
+        "level": "2★",
         "description": "Creates structured draft skill entries for registry review — staging new discoveries with placeholder evidence and flagging fields that need human validation before promotion.",
         "title": "The Draft Architect",
         "tags": [
@@ -3717,13 +3741,19 @@
           "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-draft-curate/SKILL.md"
         },
         "createdAt": "2026-05-27",
-        "updatedAt": "2026-05-27",
+        "updatedAt": "2026-06-01",
         "timeline": [
           {
             "timestamp": "2026-05-26T16:36:58Z",
             "action": "add",
             "contributor": "mbtiongson1",
             "details": "Added named skill mbtiongson1/gaia-draft-curate"
+          },
+          {
+            "timestamp": "2026-06-01T15:13:08Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 3★ to 2★"
           }
         ],
         "type": "extra",
@@ -3736,7 +3766,7 @@
         "origin": false,
         "genericSkillRef": "registry-curation",
         "status": "named",
-        "level": "3★",
+        "level": "2★",
         "description": "Validates the structural integrity of the Gaia registry — checking schema compliance, detecting duplicate IDs, verifying cross-references, and reporting any inconsistencies that would break build or generation.",
         "title": "The Schema Sentinel",
         "tags": [
@@ -3749,13 +3779,19 @@
           "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-integrity/SKILL.md"
         },
         "createdAt": "2026-05-27",
-        "updatedAt": "2026-05-27",
+        "updatedAt": "2026-06-01",
         "timeline": [
           {
             "timestamp": "2026-05-26T16:37:00Z",
             "action": "add",
             "contributor": "mbtiongson1",
             "details": "Added named skill mbtiongson1/gaia-integrity"
+          },
+          {
+            "timestamp": "2026-06-01T15:13:08Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 3★ to 2★"
           }
         ],
         "type": "extra",
@@ -3801,7 +3837,7 @@
         "origin": true,
         "genericSkillRef": "registry-health-scan",
         "status": "named",
-        "level": "3★",
+        "level": "2★",
         "description": "Produces a prioritized review queue of Gaia registry entries needing attention — flagging stale evidence, broken links, mis-classified tiers, and naming inconsistencies in one structured audit pass.",
         "title": "The Triage Director",
         "tags": [
@@ -3823,7 +3859,7 @@
           }
         ],
         "createdAt": "2026-05-27",
-        "updatedAt": "2026-05-30",
+        "updatedAt": "2026-06-01",
         "timeline": [
           {
             "timestamp": "2026-05-26T16:36:56Z",
@@ -3838,6 +3874,12 @@
             "details": "Demoted 4★ → 3★ to match canonical registry-health-scan generic level (named must not exceed generic per META §1).",
             "previousValue": "4★",
             "newValue": "3★"
+          },
+          {
+            "timestamp": "2026-06-01T15:13:08Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 3★ to 2★"
           }
         ],
         "type": "extra",
@@ -3852,7 +3894,7 @@
         "origin": true,
         "genericSkillRef": "graph-driven-issue-triage",
         "status": "named",
-        "level": "3★",
+        "level": "2★",
         "description": "Analyzes the Gaia skill dependency graph to surface orphaned nodes, missing prerequisites, and structural inconsistencies — producing a prioritized list of graph fixes needed.",
         "title": "The Graph Surgeon",
         "tags": [
@@ -3874,13 +3916,19 @@
           }
         ],
         "createdAt": "2026-05-27",
-        "updatedAt": "2026-05-30",
+        "updatedAt": "2026-06-01",
         "timeline": [
           {
             "timestamp": "2026-05-26T16:36:59Z",
             "action": "add",
             "contributor": "mbtiongson1",
             "details": "Added named skill mbtiongson1/graphify-triage"
+          },
+          {
+            "timestamp": "2026-06-01T15:13:09Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 3★ to 2★"
           }
         ],
         "type": "extra",

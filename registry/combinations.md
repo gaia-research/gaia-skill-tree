@@ -44,7 +44,7 @@
 | ◇ /generative-media | Extra Skill | API Call, Data Visualize | — |  |
 | ◇ /ghostwrite | Extra Skill | Research, Write Report, Audience Model | — | Requires research output as input context. |
 | ◇ [ruvnet](../docs/u/ruvnet/)/github-suite | Extra Skill | Code Review Pipeline, Multi-Repo Coordination, Deployment Automation, Project Management, Workflow Automation | 4★ |  |
-| ◇ [mbtiongson1](../docs/u/mbtiongson1/)/graphify-triage | Extra Skill | Issue Triage, Knowledge Graph Construction | 3★ |  |
+| ◇ [mbtiongson1](../docs/u/mbtiongson1/)/graphify-triage | Extra Skill | Issue Triage, Knowledge Graph Construction | 2★ |  |
 | ◇ [mattpocock](../docs/u/mattpocock/)/grill-me | Extra Skill | Design Review, Self-Critique | 4★ | Enforces a strict questioning loop that prevents the agent from proceeding to implementation until all branches are resolved. |
 | ◇ [mattpocock](../docs/u/mattpocock/)/grill-with-docs | Extra Skill | Grill Me, Ubiquitous Language, Document Editing | 3★ | Requires the agent to maintain a live glossary (CONTEXT.md) and generate ADRs for all non-trivial trade-offs discovered during the grill. |
 | ◇ /grounding | Extra Skill | Retrieve, Cite Sources, Evaluate Output | — |  |
@@ -82,9 +82,9 @@
 | ◇ [ruvnet](../docs/u/ruvnet/)/reasoningbank | Extra Skill | Adaptive Pattern Learning, Agent Memory Learning | 3★ |  |
 | ◇ [obra](../docs/u/obra/)/receiving-code-review | Extra Skill | Requesting Code Review, Verification Before Completion | 2★ |  |
 | ◇ /recursive-self-improvement | Extra Skill | Autonomous Debug, Evaluate Output, Plan and Execute | — | Requires extensive multi-system validation before level advancement. |
-| ◇ [mbtiongson1](../docs/u/mbtiongson1/)/gaia-curate | Extra Skill | Research, Code Generation, Code Execution | 4★ | Requires write access to the canonical graph and a passing validation suite. |
-| ◇ [mbtiongson1](../docs/u/mbtiongson1/)/gaia-audit | Extra Skill | Retrieve, Cite Sources, Evaluate Output | 3★ | Requires a specific Gaia skill ID, named skill ID, or real-skill catalog item plus access to the registry source files and current public evidence sources. |
-| ◇ [mbtiongson1](../docs/u/mbtiongson1/)/gaia-meta-audit | Extra Skill | Gaia Audit, Registry Curation, Detect Anomaly | 3★ | Requires the current registry, named-skill index, real-skill catalog, and permission to compare against current source URLs or discovery indexes. |
+| ◇ [mbtiongson1](../docs/u/mbtiongson1/)/gaia-curate | Extra Skill | Research, Code Generation, Code Execution | 2★ | Requires write access to the canonical graph and a passing validation suite. |
+| ◇ [mbtiongson1](../docs/u/mbtiongson1/)/gaia-audit | Extra Skill | Retrieve, Cite Sources, Evaluate Output | 2★ | Requires a specific Gaia skill ID, named skill ID, or real-skill catalog item plus access to the registry source files and current public evidence sources. |
+| ◇ [mbtiongson1](../docs/u/mbtiongson1/)/gaia-meta-audit | Extra Skill | Gaia Audit, Registry Curation, Detect Anomaly | 2★ | Requires the current registry, named-skill index, real-skill catalog, and permission to compare against current source URLs or discovery indexes. |
 | ◇ [intelligentcode-ai](../docs/u/intelligentcode-ai/)/release | Extra Skill | Workflow Automation, Code Execution, Generate Text | 3★ | Requires write access to the repository and a configured release token. |
 | ◇ [obra](../docs/u/obra/)/requesting-code-review | Extra Skill | Code Review Pipeline, Dispatching Parallel Agents | 3★ |  |
 | ◇ /research | Extra Skill | Web Search, Summarize, Cite Sources | — |  |

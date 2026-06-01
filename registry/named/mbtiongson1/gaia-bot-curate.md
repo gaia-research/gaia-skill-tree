@@ -5,12 +5,12 @@ contributor: mbtiongson1
 origin: false
 genericSkillRef: registry-curation
 status: named
-level: 3★
+level: 2★
 description: Runs an automated batch curation pass over the Gaia skill registry —
   scanning for new agent skills, validating evidence, and opening versioned draft
   PRs without human intervention.
 createdAt: '2026-05-27'
-updatedAt: '2026-05-27'
+updatedAt: '2026-06-01'
 title: The Automated Curator
 links:
   github: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-bot-curate/SKILL.md
@@ -23,6 +23,10 @@ timeline:
   action: add
   contributor: mbtiongson1
   details: Added named skill mbtiongson1/gaia-bot-curate
+- timestamp: '2026-06-01T15:13:07Z'
+  action: demote
+  contributor: unknown
+  details: Calibrated level from 3★ to 2★
 ---
 
 ## Overview

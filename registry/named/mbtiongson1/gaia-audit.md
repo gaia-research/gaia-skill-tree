@@ -5,12 +5,12 @@ contributor: mbtiongson1
 origin: true
 genericSkillRef: registry-entry-audit
 status: named
-level: 3★
+level: 2★
 description: Performs a focused source-level correction for one target registry entry
   — verifying links, checking evidence classes, and filing an inline-diff fix PR with
   full citations.
 createdAt: '2026-05-27'
-updatedAt: '2026-05-27'
+updatedAt: '2026-06-01'
 title: The Source Detective
 links:
   github: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/SKILL.md
@@ -24,6 +24,10 @@ timeline:
   action: add
   contributor: mbtiongson1
   details: Added named skill mbtiongson1/gaia-audit
+- timestamp: '2026-06-01T15:13:07Z'
+  action: demote
+  contributor: unknown
+  details: Calibrated level from 3★ to 2★
 evidence:
 - class: A
   source: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/skill.md

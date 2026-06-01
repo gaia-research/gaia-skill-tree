@@ -621,11 +621,11 @@ def meta_calibrate_command(args):
         print(
             f"Error: '{skill_id}' is a generic skill reference, which is rank-less. "
             f"Calibrate a named implementation instead, e.g. "
-            f"'gaia dev calibrate contributor/{skill_id} --level {level}'."
+            f"'gaia dev calibrate contributor/{skill_id} {level}'."
         )
         sys.exit(1)
 
-    named_dir = named_skills_dir(registry_path)
+    named_dir = Path(named_skills_dir(registry_path))
     node_file = _find_named_file(named_dir, skill_id)
     if not node_file:
         print(f"Error: Named skill '{skill_id}' not found.")
@@ -994,7 +994,7 @@ def meta_evidence_command(args):
 
     if "/" in skill_id:
         # Named implementation → write into the named .md frontmatter.
-        named_dir = named_skills_dir(registry_path)
+        named_dir = Path(named_skills_dir(registry_path))
         named_file = _find_named_file(named_dir, skill_id)
         if not named_file:
             print(f"Error: Named skill '{skill_id}' not found.")

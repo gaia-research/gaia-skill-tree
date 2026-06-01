@@ -5,12 +5,12 @@ contributor: mbtiongson1
 origin: true
 genericSkillRef: registry-curation
 status: named
-level: 4★
+level: 2★
 description: Expands the Gaia skill registry with new, fully evidenced AI agent skills
   — researching skill sources, running validation, opening versioned PRs, and appending
   discovered marketplaces to the sources registry in one end-to-end workflow.
 createdAt: '2026-05-27'
-updatedAt: '2026-05-27'
+updatedAt: '2026-06-01'
 title: The Registrar
 links:
   github: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-curate/SKILL.md
@@ -25,6 +25,10 @@ timeline:
   action: add
   contributor: mbtiongson1
   details: Added named skill mbtiongson1/gaia-curate
+- timestamp: '2026-06-01T15:13:07Z'
+  action: demote
+  contributor: unknown
+  details: Calibrated level from 4★ to 2★
 ---
 
 ## Overview

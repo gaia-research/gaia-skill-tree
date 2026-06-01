@@ -5,12 +5,12 @@ contributor: mbtiongson1
 origin: false
 genericSkillRef: registry-curation
 status: named
-level: 3★
+level: 2★
 description: Creates structured draft skill entries for registry review — staging
   new discoveries with placeholder evidence and flagging fields that need human validation
   before promotion.
 createdAt: '2026-05-27'
-updatedAt: '2026-05-27'
+updatedAt: '2026-06-01'
 title: The Draft Architect
 links:
   github: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-draft-curate/SKILL.md
@@ -23,6 +23,10 @@ timeline:
   action: add
   contributor: mbtiongson1
   details: Added named skill mbtiongson1/gaia-draft-curate
+- timestamp: '2026-06-01T15:13:08Z'
+  action: demote
+  contributor: unknown
+  details: Calibrated level from 3★ to 2★
 ---
 
 ## Overview
