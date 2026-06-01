@@ -104,35 +104,43 @@
 
   .sl-msg { color: var(--muted); font-style: italic; padding: 2rem 0; }
 
-  /* Floating A-Z rail — hugs the right edge of the 1000px content gutter */
+  /* Reserve a fixed lane on the right so the rail never covers content. */
+  body.process-page { --rail-w: 30px; }
+  .process-page main { padding-right: var(--rail-w); }
+
+  /* Floating A-Z rail — a proportional scrubber pinned to the right edge,
+     spanning between the fixed nav and the scroll-to-top button. Letter
+     segments grow with how many entries sit under each letter, so busy
+     letters spread apart. Click a letter or drag along the rail to scrub. */
   .sl-rail {
-    position: fixed; top: 50%; transform: translateY(-50%);
-    right: calc((100vw - 1000px) / 2 - 2.4rem);
-    display: flex; flex-direction: column; align-items: center;
-    gap: clamp(1px, .3vh, 4px); z-index: 40; padding: .3rem .15rem;
-    user-select: none; -webkit-user-select: none;
+    position: fixed; right: 0; top: 80px; bottom: 88px; width: var(--rail-w);
+    display: flex; flex-direction: column; align-items: stretch;
+    z-index: 40; touch-action: none; user-select: none; -webkit-user-select: none;
   }
   .sl-rail button {
+    flex: 0 0 auto;                 /* absent letters: natural (thin) height */
+    display: flex; align-items: center; justify-content: center;
     font: 600 .62rem/1 var(--font-mono); letter-spacing: .02em;
     color: var(--muted); background: none; border: 0; cursor: pointer;
-    padding: 1px 4px; border-radius: 4px;
-    transition: color .15s ease, transform .15s ease;
+    padding: 0; transition: color .15s ease;
   }
-  .sl-rail button:hover { color: var(--text); transform: scale(1.45); }
-  .sl-rail button[aria-current="true"] { color: var(--tier-basic); }
+  .sl-rail button:hover:not(:disabled) { color: var(--text); }
+  .sl-rail button[aria-current="true"] { color: var(--tier-basic); font-weight: 700; }
   .sl-rail button:disabled { opacity: .2; cursor: default; }
 
-  @media (max-width: 1120px) { .sl-rail { display: none; } }
-
   @media (max-width: 720px) {
+    body.process-page { --rail-w: 24px; }
+    .sl-rail { top: 70px; bottom: 74px; }
+    .sl-rail button { font-size: .56rem; }
     .sl-row { grid-template-columns: 1fr; gap: .3rem; padding: .7rem 0; }
     .sl-generic { font-size: 1.05rem; }
+    .sl-named { gap: .25rem .85rem; }
+    .sl-chip { white-space: normal; overflow-wrap: anywhere; }
     .sl-stats { margin-left: 0; flex-basis: 100%; }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .sl-rail button, .sl-row, .sl-search { transition: none; }
-    .sl-rail button:hover { transform: none; }
   }
 </style>
 </head>
@@ -353,17 +361,18 @@
           msg.className = "sl-msg";
           msg.appendChild(txt("Nothing matches that search."));
           ledgerEl.appendChild(msg);
-          buildRail(new Set());
+          buildRail({});
           updateStats(view);
           return;
         }
 
-        var seen = new Set();
+        var counts = {};
         var letter = null;
         view.forEach(function (skill) {
           var L = firstLetter(skill);
+          if (L >= "A" && L <= "Z") counts[L] = (counts[L] || 0) + 1;
           if (L !== letter) {
-            letter = L; seen.add(L);
+            letter = L;
             var head = document.createElement("li");
             head.className = "sl-letter";
             head.id = "L-" + L;
@@ -374,25 +383,36 @@
           ledgerEl.appendChild(row(skill));
         });
 
-        buildRail(seen);
+        buildRail(counts);
         observeLetters();
         updateStats(view);
       }
 
-      function buildRail(present) {
+      var REDUCED = window.matchMedia &&
+                    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      function jumpToLetter(L, smooth) {
+        var t = document.getElementById("L-" + L);
+        if (t) t.scrollIntoView({ behavior: (smooth && !REDUCED) ? "smooth" : "auto", block: "start" });
+        setActiveLetter(L);
+      }
+
+      // Each letter's segment height is proportional to its entry count, so
+      // letters with many skills spread far apart (a minimap, not a fixed list).
+      function buildRail(counts) {
         railEl.innerHTML = "";
         ALPHA.forEach(function (L) {
+          var c = counts[L] || 0;
           var b = document.createElement("button");
           b.type = "button";
-          b.appendChild(txt(L));
+          b.setAttribute("data-letter", L);
           b.setAttribute("aria-label", "Jump to " + L);
-          if (present.has(L)) {
-            b.addEventListener("click", function () {
-              var t = document.getElementById("L-" + L);
-              if (t) t.scrollIntoView({ behavior: "smooth", block: "start" });
-            });
+          b.appendChild(txt(L));
+          if (c > 0) {
+            b.style.flex = c + " 1 0";          /* grow ∝ count */
+            b.addEventListener("click", function () { jumpToLetter(L, true); });
           } else {
-            b.disabled = true;
+            b.disabled = true;                   /* absent letters: thin, dimmed */
           }
           railEl.appendChild(b);
         });
@@ -400,9 +420,49 @@
 
       function setActiveLetter(L) {
         railEl.querySelectorAll("button").forEach(function (b) {
-          b.setAttribute("aria-current", b.textContent === L ? "true" : "false");
+          b.setAttribute("aria-current", b.getAttribute("data-letter") === L ? "true" : "false");
         });
       }
+
+      // ── Drag-to-scrub (pointer = mouse + touch). Tap or drag both work. ──
+      var scrubbing = false;
+      function railButtons() { return [].slice.call(railEl.querySelectorAll("button")); }
+      function letterFromY(y) {
+        var btns = railButtons(), hit = null;
+        for (var i = 0; i < btns.length; i++) {
+          var r = btns[i].getBoundingClientRect();
+          if (y >= r.top && y <= r.bottom) { hit = btns[i]; break; }
+        }
+        if (!hit && btns.length) {
+          hit = (y < btns[0].getBoundingClientRect().top) ? btns[0] : btns[btns.length - 1];
+        }
+        return hit;
+      }
+      function nearestEnabled(btn) {
+        if (!btn || !btn.disabled) return btn;
+        var btns = railButtons(), i = btns.indexOf(btn);
+        for (var d = 1; d < ALPHA.length; d++) {
+          if (btns[i - d] && !btns[i - d].disabled) return btns[i - d];
+          if (btns[i + d] && !btns[i + d].disabled) return btns[i + d];
+        }
+        return null;
+      }
+      function scrubTo(y) {
+        var b = nearestEnabled(letterFromY(y));
+        if (b) jumpToLetter(b.getAttribute("data-letter"), false);
+      }
+      railEl.addEventListener("pointerdown", function (e) {
+        scrubbing = true;
+        try { railEl.setPointerCapture(e.pointerId); } catch (_) {}
+        scrubTo(e.clientY); e.preventDefault();
+      });
+      railEl.addEventListener("pointermove", function (e) { if (scrubbing) scrubTo(e.clientY); });
+      function endScrub(e) {
+        scrubbing = false;
+        try { railEl.releasePointerCapture(e.pointerId); } catch (_) {}
+      }
+      railEl.addEventListener("pointerup", endScrub);
+      railEl.addEventListener("pointercancel", endScrub);
 
       function observeLetters() {
         if (observer) observer.disconnect();
