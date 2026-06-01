@@ -1,8 +1,7 @@
-# /chain-of-thought  [0★ · Basic]
+# /chain-of-thought
 **ID:** chain-of-thought  
 **Type:** Basic Skill  
-**Level:** 0★  
-**Tier:** Basic  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
 **Skill Call:** `/chain-of-thought`
 
 ---
@@ -19,7 +18,12 @@ _None._
 - [Autonomous Scientific Discovery](../extra/scientific-discovery.md)
 - [Tree of Thought](../extra/tree-of-thought.md)
 
-## Evidence
+## Named Implementations
+_None yet — be the first to claim this skill._
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | A | https://arxiv.org/abs/2201.11903 | mbtiongson1 | 2026-04-28 |

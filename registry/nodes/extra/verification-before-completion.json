@@ -2,7 +2,6 @@
   "id": "verification-before-completion",
   "name": "Verification Before Completion",
   "type": "extra",
-  "level": "1★",
   "rarity": "common",
   "description": "Requires running verification commands and confirming output before claiming work is complete, fixed, or passing.",
   "prerequisites": [
@@ -14,19 +13,11 @@
     "receiving-code-review"
   ],
   "conditions": "",
-  "evidence": [
-    {
-      "class": "B",
-      "source": "https://github.com/obra/superpowers/blob/main/skills/verification-before-completion/SKILL.md",
-      "evaluator": "mbtiongson1",
-      "date": "2026-05-18",
-      "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
-    }
-  ],
+  "evidence": [],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-18",
-  "updatedAt": "2026-05-19",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

@@ -2,7 +2,6 @@
   "id": "memory-manage",
   "name": "Memory Manage",
   "type": "extra",
-  "level": "2★",
   "rarity": "uncommon",
   "description": "Maintains, indexes, and retrieves conversational and long-term memory across sessions, managing context window constraints.",
   "prerequisites": [
@@ -27,7 +26,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-04-28",
+  "updatedAt": "2026-06-01",
   "version": "0.2.0",
   "timeline": [
     {

@@ -2,7 +2,6 @@
   "id": "cloud-platform-management",
   "name": "Cloud Platform Management",
   "type": "extra",
-  "level": "3★",
   "rarity": "uncommon",
   "description": "Full lifecycle management of cloud AI platforms including user auth, sandbox environments, app store deployment, payments, and challenge systems. Home of the Queen Seraphina AI assistant.",
   "prerequisites": [
@@ -11,19 +10,11 @@
   ],
   "derivatives": [],
   "conditions": "",
-  "evidence": [
-    {
-      "class": "B",
-      "source": "https://github.com/ruvnet/ruflo",
-      "evaluator": "mbtiongson1",
-      "date": "2026-05-19",
-      "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
-    }
-  ],
+  "evidence": [],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-19",
-  "updatedAt": "2026-05-19",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

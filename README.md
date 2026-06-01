@@ -38,43 +38,40 @@ Every AI agent capability exists somewhere on this graph. Skills start at the fo
 
 <!-- gaia:registry-start -->
 ```text
-◆ ruvnet/ruflo  [6★]
-  ├─ ◇ ruvnet/flow-nexus  [4★]
-  │  ├─ ◇ ruvnet/flow-nexus-swarm  [3★]
-  │  │  ├─ ◇ /plan-and-execute  [4★]
-  │  ├─ ◇ ruvnet/flow-nexus-platform  [3★]
-  │  │  ├─ ○ huggingface/hf-cli  [2★]
-  │  │  └─ ○ /tool-use  [1★]
-  │  └─ ◇ ruvnet/flow-nexus-neural  [3★]
-  │     ├─ ○ intelligentcode-ai/parallel-execution  [2★]
-  │     └─ ○ /embed-text  [0★]
-  ├─ ◆ ruvnet/agentdb  [5★]
-  │  ├─ ◇ ruvnet/agentdb-advanced  [3★]
-  │  │  ├─ ○ ruvnet/agentdb-vector-search  [2★]
-  │  │  └─ ◇ garrytan/learn  [2★]
-  │  │     ├─ ○ garrytan/context-restore  [3★]
+◆ ruvnet/agentdb  [5★]
+  ├─ ◇ ruvnet/agentdb-advanced  [3★]
+  │  ├─ ○ ruvnet/agentdb-vector-search  [2★]
+  │  └─ ◇ garrytan/learn  [3★]
+  │     ├─ ○ garrytan/context-restore  [3★]
+  │     └─ ○ /retrieve
+  ├─ ◇ ruvnet/agentdb-learning  [3★]
+  │  ├─ ○ ruvnet/reasoningbank-intelligence  [3★]
+  │  └─ ◇ garrytan/learn  [3★]  (↑ see above)
+  ├─ ○ ruvnet/agentdb-memory-patterns  [2★]
+  ├─ ○ ruvnet/agentdb-optimization  [2★]
+  └─ ○ ruvnet/agentdb-vector-search  [2★]  (↑ see above)
 
-◆ mattpocock/skills  [6★]
-  ├─ ◆ mattpocock/engineering  [5★]
-  │  ├─ ◇ devin-ai/autonomous-swe  [1★]
-  │  │  ├─ ○ garrytan/design-html  [0★]
-  │  │  ├─ ○ /code-execution  [0★]
-  │  │  └─ ○ /error-interpretation  [0★]
-  │  ├─ ○ mattpocock/improve-codebase-architecture  [2★]
-  │  ├─ ◇ mattpocock/to-issues  [3★]
-  │  │  ├─ ○ /plan-decompose  [0★]
-  │  │  └─ ○ /route-intent  [0★]
-  │  ├─ ◇ mattpocock/to-prd  [4★]
-  │  │  ├─ ○ glincker/readme-generator  [0★]
-  │  ├─ ○ mattpocock/triage  [4★]
-  │  ├─ ◇ mattpocock/ubiquitous-language  [2★]
-  │  │  ├─ ○ /extract-entities  [0★]
+◆ garrytan/gstack  [5★]
+  ├─ ○ garrytan/office-hours  [4★]
+  ├─ ○ garrytan/benchmark  [4★]
+  ├─ ◇ garrytan/plan-eng-review  [4★]
+  │  ├─ ○ garrytan/design-html  [4★]
+  │  ├─ ○ /diff-content
+  │  └─ ○ garrytan/benchmark  [4★]  (↑ see above)
+  ├─ ○ martin-stepanoski/nielsen-heuristics-audit  [4★]
+  ├─ ◇ mattpocock/to-issues  [5★]
+  │  ├─ ○ /plan-decompose
+  │  └─ ○ /route-intent
+  ├─ ◇ Manavarya09/design-extract  [4★]
+  │  ├─ ◇ gooseworks/notte-browser  [3★]
+  │  │  ├─ ○ /web-search
+  │  │  └─ ○ /computer-use
 
 Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
-  ◉ nousresearch/feed-monitoring  [4★ · Hardened]
-  ◉ huggingface/huggingface-llm-trainer  [4★ · Hardened]
-  ◉ ruvnet/hive-mind-coordination  [4★ · Hardened]
-  ◉ huggingface/semantic-cache  [4★ · Hardened]
+  ◉ nousresearch/feed-monitoring  [4★]
+  ◉ huggingface/huggingface-llm-trainer  [3★]
+  ◉ ruvnet/hive-mind-coordination  [4★]
+  ◉ huggingface/semantic-cache  [4★]
 
 (216 skills total — see docs/tree.md)
 ```
@@ -120,7 +117,7 @@ Skills rank up through **verifiable evidence** (Class A/B/C) and can be demoted 
 **1. Install the CLI**
 
 <!-- gaia:version-start -->
-Current Gaia CLI version: `3.26.3`.
+Current Gaia CLI version: `3.27.0`.
 
 ```bash
 curl -fsSL https://gaia.tiongson.co/install.sh | sh

@@ -1,8 +1,8 @@
-# [garrytan](../../../docs/u/garrytan/)/skillify  [4★ · Hardened]
+# [garrytan](../../../docs/u/garrytan/)/skillify  [4★]
 **ID:** skill-authoring  
 **Type:** Extra Skill  
-**Level:** 4★  
-**Tier:** Hardened  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
+**Top named variant:** 4★  
 **Skill Call:** `/skill-authoring`
 
 ---
@@ -23,13 +23,19 @@ Designs, writes, packages, and iteratively improves reusable agent skill directo
 ## Fusion Condition
 Requires a target agent skill format and a repeatable evaluation loop for trigger accuracy and task success.
 
-## Evidence
+## Named Implementations
+| Named Skill | Contributor | Stars | Evidence |
+|---|---|---|---|
+| garrytan/skillify | garrytan | 4★ | 0 |
+| ruvnet/skill-builder | ruvnet | 2★ | 0 |
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | A | https://arxiv.org/abs/2602.08004 | codex | 2026-05-10 |
 | B | https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md | codex | 2026-05-10 |
-| B | https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md | unknown | 2026-05-23 |
-| B | https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md | unknown | 2026-05-23 |
 
 ## Known Agents
 - Claude

@@ -1,8 +1,8 @@
-# [huggingface](../../../docs/u/huggingface/)/hf-cli  [2★ · Named]
+# [huggingface](../../../docs/u/huggingface/)/hf-cli  [2★]
 **ID:** api-call  
 **Type:** Basic Skill  
-**Level:** 2★  
-**Tier:** Named  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
+**Top named variant:** 2★  
 **Skill Call:** `/api-call`
 
 ---
@@ -29,7 +29,14 @@ _None._
 - [Workflow Automation](../extra/workflow-automation.md)
 - [MCP Server Creation](../extra/mcp-server-creation.md)
 
-## Evidence
+## Named Implementations
+| Named Skill | Contributor | Stars | Evidence |
+|---|---|---|---|
+| huggingface/hf-cli | huggingface | 2★ | 0 |
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | A | https://arxiv.org/abs/2305.15334 | mbtiongson1 | 2026-04-28 |

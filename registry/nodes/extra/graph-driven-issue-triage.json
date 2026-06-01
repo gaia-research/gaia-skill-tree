@@ -2,7 +2,6 @@
   "id": "graph-driven-issue-triage",
   "name": "Graph-Driven Issue Triage",
   "type": "extra",
-  "level": "3★",
   "rarity": "common",
   "description": "Combines codebase or knowledge-graph construction with automated issue triage: ingest a graph artifact, surface architectural debt or missing-prerequisite signals from the graph topology, and convert each finding into a tracked issue with reproducible evidence.",
   "prerequisites": [
@@ -10,19 +9,11 @@
     "knowledge-graph-build"
   ],
   "derivatives": [],
-  "evidence": [
-    {
-      "class": "B",
-      "source": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/graphify-triage/SKILL.md",
-      "evaluator": "mbtiongson1",
-      "date": "2026-05-30",
-      "notes": "Reproducible playbook: graphify-triage script ingests safishamsi/graphify GRAPH_REPORT.md output, parses architectural-debt findings, and converts each into a tracked GitHub issue via gh issue create. First implementation of the fusion generic (graphify + triage)."
-    }
-  ],
+  "evidence": [],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-30",
-  "updatedAt": "2026-05-30",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

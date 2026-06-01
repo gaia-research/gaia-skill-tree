@@ -2,7 +2,6 @@
   "id": "agent-memory-learning",
   "name": "Agent Memory Learning",
   "type": "extra",
-  "level": "3★",
   "rarity": "uncommon",
   "description": "Builds self-improving agent memory by analyzing task success patterns and adapting retrieval strategies with AgentDB-backed persistence.",
   "prerequisites": [
@@ -30,7 +29,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-19",
-  "updatedAt": "2026-05-20",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

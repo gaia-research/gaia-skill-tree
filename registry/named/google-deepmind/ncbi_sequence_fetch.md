@@ -15,6 +15,12 @@ createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/ncbi_sequence_fetch
+evidence:
+- class: B
+  source: https://github.com/google-deepmind/science-skills/blob/main/skills/ncbi_sequence_fetch/SKILL.md
+  evaluator: unknown
+  date: '2026-05-23'
+  notes: Official Google DeepMind ncbi_sequence_fetch science-skill implementation.
 ---
 
 # NCBI Sequence Fetch

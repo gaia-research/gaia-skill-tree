@@ -5,20 +5,29 @@ contributor: obra
 origin: true
 genericSkillRef: brainstorming
 status: named
-title: "The Collaborative Blueprint"
-level: "2★"
-description: Explores user intent, requirements, and design before implementation. Turns ideas into fully formed designs and specs through natural collaborative dialogue.
+title: The Collaborative Blueprint
+level: 2★
+description: Explores user intent, requirements, and design before implementation.
+  Turns ideas into fully formed designs and specs through natural collaborative dialogue.
 links:
   github: https://github.com/obra/superpowers/blob/main/skills/brainstorming/SKILL.md
 tags:
-  - brainstorming
-  - requirements
-  - design
-  - collaboration
-  - pre-implementation
-createdAt: "2026-05-18"
-updatedAt: "2026-05-18"
-suiteRef: "obra/superpowers"
+- brainstorming
+- requirements
+- design
+- collaboration
+- pre-implementation
+createdAt: '2026-05-18'
+updatedAt: '2026-05-18'
+suiteRef: obra/superpowers
+evidence:
+- class: B
+  source: https://github.com/obra/superpowers/blob/main/skills/brainstorming/SKILL.md
+  evaluator: mbtiongson1
+  date: '2026-05-18'
+  notes: obra/superpowers — complete software development methodology for coding agents,
+    196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode,
+    Cursor, GitHub Copilot CLI.
 ---
 
 ## Overview

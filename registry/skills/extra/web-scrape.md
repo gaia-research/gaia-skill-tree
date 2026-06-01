@@ -1,10 +1,8 @@
-# [firecrawl](../../../docs/u/firecrawl/)/firecrawl  [1★ · Awakened]
+# [firecrawl](../../../docs/u/firecrawl/)/firecrawl  [3★]
 **ID:** web-scrape  
 **Type:** Extra Skill  
-**Level:** 1★  
-**Tier:** Awakened  
-**Potential:** 0★  
-**Demerits:** broken-evidence  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
+**Top named variant:** 3★  
 **Skill Call:** `/web-scrape`
 
 ---
@@ -25,7 +23,15 @@ Retrieves and structures data from web pages into usable entities.
 ## Fusion Condition
 Structured output mode required.
 
-## Evidence
+## Named Implementations
+| Named Skill | Contributor | Stars | Evidence |
+|---|---|---|---|
+| firecrawl/firecrawl ⭑ | firecrawl | 2★ | 0 |
+| garrytan/scrape | garrytan | 3★ | 0 |
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | B | https://github.com/gaia-registry/gaia/blob/main/docs/evidence/webScrape.md | mbtiongson1 | 2026-04-26 |

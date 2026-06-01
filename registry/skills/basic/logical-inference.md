@@ -1,8 +1,7 @@
-# /logical-inference  [1★ · Awakened]
+# /logical-inference
 **ID:** logical-inference  
 **Type:** Basic Skill  
-**Level:** 1★  
-**Tier:** Awakened  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
 **Skill Call:** `/logical-inference`
 
 ---
@@ -17,7 +16,12 @@ _None._
 - [Knowledge Graph Construction](../extra/knowledge-graph-build.md)
 - [Multimodal Reasoning](../extra/multimodal-reasoning.md)
 
-## Evidence
+## Named Implementations
+_None yet — be the first to claim this skill._
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | A | https://arxiv.org/abs/2201.11903 | mbtiongson1 | 2026-04-28 |

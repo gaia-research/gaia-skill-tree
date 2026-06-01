@@ -5,22 +5,32 @@ contributor: mattpocock
 origin: true
 genericSkillRef: issue-triage
 status: named
-title: "The State-Machine Triager"
-title: "The State-Machine Triager"
+title: The State-Machine Triager
 catalogRef: mattpocock-triage
-level: "3★"
-description: Moves GitHub issues through a two-category (bug/enhancement) × five-state (needs-triage/needs-info/ready-for-agent/ready-for-human/wontfix) state machine. Reproduces bugs from issue steps, runs a domain-aware grilling session when needed, writes structured agent briefs, and appends AI-generated triage notes with the required disclaimer.
+level: 3★
+description: Moves GitHub issues through a two-category (bug/enhancement) × five-state
+  (needs-triage/needs-info/ready-for-agent/ready-for-human/wontfix) state machine.
+  Reproduces bugs from issue steps, runs a domain-aware grilling session when needed,
+  writes structured agent briefs, and appends AI-generated triage notes with the required
+  disclaimer.
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/engineering/triage/SKILL.md
 tags:
-  - issue-triage
-  - state-machine
-  - bug-reproduction
-  - agent-brief
-  - github-issues
-createdAt: "2026-04-30"
-updatedAt: "2026-04-30"
-suiteRef: "mattpocock/engineering"
+- issue-triage
+- state-machine
+- bug-reproduction
+- agent-brief
+- github-issues
+createdAt: '2026-04-30'
+updatedAt: '2026-04-30'
+suiteRef: mattpocock/engineering
+evidence:
+- class: B
+  source: https://github.com/mattpocock/skills/blob/main/skills/engineering/triage/SKILL.md
+  evaluator: mbtiongson1
+  date: '2026-04-30'
+  notes: Production triage skill with state-machine workflow, HITL/AFK routing, and
+    structured agent-brief output.
 ---
 
 ## Overview

@@ -2,7 +2,6 @@
   "id": "test-driven-development",
   "name": "Test-Driven Development",
   "type": "basic",
-  "level": "3★",
   "rarity": "uncommon",
   "description": "Enforces a strict red-green-refactor TDD loop: writes failing tests before implementation, blocks code generation that skips the test step, and validates coverage thresholds before marking tasks complete.",
   "prerequisites": [],
@@ -11,30 +10,16 @@
   "evidence": [
     {
       "class": "B",
-      "source": "https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md",
-      "evaluator": "mbtiongson1",
-      "date": "2026-04-30",
-      "notes": "Addy Osmani /test-driven-development slash command -- forces strict TDD workflow, stopping agents from skipping tests."
-    },
-    {
-      "class": "B",
       "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md",
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
       "notes": "Matt Pocock /tdd -- Vertical-slice TDD enforcement with anti-horizontal-slicing rules."
-    },
-    {
-      "class": "A",
-      "source": "https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md",
-      "evaluator": "mbtiongson1",
-      "date": "2026-05-31",
-      "notes": "Addy Osmani's agent-skills repo has 47.2k GitHub stars (verified 2026-05-31), qualifying for Class A adoption evidence per META §2.1. The TDD skill is the most-linked individual skill in the repo and is cited in Addy's public engineering talks. The blob link is the canonical SKILL.md implementation."
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-05-31",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

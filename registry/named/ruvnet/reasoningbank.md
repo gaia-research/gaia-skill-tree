@@ -5,23 +5,30 @@ contributor: ruvnet
 origin: true
 genericSkillRef: reasoning-pattern-bank
 status: named
-title: "The Pattern Sage"
+title: The Pattern Sage
 catalogRef: ruvnet-reasoningbank
-level: "3★"
-description: Fuses adaptive pattern learning with persistent vector memory to build a self-improving agent knowledge base across sessions.
+level: 3★
+description: Fuses adaptive pattern learning with persistent vector memory to build
+  a self-improving agent knowledge base across sessions.
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - reasoningbank
-  - pattern-learning
-  - memory-integration
-  - self-improvement
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/ruflo"
+- reasoningbank
+- pattern-learning
+- memory-integration
+- self-improvement
+createdAt: '2026-05-19'
+updatedAt: '2026-05-19'
+suiteRef: ruvnet/ruflo
 suiteComponents:
-  - ruvnet/reasoningbank-agentdb
-  - ruvnet/reasoningbank-intelligence
+- ruvnet/reasoningbank-agentdb
+- ruvnet/reasoningbank-intelligence
+evidence:
+- class: B
+  source: https://github.com/ruvnet/ruflo
+  evaluator: mbtiongson1
+  date: '2026-05-19'
+  notes: Ruflo orchestration platform — 34k+ GitHub stars.
 ---
 
 ## Overview

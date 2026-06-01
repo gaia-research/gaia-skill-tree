@@ -5,21 +5,28 @@ contributor: ruvnet
 origin: true
 genericSkillRef: headless-worker-collect
 status: named
-title: "The Result Harvester"
+title: The Result Harvester
 catalogRef: ruvnet-dual-collect
-level: "2★"
-description: Collects and aggregates results from headless Codex workers stored in shared memory with filtering and health status reporting.
+level: 2★
+description: Collects and aggregates results from headless Codex workers stored in
+  shared memory with filtering and health status reporting.
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - dual-mode
-  - result-collection
-  - aggregation
-  - worker-health
-  - memory-retrieval
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/dual-mode"
+- dual-mode
+- result-collection
+- aggregation
+- worker-health
+- memory-retrieval
+createdAt: '2026-05-19'
+updatedAt: '2026-05-19'
+suiteRef: ruvnet/dual-mode
+evidence:
+- class: B
+  source: https://github.com/ruvnet/ruflo
+  evaluator: mbtiongson1
+  date: '2026-05-19'
+  notes: Ruflo orchestration platform — 34k+ GitHub stars.
 ---
 
 ## Overview

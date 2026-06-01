@@ -1,8 +1,8 @@
-# [mattpocock](../../../docs/u/mattpocock/)/skills  [6★ · Apex]
+# [mattpocock](../../../docs/u/mattpocock/)/skills  [6★]
 **ID:** mattpocock-skills  
 **Type:** Ultimate Skill  
-**Level:** 6★  
-**Tier:** Apex  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
+**Top named variant:** 6★  
 **Skill Call:** `/mattpocock-skills`
 
 ---
@@ -23,7 +23,14 @@ _None._
 ## Fusion Condition
 _None specified._
 
-## Evidence
+## Named Implementations
+| Named Skill | Contributor | Stars | Evidence |
+|---|---|---|---|
+| mattpocock/skills ⭑ | mattpocock | 6★ | 0 |
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | B | https://github.com/mattpocock/skills | mbtiongson1 | 2026-05-22 |

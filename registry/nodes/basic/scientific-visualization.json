@@ -2,7 +2,6 @@
   "id": "scientific-visualization",
   "name": "Scientific Visualization",
   "type": "basic",
-  "level": "2★",
   "rarity": "uncommon",
   "summary": "Creates publication-ready scientific figures and visualizes molecular structures.",
   "description": "Creates publication-ready scientific figures with multi-panel layouts, statistical annotations, colorblind-safe palettes, and journal-specific formatting (Nature, Science, Cell) using matplotlib, seaborn, and plotly. It also includes visualizing, analyzing, and rendering protein and molecular structures without a hardware-accelerated GUI.",
@@ -20,26 +19,12 @@
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
       "notes": "K-Dense-AI scientific-agent-skills — reproducible scientific-visualization skill orchestrating matplotlib, seaborn, and plotly for journal-quality multi-panel figures with PDF/EPS/TIFF/PNG export and accessibility annotations."
-    },
-    {
-      "class": "B",
-      "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md",
-      "evaluator": "unknown",
-      "date": "2026-05-23",
-      "notes": "Official Google DeepMind pymol science-skill implementation."
-    },
-    {
-      "class": "B",
-      "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md",
-      "evaluator": "unknown",
-      "date": "2026-05-23",
-      "notes": "Official Google DeepMind pymol science-skill implementation."
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-05-23",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

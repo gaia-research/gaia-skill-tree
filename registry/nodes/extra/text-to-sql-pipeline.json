@@ -2,7 +2,6 @@
   "id": "text-to-sql-pipeline",
   "name": "Text-to-SQL Pipeline",
   "type": "extra",
-  "level": "2★",
   "rarity": "uncommon",
   "description": "Converts natural-language queries into validated, executable SQL against a target schema and returns formatted result sets.",
   "prerequisites": [
@@ -24,7 +23,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-05-25",
+  "updatedAt": "2026-06-01",
   "version": "0.2.0",
   "timeline": [
     {

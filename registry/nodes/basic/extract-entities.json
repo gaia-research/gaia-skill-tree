@@ -2,7 +2,6 @@
   "id": "extract-entities",
   "name": "Extract Entities",
   "type": "basic",
-  "level": "0★",
   "rarity": "common",
   "description": "Identifies and extracts named entities such as people, organizations, dates, and locations from text.",
   "prerequisites": [],
@@ -26,7 +25,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-26",
-  "updatedAt": "2026-05-25",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {
@@ -51,8 +50,5 @@
       "previousValue": "1★",
       "newValue": "0★"
     }
-  ],
-  "demerits": [
-    "broken-evidence"
   ]
 }

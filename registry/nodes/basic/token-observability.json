@@ -2,7 +2,6 @@
   "id": "token-observability",
   "name": "Token Observability",
   "type": "basic",
-  "level": "2★",
   "rarity": "uncommon",
   "summary": "Observability tool for tracking AI coding agent token spend locally.",
   "description": "Tracks and analyzes token usage and cost across multiple AI models and agents, providing session-level and project-level spending metrics. Operates locally by reading session data directly from disk and utilizes local pricing calculation, ensuring no proxies or API keys are required. Features CLI commands to optimize token waste, compare models, and track yield.",
@@ -13,19 +12,11 @@
     "data-analysis"
   ],
   "conditions": "",
-  "evidence": [
-    {
-      "class": "B",
-      "source": "https://github.com/getagentseal/codeburn",
-      "evaluator": "gemini-cli",
-      "date": "2026-05-14",
-      "notes": "CodeBurn -- provides cost and token observability for AI coding tools; integrated with 20 AI tools. Includes TUI dashboard, macOS menubar, optimization and yield analysis commands."
-    }
-  ],
+  "evidence": [],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-14",
-  "updatedAt": "2026-05-22",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

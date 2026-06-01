@@ -2,7 +2,6 @@
   "id": "e2e-testing",
   "name": "End-to-End Testing",
   "type": "extra",
-  "level": "3★",
   "rarity": "uncommon",
   "description": "Execute full end-to-end user journey tests using browser automation frameworks (Playwright/Puppeteer), validating complete workflows from UI to backend across real environments.",
   "prerequisites": [
@@ -20,19 +19,12 @@
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
       "notes": "autospec — AI agent that takes a web app URL and autonomously QAs it, saving passing specs as E2E test code (59 stars, active)."
-    },
-    {
-      "class": "C",
-      "source": "https://github.com/intelligentcode-ai/skills/blob/main/skills/user-tester/SKILL.md",
-      "evaluator": "mbtiongson1",
-      "date": "2026-04-30",
-      "notes": "intelligentcode-ai/skills user-tester — E2E testing specialist with Puppeteer/Playwright automation and cross-browser user journey validation."
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-05-18",
+  "updatedAt": "2026-06-01",
   "version": "0.2.0",
   "timeline": [
     {

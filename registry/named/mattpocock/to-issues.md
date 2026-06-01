@@ -5,23 +5,32 @@ contributor: mattpocock
 origin: true
 genericSkillRef: vertical-slice-planning
 status: named
-title: "The Vertical Slicer"
-title: "The Vertical Slicer"
+title: The Vertical Slicer
 catalogRef: mattpocock-to-issues
-level: "3★"
-description: Breaks a plan, spec, or PRD into independently-grabbable GitHub issues as tracer-bullet vertical slices that each cut through all integration layers end-to-end. Classifies each slice HITL or AFK, maps dependency chains, quizzes the user on granularity, and publishes structured issues with acceptance criteria in dependency order.
+level: 3★
+description: Breaks a plan, spec, or PRD into independently-grabbable GitHub issues
+  as tracer-bullet vertical slices that each cut through all integration layers end-to-end.
+  Classifies each slice HITL or AFK, maps dependency chains, quizzes the user on granularity,
+  and publishes structured issues with acceptance criteria in dependency order.
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/engineering/to-issues/SKILL.md
 tags:
-  - vertical-slicing
-  - issue-decomposition
-  - tracer-bullet
-  - hitl
-  - afk
-  - acceptance-criteria
-createdAt: "2026-04-30"
-updatedAt: "2026-04-30"
-suiteRef: "mattpocock/engineering"
+- vertical-slicing
+- issue-decomposition
+- tracer-bullet
+- hitl
+- afk
+- acceptance-criteria
+createdAt: '2026-04-30'
+updatedAt: '2026-04-30'
+suiteRef: mattpocock/engineering
+evidence:
+- class: B
+  source: https://github.com/mattpocock/skills/blob/main/skills/engineering/to-issues/SKILL.md
+  evaluator: mbtiongson1
+  date: '2026-04-30'
+  notes: Production skill implementing tracer-bullet vertical slicing with HITL/AFK
+    classification and issue-tracker publication.
 ---
 
 ## Overview

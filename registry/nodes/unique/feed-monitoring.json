@@ -2,27 +2,18 @@
   "id": "feed-monitoring",
   "name": "Feed Monitoring",
   "type": "unique",
-  "level": "4★",
   "rarity": "common",
   "description": "Monitors RSS, Atom, blog, or other recurring content feeds, discovers updates, tracks read state, and surfaces new signals for downstream agent workflows.",
   "prerequisites": [],
   "derivatives": [],
   "conditions": "Requires configured feed sources and a repeatable polling or discovery mechanism.",
-  "evidence": [
-    {
-      "class": "B",
-      "source": "https://github.com/NousResearch/hermes-agent/blob/main/skills/research/blogwatcher/SKILL.md",
-      "evaluator": "openai-codex",
-      "date": "2026-05-06",
-      "notes": "Hermes Agent blogwatcher skill monitors blogs and RSS/Atom feeds with feed discovery, scraping fallback, OPML import, and read/unread article management."
-    }
-  ],
+  "evidence": [],
   "knownAgents": [
     "NousResearch/hermes-agent"
   ],
   "status": "provisional",
   "createdAt": "2026-05-06",
-  "updatedAt": "2026-05-06",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

@@ -2,7 +2,6 @@
   "id": "autonomous-engineering-platform",
   "name": "Autonomous Engineering Platform",
   "type": "basic",
-  "level": "2★",
   "rarity": "common",
   "description": "An autonomous engineering platform integrating chat, specs, tasks, and code for full agentic software delivery.",
   "prerequisites": [],
@@ -26,7 +25,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-23",
-  "updatedAt": "2026-05-23",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

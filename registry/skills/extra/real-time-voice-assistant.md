@@ -1,8 +1,7 @@
-# /real-time-voice-assistant  [5★ · Transcendent]
+# /real-time-voice-assistant
 **ID:** real-time-voice-assistant  
 **Type:** Extra Skill  
-**Level:** 5★  
-**Tier:** Transcendent  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
 **Skill Call:** `/real-time-voice-assistant`
 
 ---
@@ -21,7 +20,12 @@ _None._
 ## Fusion Condition
 Requires real-time audio pipeline, <500ms end-to-end latency target, and persistent session store. Minimum 3 Class A/B evidence sources.
 
-## Evidence
+## Named Implementations
+_None yet — be the first to claim this skill._
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | A | https://arxiv.org/abs/2312.11805 | mbtiongson1 | 2026-04-28 |

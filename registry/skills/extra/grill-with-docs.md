@@ -1,10 +1,8 @@
-# [mattpocock](../../../docs/u/mattpocock/)/grill-with-docs  [1★ · Awakened]
+# [mattpocock](../../../docs/u/mattpocock/)/grill-with-docs  [3★]
 **ID:** grill-with-docs  
 **Type:** Extra Skill  
-**Level:** 1★  
-**Tier:** Awakened  
-**Potential:** 0★  
-**Demerits:** broken-evidence  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
+**Top named variant:** 3★  
 **Skill Call:** `/grill-with-docs`
 
 ---
@@ -23,11 +21,17 @@ _None._
 ## Fusion Condition
 Requires the agent to maintain a live glossary (CONTEXT.md) and generate ADRs for all non-trivial trade-offs discovered during the grill.
 
-## Evidence
+## Named Implementations
+| Named Skill | Contributor | Stars | Evidence |
+|---|---|---|---|
+| mattpocock/grill-with-docs ⭑ | mattpocock | 3★ | 1 |
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | A | https://aihero.dev/mattpocock/i-stopped-using-grill-me-for-coding | mbtiongson1 | 2026-05-15 |
-| B | https://github.com/mattpocock/skills/blob/main/skills/engineering/grill-with-docs/SKILL.md | mbtiongson1 | 2026-05-15 |
 
 ## Known Agents
 _None verified yet._

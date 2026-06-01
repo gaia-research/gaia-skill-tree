@@ -1,8 +1,8 @@
-# [mbtiongson1](../../../docs/u/mbtiongson1/)/gaia-meta-audit  [3★ · Evolved]
+# [mbtiongson1](../../../docs/u/mbtiongson1/)/gaia-meta-audit  [3★]
 **ID:** registry-health-scan  
 **Type:** Extra Skill  
-**Level:** 3★  
-**Tier:** Evolved  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
+**Top named variant:** 3★  
 **Skill Call:** `/registry-health-scan`
 
 ---
@@ -21,10 +21,15 @@ _None._
 ## Fusion Condition
 Requires the current registry, named-skill index, real-skill catalog, and permission to compare against current source URLs or discovery indexes.
 
-## Evidence
-| Class | Source | Evaluator | Date |
+## Named Implementations
+| Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| B | https://github.com/mbtiongson1/gaia-skill-tree | mbtiongson1 | 2026-05-03 |
+| mbtiongson1/gaia-meta-audit ⭑ | mbtiongson1 | 3★ | 1 |
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
+_None._
 
 ## Known Agents
 _None verified yet._

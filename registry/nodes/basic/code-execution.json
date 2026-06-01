@@ -2,7 +2,6 @@
   "id": "code-execution",
   "name": "Code Execution",
   "type": "basic",
-  "level": "0★",
   "rarity": "common",
   "description": "Writes and executes code in a sandboxed environment, uses the runtime output to verify correctness, and iterates until the result is correct.",
   "prerequisites": [],
@@ -43,7 +42,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-05-25",
+  "updatedAt": "2026-06-01",
   "version": "0.2.0",
   "timeline": [
     {
@@ -82,8 +81,5 @@
       "previousValue": "2★",
       "newValue": "0★"
     }
-  ],
-  "demerits": [
-    "broken-evidence"
   ]
 }

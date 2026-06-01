@@ -5,20 +5,27 @@ contributor: ruvnet
 origin: true
 genericSkillRef: vector-db-optimization
 status: named
-title: "The Index Tuner"
+title: The Index Tuner
 catalogRef: ruvnet-agentdb-optimization
-level: "2★"
-description: Tunes AgentDB vector indices, implements database sharding, and monitors production performance for large-scale distributed agent memory.
+level: 2★
+description: Tunes AgentDB vector indices, implements database sharding, and monitors
+  production performance for large-scale distributed agent memory.
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - vector-optimization
-  - sharding
-  - performance
-  - production
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/agentdb"
+- vector-optimization
+- sharding
+- performance
+- production
+createdAt: '2026-05-19'
+updatedAt: '2026-05-19'
+suiteRef: ruvnet/agentdb
+evidence:
+- class: B
+  source: https://github.com/ruvnet/ruflo
+  evaluator: mbtiongson1
+  date: '2026-05-19'
+  notes: Ruflo orchestration platform — 34k+ GitHub stars.
 ---
 
 ## Overview

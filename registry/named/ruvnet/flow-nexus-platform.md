@@ -5,21 +5,29 @@ contributor: ruvnet
 origin: true
 genericSkillRef: cloud-platform-management
 status: named
-title: "Queen Seraphina's Court"
+title: Queen Seraphina's Court
 catalogRef: ruvnet-flow-nexus-platform
-level: "3★"
-description: "Full lifecycle management of the Flow Nexus cloud AI platform: user authentication, sandbox environments, app store deployment, payment processing, and challenge systems with Queen Seraphina AI assistant."
+level: 3★
+description: 'Full lifecycle management of the Flow Nexus cloud AI platform: user
+  authentication, sandbox environments, app store deployment, payment processing,
+  and challenge systems with Queen Seraphina AI assistant.'
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - cloud-platform
-  - authentication
-  - sandbox
-  - payments
-  - ai-assistant
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/flow-nexus"
+- cloud-platform
+- authentication
+- sandbox
+- payments
+- ai-assistant
+createdAt: '2026-05-19'
+updatedAt: '2026-05-19'
+suiteRef: ruvnet/flow-nexus
+evidence:
+- class: B
+  source: https://github.com/ruvnet/ruflo
+  evaluator: mbtiongson1
+  date: '2026-05-19'
+  notes: Ruflo orchestration platform — 34k+ GitHub stars.
 ---
 
 ## Overview

@@ -27,10 +27,18 @@ timeline:
 - timestamp: '2026-05-30T00:00:00Z'
   action: demote
   contributor: mbtiongson1
-  details: Demoted 4★ → 3★ to match canonical registry-health-scan generic level
-    (named must not exceed generic per META §1).
+  details: Demoted 4★ → 3★ to match canonical registry-health-scan generic level (named
+    must not exceed generic per META §1).
   previousValue: 4★
   newValue: 3★
+evidence:
+- class: B
+  source: https://github.com/mbtiongson1/gaia-skill-tree
+  evaluator: mbtiongson1
+  date: '2026-05-03'
+  notes: Derived from registry hygiene work that audits source-backed named skills,
+    generated projections, and demotion candidates across canonical and real-skill
+    review surfaces.
 ---
 
 ## Overview

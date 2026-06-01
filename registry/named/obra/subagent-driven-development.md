@@ -5,20 +5,30 @@ contributor: obra
 origin: true
 genericSkillRef: subagent-driven-development
 status: named
-title: "The Swarm Architect"
-level: "4★"
-description: Executes plans by dispatching a fresh subagent per task with a two-stage review (spec compliance then code quality), keeping the orchestrator context clean throughout.
+title: The Swarm Architect
+level: 4★
+description: Executes plans by dispatching a fresh subagent per task with a two-stage
+  review (spec compliance then code quality), keeping the orchestrator context clean
+  throughout.
 links:
   github: https://github.com/obra/superpowers/blob/main/skills/subagent-driven-development/SKILL.md
 tags:
-  - subagent
-  - orchestration
-  - plan-execution
-  - two-stage-review
-  - multi-agent
-createdAt: "2026-05-18"
-updatedAt: "2026-05-18"
-suiteRef: "obra/superpowers"
+- subagent
+- orchestration
+- plan-execution
+- two-stage-review
+- multi-agent
+createdAt: '2026-05-18'
+updatedAt: '2026-05-18'
+suiteRef: obra/superpowers
+evidence:
+- class: B
+  source: https://github.com/obra/superpowers/blob/main/skills/subagent-driven-development/SKILL.md
+  evaluator: mbtiongson1
+  date: '2026-05-18'
+  notes: obra/superpowers — complete software development methodology for coding agents,
+    196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode,
+    Cursor, GitHub Copilot CLI.
 ---
 
 ## Overview

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-31",
+  "generatedAt": "2026-06-01",
   "buckets": {
     "automated-testing": [
       {
@@ -75,6 +75,15 @@
         "links": {
           "github": "https://github.com/Manavarya09/design-extract"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/Manavarya09/design-extract",
+            "evaluator": "gemini-cli",
+            "date": "2026-05-14",
+            "notes": "Design Extract -- extracts complete design systems (Tailwind, Figma variables, etc.) from any URL."
+          }
+        ],
         "createdAt": "2026-05-14",
         "updatedAt": "2026-05-14",
         "type": "extra",
@@ -116,15 +125,43 @@
         "genericSkillRef": "performance-tuning",
         "status": "named",
         "level": "3★",
-        "description": "Measurement-driven performance workflow: baseline with Lighthouse and",
+        "description": "Measurement-driven performance workflow: baseline with Lighthouse and RUM, identify bottlenecks via profiling, fix targeted issues (N+1 queries, render blocking, unoptimized images), verify against Core Web Vitals thresholds (LCP ≤2.5s, INP ≤200ms, CLS ≤0.1), and guard against regression with perf budgets.",
         "title": "The Perf Loop",
-        "tags": {},
+        "tags": [
+          "performance",
+          "core-web-vitals",
+          "lighthouse",
+          "profiling",
+          "web-performance"
+        ],
         "links": {
           "github": "https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "A",
+            "source": "https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-31",
+            "notes": "Addy Osmani's performance-optimization SKILL.md in agent-skills repo (47.2k stars, verified 2026-05-31). Defines a measurement-driven 5-step workflow (Measure → Identify → Fix → Verify → Guard) with explicit Core Web Vitals thresholds. Qualifies for Class A per META §2.1 large-scale adoption criterion."
+          }
+        ],
         "createdAt": "2026-05-31",
         "updatedAt": "2026-05-31",
-        "timeline": {},
+        "timeline": [
+          {
+            "timestamp": "2026-05-31T02:15:44Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill addy-osmani/performance-optimization"
+          },
+          {
+            "timestamp": "2026-05-31T02:16:53Z",
+            "action": "installation_updated",
+            "contributor": "unknown",
+            "details": "Replaced ## Installation section from /tmp/perf_install.md"
+          }
+        ],
         "type": "basic",
         "installBody": "Install via [gaia](https://github.com/mbtiongson1/gaia-skill-tree):\n\n```bash\ngaia skills install https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md\n```\n\nOr copy the raw skill file directly into your agent context:\n\n```\nhttps://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md\n```\n\n**Usage**: Invoke `/performance-optimization` (Claude Code) to trigger the measurement-driven 5-step performance audit workflow.",
         "role": "variant"
@@ -194,16 +231,40 @@
         "genericSkillRef": "test-driven-development",
         "status": "named",
         "level": "3★",
-        "description": "Forces the AI agent to follow a strict red-green-refactor TDD workflow",
+        "description": "Forces the AI agent to follow a strict red-green-refactor TDD workflow — explicitly blocking horizontal slicing (all tests first, then all code). Tests verify behaviour through public interfaces only, blocking code generation that skips the test step, and enforcing coverage thresholds before completing a task.",
         "title": "The Red-Green Oath",
         "catalogRef": "addy-osmani-test-driven-development",
-        "tags": {},
+        "tags": [
+          "tdd",
+          "testing",
+          "red-green-refactor",
+          "workflow-enforcement",
+          "software-quality",
+          "vertical-slicing",
+          "tracer-bullet"
+        ],
         "links": {
           "github": "https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-04-30",
+            "notes": "Addy Osmani /test-driven-development slash command -- forces strict TDD workflow, stopping agents from skipping tests."
+          }
+        ],
         "createdAt": "2026-04-30",
         "updatedAt": "2026-05-31",
-        "timeline": {},
+        "timeline": [
+          {
+            "timestamp": "2026-05-31T02:17:00Z",
+            "action": "installation_updated",
+            "contributor": "unknown",
+            "details": "Replaced ## Installation section from /tmp/tdd_install.md"
+          }
+        ],
         "type": "basic",
         "installBody": "Install via [gaia](https://github.com/mbtiongson1/gaia-skill-tree):\n\n```bash\ngaia skills install https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md\n```\n\nOr copy the raw skill file directly into your agent context:\n\n```\nhttps://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md\n```\n\n**Usage**: Invoke `/test-driven-development` (Claude Code) to enforce the red-green-refactor TDD cycle. The skill blocks horizontal slicing and enforces coverage thresholds before marking any task complete.",
         "role": "origin"
@@ -231,6 +292,15 @@
         "links": {
           "github": "https://github.com/anthropics/skills/blob/main/skills/pptx/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/anthropics/skills/blob/main/skills/pptx/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-04-30",
+            "notes": "Anthropic /pptx slash command -- extracts, edits, packs, and applies design principles to PowerPoint files using markitdown."
+          }
+        ],
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
         "type": "basic",
@@ -388,6 +458,15 @@
         "links": {
           "github": "https://github.com/bradautomates/claude-video"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/bradautomates/claude-video",
+            "evaluator": "gemini-cli",
+            "date": "2026-05-14",
+            "notes": "Claude Video -- enables AI agents to watch videos by downloading, frame extraction, and transcription."
+          }
+        ],
         "createdAt": "2026-05-14",
         "updatedAt": "2026-05-14",
         "type": "extra",
@@ -413,6 +492,15 @@
         "links": {
           "github": "https://github.com/browser-use/browser-harness"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/browser-use/browser-harness",
+            "evaluator": "gemini-cli",
+            "date": "2026-05-14",
+            "notes": "Browser Harness -- self-healing harness connecting LLMs to browser via CDP."
+          }
+        ],
         "createdAt": "2026-05-14",
         "updatedAt": "2026-05-14",
         "type": "basic",
@@ -595,6 +683,15 @@
         "links": {
           "github": "https://github.com/cognition-labs/devin"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/cognition-labs/devin",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-17",
+            "notes": "Replaced missing seed evidence with live repository from real-skills catalog."
+          }
+        ],
         "createdAt": "2026-04-29",
         "updatedAt": "2026-04-30",
         "type": "extra",
@@ -1004,7 +1101,7 @@
         "genericSkillRef": "context-compression",
         "status": "named",
         "level": "3★",
-        "description": "An ultra-compressed communication mode designed to save tokens by dropping",
+        "description": "An ultra-compressed communication mode designed to save tokens by dropping articles and filler words.",
         "title": "The Caveman Console",
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/productivity/caveman"
@@ -1053,12 +1150,28 @@
         "genericSkillRef": "security-audit",
         "status": "named",
         "level": "2★",
-        "description": "Security architecture specialist — vulnerability assessment, zero-trust",
+        "description": "Security architecture specialist — vulnerability assessment, zero-trust design, compliance management, and incident response with severity-classified remediation guidance.",
         "title": "The Bastion's Eye",
-        "tags": {},
+        "tags": [
+          "security",
+          "vulnerability",
+          "zero-trust",
+          "compliance",
+          "owasp",
+          "penetration-testing"
+        ],
         "links": {
           "github": "https://github.com/intelligentcode-ai/skills/blob/main/skills/security-engineer/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "C",
+            "source": "https://github.com/intelligentcode-ai/skills/blob/main/skills/security-engineer/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-04-30",
+            "notes": "intelligentcode-ai/skills security-engineer — vulnerability assessment and security architecture with zero-trust principles and compliance management."
+          }
+        ],
         "updatedAt": "2026-05-25",
         "type": "extra",
         "role": "variant"
@@ -1243,6 +1356,15 @@
         "links": {
           "github": "https://github.com/mastepanoski/claude-skills/blob/main/skills/nielsen-heuristics-audit/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/mastepanoski/claude-skills/blob/main/skills/nielsen-heuristics-audit/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-04-30",
+            "notes": "Martin Stepanoski @mastepanoski/claude-skills -- /nielsen-heuristics-audit audits UI against Nielsen 10 usability heuristics step-by-step."
+          }
+        ],
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
         "type": "basic",
@@ -1267,6 +1389,15 @@
         "links": {
           "github": "https://github.com/pbakaus/impeccable"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/pbakaus/impeccable",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-14",
+            "notes": "Paul Bakaus /impeccable -- Elite design vocabulary and audit tool with 23 specialized polishing commands."
+          }
+        ],
         "createdAt": "2026-05-14",
         "updatedAt": "2026-05-14",
         "type": "basic",
@@ -1357,6 +1488,15 @@
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-issues/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-issues/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-04-30",
+            "notes": "Production skill implementing tracer-bullet vertical slicing with HITL/AFK classification and issue-tracker publication."
+          }
+        ],
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
         "suiteRef": "mattpocock/engineering",
@@ -1415,6 +1555,15 @@
         "links": {
           "github": "https://github.com/garrytan/gstack"
         },
+        "evidence": [
+          {
+            "class": "A",
+            "source": "https://github.com/garrytan/gstack",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-18",
+            "notes": "garrytan/gstack — 19 named garrytan skills registered in Gaia across 16 generic skill buckets; meets the >=5 named-skills threshold for Class A designation. Additionally: 98.9k GitHub stars, multi-platform adoption across 8+ runtimes (Claude Code, OpenAI Codex CLI, OpenCode, Cursor, Factory Droid, Slate, Kiro, Hermes)."
+          }
+        ],
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteComponents": [
@@ -1517,6 +1666,15 @@
         "links": {
           "github": "https://github.com/obra/superpowers/blob/main/skills/systematic-debugging/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/obra/superpowers/blob/main/skills/systematic-debugging/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-18",
+            "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
+          }
+        ],
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "obra/superpowers",
@@ -1584,12 +1742,29 @@
         "genericSkillRef": "deployment-automation",
         "status": "named",
         "level": "2★",
-        "description": "CI/CD pipeline design and deployment automation specialist — build systems,",
+        "description": "CI/CD pipeline design and deployment automation specialist — build systems, artifact publishing, environment promotion, and rollback strategies.",
         "title": "The DevOps Sentinel",
-        "tags": {},
+        "tags": [
+          "cicd",
+          "deployment",
+          "pipeline",
+          "docker",
+          "kubernetes",
+          "terraform",
+          "rollback"
+        ],
         "links": {
           "github": "https://github.com/intelligentcode-ai/skills/blob/main/skills/devops-engineer/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "C",
+            "source": "https://github.com/intelligentcode-ai/skills/blob/main/skills/devops-engineer/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-04-30",
+            "notes": "intelligentcode-ai/skills devops-engineer — CI/CD pipeline design and deployment automation with build systems and release management."
+          }
+        ],
         "updatedAt": "2026-05-25",
         "type": "extra",
         "role": "variant"
@@ -1602,15 +1777,26 @@
         "genericSkillRef": "deployment-automation",
         "status": "named",
         "level": "2★",
-        "description": "Generates a preview render of proposed registry changes — showing how",
+        "description": "Generates a preview render of proposed registry changes — showing how new or modified skill entries will appear on the profile page and in the skill graph before the PR is merged.",
         "title": "The Change Previewer",
-        "tags": {},
+        "tags": [
+          "registry-curation",
+          "preview",
+          "staging"
+        ],
         "links": {
           "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md"
         },
         "createdAt": "2026-05-27",
         "updatedAt": "2026-05-30",
-        "timeline": {},
+        "timeline": [
+          {
+            "timestamp": "2026-05-26T16:37:01Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill mbtiongson1/gaia-preview"
+          }
+        ],
         "type": "extra",
         "role": "variant"
       }
@@ -1813,12 +1999,26 @@
         "genericSkillRef": "mcp-integration",
         "status": "named",
         "level": "2★",
-        "description": "Portable CLI tool that connects to MCP servers on-demand, enumerates",
+        "description": "Portable CLI tool that connects to MCP servers on-demand, enumerates available tools, displays them, and executes calls — works with any MCP-compatible backend without platform lock-in.",
         "title": "The Protocol Bridge",
-        "tags": {},
+        "tags": [
+          "mcp",
+          "model-context-protocol",
+          "tool-integration",
+          "cli"
+        ],
         "links": {
           "github": "https://github.com/intelligentcode-ai/skills/blob/main/skills/mcp-client/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "C",
+            "source": "https://github.com/intelligentcode-ai/skills/blob/main/skills/mcp-client/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-04-30",
+            "notes": "intelligentcode-ai/skills mcp-client — portable CLI MCP client with server enumeration, tool display, and on-demand execution."
+          }
+        ],
         "updatedAt": "2026-05-25",
         "type": "basic",
         "role": "variant"
@@ -2032,12 +2232,28 @@
         "genericSkillRef": "e2e-testing",
         "status": "named",
         "level": "2★",
-        "description": "E2E testing specialist with Puppeteer/Playwright automation — cross-browser",
+        "description": "E2E testing specialist with Puppeteer/Playwright automation — cross-browser validation, full user journey simulation, and visual regression detection.",
         "title": "The Human Lens",
-        "tags": {},
+        "tags": [
+          "e2e",
+          "playwright",
+          "puppeteer",
+          "cross-browser",
+          "user-journey",
+          "visual-regression"
+        ],
         "links": {
           "github": "https://github.com/intelligentcode-ai/skills/blob/main/skills/user-tester/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "C",
+            "source": "https://github.com/intelligentcode-ai/skills/blob/main/skills/user-tester/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-04-30",
+            "notes": "intelligentcode-ai/skills user-tester — E2E testing specialist with Puppeteer/Playwright automation and cross-browser user journey validation."
+          }
+        ],
         "updatedAt": "2026-05-25",
         "type": "extra",
         "role": "variant"
@@ -2220,6 +2436,15 @@
         "links": {
           "github": "https://github.com/obra/superpowers/blob/main/skills/finishing-a-development-branch/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/obra/superpowers/blob/main/skills/finishing-a-development-branch/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-18",
+            "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
+          }
+        ],
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "obra/superpowers",
@@ -2300,6 +2525,15 @@
         "links": {
           "github": "https://github.com/getagentseal/codeburn"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/getagentseal/codeburn",
+            "evaluator": "gemini-cli",
+            "date": "2026-05-14",
+            "notes": "CodeBurn -- provides cost and token observability for AI coding tools; integrated with 20 AI tools. Includes TUI dashboard, macOS menubar, optimization and yield analysis commands."
+          }
+        ],
         "createdAt": "2026-05-14",
         "updatedAt": "2026-05-14",
         "type": "basic",
@@ -2468,6 +2702,15 @@
         "links": {
           "github": "https://github.com/codefuse-ai/ModelCache"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/codefuse-ai/ModelCache",
+            "evaluator": "mbtiongson1",
+            "date": "2026-04-30",
+            "notes": "ModelCache -- LLM semantic caching system reducing response time via cached query-result pairs; reproducible, MIT license."
+          }
+        ],
         "createdAt": "2026-05-15",
         "updatedAt": "2026-05-15",
         "type": "unique",
@@ -2511,12 +2754,29 @@
         "genericSkillRef": "schema-design",
         "status": "named",
         "level": "2★",
-        "description": "Schema design and query optimization expert across relational, NoSQL,",
+        "description": "Schema design and query optimization expert across relational, NoSQL, graph, time-series, and data warehouse stores with sub-second response targets.",
         "title": "The Database Oracle",
-        "tags": {},
+        "tags": [
+          "database",
+          "schema",
+          "sql",
+          "nosql",
+          "graph-db",
+          "time-series",
+          "normalization"
+        ],
         "links": {
           "github": "https://github.com/intelligentcode-ai/skills/blob/main/skills/database-engineer/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "C",
+            "source": "https://github.com/intelligentcode-ai/skills/blob/main/skills/database-engineer/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-04-30",
+            "notes": "intelligentcode-ai/skills database-engineer — schema design and query optimization expert across relational, NoSQL, graph, time-series, and data warehouses."
+          }
+        ],
         "updatedAt": "2026-05-25",
         "type": "basic",
         "role": "variant"
@@ -2531,12 +2791,26 @@
         "genericSkillRef": "parallel-execution",
         "status": "named",
         "level": "2★",
-        "description": "Manages concurrent work item execution with independence verification,",
+        "description": "Manages concurrent work item execution with independence verification, queue-based state tracking, and configurable concurrency limits (default 5).",
         "title": "The Concurrency Master",
-        "tags": {},
+        "tags": [
+          "parallelism",
+          "concurrency",
+          "task-execution",
+          "queue"
+        ],
         "links": {
           "github": "https://github.com/intelligentcode-ai/skills/blob/main/skills/parallel-execution/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "C",
+            "source": "https://github.com/intelligentcode-ai/skills/blob/main/skills/parallel-execution/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-04-30",
+            "notes": "intelligentcode-ai/skills parallel-execution — concurrent work item execution with independence verification and configurable concurrency (default 5)."
+          }
+        ],
         "updatedAt": "2026-05-25",
         "type": "basic",
         "role": "variant"
@@ -2551,12 +2825,28 @@
         "genericSkillRef": "release-automation",
         "status": "named",
         "level": "2★",
-        "description": "Automates the full release cycle — semantic version bump, CHANGELOG update,",
+        "description": "Automates the full release cycle — semantic version bump, CHANGELOG update, PR merge, git tag, and GitHub release creation with multiple verification gates.",
         "title": "The Shipwright's Will",
-        "tags": {},
+        "tags": [
+          "release",
+          "semver",
+          "changelog",
+          "git-tag",
+          "github-release",
+          "automation"
+        ],
         "links": {
           "github": "https://github.com/intelligentcode-ai/skills/blob/main/skills/release/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "C",
+            "source": "https://github.com/intelligentcode-ai/skills/blob/main/skills/release/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-04-30",
+            "notes": "intelligentcode-ai/skills release — automates semantic versioning, CHANGELOG updates, PR merging, git tagging, and GitHub release creation with verification gates."
+          }
+        ],
         "updatedAt": "2026-05-25",
         "type": "extra",
         "role": "variant"
@@ -2598,12 +2888,27 @@
         "genericSkillRef": "requirements-analysis",
         "status": "named",
         "level": "2★",
-        "description": "Business analysis specialist bridging stakeholders and technical teams",
+        "description": "Business analysis specialist bridging stakeholders and technical teams — requirements gathering, user story writing, acceptance criteria, and full requirements lifecycle management.",
         "title": "The Logic Sculptor",
-        "tags": {},
+        "tags": [
+          "requirements",
+          "brd",
+          "user-stories",
+          "acceptance-criteria",
+          "specification"
+        ],
         "links": {
           "github": "https://github.com/intelligentcode-ai/skills/blob/main/skills/requirements-engineer/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "C",
+            "source": "https://github.com/intelligentcode-ai/skills/blob/main/skills/requirements-engineer/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-04-30",
+            "notes": "intelligentcode-ai/skills requirements-engineer — business analysis specialist bridging stakeholders and technical teams for full requirements lifecycle."
+          }
+        ],
         "updatedAt": "2026-05-25",
         "type": "basic",
         "role": "variant"
@@ -2656,6 +2961,15 @@
         "links": {
           "github": "https://github.com/laravel/boost/issues/698"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/laravel/boost/issues/698",
+            "evaluator": "mbtiongson1",
+            "date": "2026-04-30",
+            "notes": "Laravel /upgrade-laravel-v13 slash command -- real-world agentic framework upgrade workflow published by the Laravel team."
+          }
+        ],
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
         "type": "basic",
@@ -2715,6 +3029,15 @@
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-15",
+            "notes": "Original implementation by Matt Pocock; viral engineering pattern for disciplined agent alignment."
+          }
+        ],
         "createdAt": "2026-04-30",
         "updatedAt": "2026-05-15",
         "suiteRef": "mattpocock/productivity",
@@ -2746,6 +3069,15 @@
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/grill-with-docs/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/grill-with-docs/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-15",
+            "notes": "Production implementation of the Grill With Docs pattern."
+          }
+        ],
         "createdAt": "2026-04-30",
         "updatedAt": "2026-05-15",
         "suiteRef": "mattpocock/engineering",
@@ -2762,11 +3094,20 @@
         "genericSkillRef": "agent-handoff",
         "status": "named",
         "level": "4★",
-        "description": "Compacts the current conversation into a summary for a fresh agent to",
+        "description": "Compacts the current conversation into a summary for a fresh agent to continue the work.",
         "title": "The Handoff Protocol",
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/productivity/handoff"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/handoff/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-22",
+            "notes": "High-fidelity agent handoff and context compaction skill."
+          }
+        ],
         "createdAt": "2026-05-21",
         "updatedAt": "2026-05-21",
         "suiteRef": "mattpocock/productivity",
@@ -2814,11 +3155,20 @@
         "genericSkillRef": "personal-knowledge-management",
         "status": "named",
         "level": "3★",
-        "description": "Manage notes and organization in a specific Obsidian vault using Title",
+        "description": "Manage notes and organization in a specific Obsidian vault using Title Case and wikilinks.",
         "title": "The Obsidian Vault Mapper",
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/personal/obsidian-vault"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/mattpocock/skills/blob/main/skills/personal/obsidian-vault/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-22",
+            "notes": "Obsidian vault management and PKM automation."
+          }
+        ],
         "createdAt": "2026-05-21",
         "updatedAt": "2026-05-21",
         "suiteRef": "mattpocock/personal",
@@ -2884,11 +3234,20 @@
         "genericSkillRef": "prototype",
         "status": "named",
         "level": "3★",
-        "description": "Build throwaway prototypes to answer specific design or logic questions",
+        "description": "Build throwaway prototypes to answer specific design or logic questions before committing to production code.",
         "title": "The Prototyping Engine",
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/prototype"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/prototype/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-22",
+            "notes": "Production interactive prototyping skill."
+          }
+        ],
         "createdAt": "2026-05-21",
         "updatedAt": "2026-05-21",
         "suiteRef": "mattpocock/engineering",
@@ -2906,11 +3265,20 @@
         "genericSkillRef": "agent-environment-setup",
         "status": "named",
         "level": "3★",
-        "description": "Scaffolds per-repo configuration for other engineering skills (like triage,",
+        "description": "Scaffolds per-repo configuration for other engineering skills (like triage, tdd, diagnose).",
         "title": "The Environment Scaffolder",
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/setup-matt-pocock-skills"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/setup-matt-pocock-skills/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-22",
+            "notes": "Scaffolding skill for Matt Pocock's engineering workspace."
+          }
+        ],
         "createdAt": "2026-05-21",
         "updatedAt": "2026-05-21",
         "suiteRef": "mattpocock/engineering",
@@ -2980,6 +3348,15 @@
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-prd/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-prd/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-04-30",
+            "notes": "Production skill that synthesises live conversation context into a fully-structured PRD and publishes it to the issue tracker."
+          }
+        ],
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
         "suiteRef": "mattpocock/engineering",
@@ -3009,6 +3386,15 @@
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/triage/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/triage/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-04-30",
+            "notes": "Production triage skill with state-machine workflow, HITL/AFK routing, and structured agent-brief output."
+          }
+        ],
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
         "suiteRef": "mattpocock/engineering",
@@ -3023,15 +3409,26 @@
         "genericSkillRef": "issue-triage",
         "status": "named",
         "level": "2★",
-        "description": "Triages incoming skill proposals and issues against the Gaia registry",
+        "description": "Triages incoming skill proposals and issues against the Gaia registry backlog — sorting by impact, feasibility, and dependency order to produce an actionable prioritized work queue.",
         "title": "The Issue Sorter",
-        "tags": {},
+        "tags": [
+          "registry-curation",
+          "triage",
+          "prioritization"
+        ],
         "links": {
           "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-triage/SKILL.md"
         },
         "createdAt": "2026-05-27",
         "updatedAt": "2026-05-30",
-        "timeline": {},
+        "timeline": [
+          {
+            "timestamp": "2026-05-26T16:37:01Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill mbtiongson1/gaia-triage"
+          }
+        ],
         "type": "basic",
         "role": "variant"
       }
@@ -3059,6 +3456,15 @@
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/ubiquitous-language/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/ubiquitous-language/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-15",
+            "notes": "Original implementation by Matt Pocock; formalizes DDD principles for AI agent contexts."
+          }
+        ],
         "createdAt": "2026-05-15",
         "updatedAt": "2026-05-15",
         "suiteRef": "mattpocock/engineering",
@@ -3131,15 +3537,36 @@
         "genericSkillRef": "registry-entry-audit",
         "status": "named",
         "level": "3★",
-        "description": "Performs a focused source-level correction for one target registry entry",
+        "description": "Performs a focused source-level correction for one target registry entry — verifying links, checking evidence classes, and filing an inline-diff fix PR with full citations.",
         "title": "The Source Detective",
-        "tags": {},
+        "tags": [
+          "registry-curation",
+          "source-verification",
+          "evidence",
+          "correction"
+        ],
         "links": {
           "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "A",
+            "source": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/skill.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-20",
+            "notes": "Codified audit skill with 7-phase workflow, demotion rules, and registry-sync automation. Powers the gaia-meta-audit process."
+          }
+        ],
         "createdAt": "2026-05-27",
         "updatedAt": "2026-05-27",
-        "timeline": {},
+        "timeline": [
+          {
+            "timestamp": "2026-05-26T16:36:57Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill mbtiongson1/gaia-audit"
+          }
+        ],
         "type": "extra",
         "role": "origin"
       },
@@ -3151,15 +3578,26 @@
         "genericSkillRef": "registry-entry-audit",
         "status": "named",
         "level": "3★",
-        "description": "Reviews pending skill submissions against registry standards — checking",
+        "description": "Reviews pending skill submissions against registry standards — checking evidence class thresholds, naming conventions, and tier accuracy before approving or requesting revisions.",
         "title": "The Quality Gate",
-        "tags": {},
+        "tags": [
+          "registry-curation",
+          "review",
+          "quality-gate"
+        ],
         "links": {
           "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-curation-review/SKILL.md"
         },
         "createdAt": "2026-05-27",
         "updatedAt": "2026-05-30",
-        "timeline": {},
+        "timeline": [
+          {
+            "timestamp": "2026-05-26T16:36:59Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill mbtiongson1/gaia-curation-review"
+          }
+        ],
         "type": "extra",
         "role": "variant"
       }
@@ -3173,15 +3611,26 @@
         "genericSkillRef": "registry-curation",
         "status": "named",
         "level": "3★",
-        "description": "Runs an automated batch curation pass over the Gaia skill registry —",
+        "description": "Runs an automated batch curation pass over the Gaia skill registry — scanning for new agent skills, validating evidence, and opening versioned draft PRs without human intervention.",
         "title": "The Automated Curator",
-        "tags": {},
+        "tags": [
+          "registry-curation",
+          "automation",
+          "batch-processing"
+        ],
         "links": {
           "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-bot-curate/SKILL.md"
         },
         "createdAt": "2026-05-27",
         "updatedAt": "2026-05-27",
-        "timeline": {},
+        "timeline": [
+          {
+            "timestamp": "2026-05-26T16:36:58Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill mbtiongson1/gaia-bot-curate"
+          }
+        ],
         "type": "extra",
         "role": "variant"
       },
@@ -3193,15 +3642,28 @@
         "genericSkillRef": "registry-curation",
         "status": "named",
         "level": "4★",
-        "description": "Expands the Gaia skill registry with new, fully evidenced AI agent skills",
+        "description": "Expands the Gaia skill registry with new, fully evidenced AI agent skills — researching skill sources, running validation, opening versioned PRs, and appending discovered marketplaces to the sources registry in one end-to-end workflow.",
         "title": "The Registrar",
-        "tags": {},
+        "tags": [
+          "registry-curation",
+          "skill-discovery",
+          "evidence",
+          "validation",
+          "research"
+        ],
         "links": {
           "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-curate/SKILL.md"
         },
         "createdAt": "2026-05-27",
         "updatedAt": "2026-05-27",
-        "timeline": {},
+        "timeline": [
+          {
+            "timestamp": "2026-05-26T16:36:56Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill mbtiongson1/gaia-curate"
+          }
+        ],
         "type": "extra",
         "role": "origin"
       },
@@ -3213,15 +3675,26 @@
         "genericSkillRef": "registry-curation",
         "status": "named",
         "level": "2★",
-        "description": "Keeps the generated Gaia documentation site in sync with the registry",
+        "description": "Keeps the generated Gaia documentation site in sync with the registry — rebuilding HTML pages, updating skill indexes, and regenerating badges when registry content changes.",
         "title": "The Docs Steward",
-        "tags": {},
+        "tags": [
+          "documentation",
+          "docs",
+          "sync"
+        ],
         "links": {
           "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-docs-sync/SKILL.md"
         },
         "createdAt": "2026-05-27",
         "updatedAt": "2026-05-30",
-        "timeline": {},
+        "timeline": [
+          {
+            "timestamp": "2026-05-26T16:37:00Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill mbtiongson1/gaia-docs-sync"
+          }
+        ],
         "type": "extra",
         "role": "variant"
       },
@@ -3233,15 +3706,26 @@
         "genericSkillRef": "registry-curation",
         "status": "named",
         "level": "3★",
-        "description": "Creates structured draft skill entries for registry review — staging",
+        "description": "Creates structured draft skill entries for registry review — staging new discoveries with placeholder evidence and flagging fields that need human validation before promotion.",
         "title": "The Draft Architect",
-        "tags": {},
+        "tags": [
+          "registry-curation",
+          "draft",
+          "workflow"
+        ],
         "links": {
           "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-draft-curate/SKILL.md"
         },
         "createdAt": "2026-05-27",
         "updatedAt": "2026-05-27",
-        "timeline": {},
+        "timeline": [
+          {
+            "timestamp": "2026-05-26T16:36:58Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill mbtiongson1/gaia-draft-curate"
+          }
+        ],
         "type": "extra",
         "role": "variant"
       },
@@ -3253,15 +3737,27 @@
         "genericSkillRef": "registry-curation",
         "status": "named",
         "level": "3★",
-        "description": "Validates the structural integrity of the Gaia registry — checking schema",
+        "description": "Validates the structural integrity of the Gaia registry — checking schema compliance, detecting duplicate IDs, verifying cross-references, and reporting any inconsistencies that would break build or generation.",
         "title": "The Schema Sentinel",
-        "tags": {},
+        "tags": [
+          "registry-curation",
+          "integrity",
+          "validation",
+          "schema"
+        ],
         "links": {
           "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-integrity/SKILL.md"
         },
         "createdAt": "2026-05-27",
         "updatedAt": "2026-05-27",
-        "timeline": {},
+        "timeline": [
+          {
+            "timestamp": "2026-05-26T16:37:00Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill mbtiongson1/gaia-integrity"
+          }
+        ],
         "type": "extra",
         "role": "variant"
       },
@@ -3273,15 +3769,26 @@
         "genericSkillRef": "registry-curation",
         "status": "named",
         "level": "2★",
-        "description": "Synchronizes the Gaia project wiki with the current registry state —",
+        "description": "Synchronizes the Gaia project wiki with the current registry state — updating skill pages, contributor profiles, and changelog entries to reflect the latest approved changes.",
         "title": "The Wiki Keeper",
-        "tags": {},
+        "tags": [
+          "documentation",
+          "wiki",
+          "sync"
+        ],
         "links": {
           "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-wiki-sync/SKILL.md"
         },
         "createdAt": "2026-05-27",
         "updatedAt": "2026-05-30",
-        "timeline": {},
+        "timeline": [
+          {
+            "timestamp": "2026-05-26T16:36:59Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill mbtiongson1/gaia-wiki-sync"
+          }
+        ],
         "type": "extra",
         "role": "variant"
       }
@@ -3295,15 +3802,44 @@
         "genericSkillRef": "registry-health-scan",
         "status": "named",
         "level": "3★",
-        "description": "Produces a prioritized review queue of Gaia registry entries needing",
+        "description": "Produces a prioritized review queue of Gaia registry entries needing attention — flagging stale evidence, broken links, mis-classified tiers, and naming inconsistencies in one structured audit pass.",
         "title": "The Triage Director",
-        "tags": {},
+        "tags": [
+          "registry-curation",
+          "prioritization",
+          "triage",
+          "quality-control"
+        ],
         "links": {
           "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-meta-audit/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/mbtiongson1/gaia-skill-tree",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-03",
+            "notes": "Derived from registry hygiene work that audits source-backed named skills, generated projections, and demotion candidates across canonical and real-skill review surfaces."
+          }
+        ],
         "createdAt": "2026-05-27",
         "updatedAt": "2026-05-30",
-        "timeline": {},
+        "timeline": [
+          {
+            "timestamp": "2026-05-26T16:36:56Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill mbtiongson1/gaia-meta-audit"
+          },
+          {
+            "timestamp": "2026-05-30T00:00:00Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Demoted 4★ → 3★ to match canonical registry-health-scan generic level (named must not exceed generic per META §1).",
+            "previousValue": "4★",
+            "newValue": "3★"
+          }
+        ],
         "type": "extra",
         "role": "origin"
       }
@@ -3317,15 +3853,36 @@
         "genericSkillRef": "graph-driven-issue-triage",
         "status": "named",
         "level": "3★",
-        "description": "Analyzes the Gaia skill dependency graph to surface orphaned nodes, missing",
+        "description": "Analyzes the Gaia skill dependency graph to surface orphaned nodes, missing prerequisites, and structural inconsistencies — producing a prioritized list of graph fixes needed.",
         "title": "The Graph Surgeon",
-        "tags": {},
+        "tags": [
+          "graph-analysis",
+          "triage",
+          "visualization",
+          "skill-graph"
+        ],
         "links": {
           "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/graphify-triage/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/graphify-triage/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-30",
+            "notes": "Reproducible playbook: graphify-triage script ingests safishamsi/graphify GRAPH_REPORT.md output, parses architectural-debt findings, and converts each into a tracked GitHub issue via gh issue create. First implementation of the fusion generic (graphify + triage)."
+          }
+        ],
         "createdAt": "2026-05-27",
         "updatedAt": "2026-05-30",
-        "timeline": {},
+        "timeline": [
+          {
+            "timestamp": "2026-05-26T16:36:59Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill mbtiongson1/graphify-triage"
+          }
+        ],
         "type": "extra",
         "role": "origin"
       }
@@ -3350,6 +3907,15 @@
         "links": {
           "github": "https://github.com/nexu-io/open-design"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/nexu-io/open-design",
+            "evaluator": "gemini-cli",
+            "date": "2026-05-14",
+            "notes": "Open Design -- local-first design engine generating high-fidelity prototypes and brand assets."
+          }
+        ],
         "createdAt": "2026-05-14",
         "updatedAt": "2026-05-14",
         "type": "extra",
@@ -3378,6 +3944,15 @@
         "links": {
           "github": "https://github.com/NousResearch/hermes-agent"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/NousResearch/hermes-agent/blob/main/skills/research/blogwatcher/SKILL.md",
+            "evaluator": "openai-codex",
+            "date": "2026-05-06",
+            "notes": "Hermes Agent blogwatcher skill monitors blogs and RSS/Atom feeds with feed discovery, scraping fallback, OPML import, and read/unread article management."
+          }
+        ],
         "createdAt": "2026-05-15",
         "updatedAt": "2026-05-15",
         "type": "unique",
@@ -3405,6 +3980,15 @@
         "links": {
           "github": "https://github.com/obra/superpowers/blob/main/skills/brainstorming/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/obra/superpowers/blob/main/skills/brainstorming/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-18",
+            "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
+          }
+        ],
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "obra/superpowers",
@@ -3433,6 +4017,15 @@
         "links": {
           "github": "https://github.com/obra/superpowers/blob/main/skills/dispatching-parallel-agents/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/obra/superpowers/blob/main/skills/dispatching-parallel-agents/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-18",
+            "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
+          }
+        ],
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "obra/superpowers",
@@ -3460,6 +4053,15 @@
         "links": {
           "github": "https://github.com/obra/superpowers/blob/main/skills/executing-plans/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/obra/superpowers/blob/main/skills/executing-plans/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-18",
+            "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
+          }
+        ],
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "obra/superpowers",
@@ -3488,6 +4090,15 @@
         "links": {
           "github": "https://github.com/obra/superpowers/blob/main/skills/receiving-code-review/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/obra/superpowers/blob/main/skills/receiving-code-review/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-18",
+            "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
+          }
+        ],
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "obra/superpowers",
@@ -3516,6 +4127,15 @@
         "links": {
           "github": "https://github.com/obra/superpowers/blob/main/skills/requesting-code-review/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/obra/superpowers/blob/main/skills/requesting-code-review/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-18",
+            "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
+          }
+        ],
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "obra/superpowers",
@@ -3544,6 +4164,15 @@
         "links": {
           "github": "https://github.com/obra/superpowers/blob/main/skills/subagent-driven-development/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/obra/superpowers/blob/main/skills/subagent-driven-development/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-18",
+            "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
+          }
+        ],
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "obra/superpowers",
@@ -3599,6 +4228,15 @@
         "links": {
           "github": "https://github.com/obra/superpowers"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/obra/superpowers",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-18",
+            "notes": "obra/superpowers v5.1.0 — 196k+ GitHub stars, 17.5k forks, multi-platform adoption (Claude Code, Codex CLI, Factory Droid, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI). Most widely adopted AI agent discipline framework; confirms landmark methodology status."
+          }
+        ],
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-19",
         "suiteComponents": [
@@ -3640,6 +4278,15 @@
         "links": {
           "github": "https://github.com/obra/superpowers/blob/main/skills/using-git-worktrees/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/obra/superpowers/blob/main/skills/using-git-worktrees/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-18",
+            "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
+          }
+        ],
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "obra/superpowers",
@@ -3668,6 +4315,15 @@
         "links": {
           "github": "https://github.com/obra/superpowers/blob/main/skills/verification-before-completion/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/obra/superpowers/blob/main/skills/verification-before-completion/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-18",
+            "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
+          }
+        ],
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "obra/superpowers",
@@ -3723,6 +4379,15 @@
         "links": {
           "github": "https://github.com/obra/superpowers/blob/main/skills/writing-plans/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/obra/superpowers/blob/main/skills/writing-plans/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-18",
+            "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI."
+          }
+        ],
         "createdAt": "2026-05-18",
         "updatedAt": "2026-05-18",
         "suiteRef": "obra/superpowers",
@@ -3808,6 +4473,15 @@
         "links": {
           "github": "https://github.com/ruvnet/ruflo"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/ruvnet/ruflo",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-19",
+            "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          }
+        ],
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/agentdb",
@@ -3890,6 +4564,15 @@
         "links": {
           "github": "https://github.com/ruvnet/ruflo"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/ruvnet/ruflo",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-19",
+            "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          }
+        ],
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/agentdb",
@@ -3918,6 +4601,15 @@
         "links": {
           "github": "https://github.com/ruvnet/ruflo"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/ruvnet/ruflo",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-19",
+            "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          }
+        ],
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/agentdb",
@@ -3947,6 +4639,15 @@
         "links": {
           "github": "https://github.com/ruvnet/ruflo"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/ruvnet/ruflo",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-19",
+            "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          }
+        ],
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/agentdb",
@@ -3976,6 +4677,15 @@
         "links": {
           "github": "https://github.com/ruvnet/ruflo"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/ruvnet/ruflo",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-19",
+            "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          }
+        ],
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
@@ -4012,6 +4722,15 @@
         "links": {
           "github": "https://github.com/ruvnet/ruflo"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/ruvnet/ruflo",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-19",
+            "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          }
+        ],
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
@@ -4041,6 +4760,15 @@
         "links": {
           "github": "https://github.com/ruvnet/ruflo"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/ruvnet/ruflo",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-19",
+            "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          }
+        ],
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/dual-mode",
@@ -4070,6 +4798,15 @@
         "links": {
           "github": "https://github.com/ruvnet/ruflo"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/ruvnet/ruflo",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-19",
+            "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          }
+        ],
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/dual-mode",
@@ -4099,6 +4836,15 @@
         "links": {
           "github": "https://github.com/ruvnet/ruflo"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/ruvnet/ruflo",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-19",
+            "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          }
+        ],
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
@@ -4133,6 +4879,15 @@
         "links": {
           "github": "https://github.com/ruvnet/ruflo"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/ruvnet/ruflo",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-19",
+            "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          }
+        ],
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/dual-mode",
@@ -4162,6 +4917,15 @@
         "links": {
           "github": "https://github.com/ruvnet/ruflo"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/ruvnet/ruflo",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-19",
+            "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          }
+        ],
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/flow-nexus",
@@ -4191,6 +4955,15 @@
         "links": {
           "github": "https://github.com/ruvnet/ruflo"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/ruvnet/ruflo",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-19",
+            "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          }
+        ],
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/flow-nexus",
@@ -4277,6 +5050,15 @@
         "links": {
           "github": "https://github.com/ruvnet/ruflo"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/ruvnet/ruflo",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-19",
+            "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          }
+        ],
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
@@ -4311,6 +5093,15 @@
         "links": {
           "github": "https://github.com/ruvnet/ruflo"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/ruvnet/ruflo",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-19",
+            "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          }
+        ],
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/github-suite",
@@ -4340,6 +5131,15 @@
         "links": {
           "github": "https://github.com/ruvnet/ruflo"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/ruvnet/ruflo",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-19",
+            "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          }
+        ],
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
@@ -4430,6 +5230,15 @@
         "links": {
           "github": "https://github.com/ruvnet/ruflo"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/ruvnet/ruflo",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-19",
+            "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          }
+        ],
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
@@ -4458,6 +5267,15 @@
         "links": {
           "github": "https://github.com/ruvnet/ruflo"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/ruvnet/ruflo",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-19",
+            "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          }
+        ],
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/reasoningbank",
@@ -4486,6 +5304,15 @@
         "links": {
           "github": "https://github.com/ruvnet/ruflo"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/ruvnet/ruflo",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-19",
+            "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          }
+        ],
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
@@ -4520,6 +5347,15 @@
         "links": {
           "github": "https://github.com/ruvnet/ruflo"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/ruvnet/ruflo",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-19",
+            "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          }
+        ],
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
@@ -4563,6 +5399,15 @@
         "links": {
           "github": "https://github.com/ruvnet/ruflo"
         },
+        "evidence": [
+          {
+            "class": "A",
+            "source": "https://github.com/ruvnet/ruflo",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-19",
+            "notes": "Ruflo orchestration platform — 34k+ GitHub stars. Meets Class A threshold: ≥5 named skills registered across 6 generic buckets in Gaia."
+          }
+        ],
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteComponents": [
@@ -4670,6 +5515,15 @@
         "links": {
           "github": "https://github.com/ruvnet/ruflo"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/ruvnet/ruflo",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-19",
+            "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          }
+        ],
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
@@ -4699,6 +5553,15 @@
         "links": {
           "github": "https://github.com/ruvnet/ruflo"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/ruvnet/ruflo",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-19",
+            "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          }
+        ],
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo-v3",
@@ -4728,6 +5591,15 @@
         "links": {
           "github": "https://github.com/ruvnet/ruflo"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/ruvnet/ruflo",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-19",
+            "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          }
+        ],
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo-v3",
@@ -4757,6 +5629,15 @@
         "links": {
           "github": "https://github.com/ruvnet/ruflo"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/ruvnet/ruflo",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-19",
+            "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          }
+        ],
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo-v3",
@@ -4786,6 +5667,15 @@
         "links": {
           "github": "https://github.com/ruvnet/ruflo"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/ruvnet/ruflo",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-19",
+            "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          }
+        ],
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo-v3",
@@ -4815,6 +5705,15 @@
         "links": {
           "github": "https://github.com/ruvnet/ruflo"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/ruvnet/ruflo",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-19",
+            "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          }
+        ],
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo-v3",
@@ -4844,6 +5743,15 @@
         "links": {
           "github": "https://github.com/ruvnet/ruflo"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/ruvnet/ruflo",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-19",
+            "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
+          }
+        ],
         "createdAt": "2026-05-19",
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
@@ -4895,6 +5803,15 @@
         "links": {
           "github": "https://github.com/santifer/career-ops"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/santifer/career-ops",
+            "evaluator": "gemini-cli",
+            "date": "2026-05-14",
+            "notes": "Career-Ops -- AI-powered job search system with CV tailoring and dashboard."
+          }
+        ],
         "createdAt": "2026-05-14",
         "updatedAt": "2026-05-14",
         "type": "extra",
@@ -4950,6 +5867,15 @@
         "links": {
           "github": "https://github.com/vercel-labs/skills/blob/main/skills/find-skills/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/vercel-labs/skills/blob/main/skills/find-skills/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-04-30",
+            "notes": "Vercel /find-skills slash command -- queries the skills.sh registry, checks install counts, and auto-installs matching skills."
+          }
+        ],
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
         "type": "basic",
@@ -5070,10 +5996,19 @@
       "genericSkillRef": "computational-biology-workflows",
       "status": "awakened",
       "level": "4★",
-      "description": "Retrieve and analyze AlphaFold predicted structures for a protein. Use",
+      "description": "Retrieve and analyze AlphaFold predicted structures for a protein. Use when the user provides a specific UniProt Accession ID and wants structural confidence metrics (pLDDT), domain boundary analysis, or disorder assessment. Do not use if the user only has a protein name, gene name, or amino acid sequence — ask for a UniProt ID first.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze"
       },
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind alphafold_database_fetch_and_analyze science-skill implementation."
+        }
+      ],
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "extra"
@@ -5086,10 +6021,19 @@
       "genericSkillRef": "computational-biology-workflows",
       "status": "awakened",
       "level": "3★",
-      "description": "Analyzes genetic variant effects on gene expression (RNA-seq), chromatin",
+      "description": "Analyzes genetic variant effects on gene expression (RNA-seq), chromatin accessibility (DNASE), histone marks (ChIP), and transcription factors using the AlphaGenome API. Use when the user asks about non-coding variant effects, pathogenicity, clinical significance, disease associations, functional effects, gene expression changes, splicing disruption, or regulatory effects in promoters and enhancers. Also use for resolving biological terms to tissue/cell-type ontologies (UBERON/CL) or analyzing variants in chr:pos:ref>alt format.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/alphagenome_single_variant_analysis"
       },
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/alphagenome_single_variant_analysis/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind alphagenome_single_variant_analysis science-skill implementation."
+        }
+      ],
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "extra"
@@ -5102,10 +6046,19 @@
       "genericSkillRef": "molecular-databases",
       "status": "awakened",
       "level": "2★",
-      "description": "Query the ChEMBL database for bioactive molecules, drug targets, bioactivity",
+      "description": "Query the ChEMBL database for bioactive molecules, drug targets, bioactivity data, approved drugs, and chemical structures. Use when the user asks about compounds, targets, IC50/Ki values, drug mechanisms, or structure searches.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/chembl_database"
       },
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/chembl_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind chembl_database science-skill implementation."
+        }
+      ],
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5118,10 +6071,19 @@
       "genericSkillRef": "clinical-data-retrieval",
       "status": "awakened",
       "level": "2★",
-      "description": "Query ClinicalTrials.gov via APIv2. Use when you want to search for trials",
+      "description": "Query ClinicalTrials.gov via APIv2. Use when you want to search for trials by condition, drug, location, status, or phase; retrieve trial details by NCT ID; check eligibility/inclusion criteria; count trials across conditions or time periods; identify a sponsor's trial portfolio; find recruiting trials for patient matching.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/clinical_trials_database"
       },
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/clinical_trials_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind clinical_trials_database science-skill implementation."
+        }
+      ],
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5134,10 +6096,19 @@
       "genericSkillRef": "clinical-data-retrieval",
       "status": "awakened",
       "level": "2★",
-      "description": "Use when needing clinical significance, pathogenicity classifications",
+      "description": "Use when needing clinical significance, pathogenicity classifications (e.g., Pathogenic, Benign, VUS), clinical evidence rationales, or finding \"hard positive\" benchmark controls for human genomic variants.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/clinvar_database"
       },
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/clinvar_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind clinvar_database science-skill implementation."
+        }
+      ],
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5150,10 +6121,19 @@
       "genericSkillRef": "genomic-data-retrieval",
       "status": "awakened",
       "level": "2★",
-      "description": "Use when you want to look up, map, and search for short genetic variants",
+      "description": "Use when you want to look up, map, and search for short genetic variants (SNPs, indels) in NCBI's dbSNP database. Resolves between rsIDs, genomic coordinates in VCF format, and HGVS strings. For an rsID, returns variant type, gene associations, clinical significance, allele frequencies, and genomic coordinates (GRCh38).",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/dbsnp_database"
       },
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/dbsnp_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind dbsnp_database science-skill implementation."
+        }
+      ],
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5166,10 +6146,19 @@
       "genericSkillRef": "pathway-ontology-retrieval",
       "status": "awakened",
       "level": "2★",
-      "description": "Query and search the EMBL-EBI Ontology Lookup Service (OLS) for biomedical",
+      "description": "Query and search the EMBL-EBI Ontology Lookup Service (OLS) for biomedical ontology terms, definitions, and hierarchies across 250+ ontologies (e.g., GO, DOID, HP). Use when the user asks to search for terms, retrieve details, navigate hierarchies (parents, children, ancestors), look up properties and individuals, get autocomplete suggestions, or access ontology metadata and statistics.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/embl_ebi_ols"
       },
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/embl_ebi_ols/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind embl_ebi_ols science-skill implementation."
+        }
+      ],
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5182,10 +6171,19 @@
       "genericSkillRef": "genomic-data-retrieval",
       "status": "awakened",
       "level": "2★",
-      "description": "Query the ENCODE Registry of cis-Regulatory Elements (cCREs) via the",
+      "description": "Query the ENCODE Registry of cis-Regulatory Elements (cCREs) via the SCREEN GraphQL API, or make custom queries to the ENCODE Portal REST API for experiments and files (ChIP-seq peaks, etc.). Use when you want to query regulatory annotations or raw experimental data across human cell types.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/encode_ccres_database"
       },
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/encode_ccres_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind encode_ccres_database science-skill implementation."
+        }
+      ],
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5198,10 +6196,19 @@
       "genericSkillRef": "genomic-data-retrieval",
       "status": "awakened",
       "level": "2★",
-      "description": "Query the Ensembl database to resolve gene, transcript, and protein IDs,",
+      "description": "Query the Ensembl database to resolve gene, transcript, and protein IDs, fetch genomic or protein sequences, retrieve gene structures (exons), and get variant consequence and effect predictions (VEP). Use this skill as a primary ID translator, genomic sequence database and variant effect prediction tool.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/ensembl_database"
       },
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/ensembl_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind ensembl_database science-skill implementation."
+        }
+      ],
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5214,10 +6221,19 @@
       "genericSkillRef": "protein-structure-analysis",
       "status": "awakened",
       "level": "2★",
-      "description": "Performs 3D structural searches of proteins against various databases",
+      "description": "Performs 3D structural searches of proteins against various databases (PDB, AlphaFold, CATH, MGnify, etc.) using the Foldseek API. Use ONLY when the user provides a physical 3D coordinate file (.cif, .mmcif, or .pdb) and wants to find structurally similar proteins. Do NOT use if the user only provides a protein sequence, gene name, or UniProt ID.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/foldseek_structural_search"
       },
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/foldseek_structural_search/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind foldseek_structural_search science-skill implementation."
+        }
+      ],
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5230,10 +6246,19 @@
       "genericSkillRef": "genomic-data-retrieval",
       "status": "awakened",
       "level": "2★",
-      "description": "Query the Genome Aggregation Database (gnomAD). Use when determining",
+      "description": "Query the Genome Aggregation Database (gnomAD). Use when determining the rarity or allele frequency of specific genetic variants, retrieving gene constraint metrics (pLI, LOEUF) to assess loss-of-function intolerance, finding variants in a genomic region or gene, or querying structural variants. Don't use for analyzing individual patient genomes, tracking somatic mutations in cancer (use COSMIC), or requesting raw sequencing reads (use ENA).",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/gnomad_database"
       },
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/gnomad_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind gnomad_database science-skill implementation."
+        }
+      ],
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5246,10 +6271,19 @@
       "genericSkillRef": "genomic-data-retrieval",
       "status": "awakened",
       "level": "2★",
-      "description": "Use when you want to retrieve quantitative RNA expression data and variant",
+      "description": "Use when you want to retrieve quantitative RNA expression data and variant eQTL information from the GTEx (Genotype-Tissue Expression) Project across 54 non-diseased tissue sites.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/gtex_database"
       },
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/gtex_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind gtex_database science-skill implementation."
+        }
+      ],
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5262,10 +6296,19 @@
       "genericSkillRef": "proteomic-data-retrieval",
       "status": "awakened",
       "level": "2★",
-      "description": "Use when you want to retrieve semi-quantitative protein expression and",
+      "description": "Use when you want to retrieve semi-quantitative protein expression and spatial localisation data from the Human Protein Atlas (HPA).",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/human_protein_atlas_database"
       },
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/human_protein_atlas_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind human_protein_atlas_database science-skill implementation."
+        }
+      ],
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5278,10 +6321,19 @@
       "genericSkillRef": "proteomic-data-retrieval",
       "status": "awakened",
       "level": "2★",
-      "description": "Identify domains, families, and sites in proteins; find all proteins",
+      "description": "Identify domains, families, and sites in proteins; find all proteins in a family or sharing a domain; explore species distribution for a domain; annotate genomes with protein families and GO terms. InterPro combines 14 databases (e.g., Pfam, CDD) into one searchable resource. InterPro-N significantly expands annotation and sequence coverage with deep learning. Includes domain architecture (IDA) search.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/interpro_database"
       },
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/interpro_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind interpro_database science-skill implementation."
+        }
+      ],
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5294,10 +6346,19 @@
       "genericSkillRef": "genomic-data-retrieval",
       "status": "awakened",
       "level": "2★",
-      "description": "Query the JASPAR database for Transcription Factor (TF) binding profiles.",
+      "description": "Query the JASPAR database for Transcription Factor (TF) binding profiles. Use when retrieving Position Frequency Matrices (PFMs) or Position Weight Matrices (PWMs) for specific TFs, resolving gene symbols to JASPAR Matrix IDs, or getting TF metadata. Supports multiple output formats (MEME, TRANSFAC, PFM, JASPAR, YAML).",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/jaspar_database"
       },
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/jaspar_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind jaspar_database science-skill implementation."
+        }
+      ],
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5310,10 +6371,19 @@
       "genericSkillRef": "literature-search",
       "status": "awakened",
       "level": "2★",
-      "description": "Search for scientific papers, preprints, and publications on arXiv. Extract",
+      "description": "Search for scientific papers, preprints, and publications on arXiv. Extract metadata, abstracts, and download full-text PDFs or HTML versions of papers. Use when the user asks to find research papers, literature, or specific arXiv IDs.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_arxiv"
       },
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_arxiv/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind literature_search_arxiv science-skill implementation."
+        }
+      ],
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5326,10 +6396,19 @@
       "genericSkillRef": "literature-search",
       "status": "awakened",
       "level": "2★",
-      "description": "Browse, filter, and download life sciences, biology, and medical preprints",
+      "description": "Browse, filter, and download life sciences, biology, and medical preprints from bioRxiv and medRxiv. Supports fetching paper metadata by DOI, and browsing by date range with category and keyword filters. Keyword filtering is local, so date ranges MUST be narrow (1-4 weeks) with a category to prevent timeouts.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_biorxiv"
       },
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_biorxiv/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind literature_search_biorxiv science-skill implementation."
+        }
+      ],
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5342,10 +6421,19 @@
       "genericSkillRef": "literature-search",
       "status": "awakened",
       "level": "2★",
-      "description": "Search Europe PMC for scientific literature and download open-access",
+      "description": "Search Europe PMC for scientific literature and download open-access full texts and PDFs. Retrieve full-text XML/plain text by PMCID, get citation lists and bibliography.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_europepmc"
       },
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_europepmc/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind literature_search_europepmc science-skill implementation."
+        }
+      ],
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5358,10 +6446,19 @@
       "genericSkillRef": "literature-search",
       "status": "awakened",
       "level": "2★",
-      "description": "Query the OpenAlex scholarly database for research papers, authors, institutions,",
+      "description": "Query the OpenAlex scholarly database for research papers, authors, institutions, topics, sources, publishers, funders, geo-locations, and keywords. Use when searching academic papers, resolving DOIs, downloading open-access PDFs, finding an author's publications, aggregating bibliometric data (citation counts, h-index, impact factor), exploring the research taxonomies, or performing DOI lookups.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_openalex"
       },
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_openalex/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind literature_search_openalex science-skill implementation."
+        }
+      ],
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5374,10 +6471,19 @@
       "genericSkillRef": "genomic-data-retrieval",
       "status": "awakened",
       "level": "2★",
-      "description": "Retrieve protein and nucleotide sequences from NCBI databases using E-utilities.",
+      "description": "Retrieve protein and nucleotide sequences from NCBI databases using E-utilities. Supports direct accession lookup, CDS translation, gene+organism search, locus lookup, PubMed-linked sequences, patent protein extraction, and organism+length fallback search. Use when you need to fetch biological sequences by accession, gene name, locus tag, PubMed ID, or patent number.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/ncbi_sequence_fetch"
       },
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/ncbi_sequence_fetch/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind ncbi_sequence_fetch science-skill implementation."
+        }
+      ],
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5390,10 +6496,19 @@
       "genericSkillRef": "clinical-data-retrieval",
       "status": "awakened",
       "level": "2★",
-      "description": "Query, search, and download data from the openFDA API for drugs, devices,",
+      "description": "Query, search, and download data from the openFDA API for drugs, devices, foods, tobacco, cosmetics, animal and veterinary products, substances, and transparency data. Use for FDA adverse events, recalls, labeling, approvals, shortages, 510(k) clearances, NDC lookups, and any FDA safety or regulatory data query across all 28 API endpoints.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/openfda_database"
       },
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/openfda_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind openfda_database science-skill implementation."
+        }
+      ],
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5406,10 +6521,19 @@
       "genericSkillRef": "clinical-data-retrieval",
       "status": "awakened",
       "level": "2★",
-      "description": "Query Open Targets Platform for target-disease associations, drug target",
+      "description": "Query Open Targets Platform for target-disease associations, drug target discovery, tractability/safety data, genetics/omics evidence, known drugs, for therapeutic target identification.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/opentargets_database"
       },
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/opentargets_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind opentargets_database science-skill implementation."
+        }
+      ],
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5422,10 +6546,19 @@
       "genericSkillRef": "protein-structure-analysis",
       "status": "awakened",
       "level": "2★",
-      "description": "Use when you want to search for or download experimentally-determined",
+      "description": "Use when you want to search for or download experimentally-determined 3D structures for biomolecules (proteins, nucleic acids, bound ligands). Supports searching by sequence similarity, structure similarity, chemical and other attributes. Also use to get metadata about biomolecular structure experiments.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/pdb_database"
       },
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/pdb_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind pdb_database science-skill implementation."
+        }
+      ],
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5438,10 +6571,19 @@
       "genericSkillRef": "computational-biology-workflows",
       "status": "awakened",
       "level": "3★",
-      "description": "Performs multiple sequence alignment of proteins with EBI Clustal Omega.",
+      "description": "Performs multiple sequence alignment of proteins with EBI Clustal Omega. Use when you need to align multiple sequences to assess similarity, domain conservation, or key residue conservation. Supports up to 4000 sequences and a maximum file size of 4 MB. Do not use to search for homologous proteins in a database (use MMseqs2, BLAST), align non-protein sequences (DNA, RNA), perform structural alignment (use Foldseek, PyMOL), or if you only have a single sequence.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_msa"
       },
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_msa/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind protein_sequence_msa science-skill implementation."
+        }
+      ],
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "extra"
@@ -5454,10 +6596,26 @@
       "genericSkillRef": "bioinformatic-sequence-analysis",
       "status": "awakened",
       "level": "2★",
-      "description": "Searches for homologous protein sequences using MMseqs2 (fast, default)",
+      "description": "Searches for homologous protein sequences using MMseqs2 (fast, default) or BLAST (comprehensive, fallback). Trigger this whenever the user provides a protein sequence or FASTA file and asks to find homologues, sequence matches, or wants to infer protein function based on sequence similarity, but not when the user wants to infer protein function based on structural similarity.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_similarity_search"
       },
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Foundational canonical generic skill for Bioinformatic Sequence Analysis."
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_similarity_search/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind protein_sequence_similarity_search science-skill implementation."
+        }
+      ],
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5470,10 +6628,19 @@
       "genericSkillRef": "molecular-databases",
       "status": "awakened",
       "level": "2★",
-      "description": "Query PubChem, search by name/CID/SMILES, retrieve properties, similarity/substructure",
+      "description": "Query PubChem, search by name/CID/SMILES, retrieve properties, similarity/substructure searches, bioactivity, for cheminformatics. Use when a user asks about a specific chemical, drug, or molecule.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/pubchem_database"
       },
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/pubchem_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind pubchem_database science-skill implementation."
+        }
+      ],
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5486,10 +6653,19 @@
       "genericSkillRef": "literature-search",
       "status": "awakened",
       "level": "2★",
-      "description": "Search PubMed for scientific literature, including published clinical",
+      "description": "Search PubMed for scientific literature, including published clinical trials. Fetch abstracts and full text. Link published research to biological databases (gene, protein, nucleotide, PubChem) to discover associations between papers and specific compounds or genes. Verify medical spelling, match raw citations, and cache result sets for bulk processing. Interfaces NCBI E-utilities and PMC BioC APIs.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/pubmed_database"
       },
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/pubmed_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind pubmed_database science-skill implementation."
+        }
+      ],
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5502,10 +6678,19 @@
       "genericSkillRef": "scientific-visualization",
       "status": "awakened",
       "level": "2★",
-      "description": "Visualize, analyze, and render protein and molecular structures using",
+      "description": "Visualize, analyze, and render protein and molecular structures using PyMOL. Use when the user wants to create images of protein structures, perform structural alignments or superposition, measure distances or contacts, highlight binding sites or active site residues, color by B-factor/pLDDT, or analyze protein-ligand interactions. Do not use for docking, molecular dynamics, or sequence-only analysis.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/pymol"
       },
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind pymol science-skill implementation."
+        }
+      ],
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5518,10 +6703,19 @@
       "genericSkillRef": "pathway-ontology-retrieval",
       "status": "awakened",
       "level": "2★",
-      "description": "Query the QuickGO and Evidence & Conclusion Ontology (ECO) REST API.",
+      "description": "Query the QuickGO and Evidence & Conclusion Ontology (ECO) REST API. Use this when you need to map genes to biological processes, molecular functions, or cellular components, find genes associated with a specific pathway/GO term, or explore the Gene Ontology hierarchy. Do not use for querying drug targets (use OpenTargets) or mechanistic signaling pathway diagrams (use KEGG).",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/quickgo_database"
       },
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/quickgo_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind quickgo_database science-skill implementation."
+        }
+      ],
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5534,10 +6728,19 @@
       "genericSkillRef": "pathway-ontology-retrieval",
       "status": "awakened",
       "level": "2★",
-      "description": "Query the Reactome database (Analysis and Content Services). Use when",
+      "description": "Query the Reactome database (Analysis and Content Services). Use when the user asks about pathway analysis, gene list enrichment, retrieving results by token, finding unmapped or not-found identifiers, mapping identifiers, reaction participants (inputs, outputs), pathway hierarchy (including top-level pathways), diagram export, cross-reference mapping, or searching the knowledgebase.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/reactome_database"
       },
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/reactome_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind reactome_database science-skill implementation."
+        }
+      ],
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5550,10 +6753,19 @@
       "genericSkillRef": "core-platform-implementation",
       "status": "awakened",
       "level": "2★",
-      "description": "Shared Python package for Science Skills, currently containing http_client",
+      "description": "Shared Python package for Science Skills, currently containing http_client -- a unified HTTP client with rate limiting, retries, and exponential backoff. Not a standalone agent skill. Do not invoke directly.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common"
       },
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind science_skills_common science-skill implementation."
+        }
+      ],
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5566,10 +6778,19 @@
       "genericSkillRef": "proteomic-data-retrieval",
       "status": "awakened",
       "level": "2★",
-      "description": "Query the STRING database for protein-protein interactions (PPIs), functional",
+      "description": "Query the STRING database for protein-protein interactions (PPIs), functional enrichment, and homology. Use when the user asks about interactions between specific proteins, interaction evidence, confidence scores, protein interaction partners, or pathway enrichments.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/string_database"
       },
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/string_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind string_database science-skill implementation."
+        }
+      ],
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5582,10 +6803,19 @@
       "genericSkillRef": "genomic-data-retrieval",
       "status": "awakened",
       "level": "2★",
-      "description": "Fetch Evolutionary Conservation scores (phyloP, phastCons) and Transcription",
+      "description": "Fetch Evolutionary Conservation scores (phyloP, phastCons) and Transcription Factor Binding Sites (TFBS) from the UCSC Genome Browser. Use when analyzing whether genomic variants or regions are evolutionarily conserved, functionally important, or bounded by TF regulators across major projects (ENCODE, JASPAR, ReMap).",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/ucsc_conservation_and_tfbs"
       },
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/ucsc_conservation_and_tfbs/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind ucsc_conservation_and_tfbs science-skill implementation."
+        }
+      ],
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5598,10 +6828,19 @@
       "genericSkillRef": "genomic-data-retrieval",
       "status": "awakened",
       "level": "2★",
-      "description": "Queries the UniBind database for experimentally validated transcription",
+      "description": "Queries the UniBind database for experimentally validated transcription factor (TF) binding sites. Use when retrieving direct TF-DNA interaction datasets, downloading binding site coordinates (BED/FASTA) for local analysis, or listing available datasets by species, cell line, or TF name. Don't use to query specific intervals, locations, genes, motif models or expression data.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/unibind_database"
       },
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/unibind_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind unibind_database science-skill implementation."
+        }
+      ],
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5614,10 +6853,19 @@
       "genericSkillRef": "proteomic-data-retrieval",
       "status": "awakened",
       "level": "2★",
-      "description": "Access protein metadata, function, taxonomy, and sequences across UniProtKB,",
+      "description": "Access protein metadata, function, taxonomy, and sequences across UniProtKB, UniParc, and UniRef. Use when searching for proteins, mapping identifiers, or retrieving functional annotations and publications. Don't use for sequence alignment, protein folding, or sequence similarity search (use specialized skills for those tasks).",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/uniprot_database"
       },
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/uniprot_database/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind uniprot_database science-skill implementation."
+        }
+      ],
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5630,10 +6878,19 @@
       "genericSkillRef": "core-platform-implementation",
       "status": "awakened",
       "level": "2★",
-      "description": "Checks whether the uv Python package manager is installed and installs",
+      "description": "Checks whether the uv Python package manager is installed and installs it if missing. Ensures uv is on PATH. Use when another skill requires uv as a prerequisite.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/uv"
       },
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind uv science-skill implementation."
+        }
+      ],
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "basic"
@@ -5646,10 +6903,19 @@
       "genericSkillRef": "skill-authoring",
       "status": "awakened",
       "level": "2★",
-      "description": "Distills a completed user workflow or interaction into a reusable agent",
+      "description": "Distills a completed user workflow or interaction into a reusable agent skill. Use when the user asks to turn their workflow, interaction, or multi-step process into a skill, or when they say \"make this a skill\", \"create a skill from what we just did\", \"package this workflow\" or similar. Do not use for creating skills from scratch without an existing workflow (use a generic skill-creator for that).",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator"
       },
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-05-23",
+          "notes": "Official Google DeepMind workflow_skill_creator science-skill implementation."
+        }
+      ],
       "createdAt": "2026-05-23",
       "updatedAt": "2026-05-23",
       "type": "extra"
@@ -5662,13 +6928,20 @@
       "genericSkillRef": "code-review-pipeline",
       "status": "awakened",
       "level": "2★",
-      "description": "Review backend code for quality, security, maintainability, and best",
+      "description": "Review backend code for quality, security, maintainability, and best practices based on established checklist rules.",
       "links": {
         "github": "https://github.com/langgenius/dify/blob/main/.agents/skills/backend-code-review"
       },
       "createdAt": "2026-05-31",
       "updatedAt": "2026-05-31",
-      "timeline": {},
+      "timeline": [
+        {
+          "timestamp": "2026-05-31T02:06:53Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added named skill langgenius/backend-code-review"
+        }
+      ],
       "type": "extra",
       "installBody": "Add installation instructions here."
     },
@@ -5686,7 +6959,14 @@
       },
       "createdAt": "2026-05-31",
       "updatedAt": "2026-05-31",
-      "timeline": {},
+      "timeline": [
+        {
+          "timestamp": "2026-05-31T02:07:12Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added named skill langgenius/component-refactoring"
+        }
+      ],
       "type": "basic",
       "installBody": "Add installation instructions here."
     },
@@ -5698,13 +6978,20 @@
       "genericSkillRef": "e2e-testing",
       "status": "awakened",
       "level": "2★",
-      "description": "Write, update, or review Dify end-to-end tests under e2e/ that use Cucumber,",
+      "description": "Write, update, or review Dify end-to-end tests under e2e/ that use Cucumber, Gherkin, and Playwright.",
       "links": {
         "github": "https://github.com/langgenius/dify/blob/main/.agents/skills/e2e-cucumber-playwright"
       },
       "createdAt": "2026-05-31",
       "updatedAt": "2026-05-31",
-      "timeline": {},
+      "timeline": [
+        {
+          "timestamp": "2026-05-31T02:07:01Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added named skill langgenius/e2e-cucumber-playwright"
+        }
+      ],
       "type": "extra",
       "installBody": "Add installation instructions here."
     },
@@ -5722,7 +7009,14 @@
       },
       "createdAt": "2026-05-31",
       "updatedAt": "2026-05-31",
-      "timeline": {},
+      "timeline": [
+        {
+          "timestamp": "2026-05-31T02:06:56Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added named skill langgenius/frontend-code-review"
+        }
+      ],
       "type": "extra",
       "installBody": "Add installation instructions here."
     },
@@ -5740,7 +7034,14 @@
       },
       "createdAt": "2026-05-31",
       "updatedAt": "2026-05-31",
-      "timeline": {},
+      "timeline": [
+        {
+          "timestamp": "2026-05-31T02:07:08Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added named skill langgenius/frontend-testing"
+        }
+      ],
       "type": "extra",
       "installBody": "Add installation instructions here."
     },
@@ -5752,7 +7053,7 @@
       "genericSkillRef": "sentiment-analysis",
       "status": "awakened",
       "level": "2★",
-      "description": ">",
+      "description": "Classifies the affective polarity (positive / negative / neutral, or fine-grained) of user-generated text. Covers the full pipeline from raw noisy input through preprocessing, inference, and output normalisation. Stack is intentionally tool-agnostic — three implementation tracks are documented below.\n",
       "createdAt": "2026-05-17",
       "updatedAt": "2026-05-17",
       "type": "basic"
@@ -5779,10 +7080,17 @@
       "genericSkillRef": "mcp-server-creation",
       "status": "awakened",
       "level": "3★",
-      "description": "A community implementation of the MCP builder skill from the antigravity-awesome-skills",
+      "description": "A community implementation of the MCP builder skill from the antigravity-awesome-skills repository, capable of creating Model Context Protocol servers in Python and Node.js.",
       "createdAt": "2026-05-27",
       "updatedAt": "2026-05-27",
-      "timeline": {},
+      "timeline": [
+        {
+          "timestamp": "2026-05-27T23:24:24Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added named skill sickn33/mcp-builder"
+        }
+      ],
       "type": "extra",
       "installBody": "Add installation instructions here."
     },
@@ -5794,7 +7102,7 @@
       "genericSkillRef": "mcp-integration",
       "status": "awakened",
       "level": "2★",
-      "description": "Expert at integrating n8n with MCP (Model Context Protocol). Build n8n",
+      "description": "Expert at integrating n8n with MCP (Model Context Protocol). Build n8n workflows that expose MCP tools, or use MCP tools within n8n workflows.",
       "createdAt": "2026-05-22",
       "updatedAt": "2026-05-22",
       "type": "basic",
@@ -5820,6 +7128,15 @@
         "github": "https://github.com/Xquik-dev/hermes-tweet",
         "docs": "https://docs.xquik.com/guides/hermes-tweet"
       },
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/Xquik-dev/hermes-tweet",
+          "evaluator": "kriptoburak",
+          "date": "2026-05-15",
+          "notes": "Hermes Tweet provides an installable Hermes Agent X/Twitter skill and plugin for searching tweets, reading replies, looking up users, monitoring tweets, exporting followers, and gating post, reply, and DM actions."
+        }
+      ],
       "createdAt": "2026-05-15",
       "updatedAt": "2026-05-15",
       "type": "extra"
@@ -5832,7 +7149,7 @@
       "genericSkillRef": "mcp-integration",
       "status": "awakened",
       "level": "2★",
-      "description": "Build Model Context Protocol (MCP) servers and tools from scratch. Full-stack",
+      "description": "Build Model Context Protocol (MCP) servers and tools from scratch. Full-stack MCP development with TypeScript/Python, testing, deployment, and registry publishing.",
       "createdAt": "2026-05-22",
       "updatedAt": "2026-05-22",
       "type": "basic",

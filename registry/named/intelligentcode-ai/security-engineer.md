@@ -20,6 +20,13 @@ tags:
 - owasp
 - penetration-testing
 updatedAt: '2026-05-25'
+evidence:
+- class: C
+  source: https://github.com/intelligentcode-ai/skills/blob/main/skills/security-engineer/SKILL.md
+  evaluator: mbtiongson1
+  date: '2026-04-30'
+  notes: intelligentcode-ai/skills security-engineer — vulnerability assessment and
+    security architecture with zero-trust principles and compliance management.
 ---
 
 ## Overview

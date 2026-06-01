@@ -1,8 +1,8 @@
-# [laravel](../../../docs/u/laravel/)/upgrade-laravel-v13  [0★ · Basic]
+# [laravel](../../../docs/u/laravel/)/upgrade-laravel-v13  [2★]
 **ID:** framework-upgrade  
 **Type:** Basic Skill  
-**Level:** 0★  
-**Tier:** Basic  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
+**Top named variant:** 2★  
 **Skill Call:** `/framework-upgrade`
 
 ---
@@ -16,10 +16,15 @@ _None._
 ## Unlocks
 _None._
 
-## Evidence
-| Class | Source | Evaluator | Date |
+## Named Implementations
+| Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| B | https://github.com/laravel/boost/issues/698 | mbtiongson1 | 2026-04-30 |
+| laravel/upgrade-laravel-v13 ⭑ | laravel | 2★ | 1 |
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
+_None._
 
 ## Known Agents
 _None verified yet._

@@ -24,6 +24,13 @@ timeline:
   action: add
   contributor: mbtiongson1
   details: Added named skill mbtiongson1/gaia-audit
+evidence:
+- class: A
+  source: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/skill.md
+  evaluator: mbtiongson1
+  date: '2026-05-20'
+  notes: Codified audit skill with 7-phase workflow, demotion rules, and registry-sync
+    automation. Powers the gaia-meta-audit process.
 ---
 
 ## Overview

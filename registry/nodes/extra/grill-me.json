@@ -2,7 +2,6 @@
   "id": "grill-me",
   "name": "Grill Me",
   "type": "extra",
-  "level": "4★",
   "rarity": "rare",
   "description": "Conducts a relentless, one-question-at-a-time Socratic interview to stress-test designs and force the resolution of hidden assumptions before code is written.",
   "prerequisites": [
@@ -13,19 +12,11 @@
     "grill-with-docs"
   ],
   "conditions": "Enforces a strict questioning loop that prevents the agent from proceeding to implementation until all branches are resolved.",
-  "evidence": [
-    {
-      "class": "B",
-      "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md",
-      "evaluator": "mbtiongson1",
-      "date": "2026-05-15",
-      "notes": "Original implementation by Matt Pocock; viral engineering pattern for disciplined agent alignment."
-    }
-  ],
+  "evidence": [],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-15",
-  "updatedAt": "2026-05-15",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

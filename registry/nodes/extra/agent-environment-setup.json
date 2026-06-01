@@ -2,7 +2,6 @@
   "id": "agent-environment-setup",
   "name": "agent-environment-setup",
   "type": "extra",
-  "level": "3★",
   "rarity": "common",
   "description": "Scaffolding per-repo configuration for other engineering skills.",
   "prerequisites": [
@@ -10,19 +9,11 @@
     "tool-use"
   ],
   "derivatives": [],
-  "evidence": [
-    {
-      "class": "B",
-      "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/setup-matt-pocock-skills/SKILL.md",
-      "evaluator": "mbtiongson1",
-      "date": "2026-05-22",
-      "notes": "Scaffolding skill for Matt Pocock's engineering workspace."
-    }
-  ],
+  "evidence": [],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-22",
-  "updatedAt": "2026-05-22",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

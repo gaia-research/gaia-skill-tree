@@ -2,7 +2,6 @@
   "id": "summarize",
   "name": "Summarize",
   "type": "basic",
-  "level": "0★",
   "rarity": "common",
   "description": "Condenses longer input into a shorter representation that preserves key information and intent.",
   "prerequisites": [],
@@ -26,11 +25,8 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-26",
-  "updatedAt": "2026-05-25",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
-  "demerits": [
-    "broken-evidence"
-  ],
   "timeline": [
     {
       "timestamp": "2026-05-13T21:50:25Z",

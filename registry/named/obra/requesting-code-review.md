@@ -5,20 +5,30 @@ contributor: obra
 origin: true
 genericSkillRef: requesting-code-review
 status: named
-title: "The Preemptive Review"
-level: "3★"
-description: Dispatches a code reviewer subagent with isolated context to catch issues before they cascade — producing a structured review report that guides targeted fixes.
+title: The Preemptive Review
+level: 3★
+description: Dispatches a code reviewer subagent with isolated context to catch issues
+  before they cascade — producing a structured review report that guides targeted
+  fixes.
 links:
   github: https://github.com/obra/superpowers/blob/main/skills/requesting-code-review/SKILL.md
 tags:
-  - code-review
-  - subagent
-  - quality-gate
-  - pre-merge
-  - isolated-context
-createdAt: "2026-05-18"
-updatedAt: "2026-05-18"
-suiteRef: "obra/superpowers"
+- code-review
+- subagent
+- quality-gate
+- pre-merge
+- isolated-context
+createdAt: '2026-05-18'
+updatedAt: '2026-05-18'
+suiteRef: obra/superpowers
+evidence:
+- class: B
+  source: https://github.com/obra/superpowers/blob/main/skills/requesting-code-review/SKILL.md
+  evaluator: mbtiongson1
+  date: '2026-05-18'
+  notes: obra/superpowers — complete software development methodology for coding agents,
+    196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode,
+    Cursor, GitHub Copilot CLI.
 ---
 
 ## Overview

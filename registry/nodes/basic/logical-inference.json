@@ -2,7 +2,6 @@
   "id": "logical-inference",
   "name": "Logical Inference",
   "type": "basic",
-  "level": "1★",
   "rarity": "uncommon",
   "description": "Applies deductive, inductive, or abductive reasoning to derive valid conclusions from premises and structured knowledge.",
   "prerequisites": [],
@@ -23,7 +22,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-04-28",
+  "updatedAt": "2026-06-01",
   "version": "0.2.0",
   "timeline": [
     {

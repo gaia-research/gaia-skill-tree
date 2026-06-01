@@ -2,7 +2,6 @@
   "id": "tool-use",
   "name": "Tool Use",
   "type": "basic",
-  "level": "1★",
   "rarity": "uncommon",
   "description": "Invokes external functions or APIs by generating well-formed call signatures, parsing results, and incorporating them into reasoning.",
   "prerequisites": [],
@@ -34,7 +33,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-04-29",
+  "updatedAt": "2026-06-01",
   "version": "0.2.0",
   "timeline": [
     {

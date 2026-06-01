@@ -2,7 +2,6 @@
   "id": "skill-authoring",
   "name": "Skill Authoring",
   "type": "extra",
-  "level": "4★",
   "rarity": "rare",
   "description": "Designs, writes, packages, and iteratively improves reusable agent skill directories with metadata, progressive instructions, supporting assets, and measurable trigger criteria.",
   "prerequisites": [
@@ -30,20 +29,6 @@
       "evaluator": "codex",
       "date": "2026-05-10",
       "notes": "Anthropic skill-creator provides a reproducible workflow for creating, editing, evaluating, benchmarking, and optimizing agent skills."
-    },
-    {
-      "class": "B",
-      "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md",
-      "evaluator": "unknown",
-      "date": "2026-05-23",
-      "notes": "Official Google DeepMind workflow_skill_creator science-skill implementation."
-    },
-    {
-      "class": "B",
-      "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md",
-      "evaluator": "unknown",
-      "date": "2026-05-23",
-      "notes": "Official Google DeepMind workflow_skill_creator science-skill implementation."
     }
   ],
   "knownAgents": [
@@ -51,7 +36,7 @@
   ],
   "status": "provisional",
   "createdAt": "2026-05-10",
-  "updatedAt": "2026-05-23",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

@@ -14,6 +14,12 @@ createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/ucsc_conservation_and_tfbs
+evidence:
+- class: B
+  source: https://github.com/google-deepmind/science-skills/blob/main/skills/ucsc_conservation_and_tfbs/SKILL.md
+  evaluator: unknown
+  date: '2026-05-23'
+  notes: Official Google DeepMind ucsc_conservation_and_tfbs science-skill implementation.
 ---
 
 # Conservation Scores & TFBS Lookup (UCSC)

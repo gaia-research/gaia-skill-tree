@@ -2,7 +2,6 @@
   "id": "re-act-reasoning",
   "name": "ReAct Reasoning",
   "type": "extra",
-  "level": "3★",
   "rarity": "uncommon",
   "description": "Interleaves free-form reasoning traces with discrete tool actions in a single loop, enabling agents to plan, act, observe, and update beliefs step-by-step.",
   "prerequisites": [
@@ -33,7 +32,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-04-28",
+  "updatedAt": "2026-06-01",
   "version": "0.2.0",
   "timeline": [
     {

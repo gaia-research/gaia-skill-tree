@@ -2,7 +2,6 @@
   "id": "skill-security-analysis",
   "name": "Skill Security Analysis",
   "type": "extra",
-  "level": "2★",
   "rarity": "rare",
   "description": "Assesses third-party agent skills for malicious behavior, unsafe permissions, prompt-injection exposure, repository-context mismatch, and supply-chain risk before installation or invocation.",
   "prerequisites": [
@@ -41,7 +40,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-10",
-  "updatedAt": "2026-05-25",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

@@ -1,8 +1,7 @@
-# /audience-model  [0★ · Basic]
+# /audience-model
 **ID:** audience-model  
 **Type:** Basic Skill  
-**Level:** 0★  
-**Tier:** Basic  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
 **Skill Call:** `/audience-model`
 
 ---
@@ -18,7 +17,12 @@ _None._
 - [Translation Pipeline](../extra/translation-pipeline.md)
 - [Humanize Prose](../extra/humanize-prose.md)
 
-## Evidence
+## Named Implementations
+_None yet — be the first to claim this skill._
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | C | https://github.com/gaia-registry/gaia/blob/main/docs/evidence/audienceModel.md | mbtiongson1 | 2026-04-26 |

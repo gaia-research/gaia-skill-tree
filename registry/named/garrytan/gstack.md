@@ -5,69 +5,81 @@ contributor: garrytan
 origin: true
 genericSkillRef: gstack
 status: named
-title: "Gstack — Garry Tan's Full-Stack Agent Suite"
+title: Gstack — Garry Tan's Full-Stack Agent Suite
 catalogRef: garrytan-gstack
-level: "5★"
-description: The legendary fusion of Garry Tan's complete agent discipline library — browser QA, security auditing, design exploration, vertical-slice planning, and founder-mode orchestration — unified into a single autonomous product-development workflow.
+level: 5★
+description: The legendary fusion of Garry Tan's complete agent discipline library
+  — browser QA, security auditing, design exploration, vertical-slice planning, and
+  founder-mode orchestration — unified into a single autonomous product-development
+  workflow.
 links:
   github: https://github.com/garrytan/gstack
 tags:
-  - founder-mode
-  - full-stack
-  - browser-automation
-  - security-audit
-  - design-exploration
-  - orchestration
-  - ultimate
-createdAt: "2026-05-18"
-updatedAt: "2026-05-18"
+- founder-mode
+- full-stack
+- browser-automation
+- security-audit
+- design-exploration
+- orchestration
+- ultimate
+createdAt: '2026-05-18'
+updatedAt: '2026-05-18'
 suiteComponents:
-  - garrytan/benchmark
-  - garrytan/benchmark-models
-  - garrytan/browse
-  - garrytan/canary
-  - garrytan/careful
-  - garrytan/codex
-  - garrytan/context-restore
-  - garrytan/context-save
-  - garrytan/cso
-  - garrytan/design-consultation
-  - garrytan/design-html
-  - garrytan/design-review
-  - garrytan/design-shotgun
-  - garrytan/devex-review
-  - garrytan/document-generate
-  - garrytan/document-release
-  - garrytan/freeze
-  - garrytan/garrytan
-  - garrytan/gstack-upgrade
-  - garrytan/guard
-  - garrytan/health
-  - garrytan/investigate
-  - garrytan/land-and-deploy
-  - garrytan/landing-report
-  - garrytan/learn
-  - garrytan/make-pdf
-  - garrytan/office-hours
-  - garrytan/open-gstack-browser
-  - garrytan/pair-agent
-  - garrytan/plan-ceo-review
-  - garrytan/plan-design-review
-  - garrytan/plan-devex-review
-  - garrytan/plan-eng-review
-  - garrytan/plan-tune
-  - garrytan/qa
-  - garrytan/qa-only
-  - garrytan/retro
-  - garrytan/review
-  - garrytan/scrape
-  - garrytan/setup-browser-cookies
-  - garrytan/setup-deploy
-  - garrytan/setup-gbrain
-  - garrytan/ship
-  - garrytan/skillify
-  - garrytan/sync-gbrain
-  - garrytan/unfreeze
+- garrytan/benchmark
+- garrytan/benchmark-models
+- garrytan/browse
+- garrytan/canary
+- garrytan/careful
+- garrytan/codex
+- garrytan/context-restore
+- garrytan/context-save
+- garrytan/cso
+- garrytan/design-consultation
+- garrytan/design-html
+- garrytan/design-review
+- garrytan/design-shotgun
+- garrytan/devex-review
+- garrytan/document-generate
+- garrytan/document-release
+- garrytan/freeze
+- garrytan/garrytan
+- garrytan/gstack-upgrade
+- garrytan/guard
+- garrytan/health
+- garrytan/investigate
+- garrytan/land-and-deploy
+- garrytan/landing-report
+- garrytan/learn
+- garrytan/make-pdf
+- garrytan/office-hours
+- garrytan/open-gstack-browser
+- garrytan/pair-agent
+- garrytan/plan-ceo-review
+- garrytan/plan-design-review
+- garrytan/plan-devex-review
+- garrytan/plan-eng-review
+- garrytan/plan-tune
+- garrytan/qa
+- garrytan/qa-only
+- garrytan/retro
+- garrytan/review
+- garrytan/scrape
+- garrytan/setup-browser-cookies
+- garrytan/setup-deploy
+- garrytan/setup-gbrain
+- garrytan/ship
+- garrytan/skillify
+- garrytan/sync-gbrain
+- garrytan/unfreeze
+evidence:
+- class: A
+  source: https://github.com/garrytan/gstack
+  evaluator: mbtiongson1
+  date: '2026-05-18'
+  notes: 'garrytan/gstack — 19 named garrytan skills registered in Gaia across 16
+    generic skill buckets; meets the >=5 named-skills threshold for Class A designation.
+    Additionally: 98.9k GitHub stars, multi-platform adoption across 8+ runtimes (Claude
+    Code, OpenAI Codex CLI, OpenCode, Cursor, Factory Droid, Slate, Kiro, Hermes).'
 ---
 
 ## Overview

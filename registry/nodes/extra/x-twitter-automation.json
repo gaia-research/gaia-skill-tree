@@ -2,7 +2,6 @@
   "id": "x-twitter-automation",
   "name": "X/Twitter Automation",
   "type": "extra",
-  "level": "4★",
   "rarity": "rare",
   "description": "Coordinates platform-specific X/Twitter search, tweet and reply retrieval, user lookup, follower export, monitoring, and approval-gated write workflows for social-media agent tasks.",
   "prerequisites": [
@@ -12,21 +11,13 @@
   ],
   "derivatives": [],
   "conditions": "Requires configured X/Twitter access, repeatable read paths, and explicit approval gates before posting tweets, replies, DMs, or other write actions.",
-  "evidence": [
-    {
-      "class": "B",
-      "source": "https://github.com/Xquik-dev/hermes-tweet",
-      "evaluator": "kriptoburak",
-      "date": "2026-05-15",
-      "notes": "Hermes Tweet provides an installable Hermes Agent X/Twitter skill and plugin for searching tweets, reading replies, looking up users, monitoring tweets, exporting followers, and gating post, reply, and DM actions."
-    }
-  ],
+  "evidence": [],
   "knownAgents": [
     "Xquik-dev/hermes-tweet"
   ],
   "status": "provisional",
   "createdAt": "2026-05-15",
-  "updatedAt": "2026-05-15",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

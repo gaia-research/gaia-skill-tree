@@ -2,7 +2,6 @@
   "id": "autonomous-debug",
   "name": "Autonomous Debug",
   "type": "extra",
-  "level": "1★",
   "rarity": "rare",
   "description": "Independently identifies, diagnoses, and fixes software bugs through code generation and execution.",
   "prerequisites": [
@@ -12,19 +11,11 @@
   ],
   "derivatives": [],
   "conditions": "",
-  "evidence": [
-    {
-      "class": "B",
-      "source": "https://github.com/cognition-labs/devin",
-      "evaluator": "mbtiongson1",
-      "date": "2026-05-17",
-      "notes": "Replaced missing seed evidence with live repository from real-skills catalog."
-    }
-  ],
+  "evidence": [],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-26",
-  "updatedAt": "2026-05-25",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {
@@ -71,8 +62,5 @@
       "previousValue": "3★",
       "newValue": "1★"
     }
-  ],
-  "demerits": [
-    "broken-evidence"
   ]
 }

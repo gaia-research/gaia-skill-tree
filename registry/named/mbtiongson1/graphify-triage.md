@@ -24,6 +24,15 @@ timeline:
   action: add
   contributor: mbtiongson1
   details: Added named skill mbtiongson1/graphify-triage
+evidence:
+- class: B
+  source: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/graphify-triage/SKILL.md
+  evaluator: mbtiongson1
+  date: '2026-05-30'
+  notes: 'Reproducible playbook: graphify-triage script ingests safishamsi/graphify
+    GRAPH_REPORT.md output, parses architectural-debt findings, and converts each
+    into a tracked GitHub issue via gh issue create. First implementation of the fusion
+    generic (graphify + triage).'
 ---
 
 ## Overview

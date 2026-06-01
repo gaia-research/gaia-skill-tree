@@ -1,10 +1,7 @@
-# /voice-agent  [3★ · Evolved]
+# /voice-agent
 **ID:** voice-agent  
 **Type:** Extra Skill  
-**Level:** 3★  
-**Tier:** Evolved  
-**Potential:** 2★  
-**Demerits:** heavyweight-dependency  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
 **Skill Call:** `/voice-agent`
 
 ---
@@ -23,7 +20,12 @@ Handles spoken interactions end-to-end: transcribes audio input, produces langua
 ## Fusion Condition
 Requires real-time audio I/O or audio file access.
 
-## Evidence
+## Named Implementations
+_None yet — be the first to claim this skill._
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | B | https://github.com/rasa/rasa | mbtiongson1 | 2026-04-28 |

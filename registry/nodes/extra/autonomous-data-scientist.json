@@ -2,7 +2,6 @@
   "id": "autonomous-data-scientist",
   "name": "Autonomous Data Scientist",
   "type": "extra",
-  "level": "5★",
   "rarity": "epic",
   "description": "Conducts end-to-end data science workflows autonomously: hypothesis generation, data analysis, statistical modeling, and insight reporting.",
   "prerequisites": [
@@ -38,7 +37,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-04-28",
+  "updatedAt": "2026-06-01",
   "version": "0.2.0",
   "title": "Primordial Oracle",
   "timeline": [

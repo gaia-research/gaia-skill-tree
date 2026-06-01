@@ -2,7 +2,6 @@
   "id": "code-explain",
   "name": "Code Explain",
   "type": "basic",
-  "level": "2★",
   "rarity": "common",
   "description": "Generates accurate natural-language explanations of source code, describing intent, logic flow, and key decisions at function or module level.",
   "prerequisites": [],
@@ -30,7 +29,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-04-30",
+  "updatedAt": "2026-06-01",
   "version": "0.2.0",
   "timeline": [
     {

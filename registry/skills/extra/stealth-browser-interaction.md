@@ -1,10 +1,7 @@
-# /stealth-browser-interaction  [2★ · Named]
+# /stealth-browser-interaction
 **ID:** stealth-browser-interaction  
 **Type:** Extra Skill  
-**Level:** 2★  
-**Tier:** Named  
-**Potential:** 0★  
-**Demerits:** heavyweight-dependency, broken-evidence  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
 **Skill Call:** `/stealth-browser-interaction`
 
 ---
@@ -23,7 +20,12 @@ Operates web browsers through an advanced stealth layer that handles bot-detecti
 ## Fusion Condition
 Requires a stealth-enabled browser driver and session management infrastructure.
 
-## Evidence
+## Named Implementations
+_None yet — be the first to claim this skill._
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | B | https://github.com/apify/crawlee-python/blob/main/AGENTS.md | mbtiongson1 | 2026-05-14 |

@@ -5,20 +5,29 @@ contributor: obra
 origin: true
 genericSkillRef: writing-plans
 status: named
-title: "The Blueprint Writer"
-level: "2★"
-description: Writes comprehensive implementation plans that break multi-step tasks into bite-sized, independently executable sub-tasks before any code is touched.
+title: The Blueprint Writer
+level: 2★
+description: Writes comprehensive implementation plans that break multi-step tasks
+  into bite-sized, independently executable sub-tasks before any code is touched.
 links:
   github: https://github.com/obra/superpowers/blob/main/skills/writing-plans/SKILL.md
 tags:
-  - planning
-  - decomposition
-  - implementation-plan
-  - pre-coding
-  - task-breakdown
-createdAt: "2026-05-18"
-updatedAt: "2026-05-18"
-suiteRef: "obra/superpowers"
+- planning
+- decomposition
+- implementation-plan
+- pre-coding
+- task-breakdown
+createdAt: '2026-05-18'
+updatedAt: '2026-05-18'
+suiteRef: obra/superpowers
+evidence:
+- class: B
+  source: https://github.com/obra/superpowers/blob/main/skills/writing-plans/SKILL.md
+  evaluator: mbtiongson1
+  date: '2026-05-18'
+  notes: obra/superpowers — complete software development methodology for coding agents,
+    196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode,
+    Cursor, GitHub Copilot CLI.
 ---
 
 ## Overview

@@ -31,6 +31,21 @@ def _regenerate_css_tokens(root: Path) -> None:
     print(f"Regenerated {out_path.relative_to(root)}")
 
 
+def _named_max_levels(root: Path) -> dict:
+    """Map generic skill id -> highest named-variant star across its bucket."""
+    order = ["2★", "3★", "4★", "5★", "6★"]
+    src = root / "registry" / "named-skills.json"
+    if not src.exists():
+        return {}
+    buckets = json.loads(src.read_text(encoding="utf-8")).get("buckets", {})
+    out = {}
+    for ref, entries in buckets.items():
+        levels = [e.get("level") for e in entries if e.get("level") in order]
+        if levels:
+            out[ref] = max(levels, key=order.index)
+    return out
+
+
 def sync_docs_graph_assets(root: Path = ROOT) -> None:
     docs_graph = root / "docs" / "graph"
     docs_graph.mkdir(parents=True, exist_ok=True)
@@ -67,11 +82,16 @@ def sync_docs_graph_assets(root: Path = ROOT) -> None:
             # Enrich the docs copy with per-skill cluster/positions from the
             # generated layout artifact. registry/gaia.json stays schema-clean.
             gaia_data = json.loads(src.read_text(encoding="utf-8"))
+            # Generic refs are rank-less — the web graph's rank legend reads the
+            # top named-variant star (namedMaxLevel) instead of a generic level.
+            named_max = _named_max_levels(root)
             for skill in gaia_data.get("skills", []):
                 sid = skill.get("id")
                 if sid in layout_nodes:
                     skill["cluster"] = layout_nodes[sid]["cluster"]
                     skill["positions"] = layout_nodes[sid]["positions"]
+                if sid in named_max:
+                    skill["namedMaxLevel"] = named_max[sid]
             dst.write_text(json.dumps(gaia_data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
             print(f"Synced+enriched {src.relative_to(root)} -> {dst.relative_to(root)}")
         else:

@@ -5,23 +5,31 @@ contributor: mattpocock
 origin: false
 genericSkillRef: ubiquitous-language
 status: named
-title: "The Ubiquitous Language Mapper"
-title: "The Domain Linguist"
+title: The Domain Linguist
 catalogRef: mattpocock-ubiquitous-language
-level: "4★"
-description: Extracts and formalises a project's domain terminology into a shared glossary, enforcing consistent naming across code and conversations to eliminate ambiguity.
+level: 4★
+description: Extracts and formalises a project's domain terminology into a shared
+  glossary, enforcing consistent naming across code and conversations to eliminate
+  ambiguity.
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/engineering/ubiquitous-language/SKILL.md
 tags:
-  - domain-driven-design
-  - ddd
-  - ubiquitous-language
-  - glossary
-  - terminology
-  - alignment
-createdAt: "2026-05-15"
-updatedAt: "2026-05-15"
-suiteRef: "mattpocock/engineering"
+- domain-driven-design
+- ddd
+- ubiquitous-language
+- glossary
+- terminology
+- alignment
+createdAt: '2026-05-15'
+updatedAt: '2026-05-15'
+suiteRef: mattpocock/engineering
+evidence:
+- class: B
+  source: https://github.com/mattpocock/skills/blob/main/skills/engineering/ubiquitous-language/SKILL.md
+  evaluator: mbtiongson1
+  date: '2026-05-15'
+  notes: Original implementation by Matt Pocock; formalizes DDD principles for AI
+    agent contexts.
 ---
 
 ## Overview

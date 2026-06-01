@@ -14,6 +14,12 @@ createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/ensembl_database
+evidence:
+- class: B
+  source: https://github.com/google-deepmind/science-skills/blob/main/skills/ensembl_database/SKILL.md
+  evaluator: unknown
+  date: '2026-05-23'
+  notes: Official Google DeepMind ensembl_database science-skill implementation.
 ---
 
 # Ensembl Database: ID Mapping and Genomic Features

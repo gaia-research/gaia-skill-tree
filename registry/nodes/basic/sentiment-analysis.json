@@ -2,7 +2,6 @@
   "id": "sentiment-analysis",
   "name": "Sentiment Analysis",
   "type": "basic",
-  "level": "3★",
   "rarity": "common",
   "description": "Classifies the affective polarity (positive / negative / neutral, or fine-grained) of user-generated text. Covers pipelines from raw noisy input through preprocessing, inference (Transformer, Lexicon, or LLM), and output normalisation.",
   "prerequisites": [],
@@ -79,7 +78,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-05-17",
+  "updatedAt": "2026-06-01",
   "version": "1.0.0",
   "timeline": [
     {

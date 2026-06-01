@@ -1,8 +1,7 @@
-# /literature-search  [2★ · Named]
+# /literature-search
 **ID:** literature-search  
 **Type:** Basic Skill  
-**Level:** 2★  
-**Tier:** Named  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
 **Skill Call:** `/literature-search`
 
 ---
@@ -16,15 +15,15 @@ _None._
 ## Unlocks
 _None._
 
-## Evidence
+## Named Implementations
+_None yet — be the first to claim this skill._
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | B | https://github.com/google-deepmind/science-skills | unknown | 2026-05-23 |
-| B | https://github.com/google-deepmind/science-skills/blob/main/skills/pubmed_database/SKILL.md | unknown | 2026-05-23 |
-| B | https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_arxiv/SKILL.md | unknown | 2026-05-23 |
-| B | https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_biorxiv/SKILL.md | unknown | 2026-05-23 |
-| B | https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_europepmc/SKILL.md | unknown | 2026-05-23 |
-| B | https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_openalex/SKILL.md | unknown | 2026-05-23 |
 
 ## Known Agents
 _None verified yet._

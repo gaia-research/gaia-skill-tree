@@ -30,6 +30,15 @@ timeline:
   action: installation_updated
   contributor: unknown
   details: 'Replaced ## Installation section from /tmp/perf_install.md'
+evidence:
+- class: A
+  source: https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md
+  evaluator: mbtiongson1
+  date: '2026-05-31'
+  notes: Addy Osmani's performance-optimization SKILL.md in agent-skills repo (47.2k
+    stars, verified 2026-05-31). Defines a measurement-driven 5-step workflow (Measure
+    → Identify → Fix → Verify → Guard) with explicit Core Web Vitals thresholds. Qualifies
+    for Class A per META §2.1 large-scale adoption criterion.
 ---
 
 ## Installation

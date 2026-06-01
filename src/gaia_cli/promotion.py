@@ -106,12 +106,25 @@ def check_promotion_eligibility(graph_data: dict, tree_data: dict) -> list[dict]
     return eligible
 
 
+def top_named_level(named_buckets: dict, skill_id: str) -> str | None:
+    """Return the highest named-variant star for a generic id (or None).
+
+    Stars live only on named skills now, so a generic ref's effective rank is
+    the maximum star across its named implementations.
+    """
+    entries = named_buckets.get(skill_id) or []
+    levels = [e.get("level") for e in entries if e.get("level") in LEVEL_ORDER]
+    if not levels:
+        return None
+    return max(levels, key=level_index)
+
+
 def detect_unique_candidates(graph_data: dict, named_index: dict) -> list[dict]:
     """Detect basic skills eligible for promotion to 'unique' type.
 
     Criteria:
       1. type == "basic"
-      2. level >= 4★
+      2. top named-variant star >= 4★ (generic refs are rank-less)
       3. prerequisites == [] (orphan)
       4. Not referenced as a prerequisite by any other skill (graph-isolated)
       5. Has at least one named implementation in named_index
@@ -127,19 +140,20 @@ def detect_unique_candidates(graph_data: dict, named_index: dict) -> list[dict]:
     for skill in graph_data.get("skills", []):
         if skill.get("type") != "basic":
             continue
-        if level_index(skill.get("level", "0★")) < 4:
-            continue
         if skill.get("prerequisites", []):
             continue
         if skill["id"] in all_prereq_refs:
             continue
         if skill["id"] not in named_buckets or not named_buckets[skill["id"]]:
             continue
+        star = top_named_level(named_buckets, skill["id"])
+        if star is None or level_index(star) < 4:
+            continue
 
         candidates.append({
             "skillId": skill["id"],
             "name": skill.get("name", skill["id"]),
-            "currentLevel": skill.get("level"),
+            "currentLevel": star,
             "currentType": "basic",
             "promotionType": "unique",
             "namedImplementations": [ns.get("id", "") for ns in named_buckets[skill["id"]]],
@@ -364,8 +378,6 @@ def promote_to_unique(skill_id: str, registry_path: str) -> dict:
         raise ValueError(f"Skill '{skill_id}' not found in registry graph.")
     if graph_skill.get("type") != "basic":
         raise ValueError(f"Skill '{skill_id}' is type '{graph_skill.get('type')}', not 'basic'.")
-    if level_index(graph_skill.get("level", "0★")) < 4:
-        raise ValueError(f"Skill '{skill_id}' must be level 4★+ for unique promotion.")
     if graph_skill.get("prerequisites", []):
         raise ValueError(f"Skill '{skill_id}' has prerequisites — must be graph-isolated.")
 
@@ -381,6 +393,10 @@ def promote_to_unique(skill_id: str, registry_path: str) -> dict:
     named_buckets = named_index.get("buckets", {})
     if skill_id not in named_buckets or not named_buckets[skill_id]:
         raise ValueError(f"Skill '{skill_id}' has no named implementation — required for unique promotion.")
+
+    star = top_named_level(named_buckets, skill_id)
+    if star is None or level_index(star) < 4:
+        raise ValueError(f"Skill '{skill_id}' needs a 4★+ named implementation for unique promotion.")
 
     graph_skill["type"] = "unique"
     graph_skill["updatedAt"] = date.today().isoformat()
@@ -402,7 +418,7 @@ def promote_to_unique(skill_id: str, registry_path: str) -> dict:
         "skillId": skill_id,
         "previousType": "basic",
         "newType": "unique",
-        "level": graph_skill.get("level"),
+        "level": star,
         "displayName": graph_skill.get("name", skill_id),
     }
 

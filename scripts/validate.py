@@ -7,11 +7,14 @@ Validates registry/gaia.json against:
 3. DAG cycle detection (DFS from all root nodes).
 4. Reference integrity (every parent ID resolves to an existing node).
 5. Prerequisite minimums by skill type.
-6. Evidence threshold by level.
+6. Named skill evidence floors (inherited generic + own evidence; non-blocking).
 7. Ultimate approval count check (placeholder).
-8. Demerit constraints.
+8. Unique skill constraints.
 9. Named skill frontmatter consistency.
-10. Summary statistics output.
+10. Skill suites validation.
+
+Generic skill refs are rank-less — stars live only on named skills — so there is
+no generic level/demerit validation.
 
 Usage:
     python scripts/validate.py [--graph PATH]
@@ -234,26 +237,44 @@ def validate_prerequisites_count(graph):
     return errors
 
 
-def validate_evidence(graph):
-    """Check that evidence meets the minimum threshold for each skill's level."""
+def validate_named_evidence(graph, named_dir=None):
+    """Check named skills meet the evidence floor for their level.
+
+    Generic skill refs are rank-less and hold capability-level (inherited)
+    evidence. A named skill's effective evidence pool is its own evidence plus
+    the evidence on the generic skill it points at via ``genericSkillRef``.
+    """
     errors = []
-    for skill in graph.get("skills", []):
-        level = skill.get("level", "1★")
-        required_classes = EVIDENCE_FLOOR.get(level)
+    if named_dir is None:
+        repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        named_dir = os.path.join(repo_root, "registry", "named")
+    if not os.path.isdir(named_dir):
+        return errors
 
-        if required_classes is None:
-            continue  # 1★ needs no evidence
+    generic_evidence = {s["id"]: (s.get("evidence") or []) for s in graph.get("skills", [])}
 
-        evidence = skill.get("evidence", [])
-        if not evidence:
-            errors.append(f"Skill '{skill['id']}' at Level {level} requires evidence but has none.")
+    for fp in sorted(glob.glob(os.path.join(named_dir, "**", "*.md"), recursive=True)):
+        if fp.endswith("index.json"):
             continue
+        try:
+            with open(fp, "r", encoding="utf-8") as f:
+                fm = _parse_named_frontmatter(f.read())
+        except (OSError, ValueError):
+            continue  # parse errors surfaced by validate_named_skills
+        level = fm.get("level", "")
+        required_classes = EVIDENCE_FLOOR.get(level)
+        if required_classes is None:
+            continue  # no floor below 2★ / unknown level handled elsewhere
 
-        has_qualifying = any(e.get("class") in required_classes for e in evidence)
+        pool = list(fm.get("evidence") or [])
+        pool += generic_evidence.get(fm.get("genericSkillRef", ""), [])
+        has_qualifying = any(e.get("class") in required_classes for e in pool)
         if not has_qualifying:
+            rel = os.path.relpath(fp)
             errors.append(
-                f"Skill '{skill['id']}' at Level {level} needs evidence class "
-                f"{required_classes} but only has: {[e.get('class') for e in evidence]}."
+                f"Named skill {rel} at Level {level} needs evidence class "
+                f"{sorted(required_classes)} (own or inherited) but pool has: "
+                f"{[e.get('class') for e in pool]}."
             )
     return errors
 
@@ -265,8 +286,8 @@ def validate_ultimate(graph):
         if skill["type"] != "ultimate":
             continue
 
-        # Ultimate stubs at 1★ are allowed without evidence
-        if skill["level"] == "1★" and skill["status"] == "provisional":
+        # Provisional ultimate stubs are allowed without evidence
+        if skill["status"] == "provisional":
             continue
 
         # Validated ultimates need 3+ Class A/B evidence
@@ -281,7 +302,11 @@ def validate_ultimate(graph):
 
 
 def validate_unique_skills(graph):
-    """Check unique-type-specific constraints: level ≥4★, 0 prerequisites, graph-isolated, has named impl."""
+    """Check unique-type-specific constraints: 0 prerequisites, graph-isolated, has named impl.
+
+    (Generic refs are rank-less; the star comes from the named implementation,
+    so there is no generic-level floor to check here anymore.)
+    """
     errors = []
     all_prereq_refs = set()
     for skill in graph.get("skills", []):
@@ -295,17 +320,9 @@ def validate_unique_skills(graph):
         with open(named_index_path, "r", encoding="utf-8") as f:
             named_buckets = json.load(f).get("buckets", {})
 
-    level_order = ["0★", "1★", "2★", "3★", "4★", "5★", "6★"]
     for skill in graph.get("skills", []):
         if skill["type"] != "unique":
             continue
-
-        level_idx = level_order.index(skill.get("level", "0★")) if skill.get("level") in level_order else 0
-        if level_idx < 4:
-            errors.append(
-                f"Unique skill '{skill['id']}' must be level 4★ or above "
-                f"(got '{skill.get('level')}')."
-            )
 
         if skill.get("prerequisites", []):
             errors.append(
@@ -328,46 +345,15 @@ def validate_unique_skills(graph):
     return errors
 
 
-def validate_demerits(graph):
-    """Check demerit ids are canonical and only apply to eligible levels."""
-    errors = []
-    for skill in graph.get("skills", []):
-        demerits = skill.get("demerits", []) or []
-        if not demerits:
-            continue
-
-        level = skill.get("level", "1★")
-        if level not in DEMERIT_ELIGIBLE_LEVELS:
-            errors.append(
-                f"Skill '{skill['id']}' has demerits but claimed level "
-                f"'{level}' is not eligible (must be one of {sorted(DEMERIT_ELIGIBLE_LEVELS)})."
-            )
-
-        duplicates = sorted({item for item in demerits if demerits.count(item) > 1})
-        if duplicates:
-            errors.append(
-                f"Skill '{skill['id']}' declares duplicate demerit(s): {duplicates}."
-            )
-
-        unknown = [item for item in demerits if item not in DEMERIT_IDS]
-        if unknown:
-            errors.append(
-                f"Skill '{skill['id']}' declares unknown demerit(s): {unknown}."
-            )
-    return errors
-
-
 def compute_stats(graph):
     """Compute and print summary statistics."""
     skills = graph.get("skills", [])
     by_type = defaultdict(int)
-    by_level = defaultdict(int)
     by_rarity = defaultdict(int)
     by_status = defaultdict(int)
 
     for s in skills:
         by_type[s["type"]] += 1
-        by_level[s["level"]] += 1
         by_rarity[s["rarity"]] += 1
         by_status[s["status"]] += 1
 
@@ -400,7 +386,6 @@ def compute_stats(graph):
     print("\n📊 Graph Statistics")
     print(f"   Total skills: {len(skills)}")
     print(f"   By type: {dict(by_type)}")
-    print(f"   By level: {dict(by_level)}")
     print(f"   By rarity: {dict(by_rarity)}")
     print(f"   By status: {dict(by_status)}")
     print(f"   Total edges: {len(graph.get('edges', []))}")
@@ -425,91 +410,25 @@ _NAMED_VALID_LEVELS = {"2★", "3★", "4★", "5★", "6★"}
 
 
 def _parse_named_frontmatter(text):
-    """Parse simple YAML frontmatter from a named skill markdown file.
+    """Parse YAML frontmatter from a named skill markdown file.
 
     Returns a dict of the frontmatter fields, or raises ValueError on malformed
-    input. Supports scalars, quoted strings, booleans, block sequences, and one
-    level of nested mappings (e.g. links:).
+    input. Uses a real YAML parser so block sequences of mappings (e.g. the
+    ``evidence:`` list-of-dicts) round-trip correctly.
     """
-    lines = text.splitlines()
-    if not lines or lines[0].strip() != "---":
+    import yaml
+
+    if not text.startswith("---"):
         raise ValueError("File does not begin with '---' frontmatter delimiter.")
-
-    end = None
-    for i, line in enumerate(lines[1:], start=1):
-        if line.strip() == "---":
-            end = i
-            break
-    if end is None:
+    parts = text.split("---", 2)
+    if len(parts) < 3:
         raise ValueError("Frontmatter closing '---' not found.")
-
-    fm_lines = lines[1:end]
-    data = {}
-    i = 0
-
-    def _coerce(raw):
-        stripped = raw.strip().strip('"').strip("'")
-        if raw.strip().lower() == "true":
-            return True
-        if raw.strip().lower() == "false":
-            return False
-        return stripped
-
-    while i < len(fm_lines):
-        line = fm_lines[i]
-        if not line.strip():
-            i += 1
-            continue
-        if ":" not in line:
-            i += 1
-            continue
-
-        key, _, rest = line.partition(":")
-        key = key.strip()
-        rest = rest.strip()
-
-        if rest == "":
-            # Nested mapping or block sequence follows
-            nested_dict = {}
-            nested_list = []
-            j = i + 1
-            while j < len(fm_lines):
-                nline = fm_lines[j]
-                if not nline.strip():
-                    j += 1
-                    continue
-                if not nline.startswith(" "):
-                    break
-                stripped = nline.strip()
-                if stripped.startswith("- "):
-                    nested_list.append(stripped[2:].strip().strip('"').strip("'"))
-                    j += 1
-                elif ":" in stripped:
-                    sk, _, sv = stripped.partition(":")
-                    nested_dict[sk.strip()] = _coerce(sv.strip())
-                    j += 1
-                else:
-                    j += 1
-            if nested_list:
-                data[key] = nested_list
-                i = j
-            elif nested_dict:
-                data[key] = nested_dict
-                i = j
-            else:
-                data[key] = {}
-                i += 1
-        elif rest.startswith("["):
-            inner = rest[1:-1] if rest.endswith("]") else rest[1:]
-            if not inner.strip():
-                data[key] = []
-            else:
-                data[key] = [item.strip().strip('"').strip("'") for item in inner.split(",")]
-            i += 1
-        else:
-            data[key] = _coerce(rest)
-            i += 1
-
+    try:
+        data = yaml.safe_load(parts[1]) or {}
+    except yaml.YAMLError as exc:
+        raise ValueError(f"Invalid YAML frontmatter: {exc}")
+    if not isinstance(data, dict):
+        raise ValueError("Frontmatter is not a mapping.")
     return data
 
 
@@ -851,51 +770,55 @@ def main():
     all_errors = []
 
     # 1. Schema validation
-    print("   [1/11] Schema validation...")
+    print("   [1/10] Schema validation...")
     all_errors.extend(validate_schema(graph, schema_dir))
 
     # 2. Unique identifiers
-    print("   [2/11] Unique identifiers...")
+    print("   [2/10] Unique identifiers...")
     all_errors.extend(validate_unique_ids(graph))
 
     # 3. DAG cycle detection
-    print("   [3/11] DAG cycle detection...")
+    print("   [3/10] DAG cycle detection...")
     all_errors.extend(validate_dag(graph))
 
     # 4. Reference integrity
-    print("   [4/11] Reference integrity...")
+    print("   [4/10] Reference integrity...")
     all_errors.extend(validate_references(graph))
 
     # 5. Prerequisite count
-    print("   [5/11] Prerequisite count...")
+    print("   [5/10] Prerequisite count...")
     all_errors.extend(validate_prerequisites_count(graph))
 
-    # 6. Evidence threshold
-    print("   [6/11] Evidence thresholds...")
-    all_errors.extend(validate_evidence(graph))
+    # 6. Named skill evidence floors (inherited generic + own evidence).
+    #    Non-blocking for now: generic refs are rank-less and the per-named
+    #    evidence-floor enforcement is the next meta step. Surfaced as warnings.
+    print("   [6/10] Named evidence thresholds (warn)...")
+    evidence_warnings = validate_named_evidence(graph)
 
     # 7. Ultimate constraints
-    print("   [7/11] Ultimate constraints...")
+    print("   [7/10] Ultimate constraints...")
     all_errors.extend(validate_ultimate(graph))
 
     # 8. Unique skill constraints
-    print("   [8/11] Unique skill constraints...")
+    print("   [8/10] Unique skill constraints...")
     all_errors.extend(validate_unique_skills(graph))
 
-    # 9. Demerit constraints
-    print("   [9/11] Demerit constraints...")
-    all_errors.extend(validate_demerits(graph))
-
-    # 10. Named skills validation (includes reviewer gate + catalog cross-refs)
-    print("   [10/11] Named skills validation...")
+    # 9. Named skills validation (includes reviewer gate + catalog cross-refs)
+    print("   [9/10] Named skills validation...")
     all_errors.extend(validate_named_skills(graph))
 
-    # 11. Skill suites validation
-    print("   [11/11] Skill suites validation...")
+    # 10. Skill suites validation
+    print("   [10/10] Skill suites validation...")
     all_errors.extend(validate_suites(graph))
 
     # Stats
     compute_stats(graph)
+
+    if evidence_warnings:
+        print(f"\n⚠  {len(evidence_warnings)} named evidence warning(s) "
+              f"(non-blocking — per-named evidence floors land in the next meta step):")
+        for i, warn in enumerate(evidence_warnings, 1):
+            print(f"   {i}. {warn}")
 
     if all_errors:
         print(f"\n❌ {len(all_errors)} validation error(s):")

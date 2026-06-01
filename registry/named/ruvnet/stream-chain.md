@@ -5,21 +5,28 @@ contributor: ruvnet
 origin: true
 genericSkillRef: sequential-agent-pipeline
 status: named
-title: "The Flow Conductor"
+title: The Flow Conductor
 catalogRef: ruvnet-stream-chain
-level: "2★"
-description: Chains agent outputs sequentially so each step receives prior output as context, enabling multi-stage data transformation pipelines.
+level: 2★
+description: Chains agent outputs sequentially so each step receives prior output
+  as context, enabling multi-stage data transformation pipelines.
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - streaming
-  - pipeline
-  - sequential
-  - context-chaining
-  - data-transformation
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/ruflo"
+- streaming
+- pipeline
+- sequential
+- context-chaining
+- data-transformation
+createdAt: '2026-05-19'
+updatedAt: '2026-05-19'
+suiteRef: ruvnet/ruflo
+evidence:
+- class: B
+  source: https://github.com/ruvnet/ruflo
+  evaluator: mbtiongson1
+  date: '2026-05-19'
+  notes: Ruflo orchestration platform — 34k+ GitHub stars.
 ---
 
 ## Overview

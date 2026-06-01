@@ -2,7 +2,6 @@
   "id": "image-generate",
   "name": "Image Generate",
   "type": "basic",
-  "level": "2★",
   "rarity": "uncommon",
   "description": "Creates photorealistic or stylized images from text prompts using diffusion-based or autoregressive generative models.",
   "prerequisites": [],
@@ -20,7 +19,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-04-28",
+  "updatedAt": "2026-06-01",
   "version": "0.2.0",
   "timeline": [
     {

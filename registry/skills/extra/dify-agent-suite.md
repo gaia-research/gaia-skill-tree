@@ -1,8 +1,7 @@
-# /dify-agent-suite  [1★ · Awakened]
+# /dify-agent-suite
 **ID:** dify-agent-suite  
 **Type:** Extra Skill  
-**Level:** 1★  
-**Tier:** Awakened  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
 **Skill Call:** `/dify-agent-suite`
 
 ---
@@ -22,7 +21,12 @@ _None._
 ## Fusion Condition
 _None specified._
 
-## Evidence
+## Named Implementations
+_None yet — be the first to claim this skill._
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | B | https://github.com/langgenius/dify | jules | 2026-05-20 |

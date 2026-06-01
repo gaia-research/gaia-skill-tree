@@ -2,25 +2,16 @@
   "id": "swarm-topology-management",
   "name": "Swarm Topology Management",
   "type": "basic",
-  "level": "2★",
   "rarity": "common",
   "description": "Initializes and manages multi-agent swarm network topologies (hierarchical, mesh, ring, star) with load balancing and fault tolerance.",
   "prerequisites": [],
   "derivatives": [],
   "conditions": "",
-  "evidence": [
-    {
-      "class": "B",
-      "source": "https://github.com/ruvnet/ruflo",
-      "evaluator": "mbtiongson1",
-      "date": "2026-05-19",
-      "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
-    }
-  ],
+  "evidence": [],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-19",
-  "updatedAt": "2026-05-19",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

@@ -5,21 +5,28 @@ contributor: ruvnet
 origin: true
 genericSkillRef: system-integration
 status: named
-title: "The Integration Weaver"
+title: The Integration Weaver
 catalogRef: ruvnet-v3-integration-deep
-level: "2★"
-description: Connects Ruflo v3 subsystems via shared contracts, event buses, and compatibility layers for coherent cross-component operation.
+level: 2★
+description: Connects Ruflo v3 subsystems via shared contracts, event buses, and compatibility
+  layers for coherent cross-component operation.
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - system-integration
-  - compatibility
-  - event-bus
-  - contracts
-  - v3-sprint
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/ruflo-v3"
+- system-integration
+- compatibility
+- event-bus
+- contracts
+- v3-sprint
+createdAt: '2026-05-19'
+updatedAt: '2026-05-19'
+suiteRef: ruvnet/ruflo-v3
+evidence:
+- class: B
+  source: https://github.com/ruvnet/ruflo
+  evaluator: mbtiongson1
+  date: '2026-05-19'
+  notes: Ruflo orchestration platform — 34k+ GitHub stars.
 ---
 
 ## Overview

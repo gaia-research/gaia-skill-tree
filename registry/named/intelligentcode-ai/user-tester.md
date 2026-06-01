@@ -19,6 +19,13 @@ tags:
 - user-journey
 - visual-regression
 updatedAt: '2026-05-25'
+evidence:
+- class: C
+  source: https://github.com/intelligentcode-ai/skills/blob/main/skills/user-tester/SKILL.md
+  evaluator: mbtiongson1
+  date: '2026-04-30'
+  notes: intelligentcode-ai/skills user-tester — E2E testing specialist with Puppeteer/Playwright
+    automation and cross-browser user journey validation.
 ---
 
 ## Overview

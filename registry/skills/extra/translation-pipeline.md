@@ -1,8 +1,7 @@
-# /translation-pipeline  [2★ · Named]
+# /translation-pipeline
 **ID:** translation-pipeline  
 **Type:** Extra Skill  
-**Level:** 2★  
-**Tier:** Named  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
 **Skill Call:** `/translation-pipeline`
 
 ---
@@ -21,7 +20,12 @@ _None._
 ## Fusion Condition
 _None specified._
 
-## Evidence
+## Named Implementations
+_None yet — be the first to claim this skill._
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | A | https://arxiv.org/abs/2308.11596 | mbtiongson1 | 2026-04-28 |

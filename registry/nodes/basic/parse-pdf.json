@@ -2,7 +2,6 @@
   "id": "parse-pdf",
   "name": "Parse PDF",
   "type": "basic",
-  "level": "1★",
   "rarity": "common",
   "description": "Extracts text, tables, equations, and structure from PDF documents, preserving layout and reading order.",
   "prerequisites": [],
@@ -22,7 +21,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-04-28",
+  "updatedAt": "2026-06-01",
   "version": "0.2.0",
   "timeline": [
     {

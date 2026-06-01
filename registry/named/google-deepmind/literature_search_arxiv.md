@@ -13,6 +13,12 @@ createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_arxiv
+evidence:
+- class: B
+  source: https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_arxiv/SKILL.md
+  evaluator: unknown
+  date: '2026-05-23'
+  notes: Official Google DeepMind literature_search_arxiv science-skill implementation.
 ---
 
 # arXiv Search and Retrieval

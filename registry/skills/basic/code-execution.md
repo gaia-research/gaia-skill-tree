@@ -1,8 +1,7 @@
-# /code-execution  [0★ · Basic]
+# /code-execution
 **ID:** code-execution  
 **Type:** Basic Skill  
-**Level:** 0★  
-**Tier:** Basic  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
 **Skill Call:** `/code-execution`
 
 ---
@@ -23,7 +22,12 @@ _None._
 - [Using Git Worktrees](../extra/using-git-worktrees.md)
 - [Verification Before Completion](../extra/verification-before-completion.md)
 
-## Evidence
+## Named Implementations
+_None yet — be the first to claim this skill._
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | A | https://arxiv.org/abs/2211.10435 | mbtiongson1 | 2026-04-28 |

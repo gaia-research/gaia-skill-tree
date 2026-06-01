@@ -2,7 +2,6 @@
   "id": "mattpocock-skills",
   "name": "mattpocock-skills",
   "type": "ultimate",
-  "level": "6★",
   "rarity": "common",
   "description": "Ultimate capstone suite for Matt Pocock's skills.",
   "prerequisites": [
@@ -39,7 +38,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-22",
-  "updatedAt": "2026-05-25",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

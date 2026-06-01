@@ -16,6 +16,12 @@ createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_msa
+evidence:
+- class: B
+  source: https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_msa/SKILL.md
+  evaluator: unknown
+  date: '2026-05-23'
+  notes: Official Google DeepMind protein_sequence_msa science-skill implementation.
 ---
 
 ## Prerequisites

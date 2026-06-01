@@ -2,7 +2,6 @@
   "id": "data-analysis",
   "name": "Data Analysis",
   "type": "extra",
-  "level": "3★",
   "rarity": "uncommon",
   "description": "Conducts end-to-end quantitative analysis: queries data via SQL, computes statistics, generates visualizations, and summarizes findings.",
   "prerequisites": [
@@ -28,7 +27,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-05-06",
+  "updatedAt": "2026-06-01",
   "version": "0.2.0",
   "timeline": [
     {

@@ -15,6 +15,13 @@ createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze
+evidence:
+- class: B
+  source: https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze/SKILL.md
+  evaluator: unknown
+  date: '2026-05-23'
+  notes: Official Google DeepMind alphafold_database_fetch_and_analyze science-skill
+    implementation.
 ---
 
 # AlphaFold Database: Fetch and Analyze

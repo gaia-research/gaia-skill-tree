@@ -2,7 +2,6 @@
   "id": "web-scrape",
   "name": "Web Scrape",
   "type": "extra",
-  "level": "1★",
   "rarity": "uncommon",
   "description": "Retrieves and structures data from web pages into usable entities.",
   "prerequisites": [
@@ -28,7 +27,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-26",
-  "updatedAt": "2026-05-25",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {
@@ -53,8 +52,5 @@
       "previousValue": "3★",
       "newValue": "1★"
     }
-  ],
-  "demerits": [
-    "broken-evidence"
   ]
 }

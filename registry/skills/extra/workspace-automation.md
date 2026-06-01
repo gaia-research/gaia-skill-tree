@@ -1,8 +1,8 @@
-# [garrytan](../../../docs/u/garrytan/)/gstack-upgrade  [2★ · Named]
+# [garrytan](../../../docs/u/garrytan/)/gstack-upgrade  [2★]
 **ID:** workspace-automation  
 **Type:** Extra Skill  
-**Level:** 2★  
-**Tier:** Named  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
+**Top named variant:** 2★  
 **Skill Call:** `/workspace-automation`
 
 ---
@@ -20,7 +20,14 @@ Orchestrates productivity tasks across email, calendar, drive, and documents thr
 ## Fusion Condition
 _None specified._
 
-## Evidence
+## Named Implementations
+| Named Skill | Contributor | Stars | Evidence |
+|---|---|---|---|
+| garrytan/gstack-upgrade | garrytan | 2★ | 0 |
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | C | https://hermes-agent.nousresearch.com/docs/skills | gemini-cli | 2026-05-17 |

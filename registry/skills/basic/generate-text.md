@@ -1,8 +1,7 @@
-# /generate-text  [0★ · Basic]
+# /generate-text
 **ID:** generate-text  
 **Type:** Basic Skill  
-**Level:** 0★  
-**Tier:** Basic  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
 **Skill Call:** `/generate-text`
 
 ---
@@ -18,7 +17,12 @@ _None._
 - [Release Automation](../extra/release-automation.md)
 - [Skill Authoring](../extra/skill-authoring.md)
 
-## Evidence
+## Named Implementations
+_None yet — be the first to claim this skill._
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | C | https://github.com/gaia-registry/gaia/blob/main/docs/evidence/generateText.md | mbtiongson1 | 2026-04-26 |

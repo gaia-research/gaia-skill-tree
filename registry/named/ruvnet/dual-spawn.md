@@ -5,21 +5,28 @@ contributor: ruvnet
 origin: true
 genericSkillRef: headless-worker-spawn
 status: named
-title: "The Headless Launcher"
+title: The Headless Launcher
 catalogRef: ruvnet-dual-spawn
-level: "2★"
-description: Spawns headless Codex workers from Claude Code for parallel background execution with configurable worker types and shared memory.
+level: 2★
+description: Spawns headless Codex workers from Claude Code for parallel background
+  execution with configurable worker types and shared memory.
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - dual-mode
-  - headless
-  - codex
-  - parallel-execution
-  - background-workers
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/dual-mode"
+- dual-mode
+- headless
+- codex
+- parallel-execution
+- background-workers
+createdAt: '2026-05-19'
+updatedAt: '2026-05-19'
+suiteRef: ruvnet/dual-mode
+evidence:
+- class: B
+  source: https://github.com/ruvnet/ruflo
+  evaluator: mbtiongson1
+  date: '2026-05-19'
+  notes: Ruflo orchestration platform — 34k+ GitHub stars.
 ---
 
 ## Overview

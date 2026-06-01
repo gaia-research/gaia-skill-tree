@@ -5,21 +5,28 @@ contributor: ruvnet
 origin: true
 genericSkillRef: hybrid-workflow-coordination
 status: named
-title: "The Hybrid Orchestrator"
+title: The Hybrid Orchestrator
 catalogRef: ruvnet-dual-coordinate
-level: "2★"
-description: Coordinates hybrid Claude+Codex workflows by routing tasks between interactive reasoning phases and parallel background execution.
+level: 2★
+description: Coordinates hybrid Claude+Codex workflows by routing tasks between interactive
+  reasoning phases and parallel background execution.
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - dual-mode
-  - hybrid-workflow
-  - orchestration
-  - task-routing
-  - parallel-execution
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/dual-mode"
+- dual-mode
+- hybrid-workflow
+- orchestration
+- task-routing
+- parallel-execution
+createdAt: '2026-05-19'
+updatedAt: '2026-05-19'
+suiteRef: ruvnet/dual-mode
+evidence:
+- class: B
+  source: https://github.com/ruvnet/ruflo
+  evaluator: mbtiongson1
+  date: '2026-05-19'
+  notes: Ruflo orchestration platform — 34k+ GitHub stars.
 ---
 
 ## Overview

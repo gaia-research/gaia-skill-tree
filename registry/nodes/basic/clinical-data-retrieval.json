@@ -2,7 +2,6 @@
   "id": "clinical-data-retrieval",
   "name": "Clinical Data Retrieval",
   "type": "basic",
-  "level": "2★",
   "rarity": "common",
   "description": "Retrieves and parses clinical trial records, drug approvals, regulatory filings, or medical variant databases (e.g. ClinicalTrials.gov, OpenFDA, ClinVar).",
   "prerequisites": [],
@@ -14,40 +13,12 @@
       "evaluator": "unknown",
       "date": "2026-05-23",
       "notes": "Foundational canonical generic skill for Clinical Data Retrieval."
-    },
-    {
-      "class": "B",
-      "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/clinical_trials_database/SKILL.md",
-      "evaluator": "unknown",
-      "date": "2026-05-23",
-      "notes": "Official Google DeepMind clinical_trials_database science-skill implementation."
-    },
-    {
-      "class": "B",
-      "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/openfda_database/SKILL.md",
-      "evaluator": "unknown",
-      "date": "2026-05-23",
-      "notes": "Official Google DeepMind openfda_database science-skill implementation."
-    },
-    {
-      "class": "B",
-      "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/clinvar_database/SKILL.md",
-      "evaluator": "unknown",
-      "date": "2026-05-23",
-      "notes": "Official Google DeepMind clinvar_database science-skill implementation."
-    },
-    {
-      "class": "B",
-      "source": "https://github.com/google-deepmind/science-skills/blob/main/skills/opentargets_database/SKILL.md",
-      "evaluator": "unknown",
-      "date": "2026-05-23",
-      "notes": "Official Google DeepMind opentargets_database science-skill implementation."
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-23",
-  "updatedAt": "2026-05-23",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

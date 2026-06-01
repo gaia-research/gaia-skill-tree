@@ -5,24 +5,31 @@ contributor: mattpocock
 origin: true
 genericSkillRef: grill-with-docs
 status: named
-title: "The Documentation Griller"
-title: "The Domain Sovereign"
+title: The Domain Sovereign
 catalogRef: mattpocock-grill-with-docs
-level: "3★"
-description: The ultimate evolution of the grill pattern. Fuses relentless Socratic questioning with deep domain awareness, ensuring every decision is cross-referenced against a persistent ubiquitous language and documented via real-time ADR generation.
+level: 3★
+description: The ultimate evolution of the grill pattern. Fuses relentless Socratic
+  questioning with deep domain awareness, ensuring every decision is cross-referenced
+  against a persistent ubiquitous language and documented via real-time ADR generation.
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/engineering/grill-with-docs/SKILL.md
 tags:
-  - design-review
-  - domain-model
-  - ubiquitous-language
-  - adr
-  - context-md
-  - socratic-method
-  - fusion
-createdAt: "2026-04-30"
-updatedAt: "2026-05-15"
-suiteRef: "mattpocock/engineering"
+- design-review
+- domain-model
+- ubiquitous-language
+- adr
+- context-md
+- socratic-method
+- fusion
+createdAt: '2026-04-30'
+updatedAt: '2026-05-15'
+suiteRef: mattpocock/engineering
+evidence:
+- class: B
+  source: https://github.com/mattpocock/skills/blob/main/skills/engineering/grill-with-docs/SKILL.md
+  evaluator: mbtiongson1
+  date: '2026-05-15'
+  notes: Production implementation of the Grill With Docs pattern.
 ---
 
 ## Overview

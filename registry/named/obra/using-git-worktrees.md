@@ -5,20 +5,30 @@ contributor: obra
 origin: true
 genericSkillRef: using-git-worktrees
 status: named
-title: "The Isolated Workspace"
-level: "2★"
-description: Ensures every piece of feature work begins in an isolated workspace — creating a native git worktree when available, falling back to tool-provided isolation otherwise.
+title: The Isolated Workspace
+level: 2★
+description: Ensures every piece of feature work begins in an isolated workspace —
+  creating a native git worktree when available, falling back to tool-provided isolation
+  otherwise.
 links:
   github: https://github.com/obra/superpowers/blob/main/skills/using-git-worktrees/SKILL.md
 tags:
-  - git-worktrees
-  - isolation
-  - workspace
-  - branching
-  - safety
-createdAt: "2026-05-18"
-updatedAt: "2026-05-18"
-suiteRef: "obra/superpowers"
+- git-worktrees
+- isolation
+- workspace
+- branching
+- safety
+createdAt: '2026-05-18'
+updatedAt: '2026-05-18'
+suiteRef: obra/superpowers
+evidence:
+- class: B
+  source: https://github.com/obra/superpowers/blob/main/skills/using-git-worktrees/SKILL.md
+  evaluator: mbtiongson1
+  date: '2026-05-18'
+  notes: obra/superpowers — complete software development methodology for coding agents,
+    196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode,
+    Cursor, GitHub Copilot CLI.
 ---
 
 ## Overview

@@ -1,8 +1,7 @@
-# /image-generate  [2★ · Named]
+# /image-generate
 **ID:** image-generate  
 **Type:** Basic Skill  
-**Level:** 2★  
-**Tier:** Named  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
 **Skill Call:** `/image-generate`
 
 ---
@@ -16,7 +15,12 @@ _None._
 ## Unlocks
 _None._
 
-## Evidence
+## Named Implementations
+_None yet — be the first to claim this skill._
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | A | https://arxiv.org/abs/2112.10752 | mbtiongson1 | 2026-04-28 |

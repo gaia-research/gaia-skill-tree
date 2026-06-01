@@ -2,7 +2,6 @@
   "id": "design-generation",
   "name": "Design Generation",
   "type": "extra",
-  "level": "3★",
   "rarity": "rare",
   "description": "Generates high-fidelity visual assets, prototypes, and UI components from design intent or discovery forms, adhering to brand and UX standards.",
   "prerequisites": [
@@ -13,19 +12,11 @@
     "full-stack-developer"
   ],
   "conditions": "",
-  "evidence": [
-    {
-      "class": "B",
-      "source": "https://github.com/nexu-io/open-design",
-      "evaluator": "gemini-cli",
-      "date": "2026-05-14",
-      "notes": "Open Design -- local-first design engine generating high-fidelity prototypes and brand assets."
-    }
-  ],
+  "evidence": [],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-14",
-  "updatedAt": "2026-05-14",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

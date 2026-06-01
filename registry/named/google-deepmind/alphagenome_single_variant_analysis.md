@@ -17,6 +17,13 @@ createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/alphagenome_single_variant_analysis
+evidence:
+- class: B
+  source: https://github.com/google-deepmind/science-skills/blob/main/skills/alphagenome_single_variant_analysis/SKILL.md
+  evaluator: unknown
+  date: '2026-05-23'
+  notes: Official Google DeepMind alphagenome_single_variant_analysis science-skill
+    implementation.
 ---
 
 # Variant Analysis using AlphaGenome

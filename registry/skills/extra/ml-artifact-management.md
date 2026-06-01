@@ -1,8 +1,7 @@
-# /ml-artifact-management  [2★ · Named]
+# /ml-artifact-management
 **ID:** ml-artifact-management  
 **Type:** Extra Skill  
-**Level:** 2★  
-**Tier:** Named  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
 **Skill Call:** `/ml-artifact-management`
 
 ---
@@ -20,7 +19,12 @@ _None._
 ## Fusion Condition
 _None specified._
 
-## Evidence
+## Named Implementations
+_None yet — be the first to claim this skill._
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | B | https://github.com/huggingface/huggingface_hub | gemini-cli | 2026-05-17 |

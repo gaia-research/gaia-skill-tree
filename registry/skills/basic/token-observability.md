@@ -1,8 +1,8 @@
-# [getagentseal](../../../docs/u/getagentseal/)/codeburn  [2★ · Named]
+# [getagentseal](../../../docs/u/getagentseal/)/codeburn  [2★]
 **ID:** token-observability  
 **Type:** Basic Skill  
-**Level:** 2★  
-**Tier:** Named  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
+**Top named variant:** 2★  
 **Skill Call:** `/token-observability`
 
 ---
@@ -24,10 +24,15 @@ _None._
 ## Unlocks
 - [Data Analysis](../extra/data-analysis.md)
 
-## Evidence
-| Class | Source | Evaluator | Date |
+## Named Implementations
+| Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| B | https://github.com/getagentseal/codeburn | gemini-cli | 2026-05-14 |
+| getagentseal/codeburn ⭑ | getagentseal | 2★ | 1 |
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
+_None._
 
 ## Known Agents
 _None verified yet._

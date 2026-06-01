@@ -2,7 +2,6 @@
   "id": "career-operations",
   "name": "Career Operations",
   "type": "extra",
-  "level": "3★",
   "rarity": "legendary",
   "description": "Orchestrates an end-to-end job application pipeline, including automated search, fit evaluation, and tailored CV/cover letter generation.",
   "prerequisites": [
@@ -12,19 +11,11 @@
   ],
   "derivatives": [],
   "conditions": "",
-  "evidence": [
-    {
-      "class": "B",
-      "source": "https://github.com/santifer/career-ops",
-      "evaluator": "gemini-cli",
-      "date": "2026-05-14",
-      "notes": "Career-Ops -- AI-powered job search system with CV tailoring and dashboard."
-    }
-  ],
+  "evidence": [],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-14",
-  "updatedAt": "2026-05-14",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

@@ -2,25 +2,16 @@
   "id": "framework-upgrade",
   "name": "Framework Upgrade",
   "type": "basic",
-  "level": "0★",
   "rarity": "common",
   "description": "Guides an agent through upgrading a project from one major framework version to another, including breaking-change detection, migration steps, and post-upgrade validation.",
   "prerequisites": [],
   "derivatives": [],
   "conditions": "",
-  "evidence": [
-    {
-      "class": "B",
-      "source": "https://github.com/laravel/boost/issues/698",
-      "evaluator": "mbtiongson1",
-      "date": "2026-04-30",
-      "notes": "Laravel /upgrade-laravel-v13 slash command -- real-world agentic framework upgrade workflow published by the Laravel team."
-    }
-  ],
+  "evidence": [],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-04-30",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

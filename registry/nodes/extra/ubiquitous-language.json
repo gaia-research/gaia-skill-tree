@@ -2,7 +2,6 @@
   "id": "ubiquitous-language",
   "name": "Ubiquitous Language",
   "type": "extra",
-  "level": "2★",
   "rarity": "rare",
   "description": "Establishes and maintains a consistent, domain-driven vocabulary between the agent and human, formalising terminology in a shared glossary (typically CONTEXT.md) to reduce ambiguity and token waste.",
   "prerequisites": [
@@ -13,19 +12,11 @@
     "grill-with-docs"
   ],
   "conditions": "Requires active persistence of terms and immediate conflict resolution during sessions.",
-  "evidence": [
-    {
-      "class": "B",
-      "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/ubiquitous-language/SKILL.md",
-      "evaluator": "mbtiongson1",
-      "date": "2026-05-15",
-      "notes": "Original implementation by Matt Pocock; formalizes DDD principles for AI agent contexts."
-    }
-  ],
+  "evidence": [],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-15",
-  "updatedAt": "2026-05-25",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {
@@ -50,8 +41,5 @@
       "previousValue": "4★",
       "newValue": "2★"
     }
-  ],
-  "demerits": [
-    "broken-evidence"
   ]
 }

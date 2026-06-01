@@ -5,21 +5,28 @@ contributor: ruvnet
 origin: true
 genericSkillRef: worker-agent-dispatch
 status: named
-title: "The Task Dispatcher"
+title: The Task Dispatcher
 catalogRef: ruvnet-worker-integration
-level: "2★"
-description: Maps trigger events to optimal agent combinations for background task execution with performance tracking and adaptive feedback.
+level: 2★
+description: Maps trigger events to optimal agent combinations for background task
+  execution with performance tracking and adaptive feedback.
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - worker
-  - dispatch
-  - background-tasks
-  - event-driven
-  - performance-tracking
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/ruflo"
+- worker
+- dispatch
+- background-tasks
+- event-driven
+- performance-tracking
+createdAt: '2026-05-19'
+updatedAt: '2026-05-19'
+suiteRef: ruvnet/ruflo
+evidence:
+- class: B
+  source: https://github.com/ruvnet/ruflo
+  evaluator: mbtiongson1
+  date: '2026-05-19'
+  notes: Ruflo orchestration platform — 34k+ GitHub stars.
 ---
 
 ## Overview

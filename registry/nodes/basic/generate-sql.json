@@ -2,7 +2,6 @@
   "id": "generate-sql",
   "name": "Generate SQL",
   "type": "basic",
-  "level": "2★",
   "rarity": "common",
   "description": "Translates natural-language data questions into syntactically correct, executable SQL queries against a given schema.",
   "prerequisites": [],
@@ -23,7 +22,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-04-28",
+  "updatedAt": "2026-06-01",
   "version": "0.2.0",
   "timeline": [
     {

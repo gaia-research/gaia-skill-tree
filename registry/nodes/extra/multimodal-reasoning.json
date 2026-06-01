@@ -2,7 +2,6 @@
   "id": "multimodal-reasoning",
   "name": "Multimodal Reasoning",
   "type": "extra",
-  "level": "2★",
   "rarity": "rare",
   "description": "Integrates information from images and text to answer questions requiring visual grounding and logical inference across modalities.",
   "prerequisites": [
@@ -22,12 +21,9 @@
     }
   ],
   "knownAgents": [],
-  "demerits": [
-    "experimental-feature"
-  ],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-05-25",
+  "updatedAt": "2026-06-01",
   "version": "0.2.0",
   "timeline": [
     {

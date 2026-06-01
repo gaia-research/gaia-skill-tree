@@ -2,25 +2,16 @@
   "id": "headless-worker-collect",
   "name": "Headless Worker Collect",
   "type": "basic",
-  "level": "2★",
   "rarity": "common",
   "description": "Aggregates and formats results from distributed headless workers stored in shared memory with filtering and status reporting.",
   "prerequisites": [],
   "derivatives": [],
   "conditions": "",
-  "evidence": [
-    {
-      "class": "B",
-      "source": "https://github.com/ruvnet/ruflo",
-      "evaluator": "mbtiongson1",
-      "date": "2026-05-19",
-      "notes": "Ruflo orchestration platform — 34k+ GitHub stars."
-    }
-  ],
+  "evidence": [],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-19",
-  "updatedAt": "2026-05-19",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

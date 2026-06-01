@@ -2,7 +2,6 @@
   "id": "mathematical-animation",
   "name": "Mathematical Animation",
   "type": "extra",
-  "level": "3★",
   "rarity": "rare",
   "description": "Produces programmatic mathematical and algorithmic animations with high pedagogical and visual quality, utilizing LaTeX for notation and geometric coordinate systems for spatial layout.",
   "prerequisites": [
@@ -23,12 +22,9 @@
   "knownAgents": [
     "NousResearch/hermes-agent"
   ],
-  "demerits": [
-    "heavyweight-dependency"
-  ],
   "status": "provisional",
   "createdAt": "2026-05-17",
-  "updatedAt": "2026-05-17",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

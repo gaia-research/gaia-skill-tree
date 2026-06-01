@@ -5,17 +5,25 @@ contributor: bradautomates
 origin: true
 genericSkillRef: video-intelligence
 status: named
-title: "The Temporal Eye"
-level: "2★"
-description: Enables AI agents to watch videos by downloading them, extracting frames, and transcribing audio for multimodal analysis.
+title: The Temporal Eye
+level: 2★
+description: Enables AI agents to watch videos by downloading them, extracting frames,
+  and transcribing audio for multimodal analysis.
 links:
   github: https://github.com/bradautomates/claude-video
 tags:
-  - video
-  - multimodal
-  - vision
-createdAt: "2026-05-14"
-updatedAt: "2026-05-14"
+- video
+- multimodal
+- vision
+createdAt: '2026-05-14'
+updatedAt: '2026-05-14'
+evidence:
+- class: B
+  source: https://github.com/bradautomates/claude-video
+  evaluator: gemini-cli
+  date: '2026-05-14'
+  notes: Claude Video -- enables AI agents to watch videos by downloading, frame extraction,
+    and transcription.
 ---
 
 ## Overview

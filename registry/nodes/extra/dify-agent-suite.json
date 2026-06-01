@@ -2,7 +2,6 @@
   "id": "dify-agent-suite",
   "name": "Dify Agent Suite",
   "type": "extra",
-  "level": "1★",
   "rarity": "common",
   "description": "An integrated suite of frontend, backend, testing, and review capabilities for the Dify LLM application development platform.",
   "prerequisites": [
@@ -23,7 +22,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-20",
-  "updatedAt": "2026-05-20",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

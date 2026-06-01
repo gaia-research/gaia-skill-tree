@@ -5,34 +5,42 @@ contributor: ruvnet
 origin: true
 genericSkillRef: platform-modernization-sprint
 status: named
-title: "The V3 Architect"
+title: The V3 Architect
 catalogRef: ruvnet-ruflo-v3
-level: "4★"
-description: "Complete Ruflo v3 modernization sprint: CLI modernization, core implementation, DDD architecture, MCP optimization, memory unification, performance tuning, security overhaul, and swarm coordination."
+level: 4★
+description: 'Complete Ruflo v3 modernization sprint: CLI modernization, core implementation,
+  DDD architecture, MCP optimization, memory unification, performance tuning, security
+  overhaul, and swarm coordination.'
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - v3-sprint
-  - modernization
-  - ddd
-  - mcp
-  - security
-  - memory-unification
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/ruflo"
+- v3-sprint
+- modernization
+- ddd
+- mcp
+- security
+- memory-unification
+createdAt: '2026-05-19'
+updatedAt: '2026-05-19'
+suiteRef: ruvnet/ruflo
 suiteComponents:
-  - ruvnet/swarm-advanced
-  - ruvnet/swarm-orchestration
-  - ruvnet/v3-cli-modernization
-  - ruvnet/v3-core-implementation
-  - ruvnet/v3-ddd-architecture
-  - ruvnet/v3-integration-deep
-  - ruvnet/v3-mcp-optimization
-  - ruvnet/v3-memory-unification
-  - ruvnet/v3-performance-optimization
-  - ruvnet/v3-security-overhaul
-  - ruvnet/v3-swarm-coordination
+- ruvnet/swarm-advanced
+- ruvnet/swarm-orchestration
+- ruvnet/v3-cli-modernization
+- ruvnet/v3-core-implementation
+- ruvnet/v3-ddd-architecture
+- ruvnet/v3-integration-deep
+- ruvnet/v3-mcp-optimization
+- ruvnet/v3-memory-unification
+- ruvnet/v3-performance-optimization
+- ruvnet/v3-security-overhaul
+- ruvnet/v3-swarm-coordination
+evidence:
+- class: B
+  source: https://github.com/ruvnet/ruflo
+  evaluator: mbtiongson1
+  date: '2026-05-19'
+  notes: Ruflo orchestration platform — 34k+ GitHub stars.
 ---
 
 ## Overview

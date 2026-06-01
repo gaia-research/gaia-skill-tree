@@ -5,20 +5,30 @@ contributor: obra
 origin: true
 genericSkillRef: receiving-code-review
 status: named
-title: "The Rigorous Revision"
-level: "2★"
-description: Processes code review feedback with technical rigor and verification before implementation — questioning unclear feedback and confirming fixes with tests rather than blindly applying suggestions.
+title: The Rigorous Revision
+level: 2★
+description: Processes code review feedback with technical rigor and verification
+  before implementation — questioning unclear feedback and confirming fixes with tests
+  rather than blindly applying suggestions.
 links:
   github: https://github.com/obra/superpowers/blob/main/skills/receiving-code-review/SKILL.md
 tags:
-  - code-review
-  - feedback
-  - verification
-  - quality
-  - collaboration
-createdAt: "2026-05-18"
-updatedAt: "2026-05-18"
-suiteRef: "obra/superpowers"
+- code-review
+- feedback
+- verification
+- quality
+- collaboration
+createdAt: '2026-05-18'
+updatedAt: '2026-05-18'
+suiteRef: obra/superpowers
+evidence:
+- class: B
+  source: https://github.com/obra/superpowers/blob/main/skills/receiving-code-review/SKILL.md
+  evaluator: mbtiongson1
+  date: '2026-05-18'
+  notes: obra/superpowers — complete software development methodology for coding agents,
+    196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode,
+    Cursor, GitHub Copilot CLI.
 ---
 
 ## Overview

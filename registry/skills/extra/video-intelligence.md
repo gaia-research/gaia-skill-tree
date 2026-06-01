@@ -1,8 +1,8 @@
-# [bradautomates](../../../docs/u/bradautomates/)/claude-video  [3★ · Evolved]
+# [bradautomates](../../../docs/u/bradautomates/)/claude-video  [2★]
 **ID:** video-intelligence  
 **Type:** Extra Skill  
-**Level:** 3★  
-**Tier:** Evolved  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
+**Top named variant:** 2★  
 **Skill Call:** `/video-intelligence`
 
 ---
@@ -20,10 +20,15 @@ Processes video streams by extracting frames, transcribing audio, and applying m
 ## Fusion Condition
 Requires FFmpeg and multimodal LLM support.
 
-## Evidence
-| Class | Source | Evaluator | Date |
+## Named Implementations
+| Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| B | https://github.com/bradautomates/claude-video | gemini-cli | 2026-05-14 |
+| bradautomates/claude-video ⭑ | bradautomates | 2★ | 1 |
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
+_None._
 
 ## Known Agents
 _None verified yet._

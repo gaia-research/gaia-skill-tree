@@ -5,20 +5,29 @@ contributor: anthropic
 origin: true
 genericSkillRef: document-editing
 status: named
-title: "The Slide Artisan"
+title: The Slide Artisan
 catalogRef: anthropic-pptx
-level: "2★"
-description: Extracts slide content from PowerPoint (.pptx) files using markitdown, applies edits or design principles in-place, and repacks the file — enabling agents to read, modify, and write structured presentation files without a GUI.
+level: 2★
+description: Extracts slide content from PowerPoint (.pptx) files using markitdown,
+  applies edits or design principles in-place, and repacks the file — enabling agents
+  to read, modify, and write structured presentation files without a GUI.
 links:
   github: https://github.com/anthropics/skills/blob/main/skills/pptx/SKILL.md
 tags:
-  - pptx
-  - powerpoint
-  - document-editing
-  - markitdown
-  - presentations
-createdAt: "2026-04-30"
-updatedAt: "2026-04-30"
+- pptx
+- powerpoint
+- document-editing
+- markitdown
+- presentations
+createdAt: '2026-04-30'
+updatedAt: '2026-04-30'
+evidence:
+- class: B
+  source: https://github.com/anthropics/skills/blob/main/skills/pptx/SKILL.md
+  evaluator: mbtiongson1
+  date: '2026-04-30'
+  notes: Anthropic /pptx slash command -- extracts, edits, packs, and applies design
+    principles to PowerPoint files using markitdown.
 ---
 
 ## Overview

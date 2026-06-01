@@ -1,8 +1,7 @@
-# /ml-pipeline  [4★ · Hardened]
+# /ml-pipeline
 **ID:** ml-pipeline  
 **Type:** Extra Skill  
-**Level:** 4★  
-**Tier:** Hardened  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
 **Skill Call:** `/ml-pipeline`
 
 ---
@@ -21,7 +20,12 @@ _None._
 ## Fusion Condition
 Requires access to a container orchestration environment and model registry.
 
-## Evidence
+## Named Implementations
+_None yet — be the first to claim this skill._
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | A | https://arxiv.org/abs/2502.18530 | mbtiongson1 | 2026-04-30 |

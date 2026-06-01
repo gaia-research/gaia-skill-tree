@@ -2,7 +2,6 @@
   "id": "computer-use",
   "name": "Computer Use",
   "type": "basic",
-  "level": "2★",
   "rarity": "rare",
   "description": "Controls desktop GUIs and web browsers by interpreting screenshots, issuing mouse/keyboard actions, and verifying visual state to complete open-ended computer tasks.",
   "prerequisites": [],
@@ -29,7 +28,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-04-28",
+  "updatedAt": "2026-06-01",
   "version": "0.2.0",
   "timeline": [
     {

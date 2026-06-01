@@ -2,7 +2,6 @@
   "id": "content-moderation",
   "name": "Content Moderation",
   "type": "extra",
-  "level": "2★",
   "rarity": "uncommon",
   "description": "Detects policy-violating content by combining intent classification, sentiment scoring, and entity extraction across text, images, and mixed media.",
   "prerequisites": [
@@ -24,7 +23,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-05-25",
+  "updatedAt": "2026-06-01",
   "version": "0.2.0",
   "timeline": [
     {

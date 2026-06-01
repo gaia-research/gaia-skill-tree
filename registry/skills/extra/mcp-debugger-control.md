@@ -1,10 +1,7 @@
-# /mcp-debugger-control  [2★ · Named]
+# /mcp-debugger-control
 **ID:** mcp-debugger-control  
 **Type:** Extra Skill  
-**Level:** 2★  
-**Tier:** Named  
-**Potential:** 0★  
-**Demerits:** niche-integration, broken-evidence  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
 **Skill Call:** `/mcp-debugger-control`
 
 ---
@@ -22,7 +19,12 @@ Exposes low-level debugger capabilities (breakpoints, stepping, stack inspection
 ## Fusion Condition
 Requires a target debugger integration and a supported MCP client.
 
-## Evidence
+## Named Implementations
+_None yet — be the first to claim this skill._
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | B | https://github.com/LadislavSopko/mcp-server-for-vs | mbtiongson1 | 2026-05-14 |

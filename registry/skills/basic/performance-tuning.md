@@ -1,8 +1,8 @@
-# [ruvnet](../../../docs/u/ruvnet/)/performance-analysis  [2★ · Named]
+# [ruvnet](../../../docs/u/ruvnet/)/performance-analysis  [3★]
 **ID:** performance-tuning  
 **Type:** Basic Skill  
-**Level:** 2★  
-**Tier:** Named  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
+**Top named variant:** 3★  
 **Skill Call:** `/performance-tuning`
 
 ---
@@ -16,11 +16,19 @@ _None._
 ## Unlocks
 _None._
 
-## Evidence
+## Named Implementations
+| Named Skill | Contributor | Stars | Evidence |
+|---|---|---|---|
+| ruvnet/performance-analysis ⭑ | ruvnet | 2★ | 0 |
+| addy-osmani/performance-optimization | addy-osmani | 3★ | 1 |
+| ruvnet/v3-performance-optimization | ruvnet | 2★ | 0 |
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | B | https://github.com/ruvnet/ruflo | mbtiongson1 | 2026-05-19 |
-| A | https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md | mbtiongson1 | 2026-05-31 |
 
 ## Known Agents
 _None verified yet._

@@ -1,8 +1,8 @@
-# [mattpocock](../../../docs/u/mattpocock/)/setup-matt-pocock-skills  [3★ · Evolved]
+# [mattpocock](../../../docs/u/mattpocock/)/setup-matt-pocock-skills  [3★]
 **ID:** agent-environment-setup  
 **Type:** Extra Skill  
-**Level:** 3★  
-**Tier:** Evolved  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
+**Top named variant:** 3★  
 **Skill Call:** `/agent-environment-setup`
 
 ---
@@ -20,10 +20,15 @@ _None._
 ## Fusion Condition
 _None specified._
 
-## Evidence
-| Class | Source | Evaluator | Date |
+## Named Implementations
+| Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| B | https://github.com/mattpocock/skills/blob/main/skills/engineering/setup-matt-pocock-skills/SKILL.md | mbtiongson1 | 2026-05-22 |
+| mattpocock/setup-matt-pocock-skills | mattpocock | 3★ | 1 |
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
+_None._
 
 ## Known Agents
 _None verified yet._

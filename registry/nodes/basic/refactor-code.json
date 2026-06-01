@@ -2,7 +2,6 @@
   "id": "refactor-code",
   "name": "Refactor Code",
   "type": "basic",
-  "level": "2★",
   "rarity": "uncommon",
   "description": "Restructures existing source code to improve readability, maintainability, or performance without changing observable behavior.",
   "prerequisites": [],
@@ -22,7 +21,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-04-28",
+  "updatedAt": "2026-06-01",
   "version": "0.2.0",
   "timeline": [
     {

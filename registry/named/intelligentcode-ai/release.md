@@ -19,6 +19,14 @@ tags:
 - github-release
 - automation
 updatedAt: '2026-05-25'
+evidence:
+- class: C
+  source: https://github.com/intelligentcode-ai/skills/blob/main/skills/release/SKILL.md
+  evaluator: mbtiongson1
+  date: '2026-04-30'
+  notes: intelligentcode-ai/skills release — automates semantic versioning, CHANGELOG
+    updates, PR merging, git tagging, and GitHub release creation with verification
+    gates.
 ---
 
 ## Overview

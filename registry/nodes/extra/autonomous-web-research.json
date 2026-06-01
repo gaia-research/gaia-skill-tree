@@ -2,7 +2,6 @@
   "id": "autonomous-web-research",
   "name": "Autonomous Web Research",
   "type": "extra",
-  "level": "4★",
   "rarity": "rare",
   "description": "Independently surveys, maps, and extracts structured information from the web by autonomously deciding which domains to crawl and synthesizing data into comprehensive research reports.",
   "prerequisites": [
@@ -35,7 +34,7 @@
   ],
   "status": "provisional",
   "createdAt": "2026-05-14",
-  "updatedAt": "2026-05-20",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

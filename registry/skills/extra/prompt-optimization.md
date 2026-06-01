@@ -1,8 +1,8 @@
-# [stanfordnlp](../../../docs/u/stanfordnlp/)/dspy  [4★ · Hardened]
+# [stanfordnlp](../../../docs/u/stanfordnlp/)/dspy  [3★]
 **ID:** prompt-optimization  
 **Type:** Extra Skill  
-**Level:** 4★  
-**Tier:** Hardened  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
+**Top named variant:** 3★  
 **Skill Call:** `/prompt-optimization`
 
 ---
@@ -21,7 +21,15 @@ Automatically improves prompt instructions through iterative compilation, treati
 ## Fusion Condition
 _None specified._
 
-## Evidence
+## Named Implementations
+| Named Skill | Contributor | Stars | Evidence |
+|---|---|---|---|
+| stanfordnlp/dspy ⭑ | stanfordnlp | 3★ | 0 |
+| garrytan/plan-tune | garrytan | 2★ | 0 |
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | A | https://arxiv.org/abs/2310.03714 | mbtiongson1 | 2026-04-29 |

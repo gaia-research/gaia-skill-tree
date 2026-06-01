@@ -2,7 +2,6 @@
   "id": "workflow-automation",
   "name": "Workflow Automation",
   "type": "extra",
-  "level": "4★",
   "rarity": "uncommon",
   "description": "Designs, configures, and runs trigger-based multi-step automation pipelines that connect external services, schedule jobs, and orchestrate tool sequences without continuous human supervision.",
   "prerequisites": [
@@ -42,7 +41,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-04-30",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

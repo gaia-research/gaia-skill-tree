@@ -2,7 +2,6 @@
   "id": "browser-automation",
   "name": "Browser Automation",
   "type": "extra",
-  "level": "3★",
   "rarity": "uncommon",
   "description": "Navigates web pages, fills forms, clicks elements, and extracts information by combining web search with screenshot-based GUI control to complete multi-step web tasks.",
   "prerequisites": [
@@ -35,7 +34,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-04-28",
+  "updatedAt": "2026-06-01",
   "version": "0.2.0",
   "timeline": [
     {

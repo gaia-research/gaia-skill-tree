@@ -1,8 +1,8 @@
-# [obra](../../../docs/u/obra/)/verification-before-completion  [1★ · Awakened]
+# [obra](../../../docs/u/obra/)/verification-before-completion  [2★]
 **ID:** verification-before-completion  
 **Type:** Extra Skill  
-**Level:** 1★  
-**Tier:** Awakened  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
+**Top named variant:** 2★  
 **Skill Call:** `/verification-before-completion`
 
 ---
@@ -21,10 +21,16 @@ Requires running verification commands and confirming output before claiming wor
 ## Fusion Condition
 _None specified._
 
-## Evidence
-| Class | Source | Evaluator | Date |
+## Named Implementations
+| Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| B | https://github.com/obra/superpowers/blob/main/skills/verification-before-completion/SKILL.md | mbtiongson1 | 2026-05-18 |
+| obra/verification-before-completion ⭑ | obra | 2★ | 1 |
+| ruvnet/verification-quality | ruvnet | 2★ | 0 |
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
+_None._
 
 ## Known Agents
 _None verified yet._

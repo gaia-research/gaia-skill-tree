@@ -2,7 +2,6 @@
   "id": "generative-media",
   "name": "Generative Media",
   "type": "extra",
-  "level": "3★",
   "rarity": "rare",
   "description": "Generates and manipulates images, video, and audio through complex node-based or scripted generative workflows, managing model dependencies and parameter injection.",
   "prerequisites": [
@@ -23,12 +22,9 @@
   "knownAgents": [
     "NousResearch/hermes-agent"
   ],
-  "demerits": [
-    "heavyweight-dependency"
-  ],
   "status": "provisional",
   "createdAt": "2026-05-17",
-  "updatedAt": "2026-05-17",
+  "updatedAt": "2026-06-01",
   "version": "0.1.0",
   "timeline": [
     {

@@ -1,8 +1,8 @@
-# [anthropic](../../../docs/u/anthropic/)/pptx  [0★ · Basic]
+# [anthropic](../../../docs/u/anthropic/)/pptx  [4★]
 **ID:** document-editing  
 **Type:** Basic Skill  
-**Level:** 0★  
-**Tier:** Basic  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
+**Top named variant:** 4★  
 **Skill Call:** `/document-editing`
 
 ---
@@ -17,10 +17,18 @@ _None._
 - [Humanize Prose](../extra/humanize-prose.md)
 - [Founder Mode](../ultimate/gstack.md)
 
-## Evidence
-| Class | Source | Evaluator | Date |
+## Named Implementations
+| Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| B | https://github.com/anthropics/skills/blob/main/skills/pptx/SKILL.md | mbtiongson1 | 2026-04-30 |
+| anthropic/pptx ⭑ | anthropic | 2★ | 1 |
+| garrytan/document-generate | garrytan | 4★ | 0 |
+| garrytan/document-release | garrytan | 2★ | 0 |
+| mattpocock/edit-article | mattpocock | 2★ | 0 |
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
+_None._
 
 ## Known Agents
 _None verified yet._

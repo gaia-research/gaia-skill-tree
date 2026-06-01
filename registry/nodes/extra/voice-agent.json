@@ -2,7 +2,6 @@
   "id": "voice-agent",
   "name": "Voice Agent",
   "type": "extra",
-  "level": "3★",
   "rarity": "uncommon",
   "description": "Handles spoken interactions end-to-end: transcribes audio input, produces language responses, and synthesizes speech output.",
   "prerequisites": [
@@ -24,12 +23,9 @@
     }
   ],
   "knownAgents": [],
-  "demerits": [
-    "heavyweight-dependency"
-  ],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-04-28",
+  "updatedAt": "2026-06-01",
   "version": "0.2.0",
   "timeline": [
     {

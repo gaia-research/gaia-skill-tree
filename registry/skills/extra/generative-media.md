@@ -1,10 +1,7 @@
-# /generative-media  [3★ · Evolved]
+# /generative-media
 **ID:** generative-media  
 **Type:** Extra Skill  
-**Level:** 3★  
-**Tier:** Evolved  
-**Potential:** 2★  
-**Demerits:** heavyweight-dependency  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
 **Skill Call:** `/generative-media`
 
 ---
@@ -22,7 +19,12 @@ _None._
 ## Fusion Condition
 _None specified._
 
-## Evidence
+## Named Implementations
+_None yet — be the first to claim this skill._
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | B | https://github.com/comfyanonymous/ComfyUI | gemini-cli | 2026-05-17 |

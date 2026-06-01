@@ -1,8 +1,8 @@
-# [garrytan](../../../docs/u/garrytan/)/benchmark  [0★ · Basic]
+# [garrytan](../../../docs/u/garrytan/)/benchmark  [4★]
 **ID:** evaluate-output  
 **Type:** Basic Skill  
-**Level:** 0★  
-**Tier:** Basic  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
+**Top named variant:** 4★  
 **Skill Call:** `/evaluate-output`
 
 ---
@@ -26,7 +26,15 @@ _None._
 - [Founder Mode](../ultimate/gstack.md)
 - [Detect Anomaly](../extra/detect-anomaly.md)
 
-## Evidence
+## Named Implementations
+| Named Skill | Contributor | Stars | Evidence |
+|---|---|---|---|
+| garrytan/benchmark | garrytan | 4★ | 0 |
+| garrytan/plan-ceo-review | garrytan | 4★ | 0 |
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | C | https://github.com/gaia-registry/gaia/blob/main/docs/evidence/evaluateOutput.md | mbtiongson1 | 2026-04-26 |

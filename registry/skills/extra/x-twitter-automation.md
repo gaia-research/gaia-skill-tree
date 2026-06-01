@@ -1,8 +1,7 @@
-# /x-twitter-automation  [4★ · Hardened]
+# /x-twitter-automation
 **ID:** x-twitter-automation  
 **Type:** Extra Skill  
-**Level:** 4★  
-**Tier:** Hardened  
+**Rank:** _rank-less generic reference — stars are earned by named implementations_  
 **Skill Call:** `/x-twitter-automation`
 
 ---
@@ -21,10 +20,13 @@ _None._
 ## Fusion Condition
 Requires configured X/Twitter access, repeatable read paths, and explicit approval gates before posting tweets, replies, DMs, or other write actions.
 
-## Evidence
-| Class | Source | Evaluator | Date |
-|---|---|---|---|
-| B | https://github.com/Xquik-dev/hermes-tweet | kriptoburak | 2026-05-15 |
+## Named Implementations
+_None yet — be the first to claim this skill._
+
+## Evidence (inherited capability)
+_Capability-level evidence for this generic reference. Every named implementation above inherits it._
+
+_None._
 
 ## Known Agents
 - Xquik-dev/hermes-tweet

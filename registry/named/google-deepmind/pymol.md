@@ -15,6 +15,12 @@ createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/pymol
+evidence:
+- class: B
+  source: https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md
+  evaluator: unknown
+  date: '2026-05-23'
+  notes: Official Google DeepMind pymol science-skill implementation.
 ---
 
 # PyMOL

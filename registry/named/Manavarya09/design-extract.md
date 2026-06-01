@@ -5,17 +5,25 @@ contributor: Manavarya09
 origin: true
 genericSkillRef: design-system-extraction
 status: named
-title: "The Token Scavenger"
-level: "2★"
-description: Extracts complete design systems, Tailwind configs, and Figma variables from any live URL.
+title: The Token Scavenger
+level: 2★
+description: Extracts complete design systems, Tailwind configs, and Figma variables
+  from any live URL.
 links:
   github: https://github.com/Manavarya09/design-extract
 tags:
-  - design-system
-  - tailwind
-  - scraping
-createdAt: "2026-05-14"
-updatedAt: "2026-05-14"
+- design-system
+- tailwind
+- scraping
+createdAt: '2026-05-14'
+updatedAt: '2026-05-14'
+evidence:
+- class: B
+  source: https://github.com/Manavarya09/design-extract
+  evaluator: gemini-cli
+  date: '2026-05-14'
+  notes: Design Extract -- extracts complete design systems (Tailwind, Figma variables,
+    etc.) from any URL.
 ---
 
 ## Overview
