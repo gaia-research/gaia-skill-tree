@@ -512,16 +512,25 @@ def meta_rename_command(args):
     old_file = None
     skill_data = None
 
+    # ⚡ Bolt: Single pass read of all nodes
+    all_nodes = []
+    new_id_exists = False
+
     for p in nodes_dir.glob("**/*.json"):
         with open(p, "r", encoding="utf-8") as f:
             try:
                 data = json.load(f)
-                if data.get("id") == old_id:
-                    old_file = p
-                    skill_data = data
-                    break
             except json.JSONDecodeError:
                 continue
+
+        node_id = data.get("id")
+        all_nodes.append((p, data))
+
+        if node_id == old_id:
+            old_file = p
+            skill_data = data
+        elif node_id == new_id:
+            new_id_exists = True
 
     if not old_file:
         print(f"Error: Skill '{old_id}' not found.")
@@ -534,15 +543,11 @@ def meta_rename_command(args):
             f"Error: '{new_id}' already exists on disk at {new_file}. Rename aborted."
         )
         sys.exit(1)
-    for p in nodes_dir.glob("**/*.json"):
-        try:
-            with open(p, "r", encoding="utf-8") as f:
-                d = json.load(f)
-            if d.get("id") == new_id:
-                print(f"Error: Skill with id '{new_id}' already exists in registry.")
-                sys.exit(1)
-        except Exception:
-            continue
+
+    if new_id_exists:
+        print(f"Error: Skill with id '{new_id}' already exists in registry.")
+        sys.exit(1)
+
     skill_data["id"] = new_id
     skill_data["updatedAt"] = datetime.date.today().isoformat()
 
@@ -554,14 +559,10 @@ def meta_rename_command(args):
     print(f"Renamed {old_file} to {new_file}")
 
     # Update references in all other nodes
-    for p in nodes_dir.glob("**/*.json"):
-        if p == new_file:
+    # Skip processing old_file as it has been renamed and deleted
+    for p, data in all_nodes:
+        if p.name == old_file.name and p.parent == old_file.parent:
             continue
-        with open(p, "r", encoding="utf-8") as f:
-            try:
-                data = json.load(f)
-            except json.JSONDecodeError:
-                continue
 
         changed = False
         if "prerequisites" in data:
