@@ -18,19 +18,12 @@
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
       "notes": "Chamoun et al. (ACL 2024 Findings) — SWIFT: automated focused feedback for scientific writing; multi-component LLM system (planner, investigator, reviewer, controller) rated more specific and helpful than human reviewers on 300 peer-reviewed manuscripts."
-    },
-    {
-      "class": "B",
-      "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/scientific-writing/SKILL.md",
-      "evaluator": "mbtiongson1",
-      "date": "2026-04-30",
-      "notes": "K-Dense-AI scientific-agent-skills — reproducible scientific-writing skill: two-stage outline-to-prose pipeline with IMRAD structure, multi-style citation management, and reporting-guideline validation (CONSORT, STROBE, PRISMA, STARD, TRIPOD)."
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-02",
   "version": "0.1.0",
   "timeline": [
     {
@@ -40,6 +33,12 @@
       "details": "Skill created as 3★ (provisional)",
       "previousValue": null,
       "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-06-02T23:45:13Z",
+      "action": "evidence_removed",
+      "contributor": "unknown",
+      "details": "Removed dead/invalid evidence: https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/scientific-writing/SKILL.md"
     }
   ]
 }

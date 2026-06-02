@@ -220,6 +220,7 @@
             "rename",
             "add",
             "evidence_added",
+            "evidence_removed",
             "type_change",
             "verified",
             "disputed"

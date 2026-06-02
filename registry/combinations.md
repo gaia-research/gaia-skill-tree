@@ -2,22 +2,22 @@
 
 | Skill | Class | Prerequisites | Top ★ | Conditions |
 |---|---|---|---|---|
-| ◇ [ruvnet](../docs/u/ruvnet/)/swarm-advanced | Extra Skill | Swarm Topology Management, Multi-Agent Debate | 3★ |  |
+| ◇ [ruvnet](../docs/u/ruvnet/)/swarm-advanced | Extra Skill | Swarm Topology Management, Multi-Agent Debate | — |  |
 | ◇ [mattpocock](../docs/u/mattpocock/)/setup-matt-pocock-skills | Extra Skill | Document Editing, Tool Use | 3★ |  |
 | ◇ /agent-eval | Extra Skill | Evaluate Output, Score Relevance | — |  |
 | ◇ [mattpocock](../docs/u/mattpocock/)/handoff | Extra Skill | Summarize, Document Editing, Context Compression | 4★ |  |
-| ◇ [ruvnet](../docs/u/ruvnet/)/agentdb-learning | Extra Skill | Adaptive Pattern Learning, Memory Manage | 3★ |  |
+| ◇ [ruvnet](../docs/u/ruvnet/)/agentdb-learning | Extra Skill | Adaptive Pattern Learning, Memory Manage | 2★ |  |
 | ◆ [ruvnet](../docs/u/ruvnet/)/agentdb | Ultimate Skill | Distributed Vector Memory, Agent Memory Learning, Memory Pattern Design, Vector DB Optimization, Vector Search | 5★ | Requires demonstrating all 5 AgentDB discipline skills in a production distributed system context. |
-| ◇ [ruvnet](../docs/u/ruvnet/)/sparc-methodology | Extra Skill | Workflow Automation, Plan and Decompose | 3★ | Requires a workflow orchestration target (e.g. Airflow, Temporal) and access to its authoring API. |
+| ◇ [ruvnet](../docs/u/ruvnet/)/sparc-methodology | Extra Skill | Workflow Automation, Plan and Decompose | — | Requires a workflow orchestration target (e.g. Airflow, Temporal) and access to its authoring API. |
 | ◇ /architecture-diagram | Extra Skill | Data Visualize, Format Output, Write Report | — | Requires enough system context to identify components, relationships, boundaries, and rendering constraints. |
 | ◇ [0xdarkmatter](../docs/u/0xdarkmatter/)/pytest-patterns | Extra Skill | Generate Test, Code Execution, Error Interpretation | 3★ |  |
 | ◇ /autonomous-data-scientist | Extra Skill | Data Analysis, Math Reason, Research | — | Requires dataset access and compute environment. Minimum 3 Class A/B evidence sources. |
-| ◇ [devin-ai](../docs/u/devin-ai/)/autonomous-swe | Extra Skill | Code Generation, Code Execution, Error Interpretation | 3★ |  |
+| ◇ [devin-ai](../docs/u/devin-ai/)/autonomous-swe | Extra Skill | Code Generation, Code Execution, Error Interpretation | 2★ |  |
 | ◇ [karpathy](../docs/u/karpathy/)/autoresearch | Extra Skill | Ghostwrite, Knowledge Harvest, Research, Web Scrape, Web Search | 3★ | Requires a multi-step crawling engine and mapping logic to resolve site structures. |
 | ◇ [obra](../docs/u/obra/)/brainstorming | Extra Skill | Requirements Analysis, Question Answer | 2★ |  |
-| ◇ [gooseworks](../docs/u/gooseworks/)/notte-browser | Extra Skill | Web Search, Computer Use | 3★ |  |
+| ◇ [gooseworks](../docs/u/gooseworks/)/notte-browser | Extra Skill | Web Search, Computer Use | 2★ |  |
 | ◇ [santifer](../docs/u/santifer/)/career-ops | Extra Skill | Autonomous Web Research, Summarize, Document Editing | 3★ |  |
-| ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus-platform | Extra Skill | API Call, Tool Use | 3★ |  |
+| ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus-platform | Extra Skill | API Call, Tool Use | — |  |
 | ◇ [garrytan](../docs/u/garrytan/)/plan-eng-review | Extra Skill | Code Generation, Diff Content, Evaluate Output | 4★ |  |
 | ◇ /collaborative-diagramming | Extra Skill | API Call, Data Visualize | — |  |
 | ◇ /computational-biology-workflows | Extra Skill | Bioinformatic Sequence Analysis, Genomic Data Retrieval, Molecular Databases, Protein Structure Analysis, Proteomic Data Retrieval | — |  |
@@ -25,13 +25,13 @@
 | ◇ /conversational-agent | Extra Skill | Question Answer, Memory Manage, Route Intent | — | Requires persistent memory store across turns. |
 | ◇ [huggingface](../docs/u/huggingface/)/huggingface-datasets | Extra Skill | Generate SQL, Data Visualize, Summarize | 2★ |  |
 | ◇ [garrytan](../docs/u/garrytan/)/land-and-deploy | Extra Skill | Workflow Automation, Code Execution | 4★ | Requires environment credentials and a configured pipeline definition. |
-| ◇ [nexu-io](../docs/u/nexu-io/)/open-design | Extra Skill | Code Generation, Visual Question Answering | 3★ |  |
+| ◇ [nexu-io](../docs/u/nexu-io/)/open-design | Extra Skill | Code Generation, Visual Question Answering | — |  |
 | ◇ [garrytan](../docs/u/garrytan/)/design-shotgun | Extra Skill | Evaluate Output, Plan and Decompose | 4★ |  |
 | ◇ [garrytan](../docs/u/garrytan/)/design-consultation | Extra Skill | Browser Automation, Parse HTML | 4★ | Requires headless browser (Playwright/Puppeteer). |
 | ◇ [garrytan](../docs/u/garrytan/)/canary | Extra Skill | Evaluate Output, Error Interpretation | 4★ |  |
 | ◇ [obra](../docs/u/obra/)/dispatching-parallel-agents | Extra Skill | Plan and Decompose, Parallel Execution | 4★ |  |
-| ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus-neural | Extra Skill | Parallel Execution, Embed Text | 3★ |  |
-| ◇ [ruvnet](../docs/u/ruvnet/)/agentdb-advanced | Extra Skill | Vector Search, Memory Manage | 3★ |  |
+| ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus-neural | Extra Skill | Parallel Execution, Embed Text | — |  |
+| ◇ [ruvnet](../docs/u/ruvnet/)/agentdb-advanced | Extra Skill | Vector Search, Memory Manage | — |  |
 | ◇ /document-analyst | Extra Skill | Extract Entities, Format Output, OCR, Parse JSON, Parse PDF, Summarize | — |  |
 | ◇ [ruvnet](../docs/u/ruvnet/)/dual-mode | Extra Skill | Headless Worker Spawn, Headless Worker Collect, Hybrid Workflow Coordination | 3★ |  |
 | ◇ [garrytan](../docs/u/garrytan/)/qa-only | Extra Skill | Browser Automation, Automated Testing | 4★ | Requires a live or containerised target environment; browser automation must be available. |
@@ -50,7 +50,7 @@
 | ◇ /grounding | Extra Skill | Retrieve, Cite Sources, Evaluate Output | — |  |
 | ◇ [garrytan](../docs/u/garrytan/)/careful | Extra Skill | Evaluate Output, Classify, Structured Output Generation | 3★ | Requires a defined policy schema and an evaluation loop. |
 | ◇ /humanize-prose | Extra Skill | Document Editing, Audience Model, Format Output | — | Requires explicit user permission to revise voice, tone, and stylistic markers without changing factual claims. |
-| ◇ [safishamsi](../docs/u/safishamsi/)/graphify | Extra Skill | Extract Entities, Logical Inference | 3★ |  |
+| ◇ [safishamsi](../docs/u/safishamsi/)/graphify | Extra Skill | Extract Entities, Logical Inference | — |  |
 | ◇ /knowledge-harvest | Extra Skill | Web Scrape, Extract Entities, Embed Text | — |  |
 | ◇ [garrytan](../docs/u/garrytan/)/setup-gbrain | Extra Skill | API Call, Retrieve | 2★ |  |
 | ◇ [huggingface](../docs/u/huggingface/)/huggingface-papers | Extra Skill | Cite Sources, Literature Search, Research, Summarize | 2★ | Requires access to academic databases (PubMed, bioRxiv, ChEMBL, or equivalent). |
@@ -61,7 +61,7 @@
 | ◇ /ml-artifact-management | Extra Skill | API Call, Classify | — |  |
 | ◇ /ml-pipeline | Extra Skill | Data Analysis, Automated Testing, Code Generation | — | Requires access to a container orchestration environment and model registry. |
 | ◇ [garrytan](../docs/u/garrytan/)/codex | Extra Skill | Self-Critique, Evaluate Output, Chain-of-Thought Reasoning | 3★ |  |
-| ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus-swarm | Extra Skill | Plan and Execute, Route Intent, Tool Select | 3★ | Requires extensive multi-system validation before level advancement. |
+| ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus-swarm | Extra Skill | Plan and Execute, Route Intent, Tool Select | — | Requires extensive multi-system validation before level advancement. |
 | ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus | Extra Skill | Multi-Agent Orchestration, Cloud Platform Management, Distributed Neural Training | 4★ |  |
 | ◆ [ruvnet](../docs/u/ruvnet/)/ruflo | Ultimate Skill | Flow Nexus Orchestration, Agent Memory Platform, GitHub Platform Mastery, Reasoning Pattern Bank, Platform Modernization Sprint, Dual Mode | 6★ | Requires demonstrating all 6 Ruflo suite fusions together in a production multi-agent context. Grandmaster Path: 34k+ stars on ruvnet/ruflo + agent-memory-platform 5★ Ultimate. |
 | ◇ [huggingface](../docs/u/huggingface/)/transformers-js | Extra Skill | Image Caption, Question Answer, Logical Inference | 2★ | Requires vision-language model capability. |
@@ -73,9 +73,9 @@
 | ◇ /prediction-market-analysis | Extra Skill | Data Analysis, Web Search, Statistical Analysis | — | Requires read-only market data sources and clear separation between analysis output and financial advice or trade execution. |
 | ◇ [mattpocock](../docs/u/mattpocock/)/productivity | Extra Skill | agent-handoff, Context Compression, Grill Me, Tool Creation | 4★ |  |
 | ◇ [garrytan](../docs/u/garrytan/)/landing-report | Extra Skill | API Call, Issue Triage | 2★ |  |
-| ◇ [stanfordnlp](../docs/u/stanfordnlp/)/dspy | Extra Skill | Evaluate Output, Generate Text | 3★ |  |
+| ◇ [stanfordnlp](../docs/u/stanfordnlp/)/dspy | Extra Skill | Evaluate Output, Generate Text | 2★ |  |
 | ◇ [mattpocock](../docs/u/mattpocock/)/prototype | Extra Skill | Code Generation, Code Execution | 3★ |  |
-| ◇ [yonatangross](../docs/u/yonatangross/)/orchestkit-rag | Extra Skill | Retrieve, Chunk Document, Embed Text, Score Relevance, Tokenize, Rank | 3★ |  |
+| ◇ [yonatangross](../docs/u/yonatangross/)/orchestkit-rag | Extra Skill | Retrieve, Chunk Document, Embed Text, Score Relevance, Tokenize, Rank | — |  |
 | ◇ /re-act-reasoning | Extra Skill | Plan and Decompose, Tool Use | — |  |
 | ◇ /real-time-voice-assistant | Extra Skill | Voice Agent, Memory Manage, Plan and Execute | — | Requires real-time audio pipeline, <500ms end-to-end latency target, and persistent session store. Minimum 3 Class A/B evidence sources. |
 | ◇ [ruvnet](../docs/u/ruvnet/)/reasoningbank | Extra Skill | Adaptive Pattern Learning, Agent Memory Learning | 3★ |  |
@@ -84,7 +84,7 @@
 | ◇ [mbtiongson1](../docs/u/mbtiongson1/)/gaia-curate | Extra Skill | Research, Code Generation, Code Execution | 2★ | Requires write access to the canonical graph and a passing validation suite. |
 | ◇ [mbtiongson1](../docs/u/mbtiongson1/)/gaia-audit | Extra Skill | Retrieve, Cite Sources, Evaluate Output | 2★ | Requires a specific Gaia skill ID, named skill ID, or real-skill catalog item plus access to the registry source files and current public evidence sources. |
 | ◇ [mbtiongson1](../docs/u/mbtiongson1/)/gaia-meta-audit | Extra Skill | Gaia Audit, Registry Curation, Detect Anomaly | 2★ | Requires the current registry, named-skill index, real-skill catalog, and permission to compare against current source URLs or discovery indexes. |
-| ◇ [intelligentcode-ai](../docs/u/intelligentcode-ai/)/release | Extra Skill | Workflow Automation, Code Execution, Generate Text | 3★ | Requires write access to the repository and a configured release token. |
+| ◇ [intelligentcode-ai](../docs/u/intelligentcode-ai/)/release | Extra Skill | Workflow Automation, Code Execution, Generate Text | 2★ | Requires write access to the repository and a configured release token. |
 | ◇ [obra](../docs/u/obra/)/requesting-code-review | Extra Skill | Code Review Pipeline, Dispatching Parallel Agents | 3★ |  |
 | ◇ /research | Extra Skill | Web Search, Summarize, Cite Sources | — |  |
 | ◇ /scientific-discovery | Extra Skill | Computational Biology Workflows, Hypothesis Generation, Math Reason, Research | — | Requires laboratory tool access or simulation environment. Minimum 3 Class A/B evidence sources. |
@@ -115,7 +115,7 @@
 | ◇ /web-quality-audit | Extra Skill | Gaia Meta Audit, Performance Tuning, search-engine-optimization, web-accessibility, web-best-practices | — |  |
 | ◇ [garrytan](../docs/u/garrytan/)/scrape | Extra Skill | Web Search, Parse HTML, Extract Entities | 3★ | Structured output mode required. |
 | ◇ /wiki-search | Extra Skill | Retrieve, Embed Text, Summarize | — | Requires an accessible local wiki or markdown knowledge-base directory and a consistent linking or indexing convention. |
-| ◇ [ruvnet](../docs/u/ruvnet/)/github-workflow-automation | Extra Skill | Plan and Decompose, Tool Use, API Call | 3★ |  |
+| ◇ [ruvnet](../docs/u/ruvnet/)/github-workflow-automation | Extra Skill | Plan and Decompose, Tool Use, API Call | 2★ |  |
 | ◇ [garrytan](../docs/u/garrytan/)/gstack-upgrade | Extra Skill | API Call, Document Editing | 2★ |  |
 | ◇ [obra](../docs/u/obra/)/writing-plans | Extra Skill | Plan and Decompose, Requirements Analysis | 2★ |  |
 | ◇ /x-twitter-automation | Extra Skill | Browser Automation, Web Scrape, Workflow Automation | — | Requires configured X/Twitter access, repeatable read paths, and explicit approval gates before posting tweets, replies, DMs, or other write actions. |

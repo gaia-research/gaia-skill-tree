@@ -35,6 +35,7 @@ from gaia_cli.commands.dev import (
     meta_verify_command,
     meta_calibrate_command,
     meta_evidence_command,
+    meta_rm_evidence_command,
     meta_build_command,
     meta_audit_command,
     meta_diff_command,
@@ -1731,6 +1732,12 @@ def get_parser():
     dev_evidence.add_argument('--notes', help="Optional notes about the evaluation")
     dev_evidence.add_argument('--no-build', action='store_true', help="Skip rebuilding docs and graph assets after adding evidence")
 
+    dev_rm_evidence = dev_sub.add_parser('rm-evidence', help="Remove an evidence entry (by --index or --source) from a skill")
+    dev_rm_evidence.add_argument('skill_id', help="Skill ID to remove evidence from (bare id = generic; contributor/skill = named)")
+    dev_rm_evidence.add_argument('--index', type=int, help="Index of the evidence entry to remove")
+    dev_rm_evidence.add_argument('--source', help="Remove all evidence entries whose source URL matches this exactly")
+    dev_rm_evidence.add_argument('--no-build', action='store_true', help="Skip rebuilding docs and graph assets after removing evidence")
+
     dev_build = dev_sub.add_parser('build', help="Regenerate registry and documentation site")
 
     dev_audit = dev_sub.add_parser('audit', help="Run registry maintenance linter")
@@ -1922,6 +1929,8 @@ def main():
             meta_timeline_command(args)
         elif dev_cmd == 'evidence':
             meta_evidence_command(args)
+        elif dev_cmd == 'rm-evidence':
+            meta_rm_evidence_command(args)
         elif dev_cmd == 'build':
             meta_build_command(args)
         elif dev_cmd == 'audit':

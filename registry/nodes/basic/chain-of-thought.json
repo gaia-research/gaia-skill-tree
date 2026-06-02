@@ -19,19 +19,12 @@
       "evaluator": "mbtiongson1",
       "date": "2026-04-28",
       "notes": "Wei et al. (2022) â€” Chain-of-Thought Prompting; +18% on GSM8K and +14% on MATH with PaLM 540B vs standard prompting."
-    },
-    {
-      "class": "B",
-      "source": "https://github.com/princeton-nlp/chain-of-thought-hub",
-      "evaluator": "mbtiongson1",
-      "date": "2026-04-28",
-      "notes": "Chain-of-Thought Hub â€” reproducible evaluation suite covering 10+ reasoning benchmarks with CoT prompts and baselines."
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-02",
   "version": "0.2.0",
   "timeline": [
     {
@@ -55,6 +48,12 @@
       "details": "Calibrated/demoted rank from 1★ to 0★",
       "previousValue": "1★",
       "newValue": "0★"
+    },
+    {
+      "timestamp": "2026-06-02T23:45:10Z",
+      "action": "evidence_removed",
+      "contributor": "unknown",
+      "details": "Removed dead/invalid evidence: https://github.com/princeton-nlp/chain-of-thought-hub"
     }
   ]
 }

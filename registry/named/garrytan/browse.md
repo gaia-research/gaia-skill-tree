@@ -7,7 +7,7 @@ genericSkillRef: browser-control
 status: named
 title: Gstack Browse — Directed Browser Navigation
 catalogRef: garrytan-browse
-level: 3★
+level: 2★
 description: Drives a browser to a target URL, navigates multi-step user journeys,
   and captures screenshots or structured observations for downstream verification
   or reporting.
@@ -25,6 +25,10 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Origin status set to true.
+- timestamp: '2026-06-02T23:45:09Z'
+  action: demote
+  contributor: unknown
+  details: Calibrated level from 3★ to 2★
 ---
 
 ## Overview

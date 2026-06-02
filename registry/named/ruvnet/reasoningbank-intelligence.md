@@ -7,7 +7,7 @@ genericSkillRef: adaptive-pattern-learning
 status: named
 title: The Strategy Optimizer
 catalogRef: ruvnet-reasoningbank-intelligence
-level: 3★
+level: 1★
 description: Implements adaptive learning through pattern recognition, strategy optimization,
   and meta-learning that improves agent decision quality from cumulative experience.
 links:
@@ -18,7 +18,7 @@ tags:
 - meta-learning
 - strategy-optimization
 createdAt: '2026-05-19'
-updatedAt: '2026-05-19'
+updatedAt: '2026-06-02'
 suiteRef: ruvnet/reasoningbank
 evidence:
 - class: B
@@ -26,6 +26,11 @@ evidence:
   evaluator: mbtiongson1
   date: '2026-05-19'
   notes: Ruflo orchestration platform — 34k+ GitHub stars.
+timeline:
+- timestamp: '2026-06-02T23:48:22Z'
+  action: demote
+  contributor: unknown
+  details: Calibrated level from 3★ to 1★
 ---
 
 ## Overview

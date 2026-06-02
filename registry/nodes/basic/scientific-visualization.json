@@ -12,19 +12,11 @@
     "scientific-writing"
   ],
   "conditions": "",
-  "evidence": [
-    {
-      "class": "B",
-      "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/scientific-visualization/SKILL.md",
-      "evaluator": "mbtiongson1",
-      "date": "2026-04-30",
-      "notes": "K-Dense-AI scientific-agent-skills — reproducible scientific-visualization skill orchestrating matplotlib, seaborn, and plotly for journal-quality multi-panel figures with PDF/EPS/TIFF/PNG export and accessibility annotations."
-    }
-  ],
+  "evidence": [],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-02",
   "version": "0.1.0",
   "timeline": [
     {
@@ -54,6 +46,12 @@
       "details": "Added evidence: https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md",
       "previousValue": null,
       "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-02T23:45:13Z",
+      "action": "evidence_removed",
+      "contributor": "unknown",
+      "details": "Removed dead/invalid evidence: https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/scientific-visualization/SKILL.md"
     }
   ]
 }

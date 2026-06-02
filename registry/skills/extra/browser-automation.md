@@ -1,8 +1,8 @@
-# [gooseworks](../../../docs/u/gooseworks/)/notte-browser  [3★]
+# [gooseworks](../../../docs/u/gooseworks/)/notte-browser  [2★]
 **ID:** browser-automation  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
-**Top named variant:** 3★  
+**Top named variant:** 2★  
 **Skill Call:** `/browser-automation`
 
 ---
@@ -26,7 +26,7 @@ _None specified._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| gooseworks/notte-browser ⭑ | gooseworks | 3★ | 0 |
+| gooseworks/notte-browser ⭑ | gooseworks | 1★ | 0 |
 | browserbase/stagehand | browserbase | 2★ | 0 |
 | ruvnet/browser | ruvnet | 2★ | 0 |
 

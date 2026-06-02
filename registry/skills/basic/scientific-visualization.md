@@ -29,9 +29,7 @@ _None yet — be the first to claim this skill._
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._
 
-| Class | Source | Evaluator | Date |
-|---|---|---|---|
-| B | https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/scientific-visualization/SKILL.md | mbtiongson1 | 2026-04-30 |
+_None._
 
 ## Known Agents
 _None verified yet._

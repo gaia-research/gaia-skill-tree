@@ -32,9 +32,7 @@ Structured output mode required.
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._
 
-| Class | Source | Evaluator | Date |
-|---|---|---|---|
-| B | https://github.com/gaia-registry/gaia/blob/main/docs/evidence/webScrape.md | mbtiongson1 | 2026-04-26 |
+_None._
 
 ## Known Agents
 _None verified yet._

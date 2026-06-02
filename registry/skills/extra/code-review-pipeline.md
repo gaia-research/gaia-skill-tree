@@ -31,7 +31,7 @@ _None specified._
 |---|---|---|---|
 | garrytan/plan-eng-review | garrytan | 4★ | 0 |
 | garrytan/review | garrytan | 4★ | 0 |
-| ruvnet/github-code-review | ruvnet | 3★ | 0 |
+| ruvnet/github-code-review | ruvnet | 1★ | 0 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

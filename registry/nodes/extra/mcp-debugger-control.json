@@ -12,21 +12,13 @@
     "autonomous-debug"
   ],
   "conditions": "Requires a target debugger integration and a supported MCP client.",
-  "evidence": [
-    {
-      "class": "B",
-      "source": "https://github.com/LadislavSopko/mcp-server-for-vs",
-      "evaluator": "mbtiongson1",
-      "date": "2026-05-14",
-      "notes": "Exposes the Visual Studio Debugger via MCP tool calls for breakpoints and execution control."
-    }
-  ],
+  "evidence": [],
   "knownAgents": [
     "ladislav-sopko/mcp-vs"
   ],
   "status": "provisional",
   "createdAt": "2026-05-14",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-02",
   "version": "0.1.0",
   "timeline": [
     {
@@ -50,6 +42,12 @@
       "details": "Calibrated/demoted rank from 4★ to 2★",
       "previousValue": "4★",
       "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-02T23:45:12Z",
+      "action": "evidence_removed",
+      "contributor": "unknown",
+      "details": "Removed dead/invalid evidence: https://github.com/LadislavSopko/mcp-server-for-vs"
     }
   ]
 }

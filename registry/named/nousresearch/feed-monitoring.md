@@ -7,7 +7,7 @@ genericSkillRef: feed-monitoring
 status: named
 title: The Signal Scout
 catalogRef: nousresearch-feed-monitoring
-level: 4★
+level: 1★
 description: Continuous monitoring of content feeds with intelligent discovery and
   state tracking.
 links:
@@ -19,7 +19,7 @@ tags:
 - signal-discovery
 - unique
 createdAt: '2026-05-15'
-updatedAt: '2026-05-15'
+updatedAt: '2026-06-02'
 evidence:
 - class: B
   source: https://github.com/NousResearch/hermes-agent/blob/main/skills/research/blogwatcher/SKILL.md
@@ -27,6 +27,11 @@ evidence:
   date: '2026-05-06'
   notes: Hermes Agent blogwatcher skill monitors blogs and RSS/Atom feeds with feed
     discovery, scraping fallback, OPML import, and read/unread article management.
+timeline:
+- timestamp: '2026-06-02T23:48:19Z'
+  action: demote
+  contributor: unknown
+  details: Calibrated level from 4★ to 1★
 ---
 
 ## Overview

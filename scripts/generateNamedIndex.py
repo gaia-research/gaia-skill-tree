@@ -36,7 +36,7 @@ REQUIRED_FIELDS = [
     "description",
 ]
 
-VALID_LEVELS = {"2★", "3★", "4★", "5★", "6★"}
+VALID_LEVELS = {"1★", "2★", "3★", "4★", "5★", "6★"}
 
 def _extract_md_section(body, heading):
     """Extract the text content of a markdown ## section."""

@@ -32,7 +32,6 @@ _Capability-level evidence for this generic reference. Every named implementatio
 |---|---|---|---|
 | A | https://arxiv.org/abs/2211.10435 | mbtiongson1 | 2026-04-28 |
 | B | https://github.com/reasoning-machines/pal | mbtiongson1 | 2026-04-28 |
-| C | https://github.com/gaia-registry/gaia/blob/main/docs/evidence/executeBash.md | mbtiongson1 | 2026-04-26 |
 
 ## Known Agents
 _None verified yet._

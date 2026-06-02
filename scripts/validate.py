@@ -406,7 +406,7 @@ _NAMED_REQUIRED_FIELDS = [
     "description",
 ]
 
-_NAMED_VALID_LEVELS = {"2★", "3★", "4★", "5★", "6★"}
+_NAMED_VALID_LEVELS = {"1★", "2★", "3★", "4★", "5★", "6★"}
 
 
 def _parse_named_frontmatter(text):
@@ -497,11 +497,11 @@ def validate_named_skills(graph, named_dir=None, catalog_path=None):
                 f"Named skill {rel}: missing required field(s): {', '.join(missing)}"
             )
 
-        # Level >= 2★
+        # Level >= 1★ (1★ = Awakened hard-demote penalty per META §2.4)
         level = fm.get("level", "")
         if level not in _NAMED_VALID_LEVELS:
             errors.append(
-                f"Named skill {rel}: 'level' must be 2★ or above (got '{level}')."
+                f"Named skill {rel}: 'level' must be 1★ or above (got '{level}')."
             )
 
         # genericSkillRef resolves

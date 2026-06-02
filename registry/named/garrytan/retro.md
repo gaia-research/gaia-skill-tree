@@ -7,7 +7,7 @@ genericSkillRef: write-report
 status: named
 title: Gstack Retro — Sprint Retrospective Report
 catalogRef: garrytan-retro
-level: 3★
+level: 2★
 description: Synthesises commit history, PR comments, and issue notes into a written
   sprint retrospective covering wins, misses, root causes, and action items.
 links:
@@ -24,6 +24,10 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Origin status set to true.
+- timestamp: '2026-06-02T23:45:10Z'
+  action: demote
+  contributor: unknown
+  details: Calibrated level from 3★ to 2★
 ---
 
 ## Overview

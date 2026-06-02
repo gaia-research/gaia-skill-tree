@@ -5,20 +5,26 @@ contributor: ruvnet
 origin: true
 genericSkillRef: agent-memory-learning
 status: named
-title: "The Pattern Seeker"
+title: The Pattern Seeker
 catalogRef: ruvnet-agentdb-learning
-level: "3★"
-description: Builds self-improving agent memory by analyzing task success patterns and adapting retrieval strategies with AgentDB-backed vector persistence.
+level: 1★
+description: Builds self-improving agent memory by analyzing task success patterns
+  and adapting retrieval strategies with AgentDB-backed vector persistence.
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - self-learning
-  - vector-memory
-  - pattern-recognition
-  - adaptation
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/agentdb"
+- self-learning
+- vector-memory
+- pattern-recognition
+- adaptation
+createdAt: '2026-05-19'
+updatedAt: '2026-06-02'
+suiteRef: ruvnet/agentdb
+timeline:
+- timestamp: '2026-06-02T23:48:20Z'
+  action: demote
+  contributor: unknown
+  details: Calibrated level from 3★ to 1★
 ---
 
 ## Overview

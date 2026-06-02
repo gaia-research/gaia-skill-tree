@@ -612,7 +612,7 @@ def meta_calibrate_command(args):
 
     # Stars live only on named skills now. Calibrate operates on a named
     # implementation (contributor/skill), not a rank-less generic ref.
-    ALLOWED_LEVELS = ["2★", "3★", "4★", "5★", "6★"]
+    ALLOWED_LEVELS = ["1★", "2★", "3★", "4★", "5★", "6★"]
     if level not in ALLOWED_LEVELS:
         print(f"Error: Named skill level must be one of: {', '.join(ALLOWED_LEVELS)}")
         sys.exit(1)
@@ -1034,6 +1034,95 @@ def meta_evidence_command(args):
         "evidence_added",
         _get_contributor(),
         f"Added {evidence['class']} evidence from {evidence['source']}",
+        registry_path=registry_path,
+    )
+
+    if not getattr(args, "no_build", False):
+        print("Regenerating registry and documentation...")
+        _run_docs_build(args.registry)
+    else:
+        print("Skipping documentation rebuild as requested (--no-build).")
+
+
+def meta_rm_evidence_command(args):
+    """Remove an evidence entry from a generic ref or a named skill.
+
+    Identify the entry by ``--index N`` (its position in the evidence array) or
+    by ``--source URL`` (exact match; removes every entry with that source).
+    Use this to strip dead / broken evidence links flagged by the liveness
+    checker. A bare id targets the generic node; ``contributor/skill`` targets
+    the named markdown frontmatter.
+    """
+    registry_path = args.registry
+    skill_id = args.skill_id.lstrip("/")
+    index = getattr(args, "index", None)
+    source = getattr(args, "source", None)
+    if index is None and not source:
+        print("Error: provide --index N or --source URL to identify the evidence entry.")
+        sys.exit(1)
+
+    def _filter(evlist):
+        evlist = evlist or []
+        if index is not None:
+            if index < 0 or index >= len(evlist):
+                print(f"Error: evidence index {index} out of range (0..{len(evlist) - 1}).")
+                sys.exit(1)
+            removed = [evlist[index]]
+            kept = [e for i, e in enumerate(evlist) if i != index]
+        else:
+            removed = [e for e in evlist if e.get("source") == source]
+            kept = [e for e in evlist if e.get("source") != source]
+        return kept, removed
+
+    if "/" in skill_id:
+        named_dir = Path(named_skills_dir(registry_path))
+        named_file = _find_named_file(named_dir, skill_id)
+        if not named_file:
+            print(f"Error: Named skill '{skill_id}' not found.")
+            sys.exit(1)
+        meta, body = _parse_md(named_file)
+        kept, removed = _filter(meta.get("evidence", []))
+        if not removed:
+            print(f"No matching evidence on '{skill_id}'.")
+            return
+        meta["evidence"] = kept
+        meta["updatedAt"] = datetime.date.today().isoformat()
+        _write_md(named_file, meta, body)
+    else:
+        nodes_dir = Path(registry_nodes_dir(registry_path))
+        node_file = None
+        for p in nodes_dir.glob("**/*.json"):
+            try:
+                with open(p, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+            except json.JSONDecodeError:
+                continue
+            if data.get("id") == skill_id:
+                node_file = p
+                break
+        if not node_file:
+            print(f"Error: Skill '{skill_id}' not found.")
+            sys.exit(1)
+        with open(node_file, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        kept, removed = _filter(data.get("evidence", []))
+        if not removed:
+            print(f"No matching evidence on '{skill_id}'.")
+            return
+        data["evidence"] = kept
+        data["updatedAt"] = datetime.date.today().isoformat()
+        with open(node_file, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2, ensure_ascii=False)
+            f.write("\n")
+
+    srcs = ", ".join(e.get("source", "?") for e in removed)
+    plural = "entry" if len(removed) == 1 else "entries"
+    print(f"Removed {len(removed)} evidence {plural} from {skill_id}: {srcs}")
+    append_skill_event(
+        skill_id,
+        "evidence_removed",
+        _get_contributor(),
+        f"Removed dead/invalid evidence: {srcs}",
         registry_path=registry_path,
     )
 

@@ -67,7 +67,7 @@ To reach Hardened (4★) or higher as a Specialist (vendor-locked) skill, the im
 - **Specific URL Requirement**: Links for named claims must point to concrete implementation files (`SKILL.md`, source code, etc.), not generic repository roots.
 - **Installability (The Star Bar)**: 
   - **0★–2★**: Allowed to be registry-only (`installable: false`).
-  - **3★+**: MUST have a verified GitHub link. If no link exists, the skill is demoted to 2★.
+  - **3★+**: MUST have a verified GitHub **blob** link pointing to a concrete file (e.g. `.../blob/<branch>/.../SKILL.md`), not a bare repo root. Any 3★+ skill lacking a verified blob link is **hard-demoted to 1★ (Awakened)** and must re-earn its rank with a valid link. *(Updated 2026-06-02: hardened from 2★ to 1★ — a missing verified blob link is a hard reset, not a soft step-down.)*
   - **Suites**: Exempt from individual link requirements if components are linked.
 
 ---

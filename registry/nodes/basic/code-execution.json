@@ -30,19 +30,12 @@
       "evaluator": "mbtiongson1",
       "date": "2026-04-28",
       "notes": "PAL repo â€” reproducible harness across 13 reasoning benchmarks; evaluation scripts and baseline comparisons included."
-    },
-    {
-      "class": "C",
-      "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/executeBash.md",
-      "evaluator": "mbtiongson1",
-      "date": "2026-04-26",
-      "notes": "Seed evidence for Execute Bash."
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-28",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-02",
   "version": "0.2.0",
   "timeline": [
     {
@@ -80,6 +73,12 @@
       "details": "Calibrated/demoted rank from 2★ to 0★",
       "previousValue": "2★",
       "newValue": "0★"
+    },
+    {
+      "timestamp": "2026-06-02T23:45:10Z",
+      "action": "evidence_removed",
+      "contributor": "unknown",
+      "details": "Removed dead/invalid evidence: https://github.com/gaia-registry/gaia/blob/main/docs/evidence/executeBash.md"
     }
   ]
 }

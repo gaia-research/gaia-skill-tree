@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/skill.schema.json",
   "version": "3.27.3",
-  "generatedAt": "2026-06-02T23:33:59.598999Z",
+  "generatedAt": "2026-06-02T23:53:38.002146Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -595,19 +595,11 @@
         "humanize-prose"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "C",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/audienceModel.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-26",
-          "notes": "Seed evidence for Audience Model."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-06-01",
+      "updatedAt": "2026-06-02",
       "version": "0.1.0",
       "timeline": [
         {
@@ -631,6 +623,12 @@
           "details": "Calibrated/demoted rank from 1★ to 0★",
           "previousValue": "1★",
           "newValue": "0★"
+        },
+        {
+          "timestamp": "2026-06-02T23:45:10Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://github.com/gaia-registry/gaia/blob/main/docs/evidence/audienceModel.md"
         }
       ]
     },
@@ -1139,19 +1137,12 @@
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
           "notes": "Wei et al. (2022) â€” Chain-of-Thought Prompting; +18% on GSM8K and +14% on MATH with PaLM 540B vs standard prompting."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/princeton-nlp/chain-of-thought-hub",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-28",
-          "notes": "Chain-of-Thought Hub â€” reproducible evaluation suite covering 10+ reasoning benchmarks with CoT prompts and baselines."
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-01",
+      "updatedAt": "2026-06-02",
       "version": "0.2.0",
       "timeline": [
         {
@@ -1175,6 +1166,12 @@
           "details": "Calibrated/demoted rank from 1★ to 0★",
           "previousValue": "1★",
           "newValue": "0★"
+        },
+        {
+          "timestamp": "2026-06-02T23:45:10Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://github.com/princeton-nlp/chain-of-thought-hub"
         }
       ]
     },
@@ -1189,19 +1186,11 @@
         "rag-pipeline"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "C",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/chunkDocument.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-26",
-          "notes": "Seed evidence for Chunk Document."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-06-01",
+      "updatedAt": "2026-06-02",
       "version": "0.1.0",
       "timeline": [
         {
@@ -1225,6 +1214,12 @@
           "details": "Calibrated/demoted rank from 1★ to 0★",
           "previousValue": "1★",
           "newValue": "0★"
+        },
+        {
+          "timestamp": "2026-06-02T23:45:10Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://github.com/gaia-registry/gaia/blob/main/docs/evidence/chunkDocument.md"
         }
       ]
     },
@@ -1243,19 +1238,11 @@
         "scientific-writing"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "C",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/citeSources.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-26",
-          "notes": "Seed evidence for Cite Sources."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-06-01",
+      "updatedAt": "2026-06-02",
       "version": "0.1.0",
       "timeline": [
         {
@@ -1279,6 +1266,12 @@
           "details": "Calibrated/demoted rank from 1★ to 0★",
           "previousValue": "1★",
           "newValue": "0★"
+        },
+        {
+          "timestamp": "2026-06-02T23:45:10Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://github.com/gaia-registry/gaia/blob/main/docs/evidence/citeSources.md"
         }
       ]
     },
@@ -1294,19 +1287,11 @@
         "guardrails"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "C",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/classify.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-26",
-          "notes": "Seed evidence for Classify."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-06-01",
+      "updatedAt": "2026-06-02",
       "version": "0.1.0",
       "timeline": [
         {
@@ -1316,6 +1301,12 @@
           "details": "Skill created as 0★ (provisional)",
           "previousValue": null,
           "newValue": "0★"
+        },
+        {
+          "timestamp": "2026-06-02T23:45:10Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://github.com/gaia-registry/gaia/blob/main/docs/evidence/classify.md"
         }
       ]
     },
@@ -1475,19 +1466,12 @@
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
           "notes": "PAL repo â€” reproducible harness across 13 reasoning benchmarks; evaluation scripts and baseline comparisons included."
-        },
-        {
-          "class": "C",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/executeBash.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-26",
-          "notes": "Seed evidence for Execute Bash."
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-01",
+      "updatedAt": "2026-06-02",
       "version": "0.2.0",
       "timeline": [
         {
@@ -1525,6 +1509,12 @@
           "details": "Calibrated/demoted rank from 2★ to 0★",
           "previousValue": "2★",
           "newValue": "0★"
+        },
+        {
+          "timestamp": "2026-06-02T23:45:10Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://github.com/gaia-registry/gaia/blob/main/docs/evidence/executeBash.md"
         }
       ]
     },
@@ -1589,19 +1579,11 @@
         "founder-mode-orchestration"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "C",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/codeGeneration.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-26",
-          "notes": "Seed evidence for Code Generation."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-06-01",
+      "updatedAt": "2026-06-02",
       "version": "0.1.0",
       "timeline": [
         {
@@ -1625,6 +1607,12 @@
           "details": "Calibrated/demoted rank from 1★ to 0★",
           "previousValue": "1★",
           "newValue": "0★"
+        },
+        {
+          "timestamp": "2026-06-02T23:45:11Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://github.com/gaia-registry/gaia/blob/main/docs/evidence/codeGeneration.md"
         }
       ]
     },
@@ -1953,19 +1941,11 @@
       ],
       "derivatives": [],
       "conditions": "Requires persistent memory store across turns.",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/langchain-ai/langchain/tree/master/libs/langchain/langchain/chains/conversation",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-28",
-          "notes": "LangChain ConversationChain â€” reproducible open-source multi-turn conversational agent with buffer and summary memory backends."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-28",
-      "updatedAt": "2026-06-01",
+      "updatedAt": "2026-06-02",
       "version": "0.2.0",
       "timeline": [
         {
@@ -1989,6 +1969,12 @@
           "details": "Calibrated/demoted rank from 3★ to 1★",
           "previousValue": "3★",
           "newValue": "1★"
+        },
+        {
+          "timestamp": "2026-06-02T23:45:11Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://github.com/langchain-ai/langchain/tree/master/libs/langchain/langchain/chains/conversation"
         }
       ]
     },
@@ -2323,19 +2309,11 @@
         "finishing-a-development-branch"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "C",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/diffContent.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-26",
-          "notes": "Seed evidence for Diff Content."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-06-01",
+      "updatedAt": "2026-06-02",
       "version": "0.1.0",
       "timeline": [
         {
@@ -2359,6 +2337,12 @@
           "details": "Calibrated/demoted rank from 1★ to 0★",
           "previousValue": "1★",
           "newValue": "0★"
+        },
+        {
+          "timestamp": "2026-06-02T23:45:11Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://github.com/gaia-registry/gaia/blob/main/docs/evidence/diffContent.md"
         }
       ]
     },
@@ -2512,13 +2496,6 @@
       "evidence": [
         {
           "class": "B",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/documentAnalyst.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-26",
-          "notes": "Seed evidence for Document Analyst."
-        },
-        {
-          "class": "B",
           "source": "https://github.com/VikParuchuri/marker",
           "evaluator": "mbtiongson1",
           "date": "2026-04-28",
@@ -2528,7 +2505,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-06-01",
+      "updatedAt": "2026-06-02",
       "version": "0.1.0",
       "timeline": [
         {
@@ -2566,6 +2543,12 @@
           "details": "Calibrated/demoted rank from 3★ to 1★",
           "previousValue": "3★",
           "newValue": "1★"
+        },
+        {
+          "timestamp": "2026-06-02T23:45:11Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://github.com/gaia-registry/gaia/blob/main/docs/evidence/documentAnalyst.md"
         }
       ]
     },
@@ -2680,19 +2663,11 @@
         "wiki-search"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "C",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/embedText.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-26",
-          "notes": "Seed evidence for Embed Text."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-06-01",
+      "updatedAt": "2026-06-02",
       "version": "0.1.0",
       "timeline": [
         {
@@ -2716,6 +2691,12 @@
           "details": "Calibrated/demoted rank from 1★ to 0★",
           "previousValue": "1★",
           "newValue": "0★"
+        },
+        {
+          "timestamp": "2026-06-02T23:45:11Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://github.com/gaia-registry/gaia/blob/main/docs/evidence/embedText.md"
         }
       ]
     },
@@ -2825,19 +2806,11 @@
         "systematic-debugging"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "C",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/errorInterpretation.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-26",
-          "notes": "Seed evidence for Error Interpretation."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-06-01",
+      "updatedAt": "2026-06-02",
       "version": "0.1.0",
       "timeline": [
         {
@@ -2861,6 +2834,12 @@
           "details": "Calibrated/demoted rank from 1★ to 0★",
           "previousValue": "1★",
           "newValue": "0★"
+        },
+        {
+          "timestamp": "2026-06-02T23:45:11Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://github.com/gaia-registry/gaia/blob/main/docs/evidence/errorInterpretation.md"
         }
       ]
     },
@@ -2885,19 +2864,11 @@
         "detect-anomaly"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "C",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/evaluateOutput.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-26",
-          "notes": "Seed evidence for Evaluate Output."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-06-01",
+      "updatedAt": "2026-06-02",
       "version": "0.1.0",
       "timeline": [
         {
@@ -2921,6 +2892,12 @@
           "details": "Calibrated/demoted rank from 1★ to 0★",
           "previousValue": "1★",
           "newValue": "0★"
+        },
+        {
+          "timestamp": "2026-06-02T23:45:11Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://github.com/gaia-registry/gaia/blob/main/docs/evidence/evaluateOutput.md"
         }
       ]
     },
@@ -2979,19 +2956,11 @@
         "web-scrape"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "C",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/extractEntities.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-26",
-          "notes": "Seed evidence for Extract Entities."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-06-01",
+      "updatedAt": "2026-06-02",
       "version": "0.1.0",
       "timeline": [
         {
@@ -3015,6 +2984,12 @@
           "details": "Calibrated/demoted rank from 1★ to 0★",
           "previousValue": "1★",
           "newValue": "0★"
+        },
+        {
+          "timestamp": "2026-06-02T23:45:11Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://github.com/gaia-registry/gaia/blob/main/docs/evidence/extractEntities.md"
         }
       ]
     },
@@ -3237,19 +3212,11 @@
         "founder-mode-orchestration"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "C",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/formatOutput.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-26",
-          "notes": "Seed evidence for Format Output."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-06-01",
+      "updatedAt": "2026-06-02",
       "version": "0.1.0",
       "timeline": [
         {
@@ -3259,6 +3226,12 @@
           "details": "Skill created as 0★ (provisional)",
           "previousValue": null,
           "newValue": "0★"
+        },
+        {
+          "timestamp": "2026-06-02T23:45:11Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://github.com/gaia-registry/gaia/blob/main/docs/evidence/formatOutput.md"
         }
       ]
     },
@@ -3579,19 +3552,11 @@
         "skill-authoring"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "C",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/generateText.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-26",
-          "notes": "Seed evidence for Generate Text."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-06-01",
+      "updatedAt": "2026-06-02",
       "version": "0.1.0",
       "timeline": [
         {
@@ -3601,6 +3566,12 @@
           "details": "Skill created as 0★ (provisional)",
           "previousValue": null,
           "newValue": "0★"
+        },
+        {
+          "timestamp": "2026-06-02T23:45:11Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://github.com/gaia-registry/gaia/blob/main/docs/evidence/generateText.md"
         }
       ]
     },
@@ -3928,19 +3899,11 @@
       ],
       "derivatives": [],
       "conditions": "Requires the agent to maintain a live glossary (CONTEXT.md) and generate ADRs for all non-trivial trade-offs discovered during the grill.",
-      "evidence": [
-        {
-          "class": "A",
-          "source": "https://aihero.dev/mattpocock/i-stopped-using-grill-me-for-coding",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-15",
-          "notes": "Technical manifesto establishing the 'Real Engineering' pattern for AI agents; demonstrates significant reduction in software entropy through domain-aware alignment."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-05-15",
-      "updatedAt": "2026-06-01",
+      "updatedAt": "2026-06-02",
       "version": "0.1.0",
       "title": "The Domain Sovereign",
       "timeline": [
@@ -3981,6 +3944,12 @@
           "details": "Calibrated/demoted rank from 3★ to 1★",
           "previousValue": "3★",
           "newValue": "1★"
+        },
+        {
+          "timestamp": "2026-06-02T23:45:12Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://aihero.dev/mattpocock/i-stopped-using-grill-me-for-coding"
         }
       ]
     },
@@ -4004,19 +3973,12 @@
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
           "notes": "RARR (Gao et al., 2022) -- retrieval and attribution for LLM outputs; +32 points on the AIS attribution benchmark by revising ungrounded claims using retrieved web evidence."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/shmsw25/FActScoring",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-30",
-          "notes": "FActScore (Min et al., EMNLP 2023) -- atomic factuality scoring pipeline decomposing generation into claims and verifying each against a retrieval corpus; open-source with reproducible evaluation on biography generation."
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-06-01",
+      "updatedAt": "2026-06-02",
       "version": "0.2.0",
       "timeline": [
         {
@@ -4040,6 +4002,12 @@
           "details": "Calibrated/demoted rank from 3★ to 1★",
           "previousValue": "3★",
           "newValue": "1★"
+        },
+        {
+          "timestamp": "2026-06-02T23:45:12Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://github.com/shmsw25/FActScoring"
         }
       ]
     },
@@ -4518,19 +4486,12 @@
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
           "notes": "Rouzrokh et al. (2025) — LatteReview: multi-agent framework for systematic review automation; modular agents for title/abstract screening, relevance scoring, and structured data extraction with RAG and multimodal support."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/literature-review/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-30",
-          "notes": "K-Dense-AI scientific-agent-skills — reproducible literature-review skill: seven-phase workflow from research-question planning through multi-database search, screening, extraction, synthesis, citation verification to final PDF output."
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-06-01",
+      "updatedAt": "2026-06-02",
       "version": "0.1.0",
       "timeline": [
         {
@@ -4540,6 +4501,12 @@
           "details": "Skill created as 4★ (provisional)",
           "previousValue": null,
           "newValue": "4★"
+        },
+        {
+          "timestamp": "2026-06-02T23:45:12Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/literature-review/SKILL.md"
         }
       ]
     },
@@ -4739,21 +4706,13 @@
         "autonomous-debug"
       ],
       "conditions": "Requires a target debugger integration and a supported MCP client.",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/LadislavSopko/mcp-server-for-vs",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-14",
-          "notes": "Exposes the Visual Studio Debugger via MCP tool calls for breakpoints and execution control."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [
         "ladislav-sopko/mcp-vs"
       ],
       "status": "provisional",
       "createdAt": "2026-05-14",
-      "updatedAt": "2026-06-01",
+      "updatedAt": "2026-06-02",
       "version": "0.1.0",
       "timeline": [
         {
@@ -4777,6 +4736,12 @@
           "details": "Calibrated/demoted rank from 4★ to 2★",
           "previousValue": "4★",
           "newValue": "2★"
+        },
+        {
+          "timestamp": "2026-06-02T23:45:12Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://github.com/LadislavSopko/mcp-server-for-vs"
         }
       ]
     },
@@ -5498,19 +5463,11 @@
         "web-scrape"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "C",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/parseHtml.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-26",
-          "notes": "Seed evidence for Parse HTML."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-06-01",
+      "updatedAt": "2026-06-02",
       "version": "0.1.0",
       "timeline": [
         {
@@ -5534,6 +5491,12 @@
           "details": "Calibrated/demoted rank from 1★ to 0★",
           "previousValue": "1★",
           "newValue": "0★"
+        },
+        {
+          "timestamp": "2026-06-02T23:45:12Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://github.com/gaia-registry/gaia/blob/main/docs/evidence/parseHtml.md"
         }
       ]
     },
@@ -5549,19 +5512,11 @@
         "text-to-sql-pipeline"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "C",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/parseJson.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-26",
-          "notes": "Seed evidence for Parse JSON."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-06-01",
+      "updatedAt": "2026-06-02",
       "version": "0.1.0",
       "timeline": [
         {
@@ -5585,6 +5540,12 @@
           "details": "Calibrated/demoted rank from 1★ to 0★",
           "previousValue": "1★",
           "newValue": "0★"
+        },
+        {
+          "timestamp": "2026-06-02T23:45:12Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://github.com/gaia-registry/gaia/blob/main/docs/evidence/parseJson.md"
         }
       ]
     },
@@ -5920,19 +5881,11 @@
         "writing-plans"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "C",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/planDecompose.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-26",
-          "notes": "Seed evidence for Plan and Decompose."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-06-01",
+      "updatedAt": "2026-06-02",
       "version": "0.1.0",
       "timeline": [
         {
@@ -5956,6 +5909,12 @@
           "details": "Calibrated/demoted rank from 1★ to 0★",
           "previousValue": "1★",
           "newValue": "0★"
+        },
+        {
+          "timestamp": "2026-06-02T23:45:12Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://github.com/gaia-registry/gaia/blob/main/docs/evidence/planDecompose.md"
         }
       ]
     },
@@ -6591,19 +6550,11 @@
         "rag-pipeline"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "C",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/rank.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-26",
-          "notes": "Seed evidence for Rank."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-06-01",
+      "updatedAt": "2026-06-02",
       "version": "0.1.0",
       "timeline": [
         {
@@ -6627,6 +6578,12 @@
           "details": "Calibrated/demoted rank from 1★ to 0★",
           "previousValue": "1★",
           "newValue": "0★"
+        },
+        {
+          "timestamp": "2026-06-02T23:45:12Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://github.com/gaia-registry/gaia/blob/main/docs/evidence/rank.md"
         }
       ]
     },
@@ -7165,19 +7122,11 @@
         "literature-review"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/research.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-26",
-          "notes": "Seed evidence for Research."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-06-01",
+      "updatedAt": "2026-06-02",
       "version": "0.1.0",
       "timeline": [
         {
@@ -7201,6 +7150,12 @@
           "details": "Calibrated/demoted rank from 3★ to 1★",
           "previousValue": "3★",
           "newValue": "1★"
+        },
+        {
+          "timestamp": "2026-06-02T23:45:12Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://github.com/gaia-registry/gaia/blob/main/docs/evidence/research.md"
         }
       ]
     },
@@ -7219,19 +7174,11 @@
         "memory-manage"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "C",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/retrieve.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-26",
-          "notes": "Seed evidence for Retrieve."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-06-01",
+      "updatedAt": "2026-06-02",
       "version": "0.1.0",
       "timeline": [
         {
@@ -7255,6 +7202,12 @@
           "details": "Calibrated/demoted rank from 1★ to 0★",
           "previousValue": "1★",
           "newValue": "0★"
+        },
+        {
+          "timestamp": "2026-06-02T23:45:12Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://github.com/gaia-registry/gaia/blob/main/docs/evidence/retrieve.md"
         }
       ]
     },
@@ -7315,19 +7268,11 @@
         "vertical-slice-planning"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "C",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/routeIntent.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-26",
-          "notes": "Seed evidence for Route Intent."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-06-01",
+      "updatedAt": "2026-06-02",
       "version": "0.1.0",
       "timeline": [
         {
@@ -7351,6 +7296,12 @@
           "details": "Calibrated/demoted rank from 1★ to 0★",
           "previousValue": "1★",
           "newValue": "0★"
+        },
+        {
+          "timestamp": "2026-06-02T23:45:12Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://github.com/gaia-registry/gaia/blob/main/docs/evidence/routeIntent.md"
         }
       ]
     },
@@ -7456,19 +7407,11 @@
         "scientific-writing"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/scientific-visualization/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-30",
-          "notes": "K-Dense-AI scientific-agent-skills — reproducible scientific-visualization skill orchestrating matplotlib, seaborn, and plotly for journal-quality multi-panel figures with PDF/EPS/TIFF/PNG export and accessibility annotations."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-06-01",
+      "updatedAt": "2026-06-02",
       "version": "0.1.0",
       "timeline": [
         {
@@ -7498,6 +7441,12 @@
           "details": "Added evidence: https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md",
           "previousValue": null,
           "newValue": "2★"
+        },
+        {
+          "timestamp": "2026-06-02T23:45:13Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/scientific-visualization/SKILL.md"
         }
       ]
     },
@@ -7521,19 +7470,12 @@
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
           "notes": "Chamoun et al. (ACL 2024 Findings) — SWIFT: automated focused feedback for scientific writing; multi-component LLM system (planner, investigator, reviewer, controller) rated more specific and helpful than human reviewers on 300 peer-reviewed manuscripts."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/scientific-writing/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-30",
-          "notes": "K-Dense-AI scientific-agent-skills — reproducible scientific-writing skill: two-stage outline-to-prose pipeline with IMRAD structure, multi-style citation management, and reporting-guideline validation (CONSORT, STROBE, PRISMA, STARD, TRIPOD)."
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-06-01",
+      "updatedAt": "2026-06-02",
       "version": "0.1.0",
       "timeline": [
         {
@@ -7543,6 +7485,12 @@
           "details": "Skill created as 3★ (provisional)",
           "previousValue": null,
           "newValue": "3★"
+        },
+        {
+          "timestamp": "2026-06-02T23:45:13Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/scientific-writing/SKILL.md"
         }
       ]
     },
@@ -7558,19 +7506,11 @@
         "agent-eval"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "C",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/scoreRelevance.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-26",
-          "notes": "Seed evidence for Score Relevance."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-06-01",
+      "updatedAt": "2026-06-02",
       "version": "0.1.0",
       "timeline": [
         {
@@ -7594,6 +7534,12 @@
           "details": "Calibrated/demoted rank from 1★ to 0★",
           "previousValue": "1★",
           "newValue": "0★"
+        },
+        {
+          "timestamp": "2026-06-02T23:45:13Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://github.com/gaia-registry/gaia/blob/main/docs/evidence/scoreRelevance.md"
         }
       ]
     },
@@ -8379,19 +8325,12 @@
           "evaluator": "mbtiongson1",
           "date": "2026-04-30",
           "notes": "Sargsyan (2025) — Structural Enforcement of Statistical Rigor in AI-Driven Discovery; monadic architecture achieves 1.1% false discovery rate vs 41% for naive LLM approaches across automated hypothesis-testing pipelines."
-        },
-        {
-          "class": "B",
-          "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/statistical-analysis/SKILL.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-30",
-          "notes": "K-Dense-AI scientific-agent-skills — reproducible statistical-analysis skill covering parametric, non-parametric, and Bayesian workflows with scipy/statsmodels/pingouin/PyMC and APA-formatted output."
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-06-01",
+      "updatedAt": "2026-06-02",
       "version": "0.1.0",
       "timeline": [
         {
@@ -8401,6 +8340,12 @@
           "details": "Skill created as 3★ (provisional)",
           "previousValue": null,
           "newValue": "3★"
+        },
+        {
+          "timestamp": "2026-06-02T23:45:13Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/statistical-analysis/SKILL.md"
         }
       ]
     },
@@ -8419,21 +8364,13 @@
         "e2e-testing"
       ],
       "conditions": "Requires a stealth-enabled browser driver and session management infrastructure.",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/apify/crawlee-python/blob/main/AGENTS.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-05-14",
-          "notes": "Crawlee's StagehandCrawler and stealth engine provide autonomous, resilient browser interaction for agents."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [
         "apify/crawlee"
       ],
       "status": "provisional",
       "createdAt": "2026-05-14",
-      "updatedAt": "2026-06-01",
+      "updatedAt": "2026-06-02",
       "version": "0.1.0",
       "timeline": [
         {
@@ -8457,6 +8394,12 @@
           "details": "Calibrated/demoted rank from 4★ to 2★",
           "previousValue": "4★",
           "newValue": "2★"
+        },
+        {
+          "timestamp": "2026-06-02T23:45:13Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://github.com/apify/crawlee-python/blob/main/AGENTS.md"
         }
       ]
     },
@@ -8562,19 +8505,11 @@
         "wiki-search"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "C",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/summarize.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-26",
-          "notes": "Seed evidence for Summarize."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-06-01",
+      "updatedAt": "2026-06-02",
       "version": "0.1.0",
       "timeline": [
         {
@@ -8584,6 +8519,12 @@
           "details": "Skill created as 0★ (provisional)",
           "previousValue": null,
           "newValue": "0★"
+        },
+        {
+          "timestamp": "2026-06-02T23:45:13Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://github.com/gaia-registry/gaia/blob/main/docs/evidence/summarize.md"
         }
       ]
     },
@@ -9048,19 +8989,11 @@
         "tool-chaining"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "C",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/toolSelect.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-26",
-          "notes": "Seed evidence for Tool Select."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-06-01",
+      "updatedAt": "2026-06-02",
       "version": "0.1.0",
       "timeline": [
         {
@@ -9084,6 +9017,12 @@
           "details": "Calibrated/demoted rank from 1★ to 0★",
           "previousValue": "1★",
           "newValue": "0★"
+        },
+        {
+          "timestamp": "2026-06-02T23:45:13Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://github.com/gaia-registry/gaia/blob/main/docs/evidence/toolSelect.md"
         }
       ]
     },
@@ -9820,19 +9759,11 @@
         "founder-mode-orchestration"
       ],
       "conditions": "Structured output mode required.",
-      "evidence": [
-        {
-          "class": "B",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/webScrape.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-26",
-          "notes": "Seed evidence for Web Scrape."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-06-01",
+      "updatedAt": "2026-06-02",
       "version": "0.1.0",
       "timeline": [
         {
@@ -9856,6 +9787,12 @@
           "details": "Calibrated/demoted rank from 3★ to 1★",
           "previousValue": "3★",
           "newValue": "1★"
+        },
+        {
+          "timestamp": "2026-06-02T23:45:13Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://github.com/gaia-registry/gaia/blob/main/docs/evidence/webScrape.md"
         }
       ]
     },
@@ -9873,19 +9810,11 @@
         "prediction-market-analysis"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "C",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/webSearch.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-26",
-          "notes": "Seed evidence for Web Search."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-06-01",
+      "updatedAt": "2026-06-02",
       "version": "0.1.0",
       "timeline": [
         {
@@ -9909,6 +9838,12 @@
           "details": "Calibrated/demoted rank from 1★ to 0★",
           "previousValue": "1★",
           "newValue": "0★"
+        },
+        {
+          "timestamp": "2026-06-02T23:45:13Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://github.com/gaia-registry/gaia/blob/main/docs/evidence/webSearch.md"
         }
       ]
     },
@@ -10090,19 +10025,11 @@
         "founder-mode-orchestration"
       ],
       "conditions": "",
-      "evidence": [
-        {
-          "class": "C",
-          "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/writeReport.md",
-          "evaluator": "mbtiongson1",
-          "date": "2026-04-26",
-          "notes": "Seed evidence for Write Report."
-        }
-      ],
+      "evidence": [],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-26",
-      "updatedAt": "2026-06-01",
+      "updatedAt": "2026-06-02",
       "version": "0.1.0",
       "timeline": [
         {
@@ -10126,6 +10053,12 @@
           "details": "Calibrated/demoted rank from 1★ to 0★",
           "previousValue": "1★",
           "newValue": "0★"
+        },
+        {
+          "timestamp": "2026-06-02T23:50:35Z",
+          "action": "evidence_removed",
+          "contributor": "unknown",
+          "details": "Removed dead/invalid evidence: https://github.com/gaia-registry/gaia/blob/main/docs/evidence/writeReport.md"
         }
       ]
     },

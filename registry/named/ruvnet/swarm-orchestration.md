@@ -7,7 +7,7 @@ genericSkillRef: swarm-topology-management
 status: named
 title: The Topology Architect
 catalogRef: ruvnet-swarm-orchestration
-level: 3★
+level: 1★
 description: Initializes and manages multi-agent swarm network topologies (hierarchical,
   mesh, ring, star) with automatic load balancing, fault tolerance, and shared memory
   coordination.
@@ -20,7 +20,7 @@ tags:
 - load-balancing
 - fault-tolerance
 createdAt: '2026-05-19'
-updatedAt: '2026-05-19'
+updatedAt: '2026-06-02'
 suiteRef: ruvnet/ruflo-v3
 evidence:
 - class: B
@@ -28,6 +28,11 @@ evidence:
   evaluator: mbtiongson1
   date: '2026-05-19'
   notes: Ruflo orchestration platform — 34k+ GitHub stars.
+timeline:
+- timestamp: '2026-06-02T23:48:23Z'
+  action: demote
+  contributor: unknown
+  details: Calibrated level from 3★ to 1★
 ---
 
 ## Overview

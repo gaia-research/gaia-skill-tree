@@ -30,9 +30,7 @@ _None._
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._
 
-| Class | Source | Evaluator | Date |
-|---|---|---|---|
-| C | https://github.com/gaia-registry/gaia/blob/main/docs/evidence/codeGeneration.md | mbtiongson1 | 2026-04-26 |
+_None._
 
 ## Known Agents
 _None verified yet._

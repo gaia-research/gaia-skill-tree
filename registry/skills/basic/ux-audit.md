@@ -20,8 +20,8 @@ _None._
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
 | pbakaus/impeccable ⭑ | pbakaus | 4★ | 1 |
-| garrytan/design-review | garrytan | 3★ | 0 |
-| garrytan/devex-review | garrytan | 3★ | 0 |
+| garrytan/design-review | garrytan | 2★ | 0 |
+| garrytan/devex-review | garrytan | 2★ | 0 |
 | garrytan/plan-design-review | garrytan | 4★ | 0 |
 | garrytan/plan-devex-review | garrytan | 4★ | 0 |
 | martin-stepanoski/nielsen-heuristics-audit | martin-stepanoski | 2★ | 1 |

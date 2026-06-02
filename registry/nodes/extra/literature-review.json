@@ -19,19 +19,12 @@
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
       "notes": "Rouzrokh et al. (2025) — LatteReview: multi-agent framework for systematic review automation; modular agents for title/abstract screening, relevance scoring, and structured data extraction with RAG and multimodal support."
-    },
-    {
-      "class": "B",
-      "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/literature-review/SKILL.md",
-      "evaluator": "mbtiongson1",
-      "date": "2026-04-30",
-      "notes": "K-Dense-AI scientific-agent-skills — reproducible literature-review skill: seven-phase workflow from research-question planning through multi-database search, screening, extraction, synthesis, citation verification to final PDF output."
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-02",
   "version": "0.1.0",
   "timeline": [
     {
@@ -41,6 +34,12 @@
       "details": "Skill created as 4★ (provisional)",
       "previousValue": null,
       "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-06-02T23:45:12Z",
+      "action": "evidence_removed",
+      "contributor": "unknown",
+      "details": "Removed dead/invalid evidence: https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/literature-review/SKILL.md"
     }
   ]
 }

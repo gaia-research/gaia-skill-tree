@@ -6,20 +6,26 @@ origin: false
 role: variant
 genericSkillRef: workflow-automation
 status: named
-title: "The Actions Architect"
+title: The Actions Architect
 catalogRef: ruvnet-github-workflow-automation
-level: "3★"
-description: Designs and manages GitHub Actions workflows for CI/CD automation, scheduled tasks, and event-driven agent triggers.
+level: 1★
+description: Designs and manages GitHub Actions workflows for CI/CD automation, scheduled
+  tasks, and event-driven agent triggers.
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - github-actions
-  - ci-cd
-  - workflow-automation
-  - event-driven
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/github-suite"
+- github-actions
+- ci-cd
+- workflow-automation
+- event-driven
+createdAt: '2026-05-19'
+updatedAt: '2026-06-02'
+suiteRef: ruvnet/github-suite
+timeline:
+- timestamp: '2026-06-02T23:48:21Z'
+  action: demote
+  contributor: unknown
+  details: Calibrated level from 3★ to 1★
 ---
 
 ## Overview

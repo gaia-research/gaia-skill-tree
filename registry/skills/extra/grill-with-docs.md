@@ -29,9 +29,7 @@ Requires the agent to maintain a live glossary (CONTEXT.md) and generate ADRs fo
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._
 
-| Class | Source | Evaluator | Date |
-|---|---|---|---|
-| A | https://aihero.dev/mattpocock/i-stopped-using-grill-me-for-coding | mbtiongson1 | 2026-05-15 |
+_None._
 
 ## Known Agents
 _None verified yet._

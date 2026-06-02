@@ -29,7 +29,6 @@ _Capability-level evidence for this generic reference. Every named implementatio
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | A | https://arxiv.org/abs/2405.20477 | mbtiongson1 | 2026-04-30 |
-| B | https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/scientific-writing/SKILL.md | mbtiongson1 | 2026-04-30 |
 
 ## Known Agents
 _None verified yet._

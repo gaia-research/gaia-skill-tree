@@ -17,19 +17,11 @@
     "literature-review"
   ],
   "conditions": "",
-  "evidence": [
-    {
-      "class": "B",
-      "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/research.md",
-      "evaluator": "mbtiongson1",
-      "date": "2026-04-26",
-      "notes": "Seed evidence for Research."
-    }
-  ],
+  "evidence": [],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-26",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-02",
   "version": "0.1.0",
   "timeline": [
     {
@@ -53,6 +45,12 @@
       "details": "Calibrated/demoted rank from 3★ to 1★",
       "previousValue": "3★",
       "newValue": "1★"
+    },
+    {
+      "timestamp": "2026-06-02T23:45:12Z",
+      "action": "evidence_removed",
+      "contributor": "unknown",
+      "details": "Removed dead/invalid evidence: https://github.com/gaia-registry/gaia/blob/main/docs/evidence/research.md"
     }
   ]
 }

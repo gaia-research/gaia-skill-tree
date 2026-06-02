@@ -13,19 +13,11 @@
     "wiki-search"
   ],
   "conditions": "",
-  "evidence": [
-    {
-      "class": "C",
-      "source": "https://github.com/gaia-registry/gaia/blob/main/docs/evidence/summarize.md",
-      "evaluator": "mbtiongson1",
-      "date": "2026-04-26",
-      "notes": "Seed evidence for Summarize."
-    }
-  ],
+  "evidence": [],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-26",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-02",
   "version": "0.1.0",
   "timeline": [
     {
@@ -35,6 +27,12 @@
       "details": "Skill created as 0★ (provisional)",
       "previousValue": null,
       "newValue": "0★"
+    },
+    {
+      "timestamp": "2026-06-02T23:45:13Z",
+      "action": "evidence_removed",
+      "contributor": "unknown",
+      "details": "Removed dead/invalid evidence: https://github.com/gaia-registry/gaia/blob/main/docs/evidence/summarize.md"
     }
   ]
 }

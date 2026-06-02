@@ -1,8 +1,8 @@
-# [ruvnet](../../../docs/u/ruvnet/)/github-workflow-automation  [3★]
+# [ruvnet](../../../docs/u/ruvnet/)/github-workflow-automation  [2★]
 **ID:** workflow-automation  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
-**Top named variant:** 3★  
+**Top named variant:** 2★  
 **Skill Call:** `/workflow-automation`
 
 ---
@@ -26,7 +26,7 @@ _None specified._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| ruvnet/github-workflow-automation | ruvnet | 3★ | 0 |
+| ruvnet/github-workflow-automation | ruvnet | 1★ | 0 |
 | ruvnet/hooks-automation | ruvnet | 2★ | 0 |
 
 ## Evidence (inherited capability)

@@ -5,21 +5,27 @@ contributor: ruvnet
 origin: false
 genericSkillRef: multi-agent-orchestration-v
 status: named
-title: "The V3 Swarm Engine"
+title: The V3 Swarm Engine
 catalogRef: ruvnet-v3-swarm-coordination
-level: "3★"
-description: Implements Ruflo v3 hierarchical-mesh hybrid swarm topology with anti-drift mechanisms and SONA neural pattern learning.
+level: 1★
+description: Implements Ruflo v3 hierarchical-mesh hybrid swarm topology with anti-drift
+  mechanisms and SONA neural pattern learning.
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - swarm
-  - multi-agent
-  - sona
-  - anti-drift
-  - v3-sprint
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/ruflo-v3"
+- swarm
+- multi-agent
+- sona
+- anti-drift
+- v3-sprint
+createdAt: '2026-05-19'
+updatedAt: '2026-06-02'
+suiteRef: ruvnet/ruflo-v3
+timeline:
+- timestamp: '2026-06-02T23:48:21Z'
+  action: demote
+  contributor: unknown
+  details: Calibrated level from 3★ to 1★
 ---
 
 ## Overview
