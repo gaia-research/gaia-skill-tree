@@ -1632,3 +1632,27 @@ def meta_diff_command(args):
 
     print(f"  Skipped {skipped} generated files (SVG, HTML, GEXF, timestamps).")
     print()
+
+
+def meta_timeline_command(args):
+    """Append a standalone event to a skill's timeline."""
+    registry_path = args.registry
+    skill_id = args.skill_id.lstrip("/")
+    action = args.action
+    notes = args.notes
+
+    from gaia_cli.timeline import append_skill_event
+    append_skill_event(
+        skill_id,
+        action,
+        _get_contributor(),
+        notes,
+        registry_path=registry_path
+    )
+
+    if not getattr(args, "no_build", False):
+        print("Regenerating registry and documentation...")
+        _run_docs_build(args.registry)
+    else:
+        print("Skipping documentation rebuild as requested (--no-build).")
+

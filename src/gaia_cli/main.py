@@ -30,6 +30,7 @@ from gaia_cli.commands.dev import (
     meta_link_command,
     meta_reclassify_command,
     meta_update_named_command,
+    meta_timeline_command,
     meta_rename_command,
     meta_verify_command,
     meta_calibrate_command,
@@ -1715,6 +1716,12 @@ def get_parser():
     dev_update_named.add_argument('--origin', choices=['true', 'false'], help="Set the origin flag to true or false")
     dev_update_named.add_argument('--no-build', action='store_true', help="Skip rebuilding docs and graph assets after updating")
 
+    dev_timeline = dev_sub.add_parser('timeline', help="Append a standalone event to a skill's timeline")
+    dev_timeline.add_argument('skill_id', help="Skill ID to append the event to (generic or named)")
+    dev_timeline.add_argument('--action', required=True, choices=('propose', 'rank_up', 'demote', 'verified', 'disputed', 'type_change', 'suite_ref_set', 'note'), help="The type of event action")
+    dev_timeline.add_argument('--notes', required=True, help="Description of the event")
+    dev_timeline.add_argument('--no-build', action='store_true', help="Skip rebuilding docs and graph assets after appending event")
+
     dev_evidence = dev_sub.add_parser('evidence', help="Add evidence to a skill")
     dev_evidence.add_argument('skill_id', help="Skill ID to add evidence to")
     dev_evidence.add_argument('source', help="URL to the evidence source")
@@ -1911,6 +1918,8 @@ def main():
             meta_reclassify_command(args)
         elif dev_cmd == 'update-named':
             meta_update_named_command(args)
+        elif dev_cmd == 'timeline':
+            meta_timeline_command(args)
         elif dev_cmd == 'evidence':
             meta_evidence_command(args)
         elif dev_cmd == 'build':
