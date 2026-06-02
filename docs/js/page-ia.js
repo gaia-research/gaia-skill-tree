@@ -108,6 +108,14 @@
     var unclaimed = ultimates.filter(function (u) { return !claimedBy[u.id]; });
     var apexCount = ultimates.length - unclaimed.length;
 
+    // Resolve effective level from the named entry because canonical nodes
+    // don't carry a level field — only named/claimed entries do.
+    var levelFor = {};
+    ultimates.forEach(function (u) {
+      var claim = claimedBy[u.id];
+      levelFor[u.id] = (claim && claim.level) || u.level || null;
+    });
+
     // Ledger strip
     var elSkills = document.getElementById('ledgerSkills');
     var elUlts = document.getElementById('ledgerUlts');
@@ -126,7 +134,7 @@
     if (list) {
       var sorted = ultimates.slice().sort(function (a, b) {
         // order by level desc first
-        var lvlDiff = levelNum(b.level) - levelNum(a.level);
+        var lvlDiff = levelNum(levelFor[b.id]) - levelNum(levelFor[a.id]);
         if (lvlDiff !== 0) return lvlDiff;
         // then by claimed status (unclaimed first)
         var aClaimed = !!claimedBy[a.id];
@@ -151,7 +159,8 @@
 
       list.innerHTML = sorted.map(function (u) {
         var claim = claimedBy[u.id];
-        var levelChip = chipBadge(u.level);
+        var uLevel = levelFor[u.id];
+        var levelChip = chipBadge(uLevel);
         if (claim) {
           // Phase 8c — claimed Ultimates lead with the named slug in honor red
           // (the second segment of the named id, e.g. /autoresearch). The
@@ -163,7 +172,7 @@
             ? window.handleLink(claim.contributor || '', { extraClass: 'ult-contrib' })
             : '<a class="ult-contrib atlas-handle" href="./u/' + encodeURIComponent(claim.contributor || '') + '/">@' + esc(claim.contributor || '') + '</a>';
           
-          var lvlN = levelNum(u.level);
+          var lvlN = levelNum(uLevel);
           var colorStyle = 'color: var(--rank-' + lvlN + '); cursor: pointer;';
           if (lvlN === 6) colorStyle += ' animation: tree-rainbow-glow 4s linear infinite;';
           var clickAttr = ' role="button" tabindex="0" onclick="if(typeof openSkillExplorer===\'function\')openSkillExplorer(\'' + jsStr(u.id) + '\')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();this.click();}"';
@@ -186,7 +195,7 @@
             '<button class="ult-claim" type="button" ' +
               'data-skill-id="' + esc(u.id) + '"' +
               ' data-skill-name="' + esc(u.name || u.id) + '"' +
-              ' data-skill-level="' + esc(u.level || '') + '"' +
+              ' data-skill-level="' + esc(uLevel || '') + '"' +
               ' data-contributor="' + esc(claim.contributor || '') + '">Claim →</button>' +
             '</div>';
         }
@@ -200,7 +209,7 @@
           '<button class="ult-claim" type="button" ' +
             'data-skill-id="' + esc(u.id) + '"' +
             ' data-skill-name="' + esc(u.name || u.id) + '"' +
-            ' data-skill-level="' + esc(u.level || '') + '">Claim →</button>' +
+            ' data-skill-level="' + esc(uLevel || '') + '">Claim →</button>' +
           '</div>';
       }).join('');
     }
