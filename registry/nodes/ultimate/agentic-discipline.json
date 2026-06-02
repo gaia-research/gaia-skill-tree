@@ -1,0 +1,23 @@
+{
+  "id": "agentic-discipline",
+  "name": "Agentic Discipline",
+  "type": "ultimate",
+  "rarity": "common",
+  "description": "A comprehensive software development methodology for coding agents.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-06-02",
+  "updatedAt": "2026-06-02",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-06-02T01:37:19Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill agentic-discipline"
+    }
+  ]
+}
