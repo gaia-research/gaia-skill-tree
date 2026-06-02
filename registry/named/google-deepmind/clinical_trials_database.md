@@ -13,7 +13,7 @@ description: Query ClinicalTrials.gov via APIv2. Use when you want to search for
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
 links:
-  github: https://github.com/google-deepmind/science-skills/blob/main/skills/clinical_trials_database
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/clinical_trials_database/SKILL.md
 evidence:
 - class: B
   source: https://github.com/google-deepmind/science-skills/blob/main/skills/clinical_trials_database/SKILL.md

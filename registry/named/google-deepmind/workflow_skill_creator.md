@@ -14,7 +14,7 @@ description: Distills a completed user workflow or interaction into a reusable a
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
 links:
-  github: https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md
 evidence:
 - class: B
   source: https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md

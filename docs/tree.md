@@ -2,7 +2,7 @@
 
 ```
 ══════════════════════════════════════════════════════════════════════
-GAIA SKILL TREE  v3.27.2  ·  generated 2026-06-01
+GAIA SKILL TREE  v3.27.2  ·  generated 2026-06-02
 ══════════════════════════════════════════════════════════════════════
 ◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -30,11 +30,11 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ ○ garrytan/design-html  [4★]
   │  ├─ ○ /diff-content
   │  └─ ○ garrytan/benchmark  [4★]  (↑ see above)
-  ├─ ○ martin-stepanoski/nielsen-heuristics-audit  [4★]
+  ├─ ○ pbakaus/impeccable  [4★]
   ├─ ◇ mattpocock/to-issues  [5★]
   │  ├─ ○ /plan-decompose
   │  └─ ○ /route-intent
-  ├─ ◇ Manavarya09/design-extract  [4★]
+  ├─ ◇ garrytan/design-consultation  [4★]
   │  ├─ ◇ gooseworks/notte-browser  [3★]
   │  │  ├─ ○ /web-search
   │  │  └─ ○ /computer-use
@@ -64,7 +64,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ ◇ garrytan/canary  [4★]
   │  ├─ ○ garrytan/benchmark  [4★]  (↑ see above)
   │  └─ ○ /error-interpretation  (↑ see above)
-  ├─ ○ anthropic/pptx  [4★]
+  ├─ ○ garrytan/document-generate  [4★]
   ├─ ◇ gooseworks/notte-browser  [3★]  (↑ see above)
   ├─ ◇ garrytan/cso  [4★]
   │  ├─ ◇ garrytan/plan-eng-review  [4★]  (↑ see above)
@@ -104,7 +104,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ ○ garrytan/make-pdf  [3★]
   ├─ ◇ garrytan/gstack-upgrade  [2★]
   │  ├─ ○ huggingface/hf-cli  [2★]  (↑ see above)
-  │  └─ ○ anthropic/pptx  [4★]  (↑ see above)
+  │  └─ ○ garrytan/document-generate  [4★]  (↑ see above)
   ├─ ◇ garrytan/landing-report  [2★]
   │  ├─ ○ huggingface/hf-cli  [2★]  (↑ see above)
   │  └─ ○ mattpocock/triage  [3★]
@@ -163,7 +163,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ ○ ruvnet/v3-cli-modernization  [2★]
   │  ├─ ○ ruvnet/v3-core-implementation  [2★]
   │  ├─ ○ ruvnet/v3-integration-deep  [2★]
-  │  ├─ ○ ruvnet/performance-analysis  [3★]
+  │  ├─ ○ addy-osmani/performance-optimization  [3★]
   │  └─ ◇ ruvnet/swarm-advanced  [3★]
   │     ├─ ○ ruvnet/swarm-orchestration  [3★]
   │     └─ ◇ garrytan/codex  [3★]
@@ -240,12 +240,12 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  │  └─ ○ /plan-decompose  (↑ see above)
   │  │  └─ ○ /self-critique
   │  ├─ ◇ mattpocock/ubiquitous-language  [4★]  (↑ see above)
-  │  └─ ○ anthropic/pptx  [4★]
+  │  └─ ○ garrytan/document-generate  [4★]
   ├─ ◇ mattpocock/prototype  [3★]
   │  ├─ ○ garrytan/design-html  [4★]  (↑ see above)
   │  └─ ○ /code-execution  (↑ see above)
   └─ ◇ mattpocock/setup-matt-pocock-skills  [3★]
-     ├─ ○ anthropic/pptx  [4★]  (↑ see above)
+     ├─ ○ garrytan/document-generate  [4★]  (↑ see above)
      └─ ○ /tool-use
 
 ◆ mattpocock/skills  [6★]
@@ -274,17 +274,17 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  │  │  └─ ○ /plan-decompose  (↑ see above)
   │  │  │  └─ ○ /self-critique
   │  │  ├─ ◇ mattpocock/ubiquitous-language  [4★]  (↑ see above)
-  │  │  └─ ○ anthropic/pptx  [4★]
+  │  │  └─ ○ garrytan/document-generate  [4★]
   │  ├─ ◇ mattpocock/prototype  [3★]
   │  │  ├─ ○ garrytan/design-html  [4★]  (↑ see above)
   │  │  └─ ○ /code-execution  (↑ see above)
   │  └─ ◇ mattpocock/setup-matt-pocock-skills  [3★]
-  │     ├─ ○ anthropic/pptx  [4★]  (↑ see above)
+  │     ├─ ○ garrytan/document-generate  [4★]  (↑ see above)
   │     └─ ○ /tool-use
   ├─ ◇ mattpocock/productivity  [4★]
   │  ├─ ◇ mattpocock/handoff  [4★]
   │  │  ├─ ○ /summarize
-  │  │  ├─ ○ anthropic/pptx  [4★]  (↑ see above)
+  │  │  ├─ ○ garrytan/document-generate  [4★]  (↑ see above)
   │  │  └─ ○ garrytan/context-restore  [3★]
   │  ├─ ○ garrytan/context-restore  [3★]  (↑ see above)
   │  ├─ ◇ mattpocock/grill-me  [4★]  (↑ see above)
@@ -292,7 +292,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │     ├─ ○ garrytan/design-html  [4★]  (↑ see above)
   │     └─ ○ /tool-use  (↑ see above)
   ├─ ◇ mattpocock/personal  [4★]
-  │  ├─ ○ anthropic/pptx  [4★]  (↑ see above)
+  │  ├─ ○ garrytan/document-generate  [4★]  (↑ see above)
   │  └─ ◇ mattpocock/obsidian-vault  [3★]
   │     ├─ ○ /retrieve
   │     └─ ○ garrytan/context-restore  [3★]  (↑ see above)
@@ -314,7 +314,7 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
 
   ○ /autonomous-engineering-platform
   ○ /clinical-data-retrieval
-  ○ openai/few-shot-learning  [4★]
+  ○ openai/few-shot-learning  [2★]
   ○ laravel/upgrade-laravel-v13  [2★]
   ○ ruvnet/agentic-jujutsu  [2★]
   ○ /image-generate
@@ -322,11 +322,11 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   ○ /pathway-ontology-retrieval
   ○ /reward-modeling
   ○ intelligentcode-ai/database-engineer  [2★]
-  ○ openai/self-consistency  [4★]
+  ○ openai/self-consistency  [2★]
   ○ ruvnet/stream-chain  [2★]
   ○ addy-osmani/test-driven-development  [3★]
   ○ getagentseal/codeburn  [2★]
   ○ ruvnet/worker-integration  [2★]
 ```
 
-*Generated from gaia.json on 2026-06-01. Do not edit directly.*
+*Generated from gaia.json on 2026-06-02. Do not edit directly.*

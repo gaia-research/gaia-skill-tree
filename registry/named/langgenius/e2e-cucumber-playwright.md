@@ -11,7 +11,7 @@ description: Write, update, or review Dify end-to-end tests under e2e/ that use 
 createdAt: '2026-05-31'
 updatedAt: '2026-05-31'
 links:
-  github: https://github.com/langgenius/dify/blob/main/.agents/skills/e2e-cucumber-playwright
+  github: https://github.com/langgenius/dify/blob/main/.agents/skills/e2e-cucumber-playwright/SKILL.md
 timeline:
 - timestamp: '2026-05-31T02:07:01Z'
   action: add

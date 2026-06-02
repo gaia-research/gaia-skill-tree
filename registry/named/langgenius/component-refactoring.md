@@ -10,7 +10,7 @@ description: Refactor high-complexity React components in Dify frontend.
 createdAt: '2026-05-31'
 updatedAt: '2026-05-31'
 links:
-  github: https://github.com/langgenius/dify/blob/main/.agents/skills/component-refactoring
+  github: https://github.com/langgenius/dify/blob/main/.agents/skills/component-refactoring/SKILL.md
 timeline:
 - timestamp: '2026-05-31T02:07:12Z'
   action: add

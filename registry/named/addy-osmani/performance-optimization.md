@@ -2,7 +2,7 @@
 id: addy-osmani/performance-optimization
 name: Performance Optimization
 contributor: addy-osmani
-origin: false
+origin: true
 genericSkillRef: performance-tuning
 status: named
 level: 3★
@@ -11,7 +11,7 @@ description: 'Measurement-driven performance workflow: baseline with Lighthouse 
   blocking, unoptimized images), verify against Core Web Vitals thresholds (LCP ≤2.5s,
   INP ≤200ms, CLS ≤0.1), and guard against regression with perf budgets.'
 createdAt: '2026-05-31'
-updatedAt: '2026-05-31'
+updatedAt: '2026-06-02'
 title: The Perf Loop
 links:
   github: https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md
@@ -30,6 +30,10 @@ timeline:
   action: installation_updated
   contributor: unknown
   details: 'Replaced ## Installation section from /tmp/perf_install.md'
+- timestamp: '2026-06-02T01:43:00Z'
+  action: rank_up
+  contributor: unknown
+  details: Origin status set to true.
 evidence:
 - class: A
   source: https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md

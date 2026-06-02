@@ -1,4 +1,4 @@
-# [anthropic](../../../docs/u/anthropic/)/pptx  [4★]
+# [garrytan](../../../docs/u/garrytan/)/document-generate  [4★]
 **ID:** document-editing  
 **Type:** Basic Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
@@ -20,8 +20,8 @@ _None._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| anthropic/pptx ⭑ | anthropic | 2★ | 1 |
-| garrytan/document-generate | garrytan | 4★ | 0 |
+| garrytan/document-generate ⭑ | garrytan | 4★ | 0 |
+| anthropic/pptx | anthropic | 2★ | 1 |
 | garrytan/document-release | garrytan | 2★ | 0 |
 | mattpocock/edit-article | mattpocock | 2★ | 0 |
 

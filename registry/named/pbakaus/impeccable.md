@@ -2,7 +2,7 @@
 id: pbakaus/impeccable
 name: Impeccable
 contributor: pbakaus
-origin: false
+origin: true
 genericSkillRef: ux-audit
 status: named
 title: The Aesthetic Shield
@@ -10,14 +10,14 @@ level: 4★
 description: Elite design vocabulary and audit tool for polishing AI-generated frontend
   code.
 links:
-  github: https://github.com/pbakaus/impeccable
+  github: https://github.com/pbakaus/impeccable/blob/main/.agents/skills/impeccable/SKILL.md
 tags:
 - design
 - audit
 - frontend
 - polishing
 createdAt: '2026-05-14'
-updatedAt: '2026-05-14'
+updatedAt: '2026-06-02'
 evidence:
 - class: B
   source: https://github.com/pbakaus/impeccable
@@ -25,6 +25,11 @@ evidence:
   date: '2026-05-14'
   notes: Paul Bakaus /impeccable -- Elite design vocabulary and audit tool with 23
     specialized polishing commands.
+timeline:
+- timestamp: '2026-06-02T01:42:59Z'
+  action: rank_up
+  contributor: unknown
+  details: Origin status set to true.
 ---
 
 ## Overview

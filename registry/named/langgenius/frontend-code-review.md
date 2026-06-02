@@ -10,7 +10,7 @@ description: Trigger when the user requests a review of frontend files.
 createdAt: '2026-05-31'
 updatedAt: '2026-05-31'
 links:
-  github: https://github.com/langgenius/dify/blob/main/.agents/skills/frontend-code-review
+  github: https://github.com/langgenius/dify/blob/main/.agents/skills/frontend-code-review/SKILL.md
 timeline:
 - timestamp: '2026-05-31T02:06:56Z'
   action: add

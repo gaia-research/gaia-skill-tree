@@ -2,7 +2,7 @@
 id: garrytan/design-consultation
 name: Design Consultation
 contributor: garrytan
-origin: false
+origin: true
 genericSkillRef: design-system-extraction
 status: named
 title: "Gstack Design Consultation"
@@ -17,8 +17,13 @@ tags:
   - colors
   - design-tokens
 createdAt: "2026-05-18"
-updatedAt: "2026-05-18"
+updatedAt: "2026-06-02"
 suiteRef: "garrytan/gstack"
+timeline:
+- timestamp: '2026-06-02T01:43:00Z'
+  action: rank_up
+  contributor: unknown
+  details: Origin status set to true (highest-rated in design-system-extraction bucket).
 ---
 
 ## Overview

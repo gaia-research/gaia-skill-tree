@@ -27,7 +27,7 @@
 | ◇ [garrytan](../docs/u/garrytan/)/land-and-deploy | Extra Skill | Workflow Automation, Code Execution | 4★ | Requires environment credentials and a configured pipeline definition. |
 | ◇ [nexu-io](../docs/u/nexu-io/)/open-design | Extra Skill | Code Generation, Visual Question Answering | 3★ |  |
 | ◇ [garrytan](../docs/u/garrytan/)/design-shotgun | Extra Skill | Evaluate Output, Plan and Decompose | 4★ |  |
-| ◇ [Manavarya09](../docs/u/Manavarya09/)/design-extract | Extra Skill | Browser Automation, Parse HTML | 4★ | Requires headless browser (Playwright/Puppeteer). |
+| ◇ [garrytan](../docs/u/garrytan/)/design-consultation | Extra Skill | Browser Automation, Parse HTML | 4★ | Requires headless browser (Playwright/Puppeteer). |
 | ◇ [garrytan](../docs/u/garrytan/)/canary | Extra Skill | Evaluate Output, Error Interpretation | 4★ |  |
 | ◇ [obra](../docs/u/obra/)/dispatching-parallel-agents | Extra Skill | Plan and Decompose, Parallel Execution | 4★ |  |
 | ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus-neural | Extra Skill | Parallel Execution, Embed Text | 3★ |  |

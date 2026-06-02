@@ -14,7 +14,7 @@ description: Searches for homologous protein sequences using MMseqs2 (fast, defa
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
 links:
-  github: https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_similarity_search
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_similarity_search/SKILL.md
 evidence:
 - class: B
   source: https://github.com/google-deepmind/science-skills

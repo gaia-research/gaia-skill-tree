@@ -5,22 +5,28 @@ contributor: mattpocock
 origin: false
 genericSkillRef: document-editing
 status: named
-title: "The Article Editor"
-title: "The Section-by-Section Rewrite"
+title: The Section-by-Section Rewrite
 catalogRef: mattpocock-edit-article
-level: "2★"
-description: Edits articles by first sectioning them as a DAG of information dependencies, confirming the section order, then rewriting each section for clarity and flow with a 240-character-per-paragraph constraint.
+level: 2★
+description: Edits articles by first sectioning them as a DAG of information dependencies,
+  confirming the section order, then rewriting each section for clarity and flow with
+  a 240-character-per-paragraph constraint.
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/personal/edit-article/SKILL.md
 tags:
-  - article-editing
-  - prose-rewrite
-  - information-dag
-  - section-structure
-  - clarity
-createdAt: "2026-04-30"
-updatedAt: "2026-04-30"
-suiteRef: "mattpocock/personal"
+- article-editing
+- prose-rewrite
+- information-dag
+- section-structure
+- clarity
+createdAt: '2026-04-30'
+updatedAt: '2026-06-02'
+suiteRef: mattpocock/personal
+timeline:
+- timestamp: '2026-06-02T01:42:59Z'
+  action: rank_up
+  contributor: unknown
+  details: Origin status set to true.
 ---
 
 ## Overview
