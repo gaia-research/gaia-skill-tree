@@ -141,7 +141,13 @@
       }
     });
 
-    var ranks = [groups['apex'], groups['ultimate'], groups['unique'], groups['extra'], groups['basic']].filter(function(r) { return r.length > 0; });
+    var TIER_ORDER = ['apex', 'ultimate', 'unique', 'extra', 'basic'];
+    var rankTiers = TIER_ORDER.filter(function(t) { return groups[t].length > 0; });
+    var ranks = rankTiers.map(function(t) { return groups[t]; });
+    // Record present tiers (apex-first = visual top) for the global AlphaRail.
+    window._gaiaFlowRanks = rankTiers.map(function(t) {
+      return { tier: t, count: groups[t].length, targetId: 'ns-rank-' + t };
+    });
 
     function levelNum(level) {
       var n = parseInt(String(level || '').replace(/\D+/g, ''), 10);
@@ -171,7 +177,7 @@
       
       var isUnique = rank.every(function(id) { return dagNodes[id].type === 'unique'; });
       var voidClass = isUnique ? ' void-zone' : '';
-      html += '<div class="ns-dag-rank' + voidClass + '" data-depth="' + ri + '">';
+      html += '<div class="ns-dag-rank' + voidClass + '" data-depth="' + ri + '" data-tier="' + esc(rankTiers[ri]) + '" id="ns-rank-' + esc(rankTiers[ri]) + '">';
       rank.forEach(function(id, idx) {
         var staggerY = (isUnique) ? 0 : (hashString(id) % 150); // don't stagger in void
         var s = dagNodes[id];
@@ -531,6 +537,31 @@
         '</div>';
       }
 
+      // Alpha-mode header (Name / Contributor sorts regroup the explorer — and
+      // therefore the global AlphaRail — into A-Z buckets instead of types).
+      function groupHeaderAlpha(letter) {
+        return '<div class="ns-group-header ns-group-az" id="ns-group-az-'+esc(letter)+'">' +
+          '<span class="ns-group-glyph ns-group-az-glyph">'+esc(letter)+'</span>'+
+        '</div>';
+      }
+
+      function firstLetterOf(str) {
+        var c = String(str || '').trim().charAt(0).toUpperCase();
+        return /[A-Z]/.test(c) ? c : '#';
+      }
+      // Name and Contributor sorts switch the explorer to alphabetical grouping.
+      function groupingMode() {
+        return (sortMode === 'name' || sortMode === 'creator') ? 'alpha' : 'type';
+      }
+
+      // Single re-render hook: publishes the marker descriptors for the current
+      // explorer view so the global AlphaRail (js/index-rail.js) can mirror them,
+      // then fires one event covering every view/sort/filter/search change.
+      function publishExplorerMarkers(descriptors) {
+        window._gaiaExplorerMarkers = descriptors || [];
+        document.dispatchEvent(new CustomEvent('gaia:explorer-rendered'));
+      }
+
       function withinGroupSort(items) {
         if (sortMode === 'creator') {
           return items.slice().sort(function(a,b){return (a.contributor||'').localeCompare(b.contributor||'');});
@@ -563,11 +594,28 @@
           }
           return true;
         });
-        if (!filtered.length) { grid.innerHTML='<div class="ns-empty">No skills match.</div>'; return; }
+        if (!filtered.length) { grid.innerHTML='<div class="ns-empty">No skills match.</div>'; publishExplorerMarkers([]); return; }
 
         if (viewMode === 'flow') {
           grid.className = 'ns-grid-flow';
           grid.innerHTML = renderFlowchartView(filtered);
+          // Flow markers mirror the DAG rank tiers present (apex-first = visual
+          // top, matching the column-reverse layout). renderFlowchartView
+          // records them on window._gaiaFlowRanks.
+          var flowRanks = window._gaiaFlowRanks || [];
+          publishExplorerMarkers(flowRanks.map(function(r) {
+            var tm = TYPE_META_G[r.tier];
+            var isApex = r.tier === 'apex';
+            return {
+              key: 'rank:' + r.tier,
+              label: isApex ? 'Apex' : (tm ? tm.label : r.tier),
+              glyph: isApex ? '◆' : (tm ? tm.glyph : ''),
+              color: isApex ? 'var(--rank-6, var(--text))' : 'var(--tier-' + r.tier + ')',
+              weight: r.count,
+              kind: 'group',
+              targetId: r.targetId
+            };
+          }));
           return;
         }
 
@@ -590,18 +638,48 @@
           champions.push(champ);
         });
 
-        var groups = { ultimate:[], unique:[], extra:[], basic:[] };
-        champions.forEach(function(ns){ var t=nsType(ns); (groups[t]||(groups[t]=[])).push(ns); });
+        var renderItem = (viewMode === 'list')
+          ? function(ns){ return renderListRow(ns); }
+          : function(ns){ return renderTile(ns); };
         var html = '';
-        TYPE_ORDER.forEach(function(type) {
-          var items = groups[type]; if (!items || !items.length) return;
-          items = withinGroupSort(items);
-          html += groupHeader(type, type);
-          if (viewMode === 'list') html += items.map(function(ns){ return renderListRow(ns); }).join('');
-          else html += items.map(function(ns){ return renderTile(ns); }).join('');
-        });
+        var markers = [];
+
+        if (groupingMode() === 'alpha') {
+          // A-Z buckets keyed by display name (name sort) or contributor (creator).
+          var keyOf = (sortMode === 'creator')
+            ? function(ns){ return firstLetterOf(ns.contributor); }
+            : function(ns){ return firstLetterOf(nsDisplayName(ns)); };
+          var azGroups = {};
+          champions.forEach(function(ns){ var L = keyOf(ns); (azGroups[L] || (azGroups[L] = [])).push(ns); });
+          var letters = Object.keys(azGroups).sort(function(a, b){
+            if (a === '#') return 1; if (b === '#') return -1; return a < b ? -1 : a > b ? 1 : 0;
+          });
+          letters.forEach(function(L) {
+            var items = withinGroupSort(azGroups[L]);
+            html += groupHeaderAlpha(L);
+            html += items.map(renderItem).join('');
+            markers.push({ key: 'az:' + L, label: L, glyph: L, kind: 'letter',
+              weight: items.length, targetId: 'ns-group-az-' + L });
+          });
+        } else {
+          // Default: group by type, Ultimate-first (Direction rule).
+          var groups = { ultimate:[], unique:[], extra:[], basic:[] };
+          champions.forEach(function(ns){ var t=nsType(ns); (groups[t]||(groups[t]=[])).push(ns); });
+          TYPE_ORDER.forEach(function(type) {
+            var items = groups[type]; if (!items || !items.length) return;
+            items = withinGroupSort(items);
+            html += groupHeader(type, type);
+            html += items.map(renderItem).join('');
+            var tm = TYPE_META_G[type];
+            markers.push({ key: 'grp:' + type, label: tm ? tm.label : type,
+              glyph: tm ? tm.glyph : '', color: 'var(--tier-' + type + ')',
+              kind: 'group', weight: items.length, targetId: 'ns-group-' + type });
+          });
+        }
+
         grid.className = viewMode === 'list' ? 'ns-grid-list' : 'ns-grid-tile';
         grid.innerHTML = html;
+        publishExplorerMarkers(markers);
       }
 
       if (tabsEl) {
