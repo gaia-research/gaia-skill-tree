@@ -1,8 +1,9 @@
 ---
 title: "June Week 1 Meta Update"
 author: "Marcus Rafael Tiongson, Auditor"
-summary: "Origin reassignments, URL curation, and CLI enhancements across 68 registry files."
+summary: "Origin reassignments, URL curation, and CLI enhancements — extended by a whole-registry automated meta sweep with adversarial verification and a before/after confusion matrix."
 label: "Registry Update"
+chart: 2026-06-timeline.json
 ---
 
 ## Abstract
