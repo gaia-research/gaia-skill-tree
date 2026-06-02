@@ -46,6 +46,7 @@
     this._touch = false;
     this._scrubbing = false;
     this._dragged = false;   // pointer moved during this press (drag vs click)
+    this._scrubRefTy = 0;    // track translate captured at grab time (scrub frame)
     this._raf = null;
     this._pointerY = null;
     this._present = [];      // present (selectable) marker keys in order
@@ -267,8 +268,10 @@
         if (it.getAttribute("data-kind") === "letter") {
           it.style.color = bright ? "var(--text)" : "";
         }
+        // Brighten the label on approach; otherwise clear the inline value so
+        // it falls back to its always-visible resting opacity (CSS).
         var lab = it.querySelector(".arail-mark-label");
-        if (lab) lab.style.opacity = bright ? Math.min(1, f * 1.4).toFixed(2) : "0";
+        if (lab) lab.style.opacity = bright ? Math.min(1, f * 1.4).toFixed(2) : "";
       }
     }
   };
@@ -282,12 +285,14 @@
     if (!this._present.length) return;
 
     // Continuous mode: map the pointer to a smooth 0..1 progress across the
-    // marker span and hand it back. The host suppresses follow() while the
-    // strip is held (see onScrub callers), so _ty is stable and the rail does
-    // not fight the user — the scroll glides instead of snapping to a header.
+    // marker span and hand it back. The mapping uses the translate captured at
+    // grab time (_scrubRefTy), not the live _ty — so follow() may keep running
+    // (the strip parallaxes with the scroll the scrub causes) without the input
+    // mapping drifting, i.e. no feedback oscillation.
     if (this.onScrub) {
       var span = this._lastCenter - this._firstCenter;
-      var p = span > 0 ? ((y - this._ty) - this._firstCenter) / span : 0;
+      var ref = this._scrubbing ? this._scrubRefTy : this._ty;
+      var p = span > 0 ? ((y - ref) - this._firstCenter) / span : 0;
       this.onScrub(Math.max(0, Math.min(1, p)));
       return;
     }
@@ -318,6 +323,7 @@
       self._touch = e.pointerType === "touch";
       self._scrubbing = true;
       self._dragged = false;
+      self._scrubRefTy = self._ty;     // freeze the input frame for this drag
       try { t.setPointerCapture(e.pointerId); } catch (_) {}
       self._scrubTo(e.clientY);
       self._scheduleMagnify(e.clientY);
