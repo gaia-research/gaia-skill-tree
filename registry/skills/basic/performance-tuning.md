@@ -1,4 +1,4 @@
-# [ruvnet](../../../docs/u/ruvnet/)/performance-analysis  [3★]
+# [addy-osmani](../../../docs/u/addy-osmani/)/performance-optimization  [3★]
 **ID:** performance-tuning  
 **Type:** Basic Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
@@ -19,8 +19,8 @@ _None._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| ruvnet/performance-analysis ⭑ | ruvnet | 2★ | 0 |
-| addy-osmani/performance-optimization | addy-osmani | 3★ | 1 |
+| addy-osmani/performance-optimization ⭑ | addy-osmani | 3★ | 1 |
+| ruvnet/performance-analysis | ruvnet | 2★ | 0 |
 | ruvnet/v3-performance-optimization | ruvnet | 2★ | 0 |
 
 ## Evidence (inherited capability)
