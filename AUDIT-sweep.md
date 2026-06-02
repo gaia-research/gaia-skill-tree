@@ -12,10 +12,6 @@ Generics containing 'gaia':
 - (None found! The `gaia` instances were cleaned up in upstream patches. `agent` is a valid term and is no longer flagged.)
 
 ## P1: Missing `links.github` (for 3★+ skills, excluding suites)
-- `mattpocock/engineering` (5★)
-- `mattpocock/personal` (4★)
-- `mattpocock/skills` (6★)
-- `mattpocock/productivity` (4★)
 - `stanfordnlp/dspy` (3★)
 - `sickn33/mcp-builder` (3★)
 - `openai/self-consistency` (4★)
