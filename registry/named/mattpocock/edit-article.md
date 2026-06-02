@@ -2,7 +2,7 @@
 id: mattpocock/edit-article
 name: Edit Article
 contributor: mattpocock
-origin: true
+origin: false
 genericSkillRef: document-editing
 status: named
 title: The Section-by-Section Rewrite
