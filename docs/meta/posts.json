@@ -1,6 +1,28 @@
 {
   "posts": [
     {
+      "id": "2026-05-31-starless-skills-update",
+      "type": "report",
+      "date": "2026-05-31",
+      "title": "Starless Skills Update",
+      "summary": "Generic skill taxonomy refactored as rank-free, with star-based prestige reserved for named implementations.",
+      "label": "Schema Migration",
+      "url": "meta/reports/2026-05-31-starless-skills-update.html",
+      "author": "Marcus Rafael Tiongson, Engineer",
+      "source": "docs/meta/2026-05-31-starless-skills-update.md"
+    },
+    {
+      "id": "2026-06-02-june-week-1-meta-update",
+      "type": "report",
+      "date": "2026-06-02",
+      "title": "June Week 1 Meta Update",
+      "summary": "Origin reassignments, URL curation, and CLI enhancements across 68 registry files.",
+      "label": "Registry Update",
+      "url": "meta/reports/2026-06-02-june-week-1-meta-update.html",
+      "author": "Marcus Rafael Tiongson, Auditor",
+      "source": "docs/meta/2026-06-02-june-week-1-meta-update.md"
+    },
+    {
       "id": "2026-05-25-programmatic-registry-audit",
       "type": "report",
       "date": "2026-05-25",
