@@ -1,0 +1,66 @@
+{
+  "auditDate": "2026-06-02T00:00:00Z",
+  "generator": "gaia-meta-sweep",
+  "scope": "all",
+  "mode": "read-only",
+  "aggressiveness": "moderate",
+  "survivalRate": 1.0,
+  "snapshot": {
+    "totalNamedSkills": 183,
+    "totalGenerics": 215,
+    "starDistribution": { "2★": 93, "3★": 51, "4★": 32, "5★": 5, "6★": 2 }
+  },
+  "confusionMatrix": {
+    "pipeline": {
+      "groundTruth": "survey-judgment + 3-lens adversarial verification (>=2/3 survival)",
+      "before": { "flagged": 211, "truePositive": 201, "falsePositive": 10, "falseNegative": "~0 (deterministic dims exhaustive; unmeasured for keyword-prefiltered dims)", "precision": 0.953 },
+      "after":  { "representativeClaims": 12, "survived": 12, "additionalFalsePositives": 0, "note": "all representative claims survived; precision holds, confidence rises" },
+      "falsePositiveBreakdown": { "heavy-deps (browser/scraper keyword)": 5, "origin (same-day createdAt ties)": 3, "placeholder-bodies (non-standard heading)": 2 }
+    },
+    "originRuleShift": {
+      "rule": "META §4.1 updated: Origin = most renowned (highest-rated), superseding earliest",
+      "before_earliestRule": { "flagged": 5, "validUnderFinalRule": 0, "falsePositive": 5, "falseNegative": 7 },
+      "after_renownedRule":  { "flagged": 7, "validUnderFinalRule": 7, "falsePositive": 0, "falseNegative": 0 },
+      "overlap": 0
+    }
+  },
+  "findings": {
+    "class-mismatch":   { "metaRef": "§2.1/§2.4", "count": 5,  "topPriority": "P0",
+      "items": ["mbtiongson1/gaia-audit (P0: self-referential seed Class A)", "grill-with-docs (P1: blog manifesto)", "search-engine-optimization (P1)", "web-accessibility (P1)", "web-best-practices (P1)"],
+      "note": "addyosmani/web-quality-skills likely nonexistent; correct repo is addyosmani/agent-skills" },
+    "star-bar":         { "metaRef": "§2.4", "count": 22, "topPriority": "P1",
+      "items": ["stanfordnlp/dspy (no link)", "gooseworks/notte-browser", "devin-ai/autonomous-swe", "huggingface/semantic-cache", "nexu-io/open-design", "nousresearch/feed-monitoring", "safishamsi/graphify", "yonatangross/orchestkit-rag", "ruvnet/github-code-review", "ruvnet/github-release-management", "ruvnet/agentdb-advanced", "ruvnet/agentdb-learning", "ruvnet/flow-nexus-neural", "ruvnet/flow-nexus-platform", "ruvnet/flow-nexus-swarm", "ruvnet/v3-swarm-coordination", "ruvnet/github-workflow-automation", "ruvnet/hive-mind-coordination", "ruvnet/reasoningbank-intelligence", "ruvnet/sparc-methodology", "ruvnet/swarm-advanced", "ruvnet/swarm-orchestration"] },
+    "liveness":         { "metaRef": "§2.2", "count": 37, "topPriority": "P1", "note": "~27 internal gaia-registry/gaia/docs/evidence/*.md 404s + ~10 external repo 404s (princeton-nlp/chain-of-thought-hub, K-Dense-AI/scientific-agent-skills, shmsw25/FActScoring, LadislavSopko/mcp-server-for-vs, apify/crawlee-python AGENTS.md)" },
+    "unbacked-star":    { "metaRef": "§1.1/§2.1", "count": 29, "topPriority": "P1",
+      "p1_3starPlus": ["garrytan/garrytan(5★)", "garrytan/ship(4★)", "garrytan/investigate(4★)", "garrytan/design-consultation(4★)", "garrytan/document-generate(4★)", "garrytan/benchmark(4★)", "garrytan/plan-ceo-review(4★)", "garrytan/cso(4★)", "garrytan/design-html(4★)", "garrytan/plan-design-review(4★)", "garrytan/plan-devex-review(4★)", "garrytan/land-and-deploy(4★)", "garrytan/design-review(3★)", "garrytan/devex-review(3★)", "garrytan/make-pdf(3★)", "garrytan/retro(3★)", "ruvnet/github-release-management(3★)"] },
+    "origin-attribution": { "metaRef": "§4.1 (renowned rule)", "count": 7, "topPriority": "P2",
+      "items": [
+        {"bucket": "browser-control", "current": "browser-use/browser-harness(2★)", "shouldBe": "garrytan/browse(3★)"},
+        {"bucket": "finishing-a-development-branch", "current": "obra/finishing-a-development-branch(2★)", "shouldBe": "garrytan/ship(4★)"},
+        {"bucket": "systematic-debugging", "current": "obra/systematic-debugging(3★)", "shouldBe": "garrytan/investigate(4★)"},
+        {"bucket": "tool-creation", "current": "anthropic/skill-creator(2★)", "shouldBe": "mattpocock/write-a-skill(3★)"},
+        {"bucket": "vertical-slice-planning", "current": "mattpocock/to-issues(3★)", "shouldBe": "garrytan/garrytan(5★)"},
+        {"bucket": "web-scrape", "current": "firecrawl/firecrawl(2★)", "shouldBe": "garrytan/scrape(3★)"},
+        {"bucket": "write-report", "current": "glincker/readme-generator(2★)", "shouldBe": "garrytan/retro(3★)"}
+      ] },
+    "brand-coupled":    { "metaRef": "§1", "count": 1, "topPriority": "P1", "items": ["gstack → founder-mode-orchestration"] },
+    "unique-isolation": { "metaRef": "§1.2", "count": 1, "topPriority": "P1", "items": ["fine-tune (top named 3★ < 4★) → reclassify basic"] },
+    "heavy-deps":       { "metaRef": "§3", "count": 1, "topPriority": "P2", "items": ["ruvnet/flow-nexus-neural (distributed E2B clusters)"], "droppedFalsePositives": ["garrytan/browse", "garrytan/scrape", "garrytan/qa", "garrytan/gstack", "gooseworks/notte-browser"] },
+    "champion-cluster": { "metaRef": "§6.1", "count": 38, "topPriority": "P3", "note": "no Champion designated on ANY multi-impl cluster" },
+    "placeholder-bodies": { "metaRef": "docs-quality", "count": 47, "topPriority": "P4" },
+    "testuser-timelines": { "metaRef": "cleanup", "count": 0, "topPriority": null }
+  },
+  "fusionCandidates": [
+    { "id": "security-review-pipeline", "prerequisites": ["code-review-pipeline", "security-audit"] },
+    { "id": "safe-deployment-verification", "prerequisites": ["deployment-automation", "verification-before-completion"] },
+    { "id": "release-coordination-pipeline", "prerequisites": ["finishing-a-development-branch", "release-automation"] },
+    { "id": "intelligent-pattern-memory", "prerequisites": ["memory-pattern-design", "agent-memory-learning"] },
+    { "id": "optimized-context-workflow", "prerequisites": ["context-compression", "prompt-optimization"] },
+    { "id": "structured-documentation-generation", "prerequisites": ["document-editing", "write-report"] },
+    { "id": "browser-powered-security-scanning", "prerequisites": ["browser-automation", "security-audit"] },
+    { "id": "workflow-driven-multi-agent-orchestration", "prerequisites": ["workflow-automation", "multi-agent-orchestration-v"] }
+  ],
+  "newGenericProposals": [
+    { "id": "founder-mode-orchestration", "replaces": "gstack", "reason": "brand-coupled rename (META §1)" }
+  ]
+}

@@ -91,7 +91,7 @@ The **Canonical Level** (e.g., 4★) is the claimed tier based on evidence. The 
 ### 4.1 Named Skill Promotion
 - **Awakened**: Initial intake state. Verified as a real skill.
 - **Named**: Promoted by a reviewer once a unique RPG `title` or `catalogRef` is assigned.
-- **Origin Status**: The first contributor to implement an abstract generic skill in a bucket holds permanent "Origin" status.
+- **Origin Status**: The **most renowned** implementation in a generic bucket earns "Origin" — the highest-rated named skill (ties broken by most-attributed / Trust Score), **not** necessarily the earliest. An early implementation may be **superseded** when a stronger one earns the rank. Origin is a mark of merit granted to the implementation that earned it, in keeping with the product motif. Exactly one Origin exists per bucket. *(Updated 2026-06-02: Origin is merit-based; this supersedes the earlier "first contributor / earliest" rule, since an early entry can be outclassed by a better one.)*
 
 ### 4.2 Ultimate & Apex Pathways
 - **Ultimate Fusion**: Proposer must hold Origin status on at least 1 of the 5+ named prerequisites. Requires ≥ 10k repository stars.

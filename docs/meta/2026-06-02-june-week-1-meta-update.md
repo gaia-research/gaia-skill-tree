@@ -97,8 +97,93 @@ Records standalone timeline events (demote, rank_up, verified, disputed) with co
 - Contributor re-engagement for missing evidence
 - Taxonomy validation across generic skill chains
 
+## Automated Meta Sweep — Whole-Registry Audit
+
+This update is extended by a programmatic **gaia-meta-sweep**: a five-phase Workflow that audited all 183 named skills and 215 generic references against META.md. Twelve survey dimensions were fanned out to parallel agents (cost-optimized models), their candidate sets deterministically pre-extracted, Semantic-Fusion candidates and new generic references proposed, and every representative finding put through a three-lens **adversarial verification** gate (correctness / evidence / precedent) under a ≥2-of-3 survival rule. The run was **read-only** — findings and proposals only; no registry mutations were applied.
+
+### Method
+
+- **Survey** — 12 audit dimensions, one agent each, over pre-extracted ground-truth candidates.
+- **Fuse** — Semantic-Fusion candidates (META §6.2), moderate aggressiveness.
+- **Propose** — new generic skill references (META §1).
+- **Verify** — 3 independent skeptics per representative claim; survives only on ≥2/3 agreement.
+- **Report** — this addendum, a machine-readable findings index, and a timeline series.
+
+### Detection Confusion Matrix (Before / After)
+
+The deterministic extractor flags candidates; survey judgment and adversarial verification are the adjudicating ground truth. **Before** the verification gate (extraction → survey judgment):
+
+| Extractor | Adjudged real | Adjudged not real |
+|-----------|---------------|-------------------|
+| **Flagged** (211) | TP = 201 | FP = 10 |
+| **Not flagged** | FN ≈ 0 | TN = remainder |
+
+Precision = 201 / 211 = **95.3%**. The 10 false positives were caught by the survey agents: 5 browser/scraper skills that matched the *heavyweight-dependency* keyword filter but bundle no heavy runtime, 3 same-day `createdAt` ties in origin, and 2 documentation files using a non-standard heading. **After** the verification gate, all **12 / 12** representative claims survived ≥2-of-3 skeptics — no survivor was reclassified, so precision holds and confidence rises. (FN ≈ 0 across the eight deterministic dimensions, which scan exhaustively; unmeasured for the three keyword-pre-filtered dimensions.)
+
+### Origin Rule Shift — the sharp Before / After (META §4.1)
+
+The sweep surfaced a governance conflict: the registry's working principle (*Origin = highest-rated*) contradicted the then-current META §4.1 (*Origin = first / earliest contributor*). **META §4.1 has been updated** so the **most renowned** (highest-rated) implementation earns Origin — an early entry can be superseded by a better one. Re-deriving the origin findings under each rule shows a clean inversion:
+
+| Origin detection | Before — *earliest* rule | After — *renowned* rule (§4.1) |
+|------------------|--------------------------|--------------------------------|
+| Buckets flagged | 5 | 7 |
+| Valid under final rule (TP) | 0 | 7 |
+| False positives (cleared by rule) | 5 | 0 |
+| False negatives (missed by rule) | 7 | 0 |
+
+The two sets are **disjoint** (overlap = 0): the five earliest-rule flags were merit-compliant all along, while seven buckets where a lower-rated skill held Origin over a higher-rated one were invisible to the earliest rule. The seven actionable corrections under the new rule:
+
+| Bucket | Current Origin | Should be (most renowned) |
+|--------|----------------|---------------------------|
+| browser-control | browser-use/browser-harness (2★) | garrytan/browse (3★) |
+| finishing-a-development-branch | obra/finishing-a-development-branch (2★) | garrytan/ship (4★) |
+| systematic-debugging | obra/systematic-debugging (3★) | garrytan/investigate (4★) |
+| tool-creation | anthropic/skill-creator (2★) | mattpocock/write-a-skill (3★) |
+| vertical-slice-planning | mattpocock/to-issues (3★) | garrytan/garrytan (5★) |
+| web-scrape | firecrawl/firecrawl (2★) | garrytan/scrape (3★) |
+| write-report | glincker/readme-generator (2★) | garrytan/retro (3★) |
+
+### Findings by Dimension
+
+| Dimension | META | Flagged | Confirmed | Top priority |
+|-----------|------|---------|-----------|--------------|
+| class-mismatch | §2.1 | 5 | 5 | **P0** |
+| star-bar / installability | §2.4 | 22 | 22 | P1 |
+| liveness | §2.2 | 37 | 37 | P1 |
+| unbacked-star | §1.1 | 29 | 29 | P1 |
+| brand-coupled | §1 | 1 | 1 | P1 |
+| unique-isolation | §1.2 | 1 | 1 | P1 |
+| origin-attribution | §4.1 | 7 | 7 | P2 |
+| heavy-deps | §3 | 6 | 1 | P2 |
+| champion-cluster | §6.1 | 38 | 38 | P3 |
+| placeholder-bodies | — | 49 | 47 | P4 |
+| testuser-timelines | — | 0 | 0 | — |
+
+One **P0** evidence-integrity case: `mbtiongson1/gaia-audit` claims Class A from a self-referential link inside the gaia repo (seed evidence, insufficient per §2.4). Liveness found 37 dead evidence URLs (mostly `gaia-registry/gaia/.../docs/evidence/*.md` seed links). No bucket yet designates a **Champion** (§6.1).
+
+### Semantic Fusion Candidates (META §6.2)
+
+Eight Extra-tier fusions of existing capabilities — verified as Extras, **not** Ultimates (none require 10k★):
+
+1. `security-review-pipeline` ← code-review-pipeline + security-audit
+2. `safe-deployment-verification` ← deployment-automation + verification-before-completion
+3. `release-coordination-pipeline` ← finishing-a-development-branch + release-automation
+4. `intelligent-pattern-memory` ← memory-pattern-design + agent-memory-learning
+5. `optimized-context-workflow` ← context-compression + prompt-optimization
+6. `structured-documentation-generation` ← document-editing + write-report
+7. `browser-powered-security-scanning` ← browser-automation + security-audit
+8. `workflow-driven-multi-agent-orchestration` ← workflow-automation + multi-agent-orchestration-v
+
+### Proposed New Generic References & Mutations (read-only — none applied)
+
+- Rename brand-coupled generic **`gstack` → `founder-mode-orchestration`** (META §1); promote the eight fusions above to Extra generic references.
+- P0/P1 queue for `/gaia-audit` source-level correction: downgrade the `gaia-audit` Class A claim; repair or remove 37 dead evidence links; add blob-subpath `links.github` (or demote) for 22 skills at 3★+; back or demote 29 unbacked stars; reclassify `fine-tune` → basic; apply the 7 Origin corrections under the new §4.1.
+
 ## References
 
 [1] Tiongson, M. R. (2026). June Week 1 Meta Update. Gaia Skill Tree Registry.  
 [2] Tiongson, M. R. (2026). Meta Audit Implementation Rules. GEMINI.md.  
-[3] Meta. (2025). Origin Attribution Guidelines. META.md.
+[3] Meta. (2025). Origin Attribution Guidelines. META.md.  
+[4] Gaia. (2026). *gaia-meta-sweep* — Whole-Registry Audit Workflow. Read-only run, 2026-06-02.  
+[5] Gaia. (2026). Machine-readable findings index. `meta/reports/2026-06-02-meta-sweep.findings.json`.  
+[6] Meta. (2026). §4.1 Origin Status — merit-based update (most renowned earns Origin). META.md.

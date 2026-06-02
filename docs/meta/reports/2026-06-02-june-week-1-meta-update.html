@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
-  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     :root {
       --paper-bg: #ffffff;
@@ -191,9 +191,9 @@
 
     <section class="abstract">
       <div class="abstract-title">Abstract</div>
-      <div class="abstract-content">Origin reassignments, URL curation, and CLI enhancements across 68 registry files.</div>
+      <div class="abstract-content">Origin reassignments, URL curation, and CLI enhancements — extended by a whole-registry automated meta sweep with adversarial verification and a before/after confusion matrix.</div>
     </section>
-
+<div class="chart-container"><canvas id="timelineChart"></canvas><div class="chart-caption">Figure 1: Registry skill distribution over time.</div></div>
     <p>Comprehensive meta audit sweep correcting origin attribution across 11 generic skill buckets, curating 30+ GitHub links to precise SKILL.md paths, and introducing new CLI commands for programmatic registry mutations. All changes enforce the principle: origin = highest-rated skill per generic bucket.</p>
 <h2>Executive Summary</h2>
 <p>The June Week 1 sweep resolves critical registry inconsistencies from the May audit phase. Origin flags are now correctly assigned to the highest-rated skill in each generic bucket. GitHub links have been curated from raw repository roots to specific SKILL.md file paths, improving installation reliability. Two new CLI commands (<code>--origin</code> flag and <code>gaia dev timeline</code>) enable programmatic registry state changes with full timeline auditing.</p>
@@ -263,11 +263,44 @@
   <li>Contributor re-engagement for missing evidence</li>
   <li>Taxonomy validation across generic skill chains</li>
 </ul>
+<h2>Automated Meta Sweep — Whole-Registry Audit</h2>
+<p>This update is extended by a programmatic <strong>gaia-meta-sweep</strong>: a five-phase Workflow that audited all 183 named skills and 215 generic references against META.md. Twelve survey dimensions were fanned out to parallel agents (cost-optimized models), their candidate sets deterministically pre-extracted, Semantic-Fusion candidates and new generic references proposed, and every representative finding put through a three-lens <strong>adversarial verification</strong> gate (correctness / evidence / precedent) under a ≥2-of-3 survival rule. The run was <strong>read-only</strong> — findings and proposals only; no registry mutations were applied.</p>
+<h3>Method</h3>
+<ul>
+  <li><strong>Survey</strong> — 12 audit dimensions, one agent each, over pre-extracted ground-truth candidates.</li>
+  <li><strong>Fuse</strong> — Semantic-Fusion candidates (META §6.2), moderate aggressiveness.</li>
+  <li><strong>Propose</strong> — new generic skill references (META §1).</li>
+  <li><strong>Verify</strong> — 3 independent skeptics per representative claim; survives only on ≥2/3 agreement.</li>
+  <li><strong>Report</strong> — this addendum, a machine-readable findings index, and a timeline series.</li>
+</ul>
+<h3>Detection Confusion Matrix (Before / After)</h3>
+<p>The deterministic extractor flags candidates; survey judgment and adversarial verification are the adjudicating ground truth. <strong>Before</strong> the verification gate (extraction → survey judgment):</p>
+<p>| Extractor | Adjudged real | Adjudged not real | |-----------|---------------|-------------------| | <strong>Flagged</strong> (211) | TP = 201 | FP = 10 | | <strong>Not flagged</strong> | FN ≈ 0 | TN = remainder |</p>
+<p>Precision = 201 / 211 = <strong>95.3%</strong>. The 10 false positives were caught by the survey agents: 5 browser/scraper skills that matched the <em>heavyweight-dependency</em> keyword filter but bundle no heavy runtime, 3 same-day <code>createdAt</code> ties in origin, and 2 documentation files using a non-standard heading. <strong>After</strong> the verification gate, all <strong>12 / 12</strong> representative claims survived ≥2-of-3 skeptics — no survivor was reclassified, so precision holds and confidence rises. (FN ≈ 0 across the eight deterministic dimensions, which scan exhaustively; unmeasured for the three keyword-pre-filtered dimensions.)</p>
+<h3>Origin Rule Shift — the sharp Before / After (META §4.1)</h3>
+<p>The sweep surfaced a governance conflict: the registry's working principle (<em>Origin = highest-rated</em>) contradicted the then-current META §4.1 (<em>Origin = first / earliest contributor</em>). <strong>META §4.1 has been updated</strong> so the <strong>most renowned</strong> (highest-rated) implementation earns Origin — an early entry can be superseded by a better one. Re-deriving the origin findings under each rule shows a clean inversion:</p>
+<p>| Origin detection | Before — <em>earliest</em> rule | After — <em>renowned</em> rule (§4.1) | |------------------|--------------------------|--------------------------------| | Buckets flagged | 5 | 7 | | Valid under final rule (TP) | 0 | 7 | | False positives (cleared by rule) | 5 | 0 | | False negatives (missed by rule) | 7 | 0 |</p>
+<p>The two sets are <strong>disjoint</strong> (overlap = 0): the five earliest-rule flags were merit-compliant all along, while seven buckets where a lower-rated skill held Origin over a higher-rated one were invisible to the earliest rule. The seven actionable corrections under the new rule:</p>
+<p>| Bucket | Current Origin | Should be (most renowned) | |--------|----------------|---------------------------| | browser-control | browser-use/browser-harness (2★) | garrytan/browse (3★) | | finishing-a-development-branch | obra/finishing-a-development-branch (2★) | garrytan/ship (4★) | | systematic-debugging | obra/systematic-debugging (3★) | garrytan/investigate (4★) | | tool-creation | anthropic/skill-creator (2★) | mattpocock/write-a-skill (3★) | | vertical-slice-planning | mattpocock/to-issues (3★) | garrytan/garrytan (5★) | | web-scrape | firecrawl/firecrawl (2★) | garrytan/scrape (3★) | | write-report | glincker/readme-generator (2★) | garrytan/retro (3★) |</p>
+<h3>Findings by Dimension</h3>
+<p>| Dimension | META | Flagged | Confirmed | Top priority | |-----------|------|---------|-----------|--------------| | class-mismatch | §2.1 | 5 | 5 | <strong>P0</strong> | | star-bar / installability | §2.4 | 22 | 22 | P1 | | liveness | §2.2 | 37 | 37 | P1 | | unbacked-star | §1.1 | 29 | 29 | P1 | | brand-coupled | §1 | 1 | 1 | P1 | | unique-isolation | §1.2 | 1 | 1 | P1 | | origin-attribution | §4.1 | 7 | 7 | P2 | | heavy-deps | §3 | 6 | 1 | P2 | | champion-cluster | §6.1 | 38 | 38 | P3 | | placeholder-bodies | — | 49 | 47 | P4 | | testuser-timelines | — | 0 | 0 | — |</p>
+<p>One <strong>P0</strong> evidence-integrity case: <code>mbtiongson1/gaia-audit</code> claims Class A from a self-referential link inside the gaia repo (seed evidence, insufficient per §2.4). Liveness found 37 dead evidence URLs (mostly <code>gaia-registry/gaia/.../docs/evidence/*.md</code> seed links). No bucket yet designates a <strong>Champion</strong> (§6.1).</p>
+<h3>Semantic Fusion Candidates (META §6.2)</h3>
+<p>Eight Extra-tier fusions of existing capabilities — verified as Extras, <strong>not</strong> Ultimates (none require 10k★):</p>
+<p>1. <code>security-review-pipeline</code> ← code-review-pipeline + security-audit 2. <code>safe-deployment-verification</code> ← deployment-automation + verification-before-completion 3. <code>release-coordination-pipeline</code> ← finishing-a-development-branch + release-automation 4. <code>intelligent-pattern-memory</code> ← memory-pattern-design + agent-memory-learning 5. <code>optimized-context-workflow</code> ← context-compression + prompt-optimization 6. <code>structured-documentation-generation</code> ← document-editing + write-report 7. <code>browser-powered-security-scanning</code> ← browser-automation + security-audit 8. <code>workflow-driven-multi-agent-orchestration</code> ← workflow-automation + multi-agent-orchestration-v</p>
+<h3>Proposed New Generic References & Mutations (read-only — none applied)</h3>
+<ul>
+  <li>Rename brand-coupled generic <strong><code>gstack</code> → <code>founder-mode-orchestration</code></strong> (META §1); promote the eight fusions above to Extra generic references.</li>
+  <li>P0/P1 queue for <code>/gaia-audit</code> source-level correction: downgrade the <code>gaia-audit</code> Class A claim; repair or remove 37 dead evidence links; add blob-subpath <code>links.github</code> (or demote) for 22 skills at 3★+; back or demote 29 unbacked stars; reclassify <code>fine-tune</code> → basic; apply the 7 Origin corrections under the new §4.1.</li>
+</ul>
 <div class="references">
   <div class="abstract-title" style="text-align: left; margin-bottom: 1.5rem;">References</div>
   <div class="ref-item">[1] Tiongson, M. R. (2026). June Week 1 Meta Update. Gaia Skill Tree Registry.</div>
   <div class="ref-item">[2] Tiongson, M. R. (2026). Meta Audit Implementation Rules. GEMINI.md.</div>
   <div class="ref-item">[3] Meta. (2025). Origin Attribution Guidelines. META.md.</div>
+  <div class="ref-item">[4] Gaia. (2026). <em>gaia-meta-sweep</em> — Whole-Registry Audit Workflow. Read-only run, 2026-06-02.</div>
+  <div class="ref-item">[5] Gaia. (2026). Machine-readable findings index. <code>meta/reports/2026-06-02-meta-sweep.findings.json</code>.</div>
+  <div class="ref-item">[6] Meta. (2026). §4.1 Origin Status — merit-based update (most renowned earns Origin). META.md.</div>
 </div>
 
     <div class="footer-nav">
@@ -301,7 +334,36 @@
       } catch (e) { console.error('Failed to load changelog', e); }
     }
     loadChangelog();
-
+    async function initChart() {
+      try {
+        const res = await fetch('2026-06-timeline.json');
+        const data = await res.json();
+        const ctx = document.getElementById('timelineChart').getContext('2d');
+        new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: data.labels,
+            datasets: data.datasets.map(ds => ({
+              label: ds.label, data: ds.data,
+              borderColor: ds.color, backgroundColor: ds.color + '22',
+              fill: true, tension: 0.3, borderWidth: 2, pointRadius: 0, pointHoverRadius: 5
+            }))
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: { position: 'bottom', labels: { font: { family: 'JetBrains Mono', size: 10 } } },
+              tooltip: { mode: 'index', intersect: false }
+            },
+            scales: {
+              x: { grid: { display: false }, ticks: { font: { family: 'JetBrains Mono', size: 9 } } },
+              y: { beginAtZero: true, grid: { color: '#eee' }, ticks: { font: { family: 'JetBrains Mono', size: 9 } } }
+            }
+          }
+        });
+      } catch (e) { console.error('Chart failed', e); }
+    }
+    initChart();
   </script>
 </body>
 </html>
