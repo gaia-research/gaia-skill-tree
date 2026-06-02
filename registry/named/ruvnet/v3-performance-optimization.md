@@ -11,7 +11,7 @@ catalogRef: ruvnet-v3-performance-optimization
 level: "2★"
 description: Profiles and optimizes Ruflo v3 platform performance across startup time, request latency, memory footprint, and throughput.
 links:
-  github: https://github.com/ruvnet/ruflo
+  github: https://github.com/ruvnet/ruflo/blob/main/.agents/skills/v3-performance-optimization/SKILL.md
 tags:
   - performance
   - profiling

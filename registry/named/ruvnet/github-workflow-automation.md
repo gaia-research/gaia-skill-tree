@@ -11,7 +11,7 @@ catalogRef: ruvnet-github-workflow-automation
 level: "3★"
 description: Designs and manages GitHub Actions workflows for CI/CD automation, scheduled tasks, and event-driven agent triggers.
 links:
-  github: https://github.com/ruvnet/ruflo
+  github: https://github.com/ruvnet/ruflo/blob/main/.agents/skills/github-workflow-automation/SKILL.md
 tags:
   - github-actions
   - ci-cd

@@ -11,7 +11,7 @@ catalogRef: ruvnet-v3-memory-unification
 level: "2★"
 description: Unifies disparate Ruflo v3 memory subsystems (AgentDB, RVF, RAG memory) into a single coherent memory management layer.
 links:
-  github: https://github.com/ruvnet/ruflo
+  github: https://github.com/ruvnet/ruflo/blob/main/.agents/skills/v3-memory-unification/SKILL.md
 tags:
   - memory-unification
   - agentdb

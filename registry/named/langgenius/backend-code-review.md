@@ -11,7 +11,7 @@ description: Review backend code for quality, security, maintainability, and bes
 createdAt: '2026-05-31'
 updatedAt: '2026-05-31'
 links:
-  github: https://github.com/langgenius/dify/blob/main/.agents/skills/backend-code-review
+  github: https://github.com/langgenius/dify/blob/main/.agents/skills/backend-code-review/SKILL.md
 timeline:
 - timestamp: '2026-05-31T02:06:53Z'
   action: add

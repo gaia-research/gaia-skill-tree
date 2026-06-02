@@ -10,7 +10,7 @@ catalogRef: ruvnet-v3-swarm-coordination
 level: "3★"
 description: Implements Ruflo v3 hierarchical-mesh hybrid swarm topology with anti-drift mechanisms and SONA neural pattern learning.
 links:
-  github: https://github.com/ruvnet/ruflo
+  github: https://github.com/ruvnet/ruflo/blob/main/.agents/skills/v3-swarm-coordination/SKILL.md
 tags:
   - swarm
   - multi-agent

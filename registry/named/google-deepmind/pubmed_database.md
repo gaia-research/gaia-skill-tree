@@ -14,7 +14,7 @@ description: Search PubMed for scientific literature, including published clinic
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
 links:
-  github: https://github.com/google-deepmind/science-skills/blob/main/skills/pubmed_database
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/pubmed_database/SKILL.md
 evidence:
 - class: B
   source: https://github.com/google-deepmind/science-skills/blob/main/skills/pubmed_database/SKILL.md

@@ -13,7 +13,7 @@ description: Query the ENCODE Registry of cis-Regulatory Elements (cCREs) via th
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
 links:
-  github: https://github.com/google-deepmind/science-skills/blob/main/skills/encode_ccres_database
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/encode_ccres_database/SKILL.md
 evidence:
 - class: B
   source: https://github.com/google-deepmind/science-skills/blob/main/skills/encode_ccres_database/SKILL.md

@@ -11,7 +11,7 @@ catalogRef: ruvnet-github-release-management
 level: "3★"
 description: Automates GitHub release creation, changelog generation, semantic versioning, and release note publishing.
 links:
-  github: https://github.com/ruvnet/ruflo
+  github: https://github.com/ruvnet/ruflo/blob/main/.agents/skills/github-release-management/SKILL.md
 tags:
   - github
   - release

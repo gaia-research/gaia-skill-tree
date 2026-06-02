@@ -11,7 +11,7 @@ level: 2★
 description: Performs semantic similarity search over high-dimensional embeddings
   using cosine, Euclidean, dot-product, or custom distance metrics with HNSW indexing.
 links:
-  github: https://github.com/ruvnet/ruflo
+  github: https://github.com/ruvnet/ruflo/blob/main/.agents/skills/agentdb-vector-search/SKILL.md
 tags:
 - vector-search
 - cosine-similarity

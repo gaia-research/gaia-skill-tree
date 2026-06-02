@@ -11,7 +11,7 @@ level: 2★
 description: Chains agent outputs sequentially so each step receives prior output
   as context, enabling multi-stage data transformation pipelines.
 links:
-  github: https://github.com/ruvnet/ruflo
+  github: https://github.com/ruvnet/ruflo/blob/main/.agents/skills/stream-chain/SKILL.md
 tags:
 - streaming
 - pipeline

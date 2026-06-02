@@ -11,7 +11,7 @@ level: 3★
 description: Domain-specific swarm orchestration patterns for research, development,
   testing, and analysis workflows with neural learning and cross-session state persistence.
 links:
-  github: https://github.com/ruvnet/ruflo
+  github: https://github.com/ruvnet/ruflo/blob/main/.agents/skills/swarm-advanced/SKILL.md
 tags:
 - advanced-swarm
 - neural-learning

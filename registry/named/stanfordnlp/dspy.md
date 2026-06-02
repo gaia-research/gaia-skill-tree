@@ -6,6 +6,8 @@ origin: true
 genericSkillRef: prompt-optimization
 status: named
 level: 3★
+links:
+  github: https://github.com/stanfordnlp/dspy
 description: Declarative programming of language model pipelines, automatically optimizing prompts and RAG retrieval using bootstrapping and teleprompters.
 title: "The Programmatic Prompt Engineer"
 catalogRef: stanfordnlp-dspy

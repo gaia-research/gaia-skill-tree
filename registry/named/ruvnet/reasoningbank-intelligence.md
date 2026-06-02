@@ -11,7 +11,7 @@ level: 3★
 description: Implements adaptive learning through pattern recognition, strategy optimization,
   and meta-learning that improves agent decision quality from cumulative experience.
 links:
-  github: https://github.com/ruvnet/ruflo
+  github: https://github.com/ruvnet/ruflo/blob/main/.agents/skills/reasoningbank-intelligence/SKILL.md
 tags:
 - adaptive-learning
 - pattern-recognition

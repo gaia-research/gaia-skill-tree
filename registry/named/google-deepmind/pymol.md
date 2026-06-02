@@ -14,7 +14,7 @@ description: Visualize, analyze, and render protein and molecular structures usi
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
 links:
-  github: https://github.com/google-deepmind/science-skills/blob/main/skills/pymol
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md
 evidence:
 - class: B
   source: https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md

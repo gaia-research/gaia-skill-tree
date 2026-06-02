@@ -12,7 +12,7 @@ description: Query the ChEMBL database for bioactive molecules, drug targets, bi
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
 links:
-  github: https://github.com/google-deepmind/science-skills/blob/main/skills/chembl_database
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/chembl_database/SKILL.md
 evidence:
 - class: B
   source: https://github.com/google-deepmind/science-skills/blob/main/skills/chembl_database/SKILL.md

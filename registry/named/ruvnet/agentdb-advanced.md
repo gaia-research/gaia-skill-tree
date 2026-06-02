@@ -11,7 +11,7 @@ level: 3★
 description: Implements sub-millisecond cross-node vector synchronization using QUIC
   protocol with hybrid metadata-filtered search and MMR diversity retrieval.
 links:
-  github: https://github.com/ruvnet/ruflo
+  github: https://github.com/ruvnet/ruflo/blob/main/.agents/skills/agentdb-advanced/SKILL.md
 tags:
 - vector-memory
 - quic

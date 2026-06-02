@@ -8,7 +8,7 @@ status: awakened
 level: "2★"
 description: Automates repository triage for the Gaia Skill Tree, including fixing documentation drift, managing build dependencies (build, setuptools, wheel), and synchronizing generated graph projections and GEXF exports.
 links:
-  github: https://github.com/mbtiongson1/gaia-skill-tree
+  github: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-triage/SKILL.md
 tags:
   - maintenance
   - triage

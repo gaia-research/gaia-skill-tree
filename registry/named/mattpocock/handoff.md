@@ -13,7 +13,7 @@ createdAt: '2026-05-21'
 updatedAt: '2026-05-21'
 suiteRef: mattpocock/productivity
 links:
-  github: https://github.com/mattpocock/skills/blob/main/skills/productivity/handoff
+  github: https://github.com/mattpocock/skills/blob/main/skills/productivity/handoff/SKILL.md
 evidence:
 - class: B
   source: https://github.com/mattpocock/skills/blob/main/skills/productivity/handoff/SKILL.md
