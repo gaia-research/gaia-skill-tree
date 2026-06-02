@@ -49,8 +49,38 @@
   // pointer (the in-between ticks are live positions), rather than snapping to a
   // header. follow() is suppressed while held (see the scroll listener) so the
   // strip stays put and the scroll stays smooth.
-  function onScrub(p) { window.scrollTo(0, p * docMax()); }
-  function onScrubEnd() { syncRail(true); }
+  //
+  // pointermove fires many times per frame (especially on touch) with sub-pixel
+  // jitter, and a synchronous scrollTo per event reflows + shakes. So we just
+  // record the latest target here and let a single rAF apply it once per frame,
+  // easing toward it to absorb finger tremor. docMax is cached at grab time so
+  // we never read scrollHeight mid-drag.
+  var scrubActive = false, scrubTargetY = 0, scrubMax = 0, scrubRAF = null;
+
+  function scrubStep() {
+    scrubRAF = null;
+    var cur = window.scrollY || window.pageYOffset;
+    var diff = scrubTargetY - cur;
+    var next = Math.abs(diff) < 0.5 ? scrubTargetY : cur + diff * 0.35;
+    if (next !== cur) window.scrollTo(0, next);
+    // Keep stepping until we've settled on the latest target.
+    if (scrubActive && Math.abs(scrubTargetY - (window.scrollY || window.pageYOffset)) >= 0.5) {
+      scrubRAF = requestAnimationFrame(scrubStep);
+    }
+  }
+
+  function onScrub(p) {
+    if (!scrubActive) { scrubActive = true; scrubMax = docMax(); }
+    scrubTargetY = p * scrubMax;
+    if (scrubRAF == null) scrubRAF = requestAnimationFrame(scrubStep);
+  }
+
+  function onScrubEnd() {
+    scrubActive = false;
+    if (scrubRAF != null) { cancelAnimationFrame(scrubRAF); scrubRAF = null; }
+    window.scrollTo(0, scrubTargetY);   // land exactly on the released position
+    syncRail(true);
+  }
 
   var rail = new window.AlphaRail({
     side: "right", onSelect: onSelect, onScrub: onScrub, onScrubEnd: onScrubEnd
