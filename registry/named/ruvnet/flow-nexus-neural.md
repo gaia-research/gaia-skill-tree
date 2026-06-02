@@ -12,7 +12,7 @@ description: Trains neural networks across distributed E2B sandbox clusters with
   for feedforward, LSTM, GAN, autoencoder, and transformer architectures, federated
   learning, and a model marketplace.
 links:
-  github: https://github.com/ruvnet/ruflo
+  github: https://github.com/ruvnet/ruflo/blob/main/.agents/skills/flow-nexus-neural/SKILL.md
 tags:
 - neural-training
 - distributed

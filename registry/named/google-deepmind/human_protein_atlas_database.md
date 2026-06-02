@@ -11,7 +11,7 @@ description: Use when you want to retrieve semi-quantitative protein expression 
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
 links:
-  github: https://github.com/google-deepmind/science-skills/blob/main/skills/human_protein_atlas_database
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/human_protein_atlas_database/SKILL.md
 evidence:
 - class: B
   source: https://github.com/google-deepmind/science-skills/blob/main/skills/human_protein_atlas_database/SKILL.md

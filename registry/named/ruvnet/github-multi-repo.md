@@ -11,7 +11,7 @@ level: 2★
 description: Manages synchronized operations across multiple GitHub repositories including
   cross-repo PRs, dependency tracking, and bulk workflow automation.
 links:
-  github: https://github.com/ruvnet/ruflo
+  github: https://github.com/ruvnet/ruflo/blob/main/.agents/skills/github-multi-repo/SKILL.md
 tags:
 - github
 - multi-repo

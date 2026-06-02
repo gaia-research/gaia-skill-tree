@@ -7,9 +7,10 @@ genericSkillRef: self-consistency
 status: named
 title: "The Majority Consensus"
 catalogRef: openai-self-consistency
-level: "4★"
+level: "2★"
 description: Samples multiple reasoning paths and selects the most consistent answer by majority vote.
 links:
+  installable: false
   arxiv: https://arxiv.org/abs/2203.11171
 tags:
   - self-consistency

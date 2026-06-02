@@ -11,7 +11,7 @@ description: Checks whether the uv Python package manager is installed and insta
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
 links:
-  github: https://github.com/google-deepmind/science-skills/blob/main/skills/uv
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md
 evidence:
 - class: B
   source: https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md

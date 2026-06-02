@@ -10,7 +10,7 @@ catalogRef: ruvnet-skill-builder
 level: "2★"
 description: Guides creation of new Ruflo skills through templating, testing, and publishing workflows.
 links:
-  github: https://github.com/ruvnet/ruflo
+  github: https://github.com/ruvnet/ruflo/blob/main/.agents/skills/skill-builder/SKILL.md
 tags:
   - skill-authoring
   - templating

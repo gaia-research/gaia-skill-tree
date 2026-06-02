@@ -10,7 +10,7 @@ catalogRef: ruvnet-pair-programming
 level: "2★"
 description: Structures collaborative coding sessions between a primary implementation agent and a review subagent with continuous feedback loops.
 links:
-  github: https://github.com/ruvnet/ruflo
+  github: https://github.com/ruvnet/ruflo/blob/main/.agents/skills/pair-programming/SKILL.md
 tags:
   - pair-programming
   - subagent

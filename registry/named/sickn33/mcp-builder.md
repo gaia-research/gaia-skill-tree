@@ -6,6 +6,8 @@ origin: false
 genericSkillRef: mcp-server-creation
 status: awakened
 level: 3★
+links:
+  github: https://github.com/sickn33/antigravity-awesome-skills
 description: A community implementation of the MCP builder skill from the antigravity-awesome-skills
   repository, capable of creating Model Context Protocol servers in Python and Node.js.
 createdAt: '2026-05-27'

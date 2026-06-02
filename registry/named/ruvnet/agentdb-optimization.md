@@ -11,7 +11,7 @@ level: 2★
 description: Tunes AgentDB vector indices, implements database sharding, and monitors
   production performance for large-scale distributed agent memory.
 links:
-  github: https://github.com/ruvnet/ruflo
+  github: https://github.com/ruvnet/ruflo/blob/main/.agents/skills/agentdb-optimization/SKILL.md
 tags:
 - vector-optimization
 - sharding

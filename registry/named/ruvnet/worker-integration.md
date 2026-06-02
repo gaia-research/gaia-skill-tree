@@ -11,7 +11,7 @@ level: 2★
 description: Maps trigger events to optimal agent combinations for background task
   execution with performance tracking and adaptive feedback.
 links:
-  github: https://github.com/ruvnet/ruflo
+  github: https://github.com/ruvnet/ruflo/blob/main/.agents/skills/worker-integration/SKILL.md
 tags:
 - worker
 - dispatch

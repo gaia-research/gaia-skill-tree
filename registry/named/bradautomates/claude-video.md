@@ -10,7 +10,7 @@ level: 2★
 description: Enables AI agents to watch videos by downloading them, extracting frames,
   and transcribing audio for multimodal analysis.
 links:
-  github: https://github.com/bradautomates/claude-video
+  github: https://github.com/bradautomates/claude-video/blob/main/SKILL.md
 tags:
 - video
 - multimodal

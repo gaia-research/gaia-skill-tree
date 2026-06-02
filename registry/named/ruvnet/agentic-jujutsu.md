@@ -11,7 +11,7 @@ level: 2★
 description: Analyzes git diffs for complexity, churn, and risk scores to prioritize
   review attention and flag dangerous changes.
 links:
-  github: https://github.com/ruvnet/ruflo
+  github: https://github.com/ruvnet/ruflo/blob/main/.agents/skills/agentic-jujutsu/SKILL.md
 tags:
 - git
 - diff-analysis

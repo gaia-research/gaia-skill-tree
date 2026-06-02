@@ -10,7 +10,7 @@ level: 4★
 description: Elite design vocabulary and audit tool for polishing AI-generated frontend
   code.
 links:
-  github: https://github.com/pbakaus/impeccable
+  github: https://github.com/pbakaus/impeccable/blob/main/.agents/skills/impeccable/SKILL.md
 tags:
 - design
 - audit

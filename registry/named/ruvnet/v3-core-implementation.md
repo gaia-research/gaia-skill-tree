@@ -11,7 +11,7 @@ level: 2★
 description: Implements foundational Ruflo v3 platform architecture including plugin
   discovery, server lifecycle management, and API contract definitions.
 links:
-  github: https://github.com/ruvnet/ruflo
+  github: https://github.com/ruvnet/ruflo/blob/main/.agents/skills/v3-core-implementation/SKILL.md
 tags:
 - core-implementation
 - plugin-discovery

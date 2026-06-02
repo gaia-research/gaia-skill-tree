@@ -10,7 +10,7 @@ catalogRef: ruvnet-verification-quality
 level: "2★"
 description: Implements structured pre-completion verification checklists ensuring quality gates are met before task finalization.
 links:
-  github: https://github.com/ruvnet/ruflo
+  github: https://github.com/ruvnet/ruflo/blob/main/.agents/skills/verification-quality/SKILL.md
 tags:
   - verification
   - quality

@@ -12,7 +12,7 @@ description: 'Full lifecycle management of the Flow Nexus cloud AI platform: use
   authentication, sandbox environments, app store deployment, payment processing,
   and challenge systems with Queen Seraphina AI assistant.'
 links:
-  github: https://github.com/ruvnet/ruflo
+  github: https://github.com/ruvnet/ruflo/blob/main/.agents/skills/flow-nexus-platform/SKILL.md
 tags:
 - cloud-platform
 - authentication
