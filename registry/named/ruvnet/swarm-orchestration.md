@@ -12,7 +12,7 @@ description: Initializes and manages multi-agent swarm network topologies (hiera
   mesh, ring, star) with automatic load balancing, fault tolerance, and shared memory
   coordination.
 links:
-  github: https://github.com/ruvnet/ruflo/blob/main/.agents/skills/swarm-orchestration/SKILL.md
+  github: https://github.com/ruvnet/ruflo
 tags:
 - swarm
 - topology

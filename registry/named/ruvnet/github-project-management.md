@@ -11,7 +11,7 @@ catalogRef: ruvnet-github-project-management
 level: "2★"
 description: Manages GitHub Projects boards, milestones, issue tracking, and sprint planning through automated workflow integration.
 links:
-  github: https://github.com/ruvnet/ruflo/blob/main/.agents/skills/github-project-management/SKILL.md
+  github: https://github.com/ruvnet/ruflo
 tags:
   - github
   - project-management

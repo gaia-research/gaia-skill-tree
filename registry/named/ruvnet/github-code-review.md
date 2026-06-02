@@ -11,7 +11,7 @@ catalogRef: ruvnet-github-code-review
 level: "3★"
 description: Automates GitHub pull request code review workflows including diff analysis, inline comments, review assignments, and approval gating.
 links:
-  github: https://github.com/ruvnet/ruflo/blob/main/.agents/skills/github-code-review/SKILL.md
+  github: https://github.com/ruvnet/ruflo
 tags:
   - github
   - code-review

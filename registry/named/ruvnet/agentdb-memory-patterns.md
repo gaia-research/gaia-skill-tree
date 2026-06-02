@@ -11,7 +11,7 @@ level: 2★
 description: Designs recurring memory storage patterns for AI agents with LRU caching,
   SQLite persistence, and associative retrieval across multiple memory types.
 links:
-  github: https://github.com/ruvnet/ruflo/blob/main/.agents/skills/agentdb-memory-patterns/SKILL.md
+  github: https://github.com/ruvnet/ruflo
 tags:
 - memory-patterns
 - lru-cache

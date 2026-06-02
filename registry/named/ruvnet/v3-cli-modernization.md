@@ -11,7 +11,7 @@ level: 2★
 description: Refactors the Ruflo CLI for improved UX, plugin architecture, extensibility,
   and modern command-line conventions.
 links:
-  github: https://github.com/ruvnet/ruflo/blob/main/.agents/skills/v3-cli-modernization/SKILL.md
+  github: https://github.com/ruvnet/ruflo
 tags:
 - cli
 - modernization

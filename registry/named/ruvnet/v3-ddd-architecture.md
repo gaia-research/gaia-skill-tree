@@ -11,7 +11,7 @@ catalogRef: ruvnet-v3-ddd-architecture
 level: "2★"
 description: Applies Domain-Driven Design principles to the Ruflo v3 architecture including bounded contexts, aggregate roots, domain events, and ubiquitous language.
 links:
-  github: https://github.com/ruvnet/ruflo/blob/main/.agents/skills/v3-ddd-architecture/SKILL.md
+  github: https://github.com/ruvnet/ruflo
 tags:
   - ddd
   - domain-driven-design

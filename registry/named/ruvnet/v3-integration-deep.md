@@ -11,7 +11,7 @@ level: 2★
 description: Connects Ruflo v3 subsystems via shared contracts, event buses, and compatibility
   layers for coherent cross-component operation.
 links:
-  github: https://github.com/ruvnet/ruflo/blob/main/.agents/skills/v3-integration-deep/SKILL.md
+  github: https://github.com/ruvnet/ruflo
 tags:
 - system-integration
 - compatibility

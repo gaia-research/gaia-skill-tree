@@ -11,7 +11,7 @@ catalogRef: ruvnet-v3-mcp-optimization
 level: "2★"
 description: Optimizes Ruflo v3 MCP server performance through connection pooling, request batching, tool schema caching, and latency reduction strategies.
 links:
-  github: https://github.com/ruvnet/ruflo/blob/main/.agents/skills/v3-mcp-optimization/SKILL.md
+  github: https://github.com/ruvnet/ruflo
 tags:
   - mcp
   - optimization

@@ -10,7 +10,7 @@ catalogRef: ruvnet-hooks-automation
 level: "2★"
 description: Designs agent lifecycle hooks and timer-based background tasks for automated quality gates and scheduled workflows.
 links:
-  github: https://github.com/ruvnet/ruflo/blob/main/.agents/skills/hooks-automation/SKILL.md
+  github: https://github.com/ruvnet/ruflo
 tags:
   - hooks
   - automation

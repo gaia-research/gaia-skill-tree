@@ -10,7 +10,7 @@ catalogRef: ruvnet-worker-benchmarks
 level: "2★"
 description: Benchmarks Ruflo background worker performance across latency, throughput, memory usage, and quality score dimensions.
 links:
-  github: https://github.com/ruvnet/ruflo/blob/main/.agents/skills/worker-benchmarks/SKILL.md
+  github: https://github.com/ruvnet/ruflo
 tags:
   - benchmarking
   - workers

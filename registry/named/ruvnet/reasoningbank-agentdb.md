@@ -10,7 +10,7 @@ catalogRef: ruvnet-reasoningbank-agentdb
 level: "2★"
 description: Persists agent reasoning patterns in AgentDB vector memory and retrieves them semantically for continuous self-improvement across sessions.
 links:
-  github: https://github.com/ruvnet/ruflo/blob/main/.agents/skills/reasoningbank-agentdb/SKILL.md
+  github: https://github.com/ruvnet/ruflo
 tags:
   - reasoning-persistence
   - vector-memory

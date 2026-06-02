@@ -10,7 +10,7 @@ catalogRef: ruvnet-sparc-methodology
 level: "3★"
 description: Systematic 5-phase AI development methodology (Specification, Pseudocode, Architecture, Refinement, Completion) with 17 agent modes.
 links:
-  github: https://github.com/ruvnet/ruflo/blob/main/.agents/skills/sparc-methodology/SKILL.md
+  github: https://github.com/ruvnet/ruflo
 tags:
   - sparc
   - methodology

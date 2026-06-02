@@ -11,7 +11,7 @@ level: 2★
 description: Profiles agent and system execution for CPU, memory, and I/O hotspots
   and produces actionable optimization recommendations.
 links:
-  github: https://github.com/ruvnet/ruflo/blob/main/.agents/skills/performance-analysis/SKILL.md
+  github: https://github.com/ruvnet/ruflo
 tags:
 - performance
 - profiling

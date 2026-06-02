@@ -10,7 +10,7 @@ catalogRef: ruvnet-agentdb-learning
 level: "3★"
 description: Builds self-improving agent memory by analyzing task success patterns and adapting retrieval strategies with AgentDB-backed vector persistence.
 links:
-  github: https://github.com/ruvnet/ruflo/blob/main/.agents/skills/agentdb-learning/SKILL.md
+  github: https://github.com/ruvnet/ruflo
 tags:
   - self-learning
   - vector-memory

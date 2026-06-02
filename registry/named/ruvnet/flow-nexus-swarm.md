@@ -10,7 +10,7 @@ catalogRef: ruvnet-flow-nexus-swarm
 level: "3★"
 description: Cloud-based AI swarm orchestration platform supporting hierarchical, mesh, ring, and star topologies with event-driven workflows, message queue processing, and intelligent agent assignment.
 links:
-  github: https://github.com/ruvnet/ruflo/blob/main/.agents/skills/flow-nexus-swarm/SKILL.md
+  github: https://github.com/ruvnet/ruflo
 tags:
   - multi-agent
   - swarm

@@ -10,7 +10,7 @@ catalogRef: ruvnet-v3-security-overhaul
 level: "2★"
 description: "Comprehensive Ruflo v3 security overhaul: zero-trust federation, PII detection, mTLS/ed25519 authentication, and CVE scanning."
 links:
-  github: https://github.com/ruvnet/ruflo/blob/main/.agents/skills/v3-security-overhaul/SKILL.md
+  github: https://github.com/ruvnet/ruflo
 tags:
   - security
   - zero-trust
