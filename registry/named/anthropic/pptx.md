@@ -2,7 +2,7 @@
 id: anthropic/pptx
 name: PPTX Editor
 contributor: anthropic
-origin: true
+origin: false
 genericSkillRef: document-editing
 status: named
 title: The Slide Artisan
@@ -20,7 +20,7 @@ tags:
 - markitdown
 - presentations
 createdAt: '2026-04-30'
-updatedAt: '2026-04-30'
+updatedAt: '2026-06-02'
 evidence:
 - class: B
   source: https://github.com/anthropics/skills/blob/main/skills/pptx/SKILL.md
@@ -28,6 +28,11 @@ evidence:
   date: '2026-04-30'
   notes: Anthropic /pptx slash command -- extracts, edits, packs, and applies design
     principles to PowerPoint files using markitdown.
+timeline:
+- timestamp: '2026-06-02T01:42:58Z'
+  action: demote
+  contributor: unknown
+  details: Origin status removed. Transferred to mattpocock/edit-article.
 ---
 
 ## Overview
