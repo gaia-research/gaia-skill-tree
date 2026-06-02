@@ -1,27 +1,29 @@
 /* ───────────────────────────────────────────────────────────────────────
-   index-rail.js — a real, 1:1 page minimap for the landing page.
+   index-rail.js — wires the universal AlphaRail (js/alpha-rail.js) to the
+   landing page as a single, page-wide index.
 
-   The whole document is mapped linearly onto a fixed vertical strip, like an
-   IDE minimap. Every marker sits at its TRUE position (targetOffset / docHeight)
-   — not a proxy progress. A viewport "thumb" shows the actual scroll position in
-   real time, and dragging the strip scrolls to the exact corresponding place.
+   • Scroll is GLOBAL: the rail follows the whole document scroll.
+   • Markers above the explorer are the page's section headers (small dots that
+     reveal their label on magnify); the "Named Skills Explorer" marker is the
+     red divider accent.
+   • Markers inside the explorer are dynamic — they mirror whatever the Named
+     Skills Explorer is currently showing (type glyphs, A-Z letters, or DAG
+     tiers), rebuilt on every view / sort / filter / search change via the
+     `gaia:explorer-rendered` event dispatched by js/named-skills.js.
 
-   Markers above the explorer are the page's section headers (small dots that
-   reveal their label on hover); the "Named Skills Explorer" marker is the red
-   accent. Markers inside the explorer are dynamic — they mirror whatever the
-   Named Skills Explorer is showing (type glyphs, A-Z letters, or DAG tiers),
-   rebuilt on every view / sort / filter / search change via the
-   `gaia:explorer-rendered` event from js/named-skills.js.
+   Marker weights are proportional to each region's real scroll distance, so the
+   rail doubles as a minimap and follow(p) stays aligned with the page.
    ─────────────────────────────────────────────────────────────────────── */
 (function () {
   "use strict";
 
-  if (!document.getElementById("named")) return;
+  if (!window.AlphaRail || !document.getElementById("named")) return;
 
   var REDUCED = window.matchMedia &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // Fixed section markers, top → bottom. Explorer markers are appended after.
+  // Fixed section markers, top → bottom. The explorer's own markers are
+  // appended after these on every rebuild.
   var SECTIONS = [
     { key: "sec:paths",          label: "Register Your Repo",    targetId: "paths" },
     { key: "sec:ultimates",      label: "Claim an Ultimate",     targetId: "ultimates" },
@@ -30,194 +32,120 @@
     { key: "sec:named",          label: "Named Skills Explorer", targetId: "named", accent: "red" }
   ];
 
-  // ── DOM ──────────────────────────────────────────────────────────────
-  var host = document.createElement("div");
-  host.className = "mrail";
-  host.setAttribute("role", "navigation");
-  host.setAttribute("aria-label", "Page minimap");
+  var byKey = {};
 
-  var track = document.createElement("div");
-  track.className = "mrail-track";
-
-  var thumb = document.createElement("div");
-  thumb.className = "mrail-thumb";
-  thumb.setAttribute("aria-hidden", "true");
-  track.appendChild(thumb);
-
-  host.appendChild(track);
-  document.body.appendChild(host);
-  document.body.setAttribute("data-mrail", "right");
-
-  var marks = [];        // [{ el, targetId, off }]
-  var docHpx = 0;        // cached document height (px)
-
-  function docHeight() {
-    var d = document.documentElement, b = document.body;
-    return Math.max(d.scrollHeight, b ? b.scrollHeight : 0, d.offsetHeight);
-  }
-  function scrollY() { return window.scrollY || window.pageYOffset || 0; }
-  function clamp(v, lo, hi) { return v < lo ? lo : v > hi ? hi : v; }
-
-  function jumpTo(id) {
-    var el = document.getElementById(id);
+  function onSelect(key) {
+    var m = byKey[key];
+    if (!m) return;
+    var el = document.getElementById(m.targetId);
     if (el) el.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "start" });
   }
 
-  // ── Build markers (on explorer re-render) ────────────────────────────
-  function buildMarks() {
-    marks.forEach(function (m) { if (m.el.parentNode) m.el.parentNode.removeChild(m.el); });
-    marks = [];
-
-    var list = SECTIONS.map(function (s) {
-      return {
-        key: s.key, label: s.label, targetId: s.targetId, kind: "section",
-        accent: s.accent, color: s.accent === "red" ? "var(--honor-red)" : "var(--muted)"
-      };
-    }).concat(window._gaiaExplorerMarkers || []);
-
-    list.forEach(function (d) {
-      var b = document.createElement("button");
-      b.type = "button";
-      b.className = "mrail-mark";
-      b.setAttribute("data-kind", d.kind || "group");
-      if (d.accent) b.setAttribute("data-accent", d.accent);
-      if (d.color) b.style.setProperty("--mark-color", d.color);
-      b.setAttribute("aria-label", "Jump to " + (d.label || d.key));
-
-      var dot = document.createElement("span");
-      dot.className = "mrail-dot";
-      dot.textContent = d.kind === "section" ? "" : (d.glyph || "");
-      b.appendChild(dot);
-
-      var lab = document.createElement("span");
-      lab.className = "mrail-label";
-      lab.textContent = d.label || "";
-      b.appendChild(lab);
-
-      // Keyboard affordance only — pointer taps are handled by the track so a
-      // drag that ends on a marker doesn't also fire a jump.
-      b.addEventListener("keydown", function (e) {
-        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); jumpTo(d.targetId); }
-      });
-
-      track.appendChild(b);
-      marks.push({ el: b, targetId: d.targetId, off: 0 });
-    });
-
-    layout();
+  function docMax() {
+    return Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
   }
 
-  // ── Position markers at their true document offset ───────────────────
-  function layout() {
-    docHpx = docHeight();
-    var base = scrollY();
-    marks.forEach(function (m) {
-      var el = document.getElementById(m.targetId);
-      if (!el) { m.el.style.display = "none"; m.off = -1; return; }
-      m.el.style.display = "";
-      m.off = el.getBoundingClientRect().top + base;     // absolute doc offset
-      m.el.style.top = (docHpx > 0 ? (m.off / docHpx * 100) : 0) + "%";
-    });
-    updateThumb();
+  // Continuous scrub: dragging the rail scrolls the page proportionally to the
+  // pointer (the in-between ticks are live positions), rather than snapping to a
+  // header. follow() is suppressed while held (see the scroll listener) so the
+  // strip stays put and doesn't fight the drag.
+  //
+  // pointermove fires many times per frame (especially on touch), and a
+  // synchronous scrollTo per event reflows + shakes. So we record the latest
+  // target and apply it once per frame via rAF — directly, no easing, so the
+  // page tracks the finger exactly. docMax is cached at grab time so we never
+  // read scrollHeight mid-drag.
+  var scrubActive = false, scrubTargetY = 0, scrubMax = 0, scrubRAF = null;
+
+  function scrubStep() {
+    scrubRAF = null;
+    if (!scrubActive) return;
+    window.scrollTo(0, scrubTargetY);
   }
 
-  // ── Reflect the actual scroll position in real time ──────────────────
-  function updateThumb() {
-    var vh = window.innerHeight;
-    if (docHpx <= vh + 1) { host.classList.add("is-hidden"); return; }
-    host.classList.remove("is-hidden");
-
-    var sy = scrollY();
-    thumb.style.top = (sy / docHpx * 100) + "%";
-    thumb.style.height = (vh / docHpx * 100) + "%";
-
-    // Highlight the marker nearest the viewport centre (cached offsets only).
-    var center = sy + vh / 2, best = null, bd = Infinity;
-    for (var i = 0; i < marks.length; i++) {
-      if (marks[i].off < 0) continue;
-      var dd = Math.abs(marks[i].off - center);
-      if (dd < bd) { bd = dd; best = marks[i]; }
-    }
-    for (var j = 0; j < marks.length; j++) {
-      marks[j].el.setAttribute("aria-current", marks[j] === best ? "true" : "false");
-    }
+  function onScrub(p) {
+    if (!scrubActive) { scrubActive = true; scrubMax = docMax(); }
+    scrubTargetY = p * scrubMax;
+    if (scrubRAF == null) scrubRAF = requestAnimationFrame(scrubStep);
   }
 
-  // ── Drag = 1:1 scroll. The rail point you touch becomes the viewport
-  //    centre, so the thumb tracks your finger exactly (no easing/proxy).
-  //    pointermove is coalesced to one scrollTo per frame to avoid reflow. ──
-  var press = null, pendingY = null, raf = null;
-
-  function trackRect() { return track.getBoundingClientRect(); }
-
-  function applyScroll() {
-    raf = null;
-    if (pendingY == null) return;
-    var r = trackRect();
-    var f = r.height > 0 ? clamp((pendingY - r.top) / r.height, 0, 1) : 0;
-    var target = clamp(f * docHpx - window.innerHeight / 2, 0, Math.max(0, docHpx - window.innerHeight));
-    window.scrollTo(0, target);
-    pendingY = null;
-  }
-  function queue(y) {
-    pendingY = y;
-    if (raf == null) raf = requestAnimationFrame(applyScroll);
+  function onScrubEnd() {
+    scrubActive = false;
+    if (scrubRAF != null) { cancelAnimationFrame(scrubRAF); scrubRAF = null; }
+    window.scrollTo(0, scrubTargetY);   // land exactly on the released position
+    syncRail(true);
   }
 
-  track.addEventListener("pointerdown", function (e) {
-    docHpx = docHeight();   // fresh frame for the drag math
-    press = { y0: e.clientY, moved: false, markEl: e.target.closest(".mrail-mark") };
-    try { track.setPointerCapture(e.pointerId); } catch (_) {}
-    e.preventDefault();
+  var rail = new window.AlphaRail({
+    side: "right", onSelect: onSelect, onScrub: onScrub, onScrubEnd: onScrubEnd
   });
-  track.addEventListener("pointermove", function (e) {
-    if (!press) return;
-    if (!press.moved && Math.abs(e.clientY - press.y0) > 3) {
-      press.moved = true;
-      host.classList.add("is-dragging");
-    }
-    if (press.moved) queue(e.clientY);
-  });
-  function endPress(e) {
-    if (!press) return;
-    try { track.releasePointerCapture(e.pointerId); } catch (_) {}
-    host.classList.remove("is-dragging");
-    if (!press.moved) {
-      if (press.markEl) {
-        var idx = [].indexOf.call(track.children, press.markEl);
-        // find the mark record for this element
-        for (var i = 0; i < marks.length; i++) {
-          if (marks[i].el === press.markEl) { jumpTo(marks[i].targetId); break; }
-        }
-        void idx;
-      } else {
-        queue(press.y0);   // tap on empty rail → scroll to that point
-      }
-    }
-    press = null;
-  }
-  track.addEventListener("pointerup", endPress);
-  track.addEventListener("pointercancel", endPress);
 
-  // ── Real-time follow + relayout triggers ─────────────────────────────
+  // Map a section descriptor to a rail marker (the red accent marker carries
+  // the honor-red token; the rest are muted dots).
+  function sectionMark(s) {
+    return {
+      key: s.key, label: s.label, kind: "section",
+      color: s.accent === "red" ? "var(--honor-red)" : "var(--muted)",
+      accent: s.accent, targetId: s.targetId
+    };
+  }
+
+  // Weight each marker by the scroll distance it spans, so ticks are dense
+  // where the page is tall (the explorer) and sparse where it is short.
+  function applyDistanceWeights(list) {
+    var tops = list.map(function (m) {
+      var el = m.targetId && document.getElementById(m.targetId);
+      if (!el) return null;
+      return el.getBoundingClientRect().top + (window.scrollY || window.pageYOffset);
+    });
+    var docBottom = document.documentElement.scrollHeight;
+    for (var i = 0; i < list.length; i++) {
+      var top = tops[i];
+      var next = (i + 1 < list.length && tops[i + 1] != null) ? tops[i + 1] : docBottom;
+      var span = (top != null) ? Math.max(0, next - top) : 0;
+      list[i].weight = Math.max(1, Math.round(span / 28));   // ~28px of page per tick
+    }
+  }
+
+  function rebuild() {
+    var marks = SECTIONS.map(sectionMark)
+      .concat(window._gaiaExplorerMarkers || []);
+    byKey = {};
+    marks.forEach(function (m) { byKey[m.key] = m; });
+    applyDistanceWeights(marks);
+    rail.renderMarkers(marks);
+    syncRail(true);
+  }
+
+  // Continuous global scroll-follow.
+  function syncRail(instant) {
+    var max = docMax();
+    var p = max > 0 ? (window.scrollY || window.pageYOffset) / max : 0;
+    rail.follow(p, instant);
+  }
+
   var followQueued = false;
   window.addEventListener("scroll", function () {
+    if (rail._scrubbing) return;   // the user is driving the scroll; don't fight it
     if (followQueued) return;
     followQueued = true;
-    requestAnimationFrame(function () { followQueued = false; updateThumb(); });
+    requestAnimationFrame(function () { followQueued = false; syncRail(false); });
   }, { passive: true });
+
+  // Rebuild whenever the explorer re-renders, and once data has settled.
+  document.addEventListener("gaia:explorer-rendered", rebuild);
 
   var resizeT;
   window.addEventListener("resize", function () {
     clearTimeout(resizeT);
-    resizeT = setTimeout(layout, 120);
+    resizeT = setTimeout(rebuild, 150);
   });
-  window.addEventListener("load", layout);
-  document.addEventListener("gaia:explorer-rendered", buildMarks);
 
+  // Initial paint (section markers show immediately; explorer markers fold in
+  // when named-skills.js finishes its fetch and fires the event).
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", buildMarks);
+    document.addEventListener("DOMContentLoaded", rebuild);
   } else {
-    buildMarks();
+    rebuild();
   }
 })();
