@@ -13,7 +13,7 @@ description: The legendary fusion of Garry Tan's complete agent discipline libra
   founder-mode orchestration — unified into a single autonomous product-development
   workflow.
 links:
-  github: https://github.com/garrytan/gstack
+  github: https://github.com/garrytan/gstack/blob/main/SKILL.md
 tags:
 - founder-mode
 - full-stack

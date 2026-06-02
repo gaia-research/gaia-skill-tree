@@ -13,7 +13,7 @@ description: Access protein metadata, function, taxonomy, and sequences across U
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
 links:
-  github: https://github.com/google-deepmind/science-skills/blob/main/skills/uniprot_database
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/uniprot_database/SKILL.md
 evidence:
 - class: B
   source: https://github.com/google-deepmind/science-skills/blob/main/skills/uniprot_database/SKILL.md

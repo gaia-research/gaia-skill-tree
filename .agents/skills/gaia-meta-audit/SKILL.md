@@ -76,9 +76,11 @@ Build a prioritized queue of Gaia skills or catalog items that need focused revi
 | Named-skill `genericSkillRef` change | `gaia dev update-named <author/skill> --generic-ref <new>` |
 | Named-skill `status` change | `gaia dev update-named ... --status <new>` |
 | Named-skill suite metadata | `gaia dev update-named ... --suite-ref / --suite-components / --installation-file` |
-| Named-skill **`level` / `origin` / `links.github` / `description` / body / timeline** | **direct YAML edit** — CLI does not expose these |
+| Named-skill `origin` change | `gaia dev update-named <author/skill> --origin true|false` (enforces uniqueness) |
+| Standalone timeline event | `gaia dev timeline <id> --action <action> --notes "..."` |
+| Named-skill **`level` / `links.github` / `description` / body** | **direct YAML edit** — CLI does not expose these |
 | Named-skill removal | **delete the markdown file** — `gaia dev rm` is generic-only |
-| Demotion-as-event (writes to timeline with `previousValue`/`newValue`) | direct YAML edit; add a `timeline` entry with `action: demote` |
+| Demotion-as-event (writes to timeline) | `gaia dev timeline <id> --action demote --notes "..."` |
 
 After mutating, **always** run `gaia validate` and `gaia docs build`.
 

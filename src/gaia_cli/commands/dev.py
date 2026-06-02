@@ -1250,6 +1250,35 @@ def meta_update_named_command(args):
         body = _replace_section(body, "Installation", new_content)
         changed = True
 
+    origin_val = getattr(args, "origin", None)
+    origin_changed = False
+    if origin_val is not None:
+        target_val = (origin_val.lower() == "true")
+        if meta.get("origin") != target_val:
+            meta["origin"] = target_val
+            changed = True
+            origin_changed = True
+            
+            # Uniqueness constraint: if we're setting origin=True, strip it from others in the same bucket
+            if target_val and meta.get("genericSkillRef"):
+                bucket_ref = meta["genericSkillRef"]
+                for other_file in named_dir.rglob("*.md"):
+                    if other_file == target_file:
+                        continue
+                    o_meta, o_body = _parse_md(other_file)
+                    if o_meta.get("genericSkillRef") == bucket_ref and o_meta.get("origin") is True:
+                        o_meta["origin"] = False
+                        o_meta["updatedAt"] = datetime.date.today().isoformat()
+                        _write_md(other_file, o_meta, o_body)
+                        append_skill_event(
+                            o_meta["id"],
+                            "demote",
+                            _get_contributor(),
+                            f"Origin status removed. Transferred to {skill_id}.",
+                            registry_path=registry_path
+                        )
+                        print(f"Removed origin from competing skill: {o_meta['id']}")
+
     if changed:
         meta["updatedAt"] = datetime.date.today().isoformat()
         _write_md(target_file, meta, body)
@@ -1258,6 +1287,15 @@ def meta_update_named_command(args):
         # Record timeline events for mutations that affect suite topology or content.
         registry_path = args.registry
         contributor = _get_contributor()
+
+        if origin_changed:
+            append_skill_event(
+                skill_id,
+                "rank_up" if target_val else "demote",
+                contributor,
+                f"Origin status set to {'true' if target_val else 'false'}.",
+                registry_path=registry_path
+            )
         if getattr(args, "suite_ref", None):
             append_skill_event(
                 skill_id,
@@ -1594,3 +1632,27 @@ def meta_diff_command(args):
 
     print(f"  Skipped {skipped} generated files (SVG, HTML, GEXF, timestamps).")
     print()
+
+
+def meta_timeline_command(args):
+    """Append a standalone event to a skill's timeline."""
+    registry_path = args.registry
+    skill_id = args.skill_id.lstrip("/")
+    action = args.action
+    notes = args.notes
+
+    from gaia_cli.timeline import append_skill_event
+    append_skill_event(
+        skill_id,
+        action,
+        _get_contributor(),
+        notes,
+        registry_path=registry_path
+    )
+
+    if not getattr(args, "no_build", False):
+        print("Regenerating registry and documentation...")
+        _run_docs_build(args.registry)
+    else:
+        print("Skipping documentation rebuild as requested (--no-build).")
+
