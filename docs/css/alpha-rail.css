@@ -128,3 +128,9 @@ body[data-arail="left"] > section { padding-left: var(--arail-w); }
   .arail-track { transition: none; }
   .arail-mark[data-kind="letter"][aria-current="true"]::after { animation: none; opacity: .4; }
 }
+
+/* Hide the rail on mobile — pointer interactions lag on touch devices. */
+@media (max-width: 768px) {
+  :root { --arail-w: 0px; }
+  .arail { display: none; }
+}
