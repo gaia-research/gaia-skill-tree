@@ -15,7 +15,7 @@ Orchestrates productivity tasks across email, calendar, drive, and documents thr
 - [Document Editing](../basic/document-editing.md)
 
 ## Unlocks
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 
 ## Fusion Condition
 _None specified._

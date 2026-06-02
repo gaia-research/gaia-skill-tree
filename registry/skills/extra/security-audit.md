@@ -16,7 +16,7 @@ Systematically identify security vulnerabilities, assess attack surface, and pro
 
 ## Unlocks
 - [Skill Security Analysis](../extra/skill-security-analysis.md)
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 
 ## Fusion Condition
 Requires access to the full codebase or diff; output must include severity classification and reproduction steps.

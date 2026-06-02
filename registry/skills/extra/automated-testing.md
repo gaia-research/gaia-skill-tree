@@ -19,7 +19,7 @@ Generates test suites, executes them in a sandbox, interprets failures, and iter
 - [Full-Stack Developer](../extra/full-stack-developer.md)
 - [ML Pipeline](../extra/ml-pipeline.md)
 - [End-to-End Testing](../extra/e2e-testing.md)
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 
 ## Fusion Condition
 _None specified._

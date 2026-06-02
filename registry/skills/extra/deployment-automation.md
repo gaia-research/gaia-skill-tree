@@ -15,7 +15,7 @@ Automate CI/CD pipeline execution and deployment to target environments — buil
 - [Code Execution](../basic/code-execution.md)
 
 ## Unlocks
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 
 ## Fusion Condition
 Requires environment credentials and a configured pipeline definition.

@@ -18,7 +18,7 @@ Designs, writes, packages, and iteratively improves reusable agent skill directo
 ## Unlocks
 - [Skill Performance Benchmarking](../extra/skill-performance-benchmarking.md)
 - [Registry Curation](../extra/registry-curation.md)
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 
 ## Fusion Condition
 Requires a target agent skill format and a repeatable evaluation loop for trigger accuracy and task success.

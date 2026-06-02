@@ -17,7 +17,7 @@ Maintains, indexes, and retrieves conversational and long-term memory across ses
 ## Unlocks
 - [Conversational Agent](../extra/conversational-agent.md)
 - [Real-Time Voice Assistant](../extra/real-time-voice-assistant.md)
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 
 ## Fusion Condition
 _None specified._

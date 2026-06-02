@@ -15,7 +15,7 @@ _None._
 
 ## Unlocks
 - [Humanize Prose](../extra/humanize-prose.md)
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |

@@ -2,7 +2,7 @@
 id: obra/systematic-debugging
 name: Systematic Debugging
 contributor: obra
-origin: true
+origin: false
 genericSkillRef: systematic-debugging
 status: named
 title: The Root Cause Hunter
@@ -19,7 +19,7 @@ tags:
 - instrumentation
 - reproduction
 createdAt: '2026-05-18'
-updatedAt: '2026-05-18'
+updatedAt: '2026-06-02'
 suiteRef: obra/superpowers
 evidence:
 - class: B
@@ -29,6 +29,11 @@ evidence:
   notes: obra/superpowers — complete software development methodology for coding agents,
     196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode,
     Cursor, GitHub Copilot CLI.
+timeline:
+- timestamp: '2026-06-02T23:33:00Z'
+  action: demote
+  contributor: unknown
+  details: Origin status removed. Transferred to garrytan/investigate.
 ---
 
 ## Overview

@@ -444,7 +444,7 @@
         "id": "anthropic/skill-creator",
         "name": "Skill Creator",
         "contributor": "anthropic",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "tool-creation",
         "status": "named",
         "level": "2★",
@@ -461,15 +461,23 @@
           "github": "https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md"
         },
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-04-30",
+        "updatedAt": "2026-06-02",
+        "timeline": [
+          {
+            "timestamp": "2026-06-02T23:33:00Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Origin status removed. Transferred to mattpocock/write-a-skill."
+          }
+        ],
         "type": "extra",
-        "role": "origin"
+        "role": "variant"
       },
       {
         "id": "mattpocock/write-a-skill",
         "name": "Write a Skill",
         "contributor": "mattpocock",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "tool-creation",
         "status": "named",
         "level": "3★",
@@ -487,10 +495,18 @@
           "github": "https://github.com/mattpocock/skills/blob/main/skills/productivity/write-a-skill/SKILL.md"
         },
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-04-30",
+        "updatedAt": "2026-06-02",
+        "timeline": [
+          {
+            "timestamp": "2026-06-02T23:33:00Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
+          }
+        ],
         "suiteRef": "mattpocock/productivity",
         "type": "extra",
-        "role": "variant"
+        "role": "origin"
       }
     ],
     "video-intelligence": [
@@ -532,7 +548,7 @@
         "id": "browser-use/browser-harness",
         "name": "Browser Harness",
         "contributor": "browser-use",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "browser-control",
         "status": "named",
         "level": "2★",
@@ -556,15 +572,23 @@
           }
         ],
         "createdAt": "2026-05-14",
-        "updatedAt": "2026-05-14",
+        "updatedAt": "2026-06-02",
+        "timeline": [
+          {
+            "timestamp": "2026-06-02T23:32:59Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Origin status removed. Transferred to garrytan/browse."
+          }
+        ],
         "type": "basic",
-        "role": "origin"
+        "role": "variant"
       },
       {
         "id": "garrytan/browse",
         "name": "Browse",
         "contributor": "garrytan",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "browser-control",
         "status": "named",
         "level": "3★",
@@ -580,10 +604,18 @@
           "github": "https://github.com/garrytan/gstack/blob/main/browse/SKILL.md"
         },
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
+        "updatedAt": "2026-06-02",
+        "timeline": [
+          {
+            "timestamp": "2026-06-02T23:32:59Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
+          }
+        ],
         "suiteRef": "garrytan/garrytan",
         "type": "basic",
-        "role": "variant"
+        "role": "origin"
       },
       {
         "id": "garrytan/open-gstack-browser",
@@ -784,7 +816,7 @@
         "id": "firecrawl/firecrawl",
         "name": "Firecrawl",
         "contributor": "firecrawl",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "web-scrape",
         "status": "named",
         "level": "2★",
@@ -801,15 +833,23 @@
           "github": "https://github.com/firecrawl/firecrawl"
         },
         "createdAt": "2026-05-17",
-        "updatedAt": "2026-05-17",
+        "updatedAt": "2026-06-02",
+        "timeline": [
+          {
+            "timestamp": "2026-06-02T23:33:01Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Origin status removed. Transferred to garrytan/scrape."
+          }
+        ],
         "type": "extra",
-        "role": "origin"
+        "role": "variant"
       },
       {
         "id": "garrytan/scrape",
         "name": "Scrape",
         "contributor": "garrytan",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "web-scrape",
         "status": "named",
         "level": "3★",
@@ -825,10 +865,18 @@
           "github": "https://github.com/garrytan/gstack/blob/main/scrape/SKILL.md"
         },
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
+        "updatedAt": "2026-06-02",
+        "timeline": [
+          {
+            "timestamp": "2026-06-02T23:33:01Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
+          }
+        ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
-        "role": "variant"
+        "role": "origin"
       }
     ],
     "skill-performance-benchmarking": [
@@ -1515,7 +1563,7 @@
         "id": "garrytan/garrytan",
         "name": "Autoplan",
         "contributor": "garrytan",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "vertical-slice-planning",
         "status": "named",
         "level": "5★",
@@ -1533,7 +1581,15 @@
           "github": "https://github.com/garrytan/gstack/blob/main/autoplan/SKILL.md"
         },
         "createdAt": "2026-05-12",
-        "updatedAt": "2026-05-12",
+        "updatedAt": "2026-06-02",
+        "timeline": [
+          {
+            "timestamp": "2026-06-02T23:33:01Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
+          }
+        ],
         "suiteRef": "garrytan/gstack",
         "suiteComponents": [
           "garrytan/browse",
@@ -1542,13 +1598,13 @@
           "garrytan/office-hours"
         ],
         "type": "extra",
-        "role": "variant"
+        "role": "origin"
       },
       {
         "id": "mattpocock/to-issues",
         "name": "To Issues",
         "contributor": "mattpocock",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "vertical-slice-planning",
         "status": "named",
         "level": "3★",
@@ -1576,10 +1632,18 @@
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-04-30",
+        "updatedAt": "2026-06-02",
+        "timeline": [
+          {
+            "timestamp": "2026-06-02T23:33:00Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Origin status removed. Transferred to garrytan/garrytan."
+          }
+        ],
         "suiteRef": "mattpocock/engineering",
         "type": "extra",
-        "role": "origin"
+        "role": "variant"
       }
     ],
     "workspace-automation": [
@@ -1609,13 +1673,13 @@
         "role": "variant"
       }
     ],
-    "gstack": [
+    "founder-mode-orchestration": [
       {
         "id": "garrytan/gstack",
         "name": "Founder Mode",
         "contributor": "garrytan",
         "origin": true,
-        "genericSkillRef": "gstack",
+        "genericSkillRef": "founder-mode-orchestration",
         "status": "named",
         "level": "5★",
         "description": "The legendary fusion of Garry Tan's complete agent discipline library — browser QA, security auditing, design exploration, vertical-slice planning, and founder-mode orchestration — unified into a single autonomous product-development workflow.",
@@ -1702,7 +1766,7 @@
         "id": "garrytan/investigate",
         "name": "Investigate",
         "contributor": "garrytan",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "systematic-debugging",
         "status": "named",
         "level": "4★",
@@ -1719,16 +1783,24 @@
           "github": "https://github.com/garrytan/gstack/blob/main/investigate/SKILL.md"
         },
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
+        "updatedAt": "2026-06-02",
+        "timeline": [
+          {
+            "timestamp": "2026-06-02T23:33:00Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
+          }
+        ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
-        "role": "variant"
+        "role": "origin"
       },
       {
         "id": "obra/systematic-debugging",
         "name": "Systematic Debugging",
         "contributor": "obra",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "systematic-debugging",
         "status": "named",
         "level": "3★",
@@ -1754,10 +1826,18 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
+        "updatedAt": "2026-06-02",
+        "timeline": [
+          {
+            "timestamp": "2026-06-02T23:33:00Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Origin status removed. Transferred to garrytan/investigate."
+          }
+        ],
         "suiteRef": "obra/superpowers",
         "type": "extra",
-        "role": "origin"
+        "role": "variant"
       }
     ],
     "deployment-automation": [
@@ -2352,7 +2432,7 @@
         "id": "garrytan/retro",
         "name": "Retro",
         "contributor": "garrytan",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "write-report",
         "status": "named",
         "level": "3★",
@@ -2368,16 +2448,24 @@
           "github": "https://github.com/garrytan/gstack/blob/main/retro/SKILL.md"
         },
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
+        "updatedAt": "2026-06-02",
+        "timeline": [
+          {
+            "timestamp": "2026-06-02T23:33:02Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
+          }
+        ],
         "suiteRef": "garrytan/gstack",
         "type": "basic",
-        "role": "variant"
+        "role": "origin"
       },
       {
         "id": "glincker/readme-generator",
         "name": "README Generator",
         "contributor": "glincker",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "write-report",
         "status": "named",
         "level": "2★",
@@ -2394,9 +2482,17 @@
           "github": "https://github.com/GLINCKER/claude-code-marketplace/blob/main/skills/documentation/readme-generator/SKILL.md"
         },
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-04-30",
+        "updatedAt": "2026-06-02",
+        "timeline": [
+          {
+            "timestamp": "2026-06-02T23:33:02Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Origin status removed. Transferred to garrytan/retro."
+          }
+        ],
         "type": "basic",
-        "role": "origin"
+        "role": "variant"
       },
       {
         "id": "spring-ai/readme-generate",
@@ -2482,7 +2578,7 @@
         "id": "garrytan/ship",
         "name": "Ship",
         "contributor": "garrytan",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "finishing-a-development-branch",
         "status": "named",
         "level": "4★",
@@ -2499,16 +2595,24 @@
           "github": "https://github.com/garrytan/gstack/blob/main/ship/SKILL.md"
         },
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
+        "updatedAt": "2026-06-02",
+        "timeline": [
+          {
+            "timestamp": "2026-06-02T23:32:59Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
+          }
+        ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
-        "role": "variant"
+        "role": "origin"
       },
       {
         "id": "obra/finishing-a-development-branch",
         "name": "Finishing a Development Branch",
         "contributor": "obra",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "finishing-a-development-branch",
         "status": "named",
         "level": "2★",
@@ -2534,10 +2638,18 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
+        "updatedAt": "2026-06-02",
+        "timeline": [
+          {
+            "timestamp": "2026-06-02T23:32:59Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Origin status removed. Transferred to garrytan/ship."
+          }
+        ],
         "suiteRef": "obra/superpowers",
         "type": "extra",
-        "role": "origin"
+        "role": "variant"
       }
     ],
     "skill-authoring": [
@@ -2708,7 +2820,7 @@
         },
         "createdAt": "2026-05-03",
         "updatedAt": "2026-05-03",
-        "type": "unique",
+        "type": "basic",
         "role": "variant"
       }
     ],
@@ -3647,11 +3759,11 @@
         },
         "evidence": [
           {
-            "class": "A",
+            "class": "C",
             "source": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/skill.md",
             "evaluator": "mbtiongson1",
             "date": "2026-05-20",
-            "notes": "Codified audit skill with 7-phase workflow, demotion rules, and registry-sync automation. Powers the gaia-meta-audit process."
+            "notes": "Self-referential implementation doc inside the gaia repo (seed evidence). Downgraded A->C per META §2.4 — seed / self-referential links are insufficient for Class A — by the 2026-06-02 meta sweep. Credible demo of the codified 7-phase audit workflow."
           }
         ],
         "createdAt": "2026-05-27",

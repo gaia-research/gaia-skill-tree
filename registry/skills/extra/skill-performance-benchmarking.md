@@ -18,7 +18,7 @@ Builds and runs task suites that measure whether agents select, invoke, and comp
 ## Unlocks
 - [Registry Curation](../extra/registry-curation.md)
 - [Gaia Meta Audit](../extra/registry-health-scan.md)
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 
 ## Fusion Condition
 Requires a skill corpus, benchmark tasks, success rubrics, and variance-aware reporting across multiple runs.

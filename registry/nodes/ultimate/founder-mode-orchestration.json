@@ -1,5 +1,5 @@
 {
-  "id": "gstack",
+  "id": "founder-mode-orchestration",
   "name": "Founder Mode",
   "type": "ultimate",
   "rarity": "legendary",
@@ -43,7 +43,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-18",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-02",
   "version": "0.1.0",
   "timeline": [
     {
@@ -71,6 +71,12 @@
       "details": "Skill created as 5★ (provisional)",
       "previousValue": null,
       "newValue": "5★"
+    },
+    {
+      "timestamp": "2026-06-02T23:33:02Z",
+      "action": "rename",
+      "contributor": "unknown",
+      "details": "Renamed from gstack to founder-mode-orchestration"
     }
   ]
 }

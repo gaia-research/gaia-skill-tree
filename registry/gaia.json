@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/skill.schema.json",
   "version": "3.27.3",
-  "generatedAt": "2026-06-02T18:27:09.512023Z",
+  "generatedAt": "2026-06-02T23:33:59.598999Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -89,63 +89,63 @@
       "heavyweight-dependency": "Heavyweight dependencies"
     },
     "clusterNames": {
-      "0": "Text & Content",
-      "1": "Agent & Memory",
-      "2": "Analysis & Data",
-      "3": "Tool & Browser",
-      "4": "Retrieval & Search",
-      "5": "Management & Writing",
+      "0": "Text & Generate",
+      "1": "Memory & Swarm",
+      "2": "Retrieval & Web",
+      "3": "Agent & Tool",
+      "4": "Vector & Analysis",
+      "5": "Autonomous & Data",
       "6": "Code & Review",
       "7": "Automation & Git"
     },
     "centroids": [
       [
-        -0.3712892040420527,
-        0.43888781918856523,
-        -0.07661677837384384,
-        -0.22908686515620916
+        -0.30781538589195234,
+        -0.3623053136838484,
+        0.05167976009856511,
+        0.15767951894829743
       ],
       [
-        0.3652229276327731,
-        -0.008200790553670833,
-        -0.3833217667394842,
-        0.13598475708449703
+        0.26597279992691436,
+        0.33959073555707237,
+        0.6269484582957391,
+        -0.04934643157513762
       ],
       [
-        -0.20797828277823371,
-        0.023319718068743934,
-        0.1484503136703238,
-        0.2803310660537112
+        -0.6805185131198302,
+        0.26234717891964304,
+        -0.0818426865461996,
+        -0.021559646043704125
       ],
       [
-        0.28602034196772935,
-        -0.09895210554523019,
-        0.025137233486757653,
-        -0.20228258943254454
+        0.3616515831845725,
+        0.030885407904966355,
+        0.09334349116326102,
+        0.06598095859158559
       ],
       [
-        -0.5957291874453009,
-        -0.32673726089179883,
-        0.029996754850991684,
-        0.060877526204237704
+        -0.18587636420550313,
+        0.2314463743485633,
+        0.24717551966279847,
+        -0.09855209214596111
       ],
       [
-        0.08710751706520566,
-        -0.14802861149096858,
-        0.17403747309658912,
-        0.08220615978156612
+        -0.027495509331433046,
+        0.0752147876853399,
+        -0.15361512911384984,
+        -0.190091587493459
       ],
       [
-        0.34224788111061333,
-        0.32406619429786115,
-        0.43720049648552706,
-        0.1674188888378814
+        0.3317405968196154,
+        -0.24343374843393692,
+        -0.44340265216366176,
+        -0.19408841310531907
       ],
       [
-        0.29201085832217555,
-        -0.32597363570618404,
-        0.30522836313549073,
-        -0.050825737825744566
+        0.26012679408911343,
+        0.4320554588067485,
+        -0.2095782278569544,
+        0.09175789679102545
       ]
     ]
   },
@@ -649,7 +649,7 @@
         "full-stack-developer",
         "ml-pipeline",
         "e2e-testing",
-        "gstack"
+        "founder-mode-orchestration"
       ],
       "conditions": "",
       "evidence": [
@@ -1021,7 +1021,7 @@
         "autonomous-web-research",
         "e2e-testing",
         "x-twitter-automation",
-        "gstack"
+        "founder-mode-orchestration"
       ],
       "conditions": "",
       "evidence": [
@@ -1068,7 +1068,7 @@
       "prerequisites": [],
       "derivatives": [
         "browser-automation",
-        "gstack"
+        "founder-mode-orchestration"
       ],
       "conditions": "",
       "evidence": [],
@@ -1586,7 +1586,7 @@
         "tool-creation",
         "ml-pipeline",
         "skill-authoring",
-        "gstack"
+        "founder-mode-orchestration"
       ],
       "conditions": "",
       "evidence": [
@@ -1642,7 +1642,7 @@
       "derivatives": [
         "full-stack-developer",
         "security-audit",
-        "gstack",
+        "founder-mode-orchestration",
         "finishing-a-development-branch",
         "subagent-driven-development",
         "requesting-code-review"
@@ -2134,7 +2134,7 @@
         "code-execution"
       ],
       "derivatives": [
-        "gstack"
+        "founder-mode-orchestration"
       ],
       "conditions": "Requires environment credentials and a configured pipeline definition.",
       "evidence": [],
@@ -2196,7 +2196,7 @@
         "plan-decompose"
       ],
       "derivatives": [
-        "gstack"
+        "founder-mode-orchestration"
       ],
       "conditions": "",
       "evidence": [
@@ -2243,7 +2243,7 @@
       ],
       "derivatives": [
         "design-generation",
-        "gstack"
+        "founder-mode-orchestration"
       ],
       "conditions": "Requires headless browser (Playwright/Puppeteer).",
       "evidence": [],
@@ -2275,7 +2275,7 @@
       ],
       "derivatives": [
         "registry-health-scan",
-        "gstack"
+        "founder-mode-orchestration"
       ],
       "conditions": "",
       "evidence": [
@@ -2578,7 +2578,7 @@
       "prerequisites": [],
       "derivatives": [
         "humanize-prose",
-        "gstack"
+        "founder-mode-orchestration"
       ],
       "conditions": "",
       "evidence": [],
@@ -2639,7 +2639,7 @@
         "automated-testing"
       ],
       "derivatives": [
-        "gstack"
+        "founder-mode-orchestration"
       ],
       "conditions": "Requires a live or containerised target environment; browser automation must be available.",
       "evidence": [
@@ -2881,7 +2881,7 @@
         "agent-eval",
         "design-review",
         "security-audit",
-        "gstack",
+        "founder-mode-orchestration",
         "detect-anomaly"
       ],
       "conditions": "",
@@ -3130,7 +3130,7 @@
     {
       "id": "fine-tune",
       "name": "Fine-Tune",
-      "type": "unique",
+      "type": "basic",
       "rarity": "uncommon",
       "description": "Adapts a pre-trained model to a new task or domain by updating model weights using parameter-efficient methods such as LoRA, QLoRA, or full supervised fine-tuning, without retraining from scratch.",
       "prerequisites": [],
@@ -3162,7 +3162,7 @@
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-04-30",
-      "updatedAt": "2026-06-01",
+      "updatedAt": "2026-06-02",
       "version": "0.1.0",
       "timeline": [
         {
@@ -3172,6 +3172,12 @@
           "details": "Skill created as 4★ (provisional)",
           "previousValue": null,
           "newValue": "4★"
+        },
+        {
+          "timestamp": "2026-06-02T23:33:02Z",
+          "action": "type_change",
+          "contributor": "unknown",
+          "details": "Reclassified from unique to basic"
         }
       ]
     },
@@ -3187,7 +3193,7 @@
       ],
       "derivatives": [
         "superpowers",
-        "gstack",
+        "founder-mode-orchestration",
         "deployment-automation"
       ],
       "conditions": "",
@@ -3228,7 +3234,7 @@
         "text-to-sql-pipeline",
         "humanize-prose",
         "architecture-diagram",
-        "gstack"
+        "founder-mode-orchestration"
       ],
       "conditions": "",
       "evidence": [
@@ -3253,6 +3259,88 @@
           "details": "Skill created as 0★ (provisional)",
           "previousValue": null,
           "newValue": "0★"
+        }
+      ]
+    },
+    {
+      "id": "founder-mode-orchestration",
+      "name": "Founder Mode",
+      "type": "ultimate",
+      "rarity": "legendary",
+      "description": "Garry Tan's complete autonomous agent discipline suite spanning 19 named skills: browser QA, security auditing, design system creation, HTML generation, plan reviews (CEO/eng/design/DX), code review, root-cause debugging, E2E testing, ship/deploy automation, post-deploy canary monitoring, documentation, and founder-mode orchestration.",
+      "prerequisites": [
+        "question-answer",
+        "evaluate-output",
+        "code-review-pipeline",
+        "ux-audit",
+        "vertical-slice-planning",
+        "design-system-extraction",
+        "design-review",
+        "code-generation",
+        "systematic-debugging",
+        "e2e-testing",
+        "finishing-a-development-branch",
+        "deployment-automation",
+        "detect-anomaly",
+        "document-editing",
+        "browser-automation",
+        "security-audit",
+        "browser-control",
+        "web-scrape",
+        "skill-authoring",
+        "write-report",
+        "multi-agent-debate",
+        "skill-performance-benchmarking",
+        "automated-testing",
+        "mcp-integration",
+        "memory-manage",
+        "guardrails",
+        "knowledge-management",
+        "format-output",
+        "workspace-automation",
+        "project-management",
+        "prompt-optimization"
+      ],
+      "derivatives": [],
+      "conditions": "Requires demonstrating all 31 garrytan discipline skills together in a real multi-step context.",
+      "evidence": [],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-05-18",
+      "updatedAt": "2026-06-02",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-05-18T00:00:00Z",
+          "action": "fuse",
+          "contributor": "mbtiongson1",
+          "details": "Fused 5 garrytan/gstack skills into /gstacks ultimate. Components: security-audit, design-review, vertical-slice-planning, browser-automation, question-answer. Promoted to 5★ on evidence: garrytan/gstack 98.9k stars, 8+ platform adoption (Claude Code, Codex CLI, OpenCode, Cursor, Factory Droid, Slate, Kiro, Hermes)."
+        },
+        {
+          "timestamp": "2026-05-18T00:00:00Z",
+          "action": "rank_up",
+          "contributor": "mbtiongson1",
+          "details": "Expanded gstack prerequisites from 25 → 31 via prerequisite graph analysis. Added to gstack: guardrails, knowledge-management, format-output, workspace-automation, project-management, prompt-optimization. Promoted 3 basic nodes to extra tier to carry workflow chain prerequisites: finishing-a-development-branch (prereqs: code-review-pipeline, diff-content), detect-anomaly (prereqs: evaluate-output, error-interpretation), memory-manage (prereqs: context-compression, retrieve)."
+        },
+        {
+          "timestamp": "2026-05-18T12:00:00Z",
+          "action": "rank_up",
+          "contributor": "mbtiongson1",
+          "details": "Expanded prerequisites from 5 to 16 to cover the full garrytan/gstack suite. Added 14 new named skills: plan-ceo-review, plan-eng-review, plan-design-review, plan-devex-review, review, investigate, qa, ship, land-and-deploy, canary, document-generate, design-html, design-consultation, benchmark. Upgraded evidence from Class B to Class A (>=5 named-skills criterion met: 19 named skills). Total named garrytan skills: 19."
+        },
+        {
+          "timestamp": "2026-05-18T16:24:05Z",
+          "action": "propose",
+          "contributor": "mbtiongson1",
+          "details": "Skill created as 5★ (provisional)",
+          "previousValue": null,
+          "newValue": "5★"
+        },
+        {
+          "timestamp": "2026-06-02T23:33:02Z",
+          "action": "rename",
+          "contributor": "unknown",
+          "details": "Renamed from gstack to founder-mode-orchestration"
         }
       ]
     },
@@ -3956,82 +4044,6 @@
       ]
     },
     {
-      "id": "gstack",
-      "name": "Founder Mode",
-      "type": "ultimate",
-      "rarity": "legendary",
-      "description": "Garry Tan's complete autonomous agent discipline suite spanning 19 named skills: browser QA, security auditing, design system creation, HTML generation, plan reviews (CEO/eng/design/DX), code review, root-cause debugging, E2E testing, ship/deploy automation, post-deploy canary monitoring, documentation, and founder-mode orchestration.",
-      "prerequisites": [
-        "question-answer",
-        "evaluate-output",
-        "code-review-pipeline",
-        "ux-audit",
-        "vertical-slice-planning",
-        "design-system-extraction",
-        "design-review",
-        "code-generation",
-        "systematic-debugging",
-        "e2e-testing",
-        "finishing-a-development-branch",
-        "deployment-automation",
-        "detect-anomaly",
-        "document-editing",
-        "browser-automation",
-        "security-audit",
-        "browser-control",
-        "web-scrape",
-        "skill-authoring",
-        "write-report",
-        "multi-agent-debate",
-        "skill-performance-benchmarking",
-        "automated-testing",
-        "mcp-integration",
-        "memory-manage",
-        "guardrails",
-        "knowledge-management",
-        "format-output",
-        "workspace-automation",
-        "project-management",
-        "prompt-optimization"
-      ],
-      "derivatives": [],
-      "conditions": "Requires demonstrating all 31 garrytan discipline skills together in a real multi-step context.",
-      "evidence": [],
-      "knownAgents": [],
-      "status": "provisional",
-      "createdAt": "2026-05-18",
-      "updatedAt": "2026-06-01",
-      "version": "0.1.0",
-      "timeline": [
-        {
-          "timestamp": "2026-05-18T00:00:00Z",
-          "action": "fuse",
-          "contributor": "mbtiongson1",
-          "details": "Fused 5 garrytan/gstack skills into /gstacks ultimate. Components: security-audit, design-review, vertical-slice-planning, browser-automation, question-answer. Promoted to 5★ on evidence: garrytan/gstack 98.9k stars, 8+ platform adoption (Claude Code, Codex CLI, OpenCode, Cursor, Factory Droid, Slate, Kiro, Hermes)."
-        },
-        {
-          "timestamp": "2026-05-18T00:00:00Z",
-          "action": "rank_up",
-          "contributor": "mbtiongson1",
-          "details": "Expanded gstack prerequisites from 25 → 31 via prerequisite graph analysis. Added to gstack: guardrails, knowledge-management, format-output, workspace-automation, project-management, prompt-optimization. Promoted 3 basic nodes to extra tier to carry workflow chain prerequisites: finishing-a-development-branch (prereqs: code-review-pipeline, diff-content), detect-anomaly (prereqs: evaluate-output, error-interpretation), memory-manage (prereqs: context-compression, retrieve)."
-        },
-        {
-          "timestamp": "2026-05-18T12:00:00Z",
-          "action": "rank_up",
-          "contributor": "mbtiongson1",
-          "details": "Expanded prerequisites from 5 to 16 to cover the full garrytan/gstack suite. Added 14 new named skills: plan-ceo-review, plan-eng-review, plan-design-review, plan-devex-review, review, investigate, qa, ship, land-and-deploy, canary, document-generate, design-html, design-consultation, benchmark. Upgraded evidence from Class B to Class A (>=5 named-skills criterion met: 19 named skills). Total named garrytan skills: 19."
-        },
-        {
-          "timestamp": "2026-05-18T16:24:05Z",
-          "action": "propose",
-          "contributor": "mbtiongson1",
-          "details": "Skill created as 5★ (provisional)",
-          "previousValue": null,
-          "newValue": "5★"
-        }
-      ]
-    },
-    {
       "id": "guardrails",
       "name": "Guardrails",
       "type": "extra",
@@ -4043,7 +4055,7 @@
         "structured-output"
       ],
       "derivatives": [
-        "gstack"
+        "founder-mode-orchestration"
       ],
       "conditions": "Requires a defined policy schema and an evaluation loop.",
       "evidence": [
@@ -4455,7 +4467,7 @@
       ],
       "derivatives": [
         "knowledge-harvest",
-        "gstack"
+        "founder-mode-orchestration"
       ],
       "conditions": "",
       "evidence": [
@@ -4777,7 +4789,7 @@
       "prerequisites": [],
       "derivatives": [
         "mcp-server-creation",
-        "gstack"
+        "founder-mode-orchestration"
       ],
       "conditions": "",
       "evidence": [
@@ -4880,7 +4892,7 @@
       "derivatives": [
         "conversational-agent",
         "real-time-voice-assistant",
-        "gstack"
+        "founder-mode-orchestration"
       ],
       "conditions": "",
       "evidence": [
@@ -5089,7 +5101,7 @@
         "chain-of-thought"
       ],
       "derivatives": [
-        "gstack"
+        "founder-mode-orchestration"
       ],
       "conditions": "",
       "evidence": [
@@ -6148,7 +6160,7 @@
         "issue-triage"
       ],
       "derivatives": [
-        "gstack"
+        "founder-mode-orchestration"
       ],
       "conditions": "",
       "evidence": [
@@ -6240,7 +6252,7 @@
       ],
       "derivatives": [
         "registry-curation",
-        "gstack"
+        "founder-mode-orchestration"
       ],
       "conditions": "",
       "evidence": [
@@ -6468,7 +6480,7 @@
         "conversational-agent",
         "multimodal-reasoning",
         "voice-agent",
-        "gstack",
+        "founder-mode-orchestration",
         "brainstorming"
       ],
       "conditions": "",
@@ -7642,7 +7654,7 @@
       ],
       "derivatives": [
         "skill-security-analysis",
-        "gstack"
+        "founder-mode-orchestration"
       ],
       "conditions": "Requires access to the full codebase or diff; output must include severity classification and reproduction steps.",
       "evidence": [
@@ -7986,7 +7998,7 @@
       "derivatives": [
         "skill-performance-benchmarking",
         "registry-curation",
-        "gstack"
+        "founder-mode-orchestration"
       ],
       "conditions": "Requires a target agent skill format and a repeatable evaluation loop for trigger accuracy and task success.",
       "evidence": [
@@ -8199,7 +8211,7 @@
       "derivatives": [
         "registry-curation",
         "registry-health-scan",
-        "gstack"
+        "founder-mode-orchestration"
       ],
       "conditions": "Requires a skill corpus, benchmark tasks, success rubrics, and variance-aware reporting across multiple runs.",
       "evidence": [
@@ -8689,7 +8701,7 @@
       ],
       "derivatives": [
         "superpowers",
-        "gstack"
+        "founder-mode-orchestration"
       ],
       "conditions": "",
       "evidence": [],
@@ -9349,7 +9361,7 @@
       "description": "Systematically evaluates a user interface against established usability heuristics or accessibility standards, producing a scored finding report with remediation recommendations.",
       "prerequisites": [],
       "derivatives": [
-        "gstack"
+        "founder-mode-orchestration"
       ],
       "conditions": "",
       "evidence": [],
@@ -9488,7 +9500,7 @@
         "route-intent"
       ],
       "derivatives": [
-        "gstack"
+        "founder-mode-orchestration"
       ],
       "conditions": "",
       "evidence": [],
@@ -9805,7 +9817,7 @@
       "derivatives": [
         "knowledge-harvest",
         "x-twitter-automation",
-        "gstack"
+        "founder-mode-orchestration"
       ],
       "conditions": "Structured output mode required.",
       "evidence": [
@@ -10033,7 +10045,7 @@
         "document-editing"
       ],
       "derivatives": [
-        "gstack"
+        "founder-mode-orchestration"
       ],
       "conditions": "",
       "evidence": [
@@ -10075,7 +10087,7 @@
         "prd-generation",
         "scientific-writing",
         "architecture-diagram",
-        "gstack"
+        "founder-mode-orchestration"
       ],
       "conditions": "",
       "evidence": [
@@ -10308,12 +10320,12 @@
     },
     {
       "sourceSkillId": "automated-testing",
-      "targetSkillId": "full-stack-developer",
+      "targetSkillId": "founder-mode-orchestration",
       "edgeType": "prerequisite"
     },
     {
       "sourceSkillId": "automated-testing",
-      "targetSkillId": "gstack",
+      "targetSkillId": "full-stack-developer",
       "edgeType": "prerequisite"
     },
     {
@@ -10358,7 +10370,7 @@
     },
     {
       "sourceSkillId": "browser-automation",
-      "targetSkillId": "gstack",
+      "targetSkillId": "founder-mode-orchestration",
       "edgeType": "prerequisite"
     },
     {
@@ -10373,7 +10385,7 @@
     },
     {
       "sourceSkillId": "browser-control",
-      "targetSkillId": "gstack",
+      "targetSkillId": "founder-mode-orchestration",
       "edgeType": "prerequisite"
     },
     {
@@ -10513,7 +10525,7 @@
     },
     {
       "sourceSkillId": "code-generation",
-      "targetSkillId": "gstack",
+      "targetSkillId": "founder-mode-orchestration",
       "edgeType": "prerequisite"
     },
     {
@@ -10548,17 +10560,17 @@
     },
     {
       "sourceSkillId": "code-review-pipeline",
+      "targetSkillId": "founder-mode-orchestration",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "code-review-pipeline",
       "targetSkillId": "full-stack-developer",
       "edgeType": "prerequisite"
     },
     {
       "sourceSkillId": "code-review-pipeline",
       "targetSkillId": "git-integration",
-      "edgeType": "prerequisite"
-    },
-    {
-      "sourceSkillId": "code-review-pipeline",
-      "targetSkillId": "gstack",
       "edgeType": "prerequisite"
     },
     {
@@ -10663,12 +10675,17 @@
     },
     {
       "sourceSkillId": "deployment-automation",
-      "targetSkillId": "git-integration",
+      "targetSkillId": "founder-mode-orchestration",
       "edgeType": "prerequisite"
     },
     {
       "sourceSkillId": "deployment-automation",
-      "targetSkillId": "gstack",
+      "targetSkillId": "git-integration",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "design-review",
+      "targetSkillId": "founder-mode-orchestration",
       "edgeType": "prerequisite"
     },
     {
@@ -10677,18 +10694,13 @@
       "edgeType": "prerequisite"
     },
     {
-      "sourceSkillId": "design-review",
-      "targetSkillId": "gstack",
-      "edgeType": "prerequisite"
-    },
-    {
       "sourceSkillId": "design-system-extraction",
-      "targetSkillId": "gstack",
+      "targetSkillId": "founder-mode-orchestration",
       "edgeType": "prerequisite"
     },
     {
       "sourceSkillId": "detect-anomaly",
-      "targetSkillId": "gstack",
+      "targetSkillId": "founder-mode-orchestration",
       "edgeType": "prerequisite"
     },
     {
@@ -10748,12 +10760,12 @@
     },
     {
       "sourceSkillId": "document-editing",
-      "targetSkillId": "grill-with-docs",
+      "targetSkillId": "founder-mode-orchestration",
       "edgeType": "prerequisite"
     },
     {
       "sourceSkillId": "document-editing",
-      "targetSkillId": "gstack",
+      "targetSkillId": "grill-with-docs",
       "edgeType": "prerequisite"
     },
     {
@@ -10778,7 +10790,7 @@
     },
     {
       "sourceSkillId": "e2e-testing",
-      "targetSkillId": "gstack",
+      "targetSkillId": "founder-mode-orchestration",
       "edgeType": "prerequisite"
     },
     {
@@ -10848,12 +10860,12 @@
     },
     {
       "sourceSkillId": "evaluate-output",
-      "targetSkillId": "grounding",
+      "targetSkillId": "founder-mode-orchestration",
       "edgeType": "prerequisite"
     },
     {
       "sourceSkillId": "evaluate-output",
-      "targetSkillId": "gstack",
+      "targetSkillId": "grounding",
       "edgeType": "prerequisite"
     },
     {
@@ -10928,7 +10940,7 @@
     },
     {
       "sourceSkillId": "finishing-a-development-branch",
-      "targetSkillId": "gstack",
+      "targetSkillId": "founder-mode-orchestration",
       "edgeType": "prerequisite"
     },
     {
@@ -10948,7 +10960,7 @@
     },
     {
       "sourceSkillId": "format-output",
-      "targetSkillId": "gstack",
+      "targetSkillId": "founder-mode-orchestration",
       "edgeType": "prerequisite"
     },
     {
@@ -11023,7 +11035,7 @@
     },
     {
       "sourceSkillId": "guardrails",
-      "targetSkillId": "gstack",
+      "targetSkillId": "founder-mode-orchestration",
       "edgeType": "prerequisite"
     },
     {
@@ -11083,7 +11095,7 @@
     },
     {
       "sourceSkillId": "knowledge-management",
-      "targetSkillId": "gstack",
+      "targetSkillId": "founder-mode-orchestration",
       "edgeType": "prerequisite"
     },
     {
@@ -11113,7 +11125,7 @@
     },
     {
       "sourceSkillId": "mcp-integration",
-      "targetSkillId": "gstack",
+      "targetSkillId": "founder-mode-orchestration",
       "edgeType": "prerequisite"
     },
     {
@@ -11143,7 +11155,7 @@
     },
     {
       "sourceSkillId": "memory-manage",
-      "targetSkillId": "gstack",
+      "targetSkillId": "founder-mode-orchestration",
       "edgeType": "prerequisite"
     },
     {
@@ -11168,7 +11180,7 @@
     },
     {
       "sourceSkillId": "multi-agent-debate",
-      "targetSkillId": "gstack",
+      "targetSkillId": "founder-mode-orchestration",
       "edgeType": "prerequisite"
     },
     {
@@ -11348,12 +11360,12 @@
     },
     {
       "sourceSkillId": "project-management",
-      "targetSkillId": "git-integration",
+      "targetSkillId": "founder-mode-orchestration",
       "edgeType": "prerequisite"
     },
     {
       "sourceSkillId": "project-management",
-      "targetSkillId": "gstack",
+      "targetSkillId": "git-integration",
       "edgeType": "prerequisite"
     },
     {
@@ -11363,7 +11375,7 @@
     },
     {
       "sourceSkillId": "prompt-optimization",
-      "targetSkillId": "gstack",
+      "targetSkillId": "founder-mode-orchestration",
       "edgeType": "prerequisite"
     },
     {
@@ -11393,7 +11405,7 @@
     },
     {
       "sourceSkillId": "question-answer",
-      "targetSkillId": "gstack",
+      "targetSkillId": "founder-mode-orchestration",
       "edgeType": "prerequisite"
     },
     {
@@ -11583,7 +11595,7 @@
     },
     {
       "sourceSkillId": "security-audit",
-      "targetSkillId": "gstack",
+      "targetSkillId": "founder-mode-orchestration",
       "edgeType": "prerequisite"
     },
     {
@@ -11618,7 +11630,7 @@
     },
     {
       "sourceSkillId": "skill-authoring",
-      "targetSkillId": "gstack",
+      "targetSkillId": "founder-mode-orchestration",
       "edgeType": "prerequisite"
     },
     {
@@ -11633,7 +11645,7 @@
     },
     {
       "sourceSkillId": "skill-performance-benchmarking",
-      "targetSkillId": "gstack",
+      "targetSkillId": "founder-mode-orchestration",
       "edgeType": "prerequisite"
     },
     {
@@ -11723,7 +11735,7 @@
     },
     {
       "sourceSkillId": "systematic-debugging",
-      "targetSkillId": "gstack",
+      "targetSkillId": "founder-mode-orchestration",
       "edgeType": "prerequisite"
     },
     {
@@ -11843,7 +11855,7 @@
     },
     {
       "sourceSkillId": "ux-audit",
-      "targetSkillId": "gstack",
+      "targetSkillId": "founder-mode-orchestration",
       "edgeType": "prerequisite"
     },
     {
@@ -11883,7 +11895,7 @@
     },
     {
       "sourceSkillId": "vertical-slice-planning",
-      "targetSkillId": "gstack",
+      "targetSkillId": "founder-mode-orchestration",
       "edgeType": "prerequisite"
     },
     {
@@ -11913,7 +11925,7 @@
     },
     {
       "sourceSkillId": "web-scrape",
-      "targetSkillId": "gstack",
+      "targetSkillId": "founder-mode-orchestration",
       "edgeType": "prerequisite"
     },
     {
@@ -11978,7 +11990,7 @@
     },
     {
       "sourceSkillId": "workspace-automation",
-      "targetSkillId": "gstack",
+      "targetSkillId": "founder-mode-orchestration",
       "edgeType": "prerequisite"
     },
     {
@@ -11988,12 +12000,12 @@
     },
     {
       "sourceSkillId": "write-report",
-      "targetSkillId": "ghostwrite",
+      "targetSkillId": "founder-mode-orchestration",
       "edgeType": "prerequisite"
     },
     {
       "sourceSkillId": "write-report",
-      "targetSkillId": "gstack",
+      "targetSkillId": "ghostwrite",
       "edgeType": "prerequisite"
     },
     {

@@ -7,7 +7,7 @@
   "prerequisites": [],
   "derivatives": [
     "humanize-prose",
-    "gstack"
+    "founder-mode-orchestration"
   ],
   "conditions": "",
   "evidence": [],

@@ -18,7 +18,7 @@ Navigates web pages, fills forms, clicks elements, and extracts information by c
 - [Autonomous Web Research](../extra/autonomous-web-research.md)
 - [End-to-End Testing](../extra/e2e-testing.md)
 - [X/Twitter Automation](../extra/x-twitter-automation.md)
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 
 ## Fusion Condition
 _None specified._

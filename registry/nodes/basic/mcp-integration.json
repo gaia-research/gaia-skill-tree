@@ -7,7 +7,7 @@
   "prerequisites": [],
   "derivatives": [
     "mcp-server-creation",
-    "gstack"
+    "founder-mode-orchestration"
   ],
   "conditions": "",
   "evidence": [

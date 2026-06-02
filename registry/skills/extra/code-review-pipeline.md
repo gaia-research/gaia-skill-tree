@@ -18,7 +18,7 @@ Performs automated code review by generating, diffing, and evaluating code chang
 ## Unlocks
 - [Full-Stack Developer](../extra/full-stack-developer.md)
 - [Security Audit](../extra/security-audit.md)
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 - [Finishing a Development Branch](../extra/finishing-a-development-branch.md)
 - [Subagent-Driven Development](../extra/subagent-driven-development.md)
 - [Requesting Code Review](../extra/requesting-code-review.md)

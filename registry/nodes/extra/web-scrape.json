@@ -12,7 +12,7 @@
   "derivatives": [
     "knowledge-harvest",
     "x-twitter-automation",
-    "gstack"
+    "founder-mode-orchestration"
   ],
   "conditions": "Structured output mode required.",
   "evidence": [

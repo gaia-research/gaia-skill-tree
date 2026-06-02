@@ -2,22 +2,29 @@
 id: anthropic/skill-creator
 name: Skill Creator
 contributor: anthropic
-origin: true
+origin: false
 genericSkillRef: tool-creation
 status: named
-title: "The Skill Forger's Art"
+title: The Skill Forger's Art
 catalogRef: anthropic-skill-creator
-level: "2★"
-description: Interviews the user through a structured dialogue to elicit the skill's purpose, trigger conditions, and step-by-step instructions, then programmatically writes a new SKILL.md file ready for use in a Claude Code or Codex CLI skills directory.
+level: 2★
+description: Interviews the user through a structured dialogue to elicit the skill's
+  purpose, trigger conditions, and step-by-step instructions, then programmatically
+  writes a new SKILL.md file ready for use in a Claude Code or Codex CLI skills directory.
 links:
   github: https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md
 tags:
-  - skill-authoring
-  - meta-agent
-  - claude-code
-  - tool-creation
-createdAt: "2026-04-30"
-updatedAt: "2026-04-30"
+- skill-authoring
+- meta-agent
+- claude-code
+- tool-creation
+createdAt: '2026-04-30'
+updatedAt: '2026-06-02'
+timeline:
+- timestamp: '2026-06-02T23:33:00Z'
+  action: demote
+  contributor: unknown
+  details: Origin status removed. Transferred to mattpocock/write-a-skill.
 ---
 
 ## Overview

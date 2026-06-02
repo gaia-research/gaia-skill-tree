@@ -15,7 +15,7 @@ _None._
 
 ## Unlocks
 - [MCP Server Creation](../extra/mcp-server-creation.md)
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |

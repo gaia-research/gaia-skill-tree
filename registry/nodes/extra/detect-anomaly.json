@@ -10,7 +10,7 @@
   ],
   "derivatives": [
     "registry-health-scan",
-    "gstack"
+    "founder-mode-orchestration"
   ],
   "conditions": "",
   "evidence": [

@@ -10,7 +10,7 @@
   ],
   "derivatives": [
     "design-generation",
-    "gstack"
+    "founder-mode-orchestration"
   ],
   "conditions": "Requires headless browser (Playwright/Puppeteer).",
   "evidence": [],

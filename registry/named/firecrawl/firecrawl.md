@@ -2,22 +2,28 @@
 id: firecrawl/firecrawl
 name: Firecrawl
 contributor: firecrawl
-origin: true
+origin: false
 genericSkillRef: web-scrape
 status: named
-title: "The Web Infuser"
+title: The Web Infuser
 catalogRef: firecrawl-firecrawl
-level: "2★"
-description: Open-source API for AI-oriented web search, scraping, crawling, and structured extraction from websites.
+level: 2★
+description: Open-source API for AI-oriented web search, scraping, crawling, and structured
+  extraction from websites.
 links:
   github: https://github.com/firecrawl/firecrawl
 tags:
-  - web-scrape
-  - search
-  - extraction
-  - crawler
-createdAt: "2026-05-17"
-updatedAt: "2026-05-17"
+- web-scrape
+- search
+- extraction
+- crawler
+createdAt: '2026-05-17'
+updatedAt: '2026-06-02'
+timeline:
+- timestamp: '2026-06-02T23:33:01Z'
+  action: demote
+  contributor: unknown
+  details: Origin status removed. Transferred to garrytan/scrape.
 ---
 
 ## Overview

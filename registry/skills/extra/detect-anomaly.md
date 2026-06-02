@@ -16,7 +16,7 @@ Identifies statistical outliers, novel patterns, or deviations from expected beh
 
 ## Unlocks
 - [Gaia Meta Audit](../extra/registry-health-scan.md)
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 
 ## Fusion Condition
 _None specified._

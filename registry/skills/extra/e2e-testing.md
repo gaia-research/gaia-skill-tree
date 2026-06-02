@@ -15,7 +15,7 @@ Execute full end-to-end user journey tests using browser automation frameworks (
 - [Automated Testing](../extra/automated-testing.md)
 
 ## Unlocks
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 
 ## Fusion Condition
 Requires a live or containerised target environment; browser automation must be available.

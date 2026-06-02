@@ -15,7 +15,7 @@ Manages issues, tasks, projects, and team workflows through structured project m
 - [Issue Triage](../basic/issue-triage.md)
 
 ## Unlocks
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 
 ## Fusion Condition
 _None specified._

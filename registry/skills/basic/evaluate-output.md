@@ -23,7 +23,7 @@ _None._
 - [Agent Evaluation](../extra/agent-eval.md)
 - [Design Review](../extra/design-review.md)
 - [Security Audit](../extra/security-audit.md)
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 - [Detect Anomaly](../extra/detect-anomaly.md)
 
 ## Named Implementations

@@ -20,7 +20,7 @@ _None._
 - [Tool Creation](../extra/tool-creation.md)
 - [ML Pipeline](../extra/ml-pipeline.md)
 - [Skill Authoring](../extra/skill-authoring.md)
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |

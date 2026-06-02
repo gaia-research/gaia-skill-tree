@@ -15,7 +15,7 @@
     "agent-eval",
     "design-review",
     "security-audit",
-    "gstack",
+    "founder-mode-orchestration",
     "detect-anomaly"
   ],
   "conditions": "",

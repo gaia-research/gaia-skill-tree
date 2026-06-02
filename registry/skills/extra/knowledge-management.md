@@ -16,7 +16,7 @@ Organizes, relates, and retrieves information across structured pages, databases
 
 ## Unlocks
 - [Knowledge Harvest](../extra/knowledge-harvest.md)
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 
 ## Fusion Condition
 _None specified._

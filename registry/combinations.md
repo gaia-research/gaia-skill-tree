@@ -37,7 +37,8 @@
 | ◇ [garrytan](../docs/u/garrytan/)/qa-only | Extra Skill | Browser Automation, Automated Testing | 4★ | Requires a live or containerised target environment; browser automation must be available. |
 | ◆ [mattpocock](../docs/u/mattpocock/)/engineering | Ultimate Skill | Autonomous Debug, Refactor Code, Vertical Slice Planning, PRD Generation, Issue Triage, Ubiquitous Language, Code Explain, Grill With Docs, prototype, agent-environment-setup | 5★ |  |
 | ◇ [obra](../docs/u/obra/)/executing-plans | Extra Skill | Writing Plans, Tool Use | 2★ |  |
-| ◇ [obra](../docs/u/obra/)/finishing-a-development-branch | Extra Skill | Code Review Pipeline, Diff Content | 4★ |  |
+| ◇ [garrytan](../docs/u/garrytan/)/ship | Extra Skill | Code Review Pipeline, Diff Content | 4★ |  |
+| ◆ [garrytan](../docs/u/garrytan/)/gstack | Ultimate Skill | Question Answer, Evaluate Output, Code Review Pipeline, UX Audit, Vertical Slice Planning, Design System Extraction, Design Review, Code Generation, Systematic Debugging, End-to-End Testing, Finishing a Development Branch, Deployment Automation, Detect Anomaly, Document Editing, Browser Automation, Security Audit, Browser Control, Web Scrape, Skill Authoring, Write Report, Multi-Agent Debate, Skill Performance Benchmarking, Automated Testing, MCP Integration, Memory Manage, Guardrails, Knowledge Management, Format Output, Workspace Automation, Project Management, Prompt Optimization | 5★ | Requires demonstrating all 31 garrytan discipline skills together in a real multi-step context. |
 | ◇ /full-stack-developer | Extra Skill | Code Review Pipeline, Automated Testing, Refactor Code | — | Requires access to repository, execution environment, and test runner. Minimum 3 Class A/B evidence sources. |
 | ◇ /function-calling | Extra Skill | Structured Output Generation, API Call, Tool Select | — | Requires an available function or tool catalog with machine-readable argument schemas and result contracts. |
 | ◇ /generative-media | Extra Skill | API Call, Data Visualize | — |  |
@@ -47,7 +48,6 @@
 | ◇ [mattpocock](../docs/u/mattpocock/)/grill-me | Extra Skill | Design Review, Self-Critique | 4★ | Enforces a strict questioning loop that prevents the agent from proceeding to implementation until all branches are resolved. |
 | ◇ [mattpocock](../docs/u/mattpocock/)/grill-with-docs | Extra Skill | Grill Me, Ubiquitous Language, Document Editing | 3★ | Requires the agent to maintain a live glossary (CONTEXT.md) and generate ADRs for all non-trivial trade-offs discovered during the grill. |
 | ◇ /grounding | Extra Skill | Retrieve, Cite Sources, Evaluate Output | — |  |
-| ◆ [garrytan](../docs/u/garrytan/)/gstack | Ultimate Skill | Question Answer, Evaluate Output, Code Review Pipeline, UX Audit, Vertical Slice Planning, Design System Extraction, Design Review, Code Generation, Systematic Debugging, End-to-End Testing, Finishing a Development Branch, Deployment Automation, Detect Anomaly, Document Editing, Browser Automation, Security Audit, Browser Control, Web Scrape, Skill Authoring, Write Report, Multi-Agent Debate, Skill Performance Benchmarking, Automated Testing, MCP Integration, Memory Manage, Guardrails, Knowledge Management, Format Output, Workspace Automation, Project Management, Prompt Optimization | 5★ | Requires demonstrating all 31 garrytan discipline skills together in a real multi-step context. |
 | ◇ [garrytan](../docs/u/garrytan/)/careful | Extra Skill | Evaluate Output, Classify, Structured Output Generation | 3★ | Requires a defined policy schema and an evaluation loop. |
 | ◇ /humanize-prose | Extra Skill | Document Editing, Audience Model, Format Output | — | Requires explicit user permission to revise voice, tone, and stylistic markers without changing factual claims. |
 | ◇ [safishamsi](../docs/u/safishamsi/)/graphify | Extra Skill | Extract Entities, Logical Inference | 3★ |  |
@@ -98,22 +98,22 @@
 | ◇ /stealth-browser-interaction | Extra Skill | Browser Automation, Computer Use | — | Requires a stealth-enabled browser driver and session management infrastructure. |
 | ◇ [obra](../docs/u/obra/)/subagent-driven-development | Extra Skill | Executing Plans, Dispatching Parallel Agents, Code Review Pipeline | 4★ |  |
 | ◆ [obra](../docs/u/obra/)/superpowers | Ultimate Skill | Brainstorming, Dispatching Parallel Agents, Executing Plans, Finishing a Development Branch, Receiving Code Review, Requesting Code Review, Subagent-Driven Development, Systematic Debugging, Using Git Worktrees, Verification Before Completion, Writing Plans | 5★ | Requires demonstrating all 11 obra discipline skills together in a real multi-step development context. |
-| ◇ [obra](../docs/u/obra/)/systematic-debugging | Extra Skill | Hypothesis Generation, Error Interpretation | 4★ |  |
+| ◇ [garrytan](../docs/u/garrytan/)/investigate | Extra Skill | Hypothesis Generation, Error Interpretation | 4★ |  |
 | ◇ /text-to-sql-pipeline | Extra Skill | Generate SQL, Parse JSON, Format Output | — | Requires schema context in prompt. |
 | ◇ /tool-chaining | Extra Skill | Tool Use, Tool Select | — | Requires at least two distinct tools whose data schemas are compatible for chaining. |
-| ◇ [anthropic](../docs/u/anthropic/)/skill-creator | Extra Skill | Code Generation, Tool Use | 3★ |  |
+| ◇ [mattpocock](../docs/u/mattpocock/)/write-a-skill | Extra Skill | Code Generation, Tool Use | 3★ |  |
 | ◇ /translation-pipeline | Extra Skill | Translate, Sentiment Analysis, Audience Model | — |  |
 | ◇ /tree-of-thought | Extra Skill | Chain-of-Thought Reasoning, Plan and Decompose | — |  |
 | ◇ [mattpocock](../docs/u/mattpocock/)/ubiquitous-language | Extra Skill | Extract Entities, Requirements Analysis | 4★ | Requires active persistence of terms and immediate conflict resolution during sessions. |
 | ◇ [obra](../docs/u/obra/)/using-git-worktrees | Extra Skill | Code Execution, Tool Use | 2★ |  |
 | ◇ [obra](../docs/u/obra/)/verification-before-completion | Extra Skill | Code Execution, Self-Critique | 2★ |  |
-| ◇ [mattpocock](../docs/u/mattpocock/)/to-issues | Extra Skill | Plan and Decompose, Route Intent | 5★ |  |
+| ◇ [garrytan](../docs/u/garrytan/)/garrytan | Extra Skill | Plan and Decompose, Route Intent | 5★ |  |
 | ◇ [bradautomates](../docs/u/bradautomates/)/claude-video | Extra Skill | Multimodal Reasoning, Speech to Text | 2★ | Requires FFmpeg and multimodal LLM support. |
 | ◇ /voice-agent | Extra Skill | Speech to Text, Question Answer, Text to Speech | — | Requires real-time audio I/O or audio file access. |
 | ◇ /web-accessibility | Extra Skill | Browser Control, UX Audit | — |  |
 | ◇ /web-best-practices | Extra Skill | Code Review Pipeline, Performance Tuning | — |  |
 | ◇ /web-quality-audit | Extra Skill | Gaia Meta Audit, Performance Tuning, search-engine-optimization, web-accessibility, web-best-practices | — |  |
-| ◇ [firecrawl](../docs/u/firecrawl/)/firecrawl | Extra Skill | Web Search, Parse HTML, Extract Entities | 3★ | Structured output mode required. |
+| ◇ [garrytan](../docs/u/garrytan/)/scrape | Extra Skill | Web Search, Parse HTML, Extract Entities | 3★ | Structured output mode required. |
 | ◇ /wiki-search | Extra Skill | Retrieve, Embed Text, Summarize | — | Requires an accessible local wiki or markdown knowledge-base directory and a consistent linking or indexing convention. |
 | ◇ [ruvnet](../docs/u/ruvnet/)/github-workflow-automation | Extra Skill | Plan and Decompose, Tool Use, API Call | 3★ |  |
 | ◇ [garrytan](../docs/u/garrytan/)/gstack-upgrade | Extra Skill | API Call, Document Editing | 2★ |  |

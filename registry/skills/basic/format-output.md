@@ -18,7 +18,7 @@ _None._
 - [Text-to-SQL Pipeline](../extra/text-to-sql-pipeline.md)
 - [Humanize Prose](../extra/humanize-prose.md)
 - [Architecture Diagram](../extra/architecture-diagram.md)
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |

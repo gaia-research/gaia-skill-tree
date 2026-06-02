@@ -9,7 +9,7 @@
     "automated-testing"
   ],
   "derivatives": [
-    "gstack"
+    "founder-mode-orchestration"
   ],
   "conditions": "Requires a live or containerised target environment; browser automation must be available.",
   "evidence": [

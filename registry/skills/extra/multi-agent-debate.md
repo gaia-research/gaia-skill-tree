@@ -16,7 +16,7 @@ Runs multiple LLM agents that propose, critique, and iteratively refine answers 
 - [Chain-of-Thought Reasoning](../basic/chain-of-thought.md)
 
 ## Unlocks
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 
 ## Fusion Condition
 _None specified._

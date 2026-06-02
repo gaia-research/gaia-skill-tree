@@ -17,7 +17,7 @@ _None._
 - [Conversational Agent](../extra/conversational-agent.md)
 - [Multimodal Reasoning](../extra/multimodal-reasoning.md)
 - [Voice Agent](../extra/voice-agent.md)
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 - [Brainstorming](../extra/brainstorming.md)
 
 ## Named Implementations

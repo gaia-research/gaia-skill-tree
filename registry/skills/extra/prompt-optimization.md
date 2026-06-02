@@ -16,7 +16,7 @@ Automatically improves prompt instructions through iterative compilation, treati
 
 ## Unlocks
 - [Registry Curation](../extra/registry-curation.md)
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 
 ## Fusion Condition
 _None specified._

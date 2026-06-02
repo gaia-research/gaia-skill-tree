@@ -15,7 +15,7 @@ Stress-tests a plan or design through relentless targeted questioning, walking t
 - [Plan and Decompose](../basic/plan-decompose.md)
 
 ## Unlocks
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 
 ## Fusion Condition
 _None specified._

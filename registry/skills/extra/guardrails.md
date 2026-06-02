@@ -16,7 +16,7 @@ Wraps LLM outputs with programmatic safety rules, content filters, and topical c
 - [Structured Output Generation](../basic/structured-output.md)
 
 ## Unlocks
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 
 ## Fusion Condition
 Requires a defined policy schema and an evaluation loop.
