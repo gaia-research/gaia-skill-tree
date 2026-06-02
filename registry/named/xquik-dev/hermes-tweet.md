@@ -9,7 +9,7 @@ level: 4★
 description: Installable Hermes Agent skill and plugin for X/Twitter search, reply
   reading, user lookup, monitoring, follower export, and approval-gated write actions.
 links:
-  github: https://github.com/Xquik-dev/hermes-tweet
+  github: https://github.com/Xquik-dev/hermes-tweet/blob/master/skills/hermes-tweet/SKILL.md
   docs: https://docs.xquik.com/guides/hermes-tweet
 tags:
 - x-twitter

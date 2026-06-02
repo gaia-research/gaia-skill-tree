@@ -7,9 +7,10 @@ genericSkillRef: few-shot-learning
 status: named
 title: "The In-Context Learner"
 catalogRef: openai-few-shot-learning
-level: "4★"
+level: "2★"
 description: Conditions the model on a small set of examples within the prompt to adapt to new tasks without weight updates.
 links:
+  installable: false
   arxiv: https://arxiv.org/abs/2005.14165
 tags:
   - few-shot

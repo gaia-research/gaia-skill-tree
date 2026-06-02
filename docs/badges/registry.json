@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-01",
+  "generatedAt": "2026-06-02",
   "schema": "gaia-badges-registry/2",
   "description": "Approved repos per contributor for Gaia README badges. Derived from registry/named-skills.json `links.github` URLs. The site Worker at worker/index.js handles /badges/<handle>/<file>.svg (the real SVGs live at /badges/_assets/<handle>/<file>.svg) and serves the `validating\u2026` SVG (docs/badges/not-found.svg) when the `?repo=` query string doesn't match a repo listed here. Schema v2 adds `fileSeal` for the seal-only (no 'Gaia' wordmark) variant.",
   "contributors": {
@@ -548,7 +548,7 @@
           "addy-osmani/test-driven-development"
         ]
       },
-      "topSkill": "addy-osmani/test-driven-development",
+      "topSkill": "addy-osmani/performance-optimization",
       "topRank": 3,
       "topIsUnique": false,
       "count": 2,
@@ -1078,7 +1078,7 @@
           "anthropic/skill-creator"
         ]
       },
-      "topSkill": "anthropic/pptx",
+      "topSkill": "anthropic/skill-creator",
       "topRank": 2,
       "topIsUnique": false,
       "count": 2,
@@ -2063,10 +2063,10 @@
     },
     "karpathy": {
       "repos": [
-        "karpathy/autoresearch"
+        "balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill"
       ],
       "skillsByRepo": {
-        "karpathy/autoresearch": [
+        "balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill": [
           "karpathy/autoresearch"
         ]
       },
@@ -2165,14 +2165,14 @@
       "repos": [],
       "skillsByRepo": {},
       "topSkill": "openai/few-shot-learning",
-      "topRank": 4,
+      "topRank": 2,
       "topIsUnique": false,
       "count": 2,
       "namedSkills": [
         {
           "id": "openai/few-shot-learning",
           "name": "Few-Shot Learning",
-          "rank": 4,
+          "rank": 2,
           "type": "basic",
           "slash": "/few-shot-learning",
           "file": "few-shot-learning.svg",
@@ -2181,7 +2181,7 @@
         {
           "id": "openai/self-consistency",
           "name": "Self-Consistency",
-          "rank": 4,
+          "rank": 2,
           "type": "basic",
           "slash": "/self-consistency",
           "file": "self-consistency.svg",

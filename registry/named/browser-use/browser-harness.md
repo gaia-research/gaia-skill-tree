@@ -10,7 +10,7 @@ level: 2★
 description: Self-healing harness for direct browser control via CDP, enabling agents
   to write custom helpers at runtime.
 links:
-  github: https://github.com/browser-use/browser-harness
+  github: https://github.com/browser-use/browser-harness/blob/main/SKILL.md
 tags:
 - browser
 - cdp

@@ -10,7 +10,7 @@ level: 3★
 description: Agentic job search pipeline that automates scanning, fit scoring, and
   CV tailoring.
 links:
-  github: https://github.com/santifer/career-ops
+  github: https://github.com/santifer/career-ops/blob/main/.agents/skills/career-ops/SKILL.md
 tags:
 - career
 - job-search

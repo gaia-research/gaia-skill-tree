@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-01",
+  "generatedAt": "2026-06-02",
   "buckets": {
     "automated-testing": [
       {
@@ -23,7 +23,7 @@
           "mocking"
         ],
         "links": {
-          "github": "https://github.com/aiskillstore/marketplace/blob/main/skills/0xdarkmatter/python-pytest-patterns"
+          "github": "https://github.com/aiskillstore/marketplace/blob/main/skills/0xdarkmatter/python-pytest-patterns/SKILL.md"
         },
         "createdAt": "2026-04-30",
         "updatedAt": "2026-04-30",
@@ -61,7 +61,7 @@
         "id": "Manavarya09/design-extract",
         "name": "Design Extract",
         "contributor": "Manavarya09",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "design-system-extraction",
         "status": "named",
         "level": "2★",
@@ -85,15 +85,23 @@
           }
         ],
         "createdAt": "2026-05-14",
-        "updatedAt": "2026-05-14",
+        "updatedAt": "2026-06-02",
+        "timeline": [
+          {
+            "timestamp": "2026-06-02T01:43:00Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Origin status set to false."
+          }
+        ],
         "type": "extra",
-        "role": "origin"
+        "role": "variant"
       },
       {
         "id": "garrytan/design-consultation",
         "name": "Design Consultation",
         "contributor": "garrytan",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "design-system-extraction",
         "status": "named",
         "level": "4★",
@@ -110,10 +118,18 @@
           "github": "https://github.com/garrytan/gstack/blob/main/design-consultation/SKILL.md"
         },
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
+        "updatedAt": "2026-06-02",
+        "timeline": [
+          {
+            "timestamp": "2026-06-02T01:43:00Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true (highest-rated in design-system-extraction bucket)."
+          }
+        ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
-        "role": "variant"
+        "role": "origin"
       }
     ],
     "performance-tuning": [
@@ -121,7 +137,7 @@
         "id": "addy-osmani/performance-optimization",
         "name": "Performance Optimization",
         "contributor": "addy-osmani",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "performance-tuning",
         "status": "named",
         "level": "3★",
@@ -147,7 +163,7 @@
           }
         ],
         "createdAt": "2026-05-31",
-        "updatedAt": "2026-05-31",
+        "updatedAt": "2026-06-02",
         "timeline": [
           {
             "timestamp": "2026-05-31T02:15:44Z",
@@ -160,17 +176,23 @@
             "action": "installation_updated",
             "contributor": "unknown",
             "details": "Replaced ## Installation section from /tmp/perf_install.md"
+          },
+          {
+            "timestamp": "2026-06-02T01:43:00Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
           }
         ],
         "type": "basic",
         "installBody": "Install via [gaia](https://github.com/mbtiongson1/gaia-skill-tree):\n\n```bash\ngaia skills install https://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md\n```\n\nOr copy the raw skill file directly into your agent context:\n\n```\nhttps://github.com/addyosmani/agent-skills/blob/main/skills/performance-optimization/SKILL.md\n```\n\n**Usage**: Invoke `/performance-optimization` (Claude Code) to trigger the measurement-driven 5-step performance audit workflow.",
-        "role": "variant"
+        "role": "origin"
       },
       {
         "id": "ruvnet/performance-analysis",
         "name": "Performance Analysis",
         "contributor": "ruvnet",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "performance-tuning",
         "status": "named",
         "level": "2★",
@@ -188,10 +210,18 @@
           "github": "https://github.com/ruvnet/ruflo"
         },
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-05-19",
+        "updatedAt": "2026-06-02",
+        "timeline": [
+          {
+            "timestamp": "2026-06-02T01:43:00Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Origin status removed. Transferred to addy-osmani/performance-optimization."
+          }
+        ],
         "suiteRef": "ruvnet/ruflo",
         "type": "basic",
-        "role": "origin"
+        "role": "variant"
       },
       {
         "id": "ruvnet/v3-performance-optimization",
@@ -275,7 +305,7 @@
         "id": "anthropic/pptx",
         "name": "PPTX Editor",
         "contributor": "anthropic",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "document-editing",
         "status": "named",
         "level": "2★",
@@ -302,15 +332,23 @@
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-04-30",
+        "updatedAt": "2026-06-02",
+        "timeline": [
+          {
+            "timestamp": "2026-06-02T01:42:58Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Origin status removed. Transferred to mattpocock/edit-article."
+          }
+        ],
         "type": "basic",
-        "role": "origin"
+        "role": "variant"
       },
       {
         "id": "garrytan/document-generate",
         "name": "Document Generate",
         "contributor": "garrytan",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "document-editing",
         "status": "named",
         "level": "4★",
@@ -327,10 +365,18 @@
           "github": "https://github.com/garrytan/gstack/blob/main/document-generate/SKILL.md"
         },
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
+        "updatedAt": "2026-06-02",
+        "timeline": [
+          {
+            "timestamp": "2026-06-02T01:43:00Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true (highest-rated in document-editing bucket)."
+          }
+        ],
         "suiteRef": "garrytan/gstack",
         "type": "basic",
-        "role": "variant"
+        "role": "origin"
       },
       {
         "id": "garrytan/document-release",
@@ -379,7 +425,15 @@
           "github": "https://github.com/mattpocock/skills/blob/main/skills/personal/edit-article/SKILL.md"
         },
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-04-30",
+        "updatedAt": "2026-06-02",
+        "timeline": [
+          {
+            "timestamp": "2026-06-02T01:42:59Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
+          }
+        ],
         "suiteRef": "mattpocock/personal",
         "type": "basic",
         "role": "variant"
@@ -456,7 +510,7 @@
           "vision"
         ],
         "links": {
-          "github": "https://github.com/bradautomates/claude-video"
+          "github": "https://github.com/bradautomates/claude-video/blob/main/SKILL.md"
         },
         "evidence": [
           {
@@ -490,7 +544,7 @@
           "automation"
         ],
         "links": {
-          "github": "https://github.com/browser-use/browser-harness"
+          "github": "https://github.com/browser-use/browser-harness/blob/main/SKILL.md"
         },
         "evidence": [
           {
@@ -1209,7 +1263,7 @@
         "id": "garrytan/design-html",
         "name": "Design HTML",
         "contributor": "garrytan",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "code-generation",
         "status": "named",
         "level": "4★",
@@ -1226,10 +1280,18 @@
           "github": "https://github.com/garrytan/gstack/blob/main/design-html/SKILL.md"
         },
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
+        "updatedAt": "2026-06-02",
+        "timeline": [
+          {
+            "timestamp": "2026-06-02T01:42:59Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
+          }
+        ],
         "suiteRef": "garrytan/gstack",
         "type": "basic",
-        "role": "variant"
+        "role": "origin"
       }
     ],
     "ux-audit": [
@@ -1339,7 +1401,7 @@
         "id": "martin-stepanoski/nielsen-heuristics-audit",
         "name": "Nielsen Heuristics Audit",
         "contributor": "martin-stepanoski",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "ux-audit",
         "status": "named",
         "level": "2★",
@@ -1366,15 +1428,23 @@
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-04-30",
+        "updatedAt": "2026-06-02",
+        "timeline": [
+          {
+            "timestamp": "2026-06-02T01:42:59Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Origin status removed. Transferred to pbakaus/impeccable."
+          }
+        ],
         "type": "basic",
-        "role": "origin"
+        "role": "variant"
       },
       {
         "id": "pbakaus/impeccable",
         "name": "Impeccable",
         "contributor": "pbakaus",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "ux-audit",
         "status": "named",
         "level": "4★",
@@ -1387,7 +1457,7 @@
           "polishing"
         ],
         "links": {
-          "github": "https://github.com/pbakaus/impeccable"
+          "github": "https://github.com/pbakaus/impeccable/blob/main/.agents/skills/impeccable/SKILL.md"
         },
         "evidence": [
           {
@@ -1399,9 +1469,17 @@
           }
         ],
         "createdAt": "2026-05-14",
-        "updatedAt": "2026-05-14",
+        "updatedAt": "2026-06-02",
+        "timeline": [
+          {
+            "timestamp": "2026-06-02T01:42:59Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
+          }
+        ],
         "type": "basic",
-        "role": "variant"
+        "role": "origin"
       }
     ],
     "design-review": [
@@ -1553,7 +1631,7 @@
           "ultimate"
         ],
         "links": {
-          "github": "https://github.com/garrytan/gstack"
+          "github": "https://github.com/garrytan/gstack/blob/main/SKILL.md"
         },
         "evidence": [
           {
@@ -2168,6 +2246,16 @@
         "description": "Declarative programming of language model pipelines, automatically optimizing prompts and RAG retrieval using bootstrapping and teleprompters.",
         "title": "The Programmatic Prompt Engineer",
         "catalogRef": "stanfordnlp-dspy",
+        "createdAt": "2026-06-02",
+        "updatedAt": "2026-06-02",
+        "timeline": [
+          {
+            "timestamp": "2026-06-02T01:44:00Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "No installable code available (research framework); marked installable: false."
+          }
+        ],
         "type": "extra",
         "role": "origin"
       }
@@ -2932,8 +3020,17 @@
           "paper-synthesis"
         ],
         "links": {
-          "github": "https://github.com/karpathy/autoresearch"
+          "github": "https://github.com/balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill/blob/main/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/karpathy/autoresearch",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-02",
+            "notes": "Karpathy's autoresearch repo serving as the evidence/inspiration for the skill."
+          }
+        ],
         "createdAt": "2026-04-29",
         "updatedAt": "2026-04-30",
         "type": "extra",
@@ -4451,7 +4548,7 @@
         "origin": true,
         "genericSkillRef": "few-shot-learning",
         "status": "named",
-        "level": "4★",
+        "level": "2★",
         "description": "Conditions the model on a small set of examples within the prompt to adapt to new tasks without weight updates.",
         "title": "The In-Context Learner",
         "catalogRef": "openai-few-shot-learning",
@@ -4463,6 +4560,7 @@
           "unique"
         ],
         "links": {
+          "installable": false,
           "arxiv": "https://arxiv.org/abs/2005.14165"
         },
         "createdAt": "2026-05-15",
@@ -4479,7 +4577,7 @@
         "origin": false,
         "genericSkillRef": "self-consistency",
         "status": "named",
-        "level": "4★",
+        "level": "2★",
         "description": "Samples multiple reasoning paths and selects the most consistent answer by majority vote.",
         "title": "The Majority Consensus",
         "catalogRef": "openai-self-consistency",
@@ -4491,6 +4589,7 @@
           "unique"
         ],
         "links": {
+          "installable": false,
           "arxiv": "https://arxiv.org/abs/2203.11171"
         },
         "createdAt": "2026-05-15",
@@ -5849,7 +5948,7 @@
           "automation"
         ],
         "links": {
-          "github": "https://github.com/santifer/career-ops"
+          "github": "https://github.com/santifer/career-ops/blob/main/.agents/skills/career-ops/SKILL.md"
         },
         "evidence": [
           {
@@ -6007,7 +6106,7 @@
         "packaging"
       ],
       "links": {
-        "github": "https://github.com/mbtiongson1/gaia-skill-tree"
+        "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-triage/SKILL.md"
       },
       "createdAt": "2026-05-10",
       "updatedAt": "2026-05-10",
@@ -6046,7 +6145,7 @@
       "level": "4★",
       "description": "Retrieve and analyze AlphaFold predicted structures for a protein. Use when the user provides a specific UniProt Accession ID and wants structural confidence metrics (pLDDT), domain boundary analysis, or disorder assessment. Do not use if the user only has a protein name, gene name, or amino acid sequence — ask for a UniProt ID first.",
       "links": {
-        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze"
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze/SKILL.md"
       },
       "evidence": [
         {
@@ -6071,7 +6170,7 @@
       "level": "3★",
       "description": "Analyzes genetic variant effects on gene expression (RNA-seq), chromatin accessibility (DNASE), histone marks (ChIP), and transcription factors using the AlphaGenome API. Use when the user asks about non-coding variant effects, pathogenicity, clinical significance, disease associations, functional effects, gene expression changes, splicing disruption, or regulatory effects in promoters and enhancers. Also use for resolving biological terms to tissue/cell-type ontologies (UBERON/CL) or analyzing variants in chr:pos:ref>alt format.",
       "links": {
-        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/alphagenome_single_variant_analysis"
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/alphagenome_single_variant_analysis/SKILL.md"
       },
       "evidence": [
         {
@@ -6096,7 +6195,7 @@
       "level": "2★",
       "description": "Query the ChEMBL database for bioactive molecules, drug targets, bioactivity data, approved drugs, and chemical structures. Use when the user asks about compounds, targets, IC50/Ki values, drug mechanisms, or structure searches.",
       "links": {
-        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/chembl_database"
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/chembl_database/SKILL.md"
       },
       "evidence": [
         {
@@ -6121,7 +6220,7 @@
       "level": "2★",
       "description": "Query ClinicalTrials.gov via APIv2. Use when you want to search for trials by condition, drug, location, status, or phase; retrieve trial details by NCT ID; check eligibility/inclusion criteria; count trials across conditions or time periods; identify a sponsor's trial portfolio; find recruiting trials for patient matching.",
       "links": {
-        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/clinical_trials_database"
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/clinical_trials_database/SKILL.md"
       },
       "evidence": [
         {
@@ -6146,7 +6245,7 @@
       "level": "2★",
       "description": "Use when needing clinical significance, pathogenicity classifications (e.g., Pathogenic, Benign, VUS), clinical evidence rationales, or finding \"hard positive\" benchmark controls for human genomic variants.",
       "links": {
-        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/clinvar_database"
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/clinvar_database/SKILL.md"
       },
       "evidence": [
         {
@@ -6171,7 +6270,7 @@
       "level": "2★",
       "description": "Use when you want to look up, map, and search for short genetic variants (SNPs, indels) in NCBI's dbSNP database. Resolves between rsIDs, genomic coordinates in VCF format, and HGVS strings. For an rsID, returns variant type, gene associations, clinical significance, allele frequencies, and genomic coordinates (GRCh38).",
       "links": {
-        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/dbsnp_database"
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/dbsnp_database/SKILL.md"
       },
       "evidence": [
         {
@@ -6196,7 +6295,7 @@
       "level": "2★",
       "description": "Query and search the EMBL-EBI Ontology Lookup Service (OLS) for biomedical ontology terms, definitions, and hierarchies across 250+ ontologies (e.g., GO, DOID, HP). Use when the user asks to search for terms, retrieve details, navigate hierarchies (parents, children, ancestors), look up properties and individuals, get autocomplete suggestions, or access ontology metadata and statistics.",
       "links": {
-        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/embl_ebi_ols"
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/embl_ebi_ols/SKILL.md"
       },
       "evidence": [
         {
@@ -6221,7 +6320,7 @@
       "level": "2★",
       "description": "Query the ENCODE Registry of cis-Regulatory Elements (cCREs) via the SCREEN GraphQL API, or make custom queries to the ENCODE Portal REST API for experiments and files (ChIP-seq peaks, etc.). Use when you want to query regulatory annotations or raw experimental data across human cell types.",
       "links": {
-        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/encode_ccres_database"
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/encode_ccres_database/SKILL.md"
       },
       "evidence": [
         {
@@ -6246,7 +6345,7 @@
       "level": "2★",
       "description": "Query the Ensembl database to resolve gene, transcript, and protein IDs, fetch genomic or protein sequences, retrieve gene structures (exons), and get variant consequence and effect predictions (VEP). Use this skill as a primary ID translator, genomic sequence database and variant effect prediction tool.",
       "links": {
-        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/ensembl_database"
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/ensembl_database/SKILL.md"
       },
       "evidence": [
         {
@@ -6271,7 +6370,7 @@
       "level": "2★",
       "description": "Performs 3D structural searches of proteins against various databases (PDB, AlphaFold, CATH, MGnify, etc.) using the Foldseek API. Use ONLY when the user provides a physical 3D coordinate file (.cif, .mmcif, or .pdb) and wants to find structurally similar proteins. Do NOT use if the user only provides a protein sequence, gene name, or UniProt ID.",
       "links": {
-        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/foldseek_structural_search"
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/foldseek_structural_search/SKILL.md"
       },
       "evidence": [
         {
@@ -6296,7 +6395,7 @@
       "level": "2★",
       "description": "Query the Genome Aggregation Database (gnomAD). Use when determining the rarity or allele frequency of specific genetic variants, retrieving gene constraint metrics (pLI, LOEUF) to assess loss-of-function intolerance, finding variants in a genomic region or gene, or querying structural variants. Don't use for analyzing individual patient genomes, tracking somatic mutations in cancer (use COSMIC), or requesting raw sequencing reads (use ENA).",
       "links": {
-        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/gnomad_database"
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/gnomad_database/SKILL.md"
       },
       "evidence": [
         {
@@ -6321,7 +6420,7 @@
       "level": "2★",
       "description": "Use when you want to retrieve quantitative RNA expression data and variant eQTL information from the GTEx (Genotype-Tissue Expression) Project across 54 non-diseased tissue sites.",
       "links": {
-        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/gtex_database"
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/gtex_database/SKILL.md"
       },
       "evidence": [
         {
@@ -6346,7 +6445,7 @@
       "level": "2★",
       "description": "Use when you want to retrieve semi-quantitative protein expression and spatial localisation data from the Human Protein Atlas (HPA).",
       "links": {
-        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/human_protein_atlas_database"
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/human_protein_atlas_database/SKILL.md"
       },
       "evidence": [
         {
@@ -6371,7 +6470,7 @@
       "level": "2★",
       "description": "Identify domains, families, and sites in proteins; find all proteins in a family or sharing a domain; explore species distribution for a domain; annotate genomes with protein families and GO terms. InterPro combines 14 databases (e.g., Pfam, CDD) into one searchable resource. InterPro-N significantly expands annotation and sequence coverage with deep learning. Includes domain architecture (IDA) search.",
       "links": {
-        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/interpro_database"
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/interpro_database/SKILL.md"
       },
       "evidence": [
         {
@@ -6396,7 +6495,7 @@
       "level": "2★",
       "description": "Query the JASPAR database for Transcription Factor (TF) binding profiles. Use when retrieving Position Frequency Matrices (PFMs) or Position Weight Matrices (PWMs) for specific TFs, resolving gene symbols to JASPAR Matrix IDs, or getting TF metadata. Supports multiple output formats (MEME, TRANSFAC, PFM, JASPAR, YAML).",
       "links": {
-        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/jaspar_database"
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/jaspar_database/SKILL.md"
       },
       "evidence": [
         {
@@ -6421,7 +6520,7 @@
       "level": "2★",
       "description": "Search for scientific papers, preprints, and publications on arXiv. Extract metadata, abstracts, and download full-text PDFs or HTML versions of papers. Use when the user asks to find research papers, literature, or specific arXiv IDs.",
       "links": {
-        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_arxiv"
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_arxiv/SKILL.md"
       },
       "evidence": [
         {
@@ -6446,7 +6545,7 @@
       "level": "2★",
       "description": "Browse, filter, and download life sciences, biology, and medical preprints from bioRxiv and medRxiv. Supports fetching paper metadata by DOI, and browsing by date range with category and keyword filters. Keyword filtering is local, so date ranges MUST be narrow (1-4 weeks) with a category to prevent timeouts.",
       "links": {
-        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_biorxiv"
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_biorxiv/SKILL.md"
       },
       "evidence": [
         {
@@ -6471,7 +6570,7 @@
       "level": "2★",
       "description": "Search Europe PMC for scientific literature and download open-access full texts and PDFs. Retrieve full-text XML/plain text by PMCID, get citation lists and bibliography.",
       "links": {
-        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_europepmc"
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_europepmc/SKILL.md"
       },
       "evidence": [
         {
@@ -6496,7 +6595,7 @@
       "level": "2★",
       "description": "Query the OpenAlex scholarly database for research papers, authors, institutions, topics, sources, publishers, funders, geo-locations, and keywords. Use when searching academic papers, resolving DOIs, downloading open-access PDFs, finding an author's publications, aggregating bibliometric data (citation counts, h-index, impact factor), exploring the research taxonomies, or performing DOI lookups.",
       "links": {
-        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_openalex"
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_openalex/SKILL.md"
       },
       "evidence": [
         {
@@ -6521,7 +6620,7 @@
       "level": "2★",
       "description": "Retrieve protein and nucleotide sequences from NCBI databases using E-utilities. Supports direct accession lookup, CDS translation, gene+organism search, locus lookup, PubMed-linked sequences, patent protein extraction, and organism+length fallback search. Use when you need to fetch biological sequences by accession, gene name, locus tag, PubMed ID, or patent number.",
       "links": {
-        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/ncbi_sequence_fetch"
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/ncbi_sequence_fetch/SKILL.md"
       },
       "evidence": [
         {
@@ -6546,7 +6645,7 @@
       "level": "2★",
       "description": "Query, search, and download data from the openFDA API for drugs, devices, foods, tobacco, cosmetics, animal and veterinary products, substances, and transparency data. Use for FDA adverse events, recalls, labeling, approvals, shortages, 510(k) clearances, NDC lookups, and any FDA safety or regulatory data query across all 28 API endpoints.",
       "links": {
-        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/openfda_database"
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/openfda_database/SKILL.md"
       },
       "evidence": [
         {
@@ -6571,7 +6670,7 @@
       "level": "2★",
       "description": "Query Open Targets Platform for target-disease associations, drug target discovery, tractability/safety data, genetics/omics evidence, known drugs, for therapeutic target identification.",
       "links": {
-        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/opentargets_database"
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/opentargets_database/SKILL.md"
       },
       "evidence": [
         {
@@ -6596,7 +6695,7 @@
       "level": "2★",
       "description": "Use when you want to search for or download experimentally-determined 3D structures for biomolecules (proteins, nucleic acids, bound ligands). Supports searching by sequence similarity, structure similarity, chemical and other attributes. Also use to get metadata about biomolecular structure experiments.",
       "links": {
-        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/pdb_database"
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/pdb_database/SKILL.md"
       },
       "evidence": [
         {
@@ -6621,7 +6720,7 @@
       "level": "3★",
       "description": "Performs multiple sequence alignment of proteins with EBI Clustal Omega. Use when you need to align multiple sequences to assess similarity, domain conservation, or key residue conservation. Supports up to 4000 sequences and a maximum file size of 4 MB. Do not use to search for homologous proteins in a database (use MMseqs2, BLAST), align non-protein sequences (DNA, RNA), perform structural alignment (use Foldseek, PyMOL), or if you only have a single sequence.",
       "links": {
-        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_msa"
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_msa/SKILL.md"
       },
       "evidence": [
         {
@@ -6646,7 +6745,7 @@
       "level": "2★",
       "description": "Searches for homologous protein sequences using MMseqs2 (fast, default) or BLAST (comprehensive, fallback). Trigger this whenever the user provides a protein sequence or FASTA file and asks to find homologues, sequence matches, or wants to infer protein function based on sequence similarity, but not when the user wants to infer protein function based on structural similarity.",
       "links": {
-        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_similarity_search"
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_similarity_search/SKILL.md"
       },
       "evidence": [
         {
@@ -6678,7 +6777,7 @@
       "level": "2★",
       "description": "Query PubChem, search by name/CID/SMILES, retrieve properties, similarity/substructure searches, bioactivity, for cheminformatics. Use when a user asks about a specific chemical, drug, or molecule.",
       "links": {
-        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/pubchem_database"
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/pubchem_database/SKILL.md"
       },
       "evidence": [
         {
@@ -6703,7 +6802,7 @@
       "level": "2★",
       "description": "Search PubMed for scientific literature, including published clinical trials. Fetch abstracts and full text. Link published research to biological databases (gene, protein, nucleotide, PubChem) to discover associations between papers and specific compounds or genes. Verify medical spelling, match raw citations, and cache result sets for bulk processing. Interfaces NCBI E-utilities and PMC BioC APIs.",
       "links": {
-        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/pubmed_database"
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/pubmed_database/SKILL.md"
       },
       "evidence": [
         {
@@ -6728,7 +6827,7 @@
       "level": "2★",
       "description": "Visualize, analyze, and render protein and molecular structures using PyMOL. Use when the user wants to create images of protein structures, perform structural alignments or superposition, measure distances or contacts, highlight binding sites or active site residues, color by B-factor/pLDDT, or analyze protein-ligand interactions. Do not use for docking, molecular dynamics, or sequence-only analysis.",
       "links": {
-        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/pymol"
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md"
       },
       "evidence": [
         {
@@ -6753,7 +6852,7 @@
       "level": "2★",
       "description": "Query the QuickGO and Evidence & Conclusion Ontology (ECO) REST API. Use this when you need to map genes to biological processes, molecular functions, or cellular components, find genes associated with a specific pathway/GO term, or explore the Gene Ontology hierarchy. Do not use for querying drug targets (use OpenTargets) or mechanistic signaling pathway diagrams (use KEGG).",
       "links": {
-        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/quickgo_database"
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/quickgo_database/SKILL.md"
       },
       "evidence": [
         {
@@ -6778,7 +6877,7 @@
       "level": "2★",
       "description": "Query the Reactome database (Analysis and Content Services). Use when the user asks about pathway analysis, gene list enrichment, retrieving results by token, finding unmapped or not-found identifiers, mapping identifiers, reaction participants (inputs, outputs), pathway hierarchy (including top-level pathways), diagram export, cross-reference mapping, or searching the knowledgebase.",
       "links": {
-        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/reactome_database"
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/reactome_database/SKILL.md"
       },
       "evidence": [
         {
@@ -6828,7 +6927,7 @@
       "level": "2★",
       "description": "Query the STRING database for protein-protein interactions (PPIs), functional enrichment, and homology. Use when the user asks about interactions between specific proteins, interaction evidence, confidence scores, protein interaction partners, or pathway enrichments.",
       "links": {
-        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/string_database"
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/string_database/SKILL.md"
       },
       "evidence": [
         {
@@ -6853,7 +6952,7 @@
       "level": "2★",
       "description": "Fetch Evolutionary Conservation scores (phyloP, phastCons) and Transcription Factor Binding Sites (TFBS) from the UCSC Genome Browser. Use when analyzing whether genomic variants or regions are evolutionarily conserved, functionally important, or bounded by TF regulators across major projects (ENCODE, JASPAR, ReMap).",
       "links": {
-        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/ucsc_conservation_and_tfbs"
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/ucsc_conservation_and_tfbs/SKILL.md"
       },
       "evidence": [
         {
@@ -6878,7 +6977,7 @@
       "level": "2★",
       "description": "Queries the UniBind database for experimentally validated transcription factor (TF) binding sites. Use when retrieving direct TF-DNA interaction datasets, downloading binding site coordinates (BED/FASTA) for local analysis, or listing available datasets by species, cell line, or TF name. Don't use to query specific intervals, locations, genes, motif models or expression data.",
       "links": {
-        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/unibind_database"
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/unibind_database/SKILL.md"
       },
       "evidence": [
         {
@@ -6903,7 +7002,7 @@
       "level": "2★",
       "description": "Access protein metadata, function, taxonomy, and sequences across UniProtKB, UniParc, and UniRef. Use when searching for proteins, mapping identifiers, or retrieving functional annotations and publications. Don't use for sequence alignment, protein folding, or sequence similarity search (use specialized skills for those tasks).",
       "links": {
-        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/uniprot_database"
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/uniprot_database/SKILL.md"
       },
       "evidence": [
         {
@@ -6928,7 +7027,7 @@
       "level": "2★",
       "description": "Checks whether the uv Python package manager is installed and installs it if missing. Ensures uv is on PATH. Use when another skill requires uv as a prerequisite.",
       "links": {
-        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/uv"
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md"
       },
       "evidence": [
         {
@@ -6953,7 +7052,7 @@
       "level": "2★",
       "description": "Distills a completed user workflow or interaction into a reusable agent skill. Use when the user asks to turn their workflow, interaction, or multi-step process into a skill, or when they say \"make this a skill\", \"create a skill from what we just did\", \"package this workflow\" or similar. Do not use for creating skills from scratch without an existing workflow (use a generic skill-creator for that).",
       "links": {
-        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator"
+        "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md"
       },
       "evidence": [
         {
@@ -6978,7 +7077,7 @@
       "level": "2★",
       "description": "Review backend code for quality, security, maintainability, and best practices based on established checklist rules.",
       "links": {
-        "github": "https://github.com/langgenius/dify/blob/main/.agents/skills/backend-code-review"
+        "github": "https://github.com/langgenius/dify/blob/main/.agents/skills/backend-code-review/SKILL.md"
       },
       "createdAt": "2026-05-31",
       "updatedAt": "2026-05-31",
@@ -7003,7 +7102,7 @@
       "level": "2★",
       "description": "Refactor high-complexity React components in Dify frontend.",
       "links": {
-        "github": "https://github.com/langgenius/dify/blob/main/.agents/skills/component-refactoring"
+        "github": "https://github.com/langgenius/dify/blob/main/.agents/skills/component-refactoring/SKILL.md"
       },
       "createdAt": "2026-05-31",
       "updatedAt": "2026-05-31",
@@ -7028,7 +7127,7 @@
       "level": "2★",
       "description": "Write, update, or review Dify end-to-end tests under e2e/ that use Cucumber, Gherkin, and Playwright.",
       "links": {
-        "github": "https://github.com/langgenius/dify/blob/main/.agents/skills/e2e-cucumber-playwright"
+        "github": "https://github.com/langgenius/dify/blob/main/.agents/skills/e2e-cucumber-playwright/SKILL.md"
       },
       "createdAt": "2026-05-31",
       "updatedAt": "2026-05-31",
@@ -7053,7 +7152,7 @@
       "level": "2★",
       "description": "Trigger when the user requests a review of frontend files.",
       "links": {
-        "github": "https://github.com/langgenius/dify/blob/main/.agents/skills/frontend-code-review"
+        "github": "https://github.com/langgenius/dify/blob/main/.agents/skills/frontend-code-review/SKILL.md"
       },
       "createdAt": "2026-05-31",
       "updatedAt": "2026-05-31",
@@ -7078,7 +7177,7 @@
       "level": "2★",
       "description": "Generate Vitest + React Testing Library tests for Dify frontend components.",
       "links": {
-        "github": "https://github.com/langgenius/dify/blob/main/.agents/skills/frontend-testing"
+        "github": "https://github.com/langgenius/dify/blob/main/.agents/skills/frontend-testing/SKILL.md"
       },
       "createdAt": "2026-05-31",
       "updatedAt": "2026-05-31",
@@ -7130,13 +7229,19 @@
       "level": "3★",
       "description": "A community implementation of the MCP builder skill from the antigravity-awesome-skills repository, capable of creating Model Context Protocol servers in Python and Node.js.",
       "createdAt": "2026-05-27",
-      "updatedAt": "2026-05-27",
+      "updatedAt": "2026-06-02",
       "timeline": [
         {
           "timestamp": "2026-05-27T23:24:24Z",
           "action": "add",
           "contributor": "unknown",
           "details": "Added named skill sickn33/mcp-builder"
+        },
+        {
+          "timestamp": "2026-06-02T01:44:00Z",
+          "action": "demote",
+          "contributor": "unknown",
+          "details": "No installable code available; marked installable: false."
         }
       ],
       "type": "extra",
@@ -7173,7 +7278,7 @@
         "monitoring"
       ],
       "links": {
-        "github": "https://github.com/Xquik-dev/hermes-tweet",
+        "github": "https://github.com/Xquik-dev/hermes-tweet/blob/master/skills/hermes-tweet/SKILL.md",
         "docs": "https://docs.xquik.com/guides/hermes-tweet"
       },
       "evidence": [

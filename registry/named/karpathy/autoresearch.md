@@ -10,13 +10,19 @@ catalogRef: karpathy-autoresearch
 level: "3★"
 description: Autonomous research agent that iteratively searches, reads, and synthesizes academic papers into structured summaries.
 links:
-  github: https://github.com/karpathy/autoresearch
+  github: https://github.com/balukosuri/Andrej-Karpathy-s-Autoresearch-As-a-Universal-Skill/blob/main/SKILL.md
 tags:
   - research
   - autonomous
   - paper-synthesis
 createdAt: "2026-04-29"
 updatedAt: "2026-04-30"
+evidence:
+  - class: B
+    source: https://github.com/karpathy/autoresearch
+    evaluator: mbtiongson1
+    date: "2026-06-02"
+    notes: "Karpathy's autoresearch repo serving as the evidence/inspiration for the skill."
 ---
 
 ## Overview

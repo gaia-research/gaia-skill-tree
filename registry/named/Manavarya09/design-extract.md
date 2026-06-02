@@ -2,7 +2,7 @@
 id: Manavarya09/design-extract
 name: Design Extract
 contributor: Manavarya09
-origin: true
+origin: false
 genericSkillRef: design-system-extraction
 status: named
 title: The Token Scavenger
@@ -16,7 +16,7 @@ tags:
 - tailwind
 - scraping
 createdAt: '2026-05-14'
-updatedAt: '2026-05-14'
+updatedAt: '2026-06-02'
 evidence:
 - class: B
   source: https://github.com/Manavarya09/design-extract
@@ -24,6 +24,11 @@ evidence:
   date: '2026-05-14'
   notes: Design Extract -- extracts complete design systems (Tailwind, Figma variables,
     etc.) from any URL.
+timeline:
+- timestamp: '2026-06-02T01:43:00Z'
+  action: demote
+  contributor: unknown
+  details: Origin status set to false.
 ---
 
 ## Overview

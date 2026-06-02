@@ -13,7 +13,7 @@ description: Browse, filter, and download life sciences, biology, and medical pr
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
 links:
-  github: https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_biorxiv
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_biorxiv/SKILL.md
 evidence:
 - class: B
   source: https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_biorxiv/SKILL.md

@@ -58,11 +58,11 @@ Every AI agent capability exists somewhere on this graph. Skills start at the fo
   │  ├─ ○ garrytan/design-html  [4★]
   │  ├─ ○ /diff-content
   │  └─ ○ garrytan/benchmark  [4★]  (↑ see above)
-  ├─ ○ martin-stepanoski/nielsen-heuristics-audit  [4★]
+  ├─ ○ pbakaus/impeccable  [4★]
   ├─ ◇ mattpocock/to-issues  [5★]
   │  ├─ ○ /plan-decompose
   │  └─ ○ /route-intent
-  ├─ ◇ Manavarya09/design-extract  [4★]
+  ├─ ◇ garrytan/design-consultation  [4★]
   │  ├─ ◇ gooseworks/notte-browser  [3★]
   │  │  ├─ ○ /web-search
   │  │  └─ ○ /computer-use

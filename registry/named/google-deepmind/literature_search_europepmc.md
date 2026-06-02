@@ -12,7 +12,7 @@ description: Search Europe PMC for scientific literature and download open-acces
 createdAt: '2026-05-23'
 updatedAt: '2026-05-23'
 links:
-  github: https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_europepmc
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_europepmc/SKILL.md
 evidence:
 - class: B
   source: https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_europepmc/SKILL.md

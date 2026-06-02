@@ -46,7 +46,7 @@
 | ◇ [garrytan](../docs/u/garrytan/)/land-and-deploy | Extra Skill | 4★ | `/deployment-automation` |
 | ◇ [nexu-io](../docs/u/nexu-io/)/open-design | Extra Skill | 3★ | `/design-generation` |
 | ◇ [garrytan](../docs/u/garrytan/)/design-shotgun | Extra Skill | 4★ | `/design-review` |
-| ◇ [Manavarya09](../docs/u/Manavarya09/)/design-extract | Extra Skill | 4★ | `/design-system-extraction` |
+| ◇ [garrytan](../docs/u/garrytan/)/design-consultation | Extra Skill | 4★ | `/design-system-extraction` |
 | ◇ [garrytan](../docs/u/garrytan/)/canary | Extra Skill | 4★ | `/detect-anomaly` |
 | ○ /diff-content | Basic Skill | — | `/diff-content` |
 | ◇ [obra](../docs/u/obra/)/dispatching-parallel-agents | Extra Skill | 4★ | `/dispatching-parallel-agents` |
@@ -54,7 +54,7 @@
 | ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus-neural | Extra Skill | 3★ | `/distributed-neural-training` |
 | ◇ [ruvnet](../docs/u/ruvnet/)/agentdb-advanced | Extra Skill | 3★ | `/distributed-vector-memory` |
 | ◇ /document-analyst | Extra Skill | — | `/document-analyst` |
-| ○ [anthropic](../docs/u/anthropic/)/pptx | Basic Skill | 4★ | `/document-editing` |
+| ○ [garrytan](../docs/u/garrytan/)/document-generate | Basic Skill | 4★ | `/document-editing` |
 | ◇ [ruvnet](../docs/u/ruvnet/)/dual-mode | Extra Skill | 3★ | `/dual-mode` |
 | ◇ [garrytan](../docs/u/garrytan/)/qa-only | Extra Skill | 4★ | `/e2e-testing` |
 | ○ /embed-text | Basic Skill | — | `/embed-text` |
@@ -116,7 +116,7 @@
 | ○ /parse-html | Basic Skill | — | `/parse-html` |
 | ○ /parse-json | Basic Skill | — | `/parse-json` |
 | ○ /parse-pdf | Basic Skill | — | `/parse-pdf` |
-| ○ [ruvnet](../docs/u/ruvnet/)/performance-analysis | Basic Skill | 3★ | `/performance-tuning` |
+| ○ [addy-osmani](../docs/u/addy-osmani/)/performance-optimization | Basic Skill | 3★ | `/performance-tuning` |
 | ◇ [mattpocock](../docs/u/mattpocock/)/personal | Extra Skill | 4★ | `/personal` |
 | ◇ [mattpocock](../docs/u/mattpocock/)/obsidian-vault | Extra Skill | 3★ | `/personal-knowledge-management` |
 | ◇ /plan-and-execute | Extra Skill | — | `/plan-and-execute` |
@@ -185,7 +185,7 @@
 | ◇ /tree-of-thought | Extra Skill | — | `/tree-of-thought` |
 | ◇ [mattpocock](../docs/u/mattpocock/)/ubiquitous-language | Extra Skill | 4★ | `/ubiquitous-language` |
 | ◇ [obra](../docs/u/obra/)/using-git-worktrees | Extra Skill | 2★ | `/using-git-worktrees` |
-| ○ [martin-stepanoski](../docs/u/martin-stepanoski/)/nielsen-heuristics-audit | Basic Skill | 4★ | `/ux-audit` |
+| ○ [pbakaus](../docs/u/pbakaus/)/impeccable | Basic Skill | 4★ | `/ux-audit` |
 | ○ [ruvnet](../docs/u/ruvnet/)/agentdb-optimization | Basic Skill | 2★ | `/vector-db-optimization` |
 | ○ [ruvnet](../docs/u/ruvnet/)/agentdb-vector-search | Basic Skill | 2★ | `/vector-search` |
 | ◇ [obra](../docs/u/obra/)/verification-before-completion | Extra Skill | 2★ | `/verification-before-completion` |
@@ -224,7 +224,7 @@
 |---|---|---|---|
 | ○ Autonomous Engineering Platform | Intrinsic Skill | — | `/autonomous-engineering-platform` |
 | ○ Clinical Data Retrieval | Intrinsic Skill | — | `/clinical-data-retrieval` |
-| ○ Few-Shot Learning | Intrinsic Skill | 4★ | `/few-shot-learning` |
+| ○ Few-Shot Learning | Intrinsic Skill | 2★ | `/few-shot-learning` |
 | ○ Framework Upgrade | Intrinsic Skill | 2★ | `/framework-upgrade` |
 | ○ Git Diff Risk Analysis | Intrinsic Skill | 2★ | `/git-diff-risk-analysis` |
 | ○ Image Generate | Intrinsic Skill | — | `/image-generate` |
@@ -232,7 +232,7 @@
 | ○ Pathway Ontology Retrieval | Intrinsic Skill | — | `/pathway-ontology-retrieval` |
 | ○ Reward Modeling | Intrinsic Skill | — | `/reward-modeling` |
 | ○ Schema Design | Intrinsic Skill | 2★ | `/schema-design` |
-| ○ Self-Consistency | Intrinsic Skill | 4★ | `/self-consistency` |
+| ○ Self-Consistency | Intrinsic Skill | 2★ | `/self-consistency` |
 | ○ Sequential Agent Pipeline | Intrinsic Skill | 2★ | `/sequential-agent-pipeline` |
 | ○ Test-Driven Development | Intrinsic Skill | 3★ | `/test-driven-development` |
 | ○ Token Observability | Intrinsic Skill | 2★ | `/token-observability` |

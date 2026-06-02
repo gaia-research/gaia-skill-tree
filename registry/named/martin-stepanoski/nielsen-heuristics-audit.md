@@ -2,7 +2,7 @@
 id: martin-stepanoski/nielsen-heuristics-audit
 name: Nielsen Heuristics Audit
 contributor: martin-stepanoski
-origin: true
+origin: false
 genericSkillRef: ux-audit
 status: named
 title: The Ten Laws of Sight
@@ -20,7 +20,7 @@ tags:
 - heuristics
 - accessibility
 createdAt: '2026-04-30'
-updatedAt: '2026-04-30'
+updatedAt: '2026-06-02'
 evidence:
 - class: B
   source: https://github.com/mastepanoski/claude-skills/blob/main/skills/nielsen-heuristics-audit/SKILL.md
@@ -28,6 +28,11 @@ evidence:
   date: '2026-04-30'
   notes: Martin Stepanoski @mastepanoski/claude-skills -- /nielsen-heuristics-audit
     audits UI against Nielsen 10 usability heuristics step-by-step.
+timeline:
+- timestamp: '2026-06-02T01:42:59Z'
+  action: demote
+  contributor: unknown
+  details: Origin status removed. Transferred to pbakaus/impeccable.
 ---
 
 ## Overview

@@ -2,24 +2,30 @@
 id: ruvnet/performance-analysis
 name: Performance Analysis
 contributor: ruvnet
-origin: true
+origin: false
 genericSkillRef: performance-tuning
 status: named
-title: "The Bottleneck Hunter"
+title: The Bottleneck Hunter
 catalogRef: ruvnet-performance-analysis
-level: "2★"
-description: Profiles agent and system execution for CPU, memory, and I/O hotspots and produces actionable optimization recommendations.
+level: 2★
+description: Profiles agent and system execution for CPU, memory, and I/O hotspots
+  and produces actionable optimization recommendations.
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - performance
-  - profiling
-  - bottleneck
-  - optimization
-  - benchmarking
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/ruflo"
+- performance
+- profiling
+- bottleneck
+- optimization
+- benchmarking
+createdAt: '2026-05-19'
+updatedAt: '2026-06-02'
+suiteRef: ruvnet/ruflo
+timeline:
+- timestamp: '2026-06-02T01:43:00Z'
+  action: demote
+  contributor: unknown
+  details: Origin status removed. Transferred to addy-osmani/performance-optimization.
 ---
 
 ## Overview

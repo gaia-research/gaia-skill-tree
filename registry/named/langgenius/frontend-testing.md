@@ -10,7 +10,7 @@ description: Generate Vitest + React Testing Library tests for Dify frontend com
 createdAt: '2026-05-31'
 updatedAt: '2026-05-31'
 links:
-  github: https://github.com/langgenius/dify/blob/main/.agents/skills/frontend-testing
+  github: https://github.com/langgenius/dify/blob/main/.agents/skills/frontend-testing/SKILL.md
 timeline:
 - timestamp: '2026-05-31T02:07:08Z'
   action: add

@@ -6,9 +6,17 @@ origin: true
 genericSkillRef: prompt-optimization
 status: named
 level: 3★
+installable: false
 description: Declarative programming of language model pipelines, automatically optimizing prompts and RAG retrieval using bootstrapping and teleprompters.
 title: "The Programmatic Prompt Engineer"
 catalogRef: stanfordnlp-dspy
+createdAt: '2026-06-02'
+updatedAt: '2026-06-02'
+timeline:
+- timestamp: '2026-06-02T01:44:00Z'
+  action: demote
+  contributor: unknown
+  details: 'No installable code available (research framework); marked installable: false.'
 ---
 
 # DSPy

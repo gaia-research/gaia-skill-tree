@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Starless Skills Update — Gaia</title>
+  <link rel="icon" type="image/svg+xml" href="../../assets/marks/diamond-seal.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  
+  <style>
+    :root {
+      --paper-bg: #ffffff;
+      --paper-text: #111111;
+      --paper-muted: #666666;
+      --accent: #ef4444;
+      --font-serif: 'EB Garamond', Georgia, serif;
+      --font-sans: 'Bricolage Grotesque', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+    * { box-sizing: border-box; }
+    body {
+      background: #f4f4f2;
+      color: var(--paper-text);
+      font-family: var(--font-serif);
+      font-variant-numeric: oldstyle-nums;
+      line-height: 1.6;
+      margin: 0;
+      padding: 6rem 1rem;
+      -webkit-font-smoothing: antialiased;
+    }
+    .paper {
+      background: var(--paper-bg);
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 6rem 7rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 10px 40px rgba(0,0,0,0.02);
+      position: relative;
+      counter-reset: section;
+    }
+    header { text-align: center; margin-bottom: 5rem; }
+    .paper-journal-header {{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 1.5rem;
+      margin-bottom: 3rem;
+      border-bottom: 1px solid #e0e0dc;
+    }}
+    .paper-journal-logo {{
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      color: #c8a84b;
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.04em;
+    }}
+    .paper-journal-logo img {{
+      filter: invert(72%) sepia(40%) saturate(600%) hue-rotate(5deg) brightness(95%);
+    }}
+    .paper-journal-series {{
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #999;
+    }}
+    h1 {
+      font-family: var(--font-serif);
+      font-size: 2.6rem;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+    }
+    .authors {
+      font-family: var(--font-serif);
+      font-variant-caps: small-caps;
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.02em;
+    }
+    .date { font-family: var(--font-serif); font-size: 1.1rem; color: var(--paper-text); }
+    .abstract { margin: 4rem 0; padding: 0 3rem; }
+    .abstract-title {
+      font-family: var(--font-sans);
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.75rem;
+      color: var(--paper-muted);
+    }
+    .abstract-content { font-style: italic; text-align: justify; hyphens: auto; font-size: 1.05rem; line-height: 1.5; }
+    h2 {
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-top: 4rem;
+      margin-bottom: 1.5rem;
+      counter-increment: section;
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+    }
+    h2::before { content: counter(section) ". "; }
+    h3 { font-family: var(--font-serif); font-size: 1.3rem; font-weight: 600; margin-top: 2.5rem; margin-bottom: 1rem; }
+    p { text-align: justify; margin-bottom: 1.5rem; hyphens: auto; }
+    .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin: 2.5rem 0; }
+    ul { padding-left: 1.2rem; list-style-type: square; }
+    li { margin-bottom: 0.6rem; }
+    code { font-family: var(--font-mono); background: #f7f7f7; padding: 0.15rem 0.35rem; font-size: 0.85em; border: 1px solid #eee; }
+    pre { background: #f7f7f7; border: 1px solid #eee; padding: 1.2rem 1.5rem; overflow-x: auto; margin: 2rem 0; }
+    pre code { background: none; border: none; padding: 0; font-size: 0.85rem; }
+    table { width: 100%; border-collapse: collapse; margin: 3rem 0; font-family: var(--font-serif); font-size: 1rem; }
+    thead tr { border-top: 2px solid var(--paper-text); border-bottom: 1px solid var(--paper-text); }
+    th { font-weight: 600; text-align: left; padding: 0.8rem 0.5rem; font-variant-caps: small-caps; }
+    td { padding: 0.8rem 0.5rem; border-bottom: 0.5px solid #eee; vertical-align: top; }
+    tbody tr:last-child { border-bottom: 2px solid var(--paper-text); }
+    .chart-container { margin: 4.5rem -2rem; padding: 2.5rem; background: #ffffff; border: 1px solid #eee; }
+    .chart-caption { text-align: center; font-size: 0.85rem; color: var(--paper-muted); margin-top: 1.5rem; line-height: 1.4; }
+    .references { margin-top: 6rem; padding-top: 3rem; border-top: 1px solid #eee; }
+    .ref-item { font-size: 0.9rem; margin-bottom: 1.2rem; text-indent: -1.8rem; padding-left: 1.8rem; text-align: left; }
+    .footer-nav { margin-top: 5rem; text-align: center; font-family: var(--font-sans); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; }
+    .footer-nav a { color: var(--paper-text); text-decoration: none; border-bottom: 1px solid #ddd; padding-bottom: 2px; transition: border-color 0.2s; }
+    .footer-nav a:hover { border-color: var(--accent); }
+    .floating-changelog-btn {
+      position: fixed; top: 2rem; right: 2rem; z-index: 1000;
+      background: #000; color: #fff; border: none;
+      padding: 0.8rem 1.4rem;
+      font-family: var(--font-sans); font-weight: 700; font-size: 0.7rem;
+      text-transform: uppercase; letter-spacing: 0.15em; cursor: pointer;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .floating-changelog-btn:hover { transform: translateY(-2px); box-shadow: 0 15px 40px rgba(0,0,0,0.2); background: #111; }
+    .meta-sidebar {
+      position: fixed; top: 0; right: 0; bottom: 0; width: 400px;
+      background: #000; color: #fff; z-index: 2000;
+      transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex; flex-direction: column; border-left: 1px solid #222;
+    }
+    .meta-sidebar.open { transform: translateX(0); }
+    .ms-header { padding: 1.5rem; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center; }
+    .ms-header h2 { margin: 0 !important; border: none !important; font-size: 1.2rem !important; font-family: 'EB Garamond', serif !important; counter-reset: none !important; }
+    .ms-header h2::before { content: none !important; }
+    .ms-body { flex: 1; overflow-y: auto; padding: 1.5rem; font-family: 'Bricolage Grotesque', sans-serif; }
+    .ms-close { background: none; border: none; color: #666; font-size: 1.5rem; cursor: pointer; }
+    @media (max-width: 768px) {
+      .paper { padding: 3rem 2rem; }
+      body { padding: 1rem 0; }
+      .floating-changelog-btn { top: 0.75rem; right: 0.75rem; padding: 0.4rem 0.8rem; font-size: 0.7rem; }
+      .meta-sidebar { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <button type="button" class="floating-changelog-btn" id="viewChangelogBtn">View Changelog</button>
+
+  <aside id="metaSidebar" class="meta-sidebar">
+    <div class="ms-header">
+      <h2>Meta Changelog</h2>
+      <button type="button" class="ms-close" id="closeChangelogBtn">✕</button>
+    </div>
+    <div class="ms-body" id="changelogBody">
+      <div style="color:#666;font-size:0.9rem">Loading registry changelog…</div>
+    </div>
+  </aside>
+
+  <article class="paper">
+    <div class="paper-journal-header">
+      <a href="../../index.html" class="paper-journal-logo" aria-label="Gaia Registry">
+        <img src="../../assets/marks/diamond-seal.svg" alt="Gaia" width="28" height="28">
+        <span>Gaia Registry</span>
+      </a>
+      <span class="paper-journal-series">Meta Audit Series</span>
+    </div>
+    <header>
+      <h1>Starless Skills Update</h1>
+      <div class="authors">Marcus Rafael Tiongson, Engineer</div>
+      <div class="date">May 31, 2026</div>
+    </header>
+
+    <section class="abstract">
+      <div class="abstract-title">Abstract</div>
+      <div class="abstract-content">Generic skill taxonomy refactored as rank-free, with star-based prestige reserved for named implementations.</div>
+    </section>
+
+    <p>Structural refactoring of the generic skill taxonomy to remove rank-based prestige (stars) from canonical skill definitions. Stars now live exclusively on named implementations, reflecting the reality that only attributed contributors have reputational stake. Generic nodes serve as taxonomy and composition anchors—not ranked aspirations.</p>
+<h2>Executive Summary</h2>
+<p>The May 2026 schema migration (<code>#551</code>, <code>#552</code>) separates prestige concerns from taxonomy concerns. Generic skills (<code>prompt-optimization</code>, <code>code-review</code>, etc.) are now "starless"—they are pure categorical nodes with no rank. Named skills (<code>stanfordnlp/dspy</code>, <code>pbakaus/impeccable</code>, etc.) carry the stars; they represent concrete, versioned implementations that can be evaluated and attributed.</p>
+<h3>Rationale</h3>
+<p><strong>Before</strong>: Generic skills had a <code>level</code> field and could be 2★, 3★, 4★. This created three problems: 1. <strong>Ownership ambiguity</strong>: A generic skill's rank suggested some canonical "best" implementation—but who owns that? 2. <strong>Stale rankings</strong>: A generic skill ranked at 3★ could not change when implementations leveled up (or were demoted). 3. <strong>Misaligned UI</strong>: Users saw a skill card for "code-review" at 3★, clicked it, and found multiple implementations at 2★, 4★, 5★—confusing.</p>
+<p><strong>After</strong>: Generic skills are rank-free. Their <code>level</code> field is removed. Users see:</p>
+<ul>
+  <li>Generic skill card: <em>"Code Review"</em> — no stars, just description</li>
+  <li>Implementations below: <em>"anthropic/code-review (4★)"</em>, <em>"garrytan/code-review (5★)"</em>, etc.</li>
+</ul>
+<p>Stars reflect real contributor work. Generic nodes reflect shared vocabulary.</p>
+<h2>Changes</h2>
+<h3>Schema Transformation</h3>
+<p><strong>Generic Skill Node</strong></p>
+<pre><code class="language-diff">- "level": "3★",
+- "rarity": "common",  # deprecated
+  "name": "Code Review",
+  "type": "basic",
+  "description": "...",
+  "prerequisites": ["code-reading", "static-analysis"],
+  "derivatives": ["architecture-review"],</code></pre>
+<p><strong>Named Skill Node</strong> (unchanged, stars now emphasis)</p>
+<pre><code class="language-yaml">id: pbakaus/impeccable
+genericSkillRef: ux-audit
+level: 4★  # ← stars live here
+...</code></pre>
+<h3>Affected Files</h3>
+<ul>
+  <li><strong>Registry schema</strong> (<code>registry/schema/</code>) — Removed <code>level</code> from generic skill types</li>
+  <li><strong>Generic skills</strong> (44 nodes across basic/intermediate/advanced/ultimate) — All <code>level</code> fields removed</li>
+  <li><strong>Mbtiongson1 named skills</strong> — Reclassified to 2★ (project-local, not production)</li>
+  <li><strong>CLI docs</strong> — Updated to reflect starless generics</li>
+</ul>
+<h3>Named Skills Reclassified</h3>
+<p>The 6 project-local named skills (<code>mbtiongson1/*</code>) were reclassified to 2★ to reflect their scope:</p>
+<ul>
+  <li><code>gaia-audit</code> — 2★ (internal tool)</li>
+  <li><code>gaia-curate</code> — 2★ (internal tool)</li>
+  <li><code>gaia-docs-sync</code> — 2★ (internal tool)</li>
+  <li><code>gaia-integrity</code> — 2★ (internal tool)</li>
+  <li><code>gaia-triage</code> — 2★ (internal tool)</li>
+  <li><code>gaia-draft-curate</code> — 2★ (internal tool)</li>
+</ul>
+<p><strong>Rationale</strong>: These skills serve Gaia's internal workflows, not external agents. They belong at 2★ (project scope) rather than 4-5★ (universal).</p>
+<h2>Vocabulary & Taxonomy</h2>
+<h3>Starless = Rank-Free Generic</h3>
+<p>A generic skill with no <code>level</code> field. It is:</p>
+<ul>
+  <li><strong>Taxonomic anchor</strong>: Pulls named implementations under a shared category</li>
+  <li><strong>Composition building block</strong>: Other skills can list it as prerequisite/derivative</li>
+  <li><strong>Neutral vocabulary</strong>: No judgment about quality; purely categorical</li>
+</ul>
+<h3>Star System (Named Only)</h3>
+<p>Stars now strictly measure <strong>named implementations</strong>:</p>
+<ul>
+  <li><strong>1★</strong> — Prototype, proof-of-concept (unverified)</li>
+  <li><strong>2★</strong> — Production-ready in specific context (tested, may be narrow scope)</li>
+  <li><strong>3★</strong> — Polished, general-purpose implementation (evidence-backed, stable)</li>
+  <li><strong>4★</strong> — Expert-level or deeply integrated skill (A-class evidence, significant scope)</li>
+  <li><strong>5★</strong> — Transcendent, composable ultimate (rare; usually multi-contributor capstone)</li>
+  <li><strong>6★</strong> — Reserved for future suites</li>
+</ul>
+<h3>Retired Term: Rarity</h3>
+<p>The <code>rarity</code> field (<code>common</code>, <code>uncommon</code>, <code>rare</code>, <code>epic</code>, <code>legendary</code>) is deprecated and being phased out. It served no meaningful purpose once stars migrated to named skills.</p>
+<h2>UI Implications</h2>
+<h3>Search & Discovery</h3>
+<p><strong>Before</strong>: Users saw generic skill cards with stars. Clicking led to a "best of" carousel.</p>
+<p><strong>After</strong>: Generic skill cards are star-free. Implementation cards show individual ratings:</p>
+<pre><code class="language-">Prompt Optimization (generic skill)
+├─ stanfordnlp/dspy  ★★★★
+├─ anthropic/prompt-tuning  ★★★
+├─ openai/few-shot-learning  ★★
+└─ more...</code></pre>
+<h3>Skill Graph</h3>
+<p>Generic skills remain as nodes. Named skills attach beneath them. No rank confusion.</p>
+<h3>Rankings & Leaderboards</h3>
+<p>Sorting and filtering now only apply to <strong>named skills</strong> (which have stars). Generic skills appear in pure alphabetic or dependency-based order.</p>
+<h2>Migration Notes</h2>
+<h3>For Contributors</h3>
+<p>When adding a new skill: 1. If it's a <strong>generic concept</strong>, submit a generic node (no level) 2. If it's a <strong>concrete implementation</strong>, create a named skill under the generic and assign your 2-4★ rating 3. Do not add stars to generic nodes</p>
+<h3>For Curation</h3>
+<ul>
+  <li>Use <code>gaia dev add "Name" --type basic</code> for generics (stars auto-defaulted to none)</li>
+  <li>Use <code>gaia dev add "Name" --type basic --level 3★</code> for named skills (stars required)</li>
+</ul>
+<h3>Backward Compatibility</h3>
+<ul>
+  <li>Existing generic skills' deprecated <code>level</code> and <code>rarity</code> fields are hidden from UI but preserved in JSON for audit trail</li>
+  <li>Named skills unaffected; stars unchanged</li>
+</ul>
+<h2>Validation</h2>
+<p>✅ <strong>Schema passes all checks:</strong></p>
+<ul>
+  <li>44 generic skills confirmed starless</li>
+  <li>220+ named skills retain stars</li>
+  <li>Zero generic-to-named rank conflicts</li>
+  <li>Derivative chains validated (no circular dependencies)</li>
+</ul>
+<div class="references">
+  <div class="abstract-title" style="text-align: left; margin-bottom: 1.5rem;">References</div>
+  <div class="ref-item">[1] Tiongson, M. R. (2026). <em>Starless Skills Update</em>. Gaia Skill Tree Registry.</div>
+  <div class="ref-item">[2] Tiongson, M. R. (2026). Schema Refactor: Rank-Free Generics. PR #551.</div>
+  <div class="ref-item">[3] Tiongson, M. R. (2026). Taxonomy Redesign (UI & Docs). PR #552.</div>
+  <div class="ref-item">[4] Meta. (2025). Star System & Prestige Rules. META.md.</div>
+</div>
+
+    <div class="footer-nav">
+      <a href="../../index.html">← Back to Gaia</a>
+    </div>
+  </article>
+
+  <script>
+    const sidebar = document.getElementById('metaSidebar');
+    const openBtn = document.getElementById('viewChangelogBtn');
+    const closeBtn = document.getElementById('closeChangelogBtn');
+    if (openBtn) openBtn.addEventListener('click', () => sidebar.classList.add('open'));
+    if (closeBtn) closeBtn.addEventListener('click', () => sidebar.classList.remove('open'));
+    async function loadChangelog() {
+      try {
+        const res = await fetch('../../graph/gaia.json');
+        const gaia = await res.json();
+        const body = document.getElementById('changelogBody');
+        body.innerHTML = '';
+        let events = [];
+        gaia.skills.forEach(s => {
+          if (s.timeline) s.timeline.forEach(e => events.push({ ...e, skillName: s.name }));
+        });
+        events.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+        events.slice(0, 50).forEach(ev => {
+          const item = document.createElement('div');
+          item.style.cssText = 'margin-bottom:1rem;padding-bottom:1rem;border-bottom:1px solid #111';
+          item.innerHTML = `<div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:#666;margin-bottom:0.3rem">${new Date(ev.timestamp).toLocaleDateString()} · ${ev.action.toUpperCase()}</div><div style="font-weight:500;font-size:0.9rem;color:#fff">${ev.skillName}</div><div style="font-size:0.8rem;color:#aaa;margin-top:0.2rem">${ev.details}</div>`;
+          body.appendChild(item);
+        });
+      } catch (e) { console.error('Failed to load changelog', e); }
+    }
+    loadChangelog();
+
+  </script>
+</body>
+</html>
