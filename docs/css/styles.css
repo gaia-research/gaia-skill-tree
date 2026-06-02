@@ -4794,6 +4794,19 @@ tr:hover td {
   text-transform: uppercase;
   border-top: 1px solid var(--border);
   color: var(--muted);
+  /* Clears the fixed nav when the global AlphaRail jumps to a group. */
+  scroll-margin-top: 5rem;
+}
+
+/* Alpha-mode (Name / Contributor sort) buckets show a single A-Z glyph. */
+.ns-group-az-glyph {
+  font-size: 1rem;
+  color: var(--tier-basic);
+}
+
+/* Section scroll targets for the global AlphaRail clear the fixed nav. */
+#paths, #ultimates, #hall-of-heroes, #ascension, #named {
+  scroll-margin-top: 5rem;
 }
 
 .ns-group-header:first-child {
@@ -4806,13 +4819,17 @@ tr:hover td {
   font-size: 1rem;
 }
 
-/* grab-to-scroll cursor on grid area */
+/* grab-to-scroll cursor on grid area. The explorer no longer scrolls
+   internally — its content joins the global page scroll so the page-wide
+   AlphaRail can track it. Flow view keeps horizontal scroll for wide DAGs. */
 #nsGrid {
   cursor: grab;
   user-select: none;
-  max-height: 78vh;
-  overflow-y: auto;
   padding-right: 4px;
+}
+#nsGrid.ns-grid-flow {
+  overflow-x: auto;
+  overflow-y: visible;
 }
 
 #named.ns-grabbing,

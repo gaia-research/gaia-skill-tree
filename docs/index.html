@@ -18,6 +18,8 @@
   <link rel="icon" type="image/svg+xml" href="assets/marks/diamond-seal.svg">
   <link rel="stylesheet" href="css/styles.css?v=3.27.2">
   <link rel="stylesheet" href="css/plaque.css?v=3.27.2">
+  <!-- Universal AlphaRail (page-wide section + explorer index). -->
+  <link rel="stylesheet" href="css/alpha-rail.css?v=3.27.2">
   <!-- Stage 1 — icon sprite helper, loaded BEFORE other UI scripts. -->
   <script src="js/icons.js?v=3.27.2"></script>
   <!-- Stage 2 — shared rank-badge primitive, loaded after icons. -->
@@ -285,7 +287,7 @@
        ascending (journey). data-pattern="journey" annotates the exempt
        direction; every other catalog reads descending (apex first).
        Per-rank colour comes from .rank-badge[data-level="N"] tokens. -->
-  <section class="reveal ascension-section" data-section="ascension">
+  <section id="ascension" class="reveal ascension-section" data-section="ascension">
     <h2>The Ascension Cycle</h2>
     <p class="section-sub">Skills advance through evidence — not declaration. Each rank unlocks the next.</p>
     <div class="ascension-track" data-pattern="journey">
@@ -507,6 +509,10 @@
   <script src="js/hud-toggle.js?v=3.27.2"></script>
   <script src="js/scroll-reveal.js?v=3.27.2"></script>
   <script src="js/named-skills.js?v=3.27.2"></script>
+  <!-- Universal AlphaRail component + page-wide integration (section markers
+       above the explorer; dynamic type/letter/tier markers inside it). -->
+  <script src="js/alpha-rail.js?v=3.27.2"></script>
+  <script src="js/index-rail.js?v=3.27.2"></script>
   <script src="js/skill-explorer.js?v=3.27.2"></script>
   <script src="js/ui.js?v=3.27.2"></script>
   <script src="js/page-ia.js?v=3.27.2"></script>

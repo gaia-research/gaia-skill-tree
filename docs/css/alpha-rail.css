@@ -17,20 +17,25 @@
 :root { --arail-w: 36px; }
 @media (max-width: 720px) { :root { --arail-w: 26px; } }
 
-/* Host reserves a lane so page content never slides under the rail. */
+/* Host reserves a lane so page content never slides under the rail.
+   starless.html wraps content in <main>; index.html lays sections directly on
+   <body>, so reserve the lane for both shapes. */
 body[data-arail="right"] main,
-body[data-arail="right"] footer { padding-right: var(--arail-w); }
+body[data-arail="right"] footer,
+body[data-arail="right"] > section { padding-right: var(--arail-w); }
 body[data-arail="left"] main,
-body[data-arail="left"] footer { padding-left: var(--arail-w); }
+body[data-arail="left"] footer,
+body[data-arail="left"] > section { padding-left: var(--arail-w); }
 
 /* Wide, transparent, click-through host: gives magnified letters room to pop
    without being clipped. Only the narrow track inside it is interactive. */
 .arail {
-  position: fixed; top: 0; bottom: 0; width: 168px;
+  position: fixed; top: 0; bottom: 0; width: 260px;
   z-index: 60; pointer-events: none;
-  /* fade the strip out at the top and bottom so letters float off-screen */
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 13%, #000 87%, transparent 100%);
-          mask-image: linear-gradient(to bottom, transparent 0, #000 13%, #000 87%, transparent 100%);
+  /* fade the strip out at the very top and bottom so items float off-screen,
+     but keep the band small so a magnified item/label is never cut off */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 5%, #000 95%, transparent 100%);
+          mask-image: linear-gradient(to bottom, transparent 0, #000 5%, #000 95%, transparent 100%);
 }
 .arail[data-side="right"] { right: 0; }
 .arail[data-side="left"]  { left: 0; }
@@ -46,34 +51,72 @@ body[data-arail="left"] footer { padding-left: var(--arail-w); }
 .arail[data-side="right"] .arail-track { right: 0; align-items: flex-end;  padding-right: 7px; }
 .arail[data-side="left"]  .arail-track { left: 0;  align-items: flex-start; padding-left: 7px; }
 
-.arail-letter {
+/* Markers. A "letter" marker shows its glyph and behaves like the original
+   A-Z rail (muted resting, --tier-basic when current). "group" markers carry a
+   token tint via --mark-color (e.g. the four type glyphs). "section" markers
+   render a small dot and reveal their full label on magnify. */
+.arail-mark {
   position: relative; height: 15px; min-height: 15px;
   display: flex; align-items: center; justify-content: center;
   padding: 0; margin: 0; border: 0; background: none; cursor: pointer;
   font: 600 .64rem/1 var(--font-mono); letter-spacing: .02em;
-  color: var(--muted); transform-origin: right center;
+  color: var(--mark-color, var(--muted)); transform-origin: right center;
   transition: color .18s ease; will-change: transform;
+  /* keep touch drags as scrub gestures (don't let the browser steal them) */
+  touch-action: none;
 }
-.arail[data-side="left"] .arail-letter { transform-origin: left center; }
-.arail-letter.is-empty { opacity: .16; pointer-events: none; }
-.arail-letter:hover:not(.is-empty) { color: var(--text); }
-.arail-letter[aria-current="true"] { color: var(--tier-basic); }
+.arail-tick { touch-action: none; }
+.arail[data-side="left"] .arail-mark { transform-origin: left center; }
+.arail-mark.is-empty { opacity: .16; pointer-events: none; }
+.arail-mark[data-kind="letter"]:hover:not(.is-empty) { color: var(--text); }
+.arail-mark[aria-current="true"] { color: var(--mark-color, var(--tier-basic)); }
+.arail-mark-glyph { display: inline-flex; align-items: center; line-height: 1; }
 
-/* uniform tick fillers between letters */
+/* Section markers: a small dot; its label fades in on magnify. */
+.arail-mark[data-kind="section"] .arail-mark-glyph { display: none; }
+.arail-mark[data-kind="section"]::before {
+  content: ""; width: 5px; height: 5px; border-radius: 50%;
+  background: var(--muted); transition: background .18s ease, transform .18s ease;
+}
+.arail-mark[data-kind="section"]:hover::before,
+.arail-mark[data-kind="section"][aria-current="true"]::before {
+  background: var(--mark-color, var(--text)); transform: scale(1.25);
+}
+.arail-mark[data-kind="section"][data-accent="red"]::before {
+  width: 7px; height: 7px; background: var(--mark-color, var(--honor-red));
+}
+
+/* Full label, revealed on magnify. Lives in the wide transparent host (left of
+   the interactive track), so it is never clipped by the narrow rail. */
+/* Labels stay faintly visible at rest and brighten on magnify (set by JS).
+   They live in the wide transparent host, left of the strip, so they are not
+   clipped when a marker is magnified. */
+.arail-mark-label {
+  position: absolute; right: 100%; margin-right: .5em;
+  white-space: nowrap; font: 600 .62rem/1 var(--font-mono);
+  color: var(--text); opacity: .4; pointer-events: none;
+  transition: opacity .12s ease; text-shadow: 0 1px 5px rgba(0, 0, 0, .8);
+}
+.arail[data-side="left"] .arail-mark-label {
+  right: auto; left: 100%; margin-right: 0; margin-left: .5em;
+}
+
+/* uniform tick fillers between markers */
 .arail-tick {
   display: block; width: 7px; height: 1px; margin: 2px 0;
   background: var(--muted); opacity: .16; transform-origin: right center;
 }
 .arail[data-side="left"] .arail-tick { transform-origin: left center; }
 
-/* super-subtle star on the active letter */
-.arail-letter[aria-current="true"]::after {
+/* super-subtle star on the active letter (matches the original A-Z rail;
+   group/section markers stay quiet and rely on their tint + label instead). */
+.arail-mark[data-kind="letter"][aria-current="true"]::after {
   content: "\2726"; position: absolute; right: 100%; margin-right: .28em;
   font-size: .52em; line-height: 1; color: var(--tier-basic);
   opacity: 0; pointer-events: none;
   animation: arail-twinkle 3.8s ease-in-out infinite;
 }
-.arail[data-side="left"] .arail-letter[aria-current="true"]::after {
+.arail[data-side="left"] .arail-mark[data-kind="letter"][aria-current="true"]::after {
   right: auto; left: 100%; margin-right: 0; margin-left: .28em;
 }
 @keyframes arail-twinkle {
@@ -83,5 +126,5 @@ body[data-arail="left"] footer { padding-left: var(--arail-w); }
 
 @media (prefers-reduced-motion: reduce) {
   .arail-track { transition: none; }
-  .arail-letter[aria-current="true"]::after { animation: none; opacity: .4; }
+  .arail-mark[data-kind="letter"][aria-current="true"]::after { animation: none; opacity: .4; }
 }
