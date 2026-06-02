@@ -29,6 +29,3 @@
 ## 2024-05-25 - Focus Rings for All Interactive Elements
 **Learning:** Found several missing focus-visible classes on various buttons and interactive elements (`.nav-search-btn-mobile`, `.pmq-changelog-btn`, `.scroll-to-top`, `.mr-pagination-prev`, `.mr-pagination-next`, `.hero-audit-btn`, `.propose-cta`, `.meta-btn-close`, `.se-close-x`, `.hoh-fs-overlay-restore`, `.hoh-fs-btn`, `.hoh-fs-btn--close`, `.hoh-fs-copy-btn`), impacting keyboard accessibility.
 **Action:** Always verify keyboard accessibility on all buttons by checking if they belong to the central grouped selector for `:focus-visible` in `styles.css` or `plaque.css`. Ensure new buttons receive `outline: 2px solid var(--tier-extra); outline-offset: 2px;`.
-## 2025-02-18 - Focus Ring on Share Modal Buttons
-**Learning:** Custom UI modal buttons and interactive actions often miss the global keyboard accessibility styles.
-**Action:** Always ensure that custom modals, share actions, and standard action buttons explicitly implement the app-wide focus ring using the `:focus-visible` rule in the main or component CSS (using `outline: 2px solid var(--tier-extra); outline-offset: 2px;`).
