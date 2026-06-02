@@ -26,7 +26,7 @@ Requires a multi-step crawling engine and mapping logic to resolve site structur
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| karpathy/autoresearch ⭑ | karpathy | 3★ | 0 |
+| karpathy/autoresearch ⭑ | karpathy | 3★ | 1 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._
