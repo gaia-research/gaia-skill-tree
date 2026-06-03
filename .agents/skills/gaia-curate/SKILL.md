@@ -1,7 +1,7 @@
 ---
 name: gaia-curate
 description: Expand the Gaia skill registry with new popular AI agent skills, fully evidenced and validated, then push a PR. Use this skill when the user asks to "update the tree", "add new skills to Gaia", "curate the registry", "expand the skill graph", or explicitly types /gaia-curate.
-version: 1.6.0
+version: 1.7.0
 ---
 
 # gaia-curate
@@ -16,7 +16,7 @@ Expand the Gaia skill registry (`registry/gaia.json`) with new popular AI agent 
 2. **Research** — for each candidate skill, gather concrete evidence using ALL of the following channels (in order of priority):
 
    **2a. GitHub search (50% of research effort — Evidence Tier B):**
-   Search for actual repos implementing the skill:
+   Search for actual repos implementing the skill. **Local runs** use the `gh` CLI; **cloud/remote runs** (where `gh` is unavailable) use the GitHub MCP tools (`search_repositories`, `get_file_contents`) — never report GitHub as unreachable without first checking MCP.
    ```bash
    gh search repos --topic="<skill-topic>" --sort=stars --limit=20
    gh search repos "<skill-name> agent" --sort=stars --limit=10
@@ -76,11 +76,11 @@ Expand the Gaia skill registry (`registry/gaia.json`) with new popular AI agent 
    - **Fusion-First Design & Semantic Mapping Rationale**: 
      - *No Made-up Generics*: Avoid creating a new, separate generic skill for every vendor API or service (e.g., do not create distinct generic skills for `pubmed`, `arxiv`, `biorxiv`, `europepmc` etc.). Map multiple named implementations of identical concepts to a single elegant basic generic skill (e.g. `literature-search`) to prevent registry bloat and maintain a high-quality global graph.
      - *Master Skill Fusion*: When multiple distinct named skills represent specialized capabilities that can be combined or orchestrated in a multi-step workflow (e.g., fetching structures, aligning sequences, rendering structures), define a composite **Extra** skill (like `computational-biology-workflows`) and link the basic skills as its prerequisites. Calibrate the advanced named implementations (e.g. AlphaFold, AlphaGenome) to higher levels (`3★` or `4★` max) referencing that composite Extra skill.
-   - **Note on generic skill levels**: Generic (starless) skills have no star level — they are rank-less taxonomy. Only the *named* implementations (e.g. `contributor/AlphaFold`) receive star levels (2★–6★). When proposing a generic, omit `--level` flag from `gaia add`; the generic's effective rank is the top star among its named children.
+   - **Note on generic skill levels**: Generic (starless) skills have no star level — they are rank-less taxonomy. Only the *named* implementations (e.g. `contributor/AlphaFold`) receive star levels (2★–6★). When proposing a generic, omit `--level` flag from `gaia dev add`; the generic's effective rank is the top star among its named children.
    - Prerequisites and derivatives (must reference existing IDs).
    - **Demerit Check (Strategic)**: Identify `heavyweight-dependency`, `niche-integration`, or `experimental-feature`. Only strictly apply these to skills at **3★+**. If a high-level skill is cross-platform and "Universal," reward it by omitting demerits.
    - **Named Promotion**: Determine if the specific implementation should be promoted to a **Named Skill** in `registry/named/`.
-   - Do **not** ask the contributor to choose a rarity value — the rarity axis is deprecated (see `CONTEXT.md` § Rarity). `gaia add` writes the legacy default automatically; the field will disappear once the schema migration lands.
+   - Do **not** ask the contributor to choose a rarity value — the rarity axis is deprecated (see `CONTEXT.md` § Rarity). `gaia dev add` writes the legacy default automatically; the field will disappear once the schema migration lands.
 4. **Present draft for review** — before writing any code or committing, display the full proposed skills table:
 
    | ID | Name | Type | Stars | Prereqs | Demerits | Named Promotion? |
@@ -96,19 +96,19 @@ Expand the Gaia skill registry (`registry/gaia.json`) with new popular AI agent 
 
    **Do not proceed to step 5 until the user has reviewed and the batch contains at least one `accept`.** Incorporate all `rename` decisions before writing the script. Drop everything that is not `accept`/`rename`.
 
-5. **Execute meta shifts via CLI** — for each accepted skill from step 4, use the `gaia add` command. This ensures timeline logging, schema integrity, and automated assembly.
+5. **Execute meta shifts via CLI** — for each accepted skill from step 4, use the `gaia dev add` command (the mutation verbs live under `gaia dev`, not at the top level). This ensures timeline logging, schema integrity, and automated assembly.
    
    **For generic (starless) skills**, use:
    ```bash
-   gaia add "Skill Name" --id <id> --type <type> --description "..."
+   gaia dev add "Skill Name" --id <id> --type <type> --description "..."
    ```
    Do NOT pass `--level` — generics are rank-less; the schema will not accept a level on a generic node.
    
    **For named implementations**, use:
    ```bash
-   gaia add "Skill Name" --id <id> --named --contributor <user> --generic-ref <ref>
+   gaia dev add "Skill Name" --id <id> --named --contributor <user> --generic-ref <ref> --status awakened
    ```
-   Named skills receive their `--level` (2★–6★) in the YAML frontmatter, not via CLI.
+   Named skills **must** be submitted with `status: awakened` — the schema's named-status enum is `{awakened, named}`. Only a reviewer later promotes a skill to `named` and assigns its `title`/`catalogRef`; never hand-set those during curation. Calibrate stars (2★–6★) with `gaia dev calibrate` once evidence is reviewed.
 6. **Run validation** — `gaia validate` must exit 0.
 
 7. **Regenerate derived files** — run `gaia docs build`. This ensures `registry.md`, `combinations.md`, `skills/**/*.md`, `registry/gaia.gexf`, and `skill-trees/*/skill-tree.md` stay in sync.
@@ -136,7 +136,7 @@ gaia validate --intake
 
 ## Constraints
 
-- **Programmatic Registry Management**: NEVER hand-edit files in `registry/nodes/` or `registry/gaia.json`. Use `gaia add`, `gaia merge`, `gaia split`, and `gaia evidence`.
+- **Programmatic Registry Management**: NEVER hand-edit files in `registry/nodes/` or `registry/gaia.json`. Use `gaia dev add`, `gaia dev merge`, `gaia dev split`, and `gaia dev evidence`.
 - All evidence `source` values must be real, resolvable URLs (arXiv abs pages or GitHub repos).
 - Ultimate skills at `status: validated` require ≥3 Evidence Tier A/B entries; new ultimates should land as `provisional` until the maintainer merges.
 - No cycles in the DAG. No orphaned composite nodes.
