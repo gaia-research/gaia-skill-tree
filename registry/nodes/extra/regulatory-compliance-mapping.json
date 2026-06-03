@@ -1,0 +1,67 @@
+{
+  "id": "regulatory-compliance-mapping",
+  "name": "Regulatory Compliance Mapping",
+  "type": "extra",
+  "rarity": "common",
+  "description": "Cross-references regulatory requirements (GDPR, SOC2, HIPAA) against implementation controls using knowledge-graph-augmented retrieval to detect compliance gaps and drift.",
+  "prerequisites": [
+    "extract-entities",
+    "knowledge-graph-build",
+    "security-audit"
+  ],
+  "derivatives": [],
+  "evidence": [
+    {
+      "class": "A",
+      "source": "https://arxiv.org/abs/2604.23585",
+      "evaluator": "unknown",
+      "date": "2026-06-03",
+      "notes": "ComplianceNLP: Knowledge-Graph-Augmented RAG for Multi-Framework Regulatory Gap Detection (COLING 2025): knowledge graph of 12,847 provisions across SEC/MiFID II/Basel III; 87.7 F1 gap detection; 90.7% precision at production scale; demonstrates cross-framework drift detection methodology"
+    },
+    {
+      "class": "A",
+      "source": "https://arxiv.org/abs/2209.09722",
+      "evaluator": "unknown",
+      "date": "2026-06-03",
+      "notes": "NLP-based Automated Compliance Checking of Data Processing Agreements against GDPR: 89.1% precision / 84.6% accuracy; automated extraction of GDPR compliance requirements and comparison against DPA language"
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/dralgorhythm/claude-agentic-framework/blob/main/.claude/skills/security/compliance/SKILL.md",
+      "evaluator": "unknown",
+      "date": "2026-06-03",
+      "notes": "SKILL.md covering GDPR, HIPAA, and SOC2 in a single cross-framework comparison matrix; core requirements checklist, control overlaps, and drift detection guidance across all three frameworks"
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-06-03",
+  "updatedAt": "2026-06-03",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-06-03T22:48:54Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill regulatory-compliance-mapping"
+    },
+    {
+      "timestamp": "2026-06-03T22:48:54Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added A evidence from https://arxiv.org/abs/2604.23585"
+    },
+    {
+      "timestamp": "2026-06-03T22:48:54Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added A evidence from https://arxiv.org/abs/2209.09722"
+    },
+    {
+      "timestamp": "2026-06-03T22:48:54Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/dralgorhythm/claude-agentic-framework/blob/main/.claude/skills/security/compliance/SKILL.md"
+    }
+  ]
+}

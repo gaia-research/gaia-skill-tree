@@ -6,6 +6,7 @@
 |---|---|---|---|
 | ○ [ruvnet](../docs/u/ruvnet/)/reasoningbank-intelligence | Basic Skill | — | `/adaptive-pattern-learning` |
 | ◇ [ruvnet](../docs/u/ruvnet/)/swarm-advanced | Extra Skill | — | `/advanced-swarm-coordination` |
+| ◇ /adversarial-robustness-testing | Extra Skill | — | `/adversarial-robustness-testing` |
 | ◇ [mattpocock](../docs/u/mattpocock/)/setup-matt-pocock-skills | Extra Skill | 3★ | `/agent-environment-setup` |
 | ◇ /agent-eval | Extra Skill | — | `/agent-eval` |
 | ◇ [mattpocock](../docs/u/mattpocock/)/handoff | Extra Skill | 4★ | `/agent-handoff` |
@@ -24,6 +25,7 @@
 | ◇ [gooseworks](../docs/u/gooseworks/)/notte-browser | Extra Skill | 2★ | `/browser-automation` |
 | ○ [garrytan](../docs/u/garrytan/)/browse | Basic Skill | 3★ | `/browser-control` |
 | ◇ [santifer](../docs/u/santifer/)/career-ops | Extra Skill | 3★ | `/career-operations` |
+| ◇ /causal-inference | Extra Skill | — | `/causal-inference` |
 | ○ /chain-of-thought | Basic Skill | — | `/chain-of-thought` |
 | ○ /chunk-document | Basic Skill | — | `/chunk-document` |
 | ○ /cite-sources | Basic Skill | — | `/cite-sources` |
@@ -57,13 +59,17 @@
 | ○ [garrytan](../docs/u/garrytan/)/document-generate | Basic Skill | 4★ | `/document-editing` |
 | ◇ [ruvnet](../docs/u/ruvnet/)/dual-mode | Extra Skill | 3★ | `/dual-mode` |
 | ◇ [garrytan](../docs/u/garrytan/)/qa-only | Extra Skill | 4★ | `/e2e-testing` |
+| ◇ /edge-optimization | Extra Skill | — | `/edge-optimization` |
 | ○ /embed-text | Basic Skill | — | `/embed-text` |
 | ◆ [mattpocock](../docs/u/mattpocock/)/engineering | Ultimate Skill | 5★ | `/engineering-discipline` |
 | ○ /error-interpretation | Basic Skill | — | `/error-interpretation` |
 | ○ [garrytan](../docs/u/garrytan/)/benchmark | Basic Skill | 4★ | `/evaluate-output` |
 | ◇ [obra](../docs/u/obra/)/executing-plans | Extra Skill | 2★ | `/executing-plans` |
+| ◇ /explainability-audit | Extra Skill | — | `/explainability-audit` |
 | ○ /extract-entities | Basic Skill | — | `/extract-entities` |
-| ◉ [nousresearch](../docs/u/nousresearch/)/feed-monitoring | Unique Skill | — | `/feed-monitoring` |
+| ○ [nousresearch](../docs/u/nousresearch/)/feed-monitoring | Basic Skill | — | `/feed-monitoring` |
+| ◇ /financial-modeling | Extra Skill | — | `/financial-modeling` |
+| ○ [huggingface](../docs/u/huggingface/)/huggingface-llm-trainer | Basic Skill | 3★ | `/fine-tune` |
 | ◇ [garrytan](../docs/u/garrytan/)/ship | Extra Skill | 4★ | `/finishing-a-development-branch` |
 | ○ [garrytan](../docs/u/garrytan/)/make-pdf | Basic Skill | 3★ | `/format-output` |
 | ◆ [garrytan](../docs/u/garrytan/)/gstack | Ultimate Skill | 5★ | `/founder-mode-orchestration` |
@@ -110,6 +116,7 @@
 | ○ [ruvnet](../docs/u/ruvnet/)/github-multi-repo | Basic Skill | 2★ | `/multi-repo-coordination` |
 | ◆ [ruvnet](../docs/u/ruvnet/)/ruflo | Ultimate Skill | 6★ | `/multi-topology-orchestration` |
 | ◇ [huggingface](../docs/u/huggingface/)/transformers-js | Extra Skill | 2★ | `/multimodal-reasoning` |
+| ◇ /ontology-alignment | Extra Skill | — | `/ontology-alignment` |
 | ○ /optical-character-recognition | Basic Skill | — | `/optical-character-recognition` |
 | ○ [intelligentcode-ai](../docs/u/intelligentcode-ai/)/parallel-execution | Basic Skill | 2★ | `/parallel-execution` |
 | ○ /parse-html | Basic Skill | — | `/parse-html` |
@@ -142,12 +149,14 @@
 | ◇ [mbtiongson1](../docs/u/mbtiongson1/)/gaia-curate | Extra Skill | 2★ | `/registry-curation` |
 | ◇ [mbtiongson1](../docs/u/mbtiongson1/)/gaia-audit | Extra Skill | 2★ | `/registry-entry-audit` |
 | ◇ [mbtiongson1](../docs/u/mbtiongson1/)/gaia-meta-audit | Extra Skill | 2★ | `/registry-health-scan` |
+| ◇ /regulatory-compliance-mapping | Extra Skill | — | `/regulatory-compliance-mapping` |
 | ◇ [intelligentcode-ai](../docs/u/intelligentcode-ai/)/release | Extra Skill | 2★ | `/release-automation` |
 | ◇ [obra](../docs/u/obra/)/requesting-code-review | Extra Skill | 3★ | `/requesting-code-review` |
 | ○ [intelligentcode-ai](../docs/u/intelligentcode-ai/)/requirements-engineer | Basic Skill | 2★ | `/requirements-analysis` |
 | ◇ /research | Extra Skill | — | `/research` |
 | ○ /retrieve | Basic Skill | — | `/retrieve` |
 | ○ /route-intent | Basic Skill | — | `/route-intent` |
+| ○ [intelligentcode-ai](../docs/u/intelligentcode-ai/)/database-engineer | Basic Skill | 2★ | `/schema-design` |
 | ◇ /scientific-discovery | Extra Skill | — | `/scientific-discovery` |
 | ○ /scientific-visualization | Basic Skill | — | `/scientific-visualization` |
 | ◇ /scientific-writing | Extra Skill | — | `/scientific-writing` |
@@ -169,11 +178,13 @@
 | ◇ [obra](../docs/u/obra/)/subagent-driven-development | Extra Skill | 4★ | `/subagent-driven-development` |
 | ○ /summarize | Basic Skill | — | `/summarize` |
 | ◆ [obra](../docs/u/obra/)/superpowers | Ultimate Skill | 5★ | `/superpowers` |
+| ◇ /supply-chain-optimization | Extra Skill | — | `/supply-chain-optimization` |
 | ○ [ruvnet](../docs/u/ruvnet/)/swarm-orchestration | Basic Skill | — | `/swarm-topology-management` |
 | ○ [ruvnet](../docs/u/ruvnet/)/v3-integration-deep | Basic Skill | 2★ | `/system-integration` |
 | ◇ [garrytan](../docs/u/garrytan/)/investigate | Extra Skill | 4★ | `/systematic-debugging` |
 | ○ /text-to-speech | Basic Skill | — | `/text-to-speech` |
 | ◇ /text-to-sql-pipeline | Extra Skill | — | `/text-to-sql-pipeline` |
+| ◇ /threat-intelligence-synthesis | Extra Skill | — | `/threat-intelligence-synthesis` |
 | ○ /tokenize | Basic Skill | — | `/tokenize` |
 | ◇ /tool-chaining | Extra Skill | — | `/tool-chaining` |
 | ◇ [mattpocock](../docs/u/mattpocock/)/write-a-skill | Extra Skill | 3★ | `/tool-creation` |
@@ -211,7 +222,6 @@
 | Name | Class | Top ★ | Skill Call |
 |---|---|---|---|
 | ◉ [ruvnet](../docs/u/ruvnet/)/hive-mind-coordination | Unique Skill | — | `/distributed-consensus-coordination` |
-| ◉ [nousresearch](../docs/u/nousresearch/)/feed-monitoring | Unique Skill | — | `/feed-monitoring` |
 | ◉ [huggingface](../docs/u/huggingface/)/semantic-cache | Unique Skill | — | `/semantic-cache` |
 
 ## Basics
@@ -222,18 +232,20 @@
 |---|---|---|---|
 | ○ Autonomous Engineering Platform | Intrinsic Skill | — | `/autonomous-engineering-platform` |
 | ○ Clinical Data Retrieval | Intrinsic Skill | — | `/clinical-data-retrieval` |
+| ○ Cultural Localization | Intrinsic Skill | — | `/cultural-localization` |
 | ○ Few-Shot Learning | Intrinsic Skill | 2★ | `/few-shot-learning` |
-| ○ Fine-Tune | Intrinsic Skill | 3★ | `/fine-tune` |
 | ○ Framework Upgrade | Intrinsic Skill | 2★ | `/framework-upgrade` |
 | ○ Git Diff Risk Analysis | Intrinsic Skill | 2★ | `/git-diff-risk-analysis` |
 | ○ Image Generate | Intrinsic Skill | — | `/image-generate` |
 | ○ Object Detection | Intrinsic Skill | 3★ | `/object-detection` |
 | ○ Pathway Ontology Retrieval | Intrinsic Skill | — | `/pathway-ontology-retrieval` |
+| ○ Probabilistic Programming | Intrinsic Skill | — | `/probabilistic-programming` |
 | ○ Reward Modeling | Intrinsic Skill | — | `/reward-modeling` |
-| ○ Schema Design | Intrinsic Skill | 2★ | `/schema-design` |
 | ○ Self-Consistency | Intrinsic Skill | 2★ | `/self-consistency` |
 | ○ Sequential Agent Pipeline | Intrinsic Skill | 2★ | `/sequential-agent-pipeline` |
+| ○ Synthetic Data Generation | Intrinsic Skill | — | `/synthetic-data-generation` |
 | ○ Test-Driven Development | Intrinsic Skill | 3★ | `/test-driven-development` |
+| ○ Time Series Forecasting | Intrinsic Skill | — | `/time-series-forecasting` |
 | ○ Token Observability | Intrinsic Skill | 2★ | `/token-observability` |
 | ○ Worker Agent Dispatch | Intrinsic Skill | 2★ | `/worker-agent-dispatch` |
 

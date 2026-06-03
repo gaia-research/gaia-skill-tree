@@ -5104,7 +5104,7 @@
             "details": "Calibrated level from 4★ to 1★"
           }
         ],
-        "type": "unique",
+        "type": "basic",
         "role": "origin"
       }
     ],

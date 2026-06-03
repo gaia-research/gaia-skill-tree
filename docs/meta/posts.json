@@ -1,6 +1,17 @@
 {
   "posts": [
     {
+      "id": "2026-06-03-chained-curation-thirteen-starless-references-and-a-unique-reclassification",
+      "type": "report",
+      "date": "2026-06-03",
+      "title": "Chained Curation: Thirteen Starless References and a Unique Reclassification",
+      "summary": "Gated chain adds 13 starless references; feed-monitoring reclassified from Unique to Basic.",
+      "label": "Curation Pass",
+      "url": "meta/reports/2026-06-03-chained-curation-thirteen-starless-references-and-a-unique-reclassification.html",
+      "author": "gaia-curate-chain (automated curation pass)",
+      "source": "docs/meta/2026-06-curate-chain-starless.md"
+    },
+    {
       "id": "2026-06-02-june-week-1-meta-update",
       "type": "report",
       "date": "2026-06-02",

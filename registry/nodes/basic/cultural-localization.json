@@ -1,0 +1,63 @@
+{
+  "id": "cultural-localization",
+  "name": "Cultural Localization",
+  "type": "basic",
+  "rarity": "common",
+  "description": "Adapts content for regional audiences beyond translation: idioms, cultural nuance, tone, trust conventions, and regional compliance for culturally faithful output.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [
+    {
+      "class": "A",
+      "source": "https://arxiv.org/abs/2603.23301",
+      "evaluator": "unknown",
+      "date": "2026-06-03",
+      "notes": "Steering LLMs for Culturally Localized Generation — sparse autoencoders identify cultural features (CuE) enabling white-box steering for cultural faithfulness"
+    },
+    {
+      "class": "A",
+      "source": "https://arxiv.org/abs/2602.04729",
+      "evaluator": "unknown",
+      "date": "2026-06-03",
+      "notes": "'Be My Cheese?': Cultural Nuance Benchmarking for MT in Multilingual LLMs — 7 models, 15 languages, native-speaker evaluation of idioms, puns, holidays"
+    },
+    {
+      "class": "C",
+      "source": "https://skillsmp.com/skills/sapraudnynew-intakto-cco-claude-skills-cultural-localization-skill-md",
+      "evaluator": "unknown",
+      "date": "2026-06-03",
+      "notes": "cultural-localization skill on SkillsMP — per-country cultural copy profiles synthesizing three cultural frameworks for tone, trust-building, CTA style"
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-06-03",
+  "updatedAt": "2026-06-03",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-06-03T22:48:56Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill cultural-localization"
+    },
+    {
+      "timestamp": "2026-06-03T22:48:56Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added A evidence from https://arxiv.org/abs/2603.23301"
+    },
+    {
+      "timestamp": "2026-06-03T22:48:56Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added A evidence from https://arxiv.org/abs/2602.04729"
+    },
+    {
+      "timestamp": "2026-06-03T22:48:56Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added C evidence from https://skillsmp.com/skills/sapraudnynew-intakto-cco-claude-skills-cultural-localization-skill-md"
+    }
+  ]
+}

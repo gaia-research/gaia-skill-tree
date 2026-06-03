@@ -304,7 +304,6 @@ Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) throu
 ══════════════════════════════════════════════════════════════════════
 
   ◉ ruvnet/hive-mind-coordination
-  ◉ nousresearch/feed-monitoring
   ◉ huggingface/semantic-cache
 
 ══════════════════════════════════════════════════════════════════════
@@ -313,18 +312,20 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
 
   ○ /autonomous-engineering-platform
   ○ /clinical-data-retrieval
+  ○ /cultural-localization
   ○ openai/few-shot-learning  [2★]
-  ○ huggingface/huggingface-llm-trainer  [3★]
   ○ laravel/upgrade-laravel-v13  [2★]
   ○ ruvnet/agentic-jujutsu  [2★]
   ○ /image-generate
   ○ huggingface/huggingface-vision-trainer  [3★]
   ○ /pathway-ontology-retrieval
+  ○ /probabilistic-programming
   ○ /reward-modeling
-  ○ intelligentcode-ai/database-engineer  [2★]
   ○ openai/self-consistency  [2★]
   ○ ruvnet/stream-chain  [2★]
+  ○ /synthetic-data-generation
   ○ addy-osmani/test-driven-development  [3★]
+  ○ /time-series-forecasting
   ○ getagentseal/codeburn  [2★]
   ○ ruvnet/worker-integration  [2★]
 ```

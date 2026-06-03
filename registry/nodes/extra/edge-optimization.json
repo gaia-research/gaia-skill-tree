@@ -1,0 +1,54 @@
+{
+  "id": "edge-optimization",
+  "name": "Edge Optimization",
+  "type": "extra",
+  "rarity": "common",
+  "description": "Compresses and tunes models for low-latency on-device inference via quantization, pruning, knowledge distillation, and federated learning under resource constraints.",
+  "prerequisites": [
+    "evaluate-output",
+    "fine-tune",
+    "performance-tuning"
+  ],
+  "derivatives": [],
+  "evidence": [
+    {
+      "class": "A",
+      "source": "https://arxiv.org/abs/2505.01821",
+      "evaluator": "unknown",
+      "date": "2026-06-03",
+      "notes": "Edge-Cloud Collaborative Computing on Distributed Intelligence and Model Optimization: A Survey — covers quantization, pruning, distillation, federated learning for edge deployment (IEEE ComST 2026)"
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/majiayu000/claude-skill-registry-data/blob/main/ai-ml/edge-model-compression/SKILL.md",
+      "evaluator": "unknown",
+      "date": "2026-06-03",
+      "notes": "SKILL.md: Edge Model Compression — quantization, pruning, knowledge distillation, NAS for resource-constrained edge devices (majiayu000)"
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-06-03",
+  "updatedAt": "2026-06-03",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-06-03T22:48:56Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill edge-optimization"
+    },
+    {
+      "timestamp": "2026-06-03T22:48:56Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added A evidence from https://arxiv.org/abs/2505.01821"
+    },
+    {
+      "timestamp": "2026-06-03T22:48:56Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/majiayu000/claude-skill-registry-data/blob/main/ai-ml/edge-model-compression/SKILL.md"
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "id": "causal-inference",
+  "name": "Causal Inference",
+  "type": "extra",
+  "rarity": "common",
+  "description": "Estimates treatment effects and identifies causal relationships from observational and experimental data using propensity scoring, instrumental variables, and causal graphs.",
+  "prerequisites": [
+    "hypothesis-generate",
+    "logical-inference",
+    "statistical-analysis"
+  ],
+  "derivatives": [],
+  "evidence": [
+    {
+      "class": "A",
+      "source": "https://arxiv.org/abs/2410.08770",
+      "evaluator": "unknown",
+      "date": "2026-06-03",
+      "notes": "Causal machine learning for predicting treatment outcomes — individualized treatment effects from RCT + observational data; published Nature Medicine 2024 (Feuerriegel et al.)"
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/aj-geddes/useful-ai-prompts/blob/main/skills/causal-inference/SKILL.md",
+      "evaluator": "unknown",
+      "date": "2026-06-03",
+      "notes": "SKILL.md: Causal Inference — propensity scoring, instrumental variables, causal graphs, treatment effects, policy evaluation (aj-geddes)"
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-06-03",
+  "updatedAt": "2026-06-03",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-06-03T22:48:54Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill causal-inference"
+    },
+    {
+      "timestamp": "2026-06-03T22:48:54Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added A evidence from https://arxiv.org/abs/2410.08770"
+    },
+    {
+      "timestamp": "2026-06-03T22:48:54Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/aj-geddes/useful-ai-prompts/blob/main/skills/causal-inference/SKILL.md"
+    }
+  ]
+}
