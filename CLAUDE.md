@@ -112,13 +112,14 @@ Project-local agent skills live in two directories and are actively used by cont
 
 - `.agents/skills/gaia-curate/` — `/gaia-curate`: expand the registry with new skills and open a PR (single linear pass).
 - `.agents/skills/gaia-curate-chain/` — `/gaia-curate-chain`: the same curation work as a **prompt-chaining** workflow (six gated links, one sub-agent per link), per Anthropic's *Building Effective Agents*. Use when evidence quality and schema correctness matter more than latency.
+- `.agents/skills/gaia-curate-dynamic/` — `/gaia-curate-dynamic`: curation as a **dynamic workflow** (runtime-composed plan, massively parallel sub-agent fan-out, proposer⇄refuter convergent validation, resumable ledger), per *Introducing dynamic workflows in Claude Code*. Use for wide sweeps and high-stakes verification.
 - `.agents/skills/gaia-meta-audit/` — `/gaia-meta-audit`: prioritized queue of skills/catalog items needing review.
 - `.agents/skills/gaia-audit/` — `/gaia-audit`: focused source-level correction for one target.
 - `.agents/skills/gaia-draft-curate/`, `gaia-docs-sync/`, `gaia-integrity/`, `gaia-triage/`, `gaia-wiki-sync/`, `graphify-triage/` — supporting curation, doc-sync, integrity, and triage workflows.
 - `.agents/skills/gaia-bot-curate/` — bot-driven curation pass.
 - `.claude/skills/gaia-fuse-full-suite/` — `/gaia-fuse-full-suite`: fuse one contributor's named skills into a single ultimate.
 
-When touching any of these, route registry mutations through `gaia add` / `gaia merge` / `gaia split` / `gaia evidence` (Programmatic-First Policy) rather than hand-edits.
+When touching any of these, route registry mutations through `gaia dev add` / `gaia dev merge` / `gaia dev split` / `gaia dev evidence` (Programmatic-First Policy) rather than hand-edits.
 
 ## gstack
 

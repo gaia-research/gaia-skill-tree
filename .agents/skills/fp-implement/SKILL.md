@@ -87,6 +87,6 @@ Print M2 stop hook and end your turn:
 
 - One commit per plan step — no squashing.
 - Never commit secrets, generated registry artifacts, or unrelated files.
-- `gaia add`/`gaia merge`/`gaia split` for any registry mutations —
+- `gaia dev add`/`gaia dev merge`/`gaia dev split` for any registry mutations —
   never hand-edit `registry/nodes/`.
 - No force-pushes.
