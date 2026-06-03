@@ -16,7 +16,13 @@ This page is now a **contributor guide**. Detailed policy, reviewer playbooks, a
 
 ## 1) Pick your workflow
 
-### A) Submit discovered skills (recommended)
+Pick by what you're doing:
+
+- **Submitting a skill you discovered?** Use `gaia push` (A).
+- **A reviewer expanding or restructuring the registry?** Use the gated curation pipeline `/gaia-curate-chain` (B) — the recommended path for maintainer-run curation.
+- **Making a one-off correction** (a single merge, split, reclassify, or evidence add)? Use the direct CLI meta shifts (C).
+
+### A) Submit discovered skills
 
 ```bash
 gaia push
@@ -32,7 +38,17 @@ python3 scripts/validate_intake.py
 
 Use this when proposing skills via `registry-for-review/skill-batches/*.json`.
 
-### B) Update the canonical graph directly (Meta Shifts)
+### B) Curate with gates — `/gaia-curate-chain` (recommended for reviewers)
+
+```
+/gaia-curate-chain <topic-or-source>
+```
+
+Runs curation as six gated links — scope → research → design → human review → mutate → ship — one sub-agent per link, with a programmatic check between each. Source URLs are verified resolvable, schema shapes and the prerequisite DAG are checked **before** any mutation touches the registry, and `gaia validate` must pass before the branch ships. Prefer this whenever evidence quality and schema correctness matter; it is the default for maintainer-run registry expansion. See `.agents/skills/gaia-curate-chain/SKILL.md`.
+
+The flat **`/gaia-curate`** (single linear pass, `.agents/skills/gaia-curate/`) still works and is quicker, but is **less gated** — reserve it for small, trusted, low-stakes batches. Both skills route every change through the same `gaia dev` commands documented in (C), so the underlying mutations are identical — the chain just checks them at each step.
+
+### C) Update the canonical graph directly (Meta Shifts)
 
 **DEPRECATED:** Hand-editing individual JSON files in `registry/nodes/` is now deprecated. 
 
@@ -292,6 +308,7 @@ Use `gaia dev` commands — do not edit files manually or invoke build scripts d
 ## 11) Automated Maintenance
 
 The registry is supported by several automated workflows:
+- **Gated curation (`/gaia-curate-chain`):** The recommended pipeline for reviewer-run registry expansion (see §1B). Six gated links with a programmatic check between each; the flat `/gaia-curate` remains available for low-stakes batches but is less gated.
 - **Auto-Sync:** On every push to a branch, a GitHub Action automatically runs the versioning and regeneration scripts. You no longer need to run these manually before pushing.
 - **Validation:** Every PR is automatically validated for schema correctness, DAG integrity, and evidence quality.
 - **Monthly Meta Sweep (`/gaia-meta-sweep`):** Once per month a maintainer runs the `/gaia-meta-sweep` skill (see `.claude/skills/gaia-meta-sweep/SKILL.md`) to audit the entire registry against [META.md](META.md). The sweep produces a journal-style report under `docs/meta/reports/<YYYY-MM-DD>-meta-audit.html` plus a machine-readable `<slug>.findings.json` and `<YYYY-MM>-timeline.json`. See §13 below for the cadence and operating procedure.
