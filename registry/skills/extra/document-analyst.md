@@ -31,7 +31,6 @@ _Capability-level evidence for this generic reference. Every named implementatio
 
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
-| B | https://github.com/gaia-registry/gaia/blob/main/docs/evidence/documentAnalyst.md | mbtiongson1 | 2026-04-26 |
 | B | https://github.com/VikParuchuri/marker | mbtiongson1 | 2026-04-28 |
 
 ## Known Agents

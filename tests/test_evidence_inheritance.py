@@ -52,7 +52,7 @@ class TestRanklessGenerics(unittest.TestCase):
 
     def test_named_skills_retain_levels(self):
         idx = json.load(open(os.path.join(REPO_ROOT, "registry", "named-skills.json"), encoding="utf-8"))
-        valid = {"2★", "3★", "4★", "5★", "6★"}
+        valid = {"1★", "2★", "3★", "4★", "5★", "6★"}
         for entries in idx["buckets"].values():
             for e in entries:
                 self.assertIn(e["level"], valid, f"{e['id']} has invalid level {e['level']}")

@@ -27,7 +27,6 @@ _Capability-level evidence for this generic reference. Every named implementatio
 | Class | Source | Evaluator | Date |
 |---|---|---|---|
 | A | https://arxiv.org/abs/2201.11903 | mbtiongson1 | 2026-04-28 |
-| B | https://github.com/princeton-nlp/chain-of-thought-hub | mbtiongson1 | 2026-04-28 |
 
 ## Known Agents
 _None verified yet._

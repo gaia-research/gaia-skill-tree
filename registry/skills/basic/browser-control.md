@@ -1,4 +1,4 @@
-# [browser-use](../../../docs/u/browser-use/)/browser-harness  [3★]
+# [garrytan](../../../docs/u/garrytan/)/browse  [3★]
 **ID:** browser-control  
 **Type:** Basic Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
@@ -26,15 +26,15 @@ _None._
 
 ## Unlocks
 - [Browser Automation](../extra/browser-automation.md)
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| browser-use/browser-harness ⭑ | browser-use | 2★ | 1 |
-| garrytan/browse | garrytan | 3★ | 0 |
-| garrytan/open-gstack-browser | garrytan | 2★ | 0 |
-| garrytan/setup-browser-cookies | garrytan | 2★ | 0 |
+| garrytan/browse ⭑ | garrytan | 3★ | 1 |
+| browser-use/browser-harness | browser-use | 2★ | 1 |
+| garrytan/open-gstack-browser | garrytan | 2★ | 1 |
+| garrytan/setup-browser-cookies | garrytan | 2★ | 1 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

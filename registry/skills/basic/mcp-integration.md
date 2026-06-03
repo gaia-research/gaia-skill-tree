@@ -15,12 +15,12 @@ _None._
 
 ## Unlocks
 - [MCP Server Creation](../extra/mcp-server-creation.md)
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/pair-agent | garrytan | 3★ | 0 |
+| garrytan/pair-agent | garrytan | 3★ | 1 |
 | intelligentcode-ai/mcp-client | intelligentcode-ai | 2★ | 1 |
 | ruvnet/v3-mcp-optimization | ruvnet | 2★ | 0 |
 

@@ -10,7 +10,7 @@
   ],
   "derivatives": [
     "superpowers",
-    "gstack",
+    "founder-mode-orchestration",
     "deployment-automation"
   ],
   "conditions": "",

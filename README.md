@@ -39,13 +39,13 @@ Every AI agent capability exists somewhere on this graph. Skills start at the fo
 <!-- gaia:registry-start -->
 ```text
 ◆ ruvnet/agentdb  [5★]
-  ├─ ◇ ruvnet/agentdb-advanced  [3★]
+  ├─ ◇ ruvnet/agentdb-advanced
   │  ├─ ○ ruvnet/agentdb-vector-search  [2★]
   │  └─ ◇ garrytan/learn  [3★]
   │     ├─ ○ garrytan/context-restore  [3★]
   │     └─ ○ /retrieve
-  ├─ ◇ ruvnet/agentdb-learning  [3★]
-  │  ├─ ○ ruvnet/reasoningbank-intelligence  [3★]
+  ├─ ◇ ruvnet/agentdb-learning  [2★]
+  │  ├─ ○ ruvnet/reasoningbank-intelligence
   │  └─ ◇ garrytan/learn  [3★]  (↑ see above)
   ├─ ○ ruvnet/agentdb-memory-patterns  [2★]
   ├─ ○ ruvnet/agentdb-optimization  [2★]
@@ -59,19 +59,18 @@ Every AI agent capability exists somewhere on this graph. Skills start at the fo
   │  ├─ ○ /diff-content
   │  └─ ○ garrytan/benchmark  [4★]  (↑ see above)
   ├─ ○ pbakaus/impeccable  [4★]
-  ├─ ◇ mattpocock/to-issues  [5★]
+  ├─ ◇ garrytan/garrytan  [4★]
   │  ├─ ○ /plan-decompose
   │  └─ ○ /route-intent
   ├─ ◇ garrytan/design-consultation  [4★]
-  │  ├─ ◇ gooseworks/notte-browser  [3★]
+  │  ├─ ◇ gooseworks/notte-browser  [2★]
   │  │  ├─ ○ /web-search
   │  │  └─ ○ /computer-use
 
 Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
-  ◉ ruvnet/hive-mind-coordination  [4★]
-  ◉ nousresearch/feed-monitoring  [4★]
-  ◉ huggingface/huggingface-llm-trainer  [3★]
-  ◉ huggingface/semantic-cache  [4★]
+  ◉ ruvnet/hive-mind-coordination
+  ◉ nousresearch/feed-monitoring
+  ◉ huggingface/semantic-cache
 
 (215 skills total — see docs/tree.md)
 ```

@@ -13,21 +13,13 @@
     "e2e-testing"
   ],
   "conditions": "Requires a stealth-enabled browser driver and session management infrastructure.",
-  "evidence": [
-    {
-      "class": "B",
-      "source": "https://github.com/apify/crawlee-python/blob/main/AGENTS.md",
-      "evaluator": "mbtiongson1",
-      "date": "2026-05-14",
-      "notes": "Crawlee's StagehandCrawler and stealth engine provide autonomous, resilient browser interaction for agents."
-    }
-  ],
+  "evidence": [],
   "knownAgents": [
     "apify/crawlee"
   ],
   "status": "provisional",
   "createdAt": "2026-05-14",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-02",
   "version": "0.1.0",
   "timeline": [
     {
@@ -51,6 +43,12 @@
       "details": "Calibrated/demoted rank from 4★ to 2★",
       "previousValue": "4★",
       "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-02T23:45:13Z",
+      "action": "evidence_removed",
+      "contributor": "unknown",
+      "details": "Removed dead/invalid evidence: https://github.com/apify/crawlee-python/blob/main/AGENTS.md"
     }
   ]
 }

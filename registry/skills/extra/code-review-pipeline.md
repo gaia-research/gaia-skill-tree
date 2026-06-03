@@ -18,7 +18,7 @@ Performs automated code review by generating, diffing, and evaluating code chang
 ## Unlocks
 - [Full-Stack Developer](../extra/full-stack-developer.md)
 - [Security Audit](../extra/security-audit.md)
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 - [Finishing a Development Branch](../extra/finishing-a-development-branch.md)
 - [Subagent-Driven Development](../extra/subagent-driven-development.md)
 - [Requesting Code Review](../extra/requesting-code-review.md)
@@ -29,9 +29,9 @@ _None specified._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/plan-eng-review | garrytan | 4★ | 0 |
-| garrytan/review | garrytan | 4★ | 0 |
-| ruvnet/github-code-review | ruvnet | 3★ | 0 |
+| garrytan/plan-eng-review | garrytan | 4★ | 1 |
+| garrytan/review | garrytan | 4★ | 1 |
+| ruvnet/github-code-review | ruvnet | 1★ | 0 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

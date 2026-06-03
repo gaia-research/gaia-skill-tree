@@ -2,7 +2,7 @@
 id: mattpocock/to-issues
 name: To Issues
 contributor: mattpocock
-origin: true
+origin: false
 genericSkillRef: vertical-slice-planning
 status: named
 title: The Vertical Slicer
@@ -22,7 +22,7 @@ tags:
 - afk
 - acceptance-criteria
 createdAt: '2026-04-30'
-updatedAt: '2026-04-30'
+updatedAt: '2026-06-02'
 suiteRef: mattpocock/engineering
 evidence:
 - class: B
@@ -31,6 +31,11 @@ evidence:
   date: '2026-04-30'
   notes: Production skill implementing tracer-bullet vertical slicing with HITL/AFK
     classification and issue-tracker publication.
+timeline:
+- timestamp: '2026-06-02T23:33:00Z'
+  action: demote
+  contributor: unknown
+  details: Origin status removed. Transferred to garrytan/garrytan.
 ---
 
 ## Overview

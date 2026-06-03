@@ -5,21 +5,27 @@ contributor: ruvnet
 origin: false
 genericSkillRef: agentic-workflow-design
 status: named
-title: "The Five-Phase Maestro"
+title: The Five-Phase Maestro
 catalogRef: ruvnet-sparc-methodology
-level: "3★"
-description: Systematic 5-phase AI development methodology (Specification, Pseudocode, Architecture, Refinement, Completion) with 17 agent modes.
+level: 1★
+description: Systematic 5-phase AI development methodology (Specification, Pseudocode,
+  Architecture, Refinement, Completion) with 17 agent modes.
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - sparc
-  - methodology
-  - workflow-design
-  - multi-agent
-  - tdd
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/ruflo"
+- sparc
+- methodology
+- workflow-design
+- multi-agent
+- tdd
+createdAt: '2026-05-19'
+updatedAt: '2026-06-02'
+suiteRef: ruvnet/ruflo
+timeline:
+- timestamp: '2026-06-02T23:48:22Z'
+  action: demote
+  contributor: unknown
+  details: Calibrated level from 3★ to 1★
 ---
 
 ## Overview

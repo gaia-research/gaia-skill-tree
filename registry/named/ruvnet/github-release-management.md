@@ -6,21 +6,27 @@ origin: false
 role: variant
 genericSkillRef: release-automation
 status: named
-title: "The Release Gatekeeper"
+title: The Release Gatekeeper
 catalogRef: ruvnet-github-release-management
-level: "3★"
-description: Automates GitHub release creation, changelog generation, semantic versioning, and release note publishing.
+level: 1★
+description: Automates GitHub release creation, changelog generation, semantic versioning,
+  and release note publishing.
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - github
-  - release
-  - versioning
-  - changelog
-  - automation
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/github-suite"
+- github
+- release
+- versioning
+- changelog
+- automation
+createdAt: '2026-05-19'
+updatedAt: '2026-06-02'
+suiteRef: ruvnet/github-suite
+timeline:
+- timestamp: '2026-06-02T23:48:18Z'
+  action: demote
+  contributor: unknown
+  details: Calibrated level from 3★ to 1★
 ---
 
 ## Overview

@@ -5,20 +5,36 @@ contributor: garrytan
 origin: false
 genericSkillRef: code-review-pipeline
 status: named
-title: "Engineering Plan Review"
+title: Engineering Plan Review
 catalogRef: garrytan-plan-eng-review
-level: "4★"
-description: Comprehensive, interactive architecture and implementation review before coding begins, systematically evaluating scope, architecture, code quality, test coverage, and performance through structured questioning — synthesising findings into actionable tasks and an explicit not-in-scope section.
+level: 4★
+description: Comprehensive, interactive architecture and implementation review before
+  coding begins, systematically evaluating scope, architecture, code quality, test
+  coverage, and performance through structured questioning — synthesising findings
+  into actionable tasks and an explicit not-in-scope section.
 links:
   github: https://github.com/garrytan/gstack/blob/main/plan-eng-review/SKILL.md
 tags:
-  - engineering
-  - architecture-review
-  - plan-review
-  - pre-implementation
-createdAt: "2026-05-18"
-updatedAt: "2026-05-18"
-suiteRef: "garrytan/gstack"
+- engineering
+- architecture-review
+- plan-review
+- pre-implementation
+createdAt: '2026-05-18'
+updatedAt: '2026-06-03'
+suiteRef: garrytan/gstack
+evidence:
+- class: B
+  source: https://github.com/garrytan/gstack/blob/main/plan-eng-review/SKILL.md
+  evaluator: mbtiongson1
+  date: '2026-06-03'
+  notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Comprehensive,
+    interactive architecture and implementation review before coding begins, systematically
+    evaluating scope, architecture, code…
+timeline:
+- timestamp: '2026-06-03T05:51:35Z'
+  action: evidence_added
+  contributor: unknown
+  details: Added B evidence from https://github.com/garrytan/gstack/blob/main/plan-eng-review/SKILL.md
 ---
 
 ## Overview

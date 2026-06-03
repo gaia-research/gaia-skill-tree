@@ -18,7 +18,7 @@ Designs, writes, packages, and iteratively improves reusable agent skill directo
 ## Unlocks
 - [Skill Performance Benchmarking](../extra/skill-performance-benchmarking.md)
 - [Registry Curation](../extra/registry-curation.md)
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 
 ## Fusion Condition
 Requires a target agent skill format and a repeatable evaluation loop for trigger accuracy and task success.
@@ -26,7 +26,7 @@ Requires a target agent skill format and a repeatable evaluation loop for trigge
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/skillify | garrytan | 4★ | 0 |
+| garrytan/skillify | garrytan | 4★ | 1 |
 | ruvnet/skill-builder | ruvnet | 2★ | 0 |
 
 ## Evidence (inherited capability)

@@ -1,8 +1,8 @@
-# [devin-ai](../../../docs/u/devin-ai/)/autonomous-swe  [3★]
+# [devin-ai](../../../docs/u/devin-ai/)/autonomous-swe  [2★]
 **ID:** autonomous-debug  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
-**Top named variant:** 3★  
+**Top named variant:** 2★  
 **Skill Call:** `/autonomous-debug`
 
 ---
@@ -24,7 +24,7 @@ _None specified._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| devin-ai/autonomous-swe ⭑ | devin-ai | 3★ | 1 |
+| devin-ai/autonomous-swe ⭑ | devin-ai | 1★ | 1 |
 | mattpocock/diagnose | mattpocock | 2★ | 0 |
 
 ## Evidence (inherited capability)

@@ -5,20 +5,36 @@ contributor: garrytan
 origin: false
 genericSkillRef: deployment-automation
 status: named
-title: "Land and Deploy"
+title: Land and Deploy
 catalogRef: garrytan-land-and-deploy
-level: "4★"
-description: Automates the final production shipping stages — merging a PR, monitoring CI/deploy completion, and verifying live site health through canary checks — picking up where /ship leaves off with safety gates at each step to prevent broken deployments reaching users.
+level: 4★
+description: Automates the final production shipping stages — merging a PR, monitoring
+  CI/deploy completion, and verifying live site health through canary checks — picking
+  up where /ship leaves off with safety gates at each step to prevent broken deployments
+  reaching users.
 links:
   github: https://github.com/garrytan/gstack/blob/main/land-and-deploy/SKILL.md
 tags:
-  - deployment
-  - production
-  - merge
-  - canary
-createdAt: "2026-05-18"
-updatedAt: "2026-05-18"
-suiteRef: "garrytan/gstack"
+- deployment
+- production
+- merge
+- canary
+createdAt: '2026-05-18'
+updatedAt: '2026-06-03'
+suiteRef: garrytan/gstack
+evidence:
+- class: B
+  source: https://github.com/garrytan/gstack/blob/main/land-and-deploy/SKILL.md
+  evaluator: mbtiongson1
+  date: '2026-06-03'
+  notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Automates
+    the final production shipping stages — merging a PR, monitoring CI/deploy completion,
+    and verifying live site health through canary…
+timeline:
+- timestamp: '2026-06-03T05:51:34Z'
+  action: evidence_added
+  contributor: unknown
+  details: Added B evidence from https://github.com/garrytan/gstack/blob/main/land-and-deploy/SKILL.md
 ---
 
 ## Overview

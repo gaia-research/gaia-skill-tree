@@ -19,7 +19,7 @@ Generates test suites, executes them in a sandbox, interprets failures, and iter
 - [Full-Stack Developer](../extra/full-stack-developer.md)
 - [ML Pipeline](../extra/ml-pipeline.md)
 - [End-to-End Testing](../extra/e2e-testing.md)
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 
 ## Fusion Condition
 _None specified._
@@ -28,7 +28,7 @@ _None specified._
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
 | 0xdarkmatter/pytest-patterns ⭑ | 0xdarkmatter | 3★ | 0 |
-| garrytan/health | garrytan | 3★ | 0 |
+| garrytan/health | garrytan | 3★ | 1 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

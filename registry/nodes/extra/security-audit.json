@@ -10,7 +10,7 @@
   ],
   "derivatives": [
     "skill-security-analysis",
-    "gstack"
+    "founder-mode-orchestration"
   ],
   "conditions": "Requires access to the full codebase or diff; output must include severity classification and reproduction steps.",
   "evidence": [

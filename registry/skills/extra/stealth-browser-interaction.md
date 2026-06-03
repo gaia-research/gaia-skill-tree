@@ -26,9 +26,7 @@ _None yet — be the first to claim this skill._
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._
 
-| Class | Source | Evaluator | Date |
-|---|---|---|---|
-| B | https://github.com/apify/crawlee-python/blob/main/AGENTS.md | mbtiongson1 | 2026-05-14 |
+_None._
 
 ## Known Agents
 - apify/crawlee

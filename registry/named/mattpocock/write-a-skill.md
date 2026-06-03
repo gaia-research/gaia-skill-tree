@@ -2,25 +2,32 @@
 id: mattpocock/write-a-skill
 name: Write a Skill
 contributor: mattpocock
-origin: false
+origin: true
 genericSkillRef: tool-creation
 status: named
-title: "The Skill Builder"
-title: "The Skill Scaffolder"
+title: The Skill Scaffolder
 catalogRef: mattpocock-write-a-skill
-level: "3★"
-description: Guides creation of new agent skills through a structured requirements interview, then produces a SKILL.md with a trigger-aware description, progressive-disclosure layout, and optional bundled scripts or reference files — ready for installation in any Claude Code, Cursor, or Codex CLI skills directory.
+level: 3★
+description: Guides creation of new agent skills through a structured requirements
+  interview, then produces a SKILL.md with a trigger-aware description, progressive-disclosure
+  layout, and optional bundled scripts or reference files — ready for installation
+  in any Claude Code, Cursor, or Codex CLI skills directory.
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/productivity/write-a-skill/SKILL.md
 tags:
-  - skill-authoring
-  - meta-agent
-  - claude-code
-  - skill-scaffolding
-  - progressive-disclosure
-createdAt: "2026-04-30"
-updatedAt: "2026-04-30"
-suiteRef: "mattpocock/productivity"
+- skill-authoring
+- meta-agent
+- claude-code
+- skill-scaffolding
+- progressive-disclosure
+createdAt: '2026-04-30'
+updatedAt: '2026-06-02'
+suiteRef: mattpocock/productivity
+timeline:
+- timestamp: '2026-06-02T23:33:00Z'
+  action: rank_up
+  contributor: unknown
+  details: Origin status set to true.
 ---
 
 ## Overview

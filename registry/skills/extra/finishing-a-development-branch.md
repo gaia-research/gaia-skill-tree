@@ -1,4 +1,4 @@
-# [obra](../../../docs/u/obra/)/finishing-a-development-branch  [4★]
+# [garrytan](../../../docs/u/garrytan/)/ship  [4★]
 **ID:** finishing-a-development-branch  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
@@ -16,7 +16,7 @@ Guides completion of development work by presenting structured options for merge
 
 ## Unlocks
 - [Superpowers](../ultimate/superpowers.md)
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 - [Deployment Automation](../extra/deployment-automation.md)
 
 ## Fusion Condition
@@ -25,8 +25,8 @@ _None specified._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| obra/finishing-a-development-branch ⭑ | obra | 2★ | 1 |
-| garrytan/ship | garrytan | 4★ | 0 |
+| garrytan/ship ⭑ | garrytan | 4★ | 1 |
+| obra/finishing-a-development-branch | obra | 2★ | 1 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

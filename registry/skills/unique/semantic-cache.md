@@ -1,8 +1,7 @@
-# [huggingface](../../../docs/u/huggingface/)/semantic-cache  [4★]
+# [huggingface](../../../docs/u/huggingface/)/semantic-cache
 **ID:** semantic-cache  
 **Type:** Unique Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
-**Top named variant:** 4★  
 **Skill Call:** `/semantic-cache`
 
 ---
@@ -19,7 +18,7 @@ _None._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| huggingface/semantic-cache | huggingface | 4★ | 1 |
+| huggingface/semantic-cache | huggingface | 1★ | 1 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

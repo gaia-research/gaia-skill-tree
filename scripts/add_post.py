@@ -30,6 +30,7 @@ from pathlib import Path
 ROOT = Path(__file__).parent.parent
 POSTS_FILE = ROOT / "docs" / "meta" / "posts.json"
 INDEX_FILE = ROOT / "docs" / "index.html"
+META_FILE = ROOT / "docs" / "meta.html"
 REPORTS_DIR = ROOT / "docs" / "meta" / "reports"
 
 MONTHS = [
@@ -140,6 +141,51 @@ def patch_index(posts: list, hero_url: str | None, hero_label: str | None) -> No
             print("  [warn] gaia-hero-post markers not found in index.html -- skipping hero patch")
 
     INDEX_FILE.write_text(html, encoding="utf-8")
+
+
+def _meta_card(post: dict) -> str:
+    title = post.get("title", "")
+    summary = post.get("summary", "")
+    url = post.get("url", "#")
+    fname = url.rsplit("/", 1)[-1]
+    date_disp = fmt_date_display(post.get("date", ""))
+    return (
+        f'      <article class="meta-report-card">\n'
+        f'        <div class="meta-report-date">{date_disp}</div>\n'
+        f'        <h3 class="meta-report-title">{title}</h3>\n'
+        f'        <p class="meta-report-summary">{summary}</p>\n'
+        f'        <div class="meta-report-footer">\n'
+        f'          <a href="{url}" class="btn btn-ghost meta-report-link">Read Full Report →</a>\n'
+        f'          <button type="button" class="meta-report-action" aria-label="Share report"'
+        f' data-report-url="{url}" data-report-title="{title}" onclick="metaReportShare(this)">'
+        f'<svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#share"/></svg></button>\n'
+        f'          <a href="{url}" download="{fname}" class="meta-report-action" aria-label="Download report">'
+        f'<svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#download"/></svg></a>\n'
+        f'          <button type="button" class="meta-report-action" aria-label="Copy link"'
+        f' data-report-url="{url}" onclick="metaReportCopyLink(this)">'
+        f'<svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#link"/></svg></button>\n'
+        f'        </div>\n'
+        f'      </article>'
+    )
+
+
+def patch_meta_html(posts: list) -> None:
+    if not META_FILE.exists():
+        print("  [warn] meta.html not found -- skipping meta cards patch")
+        return
+    html = META_FILE.read_text(encoding="utf-8")
+    reports = [p for p in posts if p.get("type") == "report"]
+    cards = "\n".join(_meta_card(p) for p in reports)
+    zone = "<!-- gaia-meta-cards-start -->\n" + cards + "\n      <!-- gaia-meta-cards-end -->"
+    html, n = re.subn(
+        r"<!-- gaia-meta-cards-start -->.*?<!-- gaia-meta-cards-end -->",
+        zone, html, flags=re.DOTALL,
+    )
+    if n:
+        print("  [ok] Patched meta-report cards in meta.html")
+    else:
+        print("  [warn] gaia-meta-cards markers not found in meta.html -- skipping")
+    META_FILE.write_text(html, encoding="utf-8")
 
 
 # ---------------------------------------------------------------------------
@@ -424,8 +470,20 @@ _REPORT_CSS = """\
     .footer-nav { margin-top: 5rem; text-align: center; font-family: var(--font-sans); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; }
     .footer-nav a { color: var(--paper-text); text-decoration: none; border-bottom: 1px solid #ddd; padding-bottom: 2px; transition: border-color 0.2s; }
     .footer-nav a:hover { border-color: var(--accent); }
-    .floating-changelog-btn {
+    .floating-cluster {
       position: fixed; top: 2rem; right: 2rem; z-index: 1000;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .pja-btn {
+      background: #fff; border: 1px solid #d0d0cc; border-radius: 0; color: #888;
+      cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
+      width: 2rem; height: 2rem; padding: 0; text-decoration: none;
+      transition: color 0.15s, border-color 0.15s; flex-shrink: 0;
+    }
+    .pja-btn:hover { color: #111; border-color: #111; }
+    .pja-btn.copied { color: #16a34a; border-color: #16a34a; }
+    .pja-btn svg { width: 15px; height: 15px; display: block; }
+    .floating-changelog-btn {
       background: #000; color: #fff; border: none;
       padding: 0.8rem 1.4rem;
       font-family: var(--font-sans); font-weight: 700; font-size: 0.7rem;
@@ -449,7 +507,8 @@ _REPORT_CSS = """\
     @media (max-width: 768px) {
       .paper { padding: 3rem 2rem; }
       body { padding: 1rem 0; }
-      .floating-changelog-btn { top: 0.75rem; right: 0.75rem; padding: 0.4rem 0.8rem; font-size: 0.7rem; }
+      .floating-cluster { top: 0.75rem; right: 0.75rem; }
+      .floating-changelog-btn { padding: 0.4rem 0.8rem; font-size: 0.7rem; }
       .meta-sidebar { width: 100%; }
     }"""
 
@@ -478,7 +537,21 @@ _CHANGELOG_JS = """\
         });
       } catch (e) { console.error('Failed to load changelog', e); }
     }
-    loadChangelog();"""
+    loadChangelog();
+
+    (function() {
+      var shareBtn = document.getElementById('reportShareBtn');
+      var copyBtn = document.getElementById('reportCopyLinkBtn');
+      function flashBtn(b) { b.classList.add('copied'); setTimeout(function() { b.classList.remove('copied'); }, 1500); }
+      if (shareBtn) shareBtn.addEventListener('click', function() {
+        var url = location.href, title = document.title;
+        if (navigator.share) { navigator.share({ title: title, url: url }).catch(function() {}); }
+        else if (navigator.clipboard) { navigator.clipboard.writeText(url).then(function() { flashBtn(shareBtn); }); }
+      });
+      if (copyBtn) copyBtn.addEventListener('click', function() {
+        if (navigator.clipboard) navigator.clipboard.writeText(location.href).then(function() { flashBtn(copyBtn); });
+      });
+    })();"""
 
 
 def render_report_html(
@@ -489,6 +562,7 @@ def render_report_html(
     body_html: str,
     back_href: str = "../../index.html",
     chart_data_file: str | None = None,
+    download_name: str = "",
 ) -> str:
     chart_script_tag = '<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>' if chart_data_file else ""
 
@@ -559,7 +633,26 @@ def render_report_html(
 </head>
 <body>
 
-  <button type="button" class="floating-changelog-btn" id="viewChangelogBtn">View Changelog</button>
+  <div class="floating-cluster">
+    <button type="button" class="pja-btn" id="reportShareBtn" aria-label="Share report">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="15" cy="5" r="2"/><circle cx="5" cy="10" r="2"/><circle cx="15" cy="15" r="2"/>
+        <line x1="7" y1="9" x2="13" y2="6"/><line x1="7" y1="11" x2="13" y2="14"/>
+      </svg>
+    </button>
+    <a href="{download_name}" download="{download_name}" class="pja-btn" aria-label="Download report">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M10 3v9m0 0l-3.5-3.5M10 12l3.5-3.5"/><path d="M4 15h12"/>
+      </svg>
+    </a>
+    <button type="button" class="pja-btn" id="reportCopyLinkBtn" aria-label="Copy link">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M8.5 11.5a4.5 4.5 0 006.364 0l2-2a4.5 4.5 0 00-6.364-6.364L9 4.636"/>
+        <path d="M11.5 8.5a4.5 4.5 0 00-6.364 0l-2 2a4.5 4.5 0 006.364 6.364L11 15.364"/>
+      </svg>
+    </button>
+    <button type="button" class="floating-changelog-btn" id="viewChangelogBtn">View Changelog</button>
+  </div>
 
   <aside id="metaSidebar" class="meta-sidebar">
     <div class="ms-header">
@@ -675,6 +768,7 @@ def create_report(args) -> dict:
         abstract=abstract,
         body_html=body_html,
         chart_data_file=chart_file,
+        download_name=filename,
     )
 
     REPORTS_DIR.mkdir(parents=True, exist_ok=True)
@@ -745,6 +839,7 @@ def main() -> None:
     hero_label = post.get("label") if update_hero else None
 
     patch_index(posts, hero_url=hero_url, hero_label=hero_label)
+    patch_meta_html(posts)
     print(f"\n[done] Post id: {post['id']}\n")
 
 

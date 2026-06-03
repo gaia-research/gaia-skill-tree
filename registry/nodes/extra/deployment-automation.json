@@ -9,7 +9,7 @@
     "code-execution"
   ],
   "derivatives": [
-    "gstack"
+    "founder-mode-orchestration"
   ],
   "conditions": "Requires environment credentials and a configured pipeline definition.",
   "evidence": [],

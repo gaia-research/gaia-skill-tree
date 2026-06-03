@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <gexf xmlns="http://www.gexf.net/1.2draft" version="1.2">
-  <meta lastmodifieddate="2026-06-02">
+  <meta lastmodifieddate="2026-06-03">
     <creator>Gaia</creator>
     <description>Gaia Skill Registry Graph</description>
   </meta>
@@ -521,7 +521,7 @@
           <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="unique" />
+          <attvalue for="type" value="basic" />
         </attvalues>
       </node>
       <node id="finishing-a-development-branch" label="Finishing a Development Branch">
@@ -538,6 +538,14 @@
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
+      <node id="founder-mode-orchestration" label="Founder Mode">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="rarity" value="legendary" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="ultimate" />
         </attvalues>
       </node>
       <node id="framework-upgrade" label="Framework Upgrade">
@@ -658,14 +666,6 @@
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
-        </attvalues>
-      </node>
-      <node id="gstack" label="Founder Mode">
-        <attvalues>
-          <attvalue for="level" value="" />
-          <attvalue for="rarity" value="legendary" />
-          <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="ultimate" />
         </attvalues>
       </node>
       <node id="guardrails" label="Guardrails">
@@ -1838,63 +1838,63 @@
       <edge id="e101" source="tool-use" target="executing-plans" />
       <edge id="e102" source="code-review-pipeline" target="finishing-a-development-branch" />
       <edge id="e103" source="diff-content" target="finishing-a-development-branch" />
-      <edge id="e104" source="code-review-pipeline" target="full-stack-developer" />
-      <edge id="e105" source="automated-testing" target="full-stack-developer" />
-      <edge id="e106" source="refactor-code" target="full-stack-developer" />
-      <edge id="e107" source="structured-output" target="function-calling" />
-      <edge id="e108" source="api-call" target="function-calling" />
-      <edge id="e109" source="tool-select" target="function-calling" />
-      <edge id="e110" source="api-call" target="generative-media" />
-      <edge id="e111" source="data-visualize" target="generative-media" />
-      <edge id="e112" source="research" target="ghostwrite" />
-      <edge id="e113" source="write-report" target="ghostwrite" />
-      <edge id="e114" source="audience-model" target="ghostwrite" />
-      <edge id="e115" source="code-review-pipeline" target="git-integration" />
-      <edge id="e116" source="multi-repo-coordination" target="git-integration" />
-      <edge id="e117" source="deployment-automation" target="git-integration" />
-      <edge id="e118" source="project-management" target="git-integration" />
-      <edge id="e119" source="workflow-automation" target="git-integration" />
-      <edge id="e120" source="issue-triage" target="graph-driven-issue-triage" />
-      <edge id="e121" source="knowledge-graph-build" target="graph-driven-issue-triage" />
-      <edge id="e122" source="design-review" target="grill-me" />
-      <edge id="e123" source="self-critique" target="grill-me" />
-      <edge id="e124" source="grill-me" target="grill-with-docs" />
-      <edge id="e125" source="ubiquitous-language" target="grill-with-docs" />
-      <edge id="e126" source="document-editing" target="grill-with-docs" />
-      <edge id="e127" source="retrieve" target="grounding" />
-      <edge id="e128" source="cite-sources" target="grounding" />
-      <edge id="e129" source="evaluate-output" target="grounding" />
-      <edge id="e130" source="question-answer" target="gstack" />
-      <edge id="e131" source="evaluate-output" target="gstack" />
-      <edge id="e132" source="code-review-pipeline" target="gstack" />
-      <edge id="e133" source="ux-audit" target="gstack" />
-      <edge id="e134" source="vertical-slice-planning" target="gstack" />
-      <edge id="e135" source="design-system-extraction" target="gstack" />
-      <edge id="e136" source="design-review" target="gstack" />
-      <edge id="e137" source="code-generation" target="gstack" />
-      <edge id="e138" source="systematic-debugging" target="gstack" />
-      <edge id="e139" source="e2e-testing" target="gstack" />
-      <edge id="e140" source="finishing-a-development-branch" target="gstack" />
-      <edge id="e141" source="deployment-automation" target="gstack" />
-      <edge id="e142" source="detect-anomaly" target="gstack" />
-      <edge id="e143" source="document-editing" target="gstack" />
-      <edge id="e144" source="browser-automation" target="gstack" />
-      <edge id="e145" source="security-audit" target="gstack" />
-      <edge id="e146" source="browser-control" target="gstack" />
-      <edge id="e147" source="web-scrape" target="gstack" />
-      <edge id="e148" source="skill-authoring" target="gstack" />
-      <edge id="e149" source="write-report" target="gstack" />
-      <edge id="e150" source="multi-agent-debate" target="gstack" />
-      <edge id="e151" source="skill-performance-benchmarking" target="gstack" />
-      <edge id="e152" source="automated-testing" target="gstack" />
-      <edge id="e153" source="mcp-integration" target="gstack" />
-      <edge id="e154" source="memory-manage" target="gstack" />
-      <edge id="e155" source="guardrails" target="gstack" />
-      <edge id="e156" source="knowledge-management" target="gstack" />
-      <edge id="e157" source="format-output" target="gstack" />
-      <edge id="e158" source="workspace-automation" target="gstack" />
-      <edge id="e159" source="project-management" target="gstack" />
-      <edge id="e160" source="prompt-optimization" target="gstack" />
+      <edge id="e104" source="question-answer" target="founder-mode-orchestration" />
+      <edge id="e105" source="evaluate-output" target="founder-mode-orchestration" />
+      <edge id="e106" source="code-review-pipeline" target="founder-mode-orchestration" />
+      <edge id="e107" source="ux-audit" target="founder-mode-orchestration" />
+      <edge id="e108" source="vertical-slice-planning" target="founder-mode-orchestration" />
+      <edge id="e109" source="design-system-extraction" target="founder-mode-orchestration" />
+      <edge id="e110" source="design-review" target="founder-mode-orchestration" />
+      <edge id="e111" source="code-generation" target="founder-mode-orchestration" />
+      <edge id="e112" source="systematic-debugging" target="founder-mode-orchestration" />
+      <edge id="e113" source="e2e-testing" target="founder-mode-orchestration" />
+      <edge id="e114" source="finishing-a-development-branch" target="founder-mode-orchestration" />
+      <edge id="e115" source="deployment-automation" target="founder-mode-orchestration" />
+      <edge id="e116" source="detect-anomaly" target="founder-mode-orchestration" />
+      <edge id="e117" source="document-editing" target="founder-mode-orchestration" />
+      <edge id="e118" source="browser-automation" target="founder-mode-orchestration" />
+      <edge id="e119" source="security-audit" target="founder-mode-orchestration" />
+      <edge id="e120" source="browser-control" target="founder-mode-orchestration" />
+      <edge id="e121" source="web-scrape" target="founder-mode-orchestration" />
+      <edge id="e122" source="skill-authoring" target="founder-mode-orchestration" />
+      <edge id="e123" source="write-report" target="founder-mode-orchestration" />
+      <edge id="e124" source="multi-agent-debate" target="founder-mode-orchestration" />
+      <edge id="e125" source="skill-performance-benchmarking" target="founder-mode-orchestration" />
+      <edge id="e126" source="automated-testing" target="founder-mode-orchestration" />
+      <edge id="e127" source="mcp-integration" target="founder-mode-orchestration" />
+      <edge id="e128" source="memory-manage" target="founder-mode-orchestration" />
+      <edge id="e129" source="guardrails" target="founder-mode-orchestration" />
+      <edge id="e130" source="knowledge-management" target="founder-mode-orchestration" />
+      <edge id="e131" source="format-output" target="founder-mode-orchestration" />
+      <edge id="e132" source="workspace-automation" target="founder-mode-orchestration" />
+      <edge id="e133" source="project-management" target="founder-mode-orchestration" />
+      <edge id="e134" source="prompt-optimization" target="founder-mode-orchestration" />
+      <edge id="e135" source="code-review-pipeline" target="full-stack-developer" />
+      <edge id="e136" source="automated-testing" target="full-stack-developer" />
+      <edge id="e137" source="refactor-code" target="full-stack-developer" />
+      <edge id="e138" source="structured-output" target="function-calling" />
+      <edge id="e139" source="api-call" target="function-calling" />
+      <edge id="e140" source="tool-select" target="function-calling" />
+      <edge id="e141" source="api-call" target="generative-media" />
+      <edge id="e142" source="data-visualize" target="generative-media" />
+      <edge id="e143" source="research" target="ghostwrite" />
+      <edge id="e144" source="write-report" target="ghostwrite" />
+      <edge id="e145" source="audience-model" target="ghostwrite" />
+      <edge id="e146" source="code-review-pipeline" target="git-integration" />
+      <edge id="e147" source="multi-repo-coordination" target="git-integration" />
+      <edge id="e148" source="deployment-automation" target="git-integration" />
+      <edge id="e149" source="project-management" target="git-integration" />
+      <edge id="e150" source="workflow-automation" target="git-integration" />
+      <edge id="e151" source="issue-triage" target="graph-driven-issue-triage" />
+      <edge id="e152" source="knowledge-graph-build" target="graph-driven-issue-triage" />
+      <edge id="e153" source="design-review" target="grill-me" />
+      <edge id="e154" source="self-critique" target="grill-me" />
+      <edge id="e155" source="grill-me" target="grill-with-docs" />
+      <edge id="e156" source="ubiquitous-language" target="grill-with-docs" />
+      <edge id="e157" source="document-editing" target="grill-with-docs" />
+      <edge id="e158" source="retrieve" target="grounding" />
+      <edge id="e159" source="cite-sources" target="grounding" />
+      <edge id="e160" source="evaluate-output" target="grounding" />
       <edge id="e161" source="evaluate-output" target="guardrails" />
       <edge id="e162" source="classify" target="guardrails" />
       <edge id="e163" source="structured-output" target="guardrails" />

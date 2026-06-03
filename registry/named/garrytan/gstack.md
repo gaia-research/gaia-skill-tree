@@ -3,7 +3,7 @@ id: garrytan/gstack
 name: Founder Mode
 contributor: garrytan
 origin: true
-genericSkillRef: gstack
+genericSkillRef: founder-mode-orchestration
 status: named
 title: Gstack — Garry Tan's Full-Stack Agent Suite
 catalogRef: garrytan-gstack

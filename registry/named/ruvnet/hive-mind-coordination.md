@@ -6,7 +6,7 @@ origin: true
 genericSkillRef: distributed-consensus-coordination
 status: named
 title: Queen Seraphina's Hive
-level: 4★
+level: 1★
 description: Queen-led collective intelligence with Byzantine, majority, and weighted
   consensus mechanisms, eight worker specializations, and persistent collective SQLite
   memory with LRU caching.
@@ -19,7 +19,7 @@ tags:
 - collective-intelligence
 - memory
 createdAt: '2026-05-19'
-updatedAt: '2026-05-19'
+updatedAt: '2026-06-02'
 suiteRef: ruvnet/ruflo
 evidence:
 - class: B
@@ -27,6 +27,11 @@ evidence:
   evaluator: mbtiongson1
   date: '2026-05-19'
   notes: Ruflo orchestration platform — 34k+ GitHub stars.
+timeline:
+- timestamp: '2026-06-02T23:48:22Z'
+  action: demote
+  contributor: unknown
+  details: Calibrated level from 4★ to 1★
 ---
 
 ## Overview

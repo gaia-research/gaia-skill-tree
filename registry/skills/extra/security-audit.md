@@ -16,7 +16,7 @@ Systematically identify security vulnerabilities, assess attack surface, and pro
 
 ## Unlocks
 - [Skill Security Analysis](../extra/skill-security-analysis.md)
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 
 ## Fusion Condition
 Requires access to the full codebase or diff; output must include severity classification and reproduction steps.
@@ -24,7 +24,7 @@ Requires access to the full codebase or diff; output must include severity class
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/cso ⭑ | garrytan | 4★ | 0 |
+| garrytan/cso ⭑ | garrytan | 4★ | 1 |
 | intelligentcode-ai/security-engineer | intelligentcode-ai | 2★ | 1 |
 | ruvnet/v3-security-overhaul | ruvnet | 2★ | 0 |
 

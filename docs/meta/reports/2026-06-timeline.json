@@ -1,0 +1,10 @@
+{
+  "labels": ["Jun 1 (pre-sweep)", "Jun 2 (post-sweep · read-only)"],
+  "datasets": [
+    { "label": "2★ Named", "color": "#63cab7", "data": [93, 93] },
+    { "label": "3★ Evolved", "color": "#5b9bd5", "data": [51, 51] },
+    { "label": "4★ Hardened", "color": "#a78bfa", "data": [32, 32] },
+    { "label": "5★ Transcendent", "color": "#f59e0b", "data": [5, 5] },
+    { "label": "6★ Apex", "color": "#ef4444", "data": [2, 2] }
+  ]
+}

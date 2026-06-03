@@ -67,7 +67,7 @@ To reach Hardened (4★) or higher as a Specialist (vendor-locked) skill, the im
 - **Specific URL Requirement**: Links for named claims must point to concrete implementation files (`SKILL.md`, source code, etc.), not generic repository roots.
 - **Installability (The Star Bar)**: 
   - **0★–2★**: Allowed to be registry-only (`installable: false`).
-  - **3★+**: MUST have a verified GitHub link. If no link exists, the skill is demoted to 2★.
+  - **3★+**: MUST have a verified GitHub **blob** link pointing to a concrete file (e.g. `.../blob/<branch>/.../SKILL.md`), not a bare repo root. Any 3★+ skill lacking a verified blob link is **hard-demoted to 1★ (Awakened)** and must re-earn its rank with a valid link. *(Updated 2026-06-02: hardened from 2★ to 1★ — a missing verified blob link is a hard reset, not a soft step-down.)*
   - **Suites**: Exempt from individual link requirements if components are linked.
 
 ---
@@ -91,7 +91,7 @@ The **Canonical Level** (e.g., 4★) is the claimed tier based on evidence. The 
 ### 4.1 Named Skill Promotion
 - **Awakened**: Initial intake state. Verified as a real skill.
 - **Named**: Promoted by a reviewer once a unique RPG `title` or `catalogRef` is assigned.
-- **Origin Status**: The first contributor to implement an abstract generic skill in a bucket holds permanent "Origin" status.
+- **Origin Status**: The **most renowned** implementation in a generic bucket earns "Origin" — the highest-rated named skill (ties broken by most-attributed / Trust Score), **not** necessarily the earliest. An early implementation may be **superseded** when a stronger one earns the rank. Origin is a mark of merit granted to the implementation that earned it, in keeping with the product motif. Exactly one Origin exists per bucket. *(Updated 2026-06-02: Origin is merit-based; this supersedes the earlier "first contributor / earliest" rule, since an early entry can be outclassed by a better one.)*
 
 ### 4.2 Ultimate & Apex Pathways
 - **Ultimate Fusion**: Proposer must hold Origin status on at least 1 of the 5+ named prerequisites. Requires ≥ 10k repository stars.

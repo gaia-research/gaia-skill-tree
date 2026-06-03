@@ -17,7 +17,7 @@ Maintains, indexes, and retrieves conversational and long-term memory across ses
 ## Unlocks
 - [Conversational Agent](../extra/conversational-agent.md)
 - [Real-Time Voice Assistant](../extra/real-time-voice-assistant.md)
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 
 ## Fusion Condition
 _None specified._
@@ -25,7 +25,7 @@ _None specified._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/learn | garrytan | 3★ | 0 |
+| garrytan/learn | garrytan | 3★ | 1 |
 | ruvnet/v3-memory-unification | ruvnet | 2★ | 0 |
 
 ## Evidence (inherited capability)

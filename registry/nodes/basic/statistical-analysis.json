@@ -17,19 +17,12 @@
       "evaluator": "mbtiongson1",
       "date": "2026-04-30",
       "notes": "Sargsyan (2025) — Structural Enforcement of Statistical Rigor in AI-Driven Discovery; monadic architecture achieves 1.1% false discovery rate vs 41% for naive LLM approaches across automated hypothesis-testing pipelines."
-    },
-    {
-      "class": "B",
-      "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/statistical-analysis/SKILL.md",
-      "evaluator": "mbtiongson1",
-      "date": "2026-04-30",
-      "notes": "K-Dense-AI scientific-agent-skills — reproducible statistical-analysis skill covering parametric, non-parametric, and Bayesian workflows with scipy/statsmodels/pingouin/PyMC and APA-formatted output."
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-02",
   "version": "0.1.0",
   "timeline": [
     {
@@ -39,6 +32,12 @@
       "details": "Skill created as 3★ (provisional)",
       "previousValue": null,
       "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-06-02T23:45:13Z",
+      "action": "evidence_removed",
+      "contributor": "unknown",
+      "details": "Removed dead/invalid evidence: https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/statistical-analysis/SKILL.md"
     }
   ]
 }

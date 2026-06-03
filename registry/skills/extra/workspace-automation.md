@@ -15,7 +15,7 @@ Orchestrates productivity tasks across email, calendar, drive, and documents thr
 - [Document Editing](../basic/document-editing.md)
 
 ## Unlocks
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 
 ## Fusion Condition
 _None specified._
@@ -23,7 +23,7 @@ _None specified._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/gstack-upgrade | garrytan | 2★ | 0 |
+| garrytan/gstack-upgrade | garrytan | 2★ | 1 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

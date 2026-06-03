@@ -1,4 +1,4 @@
-# [glincker](../../../docs/u/glincker/)/readme-generator  [3★]
+# [garrytan](../../../docs/u/garrytan/)/retro  [3★]
 **ID:** write-report  
 **Type:** Basic Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
@@ -18,21 +18,19 @@ _None._
 - [PRD Generation](../extra/prd-generation.md)
 - [Scientific Writing](../extra/scientific-writing.md)
 - [Architecture Diagram](../extra/architecture-diagram.md)
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| glincker/readme-generator ⭑ | glincker | 2★ | 0 |
-| garrytan/retro | garrytan | 3★ | 0 |
+| garrytan/retro ⭑ | garrytan | 3★ | 1 |
+| glincker/readme-generator | glincker | 2★ | 0 |
 | spring-ai/readme-generate | spring-ai | 2★ | 0 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._
 
-| Class | Source | Evaluator | Date |
-|---|---|---|---|
-| C | https://github.com/gaia-registry/gaia/blob/main/docs/evidence/writeReport.md | mbtiongson1 | 2026-04-26 |
+_None._
 
 ## Known Agents
 _None verified yet._

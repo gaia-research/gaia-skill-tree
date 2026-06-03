@@ -11,19 +11,11 @@
   ],
   "derivatives": [],
   "conditions": "Requires the agent to maintain a live glossary (CONTEXT.md) and generate ADRs for all non-trivial trade-offs discovered during the grill.",
-  "evidence": [
-    {
-      "class": "A",
-      "source": "https://aihero.dev/mattpocock/i-stopped-using-grill-me-for-coding",
-      "evaluator": "mbtiongson1",
-      "date": "2026-05-15",
-      "notes": "Technical manifesto establishing the 'Real Engineering' pattern for AI agents; demonstrates significant reduction in software entropy through domain-aware alignment."
-    }
-  ],
+  "evidence": [],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-15",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-02",
   "version": "0.1.0",
   "title": "The Domain Sovereign",
   "timeline": [
@@ -64,6 +56,12 @@
       "details": "Calibrated/demoted rank from 3★ to 1★",
       "previousValue": "3★",
       "newValue": "1★"
+    },
+    {
+      "timestamp": "2026-06-02T23:45:12Z",
+      "action": "evidence_removed",
+      "contributor": "unknown",
+      "details": "Removed dead/invalid evidence: https://aihero.dev/mattpocock/i-stopped-using-grill-me-for-coding"
     }
   ]
 }

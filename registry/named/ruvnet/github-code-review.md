@@ -6,20 +6,26 @@ origin: false
 role: variant
 genericSkillRef: code-review-pipeline
 status: named
-title: "The PR Surgeon"
+title: The PR Surgeon
 catalogRef: ruvnet-github-code-review
-level: "3★"
-description: Automates GitHub pull request code review workflows including diff analysis, inline comments, review assignments, and approval gating.
+level: 1★
+description: Automates GitHub pull request code review workflows including diff analysis,
+  inline comments, review assignments, and approval gating.
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - github
-  - code-review
-  - pull-request
-  - automation
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/github-suite"
+- github
+- code-review
+- pull-request
+- automation
+createdAt: '2026-05-19'
+updatedAt: '2026-06-02'
+suiteRef: ruvnet/github-suite
+timeline:
+- timestamp: '2026-06-02T23:48:17Z'
+  action: demote
+  contributor: unknown
+  details: Calibrated level from 3★ to 1★
 ---
 
 ## Overview

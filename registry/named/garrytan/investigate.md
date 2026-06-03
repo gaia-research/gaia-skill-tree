@@ -2,23 +2,43 @@
 id: garrytan/investigate
 name: Investigate
 contributor: garrytan
-origin: false
+origin: true
 genericSkillRef: systematic-debugging
 status: named
-title: "Gstack Investigate"
+title: Gstack Investigate
 catalogRef: garrytan-investigate
-level: "4★"
-description: "Systematic root-cause debugging enforcing an Iron Law — no fix without first identifying root cause — guiding through four phases: investigation, analysis, hypothesis formation, and verified implementation with evidence gathering and pattern matching before any code changes."
+level: 4★
+description: 'Systematic root-cause debugging enforcing an Iron Law — no fix without
+  first identifying root cause — guiding through four phases: investigation, analysis,
+  hypothesis formation, and verified implementation with evidence gathering and pattern
+  matching before any code changes.'
 links:
   github: https://github.com/garrytan/gstack/blob/main/investigate/SKILL.md
 tags:
-  - debugging
-  - root-cause
-  - investigation
-  - systematic
-createdAt: "2026-05-18"
-updatedAt: "2026-05-18"
-suiteRef: "garrytan/gstack"
+- debugging
+- root-cause
+- investigation
+- systematic
+createdAt: '2026-05-18'
+updatedAt: '2026-06-03'
+suiteRef: garrytan/gstack
+timeline:
+- timestamp: '2026-06-02T23:33:00Z'
+  action: rank_up
+  contributor: unknown
+  details: Origin status set to true.
+- timestamp: '2026-06-03T05:51:33Z'
+  action: evidence_added
+  contributor: unknown
+  details: Added B evidence from https://github.com/garrytan/gstack/blob/main/investigate/SKILL.md
+evidence:
+- class: B
+  source: https://github.com/garrytan/gstack/blob/main/investigate/SKILL.md
+  evaluator: mbtiongson1
+  date: '2026-06-03'
+  notes: 'Public SKILL.md in the garrytan/gstack suite repo (verified live). Systematic
+    root-cause debugging enforcing an Iron Law — no fix without first identifying
+    root cause — guiding through four phases: investigation,…'
 ---
 
 ## Overview

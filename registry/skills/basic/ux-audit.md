@@ -14,16 +14,16 @@ Systematically evaluates a user interface against established usability heuristi
 _None._
 
 ## Unlocks
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
 | pbakaus/impeccable ⭑ | pbakaus | 4★ | 1 |
-| garrytan/design-review | garrytan | 3★ | 0 |
-| garrytan/devex-review | garrytan | 3★ | 0 |
-| garrytan/plan-design-review | garrytan | 4★ | 0 |
-| garrytan/plan-devex-review | garrytan | 4★ | 0 |
+| garrytan/design-review | garrytan | 3★ | 1 |
+| garrytan/devex-review | garrytan | 3★ | 1 |
+| garrytan/plan-design-review | garrytan | 4★ | 1 |
+| garrytan/plan-devex-review | garrytan | 4★ | 1 |
 | martin-stepanoski/nielsen-heuristics-audit | martin-stepanoski | 2★ | 1 |
 
 ## Evidence (inherited capability)

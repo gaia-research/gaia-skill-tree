@@ -15,7 +15,7 @@ Stress-tests a plan or design through relentless targeted questioning, walking t
 - [Plan and Decompose](../basic/plan-decompose.md)
 
 ## Unlocks
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 
 ## Fusion Condition
 _None specified._
@@ -23,7 +23,7 @@ _None specified._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/design-shotgun | garrytan | 4★ | 0 |
+| garrytan/design-shotgun | garrytan | 4★ | 1 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

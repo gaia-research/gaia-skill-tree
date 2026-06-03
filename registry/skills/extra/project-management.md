@@ -15,7 +15,7 @@ Manages issues, tasks, projects, and team workflows through structured project m
 - [Issue Triage](../basic/issue-triage.md)
 
 ## Unlocks
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 
 ## Fusion Condition
 _None specified._
@@ -23,7 +23,7 @@ _None specified._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/landing-report | garrytan | 2★ | 0 |
+| garrytan/landing-report | garrytan | 2★ | 1 |
 | ruvnet/github-project-management | ruvnet | 2★ | 0 |
 
 ## Evidence (inherited capability)

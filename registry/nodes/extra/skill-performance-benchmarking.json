@@ -12,7 +12,7 @@
   "derivatives": [
     "registry-curation",
     "registry-health-scan",
-    "gstack"
+    "founder-mode-orchestration"
   ],
   "conditions": "Requires a skill corpus, benchmark tasks, success rubrics, and variance-aware reporting across multiple runs.",
   "evidence": [

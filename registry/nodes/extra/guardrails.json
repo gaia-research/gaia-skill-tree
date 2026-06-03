@@ -10,7 +10,7 @@
     "structured-output"
   ],
   "derivatives": [
-    "gstack"
+    "founder-mode-orchestration"
   ],
   "conditions": "Requires a defined policy schema and an evaluation loop.",
   "evidence": [

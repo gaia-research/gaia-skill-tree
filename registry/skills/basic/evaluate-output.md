@@ -23,21 +23,19 @@ _None._
 - [Agent Evaluation](../extra/agent-eval.md)
 - [Design Review](../extra/design-review.md)
 - [Security Audit](../extra/security-audit.md)
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 - [Detect Anomaly](../extra/detect-anomaly.md)
 
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/benchmark | garrytan | 4★ | 0 |
-| garrytan/plan-ceo-review | garrytan | 4★ | 0 |
+| garrytan/benchmark | garrytan | 4★ | 1 |
+| garrytan/plan-ceo-review | garrytan | 4★ | 1 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._
 
-| Class | Source | Evaluator | Date |
-|---|---|---|---|
-| C | https://github.com/gaia-registry/gaia/blob/main/docs/evidence/evaluateOutput.md | mbtiongson1 | 2026-04-26 |
+_None._
 
 ## Known Agents
 _None verified yet._

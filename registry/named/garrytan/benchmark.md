@@ -5,20 +5,35 @@ contributor: garrytan
 origin: false
 genericSkillRef: evaluate-output
 status: named
-title: "Gstack Benchmark"
+title: Gstack Benchmark
 catalogRef: garrytan-benchmark
-level: "4★"
-description: Web performance benchmarking that captures baseline metrics, compares current performance against those baselines, and identifies regressions in load times, Core Web Vitals, and bundle sizes across specified pages.
+level: 4★
+description: Web performance benchmarking that captures baseline metrics, compares
+  current performance against those baselines, and identifies regressions in load
+  times, Core Web Vitals, and bundle sizes across specified pages.
 links:
   github: https://github.com/garrytan/gstack/blob/main/benchmark/SKILL.md
 tags:
-  - performance
-  - benchmarking
-  - core-web-vitals
-  - regression
-createdAt: "2026-05-18"
-updatedAt: "2026-05-18"
-suiteRef: "garrytan/gstack"
+- performance
+- benchmarking
+- core-web-vitals
+- regression
+createdAt: '2026-05-18'
+updatedAt: '2026-06-03'
+suiteRef: garrytan/gstack
+evidence:
+- class: B
+  source: https://github.com/garrytan/gstack/blob/main/benchmark/SKILL.md
+  evaluator: mbtiongson1
+  date: '2026-06-03'
+  notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Web performance
+    benchmarking that captures baseline metrics, compares current performance against
+    those baselines, and identifies regressions in…
+timeline:
+- timestamp: '2026-06-03T05:51:29Z'
+  action: evidence_added
+  contributor: unknown
+  details: Added B evidence from https://github.com/garrytan/gstack/blob/main/benchmark/SKILL.md
 ---
 
 ## Overview

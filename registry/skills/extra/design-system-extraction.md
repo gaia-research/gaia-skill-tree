@@ -16,7 +16,7 @@ Automates the discovery and extraction of design tokens, component architectures
 
 ## Unlocks
 - [Design Generation](../extra/design-generation.md)
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 
 ## Fusion Condition
 Requires headless browser (Playwright/Puppeteer).
@@ -24,7 +24,7 @@ Requires headless browser (Playwright/Puppeteer).
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/design-consultation ⭑ | garrytan | 4★ | 0 |
+| garrytan/design-consultation ⭑ | garrytan | 4★ | 1 |
 | Manavarya09/design-extract | Manavarya09 | 2★ | 1 |
 
 ## Evidence (inherited capability)

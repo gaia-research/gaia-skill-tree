@@ -59,8 +59,8 @@
     },
     "level": {
       "type": "string",
-      "enum": ["2★", "3★", "4★", "5★", "6★"],
-      "description": "Minimum level (Named and above only; 1★ is generic-only)."
+      "enum": ["1★", "2★", "3★", "4★", "5★", "6★"],
+      "description": "Named level (2★+). 1★ (Awakened) is the hard-demote penalty state for named skills that lose their verified blob link under META §2.4, and the generic intake state."
     },
     "description": {
       "type": "string",
@@ -242,6 +242,7 @@
             "rename",
             "add",
             "evidence_added",
+            "evidence_removed",
             "type_change",
             "verified",
             "disputed"

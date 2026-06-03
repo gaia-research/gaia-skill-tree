@@ -17,13 +17,13 @@ _None._
 - [Conversational Agent](../extra/conversational-agent.md)
 - [Multimodal Reasoning](../extra/multimodal-reasoning.md)
 - [Voice Agent](../extra/voice-agent.md)
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 - [Brainstorming](../extra/brainstorming.md)
 
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/office-hours ⭑ | garrytan | 4★ | 0 |
+| garrytan/office-hours ⭑ | garrytan | 4★ | 1 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

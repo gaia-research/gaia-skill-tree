@@ -1,7 +1,7 @@
 {
   "id": "fine-tune",
   "name": "Fine-Tune",
-  "type": "unique",
+  "type": "basic",
   "rarity": "uncommon",
   "description": "Adapts a pre-trained model to a new task or domain by updating model weights using parameter-efficient methods such as LoRA, QLoRA, or full supervised fine-tuning, without retraining from scratch.",
   "prerequisites": [],
@@ -33,7 +33,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-02",
   "version": "0.1.0",
   "timeline": [
     {
@@ -43,6 +43,12 @@
       "details": "Skill created as 4★ (provisional)",
       "previousValue": null,
       "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-06-02T23:33:02Z",
+      "action": "type_change",
+      "contributor": "unknown",
+      "details": "Reclassified from unique to basic"
     }
   ]
 }

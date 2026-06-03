@@ -1,8 +1,7 @@
-# [yonatangross](../../../docs/u/yonatangross/)/orchestkit-rag  [3★]
+# [yonatangross](../../../docs/u/yonatangross/)/orchestkit-rag
 **ID:** rag-pipeline  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
-**Top named variant:** 3★  
 **Skill Call:** `/rag-pipeline`
 
 ---
@@ -27,7 +26,7 @@ _None specified._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| yonatangross/orchestkit-rag ⭑ | yonatangross | 3★ | 0 |
+| yonatangross/orchestkit-rag ⭑ | yonatangross | 1★ | 0 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

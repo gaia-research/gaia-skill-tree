@@ -19,8 +19,8 @@ _None._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/context-restore | garrytan | 2★ | 0 |
-| garrytan/context-save | garrytan | 2★ | 0 |
+| garrytan/context-restore | garrytan | 2★ | 1 |
+| garrytan/context-save | garrytan | 2★ | 1 |
 | mattpocock/caveman | mattpocock | 3★ | 0 |
 
 ## Evidence (inherited capability)

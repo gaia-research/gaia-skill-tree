@@ -8,7 +8,7 @@ Validation rules:
   - Each named skill has all required fields.
   - genericSkillRef resolves to a skill ID in registry/gaia.json.
   - At most one origin: true per genericSkillRef bucket.
-  - level is 2★ or above (not 1★).
+  - level is a valid star rating (1★–6★; 1★ indicates a demoted/uninstallable skill).
 
 Usage:
     python scripts/generateNamedIndex.py [--named-dir PATH] [--graph PATH]
@@ -36,7 +36,7 @@ REQUIRED_FIELDS = [
     "description",
 ]
 
-VALID_LEVELS = {"2★", "3★", "4★", "5★", "6★"}
+VALID_LEVELS = {"1★", "2★", "3★", "4★", "5★", "6★"}
 
 def _extract_md_section(body, heading):
     """Extract the text content of a markdown ## section."""
@@ -304,12 +304,10 @@ def validate_and_group(named_skills, graph_data, skill_to_suite=None, suite_to_c
         if missing:
             errors.append(f"{rel}: missing required field(s): {', '.join(missing)}")
 
-        # level >= 2★
         level = fm.get("level", "")
         if level not in VALID_LEVELS:
             errors.append(
-                f"{rel}: 'level' must be 2★ or above (got '{level}'). "
-                f"Valid values: {sorted(VALID_LEVELS)}"
+                f"{rel}: 'level' must be one of {sorted(VALID_LEVELS)} (got '{level}')."
             )
 
         # genericSkillRef resolves

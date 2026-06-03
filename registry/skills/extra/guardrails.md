@@ -16,7 +16,7 @@ Wraps LLM outputs with programmatic safety rules, content filters, and topical c
 - [Structured Output Generation](../basic/structured-output.md)
 
 ## Unlocks
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 
 ## Fusion Condition
 Requires a defined policy schema and an evaluation loop.
@@ -24,10 +24,10 @@ Requires a defined policy schema and an evaluation loop.
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/careful | garrytan | 2★ | 0 |
-| garrytan/freeze | garrytan | 2★ | 0 |
-| garrytan/guard | garrytan | 3★ | 0 |
-| garrytan/unfreeze | garrytan | 2★ | 0 |
+| garrytan/careful | garrytan | 2★ | 1 |
+| garrytan/freeze | garrytan | 2★ | 1 |
+| garrytan/guard | garrytan | 3★ | 1 |
+| garrytan/unfreeze | garrytan | 2★ | 1 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

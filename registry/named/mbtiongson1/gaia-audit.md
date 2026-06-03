@@ -29,12 +29,13 @@ timeline:
   contributor: unknown
   details: Calibrated level from 3★ to 2★
 evidence:
-- class: A
+- class: C
   source: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-audit/skill.md
   evaluator: mbtiongson1
   date: '2026-05-20'
-  notes: Codified audit skill with 7-phase workflow, demotion rules, and registry-sync
-    automation. Powers the gaia-meta-audit process.
+  notes: Self-referential implementation doc inside the gaia repo (seed evidence). Downgraded
+    A->C per META §2.4 — seed / self-referential links are insufficient for Class A —
+    by the 2026-06-02 meta sweep. Credible demo of the codified 7-phase audit workflow.
 ---
 
 ## Overview

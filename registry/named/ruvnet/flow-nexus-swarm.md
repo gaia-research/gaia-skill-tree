@@ -5,21 +5,28 @@ contributor: ruvnet
 origin: true
 genericSkillRef: multi-agent-orchestration-v
 status: named
-title: "The Grand Conductor's Blueprint"
+title: The Grand Conductor's Blueprint
 catalogRef: ruvnet-flow-nexus-swarm
-level: "3★"
-description: Cloud-based AI swarm orchestration platform supporting hierarchical, mesh, ring, and star topologies with event-driven workflows, message queue processing, and intelligent agent assignment.
+level: 1★
+description: Cloud-based AI swarm orchestration platform supporting hierarchical,
+  mesh, ring, and star topologies with event-driven workflows, message queue processing,
+  and intelligent agent assignment.
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - multi-agent
-  - swarm
-  - orchestration
-  - event-driven
-  - workflow
-createdAt: "2026-04-30"
-updatedAt: "2026-04-30"
-suiteRef: "ruvnet/flow-nexus"
+- multi-agent
+- swarm
+- orchestration
+- event-driven
+- workflow
+createdAt: '2026-04-30'
+updatedAt: '2026-06-02'
+suiteRef: ruvnet/flow-nexus
+timeline:
+- timestamp: '2026-06-02T23:48:21Z'
+  action: demote
+  contributor: unknown
+  details: Calibrated level from 3★ to 1★
 ---
 
 ## Overview

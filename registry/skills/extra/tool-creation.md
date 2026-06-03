@@ -1,4 +1,4 @@
-# [anthropic](../../../docs/u/anthropic/)/skill-creator  [3★]
+# [mattpocock](../../../docs/u/mattpocock/)/write-a-skill  [3★]
 **ID:** tool-creation  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
@@ -25,8 +25,8 @@ _None specified._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| anthropic/skill-creator ⭑ | anthropic | 2★ | 0 |
-| mattpocock/write-a-skill | mattpocock | 3★ | 0 |
+| mattpocock/write-a-skill ⭑ | mattpocock | 3★ | 0 |
+| anthropic/skill-creator | anthropic | 2★ | 0 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

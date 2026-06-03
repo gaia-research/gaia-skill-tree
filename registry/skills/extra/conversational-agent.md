@@ -26,9 +26,7 @@ _None yet — be the first to claim this skill._
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._
 
-| Class | Source | Evaluator | Date |
-|---|---|---|---|
-| B | https://github.com/langchain-ai/langchain/tree/master/libs/langchain/langchain/chains/conversation | mbtiongson1 | 2026-04-28 |
+_None._
 
 ## Known Agents
 _None verified yet._

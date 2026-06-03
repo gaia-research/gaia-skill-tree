@@ -16,7 +16,7 @@ Runs multiple LLM agents that propose, critique, and iteratively refine answers 
 - [Chain-of-Thought Reasoning](../basic/chain-of-thought.md)
 
 ## Unlocks
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 
 ## Fusion Condition
 _None specified._
@@ -24,7 +24,7 @@ _None specified._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/codex | garrytan | 3★ | 0 |
+| garrytan/codex | garrytan | 3★ | 1 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

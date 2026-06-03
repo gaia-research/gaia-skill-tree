@@ -6,7 +6,7 @@ origin: true
 genericSkillRef: design-generation
 status: named
 title: The Artisan's Forge
-level: 3★
+level: 1★
 description: Local-first design engine for generating high-fidelity UI/UX prototypes
   and brand assets from structured intent.
 links:
@@ -17,7 +17,7 @@ tags:
 - ux
 - generation
 createdAt: '2026-05-14'
-updatedAt: '2026-05-14'
+updatedAt: '2026-06-02'
 evidence:
 - class: B
   source: https://github.com/nexu-io/open-design
@@ -25,6 +25,11 @@ evidence:
   date: '2026-05-14'
   notes: Open Design -- local-first design engine generating high-fidelity prototypes
     and brand assets.
+timeline:
+- timestamp: '2026-06-02T23:48:19Z'
+  action: demote
+  contributor: unknown
+  details: Calibrated level from 3★ to 1★
 ---
 
 ## Overview

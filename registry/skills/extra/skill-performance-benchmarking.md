@@ -18,7 +18,7 @@ Builds and runs task suites that measure whether agents select, invoke, and comp
 ## Unlocks
 - [Registry Curation](../extra/registry-curation.md)
 - [Gaia Meta Audit](../extra/registry-health-scan.md)
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 
 ## Fusion Condition
 Requires a skill corpus, benchmark tasks, success rubrics, and variance-aware reporting across multiple runs.
@@ -26,7 +26,7 @@ Requires a skill corpus, benchmark tasks, success rubrics, and variance-aware re
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/benchmark-models | garrytan | 3★ | 0 |
+| garrytan/benchmark-models | garrytan | 3★ | 1 |
 | ruvnet/worker-benchmarks | ruvnet | 2★ | 0 |
 
 ## Evidence (inherited capability)

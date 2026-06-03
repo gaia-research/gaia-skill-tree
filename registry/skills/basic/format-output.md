@@ -18,19 +18,17 @@ _None._
 - [Text-to-SQL Pipeline](../extra/text-to-sql-pipeline.md)
 - [Humanize Prose](../extra/humanize-prose.md)
 - [Architecture Diagram](../extra/architecture-diagram.md)
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/make-pdf | garrytan | 3★ | 0 |
+| garrytan/make-pdf | garrytan | 3★ | 1 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._
 
-| Class | Source | Evaluator | Date |
-|---|---|---|---|
-| C | https://github.com/gaia-registry/gaia/blob/main/docs/evidence/formatOutput.md | mbtiongson1 | 2026-04-26 |
+_None._
 
 ## Known Agents
 _None verified yet._

@@ -1,4 +1,4 @@
-# [obra](../../../docs/u/obra/)/systematic-debugging  [4★]
+# [garrytan](../../../docs/u/garrytan/)/investigate  [4★]
 **ID:** systematic-debugging  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
@@ -16,7 +16,7 @@ Finds the root cause before attempting fixes when encountering bugs, test failur
 
 ## Unlocks
 - [Superpowers](../ultimate/superpowers.md)
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 
 ## Fusion Condition
 _None specified._
@@ -24,8 +24,8 @@ _None specified._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| obra/systematic-debugging ⭑ | obra | 3★ | 1 |
-| garrytan/investigate | garrytan | 4★ | 0 |
+| garrytan/investigate ⭑ | garrytan | 4★ | 1 |
+| obra/systematic-debugging | obra | 3★ | 1 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

@@ -20,19 +20,17 @@ _None._
 - [Tool Creation](../extra/tool-creation.md)
 - [ML Pipeline](../extra/ml-pipeline.md)
 - [Skill Authoring](../extra/skill-authoring.md)
-- [Founder Mode](../ultimate/gstack.md)
+- [Founder Mode](../ultimate/founder-mode-orchestration.md)
 
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/design-html ⭑ | garrytan | 4★ | 0 |
+| garrytan/design-html ⭑ | garrytan | 4★ | 1 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._
 
-| Class | Source | Evaluator | Date |
-|---|---|---|---|
-| C | https://github.com/gaia-registry/gaia/blob/main/docs/evidence/codeGeneration.md | mbtiongson1 | 2026-04-26 |
+_None._
 
 ## Known Agents
 _None verified yet._
