@@ -184,10 +184,10 @@ Promoted from read-only to an **apply-safe** pass (maintainer-approved). Applied
 - **Unique reclassify:** `fine-tune` → basic.
 - **P0 evidence integrity:** `gaia-audit` Class A → C (self-referential seed link, §2.4).
 - **Star Bar — hardened to 1★ (§2.4):** 22 skills at 3★+ with missing/root-only `links.github` hard-demoted to **1★**.
-- **Evidence floor:** 5 non-flagship 3★ skills → 2★; **12 flagship 4★/5★ skills exempted** (longer meta lifecycle) and routed to an ultimate-review issue.
+- **Evidence floor:** 5 non-flagship 3★ skills → 2★. The gstack flagships were then **backed with Class B evidence** — each skill's own `SKILL.md` in the public `garrytan/gstack` repo (verified reachable) — rather than demoted; **46 gstack-suite skills** were evidenced in total. `garrytan/garrytan` was demoted 5★→4★, leaving `garrytan/gstack` the **sole 5★** capstone.
 - **Liveness:** all **37** dead evidence URLs stripped via the new `gaia dev rm-evidence` command (one transient 502 on a live repo left intact).
 
-Resulting tier distribution: **1★ 22 · 2★ 98 · 3★ 27 · 4★ 29 · 5★ 5 · 6★ 2**.
+Resulting tier distribution: **1★ 22 · 2★ 93 · 3★ 32 · 4★ 30 · 5★ 4 · 6★ 2**.
 
 **Still proposals (not applied — need new nodes / research):** the 8 Semantic-Fusion Extras above, deferred to a follow-up curation PR.
 
