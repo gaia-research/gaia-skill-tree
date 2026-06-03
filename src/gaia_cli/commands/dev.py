@@ -746,31 +746,30 @@ def meta_split_command(args):
     source_file = None
     source_data = None
 
+    # ⚡ Bolt: Single pass read of all nodes
+    all_nodes = []
+    existing_ids = set()
+
     for p in nodes_dir.glob("**/*.json"):
         with open(p, "r", encoding="utf-8") as f:
             try:
                 data = json.load(f)
-                if data.get("id") == source_id:
-                    source_file = p
-                    source_data = data
-                    break
             except json.JSONDecodeError:
                 continue
+
+        node_id = data.get("id")
+        if node_id:
+            existing_ids.add(node_id)
+
+        all_nodes.append((p, data))
+
+        if node_id == source_id:
+            source_file = p
+            source_data = data
 
     if not source_file:
         print(f"Error: Source skill '{source_id}' not found.")
         sys.exit(1)
-
-    # Pre-cache existing IDs to avoid O(T * N) file I/O
-    existing_ids = set()
-    for p in nodes_dir.glob("**/*.json"):
-        try:
-            with open(p, "r", encoding="utf-8") as f:
-                d = json.load(f)
-                if "id" in d:
-                    existing_ids.add(d["id"])
-        except Exception:
-            continue
 
     for target_id in targets:
         target_file = source_file.parent / f"{target_id}.json"
@@ -796,12 +795,10 @@ def meta_split_command(args):
 
     # Update references in other files to the FIRST target
     first_target = targets[0]
-    for p in nodes_dir.glob("**/*.json"):
-        with open(p, "r", encoding="utf-8") as f:
-            try:
-                data = json.load(f)
-            except json.JSONDecodeError:
-                continue
+    for p, data in all_nodes:
+        # Skip the source file that is about to be deleted
+        if p.name == source_file.name and p.parent == source_file.parent:
+            continue
 
         changed = False
         if "prerequisites" in data:
@@ -1147,15 +1144,20 @@ def meta_remove_command(args):
     nodes_dir = Path(registry_nodes_dir(registry_path))
     node_file = None
 
+    # ⚡ Bolt: Single pass read of all nodes
+    all_nodes = []
+
     for p in nodes_dir.glob("**/*.json"):
         with open(p, "r", encoding="utf-8") as f:
             try:
                 data = json.load(f)
-                if data.get("id") == skill_id:
-                    node_file = p
-                    break
             except json.JSONDecodeError:
                 continue
+
+        all_nodes.append((p, data))
+
+        if data.get("id") == skill_id:
+            node_file = p
 
     if not node_file:
         print(f"Error: Generic skill '{skill_id}' not found.")
@@ -1165,12 +1167,10 @@ def meta_remove_command(args):
     print(f"Removed generic skill file: {node_file}")
 
     # Remove references in other skills
-    for p in nodes_dir.glob("**/*.json"):
-        with open(p, "r", encoding="utf-8") as f:
-            try:
-                data = json.load(f)
-            except json.JSONDecodeError:
-                continue
+    for p, data in all_nodes:
+        # Skip processing node_file as it has been deleted
+        if p.name == node_file.name and p.parent == node_file.parent:
+            continue
 
         changed = False
         if "prerequisites" in data and skill_id in data["prerequisites"]:
