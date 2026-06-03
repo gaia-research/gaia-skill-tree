@@ -1,0 +1,63 @@
+{
+  "id": "probabilistic-programming",
+  "name": "Probabilistic Programming",
+  "type": "basic",
+  "rarity": "common",
+  "description": "Specifies Bayesian models and runs inference (MCMC/NUTS, variational) to quantify epistemic and aleatoric uncertainty using PyMC, Stan, Pyro, or NumPyro.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [
+    {
+      "class": "A",
+      "source": "https://arxiv.org/abs/2509.05877",
+      "evaluator": "unknown",
+      "date": "2026-06-03",
+      "notes": "Uncertainty Quantification in Probabilistic Machine Learning Models: Theory, Methods, and Insights — GP-LVM with Random Fourier Features, epistemic/aleatoric uncertainty (EUSIPCO 2025)"
+    },
+    {
+      "class": "A",
+      "source": "https://arxiv.org/abs/2407.04967",
+      "evaluator": "unknown",
+      "date": "2026-06-03",
+      "notes": "posteriordb: Testing, Benchmarking and Developing Bayesian Inference Algorithms — 120 reference models across Stan, PyMC, Pyro, NumPyro (2024)"
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pymc/SKILL.md",
+      "evaluator": "unknown",
+      "date": "2026-06-03",
+      "notes": "SKILL.md: pymc — Bayesian modeling, hierarchical models, MCMC (NUTS), variational inference, LOO/WAIC, probabilistic programming (K-Dense Inc.)"
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-06-03",
+  "updatedAt": "2026-06-03",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-06-03T22:48:53Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill probabilistic-programming"
+    },
+    {
+      "timestamp": "2026-06-03T22:48:53Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added A evidence from https://arxiv.org/abs/2509.05877"
+    },
+    {
+      "timestamp": "2026-06-03T22:48:53Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added A evidence from https://arxiv.org/abs/2407.04967"
+    },
+    {
+      "timestamp": "2026-06-03T22:48:53Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pymc/SKILL.md"
+    }
+  ]
+}

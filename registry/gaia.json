@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/skill.schema.json",
   "version": "3.27.4",
-  "generatedAt": "2026-06-03T16:00:34.730972Z",
+  "generatedAt": "2026-06-03T22:51:40.480586Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -89,7 +89,7 @@
       "heavyweight-dependency": "Heavyweight dependencies"
     },
     "clusterNames": {
-      "0": "Text & Generate",
+      "0": "Text & Audit",
       "1": "Memory & Swarm",
       "2": "Retrieval & Web",
       "3": "Agent & Tool",
@@ -100,52 +100,52 @@
     },
     "centroids": [
       [
-        -0.3078153858919522,
-        -0.3623053136838487,
-        0.05167976009856686,
-        0.15767951894829732
+        -0.30781538589195234,
+        -0.3623053136838484,
+        0.05167976009856511,
+        0.15767951894829743
       ],
       [
-        0.26597279992691375,
-        0.33959073555707653,
-        0.6269484582957382,
-        -0.049346431575137746
+        0.26597279992691436,
+        0.33959073555707237,
+        0.6269484582957391,
+        -0.04934643157513762
       ],
       [
-        -0.68051851311983,
-        0.262347178919643,
-        -0.0818426865462009,
-        -0.021559646043703834
+        -0.6805185131198302,
+        0.26234717891964304,
+        -0.0818426865461996,
+        -0.021559646043704125
       ],
       [
-        0.36165158318457236,
-        0.030885407904967084,
-        0.09334349116326088,
-        0.06598095859158618
+        0.3616515831845725,
+        0.030885407904966355,
+        0.09334349116326102,
+        0.06598095859158559
       ],
       [
-        -0.18587636420550321,
-        0.23144637434856435,
-        0.24717551966279774,
-        -0.09855209214596188
+        -0.18587636420550313,
+        0.2314463743485633,
+        0.24717551966279847,
+        -0.09855209214596111
       ],
       [
-        -0.027495509331432938,
-        0.07521478768533939,
-        -0.15361512911385025,
-        -0.19009158749345956
+        -0.027495509331433046,
+        0.0752147876853399,
+        -0.15361512911384984,
+        -0.190091587493459
       ],
       [
-        0.3317405968196156,
-        -0.24343374843393964,
-        -0.44340265216366104,
-        -0.1940884131053197
+        0.3317405968196154,
+        -0.24343374843393692,
+        -0.44340265216366176,
+        -0.19408841310531907
       ],
       [
         0.26012679408911343,
-        0.43205545880674756,
-        -0.20957822785695637,
-        0.09175789679102599
+        0.4320554588067485,
+        -0.2095782278569544,
+        0.09175789679102545
       ]
     ]
   },
@@ -205,6 +205,73 @@
           "details": "Skill created as 3★ (provisional)",
           "previousValue": null,
           "newValue": "3★"
+        }
+      ]
+    },
+    {
+      "id": "adversarial-robustness-testing",
+      "name": "Adversarial Robustness Testing",
+      "type": "extra",
+      "rarity": "common",
+      "description": "Systematically red-teams models with adversarial and multi-turn jailbreak prompts, input perturbations, and semantic-preserving transformations to measure resilience at scale.",
+      "prerequisites": [
+        "agent-eval",
+        "guardrails",
+        "prompt-injection-defense"
+      ],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "A",
+          "source": "https://arxiv.org/abs/2505.04806",
+          "evaluator": "unknown",
+          "date": "2026-06-03",
+          "notes": "Red Teaming the Mind of the Machine — systematic evaluation of 1400+ adversarial prompts across GPT-4/Claude 2/Mistral/Vicuna; roleplay, logic traps, encoding, multi-turn attacks"
+        },
+        {
+          "class": "A",
+          "source": "https://arxiv.org/abs/2605.01687",
+          "evaluator": "unknown",
+          "date": "2026-06-03",
+          "notes": "MultiBreak: Scalable Multi-turn Jailbreak Benchmark — 10,389 multi-turn adversarial prompts across 2,665 harmful intents via active learning pipeline"
+        },
+        {
+          "class": "C",
+          "source": "https://skillsmp.com/skills/maruakshay-mii-ai-security-skills-adversarial-robustness-skill-md",
+          "evaluator": "unknown",
+          "date": "2026-06-03",
+          "notes": "adversarial-robustness skill on SkillsMP — reviews AI resilience against evasion attacks, input perturbation, semantic-preserving transformations"
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-06-03",
+      "updatedAt": "2026-06-03",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-06-03T22:48:56Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added generic skill adversarial-robustness-testing"
+        },
+        {
+          "timestamp": "2026-06-03T22:48:56Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added A evidence from https://arxiv.org/abs/2505.04806"
+        },
+        {
+          "timestamp": "2026-06-03T22:48:57Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added A evidence from https://arxiv.org/abs/2605.01687"
+        },
+        {
+          "timestamp": "2026-06-03T22:48:57Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added C evidence from https://skillsmp.com/skills/maruakshay-mii-ai-security-skills-adversarial-robustness-skill-md"
         }
       ]
     },
@@ -1113,6 +1180,60 @@
           "details": "Skill created as 3★ (provisional)",
           "previousValue": null,
           "newValue": "3★"
+        }
+      ]
+    },
+    {
+      "id": "causal-inference",
+      "name": "Causal Inference",
+      "type": "extra",
+      "rarity": "common",
+      "description": "Estimates treatment effects and identifies causal relationships from observational and experimental data using propensity scoring, instrumental variables, and causal graphs.",
+      "prerequisites": [
+        "hypothesis-generate",
+        "logical-inference",
+        "statistical-analysis"
+      ],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "A",
+          "source": "https://arxiv.org/abs/2410.08770",
+          "evaluator": "unknown",
+          "date": "2026-06-03",
+          "notes": "Causal machine learning for predicting treatment outcomes — individualized treatment effects from RCT + observational data; published Nature Medicine 2024 (Feuerriegel et al.)"
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/aj-geddes/useful-ai-prompts/blob/main/skills/causal-inference/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-06-03",
+          "notes": "SKILL.md: Causal Inference — propensity scoring, instrumental variables, causal graphs, treatment effects, policy evaluation (aj-geddes)"
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-06-03",
+      "updatedAt": "2026-06-03",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-06-03T22:48:54Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added generic skill causal-inference"
+        },
+        {
+          "timestamp": "2026-06-03T22:48:54Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added A evidence from https://arxiv.org/abs/2410.08770"
+        },
+        {
+          "timestamp": "2026-06-03T22:48:54Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/aj-geddes/useful-ai-prompts/blob/main/skills/causal-inference/SKILL.md"
         }
       ]
     },
@@ -2031,6 +2152,69 @@
       ]
     },
     {
+      "id": "cultural-localization",
+      "name": "Cultural Localization",
+      "type": "basic",
+      "rarity": "common",
+      "description": "Adapts content for regional audiences beyond translation: idioms, cultural nuance, tone, trust conventions, and regional compliance for culturally faithful output.",
+      "prerequisites": [],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "A",
+          "source": "https://arxiv.org/abs/2603.23301",
+          "evaluator": "unknown",
+          "date": "2026-06-03",
+          "notes": "Steering LLMs for Culturally Localized Generation — sparse autoencoders identify cultural features (CuE) enabling white-box steering for cultural faithfulness"
+        },
+        {
+          "class": "A",
+          "source": "https://arxiv.org/abs/2602.04729",
+          "evaluator": "unknown",
+          "date": "2026-06-03",
+          "notes": "'Be My Cheese?': Cultural Nuance Benchmarking for MT in Multilingual LLMs — 7 models, 15 languages, native-speaker evaluation of idioms, puns, holidays"
+        },
+        {
+          "class": "C",
+          "source": "https://skillsmp.com/skills/sapraudnynew-intakto-cco-claude-skills-cultural-localization-skill-md",
+          "evaluator": "unknown",
+          "date": "2026-06-03",
+          "notes": "cultural-localization skill on SkillsMP — per-country cultural copy profiles synthesizing three cultural frameworks for tone, trust-building, CTA style"
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-06-03",
+      "updatedAt": "2026-06-03",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-06-03T22:48:56Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added generic skill cultural-localization"
+        },
+        {
+          "timestamp": "2026-06-03T22:48:56Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added A evidence from https://arxiv.org/abs/2603.23301"
+        },
+        {
+          "timestamp": "2026-06-03T22:48:56Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added A evidence from https://arxiv.org/abs/2602.04729"
+        },
+        {
+          "timestamp": "2026-06-03T22:48:56Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added C evidence from https://skillsmp.com/skills/sapraudnynew-intakto-cco-claude-skills-cultural-localization-skill-md"
+        }
+      ]
+    },
+    {
       "id": "data-analysis",
       "name": "Data Analysis",
       "type": "extra",
@@ -2651,6 +2835,60 @@
       ]
     },
     {
+      "id": "edge-optimization",
+      "name": "Edge Optimization",
+      "type": "extra",
+      "rarity": "common",
+      "description": "Compresses and tunes models for low-latency on-device inference via quantization, pruning, knowledge distillation, and federated learning under resource constraints.",
+      "prerequisites": [
+        "evaluate-output",
+        "fine-tune",
+        "performance-tuning"
+      ],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "A",
+          "source": "https://arxiv.org/abs/2505.01821",
+          "evaluator": "unknown",
+          "date": "2026-06-03",
+          "notes": "Edge-Cloud Collaborative Computing on Distributed Intelligence and Model Optimization: A Survey — covers quantization, pruning, distillation, federated learning for edge deployment (IEEE ComST 2026)"
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/majiayu000/claude-skill-registry-data/blob/main/ai-ml/edge-model-compression/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-06-03",
+          "notes": "SKILL.md: Edge Model Compression — quantization, pruning, knowledge distillation, NAS for resource-constrained edge devices (majiayu000)"
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-06-03",
+      "updatedAt": "2026-06-03",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-06-03T22:48:56Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added generic skill edge-optimization"
+        },
+        {
+          "timestamp": "2026-06-03T22:48:56Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added A evidence from https://arxiv.org/abs/2505.01821"
+        },
+        {
+          "timestamp": "2026-06-03T22:48:56Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/majiayu000/claude-skill-registry-data/blob/main/ai-ml/edge-model-compression/SKILL.md"
+        }
+      ]
+    },
+    {
       "id": "embed-text",
       "name": "Embed Text",
       "type": "basic",
@@ -2942,6 +3180,73 @@
       ]
     },
     {
+      "id": "explainability-audit",
+      "name": "Explainability Audit",
+      "type": "extra",
+      "rarity": "common",
+      "description": "Audits model transparency by computing feature-importance attributions (SHAP, LIME) and intrinsic-interpretability metrics, surfacing them as governance evidence.",
+      "prerequisites": [
+        "data-visualize",
+        "evaluate-output",
+        "statistical-analysis"
+      ],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "A",
+          "source": "https://arxiv.org/abs/2502.04695",
+          "evaluator": "unknown",
+          "date": "2026-06-03",
+          "notes": "Bridging the Gap in XAI — reliable explainability metrics as governance tools; EU AI Act compliance framing; 'Governance by Metrics' framework"
+        },
+        {
+          "class": "A",
+          "source": "https://arxiv.org/abs/2405.20794",
+          "evaluator": "unknown",
+          "date": "2026-06-03",
+          "notes": "Model Interpretation and Explainability: Towards Creating Transparency in Prediction Models — SHAP/LIME vs intrinsic methods for auditing feature importance"
+        },
+        {
+          "class": "C",
+          "source": "https://skillsmp.com/skills/paulpas-agent-skill-router-skills-coding-ds-explainability-skill-md",
+          "evaluator": "unknown",
+          "date": "2026-06-03",
+          "notes": "explainability skill on SkillsMP — model transparency and interpretability for data science workflows"
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-06-03",
+      "updatedAt": "2026-06-03",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-06-03T22:48:55Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added generic skill explainability-audit"
+        },
+        {
+          "timestamp": "2026-06-03T22:48:55Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added A evidence from https://arxiv.org/abs/2502.04695"
+        },
+        {
+          "timestamp": "2026-06-03T22:48:55Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added A evidence from https://arxiv.org/abs/2405.20794"
+        },
+        {
+          "timestamp": "2026-06-03T22:48:56Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added C evidence from https://skillsmp.com/skills/paulpas-agent-skill-router-skills-coding-ds-explainability-skill-md"
+        }
+      ]
+    },
+    {
       "id": "extract-entities",
       "name": "Extract Entities",
       "type": "basic",
@@ -2996,7 +3301,7 @@
     {
       "id": "feed-monitoring",
       "name": "Feed Monitoring",
-      "type": "unique",
+      "type": "basic",
       "rarity": "common",
       "description": "Monitors RSS, Atom, blog, or other recurring content feeds, discovers updates, tracks read state, and surfaces new signals for downstream agent workflows.",
       "prerequisites": [],
@@ -3008,7 +3313,7 @@
       ],
       "status": "provisional",
       "createdAt": "2026-05-06",
-      "updatedAt": "2026-06-01",
+      "updatedAt": "2026-06-03",
       "version": "0.1.0",
       "timeline": [
         {
@@ -3026,6 +3331,12 @@
           "details": "Type adjusted from basic to unique",
           "previousValue": "basic",
           "newValue": "unique"
+        },
+        {
+          "timestamp": "2026-06-03T22:51:13Z",
+          "action": "type_change",
+          "contributor": "unknown",
+          "details": "Reclassified from unique to basic"
         }
       ]
     },
@@ -3099,6 +3410,73 @@
           "details": "Calibrated/demoted rank from 4★ to 2★",
           "previousValue": "4★",
           "newValue": "2★"
+        }
+      ]
+    },
+    {
+      "id": "financial-modeling",
+      "name": "Financial Modeling",
+      "type": "extra",
+      "rarity": "common",
+      "description": "Builds financial projections, DCF and LBO valuation models, Monte Carlo simulations, and portfolio optimization by querying data, computing statistics, and running sensitivity analysis.",
+      "prerequisites": [
+        "data-analysis",
+        "generate-sql",
+        "statistical-analysis"
+      ],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "A",
+          "source": "https://arxiv.org/abs/2412.18563",
+          "evaluator": "unknown",
+          "date": "2026-06-03",
+          "notes": "Deep Reinforcement Learning Framework for Dynamic Portfolio Optimization: custom Sharpe-ratio reward function + Actor-Critic algorithms for dynamic asset allocation; bridges DCF-era finance with ML-driven robo-advisory"
+        },
+        {
+          "class": "A",
+          "source": "https://arxiv.org/abs/2511.18076",
+          "evaluator": "unknown",
+          "date": "2026-06-03",
+          "notes": "Reinforcement Learning for Portfolio Optimization with a Financial Goal and Defined Time Horizons: G-Learning/GIRL algorithms improving Sharpe Ratio from 0.42 to 0.483 in volatile markets"
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/anthropics/claude-cookbooks/blob/main/skills/custom_skills/creating-financial-models/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-06-03",
+          "notes": "Official Anthropic cookbook skill covering DCF valuation engine (WACC, terminal value), Monte Carlo simulation, sensitivity analysis, LBO and M&A models; includes dcf_model.py"
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-06-03",
+      "updatedAt": "2026-06-03",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-06-03T22:48:51Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added generic skill financial-modeling"
+        },
+        {
+          "timestamp": "2026-06-03T22:48:52Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added A evidence from https://arxiv.org/abs/2412.18563"
+        },
+        {
+          "timestamp": "2026-06-03T22:48:52Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added A evidence from https://arxiv.org/abs/2511.18076"
+        },
+        {
+          "timestamp": "2026-06-03T22:48:52Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/anthropics/claude-cookbooks/blob/main/skills/custom_skills/creating-financial-models/SKILL.md"
         }
       ]
     },
@@ -5382,6 +5760,73 @@
       ]
     },
     {
+      "id": "ontology-alignment",
+      "name": "Ontology Alignment",
+      "type": "extra",
+      "rarity": "common",
+      "description": "Maps entities, classes, and relationships across heterogeneous schemas and knowledge graphs to harmonize multi-source data, using class-hierarchy and instance-level alignment.",
+      "prerequisites": [
+        "extract-entities",
+        "knowledge-graph-build",
+        "schema-design"
+      ],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "A",
+          "source": "https://arxiv.org/abs/2105.07688",
+          "evaluator": "unknown",
+          "date": "2026-06-03",
+          "notes": "OntoEA: Ontology-guided Entity Alignment via Joint Knowledge Graph Embedding — class hierarchy and disjointness for entity alignment across KGs"
+        },
+        {
+          "class": "A",
+          "source": "https://arxiv.org/abs/1105.5516",
+          "evaluator": "unknown",
+          "date": "2026-06-03",
+          "notes": "PARIS: Ontology Alignment at the Instance and Schema Level — probabilistic holistic alignment at both instance and class/relation levels"
+        },
+        {
+          "class": "C",
+          "source": "https://skillsmp.com/skills/qhjqhj00-research-skills-pool-skill-factory-output-ontology-alignment-eval-skill-md",
+          "evaluator": "unknown",
+          "date": "2026-06-03",
+          "notes": "ontology-alignment-eval skill on SkillsMP — benchmarks semantic/lexical mapping of topic labels to 13 scientific ontologies, F1 vs 300-item gold standard"
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-06-03",
+      "updatedAt": "2026-06-03",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-06-03T22:48:55Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added generic skill ontology-alignment"
+        },
+        {
+          "timestamp": "2026-06-03T22:48:55Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added A evidence from https://arxiv.org/abs/2105.07688"
+        },
+        {
+          "timestamp": "2026-06-03T22:48:55Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added A evidence from https://arxiv.org/abs/1105.5516"
+        },
+        {
+          "timestamp": "2026-06-03T22:48:55Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added C evidence from https://skillsmp.com/skills/qhjqhj00-research-skills-pool-skill-factory-output-ontology-alignment-eval-skill-md"
+        }
+      ]
+    },
+    {
       "id": "optical-character-recognition",
       "name": "OCR",
       "type": "basic",
@@ -6027,6 +6472,69 @@
           "details": "Skill created as 4★ (provisional)",
           "previousValue": null,
           "newValue": "4★"
+        }
+      ]
+    },
+    {
+      "id": "probabilistic-programming",
+      "name": "Probabilistic Programming",
+      "type": "basic",
+      "rarity": "common",
+      "description": "Specifies Bayesian models and runs inference (MCMC/NUTS, variational) to quantify epistemic and aleatoric uncertainty using PyMC, Stan, Pyro, or NumPyro.",
+      "prerequisites": [],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "A",
+          "source": "https://arxiv.org/abs/2509.05877",
+          "evaluator": "unknown",
+          "date": "2026-06-03",
+          "notes": "Uncertainty Quantification in Probabilistic Machine Learning Models: Theory, Methods, and Insights — GP-LVM with Random Fourier Features, epistemic/aleatoric uncertainty (EUSIPCO 2025)"
+        },
+        {
+          "class": "A",
+          "source": "https://arxiv.org/abs/2407.04967",
+          "evaluator": "unknown",
+          "date": "2026-06-03",
+          "notes": "posteriordb: Testing, Benchmarking and Developing Bayesian Inference Algorithms — 120 reference models across Stan, PyMC, Pyro, NumPyro (2024)"
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pymc/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-06-03",
+          "notes": "SKILL.md: pymc — Bayesian modeling, hierarchical models, MCMC (NUTS), variational inference, LOO/WAIC, probabilistic programming (K-Dense Inc.)"
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-06-03",
+      "updatedAt": "2026-06-03",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-06-03T22:48:53Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added generic skill probabilistic-programming"
+        },
+        {
+          "timestamp": "2026-06-03T22:48:53Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added A evidence from https://arxiv.org/abs/2509.05877"
+        },
+        {
+          "timestamp": "2026-06-03T22:48:53Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added A evidence from https://arxiv.org/abs/2407.04967"
+        },
+        {
+          "timestamp": "2026-06-03T22:48:53Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pymc/SKILL.md"
         }
       ]
     },
@@ -7001,6 +7509,73 @@
           "action": "rename",
           "contributor": "unknown",
           "details": "Renamed from gaia-meta-audit to registry-health-scan"
+        }
+      ]
+    },
+    {
+      "id": "regulatory-compliance-mapping",
+      "name": "Regulatory Compliance Mapping",
+      "type": "extra",
+      "rarity": "common",
+      "description": "Cross-references regulatory requirements (GDPR, SOC2, HIPAA) against implementation controls using knowledge-graph-augmented retrieval to detect compliance gaps and drift.",
+      "prerequisites": [
+        "extract-entities",
+        "knowledge-graph-build",
+        "security-audit"
+      ],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "A",
+          "source": "https://arxiv.org/abs/2604.23585",
+          "evaluator": "unknown",
+          "date": "2026-06-03",
+          "notes": "ComplianceNLP: Knowledge-Graph-Augmented RAG for Multi-Framework Regulatory Gap Detection (COLING 2025): knowledge graph of 12,847 provisions across SEC/MiFID II/Basel III; 87.7 F1 gap detection; 90.7% precision at production scale; demonstrates cross-framework drift detection methodology"
+        },
+        {
+          "class": "A",
+          "source": "https://arxiv.org/abs/2209.09722",
+          "evaluator": "unknown",
+          "date": "2026-06-03",
+          "notes": "NLP-based Automated Compliance Checking of Data Processing Agreements against GDPR: 89.1% precision / 84.6% accuracy; automated extraction of GDPR compliance requirements and comparison against DPA language"
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/dralgorhythm/claude-agentic-framework/blob/main/.claude/skills/security/compliance/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-06-03",
+          "notes": "SKILL.md covering GDPR, HIPAA, and SOC2 in a single cross-framework comparison matrix; core requirements checklist, control overlaps, and drift detection guidance across all three frameworks"
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-06-03",
+      "updatedAt": "2026-06-03",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-06-03T22:48:54Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added generic skill regulatory-compliance-mapping"
+        },
+        {
+          "timestamp": "2026-06-03T22:48:54Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added A evidence from https://arxiv.org/abs/2604.23585"
+        },
+        {
+          "timestamp": "2026-06-03T22:48:54Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added A evidence from https://arxiv.org/abs/2209.09722"
+        },
+        {
+          "timestamp": "2026-06-03T22:48:54Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/dralgorhythm/claude-agentic-framework/blob/main/.claude/skills/security/compliance/SKILL.md"
         }
       ]
     },
@@ -8579,6 +9154,73 @@
       ]
     },
     {
+      "id": "supply-chain-optimization",
+      "name": "Supply Chain Optimization",
+      "type": "extra",
+      "rarity": "common",
+      "description": "Orchestrates inventory, logistics, and procurement decisions using demand forecasting, EOQ and safety-stock computation, route optimization, and anomaly-aware fulfilment monitoring.",
+      "prerequisites": [
+        "data-analysis",
+        "detect-anomaly",
+        "statistical-analysis"
+      ],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "A",
+          "source": "https://arxiv.org/abs/2509.03673",
+          "evaluator": "unknown",
+          "date": "2026-06-03",
+          "notes": "ML-Based Study on Synergistic Optimization of Supply Chain Management and Financial Supply Chains: LSTM demand forecasting + XGBoost credit assessment + Game Theory / RL for inventory-procurement; 30% inventory turnover uplift, >95% order fill rate"
+        },
+        {
+          "class": "A",
+          "source": "https://arxiv.org/abs/2503.14556",
+          "evaluator": "unknown",
+          "date": "2026-06-03",
+          "notes": "Designing and Deploying AI Models for Sustainable Logistics Optimization: predictive demand analytics, route optimization via ML, AI-powered fuel efficiency strategies for eco-efficient supply chains"
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/kishorkukreja/awesome-supply-chain/blob/main/skills/inventory-optimization/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-06-03",
+          "notes": "Comprehensive skill covering EOQ, safety stock, reorder points, ABC-XYZ classification, multi-SKU budget-constrained allocation, and Python implementations for inventory optimization"
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-06-03",
+      "updatedAt": "2026-06-03",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-06-03T22:48:52Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added generic skill supply-chain-optimization"
+        },
+        {
+          "timestamp": "2026-06-03T22:48:52Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added A evidence from https://arxiv.org/abs/2509.03673"
+        },
+        {
+          "timestamp": "2026-06-03T22:48:52Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added A evidence from https://arxiv.org/abs/2503.14556"
+        },
+        {
+          "timestamp": "2026-06-03T22:48:52Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/kishorkukreja/awesome-supply-chain/blob/main/skills/inventory-optimization/SKILL.md"
+        }
+      ]
+    },
+    {
       "id": "swarm-topology-management",
       "name": "Swarm Topology Management",
       "type": "basic",
@@ -8601,6 +9243,69 @@
           "details": "Skill created as 2★ (provisional)",
           "previousValue": null,
           "newValue": "2★"
+        }
+      ]
+    },
+    {
+      "id": "synthetic-data-generation",
+      "name": "Synthetic Data Generation",
+      "type": "basic",
+      "rarity": "common",
+      "description": "Generates privacy-preserving, domain-representative datasets via tabular synthesis and generative models, infusing schema and regulatory constraints to substitute for sensitive real data.",
+      "prerequisites": [],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "A",
+          "source": "https://arxiv.org/abs/2210.03205",
+          "evaluator": "unknown",
+          "date": "2026-06-03",
+          "notes": "Synthetic Dataset Generation for Privacy-Preserving Machine Learning — layer-wise BN statistics method (Soufleri et al., 2022/2023)"
+        },
+        {
+          "class": "A",
+          "source": "https://arxiv.org/abs/2409.17315",
+          "evaluator": "unknown",
+          "date": "2026-06-03",
+          "notes": "KIPPS: Knowledge infusion in Privacy Preserving Synthetic Data Generation — infuses domain/regulatory knowledge from KGs into generative deep learning (2024)"
+        },
+        {
+          "class": "B",
+          "source": "https://github.com/omer-metin/skills-for-antigravity/blob/main/skills/synthetic-data/SKILL.md",
+          "evaluator": "unknown",
+          "date": "2026-06-03",
+          "notes": "SKILL.md: synthetic-data — LLM-based generation, tabular synthesis, SDV/Gretel, privacy-preserving data (omer-metin)"
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-06-03",
+      "updatedAt": "2026-06-03",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-06-03T22:48:53Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added generic skill synthetic-data-generation"
+        },
+        {
+          "timestamp": "2026-06-03T22:48:53Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added A evidence from https://arxiv.org/abs/2210.03205"
+        },
+        {
+          "timestamp": "2026-06-03T22:48:53Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added A evidence from https://arxiv.org/abs/2409.17315"
+        },
+        {
+          "timestamp": "2026-06-03T22:48:53Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/omer-metin/skills-for-antigravity/blob/main/skills/synthetic-data/SKILL.md"
         }
       ]
     },
@@ -8811,6 +9516,136 @@
           "details": "Calibrated/demoted rank from 3★ to 2★",
           "previousValue": "3★",
           "newValue": "2★"
+        }
+      ]
+    },
+    {
+      "id": "threat-intelligence-synthesis",
+      "name": "Threat Intelligence Synthesis",
+      "type": "extra",
+      "rarity": "common",
+      "description": "Synthesizes security feeds, CVE/CWE data, and incident signals into actionable intelligence with IoC/TTP management and MITRE ATT&CK mapping.",
+      "prerequisites": [
+        "feed-monitoring",
+        "knowledge-graph-build",
+        "security-audit"
+      ],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "A",
+          "source": "https://arxiv.org/abs/2504.00428",
+          "evaluator": "unknown",
+          "date": "2026-06-03",
+          "notes": "LLM-Assisted Proactive Threat Intelligence for Automated Reasoning — integrates GPT-4o + RAG with CVE/CWE/EPSS/KEV feeds for automated threat synthesis"
+        },
+        {
+          "class": "A",
+          "source": "https://arxiv.org/abs/2410.20287",
+          "evaluator": "unknown",
+          "date": "2026-06-03",
+          "notes": "AI-Driven Cyber Threat Intelligence Automation — GPT-4o fine-tuning for CTI report generation from threat feeds, security logs, dark web forums"
+        },
+        {
+          "class": "C",
+          "source": "https://skillsmp.com/skills/j4flmao-agent-skills-skills-security-threat-intelligence-skill-md",
+          "evaluator": "unknown",
+          "date": "2026-06-03",
+          "notes": "threat-intelligence skill on SkillsMP — IoC/TTP management, threat hunting, MITRE ATT&CK mapping"
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-06-03",
+      "updatedAt": "2026-06-03",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-06-03T22:48:54Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added generic skill threat-intelligence-synthesis"
+        },
+        {
+          "timestamp": "2026-06-03T22:48:54Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added A evidence from https://arxiv.org/abs/2504.00428"
+        },
+        {
+          "timestamp": "2026-06-03T22:48:55Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added A evidence from https://arxiv.org/abs/2410.20287"
+        },
+        {
+          "timestamp": "2026-06-03T22:48:55Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added C evidence from https://skillsmp.com/skills/j4flmao-agent-skills-skills-security-threat-intelligence-skill-md"
+        }
+      ]
+    },
+    {
+      "id": "time-series-forecasting",
+      "name": "Time Series Forecasting",
+      "type": "basic",
+      "rarity": "common",
+      "description": "Forecasts temporal sequences with seasonal-trend decomposition, ensemble models (ARIMA, Prophet, NBEATS, TFT), and residual-based anomaly detection.",
+      "prerequisites": [],
+      "derivatives": [],
+      "evidence": [
+        {
+          "class": "A",
+          "source": "https://arxiv.org/abs/2412.12168",
+          "evaluator": "unknown",
+          "date": "2026-06-03",
+          "notes": "A Decomposition Modeling Framework for Seasonal Time-Series Forecasting: Multi-scale Seasonal Decomposition Model (MSSD) decomposes series into Ascending/Peak/Descending; Conv2d + TCN capture global+local features; 10% error reduction over baselines"
+        },
+        {
+          "class": "A",
+          "source": "https://arxiv.org/abs/2602.18465",
+          "evaluator": "unknown",
+          "date": "2026-06-03",
+          "notes": "Revisiting the Seasonal Trend Decomposition for Enhanced Time Series Forecasting (ICASSP 2026): component-specific normalization strategy; ~10% MSE reduction across four SOTA baselines; validated on USGS hydrological data"
+        },
+        {
+          "class": "C",
+          "source": "https://github.com/unit8co/darts",
+          "evaluator": "unknown",
+          "date": "2026-06-03",
+          "notes": "darts: 9400+ star Python library for user-friendly forecasting with seasonal decomposition, ensemble methods, anomaly detection; covers ARIMA, Prophet, TFT, NBEATS and more"
+        }
+      ],
+      "knownAgents": [],
+      "status": "provisional",
+      "createdAt": "2026-06-03",
+      "updatedAt": "2026-06-03",
+      "version": "0.1.0",
+      "timeline": [
+        {
+          "timestamp": "2026-06-03T22:48:52Z",
+          "action": "add",
+          "contributor": "unknown",
+          "details": "Added generic skill time-series-forecasting"
+        },
+        {
+          "timestamp": "2026-06-03T22:48:52Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added A evidence from https://arxiv.org/abs/2412.12168"
+        },
+        {
+          "timestamp": "2026-06-03T22:48:52Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added A evidence from https://arxiv.org/abs/2602.18465"
+        },
+        {
+          "timestamp": "2026-06-03T22:48:53Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added C evidence from https://github.com/unit8co/darts"
         }
       ]
     },
@@ -10158,6 +10993,11 @@
     },
     {
       "sourceSkillId": "agent-eval",
+      "targetSkillId": "adversarial-robustness-testing",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "agent-eval",
       "targetSkillId": "skill-performance-benchmarking",
       "edgeType": "prerequisite"
     },
@@ -10573,12 +11413,22 @@
     },
     {
       "sourceSkillId": "data-analysis",
+      "targetSkillId": "financial-modeling",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "data-analysis",
       "targetSkillId": "ml-pipeline",
       "edgeType": "prerequisite"
     },
     {
       "sourceSkillId": "data-analysis",
       "targetSkillId": "prediction-market-analysis",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "data-analysis",
+      "targetSkillId": "supply-chain-optimization",
       "edgeType": "prerequisite"
     },
     {
@@ -10594,6 +11444,11 @@
     {
       "sourceSkillId": "data-visualize",
       "targetSkillId": "data-analysis",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "data-visualize",
+      "targetSkillId": "explainability-audit",
       "edgeType": "prerequisite"
     },
     {
@@ -10639,6 +11494,11 @@
     {
       "sourceSkillId": "detect-anomaly",
       "targetSkillId": "registry-health-scan",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "detect-anomaly",
+      "targetSkillId": "supply-chain-optimization",
       "edgeType": "prerequisite"
     },
     {
@@ -10793,6 +11653,16 @@
     },
     {
       "sourceSkillId": "evaluate-output",
+      "targetSkillId": "edge-optimization",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "evaluate-output",
+      "targetSkillId": "explainability-audit",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "evaluate-output",
       "targetSkillId": "founder-mode-orchestration",
       "edgeType": "prerequisite"
     },
@@ -10863,12 +11733,32 @@
     },
     {
       "sourceSkillId": "extract-entities",
+      "targetSkillId": "ontology-alignment",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "extract-entities",
+      "targetSkillId": "regulatory-compliance-mapping",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "extract-entities",
       "targetSkillId": "ubiquitous-language",
       "edgeType": "prerequisite"
     },
     {
       "sourceSkillId": "extract-entities",
       "targetSkillId": "web-scrape",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "feed-monitoring",
+      "targetSkillId": "threat-intelligence-synthesis",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "fine-tune",
+      "targetSkillId": "edge-optimization",
       "edgeType": "prerequisite"
     },
     {
@@ -10909,6 +11799,11 @@
     {
       "sourceSkillId": "generate-sql",
       "targetSkillId": "data-analysis",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "generate-sql",
+      "targetSkillId": "financial-modeling",
       "edgeType": "prerequisite"
     },
     {
@@ -10968,6 +11863,11 @@
     },
     {
       "sourceSkillId": "guardrails",
+      "targetSkillId": "adversarial-robustness-testing",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "guardrails",
       "targetSkillId": "founder-mode-orchestration",
       "edgeType": "prerequisite"
     },
@@ -10984,6 +11884,11 @@
     {
       "sourceSkillId": "hybrid-workflow-coordination",
       "targetSkillId": "dual-mode",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "hypothesis-generate",
+      "targetSkillId": "causal-inference",
       "edgeType": "prerequisite"
     },
     {
@@ -11022,6 +11927,21 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "knowledge-graph-build",
+      "targetSkillId": "ontology-alignment",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "knowledge-graph-build",
+      "targetSkillId": "regulatory-compliance-mapping",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "knowledge-graph-build",
+      "targetSkillId": "threat-intelligence-synthesis",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "knowledge-harvest",
       "targetSkillId": "autonomous-web-research",
       "edgeType": "prerequisite"
@@ -11034,6 +11954,11 @@
     {
       "sourceSkillId": "literature-search",
       "targetSkillId": "literature-review",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "logical-inference",
+      "targetSkillId": "causal-inference",
       "edgeType": "prerequisite"
     },
     {
@@ -11188,6 +12113,11 @@
     },
     {
       "sourceSkillId": "performance-tuning",
+      "targetSkillId": "edge-optimization",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "performance-tuning",
       "targetSkillId": "platform-modernization-sprint",
       "edgeType": "prerequisite"
     },
@@ -11299,6 +12229,11 @@
     {
       "sourceSkillId": "project-management",
       "targetSkillId": "git-integration",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "prompt-injection-defense",
+      "targetSkillId": "adversarial-robustness-testing",
       "edgeType": "prerequisite"
     },
     {
@@ -11507,6 +12442,11 @@
       "edgeType": "prerequisite"
     },
     {
+      "sourceSkillId": "schema-design",
+      "targetSkillId": "ontology-alignment",
+      "edgeType": "prerequisite"
+    },
+    {
       "sourceSkillId": "scientific-visualization",
       "targetSkillId": "scientific-writing",
       "edgeType": "prerequisite"
@@ -11533,7 +12473,17 @@
     },
     {
       "sourceSkillId": "security-audit",
+      "targetSkillId": "regulatory-compliance-mapping",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "security-audit",
       "targetSkillId": "skill-security-analysis",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "security-audit",
+      "targetSkillId": "threat-intelligence-synthesis",
       "edgeType": "prerequisite"
     },
     {
@@ -11593,12 +12543,32 @@
     },
     {
       "sourceSkillId": "statistical-analysis",
+      "targetSkillId": "causal-inference",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "statistical-analysis",
+      "targetSkillId": "explainability-audit",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "statistical-analysis",
+      "targetSkillId": "financial-modeling",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "statistical-analysis",
       "targetSkillId": "prediction-market-analysis",
       "edgeType": "prerequisite"
     },
     {
       "sourceSkillId": "statistical-analysis",
       "targetSkillId": "skill-performance-benchmarking",
+      "edgeType": "prerequisite"
+    },
+    {
+      "sourceSkillId": "statistical-analysis",
+      "targetSkillId": "supply-chain-optimization",
       "edgeType": "prerequisite"
     },
     {

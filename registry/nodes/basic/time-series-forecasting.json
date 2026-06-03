@@ -1,0 +1,63 @@
+{
+  "id": "time-series-forecasting",
+  "name": "Time Series Forecasting",
+  "type": "basic",
+  "rarity": "common",
+  "description": "Forecasts temporal sequences with seasonal-trend decomposition, ensemble models (ARIMA, Prophet, NBEATS, TFT), and residual-based anomaly detection.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [
+    {
+      "class": "A",
+      "source": "https://arxiv.org/abs/2412.12168",
+      "evaluator": "unknown",
+      "date": "2026-06-03",
+      "notes": "A Decomposition Modeling Framework for Seasonal Time-Series Forecasting: Multi-scale Seasonal Decomposition Model (MSSD) decomposes series into Ascending/Peak/Descending; Conv2d + TCN capture global+local features; 10% error reduction over baselines"
+    },
+    {
+      "class": "A",
+      "source": "https://arxiv.org/abs/2602.18465",
+      "evaluator": "unknown",
+      "date": "2026-06-03",
+      "notes": "Revisiting the Seasonal Trend Decomposition for Enhanced Time Series Forecasting (ICASSP 2026): component-specific normalization strategy; ~10% MSE reduction across four SOTA baselines; validated on USGS hydrological data"
+    },
+    {
+      "class": "C",
+      "source": "https://github.com/unit8co/darts",
+      "evaluator": "unknown",
+      "date": "2026-06-03",
+      "notes": "darts: 9400+ star Python library for user-friendly forecasting with seasonal decomposition, ensemble methods, anomaly detection; covers ARIMA, Prophet, TFT, NBEATS and more"
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-06-03",
+  "updatedAt": "2026-06-03",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-06-03T22:48:52Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill time-series-forecasting"
+    },
+    {
+      "timestamp": "2026-06-03T22:48:52Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added A evidence from https://arxiv.org/abs/2412.12168"
+    },
+    {
+      "timestamp": "2026-06-03T22:48:52Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added A evidence from https://arxiv.org/abs/2602.18465"
+    },
+    {
+      "timestamp": "2026-06-03T22:48:53Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added C evidence from https://github.com/unit8co/darts"
+    }
+  ]
+}

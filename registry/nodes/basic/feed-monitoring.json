@@ -1,7 +1,7 @@
 {
   "id": "feed-monitoring",
   "name": "Feed Monitoring",
-  "type": "unique",
+  "type": "basic",
   "rarity": "common",
   "description": "Monitors RSS, Atom, blog, or other recurring content feeds, discovers updates, tracks read state, and surfaces new signals for downstream agent workflows.",
   "prerequisites": [],
@@ -13,7 +13,7 @@
   ],
   "status": "provisional",
   "createdAt": "2026-05-06",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-03",
   "version": "0.1.0",
   "timeline": [
     {
@@ -31,6 +31,12 @@
       "details": "Type adjusted from basic to unique",
       "previousValue": "basic",
       "newValue": "unique"
+    },
+    {
+      "timestamp": "2026-06-03T22:51:13Z",
+      "action": "type_change",
+      "contributor": "unknown",
+      "details": "Reclassified from unique to basic"
     }
   ]
 }
