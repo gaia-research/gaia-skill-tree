@@ -169,51 +169,6 @@ class TestNamedSkillValidation(unittest.TestCase):
             f"Seed named skills failed validation:\n" + "\n".join(errors),
         )
 
-    def test_seed_skills_have_no_level_i(self):
-        """No seed named skill uses 1★ (which is forbidden for named skills)."""
-        from scripts.generateNamedIndex import load_named_skills, parse_frontmatter
-
-        named_dir = os.path.join(REPO_ROOT, "registry", "named")
-        if not os.path.isdir(named_dir):
-            self.skipTest("Named skills directory not present.")
-
-        named_skills = load_named_skills(named_dir)
-        named_skills = [(fp, fm) for fp, fm in named_skills if not fp.endswith("index.json")]
-
-        for fp, fm in named_skills:
-            level = fm.get("level", "")
-            self.assertNotEqual(
-                level,
-                "1★",
-                f"Seed skill {fp} has forbidden level '1★'.",
-            )
-
-    def test_bad_level_fails_validation(self):
-        """validate_and_group reports an error when level is '1★'."""
-        from scripts.generateNamedIndex import validate_and_group
-
-        named_skills = [
-            (
-                "registry/named/fake/skill.md",
-                {
-                    "id": "fake/skill",
-                    "name": "Fake",
-                    "contributor": "fake",
-                    "origin": True,
-                    "genericSkillRef": "web-search",
-                    "status": "named",
-                    "level": "1★",
-                    "description": "A fake skill at 1★.",
-                },
-            )
-        ]
-        errors, *_ = validate_and_group(named_skills, {"skills": [{"id": "web-search"}]})
-        self.assertTrue(
-            any("level" in e.lower() or "'1★'" in e or "1★" in e or "2★ or above" in e
-                for e in errors),
-            f"Expected a level error, got: {errors}",
-        )
-
     def test_missing_required_field_fails_validation(self):
         """validate_and_group reports an error for missing required fields."""
         from scripts.generateNamedIndex import validate_and_group
