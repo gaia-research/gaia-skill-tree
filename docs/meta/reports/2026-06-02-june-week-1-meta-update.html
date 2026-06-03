@@ -296,7 +296,7 @@
   <li>Taxonomy validation across generic skill chains</li>
 </ul>
 <h2>Automated Meta Sweep — Whole-Registry Audit</h2>
-<p>This update is extended by a programmatic <strong>gaia-meta-sweep</strong>: a five-phase Workflow that audited all 183 named skills and 215 generic references against META.md. Twelve survey dimensions were fanned out to parallel agents (cost-optimized models), their candidate sets deterministically pre-extracted, Semantic-Fusion candidates and new generic references proposed, and every representative finding put through a three-lens <strong>adversarial verification</strong> gate (correctness / evidence / precedent) under a ≥2-of-3 survival rule. The run was <strong>read-only</strong> — findings and proposals only; no registry mutations were applied.</p>
+<p>This update is extended by a programmatic <strong>gaia-meta-sweep</strong>: a five-phase Workflow that audited all 183 named skills and 215 generic references against META.md. Twelve survey dimensions were fanned out to parallel agents (cost-optimized models), their candidate sets deterministically pre-extracted, Semantic-Fusion candidates and new generic references proposed, and every representative finding put through a three-lens <strong>adversarial verification</strong> gate (correctness / evidence / precedent) under a ≥2-of-3 survival rule. The run began <strong>read-only</strong>, then — with maintainer approval — was promoted to an <strong>apply-safe</strong> pass; every mutation below was applied programmatically via <code>gaia dev</code> and validation-gated (<code>gaia validate</code> + <code>--intake</code>). See <em>Mutations Applied</em>.</p>
 <h3>Method</h3>
 <ul>
   <li><strong>Survey</strong> — 12 audit dimensions, one agent each, over pre-extracted ground-truth candidates.</li>
@@ -320,11 +320,19 @@
 <h3>Semantic Fusion Candidates (META §6.2)</h3>
 <p>Eight Extra-tier fusions of existing capabilities — verified as Extras, <strong>not</strong> Ultimates (none require 10k★):</p>
 <p>1. <code>security-review-pipeline</code> ← code-review-pipeline + security-audit 2. <code>safe-deployment-verification</code> ← deployment-automation + verification-before-completion 3. <code>release-coordination-pipeline</code> ← finishing-a-development-branch + release-automation 4. <code>intelligent-pattern-memory</code> ← memory-pattern-design + agent-memory-learning 5. <code>optimized-context-workflow</code> ← context-compression + prompt-optimization 6. <code>structured-documentation-generation</code> ← document-editing + write-report 7. <code>browser-powered-security-scanning</code> ← browser-automation + security-audit 8. <code>workflow-driven-multi-agent-orchestration</code> ← workflow-automation + multi-agent-orchestration-v</p>
-<h3>Proposed New Generic References & Mutations (read-only — none applied)</h3>
+<h3>New Generic References & Mutations Applied</h3>
+<p>Promoted from read-only to an <strong>apply-safe</strong> pass (maintainer-approved). Applied programmatically via <code>gaia dev</code>, validation-gated after each batch:</p>
 <ul>
-  <li>Rename brand-coupled generic <strong><code>gstack</code> → <code>founder-mode-orchestration</code></strong> (META §1); promote the eight fusions above to Extra generic references.</li>
-  <li>P0/P1 queue for <code>/gaia-audit</code> source-level correction: downgrade the <code>gaia-audit</code> Class A claim; repair or remove 37 dead evidence links; add blob-subpath <code>links.github</code> (or demote) for 22 skills at 3★+; back or demote 29 unbacked stars; reclassify <code>fine-tune</code> → basic; apply the 7 Origin corrections under the new §4.1.</li>
+  <li><strong>Origin (§4.1):</strong> 7 buckets reassigned to the most-renowned holder (<code>update-named --origin</code>), auto-demoting the prior origin — browser-control, finishing-a-development-branch, systematic-debugging, tool-creation, vertical-slice-planning, web-scrape, write-report.</li>
+  <li><strong>Brand rename:</strong> <code>gstack</code> → <code>founder-mode-orchestration</code> (references updated).</li>
+  <li><strong>Unique reclassify:</strong> <code>fine-tune</code> → basic.</li>
+  <li><strong>P0 evidence integrity:</strong> <code>gaia-audit</code> Class A → C (self-referential seed link, §2.4).</li>
+  <li><strong>Star Bar — hardened to 1★ (§2.4):</strong> 22 skills at 3★+ with missing/root-only <code>links.github</code> hard-demoted to <strong>1★</strong>.</li>
+  <li><strong>Evidence floor:</strong> 5 non-flagship 3★ skills → 2★; <strong>12 flagship 4★/5★ skills exempted</strong> (longer meta lifecycle) and routed to an ultimate-review issue.</li>
+  <li><strong>Liveness:</strong> all <strong>37</strong> dead evidence URLs stripped via the new <code>gaia dev rm-evidence</code> command (one transient 502 on a live repo left intact).</li>
 </ul>
+<p>Resulting tier distribution: <strong>1★ 22 · 2★ 98 · 3★ 27 · 4★ 29 · 5★ 5 · 6★ 2</strong>.</p>
+<p><strong>Still proposals (not applied — need new nodes / research):</strong> the 8 Semantic-Fusion Extras above, deferred to a follow-up curation PR.</p>
 <div class="references">
   <div class="abstract-title" style="text-align: left; margin-bottom: 1.5rem;">References</div>
   <div class="ref-item">[1] Tiongson, M. R. (2026). June Week 1 Meta Update. Gaia Skill Tree Registry.</div>

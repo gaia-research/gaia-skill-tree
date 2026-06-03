@@ -2,7 +2,7 @@
   "auditDate": "2026-06-02T00:00:00Z",
   "generator": "gaia-meta-sweep",
   "scope": "all",
-  "mode": "read-only",
+  "mode": "apply-safe",
   "aggressiveness": "moderate",
   "survivalRate": 1.0,
   "snapshot": {

@@ -100,7 +100,7 @@ Records standalone timeline events (demote, rank_up, verified, disputed) with co
 
 ## Automated Meta Sweep — Whole-Registry Audit
 
-This update is extended by a programmatic **gaia-meta-sweep**: a five-phase Workflow that audited all 183 named skills and 215 generic references against META.md. Twelve survey dimensions were fanned out to parallel agents (cost-optimized models), their candidate sets deterministically pre-extracted, Semantic-Fusion candidates and new generic references proposed, and every representative finding put through a three-lens **adversarial verification** gate (correctness / evidence / precedent) under a ≥2-of-3 survival rule. The run was **read-only** — findings and proposals only; no registry mutations were applied.
+This update is extended by a programmatic **gaia-meta-sweep**: a five-phase Workflow that audited all 183 named skills and 215 generic references against META.md. Twelve survey dimensions were fanned out to parallel agents (cost-optimized models), their candidate sets deterministically pre-extracted, Semantic-Fusion candidates and new generic references proposed, and every representative finding put through a three-lens **adversarial verification** gate (correctness / evidence / precedent) under a ≥2-of-3 survival rule. The run began **read-only**, then — with maintainer approval — was promoted to an **apply-safe** pass; every mutation below was applied programmatically via `gaia dev` and validation-gated (`gaia validate` + `--intake`). See *Mutations Applied*.
 
 ### Method
 
@@ -175,10 +175,21 @@ Eight Extra-tier fusions of existing capabilities — verified as Extras, **not*
 7. `browser-powered-security-scanning` ← browser-automation + security-audit
 8. `workflow-driven-multi-agent-orchestration` ← workflow-automation + multi-agent-orchestration-v
 
-### Proposed New Generic References & Mutations (read-only — none applied)
+### New Generic References & Mutations Applied
 
-- Rename brand-coupled generic **`gstack` → `founder-mode-orchestration`** (META §1); promote the eight fusions above to Extra generic references.
-- P0/P1 queue for `/gaia-audit` source-level correction: downgrade the `gaia-audit` Class A claim; repair or remove 37 dead evidence links; add blob-subpath `links.github` (or demote) for 22 skills at 3★+; back or demote 29 unbacked stars; reclassify `fine-tune` → basic; apply the 7 Origin corrections under the new §4.1.
+Promoted from read-only to an **apply-safe** pass (maintainer-approved). Applied programmatically via `gaia dev`, validation-gated after each batch:
+
+- **Origin (§4.1):** 7 buckets reassigned to the most-renowned holder (`update-named --origin`), auto-demoting the prior origin — browser-control, finishing-a-development-branch, systematic-debugging, tool-creation, vertical-slice-planning, web-scrape, write-report.
+- **Brand rename:** `gstack` → `founder-mode-orchestration` (references updated).
+- **Unique reclassify:** `fine-tune` → basic.
+- **P0 evidence integrity:** `gaia-audit` Class A → C (self-referential seed link, §2.4).
+- **Star Bar — hardened to 1★ (§2.4):** 22 skills at 3★+ with missing/root-only `links.github` hard-demoted to **1★**.
+- **Evidence floor:** 5 non-flagship 3★ skills → 2★; **12 flagship 4★/5★ skills exempted** (longer meta lifecycle) and routed to an ultimate-review issue.
+- **Liveness:** all **37** dead evidence URLs stripped via the new `gaia dev rm-evidence` command (one transient 502 on a live repo left intact).
+
+Resulting tier distribution: **1★ 22 · 2★ 98 · 3★ 27 · 4★ 29 · 5★ 5 · 6★ 2**.
+
+**Still proposals (not applied — need new nodes / research):** the 8 Semantic-Fusion Extras above, deferred to a follow-up curation PR.
 
 ## References
 
