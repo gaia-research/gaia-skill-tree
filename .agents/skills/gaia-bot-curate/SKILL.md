@@ -38,10 +38,10 @@ Curate remote `bot/*` crawler branches into `registry/real-skills.json` from a f
    - **Named Promotion**: If the item has a clear playbook and high quality, propose it as a **Named Skill** (2★+) in `registry/named/` with a unique Title (e.g., "The Digital Pathweaver").
 
 5. **Integrate and Promote**
-   - Main agent executes `gaia add` and `gaia evidence` commands for accepted entries.
-   - **For generic (starless) nodes**: `gaia add "Skill Name" --id <id> --type extra --description "..."` — generic skills have no `--level` flag; they are rank-less taxonomy.
-   - **For named skills**: `gaia add "Skill Name" --id <id> --named --contributor <user> --generic-ref <ref>` — named skills receive star levels (2★–6★) in their YAML frontmatter.
-   - Use `gaia evidence` to attach the payload URLs and details to the appropriate skill (generic or named, as applicable).
+   - Main agent executes `gaia dev add` and `gaia dev evidence` commands for accepted entries (the mutation verbs live under `gaia dev`, not at the top level).
+   - **For generic (starless) nodes**: `gaia dev add "Skill Name" --id <id> --type extra --description "..."` — generic skills have no `--level` flag; they are rank-less taxonomy.
+   - **For named skills**: `gaia dev add "Skill Name" --id <id> --named --contributor <user> --generic-ref <ref> --status awakened` — named skills are submitted with `status: awakened` (enum `{awakened, named}`); a reviewer later promotes to `named` and calibrates stars (2★–6★). Do not hand-set `title`/`catalogRef`.
+   - Use `gaia dev evidence` to attach the payload URLs and details to the appropriate skill (generic or named, as applicable).
    - NEVER hand-edit files in `registry/`.
 
 6. **Clean remote bot branches**

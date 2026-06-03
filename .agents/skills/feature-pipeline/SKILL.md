@@ -296,7 +296,7 @@ Then ends its turn. It does not proceed to the next phase.
 | **Plan approval** | Zero implementation code before explicit user approval of the HEAVIER plan. |
 | **No force-pushes** | Commits append only. Rebase on explicit user request only. |
 | **CI loop** | Phase 4 has no exit until all required checks pass, or a 3× failure escalation surfaces to ORCHESTRATOR. |
-| **Programmatic-First** | Registry mutations via `gaia add` / `gaia merge` / `gaia split`. Never hand-edit `registry/nodes/`. |
+| **Programmatic-First** | Registry mutations via `gaia dev add` / `gaia dev merge` / `gaia dev split`. Never hand-edit `registry/nodes/`. |
 | **Single PR** | One PR per `/feature-pipeline` run, covering all Phase 1 issues. |
 | **Drift pause** | Phase 5 drift detected → warn and pause, never auto-fix. |
 
