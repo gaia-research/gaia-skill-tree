@@ -20,7 +20,7 @@ _None._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/pair-agent | garrytan | 3★ | 0 |
+| garrytan/pair-agent | garrytan | 3★ | 1 |
 | intelligentcode-ai/mcp-client | intelligentcode-ai | 2★ | 1 |
 | ruvnet/v3-mcp-optimization | ruvnet | 2★ | 0 |
 

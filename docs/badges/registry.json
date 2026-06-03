@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-02",
+  "generatedAt": "2026-06-03",
   "schema": "gaia-badges-registry/2",
   "description": "Approved repos per contributor for Gaia README badges. Derived from registry/named-skills.json `links.github` URLs. The site Worker at worker/index.js handles /badges/<handle>/<file>.svg (the real SVGs live at /badges/_assets/<handle>/<file>.svg) and serves the `validating\u2026` SVG (docs/badges/not-found.svg) when the `?repo=` query string doesn't match a repo listed here. Schema v2 adds `fileSeal` for the seal-only (no 'Gaia' wordmark) variant.",
   "contributors": {
@@ -83,20 +83,11 @@
           "garrytan/unfreeze"
         ]
       },
-      "topSkill": "garrytan/garrytan",
+      "topSkill": "garrytan/gstack",
       "topRank": 5,
       "topIsUnique": false,
       "count": 47,
       "namedSkills": [
-        {
-          "id": "garrytan/garrytan",
-          "name": "Autoplan",
-          "rank": 5,
-          "type": "extra",
-          "slash": "/garrytan",
-          "file": "garrytan.svg",
-          "fileSeal": "garrytan-seal.svg"
-        },
         {
           "id": "garrytan/gstack",
           "name": "Founder Mode",
@@ -168,6 +159,15 @@
           "slash": "/document-generate",
           "file": "document-generate.svg",
           "fileSeal": "document-generate-seal.svg"
+        },
+        {
+          "id": "garrytan/garrytan",
+          "name": "Autoplan",
+          "rank": 4,
+          "type": "extra",
+          "slash": "/garrytan",
+          "file": "garrytan.svg",
+          "fileSeal": "garrytan-seal.svg"
         },
         {
           "id": "garrytan/investigate",
@@ -278,6 +278,15 @@
           "fileSeal": "benchmark-models-seal.svg"
         },
         {
+          "id": "garrytan/browse",
+          "name": "Browse",
+          "rank": 3,
+          "type": "basic",
+          "slash": "/browse",
+          "file": "browse.svg",
+          "fileSeal": "browse-seal.svg"
+        },
+        {
           "id": "garrytan/codex",
           "name": "Codex",
           "rank": 3,
@@ -285,6 +294,24 @@
           "slash": "/codex",
           "file": "codex.svg",
           "fileSeal": "codex-seal.svg"
+        },
+        {
+          "id": "garrytan/design-review",
+          "name": "Design Review",
+          "rank": 3,
+          "type": "basic",
+          "slash": "/design-review",
+          "file": "design-review.svg",
+          "fileSeal": "design-review-seal.svg"
+        },
+        {
+          "id": "garrytan/devex-review",
+          "name": "DevEx Review",
+          "rank": 3,
+          "type": "basic",
+          "slash": "/devex-review",
+          "file": "devex-review.svg",
+          "fileSeal": "devex-review-seal.svg"
         },
         {
           "id": "garrytan/guard",
@@ -314,6 +341,15 @@
           "fileSeal": "learn-seal.svg"
         },
         {
+          "id": "garrytan/make-pdf",
+          "name": "Make PDF",
+          "rank": 3,
+          "type": "basic",
+          "slash": "/make-pdf",
+          "file": "make-pdf.svg",
+          "fileSeal": "make-pdf-seal.svg"
+        },
+        {
           "id": "garrytan/pair-agent",
           "name": "Pair Agent",
           "rank": 3,
@@ -323,6 +359,15 @@
           "fileSeal": "pair-agent-seal.svg"
         },
         {
+          "id": "garrytan/retro",
+          "name": "Retro",
+          "rank": 3,
+          "type": "basic",
+          "slash": "/retro",
+          "file": "retro.svg",
+          "fileSeal": "retro-seal.svg"
+        },
+        {
           "id": "garrytan/scrape",
           "name": "Scrape",
           "rank": 3,
@@ -330,15 +375,6 @@
           "slash": "/scrape",
           "file": "scrape.svg",
           "fileSeal": "scrape-seal.svg"
-        },
-        {
-          "id": "garrytan/browse",
-          "name": "Browse",
-          "rank": 2,
-          "type": "basic",
-          "slash": "/browse",
-          "file": "browse.svg",
-          "fileSeal": "browse-seal.svg"
         },
         {
           "id": "garrytan/careful",
@@ -366,24 +402,6 @@
           "slash": "/context-save",
           "file": "context-save.svg",
           "fileSeal": "context-save-seal.svg"
-        },
-        {
-          "id": "garrytan/design-review",
-          "name": "Design Review",
-          "rank": 2,
-          "type": "basic",
-          "slash": "/design-review",
-          "file": "design-review.svg",
-          "fileSeal": "design-review-seal.svg"
-        },
-        {
-          "id": "garrytan/devex-review",
-          "name": "DevEx Review",
-          "rank": 2,
-          "type": "basic",
-          "slash": "/devex-review",
-          "file": "devex-review.svg",
-          "fileSeal": "devex-review-seal.svg"
         },
         {
           "id": "garrytan/document-release",
@@ -422,15 +440,6 @@
           "fileSeal": "landing-report-seal.svg"
         },
         {
-          "id": "garrytan/make-pdf",
-          "name": "Make PDF",
-          "rank": 2,
-          "type": "basic",
-          "slash": "/make-pdf",
-          "file": "make-pdf.svg",
-          "fileSeal": "make-pdf-seal.svg"
-        },
-        {
           "id": "garrytan/open-gstack-browser",
           "name": "Open GStack Browser",
           "rank": 2,
@@ -456,15 +465,6 @@
           "slash": "/qa-only",
           "file": "qa-only.svg",
           "fileSeal": "qa-only-seal.svg"
-        },
-        {
-          "id": "garrytan/retro",
-          "name": "Retro",
-          "rank": 2,
-          "type": "basic",
-          "slash": "/retro",
-          "file": "retro.svg",
-          "fileSeal": "retro-seal.svg"
         },
         {
           "id": "garrytan/setup-browser-cookies",

@@ -29,8 +29,8 @@ _None._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/benchmark | garrytan | 4★ | 0 |
-| garrytan/plan-ceo-review | garrytan | 4★ | 0 |
+| garrytan/benchmark | garrytan | 4★ | 1 |
+| garrytan/plan-ceo-review | garrytan | 4★ | 1 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

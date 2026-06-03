@@ -107,7 +107,7 @@
 | ◇ [mattpocock](../docs/u/mattpocock/)/ubiquitous-language | Extra Skill | Extract Entities, Requirements Analysis | 4★ | Requires active persistence of terms and immediate conflict resolution during sessions. |
 | ◇ [obra](../docs/u/obra/)/using-git-worktrees | Extra Skill | Code Execution, Tool Use | 2★ |  |
 | ◇ [obra](../docs/u/obra/)/verification-before-completion | Extra Skill | Code Execution, Self-Critique | 2★ |  |
-| ◇ [garrytan](../docs/u/garrytan/)/garrytan | Extra Skill | Plan and Decompose, Route Intent | 5★ |  |
+| ◇ [garrytan](../docs/u/garrytan/)/garrytan | Extra Skill | Plan and Decompose, Route Intent | 4★ |  |
 | ◇ [bradautomates](../docs/u/bradautomates/)/claude-video | Extra Skill | Multimodal Reasoning, Speech to Text | 2★ | Requires FFmpeg and multimodal LLM support. |
 | ◇ /voice-agent | Extra Skill | Speech to Text, Question Answer, Text to Speech | — | Requires real-time audio I/O or audio file access. |
 | ◇ /web-accessibility | Extra Skill | Browser Control, UX Audit | — |  |

@@ -20,9 +20,9 @@ _None._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/document-generate ⭑ | garrytan | 4★ | 0 |
+| garrytan/document-generate ⭑ | garrytan | 4★ | 1 |
 | anthropic/pptx | anthropic | 2★ | 1 |
-| garrytan/document-release | garrytan | 2★ | 0 |
+| garrytan/document-release | garrytan | 2★ | 1 |
 | mattpocock/edit-article | mattpocock | 2★ | 0 |
 
 ## Evidence (inherited capability)

@@ -25,7 +25,7 @@ _None specified._
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
 | stanfordnlp/dspy ⭑ | stanfordnlp | 1★ | 0 |
-| garrytan/plan-tune | garrytan | 2★ | 0 |
+| garrytan/plan-tune | garrytan | 2★ | 1 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

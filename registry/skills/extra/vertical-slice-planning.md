@@ -1,8 +1,8 @@
-# [garrytan](../../../docs/u/garrytan/)/garrytan  [5★]
+# [garrytan](../../../docs/u/garrytan/)/garrytan  [4★]
 **ID:** vertical-slice-planning  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
-**Top named variant:** 5★  
+**Top named variant:** 4★  
 **Skill Call:** `/vertical-slice-planning`
 
 ---
@@ -23,7 +23,7 @@ _None specified._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/garrytan ⭑ | garrytan | 5★ | 0 |
+| garrytan/garrytan ⭑ | garrytan | 4★ | 1 |
 | mattpocock/to-issues | mattpocock | 3★ | 1 |
 
 ## Evidence (inherited capability)

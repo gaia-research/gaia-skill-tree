@@ -53,7 +53,7 @@
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — google-deepmind  ·  generated 2026-06-02
+GAIA SKILL TREE — google-deepmind  ·  generated 2026-06-03
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -80,7 +80,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ /diff-content
   │  └─ · ○ garrytan/benchmark  [4★]  (↑ see above)
   ├─ · ○ pbakaus/impeccable  [4★]
-  ├─ · ◇ garrytan/garrytan  [5★]
+  ├─ · ◇ garrytan/garrytan  [4★]
   │  ├─ · ○ /plan-decompose
   │  └─ · ○ /route-intent
   ├─ · ◇ garrytan/design-consultation  [4★]
@@ -118,7 +118,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · ◇ garrytan/cso  [4★]
   │  ├─ · ◇ garrytan/plan-eng-review  [4★]  (↑ see above)
   │  └─ · ○ garrytan/benchmark  [4★]  (↑ see above)
-  ├─ · ○ garrytan/browse  [2★]
+  ├─ · ○ garrytan/browse  [3★]
   ├─ · ◇ garrytan/scrape  [3★]
   │  ├─ · ○ /web-search  (↑ see above)
   │  ├─ · ○ /parse-html  (↑ see above)
@@ -127,7 +127,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ /generate-text
   │  ├─ · ○ /structured-output
   │  └─ · ○ garrytan/design-html  [4★]  (↑ see above)
-  ├─ · ○ garrytan/retro  [2★]
+  ├─ · ○ garrytan/retro  [3★]
   ├─ · ◇ garrytan/codex  [3★]
   │  ├─ · ○ /self-critique
   │  ├─ · ○ garrytan/benchmark  [4★]  (↑ see above)
@@ -150,7 +150,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · ◇ garrytan/setup-gbrain  [2★]
   │  ├─ · ○ huggingface/hf-cli  [2★]  (↑ see above)
   │  └─ · ○ /retrieve  (↑ see above)
-  ├─ · ○ garrytan/make-pdf  [2★]
+  ├─ · ○ garrytan/make-pdf  [3★]
   ├─ · ◇ garrytan/gstack-upgrade  [2★]
   │  ├─ · ○ huggingface/hf-cli  [2★]  (↑ see above)
   │  └─ · ○ garrytan/document-generate  [4★]  (↑ see above)
@@ -268,11 +268,11 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ /code-execution
   │  └─ · ○ /error-interpretation
   ├─ · ○ mattpocock/improve-codebase-architecture  [3★]
-  ├─ · ◇ garrytan/garrytan  [5★]
+  ├─ · ◇ garrytan/garrytan  [4★]
   │  ├─ · ○ /plan-decompose
   │  └─ · ○ /route-intent
   ├─ · ◇ mattpocock/to-prd  [2★]
-  │  ├─ · ○ garrytan/retro  [2★]
+  │  ├─ · ○ garrytan/retro  [3★]
   │  └─ · ○ /plan-decompose  (↑ see above)
   ├─ · ○ mattpocock/triage  [3★]
   ├─ · ◇ mattpocock/ubiquitous-language  [4★]
@@ -301,11 +301,11 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  ├─ · ○ /code-execution
   │  │  └─ · ○ /error-interpretation
   │  ├─ · ○ mattpocock/improve-codebase-architecture  [3★]
-  │  ├─ · ◇ garrytan/garrytan  [5★]
+  │  ├─ · ◇ garrytan/garrytan  [4★]
   │  │  ├─ · ○ /plan-decompose
   │  │  └─ · ○ /route-intent
   │  ├─ · ◇ mattpocock/to-prd  [2★]
-  │  │  ├─ · ○ garrytan/retro  [2★]
+  │  │  ├─ · ○ garrytan/retro  [3★]
   │  │  └─ · ○ /plan-decompose  (↑ see above)
   │  ├─ · ○ mattpocock/triage  [3★]
   │  ├─ · ◇ mattpocock/ubiquitous-language  [4★]

@@ -18,13 +18,25 @@ tags:
 - data-extraction
 - automation
 createdAt: '2026-05-18'
-updatedAt: '2026-06-02'
+updatedAt: '2026-06-03'
 suiteRef: garrytan/gstack
 timeline:
 - timestamp: '2026-06-02T23:33:01Z'
   action: rank_up
   contributor: unknown
   details: Origin status set to true.
+- timestamp: '2026-06-03T05:51:28Z'
+  action: evidence_added
+  contributor: unknown
+  details: Added B evidence from https://github.com/garrytan/gstack/blob/main/scrape/SKILL.md
+evidence:
+- class: B
+  source: https://github.com/garrytan/gstack/blob/main/scrape/SKILL.md
+  evaluator: mbtiongson1
+  date: '2026-06-03'
+  notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Fetches
+    target URLs with a headless browser, parses structured data from rendered HTML,
+    and returns clean JSON or markdown ready for downstream…
 ---
 
 ## Overview

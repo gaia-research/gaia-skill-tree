@@ -20,13 +20,25 @@ tags:
 - design-to-code
 - production
 createdAt: '2026-05-18'
-updatedAt: '2026-06-02'
+updatedAt: '2026-06-03'
 suiteRef: garrytan/gstack
 timeline:
 - timestamp: '2026-06-02T01:42:59Z'
   action: rank_up
   contributor: unknown
   details: Origin status set to true.
+- timestamp: '2026-06-03T05:51:32Z'
+  action: evidence_added
+  contributor: unknown
+  details: Added B evidence from https://github.com/garrytan/gstack/blob/main/design-html/SKILL.md
+evidence:
+- class: B
+  source: https://github.com/garrytan/gstack/blob/main/design-html/SKILL.md
+  evaluator: mbtiongson1
+  date: '2026-06-03'
+  notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Generates
+    production-quality, Pretext-native HTML/CSS with real text reflow and dynamic
+    layout from approved design mockups, CEO plans, or user…
 ---
 
 ## Overview

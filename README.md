@@ -59,7 +59,7 @@ Every AI agent capability exists somewhere on this graph. Skills start at the fo
   │  ├─ ○ /diff-content
   │  └─ ○ garrytan/benchmark  [4★]  (↑ see above)
   ├─ ○ pbakaus/impeccable  [4★]
-  ├─ ◇ garrytan/garrytan  [5★]
+  ├─ ◇ garrytan/garrytan  [4★]
   │  ├─ ○ /plan-decompose
   │  └─ ○ /route-intent
   ├─ ◇ garrytan/design-consultation  [4★]

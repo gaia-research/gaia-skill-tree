@@ -5,20 +5,36 @@ contributor: garrytan
 origin: false
 genericSkillRef: detect-anomaly
 status: named
-title: "Gstack Canary"
+title: Gstack Canary
 catalogRef: garrytan-canary
-level: "4★"
-description: Post-deployment monitoring that captures pre-release baseline screenshots, then continuously watches pages for console errors, performance regressions, and broken links — designed to surface failures within the first 10 minutes so problems are caught before they reach users at scale.
+level: 4★
+description: Post-deployment monitoring that captures pre-release baseline screenshots,
+  then continuously watches pages for console errors, performance regressions, and
+  broken links — designed to surface failures within the first 10 minutes so problems
+  are caught before they reach users at scale.
 links:
   github: https://github.com/garrytan/gstack/blob/main/canary/SKILL.md
 tags:
-  - monitoring
-  - post-deploy
-  - canary
-  - anomaly-detection
-createdAt: "2026-05-18"
-updatedAt: "2026-05-18"
-suiteRef: "garrytan/gstack"
+- monitoring
+- post-deploy
+- canary
+- anomaly-detection
+createdAt: '2026-05-18'
+updatedAt: '2026-06-03'
+suiteRef: garrytan/gstack
+evidence:
+- class: B
+  source: https://github.com/garrytan/gstack/blob/main/canary/SKILL.md
+  evaluator: mbtiongson1
+  date: '2026-06-03'
+  notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). Post-deployment
+    monitoring that captures pre-release baseline screenshots, then continuously watches
+    pages for console errors, performance…
+timeline:
+- timestamp: '2026-06-03T05:51:29Z'
+  action: evidence_added
+  contributor: unknown
+  details: Added B evidence from https://github.com/garrytan/gstack/blob/main/canary/SKILL.md
 ---
 
 ## Overview

@@ -25,7 +25,7 @@ _None specified._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/ship ⭑ | garrytan | 4★ | 0 |
+| garrytan/ship ⭑ | garrytan | 4★ | 1 |
 | obra/finishing-a-development-branch | obra | 2★ | 1 |
 
 ## Evidence (inherited capability)

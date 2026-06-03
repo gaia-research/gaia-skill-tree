@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/skill.schema.json",
   "version": "3.27.3",
-  "generatedAt": "2026-06-02T23:53:38.002146Z",
+  "generatedAt": "2026-06-03T05:52:00.097139Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic Skill",
@@ -1515,7 +1515,7 @@
           0.22151242202580532
         ]
       },
-      "namedMaxLevel": "2★"
+      "namedMaxLevel": "3★"
     },
     {
       "id": "career-operations",
@@ -4653,7 +4653,7 @@
           0.5931128359627934
         ]
       },
-      "namedMaxLevel": "2★"
+      "namedMaxLevel": "3★"
     },
     {
       "id": "founder-mode-orchestration",
@@ -13757,7 +13757,7 @@
           0.11965655833029079
         ]
       },
-      "namedMaxLevel": "5★"
+      "namedMaxLevel": "4★"
     },
     {
       "id": "video-intelligence",
@@ -14639,7 +14639,7 @@
           -0.007572633023823873
         ]
       },
-      "namedMaxLevel": "2★"
+      "namedMaxLevel": "3★"
     },
     {
       "id": "writing-plans",

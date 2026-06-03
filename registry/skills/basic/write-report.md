@@ -1,8 +1,8 @@
-# [garrytan](../../../docs/u/garrytan/)/retro  [2★]
+# [garrytan](../../../docs/u/garrytan/)/retro  [3★]
 **ID:** write-report  
 **Type:** Basic Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
-**Top named variant:** 2★  
+**Top named variant:** 3★  
 **Skill Call:** `/write-report`
 
 ---
@@ -23,7 +23,7 @@ _None._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/retro ⭑ | garrytan | 2★ | 0 |
+| garrytan/retro ⭑ | garrytan | 3★ | 1 |
 | glincker/readme-generator | glincker | 2★ | 0 |
 | spring-ai/readme-generate | spring-ai | 2★ | 0 |
 

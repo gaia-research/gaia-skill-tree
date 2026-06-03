@@ -26,7 +26,7 @@ Structured output mode required.
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/scrape ⭑ | garrytan | 3★ | 0 |
+| garrytan/scrape ⭑ | garrytan | 3★ | 1 |
 | firecrawl/firecrawl | firecrawl | 2★ | 0 |
 
 ## Evidence (inherited capability)

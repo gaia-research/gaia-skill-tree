@@ -26,7 +26,7 @@ Requires a skill corpus, benchmark tasks, success rubrics, and variance-aware re
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/benchmark-models | garrytan | 3★ | 0 |
+| garrytan/benchmark-models | garrytan | 3★ | 1 |
 | ruvnet/worker-benchmarks | ruvnet | 2★ | 0 |
 
 ## Evidence (inherited capability)

@@ -22,7 +22,7 @@
 | ○ /bioinformatic-sequence-analysis | Basic Skill | — | `/bioinformatic-sequence-analysis` |
 | ◇ [obra](../docs/u/obra/)/brainstorming | Extra Skill | 2★ | `/brainstorming` |
 | ◇ [gooseworks](../docs/u/gooseworks/)/notte-browser | Extra Skill | 2★ | `/browser-automation` |
-| ○ [garrytan](../docs/u/garrytan/)/browse | Basic Skill | 2★ | `/browser-control` |
+| ○ [garrytan](../docs/u/garrytan/)/browse | Basic Skill | 3★ | `/browser-control` |
 | ◇ [santifer](../docs/u/santifer/)/career-ops | Extra Skill | 3★ | `/career-operations` |
 | ○ /chain-of-thought | Basic Skill | — | `/chain-of-thought` |
 | ○ /chunk-document | Basic Skill | — | `/chunk-document` |
@@ -65,7 +65,7 @@
 | ○ /extract-entities | Basic Skill | — | `/extract-entities` |
 | ◉ [nousresearch](../docs/u/nousresearch/)/feed-monitoring | Unique Skill | — | `/feed-monitoring` |
 | ◇ [garrytan](../docs/u/garrytan/)/ship | Extra Skill | 4★ | `/finishing-a-development-branch` |
-| ○ [garrytan](../docs/u/garrytan/)/make-pdf | Basic Skill | 2★ | `/format-output` |
+| ○ [garrytan](../docs/u/garrytan/)/make-pdf | Basic Skill | 3★ | `/format-output` |
 | ◆ [garrytan](../docs/u/garrytan/)/gstack | Ultimate Skill | 5★ | `/founder-mode-orchestration` |
 | ◇ /full-stack-developer | Extra Skill | — | `/full-stack-developer` |
 | ◇ /function-calling | Extra Skill | — | `/function-calling` |
@@ -188,7 +188,7 @@
 | ○ [ruvnet](../docs/u/ruvnet/)/agentdb-optimization | Basic Skill | 2★ | `/vector-db-optimization` |
 | ○ [ruvnet](../docs/u/ruvnet/)/agentdb-vector-search | Basic Skill | 2★ | `/vector-search` |
 | ◇ [obra](../docs/u/obra/)/verification-before-completion | Extra Skill | 2★ | `/verification-before-completion` |
-| ◇ [garrytan](../docs/u/garrytan/)/garrytan | Extra Skill | 5★ | `/vertical-slice-planning` |
+| ◇ [garrytan](../docs/u/garrytan/)/garrytan | Extra Skill | 4★ | `/vertical-slice-planning` |
 | ◇ [bradautomates](../docs/u/bradautomates/)/claude-video | Extra Skill | 2★ | `/video-intelligence` |
 | ○ /vision-qa | Basic Skill | — | `/vision-qa` |
 | ◇ /voice-agent | Extra Skill | — | `/voice-agent` |
@@ -200,7 +200,7 @@
 | ◇ /wiki-search | Extra Skill | — | `/wiki-search` |
 | ◇ [ruvnet](../docs/u/ruvnet/)/github-workflow-automation | Extra Skill | 2★ | `/workflow-automation` |
 | ◇ [garrytan](../docs/u/garrytan/)/gstack-upgrade | Extra Skill | 2★ | `/workspace-automation` |
-| ○ [garrytan](../docs/u/garrytan/)/retro | Basic Skill | 2★ | `/write-report` |
+| ○ [garrytan](../docs/u/garrytan/)/retro | Basic Skill | 3★ | `/write-report` |
 | ◇ [obra](../docs/u/obra/)/writing-plans | Extra Skill | 2★ | `/writing-plans` |
 | ◇ /x-twitter-automation | Extra Skill | — | `/x-twitter-automation` |
 

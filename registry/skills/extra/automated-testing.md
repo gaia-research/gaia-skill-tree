@@ -28,7 +28,7 @@ _None specified._
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
 | 0xdarkmatter/pytest-patterns ⭑ | 0xdarkmatter | 3★ | 0 |
-| garrytan/health | garrytan | 3★ | 0 |
+| garrytan/health | garrytan | 3★ | 1 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

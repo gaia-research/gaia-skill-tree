@@ -24,8 +24,8 @@ _None specified._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/setup-gbrain | garrytan | 2★ | 0 |
-| garrytan/sync-gbrain | garrytan | 2★ | 0 |
+| garrytan/setup-gbrain | garrytan | 2★ | 1 |
+| garrytan/sync-gbrain | garrytan | 2★ | 1 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

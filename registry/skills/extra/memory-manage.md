@@ -25,7 +25,7 @@ _None specified._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/learn | garrytan | 3★ | 0 |
+| garrytan/learn | garrytan | 3★ | 1 |
 | ruvnet/v3-memory-unification | ruvnet | 2★ | 0 |
 
 ## Evidence (inherited capability)

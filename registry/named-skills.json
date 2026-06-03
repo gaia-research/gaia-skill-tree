@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-02",
+  "generatedAt": "2026-06-03",
   "buckets": {
     "automated-testing": [
       {
@@ -49,8 +49,25 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/health/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/health/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Executes the full automated test suite, collects pass/fail counts and coverage deltas, and surfaces any newly introduced failures with concise…"
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
+        "updatedAt": "2026-06-03",
+        "timeline": [
+          {
+            "timestamp": "2026-06-03T05:51:27Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/health/SKILL.md"
+          }
+        ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant"
@@ -117,14 +134,29 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/design-consultation/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/design-consultation/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Builds a complete design system by researching the product and competitors, then proposing a coherent package of typography, colours, spacing,…"
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-02",
+        "updatedAt": "2026-06-03",
         "timeline": [
           {
             "timestamp": "2026-06-02T01:43:00Z",
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Origin status set to true (highest-rated in design-system-extraction bucket)."
+          },
+          {
+            "timestamp": "2026-06-03T05:51:27Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/design-consultation/SKILL.md"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -364,14 +396,29 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/document-generate/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/document-generate/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Generates structured documentation using the Diataxis framework — tutorials, how-to guides, reference materials, and explanations — by thoroughly…"
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-02",
+        "updatedAt": "2026-06-03",
         "timeline": [
           {
             "timestamp": "2026-06-02T01:43:00Z",
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Origin status set to true (highest-rated in document-editing bucket)."
+          },
+          {
+            "timestamp": "2026-06-03T05:51:27Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/document-generate/SKILL.md"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -397,8 +444,25 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/document-release/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/document-release/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Reads the diff between two version tags and drafts concise, user-facing release notes following the Gstack changelog format."
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
+        "updatedAt": "2026-06-03",
+        "timeline": [
+          {
+            "timestamp": "2026-06-03T05:51:27Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/document-release/SKILL.md"
+          }
+        ],
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "variant"
@@ -591,7 +655,7 @@
         "origin": true,
         "genericSkillRef": "browser-control",
         "status": "named",
-        "level": "2★",
+        "level": "3★",
         "description": "Drives a browser to a target URL, navigates multi-step user journeys, and captures screenshots or structured observations for downstream verification or reporting.",
         "title": "Gstack Browse — Directed Browser Navigation",
         "catalogRef": "garrytan-browse",
@@ -603,8 +667,17 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/browse/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/browse/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Drives a browser to a target URL, navigates multi-step user journeys, and captures screenshots or structured observations for downstream…"
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-02",
+        "updatedAt": "2026-06-03",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:32:59Z",
@@ -617,6 +690,18 @@
             "action": "demote",
             "contributor": "unknown",
             "details": "Calibrated level from 3★ to 2★"
+          },
+          {
+            "timestamp": "2026-06-03T05:51:28Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/browse/SKILL.md"
+          },
+          {
+            "timestamp": "2026-06-03T05:51:38Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 3★"
           }
         ],
         "suiteRef": "garrytan/garrytan",
@@ -642,8 +727,25 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/open-gstack-browser/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/open-gstack-browser/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Launches a new headless or headed browser session with the Gstack environment variables and extension profile pre-loaded, ready for automation…"
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
+        "updatedAt": "2026-06-03",
+        "timeline": [
+          {
+            "timestamp": "2026-06-03T05:51:28Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/open-gstack-browser/SKILL.md"
+          }
+        ],
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "variant"
@@ -667,8 +769,25 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/setup-browser-cookies/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/setup-browser-cookies/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Injects pre-authenticated session cookies into the browser context so subsequent automation steps can access gated pages without a manual login flow."
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
+        "updatedAt": "2026-06-03",
+        "timeline": [
+          {
+            "timestamp": "2026-06-03T05:51:28Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/setup-browser-cookies/SKILL.md"
+          }
+        ],
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "variant"
@@ -886,14 +1005,29 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/scrape/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/scrape/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Fetches target URLs with a headless browser, parses structured data from rendered HTML, and returns clean JSON or markdown ready for downstream…"
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-02",
+        "updatedAt": "2026-06-03",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:33:01Z",
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-06-03T05:51:28Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/scrape/SKILL.md"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -921,8 +1055,25 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/benchmark-models/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/benchmark-models/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Runs a standardised prompt suite across multiple model versions, records latency and quality scores, and produces a ranked comparison table to…"
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
+        "updatedAt": "2026-06-03",
+        "timeline": [
+          {
+            "timestamp": "2026-06-03T05:51:29Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/benchmark-models/SKILL.md"
+          }
+        ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant"
@@ -976,8 +1127,25 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/benchmark/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/benchmark/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Web performance benchmarking that captures baseline metrics, compares current performance against those baselines, and identifies regressions in…"
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
+        "updatedAt": "2026-06-03",
+        "timeline": [
+          {
+            "timestamp": "2026-06-03T05:51:29Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/benchmark/SKILL.md"
+          }
+        ],
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "variant"
@@ -1002,8 +1170,25 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/plan-ceo-review/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/plan-ceo-review/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Rigorous product strategy and scope review in four modes — SCOPE EXPANSION, SELECTIVE EXPANSION, HOLD SCOPE, and SCOPE REDUCTION — evaluating…"
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
+        "updatedAt": "2026-06-03",
+        "timeline": [
+          {
+            "timestamp": "2026-06-03T05:51:29Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/plan-ceo-review/SKILL.md"
+          }
+        ],
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "variant"
@@ -1030,8 +1215,25 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/canary/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/canary/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Post-deployment monitoring that captures pre-release baseline screenshots, then continuously watches pages for console errors, performance…"
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
+        "updatedAt": "2026-06-03",
+        "timeline": [
+          {
+            "timestamp": "2026-06-03T05:51:29Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/canary/SKILL.md"
+          }
+        ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant"
@@ -1057,8 +1259,25 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/careful/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/careful/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Activates a conservative execution profile that pauses before irreversible actions, requests explicit confirmation for destructive operations, and…"
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
+        "updatedAt": "2026-06-03",
+        "timeline": [
+          {
+            "timestamp": "2026-06-03T05:51:30Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/careful/SKILL.md"
+          }
+        ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant"
@@ -1082,8 +1301,25 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/freeze/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/freeze/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Sets a change-freeze flag that blocks non-critical commits and PR merges until explicitly lifted, protecting release branches or post-incident…"
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
+        "updatedAt": "2026-06-03",
+        "timeline": [
+          {
+            "timestamp": "2026-06-03T05:51:30Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/freeze/SKILL.md"
+          }
+        ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant"
@@ -1107,8 +1343,25 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/guard/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/guard/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Applies configurable content and output guardrails to agent responses, flagging or blocking unsafe outputs and logging violations with structured…"
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
+        "updatedAt": "2026-06-03",
+        "timeline": [
+          {
+            "timestamp": "2026-06-03T05:51:30Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/guard/SKILL.md"
+          }
+        ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant"
@@ -1132,8 +1385,25 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/unfreeze/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/unfreeze/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Clears the active change-freeze flag and restores normal merge permissions, logging the unfreeze event with a timestamp and justification."
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
+        "updatedAt": "2026-06-03",
+        "timeline": [
+          {
+            "timestamp": "2026-06-03T05:51:30Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/unfreeze/SKILL.md"
+          }
+        ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant"
@@ -1159,8 +1429,25 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/codex/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/codex/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Spins up a structured Claude-versus-Codex debate over a proposed implementation, with each agent mounting adversarial critiques, to surface hidden…"
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
+        "updatedAt": "2026-06-03",
+        "timeline": [
+          {
+            "timestamp": "2026-06-03T05:51:31Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/codex/SKILL.md"
+          }
+        ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant"
@@ -1186,8 +1473,25 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/context-restore/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/context-restore/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Reads a saved context snapshot and reconstructs a warm session state, surfacing the last decision point and pending tasks so work can resume…"
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
+        "updatedAt": "2026-06-03",
+        "timeline": [
+          {
+            "timestamp": "2026-06-03T05:51:31Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/context-restore/SKILL.md"
+          }
+        ],
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "variant"
@@ -1211,8 +1515,25 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/context-save/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/context-save/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Compresses the current session context into a compact summary file that can be restored later, enabling long-running workflows to survive…"
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
+        "updatedAt": "2026-06-03",
+        "timeline": [
+          {
+            "timestamp": "2026-06-03T05:51:31Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/context-save/SKILL.md"
+          }
+        ],
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "variant"
@@ -1260,8 +1581,25 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/cso/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/cso/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Infrastructure-first security audit focusing on secrets archaeology, dependency supply chain, and CI/CD security. Includes OWASP Top 10, STRIDE…"
+          }
+        ],
         "createdAt": "2026-05-12",
-        "updatedAt": "2026-05-12",
+        "updatedAt": "2026-06-03",
+        "timeline": [
+          {
+            "timestamp": "2026-06-03T05:51:31Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/cso/SKILL.md"
+          }
+        ],
         "suiteRef": "garrytan/garrytan",
         "type": "extra",
         "role": "origin"
@@ -1349,14 +1687,29 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/design-html/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/design-html/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Generates production-quality, Pretext-native HTML/CSS with real text reflow and dynamic layout from approved design mockups, CEO plans, or user…"
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-02",
+        "updatedAt": "2026-06-03",
         "timeline": [
           {
             "timestamp": "2026-06-02T01:42:59Z",
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-06-03T05:51:32Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/design-html/SKILL.md"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -1372,7 +1725,7 @@
         "origin": false,
         "genericSkillRef": "ux-audit",
         "status": "named",
-        "level": "2★",
+        "level": "3★",
         "description": "Runs a structured UX audit over a product interface, scoring layout clarity, affordance, and accessibility against the Gstack design rubric to surface actionable improvements.",
         "title": "Gstack Design Review — UX Audit Pass",
         "catalogRef": "garrytan-design-review",
@@ -1384,14 +1737,35 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/design-review/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/design-review/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Runs a structured UX audit over a product interface, scoring layout clarity, affordance, and accessibility against the Gstack design rubric to…"
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-02",
+        "updatedAt": "2026-06-03",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:45:09Z",
             "action": "demote",
             "contributor": "unknown",
             "details": "Calibrated level from 3★ to 2★"
+          },
+          {
+            "timestamp": "2026-06-03T05:51:32Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/design-review/SKILL.md"
+          },
+          {
+            "timestamp": "2026-06-03T05:51:38Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 3★"
           }
         ],
         "suiteRef": "garrytan/garrytan",
@@ -1405,7 +1779,7 @@
         "origin": false,
         "genericSkillRef": "ux-audit",
         "status": "named",
-        "level": "2★",
+        "level": "3★",
         "description": "Audits CLI ergonomics, API surface clarity, and onboarding friction from a developer perspective, producing a scored report with prioritised fixes.",
         "title": "Gstack DevEx Review — Developer Experience Audit",
         "catalogRef": "garrytan-devex-review",
@@ -1417,14 +1791,35 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/devex-review/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/devex-review/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Audits CLI ergonomics, API surface clarity, and onboarding friction from a developer perspective, producing a scored report with prioritised fixes."
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-02",
+        "updatedAt": "2026-06-03",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:45:09Z",
             "action": "demote",
             "contributor": "unknown",
             "details": "Calibrated level from 3★ to 2★"
+          },
+          {
+            "timestamp": "2026-06-03T05:51:32Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/devex-review/SKILL.md"
+          },
+          {
+            "timestamp": "2026-06-03T05:51:38Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 3★"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -1451,8 +1846,25 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/plan-design-review/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/plan-design-review/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Interactive, designer-led audit of UI/UX plans rating seven dimensions — information architecture, interaction states, user journey, AI slop risk,…"
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
+        "updatedAt": "2026-06-03",
+        "timeline": [
+          {
+            "timestamp": "2026-06-03T05:51:32Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/plan-design-review/SKILL.md"
+          }
+        ],
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "variant"
@@ -1477,8 +1889,25 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/plan-devex-review/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/plan-devex-review/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Interactive multi-pass DX review for developer-facing products — APIs, CLIs, SDKs, and libraries — scoring eight UX dimensions from onboarding to…"
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
+        "updatedAt": "2026-06-03",
+        "timeline": [
+          {
+            "timestamp": "2026-06-03T05:51:32Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/plan-devex-review/SKILL.md"
+          }
+        ],
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "variant"
@@ -1589,8 +2018,25 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/design-shotgun/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/design-shotgun/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Rapid design exploration that generates multiple AI design variants, opens a comparison board for the user, collects structured feedback, and…"
+          }
+        ],
         "createdAt": "2026-05-12",
-        "updatedAt": "2026-05-12",
+        "updatedAt": "2026-06-03",
+        "timeline": [
+          {
+            "timestamp": "2026-06-03T05:51:33Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/design-shotgun/SKILL.md"
+          }
+        ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant"
@@ -1604,7 +2050,7 @@
         "origin": true,
         "genericSkillRef": "vertical-slice-planning",
         "status": "named",
-        "level": "5★",
+        "level": "4★",
         "description": "The definitive autonomous \"Founder mode\" review and decision suite. An auto-review pipeline that reads the full CEO, design, engineering, and DX review skills from disk and runs them sequentially with auto-decisions using 6 decision principles.",
         "title": "Founder Mode Autoplan",
         "catalogRef": "garrytan-autoplan",
@@ -1618,14 +2064,35 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/autoplan/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/autoplan/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). The definitive autonomous \"Founder mode\" review and decision suite. An auto-review pipeline that reads the full CEO, design, engineering, and DX…"
+          }
+        ],
         "createdAt": "2026-05-12",
-        "updatedAt": "2026-06-02",
+        "updatedAt": "2026-06-03",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:33:01Z",
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-06-03T05:51:33Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/autoplan/SKILL.md"
+          },
+          {
+            "timestamp": "2026-06-03T05:51:37Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 5★ to 4★"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -1704,8 +2171,25 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/gstack-upgrade/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/gstack-upgrade/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Scans the workspace for outdated dependencies, runs upgrades within semver-compatible bounds, re-runs tests, and commits a clean dependency bump PR."
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
+        "updatedAt": "2026-06-03",
+        "timeline": [
+          {
+            "timestamp": "2026-06-03T05:51:33Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/gstack-upgrade/SKILL.md"
+          }
+        ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant"
@@ -1820,14 +2304,29 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/investigate/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/investigate/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Systematic root-cause debugging enforcing an Iron Law — no fix without first identifying root cause — guiding through four phases: investigation,…"
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-02",
+        "updatedAt": "2026-06-03",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:33:00Z",
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-06-03T05:51:33Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/investigate/SKILL.md"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -1899,8 +2398,25 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/land-and-deploy/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/land-and-deploy/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Automates the final production shipping stages — merging a PR, monitoring CI/deploy completion, and verifying live site health through canary…"
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
+        "updatedAt": "2026-06-03",
+        "timeline": [
+          {
+            "timestamp": "2026-06-03T05:51:34Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/land-and-deploy/SKILL.md"
+          }
+        ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant"
@@ -1924,8 +2440,25 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/setup-deploy/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/setup-deploy/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Provisions the deployment environment by creating secrets, configuring environment variables, and running infrastructure-as-code init steps before…"
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
+        "updatedAt": "2026-06-03",
+        "timeline": [
+          {
+            "timestamp": "2026-06-03T05:51:34Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/setup-deploy/SKILL.md"
+          }
+        ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant"
@@ -2017,8 +2550,25 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/landing-report/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/landing-report/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Generates a one-page project landing report from open issues, recent commits, and milestone progress, giving stakeholders a quick read on health…"
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
+        "updatedAt": "2026-06-03",
+        "timeline": [
+          {
+            "timestamp": "2026-06-03T05:51:34Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/landing-report/SKILL.md"
+          }
+        ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant"
@@ -2071,8 +2621,25 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/learn/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/learn/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Reads the active memory store, consolidates new observations from the current session, deduplicates stale entries, and writes back an updated,…"
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
+        "updatedAt": "2026-06-03",
+        "timeline": [
+          {
+            "timestamp": "2026-06-03T05:51:34Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/learn/SKILL.md"
+          }
+        ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant"
@@ -2113,7 +2680,7 @@
         "origin": false,
         "genericSkillRef": "format-output",
         "status": "named",
-        "level": "2★",
+        "level": "3★",
         "description": "Converts markdown or structured data into a polished PDF document with consistent heading styles, table formatting, and page layout ready for distribution.",
         "title": "Gstack Make PDF — Formatted Output Generator",
         "catalogRef": "garrytan-make-pdf",
@@ -2125,14 +2692,35 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/make-pdf/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/make-pdf/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Converts markdown or structured data into a polished PDF document with consistent heading styles, table formatting, and page layout ready for…"
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-02",
+        "updatedAt": "2026-06-03",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:45:10Z",
             "action": "demote",
             "contributor": "unknown",
             "details": "Calibrated level from 3★ to 2★"
+          },
+          {
+            "timestamp": "2026-06-03T05:51:34Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/make-pdf/SKILL.md"
+          },
+          {
+            "timestamp": "2026-06-03T05:51:38Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 3★"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -2162,8 +2750,25 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/office-hours/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/office-hours/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). YC-style startup and builder brainstorming. Startup mode uses six forcing questions (demand reality, status quo, desperate specificity, narrowest…"
+          }
+        ],
         "createdAt": "2026-05-12",
-        "updatedAt": "2026-05-12",
+        "updatedAt": "2026-06-03",
+        "timeline": [
+          {
+            "timestamp": "2026-06-03T05:51:35Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/office-hours/SKILL.md"
+          }
+        ],
         "suiteRef": "garrytan/garrytan",
         "type": "basic",
         "role": "origin"
@@ -2189,8 +2794,25 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/pair-agent/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/pair-agent/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Wires a new MCP server into the Gstack agent environment, validates the tool manifest, and demonstrates round-trip invocation through a test prompt."
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
+        "updatedAt": "2026-06-03",
+        "timeline": [
+          {
+            "timestamp": "2026-06-03T05:51:35Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/pair-agent/SKILL.md"
+          }
+        ],
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "variant"
@@ -2276,8 +2898,25 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/plan-eng-review/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/plan-eng-review/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Comprehensive, interactive architecture and implementation review before coding begins, systematically evaluating scope, architecture, code…"
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
+        "updatedAt": "2026-06-03",
+        "timeline": [
+          {
+            "timestamp": "2026-06-03T05:51:35Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/plan-eng-review/SKILL.md"
+          }
+        ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant"
@@ -2302,8 +2941,25 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/review/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/review/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Pre-landing code review combining structured checklist analysis with specialist subagents covering testing, security, and performance — plus…"
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
+        "updatedAt": "2026-06-03",
+        "timeline": [
+          {
+            "timestamp": "2026-06-03T05:51:35Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/review/SKILL.md"
+          }
+        ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant"
@@ -2363,8 +3019,25 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/plan-tune/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/plan-tune/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Takes a draft plan or system prompt, identifies vague or ambiguous instructions, and rewrites them to reduce hallucination and improve task…"
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
+        "updatedAt": "2026-06-03",
+        "timeline": [
+          {
+            "timestamp": "2026-06-03T05:51:35Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/plan-tune/SKILL.md"
+          }
+        ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant"
@@ -2420,8 +3093,25 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/qa-only/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/qa-only/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Runs the scoped end-to-end test suite for a single feature or route without launching the full QA pipeline, for fast targeted regression checks."
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
+        "updatedAt": "2026-06-03",
+        "timeline": [
+          {
+            "timestamp": "2026-06-03T05:51:36Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/qa-only/SKILL.md"
+          }
+        ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant"
@@ -2446,8 +3136,25 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/qa/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/qa/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Browser-driven web application testing that explores pages as a real user, documents bugs with annotated screenshots, fixes issues with atomic…"
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
+        "updatedAt": "2026-06-03",
+        "timeline": [
+          {
+            "timestamp": "2026-06-03T05:51:36Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/qa/SKILL.md"
+          }
+        ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant"
@@ -2495,7 +3202,7 @@
         "origin": true,
         "genericSkillRef": "write-report",
         "status": "named",
-        "level": "2★",
+        "level": "3★",
         "description": "Synthesises commit history, PR comments, and issue notes into a written sprint retrospective covering wins, misses, root causes, and action items.",
         "title": "Gstack Retro — Sprint Retrospective Report",
         "catalogRef": "garrytan-retro",
@@ -2507,8 +3214,17 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/retro/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/retro/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Synthesises commit history, PR comments, and issue notes into a written sprint retrospective covering wins, misses, root causes, and action items."
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-02",
+        "updatedAt": "2026-06-03",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:33:02Z",
@@ -2521,6 +3237,18 @@
             "action": "demote",
             "contributor": "unknown",
             "details": "Calibrated level from 3★ to 2★"
+          },
+          {
+            "timestamp": "2026-06-03T05:51:36Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/retro/SKILL.md"
+          },
+          {
+            "timestamp": "2026-06-03T05:51:39Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 3★"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -2607,8 +3335,25 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/setup-gbrain/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/setup-gbrain/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Bootstraps the GBrain knowledge store for a new project: creates the index structure, ingests seed documents, and validates retrieval with a…"
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
+        "updatedAt": "2026-06-03",
+        "timeline": [
+          {
+            "timestamp": "2026-06-03T05:51:36Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/setup-gbrain/SKILL.md"
+          }
+        ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant"
@@ -2632,8 +3377,25 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/sync-gbrain/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/sync-gbrain/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Incrementally syncs new documents and updated pages into the GBrain index, deduplicates embeddings, and reports ingestion counts and any errors."
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
+        "updatedAt": "2026-06-03",
+        "timeline": [
+          {
+            "timestamp": "2026-06-03T05:51:37Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/sync-gbrain/SKILL.md"
+          }
+        ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant"
@@ -2660,14 +3422,29 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/ship/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/ship/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Automated end-to-end deployment workflow that merges the base branch, runs tests, reviews the diff, bumps the VERSION file, updates the CHANGELOG,…"
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-02",
+        "updatedAt": "2026-06-03",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:32:59Z",
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-06-03T05:51:37Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/ship/SKILL.md"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -2738,8 +3515,25 @@
         "links": {
           "github": "https://github.com/garrytan/gstack/blob/main/skillify/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/skillify/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Converts a freeform prompt, repo pattern, or workflow description into a complete, registry-ready named skill: writes the SKILL.md definition,…"
+          }
+        ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-05-18",
+        "updatedAt": "2026-06-03",
+        "timeline": [
+          {
+            "timestamp": "2026-06-03T05:51:37Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/skillify/SKILL.md"
+          }
+        ],
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "variant"

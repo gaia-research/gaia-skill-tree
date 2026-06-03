@@ -5,21 +5,37 @@ contributor: garrytan
 origin: true
 genericSkillRef: question-answer
 status: named
-title: "YC Office Hours"
+title: YC Office Hours
 catalogRef: garrytan-office-hours
-level: "4★"
-description: YC-style startup and builder brainstorming. Startup mode uses six forcing questions (demand reality, status quo, desperate specificity, narrowest wedge, observation, future-fit) to expose reality. Builder mode focuses on design thinking for side projects and hackathons.
+level: 4★
+description: YC-style startup and builder brainstorming. Startup mode uses six forcing
+  questions (demand reality, status quo, desperate specificity, narrowest wedge, observation,
+  future-fit) to expose reality. Builder mode focuses on design thinking for side
+  projects and hackathons.
 links:
   github: https://github.com/garrytan/gstack/blob/main/office-hours/SKILL.md
 tags:
-  - brainstorming
-  - startup-strategy
-  - design-thinking
-  - y-combinator
-  - ideation
-createdAt: "2026-05-12"
-updatedAt: "2026-05-12"
-suiteRef: "garrytan/garrytan"
+- brainstorming
+- startup-strategy
+- design-thinking
+- y-combinator
+- ideation
+createdAt: '2026-05-12'
+updatedAt: '2026-06-03'
+suiteRef: garrytan/garrytan
+evidence:
+- class: B
+  source: https://github.com/garrytan/gstack/blob/main/office-hours/SKILL.md
+  evaluator: mbtiongson1
+  date: '2026-06-03'
+  notes: Public SKILL.md in the garrytan/gstack suite repo (verified live). YC-style
+    startup and builder brainstorming. Startup mode uses six forcing questions (demand
+    reality, status quo, desperate specificity, narrowest…
+timeline:
+- timestamp: '2026-06-03T05:51:35Z'
+  action: evidence_added
+  contributor: unknown
+  details: Added B evidence from https://github.com/garrytan/gstack/blob/main/office-hours/SKILL.md
 ---
 
 ## Overview

@@ -23,7 +23,7 @@ _None specified._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| garrytan/landing-report | garrytan | 2★ | 0 |
+| garrytan/landing-report | garrytan | 2★ | 1 |
 | ruvnet/github-project-management | ruvnet | 2★ | 0 |
 
 ## Evidence (inherited capability)
