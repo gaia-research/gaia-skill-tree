@@ -2147,14 +2147,14 @@
       },
       "topSkill": "nousresearch/feed-monitoring",
       "topRank": 1,
-      "topIsUnique": true,
+      "topIsUnique": false,
       "count": 1,
       "namedSkills": [
         {
           "id": "nousresearch/feed-monitoring",
           "name": "Feed Monitoring",
           "rank": 1,
-          "type": "unique",
+          "type": "basic",
           "slash": "/feed-monitoring",
           "file": "feed-monitoring.svg",
           "fileSeal": "feed-monitoring-seal.svg"
