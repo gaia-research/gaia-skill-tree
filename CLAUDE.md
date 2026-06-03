@@ -110,7 +110,8 @@ The **rarity** axis (`common` / `uncommon` / `rare` / `epic` / `legendary`) is *
 
 Project-local agent skills live in two directories and are actively used by contributors. Keep them in sync with `CONTEXT.md` nomenclature.
 
-- `.agents/skills/gaia-curate/` — `/gaia-curate`: expand the registry with new skills and open a PR.
+- `.agents/skills/gaia-curate/` — `/gaia-curate`: expand the registry with new skills and open a PR (single linear pass).
+- `.agents/skills/gaia-curate-chain/` — `/gaia-curate-chain`: the same curation work as a **prompt-chaining** workflow (six gated links, one sub-agent per link), per Anthropic's *Building Effective Agents*. Use when evidence quality and schema correctness matter more than latency.
 - `.agents/skills/gaia-meta-audit/` — `/gaia-meta-audit`: prioritized queue of skills/catalog items needing review.
 - `.agents/skills/gaia-audit/` — `/gaia-audit`: focused source-level correction for one target.
 - `.agents/skills/gaia-draft-curate/`, `gaia-docs-sync/`, `gaia-integrity/`, `gaia-triage/`, `gaia-wiki-sync/`, `graphify-triage/` — supporting curation, doc-sync, integrity, and triage workflows.
