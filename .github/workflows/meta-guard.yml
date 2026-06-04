@@ -1,0 +1,159 @@
+name: Meta Guard
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled]
+    paths:
+      - 'registry/nodes/**'
+      - 'registry/named/**'
+      - 'registry/named-skills.json'
+      - 'skill-trees/**'
+
+jobs:
+  meta-guard:
+    name: Verify registry/timeline mutations come from an authorized actor
+    runs-on: ubuntu-latest
+    # Skip when a bypass label is present, or for known bot actors.
+    # Mirrors the label-gate pattern used in branch-scope.yml.
+    if: >-
+      !contains(github.event.pull_request.labels.*.name, 'skip-meta-guard') &&
+      !contains(github.event.pull_request.labels.*.name, 'jules') &&
+      !contains(github.event.pull_request.labels.*.name, 'Jules') &&
+      !contains(github.event.pull_request.labels.*.name, 'codex') &&
+      !contains(github.event.pull_request.labels.*.name, 'claude-bot')
+    permissions:
+      pull-requests: read
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check authorized meta mutation
+        env:
+          BASE_REF: ${{ github.base_ref }}
+          PR_ACTOR: ${{ github.event.pull_request.user.login }}
+        run: |
+          set -euo pipefail
+
+          # ── Bot actor allowlist ──────────────────────────────────────────────
+          # Automated regen/sync PRs (github-actions[bot], jules, codex, etc.)
+          # are always allowed, consistent with branch-scope.yml exclusions.
+          case "$PR_ACTOR" in
+            *\[bot\]|github-actions|jules|codex|claude-bot)
+              echo "✓ $PR_ACTOR is an allowlisted automated actor."
+              exit 0
+              ;;
+          esac
+
+          git fetch origin "$BASE_REF" --quiet
+          MERGE_BASE=$(git merge-base "origin/$BASE_REF" HEAD)
+          echo "PR actor:   $PR_ACTOR"
+          echo "Merge base: $MERGE_BASE"
+          echo ""
+
+          # ── Collect files from human, non-merge commits only ────────────────
+          # Merge commits and github-actions[bot] commits are excluded so
+          # automated maintenance does not cause false failures.
+          HUMAN_COMMITS=$(
+            git log --no-merges --format="%H %ae" "$MERGE_BASE..HEAD" \
+              | grep -v 'github-actions\[bot\]' \
+              | awk '{print $1}'
+          )
+
+          if [ -z "$HUMAN_COMMITS" ]; then
+            echo "✓ No human commits found (only merge/bot commits). Nothing to check."
+            exit 0
+          fi
+
+          # Files this PR mutates under guarded meta paths
+          FILES=$(
+            while IFS= read -r sha; do
+              [ -z "$sha" ] && continue
+              git diff-tree --no-commit-id -r --name-only "$sha"
+            done <<< "$HUMAN_COMMITS" \
+              | grep -E '^(registry/nodes/|registry/named/|registry/named-skills\.json|skill-trees/)' \
+              | sort -u || true
+          )
+
+          if [ -z "$FILES" ]; then
+            echo "✓ No guarded meta files changed by human commits."
+            exit 0
+          fi
+
+          echo "Guarded meta files changed:"
+          echo "$FILES" | sed 's/^/  - /'
+          echo ""
+
+          # ── Map PR actor → Verifier status via registry/named-skills.json ───
+          # Identical logic to _is_verifier() in src/gaia_cli/authz.py:
+          #   contributor field matches PR actor login AND level ≥ 4★.
+          # Bootstrap auto-allow: if no 4★ verifier exists yet, allow all.
+          AUTHORIZED=$(python3 - "$PR_ACTOR" <<'PY'
+          import json, sys, os
+
+          actor = sys.argv[1]
+          index_path = "registry/named-skills.json"
+
+          if not os.path.exists(index_path):
+              # No index yet — bootstrap state
+              print("bootstrap")
+              sys.exit(0)
+
+          try:
+              with open(index_path, "r", encoding="utf-8") as f:
+                  idx = json.load(f)
+          except Exception:
+              print("bootstrap")
+              sys.exit(0)
+
+          has_any_verifier = False
+          for entries in idx.get("buckets", {}).values():
+              for e in entries:
+                  lvl = e.get("level", "")
+                  if lvl and lvl[0].isdigit() and int(lvl[0]) >= 4:
+                      has_any_verifier = True
+                      if e.get("contributor") == actor:
+                          print("yes")
+                          sys.exit(0)
+
+          # Bootstrap: no verifiers exist anywhere yet
+          if not has_any_verifier:
+              print("bootstrap")
+          else:
+              print("no")
+          PY
+          )
+
+          echo "Actor authorization: $AUTHORIZED"
+          echo ""
+
+          if [ "$AUTHORIZED" = "yes" ] || [ "$AUTHORIZED" = "bootstrap" ]; then
+            echo "✓ $PR_ACTOR is authorized ($AUTHORIZED)."
+            exit 0
+          fi
+
+          # ── Detect timeline-array additions as additional context ────────────
+          TIMELINE_ADDS=$(
+            git diff "$MERGE_BASE...HEAD" -- registry/nodes/ skill-trees/ \
+              | grep -E '^\+' \
+              | grep -E '"(timeline|action|skillId)"' || true
+          )
+
+          echo "::error::$PR_ACTOR is not a Verifier (no 4★+ named skill) but this PR mutates guarded registry/timeline files."
+          echo ""
+          echo "Guarded files changed by $PR_ACTOR:"
+          echo "$FILES" | sed 's/^/  - /'
+          if [ -n "$TIMELINE_ADDS" ]; then
+            echo ""
+            echo "Timeline-related additions detected in diff."
+          fi
+          echo ""
+          echo "Remediation options:"
+          echo "  1. Have a Verifier (4★+ contributor) author or co-sign the change."
+          echo "  2. Add the 'skip-meta-guard' label to this PR (maintainer override)."
+          echo "  3. If running in CI/automation, set GAIA_OPERATOR_OVERRIDE=1 and"
+          echo "     ensure the PR is opened by an allowlisted bot account."
+          echo "  4. Run \`gaia whoami\` locally to check your Verifier status."
+          exit 1
