@@ -363,12 +363,12 @@ class TestRenderPromotionPrompt:
             "4★",
         )
         assert "/plan-and-execute" in prompt
-        assert "gaia fuse plan-and-execute" in prompt
+        assert "gaia promote plan-and-execute" in prompt
 
     def test_shows_level_and_rank_name(self):
         prompt = render_promotion_prompt({"id": "research-agent", "type": "extra", "prerequisites": ["x"]}, "3★")
         assert "3★" in prompt
-        assert "gaia fuse research-agent" in prompt
+        assert "gaia promote research-agent" in prompt
 
     def test_shows_fusion_diagram_when_prereqs_exist(self):
         prompt = render_promotion_prompt(
