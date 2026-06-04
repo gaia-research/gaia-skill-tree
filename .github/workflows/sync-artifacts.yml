@@ -145,7 +145,7 @@ jobs:
           python scripts/sync_wiki.py --wiki-dir ../gaia-wiki --push
 
       - name: Trigger Cloudflare Deploy
-        if: github.event.inputs.deploy == 'true'
+        if: github.event_name == 'push' || github.event.inputs.deploy == 'true'
         run: |
           gh workflow run cloudflare-deploy.yml --ref ${{ github.ref_name }} -f branch=${{ github.ref_name }}
         env:
