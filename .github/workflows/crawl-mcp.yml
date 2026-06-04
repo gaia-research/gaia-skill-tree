@@ -35,8 +35,8 @@ jobs:
       - name: Push proposal branch
         if: steps.check.outputs.has_proposals == 'true'
         run: |
-          git config --global user.name "mbtiongson1"
-          git config --global user.email "marco.tngsn@gmail.com"
+          git config --global user.name "gaiabot"
+          git config --global user.email "gaiabot@users.noreply.github.com"
 
           DATE=$(date +%Y-%m-%d)
           BRANCH="bot/mcp-registry/$DATE"

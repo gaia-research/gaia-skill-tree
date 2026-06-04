@@ -5,7 +5,7 @@ description: Curate Gaia bot crawler branches into real-skill catalog entries. U
 
 # gaia-bot-curate
 
-Curate remote `bot/*` crawler branches into `registry/real-skills.json` from a fresh `origin/main` review branch.
+Curate remote `bot/*` crawler branches into `registry/nodes/` via `gaia dev` commands from a fresh `origin/main` review branch.
 
 ## Workflow
 
@@ -35,13 +35,19 @@ Curate remote `bot/*` crawler branches into `registry/real-skills.json` from a f
      - `heavyweight-dependency`: Only if it requires massive infrastructure (e.g., full Airflow stack, 10GB+ Docker) that a typical dev can't run locally.
      - `niche-integration`: Only if restricted to a specific non-portable OS or IDE (e.g., Windows-only Visual Studio).
      - **Reward Generality**: If a high-level skill remains demerit-free, prioritize it for **Named Promotion**.
-   - **Named Promotion**: If the item has a clear playbook and high quality, propose it as a **Named Skill** (2★+) in `registry/named/` with a unique Title (e.g., "The Digital Pathweaver").
+   - **Named Promotion**: If the item has a clear playbook and high quality, propose it as a **Named Skill** in `registry/named/` with a unique Title (e.g., "The Digital Pathweaver"). Before assigning any star level, verify the `links.github` URL uses the `blob/<branch>/subpath` format (not a bare repo root or `tree/` URL). If no valid blob link can be confirmed, the skill must be submitted at **1★ (Awakened)** — this is a hard reset per META.md §2.4 (updated 2026-06-02), not a soft step-down to 2★.
 
 5. **Integrate and Promote**
-   - Main agent executes `gaia dev add` and `gaia dev evidence` commands for accepted entries (the mutation verbs live under `gaia dev`, not at the top level).
+   - Main agent executes `gaia dev` commands for accepted entries (the mutation verbs live under `gaia dev`, not at the top level).
    - **For generic (starless) nodes**: `gaia dev add "Skill Name" --id <id> --type extra --description "..."` — generic skills have no `--level` flag; they are rank-less taxonomy.
    - **For named skills**: `gaia dev add "Skill Name" --id <id> --named --contributor <user> --generic-ref <ref> --status awakened` — named skills are submitted with `status: awakened` (enum `{awakened, named}`); a reviewer later promotes to `named` and calibrates stars (2★–6★). Do not hand-set `title`/`catalogRef`.
    - Use `gaia dev evidence` to attach the payload URLs and details to the appropriate skill (generic or named, as applicable).
+   - Use `gaia dev calibrate <id> "<star>"` to set or adjust the star level on a named skill after evidence is attached.
+   - Use `gaia dev link <target-id> <prereq-id-1>,<prereq-id-2>` to wire prerequisites for Extra or Ultimate skills.
+   - Use `gaia dev reclassify <id> <type>` if the skill type needs to change (e.g., `basic` → `extra`).
+   - Use `gaia dev update-named <contributor/skill> --status awakened` (or other flags) to patch named-skill frontmatter.
+   - When batching multiple adds, pass `--no-build` on each command and run `gaia dev build` once at the end to avoid redundant regeneration.
+   - Use `gaia dev rm <id>` to remove a skill that was added in error.
    - NEVER hand-edit files in `registry/`.
 
 6. **Clean remote bot branches**

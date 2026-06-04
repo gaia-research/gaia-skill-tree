@@ -45,18 +45,6 @@ crawlers:
     min_downloads: 1000
     batch_size: 20
 
-evidence_thresholds:
-  auto_merge_score: 60
-  human_review_score: 30
-
-pr_settings:
-  owner: "mbtiongson1"
-  repo: "gaia-skill-tree"
-  bot_user: "gaiabot"
-  labels:
-    - "bot-proposal"
-  stale_days: 30
-
   github:
     topics:
       - "web-scraping"
@@ -92,3 +80,15 @@ pr_settings:
     min_citations: 10
     max_age_years: 3
     batch_size: 25
+
+evidence_thresholds:
+  auto_merge_score: 60
+  human_review_score: 30
+
+pr_settings:
+  owner: "mbtiongson1"
+  repo: "gaia-skill-tree"
+  bot_user: "gaiabot"
+  labels:
+    - "bot-proposal"
+  stale_days: 30
