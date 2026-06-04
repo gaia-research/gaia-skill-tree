@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { detectSkillsFromTools, detectSkillsFromSignals } from "../src/advisor/detector.js";
+import { detectSkillsFromTools, detectSkillsFromSignals, skillDetector } from "../src/advisor/detector.js";
 
 describe("detector", () => {
   describe("detectSkillsFromTools", () => {
@@ -43,6 +43,21 @@ describe("detector", () => {
     it("returns empty for unrelated signals", () => {
       const result = detectSkillsFromSignals(["configuring database connection pooling"]);
       expect(result).toHaveLength(0);
+    });
+  });
+
+  describe("SkillDetector", () => {
+    it("returns a shared context with combined detected skills", () => {
+      const result = skillDetector.analyze({
+        connectedTools: ["web_search"],
+        projectSignals: ["using cheerio to parse HTML"],
+        detectedSkillIds: ["summarize"],
+      });
+
+      expect(result.fromTools).toEqual(["web-search"]);
+      expect(result.fromSignals).toEqual(["parse-html"]);
+      expect(result.allDetected).toEqual(["summarize", "web-search", "parse-html"]);
+      expect(result.context.detectedSkillIds).toEqual(result.allDetected);
     });
   });
 });
