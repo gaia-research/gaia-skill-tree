@@ -1393,7 +1393,7 @@
           <attvalue for="level" value="" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="unique" />
+          <attvalue for="type" value="basic" />
         </attvalues>
       </node>
       <node id="sentiment-analysis" label="Sentiment Analysis">

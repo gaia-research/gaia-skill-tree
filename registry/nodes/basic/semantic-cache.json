@@ -1,7 +1,7 @@
 {
   "id": "semantic-cache",
   "name": "Semantic Cache",
-  "type": "unique",
+  "type": "basic",
   "rarity": "rare",
   "description": "Stores LLM responses keyed by embedding similarity so that semantically equivalent queries are served from cache, reducing inference latency and token cost without sacrificing answer quality.",
   "prerequisites": [],
@@ -26,7 +26,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-06-01",
+  "updatedAt": "2026-06-05",
   "version": "0.1.0",
   "timeline": [
     {
@@ -44,6 +44,12 @@
       "details": "Type adjusted from basic to unique",
       "previousValue": "basic",
       "newValue": "unique"
+    },
+    {
+      "timestamp": "2026-06-04T20:35:01Z",
+      "action": "type_change",
+      "contributor": "unknown",
+      "details": "Reclassified from unique to basic"
     }
   ]
 }
