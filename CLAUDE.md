@@ -53,6 +53,50 @@ gaia dev evidence skill-id "url" --class B
 
 **All meta shifts (merging, splitting, adding skills, adding evidence) MUST be done via CLI commands.** Manual edits to `registry/nodes/` are deprecated to ensure programmatic schema integrity and automated timeline logging. AI agents must prioritize these tools over direct file manipulation.
 
+### Skill-Tree Timeline — Strict CLI-Only
+
+Every change to a user's `skill-trees/<username>/skill-tree.json` **must** be accompanied by a timeline event so progression history is auditable. Use the CLI — never hand-edit the `timeline` array.
+
+| Operation | CLI command |
+|---|---|
+| Unlock / rank up via scan | `gaia scan` then `gaia promote <skillId>` |
+| Fuse skills | `gaia fuse <skillId>` |
+| Append event at current time | `gaia dev timeline <skillId> --user <username> --action <action> --notes "..."` |
+| Backfill a historical event | `gaia dev timeline <skillId> --user <username> --action <action> --notes "..." --timestamp "YYYY-MM-DDTHH:MM:SSZ"` |
+
+The `--timestamp` flag accepts ISO 8601 (e.g. `2026-03-01T00:00:00Z`). Without it, the current UTC time is used. Backfilled events are automatically sorted chronologically.
+
+**Known CLI gaps (flag these in PRs, do not silently hand-edit):**
+
+| Gap | Workaround |
+|---|---|
+| No `gaia remove-skill` / `gaia demote` command — skill removal from the user tree has no dedicated verb | Direct JSON edit to remove from `unlockedSkills`; then use `gaia dev timeline <skillId> --user <username> --action demote --notes "..."` to log it |
+| `gaia dev timeline` without `--user` writes to the **registry node**, not the user tree | Always pass `--user <username>` when targeting a skill tree |
+
+### Skill-Tree Changes — Strict CLI-Only
+
+Changes to `skill-trees/<username>/skill-tree.json` **must** go through the CLI so that `timeline` events are written automatically:
+
+| Operation | CLI command |
+|---|---|
+| Unlock / rank up a skill | `gaia promote <skillId>` (after `gaia scan` generates candidates) |
+| Fuse skills into an Extra/Unique | `gaia fuse <skillId>` |
+| Log a standalone event | `gaia dev timeline <skillId> --action <action> --notes "..."` |
+
+**⚠️ CLI gaps (as of v3.28.0) — do not hand-edit to work around; open an issue instead:**
+
+| Gap | Impact | Workaround until fixed |
+|---|---|---|
+| `gaia dev timeline` writes to **registry nodes**, not `skill-tree.json` | User-tree timeline cannot be appended via CLI | Direct JSON edit + add `(backfilled)` marker in `details`; log the gap |
+| No `--timestamp` / `--date` flag on any timeline command | Historical backfills use current timestamp | Include historical date in `details` field |
+| No CLI command to **remove** a skill from the user tree | Stale generic entries must be hand-deleted | Direct JSON edit only; flag in PR description |
+| No `gaia demote` command | Demotion events cannot be written via promote flow | Use `gaia dev timeline --action demote` once gap #1 is resolved |
+
+When a gap forces a direct edit, always:
+1. Add `"(backfilled)"` or `"(direct edit — CLI gap)"` in the `details` string.
+2. Document the gap in the PR description.
+3. Do **not** silently omit the timeline entry — an imperfect entry is better than none.
+
 ## CLI Shape
 
 Top-level commands are lifecycle-oriented: `init`, `scan`, `pull`, `push`, `appraise`, `promote`, `release`, `version`, `mcp`, `tree`, `graph`, `docs`, `update`, `list`, `add`, `merge`, `split`, `evidence`, and `help`.

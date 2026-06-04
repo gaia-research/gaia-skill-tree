@@ -9,7 +9,7 @@ from gaia_cli.treeManager import user_tree_path, load_tree, save_tree
 def get_utc_now_iso():
     return datetime.datetime.now(datetime.timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
-def append_skill_tree_event(username, skill_id, action, details, registry_path="."):
+def append_skill_tree_event(username, skill_id, action, details, registry_path=".", timestamp=None):
     tree_data = load_tree(username, registry_path)
     if not tree_data:
         return
@@ -17,8 +17,9 @@ def append_skill_tree_event(username, skill_id, action, details, registry_path="
     if "timeline" not in tree_data:
         tree_data["timeline"] = []
 
+    ts = timestamp if timestamp else get_utc_now_iso()
     event = {
-        "timestamp": get_utc_now_iso(),
+        "timestamp": ts,
         "action": action,
         "skillId": skill_id,
     }
@@ -26,6 +27,8 @@ def append_skill_tree_event(username, skill_id, action, details, registry_path="
         event["details"] = details
 
     tree_data["timeline"].append(event)
+    # Keep timeline in chronological order when backfilling
+    tree_data["timeline"].sort(key=lambda e: e.get("timestamp", ""))
     save_tree(username, tree_data, registry_path)
 
 def _parse_md(path):
