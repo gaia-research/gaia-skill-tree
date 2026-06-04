@@ -133,6 +133,37 @@ jobs:
           git push "https://x-access-token:${RELEASE_PAT}@github.com/${GITHUB_REPOSITORY}.git" "${TAG}"
           echo "Pushed tag ${TAG} → release.yml will create the GitHub Release."
 
+      - name: Create GitHub Release
+        # Create the Release directly in this job rather than depending on
+        # release.yml firing from the tag push. A tag pushed by a token that
+        # does not trigger workflows (the default GITHUB_TOKEN, GitHub App
+        # tokens, and some PATs) will silently never invoke release.yml — which
+        # is why tags historically accumulated with no Releases. Creating the
+        # Release via the API works with the plain GITHUB_TOKEN (it can create
+        # releases; it just cannot *trigger* other workflows). Idempotent.
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION=$(grep '^version = ' pyproject.toml | sed 's/version = "\(.*\)"/\1/')
+          TAG="v${VERSION}"
+
+          # Self-heal: if the tag never reached the remote (e.g. RELEASE_PAT
+          # unset so the previous step skipped), push it with GITHUB_TOKEN.
+          # The push won't trigger release.yml, but we create the Release below.
+          if ! git ls-remote --tags origin "${TAG}" | grep -q "refs/tags/${TAG}$"; then
+            echo "Tag ${TAG} missing on remote — pushing with GITHUB_TOKEN."
+            git tag -f "${TAG}"
+            git push origin "${TAG}" || echo "::warning::Could not push ${TAG}; release may target an existing tag."
+          fi
+
+          if gh release view "${TAG}" --json tagName -q .tagName &>/dev/null; then
+            echo "Release ${TAG} already exists — skipping."
+          else
+            gh release create "${TAG}" --title "${TAG}" --generate-notes --latest
+            echo "Created GitHub Release ${TAG}."
+          fi
+
+
       - name: Sync Wiki Pages
         if: github.event_name != 'pull_request' && github.repository == 'mbtiongson1/gaia-skill-tree'
         env:
@@ -145,7 +176,12 @@ jobs:
           python scripts/sync_wiki.py --wiki-dir ../gaia-wiki --push
 
       - name: Trigger Cloudflare Deploy
+        # Non-fatal: dispatching another workflow needs `actions: write`, which
+        # this job does not grant (it only has `contents: write`). Previously a
+        # 403 here marked every sync run as failed even though the version bump,
+        # tag, and release all succeeded. continue-on-error keeps the run green.
         if: github.event_name == 'push' || github.event.inputs.deploy == 'true'
+        continue-on-error: true
         run: |
           gh workflow run cloudflare-deploy.yml --ref ${{ github.ref_name }} -f branch=${{ github.ref_name }}
         env:
