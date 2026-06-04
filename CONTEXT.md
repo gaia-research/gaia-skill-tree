@@ -265,6 +265,35 @@ _Avoid_: Dual CTA, A/B paths.
 
 ---
 
+## Release Channels
+
+Gaia ships on three channels, derived automatically from the Conventional-Commit
+type of each merge to `main`. The version bump determines the channel:
+
+| Channel | Bump | Trigger (merge commit) | Where it lands |
+|---|---|---|---|
+| **Production** | major | `feat!:` / `fix!:` / `BREAKING CHANGE` | GitHub Release (marked **latest**) **and published to PyPI** |
+| **Beta** | minor | `feat:` | GitHub **pre-release** only |
+| **Canary** | patch | anything else (`fix:`, `chore:`, `docs:`, …) | GitHub **pre-release** only |
+
+- **PyPI is production-only.** `pip install gaia-cli` always resolves to the
+  latest **Production** (major) release. Beta and canary are installable from
+  their git tag/source but never reach PyPI by default.
+- The channel is decided in `.github/workflows/sync-artifacts.yml` (every merge
+  to `main` bumps, tags, and creates a channel-labelled GitHub Release). Production
+  merges additionally dispatch `publish-pypi.yml`.
+- **Manual publish:** Actions → *Publish gaia-cli to PyPI* → Run workflow, picking
+  the branch **or tag** to build from (publishes whatever version is in
+  `pyproject.toml` at that ref; idempotent via `skip-existing`).
+- Because the channel keys off the **merge commit message**, only a breaking-change
+  commit (`!:` or `BREAKING CHANGE`) cuts a Production/PyPI release. Use `feat:` for
+  Beta and ordinary types for Canary.
+
+Copy rules: write the channel names capitalised — **Production**, **Beta**,
+**Canary**. Do not coin synonyms (`stable`, `nightly`, `edge`, `RC`).
+
+---
+
 ## Banned synonyms
 
 Single source of truth for CI grep. Any term below appearing in user-facing copy (`docs/**.html`, `docs/js/`, `docs/css/`, generated artifacts under `docs/`, `scripts/generate*.py`, `src/gaia_cli/`) fails the lint. Alphabetised.
