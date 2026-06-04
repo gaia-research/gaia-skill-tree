@@ -1,6 +1,6 @@
 {
   "userId": "mbtiongson1",
-  "updatedAt": "2026-05-01",
+  "updatedAt": "2026-06-04",
   "unlockedSkills": [
     {
       "skillId": "web-search",
@@ -36,45 +36,12 @@
       "unlockedAt": "2026-03-12",
       "unlockedIn": "mbtiongson1/gaia-skill-tree",
       "combinedFrom": []
-    },
-    {
-      "skillId": "web-scrape",
-      "level": "4★",
-      "unlockedAt": "2026-03-15",
-      "unlockedIn": "mbtiongson1/gaia-skill-tree",
-      "combinedFrom": [
-        "web-search",
-        "parse-html",
-        "extract-entities"
-      ]
-    },
-    {
-      "skillId": "research",
-      "level": "3★",
-      "unlockedAt": "2026-04-01",
-      "unlockedIn": "mbtiongson1/gaia-skill-tree",
-      "combinedFrom": [
-        "web-search",
-        "summarize",
-        "cite-sources"
-      ]
     }
   ],
-  "pendingCombinations": [
-    {
-      "detectedSkills": [
-        "code-generation",
-        "execute-bash",
-        "error-interpretation"
-      ],
-      "candidateResult": "autonomous-debug",
-      "levelFloor": "3★",
-      "promptedAt": "2026-04-26"
-    }
-  ],
+  "pendingCombinations": [],
   "stats": {
-    "totalUnlocked": 7,
+    "totalUnlocked": 5,
     "highestRarity": "uncommon",
-    "deepestLineage": 2
+    "deepestLineage": 1
   }
 }

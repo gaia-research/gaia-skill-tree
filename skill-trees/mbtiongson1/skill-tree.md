@@ -1,8 +1,8 @@
 # Skill Tree — mbtiongson1
-**Last Updated:** 2026-05-01
-**Total Skills Unlocked:** 7
+**Last Updated:** 2026-06-04
+**Total Skills Unlocked:** 5
 **Highest Tier:** —
-**Deepest Lineage:** 2
+**Deepest Lineage:** 1
 
 ---
 
@@ -15,8 +15,6 @@
 | ○ Extract Entities | Basic Skill | 2★ | Named | mbtiongson1/gaia-skill-tree | 2026-03-08 |
 | ○ Summarize | Basic Skill | 2★ | Named | mbtiongson1/gaia-skill-tree | 2026-03-10 |
 | ○ Cite Sources | Basic Skill | 2★ | Named | mbtiongson1/gaia-skill-tree | 2026-03-12 |
-| ◇ Web Scrape | Extra Skill | 4★ | Hardened | mbtiongson1/gaia-skill-tree | 2026-03-15 |
-| ◇ Research | Extra Skill | 3★ | Evolved | mbtiongson1/gaia-skill-tree | 2026-04-01 |
 
 ---
 
@@ -89,7 +87,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ◇ garrytan/plan-eng-review  [4★]  (↑ see above)
   │  └─ · ○ garrytan/benchmark  [4★]  (↑ see above)
   ├─ · ○ garrytan/browse  [3★]
-  ├─ ✓ ◇ garrytan/scrape  [3★]
+  ├─ · ◇ garrytan/scrape  [3★]
   │  ├─ ✓ ○ /web-search  (↑ see above)
   │  ├─ ✓ ○ /parse-html  (↑ see above)
   │  └─ ✓ ○ /extract-entities
@@ -347,9 +345,7 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
 
 ## Pending Combinations
 
-> **autonomous-debug** — combine `code-generation`, `execute-bash`, `error-interpretation`
-> Level floor: 3★
-> Run `gaia fuse autonomous-debug` to confirm.
+_No pending combinations._
 
 ---
 *Generated from skill-tree.json. Do not edit directly.*
