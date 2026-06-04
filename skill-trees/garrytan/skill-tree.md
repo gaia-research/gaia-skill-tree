@@ -358,8 +358,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
 ══════════════════════════════════════════════════════════════════════
 
-  · ◉ ruvnet/hive-mind-coordination
-  · ◉ huggingface/semantic-cache
+  · ◉ ruvnet/hive-mind-coordination  [4★]
 
 ══════════════════════════════════════════════════════════════════════
 Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top named-variant stars; blank = no named implementation.)
@@ -377,6 +376,7 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   · ○ /probabilistic-programming
   · ○ /reward-modeling
   · ○ openai/self-consistency  [2★]
+  · ○ huggingface/semantic-cache
   · ○ ruvnet/stream-chain  [2★]
   · ○ /synthetic-data-generation
   · ○ addy-osmani/test-driven-development  [3★]

@@ -653,6 +653,15 @@
           "fileSeal": "agentdb-seal.svg"
         },
         {
+          "id": "ruvnet/hive-mind-coordination",
+          "name": "Hive Mind Coordination",
+          "rank": 4,
+          "type": "unique",
+          "slash": "/hive-mind-coordination",
+          "file": "hive-mind-coordination.svg",
+          "fileSeal": "hive-mind-coordination-seal.svg"
+        },
+        {
           "id": "ruvnet/flow-nexus",
           "name": "Flow Nexus",
           "rank": 4,
@@ -939,15 +948,6 @@
           "slash": "/worker-integration",
           "file": "worker-integration.svg",
           "fileSeal": "worker-integration-seal.svg"
-        },
-        {
-          "id": "ruvnet/hive-mind-coordination",
-          "name": "Hive Mind Coordination",
-          "rank": 1,
-          "type": "unique",
-          "slash": "/hive-mind-coordination",
-          "file": "hive-mind-coordination.svg",
-          "fileSeal": "hive-mind-coordination-seal.svg"
         },
         {
           "id": "ruvnet/agentdb-advanced",
@@ -1975,7 +1975,6 @@
     },
     "huggingface": {
       "repos": [
-        "codefuse-ai/ModelCache",
         "huggingface/skills"
       ],
       "skillsByRepo": {
@@ -1986,9 +1985,6 @@
           "huggingface/huggingface-papers",
           "huggingface/huggingface-vision-trainer",
           "huggingface/transformers-js"
-        ],
-        "codefuse-ai/ModelCache": [
-          "huggingface/semantic-cache"
         ]
       },
       "topSkill": "huggingface/huggingface-llm-trainer",
@@ -2054,7 +2050,7 @@
           "id": "huggingface/semantic-cache",
           "name": "Semantic Cache",
           "rank": 1,
-          "type": "unique",
+          "type": "basic",
           "slash": "/semantic-cache",
           "file": "semantic-cache.svg",
           "fileSeal": "semantic-cache-seal.svg"
