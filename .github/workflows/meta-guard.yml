@@ -41,8 +41,8 @@ jobs:
           # Automated regen/sync PRs (github-actions[bot], jules, codex, etc.)
           # are always allowed, consistent with branch-scope.yml exclusions.
           case "$PR_ACTOR" in
-            *\[bot\]|github-actions|jules|codex|claude-bot)
-              echo "✓ $PR_ACTOR is an allowlisted automated actor."
+            *\[bot\]|github-actions|jules|codex|claude-bot|mbtiongson1)
+              echo "✓ $PR_ACTOR is an allowlisted automated or maintainer actor."
               exit 0
               ;;
           esac
