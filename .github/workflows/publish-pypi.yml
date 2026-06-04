@@ -37,3 +37,7 @@ jobs:
 
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          # Idempotent: if this version is already on PyPI (e.g. a re-dispatch or
+          # an overlapping run), skip it instead of failing the job.
+          skip-existing: true

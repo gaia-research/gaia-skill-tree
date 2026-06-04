@@ -1,14 +1,12 @@
 name: Auto-Sync Registry Artifacts
 
 on:
+  # Run on EVERY push to the default branch — not just registry/script changes —
+  # so that CLI-only and docs-only merges also get a version bump, a GitHub
+  # Release, and a PyPI publish. The job's `if:` already restricts execution to
+  # the default branch and skips bot/[skip-gen] commits, so this cannot loop.
   push:
-    branches: [main, 'dev/**', 'fix/**', 'feat/**', 'review/**', 'infra/**', 'workflow/**', 'chore/**', 'jules/**', 'claude/**', 'codex/**']
-    paths:
-      - 'registry/nodes/**'
-      - 'registry/named/**'
-      - 'registry/schema/**'
-      - 'registry/suites/**'
-      - 'scripts/**'
+    branches: [main]
   workflow_dispatch:
     inputs:
       deploy:
@@ -18,6 +16,13 @@ on:
 
 permissions:
   contents: write
+  actions: write   # dispatch publish-pypi.yml and cloudflare-deploy.yml (workflow_dispatch)
+
+# Serialize runs on the same ref. With the broadened trigger, several merges can
+# land close together; without this they would race on the version bump + push.
+concurrency:
+  group: sync-artifacts-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   sync:
@@ -163,6 +168,18 @@ jobs:
             echo "Created GitHub Release ${TAG}."
           fi
 
+      - name: Publish to PyPI
+        # publish-pypi.yml keys off `on: push tags: v*`, which never fires for a
+        # tag pushed by an automation token (same limitation that broke Releases)
+        # — so PyPI silently fell behind the tags. workflow_dispatch DOES start a
+        # workflow from a running job (with `actions: write`), so dispatch it here
+        # against the just-pushed default-branch commit (carrying the new version).
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh workflow run publish-pypi.yml --ref "${GITHUB_REF_NAME}" \
+            && echo "Dispatched publish-pypi.yml for ${GITHUB_REF_NAME}." \
+            || echo "::warning::Could not dispatch publish-pypi.yml — publish PyPI manually if needed."
 
       - name: Sync Wiki Pages
         if: github.event_name != 'pull_request' && github.repository == 'mbtiongson1/gaia-skill-tree'
@@ -176,10 +193,10 @@ jobs:
           python scripts/sync_wiki.py --wiki-dir ../gaia-wiki --push
 
       - name: Trigger Cloudflare Deploy
-        # Non-fatal: dispatching another workflow needs `actions: write`, which
-        # this job does not grant (it only has `contents: write`). Previously a
-        # 403 here marked every sync run as failed even though the version bump,
-        # tag, and release all succeeded. continue-on-error keeps the run green.
+        # Now that the job grants `actions: write`, this dispatch succeeds (it
+        # previously 403'd and reddened every run). Kept continue-on-error as a
+        # belt-and-suspenders guard so a transient dispatch hiccup never fails an
+        # otherwise-successful release run.
         if: github.event_name == 'push' || github.event.inputs.deploy == 'true'
         continue-on-error: true
         run: |
