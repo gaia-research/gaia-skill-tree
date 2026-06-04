@@ -694,10 +694,11 @@ def render_promotion_prompt(skill_data: dict, proposed_level: str, canon: bool =
         display_colored = f"{tc}{b}{display}{r}"
     
     lines.extend([
-        f"  {gc}┌─ Fusion ──────────────────────────────┐{r}",
+        f"  {gc}┌─ Promotion Available ─────────────────────────────────┐{r}",
         f"  {gc}│{r}  {display_colored} can rank up to {b}Level {proposed_level}{r} ({level_name})",
-        f"  {gc}│{r}  Run: {b}gaia fuse {skill_id}{r}",
-        f"  {gc}└───────────────────────────────────────────┘{r}",
+        f"  {gc}│{r}  Run: {b}gaia promote {skill_id}{r}",
+        f"  {gc}│{r}  Rename? {b}gaia promote {skill_id} --name \"{display.lstrip('/')}\"{r}",
+        f"  {gc}└───────────────────────────────────────────────────────┘{r}",
         "",
     ])
     return "\n".join(lines)
