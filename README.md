@@ -222,13 +222,13 @@ Requires `textual` (included with `pip install gaia-cli`).
 <!-- gaia:cli-start -->
 ```text
 usage: gaia [-h] [--registry REGISTRY] [--global] [--version]
-            {help,init,scan,pull,update,install,uninstall,tree,push,propose,version,mcp,release,graph,stats,appraise,promote,fuse,docs,lookup,path,dev,validate,test,skills}
+            {help,init,scan,pull,update,install,uninstall,tree,push,propose,version,whoami,mcp,release,graph,stats,appraise,promote,fuse,docs,lookup,path,dev,validate,test,skills}
             ...
 
 Gaia Registry CLI
 
 positional arguments:
-  {help,init,scan,pull,update,install,uninstall,tree,push,propose,version,mcp,release,graph,stats,appraise,promote,fuse,docs,lookup,path,dev,validate,test,skills}
+  {help,init,scan,pull,update,install,uninstall,tree,push,propose,version,whoami,mcp,release,graph,stats,appraise,promote,fuse,docs,lookup,path,dev,validate,test,skills}
     help                Show command help
     init                Create or update local Gaia config
     scan                Scan configured paths and installed skills for skill evidence
@@ -240,6 +240,7 @@ positional arguments:
     push                Prepare detected skills for review and file a GitHub issue
     propose             Propose a single canonical skill as a named PR
     version             Print the Gaia CLI version
+    whoami              Show your Gaia identity and Verifier/operator status
     mcp                 Run the bundled Gaia MCP server
     release             Bump version, commit, tag, and push to trigger GitHub Release
     graph               Generate and open the Gaia skill graph
@@ -273,6 +274,7 @@ Quick usage:
   gaia push [--dry-run] [--no-issue]
   gaia propose [<skillId>] [--ultimate] [--target <name>] [--no-pr]
   gaia version
+  gaia whoami
   gaia mcp
   gaia release <patch|minor|major>
   gaia graph [--format html|svg|json] [-o <path>] [--no-open]
@@ -283,19 +285,27 @@ Quick usage:
   gaia stats
   gaia docs build [--check]
   gaia lookup <skillId>
+
+  -- dev: read-only (no authorization required) --
   gaia dev list [--generic] [--named] [--description] [--json]
-  gaia dev merge <target> <source1> [source2...] [--named]
-  gaia dev split <source> <target1> <target2>...
+  gaia dev audit <skill_id>
+  gaia dev diff [ref] [--base <ref>]
+
+  -- dev: mutating (requires Verifier role — see gaia whoami) --
+  gaia dev add <name> [--id <id>] [--type <type>] [--description <desc>] [--named] [--contributor <user>] [--status <status>] [--title <title>] [--level <level>]
+  gaia dev merge <target> <source1> [source2...] [--named] [--yes]
+  gaia dev split <source> <target1> <target2>... [--yes]
   gaia dev rename <old_id> <new_id>
   gaia dev calibrate <skill_id> <level>
-  gaia dev add <name> [--id <id>] [--type <type>] [--description <desc>] [--named] [--contributor <user>] [--status <status>] [--title <title>] [--level <level>]
-  gaia dev rm <skill_id>
+  gaia dev rm <skill_id> [--yes]
   gaia dev link <target> <prereqs> [--reset]
   gaia dev reclassify <skill_id> <new_type>
   gaia dev update-named <skill_id> [--status <status>] [--generic-ref <ref>] [--suite-components <c1,c2...>]
   gaia dev evidence <skillId> <source> [--class A|B|C] [--evaluator <user>] [--date <date>] [--notes <notes>]
+  gaia dev rm-evidence <skill_id> (--index N | --source URL) [--yes]
+  gaia dev timeline <skill_id> --action <action> --notes <notes> [--user <username>] [--timestamp <iso8601>]
   gaia dev build
-  gaia dev audit <skill_id>
+
   gaia validate [--intake] [--meta-sync]
   gaia test <suite>
   gaia skills <list|search|info|install|uninstall>

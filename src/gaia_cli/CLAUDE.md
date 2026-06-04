@@ -137,10 +137,31 @@ symlinked `.claude/skills → .agents/skills` from producing duplicate results.
 | `treeManager.py` | Tree I/O, `_iter_manifest_refs` for install lookup |
 | `formatting.py` | Display strings — `format_skill_plain/colored`, `named_ref` param |
 | `install.py` | `install_skill()` — writes `localPath` to manifest |
-| `main.py` | `scan_command`, wires all phases together |
+| `main.py` | `scan_command`, wires all phases together; `MUTATING_DEV_COMMANDS` dispatch guard |
+| `authz.py` | Verifier-role authorization guard for all mutating `gaia dev` subcommands |
 | `pathEngine.py` | Unlock-path graph compute; produces `paths.json` |
 | `resolver.py` | Token → canonical ID matching |
 | `combinator.py` | Fusion recipe detection |
+
+## Authorization / Verifier guardrail
+
+All mutating `gaia dev` subcommands (add, merge, split, rename, calibrate, evidence,
+rm-evidence, link, reclassify, update-named, timeline, rm, verify, build) are gated by
+`require_operator()` in `authz.py` at the dispatch level in `main.py` (`MUTATING_DEV_COMMANDS`
+set).  Read-only subcommands (`list`, `audit`, `diff`) are intentionally ungated.
+
+**Player-facing flows** (`gaia promote`, `gaia fuse`, `gaia scan`, `gaia push`) are
+**never** gated — only `gaia dev` mutations route through the Verifier check.
+
+**Authorization hierarchy** (`via` values shown in `gaia whoami`):
+- `verifier` — contributor holds a 4★+ named skill in `registry/named-skills.json`
+- `override` — `GAIA_OPERATOR_OVERRIDE=1` env var is set (for CI/bots/automation)
+- `bootstrap` — no 4★ verifiers exist in the registry yet (auto-allow on cold-start)
+- `denied` — none of the above
+
+The dual bootstrap escape hatch ensures the CLI can never brick itself: a fresh registry
+auto-allows all actors; once the first 4★ skill lands, gating activates for non-verifiers.
+`GAIA_OPERATOR_OVERRIDE` covers CI runners when verifiers do exist.
 
 ---
 

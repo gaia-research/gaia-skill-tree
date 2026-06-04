@@ -116,6 +116,7 @@ Quick usage:
   gaia push [--dry-run] [--no-issue]
   gaia propose [<skillId>] [--ultimate] [--target <name>] [--no-pr]
   gaia version
+  gaia whoami
   gaia mcp
   gaia release <patch|minor|major>
   gaia graph [--format html|svg|json] [-o <path>] [--no-open]
@@ -126,19 +127,27 @@ Quick usage:
   gaia stats
   gaia docs build [--check]
   gaia lookup <skillId>
+
+  -- dev: read-only (no authorization required) --
   gaia dev list [--generic] [--named] [--description] [--json]
-  gaia dev merge <target> <source1> [source2...] [--named]
-  gaia dev split <source> <target1> <target2>...
+  gaia dev audit <skill_id>
+  gaia dev diff [ref] [--base <ref>]
+
+  -- dev: mutating (requires Verifier role — see gaia whoami) --
+  gaia dev add <name> [--id <id>] [--type <type>] [--description <desc>] [--named] [--contributor <user>] [--status <status>] [--title <title>] [--level <level>]
+  gaia dev merge <target> <source1> [source2...] [--named] [--yes]
+  gaia dev split <source> <target1> <target2>... [--yes]
   gaia dev rename <old_id> <new_id>
   gaia dev calibrate <skill_id> <level>
-  gaia dev add <name> [--id <id>] [--type <type>] [--description <desc>] [--named] [--contributor <user>] [--status <status>] [--title <title>] [--level <level>]
-  gaia dev rm <skill_id>
+  gaia dev rm <skill_id> [--yes]
   gaia dev link <target> <prereqs> [--reset]
   gaia dev reclassify <skill_id> <new_type>
   gaia dev update-named <skill_id> [--status <status>] [--generic-ref <ref>] [--suite-components <c1,c2...>]
   gaia dev evidence <skillId> <source> [--class A|B|C] [--evaluator <user>] [--date <date>] [--notes <notes>]
+  gaia dev rm-evidence <skill_id> (--index N | --source URL) [--yes]
+  gaia dev timeline <skill_id> --action <action> --notes <notes> [--user <username>] [--timestamp <iso8601>]
   gaia dev build
-  gaia dev audit <skill_id>
+
   gaia validate [--intake] [--meta-sync]
   gaia test <suite>
   gaia skills <list|search|info|install|uninstall>
@@ -171,6 +180,7 @@ PUBLIC_COMMANDS = (
     "push",
     "propose",
     "version",
+    "whoami",
     "mcp",
     "release",
     "graph",
@@ -186,6 +196,15 @@ PUBLIC_COMMANDS = (
     "test",
     "skills",
 )
+
+# dev subcommands that mutate the registry or user trees.
+# Dispatch in main() checks this set and calls require_operator() before routing.
+# Read-only subcommands (list, audit, diff) are intentionally absent.
+MUTATING_DEV_COMMANDS = frozenset({
+    "add", "merge", "split", "rename", "calibrate",
+    "evidence", "rm-evidence", "link", "reclassify",
+    "update-named", "timeline", "rm", "verify", "build",
+})
 
 # Known skill-convention files/dirs, in priority order
 _SKILL_CANDIDATES = [
@@ -245,6 +264,28 @@ def _detect_github_username():
 def _detect_skill_files():
     """Return existing skill-related paths in the current working directory."""
     return [c for c in _SKILL_CANDIDATES if os.path.exists(c)]
+
+
+def whoami_command(args):
+    from gaia_cli.authz import current_operator, authorization_status, OPERATOR_OVERRIDE_ENV
+    registry_path = args.registry
+    user = current_operator(registry_path)
+    status = authorization_status(user, registry_path)
+    authorized = status["authorized"]
+    via = status["via"]
+    reason = status["reason"]
+
+    print(f"User:      {user}")
+    print(f"Registry:  {registry_path}")
+    print(f"Operator:  {'yes' if authorized else 'no'}  (via: {via})")
+    print(f"Reason:    {reason}")
+    print()
+    if authorized:
+        print("You can run all `gaia dev` subcommands (including mutating ones).")
+    else:
+        print("Read-only dev commands available:  gaia dev list / audit / diff")
+        print("Mutating dev commands are blocked until you hold a 4★+ named skill.")
+        print(f"CI/bots may bypass via {OPERATOR_OVERRIDE_ENV}=1 (always shown here).")
 
 
 def init_command(args):
@@ -1586,6 +1627,7 @@ def get_parser():
     propose_parser.add_argument('--yes', action='store_true', help="Use defaults without interactive prompts")
     propose_parser.add_argument('--no-pr', action='store_true', help="Write intake proposal without opening a PR")
     subparsers.add_parser('version', help="Print the Gaia CLI version")
+    subparsers.add_parser('whoami', help="Show your Gaia identity and Verifier/operator status")
     subparsers.add_parser(
         'mcp',
         help="Run the bundled Gaia MCP server",
@@ -1657,10 +1699,12 @@ def get_parser():
     dev_merge.add_argument('target', help="Target skill ID to merge into")
     dev_merge.add_argument('sources', nargs='+', help="Source skill IDs to merge from")
     dev_merge.add_argument('--named', action='store_true', help="Also merge named implementation references")
+    dev_merge.add_argument('--yes', '-y', action='store_true', help="Skip confirmation prompt")
 
     dev_split = dev_sub.add_parser('split', help="Split a skill into multiple new skills")
     dev_split.add_argument('source', help="Source skill ID to split")
     dev_split.add_argument('targets', nargs='+', help="Target skill IDs to create")
+    dev_split.add_argument('--yes', '-y', action='store_true', help="Skip confirmation prompt")
 
     dev_rename = dev_sub.add_parser('rename', help="Rename a skill and update all references")
     dev_rename.add_argument('old_id', help="Original skill ID")
@@ -1696,6 +1740,7 @@ def get_parser():
     dev_rm = dev_sub.add_parser('rm', help="Remove a skill from the registry")
     dev_rm.add_argument('skill_id', help="Skill ID to remove")
     dev_rm.add_argument('--no-build', action='store_true', help="Skip rebuilding docs and graph assets after removing")
+    dev_rm.add_argument('--yes', '-y', action='store_true', help="Skip confirmation prompt")
 
     dev_link = dev_sub.add_parser('link', help="Link skills by adding prerequisites")
     dev_link.add_argument('target', help="Target skill ID that receives the prerequisites")
@@ -1739,6 +1784,7 @@ def get_parser():
     dev_rm_evidence.add_argument('--index', type=int, help="Index of the evidence entry to remove")
     dev_rm_evidence.add_argument('--source', help="Remove all evidence entries whose source URL matches this exactly")
     dev_rm_evidence.add_argument('--no-build', action='store_true', help="Skip rebuilding docs and graph assets after removing evidence")
+    dev_rm_evidence.add_argument('--yes', '-y', action='store_true', help="Skip confirmation prompt")
 
     dev_build = dev_sub.add_parser('build', help="Regenerate registry and documentation site")
 
@@ -1819,7 +1865,8 @@ def test_command(args):
     # can pick up an isolated uv-tool pytest that lacks these packages.
     cmd = [sys.executable, "-m", "pytest"]
     if args.suite == "meta":
-        cmd.append(str(repo_root / "tests" / "test_dev.py"))
+        cmd.extend([str(repo_root / "tests" / "test_meta_ops.py"),
+                    str(repo_root / "tests" / "test_authz.py")])
     elif args.suite == "all":
         cmd.append(str(repo_root / "tests"))
 
@@ -1885,6 +1932,8 @@ def main():
         propose_command(args)
     elif args.command == 'version':
         version_command(args)
+    elif args.command == 'whoami':
+        whoami_command(args)
     elif args.command == 'mcp':
         mcp_command(args)
     elif args.command == 'release':
@@ -1905,6 +1954,9 @@ def main():
         lookup_command(args)
     elif args.command == 'dev':
         dev_cmd = getattr(args, 'dev_command', None)
+        if dev_cmd in MUTATING_DEV_COMMANDS:
+            from gaia_cli.authz import require_operator
+            require_operator(f"dev {dev_cmd}", args.registry)
         if dev_cmd == 'list':
             meta_list_command(args)
         elif dev_cmd == 'merge':
