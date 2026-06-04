@@ -1,7 +1,8 @@
 import type { GaiaGraph, FusionCandidate } from "../graph/types.js";
 import { effectiveLevel } from "../graph/levels.js";
+import { AbstractAdvisor, type AdvisorContext } from "./types.js";
 
-export function detectCombinations(
+function findFusionCandidates(
   graph: GaiaGraph,
   ownedSkillIds: string[],
   detectedSkillIds: string[]
@@ -47,4 +48,28 @@ export function detectCombinations(
     const bIdx = rarityOrder.indexOf(bSkill?.rarity ?? "common");
     return aIdx - bIdx;
   });
+}
+
+export class FusionEngine extends AbstractAdvisor<FusionCandidate[]> {
+  constructor() {
+    super("fusion-engine");
+  }
+
+  analyze(context: AdvisorContext): FusionCandidate[] {
+    return findFusionCandidates(
+      this.requireGraph(context),
+      this.ownedSkillIds(context),
+      this.detectedSkillIds(context)
+    );
+  }
+}
+
+export const fusionEngine = new FusionEngine();
+
+export function detectCombinations(
+  graph: GaiaGraph,
+  ownedSkillIds: string[],
+  detectedSkillIds: string[]
+): FusionCandidate[] {
+  return fusionEngine.analyze({ graph, ownedSkillIds, detectedSkillIds });
 }

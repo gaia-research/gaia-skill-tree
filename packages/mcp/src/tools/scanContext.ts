@@ -1,9 +1,10 @@
 import { loadGraph, loadUserTree } from "../graph/loader.js";
 import { resolveIdentity } from "../config/identity.js";
-import { detectCombinations } from "../advisor/fusionEngine.js";
-import { detectSkillsFromTools, detectSkillsFromSignals } from "../advisor/detector.js";
-import { scoreNovelty } from "../advisor/noveltyScorer.js";
+import { fusionEngine } from "../advisor/fusionEngine.js";
+import { skillDetector } from "../advisor/detector.js";
+import { noveltyScorer } from "../advisor/noveltyScorer.js";
 import { runGaia } from "../utils/gaia.js";
+import type { AdvisorContext } from "../advisor/types.js";
 import type { UserSkillTree, GaiaGraph } from "../graph/types.js";
 
 export async function scanContext(
@@ -14,9 +15,25 @@ export async function scanContext(
   const graph = await loadGraph();
   const user = resolveIdentity();
 
-  const detectedFromTools = connectedTools ? detectSkillsFromTools(connectedTools) : [];
-  const detectedFromSignals = projectSignals ? detectSkillsFromSignals(projectSignals) : [];
-  let allDetected = [...new Set([...detectedFromTools, ...detectedFromSignals])];
+  let ownedSkillIds: string[] = [];
+  let tree: UserSkillTree | null = null;
+  if (user) {
+    const rawTree = await loadUserTree(user);
+    if (rawTree) {
+      tree = rawTree as unknown as UserSkillTree;
+      ownedSkillIds = tree.unlockedSkills.map((s) => s.skillId);
+    }
+  }
+
+  let advisorContext: AdvisorContext = {
+    graph,
+    userTree: tree,
+    ownedSkillIds,
+    connectedTools: connectedTools ?? [],
+    projectSignals: projectSignals ?? [],
+  };
+  const detection = skillDetector.analyze(advisorContext);
+  let allDetected = detection.allDetected;
 
   if (deepScan) {
     try {
@@ -33,17 +50,12 @@ export async function scanContext(
   }
 
   allDetected = [...new Set(allDetected)];
+  advisorContext = {
+    ...detection.context,
+    detectedSkillIds: allDetected,
+  };
 
-  let ownedSkillIds: string[] = [];
-  if (user) {
-    const rawTree = await loadUserTree(user);
-    if (rawTree) {
-      const tree = rawTree as unknown as UserSkillTree;
-      ownedSkillIds = tree.unlockedSkills.map((s) => s.skillId);
-    }
-  }
-
-  const candidates = detectCombinations(graph, ownedSkillIds, allDetected);
+  const candidates = fusionEngine.analyze(advisorContext);
   const lines: string[] = [];
 
   lines.push(`## Skill Scan Results\n`);
@@ -74,7 +86,10 @@ export async function scanContext(
 
   if (projectSignals && projectSignals.length > 0) {
     const combined = projectSignals.join(" ");
-    const novelty = scoreNovelty(combined, graph);
+    const novelty = noveltyScorer.analyze({
+      ...advisorContext,
+      proposedDescription: combined,
+    });
     if (novelty.isNovel) {
       lines.push("### Novel Capability Detected\n");
       lines.push(`This project appears to implement a capability not yet in the Gaia registry.`);

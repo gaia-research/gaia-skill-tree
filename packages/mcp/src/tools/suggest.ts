@@ -1,7 +1,8 @@
 import { loadGraph, loadUserTree } from "../graph/loader.js";
 import { resolveIdentity } from "../config/identity.js";
-import { detectCombinations } from "../advisor/fusionEngine.js";
-import { detectSkillsFromTools, detectSkillsFromSignals } from "../advisor/detector.js";
+import { fusionEngine } from "../advisor/fusionEngine.js";
+import { skillDetector } from "../advisor/detector.js";
+import type { AdvisorContext } from "../advisor/types.js";
 import type { UserSkillTree, FusionCandidate, GaiaGraph } from "../graph/types.js";
 
 function formatCandidate(c: FusionCandidate, graph: GaiaGraph): string {
@@ -23,23 +24,30 @@ export async function suggest(
   const user = resolveIdentity();
 
   let ownedSkillIds: string[] = [];
+  let tree: UserSkillTree | null = null;
   if (user) {
     const rawTree = await loadUserTree(user);
     if (rawTree) {
-      const tree = rawTree as unknown as UserSkillTree;
+      tree = rawTree as unknown as UserSkillTree;
       ownedSkillIds = tree.unlockedSkills.map((s) => s.skillId);
     }
   }
 
-  const detectedFromTools = tools ? detectSkillsFromTools(tools) : [];
-  const detectedFromSignals = context ? detectSkillsFromSignals(context) : [];
-  const allDetected = [...new Set([...detectedFromTools, ...detectedFromSignals])];
+  const advisorContext: AdvisorContext = {
+    graph,
+    userTree: tree,
+    ownedSkillIds,
+    connectedTools: tools ?? [],
+    projectSignals: context ?? [],
+  };
+  const detection = skillDetector.analyze(advisorContext);
+  const allDetected = detection.allDetected;
 
   if (allDetected.length === 0 && ownedSkillIds.length === 0) {
     return "No skills detected yet. Connect more MCP tools or use gaia_scan_context with project signals to detect your skills.";
   }
 
-  const candidates = detectCombinations(graph, ownedSkillIds, allDetected);
+  const candidates = fusionEngine.analyze(detection.context);
 
   const lines: string[] = [];
 
