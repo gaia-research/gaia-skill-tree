@@ -1724,20 +1724,35 @@ def meta_diff_command(args):
 
 
 def meta_timeline_command(args):
-    """Append a standalone event to a skill's timeline."""
+    """Append a standalone event to a skill's or user tree's timeline."""
     registry_path = args.registry
     skill_id = args.skill_id.lstrip("/")
     action = args.action
     notes = args.notes
+    user = getattr(args, "user", None)
+    timestamp = getattr(args, "timestamp", None)
 
-    from gaia_cli.timeline import append_skill_event
-    append_skill_event(
-        skill_id,
-        action,
-        _get_contributor(),
-        notes,
-        registry_path=registry_path
-    )
+    if user:
+        from gaia_cli.timeline import append_skill_tree_event
+        append_skill_tree_event(
+            user,
+            skill_id,
+            action,
+            notes,
+            registry_path=registry_path,
+            timestamp=timestamp,
+        )
+        marker = f" (at {timestamp})" if timestamp else ""
+        print(f"Appended '{action}' event for '{skill_id}' to skill-trees/{user}/skill-tree.json{marker}.")
+    else:
+        from gaia_cli.timeline import append_skill_event
+        append_skill_event(
+            skill_id,
+            action,
+            _get_contributor(),
+            notes,
+            registry_path=registry_path,
+        )
 
     if not getattr(args, "no_build", False):
         print("Regenerating registry and documentation...")

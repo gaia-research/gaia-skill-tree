@@ -1717,10 +1717,12 @@ def get_parser():
     dev_update_named.add_argument('--origin', choices=['true', 'false'], help="Set the origin flag to true or false")
     dev_update_named.add_argument('--no-build', action='store_true', help="Skip rebuilding docs and graph assets after updating")
 
-    dev_timeline = dev_sub.add_parser('timeline', help="Append a standalone event to a skill's timeline")
-    dev_timeline.add_argument('skill_id', help="Skill ID to append the event to (generic or named)")
+    dev_timeline = dev_sub.add_parser('timeline', help="Append a standalone event to a skill's or user tree's timeline")
+    dev_timeline.add_argument('skill_id', help="Skill ID to append the event to (generic, named, or user-tree)")
     dev_timeline.add_argument('--action', required=True, choices=('propose', 'rank_up', 'demote', 'verified', 'disputed', 'type_change', 'suite_ref_set', 'note'), help="The type of event action")
     dev_timeline.add_argument('--notes', required=True, help="Description of the event")
+    dev_timeline.add_argument('--user', help="Write to skill-trees/<user>/skill-tree.json instead of the registry node")
+    dev_timeline.add_argument('--timestamp', help="ISO 8601 timestamp for the event (e.g. 2026-03-01T00:00:00Z); defaults to now. Use for historical backfills.")
     dev_timeline.add_argument('--no-build', action='store_true', help="Skip rebuilding docs and graph assets after appending event")
 
     dev_evidence = dev_sub.add_parser('evidence', help="Add evidence to a skill")
