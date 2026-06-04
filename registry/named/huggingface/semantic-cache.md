@@ -7,10 +7,10 @@ genericSkillRef: semantic-cache
 status: named
 title: The Neural Memory
 catalogRef: huggingface-semantic-cache
-level: 1★
+level: 4★
 description: High-performance semantic caching for LLM responses using embedding similarity.
 links:
-  github: https://github.com/codefuse-ai/ModelCache
+  github: https://github.com/codefuse-ai/ModelCache/blob/main/README.md
 tags:
 - semantic-cache
 - embeddings
@@ -18,7 +18,7 @@ tags:
 - cost-optimization
 - unique
 createdAt: '2026-05-15'
-updatedAt: '2026-06-02'
+updatedAt: '2026-06-05'
 evidence:
 - class: B
   source: https://github.com/codefuse-ai/ModelCache
@@ -31,6 +31,14 @@ timeline:
   action: demote
   contributor: unknown
   details: Calibrated level from 4★ to 1★
+- timestamp: '2026-06-04T20:30:47Z'
+  action: note
+  contributor: unknown
+  details: Updated GitHub link to https://github.com/codefuse-ai/ModelCache/blob/main/README.md
+- timestamp: '2026-06-04T20:30:53Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 1★ to 4★
 ---
 
 ## Overview
