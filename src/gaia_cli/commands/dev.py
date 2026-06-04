@@ -1378,6 +1378,16 @@ def meta_update_named_command(args):
         meta.setdefault("links", {})["github"] = args.github_link
         changed = True
 
+    installable_val = getattr(args, "installable", None)
+    if installable_val is not None:
+        target_val = (installable_val.lower() == "true")
+        if meta.get("installable") != target_val:
+            meta["installable"] = target_val
+            changed = True
+            if not target_val and "links" in meta:
+                meta.pop("links")
+
+
 
     origin_val = getattr(args, "origin", None)
     origin_changed = False
@@ -1449,6 +1459,15 @@ def meta_update_named_command(args):
                 f"Updated GitHub link to {args.github_link}",
                 registry_path=registry_path,
             )
+        if getattr(args, "installable", None) is not None:
+            append_skill_event(
+                skill_id,
+                "note",
+                contributor,
+                f"Set installable to {args.installable}",
+                registry_path=registry_path,
+            )
+
 
 
         if not getattr(args, "no_build", False):
