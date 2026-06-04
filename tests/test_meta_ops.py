@@ -90,9 +90,9 @@ def test_meta_add_generic(tmp_path, monkeypatch):
 def test_meta_merge(tmp_path, monkeypatch):
     write_fixture_registry(tmp_path)
     # Merge skill-b into skill-a
-    monkeypatch.setattr(sys, "argv", ["gaia", "--registry", str(tmp_path), "dev", "merge", "skill-a", "skill-b"])
+    monkeypatch.setattr(sys, "argv", ["gaia", "--registry", str(tmp_path), "dev", "merge", "skill-a", "skill-b", "--yes"])
     main()
-    
+
     basic_dir = tmp_path / "registry" / "nodes" / "basic"
     assert (basic_dir / "skill-a.json").exists()
     assert not (basic_dir / "skill-b.json").exists()

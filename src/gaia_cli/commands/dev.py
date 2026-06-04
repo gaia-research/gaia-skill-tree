@@ -50,6 +50,21 @@ def _is_verifier(username, registry_path=".") -> bool:
     return False
 
 
+def _confirm_destructive(message: str, args) -> None:
+    """Prompt for confirmation before a destructive operation.
+
+    Skipped when ``args.yes`` is True.  In non-interactive contexts (CI, piped
+    stdin) ``confirm()`` returns the default value (False), so automation MUST
+    pass ``--yes`` explicitly to avoid an implicit abort.
+    """
+    if getattr(args, "yes", False):
+        return
+    from gaia_cli.interactive import confirm
+    if not confirm(message, default=False):
+        print("Aborted.")
+        sys.exit(0)
+
+
 def meta_verify_command(args):
     registry_path = args.registry
     skill_id = args.skill_id.lstrip("/")
@@ -310,6 +325,11 @@ def meta_merge_command(args):
     registry_path = args.registry
     target_id = args.target.lstrip("/")
     sources = [s.lstrip("/") for s in args.sources]
+
+    _confirm_destructive(
+        f"Merge {sources} into '{target_id}'? Source skills will be deleted. This cannot be undone.",
+        args,
+    )
 
     if target_id in sources:
         print(f"Error: Target skill '{target_id}' cannot be one of the source skills.")
@@ -742,6 +762,11 @@ def meta_split_command(args):
     source_id = args.source.lstrip("/")
     targets = [t.lstrip("/") for t in args.targets]
 
+    _confirm_destructive(
+        f"Split '{source_id}' into {targets}? The source skill will be deleted. This cannot be undone.",
+        args,
+    )
+
     nodes_dir = Path(registry_nodes_dir(registry_path))
     source_file = None
     source_data = None
@@ -1052,6 +1077,11 @@ def meta_rm_evidence_command(args):
     """
     registry_path = args.registry
     skill_id = args.skill_id.lstrip("/")
+
+    _confirm_destructive(
+        f"Remove evidence from '{skill_id}'? This cannot be undone.",
+        args,
+    )
     index = getattr(args, "index", None)
     source = getattr(args, "source", None)
     if index is None and not source:
@@ -1140,6 +1170,11 @@ def meta_build_command(args):
 def meta_remove_command(args):
     registry_path = args.registry
     skill_id = args.skill_id.lstrip("/")
+
+    _confirm_destructive(
+        f"Remove skill '{skill_id}' and all references? This cannot be undone.",
+        args,
+    )
 
     nodes_dir = Path(registry_nodes_dir(registry_path))
     node_file = None

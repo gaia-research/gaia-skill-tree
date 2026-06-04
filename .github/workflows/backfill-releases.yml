@@ -1,188 +1,91 @@
 name: Backfill Missing Releases
 
-# One-time workflow: trigger manually from the Actions tab to retroactively
-# create git tags and GitHub Releases for every version that was bumped in
-# the manifests but never tagged/released.
+# Reconciler: create a GitHub Release for every `v*` tag that has a tag but no
+# corresponding Release. Auto-discovers the gap (no hardcoded list), so it stays
+# useful forever — trigger it any time releases drift behind tags.
+#
+# Why this is needed: version tags are pushed by automation, but a tag push made
+# by a token that does not trigger workflows will never invoke `release.yml`.
+# This workflow closes that gap by creating the Release directly via the API
+# (GITHUB_TOKEN can create releases; it just cannot *trigger* other workflows).
 on:
   workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'List missing releases without creating them'
+        type: boolean
+        default: false
 
 permissions:
   contents: write
 
 jobs:
   backfill:
-    name: Create missing tags and releases
+    name: Create releases for all tags missing one
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      DRY_RUN: ${{ inputs.dry_run }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Configure git
+      - name: Create missing releases
         run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          set -euo pipefail
 
-      - name: Create tags and releases for all missing versions
-        run: |
-          # Format: VERSION COMMIT_HASH
-          # Ordered oldest → newest so release notes are generated correctly.
-          cat <<'EOF' > /tmp/versions.txt
-          v2.4.0 080c63fb1cba2e243f6f8dbaf2ff20d955834fd9
-          v2.4.1 7f7a01fc8d55e19c75a803c9cd33078a4c195485
-          v2.4.2 164654aac22b9ee33686627e2d1e03eeddf9f04d
-          v2.4.3 c8852bcaf5f24c51c61478f4c741be12a776cc34
-          v2.4.4 7d0d35d40e7d247819e00f246f68b8da63fd6f65
-          v2.4.5 97c2fa2a32cf72f0ff76eaa59a9559407d3ede41
-          v2.4.6 91eeb9b6baa1219f6ff20df72402b597298c93db
-          v2.4.7 179466172b2eda019bda0324c0efe02ebe30dab0
-          v2.4.8 42b8409942ca6daa5d77ddccb2e6d015d1b33f69
-          v2.5.0 935d1f0d4bbdbb7ad566202259c05f509f37b1f2
-          v2.13.0 a6cefc91fd23f82e3caae5a4dd5c68d4a7c451de
-          v2.13.1 054c55cf126966590e73bf7de3952e620f603bef
-          v3.0.1 7838dd250e1787efff923f620709257d1092b59e
-          v3.1.1 6c55edfcf11da0a9a1efa6b98ab27bdfcffbd0a5
-          v3.1.2 15cb9f2a03a4f3aa493153a563c1a2f54a899080
-          v3.1.3 96c9546235587e60ddeefc62e412c96175609372
-          v3.1.4 380613d435cc2b3c6a9454e0b3d57688cfff25dd
-          v3.1.5 a7d32abab98954ea31442a88ec22c3f71bab8e30
-          v3.1.6 401c59bf7f8cca1241cff4fcb8cd3cced0c5369f
-          v3.1.7 eeb8738ae29d923d1d31f83532b40dfd3fbd586b
-          v3.1.8 5941159756f1914545ccb2a2234b14699bc8bdb5
-          v3.1.9 4a682eae241c7540777137efaa3f1ff40dc5e8ca
-          v3.1.10 018bad72767ef6891139e38c3ba0fe8eabf993a4
-          v3.1.11 2e2484e18fd5f2a31085977d7bd0c2907da207a0
-          v3.1.12 dea8022b0ba6a51f0c088f223b5c84430a6135c0
-          v3.2.0 74f1840eaadea01730332cc11a277ccdf905a0a3
-          v3.2.1 cfdfbffe551b585b49e07f104a18a89e8bd2fa15
-          v3.2.2 dc1fb505161d818f558ceb82301c7f700326df17
-          v3.2.3 e14833961ca7217ed049cf9013493f17c071594d
-          v3.2.4 7a4bf81c3c4c48c62620921af280d18523f19e46
-          v3.2.5 3cfd1d003de7babd24ca7d57694e33d4e6d7294c
-          v3.2.6 faa4c93ba3a409120c3152edb3617a8950515247
-          v3.2.7 a4df47fb37f325db006459f3c287a3ad9ae25f64
-          v3.2.8 67c6ed15ea57a76022bac09dffd71775c2777a07
-          v3.3.0 28c9ed43ecfb69bd468b8bb7b3ef82e15fba6e2f
-          v3.4.0 086c9b83f648dbce8a295480e7d12e3300d987d5
-          v3.5.0 2bf251665a32302d510e2b11e092571ed74beaba
-          v3.8.0 8d3d8b876823058ec3a988bb141b7887ce9c28c6
-          v3.9.0 4f6832b8b57ec1c06a909ab34fc1d88e98bb1208
-          v3.9.1 ee7f220316e116cbcb5f42c970b9fad34bf56e2b
-          v3.9.2 29f09625f1b829a371c54b490608196ef09f5d3e
-          v3.9.3 9269970c01cc33aa96d30d86e20c51757eefb965
-          v3.9.4 b5da439bf4117a94ecb7648cd71bf6dfbe808181
-          v3.10.0 bc96cebb197149a2ddfbb5dee83f5a684906b2da
-          v3.11.0 76e2521bc8715a7b6c7ec6f2942506b19db2bf12
-          v3.11.1 c32ed884295baa05b6ef09dd494030fd19f42b30
-          v3.11.2 bf33e38d5ad80457bc1b8cae953b2aad3307b99f
-          v3.11.3 f9db531c2b51545554aaa5ddab8c2efa8868de6a
-          v3.11.4 78f6d36b60ae5a494b4c8c6a51bd868ec9c21dd0
-          v3.11.5 e5ba5a717927ba6141b9ef7e237b2289b2af0471
-          v3.11.6 bd60cab5d1ddc43bc6a7922408678d8dc47c4671
-          v3.11.7 97e4d719ae4f947bebbe99449dce7e565bfe07cb
-          v3.11.8 406157e7edf757c40928e4aaaab41cf14ffa480a
-          v3.11.9 e243705d3fb5097addd00102ff6655984e9d76b2
-          v3.11.10 d832bf0f13bbd39904a319a2e1bb08cef6bd3d23
-          v3.11.11 93c9970477a53fdeca2d867656b685d386c99ebf
-          v3.11.12 20bcb4a218982e12cc0fffe5d65f6428b0ecfe5b
-          v3.11.13 6028f3c34f3217c804219263c8c0204a25d9a05b
-          v3.11.14 eeb97e13f630d57f57a8e97c53da8f8c76a39bc5
-          v3.11.15 49a34a84a90a53965f365464b8e1c8c08f43ba49
-          v3.11.16 392c8726ea77a67c88a22087bd45d308864cedb5
-          v3.11.17 88d25f081240519a255446724d1fee055aec61a8
-          v3.11.18 92825e7307848a99ad19c3c06438eb935be05ccf
-          v3.11.19 b53323849918623d8c83e591109f58306fddc3fb
-          v3.11.20 56803c9bc30b8493820464edcdc78d4d12fb55c4
-          v3.11.21 8670273687df255c9fd67752fdb5bb2c3b9dc444
-          v3.12.0 929fec5876c5c6068e945ffc1f287f88da9c8378
-          v3.13.0 9eddc7b36b588c0cee2c5747ebdf9fd7149c0e45
-          v3.13.1 d6052581be0cb5a8feed50754c1831ba6a99bc57
-          v3.13.2 8e40920325491ff6164d8292552dfd412288b4f5
-          v3.13.3 0e472522c6837bc9e24b3993d7e1978784607197
-          v3.13.4 c721eee43623141971984ebfad736ae2caaf207b
-          v3.14.0 4b32995542e2ac67b86ab44aa31f37e0d3411b69
-          v3.15.0 70cece8d53cbbb6c7517cc6adca7c0ca711e6772
-          v3.15.1 2fbe95a371868128b2fc3ca60f3e8205bb897d2d
-          v3.15.2 344a3a7635e2f3c93067beb15c8c25cb96947fd3
-          v3.16.0 f27354c54ca00f9348a56027a9b40150d236cad9
-          v3.16.1 d7ff7a580f57e9600b9bffda931d92fe94969e46
-          v3.16.2 2dbdb1aea44d7411664f4b6cef6d060d03eeab28
-          v3.16.3 3bc10fac83c370fa8098e7fff9ec904d7bfc43d1
-          v3.16.4 c3c16f7b10fcdbad7a41955c2186650737ce3412
-          v3.16.5 09c9165b0e5e8bc24162137a331913c14bdcd4cd
-          v3.16.6 b4b37bbc088fed19fbde8e6564b742dc17a0a774
-          v3.17.0 6206429b46b530af78ee78c4143495d26319f7ff
-          v3.18.0 0faeee383814897112ee8d1eb0b3f9206c16cb8c
-          v3.18.1 09cb0acc6c00f7828b69bc75d7ca12de6e79f5d5
-          v3.18.2 766f970cd6f0baac537714fd6c72efa3f28a7bb6
-          v3.18.4 95404e83b0e72f9d132588b13d2b20c5ac68417d
-          v3.19.0 d88ac1b2de6612672b96ba7cdc7a4e12dd8974b3
-          v3.20.0 83532565ad58bc9877a93e02d6e3c2a712fb45d0
-          v3.20.1 590d40dd49b8fe6dd3a0c684a239706b1f1260b0
-          v3.20.2 c380686ab6eacc3fe0af45648bf29d36b65505e4
-          v3.20.3 74c43dbe10ec5cdb0acc609d5932e9e7b11971c4
-          v3.20.4 cdee93276f8243d4569f70fbcb5bdd2ccfc8152a
-          v3.21.0 d6716b698cd9f04dd3ee046fb0635af886e4225a
-          v3.21.1 3eb112c3e5e08db30ecbc7362b70f53a4bf52c8c
-          v3.21.2 d556a63002a04e7a225ed28e1159a29ef8f684e8
-          v3.21.3 1696762bd8d629e09252ad1d6dd54d02ce451c40
-          v3.21.4 d5b99efc07906734b8a069595db0911802c211ac
-          v3.21.5 ee5c890cbb0ee9279700f53a5e09ec1160502912
-          v3.22.0 859cf8d080f1d24a38f2ee3f8769362a75be91db
-          v3.22.1 b745763a25ca7d55fa1e46cb0061318f4689d8e1
-          v3.22.2 2fcfd619bfd76d58b2bd95ae7e387138932dba03
-          v3.22.3 a4887f05e8d1c11bd430a0c1e94015506f1c242b
-          v3.22.4 37f1f884c734984f71607746afe6f043df5e0f78
-          v3.22.5 8dcf1b1e1a2bcb220c3ab5c1a453eefd1e2e79f2
-          v3.23.0 db28e2aaa349cdb92c2a46968f8433cd19d385a9
-          v3.23.1 7830ddc520742fbd9080139110ec44d168919493
-          v3.23.2 4c797979ca9cbfc1665f7a22d600efa4aa06241c
-          v3.23.3 c22d70a0164d2b073828eaed714cebe12a7edb53
-          v3.23.4 00b5eafea2369cd077dd4ee2d4f8856cd95d69bf
-          v3.23.5 b92c02b31a3af9141a365ef02cb7d9b7cc5a4c46
-          v3.23.6 79fdac7f8314f1de0df5d260161ad7de4d7a2307
-          v3.23.7 f6b2474df7cc7df9c025b9716e4a96f1fe9b317c
-          v3.23.8 11d28a44f06b93600f26864efe7309b8ecf5650a
-          v3.23.9 3579f42e991920a579afa13d1940f25d14098ad7
-          EOF
+          # Enumerate all semver tags from the remote, oldest → newest, so
+          # generated release notes diff against the correct previous tag.
+          mapfile -t TAGS < <(
+            gh api --paginate "repos/${GITHUB_REPOSITORY}/tags" -q '.[].name' \
+              | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' \
+              | sort -V
+          )
 
-          LATEST_TAG="v3.23.9"
+          if [ "${#TAGS[@]}" -eq 0 ]; then
+            echo "No semver tags found. Nothing to do."
+            exit 0
+          fi
+
+          LATEST="${TAGS[-1]}"
+          echo "Found ${#TAGS[@]} tags. Latest: ${LATEST}"
+          echo ""
+
           CREATED=0
           SKIPPED=0
           FAILED=0
 
-          while read -r tag commit; do
-            [ -z "$tag" ] && continue
-
+          for tag in "${TAGS[@]}"; do
             if gh release view "$tag" --json tagName -q .tagName &>/dev/null; then
-              echo "[skip]  $tag already has a release"
               SKIPPED=$((SKIPPED + 1))
               continue
             fi
 
-            echo "[create] $tag @ ${commit:0:8}"
+            if [ "${DRY_RUN}" = "true" ]; then
+              echo "[would-create] $tag"
+              CREATED=$((CREATED + 1))
+              continue
+            fi
 
             LATEST_FLAG="--latest=false"
-            [ "$tag" = "$LATEST_TAG" ] && LATEST_FLAG="--latest"
+            [ "$tag" = "$LATEST" ] && LATEST_FLAG="--latest"
 
+            echo "[create] $tag"
             if gh release create "$tag" \
-                --target "$commit" \
                 --title "$tag" \
                 --generate-notes \
                 $LATEST_FLAG; then
-              echo "[ok]    $tag created"
               CREATED=$((CREATED + 1))
             else
-              echo "[fail]  $tag failed"
+              echo "::warning::Failed to create release for $tag"
               FAILED=$((FAILED + 1))
             fi
-          done < /tmp/versions.txt
+          done
 
           echo ""
           echo "=== Backfill complete ==="
-          echo "Created:  $CREATED"
-          echo "Skipped:  $SKIPPED"
-          echo "Failed:   $FAILED"
+          echo "Created (or would-create):  $CREATED"
+          echo "Skipped (already present):  $SKIPPED"
+          echo "Failed:                     $FAILED"
           [ "$FAILED" -gt 0 ] && exit 1 || exit 0
