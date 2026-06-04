@@ -9,7 +9,7 @@ level: 2★
 description: Write, update, or review Dify end-to-end tests under e2e/ that use Cucumber,
   Gherkin, and Playwright.
 createdAt: '2026-05-31'
-updatedAt: '2026-05-31'
+updatedAt: '2026-06-04'
 links:
   github: https://github.com/langgenius/dify/blob/main/.agents/skills/e2e-cucumber-playwright/SKILL.md
 timeline:
@@ -20,4 +20,45 @@ timeline:
 ---
 
 ## Installation
-Add installation instructions here.
+
+No additional setup required beyond accessing the Dify E2E test suite.
+
+### Prerequisites
+
+- Access to the Dify repository
+- Node.js and pnpm installed
+- Familiarity with Cucumber, Gherkin syntax, and Playwright
+
+### Validation
+
+Validate your E2E test configuration and changes:
+
+```bash
+pnpm -C e2e check
+```
+
+### How to Use
+
+**Start here:** Read `e2e/AGENTS.md` for the canonical guide on local architecture and conventions.
+
+**Then examine these files in order:**
+
+1. Target `.feature` files under `e2e/features/`
+2. Related step definitions in `e2e/features/step-definitions/`
+3. Session and state files: `hooks.ts` and `world.ts` (if lifecycle matters)
+4. Execution config: `run-cucumber.ts` and `cucumber.config.ts` (if tags or flow matter)
+
+### Writing Scenarios
+
+- Use Behavior-Driven Development (BDD) syntax with Given-When-Then structure
+- Reuse existing step definitions when possible
+- Prefer user-facing locators over implementation details
+- Validate narrowly before broadening verification
+- Reference Playwright best practices for locators, assertions, and waiting strategies
+
+### Key Principles
+
+- Keep scenarios readable and business-focused
+- Maintain step definition reusability
+- Test user workflows, not implementation details
+- Use Cucumber best practices for scenario wording and step design

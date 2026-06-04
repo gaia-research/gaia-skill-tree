@@ -1552,10 +1552,10 @@
           "github": "https://github.com/mattpocock/skills/blob/main/skills/productivity/caveman"
         },
         "createdAt": "2026-05-21",
-        "updatedAt": "2026-05-21",
+        "updatedAt": "2026-06-04",
         "suiteRef": "mattpocock/productivity",
         "type": "basic",
-        "installBody": "Add installation instructions here.",
+        "installBody": "This skill is included in the Matt Pocock skills suite:\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required.\n\n### How to Activate\n\nTrigger with any of these phrases:\n\n- \"caveman mode\"\n- \"talk like caveman\"\n- \"use caveman\"\n- \"less tokens\"\n- \"be brief\"\n- \"/caveman\" command\n\nMode activates immediately upon invocation.\n\n### How It Works\n\nCompresses communication by approximately **75% token reduction**. Maintains technical precision while eliminating unnecessary elements.\n\n**Removed:**\n- Articles (a/an/the)\n- Padding words (just/really/basically)\n- Pleasantries (sure/certainly)\n- Hedging language\n\n**Preserved:**\n- Exact technical terminology\n- Code blocks\n- Error messages\n- Causal relationships (shown with arrows: X → Y)\n\n**Style:**\n- Fragments acceptable\n- Short word choices prioritized\n- Conjunctions optional\n\n### Example\n\nInstead of: \"Sure! I'd be happy to help you with that. The issue you're experiencing is likely caused by...\"\n\nWrite: \"Bug in auth middleware. Token expiry check use `<` not `<=`. Fix:\"\n\n### Deactivation\n\nMode persists across multiple responses. Disable with explicit commands:\n\n- \"stop caveman\"\n- \"normal mode\"",
         "role": "variant"
       }
     ],
@@ -4073,7 +4073,7 @@
         "description": "Engineering category suite for Matt Pocock's skills.",
         "title": "The Matt Pocock Engineering Discipline",
         "createdAt": "2026-05-21",
-        "updatedAt": "2026-05-21",
+        "updatedAt": "2026-06-04",
         "suiteRef": "mattpocock/skills",
         "suiteComponents": [
           "mattpocock/diagnose",
@@ -4088,7 +4088,7 @@
           "mattpocock/zoom-out"
         ],
         "type": "ultimate",
-        "installBody": "Add installation instructions here.",
+        "installBody": "Install the full Matt Pocock skills suite with:\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\n### Setup Required\n\nBefore using engineering skills (`to-issues`, `to-prd`, `triage`, `diagnose`), you must run the setup skill in your agent:\n\n```\nRun: /setup-matt-pocock-skills\n```\n\nThis interactive setup configures three foundational documents:\n\n1. **Issue Tracker** — Choose GitHub Issues, GitLab Issues, or local markdown\n2. **Triage Labels** — Map your label vocabulary (`needs-triage`, `ready-for-agent`, etc.)\n3. **Domain Docs** — Confirm your documentation layout (single-context or multi-context)\n\nThe setup updates or creates:\n- `## Agent skills` block in `CLAUDE.md` or `AGENTS.md`\n- `docs/agents/issue-tracker.md`, `docs/agents/triage-labels.md`, `docs/agents/domain.md`\n\n### What's Included\n\nTen engineering skills for code-focused work:\n- **Core Practices**: TDD, bug diagnosis, architecture improvement\n- **Planning & Documentation**: Convert plans to GitHub issues, create PRDs, grill sessions\n- **Team Coordination**: Issue triage through state machine workflows\n- **Supporting Tools**: Prototype creation, zooming out for context",
         "role": "origin"
       }
     ],
@@ -4194,10 +4194,10 @@
           }
         ],
         "createdAt": "2026-05-21",
-        "updatedAt": "2026-05-21",
+        "updatedAt": "2026-06-04",
         "suiteRef": "mattpocock/productivity",
         "type": "extra",
-        "installBody": "Add installation instructions here.",
+        "installBody": "This skill is included in the Matt Pocock skills suite:\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required.\n\n### Core Purpose\n\nEnables seamless agent transitions by creating a summary document that allows a fresh agent to continue work without losing context.\n\n### Key Setup Requirements\n\n1. **Output Location** — Save handoff documents to the OS temporary directory, not the current workspace\n2. **Content Optimization** — Avoid duplicating information already captured in artifacts (PRDs, plans, ADRs, issues, commits, diffs). Reference them instead.\n3. **Security** — Redact sensitive data including API keys, passwords, and PII\n\n### Document Structure\n\nThe handoff document includes:\n\n- **Conversation Summary** — Key decisions, progress, and current status\n- **Suggested Skills Section** — List tools/capabilities the next agent should invoke\n- **References** — Links or paths to existing artifacts rather than redundant content\n- **Focus Area** — If user-provided arguments exist, tailor the document around those priorities\n\n### Usage Workflow\n\nWhen initiating a handoff:\n\n1. Provide context about what the next session will address (optional arguments)\n2. The protocol automatically compacts the conversation into a portable summary\n3. The document is saved to a temporary location accessible across sessions\n4. The next agent uses this document to resume work efficiently\n\nThis approach maintains continuity while keeping documentation DRY and security-conscious.",
         "role": "variant"
       }
     ],
@@ -4255,10 +4255,10 @@
           }
         ],
         "createdAt": "2026-05-21",
-        "updatedAt": "2026-05-21",
+        "updatedAt": "2026-06-04",
         "suiteRef": "mattpocock/personal",
         "type": "extra",
-        "installBody": "Add installation instructions here.",
+        "installBody": "This skill is included in the Matt Pocock skills suite:\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required.\n\n### Setup Requirements\n\nThe vault maintains \"a mostly flat structure at root level\" without folder-based organization.\n\nConfigure your Obsidian vault path as part of the personal knowledge management setup.\n\n### How to Use\n\n**Naming & Structure:**\n- All notes use **Title Case** formatting\n- Index notes aggregate related topics (example: \"RAG Index.md\")\n- Organization relies on **wikilinks** rather than folders\n\n**Linking Convention:**\n- Use \"Obsidian `[[wikilinks]]` syntax\" for related notes\n- List dependencies and connected notes at the bottom of each note\n\n### Core Operations\n\n**1. Searching notes** — Use find commands for filenames or grep to search content across markdown files\n\n**2. Creating notes** — Write content as a self-contained learning unit:\n   - Add wikilinks to related topics\n   - Apply title case to filenames\n   - Include backlinks at the bottom\n\n**3. Finding connections** — Search for backlinks by grepping for specific `[[Note Title]]` references throughout the vault\n\n**4. Locating indexes** — Use find commands to identify all `*Index*` files that serve as topic aggregators\n\n### Key Principle\n\nThe system prioritizes **interconnected content discovery** through wikilinks over hierarchical folder structures. This creates a web of related information accessible from any note.",
         "role": "variant"
       }
     ],
@@ -4274,14 +4274,14 @@
         "description": "Personal category suite for Matt Pocock's skills.",
         "title": "The Matt Pocock Personal Suite",
         "createdAt": "2026-05-21",
-        "updatedAt": "2026-05-21",
+        "updatedAt": "2026-06-04",
         "suiteRef": "mattpocock/skills",
         "suiteComponents": [
           "mattpocock/edit-article",
           "mattpocock/obsidian-vault"
         ],
         "type": "extra",
-        "installBody": "Add installation instructions here.",
+        "installBody": "Install the full Matt Pocock skills suite with:\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\n### What's Included\n\nTwo custom skills for personal knowledge management:\n\n1. **edit-article** — Refine written content: restructure sections, improve clarity, tighten prose\n2. **obsidian-vault** — Search, create, and manage notes in an Obsidian vault with wikilinks and index notes\n\nNo additional setup required beyond the main suite installation.",
         "role": "origin"
       }
     ],
@@ -4297,7 +4297,7 @@
         "description": "Productivity category suite for Matt Pocock's skills.",
         "title": "The Matt Pocock Productivity Suite",
         "createdAt": "2026-05-21",
-        "updatedAt": "2026-05-21",
+        "updatedAt": "2026-06-04",
         "suiteRef": "mattpocock/skills",
         "suiteComponents": [
           "mattpocock/caveman",
@@ -4306,7 +4306,7 @@
           "mattpocock/write-a-skill"
         ],
         "type": "extra",
-        "installBody": "Add installation instructions here.",
+        "installBody": "Install the full Matt Pocock skills suite with:\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\n### What's Included\n\nFour productivity tools for general workflow optimization:\n\n1. **caveman** — Ultra-compressed communication mode (~75% token reduction)\n2. **grill-me** — Intensive questioning sessions to fully resolve decisions\n3. **handoff** — Compress conversations for agent-to-agent handoffs\n4. **write-a-skill** — Create new skills with proper structure and resources\n\nNo additional setup required beyond the main suite installation.",
         "role": "origin"
       }
     ],
@@ -4334,10 +4334,10 @@
           }
         ],
         "createdAt": "2026-05-21",
-        "updatedAt": "2026-05-21",
+        "updatedAt": "2026-06-04",
         "suiteRef": "mattpocock/engineering",
         "type": "extra",
-        "installBody": "Add installation instructions here.",
+        "installBody": "This skill is included in the Matt Pocock skills suite:\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required.\n\n### How to Use\n\n**Step 1 — Identify your question**\n\nDetermine whether you're validating logic/state or exploring UI design.\n\n**Step 2 — Choose your branch:**\n\n- Logic questions → Build a terminal app testing the state machine\n- UI questions → Create multiple design variations on one route\n\n**Step 3 — Run with one command**\n\nUse your project's existing task runner (e.g., `pnpm`, `python`, `bun`).\n\n**Step 4 — Location matters**\n\nPlace prototype code near the actual module or page it tests, with a clear \"prototype\" label in the filename.\n\n### During Prototyping\n\n- Keep state in memory (no persistence unless testing a database specifically)\n- Skip polish — no tests or error handling beyond what's needed to run\n- Display full state after each action so changes are visible\n\n### When Finished\n\n- Capture the answer in a durable location\n- Document what question was answered\n- Delete the prototype or integrate validated decisions into production code\n- Don't leave prototype code rotting in the repository\n\n**Key principle:** The goal is learning fast, then deletion — not building production-ready code.",
         "role": "variant"
       }
     ],
@@ -4365,10 +4365,10 @@
           }
         ],
         "createdAt": "2026-05-21",
-        "updatedAt": "2026-05-21",
+        "updatedAt": "2026-06-04",
         "suiteRef": "mattpocock/engineering",
         "type": "extra",
-        "installBody": "Add installation instructions here.",
+        "installBody": "This skill is automatically available after installing the Matt Pocock skills suite:\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\n### Setup Process\n\nRun this skill in your agent to configure foundational documents:\n\n```\nInvoke: /setup-matt-pocock-skills\n```\n\n### What This Skill Does\n\n**Step 1 — Explore:** Reads your repository state via:\n- `git remote -v` and `.git/config` (GitHub/GitLab detection)\n- `AGENTS.md` and `CLAUDE.md` (existing config)\n- `CONTEXT.md`, `CONTEXT-MAP.md`, and `docs/adr/` (domain docs)\n- `docs/agents/` (prior output)\n- `.scratch/` (local-markdown indicator)\n\n**Step 2 — Present & Decide (one at a time):**\n- **Issue Tracker** — GitHub Issues, GitLab Issues, local markdown, or other\n- **Triage Labels** — Map five roles to your label vocabulary\n- **Domain Docs** — Confirm single-context or multi-context layout\n\n**Step 3 — Review & Edit:** Approve or modify draft output\n\n**Step 4 — Write:** Updates or creates:\n- `## Agent skills` block in `CLAUDE.md` or `AGENTS.md`\n- `docs/agents/issue-tracker.md`, `docs/agents/triage-labels.md`, `docs/agents/domain.md`\n\n**Step 5 — Complete:** Done. Later manual edits to `docs/agents/*.md` don't require re-running.\n\n### When to Run\n\n- Before first use of downstream engineering skills\n- If those skills lack context about your issue tracker, triage labels, or domain docs\n- When switching issue trackers or restarting configuration",
         "role": "variant"
       }
     ],
@@ -8196,7 +8196,7 @@
         "github": "https://github.com/langgenius/dify/blob/main/.agents/skills/backend-code-review/SKILL.md"
       },
       "createdAt": "2026-05-31",
-      "updatedAt": "2026-05-31",
+      "updatedAt": "2026-06-04",
       "timeline": [
         {
           "timestamp": "2026-05-31T02:06:53Z",
@@ -8206,7 +8206,7 @@
         }
       ],
       "type": "extra",
-      "installBody": "Add installation instructions here."
+      "installBody": "No additional setup required. This skill is built into the Dify agent framework.\n\n### Prerequisites\n\n- Access to backend code files in the `api/` directory\n- Python files (`.py` extension) for review\n- Optional: Git staging area for pending changes to review\n\n### How to Use\n\n**Request a code review** by asking the agent to analyze backend code:\n\n```\n\"Review this Python function for security issues\"\n\"Analyze api/app.py for best practices\"\n\"Check my pending changes for quality concerns\"\n```\n\n**Review Modes:**\n\n1. **Pending-Change Review** — Agent inspects staged/working-tree files ready for commit\n2. **Code Snippet Review** — Paste function, class, or module excerpts directly\n3. **File-Focused Review** — Reference specific backend files (e.g., `api/models/user.py`)\n\n### What Gets Checked\n\n- Database schema design (`api/models/`, `api/migrations/`)\n- Architecture patterns (layering, dependency flow)\n- Repository abstraction (CRUD operations)\n- SQLAlchemy patterns (sessions, transactions)\n- General best practices if no specific checklist matches\n\n### Output Format\n\nReviews are categorized as:\n- 🔴 **Critical** (must fix)\n- 🟡 **Suggestions** (should consider)\n- 🟢 **Nits** (optional improvements)\n\nEach finding includes file path, line numbers, explanation, and actionable code fix."
     },
     {
       "id": "langgenius/component-refactoring",
@@ -8221,7 +8221,7 @@
         "github": "https://github.com/langgenius/dify/blob/main/.agents/skills/component-refactoring/SKILL.md"
       },
       "createdAt": "2026-05-31",
-      "updatedAt": "2026-05-31",
+      "updatedAt": "2026-06-04",
       "timeline": [
         {
           "timestamp": "2026-05-31T02:07:12Z",
@@ -8231,7 +8231,7 @@
         }
       ],
       "type": "basic",
-      "installBody": "Add installation instructions here."
+      "installBody": "No additional setup required. This skill uses Dify's existing frontend toolchain.\n\n### Prerequisites\n\n- Access to Dify frontend codebase (`web/` directory)\n- Node.js environment with `pnpm` package manager\n- Basic understanding of React hooks and component architecture\n\n### Quick Start\n\nNavigate to the web directory and verify component metrics:\n\n```bash\ncd web\npnpm analyze-component <path>\npnpm analyze-component <path> --json\n```\n\n### How to Use\n\n**Request refactoring analysis** when you have high-complexity components:\n\n```bash\npnpm refactor-component <path>\npnpm refactor-component <path> --json\n```\n\nThe `--json` flag outputs structured data for programmatic use.\n\n### Complexity Thresholds\n\n| Score | Status | Recommendation |\n|-------|--------|-----------------|\n| 0-25 | ✅ Simple | Ready to test |\n| 26-50 | ⚠️ Medium | Minor refactoring optional |\n| 51-75 | ⛔ Complex | Refactor before testing |\n| 76-100 | ⛔ Critical | Must refactor |\n\n**Apply refactoring when:**\n- Complexity score exceeds 50 (on a 0-100 scale)\n- Line count surpasses 300\n- Users request code splitting or hook extraction\n- Tools warn to refactor before testing"
     },
     {
       "id": "langgenius/e2e-cucumber-playwright",
@@ -8246,7 +8246,7 @@
         "github": "https://github.com/langgenius/dify/blob/main/.agents/skills/e2e-cucumber-playwright/SKILL.md"
       },
       "createdAt": "2026-05-31",
-      "updatedAt": "2026-05-31",
+      "updatedAt": "2026-06-04",
       "timeline": [
         {
           "timestamp": "2026-05-31T02:07:01Z",
@@ -8256,7 +8256,7 @@
         }
       ],
       "type": "extra",
-      "installBody": "Add installation instructions here."
+      "installBody": "No additional setup required beyond accessing the Dify E2E test suite.\n\n### Prerequisites\n\n- Access to the Dify repository\n- Node.js and pnpm installed\n- Familiarity with Cucumber, Gherkin syntax, and Playwright\n\n### Validation\n\nValidate your E2E test configuration and changes:\n\n```bash\npnpm -C e2e check\n```\n\n### How to Use\n\n**Start here:** Read `e2e/AGENTS.md` for the canonical guide on local architecture and conventions.\n\n**Then examine these files in order:**\n\n1. Target `.feature` files under `e2e/features/`\n2. Related step definitions in `e2e/features/step-definitions/`\n3. Session and state files: `hooks.ts` and `world.ts` (if lifecycle matters)\n4. Execution config: `run-cucumber.ts` and `cucumber.config.ts` (if tags or flow matter)\n\n### Writing Scenarios\n\n- Use Behavior-Driven Development (BDD) syntax with Given-When-Then structure\n- Reuse existing step definitions when possible\n- Prefer user-facing locators over implementation details\n- Validate narrowly before broadening verification\n- Reference Playwright best practices for locators, assertions, and waiting strategies\n\n### Key Principles\n\n- Keep scenarios readable and business-focused\n- Maintain step definition reusability\n- Test user workflows, not implementation details\n- Use Cucumber best practices for scenario wording and step design"
     },
     {
       "id": "langgenius/frontend-code-review",
@@ -8271,7 +8271,7 @@
         "github": "https://github.com/langgenius/dify/blob/main/.agents/skills/frontend-code-review/SKILL.md"
       },
       "createdAt": "2026-05-31",
-      "updatedAt": "2026-05-31",
+      "updatedAt": "2026-06-04",
       "timeline": [
         {
           "timestamp": "2026-05-31T02:06:56Z",
@@ -8281,7 +8281,7 @@
         }
       ],
       "type": "extra",
-      "installBody": "Add installation instructions here."
+      "installBody": "No additional setup required. This skill integrates with Dify's review framework.\n\n### Prerequisites\n\n- Access to frontend source files (`.tsx`, `.ts`, `.js`)\n- Reference documentation at `references/code-quality.md`, `references/performance.md`, and `references/business-logic.md`\n- A code editor or repository with staged/working changes visible\n\n### How to Use\n\n**Request a frontend code review:**\n\n```\n\"Review my frontend code\"\n\"Check this .tsx file for issues\"\n\"Review my pending changes\"\n```\n\n### Review Modes\n\n1. **Pending-change review** — Analyze staged or working-tree files ready for commit\n2. **File-targeted review** — Review specific files you name\n\n### What Gets Checked\n\nThe agent examines:\n- Component/module structure and class names\n- React hooks and prop memoization\n- Styling consistency and organization\n- Cross-referenced against three categories:\n  - **Code Quality** — best practices, readability\n  - **Performance** — bundle size, rendering efficiency\n  - **Business Logic** — requirements compliance\n\n### Output Format\n\nIssues are organized by:\n1. **Urgency** (critical, suggestions, nits)\n2. **Category** (quality, performance, business logic)\n3. **Details** (code snippets and fix suggestions)\n\nMaximum 10 findings per category; excess results summarize as \"10+\""
     },
     {
       "id": "langgenius/frontend-testing",
@@ -8296,7 +8296,7 @@
         "github": "https://github.com/langgenius/dify/blob/main/.agents/skills/frontend-testing/SKILL.md"
       },
       "createdAt": "2026-05-31",
-      "updatedAt": "2026-05-31",
+      "updatedAt": "2026-06-04",
       "timeline": [
         {
           "timestamp": "2026-05-31T02:07:08Z",
@@ -8306,7 +8306,7 @@
         }
       ],
       "type": "extra",
-      "installBody": "Add installation instructions here."
+      "installBody": "No additional setup required. Vitest and React Testing Library are pre-configured in Dify.\n\n### Prerequisites\n\n- Node.js and pnpm package manager\n- Access to the Dify repository\n- Familiarity with React and TypeScript\n\n### Quick Start\n\nThe test infrastructure is pre-configured in your Dify workspace:\n\n- **Test runner**: Vitest (configured in `web/vite.config.ts`)\n- **Testing library**: React Testing Library\n- **Setup file**: `web/vitest.setup.ts` (includes global mocks)\n\n### Core Commands\n\nRun from the `web/` directory. From repo root, prefix with `pnpm -C web`:\n\n```bash\n# Execute all tests\npnpm test\n\n# Watch mode for active development\npnpm test --watch\n\n# Run a specific test file\npnpm test path/to/file.spec.tsx\n\n# Generate coverage report\npnpm test --coverage\n\n# Analyze component complexity before testing\npnpm analyze-component <path>\n```\n\n### How to Use This Skill\n\n**Apply when you:**\n- Write or review frontend component/hook/utility tests\n- Work with Vitest, React Testing Library, or spec files\n- Improve test coverage\n- Follow testing patterns in Dify\n\n**Do NOT apply for:**\n- Backend/Python tests\n- E2E tests (Cucumber + Playwright)\n- Conceptual questions without code\n\n### Key Resource\n\nRefer to `web/docs/test.md` for complete specifications and patterns."
     },
     {
       "id": "pexp13/sentiment-analysis",
