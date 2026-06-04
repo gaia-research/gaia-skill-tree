@@ -3759,9 +3759,6 @@
           "cost-optimization",
           "unique"
         ],
-        "links": {
-          "github": "https://github.com/codefuse-ai/ModelCache"
-        },
         "evidence": [
           {
             "class": "B",
@@ -3772,16 +3769,40 @@
           }
         ],
         "createdAt": "2026-05-15",
-        "updatedAt": "2026-06-02",
+        "updatedAt": "2026-06-05",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:48:18Z",
             "action": "demote",
             "contributor": "unknown",
             "details": "Calibrated level from 4★ to 1★"
+          },
+          {
+            "timestamp": "2026-06-04T20:30:47Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/codefuse-ai/ModelCache/blob/main/README.md"
+          },
+          {
+            "timestamp": "2026-06-04T20:30:53Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 1★ to 4★"
+          },
+          {
+            "timestamp": "2026-06-04T20:34:01Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Set installable to false"
+          },
+          {
+            "timestamp": "2026-06-04T20:34:03Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 4★ to 1★"
           }
         ],
-        "type": "unique",
+        "type": "basic",
         "role": "variant"
       }
     ],
@@ -6424,7 +6445,7 @@
         "origin": true,
         "genericSkillRef": "distributed-consensus-coordination",
         "status": "named",
-        "level": "1★",
+        "level": "4★",
         "description": "Queen-led collective intelligence with Byzantine, majority, and weighted consensus mechanisms, eight worker specializations, and persistent collective SQLite memory with LRU caching.",
         "title": "Queen Seraphina's Hive",
         "tags": [
@@ -6435,7 +6456,7 @@
           "memory"
         ],
         "links": {
-          "github": "https://github.com/ruvnet/ruflo"
+          "github": "https://github.com/ruvnet/ruflo/blob/main/.agents/skills/hive-mind/SKILL.md"
         },
         "evidence": [
           {
@@ -6447,13 +6468,25 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-02",
+        "updatedAt": "2026-06-05",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:48:22Z",
             "action": "demote",
             "contributor": "unknown",
             "details": "Calibrated level from 4★ to 1★"
+          },
+          {
+            "timestamp": "2026-06-04T20:30:49Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/ruvnet/ruflo/blob/main/.agents/skills/hive-mind/SKILL.md"
+          },
+          {
+            "timestamp": "2026-06-04T20:30:55Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 1★ to 4★"
           }
         ],
         "suiteRef": "ruvnet/ruflo",

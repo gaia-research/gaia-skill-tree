@@ -52,7 +52,7 @@
 | ◇ [garrytan](../docs/u/garrytan/)/canary | Extra Skill | 4★ | `/detect-anomaly` |
 | ○ /diff-content | Basic Skill | — | `/diff-content` |
 | ◇ [obra](../docs/u/obra/)/dispatching-parallel-agents | Extra Skill | 4★ | `/dispatching-parallel-agents` |
-| ◉ [ruvnet](../docs/u/ruvnet/)/hive-mind-coordination | Unique Skill | — | `/distributed-consensus-coordination` |
+| ◉ [ruvnet](../docs/u/ruvnet/)/hive-mind-coordination | Unique Skill | 4★ | `/distributed-consensus-coordination` |
 | ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus-neural | Extra Skill | — | `/distributed-neural-training` |
 | ◇ [ruvnet](../docs/u/ruvnet/)/agentdb-advanced | Extra Skill | — | `/distributed-vector-memory` |
 | ◇ /document-analyst | Extra Skill | — | `/document-analyst` |
@@ -164,7 +164,6 @@
 | ◇ /search-engine-optimization | Extra Skill | — | `/search-engine-optimization` |
 | ◇ [garrytan](../docs/u/garrytan/)/cso | Extra Skill | 4★ | `/security-audit` |
 | ○ /self-critique | Basic Skill | — | `/self-critique` |
-| ◉ [huggingface](../docs/u/huggingface/)/semantic-cache | Unique Skill | — | `/semantic-cache` |
 | ○ /sentiment-analysis | Basic Skill | — | `/sentiment-analysis` |
 | ◇ [garrytan](../docs/u/garrytan/)/skillify | Extra Skill | 4★ | `/skill-authoring` |
 | ○ [vercel](../docs/u/vercel/)/find-skills | Basic Skill | 2★ | `/skill-discovery` |
@@ -221,8 +220,7 @@
 
 | Name | Class | Top ★ | Skill Call |
 |---|---|---|---|
-| ◉ [ruvnet](../docs/u/ruvnet/)/hive-mind-coordination | Unique Skill | — | `/distributed-consensus-coordination` |
-| ◉ [huggingface](../docs/u/huggingface/)/semantic-cache | Unique Skill | — | `/semantic-cache` |
+| ◉ [ruvnet](../docs/u/ruvnet/)/hive-mind-coordination | Unique Skill | 4★ | `/distributed-consensus-coordination` |
 
 ## Basics
 
@@ -242,6 +240,7 @@
 | ○ Probabilistic Programming | Intrinsic Skill | — | `/probabilistic-programming` |
 | ○ Reward Modeling | Intrinsic Skill | — | `/reward-modeling` |
 | ○ Self-Consistency | Intrinsic Skill | 2★ | `/self-consistency` |
+| ○ Semantic Cache | Intrinsic Skill | — | `/semantic-cache` |
 | ○ Sequential Agent Pipeline | Intrinsic Skill | 2★ | `/sequential-agent-pipeline` |
 | ○ Synthetic Data Generation | Intrinsic Skill | — | `/synthetic-data-generation` |
 | ○ Test-Driven Development | Intrinsic Skill | 3★ | `/test-driven-development` |
