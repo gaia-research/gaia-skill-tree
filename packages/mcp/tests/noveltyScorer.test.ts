@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { scoreNovelty } from "../src/advisor/noveltyScorer.js";
+import { scoreNovelty, noveltyScorer } from "../src/advisor/noveltyScorer.js";
 import type { GaiaGraph } from "../src/graph/types.js";
 
 const mockGraph: GaiaGraph = {
@@ -30,5 +30,14 @@ describe("noveltyScorer", () => {
     const result = scoreNovelty("summarizes text content into brief overviews", mockGraph);
     expect(result.closestMatch).not.toBeNull();
     expect(result.closestMatch!.similarity).toBeGreaterThan(0);
+  });
+
+  it("scores novelty from AdvisorContext project signals", () => {
+    const result = noveltyScorer.analyze({
+      graph: mockGraph,
+      projectSignals: ["summarizes text content into brief overviews"],
+    });
+
+    expect(result.closestMatch?.id).toBe("summarize");
   });
 });
