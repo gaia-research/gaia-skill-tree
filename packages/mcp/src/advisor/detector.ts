@@ -1,3 +1,5 @@
+import { AbstractAdvisor, type AdvisorContext } from "./types.js";
+
 const TOOL_SKILL_MAP: Record<string, string[]> = {
   web_search: ["web-search"],
   brave_search: ["web-search"],
@@ -51,6 +53,13 @@ const TOOL_SKILL_MAP: Record<string, string[]> = {
   reference: ["cite-sources"],
 };
 
+export interface SkillDetectionResult {
+  fromTools: string[];
+  fromSignals: string[];
+  allDetected: string[];
+  context: AdvisorContext;
+}
+
 const PATTERN_MAP: Array<[RegExp, string[]]> = [
   [/embed/i, ["embed-text"]],
   [/chunk/i, ["chunk-document"]],
@@ -67,7 +76,7 @@ const PATTERN_MAP: Array<[RegExp, string[]]> = [
   [/format/i, ["format-output"]],
 ];
 
-export function detectSkillsFromTools(toolNames: string[]): string[] {
+function detectSkillsFromToolNames(toolNames: string[]): string[] {
   const detected = new Set<string>();
 
   for (const tool of toolNames) {
@@ -89,7 +98,7 @@ export function detectSkillsFromTools(toolNames: string[]): string[] {
   return [...detected];
 }
 
-export function detectSkillsFromSignals(signals: string[]): string[] {
+function detectSkillsFromSignalText(signals: string[]): string[] {
   const detected = new Set<string>();
   const joined = signals.join(" ").toLowerCase();
 
@@ -100,4 +109,40 @@ export function detectSkillsFromSignals(signals: string[]): string[] {
   }
 
   return [...detected];
+}
+
+export class SkillDetector extends AbstractAdvisor<SkillDetectionResult> {
+  constructor() {
+    super("skill-detector");
+  }
+
+  analyze(context: AdvisorContext): SkillDetectionResult {
+    const fromTools = detectSkillsFromToolNames(context.connectedTools ?? []);
+    const fromSignals = detectSkillsFromSignalText(context.projectSignals ?? []);
+    const allDetected = this.dedupe([
+      ...this.detectedSkillIds(context),
+      ...fromTools,
+      ...fromSignals,
+    ]);
+
+    return {
+      fromTools,
+      fromSignals,
+      allDetected,
+      context: {
+        ...context,
+        detectedSkillIds: allDetected,
+      },
+    };
+  }
+}
+
+export const skillDetector = new SkillDetector();
+
+export function detectSkillsFromTools(toolNames: string[]): string[] {
+  return skillDetector.analyze({ connectedTools: toolNames }).fromTools;
+}
+
+export function detectSkillsFromSignals(signals: string[]): string[] {
+  return skillDetector.analyze({ projectSignals: signals }).fromSignals;
 }

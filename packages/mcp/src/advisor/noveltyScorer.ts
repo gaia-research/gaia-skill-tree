@@ -1,4 +1,5 @@
 import type { GaiaGraph } from "../graph/types.js";
+import { AbstractAdvisor, type AdvisorContext } from "./types.js";
 
 function tokenize(text: string): Set<string> {
   return new Set(
@@ -25,10 +26,7 @@ export interface NoveltyResult {
   confidence: number;
 }
 
-export function scoreNovelty(
-  description: string,
-  graph: GaiaGraph
-): NoveltyResult {
+function scoreNoveltyDescription(description: string, graph: GaiaGraph): NoveltyResult {
   const queryTokens = tokenize(description);
   let bestMatch: { id: string; name: string; similarity: number } | null = null;
   let bestScore = 0;
@@ -47,4 +45,24 @@ export function scoreNovelty(
     closestMatch: bestMatch,
     confidence: bestScore < 0.1 ? 0.9 : bestScore < 0.2 ? 0.7 : bestScore < 0.3 ? 0.5 : 0.2,
   };
+}
+
+export class NoveltyScorer extends AbstractAdvisor<NoveltyResult> {
+  constructor() {
+    super("novelty-scorer");
+  }
+
+  analyze(context: AdvisorContext): NoveltyResult {
+    const description = context.proposedDescription ?? context.projectSignals?.join(" ") ?? "";
+    return scoreNoveltyDescription(description, this.requireGraph(context));
+  }
+}
+
+export const noveltyScorer = new NoveltyScorer();
+
+export function scoreNovelty(
+  description: string,
+  graph: GaiaGraph
+): NoveltyResult {
+  return noveltyScorer.analyze({ graph, proposedDescription: description });
 }

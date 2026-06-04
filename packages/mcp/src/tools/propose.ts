@@ -1,7 +1,7 @@
 import { loadGraph, loadUserTree } from "../graph/loader.js";
 import { resolveIdentity } from "../config/identity.js";
 import { createPullRequest } from "../utils/github.js";
-import { scoreNovelty } from "../advisor/noveltyScorer.js";
+import { noveltyScorer } from "../advisor/noveltyScorer.js";
 import type { UserSkillTree, Skill, GaiaGraph } from "../graph/types.js";
 
 interface ProposeInput {
@@ -99,7 +99,10 @@ async function proposeNovel(
   token: string,
   graph: GaiaGraph
 ): Promise<string> {
-  const novelty = scoreNovelty(input.description!, graph);
+  const novelty = noveltyScorer.analyze({
+    graph,
+    proposedDescription: input.description!,
+  });
 
   if (!novelty.isNovel && novelty.closestMatch) {
     return `This skill closely matches existing skill **${novelty.closestMatch.name}** (${Math.round(novelty.closestMatch.similarity * 100)}% similar). Did you mean to fuse "${novelty.closestMatch.id}" instead? If this is genuinely different, rephrase the description to be more specific.`;

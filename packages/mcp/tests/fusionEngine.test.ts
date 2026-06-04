@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { detectCombinations } from "../src/advisor/fusionEngine.js";
+import { detectCombinations, fusionEngine } from "../src/advisor/fusionEngine.js";
 import type { GaiaGraph } from "../src/graph/types.js";
 
 const mockGraph: GaiaGraph = {
@@ -71,5 +71,15 @@ describe("fusionEngine", () => {
     const result = detectCombinations(mockGraph, [], ["summarize"]);
     const ready = result.filter((c) => c.status === "ready");
     expect(ready).toHaveLength(0);
+  });
+
+  it("reads graph, owned skills, and detected skills from AdvisorContext", () => {
+    const result = fusionEngine.analyze({
+      graph: mockGraph,
+      ownedSkillIds: ["web-search", "summarize"],
+      detectedSkillIds: ["cite-sources"],
+    });
+
+    expect(result.some((c) => c.candidateResult === "research" && c.status === "ready")).toBe(true);
   });
 });
