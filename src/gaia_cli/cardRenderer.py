@@ -697,7 +697,7 @@ def render_promotion_prompt(skill_data: dict, proposed_level: str, canon: bool =
         f"  {gc}┌─ Promotion Available ─────────────────────────────────┐{r}",
         f"  {gc}│{r}  {display_colored} can rank up to {b}Level {proposed_level}{r} ({level_name})",
         f"  {gc}│{r}  Run: {b}gaia promote {skill_id}{r}",
-        f"  {gc}│{r}  Rename? {b}gaia promote {skill_id} --name \"{display}\"{r}",
+        f"  {gc}│{r}  Rename? {b}gaia promote {skill_id} --name \"{display.lstrip('/')}\"{r}",
         f"  {gc}└───────────────────────────────────────────────────────┘{r}",
         "",
     ])
