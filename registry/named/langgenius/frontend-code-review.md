@@ -8,7 +8,7 @@ status: awakened
 level: 2★
 description: Trigger when the user requests a review of frontend files.
 createdAt: '2026-05-31'
-updatedAt: '2026-05-31'
+updatedAt: '2026-06-04'
 links:
   github: https://github.com/langgenius/dify/blob/main/.agents/skills/frontend-code-review/SKILL.md
 timeline:
@@ -19,4 +19,46 @@ timeline:
 ---
 
 ## Installation
-Add installation instructions here.
+
+No additional setup required. This skill integrates with Dify's review framework.
+
+### Prerequisites
+
+- Access to frontend source files (`.tsx`, `.ts`, `.js`)
+- Reference documentation at `references/code-quality.md`, `references/performance.md`, and `references/business-logic.md`
+- A code editor or repository with staged/working changes visible
+
+### How to Use
+
+**Request a frontend code review:**
+
+```
+"Review my frontend code"
+"Check this .tsx file for issues"
+"Review my pending changes"
+```
+
+### Review Modes
+
+1. **Pending-change review** — Analyze staged or working-tree files ready for commit
+2. **File-targeted review** — Review specific files you name
+
+### What Gets Checked
+
+The agent examines:
+- Component/module structure and class names
+- React hooks and prop memoization
+- Styling consistency and organization
+- Cross-referenced against three categories:
+  - **Code Quality** — best practices, readability
+  - **Performance** — bundle size, rendering efficiency
+  - **Business Logic** — requirements compliance
+
+### Output Format
+
+Issues are organized by:
+1. **Urgency** (critical, suggestions, nits)
+2. **Category** (quality, performance, business logic)
+3. **Details** (code snippets and fix suggestions)
+
+Maximum 10 findings per category; excess results summarize as "10+"
