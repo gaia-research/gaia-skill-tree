@@ -1,5 +1,13 @@
 name: Publish gaia-cli to PyPI
 
+# Triggers:
+#   • push tag v*       — legacy path (only fires for human/PAT-pushed tags).
+#   • workflow_dispatch — MANUAL PUBLISH. Actions tab → "Publish gaia-cli to
+#     PyPI" → Run workflow, and pick the branch *or tag* to build from. It
+#     builds whatever version is in pyproject.toml at that ref, so you can
+#     publish a specific past version by selecting its tag (e.g. v3.30.0).
+#   Automated production publishes are dispatched here by sync-artifacts.yml
+#   on MAJOR bumps (see CONTEXT.md § Release Channels).
 on:
   push:
     tags:

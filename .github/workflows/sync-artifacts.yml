@@ -59,11 +59,26 @@ jobs:
 
       - name: Auto-Versioning and Regeneration
         run: |
-          # 1. Classify bump type from commit message
+          # 1. Classify bump type from commit message → release channel.
+          #    See CONTEXT.md § Release Channels for the full contract:
+          #      major  → production (published to PyPI, GitHub Release = latest)
+          #      minor  → beta       (GitHub pre-release only)
+          #      patch  → canary     (GitHub pre-release only)
           MSG=$(git log -1 --format=%B)
           BUMP="patch"
           if echo "$MSG" | grep -Eq 'BREAKING CHANGE|^[a-zA-Z]+(\([^)]*\))?!:'; then BUMP="major"; fi
           if echo "$MSG" | grep -Eq '^feat(\([^)]*\))?:'; then BUMP="minor"; fi
+
+          case "$BUMP" in
+            major) CHANNEL="production" ;;
+            minor) CHANNEL="beta" ;;
+            *)     CHANNEL="canary" ;;
+          esac
+
+          # Export for later steps (GitHub Release labeling + PyPI gating).
+          echo "GAIA_BUMP=$BUMP" >> "$GITHUB_ENV"
+          echo "GAIA_CHANNEL=$CHANNEL" >> "$GITHUB_ENV"
+          echo "Bump: $BUMP → channel: $CHANNEL"
 
           # 2. Apply version bump and regenerate artifacts via CLI
           # We use --no-push because gaia release uses GITHUB_TOKEN by default,
@@ -161,24 +176,37 @@ jobs:
             git push origin "${TAG}" || echo "::warning::Could not push ${TAG}; release may target an existing tag."
           fi
 
+          # Channel labeling: only production (major) is marked --latest; beta
+          # (minor) and canary (patch) are GitHub pre-releases. See CONTEXT.md.
+          if [ "${GAIA_CHANNEL}" = "production" ]; then
+            CHANNEL_FLAGS="--latest"
+          else
+            CHANNEL_FLAGS="--prerelease --latest=false"
+          fi
+
           if gh release view "${TAG}" --json tagName -q .tagName &>/dev/null; then
             echo "Release ${TAG} already exists — skipping."
           else
-            gh release create "${TAG}" --title "${TAG}" --generate-notes --latest
-            echo "Created GitHub Release ${TAG}."
+            gh release create "${TAG}" \
+              --title "${TAG} (${GAIA_CHANNEL})" \
+              --generate-notes \
+              $CHANNEL_FLAGS
+            echo "Created GitHub Release ${TAG} on the ${GAIA_CHANNEL} channel."
           fi
 
       - name: Publish to PyPI
+        # Production channel only: PyPI publishes happen on MAJOR bumps. beta and
+        # canary stay as GitHub pre-releases (install from a tag/source instead).
         # publish-pypi.yml keys off `on: push tags: v*`, which never fires for a
         # tag pushed by an automation token (same limitation that broke Releases)
-        # — so PyPI silently fell behind the tags. workflow_dispatch DOES start a
-        # workflow from a running job (with `actions: write`), so dispatch it here
-        # against the just-pushed default-branch commit (carrying the new version).
+        # — so we dispatch it via workflow_dispatch, which DOES start a workflow
+        # from a running job (with `actions: write`).
+        if: env.GAIA_CHANNEL == 'production'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh workflow run publish-pypi.yml --ref "${GITHUB_REF_NAME}" \
-            && echo "Dispatched publish-pypi.yml for ${GITHUB_REF_NAME}." \
+            && echo "Dispatched publish-pypi.yml (production) for ${GITHUB_REF_NAME}." \
             || echo "::warning::Could not dispatch publish-pypi.yml — publish PyPI manually if needed."
 
       - name: Sync Wiki Pages
