@@ -1761,7 +1761,9 @@ def get_parser():
     dev_update_named.add_argument('--installation-file', metavar='PATH', help="Path to a markdown file whose content replaces the '## Installation' section in the capstone skill.")
     dev_update_named.add_argument('--origin', choices=['true', 'false'], help="Set the origin flag to true or false")
     dev_update_named.add_argument('--github-link', help="New GitHub URL link for the named skill (must be a blob link for 3★+)")
+    dev_update_named.add_argument('--installable', choices=['true', 'false'], help="Set the installable flag to true or false")
     dev_update_named.add_argument('--no-build', action='store_true', help="Skip rebuilding docs and graph assets after updating")
+
 
 
     dev_timeline = dev_sub.add_parser('timeline', help="Append a standalone event to a skill's or user tree's timeline")
