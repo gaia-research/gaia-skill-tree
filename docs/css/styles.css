@@ -297,7 +297,7 @@ body {
 }
 
 /* ── NAV ── */
-nav {
+nav:not(.footer-cols) {
   position: fixed;
   top: 0;
   left: 0;
