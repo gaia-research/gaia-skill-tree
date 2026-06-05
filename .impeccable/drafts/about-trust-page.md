@@ -1,0 +1,427 @@
+# About Trust Page — Design Draft
+
+**Target path:** `docs/about.html`  
+**Status:** Draft — ready to drop in and link from nav + footer  
+**Register:** Brand (trust/provenance surface, not marketing)
+
+---
+
+## Design rationale
+
+The page answers one skeptic's question: "Who is behind this, and will it still exist in five years?" It answers with structure and provenance, not promises.
+
+**Identity treatment.** Role-first: the plate opens with *Founder & Maintainer — Gaia* in mono, then the full name in EB Garamond display, then the handle in Honor Red. Same visual weight as a named-skill attribution plaque — because that is what this is.
+
+**Voice.** Half-Merged throughout. Canonical labels (registry, named skill, origin contributor, evidence, timeline, schema) carry the meaning. Ceremonial weight (the ledger, the record, the tradition) carries the tone. No hype, no superlatives, no marketing cadence.
+
+**Layout.** Single column, max ~65ch body width. Section headings in EB Garamond. Body in Bricolage Grotesque. The trust pillar section uses a `<dl>` with a small ◆ bullet-prefix — not cards, not a side-stripe callout box, not a metric grid.
+
+**Motion.** One entrance animation (`ab-rise`) applied staggered to the plate and each section. Respects `prefers-reduced-motion`.
+
+**No imagery.** The page carries without it. If a profile photo becomes available, it slots cleanly between the plate-rule and the name — `<img class="about-plate-photo">` with `border-radius: 50%`, 72×72px, border `1px solid var(--border)`. Hold space for it in the HTML as a comment.
+
+**Footer.** Uses the existing footer. When the footer redesign ships, it auto-inherits the columns.
+
+---
+
+## Asset requests
+
+> Ask Marcus for these before publishing:
+>
+> 1. **Profile photo** — 200×200px minimum, square crop, ideally dark-background or transparent. Will render at 72×72px with a circular crop. No stock photo.
+> 2. Optional: A small square "maker's mark" SVG — hand-drawn or geometric — to sit next to the name as a personal seal. Would replace the Diamond Seal mark in the plate header.
+
+---
+
+## HTML
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>window.GAIA_VERSION = "4.1.2";</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — Gaia Skill Registry</title>
+  <meta name="description" content="Gaia is maintained by Marcus B. Tiongson (@mbtiongson1). This page explains why the registry exists, who keeps it, and what makes it last.">
+  <meta property="og:type" content="profile">
+  <meta property="og:title" content="About — Gaia Skill Registry">
+  <meta property="og:description" content="An evidence-backed atlas of agent capabilities, kept with obsessive care.">
+  <meta property="og:url" content="https://mbtiongson1.github.io/gaia-skill-tree/about.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="icon" type="image/svg+xml" href="assets/marks/diamond-seal.svg">
+  <link rel="stylesheet" href="css/styles.css?v=4.1.2">
+  <script src="js/icons.js?v=4.1.2"></script>
+  <script src="js/rank-badge.js?v=4.1.2"></script>
+
+  <style>
+    /* ─── about.html page-local styles ─────────────────────────── */
+
+    /* Entrance */
+    @keyframes ab-rise {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .ab-animate {
+      opacity: 0;
+      animation: ab-rise .65s cubic-bezier(.16, 1, .3, 1) forwards;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ab-animate { opacity: 1; animation: none; }
+    }
+
+    /* ─── Plate header ─── */
+    .about-plate {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: clamp(4.5rem, 9vw, 7.5rem) 1.5rem clamp(2.5rem, 5vw, 4rem);
+      text-align: center;
+    }
+
+    .about-plate-seal {
+      display: block;
+      width: 22px;
+      height: 22px;
+      color: var(--muted);
+      opacity: .35;
+      margin: 0 auto .9rem;
+    }
+
+    .about-plate-rule {
+      width: 38%;
+      height: 1px;
+      margin: 0 auto 1.75rem;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(56,189,248,.22) 20%,
+        rgba(192,132,252,.22) 50%,
+        rgba(245,158,11,.22) 80%,
+        transparent
+      );
+    }
+
+    .about-plate-role {
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      letter-spacing: .1em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin: 0 0 1.75rem;
+    }
+
+    /* Profile photo slot — hidden until asset provided */
+    .about-plate-photo {
+      display: none; /* swap to block once photo asset is ready */
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      object-fit: cover;
+      margin: 0 auto 1.25rem;
+    }
+
+    .about-plate-name {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 5.5vw, 3.2rem);
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.1;
+      margin: 0 0 .65rem;
+      text-wrap: balance;
+    }
+
+    .about-plate-handle {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: .85rem;
+      color: var(--honor-red);
+      letter-spacing: .04em;
+      margin: 0;
+    }
+
+    /* ─── Content column ─── */
+    .about-body {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 0 1.5rem clamp(3rem, 6vw, 5rem);
+    }
+
+    .about-section {
+      padding: clamp(2.5rem, 5vw, 3.75rem) 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .about-section:first-child {
+      border-top: none;
+    }
+
+    .about-section-h {
+      font-family: var(--font-display);
+      font-size: clamp(1.25rem, 3vw, 1.65rem);
+      font-weight: 600;
+      color: var(--text);
+      margin: 0 0 1.5rem;
+      line-height: 1.2;
+      text-wrap: balance;
+    }
+
+    .about-section p {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.72;
+      color: var(--text);
+      max-width: 63ch;
+      margin: 0 0 1.2rem;
+    }
+
+    .about-section p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* ─── Trust ledger (definition list) ─── */
+    .trust-dl {
+      list-style: none;
+      margin: .25rem 0 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+    }
+
+    .trust-item {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: .3rem;
+    }
+
+    .trust-item dt {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.4;
+      display: flex;
+      align-items: baseline;
+      gap: .55rem;
+    }
+
+    .trust-item dt::before {
+      content: '◆';
+      font-size: .55rem;
+      color: var(--tier-ultimate);
+      opacity: .45;
+      flex-shrink: 0;
+      position: relative;
+      top: -.06em;
+    }
+
+    .trust-item dd {
+      font-family: var(--font-body);
+      font-size: .925rem;
+      line-height: 1.68;
+      color: var(--muted);
+      margin: 0;
+      padding-left: 1rem;
+      max-width: 60ch;
+    }
+
+    .trust-item dd code {
+      font-family: var(--font-mono);
+      font-size: .8em;
+      color: var(--tier-basic);
+      background: var(--tier-basic-bg);
+      border: 1px solid var(--tier-basic-border);
+      padding: .08em .38em;
+      border-radius: 3px;
+    }
+
+    /* ─── Named callout ─── */
+    .named-callout {
+      margin-top: 1.75rem;
+      padding: 1.5rem 1.75rem;
+      background: linear-gradient(135deg, rgba(56,189,248,.06) 0%, rgba(167,139,250,.06) 100%);
+      border: 1px solid rgba(56,189,248,.15);
+      border-radius: 8px;
+    }
+
+    .named-callout p {
+      font-family: var(--font-body);
+      font-size: .925rem;
+      line-height: 1.65;
+      color: var(--text);
+      max-width: none;
+      margin: 0 0 1.1rem;
+    }
+
+    .named-callout-links {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .named-callout-links a {
+      font-family: var(--font-body);
+      font-size: .875rem;
+      color: var(--tier-basic);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem;
+      transition: color .18s;
+    }
+
+    .named-callout-links a:hover { color: var(--text); }
+
+    .named-callout-links .ico {
+      opacity: .6;
+      flex-shrink: 0;
+    }
+
+    /* ─── Closing line ─── */
+    .about-close {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: clamp(2.5rem, 5vw, 4rem) 1.5rem clamp(3rem, 7vw, 5.5rem);
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+
+    .about-close p {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(1.05rem, 2.5vw, 1.25rem);
+      color: var(--muted);
+      margin: 0;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+
+<body class="about-page">
+
+  <!-- ─── NAV ─── -->
+  <nav>
+    <a href="index.html" class="nav-logo" aria-label="Gaia home">
+      <svg class="ico nav-seal" aria-hidden="true" focusable="false"><use href="assets/icons.svg#seal-diamond"/></svg>
+      <span class="nav-wordmark">Gaia</span>
+    </a>
+    <button type="button" class="nav-search-btn-mobile" id="navSearchBtnMobile" aria-label="Search named">
+      <svg class="ico" width="18" height="18" aria-hidden="true"><use href="assets/icons.svg#search"/></svg>
+    </button>
+    <button class="nav-menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul>
+      <li><a href="index.html" style="color: var(--text);">Home</a></li>
+      <li><a href="index.html" style="color: #34d399;">Skill Tree</a></li>
+      <li><a href="index.html" style="color: #38bdf8;">Skill Graph</a></li>
+      <li><a href="codex.html" style="color: var(--tier-basic);">The Codex</a></li>
+      <li><a href="starless.html" style="color: var(--muted);">Starless</a></li>
+      <li><a href="meta.html" class="nav-meta">Meta Reports</a></li>
+      <li><a href="badges/" style="color: var(--honor-red);">Github Badges</a></li>
+      <li><button type="button" class="nav-search-btn" id="navSearchBtn" aria-label="Search named">
+        <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#search"/></svg>
+      </button></li>
+    </ul>
+  </nav>
+
+  <!-- ─── PLATE HEADER ─── -->
+  <header class="about-plate ab-animate" style="animation-delay: .05s">
+    <svg class="ico about-plate-seal" aria-hidden="true" focusable="false">
+      <use href="assets/icons.svg#seal-diamond"/>
+    </svg>
+    <div class="about-plate-rule" aria-hidden="true"></div>
+    <p class="about-plate-role">Founder &amp; Maintainer — Gaia</p>
+    <!-- Profile photo: swap display:none → display:block once asset is ready -->
+    <!-- <img class="about-plate-photo" src="assets/mbtiongson1-avatar.jpg" alt="Marcus B. Tiongson"> -->
+    <h1 class="about-plate-name">Marcus B. Tiongson</h1>
+    <p class="about-plate-handle">@mbtiongson1</p>
+  </header>
+
+  <!-- ─── BODY ─── -->
+  <main class="about-body">
+
+    <section class="about-section ab-animate" style="animation-delay: .15s" aria-labelledby="about-why">
+      <h2 class="about-section-h" id="about-why">Why the Ledger Exists</h2>
+      <p>Skills get shipped and forgotten. An AI engineer builds a capability that makes agents faster, more accurate, or more composable. Others adopt it, adapt it, or arrive at it independently — and nobody records who first demonstrated it. There is no canonical place to say: this capability was named, the evidence was verified, the attribution is on the permanent record.</p>
+      <p>Gaia is a registry, not a marketplace. A marketplace asks what you can use; a registry asks what is on the record. The distinction matters because attribution is structural, not cosmetic. A named skill carries its origin contributor permanently, visibly, and verifiably — the way a patent carries an inventor's name. Not as property, but as provenance. The goal is an open system where a developer's most creative contributions outlast any platform, any employer, and any trend.</p>
+      <p>The meta shifts in seasons. New capabilities emerge, tiers get refined, contributors come and go. The ledger does not get rewritten. Every rank change, every fusion, every evidence update is logged to an auditable timeline. This registry is designed to outlast its founder: the schema is open, the data is portable, and the tradition is built to be handed on.</p>
+    </section>
+
+    <section class="about-section ab-animate" style="animation-delay: .25s" aria-labelledby="about-last">
+      <h2 class="about-section-h" id="about-last">What Makes It Last</h2>
+      <dl class="trust-dl">
+        <div class="trust-item">
+          <dt>Every change is on the record.</dt>
+          <dd>The CLI writes a timeline event on every promotion, demotion, fusion, and evidence update. No silent edits. Any auditor can trace a skill from first submission to current rank without gaps. The Transparency Gate fails any build whose timeline cannot account for a skill's current state.</dd>
+        </div>
+        <div class="trust-item">
+          <dt>The schema is open and forkable.</dt>
+          <dd><code>registry/gaia.json</code> is a public skill graph with a published JSON schema. If this repository ever goes dark, the data can be forked, re-hosted, or maintained by anyone. No single person holds the keys to the record.</dd>
+        </div>
+        <div class="trust-item">
+          <dt>Named contributors have active stakes.</dt>
+          <dd>Every named skill ties a real contributor handle to a real commit history. Those contributors have a reason to care whether the record stays accurate — their own attribution lives here alongside yours.</dd>
+        </div>
+        <div class="trust-item">
+          <dt>Versioned, locked, and released on a cycle.</dt>
+          <dd>Every registry change moves through a versioned release. A pre-commit hook enforces that four manifests stay in lockstep. There are no untracked mutations to <code>registry/gaia.json</code>.</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="about-section ab-animate" style="animation-delay: .35s" aria-labelledby="about-named">
+      <h2 class="about-section-h" id="about-named">Named Already</h2>
+      <p>The registry is not a future promise. Real contributors have named skills on the record today — their handles in Honor Red on every plaque, every graph, every generated page. The system works because it is already in use.</p>
+      <div class="named-callout">
+        <p>Browse the current named skills, read about the curation process that keeps the record accurate, or visit the Hall of Heroes to see who has earned a place on the permanent record.</p>
+        <nav class="named-callout-links" aria-label="Registry links">
+          <a href="codex.html">
+            <svg class="ico" width="12" height="12" aria-hidden="true"><use href="assets/icons.svg#external-link"/></svg>
+            The Codex
+          </a>
+          <a href="index.html#hall-of-heroes">
+            <svg class="ico" width="12" height="12" aria-hidden="true"><use href="assets/icons.svg#external-link"/></svg>
+            Hall of Heroes
+          </a>
+          <a href="index.html#named">
+            <svg class="ico" width="12" height="12" aria-hidden="true"><use href="assets/icons.svg#external-link"/></svg>
+            Named Skills
+          </a>
+        </nav>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ─── CLOSING LINE ─── -->
+  <div class="about-close ab-animate" style="animation-delay: .45s">
+    <p>The record is open. Read it.</p>
+  </div>
+
+  <!-- ─── FOOTER ─── -->
+  <!-- Uses the current footer; auto-inherits footer-v2 columns once that redesign ships -->
+  <footer>
+    <div class="footer-mark">
+      <svg class="ico footer-seal" aria-hidden="true" focusable="false"><use href="assets/icons.svg#seal-diamond"/></svg>
+      <span class="footer-wordmark">Gaia</span>
+    </div>
+    <p>
+      <a href="https://github.com/mbtiongson1/gaia-skill-tree" target="_blank" rel="noopener">GitHub</a> ·
+      MIT ·
+      <a href="privacy.html">Privacy</a> ·
+      <a href="codex.html">The Codex</a> ·
+      <a href="starless.html">Starless</a> ·
+      <a href="meta.html">Meta Reports</a> ·
+      <a href="badges/">Badges</a>
+    </p>
+  </footer>
+
+  <script src="js/ui.js?v=4.1.2" defer></script>
+
+</body>
+</html>
+```
