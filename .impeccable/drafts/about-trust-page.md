@@ -1,14 +1,14 @@
 # About Trust Page — Design Draft
 
-**Target path:** `docs/about.html`  
-**Status:** Draft — ready to drop in and link from nav + footer  
+**Target path:** `docs/about.html` (SHIPPED — this file is the design record; the live page is canonical)  
+**Status:** Live. Verified desktop + mobile (Playwright), no horizontal overflow, rank badges hydrate via the canonical component.  
 **Register:** Brand (trust/provenance surface, not marketing)
 
 ---
 
 ## Design rationale
 
-The page answers one skeptic's question: "Who is behind this, and will it still exist in five years?" It answers with structure and provenance, not promises.
+The page answers one skeptic's question: "Who is behind this, and will it still exist in five years?" It answers with structure and provenance, not promises — real numbers, real sourced quotes, real CLI paths.
 
 **Identity treatment.** Role-first: the plate opens with *Founder & Maintainer — Gaia* in mono, then the full name in EB Garamond display, then the handle in Honor Red. Same visual weight as a named-skill attribution plaque — because that is what this is.
 
@@ -20,7 +20,26 @@ The page answers one skeptic's question: "Who is behind this, and will it still 
 
 **Profile photo.** `assets/mbtiongson1-avatar.jpg` — 400×400px square crop, centered on face, from a Van Gogh immersive installation photo. Renders at 96×96px circular. The art background is intentional: it signals craft and creative investment without reading as a corporate headshot. `object-position: center top` keeps his face in the frame.
 
-**Footer.** Uses the existing footer. When the footer redesign ships, it auto-inherits the columns.
+**Real numbers (the ledger strip).** A restrained mono strip under the opening section, NOT a hero-metric dashboard (banned). Pulled live from `registry/gaia.json` v4.1.2:
+228 generic references · 235 named skills · 42 contributors · 6 ultimates · 220 evidence entries. Apex Gold used only on the "6 ultimates" figure; all other figures in `--text`. A note links the source JSON so the numbers are auditable.
+
+**"Why These Names" — inspiration, not endorsement.** Three developers whose public tools embody the mission. Framed honestly: Gaia *catalogued* their public work by evidence; they are **not** Gaia maintainers and have **not** endorsed the project. Each entry is a verbatim, primary-sourced quote, the catalogued skill + its real rank badge, and a source link. Handles in Honor Red (the one rule that never bends). Layout is stacked editorial quote blocks separated by hairline rules — deliberately NOT a 3-up card grid (banned).
+
+**Sourcing table (all HIGH confidence — fetched + verified verbatim):**
+
+| Handle | Quote source | Catalogued skill | Rank (verified in registry) |
+|---|---|---|---|
+| @garrytan | `github.com/garrytan/gstack` (README) | gstack — Founder Mode | 5★ (origin: true) |
+| @mattpocock | `github.com/mattpocock/skills` (README) | Matt Pocock Skills | 6★ (origin: true) |
+| @pbakaus | `paulbakaus.com/about` | Impeccable — The Aesthetic Shield | 4★ (origin: true) |
+
+> Research caution carried forward: do NOT swap these for X/Twitter quotes without re-verifying — X blocks fetching (HTTP 402) and those could only be confirmed via search-index snippets (MEDIUM). The three quotes above were byte-verified from primary sources. If any quote is edited, re-confirm against the live source before shipping.
+
+**Contribute CTA.** Amber-bordered panel (Apex affordance) with the real onboarding flow (`gaia init / scan / appraise / push`) syntax-highlighted, plus three buttons: primary "Register your repo" → `index.html#paths`, ghost "View on GitHub", ghost "Read the curation process" → `codex.html`. This closes the loop: the page that explains the honor ends by inviting the reader to earn it.
+
+**Rank badges.** Rendered via the canonical `window.rankBadge()` component (DESIGN.md forbids inline star markup). Placeholder `.rank-slot[data-level]` spans are hydrated on `DOMContentLoaded` so 5★/6★/4★ are pixel-identical to every other surface.
+
+**Footer.** Uses the existing footer. When the footer-v2 redesign ships (see `footer-redesign.md`), it auto-inherits the columns.
 
 ---
 
@@ -30,7 +49,7 @@ The page answers one skeptic's question: "Who is behind this, and will it still 
 
 ---
 
-## HTML
+## HTML (canonical: `docs/about.html`)
 
 ```html
 <!DOCTYPE html>
@@ -56,7 +75,6 @@ The page answers one skeptic's question: "Who is behind this, and will it still 
   <style>
     /* ─── about.html page-local styles ─────────────────────────── */
 
-    /* Entrance */
     @keyframes ab-rise {
       from { opacity: 0; transform: translateY(14px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -178,9 +196,8 @@ The page answers one skeptic's question: "Who is behind this, and will it still 
       margin-bottom: 0;
     }
 
-    /* ─── Trust ledger (definition list) ─── */
+    /* ─── Trust ledger ─── */
     .trust-dl {
-      list-style: none;
       margin: .25rem 0 0;
       padding: 0;
       display: flex;
@@ -294,6 +311,175 @@ The page answers one skeptic's question: "Who is behind this, and will it still 
       margin: 0;
       line-height: 1.6;
     }
+
+    /* ─── Inline ledger strip (real registry totals) ─── */
+    .about-ledger {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: .5rem .85rem;
+      margin: 1.9rem 0 0;
+      padding: 1.1rem 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .015);
+      font-family: var(--font-mono);
+      font-size: .8rem;
+      color: var(--muted);
+      max-width: 63ch;
+    }
+    .al-stat { white-space: nowrap; }
+    .al-num {
+      color: var(--text);
+      font-weight: 500;
+    }
+    .al-num.al-apex { color: var(--apex-gold); }
+    .al-sep {
+      color: var(--border);
+      user-select: none;
+    }
+    .about-ledger-note {
+      font-family: var(--font-mono);
+      font-size: .68rem;
+      color: var(--muted);
+      opacity: .8;
+      margin: .7rem 0 0;
+    }
+    .about-ledger-note a { color: var(--tier-basic); text-decoration: none; }
+    .about-ledger-note a:hover { color: var(--text); }
+
+    /* ─── Inspiration entries (verbatim, sourced) ─── */
+    .insp-intro {
+      max-width: 63ch;
+    }
+    .insp-list {
+      margin: 2.5rem 0 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .insp-entry {
+      padding: 2rem 0;
+      border-top: 1px solid var(--border);
+    }
+    .insp-entry:first-child { border-top: none; padding-top: .5rem; }
+
+    .insp-quote {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(1.15rem, 2.6vw, 1.45rem);
+      line-height: 1.5;
+      color: var(--text);
+      margin: 0 0 1.15rem;
+      max-width: 54ch;
+      text-wrap: pretty;
+    }
+    .insp-quote::before { content: '\201C'; color: var(--muted); }
+    .insp-quote::after  { content: '\201D'; color: var(--muted); }
+
+    .insp-attr {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: .65rem;
+      font-family: var(--font-mono);
+      font-size: .78rem;
+      color: var(--muted);
+    }
+    .insp-handle {
+      color: var(--honor-red);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .insp-handle:hover { text-decoration: underline; }
+    .insp-skill { color: var(--text); }
+    .insp-attr .rank-badge { transform: translateY(-1px); }
+    .insp-sep { color: var(--border); user-select: none; }
+    .insp-src {
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 1px dotted var(--border);
+    }
+    .insp-src:hover { color: var(--tier-basic); border-bottom-color: var(--tier-basic); }
+
+    /* ─── Contribute CTA ─── */
+    .contribute {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: clamp(3rem, 6vw, 4.5rem) 1.5rem;
+    }
+    .contribute-inner {
+      padding: clamp(2rem, 4vw, 3rem);
+      border: 1px solid rgba(245, 158, 11, .22);
+      border-radius: 12px;
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(245, 158, 11, .05) 0%, transparent 60%),
+        rgba(255, 255, 255, .015);
+      text-align: center;
+    }
+    .contribute h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.4rem, 3.2vw, 1.9rem);
+      font-weight: 600;
+      color: var(--text);
+      margin: 0 0 1rem;
+      text-wrap: balance;
+    }
+    .contribute p {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.65;
+      color: var(--muted);
+      max-width: 56ch;
+      margin: 0 auto 1.75rem;
+    }
+    .contribute pre {
+      text-align: left;
+      font-family: var(--font-mono);
+      font-size: .82rem;
+      line-height: 1.7;
+      color: var(--text);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.1rem 1.35rem;
+      margin: 0 auto 1.9rem;
+      max-width: 460px;
+      overflow-x: auto;
+    }
+    .contribute pre .cmd { color: var(--tier-basic); }
+    .contribute pre .comment { color: #4b6378; }
+    .contribute-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: .85rem;
+    }
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      font-family: var(--font-body);
+      font-size: .9rem;
+      font-weight: 500;
+      padding: .65rem 1.3rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all .18s ease;
+    }
+    .cta-btn-primary {
+      background: var(--apex-gold);
+      color: var(--bg);
+      border: 1px solid var(--apex-gold);
+      box-shadow: 0 0 24px rgba(var(--apex-gold-rgb), .25);
+    }
+    .cta-btn-primary:hover { box-shadow: 0 0 32px rgba(var(--apex-gold-rgb), .4); }
+    .cta-btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .cta-btn-ghost:hover { border-color: var(--tier-basic); color: var(--tier-basic); }
+    .cta-btn .ico { flex-shrink: 0; }
   </style>
 </head>
 
@@ -319,6 +505,7 @@ The page answers one skeptic's question: "Who is behind this, and will it still 
       <li><a href="starless.html" style="color: var(--muted);">Starless</a></li>
       <li><a href="meta.html" class="nav-meta">Meta Reports</a></li>
       <li><a href="badges/" style="color: var(--honor-red);">Github Badges</a></li>
+      <li><a href="about.html" style="color: var(--muted);" aria-current="page">About</a></li>
       <li><button type="button" class="nav-search-btn" id="navSearchBtn" aria-label="Search named">
         <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#search"/></svg>
       </button></li>
@@ -332,7 +519,13 @@ The page answers one skeptic's question: "Who is behind this, and will it still 
     </svg>
     <div class="about-plate-rule" aria-hidden="true"></div>
     <p class="about-plate-role">Founder &amp; Maintainer — Gaia</p>
-    <img class="about-plate-photo" src="assets/mbtiongson1-avatar.jpg" alt="Marcus B. Tiongson at an immersive art installation" width="96" height="96">
+    <img
+      class="about-plate-photo"
+      src="assets/mbtiongson1-avatar.jpg"
+      alt="Marcus B. Tiongson at an immersive art installation"
+      width="96"
+      height="96"
+    >
     <h1 class="about-plate-name">Marcus B. Tiongson</h1>
     <p class="about-plate-handle">@mbtiongson1</p>
   </header>
@@ -345,6 +538,18 @@ The page answers one skeptic's question: "Who is behind this, and will it still 
       <p>Skills get shipped and forgotten. An AI engineer builds a capability that makes agents faster, more accurate, or more composable. Others adopt it, adapt it, or arrive at it independently — and nobody records who first demonstrated it. There is no canonical place to say: this capability was named, the evidence was verified, the attribution is on the permanent record.</p>
       <p>Gaia is a registry, not a marketplace. A marketplace asks what you can use; a registry asks what is on the record. The distinction matters because attribution is structural, not cosmetic. A named skill carries its origin contributor permanently, visibly, and verifiably — the way a patent carries an inventor's name. Not as property, but as provenance. The goal is an open system where a developer's most creative contributions outlast any platform, any employer, and any trend.</p>
       <p>The meta shifts in seasons. New capabilities emerge, tiers get refined, contributors come and go. The ledger does not get rewritten. Every rank change, every fusion, every evidence update is logged to an auditable timeline. This registry is designed to outlast its founder: the schema is open, the data is portable, and the tradition is built to be handed on.</p>
+      <p class="about-ledger" aria-label="What is on the record today">
+        <span class="al-stat"><span class="al-num">228</span> generic references</span>
+        <span class="al-sep" aria-hidden="true">/</span>
+        <span class="al-stat"><span class="al-num">235</span> named skills</span>
+        <span class="al-sep" aria-hidden="true">/</span>
+        <span class="al-stat"><span class="al-num">42</span> contributors</span>
+        <span class="al-sep" aria-hidden="true">/</span>
+        <span class="al-stat"><span class="al-num al-apex">6</span> ultimates</span>
+        <span class="al-sep" aria-hidden="true">/</span>
+        <span class="al-stat"><span class="al-num">220</span> evidence entries</span>
+      </p>
+      <p class="about-ledger-note">Live totals from <a href="https://github.com/mbtiongson1/gaia-skill-tree/blob/main/registry/gaia.json" target="_blank" rel="noopener">registry/gaia.json</a> v4.1.2. Counts move as the record grows.</p>
     </section>
 
     <section class="about-section ab-animate" style="animation-delay: .25s" aria-labelledby="about-last">
@@ -369,7 +574,52 @@ The page answers one skeptic's question: "Who is behind this, and will it still 
       </dl>
     </section>
 
-    <section class="about-section ab-animate" style="animation-delay: .35s" aria-labelledby="about-named">
+    <section class="about-section ab-animate" style="animation-delay: .35s" aria-labelledby="about-inspire">
+      <h2 class="about-section-h" id="about-inspire">Why These Names</h2>
+      <p class="insp-intro">Gaia did not invent these developers' work. It catalogued it, the way a registry should — by evidence, with their handle attached. These three are not Gaia maintainers; they are builders whose public tools are the reason this exists. Each quote below is their own words, about their own work, linked to its source. Their handles render in Honor Red because that is the one rule that never bends: attribution belongs to the person who built the thing.</p>
+
+      <div class="insp-list">
+
+        <article class="insp-entry">
+          <blockquote class="insp-quote">This is my open source software factory. I use it every day. I'm sharing it because these tools should be available to everyone.</blockquote>
+          <div class="insp-attr">
+            <a class="insp-handle" href="https://github.com/garrytan" target="_blank" rel="noopener">@garrytan</a>
+            <span class="insp-sep" aria-hidden="true">·</span>
+            <span class="insp-skill">gstack — Founder Mode</span>
+            <span class="rank-slot" data-level="5" data-variant="full" data-aria="Ultimate Skill, rank 5 of 6"></span>
+            <span class="insp-sep" aria-hidden="true">·</span>
+            <a class="insp-src" href="https://github.com/garrytan/gstack" target="_blank" rel="noopener">github.com/garrytan/gstack ↗</a>
+          </div>
+        </article>
+
+        <article class="insp-entry">
+          <blockquote class="insp-quote">These skills are my best effort at condensing these fundamentals into repeatable practices, to help you ship the best apps of your career.</blockquote>
+          <div class="insp-attr">
+            <a class="insp-handle" href="https://github.com/mattpocock" target="_blank" rel="noopener">@mattpocock</a>
+            <span class="insp-sep" aria-hidden="true">·</span>
+            <span class="insp-skill">Matt Pocock Skills</span>
+            <span class="rank-slot" data-level="6" data-variant="full" data-aria="Apex, rank 6 of 6"></span>
+            <span class="insp-sep" aria-hidden="true">·</span>
+            <a class="insp-src" href="https://github.com/mattpocock/skills" target="_blank" rel="noopener">github.com/mattpocock/skills ↗</a>
+          </div>
+        </article>
+
+        <article class="insp-entry">
+          <blockquote class="insp-quote">The thread connecting jQuery UI, Chrome DevTools, Google for Creators, and now Impeccable: each time, a technology shift was happening and the tools hadn't caught up yet.</blockquote>
+          <div class="insp-attr">
+            <a class="insp-handle" href="https://github.com/pbakaus" target="_blank" rel="noopener">@pbakaus</a>
+            <span class="insp-sep" aria-hidden="true">·</span>
+            <span class="insp-skill">Impeccable — The Aesthetic Shield</span>
+            <span class="rank-slot" data-level="4" data-variant="full" data-aria="rank 4 of 6"></span>
+            <span class="insp-sep" aria-hidden="true">·</span>
+            <a class="insp-src" href="https://www.paulbakaus.com/about/" target="_blank" rel="noopener">paulbakaus.com/about ↗</a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <section class="about-section ab-animate" style="animation-delay: .4s" aria-labelledby="about-named">
       <h2 class="about-section-h" id="about-named">Named Already</h2>
       <p>The registry is not a future promise. Real contributors have named skills on the record today — their handles in Honor Red on every plaque, every graph, every generated page. The system works because it is already in use.</p>
       <div class="named-callout">
@@ -393,13 +643,39 @@ The page answers one skeptic's question: "Who is behind this, and will it still 
 
   </main>
 
+  <!-- ─── CONTRIBUTE CTA ─── -->
+  <section class="contribute ab-animate" style="animation-delay: .45s" aria-labelledby="about-contribute">
+    <div class="contribute-inner">
+      <h2 id="about-contribute">Put your own work on the record</h2>
+      <p>If you build skills for agents, your repo can earn a named entry — your handle, in Honor Red, attributed to you. Point the CLI at your repository, let it scan, and push a draft batch for review.</p>
+      <pre aria-label="Steps to contribute"><span class="comment"># install, then point it at your repo</span>
+<span class="cmd">gaia</span> init --user &lt;your-handle&gt;
+<span class="cmd">gaia</span> scan
+<span class="cmd">gaia</span> appraise
+<span class="cmd">gaia</span> push   <span class="comment"># opens a draft batch for review</span></pre>
+      <div class="contribute-actions">
+        <a class="cta-btn cta-btn-primary" href="index.html#paths">
+          <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#claim-arrow"/></svg>
+          Register your repo
+        </a>
+        <a class="cta-btn cta-btn-ghost" href="https://github.com/mbtiongson1/gaia-skill-tree" target="_blank" rel="noopener">
+          <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#github"/></svg>
+          View on GitHub
+        </a>
+        <a class="cta-btn cta-btn-ghost" href="codex.html">
+          <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#external-link"/></svg>
+          Read the curation process
+        </a>
+      </div>
+    </div>
+  </section>
+
   <!-- ─── CLOSING LINE ─── -->
-  <div class="about-close ab-animate" style="animation-delay: .45s">
+  <div class="about-close ab-animate" style="animation-delay: .55s">
     <p>The record is open. Read it.</p>
   </div>
 
   <!-- ─── FOOTER ─── -->
-  <!-- Uses the current footer; auto-inherits footer-v2 columns once that redesign ships -->
   <footer>
     <div class="footer-mark">
       <svg class="ico footer-seal" aria-hidden="true" focusable="false"><use href="assets/icons.svg#seal-diamond"/></svg>
@@ -417,6 +693,20 @@ The page answers one skeptic's question: "Who is behind this, and will it still 
   </footer>
 
   <script src="js/ui.js?v=4.1.2" defer></script>
+
+  <!-- Hydrate rank badges from the canonical component (no inline star markup). -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (typeof window.rankBadge !== 'function') return;
+      document.querySelectorAll('.rank-slot').forEach(function (el) {
+        el.outerHTML = window.rankBadge(el.dataset.level, {
+          variant: el.dataset.variant || 'full',
+          size: el.dataset.size || 'sm',
+          ariaLabel: el.dataset.aria || undefined
+        });
+      });
+    });
+  </script>
 
 </body>
 </html>
