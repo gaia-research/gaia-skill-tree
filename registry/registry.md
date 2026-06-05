@@ -4,15 +4,15 @@
 
 | Name | Class | Top ★ | Skill Call |
 |---|---|---|---|
-| ○ [ruvnet](../docs/u/ruvnet/)/reasoningbank-intelligence | Basic Skill | — | `/adaptive-pattern-learning` |
-| ◇ [ruvnet](../docs/u/ruvnet/)/swarm-advanced | Extra Skill | — | `/advanced-swarm-coordination` |
+| ○ ████████/reasoningbank-intelligence | Basic Skill | — | `/adaptive-pattern-learning` |
+| ◇ ████████/swarm-advanced | Extra Skill | — | `/advanced-swarm-coordination` |
 | ◇ /adversarial-robustness-testing | Extra Skill | — | `/adversarial-robustness-testing` |
 | ◇ [mattpocock](../docs/u/mattpocock/)/setup-matt-pocock-skills | Extra Skill | 3★ | `/agent-environment-setup` |
 | ◇ /agent-eval | Extra Skill | — | `/agent-eval` |
 | ◇ [mattpocock](../docs/u/mattpocock/)/handoff | Extra Skill | 4★ | `/agent-handoff` |
 | ◇ [ruvnet](../docs/u/ruvnet/)/agentdb-learning | Extra Skill | 2★ | `/agent-memory-learning` |
 | ◆ [ruvnet](../docs/u/ruvnet/)/agentdb | Ultimate Skill | 5★ | `/agent-memory-platform` |
-| ◇ [ruvnet](../docs/u/ruvnet/)/sparc-methodology | Extra Skill | — | `/agentic-workflow-design` |
+| ◇ ████████/sparc-methodology | Extra Skill | — | `/agentic-workflow-design` |
 | ○ [huggingface](../docs/u/huggingface/)/hf-cli | Basic Skill | 2★ | `/api-call` |
 | ◇ /architecture-diagram | Extra Skill | — | `/architecture-diagram` |
 | ○ /audience-model | Basic Skill | — | `/audience-model` |
@@ -31,7 +31,7 @@
 | ○ /cite-sources | Basic Skill | — | `/cite-sources` |
 | ○ /classify | Basic Skill | — | `/classify` |
 | ○ [ruvnet](../docs/u/ruvnet/)/v3-cli-modernization | Basic Skill | 2★ | `/cli-modernization` |
-| ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus-platform | Extra Skill | — | `/cloud-platform-management` |
+| ◇ ████████/flow-nexus-platform | Extra Skill | — | `/cloud-platform-management` |
 | ○ /code-execution | Basic Skill | — | `/code-execution` |
 | ○ [mattpocock](../docs/u/mattpocock/)/zoom-out | Basic Skill | 2★ | `/code-explain` |
 | ○ [garrytan](../docs/u/garrytan/)/design-html | Basic Skill | 4★ | `/code-generation` |
@@ -46,15 +46,15 @@
 | ◇ [huggingface](../docs/u/huggingface/)/huggingface-datasets | Extra Skill | 2★ | `/data-analysis` |
 | ○ /data-visualize | Basic Skill | — | `/data-visualize` |
 | ◇ [garrytan](../docs/u/garrytan/)/land-and-deploy | Extra Skill | 4★ | `/deployment-automation` |
-| ◇ [nexu-io](../docs/u/nexu-io/)/open-design | Extra Skill | — | `/design-generation` |
+| ◇ ████████/open-design | Extra Skill | — | `/design-generation` |
 | ◇ [garrytan](../docs/u/garrytan/)/design-shotgun | Extra Skill | 4★ | `/design-review` |
 | ◇ [garrytan](../docs/u/garrytan/)/design-consultation | Extra Skill | 4★ | `/design-system-extraction` |
 | ◇ [garrytan](../docs/u/garrytan/)/canary | Extra Skill | 4★ | `/detect-anomaly` |
 | ○ /diff-content | Basic Skill | — | `/diff-content` |
 | ◇ [obra](../docs/u/obra/)/dispatching-parallel-agents | Extra Skill | 4★ | `/dispatching-parallel-agents` |
 | ◉ [ruvnet](../docs/u/ruvnet/)/hive-mind-coordination | Unique Skill | 4★ | `/distributed-consensus-coordination` |
-| ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus-neural | Extra Skill | — | `/distributed-neural-training` |
-| ◇ [ruvnet](../docs/u/ruvnet/)/agentdb-advanced | Extra Skill | — | `/distributed-vector-memory` |
+| ◇ ████████/flow-nexus-neural | Extra Skill | — | `/distributed-neural-training` |
+| ◇ ████████/agentdb-advanced | Extra Skill | — | `/distributed-vector-memory` |
 | ◇ /document-analyst | Extra Skill | — | `/document-analyst` |
 | ○ [garrytan](../docs/u/garrytan/)/document-generate | Basic Skill | 4★ | `/document-editing` |
 | ◇ [ruvnet](../docs/u/ruvnet/)/dual-mode | Extra Skill | 3★ | `/dual-mode` |
@@ -67,7 +67,7 @@
 | ◇ [obra](../docs/u/obra/)/executing-plans | Extra Skill | 2★ | `/executing-plans` |
 | ◇ /explainability-audit | Extra Skill | — | `/explainability-audit` |
 | ○ /extract-entities | Basic Skill | — | `/extract-entities` |
-| ○ [nousresearch](../docs/u/nousresearch/)/feed-monitoring | Basic Skill | — | `/feed-monitoring` |
+| ○ ████████/feed-monitoring | Basic Skill | — | `/feed-monitoring` |
 | ◇ /financial-modeling | Extra Skill | — | `/financial-modeling` |
 | ○ [huggingface](../docs/u/huggingface/)/huggingface-llm-trainer | Basic Skill | 3★ | `/fine-tune` |
 | ◇ [garrytan](../docs/u/garrytan/)/ship | Extra Skill | 4★ | `/finishing-a-development-branch` |
@@ -94,7 +94,7 @@
 | ○ /hypothesis-generate | Basic Skill | — | `/hypothesis-generate` |
 | ○ /image-caption | Basic Skill | — | `/image-caption` |
 | ○ [mattpocock](../docs/u/mattpocock/)/triage | Basic Skill | 3★ | `/issue-triage` |
-| ◇ [safishamsi](../docs/u/safishamsi/)/graphify | Extra Skill | — | `/knowledge-graph-build` |
+| ◇ ████████/graphify | Extra Skill | — | `/knowledge-graph-build` |
 | ◇ /knowledge-harvest | Extra Skill | — | `/knowledge-harvest` |
 | ◇ [garrytan](../docs/u/garrytan/)/setup-gbrain | Extra Skill | 2★ | `/knowledge-management` |
 | ◇ [huggingface](../docs/u/huggingface/)/huggingface-papers | Extra Skill | 2★ | `/literature-review` |
@@ -111,7 +111,7 @@
 | ◇ /ml-pipeline | Extra Skill | — | `/ml-pipeline` |
 | ○ /molecular-databases | Basic Skill | — | `/molecular-databases` |
 | ◇ [garrytan](../docs/u/garrytan/)/codex | Extra Skill | 3★ | `/multi-agent-debate` |
-| ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus-swarm | Extra Skill | — | `/multi-agent-orchestration-v` |
+| ◇ ████████/flow-nexus-swarm | Extra Skill | — | `/multi-agent-orchestration-v` |
 | ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus | Extra Skill | 4★ | `/multi-node-orchestration` |
 | ○ [ruvnet](../docs/u/ruvnet/)/github-multi-repo | Basic Skill | 2★ | `/multi-repo-coordination` |
 | ◆ [ruvnet](../docs/u/ruvnet/)/ruflo | Ultimate Skill | 6★ | `/multi-topology-orchestration` |
@@ -138,7 +138,7 @@
 | ○ /proteomic-data-retrieval | Basic Skill | — | `/proteomic-data-retrieval` |
 | ◇ [mattpocock](../docs/u/mattpocock/)/prototype | Extra Skill | 3★ | `/prototype` |
 | ○ [garrytan](../docs/u/garrytan/)/office-hours | Basic Skill | 4★ | `/question-answer` |
-| ◇ [yonatangross](../docs/u/yonatangross/)/orchestkit-rag | Extra Skill | — | `/rag-pipeline` |
+| ◇ ████████/orchestkit-rag | Extra Skill | — | `/rag-pipeline` |
 | ○ /rank | Basic Skill | — | `/rank` |
 | ◇ /re-act-reasoning | Extra Skill | — | `/re-act-reasoning` |
 | ◇ /real-time-voice-assistant | Extra Skill | — | `/real-time-voice-assistant` |
@@ -178,7 +178,7 @@
 | ○ /summarize | Basic Skill | — | `/summarize` |
 | ◆ [obra](../docs/u/obra/)/superpowers | Ultimate Skill | 5★ | `/superpowers` |
 | ◇ /supply-chain-optimization | Extra Skill | — | `/supply-chain-optimization` |
-| ○ [ruvnet](../docs/u/ruvnet/)/swarm-orchestration | Basic Skill | — | `/swarm-topology-management` |
+| ○ ████████/swarm-orchestration | Basic Skill | — | `/swarm-topology-management` |
 | ○ [ruvnet](../docs/u/ruvnet/)/v3-integration-deep | Basic Skill | 2★ | `/system-integration` |
 | ◇ [garrytan](../docs/u/garrytan/)/investigate | Extra Skill | 4★ | `/systematic-debugging` |
 | ○ /text-to-speech | Basic Skill | — | `/text-to-speech` |
