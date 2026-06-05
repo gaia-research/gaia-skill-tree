@@ -32,7 +32,7 @@
       margin-top: 1.2rem;
       width: fit-content;
     }
-    .bd-live img { display: block; height: 20px; }
+    .bd-live img { display: block; height: 28px; }
     .bd-live .bd-live-label {
       font-family: var(--font-mono);
       font-size: .72rem;
@@ -183,7 +183,7 @@
       display: flex;
       align-items: center;
     }
-    .bd-sampler-img-slot img { display: block; height: 20px; }
+    .bd-sampler-img-slot img { display: block; height: 28px; }
     .bd-sampler-cycle {
       display: inline-flex;
       align-items: center;
@@ -615,7 +615,7 @@
       max-width: 200px;
       overflow: hidden;
     }
-    .bd-row-badge img { display: block; height: 20px; max-width: 100%; }
+    .bd-row-badge img { display: block; height: 28px; max-width: 100%; }
 
     /* Badge code rows — single-line truncation */
     #bd-rows .usp-row,
@@ -695,7 +695,7 @@
       flex-wrap: wrap;
       margin-bottom: 16px;
     }
-    .readme-badges-preview img { height: 20px; display: block; }
+    .readme-badges-preview img { height: 28px; display: block; }
     .readme-badges-preview a { display: block; }
 
     /* ── Powered-by block ── */
@@ -719,7 +719,7 @@
       text-transform: uppercase;
       color: var(--muted);
     }
-    .bd-powered-badge img { display: block; height: 20px; }
+    .bd-powered-badge img { display: block; height: 28px; }
 
     /* ── Variant table ── */
     .bd-variants {
@@ -747,7 +747,7 @@
       gap: .35rem;
       overflow: hidden;
     }
-    .bd-variant img { height: 20px; max-width: 100%; }
+    .bd-variant img { height: 28px; max-width: 100%; }
     .bd-variant-stat {
       font-family: var(--font-mono);
       font-size: .68rem;
@@ -1316,7 +1316,7 @@
       const r = SAMPLER_RANKS[samplerIdx];
       samplerImg.src = sampleSrc(r.n);
       if (currentState.handle === "gaia-bot") {
-        badges.innerHTML = `<img src="${sampleSrc(r.n)}" alt="${r.label}" style="height:20px;display:block;">`;
+        badges.innerHTML = `<img src="${sampleSrc(r.n)}" alt="${r.label}" style="height:28px;display:block;">`;
       }
     }
     document.getElementById("bd-sampler-btn").addEventListener("click", () => {
@@ -1880,7 +1880,7 @@
       rowsEl.innerHTML = "";
       const seedSampleSrc = sampleSrc(SAMPLER_RANKS[samplerIdx].n);
       const seedLabel = SAMPLER_RANKS[samplerIdx].label;
-      badges.innerHTML = `<img src="${seedSampleSrc}" alt="${seedLabel}" style="height:20px;display:block;">`;
+      badges.innerHTML = `<img src="${seedSampleSrc}" alt="${seedLabel}" style="height:28px;display:block;">`;
 
       // Show rank checkbox only; no copy buttons in seed state
       checksEl.classList.add("is-visible");
