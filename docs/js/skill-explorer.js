@@ -1357,10 +1357,13 @@
       var type = (generic && generic.type) || ns.type || 'basic';
       var handleRedacted = window.isRedacted && window.isRedacted(ns.level);
       var color = (LEVEL_META_SE && LEVEL_META_SE[ns.level]) ? LEVEL_META_SE[ns.level].color : 'inherit';
-      // Type overrides rank color for unique and ultimate (matches plaque CSS
-      // rule) — but a pre-named/demoted (≤1★) skill keeps its plain rank color
-      // (no rainbow/glow): it has not earned the type's prestige styling.
-      if (!handleRedacted) {
+      // LEVEL_META_SE only carries 2★+; a pre-named/demoted (≤1★) skill keeps
+      // its plain rank color (--rank-N) — never type rainbow/glow, never the
+      // inherited honor-red.
+      if (handleRedacted) {
+        var _lvlN = parseInt(String(ns.level || '').replace(/\D+/g, ''), 10) || 0;
+        color = 'var(--rank-' + _lvlN + ', #38bdf8)';
+      } else {
         if (type === 'unique') { color = 'var(--tier-unique, #7c3aed)'; }
         else if (type === 'ultimate') { color = 'var(--apex-gold, #fbbf24)'; }
       }
