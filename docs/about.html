@@ -1,38 +1,3 @@
-# About Trust Page — Design Draft
-
-**Target path:** `docs/about.html`  
-**Status:** Draft — ready to drop in and link from nav + footer  
-**Register:** Brand (trust/provenance surface, not marketing)
-
----
-
-## Design rationale
-
-The page answers one skeptic's question: "Who is behind this, and will it still exist in five years?" It answers with structure and provenance, not promises.
-
-**Identity treatment.** Role-first: the plate opens with *Founder & Maintainer — Gaia* in mono, then the full name in EB Garamond display, then the handle in Honor Red. Same visual weight as a named-skill attribution plaque — because that is what this is.
-
-**Voice.** Half-Merged throughout. Canonical labels (registry, named skill, origin contributor, evidence, timeline, schema) carry the meaning. Ceremonial weight (the ledger, the record, the tradition) carries the tone. No hype, no superlatives, no marketing cadence.
-
-**Layout.** Single column, max ~65ch body width. Section headings in EB Garamond. Body in Bricolage Grotesque. The trust pillar section uses a `<dl>` with a small ◆ bullet-prefix — not cards, not a side-stripe callout box, not a metric grid.
-
-**Motion.** One entrance animation (`ab-rise`) applied staggered to the plate and each section. Respects `prefers-reduced-motion`.
-
-**Profile photo.** `assets/mbtiongson1-avatar.jpg` — 400×400px square crop, centered on face, from a Van Gogh immersive installation photo. Renders at 96×96px circular. The art background is intentional: it signals craft and creative investment without reading as a corporate headshot. `object-position: center top` keeps his face in the frame.
-
-**Footer.** Uses the existing footer. When the footer redesign ships, it auto-inherits the columns.
-
----
-
-## Optional asset request
-
-> A small square "maker's mark" SVG — hand-drawn or geometric — to sit alongside the name as a personal seal, replacing the Diamond Seal mark in the plate header. Not required; the Diamond Seal works fine.
-
----
-
-## HTML
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -56,7 +21,6 @@ The page answers one skeptic's question: "Who is behind this, and will it still 
   <style>
     /* ─── about.html page-local styles ─────────────────────────── */
 
-    /* Entrance */
     @keyframes ab-rise {
       from { opacity: 0; transform: translateY(14px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -178,9 +142,8 @@ The page answers one skeptic's question: "Who is behind this, and will it still 
       margin-bottom: 0;
     }
 
-    /* ─── Trust ledger (definition list) ─── */
+    /* ─── Trust ledger ─── */
     .trust-dl {
-      list-style: none;
       margin: .25rem 0 0;
       padding: 0;
       display: flex;
@@ -319,6 +282,7 @@ The page answers one skeptic's question: "Who is behind this, and will it still 
       <li><a href="starless.html" style="color: var(--muted);">Starless</a></li>
       <li><a href="meta.html" class="nav-meta">Meta Reports</a></li>
       <li><a href="badges/" style="color: var(--honor-red);">Github Badges</a></li>
+      <li><a href="about.html" style="color: var(--muted);" aria-current="page">About</a></li>
       <li><button type="button" class="nav-search-btn" id="navSearchBtn" aria-label="Search named">
         <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#search"/></svg>
       </button></li>
@@ -332,7 +296,13 @@ The page answers one skeptic's question: "Who is behind this, and will it still 
     </svg>
     <div class="about-plate-rule" aria-hidden="true"></div>
     <p class="about-plate-role">Founder &amp; Maintainer — Gaia</p>
-    <img class="about-plate-photo" src="assets/mbtiongson1-avatar.jpg" alt="Marcus B. Tiongson at an immersive art installation" width="96" height="96">
+    <img
+      class="about-plate-photo"
+      src="assets/mbtiongson1-avatar.jpg"
+      alt="Marcus B. Tiongson at an immersive art installation"
+      width="96"
+      height="96"
+    >
     <h1 class="about-plate-name">Marcus B. Tiongson</h1>
     <p class="about-plate-handle">@mbtiongson1</p>
   </header>
@@ -399,7 +369,6 @@ The page answers one skeptic's question: "Who is behind this, and will it still 
   </div>
 
   <!-- ─── FOOTER ─── -->
-  <!-- Uses the current footer; auto-inherits footer-v2 columns once that redesign ships -->
   <footer>
     <div class="footer-mark">
       <svg class="ico footer-seal" aria-hidden="true" focusable="false"><use href="assets/icons.svg#seal-diamond"/></svg>
@@ -420,4 +389,3 @@ The page answers one skeptic's question: "Who is behind this, and will it still 
 
 </body>
 </html>
-```
