@@ -4,7 +4,7 @@
   "unlockedSkills": [
     {
       "skillId": "ruvnet/agentdb-advanced",
-      "level": "3★",
+      "level": "1★",
       "unlockedAt": "2026-05-19T00:00:00Z",
       "unlockedIn": "ruvnet/gaia-skill-tree",
       "combinedFrom": [],
@@ -13,12 +13,17 @@
           "level": "3★",
           "achievedAt": "2026-05-19T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-02T23:48:19Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "ruvnet/agentdb-learning",
-      "level": "3★",
+      "level": "1★",
       "unlockedAt": "2026-05-19T00:00:00Z",
       "unlockedIn": "ruvnet/gaia-skill-tree",
       "combinedFrom": [],
@@ -27,6 +32,11 @@
           "level": "3★",
           "achievedAt": "2026-05-19T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-02T23:48:20Z",
+          "source": "demote"
         }
       ]
     },
@@ -172,7 +182,7 @@
     },
     {
       "skillId": "ruvnet/flow-nexus-neural",
-      "level": "3★",
+      "level": "1★",
       "unlockedAt": "2026-05-19T00:00:00Z",
       "unlockedIn": "ruvnet/gaia-skill-tree",
       "combinedFrom": [],
@@ -181,12 +191,17 @@
           "level": "3★",
           "achievedAt": "2026-05-19T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-02T23:48:20Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "ruvnet/flow-nexus-platform",
-      "level": "3★",
+      "level": "1★",
       "unlockedAt": "2026-05-19T00:00:00Z",
       "unlockedIn": "ruvnet/gaia-skill-tree",
       "combinedFrom": [],
@@ -195,12 +210,17 @@
           "level": "3★",
           "achievedAt": "2026-05-19T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-02T23:48:20Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "ruvnet/flow-nexus-swarm",
-      "level": "3★",
+      "level": "1★",
       "unlockedAt": "2026-04-30T00:00:00Z",
       "unlockedIn": "ruvnet/gaia-skill-tree",
       "combinedFrom": [],
@@ -209,6 +229,11 @@
           "level": "3★",
           "achievedAt": "2026-04-30T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-02T23:48:21Z",
+          "source": "demote"
         }
       ]
     },
@@ -228,7 +253,7 @@
     },
     {
       "skillId": "ruvnet/github-code-review",
-      "level": "3★",
+      "level": "1★",
       "unlockedAt": "2026-05-19T00:00:00Z",
       "unlockedIn": "ruvnet/gaia-skill-tree",
       "combinedFrom": [],
@@ -237,6 +262,11 @@
           "level": "3★",
           "achievedAt": "2026-05-19T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-02T23:48:17Z",
+          "source": "demote"
         }
       ]
     },
@@ -270,7 +300,7 @@
     },
     {
       "skillId": "ruvnet/github-release-management",
-      "level": "3★",
+      "level": "1★",
       "unlockedAt": "2026-05-19T00:00:00Z",
       "unlockedIn": "ruvnet/gaia-skill-tree",
       "combinedFrom": [],
@@ -279,6 +309,11 @@
           "level": "3★",
           "achievedAt": "2026-05-19T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-02T23:48:18Z",
+          "source": "demote"
         }
       ]
     },
@@ -298,7 +333,7 @@
     },
     {
       "skillId": "ruvnet/github-workflow-automation",
-      "level": "3★",
+      "level": "1★",
       "unlockedAt": "2026-05-19T00:00:00Z",
       "unlockedIn": "ruvnet/gaia-skill-tree",
       "combinedFrom": [],
@@ -307,6 +342,11 @@
           "level": "3★",
           "achievedAt": "2026-05-19T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-02T23:48:21Z",
+          "source": "demote"
         }
       ]
     },
@@ -382,7 +422,7 @@
     },
     {
       "skillId": "ruvnet/reasoningbank-intelligence",
-      "level": "3★",
+      "level": "1★",
       "unlockedAt": "2026-05-19T00:00:00Z",
       "unlockedIn": "ruvnet/gaia-skill-tree",
       "combinedFrom": [],
@@ -391,6 +431,11 @@
           "level": "3★",
           "achievedAt": "2026-05-19T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-02T23:48:22Z",
+          "source": "demote"
         }
       ]
     },
@@ -452,7 +497,7 @@
     },
     {
       "skillId": "ruvnet/sparc-methodology",
-      "level": "3★",
+      "level": "1★",
       "unlockedAt": "2026-05-19T00:00:00Z",
       "unlockedIn": "ruvnet/gaia-skill-tree",
       "combinedFrom": [],
@@ -461,6 +506,11 @@
           "level": "3★",
           "achievedAt": "2026-05-19T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-02T23:48:22Z",
+          "source": "demote"
         }
       ]
     },
@@ -480,7 +530,7 @@
     },
     {
       "skillId": "ruvnet/swarm-advanced",
-      "level": "3★",
+      "level": "1★",
       "unlockedAt": "2026-05-19T00:00:00Z",
       "unlockedIn": "ruvnet/gaia-skill-tree",
       "combinedFrom": [],
@@ -489,12 +539,17 @@
           "level": "3★",
           "achievedAt": "2026-05-19T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-02T23:48:23Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "ruvnet/swarm-orchestration",
-      "level": "3★",
+      "level": "1★",
       "unlockedAt": "2026-05-19T00:00:00Z",
       "unlockedIn": "ruvnet/gaia-skill-tree",
       "combinedFrom": [],
@@ -503,6 +558,11 @@
           "level": "3★",
           "achievedAt": "2026-05-19T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-02T23:48:23Z",
+          "source": "demote"
         }
       ]
     },
@@ -620,7 +680,7 @@
     },
     {
       "skillId": "ruvnet/v3-swarm-coordination",
-      "level": "3★",
+      "level": "1★",
       "unlockedAt": "2026-05-19T00:00:00Z",
       "unlockedIn": "ruvnet/gaia-skill-tree",
       "combinedFrom": [],
@@ -629,6 +689,11 @@
           "level": "3★",
           "achievedAt": "2026-05-19T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-02T23:48:21Z",
+          "source": "demote"
         }
       ]
     },
@@ -1059,6 +1124,110 @@
       "details": "Registered named skill ruvnet/worker-integration",
       "previousValue": null,
       "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-02T23:48:17Z",
+      "action": "demote",
+      "skillId": "ruvnet/github-code-review",
+      "details": "Star-Bar hard reset (META §2.4): 3★+ skill lacked a verified blob link → 3★→1★ (sweep e8655bb).",
+      "previousValue": "3★",
+      "newValue": "1★"
+    },
+    {
+      "timestamp": "2026-06-02T23:48:18Z",
+      "action": "demote",
+      "skillId": "ruvnet/github-release-management",
+      "details": "Star-Bar hard reset (META §2.4): 3★+ skill lacked a verified blob link → 3★→1★ (sweep e8655bb).",
+      "previousValue": "3★",
+      "newValue": "1★"
+    },
+    {
+      "timestamp": "2026-06-02T23:48:19Z",
+      "action": "demote",
+      "skillId": "ruvnet/agentdb-advanced",
+      "details": "Star-Bar hard reset (META §2.4): 3★+ skill lacked a verified blob link → 3★→1★ (sweep e8655bb).",
+      "previousValue": "3★",
+      "newValue": "1★"
+    },
+    {
+      "timestamp": "2026-06-02T23:48:20Z",
+      "action": "demote",
+      "skillId": "ruvnet/agentdb-learning",
+      "details": "Star-Bar hard reset (META §2.4): 3★+ skill lacked a verified blob link → 3★→1★ (sweep e8655bb).",
+      "previousValue": "3★",
+      "newValue": "1★"
+    },
+    {
+      "timestamp": "2026-06-02T23:48:20Z",
+      "action": "demote",
+      "skillId": "ruvnet/flow-nexus-neural",
+      "details": "Star-Bar hard reset (META §2.4): 3★+ skill lacked a verified blob link → 3★→1★ (sweep e8655bb).",
+      "previousValue": "3★",
+      "newValue": "1★"
+    },
+    {
+      "timestamp": "2026-06-02T23:48:20Z",
+      "action": "demote",
+      "skillId": "ruvnet/flow-nexus-platform",
+      "details": "Star-Bar hard reset (META §2.4): 3★+ skill lacked a verified blob link → 3★→1★ (sweep e8655bb).",
+      "previousValue": "3★",
+      "newValue": "1★"
+    },
+    {
+      "timestamp": "2026-06-02T23:48:21Z",
+      "action": "demote",
+      "skillId": "ruvnet/flow-nexus-swarm",
+      "details": "Star-Bar hard reset (META §2.4): 3★+ skill lacked a verified blob link → 3★→1★ (sweep e8655bb).",
+      "previousValue": "3★",
+      "newValue": "1★"
+    },
+    {
+      "timestamp": "2026-06-02T23:48:21Z",
+      "action": "demote",
+      "skillId": "ruvnet/v3-swarm-coordination",
+      "details": "Star-Bar hard reset (META §2.4): 3★+ skill lacked a verified blob link → 3★→1★ (sweep e8655bb).",
+      "previousValue": "3★",
+      "newValue": "1★"
+    },
+    {
+      "timestamp": "2026-06-02T23:48:21Z",
+      "action": "demote",
+      "skillId": "ruvnet/github-workflow-automation",
+      "details": "Star-Bar hard reset (META §2.4): 3★+ skill lacked a verified blob link → 3★→1★ (sweep e8655bb).",
+      "previousValue": "3★",
+      "newValue": "1★"
+    },
+    {
+      "timestamp": "2026-06-02T23:48:22Z",
+      "action": "demote",
+      "skillId": "ruvnet/reasoningbank-intelligence",
+      "details": "Star-Bar hard reset (META §2.4): 3★+ skill lacked a verified blob link → 3★→1★ (sweep e8655bb).",
+      "previousValue": "3★",
+      "newValue": "1★"
+    },
+    {
+      "timestamp": "2026-06-02T23:48:22Z",
+      "action": "demote",
+      "skillId": "ruvnet/sparc-methodology",
+      "details": "Star-Bar hard reset (META §2.4): 3★+ skill lacked a verified blob link → 3★→1★ (sweep e8655bb).",
+      "previousValue": "3★",
+      "newValue": "1★"
+    },
+    {
+      "timestamp": "2026-06-02T23:48:23Z",
+      "action": "demote",
+      "skillId": "ruvnet/swarm-advanced",
+      "details": "Star-Bar hard reset (META §2.4): 3★+ skill lacked a verified blob link → 3★→1★ (sweep e8655bb).",
+      "previousValue": "3★",
+      "newValue": "1★"
+    },
+    {
+      "timestamp": "2026-06-02T23:48:23Z",
+      "action": "demote",
+      "skillId": "ruvnet/swarm-orchestration",
+      "details": "Star-Bar hard reset (META §2.4): 3★+ skill lacked a verified blob link → 3★→1★ (sweep e8655bb).",
+      "previousValue": "3★",
+      "newValue": "1★"
     }
   ],
   "stats": {

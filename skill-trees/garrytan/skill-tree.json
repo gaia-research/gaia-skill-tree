@@ -242,7 +242,7 @@
     },
     {
       "skillId": "garrytan/garrytan",
-      "level": "5★",
+      "level": "4★",
       "unlockedAt": "2026-05-12T00:00:00Z",
       "unlockedIn": "garrytan/gaia-skill-tree",
       "combinedFrom": [],
@@ -251,6 +251,11 @@
           "level": "5★",
           "achievedAt": "2026-05-12T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-06-03T05:51:37Z",
+          "source": "demote"
         }
       ]
     },
@@ -1037,6 +1042,14 @@
       "details": "Registered named skill garrytan/unfreeze",
       "previousValue": null,
       "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-03T05:51:37Z",
+      "action": "demote",
+      "previousValue": "5★",
+      "newValue": "4★",
+      "details": "Calibrated level from 5★ to 4★",
+      "skillId": "garrytan/garrytan"
     }
   ],
   "stats": {

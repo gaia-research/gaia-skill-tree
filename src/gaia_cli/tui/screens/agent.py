@@ -117,8 +117,13 @@ def _skill_label(skill: dict) -> Text:
     # Name rendering: @handle/slug
     name_style = T.STATE_OWNED if (owned or detected) else T.NEUTRAL_TEXT
     if "/" in sid:
+        from gaia_cli.redaction import REDACTED_BLOCK, is_redacted
         contrib, name = sid.split("/", 1)
-        t.append("@" + contrib, style=T.BRAND_HONOR_RED)
+        if is_redacted(level):
+            # Pre-named / demoted: withhold the handle behind a slate block.
+            t.append(REDACTED_BLOCK, style=T.RANK_UNAWAKENED)
+        else:
+            t.append("@" + contrib, style=T.BRAND_HONOR_RED)
         t.append("/" + name, style=name_style)
     else:
         t.append(sid, style=name_style)

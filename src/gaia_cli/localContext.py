@@ -121,15 +121,57 @@ class LocalContext:
         """Check if a canonical skill has a named implementation."""
         return skill_id in self.named_map
 
+    def level_of(self, skill_id: str) -> str:
+        """Return the canonical level string for a skill (e.g. '3★').
+
+        For a starless/generic ref this is the *effective rank* — the top star
+        among its named children — which is exactly the signal the redaction
+        gate needs: a bucket whose top star is ≤ 1★ has no named child, so its
+        contributor handle is withheld. Defaults to '0★' when unknown.
+        """
+        return (self._skill_map.get(skill_id) or {}).get("level", "0★")
+
+    def is_redacted(self, skill_id: str) -> bool:
+        """True when this skill's contributor handle must be withheld (≤ 1★)."""
+        from gaia_cli.redaction import is_redacted
+        return is_redacted(self.level_of(skill_id))
+
     def named_ref(self, skill_id: str) -> Optional[str]:
-        """Return 'contributor/name' for a named skill, or None."""
-        return self.named_map.get(skill_id)
+        """Return 'contributor/name' for a named skill, or None.
+
+        Pre-named (≤ 1★) buckets have their contributor segment redacted so the
+        handle never escapes the resolver into a renderer.
+        """
+        ref = self.named_map.get(skill_id)
+        if not ref:
+            return None
+        return self._redact_ref(ref, skill_id)
+
+    def _redact_ref(self, ref: str, skill_id: str) -> str:
+        """Replace the contributor segment of ``contrib/name`` with the
+        redaction block when the bucket is pre-named/demoted. The caller's own
+        handle is never redacted (you can always see your own work)."""
+        from gaia_cli.redaction import REDACTED_BLOCK, is_redacted
+        if "/" not in ref:
+            return ref
+        contrib, nickname = ref.split("/", 1)
+        if contrib == self.username:
+            return ref
+        if is_redacted(self.level_of(skill_id)):
+            return f"{REDACTED_BLOCK}/{nickname}"
+        return ref
 
     def named_contributor(self, skill_id: str) -> Optional[str]:
-        """Return just the contributor name for a named skill."""
+        """Return just the contributor name for a named skill (redacted ≤ 1★)."""
         ref = self.named_map.get(skill_id)
         if ref and "/" in ref:
-            return ref.split("/", 1)[0]
+            contrib = ref.split("/", 1)[0]
+            if contrib == self.username:
+                return contrib
+            from gaia_cli.redaction import REDACTED_BLOCK, is_redacted
+            if is_redacted(self.level_of(skill_id)):
+                return REDACTED_BLOCK
+            return contrib
         return None
 
     def is_local(self, skill_id: str) -> bool:
@@ -197,7 +239,8 @@ class LocalContext:
                 contrib, nickname = ref.split("/", 1)
                 if contrib == self.username:
                     return f"/{nickname}"
-                return ref
+                # Pre-named / demoted buckets: withhold the contributor handle.
+                return self._redact_ref(ref, skill_id)
             return f"/{ref}"
 
         # 2. Check for local novel skill

@@ -1,4 +1,4 @@
-# [ruvnet](../../../docs/u/ruvnet/)/flow-nexus-swarm
+# ████████/flow-nexus-swarm
 **ID:** multi-agent-orchestration-v  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
@@ -23,7 +23,7 @@ Requires extensive multi-system validation before level advancement.
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| ruvnet/flow-nexus-swarm ⭑ | ruvnet | 1★ | 0 |
+| ruvnet/flow-nexus-swarm | ruvnet | 1★ | 0 |
 | ruvnet/v3-swarm-coordination | ruvnet | 1★ | 0 |
 
 ## Evidence (inherited capability)

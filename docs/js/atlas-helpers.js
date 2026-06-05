@@ -40,15 +40,59 @@
     return base + encodeURIComponent(handle || '') + '/';
   }
 
+  /* ── Universal redaction gate (mirror of src/gaia_cli/redaction.py) ───────
+     Per META.md, stars live on named skills only: a skill at 1★ (Awakened) or
+     0★ (Basic) is NOT yet named, and a demoted skill is rewritten down to 1★.
+     In both cases its contributor handle is withheld behind a "classified"
+     look on every PUBLIC surface. This is the single browser-side choke point
+     — keep it in lockstep with the Python module. */
+  var REDACT_AT_OR_BELOW = 1;
+  var REDACTED_HANDLE = '[anonymous]';
+  var REDACTED_BLOCK = '████████';  // U+2588 ×8 — slate block for monospace contexts
+
+  function levelNum(level) {
+    if (level == null) return 0;
+    if (typeof level === 'number') return level | 0;
+    var m = String(level).match(/\d+/);
+    return m ? parseInt(m[0], 10) : 0;
+  }
+
+  /** isRedacted(level) → true when a skill at this level must hide its handle. */
+  function isRedacted(level) {
+    return levelNum(level) <= REDACT_AT_OR_BELOW;
+  }
+
+  /**
+   * redactedHandle(opts?) → the classified slate redaction marker.
+   * opts.block — use the monospace block bar (████████) instead of @[anonymous].
+   *   Use block:true in monospace contexts (tree, starless chips, breadcrumb,
+   *   DAG/graph labels); the proportional @[anonymous] is for card UI.
+   * Shares .plaque__redacted-handle styling (slate, flicker/scan) so the look
+   * is identical everywhere.
+   */
+  function redactedHandle(opts) {
+    opts = opts || {};
+    var cls = 'plaque__redacted-handle' + (opts.extraClass ? ' ' + opts.extraClass : '');
+    var text = opts.block ? REDACTED_BLOCK : ('@' + REDACTED_HANDLE);
+    return '<span class="' + esc(cls) + '" aria-label="Contributor not yet revealed">'
+      + esc(text) + '</span>';
+  }
+
   /**
    * handleLink(handle, opts?) → HTML anchor string '<a class="atlas-handle" …>@handle</a>'.
    * opts.rel — relative prefix passed to profileHref.
    * opts.extraClass — additional class(es) appended.
+   * opts.level — when supplied and ≤ 1★, returns the redacted slate marker
+   *   instead of the honor-red link (universal gate). opts.block selects the
+   *   monospace block form of that marker.
    * Empty handle → returns empty string.
    */
   function handleLink(handle, opts) {
     if (!handle) return '';
     opts = opts || {};
+    if (opts.level !== undefined && isRedacted(opts.level)) {
+      return redactedHandle({ extraClass: opts.extraClass, block: opts.block });
+    }
     var cls = 'atlas-handle' + (opts.extraClass ? ' ' + opts.extraClass : '');
     var href = profileHref(handle, opts.rel);
     return '<a class="' + esc(cls) + '" href="' + esc(href) + '">@' + esc(handle) + '</a>';
@@ -57,4 +101,8 @@
   window.namedSlug = namedSlug;
   window.profileHref = profileHref;
   window.handleLink = handleLink;
+  window.isRedacted = isRedacted;
+  window.redactedHandle = redactedHandle;
+  window.REDACTED_HANDLE = REDACTED_HANDLE;
+  window.REDACTED_BLOCK = REDACTED_BLOCK;
 })();

@@ -1,4 +1,4 @@
-# [garrytan](../../../docs/u/garrytan/)/context-restore  [3★]
+# [mattpocock](../../../docs/u/mattpocock/)/caveman  [3★]
 **ID:** context-compression  
 **Type:** Basic Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  

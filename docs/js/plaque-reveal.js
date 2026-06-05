@@ -97,6 +97,7 @@
       (typeof window.handleLink === 'function'
         ? window.handleLink(skillData.contributor || '', {
             extraClass: 'plaque-contributor' + (settled ? '' : ' plaque-contributor--animate'),
+            level: skillData.level,
           })
         : '<span class="plaque-contributor ' + (settled ? '' : 'plaque-contributor--animate') + '">@' +
             esc(skillData.contributor || '') +

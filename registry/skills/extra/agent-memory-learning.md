@@ -1,4 +1,4 @@
-# [ruvnet](../../../docs/u/ruvnet/)/agentdb-learning  [2★]
+# [ruvnet](../../../docs/u/ruvnet/)/reasoningbank-agentdb  [2★]
 **ID:** agent-memory-learning  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
@@ -23,7 +23,7 @@ _None specified._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| ruvnet/agentdb-learning ⭑ | ruvnet | 1★ | 0 |
+| ruvnet/agentdb-learning | ruvnet | 1★ | 0 |
 | ruvnet/reasoningbank-agentdb | ruvnet | 2★ | 0 |
 
 ## Evidence (inherited capability)

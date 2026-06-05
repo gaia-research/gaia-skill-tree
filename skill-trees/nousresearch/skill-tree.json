@@ -4,7 +4,7 @@
   "unlockedSkills": [
     {
       "skillId": "nousresearch/feed-monitoring",
-      "level": "4★",
+      "level": "1★",
       "unlockedAt": "2026-05-15T00:00:00Z",
       "unlockedIn": "nousresearch/gaia-skill-tree",
       "combinedFrom": [],
@@ -13,6 +13,11 @@
           "level": "4★",
           "achievedAt": "2026-05-15T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-02T23:48:19Z",
+          "source": "demote"
         }
       ]
     }
@@ -25,6 +30,14 @@
       "details": "Registered named skill nousresearch/feed-monitoring",
       "previousValue": null,
       "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-06-02T23:48:19Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "1★",
+      "details": "Calibrated level from 4★ to 1★",
+      "skillId": "nousresearch/feed-monitoring"
     }
   ],
   "stats": {

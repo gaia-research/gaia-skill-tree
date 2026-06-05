@@ -117,7 +117,14 @@
   function renderFlowchartView(filteredNamed) {
     var skillMap = window._gaiaSkillMap || {};
     var namedIds = {};
-    filteredNamed.forEach(function(ns) { namedIds[ns.genericSkillRef || ns.id] = ns; });
+    // Pick each bucket's CHAMPION (origin, else highest level) as its
+    // representative — not last-wins, which could surface a ≤1★ sibling over a
+    // real 2★+ champion and wrongly redact the node.
+    filteredNamed.forEach(function(ns) {
+      var key = ns.genericSkillRef || ns.id;
+      var cur = namedIds[key];
+      if (!cur || ns.origin || levelNum(ns.level) > levelNum(cur.level)) namedIds[key] = ns;
+    });
 
     var dagNodes = {};
     Object.values(skillMap).forEach(function(s) {
@@ -213,8 +220,15 @@
         var labelParts = String(labelSource).split('/');
         var labelContrib = labelParts.length > 1 ? labelParts[0] : '';
         var labelName = labelParts.length > 1 ? labelParts[1] : labelSource;
+        // Pre-named/demoted (≤1★): redact the contributor segment. Key on the
+        // NAMED skill's own level (ns.level) — the generic node (s.level) is
+        // rank-less, so using it would redact every node (false positive).
+        var labelRedacted = ns && window.isRedacted && window.isRedacted(ns.level);
+        var labelContribHtml = labelRedacted
+          ? '<span class="dag-node-label-contrib plaque__redacted-handle" aria-label="Contributor not yet revealed">████████</span>'
+          : '<span class="dag-node-label-contrib">' + esc(labelContrib) + '</span>';
         var labelHtml = labelContrib
-          ? '<div class="dag-node-label"><span class="dag-node-label-contrib">' + esc(labelContrib) + '</span><span style="color:var(--muted)">/</span><span class="dag-node-label-name">' + esc(labelName) + '</span></div>'
+          ? '<div class="dag-node-label">' + labelContribHtml + '<span style="color:var(--muted)">/</span><span class="dag-node-label-name">' + esc(labelName) + '</span></div>'
           : '<div class="dag-node-label"><span class="dag-node-label-name">' + esc(labelSource) + '</span></div>';
         html += '<div class="git-node" data-id="' + esc(id) + '" data-type="' + esc(s.type) + '" data-level="' + esc(s.level || '') + '" data-ghost="' + isGhost + '" style="--staggerY:' + staggerY + 'px"' +
                 ' onclick="if(window.selectNodeTree)window.selectNodeTree(\''+esc(id)+'\')"' +

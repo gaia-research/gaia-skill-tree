@@ -79,7 +79,9 @@
   function renderHero(ns, generic) {
     var type = (generic && generic.type) || ns.type || 'basic';
     var links = ns.links || {};
-    var repoUrl = links.github || links.npm || '';
+    // Pre-named/demoted (≤1★): the repo URL exposes the contributor — withhold it.
+    var redacted = window.isRedacted && window.isRedacted(ns.level);
+    var repoUrl = (!redacted && (links.github || links.npm)) || '';
 
     // Build the entry passed to plaque.renderDetail. Use the generic
     // type if the named entry doesn't carry one. Description falls
@@ -388,13 +390,24 @@
     }
 
     var isUlt = ns.level === '5★';
-    var gaiaCmd = isUlt ? 'gaia install --ultimate ' + id : 'gaia install ' + id;
+    // Pre-named/demoted (≤1★): withhold the handle in the install id, and hide
+    // the npx/git-clone methods (their repo URLs expose the contributor). This
+    // is lifted once the skill is named (2★+).
+    var redacted = window.isRedacted && window.isRedacted(ns.level);
+    var installId = (redacted && id.indexOf('/') !== -1)
+      ? ((window.REDACTED_BLOCK || '████████') + '/' + id.split('/').slice(1).join('/'))
+      : id;
+    var gaiaCmd = isUlt ? 'gaia install --ultimate ' + installId : 'gaia install ' + installId;
     var gaiaLabel = isUlt ? '◆ ultimate suite' : '★ recommended';
 
     if (ns.suiteComponents && ns.suiteComponents.length > 0 && ns.installBody) {
       el.innerHTML = '<div class="se-flow-h">' + COPY_ICON() + ' Installation</div>' +
         installBlock('Gaia', gaiaLabel, gaiaCmd, true) +
-        _renderTabbedInstall(ns);
+        (redacted ? '' : _renderTabbedInstall(ns));
+    } else if (redacted) {
+      el.innerHTML = '<div class="se-flow-h">' + COPY_ICON() + ' Installation</div>' +
+        installBlock('Gaia', gaiaLabel, gaiaCmd, true) +
+        '<div class="se-install-note">Source &amp; package install unlock when this skill is named (2★+).</div>';
     } else {
       el.innerHTML = '<div class="se-flow-h">' + COPY_ICON() + ' Installation</div>' +
         installBlock('Gaia', gaiaLabel, gaiaCmd, true) +
@@ -465,7 +478,9 @@
   function renderDocs(ns, generic) {
     var el = document.getElementById('se-docs');
     var links = ns.links || {};
-    var repoUrl = links.github || links.npm || '';
+    // Pre-named/demoted (≤1★): the repo URL exposes the contributor — withhold it.
+    var redacted = window.isRedacted && window.isRedacted(ns.level);
+    var repoUrl = (!redacted && (links.github || links.npm)) || '';
     var issuesUrl = 'https://github.com/' + REPO_SLUG + '/issues';
     var readmeUrl = repoUrl && isGithubUrl(repoUrl) ? repoUrl.replace(/\.(git|\/?)$/,'') : '';
 
@@ -516,13 +531,18 @@
     var currentType = (ns && ns.type) || genericObj.type || 'basic';
 
     // Slash-name label: contributor in honor-red, skill name in text.
-    function createNodeLabel(labelSource, navType, navTarget) {
+    function createNodeLabel(labelSource, navType, navTarget, level) {
       var parts = String(labelSource).split('/');
       var contrib = parts[0] || '';
       var skillName = parts[1] || labelSource;
+      var redacted = window.isRedacted && window.isRedacted(level);
       var inner;
       if (contrib && parts.length > 1) {
-        inner = '<span class="dag-node-label-contrib">' + esc(contrib) + '</span>' +
+        // Pre-named/demoted (≤1★): redact the contributor with the slate block.
+        var contribHtml = redacted
+          ? '<span class="dag-node-label-contrib plaque__redacted-handle" aria-label="Contributor not yet revealed">████████</span>'
+          : '<span class="dag-node-label-contrib">' + esc(contrib) + '</span>';
+        inner = contribHtml +
                 '<span style="color:var(--muted)">/</span>' +
                 '<span class="dag-node-label-name">' + esc(skillName) + '</span>';
       } else {
@@ -706,7 +726,7 @@
             ' style="--staggerY:' + staggerY + 'px"' +
             '>' +
           '<div class="git-commit-dot" style="--dot-color: ' + dotColor + '"></div>' +
-          createNodeLabel(labelSource, hasNamed ? 'named' : 'ghost', hasNamed ? nb.id : id) +
+          createNodeLabel(labelSource, hasNamed ? 'named' : 'ghost', hasNamed ? nb.id : id, nodeLevel) +
         '</div>';
       }).join('');
       
@@ -1179,10 +1199,15 @@
     // the profile page. uspName retains the slug + handle layout but the
     // contributor is now a hover-underlined link.
     var nspContribLink = (typeof window.handleLink === 'function')
-      ? window.handleLink(ns.contributor || '')
+      ? window.handleLink(ns.contributor || '', { level: ns.level })
       : '<span class="atlas-handle atlas-handle--inline">@' + esc(ns.contributor || '') + '</span>';
     document.getElementById('uspName').innerHTML = nspContribLink + ' / ' + esc(ns.name || ns.id.split('/')[1] || ns.id);
-    document.getElementById('uspId').textContent = ns.id;
+    // Withhold the handle in the canonical id for pre-named/demoted (≤1★) skills.
+    var uspIdText = ns.id;
+    if (window.isRedacted && window.isRedacted(ns.level) && ns.id.indexOf('/') !== -1) {
+      uspIdText = (window.REDACTED_BLOCK || '████████') + '/' + ns.id.split('/').slice(1).join('/');
+    }
+    document.getElementById('uspId').textContent = uspIdText;
     var bodyEl = pop.querySelector('.usp-body');
     if (bodyEl) bodyEl.innerHTML = 'Named implementation by ' + nspContribLink + '. Select an install method:';
     var cmd = 'gaia install ' + ns.id;
@@ -1330,15 +1355,28 @@
       var hasSlash = parts.length > 1;
 
       var type = (generic && generic.type) || ns.type || 'basic';
+      var handleRedacted = window.isRedacted && window.isRedacted(ns.level);
       var color = (LEVEL_META_SE && LEVEL_META_SE[ns.level]) ? LEVEL_META_SE[ns.level].color : 'inherit';
-      // Type overrides rank color for unique and ultimate (matches plaque CSS rule)
-      if (type === 'unique') { color = 'var(--tier-unique, #7c3aed)'; }
-      else if (type === 'ultimate') { color = 'var(--apex-gold, #fbbf24)'; }
+      // LEVEL_META_SE only carries 2★+; a pre-named/demoted (≤1★) skill keeps
+      // its plain rank color (--rank-N) — never type rainbow/glow, never the
+      // inherited honor-red.
+      if (handleRedacted) {
+        var _lvlN = parseInt(String(ns.level || '').replace(/\D+/g, ''), 10) || 0;
+        color = 'var(--rank-' + _lvlN + ', #38bdf8)';
+      } else {
+        if (type === 'unique') { color = 'var(--tier-unique, #7c3aed)'; }
+        else if (type === 'ultimate') { color = 'var(--apex-gold, #fbbf24)'; }
+      }
 
       var bHtml = '';
       if (hasSlash) {
-        bHtml += '<span class="atlas-handle">@' + esc(handle) + '</span>';
-        if (ns.origin && typeof window.gaiaIcon === 'function') {
+        if (handleRedacted) {
+          // Pre-named/demoted: redact the breadcrumb handle (slate block, mono).
+          bHtml += window.redactedHandle({ block: true });
+        } else {
+          bHtml += '<span class="atlas-handle">@' + esc(handle) + '</span>';
+        }
+        if (!handleRedacted && ns.origin && typeof window.gaiaIcon === 'function') {
           bHtml += ' <span class="plaque__origin" data-tooltip="Origin contributor: The creator of the first skill version" aria-label="Origin contributor: The creator of the first skill version">' +
             window.gaiaIcon('origin-badge', { size: 16 }) +
             '<span class="origin-info" style="margin-left: 3px; color: var(--muted); opacity: 0.7;">' + window.gaiaIcon('info', { size: 10 }) + '</span>' +
@@ -1347,12 +1385,14 @@
         bHtml += '<span style="color:var(--muted); opacity: 0.5; margin: 0 4px;">/</span>';
       }
       var slugStyle = 'font-size: inherit; color: ' + color + ';';
-      if (type === 'ultimate') {
-        slugStyle += ' animation: tree-rainbow-glow 4s linear infinite;';
-      } else if (type === 'extra') {
-        slugStyle += ' animation: tree-extra-glow 4s linear infinite;';
-      } else if (type === 'unique') {
-        slugStyle += ' text-shadow: 0 0 12px rgba(124,58,237,0.6), 0 0 4px rgba(124,58,237,0.3);';
+      if (!handleRedacted) {
+        if (type === 'ultimate') {
+          slugStyle += ' animation: tree-rainbow-glow 4s linear infinite;';
+        } else if (type === 'extra') {
+          slugStyle += ' animation: tree-extra-glow 4s linear infinite;';
+        } else if (type === 'unique') {
+          slugStyle += ' text-shadow: 0 0 12px rgba(124,58,237,0.6), 0 0 4px rgba(124,58,237,0.3);';
+        }
       }
       bHtml += '<span class="plaque__slug" style="' + slugStyle + '">' + esc(skillName) + '</span>';
       document.getElementById('skillExplorer').classList.add('open');
@@ -1376,7 +1416,9 @@
       var docsBtn = document.getElementById('seSkillDocs');
       if (docsBtn) {
         var readmeUrlRaw = '';
-        var repoUrl = (ns.links && (ns.links.github || ns.links.npm)) || '';
+        // Pre-named/demoted (≤1★): the repo URL exposes the contributor — hide it.
+        var docsRedacted = window.isRedacted && window.isRedacted(ns.level);
+        var repoUrl = (!docsRedacted && (ns.links && (ns.links.github || ns.links.npm))) || '';
         if (repoUrl && isGithubUrl(repoUrl)) {
           var base = repoUrl.replace(/\.(git|\/?)$/, '').replace('github.com', 'raw.githubusercontent.com');
           readmeUrlRaw = base + '/main/SKILL.md';
@@ -1393,7 +1435,12 @@
         }
       }
 
-
+      // Topbar Share button: a pre-named/demoted (≤1★) skill isn't shareable
+      // (no OG card / public permalink) — hide it.
+      var seShareBtn = document.getElementById('seShare');
+      if (seShareBtn) {
+        seShareBtn.style.display = (window.isRedacted && window.isRedacted(ns.level)) ? 'none' : '';
+      }
 
       // Push hash (skip if already correct)
       var newHash = '#explorer/' + ns.id;
@@ -1684,6 +1731,12 @@
   // atlas-helpers handleLink() convention used everywhere else.
   function handleAnchor(handle, inner) {
     if (!handle) return inner;
+    // The tree.md text is already redacted at source (handle = "████████" for
+    // pre-named/demoted skills). Render it as the slate redaction marker — never
+    // an honor-red profile link.
+    if (handle === (window.REDACTED_BLOCK || '████████') || handle === '[anonymous]') {
+      return '<span class="plaque__redacted-handle" aria-label="Contributor not yet revealed">' + esc(handle) + '</span>';
+    }
     var href = './u/' + encodeURIComponent(handle) + '/';
     return '<a class="atlas-handle" href="' + href + '">' + inner + '</a>';
   }

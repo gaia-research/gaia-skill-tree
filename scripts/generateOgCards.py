@@ -40,6 +40,8 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(REPO_ROOT / "src"))
+from gaia_cli.redaction import REDACTED_HANDLE, is_redacted  # noqa: E402  single source of truth
 NAMED_JSON = REPO_ROOT / "registry" / "named-skills.json"
 GAIA_JSON = REPO_ROOT / "registry" / "gaia.json"
 DOCS_DIR = REPO_ROOT / "docs"
@@ -754,6 +756,15 @@ def build_og_svg(skill: dict) -> str:
     """
     level = skill.get("level", "")
     n_lvl = level_num(level)
+
+    # Defence-in-depth: pre-named/demoted skills get no OG card path at all
+    # (the main loop skips them), but if a preview/sample ever renders one,
+    # withhold the handle and origin mark via the shared gate.
+    if is_redacted(level):
+        skill = dict(skill)
+        skill["contributor"] = REDACTED_HANDLE
+        skill["origin"] = False
+
     tier_type = resolve_type_for_og(skill)
 
     if n_lvl >= 6:
@@ -831,6 +842,12 @@ def generate_og_cards(named_path: Path, out_dir: Path) -> int:
         handle = skill.get("contributor", "")
         skill_id_full = skill.get("id", "")
         if not handle or not skill_id_full:
+            continue
+
+        # Path-level redaction: a pre-named/demoted (≤1★) skill is not yet
+        # publicly named — emit no OG card so the handle never appears in a
+        # /og/<handle>/<slug>.svg path.
+        if is_redacted(skill.get("level", "")):
             continue
 
         skill_slug = skill_id_full.split("/")[-1]

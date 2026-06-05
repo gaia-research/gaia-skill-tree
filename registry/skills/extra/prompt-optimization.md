@@ -1,4 +1,4 @@
-# [stanfordnlp](../../../docs/u/stanfordnlp/)/dspy  [2★]
+# [garrytan](../../../docs/u/garrytan/)/plan-tune  [2★]
 **ID:** prompt-optimization  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
@@ -24,8 +24,8 @@ _None specified._
 ## Named Implementations
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
-| stanfordnlp/dspy ⭑ | stanfordnlp | 1★ | 0 |
 | garrytan/plan-tune | garrytan | 2★ | 1 |
+| stanfordnlp/dspy | stanfordnlp | 1★ | 0 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

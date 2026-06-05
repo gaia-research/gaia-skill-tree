@@ -1,4 +1,4 @@
-# [garrytan](../../../docs/u/garrytan/)/careful  [3★]
+# [garrytan](../../../docs/u/garrytan/)/guard  [3★]
 **ID:** guardrails  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  

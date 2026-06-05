@@ -25,6 +25,9 @@ import glob
 import argparse
 import datetime
 
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "src"))
+from gaia_cli.redaction import is_redacted, level_num  # noqa: E402  single source of truth
+
 REQUIRED_FIELDS = [
     "id",
     "name",
@@ -364,6 +367,23 @@ def validate_and_group(named_skills, graph_data, skill_to_suite=None, suite_to_c
             if contributor not in by_contributor:
                 by_contributor[contributor] = []
             by_contributor[contributor].append(skill_id_fm)
+
+    # Per META § 1/4.1: Origin standing belongs to a *Named* (2★+) skill. A
+    # pre-named/demoted (≤1★) entry cannot be Origin, so clear any author-
+    # declared origin flag on such entries (this also stops a 1★ from being
+    # picked as a bucket's champion and shown with the bucket's effective star).
+    # Then order each bucket champion-first (rank desc, origin first, id) so
+    # every consumer that takes the first/origin entry maps to a ranked skill.
+    for ref, entries in buckets.items():
+        for e in entries:
+            if e.get("origin") and is_redacted(e.get("level", "")):
+                e["origin"] = False
+                e["role"] = "variant"
+        entries.sort(key=lambda e: (
+            -level_num(e.get("level", "")),
+            0 if e.get("origin") else 1,
+            e.get("id", ""),
+        ))
 
     # Origin uniqueness per bucket (named only)
     for ref, entries in buckets.items():

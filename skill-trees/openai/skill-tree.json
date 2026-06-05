@@ -4,7 +4,7 @@
   "unlockedSkills": [
     {
       "skillId": "openai/few-shot-learning",
-      "level": "4★",
+      "level": "2★",
       "unlockedAt": "2026-05-15T00:00:00Z",
       "unlockedIn": "openai/gaia-skill-tree",
       "combinedFrom": [],
@@ -13,12 +13,17 @@
           "level": "4★",
           "achievedAt": "2026-05-15T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-15T00:00:01Z",
+          "source": "demote"
         }
       ]
     },
     {
       "skillId": "openai/self-consistency",
-      "level": "4★",
+      "level": "2★",
       "unlockedAt": "2026-05-15T00:00:00Z",
       "unlockedIn": "openai/gaia-skill-tree",
       "combinedFrom": [],
@@ -27,6 +32,11 @@
           "level": "4★",
           "achievedAt": "2026-05-15T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-15T00:00:01Z",
+          "source": "demote"
         }
       ]
     }
@@ -47,6 +57,22 @@
       "details": "Registered named skill openai/self-consistency",
       "previousValue": null,
       "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-05-15T00:00:01Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "2★",
+      "details": "Reconciled to current registry level 2★ (registry-side recalibration; no source event recorded).",
+      "skillId": "openai/few-shot-learning"
+    },
+    {
+      "timestamp": "2026-05-15T00:00:01Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "2★",
+      "details": "Reconciled to current registry level 2★ (registry-side recalibration; no source event recorded).",
+      "skillId": "openai/self-consistency"
     }
   ],
   "stats": {

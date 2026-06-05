@@ -1,4 +1,4 @@
-# [ruvnet](../../../docs/u/ruvnet/)/github-workflow-automation  [2★]
+# [ruvnet](../../../docs/u/ruvnet/)/hooks-automation  [2★]
 **ID:** workflow-automation  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  

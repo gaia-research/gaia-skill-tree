@@ -14,6 +14,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="css/styles.css?v=3.27.0">
 <link rel="stylesheet" href="css/alpha-rail.css?v=3.27.0">
+<!-- plaque.css supplies the slate .plaque__redacted-handle styling for ≤1★ chips. -->
+<link rel="stylesheet" href="css/plaque.css?v=3.27.0">
 <!-- Stage 1 — icon sprite helper, loaded BEFORE other UI scripts. -->
 <script src="js/icons.js?v=3.27.0"></script>
 <!-- Stage 2 — shared rank-badge primitive. -->
@@ -293,14 +295,25 @@
       function chip(child) {
         var parts = splitHandle(child);
         var star = starOf(child);
-        var url = child && child.links && child.links.github;
+        // Pre-named/demoted (≤1★) named refs are redacted on this public index:
+        // withhold the handle (slate "@[anonymous]") and drop the source link,
+        // which would otherwise reveal the contributor via the repo.
+        var redacted = window.isRedacted ? window.isRedacted(child && child.level) : (star <= 1);
+        var url = !redacted && child && child.links && child.links.github;
         var el = document.createElement(url ? "a" : "span");
         el.className = "sl-chip";
         if (url) { el.href = url; el.target = "_blank"; el.rel = "noopener"; }
         el.title = nameOf(child) + (child.level ? "  ·  " + child.level : "");
 
         var at = document.createElement("span");
-        at.className = "handle"; at.appendChild(txt("@" + parts.handle));
+        if (redacted) {
+          // Monospace index → slate block redaction (not "@[anonymous]").
+          at.className = "handle plaque__redacted-handle";
+          at.setAttribute("aria-label", "Contributor not yet revealed");
+          at.appendChild(txt("████████"));
+        } else {
+          at.className = "handle"; at.appendChild(txt("@" + parts.handle));
+        }
         var sep = document.createElement("span");
         sep.className = "slash"; sep.appendChild(txt("/"));
         var slug = document.createElement("span");
@@ -403,8 +416,15 @@
           var kids = (buckets[s.id] || []).slice().sort(byRankDesc);
           if (kids.length) {
             kids.forEach(function (k) {
-              rows.push([csvCell(nameOf(s)), csvCell(k.id || nameOf(k)),
-                         csvCell(k.contributor || ""), csvCell(k.level || "")].join(","));
+              // Redact pre-named/demoted (≤1★) rows: withhold the handle in both
+              // the named-skill id and the contributor column.
+              var red = window.isRedacted && window.isRedacted(k.level);
+              var namedCell = red
+                ? "[anonymous]/" + ((String(k.id || "").split("/")[1]) || nameOf(k))
+                : (k.id || nameOf(k));
+              var contribCell = red ? "[anonymous]" : (k.contributor || "");
+              rows.push([csvCell(nameOf(s)), csvCell(namedCell),
+                         csvCell(contribCell), csvCell(k.level || "")].join(","));
             });
           } else {
             rows.push([csvCell(nameOf(s)), "", "", ""].join(","));

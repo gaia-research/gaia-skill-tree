@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-04",
+  "generatedAt": "2026-06-05",
   "schema": "gaia-badges-registry/2",
   "description": "Approved repos per contributor for Gaia README badges. Derived from registry/named-skills.json `links.github` URLs. The site Worker at worker/index.js handles /badges/<handle>/<file>.svg (the real SVGs live at /badges/_assets/<handle>/<file>.svg) and serves the `validating\u2026` SVG (docs/badges/not-found.svg) when the `?repo=` query string doesn't match a repo listed here. Schema v2 adds `fileSeal` for the seal-only (no 'Gaia' wordmark) variant.",
   "contributors": {
@@ -580,8 +580,6 @@
       "skillsByRepo": {
         "ruvnet/ruflo": [
           "ruvnet/agentdb",
-          "ruvnet/agentdb-advanced",
-          "ruvnet/agentdb-learning",
           "ruvnet/agentdb-memory-patterns",
           "ruvnet/agentdb-optimization",
           "ruvnet/agentdb-vector-search",
@@ -592,29 +590,19 @@
           "ruvnet/dual-mode",
           "ruvnet/dual-spawn",
           "ruvnet/flow-nexus",
-          "ruvnet/flow-nexus-neural",
-          "ruvnet/flow-nexus-platform",
-          "ruvnet/flow-nexus-swarm",
-          "ruvnet/github-code-review",
           "ruvnet/github-multi-repo",
           "ruvnet/github-project-management",
-          "ruvnet/github-release-management",
           "ruvnet/github-suite",
-          "ruvnet/github-workflow-automation",
           "ruvnet/hive-mind-coordination",
           "ruvnet/hooks-automation",
           "ruvnet/pair-programming",
           "ruvnet/performance-analysis",
           "ruvnet/reasoningbank",
           "ruvnet/reasoningbank-agentdb",
-          "ruvnet/reasoningbank-intelligence",
           "ruvnet/ruflo",
           "ruvnet/ruflo-v3",
           "ruvnet/skill-builder",
-          "ruvnet/sparc-methodology",
           "ruvnet/stream-chain",
-          "ruvnet/swarm-advanced",
-          "ruvnet/swarm-orchestration",
           "ruvnet/v3-cli-modernization",
           "ruvnet/v3-core-implementation",
           "ruvnet/v3-ddd-architecture",
@@ -623,7 +611,6 @@
           "ruvnet/v3-memory-unification",
           "ruvnet/v3-performance-optimization",
           "ruvnet/v3-security-overhaul",
-          "ruvnet/v3-swarm-coordination",
           "ruvnet/verification-quality",
           "ruvnet/worker-benchmarks",
           "ruvnet/worker-integration"
@@ -948,123 +935,6 @@
           "slash": "/worker-integration",
           "file": "worker-integration.svg",
           "fileSeal": "worker-integration-seal.svg"
-        },
-        {
-          "id": "ruvnet/agentdb-advanced",
-          "name": "AgentDB Advanced",
-          "rank": 1,
-          "type": "extra",
-          "slash": "/agentdb-advanced",
-          "file": "agentdb-advanced.svg",
-          "fileSeal": "agentdb-advanced-seal.svg"
-        },
-        {
-          "id": "ruvnet/agentdb-learning",
-          "name": "AgentDB Learning",
-          "rank": 1,
-          "type": "extra",
-          "slash": "/agentdb-learning",
-          "file": "agentdb-learning.svg",
-          "fileSeal": "agentdb-learning-seal.svg"
-        },
-        {
-          "id": "ruvnet/flow-nexus-neural",
-          "name": "Flow Nexus Neural",
-          "rank": 1,
-          "type": "extra",
-          "slash": "/flow-nexus-neural",
-          "file": "flow-nexus-neural.svg",
-          "fileSeal": "flow-nexus-neural-seal.svg"
-        },
-        {
-          "id": "ruvnet/flow-nexus-platform",
-          "name": "Flow Nexus Platform",
-          "rank": 1,
-          "type": "extra",
-          "slash": "/flow-nexus-platform",
-          "file": "flow-nexus-platform.svg",
-          "fileSeal": "flow-nexus-platform-seal.svg"
-        },
-        {
-          "id": "ruvnet/flow-nexus-swarm",
-          "name": "Flow Nexus Swarm",
-          "rank": 1,
-          "type": "extra",
-          "slash": "/flow-nexus-swarm",
-          "file": "flow-nexus-swarm.svg",
-          "fileSeal": "flow-nexus-swarm-seal.svg"
-        },
-        {
-          "id": "ruvnet/github-code-review",
-          "name": "GitHub Code Review",
-          "rank": 1,
-          "type": "extra",
-          "slash": "/github-code-review",
-          "file": "github-code-review.svg",
-          "fileSeal": "github-code-review-seal.svg"
-        },
-        {
-          "id": "ruvnet/github-release-management",
-          "name": "GitHub Release Management",
-          "rank": 1,
-          "type": "extra",
-          "slash": "/github-release-management",
-          "file": "github-release-management.svg",
-          "fileSeal": "github-release-management-seal.svg"
-        },
-        {
-          "id": "ruvnet/github-workflow-automation",
-          "name": "GitHub Workflow Automation",
-          "rank": 1,
-          "type": "extra",
-          "slash": "/github-workflow-automation",
-          "file": "github-workflow-automation.svg",
-          "fileSeal": "github-workflow-automation-seal.svg"
-        },
-        {
-          "id": "ruvnet/reasoningbank-intelligence",
-          "name": "ReasoningBank Intelligence",
-          "rank": 1,
-          "type": "basic",
-          "slash": "/reasoningbank-intelligence",
-          "file": "reasoningbank-intelligence.svg",
-          "fileSeal": "reasoningbank-intelligence-seal.svg"
-        },
-        {
-          "id": "ruvnet/sparc-methodology",
-          "name": "SPARC Methodology",
-          "rank": 1,
-          "type": "extra",
-          "slash": "/sparc-methodology",
-          "file": "sparc-methodology.svg",
-          "fileSeal": "sparc-methodology-seal.svg"
-        },
-        {
-          "id": "ruvnet/swarm-advanced",
-          "name": "Swarm Advanced",
-          "rank": 1,
-          "type": "extra",
-          "slash": "/swarm-advanced",
-          "file": "swarm-advanced.svg",
-          "fileSeal": "swarm-advanced-seal.svg"
-        },
-        {
-          "id": "ruvnet/swarm-orchestration",
-          "name": "Swarm Orchestration",
-          "rank": 1,
-          "type": "basic",
-          "slash": "/swarm-orchestration",
-          "file": "swarm-orchestration.svg",
-          "fileSeal": "swarm-orchestration-seal.svg"
-        },
-        {
-          "id": "ruvnet/v3-swarm-coordination",
-          "name": "V3 Swarm Coordination",
-          "rank": 1,
-          "type": "extra",
-          "slash": "/v3-swarm-coordination",
-          "file": "v3-swarm-coordination.svg",
-          "fileSeal": "v3-swarm-coordination-seal.svg"
         }
       ]
     },
@@ -1389,56 +1259,6 @@
         }
       ]
     },
-    "gooseworks": {
-      "repos": [
-        "gooseworks-ai/goose-skills"
-      ],
-      "skillsByRepo": {
-        "gooseworks-ai/goose-skills": [
-          "gooseworks/notte-browser"
-        ]
-      },
-      "topSkill": "gooseworks/notte-browser",
-      "topRank": 1,
-      "topIsUnique": false,
-      "count": 1,
-      "namedSkills": [
-        {
-          "id": "gooseworks/notte-browser",
-          "name": "Notte Browser",
-          "rank": 1,
-          "type": "extra",
-          "slash": "/notte-browser",
-          "file": "notte-browser.svg",
-          "fileSeal": "notte-browser-seal.svg"
-        }
-      ]
-    },
-    "devin-ai": {
-      "repos": [
-        "cognition-labs/devin"
-      ],
-      "skillsByRepo": {
-        "cognition-labs/devin": [
-          "devin-ai/autonomous-swe"
-        ]
-      },
-      "topSkill": "devin-ai/autonomous-swe",
-      "topRank": 1,
-      "topIsUnique": false,
-      "count": 1,
-      "namedSkills": [
-        {
-          "id": "devin-ai/autonomous-swe",
-          "name": "Autonomous SWE",
-          "rank": 1,
-          "type": "extra",
-          "slash": "/autonomous-swe",
-          "file": "autonomous-swe.svg",
-          "fileSeal": "autonomous-swe-seal.svg"
-        }
-      ]
-    },
     "firecrawl": {
       "repos": [
         "firecrawl/firecrawl"
@@ -1559,31 +1379,6 @@
         }
       ]
     },
-    "martin-stepanoski": {
-      "repos": [
-        "mastepanoski/claude-skills"
-      ],
-      "skillsByRepo": {
-        "mastepanoski/claude-skills": [
-          "martin-stepanoski/nielsen-heuristics-audit"
-        ]
-      },
-      "topSkill": "martin-stepanoski/nielsen-heuristics-audit",
-      "topRank": 2,
-      "topIsUnique": false,
-      "count": 1,
-      "namedSkills": [
-        {
-          "id": "martin-stepanoski/nielsen-heuristics-audit",
-          "name": "Nielsen Heuristics Audit",
-          "rank": 2,
-          "type": "basic",
-          "slash": "/nielsen-heuristics-audit",
-          "file": "nielsen-heuristics-audit.svg",
-          "fileSeal": "nielsen-heuristics-audit-seal.svg"
-        }
-      ]
-    },
     "pbakaus": {
       "repos": [
         "pbakaus/impeccable"
@@ -1606,6 +1401,31 @@
           "slash": "/impeccable",
           "file": "impeccable.svg",
           "fileSeal": "impeccable-seal.svg"
+        }
+      ]
+    },
+    "martin-stepanoski": {
+      "repos": [
+        "mastepanoski/claude-skills"
+      ],
+      "skillsByRepo": {
+        "mastepanoski/claude-skills": [
+          "martin-stepanoski/nielsen-heuristics-audit"
+        ]
+      },
+      "topSkill": "martin-stepanoski/nielsen-heuristics-audit",
+      "topRank": 2,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "martin-stepanoski/nielsen-heuristics-audit",
+          "name": "Nielsen Heuristics Audit",
+          "rank": 2,
+          "type": "basic",
+          "slash": "/nielsen-heuristics-audit",
+          "file": "nielsen-heuristics-audit.svg",
+          "fileSeal": "nielsen-heuristics-audit-seal.svg"
         }
       ]
     },
@@ -1879,25 +1699,6 @@
         }
       ]
     },
-    "stanfordnlp": {
-      "repos": [],
-      "skillsByRepo": {},
-      "topSkill": "stanfordnlp/dspy",
-      "topRank": 1,
-      "topIsUnique": false,
-      "count": 1,
-      "namedSkills": [
-        {
-          "id": "stanfordnlp/dspy",
-          "name": "DSPy",
-          "rank": 1,
-          "type": "extra",
-          "slash": "/dspy",
-          "file": "dspy.svg",
-          "fileSeal": "dspy-seal.svg"
-        }
-      ]
-    },
     "glincker": {
       "repos": [
         "GLINCKER/claude-code-marketplace"
@@ -2045,15 +1846,6 @@
           "slash": "/transformers-js",
           "file": "transformers-js.svg",
           "fileSeal": "transformers-js-seal.svg"
-        },
-        {
-          "id": "huggingface/semantic-cache",
-          "name": "Semantic Cache",
-          "rank": 1,
-          "type": "basic",
-          "slash": "/semantic-cache",
-          "file": "semantic-cache.svg",
-          "fileSeal": "semantic-cache-seal.svg"
         }
       ]
     },
@@ -2107,56 +1899,6 @@
         }
       ]
     },
-    "nexu-io": {
-      "repos": [
-        "nexu-io/open-design"
-      ],
-      "skillsByRepo": {
-        "nexu-io/open-design": [
-          "nexu-io/open-design"
-        ]
-      },
-      "topSkill": "nexu-io/open-design",
-      "topRank": 1,
-      "topIsUnique": false,
-      "count": 1,
-      "namedSkills": [
-        {
-          "id": "nexu-io/open-design",
-          "name": "Open Design",
-          "rank": 1,
-          "type": "extra",
-          "slash": "/open-design",
-          "file": "open-design.svg",
-          "fileSeal": "open-design-seal.svg"
-        }
-      ]
-    },
-    "nousresearch": {
-      "repos": [
-        "NousResearch/hermes-agent"
-      ],
-      "skillsByRepo": {
-        "NousResearch/hermes-agent": [
-          "nousresearch/feed-monitoring"
-        ]
-      },
-      "topSkill": "nousresearch/feed-monitoring",
-      "topRank": 1,
-      "topIsUnique": false,
-      "count": 1,
-      "namedSkills": [
-        {
-          "id": "nousresearch/feed-monitoring",
-          "name": "Feed Monitoring",
-          "rank": 1,
-          "type": "basic",
-          "slash": "/feed-monitoring",
-          "file": "feed-monitoring.svg",
-          "fileSeal": "feed-monitoring-seal.svg"
-        }
-      ]
-    },
     "openai": {
       "repos": [],
       "skillsByRepo": {},
@@ -2182,31 +1924,6 @@
           "slash": "/self-consistency",
           "file": "self-consistency.svg",
           "fileSeal": "self-consistency-seal.svg"
-        }
-      ]
-    },
-    "safishamsi": {
-      "repos": [
-        "safishamsi/graphify"
-      ],
-      "skillsByRepo": {
-        "safishamsi/graphify": [
-          "safishamsi/graphify"
-        ]
-      },
-      "topSkill": "safishamsi/graphify",
-      "topRank": 1,
-      "topIsUnique": false,
-      "count": 1,
-      "namedSkills": [
-        {
-          "id": "safishamsi/graphify",
-          "name": "Graphify",
-          "rank": 1,
-          "type": "extra",
-          "slash": "/graphify",
-          "file": "graphify.svg",
-          "fileSeal": "graphify-seal.svg"
         }
       ]
     },
@@ -2282,31 +1999,6 @@
           "slash": "/find-skills",
           "file": "find-skills.svg",
           "fileSeal": "find-skills-seal.svg"
-        }
-      ]
-    },
-    "yonatangross": {
-      "repos": [
-        "yonatangross/orchestkit"
-      ],
-      "skillsByRepo": {
-        "yonatangross/orchestkit": [
-          "yonatangross/orchestkit-rag"
-        ]
-      },
-      "topSkill": "yonatangross/orchestkit-rag",
-      "topRank": 1,
-      "topIsUnique": false,
-      "count": 1,
-      "namedSkills": [
-        {
-          "id": "yonatangross/orchestkit-rag",
-          "name": "OrchestrKit RAG",
-          "rank": 1,
-          "type": "extra",
-          "slash": "/orchestkit-rag",
-          "file": "orchestkit-rag.svg",
-          "fileSeal": "orchestkit-rag-seal.svg"
         }
       ]
     }

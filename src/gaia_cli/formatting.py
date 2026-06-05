@@ -97,8 +97,17 @@ TIER_COLORS, RANK_COLORS = _load_palette_from_registry()
 
 TYPE_SYMBOLS = {"basic": "○", "extra": "◇", "unique": "◉", "ultimate": "◆"}
 
-COLOR_CONTRIBUTOR = (239, 68, 68)    # #ef4444 -- red for named contributors
-COLOR_LOCAL_USER  = (134, 239, 172)  # #86efac -- bright green for local/user skills
+COLOR_CONTRIBUTOR = (239, 68, 68)      # #ef4444 -- red for named contributors
+COLOR_LOCAL_USER  = (134, 239, 172)    # #86efac -- bright green for local/user skills
+
+# Redaction policy lives in the single source of truth: gaia_cli.redaction.
+# Re-exported here so existing importers of formatting keep working.
+from gaia_cli.redaction import (  # noqa: E402
+    COLOR_REDACTED,
+    REDACTED_BLOCK,
+    is_redacted,
+    level_num as _level_num,
+)
 
 
 # --- Public formatting API ---
@@ -113,17 +122,24 @@ def _split_named_ref(named_ref: str, local_user: str | None) -> tuple[str, str, 
 
 def format_skill_plain(skill_id: str, *, named_ref: str | None = None,
                        named_contributor: str | None = None,
-                       is_local: bool = False, local_user: str | None = None) -> str:
+                       is_local: bool = False, local_user: str | None = None,
+                       level: str | None = None) -> str:
     """Return plain display string without ANSI codes.
 
     Prefer named_ref ('contributor/nickname') over the legacy named_contributor param.
+    When ``level`` is provided and ≤ 1★, the contributor segment is replaced with
+    the redaction block (████████) — the skill slug is preserved.
     """
     if named_ref:
         contrib, nickname, is_own = _split_named_ref(named_ref, local_user)
         if is_own:
             return f"/{nickname}"
+        if level is not None and is_redacted(level):
+            contrib = REDACTED_BLOCK
         return f"{contrib}/{nickname}" if contrib else f"/{nickname}"
     if named_contributor:
+        if level is not None and is_redacted(level):
+            named_contributor = REDACTED_BLOCK
         return f"{named_contributor}/{skill_id}"
     return f"/{skill_id}"
 
@@ -135,7 +151,7 @@ def format_skill_colored(skill_id: str, level: str = "0★", *,
     """Return ANSI-colored display string.
 
     - Own named (named_ref, contrib == local_user): GREEN /nickname
-    - Other named: RED contributor / rank-colored nickname
+    - Other named: RED contributor / rank-colored nickname (SLATE for ≤1★)
     - Local novel: GREEN /skill-id
     - Canon: rank-colored /skill-id
     """
@@ -148,11 +164,17 @@ def format_skill_colored(skill_id: str, level: str = "0★", *,
             return f"{_fg(*COLOR_LOCAL_USER)}/{nickname}{r}"
         nick_colored = f"{_fg(*rank_color)}{nickname}{r}"
         if contrib:
+            if is_redacted(level):
+                # Pre-named: replace honor-red handle with slate redaction block
+                return f"{_fg(*COLOR_REDACTED)}{REDACTED_BLOCK}{r}/{nick_colored}"
             return f"{_fg(*COLOR_CONTRIBUTOR)}{contrib}{r}/{nick_colored}"
         return f"{_fg(*COLOR_CONTRIBUTOR)}/{nickname}{r}"
 
     if named_contributor:
-        contrib_colored = f"{_fg(*COLOR_CONTRIBUTOR)}{named_contributor}{r}"
+        if is_redacted(level):
+            contrib_colored = f"{_fg(*COLOR_REDACTED)}{REDACTED_BLOCK}{r}"
+        else:
+            contrib_colored = f"{_fg(*COLOR_CONTRIBUTOR)}{named_contributor}{r}"
         skill_colored = f"{_fg(*rank_color)}{skill_id}{r}"
         return f"{contrib_colored}/{skill_colored}"
     if is_local:
