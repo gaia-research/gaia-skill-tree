@@ -5407,6 +5407,7 @@ footer::before {
    ───────────────────────────────────────────────────────────── */
 
 footer.footer-v2 {
+  display: block;
   text-align: left;
   padding: 0;
   border-top: none;
@@ -5414,6 +5415,7 @@ footer.footer-v2 {
   font-size: .85rem;
   background: linear-gradient(180deg, transparent 0%, rgba(15, 23, 42, .55) 100%);
   position: relative;
+  width: 100%;
 }
 
 footer.footer-v2::before {
@@ -5435,6 +5437,8 @@ footer.footer-v2::before {
   grid-template-columns: minmax(170px, 230px) 1fr;
   gap: 3rem 4rem;
   align-items: start;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Brand column */
@@ -5473,6 +5477,7 @@ footer.footer-v2::before {
   grid-template-columns: repeat(4, 1fr);
   gap: 2rem;
   align-items: start;
+  width: 100%;
 }
 
 .footer-v2 .footer-col {
@@ -5549,6 +5554,8 @@ footer.footer-v2::before {
   color: var(--muted);
   flex-wrap: wrap;
   text-align: center;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .footer-v2 .footer-bottom-sep {
