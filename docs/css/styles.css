@@ -368,7 +368,8 @@ nav ul.nav-primary {
 .nav-more-menu {
   position: absolute;
   top: 100%;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
   margin-top: .75rem;
   background: rgba(3, 7, 18, .95);
   border: 1px solid var(--border);
@@ -381,9 +382,8 @@ nav ul.nav-primary {
   gap: 0;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(-8px);
   transition: opacity .2s, visibility .2s, transform .2s;
-  z-index: 150;
+  z-index: 10100;
   backdrop-filter: blur(10px);
 }
 
@@ -391,7 +391,7 @@ nav ul.nav-primary {
 .nav-more-dropdown:focus-within .nav-more-menu {
   opacity: 1;
   visibility: visible;
-  transform: translateY(0);
+  transform: translateX(-50%) translateY(0);
 }
 
 .nav-more-menu li {
