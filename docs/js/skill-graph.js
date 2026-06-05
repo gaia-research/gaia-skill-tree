@@ -1055,7 +1055,9 @@
         if (namedId) {
           const parts = namedId.split('/');
           if (parts.length === 2) {
-            const handleTxt = '@' + parts[0];
+            // Pre-named/demoted handle is the slate block (████████) — no "@".
+            const isRedHandle = parts[0] === (window.REDACTED_BLOCK || '████████');
+            const handleTxt = isRedHandle ? parts[0] : '@' + parts[0];
             const slashTxt = '/' + parts[1];
             const isOrigin = state.originMap && state.originMap[skill.id];
             ctx.textAlign = 'left';
@@ -1064,8 +1066,8 @@
             const badgeW = isOrigin ? 20 * pr.scale : 0;
             const totalW = w1 + w2 + badgeW;
             const startX = pr.sx - totalW / 2;
-            // Redacted handle ("@[anonymous]") renders slate, never honor-red.
-            ctx.fillStyle = (handleTxt === '@[anonymous]')
+            // Redacted handle renders slate, never honor-red.
+            ctx.fillStyle = isRedHandle
               ? `rgba(148,163,184,${labelAlpha.toFixed(2)})`
               : `rgba(${tokens.honorRedRgb},${labelAlpha.toFixed(2)})`;
             ctx.fillText(handleTxt, startX, pr.sy + 18 * pr.scale);
@@ -1172,12 +1174,13 @@
               
               const handleSpan = document.createElement('span');
               handleSpan.className = 'gst-named-handle';
-              // Redacted handle renders slate via the shared plaque class.
-              if (parts[0] === '[anonymous]') {
+              // Redacted handle is the slate block (████████) — slate, no "@".
+              var _gstRed = parts[0] === (window.REDACTED_BLOCK || '████████');
+              if (_gstRed) {
                 handleSpan.className += ' plaque__redacted-handle';
                 handleSpan.setAttribute('aria-label', 'Contributor not yet revealed');
               }
-              handleSpan.textContent = '@' + parts[0];
+              handleSpan.textContent = _gstRed ? parts[0] : '@' + parts[0];
               namedLineDiv.appendChild(handleSpan);
 
               if (parts.length === 2) {
@@ -2633,7 +2636,7 @@
             // Always redact (never drop) a pre-named/demoted (≤1★) handle:
             // keep the slash-name shape but withhold the handle segment.
             map[skillId] = redacts(origin.level)
-              ? '[anonymous]/' + (origin.id.split('/')[1] || origin.id)
+              ? (window.REDACTED_BLOCK || '████████') + '/' + (origin.id.split('/')[1] || origin.id)
               : origin.id;
           }
           if (origin && origin.title) titleMap[skillId] = origin.title;

@@ -3583,7 +3583,7 @@ button.plaque__slug:focus-visible {
   font-size: 0.8em;
   font-style: italic;
   letter-spacing: 0.12em;
-  color: var(--rank-0);                    /* slate — never honor-red */
+  color: var(--rank-0) !important;         /* slate — must win over honor-red context selectors (.sl-chip .handle, .atlas-handle, .gst-named-handle …) */
   background: var(--rank-0-bg);
   border: 1px solid var(--rank-0-border);
   border-radius: 3px;

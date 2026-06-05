@@ -305,9 +305,10 @@
 
         var at = document.createElement("span");
         if (redacted) {
+          // Monospace index → slate block redaction (not "@[anonymous]").
           at.className = "handle plaque__redacted-handle";
           at.setAttribute("aria-label", "Contributor not yet revealed");
-          at.appendChild(txt("@[anonymous]"));
+          at.appendChild(txt("████████"));
         } else {
           at.className = "handle"; at.appendChild(txt("@" + parts.handle));
         }

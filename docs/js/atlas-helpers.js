@@ -48,6 +48,7 @@
      — keep it in lockstep with the Python module. */
   var REDACT_AT_OR_BELOW = 1;
   var REDACTED_HANDLE = '[anonymous]';
+  var REDACTED_BLOCK = '████████';  // U+2588 ×8 — slate block for monospace contexts
 
   function levelNum(level) {
     if (level == null) return 0;
@@ -62,31 +63,35 @@
   }
 
   /**
-   * redactedHandle(opts?) → the classified slate "@[anonymous]" span.
-   * Shares the .plaque__redacted-handle styling (flicker/scan) used by the
-   * server-rendered profile plaques so the look is identical everywhere.
+   * redactedHandle(opts?) → the classified slate redaction marker.
+   * opts.block — use the monospace block bar (████████) instead of @[anonymous].
+   *   Use block:true in monospace contexts (tree, starless chips, breadcrumb,
+   *   DAG/graph labels); the proportional @[anonymous] is for card UI.
+   * Shares .plaque__redacted-handle styling (slate, flicker/scan) so the look
+   * is identical everywhere.
    */
   function redactedHandle(opts) {
     opts = opts || {};
     var cls = 'plaque__redacted-handle' + (opts.extraClass ? ' ' + opts.extraClass : '');
-    return '<span class="' + esc(cls) + '" aria-label="Contributor not yet revealed">@'
-      + esc(REDACTED_HANDLE) + '</span>';
+    var text = opts.block ? REDACTED_BLOCK : ('@' + REDACTED_HANDLE);
+    return '<span class="' + esc(cls) + '" aria-label="Contributor not yet revealed">'
+      + esc(text) + '</span>';
   }
 
   /**
    * handleLink(handle, opts?) → HTML anchor string '<a class="atlas-handle" …>@handle</a>'.
    * opts.rel — relative prefix passed to profileHref.
    * opts.extraClass — additional class(es) appended.
-   * opts.level — when supplied and ≤ 1★, returns the redacted slate span
-   *   instead of the honor-red link (universal gate — callers that thread the
-   *   level can never leak a pre-named handle).
+   * opts.level — when supplied and ≤ 1★, returns the redacted slate marker
+   *   instead of the honor-red link (universal gate). opts.block selects the
+   *   monospace block form of that marker.
    * Empty handle → returns empty string.
    */
   function handleLink(handle, opts) {
     if (!handle) return '';
     opts = opts || {};
     if (opts.level !== undefined && isRedacted(opts.level)) {
-      return redactedHandle({ extraClass: opts.extraClass });
+      return redactedHandle({ extraClass: opts.extraClass, block: opts.block });
     }
     var cls = 'atlas-handle' + (opts.extraClass ? ' ' + opts.extraClass : '');
     var href = profileHref(handle, opts.rel);
@@ -99,4 +104,5 @@
   window.isRedacted = isRedacted;
   window.redactedHandle = redactedHandle;
   window.REDACTED_HANDLE = REDACTED_HANDLE;
+  window.REDACTED_BLOCK = REDACTED_BLOCK;
 })();
