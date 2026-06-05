@@ -5409,11 +5409,22 @@ footer::before {
 footer.footer-v2 {
   text-align: left;
   padding: 0;
+  border-top: none;
+  color: var(--muted);
+  font-size: .85rem;
   background: linear-gradient(180deg, transparent 0%, rgba(15, 23, 42, .55) 100%);
+  position: relative;
 }
 
 footer.footer-v2::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
   width: 60%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(56, 189, 248, .3) 20%, rgba(192, 132, 252, .3) 50%, rgba(245, 158, 11, .3) 80%, transparent);
 }
 
 .footer-v2 .footer-inner {
