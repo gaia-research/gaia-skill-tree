@@ -78,7 +78,8 @@
       width: 96px;
       height: 96px;
       border-radius: 50%;
-      border: 1px solid var(--border);
+      border: 1px solid rgba(251, 191, 36, .25);
+      box-shadow: 0 0 0 3px rgba(251, 191, 36, .08);
       object-fit: cover;
       object-position: center top;
       margin: 0 auto 1.5rem;
@@ -100,7 +101,18 @@
       font-size: .85rem;
       color: var(--honor-red);
       letter-spacing: .04em;
-      margin: 0;
+      margin: 0 0 1.5rem;
+    }
+
+    .about-plate-statement {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(1rem, 2.2vw, 1.2rem);
+      line-height: 1.65;
+      color: var(--muted);
+      max-width: 52ch;
+      margin: 0 auto;
+      text-wrap: pretty;
     }
 
     /* ─── Content column ─── */
@@ -121,12 +133,13 @@
 
     .about-section-h {
       font-family: var(--font-display);
-      font-size: clamp(1.25rem, 3vw, 1.65rem);
+      font-size: clamp(1.3rem, 3vw, 1.75rem);
       font-weight: 600;
       color: var(--text);
       margin: 0 0 1.5rem;
-      line-height: 1.2;
+      line-height: 1.15;
       text-wrap: balance;
+      letter-spacing: -.01em;
     }
 
     .about-section p {
@@ -422,7 +435,7 @@
     </button>
     <ul class="nav-primary">
       <li><a href="index.html" style="color: var(--text);">Home</a></li>
-      <li><a href="about.html" style="color: var(--text);" aria-current="page">About</a></li>
+      <li><a href="about.html" style="color: var(--apex-gold);" aria-current="page">About</a></li>
       <li><a href="badges/" style="color: var(--honor-red);">GitHub Badges</a></li>
       <li class="nav-more-dropdown">
         <button class="nav-more-toggle" aria-label="More options" aria-expanded="false">More</button>
@@ -454,6 +467,7 @@
     >
     <h1 class="about-plate-name">Marcus B. Tiongson</h1>
     <p class="about-plate-handle">@mbtiongson1</p>
+    <p class="about-plate-statement">I built this because skills should be attributed to the people who proved them — permanently, not just until the repo goes private.</p>
   </header>
 
   <!-- ─── BODY ─── -->
