@@ -14,6 +14,13 @@ The page answers one skeptic's question: "Who is behind this, and will it still 
 
 **Voice.** Half-Merged throughout. Canonical labels (registry, named skill, origin contributor, evidence, timeline, schema) carry the meaning. Ceremonial weight (the ledger, the record, the tradition) carries the tone. No hype, no superlatives, no marketing cadence.
 
+**Distill pass (assume nobody reads; everyone likes numbers).** Body copy cut to its sharpest form and made scannable:
+- Opening section renamed **"On the Record Today"** and leads with the numbers strip, not prose. Two short paragraphs follow (registry-vs-marketplace, attribution-as-patent); the wordy origin story was dropped.
+- Trust pillars cut to one line each; one pillar now leads with a figure (**"235 names, real commits behind each"**).
+- "Why These Names" intro cut from four sentences to two.
+- The standalone **"Named Already"** section was removed (redundant with the numbers + quotes); its three links survive as a slim `See the full record` mono row appended to the quotes.
+- CTA paragraph tightened to two sentences. Dead `.named-callout` CSS removed.
+
 **Layout.** Single column, max ~65ch body width. Section headings in EB Garamond. Body in Bricolage Grotesque. The trust pillar section uses a `<dl>` with a small ◆ bullet-prefix — not cards, not a side-stripe callout box, not a metric grid.
 
 **Motion.** One entrance animation (`ab-rise`) applied staggered to the plate and each section. Respects `prefers-reduced-motion`.
@@ -252,48 +259,6 @@ The page answers one skeptic's question: "Who is behind this, and will it still 
       border-radius: 3px;
     }
 
-    /* ─── Named callout ─── */
-    .named-callout {
-      margin-top: 1.75rem;
-      padding: 1.5rem 1.75rem;
-      background: linear-gradient(135deg, rgba(56,189,248,.06) 0%, rgba(167,139,250,.06) 100%);
-      border: 1px solid rgba(56,189,248,.15);
-      border-radius: 8px;
-    }
-
-    .named-callout p {
-      font-family: var(--font-body);
-      font-size: .925rem;
-      line-height: 1.65;
-      color: var(--text);
-      max-width: none;
-      margin: 0 0 1.1rem;
-    }
-
-    .named-callout-links {
-      display: flex;
-      gap: 1.5rem;
-      flex-wrap: wrap;
-    }
-
-    .named-callout-links a {
-      font-family: var(--font-body);
-      font-size: .875rem;
-      color: var(--tier-basic);
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: .3rem;
-      transition: color .18s;
-    }
-
-    .named-callout-links a:hover { color: var(--text); }
-
-    .named-callout-links .ico {
-      opacity: .6;
-      flex-shrink: 0;
-    }
-
     /* ─── Closing line ─── */
     .about-close {
       max-width: 700px;
@@ -400,6 +365,25 @@ The page answers one skeptic's question: "Who is behind this, and will it still 
       border-bottom: 1px dotted var(--border);
     }
     .insp-src:hover { color: var(--tier-basic); border-bottom-color: var(--tier-basic); }
+
+    .insp-seealso {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: .65rem 1.4rem;
+      margin-top: 2.25rem;
+      padding-top: 1.75rem;
+      border-top: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: .8rem;
+    }
+    .insp-seealso-label { color: var(--muted); }
+    .insp-seealso a {
+      color: var(--tier-basic);
+      text-decoration: none;
+      transition: color .18s;
+    }
+    .insp-seealso a:hover { color: var(--text); }
 
     /* ─── Contribute CTA ─── */
     .contribute {
@@ -534,10 +518,7 @@ The page answers one skeptic's question: "Who is behind this, and will it still 
   <main class="about-body">
 
     <section class="about-section ab-animate" style="animation-delay: .15s" aria-labelledby="about-why">
-      <h2 class="about-section-h" id="about-why">Why the Ledger Exists</h2>
-      <p>Skills get shipped and forgotten. An AI engineer builds a capability that makes agents faster, more accurate, or more composable. Others adopt it, adapt it, or arrive at it independently — and nobody records who first demonstrated it. There is no canonical place to say: this capability was named, the evidence was verified, the attribution is on the permanent record.</p>
-      <p>Gaia is a registry, not a marketplace. A marketplace asks what you can use; a registry asks what is on the record. The distinction matters because attribution is structural, not cosmetic. A named skill carries its origin contributor permanently, visibly, and verifiably — the way a patent carries an inventor's name. Not as property, but as provenance. The goal is an open system where a developer's most creative contributions outlast any platform, any employer, and any trend.</p>
-      <p>The meta shifts in seasons. New capabilities emerge, tiers get refined, contributors come and go. The ledger does not get rewritten. Every rank change, every fusion, every evidence update is logged to an auditable timeline. This registry is designed to outlast its founder: the schema is open, the data is portable, and the tradition is built to be handed on.</p>
+      <h2 class="about-section-h" id="about-why">On the Record Today</h2>
       <p class="about-ledger" aria-label="What is on the record today">
         <span class="al-stat"><span class="al-num">228</span> generic references</span>
         <span class="al-sep" aria-hidden="true">/</span>
@@ -549,7 +530,9 @@ The page answers one skeptic's question: "Who is behind this, and will it still 
         <span class="al-sep" aria-hidden="true">/</span>
         <span class="al-stat"><span class="al-num">220</span> evidence entries</span>
       </p>
-      <p class="about-ledger-note">Live totals from <a href="https://github.com/mbtiongson1/gaia-skill-tree/blob/main/registry/gaia.json" target="_blank" rel="noopener">registry/gaia.json</a> v4.1.2. Counts move as the record grows.</p>
+      <p class="about-ledger-note">Live from <a href="https://github.com/mbtiongson1/gaia-skill-tree/blob/main/registry/gaia.json" target="_blank" rel="noopener">registry/gaia.json</a> v4.1.2. Counts grow with the record.</p>
+      <p>Gaia is a registry, not a marketplace. A marketplace asks what you can use. A registry asks what's on the record: who demonstrated a capability first, and the evidence that proves it.</p>
+      <p>Attribution is permanent and public, the way an inventor's name stays on a patent. Everywhere else, skills get shipped and forgotten. Here they don't.</p>
     </section>
 
     <section class="about-section ab-animate" style="animation-delay: .25s" aria-labelledby="about-last">
@@ -557,26 +540,26 @@ The page answers one skeptic's question: "Who is behind this, and will it still 
       <dl class="trust-dl">
         <div class="trust-item">
           <dt>Every change is on the record.</dt>
-          <dd>The CLI writes a timeline event on every promotion, demotion, fusion, and evidence update. No silent edits. Any auditor can trace a skill from first submission to current rank without gaps. The Transparency Gate fails any build whose timeline cannot account for a skill's current state.</dd>
+          <dd>A timeline event is written for every rank change, fusion, and evidence update. No silent edits: the build fails if the timeline can't explain a skill's rank.</dd>
         </div>
         <div class="trust-item">
           <dt>The schema is open and forkable.</dt>
-          <dd><code>registry/gaia.json</code> is a public skill graph with a published JSON schema. If this repository ever goes dark, the data can be forked, re-hosted, or maintained by anyone. No single person holds the keys to the record.</dd>
+          <dd><code>registry/gaia.json</code> is public, with a published JSON schema. If this repo goes dark, anyone can fork and re-host the record.</dd>
         </div>
         <div class="trust-item">
-          <dt>Named contributors have active stakes.</dt>
-          <dd>Every named skill ties a real contributor handle to a real commit history. Those contributors have a reason to care whether the record stays accurate — their own attribution lives here alongside yours.</dd>
+          <dt>235 names, real commits behind each.</dt>
+          <dd>Every named skill ties a handle to a real commit history. The people on the record have a reason to keep it accurate.</dd>
         </div>
         <div class="trust-item">
-          <dt>Versioned, locked, and released on a cycle.</dt>
-          <dd>Every registry change moves through a versioned release. A pre-commit hook enforces that four manifests stay in lockstep. There are no untracked mutations to <code>registry/gaia.json</code>.</dd>
+          <dt>Versioned and locked.</dt>
+          <dd>Every change ships in a versioned release. A pre-commit hook keeps four manifests in lockstep — no untracked edits.</dd>
         </div>
       </dl>
     </section>
 
     <section class="about-section ab-animate" style="animation-delay: .35s" aria-labelledby="about-inspire">
       <h2 class="about-section-h" id="about-inspire">Why These Names</h2>
-      <p class="insp-intro">Gaia did not invent these developers' work. It catalogued it, the way a registry should — by evidence, with their handle attached. These three are not Gaia maintainers; they are builders whose public tools are the reason this exists. Each quote below is their own words, about their own work, linked to its source. Their handles render in Honor Red because that is the one rule that never bends: attribution belongs to the person who built the thing.</p>
+      <p class="insp-intro">These developers don't work on Gaia. Their public tools are part of why it exists. Gaia catalogued each one by evidence, handle attached — their words below, from their own sources.</p>
 
       <div class="insp-list">
 
@@ -617,28 +600,13 @@ The page answers one skeptic's question: "Who is behind this, and will it still 
         </article>
 
       </div>
-    </section>
 
-    <section class="about-section ab-animate" style="animation-delay: .4s" aria-labelledby="about-named">
-      <h2 class="about-section-h" id="about-named">Named Already</h2>
-      <p>The registry is not a future promise. Real contributors have named skills on the record today — their handles in Honor Red on every plaque, every graph, every generated page. The system works because it is already in use.</p>
-      <div class="named-callout">
-        <p>Browse the current named skills, read about the curation process that keeps the record accurate, or visit the Hall of Heroes to see who has earned a place on the permanent record.</p>
-        <nav class="named-callout-links" aria-label="Registry links">
-          <a href="codex.html">
-            <svg class="ico" width="12" height="12" aria-hidden="true"><use href="assets/icons.svg#external-link"/></svg>
-            The Codex
-          </a>
-          <a href="index.html#hall-of-heroes">
-            <svg class="ico" width="12" height="12" aria-hidden="true"><use href="assets/icons.svg#external-link"/></svg>
-            Hall of Heroes
-          </a>
-          <a href="index.html#named">
-            <svg class="ico" width="12" height="12" aria-hidden="true"><use href="assets/icons.svg#external-link"/></svg>
-            Named Skills
-          </a>
-        </nav>
-      </div>
+      <nav class="insp-seealso" aria-label="Registry links">
+        <span class="insp-seealso-label">See the full record</span>
+        <a href="codex.html">The Codex</a>
+        <a href="index.html#hall-of-heroes">Hall of Heroes</a>
+        <a href="index.html#named">Named Skills</a>
+      </nav>
     </section>
 
   </main>
@@ -647,7 +615,7 @@ The page answers one skeptic's question: "Who is behind this, and will it still 
   <section class="contribute ab-animate" style="animation-delay: .45s" aria-labelledby="about-contribute">
     <div class="contribute-inner">
       <h2 id="about-contribute">Put your own work on the record</h2>
-      <p>If you build skills for agents, your repo can earn a named entry — your handle, in Honor Red, attributed to you. Point the CLI at your repository, let it scan, and push a draft batch for review.</p>
+      <p>Build skills for agents? Point the CLI at your repo, scan, and push. If the evidence holds, you earn a named entry — your handle, in Honor Red.</p>
       <pre aria-label="Steps to contribute"><span class="comment"># install, then point it at your repo</span>
 <span class="cmd">gaia</span> init --user &lt;your-handle&gt;
 <span class="cmd">gaia</span> scan
