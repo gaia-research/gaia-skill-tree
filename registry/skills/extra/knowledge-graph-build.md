@@ -1,4 +1,4 @@
-# [safishamsi](../../../docs/u/safishamsi/)/graphify
+# [anonymous]/graphify
 **ID:** knowledge-graph-build  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  

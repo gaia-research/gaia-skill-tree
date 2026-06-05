@@ -1,4 +1,4 @@
-# [ruvnet](../../../docs/u/ruvnet/)/flow-nexus-neural
+# [anonymous]/flow-nexus-neural
 **ID:** distributed-neural-training  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  

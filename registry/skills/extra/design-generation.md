@@ -1,4 +1,4 @@
-# [nexu-io](../../../docs/u/nexu-io/)/open-design
+# [anonymous]/open-design
 **ID:** design-generation  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  

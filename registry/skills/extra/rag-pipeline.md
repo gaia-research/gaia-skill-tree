@@ -1,4 +1,4 @@
-# [yonatangross](../../../docs/u/yonatangross/)/orchestkit-rag
+# [anonymous]/orchestkit-rag
 **ID:** rag-pipeline  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  

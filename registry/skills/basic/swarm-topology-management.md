@@ -1,4 +1,4 @@
-# [ruvnet](../../../docs/u/ruvnet/)/swarm-orchestration
+# [anonymous]/swarm-orchestration
 **ID:** swarm-topology-management  
 **Type:** Basic Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  

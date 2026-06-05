@@ -1,4 +1,4 @@
-# [ruvnet](../../../docs/u/ruvnet/)/agentdb-advanced
+# [anonymous]/agentdb-advanced
 **ID:** distributed-vector-memory  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  

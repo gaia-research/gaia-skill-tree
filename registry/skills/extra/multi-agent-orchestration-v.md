@@ -1,4 +1,4 @@
-# [ruvnet](../../../docs/u/ruvnet/)/flow-nexus-swarm
+# [anonymous]/flow-nexus-swarm
 **ID:** multi-agent-orchestration-v  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  

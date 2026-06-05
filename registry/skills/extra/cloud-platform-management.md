@@ -1,4 +1,4 @@
-# [ruvnet](../../../docs/u/ruvnet/)/flow-nexus-platform
+# [anonymous]/flow-nexus-platform
 **ID:** cloud-platform-management  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  

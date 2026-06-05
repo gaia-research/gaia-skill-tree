@@ -39,13 +39,13 @@ Every AI agent capability exists somewhere on this graph. Skills start at the fo
 <!-- gaia:registry-start -->
 ```text
 ◆ ruvnet/agentdb  [5★]
-  ├─ ◇ ruvnet/agentdb-advanced
+  ├─ ◇ [anonymous]/agentdb-advanced
   │  ├─ ○ ruvnet/agentdb-vector-search  [2★]
   │  └─ ◇ garrytan/learn  [3★]
   │     ├─ ○ garrytan/context-restore  [3★]
   │     └─ ○ /retrieve
   ├─ ◇ ruvnet/agentdb-learning  [2★]
-  │  ├─ ○ ruvnet/reasoningbank-intelligence
+  │  ├─ ○ [anonymous]/reasoningbank-intelligence
   │  └─ ◇ garrytan/learn  [3★]  (↑ see above)
   ├─ ○ ruvnet/agentdb-memory-patterns  [2★]
   ├─ ○ ruvnet/agentdb-optimization  [2★]

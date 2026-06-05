@@ -1,4 +1,4 @@
-# [ruvnet](../../../docs/u/ruvnet/)/swarm-advanced
+# [anonymous]/swarm-advanced
 **ID:** advanced-swarm-coordination  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  

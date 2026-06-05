@@ -1,4 +1,4 @@
-# [ruvnet](../../../docs/u/ruvnet/)/reasoningbank-intelligence
+# [anonymous]/reasoningbank-intelligence
 **ID:** adaptive-pattern-learning  
 **Type:** Basic Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  

@@ -3582,9 +3582,9 @@ button.plaque__slug:focus-visible {
   font-size: 0.8em;
   font-style: italic;
   letter-spacing: 0.12em;
-  color: rgba(96, 165, 250, 0.55);        /* muted cornflower-blue — never honor-red */
-  background: rgba(30, 41, 59, 0.72);
-  border: 1px solid rgba(96, 165, 250, 0.18);
+  color: var(--rank-0-edge);              /* slate 0★ edge — see tokens.css --rank-0-edge */
+  background: var(--border);
+  border: 1px solid var(--rank-0-border);
   border-radius: 3px;
   padding: 1px 6px;
   cursor: not-allowed;
@@ -3601,7 +3601,7 @@ button.plaque__slug:focus-visible {
   background: linear-gradient(
     105deg,
     transparent 35%,
-    rgba(96, 165, 250, 0.07) 50%,
+    var(--rank-0-bg) 50%,
     transparent 65%
   );
   background-size: 200% 100%;

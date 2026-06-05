@@ -17,20 +17,20 @@
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — yonatangross  ·  generated 2026-06-04
+GAIA SKILL TREE — yonatangross  ·  generated 2026-06-05
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
 ══════════════════════════════════════════════════════════════════════
 
 · ◆ ruvnet/agentdb  [5★]
-  ├─ · ◇ ruvnet/agentdb-advanced
+  ├─ · ◇ [anonymous]/agentdb-advanced
   │  ├─ · ○ ruvnet/agentdb-vector-search  [2★]
   │  └─ · ◇ garrytan/learn  [3★]
   │     ├─ · ○ garrytan/context-restore  [3★]
   │     └─ · ○ /retrieve
   ├─ · ◇ ruvnet/agentdb-learning  [2★]
-  │  ├─ · ○ ruvnet/reasoningbank-intelligence
+  │  ├─ · ○ [anonymous]/reasoningbank-intelligence
   │  └─ · ◇ garrytan/learn  [3★]  (↑ see above)
   ├─ · ○ ruvnet/agentdb-memory-patterns  [2★]
   ├─ · ○ ruvnet/agentdb-optimization  [2★]
@@ -127,27 +127,27 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 
 · ◆ ruvnet/ruflo  [6★]
   ├─ · ◇ ruvnet/flow-nexus  [4★]
-  │  ├─ · ◇ ruvnet/flow-nexus-swarm
+  │  ├─ · ◇ [anonymous]/flow-nexus-swarm
   │  │  ├─ · ◇ /plan-and-execute
   │  │  │  ├─ · ○ /route-intent
   │  │  │  ├─ · ○ /plan-decompose
   │  │  │  └─ · ○ /tool-select
   │  │  ├─ · ○ /route-intent  (↑ see above)
   │  │  └─ · ○ /tool-select  (↑ see above)
-  │  ├─ · ◇ ruvnet/flow-nexus-platform
+  │  ├─ · ◇ [anonymous]/flow-nexus-platform
   │  │  ├─ · ○ huggingface/hf-cli  [2★]
   │  │  └─ · ○ /tool-use
-  │  └─ · ◇ ruvnet/flow-nexus-neural
+  │  └─ · ◇ [anonymous]/flow-nexus-neural
   │     ├─ · ○ intelligentcode-ai/parallel-execution  [2★]
   │     └─ · ○ /embed-text
   ├─ · ◆ ruvnet/agentdb  [5★]
-  │  ├─ · ◇ ruvnet/agentdb-advanced
+  │  ├─ · ◇ [anonymous]/agentdb-advanced
   │  │  ├─ · ○ ruvnet/agentdb-vector-search  [2★]
   │  │  └─ · ◇ garrytan/learn  [3★]
   │  │     ├─ · ○ garrytan/context-restore  [3★]
   │  │     └─ · ○ /retrieve
   │  ├─ · ◇ ruvnet/agentdb-learning  [2★]
-  │  │  ├─ · ○ ruvnet/reasoningbank-intelligence
+  │  │  ├─ · ○ [anonymous]/reasoningbank-intelligence
   │  │  └─ · ◇ garrytan/learn  [3★]  (↑ see above)
   │  ├─ · ○ ruvnet/agentdb-memory-patterns  [2★]
   │  ├─ · ○ ruvnet/agentdb-optimization  [2★]
@@ -169,15 +169,15 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  └─ · ○ mattpocock/triage  [3★]
   │  └─ · ◇ ruvnet/github-workflow-automation  [2★]  (↑ see above)
   ├─ · ◇ ruvnet/reasoningbank  [3★]
-  │  ├─ · ○ ruvnet/reasoningbank-intelligence  (↑ see above)
+  │  ├─ · ○ [anonymous]/reasoningbank-intelligence  (↑ see above)
   │  └─ · ◇ ruvnet/agentdb-learning  [2★]  (↑ see above)
   ├─ · ◇ ruvnet/ruflo-v3  [4★]
   │  ├─ · ○ ruvnet/v3-cli-modernization  [2★]
   │  ├─ · ○ ruvnet/v3-core-implementation  [2★]
   │  ├─ · ○ ruvnet/v3-integration-deep  [2★]
   │  ├─ · ○ addy-osmani/performance-optimization  [3★]
-  │  └─ · ◇ ruvnet/swarm-advanced
-  │     ├─ · ○ ruvnet/swarm-orchestration
+  │  └─ · ◇ [anonymous]/swarm-advanced
+  │     ├─ · ○ [anonymous]/swarm-orchestration
   │     └─ · ◇ garrytan/codex  [3★]
   │        ├─ · ○ /self-critique
   │        ├─ · ○ garrytan/benchmark  [4★]  (↑ see above)
@@ -330,7 +330,7 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   · ○ /probabilistic-programming
   · ○ /reward-modeling
   · ○ openai/self-consistency  [2★]
-  · ○ huggingface/semantic-cache
+  · ○ [anonymous]/semantic-cache
   · ○ ruvnet/stream-chain  [2★]
   · ○ /synthetic-data-generation
   · ○ addy-osmani/test-driven-development  [3★]

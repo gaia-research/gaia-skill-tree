@@ -182,6 +182,11 @@ def build_tokens_css(gaia: dict) -> str:
     for name in type_colors.keys():
         body.append(f"  --{name}: var(--tier-{name});")
 
+    body.append("")
+    body.append("  /* ── Rank semantic aliases ──────────────────────────────────── */")
+    body.append("  /* --slate = 0★ Unawakened accent; used by redacted/pre-named surfaces. */")
+    body.append("  --slate: var(--rank-0);")
+
     body.append("}")
     body.append("")
     return "\n".join(body)

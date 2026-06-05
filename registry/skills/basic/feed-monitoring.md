@@ -1,4 +1,4 @@
-# [nousresearch](../../../docs/u/nousresearch/)/feed-monitoring
+# [anonymous]/feed-monitoring
 **ID:** feed-monitoring  
 **Type:** Basic Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  
