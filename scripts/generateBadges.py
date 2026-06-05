@@ -151,214 +151,325 @@ def level_num(level: str) -> int:
     return int(digits) if digits else 0
 
 
-# ─── Logo ────────────────────────────────────────────────────────────────────
-# Diamond seal drawn at 14x14 in the badge's coord space, top-left (5, 3).
-# Hand-tuned to match the source at docs/assets/marks/diamond-seal.svg.
-def diamond_seal(color: str = WHITE) -> str:
+# ─── Geometry ────────────────────────────────────────────────────────────────
+# Badges render at 28px tall (up from the shields.io-standard 20) so they read
+# as engraved guild plaques in a README rather than generic status pills.
+H = 28                  # badge height
+RX = 6                  # corner radius
+LEFT_WIDTH = 82         # left "Gaia" panel — seal + wordmark
+LEFT_WIDTH_SEAL = 36    # seal-only panel — diamond + padding
+PAD = 13                # right-panel horizontal text padding
+TEXT_Y = 18.6           # shared text baseline (vertically centered for FS)
+FONT = "Verdana,DejaVu Sans,sans-serif"
+FS = 12                 # right-panel data font-size
+_WSCALE = FS / 11.0     # CHAR_WIDTH table is calibrated at 11px
+
+# Apex gold ramp — a top-lit metallic bar. Locked to 6★ (PRODUCT.md §3).
+GOLD = "#fbbf24"
+GOLD_PALE = "#fde68a"
+GOLD_DEEP = "#d9920a"
+APEX_INK = "#3b2206"    # engraved text on gold — passes AA (white-on-gold didn't)
+
+# Populated by main() from tokens.css + gaia.json so the builders can resolve a
+# hex from a rank int without threading the colour maps through every call.
+_RANK_COLORS: dict[int, str] = {}
+_UNIQUE_COLOR = "#7c3aed"
+
+
+def rank_hex(rank: int) -> str:
+    return _RANK_COLORS.get(rank, AMBER)
+
+
+def _rgba(hex_color: str, alpha: float) -> str:
+    h = hex_color.lstrip("#")
+    r, g, b = int(h[0:2], 16), int(h[2:4], 16), int(h[4:6], 16)
+    return f"rgba({r},{g},{b},{alpha:g})"
+
+
+def tw(s: str) -> float:
+    """Rendered width of `s` at the badge's FS (CHAR_WIDTH is an 11px table)."""
+    return text_width(s) * _WSCALE
+
+
+def _sparkle(cx: float, cy: float, r: float, color: str = "#fffdf5",
+             op: float = 0.95) -> str:
+    """A small four-point glint. LOCKED to the 6★ Apex tier (PRODUCT.md §3)."""
+    s = r * 0.34
     return (
-        f'<path d="M 12 3 L 19 10 L 12 17 L 5 10 Z" '
-        f'fill="none" stroke="{color}" stroke-width="1.4" '
-        f'stroke-linejoin="miter"/>'
-        f'<text x="12" y="10" font-family="EB Garamond, Georgia, serif" '
-        f'font-weight="600" font-size="9" fill="{color}" '
+        f'<path d="M {cx:.1f} {cy-r:.1f} L {cx+s:.1f} {cy-s:.1f} '
+        f'L {cx+r:.1f} {cy:.1f} L {cx+s:.1f} {cy+s:.1f} L {cx:.1f} {cy+r:.1f} '
+        f'L {cx-s:.1f} {cy+s:.1f} L {cx-r:.1f} {cy:.1f} L {cx-s:.1f} {cy-s:.1f} Z" '
+        f'fill="{color}" opacity="{op:g}"/>'
+    )
+
+
+# ─── Logo ────────────────────────────────────────────────────────────────────
+# Diamond seal centred vertically in the 28px badge, at horizontal centre `cx`.
+# Matches the source at docs/assets/marks/diamond-seal.svg.
+def diamond_seal(color: str = WHITE, cx: float = 18.0) -> str:
+    top, bot, mid, half = 6, 22, 14, 8
+    return (
+        f'<path d="M {cx} {top} L {cx + half} {mid} L {cx} {bot} L {cx - half} {mid} Z" '
+        f'fill="none" stroke="{color}" stroke-width="1.5" stroke-linejoin="miter"/>'
+        f'<text x="{cx}" y="{mid}" font-family="EB Garamond, Georgia, serif" '
+        f'font-weight="600" font-size="11" fill="{color}" '
         f'text-anchor="middle" dominant-baseline="central">G</text>'
     )
 
 
 # ─── Badge builders ──────────────────────────────────────────────────────────
-LEFT_WIDTH = 62       # left "GAIA" panel — fixed (full wordmark)
-LEFT_WIDTH_SEAL = 26  # seal-only panel — diamond + 6px padding each side
-TEXT_Y = 14
-
-
-def _shadow_defs(uid: str = "g") -> str:
-    return (
-        f'<linearGradient id="s_{uid}" x2="0" y2="100%">'
-        f'<stop offset="0" stop-color="#fff" stop-opacity=".15"/>'
-        f'<stop offset="1" stop-opacity=".15"/>'
-        f'</linearGradient>'
-        f'<clipPath id="r_{uid}"><rect width="{{W}}" height="20" rx="3" fill="#fff"/></clipPath>'
-    )
-
-
 def _left_panel(seal_only: bool = False) -> str:
-    """Dark-ink rectangle behind the seal (and optional 'Gaia' wordmark).
-
-    Width depends on `seal_only` — seal-only badges have a much narrower
-    panel so the right (data) panel can do most of the talking.
-    """
+    """Dark-ink rectangle behind the seal (and optional 'Gaia' wordmark)."""
     width = LEFT_WIDTH_SEAL if seal_only else LEFT_WIDTH
-    return f'<rect width="{width}" height="20" fill="{INK}"/>'
+    return f'<rect width="{width}" height="{H}" fill="{INK}"/>'
 
 
-def _gaia_wordmark(seal_only: bool = False) -> str:
+def _gaia_wordmark(seal_only: bool = False, seal_color: str = WHITE) -> str:
     """Inlined diamond seal + (optional) 'Gaia' wordmark on the dark left panel.
 
-    When `seal_only=True`, the diamond is centered in the narrower seal panel
-    and the wordmark is omitted so contributors can drop the badge into a
-    README without the "Gaia" copy clashing with their own brand.
+    When `seal_only=True`, the diamond is centred in the narrower seal panel and
+    the wordmark is omitted so contributors can drop the badge into a README
+    without the "Gaia" copy clashing with their own brand. `seal_color` lets the
+    Apex tier tint the seal gold so the whole plaque reads as one piece.
     """
     if seal_only:
-        # Center the 14×14 diamond inside the LEFT_WIDTH_SEAL (26) panel.
-        # diamond_seal() draws at top-left (5, 3) by default — for the seal
-        # panel we shift left by (LEFT_WIDTH - LEFT_WIDTH_SEAL) / 2 ≈ -18
-        # so the diamond sits at x≈3..17.
-        return _diamond_seal_at(x=6)
+        return diamond_seal(seal_color, cx=LEFT_WIDTH_SEAL / 2)
     return (
-        f'{diamond_seal()}'
-        f'<text x="24" y="{TEXT_Y}" font-family="EB Garamond, Georgia, serif" '
-        f'font-size="12" font-weight="600" fill="#fff" letter-spacing="0.5">Gaia</text>'
+        f'{diamond_seal(seal_color, cx=18)}'
+        f'<text x="34" y="{TEXT_Y}" font-family="EB Garamond, Georgia, serif" '
+        f'font-size="15" font-weight="600" fill="#fff" letter-spacing="0.5">Gaia</text>'
     )
 
 
-def _diamond_seal_at(x: int) -> str:
-    """Render the diamond seal with its bounding box left-edge at `x`.
+def _data_panel(x: float, w: float, rank: int, uid: str, *,
+                is_unique: bool = False, gold_fill: bool = True) -> tuple[str, str]:
+    """Right (data) panel background for a given rank — the rarity escalation.
 
-    Used for seal-only badges. The default `diamond_seal()` is hard-coded to
-    x=5; this lets us re-position it without rewriting the path.
+    Returns ``(defs, body)``. The treatment ramps with rank so visual weight is
+    earned: dark ink + tier seam (1–3) → tier tint (4) → amber tint (5) →
+    metallic gold + light sheen + sparkle glints (6, Apex). `gold_fill=False`
+    keeps the panel dark even at Apex (handle badges, where the honor-red handle
+    needs a dark ground and the gold lives in the star pill instead).
     """
-    # Original path corners: (12,3) (19,10) (12,17) (5,10) → shift by (x-5)
-    dx = x - 5
-    return (
-        f'<path d="M {12 + dx} 3 L {19 + dx} 10 L {12 + dx} 17 L {5 + dx} 10 Z" '
-        f'fill="none" stroke="{WHITE}" stroke-width="1.4" '
-        f'stroke-linejoin="miter"/>'
-        f'<text x="{12 + dx}" y="10" font-family="EB Garamond, Georgia, serif" '
-        f'font-weight="600" font-size="9" fill="{WHITE}" '
-        f'text-anchor="middle" dominant-baseline="central">G</text>'
-    )
+    col = _UNIQUE_COLOR if is_unique else rank_hex(rank)
+    apex = rank >= 6 and not is_unique
+    defs = ""
+
+    if apex and gold_fill:
+        defs += (
+            f'<linearGradient id="au{uid}" x1="0" y1="0" x2="0" y2="1">'
+            f'<stop offset="0" stop-color="{GOLD_PALE}"/>'
+            f'<stop offset="0.46" stop-color="{GOLD}"/>'
+            f'<stop offset="0.62" stop-color="#f7b500"/>'
+            f'<stop offset="1" stop-color="{GOLD_DEEP}"/></linearGradient>'
+        )
+        layers = f'<rect x="{x:.1f}" width="{w:.1f}" height="{H}" fill="url(#au{uid})"/>'
+    else:
+        bg = "#0a0713" if is_unique else INK
+        layers = f'<rect x="{x:.1f}" width="{w:.1f}" height="{H}" fill="{bg}"/>'
+
+    # Tier tint — a faint colour wash that turns on at rank 4 (and for Unique).
+    if (4 <= rank <= 5) or is_unique:
+        a = 0.18 if rank >= 5 else 0.14
+        layers += f'<rect x="{x:.1f}" width="{w:.1f}" height="{H}" fill="{_rgba(col, a)}"/>'
+
+    # Apex-only: diagonal light sweep, top specular edge, and sparkle glints.
+    if apex and gold_fill:
+        sx = x + w * 0.16
+        layers += (
+            f'<polygon points="{sx+10:.1f},0 {sx+22:.1f},0 {sx+8:.1f},{H} {sx-4:.1f},{H}" '
+            f'fill="#fff" opacity="0.20"/>'
+            f'<rect x="{x:.1f}" y="0" width="{w:.1f}" height="1.2" fill="#fff" opacity="0.5"/>'
+            f'{_sparkle(x + w - 12, 7, 2.4)}'
+            f'{_sparkle(x + w - 6, 13, 1.5, op=0.85)}'
+        )
+
+    # Tier seam — a 1px hairline at the panel's left edge, every rank.
+    layers += f'<rect x="{x:.1f}" width="1" height="{H}" fill="{_rgba(col, 0.5 if rank else 0.28)}"/>'
+    return defs, layers
+
+
+def _frame(width: int, rank: int, is_unique: bool = False) -> str:
+    """Full-badge inset border — the plaque rim. Escalates from rank 4 up."""
+    if rank >= 6 and not is_unique:
+        return (f'<rect x="0.7" y="0.7" width="{width-1.4:.1f}" height="{H-1.4}" '
+                f'fill="none" stroke="{_rgba(GOLD_DEEP, 0.9)}" stroke-width="1.4" rx="{RX}"/>')
+    if rank >= 4 or is_unique:
+        col = _UNIQUE_COLOR if is_unique else rank_hex(rank)
+        a = 0.55 if (rank >= 5 or is_unique) else 0.45
+        return (f'<rect x="0.6" y="0.6" width="{width-1.2:.1f}" height="{H-1.2}" '
+                f'fill="none" stroke="{_rgba(col, a)}" stroke-width="1" rx="{RX}"/>')
+    return ""
 
 
 def _wrap(width: int, body: str, label: str) -> str:
-    """Assemble a final 20-high SVG with rounded clip and shadow gradient."""
+    """Assemble the final SVG with rounded clip and a subtle top sheen."""
     return (
-        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="20" '
-        f'viewBox="0 0 {width} 20" role="img" aria-label="{label}">'
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{H}" '
+        f'viewBox="0 0 {width} {H}" role="img" aria-label="{label}">'
         f'<title>{label}</title>'
-        f'<linearGradient id="s" x2="0" y2="100%">'
-        f'<stop offset="0" stop-color="#fff" stop-opacity=".15"/>'
-        f'<stop offset="1" stop-opacity=".15"/>'
+        f'<linearGradient id="sh" x2="0" y2="100%">'
+        f'<stop offset="0" stop-color="#fff" stop-opacity=".10"/>'
+        f'<stop offset="1" stop-opacity=".14"/>'
         f'</linearGradient>'
-        f'<clipPath id="r"><rect width="{width}" height="20" rx="3" fill="#fff"/></clipPath>'
-        f'<g clip-path="url(#r)">{body}'
-        f'<rect width="{width}" height="20" fill="url(#s)"/>'
+        f'<clipPath id="rc"><rect width="{width}" height="{H}" rx="{RX}" fill="#fff"/></clipPath>'
+        f'<g clip-path="url(#rc)">{body}'
+        f'<rect width="{width}" height="{H}" fill="url(#sh)"/>'
         f'</g>'
         f'</svg>'
     )
 
 
-def badge_simple(value: str, panel_color: str, label: str, seal_only: bool = False,
-                 right_bg_override: str | None = None) -> str:
-    """Two-tone badge: GAIA on left, single-color value on right.
+def badge_simple(value: str, rank: int, label: str, *, seal_only: bool = False,
+                 is_unique: bool = False, neutral: str | None = None) -> str:
+    """Two-tone badge: Gaia seal on the left, a single value on the right.
 
-    When `seal_only=True`, the left panel shrinks to just the diamond seal —
-    the "Gaia" wordmark is omitted entirely.
-
-    `right_bg_override` lets callers force a specific right-panel fill (e.g.
-    pure black `#000000` for the Unique tier) instead of the default INK
-    slate. Ignored for `panel_color == "white-gold"` since that branch already
-    paints its own gold rectangle.
+    The right panel's treatment is driven by `rank` via `_data_panel` /
+    `_frame` so the rarity escalation is consistent across every badge type.
+    `neutral` forces a rank-less muted style (the static "powered by" badge).
     """
     left_w = LEFT_WIDTH_SEAL if seal_only else LEFT_WIDTH
-    value_w = text_width(value) + 18  # 9px padding each side
-    right_w = max(value_w, 32)
-    width = left_w + right_w
+    right_w = max(tw(value) + 2 * PAD, 40)
+    width = round(left_w + right_w)
+    panel_w = width - left_w
+    apex = rank >= 6 and not is_unique
 
-    if panel_color == "white-gold":
-        right_bg = "#fbbf24"
-        text_element = f'<tspan fill="#ffffff">{_xml(value)}</tspan>'
+    if neutral is not None:
+        defs = ""
+        layers = (
+            f'<rect x="{left_w}" width="{panel_w}" height="{H}" fill="{INK}"/>'
+            f'<rect x="{left_w}" width="1" height="{H}" fill="{_rgba(neutral, 0.35)}"/>'
+        )
+        text_fill, frame, seal_color = neutral, "", WHITE
     else:
-        right_bg = right_bg_override or INK
-        text_element = f'<tspan fill="{panel_color}">{_xml(value)}</tspan>'
+        defs, layers = _data_panel(left_w, panel_w, rank, "s", is_unique=is_unique)
+        if apex:
+            text_fill = APEX_INK
+        elif is_unique:
+            text_fill = _UNIQUE_COLOR
+        else:
+            text_fill = rank_hex(rank)
+        frame = _frame(width, rank, is_unique)
+        seal_color = GOLD if apex else WHITE
 
     body = (
+        f'{defs}'
         f'{_left_panel(seal_only)}'
-        f'<rect x="{left_w}" width="{right_w}" height="20" fill="{right_bg}"/>'
-        f'{_gaia_wordmark(seal_only)}'
-        f'<text x="{left_w + right_w / 2:.1f}" y="{TEXT_Y}" '
-        f'font-family="Verdana,DejaVu Sans,sans-serif" font-size="11" '
-        f'font-weight="700" text-anchor="middle">{text_element}</text>'
+        f'{layers}'
+        f'{_gaia_wordmark(seal_only, seal_color)}'
+        f'<text x="{left_w + panel_w / 2:.1f}" y="{TEXT_Y}" font-family="{FONT}" '
+        f'font-size="{FS}" font-weight="700" text-anchor="middle" '
+        f'fill="{text_fill}">{_xml(value)}</text>'
+        f'{frame}'
     )
     return _wrap(width, body, label)
 
 
-def badge_handle(handle: str, slash: str, rank: int, rank_color: str, label: str,
-                 seal_only: bool = False, right_bg_override: str | None = None) -> str:
-    """Identity badge: '@handle/slash · N★' with multi-color tspans on dark right panel.
+def badge_handle(handle: str, slash: str, rank: int, label: str, *,
+                 seal_only: bool = False, is_unique: bool = False) -> str:
+    """Identity badge: '@handle/slash · N★' on a dark right panel.
 
-    `right_bg_override` lets unique-tier callers swap the default INK slate
-    for pure black so the purple text reads as off-spectrum.
+    The data panel stays dark even at Apex (so the honor-red handle keeps a dark
+    ground); the 6★ gold lives in a metallic star pill with engraved dark text.
     """
     left_w = LEFT_WIDTH_SEAL if seal_only else LEFT_WIDTH
     star_value = f"{rank}★" if rank else "★"
     handle_text = f"@{handle}"
     sep = "  ·  "  # double-spaced middot reads cleaner
     text_inner = f"{handle_text}{slash}{sep}{star_value}"
-    value_w = text_width(text_inner) + 22  # 11px padding each side
-    right_w = max(value_w, 40)
-    width = left_w + right_w
+    apex = rank >= 6 and not is_unique
+    value_w = tw(text_inner) + 2 * PAD + (6 if apex else 0)
+    right_w = max(value_w, 48)
+    width = round(left_w + right_w)
+    panel_w = width - left_w
 
-    gold_rect = ""
-    if rank_color == "white-gold":
-        slash_tspan = f'<tspan fill="#fbbf24">{_xml(slash)}</tspan>'
+    # Dark panel always (gold_fill=False) so the honor-red handle reads.
+    defs, layers = _data_panel(left_w, panel_w, rank, "h",
+                               is_unique=is_unique, gold_fill=False)
+    accent = _UNIQUE_COLOR if is_unique else rank_hex(rank)
+    frame = _frame(width, rank, is_unique)
+    seal_color = GOLD if apex else WHITE
 
-        # Calculate position for 6★ background gold rect
-        width_before = text_width(handle_text + slash + sep)
-        star_x = left_w + 11 + width_before
-        star_w = text_width(star_value) + 6
-        gold_rect = f'<rect x="{star_x - 3}" y="3" width="{star_w}" height="14" fill="#fbbf24" rx="2"/>'
-
-        star_tspan = f'<tspan fill="#ffffff">{_xml(star_value)}</tspan>'
-        right_bg = INK
+    if apex:
+        # Metallic star pill, right-anchored to the panel edge with the star
+        # CENTERED inside it — keeps the number boxed in any substitute font.
+        star_w = tw(star_value)
+        pill_pad = 7
+        pill_w = star_w + 2 * pill_pad
+        pill_right = width - 8
+        pill_left = pill_right - pill_w
+        pill_cx = pill_left + pill_w / 2
+        defs += (
+            f'<linearGradient id="aph" x1="0" y1="0" x2="0" y2="1">'
+            f'<stop offset="0" stop-color="{GOLD_PALE}"/>'
+            f'<stop offset="0.5" stop-color="{GOLD}"/>'
+            f'<stop offset="1" stop-color="{GOLD_DEEP}"/></linearGradient>'
+        )
+        pill = (
+            f'<rect x="{pill_left:.1f}" y="5" width="{pill_w:.1f}" height="{H-10}" '
+            f'rx="5" fill="url(#aph)"/>'
+            # glint at the pill's top-left corner — light catching the metal
+            f'{_sparkle(pill_left + 3.5, 8, 1.7)}'
+        )
+        sep_text = (
+            f'<text x="{pill_left - 6:.1f}" y="{TEXT_Y}" text-anchor="end" '
+            f'font-family="{FONT}" font-size="{FS}" font-weight="700" '
+            f'fill="{SLATE}">{_xml("·")}</text>'
+        )
+        star_text = (
+            f'<text x="{pill_cx:.1f}" y="{TEXT_Y}" text-anchor="middle" '
+            f'font-family="{FONT}" font-size="{FS}" font-weight="700" '
+            f'fill="{APEX_INK}">{_xml(star_value)}</text>'
+        )
+        body = (
+            f'{defs}{_left_panel(seal_only)}{layers}{pill}'
+            f'{_gaia_wordmark(seal_only, seal_color)}'
+            f'<text x="{left_w + PAD:.1f}" y="{TEXT_Y}" font-family="{FONT}" '
+            f'font-size="{FS}" font-weight="700">'
+            f'<tspan fill="{HONOR_RED}">{_xml(handle_text)}</tspan>'
+            f'<tspan fill="{GOLD}">{_xml(slash)}</tspan></text>'
+            f'{sep_text}{star_text}{frame}'
+        )
     else:
-        slash_tspan = f'<tspan fill="{rank_color}">{_xml(slash)}</tspan>'
-        star_tspan = f'<tspan fill="{rank_color}">{_xml(star_value)}</tspan>'
-        right_bg = right_bg_override or INK
-
-    # Two-tone background: keep dark ink on the right to let colored text pop.
-    body = (
-        f'{_left_panel(seal_only)}'
-        f'<rect x="{left_w}" width="{right_w}" height="20" fill="{right_bg}"/>'
-        f'{gold_rect}'
-        f'{_gaia_wordmark(seal_only)}'
-        f'<text x="{left_w + 11}" y="{TEXT_Y}" '
-        f'font-family="Verdana,DejaVu Sans,sans-serif" font-size="11" font-weight="700">'
-        f'<tspan fill="{HONOR_RED}">{_xml(handle_text)}</tspan>'
-        f'{slash_tspan}'
-        f'<tspan fill="{SLATE}">{_xml(sep)}</tspan>'
-        f'{star_tspan}'
-        f'</text>'
-    )
+        body = (
+            f'{defs}{_left_panel(seal_only)}{layers}'
+            f'{_gaia_wordmark(seal_only, seal_color)}'
+            f'<text x="{left_w + PAD:.1f}" y="{TEXT_Y}" font-family="{FONT}" '
+            f'font-size="{FS}" font-weight="700">'
+            f'<tspan fill="{HONOR_RED}">{_xml(handle_text)}</tspan>'
+            f'<tspan fill="{accent}">{_xml(slash)}</tspan>'
+            f'<tspan fill="{SLATE}">{_xml(sep)}</tspan>'
+            f'<tspan fill="{accent}">{_xml(star_value)}</tspan></text>'
+            f'{frame}'
+        )
     return _wrap(width, body, label)
 
 
 def badge_powered_by() -> str:
     """Static 'Powered by Gaia' fallback badge."""
-    return badge_simple("powered by gaia", "#475569", "Powered by Gaia")
+    return badge_simple("powered by gaia", 0, "Powered by Gaia", neutral=SLATE)
 
 
 def badge_not_found() -> str:
     """Validating-state badge: shown when a `?repo=` query doesn't match the
     contributor's approved repos.
 
-    Visually almost-blank: 20px tall (so READMEs don't reflow), seal-only
-    dark-ink panel on the left and a muted slate panel on the right reading
-    "validating…". The intent is for users to recognise the state as
-    "checking, may take up to 24 hours" rather than "broken image".
+    Visually almost-blank: 28px tall (matching the real badges so READMEs don't
+    reflow), seal-only dark-ink panel on the left and a muted slate panel on the
+    right reading "validating…". The intent is for users to recognise the state
+    as "checking, may take up to 24 hours" rather than "broken image".
     """
     label = "Gaia: validating badge — repo not registered yet"
-    # Match the seal-only width math from badge_simple() so the badge feels
-    # like a real Gaia badge, not a generic placeholder.
     value = "validating…"
-    value_w = text_width(value) + 18
-    right_w = max(value_w, 80)
-    width = LEFT_WIDTH_SEAL + right_w
+    right_w = max(tw(value) + 2 * PAD, 92)
+    width = round(LEFT_WIDTH_SEAL + right_w)
     body = (
         f'{_left_panel(seal_only=True)}'
-        f'<rect x="{LEFT_WIDTH_SEAL}" width="{right_w}" height="20" fill="#1e293b"/>'
+        f'<rect x="{LEFT_WIDTH_SEAL}" width="{width - LEFT_WIDTH_SEAL}" height="{H}" fill="#1e293b"/>'
+        f'<rect x="{LEFT_WIDTH_SEAL}" width="1" height="{H}" fill="{_rgba(SLATE, 0.28)}"/>'
         f'{_gaia_wordmark(seal_only=True)}'
-        f'<text x="{LEFT_WIDTH_SEAL + right_w / 2:.1f}" y="{TEXT_Y}" '
-        f'font-family="Verdana,DejaVu Sans,sans-serif" font-size="10" '
+        f'<text x="{LEFT_WIDTH_SEAL + (width - LEFT_WIDTH_SEAL) / 2:.1f}" y="{TEXT_Y}" '
+        f'font-family="{FONT}" font-size="11" '
         f'font-weight="500" fill="{SLATE}" text-anchor="middle" '
         f'font-style="italic">{value}</text>'
     )
@@ -468,37 +579,24 @@ def write_user_badges(handle: str, info: dict, scan: dict | None,
     user_dir = out_dir / "_assets" / handle
     user_dir.mkdir(parents=True, exist_ok=True)
 
-    # Rank badges always follow the rank color ramp — never the tier accent.
-    # Tier colors (unique purple, tier-extra, etc.) live on handle/per-skill
-    # badges only, which carry explicit tier context.
-    def _rank_color(rank: int) -> str:
-        if rank == 6:
-            return "white-gold"
-        return rank_colors.get(rank, AMBER)
-
-    # Tier-unique purple — pulled from registry/gaia.json typeColors so we
-    # don't hardcode the hex. Used for handle / per-skill badges whose
-    # underlying skill carries `type: unique`.
-    unique_color = load_tier_color("unique")
-
     if top_rank > 0:
         rank_name = RANK_NAMES.get(top_rank, f"{top_rank}★")
         # "Hardened · 4★" — rank class name anchors meaning, star count is numeric
-        value = f"{rank_name} · {top_rank}★" if top_rank < 6 else f"{rank_name} · 6★"
+        value = f"{rank_name} · {top_rank}★"
         label = f"Gaia rank: {rank_name} ({top_rank} stars)"
         (user_dir / "rank.svg").write_text(
-            badge_simple(value, _rank_color(top_rank), label), encoding="utf-8")
+            badge_simple(value, top_rank, label), encoding="utf-8")
         (user_dir / "rank-seal.svg").write_text(
-            badge_simple(value, _rank_color(top_rank), label, seal_only=True),
+            badge_simple(value, top_rank, label, seal_only=True),
             encoding="utf-8")
 
     if count > 0:
         value = f"{count} named skills" if count != 1 else "1 named skill"
         label = f"Gaia: {value}"
         (user_dir / "skills.svg").write_text(
-            badge_simple(value, _rank_color(top_rank), label), encoding="utf-8")
+            badge_simple(value, top_rank, label), encoding="utf-8")
         (user_dir / "skills-seal.svg").write_text(
-            badge_simple(value, _rank_color(top_rank), label, seal_only=True),
+            badge_simple(value, top_rank, label, seal_only=True),
             encoding="utf-8")
 
     # handle.svg + per-skill badges require named skills (need a slash)
@@ -506,24 +604,16 @@ def write_user_badges(handle: str, info: dict, scan: dict | None,
         top = info["top_skill"]
         slash = named_slug(top)
         rank = level_num(top.get("level", ""))
-
         is_unique = top.get("type") == "unique"
-        if is_unique:
-            color = unique_color
-        elif rank == 6:
-            color = "white-gold"
-        else:
-            color = rank_colors.get(rank, AMBER)
 
         badge_handle_text = REDACTED_HANDLE if is_redacted(rank) else handle
         label = f"Gaia: @{badge_handle_text}{slash} {rank} stars"
-        bg = "#000000" if is_unique else None
         (user_dir / "handle.svg").write_text(
-            badge_handle(badge_handle_text, slash, rank, color, label,
-                         right_bg_override=bg), encoding="utf-8")
+            badge_handle(badge_handle_text, slash, rank, label,
+                         is_unique=is_unique), encoding="utf-8")
         (user_dir / "handle-seal.svg").write_text(
-            badge_handle(badge_handle_text, slash, rank, color, label, seal_only=True,
-                         right_bg_override=bg),
+            badge_handle(badge_handle_text, slash, rank, label, seal_only=True,
+                         is_unique=is_unique),
             encoding="utf-8")
 
         # Per-skill variants — write both wordmark and seal-only forms.
@@ -538,29 +628,21 @@ def write_user_badges(handle: str, info: dict, scan: dict | None,
                 continue
 
             is_sunique = skill.get("type") == "unique"
-            if is_sunique:
-                scolor = unique_color
-            elif srank == 6:
-                scolor = "white-gold"
-            else:
-                scolor = rank_colors.get(srank, AMBER)
-
             # srank is always ≥ 2 here (≤1★ skipped above) — handle is public.
             badge_handle_text = handle
             slabel = f"Gaia: @{badge_handle_text}{sslash} {srank} stars"
-            sbg = "#000000" if is_sunique else None
             # filename: slash-skill without leading slash, e.g. /health -> health.svg
             fname = sslash.lstrip("/").replace("/", "-") or "skill"
             if fname in RESERVED_FILENAMES:
                 # Avoid clobbering rank.svg / skills.svg / handle.svg.
                 fname = f"{fname}~"
             (user_dir / f"{fname}.svg").write_text(
-                badge_handle(badge_handle_text, sslash, srank, scolor, slabel,
-                             right_bg_override=sbg),
+                badge_handle(badge_handle_text, sslash, srank, slabel,
+                             is_unique=is_sunique),
                 encoding="utf-8")
             (user_dir / f"{fname}-seal.svg").write_text(
-                badge_handle(badge_handle_text, sslash, srank, scolor, slabel, seal_only=True,
-                             right_bg_override=sbg),
+                badge_handle(badge_handle_text, sslash, srank, slabel, seal_only=True,
+                             is_unique=is_sunique),
                 encoding="utf-8")
 
 
@@ -581,28 +663,22 @@ def write_sample_badges(rank_colors: dict[int, str], out_dir: Path) -> None:
     samples_dir = out_dir / "samples"
     samples_dir.mkdir(parents=True, exist_ok=True)
     for n in range(1, 7):
-        color = "white-gold" if n == 6 else rank_colors.get(n, AMBER)
         rank_name = RANK_NAMES.get(n, f"{n}★")
-        value = f"{rank_name} · {n}★" if n < 6 else f"{rank_name} · 6★"
+        value = f"{rank_name} · {n}★"
         label = f"Gaia rank sample: {rank_name} ({n} stars)"
         (samples_dir / f"rank-{n}.svg").write_text(
-            badge_simple(value, color, label), encoding="utf-8")
+            badge_simple(value, n, label), encoding="utf-8")
         (samples_dir / f"rank-{n}-seal.svg").write_text(
-            badge_simple(value, color, label, seal_only=True), encoding="utf-8")
-    # Unique tier — rank 4★, purple text on a deep black panel (the unique
-    # tier overrides the default INK slate to read as "rare / off-spectrum").
-    # Color is pulled from registry/gaia.json.meta.typeColors.unique
-    # (DESIGN.md source of truth) so we never hardcode the hex.
-    unique_color = load_tier_color("unique")
+            badge_simple(value, n, label, seal_only=True), encoding="utf-8")
+    # Unique tier — a 4★ skill that reached elite rank without ever fusing; it
+    # reads as "off-spectrum" via the deep-violet treatment in _data_panel.
     unique_value = "Unique · 4★"
     unique_label = "Gaia rank sample: Unique (4 stars)"
     (samples_dir / "rank-unique.svg").write_text(
-        badge_simple(unique_value, unique_color, unique_label,
-                     right_bg_override="#000000"),
+        badge_simple(unique_value, 4, unique_label, is_unique=True),
         encoding="utf-8")
     (samples_dir / "rank-unique-seal.svg").write_text(
-        badge_simple(unique_value, unique_color, unique_label, seal_only=True,
-                     right_bg_override="#000000"),
+        badge_simple(unique_value, 4, unique_label, seal_only=True, is_unique=True),
         encoding="utf-8")
 
 
@@ -718,6 +794,14 @@ def main(argv: list[str] | None = None) -> int:
     out_dir.mkdir(parents=True, exist_ok=True)
 
     rank_colors = load_rank_colors()
+    # Publish the colour maps to module scope so the badge builders can resolve
+    # a hex from a rank int (and the Unique tier accent) without threading the
+    # maps through every call.
+    _RANK_COLORS.clear()
+    _RANK_COLORS.update(rank_colors)
+    global _UNIQUE_COLOR
+    _UNIQUE_COLOR = load_tier_color("unique")
+
     contributors = collect_contributors()
     scan_users = collect_scan_users()
 
