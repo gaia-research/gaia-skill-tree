@@ -345,6 +345,86 @@ nav ul {
   gap: 2rem
 }
 
+/* More dropdown (desktop only) */
+.nav-more-dropdown {
+  position: relative;
+}
+
+.nav-more-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-family: var(--font-body);
+  font-size: .9rem;
+  color: var(--muted);
+  transition: color .2s;
+}
+
+.nav-more-toggle:hover {
+  color: var(--text);
+}
+
+.nav-more-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: .75rem;
+  background: rgba(3, 7, 18, .95);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  list-style: none;
+  padding: .5rem 0;
+  min-width: 140px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity .2s, visibility .2s, transform .2s;
+  z-index: 50;
+  backdrop-filter: blur(10px);
+}
+
+.nav-more-dropdown:hover .nav-more-menu,
+.nav-more-dropdown:focus-within .nav-more-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.nav-more-menu li {
+  padding: 0;
+}
+
+.nav-more-menu li a,
+.nav-more-menu li button {
+  display: block;
+  padding: .6rem 1.2rem;
+  text-decoration: none;
+  font-size: .85rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: color .2s;
+  width: 100%;
+  text-align: left;
+}
+
+.nav-more-menu li a {
+  color: inherit;
+}
+
+.nav-more-menu li button {
+  color: inherit;
+  padding: 0;
+  text-align: center;
+}
+
+.nav-more-menu li a:hover,
+.nav-more-menu li button:hover {
+  color: var(--text) !important;
+}
+
 .nav-mobile-search {
   display: none
 }
@@ -5321,6 +5401,169 @@ footer::before {
   background: linear-gradient(90deg, transparent, rgba(56, 189, 248, .3) 20%, rgba(192, 132, 252, .3) 50%, rgba(245, 158, 11, .3) 80%, transparent);
 }
 
+/* ─────────────────────────────────────────────────────────────
+   FOOTER v2 — multi-column ledger footer
+   Add class="footer-v2" to every <footer> element to activate.
+   ───────────────────────────────────────────────────────────── */
+
+footer.footer-v2 {
+  text-align: left;
+  padding: 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(15, 23, 42, .55) 100%);
+}
+
+footer.footer-v2::before {
+  width: 60%;
+}
+
+.footer-v2 .footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 4vw, 2.5rem) clamp(2.5rem, 5vw, 4rem);
+  display: grid;
+  grid-template-columns: minmax(170px, 230px) 1fr;
+  gap: 3rem 4rem;
+  align-items: start;
+}
+
+/* Brand column */
+.footer-v2 .footer-brand-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.footer-v2 .footer-brand-mark {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+}
+
+.footer-v2 .footer-seal {
+  width: 26px;
+  height: 26px;
+}
+
+.footer-v2 .footer-wordmark {
+  font-size: 1.15rem;
+}
+
+.footer-v2 .footer-tagline {
+  font-family: var(--font-body);
+  font-size: .8rem;
+  line-height: 1.6;
+  color: var(--muted);
+  margin: 0;
+}
+
+/* Link columns grid */
+.footer-v2 .footer-cols {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  align-items: start;
+}
+
+.footer-v2 .footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: .7rem;
+}
+
+.footer-v2 .footer-col-heading {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: .875rem;
+  font-weight: 400;
+  color: var(--muted);
+  letter-spacing: .01em;
+  line-height: 1;
+}
+
+.footer-v2 .footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: .45rem;
+}
+
+.footer-v2 .footer-col ul li a,
+.footer-v2 .footer-col ul li button.footer-link-btn {
+  font-family: var(--font-body);
+  font-size: .82rem;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color .18s;
+  display: inline;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  font: inherit;
+}
+
+.footer-v2 .footer-col ul li a:hover,
+.footer-v2 .footer-col ul li button.footer-link-btn:hover {
+  color: var(--text);
+}
+
+/* Honor attribution — contributor handle only */
+.footer-v2 .footer-link-honor {
+  color: var(--honor-red) !important;
+}
+
+.footer-v2 .footer-link-honor:hover {
+  color: var(--text) !important;
+}
+
+/* External link indicator */
+.footer-v2 .footer-ext::after {
+  content: ' ↗';
+  font-size: .75em;
+  opacity: .6;
+}
+
+/* Bottom strip */
+.footer-v2 .footer-bottom {
+  border-top: 1px solid var(--border);
+  padding: 1.1rem clamp(1.5rem, 4vw, 2.5rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .75rem;
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  color: var(--muted);
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.footer-v2 .footer-bottom-sep {
+  color: var(--border);
+  user-select: none;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .footer-v2 .footer-inner {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  .footer-v2 .footer-cols {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.75rem 2.5rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .footer-v2 .footer-cols {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
 /* ── DIVIDER (legacy) ── */
 .divider {
   border: none;
@@ -7082,11 +7325,11 @@ code {
     flex-shrink: 0
   }
 
-  nav ul {
+  nav ul.nav-primary {
     display: none
   }
 
-  nav.nav-open ul {
+  nav.nav-open ul.nav-primary {
     display: flex;
     position: fixed;
     left: 0;
@@ -7104,6 +7347,38 @@ code {
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     border-top: 1px solid var(--border);
     border-radius: 20px 20px 0 0;
+  }
+
+  /* Mobile: expand More dropdown to show all items */
+  .nav-more-dropdown {
+    width: 100%;
+  }
+
+  .nav-more-toggle {
+    display: none;
+  }
+
+  .nav-more-menu {
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    background: transparent;
+    border: none;
+    backdrop-filter: none;
+    padding: 0;
+    min-width: unset;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .nav-more-menu li a,
+  .nav-more-menu li button {
+    padding: 0;
+    font-size: 1.4rem;
+    width: auto;
+    text-align: center;
   }
 
   nav.nav-open.active ul {
