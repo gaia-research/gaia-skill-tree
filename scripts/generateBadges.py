@@ -40,7 +40,9 @@ TOKENS_CSS = REPO_ROOT / "docs" / "css" / "tokens.css"
 OUT_DIR = REPO_ROOT / "docs" / "badges"
 
 sys.path.insert(0, str(REPO_ROOT / "scripts"))
+sys.path.insert(0, str(REPO_ROOT / "src"))
 from _atlas_helpers import named_slug  # noqa: E402
+from gaia_cli.redaction import REDACTED_HANDLE, is_redacted  # noqa: E402  single source of truth
 
 
 HONOR_RED = "#ef4444"
@@ -442,10 +444,19 @@ def write_user_badges(handle: str, info: dict, scan: dict | None,
     worker (worker/index.js) handles it and serves the real SVG from
     ``/badges/_assets/<handle>/<file>.svg``. See docs/CLOUDFLARE-SETUP.md.
     """
-    user_dir = out_dir / "_assets" / handle
-    user_dir.mkdir(parents=True, exist_ok=True)
+    named_top_rank = info["top_rank"] if info else 0
 
-    top_rank = info["top_rank"] if info else 0
+    # Path-level redaction: a NAMED contributor whose named work is all ≤1★
+    # (pre-named/demoted) is not yet publicly named — emit NO badge so the
+    # handle never appears in a /badges/_assets/<handle>/ path. We gate on
+    # *named* standing only: a personal skill-tree (scan) must not un-redact a
+    # contributor whose registry contributions are all pre-named. Pure scan-only
+    # users (no named entry, info is None) keep their handle-free rank/skills
+    # badges. The shared gate decides the threshold.
+    if info is not None and is_redacted(named_top_rank):
+        return
+
+    top_rank = named_top_rank
     count = info["count"] if info else 0
 
     # Scan-only data can supplement a named contributor (e.g., higher rank
@@ -453,6 +464,9 @@ def write_user_badges(handle: str, info: dict, scan: dict | None,
     if scan:
         top_rank = max(top_rank, scan["top_rank"])
         count = max(count, scan["count"])
+
+    user_dir = out_dir / "_assets" / handle
+    user_dir.mkdir(parents=True, exist_ok=True)
 
     # Rank badges always follow the rank color ramp — never the tier accent.
     # Tier colors (unique purple, tier-extra, etc.) live on handle/per-skill
@@ -501,20 +515,27 @@ def write_user_badges(handle: str, info: dict, scan: dict | None,
         else:
             color = rank_colors.get(rank, AMBER)
 
-        label = f"Gaia: @{handle}{slash} {rank} stars"
+        badge_handle_text = REDACTED_HANDLE if is_redacted(rank) else handle
+        label = f"Gaia: @{badge_handle_text}{slash} {rank} stars"
         bg = "#000000" if is_unique else None
         (user_dir / "handle.svg").write_text(
-            badge_handle(handle, slash, rank, color, label,
+            badge_handle(badge_handle_text, slash, rank, color, label,
                          right_bg_override=bg), encoding="utf-8")
         (user_dir / "handle-seal.svg").write_text(
-            badge_handle(handle, slash, rank, color, label, seal_only=True,
+            badge_handle(badge_handle_text, slash, rank, color, label, seal_only=True,
                          right_bg_override=bg),
             encoding="utf-8")
 
-        # Per-skill variants — write both wordmark and seal-only forms
+        # Per-skill variants — write both wordmark and seal-only forms.
         for skill in info["named_skills"]:
             sslash = named_slug(skill)
             srank = level_num(skill.get("level", ""))
+
+            # Pre-named/demoted (≤1★) skills get no shareable per-skill badge —
+            # suppressing the file keeps the handle out of a guessable
+            # /badges/_assets/<handle>/<slug>.svg path.
+            if is_redacted(srank):
+                continue
 
             is_sunique = skill.get("type") == "unique"
             if is_sunique:
@@ -524,7 +545,9 @@ def write_user_badges(handle: str, info: dict, scan: dict | None,
             else:
                 scolor = rank_colors.get(srank, AMBER)
 
-            slabel = f"Gaia: @{handle}{sslash} {srank} stars"
+            # srank is always ≥ 2 here (≤1★ skipped above) — handle is public.
+            badge_handle_text = handle
+            slabel = f"Gaia: @{badge_handle_text}{sslash} {srank} stars"
             sbg = "#000000" if is_sunique else None
             # filename: slash-skill without leading slash, e.g. /health -> health.svg
             fname = sslash.lstrip("/").replace("/", "-") or "skill"
@@ -532,11 +555,11 @@ def write_user_badges(handle: str, info: dict, scan: dict | None,
                 # Avoid clobbering rank.svg / skills.svg / handle.svg.
                 fname = f"{fname}~"
             (user_dir / f"{fname}.svg").write_text(
-                badge_handle(handle, sslash, srank, scolor, slabel,
+                badge_handle(badge_handle_text, sslash, srank, scolor, slabel,
                              right_bg_override=sbg),
                 encoding="utf-8")
             (user_dir / f"{fname}-seal.svg").write_text(
-                badge_handle(handle, sslash, srank, scolor, slabel, seal_only=True,
+                badge_handle(badge_handle_text, sslash, srank, scolor, slabel, seal_only=True,
                              right_bg_override=sbg),
                 encoding="utf-8")
 
@@ -608,8 +631,15 @@ def build_registry(contributors: dict[str, dict]) -> dict:
     """
     out: dict[str, dict] = {}
     for handle, info in contributors.items():
+        # Entirely pre-named/demoted contributors emit no badges (see
+        # write_user_badges) and must not appear in the public manifest.
+        if is_redacted(info.get("top_rank", 0)):
+            continue
+        # Only named (≥2★) skills are publicly listed — a pre-named skill has
+        # no shareable badge, so it never enters the manifest.
+        public_skills = [s for s in info["named_skills"] if not is_redacted(level_num(s.get("level", "")))]
         repos: dict[str, list[str]] = {}
-        for skill in info["named_skills"]:
+        for skill in public_skills:
             url = (skill.get("links") or {}).get("github")
             repo = extract_repo(url) if url else None
             if not repo:
@@ -619,7 +649,7 @@ def build_registry(contributors: dict[str, dict]) -> dict:
         # Per-skill picker payload — includes the resolved on-disk filename so
         # the page doesn't need to recompute the reserved-name suffix logic.
         named_skills_payload = []
-        for skill in info["named_skills"]:
+        for skill in public_skills:
             slash = named_slug(skill)
             fname = slash.lstrip("/").replace("/", "-") or "skill"
             if fname in RESERVED_FILENAMES:

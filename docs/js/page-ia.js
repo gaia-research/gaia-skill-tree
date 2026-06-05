@@ -169,7 +169,7 @@
             ? window.namedSlug(claim)
             : '/' + u.id;
           var contribLink = (typeof window.handleLink === 'function')
-            ? window.handleLink(claim.contributor || '', { extraClass: 'ult-contrib' })
+            ? window.handleLink(claim.contributor || '', { extraClass: 'ult-contrib', level: claim.level || uLevel })
             : '<a class="ult-contrib atlas-handle" href="./u/' + encodeURIComponent(claim.contributor || '') + '/">@' + esc(claim.contributor || '') + '</a>';
           
           var lvlN = levelNum(uLevel);
@@ -220,6 +220,9 @@
     Object.keys(buckets).forEach(function (skillId) {
       (buckets[skillId] || []).forEach(function (e) {
         if (!e.origin) return;
+        // Defensive: never surface a pre-named/demoted (≤1★) skill in the
+        // public Hall of Heroes, even if flagged origin.
+        if (window.isRedacted && window.isRedacted(e.level)) return;
         totalNamedCount++;
         var refId = e.genericSkillRef || skillId;
         var canonical = byId[refId];

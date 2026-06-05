@@ -27,6 +27,34 @@ Gaia uses a tiered star system (`0★`–`6★`) to rank skills. Levels are both
 - **◉ Unique Skill**: Specialized depth. Level 4★+, 0 prerequisites, graph-isolated.
 - **◆ Ultimate Skill**: Platform capstones. Requires ≥ 5 named prerequisites + Origin Fusion. **Requirement**: ≥ 10k repository stars.
 
+### 1.3 Redaction of Pre-Named & Demoted Handles
+
+Because stars live on **named** skills only, a skill at **1★ (Awakened)** or
+**0★ (Basic)** is *not yet named* — and neither is a skill that has been
+**demoted** down to 1★ (e.g. the § 2.4 hard-reset). Its contributor handle is
+therefore **redacted** ("classified" look) on every **public** surface until it
+earns Named (2★+) standing:
+
+- **Visible text** — the handle renders as a slate redaction marker
+  (`████████` in monospace contexts, `@[anonymous]` in proportional ones),
+  never the honor-red Origin handle.
+- **Paths / artifacts** — a pre-named skill owns no shareable public artifact
+  (per-skill badge, OG card, registry-manifest entry), and an *entirely*
+  pre-named contributor (no skill above 1★) gets no public badge directory.
+- **Origin** — a ≤1★ entry cannot hold Origin standing (§ 4.1); it is never a
+  bucket's champion/representative.
+- **Exception — the contributor's own profile** (`docs/u/<handle>/`): pre-named
+  and demoted skills stay *listed* with their real rank and timeline so the
+  Hero's Journey (§ 5) and ownership remain visible — but the plaque is
+  redacted (slate, never honor-red).
+
+The threshold and placeholders live in one place per runtime
+(`src/gaia_cli/redaction.py`, mirrored in `docs/js/atlas-helpers.js`). The
+invariant is **enforced in CI** by `scripts/validate_redaction.py` (run via
+`gaia validate` and the release workflow), which fails the build if any ≤1★
+handle leaks into a generated public asset — or if a 2★+ skill is
+over-redacted.
+
 ---
 
 ## 2. Evidence Methodology (The Trust Stack)
@@ -103,6 +131,19 @@ The **Canonical Level** (e.g., 4★) is the claimed tier based on evidence. The 
 ## 5. Rank History (The "Hero's Journey")
 
 Every named implementation tracks its evolution through the `timeline` schema property.
+
+> **Transparency Mandate — every event is on the record.** No rank change may be
+> untracked. Every promotion, demotion, fusion, or evidence update **must** emit a
+> timeline event so the Hero's Journey tells the whole truth; a star that drops
+> with no `demote` event is a transparency failure, not a cosmetic one. This is
+> the other half of the Programmatic-First culture (CONTEXT.md § Registry
+> Management, PRODUCT.md Design Principle 6): prefer the CLI because it logs the
+> event for you. The change is mirrored to **both** the registry node
+> (`registry/named/**/*.md`) and the owning contributor's user tree
+> (`skill-trees/<owner>/skill-tree.json`) — the latter is what the public profile
+> charts. The **Transparency Gate** (`scripts/validate_timelines.py`, run in
+> `gaia validate` and release CI) fails any build whose timeline cannot explain a
+> skill's current rank; reconcile drift with the `/gaia-trace-timeline` skill.
 
 ### 5.1 Timeline Events
 - **`propose`**: Initial 2★ submission.

@@ -102,7 +102,17 @@
   }
 
   function _fieldHandleRow(ns) {
-    var contribLink = handleLink(ns && ns.contributor || '');
+    var contributor = ns && ns.contributor || '';
+    // No contributor → unclaimed/ghost skill: no handle row at all (never show
+    // a redaction marker where there is no handle to hide).
+    if (!contributor) return '';
+    var level = ns && ns.level;
+    // Pre-named/demoted (≤1★): redact the handle (slate, no honor-red link) and
+    // drop the origin badge — a pre-named skill has no Origin standing.
+    if (window.isRedacted && window.isRedacted(level)) {
+      return '<div class="plaque__handle plaque-contrib-row">' + window.redactedHandle() + '</div>';
+    }
+    var contribLink = handleLink(contributor, { level: level });
     if (!contribLink) return '';
     return '<div class="plaque__handle plaque-contrib-row">' + contribLink + _fieldOriginBadge(ns) + '</div>';
   }
@@ -165,7 +175,13 @@
   // we fall back to navigator.clipboard inline.
   function _fieldInstallRow(ns) {
     if (!ns || !ns.id) return '';
-    var cmd = 'gaia install ' + ns.id;
+    // Pre-named/demoted (≤1★): withhold the handle in the install command —
+    // "gaia install ████████/slug" (lifted once the skill is named at 2★+).
+    var installId = ns.id;
+    if (window.isRedacted && window.isRedacted(ns.level) && ns.id.indexOf('/') !== -1) {
+      installId = (window.REDACTED_BLOCK || '████████') + '/' + ns.id.split('/').slice(1).join('/');
+    }
+    var cmd = 'gaia install ' + installId;
     var copyClick = 'event.stopPropagation();' +
       'if(typeof window.nsInstCopy===\'function\'){window.nsInstCopy(this);}' +
       'else{navigator.clipboard.writeText(this.dataset.cmd);}';
@@ -314,8 +330,12 @@
   // Right column: title · description · tags
   function renderDetail(ns, opts) {
     opts = opts || {};
+    // Pre-named/demoted (≤1★): the repo link, share (OG path) and "Add to
+    // README" (badges?u=<handle>) all expose the handle — suppress them until
+    // the skill is named (2★+).
+    var redacted = window.isRedacted && window.isRedacted(ns && ns.level);
     var links = (ns && ns.links) || {};
-    var repoUrl = links.github || links.npm || '';
+    var repoUrl = (!redacted && (links.github || links.npm)) || '';
     var ghLink = repoUrl
       ? '<a class="plaque__gh-link ns-gh-link" href="' + esc(repoUrl) + '" target="_blank" rel="noopener" aria-label="Show on GitHub">' +
           icon('github', 14) + '</a>'
@@ -327,7 +347,7 @@
     var handle = (ns && ns.contributor) || '';
     var skillName = (ns && ns.name) || '';
     var ogPath = handle && skillIdShort ? 'og/' + handle + '/' + skillIdShort + '.svg' : '';
-    var shareBtn =
+    var shareBtn = redacted ? '' :
       '<button type="button" class="plaque__share-btn" ' +
         'data-skill-id="' + esc(skillId) + '" ' +
         'data-skill-name="' + esc(skillName) + '" ' +
@@ -337,13 +357,11 @@
         icon('share', 14) +
       '</button>';
 
-    var ghRow =
-      '<div class="plaque__gh-row">' +
-        ghLink +
-        shareBtn +
-      '</div>';
+    var ghRow = (ghLink || shareBtn)
+      ? '<div class="plaque__gh-row">' + ghLink + shareBtn + '</div>'
+      : '';
 
-    var actions =
+    var actions = redacted ? '' :
       '<div class="plaque__actions plaque-detail-actions">' +
         '<a class="plaque__claim-btn" ' +
           'href="badges/?u=' + encodeURIComponent(handle) + '" ' +

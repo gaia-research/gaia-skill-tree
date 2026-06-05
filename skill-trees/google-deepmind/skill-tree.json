@@ -4,7 +4,7 @@
   "unlockedSkills": [
     {
       "skillId": "google-deepmind/alphafold_database_fetch_and_analyze",
-      "level": "2★",
+      "level": "4★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
@@ -13,12 +13,17 @@
           "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-05-25T00:00:01Z",
+          "source": "promotion"
         }
       ]
     },
     {
       "skillId": "google-deepmind/alphagenome_single_variant_analysis",
-      "level": "2★",
+      "level": "3★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
@@ -26,6 +31,11 @@
         {
           "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-05-25T00:00:01Z",
           "source": "promotion"
         }
       ]
@@ -326,7 +336,7 @@
     },
     {
       "skillId": "google-deepmind/protein_sequence_msa",
-      "level": "2★",
+      "level": "3★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
@@ -334,6 +344,11 @@
         {
           "level": "2★",
           "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-05-25T00:00:01Z",
           "source": "promotion"
         }
       ]
@@ -817,6 +832,30 @@
       "details": "Registered named skill google-deepmind/workflow_skill_creator",
       "previousValue": null,
       "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:01Z",
+      "action": "rank_up",
+      "previousValue": "2★",
+      "newValue": "4★",
+      "details": "Reconciled to current registry level 4★ (registry-side recalibration; no source event recorded).",
+      "skillId": "google-deepmind/alphafold_database_fetch_and_analyze"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:01Z",
+      "action": "rank_up",
+      "previousValue": "2★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
+      "skillId": "google-deepmind/alphagenome_single_variant_analysis"
+    },
+    {
+      "timestamp": "2026-05-25T00:00:01Z",
+      "action": "rank_up",
+      "previousValue": "2★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
+      "skillId": "google-deepmind/protein_sequence_msa"
     }
   ],
   "stats": {

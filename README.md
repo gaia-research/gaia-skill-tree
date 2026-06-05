@@ -39,13 +39,13 @@ Every AI agent capability exists somewhere on this graph. Skills start at the fo
 <!-- gaia:registry-start -->
 ```text
 ◆ ruvnet/agentdb  [5★]
-  ├─ ◇ ruvnet/agentdb-advanced
+  ├─ ◇ ████████/agentdb-advanced
   │  ├─ ○ ruvnet/agentdb-vector-search  [2★]
   │  └─ ◇ garrytan/learn  [3★]
-  │     ├─ ○ garrytan/context-restore  [3★]
+  │     ├─ ○ mattpocock/caveman  [3★]
   │     └─ ○ /retrieve
-  ├─ ◇ ruvnet/agentdb-learning  [2★]
-  │  ├─ ○ ruvnet/reasoningbank-intelligence
+  ├─ ◇ ruvnet/reasoningbank-agentdb  [2★]
+  │  ├─ ○ ████████/reasoningbank-intelligence
   │  └─ ◇ garrytan/learn  [3★]  (↑ see above)
   ├─ ○ ruvnet/agentdb-memory-patterns  [2★]
   ├─ ○ ruvnet/agentdb-optimization  [2★]
@@ -63,7 +63,7 @@ Every AI agent capability exists somewhere on this graph. Skills start at the fo
   │  ├─ ○ /plan-decompose
   │  └─ ○ /route-intent
   ├─ ◇ garrytan/design-consultation  [4★]
-  │  ├─ ◇ gooseworks/notte-browser  [2★]
+  │  ├─ ◇ browserbase/stagehand  [2★]
   │  │  ├─ ○ /web-search
   │  │  └─ ○ /computer-use
 
@@ -387,9 +387,9 @@ Thank you to everyone who has expanded the Gaia registry.
 | [@mattpocock](https://github.com/mattpocock) | 20 — to-prd, triage, diagnose, tdd, zoom-out, grill-me, and 14 others |
 | [@obra](https://github.com/obra) | 12 — superpowers ecosystem: systematic-debugging, dispatching-parallel-agents, and 10 others |
 | [@intelligentcode-ai](https://github.com/intelligentcode-ai) | 8 — database-engineer, devops-engineer, security-engineer, and 5 others |
-| [@huggingface](https://github.com/huggingface) | 7 — hf-cli, llm-trainer, datasets, transformers-js, and 3 others |
+| @[anonymous] | 7 — hf-cli, llm-trainer, datasets, transformers-js, and 3 others |
 
-Community contributors (1–2 skills each): [@karpathy](https://github.com/karpathy), [@anthropic](https://github.com/anthropic), [@openai](https://github.com/openai), [@addy-osmani](https://github.com/addy-osmani), [@devin-ai](https://github.com/devin-ai), [@glincker](https://github.com/GLINCKER), [@spring-ai-alibaba](https://github.com/spring-ai-alibaba), [@pexp13](https://github.com/pexp13)
+Community contributors (1–2 skills each): [@karpathy](https://github.com/karpathy), [@anthropic](https://github.com/anthropic), [@openai](https://github.com/openai), [@addy-osmani](https://github.com/addy-osmani), @[anonymous], [@glincker](https://github.com/GLINCKER), [@spring-ai-alibaba](https://github.com/spring-ai-alibaba), [@pexp13](https://github.com/pexp13)
 
 ### Evidence & Curation
 

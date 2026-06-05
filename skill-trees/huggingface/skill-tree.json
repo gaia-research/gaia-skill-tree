@@ -74,7 +74,7 @@
     },
     {
       "skillId": "huggingface/semantic-cache",
-      "level": "4★",
+      "level": "1★",
       "unlockedAt": "2026-05-15T00:00:00Z",
       "unlockedIn": "huggingface/gaia-skill-tree",
       "combinedFrom": [],
@@ -83,6 +83,21 @@
           "level": "4★",
           "achievedAt": "2026-05-15T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-02T23:48:18Z",
+          "source": "demote"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-06-04T20:30:53Z",
+          "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-04T20:34:03Z",
+          "source": "demote"
         }
       ]
     },
@@ -157,6 +172,30 @@
       "details": "Registered named skill huggingface/semantic-cache",
       "previousValue": null,
       "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-06-02T23:48:18Z",
+      "action": "demote",
+      "skillId": "huggingface/semantic-cache",
+      "details": "Star-Bar hard reset (META §2.4): 3★+ skill lacked a verified blob link → 4★→1★.",
+      "previousValue": "4★",
+      "newValue": "1★"
+    },
+    {
+      "timestamp": "2026-06-04T20:30:53Z",
+      "action": "rank_up",
+      "skillId": "huggingface/semantic-cache",
+      "details": "GitHub blob link restored → recalibrated 1★→4★.",
+      "previousValue": "1★",
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-06-04T20:34:03Z",
+      "action": "demote",
+      "skillId": "huggingface/semantic-cache",
+      "details": "Reclassified Unique→Basic and marked registry-only (installable:false) → demoted 4★→1★.",
+      "previousValue": "4★",
+      "newValue": "1★"
     }
   ],
   "stats": {

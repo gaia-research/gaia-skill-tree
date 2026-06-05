@@ -4,7 +4,7 @@
   "unlockedSkills": [
     {
       "skillId": "safishamsi/graphify",
-      "level": "3★",
+      "level": "1★",
       "unlockedAt": "2026-05-14T00:00:00Z",
       "unlockedIn": "safishamsi/gaia-skill-tree",
       "combinedFrom": [],
@@ -13,6 +13,11 @@
           "level": "3★",
           "achievedAt": "2026-05-14T00:00:00Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-06-02T23:48:24Z",
+          "source": "demote"
         }
       ]
     }
@@ -25,6 +30,14 @@
       "details": "Registered named skill safishamsi/graphify",
       "previousValue": null,
       "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-06-02T23:48:24Z",
+      "action": "demote",
+      "previousValue": "3★",
+      "newValue": "1★",
+      "details": "Calibrated level from 3★ to 1★",
+      "skillId": "safishamsi/graphify"
     }
   ],
   "stats": {

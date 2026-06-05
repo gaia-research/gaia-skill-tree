@@ -2,7 +2,7 @@
 
 ```
 ══════════════════════════════════════════════════════════════════════
-GAIA SKILL TREE  v4.0.0  ·  generated 2026-06-04
+GAIA SKILL TREE  v4.0.0  ·  generated 2026-06-05
 ══════════════════════════════════════════════════════════════════════
 ◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -10,13 +10,13 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 
 ◆ ruvnet/agentdb  [5★]
 ─────────────────────────────────────────────────────────────────
-  ├─ ◇ ruvnet/agentdb-advanced
+  ├─ ◇ ████████/agentdb-advanced
   │  ├─ ○ ruvnet/agentdb-vector-search  [2★]
   │  └─ ◇ garrytan/learn  [3★]
-  │     ├─ ○ garrytan/context-restore  [3★]
+  │     ├─ ○ mattpocock/caveman  [3★]
   │     └─ ○ /retrieve
-  ├─ ◇ ruvnet/agentdb-learning  [2★]
-  │  ├─ ○ ruvnet/reasoningbank-intelligence
+  ├─ ◇ ruvnet/reasoningbank-agentdb  [2★]
+  │  ├─ ○ ████████/reasoningbank-intelligence
   │  └─ ◇ garrytan/learn  [3★]  (↑ see above)
   ├─ ○ ruvnet/agentdb-memory-patterns  [2★]
   ├─ ○ ruvnet/agentdb-optimization  [2★]
@@ -35,7 +35,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ ○ /plan-decompose
   │  └─ ○ /route-intent
   ├─ ◇ garrytan/design-consultation  [4★]
-  │  ├─ ◇ gooseworks/notte-browser  [2★]
+  │  ├─ ◇ browserbase/stagehand  [2★]
   │  │  ├─ ○ /web-search
   │  │  └─ ○ /computer-use
   │  └─ ○ /parse-html
@@ -46,8 +46,8 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ ◇ garrytan/investigate  [4★]
   │  ├─ ○ /hypothesis-generate
   │  └─ ○ /error-interpretation
-  ├─ ◇ garrytan/qa-only  [4★]
-  │  ├─ ◇ gooseworks/notte-browser  [2★]  (↑ see above)
+  ├─ ◇ garrytan/qa  [4★]
+  │  ├─ ◇ browserbase/stagehand  [2★]  (↑ see above)
   │  └─ ◇ 0xdarkmatter/pytest-patterns  [3★]
   │     ├─ ○ upsonic/unittest-generator  [2★]
   │     ├─ ○ /code-execution
@@ -56,7 +56,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ ◇ garrytan/plan-eng-review  [4★]  (↑ see above)
   │  └─ ○ /diff-content  (↑ see above)
   ├─ ◇ garrytan/land-and-deploy  [4★]
-  │  ├─ ◇ ruvnet/github-workflow-automation  [2★]
+  │  ├─ ◇ ruvnet/hooks-automation  [2★]
   │  │  ├─ ○ /plan-decompose  (↑ see above)
   │  │  ├─ ○ /tool-use
   │  │  └─ ○ huggingface/hf-cli  [2★]
@@ -65,7 +65,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ ○ garrytan/benchmark  [4★]  (↑ see above)
   │  └─ ○ /error-interpretation  (↑ see above)
   ├─ ○ garrytan/document-generate  [4★]
-  ├─ ◇ gooseworks/notte-browser  [2★]  (↑ see above)
+  ├─ ◇ browserbase/stagehand  [2★]  (↑ see above)
   ├─ ◇ garrytan/cso  [4★]
   │  ├─ ◇ garrytan/plan-eng-review  [4★]  (↑ see above)
   │  └─ ○ garrytan/benchmark  [4★]  (↑ see above)
@@ -92,9 +92,9 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ ◇ 0xdarkmatter/pytest-patterns  [3★]  (↑ see above)
   ├─ ○ garrytan/pair-agent  [3★]
   ├─ ◇ garrytan/learn  [3★]
-  │  ├─ ○ garrytan/context-restore  [3★]
+  │  ├─ ○ mattpocock/caveman  [3★]
   │  └─ ○ /retrieve
-  ├─ ◇ garrytan/careful  [3★]
+  ├─ ◇ garrytan/guard  [3★]
   │  ├─ ○ garrytan/benchmark  [4★]  (↑ see above)
   │  ├─ ○ /classify
   │  └─ ○ /structured-output  (↑ see above)
@@ -108,34 +108,34 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ ◇ garrytan/landing-report  [2★]
   │  ├─ ○ huggingface/hf-cli  [2★]  (↑ see above)
   │  └─ ○ mattpocock/triage  [3★]
-  └─ ◇ stanfordnlp/dspy  [2★]
+  └─ ◇ garrytan/plan-tune  [2★]
      ├─ ○ garrytan/benchmark  [4★]  (↑ see above)
      └─ ○ /generate-text  (↑ see above)
 
 ◆ ruvnet/ruflo  [6★]
 ─────────────────────────────────────────────────────────────────
   ├─ ◇ ruvnet/flow-nexus  [4★]
-  │  ├─ ◇ ruvnet/flow-nexus-swarm
+  │  ├─ ◇ ████████/flow-nexus-swarm
   │  │  ├─ ◇ /plan-and-execute
   │  │  │  ├─ ○ /route-intent
   │  │  │  ├─ ○ /plan-decompose
   │  │  │  └─ ○ /tool-select
   │  │  ├─ ○ /route-intent  (↑ see above)
   │  │  └─ ○ /tool-select  (↑ see above)
-  │  ├─ ◇ ruvnet/flow-nexus-platform
+  │  ├─ ◇ ████████/flow-nexus-platform
   │  │  ├─ ○ huggingface/hf-cli  [2★]
   │  │  └─ ○ /tool-use
-  │  └─ ◇ ruvnet/flow-nexus-neural
+  │  └─ ◇ ████████/flow-nexus-neural
   │     ├─ ○ intelligentcode-ai/parallel-execution  [2★]
   │     └─ ○ /embed-text
   ├─ ◆ ruvnet/agentdb  [5★]
-  │  ├─ ◇ ruvnet/agentdb-advanced
+  │  ├─ ◇ ████████/agentdb-advanced
   │  │  ├─ ○ ruvnet/agentdb-vector-search  [2★]
   │  │  └─ ◇ garrytan/learn  [3★]
-  │  │     ├─ ○ garrytan/context-restore  [3★]
+  │  │     ├─ ○ mattpocock/caveman  [3★]
   │  │     └─ ○ /retrieve
-  │  ├─ ◇ ruvnet/agentdb-learning  [2★]
-  │  │  ├─ ○ ruvnet/reasoningbank-intelligence
+  │  ├─ ◇ ruvnet/reasoningbank-agentdb  [2★]
+  │  │  ├─ ○ ████████/reasoningbank-intelligence
   │  │  └─ ◇ garrytan/learn  [3★]  (↑ see above)
   │  ├─ ○ ruvnet/agentdb-memory-patterns  [2★]
   │  ├─ ○ ruvnet/agentdb-optimization  [2★]
@@ -147,7 +147,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  └─ ○ garrytan/benchmark  [4★]
   │  ├─ ○ ruvnet/github-multi-repo  [2★]
   │  ├─ ◇ garrytan/land-and-deploy  [4★]
-  │  │  ├─ ◇ ruvnet/github-workflow-automation  [2★]
+  │  │  ├─ ◇ ruvnet/hooks-automation  [2★]
   │  │  │  ├─ ○ /plan-decompose  (↑ see above)
   │  │  │  ├─ ○ /tool-use  (↑ see above)
   │  │  │  └─ ○ huggingface/hf-cli  [2★]  (↑ see above)
@@ -155,17 +155,17 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ ◇ garrytan/landing-report  [2★]
   │  │  ├─ ○ huggingface/hf-cli  [2★]  (↑ see above)
   │  │  └─ ○ mattpocock/triage  [3★]
-  │  └─ ◇ ruvnet/github-workflow-automation  [2★]  (↑ see above)
+  │  └─ ◇ ruvnet/hooks-automation  [2★]  (↑ see above)
   ├─ ◇ ruvnet/reasoningbank  [3★]
-  │  ├─ ○ ruvnet/reasoningbank-intelligence  (↑ see above)
-  │  └─ ◇ ruvnet/agentdb-learning  [2★]  (↑ see above)
+  │  ├─ ○ ████████/reasoningbank-intelligence  (↑ see above)
+  │  └─ ◇ ruvnet/reasoningbank-agentdb  [2★]  (↑ see above)
   ├─ ◇ ruvnet/ruflo-v3  [4★]
   │  ├─ ○ ruvnet/v3-cli-modernization  [2★]
   │  ├─ ○ ruvnet/v3-core-implementation  [2★]
   │  ├─ ○ ruvnet/v3-integration-deep  [2★]
   │  ├─ ○ addy-osmani/performance-optimization  [3★]
-  │  └─ ◇ ruvnet/swarm-advanced
-  │     ├─ ○ ruvnet/swarm-orchestration
+  │  └─ ◇ ████████/swarm-advanced
+  │     ├─ ○ ████████/swarm-orchestration
   │     └─ ◇ garrytan/codex  [3★]
   │        ├─ ○ /self-critique
   │        ├─ ○ garrytan/benchmark  [4★]  (↑ see above)
@@ -217,7 +217,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 
 ◆ mattpocock/engineering  [5★]
 ─────────────────────────────────────────────────────────────────
-  ├─ ◇ devin-ai/autonomous-swe  [2★]
+  ├─ ◇ mattpocock/diagnose  [2★]
   │  ├─ ○ garrytan/design-html  [4★]
   │  ├─ ○ /code-execution
   │  └─ ○ /error-interpretation
@@ -251,7 +251,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 ◆ mattpocock/skills  [6★]
 ─────────────────────────────────────────────────────────────────
   ├─ ◆ mattpocock/engineering  [5★]
-  │  ├─ ◇ devin-ai/autonomous-swe  [2★]
+  │  ├─ ◇ mattpocock/diagnose  [2★]
   │  │  ├─ ○ garrytan/design-html  [4★]
   │  │  ├─ ○ /code-execution
   │  │  └─ ○ /error-interpretation
@@ -285,8 +285,8 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ ◇ mattpocock/handoff  [4★]
   │  │  ├─ ○ /summarize
   │  │  ├─ ○ garrytan/document-generate  [4★]  (↑ see above)
-  │  │  └─ ○ garrytan/context-restore  [3★]
-  │  ├─ ○ garrytan/context-restore  [3★]  (↑ see above)
+  │  │  └─ ○ mattpocock/caveman  [3★]
+  │  ├─ ○ mattpocock/caveman  [3★]  (↑ see above)
   │  ├─ ◇ mattpocock/grill-me  [4★]  (↑ see above)
   │  └─ ◇ mattpocock/write-a-skill  [3★]
   │     ├─ ○ garrytan/design-html  [4★]  (↑ see above)
@@ -295,7 +295,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ ○ garrytan/document-generate  [4★]  (↑ see above)
   │  └─ ◇ mattpocock/obsidian-vault  [3★]
   │     ├─ ○ /retrieve
-  │     └─ ○ garrytan/context-restore  [3★]  (↑ see above)
+  │     └─ ○ mattpocock/caveman  [3★]  (↑ see above)
   ├─ ◇ mattpocock/write-a-skill  [3★]  (↑ see above)
   └─ ◇ mattpocock/ubiquitous-language  [4★]  (↑ see above)
 
@@ -321,7 +321,7 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   ○ /probabilistic-programming
   ○ /reward-modeling
   ○ openai/self-consistency  [2★]
-  ○ huggingface/semantic-cache
+  ○ ████████/semantic-cache
   ○ ruvnet/stream-chain  [2★]
   ○ /synthetic-data-generation
   ○ addy-osmani/test-driven-development  [3★]
@@ -330,4 +330,4 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   ○ ruvnet/worker-integration  [2★]
 ```
 
-*Generated from gaia.json on 2026-06-04. Do not edit directly.*
+*Generated from gaia.json on 2026-06-05. Do not edit directly.*

@@ -1,4 +1,4 @@
-# [ruvnet](../../../docs/u/ruvnet/)/sparc-methodology
+# ████████/sparc-methodology
 **ID:** agentic-workflow-design  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  

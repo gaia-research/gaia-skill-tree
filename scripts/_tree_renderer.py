@@ -86,6 +86,7 @@ def render_tree(
     owned_ids: set | None = None,
     named_map: dict | None = None,
     named_level_map: dict | None = None,
+    named_entry_level: dict | None = None,
     meta: dict | None = None,
     version: str = "",
     date_str: str = "",
@@ -130,6 +131,8 @@ def render_tree(
         named_map = {}
     if named_level_map is None:
         named_level_map = {}
+    if named_entry_level is None:
+        named_entry_level = {}
     if skill_map is None:
         skill_map = {s["id"]: s for s in skills}
     if owned_ids is None:
@@ -142,14 +145,14 @@ def render_tree(
     def _demerit(sk):
         return ""
 
-    def _disp(sid, stype, nm=None, hr=None):
+    def _disp(sid, stype, nm=None, hr=None, named_level_map=None, named_entry_level=None):
         nid = (nm or {}).get(sid)
         if nid:
             return nid
         return f"/{sid}"
 
     def _subtree(rid, sm, m, prefix, is_last, seen, u_ids=None, uid=None, nm=None,
-                 named_level_map=None, hr=None):
+                 named_level_map=None, hr=None, named_entry_level=None):
         return []
 
     def _sorted_ults(sks):
@@ -222,7 +225,8 @@ def render_tree(
     for legendary in legendaries:
         lid = legendary.get("id")
         prereq_ids = legendary.get("prerequisites", [])
-        display = _bsd(lid, "ultimate", named_map, handle_rel)
+        display = _bsd(lid, "ultimate", named_map, handle_rel,
+                       named_level_map=named_level_map, named_entry_level=named_entry_level)
 
         # Unclaimed ultimates: no named implementation yet → no star
         is_unclaimed = not (named_map or {}).get(lid)
@@ -255,6 +259,7 @@ def render_tree(
                 named_map=named_map,
                 named_level_map=named_level_map,
                 handle_rel=handle_rel,
+                named_entry_level=named_entry_level,
             ):
                 lines.append(sl)
         lines.append("")
@@ -270,7 +275,8 @@ def render_tree(
         lines.append("")
         for us in unique_skills:
             uid_s = us.get("id")
-            display = _bsd(uid_s, "unique", named_map, handle_rel)
+            display = _bsd(uid_s, "unique", named_map, handle_rel,
+                           named_level_map=named_level_map, named_entry_level=named_entry_level)
             star_pill = _star_pill(named_level_map, uid_s)
             if is_user:
                 marker = "✓ " if uid_s in owned_ids else "· "
@@ -290,7 +296,8 @@ def render_tree(
         lines.append("")
         for ps in basic_orphans:
             pid = ps.get("id")
-            display = _bsd(pid, "basic", named_map, handle_rel)
+            display = _bsd(pid, "basic", named_map, handle_rel,
+                           named_level_map=named_level_map, named_entry_level=named_entry_level)
             star_pill = _star_pill(named_level_map, pid)
             if is_user:
                 marker = "✓ " if pid in owned_ids else "· "
