@@ -15,7 +15,7 @@
 | ○ huggingface/huggingface-llm-trainer | Basic Skill | 3★ | Evolved | huggingface/gaia-skill-tree | 2026-05-03T00:00:00Z |
 | ○ huggingface/huggingface-papers | Basic Skill | 2★ | Named | huggingface/gaia-skill-tree | 2026-05-03T00:00:00Z |
 | ○ huggingface/huggingface-vision-trainer | Basic Skill | 3★ | Evolved | huggingface/gaia-skill-tree | 2026-05-03T00:00:00Z |
-| ○ huggingface/semantic-cache | Basic Skill | 4★ | Hardened | huggingface/gaia-skill-tree | 2026-05-15T00:00:00Z |
+| ○ huggingface/semantic-cache | Basic Skill | 1★ | Awakened | huggingface/gaia-skill-tree | 2026-05-15T00:00:00Z |
 | ○ huggingface/transformers-js | Basic Skill | 2★ | Named | huggingface/gaia-skill-tree | 2026-05-03T00:00:00Z |
 
 ---
