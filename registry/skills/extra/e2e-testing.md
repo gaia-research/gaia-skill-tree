@@ -1,4 +1,4 @@
-# [garrytan](../../../docs/u/garrytan/)/qa-only  [4★]
+# [garrytan](../../../docs/u/garrytan/)/qa  [4★]
 **ID:** e2e-testing  
 **Type:** Extra Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  

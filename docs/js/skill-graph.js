@@ -1064,7 +1064,10 @@
             const badgeW = isOrigin ? 20 * pr.scale : 0;
             const totalW = w1 + w2 + badgeW;
             const startX = pr.sx - totalW / 2;
-            ctx.fillStyle = `rgba(${tokens.honorRedRgb},${labelAlpha.toFixed(2)})`;
+            // Redacted handle ("@[anonymous]") renders slate, never honor-red.
+            ctx.fillStyle = (handleTxt === '@[anonymous]')
+              ? `rgba(148,163,184,${labelAlpha.toFixed(2)})`
+              : `rgba(${tokens.honorRedRgb},${labelAlpha.toFixed(2)})`;
             ctx.fillText(handleTxt, startX, pr.sy + 18 * pr.scale);
             const rm = state.meta && state.meta.levelColors ? state.meta.levelColors[skill.level || 0] : null;
             ctx.fillStyle = rm ? rm.hex : `rgba(${colRgb},1)`;
@@ -1169,6 +1172,11 @@
               
               const handleSpan = document.createElement('span');
               handleSpan.className = 'gst-named-handle';
+              // Redacted handle renders slate via the shared plaque class.
+              if (parts[0] === '[anonymous]') {
+                handleSpan.className += ' plaque__redacted-handle';
+                handleSpan.setAttribute('aria-label', 'Contributor not yet revealed');
+              }
               handleSpan.textContent = '@' + parts[0];
               namedLineDiv.appendChild(handleSpan);
 
@@ -2617,12 +2625,20 @@
       const titleMap = {};
       const originMap = {};
       const buckets = indexData.buckets || {};
+      var redacts = function (lvl) { return window.isRedacted && window.isRedacted(lvl); };
       Object.entries(buckets).forEach(([skillId, arr]) => {
         if (Array.isArray(arr) && arr.length) {
           const origin = arr.find(e => e.origin) || arr[0];
-          if (origin && origin.id) map[skillId] = origin.id;
+          if (origin && origin.id) {
+            // Always redact (never drop) a pre-named/demoted (≤1★) handle:
+            // keep the slash-name shape but withhold the handle segment.
+            map[skillId] = redacts(origin.level)
+              ? '[anonymous]/' + (origin.id.split('/')[1] || origin.id)
+              : origin.id;
+          }
           if (origin && origin.title) titleMap[skillId] = origin.title;
-          if (arr.some(e => e.origin)) originMap[skillId] = true;
+          // A pre-named/demoted skill has no Origin standing.
+          if (arr.some(e => e.origin && !redacts(e.level))) originMap[skillId] = true;
         }
       });
       if (heroGraph) heroGraph.setNamedMap(map);

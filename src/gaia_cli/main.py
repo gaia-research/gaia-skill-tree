@@ -95,6 +95,8 @@ from gaia_cli.formatting import (
     TYPE_SYMBOLS,
     COLOR_CONTRIBUTOR,
     COLOR_LOCAL_USER,
+    COLOR_REDACTED,
+    REDACTED_BLOCK,
     _fg,
     _reset,
     _bold,
@@ -404,10 +406,14 @@ def scan_command(args):
                     if display.startswith("/"):
                         colored_name = f"{_fg(*COLOR_LOCAL_USER)}{_bold()}{display}{_reset()}"
                     else:
-                        # Other contributor nickname: contrib in red, rest in rank color
+                        # Other contributor nickname: contrib in red, rest in rank
+                        # color. Pre-named/demoted buckets arrive pre-redacted from
+                        # the resolver (handle → REDACTED_BLOCK) — paint that
+                        # segment slate, never honor-red.
                         parts = display.split("/", 1)
                         if len(parts) == 2:
-                            colored_name = f"{_fg(*COLOR_CONTRIBUTOR)}{parts[0]}{_reset()}/{_fg(*rank_color)}{parts[1]}{_reset()}"
+                            handle_color = COLOR_REDACTED if parts[0] == REDACTED_BLOCK else COLOR_CONTRIBUTOR
+                            colored_name = f"{_fg(*handle_color)}{parts[0]}{_reset()}/{_fg(*rank_color)}{parts[1]}{_reset()}"
                         else:
                             colored_name = f"{_fg(*rank_color)}{display}{_reset()}"
                 else:
@@ -1850,14 +1856,23 @@ def validate_command(args):
     repo_root = Path(args.registry)
     if args.intake:
         script = repo_root / "scripts" / "validate_intake.py"
-        cmd = [sys.executable, str(script)]
-    else:
-        script = repo_root / "scripts" / "validate.py"
-        cmd = [sys.executable, str(script)]
-        if args.meta_sync:
-            cmd.append("--check-meta-sync")
-    
-    raise SystemExit(subprocess.call(cmd))
+        raise SystemExit(subprocess.call([sys.executable, str(script)]))
+
+    script = repo_root / "scripts" / "validate.py"
+    cmd = [sys.executable, str(script)]
+    if args.meta_sync:
+        cmd.append("--check-meta-sync")
+    rc = subprocess.call(cmd)
+
+    # Redaction gate — prove every pre-named/demoted (≤1★) handle is withheld
+    # across the generated public assets, and no named (2★+) skill is
+    # over-redacted. This is the safety net that makes the universal redaction
+    # gate auditable rather than hoped-for.
+    redaction_script = repo_root / "scripts" / "validate_redaction.py"
+    if redaction_script.exists():
+        rc = subprocess.call([sys.executable, str(redaction_script)]) or rc
+
+    raise SystemExit(rc)
 
 def test_command(args):
     """Run self-verification tests."""

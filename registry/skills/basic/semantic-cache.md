@@ -1,4 +1,4 @@
-# [huggingface](../../../docs/u/huggingface/)/semantic-cache
+# ████████/semantic-cache
 **ID:** semantic-cache  
 **Type:** Basic Skill  
 **Rank:** _rank-less generic reference — stars are earned by named implementations_  

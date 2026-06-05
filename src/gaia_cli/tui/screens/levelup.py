@@ -102,11 +102,15 @@ class LevelUpModal(ModalScreen[None]):
         lines.append((f"║{big_glyph:^{width-2}}║", gcolor))
         lines.append((f"║{'':^{width-2}}║", gutter))
 
-        # Skill ID rendering: @handle/slug
+        # Skill ID rendering: @handle/slug — pre-named/demoted handles redacted.
         t_sid = Text()
         if "/" in sid:
+            from gaia_cli.redaction import REDACTED_BLOCK, is_redacted
             contrib, name = sid.split("/", 1)
-            t_sid.append("@" + contrib, style=T.BRAND_HONOR_RED)
+            if is_redacted(self.level):
+                t_sid.append(REDACTED_BLOCK, style=T.RANK_UNAWAKENED)
+            else:
+                t_sid.append("@" + contrib, style=T.BRAND_HONOR_RED)
             t_sid.append("/" + name, style=T.STATE_OWNED)
         else:
             t_sid.append(sid, style=T.STATE_OWNED)

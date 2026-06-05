@@ -59,6 +59,9 @@ jobs:
       - name: Validate schema + DAG + evidence
         run: python scripts/validate.py
 
+      - name: Validate redaction invariant (≤1★ handles withheld)
+        run: python scripts/validate_redaction.py
+
   release:
     name: Create GitHub Release
     needs: [test-python, test-mcp, validate-graph]

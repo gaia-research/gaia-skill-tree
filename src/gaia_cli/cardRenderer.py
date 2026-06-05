@@ -84,6 +84,17 @@ COLOR_GOLD = (251, 191, 36)
 COLOR_CONTRIBUTOR = (239, 68, 68)    # Red for named skill contributors
 COLOR_LOCAL_USER = (134, 239, 172)   # Bright green for local/user skills
 
+from gaia_cli.redaction import COLOR_REDACTED, REDACTED_BLOCK  # noqa: E402
+
+
+def _handle_color(handle_segment: str) -> tuple[int, int, int]:
+    """Slate for a pre-named/demoted (redacted) handle, honor-red otherwise.
+
+    Display strings arrive pre-redacted from ``LocalContext.display_name`` —
+    a withheld handle is the shared ``REDACTED_BLOCK`` constant — so every
+    card renderer paints it consistently without re-checking the level."""
+    return COLOR_REDACTED if handle_segment == REDACTED_BLOCK else COLOR_CONTRIBUTOR
+
 
 # ─── Style constants ────────────────────────────────────────────────────────
 
@@ -485,7 +496,7 @@ def render_appraise_card(
         if parts[0] == "": # starts with /
             name_colored = f"{fg(*COLOR_LOCAL_USER)}{name_plain}{r}"
         else:
-            name_colored = f"{fg(*COLOR_CONTRIBUTOR)}{parts[0]}{r}/{fg(*rc)}{parts[1]}{r}"
+            name_colored = f"{fg(*_handle_color(parts[0]))}{parts[0]}{r}/{fg(*rc)}{parts[1]}{r}"
     else:
         name_colored = f"{fg(*tc)}{name_plain}{r}"
 
@@ -601,7 +612,7 @@ def render_unlock_card(skill_data: dict, new_paths: list, canon: bool = False, c
         if parts[0] == "":
             name_colored = f"{fg(*COLOR_LOCAL_USER)}{name}{r}"
         else:
-            name_colored = f"{fg(*COLOR_CONTRIBUTOR)}{parts[0]}{r}/{fg(*RANK_COLORS.get(level, RANK_COLORS['0★']))}{parts[1]}{r}"
+            name_colored = f"{fg(*_handle_color(parts[0]))}{parts[0]}{r}/{fg(*RANK_COLORS.get(level, RANK_COLORS['0★']))}{parts[1]}{r}"
     else:
         name_colored = f"{tc_fg}{name}{r}"
 
@@ -689,7 +700,7 @@ def render_promotion_prompt(skill_data: dict, proposed_level: str, canon: bool =
         if parts[0] == "":
             display_colored = f"{fg(*COLOR_LOCAL_USER)}{display}{r}"
         else:
-            display_colored = f"{fg(*COLOR_CONTRIBUTOR)}{parts[0]}{r}/{tc}{b}{parts[1]}{r}"
+            display_colored = f"{fg(*_handle_color(parts[0]))}{parts[0]}{r}/{tc}{b}{parts[1]}{r}"
     else:
         display_colored = f"{tc}{b}{display}{r}"
     
@@ -728,7 +739,7 @@ def render_fusion_diagram(prereqs: list[str], result: str, result_type: str = "e
             if parts[0] == "":
                 colored = f"{fg(*COLOR_LOCAL_USER)}{n}{r}"
             else:
-                colored = f"{fg(*COLOR_CONTRIBUTOR)}{parts[0]}{r}/{tb if is_result else mc}{parts[1]}{r}"
+                colored = f"{fg(*_handle_color(parts[0]))}{parts[0]}{r}/{tb if is_result else mc}{parts[1]}{r}"
         else:
             colored = f"{tb if is_result else mc}{n}{r}"
         return colored, len(n)
