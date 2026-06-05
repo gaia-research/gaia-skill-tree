@@ -298,37 +298,67 @@ def badge_handle(handle: str, slash: str, rank: int, rank_color: str, label: str
     right_w = max(value_w, 40)
     width = left_w + right_w
 
-    gold_rect = ""
-    if rank_color == "white-gold":
-        slash_tspan = f'<tspan fill="#fbbf24">{_xml(slash)}</tspan>'
-
-        # Calculate position for 6★ background gold rect
-        width_before = text_width(handle_text + slash + sep)
-        star_x = left_w + 11 + width_before
-        star_w = text_width(star_value) + 6
-        gold_rect = f'<rect x="{star_x - 3}" y="3" width="{star_w}" height="14" fill="#fbbf24" rx="2"/>'
-
-        star_tspan = f'<tspan fill="#ffffff">{_xml(star_value)}</tspan>'
-        right_bg = INK
-    else:
-        slash_tspan = f'<tspan fill="{rank_color}">{_xml(slash)}</tspan>'
-        star_tspan = f'<tspan fill="{rank_color}">{_xml(star_value)}</tspan>'
-        right_bg = right_bg_override or INK
-
     # Two-tone background: keep dark ink on the right to let colored text pop.
-    body = (
-        f'{_left_panel(seal_only)}'
-        f'<rect x="{left_w}" width="{right_w}" height="20" fill="{right_bg}"/>'
-        f'{gold_rect}'
-        f'{_gaia_wordmark(seal_only)}'
-        f'<text x="{left_w + 11}" y="{TEXT_Y}" '
-        f'font-family="Verdana,DejaVu Sans,sans-serif" font-size="11" font-weight="700">'
-        f'<tspan fill="{HONOR_RED}">{_xml(handle_text)}</tspan>'
-        f'{slash_tspan}'
-        f'<tspan fill="{SLATE}">{_xml(sep)}</tspan>'
-        f'{star_tspan}'
-        f'</text>'
-    )
+    if rank_color == "white-gold":
+        # 6★ "pill". The data panel ends with a gold pill wrapping the star
+        # count. Two things made this look broken on long handles:
+        #   1. the pill was positioned by summing estimated CHAR_WIDTH glyphs
+        #      across the whole handle, so the approximation error accumulated
+        #      and stranded the gold box to the right of "6★"; and
+        #   2. GitHub renders these SVGs with whatever the viewer substitutes
+        #      for Verdana (DejaVu on Linux, system sans on macOS), so the real
+        #      "6★" width drifts from our estimate.
+        # Fix both: anchor the pill to the panel's trailing edge (no handle
+        # sum) and CENTER the star inside it (text-anchor="middle") so the
+        # number stays boxed no matter which font actually renders.
+        star_w = text_width(star_value)
+        pill_pad = 5
+        pill_w = star_w + 2 * pill_pad
+        pill_right = width - 9
+        pill_left = pill_right - pill_w
+        pill_cx = pill_left + pill_w / 2
+        gold_rect = (
+            f'<rect x="{pill_left:.1f}" y="3" width="{pill_w}" height="14" '
+            f'fill="#fbbf24" rx="3"/>'
+        )
+        sep_text = (
+            f'<text x="{pill_left - 4:.1f}" y="{TEXT_Y}" text-anchor="end" '
+            f'font-family="Verdana,DejaVu Sans,sans-serif" font-size="11" '
+            f'font-weight="700" fill="{SLATE}">{_xml("·")}</text>'
+        )
+        star_text = (
+            f'<text x="{pill_cx:.1f}" y="{TEXT_Y}" text-anchor="middle" '
+            f'font-family="Verdana,DejaVu Sans,sans-serif" font-size="11" '
+            f'font-weight="700" fill="#ffffff">{_xml(star_value)}</text>'
+        )
+        body = (
+            f'{_left_panel(seal_only)}'
+            f'<rect x="{left_w}" width="{right_w}" height="20" fill="{INK}"/>'
+            f'{gold_rect}'
+            f'{_gaia_wordmark(seal_only)}'
+            f'<text x="{left_w + 11}" y="{TEXT_Y}" '
+            f'font-family="Verdana,DejaVu Sans,sans-serif" font-size="11" '
+            f'font-weight="700">'
+            f'<tspan fill="{HONOR_RED}">{_xml(handle_text)}</tspan>'
+            f'<tspan fill="#fbbf24">{_xml(slash)}</tspan>'
+            f'</text>'
+            f'{sep_text}{star_text}'
+        )
+    else:
+        right_bg = right_bg_override or INK
+        body = (
+            f'{_left_panel(seal_only)}'
+            f'<rect x="{left_w}" width="{right_w}" height="20" fill="{right_bg}"/>'
+            f'{_gaia_wordmark(seal_only)}'
+            f'<text x="{left_w + 11}" y="{TEXT_Y}" '
+            f'font-family="Verdana,DejaVu Sans,sans-serif" font-size="11" '
+            f'font-weight="700">'
+            f'<tspan fill="{HONOR_RED}">{_xml(handle_text)}</tspan>'
+            f'<tspan fill="{rank_color}">{_xml(slash)}</tspan>'
+            f'<tspan fill="{SLATE}">{_xml(sep)}</tspan>'
+            f'<tspan fill="{rank_color}">{_xml(star_value)}</tspan>'
+            f'</text>'
+        )
     return _wrap(width, body, label)
 
 
