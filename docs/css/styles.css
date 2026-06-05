@@ -339,7 +339,7 @@ nav:not(.footer-cols) {
   color: var(--text);
 }
 
-nav ul {
+nav ul.nav-primary {
   list-style: none;
   display: flex;
   gap: 2rem
@@ -375,12 +375,15 @@ nav ul {
   border-radius: 8px;
   list-style: none;
   padding: .5rem 0;
-  min-width: 140px;
+  min-width: 160px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
   opacity: 0;
   visibility: hidden;
   transform: translateY(-8px);
   transition: opacity .2s, visibility .2s, transform .2s;
-  z-index: 50;
+  z-index: 150;
   backdrop-filter: blur(10px);
 }
 
@@ -410,14 +413,21 @@ nav ul {
   text-align: left;
 }
 
-.nav-more-menu li a {
-  color: inherit;
-}
-
+.nav-more-menu li a,
 .nav-more-menu li button {
   color: inherit;
-  padding: 0;
-  text-align: center;
+  display: block;
+  width: 100%;
+  padding: .55rem 1.2rem;
+  font-size: .85rem;
+  font-family: var(--font-body);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  text-decoration: none;
+  transition: color .18s;
+  box-sizing: border-box;
 }
 
 .nav-more-menu li a:hover,
