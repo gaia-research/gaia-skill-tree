@@ -251,6 +251,9 @@ def _field_title(ns: dict) -> str:
 
 
 def _field_handle_row(ns: dict, rel: str = "../../u/") -> str:
+    level_num = int("".join(c for c in str(ns.get("level", "") or "") if c.isdigit())) if ns.get("level") else 0
+    if level_num <= 1:
+        return '<div class="plaque__handle plaque-contrib-row"><span class="plaque__redacted-handle" aria-label="Contributor not yet revealed">@[anonymous]</span></div>'
     contributor_link = handle_link(
         ns.get("contributor", ""),
         rel=rel,

@@ -3573,3 +3573,52 @@ button.plaque__slug:focus-visible {
 .directory-tier[data-tier="2"] .directory-tier__title { color: var(--tier-extra); }
 .directory-tier[data-tier="1"] .directory-tier__title { color: var(--tier-basic); }
 
+/* ── Mystery redaction — 0★ / 1★ pre-named skills ──────────────────────────
+   The contributor handle is withheld until the skill is officially named (2★+).
+   Styled to feel classified / encrypted rather than broken.
+   Colors: slate (--rank-0) for primary, cornflower-blue (--tier-basic) for accent. */
+.plaque__redacted-handle {
+  display: inline-block;
+  font-family: var(--font-mono, 'JetBrains Mono', ui-monospace, monospace);
+  font-size: 0.8em;
+  font-style: italic;
+  letter-spacing: 0.12em;
+  color: var(--rank-0);                    /* slate — never honor-red */
+  background: var(--rank-0-bg);
+  border: 1px solid var(--rank-0-border);
+  border-radius: 3px;
+  padding: 1px 6px;
+  cursor: not-allowed;
+  user-select: none;
+  pointer-events: none;
+  position: relative;
+  overflow: hidden;
+  animation: redacted-flicker 4s ease-in-out infinite;
+}
+.plaque__redacted-handle::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 35%,
+    var(--rank-0-edge) 50%,
+    transparent 65%
+  );
+  background-size: 200% 100%;
+  animation: redacted-scan 3.5s linear infinite;
+  pointer-events: none;
+}
+@keyframes redacted-flicker {
+  0%, 89%, 91%, 100% { opacity: 0.72; }
+  90%                 { opacity: 0.45; }
+}
+@keyframes redacted-scan {
+  from { background-position: 200% 0; }
+  to   { background-position: -200% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .plaque__redacted-handle,
+  .plaque__redacted-handle::after { animation: none; }
+}
+

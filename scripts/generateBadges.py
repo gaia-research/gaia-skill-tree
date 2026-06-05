@@ -501,13 +501,14 @@ def write_user_badges(handle: str, info: dict, scan: dict | None,
         else:
             color = rank_colors.get(rank, AMBER)
 
-        label = f"Gaia: @{handle}{slash} {rank} stars"
+        badge_handle_text = "[anonymous]" if rank <= 1 else handle
+        label = f"Gaia: @{badge_handle_text}{slash} {rank} stars"
         bg = "#000000" if is_unique else None
         (user_dir / "handle.svg").write_text(
-            badge_handle(handle, slash, rank, color, label,
+            badge_handle(badge_handle_text, slash, rank, color, label,
                          right_bg_override=bg), encoding="utf-8")
         (user_dir / "handle-seal.svg").write_text(
-            badge_handle(handle, slash, rank, color, label, seal_only=True,
+            badge_handle(badge_handle_text, slash, rank, color, label, seal_only=True,
                          right_bg_override=bg),
             encoding="utf-8")
 
@@ -524,7 +525,8 @@ def write_user_badges(handle: str, info: dict, scan: dict | None,
             else:
                 scolor = rank_colors.get(srank, AMBER)
 
-            slabel = f"Gaia: @{handle}{sslash} {srank} stars"
+            badge_handle_text = "[anonymous]" if srank <= 1 else handle
+            slabel = f"Gaia: @{badge_handle_text}{sslash} {srank} stars"
             sbg = "#000000" if is_sunique else None
             # filename: slash-skill without leading slash, e.g. /health -> health.svg
             fname = sslash.lstrip("/").replace("/", "-") or "skill"
@@ -532,11 +534,11 @@ def write_user_badges(handle: str, info: dict, scan: dict | None,
                 # Avoid clobbering rank.svg / skills.svg / handle.svg.
                 fname = f"{fname}~"
             (user_dir / f"{fname}.svg").write_text(
-                badge_handle(handle, sslash, srank, scolor, slabel,
+                badge_handle(badge_handle_text, sslash, srank, scolor, slabel,
                              right_bg_override=sbg),
                 encoding="utf-8")
             (user_dir / f"{fname}-seal.svg").write_text(
-                badge_handle(handle, sslash, srank, scolor, slabel, seal_only=True,
+                badge_handle(badge_handle_text, sslash, srank, scolor, slabel, seal_only=True,
                              right_bg_override=sbg),
                 encoding="utf-8")
 

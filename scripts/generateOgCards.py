@@ -754,6 +754,13 @@ def build_og_svg(skill: dict) -> str:
     """
     level = skill.get("level", "")
     n_lvl = level_num(level)
+
+    # Redact contributor handle for pre-named (0★/1★) skills
+    if n_lvl <= 1:
+        skill = dict(skill)
+        skill["contributor"] = "[anonymous]"
+        skill["origin"] = False
+
     tier_type = resolve_type_for_og(skill)
 
     if n_lvl >= 6:
