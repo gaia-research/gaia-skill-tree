@@ -1872,8 +1872,8 @@ def validate_command(args):
     if redaction_script.exists():
         rc = subprocess.call([sys.executable, str(redaction_script)]) or rc
 
-    # Timeline gate — prove every user-tree timeline explains its skill's
-    # current rank (no silent demotion/promotion that the Hero's Journey omits).
+    # Transparency Gate — every rank change must leave an auditable timeline
+    # event; prove no silent demotion/promotion that the Hero's Journey omits.
     timeline_script = repo_root / "scripts" / "validate_timelines.py"
     if timeline_script.exists():
         rc = subprocess.call([sys.executable, str(timeline_script)]) or rc

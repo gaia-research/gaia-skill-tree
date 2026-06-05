@@ -124,6 +124,17 @@ The Gaia registry is programmatically managed. Manual edits to JSON files in `re
 
 _Avoid_: manual JSON patching, direct `gaia.json` edits, untracked schema shifts.
 
+**Transparency Mandate** (the other half of Programmatic-First):
+**Every event is on the record.** No rank change — demotion, promotion, fusion,
+or evidence update — may be untracked; each must leave an auditable **timeline
+event** so a skill's history tells the whole truth. A demotion that silently
+lowers a star without a `demote` event is a transparency failure, not a cosmetic
+one. This is a *mindset*, not just a rule: prefer the CLI precisely because it
+logs the event for you, and never hand-lower a level without recording why. The
+**Transparency Gate** (`scripts/validate_timelines.py`, run in `gaia validate`
+and release CI) enforces it — every user-tree timeline must explain its skill's
+current rank, or the build fails.
+
 ## Relationships
 
 - A **Basic Skill** fuses with other **Basic Skills** to produce an **Extra Skill**.

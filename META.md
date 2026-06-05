@@ -132,6 +132,19 @@ The **Canonical Level** (e.g., 4★) is the claimed tier based on evidence. The 
 
 Every named implementation tracks its evolution through the `timeline` schema property.
 
+> **Transparency Mandate — every event is on the record.** No rank change may be
+> untracked. Every promotion, demotion, fusion, or evidence update **must** emit a
+> timeline event so the Hero's Journey tells the whole truth; a star that drops
+> with no `demote` event is a transparency failure, not a cosmetic one. This is
+> the other half of the Programmatic-First culture (CONTEXT.md § Registry
+> Management, PRODUCT.md Design Principle 6): prefer the CLI because it logs the
+> event for you. The change is mirrored to **both** the registry node
+> (`registry/named/**/*.md`) and the owning contributor's user tree
+> (`skill-trees/<owner>/skill-tree.json`) — the latter is what the public profile
+> charts. The **Transparency Gate** (`scripts/validate_timelines.py`, run in
+> `gaia validate` and release CI) fails any build whose timeline cannot explain a
+> skill's current rank; reconcile drift with the `/gaia-trace-timeline` skill.
+
 ### 5.1 Timeline Events
 - **`propose`**: Initial 2★ submission.
 - **`rank_up`**: Promotion to a higher star tier.

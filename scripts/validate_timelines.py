@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Prove user-tree timelines explain each skill's current rank.
+"""Transparency Gate — prove user-tree timelines explain each skill's current rank.
+
+Gaia's mindset: **every event is on the record.** No rank change is untracked —
+each promotion or demotion must leave an auditable timeline event so the Hero's
+Journey tells the whole truth. This gate enforces that mindset in CI; see
+CONTEXT.md § Transparency, PRODUCT.md Design Principle 6, and CONTRIBUTING.md.
 
 The Hero's Journey shown on a contributor profile is rendered from that
 contributor's **user tree** (``skill-trees/<user>/skill-tree.json``) — its
@@ -104,17 +109,19 @@ def main() -> int:
                     f"skill is {current} now — a rank_up/demote event is missing"
                 )
 
-    print(f"Timeline integrity: {skills_checked} owned named skill(s) across "
-          f"{trees_checked} tree(s).")
+    print(f"Transparency Gate — timeline integrity: {skills_checked} owned named "
+          f"skill(s) across {trees_checked} tree(s).")
     if violations:
-        print(f"\n✗ {len(violations)} timeline drift(s):\n")
+        print(f"\n✗ {len(violations)} untracked rank change(s) — transparency violated:\n")
         for v in violations:
             print(f"  • {v}")
-        print("\nBackfill the missing events with the /gaia-trace-timeline skill "
-              "or `gaia dev timeline <id> --user <owner> --action demote|rank_up "
-              "--timestamp <iso> --notes \"…\"`, then `gaia docs build`.")
+        print("\nEvery rank change must leave a timeline event. Backfill with the "
+              "/gaia-trace-timeline skill or `gaia dev timeline <id> --user <owner> "
+              "--action demote|rank_up --timestamp <iso> --notes \"…\"`, then "
+              "`gaia docs build`.")
         return 1
-    print("✓ Every user-tree timeline explains its skill's current rank.")
+    print("✓ Transparency Gate: every user-tree timeline explains its skill's "
+          "current rank — no untracked rank changes.")
     return 0
 
 

@@ -219,6 +219,14 @@ Reviewer workflow:
 - Reviewers should use `/gaia-audit` before approving PRs that demote, declassify, remap, dispute, or re-promote a specific skill.
 - Reviewers should use `/gaia-meta-audit` to build queues for stale links, unsupported promotions, possible duplicates, and broad mapping quality checks.
 
+> **Transparency Mandate — every rank change is on the record.** A demotion or
+> promotion is not finished until it has left an auditable **timeline event**.
+> Never hand-lower a level (in a `.md` or a `skill-tree.json`) without recording
+> a `demote`/`rank_up` event that says *why* — prefer the CLI precisely because
+> it logs it for you (`gaia dev timeline … --action demote --notes "…"`, or the
+> `/gaia-trace-timeline` skill to reconcile drift). A silent rank change is a
+> transparency failure, and the **Transparency Gate** (§11) will fail the build.
+
 ---
 
 ## 9) Unique Skill Promotion
@@ -311,6 +319,7 @@ The registry is supported by several automated workflows:
 - **Gated curation (`/gaia-curate-chain`):** The recommended pipeline for reviewer-run registry expansion (see §1B). Six gated links with a programmatic check between each; the flat `/gaia-curate` remains available for low-stakes batches but is less gated.
 - **Auto-Sync:** On every push to a branch, a GitHub Action automatically runs the versioning and regeneration scripts. You no longer need to run these manually before pushing.
 - **Validation:** Every PR is automatically validated for schema correctness, DAG integrity, and evidence quality.
+- **Transparency Gate (`scripts/validate_timelines.py`):** Enforces the Transparency Mandate (§8) — every named skill a contributor owns must be charted at its *current* registry rank, with a timeline event explaining it. A silent demotion/promotion (a rank change with no `demote`/`rank_up` event on the user tree) fails the build. Runs in `gaia validate` and the release workflow; reconcile drift with `/gaia-trace-timeline` (or `scripts/trace_timeline.py --all --apply`). A sibling **Redaction Gate** (`scripts/validate_redaction.py`) likewise proves ≤1★ handles stay withheld (see META.md §1.3).
 - **Monthly Meta Sweep (`/gaia-meta-sweep`):** Once per month a maintainer runs the `/gaia-meta-sweep` skill (see `.claude/skills/gaia-meta-sweep/SKILL.md`) to audit the entire registry against [META.md](META.md). The sweep produces a journal-style report under `docs/meta/reports/<YYYY-MM-DD>-meta-audit.html` plus a machine-readable `<slug>.findings.json` and `<YYYY-MM>-timeline.json`. See §13 below for the cadence and operating procedure.
 
 ---

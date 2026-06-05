@@ -102,6 +102,14 @@ meticulously. The data speaks. The prose doesn't oversell it.
    tooltips, empty states — must pass the Half-Merged test: canonical primary labels,
    ceremonial overlay only in section titles and swagger verbs.
 
+6. **Every event is on the record.** Transparency is a product value, not just an
+   engineering one. No rank change is untracked — every promotion, demotion, fusion,
+   or evidence update leaves an auditable timeline event, so the Hero's Journey tells
+   the whole truth (a quiet demotion is a bug). This is the visible face of the
+   programmatic-first culture: the CLI is preferred *because* it records the event for
+   you, and the **Transparency Gate** fails any build whose timeline can't explain a
+   skill's current rank.
+
 ## Accessibility & Inclusion
 
 - WCAG AA minimum across all text, interactive states, and focus indicators.
