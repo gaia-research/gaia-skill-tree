@@ -1,160 +1,192 @@
 ---
 name: gaia-wiki-sync
-description: Sync the Gaia GitHub wiki with recent merged PRs, README, CONTRIBUTING, and schema changes. Use when the user asks to "update the wiki", "sync the wiki", "refresh the docs", or explicitly types /gaia-wiki-sync.
-version: 1.0.0
+description: >-
+  Dynamic-workflow wiki sync for the Gaia registry. Instead of a single linear
+  pass, this skill fans out parallel sub-agents per source domain and per wiki
+  page, then runs a bounded convergent cross-check for terminology drift before
+  committing. Resumable via a per-run ledger. Use when you want the wiki
+  comprehensively synced to the latest merged changes — /gaia-wiki-sync.
+version: 2.0.0
+argument-hint: "[--since <sha|date>] [--resume] [--check]"
 ---
 
-# gaia-wiki-sync
+# gaia-wiki-sync (dynamic workflow)
 
-Read all merged PRs and source-of-truth files since the last wiki update, then rewrite every affected wiki page and push directly to the wiki repo.
+A **dynamic-workflow** implementation of wiki sync, designed so the fan-out
+width adjusts at runtime to however many source domains changed and however many
+wiki pages are stale. Modelled on the same principles as `/gaia-curate-dynamic`.
 
-## What this skill does
+> *Claude analyses the commit range, fans out parallel source-reader agents (one
+> per changed domain), fans out parallel page-drafter agents (one per stale
+> page), then runs a bounded terminology cross-check before committing. Nothing
+> lands until the refuter failed to find drift.*
 
-### 0. Setup
+Prefer the `update-docs` skill for a quick, focused patch on a handful of
+pages. Use this skill when the sync window spans many commits and you want
+parallel coverage with cross-page consistency guarantees.
 
-Clone both repos if not already present:
+---
 
-```bash
-git clone https://github_pat_<PAT>@github.com/mbtiongson1/gaia-skill-tree.git
-git clone https://github_pat_<PAT>@github.com/mbtiongson1/gaia-skill-tree.wiki.git
-```
-
-Configure git identity in the wiki repo before any commit:
-
-```bash
-cd gaia-skill-tree.wiki
-git config user.email "mbtiongson1@users.noreply.github.com"
-git config user.name "Marco Tiongson"
-```
-
-### 1. Determine the sync window
-
-```bash
-cd gaia-skill-tree.wiki
-git log -1 --format="%aI"
-```
-
-This is the cutoff date. Only changes merged after this date are in scope.
-
-### 2. Read merged commits since cutoff
-
-From the main repo:
-
-```bash
-cd gaia-skill-tree
-git log --oneline --merges --after="<cutoff>"
-git log --oneline --no-merges --after="<cutoff>" | head -80
-```
-
-Read the individual commit subjects to understand what changed. Key signal words to watch for:
-
-| Signal | Affected wiki pages |
-|---|---|
-| `schema/`, `star-tiers`, level values | Rank-System, Schema-Reference, Contributing, Named-Skills, Skill-Types, Skill-Catalogue |
-| `demerit` | Rank-System, Schema-Reference, Contributing, FAQ |
-| `cli/`, `feat:`, new commands | CLI-Reference, Getting-Started, Named-Skills, Skill-Lifecycle |
-| `docs/`, `readme` | Home, Getting-Started, Schema-Reference |
-| `mcp` | MCP-Server, FAQ |
-| `registry/`, path restructure | Home, FAQ, Schema-Reference, CLI-Reference, Skill-Lifecycle, Named-Skills |
-| `feat/add-*-skills`, `review/` | Skill-Catalogue |
-| `contributing` | Contributing |
-| `version`, `release` | Home, Getting-Started, CLI-Reference |
-
-### 3. Read source-of-truth files
-
-Read every file relevant to the changes identified in step 2. Always read at minimum:
-
-- `README.md` — authoritative quickstart, CLI reference block, repo layout block, version marker
-- `CONTRIBUTING.md` — authoritative branch naming, PR checklist, evidence table, demerit policy
-- `registry/schema/skill.schema.json` — skill node shape and constraints
-- `registry/schema/namedSkill.schema.json` — named skill shape
-- `registry/schema/meta.json` — level labels, rank labels, type symbols, demerit registry
-- `registry/schema/combination.schema.json` — edge schema
-- `src/gaia_cli/main.py` — authoritative CLI subcommand list (parse `subparsers.add_parser(...)` calls)
-
-Also read as needed:
-- `.agents/skills/*/skill.md` — if agent slash commands changed
-- `packages/mcp/` — if MCP server changed
-
-### 4. Read all current wiki pages
-
-```bash
-cat gaia-skill-tree.wiki/*.md
-```
-
-Build a mental model of what each page currently says before writing any updates.
-
-### 5. Identify the minimal diff
-
-For each change identified, determine the smallest set of wiki pages that need updating. Do not rewrite a page that is still accurate. A page needs updating if:
-
-- It references old type names, level values, paths, or command names
-- A feature it documents has changed behavior or been replaced
-- A new feature is completely undocumented
-
-### 6. Write updated pages
-
-Rewrite only the affected pages. Follow these constraints:
-
-**Style:**
-- Use the same structure and heading hierarchy as the existing page.
-- Keep examples concrete — copy real command signatures from `main.py` and README blocks verbatim.
-- Table formatting: `|---|---|---| ` style.
-- Do not add new sections that don't correspond to actual features.
-
-**Accuracy rules:**
-- Level values: always use star notation (`0★`–`6★`). Never write Roman numerals in new content.
-- Type values: always `basic`, `extra`, `ultimate` in schema contexts. Display names: "Basic Skill", "Extra Skill", "Ultimate Skill".
-- CLI commands: verify against `src/gaia_cli/main.py` — do not document commands that don't exist.
-- File paths: verify against the actual repo layout before writing.
-- Demerit IDs: must be exactly `niche-integration`, `experimental-feature`, `heavyweight-dependency`.
-
-**Do not:**
-- Invent commands or options not present in the codebase.
-- Preserve stale content just because it was there before.
-- Rewrite pages that are still accurate — leave them untouched.
-
-### 7. Commit and push
-
-```bash
-cd gaia-skill-tree.wiki
-git add -A
-git commit -m "docs: sync wiki with <version> — <summary of changes>
-
-<bullet list of what changed per page>"
-git push origin master
-```
-
-The commit message body should list the substantive changes grouped by topic (not by page). Example:
+## Six-Phase Architecture
 
 ```
-- Star tier nomenclature: atomic→basic, composite→extra, legendary→ultimate; I–VI→0★–6★
-- Demerit system: three canonical IDs, effective level floor, uniqueness constraint
-- CLI: add update, stats, appraise, promote, propose, skills, graph, docs commands
-- Repo: graph/→registry/, intake/→registry-for-review/, users/→skill-trees/
-- MCP: @gaia-registry/mcp-server now published to npm
+discovery      → single agent  → SyncPlan (schema-validated)
+source-read    → parallel/domain → SourceDigest per domain
+page-draft     → parallel/page  → PageDraft per stale page
+cross-check    → refuter agent  → Conflicts[] (skipped if only 1 page)
+apply          → serial agent   → git commit + push
+ledger-close   → single agent   → summary
 ```
 
-### 8. Report
+### Phase 1 — discovery
 
-After pushing, report:
+Single agent. Reads `git log` and `git diff --name-only` for the sync window,
+classifies changed paths into **source domains**, and maps each domain to the
+wiki pages that depend on it.
 
-- Commit SHA and URL
-- Pages updated (list)
-- Pages left untouched (list, with reason)
-- Key changes summarized in 3–5 bullet points
+Output is a `SyncPlan` (see `schemas/sync-plan.json`). Schema-validated — the
+workflow halts on malformed plans rather than silently drafting wrong pages.
+
+Key plan fields:
+- `sourceDomains` — which files to read, keyed by domain name (`cli`, `schema`,
+  `named`, `policy`, `mcp`)
+- `stalePages` — wiki pages that need drafting
+- `ciOwnedRegions` — per-page marker pairs to preserve verbatim (e.g.
+  `gaia:cli-start/end` in CLI-Reference)
+
+### Phase 2 — source-read (parallel per domain)
+
+One agent per domain — typically 3–5 concurrent agents. Each reads all files in
+its domain and emits a `SourceDigest` containing:
+- `facts[]` — discrete claims with `id` and file:line evidence
+- `renames[]` — old-name → new-name pairs since last wiki update
+- `deprecations[]` — terms / axes / commands that no longer exist
+
+Facts are the unit of traceability. Page-drafters cite `factId`s; the refuter
+checks cited IDs against the global rename/deprecation lists.
+
+### Phase 3 — page-draft (parallel per stale page)
+
+One agent per stale page. Each agent receives:
+- Current wiki page content (read from `../gaia-wiki/`)
+- The `SourceDigest`s for the domains that affect its page
+- The CI-owned region markers to preserve verbatim
+
+Output: `PageDraft` with `newContent`, `citedFactIds`, `unresolvedFacts`.
+If `unresolvedFacts` is non-empty, the draft is flagged for human review rather
+than applied — no invented content.
+
+### Phase 4 — cross-check (skip if only 1 stale page)
+
+Single refuter agent reads all drafts and the global `renames[]` /
+`deprecations[]` from all digests. Emits a `Conflicts[]` array (terminology
+drift, cross-page contradictions). If conflicts exist, affected page-drafters
+are re-run with the conflict list appended — capped at 2 iterations. If
+conflicts survive after 2 rounds, the ledger records a `human-review` entry and
+the run halts without committing.
+
+### Phase 5 — apply (serial)
+
+Single agent. Re-reads each target wiki file, splices `newContent` while
+preserving CI-owned regions byte-for-byte, stages all changes in `../gaia-wiki`,
+commits, and pushes.
+
+### Phase 6 — ledger-close
+
+Marks ledger `complete`, writes the summary returned to the user.
+
+---
+
+## Resume Protocol
+
+On invocation, scan `generated-output/wiki-sync-ledger/` for ledgers with
+`status: in-progress`. If one exists and is **< 24 hours old**, offer the user:
+
+- `--resume` — re-load the plan, skip `complete` phases, re-run `failed` /
+  `pending` agents only
+- (default) — start a fresh run; rename the stale ledger to `.abandoned`
+
+Ledgers older than 24 hours are stale and treated as fresh-run candidates
+(mirrors the `promotion-candidates.json` 24h rule in CLAUDE.md).
+
+---
+
+## Ledger Shape
+
+`generated-output/wiki-sync-ledger/<runId>.json` (gitignored)
+
+```json
+{
+  "runId": "2026-06-06T00:00:00Z",
+  "schemaVersion": 1,
+  "phase": "page-draft",
+  "status": "in-progress",
+  "plan": { /* full SyncPlan */ },
+  "phases": {
+    "discovery":   { "status": "complete", "completedAt": "...", "outputRef": "artifacts/<runId>/plan.json" },
+    "source-read": {
+      "status": "complete",
+      "agents": {
+        "cli":    { "status": "complete", "outputRef": "artifacts/<runId>/digest-cli.json" },
+        "schema": { "status": "complete", "outputRef": "artifacts/<runId>/digest-schema.json" }
+      }
+    },
+    "page-draft": {
+      "status": "in-progress",
+      "agents": {
+        "CLI-Reference":  { "status": "complete",  "outputRef": "artifacts/<runId>/draft-CLI-Reference.json" },
+        "Home":           { "status": "failed",    "error": "missing factId policy.version", "attempts": 1 },
+        "Named-Skills":   { "status": "pending" }
+      }
+    },
+    "cross-check":  { "status": "pending" },
+    "apply":        { "status": "pending" },
+    "ledger-close": { "status": "pending" }
+  },
+  "convergence": { "iteration": 0, "maxIterations": 2 },
+  "lastError": null
+}
+```
+
+Large per-agent outputs live in `artifacts/<runId>/` alongside the ledger.
+The ledger itself stays small and diffable.
+
+---
 
 ## Constraints
 
-- **Never push broken wiki pages.** If a section relies on information you couldn't verify from source files, omit that section or note it as TBD rather than guessing.
-- **Read before writing.** Always read the current wiki page before rewriting it.
-- **Wiki repo is separate from main repo.** Commits go to `gaia-skill-tree.wiki.git`, not to the main repo.
-- **PAT is in memory.** Use the stored GitHub PAT for `mbtiongson1`. Do not hardcode it in any committed file.
-- **Verify CLI from source.** Do not document commands based on README alone — always cross-check with `src/gaia_cli/main.py`.
+- **Wiki repo at `../gaia-wiki`** — clone if missing, never delete.
+- **`<!-- gaia:cli-start/end -->`** in CLI-Reference.md is CI-owned — preserve
+  byte-for-byte. The applier verifies markers exist before writing.
+- **`rarity` axis is deprecated** (CONTEXT.md) — the refuter must flag any
+  draft that reintroduces it.
+- **Banned-synonym list in `CONTEXT.md`** — feed to the refuter as part of
+  `deprecations[]`.
+- **Never invent facts** — if a page-drafter lists an `unresolvedFact`, halt
+  that page's draft and flag for human review rather than guessing.
+- **`[skip-gen]` in commit message** if any `registry/` artifacts are touched
+  (defensive; wiki-sync normally shouldn't touch them).
 
-## Repo locations
+---
+
+## Source Domains → Wiki Page Mapping
+
+| Domain | Source files | Affected pages |
+|---|---|---|
+| `cli` | `src/gaia_cli/main.py`, `src/gaia_cli/formatting.py`, README `gaia:cli-start/end` region | CLI-Reference, Initiates-Rite |
+| `schema` | `registry/schema/*.json`, `CONTEXT.md` | Schema-Reference, Stars-and-Ranks, Skill-Types |
+| `named` | `registry/named-skills.json`, `registry/named/` changes | Named-Skills, Ascension-Cycle |
+| `policy` | `CONTRIBUTING.md`, `CLAUDE.md`, `META.md` | Contributing, FAQ, Stars-and-Ranks |
+| `mcp` | `packages/mcp/src/`, `packages/mcp/package.json` | MCP-Server, FAQ |
+
+---
+
+## Entrypoint
+
+The Workflow script is at `workflow.mjs` in this directory. Invoke via:
 
 ```
-Main repo:  https://github.com/mbtiongson1/gaia-skill-tree.git
-Wiki repo:  https://github.com/mbtiongson1/gaia-skill-tree.wiki.git
+/gaia-wiki-sync
+/gaia-wiki-sync --resume
+/gaia-wiki-sync --check        # dry-run: plan + source-read only, no writes
 ```
