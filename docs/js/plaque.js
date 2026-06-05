@@ -102,7 +102,13 @@
   }
 
   function _fieldHandleRow(ns) {
-    var contribLink = handleLink(ns && ns.contributor || '');
+    var level = ns && ns.level;
+    // Pre-named/demoted (≤1★): redact the handle (slate, no honor-red link) and
+    // drop the origin badge — a pre-named skill has no Origin standing.
+    if (window.isRedacted && window.isRedacted(level)) {
+      return '<div class="plaque__handle plaque-contrib-row">' + window.redactedHandle() + '</div>';
+    }
+    var contribLink = handleLink(ns && ns.contributor || '', { level: level });
     if (!contribLink) return '';
     return '<div class="plaque__handle plaque-contrib-row">' + contribLink + _fieldOriginBadge(ns) + '</div>';
   }

@@ -7,16 +7,16 @@
 | ◇ [mattpocock](../docs/u/mattpocock/)/setup-matt-pocock-skills | Extra Skill | Document Editing, Tool Use | 3★ |  |
 | ◇ /agent-eval | Extra Skill | Evaluate Output, Score Relevance | — |  |
 | ◇ [mattpocock](../docs/u/mattpocock/)/handoff | Extra Skill | Summarize, Document Editing, Context Compression | 4★ |  |
-| ◇ [ruvnet](../docs/u/ruvnet/)/agentdb-learning | Extra Skill | Adaptive Pattern Learning, Memory Manage | 2★ |  |
+| ◇ [ruvnet](../docs/u/ruvnet/)/reasoningbank-agentdb | Extra Skill | Adaptive Pattern Learning, Memory Manage | 2★ |  |
 | ◆ [ruvnet](../docs/u/ruvnet/)/agentdb | Ultimate Skill | Distributed Vector Memory, Agent Memory Learning, Memory Pattern Design, Vector DB Optimization, Vector Search | 5★ | Requires demonstrating all 5 AgentDB discipline skills in a production distributed system context. |
 | ◇ ████████/sparc-methodology | Extra Skill | Workflow Automation, Plan and Decompose | — | Requires a workflow orchestration target (e.g. Airflow, Temporal) and access to its authoring API. |
 | ◇ /architecture-diagram | Extra Skill | Data Visualize, Format Output, Write Report | — | Requires enough system context to identify components, relationships, boundaries, and rendering constraints. |
 | ◇ [0xdarkmatter](../docs/u/0xdarkmatter/)/pytest-patterns | Extra Skill | Generate Test, Code Execution, Error Interpretation | 3★ |  |
 | ◇ /autonomous-data-scientist | Extra Skill | Data Analysis, Math Reason, Research | — | Requires dataset access and compute environment. Minimum 3 Class A/B evidence sources. |
-| ◇ [devin-ai](../docs/u/devin-ai/)/autonomous-swe | Extra Skill | Code Generation, Code Execution, Error Interpretation | 2★ |  |
+| ◇ [mattpocock](../docs/u/mattpocock/)/diagnose | Extra Skill | Code Generation, Code Execution, Error Interpretation | 2★ |  |
 | ◇ [karpathy](../docs/u/karpathy/)/autoresearch | Extra Skill | Ghostwrite, Knowledge Harvest, Research, Web Scrape, Web Search | 3★ | Requires a multi-step crawling engine and mapping logic to resolve site structures. |
 | ◇ [obra](../docs/u/obra/)/brainstorming | Extra Skill | Requirements Analysis, Question Answer | 2★ |  |
-| ◇ [gooseworks](../docs/u/gooseworks/)/notte-browser | Extra Skill | Web Search, Computer Use | 2★ |  |
+| ◇ [browserbase](../docs/u/browserbase/)/stagehand | Extra Skill | Web Search, Computer Use | 2★ |  |
 | ◇ [santifer](../docs/u/santifer/)/career-ops | Extra Skill | Autonomous Web Research, Summarize, Document Editing | 3★ |  |
 | ◇ /causal-inference | Extra Skill | Hypothesis Generation, Logical Inference, Statistical Analysis | — |  |
 | ◇ ████████/flow-nexus-platform | Extra Skill | API Call, Tool Use | — |  |
@@ -36,7 +36,7 @@
 | ◇ ████████/agentdb-advanced | Extra Skill | Vector Search, Memory Manage | — |  |
 | ◇ /document-analyst | Extra Skill | Extract Entities, Format Output, OCR, Parse JSON, Parse PDF, Summarize | — |  |
 | ◇ [ruvnet](../docs/u/ruvnet/)/dual-mode | Extra Skill | Headless Worker Spawn, Headless Worker Collect, Hybrid Workflow Coordination | 3★ |  |
-| ◇ [garrytan](../docs/u/garrytan/)/qa-only | Extra Skill | Browser Automation, Automated Testing | 4★ | Requires a live or containerised target environment; browser automation must be available. |
+| ◇ [garrytan](../docs/u/garrytan/)/qa | Extra Skill | Browser Automation, Automated Testing | 4★ | Requires a live or containerised target environment; browser automation must be available. |
 | ◇ /edge-optimization | Extra Skill | Evaluate Output, Fine-Tune, Performance Tuning | — |  |
 | ◆ [mattpocock](../docs/u/mattpocock/)/engineering | Ultimate Skill | Autonomous Debug, Refactor Code, Vertical Slice Planning, PRD Generation, Issue Triage, Ubiquitous Language, Code Explain, Grill With Docs, prototype, agent-environment-setup | 5★ |  |
 | ◇ [obra](../docs/u/obra/)/executing-plans | Extra Skill | Writing Plans, Tool Use | 2★ |  |
@@ -53,7 +53,7 @@
 | ◇ [mattpocock](../docs/u/mattpocock/)/grill-me | Extra Skill | Design Review, Self-Critique | 4★ | Enforces a strict questioning loop that prevents the agent from proceeding to implementation until all branches are resolved. |
 | ◇ [mattpocock](../docs/u/mattpocock/)/grill-with-docs | Extra Skill | Grill Me, Ubiquitous Language, Document Editing | 3★ | Requires the agent to maintain a live glossary (CONTEXT.md) and generate ADRs for all non-trivial trade-offs discovered during the grill. |
 | ◇ /grounding | Extra Skill | Retrieve, Cite Sources, Evaluate Output | — |  |
-| ◇ [garrytan](../docs/u/garrytan/)/careful | Extra Skill | Evaluate Output, Classify, Structured Output Generation | 3★ | Requires a defined policy schema and an evaluation loop. |
+| ◇ [garrytan](../docs/u/garrytan/)/guard | Extra Skill | Evaluate Output, Classify, Structured Output Generation | 3★ | Requires a defined policy schema and an evaluation loop. |
 | ◇ /humanize-prose | Extra Skill | Document Editing, Audience Model, Format Output | — | Requires explicit user permission to revise voice, tone, and stylistic markers without changing factual claims. |
 | ◇ ████████/graphify | Extra Skill | Extract Entities, Logical Inference | — |  |
 | ◇ /knowledge-harvest | Extra Skill | Web Scrape, Extract Entities, Embed Text | — |  |
@@ -79,7 +79,7 @@
 | ◇ /prediction-market-analysis | Extra Skill | Data Analysis, Web Search, Statistical Analysis | — | Requires read-only market data sources and clear separation between analysis output and financial advice or trade execution. |
 | ◇ [mattpocock](../docs/u/mattpocock/)/productivity | Extra Skill | agent-handoff, Context Compression, Grill Me, Tool Creation | 4★ |  |
 | ◇ [garrytan](../docs/u/garrytan/)/landing-report | Extra Skill | API Call, Issue Triage | 2★ |  |
-| ◇ [stanfordnlp](../docs/u/stanfordnlp/)/dspy | Extra Skill | Evaluate Output, Generate Text | 2★ |  |
+| ◇ [garrytan](../docs/u/garrytan/)/plan-tune | Extra Skill | Evaluate Output, Generate Text | 2★ |  |
 | ◇ [mattpocock](../docs/u/mattpocock/)/prototype | Extra Skill | Code Generation, Code Execution | 3★ |  |
 | ◇ ████████/orchestkit-rag | Extra Skill | Retrieve, Chunk Document, Embed Text, Score Relevance, Tokenize, Rank | — |  |
 | ◇ /re-act-reasoning | Extra Skill | Plan and Decompose, Tool Use | — |  |
@@ -124,7 +124,7 @@
 | ◇ /web-quality-audit | Extra Skill | Gaia Meta Audit, Performance Tuning, search-engine-optimization, web-accessibility, web-best-practices | — |  |
 | ◇ [garrytan](../docs/u/garrytan/)/scrape | Extra Skill | Web Search, Parse HTML, Extract Entities | 3★ | Structured output mode required. |
 | ◇ /wiki-search | Extra Skill | Retrieve, Embed Text, Summarize | — | Requires an accessible local wiki or markdown knowledge-base directory and a consistent linking or indexing convention. |
-| ◇ [ruvnet](../docs/u/ruvnet/)/github-workflow-automation | Extra Skill | Plan and Decompose, Tool Use, API Call | 2★ |  |
+| ◇ [ruvnet](../docs/u/ruvnet/)/hooks-automation | Extra Skill | Plan and Decompose, Tool Use, API Call | 2★ |  |
 | ◇ [garrytan](../docs/u/garrytan/)/gstack-upgrade | Extra Skill | API Call, Document Editing | 2★ |  |
 | ◇ [obra](../docs/u/obra/)/writing-plans | Extra Skill | Plan and Decompose, Requirements Analysis | 2★ |  |
 | ◇ /x-twitter-automation | Extra Skill | Browser Automation, Web Scrape, Workflow Automation | — | Requires configured X/Twitter access, repeatable read paths, and explicit approval gates before posting tweets, replies, DMs, or other write actions. |

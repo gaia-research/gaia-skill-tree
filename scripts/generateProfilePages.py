@@ -36,7 +36,9 @@ OUT_DIR = DOCS_DIR / "u"
 # Phase 8d — share slash-naming + linked-handle helpers with the JS
 # atlas-helpers module via scripts/_atlas_helpers.py.
 sys.path.insert(0, str(REPO_ROOT / "scripts"))
+sys.path.insert(0, str(REPO_ROOT / "src"))
 from _atlas_helpers import handle_link, named_slug  # noqa: E402
+from gaia_cli.redaction import is_redacted  # noqa: E402  single source of truth
 
 
 def _read_version() -> str:
@@ -251,9 +253,13 @@ def _field_title(ns: dict) -> str:
 
 
 def _field_handle_row(ns: dict, rel: str = "../../u/") -> str:
-    level_num = int("".join(c for c in str(ns.get("level", "") or "") if c.isdigit())) if ns.get("level") else 0
-    if level_num <= 1:
-        return '<div class="plaque__handle plaque-contrib-row"><span class="plaque__redacted-handle" aria-label="Contributor not yet revealed">@[anonymous]</span></div>'
+    # Pre-named/demoted (≤1★) skills: redact the plaque handle — slate
+    # ".plaque__redacted-handle", never the honor-red named link. The skill,
+    # its rank and timeline still render on the owner's own profile.
+    if is_redacted(ns.get("level", "")):
+        return ('<div class="plaque__handle plaque-contrib-row">'
+                '<span class="plaque__redacted-handle" '
+                'aria-label="Contributor not yet revealed">@[anonymous]</span></div>')
     contributor_link = handle_link(
         ns.get("contributor", ""),
         rel=rel,
@@ -413,6 +419,13 @@ def plaque_tile_html(ns: dict) -> str:
 
 def _plaque_actions_html(ns: dict, handle: str = "") -> str:
     """Build the .plaque__actions block with Share (OG-conditional) and Claim buttons."""
+    # Pre-named/demoted (≤1★) skills have no public OG card or badge (those
+    # artifacts are intentionally suppressed), so they get no share/claim
+    # actions — the plaque still shows the skill, its rank and timeline on the
+    # owner's own profile, just without the public-sharing affordances.
+    if is_redacted(ns.get("level", "")):
+        return ""
+
     skill_id = ns.get("id", "")
     skill_id_short = skill_id.split("/")[-1] if "/" in skill_id else skill_id
     skill_name = ns.get("title", "") or ns.get("name", "") or skill_id_short
@@ -919,10 +932,14 @@ def build_profile_page(handle: str, skills: list, named_index: dict | None = Non
     hoh_modal_html = _build_hoh_modal()
     skill_explorer_modal_html = _build_skill_explorer_modal()
 
-    # OG image tag (vector SVG for social crawlers)
-    og_image_tags = "\n".join(
-        f'  <meta property="og:image" content="../../og/{html.escape(handle)}/{html.escape(s["id"].split("/")[-1])}.png">'
-        for s in skills[:1]  # use first skill for og:image
+    # OG image tag (vector SVG for social crawlers). Pre-named/demoted skills
+    # have no OG card, so pick the first *named* (≥2★) skill; omit the tag
+    # entirely when the contributor has no public card yet.
+    _og_skill = next((s for s in skills if not is_redacted(s.get("level", ""))), None)
+    og_image_tags = (
+        f'  <meta property="og:image" content="../../og/{html.escape(handle)}/'
+        f'{html.escape(_og_skill["id"].split("/")[-1])}.png">'
+        if _og_skill else ""
     )
 
     page_title = f"@{safe_handle} — Gaia Skill Registry"

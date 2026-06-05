@@ -75,46 +75,6 @@
     ],
     "design-system-extraction": [
       {
-        "id": "Manavarya09/design-extract",
-        "name": "Design Extract",
-        "contributor": "Manavarya09",
-        "origin": false,
-        "genericSkillRef": "design-system-extraction",
-        "status": "named",
-        "level": "2★",
-        "description": "Extracts complete design systems, Tailwind configs, and Figma variables from any live URL.",
-        "title": "The Token Scavenger",
-        "tags": [
-          "design-system",
-          "tailwind",
-          "scraping"
-        ],
-        "links": {
-          "github": "https://github.com/Manavarya09/design-extract"
-        },
-        "evidence": [
-          {
-            "class": "B",
-            "source": "https://github.com/Manavarya09/design-extract",
-            "evaluator": "gemini-cli",
-            "date": "2026-05-14",
-            "notes": "Design Extract -- extracts complete design systems (Tailwind, Figma variables, etc.) from any URL."
-          }
-        ],
-        "createdAt": "2026-05-14",
-        "updatedAt": "2026-06-02",
-        "timeline": [
-          {
-            "timestamp": "2026-06-02T01:43:00Z",
-            "action": "demote",
-            "contributor": "unknown",
-            "details": "Origin status set to false."
-          }
-        ],
-        "type": "extra",
-        "role": "variant"
-      },
-      {
         "id": "garrytan/design-consultation",
         "name": "Design Consultation",
         "contributor": "garrytan",
@@ -162,6 +122,46 @@
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "origin"
+      },
+      {
+        "id": "Manavarya09/design-extract",
+        "name": "Design Extract",
+        "contributor": "Manavarya09",
+        "origin": false,
+        "genericSkillRef": "design-system-extraction",
+        "status": "named",
+        "level": "2★",
+        "description": "Extracts complete design systems, Tailwind configs, and Figma variables from any live URL.",
+        "title": "The Token Scavenger",
+        "tags": [
+          "design-system",
+          "tailwind",
+          "scraping"
+        ],
+        "links": {
+          "github": "https://github.com/Manavarya09/design-extract"
+        },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/Manavarya09/design-extract",
+            "evaluator": "gemini-cli",
+            "date": "2026-05-14",
+            "notes": "Design Extract -- extracts complete design systems (Tailwind, Figma variables, etc.) from any URL."
+          }
+        ],
+        "createdAt": "2026-05-14",
+        "updatedAt": "2026-06-02",
+        "timeline": [
+          {
+            "timestamp": "2026-06-02T01:43:00Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Origin status set to false."
+          }
+        ],
+        "type": "extra",
+        "role": "variant"
       }
     ],
     "performance-tuning": [
@@ -334,49 +334,6 @@
     ],
     "document-editing": [
       {
-        "id": "anthropic/pptx",
-        "name": "PPTX Editor",
-        "contributor": "anthropic",
-        "origin": false,
-        "genericSkillRef": "document-editing",
-        "status": "named",
-        "level": "2★",
-        "description": "Extracts slide content from PowerPoint (.pptx) files using markitdown, applies edits or design principles in-place, and repacks the file — enabling agents to read, modify, and write structured presentation files without a GUI.",
-        "title": "The Slide Artisan",
-        "catalogRef": "anthropic-pptx",
-        "tags": [
-          "pptx",
-          "powerpoint",
-          "document-editing",
-          "markitdown",
-          "presentations"
-        ],
-        "links": {
-          "github": "https://github.com/anthropics/skills/blob/main/skills/pptx/SKILL.md"
-        },
-        "evidence": [
-          {
-            "class": "B",
-            "source": "https://github.com/anthropics/skills/blob/main/skills/pptx/SKILL.md",
-            "evaluator": "mbtiongson1",
-            "date": "2026-04-30",
-            "notes": "Anthropic /pptx slash command -- extracts, edits, packs, and applies design principles to PowerPoint files using markitdown."
-          }
-        ],
-        "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-02",
-        "timeline": [
-          {
-            "timestamp": "2026-06-02T01:42:58Z",
-            "action": "demote",
-            "contributor": "unknown",
-            "details": "Origin status removed. Transferred to mattpocock/edit-article."
-          }
-        ],
-        "type": "basic",
-        "role": "variant"
-      },
-      {
         "id": "garrytan/document-generate",
         "name": "Document Generate",
         "contributor": "garrytan",
@@ -424,6 +381,49 @@
         "suiteRef": "garrytan/gstack",
         "type": "basic",
         "role": "origin"
+      },
+      {
+        "id": "anthropic/pptx",
+        "name": "PPTX Editor",
+        "contributor": "anthropic",
+        "origin": false,
+        "genericSkillRef": "document-editing",
+        "status": "named",
+        "level": "2★",
+        "description": "Extracts slide content from PowerPoint (.pptx) files using markitdown, applies edits or design principles in-place, and repacks the file — enabling agents to read, modify, and write structured presentation files without a GUI.",
+        "title": "The Slide Artisan",
+        "catalogRef": "anthropic-pptx",
+        "tags": [
+          "pptx",
+          "powerpoint",
+          "document-editing",
+          "markitdown",
+          "presentations"
+        ],
+        "links": {
+          "github": "https://github.com/anthropics/skills/blob/main/skills/pptx/SKILL.md"
+        },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/anthropics/skills/blob/main/skills/pptx/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-04-30",
+            "notes": "Anthropic /pptx slash command -- extracts, edits, packs, and applies design principles to PowerPoint files using markitdown."
+          }
+        ],
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-06-02",
+        "timeline": [
+          {
+            "timestamp": "2026-06-02T01:42:58Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Origin status removed. Transferred to mattpocock/edit-article."
+          }
+        ],
+        "type": "basic",
+        "role": "variant"
       },
       {
         "id": "garrytan/document-release",
@@ -505,39 +505,6 @@
     ],
     "tool-creation": [
       {
-        "id": "anthropic/skill-creator",
-        "name": "Skill Creator",
-        "contributor": "anthropic",
-        "origin": false,
-        "genericSkillRef": "tool-creation",
-        "status": "named",
-        "level": "2★",
-        "description": "Interviews the user through a structured dialogue to elicit the skill's purpose, trigger conditions, and step-by-step instructions, then programmatically writes a new SKILL.md file ready for use in a Claude Code or Codex CLI skills directory.",
-        "title": "The Skill Forger's Art",
-        "catalogRef": "anthropic-skill-creator",
-        "tags": [
-          "skill-authoring",
-          "meta-agent",
-          "claude-code",
-          "tool-creation"
-        ],
-        "links": {
-          "github": "https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md"
-        },
-        "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-02",
-        "timeline": [
-          {
-            "timestamp": "2026-06-02T23:33:00Z",
-            "action": "demote",
-            "contributor": "unknown",
-            "details": "Origin status removed. Transferred to mattpocock/write-a-skill."
-          }
-        ],
-        "type": "extra",
-        "role": "variant"
-      },
-      {
         "id": "mattpocock/write-a-skill",
         "name": "Write a Skill",
         "contributor": "mattpocock",
@@ -571,6 +538,39 @@
         "suiteRef": "mattpocock/productivity",
         "type": "extra",
         "role": "origin"
+      },
+      {
+        "id": "anthropic/skill-creator",
+        "name": "Skill Creator",
+        "contributor": "anthropic",
+        "origin": false,
+        "genericSkillRef": "tool-creation",
+        "status": "named",
+        "level": "2★",
+        "description": "Interviews the user through a structured dialogue to elicit the skill's purpose, trigger conditions, and step-by-step instructions, then programmatically writes a new SKILL.md file ready for use in a Claude Code or Codex CLI skills directory.",
+        "title": "The Skill Forger's Art",
+        "catalogRef": "anthropic-skill-creator",
+        "tags": [
+          "skill-authoring",
+          "meta-agent",
+          "claude-code",
+          "tool-creation"
+        ],
+        "links": {
+          "github": "https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md"
+        },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-06-02",
+        "timeline": [
+          {
+            "timestamp": "2026-06-02T23:33:00Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Origin status removed. Transferred to mattpocock/write-a-skill."
+          }
+        ],
+        "type": "extra",
+        "role": "variant"
       }
     ],
     "video-intelligence": [
@@ -608,46 +608,6 @@
       }
     ],
     "browser-control": [
-      {
-        "id": "browser-use/browser-harness",
-        "name": "Browser Harness",
-        "contributor": "browser-use",
-        "origin": false,
-        "genericSkillRef": "browser-control",
-        "status": "named",
-        "level": "2★",
-        "description": "Self-healing harness for direct browser control via CDP, enabling agents to write custom helpers at runtime.",
-        "title": "The Dom Whispering",
-        "tags": [
-          "browser",
-          "cdp",
-          "automation"
-        ],
-        "links": {
-          "github": "https://github.com/browser-use/browser-harness/blob/main/SKILL.md"
-        },
-        "evidence": [
-          {
-            "class": "B",
-            "source": "https://github.com/browser-use/browser-harness",
-            "evaluator": "gemini-cli",
-            "date": "2026-05-14",
-            "notes": "Browser Harness -- self-healing harness connecting LLMs to browser via CDP."
-          }
-        ],
-        "createdAt": "2026-05-14",
-        "updatedAt": "2026-06-02",
-        "timeline": [
-          {
-            "timestamp": "2026-06-02T23:32:59Z",
-            "action": "demote",
-            "contributor": "unknown",
-            "details": "Origin status removed. Transferred to garrytan/browse."
-          }
-        ],
-        "type": "basic",
-        "role": "variant"
-      },
       {
         "id": "garrytan/browse",
         "name": "Browse",
@@ -707,6 +667,46 @@
         "suiteRef": "garrytan/garrytan",
         "type": "basic",
         "role": "origin"
+      },
+      {
+        "id": "browser-use/browser-harness",
+        "name": "Browser Harness",
+        "contributor": "browser-use",
+        "origin": false,
+        "genericSkillRef": "browser-control",
+        "status": "named",
+        "level": "2★",
+        "description": "Self-healing harness for direct browser control via CDP, enabling agents to write custom helpers at runtime.",
+        "title": "The Dom Whispering",
+        "tags": [
+          "browser",
+          "cdp",
+          "automation"
+        ],
+        "links": {
+          "github": "https://github.com/browser-use/browser-harness/blob/main/SKILL.md"
+        },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/browser-use/browser-harness",
+            "evaluator": "gemini-cli",
+            "date": "2026-05-14",
+            "notes": "Browser Harness -- self-healing harness connecting LLMs to browser via CDP."
+          }
+        ],
+        "createdAt": "2026-05-14",
+        "updatedAt": "2026-06-02",
+        "timeline": [
+          {
+            "timestamp": "2026-06-02T23:32:59Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Origin status removed. Transferred to garrytan/browse."
+          }
+        ],
+        "type": "basic",
+        "role": "variant"
       },
       {
         "id": "garrytan/open-gstack-browser",
@@ -819,10 +819,37 @@
         "role": "variant"
       },
       {
+        "id": "ruvnet/browser",
+        "name": "Browser",
+        "contributor": "ruvnet",
+        "origin": false,
+        "genericSkillRef": "browser-automation",
+        "status": "named",
+        "level": "2★",
+        "description": "Playwright-based browser automation for web scraping, E2E testing, form interaction, and screenshot capture within agent workflows.",
+        "title": "The Web Navigator",
+        "catalogRef": "ruvnet-browser",
+        "tags": [
+          "browser",
+          "playwright",
+          "automation",
+          "web-scraping",
+          "e2e-testing"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
+        "type": "extra",
+        "role": "variant"
+      },
+      {
         "id": "gooseworks/notte-browser",
         "name": "Notte Browser",
         "contributor": "gooseworks",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "browser-automation",
         "status": "named",
         "level": "1★",
@@ -850,42 +877,42 @@
           }
         ],
         "type": "extra",
-        "role": "origin"
-      },
-      {
-        "id": "ruvnet/browser",
-        "name": "Browser",
-        "contributor": "ruvnet",
-        "origin": false,
-        "genericSkillRef": "browser-automation",
-        "status": "named",
-        "level": "2★",
-        "description": "Playwright-based browser automation for web scraping, E2E testing, form interaction, and screenshot capture within agent workflows.",
-        "title": "The Web Navigator",
-        "catalogRef": "ruvnet-browser",
-        "tags": [
-          "browser",
-          "playwright",
-          "automation",
-          "web-scraping",
-          "e2e-testing"
-        ],
-        "links": {
-          "github": "https://github.com/ruvnet/ruflo"
-        },
-        "createdAt": "2026-05-19",
-        "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
-        "type": "extra",
         "role": "variant"
       }
     ],
     "autonomous-debug": [
       {
+        "id": "mattpocock/diagnose",
+        "name": "Diagnose",
+        "contributor": "mattpocock",
+        "origin": false,
+        "genericSkillRef": "autonomous-debug",
+        "status": "named",
+        "level": "2★",
+        "description": "Drives a rigorous five-phase debugging discipline — build a feedback loop, minimise, hypothesise, instrument, fix and regression-test — refusing to proceed until a fast deterministic pass/fail signal exists. Applies to hard bugs and performance regressions.",
+        "title": "The Disciplined Diagnosis Loop",
+        "catalogRef": "mattpocock-diagnose",
+        "tags": [
+          "debugging",
+          "diagnosis",
+          "feedback-loop",
+          "regression",
+          "root-cause-analysis"
+        ],
+        "links": {
+          "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnose/SKILL.md"
+        },
+        "createdAt": "2026-04-30",
+        "updatedAt": "2026-04-30",
+        "suiteRef": "mattpocock/engineering",
+        "type": "extra",
+        "role": "variant"
+      },
+      {
         "id": "devin-ai/autonomous-swe",
         "name": "Autonomous SWE",
         "contributor": "devin-ai",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "autonomous-debug",
         "status": "named",
         "level": "1★",
@@ -922,70 +949,10 @@
           }
         ],
         "type": "extra",
-        "role": "origin"
-      },
-      {
-        "id": "mattpocock/diagnose",
-        "name": "Diagnose",
-        "contributor": "mattpocock",
-        "origin": false,
-        "genericSkillRef": "autonomous-debug",
-        "status": "named",
-        "level": "2★",
-        "description": "Drives a rigorous five-phase debugging discipline — build a feedback loop, minimise, hypothesise, instrument, fix and regression-test — refusing to proceed until a fast deterministic pass/fail signal exists. Applies to hard bugs and performance regressions.",
-        "title": "The Disciplined Diagnosis Loop",
-        "catalogRef": "mattpocock-diagnose",
-        "tags": [
-          "debugging",
-          "diagnosis",
-          "feedback-loop",
-          "regression",
-          "root-cause-analysis"
-        ],
-        "links": {
-          "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnose/SKILL.md"
-        },
-        "createdAt": "2026-04-30",
-        "updatedAt": "2026-04-30",
-        "suiteRef": "mattpocock/engineering",
-        "type": "extra",
         "role": "variant"
       }
     ],
     "web-scrape": [
-      {
-        "id": "firecrawl/firecrawl",
-        "name": "Firecrawl",
-        "contributor": "firecrawl",
-        "origin": false,
-        "genericSkillRef": "web-scrape",
-        "status": "named",
-        "level": "2★",
-        "description": "Open-source API for AI-oriented web search, scraping, crawling, and structured extraction from websites.",
-        "title": "The Web Infuser",
-        "catalogRef": "firecrawl-firecrawl",
-        "tags": [
-          "web-scrape",
-          "search",
-          "extraction",
-          "crawler"
-        ],
-        "links": {
-          "github": "https://github.com/firecrawl/firecrawl"
-        },
-        "createdAt": "2026-05-17",
-        "updatedAt": "2026-06-02",
-        "timeline": [
-          {
-            "timestamp": "2026-06-02T23:33:01Z",
-            "action": "demote",
-            "contributor": "unknown",
-            "details": "Origin status removed. Transferred to garrytan/scrape."
-          }
-        ],
-        "type": "extra",
-        "role": "variant"
-      },
       {
         "id": "garrytan/scrape",
         "name": "Scrape",
@@ -1033,6 +1000,39 @@
         "suiteRef": "garrytan/gstack",
         "type": "extra",
         "role": "origin"
+      },
+      {
+        "id": "firecrawl/firecrawl",
+        "name": "Firecrawl",
+        "contributor": "firecrawl",
+        "origin": false,
+        "genericSkillRef": "web-scrape",
+        "status": "named",
+        "level": "2★",
+        "description": "Open-source API for AI-oriented web search, scraping, crawling, and structured extraction from websites.",
+        "title": "The Web Infuser",
+        "catalogRef": "firecrawl-firecrawl",
+        "tags": [
+          "web-scrape",
+          "search",
+          "extraction",
+          "crawler"
+        ],
+        "links": {
+          "github": "https://github.com/firecrawl/firecrawl"
+        },
+        "createdAt": "2026-05-17",
+        "updatedAt": "2026-06-02",
+        "timeline": [
+          {
+            "timestamp": "2026-06-02T23:33:01Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Origin status removed. Transferred to garrytan/scrape."
+          }
+        ],
+        "type": "extra",
+        "role": "variant"
       }
     ],
     "skill-performance-benchmarking": [
@@ -1241,6 +1241,48 @@
     ],
     "guardrails": [
       {
+        "id": "garrytan/guard",
+        "name": "Guard",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "guardrails",
+        "status": "named",
+        "level": "3★",
+        "description": "Applies configurable content and output guardrails to agent responses, flagging or blocking unsafe outputs and logging violations with structured evidence for audit.",
+        "title": "Gstack Guard — Safety Guardrail Enforcement",
+        "catalogRef": "garrytan-guard",
+        "tags": [
+          "guardrails",
+          "safety",
+          "compliance"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/guard/SKILL.md"
+        },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/guard/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Applies configurable content and output guardrails to agent responses, flagging or blocking unsafe outputs and logging violations with structured…"
+          }
+        ],
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-06-03",
+        "timeline": [
+          {
+            "timestamp": "2026-06-03T05:51:30Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/guard/SKILL.md"
+          }
+        ],
+        "suiteRef": "garrytan/gstack",
+        "type": "extra",
+        "role": "variant"
+      },
+      {
         "id": "garrytan/careful",
         "name": "Careful",
         "contributor": "garrytan",
@@ -1318,48 +1360,6 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/freeze/SKILL.md"
-          }
-        ],
-        "suiteRef": "garrytan/gstack",
-        "type": "extra",
-        "role": "variant"
-      },
-      {
-        "id": "garrytan/guard",
-        "name": "Guard",
-        "contributor": "garrytan",
-        "origin": false,
-        "genericSkillRef": "guardrails",
-        "status": "named",
-        "level": "3★",
-        "description": "Applies configurable content and output guardrails to agent responses, flagging or blocking unsafe outputs and logging violations with structured evidence for audit.",
-        "title": "Gstack Guard — Safety Guardrail Enforcement",
-        "catalogRef": "garrytan-guard",
-        "tags": [
-          "guardrails",
-          "safety",
-          "compliance"
-        ],
-        "links": {
-          "github": "https://github.com/garrytan/gstack/blob/main/guard/SKILL.md"
-        },
-        "evidence": [
-          {
-            "class": "B",
-            "source": "https://github.com/garrytan/gstack/blob/main/guard/SKILL.md",
-            "evaluator": "mbtiongson1",
-            "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Applies configurable content and output guardrails to agent responses, flagging or blocking unsafe outputs and logging violations with structured…"
-          }
-        ],
-        "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-03",
-        "timeline": [
-          {
-            "timestamp": "2026-06-03T05:51:30Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/guard/SKILL.md"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -1455,6 +1455,26 @@
     ],
     "context-compression": [
       {
+        "id": "mattpocock/caveman",
+        "name": "Caveman Mode",
+        "contributor": "mattpocock",
+        "origin": false,
+        "genericSkillRef": "context-compression",
+        "status": "named",
+        "level": "3★",
+        "description": "An ultra-compressed communication mode designed to save tokens by dropping articles and filler words.",
+        "title": "The Caveman Console",
+        "links": {
+          "github": "https://github.com/mattpocock/skills/blob/main/skills/productivity/caveman"
+        },
+        "createdAt": "2026-05-21",
+        "updatedAt": "2026-06-04",
+        "suiteRef": "mattpocock/productivity",
+        "type": "basic",
+        "installBody": "This skill is included in the Matt Pocock skills suite:\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required.\n\n### How to Activate\n\nTrigger with any of these phrases:\n\n- \"caveman mode\"\n- \"talk like caveman\"\n- \"use caveman\"\n- \"less tokens\"\n- \"be brief\"\n- \"/caveman\" command\n\nMode activates immediately upon invocation.\n\n### How It Works\n\nCompresses communication by approximately **75% token reduction**. Maintains technical precision while eliminating unnecessary elements.\n\n**Removed:**\n- Articles (a/an/the)\n- Padding words (just/really/basically)\n- Pleasantries (sure/certainly)\n- Hedging language\n\n**Preserved:**\n- Exact technical terminology\n- Code blocks\n- Error messages\n- Causal relationships (shown with arrows: X → Y)\n\n**Style:**\n- Fragments acceptable\n- Short word choices prioritized\n- Conjunctions optional\n\n### Example\n\nInstead of: \"Sure! I'd be happy to help you with that. The issue you're experiencing is likely caused by...\"\n\nWrite: \"Bug in auth middleware. Token expiry check use `<` not `<=`. Fix:\"\n\n### Deactivation\n\nMode persists across multiple responses. Disable with explicit commands:\n\n- \"stop caveman\"\n- \"normal mode\"",
+        "role": "variant"
+      },
+      {
         "id": "garrytan/context-restore",
         "name": "Context Restore",
         "contributor": "garrytan",
@@ -1536,26 +1556,6 @@
         ],
         "suiteRef": "garrytan/gstack",
         "type": "basic",
-        "role": "variant"
-      },
-      {
-        "id": "mattpocock/caveman",
-        "name": "Caveman Mode",
-        "contributor": "mattpocock",
-        "origin": false,
-        "genericSkillRef": "context-compression",
-        "status": "named",
-        "level": "3★",
-        "description": "An ultra-compressed communication mode designed to save tokens by dropping articles and filler words.",
-        "title": "The Caveman Console",
-        "links": {
-          "github": "https://github.com/mattpocock/skills/blob/main/skills/productivity/caveman"
-        },
-        "createdAt": "2026-05-21",
-        "updatedAt": "2026-06-04",
-        "suiteRef": "mattpocock/productivity",
-        "type": "basic",
-        "installBody": "This skill is included in the Matt Pocock skills suite:\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required.\n\n### How to Activate\n\nTrigger with any of these phrases:\n\n- \"caveman mode\"\n- \"talk like caveman\"\n- \"use caveman\"\n- \"less tokens\"\n- \"be brief\"\n- \"/caveman\" command\n\nMode activates immediately upon invocation.\n\n### How It Works\n\nCompresses communication by approximately **75% token reduction**. Maintains technical precision while eliminating unnecessary elements.\n\n**Removed:**\n- Articles (a/an/the)\n- Padding words (just/really/basically)\n- Pleasantries (sure/certainly)\n- Hedging language\n\n**Preserved:**\n- Exact technical terminology\n- Code blocks\n- Error messages\n- Causal relationships (shown with arrows: X → Y)\n\n**Style:**\n- Fragments acceptable\n- Short word choices prioritized\n- Conjunctions optional\n\n### Example\n\nInstead of: \"Sure! I'd be happy to help you with that. The issue you're experiencing is likely caused by...\"\n\nWrite: \"Bug in auth middleware. Token expiry check use `<` not `<=`. Fix:\"\n\n### Deactivation\n\nMode persists across multiple responses. Disable with explicit commands:\n\n- \"stop caveman\"\n- \"normal mode\"",
         "role": "variant"
       }
     ],
@@ -1719,6 +1719,133 @@
     ],
     "ux-audit": [
       {
+        "id": "pbakaus/impeccable",
+        "name": "Impeccable",
+        "contributor": "pbakaus",
+        "origin": true,
+        "genericSkillRef": "ux-audit",
+        "status": "named",
+        "level": "4★",
+        "description": "Elite design vocabulary and audit tool for polishing AI-generated frontend code.",
+        "title": "The Aesthetic Shield",
+        "tags": [
+          "design",
+          "audit",
+          "frontend",
+          "polishing"
+        ],
+        "links": {
+          "github": "https://github.com/pbakaus/impeccable/blob/main/.agents/skills/impeccable/SKILL.md"
+        },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/pbakaus/impeccable",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-14",
+            "notes": "Paul Bakaus /impeccable -- Elite design vocabulary and audit tool with 23 specialized polishing commands."
+          }
+        ],
+        "createdAt": "2026-05-14",
+        "updatedAt": "2026-06-02",
+        "timeline": [
+          {
+            "timestamp": "2026-06-02T01:42:59Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
+          }
+        ],
+        "type": "basic",
+        "role": "origin"
+      },
+      {
+        "id": "garrytan/plan-design-review",
+        "name": "Plan Design Review",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "ux-audit",
+        "status": "named",
+        "level": "4★",
+        "description": "Interactive, designer-led audit of UI/UX plans rating seven dimensions — information architecture, interaction states, user journey, AI slop risk, design system alignment, responsive/accessibility, and unresolved decisions — before implementation begins, with optional visual mockup generation.",
+        "title": "Design Plan Review",
+        "catalogRef": "garrytan-plan-design-review",
+        "tags": [
+          "ux",
+          "design-audit",
+          "plan-review",
+          "ui-ux"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/plan-design-review/SKILL.md"
+        },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/plan-design-review/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Interactive, designer-led audit of UI/UX plans rating seven dimensions — information architecture, interaction states, user journey, AI slop risk,…"
+          }
+        ],
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-06-03",
+        "timeline": [
+          {
+            "timestamp": "2026-06-03T05:51:32Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/plan-design-review/SKILL.md"
+          }
+        ],
+        "suiteRef": "garrytan/gstack",
+        "type": "basic",
+        "role": "variant"
+      },
+      {
+        "id": "garrytan/plan-devex-review",
+        "name": "Plan DevEx Review",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "ux-audit",
+        "status": "named",
+        "level": "4★",
+        "description": "Interactive multi-pass DX review for developer-facing products — APIs, CLIs, SDKs, and libraries — scoring eight UX dimensions from onboarding to error messaging via persona discovery and competitive benchmarking, producing an actionable improvement plan rather than just a score.",
+        "title": "Developer Experience Review",
+        "catalogRef": "garrytan-plan-devex-review",
+        "tags": [
+          "developer-experience",
+          "dx",
+          "api-ux",
+          "onboarding"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/plan-devex-review/SKILL.md"
+        },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/plan-devex-review/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Interactive multi-pass DX review for developer-facing products — APIs, CLIs, SDKs, and libraries — scoring eight UX dimensions from onboarding to…"
+          }
+        ],
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-06-03",
+        "timeline": [
+          {
+            "timestamp": "2026-06-03T05:51:32Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/plan-devex-review/SKILL.md"
+          }
+        ],
+        "suiteRef": "garrytan/gstack",
+        "type": "basic",
+        "role": "variant"
+      },
+      {
         "id": "garrytan/design-review",
         "name": "Design Review",
         "contributor": "garrytan",
@@ -1827,92 +1954,6 @@
         "role": "variant"
       },
       {
-        "id": "garrytan/plan-design-review",
-        "name": "Plan Design Review",
-        "contributor": "garrytan",
-        "origin": false,
-        "genericSkillRef": "ux-audit",
-        "status": "named",
-        "level": "4★",
-        "description": "Interactive, designer-led audit of UI/UX plans rating seven dimensions — information architecture, interaction states, user journey, AI slop risk, design system alignment, responsive/accessibility, and unresolved decisions — before implementation begins, with optional visual mockup generation.",
-        "title": "Design Plan Review",
-        "catalogRef": "garrytan-plan-design-review",
-        "tags": [
-          "ux",
-          "design-audit",
-          "plan-review",
-          "ui-ux"
-        ],
-        "links": {
-          "github": "https://github.com/garrytan/gstack/blob/main/plan-design-review/SKILL.md"
-        },
-        "evidence": [
-          {
-            "class": "B",
-            "source": "https://github.com/garrytan/gstack/blob/main/plan-design-review/SKILL.md",
-            "evaluator": "mbtiongson1",
-            "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Interactive, designer-led audit of UI/UX plans rating seven dimensions — information architecture, interaction states, user journey, AI slop risk,…"
-          }
-        ],
-        "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-03",
-        "timeline": [
-          {
-            "timestamp": "2026-06-03T05:51:32Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/plan-design-review/SKILL.md"
-          }
-        ],
-        "suiteRef": "garrytan/gstack",
-        "type": "basic",
-        "role": "variant"
-      },
-      {
-        "id": "garrytan/plan-devex-review",
-        "name": "Plan DevEx Review",
-        "contributor": "garrytan",
-        "origin": false,
-        "genericSkillRef": "ux-audit",
-        "status": "named",
-        "level": "4★",
-        "description": "Interactive multi-pass DX review for developer-facing products — APIs, CLIs, SDKs, and libraries — scoring eight UX dimensions from onboarding to error messaging via persona discovery and competitive benchmarking, producing an actionable improvement plan rather than just a score.",
-        "title": "Developer Experience Review",
-        "catalogRef": "garrytan-plan-devex-review",
-        "tags": [
-          "developer-experience",
-          "dx",
-          "api-ux",
-          "onboarding"
-        ],
-        "links": {
-          "github": "https://github.com/garrytan/gstack/blob/main/plan-devex-review/SKILL.md"
-        },
-        "evidence": [
-          {
-            "class": "B",
-            "source": "https://github.com/garrytan/gstack/blob/main/plan-devex-review/SKILL.md",
-            "evaluator": "mbtiongson1",
-            "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Interactive multi-pass DX review for developer-facing products — APIs, CLIs, SDKs, and libraries — scoring eight UX dimensions from onboarding to…"
-          }
-        ],
-        "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-03",
-        "timeline": [
-          {
-            "timestamp": "2026-06-03T05:51:32Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/plan-devex-review/SKILL.md"
-          }
-        ],
-        "suiteRef": "garrytan/gstack",
-        "type": "basic",
-        "role": "variant"
-      },
-      {
         "id": "martin-stepanoski/nielsen-heuristics-audit",
         "name": "Nielsen Heuristics Audit",
         "contributor": "martin-stepanoski",
@@ -1954,47 +1995,6 @@
         ],
         "type": "basic",
         "role": "variant"
-      },
-      {
-        "id": "pbakaus/impeccable",
-        "name": "Impeccable",
-        "contributor": "pbakaus",
-        "origin": true,
-        "genericSkillRef": "ux-audit",
-        "status": "named",
-        "level": "4★",
-        "description": "Elite design vocabulary and audit tool for polishing AI-generated frontend code.",
-        "title": "The Aesthetic Shield",
-        "tags": [
-          "design",
-          "audit",
-          "frontend",
-          "polishing"
-        ],
-        "links": {
-          "github": "https://github.com/pbakaus/impeccable/blob/main/.agents/skills/impeccable/SKILL.md"
-        },
-        "evidence": [
-          {
-            "class": "B",
-            "source": "https://github.com/pbakaus/impeccable",
-            "evaluator": "mbtiongson1",
-            "date": "2026-05-14",
-            "notes": "Paul Bakaus /impeccable -- Elite design vocabulary and audit tool with 23 specialized polishing commands."
-          }
-        ],
-        "createdAt": "2026-05-14",
-        "updatedAt": "2026-06-02",
-        "timeline": [
-          {
-            "timestamp": "2026-06-02T01:42:59Z",
-            "action": "rank_up",
-            "contributor": "unknown",
-            "details": "Origin status set to true."
-          }
-        ],
-        "type": "basic",
-        "role": "origin"
       }
     ],
     "design-review": [
@@ -3046,7 +3046,7 @@
         "id": "stanfordnlp/dspy",
         "name": "DSPy",
         "contributor": "stanfordnlp",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "prompt-optimization",
         "status": "named",
         "level": "1★",
@@ -3070,52 +3070,10 @@
           }
         ],
         "type": "extra",
-        "role": "origin"
+        "role": "variant"
       }
     ],
     "e2e-testing": [
-      {
-        "id": "garrytan/qa-only",
-        "name": "QA Only",
-        "contributor": "garrytan",
-        "origin": false,
-        "genericSkillRef": "e2e-testing",
-        "status": "named",
-        "level": "2★",
-        "description": "Runs the scoped end-to-end test suite for a single feature or route without launching the full QA pipeline, for fast targeted regression checks.",
-        "title": "Gstack QA Only — Focused E2E Test Run",
-        "catalogRef": "garrytan-qa-only",
-        "tags": [
-          "e2e-testing",
-          "qa",
-          "targeted"
-        ],
-        "links": {
-          "github": "https://github.com/garrytan/gstack/blob/main/qa-only/SKILL.md"
-        },
-        "evidence": [
-          {
-            "class": "B",
-            "source": "https://github.com/garrytan/gstack/blob/main/qa-only/SKILL.md",
-            "evaluator": "mbtiongson1",
-            "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Runs the scoped end-to-end test suite for a single feature or route without launching the full QA pipeline, for fast targeted regression checks."
-          }
-        ],
-        "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-03",
-        "timeline": [
-          {
-            "timestamp": "2026-06-03T05:51:36Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/qa-only/SKILL.md"
-          }
-        ],
-        "suiteRef": "garrytan/gstack",
-        "type": "extra",
-        "role": "variant"
-      },
       {
         "id": "garrytan/qa",
         "name": "QA",
@@ -3153,6 +3111,48 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/qa/SKILL.md"
+          }
+        ],
+        "suiteRef": "garrytan/gstack",
+        "type": "extra",
+        "role": "variant"
+      },
+      {
+        "id": "garrytan/qa-only",
+        "name": "QA Only",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "e2e-testing",
+        "status": "named",
+        "level": "2★",
+        "description": "Runs the scoped end-to-end test suite for a single feature or route without launching the full QA pipeline, for fast targeted regression checks.",
+        "title": "Gstack QA Only — Focused E2E Test Run",
+        "catalogRef": "garrytan-qa-only",
+        "tags": [
+          "e2e-testing",
+          "qa",
+          "targeted"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/qa-only/SKILL.md"
+        },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/qa-only/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Runs the scoped end-to-end test suite for a single feature or route without launching the full QA pipeline, for fast targeted regression checks."
+          }
+        ],
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-06-03",
+        "timeline": [
+          {
+            "timestamp": "2026-06-03T05:51:36Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/qa-only/SKILL.md"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -4722,43 +4722,6 @@
     ],
     "registry-curation": [
       {
-        "id": "mbtiongson1/gaia-bot-curate",
-        "name": "Gaia Bot Curate",
-        "contributor": "mbtiongson1",
-        "origin": false,
-        "genericSkillRef": "registry-curation",
-        "status": "named",
-        "level": "2★",
-        "description": "Runs an automated batch curation pass over the Gaia skill registry — scanning for new agent skills, validating evidence, and opening versioned draft PRs without human intervention.",
-        "title": "The Automated Curator",
-        "tags": [
-          "registry-curation",
-          "automation",
-          "batch-processing"
-        ],
-        "links": {
-          "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-bot-curate/SKILL.md"
-        },
-        "createdAt": "2026-05-27",
-        "updatedAt": "2026-06-01",
-        "timeline": [
-          {
-            "timestamp": "2026-05-26T16:36:58Z",
-            "action": "add",
-            "contributor": "mbtiongson1",
-            "details": "Added named skill mbtiongson1/gaia-bot-curate"
-          },
-          {
-            "timestamp": "2026-06-01T15:13:07Z",
-            "action": "demote",
-            "contributor": "unknown",
-            "details": "Calibrated level from 3★ to 2★"
-          }
-        ],
-        "type": "extra",
-        "role": "variant"
-      },
-      {
         "id": "mbtiongson1/gaia-curate",
         "name": "Gaia Curate",
         "contributor": "mbtiongson1",
@@ -4796,6 +4759,43 @@
         ],
         "type": "extra",
         "role": "origin"
+      },
+      {
+        "id": "mbtiongson1/gaia-bot-curate",
+        "name": "Gaia Bot Curate",
+        "contributor": "mbtiongson1",
+        "origin": false,
+        "genericSkillRef": "registry-curation",
+        "status": "named",
+        "level": "2★",
+        "description": "Runs an automated batch curation pass over the Gaia skill registry — scanning for new agent skills, validating evidence, and opening versioned draft PRs without human intervention.",
+        "title": "The Automated Curator",
+        "tags": [
+          "registry-curation",
+          "automation",
+          "batch-processing"
+        ],
+        "links": {
+          "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-bot-curate/SKILL.md"
+        },
+        "createdAt": "2026-05-27",
+        "updatedAt": "2026-06-01",
+        "timeline": [
+          {
+            "timestamp": "2026-05-26T16:36:58Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill mbtiongson1/gaia-bot-curate"
+          },
+          {
+            "timestamp": "2026-06-01T15:13:07Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 3★ to 2★"
+          }
+        ],
+        "type": "extra",
+        "role": "variant"
       },
       {
         "id": "mbtiongson1/gaia-docs-sync",
@@ -5046,7 +5046,7 @@
         "id": "nexu-io/open-design",
         "name": "Open Design",
         "contributor": "nexu-io",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "design-generation",
         "status": "named",
         "level": "1★",
@@ -5081,7 +5081,7 @@
           }
         ],
         "type": "extra",
-        "role": "origin"
+        "role": "variant"
       }
     ],
     "feed-monitoring": [
@@ -5089,7 +5089,7 @@
         "id": "nousresearch/feed-monitoring",
         "name": "Feed Monitoring",
         "contributor": "nousresearch",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "feed-monitoring",
         "status": "named",
         "level": "1★",
@@ -5126,7 +5126,7 @@
           }
         ],
         "type": "basic",
-        "role": "origin"
+        "role": "variant"
       }
     ],
     "brainstorming": [
@@ -5628,7 +5628,7 @@
         "id": "ruvnet/agentdb-advanced",
         "name": "AgentDB Advanced",
         "contributor": "ruvnet",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "distributed-vector-memory",
         "status": "named",
         "level": "1★",
@@ -5666,15 +5666,41 @@
         ],
         "suiteRef": "ruvnet/agentdb",
         "type": "extra",
-        "role": "origin"
+        "role": "variant"
       }
     ],
     "agent-memory-learning": [
       {
+        "id": "ruvnet/reasoningbank-agentdb",
+        "name": "ReasoningBank AgentDB",
+        "contributor": "ruvnet",
+        "origin": false,
+        "genericSkillRef": "agent-memory-learning",
+        "status": "named",
+        "level": "2★",
+        "description": "Persists agent reasoning patterns in AgentDB vector memory and retrieves them semantically for continuous self-improvement across sessions.",
+        "title": "The Knowledge Crystallizer",
+        "catalogRef": "ruvnet-reasoningbank-agentdb",
+        "tags": [
+          "reasoning-persistence",
+          "vector-memory",
+          "agentdb",
+          "self-improvement"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/reasoningbank",
+        "type": "extra",
+        "role": "variant"
+      },
+      {
         "id": "ruvnet/agentdb-learning",
         "name": "AgentDB Learning",
         "contributor": "ruvnet",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "agent-memory-learning",
         "status": "named",
         "level": "1★",
@@ -5701,32 +5727,6 @@
           }
         ],
         "suiteRef": "ruvnet/agentdb",
-        "type": "extra",
-        "role": "origin"
-      },
-      {
-        "id": "ruvnet/reasoningbank-agentdb",
-        "name": "ReasoningBank AgentDB",
-        "contributor": "ruvnet",
-        "origin": false,
-        "genericSkillRef": "agent-memory-learning",
-        "status": "named",
-        "level": "2★",
-        "description": "Persists agent reasoning patterns in AgentDB vector memory and retrieves them semantically for continuous self-improvement across sessions.",
-        "title": "The Knowledge Crystallizer",
-        "catalogRef": "ruvnet-reasoningbank-agentdb",
-        "tags": [
-          "reasoning-persistence",
-          "vector-memory",
-          "agentdb",
-          "self-improvement"
-        ],
-        "links": {
-          "github": "https://github.com/ruvnet/ruflo"
-        },
-        "createdAt": "2026-05-19",
-        "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/reasoningbank",
         "type": "extra",
         "role": "variant"
       }
@@ -6088,7 +6088,7 @@
         "id": "ruvnet/flow-nexus-neural",
         "name": "Flow Nexus Neural",
         "contributor": "ruvnet",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "distributed-neural-training",
         "status": "named",
         "level": "1★",
@@ -6126,7 +6126,7 @@
         ],
         "suiteRef": "ruvnet/flow-nexus",
         "type": "extra",
-        "role": "origin"
+        "role": "variant"
       }
     ],
     "cloud-platform-management": [
@@ -6134,7 +6134,7 @@
         "id": "ruvnet/flow-nexus-platform",
         "name": "Flow Nexus Platform",
         "contributor": "ruvnet",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "cloud-platform-management",
         "status": "named",
         "level": "1★",
@@ -6172,7 +6172,7 @@
         ],
         "suiteRef": "ruvnet/flow-nexus",
         "type": "extra",
-        "role": "origin"
+        "role": "variant"
       }
     ],
     "multi-agent-orchestration-v": [
@@ -6180,7 +6180,7 @@
         "id": "ruvnet/flow-nexus-swarm",
         "name": "Flow Nexus Swarm",
         "contributor": "ruvnet",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "multi-agent-orchestration-v",
         "status": "named",
         "level": "1★",
@@ -6209,7 +6209,7 @@
         ],
         "suiteRef": "ruvnet/flow-nexus",
         "type": "extra",
-        "role": "origin"
+        "role": "variant"
       },
       {
         "id": "ruvnet/v3-swarm-coordination",
@@ -6376,6 +6376,33 @@
     ],
     "workflow-automation": [
       {
+        "id": "ruvnet/hooks-automation",
+        "name": "Hooks Automation",
+        "contributor": "ruvnet",
+        "origin": false,
+        "genericSkillRef": "workflow-automation",
+        "status": "named",
+        "level": "2★",
+        "description": "Designs agent lifecycle hooks and timer-based background tasks for automated quality gates and scheduled workflows.",
+        "title": "The Event Weaver",
+        "catalogRef": "ruvnet-hooks-automation",
+        "tags": [
+          "hooks",
+          "automation",
+          "lifecycle",
+          "background-workers",
+          "quality-gates"
+        ],
+        "links": {
+          "github": "https://github.com/ruvnet/ruflo"
+        },
+        "createdAt": "2026-05-19",
+        "updatedAt": "2026-05-19",
+        "suiteRef": "ruvnet/ruflo",
+        "type": "extra",
+        "role": "variant"
+      },
+      {
         "id": "ruvnet/github-workflow-automation",
         "name": "GitHub Workflow Automation",
         "contributor": "ruvnet",
@@ -6406,33 +6433,6 @@
           }
         ],
         "suiteRef": "ruvnet/github-suite",
-        "type": "extra",
-        "role": "variant"
-      },
-      {
-        "id": "ruvnet/hooks-automation",
-        "name": "Hooks Automation",
-        "contributor": "ruvnet",
-        "origin": false,
-        "genericSkillRef": "workflow-automation",
-        "status": "named",
-        "level": "2★",
-        "description": "Designs agent lifecycle hooks and timer-based background tasks for automated quality gates and scheduled workflows.",
-        "title": "The Event Weaver",
-        "catalogRef": "ruvnet-hooks-automation",
-        "tags": [
-          "hooks",
-          "automation",
-          "lifecycle",
-          "background-workers",
-          "quality-gates"
-        ],
-        "links": {
-          "github": "https://github.com/ruvnet/ruflo"
-        },
-        "createdAt": "2026-05-19",
-        "updatedAt": "2026-05-19",
-        "suiteRef": "ruvnet/ruflo",
         "type": "extra",
         "role": "variant"
       }
@@ -6499,7 +6499,7 @@
         "id": "ruvnet/reasoningbank-intelligence",
         "name": "ReasoningBank Intelligence",
         "contributor": "ruvnet",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "adaptive-pattern-learning",
         "status": "named",
         "level": "1★",
@@ -6536,7 +6536,7 @@
         ],
         "suiteRef": "ruvnet/reasoningbank",
         "type": "basic",
-        "role": "origin"
+        "role": "variant"
       }
     ],
     "reasoning-pattern-bank": [
@@ -6800,7 +6800,7 @@
         "id": "ruvnet/swarm-advanced",
         "name": "Swarm Advanced",
         "contributor": "ruvnet",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "advanced-swarm-coordination",
         "status": "named",
         "level": "1★",
@@ -6838,7 +6838,7 @@
         ],
         "suiteRef": "ruvnet/ruflo-v3",
         "type": "extra",
-        "role": "origin"
+        "role": "variant"
       }
     ],
     "swarm-topology-management": [
@@ -6846,7 +6846,7 @@
         "id": "ruvnet/swarm-orchestration",
         "name": "Swarm Orchestration",
         "contributor": "ruvnet",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "swarm-topology-management",
         "status": "named",
         "level": "1★",
@@ -6884,7 +6884,7 @@
         ],
         "suiteRef": "ruvnet/ruflo-v3",
         "type": "basic",
-        "role": "origin"
+        "role": "variant"
       }
     ],
     "cli-modernization": [
@@ -7044,7 +7044,7 @@
         "id": "safishamsi/graphify",
         "name": "Graphify",
         "contributor": "safishamsi",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "knowledge-graph-build",
         "status": "named",
         "level": "1★",
@@ -7069,7 +7069,7 @@
           }
         ],
         "type": "extra",
-        "role": "origin"
+        "role": "variant"
       }
     ],
     "career-operations": [
@@ -7175,7 +7175,7 @@
         "id": "yonatangross/orchestkit-rag",
         "name": "OrchestrKit RAG",
         "contributor": "yonatangross",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "rag-pipeline",
         "status": "named",
         "level": "1★",
@@ -7205,7 +7205,7 @@
           }
         ],
         "type": "extra",
-        "role": "origin"
+        "role": "variant"
       }
     ]
   },

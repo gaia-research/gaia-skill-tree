@@ -1336,9 +1336,15 @@
       else if (type === 'ultimate') { color = 'var(--apex-gold, #fbbf24)'; }
 
       var bHtml = '';
+      var handleRedacted = window.isRedacted && window.isRedacted(ns.level);
       if (hasSlash) {
-        bHtml += '<span class="atlas-handle">@' + esc(handle) + '</span>';
-        if (ns.origin && typeof window.gaiaIcon === 'function') {
+        if (handleRedacted) {
+          // Pre-named/demoted: redact the breadcrumb handle (slate, no origin).
+          bHtml += window.redactedHandle();
+        } else {
+          bHtml += '<span class="atlas-handle">@' + esc(handle) + '</span>';
+        }
+        if (!handleRedacted && ns.origin && typeof window.gaiaIcon === 'function') {
           bHtml += ' <span class="plaque__origin" data-tooltip="Origin contributor: The creator of the first skill version" aria-label="Origin contributor: The creator of the first skill version">' +
             window.gaiaIcon('origin-badge', { size: 16 }) +
             '<span class="origin-info" style="margin-left: 3px; color: var(--muted); opacity: 0.7;">' + window.gaiaIcon('info', { size: 10 }) + '</span>' +

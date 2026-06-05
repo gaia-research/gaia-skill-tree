@@ -232,6 +232,14 @@
     var modal = document.getElementById('hohFullscreenModal');
     if (!modal) return;
 
+    // Pre-named/demoted (≤1★) skills are not publicly named — they have no OG
+    // card, badge, or shareable permalink. Refuse to open the share modal so
+    // none of those handle-bearing URLs are ever constructed.
+    if (ns && window.isRedacted && window.isRedacted(ns.level)) {
+      showToast('This skill is not yet named — sharing unlocks at 2★.');
+      return;
+    }
+
     // Center Stage: render the canonical OG SVG (docs/og/{handle}/{slug}.svg)
     // when available, falling back to plaque.renderOg() HTML mock if the
     // SVG hasn't been generated yet (e.g. brand-new contributor before the

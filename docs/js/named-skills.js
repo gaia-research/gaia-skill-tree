@@ -213,8 +213,13 @@
         var labelParts = String(labelSource).split('/');
         var labelContrib = labelParts.length > 1 ? labelParts[0] : '';
         var labelName = labelParts.length > 1 ? labelParts[1] : labelSource;
+        // Pre-named/demoted (≤1★): redact the contributor segment in the node label.
+        var labelRedacted = window.isRedacted && window.isRedacted(s.level);
+        var labelContribHtml = labelRedacted
+          ? '<span class="dag-node-label-contrib plaque__redacted-handle" aria-label="Contributor not yet revealed">[anonymous]</span>'
+          : '<span class="dag-node-label-contrib">' + esc(labelContrib) + '</span>';
         var labelHtml = labelContrib
-          ? '<div class="dag-node-label"><span class="dag-node-label-contrib">' + esc(labelContrib) + '</span><span style="color:var(--muted)">/</span><span class="dag-node-label-name">' + esc(labelName) + '</span></div>'
+          ? '<div class="dag-node-label">' + labelContribHtml + '<span style="color:var(--muted)">/</span><span class="dag-node-label-name">' + esc(labelName) + '</span></div>'
           : '<div class="dag-node-label"><span class="dag-node-label-name">' + esc(labelSource) + '</span></div>';
         html += '<div class="git-node" data-id="' + esc(id) + '" data-type="' + esc(s.type) + '" data-level="' + esc(s.level || '') + '" data-ghost="' + isGhost + '" style="--staggerY:' + staggerY + 'px"' +
                 ' onclick="if(window.selectNodeTree)window.selectNodeTree(\''+esc(id)+'\')"' +

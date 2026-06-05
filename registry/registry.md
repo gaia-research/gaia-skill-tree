@@ -10,7 +10,7 @@
 | ◇ [mattpocock](../docs/u/mattpocock/)/setup-matt-pocock-skills | Extra Skill | 3★ | `/agent-environment-setup` |
 | ◇ /agent-eval | Extra Skill | — | `/agent-eval` |
 | ◇ [mattpocock](../docs/u/mattpocock/)/handoff | Extra Skill | 4★ | `/agent-handoff` |
-| ◇ [ruvnet](../docs/u/ruvnet/)/agentdb-learning | Extra Skill | 2★ | `/agent-memory-learning` |
+| ◇ [ruvnet](../docs/u/ruvnet/)/reasoningbank-agentdb | Extra Skill | 2★ | `/agent-memory-learning` |
 | ◆ [ruvnet](../docs/u/ruvnet/)/agentdb | Ultimate Skill | 5★ | `/agent-memory-platform` |
 | ◇ ████████/sparc-methodology | Extra Skill | — | `/agentic-workflow-design` |
 | ○ [huggingface](../docs/u/huggingface/)/hf-cli | Basic Skill | 2★ | `/api-call` |
@@ -18,11 +18,11 @@
 | ○ /audience-model | Basic Skill | — | `/audience-model` |
 | ◇ [0xdarkmatter](../docs/u/0xdarkmatter/)/pytest-patterns | Extra Skill | 3★ | `/automated-testing` |
 | ◇ /autonomous-data-scientist | Extra Skill | — | `/autonomous-data-scientist` |
-| ◇ [devin-ai](../docs/u/devin-ai/)/autonomous-swe | Extra Skill | 2★ | `/autonomous-debug` |
+| ◇ [mattpocock](../docs/u/mattpocock/)/diagnose | Extra Skill | 2★ | `/autonomous-debug` |
 | ◇ [karpathy](../docs/u/karpathy/)/autoresearch | Extra Skill | 3★ | `/autonomous-web-research` |
 | ○ /bioinformatic-sequence-analysis | Basic Skill | — | `/bioinformatic-sequence-analysis` |
 | ◇ [obra](../docs/u/obra/)/brainstorming | Extra Skill | 2★ | `/brainstorming` |
-| ◇ [gooseworks](../docs/u/gooseworks/)/notte-browser | Extra Skill | 2★ | `/browser-automation` |
+| ◇ [browserbase](../docs/u/browserbase/)/stagehand | Extra Skill | 2★ | `/browser-automation` |
 | ○ [garrytan](../docs/u/garrytan/)/browse | Basic Skill | 3★ | `/browser-control` |
 | ◇ [santifer](../docs/u/santifer/)/career-ops | Extra Skill | 3★ | `/career-operations` |
 | ◇ /causal-inference | Extra Skill | — | `/causal-inference` |
@@ -40,7 +40,7 @@
 | ◇ /computational-biology-workflows | Extra Skill | — | `/computational-biology-workflows` |
 | ○ /computer-use | Basic Skill | — | `/computer-use` |
 | ◇ /content-moderation | Extra Skill | — | `/content-moderation` |
-| ○ [garrytan](../docs/u/garrytan/)/context-restore | Basic Skill | 3★ | `/context-compression` |
+| ○ [mattpocock](../docs/u/mattpocock/)/caveman | Basic Skill | 3★ | `/context-compression` |
 | ◇ /conversational-agent | Extra Skill | — | `/conversational-agent` |
 | ○ [ruvnet](../docs/u/ruvnet/)/v3-core-implementation | Basic Skill | 2★ | `/core-platform-implementation` |
 | ◇ [huggingface](../docs/u/huggingface/)/huggingface-datasets | Extra Skill | 2★ | `/data-analysis` |
@@ -58,7 +58,7 @@
 | ◇ /document-analyst | Extra Skill | — | `/document-analyst` |
 | ○ [garrytan](../docs/u/garrytan/)/document-generate | Basic Skill | 4★ | `/document-editing` |
 | ◇ [ruvnet](../docs/u/ruvnet/)/dual-mode | Extra Skill | 3★ | `/dual-mode` |
-| ◇ [garrytan](../docs/u/garrytan/)/qa-only | Extra Skill | 4★ | `/e2e-testing` |
+| ◇ [garrytan](../docs/u/garrytan/)/qa | Extra Skill | 4★ | `/e2e-testing` |
 | ◇ /edge-optimization | Extra Skill | — | `/edge-optimization` |
 | ○ /embed-text | Basic Skill | — | `/embed-text` |
 | ◆ [mattpocock](../docs/u/mattpocock/)/engineering | Ultimate Skill | 5★ | `/engineering-discipline` |
@@ -86,7 +86,7 @@
 | ◇ [mattpocock](../docs/u/mattpocock/)/grill-me | Extra Skill | 4★ | `/grill-me` |
 | ◇ [mattpocock](../docs/u/mattpocock/)/grill-with-docs | Extra Skill | 3★ | `/grill-with-docs` |
 | ◇ /grounding | Extra Skill | — | `/grounding` |
-| ◇ [garrytan](../docs/u/garrytan/)/careful | Extra Skill | 3★ | `/guardrails` |
+| ◇ [garrytan](../docs/u/garrytan/)/guard | Extra Skill | 3★ | `/guardrails` |
 | ○ [ruvnet](../docs/u/ruvnet/)/dual-collect | Basic Skill | 2★ | `/headless-worker-collect` |
 | ○ [ruvnet](../docs/u/ruvnet/)/dual-spawn | Basic Skill | 2★ | `/headless-worker-spawn` |
 | ◇ /humanize-prose | Extra Skill | — | `/humanize-prose` |
@@ -133,7 +133,7 @@
 | ◇ [mattpocock](../docs/u/mattpocock/)/productivity | Extra Skill | 4★ | `/productivity` |
 | ◇ [garrytan](../docs/u/garrytan/)/landing-report | Extra Skill | 2★ | `/project-management` |
 | ○ /prompt-injection-defense | Basic Skill | — | `/prompt-injection-defense` |
-| ◇ [stanfordnlp](../docs/u/stanfordnlp/)/dspy | Extra Skill | 2★ | `/prompt-optimization` |
+| ◇ [garrytan](../docs/u/garrytan/)/plan-tune | Extra Skill | 2★ | `/prompt-optimization` |
 | ○ /protein-structure-analysis | Basic Skill | — | `/protein-structure-analysis` |
 | ○ /proteomic-data-retrieval | Basic Skill | — | `/proteomic-data-retrieval` |
 | ◇ [mattpocock](../docs/u/mattpocock/)/prototype | Extra Skill | 3★ | `/prototype` |
@@ -208,7 +208,7 @@
 | ◇ [garrytan](../docs/u/garrytan/)/scrape | Extra Skill | 3★ | `/web-scrape` |
 | ○ /web-search | Basic Skill | — | `/web-search` |
 | ◇ /wiki-search | Extra Skill | — | `/wiki-search` |
-| ◇ [ruvnet](../docs/u/ruvnet/)/github-workflow-automation | Extra Skill | 2★ | `/workflow-automation` |
+| ◇ [ruvnet](../docs/u/ruvnet/)/hooks-automation | Extra Skill | 2★ | `/workflow-automation` |
 | ◇ [garrytan](../docs/u/garrytan/)/gstack-upgrade | Extra Skill | 2★ | `/workspace-automation` |
 | ○ [garrytan](../docs/u/garrytan/)/retro | Basic Skill | 3★ | `/write-report` |
 | ◇ [obra](../docs/u/obra/)/writing-plans | Extra Skill | 2★ | `/writing-plans` |

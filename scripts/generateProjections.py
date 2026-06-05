@@ -10,6 +10,7 @@ if SRC_DIR not in sys.path:
     sys.path.insert(0, SRC_DIR)
 
 from gaia_cli.leveling import effective_level
+from gaia_cli.redaction import REDACTED_BLOCK, is_redacted  # single source of truth
 
 # Phase 8d — pull in the markdown linked-handle helper so every named
 # skill identifier (contributor/skill) emits a hover-underlined link to
@@ -114,7 +115,8 @@ def _link_named_id(named_id, handle_rel=None):
     return f"{markdown_handle_link(handle, rel=handle_rel, with_at=False)}/{tail}"
 
 
-def _build_skill_display(skill_id, skill_type, named_map=None, handle_rel=None, named_level_map=None):
+def _build_skill_display(skill_id, skill_type, named_map=None, handle_rel=None,
+                         named_level_map=None, named_entry_level=None):
     """Return canonical display string for a skill (no tier prefix).
 
     All rows:  glyph already encodes tier; the section header labels the group.
@@ -131,14 +133,15 @@ def _build_skill_display(skill_id, skill_type, named_map=None, handle_rel=None, 
     """
     named_id = (named_map or {}).get(skill_id)
 
-    # Redact contributor for 0★/1★ named skills — suppress the markdown link too.
-    if named_id and named_level_map is not None:
-        top_level_str = named_level_map.get(skill_id)
-        if top_level_str is None:
-            # No 2★+ variant → contributor is pre-named, redact handle with blocks
+    # Redact based on the RESOLVED named entry's OWN level — not the bucket's
+    # effective (top) star. A 1★ entry that happens to sit in a bucket with a
+    # 2★+ sibling must still be redacted (and should never have been chosen as
+    # the representative; see generateNamedIndex champion ordering). Monospace
+    # markdown uses the shared block bar; suppress the profile link too.
+    if named_id and named_entry_level is not None:
+        if is_redacted(named_entry_level.get(named_id)):
             _, _, tail = named_id.partition("/")
-            redacted_block = "████████"  # U+2588 × 8 — monospace redaction bar
-            named_id = f"{redacted_block}/{tail}" if tail else named_id
+            named_id = f"{REDACTED_BLOCK}/{tail}" if tail else named_id
             handle_rel = None  # no profile link for anonymous contributor
 
     named_id_display = _link_named_id(named_id, handle_rel)
@@ -173,7 +176,7 @@ def build_named_level_map(named_index):
 
 def _render_subtree(root_id, skill_map, meta, prefix, is_last, seen,
                     unlocked_ids=None, user_id=None, named_map=None,
-                    named_level_map=None, handle_rel=None):
+                    named_level_map=None, handle_rel=None, named_entry_level=None):
     skill = skill_map.get(root_id)
     if not skill:
         return []
@@ -183,7 +186,8 @@ def _render_subtree(root_id, skill_map, meta, prefix, is_last, seen,
 
     skill_type = skill.get("type", "basic")
     display = _build_skill_display(root_id, skill_type, named_map, handle_rel,
-                                   named_level_map=named_level_map)
+                                   named_level_map=named_level_map,
+                                   named_entry_level=named_entry_level)
 
     # Generic refs are rank-less — show the top named-variant star, if any.
     star = (named_level_map or {}).get(root_id)
@@ -214,6 +218,7 @@ def _render_subtree(root_id, skill_map, meta, prefix, is_last, seen,
             prereq_id, skill_map, meta, child_prefix, is_last_child, seen,
             unlocked_ids=unlocked_ids, user_id=user_id, named_map=named_map,
             named_level_map=named_level_map, handle_rel=handle_rel,
+            named_entry_level=named_entry_level,
         ))
 
     return lines
@@ -256,14 +261,22 @@ def main():
     _run_generate_named_index()
     named_map = {}
     named_level_map = {}
+    named_entry_level = {}  # named_id ("handle/slug") -> its OWN level string
     named_index_path = os.path.join("registry", "named-skills.json")
     if os.path.isfile(named_index_path):
         with open(named_index_path, "r", encoding="utf-8") as nf:
             nidx = json.load(nf)
         for _sid, entries in nidx.get("buckets", {}).items():
             if entries:
+                # Buckets are champion-first (generateNamedIndex sort); prefer a
+                # named origin, else the top-ranked entry. The representative may
+                # still be ≤1★ if the whole bucket is pre-named — redaction keys
+                # on the entry's own level, so that case is handled downstream.
                 origin = next((e for e in entries if e.get("origin")), entries[0])
                 named_map[_sid] = origin.get("id", "")
+                for e in entries:
+                    if e.get("id"):
+                        named_entry_level[e["id"]] = e.get("level")
         named_level_map = build_named_level_map(nidx)
 
     os.makedirs("registry/skills/basic", exist_ok=True)
@@ -297,6 +310,7 @@ def main():
                 skill_id, skill_type, named_map,
                 handle_rel="../../../docs/u/",
                 named_level_map=named_level_map,
+                named_entry_level=named_entry_level,
             )
             star_suffix = f"  [{top_star}]" if top_star else ""
             f.write(f"# {page_display}{star_suffix}\n")
@@ -432,7 +446,8 @@ def main():
             symbol = get_tier_symbol(skill_type)
             type_label = get_type_label(meta, skill_type)
             reg_display = _build_skill_display(skill.get('id'), skill_type, named_map, _REG_HANDLE_REL,
-                                               named_level_map=named_level_map)
+                                               named_level_map=named_level_map,
+                                               named_entry_level=named_entry_level)
             name_display = f"{symbol} {reg_display}"
             skill_call = f"`/{skill.get('id')}`"
             f.write(f"| {name_display} | {type_label or 'Basic Skill'} | {_top_star(skill['id'])} | {skill_call} |\n")
@@ -448,7 +463,8 @@ def main():
             f.write("|---|---|---|---|\n")
             for skill in unique_skills:
                 reg_display = _build_skill_display(skill.get('id'), "unique", named_map, _REG_HANDLE_REL,
-                                                   named_level_map=named_level_map)
+                                                   named_level_map=named_level_map,
+                                               named_entry_level=named_entry_level)
                 name_display = f"◉ {reg_display}"
                 skill_call = f"`/{skill.get('id')}`"
                 f.write(f"| {name_display} | Unique Skill | {_top_star(skill['id'])} | {skill_call} |\n")
@@ -502,13 +518,15 @@ def main():
                 prereqs = [skill_map.get(pid, {}).get("name", pid) for pid in skill.get("prerequisites", [])]
                 prereq_str = ", ".join(prereqs)
                 combo_display = _build_skill_display(skill.get('id'), skill_type, named_map, _COMBO_HANDLE_REL,
-                                                     named_level_map=named_level_map)
+                                                     named_level_map=named_level_map,
+                                               named_entry_level=named_entry_level)
                 name_display = f"{symbol} {combo_display}"
                 f.write(f"| {name_display} | {type_label} | {prereq_str} | {_top_star(skill['id'])} | {skill.get('conditions', '')} |\n")
         # f.write(f"\n*Generated from gaia.json v{version}.*\n")
 
     # generate tree.md
-    _generate_tree(skills, skill_map, meta, version, date_str, named_map, named_level_map)
+    _generate_tree(skills, skill_map, meta, version, date_str, named_map, named_level_map,
+                   named_entry_level=named_entry_level)
 
     catalog_path = 'registry/real-skills.json'
     if os.path.isfile(catalog_path):
@@ -574,6 +592,7 @@ def main():
                     owned_ids=unlocked_ids,
                     named_map=named_map,
                     named_level_map=named_level_map,
+                    named_entry_level=named_entry_level,
                     meta=meta,
                     version=version,
                     date_str=date_str,
@@ -606,13 +625,14 @@ def main():
 
 
 def _generate_tree(skills, skill_map, meta, version, date_str, named_map=None,
-                   named_level_map=None):
+                   named_level_map=None, named_entry_level=None):
     """Render canonical tree.md via the shared render_tree contract."""
     body = render_tree(
         skills,
         mode="canonical",
         named_map=named_map,
         named_level_map=named_level_map,
+        named_entry_level=named_entry_level,
         meta=meta,
         version=version,
         date_str=date_str,

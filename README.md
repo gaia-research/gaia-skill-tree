@@ -42,9 +42,9 @@ Every AI agent capability exists somewhere on this graph. Skills start at the fo
   ├─ ◇ ████████/agentdb-advanced
   │  ├─ ○ ruvnet/agentdb-vector-search  [2★]
   │  └─ ◇ garrytan/learn  [3★]
-  │     ├─ ○ garrytan/context-restore  [3★]
+  │     ├─ ○ mattpocock/caveman  [3★]
   │     └─ ○ /retrieve
-  ├─ ◇ ruvnet/agentdb-learning  [2★]
+  ├─ ◇ ruvnet/reasoningbank-agentdb  [2★]
   │  ├─ ○ ████████/reasoningbank-intelligence
   │  └─ ◇ garrytan/learn  [3★]  (↑ see above)
   ├─ ○ ruvnet/agentdb-memory-patterns  [2★]
@@ -63,7 +63,7 @@ Every AI agent capability exists somewhere on this graph. Skills start at the fo
   │  ├─ ○ /plan-decompose
   │  └─ ○ /route-intent
   ├─ ◇ garrytan/design-consultation  [4★]
-  │  ├─ ◇ gooseworks/notte-browser  [2★]
+  │  ├─ ◇ browserbase/stagehand  [2★]
   │  │  ├─ ○ /web-search
   │  │  └─ ○ /computer-use
 
