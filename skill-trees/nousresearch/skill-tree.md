@@ -10,7 +10,7 @@
 
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
-| ○ nousresearch/feed-monitoring | Basic Skill | 4★ | Hardened | nousresearch/gaia-skill-tree | 2026-05-15T00:00:00Z |
+| ○ nousresearch/feed-monitoring | Basic Skill | 1★ | Awakened | nousresearch/gaia-skill-tree | 2026-05-15T00:00:00Z |
 
 ---
 

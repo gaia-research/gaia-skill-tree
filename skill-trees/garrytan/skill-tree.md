@@ -27,7 +27,7 @@
 | ○ garrytan/document-generate | Basic Skill | 4★ | Hardened | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ garrytan/document-release | Basic Skill | 2★ | Named | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ garrytan/freeze | Basic Skill | 2★ | Named | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
-| ○ garrytan/garrytan | Basic Skill | 5★ | Transcendent | garrytan/gaia-skill-tree | 2026-05-12T00:00:00Z |
+| ○ garrytan/garrytan | Basic Skill | 4★ | Hardened | garrytan/gaia-skill-tree | 2026-05-12T00:00:00Z |
 | ○ garrytan/gstack-upgrade | Basic Skill | 2★ | Named | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ garrytan/gstack | Basic Skill | 5★ | Transcendent | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |
 | ○ garrytan/guard | Basic Skill | 3★ | Evolved | garrytan/gaia-skill-tree | 2026-05-18T00:00:00Z |

@@ -10,7 +10,7 @@
 
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
-| ○ nexu-io/open-design | Basic Skill | 3★ | Evolved | nexu-io/gaia-skill-tree | 2026-05-14T00:00:00Z |
+| ○ nexu-io/open-design | Basic Skill | 1★ | Awakened | nexu-io/gaia-skill-tree | 2026-05-14T00:00:00Z |
 
 ---
 

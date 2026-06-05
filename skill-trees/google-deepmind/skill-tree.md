@@ -10,8 +10,8 @@
 
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
-| ○ google-deepmind/alphafold_database_fetch_and_analyze | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ google-deepmind/alphagenome_single_variant_analysis | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ google-deepmind/alphafold_database_fetch_and_analyze | Basic Skill | 4★ | Hardened | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ google-deepmind/alphagenome_single_variant_analysis | Basic Skill | 3★ | Evolved | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
 | ○ google-deepmind/chembl_database | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
 | ○ google-deepmind/clinical_trials_database | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
 | ○ google-deepmind/clinvar_database | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
@@ -33,7 +33,7 @@
 | ○ google-deepmind/openfda_database | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
 | ○ google-deepmind/opentargets_database | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
 | ○ google-deepmind/pdb_database | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ google-deepmind/protein_sequence_msa | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ google-deepmind/protein_sequence_msa | Basic Skill | 3★ | Evolved | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
 | ○ google-deepmind/protein_sequence_similarity_search | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
 | ○ google-deepmind/pubchem_database | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
 | ○ google-deepmind/pubmed_database | Basic Skill | 2★ | Named | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |

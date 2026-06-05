@@ -10,7 +10,7 @@
 
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
-| ○ xquik-dev/hermes-tweet | Basic Skill | 2★ | Named | xquik-dev/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ xquik-dev/hermes-tweet | Basic Skill | 4★ | Hardened | xquik-dev/gaia-skill-tree | 2026-05-25T00:00:00Z |
 
 ---
 

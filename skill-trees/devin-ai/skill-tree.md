@@ -10,7 +10,7 @@
 
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
-| ○ devin-ai/autonomous-swe | Basic Skill | 3★ | Evolved | devin-ai/gaia-skill-tree | 2026-04-29T00:00:00Z |
+| ○ devin-ai/autonomous-swe | Basic Skill | 1★ | Awakened | devin-ai/gaia-skill-tree | 2026-04-29T00:00:00Z |
 
 ---
 

@@ -62,6 +62,9 @@ jobs:
       - name: Validate redaction invariant (≤1★ handles withheld)
         run: python scripts/validate_redaction.py
 
+      - name: Validate timeline integrity (ranks explained by events)
+        run: python scripts/validate_timelines.py
+
   release:
     name: Create GitHub Release
     needs: [test-python, test-mcp, validate-graph]
