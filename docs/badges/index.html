@@ -853,7 +853,7 @@
       <svg class="ico nav-seal" aria-hidden="true" focusable="false"><use href="../assets/icons.svg#seal-diamond"/></svg>
       <span class="nav-wordmark">Gaia</span>
     </a>
-    <button type="button" class="nav-search-btn-mobile" id="navSearchBtnMobile" aria-label="Search named"><svg class="ico" width="18" height="18" aria-hidden="true"><use href="../assets/icons.svg#search"/></svg></button>
+    <button type="button" class="nav-search-btn-mobile" id="navSearchBtnMobile" aria-label="Search named" hidden><svg class="ico" width="18" height="18" aria-hidden="true"><use href="../assets/icons.svg#search"/></svg></button>
     <button class="nav-menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false">
       <span></span>
       <span></span>
@@ -862,7 +862,7 @@
     <ul class="nav-primary">
       <li><a href="../index.html" style="color: var(--text);">Home</a></li>
       <li><a href="../about.html" style="color: var(--apex-gold);">About</a></li>
-      <li><a href="./" style="color: var(--honor-red);" aria-current="page">GitHub Badges</a></li>
+      <li><a href="./" style="color: var(--tier-unique);" aria-current="page"><svg class="ico" width="13" height="13" aria-hidden="true" style="vertical-align: -2px; margin-right: .35em;"><use href="../assets/icons.svg#github"/></svg>GitHub Badges</a></li>
       <li class="nav-more-dropdown">
         <button class="nav-more-toggle" aria-label="More options" aria-expanded="false">More</button>
         <ul class="nav-more-menu">
@@ -870,14 +870,23 @@
           <!-- graph-nav-disabled <li><button type="button" class="nav-graph-trigger" data-graph-trigger style="color: #38bdf8;">Skill Graph</button></li> -->
           <li><a href="../codex.html" style="color: var(--tier-basic);">The Codex</a></li>
           <li><a href="../starless.html" style="color: var(--muted);">Starless</a></li>
+          <li><a href="../u/" style="color: var(--honor-red);">Named Contributors</a></li>
           <li><a href="../meta.html" class="nav-meta" id="metaNavBtn">Meta Reports</a></li>
         </ul>
       </li>
-      <li><button type="button" class="nav-search-btn" id="navSearchBtn" aria-label="Search named"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#search"/></svg></button></li>
+      <li><a href="../named/" style="color: var(--honor-red);">Named Skills</a></li>
     </ul>
   </nav>
 
   <main>
+    <!-- ─── BACK ─── -->
+    <div class="profile-back-row">
+      <a class="profile-back" href="../index.html" aria-label="Back" onclick="if(history.length>1){event.preventDefault();history.back();}">
+        <svg class="ico" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#arrow-back"/></svg>
+        <span>Back</span>
+      </a>
+    </div>
+
     <section class="process-hero" style="min-height: auto; padding-top: 5rem; padding-bottom: 2rem; position: relative;">
       <!-- Honesty Mode indicator — tiny, read-only, top-right of the hero.
            The mode itself is a build-time config constant (HONESTY_MODE) set
@@ -895,10 +904,7 @@
       <p class="process-kicker">For those who have named their skill</p>
       <h1>Github Badges</h1>
       <p class="process-lede">
-        You earned a named skill — now wear it. Drop a Gaia-branded badge into your repo README and link back to your contributor profile. Badges update automatically on every release, reflecting your highest rank, total skills, or the specific skill you want to showcase.
-      </p>
-      <p class="process-lede" style="margin-top:.85rem;">
-        This prestige is yours to keep — built through evidence, discipline, and real work. Not self-assigned. Not purchased. Every badge in this registry was reviewed, challenged, and earned. The diamond seal on your README is a permanent record of that.
+        You earned a named skill — wear it. Drop a Gaia badge in your README; it auto-updates each release with your highest rank, total skills, or a specific named skill.
       </p>
 
       <!-- Live preview strip — always reads from _assets/ so the strip renders
@@ -930,7 +936,7 @@
             <input id="bd-handle" type="text" placeholder="your-gaia-handle" autocomplete="off" spellcheck="false">
             <button id="bd-clear" type="button" class="bd-clear-btn" aria-label="Clear handle">✕</button>
           </div>
-          <button id="bd-go" type="button" class="bd-go-btn">Preview</button>
+          <button id="bd-go" type="button" class="bd-go-btn">Generate my badges</button>
         </div>
 
         <!-- Rank sampler — only visible when input is empty -->
@@ -1008,21 +1014,10 @@
                 </summary>
                 <div class="bd-validating-body">
                   <p>
-                    Gaia validates each badge against the repo it&rsquo;s embedded in &mdash; the
-                    <code>?repo=</code> query in your markdown must match a repo registered to your
-                    handle (see <code>links.github</code> on your skill&rsquo;s frontmatter).
-                  </p>
-                  <p>
-                    If the repo isn&rsquo;t registered yet, you&rsquo;ll see a faint
-                    <em>&ldquo;validating&hellip;&rdquo;</em> badge instead of your real one.
-                    <strong>Allow up to 24 hours</strong> after registering a new repo for the badge
-                    to go live &mdash; GitHub&rsquo;s image proxy caches badge images for that
-                    long, and so does our edge cache to match.
-                  </p>
-                  <p>
-                    To check immediately: load the badge URL directly in a new tab. If you see your
-                    real Gaia badge, it&rsquo;s already valid &mdash; only GitHub&rsquo;s cache is
-                    stale, and a hard-refresh of your repo will pick up the change.
+                    If your repo isn&rsquo;t registered yet, the badge stays
+                    <em>&ldquo;validating&hellip;&rdquo;</em> for up to 24h while caches roll. Load
+                    the badge URL in a new tab to confirm it&rsquo;s live &mdash; if you see it
+                    there, only GitHub&rsquo;s cache is stale.
                   </p>
                 </div>
               </details>
@@ -1817,13 +1812,11 @@
             Your badge isn't repo-locked yet
           </h3>
           <p class="bd-cta-sub">
-            Register a repo so your badge stays valid in your README. Add
-            <code>links.github: https://github.com/&lt;owner&gt;/&lt;repo&gt;/blob/main/skills/&lt;slug&gt;/SKILL.md</code>
-            to your skill's frontmatter, then run <code>gaia push</code>.
+            Register a repo to lock your badge to it. Run <code>gaia push</code> from your project, then return here.
           </p>
           <div class="bd-cta-actions">
             <a class="bd-cta-btn bd-cta-btn-primary" href="../index.html#paths">
-              Register your repo (Path A)
+              Push your repo
               <span aria-hidden="true" style="font-size: .85rem; line-height: 1;">→</span>
             </a>
             <a class="bd-cta-btn" href="../codex.html">
@@ -1951,8 +1944,9 @@
           <span class="footer-col-heading">Discover</span>
           <ul>
             <li><a href="../codex.html">The Codex</a></li>
-            <li><a href="../index.html#named">Named Skills</a></li>
+            <li><a href="../named/">Named Skills</a></li>
             <li><a href="../index.html#hall-of-heroes">Hall of Heroes</a></li>
+            <li><a href="../u/">Named Contributors</a></li>
             <li><a href="./">GitHub Badges</a></li>
             <li><a href="../samples/index.html">Samples</a></li>
           </ul>
@@ -1961,7 +1955,7 @@
         <div class="footer-col">
           <span class="footer-col-heading">Contribute</span>
           <ul>
-            <li><a href="../index.html#paths">Submit a Skill</a></li>
+            <li><a href="../index.html#paths">Push a skill</a></li>
             <li><a href="https://github.com/mbtiongson1/gaia-skill-tree" target="_blank" rel="noopener" class="footer-ext">GitHub</a></li>
             <li><a href="https://github.com/mbtiongson1/gaia-skill-tree/issues" target="_blank" rel="noopener" class="footer-ext">Open Issues</a></li>
           </ul>
