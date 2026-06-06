@@ -15,11 +15,12 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
   <link rel="icon" type="image/svg+xml" href="assets/marks/diamond-seal.svg">
   <link rel="stylesheet" href="css/styles.css?v=4.1.2">
+  <link rel="stylesheet" href="css/plaque.css?v=4.1.2">
   <script src="js/icons.js?v=4.1.2"></script>
   <script src="js/rank-badge.js?v=4.1.2"></script>
 
   <style>
-    /* ─── about.html page-local styles ─────────────────────────── */
+    /* ─── about.html — atlas frontispiece layout ───────────────── */
 
     @keyframes ab-rise {
       from { opacity: 0; transform: translateY(14px); }
@@ -33,175 +34,370 @@
       .ab-animate { opacity: 1; animation: none; }
     }
 
-    /* ─── Plate header ─── */
-    .about-plate {
-      max-width: 760px;
+    /* Page-local layout primitives */
+    .ab-page-wrap {
+      max-width: 1080px;
       margin: 0 auto;
-      padding: clamp(4.5rem, 9vw, 7.5rem) 1.5rem clamp(2.5rem, 5vw, 4rem);
-      text-align: center;
+      padding: 0 clamp(1.25rem, 4vw, 2.5rem);
     }
 
-    .about-plate-seal {
-      display: block;
-      width: 22px;
-      height: 22px;
-      color: var(--muted);
-      opacity: .35;
-      margin: 0 auto .9rem;
-    }
-
-    .about-plate-rule {
-      width: 38%;
-      height: 1px;
-      margin: 0 auto 1.75rem;
-      background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(56,189,248,.22) 20%,
-        rgba(192,132,252,.22) 50%,
-        rgba(245,158,11,.22) 80%,
-        transparent
-      );
-    }
-
-    .about-plate-role {
+    /* Plate marker — re-uses the path-plate-num idiom from /index */
+    .ab-plate-mark {
+      display: flex;
+      align-items: baseline;
+      gap: .85rem;
       font-family: var(--font-mono);
-      font-size: .7rem;
-      letter-spacing: .1em;
-      color: var(--muted);
+      font-size: .68rem;
+      letter-spacing: .18em;
       text-transform: uppercase;
-      margin: 0 0 1.75rem;
-    }
-
-    .about-plate-photo {
-      display: block;
-      width: 96px;
-      height: 96px;
-      border-radius: 50%;
-      border: 1px solid rgba(251, 191, 36, .25);
-      box-shadow: 0 0 0 3px rgba(251, 191, 36, .08);
-      object-fit: cover;
-      object-position: center top;
-      margin: 0 auto 1.5rem;
-    }
-
-    .about-plate-name {
-      font-family: var(--font-display);
-      font-size: clamp(2.2rem, 5.5vw, 3.2rem);
-      font-weight: 600;
-      color: var(--text);
-      line-height: 1.1;
-      margin: 0 0 .65rem;
-      text-wrap: balance;
-    }
-
-    .about-plate-handle {
-      display: inline-block;
-      font-family: var(--font-mono);
-      font-size: .85rem;
-      color: var(--honor-red);
-      letter-spacing: .04em;
-      margin: 0 0 1.5rem;
-    }
-
-    .about-plate-statement {
-      font-family: var(--font-display);
-      font-style: italic;
-      font-size: clamp(1rem, 2.2vw, 1.2rem);
-      line-height: 1.65;
       color: var(--muted);
-      max-width: 52ch;
-      margin: 0 auto;
-      text-wrap: pretty;
+    }
+    .ab-plate-mark::before {
+      content: '';
+      flex: 0 0 2.5rem;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border));
+      transform: translateY(-.25em);
+    }
+    .ab-plate-mark .pm-num {
+      color: var(--apex-gold);
+      letter-spacing: .12em;
     }
 
-    /* ─── Content column ─── */
-    .about-body {
-      max-width: 700px;
-      margin: 0 auto;
-      padding: 0 1.5rem clamp(3rem, 6vw, 5rem);
+    /* ─── PLATE I — Frontispiece ─────────────────────────────── */
+    .ab-frontis {
+      padding: clamp(2rem, 5vw, 3.5rem) 0 clamp(3rem, 6vw, 5rem);
+      border-bottom: 1px solid var(--border);
     }
-
-    .about-section {
-      padding: clamp(2.5rem, 5vw, 3.75rem) 0;
-      border-top: 1px solid var(--border);
+    .ab-frontis-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 280px) minmax(0, 1fr);
+      gap: clamp(2rem, 5vw, 4rem);
+      align-items: start;
     }
-
-    .about-section:first-child {
-      border-top: none;
-    }
-
-    .about-section-h {
-      font-family: var(--font-display);
-      font-size: clamp(1.3rem, 3vw, 1.75rem);
-      font-weight: 600;
-      color: var(--text);
-      margin: 0 0 1.5rem;
-      line-height: 1.15;
-      text-wrap: balance;
-      letter-spacing: -.01em;
-    }
-
-    .about-section p {
-      font-family: var(--font-body);
-      font-size: 1rem;
-      line-height: 1.72;
-      color: var(--text);
-      max-width: 63ch;
-      margin: 0 0 1.2rem;
-    }
-
-    .about-section p:last-child {
-      margin-bottom: 0;
-    }
-
-    /* ─── Trust ledger ─── */
-    .trust-dl {
-      margin: .25rem 0 0;
-      padding: 0;
+    .ab-frontis-mark {
       display: flex;
       flex-direction: column;
-      gap: 1.75rem;
+      align-items: flex-start;
+      gap: 1.25rem;
+    }
+    .ab-frontis-seal {
+      width: 32px;
+      height: 32px;
+      color: var(--apex-gold);
+      opacity: .55;
+    }
+    .ab-frontis-portrait {
+      display: block;
+      width: 100%;
+      max-width: 240px;
+      aspect-ratio: 1;
+      border-radius: 4px;
+      border: 1px solid rgba(251, 191, 36, .22);
+      box-shadow: 0 0 0 4px rgba(251, 191, 36, .05),
+                  0 24px 60px -20px rgba(0, 0, 0, .6);
+      object-fit: cover;
+      object-position: center top;
+      filter: saturate(.95);
+    }
+    .ab-frontis-meta {
+      display: flex;
+      flex-direction: column;
+      gap: .35rem;
+      font-family: var(--font-mono);
+      font-size: .68rem;
+      letter-spacing: .12em;
+      color: var(--muted);
+      text-transform: uppercase;
+      width: 100%;
+      padding-top: .25rem;
+      border-top: 1px solid var(--border);
+    }
+    .ab-frontis-meta dt {
+      color: var(--muted);
+      opacity: .7;
+      margin-top: .65rem;
+    }
+    .ab-frontis-meta dd {
+      margin: 0;
+      color: var(--text);
+      letter-spacing: .04em;
+    }
+    .ab-frontis-meta dd.is-honor {
+      color: var(--honor-red);
+      font-weight: 500;
+    }
+    .ab-frontis-meta dd.is-honor a {
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color .18s;
+    }
+    .ab-frontis-meta dd.is-honor a:hover {
+      border-bottom-color: rgba(var(--honor-red-rgb), .5);
     }
 
-    .trust-item {
+    .ab-frontis-body {
+      padding-top: .5rem;
+    }
+    .ab-frontis-eyebrow {
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0 0 1.5rem;
+    }
+    .ab-frontis-name {
+      font-family: var(--font-display);
+      font-size: clamp(2.6rem, 6vw, 4.2rem);
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.02;
+      letter-spacing: -.015em;
+      margin: 0 0 1.25rem;
+      text-wrap: balance;
+    }
+    .ab-frontis-role {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(1.15rem, 2.4vw, 1.45rem);
+      color: var(--muted);
+      line-height: 1.5;
+      margin: 0 0 2rem;
+      max-width: 32ch;
+    }
+    .ab-frontis-statement {
+      font-family: var(--font-body);
+      font-size: clamp(1rem, 1.7vw, 1.1rem);
+      line-height: 1.7;
+      color: var(--text);
+      max-width: 52ch;
+      margin: 0;
+      padding: 1.5rem 0 0;
+      border-top: 1px solid var(--border);
+    }
+    .ab-frontis-statement::before {
+      content: '“';
+      font-family: var(--font-display);
+      color: var(--apex-gold);
+      font-size: 1.6em;
+      line-height: 0;
+      margin-right: .15em;
+      vertical-align: -.25em;
+    }
+
+    @media (max-width: 760px) {
+      .ab-frontis-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      .ab-frontis-mark {
+        flex-direction: row;
+        align-items: center;
+        gap: 1.25rem;
+      }
+      .ab-frontis-seal { width: 24px; height: 24px; }
+      .ab-frontis-portrait { width: 96px; max-width: 96px; }
+      .ab-frontis-meta {
+        display: none;
+      }
+    }
+
+    /* ─── PLATE II — On the Record ────────────────────────────── */
+    .ab-record {
+      padding: clamp(3.5rem, 7vw, 5.5rem) 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .ab-record-head {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: .3rem;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1rem;
+      margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
+    }
+    .ab-section-h {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3.6vw, 2.4rem);
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -.01em;
+      line-height: 1.1;
+      margin: .5rem 0 0;
+      text-wrap: balance;
     }
 
-    .trust-item dt {
+    .ab-tally {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      align-items: end;
+      gap: 1px;
+      padding: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: clamp(2rem, 4vw, 2.75rem);
+    }
+    .ab-tally-cell {
+      background: var(--bg);
+      padding: clamp(1.1rem, 2.5vw, 1.6rem) clamp(.85rem, 2vw, 1.25rem);
+      display: flex;
+      flex-direction: column;
+      gap: .45rem;
+      min-width: 0;
+    }
+    .ab-tally-num {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1;
+      letter-spacing: -.02em;
+      font-variant-numeric: tabular-nums;
+    }
+    .ab-tally-num.is-apex {
+      color: var(--apex-gold);
+    }
+    .ab-tally-label {
+      font-family: var(--font-mono);
+      font-size: .68rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      line-height: 1.3;
+    }
+    .ab-tally-note {
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      color: var(--muted);
+      margin: 0 0 clamp(2rem, 4vw, 2.5rem);
+      letter-spacing: .02em;
+    }
+    .ab-tally-note a {
+      color: var(--tier-basic);
+      text-decoration: none;
+      border-bottom: 1px dotted rgba(56, 189, 248, .35);
+    }
+    .ab-tally-note a:hover {
+      color: var(--text);
+      border-bottom-color: var(--text);
+    }
+
+    .ab-record-prose {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(2rem, 4vw, 3.5rem);
+      max-width: 920px;
+    }
+    .ab-record-prose p {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--text);
+      margin: 0;
+      max-width: 50ch;
+      text-wrap: pretty;
+    }
+    .ab-record-prose p + p {
+      margin-top: 1.1rem;
+    }
+    .ab-record-prose p strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+    .ab-record-prose p em {
+      font-family: var(--font-display);
+      font-style: italic;
+      color: var(--muted);
+    }
+
+    @media (max-width: 720px) {
+      .ab-tally {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .ab-tally-cell:nth-child(5) {
+        grid-column: span 2;
+      }
+      .ab-record-prose {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ─── PLATE III — What Makes It Last ──────────────────────── */
+    .ab-trust {
+      padding: clamp(3.5rem, 7vw, 5.5rem) 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .ab-trust-head {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+      gap: clamp(1.5rem, 4vw, 3rem);
+      align-items: end;
+      margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
+    }
+    .ab-trust-lede {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(1.05rem, 1.9vw, 1.2rem);
+      line-height: 1.55;
+      color: var(--muted);
+      margin: 0;
+      max-width: 36ch;
+      padding-bottom: .35rem;
+    }
+    @media (max-width: 720px) {
+      .ab-trust-head {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+    }
+
+    .ab-trust-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .ab-trust-item {
+      background: var(--bg);
+      padding: clamp(1.5rem, 3vw, 2rem);
+      display: grid;
+      grid-template-columns: 2.25rem 1fr;
+      gap: 1rem;
+      align-items: start;
+      transition: background .25s ease;
+    }
+    .ab-trust-item:hover {
+      background: rgba(251, 191, 36, .025);
+    }
+    .ab-trust-numeral {
+      font-family: var(--font-mono);
+      font-size: .85rem;
+      color: var(--apex-gold);
+      letter-spacing: .05em;
+      padding-top: .3rem;
+      opacity: .9;
+    }
+    .ab-trust-body dt {
       font-family: var(--font-body);
       font-size: 1rem;
       font-weight: 600;
       color: var(--text);
       line-height: 1.4;
-      display: flex;
-      align-items: baseline;
-      gap: .55rem;
+      margin: 0 0 .5rem;
     }
-
-    .trust-item dt::before {
-      content: '◆';
-      font-size: .55rem;
-      color: var(--tier-ultimate);
-      opacity: .45;
-      flex-shrink: 0;
-      position: relative;
-      top: -.06em;
-    }
-
-    .trust-item dd {
+    .ab-trust-body dd {
       font-family: var(--font-body);
       font-size: .925rem;
-      line-height: 1.68;
+      line-height: 1.65;
       color: var(--muted);
       margin: 0;
-      padding-left: 1rem;
-      max-width: 60ch;
+      max-width: 50ch;
     }
-
-    .trust-item dd code {
+    .ab-trust-body dd code {
       font-family: var(--font-mono);
       font-size: .8em;
       color: var(--tier-basic);
@@ -210,216 +406,465 @@
       padding: .08em .38em;
       border-radius: 3px;
     }
-
-    /* ─── Closing line ─── */
-    .about-close {
-      max-width: 700px;
-      margin: 0 auto;
-      padding: clamp(2.5rem, 5vw, 4rem) 1.5rem clamp(3rem, 7vw, 5.5rem);
-      text-align: center;
-      border-top: 1px solid var(--border);
+    @media (max-width: 720px) {
+      .ab-trust-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
-    .about-close p {
-      font-family: var(--font-display);
-      font-style: italic;
-      font-size: clamp(1.05rem, 2.5vw, 1.25rem);
+    /* ─── PLATE IV — Why These Names ──────────────────────────── */
+    .ab-names {
+      padding: clamp(3.5rem, 7vw, 5.5rem) 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .ab-names-head {
+      max-width: 720px;
+      margin-bottom: clamp(3rem, 6vw, 4.5rem);
+    }
+    .ab-names-lede {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.7;
       color: var(--muted);
-      margin: 0;
-      line-height: 1.6;
+      max-width: 56ch;
+      margin: 1.25rem 0 0;
     }
 
-    /* ─── Inline ledger strip (real registry totals) ─── */
-    .about-ledger {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: baseline;
-      gap: .5rem .85rem;
-      margin: 1.9rem 0 0;
-      padding: 1.1rem 1.25rem;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      background: rgba(255, 255, 255, .015);
-      font-family: var(--font-mono);
-      font-size: .8rem;
-      color: var(--muted);
-      max-width: 63ch;
-    }
-    .al-stat { white-space: nowrap; }
-    .al-num {
-      color: var(--text);
-      font-weight: 500;
-    }
-    .al-num.al-apex { color: var(--apex-gold); }
-    .al-sep {
-      color: var(--border);
-      user-select: none;
-    }
-    .about-ledger-note {
-      font-family: var(--font-mono);
-      font-size: .68rem;
-      color: var(--muted);
-      opacity: .8;
-      margin: .7rem 0 0;
-    }
-    .about-ledger-note a { color: var(--tier-basic); text-decoration: none; }
-    .about-ledger-note a:hover { color: var(--text); }
-
-    /* ─── Inspiration entries (verbatim, sourced) ─── */
-    .insp-intro {
-      max-width: 63ch;
-    }
-    .insp-list {
-      margin: 2.5rem 0 0;
+    .ab-names-list {
       display: flex;
       flex-direction: column;
+      gap: clamp(3rem, 6vw, 4.5rem);
     }
-    .insp-entry {
-      padding: 2rem 0;
+    .ab-name-entry {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 280px);
+      gap: clamp(1.5rem, 5vw, 3.5rem);
+      align-items: start;
+      padding-top: clamp(2rem, 4vw, 3rem);
       border-top: 1px solid var(--border);
     }
-    .insp-entry:first-child { border-top: none; padding-top: .5rem; }
+    .ab-name-entry:first-child {
+      border-top: none;
+      padding-top: 0;
+    }
+    /* Alternate the sidecar to break the rhythm.
+       DOM order carries the layout: --right is quote→card,
+       --left is card→quote. The grid-template-columns flip
+       keeps the card column narrow on both variants. */
+    @media (min-width: 880px) {
+      .ab-name-entry--left {
+        grid-template-columns: minmax(0, 280px) minmax(0, 1fr);
+      }
+    }
 
-    .insp-quote {
+    .ab-name-quote {
       font-family: var(--font-display);
       font-style: italic;
-      font-size: clamp(1.15rem, 2.6vw, 1.45rem);
-      line-height: 1.5;
+      font-size: clamp(1.4rem, 3vw, 1.85rem);
+      font-weight: 500;
+      line-height: 1.4;
       color: var(--text);
-      margin: 0 0 1.15rem;
-      max-width: 54ch;
+      margin: 0;
+      max-width: 28ch;
       text-wrap: pretty;
+      position: relative;
     }
-    .insp-quote::before { content: '\201C'; color: var(--muted); }
-    .insp-quote::after  { content: '\201D'; color: var(--muted); }
+    .ab-name-quote::before {
+      content: '“';
+      position: absolute;
+      left: -.6em;
+      top: -.05em;
+      color: var(--apex-gold);
+      opacity: .5;
+      font-size: 1.4em;
+      line-height: 1;
+    }
+    .ab-name-quote::after {
+      content: '”';
+      color: var(--apex-gold);
+      opacity: .5;
+      margin-left: .05em;
+    }
 
-    .insp-attr {
+    .ab-name-card {
+      display: flex;
+      flex-direction: column;
+      gap: .9rem;
+      padding: 1.4rem 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, .015);
+      align-self: start;
+    }
+    .ab-name-card-row {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: .65rem;
+      gap: .5rem .65rem;
       font-family: var(--font-mono);
       font-size: .78rem;
       color: var(--muted);
+      line-height: 1.4;
     }
-    .insp-handle {
+    .ab-name-handle {
       color: var(--honor-red);
       text-decoration: none;
       font-weight: 500;
+      letter-spacing: .01em;
     }
-    .insp-handle:hover { text-decoration: underline; }
-    .insp-skill { color: var(--text); }
-    .insp-attr .rank-badge { transform: translateY(-1px); }
-    .insp-sep { color: var(--border); user-select: none; }
-    .insp-src {
+    .ab-name-handle:hover {
+      text-decoration: underline;
+      text-underline-offset: .2em;
+    }
+    .ab-name-skill {
+      font-family: var(--font-body);
+      font-size: .9rem;
+      color: var(--text);
+      line-height: 1.4;
+    }
+    .ab-name-card .rank-badge {
+      transform: translateY(-1px);
+    }
+    .ab-name-src {
+      font-family: var(--font-mono);
+      font-size: .72rem;
       color: var(--muted);
       text-decoration: none;
-      border-bottom: 1px dotted var(--border);
-    }
-    .insp-src:hover { color: var(--tier-basic); border-bottom-color: var(--tier-basic); }
-
-    .insp-seealso {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: .65rem 1.4rem;
-      margin-top: 2.25rem;
-      padding-top: 1.75rem;
+      letter-spacing: .02em;
+      padding-top: .65rem;
       border-top: 1px solid var(--border);
-      font-family: var(--font-mono);
-      font-size: .8rem;
-    }
-    .insp-seealso-label { color: var(--muted); }
-    .insp-seealso a {
-      color: var(--tier-basic);
-      text-decoration: none;
       transition: color .18s;
+      display: flex;
+      align-items: center;
+      gap: .35rem;
     }
-    .insp-seealso a:hover { color: var(--text); }
+    .ab-name-src:hover { color: var(--tier-basic); }
+    .ab-name-src .arr { opacity: .6; }
 
-    @media (max-width: 600px) {
-      .insp-seealso { display: none; }
+    @media (max-width: 720px) {
+      .ab-name-entry,
+      .ab-name-entry--right,
+      .ab-name-entry--left {
+        grid-template-columns: 1fr;
+      }
+      .ab-name-quote::before { left: 0; position: static; margin-right: .1em; }
     }
 
-    /* ─── Contribute CTA ─── */
-    .contribute {
-      max-width: 820px;
-      margin: 0 auto;
-      padding: clamp(3rem, 6vw, 4.5rem) 1.5rem;
+    /* ─── PLATE V — Contribute ────────────────────────────────── */
+    .ab-contribute {
+      padding: clamp(4rem, 8vw, 6rem) 0 clamp(3rem, 6vw, 5rem);
+      border-bottom: 1px solid var(--border);
     }
-    .contribute-inner {
-      padding: clamp(2rem, 4vw, 3rem);
-      border: 1px solid rgba(245, 158, 11, .22);
-      border-radius: 12px;
-      background:
-        radial-gradient(ellipse at 50% 0%, rgba(245, 158, 11, .05) 0%, transparent 60%),
-        rgba(255, 255, 255, .015);
-      text-align: center;
+    .ab-contribute-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: clamp(2rem, 5vw, 4rem);
+      align-items: start;
     }
-    .contribute h2 {
+    .ab-contribute-frame {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .ab-contribute-h {
       font-family: var(--font-display);
-      font-size: clamp(1.4rem, 3.2vw, 1.9rem);
+      font-size: clamp(1.8rem, 3.6vw, 2.4rem);
       font-weight: 600;
       color: var(--text);
-      margin: 0 0 1rem;
+      letter-spacing: -.01em;
+      line-height: 1.15;
+      margin: .5rem 0 0;
       text-wrap: balance;
+      max-width: 16ch;
     }
-    .contribute p {
+    .ab-contribute-h em {
+      font-family: var(--font-display);
+      font-style: italic;
+      color: var(--apex-gold);
+      font-weight: 500;
+    }
+    .ab-contribute-frame p {
       font-family: var(--font-body);
       font-size: 1rem;
-      line-height: 1.65;
-      color: var(--muted);
-      max-width: 56ch;
-      margin: 0 auto 1.75rem;
-    }
-    .contribute pre {
-      text-align: left;
-      font-family: var(--font-mono);
-      font-size: .82rem;
       line-height: 1.7;
-      color: var(--text);
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1.1rem 1.35rem;
-      margin: 0 auto 1.9rem;
-      max-width: 460px;
-      overflow-x: auto;
+      color: var(--muted);
+      margin: 0;
+      max-width: 42ch;
     }
-    .contribute pre .cmd { color: var(--tier-basic); }
-    .contribute pre .comment { color: #4b6378; }
-    .contribute-actions {
+    .ab-contribute-actions {
       display: flex;
       flex-wrap: wrap;
-      justify-content: center;
-      gap: .85rem;
+      gap: .75rem;
+      margin-top: .5rem;
     }
-    .cta-btn {
+    .ab-cta {
       display: inline-flex;
       align-items: center;
-      gap: .45rem;
+      gap: .5rem;
       font-family: var(--font-body);
       font-size: .9rem;
       font-weight: 500;
-      padding: .65rem 1.3rem;
-      border-radius: 8px;
+      padding: .7rem 1.25rem;
+      border-radius: 6px;
       text-decoration: none;
       transition: all .18s ease;
+      line-height: 1;
     }
-    .cta-btn-primary {
+    .ab-cta-primary {
       background: var(--apex-gold);
       color: var(--bg);
       border: 1px solid var(--apex-gold);
-      box-shadow: 0 0 24px rgba(var(--apex-gold-rgb), .25);
+      box-shadow: 0 0 24px rgba(var(--apex-gold-rgb), .22);
     }
-    .cta-btn-primary:hover { box-shadow: 0 0 32px rgba(var(--apex-gold-rgb), .4); }
-    .cta-btn-ghost {
+    .ab-cta-primary:hover {
+      box-shadow: 0 0 32px rgba(var(--apex-gold-rgb), .42);
+      transform: translateY(-1px);
+    }
+    .ab-cta-ghost {
       background: transparent;
       color: var(--text);
       border: 1px solid var(--border);
     }
-    .cta-btn-ghost:hover { border-color: var(--tier-basic); color: var(--tier-basic); }
-    .cta-btn .ico { flex-shrink: 0; }
+    .ab-cta-ghost:hover {
+      border-color: var(--tier-basic);
+      color: var(--tier-basic);
+    }
+
+    .ab-contribute-shell {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, .015);
+      overflow: hidden;
+      box-shadow: 0 24px 60px -28px rgba(0, 0, 0, .55);
+    }
+    .ab-contribute-shell-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .7rem 1rem;
+      border-bottom: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: .68rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: rgba(255, 255, 255, .015);
+    }
+    .ab-contribute-shell-dots {
+      display: inline-flex;
+      gap: .35rem;
+    }
+    .ab-contribute-shell-dots span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--border);
+    }
+    .ab-contribute-shell pre {
+      margin: 0;
+      padding: 1.4rem 1.5rem;
+      font-family: var(--font-mono);
+      font-size: .82rem;
+      line-height: 1.85;
+      color: var(--text);
+      background: var(--bg);
+      overflow-x: auto;
+      white-space: pre;
+    }
+    .ab-contribute-shell pre .cmd     { color: var(--tier-basic); }
+    .ab-contribute-shell pre .arg     { color: var(--text); }
+    .ab-contribute-shell pre .flag    { color: var(--rank-3); }
+    .ab-contribute-shell pre .comment { color: #4b6378; font-style: italic; }
+    .ab-contribute-shell pre .prompt  { color: var(--muted); user-select: none; }
+
+    @media (max-width: 720px) {
+      .ab-contribute-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+    }
+
+    /* ─── PLATE VI — Timeline & Contact ───────────────────────── */
+    .ab-timeline {
+      padding: clamp(4rem, 8vw, 6rem) 0 clamp(3rem, 6vw, 5rem);
+      border-bottom: 1px solid var(--border);
+    }
+    .ab-timeline-head {
+      max-width: 720px;
+      margin-bottom: clamp(3rem, 6vw, 4.5rem);
+    }
+    .ab-timeline-lede {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--muted);
+      max-width: 56ch;
+      margin: 1.25rem 0 0;
+    }
+
+    .ab-timeline-list {
+      max-width: 760px;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(2.5rem, 5vw, 3.75rem);
+    }
+    .ab-tl-entry {
+      display: grid;
+      grid-template-columns: minmax(0, 10.5rem) minmax(0, 1fr);
+      gap: clamp(1rem, 3vw, 2.5rem);
+      align-items: baseline;
+    }
+    .ab-tl-year {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 2.6vw, 1.85rem);
+      font-weight: 500;
+      color: var(--apex-gold);
+      line-height: 1;
+      letter-spacing: -.005em;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    .ab-tl-year.is-present {
+      color: var(--text);
+    }
+    .ab-tl-body {
+      min-width: 0;
+    }
+    .ab-tl-role {
+      font-family: var(--font-body);
+      font-size: clamp(1.05rem, 1.9vw, 1.2rem);
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.35;
+      margin: 0 0 .35rem;
+      text-wrap: balance;
+    }
+    .ab-tl-org {
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0 0 .9rem;
+    }
+    .ab-tl-blurb {
+      font-family: var(--font-body);
+      font-size: .95rem;
+      line-height: 1.7;
+      color: var(--muted);
+      margin: 0;
+      max-width: 52ch;
+      text-wrap: pretty;
+    }
+    .ab-tl-blurb strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+    /* Terminal Gaia entry: no nav-away, the present, anchored */
+    .ab-tl-entry.is-now .ab-tl-year {
+      color: var(--apex-gold);
+    }
+    .ab-tl-entry.is-now .ab-tl-role {
+      color: var(--apex-gold);
+    }
+
+    @media (max-width: 720px) {
+      .ab-tl-entry {
+        grid-template-columns: 1fr;
+        gap: .35rem;
+      }
+      .ab-tl-year {
+        font-size: 1.4rem;
+      }
+    }
+
+    /* Contact rail (foot of Plate VI) */
+    .ab-contact {
+      max-width: 760px;
+      margin-top: clamp(3.5rem, 6vw, 5rem);
+      padding-top: clamp(2rem, 4vw, 2.75rem);
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1rem 1.25rem;
+    }
+    .ab-contact-label {
+      font-family: var(--font-mono);
+      font-size: .68rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      flex: 0 0 auto;
+    }
+    .ab-contact-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .65rem;
+    }
+    .ab-contact-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .55rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-family: var(--font-body);
+      font-size: .88rem;
+      color: var(--text);
+      text-decoration: none;
+      transition: border-color .18s, color .18s, background .18s;
+      line-height: 1;
+    }
+    .ab-contact-pill:hover,
+    .ab-contact-pill:focus-visible {
+      border-color: var(--honor-red);
+      color: var(--honor-red);
+      outline: none;
+    }
+    .ab-contact-pill .ico {
+      flex-shrink: 0;
+      opacity: .85;
+    }
+    .ab-contact-pill .pill-handle {
+      color: var(--honor-red);
+      font-family: var(--font-mono);
+      font-size: .82rem;
+    }
+
+    /* ─── Closing colophon ─────────────────────────────────────── */
+    .ab-close {
+      padding: clamp(3rem, 6vw, 5rem) 0 clamp(4rem, 8vw, 6rem);
+      text-align: center;
+    }
+    .ab-close-seal {
+      width: 22px;
+      height: 22px;
+      color: var(--apex-gold);
+      opacity: .55;
+      margin: 0 auto 1.25rem;
+      display: block;
+    }
+    .ab-close-rule {
+      width: clamp(60px, 12vw, 120px);
+      height: 1px;
+      margin: 0 auto 1.5rem;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(251, 191, 36, .35),
+        transparent
+      );
+    }
+    .ab-close p {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(1.1rem, 2.4vw, 1.35rem);
+      color: var(--muted);
+      margin: 0;
+      line-height: 1.5;
+      letter-spacing: .005em;
+    }
   </style>
 </head>
 
@@ -464,146 +909,319 @@
     </a>
   </div>
 
-  <!-- ─── PLATE HEADER ─── -->
-  <header class="about-plate ab-animate" style="animation-delay: .05s">
-    <svg class="ico about-plate-seal" aria-hidden="true" focusable="false">
-      <use href="assets/icons.svg#seal-diamond"/>
-    </svg>
-    <div class="about-plate-rule" aria-hidden="true"></div>
-    <p class="about-plate-role">Founder &amp; Maintainer — Gaia</p>
-    <img
-      class="about-plate-photo"
-      src="assets/mbtiongson1-avatar.jpg"
-      alt="Marcus B. Tiongson at an immersive art installation"
-      width="96"
-      height="96"
-    >
-    <h1 class="about-plate-name">Marcus B. Tiongson</h1>
-    <p class="about-plate-handle">@mbtiongson1</p>
-    <p class="about-plate-statement">I built this because skills should be attributed to the people who proved them — permanently, not just until the repo goes private.</p>
-  </header>
+  <main>
 
-  <!-- ─── BODY ─── -->
-  <main class="about-body">
+    <!-- ─── PLATE I — Frontispiece ─── -->
+    <section class="ab-frontis ab-animate" style="animation-delay: .05s" aria-labelledby="ab-name">
+      <div class="ab-page-wrap">
+        <div class="ab-frontis-grid">
 
-    <section class="about-section ab-animate" style="animation-delay: .15s" aria-labelledby="about-why">
-      <h2 class="about-section-h" id="about-why">On the Record Today</h2>
-      <p class="about-ledger" aria-label="What is on the record today">
-        <span class="al-stat"><span class="al-num">228</span> generic references</span>
-        <span class="al-sep" aria-hidden="true">/</span>
-        <span class="al-stat"><span class="al-num">235</span> named skills</span>
-        <span class="al-sep" aria-hidden="true">/</span>
-        <span class="al-stat"><span class="al-num">42</span> contributors</span>
-        <span class="al-sep" aria-hidden="true">/</span>
-        <span class="al-stat"><span class="al-num al-apex">6</span> ultimates</span>
-        <span class="al-sep" aria-hidden="true">/</span>
-        <span class="al-stat"><span class="al-num">220</span> evidence entries</span>
-      </p>
-      <p class="about-ledger-note">Live from <a href="https://github.com/mbtiongson1/gaia-skill-tree/blob/main/registry/gaia.json" target="_blank" rel="noopener">registry/gaia.json</a> v4.1.2. Counts grow with the record.</p>
-      <p>Gaia is a registry, not a marketplace. A marketplace asks what you can use. A registry asks what's on the record: who demonstrated a capability first, and the evidence that proves it.</p>
-      <p>Attribution is permanent and public, the way an inventor's name stays on a patent. Everywhere else, skills get shipped and forgotten. Here they don't.</p>
-    </section>
-
-    <section class="about-section ab-animate" style="animation-delay: .25s" aria-labelledby="about-last">
-      <h2 class="about-section-h" id="about-last">What Makes It Last</h2>
-      <dl class="trust-dl">
-        <div class="trust-item">
-          <dt>Every change is on the record.</dt>
-          <dd>A timeline event is written for every rank change, fusion, and evidence update. No silent edits: the build fails if the timeline can't explain a skill's rank.</dd>
-        </div>
-        <div class="trust-item">
-          <dt>The schema is open and forkable.</dt>
-          <dd><code>registry/gaia.json</code> is public, with a published JSON schema. If this repo goes dark, anyone can fork and re-host the record.</dd>
-        </div>
-        <div class="trust-item">
-          <dt>235 names, real commits behind each.</dt>
-          <dd>Every named skill ties a handle to a real commit history. The people on the record have a reason to keep it accurate.</dd>
-        </div>
-        <div class="trust-item">
-          <dt>Versioned and locked.</dt>
-          <dd>Every change ships in a versioned release. A pre-commit hook keeps four manifests in lockstep — no untracked edits.</dd>
-        </div>
-      </dl>
-    </section>
-
-    <section class="about-section ab-animate" style="animation-delay: .35s" aria-labelledby="about-inspire">
-      <h2 class="about-section-h" id="about-inspire">Why These Names</h2>
-      <p class="insp-intro">These developers don't work on Gaia. Their public tools are part of why it exists. Gaia catalogued each one by evidence, handle attached — their words below, from their own sources.</p>
-
-      <div class="insp-list">
-
-        <article class="insp-entry">
-          <blockquote class="insp-quote">This is my open source software factory. I use it every day. I'm sharing it because these tools should be available to everyone.</blockquote>
-          <div class="insp-attr">
-            <a class="insp-handle" href="https://github.com/garrytan" target="_blank" rel="noopener">@garrytan</a>
-            <span class="insp-sep" aria-hidden="true">·</span>
-            <span class="insp-skill">gstack — Founder Mode</span>
-            <span class="rank-slot" data-level="5" data-variant="full" data-aria="Ultimate Skill, rank 5 of 6"></span>
-            <span class="insp-sep" aria-hidden="true">·</span>
-            <a class="insp-src" href="https://github.com/garrytan/gstack" target="_blank" rel="noopener">github.com/garrytan/gstack ↗</a>
+          <div class="ab-frontis-mark">
+            <svg class="ico ab-frontis-seal" aria-hidden="true" focusable="false">
+              <use href="assets/icons.svg#seal-diamond"/>
+            </svg>
+            <img
+              class="ab-frontis-portrait"
+              src="assets/mbtiongson1-avatar.jpg"
+              alt="Marcus B. Tiongson at an immersive art installation"
+              width="240"
+              height="240"
+            >
+            <dl class="ab-frontis-meta" aria-label="Identity">
+              <dt>Plate</dt><dd>I</dd>
+              <dt>Role</dt><dd>Founder, Maintainer</dd>
+              <dt>GitHub</dt><dd class="is-honor"><a href="https://github.com/mbtiongson1" target="_blank" rel="noopener">@mbtiongson1</a></dd>
+              <dt>LinkedIn</dt><dd class="is-honor"><a href="https://www.linkedin.com/in/marcus-tiongson" target="_blank" rel="noopener">marcus-tiongson</a></dd>
+            </dl>
           </div>
-        </article>
 
-        <article class="insp-entry">
-          <blockquote class="insp-quote">These skills are my best effort at condensing these fundamentals into repeatable practices, to help you ship the best apps of your career.</blockquote>
-          <div class="insp-attr">
-            <a class="insp-handle" href="https://github.com/mattpocock" target="_blank" rel="noopener">@mattpocock</a>
-            <span class="insp-sep" aria-hidden="true">·</span>
-            <span class="insp-skill">Matt Pocock Skills</span>
-            <span class="rank-slot" data-level="6" data-variant="full" data-aria="Apex, rank 6 of 6"></span>
-            <span class="insp-sep" aria-hidden="true">·</span>
-            <a class="insp-src" href="https://github.com/mattpocock/skills" target="_blank" rel="noopener">github.com/mattpocock/skills ↗</a>
+          <div class="ab-frontis-body">
+            <p class="ab-frontis-eyebrow">About Gaia · Plate I</p>
+            <h1 class="ab-frontis-name" id="ab-name">Marcus B. Tiongson</h1>
+            <p class="ab-frontis-role">Founder &amp; Maintainer of Gaia, the open, evidence-backed atlas of agent capabilities.</p>
+            <p class="ab-frontis-statement">I built this because skills should be attributed to the people who proved them. Permanently, not just until the repo goes private.</p>
           </div>
-        </article>
 
-        <article class="insp-entry">
-          <blockquote class="insp-quote">The thread connecting jQuery UI, Chrome DevTools, Google for Creators, and now Impeccable: each time, a technology shift was happening and the tools hadn't caught up yet.</blockquote>
-          <div class="insp-attr">
-            <a class="insp-handle" href="https://github.com/pbakaus" target="_blank" rel="noopener">@pbakaus</a>
-            <span class="insp-sep" aria-hidden="true">·</span>
-            <span class="insp-skill">Impeccable — The Aesthetic Shield</span>
-            <span class="rank-slot" data-level="4" data-variant="full" data-aria="rank 4 of 6"></span>
-            <span class="insp-sep" aria-hidden="true">·</span>
-            <a class="insp-src" href="https://www.paulbakaus.com/about/" target="_blank" rel="noopener">paulbakaus.com/about ↗</a>
-          </div>
-        </article>
-
+        </div>
       </div>
     </section>
 
-  </main>
+    <!-- ─── PLATE II — On the Record ─── -->
+    <section class="ab-record ab-animate" style="animation-delay: .15s" aria-labelledby="ab-record-h">
+      <div class="ab-page-wrap">
+        <header class="ab-record-head">
+          <p class="ab-plate-mark"><span class="pm-num">II</span><span>On the Record Today</span></p>
+          <h2 class="ab-section-h" id="ab-record-h">A registry, not a marketplace.</h2>
+        </header>
 
-  <!-- ─── CONTRIBUTE CTA ─── -->
-  <section class="contribute ab-animate" style="animation-delay: .45s" aria-labelledby="about-contribute">
-    <div class="contribute-inner">
-      <h2 id="about-contribute">Put your own work on the record</h2>
-      <p>Build skills for agents? Point the CLI at your repo, scan, and push. If the evidence holds, you earn a named entry — your handle, in Honor Red.</p>
-      <pre aria-label="Steps to contribute"><span class="comment"># install, then point it at your repo</span>
-<span class="cmd">gaia</span> init --user &lt;your-handle&gt;
-<span class="cmd">gaia</span> scan
-<span class="cmd">gaia</span> appraise
-<span class="cmd">gaia</span> push   <span class="comment"># opens a draft batch for review</span></pre>
-      <div class="contribute-actions">
-        <a class="cta-btn cta-btn-primary" href="index.html#paths">
-          <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#claim-arrow"/></svg>
-          Register your repo
-        </a>
-        <a class="cta-btn cta-btn-ghost" href="https://github.com/mbtiongson1/gaia-skill-tree" target="_blank" rel="noopener">
-          <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#github"/></svg>
-          View on GitHub
-        </a>
-        <a class="cta-btn cta-btn-ghost" href="codex.html">
-          <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#external-link"/></svg>
-          Read the curation process
-        </a>
+        <dl class="ab-tally" aria-label="What is on the record today">
+          <div class="ab-tally-cell">
+            <dt class="ab-tally-label">Generic refs</dt>
+            <dd class="ab-tally-num">228</dd>
+          </div>
+          <div class="ab-tally-cell">
+            <dt class="ab-tally-label">Origin skills</dt>
+            <dd class="ab-tally-num">68</dd>
+          </div>
+          <div class="ab-tally-cell">
+            <dt class="ab-tally-label">Contributors</dt>
+            <dd class="ab-tally-num">42</dd>
+          </div>
+          <div class="ab-tally-cell">
+            <dt class="ab-tally-label">Ultimates</dt>
+            <dd class="ab-tally-num is-apex">6</dd>
+          </div>
+          <div class="ab-tally-cell">
+            <dt class="ab-tally-label">Evidence entries</dt>
+            <dd class="ab-tally-num">220</dd>
+          </div>
+        </dl>
+        <p class="ab-tally-note">Live from <a href="https://github.com/mbtiongson1/gaia-skill-tree/blob/main/registry/gaia.json" target="_blank" rel="noopener">registry/gaia.json</a> v4.1.2. Counts grow with the record.</p>
+
+        <div class="ab-record-prose">
+          <p>Gaia is a registry, not a marketplace. A marketplace asks <em>what you can use</em>. A registry asks <em>what's on the record</em>: who demonstrated a capability first, and the evidence that proves it.</p>
+          <p>Attribution is permanent and public, the way an inventor's name stays on a patent. Everywhere else, skills get shipped and forgotten. Here they don't.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── PLATE III — What Makes It Last ─── -->
+    <section class="ab-trust ab-animate" style="animation-delay: .25s" aria-labelledby="ab-trust-h">
+      <div class="ab-page-wrap">
+        <header class="ab-trust-head">
+          <div>
+            <p class="ab-plate-mark"><span class="pm-num">III</span><span>What Makes It Last</span></p>
+            <h2 class="ab-section-h" id="ab-trust-h">Built so the record outlives the repo.</h2>
+          </div>
+          <p class="ab-trust-lede">Four guarantees the record makes to anyone reading it.</p>
+        </header>
+
+        <dl class="ab-trust-grid">
+          <div class="ab-trust-item">
+            <span class="ab-trust-numeral" aria-hidden="true">i.</span>
+            <div class="ab-trust-body">
+              <dt>Every change is on the record.</dt>
+              <dd>A timeline event is written for every rank change, fusion, and evidence update. No silent edits: the build fails if the timeline can't explain a skill's rank.</dd>
+            </div>
+          </div>
+          <div class="ab-trust-item">
+            <span class="ab-trust-numeral" aria-hidden="true">ii.</span>
+            <div class="ab-trust-body">
+              <dt>The schema is open and forkable.</dt>
+              <dd><code>registry/gaia.json</code> is public, with a published JSON schema. If this repo goes dark, anyone can fork and re-host the record.</dd>
+            </div>
+          </div>
+          <div class="ab-trust-item">
+            <span class="ab-trust-numeral" aria-hidden="true">iii.</span>
+            <div class="ab-trust-body">
+              <dt>Every name traces back to a commit.</dt>
+              <dd>Each origin skill ties a handle to a real commit history. The people on the record have a reason to keep it accurate.</dd>
+            </div>
+          </div>
+          <div class="ab-trust-item">
+            <span class="ab-trust-numeral" aria-hidden="true">iv.</span>
+            <div class="ab-trust-body">
+              <dt>Versioned and locked.</dt>
+              <dd>Every change ships in a versioned release. A pre-commit hook keeps four manifests in lockstep — no untracked edits.</dd>
+            </div>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- ─── PLATE IV — Why These Names ─── -->
+    <section class="ab-names ab-animate" style="animation-delay: .35s" aria-labelledby="ab-names-h">
+      <div class="ab-page-wrap">
+        <header class="ab-names-head">
+          <p class="ab-plate-mark"><span class="pm-num">IV</span><span>Why These Names</span></p>
+          <h2 class="ab-section-h" id="ab-names-h">The tools that taught Gaia what to keep.</h2>
+          <p class="ab-names-lede">These developers don't work on Gaia. Their public tools are part of why it exists. Gaia catalogued each one by evidence, handle attached — their words below, from their own sources.</p>
+        </header>
+
+        <div class="ab-names-list">
+
+          <article class="ab-name-entry ab-name-entry--right">
+            <blockquote class="ab-name-quote">This is my open source software factory. I use it every day. I'm sharing it because these tools should be available to everyone.</blockquote>
+            <aside class="ab-name-card">
+              <div class="ab-name-card-row">
+                <a class="ab-name-handle" href="https://github.com/garrytan" target="_blank" rel="noopener">@garrytan</a>
+                <span class="rank-slot" data-level="5" data-variant="full" data-aria="Ultimate Skill, rank 5 of 6"></span>
+              </div>
+              <span class="ab-name-skill">gstack — Founder Mode</span>
+              <a class="ab-name-src" href="https://github.com/garrytan/gstack" target="_blank" rel="noopener">github.com/garrytan/gstack <span class="arr" aria-hidden="true">↗</span></a>
+            </aside>
+          </article>
+
+          <article class="ab-name-entry ab-name-entry--left">
+            <aside class="ab-name-card">
+              <div class="ab-name-card-row">
+                <a class="ab-name-handle" href="https://github.com/mattpocock" target="_blank" rel="noopener">@mattpocock</a>
+                <span class="rank-slot" data-level="6" data-variant="full" data-aria="Apex, rank 6 of 6"></span>
+              </div>
+              <span class="ab-name-skill">Matt Pocock Skills</span>
+              <a class="ab-name-src" href="https://github.com/mattpocock/skills" target="_blank" rel="noopener">github.com/mattpocock/skills <span class="arr" aria-hidden="true">↗</span></a>
+            </aside>
+            <blockquote class="ab-name-quote">These skills are my best effort at condensing these fundamentals into repeatable practices, to help you ship the best apps of your career.</blockquote>
+          </article>
+
+          <article class="ab-name-entry ab-name-entry--right">
+            <blockquote class="ab-name-quote">The thread connecting jQuery UI, Chrome DevTools, Google for Creators, and now Impeccable: each time, a technology shift was happening and the tools hadn't caught up yet.</blockquote>
+            <aside class="ab-name-card">
+              <div class="ab-name-card-row">
+                <a class="ab-name-handle" href="https://github.com/pbakaus" target="_blank" rel="noopener">@pbakaus</a>
+                <span class="rank-slot" data-level="4" data-variant="full" data-aria="rank 4 of 6"></span>
+              </div>
+              <span class="ab-name-skill">Impeccable — The Aesthetic Shield</span>
+              <a class="ab-name-src" href="https://www.paulbakaus.com/about/" target="_blank" rel="noopener">paulbakaus.com/about <span class="arr" aria-hidden="true">↗</span></a>
+            </aside>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── PLATE V — Contribute ─── -->
+    <section class="ab-contribute ab-animate" style="animation-delay: .45s" aria-labelledby="ab-contribute-h">
+      <div class="ab-page-wrap">
+        <div class="ab-contribute-grid">
+
+          <div class="ab-contribute-frame">
+            <p class="ab-plate-mark"><span class="pm-num">V</span><span>Put your work on the record</span></p>
+            <h2 class="ab-contribute-h" id="ab-contribute-h">Bring a repo. Earn a <em>name</em>.</h2>
+            <p>Build skills for agents? Point the CLI at your repo, scan, and push. If the evidence holds, you earn a named entry — your handle, in Honor Red.</p>
+            <div class="ab-contribute-actions">
+              <a class="ab-cta ab-cta-primary" href="index.html#paths">
+                <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#claim-arrow"/></svg>
+                Register your repo
+              </a>
+              <a class="ab-cta ab-cta-ghost" href="https://github.com/mbtiongson1/gaia-skill-tree" target="_blank" rel="noopener">
+                <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#github"/></svg>
+                View on GitHub
+              </a>
+              <a class="ab-cta ab-cta-ghost" href="codex.html">
+                <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#external-link"/></svg>
+                Read the curation process
+              </a>
+            </div>
+          </div>
+
+          <figure class="ab-contribute-shell" aria-label="Steps to contribute">
+            <figcaption class="ab-contribute-shell-head">
+              <span class="ab-contribute-shell-dots" aria-hidden="true"><span></span><span></span><span></span></span>
+              <span>~/your-repo</span>
+            </figcaption>
+<pre><span class="comment"># install, then point it at your repo</span>
+<span class="prompt">$</span> <span class="cmd">gaia</span> <span class="arg">init</span> <span class="flag">--user</span> &lt;your-handle&gt;
+<span class="prompt">$</span> <span class="cmd">gaia</span> <span class="arg">scan</span>
+<span class="prompt">$</span> <span class="cmd">gaia</span> <span class="arg">appraise</span>
+<span class="prompt">$</span> <span class="cmd">gaia</span> <span class="arg">push</span>   <span class="comment"># opens a draft batch for review</span></pre>
+          </figure>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── PLATE VI — Timeline & Contact ─── -->
+    <section class="ab-timeline ab-animate" style="animation-delay: .55s" aria-labelledby="ab-timeline-h">
+      <div class="ab-page-wrap">
+        <header class="ab-timeline-head">
+          <p class="ab-plate-mark"><span class="pm-num">VI</span><span>How I Got Here</span></p>
+          <h2 class="ab-section-h" id="ab-timeline-h">A decade across IT, EdTech, and AI.</h2>
+          <p class="ab-timeline-lede">Mechanical engineer by training. Systems architect by trade. Currently reading for an M.Eng. in AI at UP Diliman, building Gaia in the open in between.</p>
+        </header>
+
+        <ol class="ab-timeline-list">
+
+          <li class="ab-tl-entry">
+            <span class="ab-tl-year">2013–2019</span>
+            <div class="ab-tl-body">
+              <h3 class="ab-tl-role">B.S. Mechanical Engineering, Cum Laude</h3>
+              <p class="ab-tl-org">University of the Philippines, Diliman</p>
+              <p class="ab-tl-blurb">University Scholar. Graduated with honors. Took the licensure exam in 2020 and registered as a Mechanical Engineer with the Philippine PRC.</p>
+            </div>
+          </li>
+
+          <li class="ab-tl-entry">
+            <span class="ab-tl-year">2020–2022</span>
+            <div class="ab-tl-body">
+              <h3 class="ab-tl-role">CTO, Academic Gateway EdTech</h3>
+              <p class="ab-tl-org">Quezon City, Philippines</p>
+              <p class="ab-tl-blurb">Stood up the EdTech division from zero through the COVID-19 pandemic. Migrated the LMS to the cloud with redundant backups; minimised downtime to 0%. Held pre-pandemic pricing while annual enrolment grew 10×.</p>
+            </div>
+          </li>
+
+          <li class="ab-tl-entry">
+            <span class="ab-tl-year">2022–2024</span>
+            <div class="ab-tl-body">
+              <h3 class="ab-tl-role">Chief Product Engineer, AG EdTech</h3>
+              <p class="ab-tl-org">Virtual Classroom Project</p>
+              <p class="ab-tl-blurb">Owned the LMS platform integrating Zoom, Google Classroom, EasyLMS, and Wistia. Automated infrastructure for live and async classes; streamlined ops by 60%, cut peak-season cost by 40%.</p>
+            </div>
+          </li>
+
+          <li class="ab-tl-entry">
+            <span class="ab-tl-year">2025</span>
+            <div class="ab-tl-body">
+              <h3 class="ab-tl-role">SAP Consultant, Apps &amp; Analytics</h3>
+              <p class="ab-tl-org">GECO Philippines · ServiceNow</p>
+              <p class="ab-tl-blurb">ITSM support for tools used by 50K+ sales executives across SAP CRM, Harmony, Gainsight, ONE360. Architected seven internal dashboards that improved SLA response times by up to 80%.</p>
+            </div>
+          </li>
+
+          <li class="ab-tl-entry">
+            <span class="ab-tl-year">2025–Now</span>
+            <div class="ab-tl-body">
+              <h3 class="ab-tl-role">M.Eng. in Artificial Intelligence</h3>
+              <p class="ab-tl-org">University of the Philippines, Diliman</p>
+              <p class="ab-tl-blurb">Research focus on interpretable ML for systems data. Co-authored an IEEE paper applying Random Forest with SHAP / LIME interpretability to 172K+ national agricultural inventory records (R²=0.916).</p>
+            </div>
+          </li>
+
+          <li class="ab-tl-entry is-now">
+            <span class="ab-tl-year is-present">2026</span>
+            <div class="ab-tl-body">
+              <h3 class="ab-tl-role">Founded Gaia Skill Registry</h3>
+              <p class="ab-tl-org">gaia.tiongson.co · open source</p>
+              <p class="ab-tl-blurb">An evidence-backed atlas of agent capabilities. Built so the record outlives the repo. <strong>You're reading it.</strong></p>
+            </div>
+          </li>
+
+        </ol>
+
+        <div class="ab-contact" aria-label="Get in touch">
+          <span class="ab-contact-label">Reach me</span>
+          <div class="ab-contact-list">
+            <a class="ab-contact-pill" href="https://www.linkedin.com/in/marcus-tiongson" target="_blank" rel="noopener">
+              <svg class="ico" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67h-3.55V9h3.41v1.56h.05c.47-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.55C0 23.22.79 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.73V1.72C24 .77 23.2 0 22.22 0z"/></svg>
+              LinkedIn
+              <span class="pill-handle">marcus-tiongson</span>
+            </a>
+            <a class="ab-contact-pill" href="https://github.com/mbtiongson1" target="_blank" rel="noopener">
+              <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#github"/></svg>
+              GitHub
+              <span class="pill-handle">@mbtiongson1</span>
+            </a>
+            <a class="ab-contact-pill" href="mailto:marco.tngsn@gmail.com">
+              <svg class="ico" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+              marco.tngsn@gmail.com
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Closing colophon ─── -->
+    <div class="ab-close ab-animate" style="animation-delay: .65s">
+      <div class="ab-page-wrap">
+        <svg class="ico ab-close-seal" aria-hidden="true" focusable="false">
+          <use href="assets/icons.svg#seal-diamond"/>
+        </svg>
+        <div class="ab-close-rule" aria-hidden="true"></div>
+        <p>The record is open. Read it.</p>
       </div>
     </div>
-  </section>
 
-  <!-- ─── CLOSING LINE ─── -->
-  <div class="about-close ab-animate" style="animation-delay: .55s">
-    <p>The record is open. Read it.</p>
-  </div>
+  </main>
 
   <!-- ─── FOOTER v2 ─── -->
   <footer class="footer-v2">
