@@ -1478,12 +1478,12 @@
             `Your collection is empty.<br>Add skills via tooltips.` +
             `</div>` +
             `</div>`;
+          if (window.matchMedia('(max-width:700px)').matches) return;
           collectionPanel.style.display = 'flex';
-          if (window.matchMedia('(max-width:700px)').matches) collectionPanel.classList.add('minimized');
           return;
         }
+        if (window.matchMedia('(max-width:700px)').matches) return;
         collectionPanel.style.display = 'flex';
-        if (window.matchMedia('(max-width:700px)').matches) collectionPanel.classList.add('minimized');
         let html = '';
         // Collection cards render as .plaque--mini per Stage 3. Each
         // card carries the data-tier attribute so the per-tier glow

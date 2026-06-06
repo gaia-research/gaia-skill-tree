@@ -4104,24 +4104,6 @@ tr:hover td {
     margin-left: 0;
     gap: .35rem;
   }
-
-  /* Collection panel: pin minimized at bottom-left above the bottom bar */
-  #hero.hero-graph-fullscreen .graph-collection-panel {
-    position: absolute !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 52px !important;
-    top: auto !important;
-    width: 100% !important;
-    border-radius: .5rem .5rem 0 0 !important;
-    max-height: 38px !important;
-    height: 38px !important;
-  }
-
-  #hero.hero-graph-fullscreen .graph-collection-panel .graph-collection-list,
-  #hero.hero-graph-fullscreen .graph-collection-panel .graph-collection-note {
-    display: none !important;
-  }
 }
 
 /* 480px Threshold — Double row layout with Speed bar on top */
