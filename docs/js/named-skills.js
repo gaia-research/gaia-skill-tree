@@ -81,7 +81,7 @@
   //   gh           — right-edge GitHub link slot
   function viewFields(mode) {
     if (mode === 'list')
-      return ['slug','title','handle','tags','level','origin','gh'];
+      return ['slug','title','handle','tags','install','level','origin','gh'];
     if (mode === 'tree' || mode === 'flow')
       return ['slug','level','gh'];
     // tile (default)
@@ -437,19 +437,29 @@
     // fetch is slow or fails. triggerRender() is a no-op until the Promise
     // resolves and assigns it to the real renderCurrent().
     var triggerRender = function(){};
+    // 200ms debounce so the grid only re-renders after the user pauses typing —
+    // re-rendering on every keystroke is visibly janky on the full registry.
+    var searchDebounceTimer = null;
+    function debouncedRender() {
+      if (searchDebounceTimer) clearTimeout(searchDebounceTimer);
+      searchDebounceTimer = setTimeout(function(){
+        searchDebounceTimer = null;
+        triggerRender();
+      }, 200);
+    }
     var mobileSearchEl = document.getElementById('navMobileSearch');
     if (searchEl) {
       searchEl.addEventListener('input', function(){
         searchQuery = searchEl.value;
         if(mobileSearchEl && mobileSearchEl.value !== searchQuery) mobileSearchEl.value = searchQuery;
-        triggerRender();
+        debouncedRender();
       });
     }
     if (mobileSearchEl) {
       mobileSearchEl.addEventListener('input', function(){
         searchQuery = mobileSearchEl.value;
         if(searchEl && searchEl.value !== searchQuery) searchEl.value = searchQuery;
-        triggerRender();
+        debouncedRender();
       });
     }
 
