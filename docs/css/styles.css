@@ -302,7 +302,9 @@ nav:not(.footer-cols) {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 100;
+  /* Ride above the floating meta notification (.hero-audit-btn @ 100) and its
+     stacking context so the More dropdown opens cleanly over the toast/badge. */
+  z-index: 200;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1130,6 +1132,59 @@ h1 em {
 .btn-ghost:hover {
   border-color: var(--basic);
   color: var(--basic)
+}
+
+/* Tier-4 (Unique) button — used for "Open Meta Reports" on the home page
+   and any other CTA that surfaces the Unique-tier reporting/governance
+   surfaces. Reads tier-unique tokens so it tracks the canonical tier color. */
+.btn-unique {
+  background: transparent;
+  color: var(--tier-unique);
+  border: 1px solid rgba(var(--tier-unique-rgb), .55);
+  box-shadow: 0 0 0 1px rgba(var(--tier-unique-rgb), .12) inset;
+}
+
+.btn-unique:hover {
+  border-color: var(--tier-unique);
+  box-shadow: 0 0 24px rgba(var(--tier-unique-rgb), .25);
+  transform: translateY(-1px);
+}
+
+/* Meta Reports section trailing CTA — sits below the post queue and routes
+   to the full meta-reports archive at /meta.html. Tier-4 purple to match
+   the "Meta Reports" topic colour family. */
+.meta-reports-cta {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+/* ── Named Skills Explorer hero (standalone /named/ page) ── */
+.named-hero {
+  text-align: center;
+  padding: 2.5rem 1.5rem 1.25rem;
+  max-width: 760px;
+  margin: 0 auto;
+}
+.named-hero-kicker {
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--honor-red);
+  margin: 0 0 .6rem;
+}
+.named-hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 600;
+  margin: 0 0 .85rem;
+}
+.named-hero-lede {
+  color: var(--muted);
+  line-height: 1.6;
+  font-size: 1rem;
+  margin: 0;
 }
 
 .scroll-hint {
@@ -4528,6 +4583,28 @@ tr:hover td {
   margin-bottom: 1.6rem;
 }
 
+/* ── Sticky/floating explorer rail (used on the standalone /named/ page).
+   The rail pins below the top nav while the grid scrolls; backdrop blur
+   keeps the strip translucent so it reads as floating, not opaque. */
+.ns-controls--sticky {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: rgba(3, 7, 18, .82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: .9rem 1rem;
+  margin: 0 -1rem 1.6rem;
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 4px 16px -8px rgba(0, 0, 0, .55);
+}
+@media (max-width: 700px) {
+  .ns-controls--sticky {
+    padding: .7rem .6rem;
+    margin: 0 -.6rem 1.2rem;
+  }
+}
+
 .ns-filter-row {
   display: flex;
   align-items: center;
@@ -7907,6 +7984,25 @@ button.nav-graph-trigger:hover {
   box-shadow: 0 4px 24px rgba(0, 0, 0, .4)
 }
 
+/* Primary door — visually heavier than .door-b ghost so the contribute
+   path reads as the headline action, not a co-equal browse alt. */
+.door--primary {
+  border-color: rgba(251, 191, 36, .55);
+  background: linear-gradient(135deg, rgba(251, 191, 36, .08), rgba(251, 191, 36, .02));
+  box-shadow: 0 0 0 1px rgba(251, 191, 36, .12) inset;
+}
+.door--primary .door-label {
+  color: var(--apex-gold);
+  font-weight: 600;
+}
+.door--primary::before {
+  opacity: .25;
+}
+.door--primary:hover {
+  border-color: var(--apex-gold);
+  box-shadow: 0 6px 28px rgba(251, 191, 36, .18);
+}
+
 .door-icon {
   font-size: 1.5rem;
   position: relative;
@@ -8045,6 +8141,45 @@ button.nav-graph-trigger:hover {
   font-size: .78rem;
   white-space: pre-wrap;
   word-break: break-all
+}
+
+/* Post-register subgroup — IV (MCP bond) and V (TUI) live here so the
+   "Three steps" lede stays honest. Closed by default; the summary itself
+   reads as a small section divider rather than a heavy heading. */
+.rite-steps-after {
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 1px dashed var(--border);
+}
+.rite-steps-after > summary {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+  margin-bottom: .5rem;
+  outline: none;
+}
+.rite-steps-after > summary::-webkit-details-marker { display: none; }
+.rite-steps-after > summary::before {
+  content: '▸ ';
+  color: var(--apex-gold);
+  display: inline-block;
+  width: 1rem;
+  transition: transform .2s;
+}
+.rite-steps-after[open] > summary::before {
+  content: '▾ ';
+}
+.rite-steps-after .rite-after-hint {
+  font-family: var(--font-body);
+  font-size: .8125rem;
+  color: var(--muted);
+  font-weight: 400;
+  font-style: italic;
+}
+.rite-steps--after {
+  margin: .75rem 0 0;
 }
 
 .path-cta {
@@ -8338,7 +8473,11 @@ button.nav-graph-trigger:hover {
 
 .hoh-footer {
   margin-top: 1.5rem;
-  text-align: center
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .75rem;
 }
 
 /* ── ASCENSION CYCLE ── */

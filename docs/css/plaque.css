@@ -1480,7 +1480,82 @@ button.plaque__slug:focus-visible {
 }
 .plaque--row .plaque__install-row,
 .plaque--row .ns-install-row {
-  display: none; /* same — markup present, density-collapsed */
+  /* Surface the install command in list rows — was display:none, but
+     hiding the canonical CTA in a "scan-all" view defeats the point of
+     the list. Compact horizontal variant: smaller font, single line,
+     truncates instead of wrapping. */
+  display: inline-flex;
+  flex: 0 1 auto;
+  max-width: 320px;
+  font-size: 11px;
+  padding: 4px 8px;
+  margin: 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.plaque--row .plaque__install-cmd,
+.plaque--row .ns-install-cmd-txt {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+@media (max-width: 700px) {
+  .plaque--row .plaque__install-row,
+  .plaque--row .ns-install-row {
+    display: none; /* density-collapse on narrow viewports */
+  }
+  /* Mobile list rows: prevent rightward bleed from no-wrap children, and
+     let the slug shrink with ellipsis instead of pushing past the edge.
+     Without min-width: 0 on flex children, white-space: nowrap forces
+     overflow rather than shrink — that's what made rows look uncentered
+     (content shifted out of the padded box). */
+  .plaque--row {
+    overflow: hidden;
+    padding: .65rem .85rem;
+    gap: .5rem;
+    min-height: 60px;
+  }
+  .plaque--row .plaque__slug,
+  .plaque--row .plaque-skill-name {
+    font-size: 15px;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .plaque--row .plaque__title,
+  .plaque--row .plaque-title {
+    font-size: 12px;
+    min-width: 0;
+  }
+  .plaque--row .plaque__handle,
+  .plaque--row .plaque-contrib-row {
+    font-size: 11px;
+    min-width: 0;
+    max-width: 35vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+/* Phone (≤480px): drop the secondary fields entirely so the slug + rank
+   chip + arrow always fit on a single line. */
+@media (max-width: 480px) {
+  .plaque--row .plaque__title,
+  .plaque--row .plaque-title,
+  .plaque--row .plaque__handle,
+  .plaque--row .plaque-contrib-row {
+    display: none;
+  }
+  .plaque--row .plaque__slug,
+  .plaque--row .plaque-skill-name {
+    font-size: 14px;
+    flex: 1 1 auto;
+  }
+  .plaque--row {
+    padding: .55rem .75rem;
+    gap: .4rem;
+  }
 }
 
 
@@ -1772,6 +1847,11 @@ button.plaque__slug:focus-visible {
   margin: 0 auto;
   padding: 5rem 1.5rem 0;
   text-align: left;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
 }
 .profile-hero {
   padding: 2rem 1.5rem 3rem;
@@ -1800,6 +1880,19 @@ button.plaque__slug:focus-visible {
   border-color: var(--tier-basic, #38bdf8);
   color: var(--tier-basic, #38bdf8);
   outline: none;
+}
+/* Lateral nav variant — sits to the right of Back, points "forward" to the
+   contributors directory. Honor-red accent (matches the nav entry colour). */
+.profile-back--alt {
+  margin-left: auto;
+}
+.profile-back--alt:hover,
+.profile-back--alt:focus-visible {
+  border-color: var(--honor-red, #ef4444);
+  color: var(--honor-red, #ef4444);
+}
+.ico-flip-x {
+  transform: scaleX(-1);
 }
 .profile-handle {
   font-family: var(--font-body, 'Bricolage Grotesque', sans-serif);

@@ -1248,19 +1248,45 @@
     style.textContent =
       '.skill-explorer-loading,.skill-explorer-error{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;padding:4rem 2rem;text-align:center;color:var(--muted);}' +
       '.skill-explorer-spinner{width:36px;height:36px;border:3px solid var(--border,rgba(255,255,255,.1));border-top-color:var(--rank-5,#fbbf24);border-radius:50%;animation:se-spin 0.8s linear infinite;}' +
+      '.se-loading-install{margin-top:.5rem;max-width:min(420px,90%);font-size:12px;opacity:.85;}' +
       '@keyframes se-spin{to{transform:rotate(1turn);}}' +
       '.skill-explorer-error button{margin-left:.5rem;padding:.4rem .9rem;font:inherit;background:var(--rank-5,#fbbf24);color:#0f172a;border:none;border-radius:6px;cursor:pointer;}';
     document.head.appendChild(style);
   }
-  function _showSeLoading(explorerEl) {
+  function _showSeLoading(explorerEl, id) {
     _ensureSeLoadingStyles();
     var bodyEl = explorerEl.querySelector('.se-body');
     if (!bodyEl) return;
     if (_seBodyOriginalHTML === null) _seBodyOriginalHTML = bodyEl.innerHTML;
+    // Install command is computable from the id alone — render it on the
+    // same paint as the spinner so the user sees the value of opening the
+    // modal even on a cold data fetch (~6s in the worst case). The full
+    // plaque renders over this once data arrives, replacing this row in
+    // place without a flash if the cmd matches.
+    var preview = '';
+    if (id && typeof id === 'string') {
+      var safeId = id.replace(/[<>&"']/g, function(c) {
+        return { '<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&#39;' }[c];
+      });
+      var cmd = 'gaia install ' + safeId;
+      var copyClick = "event.stopPropagation();" +
+        "if(typeof window.nsInstCopy==='function'){window.nsInstCopy(this);}" +
+        "else{navigator.clipboard.writeText(this.dataset.cmd);}";
+      preview =
+        '<div class="se-loading-install plaque__install-row ns-install-row" aria-label="Install command">' +
+          '<span class="plaque__install-prompt ns-install-prompt">$</span>' +
+          '<span class="plaque__install-cmd ns-install-cmd-txt">' + cmd + '</span>' +
+          '<button class="plaque__install-copy ns-install-copy" type="button" aria-label="Copy install command" ' +
+            'data-cmd="' + cmd + '" onclick="' + copyClick + '">' +
+            '<svg width="13" height="13" aria-hidden="true"><use href="assets/icons.svg#copy"/></svg>' +
+          '</button>' +
+        '</div>';
+    }
     bodyEl.innerHTML =
       '<div class="skill-explorer-loading" data-testid="loading">' +
         '<div class="skill-explorer-spinner" aria-hidden="true"></div>' +
         '<p>Loading skill…</p>' +
+        preview +
       '</div>';
   }
   function _showSeError(explorerEl, id) {
@@ -1290,7 +1316,7 @@
       explorerEl.classList.add('open');
       explorerEl.scrollTop = 0;
       document.body.style.overflow = 'hidden';
-      _showSeLoading(explorerEl);
+      _showSeLoading(explorerEl, id);
     }
     // Wrap waitForData to distinguish cold-cache timeout vs. success.
     function _waitWithTimeout(cb) {
