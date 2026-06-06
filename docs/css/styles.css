@@ -819,9 +819,9 @@ button.nav-copy-agent {
     display: none !important
   }
 
-  /* Lower further and make bigger for mobile clickability */
+  /* Lifted slightly to clear the field view toggle below it */
   .hero-audit-btn {
-    top: 5.5rem;
+    top: 4.8rem;
     right: 1rem;
     padding: 0.8rem 1.2rem;
     font-size: 0.85rem;
