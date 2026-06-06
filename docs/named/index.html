@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en" data-icon-base="../assets/icons.svg">
+
+<head>
+  <script>window.GAIA_VERSION = "4.1.3";</script>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Named Skills Explorer — Gaia</title>
+  <meta name="description" content="Browse every named implementation in the Gaia registry — by tier, contributor, or search. The first real agents behind every canonical capability.">
+  <meta name="keywords" content="named skills, skill explorer, agent skills, AI agent registry, skill catalog">
+  <!-- OG meta -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Named Skills Explorer — Gaia">
+  <meta property="og:description" content="Browse every named implementation in the Gaia registry — by tier, contributor, or search.">
+  <meta property="og:url" content="https://gaia.tiongson.co/named/">
+  <!-- Stage 1 — Web fonts (EB Garamond display, Bricolage body, JetBrains Mono fallback). -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="icon" type="image/svg+xml" href="../assets/marks/diamond-seal.svg">
+  <link rel="stylesheet" href="../css/styles.css?v=4.1.3">
+  <link rel="stylesheet" href="../css/plaque.css?v=4.1.3">
+  <!-- Universal AlphaRail (page-wide section + explorer index). -->
+  <link rel="stylesheet" href="../css/alpha-rail.css?v=4.1.3">
+  <!-- Stage 1 — icon sprite helper, loaded BEFORE other UI scripts. -->
+  <script src="../js/icons.js?v=4.1.3"></script>
+  <!-- Stage 2 — shared rank-badge primitive, loaded after icons. -->
+  <script src="../js/rank-badge.js?v=4.1.3"></script>
+  <!-- Stage 3 — plaque component family, loaded after rank-badge. -->
+  <script src="../js/plaque.js?v=4.1.3"></script>
+</head>
+
+<body class="named-explorer-page">
+
+  <!-- ─── NAV ─── -->
+  <nav>
+    <a href="../" class="nav-logo" aria-label="Gaia home">
+      <svg class="ico nav-seal" aria-hidden="true" focusable="false"><use href="../assets/icons.svg#seal-diamond"/></svg>
+      <span class="nav-wordmark">Gaia</span>
+    </a>
+    <button class="nav-menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <ul class="nav-primary">
+      <li><a href="../" style="color: var(--text);">Home</a></li>
+      <li><a href="../about.html" style="color: var(--apex-gold);">About</a></li>
+      <li><a href="../badges/" style="color: var(--tier-unique);"><svg class="ico" width="13" height="13" aria-hidden="true" style="vertical-align: -2px; margin-right: .35em;"><use href="../assets/icons.svg#github"/></svg>GitHub Badges</a></li>
+      <li class="nav-more-dropdown">
+        <button class="nav-more-toggle" aria-label="More options" aria-expanded="false">More</button>
+        <ul class="nav-more-menu">
+          <li><button type="button" class="nav-tree" id="treeNavBtn" style="color: #34d399;">Skill Tree</button></li>
+          <!-- graph-nav-disabled <li><button type="button" class="nav-graph-trigger" data-graph-trigger style="color: #38bdf8;">Skill Graph</button></li> -->
+          <li><a href="../codex.html" style="color: var(--tier-basic);">The Codex</a></li>
+          <li><a href="../starless.html" style="color: var(--muted);">Starless</a></li>
+          <li><a href="../u/" style="color: var(--honor-red);">Named Contributors</a></li>
+          <li><a href="../meta.html" class="nav-meta" id="metaNavBtn">Meta Reports</a></li>
+        </ul>
+      </li>
+      <li><a href="./" style="color: var(--honor-red);" aria-current="page">Named Skills</a></li>
+    </ul>
+  </nav>
+
+  <!-- ─── BACK ─── -->
+  <div class="profile-back-row">
+    <a class="profile-back" href="../" aria-label="Back" onclick="if(history.length>1){event.preventDefault();history.back();}">
+      <svg class="ico" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#arrow-back"/></svg>
+      <span>Back</span>
+    </a>
+  </div>
+
+  <!-- ─── HERO ─── -->
+  <section class="named-hero">
+    <p class="named-hero-kicker">Named Implementations</p>
+    <h1 class="named-hero-title">Named Skills Explorer</h1>
+    <p class="named-hero-lede">Contributor implementations of canonical skills — the first real agents behind every generic capability.</p>
+  </section>
+
+  <!-- ─── NAMED SKILLS EXPLORER ─── -->
+  <section id="named" class="reveal" data-section="explorer">
+    <!-- Sticky/floating search + filter rail. The whole .ns-controls block is
+         pinned to the top while you scroll the grid; backdrop blur keeps the
+         nav-strip translucent. Search input is debounced (200ms) inside
+         js/named-skills.js so the grid only re-renders after typing pauses. -->
+    <div class="ns-controls ns-controls--sticky">
+      <input type="search" id="nsSearch" class="ns-search" aria-label="Search skills, tags, contributors" placeholder="Search skills, tags, contributors…"
+        autocomplete="off">
+      <div class="ns-filter-row">
+        <!-- Stage 4 — Direction rule: tier tabs read Ultimate→Unique→Extra→Basic
+             so the first tab after "All" targets the most-prestigious tier.
+             Glyph colour comes from .tier-glyph[data-type] (tokens.css). -->
+        <div class="ns-type-tabs" id="nsTypeTabs" role="tablist" aria-label="Skill tier selection">
+          <button class="ns-tab active" type="button" data-type="all" role="tab" aria-selected="true">All</button>
+          <button class="ns-tab" type="button" data-type="ultimate" role="tab" aria-selected="false"><span class="tier-glyph" data-type="ultimate">◆</span> Ultimate</button>
+          <button class="ns-tab" type="button" data-type="unique" role="tab" aria-selected="false"><span class="tier-glyph" data-type="unique">◉</span> Unique</button>
+          <button class="ns-tab" type="button" data-type="extra" role="tab" aria-selected="false"><span class="tier-glyph" data-type="extra">◇</span> Extra</button>
+          <button class="ns-tab" type="button" data-type="basic" role="tab" aria-selected="false"><span class="tier-glyph" data-type="basic">○</span> Basic</button>
+        </div>
+        <!-- Stage 4 — view-toggle SVGs sourced from the shared sprite. -->
+        <div class="ns-view-btns" id="nsViewBtns" role="group" aria-label="View mode">
+          <button class="ns-view-btn active" data-view="tile" title="Tile view" aria-pressed="true">
+            <svg class="ico" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#view-tile"/></svg>
+            Tile
+          </button>
+          <button class="ns-view-btn" data-view="list" title="List view" aria-pressed="false">
+            <svg class="ico" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#view-list"/></svg>
+            List
+          </button>
+          <button class="ns-view-btn" data-view="flow" title="Flow / flowchart view" aria-label="Flow view" aria-pressed="false">
+            <svg class="ico" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#view-tree"/></svg>
+            Flow
+          </button>
+        </div>
+        <!-- Stage 4 — sort dropdown.
+             Direction rule: level-desc is the default (Ultimate-first within each
+             group). The companion sprite icon (sort-arrows) sits next to the
+             <select> rather than inside <option> because SVGs are not allowed
+             in option labels — see .ns-sort-wrap CSS. -->
+        <div class="ns-sort-wrap">
+          <svg class="ico ns-sort-icon" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#sort-arrows"/></svg>
+          <select id="nsSort" class="ns-sort-sel" title="Sort order" aria-label="Sort skills">
+            <option value="level-desc">Level (high → low)</option>
+            <option value="level-asc">Level (low → high)</option>
+            <option value="creator">Origin Contributor (A–Z)</option>
+            <option value="name">Name (A–Z)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="ns-grid-tile" id="nsGrid">
+      <div class="ns-loading">Loading named skills…</div>
+    </div>
+  </section>
+
+  <!-- ─── FOOTER v2 ─── -->
+  <footer class="footer-v2">
+    <div class="footer-inner">
+
+      <!-- Brand column -->
+      <div class="footer-brand-col">
+        <div class="footer-brand-mark">
+          <svg class="ico footer-seal" aria-hidden="true" focusable="false">
+            <use href="../assets/icons.svg#seal-diamond"/>
+          </svg>
+          <span class="footer-wordmark">Gaia</span>
+        </div>
+        <p class="footer-tagline">An evidence-backed atlas<br>of agent capabilities.</p>
+      </div>
+
+      <!-- Link columns -->
+      <nav class="footer-cols" aria-label="Site navigation">
+
+        <div class="footer-col">
+          <span class="footer-col-heading">Registry</span>
+          <ul>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../index.html">Skill Tree</a></li>
+            <li><a href="../index.html">Skill Graph</a></li>
+            <li><a href="../starless.html">Starless</a></li>
+            <li><a href="../meta.html">Meta Reports</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <span class="footer-col-heading">Discover</span>
+          <ul>
+            <li><a href="../codex.html">The Codex</a></li>
+            <li><a href="./" aria-current="page">Named Skills</a></li>
+            <li><a href="../index.html#hall-of-heroes">Hall of Heroes</a></li>
+            <li><a href="../u/">Named Contributors</a></li>
+            <li><a href="../badges/">GitHub Badges</a></li>
+            <li><a href="../samples/index.html">Samples</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <span class="footer-col-heading">Contribute</span>
+          <ul>
+            <li><a href="../index.html#paths">Push a skill</a></li>
+            <li><a href="https://github.com/mbtiongson1/gaia-skill-tree" target="_blank" rel="noopener" class="footer-ext">GitHub</a></li>
+            <li><a href="https://github.com/mbtiongson1/gaia-skill-tree/issues" target="_blank" rel="noopener" class="footer-ext">Open Issues</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <span class="footer-col-heading">About</span>
+          <ul>
+            <li><a href="../about.html">About Gaia</a></li>
+            <li><a href="../u/mbtiongson1/" class="footer-link-honor">@mbtiongson1</a></li>
+            <li><a href="../privacy.html">Privacy</a></li>
+            <li>
+              <button id="copyAgentFooterBtn" type="button" class="footer-link-btn" aria-label="Copy page context for agents">
+                Copy Page
+              </button>
+            </li>
+          </ul>
+        </div>
+
+      </nav>
+    </div>
+
+    <!-- Bottom strip -->
+    <div class="footer-bottom">
+      <span>MIT License</span>
+      <span class="footer-bottom-sep" aria-hidden="true">·</span>
+      <span id="footerVersion">v4.1.3</span>
+      <span class="footer-bottom-sep" aria-hidden="true">·</span>
+      <span>© 2026 Gaia</span>
+    </div>
+  </footer>
+
+  <!-- ─── SKILL EXPLORER OVERLAY ─── -->
+  <div id="skillExplorer" class="skill-explorer" role="dialog" aria-modal="true" aria-label="Skill Explorer" tabindex="-1">
+    <div class="se-topbar">
+      <button id="seBack" class="se-btn-ghost"><svg class="ico" width="16" height="16" aria-hidden="true"><use href="../assets/icons.svg#arrow-back"/></svg> Back</button>
+      <span id="seBreadcrumb" class="se-breadcrumb"></span>
+      <div class="se-topbar-actions">
+        <button id="seOpenRepo" class="se-btn-action"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#github"/></svg> Repo</button>
+        <button id="seSkillDocs" class="se-btn-action"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#external-link"/></svg> SKILL.md</button>
+        <button id="seShare" class="se-btn-action"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#share"/></svg> Share</button>
+        <button id="seClose" class="se-btn-ghost se-close-x" aria-label="Close"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#close-x"/></svg></button>
+      </div>
+    </div>
+    <div class="se-body">
+      <div class="se-hero">
+        <div id="seHero"></div>
+        <div id="se-upgrade" class="se-flow-section"></div>
+      </div>
+      <div class="se-flow" id="seFlow">
+        <div id="se-install" class="se-flow-section"></div>
+        <div id="se-docs" class="se-flow-section"></div>
+        <div id="se-changelog" class="se-flow-section"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── UNNAMED SKILL POPUP ── -->
+  <div id="unnamedSkillPopup" class="usp-backdrop" role="dialog" aria-modal="true" aria-labelledby="uspName">
+    <div class="usp-card">
+      <button class="usp-x" id="uspClose" aria-label="Close">✕</button>
+      <div id="uspGlyph" class="usp-glyph">◇</div>
+      <div id="uspName" class="usp-name">Unnamed Skill</div>
+      <div id="uspId" class="usp-id"></div>
+      <p class="usp-body">This skill has no named implementation yet. <span class="usp-cta">Be the first to claim
+          it</span> — build a real implementation, submit it for review, and your name goes on the canonical registry
+        forever.</p>
+      <div class="usp-row">
+        <span class="usp-prompt">$</span>
+        <span id="uspCmd" class="usp-cmd">gaia propose /web-search</span>
+        <button class="usp-copy" id="uspCopyBtn" title="Copy command" aria-label="Copy command">
+          <svg class="ico" width="13" height="13" aria-hidden="true"><use href="../assets/icons.svg#copy"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <button id="scrollToTop" class="scroll-to-top" aria-label="Scroll to top">
+    <svg class="ico" width="20" height="20" aria-hidden="true"><use href="../assets/icons.svg#arrow-up"/></svg>
+  </button>
+
+  <!-- ─── TREE DIALOG (shared across pages so the More-menu Skill Tree opens here too) ─── -->
+  <a id="tree" tabindex="-1" aria-hidden="true"></a>
+  <dialog id="treeDialog" class="tree-dialog" aria-labelledby="treeDialogTitle">
+    <div class="tree-dialog-inner">
+      <div class="tree-dialog-header">
+        <div id="treeDialogTitle" class="tree-dialog-title">Gaia Skill Tree</div>
+        <div class="tree-dialog-actions">
+          <button type="button" class="tree-act-btn" id="treeCopyBtn">Copy</button>
+          <button type="button" class="tree-act-btn" id="treeDownloadBtn">Download</button>
+          <button type="button" class="tree-close-x" id="treeCloseBtn" aria-label="Close tree">✕</button>
+        </div>
+      </div>
+      <div class="tree-dialog-body">
+        <pre id="treeDialogPre">Loading…</pre>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- ─── SCRIPTS ─── -->
+  <!-- icons.js already loaded in <head> so gaiaIcon() is available before any of these. -->
+  <script src="../js/atlas-helpers.js?v=4.1.3"></script>
+  <script src="../js/scroll-reveal.js?v=4.1.3"></script>
+  <script src="../js/named-skills.js?v=4.1.3"></script>
+  <!-- AlphaRail — section + dynamic letter/tier markers inside the explorer. -->
+  <script src="../js/alpha-rail.js?v=4.1.3"></script>
+  <script src="../js/index-rail.js?v=4.1.3"></script>
+  <script src="../js/skill-explorer.js?v=4.1.3"></script>
+  <script src="../js/ui.js?v=4.1.3"></script>
+  <script src="../js/plaque-reveal.js?v=4.1.3" defer></script>
+
+  <!-- ── Share modal (single instance) — opened from plaque__share-btn ── -->
+  <div class="share-modal" hidden role="dialog" aria-modal="true" aria-labelledby="share-modal-title" id="shareModal">
+    <div class="share-modal__backdrop" data-share-close></div>
+    <div class="share-modal__panel" role="document">
+      <button class="share-modal__close" type="button" data-share-close aria-label="Close">×</button>
+      <h2 id="share-modal-title" class="share-modal__title">Share</h2>
+      <p class="share-modal__caption" data-share-caption></p>
+      <img class="share-modal__preview" data-share-preview alt="OG card preview">
+      <div class="share-modal__actions">
+        <a class="share-action share-action--download" data-share-action="download" download>
+          <svg class="ico" width="16" height="16"><use href="../assets/icons.svg#download"></use></svg> Download
+        </a>
+        <button class="share-action share-action--copy" type="button" data-share-action="copy">
+          <svg class="ico" width="16" height="16"><use href="../assets/icons.svg#copy"></use></svg> Copy link
+        </button>
+        <a class="share-action share-action--x" data-share-action="x" target="_blank" rel="noopener">
+          <svg class="ico" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M2.5 2.5 L13.5 13.5 M13.5 2.5 L2.5 13.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg> X
+        </a>
+        <button class="share-action share-action--instagram" type="button" data-share-action="instagram">
+          <svg class="ico" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="2" y="2" width="12" height="12" rx="3.5" stroke="currentColor" stroke-width="1.5"/>
+            <circle cx="8" cy="8" r="2.8" stroke="currentColor" stroke-width="1.5"/>
+            <circle cx="11.4" cy="4.6" r="0.8" fill="currentColor"/>
+          </svg> Instagram
+        </button>
+      </div>
+      <div class="share-modal__toast" hidden role="status" data-share-toast></div>
+    </div>
+  </div>
+
+  <script src="../js/profile-share.js?v=4.1.3"></script>
+
+</body>
+
+</html>
