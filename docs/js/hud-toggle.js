@@ -23,13 +23,17 @@
     var btn = document.getElementById('hudToggleBtn');
     if (!hero || !btn) return;
 
-    // ── HOVER: toggle field view (glass-off peek) ──
-    btn.addEventListener('mouseenter', function () {
-      hero.classList.add('hero-hud-mode');
-    });
-    btn.addEventListener('mouseleave', function () {
-      hero.classList.remove('hero-hud-mode');
-    });
+    var isMobile = window.matchMedia('(max-width:700px)').matches;
+
+    // ── HOVER: toggle field view (glass-off peek) — desktop only ──
+    if (!isMobile) {
+      btn.addEventListener('mouseenter', function () {
+        hero.classList.add('hero-hud-mode');
+      });
+      btn.addEventListener('mouseleave', function () {
+        hero.classList.remove('hero-hud-mode');
+      });
+    }
 
     // ── CLICK: open fullscreen graph mode ──
     btn.addEventListener('click', function () {

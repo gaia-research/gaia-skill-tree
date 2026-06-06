@@ -1370,7 +1370,7 @@
       // Floating window: position it at top left by default
       collectionPanel.style.position = 'absolute';
       collectionPanel.style.left = '1.5rem';
-      collectionPanel.style.top = '6rem';
+      collectionPanel.style.top = '60px';
       collectionPanel.style.zIndex = '30';
 
       // Collection panel chrome — uses sprite icons for copy / clear so
@@ -1478,9 +1478,11 @@
             `Your collection is empty.<br>Add skills via tooltips.` +
             `</div>` +
             `</div>`;
+          if (window.matchMedia('(max-width:700px)').matches) return;
           collectionPanel.style.display = 'flex';
           return;
         }
+        if (window.matchMedia('(max-width:700px)').matches) return;
         collectionPanel.style.display = 'flex';
         let html = '';
         // Collection cards render as .plaque--mini per Stage 3. Each
@@ -2492,14 +2494,16 @@
     hero.classList.toggle('hero-graph-peek', Boolean(on));
   }
 
-  trigger.addEventListener('mouseenter', () => peek(true));
-  trigger.addEventListener('mouseleave', () => peek(false));
-  trigger.addEventListener('focus', () => peek(true));
-  trigger.addEventListener('blur', () => peek(false));
-  trigger.addEventListener('click', () => {
-    peek(false);
-    openGraphFullscreen();
-  });
+  if (trigger) {
+    trigger.addEventListener('mouseenter', () => peek(true));
+    trigger.addEventListener('mouseleave', () => peek(false));
+    trigger.addEventListener('focus', () => peek(true));
+    trigger.addEventListener('blur', () => peek(false));
+    trigger.addEventListener('click', () => {
+      peek(false);
+      openGraphFullscreen();
+    });
+  }
 
   // Close button inside the fullscreen chrome
   _graphCloseOverlay.querySelector('[data-graph-fullscreen-close]').addEventListener('click', closeGraphFullscreen);
