@@ -156,7 +156,7 @@ def test_local_registry_auto_resolves_for_write_command(tmp_path):
     (project / ".gaia" / "config.json").write_text(
         json.dumps({"gaiaUser": "juno", "scanPaths": ["."], "localRegistryPath": str(REPO_ROOT)})
     )
-    (project / "notes.md").write_text("web-search\n")
+    (project / "notes.md").write_text("/web-search\n")
 
     result = run_python(
         ["-m", "gaia_cli", "push", "--dry-run"],
