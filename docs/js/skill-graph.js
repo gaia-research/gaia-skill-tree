@@ -2492,14 +2492,16 @@
     hero.classList.toggle('hero-graph-peek', Boolean(on));
   }
 
-  trigger.addEventListener('mouseenter', () => peek(true));
-  trigger.addEventListener('mouseleave', () => peek(false));
-  trigger.addEventListener('focus', () => peek(true));
-  trigger.addEventListener('blur', () => peek(false));
-  trigger.addEventListener('click', () => {
-    peek(false);
-    openGraphFullscreen();
-  });
+  if (trigger) {
+    trigger.addEventListener('mouseenter', () => peek(true));
+    trigger.addEventListener('mouseleave', () => peek(false));
+    trigger.addEventListener('focus', () => peek(true));
+    trigger.addEventListener('blur', () => peek(false));
+    trigger.addEventListener('click', () => {
+      peek(false);
+      openGraphFullscreen();
+    });
+  }
 
   // Close button inside the fullscreen chrome
   _graphCloseOverlay.querySelector('[data-graph-fullscreen-close]').addEventListener('click', closeGraphFullscreen);
