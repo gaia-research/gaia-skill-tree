@@ -887,16 +887,9 @@
     
   }).catch(function () {});
 
-  // "Browse all named skills" → scroll to #named section
+  // "Browse all named skills" → now an <a href="named/">, no JS needed.
+  // Browse-all is no longer a scroll target since the explorer moved off the home page.
   document.addEventListener('DOMContentLoaded', function () {
-    var browseBtn = document.getElementById('browseAllBtn');
-    if (browseBtn) {
-      browseBtn.addEventListener('click', function () {
-        var target = document.getElementById('named');
-        if (target) target.scrollIntoView({ behavior: 'smooth' });
-      });
-    }
-
     // Footer tree button → proxy to nav tree button
     var treeBtn2 = document.getElementById('treeFooterBtn');
     if (treeBtn2) {
@@ -918,29 +911,18 @@
       if (navMeta) setTimeout(function () { navMeta.click(); }, 50);
     }
 
-    // Search nav buttons: always go to index.html#search.
-    // On the home page this fires the #search hash handler (in-page smooth scroll + focus).
-    // On any other page it navigates there directly.
+    // Legacy search-trigger buttons. Most pages no longer ship them; this code
+    // is defensive — if the buttons are still present (e.g. cached HTML) we
+    // route them at the standalone /named/ page where the explorer search lives.
     function goToSearch() {
-      var named = document.getElementById('named');
-      if (named) {
-        // Already on the home page — scroll and focus in-place.
-        named.scrollIntoView({ behavior: 'smooth' });
-        setTimeout(function () {
-          var input = document.getElementById('nsSearch');
-          if (input) { input.focus(); input.select(); }
-        }, 520);
-      } else {
-        // Any other page — navigate to the home page search section.
-        var prefix = (typeof window.gaiaIconBase === 'function') ? window.gaiaIconBase().replace('assets/icons.svg', '') : '';
-        window.location.href = prefix + 'index.html#search';
-      }
+      var prefix = (typeof window.gaiaIconBase === 'function') ? window.gaiaIconBase().replace('assets/icons.svg', '') : '';
+      window.location.href = prefix + 'named/';
     }
     var navSearch = document.getElementById('navSearchBtn');
     if (navSearch) navSearch.addEventListener('click', goToSearch);
     var navSearchMobileTrigger = document.getElementById('navSearchBtnMobile');
     if (navSearchMobileTrigger) navSearchMobileTrigger.addEventListener('click', goToSearch);
-    
+
     var navMobileSearch = document.getElementById('navMobileSearch');
     var navSearchBack = document.getElementById('navSearchBack');
     var isSearchMode = false;
