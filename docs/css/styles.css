@@ -819,9 +819,9 @@ button.nav-copy-agent {
     display: none !important
   }
 
-  /* Push meta notification to the very top so it doesn't overlap Field View */
+  /* Push meta notification down so it doesn't cover the hamburger menu */
   .hero-audit-btn {
-    top: 0;
+    top: 3.5rem;
     right: 0;
     border-radius: 0;
     padding: 0.4rem 0.75rem;
