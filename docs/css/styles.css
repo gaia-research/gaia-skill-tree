@@ -4009,11 +4009,12 @@ tr:hover td {
     z-index: 11;
   }
 
+  /* Search bar on right side, well clear of Hide Controls (bottom-left) */
   #hero.hero-graph-fullscreen .graph-search-wrap {
     top: auto !important;
     bottom: calc(44px + 3.2rem) !important;
-    left: 52px !important;
-    right: auto !important;
+    left: auto !important;
+    right: .75rem !important;
     z-index: 100;
   }
 
@@ -4030,6 +4031,14 @@ tr:hover td {
     flex: 0 0 48px;
     min-height: 48px;
     font-size: 1.05rem;
+  }
+
+  /* Reset + Random: bigger tap targets on mobile */
+  #hero.hero-graph-fullscreen .graph-reset-btn,
+  #hero.hero-graph-fullscreen .graph-random-btn {
+    flex: 0 0 56px;
+    min-height: 52px;
+    font-size: 1.1rem;
   }
 
   #hero.hero-graph-fullscreen .graph-bottom-btn {
@@ -4075,6 +4084,43 @@ tr:hover td {
     top: calc(100% + 6px) !important;
     right: 0 !important;
     width: 220px;
+  }
+
+  /* Hide GEXF download on mobile — bandwidth + no file manager flow */
+  #hero.hero-graph-fullscreen .graph-dialog-actions a[download] {
+    display: none !important;
+  }
+
+  /* Semantic / Labels / Orbit row: raise above the close button cluster */
+  #hero.hero-graph-fullscreen .graph-fullscreen-header {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: .4rem;
+    padding: .5rem .75rem;
+  }
+
+  #hero.hero-graph-fullscreen .graph-atlas-controls {
+    order: -1;
+    margin-left: 0;
+    gap: .35rem;
+  }
+
+  /* Collection panel: pin minimized at bottom-left above the bottom bar */
+  #hero.hero-graph-fullscreen .graph-collection-panel {
+    position: absolute !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 52px !important;
+    top: auto !important;
+    width: 100% !important;
+    border-radius: .5rem .5rem 0 0 !important;
+    max-height: 38px !important;
+    height: 38px !important;
+  }
+
+  #hero.hero-graph-fullscreen .graph-collection-panel .graph-collection-list,
+  #hero.hero-graph-fullscreen .graph-collection-panel .graph-collection-note {
+    display: none !important;
   }
 }
 
@@ -4122,6 +4168,16 @@ tr:hover td {
     flex: 1 1 auto !important;
   }
 
+  #hero.hero-graph-fullscreen .graph-reset-btn,
+  #hero.hero-graph-fullscreen .graph-random-btn {
+    order: 2 !important;
+    height: 52px !important;
+    min-height: 52px !important;
+    min-width: 56px !important;
+    flex: 1 1 auto !important;
+    border-right: 1px solid var(--border) !important;
+  }
+
   #hero.hero-graph-fullscreen .graph-hud-toggle-btn {
     bottom: calc(96px + .65rem) !important;
     min-height: 44px !important;
@@ -4134,6 +4190,8 @@ tr:hover td {
 
   #hero.hero-graph-fullscreen .graph-search-wrap {
     bottom: calc(96px + 3.2rem) !important;
+    right: .75rem !important;
+    left: auto !important;
   }
 
   #hero.hero-graph-fullscreen .graph-scatter-strip {
