@@ -468,8 +468,8 @@
     // state with a hint to run the sync script. No fallbacks, no silent drift.
     var version = window.GAIA_VERSION ? '?v=' + window.GAIA_VERSION : '';
     Promise.all([
-      fetch('graph/named/index.json' + version).then(function(r){ if (!r.ok) throw r; return r.json(); }),
-      fetch('graph/gaia.json' + version).then(function(r){ if (!r.ok) throw r; return r.json(); }),
+      fetch('/graph/named/index.json' + version).then(function(r){ if (!r.ok) throw r; return r.json(); }),
+      fetch('/graph/gaia.json' + version).then(function(r){ if (!r.ok) throw r; return r.json(); }),
     ]).then(function(results) {
       var indexData = results[0], fullGraph = results[1];
       var skillMap = {};
