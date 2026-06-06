@@ -2,7 +2,7 @@
 <html lang="en" data-icon-base="../assets/icons.svg">
 
 <head>
-  <script>window.GAIA_VERSION = "4.1.3";</script>
+  <script>window.GAIA_VERSION = "4.1.5";</script>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -21,18 +21,18 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
   <link rel="icon" type="image/svg+xml" href="../assets/marks/diamond-seal.svg">
-  <link rel="stylesheet" href="../css/styles.css?v=4.1.3">
-  <link rel="stylesheet" href="../css/plaque.css?v=4.1.3">
+  <link rel="stylesheet" href="../css/styles.css?v=4.1.5">
+  <link rel="stylesheet" href="../css/plaque.css?v=4.1.5">
   <!-- AlphaRail temporarily disabled — keep the stylesheet reference here so
        re-enabling is one uncomment away. The page-wide rail script + integration
        are commented out near the bottom of <body>. -->
-  <!-- <link rel="stylesheet" href="../css/alpha-rail.css?v=4.1.3"> -->
+  <!-- <link rel="stylesheet" href="../css/alpha-rail.css?v=4.1.5"> -->
   <!-- Stage 1 — icon sprite helper, loaded BEFORE other UI scripts. -->
-  <script src="../js/icons.js?v=4.1.3"></script>
+  <script src="../js/icons.js?v=4.1.5"></script>
   <!-- Stage 2 — shared rank-badge primitive, loaded after icons. -->
-  <script src="../js/rank-badge.js?v=4.1.3"></script>
+  <script src="../js/rank-badge.js?v=4.1.5"></script>
   <!-- Stage 3 — plaque component family, loaded after rank-badge. -->
-  <script src="../js/plaque.js?v=4.1.3"></script>
+  <script src="../js/plaque.js?v=4.1.5"></script>
 </head>
 
 <body class="named-explorer-page">
@@ -80,6 +80,17 @@
     <p class="named-hero-kicker">Named Implementations</p>
     <h1 class="named-hero-title">Named Skills Explorer</h1>
     <p class="named-hero-lede">Contributor implementations of canonical skills — the first real agents behind every generic capability.</p>
+    <div class="named-hero-cta" role="group" aria-label="Get on the record">
+      <a class="btn btn-primary nh-cta-primary" href="../index.html#paths">
+        <svg class="ico" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#claim-arrow"/></svg>
+        Register your repo
+      </a>
+      <a class="btn btn-ghost nh-cta-ghost" href="../codex.html">
+        <svg class="ico" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#external-link"/></svg>
+        Read the curation process
+      </a>
+    </div>
+    <p class="named-hero-cta-note">Bring your repo. Earn a named entry, your handle in <span class="nh-honor">Honor Red</span>, permanently on the record.</p>
   </section>
 
   <!-- ─── NAMED SKILLS EXPLORER ─── -->
@@ -285,16 +296,16 @@
 
   <!-- ─── SCRIPTS ─── -->
   <!-- icons.js already loaded in <head> so gaiaIcon() is available before any of these. -->
-  <script src="../js/atlas-helpers.js?v=4.1.3"></script>
-  <script src="../js/scroll-reveal.js?v=4.1.3"></script>
-  <script src="../js/named-skills.js?v=4.1.3"></script>
+  <script src="../js/atlas-helpers.js?v=4.1.5"></script>
+  <script src="../js/scroll-reveal.js?v=4.1.5"></script>
+  <script src="../js/named-skills.js?v=4.1.5"></script>
   <!-- AlphaRail temporarily disabled. Uncomment both <script> tags to re-enable
        the section + dynamic letter/tier markers inside the explorer. -->
-  <!-- <script src="../js/alpha-rail.js?v=4.1.3"></script> -->
-  <!-- <script src="../js/index-rail.js?v=4.1.3"></script> -->
-  <script src="../js/skill-explorer.js?v=4.1.3"></script>
-  <script src="../js/ui.js?v=4.1.3"></script>
-  <script src="../js/plaque-reveal.js?v=4.1.3" defer></script>
+  <!-- <script src="../js/alpha-rail.js?v=4.1.5"></script> -->
+  <!-- <script src="../js/index-rail.js?v=4.1.5"></script> -->
+  <script src="../js/skill-explorer.js?v=4.1.5"></script>
+  <script src="../js/ui.js?v=4.1.5"></script>
+  <script src="../js/plaque-reveal.js?v=4.1.5" defer></script>
 
   <!-- ── Share modal (single instance) — opened from plaque__share-btn ── -->
   <div class="share-modal" hidden role="dialog" aria-modal="true" aria-labelledby="share-modal-title" id="shareModal">
@@ -328,7 +339,7 @@
     </div>
   </div>
 
-  <script src="../js/profile-share.js?v=4.1.3"></script>
+  <script src="../js/profile-share.js?v=4.1.5"></script>
 
 </body>
 

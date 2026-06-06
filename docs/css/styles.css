@@ -1187,6 +1187,42 @@ h1 em {
   margin: 0;
 }
 
+/* CTA row under the hero — primary "Register your repo" + ghost
+   "Read the curation process". Mirrors the about page Plate V CTA
+   so the registration path is one click away from the explorer. */
+.named-hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: .75rem;
+  margin: 1.75rem 0 0;
+}
+.named-hero-cta .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .65rem 1.25rem;
+  font-size: .9rem;
+  line-height: 1;
+}
+.named-hero-cta .btn .ico {
+  flex-shrink: 0;
+  opacity: .9;
+}
+.named-hero-cta-note {
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  color: var(--muted);
+  letter-spacing: .02em;
+  margin: 1rem 0 0;
+  line-height: 1.55;
+}
+.named-hero-cta-note .nh-honor {
+  color: var(--honor-red);
+  font-weight: 500;
+}
+
 .scroll-hint {
   position: absolute;
   bottom: 2rem;
