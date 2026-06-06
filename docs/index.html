@@ -282,41 +282,6 @@
     <div class="hoh-footer">
       <a href="named/" class="btn btn-ghost" id="browseAllBtn">Browse all named skills →</a>
       <a href="u/" class="btn btn-ghost">Browse all named contributors →</a>
-      <a href="meta.html" class="btn btn-unique">
-        <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#info"/></svg>
-        Open Meta Reports →
-      </a>
-    </div>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <!-- ─── META REPORTS ─── -->
-  <!-- Lifted out of #paths so the home page reads top-down as
-       hero → paths → heroes → meta → ascension. The list itself is
-       unchanged; only its DOM parent moved. -->
-  <section id="meta-reports" class="reveal" data-section="meta">
-    <h2>Meta Reports</h2>
-    <p class="section-sub">Recent registry curation, schema migrations, and audit passes.</p>
-    <div class="path-meta-queue" id="meta-report-callout">
-      <!-- gaia-posts-start -->
-      <a href="meta/reports/2026-06-03-chained-curation-thirteen-starless-references-and-a-unique-reclassification.html" class="pmq-post">
-        <span class="pmq-label">Curation Pass</span>
-        <h4 class="pmq-title">Chained Curation: Thirteen Starless References and a Unique Reclassification <span class="meta-peek-arrow" style="float: right;">↗</span></h4>
-        <p class="pmq-summary">Gated chain adds 13 starless references; feed-monitoring reclassified from Unique to Basic.</p>
-      </a>
-      <a href="meta/reports/2026-06-02-june-week-1-meta-update.html" class="pmq-post">
-        <span class="pmq-label">Registry Update</span>
-        <h4 class="pmq-title">June Week 1 Meta Update <span class="meta-peek-arrow" style="float: right;">↗</span></h4>
-        <p class="pmq-summary">Origin reassignments, URL curation, and CLI enhancements — extended by a whole-registry automated meta sweep with adversarial verification and a before/after confusion matrix.</p>
-      </a>
-      <a href="meta/reports/2026-05-31-starless-skills-update.html" class="pmq-post">
-        <span class="pmq-label">Schema Migration</span>
-        <h4 class="pmq-title">Starless Skills Update <span class="meta-peek-arrow" style="float: right;">↗</span></h4>
-        <p class="pmq-summary">Generic skill taxonomy refactored as rank-free, with star-based prestige reserved for named implementations.</p>
-      </a>
-      <!-- gaia-posts-end -->
-      <button type="button" class="pmq-changelog-btn" id="metaChangelogBtnPath">Open Meta Changelog →</button>
     </div>
   </section>
 
@@ -372,6 +337,43 @@
           <span class="asc-sub"><span class="rank-badge" data-level="6" data-variant="chip" role="img" aria-label="Rank 6 of 6"><span class="rank-badge__chip">6★</span></span> · Class A</span>
         </div>
       </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ─── META REPORTS ─── -->
+  <!-- Lifted out of #paths so the home page reads top-down as
+       hero → paths → heroes → ascension → meta. The list itself is
+       unchanged; only its DOM parent moved. -->
+  <section id="meta-reports" class="reveal" data-section="meta">
+    <h2>Meta Reports</h2>
+    <p class="section-sub">Recent registry curation, schema migrations, and audit passes.</p>
+    <div class="path-meta-queue" id="meta-report-callout">
+      <!-- gaia-posts-start -->
+      <a href="meta/reports/2026-06-03-chained-curation-thirteen-starless-references-and-a-unique-reclassification.html" class="pmq-post">
+        <span class="pmq-label">Curation Pass</span>
+        <h4 class="pmq-title">Chained Curation: Thirteen Starless References and a Unique Reclassification <span class="meta-peek-arrow" style="float: right;">↗</span></h4>
+        <p class="pmq-summary">Gated chain adds 13 starless references; feed-monitoring reclassified from Unique to Basic.</p>
+      </a>
+      <a href="meta/reports/2026-06-02-june-week-1-meta-update.html" class="pmq-post">
+        <span class="pmq-label">Registry Update</span>
+        <h4 class="pmq-title">June Week 1 Meta Update <span class="meta-peek-arrow" style="float: right;">↗</span></h4>
+        <p class="pmq-summary">Origin reassignments, URL curation, and CLI enhancements — extended by a whole-registry automated meta sweep with adversarial verification and a before/after confusion matrix.</p>
+      </a>
+      <a href="meta/reports/2026-05-31-starless-skills-update.html" class="pmq-post">
+        <span class="pmq-label">Schema Migration</span>
+        <h4 class="pmq-title">Starless Skills Update <span class="meta-peek-arrow" style="float: right;">↗</span></h4>
+        <p class="pmq-summary">Generic skill taxonomy refactored as rank-free, with star-based prestige reserved for named implementations.</p>
+      </a>
+      <!-- gaia-posts-end -->
+      <button type="button" class="pmq-changelog-btn" id="metaChangelogBtnPath">Open Meta Changelog →</button>
+    </div>
+    <div class="meta-reports-cta">
+      <a href="meta.html" class="btn btn-unique">
+        <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#info"/></svg>
+        Open All Reports →
+      </a>
     </div>
   </section>
 
@@ -699,5 +701,5 @@
 </html>
 
 <!-- gaia:stats-start -->
-<!-- skills=228; namedSkills=183; uniqueSkills=1; version=4.1.4 -->
+<!-- skills=228; namedSkills=183; uniqueSkills=1; version=4.1.3 -->
 <!-- gaia:stats-end -->

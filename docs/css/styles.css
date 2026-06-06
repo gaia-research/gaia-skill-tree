@@ -1150,6 +1150,15 @@ h1 em {
   transform: translateY(-1px);
 }
 
+/* Meta Reports section trailing CTA — sits below the post queue and routes
+   to the full meta-reports archive at /meta.html. Tier-4 purple to match
+   the "Meta Reports" topic colour family. */
+.meta-reports-cta {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
 /* ── Named Skills Explorer hero (standalone /named/ page) ── */
 .named-hero {
   text-align: center;
