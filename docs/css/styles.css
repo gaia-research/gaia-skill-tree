@@ -819,13 +819,13 @@ button.nav-copy-agent {
     display: none !important
   }
 
-  /* Push meta notification down so it doesn't cover the hamburger menu */
+  /* Lower further and make bigger for mobile clickability */
   .hero-audit-btn {
-    top: 3.5rem;
-    right: 0;
-    border-radius: 0;
-    padding: 0.4rem 0.75rem;
-    font-size: 0.7rem;
+    top: 5.5rem;
+    right: 1rem;
+    padding: 0.8rem 1.2rem;
+    font-size: 0.85rem;
+    z-index: 101;
   }
 }
 
