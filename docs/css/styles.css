@@ -816,6 +816,15 @@ button.nav-copy-agent {
   .hud-trigger {
     display: none !important
   }
+
+  /* Push meta notification to the very top so it doesn't overlap Field View */
+  .hero-audit-btn {
+    top: 0;
+    right: 0;
+    border-radius: 0;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.7rem;
+  }
 }
 
 /* ── HUD MODE ── */
