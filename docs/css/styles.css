@@ -302,7 +302,9 @@ nav:not(.footer-cols) {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 100;
+  /* Ride above the floating meta notification (.hero-audit-btn @ 100) and its
+     stacking context so the More dropdown opens cleanly over the toast/badge. */
+  z-index: 200;
   display: flex;
   align-items: center;
   justify-content: space-between;
