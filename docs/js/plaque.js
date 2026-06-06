@@ -318,6 +318,7 @@
       _fieldTitle(ns) +
       _fieldHandleRow(ns) +
       _fieldTags(ns, 2) +
+      _fieldInstallRow(ns) +
       _fieldRank(ns, 'chip') +
       _fieldGhLink(ns) +
       '<span class="plaque__arrow ns-lr-arrow" aria-hidden="true">›</span>';
@@ -412,6 +413,7 @@
       _fieldDescription(ns) +
       _fieldTags(ns, 5) +
       _fieldRank(ns, 'stars') +
+      _fieldInstallRow(ns) +
       '<div class="plaque__evidence plaque-evidence">' + esc(_evidenceClass(ns && ns.level)) + '</div>' +
       '<div class="plaque__underline plaque-underline plaque-underline--settled"></div>';
 
