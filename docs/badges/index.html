@@ -93,7 +93,9 @@
     }
     .bd-honesty-pill[data-state="off"] .bd-honesty-state { color: var(--muted); }
     @media (max-width: 640px) {
-      .bd-honesty-pill { top: 4.6rem; right: .8rem; }
+      .bd-honesty-pill { top: 8rem; right: .8rem; }
+      .bd-gen-sampler { flex-wrap: wrap; }
+      .bd-sampler-img-slot { width: 100%; min-width: 0; }
     }
 
     /* ── Generator Layout & Simulator ── */
@@ -176,9 +178,7 @@
       border-top: 1px solid var(--border);
     }
     .bd-sampler-img-slot {
-      /* Widen so the longest sample ("Transcendent · 5★") doesn't crowd the
-         cycle button on its right. Empirical: 5★ badge ≈ 188px; pad to 200px. */
-      width: 200px;
+      min-width: 210px;
       flex-shrink: 0;
       display: flex;
       align-items: center;
@@ -907,11 +907,8 @@
         You earned a named skill — wear it. Drop a Gaia badge in your README; it auto-updates each release with your highest rank, total skills, or a specific named skill.
       </p>
 
-      <!-- Live preview strip — always reads from _assets/ so the strip renders
-           without the Cloudflare Worker (local dev, preview deploys, or when
-           the worker is bypassed by Honesty Mode). The 2-segment public route
-           is for embedded README badges only. -->
-      <div class="bd-live">
+      <!-- Live preview strip removed — sampler covers this use case -->
+      <div class="bd-live" style="display:none;">
         <span class="bd-live-label">live</span>
         <img src="./_assets/mbtiongson1/handle.svg" alt="Owner identity badge" onerror="this.style.display='none'">
         <img src="./_assets/mbtiongson1/rank.svg" alt="Owner rank badge">
@@ -1731,6 +1728,7 @@
       const handle = raw;
       preview.classList.add("is-visible");
       status.textContent = "Checking…";
+      status.style.display = "";
       status.classList.remove("is-error");
       rowsEl.innerHTML = "";
       badges.innerHTML = "";
@@ -1865,7 +1863,8 @@
 
     function seedSample() {
       preview.classList.add("is-visible");
-      status.textContent = "Sample preview — enter your handle above to generate your own.";
+      status.textContent = "";
+      status.style.display = "none";
       status.classList.remove("is-error");
 
       const sampleHandle = "gaia-bot";
