@@ -819,13 +819,13 @@ button.nav-copy-agent {
     display: none !important
   }
 
-  /* Push meta notification to the very top so it doesn't overlap Field View */
+  /* Lifted slightly to clear the field view toggle below it */
   .hero-audit-btn {
-    top: 0;
-    right: 0;
-    border-radius: 0;
-    padding: 0.4rem 0.75rem;
-    font-size: 0.7rem;
+    top: 4.8rem;
+    right: 1rem;
+    padding: 0.8rem 1.2rem;
+    font-size: 0.85rem;
+    z-index: 101;
   }
 }
 
