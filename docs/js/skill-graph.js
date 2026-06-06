@@ -1370,7 +1370,7 @@
       // Floating window: position it at top left by default
       collectionPanel.style.position = 'absolute';
       collectionPanel.style.left = '1.5rem';
-      collectionPanel.style.top = '6rem';
+      collectionPanel.style.top = '60px';
       collectionPanel.style.zIndex = '30';
 
       // Collection panel chrome — uses sprite icons for copy / clear so
