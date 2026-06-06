@@ -433,35 +433,37 @@ def scan_command(args):
             canonical_list = _gdata_for_match.get('skills', [])
             smap_for_match = {s['id']: s for s in canonical_list}
 
-            novel_installed = []
+            # Keep the matching logic that adds matching custom skills to resolved
             for sk in installed_skills:
                 sid = sk['id']
-                if sid in resolved or sid in smap_for_match:
-                    # Exact canonical match — already shown above or user owns it
-                    if sid in smap_for_match and sid not in resolved:
-                        # It's canonical but not token-detected; add to resolved display
-                        resolved.add(sid)
-                    continue
-                match = match_skill_to_canonical(
-                    sid, sk['name'], sk['description'], canonical_list
-                )
-                novel_installed.append((sid, sk['name'], match))
+                if sid in smap_for_match and sid not in resolved:
+                    resolved.append(sid)
 
-            if novel_installed:
-                print("\nInstalled custom skills:")
-                for cid, cname, match in novel_installed:
-                    match_note = ""
-                    if match:
-                        canon_id, score = match
-                        canon_sk = smap_for_match.get(canon_id, {})
-                        rank_color = RANK_COLORS.get(canon_sk.get('level', '0★'), RANK_COLORS["0★"])
-                        canon_display = ctx.display_name(canon_id, canon=canon)
-                        match_note = (
-                            f"  {_fg(100,100,100)}→ {_fg(*rank_color)}{canon_display}"
-                            f"{_fg(100,100,100)} ({score:.0%}){_reset()}"
-                        )
-                    user_label = f"{_fg(*COLOR_LOCAL_USER)}{_bold()}/{cid}{_reset()}"
-                    print(f"  ○ {user_label}{match_note}")
+            print("\nInstalled custom skills:")
+            for sk in installed_skills:
+                cid = sk['id']
+                location = sk.get('location', '')
+                
+                # Logic to resolve matching to canonical if not already canonical
+                match = None
+                if cid not in smap_for_match:
+                    match = match_skill_to_canonical(
+                        cid, sk['name'], sk['description'], canonical_list
+                    )
+                
+                match_note = ""
+                if match:
+                    canon_id, score = match
+                    canon_sk = smap_for_match.get(canon_id, {})
+                    rank_color = RANK_COLORS.get(canon_sk.get('level', '0★'), RANK_COLORS["0★"])
+                    canon_display = ctx.display_name(canon_id, canon=canon)
+                    match_note = (
+                        f"  {_fg(100,100,100)}→ {_fg(*rank_color)}{canon_display}"
+                        f"{_fg(100,100,100)} ({score:.0%}){_reset()}"
+                    )
+                
+                user_label = f"{_fg(*COLOR_LOCAL_USER)}{_bold()}/{cid}{_reset()}"
+                print(f"  ○ {user_label} custom skill (found in {location}){match_note}")
 
     tree = load_tree(username, registry_path=args.registry)
     if tree:
@@ -1154,6 +1156,55 @@ def push_command(args):
 
     raw_tokens = scan_repo()
     batch = build_skill_batch(raw_tokens, config, args.registry)
+
+    # Guard 1: check if empty initially
+    if not batch.get("proposedSkills") and not batch.get("knownSkills"):
+        print("Error: No skills to be pushed. Please install newer skills then gaia scan, or fuse custom skills before pushing.", file=sys.stderr)
+        sys.exit(1)
+
+    # Custom skills filtering and interactive exclusion
+    installed_skills = scan_skill_mds()
+    batch_proposed_ids = {s["id"] for s in batch.get("proposedSkills", [])}
+    batch_known_ids = {s["skillId"] for s in batch.get("knownSkills", [])}
+
+    pushable_custom_skills = []
+    for sk in installed_skills:
+        cid = sk["id"]
+        if cid in batch_proposed_ids or cid in batch_known_ids:
+            pushable_custom_skills.append(sk)
+
+    if pushable_custom_skills:
+        pushable_custom_skills.sort(key=lambda x: x["id"])
+        print("The following custom skills will be pushed:")
+        for idx, sk in enumerate(pushable_custom_skills, 1):
+            print(f"  {idx}. /{sk['id']} (found in {sk.get('location', '')})")
+        print()
+
+        try:
+            user_input = input("Please select which skills you do NOT want to push (space or comma separated numbers, or press Enter to push all): ")
+        except (KeyboardInterrupt, EOFError):
+            print()
+            sys.exit(1)
+
+        excluded_ids = set()
+        if user_input.strip():
+            import re
+            tokens = re.split(r'[,\s]+', user_input.strip())
+            for t in tokens:
+                if t.isdigit():
+                    idx = int(t) - 1
+                    if 0 <= idx < len(pushable_custom_skills):
+                        excluded_ids.add(pushable_custom_skills[idx]["id"])
+
+        if excluded_ids:
+            batch["proposedSkills"] = [s for s in batch.get("proposedSkills", []) if s["id"] not in excluded_ids]
+            batch["knownSkills"] = [s for s in batch.get("knownSkills", []) if s["skillId"] not in excluded_ids]
+            batch["similarity"] = [s for s in batch.get("similarity", []) if s.get("sourceSkillId") not in excluded_ids]
+
+    # Guard 2: check if empty after filtering
+    if not batch.get("proposedSkills") and not batch.get("knownSkills"):
+        print("Error: No skills to be pushed. Please install newer skills then gaia scan, or fuse custom skills before pushing.", file=sys.stderr)
+        sys.exit(1)
 
     if args.dry_run:
         print(json.dumps(batch, indent=2))
