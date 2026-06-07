@@ -1561,8 +1561,23 @@
       }
       pickerWrap.style.display = "block";
 
-      // Default: just the top skill (or first available)
-      const defaultSkill = namedSkills.find(s => s.id === topSkillId) || namedSkills[0];
+      // Parse skill from URL query parameters (e.g. s=performance-analysis or s=ruvnet/performance-analysis)
+      const params = new URLSearchParams(window.location.search);
+      const targetSkill = params.get("s") || params.get("skill");
+      let selectedSkill = null;
+      if (targetSkill) {
+        selectedSkill = namedSkills.find(s => 
+          s.id === targetSkill || 
+          s.id.split('/').pop() === targetSkill || 
+          s.file === targetSkill || 
+          s.file.replace(/\.svg$/, '') === targetSkill ||
+          s.slash === '/' + targetSkill ||
+          s.slash === targetSkill
+        );
+      }
+
+      // Default: selected skill, else the top skill, else first available
+      const defaultSkill = selectedSkill || namedSkills.find(s => s.id === topSkillId) || namedSkills[0];
       addSkillRow(defaultSkill.file);
 
       updatePickerActions();
