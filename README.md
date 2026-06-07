@@ -240,6 +240,7 @@ positional arguments:
     stats               Show registry health at a glance
     appraise            Inspect a skill card with status and actions
     promote             Promote a skill eligible for level-up
+    demote              Demote or remove a skill from a local user's skill tree
     fuse                Confirm a skill combination or promotion candidate
     docs                Documentation maintenance commands
     lookup              Look up a canonical skill and its named implementations

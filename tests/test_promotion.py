@@ -1,7 +1,6 @@
 """Tests for src/gaia_cli/promotion.py — level promotion logic."""
 
 import json
-import os
 from datetime import date
 
 import pytest
@@ -133,7 +132,15 @@ class TestCheckPromotionEligibility:
 
     def test_level_I_to_II_eligible_with_class_C_evidence(self):
         """1★ -> 2★ requires class C/B/A evidence."""
-        ev = [{"class": "C", "source": "http://example.com", "evaluator": "x", "date": "2026-01-01", "notes": ""}]
+        ev = [
+            {
+                "class": "C",
+                "source": "http://example.com",
+                "evaluator": "x",
+                "date": "2026-01-01",
+                "notes": "",
+            }
+        ]
         graph = _make_graph(_make_skill("tokenize", evidence=ev))
         tree = _make_tree("alice", [_make_unlocked("tokenize", "1★")])
         eligible = check_promotion_eligibility(graph, tree)
@@ -149,14 +156,30 @@ class TestCheckPromotionEligibility:
 
     def test_level_II_to_III_requires_class_B(self):
         """2★ -> 3★ requires class B or A evidence."""
-        ev_c_only = [{"class": "C", "source": "http://x.com", "evaluator": "x", "date": "2026-01-01", "notes": ""}]
+        ev_c_only = [
+            {
+                "class": "C",
+                "source": "http://x.com",
+                "evaluator": "x",
+                "date": "2026-01-01",
+                "notes": "",
+            }
+        ]
         graph = _make_graph(_make_skill("tokenize", evidence=ev_c_only))
         tree = _make_tree("alice", [_make_unlocked("tokenize", "2★")])
         eligible = check_promotion_eligibility(graph, tree)
         assert len(eligible) == 0  # C is not enough for 3★
 
     def test_level_II_to_III_eligible_with_class_B(self):
-        ev_b = [{"class": "B", "source": "http://x.com", "evaluator": "x", "date": "2026-01-01", "notes": ""}]
+        ev_b = [
+            {
+                "class": "B",
+                "source": "http://x.com",
+                "evaluator": "x",
+                "date": "2026-01-01",
+                "notes": "",
+            }
+        ]
         graph = _make_graph(_make_skill("tokenize", evidence=ev_b))
         tree = _make_tree("alice", [_make_unlocked("tokenize", "2★")])
         eligible = check_promotion_eligibility(graph, tree)
@@ -165,7 +188,15 @@ class TestCheckPromotionEligibility:
 
     def test_max_level_not_eligible(self):
         """A skill at 6★ cannot be promoted further."""
-        ev = [{"class": "A", "source": "http://x.com", "evaluator": "x", "date": "2026-01-01", "notes": ""}]
+        ev = [
+            {
+                "class": "A",
+                "source": "http://x.com",
+                "evaluator": "x",
+                "date": "2026-01-01",
+                "notes": "",
+            }
+        ]
         graph = _make_graph(_make_skill("tokenize", evidence=ev))
         tree = _make_tree("alice", [_make_unlocked("tokenize", "6★")])
         eligible = check_promotion_eligibility(graph, tree)
@@ -173,15 +204,30 @@ class TestCheckPromotionEligibility:
 
     def test_multiple_skills_mixed_eligibility(self):
         """Only eligible skills appear in the result list."""
-        ev_b = [{"class": "B", "source": "http://x.com", "evaluator": "x", "date": "2026-01-01", "notes": ""}]
+        ev_b = [
+            {
+                "class": "B",
+                "source": "http://x.com",
+                "evaluator": "x",
+                "date": "2026-01-01",
+                "notes": "",
+            }
+        ]
         graph = _make_graph(
             _make_skill("tokenize", evidence=ev_b),
             _make_skill("classify"),  # no evidence
         )
-        tree = _make_tree("alice", [
-            _make_unlocked("tokenize", "0★"),   # eligible (no evidence needed for 0★->1★)
-            _make_unlocked("classify", "1★"),   # not eligible (no evidence for 1★->2★)
-        ])
+        tree = _make_tree(
+            "alice",
+            [
+                _make_unlocked(
+                    "tokenize", "0★"
+                ),  # eligible (no evidence needed for 0★->1★)
+                _make_unlocked(
+                    "classify", "1★"
+                ),  # not eligible (no evidence for 1★->2★)
+            ],
+        )
         eligible = check_promotion_eligibility(graph, tree)
         assert len(eligible) == 1
         assert eligible[0]["skillId"] == "tokenize"
@@ -195,7 +241,15 @@ class TestCheckPromotionEligibility:
 
     def test_promotion_blocked_by_demerit_ceiling(self):
         """One demerit can lower effective ceiling so next level is blocked."""
-        ev_b = [{"class": "B", "source": "http://x.com", "evaluator": "x", "date": "2026-01-01", "notes": ""}]
+        ev_b = [
+            {
+                "class": "B",
+                "source": "http://x.com",
+                "evaluator": "x",
+                "date": "2026-01-01",
+                "notes": "",
+            }
+        ]
         graph = _make_graph(
             _make_skill(
                 "tokenize",
@@ -218,7 +272,9 @@ class TestPromoteSkill:
     def test_promotes_skill_one_level(self, tmp_path):
         tree_data = _make_tree("alice", [_make_unlocked("tokenize", "1★")])
         _write_tree(tmp_path, "alice", tree_data)
-        result = promote_skill("alice", "tokenize", str(tmp_path), new_display_name="Tokenize")
+        result = promote_skill(
+            "alice", "tokenize", str(tmp_path), new_display_name="Tokenize"
+        )
         assert result["skillId"] == "tokenize"
         assert result["previousLevel"] == "1★"
         assert result["newLevel"] == "2★"
@@ -282,6 +338,63 @@ class TestPromoteSkill:
 # ---------------------------------------------------------------------------
 
 
+# ---------------------------------------------------------------------------
+# Tests: demote_skill
+# ---------------------------------------------------------------------------
+
+
+class TestDemoteSkill:
+    def test_demotes_skill_one_level(self, tmp_path):
+        from gaia_cli.promotion import demote_skill
+
+        tree_data = _make_tree("alice", [_make_unlocked("tokenize", "2★")])
+        _write_tree(tmp_path, "alice", tree_data)
+        result = demote_skill("alice", "tokenize", str(tmp_path))
+        assert result["skillId"] == "tokenize"
+        assert result["previousLevel"] == "2★"
+        assert result["newLevel"] == "1★"
+        assert result["displayName"] == "tokenize"
+
+        # Verify changes in file
+        tree_path = tmp_path / "skill-trees" / "alice" / "skill-tree.json"
+        saved = __import__("json").loads(tree_path.read_text())
+        entry = next(s for s in saved["unlockedSkills"] if s["skillId"] == "tokenize")
+        assert entry["level"] == "1★"
+
+    def test_removes_skill_at_lowest_level(self, tmp_path):
+        from gaia_cli.promotion import demote_skill
+
+        tree_data = _make_tree("alice", [_make_unlocked("tokenize", "0★")])
+        _write_tree(tmp_path, "alice", tree_data)
+        result = demote_skill("alice", "tokenize", str(tmp_path))
+        assert result["skillId"] == "tokenize"
+        assert result["previousLevel"] == "0★"
+        assert result["newLevel"] is None
+
+        # Verify removal
+        tree_path = tmp_path / "skill-trees" / "alice" / "skill-tree.json"
+        saved = __import__("json").loads(tree_path.read_text())
+        assert len(saved["unlockedSkills"]) == 0
+
+    def test_raises_if_skill_not_in_tree(self, tmp_path):
+        from gaia_cli.promotion import demote_skill
+
+        tree_data = _make_tree("alice", [_make_unlocked("tokenize", "1★")])
+        _write_tree(tmp_path, "alice", tree_data)
+        with __import__("pytest").raises(ValueError, match="not found"):
+            demote_skill("alice", "nonexistent", str(tmp_path))
+
+
+class TestPreviousLevel:
+    def test_previous_level(self):
+        from gaia_cli.promotion import previous_level
+
+        assert previous_level("2★") == "1★"
+        assert previous_level("1★") == "0★"
+        assert previous_level("0★") is None
+        assert previous_level("invalid") is None
+
+
 class TestPromotionState:
     def test_not_unlocked(self):
         graph = _make_graph(_make_skill("tokenize"))
@@ -299,7 +412,15 @@ class TestPromotionState:
         assert promotion_state("tokenize", tree, graph) == "eligible"
 
     def test_eligible_with_evidence(self):
-        ev = [{"class": "B", "source": "http://x.com", "evaluator": "x", "date": "2026-01-01", "notes": ""}]
+        ev = [
+            {
+                "class": "B",
+                "source": "http://x.com",
+                "evaluator": "x",
+                "date": "2026-01-01",
+                "notes": "",
+            }
+        ]
         graph = _make_graph(_make_skill("tokenize", evidence=ev))
         tree = _make_tree("alice", [_make_unlocked("tokenize", "1★")])
         assert promotion_state("tokenize", tree, graph) == "eligible"
