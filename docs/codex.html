@@ -20,6 +20,415 @@
 <script src="js/rank-badge.js?v=4.3.4"></script>
 <!-- Stage 3 — plaque component family. -->
 <script src="js/plaque.js?v=4.3.4"></script>
+<style>
+/* Curate Chain CSS definitions */
+.curate-chain-section {
+  margin-top: 3rem;
+  margin-bottom: 3.5rem;
+}
+
+.pipeline-diagram-container {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  overflow: hidden;
+}
+
+.pipeline-nodes {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.step-node {
+  flex: 1;
+  min-width: 140px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+.step-node:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--step-color);
+  transform: translateY(-2px);
+}
+
+.step-node.active {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--step-color);
+  box-shadow: 0 0 15px var(--step-glow);
+}
+
+.step-node.simulating {
+  animation: pulse-glow 1.5s infinite alternate;
+  border-color: var(--step-color);
+}
+
+@keyframes pulse-glow {
+  0% {
+    box-shadow: 0 0 5px var(--step-glow);
+  }
+  100% {
+    box-shadow: 0 0 20px var(--step-glow);
+  }
+}
+
+.step-num {
+  font-family: var(--font-mono);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--step-color);
+  margin-bottom: 0.25rem;
+}
+
+.step-title {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.25rem;
+  line-height: 1.2;
+}
+
+.step-agent {
+  font-size: 0.72rem;
+  color: var(--muted);
+  font-family: var(--font-body);
+}
+
+.gate-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  user-select: none;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  min-width: 30px;
+}
+
+.gate-label {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+  margin-bottom: 0.25rem;
+}
+
+.gate-arrow {
+  width: 14px;
+  height: 14px;
+  stroke: var(--muted);
+}
+
+/* Details Card */
+.step-details-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.75rem;
+  margin-bottom: 2rem;
+  min-height: 250px;
+  transition: all 0.3s ease;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+@media (max-width: 768px) {
+  .details-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+.details-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.details-title-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.details-title-group h3 {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  margin: 0;
+}
+
+.details-role-badge {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--step-color);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--step-color);
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+}
+
+.details-section-title {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+}
+
+.details-section p {
+  margin: 0 0 1rem 0;
+  line-height: 1.6;
+}
+
+.details-io-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.details-io-list li {
+  font-size: 0.88rem;
+  color: var(--text);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.details-io-list li::before {
+  content: "•";
+  color: var(--step-color);
+  font-weight: bold;
+}
+
+.details-io-list li code {
+  background: rgba(255, 255, 255, 0.04);
+  padding: 0.1rem 0.3rem;
+  border-radius: 3px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+.details-gate-box {
+  background: #0a0a0c;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.25rem;
+}
+
+.gate-rule-desc {
+  font-size: 0.88rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+}
+
+.gate-code-block {
+  margin: 0 0 1rem 0;
+  background: #050507;
+  padding: 0.75rem;
+  border-radius: 4px;
+  overflow-x: auto;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.gate-code-block code {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: #34d399;
+}
+
+.gate-fail-routing {
+  font-size: 0.82rem;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.gate-fail-routing strong {
+  color: var(--honor-red);
+}
+
+/* Simulator styling */
+.simulator-wrapper {
+  background: #08080a;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 2.5rem;
+}
+
+.simulator-header {
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid var(--border);
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.simulator-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.simulator-dots .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.simulator-dots .dot.red { background: #ef4444; }
+.simulator-dots .dot.yellow { background: #fbbf24; }
+.simulator-dots .dot.green { background: #22c55e; }
+
+.simulator-title {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.simulator-btn {
+  margin: 0;
+  font-size: 0.8rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  color: var(--text);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.simulator-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--text);
+}
+
+.simulator-body {
+  padding: 1.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  height: 280px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: #c9d1d9;
+  scroll-behavior: smooth;
+}
+
+.console-line.system { color: #8b949e; }
+.console-line.agent { color: #58a6ff; }
+.console-line.gate-pass { color: #34d399; }
+.console-line.gate-fail { color: #f85149; }
+.console-line.user { color: #fbbf24; }
+.console-line.input-prompt {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 0.75rem;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  margin-top: 0.5rem;
+}
+
+.sim-l4-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.sim-l4-table th, .sim-l4-table td {
+  padding: 0.5rem;
+  border: 1px solid var(--border);
+  text-align: left;
+}
+
+.sim-l4-table th {
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.sim-action-select {
+  background: #0d1117;
+  color: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.15rem 0.3rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  outline: none;
+  cursor: pointer;
+}
+
+.sim-action-select:focus {
+  border-color: var(--tier-ultimate);
+}
+
+.sim-submit-btn {
+  background: var(--tier-ultimate);
+  color: #000;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  font-family: var(--font-body);
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: opacity 0.15s;
+}
+
+.sim-submit-btn:hover {
+  opacity: 0.9;
+}
+
+@media (max-width: 860px) {
+  .pipeline-nodes {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.25rem;
+  }
+  .gate-node {
+    margin: 0.4rem auto;
+    flex-direction: row;
+    gap: 0.5rem;
+  }
+  .gate-arrow {
+    transform: rotate(90deg);
+  }
+  .step-node {
+    width: 100%;
+  }
+}
+</style>
 </head>
 <body class="process-page">
 
@@ -79,50 +488,121 @@
 
 
 
-  <section class="process-section">
-    <h2 id="operating-loop">The Operating Loop</h2>
-    <p class="section-sub">A simple path keeps public contributions readable and keeps the canonical graph intentional.</p>
-    <div class="process-lanes">
-      <article class="process-lane">
-        <div class="process-step-label">1. Discover</div>
-        <h3>Find a real capability</h3>
-        <p>Contributors scan their repositories, name skills they actually use, and attach enough context for another person to understand the behavior.</p>
-      </article>
-      <article class="process-lane">
-        <div class="process-step-label">2. Curate</div>
-        <h3>Keep proposals reviewable</h3>
-        <p>Draft records stay in <code>registry-for-review/</code> so proposed skills can be discussed without rewriting <code>registry/gaia.json</code>.</p>
-      </article>
-      <article class="process-lane">
-        <div class="process-step-label">3. Review</div>
-        <h3>Check evidence and fit</h3>
-        <p>Reviewers look for duplicates, missing prerequisites, unclear names, and weak evidence before anything moves toward the canonical tree.</p>
-      </article>
-      <article class="process-lane">
-        <div class="process-step-label">4. Promote</div>
-        <h3>Merge only settled graph changes</h3>
-        <p>Accepted items are promoted in focused graph PRs so each canonical change has a clear source, rationale, and reviewer trail.</p>
-      </article>
+  <section class="process-section curate-chain-section">
+    <h2 id="operating-loop">The Curate Chain Pipeline</h2>
+    <p class="section-sub">A programmatic prompt-chaining workflow that decomposes registry curation into six discrete links and checks. Click any step below to inspect its inputs, outputs, and validation rules.</p>
+
+    <!-- Visual Interactive Flow Diagram -->
+    <div class="pipeline-diagram-container">
+      <div class="pipeline-nodes">
+        <!-- Node L1 -->
+        <div class="step-node active" data-step="1" style="--step-color: var(--tier-basic); --step-glow: rgba(56, 189, 248, 0.25);">
+          <div class="step-num">L1</div>
+          <div class="step-title">Scope & Dedupe</div>
+          <div class="step-agent">Explore Agent</div>
+        </div>
+        <!-- Gate g1 -->
+        <div class="gate-node">
+          <span class="gate-label">g1</span>
+          <svg class="gate-arrow" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        
+        <!-- Node L2 -->
+        <div class="step-node" data-step="2" style="--step-color: var(--tier-basic); --step-glow: rgba(56, 189, 248, 0.25);">
+          <div class="step-num">L2</div>
+          <div class="step-title">Research & Evidence</div>
+          <div class="step-agent">Parallel Research</div>
+        </div>
+        <!-- Gate g2 -->
+        <div class="gate-node">
+          <span class="gate-label">g2</span>
+          <svg class="gate-arrow" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+
+        <!-- Node L3 -->
+        <div class="step-node" data-step="3" style="--step-color: var(--tier-extra); --step-glow: rgba(192, 132, 252, 0.25);">
+          <div class="step-num">L3</div>
+          <div class="step-title">Schema Mapping</div>
+          <div class="step-agent">HEAVIER Agent</div>
+        </div>
+        <!-- Gate g3 -->
+        <div class="gate-node">
+          <span class="gate-label">g3</span>
+          <svg class="gate-arrow" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+
+        <!-- Node L4 -->
+        <div class="step-node" data-step="4" style="--step-color: var(--tier-ultimate); --step-glow: rgba(245, 158, 11, 0.25);">
+          <div class="step-num">L4</div>
+          <div class="step-title">Human Review</div>
+          <div class="step-agent">Manual Gate</div>
+        </div>
+        <!-- Gate g4 -->
+        <div class="gate-node">
+          <span class="gate-label">g4</span>
+          <svg class="gate-arrow" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+
+        <!-- Node L5 -->
+        <div class="step-node" data-step="5" style="--step-color: var(--tier-unique); --step-glow: rgba(124, 58, 237, 0.25);">
+          <div class="step-num">L5</div>
+          <div class="step-title">Execute Mutations</div>
+          <div class="step-agent">CLI Mutations</div>
+        </div>
+        <!-- Gate g5 -->
+        <div class="gate-node">
+          <span class="gate-label">g5</span>
+          <svg class="gate-arrow" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+
+        <!-- Node L6 -->
+        <div class="step-node" data-step="6" style="--step-color: var(--apex-gold); --step-glow: rgba(251, 191, 36, 0.25);">
+          <div class="step-num">L6</div>
+          <div class="step-title">Regenerate & Ship</div>
+          <div class="step-agent">PR Agent</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Details Display Panel -->
+    <div class="step-details-card" id="stepDetailsCard">
+      <!-- Will be populated dynamically by JS on load/click -->
+    </div>
+
+    <!-- Interactive Simulator Panel -->
+    <div class="simulator-wrapper">
+      <div class="simulator-header">
+        <div class="simulator-dots">
+          <span class="dot red"></span>
+          <span class="dot yellow"></span>
+          <span class="dot green"></span>
+        </div>
+        <div class="simulator-title">curate-chain-simulator.sh</div>
+        <button class="simulator-btn" id="startSimBtn">Run Simulation</button>
+      </div>
+      <div class="simulator-body" id="simulatorConsole">
+        <div class="console-line system">> Click "Run Simulation" above to step through the Gaia Curate Chain pipeline interactively.</div>
+      </div>
     </div>
   </section>
 
   <section class="process-section process-band">
     <div>
       <h2 id="what-automation-does">What Automation Does</h2>
-      <p class="section-sub">Automation helps with formatting, triage, and repeat checks. Humans still decide what the registry means.</p>
+      <p class="section-sub">In the prompt-chaining model, sub-agents carry out localized tasks and programmatic gates verify results before continuing.</p>
     </div>
     <div class="process-checklist">
       <div class="process-check">
-        <span>Scan output</span>
-        <p>Turns repository evidence into a structured draft batch that reviewers can read quickly.</p>
+        <span>Sub-Agent Roles</span>
+        <p>Localized sub-agents run L1 (discovery), L2 (parallel target research), L3 (batch schema design), and L6 (PR generation), minimizing token waste and errors.</p>
       </div>
       <div class="process-check">
-        <span>PR shaping</span>
-        <p>Routes intake changes into draft pull requests with labels, summaries, and reviewer checklists.</p>
+        <span>Deterministic Gates</span>
+        <p>Programmatic jq/bash checks (g1-g3, g5-g6) assert schema shapes, prerequisite DAG validation, and evidence presence before committing any data.</p>
       </div>
       <div class="process-check">
-        <span>Guardrails</span>
-        <p>Runs schema, layout, and naming checks so graph changes do not drift across unrelated branches.</p>
+        <span>CLI-First Mutation</span>
+        <p>The orchestrator enforces that all graph changes are applied via CLI commands (L5) to ensure code validity. Direct hand-edits are blocked.</p>
       </div>
     </div>
   </section>
@@ -135,20 +615,444 @@
         <h3>For intake PRs</h3>
         <ul>
           <li>Confirm the batch belongs under <code>registry-for-review/</code>.</li>
-          <li>Check proposed names against existing canonical skills and named implementations.</li>
-          <li>Ask for clearer evidence when the behavior cannot be reproduced or understood.</li>
+          <li>Check that new named skills are submitted as <code>status: "awakened"</code> (title and catalogRef are omitted).</li>
+          <li>Verify proposed names against existing canonical skills and named implementations.</li>
+          <li>Request clearer evidence when the behavior cannot be reproduced or understood.</li>
         </ul>
       </div>
       <div class="review-card">
         <h3>For graph PRs</h3>
         <ul>
           <li>Treat <code>registry/gaia.json</code> as the source of truth.</li>
-          <li>Verify prerequisites, rank, evidence class, and status before merge.</li>
-          <li>Keep generated files in sync through the registry scripts, not hand edits.</li>
+          <li>Promote accepted named skills from <code>awakened</code> to <code>named</code> and assign a level (2★–6★) and <code>catalogRef</code>.</li>
+          <li>Verify prerequisites, rank, evidence class, and status before merging.</li>
+          <li>Ensure all generated files are in sync through automated scripts.</li>
         </ul>
       </div>
     </div>
   </section>
+
+  <script>
+  (function() {
+    const steps = [
+      {
+        num: "L1",
+        title: "Scope & Dedupe",
+        role: "Explore-class Sub-Agent",
+        color: "var(--tier-basic)",
+        glow: "rgba(56, 189, 248, 0.25)",
+        desc: "The curation process starts with defining the scope. The orchestrator dispatches an Explore-class sub-agent to scan sources and avoid duplicating existing registry nodes.",
+        inputs: [
+          "Authoritative sources in <code>registry/skill-sources.md</code>",
+          "Current registry in <code>registry/gaia.json</code>"
+        ],
+        outputs: [
+          "<code>existingIds</code>: List of all active skill IDs in the registry",
+          "<code>targets</code>: 5-15 potential curation candidate targets"
+        ],
+        gateNum: "g1",
+        gateType: "Programmatic Validation",
+        gateDesc: "Ensures targets were successfully generated and deduplicated against current registry nodes.",
+        gateCode: "jq -e '(.existingIds|length>0) and (.targets|length>0)' \\\n  generated-output/curate-chain-state.json",
+        gateFailure: "Re-dispatches the L1 sub-agent (up to 2 retries) with the failure reason before stopping."
+      },
+      {
+        num: "L2",
+        title: "Research & Evidence",
+        role: "Parallel Research Sub-Agents",
+        color: "var(--tier-basic)",
+        glow: "rgba(56, 189, 248, 0.25)",
+        desc: "Parallel sub-agents are spawned for target clusters. They search GitHub, arXiv, and developer networks to collect verifiable evidence of real agent capabilities.",
+        inputs: [
+          "Target research list generated in L1",
+          "GitHub Search / arXiv API / SkillsMP database"
+        ],
+        outputs: [
+          "<code>candidates[]</code>: Array of candidates with detailed evidence URLs"
+        ],
+        gateNum: "g2",
+        gateType: "Programmatic Evidence Gate",
+        gateDesc: "Verifies every candidate has at least one source, and Level II+ candidates must have Class A (papers) or Class B (code/repos) evidence.",
+        gateCode: "jq -e 'all(.candidates[];\n        (.evidence|length>0) and\n        ((.typeGuess|test(\"basic|generic\")) or\n         ([.evidence[].class]|any(.==\"A\" or .==\"B\"))))' \\\n  generated-output/curate-chain-state.json",
+        gateFailure: "Routes back to L2 for the failing candidates only. Candidates failing after retry are dropped."
+      },
+      {
+        num: "L3",
+        title: "Schema Mapping & Design",
+        role: "HEAVIER Reasoning Sub-Agent",
+        color: "var(--tier-extra)",
+        glow: "rgba(192, 132, 252, 0.25)",
+        desc: "Fuses vendor-specific implementations into single generic concepts. Maps candidates into a CLI-compatible batch with appropriate tiers, levels, and prerequisite DAGs.",
+        inputs: [
+          "Verifiable <code>candidates[]</code> from L2",
+          "Registry schema specification"
+        ],
+        outputs: [
+          "<code>batch[]</code>: Structured skill nodes with metadata",
+          "Review table for user inspection"
+        ],
+        gateNum: "g3",
+        gateType: "Programmatic Schema Gate",
+        gateDesc: "Pre-flight checks naming patterns, level/tier rules, and validates that prerequisites form a cycle-free DAG.",
+        gateCode: "jq -e '\n def gidok: test(\"^[a-z][a-z0-9]*(-[a-z0-9]+)*$\");\n def nidok: test(\"^[a-z0-9][a-z0-9_-]*/[a-z0-9][a-z0-9_-]*$\");\n all(.batch[];\n   (if .named then (.id|nidok) else (.id|gidok) end)\n   and (if .type==\"basic\" or .type==\"unique\" then (.prereqs|length)==0\n        elif .type==\"extra\" then (.prereqs|length)>=2\n        elif .type==\"ultimate\" then (.prereqs|length)>=3 else false end)\n   and (if .named then (.status==\"awakened\")\n        else (.status==\"provisional\" and (.level==null)) end))' \\\n  generated-output/curate-chain-state.json",
+        gateFailure: "Routes back to L3 with details of the violating fields for the sub-agent to adjust."
+      },
+      {
+        num: "L4",
+        title: "Human Review",
+        role: "Contributor / Maintainer",
+        color: "var(--tier-ultimate)",
+        glow: "rgba(245, 158, 11, 0.25)",
+        desc: "A mandatory human-in-the-loop review. The orchestrator presents the designed batch table, letting the human review, rename, or filter proposed nodes.",
+        inputs: [
+          "Designed batch and candidate review table"
+        ],
+        outputs: [
+          "User decisions: <code>accept</code> / <code>rename</code> / <code>duplicate</code> / <code>reject</code>"
+        ],
+        gateNum: "g4",
+        gateType: "Human-in-the-Loop Gate",
+        gateDesc: "Proceeds only if at least one candidate is accepted. Renames are applied, and rejected proposals are discarded.",
+        gateCode: "[Human Judgement] - Actions: Accept | Rename | Duplicate | Reject",
+        gateFailure: "Halts pipeline execution and reports to the user if no candidates remain accepted."
+      },
+      {
+        num: "L5",
+        title: "Execute Mutations",
+        role: "CLI Curation Engine",
+        color: "var(--tier-unique)",
+        glow: "rgba(124, 58, 237, 0.25)",
+        desc: "Applies mutations exclusively via programmatic CLI tools. Modifying nodes directly by hand is strictly forbidden to prevent registry inconsistency.",
+        inputs: [
+          "Approved batch decisions from L4"
+        ],
+        outputs: [
+          "Mutated <code>registry/nodes/</code> and <code>registry/gaia.json</code> files",
+          "Record of execution in <code>mutations[]</code>"
+        ],
+        gateNum: "g5",
+        gateType: "Registry Validation Gate",
+        gateDesc: "Compiles the skill tree and validates constraints. Must report 0 errors.",
+        gateCode: "gaia validate && gaia validate --intake",
+        gateFailure: "Routes back to L5 with the validator output. Halts after 2 retries to prevent pushing invalid state."
+      },
+      {
+        num: "L6",
+        title: "Regenerate & Ship",
+        role: "PR & Publishing Sub-Agent",
+        color: "var(--apex-gold)",
+        glow: "rgba(251, 191, 36, 0.25)",
+        desc: "Regenerates all documentation, builds layouts, commits to a dedicated review branch, pushes changes, and creates a draft pull request.",
+        inputs: [
+          "Mutated registry state"
+        ],
+        outputs: [
+          "Regenerated <code>docs/</code> files",
+          "Draft pull request opened on GitHub"
+        ],
+        gateNum: "g6",
+        gateType: "Pre-Push Integrity Gate",
+        gateDesc: "Ensures documentation is in sync and checks version lockstep across all manifests.",
+        gateCode: "gaia docs build --check",
+        gateFailure: "Fixes and re-runs the docs build. Stale-documentation pushes are blocked by CI."
+      }
+    ];
+
+    function renderStepDetails(index) {
+      const step = steps[index];
+      const card = document.getElementById("stepDetailsCard");
+      if (!card) return;
+
+      let inputsHtml = "";
+      step.inputs.forEach(inp => {
+        inputsHtml += `<li>${inp}</li>`;
+      });
+
+      let outputsHtml = "";
+      step.outputs.forEach(out => {
+        outputsHtml += `<li>${out}</li>`;
+      });
+
+      card.style.opacity = 0;
+      setTimeout(() => {
+        card.innerHTML = `
+          <div class="details-header">
+            <div class="details-title-group">
+              <h3 style="color: ${step.color}">${step.num}: ${step.title}</h3>
+              <span class="details-role-badge" style="--step-color: ${step.color}">${step.role}</span>
+            </div>
+          </div>
+          <div class="details-grid">
+            <div class="details-left">
+              <div class="details-section">
+                <div class="details-section-title">Description</div>
+                <p>${step.desc}</p>
+              </div>
+              <div class="details-section">
+                <div class="details-section-title">Inputs</div>
+                <ul class="details-io-list" style="--step-color: ${step.color}">${inputsHtml}</ul>
+              </div>
+              <div class="details-section">
+                <div class="details-section-title">Outputs</div>
+                <ul class="details-io-list" style="--step-color: ${step.color}">${outputsHtml}</ul>
+              </div>
+            </div>
+            <div class="details-right">
+              <div class="details-gate-box">
+                <div class="details-section-title">${step.gateNum} — ${step.gateType}</div>
+                <div class="gate-rule-desc">${step.gateDesc}</div>
+                <div class="gate-code-block">
+                  <pre><code>${escapeHtml(step.gateCode)}</code></pre>
+                </div>
+                <div class="gate-fail-routing">
+                  <span>On Failure: <strong>${step.gateFailure}</strong></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        card.style.opacity = 1;
+      }, 150);
+    }
+
+    function escapeHtml(text) {
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // Setup click handlers
+    const nodes = document.querySelectorAll(".step-node");
+    nodes.forEach((node, idx) => {
+      node.addEventListener("click", () => {
+        nodes.forEach(n => n.classList.remove("active"));
+        node.classList.add("active");
+        renderStepDetails(idx);
+      });
+    });
+
+    // Render first step by default
+    renderStepDetails(0);
+
+    // Simulator logic
+    const startBtn = document.getElementById("startSimBtn");
+    const consoleBox = document.getElementById("simulatorConsole");
+    let isRunning = false;
+
+    function addLog(msg, type = "system") {
+      const line = document.createElement("div");
+      line.className = `console-line ${type}`;
+      line.innerHTML = msg;
+      consoleBox.appendChild(line);
+      consoleBox.scrollTop = consoleBox.scrollHeight;
+    }
+
+    if (startBtn && consoleBox) {
+      startBtn.addEventListener("click", () => {
+        if (isRunning) return;
+        isRunning = true;
+        startBtn.disabled = true;
+        startBtn.innerText = "Running...";
+        consoleBox.innerHTML = "";
+        
+        // Remove existing simulating classes
+        nodes.forEach(n => n.classList.remove("simulating", "active"));
+
+        let currentSimStep = 1;
+
+        function runNext() {
+          if (currentSimStep > 6) {
+            addLog("[System] Pipeline successfully executed! All gates passed.", "gate-pass");
+            addLog("[System] Simulation complete.", "system");
+            startBtn.disabled = false;
+            isRunning = false;
+            startBtn.innerText = "Run Simulation";
+            nodes.forEach(n => n.classList.remove("simulating"));
+            nodes[0].classList.add("active");
+            renderStepDetails(0);
+            return;
+          }
+
+          const node = nodes[currentSimStep - 1];
+          nodes.forEach(n => n.classList.remove("simulating"));
+          node.classList.add("simulating");
+
+          switch (currentSimStep) {
+            case 1:
+              addLog("[System] Initiating Curate Chain Pipeline...", "system");
+              setTimeout(() => {
+                addLog("[L1] Spawning Explore-class Sub-Agent...", "agent");
+                addLog("[L1] Reading sources in `registry/skill-sources.md`...", "agent");
+                addLog("[L1] Scanned registry and extracted target candidates.", "agent");
+                setTimeout(() => {
+                  addLog("[Gate g1] Running programmatic check: `existingIds` and `targets` non-empty...", "system");
+                  addLog("[Gate g1] PASS! `existingIds` count: 142, `targets` count: 8", "gate-pass");
+                  currentSimStep++;
+                  setTimeout(runNext, 1200);
+                }, 1000);
+              }, 800);
+              break;
+
+            case 2:
+              addLog("[System] Advancing to Research Link...", "system");
+              setTimeout(() => {
+                addLog("[L2] Spawning Parallel Research Sub-Agents...", "agent");
+                addLog("[L2] Searching repository: `github.com/openai/swarm`...", "agent");
+                addLog("[L2] Searching arXiv papers for literature search nodes...", "agent");
+                addLog("[L2] Found valid Class B repo code and Class A arXiv paper.", "agent");
+                setTimeout(() => {
+                  addLog("[Gate g2] Verifying evidence: checking Class A/B requirements...", "system");
+                  addLog("[Gate g2] PASS! Evidence URLs mapped for all 8 candidates.", "gate-pass");
+                  currentSimStep++;
+                  setTimeout(runNext, 1200);
+                }, 1000);
+              }, 800);
+              break;
+
+            case 3:
+              addLog("[System] Advancing to Schema Design Link...", "system");
+              setTimeout(() => {
+                addLog("[L3] Spawning HEAVIER Reasoning Sub-Agent...", "agent");
+                addLog("[L3] Fusion-First mapping: group papers under `literature-search` (generic).", "agent");
+                addLog("[L3] Drafting batch structure with levels and demerits.", "agent");
+                setTimeout(() => {
+                  addLog("[Gate g3] Running pre-flight schema & DAG checks...", "system");
+                  addLog("[Gate g3] PASS! DAG has 0 cycles, schemas match specifications.", "gate-pass");
+                  currentSimStep++;
+                  setTimeout(runNext, 1200);
+                }, 1000);
+              }, 800);
+              break;
+
+            case 4:
+              addLog("[System] Advancing to Human Review Gate...", "system");
+              setTimeout(() => {
+                addLog("[L4] Rendering batch table for contributor review...", "agent");
+                addLog("[Gate g4] WAITING FOR HUMAN REVIEW INPUT...", "system");
+                
+                // Render interactive table inside terminal
+                const promptBox = document.createElement("div");
+                promptBox.className = "console-line input-prompt";
+                promptBox.innerHTML = `
+                  <div style="font-weight: bold; margin-bottom: 0.5rem;">Review Intake Batch (L4):</div>
+                  <table class="sim-l4-table">
+                    <thead>
+                      <tr><th>ID</th><th>Type</th><th>Evidence</th><th>Decision</th></tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>literature-search</td>
+                        <td>generic (provisional)</td>
+                        <td>Class A (arXiv)</td>
+                        <td>
+                          <select class="sim-action-select" id="dec-1">
+                            <option value="accept">Accept</option>
+                            <option value="reject">Reject</option>
+                          </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>openai/swarm</td>
+                        <td>named (awakened)</td>
+                        <td>Class B (GitHub)</td>
+                        <td>
+                          <select class="sim-action-select" id="dec-2">
+                            <option value="accept">Accept</option>
+                            <option value="rename">Rename</option>
+                            <option value="reject">Reject</option>
+                          </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>arxiv-lookup</td>
+                        <td>generic (provisional)</td>
+                        <td>Class C (Web)</td>
+                        <td>
+                          <select class="sim-action-select" id="dec-3">
+                            <option value="reject">Reject (Duplicate)</option>
+                            <option value="accept">Accept</option>
+                          </select>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <button class="sim-submit-btn" id="submitSimL4">Submit Review Decisions</button>
+                `;
+                consoleBox.appendChild(promptBox);
+                consoleBox.scrollTop = consoleBox.scrollHeight;
+
+                document.getElementById("submitSimL4").addEventListener("click", () => {
+                  const dec1 = document.getElementById("dec-1").value;
+                  const dec2 = document.getElementById("dec-2").value;
+                  const dec3 = document.getElementById("dec-3").value;
+
+                  promptBox.remove();
+                  addLog(`[User] Submitted Review Decisions:`, "user");
+                  addLog(` - <code>literature-search</code>: <strong>${dec1.toUpperCase()}</strong>`, "user");
+                  addLog(` - <code>openai/swarm</code>: <strong>${dec2.toUpperCase()}</strong>`, "user");
+                  addLog(` - <code>arxiv-lookup</code>: <strong>${dec3.toUpperCase()}</strong>`, "user");
+
+                  const acceptedCount = (dec1 === 'accept' ? 1 : 0) + (dec2 === 'accept' || dec2 === 'rename' ? 1 : 0) + (dec3 === 'accept' ? 1 : 0);
+
+                  if (acceptedCount > 0) {
+                    addLog(`[Gate g4] PASS! ${acceptedCount} candidates accepted. Advancing to L5...`, "gate-pass");
+                    currentSimStep++;
+                    setTimeout(runNext, 1000);
+                  } else {
+                    addLog(`[Gate g4] FAIL! 0 candidates accepted. Pipeline halted.`, "gate-fail");
+                    startBtn.disabled = false;
+                    isRunning = false;
+                    startBtn.innerText = "Run Simulation";
+                    nodes.forEach(n => n.classList.remove("simulating"));
+                  }
+                });
+              }, 800);
+              break;
+
+            case 5:
+              addLog("[System] Advancing to Mutation Execution Link...", "system");
+              setTimeout(() => {
+                addLog("[L5] Programmatic mutation: running `gaia dev` commands...", "agent");
+                addLog("[L5] CLI: `gaia dev add \"Literature Search\" --id literature-search --type basic`", "agent");
+                addLog("[L5] CLI: `gaia dev add \"Swarm\" --id openai/swarm --named --contributor openai --status awakened`", "agent");
+                addLog("[L5] CLI: `gaia dev evidence literature-search \"https://arxiv.org/abs/...\" --class A`", "agent");
+                setTimeout(() => {
+                  addLog("[Gate g5] Running registry verification compiler...", "system");
+                  addLog("[Gate g5] Running: `gaia validate && gaia validate --intake`", "system");
+                  addLog("[Gate g5] PASS! Compilation successful, 0 schema or DAG errors.", "gate-pass");
+                  currentSimStep++;
+                  setTimeout(runNext, 1200);
+                }, 1000);
+              }, 800);
+              break;
+
+            case 6:
+              addLog("[System] Advancing to Publish & Ship Link...", "system");
+              setTimeout(() => {
+                addLog("[L6] Rebuilding documentation: running `gaia docs build`...", "agent");
+                addLog("[L6] Creating branch `review/meta/literature-search`...", "agent");
+                addLog("[L6] Committing changes & pushing to remote origin...", "agent");
+                addLog("[L6] Triggering draft PR creation...", "agent");
+                setTimeout(() => {
+                  addLog("[Gate g6] Enforcing version lockstep and documentation sync...", "system");
+                  addLog("[Gate g6] PASS! Version match and docs build integrity check completed.", "gate-pass");
+                  addLog("[System] Opened Draft PR: `gh pr create --draft --title \"[meta] Add literature-search\"`", "gate-pass");
+                  currentSimStep++;
+                  setTimeout(runNext, 1200);
+                }, 1000);
+              }, 800);
+              break;
+          }
+        }
+
+        runNext();
+      });
+    }
+  })();
+  </script>
 
   <section class="process-section">
     <h2 id="branch-naming-convention">Branch Naming Convention</h2>
