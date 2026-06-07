@@ -468,8 +468,8 @@
     var version = window.GAIA_VERSION ? '?v=' + window.GAIA_VERSION : '';
     var prefix = (typeof window.gaiaIconBase === 'function') ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '') : '';
     Promise.all([
-      fetch(prefix + 'graph/named/index.json' + version).then(function(r){ if (!r.ok) throw r; return r.json(); }),
-      fetch(prefix + 'graph/gaia.json' + version).then(function(r){ if (!r.ok) throw r; return r.json(); }),
+      fetch('/graph/named/index.json' + version).then(function(r){ if (!r.ok) throw r; return r.json(); }),
+      fetch('/graph/gaia.json' + version).then(function(r){ if (!r.ok) throw r; return r.json(); }),
     ]).then(function(results) {
       var indexData = results[0], fullGraph = results[1];
       var skillMap = {};

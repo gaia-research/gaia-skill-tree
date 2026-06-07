@@ -1043,7 +1043,6 @@ def build_profile_page(handle: str, skills: list, named_index: dict | None = Non
   <link rel="stylesheet" href="../../css/plaque.css">
   <!-- Stage 1 — icon sprite helper, loaded BEFORE other UI scripts. -->
   <script src="../../js/icons.js"></script>
-  <script src="../../js/atlas-helpers.js"></script>
   <!-- Stage 2 — rank-badge component, loaded after icons.js. -->
   <script src="../../js/rank-badge.js"></script>
   <!-- Stage 3 — plaque component family, loaded after rank-badge.js. -->
@@ -1420,7 +1419,6 @@ def build_directory_page(by_contributor: dict) -> str:
   <link rel="stylesheet" href="../css/plaque.css">
   <!-- Stage 1 — icon sprite helper, loaded BEFORE other UI scripts. -->
   <script src="../js/icons.js"></script>
-  <script src="../js/atlas-helpers.js"></script>
   <!-- Stage 2 — rank-badge component, loaded after icons.js. -->
   <script src="../js/rank-badge.js"></script>
   <script src="../js/ui.js" defer></script>
