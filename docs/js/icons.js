@@ -48,10 +48,20 @@
       var depth = 0;
       var idx = segs.indexOf('u');
       var idxS = segs.indexOf('samples');
+      var idxN = segs.indexOf('named');
+      var idxB = segs.indexOf('badges');
+      var idxM = segs.indexOf('meta');
+
       if (idx !== -1) {
         depth = segs.length - idx;
       } else if (idxS !== -1) {
         depth = segs.length - idxS;
+      } else if (idxN !== -1) {
+        depth = segs.length - idxN;
+      } else if (idxB !== -1) {
+        depth = segs.length - idxB;
+      } else if (idxM !== -1) {
+        depth = segs.length - idxM;
       }
       var prefix = '';
       for (var i = 0; i < depth; i++) prefix += '../';

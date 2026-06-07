@@ -445,7 +445,11 @@ def _plaque_actions_html(ns: dict, handle: str = "") -> str:
             f'</button>'
         )
 
-    claim_href = f'../../badges/?u={html.escape(handle)}' if handle else '../../badges/'
+    claim_href = (
+        f'../../badges/?u={html.escape(handle)}&s={html.escape(skill_id_short)}'
+        if handle
+        else '../../badges/'
+    )
     claim_btn_html = (
         f'<a class="plaque__claim-btn" '
         f' href="{claim_href}" '
@@ -1028,7 +1032,7 @@ def build_profile_page(handle: str, skills: list, named_index: dict | None = Non
   <meta property="og:type" content="profile">
   <meta property="og:title" content="{page_title}">
   <meta property="og:description" content="{html.escape(og_description)}">
-  <meta property="og:url" content="https://mbtiongson1.github.io/gaia-skill-tree/u/{html.escape(handle)}/">
+  <meta property="og:url" content="https://gaia.tiongson.co/u/{html.escape(handle)}/">
 {og_image_tags}
   <!-- Stage 1 — Web fonts (EB Garamond display, Bricolage body, JetBrains Mono fallback). -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1405,7 +1409,7 @@ def build_directory_page(by_contributor: dict) -> str:
   <meta property="og:type" content="website">
   <meta property="og:title" content="{page_title}">
   <meta property="og:description" content="{html.escape(og_description)}">
-  <meta property="og:url" content="https://mbtiongson1.github.io/gaia-skill-tree/u/">
+  <meta property="og:url" content="https://gaia.tiongson.co/u/">
   <!-- Stage 1 — Web fonts (EB Garamond display, Bricolage body, JetBrains Mono fallback). -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

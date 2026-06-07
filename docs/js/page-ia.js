@@ -150,9 +150,10 @@
           var btn = ev.target.closest && ev.target.closest('.ult-claim');
           if (!btn) return;
           var contributor = btn.dataset.contributor;
+          var prefix = (typeof window.gaiaIconBase === 'function') ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '') : '';
           window.location.href = contributor
-            ? 'badges/?u=' + encodeURIComponent(contributor) + '#generate-section'
-            : 'badges/#generate-section';
+            ? prefix + 'badges/?u=' + encodeURIComponent(contributor) + '#generate-section'
+            : prefix + 'badges/#generate-section';
         });
         list.dataset.claimDelegated = '1';
       }
@@ -915,7 +916,7 @@
     // is defensive — if the buttons are still present (e.g. cached HTML) we
     // route them at the standalone /named/ page where the explorer search lives.
     function goToSearch() {
-      var prefix = (typeof window.gaiaIconBase === 'function') ? window.gaiaIconBase().replace('assets/icons.svg', '') : '';
+      var prefix = (typeof window.gaiaIconBase === 'function') ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '') : '';
       window.location.href = prefix + 'named/';
     }
     var navSearch = document.getElementById('navSearchBtn');

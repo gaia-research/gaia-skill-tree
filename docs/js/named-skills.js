@@ -423,7 +423,6 @@
     var viewBtnsEl = document.getElementById('nsViewBtns');
     var searchEl = document.getElementById('nsSearch');
     var sortEl = document.getElementById('nsSort');
-    if (!grid) return;
 
     var viewMode = 'tile';
     var typeFilter = 'all';
@@ -467,6 +466,7 @@
     // come from generated assets. If either fetch fails we render an empty
     // state with a hint to run the sync script. No fallbacks, no silent drift.
     var version = window.GAIA_VERSION ? '?v=' + window.GAIA_VERSION : '';
+    var prefix = (typeof window.gaiaIconBase === 'function') ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '') : '';
     Promise.all([
       fetch('/graph/named/index.json' + version).then(function(r){ if (!r.ok) throw r; return r.json(); }),
       fetch('/graph/gaia.json' + version).then(function(r){ if (!r.ok) throw r; return r.json(); }),
@@ -494,7 +494,7 @@
       });
 
       if (!allNamed.length) {
-        grid.innerHTML = '<div class="ns-empty">No named skills yet. Publish the first with <code>gaia name</code>.</div>';
+        if (grid) grid.innerHTML = '<div class="ns-empty">No named skills yet. Publish the first with <code>gaia name</code>.</div>';
         return;
       }
 
@@ -504,7 +504,7 @@
       if (!_meta || !_meta.levelColors || !_meta.typeColors || !_meta.typeSymbols || !_meta.typeLabels) {
         // eslint-disable-next-line no-console
         console.error('[gaia] Missing meta in graph/gaia.json. Run `python scripts/syncDocsGraphAssets.py`.');
-        grid.innerHTML = '<div class="ns-empty">Registry meta missing — run <code>python scripts/syncDocsGraphAssets.py</code>.</div>';
+        if (grid) grid.innerHTML = '<div class="ns-empty">Registry meta missing — run <code>python scripts/syncDocsGraphAssets.py</code>.</div>';
         return;
       }
 
@@ -609,6 +609,7 @@
       }
 
       function renderCurrent() {
+        if (!grid) return;
         var q = searchQuery.toLowerCase();
         var filtered = allNamed.filter(function(ns) {
           if (typeFilter !== 'all' && (ns.type || 'basic') !== typeFilter) return false;
@@ -758,7 +759,7 @@
     }).catch(function(err) {
       // eslint-disable-next-line no-console
       console.error('[gaia] Failed to load named index or graph:', err);
-      grid.innerHTML = '<div class="ns-empty">Registry index missing — run <code>python scripts/syncDocsGraphAssets.py</code>.</div>';
+      if (grid) grid.innerHTML = '<div class="ns-empty">Registry index missing — run <code>python scripts/syncDocsGraphAssets.py</code>.</div>';
     });
 
     // Grab-to-scroll: click+drag anywhere in the Named Skills section scrolls the page
