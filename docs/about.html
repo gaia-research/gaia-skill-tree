@@ -462,8 +462,26 @@
        --left is card→quote. The grid-template-columns flip
        keeps the card column narrow on both variants. */
     @media (min-width: 880px) {
-      .ab-name-entry--left {
-        grid-template-columns: minmax(0, 280px) minmax(0, 1fr);
+      .ab-names-list {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 2.5rem;
+      }
+      .ab-name-entry {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+        padding-top: 0;
+        border-top: none;
+      }
+      .ab-name-card {
+        order: 1;
+        width: 100%;
+      }
+      .ab-name-quote {
+        order: 2;
+        text-align: left;
+        max-width: 100%;
       }
     }
 
