@@ -561,6 +561,20 @@ def render_appraise_card(
         deriv_line = prefix + ", ".join(deriv_items)
         if len(derivatives) > 4:
             deriv_line += f" +{len(derivatives) - 4} more"
+        # Truncate at comma boundary instead of mid-word
+        if len(deriv_line) > inner:
+            truncated = prefix
+            for i, item in enumerate(deriv_items):
+                candidate = truncated + (", " if i > 0 else "") + item
+                if len(candidate) > inner - 2:  # leave room for " …"
+                    remaining = len(deriv_items) - i + (len(derivatives) - 4 if len(derivatives) > 4 else 0)
+                    truncated += f" +{remaining} more" if remaining > 0 else ""
+                    break
+                truncated = candidate
+            else:
+                if len(derivatives) > 4:
+                    truncated += f" +{len(derivatives) - 4} more"
+            deriv_line = truncated
         lines.append(f"{bc}{V}{r} {fg(*COLOR_MUTED)}{_pad(deriv_line, inner)}{r} {bc}{V}{r}")
     else:
         lines.append(f"{bc}{V}{r} {fg(*COLOR_MUTED)}{_pad('Unlocks: (terminal skill)', inner)}{r} {bc}{V}{r}")
