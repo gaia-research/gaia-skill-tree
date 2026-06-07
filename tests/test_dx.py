@@ -445,3 +445,25 @@ def test_gaia_uninstall_command_removes_skill(tmp_path, monkeypatch):
     from gaia_cli.install import load_manifest
     manifest = load_manifest()
     assert not any(e["id"] == "testuser/test-skill" for e in manifest["installed"])
+
+
+def test_init_force_overwrite(tmp_path, monkeypatch, capsys):
+    monkeypatch.chdir(tmp_path)
+
+    # First init
+    run_cli(monkeypatch, ["init", "--user", "firstuser", "--yes"])
+    config = parse_config(tmp_path / ".gaia" / "config.toml")
+    assert config["username"] == "firstuser"
+
+    # Second init without --force (should print message and not overwrite)
+    run_cli(monkeypatch, ["init", "--user", "seconduser", "--yes"])
+    output = capsys.readouterr().out
+    assert "Gaia is already initialized in this repository. Use --force to overwrite." in output
+    config = parse_config(tmp_path / ".gaia" / "config.toml")
+    assert config["username"] == "firstuser"  # unchanged
+
+    # Third init with --force (should overwrite)
+    run_cli(monkeypatch, ["init", "--user", "seconduser", "--yes", "--force"])
+    config = parse_config(tmp_path / ".gaia" / "config.toml")
+    assert config["username"] == "seconduser"  # overwritten
+

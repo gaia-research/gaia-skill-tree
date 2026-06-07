@@ -18,6 +18,7 @@ from gaia_cli.cardRenderer import (
     load_and_render,
     _pad,
     _wrap_lines,
+    render_appraise_card,
 )
 
 
@@ -520,3 +521,29 @@ class TestRenderFusionDiagram:
         # First line (shorter name) should be padded
         assert "/ab" in lines[0]
         assert "/longername" in lines[2]
+
+
+def test_render_appraise_card_truncation():
+    skill_data = {
+        "id": "test-skill",
+        "name": "Test Skill",
+        "type": "basic",
+        "level": "0★",
+        "rarity": "common",
+        "description": "Short description.",
+    }
+    derivatives = [
+        {"id": "d1", "name": "First Derivative Skill Name"},
+        {"id": "d2", "name": "Second Derivative Skill Name"},
+        {"id": "d3", "name": "Third Derivative Skill Name"},
+    ]
+    output = render_appraise_card(
+        skill_data=skill_data,
+        prereq_status={},
+        derivatives=derivatives,
+        actions=[],
+    )
+    assert "First Derivative Skill Name" in output
+    assert "+2 more" in output
+    assert "Second Derivative" not in output
+

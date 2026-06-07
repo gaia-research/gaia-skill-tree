@@ -114,3 +114,23 @@ def test_stats_cli_prints_summary(tmp_path, monkeypatch, capsys):
     assert "Gaia Registry — 4 skills  1 edges" in output
     assert "Class A" in output
     assert "Effective level breakdown" in output
+
+
+def test_collect_stats_missing_level(tmp_path):
+    registry = tmp_path / "registry"
+    registry.mkdir(parents=True, exist_ok=True)
+    (registry / "gaia.json").write_text(
+        json.dumps(
+            {
+                "skills": [
+                    {"id": "tokenize", "type": "basic", "evidence": []},  # No 'level' key
+                ],
+                "edges": [],
+            }
+        ),
+        encoding="utf-8",
+    )
+    stats = collect_stats(tmp_path)
+    assert "?" not in stats["level_counts"]
+    assert "level_counts" in stats
+
