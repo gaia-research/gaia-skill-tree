@@ -52,6 +52,7 @@ jobs:
             gemini/*)           PREFIX="unrestricted" ;;
             dev/*)              PREFIX="unrestricted" ;;
             fix/*)              PREFIX="unrestricted" ;;
+            chore/*)            PREFIX="unrestricted" ;;
             infra/*)            PREFIX="infra" ;;
             *)                  PREFIX="other" ;;
           esac

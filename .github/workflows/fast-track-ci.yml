@@ -40,7 +40,6 @@ jobs:
             exit 0
           fi
 
-          PREFIX=""
           case "$BRANCH" in
             schema/*)           PREFIX="schema" ;;
             cli/*)              PREFIX="cli" ;;
@@ -48,14 +47,20 @@ jobs:
             design/*)           PREFIX="design" ;;
             review/gaia-push/*) PREFIX="review-push" ;;
             review/meta/*)      PREFIX="review-meta" ;;
-            dev/*)              PREFIX="dev" ;;
-            gemini/*)           PREFIX="gemini" ;;
+            dev/*)              PREFIX="unrestricted" ;;
+            claude/*)           PREFIX="unrestricted" ;;
+            codex/*)            PREFIX="unrestricted" ;;
+            gemini/*)           PREFIX="unrestricted" ;;
+            fix/*)              PREFIX="unrestricted" ;;
+            chore/*)            PREFIX="unrestricted" ;;
             infra/*)            PREFIX="infra" ;;
             *)                  PREFIX="unknown" ;;
           esac
 
           if [ "$PREFIX" = "unknown" ]; then
             echo "⚠ Unrecognized branch prefix: $BRANCH"
+          elif [ "$PREFIX" = "unrestricted" ]; then
+            echo "✓ $BRANCH has no scope restrictions."
           else
             echo "✓ Branch prefix valid: $PREFIX"
           fi

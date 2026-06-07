@@ -18,41 +18,74 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      pull-requests: write
     if: |
       github.event_name == 'push' ||
       github.event.pull_request.changed_files >= 10
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      # ── Guard A — token-only colour enforcement ──────────────────────────
-      # No hardcoded tier/rank hex in design JS/CSS files.
-      # CSS var() fallbacks are allowed: var(--token, #hex) form is exempted.
-      - name: Guard A — Token-only colour enforcement
+      # ── Guard A — Token-only colour enforcement ──────────────────────────
+      - name: Guard A — Scan for hardcoded colors
+        id: hardcoded-colors
         run: |
-          set -euo pipefail
-          # Glob all docs/js/*.js and docs/css/*.css so new files are
-          # automatically covered (no manual file-list maintenance required).
+          set +e
           HITS=$(grep -REn '#(38bdf8|c084fc|f59e0b|7c3aed|fbbf24|94a3b8|63cab7|a78bfa|e879f9)' \
                docs/js/ docs/css/ \
                --include='*.js' --include='*.css' \
                --exclude-dir='archive' \
-               | grep -v 'var(--[^,]*,' || true)
-          if [ -n "$HITS" ]; then
-            echo "ERROR: hardcoded tier/rank hex found. Use tokens from docs/css/tokens.css."
-            echo ""
-            echo "$HITS"
-            exit 1
-          fi
-          echo "Guard A PASS — no hardcoded tier/rank hex in design files."
+               2>/dev/null | grep -v 'var(--[^,]*,' || true)
 
-      # ── Guard B — banned synonyms (per CONTEXT.md '## Banned synonyms') ─
-      # Hermes-owned files, the archive dir, and the samplers test-string are
-      # excluded. The samples/tree.html contains a JS array listing banned
-      # terms for its own self-test; exclude the samples dir entirely.
-      - name: Guard B — Banned synonyms (per CONTEXT.md)
+          if [ -n "$HITS" ]; then
+            echo "found=true" >> $GITHUB_OUTPUT
+            echo "hits<<EOF" >> $GITHUB_OUTPUT
+            echo "$HITS" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          else
+            echo "found=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Guard A — Comment on hardcoded colors
+        if: steps.hardcoded-colors.outputs.found == 'true' && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        env:
+          HITS_OUTPUT: ${{ steps.hardcoded-colors.outputs.hits }}
+        with:
+          script: |
+            const marker = '<!-- auto-fix-bot: hardcoded-colors -->';
+            const hits = process.env.HITS_OUTPUT;
+            const body = `${marker}\n## 🎨 Hardcoded colors detected\n\nUse design tokens from \`docs/css/tokens.css\` instead:\n\n\`\`\`\n${hits}\n\`\`\`\n\nReplace with \`var(--token-name)\`.`;
+
+            const comments = await github.rest.issues.listComments({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            });
+            const existing = comments.data.find(c => c.body.includes(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({
+                comment_id: existing.id,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body,
+              });
+            }
+
+      # ── Guard B — Banned synonyms (per CONTEXT.md) ───────────────────────
+      - name: Guard B — Scan for banned synonyms
+        id: banned-synonyms
         run: |
-          set -euo pipefail
+          set +e
           HITS=$(grep -RnE \
                '\b(legendary skill|Pure \/ Undeveloped|Unwired Basics|Atomic Basics|graph-isolated singularities|Highest Tier:\s*common|top-tier skill|mythic|Undeveloped\b)\b' \
                docs/ scripts/ src/gaia_cli/ \
@@ -61,33 +94,120 @@ jobs:
                --exclude='QUICKSTART.md' \
                --exclude-dir='archive' \
                --exclude-dir='samples' \
-               || true)
-          if [ -n "$HITS" ]; then
-            echo "ERROR: banned synonym found. See CONTEXT.md '## Banned synonyms'."
-            echo ""
-            echo "$HITS"
-            exit 1
-          fi
-          echo "Guard B PASS — no banned synonyms in user-facing copy."
+               2>/dev/null || true)
 
-      # ── Guard C — direction rule ─────────────────────────────────────────
-      # Ascending-level sorts require data-pattern="journey" annotation.
-      # Bare a-b sorts without the annotation are a design violation
-      # (all skill lists are Ultimate-first by default).
-      - name: Guard C — Direction rule (Ultimate-first sort enforcement)
+          if [ -n "$HITS" ]; then
+            echo "found=true" >> $GITHUB_OUTPUT
+            echo "hits<<EOF" >> $GITHUB_OUTPUT
+            echo "$HITS" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          else
+            echo "found=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Guard B — Comment on banned synonyms
+        if: steps.banned-synonyms.outputs.found == 'true' && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        env:
+          HITS_OUTPUT: ${{ steps.banned-synonyms.outputs.hits }}
+        with:
+          script: |
+            const marker = '<!-- auto-fix-bot: banned-synonyms -->';
+            const hits = process.env.HITS_OUTPUT;
+            const body = `${marker}\n## ⚠️ Banned synonyms detected\n\nSee CONTEXT.md § Banned synonyms for replacements:\n\n\`\`\`\n${hits}\n\`\`\`\n\nPlease update these before merge.`;
+
+            const comments = await github.rest.issues.listComments({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            });
+            const existing = comments.data.find(c => c.body.includes(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({
+                comment_id: existing.id,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body,
+              });
+            }
+
+      # ── Guard C — Direction rule (Ultimate-first sort enforcement) ───────
+      - name: Guard C — Scan for unlabeled sorts
+        id: unlabeled-sorts
         run: |
-          set -euo pipefail
+          set +e
           HITS=$(grep -RnE 'levels?\.sort\(.*a\s*-\s*b|sortBy.*level.*asc' \
                docs/js/ scripts/ \
                --include='*.js' --include='*.py' \
-               | grep -v 'data-pattern.*journey' || true)
+               2>/dev/null | grep -v 'data-pattern.*journey' || true)
+
           if [ -n "$HITS" ]; then
-            echo "ERROR: ascending-level sort missing data-pattern=\"journey\" annotation."
-            echo "All skill lists default to Ultimate-first (descending level)."
-            echo "If a journey/progression sort is intentional, annotate the call site"
-            echo "with a comment: /* data-pattern=\"journey\" */ or similar."
-            echo ""
-            echo "$HITS"
+            echo "found=true" >> $GITHUB_OUTPUT
+            echo "hits<<EOF" >> $GITHUB_OUTPUT
+            echo "$HITS" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          else
+            echo "found=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Guard C — Comment on unlabeled sorts
+        if: steps.unlabeled-sorts.outputs.found == 'true' && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        env:
+          HITS_OUTPUT: ${{ steps.unlabeled-sorts.outputs.hits }}
+        with:
+          script: |
+            const marker = '<!-- auto-fix-bot: unlabeled-sorts -->';
+            const hits = process.env.HITS_OUTPUT;
+            const body = `${marker}\n## 📊 Unlabeled ascending-level sorts\n\nAll skill lists default to Ultimate-first (descending). If a journey/progression sort is intentional, add a comment:\n\n\`\`\`javascript\n// data-pattern="journey"\nsortBy(...)\n\`\`\`\n\nFound in:\n\`\`\`\n${hits}\n\`\`\``;
+
+            const comments = await github.rest.issues.listComments({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            });
+            const existing = comments.data.find(c => c.body.includes(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({
+                comment_id: existing.id,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body,
+              });
+            }
+
+      # ── Final Status ─────────────────────────────────────────────────────
+      - name: Verify all cohesion guards passed
+        run: |
+          FAILED=false
+          if [ "${{ steps.hardcoded-colors.outputs.found }}" = "true" ]; then
+            echo "❌ Guard A Failed: Hardcoded colors found."
+            FAILED=true
+          fi
+          if [ "${{ steps.banned-synonyms.outputs.found }}" = "true" ]; then
+            echo "❌ Guard B Failed: Banned synonyms found."
+            FAILED=true
+          fi
+          if [ "${{ steps.unlabeled-sorts.outputs.found }}" = "true" ]; then
+            echo "❌ Guard C Failed: Unlabeled ascending sorts found."
+            FAILED=true
+          fi
+
+          if [ "$FAILED" = "true" ]; then
             exit 1
           fi
-          echo "Guard C PASS — no unlabelled ascending-level sorts found."
+          echo "✅ All cohesion guards passed."

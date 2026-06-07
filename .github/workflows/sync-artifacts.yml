@@ -46,6 +46,7 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+          cache: 'pip'
 
       - name: Install dependencies
         run: pip install -e ".[dev]"
@@ -89,12 +90,14 @@ jobs:
       - name: Commit and Push Changes
         run: |
           # 1. Consolidate any unstaged changes (e.g. from docs build) into the commit
+          # Use --fixup + --autosquash if we already made a release commit, so we 
+          # don't have to manually --amend (which fails if rebase happens in between).
           if [[ -n "$(git status --porcelain)" ]]; then
             git add .
             LAST_MSG=$(git log -1 --format=%B)
             if [[ "$LAST_MSG" == chore:\ release\ v* ]]; then
-               echo "Amending release commit with regenerated artifacts..."
-               git commit --amend --no-edit
+               echo "Creating fixup for release commit..."
+               git commit --fixup HEAD
             else
                echo "Creating auto-sync commit..."
                git commit -m "chore(auto): regenerate registry artifacts and sync docs [skip-gen]"
@@ -106,13 +109,13 @@ jobs:
           if [[ -n "$(git log origin/${GITHUB_REF_NAME}..HEAD)" ]]; then
             n=0
             until [[ $n -ge 4 ]]; do
-              if git push; then
+              # Rebase with autosquash to merge fixups into the release commit
+              if git pull --rebase --autosquash origin "${GITHUB_REF_NAME}" && git push; then
                 echo "Successfully pushed changes to origin/${GITHUB_REF_NAME}."
                 break
               fi
               n=$((n + 1))
-              echo "Push failed (attempt $n/4) — rebasing on origin/${GITHUB_REF_NAME} and retrying in $((2 ** n))s."
-              git pull --rebase origin "${GITHUB_REF_NAME}"
+              echo "Push failed (attempt $n/4) — retrying in $((2 ** n))s."
               sleep $((2 ** n))
             done
             if [[ $n -ge 4 ]]; then
