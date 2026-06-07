@@ -486,14 +486,14 @@
     }
 
     .ab-name-quote {
-      font-family: var(--font-display);
+      font-family: var(--font-body);
       font-style: normal;
-      font-size: clamp(1.1rem, 2vw, 1.35rem);
-      font-weight: 500;
-      line-height: 1.4;
+      font-size: clamp(0.95rem, 1.8vw, 1.05rem);
+      font-weight: 400;
+      line-height: 1.6;
       color: var(--text);
       margin: 0;
-      max-width: 32ch;
+      max-width: 36ch;
       text-wrap: pretty;
       position: relative;
     }
@@ -512,6 +512,16 @@
       color: var(--apex-gold);
       opacity: .5;
       margin-left: .05em;
+    }
+    .ab-quote-author {
+      display: block;
+      margin-top: 0.75rem;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-style: normal;
     }
 
     .ab-name-card {
@@ -1069,14 +1079,17 @@
         <div class="ab-names-list">
 
           <article class="ab-name-entry ab-name-entry--right">
-            <blockquote class="ab-name-quote">This is my open source software factory. I use it every day. I'm sharing it because these tools should be available to everyone.</blockquote>
+            <blockquote class="ab-name-quote">
+              The thread connecting jQuery UI, Chrome DevTools, Google for Creators, and now Impeccable: each time, a technology shift was happening and the tools hadn't caught up yet.
+              <cite class="ab-quote-author">— Paul Bakaus</cite>
+            </blockquote>
             <aside class="ab-name-card">
               <div class="ab-name-card-row">
-                <a class="ab-name-handle" href="https://github.com/garrytan" target="_blank" rel="noopener">@garrytan</a>
-                <span class="rank-slot" data-level="5" data-variant="full" data-aria="Ultimate Skill, rank 5 of 6"></span>
+                <a class="ab-name-handle" href="https://github.com/pbakaus" target="_blank" rel="noopener">@pbakaus</a>
+                <span class="rank-slot" data-level="4" data-variant="full" data-aria="rank 4 of 6"></span>
               </div>
-              <span class="ab-name-skill">gstack — Founder Mode</span>
-              <a class="ab-name-src" href="https://github.com/garrytan/gstack" target="_blank" rel="noopener">github.com/garrytan/gstack <span class="arr" aria-hidden="true">↗</span></a>
+              <span class="ab-name-skill">Impeccable — The Aesthetic Shield</span>
+              <a class="ab-name-src" href="https://www.paulbakaus.com/about/" target="_blank" rel="noopener">paulbakaus.com/about <span class="arr" aria-hidden="true">↗</span></a>
             </aside>
           </article>
 
@@ -1089,18 +1102,24 @@
               <span class="ab-name-skill">Matt Pocock Skills</span>
               <a class="ab-name-src" href="https://github.com/mattpocock/skills" target="_blank" rel="noopener">github.com/mattpocock/skills <span class="arr" aria-hidden="true">↗</span></a>
             </aside>
-            <blockquote class="ab-name-quote">These skills are my best effort at condensing these fundamentals into repeatable practices, to help you ship the best apps of your career.</blockquote>
+            <blockquote class="ab-name-quote">
+              These skills are my best effort at condensing these fundamentals into repeatable practices, to help you ship the best apps of your career.
+              <cite class="ab-quote-author">— Matt Pocock</cite>
+            </blockquote>
           </article>
 
           <article class="ab-name-entry ab-name-entry--right">
-            <blockquote class="ab-name-quote">The thread connecting jQuery UI, Chrome DevTools, Google for Creators, and now Impeccable: each time, a technology shift was happening and the tools hadn't caught up yet.</blockquote>
+            <blockquote class="ab-name-quote">
+              This is my open source software factory. I use it every day. I'm sharing it because these tools should be available to everyone.
+              <cite class="ab-quote-author">— Garry Tan</cite>
+            </blockquote>
             <aside class="ab-name-card">
               <div class="ab-name-card-row">
-                <a class="ab-name-handle" href="https://github.com/pbakaus" target="_blank" rel="noopener">@pbakaus</a>
-                <span class="rank-slot" data-level="4" data-variant="full" data-aria="rank 4 of 6"></span>
+                <a class="ab-name-handle" href="https://github.com/garrytan" target="_blank" rel="noopener">@garrytan</a>
+                <span class="rank-slot" data-level="5" data-variant="full" data-aria="Ultimate Skill, rank 5 of 6"></span>
               </div>
-              <span class="ab-name-skill">Impeccable — The Aesthetic Shield</span>
-              <a class="ab-name-src" href="https://www.paulbakaus.com/about/" target="_blank" rel="noopener">paulbakaus.com/about <span class="arr" aria-hidden="true">↗</span></a>
+              <span class="ab-name-skill">gstack — Founder Mode</span>
+              <a class="ab-name-src" href="https://github.com/garrytan/gstack" target="_blank" rel="noopener">github.com/garrytan/gstack <span class="arr" aria-hidden="true">↗</span></a>
             </aside>
           </article>
 
