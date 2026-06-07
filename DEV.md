@@ -93,16 +93,23 @@ Refer to [CLAUDE.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/CLAUD
   ```
 * **Fix (CI):** Manually trigger the **Auto-Sync Registry Artifacts** GitHub Action on your branch.
 
-### B. Missing `numpy`/`scipy` during Docs Build
+### B. Missing `numpy`/`scipy` / `cairosvg` during Docs Build
 * **Symptom:** `ModuleNotFoundError: No module named 'numpy'` or `scipy.linalg` when running `gaia docs build`.
 * **Fix:** `scripts/build_layouts_3d.py` requires these libraries for 3D layout solving. Install them using the virtualenv:
   ```bash
   pip install -e ".[docs]"
   ```
+* **Symptom:** Docs build runs but mysteriously deletes PNG images under `docs/og/`.
+* **Fix:** This is caused by `cairosvg` not being installed in the environment where the documentation is built. Run `pip install cairosvg` or restore the PNGs using git before committing:
+  ```bash
+  git checkout HEAD -- docs/og/
+  ```
 
 ### C. Pre-Existing Test Failures (Not Regressions)
 * **Symptom:** Certain tests fail even on clean branches.
-* **Explanation:** `test_tui_tokens.py`, `test_meta_merge`, and `test_docs_build_can_run_from_registry_clone_without_registry_flag` fail in environments missing optional dependencies or due to CLI packaging constraints. Do not attempt to fix them in unrelated PRs.
+* **Explanation:**
+  - `test_tui_tokens.py`, `test_meta_merge`, and `test_docs_build_can_run_from_registry_clone_without_registry_flag` fail in environments missing optional dependencies or due to CLI packaging constraints. Do not attempt to fix them in unrelated PRs.
+  - `test_built_wheel_contains_only_python_package_data` and `test_wheel_install_smoke_tests_console_script` fail if your system has `setuptools<77` installed. Run `pip install "setuptools>=77"` to resolve this.
 
 ### D. Version Lockstep Violation
 * **Symptom:** Pre-commit hook fails complaining about version mismatches.
@@ -111,5 +118,9 @@ Refer to [CLAUDE.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/CLAUD
   gaia release <patch|minor|major>
   ```
 
-### E. Avoid Committing Registry JSONs in Feature PRs
-* **Rule:** Feature/Logic PRs should **never** commit `registry/gaia.json` or `docs/graph/gaia.json`. Let the Auto-Sync Registry Artifacts CI handle them to avoid constant merge conflict noise.
+## 5. Safe Merging & Conflict Resolution
+
+* **Isolate Generated Artifacts:** Feature/Logic PRs should **never** commit `registry/gaia.json` or `docs/graph/gaia.json`. These files change on every build and cause constant merge noise. Let the Auto-Sync Registry Artifacts CI handle them.
+* **Atomic Refactors:** When moving code (e.g., extracting functions from `main.py` to a new module), do it in a standalone "Move-Only" PR. Do not combine structural refactors with logic changes in the same PR; this causes semantic merge conflicts that Git cannot resolve automatically.
+* **Verify after Merge:** Always run a simple smoke test (e.g., `gaia --version`) after resolving merge conflicts to ensure no Git merge markers (`<<<<<<< HEAD`) were accidentally committed.
+
