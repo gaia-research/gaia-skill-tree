@@ -472,16 +472,20 @@ def scan_command(args):
         skill_map = {s['id']: s for s in graph_data.get('skills', [])}
         unlocked = [s.get('skillId') for s in tree.get('unlockedSkills', [])]
         combos = get_combinations(graph_data, unlocked, resolved)
-        if combos and not quiet:
-            print("\nNew fusion candidates:")
-            for c in combos:
-                result_skill = skill_map.get(c['candidateResult'], {})
-                result_type = result_skill.get('type', 'extra')
-                print(render_fusion_diagram(
-                    c['detectedSkills'], c['candidateResult'], result_type,
-                    canon=canon, ctx=ctx
-                ))
-            print("Run `gaia fuse <skill>` to confirm.")
+        if combos:
+            # Persist fusion candidates so `gaia fuse` can find them
+            tree['pendingCombinations'] = combos
+            save_tree(username, tree, registry_path=args.registry)
+            if not quiet:
+                print("\nNew fusion candidates:")
+                for c in combos:
+                    result_skill = skill_map.get(c['candidateResult'], {})
+                    result_type = result_skill.get('type', 'extra')
+                    print(render_fusion_diagram(
+                        c['detectedSkills'], c['candidateResult'], result_type,
+                        canon=canon, ctx=ctx
+                    ))
+                print("Run `gaia fuse <skill>` to confirm.")
 
         # Path engine integration
         old_paths = load_paths()
