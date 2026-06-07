@@ -2,9 +2,22 @@
 
 Agent guidance for the gaia-skill-tree repository. See CLAUDE.md for full details.
 
-## Curation & CI Troubleshooting
+## Curation Guidelines
 
-For details on local setup, common commands, resolving stale documentation checks, pre-existing test failures, and version lockstep requirements, see [DEV.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/DEV.md).
+Refer to [DEV.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/DEV.md) for local environment setup, testing, and CI troubleshooting. Keep these curation-specific rules in mind:
+
+### 1. `links.github` URL must use `blob/` not `tree/`
+GitHub directory URLs use `tree/` but the installer only recognizes `blob/branch/subpath`. Convert manually to ensure skills are discoverable.
+
+### 2. Only `links.github` is read by the installer
+Wrong keys like `links.repo`, `links.docs`, or `origin` won't work. Always use `links.github` and strip any `#fragment` from docs URLs.
+
+### 3. Suites never need `links.github` — do not flag them as uninstallable
+Suite skills (with `suiteComponents`) install via components and have no directory of their own. Mark non-suite individual skills at 2★ or below with no public repo as `installable: false`.
+
+### 4. Suite component links need subpaths
+Each component in a suite must have a `blob/branch/subpath` URL, not a bare repo root, or symlinks will point incorrectly.
+
 
 
 ## Meta Strategy (Source of Truth)

@@ -202,9 +202,29 @@ Available gstack skills:
 
 ---
 
-## Curation & CI Troubleshooting
+## Curation Guidelines
 
-For details on curation guidelines, resolving stale documentation checks, pre-existing test failures, and version lockstep requirements, see [DEV.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/DEV.md).
+Refer to [DEV.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/DEV.md) for local environment setup, testing, and CI troubleshooting. Keep these curation-specific rules in mind:
+
+### 1. `links.github` URL must use `blob/` not `tree/`
+`src/gaia_cli/install.py::_parse_github_url` only recognises `https://github.com/owner/repo/blob/branch/subpath`. A bare repo URL (`https://github.com/owner/repo`) installs to the repo root and makes the skill undiscoverable (symlink has no `SKILL.md` at top level). GitHub's directory-view URLs use `tree/` — convert them to `blob/` manually.
+
+### 2. Only `links.github` is read by the installer
+The install pipeline reads `meta.get("links", {}).get("github")` and nothing else. Wrong keys seen in the wild and their fixes:
+| Wrong key | Fix |
+|---|---|
+| `links.repo:` | rename to `links.github:` |
+| `links.docs:` | rename to `links.github:` (strip any `#fragment`) |
+| `links.arxiv:` | add `links.github:` alongside (keep arxiv) |
+| `origin: https://...` | move URL to `links.github:`, set `origin: false` |
+
+### 3. Suites never need `links.github` — do not flag them as uninstallable
+Any skill with `suiteComponents` (e.g. `mattpocock/skills`, `garrytan/gstack`) installs by iterating its components. It has no installation directory of its own and does not need `links.github`. Only **non-suite** individual skills need `links.github`.
+For non-suite skills at 2★ or below with no known public repo: mark `installable: false` in frontmatter and do not re-research on repeated audit passes. See **CONTRIBUTING.md §12** for the full exempt list and the 3★+ demotion rule.
+
+### 4. Suite component links need subpaths
+A suite skill (has `suiteComponents`) whose `links.github` is a bare repo root will install symlinks pointing to the repo root. Every component must have a `blob/branch/subpath` URL pointing to its actual skill directory.
+
 
 
 ---
