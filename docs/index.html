@@ -911,18 +911,8 @@
           { delay: 600, action: () => addLocalLog("[System] Found capability: `openai/swarm` (awakened status)", "system") },
           { delay: 600, action: () => addLocalLog("[System] Found evidence: Class B (reproducible repo file)", "pass") },
 
-          // Step 3: gaia tree (gstack flex)
-          { delay: 1000, action: () => addLocalLog("<span class='cmd'>$ gaia tree</span>", "cmd") },
-          { delay: 500, action: () => addLocalLog("[System] Rendering skill tree projection (gstack)...", "system") },
-          { delay: 400, action: () => {
-            const pre = document.createElement("pre");
-            pre.innerHTML = `◆ ultimate-mcp/gstack [Level III]\n├── prerequisite: literature-search (Basic)\n└── enhances: openai/swarm (awakened)`;
-            localConsole.appendChild(pre);
-            localConsole.scrollTop = localConsole.scrollHeight;
-          }},
-
           // Step 4: gaia push (creates GitHub issue)
-          { delay: 1200, action: () => addLocalLog("<span class='cmd'>$ gaia push</span>", "cmd") },
+          { delay: 1000, action: () => addLocalLog("<span class='cmd'>$ gaia push</span>", "cmd") },
           { delay: 600, action: () => addLocalLog("[System] Reading registry-for-review/ folder...", "system") },
           { delay: 600, action: () => addLocalLog("[System] Running schema validation...", "system") },
           { delay: 600, action: () => addLocalLog("[Gate g1-g3] PASS! Local schema check verified, 0 cycles.", "pass") },
