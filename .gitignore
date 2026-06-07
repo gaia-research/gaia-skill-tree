@@ -52,3 +52,8 @@ generated-output/
 scratch/
 .hermes
 perf_registry2/
+
+# IDE and tooling machine-local state
+.antigravitycli/
+.pytest_cache/
+scratch_context.json
