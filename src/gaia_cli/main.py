@@ -1459,6 +1459,12 @@ def pull_command(args):
             print("Note: Registry could not be updated via git (no upstream configured). Local registry unchanged.", file=sys.stderr)
         else:
             print(f"Warning: git pull failed. Local registry unchanged.\n  {stderr}", file=sys.stderr)
+    else:
+        stdout = res.stdout.strip()
+        if "Already up to date" in stdout:
+            print("Registry is already up to date.")
+        else:
+            print("Registry updated successfully.")
 
 
 def update_command(args):
