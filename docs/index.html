@@ -26,6 +26,104 @@
   <script src="js/rank-badge.js?v=4.3.4"></script>
   <!-- Stage 3 — plaque component family, loaded after rank-badge. -->
   <script src="js/plaque.js?v=4.3.4"></script>
+  <style>
+  /* Review Section & Simulator styling */
+  .review-showcase-section {
+    max-width: 1000px;
+    margin: 3rem auto;
+  }
+
+  .review-sim-wrapper {
+    background: #08080a;
+    border: 1px solid var(--border, #222);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+  }
+
+  .review-sim-header {
+    background: rgba(255, 255, 255, 0.02);
+    border-bottom: 1px solid var(--border, #222);
+    padding: 0.75rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .review-sim-dots {
+    display: flex;
+    gap: 6px;
+  }
+
+  .review-sim-dots .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+  .review-sim-dots .dot.red { background: #ef4444; }
+  .review-sim-dots .dot.yellow { background: #fbbf24; }
+  .review-sim-dots .dot.green { background: #22c55e; }
+
+  .review-sim-title {
+    font-size: 0.8rem;
+    color: var(--muted, #666);
+  }
+
+  .review-sim-btn {
+    margin: 0;
+    font-size: 0.8rem;
+    padding: 0.4rem 0.9rem;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border, #222);
+    color: var(--text, #eee);
+    cursor: pointer;
+    font-family: var(--font-body, system-ui, sans-serif);
+    font-weight: 600;
+    transition: all 0.2s ease;
+  }
+
+  .review-sim-btn:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--text, #eee);
+  }
+
+  .review-sim-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .review-sim-body {
+    padding: 1.25rem;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    height: 250px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    color: #c9d1d9;
+    scroll-behavior: smooth;
+  }
+
+  .review-sim-body .line { word-break: break-all; }
+  .review-sim-body .line.system { color: #8b949e; }
+  .review-sim-body .line.cmd { color: #58a6ff; font-weight: bold; }
+  .review-sim-body .line.check-run { color: #58a6ff; }
+  .review-sim-body .line.pass { color: #34d399; }
+  .review-sim-body .line.fail { color: #f85149; }
+  .review-sim-body .line.user { color: #fbbf24; }
+
+  .review-sim-cta-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+    gap: 1rem;
+  }
+  </style>
 </head>
 
 <body class="home-page">
@@ -265,6 +363,34 @@
 
       </div>
 
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ─── HOW YOUR SKILLS GET REVIEWED ─── -->
+  <section class="reveal review-showcase-section" data-section="review-showcase">
+    <h2>How Your Skills Get Reviewed</h2>
+    <p class="section-sub">Every contribution undergoes rigorous programmatic and contributor checks before merge, ensuring registry integrity. Click "Simulate Review" below to see it in action.</p>
+
+    <!-- Review CLI & GitHub Issue Simulator -->
+    <div class="review-sim-wrapper">
+      <div class="review-sim-header">
+        <div class="review-sim-dots">
+          <span class="dot red"></span>
+          <span class="dot yellow"></span>
+          <span class="dot green"></span>
+        </div>
+        <div class="review-sim-title">gaia-review-process.sh</div>
+        <button class="review-sim-btn" id="startReviewSimBtn">Simulate Review</button>
+      </div>
+      <div class="review-sim-body" id="reviewSimConsole">
+        <div class="line system">> Click "Simulate Review" to trigger the gaia push & GitHub issue review workflow.</div>
+      </div>
+    </div>
+
+    <div class="review-sim-cta-container">
+      <a href="codex.html" class="btn btn-ghost">Read Full Curation Codex →</a>
     </div>
   </section>
 
@@ -695,6 +821,73 @@
 
   <script src="js/profile-share.js?v=4.3.4"></script>
   <script src="js/hoh-modal.js?v=4.3.4"></script>
+
+  <!-- ─── REVIEW SHOWCASE SIMULATOR ─── -->
+  <script>
+  (function() {
+    const startBtn = document.getElementById("startReviewSimBtn");
+    const consoleBox = document.getElementById("reviewSimConsole");
+    let isRunning = false;
+
+    function addLog(msg, type = "system") {
+      const line = document.createElement("div");
+      line.className = `line ${type}`;
+      line.innerHTML = msg;
+      consoleBox.appendChild(line);
+      consoleBox.scrollTop = consoleBox.scrollHeight;
+    }
+
+    if (startBtn && consoleBox) {
+      startBtn.addEventListener("click", () => {
+        if (isRunning) return;
+        isRunning = true;
+        startBtn.disabled = true;
+        startBtn.innerText = "Running...";
+        consoleBox.innerHTML = "";
+
+        const timeline = [
+          { delay: 300, action: () => addLog("[User] Running gaia push locally...", "user") },
+          { delay: 600, action: () => addLog("<span class='cmd'>$ gaia push</span>", "cmd") },
+          { delay: 800, action: () => addLog("[CLI] Reading local registry-for-review/ folder...", "system") },
+          { delay: 800, action: () => addLog("[CLI] Found new candidate: `openai/swarm` (awakened status)", "system") },
+          { delay: 800, action: () => addLog("[CLI] Running gaia schema check & DAG integrity validations...", "system") },
+          { delay: 900, action: () => addLog("[Gate g1-g3] PASS! Local schema check verified, 0 cycles.", "pass") },
+          { delay: 800, action: () => addLog("[CLI] Committing changes to branch `review/gaia-push/openai-swarm`...", "system") },
+          { delay: 900, action: () => addLog("[CLI] Pushing branch and opening GitHub draft PR automatically...", "system") },
+          { delay: 1000, action: () => addLog("[GitHub] Opened Pull Request #608 & Curation Issue #402", "pass") },
+          { delay: 800, action: () => addLog("[System] Launching automated Reviewer Agent checks on Issue #402...", "system") },
+          { delay: 800, action: () => addLog("[Reviewer Agent] Verifying evidence URLs...", "check-run") },
+          { delay: 900, action: () => addLog("[Reviewer Agent] Verified: Class B (reproducible repo file) source resolves.", "pass") },
+          { delay: 800, action: () => addLog("[Reviewer Agent] Checking for prerequisite duplicates...", "check-run") },
+          { delay: 800, action: () => addLog("[Reviewer Agent] Verified: concept is novel and maps to generic `Literature Search`.", "pass") },
+          { delay: 900, action: () => addLog("[Reviewer Agent] Auto-validation passed. Leaving review summary comment.", "pass") },
+          { delay: 1000, action: () => addLog("[Maintainer] Performing manual maintainer check on Issue #402...", "user") },
+          { delay: 900, action: () => addLog("[Maintainer] Decision: APPROVED (openai/swarm renames to `openai/swarm-agent` at 3★)", "user") },
+          { delay: 900, action: () => addLog("[System] Merging PR, promoting status to `named`, and locking version...", "pass") },
+          { delay: 700, action: () => {
+            addLog("[System] Curation complete! Skill is now part of the canonical atlas.", "pass");
+            startBtn.disabled = false;
+            isRunning = false;
+            startBtn.innerText = "Simulate Review";
+          }}
+        ];
+
+        let currentFrame = 0;
+        function runNext() {
+          if (currentFrame >= timeline.length) return;
+          const frame = timeline[currentFrame];
+          setTimeout(() => {
+            frame.action();
+            currentFrame++;
+            runNext();
+          }, frame.delay);
+        }
+
+        runNext();
+      });
+    }
+  })();
+  </script>
 
 </body>
 
