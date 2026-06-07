@@ -537,7 +537,7 @@ def render_user_tree_outputs(username: str, tree: dict | None, graph_data: dict 
     with open(html_path, "w", encoding="utf-8") as f:
         f.write(html)
     if not quiet:
-        print(f"  saved {os.path.basename(html_path)} & {os.path.basename(md_path)}")
+        print(f"  saved {html_path} & {md_path}")
     return html_path, md_path
 
 
