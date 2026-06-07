@@ -5,20 +5,18 @@
   </picture>
 </div>
 
-# Gaia - AI Agent Skill Registry
+# Gaia - This is not a skill marketplace
 
-> The open, evidence-backed skill graph for AI agents: collect, evolve, and fuse capabilities into something legendary.
+> This is an open, evidence-backed skill graph. The game is to name a skill to your repository--the best skill takes "origin".
 > Success means becoming the public record AI agent developers cite when making capability claims — the pkg.go.dev for agent skills.
 
-### New here? Read [META.md](META.md) first
+### How does ranking work? Read [META.md](META.md) for a comprehensive list
 
 [![Validate](https://github.com/mbtiongson1/gaia-skill-tree/actions/workflows/validate.yml/badge.svg)](https://github.com/mbtiongson1/gaia-skill-tree/actions/workflows/validate.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-c084fc.svg)](LICENSE)
 [![Website](https://img.shields.io/badge/Website-gaia.tiongson.co-f59e0b)](https://gaia.tiongson.co/)
 
-# NEW! Badges
-
-Have a named skill? Get yours now! Should look like this:
+# Name a skill, get a badge.
 
 [![Gaia](https://gaia.tiongson.co/badges/_assets/mbtiongson1/gaia-curate.svg?repo=mbtiongson1%2Fgaia-skill-tree)](https://gaia.tiongson.co/u/mbtiongson1/)<br>
 [![Gaia rank](https://gaia.tiongson.co/badges/_assets/mbtiongson1/rank.svg?repo=mbtiongson1%2Fgaia-skill-tree)](https://gaia.tiongson.co/u/mbtiongson1/)<br>
@@ -130,17 +128,7 @@ npm install -g @gaia-registry/cli
 Requires Python 3.8+. The script prefers `pipx` if available, otherwise falls back to `pip install --user` and prints a PATH hint if needed.
 
 <details>
-<summary>pip / npm / pipx / Windows alternatives</summary>
-
-**pip (Python):**
-```bash
-pip install gaia-cli
-```
-
-**npm wrapper:**
-```bash
-npm install -g @gaia-registry/cli
-```
+<summary>pipx / Windows alternatives</summary>
 
 **pipx:**
 ```bash
@@ -158,7 +146,7 @@ $env:PATH += ";" + (python -c "import sysconfig; print(sysconfig.get_path('scrip
 ```bash
 git clone https://github.com/mbtiongson1/gaia-skill-tree.git
 cd gaia-skill-tree
-pip install -e ".[embeddings,dev]"
+pip install -e ".[embeddings,dev,docs]"
 ```
 
 The `dev` extra installs packaging/test tools such as `build` and `pytest`; without it,
@@ -377,9 +365,9 @@ Thank you to everyone who has expanded the Gaia registry.
 | [@rico-tiongson](https://github.com/rico-tiongson) | Collaborator: early feature contributions and ongoing pair programming |
 | [@Juno](https://github.com/Juno) | Key contributor: graph browser expansion, function-calling skill, RAG pipeline evidence, and CLI DX improvements |
 
-### Named Skill Contributors
+### Named Skills
 
-| Contributor | Skills |
+| Developers | Skills |
 |---|---|
 | [@ruvnet](https://github.com/ruvnet) | 48 — agentdb, flow-nexus, hive-mind-coordination, browser, and 44 others |
 | [@garrytan](https://github.com/garrytan) | 47 — gstack ecosystem: browse, qa, ship, review, benchmark, learn, and 41 others |
