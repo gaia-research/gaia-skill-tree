@@ -225,8 +225,7 @@ window.switchOsTab = function(btn) {
       targetBtn.setAttribute('aria-label', 'Fetching page context...');
 
       var version = window.GAIA_VERSION ? '?v=' + window.GAIA_VERSION : '';
-      var prefix = (typeof window.gaiaIconBase === 'function') ? window.gaiaIconBase().replace('assets/icons.svg', '') : '';
-      fetch(prefix + 'agent.md' + version)
+      fetch('agent.md' + version)
         .then(function(r) {
           if (!r.ok) throw new Error(r.status);
           return r.text();
