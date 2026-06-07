@@ -1362,7 +1362,7 @@ def skills_command(args):
 
 
     available = [
-        {"id": sid, "name": meta.get("name") or sid, "level": meta.get("level", "?"), "description": meta.get("description", "")}
+        {"id": sid, "name": meta.get("name") or sid, "level": meta.get("level", "?"), "type": meta.get("type", "basic"), "description": meta.get("description", "")}
         for sid, meta in list_available(args.registry)
     ]
     items = available + pending
