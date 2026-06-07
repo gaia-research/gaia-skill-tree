@@ -36,15 +36,7 @@
    * Preserves handle casing. Default rel is './u/'.
    */
   function profileHref(handle, rel) {
-    var base;
-    if (rel != null) {
-      base = rel;
-    } else {
-      var prefix = (typeof window.gaiaIconBase === 'function')
-        ? window.gaiaIconBase().replace('assets/icons.svg', '')
-        : '';
-      base = prefix + 'u/';
-    }
+    var base = rel == null ? './u/' : rel;
     return base + encodeURIComponent(handle || '') + '/';
   }
 

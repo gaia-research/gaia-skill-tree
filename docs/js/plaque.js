@@ -72,13 +72,7 @@
     if (typeof window.handleLink === 'function') return window.handleLink(handle || '', opts || {});
     if (!handle) return '';
     var cls = 'atlas-handle' + (opts && opts.extraClass ? ' ' + opts.extraClass : '');
-    var rel = (opts && opts.rel);
-    if (!rel) {
-      var prefix = (typeof window.gaiaIconBase === 'function')
-        ? window.gaiaIconBase().replace('assets/icons.svg', '')
-        : '';
-      rel = prefix + 'u/';
-    }
+    var rel = (opts && opts.rel) || './u/';
     return '<a class="' + esc(cls) + '" href="' + esc(rel + encodeURIComponent(handle) + '/') + '">@' + esc(handle) + '</a>';
   }
 

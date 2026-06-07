@@ -1763,10 +1763,7 @@
     if (handle === (window.REDACTED_BLOCK || '████████') || handle === '[anonymous]') {
       return '<span class="plaque__redacted-handle" aria-label="Contributor not yet revealed">' + esc(handle) + '</span>';
     }
-    var prefix = (typeof window.gaiaIconBase === 'function')
-      ? window.gaiaIconBase().replace('assets/icons.svg', '')
-      : '';
-    var href = prefix + 'u/' + encodeURIComponent(handle) + '/';
+    var href = './u/' + encodeURIComponent(handle) + '/';
     return '<a class="atlas-handle" href="' + href + '">' + inner + '</a>';
   }
 
