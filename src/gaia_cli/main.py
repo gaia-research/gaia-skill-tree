@@ -792,7 +792,7 @@ def promote_command(args):
             return
         if not skill_id:
             # Try interactive picker
-            candidates = promotable_candidates(username, args.registry)
+            candidates = promotable_candidates(args.registry, username)
             if candidates:
                 picked = select_promotion_candidate(candidates, "Select skill to promote:")
                 if picked:
