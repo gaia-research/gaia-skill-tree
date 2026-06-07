@@ -24,6 +24,15 @@ If you prefer not to activate the shell environment, call the binaries directly:
 .venv/bin/pytest
 ```
 
+### Alternative (Using `pipx`)
+If you want to install and run the `gaia` CLI tool globally (isolated in its own virtual environment) while still tracking local code changes:
+```bash
+pipx install --editable .
+# Or to include optional dependencies like dev/docs:
+pipx install --editable ".[dev,embeddings]"
+```
+
+
 ### Installing Dependencies
 To install the full suite of dev and docs dependencies (including `numpy` and `scipy` required for 3D layout solving during docs generation):
 ```bash
