@@ -203,6 +203,11 @@ def open_intake_issue(username, batch_data, batch_path=None, repo_root="."):
 
     issue_url = issue.stdout.strip().splitlines()[-1] if issue.stdout.strip() else ""
     print(f"Success: intake issue opened ({issue_url}).")
+    # Clean up temp body file
+    try:
+        os.remove(body_path)
+    except OSError:
+        pass
     return issue_url or None
 
 
