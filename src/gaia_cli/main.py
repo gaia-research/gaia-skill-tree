@@ -294,8 +294,8 @@ def init_command(args):
     config_dir = '.gaia'
     os.makedirs(config_dir, exist_ok=True)
     config_path = os.path.join(config_dir, 'config.toml')
-    if os.path.exists(config_path):
-        print("Gaia is already initialized in this repository.")
+    if os.path.exists(config_path) and not getattr(args, "force", False):
+        print("Gaia is already initialized in this repository. Use --force to overwrite.")
         return
 
     username = args.user or _detect_github_username()
@@ -1654,6 +1654,7 @@ def get_parser():
     init_parser.add_argument('--registry-ref', help='Gaia registry URL to write into .gaia/config.toml')
     init_parser.add_argument('--scan', action='append', help='Path to scan; repeat for multiple paths')
     init_parser.add_argument('--yes', action='store_true', help='Use non-interactive defaults')
+    init_parser.add_argument('--force', action='store_true', help='Overwrite existing .gaia/config.toml')
     init_parser.add_argument(
         '--auto-prompt-combinations',
         action='store_true',
