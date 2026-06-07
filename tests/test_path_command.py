@@ -236,23 +236,23 @@ class TestRenderUnlockPath:
     def test_basic_leaf_renders(self, linear_graph):
         text = render_unlock_path(linear_graph, "a", set())
         assert "a" in text
-        # leaf has no children, summary should say 0 owned out of 1
-        assert "0 / 1" in text
+        # leaf has no children, summary should say 0 owned out of 0
+        assert "0 / 0" in text
 
     def test_footer_counts_correct(self, linear_graph):
         text = render_unlock_path(linear_graph, "c", set())
-        # 3 nodes total (a, b, c), 0 owned
-        assert "0 / 3" in text
-        assert "3 skill(s) needed" in text
+        # 2 prerequisites total (a, b), 0 owned
+        assert "0 / 2" in text
+        assert "2 skill(s) needed" in text
 
     def test_footer_with_owned(self, linear_graph):
         # unlock_path stops recursing into owned nodes, so the visible tree
         # for 'c' with owned={'a','b'} is: c(missing) + b(owned, no children).
         # 'a' is not in the tree because b is already owned → recursion stops.
-        # Count: 2 nodes total, 1 owned (b), 1 missing (c).
+        # Count: 1 prerequisite total (b), 1 owned (b).
         text = render_unlock_path(linear_graph, "c", {"a", "b"})
-        assert "1 / 2" in text
-        assert "1 skill(s) needed" in text
+        assert "1 / 1" in text
+        assert "0 skill(s) needed" in text
 
     def test_owned_only_prunes_owned_branches(self, linear_graph):
         """--owned-only prunes the display of owned 'b' from the output."""

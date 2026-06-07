@@ -417,7 +417,7 @@ def build_named_index(check: bool) -> bool:
             if check:
                 print(f"diff registry/named-skills.json (regen failed: rc={rc})")
                 print(output)
-            return True
+            raise RuntimeError(f"named-skills.json regen failed: rc={rc}")
         if not committed.exists():
             if check:
                 print("diff registry/named-skills.json (missing committed file)")
@@ -460,7 +460,7 @@ def build_profile_pages(check: bool) -> bool:
             if check:
                 print(f"diff docs/u/ (regen failed: rc={rc})")
                 print(output)
-            return True
+            raise RuntimeError(f"docs/u/ regen failed: rc={rc}")
         if not committed.exists():
             if check:
                 print("diff docs/u/ (missing)")
@@ -494,7 +494,7 @@ def build_badges(check: bool) -> bool:
             if check:
                 print(f"diff docs/badges/ (regen failed: rc={rc})")
                 print(output)
-            return True
+            raise RuntimeError(f"docs/badges/ regen failed: rc={rc}")
         # Preserve hand-authored docs/badges/index.html across regeneration
         # by copying it into the candidate tree before diffing.
         sampler = committed / "index.html"
@@ -533,7 +533,7 @@ def build_og_cards(check: bool) -> bool:
             if check:
                 print(f"diff docs/og/ (regen failed: rc={rc})")
                 print(output)
-            return True
+            raise RuntimeError(f"docs/og/ regen failed: rc={rc}")
         if not committed.exists():
             if check:
                 print("diff docs/og/ (missing)")
@@ -592,7 +592,7 @@ def build_tree_md(check: bool) -> bool:
         if check:
             print(f"diff docs/tree.md (regen failed: rc={rc})")
             print(output)
-        return True
+        raise RuntimeError(f"docs/tree.md regen failed: rc={rc}")
 
     generated = ROOT / "generated-output" / "tree.md"
     committed = ROOT / "docs" / "tree.md"
@@ -638,7 +638,7 @@ def build_assembly(check: bool) -> bool:
         if check:
             print(f"diff registry/gaia.json (assembly failed: rc={rc})")
             print(output)
-        return True
+        raise RuntimeError(f"assembly failed: rc={rc}")
     return False
 
 def build_gexf(check: bool) -> bool:
@@ -647,7 +647,9 @@ def build_gexf(check: bool) -> bool:
     if not script.exists():
         return False
     rc, output = _run_script(script, [])
-    return rc != 0
+    if rc != 0:
+        raise RuntimeError(f"exportGexf.py failed: rc={rc}")
+    return False
 
 def build_svg(check: bool) -> bool:
     """Run renderGraphSvg.py."""
@@ -655,7 +657,9 @@ def build_svg(check: bool) -> bool:
     if not script.exists():
         return False
     rc, output = _run_script(script, ["--format", "svg"])
-    return rc != 0
+    if rc != 0:
+        raise RuntimeError(f"renderGraphSvg.py failed: rc={rc}")
+    return False
 
 def build_docs_graph_assets(check: bool) -> bool:
     """Run syncDocsGraphAssets.py."""
@@ -663,43 +667,61 @@ def build_docs_graph_assets(check: bool) -> bool:
     if not script.exists():
         return False
     rc, output = _run_script(script, [])
-    return rc != 0
+    if rc != 0:
+        raise RuntimeError(f"syncDocsGraphAssets.py failed: rc={rc}")
+    return False
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Build generated Gaia docs regions.")
     parser.add_argument("--check", action="store_true", help="Fail if generated docs are stale")
     args = parser.parse_args(argv)
 
+    # Track steps that may have failed (subscript errors return True = "stale"
+    # but swallow the root cause). We surface warnings so they aren't silent.
+    warnings: list[str] = []
+
+    def _run_step(name: str, func, check: bool) -> bool:
+        try:
+            return func(check)
+        except Exception as exc:
+            warnings.append(f"{name}: {exc}")
+            return False
+
     # Stage 0 — Core Graph Assembly
-    assembly_changed = build_assembly(args.check)
+    assembly_changed = _run_step("assembly", build_assembly, args.check)
 
     # Stage 4 — full asset pipeline. Each step regenerates into a tempdir and
     # diffs against the committed copy. CSS tokens are already covered above;
     # syncDocsGraphAssets fans out gaia.json / tree.md / named-index — the
     # named-index drift specifically is the one most likely to land out of sync.
-    named_index_changed = build_named_index(args.check)
-    docs_named_changed = build_docs_named_index(args.check)
-    profiles_changed = build_profile_pages(args.check)
-    badges_changed = build_badges(args.check)
-    og_changed = build_og_cards(args.check)
-    tree_changed = build_tree_md(args.check)
-    ruflo_curation_changed = build_ruflo_curation(args.check)
+    named_index_changed = _run_step("named-index", build_named_index, args.check)
+    docs_named_changed = _run_step("docs-named-index", build_docs_named_index, args.check)
+    profiles_changed = _run_step("profiles", build_profile_pages, args.check)
+    badges_changed = _run_step("badges", build_badges, args.check)
+    og_changed = _run_step("og-cards", build_og_cards, args.check)
+    tree_changed = _run_step("tree-md", build_tree_md, args.check)
+    ruflo_curation_changed = _run_step("ruflo-curation", build_ruflo_curation, args.check)
     
     # Extra artifacts
-    gexf_changed = build_gexf(args.check)
-    svg_changed = build_svg(args.check)
-    sync_assets_changed = build_docs_graph_assets(args.check)
+    gexf_changed = _run_step("gexf", build_gexf, args.check)
+    svg_changed = _run_step("svg", build_svg, args.check)
+    sync_assets_changed = _run_step("docs-graph-assets", build_docs_graph_assets, args.check)
 
     # Local sections (README + index.html stats + tokens.css).
     # README depends on tree.md (build_tree_md)
-    readme_changed = build_readme(args.check)
-    docs_index_changed = build_docs_index(args.check)
-    html_cache_busted = build_html_cache_busting(args.check)
-    css_tokens_changed = build_css_tokens(args.check)
+    readme_changed = _run_step("readme", build_readme, args.check)
+    docs_index_changed = _run_step("docs-index", build_docs_index, args.check)
+    html_cache_busted = _run_step("html-cache-busting", build_html_cache_busting, args.check)
+    css_tokens_changed = _run_step("css-tokens", build_css_tokens, args.check)
 
     # Wiki sync — updates ../gaia-wiki pages from README marker regions.
     # Advisory only: drift is reported but never blocks the build.
     build_wiki_sync(args.check)
+
+    if warnings:
+        print(f"\nWarning: {len(warnings)} build step(s) encountered errors:", file=sys.stderr)
+        for w in warnings:
+            print(f"  • {w}", file=sys.stderr)
 
     changed = (
         assembly_changed
@@ -718,13 +740,22 @@ def main(argv: list[str] | None = None) -> int:
         or svg_changed
         or sync_assets_changed
     )
-    if args.check and changed:
-        print("Generated documentation is stale. Run `gaia docs build --check` locally.")
-        print("If it reports drift, run `gaia docs build` and commit the updated files.")
-        print("Validation checks can be run with `gaia validate`.")
-        return 1
-    print("Documentation is up to date." if not changed else "Documentation regenerated.")
-    return 0
+    if args.check:
+        if changed or warnings:
+            if warnings:
+                print("\nError: Documentation build encountered errors in --check mode.", file=sys.stderr)
+            print("Generated documentation is stale. Run `gaia docs build --check` locally.")
+            print("If it reports drift, run `gaia docs build` and commit the updated files.")
+            print("Validation checks can be run with `gaia validate`.")
+            return 1
+        print("Documentation is up to date.")
+        return 0
+    else:
+        if warnings:
+            print("\nDocumentation build completed with warnings/errors.", file=sys.stderr)
+            return 0
+        print("Documentation is up to date." if not changed else "Documentation regenerated.")
+        return 0
 
 
 if __name__ == "__main__":
