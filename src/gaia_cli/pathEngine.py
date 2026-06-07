@@ -144,7 +144,12 @@ def render_unlock_path(
             total += c_total
         return owned, total
 
-    owned_count, total_count = _count(tree)
+    # Count prerequisites only (children of root — root is the target, not a prereq).
+    owned_count, total_count = 0, 0
+    for child in tree.get('children', []):
+        c_owned, c_total = _count(child)
+        owned_count += c_owned
+        total_count += c_total
 
     # Render root line manually.
     root_sid = tree['id']
