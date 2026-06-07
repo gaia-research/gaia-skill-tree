@@ -41,7 +41,7 @@
   var _registryPromise = null;
   function getRegistry() {
     if (!_registryPromise) {
-      var prefix = (typeof window.gaiaIconBase === 'function') ? window.gaiaIconBase().replace('assets/icons.svg', '') : '';
+      var prefix = (typeof window.gaiaIconBase === 'function') ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '') : '';
       _registryPromise = fetch(prefix + 'badges/registry.json')
         .then(function (r) { return r.ok ? r.json() : { contributors: {} }; })
         .catch(function () { return { contributors: {} }; });
@@ -307,7 +307,7 @@
 
     // Set immediately without ?repo= so the badge shows right away, then
     // update both src and markdown once the registry resolves.
-    var prefix = (typeof window.gaiaIconBase === 'function') ? window.gaiaIconBase().replace('assets/icons.svg', '') : '';
+    var prefix = (typeof window.gaiaIconBase === 'function') ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '') : '';
     if (badgePreview) {
       badgePreview.alt = ns.contributor + '/' + slug + ' on Gaia';
       badgePreview.src = prefix + 'badges/_assets/' + encodeURIComponent(ns.contributor) + '/' + encodeURIComponent(slug) + '.svg';

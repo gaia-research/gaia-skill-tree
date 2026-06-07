@@ -41,7 +41,7 @@
       base = rel;
     } else {
       var prefix = (typeof window.gaiaIconBase === 'function')
-        ? window.gaiaIconBase().replace('assets/icons.svg', '')
+        ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '')
         : '';
       base = prefix + 'u/';
     }

@@ -75,7 +75,7 @@
     var rel = (opts && opts.rel);
     if (!rel) {
       var prefix = (typeof window.gaiaIconBase === 'function')
-        ? window.gaiaIconBase().replace('assets/icons.svg', '')
+        ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '')
         : '';
       rel = prefix + 'u/';
     }
@@ -98,7 +98,11 @@
   function _fieldSlug(ns) {
     var slug = namedSlug(ns);
     var id = ns && ns.id || '';
-    return '<div class="plaque__slug plaque-skill-name named-slug" title="' + esc(id) + '">' + esc(slug) + '</div>';
+    var prefix = (typeof window.gaiaIconBase === 'function')
+      ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '')
+      : '';
+    var href = prefix + 'named/#explorer/' + encodeURIComponent(id);
+    return '<a class="plaque__slug plaque-skill-name named-slug" href="' + esc(href) + '" title="' + esc(id) + '" onclick="event.stopPropagation();">' + esc(slug) + '</a>';
   }
 
   function _fieldTitle(ns) {
@@ -369,7 +373,7 @@
       : '';
 
     var prefix = (typeof window.gaiaIconBase === 'function')
-      ? window.gaiaIconBase().replace('assets/icons.svg', '')
+      ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '')
       : '';
 
     var actions = redacted ? '' :
@@ -692,4 +696,21 @@
   };
 
   window.plaque = plaque;
+
+  // Phase 8d — export shared helpers to window if they are missing (e.g. on
+  // the Named Skills Explorer where atlas-helpers.js is not loaded).
+  if (typeof window.handleLink !== 'function') window.handleLink = handleLink;
+  if (typeof window.namedSlug !== 'function') window.namedSlug = namedSlug;
+  // isRedacted logic: only redacted if level is 0 or 1.
+  if (typeof window.isRedacted !== 'function') {
+    window.isRedacted = function(level) {
+      var n = levelNum(level);
+      return n >= 0 && n <= 1;
+    };
+  }
+  if (typeof window.redactedHandle !== 'function') {
+    window.redactedHandle = function() {
+      return '<span class="plaque__redacted-handle" aria-label="Contributor not yet revealed">@[anonymous]</span>';
+    };
+  }
 })();

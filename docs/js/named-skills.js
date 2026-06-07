@@ -466,7 +466,7 @@
     // come from generated assets. If either fetch fails we render an empty
     // state with a hint to run the sync script. No fallbacks, no silent drift.
     var version = window.GAIA_VERSION ? '?v=' + window.GAIA_VERSION : '';
-    var prefix = (typeof window.gaiaIconBase === 'function') ? window.gaiaIconBase().replace('assets/icons.svg', '') : '';
+    var prefix = (typeof window.gaiaIconBase === 'function') ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '') : '';
     Promise.all([
       fetch(prefix + 'graph/named/index.json' + version).then(function(r){ if (!r.ok) throw r; return r.json(); }),
       fetch(prefix + 'graph/gaia.json' + version).then(function(r){ if (!r.ok) throw r; return r.json(); }),
