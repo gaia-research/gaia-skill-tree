@@ -26,7 +26,7 @@
   // ║ invalidateCanvasTokens() if the theme is swapped at runtime.   ║
   // ╚════════════════════════════════════════════════════════════════╝
   const version = window.GAIA_VERSION ? '?v=' + window.GAIA_VERSION : '';
-  const prefix = (typeof window.gaiaIconBase === 'function') ? window.gaiaIconBase().replace('assets/icons.svg', '') : '';
+  const prefix = (typeof window.gaiaIconBase === 'function') ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '') : '';
   const GRAPH_JSON_URL = prefix + 'graph/gaia.json' + version;
   const GRAPH_SCALE = 1.625;
 
