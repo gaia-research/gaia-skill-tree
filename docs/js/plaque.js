@@ -368,10 +368,14 @@
       ? '<div class="plaque__gh-row">' + ghLink + shareBtn + '</div>'
       : '';
 
+    var prefix = (typeof window.gaiaIconBase === 'function')
+      ? window.gaiaIconBase().replace('assets/icons.svg', '')
+      : '';
+
     var actions = redacted ? '' :
       '<div class="plaque__actions plaque-detail-actions">' +
         '<a class="plaque__claim-btn" ' +
-          'href="badges/?u=' + encodeURIComponent(handle) + '" ' +
+          'href="' + esc(prefix + 'badges/?u=' + encodeURIComponent(handle) + '&s=' + encodeURIComponent(skillIdShort)) + '" ' +
           'target="_blank" rel="noopener">' +
           'Add to README' +
         '</a>' +
