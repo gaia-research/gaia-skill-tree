@@ -30,7 +30,15 @@ Generate yours at **[gaia.tiongson.co/badges/](https://gaia.tiongson.co/badges/)
 
 ---
 
-## The Registry
+# Who maintains this?
+
+Truth is, Gaia will exist even without anyone sending their skills.
+
+I built this because skills should be attributed to the people who proved them. Permanently, not just until the repo goes private.
+
+So that means, its the developers who make skills maintaining this. I have a thorough curation process, and the dev community is evidence on why this works. As long as developers making skills exists, this registry will exist. This is open-source, so feel free to contribute! 
+
+# The Registry
 
 Every AI agent capability exists somewhere on this graph. Skills start at the foundation tier, awaken through evidence, evolve through use, and fuse into things greater than the sum of their parts.
 
