@@ -1,6 +1,7 @@
 import json
 import os
 import subprocess
+import sys
 import tempfile
 import unittest
 
@@ -15,7 +16,7 @@ def run_validate_intake(intake_dir, *extra_args):
     env["PYTHONIOENCODING"] = "utf-8"
     result = subprocess.run(
         [
-            "python3",
+            sys.executable,
             VALIDATE_INTAKE_SCRIPT,
             "--intake-dir",
             intake_dir,

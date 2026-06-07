@@ -17,7 +17,7 @@ def run_validate(graph_path):
     env = os.environ.copy()
     env["PYTHONIOENCODING"] = "utf-8"
     result = subprocess.run(
-        ["python3", VALIDATE_SCRIPT, "--graph", graph_path],
+        [sys.executable, VALIDATE_SCRIPT, "--graph", graph_path],
         capture_output=True,
         text=True,
         encoding="utf-8",

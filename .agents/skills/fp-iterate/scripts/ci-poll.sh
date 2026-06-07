@@ -33,17 +33,17 @@ while [[ $round -lt $MAX ]]; do
   round=$((round + 1))
   echo -n "  [${round}/${MAX}] checking... "
 
-  result=$(gh pr checks "$PR" --json name,state,conclusion 2>/dev/null) || {
+  result=$(gh pr checks "$PR" --json name,state 2>/dev/null) || {
     echo "gh pr checks failed, retrying." >&2
     sleep "$INTERVAL"; continue
   }
 
   pending=$(echo "$result" | jq '[.[] | select(.state == "PENDING" or .state == "IN_PROGRESS")] | length')
-  failed=$(echo  "$result" | jq '[.[] | select(.conclusion == "FAILURE" or .conclusion == "ERROR" or .conclusion == "TIMED_OUT")] | length')
+  failed=$(echo  "$result" | jq '[.[] | select(.state == "FAILURE" or .state == "FAILING" or .state == "ERROR" or .state == "TIMED_OUT")] | length')
 
   if [[ "$failed" -gt 0 ]]; then
     echo "❌ $failed failed"
-    echo "$result" | jq -r '.[] | select(.conclusion == "FAILURE" or .conclusion == "ERROR" or .conclusion == "TIMED_OUT") | "    FAIL: \(.name)"'
+    echo "$result" | jq -r '.[] | select(.state == "FAILURE" or .state == "FAILING" or .state == "ERROR" or .state == "TIMED_OUT") | "    FAIL: \(.name)"'
     exit 2
   fi
 

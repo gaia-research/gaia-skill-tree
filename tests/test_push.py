@@ -37,7 +37,7 @@ class TestGaiaPush(unittest.TestCase):
             env["PYTHONIOENCODING"] = "utf-8"
             result = subprocess.run(
                 [
-                    "python3",
+                    sys.executable,
                     CLI_PATH,
                     "--registry",
                     REPO_ROOT,
@@ -83,7 +83,7 @@ class TestGaiaPush(unittest.TestCase):
             env["PYTHONIOENCODING"] = "utf-8"
             result = subprocess.run(
                 [
-                    "python3",
+                    sys.executable,
                     CLI_PATH,
                     "--registry",
                     registry,

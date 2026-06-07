@@ -294,8 +294,8 @@ def init_command(args):
     config_dir = '.gaia'
     os.makedirs(config_dir, exist_ok=True)
     config_path = os.path.join(config_dir, 'config.toml')
-    if os.path.exists(config_path):
-        print("Gaia is already initialized in this repository.")
+    if os.path.exists(config_path) and not getattr(args, "force", False):
+        print("Gaia is already initialized in this repository. Use --force to overwrite.")
         return
 
     username = args.user or _detect_github_username()
@@ -472,16 +472,20 @@ def scan_command(args):
         skill_map = {s['id']: s for s in graph_data.get('skills', [])}
         unlocked = [s.get('skillId') for s in tree.get('unlockedSkills', [])]
         combos = get_combinations(graph_data, unlocked, resolved)
-        if combos and not quiet:
-            print("\nNew fusion candidates:")
-            for c in combos:
-                result_skill = skill_map.get(c['candidateResult'], {})
-                result_type = result_skill.get('type', 'extra')
-                print(render_fusion_diagram(
-                    c['detectedSkills'], c['candidateResult'], result_type,
-                    canon=canon, ctx=ctx
-                ))
-            print("Run `gaia fuse <skill>` to confirm.")
+        if combos:
+            # Persist fusion candidates so `gaia fuse` can find them
+            tree['pendingCombinations'] = combos
+            save_tree(username, tree, registry_path=args.registry)
+            if not quiet:
+                print("\nNew fusion candidates:")
+                for c in combos:
+                    result_skill = skill_map.get(c['candidateResult'], {})
+                    result_type = result_skill.get('type', 'extra')
+                    print(render_fusion_diagram(
+                        c['detectedSkills'], c['candidateResult'], result_type,
+                        canon=canon, ctx=ctx
+                    ))
+                print("Run `gaia fuse <skill>` to confirm.")
 
         # Path engine integration
         old_paths = load_paths()
@@ -537,7 +541,7 @@ def render_user_tree_outputs(username: str, tree: dict | None, graph_data: dict 
     with open(html_path, "w", encoding="utf-8") as f:
         f.write(html)
     if not quiet:
-        print(f"  saved {os.path.basename(html_path)} & {os.path.basename(md_path)}")
+        print(f"  saved {html_path} & {md_path}")
     return html_path, md_path
 
 
@@ -599,7 +603,8 @@ def lookup_command(args):
         display = skill.get("name") or f"/{skill_id}"
     print(f"{display}")
     
-    print(f"Type: {skill.get('type', 'unknown')}    Level: {skill.get('level', '?')}")
+    user_level = ctx.skill_level(skill_id) if ctx else skill.get('level', '?')
+    print(f"Type: {skill.get('type', 'unknown')}    Level: {user_level}")
     if skill.get("description"):
         print(skill["description"])
 
@@ -792,7 +797,7 @@ def promote_command(args):
             return
         if not skill_id:
             # Try interactive picker
-            candidates = promotable_candidates(username, args.registry)
+            candidates = promotable_candidates(args.registry, username)
             if candidates:
                 picked = select_promotion_candidate(candidates, "Select skill to promote:")
                 if picked:
@@ -1284,9 +1289,9 @@ def install_command(args):
         interactive_install(args.registry, location=location)
         return
     if not args.skill_id:
-        # Bare 'gaia install' -> update/sync all
-        update_skills(args.registry)
-        return
+        print("Usage: gaia install <skill_id>", file=sys.stderr)
+        print("  To update all installed skills, use: gaia update", file=sys.stderr)
+        sys.exit(2)
 
     # Use suite logic if flagged or implicitly requested
     if getattr(args, 'ultimate', False) or getattr(args, 'suite', False):
@@ -1300,7 +1305,7 @@ def install_command(args):
 
 def uninstall_command(args):
     from gaia_cli.install import uninstall_skill
-    success = uninstall_skill(args.skill_id)
+    success = uninstall_skill(args.skill_id.lstrip("/"))
     if not success:
         sys.exit(1)
 
@@ -1362,7 +1367,7 @@ def skills_command(args):
 
 
     available = [
-        {"id": sid, "name": meta.get("name") or sid, "level": meta.get("level", "?"), "description": meta.get("description", "")}
+        {"id": sid, "name": meta.get("name") or sid, "level": meta.get("level", "?"), "type": meta.get("type", "basic"), "description": meta.get("description", "")}
         for sid, meta in list_available(args.registry)
     ]
     items = available + pending
@@ -1459,6 +1464,12 @@ def pull_command(args):
             print("Note: Registry could not be updated via git (no upstream configured). Local registry unchanged.", file=sys.stderr)
         else:
             print(f"Warning: git pull failed. Local registry unchanged.\n  {stderr}", file=sys.stderr)
+    else:
+        stdout = res.stdout.strip()
+        if "Already up to date" in stdout:
+            print("Registry is already up to date.")
+        else:
+            print("Registry updated successfully.")
 
 
 def update_command(args):
@@ -1647,6 +1658,7 @@ def get_parser():
     init_parser.add_argument('--registry-ref', help='Gaia registry URL to write into .gaia/config.toml')
     init_parser.add_argument('--scan', action='append', help='Path to scan; repeat for multiple paths')
     init_parser.add_argument('--yes', action='store_true', help='Use non-interactive defaults')
+    init_parser.add_argument('--force', action='store_true', help='Overwrite existing .gaia/config.toml')
     init_parser.add_argument(
         '--auto-prompt-combinations',
         action='store_true',

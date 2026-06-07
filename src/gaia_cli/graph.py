@@ -1205,7 +1205,7 @@ def graph_command(args: Any) -> None:
         pass  # Degrade gracefully to canon mode
 
     out_path = write_graph_artifact(registry_path, output=output, fmt=fmt, user_ctx=user_ctx)
-    print(f"  saved {os.path.basename(out_path)}")
+    print(f"  saved {out_path}")
 
     # Regenerate the GEXF from current node data
     if fmt == "html":
