@@ -1285,9 +1285,9 @@ def install_command(args):
         interactive_install(args.registry, location=location)
         return
     if not args.skill_id:
-        # Bare 'gaia install' -> update/sync all
-        update_skills(args.registry)
-        return
+        print("Usage: gaia install <skill_id>", file=sys.stderr)
+        print("  To update all installed skills, use: gaia update", file=sys.stderr)
+        sys.exit(2)
 
     # Use suite logic if flagged or implicitly requested
     if getattr(args, 'ultimate', False) or getattr(args, 'suite', False):
