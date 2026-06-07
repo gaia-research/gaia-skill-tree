@@ -3715,3 +3715,13 @@ button.plaque__slug:focus-visible {
   .plaque__redacted-handle::after { animation: none; }
 }
 
+
+.sidebar-search-input:focus-visible,
+.sidebar-date-input:focus-visible,
+.profile-filter-chip:focus-visible,
+.profile-filter-reset:focus-visible,
+.plaque__share-btn:focus-visible,
+.plaque__claim-btn:focus-visible {
+  outline: 2px solid var(--tier-extra);
+  outline-offset: 2px;
+}
