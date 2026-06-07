@@ -41,7 +41,8 @@
   var _registryPromise = null;
   function getRegistry() {
     if (!_registryPromise) {
-      _registryPromise = fetch('badges/registry.json')
+      var prefix = (typeof window.gaiaIconBase === 'function') ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '') : '';
+      _registryPromise = fetch(prefix + 'badges/registry.json')
         .then(function (r) { return r.ok ? r.json() : { contributors: {} }; })
         .catch(function () { return { contributors: {} }; });
     }
@@ -306,20 +307,21 @@
 
     // Set immediately without ?repo= so the badge shows right away, then
     // update both src and markdown once the registry resolves.
+    var prefix = (typeof window.gaiaIconBase === 'function') ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '') : '';
     if (badgePreview) {
       badgePreview.alt = ns.contributor + '/' + slug + ' on Gaia';
-      badgePreview.src = 'badges/_assets/' + encodeURIComponent(ns.contributor) + '/' + encodeURIComponent(slug) + '.svg';
+      badgePreview.src = prefix + 'badges/_assets/' + encodeURIComponent(ns.contributor) + '/' + encodeURIComponent(slug) + '.svg';
     }
     var markdown = '[![Gaia](' + badgeBase + ')](' + profileUrl + ')';
     if (codeBlock) codeBlock.textContent = markdown;
-    if (badgesLink) badgesLink.href = 'badges/?u=' + encodeURIComponent(ns.contributor);
+    if (badgesLink) badgesLink.href = prefix + 'badges/?u=' + encodeURIComponent(ns.contributor) + '&s=' + encodeURIComponent(slug);
 
     getRegistry().then(function (registry) {
       var repo = firstApprovedRepo(registry, ns.contributor);
       if (repo) {
         var q = '?repo=' + encodeURIComponent(repo);
         if (badgePreview) {
-          badgePreview.src = 'badges/_assets/' + encodeURIComponent(ns.contributor) + '/' + encodeURIComponent(slug) + '.svg' + q;
+          badgePreview.src = prefix + 'badges/_assets/' + encodeURIComponent(ns.contributor) + '/' + encodeURIComponent(slug) + '.svg' + q;
         }
         markdown = '[![Gaia](' + badgeBase + q + ')](' + profileUrl + ')';
         if (codeBlock) codeBlock.textContent = markdown;
