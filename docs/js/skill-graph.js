@@ -26,7 +26,8 @@
   // ║ invalidateCanvasTokens() if the theme is swapped at runtime.   ║
   // ╚════════════════════════════════════════════════════════════════╝
   const version = window.GAIA_VERSION ? '?v=' + window.GAIA_VERSION : '';
-  const GRAPH_JSON_URL = '/graph/gaia.json' + version;
+  const prefix = (typeof window.gaiaIconBase === 'function') ? window.gaiaIconBase().replace('assets/icons.svg', '') : '';
+  const GRAPH_JSON_URL = prefix + 'graph/gaia.json' + version;
   const GRAPH_SCALE = 1.625;
 
   // ── Locked canvas geometry (DESIGN.md ▸ Graph Canvas) ──────────
@@ -2589,7 +2590,7 @@
 
   // Probe the graph directory first so we get a clear diagnostic if the
   // static-asset host isn't serving JSON files from graph/.
-  const _pingOk = fetch('/graph/ping.json', { cache: 'no-store' })
+  const _pingOk = fetch(prefix + 'graph/ping.json', { cache: 'no-store' })
     .then(r => r.ok && r.json()).then(d => !!(d && d.ok)).catch(() => false);
 
   fetch(GRAPH_JSON_URL, { cache: 'reload' })
@@ -2625,7 +2626,7 @@
       });
     });
 
-  fetch('/graph/named/index.json' + version)
+  fetch(prefix + 'graph/named/index.json' + version)
     .then(r => r.ok ? r.json() : Promise.reject())
     .then(indexData => {
       const map = {};
