@@ -446,10 +446,9 @@
       gap: clamp(3rem, 6vw, 4.5rem);
     }
     .ab-name-entry {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 280px);
-      gap: clamp(1.5rem, 5vw, 3.5rem);
-      align-items: start;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
       padding-top: clamp(2rem, 4vw, 3rem);
       border-top: 1px solid var(--border);
     }
@@ -457,10 +456,6 @@
       border-top: none;
       padding-top: 0;
     }
-    /* Alternate the sidecar to break the rhythm.
-       DOM order carries the layout: --right is quote→card,
-       --left is card→quote. The grid-template-columns flip
-       keeps the card column narrow on both variants. */
     @media (min-width: 880px) {
       .ab-names-list {
         display: grid;
@@ -468,20 +463,8 @@
         gap: 2.5rem;
       }
       .ab-name-entry {
-        display: flex;
-        flex-direction: column;
-        gap: 1.25rem;
         padding-top: 0;
         border-top: none;
-      }
-      .ab-name-card {
-        order: 1;
-        width: 100%;
-      }
-      .ab-name-quote {
-        order: 2;
-        text-align: left;
-        max-width: 100%;
       }
     }
 
@@ -1079,10 +1062,6 @@
         <div class="ab-names-list">
 
           <article class="ab-name-entry ab-name-entry--right">
-            <blockquote class="ab-name-quote">
-              The thread connecting jQuery UI, Chrome DevTools, Google for Creators, and now Impeccable: each time, a technology shift was happening and the tools hadn't caught up yet.
-              <cite class="ab-quote-author">— Paul Bakaus</cite>
-            </blockquote>
             <aside class="ab-name-card">
               <div class="ab-name-card-row">
                 <a class="ab-name-handle" href="https://github.com/pbakaus" target="_blank" rel="noopener">@pbakaus</a>
@@ -1091,6 +1070,10 @@
               <span class="ab-name-skill">Impeccable — The Aesthetic Shield</span>
               <a class="ab-name-src" href="https://www.paulbakaus.com/about/" target="_blank" rel="noopener">paulbakaus.com/about <span class="arr" aria-hidden="true">↗</span></a>
             </aside>
+            <blockquote class="ab-name-quote">
+              The thread connecting jQuery UI, Chrome DevTools, Google for Creators, and now Impeccable: each time, a technology shift was happening and the tools hadn't caught up yet.
+              <cite class="ab-quote-author">— Paul Bakaus</cite>
+            </blockquote>
           </article>
 
           <article class="ab-name-entry ab-name-entry--left">
@@ -1109,10 +1092,6 @@
           </article>
 
           <article class="ab-name-entry ab-name-entry--right">
-            <blockquote class="ab-name-quote">
-              This is my open source software factory. I use it every day. I'm sharing it because these tools should be available to everyone.
-              <cite class="ab-quote-author">— Garry Tan</cite>
-            </blockquote>
             <aside class="ab-name-card">
               <div class="ab-name-card-row">
                 <a class="ab-name-handle" href="https://github.com/garrytan" target="_blank" rel="noopener">@garrytan</a>
@@ -1121,6 +1100,10 @@
               <span class="ab-name-skill">gstack — Founder Mode</span>
               <a class="ab-name-src" href="https://github.com/garrytan/gstack" target="_blank" rel="noopener">github.com/garrytan/gstack <span class="arr" aria-hidden="true">↗</span></a>
             </aside>
+            <blockquote class="ab-name-quote">
+              This is my open source software factory. I use it every day. I'm sharing it because these tools should be available to everyone.
+              <cite class="ab-quote-author">— Garry Tan</cite>
+            </blockquote>
           </article>
 
         </div>
