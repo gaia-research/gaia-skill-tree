@@ -1107,6 +1107,15 @@ h1 em {
 .hero-audit-btn:focus-visible,
 .propose-cta:focus-visible,
 .meta-btn-close:focus-visible,
+.bd-clear-btn:focus-visible,
+.bd-go-btn:focus-visible,
+.bd-sampler-cycle:focus-visible,
+.bd-skill-remove:focus-visible,
+.bd-skill-add:focus-visible,
+.bd-skill-addall:focus-visible,
+.bd-skill-clear:focus-visible,
+.bd-copy-all:focus-visible,
+.bd-copy-perline:focus-visible,
 .se-close-x:focus-visible {
   outline: 2px solid var(--tier-extra);
   outline-offset: 2px;
