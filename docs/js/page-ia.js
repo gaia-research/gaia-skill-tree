@@ -150,9 +150,10 @@
           var btn = ev.target.closest && ev.target.closest('.ult-claim');
           if (!btn) return;
           var contributor = btn.dataset.contributor;
+          var prefix = (typeof window.gaiaIconBase === 'function') ? window.gaiaIconBase().replace('assets/icons.svg', '') : '';
           window.location.href = contributor
-            ? 'badges/?u=' + encodeURIComponent(contributor) + '#generate-section'
-            : 'badges/#generate-section';
+            ? prefix + 'badges/?u=' + encodeURIComponent(contributor) + '#generate-section'
+            : prefix + 'badges/#generate-section';
         });
         list.dataset.claimDelegated = '1';
       }

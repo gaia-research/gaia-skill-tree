@@ -445,7 +445,11 @@ def _plaque_actions_html(ns: dict, handle: str = "") -> str:
             f'</button>'
         )
 
-    claim_href = f'../../badges/?u={html.escape(handle)}' if handle else '../../badges/'
+    claim_href = (
+        f'../../badges/?u={html.escape(handle)}&s={html.escape(skill_id_short)}'
+        if handle
+        else '../../badges/'
+    )
     claim_btn_html = (
         f'<a class="plaque__claim-btn" '
         f' href="{claim_href}" '
