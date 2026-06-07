@@ -599,7 +599,8 @@ def lookup_command(args):
         display = skill.get("name") or f"/{skill_id}"
     print(f"{display}")
     
-    print(f"Type: {skill.get('type', 'unknown')}    Level: {skill.get('level', '?')}")
+    user_level = ctx.skill_level(skill_id) if ctx else skill.get('level', '?')
+    print(f"Type: {skill.get('type', 'unknown')}    Level: {user_level}")
     if skill.get("description"):
         print(skill["description"])
 
