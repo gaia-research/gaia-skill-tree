@@ -612,19 +612,19 @@
     <p class="section-sub">A reviewer should be able to decide what happens next without reverse-engineering the whole repo.</p>
     <div class="review-grid">
       <div class="review-card">
-        <h3>For intake PRs</h3>
+        <h3>For intake Issues</h3>
         <ul>
-          <li>Confirm the batch belongs under <code>registry-for-review/</code>.</li>
+          <li>Confirm the issue belongs under the <code>intake</code> label (created automatically via <code>gaia push</code>).</li>
           <li>Check that new named skills are submitted as <code>status: "awakened"</code> (title and catalogRef are omitted).</li>
           <li>Verify proposed names against existing canonical skills and named implementations.</li>
-          <li>Request clearer evidence when the behavior cannot be reproduced or understood.</li>
+          <li>Request clearer evidence on the issue when the behavior cannot be reproduced or understood.</li>
         </ul>
       </div>
       <div class="review-card">
         <h3>For graph PRs</h3>
         <ul>
           <li>Treat <code>registry/gaia.json</code> as the source of truth.</li>
-          <li>Promote accepted named skills from <code>awakened</code> to <code>named</code> and assign a level (2★–6★) and <code>catalogRef</code>.</li>
+          <li>Promote accepted named skills from <code>awakened</code> to <code>named</code> and assign a level (2★–6★) and <code>catalogRef</code> based on the approved intake issue.</li>
           <li>Verify prerequisites, rank, evidence class, and status before merging.</li>
           <li>Ensure all generated files are in sync through automated scripts.</li>
         </ul>
