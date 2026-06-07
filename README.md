@@ -118,7 +118,7 @@ Skills rank up through **verifiable evidence** (Class A/B/C) and can be demoted 
 **1. Install the CLI**
 
 <!-- gaia:version-start -->
-Current Gaia CLI version: `4.3.5`.
+Current Gaia CLI version: `4.3.6`.
 
 ```bash
 curl -fsSL https://gaia.tiongson.co/install.sh | sh
