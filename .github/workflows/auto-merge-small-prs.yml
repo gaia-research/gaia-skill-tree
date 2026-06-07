@@ -29,28 +29,28 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Count changed files
-          CHANGED_FILES=$(git diff --name-only origin/main...HEAD | wc -l)
+          # Count changed files against base branch
+          CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | wc -l)
           echo "changed_files=$CHANGED_FILES" >> $GITHUB_OUTPUT
-
+ 
           # Auto-merge is safe if:
           # 1. PR has 'auto-merge' label OR is a bot PR (Jules/Codex)
           # 2. Fewer than 20 files changed
           # 3. Doesn't modify critical files (.github, pyproject.toml, package.json)
-
+ 
           # Fetch labels and body to check for eligibility
           PR_DATA=$(gh pr view ${{ github.event.pull_request.number }} --json labels,body)
           HAS_LABEL=$(echo "$PR_DATA" | jq -r '.labels[].name' | grep -q "auto-merge" && echo "true" || echo "false")
           IS_BOT=$(echo "$PR_DATA" | jq -r '.body' | grep -E '(jules\.google\.com/task|chatgpt\.com/codex)' > /dev/null && echo "true" || echo "false")
-
+ 
           if [ "$HAS_LABEL" != "true" ] && [ "$IS_BOT" != "true" ]; then
             echo "eligible=false" >> $GITHUB_OUTPUT
             echo "Skipping auto-merge: PR lacks 'auto-merge' label and bot signature"
             exit 0
           fi
-
+ 
           if [ "$CHANGED_FILES" -lt 20 ]; then
-            CRITICAL_FILES=$(git diff --name-only origin/main...HEAD | grep -E '(^\.github/|^pyproject\.toml|package\.json|package-lock\.json)' || true)
+            CRITICAL_FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep -E '(^\.github/|^pyproject\.toml|package\.json|package-lock\.json)' || true)
             if [ -z "$CRITICAL_FILES" ]; then
               echo "eligible=true" >> $GITHUB_OUTPUT
             else
@@ -61,20 +61,45 @@ jobs:
             echo "eligible=false" >> $GITHUB_OUTPUT
             echo "Skipping auto-merge: PR changes $CHANGED_FILES files (limit: 20)"
           fi
-
+ 
       - name: Wait for checks and update body
         if: steps.check.outputs.eligible == 'true'
         run: |
-          # Poll for checks to complete (max 5 min)
-          for i in {1..30}; do
-            STATUS=$(gh pr checks ${{ github.event.pull_request.number }} --json state -q '.[]|select(.state=="COMPLETED")')
-            if [ -n "$STATUS" ]; then
+          # Poll for checks to complete (max 10 min: 60 rounds * 10 seconds)
+          SUCCESS=false
+          for i in {1..60}; do
+            CHECKS_JSON=$(gh pr checks ${{ github.event.pull_request.number }} --json state || echo "[]")
+            TOTAL_COUNT=$(echo "$CHECKS_JSON" | jq '. | length')
+            
+            if [ "$TOTAL_COUNT" -eq 0 ]; then
+              echo "Waiting for checks to be registered... ($i/60)"
+              sleep 10
+              continue
+            fi
+            
+            PENDING_COUNT=$(echo "$CHECKS_JSON" | jq '[.[] | select(.state == "PENDING")] | length')
+            FAILED_COUNT=$(echo "$CHECKS_JSON" | jq '[.[] | select(.state == "FAILING" or .state == "CANCELLED")] | length')
+            
+            echo "Checks check: total=$TOTAL_COUNT, pending=$PENDING_COUNT, failed=$FAILED_COUNT ($i/60)"
+            
+            if [ "$PENDING_COUNT" -eq 0 ]; then
+              if [ "$FAILED_COUNT" -eq 0 ]; then
+                SUCCESS=true
+                echo "All checks completed successfully!"
+              else
+                echo "Some checks failed ($FAILED_COUNT failed). Aborting auto-merge."
+              fi
               break
             fi
-            echo "Waiting for checks... ($i/30)"
+            
             sleep 10
           done
 
+          if [ "$SUCCESS" != "true" ]; then
+            echo "Checks failed or timed out. Aborting."
+            exit 1
+          fi
+ 
           # Update PR body with [skip-gen] marker
           BODY=$(gh pr view ${{ github.event.pull_request.number }} --json body -q .body)
           if ! echo "$BODY" | grep -q "\[skip-gen\]"; then
@@ -83,8 +108,7 @@ jobs:
           fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        continue-on-error: true
-
+ 
       - name: Merge PR
         if: steps.check.outputs.eligible == 'true'
         run: |
@@ -93,7 +117,7 @@ jobs:
           if [ "$IS_DRAFT" = "true" ]; then
             gh pr ready ${{ github.event.pull_request.number }}
           fi
-
+ 
           gh pr merge ${{ github.event.pull_request.number }} \
             --squash \
             --delete-branch || echo "PR already merged or merge blocked by checks"

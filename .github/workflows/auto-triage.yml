@@ -92,10 +92,52 @@ jobs:
             echo "Score $SCORE is below auto-merge threshold (60)"
           fi
 
+      - name: Wait for checks
+        if: steps.gate.outputs.pass == 'true'
+        run: |
+          # Poll for checks to complete (max 10 min: 60 rounds * 10 seconds)
+          SUCCESS=false
+          for i in {1..60}; do
+            CHECKS_JSON=$(gh pr checks ${{ github.event.pull_request.number }} --json state || echo "[]")
+            TOTAL_COUNT=$(echo "$CHECKS_JSON" | jq '. | length')
+            
+            if [ "$TOTAL_COUNT" -eq 0 ]; then
+              echo "Waiting for checks to be registered... ($i/60)"
+              sleep 10
+              continue
+            fi
+            
+            PENDING_COUNT=$(echo "$CHECKS_JSON" | jq '[.[] | select(.state == "PENDING")] | length')
+            FAILED_COUNT=$(echo "$CHECKS_JSON" | jq '[.[] | select(.state == "FAILING" or .state == "CANCELLED")] | length')
+            
+            echo "Checks check: total=$TOTAL_COUNT, pending=$PENDING_COUNT, failed=$FAILED_COUNT ($i/60)"
+            
+            if [ "$PENDING_COUNT" -eq 0 ]; then
+              if [ "$FAILED_COUNT" -eq 0 ]; then
+                SUCCESS=true
+                echo "All checks completed successfully!"
+              else
+                echo "Some checks failed ($FAILED_COUNT failed). Aborting auto-merge."
+              fi
+              break
+            fi
+            
+            sleep 10
+          done
+
+          if [ "$SUCCESS" != "true" ]; then
+            echo "Checks failed or timed out. Aborting."
+            exit 1
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Auto-merge
         if: steps.gate.outputs.pass == 'true'
         run: |
-          gh pr merge ${{ github.event.pull_request.number }} --squash --auto
+          gh pr merge ${{ github.event.pull_request.number }} \
+            --squash \
+            --delete-branch || echo "PR already merged or merge blocked by checks"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
