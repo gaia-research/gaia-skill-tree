@@ -91,6 +91,7 @@
       display: block;
       width: 100%;
       max-width: 240px;
+      height: auto;
       aspect-ratio: 1;
       border-radius: 4px;
       border: 1px solid rgba(251, 191, 36, .22);
@@ -193,14 +194,23 @@
         gap: 2rem;
       }
       .ab-frontis-mark {
-        flex-direction: row;
+        flex-direction: column;
         align-items: center;
         gap: 1.25rem;
       }
       .ab-frontis-seal { width: 24px; height: 24px; }
-      .ab-frontis-portrait { width: 96px; max-width: 96px; }
+      .ab-frontis-portrait { width: 100%; max-width: 180px; }
       .ab-frontis-meta {
         display: none;
+      }
+      .ab-frontis-body {
+        text-align: center;
+      }
+      .ab-frontis-role {
+        margin: 0 auto 2rem;
+      }
+      .ab-frontis-statement {
+        margin: 0 auto;
       }
     }
 
@@ -436,10 +446,9 @@
       gap: clamp(3rem, 6vw, 4.5rem);
     }
     .ab-name-entry {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 280px);
-      gap: clamp(1.5rem, 5vw, 3.5rem);
-      align-items: start;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
       padding-top: clamp(2rem, 4vw, 3rem);
       border-top: 1px solid var(--border);
     }
@@ -447,25 +456,27 @@
       border-top: none;
       padding-top: 0;
     }
-    /* Alternate the sidecar to break the rhythm.
-       DOM order carries the layout: --right is quote→card,
-       --left is card→quote. The grid-template-columns flip
-       keeps the card column narrow on both variants. */
     @media (min-width: 880px) {
-      .ab-name-entry--left {
-        grid-template-columns: minmax(0, 280px) minmax(0, 1fr);
+      .ab-names-list {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 2.5rem;
+      }
+      .ab-name-entry {
+        padding-top: 0;
+        border-top: none;
       }
     }
 
     .ab-name-quote {
-      font-family: var(--font-display);
-      font-style: italic;
-      font-size: clamp(1.4rem, 3vw, 1.85rem);
-      font-weight: 500;
-      line-height: 1.4;
+      font-family: var(--font-body);
+      font-style: normal;
+      font-size: clamp(0.95rem, 1.8vw, 1.05rem);
+      font-weight: 400;
+      line-height: 1.6;
       color: var(--text);
       margin: 0;
-      max-width: 28ch;
+      max-width: 36ch;
       text-wrap: pretty;
       position: relative;
     }
@@ -484,6 +495,16 @@
       color: var(--apex-gold);
       opacity: .5;
       margin-left: .05em;
+    }
+    .ab-quote-author {
+      display: block;
+      margin-top: 0.75rem;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-style: normal;
     }
 
     .ab-name-card {
@@ -1041,15 +1062,18 @@
         <div class="ab-names-list">
 
           <article class="ab-name-entry ab-name-entry--right">
-            <blockquote class="ab-name-quote">This is my open source software factory. I use it every day. I'm sharing it because these tools should be available to everyone.</blockquote>
             <aside class="ab-name-card">
               <div class="ab-name-card-row">
-                <a class="ab-name-handle" href="https://github.com/garrytan" target="_blank" rel="noopener">@garrytan</a>
-                <span class="rank-slot" data-level="5" data-variant="full" data-aria="Ultimate Skill, rank 5 of 6"></span>
+                <a class="ab-name-handle" href="https://github.com/pbakaus" target="_blank" rel="noopener">@pbakaus</a>
+                <span class="rank-slot" data-level="4" data-variant="full" data-aria="rank 4 of 6"></span>
               </div>
-              <span class="ab-name-skill">gstack — Founder Mode</span>
-              <a class="ab-name-src" href="https://github.com/garrytan/gstack" target="_blank" rel="noopener">github.com/garrytan/gstack <span class="arr" aria-hidden="true">↗</span></a>
+              <span class="ab-name-skill">Impeccable — The Aesthetic Shield</span>
+              <a class="ab-name-src" href="https://www.paulbakaus.com/about/" target="_blank" rel="noopener">paulbakaus.com/about <span class="arr" aria-hidden="true">↗</span></a>
             </aside>
+            <blockquote class="ab-name-quote">
+              The thread connecting jQuery UI, Chrome DevTools, Google for Creators, and now Impeccable: each time, a technology shift was happening and the tools hadn't caught up yet.
+              <cite class="ab-quote-author">— Paul Bakaus</cite>
+            </blockquote>
           </article>
 
           <article class="ab-name-entry ab-name-entry--left">
@@ -1061,19 +1085,25 @@
               <span class="ab-name-skill">Matt Pocock Skills</span>
               <a class="ab-name-src" href="https://github.com/mattpocock/skills" target="_blank" rel="noopener">github.com/mattpocock/skills <span class="arr" aria-hidden="true">↗</span></a>
             </aside>
-            <blockquote class="ab-name-quote">These skills are my best effort at condensing these fundamentals into repeatable practices, to help you ship the best apps of your career.</blockquote>
+            <blockquote class="ab-name-quote">
+              These skills are my best effort at condensing these fundamentals into repeatable practices, to help you ship the best apps of your career.
+              <cite class="ab-quote-author">— Matt Pocock</cite>
+            </blockquote>
           </article>
 
           <article class="ab-name-entry ab-name-entry--right">
-            <blockquote class="ab-name-quote">The thread connecting jQuery UI, Chrome DevTools, Google for Creators, and now Impeccable: each time, a technology shift was happening and the tools hadn't caught up yet.</blockquote>
             <aside class="ab-name-card">
               <div class="ab-name-card-row">
-                <a class="ab-name-handle" href="https://github.com/pbakaus" target="_blank" rel="noopener">@pbakaus</a>
-                <span class="rank-slot" data-level="4" data-variant="full" data-aria="rank 4 of 6"></span>
+                <a class="ab-name-handle" href="https://github.com/garrytan" target="_blank" rel="noopener">@garrytan</a>
+                <span class="rank-slot" data-level="5" data-variant="full" data-aria="Ultimate Skill, rank 5 of 6"></span>
               </div>
-              <span class="ab-name-skill">Impeccable — The Aesthetic Shield</span>
-              <a class="ab-name-src" href="https://www.paulbakaus.com/about/" target="_blank" rel="noopener">paulbakaus.com/about <span class="arr" aria-hidden="true">↗</span></a>
+              <span class="ab-name-skill">gstack — Founder Mode</span>
+              <a class="ab-name-src" href="https://github.com/garrytan/gstack" target="_blank" rel="noopener">github.com/garrytan/gstack <span class="arr" aria-hidden="true">↗</span></a>
             </aside>
+            <blockquote class="ab-name-quote">
+              This is my open source software factory. I use it every day. I'm sharing it because these tools should be available to everyone.
+              <cite class="ab-quote-author">— Garry Tan</cite>
+            </blockquote>
           </article>
 
         </div>
