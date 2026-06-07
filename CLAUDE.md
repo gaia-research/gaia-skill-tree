@@ -2,25 +2,10 @@
 
 Guidance for AI coding agents working in this repository.
 
-## Commands
+## Commands & Setup
 
-```bash
-pip install -e ".[embeddings,dev]"  # dev includes build/pytest/numpy/scipy for the full test suite + docs build
-# Slim alternative if you only need to run `gaia docs build`:
-# pip install -e ".[docs]"  # just numpy + scipy (required by tree.md / 3D layout regen)
-gaia init --user <username>
-gaia scan
-gaia appraise
-gaia skills search web
+Refer to [DEV.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/DEV.md) for local environment setup (virtualenv, pip, pipx), common commands, and testing instructions.
 
-gaia validate
-gaia validate --intake
-gaia docs build --check
-gaia test all
-
-cd packages/cli-npm && npm test
-cd packages/mcp && npm run build && npm test
-```
 
 ## Current Layout
 
@@ -217,83 +202,10 @@ Available gstack skills:
 
 ---
 
-## Curation & CI Pain Points (agent cache — read before touching registry/named/)
+## Curation & CI Troubleshooting
 
-These are recurring failure modes discovered during issues #390/#391. Cache them to avoid repeat failures.
+For details on curation guidelines, resolving stale documentation checks, pre-existing test failures, and version lockstep requirements, see [DEV.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/DEV.md).
 
-### 1. Stale docs crash CI
-
-Any change to `registry/named/` or `registry/nodes/` makes `docs/graph/named/index.json` and contributor profile HTML stale. The `Schema + DAG + Integrity Checks` CI job runs `gaia docs build --check` and fails if these are out of date.
-
-**Fix**: run `gaia docs build` and commit the result before pushing. Add `[skip-gen]` to the commit message to prevent the `Regenerate and Commit Artifacts` CI workflow from looping.
-
-```bash
-gaia docs build
-git add docs/ registry/gaia.json
-git commit -m "chore(docs): regenerate after registry edits [skip-gen]"
-```
-
-**Dependencies**: `gaia docs build` needs **`numpy`** and **`scipy`** at runtime — `scripts/build_layouts_3d.py` (called from `scripts/generateProjections.py` during `tree.md` regen) imports `scipy.linalg` for the 3D layout solve. Without them, the build emits `ModuleNotFoundError: No module named 'numpy'` / `'scipy'` and `tree.md` regen fails, which then trips the `--check` job in CI.
-
-Install via either:
-- `pip install -e ".[dev]"` — full kit (recommended; also covers pytest, build, twine, textual)
-- `pip install -e ".[docs]"` — slim, just numpy + scipy
-- `pip install numpy scipy` — manual, no extra
-
-If `gaia docs build` regenerates `docs/og/**.svg` but mysteriously deletes `docs/og/**.png`, that's `build_og_cards` in `scripts/build_docs.py:641` doing `rmtree + copytree` from a candidate dir that has no PNGs because `cairosvg` isn't installed. Either `pip install cairosvg` or restore the PNGs with `git checkout HEAD -- docs/og/` before committing.
-
-### 2. `links.github` URL must use `blob/` not `tree/`
-
-`src/gaia_cli/install.py::_parse_github_url` only recognises `https://github.com/owner/repo/blob/branch/subpath`. A bare repo URL (`https://github.com/owner/repo`) installs to the repo root and makes the skill undiscoverable (symlink has no `SKILL.md` at top level). GitHub's directory-view URLs use `tree/` — convert them to `blob/` manually.
-
-### 3. Only `links.github` is read by the installer
-
-The install pipeline reads `meta.get("links", {}).get("github")` and nothing else. Wrong keys seen in the wild and their fixes:
-
-| Wrong key | Fix |
-|-----------|-----|
-| `links.repo:` | rename to `links.github:` |
-| `links.docs:` | rename to `links.github:` (strip any `#fragment`) |
-| `links.arxiv:` | add `links.github:` alongside (keep arxiv) |
-| `origin: https://...` | move URL to `links.github:`, set `origin: false` |
-
-### 4. Suites never need `links.github` — do not flag them as uninstallable
-
-Any skill with `suiteComponents` (e.g. `mattpocock/skills`, `garrytan/gstack`) installs by iterating its components. It has no installation directory of its own and does not need `links.github`. Only **non-suite** individual skills need `links.github`.
-
-For non-suite skills at 2★ or below with no known public repo: mark `installable: false` in frontmatter and do not re-research on repeated audit passes. See **CONTRIBUTING.md §12** for the full exempt list and the 3★+ demotion rule.
-
-### 5. Suite component links need subpaths
-
-A suite skill (has `suiteComponents`) whose `links.github` is a bare repo root will install symlinks pointing to the repo root. Every component must have a `blob/branch/subpath` URL pointing to its actual skill directory.
-
-### 6. Pre-existing test failures (not regressions)
-
-As of v3.23.9 the previously documented failures (textual, pyyaml, numpy) are **resolved**. The
-remaining known CI failure modes are:
-
-- `tests/test_packaging.py::test_built_wheel_contains_only_python_package_data` and
-  `test_wheel_install_smoke_tests_console_script` — fail when `setuptools<77` is installed.
-  Fixed by `[dev]` requiring `setuptools>=77`. If these resurface, run
-  `pip install "setuptools>=77"` and retry.
-- `tests/test_packaging.py::test_docs_build_can_run_from_registry_clone_without_registry_flag`
-  — fails when the embedded CLI help in `README.md` is stale after a CLI change.
-  Fix: run `gaia docs build` and commit the result before pushing.
-
-If `gaia test all` reports failures, check whether they are in the above categories before
-treating them as regressions.
-
-### 7. Version lockstep — four files must match
-
-`pyproject.toml`, `packages/cli-npm/package.json`, `packages/mcp/package.json`, and `registry/gaia.json` must carry the same version string. The pre-commit hook enforces this and will block commits if they diverge. Use `gaia release patch|minor|major` (never hand-edit versions).
-
-### 8. Safe Merging & Conflict Resolution (Lessons from PR 416-438 Incident)
-
-**Isolate Generated Artifacts:** Feature/Logic PRs should **never** commit `registry/gaia.json` or `docs/graph/gaia.json`. These files change on every build and cause constant merge noise. Let the `Auto-Sync Registry Artifacts` CI handle them.
-
-**Atomic Refactors:** When moving code (e.g., extracting functions from `main.py` to a new module), do it in a standalone "Move-Only" PR. Do not combine structural refactors with logic changes in the same PR; this causes semantic merge conflicts that Git cannot resolve automatically.
-
-**Verify after Merge:** Always run a simple smoke test (e.g., `gaia --version`) after resolving merge conflicts to ensure no Git merge markers (`<<<<<<< HEAD`) were accidentally committed.
 
 ---
 
