@@ -133,7 +133,9 @@ def collect_stats(registry_path: str | Path) -> dict:
         ]
 
     type_counts = Counter(skill.get("type", "unknown") for skill in skills)
-    level_counts = Counter(skill.get("level", "?") for skill in skills)
+    level_counts = Counter(
+        skill["level"] for skill in skills if "level" in skill
+    )
     effective_level_counts = Counter()
     demerit_counts: Counter[str] = Counter()
     skills_with_demerits = 0
