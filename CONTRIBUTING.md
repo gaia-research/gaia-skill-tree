@@ -126,7 +126,7 @@ Open a PR with the programmatic changes. The pre-commit hooks will automatically
 | `review/gaia-push/...` | intake PRs | `registry-for-review/`, `*.md` |
 | `review/meta/...` | registry curation | `registry/`, `*.md` |
 | `infra/...` | CI/tooling/config | `.github/`, `scripts/`, `docs/*.html`, `*.md` |
-| `dev/...`, `claude/...`, `codex/...` | experiments | unrestricted |
+| `dev/...`, `claude/...`, `codex/...`, `gemini/...` | experiments | unrestricted |
 | `feat/...`, `fix/...` | general changes | unrestricted (schema rules still enforced) |
 
 Hard rule: any schema file change must come from a `schema/...` branch.
