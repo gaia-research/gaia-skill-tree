@@ -210,6 +210,46 @@ class TestNamedSkillValidation(unittest.TestCase):
             f"Expected unresolved-ref error, got: {errors}",
         )
 
+    def test_invalid_github_url_casing_fails_validation(self):
+        """validate_named_skills reports an error when links.github URL has invalid casing (e.g. skill.md)."""
+        import tempfile
+        import shutil
+        from scripts.validate import validate_named_skills
+
+        temp_named_dir = tempfile.mkdtemp()
+        try:
+            fake_author_dir = os.path.join(temp_named_dir, "fake_author")
+            os.makedirs(fake_author_dir)
+            
+            fake_skill_file = os.path.join(fake_author_dir, "skill_with_bad_casing.md")
+            frontmatter = (
+                "---\n"
+                "id: fake_author/skill_with_bad_casing\n"
+                "name: Bad Casing Skill\n"
+                "contributor: fake_author\n"
+                "origin: true\n"
+                "genericSkillRef: web-search\n"
+                "status: named\n"
+                "level: 2★\n"
+                "description: A skill that references lowercase skill.md in links.github.\n"
+                "links:\n"
+                "  github: https://github.com/fake_author/skills/blob/main/skills/skill.md\n"
+                "createdAt: '2026-06-07'\n"
+                "updatedAt: '2026-06-07'\n"
+                "---\n"
+            )
+            with open(fake_skill_file, "w", encoding="utf-8") as f:
+                f.write(frontmatter)
+
+            graph = {"skills": [{"id": "web-search"}]}
+            errors = validate_named_skills(graph, named_dir=temp_named_dir)
+            self.assertTrue(
+                any("invalid casing" in e and "SKILL.md" in e for e in errors),
+                f"Expected casing error, got: {errors}"
+            )
+        finally:
+            shutil.rmtree(temp_named_dir)
+
 
 if __name__ == "__main__":
     unittest.main()

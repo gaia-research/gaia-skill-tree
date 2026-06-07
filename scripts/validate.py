@@ -535,6 +535,18 @@ def validate_named_skills(graph, named_dir=None, catalog_path=None):
                 f"match any item id in real_skill_catalog.json."
             )
 
+        # links.github URL casing check
+        links = fm.get("links")
+        if isinstance(links, dict):
+            github_url = links.get("github")
+            if isinstance(github_url, str):
+                url_lower = github_url.lower()
+                if url_lower.endswith("/skill.md") and not github_url.endswith("/SKILL.md"):
+                    errors.append(
+                        f"Named skill {rel}: 'links.github' URL '{github_url}' "
+                        f"has invalid casing. Project convention requires uppercase 'SKILL.md'."
+                    )
+
         if not missing and level in _NAMED_VALID_LEVELS:
             buckets[ref].append(fm)
 
