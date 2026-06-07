@@ -2590,7 +2590,7 @@
 
   // Probe the graph directory first so we get a clear diagnostic if the
   // static-asset host isn't serving JSON files from graph/.
-  const _pingOk = fetch(prefix + 'graph/ping.json', { cache: 'no-store' })
+  const _pingOk = fetch('/graph/ping.json', { cache: 'no-store' })
     .then(r => r.ok && r.json()).then(d => !!(d && d.ok)).catch(() => false);
 
   fetch(GRAPH_JSON_URL, { cache: 'reload' })
@@ -2626,7 +2626,7 @@
       });
     });
 
-  fetch(prefix + 'graph/named/index.json' + version)
+  fetch('/graph/named/index.json' + version)
     .then(r => r.ok ? r.json() : Promise.reject())
     .then(indexData => {
       const map = {};
