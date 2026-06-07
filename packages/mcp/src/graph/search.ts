@@ -17,12 +17,14 @@ function trigrams(s: string): Set<string> {
   return set;
 }
 
-function similarity(a: string, b: string): number {
-  const ta = trigrams(a);
-  const tb = trigrams(b);
+function similarity(a: string | Set<string>, b: string | Set<string>): number {
+  const ta = typeof a === "string" ? trigrams(a) : a;
+  const tb = typeof b === "string" ? trigrams(b) : b;
   let intersection = 0;
-  for (const t of ta) {
-    if (tb.has(t)) intersection++;
+  const smaller = ta.size < tb.size ? ta : tb;
+  const larger = ta.size < tb.size ? tb : ta;
+  for (const t of smaller) {
+    if (larger.has(t)) intersection++;
   }
   const union = ta.size + tb.size - intersection;
   return union === 0 ? 0 : intersection / union;
@@ -36,13 +38,15 @@ export function searchSkills(graph: GaiaGraph, query: string, limit = 5): Skill[
   );
   if (exact) return [exact];
 
+  const qTrigrams = trigrams(q);
+
   const scored = graph.skills
     .map((skill) => ({
       skill,
       score: Math.max(
-        similarity(q, skill.id),
-        similarity(q, skill.name),
-        similarity(q, skill.description.slice(0, 80))
+        similarity(qTrigrams, skill.id),
+        similarity(qTrigrams, skill.name),
+        similarity(qTrigrams, skill.description.slice(0, 80))
       ),
     }))
     .filter((x) => x.score > 0.15)
@@ -115,14 +119,15 @@ export function searchAll(
 ): SearchResult[] {
   const q = query.toLowerCase().trim();
   const results: SearchResult[] = [];
+  const qTrigrams = trigrams(q);
 
   const genericResults = graph.skills
     .map((skill) => ({
       skill,
       score: Math.max(
-        similarity(q, skill.id),
-        similarity(q, skill.name),
-        similarity(q, skill.description.slice(0, 80))
+        similarity(qTrigrams, skill.id),
+        similarity(qTrigrams, skill.name),
+        similarity(qTrigrams, skill.description.slice(0, 80))
       ),
     }))
     .filter((x) => x.score > 0.15);
@@ -134,9 +139,9 @@ export function searchAll(
   const namedResults = searchNamedSkills(query);
   for (const ns of namedResults) {
     const score = Math.max(
-      similarity(q, ns.id),
-      similarity(q, ns.name),
-      similarity(q, ns.description.slice(0, 80))
+      similarity(qTrigrams, ns.id),
+      similarity(qTrigrams, ns.name),
+      similarity(qTrigrams, ns.description.slice(0, 80))
     );
     results.push({ type: "named", namedSkill: ns, score: Math.max(score, 0.5) });
   }

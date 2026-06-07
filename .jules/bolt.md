@@ -16,3 +16,7 @@
 ## 2025-03-04 - Eliminate O(N^2) file I/O in meta split and remove commands
 **Learning:** The Gaia CLI's `meta_split_command` and `meta_remove_command` historically performed multiple distinct passes over the entire nodes directory using `.glob("**/*.json")`. This resulted in O(M * N) file operations where M is the number of passes and N is the total number of skills, creating a significant I/O bottleneck.
 **Action:** When performing cross-cutting meta updates in `src/gaia_cli/commands/dev.py`, always read and cache the entire node set into memory during the first pass. Store the file paths and parsed JSON data in a list or dictionary, then iterate over this in-memory collection for all subsequent checks and updates before finally writing back only the modified files. Check specifically to avoid mutating source nodes that were just deleted.
+
+## 2026-06-07 - Optimize string metric calculations in loops
+**Learning:** In string similarity search (e.g. `similarity` scoring using trigrams), recalculating the properties of the static query (like computing trigrams) for every comparison against N items in the registry yields significant redundant CPU cost. Further, iterating over sets blindly can be suboptimal.
+**Action:** Pre-compute the query string properties (like trigrams `Set`) outside the inner loop and pass it down. Additionally, optimize set intersection by identifying the smaller set and only iterating over that one to check `has()` against the larger one.
