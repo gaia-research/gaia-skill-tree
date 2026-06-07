@@ -9,12 +9,12 @@ permissions:
 
 jobs:
   label-bots:
-    name: Label Jules/Codex/Claude PRs
+    name: Label Jules/Codex/Claude/Gemini PRs
     runs-on: ubuntu-latest
     # Only process PRs from the repo owner or direct members.
-    # Jules and Codex open PRs as the human account (not a Bot type), so we
-    # can't gate on user.type. Restricting to OWNER/MEMBER prevents strangers
-    # from adding a Jules/Codex body signature to spoof the scope-check bypass.
+    # Jules, Codex and Gemini/Claude open PRs as the human account (not a Bot type),
+    # so we can't gate on user.type. Restricting to OWNER/MEMBER prevents strangers
+    # from adding a body signature to spoof the scope-check bypass.
     if: >-
       github.event.pull_request.author_association == 'OWNER' ||
       github.event.pull_request.author_association == 'MEMBER'
@@ -30,8 +30,8 @@ jobs:
             const prNumber = parseInt(process.env.PR_NUMBER, 10);
 
             // Detect by the stable URL signatures each tool leaves in the PR body.
-            // Username-glob matching is unreliable: Jules/Codex/Claude all open PRs
-            // through the owner account, so github.actor is never "jules" or "codex".
+            // Username-glob matching is unreliable: Jules/Codex/Claude/Gemini all open
+            // PRs through the owner account, so github.actor is never the bot username.
             let label = null;
             if (body.includes('jules.google.com/task')) {
               label = 'jules';
@@ -39,6 +39,8 @@ jobs:
               label = 'codex';
             } else if (body.includes('claude.ai/code')) {
               label = 'claude-bot';
+            } else if (body.includes('gemini.google.com') || body.includes('aistudio.google.com') || body.includes('google-deepmind') || body.includes('antigravity-cli')) {
+              label = 'gemini-bot';
             }
 
             if (!label) {

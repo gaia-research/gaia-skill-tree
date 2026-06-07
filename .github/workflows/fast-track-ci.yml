@@ -34,7 +34,8 @@ jobs:
           if [[ "${{ contains(github.event.pull_request.labels.*.name, 'skip-scope-check') }}" == "true" ]] || \
              [[ "${{ contains(github.event.pull_request.labels.*.name, 'jules') }}" == "true" ]] || \
              [[ "${{ contains(github.event.pull_request.labels.*.name, 'codex') }}" == "true" ]] || \
-             [[ "${{ contains(github.event.pull_request.labels.*.name, 'claude-bot') }}" == "true" ]]; then
+             [[ "${{ contains(github.event.pull_request.labels.*.name, 'claude-bot') }}" == "true" ]] || \
+             [[ "${{ contains(github.event.pull_request.labels.*.name, 'gemini-bot') }}" == "true" ]]; then
             echo "✓ Skipping branch scope check (bot PR or skip label)"
             exit 0
           fi
@@ -48,6 +49,7 @@ jobs:
             review/gaia-push/*) PREFIX="review-push" ;;
             review/meta/*)      PREFIX="review-meta" ;;
             dev/*)              PREFIX="dev" ;;
+            gemini/*)           PREFIX="gemini" ;;
             infra/*)            PREFIX="infra" ;;
             *)                  PREFIX="unknown" ;;
           esac

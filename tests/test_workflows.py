@@ -25,7 +25,7 @@ class TestWorkflowConfig(unittest.TestCase):
         with open(BRANCH_SCOPE_PATH, "r", encoding="utf-8") as f:
             content = f.read()
 
-        self.assertIn("unrestricted branches (dev/*, claude/*, codex/*, chore/*) have no forward restriction", content)
+        self.assertIn("unrestricted branches (dev/*, claude/*, codex/*, gemini/*, chore/*) have no forward restriction", content)
         self.assertIn('[ "$PREFIX" != "unrestricted" ]', content)
         self.assertIn("skip-scope-check", content)
         self.assertNotIn("!startsWith(github.head_ref || '', 'dev/')", content)

@@ -15,7 +15,8 @@ jobs:
       !contains(github.event.pull_request.labels.*.name, 'jules') &&
       !contains(github.event.pull_request.labels.*.name, 'Jules') &&
       !contains(github.event.pull_request.labels.*.name, 'codex') &&
-      !contains(github.event.pull_request.labels.*.name, 'claude-bot')
+      !contains(github.event.pull_request.labels.*.name, 'claude-bot') &&
+      !contains(github.event.pull_request.labels.*.name, 'gemini-bot')
     permissions:
       pull-requests: read
       contents: read
@@ -48,6 +49,7 @@ jobs:
             jules/*)            PREFIX="jules" ;;
             claude/*)           PREFIX="unrestricted" ;;
             codex/*)            PREFIX="unrestricted" ;;
+            gemini/*)           PREFIX="unrestricted" ;;
             dev/*)              PREFIX="unrestricted" ;;
             fix/*)              PREFIX="unrestricted" ;;
             infra/*)            PREFIX="infra" ;;
@@ -58,7 +60,7 @@ jobs:
           echo "Detected prefix: $PREFIX"
           echo ""
 
-          # unrestricted branches (dev/*, claude/*, codex/*, chore/*) have no forward restriction
+          # unrestricted branches (dev/*, claude/*, codex/*, gemini/*, chore/*) have no forward restriction
           if [ "$PREFIX" = "unrestricted" ]; then
             echo "✓ $BRANCH has no scope restrictions."
             exit 0
@@ -159,7 +161,7 @@ jobs:
                 esac
                 ;;
               other)
-                VIOLATIONS="$VIOLATIONS\n  ❌ $file (unrecognized branch prefix; use schema/, cli/, docs/, design/, review/gaia-push/, review/meta/, dev/, claude/, codex/, jules/, or infra/)"
+                VIOLATIONS="$VIOLATIONS\n  ❌ $file (unrecognized branch prefix; use schema/, cli/, docs/, design/, review/gaia-push/, review/meta/, dev/, claude/, codex/, gemini/, jules/, or infra/)"
                 ;;
             esac
           done <<< "$FILES"
@@ -183,7 +185,7 @@ jobs:
               echo "  - $f"
             done
             echo ""
-            echo "Create your branch as: schema/<description>, use an unrestricted branch (dev/*, claude/*, codex/*), or add the 'skip-scope-check' label."
+            echo "Create your branch as: schema/<description>, use an unrestricted branch (dev/*, claude/*, codex/*, gemini/*), or add the 'skip-scope-check' label."
             exit 1
           fi
 

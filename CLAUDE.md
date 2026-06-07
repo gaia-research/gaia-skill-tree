@@ -121,7 +121,7 @@ Gating activates automatically once the first 4★ named skill lands.  Set
 from an unauthorized PR actor.  Add the `skip-meta-guard` label to bypass (maintainer
 override, analogous to `skip-scope-check` in `branch-scope.yml`).
 
-Bot actors (`*[bot]`, `jules`, `codex`, `claude-bot`) are always allowlisted in CI.
+Bot actors (`*[bot]`, `jules`, `codex`, `claude-bot`, `gemini-bot`) are always allowlisted in CI.
 
 ## Branch Naming
 
@@ -133,7 +133,7 @@ Bot actors (`*[bot]`, `jules`, `codex`, `claude-bot`) are always allowlisted in 
 | `design/...` | Website design | `docs/` (HTML/CSS/JS), `*.md` |
 | `review/gaia-push/...` | Intake layer (`gaia push`) | `registry-for-review/`, `*.md` |
 | `review/meta/...` | Registry curation/promotion | `registry/`, `*.md` |
-| `dev/...`, `claude/...`, `codex/...` | Experimental (unrestricted) | any |
+| `dev/...`, `claude/...`, `codex/...`, `gemini/...` | Experimental (unrestricted) | any |
 | `infra/...` | CI/tooling changes | `.github/`, `scripts/`, `docs/*.html`, `*.md` |
 
 CI enforces scope via `.github/workflows/branch-scope.yml`. Schema changes (`registry/schema/`) MUST use a `schema/` branch. Add label `skip-scope-check` to bypass in emergencies.
