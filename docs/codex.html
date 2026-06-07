@@ -1062,14 +1062,16 @@
         <tr><th>Prefix</th><th>Purpose</th><th>Allowed Scope</th></tr>
       </thead>
       <tbody>
-        <tr><td><code>schema/…</code></td><td>Nomenclature &amp; terminology</td><td><code>registry/schema/</code>, <code>*.md</code></td></tr>
-        <tr><td><code>cli/…</code></td><td>CLI source changes</td><td><code>src/</code>, <code>packages/</code>, <code>tests/</code>, <code>*.md</code></td></tr>
-        <tr><td><code>docs/…</code></td><td>Documentation</td><td><code>docs/</code>, <code>*.md</code></td></tr>
-        <tr><td><code>design/…</code></td><td>Website design (HTML/CSS/JS)</td><td><code>docs/</code> (HTML, CSS, JS), <code>*.md</code></td></tr>
+        <tr><td><code>schema/…</code></td><td>Schema &amp; terminology changes</td><td><code>registry/schema/</code>, <code>*.md</code></td></tr>
+        <tr><td><code>cli/…</code></td><td>CLI / package code</td><td><code>src/gaia_cli/</code>, <code>packages/</code>, <code>tests/</code>, <code>*.md</code></td></tr>
+        <tr><td><code>docs/…</code></td><td>Markdown/docs content</td><td><code>docs/</code>, <code>*.md</code></td></tr>
+        <tr><td><code>design/…</code></td><td>Website UI assets</td><td><code>docs/</code> HTML/CSS/JS, <code>*.md</code></td></tr>
         <tr><td><code>review/gaia-push/…</code></td><td>Intake layer (<code>gaia push</code>)</td><td><code>registry-for-review/</code>, <code>*.md</code></td></tr>
-        <tr><td><code>review/meta/…</code></td><td>Registry curation/promotion</td><td><code>registry/</code>, <code>*.md</code></td></tr>
-        <tr><td><code>dev/…, claude/…, codex/…</code></td><td>Experimental (unrestricted)</td><td>any</td></tr>
-        <tr><td><code>infra/…</code></td><td>CI / tooling changes</td><td><code>.github/</code>, <code>scripts/</code>, <code>docs/*.html</code>, <code>*.md</code></td></tr>      </tbody>
+        <tr><td><code>review/meta/…</code></td><td>Registry curation</td><td><code>registry/</code>, <code>*.md</code></td></tr>
+        <tr><td><code>infra/…</code></td><td>CI / tooling / config</td><td><code>.github/</code>, <code>scripts/</code>, <code>docs/*.html</code>, <code>*.md</code></td></tr>
+        <tr><td><code>dev/…, claude/…, codex/…</code></td><td>Experiments (unrestricted)</td><td>unrestricted</td></tr>
+        <tr><td><code>feat/…, fix/…</code></td><td>General changes</td><td>unrestricted (schema rules still enforced)</td></tr>
+      </tbody>
     </table>
     <p class="branch-bypass-note">
       To bypass CI scope enforcement in an emergency, add label <code>skip-scope-check</code> to the PR.
