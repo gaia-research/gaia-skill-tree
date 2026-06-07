@@ -1300,7 +1300,7 @@ def install_command(args):
 
 def uninstall_command(args):
     from gaia_cli.install import uninstall_skill
-    success = uninstall_skill(args.skill_id)
+    success = uninstall_skill(args.skill_id.lstrip("/"))
     if not success:
         sys.exit(1)
 
