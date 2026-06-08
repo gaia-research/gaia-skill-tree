@@ -502,14 +502,12 @@ def scan_command(args):
             cid = sk['id']
             location = sk.get('location', '')
             
-            # Logic to resolve matching to canonical if not already canonical
-            match = None
-            if cid not in smap_for_match:
-                match = match_skill_to_canonical(
-                    cid, sk['name'], sk['description'], 
-                    canonical_list, origin_skills, named_skills, 
-                    threshold=0.30
-                )
+            # Logic to resolve matching to canonical
+            match = match_skill_to_canonical(
+                cid, sk['name'], sk['description'], 
+                canonical_list, origin_skills, named_skills, 
+                threshold=0.30, origin_threshold=0.40
+            )
             
             mapped_id = cid
             mapped_score = 1.0
@@ -546,52 +544,78 @@ def scan_command(args):
                 "prerequisites": sk.get("prerequisites", [])
             })
 
-        # Sorting logic: Rank (for origin/named), then Score (for starless), then unmatched.
-        from gaia_cli.redaction import level_num
-        
-        def sort_key(s):
-            m_type = s.get("match_type")
-            score = s.get("mapped_score", 0.0)
-            level = level_num(s.get("canon_level", "0★"))
-            
-            if m_type in ("origin", "named"):
-                # Group 1: Sorted by Rank descending, then Score descending
-                return (2, level, score)
-            elif m_type in ("generic", "exact_generic"):
-                # Group 2: Sorted by Semantic Score descending
-                return (1, 0, score)
-            else:
-                # Group 3: Unmatched (Custom)
-                return (0, 0, 0)
-                
-        custom_state_skills.sort(key=sort_key, reverse=True)
-
         if not quiet:
             print("\nInstalled custom skills:")
             
+            # Group custom skills
+            origin_group = []
+            named_group = []
+            generic_group = []
+            other_group = []
+            
             for sk in custom_state_skills:
-                cid = sk['id']
-                location = sk['location']
-                mapped_id = sk['mapped_to']
-                mapped_score = sk['mapped_score']
                 m_type = sk.get("match_type")
-                
-                match_note = ""
-                if mapped_score > 0:
-                    rank_color = RANK_COLORS.get(sk.get('canon_level', '0★'), RANK_COLORS["0★"])
-                    canon_display = ctx.display_name(mapped_id, canon=canon)
+                if m_type == "origin":
+                    origin_group.append(sk)
+                elif m_type == "named":
+                    named_group.append(sk)
+                elif m_type in ("generic", "exact_generic"):
+                    generic_group.append(sk)
+                else:
+                    other_group.append(sk)
+            
+            # Sort each group
+            from gaia_cli.redaction import level_num
+            origin_group.sort(key=lambda s: (-level_num(s.get("canon_level", "0★")), -s.get("mapped_score", 0.0), s["id"]))
+            named_group.sort(key=lambda s: (-level_num(s.get("canon_level", "0★")), -s.get("mapped_score", 0.0), s["id"]))
+            generic_group.sort(key=lambda s: (-s.get("mapped_score", 0.0), s["id"]))
+            other_group.sort(key=lambda s: s["id"])
+
+            def print_group(title, skills):
+                if not skills:
+                    return
+                print(f"\n{title}:")
+                for sk in skills:
+                    cid = sk['id']
+                    location = sk['location']
+                    mapped_id = sk['mapped_to']
+                    mapped_score = sk['mapped_score']
+                    m_type = sk.get("match_type")
                     
-                    if m_type == "origin":
-                        match_note = f"  {_fg(100,100,100)}→ {_fg(*rank_color)}{canon_display}{_fg(100,100,100)} (ORIGIN MATCH){_reset()}"
-                    elif m_type == "named":
-                        match_note = f"  {_fg(100,100,100)}→ {_fg(*rank_color)}{canon_display}{_fg(100,100,100)} (NAMED MATCH){_reset()}"
-                    elif m_type == "exact_generic":
-                        match_note = f"  {_fg(100,100,100)}→ {_fg(*rank_color)}{canon_display}{_fg(100,100,100)} (EXACT BASE MATCH){_reset()}"
-                    else:
-                        match_note = f"  {_fg(100,100,100)}→ {_fg(*rank_color)}{canon_display}{_fg(100,100,100)} ({mapped_score:.0%} semantic){_reset()}"
-                
-                user_label = f"{_fg(*COLOR_LOCAL_USER)}{_bold()}/{cid}{_reset()}"
-                print(f"  ○ {user_label} custom skill (found in {location}){match_note}")
+                    match_note = ""
+                    if mapped_score > 0:
+                        rank_color = RANK_COLORS.get(sk.get('canon_level', '0★'), RANK_COLORS["0★"])
+                        star_ranking = sk.get('canon_level', '0★')
+                        
+                        if m_type in ("origin", "named") and "/" in mapped_id:
+                            parts = mapped_id.split("/", 1)
+                            contrib, nickname = parts
+                            if contrib == username:
+                                handle_color = COLOR_LOCAL_USER
+                            elif contrib == REDACTED_BLOCK:
+                                handle_color = COLOR_REDACTED
+                            else:
+                                handle_color = COLOR_CONTRIBUTOR
+                            colored_mapped = f"{_fg(*handle_color)}{contrib}{_reset()}/{_fg(*rank_color)}{nickname} {star_ranking}{_reset()}"
+                        else:
+                            colored_mapped = f"{_fg(*rank_color)}/{mapped_id}{_reset()}"
+                        
+                        if m_type == "origin":
+                            match_note = f"  {_fg(100,100,100)}→ {colored_mapped}{_fg(100,100,100)} (ORIGIN MATCH){_reset()}"
+                        elif m_type == "named":
+                            match_note = f"  {_fg(100,100,100)}→ {colored_mapped}{_fg(100,100,100)} (NAMED MATCH){_reset()}"
+                        elif m_type == "exact_generic":
+                            match_note = f"  {_fg(100,100,100)}→ {colored_mapped}{_fg(100,100,100)} (EXACT BASE MATCH){_reset()}"
+                        else:
+                            match_note = f"  {_fg(100,100,100)}→ {colored_mapped}{_fg(100,100,100)} ({mapped_score:.0%} semantic){_reset()}"
+                    
+                    user_label = f"{_fg(*COLOR_LOCAL_USER)}{_bold()}/{cid}{_reset()}"
+                    print(f"  ○ {user_label} custom skill (found in {location}){match_note}")
+
+            print_group("Origin Skills", origin_group)
+            print_group("Named Skills", named_group)
+            print_group("Starless (Generic) Skills", generic_group)
+            print_group("Custom - Only in this Repo", other_group)
 
         # Clean up output fields to keep file clean
         for sk in custom_state_skills:

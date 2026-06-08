@@ -375,6 +375,7 @@ def _build_install_map(registry_path: str) -> dict[str, str]:
 
 
 def _build_agent_dir_map(
+    registry_path: str,
     canonical_skills: list,
     manifest_covered: set,
     username: str,
@@ -384,13 +385,33 @@ def _build_agent_dir_map(
     if not username:
         return {}
     from gaia_cli.scanner import scan_skill_mds, match_skill_to_canonical
+    from gaia_cli.registry import named_skills_index_path
+    
+    # Load ORIGIN and NAMED skills
+    origin_skills = []
+    named_skills = []
+    idx_path = named_skills_index_path(registry_path)
+    if os.path.exists(idx_path):
+        try:
+            with open(idx_path, 'r', encoding='utf-8') as _nf:
+                _ndata = json.load(_nf)
+                for bucket, items in _ndata.get('buckets', {}).items():
+                    for item in items:
+                        if item.get('origin'):
+                            origin_skills.append(item)
+                        else:
+                            named_skills.append(item)
+        except Exception:
+            pass
+
     result: dict[str, str] = {}
     for entry in scan_skill_mds(root=root):
         dir_name = entry["id"]
         if dir_name in manifest_covered:
             continue
         match = match_skill_to_canonical(
-            entry["id"], entry["name"], entry["description"], canonical_skills
+            entry["id"], entry["name"], entry["description"], canonical_skills,
+            origin_skills=origin_skills, named_skills=named_skills
         )
         if match:
             canonical_id = match[0]
@@ -412,7 +433,7 @@ def _build_local_first_map(
     }
     if username:
         agents = _build_agent_dir_map(
-            canonical_skills, manifest_covered, username
+            registry_path, canonical_skills, manifest_covered, username
         )
         base.update(agents)                                        # priority 2
     base.update(install)

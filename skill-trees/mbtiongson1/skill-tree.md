@@ -349,17 +349,9 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
 > Level floor: 1★
 > Run `gaia fuse research` to confirm.
 
-> **superpowers** — combine `writing-plans`
-> Level floor: 1★
-> Run `gaia fuse superpowers` to confirm.
-
 > **web-scrape** — combine `web-search`, `parse-html`, `extract-entities`
 > Level floor: 1★
 > Run `gaia fuse web-scrape` to confirm.
-
-> **writing-plans** — combine `plan-decompose`, `requirements-analysis`
-> Level floor: 1★
-> Run `gaia fuse writing-plans` to confirm.
 
 ---
 *Generated from skill-tree.json. Do not edit directly.*
