@@ -1425,7 +1425,7 @@
           // If this is a specific skill badge, link it directly to the explorer hash.
           // Otherwise fall back to the contributor profile linkTarget.
           const skill = namedSkills.find(s => s.file === file);
-          const target = skill ? `${BASE}/named/#explorer/${encodeURIComponent(skill.id)}` : linkTarget;
+          const target = skill ? `${BASE}/named/#explorer/${encodeURIComponent(skill.id).replace(/%2F/g, '/')}` : linkTarget;
           
           entries.push({
             localSrc: previewSrc(sealed),

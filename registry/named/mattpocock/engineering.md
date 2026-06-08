@@ -26,34 +26,10 @@ suiteComponents:
 
 ## Installation
 
-Install the full Matt Pocock skills suite with:
+This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.
 
 ```bash
 npx skills@latest add mattpocock/skills
 ```
 
-### Setup Required
-
-Before using engineering skills (`to-issues`, `to-prd`, `triage`, `diagnose`), you must run the setup skill in your agent:
-
-```
-Run: /setup-matt-pocock-skills
-```
-
-This interactive setup configures three foundational documents:
-
-1. **Issue Tracker** — Choose GitHub Issues, GitLab Issues, or local markdown
-2. **Triage Labels** — Map your label vocabulary (`needs-triage`, `ready-for-agent`, etc.)
-3. **Domain Docs** — Confirm your documentation layout (single-context or multi-context)
-
-The setup updates or creates:
-- `## Agent skills` block in `CLAUDE.md` or `AGENTS.md`
-- `docs/agents/issue-tracker.md`, `docs/agents/triage-labels.md`, `docs/agents/domain.md`
-
-### What's Included
-
-Ten engineering skills for code-focused work:
-- **Core Practices**: TDD, bug diagnosis, architecture improvement
-- **Planning & Documentation**: Convert plans to GitHub issues, create PRDs, grill sessions
-- **Team Coordination**: Issue triage through state machine workflows
-- **Supporting Tools**: Prototype creation, zooming out for context
+No additional setup required beyond the main suite installation.

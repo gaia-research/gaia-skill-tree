@@ -36,3 +36,13 @@ Edit Article models an article as a directed acyclic graph of information depend
 ## Origin
 
 Published by @mattpocock (Matt Pocock, Total TypeScript). Named implementation of the `document-editing` skill bucket for long-form article editing (origin: anthropic/pptx).
+
+## Installation
+
+This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.
+
+```bash
+npx skills@latest add mattpocock/skills
+```
+
+No additional setup required beyond the main suite installation.

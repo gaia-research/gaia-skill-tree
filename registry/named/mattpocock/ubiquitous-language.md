@@ -41,3 +41,13 @@ Once established, the agent uses this language as a "source of truth," ensuring 
 ## Origin
 
 Released by @mattpocock as part of the "Skills for Real Engineers" suite.
+
+## Installation
+
+This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.
+
+```bash
+npx skills@latest add mattpocock/skills
+```
+
+No additional setup required beyond the main suite installation.

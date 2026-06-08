@@ -47,3 +47,13 @@ Each proposed issue is classified as HITL (requires human judgment, design decis
 ## Origin
 
 First published by @mattpocock (Matt Pocock, Total TypeScript). This is the origin implementation for the `vertical-slice-planning` skill bucket.
+
+## Installation
+
+This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.
+
+```bash
+npx skills@latest add mattpocock/skills
+```
+
+No additional setup required beyond the main suite installation.

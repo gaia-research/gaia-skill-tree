@@ -24,44 +24,10 @@ evidence:
 
 ## Installation
 
-This skill is included in the Matt Pocock skills suite:
+This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.
 
 ```bash
 npx skills@latest add mattpocock/skills
 ```
 
-No additional setup required.
-
-### Setup Requirements
-
-The vault maintains "a mostly flat structure at root level" without folder-based organization.
-
-Configure your Obsidian vault path as part of the personal knowledge management setup.
-
-### How to Use
-
-**Naming & Structure:**
-- All notes use **Title Case** formatting
-- Index notes aggregate related topics (example: "RAG Index.md")
-- Organization relies on **wikilinks** rather than folders
-
-**Linking Convention:**
-- Use "Obsidian `[[wikilinks]]` syntax" for related notes
-- List dependencies and connected notes at the bottom of each note
-
-### Core Operations
-
-**1. Searching notes** — Use find commands for filenames or grep to search content across markdown files
-
-**2. Creating notes** — Write content as a self-contained learning unit:
-   - Add wikilinks to related topics
-   - Apply title case to filenames
-   - Include backlinks at the bottom
-
-**3. Finding connections** — Search for backlinks by grepping for specific `[[Note Title]]` references throughout the vault
-
-**4. Locating indexes** — Use find commands to identify all `*Index*` files that serve as topic aggregators
-
-### Key Principle
-
-The system prioritizes **interconnected content discovery** through wikilinks over hierarchical folder structures. This creates a web of related information accessible from any note.
+No additional setup required beyond the main suite installation.
