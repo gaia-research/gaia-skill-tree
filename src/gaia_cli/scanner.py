@@ -352,8 +352,7 @@ def scan_skill_mds(root: str = ".", global_search: bool = False) -> list:
 
                 # Enforce visible slashes as priority (linter rule)
                 skill_id = fm.get("id", os.path.basename(skill_dir))
-                if not skill_id.startswith('/'):
-                    skill_id = f"/{skill_id}"
+                skill_id = f"/{skill_id.lstrip('/')}"
 
                 if not skill_id or skill_id == '/':
                     continue
