@@ -105,8 +105,8 @@ class LocalContext:
                         cid = sk.get("id")
                         if mid:
                             owned_ids.add(mid)
-                            # Align mapping with scan findings
-                            if username and mid not in named_map:
+                            # Align mapping with scan findings: prioritize local nickname
+                            if username:
                                 named_map[mid] = f"{username}/{cid}"
                         else:
                             owned_ids.add(cid)
