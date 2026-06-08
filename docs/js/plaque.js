@@ -712,6 +712,7 @@
     window.redactedHandle = function() {
       return '<span class="plaque__redacted-handle" aria-label="Contributor not yet revealed">@[anonymous]</span>';
     };
+  }
   // Fallback openSkillExplorer — on pages where skill-explorer.js is not
   // loaded (profile pages, badges page, etc.), clicking a skill slug button
   // calls openSkillExplorer() which otherwise doesn't exist.  Navigate to
