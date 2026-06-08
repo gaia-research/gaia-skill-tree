@@ -110,7 +110,7 @@ jobs:
             n=0
             until [[ $n -ge 4 ]]; do
               # Rebase with autosquash to merge fixups into the release commit
-              if git pull --rebase --autosquash origin "${GITHUB_REF_NAME}" && git push; then
+              if git fetch origin "${GITHUB_REF_NAME}" && git rebase --autosquash "origin/${GITHUB_REF_NAME}" && git push; then
                 echo "Successfully pushed changes to origin/${GITHUB_REF_NAME}."
                 break
               fi
