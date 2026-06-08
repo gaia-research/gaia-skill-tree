@@ -219,11 +219,11 @@ def select_promotion_candidate(candidates: list[dict], prompt: str = "Select ski
     return result
 
 
-def select_fusion_to_edit(fusions: dict[str, list[str]], prompt: str = "Select a custom fusion:") -> Optional[str]:
+def select_fusion_to_edit(fusions: dict, prompt: str = "Select a custom fusion:") -> Optional[str]:
     """Arrow-key picker for existing custom fusions.
 
     Args:
-        fusions: Map of target_id -> list of source_ids
+        fusions: Map of target_id -> list of source_ids OR Map of target_id -> dict with sources
 
     Returns:
         Selected target skill ID, or None
@@ -235,7 +235,12 @@ def select_fusion_to_edit(fusions: dict[str, list[str]], prompt: str = "Select a
     full_prompt = f"{prompt}  (Ctrl+C to cancel)"
 
     choices = []
-    for target, sources in fusions.items():
+    for target, data in fusions.items():
+        if isinstance(data, dict):
+            sources = data.get("sources", [])
+        else:
+            sources = data
+            
         prereq_str = " + ".join(_format_id(p) for p in sources[:3])
         if len(sources) > 3:
             prereq_str += f" +{len(sources) - 3}"

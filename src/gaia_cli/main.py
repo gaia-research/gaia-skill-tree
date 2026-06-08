@@ -103,6 +103,7 @@ from gaia_cli.formatting import (
     _use_color,
 )
 from gaia_cli.localContext import LocalContext
+from gaia_cli.redaction import level_num
 from gaia_cli.cardRenderer import render_fusion_diagram
 from gaia_cli.interactive import (
     select_skill, 
@@ -581,7 +582,6 @@ def scan_command(args):
                     other_group.append(sk)
             
             # Sort each group
-            from gaia_cli.redaction import level_num
             origin_group.sort(key=lambda s: (-level_num(s.get("canon_level", "0★")), -s.get("mapped_score", 0.0), s["id"]))
             named_group.sort(key=lambda s: (-level_num(s.get("canon_level", "0★")), -s.get("mapped_score", 0.0), s["id"]))
             generic_group.sort(key=lambda s: (-s.get("mapped_score", 0.0), s["id"]))
@@ -1424,7 +1424,6 @@ def fuse_command(args):
                 if not selected: continue # Back to menu
                 
                 # Calculate max star count from prerequisites
-                from gaia_cli.redaction import level_num
                 max_stars = 0
                 for sid in selected:
                     sinfo = skill_info_map.get(sid, {})
@@ -1432,11 +1431,11 @@ def fuse_command(args):
                 max_stars_str = f"{max_stars}★"
 
                 if not target:
-                    # Filter candidates for target (usually generic skills not yet owned)
+                    # Filter candidates for target (canonical skills + local custom skills)
                     target_candidates = []
+                    
+                    # 1. Add canonical skills from graph
                     for s in graph_data.get('skills', []):
-                        # Filter for generic/canon skills or allow targeting named ones if requested
-                        # For fusion, we usually target generic nodes.
                         target_candidates.append({
                             "id": s['id'],
                             "type": s.get("type", "basic"),
@@ -1445,6 +1444,24 @@ def fuse_command(args):
                             "local": False,
                             "origin": s.get("origin", False)
                         })
+                        
+                    # 2. Add local custom skills that aren't already covered by canonical ids
+                    canon_ids = {s['id'] for s in target_candidates}
+                    for sid in ctx.novel_ids:
+                        if sid not in canon_ids:
+                            # Try to find info from scan results
+                            # Note: all_ids includes ctx.novel_ids, and selector_choices already has this info
+                            # but let's be explicit here.
+                            sinfo = skill_info_map.get(sid, {})
+                            target_candidates.append({
+                                "id": sid,
+                                "type": sinfo.get("type", "basic"),
+                                "level": sinfo.get("level", "0★"),
+                                "description": sinfo.get("description", ""),
+                                "local": True,
+                                "origin": False
+                            })
+
                     target_candidates.sort(key=lambda x: x['id'])
                     target = select_skill(target_candidates, "Select target skill to reach:", disabled_ids=selected)
                 if not target: continue # Back to menu
