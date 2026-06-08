@@ -170,7 +170,7 @@ def _read_skill_md(filepath):
     return fm
 
 
-def _skill_search_dirs(root: str = ".") -> list[str]:
+def _skill_search_dirs(root: str = ".", global_search: bool = False) -> list[str]:
     """Return all directories to search for skill subdirectories, deduplicated by real path.
 
     Priority order:
@@ -192,22 +192,23 @@ def _skill_search_dirs(root: str = ".") -> list[str]:
     ):
         candidates.append(os.path.join(root, rel))
 
-    # 2. Global user dirs — skills installed outside any single project
-    home = os.path.expanduser("~")
-    candidates.append(os.path.join(home, ".agents", "skills"))   # global agent-agnostic
-    candidates.append(os.path.join(home, ".claude", "skills"))   # Claude Code global skills
-    # XDG_DATA_HOME (Linux/macOS standard; ignored on Windows where it's usually unset)
-    xdg_data = os.environ.get("XDG_DATA_HOME") or os.path.join(home, ".local", "share")
-    candidates.append(os.path.join(xdg_data, "gaia", "skills"))
+    if global_search:
+        # 2. Global user dirs — skills installed outside any single project
+        home = os.path.expanduser("~")
+        candidates.append(os.path.join(home, ".agents", "skills"))   # global agent-agnostic
+        candidates.append(os.path.join(home, ".claude", "skills"))   # Claude Code global skills
+        # XDG_DATA_HOME (Linux/macOS standard; ignored on Windows where it's usually unset)
+        xdg_data = os.environ.get("XDG_DATA_HOME") or os.path.join(home, ".local", "share")
+        candidates.append(os.path.join(xdg_data, "gaia", "skills"))
 
-    # 3. Config-driven custom dirs
-    config = load_config()
-    if config:
-        for d in config.get("skillDirs", []):
-            expanded = os.path.expanduser(d)
-            if not os.path.isabs(expanded):
-                expanded = os.path.join(root, expanded)
-            candidates.append(expanded)
+        # 3. Config-driven custom dirs
+        config = load_config()
+        if config:
+            for d in config.get("skillDirs", []):
+                expanded = os.path.expanduser(d)
+                if not os.path.isabs(expanded):
+                    expanded = os.path.join(root, expanded)
+                candidates.append(expanded)
 
     # Deduplicate by real path while preserving priority order; skip missing dirs
     seen_real: set[str] = set()
@@ -244,7 +245,7 @@ def _should_prune_dir(d: str) -> bool:
     return False
 
 
-def scan_skill_mds(root: str = ".") -> list:
+def scan_skill_mds(root: str = ".", global_search: bool = False) -> list:
     """Detect installed custom skills recursively from all known search paths.
 
     Checks project's parent directory (..) and all standard/configured skill search directories.
@@ -259,15 +260,18 @@ def scan_skill_mds(root: str = ".") -> list:
     visited_real_paths = set()
 
     # Determine standard skill directories
-    standard_dirs = [os.path.realpath(d) for d in _skill_search_dirs(root)]
+    standard_dirs = [os.path.realpath(d) for d in _skill_search_dirs(root, global_search)]
 
     # Gather search roots: in pytest we isolate to root, otherwise walk parent
     if "PYTEST_CURRENT_TEST" in os.environ:
         search_roots = []
     else:
-        search_roots = [os.path.abspath(os.path.join(root, ".."))]
+        if global_search:
+            search_roots = [os.path.abspath(os.path.join(root, ".."))]
+        else:
+            search_roots = [os.path.abspath(root)]
     
-    for d in _skill_search_dirs(root):
+    for d in _skill_search_dirs(root, global_search):
         if "PYTEST_CURRENT_TEST" in os.environ:
             if os.path.abspath(d).startswith(os.path.abspath(root)):
                 search_roots.append(os.path.abspath(d))
