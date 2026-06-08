@@ -264,12 +264,12 @@ class LocalContext:
                 )
         return skills
 
-    def display_name(self, skill_id: str, canon: bool = False) -> str:
+    def display_name(self, skill_id: str, canon: bool = False, include_star: bool = True) -> str:
         """Return the best display name for a skill.
 
         Priority (Local-First):
-        - Nickname ID (e.g. /gaia-curate or karpathy/autoresearch)
-        - Human-readable Name (e.g. Research)
+        - Named Slash-Skill with Star (e.g. karpathy/autoresearch 5★)
+        - Nickname ID (e.g. /gaia-curate)
         - Generic ID as fallback (/research)
 
         If canon=True, always returns /skill-id.
@@ -277,23 +277,27 @@ class LocalContext:
         if canon:
             return f"/{skill_id}"
 
-        # 1. Check for named nickname (Pet Nickname)
+        level = self.level_of(skill_id)
+        star = f" {level}" if include_star and level and level != "0★" else ""
+
+        # 1. Check for named nickname (Slash-Skill)
         if skill_id in self.named_map:
             ref = self.named_map[skill_id]
             if "/" in ref:
                 contrib, nickname = ref.split("/", 1)
-                if contrib == self.username:
-                    return f"/{nickname}"
                 # Pre-named / demoted buckets: withhold the contributor handle.
-                return self._redact_ref(ref, skill_id)
-            return f"/{ref}"
+                # The caller's own handle is always shown if it's their own skill.
+                if contrib == self.username:
+                    return f"{ref}{star}"
+                return f"{self._redact_ref(ref, skill_id)}{star}"
+            return f"/{ref}{star}"
 
         # 2. Check for local novel skill
         if skill_id in self.novel_ids:
-            return f"/{skill_id}"
+            return f"/{skill_id}{star}"
 
         # 3. Fallback to generic slash ID
-        return f"/{skill_id}"
+        return f"/{skill_id}{star}"
 
 
 def _build_named_map(registry_path: str) -> dict[str, str]:
