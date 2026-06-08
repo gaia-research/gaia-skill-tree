@@ -10,32 +10,6 @@ import os
 import sys
 from typing import Optional
 
-from prompt_toolkit.key_binding import KeyBindings
-
-
-def _get_back_kb() -> KeyBindings:
-    """Standard keybindings for 'Back' navigation (Esc or Left)."""
-    kb = KeyBindings()
-
-    @kb.add("escape")
-    @kb.add("left")
-    def _(event):
-        """Exit the prompt and return None to signal 'Back'."""
-        event.app.exit(result=None)
-
-    return kb
-
-
-def _get_text_kb() -> KeyBindings:
-    """Keybindings for text input (Esc only for Back)."""
-    kb = KeyBindings()
-
-    @kb.add("escape")
-    def _(event):
-        event.app.exit(result=None)
-
-    return kb
-
 
 def _has_interactive() -> bool:
     """Check if interactive mode is available and appropriate."""
@@ -68,7 +42,7 @@ def select_skill(skills: list[dict], prompt: str = "Select a skill:") -> Optiona
     import questionary
     from gaia_cli.formatting import TYPE_SYMBOLS, _fg, _reset, RANK_COLORS
 
-    full_prompt = f"{prompt}  (Ctrl+C to cancel, Esc or Left to go back)"
+    full_prompt = f"{prompt}  (Ctrl+C to cancel)"
 
     choices = []
     for s in skills:
@@ -94,7 +68,6 @@ def select_skill(skills: list[dict], prompt: str = "Select a skill:") -> Optiona
         choices=choices,
         use_shortcuts=False,
         use_arrow_keys=True,
-        key_bindings=_get_back_kb(),
     ).ask()
     return result
 
@@ -112,7 +85,7 @@ def select_fusion_candidate(candidates: list[dict], prompt: str = "Select fusion
         return None
     import questionary
 
-    full_prompt = f"{prompt}  (Ctrl+C to cancel, Esc or Left to go back)"
+    full_prompt = f"{prompt}  (Ctrl+C to cancel)"
 
     choices = []
     for c in candidates:
@@ -132,7 +105,6 @@ def select_fusion_candidate(candidates: list[dict], prompt: str = "Select fusion
         choices=choices,
         use_shortcuts=False,
         use_arrow_keys=True,
-        key_bindings=_get_back_kb(),
     ).ask()
     return result
 
@@ -152,7 +124,7 @@ def select_multiple_skills(skills: list[dict], prompt: str = "Select skills to c
     import questionary
     from gaia_cli.formatting import TYPE_SYMBOLS, _fg, _reset, RANK_COLORS
 
-    full_prompt = f"{prompt}  (Ctrl+C to cancel, Esc or Left to go back)"
+    full_prompt = f"{prompt}  (Ctrl+C to cancel)"
 
     choices = []
     for s in skills:
@@ -176,7 +148,6 @@ def select_multiple_skills(skills: list[dict], prompt: str = "Select skills to c
     result = questionary.checkbox(
         full_prompt,
         choices=choices,
-        key_bindings=_get_back_kb(),
     ).ask()
     return result or []
 
@@ -194,7 +165,7 @@ def select_promotion_candidate(candidates: list[dict], prompt: str = "Select ski
         return None
     import questionary
 
-    full_prompt = f"{prompt}  (Ctrl+C to cancel, Esc or Left to go back)"
+    full_prompt = f"{prompt}  (Ctrl+C to cancel)"
 
     choices = []
     for c in candidates:
@@ -212,7 +183,6 @@ def select_promotion_candidate(candidates: list[dict], prompt: str = "Select ski
         choices=choices,
         use_shortcuts=False,
         use_arrow_keys=True,
-        key_bindings=_get_back_kb(),
     ).ask()
     return result
 
@@ -230,7 +200,7 @@ def select_fusion_to_edit(fusions: dict[str, list[str]], prompt: str = "Select a
         return None
     import questionary
 
-    full_prompt = f"{prompt}  (Ctrl+C to cancel, Esc or Left to go back)"
+    full_prompt = f"{prompt}  (Ctrl+C to cancel)"
 
     choices = []
     for target, sources in fusions.items():
@@ -248,7 +218,6 @@ def select_fusion_to_edit(fusions: dict[str, list[str]], prompt: str = "Select a
         choices=choices,
         use_shortcuts=False,
         use_arrow_keys=True,
-        key_bindings=_get_back_kb(),
     ).ask()
     return result
 
@@ -268,7 +237,7 @@ def select_push_batch(batch: dict, prompt: str = "Select items to push to regist
         return []
     import questionary
 
-    full_prompt = f"{prompt}  (Ctrl+C to cancel, Esc or Left to go back)"
+    full_prompt = f"{prompt}  (Ctrl+C to cancel)"
 
     choices = []
     
@@ -304,23 +273,21 @@ def select_push_batch(batch: dict, prompt: str = "Select items to push to regist
     result = questionary.checkbox(
         full_prompt,
         choices=choices,
-        key_bindings=_get_back_kb(),
     ).ask()
     return result or []
 
 
 def select_text_input(prompt: str, default: str = "") -> Optional[str]:
-    """Interactive text input with Esc to go back."""
+    """Interactive text input."""
     if not _has_interactive():
         return None
     import questionary
 
-    full_prompt = f"{prompt}  (Ctrl+C to cancel, Esc to go back)"
+    full_prompt = f"{prompt}  (Ctrl+C to cancel)"
 
     return questionary.text(
         full_prompt,
         default=default,
-        key_bindings=_get_text_kb(),
     ).ask()
 
 

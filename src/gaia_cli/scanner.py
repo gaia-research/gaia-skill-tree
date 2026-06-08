@@ -346,16 +346,20 @@ def scan_skill_mds(root: str = ".", global_search: bool = False) -> list:
                 if real_path in seen_real_paths:
                     continue
                 
-                skill_id = os.path.basename(skill_dir)
-                if not skill_id or skill_id.startswith('.'):
+                fm = _read_skill_md(md_path)
+                if fm is None:
+                    fm = {}
+
+                # Enforce visible slashes as priority (linter rule)
+                skill_id = fm.get("id", os.path.basename(skill_dir))
+                if not skill_id.startswith('/'):
+                    skill_id = f"/{skill_id}"
+
+                if not skill_id or skill_id == '/':
                     continue
                 
                 if skill_id in seen_ids:
                     continue
-
-                fm = _read_skill_md(md_path)
-                if fm is None:
-                    fm = {}
                 
                 seen_ids.add(skill_id)
                 seen_real_paths.add(real_path)
@@ -379,13 +383,13 @@ def _word_set(text):
     return words - _SEMANTIC_STOPWORDS
 
 
-def match_skill_to_canonical(skill_id, skill_name, skill_description, canonical_skills, origin_skills=None, named_skills=None, threshold=0.15, origin_threshold=0.20):
+def match_skill_to_canonical(skill_id, skill_name, skill_description, canonical_skills, origin_skills=None, named_skills=None, threshold=0.15):
     """Find the best skill match for a custom skill using sequential priority.
     
     1. Exact or near-exact slash-skill name or name match in ORIGIN skills.
     2. Exact or near-exact slash-skill name or name match in NAMED skills.
     3. Exact or near-exact ID or name match in GENERIC (canonical) skills.
-    4. Semantic word overlap against ORIGIN skills (with origin_threshold) or STARLESS (generic) skills (with threshold).
+    4. Semantic word overlap against STARLESS (generic) skills (with threshold).
 
     Returns (matched_id, score, match_type) or None.
     """
@@ -404,7 +408,8 @@ def match_skill_to_canonical(skill_id, skill_name, skill_description, canonical_
             canon_id = canon["id"]
             canon_base = canon_id.split('/')[-1].lower().strip()
             canon_name_norm = normalize_name(canon.get('name', ''))
-            if canon_base == query_id_lower or canon_name_norm == query_name_norm or canon_name_norm == query_id_norm:
+            # Slash-aware identity check
+            if canon_base == query_id_lower or f"/{canon_base}" == query_id_lower or canon_name_norm == query_name_norm or canon_name_norm == query_id_norm:
                 return (canon_id, 1.0, "origin")
 
     # 2. Exact/base ID or normalized name match in NAMED priority
@@ -413,7 +418,8 @@ def match_skill_to_canonical(skill_id, skill_name, skill_description, canonical_
             canon_id = canon["id"]
             canon_base = canon_id.split('/')[-1].lower().strip()
             canon_name_norm = normalize_name(canon.get('name', ''))
-            if canon_base == query_id_lower or canon_name_norm == query_name_norm or canon_name_norm == query_id_norm:
+            # Slash-aware identity check
+            if canon_base == query_id_lower or f"/{canon_base}" == query_id_lower or canon_name_norm == query_name_norm or canon_name_norm == query_id_norm:
                 return (canon_id, 1.0, "named")
 
     # 3. Exact ID or normalized name match in GENERIC (canonical) skills
@@ -422,28 +428,14 @@ def match_skill_to_canonical(skill_id, skill_name, skill_description, canonical_
             canon_id = canon["id"]
             canon_base = canon_id.split('/')[-1].lower().strip()
             canon_name_norm = normalize_name(canon.get('name', ''))
-            if canon_base == query_id_lower or canon_name_norm == query_name_norm or canon_name_norm == query_id_norm:
+            # Slash-aware identity check
+            if canon_base == query_id_lower or f"/{canon_base}" == query_id_lower or canon_name_norm == query_name_norm or canon_name_norm == query_id_norm:
                 return (canon_id, 1.0, "exact_generic")
 
-    # 4. Semantic search on ALL skills (ORIGIN and STARLESS/generic)
+    # 4. Semantic search ONLY on STARLESS/generic skills
     query_words = _word_set(f"{skill_id} {skill_name} {skill_description}")
     if not query_words:
         return None
-
-    # Check origin skills with origin_threshold
-    best_origin_id = None
-    best_origin_score = origin_threshold
-    if origin_skills:
-        for canon in origin_skills:
-            canon_text = f"{canon.get('id', '')} {canon.get('name', '')} {canon.get('description', '')}"
-            target_words = _word_set(canon_text)
-            if not target_words:
-                continue
-            shared = query_words & target_words
-            score = len(shared) / len(query_words)
-            if score > best_origin_score:
-                best_origin_score = score
-                best_origin_id = canon["id"]
 
     # Check starless (generic) skills with threshold
     best_generic_id = None
@@ -459,8 +451,6 @@ def match_skill_to_canonical(skill_id, skill_name, skill_description, canonical_
             best_generic_score = score
             best_generic_id = canon["id"]
 
-    if best_origin_id:
-        return (best_origin_id, round(best_origin_score, 3), "origin")
     if best_generic_id:
         return (best_generic_id, round(best_generic_score, 3), "generic")
     

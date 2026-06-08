@@ -112,8 +112,7 @@ from gaia_cli.interactive import (
     select_fusion_to_edit, 
     _has_interactive, 
     select_push_batch,
-    select_text_input,
-    _get_back_kb
+    select_text_input
 )
 
 DEFAULT_REGISTRY_REF = "https://github.com/mbtiongson1/gaia-skill-tree"
@@ -496,9 +495,9 @@ def scan_command(args):
             
             # Logic to resolve matching to canonical
             match = match_skill_to_canonical(
-                cid, sk['name'], sk['description'], 
-                canonical_list, origin_skills, named_skills, 
-                threshold=0.15, origin_threshold=0.20
+                cid, sk['name'], sk['description'],
+                canonical_list, origin_skills, named_skills,
+                threshold=0.15
             )
             
             mapped_id = cid
@@ -732,13 +731,13 @@ def scan_command(args):
         if new_paths.get("nearUnlocks") or new_paths.get("oneAway"):
             print(render_path_summary(new_paths))
 
-        render_user_tree_outputs(username, tree, graph_data, args.registry, quiet=quiet)
+        render_user_tree_outputs(username, tree, graph_data, args.registry, quiet=quiet, is_global=getattr(args, 'global_flag', False))
 
         if not quiet and not use_json:
             print(f"\nTip: Have skills you want to fuse? Run `{_fg(*COLOR_FUSE_PURPLE)}gaia fuse{_reset()}` to combine them into a new custom path.")
 
 
-def render_user_tree_outputs(username: str, tree: dict | None, graph_data: dict | None, registry_path: str, quiet: bool = False) -> tuple[str, str] | None:
+def render_user_tree_outputs(username: str, tree: dict | None, graph_data: dict | None, registry_path: str, quiet: bool = False, is_global: bool = False) -> tuple[str, str] | None:
     if not tree:
         return None
     mode = "default"
@@ -746,7 +745,13 @@ def render_user_tree_outputs(username: str, tree: dict | None, graph_data: dict 
     with redirect_stdout(buf):
         show_tree(tree, graph_data=graph_data, registry_path=registry_path, mode=mode)
     text = buf.getvalue()
-    out_dir = generated_output_dir(registry_path)
+    
+    # Save to local workspace by default, only use registry path if --global is set
+    if is_global:
+        out_dir = generated_output_dir(registry_path)
+    else:
+        out_dir = os.path.join(os.getcwd(), "generated-output")
+
     os.makedirs(out_dir, exist_ok=True)
     md_path = os.path.join(out_dir, "tree.md")
     html_path = os.path.join(out_dir, "tree.html")
@@ -1255,7 +1260,7 @@ def tree_command(args):
     custom = getattr(args, 'custom', False) or (not canon)
     show_tree(tree, graph_data=graph_data, registry_path=args.registry, mode=mode, canon=canon, custom=custom)
     if tree:
-        render_user_tree_outputs(config.get('gaiaUser'), tree, graph_data, args.registry, quiet=False)
+        render_user_tree_outputs(config.get('gaiaUser'), tree, graph_data, args.registry, quiet=False, is_global=getattr(args, 'global_flag', False))
     try:
         detect_source_repo(config)
     except NonPublicRepoError:
@@ -1354,9 +1359,8 @@ def fuse_command(args):
             dim = _fg(*RANK_COLORS["0★"])
             r = _reset()
             choice = questionary.select(
-                "Gaia Fuse Menu:  (Ctrl+C to cancel, Esc or Left to go back)",
+                "Gaia Fuse Menu:  (Ctrl+C to cancel)",
                 choices=choices,
-                key_bindings=_get_back_kb(),
             ).ask()
             if not choice: return
             
