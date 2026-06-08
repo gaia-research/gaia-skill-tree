@@ -306,7 +306,12 @@ def scan_skill_mds(root: str = ".", global_search: bool = False) -> list:
             in_standard = False
             for std_dir in standard_dirs:
                 if r_real != std_dir and r_real.startswith(std_dir + os.sep):
-                    in_standard = True
+                    rel = os.path.relpath(r_real, std_dir)
+                    if os.sep not in rel:
+                        in_standard = True
+                        dirs[:] = []  # Stop descending further into this skill
+                    else:
+                        dirs[:] = []  # Already deeper than 1 layer, stop descending
                     break
 
             # Find best candidate file in this directory

@@ -101,6 +101,21 @@ class TestScanSkillMds:
         assert len(results) == 1
         assert results[0]["id"] == "remote-skill"
 
+    def test_stops_one_layer_deep(self, tmp_path):
+        """Should only search for the skill one layer under the /skills/ folder, not beyond."""
+        valid_skill = tmp_path / ".agents" / "skills" / "valid-skill"
+        valid_skill.mkdir(parents=True)
+        _write(str(valid_skill / "skill.md"), "---\nname: Valid\n---\n")
+
+        deep_skill = valid_skill / "reference"
+        deep_skill.mkdir(parents=True)
+        _write(str(deep_skill / "skill.md"), "---\nname: Deep\n---\n")
+
+        results = scan_skill_mds(root=str(tmp_path))
+        assert len(results) == 1
+        assert results[0]["id"] == "valid-skill"
+
+
 
 # ---------------------------------------------------------------------------
 # Tests: expanded skill dirs + symlinks + config-driven paths
@@ -215,7 +230,7 @@ class TestMatchSkillToCanonical:
             _CANONICAL_SKILLS,
         )
         assert result is not None
-        canonical_id, score = result
+        canonical_id, score, match_type = result
         assert canonical_id == "web-scraping"
         assert score > 0.20
 
@@ -255,5 +270,5 @@ class TestMatchSkillToCanonical:
             _CANONICAL_SKILLS,
         )
         assert result is not None
-        _, score = result
+        _, score, match_type = result
         assert 0.0 < score <= 1.0
