@@ -1209,12 +1209,14 @@ def write_graph_artifact(
             else:
                 output = local_dir / "render" / "latest.json"
         else:
+            from gaia_cli.registry import registry_dir
+            reg_dir = Path(registry_dir(root))
             if fmt == "html":
-                output = root / "registry" / "render" / "gaia.html"
+                output = reg_dir / "render" / "gaia.html"
             elif fmt == "svg":
-                output = root / "registry" / "gaia.svg"
+                output = reg_dir / "gaia.svg"
             else:
-                output = root / "registry" / "render" / "latest.json"
+                output = reg_dir / "render" / "latest.json"
     out_path = Path(output)
     if not out_path.is_absolute():
         if custom:
