@@ -506,7 +506,7 @@ def scan_command(args):
             match = match_skill_to_canonical(
                 cid, sk['name'], sk['description'], 
                 canonical_list, origin_skills, named_skills, 
-                threshold=0.30, origin_threshold=0.40
+                threshold=0.15, origin_threshold=0.20
             )
             
             mapped_id = cid
@@ -571,9 +571,22 @@ def scan_command(args):
             generic_group.sort(key=lambda s: (-s.get("mapped_score", 0.0), s["id"]))
             other_group.sort(key=lambda s: s["id"])
 
-            def print_group(title, skills):
+            COLOR_APEX_GOLD = (251, 191, 36)
+
+            def print_group(group_id, skills):
                 if not skills:
                     return
+                
+                # Format header with requested coloring
+                if group_id == "origin":
+                    title = f"{_fg(*COLOR_APEX_GOLD)}{_bold()}Origin Skills{_reset()}"
+                elif group_id == "named":
+                    title = f"{_fg(*COLOR_CONTRIBUTOR)}{_bold()}Named Skills{_reset()}"
+                elif group_id == "generic":
+                    title = f"{_bold()}Starless (Generic) Skills{_reset()}"
+                else:
+                    title = f"{_bold()}Custom - Only in this Repo{_reset()} ({_fg(*COLOR_LOCAL_USER)}{username}{_reset()})"
+                
                 print(f"\n{title}:")
                 for sk in skills:
                     cid = sk['id']
@@ -601,21 +614,28 @@ def scan_command(args):
                             colored_mapped = f"{_fg(*rank_color)}/{mapped_id}{_reset()}"
                         
                         if m_type == "origin":
-                            match_note = f"  {_fg(100,100,100)}→ {colored_mapped}{_fg(100,100,100)} (ORIGIN MATCH){_reset()}"
+                            match_note = f"  {_fg(100,100,100)}→ {colored_mapped}{_reset()}"
                         elif m_type == "named":
-                            match_note = f"  {_fg(100,100,100)}→ {colored_mapped}{_fg(100,100,100)} (NAMED MATCH){_reset()}"
+                            match_note = f"  {_fg(100,100,100)}→ {colored_mapped}{_reset()}"
                         elif m_type == "exact_generic":
-                            match_note = f"  {_fg(100,100,100)}→ {colored_mapped}{_fg(100,100,100)} (EXACT BASE MATCH){_reset()}"
+                            match_note = f"  {_fg(100,100,100)}→ {colored_mapped}{_reset()}"
                         else:
                             match_note = f"  {_fg(100,100,100)}→ {colored_mapped}{_fg(100,100,100)} ({mapped_score:.0%} semantic){_reset()}"
                     
                     user_label = f"{_fg(*COLOR_LOCAL_USER)}{_bold()}/{cid}{_reset()}"
-                    print(f"  ○ {user_label} custom skill (found in {location}){match_note}")
+                    if group_id == "other":
+                        user_label = f"{user_label} {_fg(*RANK_COLORS['0★'])}0★{_reset()}"
+                    
+                    print(f"  ○ {user_label} custom skill{match_note}")
+                    print(f"    (found in {location})")
 
-            print_group("Origin Skills", origin_group)
-            print_group("Named Skills", named_group)
-            print_group("Starless (Generic) Skills", generic_group)
-            print_group("Custom - Only in this Repo", other_group)
+            print_group("origin", origin_group)
+            print_group("named", named_group)
+            print_group("generic", generic_group)
+            print_group("other", other_group)
+
+            if other_group:
+                print(f"\n{_fg(99, 102, 241)}⚡ {_bold()}{_fg(255, 255, 255)}Tip: Run `{_fg(45, 212, 191)}gaia push{_fg(255, 255, 255)}` to submit your custom skills for review.{_reset()}")
 
         # Clean up output fields to keep file clean
         for sk in custom_state_skills:
