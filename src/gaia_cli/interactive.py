@@ -10,6 +10,21 @@ import os
 import sys
 from typing import Optional
 
+from prompt_toolkit.key_binding import KeyBindings
+
+
+def _get_back_kb() -> KeyBindings:
+    """Standard keybindings for 'Back' navigation (Esc or Left)."""
+    kb = KeyBindings()
+
+    @kb.add("escape")
+    @kb.add("left")
+    def _(event):
+        """Exit the prompt and return None to signal 'Back'."""
+        event.app.exit(result=None)
+
+    return kb
+
 
 def _has_interactive() -> bool:
     """Check if interactive mode is available and appropriate."""
