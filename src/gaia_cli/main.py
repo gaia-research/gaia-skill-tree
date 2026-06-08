@@ -602,7 +602,7 @@ def scan_command(args):
                 print(f"\n{title}:")
                 
                 for directory in sorted(by_dir.keys()):
-                    print(f"## ({directory}/)")
+                    print(f"{directory}/")
                     # Sort skills within the directory by id
                     skills_in_dir = sorted(by_dir[directory], key=lambda x: x['id'])
                     for sk in skills_in_dir:
