@@ -834,7 +834,12 @@ def promote_command(args):
                 if picked:
                     skill_id = picked
             if not skill_id:
-                print("Usage: gaia promote <skill> or gaia promote --all", file=sys.stderr)
+                from gaia_cli.registry import promotion_candidates_path
+                if not os.path.exists(promotion_candidates_path(args.registry)):
+                    print("No promotion candidates found. Run `gaia scan` first to detect skills.",
+                          file=sys.stderr)
+                else:
+                    print("Usage: gaia promote <skill> or gaia promote --all", file=sys.stderr)
                 sys.exit(2)
         result = promote_from_candidates(username, skill_id, args.registry, new_display_name=display_name)
     except ValueError as exc:
