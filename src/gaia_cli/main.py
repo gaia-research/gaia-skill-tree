@@ -104,7 +104,17 @@ from gaia_cli.formatting import (
 )
 from gaia_cli.localContext import LocalContext
 from gaia_cli.cardRenderer import render_fusion_diagram
-from gaia_cli.interactive import select_skill, select_fusion_candidate, select_promotion_candidate, select_multiple_skills, select_fusion_to_edit, _has_interactive, select_push_batch
+from gaia_cli.interactive import (
+    select_skill, 
+    select_fusion_candidate, 
+    select_promotion_candidate, 
+    select_multiple_skills, 
+    select_fusion_to_edit, 
+    _has_interactive, 
+    select_push_batch,
+    select_text_input,
+    _get_back_kb
+)
 
 DEFAULT_REGISTRY_REF = "https://github.com/mbtiongson1/gaia-skill-tree"
 
