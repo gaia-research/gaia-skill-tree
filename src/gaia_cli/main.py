@@ -104,7 +104,7 @@ from gaia_cli.formatting import (
 )
 from gaia_cli.localContext import LocalContext
 from gaia_cli.cardRenderer import render_fusion_diagram
-from gaia_cli.interactive import select_skill, select_fusion_candidate, select_promotion_candidate
+from gaia_cli.interactive import select_skill, select_fusion_candidate, select_promotion_candidate, select_multiple_skills, select_fusion_to_edit
 
 DEFAULT_REGISTRY_REF = "https://github.com/mbtiongson1/gaia-skill-tree"
 
@@ -1974,9 +1974,11 @@ def get_parser():
     promote_parser.add_argument('--all', action='store_true', help="Promote every candidate from the last scan")
     promote_parser.add_argument('--unique', action='store_true', help="Promote a basic skill to unique type (4★+ graph-isolated with named impl)")
     promote_parser.add_argument('--name', help="Optional display name for the promoted skill")
-    fuse_parser = subparsers.add_parser('fuse', help="Confirm a skill combination or promotion candidate")
+    fuse_parser = subparsers.add_parser('fuse', help="Confirm a skill combination or create a custom fusion path")
     fuse_parser.add_argument('skillId', nargs='?', default=None, help="Skill ID to fuse or promote")
     fuse_parser.add_argument('--name', help="Optional display name for the skill")
+    fuse_parser.add_argument('--skills', help="Comma-separated list of skills to combine for a custom fusion")
+    fuse_parser.add_argument('--delete', action='store_true', help="Delete an existing custom fusion")
     docs_parser = subparsers.add_parser('docs', help="Documentation maintenance commands")
     docs_sub = docs_parser.add_subparsers(dest='docs_command')
     docs_build = docs_sub.add_parser('build', help="Regenerate generated documentation regions")
