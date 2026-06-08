@@ -367,11 +367,30 @@ def _word_set(text):
     return words - _SEMANTIC_STOPWORDS
 
 
-def match_skill_to_canonical(skill_id, skill_name, skill_description, canonical_skills, threshold=0.20):
-    """Find the best canonical skill match for a custom skill using word overlap.
+def match_skill_to_canonical(skill_id, skill_name, skill_description, canonical_skills, origin_skills=None, named_skills=None, threshold=0.30):
+    """Find the best skill match for a custom skill using sequential priority.
+    
+    1. Exact or near-exact name match in ORIGIN skills.
+    2. Exact or near-exact name match in NAMED skills.
+    3. Semantic word overlap against STARLESS (generic) skills.
 
-    Returns (canonical_id, score) or None.
+    Returns (matched_id, score, match_type) or None.
     """
+    query_name_lower = skill_name.lower().strip()
+    
+    # 1. ORIGIN priority
+    if origin_skills:
+        for canon in origin_skills:
+            if canon.get('name', '').lower().strip() == query_name_lower:
+                return (canon["id"], 1.0, "origin")
+
+    # 2. NAMED priority
+    if named_skills:
+        for canon in named_skills:
+            if canon.get('name', '').lower().strip() == query_name_lower:
+                return (canon["id"], 1.0, "named")
+
+    # 3. STARLESS semantic matching
     query_words = _word_set(f"{skill_id} {skill_name} {skill_description}")
     if not query_words:
         return None
@@ -390,4 +409,7 @@ def match_skill_to_canonical(skill_id, skill_name, skill_description, canonical_
             best_score = score
             best_id = canon["id"]
 
-    return (best_id, round(best_score, 3)) if best_id else None
+    if best_id:
+        return (best_id, round(best_score, 3), "generic")
+    
+    return None
