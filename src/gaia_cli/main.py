@@ -381,6 +381,11 @@ def scan_command(args):
     scan_result = scan_repo_detailed()
     raw_tokens = {t.lstrip('/') for t in scan_result["tokens"]}
     graph_path = registry_graph_path(args.registry)
+
+    from gaia_cli.registry import bundled_registry_path
+    if not quiet and not use_json and str(args.registry) == str(bundled_registry_path()):
+        print("Note: using bundled registry (no local registry clone found).")
+
     resolved = resolve_skills(raw_tokens, registry_path=graph_path)
     
     username = config.get('gaiaUser')
@@ -410,6 +415,9 @@ def scan_command(args):
         if resolved:
             # Colored skill list with type glyphs
             graph_path_file = registry_graph_path(args.registry)
+            if not os.path.exists(graph_path_file):
+                print("Registry graph not found. Run `gaia init` from a gaia-skill-tree clone.")
+                return
             with open(graph_path_file, 'r', encoding='utf-8') as gf:
                 gdata = json.load(gf)
             smap = {s['id']: s for s in gdata.get('skills', [])}
