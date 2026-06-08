@@ -1138,9 +1138,28 @@ def write_graph_artifact(
     fmt: str = "html",
     *,
     user_ctx: dict[str, Any] | None = None,
+    custom: bool = False,
 ) -> Path:
     root = _registry_root(registry_path)
-    graph = load_graph(root)
+    if custom:
+        from gaia_cli.scanner import scan_skill_mds
+        local_skills = scan_skill_mds(global_search=False)
+        graph = {
+            "version": "local-custom",
+            "skills": [
+                {
+                    "id": sk["id"],
+                    "name": sk.get("name", sk["id"]),
+                    "description": sk.get("description", ""),
+                    "type": "basic",
+                    "level": "0★",
+                    "prerequisites": sk.get("prerequisites", [])
+                }
+                for sk in local_skills
+            ]
+        }
+    else:
+        graph = load_graph(root)
     named_buckets = load_named_skills(root).get("buckets", {})
     render_graph = build_render_graph(graph, named_buckets=named_buckets)
     fmt = fmt.lower()
@@ -1210,7 +1229,8 @@ def graph_command(args: Any) -> None:
         pass  # Degrade gracefully to canon mode
 
     try:
-        out_path = write_graph_artifact(registry_path, output=output, fmt=fmt, user_ctx=user_ctx)
+        custom = getattr(args, "custom", False)
+        out_path = write_graph_artifact(registry_path, output=output, fmt=fmt, user_ctx=user_ctx, custom=custom)
     except FileNotFoundError as exc:
         print(str(exc), file=sys.stderr)
         return

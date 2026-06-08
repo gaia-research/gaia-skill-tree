@@ -354,6 +354,7 @@ def scan_skill_mds(root: str = ".", global_search: bool = False) -> list:
                     "id": skill_id,
                     "name": name,
                     "description": description,
+                    "prerequisites": fm.get("prerequisites", []),
                     "source_dir": os.path.dirname(skill_dir),
                     "location": os.path.relpath(skill_dir, root),
                     "real_path": real_path,

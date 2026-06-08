@@ -457,7 +457,8 @@ def scan_command(args):
 
     # ── Semantic scan: detect installed skill .md files ──────────────────────
     if not quiet:
-        installed_skills = scan_skill_mds()
+        global_search = getattr(args, 'all', False)
+        installed_skills = scan_skill_mds(global_search=global_search)
         if installed_skills:
             with open(graph_path, 'r', encoding='utf-8') as _gf:
                 _gdata_for_match = json.load(_gf)
@@ -1057,7 +1058,8 @@ def tree_command(args):
     tree = load_tree(config.get('gaiaUser'), registry_path=args.registry)
     mode = "named" if getattr(args, 'named', False) else ("title" if getattr(args, 'title', False) else "default")
     canon = getattr(args, 'canon', False)
-    show_tree(tree, graph_data=graph_data, registry_path=args.registry, mode=mode, canon=canon)
+    custom = getattr(args, 'custom', False)
+    show_tree(tree, graph_data=graph_data, registry_path=args.registry, mode=mode, canon=canon, custom=custom)
     if tree:
         render_user_tree_outputs(config.get('gaiaUser'), tree, graph_data, args.registry, quiet=False)
     try:
@@ -1235,16 +1237,26 @@ def push_command(args):
         print("Error: No skills to be pushed. Please install newer skills then gaia scan, or fuse custom skills before pushing.", file=sys.stderr)
         sys.exit(1)
 
-    # Custom skills filtering and interactive exclusion
-    installed_skills = scan_skill_mds()
+    # Custom skills injection and interactive exclusion
+    installed_skills = scan_skill_mds(global_search=False)
     batch_proposed_ids = {s["id"] for s in batch.get("proposedSkills", [])}
     batch_known_ids = {s["skillId"] for s in batch.get("knownSkills", [])}
 
-    pushable_custom_skills = []
+    # Ensure all local custom skills are included in the batch
     for sk in installed_skills:
         cid = sk["id"]
-        if cid in batch_proposed_ids or cid in batch_known_ids:
-            pushable_custom_skills.append(sk)
+        if cid not in batch_proposed_ids and cid not in batch_known_ids:
+            batch.setdefault("proposedSkills", []).append({
+                "id": cid,
+                "name": sk.get("name", cid),
+                "type": "basic",
+                "description": sk.get("description", f"Local custom skill {cid}"),
+                "sourceRepo": batch.get("sourceRepo", "unknown"),
+                "lifecycle": "pending",
+            })
+            batch_proposed_ids.add(cid)
+
+    pushable_custom_skills = installed_skills
 
     if pushable_custom_skills:
         pushable_custom_skills.sort(key=lambda x: x["id"])
@@ -1736,6 +1748,7 @@ def get_parser():
     scan_parser.add_argument('--quiet', action='store_true', help="Suppress scan output; only show notifications")
     scan_parser.add_argument('--auto-promote', action='store_true', help="Promote every scan-recommended candidate after scanning")
     scan_parser.add_argument('--json', action='store_true', help="Output scan results as JSON")
+    scan_parser.add_argument('--all', action='store_true', help="Scan globally installed skills in addition to the local repository")
     subparsers.add_parser('pull', help="Refresh registry data from origin")
     subparsers.add_parser('update', help="Update all installed remote skills")
     
@@ -1753,6 +1766,7 @@ def get_parser():
     tree_parser.add_argument('--title', action='store_true', help="Show display name instead of slash command / contributor ID")
     tree_parser.add_argument('--canon', action='store_true', help="Show canonical registry data instead of local-first view.")
     tree_parser.add_argument('--check', action='store_true', help="Self-test: print all tier glyphs and rank chips in resolved token colors")
+    tree_parser.add_argument('--custom', action='store_true', help="Show only custom skills")
     push_parser = subparsers.add_parser('push', help="Prepare detected skills for review and file a GitHub issue")
     push_parser.add_argument('--dry-run', action='store_true', help="Print the skill batch without writing it")
     push_parser.add_argument('--no-issue', action='store_true', dest='no_issue', help="Write intake record without creating a GitHub issue")
@@ -1784,6 +1798,7 @@ def get_parser():
     graph_parser.add_argument('-o', '--output', help="Output path (default: registry/render/gaia.html)")
     graph_parser.add_argument('--open', dest='open', action='store_true', default=True, help="Open the generated graph (default)")
     graph_parser.add_argument('--no-open', dest='open', action='store_false', help="Do not open the generated graph")
+    graph_parser.add_argument('--custom', action='store_true', help="Only include custom skills in the graph")
     stats_parser = subparsers.add_parser('stats', help="Show registry health at a glance")
     stats_parser.add_argument('--canon', action='store_true', help="Show canonical registry data instead of local-first view.")
     appraise_parser = subparsers.add_parser('appraise', help="Inspect a skill card with status and actions")

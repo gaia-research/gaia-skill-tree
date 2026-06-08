@@ -273,7 +273,7 @@ def _render_subtree(skill_id, skill_map, display_ids, named_by_ref, local_by_ref
 
 # ─── public entry point ───────────────────────────────────────────────────────
 
-def show_tree(tree_data, graph_data=None, registry_path=".", mode="default", canon=False):
+def show_tree(tree_data, graph_data=None, registry_path=".", mode="default", canon=False, custom=False):
     if not tree_data:
         print("No skill tree found.")
         return
@@ -289,7 +289,12 @@ def show_tree(tree_data, graph_data=None, registry_path=".", mode="default", can
     local_by_ref = _load_local_lookup(registry_path)
 
     unlocked_ids = {s["skillId"] for s in unlocked}
-    if mode == "named":
+    if custom:
+        from gaia_cli.scanner import scan_skill_mds
+        local_custom_ids = {sk["id"] for sk in scan_skill_mds(global_search=False)}
+        canon_ids = set(skill_map.keys())
+        display_ids = {sid for sid in unlocked_ids if sid in local_custom_ids or sid not in canon_ids}
+    elif mode == "named":
         display_ids = {sid for sid in unlocked_ids if _is_named(sid, named_by_ref, local_by_ref)}
     else:
         display_ids = unlocked_ids
