@@ -701,6 +701,9 @@ def scan_command(args):
 
         render_user_tree_outputs(username, tree, graph_data, args.registry, quiet=quiet)
 
+        if not quiet and not use_json:
+            print("\nTip: Have skills you want to fuse? Run `gaia fuse` to combine them into a new custom path.")
+
 
 def render_user_tree_outputs(username: str, tree: dict | None, graph_data: dict | None, registry_path: str, quiet: bool = False) -> tuple[str, str] | None:
     if not tree:
@@ -1232,27 +1235,157 @@ def fuse_command(args):
     if not config:
         return
     username = config.get('gaiaUser')
-    tree = load_tree(username, registry_path=args.registry)
-    if not tree:
+    registry_path = args.registry
+
+    # Load custom state
+    custom_state_path = os.path.join(".gaia", "custom_state.json")
+    custom_state = {"customSkills": [], "customFusions": {}}
+    if os.path.exists(custom_state_path):
+        try:
+            with open(custom_state_path, "r", encoding="utf-8") as f:
+                custom_state = json.load(f)
+        except Exception:
+            pass
+
+    # Handle --delete
+    if getattr(args, 'delete', False):
+        target = getattr(args, 'skillId', None)
+        fusions = custom_state.get("customFusions", {})
+        if not target and sys.stdin.isatty():
+             if not fusions:
+                 print("No custom fusions found.")
+                 return
+             target = select_fusion_to_edit(fusions, "Select custom fusion to delete:")
+        
+        if target and target in fusions:
+            del fusions[target]
+            custom_state["customFusions"] = fusions
+            os.makedirs(".gaia", exist_ok=True)
+            with open(custom_state_path, "w", encoding="utf-8") as f:
+                json.dump(custom_state, f, indent=2)
+            print(f"Deleted custom fusion /{target}.")
+        else:
+            print(f"Custom fusion /{target} not found.")
         return
 
-    target = getattr(args, 'skillId', None)
-    display_name = getattr(args, 'name', None)
-
-    # Interactive picker when no target specified
-    if not target:
-        pending_combos = tree.get('pendingCombinations', [])
-        if pending_combos:
-            picked = select_fusion_candidate(pending_combos, "Select fusion candidate:")
-            if picked:
-                target = picked
+    # Programmatic custom fusion: gaia fuse --skills skill1,skill2 --name target-id
+    if getattr(args, 'skills', None):
+        target = getattr(args, 'skillId', None) or getattr(args, 'name', None)
         if not target:
-            print("Usage: gaia fuse <skill>", file=sys.stderr)
-            print("Run `gaia scan` to detect fusion candidates.")
+            print("Error: must specify target skill ID (e.g. `gaia fuse target-id --skills s1,s2`)", file=sys.stderr)
+            return
+        sources = [s.strip().lstrip('/') for s in args.skills.split(',')]
+        custom_state.setdefault("customFusions", {})[target] = sources
+        os.makedirs(".gaia", exist_ok=True)
+        with open(custom_state_path, "w", encoding="utf-8") as f:
+            json.dump(custom_state, f, indent=2)
+        print(f"Saved custom fusion: {' + '.join('/' + s for s in sources)} → /{target}")
+        print("\nNote: Custom fusions are saved locally in .gaia/custom_state.json.")
+        print("If pushed to the registry and accepted into canon, this fusion becomes permanent for all users!")
+        return
+
+    # Interactive Menu
+    target = getattr(args, 'skillId', None)
+    if not target and sys.stdin.isatty():
+        import questionary
+        tree = load_tree(username, registry_path=registry_path)
+        pending_combos = tree.get('pendingCombinations', []) if tree else []
+        
+        choices = []
+        if pending_combos:
+            choices.append(questionary.Choice("Confirm detected combination (from scan)", value="pending"))
+        
+        # Check for promotions
+        promo_payload = {}
+        try:
+            promo_payload = load_promotion_candidates(registry_path)
+            if promo_payload.get('candidates'):
+                choices.append(questionary.Choice("Promote a skill (level-up)", value="promote"))
+        except: pass
+        
+        choices.extend([
+            questionary.Choice("Create new custom fusion path", value="new"),
+            questionary.Choice("Edit existing custom fusions", value="edit"),
+            questionary.Choice("Delete custom fusion", value="delete"),
+        ])
+        
+        choice = questionary.select("Gaia Fuse Menu:", choices=choices).ask()
+        if not choice: return
+        
+        if choice == "delete":
+            args.delete = True
+            return fuse_command(args)
+            
+        if choice == "pending":
+            picked = select_fusion_candidate(pending_combos, "Select fusion candidate:")
+            if picked: target = picked
+            else: return
+            
+        elif choice == "promote":
+            candidates = promo_payload.get('candidates', [])
+            picked = select_promotion_candidate(candidates)
+            if picked: target = picked
+            else: return
+            
+        elif choice == "edit":
+            fusions = custom_state.get("customFusions", {})
+            if not fusions:
+                print("No custom fusions found.")
+                return
+            target = select_fusion_to_edit(fusions, "Select custom fusion to edit:")
+            if not target: return
+            # Fall through to 'new' logic but with pre-filled or specific edit behavior
+            choice = "new"
+            
+        if choice == "new":
+            # Select skills to combine
+            # Load all available skills (unlocked + detected)
+            ctx = LocalContext.load(registry_path, username or "", include_scan=True)
+            all_ids = sorted(list(ctx.owned_ids | ctx.detected_ids))
+            skill_map = {} # We'll just use IDs for the selector title if we don't have full maps
+            
+            # Try to get labels for better UX
+            graph_data = {}
+            graph_p = registry_graph_path(registry_path)
+            if os.path.exists(graph_p):
+                with open(graph_p, 'r') as f: graph_data = json.load(f)
+            skill_info_map = {s['id']: s for s in graph_data.get('skills', [])}
+            
+            selector_choices = []
+            for sid in all_ids:
+                sinfo = skill_info_map.get(sid, {})
+                selector_choices.append({
+                    "id": sid,
+                    "type": sinfo.get("type", "basic"),
+                    "level": sinfo.get("level", "0★"),
+                    "description": sinfo.get("description", "")
+                })
+            
+            selected = select_multiple_skills(selector_choices, f"Select skills to combine into /{target if target else '???'}:")
+            if not selected: return
+            
+            if not target:
+                target = questionary.text("Enter target skill ID (e.g. data-viz-expert):").ask()
+            if not target: return
+            
+            custom_state.setdefault("customFusions", {})[target] = selected
+            os.makedirs(".gaia", exist_ok=True)
+            with open(custom_state_path, "w", encoding="utf-8") as f:
+                json.dump(custom_state, f, indent=2)
+            
+            print(f"\n✓ Saved custom fusion: {' + '.join('/' + s for s in selected)} → /{target}")
+            print("\nNote: Custom fusions are saved locally in .gaia/custom_state.json.")
+            print("If pushed to the registry and accepted into canon, this fusion becomes permanent for all users!")
             return
 
+    # If we have a target but didn't go through 'new' flow, it might be a pending combo or promotion
+    if not target:
+        print("Usage: gaia fuse <skill_id>", file=sys.stderr)
+        return
+
     # Check combinations first
-    pending_combos = tree.get('pendingCombinations', [])
+    tree = load_tree(username, registry_path=registry_path)
+    pending_combos = tree.get('pendingCombinations', []) if tree else []
     combo_match = next((p for p in pending_combos if p.get('candidateResult') == target), None)
     
     if combo_match:
@@ -1268,7 +1401,7 @@ def fuse_command(args):
         stats = tree.get('stats', {})
         stats['totalUnlocked'] = stats.get('totalUnlocked', 0) + 1
         tree['stats'] = stats
-        save_tree(username, tree, registry_path=args.registry)
+        save_tree(username, tree, registry_path=registry_path)
 
         from gaia_cli.timeline import append_skill_tree_event
         append_skill_tree_event(
@@ -1276,7 +1409,7 @@ def fuse_command(args):
             target,
             "fuse",
             f"Fused from {', '.join(combo_match.get('detectedSkills', []))}",
-            registry_path=args.registry
+            registry_path=registry_path
         )
 
         open_pr(username, tree, candidate_result=target)
@@ -1284,17 +1417,17 @@ def fuse_command(args):
 
     # Check promotions next
     try:
-        payload = load_promotion_candidates(args.registry)
+        payload = load_promotion_candidates(registry_path)
         if any(c.get('skillId') == target for c in payload.get('candidates', [])):
             print(f"Fusing promotion for /{target}...")
-            result = promote_from_candidates(username, target, args.registry, new_display_name=display_name)
+            result = promote_from_candidates(username, target, registry_path, new_display_name=getattr(args, 'name', None))
             print(f"Promoted /{result['skillId']} to Level {result['newLevel']}.")
             return
     except Exception:
         pass
 
     print(f"Skill /{target} is not a valid combination or promotion candidate.")
-    print("Run `gaia scan` to refresh candidates.")
+    print("Run `gaia scan` to refresh candidates, or use interactive `gaia fuse` to create a custom path.")
 
 _EMBEDDINGS_INSTALL_STEPS = """\
 
