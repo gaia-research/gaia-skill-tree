@@ -1319,9 +1319,9 @@ def fuse_command(args):
         except: pass
         
         choices.extend([
-            questionary.Choice("Create new custom fusion path", value="new"),
-            questionary.Choice("Edit existing custom fusions", value="edit"),
-            questionary.Choice("Delete custom fusion", value="delete"),
+            questionary.Choice(f"{_fg(251, 191, 36)}Create new custom fusion path{_reset()}", value="new"),
+            questionary.Choice(f"{_fg(192, 132, 252)}Edit existing custom fusions{_reset()}", value="edit"),
+            questionary.Choice(f"{_fg(239, 68, 68)}Delete custom fusion{_reset()}", value="delete"),
         ])
         
         choice = questionary.select("Gaia Fuse Menu:", choices=choices).ask()
