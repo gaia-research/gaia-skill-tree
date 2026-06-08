@@ -321,6 +321,29 @@ def init_command(args):
     print(f"  user:       {username}")
     print(f"  scanPaths:  {scan_paths}")
 
+    try:
+        source = detect_source_repo({"gaiaUser": username})
+        if sys.stdin.isatty() and not getattr(args, 'yes', False):
+            try:
+                ans = input(f"Detected repo: {source}\nInitialize Gaia on this repository? [Y/n]: ").strip().lower()
+            except (KeyboardInterrupt, EOFError):
+                print()
+                import shutil; shutil.rmtree(config_dir, ignore_errors=True)
+                sys.exit(1)
+            if ans == 'n':
+                import shutil; shutil.rmtree(config_dir, ignore_errors=True)
+                print("Aborted.")
+                return
+    except NonPublicRepoError:
+        print(
+            "\nNo GitHub remote detected in this directory.\n"
+            "  → To unlock the full workflow:\n"
+            "     • Add a remote:  git remote add origin https://github.com/<you>/<repo>\n"
+            "     • Or clone the gaia-skill-tree registry and run gaia init there\n"
+            "Your skills are still scannable and pushable — once linked to a public repo,\n"
+            "approved skills will start at 2★ instead of 1★.\n"
+        )
+
     # If we're inside a registry clone, register its path globally so that
     # commands like `gaia push` work from any project without --registry.
     tree_path = user_tree_path(".", username)
