@@ -42,7 +42,12 @@ def select_skill(skills: list[dict], prompt: str = "Select a skill:") -> Optiona
     import questionary
     from gaia_cli.formatting import TYPE_SYMBOLS, _fg, _reset, RANK_COLORS
 
+    dim = _fg(*RANK_COLORS["0★"])
+    r = _reset()
+    full_prompt = f"{prompt}  {dim}(Ctrl+C to cancel, Esc or Left to go back){r}"
+
     choices = []
+    # ... rest of choices logic ...
     for s in skills:
         sid = s.get("id", "unknown")
         skill_type = s.get("type", "basic")
@@ -119,6 +124,10 @@ def select_multiple_skills(skills: list[dict], prompt: str = "Select skills to c
         return []
     import questionary
     from gaia_cli.formatting import TYPE_SYMBOLS, _fg, _reset, RANK_COLORS
+
+    dim = _fg(*RANK_COLORS["0★"])
+    r = _reset()
+    full_prompt = f"{prompt}  {dim}(Ctrl+C to cancel, Esc or Left to go back){r}"
 
     choices = []
     for s in skills:
