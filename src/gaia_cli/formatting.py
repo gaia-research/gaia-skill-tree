@@ -150,7 +150,7 @@ def format_skill_colored(skill_id: str, level: str = "0★", *,
                          is_local: bool = False, local_user: str | None = None) -> str:
     """Return ANSI-colored display string.
 
-    - Own named (named_ref, contrib == local_user): GREEN /nickname
+    - Own named (named_ref, contrib == local_user): GREEN /contributor/nickname
     - Other named: RED contributor / rank-colored nickname (SLATE for ≤1★)
     - Local novel: GREEN /skill-id
     - Canon: rank-colored /skill-id
@@ -160,23 +160,23 @@ def format_skill_colored(skill_id: str, level: str = "0★", *,
 
     if named_ref:
         contrib, nickname, is_own = _split_named_ref(named_ref, local_user)
-        if is_own:
-            return f"{_fg(*COLOR_LOCAL_USER)}/{nickname}{r}"
+        handle_color = COLOR_LOCAL_USER if is_own else COLOR_CONTRIBUTOR
         nick_colored = f"{_fg(*rank_color)}{nickname}{r}"
         if contrib:
-            if is_redacted(level):
+            if not is_own and is_redacted(level):
                 # Pre-named: replace honor-red handle with slate redaction block
-                return f"{_fg(*COLOR_REDACTED)}{REDACTED_BLOCK}{r}/{nick_colored}"
-            return f"{_fg(*COLOR_CONTRIBUTOR)}{contrib}{r}/{nick_colored}"
-        return f"{_fg(*COLOR_CONTRIBUTOR)}/{nickname}{r}"
+                return f"{_fg(*COLOR_REDACTED)}/{REDACTED_BLOCK}{r}/{nick_colored}"
+            return f"{_fg(*handle_color)}/{contrib}{r}/{nick_colored}"
+        return f"{_fg(*handle_color)}/{nickname}{r}"
 
     if named_contributor:
-        if is_redacted(level):
+        handle_color = COLOR_LOCAL_USER if local_user and named_contributor == local_user else COLOR_CONTRIBUTOR
+        if not (local_user and named_contributor == local_user) and is_redacted(level):
             contrib_colored = f"{_fg(*COLOR_REDACTED)}{REDACTED_BLOCK}{r}"
         else:
-            contrib_colored = f"{_fg(*COLOR_CONTRIBUTOR)}{named_contributor}{r}"
+            contrib_colored = f"{_fg(*handle_color)}{named_contributor}{r}"
         skill_colored = f"{_fg(*rank_color)}{skill_id}{r}"
-        return f"{contrib_colored}/{skill_colored}"
+        return f"{_fg(*handle_color)}/{r}{contrib_colored}/{skill_colored}"
     if is_local:
         return f"{_fg(*COLOR_LOCAL_USER)}/{skill_id}{r}"
     return f"{_fg(*rank_color)}/{skill_id}{r}"
