@@ -86,7 +86,7 @@ def select_skill(skills: list[dict], prompt: str = "Select a skill:") -> Optiona
         choices=choices,
         use_shortcuts=False,
         use_arrow_keys=True,
-    ).ask()
+    ).ask(key_bindings=_get_back_kb())
     return result
 
 
@@ -126,7 +126,7 @@ def select_fusion_candidate(candidates: list[dict], prompt: str = "Select fusion
         choices=choices,
         use_shortcuts=False,
         use_arrow_keys=True,
-    ).ask()
+    ).ask(key_bindings=_get_back_kb())
     return result
 
 
@@ -209,7 +209,7 @@ def select_promotion_candidate(candidates: list[dict], prompt: str = "Select ski
         choices=choices,
         use_shortcuts=False,
         use_arrow_keys=True,
-    ).ask()
+    ).ask(key_bindings=_get_back_kb())
     return result
 
 
@@ -247,7 +247,7 @@ def select_fusion_to_edit(fusions: dict[str, list[str]], prompt: str = "Select a
         choices=choices,
         use_shortcuts=False,
         use_arrow_keys=True,
-    ).ask()
+    ).ask(key_bindings=_get_back_kb())
     return result
 
 
