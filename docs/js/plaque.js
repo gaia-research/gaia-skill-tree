@@ -61,7 +61,7 @@
   }
 
   function namedSlug(ns) {
-    if (typeof window.namedSlug === 'function') return window.namedSlug(ns);
+    if (typeof window.namedSlug === 'function' && window.namedSlug !== namedSlug) return window.namedSlug(ns);
     if (!ns) return '';
     var id = ns.id || '';
     if (id.indexOf('/') !== -1) return '/' + id.split('/', 2)[1];
