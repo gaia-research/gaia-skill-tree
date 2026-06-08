@@ -31,6 +31,7 @@ class LocalContext:
     tree_data: Optional[dict] = None
     graph_data: Optional[dict] = None
     _skill_map: dict[str, dict] = field(default_factory=dict, repr=False)
+    _effective_ranks: dict[str, str] = field(default_factory=dict, repr=False)
 
     @classmethod
     def load(
@@ -118,6 +119,22 @@ class LocalContext:
 
         # Build named_map: local-first merge of registry, agent dirs, and manifest
         named_map = _build_local_first_map(registry_path, list(skill_map.values()), username)
+        
+        # Build effective rank map for generic skills
+        effective_ranks = {}
+        from gaia_cli.registry import named_skills_index_path
+        from gaia_cli.redaction import level_num
+        idx_path = named_skills_index_path(registry_path)
+        if os.path.isfile(idx_path):
+            try:
+                with open(idx_path, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    for bucket, skills in data.get("buckets", {}).items():
+                        ranks = [level_num(s.get("level", "0★")) for s in skills]
+                        if ranks:
+                            effective_ranks[bucket] = f"{max(ranks)}★"
+            except Exception:
+                pass
 
         ctx = cls(
             username=username,
@@ -129,6 +146,7 @@ class LocalContext:
             graph_data=graph_data,
         )
         ctx._skill_map = skill_map
+        ctx._effective_ranks = effective_ranks
         return ctx
 
     def is_named(self, skill_id: str) -> bool:
@@ -143,6 +161,11 @@ class LocalContext:
         gate needs: a bucket whose top star is ≤ 1★ has no named child, so its
         contributor handle is withheld. Defaults to '0★' when unknown.
         """
+        # First check effective rank from named skills index
+        if skill_id in self._effective_ranks:
+            return self._effective_ranks[skill_id]
+        
+        # Fallback to direct skill map level
         return (self._skill_map.get(skill_id) or {}).get("level", "0★")
 
     def is_redacted(self, skill_id: str) -> bool:
