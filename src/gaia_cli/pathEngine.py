@@ -322,14 +322,15 @@ def regenerate_paths(registry_path: str) -> dict:
     scan_result = scan_repo_detailed()
     tokens = {t.lstrip('/') for t in scan_result.get("tokens", set())}
     graph_path = registry_graph_path(registry_path)
-    detected_ids = resolve_skills(list(tokens), graph_path)
+    detected_ids = set(resolve_skills(list(tokens), graph_path))
+    novel_ids = sorted(list(tokens - detected_ids))
 
     # Load graph data
     with open(graph_path, "r", encoding="utf-8") as f:
         graph_data = json.load(f)
 
     # Compute paths
-    paths = compute_paths(graph_data, owned_ids, detected_ids)
+    paths = compute_paths(graph_data, owned_ids, list(detected_ids), novel_ids=novel_ids)
     paths["userId"] = username
 
     # Save

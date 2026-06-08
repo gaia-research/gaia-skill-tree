@@ -144,13 +144,26 @@ class LocalContext:
         if include_scan:
             paths = load_paths()
             if paths:
-                # nearUnlocks and oneAway contain detected skill IDs
-                for path_entry in paths.get("availablePaths", []):
-                    for prereq in path_entry.get("ownedPrereqs", []):
-                        detected_ids.add(prereq)
-                # Also consider owned as detected
+                # Use explicitly stored IDs if available (new version)
+                if "detectedIds" in paths:
+                    detected_ids = set(paths.get("detectedIds", []))
+                    novel_ids = set(paths.get("novelIds", []))
+                else:
+                    # Fallback for old paths.json (best effort)
+                    for path_entry in paths.get("nearUnlocks", []):
+                        for prereq in path_entry.get("satisfiedPrereqs", []):
+                            detected_ids.add(prereq)
+                    for path_entry in paths.get("oneAway", []):
+                        for prereq in path_entry.get("satisfiedPrereqs", []):
+                            detected_ids.add(prereq)
+                
+                # Ensure novel IDs are considered detected
+                detected_ids |= novel_ids
+                
+                # Consider owned as detected too
                 detected_ids |= owned_ids
-                # Novel = detected but not in canon
+                
+                # Refine novel_ids to be exactly those in the pool not in canon
                 novel_ids = detected_ids - canon_ids
         
         # Build effective rank map for generic skills

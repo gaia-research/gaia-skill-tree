@@ -265,6 +265,9 @@ def scan_skill_mds(root: str = ".", global_search: bool = False) -> list:
 
     # Determine standard skill directories
     standard_dirs = [os.path.realpath(d) for d in _skill_search_dirs(root, global_search)]
+    # The repo root itself is a mixed container, not a standard depth-1 skill container
+    root_real = os.path.realpath(root)
+    standard_containers = [d for d in standard_dirs if d != root_real]
 
     # Gather search roots: in pytest we isolate to root, otherwise walk parent
     if "PYTEST_CURRENT_TEST" in os.environ:
@@ -302,9 +305,9 @@ def scan_skill_mds(root: str = ".", global_search: bool = False) -> list:
             # Prune directories
             dirs[:] = [d for d in dirs if not _should_prune_dir(d)]
 
-            # Check if current directory r is inside a standard skill directory
+            # Check if current directory r is inside a standard skill container (depth 1)
             in_standard = False
-            for std_dir in standard_dirs:
+            for std_dir in standard_containers:
                 if r_real != std_dir and r_real.startswith(std_dir + os.sep):
                     rel = os.path.relpath(r_real, std_dir)
                     if os.sep not in rel:

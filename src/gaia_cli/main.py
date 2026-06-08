@@ -647,11 +647,11 @@ def scan_command(args):
                             else:
                                 match_note = f"  {_fg(*RANK_COLORS['0★'])}→ {colored_mapped}{_fg(*RANK_COLORS['0★'])} ({mapped_score:.0%} semantic){_reset()}"
 
-                            user_label = f"{_fg(*RANK_COLORS['0★'])}{_bold()}/{cid}{_reset()}"
-                            if group_id == "other":
-                                user_label = f"{user_label} {_fg(*RANK_COLORS['0★'])}0★{_reset()}"
+                        user_label = f"{_fg(*RANK_COLORS['0★'])}{_bold()}/{cid}{_reset()}"
+                        if group_id == "other":
+                            user_label = f"{user_label} {_fg(*RANK_COLORS['0★'])}0★{_reset()}"
 
-                            print(f"  ○ {user_label}{match_note}")
+                        print(f"  ○ {user_label}{match_note}")
 
             print_group("origin", origin_group)
             print_group("named", named_group)
@@ -667,8 +667,19 @@ def scan_command(args):
 
         # Persist the custom state mapping
         os.makedirs(".gaia", exist_ok=True)
-        with open(".gaia/custom_state.json", "w", encoding="utf-8") as f:
-            json.dump({"customSkills": custom_state_skills}, f, indent=2)
+        custom_state_path = ".gaia/custom_state.json"
+        full_custom_state = {"customSkills": custom_state_skills}
+        if os.path.exists(custom_state_path):
+            try:
+                with open(custom_state_path, "r", encoding="utf-8") as f:
+                    old_state = json.load(f)
+                    # Merge customFusions if they exist
+                    if "customFusions" in old_state:
+                        full_custom_state["customFusions"] = old_state["customFusions"]
+            except: pass
+            
+        with open(custom_state_path, "w", encoding="utf-8") as f:
+            json.dump(full_custom_state, f, indent=2)
 
     # Refresh context to include newly mapped custom skills for fusions/paths
     ctx = LocalContext.load(args.registry, username or "", include_scan=True, global_search=global_search)
@@ -679,6 +690,10 @@ def scan_command(args):
             graph_data = json.load(f)
         skill_map = {s['id']: s for s in graph_data.get('skills', [])}
         unlocked = [s.get('skillId') for s in tree.get('unlockedSkills', [])]
+        
+        # Calculate novel IDs (those that didn't resolve to canon)
+        novel_ids = [sk['id'] for sk in custom_state_skills if sk['mapped_score'] == 0.0]
+        
         combos = get_combinations(graph_data, unlocked, resolved)
         if combos:
             # Persist fusion candidates so `gaia fuse` can find them
@@ -698,7 +713,7 @@ def scan_command(args):
         # Path engine integration
         old_paths = load_paths()
         owned_ids = [s.get('skillId') for s in tree.get('unlockedSkills', [])]
-        new_paths = compute_paths(graph_data, owned_ids, resolved)
+        new_paths = compute_paths(graph_data, owned_ids, resolved, novel_ids=novel_ids)
         new_paths["userId"] = username
         changes = diff_paths(old_paths, new_paths)
         save_paths(new_paths)
@@ -1339,8 +1354,9 @@ def fuse_command(args):
             dim = _fg(*RANK_COLORS["0★"])
             r = _reset()
             choice = questionary.select(
-                f"Gaia Fuse Menu:  {dim}(Ctrl+C to cancel, Esc or Left to go back){r}",
-                choices=choices
+                "Gaia Fuse Menu:  (Ctrl+C to cancel, Esc or Left to go back)",
+                choices=choices,
+                key_bindings=_get_back_kb(),
             ).ask()
             if not choice: return
             
