@@ -1164,15 +1164,27 @@ def write_graph_artifact(
     render_graph = build_render_graph(graph, named_buckets=named_buckets)
     fmt = fmt.lower()
     if output is None:
-        if fmt == "html":
-            output = root / "registry" / "render" / "gaia.html"
-        elif fmt == "svg":
-            output = root / "registry" / "gaia.svg"
+        if custom:
+            local_dir = Path(".gaia")
+            if fmt == "html":
+                output = local_dir / "render" / "gaia.html"
+            elif fmt == "svg":
+                output = local_dir / "gaia.svg"
+            else:
+                output = local_dir / "render" / "latest.json"
         else:
-            output = root / "registry" / "render" / "latest.json"
+            if fmt == "html":
+                output = root / "registry" / "render" / "gaia.html"
+            elif fmt == "svg":
+                output = root / "registry" / "gaia.svg"
+            else:
+                output = root / "registry" / "render" / "latest.json"
     out_path = Path(output)
     if not out_path.is_absolute():
-        out_path = root / out_path
+        if custom:
+            out_path = Path.cwd() / out_path
+        else:
+            out_path = root / out_path
     out_path.parent.mkdir(parents=True, exist_ok=True)
 
     if fmt == "html":
@@ -1238,9 +1250,12 @@ def graph_command(args: Any) -> None:
     print(f"  saved {out_path}")
 
     # Regenerate the GEXF from current node data
-    if fmt == "html" and not custom:
+    if fmt == "html":
         try:
-            write_gexf(registry_path)
+            if custom:
+                write_gexf(registry_path, output=Path.cwd() / ".gaia" / "gaia.gexf")
+            else:
+                write_gexf(registry_path)
         except Exception:
             pass  # GEXF regen is best-effort
 
