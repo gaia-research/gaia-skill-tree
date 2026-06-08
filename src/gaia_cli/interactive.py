@@ -67,7 +67,7 @@ def select_skill(skills: list[dict], prompt: str = "Select a skill:") -> Optiona
         return None
 
     result = questionary.select(
-        prompt,
+        full_prompt,
         choices=choices,
         use_shortcuts=False,
         use_arrow_keys=True,
@@ -102,7 +102,7 @@ def select_fusion_candidate(candidates: list[dict], prompt: str = "Select fusion
         return None
 
     result = questionary.select(
-        prompt,
+        full_prompt,
         choices=choices,
         use_shortcuts=False,
         use_arrow_keys=True,
@@ -149,7 +149,7 @@ def select_multiple_skills(skills: list[dict], prompt: str = "Select skills to c
         return []
 
     result = questionary.checkbox(
-        prompt,
+        full_prompt,
         choices=choices,
     ).ask()
     return result or []
@@ -180,7 +180,7 @@ def select_promotion_candidate(candidates: list[dict], prompt: str = "Select ski
         return None
 
     result = questionary.select(
-        prompt,
+        full_prompt,
         choices=choices,
         use_shortcuts=False,
         use_arrow_keys=True,
@@ -213,7 +213,7 @@ def select_fusion_to_edit(fusions: dict[str, list[str]], prompt: str = "Select a
         return None
 
     result = questionary.select(
-        prompt,
+        full_prompt,
         choices=choices,
         use_shortcuts=False,
         use_arrow_keys=True,
@@ -268,7 +268,7 @@ def select_push_batch(batch: dict, prompt: str = "Select items to push to regist
         return []
 
     result = questionary.checkbox(
-        prompt,
+        full_prompt,
         choices=choices,
     ).ask()
     return result or []
