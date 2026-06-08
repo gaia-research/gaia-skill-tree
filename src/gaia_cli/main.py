@@ -1304,96 +1304,106 @@ def fuse_command(args):
             return
 
         import questionary
-        tree = load_tree(username, registry_path=registry_path)
-        pending_combos = tree.get('pendingCombinations', []) if tree else []
-        
-        choices = []
-        if pending_combos:
-            choices.append(questionary.Choice("Confirm detected combination (from scan)", value="pending"))
-        
-        # Check for promotions
-        promo_payload = {}
-        try:
-            promo_payload = load_promotion_candidates(registry_path)
-            if promo_payload.get('candidates'):
-                choices.append(questionary.Choice("Promote a skill (level-up)", value="promote"))
-        except: pass
-        
-        choices.extend([
-            questionary.Choice(f"{_fg(*COLOR_APEX_GOLD)}Create new custom fusion path{_reset()}", value="new"),
-            questionary.Choice(f"{_fg(*COLOR_FUSE_PURPLE)}Edit existing custom fusions{_reset()}", value="edit"),
-            questionary.Choice(f"{_fg(*COLOR_CONTRIBUTOR)}Delete custom fusion{_reset()}", value="delete"),
-        ])
-        
-        choice = questionary.select("Gaia Fuse Menu:", choices=choices).ask()
-        if not choice: return
-        
-        if choice == "delete":
-            args.delete = True
-            return fuse_command(args)
+        while True:
+            tree = load_tree(username, registry_path=registry_path)
+            pending_combos = tree.get('pendingCombinations', []) if tree else []
             
-        if choice == "pending":
-            picked = select_fusion_candidate(pending_combos, "Select fusion candidate:")
-            if picked: target = picked
-            else: return
+            choices = []
+            if pending_combos:
+                choices.append(questionary.Choice("Confirm detected combination (from scan)", value="pending"))
             
-        elif choice == "promote":
-            candidates = promo_payload.get('candidates', [])
-            picked = select_promotion_candidate(candidates)
-            if picked: target = picked
-            else: return
+            # Check for promotions
+            promo_payload = {}
+            try:
+                promo_payload = load_promotion_candidates(registry_path)
+                if promo_payload.get('candidates'):
+                    choices.append(questionary.Choice("Promote a skill (level-up)", value="promote"))
+            except: pass
             
-        elif choice == "edit":
-            fusions = custom_state.get("customFusions", {})
-            if not fusions:
-                print("No custom fusions found.")
+            choices.extend([
+                questionary.Choice(f"{_fg(*COLOR_APEX_GOLD)}Create new custom fusion path{_reset()}", value="new"),
+                questionary.Choice(f"{_fg(*COLOR_FUSE_PURPLE)}Edit existing custom fusions{_reset()}", value="edit"),
+                questionary.Choice(f"{_fg(*COLOR_CONTRIBUTOR)}Delete custom fusion{_reset()}", value="delete"),
+            ])
+            
+            dim = _fg(*RANK_COLORS["0★"])
+            r = _reset()
+            choice = questionary.select(
+                f"Gaia Fuse Menu:  {dim}(Ctrl+C to cancel, Esc or Left to go back){r}",
+                choices=choices
+            ).ask()
+            if not choice: return
+            
+            if choice == "delete":
+                args.delete = True
+                fuse_command(args)
+                return # Delete command handles its own state
+                
+            if choice == "pending":
+                picked = select_fusion_candidate(pending_combos, "Select fusion candidate:")
+                if picked: 
+                    target = picked
+                    break # Exit loop to perform fusion
+                continue # Back to menu
+                
+            elif choice == "promote":
+                candidates = promo_payload.get('candidates', [])
+                picked = select_promotion_candidate(candidates)
+                if picked: 
+                    target = picked
+                    break # Exit loop to perform fusion
+                continue # Back to menu
+                
+            elif choice == "edit":
+                fusions = custom_state.get("customFusions", {})
+                if not fusions:
+                    print(f"{_fg(*fuse_color)}No custom fusions found.{_reset()}")
+                    continue
+                target = select_fusion_to_edit(fusions, "Select custom fusion to edit:")
+                if not target: continue
+                # Fall through to 'new' logic but with pre-filled or specific edit behavior
+                choice = "new"
+                
+            if choice == "new":
+                # Select skills to combine
+                # Load all available skills (unlocked + detected)
+                ctx = LocalContext.load(registry_path, username or "", include_scan=True)
+                all_ids = sorted(list(ctx.owned_ids | ctx.detected_ids))
+                
+                # Try to get labels for better UX
+                graph_data = {}
+                graph_p = registry_graph_path(registry_path)
+                if os.path.exists(graph_p):
+                    with open(graph_p, 'r') as f: graph_data = json.load(f)
+                skill_info_map = {s['id']: s for s in graph_data.get('skills', [])}
+                
+                selector_choices = []
+                for sid in all_ids:
+                    sinfo = skill_info_map.get(sid, {})
+                    selector_choices.append({
+                        "id": sid,
+                        "type": sinfo.get("type", "basic"),
+                        "level": sinfo.get("level", "0★"),
+                        "description": sinfo.get("description", ""),
+                        "local": sid in ctx.novel_ids
+                    })
+                
+                selected = select_multiple_skills(selector_choices, f"Select skills to combine into /{target if target else '???'}:")
+                if not selected: continue # Back to menu
+                
+                if not target:
+                    target = questionary.text(f"Enter target skill ID (e.g. data-viz-expert):  {dim}(Ctrl+C to cancel){r}").ask()
+                if not target: continue # Back to menu
+                
+                custom_state.setdefault("customFusions", {})[target] = selected
+                os.makedirs(".gaia", exist_ok=True)
+                with open(custom_state_path, "w", encoding="utf-8") as f:
+                    json.dump(custom_state, f, indent=2)
+                
+                print(f"\n✓ {_fg(*fuse_color)}Saved custom fusion: {' + '.join('/' + s for s in selected)} → /{target}{_reset()}")
+                print(f"\n{_fg(*fuse_color)}Note: Custom fusions are saved locally in .gaia/custom_state.json.{_reset()}")
+                print(f"{_fg(*fuse_color)}If pushed to the registry and accepted into canon, this fusion becomes permanent for all users!{_reset()}")
                 return
-            target = select_fusion_to_edit(fusions, "Select custom fusion to edit:")
-            if not target: return
-            # Fall through to 'new' logic but with pre-filled or specific edit behavior
-            choice = "new"
-            
-        if choice == "new":
-            # Select skills to combine
-            # Load all available skills (unlocked + detected)
-            ctx = LocalContext.load(registry_path, username or "", include_scan=True)
-            all_ids = sorted(list(ctx.owned_ids | ctx.detected_ids))
-            skill_map = {} # We'll just use IDs for the selector title if we don't have full maps
-            
-            # Try to get labels for better UX
-            graph_data = {}
-            graph_p = registry_graph_path(registry_path)
-            if os.path.exists(graph_p):
-                with open(graph_p, 'r') as f: graph_data = json.load(f)
-            skill_info_map = {s['id']: s for s in graph_data.get('skills', [])}
-            
-            selector_choices = []
-            for sid in all_ids:
-                sinfo = skill_info_map.get(sid, {})
-                selector_choices.append({
-                    "id": sid,
-                    "type": sinfo.get("type", "basic"),
-                    "level": sinfo.get("level", "0★"),
-                    "description": sinfo.get("description", ""),
-                    "local": sid in ctx.novel_ids
-                })
-            
-            selected = select_multiple_skills(selector_choices, f"Select skills to combine into /{target if target else '???'}:")
-            if not selected: return
-            
-            if not target:
-                target = questionary.text("Enter target skill ID (e.g. data-viz-expert):").ask()
-            if not target: return
-            
-            custom_state.setdefault("customFusions", {})[target] = selected
-            os.makedirs(".gaia", exist_ok=True)
-            with open(custom_state_path, "w", encoding="utf-8") as f:
-                json.dump(custom_state, f, indent=2)
-            
-            print(f"\n✓ {_fg(*fuse_color)}Saved custom fusion: {' + '.join('/' + s for s in selected)} → /{target}{_reset()}")
-            print(f"\n{_fg(*fuse_color)}Note: Custom fusions are saved locally in .gaia/custom_state.json.{_reset()}")
-            print(f"{_fg(*fuse_color)}If pushed to the registry and accepted into canon, this fusion becomes permanent for all users!{_reset()}")
-            return
 
     # If we have a target but didn't go through 'new' flow, it might be a pending combo or promotion
     if not target:

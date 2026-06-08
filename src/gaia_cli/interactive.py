@@ -87,6 +87,11 @@ def select_fusion_candidate(candidates: list[dict], prompt: str = "Select fusion
     if not _has_interactive():
         return None
     import questionary
+    from gaia_cli.formatting import _fg, _reset, RANK_COLORS
+
+    dim = _fg(*RANK_COLORS["0★"])
+    r = _reset()
+    full_prompt = f"{prompt}  {dim}(Ctrl+C to cancel, Esc or Left to go back){r}"
 
     choices = []
     for c in candidates:
@@ -140,9 +145,9 @@ def select_multiple_skills(skills: list[dict], prompt: str = "Select skills to c
         
         # Follow gaia scan rules: local is grey
         id_color = _fg(*RANK_COLORS["0★"]) if is_local else ""
-        r = _reset() if is_local else ""
+        r_col = _reset() if is_local else ""
         
-        title = f"{glyph} {id_color}/{sid}{r}  [{level}]  {desc}"
+        title = f"{glyph} {id_color}/{sid}{r_col}  [{level}]  {desc}"
         choices.append(questionary.Choice(title=title, value=sid))
 
     if not choices:
@@ -167,6 +172,11 @@ def select_promotion_candidate(candidates: list[dict], prompt: str = "Select ski
     if not _has_interactive():
         return None
     import questionary
+    from gaia_cli.formatting import _fg, _reset, RANK_COLORS
+
+    dim = _fg(*RANK_COLORS["0★"])
+    r = _reset()
+    full_prompt = f"{prompt}  {dim}(Ctrl+C to cancel, Esc or Left to go back){r}"
 
     choices = []
     for c in candidates:
@@ -200,6 +210,11 @@ def select_fusion_to_edit(fusions: dict[str, list[str]], prompt: str = "Select a
     if not _has_interactive():
         return None
     import questionary
+    from gaia_cli.formatting import _fg, _reset, RANK_COLORS
+
+    dim = _fg(*RANK_COLORS["0★"])
+    r = _reset()
+    full_prompt = f"{prompt}  {dim}(Ctrl+C to cancel, Esc or Left to go back){r}"
 
     choices = []
     for target, sources in fusions.items():
@@ -235,8 +250,14 @@ def select_push_batch(batch: dict, prompt: str = "Select items to push to regist
     if not _has_interactive():
         return []
     import questionary
+    from gaia_cli.formatting import _fg, _reset, RANK_COLORS
+
+    dim = _fg(*RANK_COLORS["0★"])
+    r = _reset()
+    full_prompt = f"{prompt}  {dim}(Ctrl+C to cancel, Esc or Left to go back){r}"
 
     choices = []
+    # ... choices logic ...
     
     # 1. Fusions
     fusions = batch.get("proposedCombinations", [])
