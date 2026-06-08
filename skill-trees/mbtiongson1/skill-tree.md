@@ -345,7 +345,17 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
 
 ## Pending Combinations
 
-_No pending combinations._
+> **grill-with-docs** — combine `grill-me`, `ubiquitous-language`, `document-editing`
+> Level floor: 1★
+> Run `gaia fuse grill-with-docs` to confirm.
+
+> **research** — combine `web-search`, `summarize`, `cite-sources`
+> Level floor: 1★
+> Run `gaia fuse research` to confirm.
+
+> **web-scrape** — combine `web-search`, `parse-html`, `extract-entities`
+> Level floor: 1★
+> Run `gaia fuse web-scrape` to confirm.
 
 ---
 *Generated from skill-tree.json. Do not edit directly.*

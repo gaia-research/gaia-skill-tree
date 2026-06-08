@@ -14,6 +14,7 @@
     <nodes>
       <node id="adaptive-pattern-learning" label="Adaptive Pattern Learning">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -21,6 +22,7 @@
       </node>
       <node id="advanced-swarm-coordination" label="Advanced Swarm Coordination">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -28,6 +30,7 @@
       </node>
       <node id="adversarial-robustness-testing" label="Adversarial Robustness Testing">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -35,6 +38,7 @@
       </node>
       <node id="agent-environment-setup" label="agent-environment-setup">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -42,6 +46,7 @@
       </node>
       <node id="agent-eval" label="Agent Evaluation">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -49,6 +54,7 @@
       </node>
       <node id="agent-handoff" label="agent-handoff">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -56,6 +62,7 @@
       </node>
       <node id="agent-memory-learning" label="Agent Memory Learning">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -63,6 +70,7 @@
       </node>
       <node id="agent-memory-platform" label="Agent Memory Platform">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="legendary" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="ultimate" />
@@ -70,6 +78,7 @@
       </node>
       <node id="agentic-workflow-design" label="Agentic Workflow Design">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -77,6 +86,7 @@
       </node>
       <node id="api-call" label="API Call">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -84,6 +94,7 @@
       </node>
       <node id="architecture-diagram" label="Architecture Diagram">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -91,6 +102,7 @@
       </node>
       <node id="audience-model" label="Audience Model">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -98,6 +110,7 @@
       </node>
       <node id="automated-testing" label="Automated Testing">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -105,6 +118,7 @@
       </node>
       <node id="autonomous-data-scientist" label="Autonomous Data Scientist">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="epic" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -112,6 +126,7 @@
       </node>
       <node id="autonomous-debug" label="Autonomous Debug">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -119,6 +134,7 @@
       </node>
       <node id="autonomous-engineering-platform" label="Autonomous Engineering Platform">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -126,6 +142,7 @@
       </node>
       <node id="autonomous-web-research" label="Autonomous Web Research">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -133,6 +150,7 @@
       </node>
       <node id="bioinformatic-sequence-analysis" label="Bioinformatic Sequence Analysis">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -140,6 +158,7 @@
       </node>
       <node id="brainstorming" label="Brainstorming">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -147,6 +166,7 @@
       </node>
       <node id="browser-automation" label="Browser Automation">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -154,6 +174,7 @@
       </node>
       <node id="browser-control" label="Browser Control">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -161,6 +182,7 @@
       </node>
       <node id="career-operations" label="Career Operations">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="legendary" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -168,6 +190,7 @@
       </node>
       <node id="causal-inference" label="Causal Inference">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -175,6 +198,7 @@
       </node>
       <node id="chain-of-thought" label="Chain-of-Thought Reasoning">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -182,6 +206,7 @@
       </node>
       <node id="chunk-document" label="Chunk Document">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -189,6 +214,7 @@
       </node>
       <node id="cite-sources" label="Cite Sources">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -196,6 +222,7 @@
       </node>
       <node id="classify" label="Classify">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -203,6 +230,7 @@
       </node>
       <node id="cli-modernization" label="CLI Modernization">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -210,6 +238,7 @@
       </node>
       <node id="clinical-data-retrieval" label="Clinical Data Retrieval">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -217,6 +246,7 @@
       </node>
       <node id="cloud-platform-management" label="Cloud Platform Management">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -224,6 +254,7 @@
       </node>
       <node id="code-execution" label="Code Execution">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -231,6 +262,7 @@
       </node>
       <node id="code-explain" label="Code Explain">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -238,6 +270,7 @@
       </node>
       <node id="code-generation" label="Code Generation">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -245,6 +278,7 @@
       </node>
       <node id="code-review-pipeline" label="Code Review Pipeline">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -252,6 +286,7 @@
       </node>
       <node id="collaborative-diagramming" label="Collaborative Diagramming">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -259,6 +294,7 @@
       </node>
       <node id="computational-biology-workflows" label="Computational Biology Workflows">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -266,6 +302,7 @@
       </node>
       <node id="computer-use" label="Computer Use">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -273,6 +310,7 @@
       </node>
       <node id="content-moderation" label="Content Moderation">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -280,6 +318,7 @@
       </node>
       <node id="context-compression" label="Context Compression">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -287,6 +326,7 @@
       </node>
       <node id="conversational-agent" label="Conversational Agent">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -294,6 +334,7 @@
       </node>
       <node id="core-platform-implementation" label="Core Platform Implementation">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -301,6 +342,7 @@
       </node>
       <node id="cultural-localization" label="Cultural Localization">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -308,6 +350,7 @@
       </node>
       <node id="data-analysis" label="Data Analysis">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -315,6 +358,7 @@
       </node>
       <node id="data-visualize" label="Data Visualize">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -322,6 +366,7 @@
       </node>
       <node id="deployment-automation" label="Deployment Automation">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -329,6 +374,7 @@
       </node>
       <node id="design-generation" label="Design Generation">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -336,6 +382,7 @@
       </node>
       <node id="design-review" label="Design Review">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -343,6 +390,7 @@
       </node>
       <node id="design-system-extraction" label="Design System Extraction">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -350,6 +398,7 @@
       </node>
       <node id="detect-anomaly" label="Detect Anomaly">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -357,6 +406,7 @@
       </node>
       <node id="diff-content" label="Diff Content">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -364,6 +414,7 @@
       </node>
       <node id="dispatching-parallel-agents" label="Dispatching Parallel Agents">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -371,6 +422,7 @@
       </node>
       <node id="distributed-consensus-coordination" label="Hive Mind Coordination">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="unique" />
@@ -378,6 +430,7 @@
       </node>
       <node id="distributed-neural-training" label="Distributed Neural Training">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -385,6 +438,7 @@
       </node>
       <node id="distributed-vector-memory" label="Distributed Vector Memory">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -392,6 +446,7 @@
       </node>
       <node id="document-analyst" label="Document Analyst">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -399,6 +454,7 @@
       </node>
       <node id="document-editing" label="Document Editing">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -406,6 +462,7 @@
       </node>
       <node id="dual-mode" label="Dual Mode">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -413,6 +470,7 @@
       </node>
       <node id="e2e-testing" label="End-to-End Testing">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -420,6 +478,7 @@
       </node>
       <node id="edge-optimization" label="Edge Optimization">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -427,6 +486,7 @@
       </node>
       <node id="embed-text" label="Embed Text">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -434,6 +494,7 @@
       </node>
       <node id="engineering-discipline" label="mattpocock-engineering">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="ultimate" />
@@ -441,6 +502,7 @@
       </node>
       <node id="error-interpretation" label="Error Interpretation">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -448,6 +510,7 @@
       </node>
       <node id="evaluate-output" label="Evaluate Output">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -455,6 +518,7 @@
       </node>
       <node id="executing-plans" label="Executing Plans">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -462,6 +526,7 @@
       </node>
       <node id="explainability-audit" label="Explainability Audit">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -469,6 +534,7 @@
       </node>
       <node id="extract-entities" label="Extract Entities">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -476,6 +542,7 @@
       </node>
       <node id="feed-monitoring" label="Feed Monitoring">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -483,6 +550,7 @@
       </node>
       <node id="few-shot-learning" label="Few-Shot Learning">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -490,6 +558,7 @@
       </node>
       <node id="financial-modeling" label="Financial Modeling">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -497,6 +566,7 @@
       </node>
       <node id="fine-tune" label="Fine-Tune">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -504,6 +574,7 @@
       </node>
       <node id="finishing-a-development-branch" label="Finishing a Development Branch">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -511,6 +582,7 @@
       </node>
       <node id="format-output" label="Format Output">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -518,6 +590,7 @@
       </node>
       <node id="founder-mode-orchestration" label="Founder Mode">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="legendary" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="ultimate" />
@@ -525,6 +598,7 @@
       </node>
       <node id="framework-upgrade" label="Framework Upgrade">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -532,6 +606,7 @@
       </node>
       <node id="full-stack-developer" label="Full-Stack Developer">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="epic" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -539,6 +614,7 @@
       </node>
       <node id="function-calling" label="Function Calling">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -546,6 +622,7 @@
       </node>
       <node id="generate-sql" label="Generate SQL">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -553,6 +630,7 @@
       </node>
       <node id="generate-test" label="Generate Test">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -560,6 +638,7 @@
       </node>
       <node id="generate-text" label="Generate Text">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -567,6 +646,7 @@
       </node>
       <node id="generative-media" label="Generative Media">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -574,6 +654,7 @@
       </node>
       <node id="genomic-data-retrieval" label="Genomic Data Retrieval">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -581,6 +662,7 @@
       </node>
       <node id="ghostwrite" label="Ghostwrite">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -588,6 +670,7 @@
       </node>
       <node id="git-diff-risk-analysis" label="Git Diff Risk Analysis">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -595,6 +678,7 @@
       </node>
       <node id="git-integration" label="GitHub Platform Mastery">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -602,6 +686,7 @@
       </node>
       <node id="graph-driven-issue-triage" label="Graph-Driven Issue Triage">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -609,6 +694,7 @@
       </node>
       <node id="grill-me" label="Grill Me">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -616,6 +702,7 @@
       </node>
       <node id="grill-with-docs" label="Grill With Docs">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -623,6 +710,7 @@
       </node>
       <node id="grounding" label="Grounding">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -630,6 +718,7 @@
       </node>
       <node id="guardrails" label="Guardrails">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -637,6 +726,7 @@
       </node>
       <node id="headless-worker-collect" label="Headless Worker Collect">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -644,6 +734,7 @@
       </node>
       <node id="headless-worker-spawn" label="Headless Worker Spawn">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -651,6 +742,7 @@
       </node>
       <node id="humanize-prose" label="Humanize Prose">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -658,6 +750,7 @@
       </node>
       <node id="hybrid-workflow-coordination" label="Hybrid Workflow Coordination">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -665,6 +758,7 @@
       </node>
       <node id="hypothesis-generate" label="Hypothesis Generation">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -672,6 +766,7 @@
       </node>
       <node id="image-caption" label="Image Caption">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -679,6 +774,7 @@
       </node>
       <node id="image-generate" label="Image Generate">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -686,6 +782,7 @@
       </node>
       <node id="issue-triage" label="Issue Triage">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -693,6 +790,7 @@
       </node>
       <node id="knowledge-graph-build" label="Knowledge Graph Construction">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -700,6 +798,7 @@
       </node>
       <node id="knowledge-harvest" label="Knowledge Harvest">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -707,6 +806,7 @@
       </node>
       <node id="knowledge-management" label="Knowledge Management">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -714,6 +814,7 @@
       </node>
       <node id="literature-review" label="Literature Review">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -721,6 +822,7 @@
       </node>
       <node id="literature-search" label="Literature Search">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -728,6 +830,7 @@
       </node>
       <node id="logical-inference" label="Logical Inference">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -735,6 +838,7 @@
       </node>
       <node id="math-reason" label="Math Reason">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -742,6 +846,7 @@
       </node>
       <node id="mathematical-animation" label="Mathematical Animation">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -749,6 +854,7 @@
       </node>
       <node id="mcp-debugger-control" label="MCP Debugger Control">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -756,6 +862,7 @@
       </node>
       <node id="mcp-integration" label="MCP Integration">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -763,6 +870,7 @@
       </node>
       <node id="mcp-server-creation" label="MCP Server Creation">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -770,6 +878,7 @@
       </node>
       <node id="memory-manage" label="Memory Manage">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -777,6 +886,7 @@
       </node>
       <node id="memory-pattern-design" label="Memory Pattern Design">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -784,6 +894,7 @@
       </node>
       <node id="ml-artifact-management" label="ML Artifact Management">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -791,6 +902,7 @@
       </node>
       <node id="ml-pipeline" label="ML Pipeline">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -798,6 +910,7 @@
       </node>
       <node id="molecular-databases" label="Molecular Databases">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -805,6 +918,7 @@
       </node>
       <node id="multi-agent-debate" label="Multi-Agent Debate">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -812,6 +926,7 @@
       </node>
       <node id="multi-agent-orchestration-v" label="Multi-Agent Orchestration">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -819,6 +934,7 @@
       </node>
       <node id="multi-node-orchestration" label="Flow Nexus Orchestration">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -826,6 +942,7 @@
       </node>
       <node id="multi-repo-coordination" label="Multi-Repo Coordination">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -833,6 +950,7 @@
       </node>
       <node id="multi-topology-orchestration" label="Ruflo">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="legendary" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="ultimate" />
@@ -840,6 +958,7 @@
       </node>
       <node id="multimodal-reasoning" label="Multimodal Reasoning">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -847,6 +966,7 @@
       </node>
       <node id="object-detection" label="Object Detection">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -854,6 +974,7 @@
       </node>
       <node id="ontology-alignment" label="Ontology Alignment">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -861,6 +982,7 @@
       </node>
       <node id="optical-character-recognition" label="OCR">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -868,6 +990,7 @@
       </node>
       <node id="parallel-execution" label="Parallel Execution">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -875,6 +998,7 @@
       </node>
       <node id="parse-html" label="Parse HTML">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -882,6 +1006,7 @@
       </node>
       <node id="parse-json" label="Parse JSON">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -889,6 +1014,7 @@
       </node>
       <node id="parse-pdf" label="Parse PDF">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -896,6 +1022,7 @@
       </node>
       <node id="pathway-ontology-retrieval" label="Pathway Ontology Retrieval">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -903,6 +1030,7 @@
       </node>
       <node id="performance-tuning" label="Performance Tuning">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -910,6 +1038,7 @@
       </node>
       <node id="personal" label="mattpocock-personal">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -917,6 +1046,7 @@
       </node>
       <node id="personal-knowledge-management" label="personal-knowledge-management">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -924,6 +1054,7 @@
       </node>
       <node id="plan-and-execute" label="Plan and Execute">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -931,6 +1062,7 @@
       </node>
       <node id="plan-decompose" label="Plan and Decompose">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -938,6 +1070,7 @@
       </node>
       <node id="platform-modernization-sprint" label="Platform Modernization Sprint">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -945,6 +1078,7 @@
       </node>
       <node id="prd-generation" label="PRD Generation">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -952,6 +1086,7 @@
       </node>
       <node id="prediction-market-analysis" label="Prediction Market Analysis">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -959,6 +1094,7 @@
       </node>
       <node id="probabilistic-programming" label="Probabilistic Programming">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -966,6 +1102,7 @@
       </node>
       <node id="productivity" label="mattpocock-productivity">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -973,6 +1110,7 @@
       </node>
       <node id="project-management" label="Project Management">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -980,6 +1118,7 @@
       </node>
       <node id="prompt-injection-defense" label="Prompt Injection Defense">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -987,6 +1126,7 @@
       </node>
       <node id="prompt-optimization" label="Prompt Optimization">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -994,6 +1134,7 @@
       </node>
       <node id="protein-structure-analysis" label="Protein Structure Analysis">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1001,6 +1142,7 @@
       </node>
       <node id="proteomic-data-retrieval" label="Proteomic Data Retrieval">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1008,6 +1150,7 @@
       </node>
       <node id="prototype" label="prototype">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1015,6 +1158,7 @@
       </node>
       <node id="question-answer" label="Question Answer">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1022,6 +1166,7 @@
       </node>
       <node id="rag-pipeline" label="RAG Pipeline">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1029,6 +1174,7 @@
       </node>
       <node id="rank" label="Rank">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1036,6 +1182,7 @@
       </node>
       <node id="re-act-reasoning" label="ReAct Reasoning">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1043,6 +1190,7 @@
       </node>
       <node id="real-time-voice-assistant" label="Real-Time Voice Assistant">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="epic" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1050,6 +1198,7 @@
       </node>
       <node id="reasoning-pattern-bank" label="Reasoning Pattern Bank">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1057,6 +1206,7 @@
       </node>
       <node id="receiving-code-review" label="Receiving Code Review">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1064,6 +1214,7 @@
       </node>
       <node id="recursive-self-improvement" label="Recursive Self-Improvement">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="epic" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1071,6 +1222,7 @@
       </node>
       <node id="refactor-code" label="Refactor Code">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1078,6 +1230,7 @@
       </node>
       <node id="registry-curation" label="Registry Curation">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1085,6 +1238,7 @@
       </node>
       <node id="registry-entry-audit" label="Gaia Audit">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1092,6 +1246,7 @@
       </node>
       <node id="registry-health-scan" label="Gaia Meta Audit">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1099,6 +1254,7 @@
       </node>
       <node id="regulatory-compliance-mapping" label="Regulatory Compliance Mapping">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1106,6 +1262,7 @@
       </node>
       <node id="release-automation" label="Release Automation">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1113,6 +1270,7 @@
       </node>
       <node id="requesting-code-review" label="Requesting Code Review">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1120,6 +1278,7 @@
       </node>
       <node id="requirements-analysis" label="Requirements Analysis">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1127,6 +1286,7 @@
       </node>
       <node id="research" label="Research">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1134,6 +1294,7 @@
       </node>
       <node id="retrieve" label="Retrieve">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1141,6 +1302,7 @@
       </node>
       <node id="reward-modeling" label="Reward Modeling">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1148,6 +1310,7 @@
       </node>
       <node id="route-intent" label="Route Intent">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1155,6 +1318,7 @@
       </node>
       <node id="schema-design" label="Schema Design">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1162,6 +1326,7 @@
       </node>
       <node id="scientific-discovery" label="Autonomous Scientific Discovery">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="epic" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1169,6 +1334,7 @@
       </node>
       <node id="scientific-visualization" label="Scientific Visualization">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1176,6 +1342,7 @@
       </node>
       <node id="scientific-writing" label="Scientific Writing">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1183,6 +1350,7 @@
       </node>
       <node id="score-relevance" label="Score Relevance">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1190,6 +1358,7 @@
       </node>
       <node id="search-engine-optimization" label="search-engine-optimization">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1197,6 +1366,7 @@
       </node>
       <node id="security-audit" label="Security Audit">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1204,6 +1374,7 @@
       </node>
       <node id="self-consistency" label="Self-Consistency">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1211,6 +1382,7 @@
       </node>
       <node id="self-critique" label="Self-Critique">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1218,6 +1390,7 @@
       </node>
       <node id="semantic-cache" label="Semantic Cache">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1225,6 +1398,7 @@
       </node>
       <node id="sentiment-analysis" label="Sentiment Analysis">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1232,6 +1406,7 @@
       </node>
       <node id="sequential-agent-pipeline" label="Sequential Agent Pipeline">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1239,6 +1414,7 @@
       </node>
       <node id="skill-authoring" label="Skill Authoring">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1246,6 +1422,7 @@
       </node>
       <node id="skill-discovery" label="Skill Discovery">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1253,6 +1430,7 @@
       </node>
       <node id="skill-mastery" label="mattpocock-skills">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="ultimate" />
@@ -1260,6 +1438,7 @@
       </node>
       <node id="skill-performance-benchmarking" label="Skill Performance Benchmarking">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1267,6 +1446,7 @@
       </node>
       <node id="skill-security-analysis" label="Skill Security Analysis">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1274,6 +1454,7 @@
       </node>
       <node id="speech-to-text" label="Speech to Text">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1281,6 +1462,7 @@
       </node>
       <node id="statistical-analysis" label="Statistical Analysis">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1288,6 +1470,7 @@
       </node>
       <node id="stealth-browser-interaction" label="Stealth Browser Interaction">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1295,6 +1478,7 @@
       </node>
       <node id="structured-output" label="Structured Output Generation">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1302,6 +1486,7 @@
       </node>
       <node id="subagent-driven-development" label="Subagent-Driven Development">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1309,6 +1494,7 @@
       </node>
       <node id="summarize" label="Summarize">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1316,6 +1502,7 @@
       </node>
       <node id="superpowers" label="Superpowers">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="legendary" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="ultimate" />
@@ -1323,6 +1510,7 @@
       </node>
       <node id="supply-chain-optimization" label="Supply Chain Optimization">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1330,6 +1518,7 @@
       </node>
       <node id="swarm-topology-management" label="Swarm Topology Management">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1337,6 +1526,7 @@
       </node>
       <node id="synthetic-data-generation" label="Synthetic Data Generation">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1344,6 +1534,7 @@
       </node>
       <node id="system-integration" label="System Integration">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1351,6 +1542,7 @@
       </node>
       <node id="systematic-debugging" label="Systematic Debugging">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1358,6 +1550,7 @@
       </node>
       <node id="test-driven-development" label="Test-Driven Development">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1365,6 +1558,7 @@
       </node>
       <node id="text-to-speech" label="Text to Speech">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1372,6 +1566,7 @@
       </node>
       <node id="text-to-sql-pipeline" label="Text-to-SQL Pipeline">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1379,6 +1574,7 @@
       </node>
       <node id="threat-intelligence-synthesis" label="Threat Intelligence Synthesis">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1386,6 +1582,7 @@
       </node>
       <node id="time-series-forecasting" label="Time Series Forecasting">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1393,6 +1590,7 @@
       </node>
       <node id="token-observability" label="Token Observability">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1400,6 +1598,7 @@
       </node>
       <node id="tokenize" label="Tokenize">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1407,6 +1606,7 @@
       </node>
       <node id="tool-chaining" label="Tool Chaining">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1414,6 +1614,7 @@
       </node>
       <node id="tool-creation" label="Tool Creation">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1421,6 +1622,7 @@
       </node>
       <node id="tool-select" label="Tool Select">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1428,6 +1630,7 @@
       </node>
       <node id="tool-use" label="Tool Use">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1435,6 +1638,7 @@
       </node>
       <node id="translate" label="Translate">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1442,6 +1646,7 @@
       </node>
       <node id="translation-pipeline" label="Translation Pipeline">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1449,6 +1654,7 @@
       </node>
       <node id="tree-of-thought" label="Tree of Thought">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1456,6 +1662,7 @@
       </node>
       <node id="ubiquitous-language" label="Ubiquitous Language">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1463,6 +1670,7 @@
       </node>
       <node id="using-git-worktrees" label="Using Git Worktrees">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1470,6 +1678,7 @@
       </node>
       <node id="ux-audit" label="UX Audit">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1477,6 +1686,7 @@
       </node>
       <node id="vector-db-optimization" label="Vector DB Optimization">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1484,6 +1694,7 @@
       </node>
       <node id="vector-search" label="Vector Search">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1491,6 +1702,7 @@
       </node>
       <node id="verification-before-completion" label="Verification Before Completion">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1498,6 +1710,7 @@
       </node>
       <node id="vertical-slice-planning" label="Vertical Slice Planning">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1505,6 +1718,7 @@
       </node>
       <node id="video-intelligence" label="Video Intelligence">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1512,6 +1726,7 @@
       </node>
       <node id="vision-qa" label="Visual Question Answering">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1519,6 +1734,7 @@
       </node>
       <node id="voice-agent" label="Voice Agent">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1526,6 +1742,7 @@
       </node>
       <node id="web-accessibility" label="web-accessibility">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1533,6 +1750,7 @@
       </node>
       <node id="web-best-practices" label="web-best-practices">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1540,6 +1758,7 @@
       </node>
       <node id="web-quality-audit" label="web-quality-audit">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1547,6 +1766,7 @@
       </node>
       <node id="web-scrape" label="Web Scrape">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1554,6 +1774,7 @@
       </node>
       <node id="web-search" label="Web Search">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1561,6 +1782,7 @@
       </node>
       <node id="wiki-search" label="Wiki Search">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1568,6 +1790,7 @@
       </node>
       <node id="worker-agent-dispatch" label="Worker Agent Dispatch">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1575,6 +1798,7 @@
       </node>
       <node id="workflow-automation" label="Workflow Automation">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1582,6 +1806,7 @@
       </node>
       <node id="workspace-automation" label="Workspace Automation">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1589,6 +1814,7 @@
       </node>
       <node id="write-report" label="Write Report">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
@@ -1596,6 +1822,7 @@
       </node>
       <node id="writing-plans" label="Writing Plans">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1603,6 +1830,7 @@
       </node>
       <node id="x-twitter-automation" label="X/Twitter Automation">
         <attvalues>
+          <attvalue for="level" value="" />
           <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
@@ -1610,398 +1838,398 @@
       </node>
     </nodes>
     <edges>
-      <edge id="0" source="distributed-vector-memory" target="agent-memory-platform" />
-      <edge id="1" source="agent-memory-learning" target="agent-memory-platform" />
-      <edge id="2" source="memory-pattern-design" target="agent-memory-platform" />
-      <edge id="3" source="vector-db-optimization" target="agent-memory-platform" />
-      <edge id="4" source="vector-search" target="agent-memory-platform" />
-      <edge id="5" source="autonomous-debug" target="engineering-discipline" />
-      <edge id="6" source="refactor-code" target="engineering-discipline" />
-      <edge id="7" source="vertical-slice-planning" target="engineering-discipline" />
-      <edge id="8" source="prd-generation" target="engineering-discipline" />
-      <edge id="9" source="issue-triage" target="engineering-discipline" />
-      <edge id="10" source="ubiquitous-language" target="engineering-discipline" />
-      <edge id="11" source="code-explain" target="engineering-discipline" />
-      <edge id="12" source="grill-with-docs" target="engineering-discipline" />
-      <edge id="13" source="prototype" target="engineering-discipline" />
-      <edge id="14" source="agent-environment-setup" target="engineering-discipline" />
-      <edge id="15" source="question-answer" target="founder-mode-orchestration" />
-      <edge id="16" source="evaluate-output" target="founder-mode-orchestration" />
-      <edge id="17" source="code-review-pipeline" target="founder-mode-orchestration" />
-      <edge id="18" source="ux-audit" target="founder-mode-orchestration" />
-      <edge id="19" source="vertical-slice-planning" target="founder-mode-orchestration" />
-      <edge id="20" source="design-system-extraction" target="founder-mode-orchestration" />
-      <edge id="21" source="design-review" target="founder-mode-orchestration" />
-      <edge id="22" source="code-generation" target="founder-mode-orchestration" />
-      <edge id="23" source="systematic-debugging" target="founder-mode-orchestration" />
-      <edge id="24" source="e2e-testing" target="founder-mode-orchestration" />
-      <edge id="25" source="finishing-a-development-branch" target="founder-mode-orchestration" />
-      <edge id="26" source="deployment-automation" target="founder-mode-orchestration" />
-      <edge id="27" source="detect-anomaly" target="founder-mode-orchestration" />
-      <edge id="28" source="document-editing" target="founder-mode-orchestration" />
-      <edge id="29" source="browser-automation" target="founder-mode-orchestration" />
-      <edge id="30" source="security-audit" target="founder-mode-orchestration" />
-      <edge id="31" source="browser-control" target="founder-mode-orchestration" />
-      <edge id="32" source="web-scrape" target="founder-mode-orchestration" />
-      <edge id="33" source="skill-authoring" target="founder-mode-orchestration" />
-      <edge id="34" source="write-report" target="founder-mode-orchestration" />
-      <edge id="35" source="multi-agent-debate" target="founder-mode-orchestration" />
-      <edge id="36" source="skill-performance-benchmarking" target="founder-mode-orchestration" />
-      <edge id="37" source="automated-testing" target="founder-mode-orchestration" />
-      <edge id="38" source="mcp-integration" target="founder-mode-orchestration" />
-      <edge id="39" source="memory-manage" target="founder-mode-orchestration" />
-      <edge id="40" source="guardrails" target="founder-mode-orchestration" />
-      <edge id="41" source="knowledge-management" target="founder-mode-orchestration" />
-      <edge id="42" source="format-output" target="founder-mode-orchestration" />
-      <edge id="43" source="workspace-automation" target="founder-mode-orchestration" />
-      <edge id="44" source="project-management" target="founder-mode-orchestration" />
-      <edge id="45" source="prompt-optimization" target="founder-mode-orchestration" />
-      <edge id="46" source="multi-node-orchestration" target="multi-topology-orchestration" />
-      <edge id="47" source="agent-memory-platform" target="multi-topology-orchestration" />
-      <edge id="48" source="git-integration" target="multi-topology-orchestration" />
-      <edge id="49" source="reasoning-pattern-bank" target="multi-topology-orchestration" />
-      <edge id="50" source="platform-modernization-sprint" target="multi-topology-orchestration" />
-      <edge id="51" source="dual-mode" target="multi-topology-orchestration" />
-      <edge id="52" source="engineering-discipline" target="skill-mastery" />
-      <edge id="53" source="productivity" target="skill-mastery" />
-      <edge id="54" source="personal" target="skill-mastery" />
-      <edge id="55" source="tool-creation" target="skill-mastery" />
-      <edge id="56" source="ubiquitous-language" target="skill-mastery" />
-      <edge id="57" source="brainstorming" target="superpowers" />
-      <edge id="58" source="dispatching-parallel-agents" target="superpowers" />
-      <edge id="59" source="executing-plans" target="superpowers" />
-      <edge id="60" source="finishing-a-development-branch" target="superpowers" />
-      <edge id="61" source="receiving-code-review" target="superpowers" />
-      <edge id="62" source="requesting-code-review" target="superpowers" />
-      <edge id="63" source="subagent-driven-development" target="superpowers" />
-      <edge id="64" source="systematic-debugging" target="superpowers" />
-      <edge id="65" source="using-git-worktrees" target="superpowers" />
-      <edge id="66" source="verification-before-completion" target="superpowers" />
-      <edge id="67" source="writing-plans" target="superpowers" />
-      <edge id="68" source="swarm-topology-management" target="advanced-swarm-coordination" />
-      <edge id="69" source="multi-agent-debate" target="advanced-swarm-coordination" />
-      <edge id="70" source="agent-eval" target="adversarial-robustness-testing" />
-      <edge id="71" source="guardrails" target="adversarial-robustness-testing" />
-      <edge id="72" source="prompt-injection-defense" target="adversarial-robustness-testing" />
-      <edge id="73" source="document-editing" target="agent-environment-setup" />
-      <edge id="74" source="tool-use" target="agent-environment-setup" />
-      <edge id="75" source="evaluate-output" target="agent-eval" />
-      <edge id="76" source="score-relevance" target="agent-eval" />
-      <edge id="77" source="summarize" target="agent-handoff" />
-      <edge id="78" source="document-editing" target="agent-handoff" />
-      <edge id="79" source="context-compression" target="agent-handoff" />
-      <edge id="80" source="adaptive-pattern-learning" target="agent-memory-learning" />
-      <edge id="81" source="memory-manage" target="agent-memory-learning" />
-      <edge id="82" source="workflow-automation" target="agentic-workflow-design" />
-      <edge id="83" source="plan-decompose" target="agentic-workflow-design" />
-      <edge id="84" source="data-visualize" target="architecture-diagram" />
-      <edge id="85" source="format-output" target="architecture-diagram" />
-      <edge id="86" source="write-report" target="architecture-diagram" />
-      <edge id="87" source="generate-test" target="automated-testing" />
-      <edge id="88" source="code-execution" target="automated-testing" />
-      <edge id="89" source="error-interpretation" target="automated-testing" />
-      <edge id="90" source="data-analysis" target="autonomous-data-scientist" />
-      <edge id="91" source="math-reason" target="autonomous-data-scientist" />
-      <edge id="92" source="research" target="autonomous-data-scientist" />
-      <edge id="93" source="code-generation" target="autonomous-debug" />
-      <edge id="94" source="code-execution" target="autonomous-debug" />
-      <edge id="95" source="error-interpretation" target="autonomous-debug" />
-      <edge id="96" source="ghostwrite" target="autonomous-web-research" />
-      <edge id="97" source="knowledge-harvest" target="autonomous-web-research" />
-      <edge id="98" source="research" target="autonomous-web-research" />
-      <edge id="99" source="web-scrape" target="autonomous-web-research" />
-      <edge id="100" source="web-search" target="autonomous-web-research" />
-      <edge id="101" source="requirements-analysis" target="brainstorming" />
-      <edge id="102" source="question-answer" target="brainstorming" />
-      <edge id="103" source="web-search" target="browser-automation" />
-      <edge id="104" source="computer-use" target="browser-automation" />
-      <edge id="105" source="autonomous-web-research" target="career-operations" />
-      <edge id="106" source="summarize" target="career-operations" />
-      <edge id="107" source="document-editing" target="career-operations" />
-      <edge id="108" source="hypothesis-generate" target="causal-inference" />
-      <edge id="109" source="logical-inference" target="causal-inference" />
-      <edge id="110" source="statistical-analysis" target="causal-inference" />
-      <edge id="111" source="api-call" target="cloud-platform-management" />
-      <edge id="112" source="tool-use" target="cloud-platform-management" />
-      <edge id="113" source="code-generation" target="code-review-pipeline" />
-      <edge id="114" source="diff-content" target="code-review-pipeline" />
-      <edge id="115" source="evaluate-output" target="code-review-pipeline" />
-      <edge id="116" source="api-call" target="collaborative-diagramming" />
-      <edge id="117" source="data-visualize" target="collaborative-diagramming" />
-      <edge id="118" source="bioinformatic-sequence-analysis" target="computational-biology-workflows" />
-      <edge id="119" source="genomic-data-retrieval" target="computational-biology-workflows" />
-      <edge id="120" source="molecular-databases" target="computational-biology-workflows" />
-      <edge id="121" source="protein-structure-analysis" target="computational-biology-workflows" />
-      <edge id="122" source="proteomic-data-retrieval" target="computational-biology-workflows" />
-      <edge id="123" source="classify" target="content-moderation" />
-      <edge id="124" source="sentiment-analysis" target="content-moderation" />
-      <edge id="125" source="extract-entities" target="content-moderation" />
-      <edge id="126" source="question-answer" target="conversational-agent" />
-      <edge id="127" source="memory-manage" target="conversational-agent" />
-      <edge id="128" source="route-intent" target="conversational-agent" />
-      <edge id="129" source="generate-sql" target="data-analysis" />
-      <edge id="130" source="data-visualize" target="data-analysis" />
-      <edge id="131" source="summarize" target="data-analysis" />
-      <edge id="132" source="workflow-automation" target="deployment-automation" />
-      <edge id="133" source="code-execution" target="deployment-automation" />
-      <edge id="134" source="code-generation" target="design-generation" />
-      <edge id="135" source="vision-qa" target="design-generation" />
-      <edge id="136" source="evaluate-output" target="design-review" />
-      <edge id="137" source="plan-decompose" target="design-review" />
-      <edge id="138" source="browser-automation" target="design-system-extraction" />
-      <edge id="139" source="parse-html" target="design-system-extraction" />
-      <edge id="140" source="evaluate-output" target="detect-anomaly" />
-      <edge id="141" source="error-interpretation" target="detect-anomaly" />
-      <edge id="142" source="plan-decompose" target="dispatching-parallel-agents" />
-      <edge id="143" source="parallel-execution" target="dispatching-parallel-agents" />
-      <edge id="144" source="parallel-execution" target="distributed-neural-training" />
-      <edge id="145" source="embed-text" target="distributed-neural-training" />
-      <edge id="146" source="vector-search" target="distributed-vector-memory" />
-      <edge id="147" source="memory-manage" target="distributed-vector-memory" />
-      <edge id="148" source="extract-entities" target="document-analyst" />
-      <edge id="149" source="format-output" target="document-analyst" />
-      <edge id="150" source="optical-character-recognition" target="document-analyst" />
-      <edge id="151" source="parse-json" target="document-analyst" />
-      <edge id="152" source="parse-pdf" target="document-analyst" />
-      <edge id="153" source="summarize" target="document-analyst" />
-      <edge id="154" source="headless-worker-spawn" target="dual-mode" />
-      <edge id="155" source="headless-worker-collect" target="dual-mode" />
-      <edge id="156" source="hybrid-workflow-coordination" target="dual-mode" />
-      <edge id="157" source="browser-automation" target="e2e-testing" />
-      <edge id="158" source="automated-testing" target="e2e-testing" />
-      <edge id="159" source="evaluate-output" target="edge-optimization" />
-      <edge id="160" source="fine-tune" target="edge-optimization" />
-      <edge id="161" source="performance-tuning" target="edge-optimization" />
-      <edge id="162" source="writing-plans" target="executing-plans" />
-      <edge id="163" source="tool-use" target="executing-plans" />
-      <edge id="164" source="data-visualize" target="explainability-audit" />
-      <edge id="165" source="evaluate-output" target="explainability-audit" />
-      <edge id="166" source="statistical-analysis" target="explainability-audit" />
-      <edge id="167" source="data-analysis" target="financial-modeling" />
-      <edge id="168" source="generate-sql" target="financial-modeling" />
-      <edge id="169" source="statistical-analysis" target="financial-modeling" />
-      <edge id="170" source="code-review-pipeline" target="finishing-a-development-branch" />
-      <edge id="171" source="diff-content" target="finishing-a-development-branch" />
-      <edge id="172" source="code-review-pipeline" target="full-stack-developer" />
-      <edge id="173" source="automated-testing" target="full-stack-developer" />
-      <edge id="174" source="refactor-code" target="full-stack-developer" />
-      <edge id="175" source="structured-output" target="function-calling" />
-      <edge id="176" source="api-call" target="function-calling" />
-      <edge id="177" source="tool-select" target="function-calling" />
-      <edge id="178" source="api-call" target="generative-media" />
-      <edge id="179" source="data-visualize" target="generative-media" />
-      <edge id="180" source="research" target="ghostwrite" />
-      <edge id="181" source="write-report" target="ghostwrite" />
-      <edge id="182" source="audience-model" target="ghostwrite" />
-      <edge id="183" source="code-review-pipeline" target="git-integration" />
-      <edge id="184" source="multi-repo-coordination" target="git-integration" />
-      <edge id="185" source="deployment-automation" target="git-integration" />
-      <edge id="186" source="project-management" target="git-integration" />
-      <edge id="187" source="workflow-automation" target="git-integration" />
-      <edge id="188" source="issue-triage" target="graph-driven-issue-triage" />
-      <edge id="189" source="knowledge-graph-build" target="graph-driven-issue-triage" />
-      <edge id="190" source="design-review" target="grill-me" />
-      <edge id="191" source="self-critique" target="grill-me" />
-      <edge id="192" source="grill-me" target="grill-with-docs" />
-      <edge id="193" source="ubiquitous-language" target="grill-with-docs" />
-      <edge id="194" source="document-editing" target="grill-with-docs" />
-      <edge id="195" source="retrieve" target="grounding" />
-      <edge id="196" source="cite-sources" target="grounding" />
-      <edge id="197" source="evaluate-output" target="grounding" />
-      <edge id="198" source="evaluate-output" target="guardrails" />
-      <edge id="199" source="classify" target="guardrails" />
-      <edge id="200" source="structured-output" target="guardrails" />
-      <edge id="201" source="document-editing" target="humanize-prose" />
-      <edge id="202" source="audience-model" target="humanize-prose" />
-      <edge id="203" source="format-output" target="humanize-prose" />
-      <edge id="204" source="extract-entities" target="knowledge-graph-build" />
-      <edge id="205" source="logical-inference" target="knowledge-graph-build" />
-      <edge id="206" source="web-scrape" target="knowledge-harvest" />
-      <edge id="207" source="extract-entities" target="knowledge-harvest" />
-      <edge id="208" source="embed-text" target="knowledge-harvest" />
-      <edge id="209" source="api-call" target="knowledge-management" />
-      <edge id="210" source="retrieve" target="knowledge-management" />
-      <edge id="211" source="cite-sources" target="literature-review" />
-      <edge id="212" source="literature-search" target="literature-review" />
-      <edge id="213" source="research" target="literature-review" />
-      <edge id="214" source="summarize" target="literature-review" />
-      <edge id="215" source="code-execution" target="mathematical-animation" />
-      <edge id="216" source="data-visualize" target="mathematical-animation" />
-      <edge id="217" source="mcp-integration" target="mcp-debugger-control" />
-      <edge id="218" source="refactor-code" target="mcp-debugger-control" />
-      <edge id="219" source="mcp-integration" target="mcp-server-creation" />
-      <edge id="220" source="tool-creation" target="mcp-server-creation" />
-      <edge id="221" source="api-call" target="mcp-server-creation" />
-      <edge id="222" source="context-compression" target="memory-manage" />
-      <edge id="223" source="retrieve" target="memory-manage" />
-      <edge id="224" source="api-call" target="ml-artifact-management" />
-      <edge id="225" source="classify" target="ml-artifact-management" />
-      <edge id="226" source="data-analysis" target="ml-pipeline" />
-      <edge id="227" source="automated-testing" target="ml-pipeline" />
-      <edge id="228" source="code-generation" target="ml-pipeline" />
-      <edge id="229" source="self-critique" target="multi-agent-debate" />
-      <edge id="230" source="evaluate-output" target="multi-agent-debate" />
-      <edge id="231" source="chain-of-thought" target="multi-agent-debate" />
-      <edge id="232" source="plan-and-execute" target="multi-agent-orchestration-v" />
-      <edge id="233" source="route-intent" target="multi-agent-orchestration-v" />
-      <edge id="234" source="tool-select" target="multi-agent-orchestration-v" />
-      <edge id="235" source="multi-agent-orchestration-v" target="multi-node-orchestration" />
-      <edge id="236" source="cloud-platform-management" target="multi-node-orchestration" />
-      <edge id="237" source="distributed-neural-training" target="multi-node-orchestration" />
-      <edge id="238" source="image-caption" target="multimodal-reasoning" />
-      <edge id="239" source="question-answer" target="multimodal-reasoning" />
-      <edge id="240" source="logical-inference" target="multimodal-reasoning" />
-      <edge id="241" source="extract-entities" target="ontology-alignment" />
-      <edge id="242" source="knowledge-graph-build" target="ontology-alignment" />
-      <edge id="243" source="schema-design" target="ontology-alignment" />
-      <edge id="244" source="retrieve" target="personal-knowledge-management" />
-      <edge id="245" source="context-compression" target="personal-knowledge-management" />
-      <edge id="246" source="document-editing" target="personal" />
-      <edge id="247" source="personal-knowledge-management" target="personal" />
-      <edge id="248" source="route-intent" target="plan-and-execute" />
-      <edge id="249" source="plan-decompose" target="plan-and-execute" />
-      <edge id="250" source="tool-select" target="plan-and-execute" />
-      <edge id="251" source="cli-modernization" target="platform-modernization-sprint" />
-      <edge id="252" source="core-platform-implementation" target="platform-modernization-sprint" />
-      <edge id="253" source="system-integration" target="platform-modernization-sprint" />
-      <edge id="254" source="performance-tuning" target="platform-modernization-sprint" />
-      <edge id="255" source="advanced-swarm-coordination" target="platform-modernization-sprint" />
-      <edge id="256" source="write-report" target="prd-generation" />
-      <edge id="257" source="plan-decompose" target="prd-generation" />
-      <edge id="258" source="data-analysis" target="prediction-market-analysis" />
-      <edge id="259" source="web-search" target="prediction-market-analysis" />
-      <edge id="260" source="statistical-analysis" target="prediction-market-analysis" />
-      <edge id="261" source="agent-handoff" target="productivity" />
-      <edge id="262" source="context-compression" target="productivity" />
-      <edge id="263" source="grill-me" target="productivity" />
-      <edge id="264" source="tool-creation" target="productivity" />
-      <edge id="265" source="api-call" target="project-management" />
-      <edge id="266" source="issue-triage" target="project-management" />
-      <edge id="267" source="evaluate-output" target="prompt-optimization" />
-      <edge id="268" source="generate-text" target="prompt-optimization" />
-      <edge id="269" source="code-generation" target="prototype" />
-      <edge id="270" source="code-execution" target="prototype" />
-      <edge id="271" source="retrieve" target="rag-pipeline" />
-      <edge id="272" source="chunk-document" target="rag-pipeline" />
-      <edge id="273" source="embed-text" target="rag-pipeline" />
-      <edge id="274" source="score-relevance" target="rag-pipeline" />
-      <edge id="275" source="tokenize" target="rag-pipeline" />
-      <edge id="276" source="rank" target="rag-pipeline" />
-      <edge id="277" source="plan-decompose" target="re-act-reasoning" />
-      <edge id="278" source="tool-use" target="re-act-reasoning" />
-      <edge id="279" source="voice-agent" target="real-time-voice-assistant" />
-      <edge id="280" source="memory-manage" target="real-time-voice-assistant" />
-      <edge id="281" source="plan-and-execute" target="real-time-voice-assistant" />
-      <edge id="282" source="adaptive-pattern-learning" target="reasoning-pattern-bank" />
-      <edge id="283" source="agent-memory-learning" target="reasoning-pattern-bank" />
-      <edge id="284" source="requesting-code-review" target="receiving-code-review" />
-      <edge id="285" source="verification-before-completion" target="receiving-code-review" />
-      <edge id="286" source="autonomous-debug" target="recursive-self-improvement" />
-      <edge id="287" source="evaluate-output" target="recursive-self-improvement" />
-      <edge id="288" source="plan-and-execute" target="recursive-self-improvement" />
-      <edge id="289" source="research" target="registry-curation" />
-      <edge id="290" source="code-generation" target="registry-curation" />
-      <edge id="291" source="code-execution" target="registry-curation" />
-      <edge id="292" source="retrieve" target="registry-entry-audit" />
-      <edge id="293" source="cite-sources" target="registry-entry-audit" />
-      <edge id="294" source="evaluate-output" target="registry-entry-audit" />
-      <edge id="295" source="registry-entry-audit" target="registry-health-scan" />
-      <edge id="296" source="registry-curation" target="registry-health-scan" />
-      <edge id="297" source="detect-anomaly" target="registry-health-scan" />
-      <edge id="298" source="extract-entities" target="regulatory-compliance-mapping" />
-      <edge id="299" source="knowledge-graph-build" target="regulatory-compliance-mapping" />
-      <edge id="300" source="security-audit" target="regulatory-compliance-mapping" />
-      <edge id="301" source="workflow-automation" target="release-automation" />
-      <edge id="302" source="code-execution" target="release-automation" />
-      <edge id="303" source="generate-text" target="release-automation" />
-      <edge id="304" source="code-review-pipeline" target="requesting-code-review" />
-      <edge id="305" source="dispatching-parallel-agents" target="requesting-code-review" />
-      <edge id="306" source="web-search" target="research" />
-      <edge id="307" source="summarize" target="research" />
-      <edge id="308" source="cite-sources" target="research" />
-      <edge id="309" source="computational-biology-workflows" target="scientific-discovery" />
-      <edge id="310" source="hypothesis-generate" target="scientific-discovery" />
-      <edge id="311" source="math-reason" target="scientific-discovery" />
-      <edge id="312" source="research" target="scientific-discovery" />
-      <edge id="313" source="write-report" target="scientific-writing" />
-      <edge id="314" source="cite-sources" target="scientific-writing" />
-      <edge id="315" source="scientific-visualization" target="scientific-writing" />
-      <edge id="316" source="parse-html" target="search-engine-optimization" />
-      <edge id="317" source="parse-json" target="search-engine-optimization" />
-      <edge id="318" source="code-review-pipeline" target="security-audit" />
-      <edge id="319" source="evaluate-output" target="security-audit" />
-      <edge id="320" source="generate-text" target="skill-authoring" />
-      <edge id="321" source="structured-output" target="skill-authoring" />
-      <edge id="322" source="code-generation" target="skill-authoring" />
-      <edge id="323" source="agent-eval" target="skill-performance-benchmarking" />
-      <edge id="324" source="skill-discovery" target="skill-performance-benchmarking" />
-      <edge id="325" source="statistical-analysis" target="skill-performance-benchmarking" />
-      <edge id="326" source="security-audit" target="skill-security-analysis" />
-      <edge id="327" source="prompt-injection-defense" target="skill-security-analysis" />
-      <edge id="328" source="skill-discovery" target="skill-security-analysis" />
-      <edge id="329" source="browser-automation" target="stealth-browser-interaction" />
-      <edge id="330" source="computer-use" target="stealth-browser-interaction" />
-      <edge id="331" source="executing-plans" target="subagent-driven-development" />
-      <edge id="332" source="dispatching-parallel-agents" target="subagent-driven-development" />
-      <edge id="333" source="code-review-pipeline" target="subagent-driven-development" />
-      <edge id="334" source="data-analysis" target="supply-chain-optimization" />
-      <edge id="335" source="detect-anomaly" target="supply-chain-optimization" />
-      <edge id="336" source="statistical-analysis" target="supply-chain-optimization" />
-      <edge id="337" source="hypothesis-generate" target="systematic-debugging" />
-      <edge id="338" source="error-interpretation" target="systematic-debugging" />
-      <edge id="339" source="generate-sql" target="text-to-sql-pipeline" />
-      <edge id="340" source="parse-json" target="text-to-sql-pipeline" />
-      <edge id="341" source="format-output" target="text-to-sql-pipeline" />
-      <edge id="342" source="feed-monitoring" target="threat-intelligence-synthesis" />
-      <edge id="343" source="knowledge-graph-build" target="threat-intelligence-synthesis" />
-      <edge id="344" source="security-audit" target="threat-intelligence-synthesis" />
-      <edge id="345" source="tool-use" target="tool-chaining" />
-      <edge id="346" source="tool-select" target="tool-chaining" />
-      <edge id="347" source="code-generation" target="tool-creation" />
-      <edge id="348" source="tool-use" target="tool-creation" />
-      <edge id="349" source="translate" target="translation-pipeline" />
-      <edge id="350" source="sentiment-analysis" target="translation-pipeline" />
-      <edge id="351" source="audience-model" target="translation-pipeline" />
-      <edge id="352" source="chain-of-thought" target="tree-of-thought" />
-      <edge id="353" source="plan-decompose" target="tree-of-thought" />
-      <edge id="354" source="extract-entities" target="ubiquitous-language" />
-      <edge id="355" source="requirements-analysis" target="ubiquitous-language" />
-      <edge id="356" source="code-execution" target="using-git-worktrees" />
-      <edge id="357" source="tool-use" target="using-git-worktrees" />
-      <edge id="358" source="code-execution" target="verification-before-completion" />
-      <edge id="359" source="self-critique" target="verification-before-completion" />
-      <edge id="360" source="plan-decompose" target="vertical-slice-planning" />
-      <edge id="361" source="route-intent" target="vertical-slice-planning" />
-      <edge id="362" source="multimodal-reasoning" target="video-intelligence" />
-      <edge id="363" source="speech-to-text" target="video-intelligence" />
-      <edge id="364" source="speech-to-text" target="voice-agent" />
-      <edge id="365" source="question-answer" target="voice-agent" />
-      <edge id="366" source="text-to-speech" target="voice-agent" />
-      <edge id="367" source="browser-control" target="web-accessibility" />
-      <edge id="368" source="ux-audit" target="web-accessibility" />
-      <edge id="369" source="code-review-pipeline" target="web-best-practices" />
-      <edge id="370" source="performance-tuning" target="web-best-practices" />
-      <edge id="371" source="registry-health-scan" target="web-quality-audit" />
-      <edge id="372" source="performance-tuning" target="web-quality-audit" />
-      <edge id="373" source="search-engine-optimization" target="web-quality-audit" />
-      <edge id="374" source="web-accessibility" target="web-quality-audit" />
-      <edge id="375" source="web-best-practices" target="web-quality-audit" />
-      <edge id="376" source="web-search" target="web-scrape" />
-      <edge id="377" source="parse-html" target="web-scrape" />
-      <edge id="378" source="extract-entities" target="web-scrape" />
-      <edge id="379" source="retrieve" target="wiki-search" />
-      <edge id="380" source="embed-text" target="wiki-search" />
-      <edge id="381" source="summarize" target="wiki-search" />
-      <edge id="382" source="plan-decompose" target="workflow-automation" />
-      <edge id="383" source="tool-use" target="workflow-automation" />
-      <edge id="384" source="api-call" target="workflow-automation" />
-      <edge id="385" source="api-call" target="workspace-automation" />
-      <edge id="386" source="document-editing" target="workspace-automation" />
-      <edge id="387" source="plan-decompose" target="writing-plans" />
-      <edge id="388" source="requirements-analysis" target="writing-plans" />
-      <edge id="389" source="browser-automation" target="x-twitter-automation" />
-      <edge id="390" source="web-scrape" target="x-twitter-automation" />
-      <edge id="391" source="workflow-automation" target="x-twitter-automation" />
+      <edge id="e0" source="swarm-topology-management" target="advanced-swarm-coordination" />
+      <edge id="e1" source="multi-agent-debate" target="advanced-swarm-coordination" />
+      <edge id="e2" source="agent-eval" target="adversarial-robustness-testing" />
+      <edge id="e3" source="guardrails" target="adversarial-robustness-testing" />
+      <edge id="e4" source="prompt-injection-defense" target="adversarial-robustness-testing" />
+      <edge id="e5" source="document-editing" target="agent-environment-setup" />
+      <edge id="e6" source="tool-use" target="agent-environment-setup" />
+      <edge id="e7" source="evaluate-output" target="agent-eval" />
+      <edge id="e8" source="score-relevance" target="agent-eval" />
+      <edge id="e9" source="summarize" target="agent-handoff" />
+      <edge id="e10" source="document-editing" target="agent-handoff" />
+      <edge id="e11" source="context-compression" target="agent-handoff" />
+      <edge id="e12" source="adaptive-pattern-learning" target="agent-memory-learning" />
+      <edge id="e13" source="memory-manage" target="agent-memory-learning" />
+      <edge id="e14" source="distributed-vector-memory" target="agent-memory-platform" />
+      <edge id="e15" source="agent-memory-learning" target="agent-memory-platform" />
+      <edge id="e16" source="memory-pattern-design" target="agent-memory-platform" />
+      <edge id="e17" source="vector-db-optimization" target="agent-memory-platform" />
+      <edge id="e18" source="vector-search" target="agent-memory-platform" />
+      <edge id="e19" source="workflow-automation" target="agentic-workflow-design" />
+      <edge id="e20" source="plan-decompose" target="agentic-workflow-design" />
+      <edge id="e21" source="data-visualize" target="architecture-diagram" />
+      <edge id="e22" source="format-output" target="architecture-diagram" />
+      <edge id="e23" source="write-report" target="architecture-diagram" />
+      <edge id="e24" source="generate-test" target="automated-testing" />
+      <edge id="e25" source="code-execution" target="automated-testing" />
+      <edge id="e26" source="error-interpretation" target="automated-testing" />
+      <edge id="e27" source="data-analysis" target="autonomous-data-scientist" />
+      <edge id="e28" source="math-reason" target="autonomous-data-scientist" />
+      <edge id="e29" source="research" target="autonomous-data-scientist" />
+      <edge id="e30" source="code-generation" target="autonomous-debug" />
+      <edge id="e31" source="code-execution" target="autonomous-debug" />
+      <edge id="e32" source="error-interpretation" target="autonomous-debug" />
+      <edge id="e33" source="ghostwrite" target="autonomous-web-research" />
+      <edge id="e34" source="knowledge-harvest" target="autonomous-web-research" />
+      <edge id="e35" source="research" target="autonomous-web-research" />
+      <edge id="e36" source="web-scrape" target="autonomous-web-research" />
+      <edge id="e37" source="web-search" target="autonomous-web-research" />
+      <edge id="e38" source="requirements-analysis" target="brainstorming" />
+      <edge id="e39" source="question-answer" target="brainstorming" />
+      <edge id="e40" source="web-search" target="browser-automation" />
+      <edge id="e41" source="computer-use" target="browser-automation" />
+      <edge id="e42" source="autonomous-web-research" target="career-operations" />
+      <edge id="e43" source="summarize" target="career-operations" />
+      <edge id="e44" source="document-editing" target="career-operations" />
+      <edge id="e45" source="hypothesis-generate" target="causal-inference" />
+      <edge id="e46" source="logical-inference" target="causal-inference" />
+      <edge id="e47" source="statistical-analysis" target="causal-inference" />
+      <edge id="e48" source="api-call" target="cloud-platform-management" />
+      <edge id="e49" source="tool-use" target="cloud-platform-management" />
+      <edge id="e50" source="code-generation" target="code-review-pipeline" />
+      <edge id="e51" source="diff-content" target="code-review-pipeline" />
+      <edge id="e52" source="evaluate-output" target="code-review-pipeline" />
+      <edge id="e53" source="api-call" target="collaborative-diagramming" />
+      <edge id="e54" source="data-visualize" target="collaborative-diagramming" />
+      <edge id="e55" source="bioinformatic-sequence-analysis" target="computational-biology-workflows" />
+      <edge id="e56" source="genomic-data-retrieval" target="computational-biology-workflows" />
+      <edge id="e57" source="molecular-databases" target="computational-biology-workflows" />
+      <edge id="e58" source="protein-structure-analysis" target="computational-biology-workflows" />
+      <edge id="e59" source="proteomic-data-retrieval" target="computational-biology-workflows" />
+      <edge id="e60" source="classify" target="content-moderation" />
+      <edge id="e61" source="sentiment-analysis" target="content-moderation" />
+      <edge id="e62" source="extract-entities" target="content-moderation" />
+      <edge id="e63" source="question-answer" target="conversational-agent" />
+      <edge id="e64" source="memory-manage" target="conversational-agent" />
+      <edge id="e65" source="route-intent" target="conversational-agent" />
+      <edge id="e66" source="generate-sql" target="data-analysis" />
+      <edge id="e67" source="data-visualize" target="data-analysis" />
+      <edge id="e68" source="summarize" target="data-analysis" />
+      <edge id="e69" source="workflow-automation" target="deployment-automation" />
+      <edge id="e70" source="code-execution" target="deployment-automation" />
+      <edge id="e71" source="code-generation" target="design-generation" />
+      <edge id="e72" source="vision-qa" target="design-generation" />
+      <edge id="e73" source="evaluate-output" target="design-review" />
+      <edge id="e74" source="plan-decompose" target="design-review" />
+      <edge id="e75" source="browser-automation" target="design-system-extraction" />
+      <edge id="e76" source="parse-html" target="design-system-extraction" />
+      <edge id="e77" source="evaluate-output" target="detect-anomaly" />
+      <edge id="e78" source="error-interpretation" target="detect-anomaly" />
+      <edge id="e79" source="plan-decompose" target="dispatching-parallel-agents" />
+      <edge id="e80" source="parallel-execution" target="dispatching-parallel-agents" />
+      <edge id="e81" source="parallel-execution" target="distributed-neural-training" />
+      <edge id="e82" source="embed-text" target="distributed-neural-training" />
+      <edge id="e83" source="vector-search" target="distributed-vector-memory" />
+      <edge id="e84" source="memory-manage" target="distributed-vector-memory" />
+      <edge id="e85" source="extract-entities" target="document-analyst" />
+      <edge id="e86" source="format-output" target="document-analyst" />
+      <edge id="e87" source="optical-character-recognition" target="document-analyst" />
+      <edge id="e88" source="parse-json" target="document-analyst" />
+      <edge id="e89" source="parse-pdf" target="document-analyst" />
+      <edge id="e90" source="summarize" target="document-analyst" />
+      <edge id="e91" source="headless-worker-spawn" target="dual-mode" />
+      <edge id="e92" source="headless-worker-collect" target="dual-mode" />
+      <edge id="e93" source="hybrid-workflow-coordination" target="dual-mode" />
+      <edge id="e94" source="browser-automation" target="e2e-testing" />
+      <edge id="e95" source="automated-testing" target="e2e-testing" />
+      <edge id="e96" source="evaluate-output" target="edge-optimization" />
+      <edge id="e97" source="fine-tune" target="edge-optimization" />
+      <edge id="e98" source="performance-tuning" target="edge-optimization" />
+      <edge id="e99" source="autonomous-debug" target="engineering-discipline" />
+      <edge id="e100" source="refactor-code" target="engineering-discipline" />
+      <edge id="e101" source="vertical-slice-planning" target="engineering-discipline" />
+      <edge id="e102" source="prd-generation" target="engineering-discipline" />
+      <edge id="e103" source="issue-triage" target="engineering-discipline" />
+      <edge id="e104" source="ubiquitous-language" target="engineering-discipline" />
+      <edge id="e105" source="code-explain" target="engineering-discipline" />
+      <edge id="e106" source="grill-with-docs" target="engineering-discipline" />
+      <edge id="e107" source="prototype" target="engineering-discipline" />
+      <edge id="e108" source="agent-environment-setup" target="engineering-discipline" />
+      <edge id="e109" source="writing-plans" target="executing-plans" />
+      <edge id="e110" source="tool-use" target="executing-plans" />
+      <edge id="e111" source="data-visualize" target="explainability-audit" />
+      <edge id="e112" source="evaluate-output" target="explainability-audit" />
+      <edge id="e113" source="statistical-analysis" target="explainability-audit" />
+      <edge id="e114" source="data-analysis" target="financial-modeling" />
+      <edge id="e115" source="generate-sql" target="financial-modeling" />
+      <edge id="e116" source="statistical-analysis" target="financial-modeling" />
+      <edge id="e117" source="code-review-pipeline" target="finishing-a-development-branch" />
+      <edge id="e118" source="diff-content" target="finishing-a-development-branch" />
+      <edge id="e119" source="question-answer" target="founder-mode-orchestration" />
+      <edge id="e120" source="evaluate-output" target="founder-mode-orchestration" />
+      <edge id="e121" source="code-review-pipeline" target="founder-mode-orchestration" />
+      <edge id="e122" source="ux-audit" target="founder-mode-orchestration" />
+      <edge id="e123" source="vertical-slice-planning" target="founder-mode-orchestration" />
+      <edge id="e124" source="design-system-extraction" target="founder-mode-orchestration" />
+      <edge id="e125" source="design-review" target="founder-mode-orchestration" />
+      <edge id="e126" source="code-generation" target="founder-mode-orchestration" />
+      <edge id="e127" source="systematic-debugging" target="founder-mode-orchestration" />
+      <edge id="e128" source="e2e-testing" target="founder-mode-orchestration" />
+      <edge id="e129" source="finishing-a-development-branch" target="founder-mode-orchestration" />
+      <edge id="e130" source="deployment-automation" target="founder-mode-orchestration" />
+      <edge id="e131" source="detect-anomaly" target="founder-mode-orchestration" />
+      <edge id="e132" source="document-editing" target="founder-mode-orchestration" />
+      <edge id="e133" source="browser-automation" target="founder-mode-orchestration" />
+      <edge id="e134" source="security-audit" target="founder-mode-orchestration" />
+      <edge id="e135" source="browser-control" target="founder-mode-orchestration" />
+      <edge id="e136" source="web-scrape" target="founder-mode-orchestration" />
+      <edge id="e137" source="skill-authoring" target="founder-mode-orchestration" />
+      <edge id="e138" source="write-report" target="founder-mode-orchestration" />
+      <edge id="e139" source="multi-agent-debate" target="founder-mode-orchestration" />
+      <edge id="e140" source="skill-performance-benchmarking" target="founder-mode-orchestration" />
+      <edge id="e141" source="automated-testing" target="founder-mode-orchestration" />
+      <edge id="e142" source="mcp-integration" target="founder-mode-orchestration" />
+      <edge id="e143" source="memory-manage" target="founder-mode-orchestration" />
+      <edge id="e144" source="guardrails" target="founder-mode-orchestration" />
+      <edge id="e145" source="knowledge-management" target="founder-mode-orchestration" />
+      <edge id="e146" source="format-output" target="founder-mode-orchestration" />
+      <edge id="e147" source="workspace-automation" target="founder-mode-orchestration" />
+      <edge id="e148" source="project-management" target="founder-mode-orchestration" />
+      <edge id="e149" source="prompt-optimization" target="founder-mode-orchestration" />
+      <edge id="e150" source="code-review-pipeline" target="full-stack-developer" />
+      <edge id="e151" source="automated-testing" target="full-stack-developer" />
+      <edge id="e152" source="refactor-code" target="full-stack-developer" />
+      <edge id="e153" source="structured-output" target="function-calling" />
+      <edge id="e154" source="api-call" target="function-calling" />
+      <edge id="e155" source="tool-select" target="function-calling" />
+      <edge id="e156" source="api-call" target="generative-media" />
+      <edge id="e157" source="data-visualize" target="generative-media" />
+      <edge id="e158" source="research" target="ghostwrite" />
+      <edge id="e159" source="write-report" target="ghostwrite" />
+      <edge id="e160" source="audience-model" target="ghostwrite" />
+      <edge id="e161" source="code-review-pipeline" target="git-integration" />
+      <edge id="e162" source="multi-repo-coordination" target="git-integration" />
+      <edge id="e163" source="deployment-automation" target="git-integration" />
+      <edge id="e164" source="project-management" target="git-integration" />
+      <edge id="e165" source="workflow-automation" target="git-integration" />
+      <edge id="e166" source="issue-triage" target="graph-driven-issue-triage" />
+      <edge id="e167" source="knowledge-graph-build" target="graph-driven-issue-triage" />
+      <edge id="e168" source="design-review" target="grill-me" />
+      <edge id="e169" source="self-critique" target="grill-me" />
+      <edge id="e170" source="grill-me" target="grill-with-docs" />
+      <edge id="e171" source="ubiquitous-language" target="grill-with-docs" />
+      <edge id="e172" source="document-editing" target="grill-with-docs" />
+      <edge id="e173" source="retrieve" target="grounding" />
+      <edge id="e174" source="cite-sources" target="grounding" />
+      <edge id="e175" source="evaluate-output" target="grounding" />
+      <edge id="e176" source="evaluate-output" target="guardrails" />
+      <edge id="e177" source="classify" target="guardrails" />
+      <edge id="e178" source="structured-output" target="guardrails" />
+      <edge id="e179" source="document-editing" target="humanize-prose" />
+      <edge id="e180" source="audience-model" target="humanize-prose" />
+      <edge id="e181" source="format-output" target="humanize-prose" />
+      <edge id="e182" source="extract-entities" target="knowledge-graph-build" />
+      <edge id="e183" source="logical-inference" target="knowledge-graph-build" />
+      <edge id="e184" source="web-scrape" target="knowledge-harvest" />
+      <edge id="e185" source="extract-entities" target="knowledge-harvest" />
+      <edge id="e186" source="embed-text" target="knowledge-harvest" />
+      <edge id="e187" source="api-call" target="knowledge-management" />
+      <edge id="e188" source="retrieve" target="knowledge-management" />
+      <edge id="e189" source="cite-sources" target="literature-review" />
+      <edge id="e190" source="literature-search" target="literature-review" />
+      <edge id="e191" source="research" target="literature-review" />
+      <edge id="e192" source="summarize" target="literature-review" />
+      <edge id="e193" source="code-execution" target="mathematical-animation" />
+      <edge id="e194" source="data-visualize" target="mathematical-animation" />
+      <edge id="e195" source="mcp-integration" target="mcp-debugger-control" />
+      <edge id="e196" source="refactor-code" target="mcp-debugger-control" />
+      <edge id="e197" source="mcp-integration" target="mcp-server-creation" />
+      <edge id="e198" source="tool-creation" target="mcp-server-creation" />
+      <edge id="e199" source="api-call" target="mcp-server-creation" />
+      <edge id="e200" source="context-compression" target="memory-manage" />
+      <edge id="e201" source="retrieve" target="memory-manage" />
+      <edge id="e202" source="api-call" target="ml-artifact-management" />
+      <edge id="e203" source="classify" target="ml-artifact-management" />
+      <edge id="e204" source="data-analysis" target="ml-pipeline" />
+      <edge id="e205" source="automated-testing" target="ml-pipeline" />
+      <edge id="e206" source="code-generation" target="ml-pipeline" />
+      <edge id="e207" source="self-critique" target="multi-agent-debate" />
+      <edge id="e208" source="evaluate-output" target="multi-agent-debate" />
+      <edge id="e209" source="chain-of-thought" target="multi-agent-debate" />
+      <edge id="e210" source="plan-and-execute" target="multi-agent-orchestration-v" />
+      <edge id="e211" source="route-intent" target="multi-agent-orchestration-v" />
+      <edge id="e212" source="tool-select" target="multi-agent-orchestration-v" />
+      <edge id="e213" source="multi-agent-orchestration-v" target="multi-node-orchestration" />
+      <edge id="e214" source="cloud-platform-management" target="multi-node-orchestration" />
+      <edge id="e215" source="distributed-neural-training" target="multi-node-orchestration" />
+      <edge id="e216" source="multi-node-orchestration" target="multi-topology-orchestration" />
+      <edge id="e217" source="agent-memory-platform" target="multi-topology-orchestration" />
+      <edge id="e218" source="git-integration" target="multi-topology-orchestration" />
+      <edge id="e219" source="reasoning-pattern-bank" target="multi-topology-orchestration" />
+      <edge id="e220" source="platform-modernization-sprint" target="multi-topology-orchestration" />
+      <edge id="e221" source="dual-mode" target="multi-topology-orchestration" />
+      <edge id="e222" source="image-caption" target="multimodal-reasoning" />
+      <edge id="e223" source="question-answer" target="multimodal-reasoning" />
+      <edge id="e224" source="logical-inference" target="multimodal-reasoning" />
+      <edge id="e225" source="extract-entities" target="ontology-alignment" />
+      <edge id="e226" source="knowledge-graph-build" target="ontology-alignment" />
+      <edge id="e227" source="schema-design" target="ontology-alignment" />
+      <edge id="e228" source="document-editing" target="personal" />
+      <edge id="e229" source="personal-knowledge-management" target="personal" />
+      <edge id="e230" source="retrieve" target="personal-knowledge-management" />
+      <edge id="e231" source="context-compression" target="personal-knowledge-management" />
+      <edge id="e232" source="route-intent" target="plan-and-execute" />
+      <edge id="e233" source="plan-decompose" target="plan-and-execute" />
+      <edge id="e234" source="tool-select" target="plan-and-execute" />
+      <edge id="e235" source="cli-modernization" target="platform-modernization-sprint" />
+      <edge id="e236" source="core-platform-implementation" target="platform-modernization-sprint" />
+      <edge id="e237" source="system-integration" target="platform-modernization-sprint" />
+      <edge id="e238" source="performance-tuning" target="platform-modernization-sprint" />
+      <edge id="e239" source="advanced-swarm-coordination" target="platform-modernization-sprint" />
+      <edge id="e240" source="write-report" target="prd-generation" />
+      <edge id="e241" source="plan-decompose" target="prd-generation" />
+      <edge id="e242" source="data-analysis" target="prediction-market-analysis" />
+      <edge id="e243" source="web-search" target="prediction-market-analysis" />
+      <edge id="e244" source="statistical-analysis" target="prediction-market-analysis" />
+      <edge id="e245" source="agent-handoff" target="productivity" />
+      <edge id="e246" source="context-compression" target="productivity" />
+      <edge id="e247" source="grill-me" target="productivity" />
+      <edge id="e248" source="tool-creation" target="productivity" />
+      <edge id="e249" source="api-call" target="project-management" />
+      <edge id="e250" source="issue-triage" target="project-management" />
+      <edge id="e251" source="evaluate-output" target="prompt-optimization" />
+      <edge id="e252" source="generate-text" target="prompt-optimization" />
+      <edge id="e253" source="code-generation" target="prototype" />
+      <edge id="e254" source="code-execution" target="prototype" />
+      <edge id="e255" source="retrieve" target="rag-pipeline" />
+      <edge id="e256" source="chunk-document" target="rag-pipeline" />
+      <edge id="e257" source="embed-text" target="rag-pipeline" />
+      <edge id="e258" source="score-relevance" target="rag-pipeline" />
+      <edge id="e259" source="tokenize" target="rag-pipeline" />
+      <edge id="e260" source="rank" target="rag-pipeline" />
+      <edge id="e261" source="plan-decompose" target="re-act-reasoning" />
+      <edge id="e262" source="tool-use" target="re-act-reasoning" />
+      <edge id="e263" source="voice-agent" target="real-time-voice-assistant" />
+      <edge id="e264" source="memory-manage" target="real-time-voice-assistant" />
+      <edge id="e265" source="plan-and-execute" target="real-time-voice-assistant" />
+      <edge id="e266" source="adaptive-pattern-learning" target="reasoning-pattern-bank" />
+      <edge id="e267" source="agent-memory-learning" target="reasoning-pattern-bank" />
+      <edge id="e268" source="requesting-code-review" target="receiving-code-review" />
+      <edge id="e269" source="verification-before-completion" target="receiving-code-review" />
+      <edge id="e270" source="autonomous-debug" target="recursive-self-improvement" />
+      <edge id="e271" source="evaluate-output" target="recursive-self-improvement" />
+      <edge id="e272" source="plan-and-execute" target="recursive-self-improvement" />
+      <edge id="e273" source="research" target="registry-curation" />
+      <edge id="e274" source="code-generation" target="registry-curation" />
+      <edge id="e275" source="code-execution" target="registry-curation" />
+      <edge id="e276" source="retrieve" target="registry-entry-audit" />
+      <edge id="e277" source="cite-sources" target="registry-entry-audit" />
+      <edge id="e278" source="evaluate-output" target="registry-entry-audit" />
+      <edge id="e279" source="registry-entry-audit" target="registry-health-scan" />
+      <edge id="e280" source="registry-curation" target="registry-health-scan" />
+      <edge id="e281" source="detect-anomaly" target="registry-health-scan" />
+      <edge id="e282" source="extract-entities" target="regulatory-compliance-mapping" />
+      <edge id="e283" source="knowledge-graph-build" target="regulatory-compliance-mapping" />
+      <edge id="e284" source="security-audit" target="regulatory-compliance-mapping" />
+      <edge id="e285" source="workflow-automation" target="release-automation" />
+      <edge id="e286" source="code-execution" target="release-automation" />
+      <edge id="e287" source="generate-text" target="release-automation" />
+      <edge id="e288" source="code-review-pipeline" target="requesting-code-review" />
+      <edge id="e289" source="dispatching-parallel-agents" target="requesting-code-review" />
+      <edge id="e290" source="web-search" target="research" />
+      <edge id="e291" source="summarize" target="research" />
+      <edge id="e292" source="cite-sources" target="research" />
+      <edge id="e293" source="computational-biology-workflows" target="scientific-discovery" />
+      <edge id="e294" source="hypothesis-generate" target="scientific-discovery" />
+      <edge id="e295" source="math-reason" target="scientific-discovery" />
+      <edge id="e296" source="research" target="scientific-discovery" />
+      <edge id="e297" source="write-report" target="scientific-writing" />
+      <edge id="e298" source="cite-sources" target="scientific-writing" />
+      <edge id="e299" source="scientific-visualization" target="scientific-writing" />
+      <edge id="e300" source="parse-html" target="search-engine-optimization" />
+      <edge id="e301" source="parse-json" target="search-engine-optimization" />
+      <edge id="e302" source="code-review-pipeline" target="security-audit" />
+      <edge id="e303" source="evaluate-output" target="security-audit" />
+      <edge id="e304" source="generate-text" target="skill-authoring" />
+      <edge id="e305" source="structured-output" target="skill-authoring" />
+      <edge id="e306" source="code-generation" target="skill-authoring" />
+      <edge id="e307" source="engineering-discipline" target="skill-mastery" />
+      <edge id="e308" source="productivity" target="skill-mastery" />
+      <edge id="e309" source="personal" target="skill-mastery" />
+      <edge id="e310" source="tool-creation" target="skill-mastery" />
+      <edge id="e311" source="ubiquitous-language" target="skill-mastery" />
+      <edge id="e312" source="agent-eval" target="skill-performance-benchmarking" />
+      <edge id="e313" source="skill-discovery" target="skill-performance-benchmarking" />
+      <edge id="e314" source="statistical-analysis" target="skill-performance-benchmarking" />
+      <edge id="e315" source="security-audit" target="skill-security-analysis" />
+      <edge id="e316" source="prompt-injection-defense" target="skill-security-analysis" />
+      <edge id="e317" source="skill-discovery" target="skill-security-analysis" />
+      <edge id="e318" source="browser-automation" target="stealth-browser-interaction" />
+      <edge id="e319" source="computer-use" target="stealth-browser-interaction" />
+      <edge id="e320" source="executing-plans" target="subagent-driven-development" />
+      <edge id="e321" source="dispatching-parallel-agents" target="subagent-driven-development" />
+      <edge id="e322" source="code-review-pipeline" target="subagent-driven-development" />
+      <edge id="e323" source="brainstorming" target="superpowers" />
+      <edge id="e324" source="dispatching-parallel-agents" target="superpowers" />
+      <edge id="e325" source="executing-plans" target="superpowers" />
+      <edge id="e326" source="finishing-a-development-branch" target="superpowers" />
+      <edge id="e327" source="receiving-code-review" target="superpowers" />
+      <edge id="e328" source="requesting-code-review" target="superpowers" />
+      <edge id="e329" source="subagent-driven-development" target="superpowers" />
+      <edge id="e330" source="systematic-debugging" target="superpowers" />
+      <edge id="e331" source="using-git-worktrees" target="superpowers" />
+      <edge id="e332" source="verification-before-completion" target="superpowers" />
+      <edge id="e333" source="writing-plans" target="superpowers" />
+      <edge id="e334" source="data-analysis" target="supply-chain-optimization" />
+      <edge id="e335" source="detect-anomaly" target="supply-chain-optimization" />
+      <edge id="e336" source="statistical-analysis" target="supply-chain-optimization" />
+      <edge id="e337" source="hypothesis-generate" target="systematic-debugging" />
+      <edge id="e338" source="error-interpretation" target="systematic-debugging" />
+      <edge id="e339" source="generate-sql" target="text-to-sql-pipeline" />
+      <edge id="e340" source="parse-json" target="text-to-sql-pipeline" />
+      <edge id="e341" source="format-output" target="text-to-sql-pipeline" />
+      <edge id="e342" source="feed-monitoring" target="threat-intelligence-synthesis" />
+      <edge id="e343" source="knowledge-graph-build" target="threat-intelligence-synthesis" />
+      <edge id="e344" source="security-audit" target="threat-intelligence-synthesis" />
+      <edge id="e345" source="tool-use" target="tool-chaining" />
+      <edge id="e346" source="tool-select" target="tool-chaining" />
+      <edge id="e347" source="code-generation" target="tool-creation" />
+      <edge id="e348" source="tool-use" target="tool-creation" />
+      <edge id="e349" source="translate" target="translation-pipeline" />
+      <edge id="e350" source="sentiment-analysis" target="translation-pipeline" />
+      <edge id="e351" source="audience-model" target="translation-pipeline" />
+      <edge id="e352" source="chain-of-thought" target="tree-of-thought" />
+      <edge id="e353" source="plan-decompose" target="tree-of-thought" />
+      <edge id="e354" source="extract-entities" target="ubiquitous-language" />
+      <edge id="e355" source="requirements-analysis" target="ubiquitous-language" />
+      <edge id="e356" source="code-execution" target="using-git-worktrees" />
+      <edge id="e357" source="tool-use" target="using-git-worktrees" />
+      <edge id="e358" source="code-execution" target="verification-before-completion" />
+      <edge id="e359" source="self-critique" target="verification-before-completion" />
+      <edge id="e360" source="plan-decompose" target="vertical-slice-planning" />
+      <edge id="e361" source="route-intent" target="vertical-slice-planning" />
+      <edge id="e362" source="multimodal-reasoning" target="video-intelligence" />
+      <edge id="e363" source="speech-to-text" target="video-intelligence" />
+      <edge id="e364" source="speech-to-text" target="voice-agent" />
+      <edge id="e365" source="question-answer" target="voice-agent" />
+      <edge id="e366" source="text-to-speech" target="voice-agent" />
+      <edge id="e367" source="browser-control" target="web-accessibility" />
+      <edge id="e368" source="ux-audit" target="web-accessibility" />
+      <edge id="e369" source="code-review-pipeline" target="web-best-practices" />
+      <edge id="e370" source="performance-tuning" target="web-best-practices" />
+      <edge id="e371" source="registry-health-scan" target="web-quality-audit" />
+      <edge id="e372" source="performance-tuning" target="web-quality-audit" />
+      <edge id="e373" source="search-engine-optimization" target="web-quality-audit" />
+      <edge id="e374" source="web-accessibility" target="web-quality-audit" />
+      <edge id="e375" source="web-best-practices" target="web-quality-audit" />
+      <edge id="e376" source="web-search" target="web-scrape" />
+      <edge id="e377" source="parse-html" target="web-scrape" />
+      <edge id="e378" source="extract-entities" target="web-scrape" />
+      <edge id="e379" source="retrieve" target="wiki-search" />
+      <edge id="e380" source="embed-text" target="wiki-search" />
+      <edge id="e381" source="summarize" target="wiki-search" />
+      <edge id="e382" source="plan-decompose" target="workflow-automation" />
+      <edge id="e383" source="tool-use" target="workflow-automation" />
+      <edge id="e384" source="api-call" target="workflow-automation" />
+      <edge id="e385" source="api-call" target="workspace-automation" />
+      <edge id="e386" source="document-editing" target="workspace-automation" />
+      <edge id="e387" source="plan-decompose" target="writing-plans" />
+      <edge id="e388" source="requirements-analysis" target="writing-plans" />
+      <edge id="e389" source="browser-automation" target="x-twitter-automation" />
+      <edge id="e390" source="web-scrape" target="x-twitter-automation" />
+      <edge id="e391" source="workflow-automation" target="x-twitter-automation" />
     </edges>
   </graph>
 </gexf>
