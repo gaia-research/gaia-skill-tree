@@ -109,7 +109,16 @@
 
     // wire Open Repo button (modal chrome — outside the plaque)
     var openBtn = document.getElementById('seOpenRepo');
-    if (repoUrl) { openBtn.onclick = function(){ window.open(repoUrl,'_blank','noopener'); }; openBtn.style.display=''; }
+    // For suites, links.github may point to a SKILL.md blob URL — strip it
+    // down to the repo root so the button actually opens the repo.
+    var repoRootUrl = repoUrl;
+    if (repoRootUrl && isGithubUrl(repoRootUrl)) {
+      repoRootUrl = repoRootUrl
+        .replace(/\/blob\/[^/]+\/.*/i, '')
+        .replace(/\/tree\/[^/]+\/.*/i, '')
+        .replace(/\.git$/, '');
+    }
+    if (repoRootUrl) { openBtn.onclick = function(){ window.open(repoRootUrl,'_blank','noopener'); }; openBtn.style.display=''; }
     else { openBtn.style.display = 'none'; }
   }
 
@@ -144,9 +153,227 @@
   }
   function COPY_ICON(){ return _se_icon('copy', 15); }
 
+  // ── SHARED MARKDOWN RENDERER ─────────────────────────────────
+  // Normalizes orphan fence markers (a language-tagged opener that appears
+  // while already inside a block is treated as a close), renders inline
+  // links, and handles code/table/list/paragraph content.
+  // opts.isHostTab  — wire the table as a dropdown rather than a plain table
+  // opts.tabId      — id suffix for host-tab interactive elements
+  function _renderInstallMarkdown(rawLines, opts) {
+    opts = opts || {};
+    var isHostTab = !!opts.isHostTab;
+    var tabId = opts.tabId || '';
+    // Repo root used to resolve relative links from upstream READMEs.
+    // Strip /blob/<branch>/... so we get https://github.com/owner/repo
+    var repoRoot = '';
+    if (opts.repoRoot) {
+      repoRoot = opts.repoRoot
+        .replace(/\/blob\/[^/]+\/.*/i, '')
+        .replace(/\/tree\/[^/]+\/.*/i, '')
+        .replace(/\.git$/, '')
+        .replace(/\/$/, '');
+    }
+
+    // Pre-pass: normalize orphaned fence markers.
+    // Rule: if a line starts with ``` while inCodeBlock=true AND the line
+    // carries a language tag (e.g. ```bash), treat it as a close rather than
+    // a new open. This collapses the upstream-README defect in gstack/ruflo.
+    var lines = [];
+    var inBlock = false;
+    for (var p = 0; p < rawLines.length; p++) {
+      var pl = rawLines[p];
+      var isFence = pl.trim().startsWith('```');
+      if (isFence) {
+        var hasLang = /^```[a-z]/.test(pl.trim());
+        if (inBlock && hasLang) {
+          // orphan opener inside a block → emit a plain close instead
+          lines.push('```');
+          inBlock = false;
+        } else {
+          lines.push(pl);
+          inBlock = !inBlock;
+        }
+      } else {
+        lines.push(pl);
+      }
+    }
+
+    function renderInline(raw) {
+      // Strip markdown backslash escapes; run twice to handle double-escaped
+      // sequences like \\_\\_ (common in upstream READMEs to escape __)
+      var unescaped = raw.replace(/\\([_*`\\])/g, '$1').replace(/\\([_*`\\])/g, '$1');
+      // 1. escape HTML first, then restore intentional markup
+      var s = esc(unescaped);
+      s = s.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      s = s.replace(/\*(.*?)\*/g, '<em>$1</em>');
+      s = s.replace(/`(.*?)`/g, '<code>$1</code>');
+      // markdown links  [text](url) — safe because esc() already ran
+      s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g, function(_, text, href) {
+        // Resolve relative paths against the repo root as a GitHub blob URL.
+        // Absolute URLs (https://), root-relative (/), and anchors (#) are left as-is.
+        var resolvedHref = href;
+        if (repoRoot && !/^https?:\/\//.test(href) && href.charAt(0) !== '/' && href.charAt(0) !== '#') {
+          resolvedHref = repoRoot + '/blob/main/' + href;
+        }
+        return '<a href="' + resolvedHref + '" target="_blank" rel="noopener">' + text + '</a>';
+      });
+      return s;
+    }
+
+    var htmlParts = [];
+    var inCodeBlock = false;
+    var codeLines = [];
+    var tableHeader = null;
+    var tableRows = [];
+
+    for (var j = 0; j < lines.length; j++) {
+      var line = lines[j];
+      var trimmed = line.trim();
+
+      if (trimmed.startsWith('```')) {
+        if (inCodeBlock) {
+          inCodeBlock = false;
+          var codeText = codeLines.join('\n').trim();
+          if (isHostTab && (codeText.indexOf('./setup') !== -1 || codeText.indexOf('./install') !== -1)) {
+            htmlParts.push('<div class="se-install-block se-install-block--code">' +
+              '<pre class="se-install-code"><code id="se-code-' + tabId + '" data-base="' + esc(codeText) + '">' + esc(codeText) + '</code></pre>' +
+              '<button class="se-copy-btn" title="Copy to clipboard" aria-label="Copy to clipboard" id="se-copy-' + tabId + '" data-cmd="' + esc(codeText) + '">' + COPY_ICON() + '</button>' +
+              '</div>');
+          } else {
+            htmlParts.push('<div class="se-install-block se-install-block--code">' +
+              '<pre class="se-install-code"><code>' + esc(codeText) + '</code></pre>' +
+              '<button class="se-copy-btn" title="Copy to clipboard" aria-label="Copy to clipboard" data-cmd="' + esc(codeText) + '">' + COPY_ICON() + '</button>' +
+              '</div>');
+          }
+          codeLines = [];
+        } else {
+          inCodeBlock = true;
+        }
+        continue;
+      }
+
+      if (inCodeBlock) {
+        codeLines.push(line);
+        continue;
+      }
+
+      // Skip raw HTML tags (e.g. <details>, <summary>) — don't render them
+      if (trimmed.startsWith('<') && !trimmed.startsWith('<a ')) {
+        continue;
+      }
+
+      if (trimmed.startsWith('|')) {
+        var cells = line.split('|').map(function(s) { return s.trim(); }).filter(function(s, idx, arr) {
+          return idx > 0 && idx < arr.length - 1;
+        });
+        if (cells.length > 0) {
+          if (!tableHeader) {
+            tableHeader = cells;
+          } else if (cells[0].indexOf('---') === -1) {
+            tableRows.push(cells);
+          }
+        }
+        continue;
+      }
+
+      if (trimmed === '') {
+        htmlParts.push('<p></p>');
+        continue;
+      }
+
+      if (trimmed.startsWith('- ')) {
+        htmlParts.push('<li>' + renderInline(trimmed.slice(2)) + '</li>');
+        continue;
+      }
+
+      // blockquote  > text — render as prose with any inline code spans
+      // extracted as standalone copyable command blocks below the quote.
+      // e.g. > Run **`git clone ...`** then do X  →  prose paragraph + code block
+      if (trimmed.startsWith('> ')) {
+        var bqText = trimmed.slice(2);
+        htmlParts.push('<p class="se-blockquote-prose">' + renderInline(bqText) + '</p>');
+        // Extract all backtick-delimited spans and emit each as a copyable block
+        var codeSpanRe = /`([^`]+)`/g;
+        var cspMatch;
+        while ((cspMatch = codeSpanRe.exec(bqText)) !== null) {
+          var cmdText = cspMatch[1].replace(/\\([_*`\\])/g, '$1').replace(/\\([_*`\\])/g, '$1');
+          htmlParts.push('<div class="se-install-block se-install-block--code">' +
+            '<pre class="se-install-code"><code>' + esc(cmdText) + '</code></pre>' +
+            '<button class="se-copy-btn" title="Copy to clipboard" aria-label="Copy to clipboard" data-cmd="' + esc(cmdText) + '">' + COPY_ICON() + '</button>' +
+            '</div>');
+        }
+        continue;
+      }
+
+      htmlParts.push('<p>' + renderInline(line) + '</p>');
+    }
+
+    if (tableHeader && tableRows.length > 0) {
+      var agentIdx = -1;
+      var flagIdx = -1;
+      var pathIdx = -1;
+
+      for (var c = 0; c < tableHeader.length; c++) {
+        var h = tableHeader[c].toLowerCase();
+        if (h.indexOf('agent') !== -1 || h.indexOf('host') !== -1 || h.indexOf('platform') !== -1) agentIdx = c;
+        if (h.indexOf('flag') !== -1 || h.indexOf('argument') !== -1 || h.indexOf('option') !== -1) flagIdx = c;
+        if (h.indexOf('path') !== -1 || h.indexOf('install') !== -1 || h.indexOf('destination') !== -1) pathIdx = c;
+      }
+
+      if (isHostTab && agentIdx !== -1 && flagIdx !== -1) {
+        var dropdownHtml = '<div class="se-dropdown-container">' +
+          '<span class="se-dropdown-label">Select Host Agent Target:</span>' +
+          '<select class="se-hosts-dropdown" id="se-select-' + tabId + '" data-tabid="' + tabId + '">';
+
+        dropdownHtml += '<option value="" data-path="Auto-detects installed agents">Default (Auto-Detect)</option>';
+        for (var r = 0; r < tableRows.length; r++) {
+          var row = tableRows[r];
+          var agentName = row[agentIdx] || '';
+          var flagVal = row[flagIdx] || '';
+          var pathVal = row[pathIdx] || '';
+          dropdownHtml += '<option value="' + esc(flagVal) + '" data-path="' + esc(pathVal) + '">' + esc(agentName) + ' (' + esc(flagVal) + ')' + '</option>';
+        }
+        dropdownHtml += '</select></div>';
+        dropdownHtml += '<div class="se-target-path" id="se-path-' + tabId + '">' +
+          '<span>Destination Path:</span>' +
+          '<span class="se-mono-path">Auto-detects installed agents</span>' +
+          '</div>';
+
+        htmlParts.unshift(dropdownHtml);
+      } else {
+        var tblHtml = '<div class="se-table-container" style="overflow-x:auto;"><table class="se-markdown-table"><thead><tr>';
+        for (var th = 0; th < tableHeader.length; th++) {
+          tblHtml += '<th>' + esc(tableHeader[th]) + '</th>';
+        }
+        tblHtml += '</tr></thead><tbody>';
+        for (var tr = 0; tr < tableRows.length; tr++) {
+          tblHtml += '<tr>';
+          for (var td = 0; td < tableRows[tr].length; td++) {
+            tblHtml += '<td>' + renderInline(tableRows[tr][td]) + '</td>';
+          }
+          tblHtml += '</tr>';
+        }
+        tblHtml += '</tbody></table></div>';
+        htmlParts.push(tblHtml);
+      }
+    }
+
+    return htmlParts.join('\n');
+  }
+
+  // Render a non-suite installBody (plain markdown string, no headings).
+  function _renderInstallBody(md, repoRoot) {
+    if (!md) return '';
+    var lines = md.split('\n');
+    var html = _renderInstallMarkdown(lines, { repoRoot: repoRoot || '' });
+    if (!html.trim()) return '';
+    return '<div class="se-install-custom se-install-body">' + html + '</div>';
+  }
+
   function _renderTabbedInstall(ns) {
     var md = ns.installBody || '';
     if (!md) return '';
+    var repoRoot = (ns.links && ns.links.github) || '';
 
     var lines = md.split('\n');
     var sections = [];
@@ -196,137 +423,22 @@
       }).join(' ');
     }
 
-    function renderMarkdownContent(contentLines, isHostTab, tabId) {
-      var htmlParts = [];
-      var inCodeBlock = false;
-      var codeLines = [];
-      var tableHeader = null;
-      var tableRows = [];
-
-      for (var j = 0; j < contentLines.length; j++) {
-        var line = contentLines[j];
-        var trimmed = line.trim();
-
-        if (trimmed.startsWith('```')) {
-          if (inCodeBlock) {
-            inCodeBlock = false;
-            var codeText = codeLines.join('\n').trim();
-            if (isHostTab && (codeText.indexOf('./setup') !== -1 || codeText.indexOf('./install') !== -1)) {
-              htmlParts.push('<div class="se-install-block se-install-block--code">' +
-                '<pre class="se-install-code"><code id="se-code-' + tabId + '" data-base="' + esc(codeText) + '">' + esc(codeText) + '</code></pre>' +
-                '<button class="se-copy-btn" title="Copy to clipboard" aria-label="Copy to clipboard" id="se-copy-' + tabId + '" data-cmd="' + esc(codeText) + '">' + COPY_ICON() + '</button>' +
-                '</div>');
-            } else {
-              htmlParts.push('<div class="se-install-block se-install-block--code">' +
-                '<pre class="se-install-code"><code>' + esc(codeText) + '</code></pre>' +
-                '<button class="se-copy-btn" title="Copy to clipboard" aria-label="Copy to clipboard" data-cmd="' + esc(codeText) + '">' + COPY_ICON() + '</button>' +
-                '</div>');
-            }
-            codeLines = [];
-          } else {
-            inCodeBlock = true;
-          }
-          continue;
-        }
-
-        if (inCodeBlock) {
-          codeLines.push(line);
-          continue;
-        }
-
-        if (trimmed.startsWith('|')) {
-          var cells = line.split('|').map(function(s) { return s.trim(); }).filter(function(s, idx, arr) {
-            return idx > 0 && idx < arr.length - 1;
-          });
-          if (cells.length > 0) {
-            if (!tableHeader) {
-              tableHeader = cells;
-            } else if (cells[0].indexOf('---') === -1) {
-              tableRows.push(cells);
-            }
-          }
-          continue;
-        }
-
-        if (trimmed === '') {
-          htmlParts.push('<p></p>');
-          continue;
-        }
-
-        if (trimmed.startsWith('- ')) {
-          htmlParts.push('<li>' + esc(trimmed.slice(2)) + '</li>');
-          continue;
-        }
-
-        var lineHtml = esc(line)
-          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-          .replace(/\*(.*?)\*/g, '<em>$1</em>')
-          .replace(/`(.*?)`/g, '<code>$1</code>');
-        htmlParts.push('<p>' + lineHtml + '</p>');
-      }
-
-      if (tableHeader && tableRows.length > 0) {
-        var agentIdx = -1;
-        var flagIdx = -1;
-        var pathIdx = -1;
-
-        for (var c = 0; c < tableHeader.length; c++) {
-          var h = tableHeader[c].toLowerCase();
-          if (h.indexOf('agent') !== -1 || h.indexOf('host') !== -1 || h.indexOf('platform') !== -1) agentIdx = c;
-          if (h.indexOf('flag') !== -1 || h.indexOf('argument') !== -1 || h.indexOf('option') !== -1) flagIdx = c;
-          if (h.indexOf('path') !== -1 || h.indexOf('install') !== -1 || h.indexOf('destination') !== -1) pathIdx = c;
-        }
-
-        if (isHostTab && agentIdx !== -1 && flagIdx !== -1) {
-          var dropdownHtml = '<div class="se-dropdown-container">' +
-            '<span class="se-dropdown-label">Select Host Agent Target:</span>' +
-            '<select class="se-hosts-dropdown" id="se-select-' + tabId + '" data-tabid="' + tabId + '">';
-          
-          dropdownHtml += '<option value="" data-path="Auto-detects installed agents">Default (Auto-Detect)</option>';
-          for (var r = 0; r < tableRows.length; r++) {
-            var row = tableRows[r];
-            var agentName = row[agentIdx] || '';
-            var flagVal = row[flagIdx] || '';
-            var pathVal = row[pathIdx] || '';
-            dropdownHtml += '<option value="' + esc(flagVal) + '" data-path="' + esc(pathVal) + '">' + esc(agentName) + ' (' + esc(flagVal) + ')' + '</option>';
-          }
-          dropdownHtml += '</select></div>';
-          dropdownHtml += '<div class="se-target-path" id="se-path-' + tabId + '">' +
-            '<span>Destination Path:</span>' +
-            '<span class="se-mono-path">Auto-detects installed agents</span>' +
-            '</div>';
-
-          htmlParts.unshift(dropdownHtml);
-        } else {
-          var tblHtml = '<div class="se-table-container" style="overflow-x:auto;"><table class="se-markdown-table"><thead><tr>';
-          for (var th = 0; th < tableHeader.length; th++) {
-            tblHtml += '<th>' + esc(tableHeader[th]) + '</th>';
-          }
-          tblHtml += '</tr></thead><tbody>';
-          for (var tr = 0; tr < tableRows.length; tr++) {
-            tblHtml += '<tr>';
-            for (var td = 0; td < tableRows[tr].length; td++) {
-              tblHtml += '<td>' + esc(tableRows[tr][td]) + '</td>';
-            }
-            tblHtml += '</tr>';
-          }
-          tblHtml += '</tbody></table></div>';
-          htmlParts.push(tblHtml);
-        }
-      }
-
-      return htmlParts.join('\n');
-    }
-
     var introHtml = '';
     var validIntroLines = introLines.filter(function(l) { return l.trim() !== ''; });
     if (validIntroLines.length > 0) {
-      introHtml = '<div class="se-install-intro" style="margin-bottom:0.75rem; font-size:0.85rem; color:var(--muted);">' + 
-        validIntroLines.map(function(l) {
-          return esc(l)
-            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-            .replace(/`(.*?)`/g, '<code>$1</code>');
-        }).join('<br>') + 
+      var introRendered = _renderInstallMarkdown(introLines, { repoRoot: repoRoot });
+      introHtml = '<div class="se-install-intro" style="margin-bottom:0.75rem; font-size:0.85rem; color:var(--muted);">' +
+        introRendered +
+        '</div>';
+    }
+
+    // When there are no tab sections (no ### headings), render the entire
+    // body as a single non-tabbed block so skills like mattpocock/skills
+    // (one bash fence + prose) still show up properly.
+    if (sections.length === 0) {
+      return '<div class="se-install-custom">' +
+        '<div class="se-flow-h se-install-guide-h">Setup Guide</div>' +
+        introHtml +
         '</div>';
     }
 
@@ -342,7 +454,7 @@
       tabHeadersHtml += '<button class="se-tab-btn' + activeClass + '" data-target="' + tabId + '">' + esc(tName) + '</button>';
       
       var isHostTab = tName.toLowerCase().indexOf('host') !== -1 || tName.toLowerCase().indexOf('other') !== -1;
-      var panelBody = renderMarkdownContent(sec.content, isHostTab, tabId);
+      var panelBody = _renderInstallMarkdown(sec.content, { isHostTab: isHostTab, tabId: tabId, repoRoot: repoRoot });
       tabPanelsHtml += '<div class="se-tab-panel' + activeClass + '" id="' + tabId + '">' + panelBody + '</div>';
     }
 
@@ -413,7 +525,7 @@
         installBlock('Gaia', gaiaLabel, gaiaCmd, true) +
         installBlock('npx', 'skills package', 'npx skills add ' + skillsAddRef, false) +
         (cloneUrl ? installBlock('Git Clone', '', 'git clone ' + cloneUrl, false) : '') +
-        (ns.installBody ? _renderInstallBody(ns.installBody) : '');
+        (ns.installBody ? _renderInstallBody(ns.installBody, repoUrl) : '');
     }
 
     el.querySelectorAll('.se-tab-btn').forEach(function(btn) {
@@ -583,7 +695,7 @@
       var uniqueNodeHtml = '<div class="git-node git-node--main" data-id="' + esc(genericId) +
           '" data-type="unique" data-level="' + esc((ns && ns.level) || '') + '" data-ghost="false">' +
         '<div class="git-commit-dot" style="--dot-color:' + uColor + '"></div>' +
-        createNodeLabel(labelId) +
+        createNodeLabel(labelId, null, null, (ns && ns.level) || '') +
       '</div>';
 
       el.innerHTML = '<div class="se-flow-h">' + _se_icon('sparkle') +
@@ -1442,12 +1554,22 @@
       var docsBtn = document.getElementById('seSkillDocs');
       if (docsBtn) {
         var readmeUrlRaw = '';
+        // Suites don't have a top-level SKILL.md at the canonical path — hide the button.
+        var isSuiteSkill = Array.isArray(ns.suiteComponents) && ns.suiteComponents.length > 0;
         // Pre-named/demoted (≤1★): the repo URL exposes the contributor — hide it.
         var docsRedacted = window.isRedacted && window.isRedacted(ns.level);
-        var repoUrl = (!docsRedacted && (ns.links && (ns.links.github || ns.links.npm))) || '';
-        if (repoUrl && isGithubUrl(repoUrl)) {
-          var base = repoUrl.replace(/\.(git|\/?)$/, '').replace('github.com', 'raw.githubusercontent.com');
-          readmeUrlRaw = base + '/main/SKILL.md';
+        if (!isSuiteSkill) {
+          var repoUrl = (!docsRedacted && (ns.links && (ns.links.github || ns.links.npm))) || '';
+          if (repoUrl && isGithubUrl(repoUrl)) {
+            var base = repoUrl.replace(/\.(git|\/?)$/, '').replace('github.com', 'raw.githubusercontent.com');
+            // If links.github already points directly to a SKILL.md, use it as-is
+            // (handles nested skills like hive-mind-coordination).
+            if (/\/SKILL\.md$/i.test(repoUrl)) {
+              readmeUrlRaw = base;
+            } else {
+              readmeUrlRaw = base.replace(/\/blob\//, '/').replace(/\/tree\//, '/') + '/main/SKILL.md';
+            }
+          }
         }
         if (!readmeUrlRaw) {
           docsBtn.style.display = 'none';
@@ -1496,7 +1618,14 @@
   // ── DOM EVENT SETUP (deferred — overlay HTML is parsed after this script) ──
   function initExplorerDOM() {
     var backEl = document.getElementById('seBack');
-    if (backEl) backEl.onclick = function(){ closeExplorer(); history.back(); };
+    if (backEl) {
+      backEl.setAttribute('title', 'Back');
+      backEl.setAttribute('aria-label', 'Back');
+      backEl.onclick = function () {
+        closeExplorer();
+        history.back();
+      };
+    }
 
     var closeEl = document.getElementById('seClose');
     if (closeEl) closeEl.onclick = function(){ closeExplorer(); history.pushState(null, '', location.pathname); };
@@ -1536,9 +1665,9 @@
         var handle  = btn.getAttribute('data-handle') || skillId.split('/')[0];
         var name    = btn.getAttribute('data-skill-name') || skillId.split('/').pop();
         var ogPath  = btn.getAttribute('data-og') || ('og/' + handle + '/' + skillId.split('/').pop() + '.svg');
-        // Pull level/type from the rendered plaque if available
-        var ns = (window._gaiaNamedBuckets && window._gaiaNamedBuckets[handle]) || [];
-        var nsEntry = ns.find(function(s){ return s.id === skillId; }) || {};
+        // Pull level/type from the named all-skills list if available
+        var allNamed = window._gaiaNamedAll || [];
+        var nsEntry = allNamed.find(function(s){ return s.id === skillId; }) || {};
         window.openHohFullscreenModal({
           id: skillId,
           contributor: handle,

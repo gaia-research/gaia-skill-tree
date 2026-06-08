@@ -1547,8 +1547,21 @@
           btn.addEventListener('click', e => {
             e.stopPropagation();
             const nid = btn.dataset.nid;
-            const url = window.location.origin + window.location.pathname + '#explorer/' + nid;
-            window.open(url, '_blank');
+            let prefix = '';
+            if (typeof window.gaiaIconBase === 'function') {
+              prefix = window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '');
+            } else {
+              let path = window.location.pathname;
+              if (path.endsWith('index.html')) {
+                path = path.slice(0, -10);
+              }
+              if (!path.endsWith('/')) {
+                path += '/';
+              }
+              prefix = path;
+            }
+            const resolvedUrl = new URL(prefix + 'named/#explorer/' + encodeURIComponent(nid).replace(/%2F/g, '/'), window.location.href).href;
+            window.open(resolvedUrl, '_blank');
           });
         });
       }

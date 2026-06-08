@@ -267,9 +267,11 @@
       if (ogPath) {
         // Show mock immediately so the modal isn't blank during the fetch.
         renderMock();
-        // Always fetch the SVG for inline display — if given a .png path
-        // (e.g. from profile pages), derive the .svg sibling.
-        var svgPath = ogPath.replace(/\.png(\?.*)?$/, '.svg');
+        // Resolve ogPath against the docs root so it works from any sub-page.
+        var docRoot = (typeof window.gaiaIconBase === 'function')
+          ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '')
+          : '';
+        var svgPath = docRoot + ogPath.replace(/\.png(\?.*)?$/, '.svg');
         fetch(svgPath)
           .then(function (r) { return r.ok ? r.text() : Promise.reject(); })
           .then(function (svgText) {
@@ -389,9 +391,12 @@
           e.stopPropagation();
           var fmt  = btn.getAttribute('data-dl-format');
           var slug = ns.id.split('/').pop();
+          var dlRoot = (typeof window.gaiaIconBase === 'function')
+            ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '')
+            : '';
           var href = fmt === 'png'
-            ? 'og/' + ns.contributor + '/' + slug + '.png'
-            : (ns.ogPath || 'og/' + ns.contributor + '/' + slug + '.svg');
+            ? dlRoot + 'og/' + ns.contributor + '/' + slug + '.png'
+            : dlRoot + (ns.ogPath || 'og/' + ns.contributor + '/' + slug + '.svg');
           var a = document.createElement('a');
           a.href = href;
           a.download = ns.contributor + '-' + slug + '.' + fmt;
@@ -584,8 +589,8 @@
       var handle  = btn.getAttribute('data-handle')   || skillId.split('/')[0];
       var name    = btn.getAttribute('data-skill-name') || skillId.split('/').pop();
       var ogPath  = btn.getAttribute('data-og') || ('og/' + handle + '/' + skillId.split('/').pop() + '.svg');
-      var ns = (window._gaiaNamedBuckets && window._gaiaNamedBuckets[handle]) || [];
-      var entry = ns.find(function(s){ return s.id === skillId; }) || {};
+      var allNamed = window._gaiaNamedAll || [];
+      var entry = allNamed.find(function(s){ return s.id === skillId; }) || {};
       openHohFullscreenModal({
         id: skillId,
         contributor: handle,

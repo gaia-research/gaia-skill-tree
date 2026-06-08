@@ -52,6 +52,20 @@ npx ruflo@latest init
 
 See the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options."""
 
+# Short curated summary for the Ruflo capstone — the upstream README's
+# Installation section is far too long for an inline skill-page panel.
+# The full guide lives on GitHub; we just surface a quick-start here.
+RUFLO_CAPSTONE_TEMPLATE = """The quickest path to Ruflo:
+
+```bash
+npx ruflo@latest init
+```
+
+This launches an interactive wizard that detects your platform and configures
+the full Ruflo loop (98 agents, 60+ commands, MCP server, hooks, and daemon).
+For Claude Code plugin installs, Windows specifics, or the complete options
+reference, see the [full installation guide on GitHub](https://github.com/ruvnet/ruflo#installation)."""
+
 def fetch_url(url: str) -> Optional[str]:
     print(f"Fetching {url}...")
     try:
@@ -157,9 +171,14 @@ def surgical_update(file_path: str, new_install_body: str):
 
 def main():
     print("Starting surgical suite instruction update...")
-    
+
     # 1. Update Capstones from Upstream
     for suite_id, info in UPSTREAM_CONFIG.items():
+        # ruvnet/ruflo: the upstream README's Installation section is too long
+        # for inline display. Apply a curated short template instead.
+        if suite_id == "ruvnet/ruflo":
+            surgical_update(info["path"], RUFLO_CAPSTONE_TEMPLATE)
+            continue
         raw_content = fetch_url(info["url"])
         if raw_content:
             section = extract_section(raw_content, info["heading_keywords"])
