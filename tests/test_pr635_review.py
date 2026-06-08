@@ -620,3 +620,17 @@ class TestScrutiny_AllFlagShadowing:
         parser, _ = get_parser()
         args = parser.parse_args(["graph", "--custom"])
         assert getattr(args, "custom", False) is True
+
+    def test_parser_canon_on_tree(self):
+        """Verify --canon flag on tree command."""
+        from gaia_cli.main import get_parser
+        parser, _ = get_parser()
+        args = parser.parse_args(["tree", "--canon"])
+        assert getattr(args, "canon", False) is True
+
+    def test_parser_canon_on_graph(self):
+        """Verify --canon flag on graph command."""
+        from gaia_cli.main import get_parser
+        parser, _ = get_parser()
+        args = parser.parse_args(["graph", "--canon"])
+        assert getattr(args, "canon", False) is True

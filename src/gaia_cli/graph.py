@@ -1229,7 +1229,8 @@ def graph_command(args: Any) -> None:
         pass  # Degrade gracefully to canon mode
 
     try:
-        custom = getattr(args, "custom", False)
+        canon = getattr(args, "canon", False)
+        custom = getattr(args, "custom", False) or (not canon)
         out_path = write_graph_artifact(registry_path, output=output, fmt=fmt, user_ctx=user_ctx, custom=custom)
     except FileNotFoundError as exc:
         print(str(exc), file=sys.stderr)
