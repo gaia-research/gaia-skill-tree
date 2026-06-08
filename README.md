@@ -194,12 +194,6 @@ Any MCP-compatible client. See [packages/mcp/](packages/mcp/) for config example
 
 ---
 
-**Interactive** with the [Terminal UI](#terminal-ui-experimental)
-
-```bash
-gaia
-```
-
 ## Terminal UI (experimental)
 
 > **New.** Agent-first interface designed for Claude Code, Codex, and other AI agents.
