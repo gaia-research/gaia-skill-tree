@@ -265,9 +265,9 @@ def select_push_batch(batch: dict, prompt: str = "Select items to push to regist
     """Multi-select checkbox for items in a push batch.
     
     Choices are grouped by:
-    1. Fusions (proposedCombinations)
-    2. Starless (knownSkills)
-    3. Custom (proposedSkills)
+    1. Fuses -> Review (proposedCombinations)
+    2. Custom skills -> Review (proposedSkills)
+    3. Starless skills -> Named proposal (knownSkills)
     
     All items are selected by default.
     Returns a list of 'type:id' strings of selected items.
@@ -280,10 +280,10 @@ def select_push_batch(batch: dict, prompt: str = "Select items to push to regist
 
     choices = []
     
-    # 1. Fusions
+    # 1. Fusions (Fuses)
     fusions = batch.get("proposedCombinations", [])
     if fusions:
-        choices.append(questionary.Separator("--- Fused skill paths ---"))
+        choices.append(questionary.Separator("--- Fuses -> Review ---"))
         for f in fusions:
             res = f.get("candidateResult", "?")
             srcs = f.get("detectedSkills", [])
@@ -293,23 +293,23 @@ def select_push_batch(batch: dict, prompt: str = "Select items to push to regist
             title = f"[FUSION] {prereq_str} → {display_res}"
             choices.append(questionary.Choice(title=title, value=f"fusion:{res}", checked=True))
             
-    # 2. Starless
-    known = batch.get("knownSkills", [])
-    if known:
-        choices.append(questionary.Separator("--- Starless (Generic) ---"))
-        for k in known:
-            sid = k.get("skillId", "?")
-            title = f"[STARLESS] {_format_id(sid)}"
-            choices.append(questionary.Choice(title=title, value=f"known:{sid}", checked=True))
-            
-    # 3. Custom
+    # 2. Custom Skills
     proposed = batch.get("proposedSkills", [])
     if proposed:
-        choices.append(questionary.Separator("--- Custom Skills ---"))
+        choices.append(questionary.Separator("--- Custom skills -> Review ---"))
         for p in proposed:
             sid = p.get("id", "?")
             title = f"[CUSTOM] {_format_id(sid)}"
             choices.append(questionary.Choice(title=title, value=f"proposed:{sid}", checked=True))
+
+    # 3. Starless (Known/Generic)
+    known = batch.get("knownSkills", [])
+    if known:
+        choices.append(questionary.Separator("--- Starless skills -> Named proposal ---"))
+        for k in known:
+            sid = k.get("skillId", "?")
+            title = f"[STARLESS] {_format_id(sid)}"
+            choices.append(questionary.Choice(title=title, value=f"known:{sid}", checked=True))
 
     if not choices:
         return []
