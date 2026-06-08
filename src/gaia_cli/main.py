@@ -569,12 +569,14 @@ def scan_command(args):
                 m_type = sk.get("match_type")
                 
                 match_note = ""
-                if mapped_id != cid and mapped_score > 0:
+                if mapped_score > 0:
                     rank_color = RANK_COLORS.get(sk.get('canon_level', '0★'), RANK_COLORS["0★"])
                     canon_display = ctx.display_name(mapped_id, canon=canon)
                     
                     if m_type in ("origin", "named"):
                         match_note = f"  {_fg(100,100,100)}→ {_fg(*rank_color)}{canon_display}{_fg(100,100,100)} (NAMED MATCH){_reset()}"
+                    elif m_type == "exact_generic":
+                        match_note = f"  {_fg(100,100,100)}→ {_fg(*rank_color)}{canon_display}{_fg(100,100,100)} (EXACT BASE MATCH){_reset()}"
                     else:
                         match_note = f"  {_fg(100,100,100)}→ {_fg(*rank_color)}{canon_display}{_fg(100,100,100)} ({mapped_score:.0%} semantic){_reset()}"
                 
