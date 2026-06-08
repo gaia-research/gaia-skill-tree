@@ -64,3 +64,13 @@ First published by @ruvnet as part of the Ruflo orchestration platform. This is 
 This 4★ fusion unites all 11 v3 suite skills: swarm-orchestration + swarm-advanced + v3-cli-modernization + v3-core-implementation + v3-ddd-architecture + v3-integration-deep + v3-mcp-optimization + v3-memory-unification + v3-performance-optimization + v3-security-overhaul + v3-swarm-coordination.
 
 Sourced from the Ruflo platform (ruvnet/ruflo, 34k+ stars).
+
+## Installation
+
+This skill is part of the Ruflo orchestration platform.
+
+```bash
+npx ruflo@latest init
+```
+
+See the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.

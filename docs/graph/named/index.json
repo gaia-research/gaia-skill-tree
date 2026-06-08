@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-07",
+  "generatedAt": "2026-06-08",
   "buckets": {
     "automated-testing": [
       {
@@ -253,6 +253,7 @@
         ],
         "suiteRef": "ruvnet/ruflo",
         "type": "basic",
+        "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "variant"
       },
       {
@@ -500,6 +501,7 @@
         ],
         "suiteRef": "mattpocock/personal",
         "type": "basic",
+        "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant"
       }
     ],
@@ -537,6 +539,7 @@
         ],
         "suiteRef": "mattpocock/productivity",
         "type": "extra",
+        "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "origin"
       },
       {
@@ -906,6 +909,7 @@
         "updatedAt": "2026-04-30",
         "suiteRef": "mattpocock/engineering",
         "type": "extra",
+        "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant"
       },
       {
@@ -1471,7 +1475,7 @@
         "updatedAt": "2026-06-04",
         "suiteRef": "mattpocock/productivity",
         "type": "basic",
-        "installBody": "This skill is included in the Matt Pocock skills suite:\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required.\n\n### How to Activate\n\nTrigger with any of these phrases:\n\n- \"caveman mode\"\n- \"talk like caveman\"\n- \"use caveman\"\n- \"less tokens\"\n- \"be brief\"\n- \"/caveman\" command\n\nMode activates immediately upon invocation.\n\n### How It Works\n\nCompresses communication by approximately **75% token reduction**. Maintains technical precision while eliminating unnecessary elements.\n\n**Removed:**\n- Articles (a/an/the)\n- Padding words (just/really/basically)\n- Pleasantries (sure/certainly)\n- Hedging language\n\n**Preserved:**\n- Exact technical terminology\n- Code blocks\n- Error messages\n- Causal relationships (shown with arrows: X → Y)\n\n**Style:**\n- Fragments acceptable\n- Short word choices prioritized\n- Conjunctions optional\n\n### Example\n\nInstead of: \"Sure! I'd be happy to help you with that. The issue you're experiencing is likely caused by...\"\n\nWrite: \"Bug in auth middleware. Token expiry check use `<` not `<=`. Fix:\"\n\n### Deactivation\n\nMode persists across multiple responses. Disable with explicit commands:\n\n- \"stop caveman\"\n- \"normal mode\"",
+        "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant"
       },
       {
@@ -2148,6 +2152,7 @@
         ],
         "suiteRef": "mattpocock/engineering",
         "type": "extra",
+        "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant"
       }
     ],
@@ -2279,7 +2284,7 @@
           "garrytan/unfreeze"
         ],
         "type": "ultimate",
-        "installBody": "**30-second install** — Requirements: Claude Code, Git, Bun v1.0+, Node.js (Windows only)\n\n### Step 1: Install on your machine\n\nOpen Claude Code and paste this. Claude does the rest.\n\n```\nInstall gstack: run git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/.claude/skills/gstack && cd ~/.claude/skills/gstack && ./setup then add a \"gstack\" section to CLAUDE.md that says to use the /browse skill from gstack for all web browsing, never use mcp__claude-in-chrome__* tools, and lists the available skills: /office-hours, /plan-ceo-review, /plan-eng-review, /plan-design-review, /design-consultation, /design-shotgun, /design-html, /review, /ship, /land-and-deploy, /canary, /benchmark, /browse, /connect-chrome, /qa, /qa-only, /design-review, /setup-browser-cookies, /setup-deploy, /setup-gbrain, /retro, /investigate, /document-release, /document-generate, /codex, /cso, /autoplan, /plan-devex-review, /devex-review, /careful, /freeze, /guard, /unfreeze, /gstack-upgrade, /learn. Then ask the user if they also want to add gstack to the current project so teammates get it.\n```\n\n### Step 2: Team mode — auto-update for shared repos (recommended)\n\nFrom inside your repo, paste this. Switches you to team mode, bootstraps the repo so teammates get gstack automatically, and commits the change:\n\n```\n(cd ~/.claude/skills/gstack && ./setup --team) && ~/.claude/skills/gstack/bin/gstack-team-init required && git add .claude/ CLAUDE.md && git commit -m \"require gstack for AI-assisted work\"\n```\n\nNo vendored files in your repo, no version drift, no manual upgrades. Every Claude Code session starts with a fast auto-update check (throttled to once/hour, network-failure-safe, completely silent).\n\nSwap `required` for `optional` if you'd rather nudge teammates than block them.",
+        "installBody": "**Requirements:** [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [Git](https://git-scm.com/), [Bun](https://bun.sh/) v1.0+, [Node.js](https://nodejs.org/) (Windows only)\n\n### Step 1: Install on your machine\n\nOpen Claude Code and paste this. Claude does the rest.\n\n> Install gstack: run **`git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/.claude/skills/gstack && cd ~/.claude/skills/gstack && ./setup`** then add a \"gstack\" section to CLAUDE.md that says to use the /browse skill from gstack for all web browsing, never use mcp\\_\\_claude-in-chrome\\_\\_\\* tools, and lists the available skills: /office-hours, /plan-ceo-review, /plan-eng-review, /plan-design-review, /design-consultation, /design-shotgun, /design-html, /review, /ship, /land-and-deploy, /canary, /benchmark, /browse, /connect-chrome, /qa, /qa-only, /design-review, /setup-browser-cookies, /setup-deploy, /setup-gbrain, /retro, /investigate, /document-release, /document-generate, /codex, /cso, /autoplan, /plan-devex-review, /devex-review, /careful, /freeze, /guard, /unfreeze, /gstack-upgrade, /learn. Then ask the user if they also want to add gstack to the current project so teammates get it.\n\n### Step 2: Team mode — auto-update for shared repos (recommended)\n\nFrom inside your repo, paste this. Switches you to team mode, bootstraps the repo so teammates get gstack automatically, and commits the change:\n\n```bash\n(cd ~/.claude/skills/gstack && ./setup --team) && ~/.claude/skills/gstack/bin/gstack-team-init required && git add .claude/ CLAUDE.md && git commit -m \"require gstack for AI-assisted work\"\n```bash\nNo vendored files in your repo, no version drift, no manual upgrades. Every Claude Code session starts with a fast auto-update check (throttled to once/hour, network-failure-safe, completely silent).\n\nSwap `required` for `optional` if you'd rather nudge teammates than block them.\n\n### OpenClaw\n\nOpenClaw spawns Claude Code sessions via ACP, so every gstack skill just works\nwhen Claude Code has gstack installed. Paste this to your OpenClaw agent:\n\n> Install gstack: run `git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/.claude/skills/gstack && cd ~/.claude/skills/gstack && ./setup` to install gstack for Claude Code. Then add a \"Coding Tasks\" section to AGENTS.md that says: when spawning Claude Code sessions for coding work, tell the session to use gstack skills. Include these examples — security audit: \"Load gstack. Run /cso\", code review: \"Load gstack. Run /review\", QA test a URL: \"Load gstack. Run /qa https://...\", build a feature end-to-end: \"Load gstack. Run /autoplan, implement the plan, then run /ship\", plan before building: \"Load gstack. Run /office-hours then /autoplan. Save the plan, don't implement.\"\n\n**After setup, just talk to your OpenClaw agent naturally:**\n\n| You say | What happens |\n|---------|-------------|\n| \"Fix the typo in README\" | Simple — Claude Code session, no gstack needed |\n| \"Run a security audit on this repo\" | Spawns Claude Code with `Run /cso` |\n| \"Build me a notifications feature\" | Spawns Claude Code with /autoplan → implement → /ship |\n| \"Help me plan the v2 API redesign\" | Spawns Claude Code with /office-hours → /autoplan, saves plan |\n\nSee [docs/OPENCLAW.md](docs/OPENCLAW.md) for advanced dispatch routing and\nthe gstack-lite/gstack-full prompt templates.\n\n### Native OpenClaw Skills (via ClawHub)\n\nFour methodology skills that work directly in your OpenClaw agent, no Claude Code\nsession needed. Install from ClawHub:\n\n```\nclawhub install gstack-openclaw-office-hours gstack-openclaw-ceo-review gstack-openclaw-investigate gstack-openclaw-retro\n```bash\n| Skill | What it does |\n|-------|-------------|\n| `gstack-openclaw-office-hours` | Product interrogation with 6 forcing questions |\n| `gstack-openclaw-ceo-review` | Strategic challenge with 4 scope modes |\n| `gstack-openclaw-investigate` | Root cause debugging methodology |\n| `gstack-openclaw-retro` | Weekly engineering retrospective |\n\nThese are conversational skills. Your OpenClaw agent runs them directly via chat.\n\n### Other AI Agents\n\ngstack works on 10 AI coding agents, not just Claude. Setup auto-detects which\nagents you have installed:\n\n```bash\ngit clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/gstack\ncd ~/gstack && ./setup\n```\n\nOr target a specific agent with `./setup --host <name>`:\n\n| Agent | Flag | Skills install to |\n|-------|------|-------------------|\n| OpenAI Codex CLI | `--host codex` | `~/.codex/skills/gstack-*/` |\n| OpenCode | `--host opencode` | `~/.config/opencode/skills/gstack-*/` |\n| Cursor | `--host cursor` | `~/.cursor/skills/gstack-*/` |\n| Factory Droid | `--host factory` | `~/.factory/skills/gstack-*/` |\n| Slate | `--host slate` | `~/.slate/skills/gstack-*/` |\n| Kiro | `--host kiro` | `~/.kiro/skills/gstack-*/` |\n| Hermes | `--host hermes` | `~/.hermes/skills/gstack-*/` |\n| GBrain (mod) | `--host gbrain` | `~/.gbrain/skills/gstack-*/` |\n\n**Want to add support for another agent?** See [docs/ADDING_A_HOST.md](docs/ADDING_A_HOST.md).\nIt's one TypeScript config file, zero code changes.",
         "role": "origin"
       }
     ],
@@ -4109,7 +4114,7 @@
           "mattpocock/zoom-out"
         ],
         "type": "ultimate",
-        "installBody": "Install the full Matt Pocock skills suite with:\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\n### Setup Required\n\nBefore using engineering skills (`to-issues`, `to-prd`, `triage`, `diagnose`), you must run the setup skill in your agent:\n\n```\nRun: /setup-matt-pocock-skills\n```\n\nThis interactive setup configures three foundational documents:\n\n1. **Issue Tracker** — Choose GitHub Issues, GitLab Issues, or local markdown\n2. **Triage Labels** — Map your label vocabulary (`needs-triage`, `ready-for-agent`, etc.)\n3. **Domain Docs** — Confirm your documentation layout (single-context or multi-context)\n\nThe setup updates or creates:\n- `## Agent skills` block in `CLAUDE.md` or `AGENTS.md`\n- `docs/agents/issue-tracker.md`, `docs/agents/triage-labels.md`, `docs/agents/domain.md`\n\n### What's Included\n\nTen engineering skills for code-focused work:\n- **Core Practices**: TDD, bug diagnosis, architecture improvement\n- **Planning & Documentation**: Convert plans to GitHub issues, create PRDs, grill sessions\n- **Team Coordination**: Issue triage through state machine workflows\n- **Supporting Tools**: Prototype creation, zooming out for context",
+        "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "origin"
       }
     ],
@@ -4148,6 +4153,7 @@
         "updatedAt": "2026-05-15",
         "suiteRef": "mattpocock/productivity",
         "type": "extra",
+        "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant"
       }
     ],
@@ -4188,6 +4194,7 @@
         "updatedAt": "2026-05-15",
         "suiteRef": "mattpocock/engineering",
         "type": "extra",
+        "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "origin"
       }
     ],
@@ -4218,7 +4225,7 @@
         "updatedAt": "2026-06-04",
         "suiteRef": "mattpocock/productivity",
         "type": "extra",
-        "installBody": "This skill is included in the Matt Pocock skills suite:\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required.\n\n### Core Purpose\n\nEnables seamless agent transitions by creating a summary document that allows a fresh agent to continue work without losing context.\n\n### Key Setup Requirements\n\n1. **Output Location** — Save handoff documents to the OS temporary directory, not the current workspace\n2. **Content Optimization** — Avoid duplicating information already captured in artifacts (PRDs, plans, ADRs, issues, commits, diffs). Reference them instead.\n3. **Security** — Redact sensitive data including API keys, passwords, and PII\n\n### Document Structure\n\nThe handoff document includes:\n\n- **Conversation Summary** — Key decisions, progress, and current status\n- **Suggested Skills Section** — List tools/capabilities the next agent should invoke\n- **References** — Links or paths to existing artifacts rather than redundant content\n- **Focus Area** — If user-provided arguments exist, tailor the document around those priorities\n\n### Usage Workflow\n\nWhen initiating a handoff:\n\n1. Provide context about what the next session will address (optional arguments)\n2. The protocol automatically compacts the conversation into a portable summary\n3. The document is saved to a temporary location accessible across sessions\n4. The next agent uses this document to resume work efficiently\n\nThis approach maintains continuity while keeping documentation DRY and security-conscious.",
+        "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant"
       }
     ],
@@ -4249,6 +4256,7 @@
         "updatedAt": "2026-04-30",
         "suiteRef": "mattpocock/engineering",
         "type": "basic",
+        "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant"
       }
     ],
@@ -4279,7 +4287,7 @@
         "updatedAt": "2026-06-04",
         "suiteRef": "mattpocock/personal",
         "type": "extra",
-        "installBody": "This skill is included in the Matt Pocock skills suite:\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required.\n\n### Setup Requirements\n\nThe vault maintains \"a mostly flat structure at root level\" without folder-based organization.\n\nConfigure your Obsidian vault path as part of the personal knowledge management setup.\n\n### How to Use\n\n**Naming & Structure:**\n- All notes use **Title Case** formatting\n- Index notes aggregate related topics (example: \"RAG Index.md\")\n- Organization relies on **wikilinks** rather than folders\n\n**Linking Convention:**\n- Use \"Obsidian `[[wikilinks]]` syntax\" for related notes\n- List dependencies and connected notes at the bottom of each note\n\n### Core Operations\n\n**1. Searching notes** — Use find commands for filenames or grep to search content across markdown files\n\n**2. Creating notes** — Write content as a self-contained learning unit:\n   - Add wikilinks to related topics\n   - Apply title case to filenames\n   - Include backlinks at the bottom\n\n**3. Finding connections** — Search for backlinks by grepping for specific `[[Note Title]]` references throughout the vault\n\n**4. Locating indexes** — Use find commands to identify all `*Index*` files that serve as topic aggregators\n\n### Key Principle\n\nThe system prioritizes **interconnected content discovery** through wikilinks over hierarchical folder structures. This creates a web of related information accessible from any note.",
+        "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant"
       }
     ],
@@ -4302,7 +4310,7 @@
           "mattpocock/obsidian-vault"
         ],
         "type": "extra",
-        "installBody": "Install the full Matt Pocock skills suite with:\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\n### What's Included\n\nTwo custom skills for personal knowledge management:\n\n1. **edit-article** — Refine written content: restructure sections, improve clarity, tighten prose\n2. **obsidian-vault** — Search, create, and manage notes in an Obsidian vault with wikilinks and index notes\n\nNo additional setup required beyond the main suite installation.",
+        "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "origin"
       }
     ],
@@ -4327,7 +4335,7 @@
           "mattpocock/write-a-skill"
         ],
         "type": "extra",
-        "installBody": "Install the full Matt Pocock skills suite with:\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\n### What's Included\n\nFour productivity tools for general workflow optimization:\n\n1. **caveman** — Ultra-compressed communication mode (~75% token reduction)\n2. **grill-me** — Intensive questioning sessions to fully resolve decisions\n3. **handoff** — Compress conversations for agent-to-agent handoffs\n4. **write-a-skill** — Create new skills with proper structure and resources\n\nNo additional setup required beyond the main suite installation.",
+        "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "origin"
       }
     ],
@@ -4358,7 +4366,7 @@
         "updatedAt": "2026-06-04",
         "suiteRef": "mattpocock/engineering",
         "type": "extra",
-        "installBody": "This skill is included in the Matt Pocock skills suite:\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required.\n\n### How to Use\n\n**Step 1 — Identify your question**\n\nDetermine whether you're validating logic/state or exploring UI design.\n\n**Step 2 — Choose your branch:**\n\n- Logic questions → Build a terminal app testing the state machine\n- UI questions → Create multiple design variations on one route\n\n**Step 3 — Run with one command**\n\nUse your project's existing task runner (e.g., `pnpm`, `python`, `bun`).\n\n**Step 4 — Location matters**\n\nPlace prototype code near the actual module or page it tests, with a clear \"prototype\" label in the filename.\n\n### During Prototyping\n\n- Keep state in memory (no persistence unless testing a database specifically)\n- Skip polish — no tests or error handling beyond what's needed to run\n- Display full state after each action so changes are visible\n\n### When Finished\n\n- Capture the answer in a durable location\n- Document what question was answered\n- Delete the prototype or integrate validated decisions into production code\n- Don't leave prototype code rotting in the repository\n\n**Key principle:** The goal is learning fast, then deletion — not building production-ready code.",
+        "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant"
       }
     ],
@@ -4389,7 +4397,7 @@
         "updatedAt": "2026-06-04",
         "suiteRef": "mattpocock/engineering",
         "type": "extra",
-        "installBody": "This skill is automatically available after installing the Matt Pocock skills suite:\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\n### Setup Process\n\nRun this skill in your agent to configure foundational documents:\n\n```\nInvoke: /setup-matt-pocock-skills\n```\n\n### What This Skill Does\n\n**Step 1 — Explore:** Reads your repository state via:\n- `git remote -v` and `.git/config` (GitHub/GitLab detection)\n- `AGENTS.md` and `CLAUDE.md` (existing config)\n- `CONTEXT.md`, `CONTEXT-MAP.md`, and `docs/adr/` (domain docs)\n- `docs/agents/` (prior output)\n- `.scratch/` (local-markdown indicator)\n\n**Step 2 — Present & Decide (one at a time):**\n- **Issue Tracker** — GitHub Issues, GitLab Issues, local markdown, or other\n- **Triage Labels** — Map five roles to your label vocabulary\n- **Domain Docs** — Confirm single-context or multi-context layout\n\n**Step 3 — Review & Edit:** Approve or modify draft output\n\n**Step 4 — Write:** Updates or creates:\n- `## Agent skills` block in `CLAUDE.md` or `AGENTS.md`\n- `docs/agents/issue-tracker.md`, `docs/agents/triage-labels.md`, `docs/agents/domain.md`\n\n**Step 5 — Complete:** Done. Later manual edits to `docs/agents/*.md` don't require re-running.\n\n### When to Run\n\n- Before first use of downstream engineering skills\n- If those skills lack context about your issue tracker, triage labels, or domain docs\n- When switching issue trackers or restarting configuration",
+        "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant"
       }
     ],
@@ -4428,7 +4436,7 @@
           "mattpocock/zoom-out"
         ],
         "type": "ultimate",
-        "installBody": "This is the ultimate capstone suite. Install it to get all of Matt Pocock's skills grouped by category.",
+        "installBody": "Install the full Matt Pocock skills suite with:\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required.",
         "role": "origin"
       }
     ],
@@ -4467,6 +4475,7 @@
         "updatedAt": "2026-04-30",
         "suiteRef": "mattpocock/engineering",
         "type": "extra",
+        "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "origin"
       }
     ],
@@ -4505,6 +4514,7 @@
         "updatedAt": "2026-04-30",
         "suiteRef": "mattpocock/engineering",
         "type": "basic",
+        "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "origin"
       },
       {
@@ -4575,6 +4585,7 @@
         "updatedAt": "2026-05-15",
         "suiteRef": "mattpocock/engineering",
         "type": "extra",
+        "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant"
       },
       {
@@ -4631,6 +4642,7 @@
         "updatedAt": "2026-04-30",
         "suiteRef": "mattpocock/engineering",
         "type": "basic",
+        "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "origin"
       }
     ],
@@ -5423,7 +5435,7 @@
           "obra/writing-plans"
         ],
         "type": "ultimate",
-        "installBody": "Installation differs by harness. If you use more than one, install Superpowers separately for each one.\n\n### Claude Code\n\nSuperpowers is available via the [official Claude plugin marketplace](https://claude.com/plugins/superpowers)\n\n#### Official Marketplace\n\n- Install the plugin from Anthropic's official marketplace:\n\n  ```bash\n  /plugin install superpowers@claude-plugins-official\n  ```\n\n#### Superpowers Marketplace\n\nThe Superpowers marketplace provides Superpowers and some other related plugins for Claude Code.\n\n- Register the marketplace:\n\n  ```bash\n  /plugin marketplace add obra/superpowers-marketplace\n  ```\n\n- Install the plugin from this marketplace:\n\n  ```bash\n  /plugin install superpowers@superpowers-marketplace\n  ```\n\n### Codex CLI\n\nSuperpowers is available via the [official Codex plugin marketplace](https://github.com/openai/plugins).\n\n- Open the plugin search interface:\n\n  ```bash\n  /plugins\n  ```\n\n- Search for Superpowers:\n\n  ```bash\n  superpowers\n  ```\n\n- Select `Install Plugin`.\n\n### Codex App\n\nSuperpowers is available via the [official Codex plugin marketplace](https://github.com/openai/plugins).\n\n- In the Codex app, click on Plugins in the sidebar.\n- You should see `Superpowers` in the Coding section.\n- Click the `+` next to Superpowers and follow the prompts.\n\n### Factory Droid\n\n- Register the marketplace:\n\n  ```bash\n  droid plugin marketplace add https://github.com/obra/superpowers\n  ```\n\n- Install the plugin:\n\n  ```bash\n  droid plugin install superpowers@superpowers\n  ```\n\n### Gemini CLI\n\n- Install the extension:\n\n  ```bash\n  gemini extensions install https://github.com/obra/superpowers\n  ```\n\n- Update later:\n\n  ```bash\n  gemini extensions update superpowers\n  ```\n\n### OpenCode\n\nOpenCode uses its own plugin install; install Superpowers separately even if you\nalready use it in another harness.\n\n- Tell OpenCode:\n\n  ```\n  Fetch and follow instructions from https://raw.githubusercontent.com/obra/superpowers/refs/heads/main/.opencode/INSTALL.md\n  ```\n\n- Detailed docs: [docs/README.opencode.md](docs/README.opencode.md)\n\n### Cursor\n\n- In Cursor Agent chat, install from marketplace:\n\n  ```text\n  /add-plugin superpowers\n  ```\n\n- Or search for \"superpowers\" in the plugin marketplace.\n\n### GitHub Copilot CLI\n\n- Register the marketplace:\n\n  ```bash\n  copilot plugin marketplace add obra/superpowers-marketplace\n  ```\n\n- Install the plugin:\n\n  ```bash\n  copilot plugin install superpowers@superpowers-marketplace\n  ```",
+        "installBody": "Installation differs by harness. If you use more than one, install Superpowers separately for each one.\n\n### Claude Code\n\nSuperpowers is available via the [official Claude plugin marketplace](https://claude.com/plugins/superpowers)\n\n#### Official Marketplace\n\n- Install the plugin from Anthropic's official marketplace:\n\n  ```bash\n  /plugin install superpowers@claude-plugins-official\n  ```\n\n#### Superpowers Marketplace\n\nThe Superpowers marketplace provides Superpowers and some other related plugins for Claude Code.\n\n- Register the marketplace:\n\n  ```bash\n  /plugin marketplace add obra/superpowers-marketplace\n  ```\n\n- Install the plugin from this marketplace:\n\n  ```bash\n  /plugin install superpowers@superpowers-marketplace\n  ```\n\n### Codex CLI\n\nSuperpowers is available via the [official Codex plugin marketplace](https://github.com/openai/plugins).\n\n- Open the plugin search interface:\n\n  ```bash\n  /plugins\n  ```\n\n- Search for Superpowers:\n\n  ```bash\n  superpowers\n  ```\n\n- Select `Install Plugin`.\n\n### Codex App\n\nSuperpowers is available via the [official Codex plugin marketplace](https://github.com/openai/plugins).\n\n- In the Codex app, click on Plugins in the sidebar.\n- You should see `Superpowers` in the Coding section.\n- Click the `+` next to Superpowers and follow the prompts.\n\n### Factory Droid\n\n- Register the marketplace:\n\n  ```bash\n  droid plugin marketplace add https://github.com/obra/superpowers\n  ```\n\n- Install the plugin:\n\n  ```bash\n  droid plugin install superpowers@superpowers\n  ```\n\n### Gemini CLI\n\n- Install the extension:\n\n  ```bash\n  gemini extensions install https://github.com/obra/superpowers\n  ```\n\n- Update later:\n\n  ```bash\n  gemini extensions update superpowers\n  ```\n\n### OpenCode\n\nOpenCode uses its own plugin install; install Superpowers separately even if you\nalready use it in another harness.\n\n- Tell OpenCode:\n\n  ```\n  Fetch and follow instructions from https://raw.githubusercontent.com/obra/superpowers/refs/heads/main/.opencode/INSTALL.md\n  ```\n\n- Detailed docs: [docs/README.opencode.md](docs/README.opencode.md)\n\n### Cursor\n\n- In Cursor Agent chat, install from marketplace:\n\n  ```bash\n  /add-plugin superpowers\n  ```\n\n- Or search for \"superpowers\" in the plugin marketplace.\n\n### GitHub Copilot CLI\n\n- Register the marketplace:\n\n  ```bash\n  copilot plugin marketplace add obra/superpowers-marketplace\n  ```\n\n- Install the plugin:\n\n  ```bash\n  copilot plugin install superpowers@superpowers-marketplace\n  ```",
         "role": "origin"
       }
     ],
@@ -5885,6 +5897,7 @@
           "ruvnet/agentdb-vector-search"
         ],
         "type": "ultimate",
+        "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin"
       }
     ],
@@ -5923,6 +5936,7 @@
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
         "type": "basic",
+        "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin"
       }
     ],
@@ -6042,6 +6056,7 @@
           "ruvnet/dual-spawn"
         ],
         "type": "extra",
+        "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin"
       }
     ],
@@ -6244,6 +6259,7 @@
         ],
         "suiteRef": "ruvnet/ruflo-v3",
         "type": "extra",
+        "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "variant"
       }
     ],
@@ -6288,6 +6304,7 @@
           "ruvnet/flow-nexus-swarm"
         ],
         "type": "extra",
+        "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin"
       }
     ],
@@ -6371,6 +6388,7 @@
           "ruvnet/github-workflow-automation"
         ],
         "type": "extra",
+        "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin"
       }
     ],
@@ -6491,6 +6509,7 @@
         ],
         "suiteRef": "ruvnet/ruflo",
         "type": "unique",
+        "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin"
       }
     ],
@@ -6577,6 +6596,7 @@
           "ruvnet/reasoningbank-intelligence"
         ],
         "type": "extra",
+        "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin"
       }
     ],
@@ -6629,6 +6649,7 @@
           "ruvnet/v3-swarm-coordination"
         ],
         "type": "extra",
+        "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin"
       }
     ],
@@ -6716,7 +6737,7 @@
           "ruvnet/worker-integration"
         ],
         "type": "ultimate",
-        "installBody": "```bash\n# Global installation\nnpm install -g claude-flow\n\n# Or via npx\nnpx claude-flow@latest\n```\n\n> See [docs/USERGUIDE.md](https://github.com/ruvnet/ruflo/blob/main/docs/USERGUIDE.md#quick-start) for detailed setup and usage.",
+        "installBody": "There are **two different install paths** with very different surface areas. Pick based on what you need (#1744):\n\n| | **Claude Code Plugin** | **CLI install (`npx ruflo init`)** |\n|---|---|---|\n| What it gives you | Slash commands + a few skills + agent definitions per-plugin | Full Ruflo loop — 98 agents, 60+ commands, 30 skills, MCP server, hooks, daemon |\n| Files in your workspace | **Zero** | `.claude/`, `.claude-flow/`, `CLAUDE.md`, helpers, settings |\n| MCP server registered | **No** (`memory_store`, `swarm_init`, etc. unavailable to Claude) | Yes |\n| Hooks installed | No | Yes |\n| Best for | Try a single plugin's commands without committing to the full install | Production use — everything works as documented |\n\n### Path A — Claude Code Plugins (lite, slash commands only)\n\n```bash\n# Add the marketplace\n/plugin marketplace add ruvnet/ruflo\n\n# Install core + any plugins you need\n/plugin install ruflo-core@ruflo\n/plugin install ruflo-swarm@ruflo\n/plugin install ruflo-rag-memory@ruflo\n/plugin install ruflo-neural-trader@ruflo\n```bash\nThis adds slash commands and agent definitions only. The Ruflo MCP server is NOT registered, so `memory_store`, `swarm_init`, `agent_spawn`, etc. won't be callable from Claude. For the full loop, use Path B below.\n\n<details>\n<summary><strong>🔌 All 33 plugins</strong></summary>\n\n#### Core & Orchestration\n\n| Plugin | What it does |\n|--------|-------------|\n| [**ruflo-core**](plugins/ruflo-core/README.md) | Foundation — server, health checks, plugin discovery |\n| [**ruflo-swarm**](plugins/ruflo-swarm/README.md) | Coordinate multiple agents as a team |\n| [**ruflo-autopilot**](plugins/ruflo-autopilot/README.md) | Let agents run autonomously in a loop |\n| [**ruflo-loop-workers**](plugins/ruflo-loop-workers/README.md) | Schedule background tasks on a timer |\n| [**ruflo-workflows**](plugins/ruflo-workflows/README.md) | Reusable multi-step task templates |\n| [**ruflo-federation**](plugins/ruflo-federation/README.md) | Agents on different machines collaborate securely |\n\n#### Memory & Knowledge\n\n| Plugin | What it does |\n|--------|-------------|\n| [**ruflo-agentdb**](plugins/ruflo-agentdb/README.md) | Fast vector database for agent memory |\n| [**ruflo-rag-memory**](plugins/ruflo-rag-memory/README.md) | Smart retrieval — hybrid search, graph hops, diversity ranking |\n| [**ruflo-rvf**](plugins/ruflo-rvf/README.md) | Save and restore agent memory across sessions |\n| [**ruflo-ruvector**](plugins/ruflo-ruvector/README.md) | [`ruvector`](https://npmjs.com/package/ruvector) — GPU-accelerated search, Graph RAG, 103 tools |\n| [**ruflo-knowledge-graph**](plugins/ruflo-knowledge-graph/README.md) | Build and traverse entity relationship maps |\n\n#### Intelligence & Learning\n\n| Plugin | What it does |\n|--------|-------------|\n| [**ruflo-intelligence**](plugins/ruflo-intelligence/README.md) | Agents learn from past successes and get smarter |\n| [**ruflo-graph-intelligence**](plugins/ruflo-graph-intelligence/) | Sublinear graph reasoning — PageRank, delta updates, complexity-aware execution (ADR-123) |\n| [**ruflo-daa**](plugins/ruflo-daa/README.md) | Dynamic agent behavior and cognitive patterns |\n| [**ruflo-ruvllm**](plugins/ruflo-ruvllm/README.md) | Run local LLMs (Ollama, etc.) with smart routing |\n| [**ruflo-goals**](plugins/ruflo-goals/README.md) | Break big goals into plans and track progress |\n\n#### Code Quality & Testing\n\n| Plugin | What it does |\n|--------|-------------|\n| [**ruflo-testgen**](plugins/ruflo-testgen/README.md) | Find missing tests and generate them automatically |\n| [**ruflo-browser**](plugins/ruflo-browser/README.md) | Automate browser testing with Playwright |\n| [**ruflo-jujutsu**](plugins/ruflo-jujutsu/README.md) | Analyze git diffs, score risk, suggest reviewers |\n| [**ruflo-docs**](plugins/ruflo-docs/README.md) | Generate and maintain documentation automatically |\n\n#### Security & Compliance\n\n| Plugin | What it does |\n|--------|-------------|\n| [**ruflo-security-audit**](plugins/ruflo-security-audit/README.md) | Scan for vulnerabilities and CVEs |\n| [**ruflo-aidefence**](plugins/ruflo-aidefence/README.md) | Block prompt injection, detect PII, safety scanning |\n\n#### Architecture & Methodology\n\n| Plugin | What it does |\n|--------|-------------|\n| [**ruflo-adr**](plugins/ruflo-adr/README.md) | Track architecture decisions with a living record |\n| [**ruflo-ddd**](plugins/ruflo-ddd/README.md) | Scaffold domain-driven design — contexts, aggregates, events |\n| [**ruflo-sparc**](plugins/ruflo-sparc/README.md) | Guided 5-phase development methodology with quality gates |\n\n#### DevOps & Observability\n\n| Plugin | What it does |\n|--------|-------------|\n| [**ruflo-migrations**](plugins/ruflo-migrations/README.md) | Manage database schema changes safely |\n| [**ruflo-observability**](plugins/ruflo-observability/README.md) | Structured logs, traces, and metrics in one place |\n| [**ruflo-cost-tracker**](plugins/ruflo-cost-tracker/README.md) | Track token usage, set budgets, get cost alerts |\n\n#### Extensibility\n\n| Plugin | What it does |\n|--------|-------------|\n| [**ruflo-agent**](plugins/ruflo-agent/README.md) | Run agents — local WASM sandbox (rvagent) + Anthropic Claude Managed Agents (cloud) |\n| [**ruflo-plugin-creator**](plugins/ruflo-plugin-creator/README.md) | Scaffold, validate, and publish your own plugins |\n\n#### Domain-Specific\n\n| Plugin | What it does |\n|--------|-------------|\n| [**ruflo-iot-cognitum**](plugins/ruflo-iot-cognitum/README.md) | IoT device management — trust scoring, anomaly detection, fleets |\n| [**ruflo-neural-trader**](plugins/ruflo-neural-trader/README.md) | [`neural-trader`](https://npmjs.com/package/neural-trader) — AI trading with 4 agents, backtesting, 112+ tools |\n| [**ruflo-market-data**](plugins/ruflo-market-data/README.md) | Ingest market data, vectorize OHLCV, detect patterns |\n\n</details>\n\n### CLI Install\n\n**macOS / Linux / WSL / Git-Bash:**\n\n```bash\n# One-line install (POSIX shells only — see Windows note below)\ncurl -fsSL https://cdn.jsdelivr.net/gh/ruvnet/ruflo@main/scripts/install.sh | bash\n```bash\n**All platforms (including native Windows PowerShell / cmd):**\n\n```bash\n# Interactive setup wizard — runs identically on every platform\nnpx ruflo@latest init wizard\n\n# Quick non-interactive init\n# npx ruflo@latest init\n\n# Or install globally\nnpm install -g ruflo@latest\n```bash\n> 💡 **Windows users:** the `curl ... | bash` form needs a POSIX shell (Git-Bash, WSL, MSYS). The `npx ruflo@latest init wizard` line works natively in PowerShell and cmd. If you hit an `'bash' is not recognized` error, use the `npx` line instead — both end up running the same init flow.\n\n### MCP Server\n\n```bash\n# Add Ruflo as an MCP server in Claude Code (canonical form, matches USERGUIDE.md)\nclaude mcp add ruflo -- npx ruflo@latest mcp start\n```\n\n---",
         "role": "origin"
       }
     ],
@@ -6754,6 +6775,7 @@
         ],
         "suiteRef": "ruvnet/ruflo",
         "type": "extra",
+        "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "variant"
       }
     ],
@@ -6792,6 +6814,7 @@
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
         "type": "basic",
+        "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin"
       }
     ],
@@ -6838,6 +6861,7 @@
         ],
         "suiteRef": "ruvnet/ruflo-v3",
         "type": "extra",
+        "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "variant"
       }
     ],
@@ -6884,6 +6908,7 @@
         ],
         "suiteRef": "ruvnet/ruflo-v3",
         "type": "basic",
+        "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "variant"
       }
     ],
@@ -6922,6 +6947,7 @@
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo-v3",
         "type": "basic",
+        "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin"
       }
     ],
@@ -6960,6 +6986,7 @@
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo-v3",
         "type": "basic",
+        "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin"
       }
     ],
@@ -6998,6 +7025,7 @@
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo-v3",
         "type": "basic",
+        "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin"
       }
     ],
@@ -7036,6 +7064,7 @@
         "updatedAt": "2026-05-19",
         "suiteRef": "ruvnet/ruflo",
         "type": "basic",
+        "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin"
       }
     ],
