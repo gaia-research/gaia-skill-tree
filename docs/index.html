@@ -204,7 +204,7 @@
         <a href="#paths" class="door door-a door--primary">
           <span class="door-icon">◆</span>
           <span class="door-label">Push your repo</span>
-          <span class="door-caption">3 steps to register</span>
+          <span class="door-caption">4 steps to register</span>
         </a>
         <a href="#ultimates" class="door door-b">
           <span class="door-icon">◈</span>
@@ -270,7 +270,7 @@
       <div class="path-a">
         <div class="path-plate-num">Path A — Initiate's Rite</div>
         <h2>Register Your Repo</h2>
-        <p class="section-sub mt-sm">Three steps from zero to a named entry in the canonical registry.</p>
+        <p class="section-sub mt-sm">Four steps from zero to a named entry in the canonical registry.</p>
         <ol class="rite-steps">
           <li class="rite-step">
             <span class="rite-numeral" aria-hidden="true">I.</span>
@@ -295,24 +295,39 @@
           <li class="rite-step">
             <span class="rite-numeral" aria-hidden="true">II.</span>
             <div class="rite-body">
-              <strong>Initialise &amp; scan</strong>
+              <strong>Initialise profile</strong>
+              <p>Create your local user profile configuration.</p>
+              <div class="os-tabs" role="tablist" aria-label="Operating System selection">
+                <button type="button" class="os-tab active" data-os="unix" onclick="switchOsTab(this)" role="tab" aria-selected="true">macOS · Linux</button>
+                <button type="button" class="os-tab" data-os="win" onclick="switchOsTab(this)" role="tab" aria-selected="false">Windows</button>
+              </div>
+              <div class="os-panel active" data-os="unix" role="tabpanel">
+                <pre><span class="cmd">gaia init</span></pre>
+              </div>
+              <div class="os-panel" data-os="win" role="tabpanel">
+                <pre><span class="cmd">py -m gaia_cli init</span></pre>
+              </div>
+            </div>
+          </li>
+          <li class="rite-step">
+            <span class="rite-numeral" aria-hidden="true">III.</span>
+            <div class="rite-body">
+              <strong>Scan workspace</strong>
               <p>Detect which skills your agent demonstrates.</p>
               <div class="os-tabs" role="tablist" aria-label="Operating System selection">
                 <button type="button" class="os-tab active" data-os="unix" onclick="switchOsTab(this)" role="tab" aria-selected="true">macOS · Linux</button>
                 <button type="button" class="os-tab" data-os="win" onclick="switchOsTab(this)" role="tab" aria-selected="false">Windows</button>
               </div>
               <div class="os-panel active" data-os="unix" role="tabpanel">
-                <pre><span class="cmd">gaia init</span>
-<span class="cmd">gaia scan</span></pre>
+                <pre><span class="cmd">gaia scan</span></pre>
               </div>
               <div class="os-panel" data-os="win" role="tabpanel">
-                <pre><span class="cmd">py -m gaia_cli init</span>
-<span class="cmd">py -m gaia_cli scan</span></pre>
+                <pre><span class="cmd">py -m gaia_cli scan</span></pre>
               </div>
             </div>
           </li>
           <li class="rite-step">
-            <span class="rite-numeral" aria-hidden="true">III.</span>
+            <span class="rite-numeral" aria-hidden="true">IV.</span>
             <div class="rite-body">
               <strong>Push for review</strong>
               <p>A GitHub issue is opened automatically. You'll be asked to confirm the target repo.</p>
@@ -333,9 +348,9 @@
         <!-- Post-register: optional follow-ups that don't gate the contribution. -->
         <details class="rite-steps-after">
           <summary>After you've registered <span class="rite-after-hint">— optional follow-ups</span></summary>
-          <ol class="rite-steps rite-steps--after" start="4">
+          <ol class="rite-steps rite-steps--after" start="5">
           <li class="rite-step">
-            <span class="rite-numeral" aria-hidden="true">IV.</span>
+            <span class="rite-numeral" aria-hidden="true">V.</span>
             <div class="rite-body">
               <strong>Bond your agent MCP</strong>
               <p>Wire Gaia to Claude Code in one command.</p>
@@ -344,7 +359,7 @@
             </div>
           </li>
           <li class="rite-step">
-            <span class="rite-numeral" aria-hidden="true">V.</span>
+            <span class="rite-numeral" aria-hidden="true">VI.</span>
             <div class="rite-body">
               <strong>Explore interactively (optional)</strong>
               <p>Launch the agent-first Terminal UI with no arguments.</p>
