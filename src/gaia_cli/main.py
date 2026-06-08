@@ -597,7 +597,7 @@ def scan_command(args):
                 elif group_id == "generic":
                     title = f"{_bold()}Starless (Generic) Skills{_reset()}"
                 else:
-                    title = f"{_fg(100, 100, 100)}{_bold()}Custom - Only in this Repo{_reset()} ({_fg(100, 100, 100)}{username}{_reset()})"
+                    title = f"{_fg(*COLOR_LOCAL_USER)}{_bold()}Custom - Only in this Repo{_reset()} ({_fg(*COLOR_LOCAL_USER)}{username}{_reset()})"
                 
                 print(f"\n{title}:")
                 
@@ -647,7 +647,7 @@ def scan_command(args):
             print_group("other", other_group)
 
             if other_group:
-                print(f"\n{_fg(100, 100, 100)}⚡ {_bold()}Tip: Run `gaia push` to submit your custom skills for review.{_reset()}")
+                print(f"\n{_fg(100, 100, 100)}⚡ {_bold()}Tip: Run `{_fg(134, 239, 172)}gaia push{_reset()}{_fg(100, 100, 100)}` to submit your custom skills for review.{_reset()}")
 
         # Clean up output fields to keep file clean
         for sk in custom_state_skills:
@@ -682,7 +682,7 @@ def scan_command(args):
                         c['detectedSkills'], c['candidateResult'], result_type,
                         canon=canon, ctx=ctx
                     ))
-                print("Run `gaia fuse <skill>` to confirm.")
+                print(f"Run `{_fg(192, 132, 252)}gaia fuse <skill>{_reset()}` to confirm.")
 
         # Path engine integration
         old_paths = load_paths()
@@ -709,7 +709,7 @@ def scan_command(args):
         render_user_tree_outputs(username, tree, graph_data, args.registry, quiet=quiet)
 
         if not quiet and not use_json:
-            print("\nTip: Have skills you want to fuse? Run `gaia fuse` to combine them into a new custom path.")
+            print(f"\nTip: Have skills you want to fuse? Run `{_fg(192, 132, 252)}gaia fuse{_reset()}` to combine them into a new custom path.")
 
 
 def render_user_tree_outputs(username: str, tree: dict | None, graph_data: dict | None, registry_path: str, quiet: bool = False) -> tuple[str, str] | None:
@@ -1299,7 +1299,7 @@ def fuse_command(args):
             print("\nInteractive fuse requires the 'questionary' package.")
             print("Install it with: pip install questionary")
             print("\nOr use the programmatic form:")
-            print("  gaia fuse <skill_id> --skills skill1,skill2")
+            print(f"  {_fg(192, 132, 252)}gaia fuse <skill_id> --skills skill1,skill2{_reset()}")
             return
 
         import questionary
@@ -1442,7 +1442,7 @@ def fuse_command(args):
         pass
 
     print(f"{_fg(*fuse_color)}Skill /{target} is not a valid combination or promotion candidate.{_reset()}")
-    print(f"{_fg(*fuse_color)}Run `gaia scan` to refresh candidates, or use interactive `gaia fuse` to create a custom path.{_reset()}")
+    print(f"{_fg(*fuse_color)}Run `gaia scan` to refresh candidates, or use interactive `{_fg(192, 132, 252)}gaia fuse{_reset()}{_fg(*fuse_color)}` to create a custom path.{_reset()}")
 
 _EMBEDDINGS_INSTALL_STEPS = """\
 
@@ -1540,7 +1540,7 @@ def push_command(args):
 
     # Guard 1: check if empty initially
     if not batch.get("proposedSkills") and not batch.get("knownSkills"):
-        print("Error: No skills to be pushed. Please install newer skills then gaia scan, or fuse custom skills before pushing.", file=sys.stderr)
+        print(f"Error: No skills to be pushed. Please install newer skills then gaia scan, or `{_fg(192, 132, 252)}gaia fuse{_reset()}` custom skills before pushing.", file=sys.stderr)
         sys.exit(1)
 
     # Custom skills injection and interactive exclusion
@@ -1591,8 +1591,9 @@ def push_command(args):
 
     # Guard 2: check if empty after filtering
     if not batch.get("proposedSkills") and not batch.get("knownSkills") and not batch.get("proposedCombinations"):
-        print("Error: No items selected to be pushed.", file=sys.stderr)
+        print(f"Error: No items selected to be pushed. Run `gaia scan` or `{_fg(192, 132, 252)}gaia fuse{_reset()}` to find more.", file=sys.stderr)
         sys.exit(1)
+
 
     if args.dry_run:
         print(json.dumps(batch, indent=2))
