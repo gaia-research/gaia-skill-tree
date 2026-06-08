@@ -292,7 +292,7 @@ def whoami_command(args):
 
 
 def reset_command(args):
-    """Clear your skill tree and local state for a fresh start."""
+    """Clear your local state and skill tree for a fresh start."""
     config = load_config()
     if not config:
         print("Gaia not initialized.")
@@ -304,8 +304,8 @@ def reset_command(args):
         return
 
     if not getattr(args, "yes", False):
-        confirm = input(f"Are you sure you want to reset the skill tree for '{username}'? This cannot be undone. [y/N]: ")
-        if confirm.lower() not in ("y", "yes"):
+        from gaia_cli.interactive import confirm
+        if not confirm(f"Are you sure you want to reset the local state and skill tree for '{username}'? This cannot be undone."):
             print("Aborted.")
             return
 
@@ -313,28 +313,35 @@ def reset_command(args):
     tree_path = user_tree_path(registry_path, username)
 
     cleared = 0
+    # 1. Delete the deprecated skill tree file
     if os.path.exists(tree_path):
         os.remove(tree_path)
         cleared += 1
         print(f"✓ Removed skill tree: {tree_path}")
 
-    # Clear local scan state
-    paths_path = ".gaia/paths.json"
-    if os.path.exists(paths_path):
-        os.remove(paths_path)
-        cleared += 1
-        print(f"✓ Removed local path state: {paths_path}")
-
-    state_path = ".gaia/custom_state.json"
-    if os.path.exists(state_path):
-        os.remove(state_path)
-        cleared += 1
-        print(f"✓ Removed custom skill mapping: {state_path}")
+    # 2. Clear local .gaia/ state (but keep the folder and its config.toml)
+    import shutil
+    gaia_dir = ".gaia"
+    if os.path.exists(gaia_dir):
+        for filename in os.listdir(gaia_dir):
+            if filename == ".gitignore" or filename == "config.toml":
+                continue
+            file_path = os.path.join(gaia_dir, filename)
+            try:
+                if os.path.isfile(file_path) or os.path.islink(file_path):
+                    os.unlink(file_path)
+                    cleared += 1
+                elif os.path.isdir(file_path):
+                    shutil.rmtree(file_path)
+                    cleared += 1
+            except Exception as e:
+                print(f"  failed to delete {file_path}: {e}")
+        print(f"✓ Cleared local state in {gaia_dir}/")
 
     if cleared == 0:
-        print("Nothing to reset.")
+        print("Everything already clean.")
     else:
-        print("\nReset complete. Run `gaia scan` to start afresh.")
+        print("\n✓ Gaia reset complete. Run `gaia scan` to start afresh.")
 
 
 def init_command(args):
