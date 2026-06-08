@@ -320,6 +320,9 @@ def init_command(args):
     print(f"Initialized Gaia configuration at {config_path}")
     print(f"  user:       {username}")
     print(f"  scanPaths:  {scan_paths}")
+    print("Run `gaia fetch` to download the latest canonical registry, then `gaia scan` to link your local skills.")
+
+    fetch_command(args)
 
     try:
         source = detect_source_repo({"gaiaUser": username})
@@ -1554,28 +1557,32 @@ def skills_command(args):
         print(f"{display}{' ' * max(0, pad)}  {level_col:<5}  {type_col}{suffix}")
 
 
+def fetch_command(args):
+    """Downloads the latest canonical registry JSON files to .gaia/registry/."""
+    import urllib.request
+    import urllib.error
+    from pathlib import Path
+    import sys
+    
+    registry_dir = Path(".gaia") / "registry"
+    registry_dir.mkdir(parents=True, exist_ok=True)
+    
+    gaia_json_url = "https://raw.githubusercontent.com/mbtiongson1/gaia-skill-tree/main/registry/gaia.json"
+    named_skills_url = "https://raw.githubusercontent.com/mbtiongson1/gaia-skill-tree/main/registry/named-skills.json"
+    
+    print(f"Fetching latest canonical registry from mbtiongson1/gaia-skill-tree...")
+    try:
+        urllib.request.urlretrieve(gaia_json_url, registry_dir / "gaia.json")
+        urllib.request.urlretrieve(named_skills_url, registry_dir / "named-skills.json")
+        print(f"✅ Successfully fetched registry to {registry_dir}/")
+    except urllib.error.URLError as e:
+        print(f"❌ Failed to fetch registry: {e}")
+        sys.exit(1)
+
 def pull_command(args):
-    res = subprocess.run(
-        ["git", "-C", args.registry, "pull", "--ff-only"],
-        capture_output=True,
-        text=True,
-    )
-    if res.returncode != 0:
-        stderr = res.stderr.strip()
-        no_upstream = any(p in stderr for p in (
-            "no tracking information", "no upstream", "There is no tracking",
-            "does not track", "has no upstream",
-        ))
-        if no_upstream:
-            print("Note: Registry could not be updated via git (no upstream configured). Local registry unchanged.", file=sys.stderr)
-        else:
-            print(f"Warning: git pull failed. Local registry unchanged.\n  {stderr}", file=sys.stderr)
-    else:
-        stdout = res.stdout.strip()
-        if "Already up to date" in stdout:
-            print("Registry is already up to date.")
-        else:
-            print("Registry updated successfully.")
+    """Fetches the latest canonical registry and then runs a full scan."""
+    fetch_command(args)
+    scan_command(args)
 
 
 def update_command(args):
@@ -1775,7 +1782,8 @@ def get_parser():
     scan_parser.add_argument('--auto-promote', action='store_true', help="Promote every scan-recommended candidate after scanning")
     scan_parser.add_argument('--json', action='store_true', help="Output scan results as JSON")
     scan_parser.add_argument('--all', action='store_true', help="Scan globally installed skills in addition to the local repository")
-    subparsers.add_parser('pull', help="Refresh registry data from origin")
+    subparsers.add_parser('fetch', help="Download the latest canonical registry files to .gaia/registry")
+    subparsers.add_parser('pull', help="Fetch registry data and run a full scan")
     subparsers.add_parser('update', help="Update all installed remote skills")
     
     install_parser = subparsers.add_parser('install', help="Install a named skill")
@@ -2115,6 +2123,8 @@ def main():
         parser.print_help()
     elif args.command == 'scan':
         scan_command(args)
+    elif args.command == 'fetch':
+        fetch_command(args)
     elif args.command == 'pull':
         pull_command(args)
     elif args.command == 'update':
