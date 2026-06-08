@@ -712,5 +712,17 @@
     window.redactedHandle = function() {
       return '<span class="plaque__redacted-handle" aria-label="Contributor not yet revealed">@[anonymous]</span>';
     };
+  // Fallback openSkillExplorer — on pages where skill-explorer.js is not
+  // loaded (profile pages, badges page, etc.), clicking a skill slug button
+  // calls openSkillExplorer() which otherwise doesn't exist.  Navigate to
+  // the Named Skills Explorer with the correct hash fragment.
+  if (typeof window.openSkillExplorer !== 'function') {
+    window.openSkillExplorer = function (id) {
+      if (!id) return;
+      var prefix = (typeof window.gaiaIconBase === 'function')
+        ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '')
+        : '/';
+      window.location.href = prefix + 'named/#explorer/' + encodeURIComponent(id);
+    };
   }
 })();
