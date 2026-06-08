@@ -328,7 +328,15 @@ def init_command(args):
         source = detect_source_repo({"gaiaUser": username})
         if sys.stdin.isatty() and not getattr(args, 'yes', False):
             try:
-                ans = input(f"Detected repo: {source}\nInitialize Gaia on this repository? [Y/n]: ").strip().lower()
+                if _use_color():
+                    prompt = (
+                        f"\n{_bold()}{_fg(99, 102, 241)}⚡ {_fg(255, 255, 255)}Detected repo: {_fg(45, 212, 191)}{source}{_reset()}\n"
+                        f"{_bold()}{_fg(234, 179, 8)}? {_fg(255, 255, 255)}Initialize Gaia on this repository? "
+                        f"{_fg(148, 163, 184)}[{_fg(74, 222, 128)}Y{_fg(148, 163, 184)}/n]: {_reset()}"
+                    )
+                else:
+                    prompt = f"Detected repo: {source}\nInitialize Gaia on this repository? [Y/n]: "
+                ans = input(prompt).strip().lower()
             except (KeyboardInterrupt, EOFError):
                 print()
                 import shutil; shutil.rmtree(config_dir, ignore_errors=True)
@@ -573,7 +581,9 @@ def scan_command(args):
                     rank_color = RANK_COLORS.get(sk.get('canon_level', '0★'), RANK_COLORS["0★"])
                     canon_display = ctx.display_name(mapped_id, canon=canon)
                     
-                    if m_type in ("origin", "named"):
+                    if m_type == "origin":
+                        match_note = f"  {_fg(100,100,100)}→ {_fg(*rank_color)}{canon_display}{_fg(100,100,100)} (ORIGIN MATCH){_reset()}"
+                    elif m_type == "named":
                         match_note = f"  {_fg(100,100,100)}→ {_fg(*rank_color)}{canon_display}{_fg(100,100,100)} (NAMED MATCH){_reset()}"
                     elif m_type == "exact_generic":
                         match_note = f"  {_fg(100,100,100)}→ {_fg(*rank_color)}{canon_display}{_fg(100,100,100)} (EXACT BASE MATCH){_reset()}"

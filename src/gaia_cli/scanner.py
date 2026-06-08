@@ -155,11 +155,15 @@ def _read_skill_md(filepath):
     if content.startswith("---\n"):
         end = content.find("\n---", 4)
         if end != -1:
-            for line in content[4:end].splitlines():
-                if ":" not in line:
-                    continue
-                key, _, value = line.partition(":")
-                fm[key.strip()] = value.strip().strip('"').strip("'")
+            try:
+                import yaml
+                fm = yaml.safe_load(content[4:end]) or {}
+            except Exception:
+                for line in content[4:end].splitlines():
+                    if ":" not in line:
+                        continue
+                    key, _, value = line.partition(":")
+                    fm[key.strip()] = value.strip().strip('"').strip("'")
             body = content[end + 4:].strip()
         else:
             body = content
