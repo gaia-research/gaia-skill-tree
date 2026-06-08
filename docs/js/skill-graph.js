@@ -1560,7 +1560,7 @@
               }
               prefix = path;
             }
-            const resolvedUrl = new URL(prefix + 'named/#explorer/' + encodeURIComponent(nid), window.location.href).href;
+            const resolvedUrl = new URL(prefix + 'named/#explorer/' + encodeURIComponent(nid).replace(/%2F/g, '/'), window.location.href).href;
             window.open(resolvedUrl, '_blank');
           });
         });
