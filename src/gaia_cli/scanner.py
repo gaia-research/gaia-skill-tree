@@ -201,14 +201,14 @@ def _skill_search_dirs(root: str = ".", global_search: bool = False) -> list[str
         xdg_data = os.environ.get("XDG_DATA_HOME") or os.path.join(home, ".local", "share")
         candidates.append(os.path.join(xdg_data, "gaia", "skills"))
 
-        # 3. Config-driven custom dirs
-        config = load_config()
-        if config:
-            for d in config.get("skillDirs", []):
-                expanded = os.path.expanduser(d)
-                if not os.path.isabs(expanded):
-                    expanded = os.path.join(root, expanded)
-                candidates.append(expanded)
+    # 3. Config-driven custom dirs
+    config = load_config()
+    if config:
+        for d in config.get("skillDirs", []):
+            expanded = os.path.expanduser(d)
+            if not os.path.isabs(expanded):
+                expanded = os.path.join(root, expanded)
+            candidates.append(expanded)
 
     # Deduplicate by real path while preserving priority order; skip missing dirs
     seen_real: set[str] = set()
