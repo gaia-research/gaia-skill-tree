@@ -163,6 +163,8 @@ packaging-specific tests are skipped locally with guidance to install developer 
 
 ```bash
 gaia init --user your-username
+# Detected repo: your-username/your-repo
+# Initialize Gaia on this repository? [Y/n]: Y
 gaia scan
 ```
 
@@ -172,9 +174,11 @@ Detects skills your agent demonstrates.
 
 ```bash
 gaia push
+# Push skills to gaia registry from your-username/your-repo? [Y/n]: Y
 ```
 
 A GitHub issue opens automatically. Maintainers review and promote; your name attaches at 2★.
+If no remote is detected, Gaia will guide you to add one.
 
 **4. Bond your agent (optional)**
 
