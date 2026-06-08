@@ -118,7 +118,7 @@ Skills rank up through **verifiable evidence** (Class A/B/C) and can be demoted 
 **1. Install the CLI**
 
 <!-- gaia:version-start -->
-Current Gaia CLI version: `4.3.9`.
+Current Gaia CLI version: `4.3.8`.
 
 ```bash
 curl -fsSL https://gaia.tiongson.co/install.sh | sh
@@ -138,7 +138,7 @@ Requires Python 3.8+. The script prefers `pipx` if available, otherwise falls ba
 
 **pipx:**
 ```bash
-brew install pipx        # macOS
+brew install pipx
 pipx install gaia-cli
 ```
 
@@ -159,6 +159,11 @@ The `dev` extra installs packaging/test tools such as `build` and `pytest`; with
 packaging-specific tests are skipped locally with guidance to install developer extras.
 </details>
 
+**Update**
+```bash
+gaia update
+```
+
 **2. Initialise & scan**
 
 ```bash
@@ -175,13 +180,11 @@ Detects skills your agent demonstrates.
 
 ```bash
 gaia push
-# Push skills to gaia registry from your-username/your-repo? [Y/n]: Y
 ```
 
-A GitHub issue opens automatically. Maintainers review and promote; your name attaches at 2★.
-If no remote is detected, Gaia will guide you to add one.
+A GitHub issue opens automatically. Maintainers review and promote; your name attaches at 2★. (or 1★ if no repo is linked).
 
-**4. Bond your agent (optional)**
+**4. Optional: MCP Server**
 
 ```bash
 claude mcp add gaia -- npx @gaia-registry/mcp-server
@@ -191,9 +194,11 @@ Any MCP-compatible client. See [packages/mcp/](packages/mcp/) for config example
 
 ---
 
-**Or explore interactively** with the [Terminal UI](#terminal-ui-experimental) (after step 1 → `gaia` with no args).
+**Interactive** with the [Terminal UI](#terminal-ui-experimental)
 
-> **Keep up to date:** Run `gaia update` anytime to pull latest registry + CLI.
+```bash
+gaia
+```
 
 ## Terminal UI (experimental)
 
