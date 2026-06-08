@@ -390,11 +390,11 @@ def scan_command(args):
 
     username = config.get('gaiaUser')
     canon = getattr(args, 'canon', False)
+    global_search = getattr(args, 'all', False)
     
     # Unified local context for display
-    ctx = LocalContext.load(args.registry, username or "", include_scan=False)
+    ctx = LocalContext.load(args.registry, username or "", include_scan=False, global_search=global_search)
 
-    global_search = getattr(args, 'all', False)
     installed_skills = scan_skill_mds(global_search=global_search)
     
     resolved = []
@@ -604,6 +604,9 @@ def scan_command(args):
         os.makedirs(".gaia", exist_ok=True)
         with open(".gaia/custom_state.json", "w", encoding="utf-8") as f:
             json.dump({"customSkills": custom_state_skills}, f, indent=2)
+
+    # Refresh context to include newly mapped custom skills for fusions/paths
+    ctx = LocalContext.load(args.registry, username or "", include_scan=True, global_search=global_search)
 
     tree = load_tree(username, registry_path=args.registry)
     if tree:

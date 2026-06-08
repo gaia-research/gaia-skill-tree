@@ -35,7 +35,7 @@ class LocalContext:
 
     @classmethod
     def load(
-        cls, registry_path: str, username: str, *, include_scan: bool = True
+        cls, registry_path: str, username: str, *, include_scan: bool = True, global_search: bool = False
     ) -> "LocalContext":
         """Build context from local state.
 
@@ -43,6 +43,7 @@ class LocalContext:
             registry_path: Path to the registry root
             username: Gaia username
             include_scan: Whether to load last scan results (paths.json)
+            global_search: Whether to scan globally installed skills
         """
         # Load user tree
         tree_data = load_tree(username, registry_path=registry_path)
@@ -54,20 +55,6 @@ class LocalContext:
                 if s.get("skillId")
             }
         
-        # Inject custom skills into owned_ids so they appear unlocked
-        custom_state_path = os.path.join(".gaia", "custom_state.json")
-        if os.path.exists(custom_state_path):
-            try:
-                with open(custom_state_path, "r", encoding="utf-8") as f:
-                    cstate = json.load(f)
-                    for sk in cstate.get("customSkills", []):
-                        if sk.get("mapped_to"):
-                            owned_ids.add(sk["mapped_to"])
-                        else:
-                            owned_ids.add(sk["id"])
-            except Exception:
-                pass
-
         # Load canon graph metadata (for type symbols etc)
         graph_path = registry_graph_path(registry_path)
         graph_data = None
@@ -102,6 +89,30 @@ class LocalContext:
                     skill_map[sid] = skill
                     canon_ids.add(sid)
 
+        # Build named_map: local-first merge of registry, agent dirs, and manifest
+        named_map = _build_local_first_map(
+            registry_path, list(skill_map.values()), username, global_search=global_search
+        )
+        
+        # Inject custom skills into owned_ids so they appear unlocked
+        custom_state_path = os.path.join(".gaia", "custom_state.json")
+        if include_scan and os.path.exists(custom_state_path):
+            try:
+                with open(custom_state_path, "r", encoding="utf-8") as f:
+                    cstate = json.load(f)
+                    for sk in cstate.get("customSkills", []):
+                        mid = sk.get("mapped_to")
+                        cid = sk.get("id")
+                        if mid:
+                            owned_ids.add(mid)
+                            # Align mapping with scan findings
+                            if username and mid not in named_map:
+                                named_map[mid] = f"{username}/{cid}"
+                        else:
+                            owned_ids.add(cid)
+            except Exception:
+                pass
+
         # Load detected skills from last scan
         detected_ids = set()
         novel_ids = set()
@@ -116,9 +127,6 @@ class LocalContext:
                 detected_ids |= owned_ids
                 # Novel = detected but not in canon
                 novel_ids = detected_ids - canon_ids
-
-        # Build named_map: local-first merge of registry, agent dirs, and manifest
-        named_map = _build_local_first_map(registry_path, list(skill_map.values()), username)
         
         # Build effective rank map for generic skills
         effective_ranks = {}
@@ -380,6 +388,7 @@ def _build_agent_dir_map(
     manifest_covered: set,
     username: str,
     root: str = ".",
+    global_search: bool = False,
 ) -> dict[str, str]:
     """Build {canonical_id: username/dirname} for agent skill dirs not already in manifest."""
     if not username:
@@ -405,7 +414,7 @@ def _build_agent_dir_map(
             pass
 
     result: dict[str, str] = {}
-    for entry in scan_skill_mds(root=root):
+    for entry in scan_skill_mds(root=root, global_search=global_search):
         dir_name = entry["id"]
         if dir_name in manifest_covered:
             continue
@@ -423,6 +432,7 @@ def _build_local_first_map(
     registry_path: str,
     canonical_skills: list,
     username: str,
+    global_search: bool = False,
 ) -> dict[str, str]:
     """Merge named_map sources with priority: install > agent-dirs > registry."""
     base = _build_named_map(registry_path)                          # priority 3
@@ -433,7 +443,7 @@ def _build_local_first_map(
     }
     if username:
         agents = _build_agent_dir_map(
-            registry_path, canonical_skills, manifest_covered, username
+            registry_path, canonical_skills, manifest_covered, username, global_search=global_search
         )
         base.update(agents)                                        # priority 2
     base.update(install)
