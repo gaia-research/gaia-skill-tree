@@ -292,8 +292,8 @@ class LocalContext:
                 # Pre-named / demoted buckets: withhold the contributor handle.
                 # The caller's own handle is always shown if it's their own skill.
                 if contrib == self.username:
-                    return f"{ref}{star}"
-                return f"{self._redact_ref(ref, skill_id)}{star}"
+                    return f"/{ref}{star}"
+                return f"/{self._redact_ref(ref, skill_id)}{star}"
             return f"/{ref}{star}"
 
         # 2. Check for local novel skill

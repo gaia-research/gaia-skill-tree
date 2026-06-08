@@ -749,10 +749,32 @@ def render_fusion_diagram(prereqs: list[str], result: str, result_type: str = "e
         # returns the colored string and its plain length
         if "/" in n:
             parts = n.split("/", 1)
-            if parts[0] == "":
-                colored = f"{fg(*COLOR_LOCAL_USER)}{n}{r}"
+            # Check if it's a contributor/nickname or just /nickname
+            if parts[0] == "" or parts[0] == REDACTED_BLOCK:
+                handle_color = COLOR_REDACTED if parts[0] == REDACTED_BLOCK else COLOR_LOCAL_USER
+                # Apply rank color to the nickname if possible
+                star_part = ""
+                nickname = parts[1]
+                if " " in nickname:
+                    nickname, star_part = nickname.rsplit(" ", 1)
+                
+                # Use RANK_COLORS if we can extract the star
+                rc = RANK_COLORS.get(star_part, (148, 163, 184))
+                colored_star = f" {fg(*rc)}{star_part}{r}" if star_part else ""
+                
+                colored = f"{fg(*handle_color)}{parts[0]}{r}/{tb if is_result else mc}{nickname}{r}{colored_star}"
             else:
-                colored = f"{fg(*_handle_color(parts[0]))}{parts[0]}{r}/{tb if is_result else mc}{parts[1]}{r}"
+                # Full contributor/nickname
+                handle_color = COLOR_CONTRIBUTOR
+                star_part = ""
+                nickname = parts[1]
+                if " " in nickname:
+                    nickname, star_part = nickname.rsplit(" ", 1)
+                
+                rc = RANK_COLORS.get(star_part, (148, 163, 184))
+                colored_star = f" {fg(*rc)}{star_part}{r}" if star_part else ""
+                
+                colored = f"{fg(*handle_color)}{parts[0]}{r}/{tb if is_result else mc}{nickname}{r}{colored_star}"
         else:
             colored = f"{tb if is_result else mc}{n}{r}"
         return colored, len(n)
