@@ -1219,7 +1219,8 @@ def push_command(args):
             "\nYour skills are ready for review!\n"
             "Skills pushed from outside a public GitHub repo start at 1★ in the registry.\n"
             "Once you link a public repo, approved skills will start at 2★ instead.\n"
-            "  → Add a remote:  git remote add origin https://github.com/<you>/<repo>\n"
+            "  → Add a remote:  git remote add origin https://github.com/<you>/<repo>\n",
+            file=sys.stderr,
         )
         username_fallback = str(exc)
         batch = build_skill_batch(raw_tokens, config, args.registry,
