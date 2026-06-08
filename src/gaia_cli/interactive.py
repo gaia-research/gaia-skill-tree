@@ -26,6 +26,17 @@ def _get_back_kb() -> KeyBindings:
     return kb
 
 
+def _get_text_kb() -> KeyBindings:
+    """Keybindings for text input (Esc only for Back)."""
+    kb = KeyBindings()
+
+    @kb.add("escape")
+    def _(event):
+        event.app.exit(result=None)
+
+    return kb
+
+
 def _has_interactive() -> bool:
     """Check if interactive mode is available and appropriate."""
     # Not a TTY (piped input, CI)
