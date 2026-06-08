@@ -108,6 +108,10 @@ from gaia_cli.interactive import select_skill, select_fusion_candidate, select_p
 
 DEFAULT_REGISTRY_REF = "https://github.com/mbtiongson1/gaia-skill-tree"
 
+# Brand color roles (using tokens from formatting)
+COLOR_APEX_GOLD = RANK_COLORS["6★"]
+COLOR_FUSE_PURPLE = TIER_COLORS["extra"]
+
 COMMAND_USAGE = """\
 Quick usage:
   gaia                        Launch the TUI (interactive dashboard)
@@ -573,8 +577,6 @@ def scan_command(args):
             named_group.sort(key=lambda s: (-level_num(s.get("canon_level", "0★")), -s.get("mapped_score", 0.0), s["id"]))
             generic_group.sort(key=lambda s: (-s.get("mapped_score", 0.0), s["id"]))
             other_group.sort(key=lambda s: s["id"])
-
-            COLOR_APEX_GOLD = (251, 191, 36)
 
             def print_group(group_id, skills):
                 if not skills:
@@ -1319,9 +1321,9 @@ def fuse_command(args):
         except: pass
         
         choices.extend([
-            questionary.Choice(f"{_fg(251, 191, 36)}Create new custom fusion path{_reset()}", value="new"),
-            questionary.Choice(f"{_fg(192, 132, 252)}Edit existing custom fusions{_reset()}", value="edit"),
-            questionary.Choice(f"{_fg(239, 68, 68)}Delete custom fusion{_reset()}", value="delete"),
+            questionary.Choice(f"{_fg(*COLOR_APEX_GOLD)}Create new custom fusion path{_reset()}", value="new"),
+            questionary.Choice(f"{_fg(*COLOR_FUSE_PURPLE)}Edit existing custom fusions{_reset()}", value="edit"),
+            questionary.Choice(f"{_fg(*COLOR_CONTRIBUTOR)}Delete custom fusion{_reset()}", value="delete"),
         ])
         
         choice = questionary.select("Gaia Fuse Menu:", choices=choices).ask()
@@ -1373,7 +1375,8 @@ def fuse_command(args):
                     "id": sid,
                     "type": sinfo.get("type", "basic"),
                     "level": sinfo.get("level", "0★"),
-                    "description": sinfo.get("description", "")
+                    "description": sinfo.get("description", ""),
+                    "local": sid in ctx.novel_ids
                 })
             
             selected = select_multiple_skills(selector_choices, f"Select skills to combine into /{target if target else '???'}:")

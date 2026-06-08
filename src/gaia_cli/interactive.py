@@ -40,16 +40,22 @@ def select_skill(skills: list[dict], prompt: str = "Select a skill:") -> Optiona
     if not _has_interactive():
         return None
     import questionary
-    from gaia_cli.formatting import TYPE_SYMBOLS
+    from gaia_cli.formatting import TYPE_SYMBOLS, _fg, _reset
 
     choices = []
     for s in skills:
         sid = s.get("id", "unknown")
         skill_type = s.get("type", "basic")
         level = s.get("level", "?")
+        is_local = s.get("local", False)
         glyph = TYPE_SYMBOLS.get(skill_type, "○")
         desc = s.get("description", "")[:45]
-        title = f"{glyph} /{sid}  [{level}]  {desc}"
+        
+        # Follow gaia scan rules: local is grey
+        id_color = _fg(100, 100, 100) if is_local else ""
+        r = _reset() if is_local else ""
+        
+        title = f"{glyph} {id_color}/{sid}{r}  [{level}]  {desc}"
         choices.append(questionary.Choice(title=title, value=sid))
 
     if not choices:
@@ -112,16 +118,22 @@ def select_multiple_skills(skills: list[dict], prompt: str = "Select skills to c
     if not _has_interactive():
         return []
     import questionary
-    from gaia_cli.formatting import TYPE_SYMBOLS
+    from gaia_cli.formatting import TYPE_SYMBOLS, _fg, _reset
 
     choices = []
     for s in skills:
         sid = s.get("id", "unknown")
         skill_type = s.get("type", "basic")
         level = s.get("level", "?")
+        is_local = s.get("local", False)
         glyph = TYPE_SYMBOLS.get(skill_type, "○")
         desc = s.get("description", "")[:45]
-        title = f"{glyph} /{sid}  [{level}]  {desc}"
+        
+        # Follow gaia scan rules: local is grey
+        id_color = _fg(100, 100, 100) if is_local else ""
+        r = _reset() if is_local else ""
+        
+        title = f"{glyph} {id_color}/{sid}{r}  [{level}]  {desc}"
         choices.append(questionary.Choice(title=title, value=sid))
 
     if not choices:
