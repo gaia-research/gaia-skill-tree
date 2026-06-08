@@ -291,6 +291,52 @@ def whoami_command(args):
         print(f"CI/bots may bypass via {OPERATOR_OVERRIDE_ENV}=1 (always shown here).")
 
 
+def reset_command(args):
+    """Clear your skill tree and local state for a fresh start."""
+    config = load_config()
+    if not config:
+        print("Gaia not initialized.")
+        return
+
+    username = config.get("gaiaUser")
+    if not username:
+        print("No user identified in config.")
+        return
+
+    if not getattr(args, "yes", False):
+        confirm = input(f"Are you sure you want to reset the skill tree for '{username}'? This cannot be undone. [y/N]: ")
+        if confirm.lower() not in ("y", "yes"):
+            print("Aborted.")
+            return
+
+    registry_path = args.registry
+    tree_path = user_tree_path(registry_path, username)
+
+    cleared = 0
+    if os.path.exists(tree_path):
+        os.remove(tree_path)
+        cleared += 1
+        print(f"✓ Removed skill tree: {tree_path}")
+
+    # Clear local scan state
+    paths_path = ".gaia/paths.json"
+    if os.path.exists(paths_path):
+        os.remove(paths_path)
+        cleared += 1
+        print(f"✓ Removed local path state: {paths_path}")
+
+    state_path = ".gaia/custom_state.json"
+    if os.path.exists(state_path):
+        os.remove(state_path)
+        cleared += 1
+        print(f"✓ Removed custom skill mapping: {state_path}")
+
+    if cleared == 0:
+        print("Nothing to reset.")
+    else:
+        print("\nReset complete. Run `gaia scan` to start afresh.")
+
+
 def init_command(args):
     config_dir = '.gaia'
     os.makedirs(config_dir, exist_ok=True)
@@ -1897,6 +1943,8 @@ def get_parser():
     propose_parser.add_argument('--no-pr', action='store_true', help="Write intake proposal without opening a PR")
     subparsers.add_parser('version', help="Print the Gaia CLI version")
     subparsers.add_parser('whoami', help="Show your Gaia identity and Verifier/operator status")
+    reset_parser = subparsers.add_parser('reset', help="Clear your skill tree and local state for a fresh start")
+    reset_parser.add_argument('--yes', '-y', action='store_true', help="Skip confirmation prompt")
     subparsers.add_parser(
         'mcp',
         help="Run the bundled Gaia MCP server",
@@ -2226,6 +2274,8 @@ def main():
         version_command(args)
     elif args.command == 'whoami':
         whoami_command(args)
+    elif args.command == 'reset':
+        reset_command(args)
     elif args.command == 'mcp':
         mcp_command(args)
     elif args.command == 'release':
