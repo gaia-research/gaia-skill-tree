@@ -265,7 +265,8 @@ def render_card(skill: dict, *, width: int = CARD_WIDTH, canon: bool = False, di
     if canon:
         name = f"/{skill_id}"
     else:
-        name = display_name or (ctx.display_name(skill_id) if ctx else f"/{skill_id}")
+        # Avoid double-starring in card title
+        name = display_name or (ctx.display_name(skill_id, include_star=False) if ctx else f"/{skill_id}")
     
     rarity = skill.get("rarity", "common")
     rarity_label = RARITY_LABELS.get(rarity, rarity.capitalize())
@@ -360,16 +361,13 @@ def render_card_compact(skill: dict, canon: bool = False, ctx: Optional["LocalCo
     glyph = TIER_GLYPHS.get(tier, "○")
     skill_id = skill.get("id", skill.get("name", "unknown"))
     
+    # Compact card uses display_name which now includes the star
     name = (ctx.display_name(skill_id, canon=canon) if ctx else f"/{skill_id}")
     
-    level = skill.get("level", "0★")
-    effective = level_summary(skill)["effectiveLevel"]
     rarity = skill.get("rarity", "common")
     desc = skill.get("description", "")
     short_desc = desc[:60] + "…" if len(desc) > 60 else desc
-    if effective != level:
-        return f"{glyph} {name} ({level}→{effective}) [{rarity}] — {short_desc}"
-    return f"{glyph} {name} ({level}) [{rarity}] — {short_desc}"
+    return f"{glyph} {name} [{rarity}] — {short_desc}"
 
 
 def render_cards(skills: list[dict], *, width: int = CARD_WIDTH, compact: bool = False, canon: bool = False, ctx: Optional["LocalContext"] = None) -> str:
@@ -466,7 +464,8 @@ def render_appraise_card(
     if canon:
         name = f"/{skill_id}"
     else:
-        name = display_name or skill_data.get("name") or _name_from_slug(skill_id)
+        # Appraise card has level on the right; suppress in name for alignment
+        name = display_name or skill_data.get("name") or (ctx.display_name(skill_id, include_star=False) if ctx else _name_from_slug(skill_id))
     
     level = skill_data.get("level", "0★")
     rarity = skill_data.get("rarity", "common")

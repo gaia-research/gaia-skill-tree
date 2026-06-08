@@ -204,12 +204,14 @@ _TYPE_SYMBOL = {"basic": "○", "extra": "◇", "ultimate": "◆"}
 
 def _plain_label(skill_id, skill_map, named_by_ref, local_by_ref, mode, canon=False, current_user=None):
     level = skill_map.get(skill_id, {}).get("level", "?")
+    star = f" {level}" if level and level != "0★" else ""
+
     if canon:
-        return f"/{skill_id}  [{level}]"
+        return f"/{skill_id}{star}"
     
     if mode == "title":
         name = skill_map.get(skill_id, {}).get("name", skill_id)
-        return f"{name}  [{level}]"
+        return f"{name}{star}"
     
     local = local_by_ref.get(skill_id)
     named = named_by_ref.get(skill_id)
@@ -218,14 +220,9 @@ def _plain_label(skill_id, skill_map, named_by_ref, local_by_ref, mode, canon=Fa
     if specific:
         full_id = specific.get("id")
         if full_id:
-            if "/" in full_id:
-                contrib, nickname = full_id.split("/", 1)
-                if current_user and contrib == current_user:
-                    return f"/{nickname}  [{level}]"
-                return f"{full_id}  [{level}]"
-            return f"/{full_id}  [{level}]"
+            return f"{full_id}{star}"
 
-    return f"/{skill_id}  [{level}]"
+    return f"/{skill_id}{star}"
 
 
 def _is_named(skill_id, named_by_ref, local_by_ref):
