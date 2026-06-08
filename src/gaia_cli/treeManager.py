@@ -160,7 +160,7 @@ def _gradient_text(text, start_rgb, end_rgb):
 
 
 def _color_entry(symbol, plain_label, tier, is_named, level, current_user=None):
-    from gaia_cli.cardRenderer import fg, reset, bold, _use_color, TIER_COLORS, RANK_COLORS, COLOR_CONTRIBUTOR, COLOR_LOCAL_USER
+    from gaia_cli.cardRenderer import fg, reset, bold, _use_color, TIER_COLORS, RANK_COLORS, COLOR_CONTRIBUTOR, COLOR_LOCAL_USER, COLOR_REDACTED, REDACTED_BLOCK
     if not _use_color():
         return f"{symbol} {plain_label}"
     if is_named:
@@ -168,24 +168,27 @@ def _color_entry(symbol, plain_label, tier, is_named, level, current_user=None):
             colored = _gradient_text(f"{symbol} {plain_label}", _GRAD_GOLD, _GRAD_RED)
             return f"{bold()}{colored}{reset()}"
         
-        # Named skills
+        # Named skills format: /contributor/nickname star
         rc = RANK_COLORS.get(level, (148, 163, 184))
         
-        # Check for contributor prefix
-        parts = plain_label.split("[")[0].strip().split("/", 1)
-        if len(parts) == 2 and parts[0]:
-            contrib_part = parts[0]
+        if plain_label.startswith("/") and plain_label.count("/") >= 2:
+            parts = plain_label[1:].split("/", 1)
+            handle = parts[0]
             rest = parts[1]
-            color = COLOR_LOCAL_USER if current_user and contrib_part == current_user else COLOR_CONTRIBUTOR
-            return f"{fg(*color)}{symbol} {contrib_part}{reset()}/{fg(*rc)}{rest}{reset()}"
+            
+            handle_color = COLOR_REDACTED if handle == REDACTED_BLOCK else (COLOR_LOCAL_USER if current_user and handle == current_user else COLOR_CONTRIBUTOR)
+            
+            # Split off the star if present
+            star_part = ""
+            nickname = rest
+            if " " in nickname:
+                nickname, star_part = nickname.rsplit(" ", 1)
+            
+            # Reassemble with colors
+            return f"{fg(*handle_color)}{symbol} /{handle}{reset()}/{fg(*rc)}{nickname}{reset()}{f' {fg(*rc)}{star_part}{reset()}' if star_part else ''}"
         
-        # No contributor part (or leading slash)
-        color = COLOR_CONTRIBUTOR
-        if plain_label.startswith("/"):
-            # If it starts with / but no contributor, it's a local/own nickname
-            color = COLOR_LOCAL_USER
-        
-        return f"{bold()}{fg(*color)}{symbol} {plain_label}{reset()}"
+        # Fallback for other formats
+        return f"{bold()}{fg(*COLOR_CONTRIBUTOR)}{symbol} {plain_label}{reset()}"
     
     # Canon skills: rank color for entire label
     rc = RANK_COLORS.get(level, (148, 163, 184))
@@ -220,7 +223,8 @@ def _plain_label(skill_id, skill_map, named_by_ref, local_by_ref, mode, canon=Fa
     if specific:
         full_id = specific.get("id")
         if full_id:
-            return f"{full_id}{star}"
+            # Always return full /contributor/nickname star
+            return f"/{full_id}{star}"
 
     return f"/{skill_id}{star}"
 
