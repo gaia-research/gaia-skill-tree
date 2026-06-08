@@ -112,14 +112,14 @@ DEFAULT_REGISTRY_REF = "https://github.com/mbtiongson1/gaia-skill-tree"
 COLOR_APEX_GOLD = RANK_COLORS["6★"]
 COLOR_FUSE_PURPLE = TIER_COLORS["extra"]
 
-COMMAND_USAGE = """\
+COMMAND_USAGE = f"""\
 Quick usage:
   gaia                        Launch the TUI (interactive dashboard)
   gaia init [--user <name>] [--scan <path>] [--yes]
   gaia scan [--quiet]
   gaia pull
   gaia tree [--named] [--title]
-  gaia push [--dry-run] [--no-issue]
+  {_fg(*COLOR_LOCAL_USER)}gaia push{_reset()} [--dry-run] [--no-issue]
   gaia propose [<skillId>] [--ultimate] [--target <name>] [--no-pr]
   gaia version
   gaia whoami
@@ -128,7 +128,7 @@ Quick usage:
   gaia graph [--format html|svg|json] [-o <path>] [--no-open]
   gaia appraise [<skillId>]
   gaia promote [<skillId>] [--all] [--name <name>]
-  gaia fuse <skillId> [--name <name>]
+  {_fg(*COLOR_FUSE_PURPLE)}gaia fuse{_reset()} <skillId> [--name <name>]
   gaia update
   gaia stats
   gaia docs build [--check]
@@ -388,9 +388,9 @@ def init_command(args):
             try:
                 if _use_color():
                     prompt = (
-                        f"\n{_bold()}{_fg(99, 102, 241)}⚡ {_fg(255, 255, 255)}Detected repo: {_fg(45, 212, 191)}{source}{_reset()}\n"
-                        f"{_bold()}{_fg(234, 179, 8)}? {_fg(255, 255, 255)}Initialize Gaia on this repository? "
-                        f"{_fg(148, 163, 184)}[{_fg(74, 222, 128)}Y{_fg(148, 163, 184)}/n]: {_reset()}"
+                        f"\n{_bold()}{_fg(*TIER_COLORS['extra'])}⚡ {_fg(255, 255, 255)}Detected repo: {_fg(*RANK_COLORS['2★'])}{source}{_reset()}\n"
+                        f"{_bold()}{_fg(*TIER_COLORS['ultimate'])}? {_fg(255, 255, 255)}Initialize Gaia on this repository? "
+                        f"{_fg(*RANK_COLORS['0★'])}[{_fg(*COLOR_LOCAL_USER)}Y{_fg(*RANK_COLORS['0★'])}/n]: {_reset()}"
                     )
                 else:
                     prompt = f"Detected repo: {source}\nInitialize Gaia on this repository? [Y/n]: "
@@ -633,15 +633,15 @@ def scan_command(args):
                                 colored_mapped = f"{_fg(*rank_color)}/{mapped_id}{_reset()}"
                             
                             if m_type in ("origin", "named", "exact_generic"):
-                                match_note = f"  {_fg(100,100,100)}→ {colored_mapped}{_reset()}"
+                                match_note = f"  {_fg(*RANK_COLORS['0★'])}→ {colored_mapped}{_reset()}"
                             else:
-                                match_note = f"  {_fg(100,100,100)}→ {colored_mapped}{_fg(100,100,100)} ({mapped_score:.0%} semantic){_reset()}"
-                        
-                        user_label = f"{_fg(100, 100, 100)}{_bold()}/{cid}{_reset()}"
-                        if group_id == "other":
-                            user_label = f"{user_label} {_fg(100, 100, 100)}0★{_reset()}"
-                        
-                        print(f"  ○ {user_label}{match_note}")
+                                match_note = f"  {_fg(*RANK_COLORS['0★'])}→ {colored_mapped}{_fg(*RANK_COLORS['0★'])} ({mapped_score:.0%} semantic){_reset()}"
+
+                            user_label = f"{_fg(*RANK_COLORS['0★'])}{_bold()}/{cid}{_reset()}"
+                            if group_id == "other":
+                                user_label = f"{user_label} {_fg(*RANK_COLORS['0★'])}0★{_reset()}"
+
+                            print(f"  ○ {user_label}{match_note}")
 
             print_group("origin", origin_group)
             print_group("named", named_group)
@@ -649,8 +649,7 @@ def scan_command(args):
             print_group("other", other_group)
 
             if other_group:
-                print(f"\n{_fg(100, 100, 100)}⚡ {_bold()}Tip: Run `{_fg(134, 239, 172)}gaia push{_reset()}{_fg(100, 100, 100)}` to submit your custom skills for review.{_reset()}")
-
+                print(f"\n{_fg(*RANK_COLORS['0★'])}⚡ {_bold()}Tip: Run `{_fg(*COLOR_LOCAL_USER)}gaia push{_reset()}{_fg(*RANK_COLORS['0★'])}` to submit your custom skills for review.{_reset()}")
         # Clean up output fields to keep file clean
         for sk in custom_state_skills:
             sk.pop("match_type", None)
@@ -684,7 +683,7 @@ def scan_command(args):
                         c['detectedSkills'], c['candidateResult'], result_type,
                         canon=canon, ctx=ctx
                     ))
-                print(f"Run `{_fg(192, 132, 252)}gaia fuse <skill>{_reset()}` to confirm.")
+                print(f"Run `{_fg(*COLOR_FUSE_PURPLE)}gaia fuse <skill>{_reset()}` to confirm.")
 
         # Path engine integration
         old_paths = load_paths()
@@ -711,7 +710,7 @@ def scan_command(args):
         render_user_tree_outputs(username, tree, graph_data, args.registry, quiet=quiet)
 
         if not quiet and not use_json:
-            print(f"\nTip: Have skills you want to fuse? Run `{_fg(192, 132, 252)}gaia fuse{_reset()}` to combine them into a new custom path.")
+            print(f"\nTip: Have skills you want to fuse? Run `{_fg(*COLOR_FUSE_PURPLE)}gaia fuse{_reset()}` to combine them into a new custom path.")
 
 
 def render_user_tree_outputs(username: str, tree: dict | None, graph_data: dict | None, registry_path: str, quiet: bool = False) -> tuple[str, str] | None:
@@ -1301,7 +1300,7 @@ def fuse_command(args):
             print("\nInteractive fuse requires the 'questionary' package.")
             print("Install it with: pip install questionary")
             print("\nOr use the programmatic form:")
-            print(f"  {_fg(192, 132, 252)}gaia fuse <skill_id> --skills skill1,skill2{_reset()}")
+            print(f"  {_fg(*COLOR_FUSE_PURPLE)}gaia fuse <skill_id> --skills skill1,skill2{_reset()}")
             return
 
         import questionary
@@ -1445,7 +1444,7 @@ def fuse_command(args):
         pass
 
     print(f"{_fg(*fuse_color)}Skill /{target} is not a valid combination or promotion candidate.{_reset()}")
-    print(f"{_fg(*fuse_color)}Run `gaia scan` to refresh candidates, or use interactive `{_fg(192, 132, 252)}gaia fuse{_reset()}{_fg(*fuse_color)}` to create a custom path.{_reset()}")
+    print(f"{_fg(*fuse_color)}Run `gaia scan` to refresh candidates, or use interactive `{_fg(*COLOR_FUSE_PURPLE)}gaia fuse{_reset()}{_fg(*fuse_color)}` to create a custom path.{_reset()}")
 
 _EMBEDDINGS_INSTALL_STEPS = """\
 
@@ -1543,7 +1542,7 @@ def push_command(args):
 
     # Guard 1: check if empty initially
     if not batch.get("proposedSkills") and not batch.get("knownSkills"):
-        print(f"Error: No skills to be pushed. Please install newer skills then gaia scan, or `{_fg(192, 132, 252)}gaia fuse{_reset()}` custom skills before pushing.", file=sys.stderr)
+        print(f"Error: No skills to be pushed. Please install newer skills then gaia scan, or `{_fg(*COLOR_FUSE_PURPLE)}gaia fuse{_reset()}` custom skills before pushing.", file=sys.stderr)
         sys.exit(1)
 
     # Custom skills injection and interactive exclusion
@@ -1594,7 +1593,7 @@ def push_command(args):
 
     # Guard 2: check if empty after filtering
     if not batch.get("proposedSkills") and not batch.get("knownSkills") and not batch.get("proposedCombinations"):
-        print(f"Error: No items selected to be pushed. Run `gaia scan` or `{_fg(192, 132, 252)}gaia fuse{_reset()}` to find more.", file=sys.stderr)
+        print(f"Error: No items selected to be pushed. Run `gaia scan` or `{_fg(*COLOR_FUSE_PURPLE)}gaia fuse{_reset()}` to find more.", file=sys.stderr)
         sys.exit(1)
 
 
