@@ -171,7 +171,7 @@ def select_multiple_skills(skills: list[dict], prompt: str = "Select skills to c
     result = questionary.checkbox(
         full_prompt,
         choices=choices,
-    ).ask()
+    ).ask(key_bindings=_get_back_kb())
     return result or []
 
 
@@ -306,7 +306,7 @@ def select_push_batch(batch: dict, prompt: str = "Select items to push to regist
     result = questionary.checkbox(
         full_prompt,
         choices=choices,
-    ).ask()
+    ).ask(key_bindings=_get_back_kb())
     return result or []
 
 
