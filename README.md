@@ -42,39 +42,7 @@ So that means, its the developers who make skills maintaining this. I have a tho
 
 <!-- gaia:registry-start -->
 ```text
-◆ ruvnet/agentdb  [5★]
-  ├─ ◇ ████████/agentdb-advanced
-  │  ├─ ○ ruvnet/agentdb-vector-search  [2★]
-  │  └─ ◇ garrytan/learn  [3★]
-  │     ├─ ○ mattpocock/caveman  [3★]
-  │     └─ ○ /retrieve
-  ├─ ◇ ruvnet/reasoningbank-agentdb  [2★]
-  │  ├─ ○ ████████/reasoningbank-intelligence
-  │  └─ ◇ garrytan/learn  [3★]  (↑ see above)
-  ├─ ○ ruvnet/agentdb-memory-patterns  [2★]
-  ├─ ○ ruvnet/agentdb-optimization  [2★]
-  └─ ○ ruvnet/agentdb-vector-search  [2★]  (↑ see above)
-
-◆ garrytan/gstack  [5★]
-  ├─ ○ garrytan/office-hours  [4★]
-  ├─ ○ garrytan/benchmark  [4★]
-  ├─ ◇ garrytan/plan-eng-review  [4★]
-  │  ├─ ○ garrytan/design-html  [4★]
-  │  ├─ ○ /diff-content
-  │  └─ ○ garrytan/benchmark  [4★]  (↑ see above)
-  ├─ ○ pbakaus/impeccable  [4★]
-  ├─ ◇ garrytan/garrytan  [4★]
-  │  ├─ ○ /plan-decompose
-  │  └─ ○ /route-intent
-  ├─ ◇ garrytan/design-consultation  [4★]
-  │  ├─ ◇ browserbase/stagehand  [2★]
-  │  │  ├─ ○ /web-search
-  │  │  └─ ○ /computer-use
-
-Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
-  ◉ ruvnet/hive-mind-coordination  [4★]
-
-(228 skills total — see docs/tree.md)
+(could not parse tree)
 ```
 <!-- gaia:registry-end -->
 
@@ -118,7 +86,7 @@ Skills rank up through **verifiable evidence** (Class A/B/C) and can be demoted 
 **1. Install the CLI**
 
 <!-- gaia:version-start -->
-Current Gaia CLI version: `4.3.6`.
+Current Gaia CLI version: `4.3.7`.
 
 ```bash
 curl -fsSL https://gaia.tiongson.co/install.sh | sh

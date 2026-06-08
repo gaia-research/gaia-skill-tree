@@ -7,7 +7,15 @@
   "prerequisites": [],
   "derivatives": [],
   "conditions": "Requires demonstrating queen-led multi-agent consensus across at least 3 specialized worker types.",
-  "evidence": [],
+  "evidence": [
+    {
+      "class": "A",
+      "source": "https://dl.acm.org/doi/10.1145/357172.357176",
+      "evaluator": "mbtiongson1",
+      "date": "2026-05-19",
+      "notes": "\"The Byzantine Generals Problem\" (Lamport et al., 1982) — Foundational theory for consensus."
+    }
+  ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-19",
