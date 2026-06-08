@@ -162,9 +162,10 @@ packaging-specific tests are skipped locally with guidance to install developer 
 **2. Initialise & scan**
 
 ```bash
-gaia init --user your-username
-# Detected repo: your-username/your-repo
-# Initialize Gaia on this repository? [Y/n]: Y
+gaia init
+```
+
+```bash
 gaia scan
 ```
 
