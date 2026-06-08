@@ -371,14 +371,6 @@ def init_command(args):
     if os.path.exists("registry/gaia.json"):
         registry_abs = os.path.abspath(".")
         write_global_registry(registry_abs)
-        print(f"  registry:   {registry_abs} (saved to ~/.gaia/config.json)")
-        
-        # Auto-install git hooks
-        hook_script = os.path.join(registry_abs, "scripts", "install-git-hooks.sh")
-        if os.path.exists(hook_script):
-            print("  git hooks:  found hook script (run manually if trusted: sh scripts/install-git-hooks.sh)")
-
-
 def scan_command(args):
     config = load_config()
     if not config:
@@ -388,87 +380,25 @@ def scan_command(args):
     use_json = getattr(args, 'json', False)
     
     if not quiet and not use_json:
-        print("Scanning repository...")
-    scan_result = scan_repo_detailed()
-    raw_tokens = {t.lstrip('/') for t in scan_result["tokens"]}
+        print("Scanning installed custom skills...")
+    
     graph_path = registry_graph_path(args.registry)
 
     from gaia_cli.registry import bundled_registry_path
     if not quiet and not use_json and str(args.registry) == str(bundled_registry_path()):
         print("Note: using bundled registry (no local registry clone found).")
 
-    resolved = resolve_skills(raw_tokens, registry_path=graph_path)
-    
     username = config.get('gaiaUser')
     canon = getattr(args, 'canon', False)
     
     # Unified local context for display
     ctx = LocalContext.load(args.registry, username or "", include_scan=False)
 
-    if use_json:
-        out = {
-            "scanned": scan_result["files_scanned"],
-            "candidates": scan_result["candidate_count"],
-            "matched": sorted(list(resolved)),
-        }
-        print(json.dumps(out, indent=2))
-        return
-
-    if not quiet:
-        print(
-            f"Scanned {scan_result['files_scanned']} file(s) across "
-            f"{len(scan_result['paths_found'])} configured path(s)."
-        )
-        if scan_result["paths_missing"]:
-            print("Missing scan paths: " + ", ".join(scan_result["paths_missing"]))
-        print(f"Found {scan_result['candidate_count']} candidate token(s).")
-        print(f"Matched {len(resolved)} canonical skill(s).")
-        if resolved:
-            # Colored skill list with type glyphs
-            graph_path_file = registry_graph_path(args.registry)
-            if not os.path.exists(graph_path_file):
-                print("Registry graph not found. Run `gaia init` from a gaia-skill-tree clone.")
-                return
-            with open(graph_path_file, 'r', encoding='utf-8') as gf:
-                gdata = json.load(gf)
-            smap = {s['id']: s for s in gdata.get('skills', [])}
-            
-            skill_parts = []
-            for sid in sorted(resolved):
-                sk = smap.get(sid, {})
-                glyph = TYPE_SYMBOLS.get(sk.get('type', 'basic'), '○')
-                
-                # Resolve display name via LocalContext
-                display = ctx.display_name(sid, canon=canon)
-                rank_color = RANK_COLORS.get(sk.get('level', '0★'), RANK_COLORS["0★"])
-                
-                # Apply nickname coloring if not canon and it's a nickname
-                if not canon and ("/" in display or sid in ctx.novel_ids):
-                    # Check if it's our own nickname (starts with /)
-                    if display.startswith("/"):
-                        colored_name = f"{_fg(*COLOR_LOCAL_USER)}{_bold()}{display}{_reset()}"
-                    else:
-                        # Other contributor nickname: contrib in red, rest in rank
-                        # color. Pre-named/demoted buckets arrive pre-redacted from
-                        # the resolver (handle → REDACTED_BLOCK) — paint that
-                        # segment slate, never honor-red.
-                        parts = display.split("/", 1)
-                        if len(parts) == 2:
-                            handle_color = COLOR_REDACTED if parts[0] == REDACTED_BLOCK else COLOR_CONTRIBUTOR
-                            colored_name = f"{_fg(*handle_color)}{parts[0]}{_reset()}/{_fg(*rank_color)}{parts[1]}{_reset()}"
-                        else:
-                            colored_name = f"{_fg(*rank_color)}{display}{_reset()}"
-                else:
-                    colored_name = f"{_fg(*rank_color)}{display}{_reset()}"
-                
-                skill_parts.append(f"  {glyph} {colored_name}")
-            print("\n".join(skill_parts))
-        else:
-            print('Tip: try `gaia skills search "code review"` or expand scanPaths.')
-
-    # ── Semantic scan: detect installed skill .md files ──────────────────────
     global_search = getattr(args, 'all', False)
     installed_skills = scan_skill_mds(global_search=global_search)
+    
+    resolved = []
+    
     if installed_skills:
         with open(graph_path, 'r', encoding='utf-8') as _gf:
             _gdata_for_match = json.load(_gf)
@@ -489,12 +419,6 @@ def scan_command(args):
                             origin_skills.append(item)
                         else:
                             named_skills.append(item)
-
-        # Keep the matching logic that adds matching custom skills to resolved
-        for sk in installed_skills:
-            sid = sk['id']
-            if sid in smap_for_match and sid not in resolved:
-                resolved.append(sid)
 
         custom_state_skills = []
             
@@ -543,6 +467,31 @@ def scan_command(args):
                 "canon_level": canon_level,
                 "prerequisites": sk.get("prerequisites", [])
             })
+
+        # Build resolved strictly from mapped custom skills that exist in the registry
+        for sk in custom_state_skills:
+            if sk["mapped_score"] > 0.0:
+                mapped_id = sk["mapped_to"]
+                m_type = sk.get("match_type")
+                generic_id = mapped_id
+                if m_type == "origin":
+                    ref = next((o.get("genericSkillRef") for o in origin_skills if o["id"] == mapped_id), None)
+                    if ref:
+                        generic_id = ref
+                elif m_type == "named":
+                    ref = next((n.get("genericSkillRef") for n in named_skills if n["id"] == mapped_id), None)
+                    if ref:
+                        generic_id = ref
+                if generic_id and generic_id not in resolved:
+                    resolved.append(generic_id)
+
+        if use_json:
+            out = {
+                "scanned_installed": len(installed_skills),
+                "matched": sorted(list(resolved)),
+            }
+            print(json.dumps(out, indent=2))
+            return
 
         if not quiet:
             print("\nInstalled custom skills:")
