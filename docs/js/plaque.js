@@ -69,7 +69,7 @@
   }
 
   function handleLink(handle, opts) {
-    if (typeof window.handleLink === 'function') return window.handleLink(handle || '', opts || {});
+    if (typeof window.handleLink === 'function' && window.handleLink !== handleLink) return window.handleLink(handle || '', opts || {});
     if (!handle) return '';
     var cls = 'atlas-handle' + (opts && opts.extraClass ? ' ' + opts.extraClass : '');
     var rel = (opts && opts.rel);
