@@ -9,6 +9,8 @@ status: named
 level: 6★
 description: The ultimate capstone suite encompassing all of Matt Pocock's engineering,
   productivity, and personal skills.
+links:
+  github: https://github.com/mattpocock/skills
 createdAt: '2026-05-22'
 updatedAt: '2026-05-22'
 suiteComponents:

@@ -20,7 +20,6 @@ tags:
 - memory
 createdAt: '2026-05-19'
 updatedAt: '2026-06-05'
-suiteRef: ruvnet/ruflo
 evidence:
 - class: B
   source: https://github.com/ruvnet/ruflo
@@ -40,6 +39,7 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 1★ to 4★
+suiteRef: "ruvnet/ruflo"
 ---
 
 ## Overview
