@@ -104,7 +104,7 @@ from gaia_cli.formatting import (
 )
 from gaia_cli.localContext import LocalContext
 from gaia_cli.cardRenderer import render_fusion_diagram
-from gaia_cli.interactive import select_skill, select_fusion_candidate, select_promotion_candidate, select_multiple_skills, select_fusion_to_edit
+from gaia_cli.interactive import select_skill, select_fusion_candidate, select_promotion_candidate, select_multiple_skills, select_fusion_to_edit, _has_interactive
 
 DEFAULT_REGISTRY_REF = "https://github.com/mbtiongson1/gaia-skill-tree"
 
@@ -635,9 +635,9 @@ def scan_command(args):
                             else:
                                 match_note = f"  {_fg(100,100,100)}→ {colored_mapped}{_fg(100,100,100)} ({mapped_score:.0%} semantic){_reset()}"
                         
-                        user_label = f"{_fg(*COLOR_LOCAL_USER)}{_bold()}/{cid}{_reset()}"
+                        user_label = f"{_fg(100, 100, 100)}{_bold()}/{cid}{_reset()}"
                         if group_id == "other":
-                            user_label = f"{user_label} {_fg(*RANK_COLORS['0★'])}0★{_reset()}"
+                            user_label = f"{user_label} {_fg(100, 100, 100)}0★{_reset()}"
                         
                         print(f"  ○ {user_label}{match_note}")
 
