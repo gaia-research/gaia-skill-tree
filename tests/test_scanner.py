@@ -272,3 +272,56 @@ class TestMatchSkillToCanonical:
         assert result is not None
         _, score, match_type = result
         assert 0.0 < score <= 1.0
+
+    def test_exact_slash_skill_name_match_origin(self):
+        """Matches exactly by base ID suffix in origin skills."""
+        origin_skills = [
+            {"id": "pbakaus/impeccable", "name": "Impeccable", "description": "some tool"}
+        ]
+        result = match_skill_to_canonical(
+            "impeccable", "impeccable", "some tool",
+            _CANONICAL_SKILLS, origin_skills=origin_skills
+        )
+        assert result == ("pbakaus/impeccable", 1.0, "origin")
+
+    def test_exact_slash_skill_name_match_named(self):
+        """Matches exactly by base ID suffix in named skills."""
+        named_skills = [
+            {"id": "mbtiongson1/gaia-triage", "name": "Gaia Triage", "description": "some triage tool"}
+        ]
+        result = match_skill_to_canonical(
+            "gaia-triage", "gaia-triage", "some triage tool",
+            _CANONICAL_SKILLS, named_skills=named_skills
+        )
+        assert result == ("mbtiongson1/gaia-triage", 1.0, "named")
+
+    def test_exact_generic_match(self):
+        """Matches exactly by ID in generic skills."""
+        result = match_skill_to_canonical(
+            "python-basics", "python-basics", "basic python",
+            _CANONICAL_SKILLS
+        )
+        assert result == ("python-basics", 1.0, "exact_generic")
+
+    def test_semantic_match_origin_threshold(self):
+        """Semantic matching uses origin_threshold for origin skills."""
+        origin_skills = [
+            {"id": "pbakaus/impeccable", "name": "Impeccable Design Audit tool", "description": "Elite design vocabulary and audit tool"}
+        ]
+        # Should not match because it's below origin_threshold (0.80)
+        low_match = match_skill_to_canonical(
+            "impeccable-clone", "impeccable-clone", "Elite design vocabulary",
+            _CANONICAL_SKILLS, origin_skills=origin_skills,
+            threshold=0.20, origin_threshold=0.80
+        )
+        assert low_match is None
+
+        # Should match when score exceeds origin_threshold
+        high_match = match_skill_to_canonical(
+            "impeccable-clone", "impeccable-clone", "Elite design vocabulary and audit tool",
+            _CANONICAL_SKILLS, origin_skills=origin_skills,
+            threshold=0.20, origin_threshold=0.30
+        )
+        assert high_match is not None
+        assert high_match[0] == "pbakaus/impeccable"
+        assert high_match[2] == "origin"
