@@ -38,7 +38,45 @@
       "combinedFrom": []
     }
   ],
-  "pendingCombinations": [],
+  "pendingCombinations": [
+    {
+      "candidateResult": "grill-with-docs",
+      "levelFloor": "1\u2605",
+      "baseLevelFloor": null,
+      "detectedSkills": [
+        "grill-me",
+        "ubiquitous-language",
+        "document-editing"
+      ],
+      "status": "chain_fusion",
+      "chainSteps": [
+        "grill-me",
+        "ubiquitous-language"
+      ]
+    },
+    {
+      "candidateResult": "research",
+      "levelFloor": "1\u2605",
+      "baseLevelFloor": null,
+      "detectedSkills": [
+        "web-search",
+        "summarize",
+        "cite-sources"
+      ],
+      "status": "new_fusion"
+    },
+    {
+      "candidateResult": "web-scrape",
+      "levelFloor": "1\u2605",
+      "baseLevelFloor": null,
+      "detectedSkills": [
+        "web-search",
+        "parse-html",
+        "extract-entities"
+      ],
+      "status": "new_fusion"
+    }
+  ],
   "stats": {
     "totalUnlocked": 5,
     "highestRarity": "uncommon",
