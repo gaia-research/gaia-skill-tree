@@ -273,30 +273,42 @@
         <p class="section-sub mt-sm">Four steps from zero to a named entry in the canonical registry.</p>
         <ol class="rite-steps">
           <li class="rite-step">
-            <span class="rite-numeral" aria-hidden="true">I.</span>
-            <div class="rite-body">
-              <strong>Install the CLI</strong>
-              <p>Puts the <code>gaia</code> command on your PATH.</p>
+            <div class="rite-meta">
+              <span class="rite-numeral" aria-hidden="true">I.</span>
+              <div class="rite-desc">
+                <strong>Install the CLI</strong>
+                <p>Puts <code>gaia</code> on your PATH.</p>
+              </div>
+            </div>
+            <div class="rite-term">
               <div class="os-tabs" role="tablist" aria-label="Operating System selection">
                 <button type="button" class="os-tab active" data-os="unix" onclick="switchOsTab(this)" role="tab" aria-selected="true">macOS · Linux</button>
                 <button type="button" class="os-tab" data-os="win" onclick="switchOsTab(this)" role="tab" aria-selected="false">Windows</button>
+                <button type="button" class="os-tab" data-os="pipx" onclick="switchOsTab(this)" role="tab" aria-selected="false">pipx (Python)</button>
               </div>
               <div class="os-panel active" data-os="unix" role="tabpanel">
                 <pre><span class="cmd">curl -fsSL</span> https://gaia.tiongson.co/install.sh | sh</pre>
-                <div class="qs-tip mt-sm"><span class="qs-tip-icon">💡</span><span>Requires Python 3.8+. Alternatively: <code>pip install gaia-cli</code></span></div>
               </div>
               <div class="os-panel" data-os="win" role="tabpanel">
                 <pre><span class="cmd">py -m pip install</span> gaia-cli</pre>
                 <pre class="mt-sm"><span class="cmd">$env:PATH</span> += <span class="str">";"</span> + (python -c <span class="str">"import sysconfig; print(sysconfig.get_path('scripts', 'nt_user'))"</span>)</pre>
                 <div class="qs-tip mt-sm"><span class="qs-tip-icon">💡</span><span>Run the second command if <code>gaia</code> isn't found after install — it adds the Python user Scripts directory to your current PowerShell session's PATH.</span></div>
               </div>
+              <div class="os-panel" data-os="pipx" role="tabpanel">
+                <pre><span class="cmd">pipx install</span> gaia-cli</pre>
+                <div class="qs-tip mt-sm"><span class="qs-tip-icon">💡</span><span>Installs <code>gaia</code> in an isolated virtual environment and automatically handles PATH configurations. Requires Python 3.8+ and <code>pipx</code>.</span></div>
+              </div>
             </div>
           </li>
           <li class="rite-step">
-            <span class="rite-numeral" aria-hidden="true">II.</span>
-            <div class="rite-body">
-              <strong>Initialise profile</strong>
-              <p>Create your local user profile configuration.</p>
+            <div class="rite-meta">
+              <span class="rite-numeral" aria-hidden="true">II.</span>
+              <div class="rite-desc">
+                <strong>Initialise profile</strong>
+                <p>Set up your local profile.</p>
+              </div>
+            </div>
+            <div class="rite-term">
               <div class="os-tabs" role="tablist" aria-label="Operating System selection">
                 <button type="button" class="os-tab active" data-os="unix" onclick="switchOsTab(this)" role="tab" aria-selected="true">macOS · Linux</button>
                 <button type="button" class="os-tab" data-os="win" onclick="switchOsTab(this)" role="tab" aria-selected="false">Windows</button>
@@ -310,10 +322,14 @@
             </div>
           </li>
           <li class="rite-step">
-            <span class="rite-numeral" aria-hidden="true">III.</span>
-            <div class="rite-body">
-              <strong>Scan workspace</strong>
-              <p>Detect which skills your agent demonstrates.</p>
+            <div class="rite-meta">
+              <span class="rite-numeral" aria-hidden="true">III.</span>
+              <div class="rite-desc">
+                <strong>Scan workspace</strong>
+                <p>Detect demonstrated skills.</p>
+              </div>
+            </div>
+            <div class="rite-term">
               <div class="os-tabs" role="tablist" aria-label="Operating System selection">
                 <button type="button" class="os-tab active" data-os="unix" onclick="switchOsTab(this)" role="tab" aria-selected="true">macOS · Linux</button>
                 <button type="button" class="os-tab" data-os="win" onclick="switchOsTab(this)" role="tab" aria-selected="false">Windows</button>
@@ -327,10 +343,14 @@
             </div>
           </li>
           <li class="rite-step">
-            <span class="rite-numeral" aria-hidden="true">IV.</span>
-            <div class="rite-body">
-              <strong>Push for review</strong>
-              <p>A GitHub issue is opened automatically. You'll be asked to confirm the target repo.</p>
+            <div class="rite-meta">
+              <span class="rite-numeral" aria-hidden="true">IV.</span>
+              <div class="rite-desc">
+                <strong>Push for review</strong>
+                <p>Submit your repository.</p>
+              </div>
+            </div>
+            <div class="rite-term">
               <div class="os-tabs" role="tablist" aria-label="Operating System selection">
                 <button type="button" class="os-tab active" data-os="unix" onclick="switchOsTab(this)" role="tab" aria-selected="true">macOS · Linux</button>
                 <button type="button" class="os-tab" data-os="win" onclick="switchOsTab(this)" role="tab" aria-selected="false">Windows</button>
@@ -350,19 +370,27 @@
           <summary>After you've registered <span class="rite-after-hint">— optional follow-ups</span></summary>
           <ol class="rite-steps rite-steps--after" start="5">
           <li class="rite-step">
-            <span class="rite-numeral" aria-hidden="true">V.</span>
-            <div class="rite-body">
-              <strong>Bond your agent MCP</strong>
-              <p>Wire Gaia to Claude Code in one command.</p>
+            <div class="rite-meta">
+              <span class="rite-numeral" aria-hidden="true">V.</span>
+              <div class="rite-desc">
+                <strong>Bond your agent MCP</strong>
+                <p>Wire Gaia to Claude Code in one command.</p>
+              </div>
+            </div>
+            <div class="rite-term">
               <pre><span class="cmd">claude mcp add</span> <span class="str">gaia</span> -- <span class="cmd">npx</span> <span class="str">@gaia-registry/mcp-server</span></pre>
               <div class="qs-tip mt-sm"><span class="qs-tip-icon">💡</span><span>Any MCP-compatible agent: use <code>npx @gaia-registry/mcp-server</code>. See <a href="https://github.com/mbtiongson1/gaia-skill-tree/tree/main/packages/mcp" target="_blank" class="text-tier-basic">packages/mcp</a> for config-file examples.</span></div>
             </div>
           </li>
           <li class="rite-step">
-            <span class="rite-numeral" aria-hidden="true">VI.</span>
-            <div class="rite-body">
-              <strong>Explore interactively (optional)</strong>
-              <p>Launch the agent-first Terminal UI with no arguments.</p>
+            <div class="rite-meta">
+              <span class="rite-numeral" aria-hidden="true">VI.</span>
+              <div class="rite-desc">
+                <strong>Explore interactively (optional)</strong>
+                <p>Launch the agent-first Terminal UI with no arguments.</p>
+              </div>
+            </div>
+            <div class="rite-term">
               <div class="os-tabs" role="tablist" aria-label="Operating System selection">
                 <button type="button" class="os-tab active" data-os="unix" onclick="switchOsTab(this)" role="tab" aria-selected="true">macOS · Linux</button>
                 <button type="button" class="os-tab" data-os="win" onclick="switchOsTab(this)" role="tab" aria-selected="false">Windows</button>

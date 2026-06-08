@@ -8151,12 +8151,26 @@ button.nav-graph-trigger:hover {
 
 .rite-step {
   display: flex;
-  gap: 1rem
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 1.5rem
 }
 
-.rite-body {
+.rite-meta {
+  display: flex;
+  gap: 0.75rem;
+  flex: 1;
+  min-width: 140px;
+}
+
+.rite-desc {
   min-width: 0;
   flex: 1
+}
+
+.rite-term {
+  flex: 1.4;
+  min-width: 0
 }
 
 .rite-numeral {
@@ -8168,20 +8182,36 @@ button.nav-graph-trigger:hover {
   padding-top: .15rem;
 }
 
-.rite-body strong {
+.rite-desc strong {
   font-size: .9375rem;
   color: var(--text);
   display: block;
   margin-bottom: .2rem
 }
 
-.rite-body p {
+.rite-desc p {
   font-size: .875rem;
   color: var(--muted);
   margin: 0
 }
 
-.rite-body pre {
+@media (max-width: 700px) {
+  .rite-step {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: stretch;
+  }
+  .rite-meta {
+    width: 100%;
+    min-width: 0;
+  }
+  .rite-term {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+.rite-term pre {
   margin: .5rem 0 0;
   font-size: .78rem;
   white-space: pre-wrap;
