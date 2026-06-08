@@ -1470,7 +1470,12 @@
 
       // Push hash (skip if already correct)
       var newHash = '#explorer/' + ns.id;
-      if (location.hash !== newHash) history.pushState(null,'',newHash);
+      var decodedCurrent = decodeURIComponent(location.hash);
+      if (decodedCurrent !== newHash) {
+        history.pushState(null, '', newHash);
+      } else if (location.hash !== newHash) {
+        history.replaceState(null, '', newHash);
+      }
     });
   }
 

@@ -101,7 +101,7 @@
     var prefix = (typeof window.gaiaIconBase === 'function')
       ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '')
       : '';
-    var href = prefix + 'named/#explorer/' + encodeURIComponent(id);
+    var href = prefix + 'named/#explorer/' + encodeURIComponent(id).replace(/%2F/g, '/');
     return '<a class="plaque__slug plaque-skill-name named-slug" href="' + esc(href) + '" title="' + esc(id) + '" onclick="event.stopPropagation();">' + esc(slug) + '</a>';
   }
 
@@ -723,7 +723,7 @@
       var prefix = (typeof window.gaiaIconBase === 'function')
         ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '')
         : '/';
-      window.location.href = prefix + 'named/#explorer/' + encodeURIComponent(id);
+      window.location.href = prefix + 'named/#explorer/' + encodeURIComponent(id).replace(/%2F/g, '/');
     };
   }
 })();
