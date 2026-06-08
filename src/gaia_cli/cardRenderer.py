@@ -853,6 +853,7 @@ def render_fusion_diagram(
 
     def _color_name(n: str, is_result: bool = False) -> str:
         # returns the colored string and its plain length
+        bc = mc  # branch color inherits from muted color in outer scope
         if n.startswith("/") and n.count("/") >= 2:
             # Format: /contributor/nickname star
             # or /redacted/nickname star
@@ -863,7 +864,7 @@ def render_fusion_diagram(
             handle_color = (
                 COLOR_REDACTED
                 if handle == REDACTED_BLOCK
-                else (COLOR_LOCAL_USER if handle == ctx.username else COLOR_CONTRIBUTOR)
+                else (COLOR_LOCAL_USER if ctx and handle == ctx.username else COLOR_CONTRIBUTOR)
             )
 
             star_part = ""
