@@ -104,7 +104,7 @@ from gaia_cli.formatting import (
 )
 from gaia_cli.localContext import LocalContext
 from gaia_cli.cardRenderer import render_fusion_diagram
-from gaia_cli.interactive import select_skill, select_fusion_candidate, select_promotion_candidate, select_multiple_skills, select_fusion_to_edit, _has_interactive
+from gaia_cli.interactive import select_skill, select_fusion_candidate, select_promotion_candidate, select_multiple_skills, select_fusion_to_edit, _has_interactive, select_push_batch
 
 DEFAULT_REGISTRY_REF = "https://github.com/mbtiongson1/gaia-skill-tree"
 
@@ -597,7 +597,7 @@ def scan_command(args):
                 elif group_id == "generic":
                     title = f"{_bold()}Starless (Generic) Skills{_reset()}"
                 else:
-                    title = f"{_fg(99, 102, 241)}{_bold()}Custom - Only in this Repo{_reset()} ({_fg(*COLOR_LOCAL_USER)}{username}{_reset()})"
+                    title = f"{_fg(100, 100, 100)}{_bold()}Custom - Only in this Repo{_reset()} ({_fg(100, 100, 100)}{username}{_reset()})"
                 
                 print(f"\n{title}:")
                 
@@ -647,7 +647,7 @@ def scan_command(args):
             print_group("other", other_group)
 
             if other_group:
-                print(f"\n{_fg(99, 102, 241)}⚡ {_bold()}{_fg(255, 255, 255)}Tip: Run `{_fg(45, 212, 191)}gaia push{_fg(255, 255, 255)}` to submit your custom skills for review.{_reset()}")
+                print(f"\n{_fg(100, 100, 100)}⚡ {_bold()}Tip: Run `gaia push` to submit your custom skills for review.{_reset()}")
 
         # Clean up output fields to keep file clean
         for sk in custom_state_skills:
@@ -1255,12 +1255,13 @@ def fuse_command(args):
             pass
 
     # Handle --delete
+    fuse_color = TIER_COLORS["extra"]
     if getattr(args, 'delete', False):
         target = getattr(args, 'skillId', None)
         fusions = custom_state.get("customFusions", {})
         if not target and sys.stdin.isatty():
              if not fusions:
-                 print("No custom fusions found.")
+                 print(f"{_fg(*fuse_color)}No custom fusions found.{_reset()}")
                  return
              target = select_fusion_to_edit(fusions, "Select custom fusion to delete:")
         
@@ -1270,30 +1271,37 @@ def fuse_command(args):
             os.makedirs(".gaia", exist_ok=True)
             with open(custom_state_path, "w", encoding="utf-8") as f:
                 json.dump(custom_state, f, indent=2)
-            print(f"Deleted custom fusion /{target}.")
+            print(f"{_fg(*fuse_color)}Deleted custom fusion /{target}.{_reset()}")
         else:
-            print(f"Custom fusion /{target} not found.")
+            print(f"{_fg(*fuse_color)}Custom fusion /{target} not found.{_reset()}")
         return
 
     # Programmatic custom fusion: gaia fuse --skills skill1,skill2 --name target-id
     if getattr(args, 'skills', None):
         target = getattr(args, 'skillId', None) or getattr(args, 'name', None)
         if not target:
-            print("Error: must specify target skill ID (e.g. `gaia fuse target-id --skills s1,s2`)", file=sys.stderr)
+            print(f"{_fg(*fuse_color)}Error: must specify target skill ID (e.g. `gaia fuse target-id --skills s1,s2`){_reset()}", file=sys.stderr)
             return
         sources = [s.strip().lstrip('/') for s in args.skills.split(',')]
         custom_state.setdefault("customFusions", {})[target] = sources
         os.makedirs(".gaia", exist_ok=True)
         with open(custom_state_path, "w", encoding="utf-8") as f:
             json.dump(custom_state, f, indent=2)
-        print(f"Saved custom fusion: {' + '.join('/' + s for s in sources)} → /{target}")
-        print("\nNote: Custom fusions are saved locally in .gaia/custom_state.json.")
-        print("If pushed to the registry and accepted into canon, this fusion becomes permanent for all users!")
+        print(f"{_fg(*fuse_color)}Saved custom fusion: {' + '.join('/' + s for s in sources)} → /{target}{_reset()}")
+        print(f"\n{_fg(*fuse_color)}Note: Custom fusions are saved locally in .gaia/custom_state.json.{_reset()}")
+        print(f"{_fg(*fuse_color)}If pushed to the registry and accepted into canon, this fusion becomes permanent for all users!{_reset()}")
         return
 
     # Interactive Menu
     target = getattr(args, 'skillId', None)
     if not target and sys.stdin.isatty():
+        if not _has_interactive():
+            print("\nInteractive fuse requires the 'questionary' package.")
+            print("Install it with: pip install questionary")
+            print("\nOr use the programmatic form:")
+            print("  gaia fuse <skill_id> --skills skill1,skill2")
+            return
+
         import questionary
         tree = load_tree(username, registry_path=registry_path)
         pending_combos = tree.get('pendingCombinations', []) if tree else []
@@ -1380,14 +1388,14 @@ def fuse_command(args):
             with open(custom_state_path, "w", encoding="utf-8") as f:
                 json.dump(custom_state, f, indent=2)
             
-            print(f"\n✓ Saved custom fusion: {' + '.join('/' + s for s in selected)} → /{target}")
-            print("\nNote: Custom fusions are saved locally in .gaia/custom_state.json.")
-            print("If pushed to the registry and accepted into canon, this fusion becomes permanent for all users!")
+            print(f"\n✓ {_fg(*fuse_color)}Saved custom fusion: {' + '.join('/' + s for s in selected)} → /{target}{_reset()}")
+            print(f"\n{_fg(*fuse_color)}Note: Custom fusions are saved locally in .gaia/custom_state.json.{_reset()}")
+            print(f"{_fg(*fuse_color)}If pushed to the registry and accepted into canon, this fusion becomes permanent for all users!{_reset()}")
             return
 
     # If we have a target but didn't go through 'new' flow, it might be a pending combo or promotion
     if not target:
-        print("Usage: gaia fuse <skill_id>", file=sys.stderr)
+        print(f"{_fg(*fuse_color)}Usage: gaia fuse <skill_id>{_reset()}", file=sys.stderr)
         return
 
     # Check combinations first
@@ -1396,7 +1404,7 @@ def fuse_command(args):
     combo_match = next((p for p in pending_combos if p.get('candidateResult') == target), None)
     
     if combo_match:
-        print(f"Fusing combination /{target}...")
+        print(f"{_fg(*fuse_color)}Fusing combination /{target}...{_reset()}")
         tree.setdefault('unlockedSkills', []).append({
             "skillId": target,
             "level": combo_match.get('levelFloor'),
@@ -1426,15 +1434,15 @@ def fuse_command(args):
     try:
         payload = load_promotion_candidates(registry_path)
         if any(c.get('skillId') == target for c in payload.get('candidates', [])):
-            print(f"Fusing promotion for /{target}...")
+            print(f"{_fg(*fuse_color)}Fusing promotion for /{target}...{_reset()}")
             result = promote_from_candidates(username, target, registry_path, new_display_name=getattr(args, 'name', None))
             print(f"Promoted /{result['skillId']} to Level {result['newLevel']}.")
             return
     except Exception:
         pass
 
-    print(f"Skill /{target} is not a valid combination or promotion candidate.")
-    print("Run `gaia scan` to refresh candidates, or use interactive `gaia fuse` to create a custom path.")
+    print(f"{_fg(*fuse_color)}Skill /{target} is not a valid combination or promotion candidate.{_reset()}")
+    print(f"{_fg(*fuse_color)}Run `gaia scan` to refresh candidates, or use interactive `gaia fuse` to create a custom path.{_reset()}")
 
 _EMBEDDINGS_INSTALL_STEPS = """\
 
@@ -1556,37 +1564,34 @@ def push_command(args):
 
     pushable_custom_skills = installed_skills
 
-    if pushable_custom_skills:
-        pushable_custom_skills.sort(key=lambda x: x["id"])
-        print("The following custom skills will be pushed:")
-        for idx, sk in enumerate(pushable_custom_skills, 1):
-            print(f"  {idx}. /{sk['id']} (found in {sk.get('location', '')})")
-        print()
-
+    # Interactive Selection of items to push
+    if sys.stdin.isatty() and not getattr(args, 'yes', False) and _has_interactive():
+        selected = select_push_batch(batch, f"Select items to push to registry from {batch['sourceRepo']}:")
+        if not selected:
+            print("Aborted.")
+            return
+        
+        selected_set = set(selected)
+        batch["proposedCombinations"] = [f for f in batch.get("proposedCombinations", []) if f"fusion:{f['candidateResult']}" in selected_set]
+        batch["knownSkills"] = [k for k in batch.get("knownSkills", []) if f"known:{k['skillId']}" in selected_set]
+        batch["proposedSkills"] = [p for p in batch.get("proposedSkills", []) if f"proposed:{p['id']}" in selected_set]
+        # Filter similarity map to only include selected proposed skills
+        selected_proposed_ids = {p["id"] for p in batch["proposedSkills"]}
+        batch["similarity"] = [s for s in batch.get("similarity", []) if s.get("sourceSkillId") in selected_proposed_ids]
+    elif sys.stdin.isatty() and not getattr(args, 'yes', False):
+        # Fallback for non-interactive but TTY
         try:
-            user_input = input("Please select which skills you do NOT want to push (space or comma separated numbers, or press Enter to push all): ")
+            ans = input(f"Push all detected skills and fusions to gaia registry from {batch['sourceRepo']}? [Y/n]: ").strip().lower()
         except (KeyboardInterrupt, EOFError):
             print()
             sys.exit(1)
-
-        excluded_ids = set()
-        if user_input.strip():
-            import re
-            tokens = re.split(r'[,\s]+', user_input.strip())
-            for t in tokens:
-                if t.isdigit():
-                    idx = int(t) - 1
-                    if 0 <= idx < len(pushable_custom_skills):
-                        excluded_ids.add(pushable_custom_skills[idx]["id"])
-
-        if excluded_ids:
-            batch["proposedSkills"] = [s for s in batch.get("proposedSkills", []) if s["id"] not in excluded_ids]
-            batch["knownSkills"] = [s for s in batch.get("knownSkills", []) if s["skillId"] not in excluded_ids]
-            batch["similarity"] = [s for s in batch.get("similarity", []) if s.get("sourceSkillId") not in excluded_ids]
+        if ans == 'n':
+            print("Aborted.")
+            return
 
     # Guard 2: check if empty after filtering
-    if not batch.get("proposedSkills") and not batch.get("knownSkills"):
-        print("Error: No skills to be pushed. Please install newer skills then gaia scan, or fuse custom skills before pushing.", file=sys.stderr)
+    if not batch.get("proposedSkills") and not batch.get("knownSkills") and not batch.get("proposedCombinations"):
+        print("Error: No items selected to be pushed.", file=sys.stderr)
         sys.exit(1)
 
     if args.dry_run:
@@ -1594,7 +1599,8 @@ def push_command(args):
         return
 
     batch_path = write_skill_batch(batch, args.registry)
-    print(f"  saved {os.path.basename(batch_path)}")
+    push_color = COLOR_LOCAL_USER # Green
+    print(f"  {_fg(*push_color)}saved {os.path.basename(batch_path)}{_reset()}")
 
     from gaia_cli.timeline import append_skill_tree_event
     username = config.get('gaiaUser')

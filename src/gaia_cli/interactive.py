@@ -200,6 +200,59 @@ def select_fusion_to_edit(fusions: dict[str, list[str]], prompt: str = "Select a
     return result
 
 
+def select_push_batch(batch: dict, prompt: str = "Select items to push to registry:") -> list[str]:
+    """Multi-select checkbox for items in a push batch.
+    
+    Choices are grouped by:
+    1. Fusions (proposedCombinations)
+    2. Starless (knownSkills)
+    3. Custom (proposedSkills)
+    
+    All items are selected by default.
+    Returns a list of 'type:id' strings of selected items.
+    """
+    if not _has_interactive():
+        return []
+    import questionary
+
+    choices = []
+    
+    # 1. Fusions
+    fusions = batch.get("proposedCombinations", [])
+    if fusions:
+        choices.append(questionary.Separator("--- Fused skill paths ---"))
+        for f in fusions:
+            res = f.get("candidateResult", "?")
+            srcs = f.get("detectedSkills", [])
+            title = f"◇ {' + '.join('/' + s for s in srcs)} → /{res}"
+            choices.append(questionary.Choice(title=title, value=f"fusion:{res}", checked=True))
+            
+    # 2. Starless
+    known = batch.get("knownSkills", [])
+    if known:
+        choices.append(questionary.Separator("--- Starless (Generic) ---"))
+        for k in known:
+            sid = k.get("skillId", "?")
+            choices.append(questionary.Choice(title=f"○ /{sid}", value=f"known:{sid}", checked=True))
+            
+    # 3. Custom
+    proposed = batch.get("proposedSkills", [])
+    if proposed:
+        choices.append(questionary.Separator("--- Custom Skills ---"))
+        for p in proposed:
+            sid = p.get("id", "?")
+            choices.append(questionary.Choice(title=f"○ /{sid}", value=f"proposed:{sid}", checked=True))
+
+    if not choices:
+        return []
+
+    result = questionary.checkbox(
+        prompt,
+        choices=choices,
+    ).ask()
+    return result or []
+
+
 def confirm(message: str, default: bool = True) -> bool:
     """Interactive yes/no confirmation.
 
