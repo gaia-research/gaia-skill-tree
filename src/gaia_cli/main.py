@@ -496,7 +496,7 @@ def scan_command(args):
         if not quiet:
             print("\nInstalled custom skills:")
             
-            # Group custom skills
+            # Group custom skills by category first
             origin_group = []
             named_group = []
             generic_group = []
@@ -526,7 +526,16 @@ def scan_command(args):
                 if not skills:
                     return
                 
-                # Format header with requested coloring
+                # Group skills within this category by directory
+                by_dir = {}
+                for sk in skills:
+                    loc = sk['location']
+                    parent = os.path.dirname(loc) or "."
+                    if parent not in by_dir:
+                        by_dir[parent] = []
+                    by_dir[parent].append(sk)
+
+                # Format header (Level 1)
                 if group_id == "origin":
                     title = f"{_fg(*COLOR_APEX_GOLD)}{_bold()}Origin Skills{_reset()}"
                 elif group_id == "named":
@@ -534,49 +543,49 @@ def scan_command(args):
                 elif group_id == "generic":
                     title = f"{_bold()}Starless (Generic) Skills{_reset()}"
                 else:
-                    title = f"{_bold()}Custom - Only in this Repo{_reset()} ({_fg(*COLOR_LOCAL_USER)}{username}{_reset()})"
+                    title = f"{_fg(99, 102, 241)}{_bold()}Custom - Only in this Repo{_reset()} ({_fg(*COLOR_LOCAL_USER)}{username}{_reset()})"
                 
                 print(f"\n{title}:")
-                for sk in skills:
-                    cid = sk['id']
-                    location = sk['location']
-                    mapped_id = sk['mapped_to']
-                    mapped_score = sk['mapped_score']
-                    m_type = sk.get("match_type")
-                    
-                    match_note = ""
-                    if mapped_score > 0:
-                        rank_color = RANK_COLORS.get(sk.get('canon_level', '0★'), RANK_COLORS["0★"])
-                        star_ranking = sk.get('canon_level', '0★')
+                
+                for directory in sorted(by_dir.keys()):
+                    print(f"## ({directory}/)")
+                    # Sort skills within the directory by id
+                    skills_in_dir = sorted(by_dir[directory], key=lambda x: x['id'])
+                    for sk in skills_in_dir:
+                        cid = sk['id']
+                        mapped_id = sk['mapped_to']
+                        mapped_score = sk['mapped_score']
+                        m_type = sk.get("match_type")
+                        canon_level = sk.get("canon_level", "0★")
                         
-                        if m_type in ("origin", "named") and "/" in mapped_id:
-                            parts = mapped_id.split("/", 1)
-                            contrib, nickname = parts
-                            if contrib == username:
-                                handle_color = COLOR_LOCAL_USER
-                            elif contrib == REDACTED_BLOCK:
-                                handle_color = COLOR_REDACTED
+                        match_note = ""
+                        if mapped_score > 0:
+                            rank_color = RANK_COLORS.get(canon_level, RANK_COLORS["0★"])
+                            star_ranking = canon_level
+                            
+                            if m_type in ("origin", "named") and "/" in mapped_id:
+                                parts = mapped_id.split("/", 1)
+                                contrib, nickname = parts
+                                if contrib == username:
+                                    handle_color = COLOR_LOCAL_USER
+                                elif contrib == REDACTED_BLOCK:
+                                    handle_color = COLOR_REDACTED
+                                else:
+                                    handle_color = COLOR_CONTRIBUTOR
+                                colored_mapped = f"{_fg(*handle_color)}{contrib}{_reset()}/{_fg(*rank_color)}{nickname} {star_ranking}{_reset()}"
                             else:
-                                handle_color = COLOR_CONTRIBUTOR
-                            colored_mapped = f"{_fg(*handle_color)}{contrib}{_reset()}/{_fg(*rank_color)}{nickname} {star_ranking}{_reset()}"
-                        else:
-                            colored_mapped = f"{_fg(*rank_color)}/{mapped_id}{_reset()}"
+                                colored_mapped = f"{_fg(*rank_color)}/{mapped_id}{_reset()}"
+                            
+                            if m_type in ("origin", "named", "exact_generic"):
+                                match_note = f"  {_fg(100,100,100)}→ {colored_mapped}{_reset()}"
+                            else:
+                                match_note = f"  {_fg(100,100,100)}→ {colored_mapped}{_fg(100,100,100)} ({mapped_score:.0%} semantic){_reset()}"
                         
-                        if m_type == "origin":
-                            match_note = f"  {_fg(100,100,100)}→ {colored_mapped}{_reset()}"
-                        elif m_type == "named":
-                            match_note = f"  {_fg(100,100,100)}→ {colored_mapped}{_reset()}"
-                        elif m_type == "exact_generic":
-                            match_note = f"  {_fg(100,100,100)}→ {colored_mapped}{_reset()}"
-                        else:
-                            match_note = f"  {_fg(100,100,100)}→ {colored_mapped}{_fg(100,100,100)} ({mapped_score:.0%} semantic){_reset()}"
-                    
-                    user_label = f"{_fg(*COLOR_LOCAL_USER)}{_bold()}/{cid}{_reset()}"
-                    if group_id == "other":
-                        user_label = f"{user_label} {_fg(*RANK_COLORS['0★'])}0★{_reset()}"
-                    
-                    print(f"  ○ {user_label} custom skill{match_note}")
-                    print(f"    (found in {location})")
+                        user_label = f"{_fg(*COLOR_LOCAL_USER)}{_bold()}/{cid}{_reset()}"
+                        if group_id == "other":
+                            user_label = f"{user_label} {_fg(*RANK_COLORS['0★'])}0★{_reset()}"
+                        
+                        print(f"  ○ {user_label}{match_note}")
 
             print_group("origin", origin_group)
             print_group("named", named_group)
