@@ -1238,7 +1238,7 @@ def graph_command(args: Any) -> None:
     print(f"  saved {out_path}")
 
     # Regenerate the GEXF from current node data
-    if fmt == "html":
+    if fmt == "html" and not custom:
         try:
             write_gexf(registry_path)
         except Exception:
