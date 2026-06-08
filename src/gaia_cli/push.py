@@ -164,11 +164,21 @@ def build_skill_batch(raw_tokens, config, registry_root, now=None, source_repo=N
             with open(custom_state_path, "r", encoding="utf-8") as f:
                 cstate = json.load(f)
                 fusions = cstate.get("customFusions", {})
-                for target, sources in fusions.items():
+                for target, data in fusions.items():
+                    if isinstance(data, dict):
+                        sources = data.get("sources", [])
+                        level = data.get("level", "1★")
+                        stype = data.get("type", "extra")
+                    else:
+                        sources = data
+                        level = "1★"
+                        stype = "extra"
+                    
                     proposed_combos.append({
                         "candidateResult": target,
                         "detectedSkills": sources,
-                        "levelFloor": "1★"
+                        "levelFloor": level,
+                        "type": stype
                     })
         except Exception:
             pass

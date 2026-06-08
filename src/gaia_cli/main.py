@@ -588,18 +588,6 @@ def scan_command(args):
             other_group.sort(key=lambda s: s["id"])
 
             def print_group(group_id, skills):
-                if not skills:
-                    return
-                
-                # Group skills within this category by directory
-                by_dir = {}
-                for sk in skills:
-                    loc = sk['location']
-                    parent = os.path.dirname(loc) or "."
-                    if parent not in by_dir:
-                        by_dir[parent] = []
-                    by_dir[parent].append(sk)
-
                 # Format header (Level 1)
                 if group_id == "origin":
                     title = f"{_fg(*COLOR_APEX_GOLD)}{_bold()}Origin Skills{_reset()}"
@@ -611,6 +599,19 @@ def scan_command(args):
                     title = f"{_fg(*COLOR_LOCAL_USER)}{_bold()}Custom - Only in this Repo{_reset()} ({_fg(*COLOR_LOCAL_USER)}{username}{_reset()})"
                 
                 print(f"\n{title}:")
+
+                if not skills:
+                    print(f"  {_fg(*RANK_COLORS['0★'])}None{_reset()}")
+                    return
+                
+                # Group skills within this category by directory
+                by_dir = {}
+                for sk in skills:
+                    loc = sk['location']
+                    parent = os.path.dirname(loc) or "."
+                    if parent not in by_dir:
+                        by_dir[parent] = []
+                    by_dir[parent].append(sk)
                 
                 for directory in sorted(by_dir.keys()):
                     print(f"{directory}/")
@@ -646,7 +647,7 @@ def scan_command(args):
                             else:
                                 match_note = f"  {_fg(*RANK_COLORS['0★'])}→ {colored_mapped}{_fg(*RANK_COLORS['0★'])} ({mapped_score:.0%} semantic){_reset()}"
 
-                        user_label = f"{_fg(*RANK_COLORS['0★'])}{_bold()}/{cid}{_reset()}"
+                        user_label = f"{_fg(*RANK_COLORS['0★'])}{_bold()}/{cid.lstrip('/')}{_reset()}"
                         if group_id == "other":
                             user_label = f"{user_label} {_fg(*RANK_COLORS['0★'])}0★{_reset()}"
 
@@ -1351,13 +1352,13 @@ def fuse_command(args):
             except: pass
             
             choices.extend([
-                questionary.Choice(f"{_fg(*COLOR_APEX_GOLD)}Create new custom fusion path{_reset()}", value="new"),
-                questionary.Choice(f"{_fg(*COLOR_FUSE_PURPLE)}Edit existing custom fusions{_reset()}", value="edit"),
-                questionary.Choice(f"{_fg(*COLOR_CONTRIBUTOR)}Delete custom fusion{_reset()}", value="delete"),
+                questionary.Choice("Create new custom fusion path", value="new"),
+                questionary.Choice("Edit existing custom fusions", value="edit"),
+                questionary.Choice("Delete custom fusion", value="delete"),
             ])
             
-            dim = _fg(*RANK_COLORS["0★"])
-            r = _reset()
+            dim = ""
+            r = ""
             choice = questionary.select(
                 "Gaia Fuse Menu:  (Ctrl+C to cancel)",
                 choices=choices,
@@ -1415,22 +1416,50 @@ def fuse_command(args):
                         "type": sinfo.get("type", "basic"),
                         "level": sinfo.get("level", "0★"),
                         "description": sinfo.get("description", ""),
-                        "local": sid in ctx.novel_ids
+                        "local": sid in ctx.novel_ids,
+                        "origin": sinfo.get("origin", False)
                     })
                 
                 selected = select_multiple_skills(selector_choices, f"Select skills to combine into /{target if target else '???'}:")
                 if not selected: continue # Back to menu
                 
+                # Calculate max star count from prerequisites
+                from gaia_cli.redaction import level_num
+                max_stars = 0
+                for sid in selected:
+                    sinfo = skill_info_map.get(sid, {})
+                    max_stars = max(max_stars, level_num(sinfo.get("level", "0★")))
+                max_stars_str = f"{max_stars}★"
+
                 if not target:
-                    target = questionary.text(f"Enter target skill ID (e.g. data-viz-expert):  {dim}(Ctrl+C to cancel){r}").ask()
+                    # Filter candidates for target (usually generic skills not yet owned)
+                    target_candidates = []
+                    for s in graph_data.get('skills', []):
+                        # Filter for generic/canon skills or allow targeting named ones if requested
+                        # For fusion, we usually target generic nodes.
+                        target_candidates.append({
+                            "id": s['id'],
+                            "type": s.get("type", "basic"),
+                            "level": s.get("level", "0★"),
+                            "description": s.get("description", ""),
+                            "local": False,
+                            "origin": s.get("origin", False)
+                        })
+                    target_candidates.sort(key=lambda x: x['id'])
+                    target = select_skill(target_candidates, "Select target skill to reach:", disabled_ids=selected)
                 if not target: continue # Back to menu
                 
-                custom_state.setdefault("customFusions", {})[target] = selected
+                # Save fusion with metadata (EXTRA type and inherited level)
+                custom_state.setdefault("customFusions", {})[target] = {
+                    "sources": selected,
+                    "type": "extra",
+                    "level": max_stars_str
+                }
                 os.makedirs(".gaia", exist_ok=True)
                 with open(custom_state_path, "w", encoding="utf-8") as f:
                     json.dump(custom_state, f, indent=2)
                 
-                print(f"\n✓ {_fg(*fuse_color)}Saved custom fusion: {' + '.join('/' + s for s in selected)} → /{target}{_reset()}")
+                print(f"\n✓ Saved custom fusion: {' + '.join('/' + s for s in selected)} → /{target} (EXTRA {max_stars_str})")
                 print(f"\n{_fg(*fuse_color)}Note: Custom fusions are saved locally in .gaia/custom_state.json.{_reset()}")
                 print(f"{_fg(*fuse_color)}If pushed to the registry and accepted into canon, this fusion becomes permanent for all users!{_reset()}")
                 return
