@@ -39,6 +39,11 @@ def _registry_root(registry_path: str | os.PathLike[str]) -> Path:
 
 def load_graph(registry_path: str | os.PathLike[str] = ".") -> dict[str, Any]:
     graph_path = Path(registry_graph_path(_registry_root(registry_path)))
+    if not graph_path.exists():
+        raise FileNotFoundError(
+            f"Registry graph not found at {graph_path}. "
+            "Run gaia init from a gaia-skill-tree clone."
+        )
     with graph_path.open("r", encoding="utf-8") as f:
         return json.load(f)
 
@@ -1204,7 +1209,11 @@ def graph_command(args: Any) -> None:
     except Exception:
         pass  # Degrade gracefully to canon mode
 
-    out_path = write_graph_artifact(registry_path, output=output, fmt=fmt, user_ctx=user_ctx)
+    try:
+        out_path = write_graph_artifact(registry_path, output=output, fmt=fmt, user_ctx=user_ctx)
+    except FileNotFoundError as exc:
+        print(str(exc), file=sys.stderr)
+        return
     print(f"  saved {out_path}")
 
     # Regenerate the GEXF from current node data
