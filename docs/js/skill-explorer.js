@@ -1491,7 +1491,19 @@
   // ── DOM EVENT SETUP (deferred — overlay HTML is parsed after this script) ──
   function initExplorerDOM() {
     var backEl = document.getElementById('seBack');
-    if (backEl) backEl.onclick = function(){ closeExplorer(); history.back(); };
+    // Back button always returns to the site Home (not history.back), so a
+    // direct landing on a deep #explorer/<id> URL still has a sensible exit.
+    if (backEl) {
+      backEl.setAttribute('title', 'Back to Home');
+      backEl.setAttribute('aria-label', 'Back to Home');
+      backEl.onclick = function () {
+        closeExplorer();
+        var prefix = (typeof window.gaiaIconBase === 'function')
+          ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '')
+          : '../';
+        window.location.href = prefix || '../';
+      };
+    }
 
     var closeEl = document.getElementById('seClose');
     if (closeEl) closeEl.onclick = function(){ closeExplorer(); history.pushState(null, '', location.pathname); };
