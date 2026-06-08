@@ -1056,6 +1056,12 @@ def tree_command(args):
     show_tree(tree, graph_data=graph_data, registry_path=args.registry, mode=mode, canon=canon)
     if tree:
         render_user_tree_outputs(config.get('gaiaUser'), tree, graph_data, args.registry, quiet=False)
+    try:
+        detect_source_repo(config)
+    except NonPublicRepoError:
+        print("\nTip: link a public GitHub repo and approved skills will start at 2★ once named.")
+    except Exception:
+        pass
 
 def fuse_command(args):
     config = load_config()
