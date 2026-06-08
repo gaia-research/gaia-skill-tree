@@ -1496,17 +1496,12 @@
   // ── DOM EVENT SETUP (deferred — overlay HTML is parsed after this script) ──
   function initExplorerDOM() {
     var backEl = document.getElementById('seBack');
-    // Back button always returns to the site Home (not history.back), so a
-    // direct landing on a deep #explorer/<id> URL still has a sensible exit.
     if (backEl) {
-      backEl.setAttribute('title', 'Back to Home');
-      backEl.setAttribute('aria-label', 'Back to Home');
+      backEl.setAttribute('title', 'Back');
+      backEl.setAttribute('aria-label', 'Back');
       backEl.onclick = function () {
         closeExplorer();
-        var prefix = (typeof window.gaiaIconBase === 'function')
-          ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '')
-          : '../';
-        window.location.href = prefix || '../';
+        history.back();
       };
     }
 
@@ -1548,9 +1543,9 @@
         var handle  = btn.getAttribute('data-handle') || skillId.split('/')[0];
         var name    = btn.getAttribute('data-skill-name') || skillId.split('/').pop();
         var ogPath  = btn.getAttribute('data-og') || ('og/' + handle + '/' + skillId.split('/').pop() + '.svg');
-        // Pull level/type from the rendered plaque if available
-        var ns = (window._gaiaNamedBuckets && window._gaiaNamedBuckets[handle]) || [];
-        var nsEntry = ns.find(function(s){ return s.id === skillId; }) || {};
+        // Pull level/type from the named all-skills list if available
+        var allNamed = window._gaiaNamedAll || [];
+        var nsEntry = allNamed.find(function(s){ return s.id === skillId; }) || {};
         window.openHohFullscreenModal({
           id: skillId,
           contributor: handle,
