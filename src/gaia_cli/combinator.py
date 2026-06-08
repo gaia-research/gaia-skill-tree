@@ -77,24 +77,25 @@ def detect_combinations(graph_data, owned_skills, detected_skills):
                 'detectedSkills': [p for p in prereqs if p in detected_skills] or prereqs,
                 'status': 'new_fusion',
             })
-        elif sid in expanded:
-            # All prerequisites are satisfiable via chain (some intermediates
-            # need to be fused first before this composite becomes directly
-            # available).
-            missing_direct = [p for p in prereqs if p not in combined_available]
-            chain_steps = []
-            for step_id in missing_direct:
-                step = skill_map.get(step_id)
-                if step and step.get('type') in ('extra', 'ultimate'):
-                    chain_steps.append(step_id)
-            combinations.append({
-                'candidateResult': sid,
-                'levelFloor': effective_level(skill),
-                'baseLevelFloor': skill.get('level'),
-                'detectedSkills': [p for p in prereqs if p in combined_available] or prereqs,
-                'status': 'chain_fusion',
-                'chainSteps': chain_steps,
-            })
+        else:
+            # Check if sid is reachable via chain by excluding sid itself from available skills.
+            # This prevents a scanned composite skill from satisfying its own prerequisites.
+            expanded_without_sid = transitive_close(graph_data, combined_available - {sid})
+            if sid in expanded_without_sid:
+                missing_direct = [p for p in prereqs if p not in combined_available]
+                chain_steps = []
+                for step_id in missing_direct:
+                    step = skill_map.get(step_id)
+                    if step and step.get('type') in ('extra', 'ultimate'):
+                        chain_steps.append(step_id)
+                combinations.append({
+                    'candidateResult': sid,
+                    'levelFloor': effective_level(skill),
+                    'baseLevelFloor': skill.get('level'),
+                    'detectedSkills': [p for p in prereqs if p in combined_available] or prereqs,
+                    'status': 'chain_fusion',
+                    'chainSteps': chain_steps,
+                })
 
     return combinations
 

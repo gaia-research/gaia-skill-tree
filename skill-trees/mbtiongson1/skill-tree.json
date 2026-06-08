@@ -51,27 +51,6 @@
       "status": "new_fusion"
     },
     {
-      "candidateResult": "superpowers",
-      "levelFloor": "1\u2605",
-      "baseLevelFloor": null,
-      "detectedSkills": [
-        "writing-plans"
-      ],
-      "status": "chain_fusion",
-      "chainSteps": [
-        "brainstorming",
-        "dispatching-parallel-agents",
-        "executing-plans",
-        "finishing-a-development-branch",
-        "receiving-code-review",
-        "requesting-code-review",
-        "subagent-driven-development",
-        "systematic-debugging",
-        "using-git-worktrees",
-        "verification-before-completion"
-      ]
-    },
-    {
       "candidateResult": "web-scrape",
       "levelFloor": "1\u2605",
       "baseLevelFloor": null,
@@ -81,17 +60,6 @@
         "extract-entities"
       ],
       "status": "new_fusion"
-    },
-    {
-      "candidateResult": "writing-plans",
-      "levelFloor": "1\u2605",
-      "baseLevelFloor": null,
-      "detectedSkills": [
-        "plan-decompose",
-        "requirements-analysis"
-      ],
-      "status": "chain_fusion",
-      "chainSteps": []
     }
   ],
   "stats": {
