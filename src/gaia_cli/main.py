@@ -14,7 +14,7 @@ from gaia_cli.resolver import resolve_skills
 from gaia_cli.combinator import get_combinations
 from gaia_cli.treeManager import load_tree, save_tree, show_status, show_tree
 from gaia_cli.prWriter import open_pr, open_intake_issue
-from gaia_cli.push import build_skill_batch, write_skill_batch, build_proposed_skill, detect_source_repo
+from gaia_cli.push import build_skill_batch, write_skill_batch, build_proposed_skill, detect_source_repo, NonPublicRepoError
 from gaia_cli.embeddings import generate_embeddings
 from gaia_cli.semantic_search import search as semantic_search, load_embeddings
 from gaia_cli.name import find_awakened_skill, promote_to_named, update_batch_lifecycle
@@ -1160,7 +1160,28 @@ def push_command(args):
         sys.exit(1)
 
     raw_tokens = scan_repo()
-    batch = build_skill_batch(raw_tokens, config, args.registry)
+    try:
+        batch = build_skill_batch(raw_tokens, config, args.registry)
+        source_repo = batch["sourceRepo"]
+        if sys.stdin.isatty() and not getattr(args, 'yes', False):
+            try:
+                ans = input(f"Push skills to gaia registry from {source_repo}? [Y/n]: ").strip().lower()
+            except (KeyboardInterrupt, EOFError):
+                print()
+                sys.exit(1)
+            if ans == 'n':
+                print("Aborted.")
+                return
+    except NonPublicRepoError as exc:
+        print(
+            "\nYour skills are ready for review!\n"
+            "Skills pushed from outside a public GitHub repo start at 1★ in the registry.\n"
+            "Once you link a public repo, approved skills will start at 2★ instead.\n"
+            "  → Add a remote:  git remote add origin https://github.com/<you>/<repo>\n"
+        )
+        username_fallback = str(exc)
+        batch = build_skill_batch(raw_tokens, config, args.registry,
+                                  source_repo=f"{username_fallback}/local-repo")
 
     # Guard 1: check if empty initially
     if not batch.get("proposedSkills") and not batch.get("knownSkills"):
@@ -1689,6 +1710,7 @@ def get_parser():
     push_parser.add_argument('--dry-run', action='store_true', help="Print the skill batch without writing it")
     push_parser.add_argument('--no-issue', action='store_true', dest='no_issue', help="Write intake record without creating a GitHub issue")
     push_parser.add_argument('--no-pr', action='store_true', dest='no_issue', help=argparse.SUPPRESS)  # backward compat alias
+    push_parser.add_argument('--yes', '-y', action='store_true', dest='yes', help="Skip confirmation prompts")
     propose_parser = subparsers.add_parser('propose', help="Propose a single canonical skill as a named PR")
     propose_parser.add_argument('skillId', help="Canonical skill ID (accepts /skill-id form)")
     propose_parser.add_argument('--target', help="Named skill target in contributor/skill-name format")
