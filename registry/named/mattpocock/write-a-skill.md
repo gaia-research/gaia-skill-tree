@@ -39,3 +39,13 @@ The skill also codifies the decision rules for when to bundle scripts (determini
 ## Origin
 
 Second named implementation of the `tool-creation` skill bucket (origin: anthropic/skill-creator). Matt Pocock's version emphasises progressive disclosure, the trigger-description contract, and the scripts-vs-instructions decision rubric.
+
+## Installation
+
+This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.
+
+```bash
+npx skills@latest add mattpocock/skills
+```
+
+No additional setup required beyond the main suite installation.

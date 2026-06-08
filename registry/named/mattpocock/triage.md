@@ -42,3 +42,13 @@ For `ready-for-agent` issues the skill produces a structured agent brief. For `w
 ## Origin
 
 First published by @mattpocock (Matt Pocock, Total TypeScript). This is the origin implementation for the `issue-triage` skill bucket.
+
+## Installation
+
+This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.
+
+```bash
+npx skills@latest add mattpocock/skills
+```
+
+No additional setup required beyond the main suite installation.

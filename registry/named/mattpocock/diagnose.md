@@ -32,3 +32,13 @@ The skill covers a wide range of reproduction strategies: failing unit tests, cu
 ## Origin
 
 First published by @mattpocock (Matt Pocock, Total TypeScript). This is a named implementation of the `autonomous-debug` skill bucket emphasising the feedback-loop-first philosophy.
+
+## Installation
+
+This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.
+
+```bash
+npx skills@latest add mattpocock/skills
+```
+
+No additional setup required beyond the main suite installation.

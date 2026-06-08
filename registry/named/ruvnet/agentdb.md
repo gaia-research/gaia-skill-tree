@@ -55,3 +55,13 @@ First published by @ruvnet as part of the Ruflo orchestration platform. This is 
 This 5★ Ultimate fuses agentdb-vector-search + agentdb-memory-patterns + agentdb-optimization + agentdb-learning + agentdb-advanced. Evidence: 34k+ stars, 150x–12,500x faster than brute-force HNSW search, exceeding the 10k-star Grandmaster threshold.
 
 Sourced from the Ruflo platform (ruvnet/ruflo, 34k+ stars).
+
+## Installation
+
+This skill is part of the Ruflo orchestration platform.
+
+```bash
+npx ruflo@latest init
+```
+
+See the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.
