@@ -6,7 +6,7 @@ from importlib import resources
 from pathlib import Path
 
 
-WRITE_COMMANDS = {"push", "propose", "name", "fuse", "embed", "sync", "promote", "graph", "release", "docs", "merge", "split", "add", "evidence"}
+WRITE_COMMANDS = {"push", "propose", "name", "fuse", "embed", "sync", "promote", "release", "docs", "merge", "split", "add", "evidence"}
 
 
 def _gaia_home_dir() -> Path:

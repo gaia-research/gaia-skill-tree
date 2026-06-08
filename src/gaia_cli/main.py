@@ -14,7 +14,7 @@ from gaia_cli.resolver import resolve_skills
 from gaia_cli.combinator import get_combinations
 from gaia_cli.treeManager import load_tree, save_tree, show_status, show_tree
 from gaia_cli.prWriter import open_pr, open_intake_issue
-from gaia_cli.push import build_skill_batch, write_skill_batch, build_proposed_skill, detect_source_repo
+from gaia_cli.push import build_skill_batch, write_skill_batch, build_proposed_skill, detect_source_repo, NonPublicRepoError
 from gaia_cli.embeddings import generate_embeddings
 from gaia_cli.semantic_search import search as semantic_search, load_embeddings
 from gaia_cli.name import find_awakened_skill, promote_to_named, update_batch_lifecycle
@@ -321,6 +321,29 @@ def init_command(args):
     print(f"  user:       {username}")
     print(f"  scanPaths:  {scan_paths}")
 
+    try:
+        source = detect_source_repo({"gaiaUser": username})
+        if sys.stdin.isatty() and not getattr(args, 'yes', False):
+            try:
+                ans = input(f"Detected repo: {source}\nInitialize Gaia on this repository? [Y/n]: ").strip().lower()
+            except (KeyboardInterrupt, EOFError):
+                print()
+                import shutil; shutil.rmtree(config_dir, ignore_errors=True)
+                sys.exit(1)
+            if ans == 'n':
+                import shutil; shutil.rmtree(config_dir, ignore_errors=True)
+                print("Aborted.")
+                return
+    except NonPublicRepoError:
+        print(
+            "\nNo GitHub remote detected in this directory.\n"
+            "  → To unlock the full workflow:\n"
+            "     • Add a remote:  git remote add origin https://github.com/<you>/<repo>\n"
+            "     • Or clone the gaia-skill-tree registry and run gaia init there\n"
+            "Your skills are still scannable and pushable — once linked to a public repo,\n"
+            "approved skills will start at 2★ instead of 1★.\n"
+        )
+
     # If we're inside a registry clone, register its path globally so that
     # commands like `gaia push` work from any project without --registry.
     tree_path = user_tree_path(".", username)
@@ -358,6 +381,11 @@ def scan_command(args):
     scan_result = scan_repo_detailed()
     raw_tokens = {t.lstrip('/') for t in scan_result["tokens"]}
     graph_path = registry_graph_path(args.registry)
+
+    from gaia_cli.registry import bundled_registry_path
+    if not quiet and not use_json and str(args.registry) == str(bundled_registry_path()):
+        print("Note: using bundled registry (no local registry clone found).")
+
     resolved = resolve_skills(raw_tokens, registry_path=graph_path)
     
     username = config.get('gaiaUser')
@@ -387,6 +415,9 @@ def scan_command(args):
         if resolved:
             # Colored skill list with type glyphs
             graph_path_file = registry_graph_path(args.registry)
+            if not os.path.exists(graph_path_file):
+                print("Registry graph not found. Run `gaia init` from a gaia-skill-tree clone.")
+                return
             with open(graph_path_file, 'r', encoding='utf-8') as gf:
                 gdata = json.load(gf)
             smap = {s['id']: s for s in gdata.get('skills', [])}
@@ -769,7 +800,11 @@ def promote_command(args):
 
     tree = load_tree(username, registry_path=args.registry)
     if not tree:
-        print(f"No skill tree found for user '{username}'.")
+        if not os.path.exists(promotion_candidates_path(args.registry)):
+            print("No promotion candidates found. Run `gaia scan` first to detect skills.",
+                  file=sys.stderr)
+        else:
+            print(f"No skill tree found for user '{username}'.", file=sys.stderr)
         return
 
     skill_id = getattr(args, 'skillId', None)
@@ -803,7 +838,12 @@ def promote_command(args):
                 if picked:
                     skill_id = picked
             if not skill_id:
-                print("Usage: gaia promote <skill> or gaia promote --all", file=sys.stderr)
+                from gaia_cli.registry import promotion_candidates_path
+                if not os.path.exists(promotion_candidates_path(args.registry)):
+                    print("No promotion candidates found. Run `gaia scan` first to detect skills.",
+                          file=sys.stderr)
+                else:
+                    print("Usage: gaia promote <skill> or gaia promote --all", file=sys.stderr)
                 sys.exit(2)
         result = promote_from_candidates(username, skill_id, args.registry, new_display_name=display_name)
     except ValueError as exc:
@@ -1020,6 +1060,12 @@ def tree_command(args):
     show_tree(tree, graph_data=graph_data, registry_path=args.registry, mode=mode, canon=canon)
     if tree:
         render_user_tree_outputs(config.get('gaiaUser'), tree, graph_data, args.registry, quiet=False)
+    try:
+        detect_source_repo(config)
+    except NonPublicRepoError:
+        print("\nTip: link a public GitHub repo and approved skills will start at 2★ once named.")
+    except Exception:
+        pass
 
 def fuse_command(args):
     config = load_config()
@@ -1160,7 +1206,29 @@ def push_command(args):
         sys.exit(1)
 
     raw_tokens = scan_repo()
-    batch = build_skill_batch(raw_tokens, config, args.registry)
+    try:
+        batch = build_skill_batch(raw_tokens, config, args.registry)
+        source_repo = batch["sourceRepo"]
+        if sys.stdin.isatty() and not getattr(args, 'yes', False):
+            try:
+                ans = input(f"Push skills to gaia registry from {source_repo}? [Y/n]: ").strip().lower()
+            except (KeyboardInterrupt, EOFError):
+                print()
+                sys.exit(1)
+            if ans == 'n':
+                print("Aborted.")
+                return
+    except NonPublicRepoError as exc:
+        print(
+            "\nYour skills are ready for review!\n"
+            "Skills pushed from outside a public GitHub repo start at 1★ in the registry.\n"
+            "Once you link a public repo, approved skills will start at 2★ instead.\n"
+            "  → Add a remote:  git remote add origin https://github.com/<you>/<repo>\n",
+            file=sys.stderr,
+        )
+        username_fallback = str(exc)
+        batch = build_skill_batch(raw_tokens, config, args.registry,
+                                  source_repo=f"{username_fallback}/local-repo")
 
     # Guard 1: check if empty initially
     if not batch.get("proposedSkills") and not batch.get("knownSkills"):
@@ -1689,6 +1757,7 @@ def get_parser():
     push_parser.add_argument('--dry-run', action='store_true', help="Print the skill batch without writing it")
     push_parser.add_argument('--no-issue', action='store_true', dest='no_issue', help="Write intake record without creating a GitHub issue")
     push_parser.add_argument('--no-pr', action='store_true', dest='no_issue', help=argparse.SUPPRESS)  # backward compat alias
+    push_parser.add_argument('--yes', '-y', action='store_true', dest='yes', help="Skip confirmation prompts")
     propose_parser = subparsers.add_parser('propose', help="Propose a single canonical skill as a named PR")
     propose_parser.add_argument('skillId', help="Canonical skill ID (accepts /skill-id form)")
     propose_parser.add_argument('--target', help="Named skill target in contributor/skill-name format")
