@@ -467,6 +467,21 @@ def scan_command(args):
         canonical_list = _gdata_for_match.get('skills', [])
         smap_for_match = {s['id']: s for s in canonical_list}
 
+        # Load ORIGIN and NAMED skills
+        from gaia_cli.registry import named_skills_index_path
+        origin_skills = []
+        named_skills = []
+        idx_path = named_skills_index_path(args.registry)
+        if os.path.exists(idx_path):
+            with open(idx_path, 'r', encoding='utf-8') as _nf:
+                _ndata = json.load(_nf)
+                for bucket, items in _ndata.get('buckets', {}).items():
+                    for item in items:
+                        if item.get('origin'):
+                            origin_skills.append(item)
+                        else:
+                            named_skills.append(item)
+
         # Keep the matching logic that adds matching custom skills to resolved
         for sk in installed_skills:
             sid = sk['id']
@@ -474,8 +489,6 @@ def scan_command(args):
                 resolved.append(sid)
 
         custom_state_skills = []
-        if not quiet:
-            print("\nInstalled custom skills:")
             
         for sk in installed_skills:
             cid = sk['id']
@@ -485,27 +498,33 @@ def scan_command(args):
             match = None
             if cid not in smap_for_match:
                 match = match_skill_to_canonical(
-                    cid, sk['name'], sk['description'], canonical_list
+                    cid, sk['name'], sk['description'], 
+                    canonical_list, origin_skills, named_skills, 
+                    threshold=0.30
                 )
             
-            match_note = ""
             mapped_id = cid
             mapped_score = 1.0
+            match_type = None
+            canon_level = "0★"
             
             if match:
-                canon_id, score = match
+                canon_id, score, m_type = match
                 mapped_id = canon_id
                 mapped_score = score
-                if not quiet:
-                    canon_sk = smap_for_match.get(canon_id, {})
-                    rank_color = RANK_COLORS.get(canon_sk.get('level', '0★'), RANK_COLORS["0★"])
-                    canon_display = ctx.display_name(canon_id, canon=canon)
-                    match_note = (
-                        f"  {_fg(100,100,100)}→ {_fg(*rank_color)}{canon_display}"
-                        f"{_fg(100,100,100)} ({score:.0%}){_reset()}"
-                    )
+                match_type = m_type
+                
+                if match_type == "origin":
+                    canon_level = next((o.get("level", "0★") for o in origin_skills if o["id"] == canon_id), "0★")
+                elif match_type == "named":
+                    canon_level = next((n.get("level", "0★") for n in named_skills if n["id"] == canon_id), "0★")
+                else:
+                    canon_level = smap_for_match.get(canon_id, {}).get("level", "0★")
             elif cid not in smap_for_match:
                 mapped_score = 0.0
+            else:
+                match_type = "exact_generic"
+                mapped_score = 1.0
 
             custom_state_skills.append({
                 "id": cid,
@@ -514,12 +533,58 @@ def scan_command(args):
                 "location": location,
                 "mapped_to": mapped_id,
                 "mapped_score": mapped_score,
+                "match_type": match_type,
+                "canon_level": canon_level,
                 "prerequisites": sk.get("prerequisites", [])
             })
 
-            if not quiet:
+        # Sorting logic: Rank (for origin/named), then Score (for starless), then unmatched.
+        from gaia_cli.redaction import level_num
+        
+        def sort_key(s):
+            m_type = s.get("match_type")
+            score = s.get("mapped_score", 0.0)
+            level = level_num(s.get("canon_level", "0★"))
+            
+            if m_type in ("origin", "named"):
+                # Group 1: Sorted by Rank descending, then Score descending
+                return (2, level, score)
+            elif m_type in ("generic", "exact_generic"):
+                # Group 2: Sorted by Semantic Score descending
+                return (1, 0, score)
+            else:
+                # Group 3: Unmatched (Custom)
+                return (0, 0, 0)
+                
+        custom_state_skills.sort(key=sort_key, reverse=True)
+
+        if not quiet:
+            print("\nInstalled custom skills:")
+            
+            for sk in custom_state_skills:
+                cid = sk['id']
+                location = sk['location']
+                mapped_id = sk['mapped_to']
+                mapped_score = sk['mapped_score']
+                m_type = sk.get("match_type")
+                
+                match_note = ""
+                if mapped_id != cid and mapped_score > 0:
+                    rank_color = RANK_COLORS.get(sk.get('canon_level', '0★'), RANK_COLORS["0★"])
+                    canon_display = ctx.display_name(mapped_id, canon=canon)
+                    
+                    if m_type in ("origin", "named"):
+                        match_note = f"  {_fg(100,100,100)}→ {_fg(*rank_color)}{canon_display}{_fg(100,100,100)} (NAMED MATCH){_reset()}"
+                    else:
+                        match_note = f"  {_fg(100,100,100)}→ {_fg(*rank_color)}{canon_display}{_fg(100,100,100)} ({mapped_score:.0%} semantic){_reset()}"
+                
                 user_label = f"{_fg(*COLOR_LOCAL_USER)}{_bold()}/{cid}{_reset()}"
                 print(f"  ○ {user_label} custom skill (found in {location}){match_note}")
+
+        # Clean up output fields to keep file clean
+        for sk in custom_state_skills:
+            sk.pop("match_type", None)
+            sk.pop("canon_level", None)
 
         # Persist the custom state mapping
         os.makedirs(".gaia", exist_ok=True)

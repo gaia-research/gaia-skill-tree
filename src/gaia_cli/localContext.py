@@ -393,7 +393,7 @@ def _build_agent_dir_map(
             entry["id"], entry["name"], entry["description"], canonical_skills
         )
         if match:
-            canonical_id, _ = match
+            canonical_id = match[0]
             result[canonical_id] = f"{username}/{dir_name}"
     return result
 
