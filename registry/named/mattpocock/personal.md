@@ -18,17 +18,10 @@ suiteComponents:
 
 ## Installation
 
-Install the full Matt Pocock skills suite with:
+This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.
 
 ```bash
 npx skills@latest add mattpocock/skills
 ```
-
-### What's Included
-
-Two custom skills for personal knowledge management:
-
-1. **edit-article** — Refine written content: restructure sections, improve clarity, tighten prose
-2. **obsidian-vault** — Search, create, and manage notes in an Obsidian vault with wikilinks and index notes
 
 No additional setup required beyond the main suite installation.

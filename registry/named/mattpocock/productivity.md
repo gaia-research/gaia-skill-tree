@@ -20,19 +20,10 @@ suiteComponents:
 
 ## Installation
 
-Install the full Matt Pocock skills suite with:
+This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.
 
 ```bash
 npx skills@latest add mattpocock/skills
 ```
-
-### What's Included
-
-Four productivity tools for general workflow optimization:
-
-1. **caveman** — Ultra-compressed communication mode (~75% token reduction)
-2. **grill-me** — Intensive questioning sessions to fully resolve decisions
-3. **handoff** — Compress conversations for agent-to-agent handoffs
-4. **write-a-skill** — Create new skills with proper structure and resources
 
 No additional setup required beyond the main suite installation.

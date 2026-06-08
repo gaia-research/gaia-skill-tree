@@ -176,7 +176,7 @@
           var lvlN = levelNum(uLevel);
           var colorStyle = 'color: var(--rank-' + lvlN + '); cursor: pointer;';
           if (lvlN === 6) colorStyle += ' animation: tree-rainbow-glow 4s linear infinite;';
-          var clickAttr = ' role="button" tabindex="0" onclick="if(typeof openSkillExplorer===\'function\')openSkillExplorer(\'' + jsStr(u.id) + '\')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();this.click();}"';
+          var clickAttr = ' role="button" tabindex="0" onclick="if(typeof openSkillExplorer===\'function\')openSkillExplorer(\'' + jsStr(claim.id) + '\')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();this.click();}"';
 
           var originHtml = '';
           if (claim.origin && typeof window.gaiaIcon === 'function') {
@@ -319,7 +319,7 @@
             genericSkillRef: e.genericSkillRef,
             canonicalId: it.canonicalId,
             onclick: '(function(){if(typeof openSkillExplorer===\'function\')openSkillExplorer(\'' +
-              jsStr(it.canonicalId) + '\');})()',
+              jsStr(e.id) + '\');})()',
           };
         });
         return { skills: skills, primaryLevel: levelNum(group[0].entry.level) };

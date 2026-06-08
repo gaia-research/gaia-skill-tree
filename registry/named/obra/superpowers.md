@@ -154,7 +154,7 @@ already use it in another harness.
 
 - In Cursor Agent chat, install from marketplace:
 
-  ```text
+  ```bash
   /add-plugin superpowers
   ```
 

@@ -105,12 +105,140 @@ Sourced from the Ruflo platform (ruvnet/ruflo, 34k+ stars).
 
 ## Installation
 
-```bash
-# Global installation
-npm install -g claude-flow
+There are **two different install paths** with very different surface areas. Pick based on what you need (#1744):
 
-# Or via npx
-npx claude-flow@latest
+| | **Claude Code Plugin** | **CLI install (`npx ruflo init`)** |
+|---|---|---|
+| What it gives you | Slash commands + a few skills + agent definitions per-plugin | Full Ruflo loop — 98 agents, 60+ commands, 30 skills, MCP server, hooks, daemon |
+| Files in your workspace | **Zero** | `.claude/`, `.claude-flow/`, `CLAUDE.md`, helpers, settings |
+| MCP server registered | **No** (`memory_store`, `swarm_init`, etc. unavailable to Claude) | Yes |
+| Hooks installed | No | Yes |
+| Best for | Try a single plugin's commands without committing to the full install | Production use — everything works as documented |
+
+### Path A — Claude Code Plugins (lite, slash commands only)
+
+```bash
+# Add the marketplace
+/plugin marketplace add ruvnet/ruflo
+
+# Install core + any plugins you need
+/plugin install ruflo-core@ruflo
+/plugin install ruflo-swarm@ruflo
+/plugin install ruflo-rag-memory@ruflo
+/plugin install ruflo-neural-trader@ruflo
+```bash
+This adds slash commands and agent definitions only. The Ruflo MCP server is NOT registered, so `memory_store`, `swarm_init`, `agent_spawn`, etc. won't be callable from Claude. For the full loop, use Path B below.
+
+<details>
+<summary><strong>🔌 All 33 plugins</strong></summary>
+
+#### Core & Orchestration
+
+| Plugin | What it does |
+|--------|-------------|
+| [**ruflo-core**](plugins/ruflo-core/README.md) | Foundation — server, health checks, plugin discovery |
+| [**ruflo-swarm**](plugins/ruflo-swarm/README.md) | Coordinate multiple agents as a team |
+| [**ruflo-autopilot**](plugins/ruflo-autopilot/README.md) | Let agents run autonomously in a loop |
+| [**ruflo-loop-workers**](plugins/ruflo-loop-workers/README.md) | Schedule background tasks on a timer |
+| [**ruflo-workflows**](plugins/ruflo-workflows/README.md) | Reusable multi-step task templates |
+| [**ruflo-federation**](plugins/ruflo-federation/README.md) | Agents on different machines collaborate securely |
+
+#### Memory & Knowledge
+
+| Plugin | What it does |
+|--------|-------------|
+| [**ruflo-agentdb**](plugins/ruflo-agentdb/README.md) | Fast vector database for agent memory |
+| [**ruflo-rag-memory**](plugins/ruflo-rag-memory/README.md) | Smart retrieval — hybrid search, graph hops, diversity ranking |
+| [**ruflo-rvf**](plugins/ruflo-rvf/README.md) | Save and restore agent memory across sessions |
+| [**ruflo-ruvector**](plugins/ruflo-ruvector/README.md) | [`ruvector`](https://npmjs.com/package/ruvector) — GPU-accelerated search, Graph RAG, 103 tools |
+| [**ruflo-knowledge-graph**](plugins/ruflo-knowledge-graph/README.md) | Build and traverse entity relationship maps |
+
+#### Intelligence & Learning
+
+| Plugin | What it does |
+|--------|-------------|
+| [**ruflo-intelligence**](plugins/ruflo-intelligence/README.md) | Agents learn from past successes and get smarter |
+| [**ruflo-graph-intelligence**](plugins/ruflo-graph-intelligence/) | Sublinear graph reasoning — PageRank, delta updates, complexity-aware execution (ADR-123) |
+| [**ruflo-daa**](plugins/ruflo-daa/README.md) | Dynamic agent behavior and cognitive patterns |
+| [**ruflo-ruvllm**](plugins/ruflo-ruvllm/README.md) | Run local LLMs (Ollama, etc.) with smart routing |
+| [**ruflo-goals**](plugins/ruflo-goals/README.md) | Break big goals into plans and track progress |
+
+#### Code Quality & Testing
+
+| Plugin | What it does |
+|--------|-------------|
+| [**ruflo-testgen**](plugins/ruflo-testgen/README.md) | Find missing tests and generate them automatically |
+| [**ruflo-browser**](plugins/ruflo-browser/README.md) | Automate browser testing with Playwright |
+| [**ruflo-jujutsu**](plugins/ruflo-jujutsu/README.md) | Analyze git diffs, score risk, suggest reviewers |
+| [**ruflo-docs**](plugins/ruflo-docs/README.md) | Generate and maintain documentation automatically |
+
+#### Security & Compliance
+
+| Plugin | What it does |
+|--------|-------------|
+| [**ruflo-security-audit**](plugins/ruflo-security-audit/README.md) | Scan for vulnerabilities and CVEs |
+| [**ruflo-aidefence**](plugins/ruflo-aidefence/README.md) | Block prompt injection, detect PII, safety scanning |
+
+#### Architecture & Methodology
+
+| Plugin | What it does |
+|--------|-------------|
+| [**ruflo-adr**](plugins/ruflo-adr/README.md) | Track architecture decisions with a living record |
+| [**ruflo-ddd**](plugins/ruflo-ddd/README.md) | Scaffold domain-driven design — contexts, aggregates, events |
+| [**ruflo-sparc**](plugins/ruflo-sparc/README.md) | Guided 5-phase development methodology with quality gates |
+
+#### DevOps & Observability
+
+| Plugin | What it does |
+|--------|-------------|
+| [**ruflo-migrations**](plugins/ruflo-migrations/README.md) | Manage database schema changes safely |
+| [**ruflo-observability**](plugins/ruflo-observability/README.md) | Structured logs, traces, and metrics in one place |
+| [**ruflo-cost-tracker**](plugins/ruflo-cost-tracker/README.md) | Track token usage, set budgets, get cost alerts |
+
+#### Extensibility
+
+| Plugin | What it does |
+|--------|-------------|
+| [**ruflo-agent**](plugins/ruflo-agent/README.md) | Run agents — local WASM sandbox (rvagent) + Anthropic Claude Managed Agents (cloud) |
+| [**ruflo-plugin-creator**](plugins/ruflo-plugin-creator/README.md) | Scaffold, validate, and publish your own plugins |
+
+#### Domain-Specific
+
+| Plugin | What it does |
+|--------|-------------|
+| [**ruflo-iot-cognitum**](plugins/ruflo-iot-cognitum/README.md) | IoT device management — trust scoring, anomaly detection, fleets |
+| [**ruflo-neural-trader**](plugins/ruflo-neural-trader/README.md) | [`neural-trader`](https://npmjs.com/package/neural-trader) — AI trading with 4 agents, backtesting, 112+ tools |
+| [**ruflo-market-data**](plugins/ruflo-market-data/README.md) | Ingest market data, vectorize OHLCV, detect patterns |
+
+</details>
+
+### CLI Install
+
+**macOS / Linux / WSL / Git-Bash:**
+
+```bash
+# One-line install (POSIX shells only — see Windows note below)
+curl -fsSL https://cdn.jsdelivr.net/gh/ruvnet/ruflo@main/scripts/install.sh | bash
+```bash
+**All platforms (including native Windows PowerShell / cmd):**
+
+```bash
+# Interactive setup wizard — runs identically on every platform
+npx ruflo@latest init wizard
+
+# Quick non-interactive init
+# npx ruflo@latest init
+
+# Or install globally
+npm install -g ruflo@latest
+```bash
+> 💡 **Windows users:** the `curl ... | bash` form needs a POSIX shell (Git-Bash, WSL, MSYS). The `npx ruflo@latest init wizard` line works natively in PowerShell and cmd. If you hit an `'bash' is not recognized` error, use the `npx` line instead — both end up running the same init flow.
+
+### MCP Server
+
+```bash
+# Add Ruflo as an MCP server in Claude Code (canonical form, matches USERGUIDE.md)
+claude mcp add ruflo -- npx ruflo@latest mcp start
 ```
 
-> See [docs/USERGUIDE.md](https://github.com/ruvnet/ruflo/blob/main/docs/USERGUIDE.md#quick-start) for detailed setup and usage.
+---

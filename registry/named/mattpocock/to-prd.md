@@ -41,3 +41,13 @@ The output is published directly to the issue tracker with the `needs-triage` la
 ## Origin
 
 First published by @mattpocock (Matt Pocock, Total TypeScript). This is the origin implementation for the `prd-generation` skill bucket.
+
+## Installation
+
+This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.
+
+```bash
+npx skills@latest add mattpocock/skills
+```
+
+No additional setup required beyond the main suite installation.

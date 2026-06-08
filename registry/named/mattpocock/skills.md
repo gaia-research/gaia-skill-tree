@@ -35,4 +35,10 @@ suiteComponents:
 
 ## Installation
 
-This is the ultimate capstone suite. Install it to get all of Matt Pocock's skills grouped by category.
+Install the full Matt Pocock skills suite with:
+
+```bash
+npx skills@latest add mattpocock/skills
+```
+
+No additional setup required.

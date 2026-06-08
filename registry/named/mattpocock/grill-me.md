@@ -41,3 +41,13 @@ Where a question can be answered by reading the codebase directly, the agent exp
 ## Origin
 
 Second named implementation of the `design-review` skill bucket (origin: mattpocock/grill-with-docs). Grill Me is the simpler variant — no domain-model integration or documentation side effects.
+
+## Installation
+
+This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.
+
+```bash
+npx skills@latest add mattpocock/skills
+```
+
+No additional setup required beyond the main suite installation.

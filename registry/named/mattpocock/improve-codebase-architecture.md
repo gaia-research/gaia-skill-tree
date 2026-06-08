@@ -33,3 +33,13 @@ Candidate opportunities are presented as a numbered list with files, problem, so
 ## Origin
 
 Published by @mattpocock (Matt Pocock, Total TypeScript). Named implementation of the `refactor-code` skill bucket for the architecture-analysis-and-deepening use case.
+
+## Installation
+
+This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.
+
+```bash
+npx skills@latest add mattpocock/skills
+```
+
+No additional setup required beyond the main suite installation.

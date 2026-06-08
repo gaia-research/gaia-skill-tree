@@ -61,7 +61,7 @@
   }
 
   function namedSlug(ns) {
-    if (typeof window.namedSlug === 'function') return window.namedSlug(ns);
+    if (typeof window.namedSlug === 'function' && window.namedSlug !== namedSlug) return window.namedSlug(ns);
     if (!ns) return '';
     var id = ns.id || '';
     if (id.indexOf('/') !== -1) return '/' + id.split('/', 2)[1];
@@ -69,7 +69,7 @@
   }
 
   function handleLink(handle, opts) {
-    if (typeof window.handleLink === 'function') return window.handleLink(handle || '', opts || {});
+    if (typeof window.handleLink === 'function' && window.handleLink !== handleLink) return window.handleLink(handle || '', opts || {});
     if (!handle) return '';
     var cls = 'atlas-handle' + (opts && opts.extraClass ? ' ' + opts.extraClass : '');
     var rel = (opts && opts.rel);
@@ -101,7 +101,7 @@
     var prefix = (typeof window.gaiaIconBase === 'function')
       ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '')
       : '';
-    var href = prefix + 'named/#explorer/' + encodeURIComponent(id);
+    var href = prefix + 'named/#explorer/' + encodeURIComponent(id).replace(/%2F/g, '/');
     return '<a class="plaque__slug plaque-skill-name named-slug" href="' + esc(href) + '" title="' + esc(id) + '" onclick="event.stopPropagation();">' + esc(slug) + '</a>';
   }
 
@@ -711,6 +711,19 @@
   if (typeof window.redactedHandle !== 'function') {
     window.redactedHandle = function() {
       return '<span class="plaque__redacted-handle" aria-label="Contributor not yet revealed">@[anonymous]</span>';
+    };
+  }
+  // Fallback openSkillExplorer — on pages where skill-explorer.js is not
+  // loaded (profile pages, badges page, etc.), clicking a skill slug button
+  // calls openSkillExplorer() which otherwise doesn't exist.  Navigate to
+  // the Named Skills Explorer with the correct hash fragment.
+  if (typeof window.openSkillExplorer !== 'function') {
+    window.openSkillExplorer = function (id) {
+      if (!id) return;
+      var prefix = (typeof window.gaiaIconBase === 'function')
+        ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '')
+        : '/';
+      window.location.href = prefix + 'named/#explorer/' + encodeURIComponent(id).replace(/%2F/g, '/');
     };
   }
 })();
