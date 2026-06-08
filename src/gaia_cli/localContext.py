@@ -107,9 +107,13 @@ class LocalContext:
                             owned_ids.add(mid)
                             # Align mapping with scan findings: prioritize local nickname
                             if username:
+                                # Ensure local mapping takes precedence and is fully qualified
                                 named_map[mid] = f"{username}/{cid}"
-                        else:
+                        elif cid:
                             owned_ids.add(cid)
+                            # Even for novel skills, treat as named implementation of itself
+                            if username and cid not in named_map:
+                                named_map[cid] = f"{username}/{cid}"
             except Exception:
                 pass
 
