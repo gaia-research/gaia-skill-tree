@@ -99,6 +99,41 @@ def select_fusion_candidate(candidates: list[dict], prompt: str = "Select fusion
     return result
 
 
+def select_multiple_skills(skills: list[dict], prompt: str = "Select skills to combine:") -> list[str]:
+    """Multi-select checkbox skill picker. Returns list of selected skill IDs.
+
+    Args:
+        skills: List of skill dicts with at least 'id', optionally 'type', 'level', 'description'
+        prompt: The prompt message to display
+
+    Returns:
+        List of selected skill ID strings, or empty list if cancelled or non-interactive
+    """
+    if not _has_interactive():
+        return []
+    import questionary
+    from gaia_cli.formatting import TYPE_SYMBOLS
+
+    choices = []
+    for s in skills:
+        sid = s.get("id", "unknown")
+        skill_type = s.get("type", "basic")
+        level = s.get("level", "?")
+        glyph = TYPE_SYMBOLS.get(skill_type, "○")
+        desc = s.get("description", "")[:45]
+        title = f"{glyph} /{sid}  [{level}]  {desc}"
+        choices.append(questionary.Choice(title=title, value=sid))
+
+    if not choices:
+        return []
+
+    result = questionary.checkbox(
+        prompt,
+        choices=choices,
+    ).ask()
+    return result or []
+
+
 def select_promotion_candidate(candidates: list[dict], prompt: str = "Select skill to promote:") -> Optional[str]:
     """Arrow-key picker for promotion candidates.
 
@@ -119,6 +154,39 @@ def select_promotion_candidate(candidates: list[dict], prompt: str = "Select ski
         suggested = c.get("suggestedLevel", "?")
         title = f"/{sid}  {current} → {suggested}"
         choices.append(questionary.Choice(title=title, value=sid))
+
+    if not choices:
+        return None
+
+    result = questionary.select(
+        prompt,
+        choices=choices,
+        use_shortcuts=False,
+        use_arrow_keys=True,
+    ).ask()
+    return result
+
+
+def select_fusion_to_edit(fusions: dict[str, list[str]], prompt: str = "Select a custom fusion:") -> Optional[str]:
+    """Arrow-key picker for existing custom fusions.
+
+    Args:
+        fusions: Map of target_id -> list of source_ids
+
+    Returns:
+        Selected target skill ID, or None
+    """
+    if not _has_interactive():
+        return None
+    import questionary
+
+    choices = []
+    for target, sources in fusions.items():
+        prereq_str = " + ".join(f"/{p}" for p in sources[:3])
+        if len(sources) > 3:
+            prereq_str += f" +{len(sources) - 3}"
+        title = f"{prereq_str} → /{target}"
+        choices.append(questionary.Choice(title=title, value=target))
 
     if not choices:
         return None
