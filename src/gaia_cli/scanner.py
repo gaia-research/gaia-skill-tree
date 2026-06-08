@@ -376,7 +376,7 @@ def _word_set(text):
     return words - _SEMANTIC_STOPWORDS
 
 
-def match_skill_to_canonical(skill_id, skill_name, skill_description, canonical_skills, origin_skills=None, named_skills=None, threshold=0.30, origin_threshold=0.40):
+def match_skill_to_canonical(skill_id, skill_name, skill_description, canonical_skills, origin_skills=None, named_skills=None, threshold=0.15, origin_threshold=0.20):
     """Find the best skill match for a custom skill using sequential priority.
     
     1. Exact or near-exact slash-skill name or name match in ORIGIN skills.
