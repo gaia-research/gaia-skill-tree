@@ -156,6 +156,23 @@ def build_skill_batch(raw_tokens, config, registry_root, now=None, source_repo=N
         skill = build_proposed_skill(skill_id, source_repo)
         proposed_skills.append(skill)
 
+    # Inject custom fusions from local state as proposed combinations
+    proposed_combos = []
+    custom_state_path = os.path.join(".gaia", "custom_state.json")
+    if os.path.exists(custom_state_path):
+        try:
+            with open(custom_state_path, "r", encoding="utf-8") as f:
+                cstate = json.load(f)
+                fusions = cstate.get("customFusions", {})
+                for target, sources in fusions.items():
+                    proposed_combos.append({
+                        "candidateResult": target,
+                        "detectedSkills": sources,
+                        "levelFloor": "1★"
+                    })
+        except Exception:
+            pass
+
     return {
         "batchId": batch_id,
         "userId": config.get("gaiaUser", "unknown"),
@@ -163,6 +180,7 @@ def build_skill_batch(raw_tokens, config, registry_root, now=None, source_repo=N
         "generatedAt": generated_at,
         "knownSkills": [{"skillId": skill_id} for skill_id in known_ids],
         "proposedSkills": proposed_skills,
+        "proposedCombinations": proposed_combos,
         "similarity": build_similarity(proposed_ids, canonical_map),
     }
 
