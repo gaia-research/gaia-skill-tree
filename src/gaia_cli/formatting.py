@@ -132,15 +132,15 @@ def format_skill_plain(skill_id: str, *, named_ref: str | None = None,
     """
     if named_ref:
         contrib, nickname, is_own = _split_named_ref(named_ref, local_user)
-        if is_own:
-            return f"/{nickname}"
-        if level is not None and is_redacted(level):
-            contrib = REDACTED_BLOCK
-        return f"{contrib}/{nickname}" if contrib else f"/{nickname}"
+        if contrib:
+            if not is_own and level is not None and is_redacted(level):
+                contrib = REDACTED_BLOCK
+            return f"/{contrib}/{nickname}"
+        return f"/{nickname}"
     if named_contributor:
-        if level is not None and is_redacted(level):
+        if level is not None and not (local_user and named_contributor == local_user) and is_redacted(level):
             named_contributor = REDACTED_BLOCK
-        return f"{named_contributor}/{skill_id}"
+        return f"/{named_contributor}/{skill_id}"
     return f"/{skill_id}"
 
 
