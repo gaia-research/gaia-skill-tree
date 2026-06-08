@@ -1570,7 +1570,8 @@
     });
 
     function routeHash() {
-      var m = location.hash.match(/^#explorer\/(.+\/[^/?#]+)$/);
+      var decodedHash = decodeURIComponent(location.hash);
+      var m = decodedHash.match(/^#explorer\/(.+\/[^/?#]+)$/);
       if (m) { openExplorer(m[1]); }
       else { closeExplorer(); }
     }
