@@ -94,26 +94,47 @@ class LocalContext:
             registry_path, list(skill_map.values()), username, global_search=global_search
         )
         
-        # Inject custom skills into owned_ids so they appear unlocked
+        # Inject custom skills and fusions into owned_ids so they appear unlocked
         custom_state_path = os.path.join(".gaia", "custom_state.json")
         if include_scan and os.path.exists(custom_state_path):
             try:
                 with open(custom_state_path, "r", encoding="utf-8") as f:
                     cstate = json.load(f)
+                    # 1. Custom skills (scanned but not yet fused)
                     for sk in cstate.get("customSkills", []):
                         mid = sk.get("mapped_to")
                         cid = sk.get("id")
                         if mid:
                             owned_ids.add(mid)
-                            # Align mapping with scan findings: prioritize local nickname
                             if username:
-                                # Ensure local mapping takes precedence and is fully qualified
                                 named_map[mid] = f"{username}/{cid}"
                         elif cid:
                             owned_ids.add(cid)
-                            # Even for novel skills, treat as named implementation of itself
                             if username and cid not in named_map:
                                 named_map[cid] = f"{username}/{cid}"
+                    
+                    # 2. Custom fusions (intentional combinations)
+                    fusions = cstate.get("customFusions", {})
+                    for target, sources in fusions.items():
+                        owned_ids.add(target)
+                        # Inject into skill_map to ensure tree/graph see the lineage
+                        if target not in skill_map:
+                            skill_map[target] = {
+                                "id": target,
+                                "name": target,
+                                "type": "extra",
+                                "level": "1★",
+                                "rarity": "rare",
+                                "prerequisites": sources,
+                                "description": f"Custom fusion of {', '.join(sources)}",
+                                "local": True
+                            }
+                        else:
+                            # Existing skill: ensure it has the prerequisites and type 'extra'
+                            sdata = skill_map[target]
+                            sdata["prerequisites"] = list(set(sdata.get("prerequisites", [])) | set(sources))
+                            if sdata.get("type") == "basic":
+                                sdata["type"] = "extra"
             except Exception:
                 pass
 
