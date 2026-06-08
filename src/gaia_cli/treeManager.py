@@ -316,14 +316,11 @@ def show_tree(tree_data, graph_data=None, registry_path=".", mode="default", can
             if mapped_to and mapped_to in skill_map and mapped_to != cid:
                 target = skill_map[mapped_to]
                 merged_prereqs = list(set(target.get("prerequisites", []) + csk.get("prerequisites", [])))
-                skill_map[cid] = {
-                    "id": cid,
-                    "name": csk["name"],
-                    "description": csk["description"],
-                    "type": target.get("type", "basic"),
-                    "level": target.get("level", "0★"),
-                    "prerequisites": merged_prereqs,
-                }
+                target["name"] = csk["name"]
+                target["description"] = csk["description"]
+                target["prerequisites"] = merged_prereqs
+                # Map cid to mapped_to for future lookups
+                skill_map[cid] = target
             elif cid in skill_map:
                 skill_map[cid]["name"] = csk["name"]
                 skill_map[cid]["description"] = csk["description"]
@@ -359,6 +356,11 @@ def show_tree(tree_data, graph_data=None, registry_path=".", mode="default", can
                 queue.append(prereq)
                 
         display_ids = {sid for sid in display_ids if sid in unlocked_ids or sid in custom_nodes}
+        # Inject custom skills into unlocked so they can act as roots if they have no prereqs
+        for cid in custom_nodes:
+            if cid not in unlocked_ids:
+                unlocked.append({"skillId": cid})
+                unlocked_ids.add(cid)
     elif mode == "named":
         display_ids = {sid for sid in unlocked_ids if _is_named(sid, named_by_ref, local_by_ref)}
     else:

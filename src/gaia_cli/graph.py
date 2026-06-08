@@ -1172,14 +1172,9 @@ def write_graph_artifact(
                 target = canon_skills[mapped_to]
                 # Merge prereqs, avoiding duplicates
                 merged_prereqs = list(set(target.get("prerequisites", []) + csk.get("prerequisites", [])))
-                canon_skills[cid] = {
-                    "id": cid,
-                    "name": csk["name"],
-                    "description": csk["description"],
-                    "type": target.get("type", "basic"),
-                    "level": target.get("level", "0★"),
-                    "prerequisites": merged_prereqs,
-                }
+                target["name"] = csk["name"]
+                target["description"] = csk["description"]
+                target["prerequisites"] = merged_prereqs
             elif cid in canon_skills:
                 canon_skills[cid]["name"] = csk["name"]
                 canon_skills[cid]["description"] = csk["description"]

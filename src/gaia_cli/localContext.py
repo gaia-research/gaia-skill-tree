@@ -52,6 +52,20 @@ class LocalContext:
                 for s in tree_data.get("unlockedSkills", [])
                 if s.get("skillId")
             }
+        
+        # Inject custom skills into owned_ids so they appear unlocked
+        custom_state_path = os.path.join(".gaia", "custom_state.json")
+        if os.path.exists(custom_state_path):
+            try:
+                with open(custom_state_path, "r", encoding="utf-8") as f:
+                    cstate = json.load(f)
+                    for sk in cstate.get("customSkills", []):
+                        if sk.get("mapped_to"):
+                            owned_ids.add(sk["mapped_to"])
+                        else:
+                            owned_ids.add(sk["id"])
+            except Exception:
+                pass
 
         # Load canon graph metadata (for type symbols etc)
         graph_path = registry_graph_path(registry_path)
