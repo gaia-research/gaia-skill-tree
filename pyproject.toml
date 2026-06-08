@@ -30,6 +30,7 @@ classifiers = [
 dependencies = [
     "jsonschema>=4.17.0",
     "pyyaml>=6.0",
+    "questionary>=2.0.0",
 ]
 
 [project.optional-dependencies]
@@ -37,9 +38,7 @@ embeddings = [
     "sentence-transformers>=2.2.0",
     "numpy>=1.21.0",
 ]
-interactive = [
-    "questionary>=2.0.0",
-]
+interactive = []
 tui = [
     "textual>=0.50.0",
 ]

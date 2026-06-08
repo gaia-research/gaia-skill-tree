@@ -349,11 +349,12 @@ wheels = [
 
 [[package]]
 name = "gaia-cli"
-version = "3.25.2"
+version = "4.3.12"
 source = { editable = "." }
 dependencies = [
     { name = "jsonschema" },
     { name = "pyyaml" },
+    { name = "questionary" },
 ]
 
 [package.optional-dependencies]
@@ -380,9 +381,6 @@ embeddings = [
     { name = "numpy", version = "2.4.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
     { name = "sentence-transformers" },
 ]
-interactive = [
-    { name = "questionary" },
-]
 tui = [
     { name = "textual" },
 ]
@@ -396,7 +394,7 @@ requires-dist = [
     { name = "numpy", marker = "extra == 'embeddings'", specifier = ">=1.21.0" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.0" },
     { name = "pyyaml", specifier = ">=6.0" },
-    { name = "questionary", marker = "extra == 'interactive'", specifier = ">=2.0.0" },
+    { name = "questionary", specifier = ">=2.0.0" },
     { name = "scipy", marker = "extra == 'dev'", specifier = ">=1.7.0" },
     { name = "scipy", marker = "extra == 'docs'", specifier = ">=1.7.0" },
     { name = "sentence-transformers", marker = "extra == 'embeddings'", specifier = ">=2.2.0" },
