@@ -15,6 +15,12 @@ from gaia_cli.registry import registry_graph_path, skill_batches_dir
 
 
 SKILL_ID_RE = re.compile(r"^[a-z][a-z0-9]*(-[a-z0-9]+)*$")
+
+
+class NonPublicRepoError(RuntimeError):
+    """Raised when no public GitHub remote is detected for the working directory."""
+
+
 MIN_PROPOSED_TOKEN_LENGTH = 3
 PROPOSED_STOPWORDS = {
     "a", "an", "and", "are", "as", "at", "be", "by", "for", "from", "in", "is", "it", "of", "on", "or", "that", "the", "to", "was", "were", "with", "already",
@@ -68,7 +74,7 @@ def detect_source_repo(config):
         if host == "github.com" or host.endswith(".github.com"):
             return parsed.path.lstrip("/")
 
-    return f"{config.get('gaiaUser', 'unknown')}/local-repo"
+    raise NonPublicRepoError(config.get('gaiaUser', 'unknown'))
 
 
 def build_proposed_skill(skill_id, source_repo):
@@ -126,11 +132,12 @@ def filter_proposed_ids(valid_tokens, canonical_ids):
     return filtered
 
 
-def build_skill_batch(raw_tokens, config, registry_root, now=None):
+def build_skill_batch(raw_tokens, config, registry_root, now=None, source_repo=None):
     graph_path = registry_graph_path(registry_root)
     canonical_ids = load_canonical_skills(graph_path)
     canonical_map = load_canonical_skill_map(graph_path)
-    source_repo = detect_source_repo(config)
+    if source_repo is None:
+        source_repo = detect_source_repo(config)
     timestamp = now or datetime.now(timezone.utc)
     generated_at = timestamp.replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
