@@ -633,7 +633,7 @@ NAV_HTML = f"""<nav>
       <button class="nav-more-toggle" aria-label="More options" aria-expanded="false">More</button>
       <ul class="nav-more-menu">
         <li><button type="button" class="nav-tree" id="treeNavBtn" style="color: #34d399;">Skill Tree</button></li>
-        <!-- graph-nav-disabled <li><button type="button" class="nav-graph-trigger" data-graph-trigger style="color: #38bdf8;">Skill Graph</button></li> -->
+        <li><a href="../../index.html?field=1" class="nav-graph-trigger" style="color: #38bdf8;">Skill Graph</a></li>
         <li><a href="../../codex.html" style="color: var(--tier-basic);">The Codex</a></li>
         <li><a href="../../starless.html" style="color: var(--muted);">Starless</a></li>
         <li><a href="../" style="color: var(--honor-red);">Named Contributors</a></li>
@@ -666,7 +666,7 @@ FOOTER_HTML = f"""<!-- ─── FOOTER v2 ─── -->
         <ul>
           <li><a href="../../">Home</a></li>
           <li><a href="../../">Skill Tree</a></li>
-          <li><a href="../../">Skill Graph</a></li>
+          <li><a href="../../index.html?field=1">Skill Graph</a></li>
           <li><a href="../../starless.html">Starless</a></li>
           <li><a href="../../meta.html">Meta Reports</a></li>
         </ul>
@@ -1305,7 +1305,7 @@ def build_directory_page(by_contributor: dict) -> str:
       <button class="nav-more-toggle" aria-label="More options" aria-expanded="false">More</button>
       <ul class="nav-more-menu">
         <li><button type="button" class="nav-tree" id="treeNavBtn" style="color: #34d399;">Skill Tree</button></li>
-        <!-- graph-nav-disabled <li><button type="button" class="nav-graph-trigger" data-graph-trigger style="color: #38bdf8;">Skill Graph</button></li> -->
+        <li><a href="../index.html?field=1" class="nav-graph-trigger" style="color: #38bdf8;">Skill Graph</a></li>
         <li><a href="../codex.html" style="color: var(--tier-basic);">The Codex</a></li>
         <li><a href="../starless.html" style="color: var(--muted);">Starless</a></li>
         <li><a href="./" style="color: var(--honor-red);" aria-current="page">Named Contributors</a></li>
@@ -1338,7 +1338,7 @@ def build_directory_page(by_contributor: dict) -> str:
         <ul>
           <li><a href="../">Home</a></li>
           <li><a href="../">Skill Tree</a></li>
-          <li><a href="../">Skill Graph</a></li>
+          <li><a href="../index.html?field=1">Skill Graph</a></li>
           <li><a href="../starless.html">Starless</a></li>
           <li><a href="../meta.html">Meta Reports</a></li>
         </ul>
