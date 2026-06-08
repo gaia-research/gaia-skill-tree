@@ -183,6 +183,7 @@ PUBLIC_COMMANDS = (
     "propose",
     "version",
     "whoami",
+    "reset",
     "mcp",
     "release",
     "graph",
