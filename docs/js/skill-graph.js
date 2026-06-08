@@ -1547,7 +1547,14 @@
           btn.addEventListener('click', e => {
             e.stopPropagation();
             const nid = btn.dataset.nid;
-            const url = window.location.origin + window.location.pathname + '#explorer/' + nid;
+            let path = window.location.pathname;
+            if (path.endsWith('index.html')) {
+              path = path.slice(0, -10);
+            }
+            if (!path.endsWith('/')) {
+              path += '/';
+            }
+            const url = window.location.origin + path + 'named/#explorer/' + nid;
             window.open(url, '_blank');
           });
         });
