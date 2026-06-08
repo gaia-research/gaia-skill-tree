@@ -290,10 +290,75 @@ def show_tree(tree_data, graph_data=None, registry_path=".", mode="default", can
 
     unlocked_ids = {s["skillId"] for s in unlocked}
     if custom:
-        from gaia_cli.scanner import scan_skill_mds
-        local_custom_ids = {sk["id"] for sk in scan_skill_mds(global_search=False)}
-        canon_ids = set(skill_map.keys())
-        display_ids = {sid for sid in unlocked_ids if sid in local_custom_ids or sid not in canon_ids}
+        custom_state_path = os.path.join(".gaia", "custom_state.json")
+        custom_skills = []
+        if os.path.exists(custom_state_path):
+            try:
+                with open(custom_state_path, "r", encoding="utf-8") as f:
+                    custom_skills = json.load(f).get("customSkills", [])
+            except Exception:
+                pass
+        else:
+            from gaia_cli.scanner import scan_skill_mds
+            local_skills = scan_skill_mds(global_search=False)
+            custom_skills = [{
+                "id": sk["id"],
+                "name": sk.get("name", sk["id"]),
+                "description": sk.get("description", ""),
+                "mapped_to": sk["id"],
+                "prerequisites": sk.get("prerequisites", [])
+            } for sk in local_skills]
+
+        for csk in custom_skills:
+            cid = csk["id"]
+            mapped_to = csk.get("mapped_to")
+            
+            if mapped_to and mapped_to in skill_map and mapped_to != cid:
+                target = skill_map[mapped_to]
+                merged_prereqs = list(set(target.get("prerequisites", []) + csk.get("prerequisites", [])))
+                skill_map[cid] = {
+                    "id": cid,
+                    "name": csk["name"],
+                    "description": csk["description"],
+                    "type": target.get("type", "basic"),
+                    "level": target.get("level", "0★"),
+                    "prerequisites": merged_prereqs,
+                }
+            elif cid in skill_map:
+                skill_map[cid]["name"] = csk["name"]
+                skill_map[cid]["description"] = csk["description"]
+                skill_map[cid]["prerequisites"] = list(set(skill_map[cid].get("prerequisites", []) + csk.get("prerequisites", [])))
+            else:
+                skill_map[cid] = {
+                    "id": cid,
+                    "name": csk["name"],
+                    "description": csk["description"],
+                    "type": "basic",
+                    "level": "0★",
+                    "prerequisites": csk.get("prerequisites", []),
+                }
+
+        custom_nodes = set()
+        for csk in custom_skills:
+            mapped_to = csk.get("mapped_to")
+            if mapped_to and mapped_to in skill_map:
+                custom_nodes.add(mapped_to)
+            else:
+                custom_nodes.add(csk["id"])
+        
+        display_ids = set()
+        queue = list(custom_nodes)
+        visited = set()
+        while queue:
+            curr = queue.pop(0)
+            if curr in visited:
+                continue
+            visited.add(curr)
+            display_ids.add(curr)
+            for prereq in skill_map.get(curr, {}).get("prerequisites", []):
+                queue.append(prereq)
+                
+        display_ids = {sid for sid in display_ids if sid in unlocked_ids or sid in custom_nodes}
     elif mode == "named":
         display_ids = {sid for sid in unlocked_ids if _is_named(sid, named_by_ref, local_by_ref)}
     else:

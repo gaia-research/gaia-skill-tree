@@ -456,36 +456,44 @@ def scan_command(args):
             print('Tip: try `gaia skills search "code review"` or expand scanPaths.')
 
     # ── Semantic scan: detect installed skill .md files ──────────────────────
-    if not quiet:
-        global_search = getattr(args, 'all', False)
-        installed_skills = scan_skill_mds(global_search=global_search)
-        if installed_skills:
-            with open(graph_path, 'r', encoding='utf-8') as _gf:
-                _gdata_for_match = json.load(_gf)
-            canonical_list = _gdata_for_match.get('skills', [])
-            smap_for_match = {s['id']: s for s in canonical_list}
+    global_search = getattr(args, 'all', False)
+    installed_skills = scan_skill_mds(global_search=global_search)
+    if installed_skills:
+        with open(graph_path, 'r', encoding='utf-8') as _gf:
+            _gdata_for_match = json.load(_gf)
+        canonical_list = _gdata_for_match.get('skills', [])
+        smap_for_match = {s['id']: s for s in canonical_list}
 
-            # Keep the matching logic that adds matching custom skills to resolved
-            for sk in installed_skills:
-                sid = sk['id']
-                if sid in smap_for_match and sid not in resolved:
-                    resolved.append(sid)
+        # Keep the matching logic that adds matching custom skills to resolved
+        for sk in installed_skills:
+            sid = sk['id']
+            if sid in smap_for_match and sid not in resolved:
+                resolved.append(sid)
 
+        custom_state_skills = []
+        if not quiet:
             print("\nInstalled custom skills:")
-            for sk in installed_skills:
-                cid = sk['id']
-                location = sk.get('location', '')
-                
-                # Logic to resolve matching to canonical if not already canonical
-                match = None
-                if cid not in smap_for_match:
-                    match = match_skill_to_canonical(
-                        cid, sk['name'], sk['description'], canonical_list
-                    )
-                
-                match_note = ""
-                if match:
-                    canon_id, score = match
+            
+        for sk in installed_skills:
+            cid = sk['id']
+            location = sk.get('location', '')
+            
+            # Logic to resolve matching to canonical if not already canonical
+            match = None
+            if cid not in smap_for_match:
+                match = match_skill_to_canonical(
+                    cid, sk['name'], sk['description'], canonical_list
+                )
+            
+            match_note = ""
+            mapped_id = cid
+            mapped_score = 1.0
+            
+            if match:
+                canon_id, score = match
+                mapped_id = canon_id
+                mapped_score = score
+                if not quiet:
                     canon_sk = smap_for_match.get(canon_id, {})
                     rank_color = RANK_COLORS.get(canon_sk.get('level', '0★'), RANK_COLORS["0★"])
                     canon_display = ctx.display_name(canon_id, canon=canon)
@@ -493,9 +501,27 @@ def scan_command(args):
                         f"  {_fg(100,100,100)}→ {_fg(*rank_color)}{canon_display}"
                         f"{_fg(100,100,100)} ({score:.0%}){_reset()}"
                     )
-                
+            elif cid not in smap_for_match:
+                mapped_score = 0.0
+
+            custom_state_skills.append({
+                "id": cid,
+                "name": sk['name'],
+                "description": sk['description'],
+                "location": location,
+                "mapped_to": mapped_id,
+                "mapped_score": mapped_score,
+                "prerequisites": sk.get("prerequisites", [])
+            })
+
+            if not quiet:
                 user_label = f"{_fg(*COLOR_LOCAL_USER)}{_bold()}/{cid}{_reset()}"
                 print(f"  ○ {user_label} custom skill (found in {location}){match_note}")
+
+        # Persist the custom state mapping
+        os.makedirs(".gaia", exist_ok=True)
+        with open(".gaia/custom_state.json", "w", encoding="utf-8") as f:
+            json.dump({"customSkills": custom_state_skills}, f, indent=2)
 
     tree = load_tree(username, registry_path=args.registry)
     if tree:

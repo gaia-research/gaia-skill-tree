@@ -1141,25 +1141,61 @@ def write_graph_artifact(
     custom: bool = False,
 ) -> Path:
     root = _registry_root(registry_path)
+    graph = load_graph(root)
     if custom:
-        from gaia_cli.scanner import scan_skill_mds
-        local_skills = scan_skill_mds(global_search=False)
-        graph = {
-            "version": "local-custom",
-            "skills": [
-                {
-                    "id": sk["id"],
-                    "name": sk.get("name", sk["id"]),
-                    "description": sk.get("description", ""),
+        custom_state_path = Path.cwd() / ".gaia" / "custom_state.json"
+        custom_skills = []
+        if custom_state_path.exists():
+            try:
+                with open(custom_state_path, "r", encoding="utf-8") as f:
+                    custom_state = json.load(f)
+                    custom_skills = custom_state.get("customSkills", [])
+            except Exception:
+                pass
+        else:
+            from gaia_cli.scanner import scan_skill_mds
+            local_skills = scan_skill_mds(global_search=False)
+            custom_skills = [{
+                "id": sk["id"],
+                "name": sk.get("name", sk["id"]),
+                "description": sk.get("description", ""),
+                "mapped_to": sk["id"],
+                "prerequisites": sk.get("prerequisites", [])
+            } for sk in local_skills]
+        
+        canon_skills = {sk["id"]: sk for sk in graph.get("skills", [])}
+        for csk in custom_skills:
+            cid = csk["id"]
+            mapped_to = csk.get("mapped_to")
+            
+            if mapped_to and mapped_to in canon_skills and mapped_to != cid:
+                target = canon_skills[mapped_to]
+                # Merge prereqs, avoiding duplicates
+                merged_prereqs = list(set(target.get("prerequisites", []) + csk.get("prerequisites", [])))
+                canon_skills[cid] = {
+                    "id": cid,
+                    "name": csk["name"],
+                    "description": csk["description"],
+                    "type": target.get("type", "basic"),
+                    "level": target.get("level", "0★"),
+                    "prerequisites": merged_prereqs,
+                }
+            elif cid in canon_skills:
+                canon_skills[cid]["name"] = csk["name"]
+                canon_skills[cid]["description"] = csk["description"]
+                canon_skills[cid]["prerequisites"] = list(set(canon_skills[cid].get("prerequisites", []) + csk.get("prerequisites", [])))
+            else:
+                canon_skills[cid] = {
+                    "id": cid,
+                    "name": csk["name"],
+                    "description": csk["description"],
                     "type": "basic",
                     "level": "0★",
-                    "prerequisites": sk.get("prerequisites", [])
+                    "prerequisites": csk.get("prerequisites", []),
                 }
-                for sk in local_skills
-            ]
-        }
-    else:
-        graph = load_graph(root)
+        
+        graph["skills"] = list(canon_skills.values())
+        graph["version"] = "local-custom"
     named_buckets = load_named_skills(root).get("buckets", {})
     render_graph = build_render_graph(graph, named_buckets=named_buckets)
     fmt = fmt.lower()
