@@ -800,7 +800,11 @@ def promote_command(args):
 
     tree = load_tree(username, registry_path=args.registry)
     if not tree:
-        print(f"No skill tree found for user '{username}'.")
+        if not os.path.exists(promotion_candidates_path(args.registry)):
+            print("No promotion candidates found. Run `gaia scan` first to detect skills.",
+                  file=sys.stderr)
+        else:
+            print(f"No skill tree found for user '{username}'.", file=sys.stderr)
         return
 
     skill_id = getattr(args, 'skillId', None)
