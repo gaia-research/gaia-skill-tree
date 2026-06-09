@@ -887,7 +887,7 @@ def scan_command(args):
                         )
                     )
                 tips.append(
-                    f"Confirm detected combinations with `{_fg(*COLOR_FUSE_PURPLE)}gaia fuse <skill>{_reset()}`"
+                    f"`{_fg(*COLOR_FUSE_PURPLE)}gaia fuse <skill>{_reset()}`: Confirm detected combinations"
                 )
 
         # Path engine integration
@@ -1097,12 +1097,12 @@ def status_command(args):
     username = config.get("gaiaUser")
     tree = load_tree(username, registry_path=args.registry)
     if not tree:
-        print(f'No skill tree found for user "{username}".')
+        print(f'No skill tree found for user "{_fg(*COLOR_LOCAL_USER)}{username}{_reset()}".')
         print("Next steps:")
         print("  gaia scan")
         print("  gaia push --dry-run")
         print("  gaia push --no-pr")
-        print(f"Or create skill-trees/{username}/skill-tree.json in the registry.")
+        print(f"Or create skill-trees/{_fg(*COLOR_LOCAL_USER)}{username}{_reset()}/skill-tree.json in the registry.")
         return
     show_status(tree)
 
@@ -1247,7 +1247,7 @@ def promote_command(args):
                 file=sys.stderr,
             )
         else:
-            print(f"No skill tree found for user '{username}'.", file=sys.stderr)
+            print(f"No skill tree found for user '{_fg(*COLOR_LOCAL_USER)}{username}{_reset()}'.", file=sys.stderr)
         return
 
     skill_id = getattr(args, "skillId", None)
