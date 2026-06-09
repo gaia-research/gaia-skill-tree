@@ -363,7 +363,8 @@ def render_html(
     named_skills = named_skills or {"buckets": {}}
     user_ctx_data: dict[str, Any] = user_ctx if user_ctx is not None else {}
     _title_text = user_ctx_data.get("title", "") if user_ctx_data else ""
-    _title_text = _title_text or user_ctx_data.get("username", "") or "Gaia Skill Graph"
+    _title_text = _title_text or user_ctx_data.get("username", "")
+    _display_title = f"{_title_text} - Gaia Skill Graph" if _title_text else "Gaia Skill Graph"
 
     # Make sure we add 'meta' object so skill-graph.js doesn't crash if missing
     if "meta" not in graph:
@@ -374,7 +375,7 @@ def render_html(
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{_title_text} - Gaia Skill Graph</title>
+  <title>{_display_title}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
