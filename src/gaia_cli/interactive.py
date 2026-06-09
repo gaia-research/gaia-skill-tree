@@ -75,9 +75,6 @@ def select_skill(skills: list[dict], prompt: str = "Select a skill:", disabled_i
             stripped_sid = sid.lstrip("/")
             if "/" in stripped_sid:
                 prefix = "[NAMED]"
-                # If named after the current user, it's an ORIGIN scaffold
-                if username and stripped_sid.startswith(username + "/"):
-                    prefix = "[ORIGIN]"
 
         display_id = _format_id(sid)
         title = f"{prefix} {display_id}  [{level}]  {desc}"
@@ -173,9 +170,6 @@ def select_multiple_skills(skills: list[dict], prompt: str = "Select skills to c
             stripped_sid = sid.lstrip("/")
             if "/" in stripped_sid:
                 prefix = "[NAMED]"
-                # If named after the current user, it's an ORIGIN scaffold
-                if username and stripped_sid.startswith(username + "/"):
-                    prefix = "[ORIGIN]"
 
         display_id = _format_id(sid)
         title = f"{prefix} {display_id}  [{level}]  {desc}"
