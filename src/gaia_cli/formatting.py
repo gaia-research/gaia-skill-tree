@@ -48,6 +48,42 @@ def _bold() -> str:
     return "\033[1m" if _use_color() else ""
 
 
+_RAINBOW_STOPS = [
+    (56, 189, 248),
+    (167, 139, 250),
+    (245, 158, 11),
+    (239, 68, 68),
+    (192, 132, 252),
+    (52, 211, 153)
+]
+
+
+def _rainbow_text(text: str) -> str:
+    if not _use_color() or not text:
+        return text
+    n = len(text)
+    if n <= 1:
+        return _fg(*_RAINBOW_STOPS[0]) + text + _reset()
+
+    parts = []
+    num_stops = len(_RAINBOW_STOPS)
+    for i, ch in enumerate(text):
+        pos = (i / (n - 1)) * (num_stops - 1)
+        idx = int(pos)
+        frac = pos - idx
+        if idx >= num_stops - 1:
+            color = _RAINBOW_STOPS[-1]
+        else:
+            c1 = _RAINBOW_STOPS[idx]
+            c2 = _RAINBOW_STOPS[idx + 1]
+            r = int(c1[0] + frac * (c2[0] - c1[0]))
+            g = int(c1[1] + frac * (c2[1] - c1[1]))
+            b = int(c1[2] + frac * (c2[2] - c1[2]))
+            color = (r, g, b)
+        parts.append(_fg(*color) + ch)
+    return "".join(parts) + _reset()
+
+
 # --- Color palettes (single source of truth: registry/gaia.json meta) ---
 
 def _hex_to_rgb(hex_str: str) -> tuple[int, int, int]:

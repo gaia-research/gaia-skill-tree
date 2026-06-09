@@ -186,6 +186,26 @@ def write_gexf(
         # Also fallback to gaia.json skills if nodes dir is empty
         if not skills:
             graph = load_graph(root)
+    # Enrich graph with semantic positions from registry/layouts_3d.json
+    layouts_path = root / "registry" / "layouts_3d.json"
+    if layouts_path.exists():
+        try:
+            with open(layouts_path, "r", encoding="utf-8") as f:
+                layout_data = json.load(f)
+                layout_nodes = layout_data.get("nodes", {})
+                if "meta" in layout_data:
+                    graph.setdefault("meta", {}).update({
+                        "clusterNames": layout_data["meta"].get("clusterNames", {}),
+                        "centroids": layout_data["meta"].get("centroids", [])
+                    })
+                for skill in graph.get("skills", []):
+                    sid = skill.get("id")
+                    if sid in layout_nodes:
+                        skill["cluster"] = layout_nodes[sid].get("cluster")
+                        skill["positions"] = layout_nodes[sid].get("positions")
+        except Exception:
+            pass
+    
             skills = graph.get("skills", [])
     
     skills = skills or []
@@ -381,7 +401,8 @@ def render_html(
   <title>{_display_title}</title>
   <script>
     window.GAIA_VERSION = "4.3.12";
-    window.gaiaIconBase = function() {{ return 'https://gaia.tiongson.co/assets/icons.svg'; }};
+    // Point icon base to a path that we will intercept in fetch
+    window.gaiaIconBase = function() {{ return 'assets/icons.svg'; }};
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -416,6 +437,11 @@ def render_html(
     const originalFetch = window.fetch;
     window.fetch = async function(resource, options) {{
       const url = typeof resource === 'string' ? resource : resource.url;
+      
+      if (url.includes('icons.svg')) {{
+          return originalFetch('https://gaia.tiongson.co/assets/icons.svg', options);
+      }}
+      
       if (url.includes('ping.json') || url.includes('gaia.json') || url.includes('index.json')) {{
           let data = '{{}}';
           if (url.includes('ping.json')) data = '{{ "ok": true }}';
