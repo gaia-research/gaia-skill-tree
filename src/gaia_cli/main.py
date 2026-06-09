@@ -1855,46 +1855,9 @@ def fuse_command(args):
                 max_stars_str = f"{max_stars}★"
 
                 if not target:
-                    # Filter candidates for target (canonical skills + local custom skills)
-                    target_candidates = []
-
-                    # 1. Add canonical skills from graph
-                    for s in graph_data.get("skills", []):
-                        sid = s["id"]
-                        ss = scan_map.get(sid) or {}
-                        target_candidates.append(
-                            {
-                                "id": sid,
-                                "type": ss.get("type") or s.get("type", "basic"),
-                                "level": ss.get("level") or s.get("level", "0★"),
-                                "description": ss.get("description") or s.get("description", ""),
-                                "local": False,
-                                "origin": ss.get("origin", ctx.is_origin(sid)),
-                                "named_ref": ss.get("namedRef") or ctx.named_ref(sid),
-                            }
-                        )
-
-                    # 2. Add local custom skills that aren't already covered by canonical ids
-                    canon_ids = {s["id"] for s in target_candidates}
-                    for sid in ctx.novel_ids:
-                        if sid not in canon_ids:
-                            ss = scan_map.get(sid) or scan_map.get("/" + sid.lstrip("/")) or {}
-                            sinfo = skill_info_map.get(sid, {})
-                            target_candidates.append(
-                                {
-                                    "id": sid,
-                                    "type": ss.get("type") or sinfo.get("type", "basic"),
-                                    "level": ss.get("level") or sinfo.get("level", "0★"),
-                                    "description": ss.get("description") or sinfo.get("description", ""),
-                                    "local": True,
-                                    "origin": False,
-                                    "named_ref": ss.get("namedRef") or ctx.named_ref(sid),
-                                }
-                            )
-
-                    target_candidates.sort(key=lambda x: x["id"])
+                    # Stage 2: pick the target from the same installed/detected list
                     target = select_skill(
-                        target_candidates,
+                        selector_choices,
                         "Select target skill to reach:",
                         disabled_ids=selected,
                         username=username,
