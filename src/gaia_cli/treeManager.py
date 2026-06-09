@@ -231,10 +231,6 @@ def _color_entry(symbol, plain_label, tier, is_named, level, current_user=None, 
             colored = _rainbow_text(f"{symbol} {plain_label}")
             return f"{bold()}{colored}{reset()}"
         
-        if level == "5★":
-            colored = _gradient_text(f"{symbol} {plain_label}", _GRAD_GOLD, _GRAD_RED)
-            return f"{bold()}{colored}{reset()}"
-        
         if "/" in plain_label and not plain_label.startswith("/"):
             parts = plain_label.split("/", 1)
             handle = parts[0]

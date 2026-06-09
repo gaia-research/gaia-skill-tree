@@ -2173,6 +2173,7 @@ def install_command(args):
         return
     if not args.skill_id:
         print("Usage: gaia install <skill_id>", file=sys.stderr)
+        print("  To update the Gaia CLI, use: gaia update", file=sys.stderr)
         print("  To update all installed skills, use: gaia skills update", file=sys.stderr)
         sys.exit(2)
 
