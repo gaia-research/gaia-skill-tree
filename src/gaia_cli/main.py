@@ -2174,7 +2174,9 @@ def install_command(args):
     if not args.skill_id:
         print("Usage: gaia install <skill_id>", file=sys.stderr)
         print("  To update the Gaia CLI, use: gaia update", file=sys.stderr)
-        print("  To update all installed skills, use: gaia skills update", file=sys.stderr)
+        print(
+            "  To update all installed skills, use: gaia skills update", file=sys.stderr
+        )
         sys.exit(2)
 
     # Use suite logic if flagged or implicitly requested
@@ -2651,7 +2653,7 @@ def get_parser():
         "fetch", help="Download the latest canonical registry files to .gaia/registry"
     )
     subparsers.add_parser("pull", help="Fetch registry data and run a full scan")
-    subparsers.add_parser("update", help="Update all installed remote skills")
+    subparsers.add_parser("update", help="Update Gaia CLI and registry")
 
     install_parser = subparsers.add_parser("install", help="Install a named skill")
     install_parser.add_argument(
