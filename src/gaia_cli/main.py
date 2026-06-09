@@ -2588,6 +2588,8 @@ class ColoredHelpFormatter(argparse.RawDescriptionHelpFormatter):
         if isinstance(action, argparse._SubParsersAction):
             # Commands considered "dev" or maintenance-heavy
             dev_cmds = ("dev", "validate", "test", "docs")
+            ansi_escape = r"(?:\x1B\[[0-9;]*[a-zA-Z])*"
+            
             for cmd in dev_cmds:
                 # 1. Colorize the command in the {choices} list
                 # Match start of list, middle of list, or end of list
@@ -2596,11 +2598,10 @@ class ColoredHelpFormatter(argparse.RawDescriptionHelpFormatter):
                 parts = parts.replace(f",{cmd}}}", f",{_fg(*COLOR_GREY)}{cmd}{_reset()}}}")
 
                 # 2. Colorize the command in the individual help lines
-                # Pattern: start of line, some whitespace, the command name, then at least two spaces
-                # (Argparse usually uses more than two spaces to separate the name from the help text)
+                # Pattern: start of line, some whitespace, the command name (possibly colored), then at least two spaces
                 parts = re.sub(
-                    rf"^(\s+)({cmd})(\s\s+)",
-                    rf"\1{_fg(*COLOR_GREY)}\2{_reset()}\3",
+                    rf"^(\s+)({ansi_escape}{cmd}{ansi_escape})(\s\s+)",
+                    rf"\1{_fg(*COLOR_GREY)}{cmd}{_reset()}\3",
                     parts,
                     flags=re.MULTILINE,
                 )
