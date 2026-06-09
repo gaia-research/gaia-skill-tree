@@ -206,6 +206,7 @@ class LocalContext:
             owned_ids=owned_ids,
             detected_ids=detected_ids,
             novel_ids=novel_ids,
+            origin_ids=origin_ids,
             named_map=named_map,
             tree_data=tree_data,
             graph_data=graph_data,
@@ -213,6 +214,10 @@ class LocalContext:
         ctx._skill_map = skill_map
         ctx._effective_ranks = effective_ranks
         return ctx
+
+    def is_origin(self, skill_id: str) -> bool:
+        """True if this skill is the authoritative origin for its bucket."""
+        return skill_id in self.origin_ids or skill_id.lstrip("/") in self.origin_ids
 
     def is_named(self, skill_id: str) -> bool:
         """Check if a canonical skill has a named implementation."""

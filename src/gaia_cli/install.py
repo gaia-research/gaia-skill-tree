@@ -16,6 +16,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from gaia_cli.registry import named_skills_dir, registry_graph_path
+from gaia_cli.formatting import _fg, _reset, get_harness_color
 
 
 def get_gaia_home():
@@ -194,7 +195,8 @@ def _install_single(sid: str, meta: dict, registry_path: str, visited: set[str],
         else:
             shutil.rmtree(local_skill_path)
 
-    print(f"Installing {sid} to {local_skill_path}...")
+    h_color = get_harness_color(local_skill_path)
+    print(f"Installing {sid} to {_fg(*h_color)}{local_skill_path}{_reset()}...")
     if sys.platform != "win32":
         os.symlink(source_skill_path, local_skill_path)
     else:
@@ -483,7 +485,9 @@ def list_installed():
             rel_loc = os.path.relpath(loc)
         except Exception:
             rel_loc = loc
-        print(f"{entry['id']:<35} {entry['installedAt'][:19]:<25} {rel_loc}")
+        h_color = get_harness_color(rel_loc)
+        colored_loc = f"{_fg(*h_color)}{rel_loc}{_reset()}"
+        print(f"{entry['id']:<35} {entry['installedAt'][:19]:<25} {colored_loc}")
 
 
 def interactive_install(registry_path, location: str = "local"):

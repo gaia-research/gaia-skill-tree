@@ -770,7 +770,8 @@ def scan_command(args):
                     by_dir[parent].append(sk)
 
                 for directory in sorted(by_dir.keys()):
-                    print(f"{directory}/")
+                    h_color = get_harness_color(directory)
+                    print(f"{_fg(*h_color)}{directory}/{_reset()}")
                     # Sort skills within the directory by id
                     skills_in_dir = sorted(by_dir[directory], key=lambda x: x["id"])
                     for sk in skills_in_dir:
@@ -1117,7 +1118,17 @@ def appraise_command(args):
     skill_id = getattr(args, "skillId", None)
     if not skill_id:
         # Try interactive picker first
-        all_skills = list(skill_map.values())
+        all_skills = []
+        for s in skill_map.values():
+            all_skills.append({
+                "id": s["id"],
+                "type": s.get("type", "basic"),
+                "level": s.get("level", "0★"),
+                "description": s.get("description", ""),
+                "local": False,
+                "origin": ctx.is_origin(s["id"]),
+            })
+        
         picked = select_skill(all_skills, "Select a skill to appraise:", username=username)
         if picked:
             skill_id = picked
@@ -1736,7 +1747,7 @@ def fuse_command(args):
                             "level": sinfo.get("level", "0★"),
                             "description": sinfo.get("description", ""),
                             "local": sid in ctx.novel_ids,
-                            "origin": sinfo.get("origin", False),
+                            "origin": ctx.is_origin(sid),
                         }
                     )
 
@@ -1761,14 +1772,15 @@ def fuse_command(args):
 
                     # 1. Add canonical skills from graph
                     for s in graph_data.get("skills", []):
+                        sid = s["id"]
                         target_candidates.append(
                             {
-                                "id": s["id"],
+                                "id": sid,
                                 "type": s.get("type", "basic"),
                                 "level": s.get("level", "0★"),
                                 "description": s.get("description", ""),
                                 "local": False,
-                                "origin": s.get("origin", False),
+                                "origin": ctx.is_origin(sid),
                             }
                         )
 
@@ -1777,8 +1789,6 @@ def fuse_command(args):
                     for sid in ctx.novel_ids:
                         if sid not in canon_ids:
                             # Try to find info from scan results
-                            # Note: all_ids includes ctx.novel_ids, and selector_choices already has this info
-                            # but let's be explicit here.
                             sinfo = skill_info_map.get(sid, {})
                             target_candidates.append(
                                 {
@@ -1787,7 +1797,7 @@ def fuse_command(args):
                                     "level": sinfo.get("level", "0★"),
                                     "description": sinfo.get("description", ""),
                                     "local": True,
-                                    "origin": False,
+                                    "origin": ctx.is_origin(sid),
                                 }
                             )
 
