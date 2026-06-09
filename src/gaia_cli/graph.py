@@ -380,25 +380,33 @@ def render_html(
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{_display_title}</title>
-  <script>window.GAIA_VERSION = "4.3.12";</script>
+  <script>
+    window.GAIA_VERSION = "4.3.12";
+    // Point to the local icons sprite downloaded by the CLI
+    window.gaiaIconBase = function() {{ return 'assets/icons.svg'; }};
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="https://mbtiongson.github.io/gaia-skill-tree/css/styles.css">
-  <link rel="stylesheet" href="https://mbtiongson.github.io/gaia-skill-tree/css/plaque.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/plaque.css">
+  <link rel="stylesheet" href="css/alpha-rail.css">
   <style>
-    body {{ margin: 0; overflow: hidden; background: #020617; }}
-    #hero {{ height: 100vh; width: 100vw; position: relative; }}
+    body {{ margin: 0; overflow: hidden; background: #020617; color: #fff; font-family: system-ui, sans-serif; }}
+    #hero {{ height: 100vh; width: 100vw; position: relative; z-index: 1; }}
+    #hero.hero-graph-fullscreen {{ position: fixed; inset: 0; z-index: 100; }}
     canvas {{ display: block; width: 100%; height: 100%; outline: none; }}
     [data-graph-trigger] {{ display: none; }}
+    /* Force visibility of HUD elements which might be hidden by default */
+    .graph-search-wrap, .graph-legend, .graph-fullscreen-overlay {{ display: flex !important; }}
   </style>
 </head>
 <body class="home-page">
-  <section id="hero">
+  <section id="hero" class="hero-graph-fullscreen">
     <canvas id="canvas3d"></canvas>
-    <div class="hero-glass-blur"></div>
-    <div class="hero-content"></div>
-    <button type="button" data-graph-trigger id="graphTrigger"></button>
+    <div class="hero-glass-blur" style="display:none"></div>
+    <div class="hero-content" style="display:none"></div>
+    <button type="button" data-graph-trigger id="graphTrigger" style="display:none"></button>
   </section>
 
   <script type="application/json" id="gaia-graph-data">{_html_json(graph)}</script>
@@ -408,18 +416,20 @@ def render_html(
   <script>
     window.document.title = "{_display_title}";
     
-    // Mock fetch
+    // Mock fetch to serve the embedded JSON data
     const originalFetch = window.fetch;
     window.fetch = async function(resource, options) {{
       const url = typeof resource === 'string' ? resource : resource.url;
-      if (url.includes('graph/ping.json')) {{
+      console.log('Mock fetch intercepting:', url);
+      
+      if (url.includes('ping.json')) {{
         return new Response(JSON.stringify({{ ok: true }}), {{ status: 200, headers: {{ 'Content-Type': 'application/json' }} }});
       }}
-      if (url.includes('graph/gaia.json')) {{
+      if (url.includes('gaia.json')) {{
         const data = document.getElementById('gaia-graph-data').textContent;
         return new Response(data, {{ status: 200, headers: {{ 'Content-Type': 'application/json' }} }});
       }}
-      if (url.includes('named/index.json')) {{
+      if (url.includes('named/index.json') || url.includes('index.json')) {{
         const data = document.getElementById('gaia-named-skills').textContent;
         return new Response(data, {{ status: 200, headers: {{ 'Content-Type': 'application/json' }} }});
       }}
@@ -427,14 +437,25 @@ def render_html(
     }};
   </script>
 
-  <script src="https://mbtiongson.github.io/gaia-skill-tree/js/icons.js"></script>
-  <script src="https://mbtiongson.github.io/gaia-skill-tree/js/skill-graph.js"></script>
+  <script src="js/icons.js"></script>
+  <script src="js/atlas-helpers.js"></script>
+  <script src="js/rank-badge.js"></script>
+  <script src="js/plaque.js"></script>
+  <script src="js/skill-graph.js"></script>
   <script>
-    // Activate interactive mode
-    setTimeout(() => {{
-      const trigger = document.getElementById('graphTrigger');
-      if (trigger) trigger.click();
-    }}, 500);
+    // Force immediate activation of the fullscreen interactive mode
+    window.addEventListener('load', () => {{
+      setTimeout(() => {{
+        const trigger = document.getElementById('graphTrigger');
+        if (trigger) {{
+            console.log('Activating graph...');
+            trigger.click();
+        }}
+        // Fallback: search for any element with the attribute
+        const anyTrigger = document.querySelector('[data-graph-trigger]');
+        if (anyTrigger) anyTrigger.click();
+      }}, 500);
+    }});
   </script>
 </body>
 </html>'''
