@@ -37,13 +37,14 @@ def _format_id(sid: str) -> str:
     return f"/{sid}"
 
 
-def select_skill(skills: list[dict], prompt: str = "Select a skill:", disabled_ids: list[str] | None = None) -> Optional[str]:
+def select_skill(skills: list[dict], prompt: str = "Select a skill:", disabled_ids: list[str] | None = None, username: str | None = None) -> Optional[str]:
     """Arrow-key skill picker. Returns skill ID or None if cancelled/unavailable.
 
     Args:
         skills: List of skill dicts with at least 'id', optionally 'type', 'level', 'description'
         prompt: The prompt message to display
         disabled_ids: List of skill IDs to grey out and disable
+        username: The current gaia user to identify origin skills
 
     Returns:
         Selected skill ID string, or None if cancelled or non-interactive
@@ -60,23 +61,26 @@ def select_skill(skills: list[dict], prompt: str = "Select a skill:", disabled_i
         sid = s.get("id", "unknown")
         level = s.get("level", "?")
         desc = s.get("description", "")[:45]
-        
+
         # Determine prefix
         skill_type = s.get("type", "basic")
         is_local = s.get("local", False)
         is_origin = s.get("origin", False)
-        
+
         prefix = "[CUSTOM]" if is_local else "[STARLESS]"
         if is_origin:
             prefix = "[ORIGIN]"
         elif skill_type in ("basic", "extra", "ultimate"):
             # If it has a contributor or is named
-            if '/' in sid.lstrip('/'):
-                 prefix = "[NAMED]"
-        
+            stripped_sid = sid.lstrip("/")
+            if "/" in stripped_sid:
+                prefix = "[NAMED]"
+                # If named after the current user, it's an ORIGIN scaffold
+                if username and stripped_sid.startswith(username + "/"):
+                    prefix = "[ORIGIN]"
+
         display_id = _format_id(sid)
         title = f"{prefix} {display_id}  [{level}]  {desc}"
-        
         is_disabled = sid in disabled_set
         choices.append(questionary.Choice(
             title=title, 
@@ -135,12 +139,13 @@ def select_fusion_candidate(candidates: list[dict], prompt: str = "Select fusion
     return result
 
 
-def select_multiple_skills(skills: list[dict], prompt: str = "Select skills to combine:") -> list[str]:
+def select_multiple_skills(skills: list[dict], prompt: str = "Select skills to combine:", username: str | None = None) -> list[str]:
     """Multi-select checkbox skill picker. Returns list of selected skill IDs.
 
     Args:
         skills: List of skill dicts with at least 'id', optionally 'type', 'level', 'description'
         prompt: The prompt message to display
+        username: The current gaia user to identify origin skills
 
     Returns:
         List of selected skill ID strings, or empty list if cancelled or non-interactive
@@ -156,17 +161,21 @@ def select_multiple_skills(skills: list[dict], prompt: str = "Select skills to c
         sid = s.get("id", "unknown")
         level = s.get("level", "?")
         desc = s.get("description", "")[:45]
-        
+
         skill_type = s.get("type", "basic")
         is_local = s.get("local", False)
         is_origin = s.get("origin", False)
-        
+
         prefix = "[CUSTOM]" if is_local else "[STARLESS]"
         if is_origin:
             prefix = "[ORIGIN]"
         elif skill_type in ("basic", "extra", "ultimate"):
-            if '/' in sid.lstrip('/'):
-                 prefix = "[NAMED]"
+            stripped_sid = sid.lstrip("/")
+            if "/" in stripped_sid:
+                prefix = "[NAMED]"
+                # If named after the current user, it's an ORIGIN scaffold
+                if username and stripped_sid.startswith(username + "/"):
+                    prefix = "[ORIGIN]"
 
         display_id = _format_id(sid)
         title = f"{prefix} {display_id}  [{level}]  {desc}"
