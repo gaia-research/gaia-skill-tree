@@ -20,7 +20,8 @@
       "Bash(cp /tmp/main_restored.py /Users/marcotiongson/Documents/gaia-skill-tree/src/gaia_cli/main.py)",
       "Bash(git commit -m 'refactor: reorganize help layout — move '\\\\''gaia'\\\\'' to end of Getting started, rename to Daily commands *)",
       "Bash(python3 -c \"import sys; sys.path.insert\\(0, '/Users/marcotiongson/Documents/gaia-skill-tree/src'\\); from gaia_cli.formatting import RANK_COLORS, _fg, _reset, _bold, C1=None; print\\(RANK_COLORS\\)\")",
-      "Bash(python3 *)"
+      "Bash(python3 *)",
+      "Bash(python *)"
     ]
   },
   "outputStyle": "default"

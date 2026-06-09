@@ -1153,7 +1153,8 @@ def appraise_command(args):
                 "level": s.get("level", "0★"),
                 "description": s.get("description", ""),
                 "local": False,
-                "origin": ctx.is_origin(s["id"]),
+                "origin": False,
+                "named_ref": None,
             })
         
         picked = select_skill(all_skills, "Select a skill to appraise:", username=username)
@@ -1812,6 +1813,7 @@ def fuse_command(args):
                                 "description": s.get("description", ""),
                                 "local": False,
                                 "origin": ctx.is_origin(sid),
+                                "named_ref": ctx.named_ref(sid),
                             }
                         )
 
@@ -1829,6 +1831,7 @@ def fuse_command(args):
                                     "description": sinfo.get("description", ""),
                                     "local": True,
                                     "origin": ctx.is_origin(sid),
+                                    "named_ref": ctx.named_ref(sid),
                                 }
                             )
 
