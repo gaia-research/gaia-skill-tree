@@ -60,6 +60,9 @@ def _load_named_lookup(registry_path):
     result = {}
     for ref, entries in index.get("buckets", {}).items():
         if entries:
+            for e in entries:
+                if e.get("id"):
+                    result[e["id"]] = e
             origin = next((e for e in entries if e.get("origin")), entries[0])
             result[ref] = origin
     return result
@@ -69,7 +72,7 @@ _SKILL_MD_CANDIDATES = ("skill.md", "SKILL.md", "README.md", "readme.md")
 
 
 def _iter_manifest_refs(registry_path):
-    """Yield (generic_ref, entry) for each installed skill with a resolved genericSkillRef."""
+    """Yield (ref, entry) for each installed skill. Ref can be genericSkillRef or named ID."""
     manifest_path = os.path.join(".gaia", "install-manifest.json")
     if not os.path.exists(manifest_path):
         return
@@ -78,6 +81,9 @@ def _iter_manifest_refs(registry_path):
 
     for entry in manifest.get("installed", []):
         sid = entry.get("id", "")
+        if sid:
+            yield sid, entry
+
         md_path = None
 
         # Modern manifests: localPath points to the installed/symlinked dir
@@ -145,6 +151,8 @@ def _load_local_lookup(registry_path):
 
 
 def _is_named(skill_id, named_by_ref, local_by_ref):
+    if "/" in skill_id and not skill_id.startswith("/"):
+        return True
     bare = skill_id.lstrip('/')
     return skill_id in named_by_ref or skill_id in local_by_ref or bare in named_by_ref or bare in local_by_ref
 
@@ -203,10 +211,11 @@ def _color_entry(symbol, plain_label, tier, is_named, level, current_user=None, 
         
         return f"{bold()}{fg(*COLOR_CONTRIBUTOR)}{symbol} {plain_label}{reset()}"
 
-    # Priority 3: Starless
-    if not is_fused and not is_custom:
-        slate_blue = (148, 163, 184)
-        return f"{fg(*slate_blue)}{symbol} {plain_label}{reset()}"
+    # Priority 3: Starless Generic
+    if not is_fused and not is_custom and not is_named_display:
+        if level == "0★" or level == "?":
+            slate_blue = (148, 163, 184)
+            return f"{fg(*slate_blue)}{symbol} {plain_label}{reset()}"
 
     # Priority 4: Fused custom
     if is_fused:
@@ -218,6 +227,25 @@ def _color_entry(symbol, plain_label, tier, is_named, level, current_user=None, 
         return f"{fg(*COLOR_LOCAL_USER)}{symbol} {plain_label}{reset()}"
 
     return f"{fg(*rc)}{symbol} {plain_label}{reset()}"
+
+
+def _render_legend():
+    from gaia_cli.cardRenderer import fg, reset, bold, COLOR_CONTRIBUTOR, COLOR_LOCAL_USER, RANK_COLORS, _use_color
+    if not _use_color():
+        return
+
+    slate_blue = (148, 163, 184)
+    
+    print("  " + f"{fg(*slate_blue)}○ starless{reset()}  " +
+          f"{bold()}{fg(*COLOR_CONTRIBUTOR)}○ named{reset()}  " +
+          f"{fg(*COLOR_LOCAL_USER)}○ custom{reset()}")
+    
+    ranks = []
+    for r in ["1★", "2★", "3★", "4★", "5★", "6★"]:
+        color = RANK_COLORS.get(r, slate_blue)
+        ranks.append(f"{fg(*color)}[{r}]{reset()}")
+    print("  " + " ".join(ranks))
+    print()
 
 
 def _dim(text):
