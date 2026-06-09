@@ -818,19 +818,6 @@ def scan_command(args):
             print_group("generic", generic_group)
             print_group("other", other_group)
 
-            if other_group:
-                pass
-
-                # Run gaia fuse tip in slate blue
-                # if _use_color():
-                #     slate_blue = (106, 90, 205)
-                #     print(
-                #         f"{_fg(*slate_blue)}{_bold()}Run gaia fuse:{_reset()} {_fg(*slate_blue)}Have skills you want to fuse? Run `gaia fuse` to combine them into a new custom path.{_reset()}"
-                #     )
-                # else:
-                #     print(
-                #         "Run gaia fuse: Have skills you want to fuse? Run `gaia fuse` to combine them into a new custom path."
-                #     )
         # Persist the custom state mapping
         os.makedirs(".gaia", exist_ok=True)
         custom_state_path = ".gaia/custom_state.json"
@@ -1131,7 +1118,7 @@ def appraise_command(args):
     if not skill_id:
         # Try interactive picker first
         all_skills = list(skill_map.values())
-        picked = select_skill(all_skills, "Select a skill to appraise:")
+        picked = select_skill(all_skills, "Select a skill to appraise:", username=username)
         if picked:
             skill_id = picked
         elif tree and tree.get("unlockedSkills"):
@@ -1756,6 +1743,7 @@ def fuse_command(args):
                 selected = select_multiple_skills(
                     selector_choices,
                     f"Select skills to combine into /{target if target else '???'}:",
+                    username=username,
                 )
                 if not selected:
                     continue  # Back to menu
@@ -1808,6 +1796,7 @@ def fuse_command(args):
                         target_candidates,
                         "Select target skill to reach:",
                         disabled_ids=selected,
+                        username=username,
                     )
                 if not target:
                     continue  # Back to menu
