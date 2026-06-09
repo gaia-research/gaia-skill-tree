@@ -17,7 +17,8 @@
       "Bash(gaia *)",
       "Bash(git worktree *)",
       "Bash(git show *)",
-      "Bash(cp /tmp/main_restored.py /Users/marcotiongson/Documents/gaia-skill-tree/src/gaia_cli/main.py)"
+      "Bash(cp /tmp/main_restored.py /Users/marcotiongson/Documents/gaia-skill-tree/src/gaia_cli/main.py)",
+      "Bash(git commit -m 'refactor: reorganize help layout — move '\\\\''gaia'\\\\'' to end of Getting started, rename to Daily commands *)"
     ]
   },
   "outputStyle": "default"
