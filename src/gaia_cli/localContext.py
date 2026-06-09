@@ -25,6 +25,7 @@ class LocalContext:
     owned_ids: set[str] = field(default_factory=set)
     detected_ids: set[str] = field(default_factory=set)
     novel_ids: set[str] = field(default_factory=set)
+    origin_ids: set[str] = field(default_factory=set)  # IDs that carry the [ORIGIN] label
     named_map: dict[str, str] = field(
         default_factory=dict
     )  # generic_skill_id -> "contributor/name"
@@ -54,7 +55,7 @@ class LocalContext:
                 for s in tree_data.get("unlockedSkills", [])
                 if s.get("skillId")
             }
-        
+
         # Load canon graph metadata (for type symbols etc)
         graph_path = registry_graph_path(registry_path)
         graph_data = None
@@ -89,11 +90,26 @@ class LocalContext:
                     skill_map[sid] = skill
                     canon_ids.add(sid)
 
+        # Load named skills index to identify origins
+        origin_ids = set()
+        from gaia_cli.registry import named_skills_index_path
+        idx_path = named_skills_index_path(registry_path)
+        if os.path.exists(idx_path):
+            try:
+                with open(idx_path, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                    for bucket, items in data.get('buckets', {}).items():
+                        for item in items:
+                            if item.get('origin'):
+                                origin_ids.add(item['id'])
+            except Exception:
+                pass
+
         # Build named_map: local-first merge of registry, agent dirs, and manifest
         named_map = _build_local_first_map(
             registry_path, list(skill_map.values()), username, global_search=global_search
         )
-        
+
         # Inject custom skills and fusions into owned_ids so they appear unlocked
         custom_state_path = os.path.join(".gaia", "custom_state.json")
         if include_scan and os.path.exists(custom_state_path):
@@ -104,6 +120,10 @@ class LocalContext:
                     for sk in cstate.get("customSkills", []):
                         mid = sk.get("mapped_to")
                         cid = sk.get("id")
+                        mtype = sk.get("match_type")
+                        if mtype == "origin":
+                            origin_ids.add(cid)
+
                         if mid:
                             owned_ids.add(mid)
                             if username:
@@ -112,7 +132,6 @@ class LocalContext:
                             owned_ids.add(cid)
                             if username and cid not in named_map:
                                 named_map[cid] = f"{username}/{cid}"
-                    
                     # 2. Custom fusions (intentional combinations)
                     fusions = cstate.get("customFusions", {})
                     for target, sources in fusions.items():
