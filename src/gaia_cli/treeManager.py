@@ -12,6 +12,16 @@ _COLOR_NAMED = (239, 68, 68)
 _GRAD_GOLD = (245, 180, 30)
 _GRAD_RED = (220, 38, 38)
 
+# Rainbow stops for 6★ (Blue -> Purple -> Gold -> Red -> Purple -> Green)
+_RAINBOW_STOPS = [
+    (56, 189, 248),
+    (167, 139, 250),
+    (245, 158, 11),
+    (239, 68, 68),
+    (192, 132, 252),
+    (52, 211, 153)
+]
+
 
 def _check_username(username: str) -> None:
     if not username or not _USERNAME_RE.match(username):
