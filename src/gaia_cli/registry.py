@@ -79,6 +79,10 @@ def promotion_candidates_path(registry_path) -> str:
     return os.path.join(generated_output_dir(registry_path), "promotion-candidates.json")
 
 
+def scan_state_path(registry_path) -> str:
+    return os.path.join(generated_output_dir(registry_path), "scan-state.json")
+
+
 def embeddings_path(registry_path) -> str:
     return os.path.join(registry_dir(registry_path), "embeddings.json")
 

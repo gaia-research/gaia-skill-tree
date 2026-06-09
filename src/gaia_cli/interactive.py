@@ -37,6 +37,29 @@ def fuse_style():
     ])
 
 
+def push_style():
+    """Questionary style for gaia push — label badges invert on highlight."""
+    import questionary
+    return questionary.Style([
+        ("pointer",     "fg:#86efac bold"),
+        ("highlighted", "fg:#86efac"),
+        ("selected",    "fg:#86efac bold"),
+        ("answer",      "fg:#86efac bold"),
+        ("separator",   "fg:#4b5563"),
+        ("text",        ""),
+        ("label-origin",   "fg:#fbbf24 bold"),
+        ("label-named",    "fg:#ef4444 bold"),
+        ("label-starless", "fg:#94a3b8"),
+        ("label-custom",   "fg:#86efac bold"),
+        ("label-fusion",   "fg:#c084fc bold"),
+        ("highlighted label-origin",   "bg:#fbbf24 fg:#000000 bold"),
+        ("highlighted label-named",    "bg:#ef4444 fg:#000000 bold"),
+        ("highlighted label-starless", "bg:#94a3b8 fg:#000000"),
+        ("highlighted label-custom",   "bg:#86efac fg:#000000 bold"),
+        ("highlighted label-fusion",   "bg:#c084fc fg:#000000 bold"),
+    ])
+
+
 def _has_interactive() -> bool:
     """Check if interactive mode is available and appropriate."""
     if not sys.stdin.isatty():
@@ -84,7 +107,7 @@ def _fuse_sort_key(skill: dict):
         return (1, sid)
 
 
-def _fuse_skill_title(skill: dict, username: str | None = None) -> list[tuple[str, str]]:
+def _fuse_skill_title(skill: dict, username: str | None = None, selected: bool = False) -> list[tuple[str, str]]:
     """Return prompt_toolkit FormattedText fragments for a skill row in fuse pickers.
 
     Color roles:
@@ -92,6 +115,8 @@ def _fuse_skill_title(skill: dict, username: str | None = None) -> list[tuple[st
       [STARLESS] → slate label + rank-colored ID + description
       [NAMED]    → honor-red label + red contrib / rank-colored nickname + description
       [ORIGIN]   → apex-gold label + red contrib / rank-colored nickname + description
+
+    When selected=True the label badge inverts (bg:color fg:#000000).
     """
     from gaia_cli.formatting import (
         COLOR_CONTRIBUTOR, COLOR_LOCAL_USER, COLOR_GREY,
@@ -113,6 +138,11 @@ def _fuse_skill_title(skill: dict, username: str | None = None) -> list[tuple[st
     slate = _rgb_to_hex(COLOR_GREY)            # #94a3b8
     dim = "#6b7280"
 
+    def _badge(color: str, text: str, bold: bool = True) -> tuple[str, str]:
+        if selected:
+            return (f"bg:{color} fg:#000000" + (" bold" if bold else ""), text)
+        return (f"fg:{color}" + (" bold" if bold else ""), text)
+
     contrib, nickname = "", ""
     if named_ref and "/" in named_ref:
         contrib, nickname = named_ref.split("/", 1)
@@ -126,7 +156,7 @@ def _fuse_skill_title(skill: dict, username: str | None = None) -> list[tuple[st
 
     if is_local:
         parts += [
-            (f"fg:{green} bold", "[CUSTOM]"), ("", " "),
+            _badge(green, "[CUSTOM]"), ("", " "),
             (f"fg:{green}", f"/{stripped}"),
             ("", "  "),
             (f"fg:{rank_color}", f"[{level}]"),
@@ -137,7 +167,7 @@ def _fuse_skill_title(skill: dict, username: str | None = None) -> list[tuple[st
     elif is_origin and contrib:
         # Apex-gold label, honor-red contributor handle
         parts += [
-            (f"fg:{gold} bold", "[ORIGIN]"), ("", " "),
+            _badge(gold, "[ORIGIN]"), ("", " "),
             (f"fg:{red}", contrib), ("", "/"), (f"fg:{rank_color}", nickname),
             ("", "  "), (f"fg:{rank_color}", f"[{level}]"),
         ]
@@ -147,7 +177,7 @@ def _fuse_skill_title(skill: dict, username: str | None = None) -> list[tuple[st
     elif contrib:
         # Honor-red label, honor-red contributor handle
         parts += [
-            (f"fg:{red} bold", "[NAMED]"), ("", " "),
+            _badge(red, "[NAMED]"), ("", " "),
             (f"fg:{red}", contrib), ("", "/"), (f"fg:{rank_color}", nickname),
             ("", "  "), (f"fg:{rank_color}", f"[{level}]"),
         ]
@@ -157,7 +187,7 @@ def _fuse_skill_title(skill: dict, username: str | None = None) -> list[tuple[st
     else:
         # Starless — show description prominently since the slug alone is opaque
         parts += [
-            (f"fg:{slate}", "[STARLESS]"), ("", " "),
+            _badge(slate, "[STARLESS]", bold=False), ("", " "),
             (f"fg:{rank_color}", f"/{stripped}"),
             ("", "  "), (f"fg:{rank_color}", f"[{level}]"),
         ]
@@ -204,9 +234,10 @@ def _pt_select(choices: list[dict], prompt: str) -> Optional[str]:
         for i, c in enumerate(choices):
             if i == cursor_nav[0]:
                 frags.append((f"fg:{PURPLE} bold", " › "))
+                frags.extend(c.get("title_frags_selected", c["title_frags"]))
             else:
                 frags.append(("", "   "))
-            frags.extend(c["title_frags"])
+                frags.extend(c["title_frags"])
             frags.append(("", "\n"))
         return frags
 
@@ -297,13 +328,17 @@ def _pt_multiselect(choices: list[dict], prompt: str) -> list[str]:
             ("", "\n"),
         ]
         for i, c in enumerate(choices):
-            arrow = " › " if i == cursor[0] else "   "
-            pointer_style = f"fg:{PURPLE} bold" if i == cursor[0] else ""
+            is_cursor = i == cursor[0]
+            arrow = " › " if is_cursor else "   "
+            pointer_style = f"fg:{PURPLE} bold" if is_cursor else ""
             check_style = f"fg:{PURPLE}" if i in checked else f"fg:{DIM}"
             check_sym = "◉ " if i in checked else "○ "
             frags.append((pointer_style, arrow))
             frags.append((check_style, check_sym))
-            frags.extend(c["title_frags"])
+            if is_cursor:
+                frags.extend(c.get("title_frags_selected", c["title_frags"]))
+            else:
+                frags.extend(c["title_frags"])
             frags.append(("", "\n"))
         return frags
 
@@ -388,9 +423,9 @@ def select_skill(skills: list[dict], prompt: str = "Select a skill:", disabled_i
         sid = s.get("id", "unknown")
         s_copy = dict(s)
         s_copy["_disabled"] = sid in disabled_set
-        title_frags = _fuse_skill_title(s_copy, username)
         choices.append({
-            "title_frags": title_frags,
+            "title_frags": _fuse_skill_title(s_copy, username, selected=False),
+            "title_frags_selected": _fuse_skill_title(s_copy, username, selected=True),
             "value": sid,
             "_disabled": sid in disabled_set,
         })
@@ -461,9 +496,9 @@ def select_multiple_skills(skills: list[dict], prompt: str = "Select skills to c
     choices = []
     for s in skills_sorted:
         sid = s.get("id", "unknown")
-        title_frags = _fuse_skill_title(s, username)
         choices.append({
-            "title_frags": title_frags,
+            "title_frags": _fuse_skill_title(s, username, selected=False),
+            "title_frags_selected": _fuse_skill_title(s, username, selected=True),
             "value": sid,
         })
 
@@ -580,10 +615,9 @@ def select_push_batch(batch: dict, prompt: str = "Select items to push to regist
         for f in fusions:
             res = f.get("candidateResult", "?")
             srcs = f.get("detectedSkills", [])
-
             prereq_str = " + ".join(_format_id(s) for s in srcs)
             display_res = _format_id(res)
-            title = f"[FUSION] {prereq_str} → {display_res}"
+            title = [("class:label-fusion", "[FUSION]"), ("", f" {prereq_str} → {display_res}")]
             choices.append(questionary.Choice(title=title, value=f"fusion:{res}", checked=True))
 
     # 2. Custom Skills
@@ -592,7 +626,7 @@ def select_push_batch(batch: dict, prompt: str = "Select items to push to regist
         choices.append(questionary.Separator("--- Custom skills -> Review ---"))
         for p in proposed:
             sid = p.get("id", "?")
-            title = f"[CUSTOM] {_format_id(sid)}"
+            title = [("class:label-custom", "[CUSTOM]"), ("", f" {_format_id(sid)}")]
             choices.append(questionary.Choice(title=title, value=f"proposed:{sid}", checked=True))
 
     # 3. Starless (Known/Generic)
@@ -603,9 +637,10 @@ def select_push_batch(batch: dict, prompt: str = "Select items to push to regist
             sid = k.get("skillId", "?")
             local_id = k.get("localId")
             if local_id and local_id != sid:
-                title = f"[STARLESS] {_format_id(local_id)} -> {_format_id(sid)}"
+                rest = f" {_format_id(local_id)} -> {_format_id(sid)}"
             else:
-                title = f"[STARLESS] {_format_id(sid)}"
+                rest = f" {_format_id(sid)}"
+            title = [("class:label-starless", "[STARLESS]"), ("", rest)]
             choices.append(questionary.Choice(title=title, value=f"known:{sid}", checked=True))
 
     if not choices:
@@ -614,7 +649,7 @@ def select_push_batch(batch: dict, prompt: str = "Select items to push to regist
     result = questionary.checkbox(
         full_prompt,
         choices=choices,
-        style=questionary_style(),
+        style=push_style(),
     ).ask()
     return result or []
 

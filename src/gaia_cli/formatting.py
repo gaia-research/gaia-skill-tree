@@ -136,6 +136,7 @@ TYPE_SYMBOLS = {"basic": "○", "extra": "◇", "unique": "◉", "ultimate": "�
 COLOR_CONTRIBUTOR = (239, 68, 68)      # #ef4444 -- red for named contributors
 COLOR_LOCAL_USER  = (134, 239, 172)    # #86efac -- bright green for local/user skills
 COLOR_GREY        = (148, 163, 184)    # #94a3b8 -- slate grey for dev commands
+COLOR_FUSION      = (192, 132, 252)    # #c084fc -- fuse purple
 
 # Harness/Environment brand colors
 HARNESS_COLORS = {

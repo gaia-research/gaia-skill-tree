@@ -679,6 +679,20 @@ def scan_command(args):
                 match_type = "exact_generic"
                 mapped_score = 1.0
 
+            # Resolve skill type from matched source
+            if match_type == "origin":
+                skill_type = next(
+                    (o.get("type", "basic") for o in origin_skills if o["id"] == canon_id), "basic"
+                )
+            elif match_type == "named":
+                skill_type = next(
+                    (n.get("type", "basic") for n in named_skills if n["id"] == canon_id), "basic"
+                )
+            elif match_type == "exact_generic":
+                skill_type = smap_for_match.get(canon_id, {}).get("type", "basic")
+            else:
+                skill_type = "basic"
+
             custom_state_skills.append(
                 {
                     "id": cid,
@@ -689,6 +703,7 @@ def scan_command(args):
                     "mapped_score": mapped_score,
                     "match_type": match_type,
                     "canon_level": canon_level,
+                    "skill_type": skill_type,
                     "prerequisites": sk.get("prerequisites", []),
                 }
             )
@@ -862,6 +877,29 @@ def scan_command(args):
 
         with open(custom_state_path, "w", encoding="utf-8") as f:
             json.dump(full_custom_state, f, indent=2)
+
+        # Write scan-state.json — reusable output for fuse and other commands
+        from gaia_cli.registry import scan_state_path as _scan_state_path
+        _ss_out = _scan_state_path(args.registry)
+        os.makedirs(os.path.dirname(_ss_out), exist_ok=True)
+        _scan_state = {
+            "skills": [
+                {
+                    "id": sk["mapped_to"],
+                    "localId": sk["id"].lstrip("/"),
+                    "level": sk["canon_level"],
+                    "type": sk.get("skill_type", "basic"),
+                    "description": sk.get("description", ""),
+                    "local": sk.get("match_type") is None and sk["mapped_score"] == 0.0,
+                    "origin": sk.get("match_type") == "origin",
+                    "namedRef": sk["mapped_to"] if sk.get("match_type") in ("origin", "named") else None,
+                    "matchType": sk.get("match_type"),
+                }
+                for sk in custom_state_skills
+            ]
+        }
+        with open(_ss_out, "w", encoding="utf-8") as f:
+            json.dump(_scan_state, f, indent=2)
 
     # Refresh context to include newly mapped custom skills for fusions/paths
     ctx = LocalContext.load(
@@ -1760,7 +1798,7 @@ def fuse_command(args):
                 )
                 all_ids = sorted(list(ctx.owned_ids | ctx.detected_ids))
 
-                # Try to get labels for better UX
+                # Load generic graph for fallback metadata
                 graph_data = {}
                 graph_p = registry_graph_path(registry_path)
                 if os.path.exists(graph_p):
@@ -1768,18 +1806,34 @@ def fuse_command(args):
                         graph_data = json.load(f)
                 skill_info_map = {s["id"]: s for s in graph_data.get("skills", [])}
 
+                # Load scan-state.json (written by `gaia scan`) — authoritative
+                # source for named/origin level, type, and description.
+                from gaia_cli.registry import scan_state_path as _ssp
+                scan_map = {}
+                _ss_path = _ssp(registry_path)
+                if os.path.exists(_ss_path):
+                    try:
+                        with open(_ss_path, "r", encoding="utf-8") as _f:
+                            for entry in json.load(_f).get("skills", []):
+                                scan_map[entry["id"]] = entry
+                                if entry.get("localId"):
+                                    scan_map["/" + entry["localId"]] = entry
+                    except Exception:
+                        pass
+
                 selector_choices = []
                 for sid in all_ids:
+                    ss = scan_map.get(sid) or {}
                     sinfo = skill_info_map.get(sid, {})
                     selector_choices.append(
                         {
                             "id": sid,
-                            "type": sinfo.get("type", "basic"),
-                            "level": sinfo.get("level", "0★"),
-                            "description": sinfo.get("description", ""),
-                            "local": sid in ctx.novel_ids,
-                            "origin": ctx.is_origin(sid),
-                            "named_ref": ctx.named_ref(sid),
+                            "type": ss.get("type") or sinfo.get("type", "basic"),
+                            "level": ss.get("level") or sinfo.get("level", "0★"),
+                            "description": ss.get("description") or sinfo.get("description", ""),
+                            "local": ss.get("local", sid in ctx.novel_ids),
+                            "origin": ss.get("origin", ctx.is_origin(sid)),
+                            "named_ref": ss.get("namedRef") or ctx.named_ref(sid),
                         }
                     )
 
@@ -1794,8 +1848,10 @@ def fuse_command(args):
                 # Calculate max star count from prerequisites
                 max_stars = 0
                 for sid in selected:
+                    ss = scan_map.get(sid) or {}
                     sinfo = skill_info_map.get(sid, {})
-                    max_stars = max(max_stars, level_num(sinfo.get("level", "0★")))
+                    lvl = ss.get("level") or sinfo.get("level", "0★")
+                    max_stars = max(max_stars, level_num(lvl))
                 max_stars_str = f"{max_stars}★"
 
                 if not target:
@@ -1805,15 +1861,16 @@ def fuse_command(args):
                     # 1. Add canonical skills from graph
                     for s in graph_data.get("skills", []):
                         sid = s["id"]
+                        ss = scan_map.get(sid) or {}
                         target_candidates.append(
                             {
                                 "id": sid,
-                                "type": s.get("type", "basic"),
-                                "level": s.get("level", "0★"),
-                                "description": s.get("description", ""),
+                                "type": ss.get("type") or s.get("type", "basic"),
+                                "level": ss.get("level") or s.get("level", "0★"),
+                                "description": ss.get("description") or s.get("description", ""),
                                 "local": False,
-                                "origin": ctx.is_origin(sid),
-                                "named_ref": ctx.named_ref(sid),
+                                "origin": ss.get("origin", ctx.is_origin(sid)),
+                                "named_ref": ss.get("namedRef") or ctx.named_ref(sid),
                             }
                         )
 
@@ -1821,17 +1878,17 @@ def fuse_command(args):
                     canon_ids = {s["id"] for s in target_candidates}
                     for sid in ctx.novel_ids:
                         if sid not in canon_ids:
-                            # Try to find info from scan results
+                            ss = scan_map.get(sid) or scan_map.get("/" + sid.lstrip("/")) or {}
                             sinfo = skill_info_map.get(sid, {})
                             target_candidates.append(
                                 {
                                     "id": sid,
-                                    "type": sinfo.get("type", "basic"),
-                                    "level": sinfo.get("level", "0★"),
-                                    "description": sinfo.get("description", ""),
+                                    "type": ss.get("type") or sinfo.get("type", "basic"),
+                                    "level": ss.get("level") or sinfo.get("level", "0★"),
+                                    "description": ss.get("description") or sinfo.get("description", ""),
                                     "local": True,
-                                    "origin": ctx.is_origin(sid),
-                                    "named_ref": ctx.named_ref(sid),
+                                    "origin": False,
+                                    "named_ref": ss.get("namedRef") or ctx.named_ref(sid),
                                 }
                             )
 
