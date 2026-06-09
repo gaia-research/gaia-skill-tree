@@ -174,16 +174,16 @@ def _color_entry(symbol, plain_label, tier, is_named, level, current_user=None, 
     if is_custom:
         return f"{prefix}{fg(*COLOR_LOCAL_USER)}{symbol} {plain_label}{reset()}"
 
+    # Fallback to 0★ for generic un-leveled skills
+    rc = RANK_COLORS.get(level, RANK_COLORS.get("0★", (148, 163, 184)))
+
     if is_named:
         if level in _TRANSCENDENT_LEVELS:
             colored = _gradient_text(f"{symbol} {plain_label}", _GRAD_GOLD, _GRAD_RED)
             return f"{prefix}{bold()}{colored}{reset()}"
         
-        # Named skills format: /contributor/nickname star
-        rc = RANK_COLORS.get(level, (148, 163, 184))
-        
-        if plain_label.startswith("/") and plain_label.count("/") >= 2:
-            parts = plain_label[1:].split("/", 1)
+        if "/" in plain_label and not plain_label.startswith("/"):
+            parts = plain_label.split("/", 1)
             handle = parts[0]
             rest = parts[1]
             
@@ -196,13 +196,12 @@ def _color_entry(symbol, plain_label, tier, is_named, level, current_user=None, 
                 nickname, star_part = nickname.rsplit(" ", 1)
             
             # Reassemble with colors
-            return f"{prefix}{fg(*handle_color)}{symbol} /{handle}{reset()}/{fg(*rc)}{nickname}{reset()}{f' {fg(*rc)}{star_part}{reset()}' if star_part else ''}"
+            return f"{prefix}{fg(*handle_color)}{symbol} {handle}{reset()}/{fg(*rc)}{nickname}{reset()}{f' {fg(*rc)}{star_part}{reset()}' if star_part else ''}"
         
         # Fallback for other formats
         return f"{prefix}{bold()}{fg(*COLOR_CONTRIBUTOR)}{symbol} {plain_label}{reset()}"
     
     # Canon skills: rank color for entire label
-    rc = RANK_COLORS.get(level, (148, 163, 184))
     return f"{prefix}{fg(*rc)}{symbol} {plain_label}{reset()}"
 
 
@@ -233,36 +232,177 @@ def _plain_label(skill_id, skill_map, named_by_ref, local_by_ref, mode, canon=Fa
     
     specific = local or named
     if specific:
+        level = specific.get("level", level)
+        star = f" {level}" if level and level != "0★" else ""
         full_id = specific.get("id")
         if full_id:
-            # Always return full /contributor/nickname star
-            return f"/{full_id.lstrip('/')}{star}"
+            # Don't prepend slash if it's a contributor handle (no leading slash natively)
+            if not full_id.startswith("/"):
+                return f"{full_id}{star}"
+            return f"{full_id}{star}"
 
+    if "/" in bare_skill:
+        return f"{bare_skill}{star}"
     return f"/{bare_skill}{star}"
 
 
 def _is_named(skill_id, named_by_ref, local_by_ref):
-    return skill_id in named_by_ref or skill_id in local_by_ref
+    bare = skill_id.lstrip('/')
+    return skill_id in named_by_ref or skill_id in local_by_ref or bare in named_by_ref or bare in local_by_ref
+
+
+# ─── color helpers ────────────────────────────────────────────────────────────
+
+def _gradient_text(text, start_rgb, end_rgb):
+    from gaia_cli.cardRenderer import fg, reset, _use_color
+    if not _use_color():
+        return text
+    n = max(len(text) - 1, 1)
+    parts = []
+    for i, ch in enumerate(text):
+        t = i / n
+        r = int(start_rgb[0] + t * (end_rgb[0] - start_rgb[0]))
+        g = int(start_rgb[1] + t * (end_rgb[1] - start_rgb[1]))
+        b = int(start_rgb[2] + t * (end_rgb[2] - start_rgb[2]))
+        parts.append(fg(r, g, b) + ch)
+    return "".join(parts) + reset()
+
+
+def _color_entry(symbol, plain_label, tier, is_named, level, current_user=None, is_unowned=False, is_custom=False, is_origin=False, is_fused=False):
+    from gaia_cli.cardRenderer import fg, reset, bold, _use_color, TIER_COLORS, RANK_COLORS, COLOR_CONTRIBUTOR, COLOR_LOCAL_USER, COLOR_REDACTED, REDACTED_BLOCK
+    
+    if not _use_color():
+        prefix = "/??? -> " if is_unowned else ""
+        return f"{prefix}{symbol} {plain_label}"
+        
+    if is_unowned:
+        rc = RANK_COLORS.get(level, RANK_COLORS.get("0★", (148, 163, 184)))
+        return f"{fg(*rc)}{symbol} {plain_label}{reset()}"
+
+    rc = RANK_COLORS.get(level, RANK_COLORS.get("0★", (148, 163, 184)))
+
+    # Priority 1 & 2: ORIGIN & Named
+    if is_origin or is_named:
+        if level in _TRANSCENDENT_LEVELS:
+            colored = _gradient_text(f"{symbol} {plain_label}", _GRAD_GOLD, _GRAD_RED)
+            return f"{bold()}{colored}{reset()}"
+        
+        if "/" in plain_label and not plain_label.startswith("/"):
+            parts = plain_label.split("/", 1)
+            handle = parts[0]
+            rest = parts[1]
+            
+            handle_color = COLOR_CONTRIBUTOR
+            
+            # Split off the star if present
+            star_part = ""
+            nickname = rest
+            if " " in nickname:
+                nickname, star_part = nickname.rsplit(" ", 1)
+            
+            return f"{fg(*handle_color)}{symbol} {handle}{reset()}/{fg(*rc)}{nickname}{reset()}{f' {fg(*rc)}{star_part}{reset()}' if star_part else ''}"
+        
+        return f"{bold()}{fg(*COLOR_CONTRIBUTOR)}{symbol} {plain_label}{reset()}"
+
+    # Priority 3: Starless
+    if not is_fused and not is_custom:
+        slate_blue = (106, 90, 205)
+        return f"{fg(*slate_blue)}{symbol} {plain_label}{reset()}"
+
+    # Priority 4: Fused custom
+    if is_fused:
+        fuse_purple = TIER_COLORS.get("extra", (192, 132, 252))
+        return f"{fg(*fuse_purple)}{symbol} {plain_label}{reset()}"
+
+    # Priority 5: Custom
+    if is_custom:
+        return f"{fg(*COLOR_LOCAL_USER)}{symbol} {plain_label}{reset()}"
+
+    return f"{fg(*rc)}{symbol} {plain_label}{reset()}"
+
+
+def _dim(text):
+    from gaia_cli.cardRenderer import _use_color
+    return f"\033[2m{text}\033[22m" if _use_color() else text
+
+
+# ─── label helpers ────────────────────────────────────────────────────────────
+
+_TYPE_SYMBOL = {"basic": "○", "extra": "◇", "ultimate": "◆"}
+
+
+def _plain_label(skill_id, skill_map, named_by_ref, local_by_ref, mode, canon=False, current_user=None):
+    level = skill_map.get(skill_id, {}).get("level", "?")
+    star = f" {level}" if level and level != "0★" else ""
+    bare_skill = skill_id.lstrip('/')
+
+    if canon:
+        return f"/{bare_skill}{star}"
+    
+    if mode == "title":
+        name = skill_map.get(skill_id, {}).get("name", bare_skill)
+        return f"{name}{star}"
+    
+    local = local_by_ref.get(skill_id) or local_by_ref.get(skill_id.lstrip('/'))
+    named = named_by_ref.get(skill_id) or named_by_ref.get(skill_id.lstrip('/'))
+    
+    specific = local or named
+    if specific:
+        level = specific.get("level", level)
+        star = f" {level}" if level and level != "0★" else ""
+        full_id = specific.get("id")
+        if full_id:
+            if not full_id.startswith("/"):
+                return f"{full_id}{star}"
+            return f"{full_id}{star}"
+
+    if "/" in bare_skill:
+        return f"{bare_skill}{star}"
+    return f"/{bare_skill}{star}"
 
 
 # ─── recursive renderer ───────────────────────────────────────────────────────
 
-def _render_subtree(skill_id, skill_map, display_ids, named_by_ref, local_by_ref, mode, prefix, is_last, seen, unlocked_ids, custom_nodes, canon=False, current_user=None):
+def _render_subtree(skill_id, skill_map, display_ids, named_by_ref, local_by_ref, mode, prefix, is_last, seen, unlocked_ids, custom_nodes, canon=False, current_user=None, fusion_nodes=None, origin_ids=None):
+    if fusion_nodes is None:
+        fusion_nodes = set()
+    if origin_ids is None:
+        origin_ids = set()
+
     skill = skill_map.get(skill_id, {})
     tier = skill.get("type", "basic")
     level = skill.get("level", "?")
-    symbol = _TYPE_SYMBOL.get(tier, "○")
     named = _is_named(skill_id, named_by_ref, local_by_ref)
     
-    is_unowned = skill_id not in unlocked_ids and skill_id not in custom_nodes
-    is_custom = skill_id in custom_nodes
+    specific = local_by_ref.get(skill_id) or local_by_ref.get(skill_id.lstrip('/')) or named_by_ref.get(skill_id) or named_by_ref.get(skill_id.lstrip('/'))
+    if specific:
+        level = specific.get("level", level)
+        if specific.get("tier"):
+            tier = specific.get("tier")
 
-    label = _plain_label(skill_id, skill_map, named_by_ref, local_by_ref, mode, canon=canon, current_user=current_user)
-    if skill_id in seen:
-        label += " (see above)"
+    symbol = _TYPE_SYMBOL.get(tier, "○")
+    
+    is_unowned = skill_id not in unlocked_ids and skill_id not in custom_nodes
+    is_custom = skill_id in custom_nodes or skill_id.lstrip('/') in custom_nodes
+    is_fused = skill_id in fusion_nodes or skill_id.lstrip('/') in fusion_nodes
+    
+    is_orig = (skill_id in origin_ids) or (skill_id.lstrip('/') in origin_ids)
+    if not is_orig:
+        if isinstance(specific, dict):
+            if specific.get("role") == "origin" or specific.get("origin") is True:
+                is_orig = True
+
+    if is_unowned:
+        label = "/???"
+        if level and level not in ("0★", "?"):
+            label += f" {level}"
+    else:
+        label = _plain_label(skill_id, skill_map, named_by_ref, local_by_ref, mode, canon=canon, current_user=current_user)
+        if skill_id in seen:
+            label += " (see above)"
         
     connector = "└── " if is_last else "├── "
-    lines = [_dim(prefix + connector) + _color_entry(symbol, label, tier, named, level, current_user=current_user, is_unowned=is_unowned, is_custom=is_custom)]
+    lines = [_dim(prefix + connector) + _color_entry(symbol, label, tier, named, level, current_user=current_user, is_unowned=is_unowned, is_custom=is_custom, is_origin=is_orig, is_fused=is_fused)]
     
     if skill_id in seen:
         return lines
@@ -282,6 +422,14 @@ def _render_subtree(skill_id, skill_map, display_ids, named_by_ref, local_by_ref
         else:
             unowned_prereqs.append(p)
             
+    def sort_key(cid):
+        tier = skill_map.get(cid, {}).get("type", "basic")
+        tier_order = {"ultimate": 0, "extra": 1, "basic": 2}
+        return (0 if (cid in custom_nodes or cid.lstrip('/') in custom_nodes) else 1, tier_order.get(tier, 3), cid)
+
+    owned_prereqs.sort(key=sort_key)
+    unowned_prereqs.sort(key=sort_key)
+
     children_to_render = []
     children_to_render.extend(owned_prereqs)
     
@@ -299,7 +447,8 @@ def _render_subtree(skill_id, skill_map, display_ids, named_by_ref, local_by_ref
         lines.extend(
             _render_subtree(
                 child_id, skill_map, display_ids, named_by_ref, local_by_ref,
-                mode, child_prefix, child_is_last, seen, unlocked_ids, custom_nodes, canon=canon, current_user=current_user
+                mode, child_prefix, child_is_last, seen, unlocked_ids, custom_nodes, canon=canon, current_user=current_user,
+                fusion_nodes=fusion_nodes, origin_ids=origin_ids
             )
         )
         
@@ -331,43 +480,44 @@ def show_tree(tree_data, graph_data=None, registry_path=".", mode="default", can
 
     unlocked_ids = {s["skillId"] for s in unlocked}
     custom_nodes = set()
+    custom_skills = []
+    fusions = {}
+    scanned_nodes = set()
+    
+    custom_state_path = os.path.join(".gaia", "custom_state.json")
+    if os.path.exists(custom_state_path):
+        try:
+            with open(custom_state_path, "r", encoding="utf-8") as f:
+                cstate = json.load(f)
+                custom_skills = cstate.get("customSkills", [])
+                fusions = cstate.get("customFusions", {})
+                for target, data in fusions.items():
+                    if isinstance(data, dict):
+                        sources = data.get("sources", [])
+                        level = data.get("level", "1★")
+                        stype = data.get("type", "extra")
+                    else:
+                        sources = data
+                        level = "1★"
+                        stype = "extra"
+                    
+                    skill_map[target] = {
+                        "id": target,
+                        "name": target,
+                        "description": "Custom Fusion",
+                        "type": stype,
+                        "level": level,
+                        "prerequisites": sources,
+                    }
+                    scanned_nodes.add(target)
+                    if target not in unlocked_ids:
+                        unlocked.append({"skillId": target})
+                        unlocked_ids.add(target)
+        except Exception:
+            pass
+
     if custom:
-        custom_state_path = os.path.join(".gaia", "custom_state.json")
-        custom_skills = []
-        scanned_nodes = set()
-        if os.path.exists(custom_state_path):
-            try:
-                with open(custom_state_path, "r", encoding="utf-8") as f:
-                    cstate = json.load(f)
-                    custom_skills = cstate.get("customSkills", [])
-                    # Fuses: target fused skill that is saved will be by default "extra skill" purple
-                    # and will be shown as the parent skill of the custom skill prerequisites.
-                    fusions = cstate.get("customFusions", {})
-                    for target, data in fusions.items():
-                        if isinstance(data, dict):
-                            sources = data.get("sources", [])
-                            level = data.get("level", "1★")
-                            stype = data.get("type", "extra")
-                        else:
-                            sources = data
-                            level = "1★"
-                            stype = "extra"
-                        
-                        skill_map[target] = {
-                            "id": target,
-                            "name": target,
-                            "description": "Custom Fusion",
-                            "type": stype,
-                            "level": level,
-                            "prerequisites": sources,
-                        }
-                        scanned_nodes.add(target)
-                        if target not in unlocked_ids:
-                            unlocked.append({"skillId": target})
-                            unlocked_ids.add(target)
-            except Exception:
-                pass
-        else:
+        if not os.path.exists(custom_state_path):
             from gaia_cli.scanner import scan_skill_mds
             local_skills = scan_skill_mds(global_search=False)
             custom_skills = [{
@@ -380,42 +530,39 @@ def show_tree(tree_data, graph_data=None, registry_path=".", mode="default", can
 
         for csk in custom_skills:
             cid = csk["id"]
-            mapped_to = csk.get("mapped_to")
-            
-            if mapped_to and mapped_to in skill_map and mapped_to != cid:
-                target = skill_map[mapped_to]
-                merged_prereqs = list(set(target.get("prerequisites", []) + csk.get("prerequisites", [])))
-                target["name"] = csk["name"]
-                target["description"] = csk["description"]
-                target["prerequisites"] = merged_prereqs
-                # Map cid to mapped_to for future lookups
-                skill_map[cid] = target
-            elif cid in skill_map:
-                skill_map[cid]["name"] = csk["name"]
-                skill_map[cid]["description"] = csk["description"]
-                skill_map[cid]["prerequisites"] = list(set(skill_map[cid].get("prerequisites", []) + csk.get("prerequisites", [])))
-            else:
-                skill_map[cid] = {
-                    "id": cid,
-                    "name": csk["name"],
-                    "description": csk["description"],
-                    "type": "basic",
-                    "level": "0★",
-                    "prerequisites": csk.get("prerequisites", []),
-                }
-
-        for csk in custom_skills:
             m_type = csk.get("match_type")
             mapped_to = csk.get("mapped_to")
-            node_id = mapped_to if (mapped_to and mapped_to in skill_map) else csk["id"]
+            
+            node_id = mapped_to if mapped_to else cid
+            
+            if node_id not in skill_map:
+                skill_map[node_id] = {
+                    "id": node_id,
+                    "name": csk.get("name", node_id),
+                    "description": csk.get("description", ""),
+                    "prerequisites": csk.get("prerequisites", []),
+                    "level": csk.get("canon_level", csk.get("level", "?")),
+                    "type": "custom" if m_type not in ("origin", "named", "generic", "exact_generic") else "basic"
+                }
+            else:
+                target = skill_map[node_id]
+                target["name"] = csk.get("name", target.get("name", ""))
+                target["level"] = csk.get("canon_level", target.get("level", "?"))
+                target["prerequisites"] = list(set(target.get("prerequisites", []) + csk.get("prerequisites", [])))
+                
+            skill_map[cid] = skill_map[node_id]
             
             scanned_nodes.add(node_id)
             
             if m_type in ("generic", "exact_generic") and mapped_to:
-                local_by_ref[mapped_to] = {"id": csk["id"]}
-            
+                local_by_ref[node_id] = {"id": cid}
+                
             if m_type not in ("origin", "named", "generic", "exact_generic"):
                 custom_nodes.add(node_id)
+                
+        for fname in fusions.keys():
+            if fname in custom_nodes:
+                custom_nodes.remove(fname)
         
         display_ids = set()
         queue = list(scanned_nodes)
@@ -449,7 +596,22 @@ def show_tree(tree_data, graph_data=None, registry_path=".", mode="default", can
 
     roots = [s for s in unlocked if s["skillId"] in display_ids and s["skillId"] not in all_prereqs]
     tier_order = {"ultimate": 0, "extra": 1, "basic": 2}
-    roots.sort(key=lambda s: (tier_order.get(skill_map.get(s["skillId"], {}).get("type", "basic"), 2), s["skillId"]))
+    roots.sort(key=lambda s: (0 if (s["skillId"] in custom_nodes or s["skillId"].lstrip('/') in custom_nodes) else 1, tier_order.get(skill_map.get(s["skillId"], {}).get("type", "basic"), 2), s["skillId"]))
+
+    # Populate fusion_nodes and origin_ids
+    fusion_nodes = {f for f in fusions.keys()} | {f.lstrip('/') for f in fusions.keys()}
+    origin_ids = set()
+    for entry in named_by_ref.values():
+        if isinstance(entry, dict) and entry.get("id"):
+            origin_ids.add(entry["id"])
+            origin_ids.add(entry["id"].lstrip('/'))
+    for csk in custom_skills:
+        if csk.get("match_type") == "origin":
+            origin_ids.add(csk["id"])
+            origin_ids.add(csk["id"].lstrip('/'))
+            if csk.get("mapped_to"):
+                origin_ids.add(csk["mapped_to"])
+                origin_ids.add(csk["mapped_to"].lstrip('/'))
 
     from gaia_cli.formatting import _fg, _reset, COLOR_CONTRIBUTOR
     # Use a direct ANSI code to ensure color even if _use_color() fails in a subshell/pipe
@@ -459,7 +621,7 @@ def show_tree(tree_data, graph_data=None, registry_path=".", mode="default", can
     for i, entry in enumerate(roots):
         sid = entry["skillId"]
         is_last = i == len(roots) - 1
-        for line in _render_subtree(sid, skill_map, display_ids, named_by_ref, local_by_ref, mode, "", is_last, seen, unlocked_ids, custom_nodes, canon=canon, current_user=username):
+        for line in _render_subtree(sid, skill_map, display_ids, named_by_ref, local_by_ref, mode, "", is_last, seen, unlocked_ids, custom_nodes, canon=canon, current_user=username, fusion_nodes=fusion_nodes, origin_ids=origin_ids):
             print(line)
 
 

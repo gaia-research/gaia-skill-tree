@@ -28,6 +28,8 @@ def _use_color() -> bool:
     """Return False if NO_COLOR is set or stdout is not a TTY."""
     if os.environ.get("NO_COLOR"):
         return False
+    if os.environ.get("FORCE_COLOR") or os.environ.get("CLICOLOR_FORCE"):
+        return True
     if not hasattr(sys.stdout, "isatty"):
         return False
     return sys.stdout.isatty()
