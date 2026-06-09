@@ -13,5 +13,6 @@
       "Bash(grep -n \"skill-tooltip-name\\\\|skill-tooltip-type\\\\|graph-redpill\\\\|graph-tooltip-add\\\\|graph-skill-panel-cmd\\\\|graph-skill-panel-explorer-link\\\\|graph-skill-panel-close:hover\\\\|graph-collection-panel \\\\|graph-collection-panel{\\\\|callout {$\\\\|graph-label-toggle\\\\|graph-bottom-btn {\\\\|graph-pause-btn {\\\\|graph-search-wrap {\" /Users/marcotiongson/Documents/gaia-skill-tree-2/docs/css/styles.css)",
       "Bash(git rebase *)"
     ]
-  }
+  },
+  "outputStyle": "default"
 }
