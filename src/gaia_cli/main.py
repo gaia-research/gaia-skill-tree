@@ -155,49 +155,39 @@ C5 = RANK_COLORS["5★"]
 C6 = RANK_COLORS["6★"]
 
 COMMAND_USAGE = f"""\
-Quick usage — CORE:
+CORE:
   {_rainbow_text("gaia")}                        Launch the TUI (interactive dashboard)
   {_fg(*C1)}gaia init{_reset()} [--user <name>] [--scan <path>] [--yes] [-y]
   {_fg(*C2)}gaia scan{_reset()} [--quiet]
   {_fg(*COLOR_LOCAL_USER)}gaia push{_reset()} [--dry-run] [--no-issue]
 
-Quick usage — ★★★★★ (5-star skills):
+Quick usage:
   {_fg(*C5)}gaia tree{_reset()} [--named] [--title]
   {_fg(*C5)}gaia promote{_reset()} [<skillId>] [--all] [--name <name>]
   {_fg(*C5)}gaia path{_reset()} <skillId> [--owned-only] [--json]
-
-Quick usage — ★★★★ (4-star skills):
   {_fg(*C4)}gaia appraise{_reset()} [<skillId>]
   {_fg(*C4)}gaia stats{_reset()}
-
-Quick usage — ★★★ (3-star skills):
   {_fg(*C3)}gaia pull{_reset()}
   {_fg(*C3)}gaia update{_reset()}
-
-Quick usage — ★★ (2-star skills):
   {_fg(*C2)}gaia whoami{_reset()}
   {_fg(*C2)}gaia lookup{_reset()} <skillId>
-
-Quick usage — ★ (1-star skills):
   {_fg(*C1)}gaia version{_reset()}
   {_fg(*C1)}gaia graph{_reset()} [--format html|svg|json] [-o <path>] [--no-open]
-
-Quick usage — Special:
   {_fg(*COLOR_FUSE_PURPLE)}gaia propose{_reset()} [<skillId>] [--ultimate] [--target <name>] [--no-pr]
   {_fg(*COLOR_FUSE_PURPLE)}gaia fuse{_reset()} <skillId> [--name <name>]
   {_fg(*COLOR_CLAUDE_ORANGE)}gaia mcp{_reset()}
-  {_rainbow_text("gaia skills")} <list|search|info|install|uninstall>
   {_fg(*COLOR_GREY)}gaia release{_reset()} <patch|minor|major>
   {_fg(*COLOR_GREY)}gaia docs build{_reset()} [--check]
 
-Quick usage — Skills subcommands:
-  gaia skills list [--exclude-pending]
-  gaia skills search <query> [--exclude-pending]
-  gaia skills info <skill_id> [--exclude-pending]
-  gaia skills install <skill> [--global | --local]
-  gaia skills uninstall <skill_id>
+Skills:
+  {_rainbow_text("gaia skills")} <list|search|info|install|uninstall>
+  {_rainbow_text("gaia skills list")} [--exclude-pending]
+  {_rainbow_text("gaia skills search")} <query> [--exclude-pending]
+  {_rainbow_text("gaia skills info")} <skill_id> [--exclude-pending]
+  {_rainbow_text("gaia skills install")} <skill> [--global | --local]
+  {_rainbow_text("gaia skills uninstall")} <skill_id>
 
-Quick usage — Maintenance (dev):
+Maintenance:
   {_fg(*COLOR_GREY)}gaia dev list{_reset()} [--generic] [--named] [--description] [--json]
   {_fg(*COLOR_GREY)}gaia dev audit{_reset()} <skill_id>
   {_fg(*COLOR_GREY)}gaia dev diff{_reset()} [ref] [--base <ref>]
@@ -214,7 +204,6 @@ Quick usage — Maintenance (dev):
   {_fg(*COLOR_GREY)}gaia dev rm-evidence{_reset()} <skill_id> (--index N | --source URL) [--yes] [-y]
   {_fg(*COLOR_GREY)}gaia dev timeline{_reset()} <skill_id> --action <action> --notes <notes> [--user <username>]
   {_fg(*COLOR_GREY)}gaia dev build{_reset()}
-
   {_fg(*COLOR_GREY)}gaia validate{_reset()} [--intake] [--meta-sync]
   {_fg(*COLOR_GREY)}gaia test{_reset()} <suite>
 """
