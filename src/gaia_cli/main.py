@@ -930,15 +930,15 @@ def scan_command(args):
             # Collect final tips
             if any(sk.get("mapped_score", 0) == 0 for sk in custom_state_skills):
                 tips.append(
-                    f"Push your custom skills for review with `{_fg(*COLOR_LOCAL_USER)}gaia push{_reset()}`"
+                    f"`{_fg(*COLOR_LOCAL_USER)}gaia push{_reset()}`: Push your custom skills for review"
                 )
 
             tips.append(
-                f"Create custom fusion paths with `{_fg(*COLOR_FUSE_PURPLE)}gaia fuse{_reset()}`"
+                f"`{_fg(*COLOR_FUSE_PURPLE)}gaia fuse{_reset()}`: Create custom fusion paths"
             )
 
             tips.append(
-                f"Visualize your progress with `{_fg(*COLOR_APEX_GOLD)}gaia tree{_reset()}`"
+                f"`{_fg(*COLOR_APEX_GOLD)}gaia tree{_reset()}`: Visualize your progress"
             )
 
             if tips:
