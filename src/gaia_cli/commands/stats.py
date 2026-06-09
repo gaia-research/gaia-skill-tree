@@ -25,6 +25,7 @@ from gaia_cli.registry import (
 TYPE_LABELS = {
     "basic": "Basic Skill",
     "extra": "Extra Skill",
+    "unique": "Unique Skill",
     "ultimate": "Ultimate Skill",
 }
 
@@ -39,7 +40,7 @@ LEVEL_LABELS = {
 }
 
 LEVEL_ORDER = ("0★", "1★", "2★", "3★", "4★", "5★", "6★")
-TYPE_ORDER = ("basic", "extra", "ultimate")
+TYPE_ORDER = ("basic", "extra", "unique", "ultimate")
 EVIDENCE_ORDER = ("A", "B", "C")
 _EVIDENCE_RANK = {
     klass: rank for rank, klass in enumerate(reversed(EVIDENCE_ORDER), start=1)
@@ -109,6 +110,24 @@ def _iter_named_skill_metadata(registry_path: str | Path) -> Iterable[dict[str, 
     return items
 
 
+_SLOT_LEVEL_RANK = {l: i for i, l in enumerate(["0★", "1★", "2★", "3★", "4★", "5★", "6★"])}
+
+
+def _slot_levels(registry_path: str | Path) -> dict[str, str]:
+    """Map generic skill id → highest named-variant level (0★ if unclaimed)."""
+    slot_level: dict[str, str] = {}
+    for item in _iter_named_skill_metadata(registry_path):
+        ref = item.get("genericSkillRef")
+        lv = item.get("level")
+        if not ref or not lv or lv not in _SLOT_LEVEL_RANK:
+            continue
+        if item.get("status", "named") != "named":
+            continue
+        if _SLOT_LEVEL_RANK[lv] > _SLOT_LEVEL_RANK.get(slot_level.get(ref, "0★"), 0):
+            slot_level[ref] = lv
+    return slot_level
+
+
 def _best_evidence_class(skill: dict) -> str | None:
     best: str | None = None
     for evidence in skill.get("evidence", []) or []:
@@ -133,8 +152,10 @@ def collect_stats(registry_path: str | Path) -> dict:
         ]
 
     type_counts = Counter(skill.get("type", "unknown") for skill in skills)
+
+    slot_lvls = _slot_levels(registry_path)
     level_counts = Counter(
-        skill["level"] for skill in skills if "level" in skill
+        slot_lvls.get(skill.get("id", ""), "0★") for skill in skills if skill.get("id")
     )
     effective_level_counts = Counter()
     demerit_counts: Counter[str] = Counter()
@@ -145,8 +166,9 @@ def collect_stats(registry_path: str | Path) -> dict:
         best = _best_evidence_class(skill)
         if best:
             best_evidence_counts[best] += 1
-        eff = effective_level(skill)
-        effective_level_counts[eff] += 1
+        sid = skill.get("id", "")
+        enriched = {**skill, "level": slot_lvls.get(sid, "0★")}
+        effective_level_counts[effective_level(enriched)] += 1
         raw_demerits = list(skill.get("demerits", []) or [])
         if raw_demerits:
             skills_with_demerits += 1
@@ -161,11 +183,8 @@ def collect_stats(registry_path: str | Path) -> dict:
         and item.get("status", "named") == "named"
     ]
     named_slots = {item["genericSkillRef"] for item in named_items}
-    eligible_slots = {
-        skill["id"]
-        for skill in skills
-        if skill.get("id") and skill.get("level") != "0★"
-    }
+    # All generic slots are eligible for naming (none are retired/locked at 0★ by intent)
+    eligible_slots = {skill["id"] for skill in skills if skill.get("id")}
 
     return {
         "total_skills": len(skills),
@@ -178,10 +197,14 @@ def collect_stats(registry_path: str | Path) -> dict:
         "skills_with_effective_drop": sum(
             1
             for skill in skills
-            if _LEVEL_INDEX.get(effective_level(skill), -1)
-            < _LEVEL_INDEX.get(skill.get("level"), -1)
+            if skill.get("id")
+            and _LEVEL_INDEX.get(effective_level({**skill, "level": slot_lvls.get(skill.get("id", ""), "0★")}), -1)
+            < _LEVEL_INDEX.get(slot_lvls.get(skill.get("id", ""), "0★"), -1)
         ),
-        "demerit_penalty_total": sum(demerit_penalty(skill) for skill in skills),
+        "demerit_penalty_total": sum(
+            demerit_penalty({**skill, "level": slot_lvls.get(skill.get("id", ""), "0★")})
+            for skill in skills if skill.get("id")
+        ),
         "evidence_counts": {
             klass: best_evidence_counts.get(klass, 0) for klass in EVIDENCE_ORDER
         },
@@ -239,8 +262,8 @@ def render_stats(stats: dict) -> str:
         label = LEVEL_LABELS[level]
         count = stats["level_counts"].get(level, 0)
         suffix = ""
-        if level == "2★" and stats.get("named_unclaimed", 0):
-            suffix = f"  ({stats['named_unclaimed']} slots unclaimed)"
+        if level == "0★" and stats.get("named_unclaimed", 0):
+            suffix = f"  ({stats['named_unclaimed']} unclaimed)"
         if use_color:
             color = _fg(*RANK_COLORS.get(level, RANK_COLORS["0★"]))
             lines.append(f"  {color}{level:<3} {label:<14}{rst} {count:>4}{suffix}")

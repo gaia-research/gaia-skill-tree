@@ -332,7 +332,7 @@ def _plain_label(skill_id, skill_map, named_by_ref, local_by_ref, mode, canon=Fa
 
 # ─── recursive renderer ───────────────────────────────────────────────────────
 
-def _render_subtree(skill_id, skill_map, display_ids, named_by_ref, local_by_ref, mode, prefix, is_last, seen, unlocked_ids, custom_nodes, canon=False, current_user=None, fusion_nodes=None, origin_ids=None, known_only=False):
+def _render_subtree(skill_id, skill_map, display_ids, named_by_ref, local_by_ref, mode, prefix, is_last, seen, unlocked_ids, custom_nodes, canon=False, current_user=None, fusion_nodes=None, origin_ids=None, known_only=False, reveal_unowned=False):
     if fusion_nodes is None:
         fusion_nodes = set()
     if origin_ids is None:
@@ -351,7 +351,7 @@ def _render_subtree(skill_id, skill_map, display_ids, named_by_ref, local_by_ref
 
     symbol = _TYPE_SYMBOL.get(tier, "○")
     
-    is_unowned = skill_id not in unlocked_ids and skill_id not in custom_nodes
+    is_unowned = not reveal_unowned and skill_id not in unlocked_ids and skill_id not in custom_nodes
     is_custom = skill_id in custom_nodes or skill_id.lstrip('/') in custom_nodes
     is_fused = skill_id in fusion_nodes or skill_id.lstrip('/') in fusion_nodes
     
@@ -379,8 +379,11 @@ def _render_subtree(skill_id, skill_map, display_ids, named_by_ref, local_by_ref
     child_prefix = prefix + ("    " if is_last else "│   ")
     prereqs = skill.get("prerequisites", [])
     if mode == "named":
-        prereqs = [p for p in prereqs if p in display_ids]
-    
+        if reveal_unowned:
+            prereqs = [p for p in prereqs if _is_named(p, named_by_ref, local_by_ref) or p in display_ids]
+        else:
+            prereqs = [p for p in prereqs if p in display_ids]
+
     owned_prereqs = []
     unowned_prereqs = []
     for p in prereqs:
@@ -388,7 +391,7 @@ def _render_subtree(skill_id, skill_map, display_ids, named_by_ref, local_by_ref
             owned_prereqs.append(p)
         else:
             unowned_prereqs.append(p)
-            
+
     def sort_key(cid):
         tier = skill_map.get(cid, {}).get("type", "basic")
         tier_order = {"ultimate": 0, "extra": 1, "basic": 2}
@@ -398,15 +401,18 @@ def _render_subtree(skill_id, skill_map, display_ids, named_by_ref, local_by_ref
     unowned_prereqs.sort(key=sort_key)
 
     children_to_render = []
-    children_to_render.extend(owned_prereqs)
-
     grouped_unowned_count = 0
-    if not known_only:
-        if len(unowned_prereqs) > 5:
-            children_to_render.extend(unowned_prereqs[:5])
-            grouped_unowned_count = len(unowned_prereqs) - 5
-        else:
-            children_to_render.extend(unowned_prereqs)
+
+    if reveal_unowned:
+        children_to_render.extend(sorted(prereqs, key=sort_key))
+    else:
+        children_to_render.extend(owned_prereqs)
+        if not known_only:
+            if len(unowned_prereqs) > 5:
+                children_to_render.extend(unowned_prereqs[:5])
+                grouped_unowned_count = len(unowned_prereqs) - 5
+            else:
+                children_to_render.extend(unowned_prereqs)
 
     total_children = len(children_to_render) + (1 if grouped_unowned_count > 0 else 0)
 
@@ -416,7 +422,7 @@ def _render_subtree(skill_id, skill_map, display_ids, named_by_ref, local_by_ref
             _render_subtree(
                 child_id, skill_map, display_ids, named_by_ref, local_by_ref,
                 mode, child_prefix, child_is_last, seen, unlocked_ids, custom_nodes, canon=canon, current_user=current_user,
-                fusion_nodes=fusion_nodes, origin_ids=origin_ids, known_only=known_only
+                fusion_nodes=fusion_nodes, origin_ids=origin_ids, known_only=known_only, reveal_unowned=reveal_unowned
             )
         )
 
@@ -579,6 +585,8 @@ def show_tree(tree_data, graph_data=None, registry_path=".", mode="default", can
                 unlocked_ids.add(cid)
     elif mode == "named":
         display_ids = {sid for sid in unlocked_ids if _is_named(sid, named_by_ref, local_by_ref)}
+    elif canon:
+        display_ids = {sid for sid in unlocked_ids if sid in skill_map or _is_named(sid, named_by_ref, local_by_ref)}
     else:
         display_ids = unlocked_ids
 
@@ -608,6 +616,8 @@ def show_tree(tree_data, graph_data=None, registry_path=".", mode="default", can
                 origin_ids.add(csk["mapped_to"])
                 origin_ids.add(csk["mapped_to"].lstrip('/'))
 
+    reveal_unowned = not known_only and (canon or mode == "named")
+
     from gaia_cli.formatting import _fg, _reset, COLOR_CONTRIBUTOR
     # Use a direct ANSI code to ensure color even if _use_color() fails in a subshell/pipe
     username_colored = f"\033[38;2;{COLOR_CONTRIBUTOR[0]};{COLOR_CONTRIBUTOR[1]};{COLOR_CONTRIBUTOR[2]}m{username}\033[0m"
@@ -616,7 +626,7 @@ def show_tree(tree_data, graph_data=None, registry_path=".", mode="default", can
     for i, entry in enumerate(roots):
         sid = entry["skillId"]
         is_last = i == len(roots) - 1
-        for line in _render_subtree(sid, skill_map, display_ids, named_by_ref, local_by_ref, mode, "", is_last, seen, unlocked_ids, custom_nodes, canon=canon, current_user=username, fusion_nodes=fusion_nodes, origin_ids=origin_ids, known_only=known_only):
+        for line in _render_subtree(sid, skill_map, display_ids, named_by_ref, local_by_ref, mode, "", is_last, seen, unlocked_ids, custom_nodes, canon=canon, current_user=username, fusion_nodes=fusion_nodes, origin_ids=origin_ids, known_only=known_only, reveal_unowned=reveal_unowned):
             print(line)
 
     if known_only:

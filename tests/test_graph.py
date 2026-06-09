@@ -55,7 +55,7 @@ def make_registry(root):
 def test_write_graph_artifact_defaults_to_standalone_html(tmp_path):
     root = make_registry(tmp_path)
 
-    out_path = graph_mod.write_graph_artifact(root, fmt="html")
+    out_path, _ = graph_mod.write_graph_artifact(root, fmt="html")
 
     assert out_path == root / "registry" / "render" / "gaia.html"
     html = out_path.read_text(encoding="utf-8")
@@ -70,7 +70,7 @@ def test_write_graph_artifact_defaults_to_standalone_html(tmp_path):
 def test_write_graph_artifact_keeps_svg_default_path(tmp_path):
     root = make_registry(tmp_path)
 
-    out_path = graph_mod.write_graph_artifact(root, fmt="svg")
+    out_path, _ = graph_mod.write_graph_artifact(root, fmt="svg")
 
     assert out_path == root / "registry" / "gaia.svg"
     assert out_path.read_text(encoding="utf-8").startswith("<?xml")
@@ -79,7 +79,7 @@ def test_write_graph_artifact_keeps_svg_default_path(tmp_path):
 def test_write_graph_artifact_keeps_render_json_default_path(tmp_path):
     root = make_registry(tmp_path)
 
-    out_path = graph_mod.write_graph_artifact(root, fmt="json")
+    out_path, _ = graph_mod.write_graph_artifact(root, fmt="json")
 
     assert out_path == root / "registry" / "render" / "latest.json"
     data = json.loads(out_path.read_text(encoding="utf-8"))

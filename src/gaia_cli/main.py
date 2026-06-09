@@ -1613,7 +1613,7 @@ def tree_command(args):
         else ("title" if getattr(args, "title", False) else "default")
     )
     canon = getattr(args, "canon", False)
-    custom = getattr(args, "custom", False) or (not canon)
+    custom = getattr(args, "custom", False) or (not canon and mode != "named")
     known_only = not getattr(args, "show_all", False)
     show_tree(
         tree,

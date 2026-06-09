@@ -217,12 +217,12 @@ def format_skill_plain(skill_id: str, *, named_ref: str | None = None,
         if contrib:
             if not is_own and level is not None and is_redacted(level):
                 contrib = REDACTED_BLOCK
-            return f"/{contrib}/{nickname}"
+            return f"{contrib}/{nickname}"
         return f"/{nickname}"
     if named_contributor:
         if level is not None and not (local_user and named_contributor == local_user) and is_redacted(level):
             named_contributor = REDACTED_BLOCK
-        return f"/{named_contributor}/{skill_id}"
+        return f"{named_contributor}/{skill_id}"
     return f"/{skill_id}"
 
 
@@ -247,8 +247,8 @@ def format_skill_colored(skill_id: str, level: str = "0★", *,
         if contrib:
             if not is_own and is_redacted(level):
                 # Pre-named: replace honor-red handle with slate redaction block
-                return f"{_fg(*COLOR_REDACTED)}/{REDACTED_BLOCK}{r}/{nick_colored}"
-            return f"{_fg(*handle_color)}/{contrib}{r}/{nick_colored}"
+                return f"{_fg(*COLOR_REDACTED)}{REDACTED_BLOCK}{r}/{nick_colored}"
+            return f"{_fg(*handle_color)}{contrib}{r}/{nick_colored}"
         return f"{_fg(*handle_color)}/{nickname}{r}"
 
     if named_contributor:
@@ -258,7 +258,7 @@ def format_skill_colored(skill_id: str, level: str = "0★", *,
         else:
             contrib_colored = f"{_fg(*handle_color)}{named_contributor}{r}"
         skill_colored = f"{_fg(*rank_color)}{skill_id}{r}"
-        return f"{_fg(*handle_color)}/{r}{contrib_colored}/{skill_colored}"
+        return f"{_fg(*handle_color)}{r}{contrib_colored}/{skill_colored}"
     if is_local:
         return f"{_fg(*COLOR_LOCAL_USER)}/{skill_id}{r}"
     return f"{_fg(*rank_color)}/{skill_id}{r}"
