@@ -18,7 +18,8 @@
       "Bash(pip install *)",
       "Bash(python3 -m gaia_cli --help)",
       "Bash(PYTHONPATH=/Users/marcotiongson/Documents/gaia-skill-tree/.claude/worktrees/gaia-help-coloring/src python3 -m gaia_cli --help)",
-      "Bash(PYTHONPATH=src python3 -m gaia_cli --help)"
+      "Bash(PYTHONPATH=src python3 -m gaia_cli --help)",
+      "Bash(git commit *)"
     ]
   },
   "outputStyle": "default"
