@@ -2567,12 +2567,41 @@ def release_command(args):
         print(f"✓ Released {tag} — GitHub Actions will create the GitHub Release.")
 
 
+class ColoredHelpFormatter(argparse.RawDescriptionHelpFormatter):
+    """Custom formatter to colorize specific commands in the help output."""
+
+    def _format_action(self, action):
+        import re
+
+        parts = super()._format_action(action)
+        if isinstance(action, argparse._SubParsersAction):
+            # Commands considered "dev" or maintenance-heavy
+            dev_cmds = ("dev", "validate", "test", "docs")
+            for cmd in dev_cmds:
+                # 1. Colorize the command in the {choices} list
+                # Match start of list, middle of list, or end of list
+                parts = parts.replace(f"{{{cmd},", f"{{{_fg(*COLOR_GREY)}{cmd}{_reset()},")
+                parts = parts.replace(f",{cmd},", f",{_fg(*COLOR_GREY)}{cmd}{_reset()},")
+                parts = parts.replace(f",{cmd}}}", f",{_fg(*COLOR_GREY)}{cmd}{_reset()}}}")
+
+                # 2. Colorize the command in the individual help lines
+                # Pattern: start of line, some whitespace, the command name, then at least two spaces
+                # (Argparse usually uses more than two spaces to separate the name from the help text)
+                parts = re.sub(
+                    rf"^(\s+)({cmd})(\s\s+)",
+                    rf"\1{_fg(*COLOR_GREY)}\2{_reset()}\3",
+                    parts,
+                    flags=re.MULTILINE,
+                )
+        return parts
+
+
 def get_parser():
     parser = argparse.ArgumentParser(
         prog="gaia",
         description="Gaia Registry CLI",
         epilog=COMMAND_USAGE,
-        formatter_class=argparse.RawDescriptionHelpFormatter,
+        formatter_class=ColoredHelpFormatter,
     )
     parser.add_argument(
         "--registry",
