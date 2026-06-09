@@ -118,6 +118,7 @@ from gaia_cli.formatting import (
     COLOR_GREY,
     COLOR_REDACTED,
     REDACTED_BLOCK,
+    get_harness_color,
     _fg,
     _reset,
     _bold,
@@ -146,7 +147,7 @@ COLOR_FUSE_PURPLE = TIER_COLORS["extra"]
 COMMAND_USAGE = f"""\
 Quick usage:
   gaia                        Launch the TUI (interactive dashboard)
-  gaia init [--user <name>] [--scan <path>] [--yes]
+  gaia init [--user <name>] [--scan <path>] [--yes] [-y]
   gaia scan [--quiet]
   gaia pull
   gaia tree [--named] [--title]
@@ -172,16 +173,16 @@ Quick usage:
 
   -- dev: mutating (requires Verifier role — see gaia whoami) --
   {_fg(*COLOR_GREY)}gaia dev add{_reset()} <name> [--id <id>] [--type <type>] [--description <desc>] [--named] [--contributor <user>] [--status <status>] [--title <title>] [--level <level>]
-  {_fg(*COLOR_GREY)}gaia dev merge{_reset()} <target> <source1> [source2...] [--named] [--yes]
-  {_fg(*COLOR_GREY)}gaia dev split{_reset()} <source> <target1> <target2>... [--yes]
+  {_fg(*COLOR_GREY)}gaia dev merge{_reset()} <target> <source1> [source2...] [--named] [--yes] [-y]
+  {_fg(*COLOR_GREY)}gaia dev split{_reset()} <source> <target1> <target2>... [--yes] [-y]
   {_fg(*COLOR_GREY)}gaia dev rename{_reset()} <old_id> <new_id>
   {_fg(*COLOR_GREY)}gaia dev calibrate{_reset()} <skill_id> <level>
-  {_fg(*COLOR_GREY)}gaia dev rm{_reset()} <skill_id> [--yes]
+  {_fg(*COLOR_GREY)}gaia dev rm{_reset()} <skill_id> [--yes] [-y]
   {_fg(*COLOR_GREY)}gaia dev link{_reset()} <target> <prereqs> [--reset]
   {_fg(*COLOR_GREY)}gaia dev reclassify{_reset()} <skill_id> <new_type>
   {_fg(*COLOR_GREY)}gaia dev update-named{_reset()} <skill_id> [--status <status>] [--generic-ref <ref>] [--suite-components <c1,c2...>]
   {_fg(*COLOR_GREY)}gaia dev evidence{_reset()} <skillId> <source> [--class A|B|C] [--evaluator <user>] [--date <date>] [--notes <notes>]
-  {_fg(*COLOR_GREY)}gaia dev rm-evidence{_reset()} <skill_id> (--index N | --source URL) [--yes]
+  {_fg(*COLOR_GREY)}gaia dev rm-evidence{_reset()} <skill_id> (--index N | --source URL) [--yes] [-y]
   {_fg(*COLOR_GREY)}gaia dev timeline{_reset()} <skill_id> --action <action> --notes <notes> [--user <username>] [--timestamp <iso8601>]
   {_fg(*COLOR_GREY)}gaia dev build{_reset()}
 
@@ -342,7 +343,7 @@ def whoami_command(args):
     via = status["via"]
     reason = status["reason"]
 
-    print(f"User:      {user}")
+    print(f"User:      {_fg(*COLOR_LOCAL_USER)}{user}{_reset()}")
     print(f"Registry:  {registry_path}")
     print(f"Operator:  {'yes' if authorized else 'no'}  (via: {via})")
     print(f"Reason:    {reason}")
@@ -371,7 +372,7 @@ def reset_command(args):
         from gaia_cli.interactive import confirm
 
         if not confirm(
-            f"Are you sure you want to reset the local state and skill tree for '{username}'? This cannot be undone."
+            f"Are you sure you want to reset the local state and skill tree for '{_fg(*COLOR_LOCAL_USER)}{username}{_reset()}'? This cannot be undone."
         ):
             print("Aborted.")
             return
@@ -445,9 +446,18 @@ def init_command(args):
         f.write(
             "scanPaths = [" + ", ".join(json.dumps(path) for path in scan_paths) + "]\n"
         )
+
+    # Color-coded display
+    colored_user = f"{_fg(*COLOR_LOCAL_USER)}{username}{_reset()}"
+    colored_paths = []
+    for path in scan_paths:
+        h_color = get_harness_color(path)
+        colored_paths.append(f"{_fg(*h_color)}{path}{_reset()}")
+    path_str = ", ".join(colored_paths)
+
     print(f"Initialized Gaia configuration at {config_path}")
-    print(f"  user:       {username}")
-    print(f"  scanPaths:  {scan_paths}")
+    print(f"  user:       {colored_user}")
+    print(f"  scanPaths:  {path_str}")
     print(
         "Run `gaia fetch` to download the latest canonical registry, then `gaia scan` to link your local skills."
     )
@@ -1506,14 +1516,16 @@ def doctor_command(args):
         return
 
     username = config.get("gaiaUser")
-    print(f"User: {username}")
+    print(f"User: {_fg(*COLOR_LOCAL_USER)}{username}{_reset()}")
     tree_path = user_tree_path(registry_path, username or "")
     print(f"Skill tree: {'found' if os.path.exists(tree_path) else 'missing'}")
     emb_path = embeddings_path(registry_path)
     print(f"Embeddings: {'found' if os.path.exists(emb_path) else 'missing'}")
     print("Scan paths:")
     for path in config.get("scanPaths", []):
-        print(f"  - {path} {'exists' if os.path.exists(path) else 'missing'}")
+        h_color = get_harness_color(path)
+        status = 'exists' if os.path.exists(path) else 'missing'
+        print(f"  - {_fg(*h_color)}{path}{_reset()} {status}")
 
 
 def tree_command(args):
@@ -2648,7 +2660,7 @@ def get_parser():
         "--scan", action="append", help="Path to scan; repeat for multiple paths"
     )
     init_parser.add_argument(
-        "--yes", action="store_true", help="Use non-interactive defaults"
+        "--yes", "-y", "--y", action="store_true", help="Use non-interactive defaults"
     )
     init_parser.add_argument(
         "--force", action="store_true", help="Overwrite existing .gaia/config.toml"
@@ -2760,7 +2772,7 @@ def get_parser():
         "--no-pr", action="store_true", dest="no_issue", help=argparse.SUPPRESS
     )  # backward compat alias
     push_parser.add_argument(
-        "--yes", "-y", action="store_true", dest="yes", help="Skip confirmation prompts"
+        "--yes", "-y", "--y", action="store_true", dest="yes", help="Skip confirmation prompts"
     )
     propose_parser = subparsers.add_parser(
         "propose", help="Propose a single canonical skill as a named PR"
@@ -2777,7 +2789,7 @@ def get_parser():
         help="Require that the selected skill is ultimate",
     )
     propose_parser.add_argument(
-        "--yes", action="store_true", help="Use defaults without interactive prompts"
+        "--yes", "-y", "--y", action="store_true", help="Use defaults without interactive prompts"
     )
     propose_parser.add_argument(
         "--no-pr",
@@ -2792,7 +2804,7 @@ def get_parser():
         "reset", help="Clear your skill tree and local state for a fresh start"
     )
     reset_parser.add_argument(
-        "--yes", "-y", action="store_true", help="Skip confirmation prompt"
+        "--yes", "-y", "--y", action="store_true", help="Skip confirmation prompt"
     )
     subparsers.add_parser(
         "mcp",
@@ -2973,7 +2985,7 @@ def get_parser():
         help="Also merge named implementation references",
     )
     dev_merge.add_argument(
-        "--yes", "-y", action="store_true", help="Skip confirmation prompt"
+        "--yes", "-y", "--y", action="store_true", help="Skip confirmation prompt"
     )
 
     dev_split = dev_sub.add_parser(
@@ -2982,7 +2994,7 @@ def get_parser():
     dev_split.add_argument("source", help="Source skill ID to split")
     dev_split.add_argument("targets", nargs="+", help="Target skill IDs to create")
     dev_split.add_argument(
-        "--yes", "-y", action="store_true", help="Skip confirmation prompt"
+        "--yes", "-y", "--y", action="store_true", help="Skip confirmation prompt"
     )
 
     dev_rename = dev_sub.add_parser(
@@ -3068,7 +3080,7 @@ def get_parser():
         help="Skip rebuilding docs and graph assets after removing",
     )
     dev_rm.add_argument(
-        "--yes", "-y", action="store_true", help="Skip confirmation prompt"
+        "--yes", "-y", "--y", action="store_true", help="Skip confirmation prompt"
     )
 
     dev_link = dev_sub.add_parser("link", help="Link skills by adding prerequisites")
@@ -3219,7 +3231,7 @@ def get_parser():
         help="Skip rebuilding docs and graph assets after removing evidence",
     )
     dev_rm_evidence.add_argument(
-        "--yes", "-y", action="store_true", help="Skip confirmation prompt"
+        "--yes", "-y", "--y", action="store_true", help="Skip confirmation prompt"
     )
 
     dev_build = dev_sub.add_parser(

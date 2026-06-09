@@ -101,6 +101,40 @@ COLOR_CONTRIBUTOR = (239, 68, 68)      # #ef4444 -- red for named contributors
 COLOR_LOCAL_USER  = (134, 239, 172)    # #86efac -- bright green for local/user skills
 COLOR_GREY        = (148, 163, 184)    # #94a3b8 -- slate grey for dev commands
 
+# Harness/Environment brand colors
+HARNESS_COLORS = {
+    "claude": (249, 115, 22),       # Orange
+    "cursor": (0, 163, 255),        # Blue
+    "windsurf": (0, 122, 255),      # Blue
+    "gemini": (71, 140, 255),       # Gemini Blue
+    "codex": (16, 163, 127),        # OpenAI Green
+    "copilot": (0, 90, 255),        # GitHub Blue
+    "antigravity": (192, 132, 252), # Purple
+    "agents": (134, 239, 172),      # Green (Local User)
+}
+
+
+def get_harness_color(path: str) -> tuple[int, int, int]:
+    """Return the brand color for a given scan path based on detected harness."""
+    p_lower = path.lower()
+    if ".claude" in p_lower:
+        return HARNESS_COLORS["claude"]
+    if ".cursor" in p_lower:
+        return HARNESS_COLORS["cursor"]
+    if ".windsurf" in p_lower:
+        return HARNESS_COLORS["windsurf"]
+    if ".gemini" in p_lower:
+        return HARNESS_COLORS["gemini"]
+    if ".antigravity" in p_lower:
+        return HARNESS_COLORS["antigravity"]
+    if "codex" in p_lower:
+        return HARNESS_COLORS["codex"]
+    if "copilot" in p_lower:
+        return HARNESS_COLORS["copilot"]
+    if ".agents" in p_lower or "agents" in p_lower:
+        return HARNESS_COLORS["agents"]
+    return COLOR_GREY
+
 # Redaction policy lives in the single source of truth: gaia_cli.redaction.
 # Re-exported here so existing importers of formatting keep working.
 from gaia_cli.redaction import (  # noqa: E402
