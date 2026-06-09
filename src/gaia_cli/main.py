@@ -1277,8 +1277,6 @@ def tree_command(args):
     canon = getattr(args, 'canon', False)
     custom = getattr(args, 'custom', False) or (not canon)
     show_tree(tree, graph_data=graph_data, registry_path=args.registry, mode=mode, canon=canon, custom=custom)
-    if tree:
-        render_user_tree_outputs(config.get('gaiaUser'), tree, graph_data, args.registry, quiet=False, is_global=getattr(args, 'global_flag', False))
     try:
         detect_source_repo(config)
     except NonPublicRepoError:

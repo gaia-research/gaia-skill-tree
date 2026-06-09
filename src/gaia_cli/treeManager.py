@@ -159,14 +159,25 @@ def _gradient_text(text, start_rgb, end_rgb):
     return "".join(parts) + reset()
 
 
-def _color_entry(symbol, plain_label, tier, is_named, level, current_user=None):
+def _color_entry(symbol, plain_label, tier, is_named, level, current_user=None, is_unowned=False, is_custom=False):
     from gaia_cli.cardRenderer import fg, reset, bold, _use_color, TIER_COLORS, RANK_COLORS, COLOR_CONTRIBUTOR, COLOR_LOCAL_USER, COLOR_REDACTED, REDACTED_BLOCK
+    
+    prefix = ""
+    if _use_color() and is_unowned:
+        prefix = "\033[2m/??? -> \033[22m"
+    elif not _use_color() and is_unowned:
+        prefix = "/??? -> "
+
     if not _use_color():
-        return f"{symbol} {plain_label}"
+        return f"{prefix}{symbol} {plain_label}"
+        
+    if is_custom:
+        return f"{prefix}{fg(*COLOR_LOCAL_USER)}{symbol} {plain_label}{reset()}"
+
     if is_named:
         if level in _TRANSCENDENT_LEVELS:
             colored = _gradient_text(f"{symbol} {plain_label}", _GRAD_GOLD, _GRAD_RED)
-            return f"{bold()}{colored}{reset()}"
+            return f"{prefix}{bold()}{colored}{reset()}"
         
         # Named skills format: /contributor/nickname star
         rc = RANK_COLORS.get(level, (148, 163, 184))
@@ -185,14 +196,14 @@ def _color_entry(symbol, plain_label, tier, is_named, level, current_user=None):
                 nickname, star_part = nickname.rsplit(" ", 1)
             
             # Reassemble with colors
-            return f"{fg(*handle_color)}{symbol} /{handle}{reset()}/{fg(*rc)}{nickname}{reset()}{f' {fg(*rc)}{star_part}{reset()}' if star_part else ''}"
+            return f"{prefix}{fg(*handle_color)}{symbol} /{handle}{reset()}/{fg(*rc)}{nickname}{reset()}{f' {fg(*rc)}{star_part}{reset()}' if star_part else ''}"
         
         # Fallback for other formats
-        return f"{bold()}{fg(*COLOR_CONTRIBUTOR)}{symbol} {plain_label}{reset()}"
+        return f"{prefix}{bold()}{fg(*COLOR_CONTRIBUTOR)}{symbol} {plain_label}{reset()}"
     
     # Canon skills: rank color for entire label
     rc = RANK_COLORS.get(level, (148, 163, 184))
-    return f"{fg(*rc)}{symbol} {plain_label}{reset()}"
+    return f"{prefix}{fg(*rc)}{symbol} {plain_label}{reset()}"
 
 
 def _dim(text):
@@ -208,12 +219,13 @@ _TYPE_SYMBOL = {"basic": "○", "extra": "◇", "ultimate": "◆"}
 def _plain_label(skill_id, skill_map, named_by_ref, local_by_ref, mode, canon=False, current_user=None):
     level = skill_map.get(skill_id, {}).get("level", "?")
     star = f" {level}" if level and level != "0★" else ""
+    bare_skill = skill_id.lstrip('/')
 
     if canon:
-        return f"/{skill_id}{star}"
+        return f"/{bare_skill}{star}"
     
     if mode == "title":
-        name = skill_map.get(skill_id, {}).get("name", skill_id)
+        name = skill_map.get(skill_id, {}).get("name", bare_skill)
         return f"{name}{star}"
     
     local = local_by_ref.get(skill_id)
@@ -224,9 +236,9 @@ def _plain_label(skill_id, skill_map, named_by_ref, local_by_ref, mode, canon=Fa
         full_id = specific.get("id")
         if full_id:
             # Always return full /contributor/nickname star
-            return f"/{full_id}{star}"
+            return f"/{full_id.lstrip('/')}{star}"
 
-    return f"/{skill_id}{star}"
+    return f"/{bare_skill}{star}"
 
 
 def _is_named(skill_id, named_by_ref, local_by_ref):
@@ -235,40 +247,66 @@ def _is_named(skill_id, named_by_ref, local_by_ref):
 
 # ─── recursive renderer ───────────────────────────────────────────────────────
 
-def _render_subtree(skill_id, skill_map, display_ids, named_by_ref, local_by_ref, mode, prefix, is_last, seen, canon=False, current_user=None):
+def _render_subtree(skill_id, skill_map, display_ids, named_by_ref, local_by_ref, mode, prefix, is_last, seen, unlocked_ids, custom_nodes, canon=False, current_user=None):
     skill = skill_map.get(skill_id, {})
     tier = skill.get("type", "basic")
     level = skill.get("level", "?")
     symbol = _TYPE_SYMBOL.get(tier, "○")
     named = _is_named(skill_id, named_by_ref, local_by_ref)
+    
+    is_unowned = skill_id not in unlocked_ids and skill_id not in custom_nodes
+    is_custom = skill_id in custom_nodes
+
     label = _plain_label(skill_id, skill_map, named_by_ref, local_by_ref, mode, canon=canon, current_user=current_user)
+    if skill_id in seen:
+        label += " (see above)"
+        
     connector = "└── " if is_last else "├── "
-    lines = [_dim(prefix + connector) + _color_entry(symbol, label, tier, named, level, current_user=current_user)]
+    lines = [_dim(prefix + connector) + _color_entry(symbol, label, tier, named, level, current_user=current_user, is_unowned=is_unowned, is_custom=is_custom)]
+    
+    if skill_id in seen:
+        return lines
+
     seen.add(skill_id)
 
     child_prefix = prefix + ("    " if is_last else "│   ")
-    prereqs = [p for p in skill.get("prerequisites", []) if p in display_ids]
-    for i, child_id in enumerate(prereqs):
-        child_is_last = i == len(prereqs) - 1
-        child_skill = skill_map.get(child_id, {})
-        child_tier = child_skill.get("type", "basic")
-        child_level = child_skill.get("level", "?")
-        child_sym = _TYPE_SYMBOL.get(child_tier, "○")
-        child_named = _is_named(child_id, named_by_ref, local_by_ref)
-        child_label = _plain_label(child_id, skill_map, named_by_ref, local_by_ref, mode, canon=canon, current_user=current_user)
-        if child_id in seen:
-            conn2 = "└── " if child_is_last else "├── "
-            lines.append(
-                _dim(child_prefix + conn2)
-                + _color_entry(child_sym, child_label + " ...", child_tier, child_named, child_level, current_user=current_user)
-            )
+    prereqs = skill.get("prerequisites", [])
+    
+    owned_prereqs = []
+    unowned_prereqs = []
+    for p in prereqs:
+        if p in unlocked_ids or p in custom_nodes:
+            owned_prereqs.append(p)
         else:
-            lines.extend(
-                _render_subtree(
-                    child_id, skill_map, display_ids, named_by_ref, local_by_ref,
-                    mode, child_prefix, child_is_last, seen, canon=canon, current_user=current_user
-                )
+            unowned_prereqs.append(p)
+            
+    children_to_render = []
+    children_to_render.extend(owned_prereqs)
+    
+    grouped_unowned_count = 0
+    if len(unowned_prereqs) > 5:
+        children_to_render.extend(unowned_prereqs[:5])
+        grouped_unowned_count = len(unowned_prereqs) - 5
+    else:
+        children_to_render.extend(unowned_prereqs)
+        
+    total_children = len(children_to_render) + (1 if grouped_unowned_count > 0 else 0)
+    
+    for i, child_id in enumerate(children_to_render):
+        child_is_last = (i == total_children - 1) and (grouped_unowned_count == 0)
+        lines.extend(
+            _render_subtree(
+                child_id, skill_map, display_ids, named_by_ref, local_by_ref,
+                mode, child_prefix, child_is_last, seen, unlocked_ids, custom_nodes, canon=canon, current_user=current_user
             )
+        )
+        
+    if grouped_unowned_count > 0:
+        conn2 = "└── "
+        lines.append(
+            _dim(child_prefix + conn2) + _dim(f"○ /??? (+{grouped_unowned_count} skills)")
+        )
+
     return lines
 
 
@@ -290,13 +328,41 @@ def show_tree(tree_data, graph_data=None, registry_path=".", mode="default", can
     local_by_ref = _load_local_lookup(registry_path)
 
     unlocked_ids = {s["skillId"] for s in unlocked}
+    custom_nodes = set()
     if custom:
         custom_state_path = os.path.join(".gaia", "custom_state.json")
         custom_skills = []
+        scanned_nodes = set()
         if os.path.exists(custom_state_path):
             try:
                 with open(custom_state_path, "r", encoding="utf-8") as f:
-                    custom_skills = json.load(f).get("customSkills", [])
+                    cstate = json.load(f)
+                    custom_skills = cstate.get("customSkills", [])
+                    # Fuses: target fused skill that is saved will be by default "extra skill" purple
+                    # and will be shown as the parent skill of the custom skill prerequisites.
+                    fusions = cstate.get("customFusions", {})
+                    for target, data in fusions.items():
+                        if isinstance(data, dict):
+                            sources = data.get("sources", [])
+                            level = data.get("level", "1★")
+                            stype = data.get("type", "extra")
+                        else:
+                            sources = data
+                            level = "1★"
+                            stype = "extra"
+                        
+                        skill_map[target] = {
+                            "id": target,
+                            "name": target,
+                            "description": "Custom Fusion",
+                            "type": stype,
+                            "level": level,
+                            "prerequisites": sources,
+                        }
+                        scanned_nodes.add(target)
+                        if target not in unlocked_ids:
+                            unlocked.append({"skillId": target})
+                            unlocked_ids.add(target)
             except Exception:
                 pass
         else:
@@ -336,16 +402,18 @@ def show_tree(tree_data, graph_data=None, registry_path=".", mode="default", can
                     "prerequisites": csk.get("prerequisites", []),
                 }
 
-        custom_nodes = set()
         for csk in custom_skills:
+            m_type = csk.get("match_type")
             mapped_to = csk.get("mapped_to")
-            if mapped_to and mapped_to in skill_map:
-                custom_nodes.add(mapped_to)
-            else:
-                custom_nodes.add(csk["id"])
+            node_id = mapped_to if (mapped_to and mapped_to in skill_map) else csk["id"]
+            
+            scanned_nodes.add(node_id)
+            
+            if m_type not in ("origin", "named", "generic", "exact_generic"):
+                custom_nodes.add(node_id)
         
         display_ids = set()
-        queue = list(custom_nodes)
+        queue = list(scanned_nodes)
         visited = set()
         while queue:
             curr = queue.pop(0)
@@ -356,9 +424,9 @@ def show_tree(tree_data, graph_data=None, registry_path=".", mode="default", can
             for prereq in skill_map.get(curr, {}).get("prerequisites", []):
                 queue.append(prereq)
                 
-        display_ids = {sid for sid in display_ids if sid in unlocked_ids or sid in custom_nodes}
-        # Inject custom skills into unlocked so they can act as roots if they have no prereqs
-        for cid in custom_nodes:
+        display_ids = {sid for sid in display_ids if sid in unlocked_ids or sid in scanned_nodes}
+        # Inject all locally scanned skills into unlocked so they can act as roots if they have no prereqs
+        for cid in scanned_nodes:
             if cid not in unlocked_ids:
                 unlocked.append({"skillId": cid})
                 unlocked_ids.add(cid)
@@ -367,11 +435,12 @@ def show_tree(tree_data, graph_data=None, registry_path=".", mode="default", can
     else:
         display_ids = unlocked_ids
 
+    # Allow roots to not be strictly filtered by `display_ids` if we are showing full prereqs
+    # We still need to find roots based on unlocked skills.
     all_prereqs = set()
     for sid in display_ids:
         for p in skill_map.get(sid, {}).get("prerequisites", []):
-            if p in display_ids:
-                all_prereqs.add(p)
+            all_prereqs.add(p)
 
     roots = [s for s in unlocked if s["skillId"] in display_ids and s["skillId"] not in all_prereqs]
     tier_order = {"ultimate": 0, "extra": 1, "basic": 2}
@@ -385,7 +454,7 @@ def show_tree(tree_data, graph_data=None, registry_path=".", mode="default", can
     for i, entry in enumerate(roots):
         sid = entry["skillId"]
         is_last = i == len(roots) - 1
-        for line in _render_subtree(sid, skill_map, display_ids, named_by_ref, local_by_ref, mode, "", is_last, seen, canon=canon, current_user=username):
+        for line in _render_subtree(sid, skill_map, display_ids, named_by_ref, local_by_ref, mode, "", is_last, seen, unlocked_ids, custom_nodes, canon=canon, current_user=username):
             print(line)
 
 
