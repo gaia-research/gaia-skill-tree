@@ -116,7 +116,7 @@ from gaia_cli.formatting import (
     COLOR_CONTRIBUTOR,
     COLOR_LOCAL_USER,
     COLOR_GREY,
-    COLOR_CLAUDE_ORANGE,
+    HARNESS_COLORS,
     COLOR_REDACTED,
     REDACTED_BLOCK,
     get_harness_color,
@@ -165,7 +165,7 @@ Quick usage:
   {_fg(*COLOR_FUSE_PURPLE)}gaia propose{_reset()} [<skillId>] [--ultimate] [--target <name>] [--no-pr]
   {_fg(*C1)}gaia version{_reset()}
   {_fg(*C2)}gaia whoami{_reset()}
-  {_fg(*COLOR_CLAUDE_ORANGE)}gaia mcp{_reset()}
+  {_fg(*HARNESS_COLORS["claude"])}gaia mcp{_reset()}
   {_fg(*COLOR_GREY)}gaia release{_reset()} <patch|minor|major>
   {_fg(*C1)}gaia graph{_reset()} [--format html|svg|json] [-o <path>] [--no-open]
   {_fg(*C4)}gaia appraise{_reset()} [<skillId>]
