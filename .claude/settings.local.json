@@ -14,7 +14,8 @@
       "Bash(git rebase *)",
       "Bash(python -m gaia_cli --help)",
       "Bash(gaia --help)",
-      "Bash(gaia *)"
+      "Bash(gaia *)",
+      "Bash(git worktree *)"
     ]
   },
   "outputStyle": "default"
