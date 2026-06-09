@@ -159,7 +159,8 @@ Getting started:
   {_fg(*C1)}gaia init{_reset()} [--user <name>] [--scan <path>] [--yes] [-y]
   {_fg(*C2)}gaia scan{_reset()} [--quiet]
   {_fg(*COLOR_LOCAL_USER)}gaia push{_reset()} [--dry-run] [--no-issue]
-  {_rainbow_text("gaia")}                        Launch the TUI (interactive dashboard)
+  {_rainbow_text("gaia")}                        Open command selector
+  {_rainbow_text("gaia skills")}                 Launch skills explorer (TUI)
 
 Daily commands:
   {_fg(*C5)}gaia tree{_reset()} [--named] [--title]
@@ -3437,26 +3438,15 @@ def main():
     parser, skills_parser = get_parser()
     args = parser.parse_args()
 
-    # Launch TUI if explicitly requested OR if no args + interactive terminal
-    wants_tui = args.tui or (
-        len(sys.argv) == 1 and sys.stdin.isatty() and sys.stdout.isatty()
-    )
+    # --tui flag now redirects to `gaia skills` (TUI lives there)
+    if args.tui:
+        os.execvp(sys.argv[0], [sys.argv[0], "skills"])
 
-    if wants_tui:
-        try:
-            from gaia_cli.tui import GaiaApp
-
-            GaiaApp().run()
-            return
-        except ImportError:
-            if args.tui:
-                # Explicit request failed -> error
-                print(
-                    "TUI requires the 'textual' package. Install with: pip install 'gaia-cli[tui]'",
-                    file=sys.stderr,
-                )
-                sys.exit(1)
-            # Implicit request failed -> fall through to argparse
+    # No args + interactive terminal → command selector
+    if len(sys.argv) == 1 and sys.stdin.isatty() and sys.stdout.isatty():
+        from gaia_cli.selector import run_selector
+        run_selector(parser)
+        return
 
     args.registry = resolve_registry_path(args.registry, global_flag=args.global_flag)
     require_explicit_writable_registry(parser, args)
@@ -3560,7 +3550,11 @@ def main():
         test_command(args)
     elif args.command == "skills":
         if not getattr(args, "skills_command", None):
-            skills_parser.print_help()
+            try:
+                from gaia_cli.tui import GaiaApp
+                GaiaApp().run()
+            except ImportError:
+                skills_parser.print_help()
             return
         skills_command(args)
     elif args.command == "_hook":
