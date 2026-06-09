@@ -308,7 +308,11 @@ def select_push_batch(batch: dict, prompt: str = "Select items to push to regist
         choices.append(questionary.Separator("--- Starless skills -> Named proposal ---"))
         for k in known:
             sid = k.get("skillId", "?")
-            title = f"[STARLESS] {_format_id(sid)}"
+            local_id = k.get("localId")
+            if local_id and local_id != sid:
+                title = f"[STARLESS] {_format_id(local_id)} -> {_format_id(sid)}"
+            else:
+                title = f"[STARLESS] {_format_id(sid)}"
             choices.append(questionary.Choice(title=title, value=f"known:{sid}", checked=True))
 
     if not choices:

@@ -2,6 +2,14 @@
 
 Agent guidance for the gaia-skill-tree repository. See CLAUDE.md for full details.
 
+## Core Usage Flow
+The intended core usage flow for Gaia CLI is:
+1. `gaia init` - Initialize local state and registry config
+2. `gaia scan` - Analyze codebase tokens, map to registry, and update local state
+3. `gaia push` - Select mapped skills/fusions to propose to the central registry
+4. `gaia fuse` (optional) - Define custom skill fusions locally if mappings are needed
+5. `gaia tree` - Visualize the current skill tree and unlocks structure
+
 ## Curation Guidelines
 
 Refer to [DEV.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/DEV.md) for local environment setup, testing, and CI troubleshooting. Keep these curation-specific rules in mind:

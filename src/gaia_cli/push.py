@@ -134,35 +134,56 @@ def filter_proposed_ids(valid_tokens, canonical_ids):
 
 def build_skill_batch(raw_tokens, config, registry_root, now=None, source_repo=None):
     graph_path = registry_graph_path(registry_root)
-    canonical_ids = load_canonical_skills(graph_path)
     canonical_map = load_canonical_skill_map(graph_path)
     if source_repo is None:
         source_repo = detect_source_repo(config)
     timestamp = now or datetime.now(timezone.utc)
     generated_at = timestamp.replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
-    # Strip leading slashes from tokens before matching
-    clean_tokens = [t.lstrip('/') for t in raw_tokens]
-    valid_tokens = sorted(token for token in clean_tokens if SKILL_ID_RE.match(token))
-    known_ids = [token for token in valid_tokens if token in canonical_ids]
-    proposed_ids = filter_proposed_ids(valid_tokens, canonical_ids)
     batch_id = (
         f"{timestamp.strftime('%Y%m%d%H%M%S')}-"
         f"{config.get('gaiaUser', 'unknown')}-{source_repo.split('/')[-1]}"
     )
 
-    proposed_skills = []
-    for skill_id in proposed_ids:
-        skill = build_proposed_skill(skill_id, source_repo)
-        proposed_skills.append(skill)
-
-    # Inject custom fusions from local state as proposed combinations
-    proposed_combos = []
     custom_state_path = os.path.join(".gaia", "custom_state.json")
+    
+    proposed_skills = []
+    proposed_combos = []
+    known_ids = {}
+    proposed_ids = []
+
     if os.path.exists(custom_state_path):
         try:
             with open(custom_state_path, "r", encoding="utf-8") as f:
                 cstate = json.load(f)
+                
+                # Extract Custom Skills and Starless Skills
+                custom_skills = cstate.get("customSkills", [])
+                for sk in custom_skills:
+                    m_type = sk.get("match_type")
+                    c_level = sk.get("canon_level", "0★")
+                    mapped_id = sk.get("mapped_to", sk.get("id"))
+                    
+                    if m_type in ("generic", "exact_generic") and c_level == "0★":
+                        # Starless skill
+                        bare_id = mapped_id.lstrip('/')
+                        local_bare_id = sk.get("id", "").lstrip('/')
+                        known_ids[bare_id] = local_bare_id
+                    elif m_type not in ("origin", "named", "generic", "exact_generic"):
+                        # Custom skill
+                        bare_id = sk.get("id", "").lstrip('/')
+                        if bare_id:
+                            proposed_ids.append(bare_id)
+                            skill = build_proposed_skill(bare_id, source_repo)
+                            if "name" in sk and sk["name"]:
+                                skill["name"] = sk["name"]
+                            if "description" in sk and sk["description"]:
+                                skill["description"] = sk["description"]
+                            if "prerequisites" in sk and sk["prerequisites"]:
+                                skill["prerequisites"] = sk["prerequisites"]
+                            proposed_skills.append(skill)
+                
+                # Extract Fusions
                 fusions = cstate.get("customFusions", {})
                 for target, data in fusions.items():
                     if isinstance(data, dict):
@@ -188,7 +209,7 @@ def build_skill_batch(raw_tokens, config, registry_root, now=None, source_repo=N
         "userId": config.get("gaiaUser", "unknown"),
         "sourceRepo": source_repo,
         "generatedAt": generated_at,
-        "knownSkills": [{"skillId": skill_id} for skill_id in known_ids],
+        "knownSkills": [{"skillId": k, "localId": v} for k, v in sorted(known_ids.items())],
         "proposedSkills": proposed_skills,
         "proposedCombinations": proposed_combos,
         "similarity": build_similarity(proposed_ids, canonical_map),

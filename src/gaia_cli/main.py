@@ -463,7 +463,22 @@ def scan_command(args):
     # Unified local context for display
     ctx = LocalContext.load(args.registry, username or "", include_scan=False, global_search=global_search)
 
-    installed_skills = scan_skill_mds(global_search=global_search)
+    # 1. Run codebase scan to find actually used skill tokens
+    from gaia_cli.pathEngine import regenerate_paths
+    paths = regenerate_paths(args.registry)
+    # paths.json IDs are stored WITHOUT leading slashes
+    scanned_ids = set(paths.get("detectedIds", [])) | set(paths.get("novelIds", []))
+
+    # 2. Scan filesystem for custom skill metadata (SKILL.md)
+    all_installed_skills = scan_skill_mds(global_search=global_search)
+    
+    # 3. Filter: Only keep skills that are actually referenced in the code
+    installed_skills = []
+    for sk in all_installed_skills:
+        # scan_skill_mds IDs always start with /
+        cid_bare = sk['id'].lstrip('/')
+        if cid_bare in scanned_ids:
+            installed_skills.append(sk)
     
     resolved = []
     
@@ -660,11 +675,13 @@ def scan_command(args):
 
             if other_group:
                 print(f"\n{_fg(*RANK_COLORS['0★'])}⚡ {_bold()}Tip: Run `{_fg(*COLOR_LOCAL_USER)}gaia push{_reset()}{_fg(*RANK_COLORS['0★'])}` to submit your custom skills for review.{_reset()}")
-        # Clean up output fields to keep file clean
-        for sk in custom_state_skills:
-            sk.pop("match_type", None)
-            sk.pop("canon_level", None)
-
+                
+                # Run gaia fuse tip in slate blue
+                if _use_color():
+                    slate_blue = (106, 90, 205)
+                    print(f"{_fg(*slate_blue)}{_bold()}Run gaia fuse:{_reset()} {_fg(*slate_blue)}Have skills you want to fuse? Run `gaia fuse` to combine them into a new custom path.{_reset()}")
+                else:
+                    print("Run gaia fuse: Have skills you want to fuse? Run `gaia fuse` to combine them into a new custom path.")
         # Persist the custom state mapping
         os.makedirs(".gaia", exist_ok=True)
         custom_state_path = ".gaia/custom_state.json"
@@ -1601,19 +1618,9 @@ def push_command(args):
         print("Gaia not initialized. Run `gaia init` first.", file=sys.stderr)
         sys.exit(1)
 
-    raw_tokens = scan_repo()
     try:
-        batch = build_skill_batch(raw_tokens, config, args.registry)
+        batch = build_skill_batch([], config, args.registry)
         source_repo = batch["sourceRepo"]
-        if sys.stdin.isatty() and not getattr(args, 'yes', False):
-            try:
-                ans = input(f"Push skills to gaia registry from {source_repo}? [Y/n]: ").strip().lower()
-            except (KeyboardInterrupt, EOFError):
-                print()
-                sys.exit(1)
-            if ans == 'n':
-                print("Aborted.")
-                return
     except NonPublicRepoError as exc:
         print(
             "\nYour skills are ready for review!\n"
@@ -1623,34 +1630,13 @@ def push_command(args):
             file=sys.stderr,
         )
         username_fallback = str(exc)
-        batch = build_skill_batch(raw_tokens, config, args.registry,
+        batch = build_skill_batch([], config, args.registry,
                                   source_repo=f"{username_fallback}/local-repo")
 
     # Guard 1: check if empty initially
-    if not batch.get("proposedSkills") and not batch.get("knownSkills"):
+    if not batch.get("proposedSkills") and not batch.get("knownSkills") and not batch.get("proposedCombinations"):
         print(f"Error: No skills to be pushed. Please install newer skills then gaia scan, or `{_fg(*COLOR_FUSE_PURPLE)}gaia fuse{_reset()}` custom skills before pushing.", file=sys.stderr)
         sys.exit(1)
-
-    # Custom skills injection and interactive exclusion
-    installed_skills = scan_skill_mds(global_search=False)
-    batch_proposed_ids = {s["id"] for s in batch.get("proposedSkills", [])}
-    batch_known_ids = {s["skillId"] for s in batch.get("knownSkills", [])}
-
-    # Ensure all local custom skills are included in the batch
-    for sk in installed_skills:
-        cid = sk["id"]
-        if cid not in batch_proposed_ids and cid not in batch_known_ids:
-            batch.setdefault("proposedSkills", []).append({
-                "id": cid,
-                "name": sk.get("name", cid),
-                "type": "basic",
-                "description": sk.get("description", f"Local custom skill {cid}"),
-                "sourceRepo": batch.get("sourceRepo", "unknown"),
-                "lifecycle": "pending",
-            })
-            batch_proposed_ids.add(cid)
-
-    pushable_custom_skills = installed_skills
 
     # Interactive Selection of items to push
     if sys.stdin.isatty() and not getattr(args, 'yes', False) and _has_interactive():
@@ -1668,14 +1654,31 @@ def push_command(args):
         batch["similarity"] = [s for s in batch.get("similarity", []) if s.get("sourceSkillId") in selected_proposed_ids]
     elif sys.stdin.isatty() and not getattr(args, 'yes', False):
         # Fallback for non-interactive but TTY
-        try:
-            ans = input(f"Push all detected skills and fusions to gaia registry from {batch['sourceRepo']}? [Y/n]: ").strip().lower()
-        except (KeyboardInterrupt, EOFError):
-            print()
-            sys.exit(1)
-        if ans == 'n':
-            print("Aborted.")
-            return
+        fusions = batch.get("proposedCombinations", [])
+        if fusions:
+            print(f"\n{_bold()}{_fg(*COLOR_LOCAL_USER)}1. Fuses -> Review{_reset()}")
+            for f in fusions:
+                res = f.get("candidateResult", "?")
+                srcs = f.get("detectedSkills", [])
+                print(f"   [FUSION] {' + '.join(srcs)} → {res}")
+
+        proposed = batch.get("proposedSkills", [])
+        if proposed:
+            print(f"\n{_bold()}{_fg(*COLOR_LOCAL_USER)}2. Custom skills -> Review{_reset()}")
+            for p in proposed:
+                print(f"   [CUSTOM] {p.get('id')}")
+
+        known = batch.get("knownSkills", [])
+        if known:
+            print(f"\n{_bold()}{_fg(*COLOR_LOCAL_USER)}3. Starless skills -> Named proposal{_reset()}")
+            for k in known:
+                sid = k.get('skillId', '?')
+                local_id = k.get('localId')
+                if local_id and local_id != sid:
+                    print(f"   [STARLESS] /{local_id} -> /{sid}")
+                else:
+                    print(f"   [STARLESS] /{sid}")
+        print()
 
     # Guard 2: check if empty after filtering
     if not batch.get("proposedSkills") and not batch.get("knownSkills") and not batch.get("proposedCombinations"):
@@ -1686,6 +1689,25 @@ def push_command(args):
     if args.dry_run:
         print(json.dumps(batch, indent=2))
         return
+
+    if sys.stdin.isatty() and not getattr(args, 'yes', False):
+        try:
+            if _use_color():
+                push_color = COLOR_LOCAL_USER
+                grey = RANK_COLORS['0★']
+                prompt = (
+                    f"{_bold()}{_fg(*TIER_COLORS['ultimate'])}? {_fg(255, 255, 255)}Push selected items to gaia registry from {_fg(*RANK_COLORS['2★'])}{batch['sourceRepo']}{_reset()}{_fg(255, 255, 255)}? "
+                    f"{_fg(*grey)}[{_fg(*push_color)}Y{_fg(*grey)}/n]: {_reset()}"
+                )
+            else:
+                prompt = f"Push selected items to gaia registry from {batch['sourceRepo']}? [Y/n]: "
+            ans = input(prompt).strip().lower()
+        except (KeyboardInterrupt, EOFError):
+            print()
+            sys.exit(1)
+        if ans == 'n':
+            print("Aborted.")
+            return
 
     batch_path = write_skill_batch(batch, args.registry)
     push_color = COLOR_LOCAL_USER # Green
