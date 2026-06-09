@@ -283,8 +283,6 @@ def _render_legend():
     for r in ["1★", "2★", "3★", "4★", "5★", "6★"]:
         if r == "6★":
             ranks.append(f"{bold()}{_rainbow_text(f'[{r}]')}{reset()}")
-        elif r == "5★":
-            ranks.append(f"{bold()}{_gradient_text(f'[{r}]', _GRAD_GOLD, _GRAD_RED)}{reset()}")
         else:
             color = RANK_COLORS.get(r, slate_blue)
             ranks.append(f"{fg(*color)}[{r}]{reset()}")

@@ -20,7 +20,6 @@ The `gaia tree` command uses specific colors to denote skill origins and ranks:
 
 ### Rank Colors
 Ranks `1★` through `6★` use colors defined in the registry palette (see `RANK_COLORS` in `gaia.json`).
-- `5★` is a **Transcendent Level** and is rendered with a Gold-to-Red gradient.
 - `6★` is a **Transcendent ★ Level** and is rendered with a full Rainbow effect (Blue -> Purple -> Gold -> Red -> Purple -> Green).
 
 ## Tooling Strategy
