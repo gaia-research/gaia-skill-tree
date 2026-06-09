@@ -749,19 +749,19 @@ def scan_command(args):
         if new_paths.get("nearUnlocks") or new_paths.get("oneAway"):
             print(render_path_summary(new_paths))
 
-        render_user_tree_outputs(username, tree, graph_data, args.registry, quiet=quiet, is_global=getattr(args, 'global_flag', False))
+        render_user_tree_outputs(username, tree, graph_data, args.registry, quiet=quiet, is_global=getattr(args, 'global_flag', False), custom=not canon)
 
         if not quiet and not use_json:
             print(f"\nTip: Have skills you want to fuse? Run `{_fg(*COLOR_FUSE_PURPLE)}gaia fuse{_reset()}` to combine them into a new custom path.")
 
 
-def render_user_tree_outputs(username: str, tree: dict | None, graph_data: dict | None, registry_path: str, quiet: bool = False, is_global: bool = False) -> tuple[str, str] | None:
+def render_user_tree_outputs(username: str, tree: dict | None, graph_data: dict | None, registry_path: str, quiet: bool = False, is_global: bool = False, custom: bool = True) -> tuple[str, str] | None:
     if not tree:
         return None
     mode = "default"
     buf = StringIO()
     with redirect_stdout(buf):
-        show_tree(tree, graph_data=graph_data, registry_path=registry_path, mode=mode)
+        show_tree(tree, graph_data=graph_data, registry_path=registry_path, mode=mode, custom=custom)
     text = buf.getvalue()
     
     # Save to local workspace by default, only use registry path if --global is set

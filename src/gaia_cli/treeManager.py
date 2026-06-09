@@ -271,6 +271,8 @@ def _render_subtree(skill_id, skill_map, display_ids, named_by_ref, local_by_ref
 
     child_prefix = prefix + ("    " if is_last else "│   ")
     prereqs = skill.get("prerequisites", [])
+    if mode == "named":
+        prereqs = [p for p in prereqs if p in display_ids]
     
     owned_prereqs = []
     unowned_prereqs = []
@@ -408,6 +410,9 @@ def show_tree(tree_data, graph_data=None, registry_path=".", mode="default", can
             node_id = mapped_to if (mapped_to and mapped_to in skill_map) else csk["id"]
             
             scanned_nodes.add(node_id)
+            
+            if m_type in ("generic", "exact_generic") and mapped_to:
+                local_by_ref[mapped_to] = {"id": csk["id"]}
             
             if m_type not in ("origin", "named", "generic", "exact_generic"):
                 custom_nodes.add(node_id)
