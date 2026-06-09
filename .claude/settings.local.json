@@ -11,7 +11,14 @@
       "Bash(node -c /Users/marcotiongson/Documents/gaia-skill-tree-2/docs/js/skill-explorer.js)",
       "Bash(node --check /Users/marcotiongson/Documents/gaia-skill-tree-2/docs/js/skill-graph.js)",
       "Bash(grep -n \"skill-tooltip-name\\\\|skill-tooltip-type\\\\|graph-redpill\\\\|graph-tooltip-add\\\\|graph-skill-panel-cmd\\\\|graph-skill-panel-explorer-link\\\\|graph-skill-panel-close:hover\\\\|graph-collection-panel \\\\|graph-collection-panel{\\\\|callout {$\\\\|graph-label-toggle\\\\|graph-bottom-btn {\\\\|graph-pause-btn {\\\\|graph-search-wrap {\" /Users/marcotiongson/Documents/gaia-skill-tree-2/docs/css/styles.css)",
-      "Bash(git rebase *)"
+      "Bash(git rebase *)",
+      "Bash(python -m gaia_cli --help)",
+      "Bash(gaia --help)",
+      "Read(//Users/marcotiongson/Documents/gaia-skill-tree/**)",
+      "Bash(pip install *)",
+      "Bash(python3 -m gaia_cli --help)",
+      "Bash(PYTHONPATH=/Users/marcotiongson/Documents/gaia-skill-tree/.claude/worktrees/gaia-help-coloring/src python3 -m gaia_cli --help)",
+      "Bash(PYTHONPATH=src python3 -m gaia_cli --help)"
     ]
   },
   "outputStyle": "default"
