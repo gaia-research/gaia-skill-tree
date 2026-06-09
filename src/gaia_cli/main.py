@@ -1649,6 +1649,7 @@ def fuse_command(args):
                     questionary.Choice("Create new custom fusion path", value="new"),
                     questionary.Choice("Edit existing custom fusions", value="edit"),
                     questionary.Choice("Delete custom fusion", value="delete"),
+                    questionary.Choice("Exit", value="exit"),
                 ]
             )
 
@@ -1658,7 +1659,7 @@ def fuse_command(args):
                 "Gaia Fuse Menu:  (Ctrl+C to cancel)",
                 choices=choices,
             ).ask()
-            if not choice:
+            if not choice or choice == "exit":
                 return
 
             if choice == "delete":
