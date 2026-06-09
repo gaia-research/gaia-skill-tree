@@ -230,15 +230,17 @@ def _color_entry(symbol, plain_label, tier, is_named, level, current_user=None, 
 
 
 def _render_legend():
-    from gaia_cli.cardRenderer import fg, reset, bold, COLOR_CONTRIBUTOR, COLOR_LOCAL_USER, RANK_COLORS, _use_color
+    from gaia_cli.cardRenderer import fg, reset, bold, COLOR_CONTRIBUTOR, COLOR_LOCAL_USER, RANK_COLORS, _use_color, TIER_COLORS
     if not _use_color():
         return
 
     slate_blue = (148, 163, 184)
+    fuse_purple = TIER_COLORS.get("extra", (192, 132, 252))
     
     print("  " + f"{fg(*slate_blue)}○ starless{reset()}  " +
           f"{bold()}{fg(*COLOR_CONTRIBUTOR)}○ named{reset()}  " +
-          f"{fg(*COLOR_LOCAL_USER)}○ custom{reset()}")
+          f"{fg(*COLOR_LOCAL_USER)}○ custom{reset()}  " +
+          f"{fg(*fuse_purple)}○ fusion{reset()}")
     
     ranks = []
     for r in ["1★", "2★", "3★", "4★", "5★", "6★"]:
@@ -542,13 +544,15 @@ def show_tree(tree_data, graph_data=None, registry_path=".", mode="default", can
     # Use a direct ANSI code to ensure color even if _use_color() fails in a subshell/pipe
     username_colored = f"\033[38;2;{COLOR_CONTRIBUTOR[0]};{COLOR_CONTRIBUTOR[1]};{COLOR_CONTRIBUTOR[2]}m{username}\033[0m"
     print(username_colored)
-    _render_legend()
     seen: set[str] = set()
     for i, entry in enumerate(roots):
         sid = entry["skillId"]
         is_last = i == len(roots) - 1
         for line in _render_subtree(sid, skill_map, display_ids, named_by_ref, local_by_ref, mode, "", is_last, seen, unlocked_ids, custom_nodes, canon=canon, current_user=username, fusion_nodes=fusion_nodes, origin_ids=origin_ids):
             print(line)
+
+    print()
+    _render_legend()
 
 
 def show_color_check():
