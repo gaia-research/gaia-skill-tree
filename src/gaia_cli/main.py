@@ -808,9 +808,7 @@ def scan_command(args):
             print_group("other", other_group)
 
             if other_group:
-                print(
-                    f"\n{_fg(*RANK_COLORS['0★'])}⚡ {_bold()}Tip: Run `{_fg(*COLOR_LOCAL_USER)}gaia push{_reset()}{_fg(*RANK_COLORS['0★'])}` to submit your custom skills for review.{_reset()}"
-                )
+                pass
 
                 # Run gaia fuse tip in slate blue
                 # if _use_color():
@@ -2175,7 +2173,7 @@ def install_command(args):
         return
     if not args.skill_id:
         print("Usage: gaia install <skill_id>", file=sys.stderr)
-        print("  To update all installed skills, use: gaia update", file=sys.stderr)
+        print("  To update all installed skills, use: gaia skills update", file=sys.stderr)
         sys.exit(2)
 
     # Use suite logic if flagged or implicitly requested
