@@ -255,10 +255,11 @@ class TestTreeRenderFixes:
         show_tree(tree_data, graph_data=graph_data, registry_path=str(tmp_path))
         out = capsys.readouterr().out
         
-        # 1. do not include the "-> name/skill-slug", only the star
+        # 1. do not include the "-> name/skill-slug" and star count
         assert "-> unowned-skill" not in out
         assert "-> /unowned-skill" not in out
-        assert "/??? 3★" in out
+        assert "/???" in out
+        assert "3★" not in out
         
         # 2. inherit the color of the skill it is tied to (3★ rank color is (167, 139, 250))
         assert "\033[38;2;167;139;250m" in out
@@ -282,8 +283,8 @@ class TestTreeRenderFixes:
         show_tree(tree_data, graph_data=graph_data, registry_path=str(tmp_path))
         out = capsys.readouterr().out
         
-        # Owned starless should always be slate blue: (106, 90, 205)
-        assert "\033[38;2;106;90;205m" in out
+        # Owned starless should always be slate: (148, 163, 184)
+        assert "\033[38;2;148;163;184m" in out
 
     def test_owned_named_honor_red(self, tmp_path, monkeypatch, capsys):
         monkeypatch.chdir(tmp_path)

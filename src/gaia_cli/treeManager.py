@@ -178,8 +178,10 @@ def _color_entry(symbol, plain_label, tier, is_named, level, current_user=None, 
 
     rc = RANK_COLORS.get(level, RANK_COLORS.get("0★", (148, 163, 184)))
 
+    is_named_display = (is_origin or is_named) and not plain_label.startswith('/')
+
     # Priority 1 & 2: ORIGIN & Named
-    if is_origin or is_named:
+    if is_named_display:
         if level in _TRANSCENDENT_LEVELS:
             colored = _gradient_text(f"{symbol} {plain_label}", _GRAD_GOLD, _GRAD_RED)
             return f"{bold()}{colored}{reset()}"
@@ -203,7 +205,7 @@ def _color_entry(symbol, plain_label, tier, is_named, level, current_user=None, 
 
     # Priority 3: Starless
     if not is_fused and not is_custom:
-        slate_blue = (106, 90, 205)
+        slate_blue = (148, 163, 184)
         return f"{fg(*slate_blue)}{symbol} {plain_label}{reset()}"
 
     # Priority 4: Fused custom
@@ -291,8 +293,6 @@ def _render_subtree(skill_id, skill_map, display_ids, named_by_ref, local_by_ref
 
     if is_unowned:
         label = "/???"
-        if level and level not in ("0★", "?"):
-            label += f" {level}"
     else:
         label = _plain_label(skill_id, skill_map, named_by_ref, local_by_ref, mode, canon=canon, current_user=current_user)
         if skill_id in seen:
