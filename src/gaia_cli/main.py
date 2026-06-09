@@ -116,9 +116,11 @@ from gaia_cli.formatting import (
     COLOR_CONTRIBUTOR,
     COLOR_LOCAL_USER,
     COLOR_GREY,
+    COLOR_CLAUDE_ORANGE,
     COLOR_REDACTED,
     REDACTED_BLOCK,
     get_harness_color,
+    _rainbow_text,
     _fg,
     _reset,
     _bold,
@@ -144,27 +146,35 @@ DEFAULT_REGISTRY_REF = "https://github.com/mbtiongson1/gaia-skill-tree"
 COLOR_APEX_GOLD = RANK_COLORS["6★"]
 COLOR_FUSE_PURPLE = TIER_COLORS["extra"]
 
+# Star rank color tokens for convenience
+C1 = RANK_COLORS["1★"]
+C2 = RANK_COLORS["2★"]
+C3 = RANK_COLORS["3★"]
+C4 = RANK_COLORS["4★"]
+C5 = RANK_COLORS["5★"]
+C6 = RANK_COLORS["6★"]
+
 COMMAND_USAGE = f"""\
 Quick usage:
-  gaia                        Launch the TUI (interactive dashboard)
-  gaia init [--user <name>] [--scan <path>] [--yes] [-y]
-  gaia scan [--quiet]
-  gaia pull
-  gaia tree [--named] [--title]
+  {_rainbow_text("gaia")}                        Launch the TUI (interactive dashboard)
+  {_fg(*C1)}gaia init{_reset()} [--user <name>] [--scan <path>] [--yes] [-y]
+  {_fg(*C2)}gaia scan{_reset()} [--quiet]
+  {_fg(*C3)}gaia pull{_reset()}
+  {_fg(*C5)}gaia tree{_reset()} [--named] [--title]
   {_fg(*COLOR_LOCAL_USER)}gaia push{_reset()} [--dry-run] [--no-issue]
-  gaia propose [<skillId>] [--ultimate] [--target <name>] [--no-pr]
-  gaia version
-  gaia whoami
-  gaia mcp
-  gaia release <patch|minor|major>
-  gaia graph [--format html|svg|json] [-o <path>] [--no-open]
-  gaia appraise [<skillId>]
-  gaia promote [<skillId>] [--all] [--name <name>]
+  {_fg(*COLOR_FUSE_PURPLE)}gaia propose{_reset()} [<skillId>] [--ultimate] [--target <name>] [--no-pr]
+  {_fg(*C1)}gaia version{_reset()}
+  {_fg(*C2)}gaia whoami{_reset()}
+  {_fg(*COLOR_CLAUDE_ORANGE)}gaia mcp{_reset()}
+  {_fg(*COLOR_GREY)}gaia release{_reset()} <patch|minor|major>
+  {_fg(*C1)}gaia graph{_reset()} [--format html|svg|json] [-o <path>] [--no-open]
+  {_fg(*C4)}gaia appraise{_reset()} [<skillId>]
+  {_fg(*C5)}gaia promote{_reset()} [<skillId>] [--all] [--name <name>]
   {_fg(*COLOR_FUSE_PURPLE)}gaia fuse{_reset()} <skillId> [--name <name>]
-  gaia update
-  gaia stats
-  gaia docs build [--check]
-  gaia lookup <skillId>
+  {_fg(*C3)}gaia update{_reset()}
+  {_fg(*C4)}gaia stats{_reset()}
+  {_fg(*COLOR_GREY)}gaia docs build{_reset()} [--check]
+  {_fg(*C2)}gaia lookup{_reset()} <skillId>
 
   -- dev: read-only (no authorization required) --
   {_fg(*COLOR_GREY)}gaia dev list{_reset()} [--generic] [--named] [--description] [--json]
@@ -188,13 +198,13 @@ Quick usage:
 
   {_fg(*COLOR_GREY)}gaia validate{_reset()} [--intake] [--meta-sync]
   {_fg(*COLOR_GREY)}gaia test{_reset()} <suite>
-  gaia skills <list|search|info|install|uninstall>
+  {_rainbow_text("gaia skills")} <list|search|info|install|uninstall>
   gaia skills list [--exclude-pending]
   gaia skills search <query> [--exclude-pending]
   gaia skills info <skill_id> [--exclude-pending]
   gaia skills install <skill> [--global | --local]
   gaia skills uninstall <skill_id>
-  gaia path <skillId> [--owned-only] [--json]
+  {_fg(*C5)}gaia path{_reset()} <skillId> [--owned-only] [--json]
 """
 
 SKILLS_USAGE = """\
