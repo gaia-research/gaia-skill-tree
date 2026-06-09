@@ -370,7 +370,6 @@ def render_html(
     _title_text = _title_text or _username
     _display_title = f"{_title_text} - Gaia Skill Graph" if _title_text else "Gaia Skill Graph"
 
-    # Make sure we add 'meta' object so skill-graph.js doesn't crash if missing
     if "meta" not in graph:
         graph["meta"] = {"levelColors": {}, "levelLabels": {}}
 
@@ -382,22 +381,20 @@ def render_html(
   <title>{_display_title}</title>
   <script>
     window.GAIA_VERSION = "4.3.12";
-    // Point to the local icons sprite downloaded by the CLI
-    window.gaiaIconBase = function() {{ return 'assets/icons.svg'; }};
+    window.gaiaIconBase = function() {{ return 'https://gaia.tiongson.co/assets/icons.svg'; }};
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/plaque.css">
-  <link rel="stylesheet" href="css/alpha-rail.css">
+  <link rel="stylesheet" href="https://gaia.tiongson.co/css/styles.css">
+  <link rel="stylesheet" href="https://gaia.tiongson.co/css/plaque.css">
+  <link rel="stylesheet" href="https://gaia.tiongson.co/css/alpha-rail.css">
   <style>
     body {{ margin: 0; overflow: hidden; background: #020617; color: #fff; font-family: system-ui, sans-serif; }}
     #hero {{ height: 100vh; width: 100vw; position: relative; z-index: 1; }}
     #hero.hero-graph-fullscreen {{ position: fixed; inset: 0; z-index: 100; }}
     canvas {{ display: block; width: 100%; height: 100%; outline: none; }}
     [data-graph-trigger] {{ display: none; }}
-    /* Force visibility of HUD elements which might be hidden by default */
     .graph-search-wrap, .graph-legend, .graph-fullscreen-overlay {{ display: flex !important; }}
   </style>
 </head>
@@ -416,44 +413,31 @@ def render_html(
   <script>
     window.document.title = "{_display_title}";
     
-    // Mock fetch to serve the embedded JSON data
     const originalFetch = window.fetch;
     window.fetch = async function(resource, options) {{
       const url = typeof resource === 'string' ? resource : resource.url;
-      console.log('Mock fetch intercepting:', url);
-      
-      if (url.includes('ping.json')) {{
-        return new Response(JSON.stringify({{ ok: true }}), {{ status: 200, headers: {{ 'Content-Type': 'application/json' }} }});
-      }}
-      if (url.includes('gaia.json')) {{
-        const data = document.getElementById('gaia-graph-data').textContent;
-        return new Response(data, {{ status: 200, headers: {{ 'Content-Type': 'application/json' }} }});
-      }}
-      if (url.includes('named/index.json') || url.includes('index.json')) {{
-        const data = document.getElementById('gaia-named-skills').textContent;
-        return new Response(data, {{ status: 200, headers: {{ 'Content-Type': 'application/json' }} }});
+      if (url.includes('ping.json') || url.includes('gaia.json') || url.includes('index.json')) {{
+          let data = '{{}}';
+          if (url.includes('ping.json')) data = '{{ "ok": true }}';
+          else if (url.includes('gaia.json')) data = document.getElementById('gaia-graph-data').textContent;
+          else if (url.includes('index.json')) data = document.getElementById('gaia-named-skills').textContent;
+          
+          return new Response(data, {{ status: 200, headers: {{ 'Content-Type': 'application/json' }} }});
       }}
       return originalFetch(resource, options);
     }};
   </script>
 
-  <script src="js/icons.js"></script>
-  <script src="js/atlas-helpers.js"></script>
-  <script src="js/rank-badge.js"></script>
-  <script src="js/plaque.js"></script>
-  <script src="js/skill-graph.js"></script>
+  <script src="https://gaia.tiongson.co/js/icons.js"></script>
+  <script src="https://gaia.tiongson.co/js/atlas-helpers.js"></script>
+  <script src="https://gaia.tiongson.co/js/rank-badge.js"></script>
+  <script src="https://gaia.tiongson.co/js/plaque.js"></script>
+  <script src="https://gaia.tiongson.co/js/skill-graph.js"></script>
   <script>
-    // Force immediate activation of the fullscreen interactive mode
     window.addEventListener('load', () => {{
       setTimeout(() => {{
         const trigger = document.getElementById('graphTrigger');
-        if (trigger) {{
-            console.log('Activating graph...');
-            trigger.click();
-        }}
-        // Fallback: search for any element with the attribute
-        const anyTrigger = document.querySelector('[data-graph-trigger]');
-        if (anyTrigger) anyTrigger.click();
+        if (trigger) trigger.click();
       }}, 500);
     }});
   </script>
