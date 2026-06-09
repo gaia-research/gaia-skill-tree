@@ -101,16 +101,17 @@ def build_render_graph(
         bucket = groups.get(skill_type, [])
         radius = RADIUS_BY_TYPE.get(skill_type, 220)
         for i, skill in enumerate(bucket):
-            angle = _stable_angle(str(skill.get("id", "")), i, len(bucket))
+            sid = (skill.get("id") or "").lstrip("/")
+            angle = _stable_angle(sid, i, len(bucket))
             local_radius = radius if len(bucket) > 1 else 0
             x = cx + math.cos(angle) * local_radius
             y = cy + math.sin(angle) * local_radius
-            star = named_max.get(skill.get("id"))
+            star = named_max.get(skill.get("id")) or named_max.get(sid)
             level_meta = level_summary(skill)
             nodes.append(
                 {
-                    "id": skill.get("id"),
-                    "label": skill.get("name") or skill.get("id"),
+                    "id": sid,
+                    "label": skill.get("name") or sid,
                     "type": skill_type,
                     # Generic refs are rank-less — prefer the top named-variant
                     # star; fall back to any legacy level for back-compat.
@@ -129,10 +130,11 @@ def build_render_graph(
     skill_ids = {node["id"] for node in nodes}
     edges: list[dict[str, Any]] = []
     for skill in skills:
-        target = skill.get("id")
+        target = (skill.get("id") or "").lstrip("/")
         if target not in skill_ids:
             continue
         for source in skill.get("prerequisites", []) or []:
+            source = source.lstrip("/")
             if source in skill_ids:
                 edges.append(
                     {
@@ -382,6 +384,7 @@ def render_html(
     named_skills: dict[str, Any] | None = None,
     *,
     user_ctx: dict[str, Any] | None = None,
+    icons_svg: str | None = None,
 ) -> str:
     named_skills = named_skills or {"buckets": {}}
     user_ctx_data: dict[str, Any] = user_ctx if user_ctx is not None else {}
@@ -439,7 +442,7 @@ def render_html(
       const url = typeof resource === 'string' ? resource : resource.url;
       
       if (url.includes('icons.svg')) {{
-          return originalFetch('https://gaia.tiongson.co/assets/icons.svg', options);
+          {f"return new Response({json.dumps(icons_svg)}, {{ status: 200, headers: {{ 'Content-Type': 'image/svg+xml' }} }});" if icons_svg else "return originalFetch('https://gaia.tiongson.co/assets/icons.svg', options);"}
       }}
       
       if (url.includes('ping.json') || url.includes('gaia.json') || url.includes('index.json')) {{
@@ -594,8 +597,15 @@ def write_graph_artifact(
     out_path.parent.mkdir(parents=True, exist_ok=True)
 
     if fmt == "html":
+        icons_svg: str | None = None
+        icons_path = root / "docs" / "assets" / "icons.svg"
+        if icons_path.exists():
+            try:
+                icons_svg = icons_path.read_text(encoding="utf-8")
+            except OSError:
+                pass
         out_path.write_text(
-            render_html(graph, load_named_skills(root), user_ctx=user_ctx),
+            render_html(graph, load_named_skills(root), user_ctx=user_ctx, icons_svg=icons_svg),
             encoding="utf-8",
         )
     elif fmt == "svg":
