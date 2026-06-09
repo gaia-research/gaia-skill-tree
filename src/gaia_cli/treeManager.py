@@ -142,108 +142,6 @@ def _load_local_lookup(registry_path):
     return {ref: entry for ref, entry in _iter_manifest_refs(registry_path)}
 
 
-# ─── color helpers ────────────────────────────────────────────────────────────
-
-def _gradient_text(text, start_rgb, end_rgb):
-    from gaia_cli.cardRenderer import fg, reset, _use_color
-    if not _use_color():
-        return text
-    n = max(len(text) - 1, 1)
-    parts = []
-    for i, ch in enumerate(text):
-        t = i / n
-        r = int(start_rgb[0] + t * (end_rgb[0] - start_rgb[0]))
-        g = int(start_rgb[1] + t * (end_rgb[1] - start_rgb[1]))
-        b = int(start_rgb[2] + t * (end_rgb[2] - start_rgb[2]))
-        parts.append(fg(r, g, b) + ch)
-    return "".join(parts) + reset()
-
-
-def _color_entry(symbol, plain_label, tier, is_named, level, current_user=None, is_unowned=False, is_custom=False):
-    from gaia_cli.cardRenderer import fg, reset, bold, _use_color, TIER_COLORS, RANK_COLORS, COLOR_CONTRIBUTOR, COLOR_LOCAL_USER, COLOR_REDACTED, REDACTED_BLOCK
-    
-    prefix = ""
-    if _use_color() and is_unowned:
-        prefix = "\033[2m/??? -> \033[22m"
-    elif not _use_color() and is_unowned:
-        prefix = "/??? -> "
-
-    if not _use_color():
-        return f"{prefix}{symbol} {plain_label}"
-        
-    if is_custom:
-        return f"{prefix}{fg(*COLOR_LOCAL_USER)}{symbol} {plain_label}{reset()}"
-
-    # Fallback to 0★ for generic un-leveled skills
-    rc = RANK_COLORS.get(level, RANK_COLORS.get("0★", (148, 163, 184)))
-
-    if is_named:
-        if level in _TRANSCENDENT_LEVELS:
-            colored = _gradient_text(f"{symbol} {plain_label}", _GRAD_GOLD, _GRAD_RED)
-            return f"{prefix}{bold()}{colored}{reset()}"
-        
-        if "/" in plain_label and not plain_label.startswith("/"):
-            parts = plain_label.split("/", 1)
-            handle = parts[0]
-            rest = parts[1]
-            
-            handle_color = COLOR_REDACTED if handle == REDACTED_BLOCK else (COLOR_LOCAL_USER if current_user and handle == current_user else COLOR_CONTRIBUTOR)
-            
-            # Split off the star if present
-            star_part = ""
-            nickname = rest
-            if " " in nickname:
-                nickname, star_part = nickname.rsplit(" ", 1)
-            
-            # Reassemble with colors
-            return f"{prefix}{fg(*handle_color)}{symbol} {handle}{reset()}/{fg(*rc)}{nickname}{reset()}{f' {fg(*rc)}{star_part}{reset()}' if star_part else ''}"
-        
-        # Fallback for other formats
-        return f"{prefix}{bold()}{fg(*COLOR_CONTRIBUTOR)}{symbol} {plain_label}{reset()}"
-    
-    # Canon skills: rank color for entire label
-    return f"{prefix}{fg(*rc)}{symbol} {plain_label}{reset()}"
-
-
-def _dim(text):
-    from gaia_cli.cardRenderer import _use_color
-    return f"\033[2m{text}\033[22m" if _use_color() else text
-
-
-# ─── label helpers ────────────────────────────────────────────────────────────
-
-_TYPE_SYMBOL = {"basic": "○", "extra": "◇", "ultimate": "◆"}
-
-
-def _plain_label(skill_id, skill_map, named_by_ref, local_by_ref, mode, canon=False, current_user=None):
-    level = skill_map.get(skill_id, {}).get("level", "?")
-    star = f" {level}" if level and level != "0★" else ""
-    bare_skill = skill_id.lstrip('/')
-
-    if canon:
-        return f"/{bare_skill}{star}"
-    
-    if mode == "title":
-        name = skill_map.get(skill_id, {}).get("name", bare_skill)
-        return f"{name}{star}"
-    
-    local = local_by_ref.get(skill_id)
-    named = named_by_ref.get(skill_id)
-    
-    specific = local or named
-    if specific:
-        level = specific.get("level", level)
-        star = f" {level}" if level and level != "0★" else ""
-        full_id = specific.get("id")
-        if full_id:
-            # Don't prepend slash if it's a contributor handle (no leading slash natively)
-            if not full_id.startswith("/"):
-                return f"{full_id}{star}"
-            return f"{full_id}{star}"
-
-    if "/" in bare_skill:
-        return f"{bare_skill}{star}"
-    return f"/{bare_skill}{star}"
 
 
 def _is_named(skill_id, named_by_ref, local_by_ref):
@@ -272,8 +170,7 @@ def _color_entry(symbol, plain_label, tier, is_named, level, current_user=None, 
     from gaia_cli.cardRenderer import fg, reset, bold, _use_color, TIER_COLORS, RANK_COLORS, COLOR_CONTRIBUTOR, COLOR_LOCAL_USER, COLOR_REDACTED, REDACTED_BLOCK
     
     if not _use_color():
-        prefix = "/??? -> " if is_unowned else ""
-        return f"{prefix}{symbol} {plain_label}"
+        return f"{symbol} {plain_label}"
         
     if is_unowned:
         rc = RANK_COLORS.get(level, RANK_COLORS.get("0★", (148, 163, 184)))
@@ -425,7 +322,7 @@ def _render_subtree(skill_id, skill_map, display_ids, named_by_ref, local_by_ref
     def sort_key(cid):
         tier = skill_map.get(cid, {}).get("type", "basic")
         tier_order = {"ultimate": 0, "extra": 1, "basic": 2}
-        return (0 if (cid in custom_nodes or cid.lstrip('/') in custom_nodes) else 1, tier_order.get(tier, 3), cid)
+        return (1 if (cid in custom_nodes or cid.lstrip('/') in custom_nodes) else 0, tier_order.get(tier, 3), cid)
 
     owned_prereqs.sort(key=sort_key)
     unowned_prereqs.sort(key=sort_key)
@@ -596,7 +493,7 @@ def show_tree(tree_data, graph_data=None, registry_path=".", mode="default", can
 
     roots = [s for s in unlocked if s["skillId"] in display_ids and s["skillId"] not in all_prereqs]
     tier_order = {"ultimate": 0, "extra": 1, "basic": 2}
-    roots.sort(key=lambda s: (0 if (s["skillId"] in custom_nodes or s["skillId"].lstrip('/') in custom_nodes) else 1, tier_order.get(skill_map.get(s["skillId"], {}).get("type", "basic"), 2), s["skillId"]))
+    roots.sort(key=lambda s: (1 if (s["skillId"] in custom_nodes or s["skillId"].lstrip('/') in custom_nodes) else 0, tier_order.get(skill_map.get(s["skillId"], {}).get("type", "basic"), 2), s["skillId"]))
 
     # Populate fusion_nodes and origin_ids
     fusion_nodes = {f for f in fusions.keys()} | {f.lstrip('/') for f in fusions.keys()}
