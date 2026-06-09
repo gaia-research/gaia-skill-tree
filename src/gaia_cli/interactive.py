@@ -37,28 +37,6 @@ def fuse_style():
     ])
 
 
-def push_style():
-    """Questionary style for gaia push — label badges invert on highlight."""
-    import questionary
-    return questionary.Style([
-        ("pointer",     "fg:#86efac bold"),
-        ("highlighted", "fg:#86efac"),
-        ("selected",    "fg:#86efac bold"),
-        ("answer",      "fg:#86efac bold"),
-        ("separator",   "fg:#4b5563"),
-        ("text",        ""),
-        ("label-origin",   "fg:#fbbf24 bold"),
-        ("label-named",    "fg:#ef4444 bold"),
-        ("label-starless", "fg:#94a3b8"),
-        ("label-custom",   "fg:#86efac bold"),
-        ("label-fusion",   "fg:#c084fc bold"),
-        ("highlighted label-origin",   "bg:#fbbf24 fg:#000000 bold"),
-        ("highlighted label-named",    "bg:#ef4444 fg:#000000 bold"),
-        ("highlighted label-starless", "bg:#94a3b8 fg:#000000"),
-        ("highlighted label-custom",   "bg:#86efac fg:#000000 bold"),
-        ("highlighted label-fusion",   "bg:#c084fc fg:#000000 bold"),
-    ])
-
 
 def _has_interactive() -> bool:
     """Check if interactive mode is available and appropriate."""
@@ -293,10 +271,10 @@ def _pt_select(choices: list[dict], prompt: str) -> Optional[str]:
     return result[0]
 
 
-def _pt_multiselect(choices: list[dict], prompt: str) -> list[str]:
+def _pt_multiselect(choices: list[dict], prompt: str, accent: str = "#c084fc") -> list[str]:
     """prompt_toolkit multi-select with ↑↓←→ + Space navigation.
 
-    choices: list of {"title_frags": [...], "value": str}
+    choices: list of {"title_frags": [...], "title_frags_selected": [...], "value": str, "checked": bool}
     Space = toggle, Right/Enter = confirm, Left/Escape/Ctrl-C = cancel.
     Returns list of selected values, or [] if cancelled.
     """
@@ -314,24 +292,23 @@ def _pt_multiselect(choices: list[dict], prompt: str) -> list[str]:
     if not choices:
         return []
 
-    PURPLE = "#c084fc"
     DIM = "#4b5563"
     HEADER_LINES = 3  # prompt + hint + blank
 
     cursor = [0]
-    checked: set[int] = set()
+    checked: set[int] = {i for i, c in enumerate(choices) if c.get("checked", False)}
 
     def get_frags():
         frags: list[tuple[str, str]] = [
-            (f"fg:{PURPLE} bold", f" {prompt}\n"),
+            (f"fg:{accent} bold", f" {prompt}\n"),
             (f"fg:{DIM}", "  ↑↓ move  space toggle  → confirm  ← cancel\n"),
             ("", "\n"),
         ]
         for i, c in enumerate(choices):
             is_cursor = i == cursor[0]
             arrow = " › " if is_cursor else "   "
-            pointer_style = f"fg:{PURPLE} bold" if is_cursor else ""
-            check_style = f"fg:{PURPLE}" if i in checked else f"fg:{DIM}"
+            pointer_style = f"fg:{accent} bold" if is_cursor else ""
+            check_style = f"fg:{accent}" if i in checked else f"fg:{DIM}"
             check_sym = "◉ " if i in checked else "○ "
             frags.append((pointer_style, arrow))
             frags.append((check_style, check_sym))
@@ -602,56 +579,60 @@ def select_push_batch(batch: dict, prompt: str = "Select items to push to regist
     """
     if not _has_interactive():
         return []
-    import questionary
 
-    full_prompt = f"{prompt}  (Ctrl+C to cancel)"
+    GREEN = "#86efac"
+    FUSION_COLOR = "#c084fc"
+    CUSTOM_COLOR = "#86efac"
+    STARLESS_COLOR = "#94a3b8"
+
+    def _item_frags(badge: str, color: str, content: str, bold: bool = True, selected: bool = False) -> list[tuple[str, str]]:
+        if selected:
+            badge_style = f"bg:{color} fg:#000000" + (" bold" if bold else "")
+        else:
+            badge_style = f"fg:{color}" + (" bold" if bold else "")
+        return [(badge_style, badge), ("", content)]
 
     choices = []
 
-    # 1. Fusions (Fuses)
-    fusions = batch.get("proposedCombinations", [])
-    if fusions:
-        choices.append(questionary.Separator("--- Fuses -> Review ---"))
-        for f in fusions:
-            res = f.get("candidateResult", "?")
-            srcs = f.get("detectedSkills", [])
-            prereq_str = " + ".join(_format_id(s) for s in srcs)
-            display_res = _format_id(res)
-            title = [("class:label-fusion", "[FUSION]"), ("", f" {prereq_str} → {display_res}")]
-            choices.append(questionary.Choice(title=title, value=f"fusion:{res}", checked=True))
+    for f in batch.get("proposedCombinations", []):
+        res = f.get("candidateResult", "?")
+        srcs = f.get("detectedSkills", [])
+        content = " " + " + ".join(_format_id(s) for s in srcs) + " → " + _format_id(res)
+        choices.append({
+            "title_frags": _item_frags("[FUSION]", FUSION_COLOR, content),
+            "title_frags_selected": _item_frags("[FUSION]", FUSION_COLOR, content, selected=True),
+            "value": f"fusion:{res}",
+            "checked": True,
+        })
 
-    # 2. Custom Skills
-    proposed = batch.get("proposedSkills", [])
-    if proposed:
-        choices.append(questionary.Separator("--- Custom skills -> Review ---"))
-        for p in proposed:
-            sid = p.get("id", "?")
-            title = [("class:label-custom", "[CUSTOM]"), ("", f" {_format_id(sid)}")]
-            choices.append(questionary.Choice(title=title, value=f"proposed:{sid}", checked=True))
+    for p in batch.get("proposedSkills", []):
+        sid = p.get("id", "?")
+        content = f" {_format_id(sid)}"
+        choices.append({
+            "title_frags": _item_frags("[CUSTOM]", CUSTOM_COLOR, content),
+            "title_frags_selected": _item_frags("[CUSTOM]", CUSTOM_COLOR, content, selected=True),
+            "value": f"proposed:{sid}",
+            "checked": True,
+        })
 
-    # 3. Starless (Known/Generic)
-    known = batch.get("knownSkills", [])
-    if known:
-        choices.append(questionary.Separator("--- Starless skills -> Named proposal ---"))
-        for k in known:
-            sid = k.get("skillId", "?")
-            local_id = k.get("localId")
-            if local_id and local_id != sid:
-                rest = f" {_format_id(local_id)} -> {_format_id(sid)}"
-            else:
-                rest = f" {_format_id(sid)}"
-            title = [("class:label-starless", "[STARLESS]"), ("", rest)]
-            choices.append(questionary.Choice(title=title, value=f"known:{sid}", checked=True))
+    for k in batch.get("knownSkills", []):
+        sid = k.get("skillId", "?")
+        local_id = k.get("localId")
+        if local_id and local_id != sid:
+            content = f" {_format_id(local_id)} -> {_format_id(sid)}"
+        else:
+            content = f" {_format_id(sid)}"
+        choices.append({
+            "title_frags": _item_frags("[STARLESS]", STARLESS_COLOR, content, bold=False),
+            "title_frags_selected": _item_frags("[STARLESS]", STARLESS_COLOR, content, bold=False, selected=True),
+            "value": f"known:{sid}",
+            "checked": True,
+        })
 
     if not choices:
         return []
 
-    result = questionary.checkbox(
-        full_prompt,
-        choices=choices,
-        style=push_style(),
-    ).ask()
-    return result or []
+    return _pt_multiselect(choices, prompt, accent=GREEN)
 
 
 def select_text_input(prompt: str, default: str = "") -> Optional[str]:

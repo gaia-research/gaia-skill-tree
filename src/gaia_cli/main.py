@@ -1796,7 +1796,7 @@ def fuse_command(args):
                 ctx = LocalContext.load(
                     registry_path, username or "", include_scan=True
                 )
-                all_ids = sorted(list(ctx.owned_ids | ctx.detected_ids))
+                all_ids = sorted(list(ctx.owned_ids))
 
                 # Load generic graph for fallback metadata
                 graph_data = {}
