@@ -542,6 +542,7 @@ def show_tree(tree_data, graph_data=None, registry_path=".", mode="default", can
     # Use a direct ANSI code to ensure color even if _use_color() fails in a subshell/pipe
     username_colored = f"\033[38;2;{COLOR_CONTRIBUTOR[0]};{COLOR_CONTRIBUTOR[1]};{COLOR_CONTRIBUTOR[2]}m{username}\033[0m"
     print(username_colored)
+    _render_legend()
     seen: set[str] = set()
     for i, entry in enumerate(roots):
         sid = entry["skillId"]
