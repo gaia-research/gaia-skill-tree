@@ -184,6 +184,33 @@ def _gradient_text(text, start_rgb, end_rgb):
     return "".join(parts) + reset()
 
 
+def _rainbow_text(text):
+    from gaia_cli.cardRenderer import fg, reset, _use_color
+    if not _use_color():
+        return text
+    n = len(text)
+    if n <= 1:
+        return fg(*_RAINBOW_STOPS[0]) + text + reset()
+    
+    parts = []
+    num_stops = len(_RAINBOW_STOPS)
+    for i, ch in enumerate(text):
+        pos = (i / (n - 1)) * (num_stops - 1)
+        idx = int(pos)
+        frac = pos - idx
+        if idx >= num_stops - 1:
+            color = _RAINBOW_STOPS[-1]
+        else:
+            c1 = _RAINBOW_STOPS[idx]
+            c2 = _RAINBOW_STOPS[idx + 1]
+            r = int(c1[0] + frac * (c2[0] - c1[0]))
+            g = int(c1[1] + frac * (c2[1] - c1[1]))
+            b = int(c1[2] + frac * (c2[2] - c1[2]))
+            color = (r, g, b)
+        parts.append(fg(*color) + ch)
+    return "".join(parts) + reset()
+
+
 def _color_entry(symbol, plain_label, tier, is_named, level, current_user=None, is_unowned=False, is_custom=False, is_origin=False, is_fused=False):
     from gaia_cli.cardRenderer import fg, reset, bold, _use_color, TIER_COLORS, RANK_COLORS, COLOR_CONTRIBUTOR, COLOR_LOCAL_USER, COLOR_REDACTED, REDACTED_BLOCK
     
@@ -200,7 +227,11 @@ def _color_entry(symbol, plain_label, tier, is_named, level, current_user=None, 
 
     # Priority 1 & 2: ORIGIN & Named
     if is_named_display:
-        if level in _TRANSCENDENT_LEVELS:
+        if level == "6★":
+            colored = _rainbow_text(f"{symbol} {plain_label}")
+            return f"{bold()}{colored}{reset()}"
+        
+        if level == "5★":
             colored = _gradient_text(f"{symbol} {plain_label}", _GRAD_GOLD, _GRAD_RED)
             return f"{bold()}{colored}{reset()}"
         
@@ -254,8 +285,13 @@ def _render_legend():
     
     ranks = []
     for r in ["1★", "2★", "3★", "4★", "5★", "6★"]:
-        color = RANK_COLORS.get(r, slate_blue)
-        ranks.append(f"{fg(*color)}[{r}]{reset()}")
+        if r == "6★":
+            ranks.append(f"{bold()}{_rainbow_text(f'[{r}]')}{reset()}")
+        elif r == "5★":
+            ranks.append(f"{bold()}{_gradient_text(f'[{r}]', _GRAD_GOLD, _GRAD_RED)}{reset()}")
+        else:
+            color = RANK_COLORS.get(r, slate_blue)
+            ranks.append(f"{fg(*color)}[{r}]{reset()}")
     print("  " + " ".join(ranks))
     print()
 

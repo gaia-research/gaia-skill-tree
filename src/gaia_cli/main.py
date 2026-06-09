@@ -844,6 +844,8 @@ def scan_command(args):
         args.registry, username or "", include_scan=True, global_search=global_search
     )
 
+    tips = []
+
     tree = load_tree(username, registry_path=args.registry)
     if tree:
         with open(graph_path, "r", encoding="utf-8") as f:
@@ -875,8 +877,8 @@ def scan_command(args):
                             ctx=ctx,
                         )
                     )
-                print(
-                    f"Run `{_fg(*COLOR_FUSE_PURPLE)}gaia fuse <skill>{_reset()}` to confirm."
+                tips.append(
+                    f"Confirm detected combinations with `{_fg(*COLOR_FUSE_PURPLE)}gaia fuse <skill>{_reset()}`"
                 )
 
         # Path engine integration
@@ -916,9 +918,24 @@ def scan_command(args):
         )
 
         if not quiet and not use_json:
-            print(
-                f"\nTip: Have skills you want to fuse? Run `{_fg(*COLOR_FUSE_PURPLE)}gaia fuse{_reset()}` to combine them into a new custom path."
+            # Collect final tips
+            if any(sk.get("mapped_score", 0) == 0 for sk in custom_state_skills):
+                tips.append(
+                    f"Push your custom skills for review with `{_fg(*COLOR_LOCAL_USER)}gaia push{_reset()}`"
+                )
+
+            tips.append(
+                f"Create custom fusion paths with `{_fg(*COLOR_FUSE_PURPLE)}gaia fuse{_reset()}`"
             )
+
+            tips.append(
+                f"Visualize your progress with `{_fg(*COLOR_APEX_GOLD)}gaia tree{_reset()}`"
+            )
+
+            if tips:
+                print(f"\n{_bold()}Tips:{_reset()}")
+                for tip in tips:
+                    print(f"  • {tip}")
 
 
 def render_user_tree_outputs(
