@@ -138,6 +138,8 @@ from gaia_cli.interactive import (
     _has_interactive,
     select_push_batch,
     select_text_input,
+    questionary_style,
+    fuse_style,
 )
 
 DEFAULT_REGISTRY_REF = "https://github.com/mbtiongson1/gaia-skill-tree"
@@ -1711,6 +1713,7 @@ def fuse_command(args):
             choice = questionary.select(
                 "Gaia Fuse Menu:  (Ctrl+C to cancel)",
                 choices=choices,
+                style=fuse_style(),
             ).ask()
             if not choice or choice == "exit":
                 return
@@ -1775,6 +1778,7 @@ def fuse_command(args):
                             "description": sinfo.get("description", ""),
                             "local": sid in ctx.novel_ids,
                             "origin": ctx.is_origin(sid),
+                            "named_ref": ctx.named_ref(sid),
                         }
                     )
 

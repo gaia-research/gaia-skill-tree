@@ -40,20 +40,12 @@ class MenuItem:
         return base
 
 
-def _flag_item(label: str, flag: str, desc: str) -> MenuItem:
-    return MenuItem(label=flag, rank="0★", desc=desc, argv=None)
-
-
 def _build_catalogue() -> list[tuple[str, list[MenuItem]]]:
     """Return [(group_title, [MenuItem, ...]), ...]."""
 
     init_item = MenuItem(
         label="init", rank="1★", desc="Initialize your skill tree",
         argv=["init"],
-        children=[
-            MenuItem(label="Set defaults (guided init)", rank="1★",
-                     desc="Run interactive gaia init", argv=["init"]),
-        ],
         flags=[("--force", "Force re-init"), ("--yes", "Skip confirmations")],
     )
 
@@ -311,7 +303,6 @@ def _menu_fragments(frame: _MenuFrame, is_flag_frame: bool = False) -> list[tupl
     """Render the current menu frame as FormattedText fragments."""
     GOLD  = "#fbbf24"
     DIM   = "#4b5563"
-    WHITE = "#e2e8f0"
     SEP   = "#374151"
 
     frags: list[tuple[str, str]] = []
