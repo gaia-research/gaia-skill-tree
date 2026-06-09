@@ -478,9 +478,12 @@ def write_graph_artifact(
     *,
     user_ctx: dict[str, Any] | None = None,
     custom: bool = False,
+    known_only: bool = True,
 ) -> tuple[Path, dict[str, Any]]:
     root = _registry_root(registry_path)
     graph = load_graph(root)
+    named_buckets = load_named_skills(root).get("buckets", {})
+
     if custom:
         custom_state_path = Path.cwd() / ".gaia" / "custom_state.json"
         custom_skills = []
@@ -501,22 +504,32 @@ def write_graph_artifact(
                 "mapped_to": sk["id"],
                 "prerequisites": sk.get("prerequisites", [])
             } for sk in local_skills]
-        
+
         canon_skills = {sk["id"]: sk for sk in graph.get("skills", [])}
-        scanned_nodes = set()
+        scanned_nodes: set[str] = set()
         if user_ctx:
             scanned_nodes.update(user_ctx.get("owned_ids", []))
+
+        # Reverse map: named skill ID -> canonical skill ID
+        named_to_canon: dict[str, str] = {}
+        for canon_id, entries in named_buckets.items():
+            for entry in entries:
+                nid = entry.get("id")
+                if nid:
+                    named_to_canon[nid] = canon_id
 
         for csk in custom_skills:
             cid = csk["id"]
             mapped_to = csk.get("mapped_to")
-            
+
             node_id = mapped_to if mapped_to else cid
-            scanned_nodes.add(node_id)
-            
-            if mapped_to and mapped_to in canon_skills and mapped_to != cid:
-                target = canon_skills[mapped_to]
-                # Merge prereqs, avoiding duplicates
+            # Resolve named skill IDs (e.g. "mbtiongson1/graphify-triage") to their
+            # canonical counterpart so prerequisites are inherited from the registry.
+            canon_node_id = named_to_canon.get(node_id, node_id)
+            scanned_nodes.add(canon_node_id)
+
+            if canon_node_id in canon_skills and canon_node_id != cid:
+                target = canon_skills[canon_node_id]
                 merged_prereqs = list(set(target.get("prerequisites", []) + csk.get("prerequisites", [])))
                 target["name"] = csk["name"]
                 target["description"] = csk["description"]
@@ -534,22 +547,24 @@ def write_graph_artifact(
                     "level": "0★",
                     "prerequisites": csk.get("prerequisites", []),
                 }
-        
-        display_ids = set()
-        queue = list(scanned_nodes)
-        visited = set()
-        while queue:
-            curr = queue.pop(0)
-            if curr in visited:
-                continue
-            visited.add(curr)
-            display_ids.add(curr)
-            for prereq in canon_skills.get(curr, {}).get("prerequisites", []):
-                queue.append(prereq)
+
+        if known_only:
+            display_ids = scanned_nodes & set(canon_skills.keys())
+        else:
+            display_ids = set()
+            queue = list(scanned_nodes)
+            visited: set[str] = set()
+            while queue:
+                curr = queue.pop(0)
+                if curr in visited:
+                    continue
+                visited.add(curr)
+                display_ids.add(curr)
+                for prereq in canon_skills.get(curr, {}).get("prerequisites", []):
+                    queue.append(prereq)
 
         graph["skills"] = [sk for sk in canon_skills.values() if sk["id"] in display_ids]
         graph["version"] = "local-custom"
-    named_buckets = load_named_skills(root).get("buckets", {})
     render_graph = build_render_graph(graph, named_buckets=named_buckets)
     fmt = fmt.lower()
     if output is None:
@@ -643,11 +658,22 @@ def graph_command(args: Any) -> None:
     try:
         canon = getattr(args, "canon", False)
         custom = getattr(args, "custom", False) or (not canon)
-        out_path, filtered_graph = write_graph_artifact(registry_path, output=output, fmt=fmt, user_ctx=user_ctx, custom=custom)
+        known_only = not getattr(args, "show_all", False)
+        out_path, filtered_graph = write_graph_artifact(registry_path, output=output, fmt=fmt, user_ctx=user_ctx, custom=custom, known_only=known_only)
     except FileNotFoundError as exc:
         print(str(exc), file=sys.stderr)
         return
     print(f"  saved {out_path}")
+
+    if known_only and custom:
+        displayed_ids = {sk["id"] for sk in filtered_graph.get("skills", [])}
+        has_hidden = any(
+            p not in displayed_ids
+            for sk in filtered_graph.get("skills", [])
+            for p in sk.get("prerequisites", [])
+        )
+        if has_hidden:
+            print("  tip: use -a / --all to include unowned prerequisites in the graph")
 
     # Regenerate the GEXF from current node data
     if fmt == "html":

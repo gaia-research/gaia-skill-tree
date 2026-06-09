@@ -332,7 +332,7 @@ def _plain_label(skill_id, skill_map, named_by_ref, local_by_ref, mode, canon=Fa
 
 # ─── recursive renderer ───────────────────────────────────────────────────────
 
-def _render_subtree(skill_id, skill_map, display_ids, named_by_ref, local_by_ref, mode, prefix, is_last, seen, unlocked_ids, custom_nodes, canon=False, current_user=None, fusion_nodes=None, origin_ids=None):
+def _render_subtree(skill_id, skill_map, display_ids, named_by_ref, local_by_ref, mode, prefix, is_last, seen, unlocked_ids, custom_nodes, canon=False, current_user=None, fusion_nodes=None, origin_ids=None, known_only=False):
     if fusion_nodes is None:
         fusion_nodes = set()
     if origin_ids is None:
@@ -399,26 +399,27 @@ def _render_subtree(skill_id, skill_map, display_ids, named_by_ref, local_by_ref
 
     children_to_render = []
     children_to_render.extend(owned_prereqs)
-    
+
     grouped_unowned_count = 0
-    if len(unowned_prereqs) > 5:
-        children_to_render.extend(unowned_prereqs[:5])
-        grouped_unowned_count = len(unowned_prereqs) - 5
-    else:
-        children_to_render.extend(unowned_prereqs)
-        
+    if not known_only:
+        if len(unowned_prereqs) > 5:
+            children_to_render.extend(unowned_prereqs[:5])
+            grouped_unowned_count = len(unowned_prereqs) - 5
+        else:
+            children_to_render.extend(unowned_prereqs)
+
     total_children = len(children_to_render) + (1 if grouped_unowned_count > 0 else 0)
-    
+
     for i, child_id in enumerate(children_to_render):
         child_is_last = (i == total_children - 1) and (grouped_unowned_count == 0)
         lines.extend(
             _render_subtree(
                 child_id, skill_map, display_ids, named_by_ref, local_by_ref,
                 mode, child_prefix, child_is_last, seen, unlocked_ids, custom_nodes, canon=canon, current_user=current_user,
-                fusion_nodes=fusion_nodes, origin_ids=origin_ids
+                fusion_nodes=fusion_nodes, origin_ids=origin_ids, known_only=known_only
             )
         )
-        
+
     if grouped_unowned_count > 0:
         conn2 = "└── "
         lines.append(
@@ -430,7 +431,7 @@ def _render_subtree(skill_id, skill_map, display_ids, named_by_ref, local_by_ref
 
 # ─── public entry point ───────────────────────────────────────────────────────
 
-def show_tree(tree_data, graph_data=None, registry_path=".", mode="default", canon=False, custom=False):
+def show_tree(tree_data, graph_data=None, registry_path=".", mode="default", canon=False, custom=False, known_only=True):
     if not tree_data:
         print("No skill tree found.")
         return
@@ -446,6 +447,33 @@ def show_tree(tree_data, graph_data=None, registry_path=".", mode="default", can
     local_by_ref = _load_local_lookup(registry_path)
 
     unlocked_ids = {s["skillId"] for s in unlocked}
+
+    # Reverse map: canonical prereq ID → named ID the user already owns.
+    # Ensures that when a named skill's canon prerequisites are walked, any prereq
+    # the user owns under a named ID is recognized as owned (not shown as /???).
+    _canon_to_named_owned = {}
+    for _nid in unlocked_ids:
+        _nentry = named_by_ref.get(_nid) or local_by_ref.get(_nid)
+        if isinstance(_nentry, dict):
+            _canon = _nentry.get("genericSkillRef")
+            if _canon:
+                _canon_to_named_owned[_canon] = _nid
+
+    # Alias named skill IDs into skill_map so _render_subtree can look up prerequisites.
+    # Each alias is a shallow copy of the canonical entry with the named ID substituted in
+    # and prerequisites translated from canon IDs to owned named IDs where available.
+    for _ref_id, _entry in named_by_ref.items():
+        if "/" in _ref_id and not _ref_id.startswith("/") and _ref_id not in skill_map:
+            _generic_ref = _entry.get("genericSkillRef")
+            if _generic_ref and _generic_ref in skill_map:
+                _alias = dict(skill_map[_generic_ref])
+                _alias["id"] = _ref_id
+                _alias["prerequisites"] = [
+                    _canon_to_named_owned.get(p, p)
+                    for p in _alias.get("prerequisites", [])
+                ]
+                skill_map[_ref_id] = _alias
+
     custom_nodes = set()
     custom_skills = []
     fusions = {}
@@ -588,8 +616,17 @@ def show_tree(tree_data, graph_data=None, registry_path=".", mode="default", can
     for i, entry in enumerate(roots):
         sid = entry["skillId"]
         is_last = i == len(roots) - 1
-        for line in _render_subtree(sid, skill_map, display_ids, named_by_ref, local_by_ref, mode, "", is_last, seen, unlocked_ids, custom_nodes, canon=canon, current_user=username, fusion_nodes=fusion_nodes, origin_ids=origin_ids):
+        for line in _render_subtree(sid, skill_map, display_ids, named_by_ref, local_by_ref, mode, "", is_last, seen, unlocked_ids, custom_nodes, canon=canon, current_user=username, fusion_nodes=fusion_nodes, origin_ids=origin_ids, known_only=known_only):
             print(line)
+
+    if known_only:
+        has_unowned = any(
+            p not in unlocked_ids and p not in custom_nodes
+            for sid in display_ids
+            for p in skill_map.get(sid, {}).get("prerequisites", [])
+        )
+        if has_unowned:
+            print(_dim("  tip: use -a / --all to show unowned prerequisites"))
 
     print()
     _render_legend()

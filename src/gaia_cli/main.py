@@ -1573,6 +1573,7 @@ def tree_command(args):
     )
     canon = getattr(args, "canon", False)
     custom = getattr(args, "custom", False) or (not canon)
+    known_only = not getattr(args, "show_all", False)
     show_tree(
         tree,
         graph_data=graph_data,
@@ -1580,6 +1581,7 @@ def tree_command(args):
         mode=mode,
         canon=canon,
         custom=custom,
+        known_only=known_only,
     )
     try:
         detect_source_repo(config)
@@ -2778,6 +2780,13 @@ def get_parser():
     tree_parser.add_argument(
         "--custom", action="store_true", help="Show only custom skills (default)"
     )
+    tree_parser.add_argument(
+        "--all",
+        "-a",
+        action="store_true",
+        dest="show_all",
+        help="Show all prerequisites including unowned (/??? entries)",
+    )
     push_parser = subparsers.add_parser(
         "push", help="Prepare detected skills for review and file a GitHub issue"
     )
@@ -2887,6 +2896,13 @@ def get_parser():
         "--canon",
         action="store_true",
         help="Show canonical registry graph instead of custom skills only",
+    )
+    graph_parser.add_argument(
+        "--all",
+        "-a",
+        action="store_true",
+        dest="show_all",
+        help="Include unowned prerequisite nodes in the graph",
     )
     stats_parser = subparsers.add_parser(
         "stats", help="Show registry health at a glance"
