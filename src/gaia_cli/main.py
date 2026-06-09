@@ -155,29 +155,23 @@ C5 = RANK_COLORS["5★"]
 C6 = RANK_COLORS["6★"]
 
 COMMAND_USAGE = f"""\
-CORE:
+Getting started:
   {_rainbow_text("gaia")}                        Launch the TUI (interactive dashboard)
   {_fg(*C1)}gaia init{_reset()} [--user <name>] [--scan <path>] [--yes] [-y]
   {_fg(*C2)}gaia scan{_reset()} [--quiet]
   {_fg(*COLOR_LOCAL_USER)}gaia push{_reset()} [--dry-run] [--no-issue]
 
-Quick usage:
+Player commands:
   {_fg(*C5)}gaia tree{_reset()} [--named] [--title]
   {_fg(*C5)}gaia promote{_reset()} [<skillId>] [--all] [--name <name>]
-  {_fg(*C5)}gaia path{_reset()} <skillId> [--owned-only] [--json]
   {_fg(*C4)}gaia appraise{_reset()} [<skillId>]
   {_fg(*C4)}gaia stats{_reset()}
   {_fg(*C3)}gaia pull{_reset()}
-  {_fg(*C3)}gaia update{_reset()}
-  {_fg(*C2)}gaia whoami{_reset()}
+  {_fg(*COLOR_FUSE_PURPLE)}gaia fuse{_reset()} <skillId> [--name <name>]
+  {_fg(*C5)}gaia path{_reset()} <skillId> [--owned-only] [--json]
   {_fg(*C2)}gaia lookup{_reset()} <skillId>
-  {_fg(*C1)}gaia version{_reset()}
   {_fg(*C1)}gaia graph{_reset()} [--format html|svg|json] [-o <path>] [--no-open]
   {_fg(*COLOR_FUSE_PURPLE)}gaia propose{_reset()} [<skillId>] [--ultimate] [--target <name>] [--no-pr]
-  {_fg(*COLOR_FUSE_PURPLE)}gaia fuse{_reset()} <skillId> [--name <name>]
-  {_fg(*HARNESS_COLORS["claude"])}gaia mcp{_reset()}
-  {_fg(*COLOR_GREY)}gaia release{_reset()} <patch|minor|major>
-  {_fg(*COLOR_GREY)}gaia docs build{_reset()} [--check]
 
 Skills:
   {_rainbow_text("gaia skills")} <list|search|info|install|uninstall>
@@ -187,25 +181,15 @@ Skills:
   {_rainbow_text("gaia skills install")} <skill> [--global | --local]
   {_rainbow_text("gaia skills uninstall")} <skill_id>
 
-Maintenance:
-  {_fg(*COLOR_GREY)}gaia dev list{_reset()} [--generic] [--named] [--description] [--json]
-  {_fg(*COLOR_GREY)}gaia dev audit{_reset()} <skill_id>
-  {_fg(*COLOR_GREY)}gaia dev diff{_reset()} [ref] [--base <ref>]
-  {_fg(*COLOR_GREY)}gaia dev add{_reset()} <name> [--id <id>] [--type <type>] [--description <desc>] [--named]
-  {_fg(*COLOR_GREY)}gaia dev merge{_reset()} <target> <source1> [source2...] [--named] [--yes] [-y]
-  {_fg(*COLOR_GREY)}gaia dev split{_reset()} <source> <target1> <target2>... [--yes] [-y]
-  {_fg(*COLOR_GREY)}gaia dev rename{_reset()} <old_id> <new_id>
-  {_fg(*COLOR_GREY)}gaia dev calibrate{_reset()} <skill_id> <level>
-  {_fg(*COLOR_GREY)}gaia dev rm{_reset()} <skill_id> [--yes] [-y]
-  {_fg(*COLOR_GREY)}gaia dev link{_reset()} <target> <prereqs> [--reset]
-  {_fg(*COLOR_GREY)}gaia dev reclassify{_reset()} <skill_id> <new_type>
-  {_fg(*COLOR_GREY)}gaia dev update-named{_reset()} <skill_id> [--status <status>] [--generic-ref <ref>]
-  {_fg(*COLOR_GREY)}gaia dev evidence{_reset()} <skillId> <source> [--class A|B|C] [--evaluator <user>]
-  {_fg(*COLOR_GREY)}gaia dev rm-evidence{_reset()} <skill_id> (--index N | --source URL) [--yes] [-y]
-  {_fg(*COLOR_GREY)}gaia dev timeline{_reset()} <skill_id> --action <action> --notes <notes> [--user <username>]
-  {_fg(*COLOR_GREY)}gaia dev build{_reset()}
-  {_fg(*COLOR_GREY)}gaia validate{_reset()} [--intake] [--meta-sync]
-  {_fg(*COLOR_GREY)}gaia test{_reset()} <suite>
+Utilities:
+  {_fg(*C2)}gaia whoami{_reset()}
+  {_fg(*C1)}gaia version{_reset()}
+  {_fg(*C3)}gaia update{_reset()}
+  {_fg(*HARNESS_COLORS["claude"])}gaia mcp{_reset()}
+  {_fg(*COLOR_GREY)}gaia release{_reset()} <patch|minor|major>
+  {_fg(*COLOR_GREY)}gaia docs build{_reset()} [--check]
+
+Maintainer commands:  {_fg(*COLOR_GREY)}gaia dev --help{_reset()}
 """
 
 SKILLS_USAGE = """\
@@ -215,6 +199,35 @@ Quick usage:
   gaia skills info <skill_id> [--exclude-pending]
   gaia skills install <skill> [--global | --local]
   gaia skills uninstall <skill_id>
+"""
+
+DEV_USAGE = """\
+Registry development commands (requires Verifier authorization):
+
+  gaia dev list [--generic] [--named] [--description] [--json]
+  gaia dev audit <skill_id>
+  gaia dev diff [ref] [--base <ref>]
+  gaia dev add <name> [--type <type>] [--description <desc>] [--named]
+  gaia dev merge <target> <source1> [source2...] [--named] [--yes]
+  gaia dev split <source> <target1> <target2>... [--yes]
+  gaia dev rename <old_id> <new_id>
+  gaia dev calibrate <skill_id> <level>
+  gaia dev rm <skill_id> [--yes]
+  gaia dev link <target> <prereqs> [--reset]
+  gaia dev reclassify <skill_id> <new_type>
+  gaia dev update-named <skill_id> [--status <status>] [--generic-ref <ref>]
+  gaia dev evidence <skillId> <source> [--class A|B|C] [--evaluator <user>]
+  gaia dev rm-evidence <skill_id> (--index N | --source URL) [--yes]
+  gaia dev timeline <skill_id> --action <action> --notes <notes> [--user <username>]
+  gaia dev build
+  gaia dev verify <skill_id>
+
+Read-only (no Verifier required):
+  gaia dev list
+  gaia dev audit <skill_id>
+  gaia dev diff [ref]
+  gaia validate [--intake] [--meta-sync]
+  gaia test <suite>
 """
 
 PUBLIC_COMMANDS = (
@@ -2655,7 +2668,7 @@ def get_parser():
         help="Show canonical registry data instead of local-first view.",
     )
     subparsers = parser.add_subparsers(
-        dest="command", metavar="{" + ",".join(PUBLIC_COMMANDS) + "}"
+        dest="command", metavar="{" + ",".join(PUBLIC_COMMANDS) + "}", help=argparse.SUPPRESS
     )
     subparsers.add_parser("help", help="Show command help")
     init_parser = subparsers.add_parser(
@@ -2957,7 +2970,8 @@ def get_parser():
     )
 
     dev_parser = subparsers.add_parser(
-        "dev", help="Registry development and maintenance (requires writable registry)"
+        "dev", help="Registry development and maintenance (requires writable registry)",
+        epilog=DEV_USAGE, formatter_class=argparse.RawDescriptionHelpFormatter
     )
     dev_sub = dev_parser.add_subparsers(dest="dev_command")
 
