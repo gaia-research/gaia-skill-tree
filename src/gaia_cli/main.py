@@ -156,12 +156,12 @@ C6 = RANK_COLORS["6★"]
 
 COMMAND_USAGE = f"""\
 Getting started:
-  {_rainbow_text("gaia")}                        Launch the TUI (interactive dashboard)
   {_fg(*C1)}gaia init{_reset()} [--user <name>] [--scan <path>] [--yes] [-y]
   {_fg(*C2)}gaia scan{_reset()} [--quiet]
   {_fg(*COLOR_LOCAL_USER)}gaia push{_reset()} [--dry-run] [--no-issue]
+  {_rainbow_text("gaia")}                        Launch the TUI (interactive dashboard)
 
-Player commands:
+Daily commands:
   {_fg(*C5)}gaia tree{_reset()} [--named] [--title]
   {_fg(*C5)}gaia promote{_reset()} [<skillId>] [--all] [--name <name>]
   {_fg(*C4)}gaia appraise{_reset()} [<skillId>]
