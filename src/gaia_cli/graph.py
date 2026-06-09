@@ -398,7 +398,7 @@ def render_html(
 
   <script>
     // Set global title so the graph HUD can use it if it checks
-    window.document.title = "{_title_text} - Gaia Skill Graph";
+    window.document.title = "{_display_title}";
     
     // Define a fallback method for getCanvasTokens early if styles don't load immediately
     window.getCanvasTokens = function() {{
