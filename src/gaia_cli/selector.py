@@ -175,8 +175,6 @@ def _build_catalogue() -> list[tuple[str, list[MenuItem]]]:
 # Each row is a list of (char, role) where role is "diamond", "G", or "space".
 # Built once, queried each frame.
 
-_LOGO_ROWS: list[list[tuple[str, str]]] = []
-
 def _build_logo_rows() -> list[list[tuple[str, str]]]:
     """Return per-character annotated rows for the combined diamond+G logo."""
     # We draw a 9-line diamond (height) wide enough to contain the G.
@@ -210,7 +208,7 @@ def _build_logo_rows() -> list[list[tuple[str, str]]]:
     return rows
 
 
-_LOGO_ROWS = _build_logo_rows()
+_LOGO_ROWS: list[list[tuple[str, str]]] = _build_logo_rows()
 
 
 def _shimmer_color(phase: float, col: int, total_cols: int) -> str:

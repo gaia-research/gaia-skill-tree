@@ -116,6 +116,7 @@ from gaia_cli.formatting import (
     COLOR_CONTRIBUTOR,
     COLOR_LOCAL_USER,
     COLOR_GREY,
+    COLOR_FUSION,
     HARNESS_COLORS,
     COLOR_REDACTED,
     REDACTED_BLOCK,
@@ -148,7 +149,7 @@ DEFAULT_REGISTRY_REF = "https://github.com/mbtiongson1/gaia-skill-tree"
 
 # Brand color roles (using tokens from formatting)
 COLOR_APEX_GOLD = RANK_COLORS["6★"]
-COLOR_FUSE_PURPLE = TIER_COLORS["extra"]
+COLOR_FUSE_PURPLE = COLOR_FUSION
 
 # Star rank color tokens for convenience
 C1 = RANK_COLORS["1★"]
@@ -239,6 +240,7 @@ PUBLIC_COMMANDS = (
     "help",
     "init",
     "scan",
+    "fetch",
     "pull",
     "update",
     "install",
@@ -838,7 +840,7 @@ def scan_command(args):
                                 colored_mapped = f"{_fg(*handle_color)}{contrib}{_reset()}/{_fg(*rank_color)}{nickname} {canon_level}{_reset()}"
                             else:
                                 colored_mapped = (
-                                    f"{_fg(*rank_color)}/{mapped_id}{_reset()}"
+                                    f"{_fg(*rank_color)}/{mapped_id.lstrip('/')}{_reset()}"
                                 )
 
                             if m_type in ("origin", "named", "exact_generic"):
@@ -1746,8 +1748,6 @@ def fuse_command(args):
                 ]
             )
 
-            dim = ""
-            r = ""
             choice = questionary.select(
                 "Gaia Fuse Menu:  (Ctrl+C to cancel)",
                 choices=choices,

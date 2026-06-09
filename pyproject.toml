@@ -86,6 +86,7 @@ gaia_cli = [
 
 [tool.pytest.ini_options]
 pythonpath = ["src", "."]
+norecursedirs = ["tests/_archive"]
 markers = [
     "packaging: package build and wheel installation checks",
 ]

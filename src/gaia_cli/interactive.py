@@ -10,6 +10,8 @@ import os
 import sys
 from typing import Optional
 
+from gaia_cli.formatting import COLOR_FUSION, COLOR_CONTRIBUTOR, COLOR_GREY
+
 
 class FuseCancelled(Exception):
     """Raised when the user presses Ctrl+C to fully exit the fuse flow."""
@@ -32,10 +34,10 @@ def fuse_style():
     """Return a fuse-purple questionary Style for fuse command prompts."""
     import questionary
     return questionary.Style([
-        ("pointer",     "fg:#c084fc bold"),
-        ("highlighted", "fg:#c084fc bold"),
-        ("selected",    "fg:#c084fc bold"),
-        ("answer",      "fg:#c084fc bold"),
+        ("pointer",     f"fg:{FUSE_HEX} bold"),
+        ("highlighted", f"fg:{FUSE_HEX} bold"),
+        ("selected",    f"fg:{FUSE_HEX} bold"),
+        ("answer",      f"fg:{FUSE_HEX} bold"),
         ("separator",   "fg:#4b5563"),
         ("text",        ""),
     ])
@@ -68,6 +70,12 @@ def _format_id(sid: str) -> str:
 def _rgb_to_hex(rgb: tuple[int, int, int]) -> str:
     """Convert RGB tuple to #rrggbb for prompt_toolkit style specs."""
     return f"#{rgb[0]:02x}{rgb[1]:02x}{rgb[2]:02x}"
+
+
+# Module-level hex constants derived from formatting.py color tuples
+FUSE_HEX = _rgb_to_hex(COLOR_FUSION)       # #c084fc  — fuse purple
+_CONTRIBUTOR_HEX = _rgb_to_hex(COLOR_CONTRIBUTOR)  # #ef4444  — red
+_GREY_HEX = _rgb_to_hex(COLOR_GREY)        # #94a3b8  — slate
 
 
 def _fuse_sort_key(skill: dict):
@@ -198,7 +206,7 @@ def _pt_select(choices: list[dict], prompt: str) -> Optional[str]:
     except ImportError:
         return None
 
-    PURPLE = "#c084fc"
+    PURPLE = FUSE_HEX
     DIM = "#4b5563"
     HEADER_LINES = 3  # prompt + hint + blank
 
@@ -289,7 +297,7 @@ def _pt_select(choices: list[dict], prompt: str) -> Optional[str]:
     return result[0]
 
 
-def _pt_multiselect(choices: list[dict], prompt: str, accent: str = "#c084fc") -> list[str]:
+def _pt_multiselect(choices: list[dict], prompt: str, accent: str = FUSE_HEX) -> list[str]:
     """prompt_toolkit multi-select with ↑↓←→ + Space navigation.
 
     choices: list of {"title_frags": [...], "title_frags_selected": [...], "value": str, "checked": bool}
@@ -563,9 +571,9 @@ def _fusion_flowchart_frags(
     """
     from gaia_cli.formatting import RANK_COLORS, rank_hex
 
-    purple = "#c084fc"
-    red = "#ef4444"
-    slate = "#94a3b8"
+    purple = FUSE_HEX
+    red = _CONTRIBUTOR_HEX
+    slate = _GREY_HEX
     dim = "#6b7280"
     # 11 spaces = 3 (pointer col) + 8 ("[EDIT]  ") keeps box chars vertically aligned
     INDENT = "           "
@@ -691,7 +699,7 @@ def select_push_batch(batch: dict, prompt: str = "Select items to push to regist
         return []
 
     GREEN = "#86efac"
-    FUSION_COLOR = "#c084fc"
+    FUSION_COLOR = FUSE_HEX
     CUSTOM_COLOR = "#86efac"
     STARLESS_COLOR = "#94a3b8"
 
