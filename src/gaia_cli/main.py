@@ -122,6 +122,7 @@ from gaia_cli.formatting import (
     get_harness_color,
     _rainbow_text,
     _fg,
+    _bg,
     _reset,
     _bold,
     _use_color,
@@ -140,6 +141,7 @@ from gaia_cli.interactive import (
     select_text_input,
     questionary_style,
     fuse_style,
+    FuseCancelled,
 )
 
 DEFAULT_REGISTRY_REF = "https://github.com/mbtiongson1/gaia-skill-tree"
@@ -786,15 +788,14 @@ def scan_command(args):
             other_group.sort(key=lambda s: s["id"])
 
             def print_group(group_id, skills):
-                # Format header (Level 1)
                 if group_id == "origin":
-                    title = f"{_fg(*COLOR_APEX_GOLD)}{_bold()}Origin Skills{_reset()}"
+                    title = f"{_bg(*COLOR_APEX_GOLD)}{_fg(0, 0, 0)}{_bold()} Origin Skills {_reset()}"
                 elif group_id == "named":
-                    title = f"{_fg(*COLOR_CONTRIBUTOR)}{_bold()}Named Skills{_reset()}"
+                    title = f"{_bg(*COLOR_CONTRIBUTOR)}{_fg(255, 255, 255)}{_bold()} Named Skills {_reset()}"
                 elif group_id == "generic":
-                    title = f"{_bold()}Starless (Generic) Skills{_reset()}"
+                    title = f"{_bg(*COLOR_GREY)}{_fg(0, 0, 0)}{_bold()} Starless (Generic) Skills {_reset()}"
                 else:
-                    title = f"{_fg(*COLOR_LOCAL_USER)}{_bold()}Custom - Only in this Repo{_reset()} ({_fg(*COLOR_LOCAL_USER)}{username}{_reset()})"
+                    title = f"{_bg(*COLOR_LOCAL_USER)}{_fg(0, 0, 0)}{_bold()} Custom — Only in this Repo {_reset()} ({_fg(*COLOR_LOCAL_USER)}{username}{_reset()})"
 
                 print(f"\n{title}:")
 
@@ -826,18 +827,15 @@ def scan_command(args):
                         match_note = ""
                         if mapped_score > 0:
                             rank_color = RANK_COLORS.get(canon_level, RANK_COLORS["0★"])
-                            star_ranking = canon_level
 
                             if m_type in ("origin", "named") and "/" in mapped_id:
                                 parts = mapped_id.split("/", 1)
                                 contrib, nickname = parts
-                                if contrib == username:
-                                    handle_color = COLOR_LOCAL_USER
-                                elif contrib == REDACTED_BLOCK:
+                                if contrib == REDACTED_BLOCK:
                                     handle_color = COLOR_REDACTED
                                 else:
                                     handle_color = COLOR_CONTRIBUTOR
-                                colored_mapped = f"{_fg(*handle_color)}{contrib}{_reset()}/{_fg(*rank_color)}{nickname} {star_ranking}{_reset()}"
+                                colored_mapped = f"{_fg(*handle_color)}{contrib}{_reset()}/{_fg(*rank_color)}{nickname} {canon_level}{_reset()}"
                             else:
                                 colored_mapped = (
                                     f"{_fg(*rank_color)}/{mapped_id}{_reset()}"
@@ -848,11 +846,10 @@ def scan_command(args):
                             else:
                                 match_note = f"  {_fg(*RANK_COLORS['0★'])}→ {colored_mapped}{_fg(*RANK_COLORS['0★'])} ({mapped_score:.0%} semantic){_reset()}"
 
-                        user_label = f"{_fg(*RANK_COLORS['0★'])}{_bold()}/{cid.lstrip('/')}{_reset()}"
                         if group_id == "other":
-                            user_label = (
-                                f"{user_label} {_fg(*RANK_COLORS['0★'])}0★{_reset()}"
-                            )
+                            user_label = f"{_fg(*COLOR_LOCAL_USER)}{_bold()}/{cid.lstrip('/')}{_reset()}"
+                        else:
+                            user_label = f"{_fg(*RANK_COLORS['0★'])}{_bold()}/{cid.lstrip('/')}{_reset()}"
 
                         print(f"  ○ {user_label}{match_note}")
 
@@ -900,6 +897,8 @@ def scan_command(args):
         }
         with open(_ss_out, "w", encoding="utf-8") as f:
             json.dump(_scan_state, f, indent=2)
+        if not quiet:
+            print(f"\n{_fg(*COLOR_GREY)}→ Wrote {_ss_out}{_reset()}")
 
     # Refresh context to include newly mapped custom skills for fusions/paths
     ctx = LocalContext.load(
@@ -1049,7 +1048,7 @@ def render_user_tree_outputs(
     with open(html_path, "w", encoding="utf-8") as f:
         f.write(html)
     if not quiet:
-        print(f"  saved {html_path} & {md_path}")
+        print(f"\n{_fg(*COLOR_GREY)}→ Saved {md_path} & {html_path}{_reset()}")
     return html_path, md_path
 
 
@@ -1784,7 +1783,25 @@ def fuse_command(args):
                 if not fusions:
                     print(f"{_fg(*fuse_color)}No custom fusions found.{_reset()}")
                     continue
-                target = select_fusion_to_edit(fusions, "Select custom fusion to edit:")
+                # Load scan-state for rich flowchart rendering (level, named_ref, origin)
+                from gaia_cli.registry import scan_state_path as _ssp_edit
+                _skill_meta_edit: dict = {}
+                _ss_edit = _ssp_edit(registry_path)
+                if os.path.exists(_ss_edit):
+                    try:
+                        with open(_ss_edit, "r", encoding="utf-8") as _fe:
+                            for _entry in json.load(_fe).get("skills", []):
+                                _skill_meta_edit[_entry["id"]] = _entry
+                                if _entry.get("localId"):
+                                    _skill_meta_edit["/" + _entry["localId"]] = _entry
+                    except Exception:
+                        pass
+                target = select_fusion_to_edit(
+                    fusions,
+                    "Select custom fusion to edit:",
+                    skill_meta=_skill_meta_edit,
+                    username=username,
+                )
                 if not target:
                     continue
                 # Fall through to 'new' logic but with pre-filled or specific edit behavior
@@ -3521,7 +3538,10 @@ def main():
     elif args.command == "promote":
         promote_command(args)
     elif args.command == "fuse":
-        fuse_command(args)
+        try:
+            fuse_command(args)
+        except FuseCancelled:
+            pass
     elif args.command == "docs" and getattr(args, "docs_command", None) == "build":
         docs_command(args)
     elif args.command == "lookup":

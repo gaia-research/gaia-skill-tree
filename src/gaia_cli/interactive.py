@@ -11,6 +11,10 @@ import sys
 from typing import Optional
 
 
+class FuseCancelled(Exception):
+    """Raised when the user presses Ctrl+C to fully exit the fuse flow."""
+
+
 def questionary_style():
     """Return a branded questionary Style for all interactive prompts."""
     import questionary
@@ -178,8 +182,9 @@ def _fuse_skill_title(skill: dict, username: str | None = None, selected: bool =
 def _pt_select(choices: list[dict], prompt: str) -> Optional[str]:
     """prompt_toolkit single-select with ↑↓←→ navigation.
 
-    choices: list of {"title_frags": [...FormattedText tuples...], "value": str, "_disabled": bool}
-    Right/Enter = select, Left/Escape/Ctrl-C = cancel.
+    choices: list of {"title_frags": [...FormattedText tuples...], "value": str,
+                      "_disabled": bool, "line_count": int (optional, for multi-line items)}
+    Right/Enter = select, Left/Escape = back (returns None), Ctrl+C = exit (raises FuseCancelled).
     Returns selected value or None.
     """
     try:
@@ -202,11 +207,18 @@ def _pt_select(choices: list[dict], prompt: str) -> Optional[str]:
         return None
 
     cursor_nav = [navigable[0]]
+    hard_cancel = [False]
+
+    def _choice_start_line(idx: int) -> int:
+        line = HEADER_LINES
+        for i in range(idx):
+            line += choices[i].get("line_count", 1)
+        return line
 
     def get_frags():
         frags: list[tuple[str, str]] = [
             (f"fg:{PURPLE} bold", f" {prompt}\n"),
-            (f"fg:{DIM}", "  ↑↓ navigate  → select  ← cancel\n"),
+            (f"fg:{DIM}", "  ↑↓ navigate  →/Enter select  Esc back  Ctrl+C exit\n"),
             ("", "\n"),
         ]
         for i, c in enumerate(choices):
@@ -220,7 +232,7 @@ def _pt_select(choices: list[dict], prompt: str) -> Optional[str]:
         return frags
 
     def get_cursor_position():
-        return Point(x=0, y=HEADER_LINES + cursor_nav[0])
+        return Point(x=0, y=_choice_start_line(cursor_nav[0]))
 
     result: list[Optional[str]] = [None]
     kb = KeyBindings()
@@ -245,8 +257,12 @@ def _pt_select(choices: list[dict], prompt: str) -> Optional[str]:
 
     @kb.add("left")
     @kb.add("escape")
+    def _back(event):
+        event.app.exit()
+
     @kb.add("c-c")
-    def _cancel(event):
+    def _hard_cancel(event):
+        hard_cancel[0] = True
         event.app.exit()
 
     no_color = bool(os.environ.get("NO_COLOR"))
@@ -267,7 +283,9 @@ def _pt_select(choices: list[dict], prompt: str) -> Optional[str]:
     try:
         app.run()
     except (KeyboardInterrupt, EOFError):
-        pass
+        hard_cancel[0] = True
+    if hard_cancel[0]:
+        raise FuseCancelled()
     return result[0]
 
 
@@ -275,7 +293,7 @@ def _pt_multiselect(choices: list[dict], prompt: str, accent: str = "#c084fc") -
     """prompt_toolkit multi-select with ↑↓←→ + Space navigation.
 
     choices: list of {"title_frags": [...], "title_frags_selected": [...], "value": str, "checked": bool}
-    Space = toggle, Right/Enter = confirm, Left/Escape/Ctrl-C = cancel.
+    Space = toggle, Right/Enter = confirm, Left/Escape = back (returns []), Ctrl+C = exit (raises FuseCancelled).
     Returns list of selected values, or [] if cancelled.
     """
     try:
@@ -301,7 +319,7 @@ def _pt_multiselect(choices: list[dict], prompt: str, accent: str = "#c084fc") -
     def get_frags():
         frags: list[tuple[str, str]] = [
             (f"fg:{accent} bold", f" {prompt}\n"),
-            (f"fg:{DIM}", "  ↑↓ move  space toggle  → confirm  ← cancel\n"),
+            (f"fg:{DIM}", "  ↑↓ move  Space toggle  →/Enter confirm  Esc back  Ctrl+C exit\n"),
             ("", "\n"),
         ]
         for i, c in enumerate(choices):
@@ -323,6 +341,7 @@ def _pt_multiselect(choices: list[dict], prompt: str, accent: str = "#c084fc") -
         return Point(x=0, y=HEADER_LINES + cursor[0])
 
     result: list[list[str]] = [[]]
+    hard_cancel = [False]
     kb = KeyBindings()
 
     @kb.add("up")
@@ -350,8 +369,12 @@ def _pt_multiselect(choices: list[dict], prompt: str, accent: str = "#c084fc") -
 
     @kb.add("left")
     @kb.add("escape")
+    def _back(event):
+        event.app.exit()
+
     @kb.add("c-c")
-    def _cancel(event):
+    def _hard_cancel(event):
+        hard_cancel[0] = True
         event.app.exit()
 
     no_color = bool(os.environ.get("NO_COLOR"))
@@ -372,7 +395,9 @@ def _pt_multiselect(choices: list[dict], prompt: str, accent: str = "#c084fc") -
     try:
         app.run()
     except (KeyboardInterrupt, EOFError):
-        pass
+        hard_cancel[0] = True
+    if hard_cancel[0]:
+        raise FuseCancelled()
     return result[0]
 
 
@@ -523,47 +548,132 @@ def select_promotion_candidate(candidates: list[dict], prompt: str = "Select ski
     return result
 
 
-def select_fusion_to_edit(fusions: dict, prompt: str = "Select a custom fusion:") -> Optional[str]:
-    """Arrow-key picker for existing custom fusions.
+def _fusion_flowchart_frags(
+    target_id: str,
+    sources: list[str],
+    fusion_level: str,
+    skill_meta: dict,
+    selected: bool = False,
+) -> tuple[list[tuple[str, str]], int]:
+    """Render a fusion definition as flowchart-style FormattedText fragments.
+
+    Returns (frags, line_count).  Continuation lines (after \\n) are pre-padded
+    with 11 spaces so they align with line 1's content when _pt_select prepends
+    the 3-char pointer column:  3 (pointer) + 6 ([EDIT]) + 2 (gap) = 11.
+    """
+    from gaia_cli.formatting import RANK_COLORS, rank_hex
+
+    purple = "#c084fc"
+    red = "#ef4444"
+    slate = "#94a3b8"
+    dim = "#6b7280"
+    # 11 spaces = 3 (pointer col) + 8 ("[EDIT]  ") keeps box chars vertically aligned
+    INDENT = "           "
+
+    def _badge(color: str, text: str) -> tuple[str, str]:
+        if selected:
+            return (f"bg:{color} fg:#000000 bold", text)
+        return (f"fg:{color} bold", text)
+
+    def _source_frags(sid: str) -> list[tuple[str, str]]:
+        meta = skill_meta.get(sid) or skill_meta.get("/" + sid.lstrip("/")) or {}
+        level = meta.get("level", "0★")
+        named_ref = meta.get("named_ref") or meta.get("namedRef")
+        rank_color = rank_hex(level)
+        parts: list[tuple[str, str]] = []
+        if named_ref and "/" in str(named_ref):
+            contrib, nick = str(named_ref).split("/", 1)
+            parts += [(f"fg:{red}", contrib), ("", "/"), (f"fg:{rank_color}", nick)]
+        else:
+            parts += [(f"fg:{rank_color}", f"/{sid.lstrip('/')}")]
+        parts += [("", "  "), (f"fg:{dim}", f"[{level}]")]
+        return parts
+
+    def _target_frags(sid: str) -> list[tuple[str, str]]:
+        rank_color = rank_hex(fusion_level)
+        return [
+            _badge(purple, "[EXTRA]"),
+            ("", "  "),
+            (f"fg:{purple}", f"/{sid.lstrip('/')}"),
+            ("", "  "),
+            (f"fg:{rank_color}", f"[{fusion_level}]"),
+        ]
+
+    frags: list[tuple[str, str]] = [_badge(purple, "[EDIT]"), ("", "  ")]
+
+    if not sources:
+        frags += _target_frags(target_id)
+        return frags, 1
+
+    if len(sources) == 1:
+        frags += _source_frags(sources[0])
+        frags += [("", "  "), (f"fg:{purple}", "──→  ")]
+        frags += _target_frags(target_id)
+        return frags, 1
+
+    for i, src in enumerate(sources):
+        is_first = i == 0
+        is_last = i == len(sources) - 1
+        if not is_first:
+            frags.append(("", f"\n{INDENT}"))
+        box = "┌─ " if is_first else ("└─ " if is_last else "├─ ")
+        frags.append((f"fg:{slate}", box))
+        frags += _source_frags(src)
+
+    frags.append(("", f"\n{INDENT}"))
+    frags.append((f"fg:{purple}", "└──→  "))
+    frags += _target_frags(target_id)
+
+    return frags, len(sources) + 1
+
+
+def select_fusion_to_edit(
+    fusions: dict,
+    prompt: str = "Select a custom fusion:",
+    skill_meta: dict | None = None,
+    username: str | None = None,
+) -> Optional[str]:
+    """Arrow-key picker for existing custom fusions, rendered as flowcharts.
 
     Args:
-        fusions: Map of target_id -> list of source_ids OR Map of target_id -> dict with sources
+        fusions: Map of target_id -> list of source_ids OR dict with {sources, level}
+        skill_meta: Optional {sid: {level, named_ref/namedRef, origin}} for rich rendering
+        username: Current gaia user
 
     Returns:
-        Selected target skill ID, or None
+        Selected target skill ID, or None (raises FuseCancelled on Ctrl+C)
     """
     if not _has_interactive():
         return None
-    import questionary
 
-    full_prompt = f"{prompt}  (Ctrl+C to cancel)"
+    _skill_meta = skill_meta or {}
 
     choices = []
     for target, data in fusions.items():
         if isinstance(data, dict):
             sources = data.get("sources", [])
+            fusion_level = data.get("level", "0★")
         else:
-            sources = data
+            sources = list(data)
+            fusion_level = "0★"
 
-        prereq_str = " + ".join(_format_id(p) for p in sources[:3])
-        if len(sources) > 3:
-            prereq_str += f" +{len(sources) - 3}"
-
-        display_target = _format_id(target)
-        title = f"[EDIT] {prereq_str} → {display_target}"
-        choices.append(questionary.Choice(title=title, value=target))
+        frags, line_count = _fusion_flowchart_frags(
+            target, sources, fusion_level, _skill_meta, selected=False
+        )
+        frags_sel, _ = _fusion_flowchart_frags(
+            target, sources, fusion_level, _skill_meta, selected=True
+        )
+        choices.append({
+            "title_frags": frags,
+            "title_frags_selected": frags_sel,
+            "value": target,
+            "line_count": line_count,
+        })
 
     if not choices:
         return None
 
-    result = questionary.select(
-        full_prompt,
-        choices=choices,
-        use_shortcuts=False,
-        use_arrow_keys=True,
-        style=fuse_style(),
-    ).ask()
-    return result
+    return _pt_select(choices, prompt)
 
 
 def select_push_batch(batch: dict, prompt: str = "Select items to push to registry:") -> list[str]:

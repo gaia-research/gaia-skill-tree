@@ -40,6 +40,16 @@ def _fg(r: int, g: int, b: int) -> str:
     return f"\033[38;5;{index}m"
 
 
+def _bg(r: int, g: int, b: int) -> str:
+    if not _use_color():
+        return ""
+    colorterm = os.environ.get("COLORTERM", "")
+    if colorterm in ("truecolor", "24bit"):
+        return f"\033[48;2;{r};{g};{b}m"
+    index = 16 + (36 * (r // 51)) + (6 * (g // 51)) + (b // 51)
+    return f"\033[48;5;{index}m"
+
+
 def _reset() -> str:
     return "\033[0m" if _use_color() else ""
 
