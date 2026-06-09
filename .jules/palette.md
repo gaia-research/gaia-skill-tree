@@ -32,3 +32,6 @@
 ## 2024-05-18 - Universal Focus Ring Consistency
 **Learning:** Many interactive components like inputs and custom buttons across badges and plaques were missing the standard focus ring used for keyboard accessibility. While standard buttons had the `focus-visible` rule, many custom classes did not inherit this.
 **Action:** Always verify that newly created custom interactive elements (buttons, inputs, chips) explicitly append their selector to the app-wide `focus-visible` rule using the standard outline: `outline: 2px solid var(--tier-extra); outline-offset: 2px;`.
+## 2026-06-09 - App-Wide Focus Ring for Starless and Meta pages
+**Learning:** Found that multiple interactive elements (`.meta-report-action`, `.sl-btn`, `.sl-search-clear`) on the Meta and Starless pages were missing keyboard focus indicators. The codebase has an established focus ring pattern using `outline: 2px solid var(--tier-extra); outline-offset: 2px;`, which should be explicitly extended to all interactive generic buttons and controls.
+**Action:** Added these missing selectors to the app-wide focus ring block in `docs/css/styles.css` to maintain a consistent and accessible keyboard navigation experience.
