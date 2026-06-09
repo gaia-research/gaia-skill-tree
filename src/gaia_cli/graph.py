@@ -158,34 +158,37 @@ def build_render_graph(
 def write_gexf(
     registry_path: str | os.PathLike[str] = ".",
     output: str | os.PathLike[str] | None = None,
+    skills: list[dict[str, Any]] | None = None,
 ) -> Path:
     """Generate GEXF 1.2 from registry/nodes/ and write to output (default: docs/graph/gaia.gexf).
 
     Uses only xml.etree.ElementTree from the stdlib — no lxml required.
     """
     root = _registry_root(registry_path)
-    nodes_dir = registry_nodes_dir(root)
 
-    # Collect skills from nodes directory
-    skills: list[dict[str, Any]] = []
-    if os.path.isdir(nodes_dir):
-        for dirpath, _dirs, files in os.walk(nodes_dir):
-            for fname in sorted(files):
-                if fname.endswith(".json"):
-                    fpath = os.path.join(dirpath, fname)
-                    try:
-                        with open(fpath, "r", encoding="utf-8") as f:
-                            skill = json.load(f)
-                        if skill.get("id"):
-                            skills.append(skill)
-                    except (OSError, json.JSONDecodeError):
-                        continue
+    if skills is None:
+        nodes_dir = registry_nodes_dir(root)
+        # Collect skills from nodes directory
+        skills = []
+        if os.path.isdir(nodes_dir):
+            for dirpath, _dirs, files in os.walk(nodes_dir):
+                for fname in sorted(files):
+                    if fname.endswith(".json"):
+                        fpath = os.path.join(dirpath, fname)
+                        try:
+                            with open(fpath, "r", encoding="utf-8") as f:
+                                skill = json.load(f)
+                            if skill.get("id"):
+                                skills.append(skill)
+                        except (OSError, json.JSONDecodeError):
+                            continue
 
-    # Also fallback to gaia.json skills if nodes dir is empty
-    if not skills:
-        graph = load_graph(root)
-        skills = graph.get("skills", [])
-
+        # Also fallback to gaia.json skills if nodes dir is empty
+        if not skills:
+            graph = load_graph(root)
+            skills = graph.get("skills", [])
+    
+    skills = skills or []
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
     # Build XML tree
@@ -469,7 +472,7 @@ def write_graph_artifact(
     *,
     user_ctx: dict[str, Any] | None = None,
     custom: bool = False,
-) -> Path:
+) -> tuple[Path, dict[str, Any]]:
     root = _registry_root(registry_path)
     graph = load_graph(root)
     if custom:
@@ -580,7 +583,7 @@ def write_graph_artifact(
         out_path.write_text(json.dumps(render_graph, indent=2) + "\n", encoding="utf-8")
     else:
         raise ValueError(f"Unsupported graph format: {fmt}")
-    return out_path
+    return out_path, graph
 
 
 def open_path(path: Path) -> None:
@@ -609,7 +612,7 @@ def graph_command(args: Any) -> None:
     try:
         from gaia_cli import scanner
         from gaia_cli.localContext import LocalContext
-        from gaia_cli.treeManager import detect_source_repo
+        from gaia_cli.push import detect_source_repo
 
         config = scanner.load_config()
         username = (config or {}).get("gaiaUser") or (config or {}).get("username") or ""
@@ -634,7 +637,7 @@ def graph_command(args: Any) -> None:
     try:
         canon = getattr(args, "canon", False)
         custom = getattr(args, "custom", False) or (not canon)
-        out_path = write_graph_artifact(registry_path, output=output, fmt=fmt, user_ctx=user_ctx, custom=custom)
+        out_path, filtered_graph = write_graph_artifact(registry_path, output=output, fmt=fmt, user_ctx=user_ctx, custom=custom)
     except FileNotFoundError as exc:
         print(str(exc), file=sys.stderr)
         return
@@ -644,9 +647,9 @@ def graph_command(args: Any) -> None:
     if fmt == "html":
         try:
             if custom:
-                write_gexf(registry_path, output=Path.cwd() / ".gaia" / "gaia.gexf")
+                write_gexf(registry_path, output=Path.cwd() / ".gaia" / "gaia.gexf", skills=filtered_graph.get("skills"))
             else:
-                write_gexf(registry_path)
+                write_gexf(registry_path, skills=filtered_graph.get("skills"))
         except Exception:
             pass  # GEXF regen is best-effort
 
