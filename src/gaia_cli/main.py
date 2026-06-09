@@ -115,6 +115,7 @@ from gaia_cli.formatting import (
     TYPE_SYMBOLS,
     COLOR_CONTRIBUTOR,
     COLOR_LOCAL_USER,
+    COLOR_GREY,
     COLOR_REDACTED,
     REDACTED_BLOCK,
     _fg,
@@ -165,27 +166,27 @@ Quick usage:
   gaia lookup <skillId>
 
   -- dev: read-only (no authorization required) --
-  gaia dev list [--generic] [--named] [--description] [--json]
-  gaia dev audit <skill_id>
-  gaia dev diff [ref] [--base <ref>]
+  {_fg(*COLOR_GREY)}gaia dev list{_reset()} [--generic] [--named] [--description] [--json]
+  {_fg(*COLOR_GREY)}gaia dev audit{_reset()} <skill_id>
+  {_fg(*COLOR_GREY)}gaia dev diff{_reset()} [ref] [--base <ref>]
 
   -- dev: mutating (requires Verifier role — see gaia whoami) --
-  gaia dev add <name> [--id <id>] [--type <type>] [--description <desc>] [--named] [--contributor <user>] [--status <status>] [--title <title>] [--level <level>]
-  gaia dev merge <target> <source1> [source2...] [--named] [--yes]
-  gaia dev split <source> <target1> <target2>... [--yes]
-  gaia dev rename <old_id> <new_id>
-  gaia dev calibrate <skill_id> <level>
-  gaia dev rm <skill_id> [--yes]
-  gaia dev link <target> <prereqs> [--reset]
-  gaia dev reclassify <skill_id> <new_type>
-  gaia dev update-named <skill_id> [--status <status>] [--generic-ref <ref>] [--suite-components <c1,c2...>]
-  gaia dev evidence <skillId> <source> [--class A|B|C] [--evaluator <user>] [--date <date>] [--notes <notes>]
-  gaia dev rm-evidence <skill_id> (--index N | --source URL) [--yes]
-  gaia dev timeline <skill_id> --action <action> --notes <notes> [--user <username>] [--timestamp <iso8601>]
-  gaia dev build
+  {_fg(*COLOR_GREY)}gaia dev add{_reset()} <name> [--id <id>] [--type <type>] [--description <desc>] [--named] [--contributor <user>] [--status <status>] [--title <title>] [--level <level>]
+  {_fg(*COLOR_GREY)}gaia dev merge{_reset()} <target> <source1> [source2...] [--named] [--yes]
+  {_fg(*COLOR_GREY)}gaia dev split{_reset()} <source> <target1> <target2>... [--yes]
+  {_fg(*COLOR_GREY)}gaia dev rename{_reset()} <old_id> <new_id>
+  {_fg(*COLOR_GREY)}gaia dev calibrate{_reset()} <skill_id> <level>
+  {_fg(*COLOR_GREY)}gaia dev rm{_reset()} <skill_id> [--yes]
+  {_fg(*COLOR_GREY)}gaia dev link{_reset()} <target> <prereqs> [--reset]
+  {_fg(*COLOR_GREY)}gaia dev reclassify{_reset()} <skill_id> <new_type>
+  {_fg(*COLOR_GREY)}gaia dev update-named{_reset()} <skill_id> [--status <status>] [--generic-ref <ref>] [--suite-components <c1,c2...>]
+  {_fg(*COLOR_GREY)}gaia dev evidence{_reset()} <skillId> <source> [--class A|B|C] [--evaluator <user>] [--date <date>] [--notes <notes>]
+  {_fg(*COLOR_GREY)}gaia dev rm-evidence{_reset()} <skill_id> (--index N | --source URL) [--yes]
+  {_fg(*COLOR_GREY)}gaia dev timeline{_reset()} <skill_id> --action <action> --notes <notes> [--user <username>] [--timestamp <iso8601>]
+  {_fg(*COLOR_GREY)}gaia dev build{_reset()}
 
-  gaia validate [--intake] [--meta-sync]
-  gaia test <suite>
+  {_fg(*COLOR_GREY)}gaia validate{_reset()} [--intake] [--meta-sync]
+  {_fg(*COLOR_GREY)}gaia test{_reset()} <suite>
   gaia skills <list|search|info|install|uninstall>
   gaia skills list [--exclude-pending]
   gaia skills search <query> [--exclude-pending]
