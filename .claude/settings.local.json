@@ -15,7 +15,9 @@
       "Bash(python -m gaia_cli --help)",
       "Bash(gaia --help)",
       "Bash(gaia *)",
-      "Bash(git worktree *)"
+      "Bash(git worktree *)",
+      "Bash(git show *)",
+      "Bash(cp /tmp/main_restored.py /Users/marcotiongson/Documents/gaia-skill-tree/src/gaia_cli/main.py)"
     ]
   },
   "outputStyle": "default"
