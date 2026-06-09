@@ -1164,9 +1164,16 @@ def write_graph_artifact(
             } for sk in local_skills]
         
         canon_skills = {sk["id"]: sk for sk in graph.get("skills", [])}
+        scanned_nodes = set()
+        if user_ctx:
+            scanned_nodes.update(user_ctx.get("owned_ids", []))
+
         for csk in custom_skills:
             cid = csk["id"]
             mapped_to = csk.get("mapped_to")
+            
+            node_id = mapped_to if mapped_to else cid
+            scanned_nodes.add(node_id)
             
             if mapped_to and mapped_to in canon_skills and mapped_to != cid:
                 target = canon_skills[mapped_to]
@@ -1189,7 +1196,19 @@ def write_graph_artifact(
                     "prerequisites": csk.get("prerequisites", []),
                 }
         
-        graph["skills"] = list(canon_skills.values())
+        display_ids = set()
+        queue = list(scanned_nodes)
+        visited = set()
+        while queue:
+            curr = queue.pop(0)
+            if curr in visited:
+                continue
+            visited.add(curr)
+            display_ids.add(curr)
+            for prereq in canon_skills.get(curr, {}).get("prerequisites", []):
+                queue.append(prereq)
+
+        graph["skills"] = [sk for sk in canon_skills.values() if sk["id"] in display_ids]
         graph["version"] = "local-custom"
     named_buckets = load_named_skills(root).get("buckets", {})
     render_graph = build_render_graph(graph, named_buckets=named_buckets)
@@ -1260,15 +1279,24 @@ def graph_command(args: Any) -> None:
     try:
         from gaia_cli import scanner
         from gaia_cli.localContext import LocalContext
+        from gaia_cli.treeManager import detect_source_repo
 
         config = scanner.load_config()
         username = (config or {}).get("gaiaUser") or (config or {}).get("username") or ""
-        if username:
-            ctx = LocalContext.load(str(registry_path), username, include_scan=False)
+        
+        repo_title = ""
+        try:
+            repo_title = detect_source_repo(config) if config else ""
+        except Exception:
+            pass
+
+        if username or repo_title:
+            ctx = LocalContext.load(str(registry_path), username or "unknown", include_scan=False)
             user_ctx = {
                 "username": ctx.username,
                 "owned_ids": list(ctx.owned_ids),
                 "named_map": ctx.named_map,
+                "title": repo_title or username,
             }
     except Exception:
         pass  # Degrade gracefully to canon mode
