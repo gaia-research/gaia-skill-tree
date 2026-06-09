@@ -274,6 +274,12 @@ def format_level_colored(level: str) -> str:
     return f"{_fg(*rank_color)}{level}{_reset()}"
 
 
+def rank_hex(rank: str) -> str:
+    """Return '#rrggbb' for a given rank string, sourced from RANK_COLORS."""
+    r, g, b = RANK_COLORS.get(rank, RANK_COLORS.get("0★", (148, 163, 184)))
+    return f"#{r:02x}{g:02x}{b:02x}"
+
+
 def fusion_equation(prereqs: list[str], result: str, result_glyph: str = "◇") -> str:
     """Plain text fusion equation: /a + /b -> /result glyph"""
     parts = " + ".join(f"/{p}" for p in prereqs)
