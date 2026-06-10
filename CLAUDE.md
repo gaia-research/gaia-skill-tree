@@ -84,9 +84,15 @@ When a gap forces a direct edit, always:
 
 ## CLI Shape
 
-Top-level commands are lifecycle-oriented: `init`, `scan`, `pull`, `push`, `appraise`, `promote`, `release`, `version`, `whoami`, `mcp`, `tree`, `graph`, `docs`, `update`, and `help`.
+Top-level commands are lifecycle-oriented: `init`, `scan`, `pull`, `push`, `appraise`, `promote`, `release`, `version`, `whoami`, `mcp`, `tree`, `graph`, `docs`, `update`, `share`, and `help`.
 
 Named skill actions live under `gaia skills`: `list`, `search`, `install`, `uninstall`, and `info`. The old flat verbs are intentionally removed.
+
+### Share bundles (`gaia share` / `gaia install <bundle>`)
+
+`gaia share` exports a self-contained **share bundle** JSON (`generated-output/share/<user>-share-bundle.json`, or `--stdout`) carrying a snapshot of the sharer's tree, a flat install manifest pointing each skill at its source repo via `links.github` (`blob/branch/subpath`, `tree/`→`blob/` normalized), and pre-resolved metadata to re-render the sharer's tree preview. A bundle can span multiple repos and still present as one tree.
+
+`gaia install` detects a bundle argument (a `.json` path or an http(s) URL) and walks a guided flow: render the sharer's tree → prompt `[A]ll / [P]ick / [V]iew only / [Q]uit` → resolve each chosen skill (reusing the `gaia skills install` resolution path when the consumer's registry knows it, else installing directly from the bundle's source URL) → print an installed / skipped / unresolved summary. Non-TTY defaults to view-only. Implemented in `src/gaia_cli/share.py`. The static `docs/share/` copy-link page is a deferred fast-follow (Issue #128).
 
 All commands default to **local-first** output — showing the user's own skill levels, detected skills, and named forms when available. Pass `--canon` to any command to view canonical registry data instead.
 

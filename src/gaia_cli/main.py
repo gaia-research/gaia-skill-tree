@@ -187,6 +187,10 @@ Skills:
   {_rainbow_text("gaia skills install")} <skill> [--global | --local]
   {_rainbow_text("gaia skills uninstall")} <skill_id>
 
+Share:
+  {_fg(*COLOR_LOCAL_USER)}gaia share{_reset()} [--user <name>] [-o <path>] [--stdout]
+  {_fg(*C2)}gaia install{_reset()} <bundle.json|url>   Preview & install a shared tree (guided)
+
 Utilities:
   {_fg(*C2)}gaia whoami{_reset()}
   {_fg(*C1)}gaia version{_reset()}
@@ -245,6 +249,7 @@ PUBLIC_COMMANDS = (
     "update",
     "install",
     "uninstall",
+    "share",
     "tree",
     "push",
     "propose",
@@ -2247,11 +2252,21 @@ def install_command(args):
         install_suite,
         update_skills,
     )
+    from gaia_cli.share import _looks_like_bundle_ref, install_bundle
 
     location = _resolve_install_location(args)
 
     if args.list:
         interactive_install(args.registry, location=location)
+        return
+    # A bundle ref (a .json path or an http(s) URL) routes to the guided
+    # share-bundle flow; a bare slug or contributor/slug is a named skill.
+    if args.skill_id and _looks_like_bundle_ref(args.skill_id):
+        try:
+            install_bundle(args.skill_id, args.registry, location=location)
+        except ValueError as exc:
+            print(f"Error: {exc}", file=sys.stderr)
+            sys.exit(1)
         return
     if not args.skill_id:
         print("Usage: gaia install <skill_id>", file=sys.stderr)
@@ -2277,6 +2292,49 @@ def uninstall_command(args):
     success = uninstall_skill(args.skill_id.lstrip("/"))
     if not success:
         sys.exit(1)
+
+
+def share_command(args):
+    from gaia_cli.share import build_share_bundle, default_bundle_path, write_bundle
+
+    config = load_config()
+    if not config:
+        print("Gaia not initialized. Run `gaia init` first.", file=sys.stderr)
+        sys.exit(1)
+    username = getattr(args, "user", None) or config.get("gaiaUser")
+    if not username:
+        print(
+            "No Gaia user configured. Run `gaia init --user <name>`.", file=sys.stderr
+        )
+        sys.exit(1)
+
+    try:
+        bundle = build_share_bundle(username, args.registry)
+    except ValueError as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        sys.exit(1)
+
+    if getattr(args, "stdout", False):
+        print(json.dumps(bundle, indent=2))
+        return
+
+    out_path = getattr(args, "output", None) or default_bundle_path(
+        username, args.registry
+    )
+    write_bundle(bundle, out_path)
+
+    n_skills = len(bundle.get("skillMeta", {}))
+    n_install = len(bundle.get("install", []))
+    try:
+        rel = os.path.relpath(out_path)
+    except ValueError:
+        rel = out_path
+    print(f"\n{_fg(*COLOR_LOCAL_USER)}✓ Share bundle written:{_reset()} {rel}")
+    print(f"  {n_skills} skill(s), {n_install} installable")
+    print("\nShare it — anyone with the file can preview your tree and install:")
+    print(f"  gaia install {rel}")
+    print("\nOr host the file and share the URL:")
+    print("  gaia install https://<host>/<file>.json")
 
 
 def _load_json_file(path: str, default=None):
@@ -2794,6 +2852,21 @@ def get_parser():
         "uninstall", help="Uninstall a named skill"
     )
     uninstall_parser.add_argument("skill_id", help="Skill ID to uninstall")
+
+    share_parser = subparsers.add_parser(
+        "share", help="Export a portable share bundle of your skill tree"
+    )
+    share_parser.add_argument(
+        "--user", help="User whose tree to share (default: configured gaiaUser)"
+    )
+    share_parser.add_argument(
+        "-o", "--output", help="Path to write the bundle JSON (default: generated-output/share/)"
+    )
+    share_parser.add_argument(
+        "--stdout",
+        action="store_true",
+        help="Print the bundle JSON to stdout instead of writing a file",
+    )
 
     tree_parser = subparsers.add_parser("tree", help="Show your Gaia skill tree")
     tree_parser.add_argument(
@@ -3507,6 +3580,8 @@ def main():
         install_command(args)
     elif args.command == "uninstall":
         uninstall_command(args)
+    elif args.command == "share":
+        share_command(args)
     elif args.command == "tree":
         tree_command(args)
     elif args.command == "push":
