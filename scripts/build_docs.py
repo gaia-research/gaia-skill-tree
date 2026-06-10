@@ -130,12 +130,10 @@ def _registry_tree() -> str:
     if content_start == -1:
         return f"```text\n{tree_body}\n```"
 
-    # Show preferred samples: mattpocock/skills (6★) first, then garrytan/gstack (5★)
-    PREFERRED_SAMPLES = ["mattpocock/skills", "garrytan/gstack"]
-    truncated_lines = []
+    import re as _re
 
     def _extract_ultimate_block(lines: list, start_idx: int) -> tuple[list, int]:
-        """Extract up to 15 lines of a ◆ block starting at start_idx."""
+        """Return (block_lines_up_to_15, next_top_level_idx) for a ◆ block."""
         block = [lines[start_idx]]
         i = start_idx + 1
         while i < len(lines) and not lines[i].startswith("◆ ") and not lines[i].startswith("═"):
@@ -151,15 +149,41 @@ def _registry_tree() -> str:
             block.pop()
         return block, i
 
+    def _nested_ultimates(lines: list, idx: int) -> set[str]:
+        """Names of any ◆ that appear indented inside the block at idx."""
+        found: set[str] = set()
+        j = idx + 1
+        while j < len(lines) and not lines[j].startswith("◆ ") and not lines[j].startswith("═"):
+            m = _re.match(r"^\s+[│ ]*[├└]─ ◆ ([\w/.-]+)", lines[j])
+            if m:
+                found.add(m.group(1))
+            j += 1
+        return found
+
+    # Preferred samples, in order. A candidate is skipped if it is already
+    # nested (as a sub-◆) inside any previously selected sample.
+    PREFERRED_SAMPLES = ["mattpocock/skills", "garrytan/gstack"]
+
+    # Build index: name → line idx for top-level ◆ entries
+    ultimate_idx: dict[str, int] = {}
+    for i in range(content_start, len(lines)):
+        m = _re.match(r"^◆ ([\w/.-]+)", lines[i])
+        if m:
+            ultimate_idx[m.group(1)] = i
+
+    truncated_lines: list[str] = []
+    nested_so_far: set[str] = set()
+
     for sample_name in PREFERRED_SAMPLES:
-        for i in range(content_start, len(lines)):
-            if lines[i].startswith("◆ " + sample_name):
-                block, _ = _extract_ultimate_block(lines, i)
-                truncated_lines.extend(block)
-                truncated_lines.append("")
-                break
-        else:
-            pass  # sample not found in tree; skip
+        if sample_name in nested_so_far:
+            continue  # already represented inside a higher-star tree shown above
+        idx = ultimate_idx.get(sample_name)
+        if idx is None:
+            continue
+        block, _ = _extract_ultimate_block(lines, idx)
+        truncated_lines.extend(block)
+        truncated_lines.append("")
+        nested_so_far |= _nested_ultimates(lines, idx)
 
     # Look for Uniques section
     uniques_start = -1
