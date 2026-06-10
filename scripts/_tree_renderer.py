@@ -151,8 +151,7 @@ def render_tree(
             return nid
         return f"/{sid}"
 
-    def _subtree(rid, sm, m, prefix, is_last, seen, u_ids=None, uid=None, nm=None,
-                 named_level_map=None, hr=None, named_entry_level=None):
+    def _subtree(rid, sm, m, prefix, is_last, seen, **_kw):
         return []
 
     def _sorted_ults(sks):
@@ -179,7 +178,34 @@ def render_tree(
         for pid in s.get("prerequisites", []):
             all_prereq_ids.add(pid)
 
-    legendaries = _srt(skills)
+    # ── Filter sub-Ultimates ──────────────────────────────────────────────
+    # An Ultimate that appears as a direct or transitive prerequisite of
+    # another Ultimate is already rendered nested inside that parent tree.
+    # Listing it again at the top level is redundant, so we exclude it.
+    def _sub_ultimate_ids(all_skills: list, smap: dict) -> set:
+        ultimate_ids = {s["id"] for s in all_skills if s.get("type") == "ultimate"}
+        sub: set = set()
+
+        def _walk(sid: str, visiting: set) -> None:
+            if sid in visiting:
+                return
+            visiting.add(sid)
+            sk = smap.get(sid)
+            if not sk:
+                return
+            for pid in sk.get("prerequisites", []):
+                if pid in ultimate_ids:
+                    sub.add(pid)
+                _walk(pid, visiting)
+
+        for uid in ultimate_ids:
+            _walk(uid, set())
+        return sub
+
+    _sub_ids = _sub_ultimate_ids(skills, skill_map)
+    top_level_skills = [s for s in skills if s["id"] not in _sub_ids]
+
+    legendaries = _srt(top_level_skills)
     unique_skills = sorted(
         [s for s in skills if s.get("type") == "unique"],
         key=lambda s: s.get("id", ""),

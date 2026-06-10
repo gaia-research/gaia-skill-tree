@@ -130,35 +130,60 @@ def _registry_tree() -> str:
     if content_start == -1:
         return f"```text\n{tree_body}\n```"
 
-    # Take first 2 Ultimates, max 15 lines each
-    ultimate_count = 0
-    truncated_lines = []
-    
-    i = content_start
-    while i < len(lines) and ultimate_count < 2:
-        line = lines[i]
-        if line.startswith("◆ "):
-            ultimate_count += 1
-            block = [line]
-            i += 1
-            while i < len(lines) and not lines[i].startswith("◆ ") and not lines[i].startswith("═"):
-                # Skip the long ──── separator line usually following an ultimate
-                if lines[i].startswith("────"):
-                    i += 1
-                    continue
-                if len(block) < 15:
-                    # Limit depth to keep it clean in README
-                    depth = lines[i].count("│") + lines[i].count(" ") // 2
-                    if depth <= 8:
-                        block.append(lines[i])
+    import re as _re
+
+    def _extract_ultimate_block(lines: list, start_idx: int) -> tuple[list, int]:
+        """Return (block_lines_up_to_15, next_top_level_idx) for a ◆ block."""
+        block = [lines[start_idx]]
+        i = start_idx + 1
+        while i < len(lines) and not lines[i].startswith("◆ ") and not lines[i].startswith("═"):
+            if lines[i].startswith("────"):
                 i += 1
-            # Trim trailing empty lines in block
-            while block and not block[-1].strip():
-                block.pop()
-            truncated_lines.extend(block)
-            truncated_lines.append("")
-        else:
+                continue
+            if len(block) < 15:
+                depth = lines[i].count("│") + lines[i].count(" ") // 2
+                if depth <= 8:
+                    block.append(lines[i])
             i += 1
+        while block and not block[-1].strip():
+            block.pop()
+        return block, i
+
+    def _nested_ultimates(lines: list, idx: int) -> set[str]:
+        """Names of any ◆ that appear indented inside the block at idx."""
+        found: set[str] = set()
+        j = idx + 1
+        while j < len(lines) and not lines[j].startswith("◆ ") and not lines[j].startswith("═"):
+            m = _re.match(r"^\s+[│ ]*[├└]─ ◆ ([\w/.-]+)", lines[j])
+            if m:
+                found.add(m.group(1))
+            j += 1
+        return found
+
+    # Preferred samples, in order. A candidate is skipped if it is already
+    # nested (as a sub-◆) inside any previously selected sample.
+    PREFERRED_SAMPLES = ["mattpocock/skills", "garrytan/gstack"]
+
+    # Build index: name → line idx for top-level ◆ entries
+    ultimate_idx: dict[str, int] = {}
+    for i in range(content_start, len(lines)):
+        m = _re.match(r"^◆ ([\w/.-]+)", lines[i])
+        if m:
+            ultimate_idx[m.group(1)] = i
+
+    truncated_lines: list[str] = []
+    nested_so_far: set[str] = set()
+
+    for sample_name in PREFERRED_SAMPLES:
+        if sample_name in nested_so_far:
+            continue  # already represented inside a higher-star tree shown above
+        idx = ultimate_idx.get(sample_name)
+        if idx is None:
+            continue
+        block, _ = _extract_ultimate_block(lines, idx)
+        truncated_lines.extend(block)
+        truncated_lines.append("")
+        nested_so_far |= _nested_ultimates(lines, idx)
 
     # Look for Uniques section
     uniques_start = -1

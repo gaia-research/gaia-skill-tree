@@ -152,7 +152,8 @@ def _build_skill_display(skill_id, skill_type, named_map=None, handle_rel=None,
     return named_id_display if named_id else f"/{skill_id}"
 
 def _sorted_ultimates(skills):
-    # Generic refs are rank-less; order ultimates by name.
+    # Receives only top-level Ultimates (sub-components already filtered by
+    # render_tree). Sort by name so the canonical tree is deterministic.
     return sorted(
         [s for s in skills if s.get("type") == "ultimate"],
         key=lambda s: s.get("name", "")
