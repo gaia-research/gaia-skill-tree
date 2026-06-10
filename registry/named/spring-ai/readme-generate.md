@@ -5,20 +5,34 @@ contributor: spring-ai
 origin: false
 genericSkillRef: write-report
 status: named
-title: "The Endpoint Scribe"
+title: The Endpoint Scribe
 catalogRef: spring-ai-readme-generate
-level: "2★"
-description: Scans a Java Spring project for controller annotations, extracts REST API endpoint definitions, and automatically generates structured API documentation in README format.
+level: 2★
+description: Scans a Java Spring project for controller annotations, extracts REST
+  API endpoint definitions, and automatically generates structured API documentation
+  in README format.
 links:
   github: https://github.com/spring-ai-alibaba/examples/blob/main/.claude/skills/readme-generate/SKILL.md
 tags:
-  - java
-  - spring
-  - rest-api
-  - documentation
-  - readme
-createdAt: "2026-04-30"
-updatedAt: "2026-04-30"
+- java
+- spring
+- rest-api
+- documentation
+- readme
+createdAt: '2026-04-30'
+updatedAt: '2026-06-10'
+evidence:
+- class: B
+  source: https://github.com/spring-ai-alibaba/examples/blob/main/.claude/skills/readme-generate/SKILL.md
+  evaluator: mbtiongson1
+  date: '2026-06-10'
+  notes: Published implementation in the Spring AI Alibaba examples repository; reproducible
+    from SKILL.md.
+timeline:
+- timestamp: '2026-06-10T05:38:19Z'
+  action: evidence_added
+  contributor: unknown
+  details: Added B evidence from https://github.com/spring-ai-alibaba/examples/blob/main/.claude/skills/readme-generate/SKILL.md
 ---
 
 ## Overview

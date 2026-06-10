@@ -5,18 +5,32 @@ contributor: gaiabot
 origin: false
 genericSkillRef: write-report
 status: awakened
-level: "2★"
-description: Builds and validates repository documentation as a pre-PR guardrail by reminding contributors to run the local docs drift check, then surfaces actionable regeneration commands so pull requests do not fail CI on documentation freshness.
+level: 2★
+description: Builds and validates repository documentation as a pre-PR guardrail by
+  reminding contributors to run the local docs drift check, then surfaces actionable
+  regeneration commands so pull requests do not fail CI on documentation freshness.
 links:
   github: https://github.com/mbtiongson1/gaia-skill-tree
 tags:
-  - documentation
-  - ci
-  - pre-pr
-  - quality-gate
-  - repo-maintenance
-createdAt: "2026-05-01"
-updatedAt: "2026-05-03"
+- documentation
+- ci
+- pre-pr
+- quality-gate
+- repo-maintenance
+createdAt: '2026-05-01'
+updatedAt: '2026-06-10'
+evidence:
+- class: B
+  source: https://github.com/mbtiongson1/gaia-skill-tree
+  evaluator: mbtiongson1
+  date: '2026-06-10'
+  notes: 'Exercised in this repository''s own CI: the docs drift check (gaia docs
+    build --check) gates every PR, demonstrating the skill in production.'
+timeline:
+- timestamp: '2026-06-10T05:38:16Z'
+  action: evidence_added
+  contributor: unknown
+  details: Added B evidence from https://github.com/mbtiongson1/gaia-skill-tree
 ---
 
 ## Overview

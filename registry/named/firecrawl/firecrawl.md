@@ -18,12 +18,23 @@ tags:
 - extraction
 - crawler
 createdAt: '2026-05-17'
-updatedAt: '2026-06-02'
+updatedAt: '2026-06-10'
 timeline:
 - timestamp: '2026-06-02T23:33:01Z'
   action: demote
   contributor: unknown
   details: Origin status removed. Transferred to garrytan/scrape.
+- timestamp: '2026-06-10T05:38:16Z'
+  action: evidence_added
+  contributor: unknown
+  details: Added B evidence from https://github.com/firecrawl/firecrawl
+evidence:
+- class: B
+  source: https://github.com/firecrawl/firecrawl
+  evaluator: mbtiongson1
+  date: '2026-06-10'
+  notes: Origin repository — open-source web search/scrape/crawl API for LLM agents;
+    reproducible public implementation with documented usage.
 ---
 
 ## Overview

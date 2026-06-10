@@ -5,21 +5,34 @@ contributor: ruvnet
 origin: false
 genericSkillRef: verification-before-completion
 status: named
-title: "The Quality Sentinel"
+title: The Quality Sentinel
 catalogRef: ruvnet-verification-quality
-level: "2★"
-description: Implements structured pre-completion verification checklists ensuring quality gates are met before task finalization.
+level: 2★
+description: Implements structured pre-completion verification checklists ensuring
+  quality gates are met before task finalization.
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - verification
-  - quality
-  - checklists
-  - quality-gates
-  - completion
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/ruflo"
+- verification
+- quality
+- checklists
+- quality-gates
+- completion
+createdAt: '2026-05-19'
+updatedAt: '2026-06-10'
+suiteRef: ruvnet/ruflo
+evidence:
+- class: B
+  source: https://github.com/ruvnet/ruflo
+  evaluator: mbtiongson1
+  date: '2026-06-10'
+  notes: Part of the Ruflo orchestration platform (public repo); pre-completion quality
+    gates documented in the suite.
+timeline:
+- timestamp: '2026-06-10T05:38:18Z'
+  action: evidence_added
+  contributor: unknown
+  details: Added B evidence from https://github.com/ruvnet/ruflo
 ---
 
 ## Overview

@@ -5,22 +5,36 @@ contributor: mattpocock
 origin: false
 genericSkillRef: autonomous-debug
 status: named
-title: "The Debugging Discipline"
-title: "The Disciplined Diagnosis Loop"
+title: The Disciplined Diagnosis Loop
 catalogRef: mattpocock-diagnose
-level: "2★"
-description: Drives a rigorous five-phase debugging discipline — build a feedback loop, minimise, hypothesise, instrument, fix and regression-test — refusing to proceed until a fast deterministic pass/fail signal exists. Applies to hard bugs and performance regressions.
+level: 2★
+description: Drives a rigorous five-phase debugging discipline — build a feedback
+  loop, minimise, hypothesise, instrument, fix and regression-test — refusing to proceed
+  until a fast deterministic pass/fail signal exists. Applies to hard bugs and performance
+  regressions.
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnose/SKILL.md
 tags:
-  - debugging
-  - diagnosis
-  - feedback-loop
-  - regression
-  - root-cause-analysis
-createdAt: "2026-04-30"
-updatedAt: "2026-04-30"
-suiteRef: "mattpocock/engineering"
+- debugging
+- diagnosis
+- feedback-loop
+- regression
+- root-cause-analysis
+createdAt: '2026-04-30'
+updatedAt: '2026-06-10'
+suiteRef: mattpocock/engineering
+evidence:
+- class: B
+  source: https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnose/SKILL.md
+  evaluator: mbtiongson1
+  date: '2026-06-10'
+  notes: Published implementation in Matt Pocock's skills repository; five-phase debugging
+    discipline documented and reproducible.
+timeline:
+- timestamp: '2026-06-10T05:38:16Z'
+  action: evidence_added
+  contributor: unknown
+  details: Added B evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnose/SKILL.md
 ---
 
 ## Overview

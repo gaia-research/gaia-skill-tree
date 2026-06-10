@@ -9,7 +9,7 @@ status: named
 level: 4★
 description: Productivity category suite for Matt Pocock's skills.
 createdAt: '2026-05-21'
-updatedAt: '2026-06-04'
+updatedAt: '2026-06-10'
 suiteRef: mattpocock/skills
 suiteComponents:
 - mattpocock/caveman
@@ -17,6 +17,10 @@ suiteComponents:
 - mattpocock/handoff
 - mattpocock/write-a-skill
 ---
+
+## Overview
+
+The Matt Pocock Productivity Suite bundles four skills that optimise the agent-developer feedback loop: Caveman Mode compresses communication to save tokens by dropping articles and filler words; Grill Me conducts a one-question-at-a-time design interview, substituting codebase exploration for empirically answerable questions; Handoff compacts the current conversation into a summary ready for a fresh agent context; and Write a Skill scaffolds new agent skills through a structured interview that produces a trigger-aware SKILL.md with progressive-disclosure layout. The suite covers the cognitive overhead of working with agents — prompt economy, design clarity, context continuity, and skill authoring.
 
 ## Installation
 

@@ -5,21 +5,34 @@ contributor: ruvnet
 origin: false
 genericSkillRef: subagent-driven-development
 status: named
-title: "The Coding Companion"
+title: The Coding Companion
 catalogRef: ruvnet-pair-programming
-level: "2★"
-description: Structures collaborative coding sessions between a primary implementation agent and a review subagent with continuous feedback loops.
+level: 2★
+description: Structures collaborative coding sessions between a primary implementation
+  agent and a review subagent with continuous feedback loops.
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - pair-programming
-  - subagent
-  - code-review
-  - collaborative
-  - feedback-loops
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/ruflo"
+- pair-programming
+- subagent
+- code-review
+- collaborative
+- feedback-loops
+createdAt: '2026-05-19'
+updatedAt: '2026-06-10'
+suiteRef: ruvnet/ruflo
+evidence:
+- class: B
+  source: https://github.com/ruvnet/ruflo
+  evaluator: mbtiongson1
+  date: '2026-06-10'
+  notes: Part of the Ruflo orchestration platform (public repo); two-agent implement/review
+    pattern documented in the suite.
+timeline:
+- timestamp: '2026-06-10T05:38:18Z'
+  action: evidence_added
+  contributor: unknown
+  details: Added B evidence from https://github.com/ruvnet/ruflo
 ---
 
 ## Overview

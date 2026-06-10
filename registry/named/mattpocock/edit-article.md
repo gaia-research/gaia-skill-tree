@@ -20,13 +20,24 @@ tags:
 - section-structure
 - clarity
 createdAt: '2026-04-30'
-updatedAt: '2026-06-02'
+updatedAt: '2026-06-10'
 suiteRef: mattpocock/personal
 timeline:
 - timestamp: '2026-06-02T01:42:59Z'
   action: rank_up
   contributor: unknown
   details: Origin status set to true.
+- timestamp: '2026-06-10T05:38:17Z'
+  action: evidence_added
+  contributor: unknown
+  details: Added B evidence from https://github.com/mattpocock/skills/blob/main/skills/personal/edit-article/SKILL.md
+evidence:
+- class: B
+  source: https://github.com/mattpocock/skills/blob/main/skills/personal/edit-article/SKILL.md
+  evaluator: mbtiongson1
+  date: '2026-06-10'
+  notes: Published implementation in Matt Pocock's skills repository; DAG-sectioned
+    rewrite workflow documented and reproducible.
 ---
 
 ## Overview
