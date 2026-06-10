@@ -2750,11 +2750,6 @@ def get_parser():
         help="Suppress scan output; only show notifications",
     )
     scan_parser.add_argument(
-        "--auto-promote",
-        action="store_true",
-        help="Promote every scan-recommended candidate after scanning",
-    )
-    scan_parser.add_argument(
         "--json", action="store_true", help="Output scan results as JSON"
     )
     scan_parser.add_argument(

@@ -55,7 +55,6 @@ def _build_catalogue() -> list[tuple[str, list[MenuItem]]]:
         flags=[
             ("--all", "Scan all paths"),
             ("--json", "Output JSON"),
-            ("--auto-promote", "Auto-promote detected"),
             ("--quiet", "Suppress output"),
         ],
     )
