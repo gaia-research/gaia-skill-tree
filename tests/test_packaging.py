@@ -251,14 +251,51 @@ def test_registry_clone_auto_resolves_without_gaia_config(tmp_path):
 
 @pytest.mark.timeout(300)
 def test_docs_build_can_run_from_registry_clone_without_registry_flag(tmp_path):
-    # Run 'docs build' (without --check) so the command always exits 0 after
-    # regenerating files. The --check variant fails when docs are stale (e.g.
-    # after a PR changes CLI output), which is a false negative for this test's
-    # real intent: verifying that 'docs build' auto-resolves the registry from
-    # the CWD without requiring --registry.
+    # Build inside a temporary clone of the registry so that 'gaia docs build'
+    # never writes to the real repo's docs/, registry/, skill-trees/, or
+    # README.md.  The test's real intent is to verify that 'docs build'
+    # auto-resolves the registry from CWD (read_cwd_registry) without requiring
+    # an explicit --registry flag.
+    #
+    # Why a clone rather than --check?  --check exits 1 whenever any generated
+    # artifact is stale (e.g. after any CLI or registry change), turning this
+    # into a false negative for CI.  Running against a fresh clone lets the
+    # build regenerate freely and always exit 0.
+    #
+    # Isolation guarantee: scripts/build_docs.py derives ROOT via
+    #   ROOT = Path(__file__).resolve().parents[1]
+    # so it always writes relative to the script's own parent directory.
+    # Because we copy scripts/ into the clone, ROOT resolves to the clone
+    # root and all writes stay inside tmp_path.
+
+    _IGNORE = shutil.ignore_patterns(
+        ".git", ".venv", "node_modules", "__pycache__", "generated-output",
+        "*.pyc", "*.pyo",
+    )
+
+    clone = tmp_path / "clone"
+    clone.mkdir()
+
+    # Copy every directory/file that gaia docs build reads or writes.
+    # registry/  — gaia.json, nodes/, named/, named-skills.json, schema/
+    # docs/      — the output target; must pre-exist so build steps can update in-place
+    # scripts/   — build_docs.py and all helper scripts (ROOT derives from __file__)
+    # src/       — gaia_cli package (imported by the CLI and by several scripts)
+    # skill-trees/ — read by generateBadges.py, generateProfilePages.py, generateProjections.py
+    # pyproject.toml — version string read by _read_version()
+    # README.md  — updated in-place by build_readme()
+    for name in ("registry", "docs", "scripts", "src", "skill-trees"):
+        src = REPO_ROOT / name
+        if src.exists():
+            shutil.copytree(src, clone / name, ignore=_IGNORE)
+    for name in ("pyproject.toml", "README.md"):
+        src = REPO_ROOT / name
+        if src.exists():
+            shutil.copy2(src, clone / name)
+
     result = run_python(
         ["-m", "gaia_cli", "docs", "build"],
-        cwd=REPO_ROOT,
+        cwd=clone,
         env={"GAIA_HOME": str(tmp_path / "home")},
     )
 

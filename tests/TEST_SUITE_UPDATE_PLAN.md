@@ -1,6 +1,6 @@
 # Test Suite Update Plan — PR #635 (MAJOR CLI OVERHAUL)
 
-Status: triage complete (601 tests: ~37 fail, 1 hang, 1 exec-killer · 28/39 files green).
+Status: COMPLETED 2026-06-10 — all 4 waves executed; suite at 735 passed / 0 failed / 0 hung (was 564 passed / 37 failed / 1 hang / 1 exec-killer of 601).
 This plan is executed by implementation agents in waves. Each wave ends with a commit + push
 to `cli/fix-gaia-scan-and-push-2`.
 
