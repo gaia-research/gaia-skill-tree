@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skill Hierarchy — Gaia Docs</title>
+  <meta name="description" content="How Gaia's four tiers (Basic, Extra, Unique, Ultimate), the 0★–6★ stars axis, and skill fusion work together.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="icon" type="image/svg+xml" href="../assets/marks/diamond-seal.svg">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg, #030712);
+      color: var(--text, #e2e8f0);
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-size: 1rem;
+      line-height: 1.65;
+    }
+
+    a { color: var(--tier-basic, #38bdf8); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Nav ── */
+    .docs-nav {
+      border-bottom: 1px solid var(--border, #1e293b);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      height: 52px;
+      position: sticky;
+      top: 0;
+      background: rgba(3, 7, 18, 0.92);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+    }
+    .nav-logo {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--text, #e2e8f0);
+      letter-spacing: .02em;
+    }
+    .nav-logo span { color: var(--tier-ultimate, #f59e0b); }
+    .nav-sep { color: var(--muted, #64748b); font-size: 0.85rem; }
+    .nav-crumb { font-size: 0.82rem; color: var(--muted, #64748b); }
+    .nav-crumb:hover { color: var(--text, #e2e8f0); text-decoration: none; }
+    .nav-crumb.current { color: var(--text, #e2e8f0); }
+    .nav-spacer { flex: 1; }
+    .nav-version {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted, #64748b);
+      padding: 0.2rem 0.5rem;
+      border: 1px solid var(--border, #1e293b);
+      border-radius: 4px;
+    }
+
+    /* ── Layout ── */
+    .page-layout {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      position: sticky;
+      top: 52px;
+      height: calc(100vh - 52px);
+      overflow-y: auto;
+      padding: 2rem 0 2rem 1.5rem;
+      border-right: 1px solid var(--border, #1e293b);
+      scrollbar-width: thin;
+      scrollbar-color: var(--border, #1e293b) transparent;
+    }
+    .sidebar-group { margin-bottom: 1.75rem; }
+    .sidebar-group-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.66rem;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--muted, #64748b);
+      margin-bottom: 0.5rem;
+    }
+    .sidebar-links { list-style: none; display: flex; flex-direction: column; gap: 0.1rem; }
+    .sidebar-links a {
+      display: block;
+      padding: 0.25rem 0.6rem;
+      font-size: 0.84rem;
+      color: var(--muted, #64748b);
+      border-radius: 4px;
+      transition: color 0.15s, background 0.15s;
+    }
+    .sidebar-links a:hover {
+      color: var(--text, #e2e8f0);
+      background: rgba(255,255,255,0.04);
+      text-decoration: none;
+    }
+    .sidebar-links a.active {
+      color: var(--tier-basic, #38bdf8);
+      background: rgba(56,189,248,0.07);
+    }
+
+    /* ── Main ── */
+    .main-content {
+      padding: 2.5rem 3rem 4rem 3rem;
+      max-width: 820px;
+      min-width: 0;
+    }
+    .page-title {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 2.4rem;
+      font-weight: 500;
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+      color: var(--text, #e2e8f0);
+    }
+    .page-lead {
+      font-size: 1.05rem;
+      color: var(--muted, #64748b);
+      max-width: 580px;
+      line-height: 1.65;
+      margin-bottom: 2.5rem;
+    }
+
+    /* ── Sections ── */
+    .section { margin-bottom: 3.5rem; }
+    .section-title {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 1.7rem;
+      font-weight: 500;
+      color: var(--text, #e2e8f0);
+      margin-bottom: 0.5rem;
+      padding-top: 0.5rem;
+    }
+    .section-body {
+      font-size: 0.95rem;
+      color: var(--muted, #64748b);
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+    .section-body p { margin-bottom: 0.85rem; }
+    .section-body p:last-child { margin-bottom: 0; }
+
+    h3 {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: var(--text, #e2e8f0);
+      margin: 1.5rem 0 0.6rem;
+    }
+
+    /* ── Tier cards ── */
+    .tier-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .tier-card {
+      border: 1px solid var(--border, #1e293b);
+      border-radius: 10px;
+      padding: 1.25rem;
+      background: var(--surface, #0f172a);
+      transition: border-color 0.2s;
+    }
+    .tier-card:hover { border-color: rgba(56,189,248,0.25); }
+
+    .tier-card.basic  { border-left: 3px solid var(--tier-basic, #38bdf8); }
+    .tier-card.extra  { border-left: 3px solid var(--tier-extra, #c084fc); }
+    .tier-card.unique { border-left: 3px solid var(--tier-unique, #7c3aed); }
+    .tier-card.ultimate { border-left: 3px solid var(--tier-ultimate, #f59e0b); }
+
+    .tier-card-glyph {
+      font-size: 1.4rem;
+      line-height: 1;
+      margin-bottom: 0.6rem;
+    }
+    .tier-card.basic  .tier-card-glyph { color: var(--tier-basic, #38bdf8); }
+    .tier-card.extra  .tier-card-glyph { color: var(--tier-extra, #c084fc); }
+    .tier-card.unique .tier-card-glyph { color: var(--tier-unique, #7c3aed); }
+    .tier-card.ultimate .tier-card-glyph { color: var(--tier-ultimate, #f59e0b); }
+
+    .tier-card-name {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text, #e2e8f0);
+      margin-bottom: 0.4rem;
+    }
+    .tier-card-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted, #64748b);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 0.65rem;
+    }
+    .tier-card-desc {
+      font-size: 0.855rem;
+      color: var(--muted, #64748b);
+      line-height: 1.58;
+    }
+
+    /* ── Stars table ── */
+    .rank-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+    .rank-table th {
+      text-align: left;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.66rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--muted, #64748b);
+      padding: 0.5rem 0.75rem;
+      border-bottom: 1px solid var(--border, #1e293b);
+    }
+    .rank-table td {
+      padding: 0.55rem 0.75rem;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(30,41,59,0.5);
+    }
+    .rank-table tr:last-child td { border-bottom: none; }
+    .rank-table td:first-child {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      white-space: nowrap;
+    }
+
+    /* rank colors matching DESIGN.md */
+    .r0 { color: #64748b; }  /* slate */
+    .r1 { color: #38bdf8; }  /* sky-blue */
+    .r2 { color: #2dd4bf; }  /* teal */
+    .r3 { color: #a78bfa; }  /* violet */
+    .r4 { color: #e879f9; }  /* fuchsia */
+    .r5 { color: #f59e0b; }  /* amber */
+    .r6 { color: #fde68a; }  /* amber-bright */
+
+    /* ── Fusion diagram ── */
+    .fusion-diagram {
+      background: var(--surface, #0f172a);
+      border: 1px solid var(--border, #1e293b);
+      border-radius: 10px;
+      padding: 1.75rem 1.5rem;
+      margin: 1.5rem 0;
+    }
+    .fusion-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+    .fusion-row:last-child { margin-bottom: 0; }
+    .skill-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      padding: 0.3rem 0.65rem;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .skill-pill.basic {
+      background: rgba(56,189,248,0.1);
+      border: 1px solid rgba(56,189,248,0.25);
+      color: var(--tier-basic, #38bdf8);
+    }
+    .skill-pill.extra {
+      background: rgba(192,132,252,0.1);
+      border: 1px solid rgba(192,132,252,0.25);
+      color: var(--tier-extra, #c084fc);
+    }
+    .skill-pill.unique {
+      background: rgba(124,58,237,0.12);
+      border: 1px solid rgba(124,58,237,0.3);
+      color: #a78bfa;
+    }
+    .skill-pill.ultimate {
+      background: rgba(245,158,11,0.1);
+      border: 1px solid rgba(245,158,11,0.25);
+      color: var(--tier-ultimate, #f59e0b);
+    }
+    .fusion-arrow {
+      color: var(--muted, #64748b);
+      font-size: 1rem;
+    }
+    .fusion-label {
+      font-size: 0.78rem;
+      color: var(--muted, #64748b);
+      width: 100%;
+      margin-top: 0.2rem;
+      padding-left: 0.2rem;
+    }
+
+    /* ── Evidence overview ── */
+    .evidence-row {
+      display: grid;
+      grid-template-columns: 70px 1fr;
+      gap: 0.75rem 1.25rem;
+      align-items: start;
+      padding: 0.85rem 0;
+      border-bottom: 1px solid rgba(30,41,59,0.5);
+    }
+    .evidence-row:last-child { border-bottom: none; }
+    .evidence-class {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .ev-a { color: #fbbf24; }
+    .ev-b { color: #a78bfa; }
+    .ev-c { color: #94a3b8; }
+    .evidence-body { font-size: 0.875rem; color: var(--muted, #64748b); line-height: 1.6; }
+    .evidence-body strong { color: var(--text, #e2e8f0); font-weight: 600; }
+
+    /* ── Callout ── */
+    .callout {
+      border-left: 3px solid;
+      padding: 0.85rem 1rem;
+      border-radius: 0 6px 6px 0;
+      font-size: 0.875rem;
+      line-height: 1.6;
+      margin: 1rem 0;
+    }
+    .callout.info {
+      border-color: var(--tier-basic, #38bdf8);
+      background: rgba(56,189,248,0.07);
+      color: #bae6fd;
+    }
+    .callout.warn {
+      border-color: #f59e0b;
+      background: rgba(245,158,11,0.07);
+      color: #fde68a;
+    }
+    .callout strong { font-weight: 600; }
+    .callout code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      background: rgba(255,255,255,0.08);
+      padding: 0.1em 0.35em;
+      border-radius: 3px;
+    }
+
+    /* ── Code fence ── */
+    .code-fence {
+      background: #06080f;
+      border: 1px solid var(--border, #1e293b);
+      border-radius: 6px;
+      overflow: hidden;
+      margin: 1rem 0;
+    }
+    .code-fence-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.66rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--muted, #64748b);
+      padding: 0.45rem 1rem;
+      border-bottom: 1px solid var(--border, #1e293b);
+      background: rgba(255,255,255,0.015);
+    }
+    .code-fence pre {
+      padding: 0.85rem 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      line-height: 1.8;
+      color: #c9d1d9;
+      overflow-x: auto;
+    }
+    .code-fence pre .c { color: var(--muted, #64748b); }
+    .code-fence pre .cmd { color: #86efac; }
+    .code-fence pre .arg { color: var(--tier-extra, #c084fc); }
+
+    hr.section-hr {
+      border: none;
+      border-top: 1px solid var(--border, #1e293b);
+      margin: 2.5rem 0;
+    }
+
+    /* ── Named skill explainer ── */
+    .named-explainer {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.6rem 1rem;
+      background: var(--surface, #0f172a);
+      border: 1px solid var(--border, #1e293b);
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin: 1.25rem 0;
+    }
+    .named-step-num {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(56,189,248,0.1);
+      border: 1px solid rgba(56,189,248,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--tier-basic, #38bdf8);
+      flex-shrink: 0;
+      margin-top: 0.15rem;
+    }
+    .named-step-body { font-size: 0.875rem; color: var(--muted, #64748b); line-height: 1.65; }
+    .named-step-body strong { color: var(--text, #e2e8f0); }
+
+    /* ── Footer ── */
+    .docs-footer {
+      border-top: 1px solid var(--border, #1e293b);
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+    .docs-footer-left { font-size: 0.8rem; color: var(--muted, #64748b); }
+    .docs-footer-right { display: flex; gap: 1.5rem; }
+    .docs-footer-right a {
+      font-size: 0.8rem;
+      color: var(--muted, #64748b);
+      transition: color 0.15s;
+    }
+    .docs-footer-right a:hover { color: var(--text, #e2e8f0); text-decoration: none; }
+
+    @media (max-width: 820px) {
+      .page-layout { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .main-content { padding: 1.5rem 1.25rem 3rem; }
+      .tier-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- nav -->
+  <nav class="docs-nav">
+    <a href="../index.html" class="nav-logo">Gaia <span>◆</span></a>
+    <span class="nav-sep">/</span>
+    <a href="index.html" class="nav-crumb">Docs</a>
+    <span class="nav-sep">/</span>
+    <span class="nav-crumb current">Skill Hierarchy</span>
+    <div class="nav-spacer"></div>
+    <span class="nav-version">v4.6.0</span>
+  </nav>
+
+  <div class="page-layout">
+    <!-- sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-group">
+        <div class="sidebar-group-label">On this page</div>
+        <ul class="sidebar-links">
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#tiers">The four tiers</a></li>
+          <li><a href="#basic">Basic ○</a></li>
+          <li><a href="#extra">Extra ◇</a></li>
+          <li><a href="#unique">Unique ◉</a></li>
+          <li><a href="#ultimate">Ultimate ◆</a></li>
+          <li><a href="#stars">Stars axis</a></li>
+          <li><a href="#rank-names">Rank names</a></li>
+          <li><a href="#evidence">Evidence classes</a></li>
+          <li><a href="#fusion">Fusion</a></li>
+          <li><a href="#named-skills">Named Skills</a></li>
+          <li><a href="#generic-starless">Generic / Starless</a></li>
+          <li><a href="#local-first">Local-first design</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- main -->
+    <main class="main-content">
+      <h1 class="page-title">Skill Hierarchy</h1>
+      <p class="page-lead">
+        Gaia organizes capabilities along two orthogonal axes: <strong>tier</strong>
+        (what kind of skill it is) and <strong>stars</strong> (how mature the evidence is).
+        Understanding both is essential for reading the tree, interpreting the graph,
+        and planning your next fusion.
+      </p>
+
+      <!-- ═══ OVERVIEW ═══ -->
+      <section class="section" id="overview">
+        <h2 class="section-title">Overview</h2>
+        <div class="section-body">
+          <p>
+            Every skill in the Gaia registry lives at the intersection of a <strong>tier</strong>
+            and a <strong>star value</strong>. These are independent axes — a Basic skill can
+            reach 6★ just as an Ultimate can sit at 0★. Neither axis implies the other.
+          </p>
+          <p>
+            A third axis — <em>rarity</em> — existed in earlier schema versions but has been
+            fully removed. If you encounter old documentation referencing
+            common/uncommon/rare/epic/legendary, treat it as stale. All current signal
+            lives in tier and stars.
+          </p>
+        </div>
+
+        <!-- quick reference axes -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.25rem;">
+          <div style="background:var(--surface,#0f172a);border:1px solid var(--border,#1e293b);border-radius:8px;padding:1.25rem;">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted,#64748b);margin-bottom:0.75rem;">Tier axis — what kind</div>
+            <div style="display:flex;flex-direction:column;gap:0.4rem;">
+              <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.875rem;">
+                <span style="color:var(--tier-basic,#38bdf8);font-size:1rem;">○</span>
+                <span style="color:var(--text,#e2e8f0);">Basic</span>
+                <span style="color:var(--muted,#64748b);font-size:0.8rem;">primitive, indivisible</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.875rem;">
+                <span style="color:var(--tier-extra,#c084fc);font-size:1rem;">◇</span>
+                <span style="color:var(--text,#e2e8f0);">Extra</span>
+                <span style="color:var(--muted,#64748b);font-size:0.8rem;">emergent via fusion</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.875rem;">
+                <span style="color:var(--tier-unique,#7c3aed);font-size:1rem;">◉</span>
+                <span style="color:var(--text,#e2e8f0);">Unique</span>
+                <span style="color:var(--muted,#64748b);font-size:0.8rem;">elite Basic, no fusion path</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.875rem;">
+                <span style="color:var(--tier-ultimate,#f59e0b);font-size:1rem;">◆</span>
+                <span style="color:var(--text,#e2e8f0);">Ultimate</span>
+                <span style="color:var(--muted,#64748b);font-size:0.8rem;">apex complexity, &lt;1% of agents</span>
+              </div>
+            </div>
+          </div>
+          <div style="background:var(--surface,#0f172a);border:1px solid var(--border,#1e293b);border-radius:8px;padding:1.25rem;">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted,#64748b);margin-bottom:0.75rem;">Stars axis — how mature</div>
+            <div style="display:flex;flex-direction:column;gap:0.4rem;">
+              <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.82rem;">
+                <span class="r0" style="font-family:'JetBrains Mono',monospace;width:22px;">0★</span>
+                <span style="color:var(--muted,#64748b);">Unawakened — no evidence</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.82rem;">
+                <span class="r1" style="font-family:'JetBrains Mono',monospace;width:22px;">1★</span>
+                <span style="color:var(--muted,#64748b);">Awakened — first sighting</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.82rem;">
+                <span class="r2" style="font-family:'JetBrains Mono',monospace;width:22px;">2★</span>
+                <span style="color:var(--muted,#64748b);">Named — claimed + Class C</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.82rem;">
+                <span class="r3" style="font-family:'JetBrains Mono',monospace;width:22px;">3★</span>
+                <span style="color:var(--muted,#64748b);">Evolved — Class B evidence</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.82rem;">
+                <span class="r4" style="font-family:'JetBrains Mono',monospace;width:22px;">4★</span>
+                <span style="color:var(--muted,#64748b);">Hardened — verified + Class A</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.82rem;">
+                <span class="r5" style="font-family:'JetBrains Mono',monospace;width:22px;">5★</span>
+                <span style="color:var(--muted,#64748b);">Transcendent — peer-reviewed</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.82rem;">
+                <span class="r6" style="font-family:'JetBrains Mono',monospace;width:22px;">6★</span>
+                <span style="color:var(--muted,#64748b);">Transcendent ★ — Apex</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="section-hr">
+
+      <!-- ═══ TIERS ═══ -->
+      <section class="section" id="tiers">
+        <h2 class="section-title">The four tiers</h2>
+        <p class="section-body" style="margin-bottom:0;">
+          Tier is a structural category describing how a skill came to exist and whether
+          it can fuse further. It is determined at curation time and does not change
+          with evidence accumulation.
+        </p>
+
+        <div class="tier-grid">
+          <!-- Basic -->
+          <div class="tier-card basic" id="basic">
+            <div class="tier-card-glyph">○</div>
+            <div class="tier-card-name">Basic Skill</div>
+            <div class="tier-card-label">Section header: Basics</div>
+            <div class="tier-card-desc">
+              A primitive, indivisible capability — the genome of every agent.
+              Basic skills are the atoms from which all higher tiers are built.
+              They can fuse with other Basics to produce Extras or Ultimates.
+              Most of the registry is made up of Basic skills.
+            </div>
+          </div>
+
+          <!-- Extra -->
+          <div class="tier-card extra" id="extra">
+            <div class="tier-card-glyph">◇</div>
+            <div class="tier-card-name">Extra Skill</div>
+            <div class="tier-card-label">Section header: Extras</div>
+            <div class="tier-card-desc">
+              A capability that emerges when two or more lower-tier skills fuse.
+              Extra skills can themselves fuse with other Extras to produce more
+              complex Extras or Ultimates. Never created directly — always the
+              product of a fusion path.
+            </div>
+          </div>
+
+          <!-- Unique -->
+          <div class="tier-card unique" id="unique">
+            <div class="tier-card-glyph">◉</div>
+            <div class="tier-card-name">Unique Skill</div>
+            <div class="tier-card-label">Section header: Uniques</div>
+            <div class="tier-card-desc">
+              A graph-isolated Basic skill that reached elite mastery through
+              depth alone — no fusion path forward exists for it. Requires 4★
+              Hardened rank and an existing named implementation to promote to
+              Unique via <code>gaia promote --unique</code>.
+            </div>
+          </div>
+
+          <!-- Ultimate -->
+          <div class="tier-card ultimate" id="ultimate">
+            <div class="tier-card-glyph">◆</div>
+            <div class="tier-card-name">Ultimate Skill</div>
+            <div class="tier-card-label">Section header: Ultimates</div>
+            <div class="tier-card-desc">
+              A high-complexity emergent capability found in fewer than 1% of
+              agents — the apex tier. Ultimates require broad prerequisite coverage
+              across multiple sub-trees, making them the hardest skills to
+              legitimately demonstrate and the most meaningful to hold.
+            </div>
+          </div>
+        </div>
+
+        <div class="callout info">
+          <strong>Tier is structural, not aspirational.</strong> A Basic skill is not
+          "worse" than an Ultimate — it is a different <em>kind</em> of capability.
+          Some of the most useful and widely-held skills in the registry are Basic.
+          Stars measure depth; tier measures shape.
+        </div>
+      </section>
+
+      <hr class="section-hr">
+
+      <!-- ═══ STARS ═══ -->
+      <section class="section" id="stars">
+        <h2 class="section-title">The stars axis</h2>
+        <div class="section-body">
+          <p>
+            Stars measure how thoroughly a skill's real-world existence has been
+            demonstrated and peer-reviewed. They are <em>derived from evidence</em>,
+            never declared. An agent cannot claim to be "5-star at web search" by
+            self-reporting — stars accumulate through a sequence of evidence
+            submissions and Verifier reviews.
+          </p>
+          <p>
+            The axis runs from 0★ (no evidence) to 6★ (the Apex). Rank names are
+            the canonical labels for specific star values; they are only valid when
+            paired with the name — <em>"the Hardened rank"</em>, never just
+            <em>"rank 4."</em>
+          </p>
+        </div>
+
+        <h3 id="rank-names">Rank names</h3>
+        <table class="rank-table" style="background:var(--surface,#0f172a);border:1px solid var(--border,#1e293b);border-radius:8px;overflow:hidden;margin-top:0.75rem;">
+          <thead>
+            <tr>
+              <th>Stars</th>
+              <th>Rank name</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="r0">0★</td>
+              <td style="color:var(--text,#e2e8f0);">Unawakened</td>
+              <td style="color:var(--muted,#64748b);font-size:0.85rem;">No evidence. Also rendered as <em>Pure</em> in compact skill pills.</td>
+            </tr>
+            <tr>
+              <td class="r1">1★</td>
+              <td style="color:var(--text,#e2e8f0);">Awakened</td>
+              <td style="color:var(--muted,#64748b);font-size:0.85rem;">First sighting — a single Class C evidence entry exists.</td>
+            </tr>
+            <tr>
+              <td class="r2">2★</td>
+              <td style="color:var(--text,#e2e8f0);">Named</td>
+              <td style="color:var(--muted,#64748b);font-size:0.85rem;">Skill has been claimed by a contributor with Class C evidence or better. Origin Contributor name attached.</td>
+            </tr>
+            <tr>
+              <td class="r3">3★</td>
+              <td style="color:var(--text,#e2e8f0);">Evolved</td>
+              <td style="color:var(--muted,#64748b);font-size:0.85rem;">Class B evidence — reproducible, documented demonstration.</td>
+            </tr>
+            <tr>
+              <td class="r4">4★</td>
+              <td style="color:var(--text,#e2e8f0);">Hardened</td>
+              <td style="color:var(--muted,#64748b);font-size:0.85rem;">Class A evidence — battle-tested. Threshold for Verifier authorization.</td>
+            </tr>
+            <tr>
+              <td class="r5">5★</td>
+              <td style="color:var(--text,#e2e8f0);">Transcendent</td>
+              <td style="color:var(--muted,#64748b);font-size:0.85rem;">Multiple peer-reviewed Class A entries.</td>
+            </tr>
+            <tr>
+              <td class="r6">6★</td>
+              <td style="color:var(--text,#e2e8f0);">Transcendent ★</td>
+              <td style="color:var(--muted,#64748b);font-size:0.85rem;">The Apex. Reserved for skills with exhaustive, community-validated evidence across multiple independent sources.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="callout warn" style="margin-top:1.25rem;">
+          <strong>Do not confuse tier and stars.</strong> "Tier" (Basic/Extra/Unique/Ultimate)
+          describes the structural category. "Stars" (0★–6★) describes the evidence depth.
+          "Rank" is only the <em>name</em> for a specific star value — never use "rank" as a
+          synonym for the full stars axis.
+        </div>
+      </section>
+
+      <hr class="section-hr">
+
+      <!-- ═══ EVIDENCE ═══ -->
+      <section class="section" id="evidence">
+        <h2 class="section-title">Evidence classes</h2>
+        <div class="section-body">
+          <p>
+            Evidence classes grade the quality of a real-world demonstration.
+            Every star advance above 0★ requires at least one evidence entry meeting the
+            threshold for that rank. Evidence is attached by Verifiers using
+            <code>gaia dev evidence</code>.
+          </p>
+        </div>
+
+        <div style="background:var(--surface,#0f172a);border:1px solid var(--border,#1e293b);border-radius:8px;padding:1.25rem;margin-top:0.5rem;">
+          <div class="evidence-row">
+            <div class="evidence-class ev-c">C <span style="font-size:0.7rem;color:var(--muted,#64748b);">— Bronze</span></div>
+            <div class="evidence-body">
+              <strong>First sighting.</strong> A single, credible observation of the skill
+              in a real repository or agent context. No reproducibility required.
+              Sufficient for the 1★ Awakened rank. All Named Skills (2★) require
+              at least Class C.
+            </div>
+          </div>
+          <div class="evidence-row">
+            <div class="evidence-class ev-b">B <span style="font-size:0.7rem;color:var(--muted,#64748b);">— Silver</span></div>
+            <div class="evidence-body">
+              <strong>Reproducible and documented.</strong> A demonstration that another
+              evaluator can independently verify. Typically a public GitHub repo with a
+              <code>SKILL.md</code> file and test coverage. Enables the 3★ Evolved rank.
+            </div>
+          </div>
+          <div class="evidence-row">
+            <div class="evidence-class ev-a">A <span style="font-size:0.7rem;color:var(--muted,#64748b);">— Gold</span></div>
+            <div class="evidence-body">
+              <strong>Battle-tested and peer-reviewed.</strong> Published benchmarks,
+              academic papers (arXiv or equivalent), or broad community verification.
+              Required for the 4★ Hardened rank and above. Grants Verifier authorization
+              to the holder.
+            </div>
+          </div>
+        </div>
+
+        <div class="code-fence" style="margin-top:1.25rem;">
+          <div class="code-fence-label">attach evidence via CLI</div>
+          <pre><span class="c"># Class C — first sighting (requires Verifier auth)</span>
+<span class="cmd">gaia dev evidence</span> <span class="arg">web-search https://github.com/you/your-agent --class C</span>
+
+<span class="c"># Class B — reproducible repo with SKILL.md</span>
+<span class="cmd">gaia dev evidence</span> <span class="arg">web-search https://github.com/you/your-agent --class B \
+  --notes "Tested across 50 queries, results logged in SKILL.md"</span>
+
+<span class="c"># Class A — peer-reviewed paper</span>
+<span class="cmd">gaia dev evidence</span> <span class="arg">web-search https://arxiv.org/abs/2401.00000 --class A</span></pre>
+        </div>
+      </section>
+
+      <hr class="section-hr">
+
+      <!-- ═══ FUSION ═══ -->
+      <section class="section" id="fusion">
+        <h2 class="section-title">Fusion</h2>
+        <div class="section-body">
+          <p>
+            Fusion is the act of combining two or more skills into a single
+            higher-complexity skill. It is the mechanism by which Basic skills
+            produce Extra skills, and Extra skills produce Ultimates.
+            The verb is always <em>fuse</em> — never merge, combine, or compose.
+          </p>
+          <p>
+            A fusion candidate appears in your tree when you already hold all of
+            a target skill's prerequisite components. Confirm it with
+            <code>gaia fuse</code>. The fused skill starts at a star value equal to
+            the highest star among its components, minimum 1★.
+          </p>
+        </div>
+
+        <!-- fusion diagram -->
+        <div class="fusion-diagram">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted,#64748b);margin-bottom:1.25rem;">Fusion paths</div>
+
+          <div class="fusion-row">
+            <span class="skill-pill basic">○ web-search</span>
+            <span class="fusion-arrow">+</span>
+            <span class="skill-pill basic">○ parse-html</span>
+            <span class="fusion-arrow">+</span>
+            <span class="skill-pill basic">○ extract-entities</span>
+            <span class="fusion-arrow">→</span>
+            <span class="skill-pill extra">◇ web-scraping</span>
+          </div>
+          <div class="fusion-label">Three Basic skills fuse into one Extra skill.</div>
+
+          <div class="fusion-row" style="margin-top:1.25rem;">
+            <span class="skill-pill extra">◇ web-scraping</span>
+            <span class="fusion-arrow">+</span>
+            <span class="skill-pill extra">◇ long-context-synthesis</span>
+            <span class="fusion-arrow">+</span>
+            <span class="skill-pill extra">◇ tool-calling</span>
+            <span class="fusion-arrow">→</span>
+            <span class="skill-pill ultimate">◆ autonomous-research</span>
+          </div>
+          <div class="fusion-label">Extra skills fuse into an Ultimate. Prerequisite chains can run deep.</div>
+
+          <div class="fusion-row" style="margin-top:1.25rem;">
+            <span class="skill-pill basic">○ code-review</span>
+            <span style="color:var(--muted,#64748b);font-size:0.85rem;">→ 4★ Hardened + graph-isolated</span>
+            <span class="fusion-arrow">→</span>
+            <span class="skill-pill unique">◉ code-review (Unique)</span>
+          </div>
+          <div class="fusion-label">A Basic skill with no fusion path and 4★+ depth is eligible for Unique promotion.</div>
+        </div>
+
+        <h3>Rules</h3>
+        <ul style="font-size:0.9rem;color:var(--muted,#64748b);line-height:1.75;padding-left:1.4rem;margin-top:0.5rem;">
+          <li>You must hold <em>all</em> prerequisite components in your tree before a fusion becomes available.</li>
+          <li>The fused skill is added to your tree; the component skills remain — they are not consumed.</li>
+          <li>Fusion is not free-form: only registry-defined fusion paths are valid. You cannot fuse arbitrary skills.</li>
+          <li>The registry defines which combinations are meaningful. To propose a new fusion path, open an issue or PR.</li>
+          <li>Basic → Unique is a one-way promotion, not a fusion — no other skills are consumed.</li>
+        </ul>
+
+        <div class="code-fence" style="margin-top:1.25rem;">
+          <div class="code-fence-label">fuse via CLI</div>
+          <pre><span class="c"># See what fusion candidates you have</span>
+<span class="cmd">gaia tree</span>    <span class="c"># fusion candidates appear in the output</span>
+
+<span class="c"># Fuse interactively (Gaia shows eligible combinations)</span>
+<span class="cmd">gaia fuse</span>
+
+<span class="c"># Fuse a specific target</span>
+<span class="cmd">gaia fuse</span> <span class="arg">autonomous-research-agent</span></pre>
+        </div>
+      </section>
+
+      <hr class="section-hr">
+
+      <!-- ═══ NAMED SKILLS ═══ -->
+      <section class="section" id="named-skills">
+        <h2 class="section-title">Named Skills</h2>
+        <div class="section-body">
+          <p>
+            A Named Skill is a canonical skill that has been claimed by a real contributor
+            with Class C evidence or better. At the moment of naming, the skill reaches 2★
+            Named rank. The contributor's name attaches permanently as the
+            <strong>Origin Contributor</strong> and renders in honor red across the registry.
+          </p>
+          <p>
+            Named Skills are the human layer of the registry — they answer not just
+            <em>"does this capability exist?"</em> but <em>"who has demonstrated it, where,
+            and how well?"</em> Multiple contributors can hold named implementations of the
+            same canonical skill; only the first is the Origin.
+          </p>
+        </div>
+
+        <!-- lifecycle steps -->
+        <div class="named-explainer">
+          <div class="named-step-num">1</div>
+          <div class="named-step-body">
+            <strong>Run <code>gaia scan</code></strong> inside a Git repo containing agent
+            skill files (<code>SKILL.md</code>, <code>.claude/skills/</code>, etc.).
+            The scanner detects capability evidence and writes promotion candidates.
+          </div>
+
+          <div class="named-step-num">2</div>
+          <div class="named-step-body">
+            <strong>Run <code>gaia push --dry-run</code></strong> to preview the skill
+            batch, then <code>gaia push</code> to submit it for intake review via a
+            GitHub issue.
+          </div>
+
+          <div class="named-step-num">3</div>
+          <div class="named-step-body">
+            A Verifier reviews the intake. If approved, the skill is added to
+            <code>registry/named-skills.json</code> at 2★ with your name as Origin
+            Contributor. You can also claim an existing unnamed canonical skill using
+            <code>gaia propose &lt;skillId&gt;</code>.
+          </div>
+
+          <div class="named-step-num">4</div>
+          <div class="named-step-body">
+            <strong>Install the skill</strong> for use in your agent environment:
+            <code>gaia skills install contributor/skill-name --global</code>.
+            The skill appears under <code>~/.claude/skills/</code> (or your IDE's skill directory).
+          </div>
+
+          <div class="named-step-num">5</div>
+          <div class="named-step-body">
+            Continue adding evidence (<code>gaia dev evidence</code>) to rank the skill
+            up from 2★ Named through Evolved, Hardened, and eventually Transcendent.
+            At 4★ the holder gains Verifier authorization to review others' submissions.
+          </div>
+        </div>
+      </section>
+
+      <hr class="section-hr">
+
+      <!-- ═══ GENERIC / STARLESS ═══ -->
+      <section class="section" id="generic-starless">
+        <h2 class="section-title">Generic / Starless references</h2>
+        <div class="section-body">
+          <p>
+            The canonical graph contains two kinds of nodes: <em>generic</em> (starless)
+            nodes and <em>named</em> nodes. Understanding the difference is critical when
+            reading <code>gaia lookup</code> output or the Hunter's Atlas.
+          </p>
+          <p>
+            A <strong>generic</strong> (starless) reference is a taxonomy node that carries
+            no stars of its own. It represents the capability in the abstract — "web search
+            as a category." Stars belong only to the named implementations
+            (the skill's "children"). The generic node's effective rank is the highest
+            star among all its named children.
+          </p>
+          <p>
+            In the UI, generic nodes render in italic greyed-out styling to distinguish
+            them from named skills. The term <em>generic</em> is the technical descriptor;
+            <em>starless</em> is the brand / collective noun.
+          </p>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:0.5rem;">
+          <div style="background:var(--surface,#0f172a);border:1px solid var(--border,#1e293b);border-radius:8px;padding:1rem;">
+            <div style="font-size:0.78rem;color:var(--muted,#64748b);margin-bottom:0.5rem;font-style:italic;">generic (starless)</div>
+            <div style="font-size:0.9rem;color:#94a3b8;font-style:italic;">web-search</div>
+            <div style="font-size:0.78rem;color:var(--muted,#64748b);margin-top:0.4rem;">No stars of its own. Effective rank = top named child.</div>
+          </div>
+          <div style="background:var(--surface,#0f172a);border:1px solid var(--border,#1e293b);border-radius:8px;padding:1rem;">
+            <div style="font-size:0.78rem;color:var(--muted,#64748b);margin-bottom:0.5rem;">named implementation</div>
+            <div style="display:flex;align-items:center;gap:0.5rem;">
+              <span style="font-size:0.9rem;color:#ef4444;font-weight:600;">karpathy</span>
+              <span style="font-size:0.9rem;color:var(--text,#e2e8f0);">/web-search</span>
+              <span class="r3" style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;">3★</span>
+            </div>
+            <div style="font-size:0.78rem;color:var(--muted,#64748b);margin-top:0.4rem;">Holds its own stars. Name in honor red = Origin Contributor.</div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="section-hr">
+
+      <!-- ═══ LOCAL-FIRST ═══ -->
+      <section class="section" id="local-first">
+        <h2 class="section-title">Local-first design</h2>
+        <div class="section-body">
+          <p>
+            All player-facing commands default to showing <em>your</em> data, not the
+            canonical registry. <code>gaia tree</code> shows your unlocked skills.
+            <code>gaia scan</code> looks at your local directories. <code>gaia stats</code>
+            reports on your personal tree and installed skills.
+          </p>
+          <p>
+            To view the canonical registry instead, pass <code>--canon</code> to any
+            command. This toggle is available everywhere: <code>gaia tree --canon</code>,
+            <code>gaia stats --canon</code>, <code>gaia graph --canon</code>.
+          </p>
+        </div>
+
+        <div class="code-fence">
+          <div class="code-fence-label">local-first vs canon</div>
+          <pre><span class="c"># Your personal tree (local-first default)</span>
+<span class="cmd">gaia tree</span>
+
+<span class="c"># The full canonical registry tree</span>
+<span class="cmd">gaia tree</span> <span class="arg">--canon</span>
+
+<span class="c"># Your local stats vs the full registry</span>
+<span class="cmd">gaia stats</span>
+<span class="cmd">gaia stats</span> <span class="arg">--canon</span></pre>
+        </div>
+
+        <div class="callout info" style="margin-top:1rem;">
+          <strong>Local-first is intentional.</strong> The registry is a shared, global
+          artifact. Your skill tree is yours. Commands without <code>--canon</code> work
+          against the local state so that scanning, promoting, and tree-viewing are fast
+          and private until you explicitly push for review.
+        </div>
+      </section>
+
+      <!-- prev/next -->
+      <div style="display:flex;justify-content:space-between;margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--border,#1e293b);">
+        <a href="cli-reference.html" style="font-size:0.875rem;color:var(--muted,#64748b);">
+          ← CLI Reference
+        </a>
+        <a href="index.html" style="font-size:0.875rem;color:var(--tier-basic,#38bdf8);">
+          Back to Docs Home →
+        </a>
+      </div>
+    </main>
+  </div>
+
+  <!-- footer -->
+  <footer class="docs-footer">
+    <span class="docs-footer-left">Gaia Registry v4.6.0 — open, evidence-backed skill graph for AI agents.</span>
+    <div class="docs-footer-right">
+      <a href="index.html" style="color:var(--muted,#64748b);">Docs</a>
+      <a href="../index.html" style="color:var(--muted,#64748b);">Atlas</a>
+      <a href="https://github.com/mbtiongson1/gaia-skill-tree" target="_blank" rel="noopener" style="color:var(--muted,#64748b);">GitHub</a>
+    </div>
+  </footer>
+
+  <script>
+    /* Sidebar scroll-spy */
+    (function () {
+      const links = document.querySelectorAll('.sidebar-links a');
+      const sections = [];
+      links.forEach(a => {
+        const id = a.getAttribute('href').replace('#', '');
+        const el = document.getElementById(id);
+        if (el) sections.push({ id, el, a });
+      });
+      function onScroll() {
+        const mid = window.scrollY + window.innerHeight * 0.3;
+        let active = sections[0];
+        for (const s of sections) {
+          if (s.el.getBoundingClientRect().top + window.scrollY <= mid) active = s;
+        }
+        links.forEach(a => a.classList.remove('active'));
+        if (active) active.a.classList.add('active');
+      }
+      document.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    })();
+  </script>
+</body>
+</html>
