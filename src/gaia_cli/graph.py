@@ -119,7 +119,6 @@ def build_render_graph(
                     "effectiveLevel": star or level_meta["effectiveLevel"],
                     "levelMeta": level_meta,
                     "demerits": level_meta["demerits"],
-                    "rarity": skill.get("rarity"),
                     "description": skill.get("description", ""),
                     "x": round(x, 3),
                     "y": round(y, 3),
@@ -231,7 +230,7 @@ def write_gexf(
     # Attribute declarations
     attrs_el = ET.SubElement(graph_el, "attributes")
     attrs_el.set("class", "node")
-    for attr_id in ("level", "rarity", "status", "type"):
+    for attr_id in ("level", "status", "type"):
         attr_el = ET.SubElement(attrs_el, "attribute")
         attr_el.set("id", attr_id)
         attr_el.set("title", attr_id)
@@ -249,7 +248,7 @@ def write_gexf(
         node_el.set("id", sid)
         node_el.set("label", skill.get("name") or sid)
         attvalues_el = ET.SubElement(node_el, "attvalues")
-        for attr_id in ("level", "rarity", "status", "type"):
+        for attr_id in ("level", "status", "type"):
             val = skill.get(attr_id, "")
             if val:
                 av = ET.SubElement(attvalues_el, "attvalue")

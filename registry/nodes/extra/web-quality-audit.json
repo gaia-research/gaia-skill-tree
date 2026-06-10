@@ -2,7 +2,6 @@
   "id": "web-quality-audit",
   "name": "web-quality-audit",
   "type": "extra",
-  "rarity": "common",
   "description": "Orchestrates a multi-axis web quality audit covering performance (Core Web Vitals), accessibility (WCAG), SEO, and best practices, producing actionable remediation plans from Lighthouse and real-user data.",
   "prerequisites": [
     "registry-health-scan",

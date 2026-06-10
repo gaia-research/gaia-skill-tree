@@ -2,7 +2,6 @@
   "id": "superpowers",
   "name": "Superpowers",
   "type": "ultimate",
-  "rarity": "legendary",
   "description": "A complete software development methodology for coding agents: combines brainstorming, planning, parallel execution, systematic debugging, code review loops, and branch discipline into a unified agentic workflow.",
   "prerequisites": [
     "brainstorming",

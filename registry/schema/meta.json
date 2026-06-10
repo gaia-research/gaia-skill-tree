@@ -131,18 +131,6 @@
       "minOriginContributions": 1
     }
   },
-  "rarity": {
-    "order": [
-      "common",
-      "uncommon",
-      "rare",
-      "epic",
-      "legendary"
-    ],
-    "labels": {
-      "legendary": "Divine"
-    }
-  },
   "evidence": {
     "classes": [
       "A",

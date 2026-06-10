@@ -2,7 +2,6 @@
   "id": "cite-sources",
   "name": "Cite Sources",
   "type": "basic",
-  "rarity": "common",
   "description": "Attributes claims to specific sources with proper references, URLs, or bibliographic entries.",
   "prerequisites": [],
   "derivatives": [

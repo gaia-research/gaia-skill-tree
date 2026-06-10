@@ -2,7 +2,6 @@
   "id": "knowledge-management",
   "name": "Knowledge Management",
   "type": "extra",
-  "rarity": "common",
   "description": "Organizes, relates, and retrieves information across structured pages, databases, and shared knowledge bases, maintaining semantic links between information nodes.",
   "prerequisites": [
     "api-call",

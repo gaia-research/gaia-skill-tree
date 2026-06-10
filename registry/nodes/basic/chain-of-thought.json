@@ -2,7 +2,6 @@
   "id": "chain-of-thought",
   "name": "Chain-of-Thought Reasoning",
   "type": "basic",
-  "rarity": "uncommon",
   "description": "Produces explicit intermediate reasoning steps before arriving at a final answer, dramatically improving accuracy on multi-step problems.",
   "prerequisites": [],
   "derivatives": [

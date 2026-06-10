@@ -2,7 +2,6 @@
   "id": "ghostwrite",
   "name": "Ghostwrite",
   "type": "extra",
-  "rarity": "rare",
   "description": "Produces audience-tailored, research-backed long-form written content.",
   "prerequisites": [
     "research",

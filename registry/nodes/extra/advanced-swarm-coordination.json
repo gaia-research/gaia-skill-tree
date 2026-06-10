@@ -2,7 +2,6 @@
   "id": "advanced-swarm-coordination",
   "name": "Advanced Swarm Coordination",
   "type": "extra",
-  "rarity": "uncommon",
   "description": "Domain-specific swarm patterns for research, development, testing, and analysis workflows with neural learning and cross-session state persistence.",
   "prerequisites": [
     "swarm-topology-management",

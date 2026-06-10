@@ -2,7 +2,6 @@
   "id": "cli-modernization",
   "name": "CLI Modernization",
   "type": "basic",
-  "rarity": "common",
   "description": "Refactors command-line interfaces for improved UX, plugin architecture, and extensibility.",
   "prerequisites": [],
   "derivatives": [],

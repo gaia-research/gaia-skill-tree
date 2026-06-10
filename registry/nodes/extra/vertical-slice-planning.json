@@ -2,7 +2,6 @@
   "id": "vertical-slice-planning",
   "name": "Vertical Slice Planning",
   "type": "extra",
-  "rarity": "uncommon",
   "description": "Decomposes a product plan into independently-demoable vertical slices that each cut through all integration layers end-to-end. Classifies each slice as HITL (human-in-the-loop) or AFK (autonomous), identifies dependency ordering, and publishes structured issues with acceptance criteria.",
   "prerequisites": [
     "plan-decompose",

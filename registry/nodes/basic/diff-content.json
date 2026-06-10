@@ -2,7 +2,6 @@
   "id": "diff-content",
   "name": "Diff Content",
   "type": "basic",
-  "rarity": "common",
   "description": "Compares two versions of content and produces a structured delta highlighting additions, deletions, and modifications.",
   "prerequisites": [],
   "derivatives": [

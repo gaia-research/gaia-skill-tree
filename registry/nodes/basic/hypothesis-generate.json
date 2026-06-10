@@ -2,7 +2,6 @@
   "id": "hypothesis-generate",
   "name": "Hypothesis Generation",
   "type": "basic",
-  "rarity": "rare",
   "description": "Formulates novel, testable scientific hypotheses by synthesising existing literature, identifying knowledge gaps, and proposing mechanistic explanations.",
   "prerequisites": [],
   "derivatives": [

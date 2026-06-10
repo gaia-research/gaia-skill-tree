@@ -2,7 +2,6 @@
   "id": "tool-creation",
   "name": "Tool Creation",
   "type": "extra",
-  "rarity": "rare",
   "description": "Dynamically generates reusable tool functions (code) at runtime to solve novel sub-tasks, then invokes those tools to complete the overall objective without human-written APIs.",
   "prerequisites": [
     "code-generation",

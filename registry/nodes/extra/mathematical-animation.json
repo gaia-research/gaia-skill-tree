@@ -2,7 +2,6 @@
   "id": "mathematical-animation",
   "name": "Mathematical Animation",
   "type": "extra",
-  "rarity": "rare",
   "description": "Produces programmatic mathematical and algorithmic animations with high pedagogical and visual quality, utilizing LaTeX for notation and geometric coordinate systems for spatial layout.",
   "prerequisites": [
     "code-execution",

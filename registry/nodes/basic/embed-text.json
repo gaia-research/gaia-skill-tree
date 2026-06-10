@@ -2,7 +2,6 @@
   "id": "embed-text",
   "name": "Embed Text",
   "type": "basic",
-  "rarity": "common",
   "description": "Converts text into dense vector representations suitable for similarity search and clustering.",
   "prerequisites": [],
   "derivatives": [

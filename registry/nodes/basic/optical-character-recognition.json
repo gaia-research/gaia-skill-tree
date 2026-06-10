@@ -2,7 +2,6 @@
   "id": "optical-character-recognition",
   "name": "OCR",
   "type": "basic",
-  "rarity": "uncommon",
   "description": "Extracts machine-readable text from raster images, scanned pages, and photo documents using optical character recognition, preserving layout and handling skew, noise, and varied fonts.",
   "prerequisites": [],
   "derivatives": [

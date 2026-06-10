@@ -2,7 +2,6 @@
   "id": "adversarial-robustness-testing",
   "name": "Adversarial Robustness Testing",
   "type": "extra",
-  "rarity": "common",
   "description": "Systematically red-teams models with adversarial and multi-turn jailbreak prompts, input perturbations, and semantic-preserving transformations to measure resilience at scale.",
   "prerequisites": [
     "agent-eval",

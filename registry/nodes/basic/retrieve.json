@@ -2,7 +2,6 @@
   "id": "retrieve",
   "name": "Retrieve",
   "type": "basic",
-  "rarity": "common",
   "description": "Fetches relevant documents or passages from an indexed corpus given a query.",
   "prerequisites": [],
   "derivatives": [

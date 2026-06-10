@@ -2,7 +2,6 @@
   "id": "agent-memory-platform",
   "name": "Agent Memory Platform",
   "type": "ultimate",
-  "rarity": "legendary",
   "description": "Complete AgentDB vector memory ecosystem: QUIC-synchronized distributed vector storage, adaptive pattern learning, memory pattern design, database optimization, and semantic vector search.",
   "prerequisites": [
     "distributed-vector-memory",

@@ -2,7 +2,6 @@
   "id": "collaborative-diagramming",
   "name": "Collaborative Diagramming",
   "type": "extra",
-  "rarity": "common",
   "description": "Generates and manages digital diagrams, flowcharts, and architecture maps in web-native or collaborative formats, optimized for hand-drawn aesthetics or structured vector output.",
   "prerequisites": [
     "api-call",

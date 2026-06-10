@@ -8,7 +8,6 @@
     "id",
     "name",
     "type",
-    "rarity",
     "description",
     "prerequisites",
     "derivatives",
@@ -43,17 +42,6 @@
         "ultimate"
       ],
       "description": "Skill classification type."
-    },
-    "rarity": {
-      "type": "string",
-      "enum": [
-        "common",
-        "uncommon",
-        "rare",
-        "epic",
-        "legendary"
-      ],
-      "description": "Rarity tier based on agent prevalence."
     },
     "summary": {
       "type": "string",

@@ -2,7 +2,6 @@
   "id": "format-output",
   "name": "Format Output",
   "type": "basic",
-  "rarity": "common",
   "description": "Structures raw output into a specified format such as markdown, JSON, CSV, or HTML.",
   "prerequisites": [],
   "derivatives": [

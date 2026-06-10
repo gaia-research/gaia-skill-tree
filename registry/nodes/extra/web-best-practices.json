@@ -2,7 +2,6 @@
   "id": "web-best-practices",
   "name": "web-best-practices",
   "type": "extra",
-  "rarity": "common",
   "description": "Web Best Practices",
   "prerequisites": [
     "code-review-pipeline",

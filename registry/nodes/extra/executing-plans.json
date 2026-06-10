@@ -2,7 +2,6 @@
   "id": "executing-plans",
   "name": "Executing Plans",
   "type": "extra",
-  "rarity": "common",
   "description": "Loads a written implementation plan, reviews it critically, executes all tasks sequentially, and reports when complete.",
   "prerequisites": [
     "writing-plans",

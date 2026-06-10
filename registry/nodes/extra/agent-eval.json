@@ -2,7 +2,6 @@
   "id": "agent-eval",
   "name": "Agent Evaluation",
   "type": "extra",
-  "rarity": "uncommon",
   "description": "Holistically evaluates an AI agent's performance on multi-step tasks by running standardised benchmarks, scoring full interaction trajectories, and producing reproducible capability reports.",
   "prerequisites": [
     "evaluate-output",

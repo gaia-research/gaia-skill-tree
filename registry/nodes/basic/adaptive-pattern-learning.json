@@ -2,7 +2,6 @@
   "id": "adaptive-pattern-learning",
   "name": "Adaptive Pattern Learning",
   "type": "basic",
-  "rarity": "common",
   "summary": "Implements adaptive learning through pattern recognition and strategy optimization.",
   "description": "Records task outcomes and identifies recurring scenarios to rank optimal response strategies over time. It enables genuine self-improvement through a feedback learning loop by matching scenarios and transferring knowledge across related domains via vector similarity.",
   "useCase": "An autonomous AI agent dynamically records task outcomes over time to optimize responses to recurring patterns. It leverages historical performance metrics to rank strategies per scenario, enabling cross-domain knowledge transfer for continuous self-improvement.",

@@ -2,7 +2,6 @@
   "id": "genomic-data-retrieval",
   "name": "Genomic Data Retrieval",
   "type": "basic",
-  "rarity": "common",
   "description": "Queries and retrieves DNA sequence data, transcription factor binding models, cis-regulatory elements, and genetic annotations from genomic repositories (e.g. Ensembl, GTEx, JASPAR, UniBind, ENCODE, UCSC, dbSNP).",
   "prerequisites": [],
   "derivatives": [],

@@ -10,7 +10,6 @@ function formatSkill(skill: Skill, ancestors: Skill[], descendants: Skill[]): st
     `**ID:** ${skill.id}  `,
     `**Type:** ${skill.type}  `,
     `**Level:** ${skill.level}  `,
-    `**Rarity:** ${skill.rarity}  `,
     `**Status:** ${skill.status}`,
     "",
     `## Description`,
@@ -108,7 +107,7 @@ export async function lookupSkill(query: string): Promise<string> {
 
   const lines = [`Found ${results.length} skills matching "${query}":\n`];
   for (const s of results) {
-    lines.push(`- **${s.name}** (${s.id}) — ${s.type}, ${s.level}, ${s.rarity}`);
+    lines.push(`- **${s.name}** (${s.id}) — ${s.type}, ${s.level}`);
     lines.push(`  ${s.description.slice(0, 100)}...`);
   }
   lines.push("\nUse the exact ID for full details.");

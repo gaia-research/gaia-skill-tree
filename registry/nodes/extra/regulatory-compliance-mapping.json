@@ -2,7 +2,6 @@
   "id": "regulatory-compliance-mapping",
   "name": "Regulatory Compliance Mapping",
   "type": "extra",
-  "rarity": "common",
   "description": "Cross-references regulatory requirements (GDPR, SOC2, HIPAA) against implementation controls using knowledge-graph-augmented retrieval to detect compliance gaps and drift.",
   "prerequisites": [
     "extract-entities",

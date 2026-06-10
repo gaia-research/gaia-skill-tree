@@ -2,7 +2,6 @@
   "id": "write-report",
   "name": "Write Report",
   "type": "basic",
-  "rarity": "common",
   "description": "Produces structured, multi-section written output with headings, citations, and coherent narrative.",
   "prerequisites": [],
   "derivatives": [

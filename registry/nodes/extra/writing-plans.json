@@ -2,7 +2,6 @@
   "id": "writing-plans",
   "name": "Writing Plans",
   "type": "extra",
-  "rarity": "common",
   "description": "Writes comprehensive implementation plans breaking down multi-step tasks into bite-sized sub-tasks.",
   "prerequisites": [
     "plan-decompose",

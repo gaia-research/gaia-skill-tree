@@ -295,7 +295,7 @@ For `gaia_propose`, set `GITHUB_TOKEN` or `GH_TOKEN` to enable PR creation.
 
 1. The server fetches `gaia.json` from the registry on GitHub (cached locally with ETag)
 2. When you call `gaia_suggest` or `gaia_scan_context`, it maps your connected MCP tools to Gaia skill IDs
-3. It checks if your detected skills satisfy prerequisites for any composite/legendary skill
+3. It checks if your detected skills satisfy prerequisites for any composite/ultimate skill
 4. If a fusion is available, it tells you — and `gaia_propose` can claim it by opening a PR
 
 ---

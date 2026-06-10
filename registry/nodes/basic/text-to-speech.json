@@ -2,7 +2,6 @@
   "id": "text-to-speech",
   "name": "Text to Speech",
   "type": "basic",
-  "rarity": "common",
   "description": "Synthesizes natural-sounding speech audio from text input, supporting voice cloning and prosody control.",
   "prerequisites": [],
   "derivatives": [

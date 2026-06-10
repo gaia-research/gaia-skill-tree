@@ -2,7 +2,6 @@
   "id": "summarize",
   "name": "Summarize",
   "type": "basic",
-  "rarity": "common",
   "description": "Condenses longer input into a shorter representation that preserves key information and intent.",
   "prerequisites": [],
   "derivatives": [

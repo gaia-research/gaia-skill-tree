@@ -2,7 +2,6 @@
   "id": "mcp-integration",
   "name": "MCP Integration",
   "type": "basic",
-  "rarity": "uncommon",
   "description": "Connect to and invoke tools exposed by Model Context Protocol (MCP) servers — enumerate available tools, execute calls, and handle responses across any MCP-compatible backend.",
   "prerequisites": [],
   "derivatives": [

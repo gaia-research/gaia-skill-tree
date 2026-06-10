@@ -2,7 +2,6 @@
   "id": "memory-manage",
   "name": "Memory Manage",
   "type": "extra",
-  "rarity": "uncommon",
   "description": "Maintains, indexes, and retrieves conversational and long-term memory across sessions, managing context window constraints.",
   "prerequisites": [
     "context-compression",

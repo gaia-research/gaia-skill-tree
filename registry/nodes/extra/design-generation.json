@@ -2,7 +2,6 @@
   "id": "design-generation",
   "name": "Design Generation",
   "type": "extra",
-  "rarity": "rare",
   "description": "Generates high-fidelity visual assets, prototypes, and UI components from design intent or discovery forms, adhering to brand and UX standards.",
   "prerequisites": [
     "code-generation",

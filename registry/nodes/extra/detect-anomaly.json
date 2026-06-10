@@ -2,7 +2,6 @@
   "id": "detect-anomaly",
   "name": "Detect Anomaly",
   "type": "extra",
-  "rarity": "uncommon",
   "description": "Identifies statistical outliers, novel patterns, or deviations from expected behavior in structured or unstructured data.",
   "prerequisites": [
     "evaluate-output",

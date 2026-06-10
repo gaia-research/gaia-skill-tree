@@ -2,7 +2,6 @@
   "id": "grounding",
   "name": "Grounding",
   "type": "extra",
-  "rarity": "uncommon",
   "description": "Verifies generated claims against retrieved evidence, identifies unsupported or contradicted assertions, and anchors outputs in traceable, cited sources.",
   "prerequisites": [
     "retrieve",

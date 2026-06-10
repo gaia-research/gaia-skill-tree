@@ -2,7 +2,6 @@
   "id": "computational-biology-workflows",
   "name": "Computational Biology Workflows",
   "type": "extra",
-  "rarity": "common",
   "description": "Integrates structural, genomic, proteomic, and molecular database querying with bioinformatics analysis (such as sequence alignment, structure prediction, and molecular rendering) to solve multi-step, complex computational biology tasks.",
   "prerequisites": [
     "bioinformatic-sequence-analysis",

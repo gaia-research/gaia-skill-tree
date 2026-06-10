@@ -2,7 +2,6 @@
   "id": "core-platform-implementation",
   "name": "Core Platform Implementation",
   "type": "basic",
-  "rarity": "common",
   "description": "Implements foundational platform architecture including plugin discovery, server lifecycle management, and API contracts.",
   "prerequisites": [],
   "derivatives": [],

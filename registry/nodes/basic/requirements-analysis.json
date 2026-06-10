@@ -2,7 +2,6 @@
   "id": "requirements-analysis",
   "name": "Requirements Analysis",
   "type": "basic",
-  "rarity": "common",
   "description": "Elicit and structure requirements from stakeholder inputs into formal specifications — user stories, acceptance criteria, and traceability matrices.",
   "prerequisites": [],
   "derivatives": [

@@ -2,7 +2,6 @@
   "id": "extract-entities",
   "name": "Extract Entities",
   "type": "basic",
-  "rarity": "common",
   "description": "Identifies and extracts named entities such as people, organizations, dates, and locations from text.",
   "prerequisites": [],
   "derivatives": [

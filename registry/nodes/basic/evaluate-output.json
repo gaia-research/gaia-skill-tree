@@ -2,7 +2,6 @@
   "id": "evaluate-output",
   "name": "Evaluate Output",
   "type": "basic",
-  "rarity": "common",
   "description": "Assesses the quality, correctness, or safety of generated output against defined criteria.",
   "prerequisites": [],
   "derivatives": [

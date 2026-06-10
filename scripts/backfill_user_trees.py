@@ -164,7 +164,6 @@ def main():
         if "stats" not in tree:
             tree["stats"] = {
                 "totalUnlocked": len(tree["unlockedSkills"]),
-                "highestRarity": "uncommon",
                 "deepestLineage": 1
             }
         else:

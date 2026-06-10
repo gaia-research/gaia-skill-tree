@@ -2,7 +2,6 @@
   "id": "schema-design",
   "name": "Schema Design",
   "type": "basic",
-  "rarity": "common",
   "description": "Design database schemas across relational, NoSQL, graph, and time-series stores — entity modelling, normalization, indexing strategies, and migration planning.",
   "prerequisites": [],
   "derivatives": [],

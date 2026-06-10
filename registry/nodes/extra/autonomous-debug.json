@@ -2,7 +2,6 @@
   "id": "autonomous-debug",
   "name": "Autonomous Debug",
   "type": "extra",
-  "rarity": "rare",
   "description": "Independently identifies, diagnoses, and fixes software bugs through code generation and execution.",
   "prerequisites": [
     "code-generation",

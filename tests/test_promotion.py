@@ -33,7 +33,6 @@ def _make_skill(skill_id, name=None, level="0★", evidence=None, demerits=None)
         "name": name or skill_id.replace("-", " ").title(),
         "type": "basic",
         "level": level,
-        "rarity": "common",
         "description": f"Test skill: {skill_id}",
         "prerequisites": [],
         "derivatives": [],
@@ -57,7 +56,6 @@ def _make_tree(username, unlocked_skills):
         "pendingCombinations": [],
         "stats": {
             "totalUnlocked": len(unlocked_skills),
-            "highestRarity": "common",
             "deepestLineage": 0,
         },
     }

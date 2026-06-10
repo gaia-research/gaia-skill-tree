@@ -32,7 +32,6 @@ MINI_GRAPH = {
             "name": "Python Basics",
             "type": "basic",
             "level": "1★",
-            "rarity": "common",
             "prerequisites": [],
             "derivatives": ["web-frameworks"],
         },
@@ -41,7 +40,6 @@ MINI_GRAPH = {
             "name": "Web Frameworks",
             "type": "extra",
             "level": "2★",
-            "rarity": "uncommon",
             "prerequisites": ["python-basics"],
             "derivatives": [],
         },
@@ -50,7 +48,6 @@ MINI_GRAPH = {
             "name": "Testing",
             "type": "basic",
             "level": "1★",
-            "rarity": "common",
             "prerequisites": [],
             "derivatives": [],
         },
@@ -64,7 +61,7 @@ MINI_TREE = {
         {"skillId": "python-basics", "level": "3★"},
         {"skillId": "testing", "level": "1★"},
     ],
-    "stats": {"totalUnlocked": 2, "highestRarity": "common"},
+    "stats": {"totalUnlocked": 2},
 }
 
 NAMED_SKILL_MD = """\

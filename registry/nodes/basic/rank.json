@@ -2,7 +2,6 @@
   "id": "rank",
   "name": "Rank",
   "type": "basic",
-  "rarity": "common",
   "description": "Orders a set of candidate items by relevance, quality, or fitness for a given objective.",
   "prerequisites": [],
   "derivatives": [

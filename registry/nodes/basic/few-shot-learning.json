@@ -2,7 +2,6 @@
   "id": "few-shot-learning",
   "name": "Few-Shot Learning",
   "type": "basic",
-  "rarity": "common",
   "description": "Conditions a language model on a small number of input-output demonstrations within the prompt, enabling task adaptation without weight updates.",
   "prerequisites": [],
   "derivatives": [

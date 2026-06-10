@@ -2,7 +2,6 @@
   "id": "self-critique",
   "name": "Self-Critique",
   "type": "basic",
-  "rarity": "uncommon",
   "description": "Iteratively evaluates and refines its own outputs using self-generated feedback, improving quality without external supervision.",
   "prerequisites": [],
   "derivatives": [

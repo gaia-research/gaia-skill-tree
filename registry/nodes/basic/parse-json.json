@@ -2,7 +2,6 @@
   "id": "parse-json",
   "name": "Parse JSON",
   "type": "basic",
-  "rarity": "common",
   "description": "Extracts structured data from JSON-formatted input, handling nested objects and arrays.",
   "prerequisites": [],
   "derivatives": [

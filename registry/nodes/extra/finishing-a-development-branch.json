@@ -2,7 +2,6 @@
   "id": "finishing-a-development-branch",
   "name": "Finishing a Development Branch",
   "type": "extra",
-  "rarity": "common",
   "description": "Guides completion of development work by presenting structured options for merge, PR, or cleanup, verifying tests first.",
   "prerequisites": [
     "code-review-pipeline",

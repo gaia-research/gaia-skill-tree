@@ -2,7 +2,6 @@
   "id": "vector-db-optimization",
   "name": "Vector DB Optimization",
   "type": "basic",
-  "rarity": "common",
   "description": "Tunes vector database indices, sharding strategies, and multi-database coordination for production-scale retrieval.",
   "prerequisites": [],
   "derivatives": [],

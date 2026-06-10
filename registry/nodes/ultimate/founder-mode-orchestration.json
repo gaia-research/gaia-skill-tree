@@ -2,7 +2,6 @@
   "id": "founder-mode-orchestration",
   "name": "Founder Mode",
   "type": "ultimate",
-  "rarity": "legendary",
   "description": "Garry Tan's complete autonomous agent discipline suite spanning 19 named skills: browser QA, security auditing, design system creation, HTML generation, plan reviews (CEO/eng/design/DX), code review, root-cause debugging, E2E testing, ship/deploy automation, post-deploy canary monitoring, documentation, and founder-mode orchestration.",
   "prerequisites": [
     "question-answer",

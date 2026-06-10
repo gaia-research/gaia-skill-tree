@@ -18,7 +18,6 @@ export async function getRegistryResource(): Promise<string> {
       name: s.name,
       type: s.type,
       level: s.level,
-      rarity: s.rarity,
       prerequisites: s.prerequisites,
     })),
   };

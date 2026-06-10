@@ -2,7 +2,6 @@
   "id": "molecular-databases",
   "name": "Molecular Databases",
   "type": "basic",
-  "rarity": "common",
   "description": "Queries and retrieves structural, chemical, and biological activity data for small molecules, chemical compounds, or drug candidates from molecular repositories (e.g., ChEMBL, PubChem).",
   "prerequisites": [],
   "derivatives": [],

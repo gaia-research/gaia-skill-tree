@@ -2,7 +2,6 @@
   "id": "x-twitter-automation",
   "name": "X/Twitter Automation",
   "type": "extra",
-  "rarity": "rare",
   "description": "Coordinates platform-specific X/Twitter search, tweet and reply retrieval, user lookup, follower export, monitoring, and approval-gated write workflows for social-media agent tasks.",
   "prerequisites": [
     "browser-automation",

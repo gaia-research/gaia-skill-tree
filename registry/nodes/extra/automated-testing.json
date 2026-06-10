@@ -2,7 +2,6 @@
   "id": "automated-testing",
   "name": "Automated Testing",
   "type": "extra",
-  "rarity": "uncommon",
   "description": "Generates test suites, executes them in a sandbox, interprets failures, and iterates until the target pass rate is reached.",
   "prerequisites": [
     "generate-test",

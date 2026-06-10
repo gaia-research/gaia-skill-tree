@@ -2,7 +2,6 @@
   "id": "classify",
   "name": "Classify",
   "type": "basic",
-  "rarity": "common",
   "description": "Assigns one or more categorical labels to an input based on learned or rule-based criteria.",
   "prerequisites": [],
   "derivatives": [

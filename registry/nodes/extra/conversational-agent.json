@@ -2,7 +2,6 @@
   "id": "conversational-agent",
   "name": "Conversational Agent",
   "type": "extra",
-  "rarity": "uncommon",
   "description": "Manages coherent multi-turn dialogue by routing intent, maintaining memory across turns, and generating contextually appropriate responses.",
   "prerequisites": [
     "question-answer",

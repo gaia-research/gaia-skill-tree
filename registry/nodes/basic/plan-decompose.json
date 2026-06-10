@@ -2,7 +2,6 @@
   "id": "plan-decompose",
   "name": "Plan and Decompose",
   "type": "basic",
-  "rarity": "common",
   "description": "Breaks a complex objective into an ordered sequence of executable sub-tasks.",
   "prerequisites": [],
   "derivatives": [

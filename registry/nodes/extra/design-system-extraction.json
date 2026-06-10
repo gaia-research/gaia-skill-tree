@@ -2,7 +2,6 @@
   "id": "design-system-extraction",
   "name": "Design System Extraction",
   "type": "extra",
-  "rarity": "rare",
   "description": "Automates the discovery and extraction of design tokens, component architectures, and CSS configurations from live web applications or URLs.",
   "prerequisites": [
     "browser-automation",

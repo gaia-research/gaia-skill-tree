@@ -2,7 +2,6 @@
   "id": "multi-topology-orchestration",
   "name": "Ruflo",
   "type": "ultimate",
-  "rarity": "legendary",
   "description": "The complete Ruflo AI orchestration platform: multi-topology swarm deployment, cloud platform management, GitHub automation, hive-mind consensus, reasoning memory bank, and full v3 architecture modernization.",
   "prerequisites": [
     "multi-node-orchestration",

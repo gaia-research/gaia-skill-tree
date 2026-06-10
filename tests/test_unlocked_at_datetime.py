@@ -58,7 +58,6 @@ def _tree_with(unlocked_at: str) -> dict:
         "pendingCombinations": [],
         "stats": {
             "totalUnlocked": 1,
-            "highestRarity": "common",
             "deepestLineage": 0,
         },
     }
@@ -119,7 +118,7 @@ def test_fuse_command_writes_iso_date_time_unlocked_at(validator, monkeypatch):
                     "promptedAt": "2026-05-01",
                 }
             ],
-            "stats": {"totalUnlocked": 0, "highestRarity": "common", "deepestLineage": 0},
+            "stats": {"totalUnlocked": 0, "deepestLineage": 0},
         }
 
     def fake_save_tree(username, tree, registry_path=None):

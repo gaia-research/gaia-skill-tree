@@ -2,7 +2,6 @@
   "id": "scientific-discovery",
   "name": "Autonomous Scientific Discovery",
   "type": "extra",
-  "rarity": "epic",
   "description": "Autonomously generates novel scientific hypotheses, designs and executes experiments, analyses results, and produces a written report â€” completing a full research cycle without human intervention.",
   "prerequisites": [
     "computational-biology-workflows",

@@ -2,7 +2,6 @@
   "id": "subagent-driven-development",
   "name": "Subagent-Driven Development",
   "type": "extra",
-  "rarity": "uncommon",
   "description": "Executes plans by dispatching a fresh subagent per task with a two-stage review (spec compliance then code quality).",
   "prerequisites": [
     "executing-plans",

@@ -2,7 +2,6 @@
   "id": "distributed-vector-memory",
   "name": "Distributed Vector Memory",
   "type": "extra",
-  "rarity": "uncommon",
   "description": "Sub-millisecond cross-node vector synchronization using QUIC protocol with hybrid metadata-filtered search and MMR diversity retrieval.",
   "prerequisites": [
     "vector-search",

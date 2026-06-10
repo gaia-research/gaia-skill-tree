@@ -2,7 +2,6 @@
   "id": "data-analysis",
   "name": "Data Analysis",
   "type": "extra",
-  "rarity": "uncommon",
   "description": "Conducts end-to-end quantitative analysis: queries data via SQL, computes statistics, generates visualizations, and summarizes findings.",
   "prerequisites": [
     "generate-sql",

@@ -2,7 +2,6 @@
   "id": "multi-node-orchestration",
   "name": "Flow Nexus Orchestration",
   "type": "extra",
-  "rarity": "rare",
   "description": "Complete Flow Nexus platform: multi-topology swarm deployment, cloud platform management, and distributed neural training unified into one orchestration layer.",
   "prerequisites": [
     "multi-agent-orchestration-v",

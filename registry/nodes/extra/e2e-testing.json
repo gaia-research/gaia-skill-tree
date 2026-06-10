@@ -2,7 +2,6 @@
   "id": "e2e-testing",
   "name": "End-to-End Testing",
   "type": "extra",
-  "rarity": "uncommon",
   "description": "Execute full end-to-end user journey tests using browser automation frameworks (Playwright/Puppeteer), validating complete workflows from UI to backend across real environments.",
   "prerequisites": [
     "browser-automation",

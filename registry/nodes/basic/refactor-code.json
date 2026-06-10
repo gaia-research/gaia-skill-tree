@@ -2,7 +2,6 @@
   "id": "refactor-code",
   "name": "Refactor Code",
   "type": "basic",
-  "rarity": "uncommon",
   "description": "Restructures existing source code to improve readability, maintainability, or performance without changing observable behavior.",
   "prerequisites": [],
   "derivatives": [

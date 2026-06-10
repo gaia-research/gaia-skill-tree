@@ -2,7 +2,6 @@
   "id": "ml-artifact-management",
   "name": "ML Artifact Management",
   "type": "extra",
-  "rarity": "uncommon",
   "description": "Manages machine learning models, datasets, and experiment logs through centralized hub or tracking repositories, handling versioning and metadata extraction.",
   "prerequisites": [
     "api-call",

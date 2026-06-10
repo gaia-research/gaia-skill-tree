@@ -8,7 +8,6 @@
       "name": "Skill A",
       "type": "extra",
       "level": "3★",
-      "rarity": "common",
       "description": "3★ skill with only Class C evidence.",
       "prerequisites": [
         "skill-b",
@@ -34,7 +33,6 @@
       "name": "Skill B",
       "type": "basic",
       "level": "2★",
-      "rarity": "common",
       "description": "Valid atomic skill.",
       "prerequisites": [],
       "derivatives": [
@@ -58,7 +56,6 @@
       "name": "Skill C",
       "type": "basic",
       "level": "2★",
-      "rarity": "common",
       "description": "Valid atomic skill.",
       "prerequisites": [],
       "derivatives": [

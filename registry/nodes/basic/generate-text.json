@@ -2,7 +2,6 @@
   "id": "generate-text",
   "name": "Generate Text",
   "type": "basic",
-  "rarity": "common",
   "description": "Produces coherent natural language output given a prompt, instruction, or context window.",
   "prerequisites": [],
   "derivatives": [

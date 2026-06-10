@@ -143,7 +143,6 @@ class LocalContext:
                                 "name": target,
                                 "type": "extra",
                                 "level": "1★",
-                                "rarity": "rare",
                                 "prerequisites": sources,
                                 "description": f"Custom fusion of {', '.join(sources)}",
                                 "local": True
@@ -318,7 +317,6 @@ class LocalContext:
                         "name": novel_id,
                         "type": "basic",
                         "level": "0★",
-                        "rarity": "common",
                         "prerequisites": [],
                         "derivatives": [],
                         "local": True,

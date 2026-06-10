@@ -2,7 +2,6 @@
   "id": "skill-authoring",
   "name": "Skill Authoring",
   "type": "extra",
-  "rarity": "rare",
   "description": "Designs, writes, packages, and iteratively improves reusable agent skill directories with metadata, progressive instructions, supporting assets, and measurable trigger criteria.",
   "prerequisites": [
     "generate-text",

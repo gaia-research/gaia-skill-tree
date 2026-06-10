@@ -2,7 +2,6 @@
   "id": "function-calling",
   "name": "Function Calling",
   "type": "extra",
-  "rarity": "uncommon",
   "description": "Selects an external callable, emits schema-valid arguments, invokes the function or API, and integrates the returned result into the agent loop.",
   "prerequisites": [
     "structured-output",

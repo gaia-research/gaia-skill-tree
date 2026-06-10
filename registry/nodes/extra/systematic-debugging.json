@@ -2,7 +2,6 @@
   "id": "systematic-debugging",
   "name": "Systematic Debugging",
   "type": "extra",
-  "rarity": "uncommon",
   "description": "Finds the root cause before attempting fixes when encountering bugs, test failures, or unexpected behavior.",
   "prerequisites": [
     "hypothesis-generate",

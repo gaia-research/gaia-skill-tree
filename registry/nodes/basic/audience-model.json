@@ -2,7 +2,6 @@
   "id": "audience-model",
   "name": "Audience Model",
   "type": "basic",
-  "rarity": "common",
   "description": "Adapts tone, complexity, and framing of output to match a target audience profile.",
   "prerequisites": [],
   "derivatives": [

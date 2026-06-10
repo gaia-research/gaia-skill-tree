@@ -2,7 +2,6 @@
   "id": "search-engine-optimization",
   "name": "search-engine-optimization",
   "type": "extra",
-  "rarity": "common",
   "description": "Search Engine Optimization",
   "prerequisites": [
     "parse-html",

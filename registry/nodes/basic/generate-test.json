@@ -2,7 +2,6 @@
   "id": "generate-test",
   "name": "Generate Test",
   "type": "basic",
-  "rarity": "common",
   "summary": "Produces comprehensive unit, integration, and edge-case test suites from source code.",
   "description": "Analyzes source code or natural-language specifications to identify functions, classes, and their dependencies, and generates thorough, maintainable test suites. It handles test case structuring, setup and teardown fixtures, mocking external dependencies, and validating normal operation alongside boundary and error conditions.",
   "useCase": "A developer just finished writing an authentication module (`auth.py`) and needs comprehensive unit tests. The skill is invoked to create properly structured tests using the `unittest.TestCase` format, handling edge-case validation and mock generation without requiring explicit per-file prompting.",

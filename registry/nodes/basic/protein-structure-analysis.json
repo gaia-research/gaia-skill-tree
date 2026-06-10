@@ -2,7 +2,6 @@
   "id": "protein-structure-analysis",
   "name": "Protein Structure Analysis",
   "type": "basic",
-  "rarity": "common",
   "description": "Analyzes, searches, and aligns three-dimensional macromolecular structures using structural databases, alignment search algorithms (e.g. Foldseek, PDB search), or molecular modeling tools.",
   "prerequisites": [],
   "derivatives": [],

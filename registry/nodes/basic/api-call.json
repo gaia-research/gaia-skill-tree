@@ -2,7 +2,6 @@
   "id": "api-call",
   "name": "API Call",
   "type": "basic",
-  "rarity": "common",
   "description": "Constructs, executes, and handles responses from HTTP APIs by interpreting documentation and selecting appropriate endpoints and parameters. This skill allows agents to fetch dynamic data, trigger remote actions, and interact with external systems programmatically by adhering to OpenAPI or other API specifications.",
   "prerequisites": [],
   "derivatives": [

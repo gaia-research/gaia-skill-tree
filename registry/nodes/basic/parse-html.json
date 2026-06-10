@@ -2,7 +2,6 @@
   "id": "parse-html",
   "name": "Parse HTML",
   "type": "basic",
-  "rarity": "common",
   "description": "Extracts structured content from raw HTML, navigating DOM trees and handling malformed markup.",
   "prerequisites": [],
   "derivatives": [

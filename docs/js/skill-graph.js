@@ -254,7 +254,6 @@
       level: skill.namedMaxLevel || skill.level || '',
       effectiveLevel: skill.namedMaxLevel || skill.effectiveLevel || skill.level || '',
       demerits: Array.isArray(skill.demerits) ? skill.demerits : [],
-      rarity: skill.rarity || '',
       description: skill.description || '',
       prerequisites: Array.isArray(skill.prerequisites) ? skill.prerequisites : [],
       cluster: skill.cluster !== undefined ? skill.cluster : 0,

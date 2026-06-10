@@ -2,6 +2,8 @@ import type { GaiaGraph, FusionCandidate } from "../graph/types.js";
 import { effectiveLevel } from "../graph/levels.js";
 import { AbstractAdvisor, type AdvisorContext } from "./types.js";
 
+const LEVEL_ORDER = ["0★", "1★", "2★", "3★", "4★", "5★", "6★"];
+
 function findFusionCandidates(
   graph: GaiaGraph,
   ownedSkillIds: string[],
@@ -41,12 +43,9 @@ function findFusionCandidates(
   return candidates.sort((a, b) => {
     if (a.status === "ready" && b.status !== "ready") return -1;
     if (b.status === "ready" && a.status !== "ready") return 1;
-    const rarityOrder = ["legendary", "epic", "rare", "uncommon", "common"];
-    const aSkill = graph.skills.find((s) => s.id === a.candidateResult);
-    const bSkill = graph.skills.find((s) => s.id === b.candidateResult);
-    const aIdx = rarityOrder.indexOf(aSkill?.rarity ?? "common");
-    const bIdx = rarityOrder.indexOf(bSkill?.rarity ?? "common");
-    return aIdx - bIdx;
+    const aIdx = LEVEL_ORDER.indexOf(a.levelFloor);
+    const bIdx = LEVEL_ORDER.indexOf(b.levelFloor);
+    return bIdx - aIdx;
   });
 }
 

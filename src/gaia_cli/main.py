@@ -543,7 +543,6 @@ def init_command(args):
                 "pendingCombinations": [],
                 "stats": {
                     "totalUnlocked": 0,
-                    "highestRarity": "common",
                     "deepestLineage": 0,
                 },
             },

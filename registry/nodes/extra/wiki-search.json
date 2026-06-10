@@ -2,7 +2,6 @@
   "id": "wiki-search",
   "name": "Wiki Search",
   "type": "extra",
-  "rarity": "uncommon",
   "description": "Builds, maintains, and queries an interlinked markdown or wiki-style knowledge base so an agent can retrieve durable local context across research sessions.",
   "prerequisites": [
     "retrieve",

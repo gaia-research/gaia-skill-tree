@@ -2,7 +2,6 @@
   "id": "threat-intelligence-synthesis",
   "name": "Threat Intelligence Synthesis",
   "type": "extra",
-  "rarity": "common",
   "description": "Synthesizes security feeds, CVE/CWE data, and incident signals into actionable intelligence with IoC/TTP management and MITRE ATT&CK mapping.",
   "prerequisites": [
     "feed-monitoring",

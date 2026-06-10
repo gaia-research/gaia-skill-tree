@@ -2,7 +2,6 @@
   "id": "prompt-injection-defense",
   "name": "Prompt Injection Defense",
   "type": "basic",
-  "rarity": "uncommon",
   "description": "Detects and neutralizes adversarial instructions injected into agent context from untrusted external sources (indirect prompt injection), using techniques such as context isolation, hierarchical intent verification, or semantic consistency checks.",
   "prerequisites": [],
   "derivatives": [

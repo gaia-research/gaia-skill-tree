@@ -8,7 +8,6 @@ import pytest
 from gaia_cli.cardRenderer import (
     CARD_WIDTH,
     TIER_GLYPHS,
-    RARITY_LABELS,
     LEVEL_LABELS,
     render_card,
     render_card_compact,
@@ -35,7 +34,6 @@ def basic_skill():
         "name": "Tokenize",
         "type": "basic",
         "level": "0★",
-        "rarity": "common",
         "description": "Splits input text into discrete tokens suitable for downstream processing by language models.",
         "prerequisites": [],
         "derivatives": ["rag-pipeline"],
@@ -55,7 +53,6 @@ def extra_skill():
         "type": "extra",
         "level": "2★",
         "demerits": ["experimental-feature"],
-        "rarity": "uncommon",
         "description": "Retrieval-augmented generation pipeline combining retrieval, ranking, and synthesis.",
         "prerequisites": ["tokenize", "retrieve", "rank"],
         "derivatives": ["autonomous-research-agent"],
@@ -75,7 +72,6 @@ def ultimate_skill():
         "name": "Autonomous Research Agent",
         "type": "ultimate",
         "level": "3★",
-        "rarity": "legendary",
         "description": "Fully autonomous agent that formulates hypotheses, designs experiments, collects evidence, and synthesizes findings.",
         "prerequisites": ["rag-pipeline", "code-generation", "tool-use", "planning"],
         "derivatives": [],
@@ -159,9 +155,9 @@ class TestRenderCard:
         card = render_card(basic_skill)
         assert TIER_GLYPHS["basic"] in card
 
-    def test_contains_rarity_label(self, basic_skill):
+    def test_contains_tier_label(self, basic_skill):
         card = render_card(basic_skill)
-        assert "[Common]" in card
+        assert "Basic Skill" in card
 
     def test_contains_level_label(self, basic_skill):
         card = render_card(basic_skill)
@@ -220,9 +216,9 @@ class TestRenderCard:
         card = render_card(ultimate_skill)
         assert TIER_GLYPHS["ultimate"] in card
 
-    def test_ultimate_skill_shows_legendary_rarity(self, ultimate_skill):
+    def test_ultimate_skill_shows_tier_label(self, ultimate_skill):
         card = render_card(ultimate_skill)
-        assert "[Legendary]" in card
+        assert "Ultimate Skill" in card
 
     def test_long_description_truncated(self):
         skill = {
@@ -230,7 +226,6 @@ class TestRenderCard:
             "name": "Verbose",
             "type": "basic",
             "level": "0★",
-            "rarity": "common",
             "description": " ".join(["word"] * 100),
             "prerequisites": [],
             "derivatives": [],
@@ -249,7 +244,6 @@ class TestRenderCard:
             "name": "Many Prereqs",
             "type": "ultimate",
             "level": "4★",
-            "rarity": "epic",
             "description": "A skill with many prerequisites.",
             "prerequisites": [f"skill-{i}" for i in range(8)],
             "derivatives": [],
@@ -267,7 +261,6 @@ class TestRenderCard:
             "name": "Many Derivs",
             "type": "basic",
             "level": "0★",
-            "rarity": "common",
             "description": "A skill with many derivatives.",
             "prerequisites": [],
             "derivatives": [f"skill-{i}" for i in range(6)],
@@ -284,7 +277,7 @@ class TestRenderCard:
         assert "2★→1★" not in compact
         assert TIER_GLYPHS["extra"] in compact
         assert "/rag-pipeline" in compact
-        assert "[uncommon]" in compact
+        assert " — " in compact
         assert "Retrieval-augmented generation" in compact
 
     def test_missing_optional_fields_defaults_gracefully(self):
@@ -325,9 +318,9 @@ class TestRenderCardCompact:
         result_with_ctx = render_card_compact(basic_skill, ctx=stub_ctx)
         assert "2★" in result_with_ctx
 
-    def test_contains_rarity(self, basic_skill):
+    def test_contains_description(self, basic_skill):
         result = render_card_compact(basic_skill)
-        assert "[common]" in result
+        assert "Splits" in result
 
     def test_long_description_truncated(self):
         skill = {
@@ -335,7 +328,6 @@ class TestRenderCardCompact:
             "name": "X",
             "type": "basic",
             "level": "0★",
-            "rarity": "common",
             "description": "A" * 100,
         }
         result = render_card_compact(skill)
@@ -408,7 +400,6 @@ class TestLoadAndRender:
                     "name": "Web Scrape",
                     "type": "basic",
                     "level": "0★",
-                    "rarity": "common",
                     "description": "Scrapes data from web pages.",
                     "prerequisites": [],
                     "derivatives": [],
@@ -449,7 +440,6 @@ class TestLoadAndRender:
                     "name": "Classify",
                     "type": "basic",
                     "level": "0★",
-                    "rarity": "common",
                     "description": "Assigns labels.",
                     "prerequisites": [],
                     "derivatives": [],
@@ -541,7 +531,6 @@ def test_render_appraise_card_truncation():
         "name": "Test Skill",
         "type": "basic",
         "level": "0★",
-        "rarity": "common",
         "description": "Short description.",
     }
     derivatives = [

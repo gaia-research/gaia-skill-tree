@@ -2,7 +2,6 @@
   "id": "autonomous-data-scientist",
   "name": "Autonomous Data Scientist",
   "type": "extra",
-  "rarity": "epic",
   "description": "Conducts end-to-end data science workflows autonomously: hypothesis generation, data analysis, statistical modeling, and insight reporting.",
   "prerequisites": [
     "data-analysis",

@@ -2,7 +2,6 @@
   "id": "dispatching-parallel-agents",
   "name": "Dispatching Parallel Agents",
   "type": "extra",
-  "rarity": "uncommon",
   "description": "Delegates independent tasks to specialized agents with isolated context to work concurrently.",
   "prerequisites": [
     "plan-decompose",

@@ -2,7 +2,6 @@
   "id": "scientific-visualization",
   "name": "Scientific Visualization",
   "type": "basic",
-  "rarity": "uncommon",
   "summary": "Creates publication-ready scientific figures and visualizes molecular structures.",
   "description": "Creates publication-ready scientific figures with multi-panel layouts, statistical annotations, colorblind-safe palettes, and journal-specific formatting (Nature, Science, Cell) using matplotlib, seaborn, and plotly. It also includes visualizing, analyzing, and rendering protein and molecular structures without a hardware-accelerated GUI.",
   "useCase": "A developer wants to create images of a protein structure, highlight specific binding sites, or perform structural alignments. They would use PyMOL in a headless OSMesa environment to render these images as PNGs, saving the corresponding `.pse` sessions for later inspection in a local GUI.",

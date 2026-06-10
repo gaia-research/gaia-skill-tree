@@ -2,7 +2,6 @@
   "id": "document-analyst",
   "name": "Document Analyst",
   "type": "extra",
-  "rarity": "uncommon",
   "description": "Parses, extracts entities from, summarizes, and formats structured documents.",
   "prerequisites": [
     "extract-entities",

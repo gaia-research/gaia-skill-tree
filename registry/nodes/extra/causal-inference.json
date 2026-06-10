@@ -2,7 +2,6 @@
   "id": "causal-inference",
   "name": "Causal Inference",
   "type": "extra",
-  "rarity": "common",
   "description": "Estimates treatment effects and identifies causal relationships from observational and experimental data using propensity scoring, instrumental variables, and causal graphs.",
   "prerequisites": [
     "hypothesis-generate",

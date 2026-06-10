@@ -2,7 +2,6 @@
   "id": "reasoning-pattern-bank",
   "name": "Reasoning Pattern Bank",
   "type": "extra",
-  "rarity": "uncommon",
   "description": "Fuses adaptive pattern learning with persistent vector memory to build a self-improving agent knowledge base across sessions.",
   "prerequisites": [
     "adaptive-pattern-learning",

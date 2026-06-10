@@ -2,7 +2,6 @@
   "id": "security-audit",
   "name": "Security Audit",
   "type": "extra",
-  "rarity": "rare",
   "description": "Systematically identify security vulnerabilities, assess attack surface, and produce actionable remediation guidance across code, dependencies, and infrastructure.",
   "prerequisites": [
     "code-review-pipeline",

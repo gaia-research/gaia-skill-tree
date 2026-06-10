@@ -20,14 +20,14 @@ def write_fixture_registry(root: Path) -> None:
     # Create some generic skills
     (basic / "skill-a.json").write_text(json.dumps({
         "id": "skill-a", "name": "Skill A", "type": "basic", "level": "1★",
-        "rarity": "common", "description": "Description A", "status": "provisional",
+        "description": "Description A", "status": "provisional",
         "prerequisites": [], "derivatives": ["skill-b"], "evidence": [],
         "knownAgents": [], "createdAt": "2026-05-20", "updatedAt": "2026-05-20", "version": "0.1.0"
     }), encoding="utf-8")
     
     (basic / "skill-b.json").write_text(json.dumps({
         "id": "skill-b", "name": "Skill B", "type": "basic", "level": "1★",
-        "rarity": "common", "description": "Description B", "status": "provisional",
+        "description": "Description B", "status": "provisional",
         "prerequisites": ["skill-a"], "derivatives": [], "evidence": [],
         "knownAgents": [], "createdAt": "2026-05-20", "updatedAt": "2026-05-20", "version": "0.1.0"
     }), encoding="utf-8")
