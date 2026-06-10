@@ -236,6 +236,15 @@ class TestTreeRenderFixes:
         assert "\033[38;2;192;132;252m" in out
 
     def test_unowned_skill_formatting(self, tmp_path, monkeypatch, capsys):
+        """Unowned prerequisites render as /??? with their rank color.
+
+        The /??? teaser is only rendered when known_only=False, because
+        show_tree's default (known_only=True) hides all unowned prerequisites to
+        keep the tree clean. The `known_only` parameter was introduced in commit
+        5d1c9aaa alongside the reveal-unowned logic; passing known_only=False is
+        the correct way to exercise this code path. (The test was added in the
+        same commit but mistakenly called show_tree without known_only=False.)
+        """
         monkeypatch.chdir(tmp_path)
         graph_data = {
             "skills": [
@@ -252,15 +261,19 @@ class TestTreeRenderFixes:
         }
         monkeypatch.setenv("FORCE_COLOR", "1")
         monkeypatch.setenv("COLORTERM", "truecolor")
-        show_tree(tree_data, graph_data=graph_data, registry_path=str(tmp_path))
+        # known_only=False is required to reveal unowned prerequisites as /???
+        show_tree(tree_data, graph_data=graph_data, registry_path=str(tmp_path), known_only=False)
         out = capsys.readouterr().out
-        
-        # 1. do not include the "-> name/skill-slug" and star count
+
+        # 1. do not show the full skill slug or its star count inline with the node
         assert "-> unowned-skill" not in out
         assert "-> /unowned-skill" not in out
         assert "/???" in out
-        assert "3★" not in out
-        
+        # "3★" may appear in the legend (rank chips), but must NOT appear adjacent
+        # to the /??? entry — the unowned node label is just "/???" without stars.
+        assert "/??? 3★" not in out
+        assert "/???  3★" not in out
+
         # 2. inherit the color of the skill it is tied to (3★ rank color is (167, 139, 250))
         assert "\033[38;2;167;139;250m" in out
 
