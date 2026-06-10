@@ -25,7 +25,7 @@ Requires a specific Gaia skill ID, named skill ID, or real-skill catalog item pl
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
 | mbtiongson1/gaia-audit ⭑ | mbtiongson1 | 2★ | 1 |
-| mbtiongson1/gaia-curation-review | mbtiongson1 | 2★ | 0 |
+| mbtiongson1/gaia-curation-review | mbtiongson1 | 2★ | 1 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._

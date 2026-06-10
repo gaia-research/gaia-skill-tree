@@ -24,7 +24,7 @@ Requires active persistence of terms and immediate conflict resolution during se
 | Named Skill | Contributor | Stars | Evidence |
 |---|---|---|---|
 | mattpocock/ubiquitous-language | mattpocock | 4★ | 1 |
-| ruvnet/v3-ddd-architecture | ruvnet | 2★ | 0 |
+| ruvnet/v3-ddd-architecture | ruvnet | 2★ | 1 |
 
 ## Evidence (inherited capability)
 _Capability-level evidence for this generic reference. Every named implementation above inherits it._
