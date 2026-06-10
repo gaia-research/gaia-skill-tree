@@ -8,12 +8,11 @@ import type { UserSkillTree, FusionCandidate, GaiaGraph } from "../graph/types.j
 function formatCandidate(c: FusionCandidate, graph: GaiaGraph): string {
   const skill = graph.skills.find((s) => s.id === c.candidateResult);
   const name = skill?.name ?? c.candidateResult;
-  const rarity = skill?.rarity ?? "unknown";
 
   if (c.status === "ready") {
-    return `**${name}** (${skill?.type}, ${c.levelFloor}, ${rarity}) — READY TO FUSE\n  Combine: ${c.detectedSkills.join(" + ")}\n  Use gaia_propose to claim this fusion.`;
+    return `**${name}** (${skill?.type}, ${c.levelFloor}) — READY TO FUSE\n  Combine: ${c.detectedSkills.join(" + ")}\n  Use gaia_propose to claim this fusion.`;
   }
-  return `**${name}** (${skill?.type}, ${c.levelFloor}, ${rarity}) — ONE AWAY\n  Have: ${c.detectedSkills.join(" + ")}\n  Missing: ${c.missingSkills.join(", ")}`;
+  return `**${name}** (${skill?.type}, ${c.levelFloor}) — ONE AWAY\n  Have: ${c.detectedSkills.join(" + ")}\n  Missing: ${c.missingSkills.join(", ")}`;
 }
 
 export async function suggest(

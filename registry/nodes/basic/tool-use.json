@@ -2,7 +2,6 @@
   "id": "tool-use",
   "name": "Tool Use",
   "type": "basic",
-  "rarity": "uncommon",
   "description": "Invokes external functions or APIs by generating well-formed call signatures, parsing results, and incorporating them into reasoning.",
   "prerequisites": [],
   "derivatives": [

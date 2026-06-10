@@ -2,7 +2,6 @@
   "id": "feed-monitoring",
   "name": "Feed Monitoring",
   "type": "basic",
-  "rarity": "common",
   "description": "Monitors RSS, Atom, blog, or other recurring content feeds, discovers updates, tracks read state, and surfaces new signals for downstream agent workflows.",
   "prerequisites": [],
   "derivatives": [],

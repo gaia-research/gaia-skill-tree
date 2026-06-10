@@ -9,8 +9,17 @@ level: 2★
 description: Expert at integrating n8n with MCP (Model Context Protocol). Build n8n
   workflows that expose MCP tools, or use MCP tools within n8n workflows.
 createdAt: '2026-05-22'
-updatedAt: '2026-05-22'
+updatedAt: '2026-06-10'
 ---
 
+## Overview
+
+Bridges n8n workflow automation with the Model Context Protocol. The skill covers both directions of the integration: building n8n workflows that expose their operations as MCP tools consumable by agents, and writing n8n workflows that call external MCP tools as steps in a larger automation.
+
+## Origin
+
+Published by @sickn33.
+
 ## Installation
-Add installation instructions here.
+
+No public installable artifact is currently registered for this skill; it is tracked from its description only.

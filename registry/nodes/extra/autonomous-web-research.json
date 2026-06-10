@@ -2,7 +2,6 @@
   "id": "autonomous-web-research",
   "name": "Autonomous Web Research",
   "type": "extra",
-  "rarity": "rare",
   "description": "Independently surveys, maps, and extracts structured information from the web by autonomously deciding which domains to crawl and synthesizing data into comprehensive research reports.",
   "prerequisites": [
     "ghostwrite",

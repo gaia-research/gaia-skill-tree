@@ -2,7 +2,6 @@
   "id": "registry-curation",
   "name": "Registry Curation",
   "type": "extra",
-  "rarity": "rare",
   "description": "Systematically discovers, evaluates, and ingests new skill definitions into a structured skill registry: researching capabilities, sourcing reproducible evidence, scripting graph updates, validating schema and DAG integrity, and publishing via pull request.",
   "prerequisites": [
     "research",

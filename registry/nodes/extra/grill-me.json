@@ -2,7 +2,6 @@
   "id": "grill-me",
   "name": "Grill Me",
   "type": "extra",
-  "rarity": "rare",
   "description": "Conducts a relentless, one-question-at-a-time Socratic interview to stress-test designs and force the resolution of hidden assumptions before code is written.",
   "prerequisites": [
     "design-review",

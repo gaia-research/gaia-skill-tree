@@ -2,7 +2,6 @@
   "id": "ubiquitous-language",
   "name": "Ubiquitous Language",
   "type": "extra",
-  "rarity": "rare",
   "description": "Establishes and maintains a consistent, domain-driven vocabulary between the agent and human, formalising terminology in a shared glossary (typically CONTEXT.md) to reduce ambiguity and token waste.",
   "prerequisites": [
     "extract-entities",

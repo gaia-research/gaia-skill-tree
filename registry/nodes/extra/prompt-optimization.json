@@ -2,7 +2,6 @@
   "id": "prompt-optimization",
   "name": "Prompt Optimization",
   "type": "extra",
-  "rarity": "uncommon",
   "description": "Automatically improves prompt instructions through iterative compilation, treating prompts as programs that can be optimized against a metric using LLM-driven feedback loops.",
   "prerequisites": [
     "evaluate-output",

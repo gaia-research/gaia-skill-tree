@@ -2,7 +2,6 @@
   "id": "design-review",
   "name": "Design Review",
   "type": "extra",
-  "rarity": "rare",
   "description": "Stress-tests a plan or design through relentless targeted questioning, walking the decision tree branch-by-branch, resolving concept dependencies, surfacing contradictions against the existing codebase, and crystallising ubiquitous language — optionally persisting resolved decisions to CONTEXT.md and ADRs.",
   "prerequisites": [
     "evaluate-output",

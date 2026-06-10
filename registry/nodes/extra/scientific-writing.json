@@ -2,7 +2,6 @@
   "id": "scientific-writing",
   "name": "Scientific Writing",
   "type": "extra",
-  "rarity": "uncommon",
   "description": "Composes research manuscripts in IMRAD structure with reporting-guideline compliance (CONSORT, STROBE, PRISMA), citation management, publication-quality figures, and LaTeX/PDF formatting.",
   "prerequisites": [
     "write-report",

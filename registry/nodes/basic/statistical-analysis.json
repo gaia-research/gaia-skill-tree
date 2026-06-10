@@ -2,7 +2,6 @@
   "id": "statistical-analysis",
   "name": "Statistical Analysis",
   "type": "basic",
-  "rarity": "uncommon",
   "description": "Performs hypothesis testing, regression analysis, and Bayesian modelling with effect size calculation and APA-formatted statistical reporting using scipy, statsmodels, and PyMC.",
   "prerequisites": [],
   "derivatives": [

@@ -2,7 +2,6 @@
   "id": "edge-optimization",
   "name": "Edge Optimization",
   "type": "extra",
-  "rarity": "common",
   "description": "Compresses and tunes models for low-latency on-device inference via quantization, pruning, knowledge distillation, and federated learning under resource constraints.",
   "prerequisites": [
     "evaluate-output",

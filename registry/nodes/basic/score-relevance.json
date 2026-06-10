@@ -2,7 +2,6 @@
   "id": "score-relevance",
   "name": "Score Relevance",
   "type": "basic",
-  "rarity": "common",
   "description": "Assigns a numerical relevance score to candidate items relative to a query or objective.",
   "prerequisites": [],
   "derivatives": [

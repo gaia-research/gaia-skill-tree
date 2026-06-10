@@ -2,7 +2,6 @@
   "id": "literature-search",
   "name": "Literature Search",
   "type": "basic",
-  "rarity": "common",
   "description": "Queries and searches academic literature databases (e.g. PubMed, arXiv, bioRxiv, OpenAlex) to locate papers, retrieve abstracts, resolve citations, and fetch full-text documents.",
   "prerequisites": [],
   "derivatives": [],

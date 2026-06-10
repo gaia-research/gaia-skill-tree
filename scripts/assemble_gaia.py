@@ -21,7 +21,6 @@ def assemble(registry_root="."):
         meta_mapped = {
             "typeLabels": meta_src["types"]["labels"],
             "levelLabels": meta_src["levels"]["labels"],
-            "rarityLabels": meta_src["rarity"]["labels"],
             "levelColors": meta_src["levels"]["colors"],
             "typeColors": meta_src["types"]["colors"],
             "typeSymbols": meta_src["types"]["symbols"],

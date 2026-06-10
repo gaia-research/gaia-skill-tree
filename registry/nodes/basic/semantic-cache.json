@@ -2,7 +2,6 @@
   "id": "semantic-cache",
   "name": "Semantic Cache",
   "type": "basic",
-  "rarity": "rare",
   "description": "Stores LLM responses keyed by embedding similarity so that semantically equivalent queries are served from cache, reducing inference latency and token cost without sacrificing answer quality.",
   "prerequisites": [],
   "derivatives": [],

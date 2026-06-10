@@ -2,7 +2,6 @@
   "id": "re-act-reasoning",
   "name": "ReAct Reasoning",
   "type": "extra",
-  "rarity": "uncommon",
   "description": "Interleaves free-form reasoning traces with discrete tool actions in a single loop, enabling agents to plan, act, observe, and update beliefs step-by-step.",
   "prerequisites": [
     "plan-decompose",

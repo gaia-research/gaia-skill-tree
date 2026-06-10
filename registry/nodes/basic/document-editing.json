@@ -2,7 +2,6 @@
   "id": "document-editing",
   "name": "Document Editing",
   "type": "basic",
-  "rarity": "common",
   "description": "Reads, edits, repacks, and applies styling or design principles to structured binary document formats such as PPTX, DOCX, and XLSX.",
   "prerequisites": [],
   "derivatives": [

@@ -1338,41 +1338,6 @@ h2 {
   color: #ef4444
 }
 
-.rs-legendary {
-  color: var(--rank-5);
-  animation: rs-legendary-pulse 3.2s ease-in-out infinite;
-}
-
-@keyframes rs-legendary-pulse {
-
-  0%,
-  100% {
-    text-shadow: 0 0 12px rgba(251, 191, 36, .25)
-  }
-
-  50% {
-    text-shadow: 0 0 24px rgba(251, 191, 36, .6), 0 0 48px rgba(251, 191, 36, .2)
-  }
-}
-
-.rs-legendary-link {
-  text-decoration: none;
-  display: block;
-  transition: opacity .2s;
-}
-
-.rs-legendary-link:hover {
-  opacity: .8
-}
-
-.rs-legendary-link .rs-label {
-  color: var(--rank-5);
-  opacity: .7
-}
-
-.rs-legendary-link:hover .rs-label {
-  opacity: 1
-}
 
 /* ── TIER CARDS ── */
 .tier-grid {
@@ -7828,15 +7793,6 @@ code {
     color: var(--tier-extra) !important
   }
 
-  .rs-legendary {
-    color: #eab308
-  }
-
-  .rs-legendary-link .rs-label::before {
-    content: "★";
-    color: #eab308;
-    letter-spacing: 0
-  }
 }
 
 /* ═══════════════════════════════════════════════
@@ -9202,6 +9158,23 @@ button.nav-graph-trigger:hover {
   opacity: 1 !important;
   visibility: visible;
   pointer-events: auto;
+  transform: translateX(-50%);
+}
+
+/* Issue #346 — flowchart popover flicker + stacking.
+   All .git-node siblings share z-index: 2, so a later sibling's dot
+   painted over an earlier node's popover card; raise the hovered node's
+   whole stacking context above its siblings. */
+.git-node:hover {
+  z-index: 30;
+}
+
+/* The popover card is itself a .plaque, so the global .plaque:hover
+   lift (translateY(-2px)) competes with the translateX(-50%) centering
+   when the cursor crosses onto the card — the card shifts sideways, the
+   cursor leaves it, and the hover state thrashes. Pin the transform for
+   the card while it is open. */
+.git-node > .plaque:hover {
   transform: translateX(-50%);
 }
 

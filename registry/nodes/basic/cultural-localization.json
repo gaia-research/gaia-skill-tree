@@ -2,7 +2,6 @@
   "id": "cultural-localization",
   "name": "Cultural Localization",
   "type": "basic",
-  "rarity": "common",
   "description": "Adapts content for regional audiences beyond translation: idioms, cultural nuance, tone, trust conventions, and regional compliance for culturally faithful output.",
   "prerequisites": [],
   "derivatives": [],

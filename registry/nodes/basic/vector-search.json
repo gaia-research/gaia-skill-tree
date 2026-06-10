@@ -2,7 +2,6 @@
   "id": "vector-search",
   "name": "Vector Search",
   "type": "basic",
-  "rarity": "common",
   "description": "Performs similarity search over high-dimensional embeddings using cosine, Euclidean, dot-product, or custom distance metrics.",
   "prerequisites": [],
   "derivatives": [],

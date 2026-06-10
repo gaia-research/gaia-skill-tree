@@ -2,7 +2,6 @@
   "id": "data-visualize",
   "name": "Data Visualize",
   "type": "basic",
-  "rarity": "common",
   "description": "Generates charts, graphs, and visual summaries from datasets by selecting appropriate visualization types and mapping data dimensions.",
   "prerequisites": [],
   "derivatives": [

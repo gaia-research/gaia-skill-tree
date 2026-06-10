@@ -2,7 +2,6 @@
   "id": "architecture-diagram",
   "name": "Architecture Diagram",
   "type": "extra",
-  "rarity": "uncommon",
   "description": "Generates technical architecture, infrastructure, or cloud diagrams as structured visual artifacts from natural-language system descriptions.",
   "prerequisites": [
     "data-visualize",

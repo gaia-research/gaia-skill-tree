@@ -2,7 +2,6 @@
   "id": "explainability-audit",
   "name": "Explainability Audit",
   "type": "extra",
-  "rarity": "common",
   "description": "Audits model transparency by computing feature-importance attributions (SHAP, LIME) and intrinsic-interpretability metrics, surfacing them as governance evidence.",
   "prerequisites": [
     "data-visualize",

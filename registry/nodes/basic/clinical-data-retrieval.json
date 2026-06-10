@@ -2,7 +2,6 @@
   "id": "clinical-data-retrieval",
   "name": "Clinical Data Retrieval",
   "type": "basic",
-  "rarity": "common",
   "description": "Retrieves and parses clinical trial records, drug approvals, regulatory filings, or medical variant databases (e.g. ClinicalTrials.gov, OpenFDA, ClinVar).",
   "prerequisites": [],
   "derivatives": [],

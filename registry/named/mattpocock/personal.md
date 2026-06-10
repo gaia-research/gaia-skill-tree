@@ -9,12 +9,16 @@ status: named
 level: 4★
 description: Personal category suite for Matt Pocock's skills.
 createdAt: '2026-05-21'
-updatedAt: '2026-06-04'
+updatedAt: '2026-06-10'
 suiteRef: mattpocock/skills
 suiteComponents:
 - mattpocock/edit-article
 - mattpocock/obsidian-vault
 ---
+
+## Overview
+
+The Matt Pocock Personal Suite groups two skills for individual knowledge work: Edit Article, which models an article as a directed acyclic graph of information dependencies and rewrites it section by section under a 240-character-per-paragraph constraint; and Obsidian Vault Manager, which manages notes and organisational structure in an Obsidian vault using Title Case and wikilinks. Together they cover the two modes of personal knowledge production — writing for an external audience and maintaining an internal knowledge base.
 
 ## Installation
 

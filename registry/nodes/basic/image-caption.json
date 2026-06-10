@@ -2,7 +2,6 @@
   "id": "image-caption",
   "name": "Image Caption",
   "type": "basic",
-  "rarity": "uncommon",
   "description": "Generates accurate natural-language descriptions of images, capturing objects, actions, and spatial relationships.",
   "prerequisites": [],
   "derivatives": [

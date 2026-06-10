@@ -2,7 +2,6 @@
   "id": "performance-tuning",
   "name": "Performance Tuning",
   "type": "basic",
-  "rarity": "common",
   "description": "Profiles execution hotspots, measures throughput and latency, and applies targeted optimizations to reduce resource consumption.",
   "prerequisites": [],
   "derivatives": [],

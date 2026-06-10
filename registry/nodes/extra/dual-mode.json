@@ -2,7 +2,6 @@
   "id": "dual-mode",
   "name": "Dual Mode",
   "type": "extra",
-  "rarity": "uncommon",
   "description": "Orchestrates hybrid Claude+Codex workflows: spawns headless parallel workers, coordinates task routing between interactive and background phases, and collects distributed results.",
   "prerequisites": [
     "headless-worker-spawn",

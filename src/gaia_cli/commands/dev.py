@@ -953,7 +953,6 @@ def meta_add_command(args):
             "id": skill_id,
             "name": skill_name,
             "type": skill_type,
-            "rarity": getattr(args, "rarity", "common"),
             "description": desc,
             "prerequisites": [],
             "derivatives": [],
@@ -1761,13 +1760,6 @@ def meta_diff_command(args):
             flags.append(("⚠", f"{s['id']} — no evidence attached"))
         elif all(e["class"] == "C" for e in ev):
             flags.append(("⚠", f"{s['id']} — only Class C evidence"))
-        if s.get("rarity"):
-            flags.append(
-                (
-                    "·",
-                    f"{s['id']} — rarity field present (deprecated auto-default, harmless)",
-                )
-            )
 
     if flags:
         print(f"  ── QUALITY FLAGS {'─' * max(0, W - 18)}")

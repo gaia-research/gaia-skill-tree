@@ -51,7 +51,6 @@ def show_status(tree_data):
     print(f"Last Updated: {tree_data.get('updatedAt')}")
     stats = tree_data.get('stats', {})
     print(f"Total Unlocked: {stats.get('totalUnlocked', 0)}")
-    print(f"Highest Rarity: {stats.get('highestRarity', 'common').capitalize()}")
     pending = tree_data.get('pendingCombinations', [])
     if pending:
         print("\nPending Combinations:")

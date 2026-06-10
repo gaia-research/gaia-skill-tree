@@ -2,7 +2,6 @@
   "id": "logical-inference",
   "name": "Logical Inference",
   "type": "basic",
-  "rarity": "uncommon",
   "description": "Applies deductive, inductive, or abductive reasoning to derive valid conclusions from premises and structured knowledge.",
   "prerequisites": [],
   "derivatives": [

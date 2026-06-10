@@ -2,7 +2,6 @@
   "id": "generative-media",
   "name": "Generative Media",
   "type": "extra",
-  "rarity": "rare",
   "description": "Generates and manipulates images, video, and audio through complex node-based or scripted generative workflows, managing model dependencies and parameter injection.",
   "prerequisites": [
     "api-call",

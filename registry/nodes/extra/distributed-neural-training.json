@@ -2,7 +2,6 @@
   "id": "distributed-neural-training",
   "name": "Distributed Neural Training",
   "type": "extra",
-  "rarity": "uncommon",
   "description": "Trains neural networks (feedforward, LSTM, GAN, autoencoder, transformer) across distributed E2B sandbox clusters with federated learning and model marketplace publishing.",
   "prerequisites": [
     "parallel-execution",

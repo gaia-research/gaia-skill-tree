@@ -2,7 +2,6 @@
   "id": "engineering-discipline",
   "name": "mattpocock-engineering",
   "type": "ultimate",
-  "rarity": "common",
   "description": "Engineering category suite for Matt Pocock's skills.",
   "prerequisites": [
     "autonomous-debug",

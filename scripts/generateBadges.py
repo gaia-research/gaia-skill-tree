@@ -243,7 +243,7 @@ def _gaia_wordmark(seal_only: bool = False, seal_color: str = WHITE) -> str:
 
 def _data_panel(x: float, w: float, rank: int, uid: str, *,
                 is_unique: bool = False, gold_fill: bool = True) -> tuple[str, str]:
-    """Right (data) panel background for a given rank — the rarity escalation.
+    """Right (data) panel background for a given rank — the rank escalation.
 
     Returns ``(defs, body)``. The treatment ramps with rank so visual weight is
     earned: dark ink + tier seam (1–3) → tier tint (4) → amber tint (5) →
@@ -325,7 +325,7 @@ def badge_simple(value: str, rank: int, label: str, *, seal_only: bool = False,
     """Two-tone badge: Gaia seal on the left, a single value on the right.
 
     The right panel's treatment is driven by `rank` via `_data_panel` /
-    `_frame` so the rarity escalation is consistent across every badge type.
+    `_frame` so the rank escalation is consistent across every badge type.
     `neutral` forces a rank-less muted style (the static "powered by" badge).
     """
     left_w = LEFT_WIDTH_SEAL if seal_only else LEFT_WIDTH

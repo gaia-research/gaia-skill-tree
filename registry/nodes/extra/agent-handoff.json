@@ -2,7 +2,6 @@
   "id": "agent-handoff",
   "name": "agent-handoff",
   "type": "extra",
-  "rarity": "common",
   "description": "Compacting the current conversation into a summary for a fresh agent.",
   "prerequisites": [
     "summarize",

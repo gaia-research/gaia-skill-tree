@@ -2,7 +2,6 @@
   "id": "release-automation",
   "name": "Release Automation",
   "type": "extra",
-  "rarity": "uncommon",
   "description": "Automate the full software release cycle: determine semantic version bump, update CHANGELOG, commit, create a git tag, and publish a GitHub release with release notes.",
   "prerequisites": [
     "workflow-automation",

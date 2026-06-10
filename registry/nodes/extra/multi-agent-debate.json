@@ -2,7 +2,6 @@
   "id": "multi-agent-debate",
   "name": "Multi-Agent Debate",
   "type": "extra",
-  "rarity": "rare",
   "description": "Runs multiple LLM agents that propose, critique, and iteratively refine answers across structured debate rounds, converging on more accurate and well-reasoned responses than any single agent achieves.",
   "prerequisites": [
     "self-critique",

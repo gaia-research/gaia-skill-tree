@@ -2,7 +2,6 @@
   "id": "probabilistic-programming",
   "name": "Probabilistic Programming",
   "type": "basic",
-  "rarity": "common",
   "description": "Specifies Bayesian models and runs inference (MCMC/NUTS, variational) to quantify epistemic and aleatoric uncertainty using PyMC, Stan, Pyro, or NumPyro.",
   "prerequisites": [],
   "derivatives": [],

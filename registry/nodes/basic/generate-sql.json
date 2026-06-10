@@ -2,7 +2,6 @@
   "id": "generate-sql",
   "name": "Generate SQL",
   "type": "basic",
-  "rarity": "common",
   "description": "Translates natural-language data questions into syntactically correct, executable SQL queries against a given schema.",
   "prerequisites": [],
   "derivatives": [

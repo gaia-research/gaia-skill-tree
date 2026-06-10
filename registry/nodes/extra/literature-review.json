@@ -2,7 +2,6 @@
   "id": "literature-review",
   "name": "Literature Review",
   "type": "extra",
-  "rarity": "uncommon",
   "description": "Conducts systematic multi-database academic literature searches following PRISMA/SWARM protocols, screens and synthesises findings, verifies all citations, and generates a structured review report.",
   "prerequisites": [
     "cite-sources",

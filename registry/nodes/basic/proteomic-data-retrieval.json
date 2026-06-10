@@ -2,7 +2,6 @@
   "id": "proteomic-data-retrieval",
   "name": "Proteomic Data Retrieval",
   "type": "basic",
-  "rarity": "common",
   "description": "Queries and retrieves amino acid sequences, protein families, functional domains, tissue distribution, and protein-protein interactions from proteomic repositories (e.g. UniProt, InterPro, Human Protein Atlas, STRING).",
   "prerequisites": [],
   "derivatives": [],

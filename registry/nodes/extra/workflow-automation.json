@@ -2,7 +2,6 @@
   "id": "workflow-automation",
   "name": "Workflow Automation",
   "type": "extra",
-  "rarity": "uncommon",
   "description": "Designs, configures, and runs trigger-based multi-step automation pipelines that connect external services, schedule jobs, and orchestrate tool sequences without continuous human supervision.",
   "prerequisites": [
     "plan-decompose",

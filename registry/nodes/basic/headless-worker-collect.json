@@ -2,7 +2,6 @@
   "id": "headless-worker-collect",
   "name": "Headless Worker Collect",
   "type": "basic",
-  "rarity": "common",
   "description": "Aggregates and formats results from distributed headless workers stored in shared memory with filtering and status reporting.",
   "prerequisites": [],
   "derivatives": [],

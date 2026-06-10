@@ -8,7 +8,6 @@
       "name": "Skill A",
       "type": "extra",
       "level": "2★",
-      "rarity": "common",
       "description": "Part of a cycle.",
       "prerequisites": [
         "skill-b",
@@ -29,7 +28,6 @@
       "name": "Skill B",
       "type": "extra",
       "level": "2★",
-      "rarity": "common",
       "description": "Part of a cycle.",
       "prerequisites": [
         "skill-a",
@@ -50,7 +48,6 @@
       "name": "Skill C",
       "type": "extra",
       "level": "2★",
-      "rarity": "common",
       "description": "Part of a cycle.",
       "prerequisites": [
         "skill-a",

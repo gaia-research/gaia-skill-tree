@@ -60,14 +60,11 @@ _Avoid_: downgrade, demote-down.
 The independently graded quality of a real-world demonstration: Class C (first sighting), Class B (reproducible, documented), Class A (battle-tested, peer-reviewed).
 _Avoid_: proof level, evidence tier.
 
-### Rarity (the third axis — DEPRECATED)
+### Rarity (the third axis — REMOVED)
 
-**Rarity** is a legacy schema-defined axis (`registry/schema/meta.json:61-64`) on a scale of **common → uncommon → rare → epic → legendary**. It was originally intended as a third orthogonal axis alongside **tier** (Basic / Extra / Unique / Ultimate) and **stars** (0★–6★), but in practice it duplicated signal already carried by the other two axes and was never surfaced to users.
+**Rarity** was a legacy schema-defined axis on a scale of **common → uncommon → rare → epic → legendary**. It was originally intended as a third orthogonal axis alongside **tier** (Basic / Extra / Unique / Ultimate) and **stars** (0★–6★), but in practice it duplicated signal already carried by the other two axes and was never surfaced to users.
 
-**Status: deprecated, pending schema removal.** Tracked separately (schema change requires a `schema/` branch; do not modify the schema in this PR). Until the schema migration lands:
-- `gaia add` continues to default `rarity` to `"common"` so authors never set it manually.
-- Tooling and renderers that read the field should treat it as opaque legacy data — do not surface it in new copy, do not branch logic on it, do not ask contributors to choose a value.
-- The brand-voice `rarityLabels` table (`gaia.json:21-22`) stays in place until the schema removal so existing mirrors don't break.
+**Status: removed.** The field is gone from the schemas (`skill.schema.json`, `skillTree.schema.json`, `meta.json`), from every registry node and skill tree, from the generated mirrors, and from all CLI/MCP code paths (issue #356). Historical references survive only in `docs/archive/`, dated meta reports, and this notice. CI (`docs-cohesion.yml` Guard B) fails any new code-level rarity reference.
 
 _Avoid_: introducing **any** new reference to rarity — in CLI output, docs, agent skills, review tables, or curation workflows. If you find yourself reaching for the word, you almost certainly want **tier** or **stars** instead.
 
@@ -315,7 +312,7 @@ Single source of truth for CI grep. Any term below appearing in user-facing copy
 - `card` — for plaque; use **Plaque**
 - `claimers` — collective noun for contributors; use **Named Contributors**
 - `claimed skill` — use **Named Skill**
-- `common` — never a **tier** or **rank** name (it is a valid `rarity` axis value; see Rarity section above — but never surfaced in user-facing copy)
+- `common` — never a **tier** or **rank** name (it was a rarity-axis value; see Rarity section above — never surfaced in user-facing copy)
 - `composite skill` / `compound skill` — for Extra; use **Extra Skill**
 - `Connect MCP` / `Add Gaia to your agent` — MCP install copy; use **Bond your agent**
 - `dashboard` / `profile` (as skill-tree synonym) — use **Skill Tree** or **Your Tree**
@@ -325,7 +322,7 @@ Single source of truth for CI grep. Any term below appearing in user-facing copy
 - `Get started` / `Quickstart` / `Onboarding` — setup copy; use **The Initiate's Rite**
 - `graph-isolated singularities` — for Unique section; use **Uniques**
 - `Highest Tier: common` — broken stat label; emit the rank name or `—`
-- `legendary` / `legendary skill` — banned synonym for **Ultimate** tier (it is a valid `rarity` axis value; the user-facing word for rarity-legendary is **Divine**, never the literal "legendary")
+- `legendary` / `legendary skill` — banned synonym for **Ultimate** tier (it was a rarity-axis value; the axis is removed)
 - `leaderboard` (as Hall-of-Heroes synonym) — use **Hall of Heroes**
 - `Level lifecycle` / `Progression flow` / `Workflow` — diagram name; use **Ascension Cycle**
 - `mythic` — banned synonym for Ultimate
@@ -336,7 +333,7 @@ Single source of truth for CI grep. Any term below appearing in user-facing copy
 - `Pure / Undeveloped` — section label that conflates tier and stars axes; section header is **Basics**, and a 0★ skill can carry the **Pure** pill inline
 - `Pure skill` — as tier synonym; "Pure" is only a 0★ stars-axis descriptor
 - `rank` / `level` / `tier` — when used alone to mean the **stars axis** (these are reserved for the rank-name label, the verbs, and the tier taxonomy respectively)
-- `rarity` / `Rarity` / `rare` / `epic` / `uncommon` — the rarity axis is deprecated (see Rarity section above). Do not introduce new references in CLI copy, docs, agent skills, or curation workflows. Field still exists in the schema until its removal lands on a `schema/` branch.
+- `rarity` / `Rarity` / `rare` / `epic` / `uncommon` — the rarity axis is removed (see Rarity section above). Do not introduce new references in CLI copy, docs, agent skills, or curation workflows.
 - `Skill lifecycle` — diagram name; use **Ascension Cycle**
 - `standalone skill` / `solo skill` — for Unique; use **Unique Skill**
 - `Top contributors` / `Named contributors section` — section; use **Hall of Heroes**

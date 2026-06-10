@@ -2,7 +2,6 @@
   "id": "autonomous-engineering-platform",
   "name": "Autonomous Engineering Platform",
   "type": "basic",
-  "rarity": "common",
   "description": "An autonomous engineering platform integrating chat, specs, tasks, and code for full agentic software delivery.",
   "prerequisites": [],
   "derivatives": [],

@@ -4,15 +4,15 @@ import type { GaiaGraph, UserSkillTree } from "../src/graph/types.js";
 const mockGraph: GaiaGraph = {
   version: "0.2.0",
   generatedAt: "2026-04-28",
-  meta: { typeLabels: {}, levelLabels: {}, rarityLabels: {} },
+  meta: { typeLabels: {}, levelLabels: {} },
   skills: [
-    { id: "web-search", name: "Web Search", type: "basic", level: "2★", rarity: "common", description: "Searches the web", prerequisites: [], derivatives: ["web-scrape", "research"], conditions: "", evidence: [], knownAgents: [], status: "validated", createdAt: "", updatedAt: "", version: "0.1.0" },
-    { id: "parse-html", name: "Parse HTML", type: "basic", level: "2★", rarity: "common", description: "Parses HTML documents", prerequisites: [], derivatives: ["web-scrape"], conditions: "", evidence: [], knownAgents: [], status: "validated", createdAt: "", updatedAt: "", version: "0.1.0" },
-    { id: "extract-entities", name: "Extract Entities", type: "basic", level: "2★", rarity: "common", description: "Extracts named entities", prerequisites: [], derivatives: ["web-scrape"], conditions: "", evidence: [], knownAgents: [], status: "validated", createdAt: "", updatedAt: "", version: "0.1.0" },
-    { id: "summarize", name: "Summarize", type: "basic", level: "2★", rarity: "common", description: "Summarizes text", prerequisites: [], derivatives: ["research"], conditions: "", evidence: [], knownAgents: [], status: "validated", createdAt: "", updatedAt: "", version: "0.1.0" },
-    { id: "cite-sources", name: "Cite Sources", type: "basic", level: "2★", rarity: "common", description: "Cites sources", prerequisites: [], derivatives: ["research"], conditions: "", evidence: [], knownAgents: [], status: "validated", createdAt: "", updatedAt: "", version: "0.1.0" },
-    { id: "web-scrape", name: "Web Scrape", type: "extra", level: "3★", rarity: "uncommon", description: "Scrapes and structures web data", prerequisites: ["web-search", "parse-html", "extract-entities"], derivatives: [], conditions: "", evidence: [], knownAgents: [], status: "validated", createdAt: "", updatedAt: "", version: "0.1.0" },
-    { id: "research", name: "Research", type: "extra", level: "3★", rarity: "uncommon", description: "Researches topics", prerequisites: ["web-search", "summarize", "cite-sources"], derivatives: [], conditions: "", evidence: [], knownAgents: [], status: "validated", createdAt: "", updatedAt: "", version: "0.1.0" },
+    { id: "web-search", name: "Web Search", type: "basic", level: "2★", description: "Searches the web", prerequisites: [], derivatives: ["web-scrape", "research"], conditions: "", evidence: [], knownAgents: [], status: "validated", createdAt: "", updatedAt: "", version: "0.1.0" },
+    { id: "parse-html", name: "Parse HTML", type: "basic", level: "2★", description: "Parses HTML documents", prerequisites: [], derivatives: ["web-scrape"], conditions: "", evidence: [], knownAgents: [], status: "validated", createdAt: "", updatedAt: "", version: "0.1.0" },
+    { id: "extract-entities", name: "Extract Entities", type: "basic", level: "2★", description: "Extracts named entities", prerequisites: [], derivatives: ["web-scrape"], conditions: "", evidence: [], knownAgents: [], status: "validated", createdAt: "", updatedAt: "", version: "0.1.0" },
+    { id: "summarize", name: "Summarize", type: "basic", level: "2★", description: "Summarizes text", prerequisites: [], derivatives: ["research"], conditions: "", evidence: [], knownAgents: [], status: "validated", createdAt: "", updatedAt: "", version: "0.1.0" },
+    { id: "cite-sources", name: "Cite Sources", type: "basic", level: "2★", description: "Cites sources", prerequisites: [], derivatives: ["research"], conditions: "", evidence: [], knownAgents: [], status: "validated", createdAt: "", updatedAt: "", version: "0.1.0" },
+    { id: "web-scrape", name: "Web Scrape", type: "extra", level: "3★", description: "Scrapes and structures web data", prerequisites: ["web-search", "parse-html", "extract-entities"], derivatives: [], conditions: "", evidence: [], knownAgents: [], status: "validated", createdAt: "", updatedAt: "", version: "0.1.0" },
+    { id: "research", name: "Research", type: "extra", level: "3★", description: "Researches topics", prerequisites: ["web-search", "summarize", "cite-sources"], derivatives: [], conditions: "", evidence: [], knownAgents: [], status: "validated", createdAt: "", updatedAt: "", version: "0.1.0" },
   ],
   edges: [],
 };
@@ -25,7 +25,7 @@ const mockTree: UserSkillTree = {
     { skillId: "summarize", level: "2★", unlockedAt: "2026-04-21", unlockedIn: "test-repo", combinedFrom: [] },
   ],
   pendingCombinations: [],
-  stats: { totalUnlocked: 2, highestRarity: "common", deepestLineage: 0 },
+  stats: { totalUnlocked: 2, deepestLineage: 0 },
 };
 
 vi.mock("../src/graph/loader.js", () => ({

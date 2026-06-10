@@ -2,7 +2,6 @@
   "id": "registry-health-scan",
   "name": "Gaia Meta Audit",
   "type": "extra",
-  "rarity": "rare",
   "description": "Scans Gaia registry and real-skill catalog entries for review candidates whose evidence may be outdated, superseded, overpromoted, unmapped, stale, or insufficient for their current level or named-skill claim.",
   "prerequisites": [
     "registry-entry-audit",

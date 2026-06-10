@@ -2,7 +2,6 @@
   "id": "git-diff-risk-analysis",
   "name": "Git Diff Risk Analysis",
   "type": "basic",
-  "rarity": "common",
   "description": "Analyzes git diffs for complexity, churn, and risk scores to prioritize review attention and flag dangerous changes.",
   "prerequisites": [],
   "derivatives": [],

@@ -2,7 +2,6 @@
   "id": "swarm-topology-management",
   "name": "Swarm Topology Management",
   "type": "basic",
-  "rarity": "common",
   "description": "Initializes and manages multi-agent swarm network topologies (hierarchical, mesh, ring, star) with load balancing and fault tolerance.",
   "prerequisites": [],
   "derivatives": [],

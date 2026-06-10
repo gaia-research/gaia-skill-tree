@@ -2,7 +2,6 @@
   "id": "tokenize",
   "name": "Tokenize",
   "type": "basic",
-  "rarity": "common",
   "description": "Splits input text into discrete tokens suitable for downstream processing by language models.",
   "prerequisites": [],
   "derivatives": [],

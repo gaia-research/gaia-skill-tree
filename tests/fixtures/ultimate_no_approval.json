@@ -8,7 +8,6 @@
       "name": "Skill A",
       "type": "ultimate",
       "level": "5★",
-      "rarity": "legendary",
       "description": "Legendary skill with insufficient sources for validation.",
       "prerequisites": [
         "skill-b",
@@ -40,7 +39,6 @@
       "name": "Skill B",
       "type": "basic",
       "level": "2★",
-      "rarity": "common",
       "description": "Valid atomic skill.",
       "prerequisites": [],
       "derivatives": [
@@ -64,7 +62,6 @@
       "name": "Skill C",
       "type": "basic",
       "level": "2★",
-      "rarity": "common",
       "description": "Valid atomic skill.",
       "prerequisites": [],
       "derivatives": [
@@ -88,7 +85,6 @@
       "name": "Skill D",
       "type": "basic",
       "level": "2★",
-      "rarity": "common",
       "description": "Valid atomic skill.",
       "prerequisites": [],
       "derivatives": [

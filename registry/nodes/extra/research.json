@@ -2,7 +2,6 @@
   "id": "research",
   "name": "Research",
   "type": "extra",
-  "rarity": "uncommon",
   "description": "Conducts multi-source information gathering, synthesis, and citation for a given topic.",
   "prerequisites": [
     "web-search",

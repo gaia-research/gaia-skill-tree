@@ -2,7 +2,6 @@
   "id": "prd-generation",
   "name": "PRD Generation",
   "type": "extra",
-  "rarity": "uncommon",
   "summary": "Synthesizes conversational context and codebase knowledge into a structured Product Requirements Document.",
   "description": "Synthesizes conversation context and codebase knowledge into a structured Product Requirements Document containing a problem statement, extensive user stories, implementation decisions, module boundaries, testing decisions, and out-of-scope items. It sketches major modules with deep-module opportunities, confirms scope with the user, and produces a strict issue tracker format without brittle code snippets.",
   "useCase": "A developer initiates a planning session to implement a new feature. They discuss requirements with the agent. The agent synthesizes this conversation, explores the current codebase architecture, and identifies the deep modules needed. It then generates a highly detailed PRD, formatting it as a structured issue with clear testing guidelines, and automatically pushes it to the project's issue tracker with a `ready-for-agent` triage label.",

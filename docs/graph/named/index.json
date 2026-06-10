@@ -489,14 +489,29 @@
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/personal/edit-article/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/mattpocock/skills/blob/main/skills/personal/edit-article/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-10",
+            "notes": "Published implementation in Matt Pocock's skills repository; DAG-sectioned rewrite workflow documented and reproducible."
+          }
+        ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-02",
+        "updatedAt": "2026-06-10",
         "timeline": [
           {
             "timestamp": "2026-06-02T01:42:59Z",
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-06-10T05:38:17Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/mattpocock/skills/blob/main/skills/personal/edit-article/SKILL.md"
           }
         ],
         "suiteRef": "mattpocock/personal",
@@ -905,8 +920,25 @@
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnose/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnose/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-10",
+            "notes": "Published implementation in Matt Pocock's skills repository; five-phase debugging discipline documented and reproducible."
+          }
+        ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-04-30",
+        "updatedAt": "2026-06-10",
+        "timeline": [
+          {
+            "timestamp": "2026-06-10T05:38:16Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnose/SKILL.md"
+          }
+        ],
         "suiteRef": "mattpocock/engineering",
         "type": "extra",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
@@ -1025,14 +1057,29 @@
         "links": {
           "github": "https://github.com/firecrawl/firecrawl"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/firecrawl/firecrawl",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-10",
+            "notes": "Origin repository — open-source web search/scrape/crawl API for LLM agents; reproducible public implementation with documented usage."
+          }
+        ],
         "createdAt": "2026-05-17",
-        "updatedAt": "2026-06-02",
+        "updatedAt": "2026-06-10",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:33:01Z",
             "action": "demote",
             "contributor": "unknown",
             "details": "Origin status removed. Transferred to garrytan/scrape."
+          },
+          {
+            "timestamp": "2026-06-10T05:38:16Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/firecrawl/firecrawl"
           }
         ],
         "type": "extra",
@@ -2521,14 +2568,29 @@
         "links": {
           "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-10",
+            "notes": "Project-local agent skill driving branch preview deploys via sync-artifacts.yml; implementation public at SKILL.md."
+          }
+        ],
         "createdAt": "2026-05-27",
-        "updatedAt": "2026-05-30",
+        "updatedAt": "2026-06-10",
         "timeline": [
           {
             "timestamp": "2026-05-26T16:37:01Z",
             "action": "add",
             "contributor": "mbtiongson1",
             "details": "Added named skill mbtiongson1/gaia-preview"
+          },
+          {
+            "timestamp": "2026-06-10T05:38:17Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-preview/SKILL.md"
           }
         ],
         "type": "extra",
@@ -3280,14 +3342,29 @@
         "links": {
           "github": "https://github.com/GLINCKER/claude-code-marketplace/blob/main/skills/documentation/readme-generator/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/GLINCKER/claude-code-marketplace/blob/main/skills/documentation/readme-generator/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-10",
+            "notes": "Published implementation in the GLINCKER Claude Code Marketplace; reproducible from SKILL.md."
+          }
+        ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-02",
+        "updatedAt": "2026-06-10",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:33:02Z",
             "action": "demote",
             "contributor": "unknown",
             "details": "Origin status removed. Transferred to garrytan/retro."
+          },
+          {
+            "timestamp": "2026-06-10T05:38:16Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/GLINCKER/claude-code-marketplace/blob/main/skills/documentation/readme-generator/SKILL.md"
           }
         ],
         "type": "basic",
@@ -3314,8 +3391,25 @@
         "links": {
           "github": "https://github.com/spring-ai-alibaba/examples/blob/main/.claude/skills/readme-generate/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/spring-ai-alibaba/examples/blob/main/.claude/skills/readme-generate/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-10",
+            "notes": "Published implementation in the Spring AI Alibaba examples repository; reproducible from SKILL.md."
+          }
+        ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-04-30",
+        "updatedAt": "2026-06-10",
+        "timeline": [
+          {
+            "timestamp": "2026-06-10T05:38:19Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/spring-ai-alibaba/examples/blob/main/.claude/skills/readme-generate/SKILL.md"
+          }
+        ],
         "type": "basic",
         "role": "variant"
       }
@@ -4099,7 +4193,7 @@
         "description": "Engineering category suite for Matt Pocock's skills.",
         "title": "The Matt Pocock Engineering Discipline",
         "createdAt": "2026-05-21",
-        "updatedAt": "2026-06-04",
+        "updatedAt": "2026-06-10",
         "suiteRef": "mattpocock/skills",
         "suiteComponents": [
           "mattpocock/diagnose",
@@ -4303,7 +4397,7 @@
         "description": "Personal category suite for Matt Pocock's skills.",
         "title": "The Matt Pocock Personal Suite",
         "createdAt": "2026-05-21",
-        "updatedAt": "2026-06-04",
+        "updatedAt": "2026-06-10",
         "suiteRef": "mattpocock/skills",
         "suiteComponents": [
           "mattpocock/edit-article",
@@ -4326,7 +4420,7 @@
         "description": "Productivity category suite for Matt Pocock's skills.",
         "title": "The Matt Pocock Productivity Suite",
         "createdAt": "2026-05-21",
-        "updatedAt": "2026-06-04",
+        "updatedAt": "2026-06-10",
         "suiteRef": "mattpocock/skills",
         "suiteComponents": [
           "mattpocock/caveman",
@@ -4612,8 +4706,25 @@
         "links": {
           "github": "https://github.com/ruvnet/ruflo"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/ruvnet/ruflo",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-10",
+            "notes": "Part of the Ruflo orchestration platform (public repo); DDD restructuring of the v3 codebase documented in the suite."
+          }
+        ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-05-19",
+        "updatedAt": "2026-06-10",
+        "timeline": [
+          {
+            "timestamp": "2026-06-10T05:38:18Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/ruvnet/ruflo"
+          }
+        ],
         "suiteRef": "ruvnet/ruflo-v3",
         "type": "extra",
         "role": "variant"
@@ -4715,8 +4826,17 @@
         "links": {
           "github": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-curation-review/SKILL.md"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-curation-review/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-10",
+            "notes": "Project-local agent skill used for curation PR review in this repository; implementation public at SKILL.md."
+          }
+        ],
         "createdAt": "2026-05-27",
-        "updatedAt": "2026-06-01",
+        "updatedAt": "2026-06-10",
         "timeline": [
           {
             "timestamp": "2026-05-26T16:36:59Z",
@@ -4729,6 +4849,12 @@
             "action": "demote",
             "contributor": "unknown",
             "details": "Calibrated level from 3★ to 2★"
+          },
+          {
+            "timestamp": "2026-06-10T05:38:17Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-curation-review/SKILL.md"
           }
         ],
         "type": "extra",
@@ -5385,8 +5511,25 @@
         "links": {
           "github": "https://github.com/ruvnet/ruflo"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/ruvnet/ruflo",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-10",
+            "notes": "Part of the Ruflo orchestration platform (public repo); two-agent implement/review pattern documented in the suite."
+          }
+        ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-05-19",
+        "updatedAt": "2026-06-10",
+        "timeline": [
+          {
+            "timestamp": "2026-06-10T05:38:18Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/ruvnet/ruflo"
+          }
+        ],
         "suiteRef": "ruvnet/ruflo",
         "type": "extra",
         "role": "variant"
@@ -5536,8 +5679,25 @@
         "links": {
           "github": "https://github.com/ruvnet/ruflo"
         },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/ruvnet/ruflo",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-10",
+            "notes": "Part of the Ruflo orchestration platform (public repo); pre-completion quality gates documented in the suite."
+          }
+        ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-05-19",
+        "updatedAt": "2026-06-10",
+        "timeline": [
+          {
+            "timestamp": "2026-06-10T05:38:18Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/ruvnet/ruflo"
+          }
+        ],
         "suiteRef": "ruvnet/ruflo",
         "type": "extra",
         "role": "variant"
@@ -7252,9 +7412,9 @@
       "level": "2★",
       "description": "AI-powered cascading development framework.",
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-10",
       "type": "basic",
-      "installBody": "Add installation instructions here."
+      "installBody": "No public installable artifact is currently registered for this skill; it is tracked from its description only."
     },
     {
       "id": "changkun/plan-decompose-gh-wallfacer",
@@ -7266,9 +7426,9 @@
       "level": "2★",
       "description": "Chat, specs, tasks, and code. An autonomous engineering platform.",
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-05-25",
+      "updatedAt": "2026-06-10",
       "type": "basic",
-      "installBody": "Add installation instructions here."
+      "installBody": "No public installable artifact is currently registered for this skill; it is tracked from its description only."
     },
     {
       "id": "gaiabot/gaia-triage",
@@ -7312,8 +7472,25 @@
       "links": {
         "github": "https://github.com/mbtiongson1/gaia-skill-tree"
       },
+      "evidence": [
+        {
+          "class": "B",
+          "source": "https://github.com/mbtiongson1/gaia-skill-tree",
+          "evaluator": "mbtiongson1",
+          "date": "2026-06-10",
+          "notes": "Exercised in this repository's own CI: the docs drift check (gaia docs build --check) gates every PR, demonstrating the skill in production."
+        }
+      ],
       "createdAt": "2026-05-01",
-      "updatedAt": "2026-05-03",
+      "updatedAt": "2026-06-10",
+      "timeline": [
+        {
+          "timestamp": "2026-06-10T05:38:16Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added B evidence from https://github.com/mbtiongson1/gaia-skill-tree"
+        }
+      ],
       "type": "basic"
     },
     {
@@ -8396,9 +8573,9 @@
       "level": "2★",
       "description": "MCP tool for finding AI dev jobs.",
       "createdAt": "2026-05-22",
-      "updatedAt": "2026-05-22",
+      "updatedAt": "2026-06-10",
       "type": "basic",
-      "installBody": "Add installation instructions here."
+      "installBody": "No public installable artifact is currently registered for this skill; it is tracked from its description only."
     },
     {
       "id": "sickn33/mcp-builder",
@@ -8410,7 +8587,7 @@
       "level": "3★",
       "description": "A community implementation of the MCP builder skill from the antigravity-awesome-skills repository, capable of creating Model Context Protocol servers in Python and Node.js.",
       "createdAt": "2026-05-27",
-      "updatedAt": "2026-06-02",
+      "updatedAt": "2026-06-10",
       "timeline": [
         {
           "timestamp": "2026-05-27T23:24:24Z",
@@ -8426,7 +8603,7 @@
         }
       ],
       "type": "extra",
-      "installBody": "Add installation instructions here."
+      "installBody": "No public installable artifact is currently registered for this skill (`installable: false`); it is tracked from its description and announcement only."
     },
     {
       "id": "sickn33/n8n-mcp-tools-expert",
@@ -8438,9 +8615,9 @@
       "level": "2★",
       "description": "Expert at integrating n8n with MCP (Model Context Protocol). Build n8n workflows that expose MCP tools, or use MCP tools within n8n workflows.",
       "createdAt": "2026-05-22",
-      "updatedAt": "2026-05-22",
+      "updatedAt": "2026-06-10",
       "type": "basic",
-      "installBody": "Add installation instructions here."
+      "installBody": "No public installable artifact is currently registered for this skill; it is tracked from its description only."
     },
     {
       "id": "xquik-dev/hermes-tweet",
@@ -8485,9 +8662,9 @@
       "level": "2★",
       "description": "Build Model Context Protocol (MCP) servers and tools from scratch. Full-stack MCP development with TypeScript/Python, testing, deployment, and registry publishing.",
       "createdAt": "2026-05-22",
-      "updatedAt": "2026-05-22",
+      "updatedAt": "2026-06-10",
       "type": "basic",
-      "installBody": "Add installation instructions here."
+      "installBody": "No public installable artifact is currently registered for this skill; it is tracked from its description only."
     }
   ],
   "byContributor": {

@@ -2,7 +2,6 @@
   "id": "translation-pipeline",
   "name": "Translation Pipeline",
   "type": "extra",
-  "rarity": "uncommon",
   "description": "Translates content end-to-end while preserving sentiment and adapting tone and register for the target audience.",
   "prerequisites": [
     "translate",

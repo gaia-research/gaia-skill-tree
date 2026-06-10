@@ -6,21 +6,34 @@ origin: false
 role: variant
 genericSkillRef: ubiquitous-language
 status: named
-title: "The Domain Sculptor"
+title: The Domain Sculptor
 catalogRef: ruvnet-v3-ddd-architecture
-level: "2★"
-description: Applies Domain-Driven Design principles to the Ruflo v3 architecture including bounded contexts, aggregate roots, domain events, and ubiquitous language.
+level: 2★
+description: Applies Domain-Driven Design principles to the Ruflo v3 architecture
+  including bounded contexts, aggregate roots, domain events, and ubiquitous language.
 links:
   github: https://github.com/ruvnet/ruflo
 tags:
-  - ddd
-  - domain-driven-design
-  - bounded-contexts
-  - aggregate-roots
-  - v3-sprint
-createdAt: "2026-05-19"
-updatedAt: "2026-05-19"
-suiteRef: "ruvnet/ruflo-v3"
+- ddd
+- domain-driven-design
+- bounded-contexts
+- aggregate-roots
+- v3-sprint
+createdAt: '2026-05-19'
+updatedAt: '2026-06-10'
+suiteRef: ruvnet/ruflo-v3
+evidence:
+- class: B
+  source: https://github.com/ruvnet/ruflo
+  evaluator: mbtiongson1
+  date: '2026-06-10'
+  notes: Part of the Ruflo orchestration platform (public repo); DDD restructuring
+    of the v3 codebase documented in the suite.
+timeline:
+- timestamp: '2026-06-10T05:38:18Z'
+  action: evidence_added
+  contributor: unknown
+  details: Added B evidence from https://github.com/ruvnet/ruflo
 ---
 
 ## Overview

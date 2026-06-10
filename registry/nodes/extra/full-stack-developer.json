@@ -2,7 +2,6 @@
   "id": "full-stack-developer",
   "name": "Full-Stack Developer",
   "type": "extra",
-  "rarity": "epic",
   "description": "Autonomously implements, reviews, tests, and refactors complete software features across the full development lifecycle from specification to merged PR.",
   "prerequisites": [
     "code-review-pipeline",

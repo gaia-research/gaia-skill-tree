@@ -2,7 +2,6 @@
   "id": "code-generation",
   "name": "Code Generation",
   "type": "basic",
-  "rarity": "common",
   "description": "Produces syntactically correct and functionally appropriate source code from specifications or prompts.",
   "prerequisites": [],
   "derivatives": [

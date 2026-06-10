@@ -2,7 +2,6 @@
   "id": "requesting-code-review",
   "name": "Requesting Code Review",
   "type": "extra",
-  "rarity": "uncommon",
   "description": "Dispatches a code reviewer subagent to catch issues before they cascade, providing isolated context for evaluation.",
   "prerequisites": [
     "code-review-pipeline",

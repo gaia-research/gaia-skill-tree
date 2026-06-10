@@ -87,10 +87,6 @@ def get_demerit_suffix(skill):
     return f"  (demerits: {', '.join(demerits)})"
 
 
-def get_rarity_label(meta, rarity):
-    return meta.get("rarityLabels", {}).get(rarity, rarity.capitalize())
-
-
 def get_tier_label(meta, level):
     return meta.get("levelLabels", {}).get(str(level), str(level))
 
@@ -294,7 +290,6 @@ def main():
         skill_type = skill.get("type", "basic")
         skill_id = skill.get("id")
         skill_name = skill.get("name")
-        rarity = skill.get("rarity")
         file_path = f"registry/skills/{skill_type}/{skill_id}.md"
 
         type_label = get_type_label(meta, skill_type)
@@ -549,7 +544,7 @@ def main():
             with open(md_path, "w", encoding="utf-8") as f:
                 user_id = tree.get("userId", username)
                 stats = tree.get("stats", {})
-                highest_level = stats.get("highestLevel", stats.get("highestRarity", ""))
+                highest_level = stats.get("highestLevel", "")
                 _raw_highest = get_tier_label(meta, highest_level) if highest_level else ""
                 # Only use the label if it came from levelLabels; otherwise emit em dash
                 highest_label = _raw_highest if (highest_level and highest_level in (meta.get("levelLabels") or {})) else "—"

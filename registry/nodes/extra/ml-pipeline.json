@@ -2,7 +2,6 @@
   "id": "ml-pipeline",
   "name": "ML Pipeline",
   "type": "extra",
-  "rarity": "rare",
   "description": "Designs and implements production ML pipelines with experiment tracking (MLflow, W&B), feature stores (Feast), orchestration (Kubeflow, Airflow), and automated retraining workflows including model evaluation gates and A/B deployment.",
   "prerequisites": [
     "data-analysis",

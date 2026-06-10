@@ -2,7 +2,6 @@
   "id": "code-review-pipeline",
   "name": "Code Review Pipeline",
   "type": "extra",
-  "rarity": "uncommon",
   "description": "Performs automated code review by generating, diffing, and evaluating code changes for correctness, style, security, and maintainability.",
   "prerequisites": [
     "code-generation",

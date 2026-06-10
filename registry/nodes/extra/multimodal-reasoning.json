@@ -2,7 +2,6 @@
   "id": "multimodal-reasoning",
   "name": "Multimodal Reasoning",
   "type": "extra",
-  "rarity": "rare",
   "description": "Integrates information from images and text to answer questions requiring visual grounding and logical inference across modalities.",
   "prerequisites": [
     "image-caption",

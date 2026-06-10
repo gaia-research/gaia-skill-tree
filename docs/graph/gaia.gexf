@@ -7,7 +7,6 @@
   <graph defaultedgetype="directed" mode="static">
     <attributes class="node">
       <attribute id="level" title="level" type="string" />
-      <attribute id="rarity" title="rarity" type="string" />
       <attribute id="status" title="status" type="string" />
       <attribute id="type" title="type" type="string" />
     </attributes>
@@ -15,7 +14,6 @@
       <node id="adaptive-pattern-learning" label="Adaptive Pattern Learning">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -23,7 +21,6 @@
       <node id="advanced-swarm-coordination" label="Advanced Swarm Coordination">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -31,7 +28,6 @@
       <node id="adversarial-robustness-testing" label="Adversarial Robustness Testing">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -39,7 +35,6 @@
       <node id="agent-environment-setup" label="agent-environment-setup">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -47,7 +42,6 @@
       <node id="agent-eval" label="Agent Evaluation">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -55,7 +49,6 @@
       <node id="agent-handoff" label="agent-handoff">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -63,7 +56,6 @@
       <node id="agent-memory-learning" label="Agent Memory Learning">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -71,7 +63,6 @@
       <node id="agent-memory-platform" label="Agent Memory Platform">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="legendary" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="ultimate" />
         </attvalues>
@@ -79,7 +70,6 @@
       <node id="agentic-workflow-design" label="Agentic Workflow Design">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -87,7 +77,6 @@
       <node id="api-call" label="API Call">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -95,7 +84,6 @@
       <node id="architecture-diagram" label="Architecture Diagram">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -103,7 +91,6 @@
       <node id="audience-model" label="Audience Model">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -111,7 +98,6 @@
       <node id="automated-testing" label="Automated Testing">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -119,7 +105,6 @@
       <node id="autonomous-data-scientist" label="Autonomous Data Scientist">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="epic" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -127,7 +112,6 @@
       <node id="autonomous-debug" label="Autonomous Debug">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -135,7 +119,6 @@
       <node id="autonomous-engineering-platform" label="Autonomous Engineering Platform">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -143,7 +126,6 @@
       <node id="autonomous-web-research" label="Autonomous Web Research">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -151,7 +133,6 @@
       <node id="bioinformatic-sequence-analysis" label="Bioinformatic Sequence Analysis">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -159,7 +140,6 @@
       <node id="brainstorming" label="Brainstorming">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -167,7 +147,6 @@
       <node id="browser-automation" label="Browser Automation">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -175,7 +154,6 @@
       <node id="browser-control" label="Browser Control">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -183,7 +161,6 @@
       <node id="career-operations" label="Career Operations">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="legendary" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -191,7 +168,6 @@
       <node id="causal-inference" label="Causal Inference">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -199,7 +175,6 @@
       <node id="chain-of-thought" label="Chain-of-Thought Reasoning">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -207,7 +182,6 @@
       <node id="chunk-document" label="Chunk Document">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -215,7 +189,6 @@
       <node id="cite-sources" label="Cite Sources">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -223,7 +196,6 @@
       <node id="classify" label="Classify">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -231,7 +203,6 @@
       <node id="cli-modernization" label="CLI Modernization">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -239,7 +210,6 @@
       <node id="clinical-data-retrieval" label="Clinical Data Retrieval">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -247,7 +217,6 @@
       <node id="cloud-platform-management" label="Cloud Platform Management">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -255,7 +224,6 @@
       <node id="code-execution" label="Code Execution">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -263,7 +231,6 @@
       <node id="code-explain" label="Code Explain">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -271,7 +238,6 @@
       <node id="code-generation" label="Code Generation">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -279,7 +245,6 @@
       <node id="code-review-pipeline" label="Code Review Pipeline">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -287,7 +252,6 @@
       <node id="collaborative-diagramming" label="Collaborative Diagramming">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -295,7 +259,6 @@
       <node id="computational-biology-workflows" label="Computational Biology Workflows">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -303,7 +266,6 @@
       <node id="computer-use" label="Computer Use">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -311,7 +273,6 @@
       <node id="content-moderation" label="Content Moderation">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -319,7 +280,6 @@
       <node id="context-compression" label="Context Compression">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -327,7 +287,6 @@
       <node id="conversational-agent" label="Conversational Agent">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -335,7 +294,6 @@
       <node id="core-platform-implementation" label="Core Platform Implementation">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -343,7 +301,6 @@
       <node id="cultural-localization" label="Cultural Localization">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -351,7 +308,6 @@
       <node id="data-analysis" label="Data Analysis">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -359,7 +315,6 @@
       <node id="data-visualize" label="Data Visualize">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -367,7 +322,6 @@
       <node id="deployment-automation" label="Deployment Automation">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -375,7 +329,6 @@
       <node id="design-generation" label="Design Generation">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -383,7 +336,6 @@
       <node id="design-review" label="Design Review">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -391,7 +343,6 @@
       <node id="design-system-extraction" label="Design System Extraction">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -399,7 +350,6 @@
       <node id="detect-anomaly" label="Detect Anomaly">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -407,7 +357,6 @@
       <node id="diff-content" label="Diff Content">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -415,7 +364,6 @@
       <node id="dispatching-parallel-agents" label="Dispatching Parallel Agents">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -423,7 +371,6 @@
       <node id="distributed-consensus-coordination" label="Hive Mind Coordination">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="unique" />
         </attvalues>
@@ -431,7 +378,6 @@
       <node id="distributed-neural-training" label="Distributed Neural Training">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -439,7 +385,6 @@
       <node id="distributed-vector-memory" label="Distributed Vector Memory">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -447,7 +392,6 @@
       <node id="document-analyst" label="Document Analyst">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -455,7 +399,6 @@
       <node id="document-editing" label="Document Editing">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -463,7 +406,6 @@
       <node id="dual-mode" label="Dual Mode">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -471,7 +413,6 @@
       <node id="e2e-testing" label="End-to-End Testing">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -479,7 +420,6 @@
       <node id="edge-optimization" label="Edge Optimization">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -487,7 +427,6 @@
       <node id="embed-text" label="Embed Text">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -495,7 +434,6 @@
       <node id="engineering-discipline" label="mattpocock-engineering">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="ultimate" />
         </attvalues>
@@ -503,7 +441,6 @@
       <node id="error-interpretation" label="Error Interpretation">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -511,7 +448,6 @@
       <node id="evaluate-output" label="Evaluate Output">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -519,7 +455,6 @@
       <node id="executing-plans" label="Executing Plans">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -527,7 +462,6 @@
       <node id="explainability-audit" label="Explainability Audit">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -535,7 +469,6 @@
       <node id="extract-entities" label="Extract Entities">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -543,7 +476,6 @@
       <node id="feed-monitoring" label="Feed Monitoring">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -551,7 +483,6 @@
       <node id="few-shot-learning" label="Few-Shot Learning">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -559,7 +490,6 @@
       <node id="financial-modeling" label="Financial Modeling">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -567,7 +497,6 @@
       <node id="fine-tune" label="Fine-Tune">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -575,7 +504,6 @@
       <node id="finishing-a-development-branch" label="Finishing a Development Branch">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -583,7 +511,6 @@
       <node id="format-output" label="Format Output">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -591,7 +518,6 @@
       <node id="founder-mode-orchestration" label="Founder Mode">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="legendary" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="ultimate" />
         </attvalues>
@@ -599,7 +525,6 @@
       <node id="framework-upgrade" label="Framework Upgrade">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -607,7 +532,6 @@
       <node id="full-stack-developer" label="Full-Stack Developer">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="epic" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -615,7 +539,6 @@
       <node id="function-calling" label="Function Calling">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -623,7 +546,6 @@
       <node id="generate-sql" label="Generate SQL">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -631,7 +553,6 @@
       <node id="generate-test" label="Generate Test">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -639,7 +560,6 @@
       <node id="generate-text" label="Generate Text">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -647,7 +567,6 @@
       <node id="generative-media" label="Generative Media">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -655,7 +574,6 @@
       <node id="genomic-data-retrieval" label="Genomic Data Retrieval">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -663,7 +581,6 @@
       <node id="ghostwrite" label="Ghostwrite">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -671,7 +588,6 @@
       <node id="git-diff-risk-analysis" label="Git Diff Risk Analysis">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -679,7 +595,6 @@
       <node id="git-integration" label="GitHub Platform Mastery">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -687,7 +602,6 @@
       <node id="graph-driven-issue-triage" label="Graph-Driven Issue Triage">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -695,7 +609,6 @@
       <node id="grill-me" label="Grill Me">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -703,7 +616,6 @@
       <node id="grill-with-docs" label="Grill With Docs">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -711,7 +623,6 @@
       <node id="grounding" label="Grounding">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -719,7 +630,6 @@
       <node id="guardrails" label="Guardrails">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -727,7 +637,6 @@
       <node id="headless-worker-collect" label="Headless Worker Collect">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -735,7 +644,6 @@
       <node id="headless-worker-spawn" label="Headless Worker Spawn">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -743,7 +651,6 @@
       <node id="humanize-prose" label="Humanize Prose">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -751,7 +658,6 @@
       <node id="hybrid-workflow-coordination" label="Hybrid Workflow Coordination">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -759,7 +665,6 @@
       <node id="hypothesis-generate" label="Hypothesis Generation">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -767,7 +672,6 @@
       <node id="image-caption" label="Image Caption">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -775,7 +679,6 @@
       <node id="image-generate" label="Image Generate">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -783,7 +686,6 @@
       <node id="issue-triage" label="Issue Triage">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -791,7 +693,6 @@
       <node id="knowledge-graph-build" label="Knowledge Graph Construction">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -799,7 +700,6 @@
       <node id="knowledge-harvest" label="Knowledge Harvest">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -807,7 +707,6 @@
       <node id="knowledge-management" label="Knowledge Management">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -815,7 +714,6 @@
       <node id="literature-review" label="Literature Review">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -823,7 +721,6 @@
       <node id="literature-search" label="Literature Search">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -831,7 +728,6 @@
       <node id="logical-inference" label="Logical Inference">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -839,7 +735,6 @@
       <node id="math-reason" label="Math Reason">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -847,7 +742,6 @@
       <node id="mathematical-animation" label="Mathematical Animation">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -855,7 +749,6 @@
       <node id="mcp-debugger-control" label="MCP Debugger Control">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -863,7 +756,6 @@
       <node id="mcp-integration" label="MCP Integration">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -871,7 +763,6 @@
       <node id="mcp-server-creation" label="MCP Server Creation">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -879,7 +770,6 @@
       <node id="memory-manage" label="Memory Manage">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -887,7 +777,6 @@
       <node id="memory-pattern-design" label="Memory Pattern Design">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -895,7 +784,6 @@
       <node id="ml-artifact-management" label="ML Artifact Management">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -903,7 +791,6 @@
       <node id="ml-pipeline" label="ML Pipeline">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -911,7 +798,6 @@
       <node id="molecular-databases" label="Molecular Databases">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -919,7 +805,6 @@
       <node id="multi-agent-debate" label="Multi-Agent Debate">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -927,7 +812,6 @@
       <node id="multi-agent-orchestration-v" label="Multi-Agent Orchestration">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -935,7 +819,6 @@
       <node id="multi-node-orchestration" label="Flow Nexus Orchestration">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -943,7 +826,6 @@
       <node id="multi-repo-coordination" label="Multi-Repo Coordination">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -951,7 +833,6 @@
       <node id="multi-topology-orchestration" label="Ruflo">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="legendary" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="ultimate" />
         </attvalues>
@@ -959,7 +840,6 @@
       <node id="multimodal-reasoning" label="Multimodal Reasoning">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -967,7 +847,6 @@
       <node id="object-detection" label="Object Detection">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -975,7 +854,6 @@
       <node id="ontology-alignment" label="Ontology Alignment">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -983,7 +861,6 @@
       <node id="optical-character-recognition" label="OCR">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -991,7 +868,6 @@
       <node id="parallel-execution" label="Parallel Execution">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -999,7 +875,6 @@
       <node id="parse-html" label="Parse HTML">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1007,7 +882,6 @@
       <node id="parse-json" label="Parse JSON">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1015,7 +889,6 @@
       <node id="parse-pdf" label="Parse PDF">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1023,7 +896,6 @@
       <node id="pathway-ontology-retrieval" label="Pathway Ontology Retrieval">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1031,7 +903,6 @@
       <node id="performance-tuning" label="Performance Tuning">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1039,7 +910,6 @@
       <node id="personal" label="mattpocock-personal">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1047,7 +917,6 @@
       <node id="personal-knowledge-management" label="personal-knowledge-management">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1055,7 +924,6 @@
       <node id="plan-and-execute" label="Plan and Execute">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1063,7 +931,6 @@
       <node id="plan-decompose" label="Plan and Decompose">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1071,7 +938,6 @@
       <node id="platform-modernization-sprint" label="Platform Modernization Sprint">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1079,7 +945,6 @@
       <node id="prd-generation" label="PRD Generation">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1087,7 +952,6 @@
       <node id="prediction-market-analysis" label="Prediction Market Analysis">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1095,7 +959,6 @@
       <node id="probabilistic-programming" label="Probabilistic Programming">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1103,7 +966,6 @@
       <node id="productivity" label="mattpocock-productivity">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1111,7 +973,6 @@
       <node id="project-management" label="Project Management">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1119,7 +980,6 @@
       <node id="prompt-injection-defense" label="Prompt Injection Defense">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1127,7 +987,6 @@
       <node id="prompt-optimization" label="Prompt Optimization">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1135,7 +994,6 @@
       <node id="protein-structure-analysis" label="Protein Structure Analysis">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1143,7 +1001,6 @@
       <node id="proteomic-data-retrieval" label="Proteomic Data Retrieval">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1151,7 +1008,6 @@
       <node id="prototype" label="prototype">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1159,7 +1015,6 @@
       <node id="question-answer" label="Question Answer">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1167,7 +1022,6 @@
       <node id="rag-pipeline" label="RAG Pipeline">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1175,7 +1029,6 @@
       <node id="rank" label="Rank">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1183,7 +1036,6 @@
       <node id="re-act-reasoning" label="ReAct Reasoning">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1191,7 +1043,6 @@
       <node id="real-time-voice-assistant" label="Real-Time Voice Assistant">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="epic" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1199,7 +1050,6 @@
       <node id="reasoning-pattern-bank" label="Reasoning Pattern Bank">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1207,7 +1057,6 @@
       <node id="receiving-code-review" label="Receiving Code Review">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1215,7 +1064,6 @@
       <node id="recursive-self-improvement" label="Recursive Self-Improvement">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="epic" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1223,7 +1071,6 @@
       <node id="refactor-code" label="Refactor Code">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1231,7 +1078,6 @@
       <node id="registry-curation" label="Registry Curation">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1239,7 +1085,6 @@
       <node id="registry-entry-audit" label="Gaia Audit">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1247,7 +1092,6 @@
       <node id="registry-health-scan" label="Gaia Meta Audit">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1255,7 +1099,6 @@
       <node id="regulatory-compliance-mapping" label="Regulatory Compliance Mapping">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1263,7 +1106,6 @@
       <node id="release-automation" label="Release Automation">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1271,7 +1113,6 @@
       <node id="requesting-code-review" label="Requesting Code Review">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1279,7 +1120,6 @@
       <node id="requirements-analysis" label="Requirements Analysis">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1287,7 +1127,6 @@
       <node id="research" label="Research">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1295,7 +1134,6 @@
       <node id="retrieve" label="Retrieve">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1303,7 +1141,6 @@
       <node id="reward-modeling" label="Reward Modeling">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1311,7 +1148,6 @@
       <node id="route-intent" label="Route Intent">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1319,7 +1155,6 @@
       <node id="schema-design" label="Schema Design">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1327,7 +1162,6 @@
       <node id="scientific-discovery" label="Autonomous Scientific Discovery">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="epic" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1335,7 +1169,6 @@
       <node id="scientific-visualization" label="Scientific Visualization">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1343,7 +1176,6 @@
       <node id="scientific-writing" label="Scientific Writing">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1351,7 +1183,6 @@
       <node id="score-relevance" label="Score Relevance">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1359,7 +1190,6 @@
       <node id="search-engine-optimization" label="search-engine-optimization">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1367,7 +1197,6 @@
       <node id="security-audit" label="Security Audit">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1375,7 +1204,6 @@
       <node id="self-consistency" label="Self-Consistency">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1383,7 +1211,6 @@
       <node id="self-critique" label="Self-Critique">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1391,7 +1218,6 @@
       <node id="semantic-cache" label="Semantic Cache">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1399,7 +1225,6 @@
       <node id="sentiment-analysis" label="Sentiment Analysis">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1407,7 +1232,6 @@
       <node id="sequential-agent-pipeline" label="Sequential Agent Pipeline">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1415,7 +1239,6 @@
       <node id="skill-authoring" label="Skill Authoring">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1423,7 +1246,6 @@
       <node id="skill-discovery" label="Skill Discovery">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1431,7 +1253,6 @@
       <node id="skill-mastery" label="mattpocock-skills">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="ultimate" />
         </attvalues>
@@ -1439,7 +1260,6 @@
       <node id="skill-performance-benchmarking" label="Skill Performance Benchmarking">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1447,7 +1267,6 @@
       <node id="skill-security-analysis" label="Skill Security Analysis">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1455,7 +1274,6 @@
       <node id="speech-to-text" label="Speech to Text">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1463,7 +1281,6 @@
       <node id="statistical-analysis" label="Statistical Analysis">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1471,7 +1288,6 @@
       <node id="stealth-browser-interaction" label="Stealth Browser Interaction">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1479,7 +1295,6 @@
       <node id="structured-output" label="Structured Output Generation">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1487,7 +1302,6 @@
       <node id="subagent-driven-development" label="Subagent-Driven Development">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1495,7 +1309,6 @@
       <node id="summarize" label="Summarize">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1503,7 +1316,6 @@
       <node id="superpowers" label="Superpowers">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="legendary" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="ultimate" />
         </attvalues>
@@ -1511,7 +1323,6 @@
       <node id="supply-chain-optimization" label="Supply Chain Optimization">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1519,7 +1330,6 @@
       <node id="swarm-topology-management" label="Swarm Topology Management">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1527,7 +1337,6 @@
       <node id="synthetic-data-generation" label="Synthetic Data Generation">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1535,7 +1344,6 @@
       <node id="system-integration" label="System Integration">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1543,7 +1351,6 @@
       <node id="systematic-debugging" label="Systematic Debugging">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1551,7 +1358,6 @@
       <node id="test-driven-development" label="Test-Driven Development">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1559,7 +1365,6 @@
       <node id="text-to-speech" label="Text to Speech">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1567,7 +1372,6 @@
       <node id="text-to-sql-pipeline" label="Text-to-SQL Pipeline">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1575,7 +1379,6 @@
       <node id="threat-intelligence-synthesis" label="Threat Intelligence Synthesis">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1583,7 +1386,6 @@
       <node id="time-series-forecasting" label="Time Series Forecasting">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1591,7 +1393,6 @@
       <node id="token-observability" label="Token Observability">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1599,7 +1400,6 @@
       <node id="tokenize" label="Tokenize">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1607,7 +1407,6 @@
       <node id="tool-chaining" label="Tool Chaining">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1615,7 +1414,6 @@
       <node id="tool-creation" label="Tool Creation">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1623,7 +1421,6 @@
       <node id="tool-select" label="Tool Select">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1631,7 +1428,6 @@
       <node id="tool-use" label="Tool Use">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1639,7 +1435,6 @@
       <node id="translate" label="Translate">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1647,7 +1442,6 @@
       <node id="translation-pipeline" label="Translation Pipeline">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1655,7 +1449,6 @@
       <node id="tree-of-thought" label="Tree of Thought">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1663,7 +1456,6 @@
       <node id="ubiquitous-language" label="Ubiquitous Language">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1671,7 +1463,6 @@
       <node id="using-git-worktrees" label="Using Git Worktrees">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1679,7 +1470,6 @@
       <node id="ux-audit" label="UX Audit">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1687,7 +1477,6 @@
       <node id="vector-db-optimization" label="Vector DB Optimization">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1695,7 +1484,6 @@
       <node id="vector-search" label="Vector Search">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1703,7 +1491,6 @@
       <node id="verification-before-completion" label="Verification Before Completion">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1711,7 +1498,6 @@
       <node id="vertical-slice-planning" label="Vertical Slice Planning">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1719,7 +1505,6 @@
       <node id="video-intelligence" label="Video Intelligence">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1727,7 +1512,6 @@
       <node id="vision-qa" label="Visual Question Answering">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1735,7 +1519,6 @@
       <node id="voice-agent" label="Voice Agent">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1743,7 +1526,6 @@
       <node id="web-accessibility" label="web-accessibility">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1751,7 +1533,6 @@
       <node id="web-best-practices" label="web-best-practices">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1759,7 +1540,6 @@
       <node id="web-quality-audit" label="web-quality-audit">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1767,7 +1547,6 @@
       <node id="web-scrape" label="Web Scrape">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1775,7 +1554,6 @@
       <node id="web-search" label="Web Search">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1783,7 +1561,6 @@
       <node id="wiki-search" label="Wiki Search">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1791,7 +1568,6 @@
       <node id="worker-agent-dispatch" label="Worker Agent Dispatch">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1799,7 +1575,6 @@
       <node id="workflow-automation" label="Workflow Automation">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1807,7 +1582,6 @@
       <node id="workspace-automation" label="Workspace Automation">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="uncommon" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1815,7 +1589,6 @@
       <node id="write-report" label="Write Report">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="basic" />
         </attvalues>
@@ -1823,7 +1596,6 @@
       <node id="writing-plans" label="Writing Plans">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="common" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>
@@ -1831,7 +1603,6 @@
       <node id="x-twitter-automation" label="X/Twitter Automation">
         <attvalues>
           <attvalue for="level" value="" />
-          <attvalue for="rarity" value="rare" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="extra" />
         </attvalues>

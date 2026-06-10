@@ -23,7 +23,7 @@ _SAMPLE_TREE = {
     "updatedAt": "2026-01-01",
     "unlockedSkills": [],
     "pendingCombinations": [],
-    "stats": {"totalUnlocked": 0, "highestRarity": "common", "deepestLineage": 0},
+    "stats": {"totalUnlocked": 0, "deepestLineage": 0},
 }
 
 

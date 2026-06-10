@@ -2,7 +2,6 @@
   "id": "speech-to-text",
   "name": "Speech to Text",
   "type": "basic",
-  "rarity": "common",
   "description": "Transcribes spoken audio into accurate text, handling diverse accents, noise conditions, and multiple languages.",
   "prerequisites": [],
   "derivatives": [

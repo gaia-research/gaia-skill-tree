@@ -2,7 +2,6 @@
   "id": "web-scrape",
   "name": "Web Scrape",
   "type": "extra",
-  "rarity": "uncommon",
   "description": "Retrieves and structures data from web pages into usable entities.",
   "prerequisites": [
     "web-search",

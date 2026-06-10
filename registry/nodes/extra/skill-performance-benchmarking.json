@@ -2,7 +2,6 @@
   "id": "skill-performance-benchmarking",
   "name": "Skill Performance Benchmarking",
   "type": "extra",
-  "rarity": "rare",
   "description": "Builds and runs task suites that measure whether agents select, invoke, and complete installed skills correctly across artifact-rich workflows and repeated trials.",
   "prerequisites": [
     "agent-eval",

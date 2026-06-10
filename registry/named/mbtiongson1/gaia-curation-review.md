@@ -10,7 +10,7 @@ description: Reviews pending skill submissions against registry standards — ch
   evidence class thresholds, naming conventions, and tier accuracy before approving
   or requesting revisions.
 createdAt: '2026-05-27'
-updatedAt: '2026-06-01'
+updatedAt: '2026-06-10'
 title: The Quality Gate
 links:
   github: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-curation-review/SKILL.md
@@ -27,6 +27,17 @@ timeline:
   action: demote
   contributor: unknown
   details: Calibrated level from 3★ to 2★
+- timestamp: '2026-06-10T05:38:17Z'
+  action: evidence_added
+  contributor: unknown
+  details: Added B evidence from https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-curation-review/SKILL.md
+evidence:
+- class: B
+  source: https://github.com/mbtiongson1/gaia-skill-tree/blob/main/.agents/skills/gaia-curation-review/SKILL.md
+  evaluator: mbtiongson1
+  date: '2026-06-10'
+  notes: Project-local agent skill used for curation PR review in this repository;
+    implementation public at SKILL.md.
 ---
 
 ## Overview
