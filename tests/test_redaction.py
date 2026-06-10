@@ -82,8 +82,16 @@ def _ctx(level: str) -> LocalContext:
 
 
 def test_display_name_redacts_other_contributor_below_named():
-    assert _ctx("1★").display_name("sk") == f"{R.REDACTED_BLOCK}/agentdb"
-    assert _ctx("3★").display_name("sk") == "ruvnet/agentdb"
+    # display_name now always adds a leading slash and appends the level star.
+    # Below named (<=1★): redacted block replaces contributor handle.
+    # Format: "/REDACTED_BLOCK/nickname N★"
+    assert _ctx("1★").display_name("sk") == f"/{R.REDACTED_BLOCK}/agentdb 1★"
+    # At 3★: full contributor handle shown, with leading slash and star.
+    assert _ctx("3★").display_name("sk") == "/ruvnet/agentdb 3★"
+    # Verify security semantics: block present below-named, absent above.
+    assert R.REDACTED_BLOCK in _ctx("1★").display_name("sk")
+    assert "ruvnet" not in _ctx("1★").display_name("sk")
+    assert R.REDACTED_BLOCK not in _ctx("3★").display_name("sk")
 
 
 def test_named_ref_and_contributor_redacted():
@@ -95,9 +103,19 @@ def test_named_ref_and_contributor_redacted():
 
 def test_owner_sees_own_pre_named_skill():
     # Your own work is never redacted — you can always see it.
+    # display_name now returns "/contrib/nick N★" even for own skills:
+    # the contributor handle is SHOWN (not replaced by nickname-only).
+    # This is the current documented behavior: "Named Slash-Skill with Star"
+    # (e.g. karpathy/autoresearch 5★). The leading slash is always present.
     own = LocalContext(username="ruvnet", named_map={"sk": "ruvnet/agentdb"})
     own._skill_map = {"sk": {"id": "sk", "level": "1★"}}
-    assert own.display_name("sk") == "/agentdb"
+    result = own.display_name("sk")
+    # Own skill shows full handle (not redacted); format is /contrib/nick N★
+    assert result == "/ruvnet/agentdb 1★"
+    # No redaction block for own skill
+    assert R.REDACTED_BLOCK not in result
+    # Without star
+    assert own.display_name("sk", include_star=False) == "/ruvnet/agentdb"
 
 
 # ── Integration: the invariant validator runs clean on the built tree ─────────

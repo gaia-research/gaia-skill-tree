@@ -1,6 +1,7 @@
 import json
 import os
 import sys
+import types
 
 import pytest
 
@@ -155,12 +156,38 @@ def test_skills_help_shows_subcommands_with_usage(monkeypatch, capsys):
     assert "gaia skills install <skill> [--global | --local]" in output
 
 
-def test_bare_skills_command_prints_skills_help(monkeypatch, capsys):
+def test_bare_skills_command_launches_tui(monkeypatch):
+    """Bare 'gaia skills' command launches the Textual TUI via stub module."""
+    # Create a stub gaia_cli.tui module with a mock GaiaApp
+    stub_module = types.ModuleType("gaia_cli.tui")
+
+    class MockGaiaApp:
+        def __init__(self):
+            self.run_called = False
+
+        def run(self):
+            self.run_called = True
+
+    app_instance = None
+    original_init = MockGaiaApp.__init__
+
+    def track_init(self):
+        nonlocal app_instance
+        app_instance = self
+        original_init(self)
+
+    MockGaiaApp.__init__ = track_init
+    stub_module.GaiaApp = MockGaiaApp
+
+    # Monkeypatch the tui module
+    monkeypatch.setitem(sys.modules, "gaia_cli.tui", stub_module)
+
+    # Run the bare skills command
     run_cli(monkeypatch, ["skills"])
 
-    output = capsys.readouterr().out
-    assert "usage: gaia skills" in output
-    assert "gaia skills info <skill_id>" in output
+    # Verify that GaiaApp().run() was called
+    assert app_instance is not None
+    assert app_instance.run_called
 
 
 def test_skills_info_accepts_leading_slash_named_skill_id(tmp_path, monkeypatch, capsys):

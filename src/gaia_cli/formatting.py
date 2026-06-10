@@ -40,12 +40,58 @@ def _fg(r: int, g: int, b: int) -> str:
     return f"\033[38;5;{index}m"
 
 
+def _bg(r: int, g: int, b: int) -> str:
+    if not _use_color():
+        return ""
+    colorterm = os.environ.get("COLORTERM", "")
+    if colorterm in ("truecolor", "24bit"):
+        return f"\033[48;2;{r};{g};{b}m"
+    index = 16 + (36 * (r // 51)) + (6 * (g // 51)) + (b // 51)
+    return f"\033[48;5;{index}m"
+
+
 def _reset() -> str:
     return "\033[0m" if _use_color() else ""
 
 
 def _bold() -> str:
     return "\033[1m" if _use_color() else ""
+
+
+_RAINBOW_STOPS = [
+    (56, 189, 248),
+    (167, 139, 250),
+    (245, 158, 11),
+    (239, 68, 68),
+    (192, 132, 252),
+    (52, 211, 153)
+]
+
+
+def _rainbow_text(text: str) -> str:
+    if not _use_color() or not text:
+        return text
+    n = len(text)
+    if n <= 1:
+        return _fg(*_RAINBOW_STOPS[0]) + text + _reset()
+
+    parts = []
+    num_stops = len(_RAINBOW_STOPS)
+    for i, ch in enumerate(text):
+        pos = (i / (n - 1)) * (num_stops - 1)
+        idx = int(pos)
+        frac = pos - idx
+        if idx >= num_stops - 1:
+            color = _RAINBOW_STOPS[-1]
+        else:
+            c1 = _RAINBOW_STOPS[idx]
+            c2 = _RAINBOW_STOPS[idx + 1]
+            r = int(c1[0] + frac * (c2[0] - c1[0]))
+            g = int(c1[1] + frac * (c2[1] - c1[1]))
+            b = int(c1[2] + frac * (c2[2] - c1[2]))
+            color = (r, g, b)
+        parts.append(_fg(*color) + ch)
+    return "".join(parts) + _reset()
 
 
 # --- Color palettes (single source of truth: registry/gaia.json meta) ---
@@ -99,6 +145,42 @@ TYPE_SYMBOLS = {"basic": "○", "extra": "◇", "unique": "◉", "ultimate": "�
 
 COLOR_CONTRIBUTOR = (239, 68, 68)      # #ef4444 -- red for named contributors
 COLOR_LOCAL_USER  = (134, 239, 172)    # #86efac -- bright green for local/user skills
+COLOR_GREY        = (148, 163, 184)    # #94a3b8 -- slate grey for dev commands
+COLOR_FUSION      = (192, 132, 252)    # #c084fc -- fuse purple
+
+# Harness/Environment brand colors
+HARNESS_COLORS = {
+    "claude": (249, 115, 22),       # Orange
+    "cursor": (0, 163, 255),        # Blue
+    "windsurf": (0, 122, 255),      # Blue
+    "gemini": (71, 140, 255),       # Gemini Blue
+    "codex": (16, 163, 127),        # OpenAI Green
+    "copilot": (0, 90, 255),        # GitHub Blue
+    "antigravity": (192, 132, 252), # Purple
+    "agents": (134, 239, 172),      # Green (Local User)
+}
+
+
+def get_harness_color(path: str) -> tuple[int, int, int]:
+    """Return the brand color for a given scan path based on detected harness."""
+    p_lower = path.lower()
+    if ".claude" in p_lower:
+        return HARNESS_COLORS["claude"]
+    if ".cursor" in p_lower:
+        return HARNESS_COLORS["cursor"]
+    if ".windsurf" in p_lower:
+        return HARNESS_COLORS["windsurf"]
+    if ".gemini" in p_lower:
+        return HARNESS_COLORS["gemini"]
+    if ".antigravity" in p_lower:
+        return HARNESS_COLORS["antigravity"]
+    if "codex" in p_lower:
+        return HARNESS_COLORS["codex"]
+    if "copilot" in p_lower:
+        return HARNESS_COLORS["copilot"]
+    if ".agents" in p_lower or "agents" in p_lower:
+        return HARNESS_COLORS["agents"]
+    return COLOR_GREY
 
 # Redaction policy lives in the single source of truth: gaia_cli.redaction.
 # Re-exported here so existing importers of formatting keep working.
@@ -132,13 +214,13 @@ def format_skill_plain(skill_id: str, *, named_ref: str | None = None,
     """
     if named_ref:
         contrib, nickname, is_own = _split_named_ref(named_ref, local_user)
-        if is_own:
-            return f"/{nickname}"
-        if level is not None and is_redacted(level):
-            contrib = REDACTED_BLOCK
-        return f"{contrib}/{nickname}" if contrib else f"/{nickname}"
+        if contrib:
+            if not is_own and level is not None and is_redacted(level):
+                contrib = REDACTED_BLOCK
+            return f"{contrib}/{nickname}"
+        return f"/{nickname}"
     if named_contributor:
-        if level is not None and is_redacted(level):
+        if level is not None and not (local_user and named_contributor == local_user) and is_redacted(level):
             named_contributor = REDACTED_BLOCK
         return f"{named_contributor}/{skill_id}"
     return f"/{skill_id}"
@@ -150,7 +232,7 @@ def format_skill_colored(skill_id: str, level: str = "0★", *,
                          is_local: bool = False, local_user: str | None = None) -> str:
     """Return ANSI-colored display string.
 
-    - Own named (named_ref, contrib == local_user): GREEN /nickname
+    - Own named (named_ref, contrib == local_user): GREEN /contributor/nickname
     - Other named: RED contributor / rank-colored nickname (SLATE for ≤1★)
     - Local novel: GREEN /skill-id
     - Canon: rank-colored /skill-id
@@ -160,23 +242,23 @@ def format_skill_colored(skill_id: str, level: str = "0★", *,
 
     if named_ref:
         contrib, nickname, is_own = _split_named_ref(named_ref, local_user)
-        if is_own:
-            return f"{_fg(*COLOR_LOCAL_USER)}/{nickname}{r}"
+        handle_color = COLOR_LOCAL_USER if is_own else COLOR_CONTRIBUTOR
         nick_colored = f"{_fg(*rank_color)}{nickname}{r}"
         if contrib:
-            if is_redacted(level):
+            if not is_own and is_redacted(level):
                 # Pre-named: replace honor-red handle with slate redaction block
                 return f"{_fg(*COLOR_REDACTED)}{REDACTED_BLOCK}{r}/{nick_colored}"
-            return f"{_fg(*COLOR_CONTRIBUTOR)}{contrib}{r}/{nick_colored}"
-        return f"{_fg(*COLOR_CONTRIBUTOR)}/{nickname}{r}"
+            return f"{_fg(*handle_color)}{contrib}{r}/{nick_colored}"
+        return f"{_fg(*handle_color)}/{nickname}{r}"
 
     if named_contributor:
-        if is_redacted(level):
+        handle_color = COLOR_LOCAL_USER if local_user and named_contributor == local_user else COLOR_CONTRIBUTOR
+        if not (local_user and named_contributor == local_user) and is_redacted(level):
             contrib_colored = f"{_fg(*COLOR_REDACTED)}{REDACTED_BLOCK}{r}"
         else:
-            contrib_colored = f"{_fg(*COLOR_CONTRIBUTOR)}{named_contributor}{r}"
+            contrib_colored = f"{_fg(*handle_color)}{named_contributor}{r}"
         skill_colored = f"{_fg(*rank_color)}{skill_id}{r}"
-        return f"{contrib_colored}/{skill_colored}"
+        return f"{_fg(*handle_color)}{r}{contrib_colored}/{skill_colored}"
     if is_local:
         return f"{_fg(*COLOR_LOCAL_USER)}/{skill_id}{r}"
     return f"{_fg(*rank_color)}/{skill_id}{r}"
@@ -201,6 +283,12 @@ def format_level_colored(level: str) -> str:
     """Return level badge colored by rank."""
     rank_color = RANK_COLORS.get(level, RANK_COLORS["0★"])
     return f"{_fg(*rank_color)}{level}{_reset()}"
+
+
+def rank_hex(rank: str) -> str:
+    """Return '#rrggbb' for a given rank string, sourced from RANK_COLORS."""
+    r, g, b = RANK_COLORS.get(rank, RANK_COLORS.get("0★", (148, 163, 184)))
+    return f"#{r:02x}{g:02x}{b:02x}"
 
 
 def fusion_equation(prereqs: list[str], result: str, result_glyph: str = "◇") -> str:

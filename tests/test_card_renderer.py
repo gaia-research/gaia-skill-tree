@@ -279,9 +279,13 @@ class TestRenderCard:
         assert "more" in card
         assert "/skill-0" in card
 
-    def test_compact_card_shows_effective_arrow_when_demerited(self, extra_skill):
+    def test_compact_card_omits_effective_arrow(self, extra_skill):
         compact = render_card_compact(extra_skill)
-        assert "2★→1★" in compact
+        assert "2★→1★" not in compact
+        assert TIER_GLYPHS["extra"] in compact
+        assert "/rag-pipeline" in compact
+        assert "[uncommon]" in compact
+        assert "Retrieval-augmented generation" in compact
 
     def test_missing_optional_fields_defaults_gracefully(self):
         """Card should render even with minimal skill data."""
@@ -310,8 +314,16 @@ class TestRenderCardCompact:
         assert "/tokenize" in result
 
     def test_contains_level(self, basic_skill):
+        # Without ctx: no level/star in output
         result = render_card_compact(basic_skill)
-        assert "(0★)" in result
+        assert "★" not in result
+
+        # With minimal stub ctx: level appears
+        stub_ctx = type('StubCtx', (), {
+            'display_name': lambda self, skill_id, canon=False, include_star=True: "/demo 2★"
+        })()
+        result_with_ctx = render_card_compact(basic_skill, ctx=stub_ctx)
+        assert "2★" in result_with_ctx
 
     def test_contains_rarity(self, basic_skill):
         result = render_card_compact(basic_skill)

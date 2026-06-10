@@ -1,0 +1,248 @@
+{
+  "batchId": "20260609063714-mbtiongson1-gaia-skill-tree",
+  "userId": "mbtiongson1",
+  "sourceRepo": "mbtiongson1/gaia-skill-tree",
+  "generatedAt": "2026-06-09T06:37:14Z",
+  "knownSkills": [],
+  "proposedSkills": [
+    {
+      "id": "fp-implement",
+      "name": "fp-implement",
+      "type": "basic",
+      "description": "Phase 2d of the feature-pipeline suite. Reads the approved implementation plan from state and commits it step by step. Only runs when planApproved is true. Use after /fp-plan has received user approval and printed the M2-plan stop hook. Each commit is atomic; pushes after every step.",
+      "sourceRepo": "mbtiongson1/gaia-skill-tree",
+      "lifecycle": "pending"
+    },
+    {
+      "id": "fp-iterate",
+      "name": "fp-iterate",
+      "type": "basic",
+      "description": "Phase 4 of the feature-pipeline suite. Addresses outstanding review items from the Phase 3 comment, then runs a bounded CI poll (max 10 rounds, 30s apart). If CI is still pending after the poll, exits cleanly \u2014 re-invoke to retry. If CI fails, prints the failing check and exits. Use after /fp-review has posted the sandbox review comment and printed the M3 stop hook.",
+      "sourceRepo": "mbtiongson1/gaia-skill-tree",
+      "lifecycle": "pending"
+    },
+    {
+      "id": "fp-review",
+      "name": "fp-review",
+      "type": "basic",
+      "description": "Phase 3 of the feature-pipeline suite. Spawns HEAVIER in a worktree sandbox to run RED/GREEN tests on the PR diff and post a structured review comment. Reads branch and PR number from state. Use after /fp-implement has pushed all commits and printed the M2 stop hook.",
+      "sourceRepo": "mbtiongson1/gaia-skill-tree",
+      "lifecycle": "pending"
+    },
+    {
+      "id": "fp-plan",
+      "name": "fp-plan",
+      "type": "basic",
+      "description": "Phase 2 of the feature-pipeline suite. Reads issues from state, creates a feature branch and draft PR, spawns HEAVIER to produce a numbered implementation plan, presents the plan for user approval, then writes the approved plan to state. Does NOT implement \u2014 that is /fp-implement. Use after /fp-explore has filed at least one issue and printed the M1 stop hook.",
+      "sourceRepo": "mbtiongson1/gaia-skill-tree",
+      "lifecycle": "pending"
+    },
+    {
+      "id": "gaia-curate-chain",
+      "name": "gaia-curate-chain",
+      "type": "basic",
+      "description": "Prompt-chaining workflow for expanding the Gaia registry. Decomposes the traditional /gaia-curate pipeline into six discrete links, each handled by a fresh sub-agent that consumes the previous link's structured output, with a programmatic GATE between every link that must pass before the chain advances. Use when the user wants curation to be auditable, incremental, and hard to derail \u2014 \"curate the tree carefully\", \"chain the curation\", \"add skills with gates\", \"step-by-step registry expansion\" \u2014 or types /gaia-curate-chain. Prefer the flat /gaia-curate for a quick single-pass run; prefer this when evidence quality and schema correctness matter more than latency.",
+      "sourceRepo": "mbtiongson1/gaia-skill-tree",
+      "lifecycle": "pending"
+    },
+    {
+      "id": "feature-pipeline",
+      "name": "feature-pipeline",
+      "type": "basic",
+      "description": "Five-phase multi-agent exploration-to-ship pipeline. Use this skill whenever a user wants to explore a CLI, flag, or module and file issues; test a feature end-to-end; run an \"explore then fix\" or \"explore then ship\" workflow; or says anything like \"explore X\", \"test and ship X\", \"run the pipeline on X\", \"what's broken in X\", \"file bugs for X and open a PR\", or \"stress-test X\". Also use it when the user types /feature-pipeline, even without a target \u2014 prompt them for the feature. Do not use for single-file edits, quick bug fixes, or tasks that don't involve exploration + issue-filing + a full PR lifecycle. ORCHESTRATOR (the currently active agent) coordinates LIGHTER and HEAVIER sub-agents: LIGHTER stress-tests the feature and files GitHub issues; HEAVIER plans the implementation (user approves before any code is written); LIGHTER watches CI; LIGHTER checks skill drift and delivers a final summary. Mandatory stop hooks (M1\u2013M4) gate each phase transition. Supports Claude Code, Cursor, Codex CLI, Windsurf, and others \u2014 local-disk and git-comment handover fallbacks activate when sub-agent spawning is unavailable.",
+      "sourceRepo": "mbtiongson1/gaia-skill-tree",
+      "lifecycle": "pending"
+    },
+    {
+      "id": "fp-explore",
+      "name": "fp-explore",
+      "type": "basic",
+      "description": "Phase 1 of the feature-pipeline suite. Use this to explore a CLI or feature as a developer stress-testing it for the first time, then file GitHub issues for every distinct finding. Reads the target feature from .fp-state.json (or the argument if provided). Bounded: completes in one agent turn. Use after /feature-pipeline init, or invoke standalone with /fp-explore <feature>.",
+      "sourceRepo": "mbtiongson1/gaia-skill-tree",
+      "lifecycle": "pending"
+    },
+    {
+      "id": "gaia-curate-dynamic",
+      "name": "gaia-curate-dynamic",
+      "type": "basic",
+      "description": "Dynamic-workflow curation for the Gaia registry. Instead of a fixed pipeline, the orchestrator analyses the request at runtime, writes its own orchestration plan, fans out tens-to-hundreds of parallel sub-agents across sources and candidates, and validates every proposal convergently \u2014 proposer agents argue for a skill while refuter agents try to disprove its evidence/level/novelty, iterating until they agree. State is persisted to a resumable ledger so a large sweep survives interruption. Use for big, open-ended curation \u2014 \"sweep every source for agent skills\", \"curate the whole <domain> space\", \"find and verify everything new since <date>\" \u2014 or /gaia-curate-dynamic. Prefer /gaia-curate for a quick pass and /gaia-curate-chain for a small, fixed, gated batch.",
+      "sourceRepo": "mbtiongson1/gaia-skill-tree",
+      "lifecycle": "pending"
+    },
+    {
+      "id": "fp-drift",
+      "name": "fp-drift",
+      "type": "basic",
+      "description": "Phase 5 of the feature-pipeline suite. Runs gaia dev diff against main to check for unexpected skill drift on the PR branch, then delivers the final pipeline summary. Use after /fp-iterate has confirmed CI is green and printed the M4 stop hook. Also useful standalone to check skill drift on any branch.",
+      "sourceRepo": "mbtiongson1/gaia-skill-tree",
+      "lifecycle": "pending"
+    }
+  ],
+  "proposedCombinations": [
+    {
+      "candidateResult": "/feature-pipeline",
+      "detectedSkills": [
+        "/fp-drift",
+        "/fp-explore",
+        "/fp-implement",
+        "/fp-iterate",
+        "/fp-plan",
+        "/fp-review"
+      ],
+      "levelFloor": "0\u2605",
+      "type": "extra"
+    }
+  ],
+  "similarity": [
+    {
+      "sourceSkillId": "fp-implement",
+      "targetSkillId": "core-platform-implementation",
+      "score": 0.55,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "fp-implement",
+      "targetSkillId": "project-management",
+      "score": 0.533,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "fp-implement",
+      "targetSkillId": "recursive-self-improvement",
+      "score": 0.526,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "fp-iterate",
+      "targetSkillId": "mcp-integration",
+      "score": 0.64,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "fp-iterate",
+      "targetSkillId": "git-integration",
+      "score": 0.56,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "fp-iterate",
+      "targetSkillId": "translate",
+      "score": 0.526,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "fp-review",
+      "targetSkillId": "design-review",
+      "score": 0.636,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "fp-review",
+      "targetSkillId": "literature-review",
+      "score": 0.538,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "fp-review",
+      "targetSkillId": "code-review-pipeline",
+      "score": 0.483,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "fp-plan",
+      "targetSkillId": "code-explain",
+      "score": 0.526,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "fp-plan",
+      "targetSkillId": "writing-plans",
+      "score": 0.5,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "fp-plan",
+      "targetSkillId": "executing-plans",
+      "score": 0.455,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "gaia-curate-chain",
+      "targetSkillId": "registry-curation",
+      "score": 0.588,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "gaia-curate-chain",
+      "targetSkillId": "registry-entry-audit",
+      "score": 0.519,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "gaia-curate-chain",
+      "targetSkillId": "git-integration",
+      "score": 0.5,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "feature-pipeline",
+      "targetSkillId": "rag-pipeline",
+      "score": 0.714,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "feature-pipeline",
+      "targetSkillId": "ml-pipeline",
+      "score": 0.667,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "feature-pipeline",
+      "targetSkillId": "code-review-pipeline",
+      "score": 0.667,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "fp-explore",
+      "targetSkillId": "superpowers",
+      "score": 0.476,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "fp-explore",
+      "targetSkillId": "code-explain",
+      "score": 0.455,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "gaia-curate-dynamic",
+      "targetSkillId": "architecture-diagram",
+      "score": 0.513,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "gaia-curate-dynamic",
+      "targetSkillId": "registry-curation",
+      "score": 0.5,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "gaia-curate-dynamic",
+      "targetSkillId": "registry-entry-audit",
+      "score": 0.483,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "fp-drift",
+      "targetSkillId": "ux-audit",
+      "score": 0.5,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "fp-drift",
+      "targetSkillId": "self-critique",
+      "score": 0.476,
+      "reason": "Lexical similarity from Gaia push scan."
+    }
+  ]
+}

@@ -357,6 +357,15 @@ class TestDetectCombinationsChainFusion:
         assert ab_candidates
         assert ab_candidates[0]["status"] == "new_fusion"
 
+    def test_no_chain_fusion_for_detected_ultimate_without_prereqs(self, chain_fusion_graph):
+        """A scanned/detected composite skill cannot satisfy its own prerequisites to appear as a candidate."""
+        owned = []
+        detected = ["abc"]
+        result = detect_combinations(chain_fusion_graph, owned, detected)
+        candidate_ids = {r["candidateResult"] for r in result}
+        assert "abc" not in candidate_ids
+
+
 
 # ---------------------------------------------------------------------------
 # CLI smoke tests

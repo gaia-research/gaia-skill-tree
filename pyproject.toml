@@ -30,6 +30,7 @@ classifiers = [
 dependencies = [
     "jsonschema>=4.17.0",
     "pyyaml>=6.0",
+    "questionary>=2.0.0",
 ]
 
 [project.optional-dependencies]
@@ -37,9 +38,7 @@ embeddings = [
     "sentence-transformers>=2.2.0",
     "numpy>=1.21.0",
 ]
-interactive = [
-    "questionary>=2.0.0",
-]
+interactive = []
 tui = [
     "textual>=0.50.0",
 ]
@@ -55,6 +54,7 @@ dev = [
     "build>=1.2.0",
     "numpy>=1.21.0",
     "pytest>=8.0",
+    "pytest-timeout>=2.1.0",
     "scipy>=1.7.0",
     "setuptools>=77",
     "textual>=0.50.0",
@@ -87,6 +87,9 @@ gaia_cli = [
 
 [tool.pytest.ini_options]
 pythonpath = ["src", "."]
+norecursedirs = ["tests/_archive"]
+timeout = 60
+timeout_method = "signal"
 markers = [
     "packaging: package build and wheel installation checks",
 ]

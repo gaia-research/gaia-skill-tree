@@ -1,27 +1,21 @@
 # Skill Tree — mbtiongson1
-**Last Updated:** 2026-06-04
-**Total Skills Unlocked:** 5
+**Last Updated:** 2026-06-09
+**Total Skills Unlocked:** 0
 **Highest Tier:** —
-**Deepest Lineage:** 1
+**Deepest Lineage:** 0
 
 ---
 
 ## Unlocked Skills
 
-| Skill | Type | Rank | Tier name | Source | Date |
-|---|---|---|---|---|---|
-| ○ Web Search | Basic Skill | 2★ | Named | mbtiongson1/gaia-skill-tree | 2026-03-01 |
-| ○ Parse HTML | Basic Skill | 2★ | Named | mbtiongson1/gaia-skill-tree | 2026-03-05 |
-| ○ Extract Entities | Basic Skill | 2★ | Named | mbtiongson1/gaia-skill-tree | 2026-03-08 |
-| ○ Summarize | Basic Skill | 2★ | Named | mbtiongson1/gaia-skill-tree | 2026-03-10 |
-| ○ Cite Sources | Basic Skill | 2★ | Named | mbtiongson1/gaia-skill-tree | 2026-03-12 |
+_No skills unlocked yet._
 
 ---
 
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — mbtiongson1  ·  generated 2026-06-08
+GAIA SKILL TREE — mbtiongson1  ·  generated 2026-06-10
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -53,9 +47,9 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  └─ · ○ /route-intent
   ├─ · ◇ garrytan/design-consultation  [4★]
   │  ├─ · ◇ browserbase/stagehand  [2★]
-  │  │  ├─ ✓ ○ /web-search
+  │  │  ├─ · ○ /web-search
   │  │  └─ · ○ /computer-use
-  │  └─ ✓ ○ /parse-html
+  │  └─ · ○ /parse-html
   ├─ · ◇ garrytan/design-shotgun  [4★]
   │  ├─ · ○ garrytan/benchmark  [4★]  (↑ see above)
   │  └─ · ○ /plan-decompose  (↑ see above)
@@ -88,9 +82,9 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  └─ · ○ garrytan/benchmark  [4★]  (↑ see above)
   ├─ · ○ garrytan/browse  [3★]
   ├─ · ◇ garrytan/scrape  [3★]
-  │  ├─ ✓ ○ /web-search  (↑ see above)
-  │  ├─ ✓ ○ /parse-html  (↑ see above)
-  │  └─ ✓ ○ /extract-entities
+  │  ├─ · ○ /web-search  (↑ see above)
+  │  ├─ · ○ /parse-html  (↑ see above)
+  │  └─ · ○ /extract-entities
   ├─ · ◇ garrytan/skillify  [4★]
   │  ├─ · ○ /generate-text
   │  ├─ · ○ /structured-output
@@ -244,7 +238,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  └─ · ○ /plan-decompose  (↑ see above)
   ├─ · ○ mattpocock/triage  [3★]
   ├─ · ◇ mattpocock/ubiquitous-language  [4★]
-  │  ├─ ✓ ○ /extract-entities
+  │  ├─ · ○ /extract-entities
   │  └─ · ○ intelligentcode-ai/requirements-engineer  [2★]
   ├─ · ○ mattpocock/zoom-out  [2★]
   ├─ · ◇ mattpocock/grill-with-docs  [3★]
@@ -277,7 +271,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  └─ · ○ /plan-decompose  (↑ see above)
   │  ├─ · ○ mattpocock/triage  [3★]
   │  ├─ · ◇ mattpocock/ubiquitous-language  [4★]
-  │  │  ├─ ✓ ○ /extract-entities
+  │  │  ├─ · ○ /extract-entities
   │  │  └─ · ○ intelligentcode-ai/requirements-engineer  [2★]
   │  ├─ · ○ mattpocock/zoom-out  [2★]
   │  ├─ · ◇ mattpocock/grill-with-docs  [3★]
@@ -296,7 +290,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │     └─ · ○ /tool-use
   ├─ · ◇ mattpocock/productivity  [4★]
   │  ├─ · ◇ mattpocock/handoff  [4★]
-  │  │  ├─ ✓ ○ /summarize
+  │  │  ├─ · ○ /summarize
   │  │  ├─ · ○ garrytan/document-generate  [4★]  (↑ see above)
   │  │  └─ · ○ mattpocock/caveman  [3★]
   │  ├─ · ○ mattpocock/caveman  [3★]  (↑ see above)
@@ -345,17 +339,7 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
 
 ## Pending Combinations
 
-> **grill-with-docs** — combine `grill-me`, `ubiquitous-language`, `document-editing`
-> Level floor: 1★
-> Run `gaia fuse grill-with-docs` to confirm.
-
-> **research** — combine `web-search`, `summarize`, `cite-sources`
-> Level floor: 1★
-> Run `gaia fuse research` to confirm.
-
-> **web-scrape** — combine `web-search`, `parse-html`, `extract-entities`
-> Level floor: 1★
-> Run `gaia fuse web-scrape` to confirm.
+_No pending combinations._
 
 ---
 *Generated from skill-tree.json. Do not edit directly.*

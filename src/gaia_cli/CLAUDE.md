@@ -6,6 +6,18 @@ system. Read this before touching `scanner.py`, `localContext.py`,
 
 ---
 
+## Core Usage Flow
+
+The player-facing workflow follows a five-step progression:
+
+1. **`gaia init`** — Initialize local state and registry config. Sets up `.gaia/config.toml` with `scanPaths`.
+2. **`gaia scan`** — Analyze codebase tokens, map to registry skills, and update local state. Detects skill evidence and fusion candidates.
+3. **`gaia push`** — Select mapped skills/fusions to propose to the central registry.
+4. **`gaia fuse`** (optional) — Define custom skill fusions locally if new mappings are needed beyond scan results.
+5. **`gaia tree`** — Visualize the current skill tree and unlocks structure.
+
+---
+
 ## `gaia scan` — end-to-end data flow
 
 ```
@@ -142,6 +154,32 @@ symlinked `.claude/skills → .agents/skills` from producing duplicate results.
 | `pathEngine.py` | Unlock-path graph compute; produces `paths.json` |
 | `resolver.py` | Token → canonical ID matching |
 | `combinator.py` | Fusion recipe detection |
+
+---
+
+## Tree Visualization Legend
+
+The `gaia tree` command uses specific colors to denote skill origins and ranks:
+
+### Origin Colors
+- **Slate Blue/Grey** `(148, 163, 184)`: Starless Generic Skills (unranked nodes in the taxonomy).
+- **Bold Red** `(239, 68, 68)`: Named Contributor Skills (e.g., `contributor/skill-name`).
+- **Bright Green** `(134, 239, 172)`: Local/Custom User Skills (manually added or locally scanned).
+- **Purple** `(192, 132, 252)`: Fused Skills (extra skills resulting from custom fusions).
+
+### Rank Colors
+Ranks `1★` through `6★` use colors defined in the registry palette (see `RANK_COLORS` in `gaia.json`).
+- `6★` is a **Transcendent ★ Level** and is rendered with a full Rainbow effect (Blue → Purple → Gold → Red → Purple → Green).
+
+## Tooling Strategy
+
+1. **Close the Gap**: Always prioritize programmatic CLI use over manual registry edits. If a required registry mutation is missing from the CLI, **update the CLI to fit the gap** first. The CLI must be the single source of truth for all state changes.
+
+2. **Atomic Registry Commit**: Features adding CLI registry mutations should include the corresponding registry data changes in the same atomic commit. This ensures verifiability and traceability.
+
+3. **No Hand-Editing**: Manual YAML frontmatter or timeline edits are forbidden. All registry state changes must be verifiable and logged via CLI command execution.
+
+---
 
 ## Authorization / Verifier guardrail
 

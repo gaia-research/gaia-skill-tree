@@ -190,7 +190,7 @@ def _path_tree_to_dict(node: dict, skill_map: dict) -> dict:
     return out
 
 
-def compute_paths(graph_data: dict, owned_ids: list, detected_ids: list) -> dict:
+def compute_paths(graph_data: dict, owned_ids: list, detected_ids: list, novel_ids: list = None) -> dict:
     """
     Compute progression paths from current state.
 
@@ -198,18 +198,23 @@ def compute_paths(graph_data: dict, owned_ids: list, detected_ids: list) -> dict
         graph_data: parsed gaia.json
         owned_ids: list of skill IDs the user has unlocked
         detected_ids: list of skill IDs detected in the repo (resolved from scanner)
+        novel_ids: list of novel skill IDs (unresolved tokens)
 
     Returns dict with:
         - nearUnlocks: skills whose ALL prerequisites are in (owned | detected), not already owned
         - oneAway: skills missing exactly 1 prerequisite
         - availablePaths: BFS forward from owned through derivatives, with distance
+        - detectedIds: list of all detected canon skill IDs
+        - novelIds: list of novel skill IDs
         - computedAt: ISO timestamp
     """
-    available = set(owned_ids) | set(detected_ids)
+    available = set(owned_ids) | set(detected_ids) | set(novel_ids or [])
     skill_map = {s["id"]: s for s in graph_data.get("skills", [])}
 
     near_unlocks = []
     one_away = []
+
+    # ... loop through skills ...
 
     for skill in graph_data.get("skills", []):
         if skill.get("type") not in ("extra", "ultimate"):
@@ -287,6 +292,8 @@ def compute_paths(graph_data: dict, owned_ids: list, detected_ids: list) -> dict
         "nearUnlocks": near_unlocks,
         "oneAway": one_away,
         "availablePaths": paths_list,
+        "detectedIds": list(detected_ids),
+        "novelIds": list(novel_ids or []),
         "computedAt": datetime.now(timezone.utc).isoformat(),
     }
 
@@ -315,14 +322,15 @@ def regenerate_paths(registry_path: str) -> dict:
     scan_result = scan_repo_detailed()
     tokens = {t.lstrip('/') for t in scan_result.get("tokens", set())}
     graph_path = registry_graph_path(registry_path)
-    detected_ids = resolve_skills(list(tokens), graph_path)
+    detected_ids = set(resolve_skills(list(tokens), graph_path))
+    novel_ids = sorted(list(tokens - detected_ids))
 
     # Load graph data
     with open(graph_path, "r", encoding="utf-8") as f:
         graph_data = json.load(f)
 
     # Compute paths
-    paths = compute_paths(graph_data, owned_ids, detected_ids)
+    paths = compute_paths(graph_data, owned_ids, list(detected_ids), novel_ids=novel_ids)
     paths["userId"] = username
 
     # Save

@@ -155,11 +155,15 @@ def _read_skill_md(filepath):
     if content.startswith("---\n"):
         end = content.find("\n---", 4)
         if end != -1:
-            for line in content[4:end].splitlines():
-                if ":" not in line:
-                    continue
-                key, _, value = line.partition(":")
-                fm[key.strip()] = value.strip().strip('"').strip("'")
+            try:
+                import yaml
+                fm = yaml.safe_load(content[4:end]) or {}
+            except Exception:
+                for line in content[4:end].splitlines():
+                    if ":" not in line:
+                        continue
+                    key, _, value = line.partition(":")
+                    fm[key.strip()] = value.strip().strip('"').strip("'")
             body = content[end + 4:].strip()
         else:
             body = content
@@ -170,7 +174,7 @@ def _read_skill_md(filepath):
     return fm
 
 
-def _skill_search_dirs(root: str = ".") -> list[str]:
+def _skill_search_dirs(root: str = ".", global_search: bool = False) -> list[str]:
     """Return all directories to search for skill subdirectories, deduplicated by real path.
 
     Priority order:
@@ -192,13 +196,14 @@ def _skill_search_dirs(root: str = ".") -> list[str]:
     ):
         candidates.append(os.path.join(root, rel))
 
-    # 2. Global user dirs — skills installed outside any single project
-    home = os.path.expanduser("~")
-    candidates.append(os.path.join(home, ".agents", "skills"))   # global agent-agnostic
-    candidates.append(os.path.join(home, ".claude", "skills"))   # Claude Code global skills
-    # XDG_DATA_HOME (Linux/macOS standard; ignored on Windows where it's usually unset)
-    xdg_data = os.environ.get("XDG_DATA_HOME") or os.path.join(home, ".local", "share")
-    candidates.append(os.path.join(xdg_data, "gaia", "skills"))
+    if global_search:
+        # 2. Global user dirs — skills installed outside any single project
+        home = os.path.expanduser("~")
+        candidates.append(os.path.join(home, ".agents", "skills"))   # global agent-agnostic
+        candidates.append(os.path.join(home, ".claude", "skills"))   # Claude Code global skills
+        # XDG_DATA_HOME (Linux/macOS standard; ignored on Windows where it's usually unset)
+        xdg_data = os.environ.get("XDG_DATA_HOME") or os.path.join(home, ".local", "share")
+        candidates.append(os.path.join(xdg_data, "gaia", "skills"))
 
     # 3. Config-driven custom dirs
     config = load_config()
@@ -244,7 +249,7 @@ def _should_prune_dir(d: str) -> bool:
     return False
 
 
-def scan_skill_mds(root: str = ".") -> list:
+def scan_skill_mds(root: str = ".", global_search: bool = False) -> list:
     """Detect installed custom skills recursively from all known search paths.
 
     Checks project's parent directory (..) and all standard/configured skill search directories.
@@ -259,17 +264,29 @@ def scan_skill_mds(root: str = ".") -> list:
     visited_real_paths = set()
 
     # Determine standard skill directories
-    standard_dirs = [os.path.realpath(d) for d in _skill_search_dirs(root)]
+    standard_dirs = [os.path.realpath(d) for d in _skill_search_dirs(root, global_search)]
+    # The repo root itself is a mixed container, not a standard depth-1 skill container
+    root_real = os.path.realpath(root)
+    standard_containers = [d for d in standard_dirs if d != root_real]
 
     # Gather search roots: in pytest we isolate to root, otherwise walk parent
     if "PYTEST_CURRENT_TEST" in os.environ:
         search_roots = []
     else:
-        search_roots = [os.path.abspath(os.path.join(root, ".."))]
+        if global_search:
+            search_roots = [os.path.abspath(os.path.join(root, ".."))]
+        else:
+            search_roots = [os.path.abspath(root)]
     
-    for d in _skill_search_dirs(root):
+    for d in _skill_search_dirs(root, global_search):
         if "PYTEST_CURRENT_TEST" in os.environ:
-            if os.path.abspath(d).startswith(os.path.abspath(root)):
+            # Containment check: use the realpath of d's *parent* joined with
+            # d's basename so that a symlink *located* under root (but pointing
+            # outside root) is correctly included, while global dirs that live
+            # entirely outside root stay excluded.
+            d_parent_real = os.path.realpath(os.path.dirname(d))
+            d_entry = os.path.join(d_parent_real, os.path.basename(d))
+            if d_entry.startswith(root_real + os.sep) or d_entry == root_real:
                 search_roots.append(os.path.abspath(d))
         else:
             search_roots.append(os.path.abspath(d))
@@ -294,11 +311,16 @@ def scan_skill_mds(root: str = ".") -> list:
             # Prune directories
             dirs[:] = [d for d in dirs if not _should_prune_dir(d)]
 
-            # Check if current directory r is inside a standard skill directory
+            # Check if current directory r is inside a standard skill container (depth 1)
             in_standard = False
-            for std_dir in standard_dirs:
+            for std_dir in standard_containers:
                 if r_real != std_dir and r_real.startswith(std_dir + os.sep):
-                    in_standard = True
+                    rel = os.path.relpath(r_real, std_dir)
+                    if os.sep not in rel:
+                        in_standard = True
+                        dirs[:] = []  # Stop descending further into this skill
+                    else:
+                        dirs[:] = []  # Already deeper than 1 layer, stop descending
                     break
 
             # Find best candidate file in this directory
@@ -330,16 +352,19 @@ def scan_skill_mds(root: str = ".") -> list:
                 if real_path in seen_real_paths:
                     continue
                 
-                skill_id = os.path.basename(skill_dir)
-                if not skill_id or skill_id.startswith('.'):
+                fm = _read_skill_md(md_path)
+                if fm is None:
+                    fm = {}
+
+                # Enforce visible slashes as priority (linter rule)
+                skill_id = fm.get("id", os.path.basename(skill_dir))
+                skill_id = f"/{skill_id.lstrip('/')}"
+
+                if not skill_id or skill_id == '/':
                     continue
                 
                 if skill_id in seen_ids:
                     continue
-
-                fm = _read_skill_md(md_path)
-                if fm is None:
-                    fm = {}
                 
                 seen_ids.add(skill_id)
                 seen_real_paths.add(real_path)
@@ -350,6 +375,7 @@ def scan_skill_mds(root: str = ".") -> list:
                     "id": skill_id,
                     "name": name,
                     "description": description,
+                    "prerequisites": fm.get("prerequisites", []),
                     "source_dir": os.path.dirname(skill_dir),
                     "location": os.path.relpath(skill_dir, root),
                     "real_path": real_path,
@@ -362,18 +388,63 @@ def _word_set(text):
     return words - _SEMANTIC_STOPWORDS
 
 
-def match_skill_to_canonical(skill_id, skill_name, skill_description, canonical_skills, threshold=0.20):
-    """Find the best canonical skill match for a custom skill using word overlap.
+def match_skill_to_canonical(skill_id, skill_name, skill_description, canonical_skills, origin_skills=None, named_skills=None, threshold=0.15):
+    """Find the best skill match for a custom skill using sequential priority.
+    
+    1. Exact or near-exact slash-skill name or name match in ORIGIN skills.
+    2. Exact or near-exact slash-skill name or name match in NAMED skills.
+    3. Exact or near-exact ID or name match in GENERIC (canonical) skills.
+    4. Semantic word overlap against STARLESS (generic) skills (with threshold).
 
-    Returns (canonical_id, score) or None.
+    Returns (matched_id, score, match_type) or None.
     """
+    query_name_lower = skill_name.lower().strip()
+    query_id_lower = skill_id.lower().strip()
+
+    def normalize_name(n):
+        return n.lower().replace('-', ' ').replace('_', ' ').strip()
+
+    query_name_norm = normalize_name(skill_name)
+    query_id_norm = normalize_name(skill_id)
+
+    # 1. Exact/base ID or normalized name match in ORIGIN priority
+    if origin_skills:
+        for canon in origin_skills:
+            canon_id = canon["id"]
+            canon_base = canon_id.split('/')[-1].lower().strip()
+            canon_name_norm = normalize_name(canon.get('name', ''))
+            # Slash-aware identity check
+            if canon_base == query_id_lower or f"/{canon_base}" == query_id_lower or canon_name_norm == query_name_norm or canon_name_norm == query_id_norm:
+                return (canon_id, 1.0, "origin")
+
+    # 2. Exact/base ID or normalized name match in NAMED priority
+    if named_skills:
+        for canon in named_skills:
+            canon_id = canon["id"]
+            canon_base = canon_id.split('/')[-1].lower().strip()
+            canon_name_norm = normalize_name(canon.get('name', ''))
+            # Slash-aware identity check
+            if canon_base == query_id_lower or f"/{canon_base}" == query_id_lower or canon_name_norm == query_name_norm or canon_name_norm == query_id_norm:
+                return (canon_id, 1.0, "named")
+
+    # 3. Exact ID or normalized name match in GENERIC (canonical) skills
+    if canonical_skills:
+        for canon in canonical_skills:
+            canon_id = canon["id"]
+            canon_base = canon_id.split('/')[-1].lower().strip()
+            canon_name_norm = normalize_name(canon.get('name', ''))
+            # Slash-aware identity check
+            if canon_base == query_id_lower or f"/{canon_base}" == query_id_lower or canon_name_norm == query_name_norm or canon_name_norm == query_id_norm:
+                return (canon_id, 1.0, "exact_generic")
+
+    # 4. Semantic search ONLY on STARLESS/generic skills
     query_words = _word_set(f"{skill_id} {skill_name} {skill_description}")
     if not query_words:
         return None
 
-    best_id = None
-    best_score = threshold
-
+    # Check starless (generic) skills with threshold
+    best_generic_id = None
+    best_generic_score = threshold
     for canon in canonical_skills:
         canon_text = f"{canon.get('id', '')} {canon.get('name', '')} {canon.get('description', '')}"
         target_words = _word_set(canon_text)
@@ -381,8 +452,11 @@ def match_skill_to_canonical(skill_id, skill_name, skill_description, canonical_
             continue
         shared = query_words & target_words
         score = len(shared) / len(query_words)
-        if score > best_score:
-            best_score = score
-            best_id = canon["id"]
+        if score > best_generic_score:
+            best_generic_score = score
+            best_generic_id = canon["id"]
 
-    return (best_id, round(best_score, 3)) if best_id else None
+    if best_generic_id:
+        return (best_generic_id, round(best_generic_score, 3), "generic")
+    
+    return None

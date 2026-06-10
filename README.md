@@ -219,99 +219,56 @@ Requires `textual` (included with `pip install gaia-cli`).
 <!-- gaia:cli-start -->
 ```text
 usage: gaia [-h] [--registry REGISTRY] [--global] [--version]
-            {help,init,scan,pull,update,install,uninstall,tree,push,propose,version,whoami,mcp,release,graph,stats,appraise,promote,fuse,docs,lookup,path,dev,validate,test,skills}
+            {help,init,scan,fetch,pull,update,install,uninstall,tree,push,propose,version,whoami,reset,mcp,release,graph,stats,appraise,promote,fuse,docs,lookup,path,dev,validate,test,skills}
             ...
 
 Gaia Registry CLI
 
-positional arguments:
-  {help,init,scan,pull,update,install,uninstall,tree,push,propose,version,whoami,mcp,release,graph,stats,appraise,promote,fuse,docs,lookup,path,dev,validate,test,skills}
-    help                Show command help
-    init                Create or update local Gaia config
-    scan                Scan configured paths and installed skills for skill evidence
-    pull                Refresh registry data from origin
-    update              Update all installed remote skills
-    install             Install a named skill
-    uninstall           Uninstall a named skill
-    tree                Show your Gaia skill tree
-    push                Prepare detected skills for review and file a GitHub issue
-    propose             Propose a single canonical skill as a named PR
-    version             Print the Gaia CLI version
-    whoami              Show your Gaia identity and Verifier/operator status
-    mcp                 Run the bundled Gaia MCP server
-    release             Bump version, commit, tag, and push to trigger GitHub Release
-    graph               Generate and open the Gaia skill graph
-    stats               Show registry health at a glance
-    appraise            Inspect a skill card with status and actions
-    promote             Promote a skill eligible for level-up
-    fuse                Confirm a skill combination or promotion candidate
-    docs                Documentation maintenance commands
-    lookup              Look up a canonical skill and its named implementations
-    path                Show prerequisite unlock-path tree toward a target skill
-    dev                 Registry development and maintenance (requires writable registry)
-    validate            Validate the Gaia registry
-    test                Run self-verification tests
-    skills              Browse and manage named skills
-
 options:
-  -h, --help            show this help message and exit
-  --registry REGISTRY   Path to a local Gaia registry checkout. Defaults to auto-resolved local or
-                        global registry.
-  --global, -g          Use global GAIA_HOME registry, ignoring any local .gaia/ config.
-  --version, -v         Print the Gaia CLI version and exit.
-  --tui                 Launch the TUI (Terminal User Interface).
-  --canon               Show canonical registry data instead of local-first view.
+  -h, --help           show this help message and exit
+  --registry REGISTRY  Path to a local Gaia registry checkout. Defaults to auto-resolved local or
+                       global registry.
+  --global, -g         Use global GAIA_HOME registry, ignoring any local .gaia/ config.
+  --version, -v        Print the Gaia CLI version and exit.
+  --tui                Launch the TUI (Terminal User Interface).
+  --canon              Show canonical registry data instead of local-first view.
 
-Quick usage:
-  gaia                        Launch the TUI (interactive dashboard)
-  gaia init [--user <name>] [--scan <path>] [--yes]
+Getting started:
+  gaia init [--user <name>] [--scan <path>] [--yes] [-y]
   gaia scan [--quiet]
-  gaia pull
-  gaia tree [--named] [--title]
   gaia push [--dry-run] [--no-issue]
-  gaia propose [<skillId>] [--ultimate] [--target <name>] [--no-pr]
-  gaia version
-  gaia whoami
-  gaia mcp
-  gaia release <patch|minor|major>
-  gaia graph [--format html|svg|json] [-o <path>] [--no-open]
-  gaia appraise [<skillId>]
+  gaia                        Open command selector
+  gaia skills                 Launch skills explorer (TUI)
+
+Daily commands:
+  gaia tree [--named] [--title]
   gaia promote [<skillId>] [--all] [--name <name>]
-  gaia fuse <skillId> [--name <name>]
-  gaia update
+  gaia appraise [<skillId>]
   gaia stats
-  gaia docs build [--check]
+  gaia pull
+  gaia fuse <skillId> [--name <name>]
+  gaia path <skillId> [--owned-only] [--json]
   gaia lookup <skillId>
+  gaia graph [--format html|svg|json] [-o <path>] [--no-open]
+  gaia propose [<skillId>] [--ultimate] [--target <name>] [--no-pr]
 
-  -- dev: read-only (no authorization required) --
-  gaia dev list [--generic] [--named] [--description] [--json]
-  gaia dev audit <skill_id>
-  gaia dev diff [ref] [--base <ref>]
-
-  -- dev: mutating (requires Verifier role — see gaia whoami) --
-  gaia dev add <name> [--id <id>] [--type <type>] [--description <desc>] [--named] [--contributor <user>] [--status <status>] [--title <title>] [--level <level>]
-  gaia dev merge <target> <source1> [source2...] [--named] [--yes]
-  gaia dev split <source> <target1> <target2>... [--yes]
-  gaia dev rename <old_id> <new_id>
-  gaia dev calibrate <skill_id> <level>
-  gaia dev rm <skill_id> [--yes]
-  gaia dev link <target> <prereqs> [--reset]
-  gaia dev reclassify <skill_id> <new_type>
-  gaia dev update-named <skill_id> [--status <status>] [--generic-ref <ref>] [--suite-components <c1,c2...>]
-  gaia dev evidence <skillId> <source> [--class A|B|C] [--evaluator <user>] [--date <date>] [--notes <notes>]
-  gaia dev rm-evidence <skill_id> (--index N | --source URL) [--yes]
-  gaia dev timeline <skill_id> --action <action> --notes <notes> [--user <username>] [--timestamp <iso8601>]
-  gaia dev build
-
-  gaia validate [--intake] [--meta-sync]
-  gaia test <suite>
+Skills:
   gaia skills <list|search|info|install|uninstall>
   gaia skills list [--exclude-pending]
   gaia skills search <query> [--exclude-pending]
   gaia skills info <skill_id> [--exclude-pending]
   gaia skills install <skill> [--global | --local]
   gaia skills uninstall <skill_id>
-  gaia path <skillId> [--owned-only] [--json]
+
+Utilities:
+  gaia whoami
+  gaia version
+  gaia update
+  gaia mcp
+  gaia release <patch|minor|major>
+  gaia docs build [--check]
+
+Maintainer commands:  gaia dev --help
 
 ```
 <!-- gaia:cli-end -->

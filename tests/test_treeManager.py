@@ -194,3 +194,134 @@ class TestShowTreeModes:
         show_tree(_TREE_DATA, graph_data=_GRAPH_DATA, registry_path=str(tmp_path), mode="title")
         out = capsys.readouterr().out
         assert "├" in out or "└" in out
+
+
+class TestTreeRenderFixes:
+    def test_fusion_candidate_color(self, tmp_path, monkeypatch, capsys):
+        monkeypatch.chdir(tmp_path)
+        custom_state_dir = tmp_path / ".gaia"
+        custom_state_dir.mkdir(parents=True, exist_ok=True)
+        custom_state = {
+            "customSkills": [],
+            "customFusions": {
+                "/feature-pipeline": {
+                    "sources": ["/fp-drift"],
+                    "type": "extra",
+                    "level": "0★"
+                }
+            }
+        }
+        (custom_state_dir / "custom_state.json").write_text(json.dumps(custom_state))
+        
+        graph_data = {
+            "skills": [
+                {"id": "fp-drift", "name": "FP Drift", "type": "basic", "level": "0★", "prerequisites": []}
+            ]
+        }
+        tree_data = {
+            "userId": "testuser",
+            "unlockedSkills": [
+                {"skillId": "/feature-pipeline"},
+                {"skillId": "/fp-drift"}
+            ],
+            "stats": {}
+        }
+        
+        monkeypatch.setenv("FORCE_COLOR", "1")
+        monkeypatch.setenv("COLORTERM", "truecolor")
+        show_tree(tree_data, graph_data=graph_data, registry_path=str(tmp_path), custom=True)
+        out = capsys.readouterr().out
+        
+        # Target fusion should use extra purple color (TIER_COLORS["extra"] = (192, 132, 252))
+        assert "\033[38;2;192;132;252m" in out
+
+    def test_unowned_skill_formatting(self, tmp_path, monkeypatch, capsys):
+        """Unowned prerequisites render as /??? with their rank color.
+
+        The /??? teaser is only rendered when known_only=False, because
+        show_tree's default (known_only=True) hides all unowned prerequisites to
+        keep the tree clean. The `known_only` parameter was introduced in commit
+        5d1c9aaa alongside the reveal-unowned logic; passing known_only=False is
+        the correct way to exercise this code path. (The test was added in the
+        same commit but mistakenly called show_tree without known_only=False.)
+        """
+        monkeypatch.chdir(tmp_path)
+        graph_data = {
+            "skills": [
+                {"id": "unowned-skill", "name": "Unowned Skill", "type": "basic", "level": "3★", "prerequisites": []},
+                {"id": "root-skill", "name": "Root Skill", "type": "basic", "level": "1★", "prerequisites": ["unowned-skill"]}
+            ]
+        }
+        tree_data = {
+            "userId": "testuser",
+            "unlockedSkills": [
+                {"skillId": "root-skill"}
+            ],
+            "stats": {}
+        }
+        monkeypatch.setenv("FORCE_COLOR", "1")
+        monkeypatch.setenv("COLORTERM", "truecolor")
+        # known_only=False is required to reveal unowned prerequisites as /???
+        show_tree(tree_data, graph_data=graph_data, registry_path=str(tmp_path), known_only=False)
+        out = capsys.readouterr().out
+
+        # 1. do not show the full skill slug or its star count inline with the node
+        assert "-> unowned-skill" not in out
+        assert "-> /unowned-skill" not in out
+        assert "/???" in out
+        # "3★" may appear in the legend (rank chips), but must NOT appear adjacent
+        # to the /??? entry — the unowned node label is just "/???" without stars.
+        assert "/??? 3★" not in out
+        assert "/???  3★" not in out
+
+        # 2. inherit the color of the skill it is tied to (3★ rank color is (167, 139, 250))
+        assert "\033[38;2;167;139;250m" in out
+
+    def test_owned_starless_slate_blue(self, tmp_path, monkeypatch, capsys):
+        monkeypatch.chdir(tmp_path)
+        graph_data = {
+            "skills": [
+                {"id": "starless-skill", "name": "Starless Skill", "type": "basic", "level": "0★", "prerequisites": []}
+            ]
+        }
+        tree_data = {
+            "userId": "testuser",
+            "unlockedSkills": [
+                {"skillId": "starless-skill"}
+            ],
+            "stats": {}
+        }
+        monkeypatch.setenv("FORCE_COLOR", "1")
+        monkeypatch.setenv("COLORTERM", "truecolor")
+        show_tree(tree_data, graph_data=graph_data, registry_path=str(tmp_path))
+        out = capsys.readouterr().out
+        
+        # Owned starless should always be slate: (148, 163, 184)
+        assert "\033[38;2;148;163;184m" in out
+
+    def test_owned_named_honor_red(self, tmp_path, monkeypatch, capsys):
+        monkeypatch.chdir(tmp_path)
+        _make_named_index(tmp_path, {
+            "named-skill": [{"id": "alice/named-skill", "name": "Named Skill", "contributor": "alice",
+                             "origin": False, "genericSkillRef": "named-skill", "status": "named",
+                             "level": "2★", "description": ""}]
+        })
+        graph_data = {
+            "skills": [
+                {"id": "named-skill", "name": "Named Skill", "type": "basic", "level": "2★", "prerequisites": []}
+            ]
+        }
+        tree_data = {
+            "userId": "testuser",
+            "unlockedSkills": [
+                {"skillId": "named-skill"}
+            ],
+            "stats": {}
+        }
+        monkeypatch.setenv("FORCE_COLOR", "1")
+        monkeypatch.setenv("COLORTERM", "truecolor")
+        show_tree(tree_data, graph_data=graph_data, registry_path=str(tmp_path))
+        out = capsys.readouterr().out
+        
+        # Owned named skills should show honor red handle (COLOR_CONTRIBUTOR = (239, 68, 68))
+        assert "\033[38;2;239;68;68m" in out

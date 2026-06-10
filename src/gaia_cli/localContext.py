@@ -25,16 +25,18 @@ class LocalContext:
     owned_ids: set[str] = field(default_factory=set)
     detected_ids: set[str] = field(default_factory=set)
     novel_ids: set[str] = field(default_factory=set)
+    origin_ids: set[str] = field(default_factory=set)  # IDs that carry the [ORIGIN] label
     named_map: dict[str, str] = field(
         default_factory=dict
     )  # generic_skill_id -> "contributor/name"
     tree_data: Optional[dict] = None
     graph_data: Optional[dict] = None
     _skill_map: dict[str, dict] = field(default_factory=dict, repr=False)
+    _effective_ranks: dict[str, str] = field(default_factory=dict, repr=False)
 
     @classmethod
     def load(
-        cls, registry_path: str, username: str, *, include_scan: bool = True
+        cls, registry_path: str, username: str, *, include_scan: bool = True, global_search: bool = False
     ) -> "LocalContext":
         """Build context from local state.
 
@@ -42,6 +44,7 @@ class LocalContext:
             registry_path: Path to the registry root
             username: Gaia username
             include_scan: Whether to load last scan results (paths.json)
+            global_search: Whether to scan globally installed skills
         """
         # Load user tree
         tree_data = load_tree(username, registry_path=registry_path)
@@ -87,35 +90,134 @@ class LocalContext:
                     skill_map[sid] = skill
                     canon_ids.add(sid)
 
+        # Load named skills index to identify origins
+        origin_ids = set()
+        from gaia_cli.registry import named_skills_index_path
+        idx_path = named_skills_index_path(registry_path)
+        if os.path.exists(idx_path):
+            try:
+                with open(idx_path, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                    for bucket, items in data.get('buckets', {}).items():
+                        for item in items:
+                            if item.get('origin'):
+                                origin_ids.add(item['id'])
+            except Exception:
+                pass
+
+        # Build named_map: local-first merge of registry, agent dirs, and manifest
+        named_map = _build_local_first_map(
+            registry_path, list(skill_map.values()), username, global_search=global_search
+        )
+
+        # Inject custom skills and fusions into owned_ids so they appear unlocked
+        custom_state_path = os.path.join(".gaia", "custom_state.json")
+        if include_scan and os.path.exists(custom_state_path):
+            try:
+                with open(custom_state_path, "r", encoding="utf-8") as f:
+                    cstate = json.load(f)
+                    # 1. Custom skills (scanned but not yet fused)
+                    for sk in cstate.get("customSkills", []):
+                        mid = sk.get("mapped_to")
+                        cid = sk.get("id")
+                        mtype = sk.get("match_type")
+                        if mtype == "origin":
+                            origin_ids.add(cid)
+
+                        if mid:
+                            owned_ids.add(mid)
+                            if username:
+                                named_map[mid] = f"{username}/{cid}"
+                        elif cid:
+                            owned_ids.add(cid)
+                            if username and cid not in named_map:
+                                named_map[cid] = f"{username}/{cid}"
+                    # 2. Custom fusions (intentional combinations)
+                    fusions = cstate.get("customFusions", {})
+                    for target, sources in fusions.items():
+                        owned_ids.add(target)
+                        # Inject into skill_map to ensure tree/graph see the lineage
+                        if target not in skill_map:
+                            skill_map[target] = {
+                                "id": target,
+                                "name": target,
+                                "type": "extra",
+                                "level": "1★",
+                                "rarity": "rare",
+                                "prerequisites": sources,
+                                "description": f"Custom fusion of {', '.join(sources)}",
+                                "local": True
+                            }
+                        else:
+                            # Existing skill: ensure it has the prerequisites and type 'extra'
+                            sdata = skill_map[target]
+                            sdata["prerequisites"] = list(set(sdata.get("prerequisites", [])) | set(sources))
+                            if sdata.get("type") == "basic":
+                                sdata["type"] = "extra"
+            except Exception:
+                pass
+
         # Load detected skills from last scan
         detected_ids = set()
         novel_ids = set()
         if include_scan:
             paths = load_paths()
             if paths:
-                # nearUnlocks and oneAway contain detected skill IDs
-                for path_entry in paths.get("availablePaths", []):
-                    for prereq in path_entry.get("ownedPrereqs", []):
-                        detected_ids.add(prereq)
-                # Also consider owned as detected
+                # Use explicitly stored IDs if available (new version)
+                if "detectedIds" in paths:
+                    detected_ids = set(paths.get("detectedIds", []))
+                    novel_ids = set(paths.get("novelIds", []))
+                else:
+                    # Fallback for old paths.json (best effort)
+                    for path_entry in paths.get("nearUnlocks", []):
+                        for prereq in path_entry.get("satisfiedPrereqs", []):
+                            detected_ids.add(prereq)
+                    for path_entry in paths.get("oneAway", []):
+                        for prereq in path_entry.get("satisfiedPrereqs", []):
+                            detected_ids.add(prereq)
+                
+                # Ensure novel IDs are considered detected
+                detected_ids |= novel_ids
+                
+                # Consider owned as detected too
                 detected_ids |= owned_ids
-                # Novel = detected but not in canon
+                
+                # Refine novel_ids to be exactly those in the pool not in canon
                 novel_ids = detected_ids - canon_ids
-
-        # Build named_map: local-first merge of registry, agent dirs, and manifest
-        named_map = _build_local_first_map(registry_path, list(skill_map.values()), username)
+        
+        # Build effective rank map for generic skills
+        effective_ranks = {}
+        from gaia_cli.registry import named_skills_index_path
+        from gaia_cli.redaction import level_num
+        idx_path = named_skills_index_path(registry_path)
+        if os.path.isfile(idx_path):
+            try:
+                with open(idx_path, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    for bucket, skills in data.get("buckets", {}).items():
+                        ranks = [level_num(s.get("level", "0★")) for s in skills]
+                        if ranks:
+                            effective_ranks[bucket] = f"{max(ranks)}★"
+            except Exception:
+                pass
 
         ctx = cls(
             username=username,
             owned_ids=owned_ids,
             detected_ids=detected_ids,
             novel_ids=novel_ids,
+            origin_ids=origin_ids,
             named_map=named_map,
             tree_data=tree_data,
             graph_data=graph_data,
         )
         ctx._skill_map = skill_map
+        ctx._effective_ranks = effective_ranks
         return ctx
+
+    def is_origin(self, skill_id: str) -> bool:
+        """True if this skill is the authoritative origin for its bucket."""
+        return skill_id in self.origin_ids or skill_id.lstrip("/") in self.origin_ids
 
     def is_named(self, skill_id: str) -> bool:
         """Check if a canonical skill has a named implementation."""
@@ -129,6 +231,11 @@ class LocalContext:
         gate needs: a bucket whose top star is ≤ 1★ has no named child, so its
         contributor handle is withheld. Defaults to '0★' when unknown.
         """
+        # First check effective rank from named skills index
+        if skill_id in self._effective_ranks:
+            return self._effective_ranks[skill_id]
+        
+        # Fallback to direct skill map level
         return (self._skill_map.get(skill_id) or {}).get("level", "0★")
 
     def is_redacted(self, skill_id: str) -> bool:
@@ -219,12 +326,12 @@ class LocalContext:
                 )
         return skills
 
-    def display_name(self, skill_id: str, canon: bool = False) -> str:
+    def display_name(self, skill_id: str, canon: bool = False, include_star: bool = True) -> str:
         """Return the best display name for a skill.
 
         Priority (Local-First):
-        - Nickname ID (e.g. /gaia-curate or karpathy/autoresearch)
-        - Human-readable Name (e.g. Research)
+        - Named Slash-Skill with Star (e.g. karpathy/autoresearch 5★)
+        - Nickname ID (e.g. /gaia-curate)
         - Generic ID as fallback (/research)
 
         If canon=True, always returns /skill-id.
@@ -232,23 +339,27 @@ class LocalContext:
         if canon:
             return f"/{skill_id}"
 
-        # 1. Check for named nickname (Pet Nickname)
+        level = self.level_of(skill_id)
+        star = f" {level}" if include_star and level and level != "0★" else ""
+
+        # 1. Check for named nickname (Slash-Skill)
         if skill_id in self.named_map:
             ref = self.named_map[skill_id]
             if "/" in ref:
                 contrib, nickname = ref.split("/", 1)
-                if contrib == self.username:
-                    return f"/{nickname}"
                 # Pre-named / demoted buckets: withhold the contributor handle.
-                return self._redact_ref(ref, skill_id)
-            return f"/{ref}"
+                # The caller's own handle is always shown if it's their own skill.
+                if contrib == self.username:
+                    return f"/{ref}{star}"
+                return f"/{self._redact_ref(ref, skill_id)}{star}"
+            return f"/{ref}{star}"
 
         # 2. Check for local novel skill
         if skill_id in self.novel_ids:
-            return f"/{skill_id}"
+            return f"/{skill_id}{star}"
 
         # 3. Fallback to generic slash ID
-        return f"/{skill_id}"
+        return f"/{skill_id}{star}"
 
 
 def _build_named_map(registry_path: str) -> dict[str, str]:
@@ -338,25 +449,47 @@ def _build_install_map(registry_path: str) -> dict[str, str]:
 
 
 def _build_agent_dir_map(
+    registry_path: str,
     canonical_skills: list,
     manifest_covered: set,
     username: str,
     root: str = ".",
+    global_search: bool = False,
 ) -> dict[str, str]:
     """Build {canonical_id: username/dirname} for agent skill dirs not already in manifest."""
     if not username:
         return {}
     from gaia_cli.scanner import scan_skill_mds, match_skill_to_canonical
+    from gaia_cli.registry import named_skills_index_path
+    
+    # Load ORIGIN and NAMED skills
+    origin_skills = []
+    named_skills = []
+    idx_path = named_skills_index_path(registry_path)
+    if os.path.exists(idx_path):
+        try:
+            with open(idx_path, 'r', encoding='utf-8') as _nf:
+                _ndata = json.load(_nf)
+                for bucket, items in _ndata.get('buckets', {}).items():
+                    for item in items:
+                        if item.get('origin'):
+                            origin_skills.append(item)
+                        else:
+                            named_skills.append(item)
+        except Exception:
+            pass
+
     result: dict[str, str] = {}
-    for entry in scan_skill_mds(root=root):
+    for entry in scan_skill_mds(root=root, global_search=global_search):
         dir_name = entry["id"]
         if dir_name in manifest_covered:
             continue
         match = match_skill_to_canonical(
-            entry["id"], entry["name"], entry["description"], canonical_skills
+            entry["id"], entry["name"], entry["description"], canonical_skills,
+            origin_skills=origin_skills, named_skills=named_skills
         )
         if match:
-            canonical_id, _ = match
+            canonical_id = match[0]
             result[canonical_id] = f"{username}/{dir_name}"
     return result
 
@@ -365,6 +498,7 @@ def _build_local_first_map(
     registry_path: str,
     canonical_skills: list,
     username: str,
+    global_search: bool = False,
 ) -> dict[str, str]:
     """Merge named_map sources with priority: install > agent-dirs > registry."""
     base = _build_named_map(registry_path)                          # priority 3
@@ -375,7 +509,7 @@ def _build_local_first_map(
     }
     if username:
         agents = _build_agent_dir_map(
-            canonical_skills, manifest_covered, username
+            registry_path, canonical_skills, manifest_covered, username, global_search=global_search
         )
         base.update(agents)                                        # priority 2
     base.update(install)

@@ -77,6 +77,43 @@ cd packages/cli-npm && npm test
 cd ../mcp && npm run build && npm test
 ```
 
+### Test-suite conventions
+
+**a. Default timeouts (never use `--timeout-method=thread`)**
+`pyproject.toml` sets `timeout = 60` and `timeout_method = "signal"` as pytest defaults.
+Do not pass `--timeout-method=thread` on the command line — it kills the entire pytest
+process on the first timeout instead of just the offending test, masking every subsequent
+failure.  Use `@pytest.mark.timeout(N)` on individual slow tests to raise the cap.
+
+**b. `os.execvp` / `os.execv` are blocked by an autouse fixture**
+`tests/conftest.py` installs a session-scoped autouse fixture `_block_process_replacement`
+that monkeypatches `os.execvp` and `os.execv` to raise `RuntimeError`.  Any test that
+legitimately needs to assert exec behavior must explicitly monkeypatch those functions
+(e.g. with a recorder lambda) before calling the code under test.
+
+**c. Tests must never write outside `tmp_path`**
+Commands like `gaia docs build`, `gaia scan`, and `gaia graph` write render artifacts to
+the registry root they resolve.  Run such commands with `cwd` pointing to a directory
+inside `tmp_path` (or a full clone of the needed dirs inside `tmp_path`) so writes stay
+isolated.  After adding or modifying any test that invokes a write command, verify
+isolation with `git status --porcelain` and confirm no files under `docs/`, `registry/`,
+`skill-trees/`, or `README.md` are modified.
+
+**d. `tests/_archive/` — quarantine policy (archive, never delete)**
+Obsolete tests or tests that target removed functionality are moved (never deleted) to
+`tests/_archive/<original-filename>` with a header comment
+`# ARCHIVED YYYY-MM-DD: <reason>` and an entry added to `tests/_archive/README.md`.
+The directory is excluded from collection via `norecursedirs` in `pyproject.toml`, so
+archived tests do not run.  Two failed repair attempts are the threshold for archiving.
+
+**e. `helpers.strip_ansi` for asserting colored CLI output**
+The CLI emits ANSI color codes.  Import `strip_ansi` from `tests/helpers.py` to normalize
+output before asserting on text content:
+```python
+from helpers import strip_ansi
+assert "Getting started" in strip_ansi(result.stdout)
+```
+
 ---
 
 ## 4. Common CI Failures & Troubleshooting Reference

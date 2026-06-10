@@ -11,7 +11,9 @@ def test_tui_flag_exists():
 
 def test_tui_usage_mentions_gaia():
     from gaia_cli.main import COMMAND_USAGE
-    assert "gaia                        Launch the TUI" in COMMAND_USAGE
+    from helpers import strip_ansi
+    plain = strip_ansi(COMMAND_USAGE)
+    assert "Open command selector" in plain
 
 def test_force_color_formatting():
     from gaia_cli.formatting import _use_color
@@ -29,46 +31,29 @@ def test_force_color_formatting():
     with patch.dict(os.environ, {"NO_COLOR": "1", "FORCE_COLOR": "1"}):
         assert _use_color() is False
 
-def test_tui_missing_textual_error():
-    # We want to simulate 'from gaia_cli.tui import GaiaApp' failing with ImportError
-    # We can patch 'gaia_cli.tui' in sys.modules to None, which makes any import from it fail.
-    
-    with patch('gaia_cli.main.get_parser') as mock_get_parser:
-        mock_parser = MagicMock()
-        mock_parser.parse_args.return_value = MagicMock(tui=True)
-        mock_get_parser.return_value = (mock_parser, MagicMock())
-        
-        with patch.dict(sys.modules, {'gaia_cli.tui': None}):
-            # We need to reload or re-import main if it was already imported, 
-            # but since we are patching inside the test it should be fine if main() 
-            # does the import dynamically.
-            from gaia_cli.main import main
-            with patch.object(sys, 'argv', ['gaia', '--tui']):
-                with patch('sys.exit') as mock_exit:
-                    with patch('builtins.print') as mock_print:
-                        with patch('gaia_cli.main.resolve_registry_path'), \
-                             patch('gaia_cli.main.require_explicit_writable_registry'):
-                            # Explicitly delete gaia_cli.tui from sys.modules if it exists 
-                            # to force the ImportError when main() tries to import it.
-                            if 'gaia_cli.tui' in sys.modules:
-                                old_tui = sys.modules['gaia_cli.tui']
-                                sys.modules['gaia_cli.tui'] = None
-                                try:
-                                    main()
-                                finally:
-                                    sys.modules['gaia_cli.tui'] = old_tui
-                            else:
-                                sys.modules['gaia_cli.tui'] = None
-                                try:
-                                    main()
-                                finally:
-                                    del sys.modules['gaia_cli.tui']
-                            
-                            mock_exit.assert_called_with(1)
-                            mock_print.assert_any_call(
-                                "TUI requires the 'textual' package. Install with: pip install 'gaia-cli[tui]'",
-                                file=sys.stderr
-                            )
+def test_tui_flag_execs_skills():
+    """--tui flag causes main() to call os.execvp to replace process with 'gaia skills'."""
+    from gaia_cli.main import main
+
+    # Record the arguments passed to os.execvp
+    execvp_calls = []
+
+    def mock_execvp(program, args):
+        execvp_calls.append((program, args))
+        # Raise SystemExit to mimic process replacement
+        raise SystemExit(0)
+
+    with patch.object(sys, "argv", ["gaia", "--tui"]):
+        with patch("os.execvp", mock_execvp):
+            with pytest.raises(SystemExit) as exc_info:
+                main()
+
+    # Verify execvp was called
+    assert len(execvp_calls) == 1
+    program, args = execvp_calls[0]
+    # The final element of args should be 'skills'
+    assert args[-1] == "skills"
+    assert exc_info.value.code == 0
 
 def test_resolve_registry_path_usage_in_formatting():
     from gaia_cli import formatting

@@ -140,25 +140,25 @@ class TestLocalContextLoad:
         assert ctx.graph_data is not None
 
     def test_load_with_scan(self, mock_registry, monkeypatch):
-        """Load with scan results (paths.json)."""
+        """Load with scan results (paths.json) using new detectedIds format."""
         monkeypatch.chdir(mock_registry)
-        # Create .gaia/paths.json with some available paths
+        # Create .gaia/paths.json in the new format with explicit detectedIds / novelIds.
+        # The old `availablePaths[].ownedPrereqs` format is no longer read by the loader.
         paths_data = {
             "nearUnlocks": [],
             "oneAway": [],
-            "availablePaths": [
-                {"skillId": "web-frameworks", "ownedPrereqs": ["python-basics", "novel-skill"]},
-            ],
+            "detectedIds": ["python-basics", "testing", "novel-skill"],
+            "novelIds": ["novel-skill"],
             "computedAt": "2024-01-01T00:00:00Z",
         }
         _write_json(os.path.join(mock_registry, ".gaia", "paths.json"), paths_data)
 
         ctx = LocalContext.load(mock_registry, "testuser", include_scan=True)
 
-        # owned_ids should be in detected_ids
+        # owned_ids should be in detected_ids (owned implies detected)
         assert "python-basics" in ctx.detected_ids
         assert "testing" in ctx.detected_ids
-        # novel-skill is detected from ownedPrereqs but not in canon
+        # novel-skill is in detectedIds + novelIds → shows up as detected and novel
         assert "novel-skill" in ctx.detected_ids
         assert "novel-skill" in ctx.novel_ids
 
@@ -226,12 +226,12 @@ class TestLocalAndOwned:
     def test_is_local_with_novel(self, mock_registry, monkeypatch):
         """Novel skills (detected but not in canon) should be local."""
         monkeypatch.chdir(mock_registry)
+        # Use new paths.json format with detectedIds / novelIds.
         paths_data = {
             "nearUnlocks": [],
             "oneAway": [],
-            "availablePaths": [
-                {"skillId": "x", "ownedPrereqs": ["my-custom-skill"]},
-            ],
+            "detectedIds": ["my-custom-skill"],
+            "novelIds": ["my-custom-skill"],
             "computedAt": "2024-01-01T00:00:00Z",
         }
         _write_json(os.path.join(mock_registry, ".gaia", "paths.json"), paths_data)
@@ -252,24 +252,32 @@ class TestLocalAndOwned:
 
 class TestDisplayName:
     def test_display_named_skill(self, mock_registry, monkeypatch):
-        """Named skills display as contributor/name."""
+        """Named skills by another contributor display as /contrib/nick N★.
+
+        The new display_name format always adds a leading slash and appends the
+        level star: "/alice/flask-mastery 2★" (web-frameworks is level 2★ in
+        MINI_GRAPH). With include_star=False: "/alice/flask-mastery".
+        """
         monkeypatch.chdir(mock_registry)
         ctx = LocalContext.load(mock_registry, "testuser", include_scan=False)
-        assert ctx.display_name("web-frameworks") == "alice/flask-mastery"
+        assert ctx.display_name("web-frameworks") == "/alice/flask-mastery 2★"
+        assert ctx.display_name("web-frameworks", include_star=False) == "/alice/flask-mastery"
 
     def test_display_novel_skill(self, mock_registry, monkeypatch):
-        """Novel/local skills display as /id."""
+        """Novel/local skills display as /id (no star when level is 0★/unknown)."""
         monkeypatch.chdir(mock_registry)
-        # Manually inject a novel skill
         ctx = LocalContext.load(mock_registry, "testuser", include_scan=False)
         ctx.novel_ids.add("my-experiment")
+        # level_of("my-experiment") → "0★" (not in skill_map); star omitted for 0★
         assert ctx.display_name("my-experiment") == "/my-experiment"
 
     def test_display_canon_skill(self, mock_registry, monkeypatch):
-        """Canon skills without named impl display as /id."""
+        """Canon skills without named impl display as /skill-id N★."""
         monkeypatch.chdir(mock_registry)
         ctx = LocalContext.load(mock_registry, "testuser", include_scan=False)
-        assert ctx.display_name("python-basics") == "/python-basics"
+        # python-basics has level "1★" in MINI_GRAPH
+        assert ctx.display_name("python-basics") == "/python-basics 1★"
+        assert ctx.display_name("python-basics", include_star=False) == "/python-basics"
 
 
 # ---------------------------------------------------------------------------
@@ -497,7 +505,13 @@ class TestLocalFirstMap:
         assert result["web-frameworks"] == "marco/gaia-curate"
 
     def test_install_map_extracts_from_local_path(self, tmp_path, monkeypatch):
-        """_build_install_map reads genericSkillRef from localPath skill dir."""
+        """_build_install_map reads genericSkillRef from localPath skill dir.
+
+        _iter_manifest_refs now also yields a self-mapping for each manifest
+        entry's named-skill ID (e.g. "marco/gaia-curate" → "marco/gaia-curate"),
+        enabling local-first lookup by named ID. The result is a superset of
+        the old {genericRef: namedId} mapping.
+        """
         monkeypatch.chdir(str(tmp_path))
         skills_dir = tmp_path / ".agents" / "skills" / "gaia-curate"
         skills_dir.mkdir(parents=True)
@@ -505,7 +519,10 @@ class TestLocalFirstMap:
         _write_json(tmp_path / ".gaia" / "install-manifest.json", INSTALL_MANIFEST)
 
         result = _build_install_map(str(tmp_path))
-        assert result == {"web-frameworks": "marco/gaia-curate"}
+        # Primary mapping: genericSkillRef → named skill id
+        assert result["web-frameworks"] == "marco/gaia-curate"
+        # Self-mapping: named skill id → itself (local-first behavior)
+        assert result.get("marco/gaia-curate") == "marco/gaia-curate"
 
     def test_install_map_falls_back_to_registry(self, tmp_path, monkeypatch):
         """_build_install_map falls back to registry/named/ when localPath missing."""
@@ -528,7 +545,10 @@ class TestLocalFirstMap:
         _write_json(tmp_path / ".gaia" / "install-manifest.json", manifest)
 
         result = _build_install_map(str(tmp_path))
-        assert result == {"web-frameworks": "marco/gaia-curate"}
+        # Primary mapping: genericSkillRef → named skill id
+        assert result["web-frameworks"] == "marco/gaia-curate"
+        # Self-mapping also present
+        assert result.get("marco/gaia-curate") == "marco/gaia-curate"
 
     def test_empty_username_skips_agent_dirs(self, tmp_path, monkeypatch):
         """An empty username must not produce broken contributor/ prefixes."""
@@ -537,7 +557,13 @@ class TestLocalFirstMap:
         assert result == {}
 
     def test_display_name_uses_manifest(self, mock_registry, monkeypatch):
-        """display_name returns /localdir for the user's own installed skill."""
+        """display_name returns /contrib/nick N★ for the user's own installed skill.
+
+        The new display_name format shows the full /contrib/nick with leading slash
+        and star even for own skills. For marco viewing their own web-frameworks
+        implementation (gaia-curate at web-frameworks' 2★ level), the result is
+        "/marco/gaia-curate 2★". With include_star=False: "/marco/gaia-curate".
+        """
         monkeypatch.chdir(mock_registry)
         # Install marco's version of web-frameworks
         skills_dir = os.path.join(mock_registry, ".agents", "skills", "gaia-curate")
@@ -558,11 +584,15 @@ class TestLocalFirstMap:
         _write_json(os.path.join(mock_registry, ".gaia", "install-manifest.json"), manifest)
 
         ctx = LocalContext.load(mock_registry, "marco", include_scan=False)
-        assert ctx.display_name("web-frameworks") == "/gaia-curate"
+        # web-frameworks level = 2★ from MINI_GRAPH; marco == username → not redacted;
+        # format is /contrib/nick N★ (own skills show full handle, not nickname-only)
+        assert ctx.display_name("web-frameworks") == "/marco/gaia-curate 2★"
+        assert ctx.display_name("web-frameworks", include_star=False) == "/marco/gaia-curate"
 
     def test_no_manifest_falls_back_gracefully(self, mock_registry, monkeypatch):
         """Without a manifest, local-first map behaves like registry-only named map."""
         monkeypatch.chdir(mock_registry)
         ctx = LocalContext.load(mock_registry, "testuser", include_scan=False)
-        # alice/flask-mastery from the registry is still used
-        assert ctx.display_name("web-frameworks") == "alice/flask-mastery"
+        # alice/flask-mastery from the registry; web-frameworks is 2★ → "/alice/flask-mastery 2★"
+        assert ctx.display_name("web-frameworks") == "/alice/flask-mastery 2★"
+        assert ctx.display_name("web-frameworks", include_star=False) == "/alice/flask-mastery"

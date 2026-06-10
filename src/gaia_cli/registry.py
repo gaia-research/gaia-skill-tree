@@ -28,7 +28,11 @@ def bundled_registry_path():
 
 
 def registry_dir(registry_path) -> str:
-    return os.path.join(str(registry_path), "registry")
+    std_dir = os.path.join(str(registry_path), "registry")
+    gaia_dir = os.path.join(str(registry_path), ".gaia", "registry")
+    if not os.path.exists(os.path.join(std_dir, "gaia.json")) and os.path.exists(os.path.join(gaia_dir, "gaia.json")):
+        return gaia_dir
+    return std_dir
 
 
 def registry_graph_path(registry_path):
@@ -73,6 +77,10 @@ def generated_output_dir(registry_path) -> str:
 
 def promotion_candidates_path(registry_path) -> str:
     return os.path.join(generated_output_dir(registry_path), "promotion-candidates.json")
+
+
+def scan_state_path(registry_path) -> str:
+    return os.path.join(generated_output_dir(registry_path), "scan-state.json")
 
 
 def embeddings_path(registry_path) -> str:
