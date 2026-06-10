@@ -16,6 +16,13 @@ on:
 
 permissions:
   contents: read
+  # If this workflow ever migrates to OIDC-based auth (e.g. wrangler-action
+  # token federation or any action calling core.getIDToken()), add:
+  #   id-token: write
+  # Without it GitHub silently returns an empty token and the deploy fails
+  # inside the action at token-exchange time, not on this line. Not needed
+  # while CLOUDFLARE_API_TOKEN / CLOUDFLARE_ACCOUNT_ID secrets are used.
+  # See issue #467.
 
 jobs:
   deploy:
