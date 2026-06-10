@@ -56,9 +56,37 @@ _Avoid_: upgrade, promote-up.
 The verb for dropping a skill back one or more stars when a demerit lands or evidence is retracted.
 _Avoid_: downgrade, demote-down.
 
-**Evidence Class**:
-The independently graded quality of a real-world demonstration: Class C (first sighting), Class B (reproducible, documented), Class A (battle-tested, peer-reviewed).
-_Avoid_: proof level, evidence tier.
+**Evidence Class** _(deprecated — see Evidence Type + Evidence Grade)_:
+The legacy single axis that conflated *provenance* and *quality* into one letter: Class C (first sighting), Class B (reproducible, documented), Class A (battle-tested, peer-reviewed). Superseded under the #646 trust model by **Evidence Type** (where a demonstration came from) plus **Evidence Grade** (how strong it is). The field stays valid in the schema until the next major release, then is removed; new evidence should carry a Type and a Grade instead. **Warning:** Class A/B are *not* Grade A/B — never read one axis as the other.
+_Avoid_: proof level, evidence tier; using Class for new evidence; equating Class letters with Grade letters.
+
+### Evidence and trust (the trust model)
+
+The #646 trust model splits the old single `class` letter into two orthogonal axes — **Evidence Type** (provenance) and **Evidence Grade** (quality) — and adds the skill-level **Overall Trust Grade**. These materialise in generated catalogs; they are computed by the build pipeline, never declared.
+
+**Evidence Type**:
+The provenance of one demonstration — *where* it comes from, not how good it is. Values are kebab-case and list-driven from `meta.json` `evidence.types` (initially `arxiv`, `repo`, `github-stars`), so new sources extend the list without a schema change. Always write the full phrase "Evidence Type"; never the bare word "type", which names the Basic/Extra/Unique/Ultimate taxonomy field.
+_Avoid_: reusing **Evidence Class** for provenance; "source class"; the bare "type" for provenance.
+
+**Evidence Grade**:
+The quality of one demonstration on an **S / A / B / C** axis — Platinum (S), Gold (A), Silver (B), Bronze (C) — derived from its **trust number**. A demonstration whose trust number falls below the C threshold is **ungraded**: on the record but counting toward no gate. The grade letters are deliberately distinct from the deprecated **Evidence Class** letters — Grade A ≠ Class A.
+_Avoid_: equating Grade A/B with Class A/B; "evidence tier"; "proof grade".
+
+**trust number**:
+The internal 0–100 score an **Evidence Grade** derives from, via `meta.json` `evidence.gradeThresholds` (S ≥ 90, A ≥ 80, B ≥ 60, C ≥ 40, ungraded < 40). An input to grading, **not user-facing** — surfaces show the grade it yields, never the raw number.
+_Avoid_: showing the trust number in copy; "trust score" (the term is "trust number").
+
+**Overall Trust Grade**:
+A skill's *aggregate* standing — the accumulation of its individual **Evidence Grades** that establishes the capability "beyond reasonable doubt." Computed from the evidence inventory at build time and **never stored in a node** (Programmatic-First); it materialises only in generated catalogs (`named-skills.json`, `docs/graph/gaia.json`). Distinct from a single demonstration's **Evidence Grade**.
+_Avoid_: storing it on a node; conflating it with one entry's Evidence Grade; "trust rating".
+
+**rank tenure**:
+How long a skill has held its current stars, derived from its timeline `rank_up` / `demote` events and rendered as "held the *[rank name]* rank since *[date]*." Computed, never stored. In copy always pair the word "rank" with the rank name (e.g. "the Hardened rank since 2026-03-01"); never write "rank" alone to mean the stars axis.
+_Avoid_: "rank since" with no rank name; storing tenure on a node; "rank age".
+
+**Verification levels**:
+The states an evidence entry passes through, orthogonal to its grade: **unverified** (default), **verified** (confirmed by a 4★+ **Verifier**; `evidence.verified: true`), and **disputed** (`evidence.disputed: true`). Verification attests that a demonstration is *real*; grading measures how *strong* it is — the two never substitute for each other.
+_Avoid_: treating "verified" as a grade; "verification stars" (verification is not on the stars axis).
 
 ### Rarity (the third axis — REMOVED)
 
@@ -138,7 +166,7 @@ current rank, or the build fails.
 - An **Extra Skill** can fuse with other **Extra Skills** to produce a more complex **Extra Skill**, or chain into an **Ultimate Skill**.
 - A **Unique Skill** is a **Basic Skill** that ranked up without ever fusing.
 - A skill becomes a **Named Skill** at 2★, attaching it to its **Origin Contributor**.
-- Every star above 1★ requires an **Evidence Class**; ranking up across stars gates on it.
+- Every star above 1★ requires graded evidence — an **Evidence Grade** (the **Evidence Class** axis it replaces is deprecated); ranking up across stars gates on it.
 - The **Registry** is the canonical graph; a **Skill Tree** is one user's view of that graph.
 
 ## Example dialogue

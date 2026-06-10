@@ -165,13 +165,33 @@
     "evidenceEntry": {
       "type": "object",
       "required": [
-        "class",
         "source",
         "evaluator",
         "date"
       ],
       "additionalProperties": false,
       "properties": {
+        "type": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+          "description": "Evidence Type — the provenance of the demonstration (where it came from, not how strong it is). Kebab-case, validated against meta.json evidence.types (initially arxiv, repo, github-stars); list-driven so new types can be added in meta.json without a schema change. Carries the provenance meaning that the deprecated `class` field used to conflate. Distinct from the skill `type` taxonomy (basic/extra/unique/ultimate)."
+        },
+        "grade": {
+          "type": "string",
+          "enum": [
+            "S",
+            "A",
+            "B",
+            "C"
+          ],
+          "description": "Evidence Grade — the quality of the demonstration, derived from trustNumber via meta.json evidence.gradeThresholds (S >= 90, A >= 80, B >= 60, C >= 40). Evidence whose trustNumber is below 40 is ungraded: this field is absent and the entry counts toward no gate. WARNING: grade A/B are NOT the deprecated class A/B — migration code must never read one as the other."
+        },
+        "trustNumber": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Internal 0–100 trust score that the Evidence Grade derives from via meta.json evidence.gradeThresholds. Not user-facing; surfaces show the grade, never the raw number."
+        },
         "class": {
           "type": "string",
           "enum": [
@@ -179,7 +199,7 @@
             "B",
             "C"
           ],
-          "description": "Evidence class: A (peer-reviewed), B (reproducible demo), C (credible demo)."
+          "description": "DEPRECATED — removed at the next major release. Legacy single axis that conflated provenance and quality into one letter (A peer-reviewed, B reproducible demo, C credible demo). Superseded by `type` (provenance) + `grade` (quality). Class A/B are NOT grade A/B. Retained for backward compatibility until the class-to-type migration completes; no longer required."
         },
         "source": {
           "type": "string",
