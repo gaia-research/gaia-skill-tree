@@ -219,7 +219,7 @@ Requires `textual` (included with `pip install gaia-cli`).
 <!-- gaia:cli-start -->
 ```text
 usage: gaia [-h] [--registry REGISTRY] [--global] [--version]
-            {help,init,scan,fetch,pull,update,install,uninstall,tree,push,propose,version,whoami,reset,mcp,release,graph,stats,appraise,promote,fuse,docs,lookup,path,dev,validate,test,skills}
+            {help,init,scan,fetch,pull,update,install,uninstall,share,tree,push,propose,version,whoami,reset,mcp,release,graph,stats,appraise,promote,fuse,docs,lookup,path,dev,validate,test,skills}
             ...
 
 Gaia Registry CLI
@@ -259,6 +259,10 @@ Skills:
   gaia skills info <skill_id> [--exclude-pending]
   gaia skills install <skill> [--global | --local]
   gaia skills uninstall <skill_id>
+
+Share:
+  gaia share [--user <name>] [-o <path>] [--stdout]
+  gaia install <bundle.json|url>   Preview & install a shared tree (guided)
 
 Utilities:
   gaia whoami
