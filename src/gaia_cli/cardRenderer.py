@@ -383,7 +383,7 @@ def render_card_compact(
     """
     Render a compact single-line card summary.
 
-    Format: [glyph] /skill-id (level) [rarity] — first 60 chars of description
+    Format: [glyph] <display name> [rarity] — first 60 chars of description
     """
     tier = skill.get("type", "basic")
     glyph = TIER_GLYPHS.get(tier, "○")

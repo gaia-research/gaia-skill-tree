@@ -243,7 +243,7 @@ class TestRed_WriteGraphArtifactCustom:
                      name="Local Only", description="A local-only custom skill")
         monkeypatch.chdir(tmp_path)
 
-        out_path = graph_mod.write_graph_artifact(
+        out_path, _ = graph_mod.write_graph_artifact(
             root, fmt="json", custom=True
         )
 
@@ -263,7 +263,7 @@ class TestRed_WriteGraphArtifactCustom:
                      name="My Skill")
         monkeypatch.chdir(tmp_path)
 
-        out_path = graph_mod.write_graph_artifact(
+        out_path, _ = graph_mod.write_graph_artifact(
             root, fmt="json", custom=True
         )
 
@@ -287,8 +287,9 @@ class TestGreen_ScanGlobalSearch:
                      name="Project Skill")
 
         results = scan_skill_mds(root=str(tmp_path), global_search=False)
-        found_ids = {r["id"] for r in results}
-        assert "project-skill" in found_ids
+        found_ids = {sk["id"] for sk in results}
+        # scan_skill_mds returns slash-prefixed IDs
+        assert "/project-skill" in found_ids
 
     def test_global_search_includes_global_dirs(self, tmp_path, monkeypatch):
         """global_search=True includes global user skill directories."""
@@ -379,12 +380,12 @@ class TestGreen_CustomGraphMatchesScan:
                      name="Beta", description="Second")
         monkeypatch.chdir(tmp_path)
 
-        # Run scan to get expected IDs
+        # Run scan to get expected IDs (slash-prefixed from scan_skill_mds)
         scanned = scan_skill_mds(root=str(tmp_path), global_search=False)
-        expected_ids = {sk["id"] for sk in scanned}
+        expected_ids = {sk["id"].lstrip("/") for sk in scanned}
 
         # Run custom graph
-        out_path = graph_mod.write_graph_artifact(
+        out_path, _ = graph_mod.write_graph_artifact(
             root, fmt="json", custom=True
         )
         data = json.loads(out_path.read_text(encoding="utf-8"))
@@ -404,7 +405,7 @@ class TestGreen_CustomGraphMatchesScan:
                      name="Child", prerequisites=["parent-skill"])
         monkeypatch.chdir(tmp_path)
 
-        out_path = graph_mod.write_graph_artifact(
+        out_path, _ = graph_mod.write_graph_artifact(
             root, fmt="json", custom=True
         )
         data = json.loads(out_path.read_text(encoding="utf-8"))

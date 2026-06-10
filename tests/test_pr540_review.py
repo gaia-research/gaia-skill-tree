@@ -11,7 +11,9 @@ def test_tui_flag_exists():
 
 def test_tui_usage_mentions_gaia():
     from gaia_cli.main import COMMAND_USAGE
-    assert "gaia                        Launch the TUI" in COMMAND_USAGE
+    from helpers import strip_ansi
+    plain = strip_ansi(COMMAND_USAGE)
+    assert "Open command selector" in plain
 
 def test_force_color_formatting():
     from gaia_cli.formatting import _use_color
