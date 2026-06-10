@@ -42,18 +42,21 @@ So that means, its the developers who make skills maintaining this. I have a tho
 
 <!-- gaia:registry-start -->
 ```text
-◆ ruvnet/agentdb  [5★]
-  ├─ ◇ ████████/agentdb-advanced
-  │  ├─ ○ ruvnet/agentdb-vector-search  [2★]
-  │  └─ ◇ garrytan/learn  [3★]
-  │     ├─ ○ mattpocock/caveman  [3★]
-  │     └─ ○ /retrieve
-  ├─ ◇ ruvnet/reasoningbank-agentdb  [2★]
-  │  ├─ ○ ████████/reasoningbank-intelligence
-  │  └─ ◇ garrytan/learn  [3★]  (↑ see above)
-  ├─ ○ ruvnet/agentdb-memory-patterns  [2★]
-  ├─ ○ ruvnet/agentdb-optimization  [2★]
-  └─ ○ ruvnet/agentdb-vector-search  [2★]  (↑ see above)
+◆ mattpocock/skills  [6★]
+  ├─ ◆ mattpocock/engineering  [5★]
+  │  ├─ ◇ mattpocock/diagnose  [2★]
+  │  │  ├─ ○ garrytan/design-html  [4★]
+  │  │  ├─ ○ /code-execution
+  │  │  └─ ○ /error-interpretation
+  │  ├─ ○ mattpocock/improve-codebase-architecture  [3★]
+  │  ├─ ◇ garrytan/garrytan  [4★]
+  │  │  ├─ ○ /plan-decompose
+  │  │  └─ ○ /route-intent
+  │  ├─ ◇ mattpocock/to-prd  [2★]
+  │  │  ├─ ○ garrytan/retro  [3★]
+  │  │  └─ ○ /plan-decompose  (↑ see above)
+  │  ├─ ○ mattpocock/triage  [3★]
+  │  ├─ ◇ mattpocock/ubiquitous-language  [4★]
 
 ◆ garrytan/gstack  [5★]
   ├─ ○ garrytan/office-hours  [4★]

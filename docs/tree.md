@@ -8,20 +8,6 @@ GAIA SKILL TREE  v4.6.1  ·  generated 2026-06-10
 Shared prerequisites marked (↑ see above) on second occurrence.
 ══════════════════════════════════════════════════════════════════════
 
-◆ ruvnet/agentdb  [5★]
-─────────────────────────────────────────────────────────────────
-  ├─ ◇ ████████/agentdb-advanced
-  │  ├─ ○ ruvnet/agentdb-vector-search  [2★]
-  │  └─ ◇ garrytan/learn  [3★]
-  │     ├─ ○ mattpocock/caveman  [3★]
-  │     └─ ○ /retrieve
-  ├─ ◇ ruvnet/reasoningbank-agentdb  [2★]
-  │  ├─ ○ ████████/reasoningbank-intelligence
-  │  └─ ◇ garrytan/learn  [3★]  (↑ see above)
-  ├─ ○ ruvnet/agentdb-memory-patterns  [2★]
-  ├─ ○ ruvnet/agentdb-optimization  [2★]
-  └─ ○ ruvnet/agentdb-vector-search  [2★]  (↑ see above)
-
 ◆ garrytan/gstack  [5★]
 ─────────────────────────────────────────────────────────────────
   ├─ ○ garrytan/office-hours  [4★]
@@ -214,39 +200,6 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  └─ ○ /tool-use  (↑ see above)
   ├─ ◇ obra/verification-before-completion  [2★]  (↑ see above)
   └─ ◇ obra/writing-plans  [2★]  (↑ see above)
-
-◆ mattpocock/engineering  [5★]
-─────────────────────────────────────────────────────────────────
-  ├─ ◇ mattpocock/diagnose  [2★]
-  │  ├─ ○ garrytan/design-html  [4★]
-  │  ├─ ○ /code-execution
-  │  └─ ○ /error-interpretation
-  ├─ ○ mattpocock/improve-codebase-architecture  [3★]
-  ├─ ◇ garrytan/garrytan  [4★]
-  │  ├─ ○ /plan-decompose
-  │  └─ ○ /route-intent
-  ├─ ◇ mattpocock/to-prd  [2★]
-  │  ├─ ○ garrytan/retro  [3★]
-  │  └─ ○ /plan-decompose  (↑ see above)
-  ├─ ○ mattpocock/triage  [3★]
-  ├─ ◇ mattpocock/ubiquitous-language  [4★]
-  │  ├─ ○ /extract-entities
-  │  └─ ○ intelligentcode-ai/requirements-engineer  [2★]
-  ├─ ○ mattpocock/zoom-out  [2★]
-  ├─ ◇ mattpocock/grill-with-docs  [3★]
-  │  ├─ ◇ mattpocock/grill-me  [4★]
-  │  │  ├─ ◇ garrytan/design-shotgun  [4★]
-  │  │  │  ├─ ○ garrytan/benchmark  [4★]
-  │  │  │  └─ ○ /plan-decompose  (↑ see above)
-  │  │  └─ ○ /self-critique
-  │  ├─ ◇ mattpocock/ubiquitous-language  [4★]  (↑ see above)
-  │  └─ ○ garrytan/document-generate  [4★]
-  ├─ ◇ mattpocock/prototype  [3★]
-  │  ├─ ○ garrytan/design-html  [4★]  (↑ see above)
-  │  └─ ○ /code-execution  (↑ see above)
-  └─ ◇ mattpocock/setup-matt-pocock-skills  [3★]
-     ├─ ○ garrytan/document-generate  [4★]  (↑ see above)
-     └─ ○ /tool-use
 
 ◆ mattpocock/skills  [6★]
 ─────────────────────────────────────────────────────────────────
