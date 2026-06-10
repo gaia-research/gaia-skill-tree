@@ -280,7 +280,13 @@ def scan_skill_mds(root: str = ".", global_search: bool = False) -> list:
     
     for d in _skill_search_dirs(root, global_search):
         if "PYTEST_CURRENT_TEST" in os.environ:
-            if os.path.abspath(d).startswith(os.path.abspath(root)):
+            # Containment check: use the realpath of d's *parent* joined with
+            # d's basename so that a symlink *located* under root (but pointing
+            # outside root) is correctly included, while global dirs that live
+            # entirely outside root stay excluded.
+            d_parent_real = os.path.realpath(os.path.dirname(d))
+            d_entry = os.path.join(d_parent_real, os.path.basename(d))
+            if d_entry.startswith(root_real + os.sep) or d_entry == root_real:
                 search_roots.append(os.path.abspath(d))
         else:
             search_roots.append(os.path.abspath(d))

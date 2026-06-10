@@ -39,7 +39,7 @@ class TestScanSkillMds:
 
         results = scan_skill_mds(root=str(tmp_path))
         assert len(results) == 1
-        assert results[0]["id"] == "my-scraper"
+        assert results[0]["id"] == "/my-scraper"
         assert results[0]["name"] == "My Scraper"
         assert results[0]["description"] == "Scrape the web"
         assert "source_dir" in results[0]
@@ -52,7 +52,7 @@ class TestScanSkillMds:
 
         results = scan_skill_mds(root=str(tmp_path))
         assert len(results) == 1
-        assert results[0]["id"] == "analyst"
+        assert results[0]["id"] == "/analyst"
 
     def test_no_skill_dirs_returns_empty(self, tmp_path):
         """Returns empty list when neither skill dir exists."""
@@ -77,7 +77,7 @@ class TestScanSkillMds:
 
         results = scan_skill_mds(root=str(tmp_path))
         assert len(results) == 1
-        assert results[0]["id"] == "duplicate"
+        assert results[0]["id"] == "/duplicate"
 
     def test_fallback_to_body_snippet_when_no_description(self, tmp_path):
         """Uses body text as description when frontmatter has no description."""
@@ -99,7 +99,7 @@ class TestScanSkillMds:
         assert scan_skill_mds(root=str(tmp_path)) == []
         results = scan_skill_mds(root=str(other_root))
         assert len(results) == 1
-        assert results[0]["id"] == "remote-skill"
+        assert results[0]["id"] == "/remote-skill"
 
     def test_stops_one_layer_deep(self, tmp_path):
         """Should only search for the skill one layer under the /skills/ folder, not beyond."""
@@ -113,7 +113,7 @@ class TestScanSkillMds:
 
         results = scan_skill_mds(root=str(tmp_path))
         assert len(results) == 1
-        assert results[0]["id"] == "valid-skill"
+        assert results[0]["id"] == "/valid-skill"
 
 
 
@@ -129,7 +129,7 @@ class TestSkillSearchDirs:
         _write(str(d / "skill.md"), "---\nname: Antigravity\ndescription: test\n---\n")
 
         results = scan_skill_mds(root=str(tmp_path))
-        assert any(r["id"] == "my-skill" for r in results)
+        assert any(r["id"] == "/my-skill" for r in results)
 
     def test_finds_cursor_rules(self, tmp_path):
         """.cursor/rules/ subdirs are treated as skills."""
@@ -138,7 +138,7 @@ class TestSkillSearchDirs:
         _write(str(d / "README.md"), "---\nname: Cursor Rule\ndescription: test\n---\n")
 
         results = scan_skill_mds(root=str(tmp_path))
-        assert any(r["id"] == "cursor-skill" for r in results)
+        assert any(r["id"] == "/cursor-skill" for r in results)
 
     def test_finds_windsurf_rules(self, tmp_path):
         """.windsurf/rules/ subdirs are treated as skills."""
@@ -147,7 +147,7 @@ class TestSkillSearchDirs:
         _write(str(d / "skill.md"), "---\nname: Surf\ndescription: test\n---\n")
 
         results = scan_skill_mds(root=str(tmp_path))
-        assert any(r["id"] == "surf-skill" for r in results)
+        assert any(r["id"] == "/surf-skill" for r in results)
 
     def test_source_dir_recorded(self, tmp_path):
         """Each result records which directory it came from."""
@@ -171,7 +171,7 @@ class TestSkillSearchDirs:
 
         results = scan_skill_mds(root=str(tmp_path))
         assert len(results) == 1
-        assert results[0]["id"] == "my-skill"
+        assert results[0]["id"] == "/my-skill"
         assert results[0]["name"] == "Shared"
 
     def test_symlink_deduplication(self, tmp_path):
@@ -186,7 +186,7 @@ class TestSkillSearchDirs:
             (d / "skill-x").symlink_to(real_skill)
 
         results = scan_skill_mds(root=str(tmp_path))
-        assert len([r for r in results if r["id"] == "skill-x"]) == 1
+        assert len([r for r in results if r["id"] == "/skill-x"]) == 1
 
     def test_config_driven_skill_dirs(self, tmp_path, monkeypatch):
         """Paths listed under skillDirs in .gaia/config.toml are scanned."""
@@ -201,7 +201,7 @@ class TestSkillSearchDirs:
         _write(str(gaia_dir / "config.toml"), 'skillDirs = ["my-custom-skills"]\n')
 
         results = scan_skill_mds(root=str(tmp_path))
-        assert any(r["id"] == "custom-skill" for r in results)
+        assert any(r["id"] == "/custom-skill" for r in results)
 
     def test_skill_search_dirs_deduplicates_real_paths(self, tmp_path):
         """_skill_search_dirs never returns two entries for the same realpath."""
@@ -303,25 +303,35 @@ class TestMatchSkillToCanonical:
         )
         assert result == ("python-basics", 1.0, "exact_generic")
 
-    def test_semantic_match_origin_threshold(self):
-        """Semantic matching uses origin_threshold for origin skills."""
+    def test_near_miss_origin_falls_through_to_generic_semantic(self):
+        """A near-miss origin name is NOT matched as 'origin' (origin is exact-only).
+
+        When the local skill ID is similar but not identical to the origin base ID,
+        step 1 (exact origin check) must not fire.  If the description shares enough
+        words with a *generic* canonical skill the result should be match_type 'generic';
+        otherwise it should be None.
+        """
         origin_skills = [
-            {"id": "pbakaus/impeccable", "name": "Impeccable Design Audit tool", "description": "Elite design vocabulary and audit tool"}
+            {"id": "pbakaus/impeccable", "name": "Impeccable Design Audit tool",
+             "description": "Elite design vocabulary and audit tool"}
         ]
-        # Should not match because it's below origin_threshold (0.80)
-        low_match = match_skill_to_canonical(
+
+        # Near-miss: "impeccable-clone" != "impeccable" → origin step skipped.
+        # The generic canonical skills (_CANONICAL_SKILLS) have no overlapping
+        # words either, so the whole call should return None.
+        result = match_skill_to_canonical(
             "impeccable-clone", "impeccable-clone", "Elite design vocabulary",
             _CANONICAL_SKILLS, origin_skills=origin_skills,
-            threshold=0.20, origin_threshold=0.80
+            threshold=0.20,
         )
-        assert low_match is None
+        # Must NOT be an "origin" match — origin matching is exact-only.
+        assert result is None or result[2] != "origin"
 
-        # Should match when score exceeds origin_threshold
-        high_match = match_skill_to_canonical(
-            "impeccable-clone", "impeccable-clone", "Elite design vocabulary and audit tool",
+        # Verify that an exact name match still triggers "origin".
+        exact_result = match_skill_to_canonical(
+            "impeccable", "impeccable", "Elite design vocabulary and audit tool",
             _CANONICAL_SKILLS, origin_skills=origin_skills,
-            threshold=0.20, origin_threshold=0.30
         )
-        assert high_match is not None
-        assert high_match[0] == "pbakaus/impeccable"
-        assert high_match[2] == "origin"
+        assert exact_result is not None
+        assert exact_result[0] == "pbakaus/impeccable"
+        assert exact_result[2] == "origin"
