@@ -1,0 +1,1483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CLI Reference — Gaia Docs</title>
+  <meta name="description" content="Complete reference for the Gaia CLI — every command, flag, and option with usage examples.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="icon" type="image/svg+xml" href="../assets/marks/diamond-seal.svg">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg, #030712);
+      color: var(--text, #e2e8f0);
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-size: 1rem;
+      line-height: 1.65;
+    }
+
+    a { color: var(--tier-basic, #38bdf8); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Nav ── */
+    .docs-nav {
+      border-bottom: 1px solid var(--border, #1e293b);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      height: 52px;
+      position: sticky;
+      top: 0;
+      background: rgba(3, 7, 18, 0.92);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+    }
+    .nav-logo {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--text, #e2e8f0);
+      letter-spacing: .02em;
+    }
+    .nav-logo span { color: var(--tier-ultimate, #f59e0b); }
+    .nav-sep { color: var(--muted, #64748b); font-size: 0.85rem; }
+    .nav-crumb { font-size: 0.82rem; color: var(--muted, #64748b); }
+    .nav-crumb:hover { color: var(--text, #e2e8f0); text-decoration: none; }
+    .nav-crumb.current { color: var(--text, #e2e8f0); }
+    .nav-spacer { flex: 1; }
+    .nav-version {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted, #64748b);
+      padding: 0.2rem 0.5rem;
+      border: 1px solid var(--border, #1e293b);
+      border-radius: 4px;
+    }
+
+    /* ── Layout ── */
+    .page-layout {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      position: sticky;
+      top: 52px;
+      height: calc(100vh - 52px);
+      overflow-y: auto;
+      padding: 2rem 0 2rem 1.5rem;
+      border-right: 1px solid var(--border, #1e293b);
+      scrollbar-width: thin;
+      scrollbar-color: var(--border, #1e293b) transparent;
+    }
+    .sidebar-group { margin-bottom: 1.75rem; }
+    .sidebar-group-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.66rem;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--muted, #64748b);
+      margin-bottom: 0.5rem;
+    }
+    .sidebar-links { list-style: none; display: flex; flex-direction: column; gap: 0.1rem; }
+    .sidebar-links a {
+      display: block;
+      padding: 0.25rem 0.6rem;
+      font-size: 0.84rem;
+      color: var(--muted, #64748b);
+      border-radius: 4px;
+      transition: color 0.15s, background 0.15s;
+    }
+    .sidebar-links a:hover {
+      color: var(--text, #e2e8f0);
+      background: rgba(255,255,255,0.04);
+      text-decoration: none;
+    }
+    .sidebar-links a.active {
+      color: var(--tier-basic, #38bdf8);
+      background: rgba(56,189,248,0.07);
+    }
+    .sidebar-links code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.76rem;
+    }
+
+    /* ── Main ── */
+    .main-content {
+      padding: 2.5rem 3rem 4rem 3rem;
+      max-width: 820px;
+      min-width: 0;
+    }
+
+    .page-title {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 2.4rem;
+      font-weight: 500;
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+      color: var(--text, #e2e8f0);
+    }
+    .page-lead {
+      font-size: 1.05rem;
+      color: var(--muted, #64748b);
+      max-width: 580px;
+      line-height: 1.65;
+      margin-bottom: 2.5rem;
+    }
+
+    /* ── Sections ── */
+    .section { margin-bottom: 3.5rem; }
+    .section-title {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 1.6rem;
+      font-weight: 500;
+      color: var(--text, #e2e8f0);
+      margin-bottom: 0.4rem;
+      padding-top: 1rem;
+    }
+    .section-desc {
+      font-size: 0.9rem;
+      color: var(--muted, #64748b);
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    /* ── Command card ── */
+    .cmd-card {
+      border: 1px solid var(--border, #1e293b);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 1.25rem;
+      background: var(--surface, #0f172a);
+    }
+    .cmd-card-header {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      padding: 0.9rem 1.25rem;
+      border-bottom: 1px solid var(--border, #1e293b);
+      background: rgba(255,255,255,0.02);
+      flex-wrap: wrap;
+    }
+    .cmd-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #86efac;
+    }
+    .cmd-signature {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--muted, #64748b);
+    }
+    .cmd-body { padding: 1rem 1.25rem; }
+    .cmd-desc {
+      font-size: 0.9rem;
+      color: var(--muted, #64748b);
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+
+    /* ── Flag table ── */
+    .flag-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+    .flag-table th {
+      text-align: left;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.66rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--muted, #64748b);
+      padding: 0.4rem 0.75rem 0.5rem;
+      border-bottom: 1px solid var(--border, #1e293b);
+    }
+    .flag-table td {
+      padding: 0.45rem 0.75rem;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(30,41,59,0.5);
+    }
+    .flag-table tr:last-child td { border-bottom: none; }
+    .flag-table td:first-child {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--tier-extra, #c084fc);
+      white-space: nowrap;
+    }
+    .flag-table td:nth-child(2) { color: var(--text, #e2e8f0); }
+    .flag-table td:nth-child(3) {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--muted, #64748b);
+    }
+
+    /* ── Examples ── */
+    .example-block {
+      background: #06080f;
+      border: 1px solid var(--border, #1e293b);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-top: 0.85rem;
+    }
+    .example-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.66rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--muted, #64748b);
+      padding: 0.45rem 1rem;
+      border-bottom: 1px solid var(--border, #1e293b);
+      background: rgba(255,255,255,0.015);
+    }
+    .example-block pre {
+      padding: 0.85rem 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      line-height: 1.8;
+      color: #c9d1d9;
+      overflow-x: auto;
+    }
+    .example-block pre .c { color: var(--muted, #64748b); }
+    .example-block pre .cmd { color: #86efac; }
+    .example-block pre .arg { color: var(--tier-extra, #c084fc); }
+    .example-block pre .kw { color: var(--tier-basic, #38bdf8); }
+    .example-block pre .str { color: #fbbf24; }
+
+    /* ── Callout ── */
+    .callout {
+      border-left: 3px solid;
+      padding: 0.85rem 1rem;
+      border-radius: 0 6px 6px 0;
+      font-size: 0.875rem;
+      line-height: 1.6;
+      margin: 1rem 0;
+    }
+    .callout.info {
+      border-color: var(--tier-basic, #38bdf8);
+      background: rgba(56,189,248,0.07);
+      color: #bae6fd;
+    }
+    .callout.warn {
+      border-color: #f59e0b;
+      background: rgba(245,158,11,0.07);
+      color: #fde68a;
+    }
+    .callout.danger {
+      border-color: #ef4444;
+      background: rgba(239,68,68,0.07);
+      color: #fca5a5;
+    }
+    .callout strong { font-weight: 600; }
+    .callout code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      background: rgba(255,255,255,0.08);
+      padding: 0.1em 0.35em;
+      border-radius: 3px;
+    }
+
+    /* ── Gate badge ── */
+    .gate-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.66rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 3px;
+      vertical-align: middle;
+      margin-left: 0.5rem;
+    }
+    .gate-badge.verifier {
+      background: rgba(192,132,252,0.12);
+      border: 1px solid rgba(192,132,252,0.3);
+      color: var(--tier-extra, #c084fc);
+    }
+    .gate-badge.open {
+      background: rgba(134,239,172,0.1);
+      border: 1px solid rgba(134,239,172,0.25);
+      color: #86efac;
+    }
+
+    /* ── divider ── */
+    hr.section-hr {
+      border: none;
+      border-top: 1px solid var(--border, #1e293b);
+      margin: 2.5rem 0;
+    }
+
+    /* ── Footer ── */
+    .docs-footer {
+      border-top: 1px solid var(--border, #1e293b);
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+    .docs-footer-left { font-size: 0.8rem; color: var(--muted, #64748b); }
+    .docs-footer-right { display: flex; gap: 1.5rem; }
+    .docs-footer-right a {
+      font-size: 0.8rem;
+      color: var(--muted, #64748b);
+      transition: color 0.15s;
+    }
+    .docs-footer-right a:hover { color: var(--text, #e2e8f0); text-decoration: none; }
+
+    @media (max-width: 820px) {
+      .page-layout { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .main-content { padding: 1.5rem 1.25rem 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- nav -->
+  <nav class="docs-nav">
+    <a href="../index.html" class="nav-logo">Gaia <span>◆</span></a>
+    <span class="nav-sep">/</span>
+    <a href="index.html" class="nav-crumb">Docs</a>
+    <span class="nav-sep">/</span>
+    <span class="nav-crumb current">CLI Reference</span>
+    <div class="nav-spacer"></div>
+    <span class="nav-version">v4.6.0</span>
+  </nav>
+
+  <div class="page-layout">
+    <!-- sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-group">
+        <div class="sidebar-group-label">Player workflow</div>
+        <ul class="sidebar-links">
+          <li><a href="#init"><code>init</code></a></li>
+          <li><a href="#scan"><code>scan</code></a></li>
+          <li><a href="#promote"><code>promote</code></a></li>
+          <li><a href="#fuse"><code>fuse</code></a></li>
+          <li><a href="#tree"><code>tree</code></a></li>
+          <li><a href="#push"><code>push</code></a></li>
+        </ul>
+      </div>
+      <div class="sidebar-group">
+        <div class="sidebar-group-label">Discovery</div>
+        <ul class="sidebar-links">
+          <li><a href="#lookup"><code>lookup</code></a></li>
+          <li><a href="#path"><code>path</code></a></li>
+          <li><a href="#appraise"><code>appraise</code></a></li>
+          <li><a href="#stats"><code>stats</code></a></li>
+          <li><a href="#graph"><code>graph</code></a></li>
+        </ul>
+      </div>
+      <div class="sidebar-group">
+        <div class="sidebar-group-label">Named skills</div>
+        <ul class="sidebar-links">
+          <li><a href="#skills"><code>skills</code></a></li>
+          <li><a href="#propose"><code>propose</code></a></li>
+          <li><a href="#pull"><code>pull</code></a></li>
+        </ul>
+      </div>
+      <div class="sidebar-group">
+        <div class="sidebar-group-label">System</div>
+        <ul class="sidebar-links">
+          <li><a href="#whoami"><code>whoami</code></a></li>
+          <li><a href="#mcp"><code>mcp</code></a></li>
+          <li><a href="#version"><code>version</code></a></li>
+        </ul>
+      </div>
+      <div class="sidebar-group">
+        <div class="sidebar-group-label">Registry dev</div>
+        <ul class="sidebar-links">
+          <li><a href="#dev-add"><code>dev add</code></a></li>
+          <li><a href="#dev-evidence"><code>dev evidence</code></a></li>
+          <li><a href="#dev-merge"><code>dev merge</code></a></li>
+          <li><a href="#dev-split"><code>dev split</code></a></li>
+          <li><a href="#dev-timeline"><code>dev timeline</code></a></li>
+          <li><a href="#dev-list"><code>dev list</code></a></li>
+          <li><a href="#dev-audit"><code>dev audit</code></a></li>
+        </ul>
+      </div>
+      <div class="sidebar-group">
+        <div class="sidebar-group-label">Global flags</div>
+        <ul class="sidebar-links">
+          <li><a href="#global-flags">Options</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- main -->
+    <main class="main-content">
+      <h1 class="page-title">CLI Reference</h1>
+      <p class="page-lead">
+        Every <code style="font-family:'JetBrains Mono',monospace;font-size:0.9rem;">gaia</code> command,
+        flag, and option. Commands are grouped by workflow stage.
+        Read-only commands are available to all users; mutating
+        <code style="font-family:'JetBrains Mono',monospace;font-size:0.9rem;">gaia dev</code> subcommands
+        require <a href="#verifier-auth">Verifier authorization</a>.
+      </p>
+
+      <div class="callout info">
+        <strong>Local-first by default.</strong> All player commands show <em>your</em> skill data —
+        your unlocked skills, your scan candidates, and your local named-skill installs.
+        Pass <code>--canon</code> to any command to view the canonical registry instead.
+      </div>
+
+      <!-- ═══════════════ PLAYER WORKFLOW ═══════════════ -->
+      <section class="section" id="player-workflow">
+        <h2 class="section-title">Player workflow</h2>
+        <p class="section-desc">The core daily loop: initialise → scan → promote → push.</p>
+
+        <!-- init -->
+        <div class="cmd-card" id="init">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia init</span>
+            <span class="cmd-signature">[--user &lt;handle&gt;] [--scan &lt;path&gt;] [--yes] [--force]</span>
+            <span class="gate-badge open">● open</span>
+          </div>
+          <div class="cmd-body">
+            <p class="cmd-desc">
+              Creates or updates <code>.gaia/config.toml</code> in the current directory.
+              Sets your GitHub handle, the registry URL, and the scan path(s).
+              Must be run inside a Git repository — Gaia uses the repo root as the
+              scope boundary for skill evidence collection.
+            </p>
+            <table class="flag-table">
+              <thead><tr><th>Flag</th><th>Description</th><th>Default</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>--user &lt;handle&gt;</td>
+                  <td>GitHub username written to config. Used to identify your skill tree.</td>
+                  <td>prompted</td>
+                </tr>
+                <tr>
+                  <td>--scan &lt;path&gt;</td>
+                  <td>Directory to scan for skill evidence. Repeatable for multiple paths.</td>
+                  <td>repo root</td>
+                </tr>
+                <tr>
+                  <td>--registry-ref &lt;url&gt;</td>
+                  <td>Custom registry URL. Defaults to the public Gaia registry.</td>
+                  <td>public</td>
+                </tr>
+                <tr>
+                  <td>--yes</td>
+                  <td>Accept all non-interactive defaults without prompting.</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>--force</td>
+                  <td>Overwrite an existing <code>.gaia/config.toml</code>.</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>--auto-prompt-combinations</td>
+                  <td>Enable prompts for detected skill fusion candidates after each scan.</td>
+                  <td>false</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Interactive setup — Gaia asks for your handle</span>
+<span class="cmd">gaia init</span>
+
+<span class="c"># Non-interactive — set handle and scan path directly</span>
+<span class="cmd">gaia init</span> <span class="arg">--user alice --scan src/ --yes</span>
+
+<span class="c"># Overwrite an existing config</span>
+<span class="cmd">gaia init</span> <span class="arg">--user alice --force</span></pre>
+            </div>
+            <div class="callout warn" style="margin-top:0.85rem;">
+              <strong>Requires a Git repo.</strong> Running <code>gaia init</code> outside a
+              Git repository will succeed, but <code>gaia scan</code> and <code>gaia push</code>
+              will not find any evidence. See
+              <a href="getting-started.html#non-repo-environments">Non-repo environments</a>
+              for context.
+            </div>
+          </div>
+        </div>
+
+        <!-- scan -->
+        <div class="cmd-card" id="scan">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia scan</span>
+            <span class="cmd-signature">[--quiet] [--auto-promote] [--json]</span>
+            <span class="gate-badge open">● open</span>
+          </div>
+          <div class="cmd-body">
+            <p class="cmd-desc">
+              Walks the scan paths configured in <code>.gaia/config.toml</code> looking for
+              <code>SKILL.md</code> files, agent configuration directories (<code>.claude/</code>,
+              <code>.cursor/</code>, <code>.codex/</code>, <code>.agents/</code>, etc.), and
+              known skill patterns. Writes the promotion candidates to
+              <code>generated-output/promotion-candidates.json</code>. Candidates are valid for
+              24 hours — stale files are rejected by <code>gaia promote</code>.
+            </p>
+            <table class="flag-table">
+              <thead><tr><th>Flag</th><th>Description</th><th>Default</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>--quiet</td>
+                  <td>Suppress per-file scan output; show only the final candidate summary.</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>--auto-promote</td>
+                  <td>Automatically promote every scan candidate without prompting.</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>--json</td>
+                  <td>Write scan results to stdout as machine-readable JSON instead of rendering the tree.</td>
+                  <td>false</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Standard scan — shows detected skills and promotion candidates</span>
+<span class="cmd">gaia scan</span>
+
+<span class="c"># Quiet scan, then inspect candidates in JSON</span>
+<span class="cmd">gaia scan</span> <span class="arg">--quiet --json</span> <span class="kw">| jq '.candidates'</span>
+
+<span class="c"># Promote everything the scanner detects, no prompts</span>
+<span class="cmd">gaia scan</span> <span class="arg">--auto-promote</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- promote -->
+        <div class="cmd-card" id="promote">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia promote</span>
+            <span class="cmd-signature">[&lt;skillId&gt;] [--all] [--unique] [--name &lt;label&gt;]</span>
+            <span class="gate-badge open">● open</span>
+          </div>
+          <div class="cmd-body">
+            <p class="cmd-desc">
+              Ranks up one skill (or all candidates) from the last <code>gaia scan</code>.
+              Only skills listed in the non-stale <code>promotion-candidates.json</code> are
+              eligible. Each promotion writes a timeline event to your
+              <code>skill-trees/&lt;user&gt;/skill-tree.json</code> automatically.
+            </p>
+            <table class="flag-table">
+              <thead><tr><th>Flag</th><th>Description</th><th>Default</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>&lt;skillId&gt;</td>
+                  <td>Slash-prefixed or bare canonical skill ID, e.g. <code>/web-search</code> or <code>web-search</code>.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>--all</td>
+                  <td>Promote every candidate from the most recent scan in one pass.</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>--unique</td>
+                  <td>Promote a Basic skill to the Unique tier (requires 4★ and graph-isolation with a named implementation).</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>--name &lt;label&gt;</td>
+                  <td>Optional display name for the skill entry in your tree.</td>
+                  <td>canonical name</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Promote a single skill after scanning</span>
+<span class="cmd">gaia scan</span>
+<span class="cmd">gaia promote</span> <span class="arg">/web-search</span>
+
+<span class="c"># Promote every candidate from the last scan</span>
+<span class="cmd">gaia promote</span> <span class="arg">--all</span>
+
+<span class="c"># Promote a Basic skill to Unique tier</span>
+<span class="cmd">gaia promote</span> <span class="arg">code-review --unique</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- fuse -->
+        <div class="cmd-card" id="fuse">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia fuse</span>
+            <span class="cmd-signature">[&lt;skillId&gt;] [--name &lt;label&gt;]</span>
+            <span class="gate-badge open">● open</span>
+          </div>
+          <div class="cmd-body">
+            <p class="cmd-desc">
+              Confirms a fusion candidate — combining two or more Basic or Extra skills
+              into a higher-tier Extra or Ultimate. Gaia detects eligible combinations
+              from your unlocked skills and presents them for confirmation. The resulting
+              skill inherits the stars of its highest-starred component, minimum 1★.
+            </p>
+            <table class="flag-table">
+              <thead><tr><th>Flag</th><th>Description</th><th>Default</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>&lt;skillId&gt;</td>
+                  <td>Target skill ID for the fusion or promotion candidate.</td>
+                  <td>prompted</td>
+                </tr>
+                <tr>
+                  <td>--name &lt;label&gt;</td>
+                  <td>Optional display name for the fused skill in your tree.</td>
+                  <td>canonical name</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Fuse an eligible combination interactively</span>
+<span class="cmd">gaia fuse</span>
+
+<span class="c"># Confirm a specific fusion target</span>
+<span class="cmd">gaia fuse</span> <span class="arg">autonomous-research-agent</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- tree -->
+        <div class="cmd-card" id="tree">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia tree</span>
+            <span class="cmd-signature">[--named] [--title] [--canon] [--check]</span>
+            <span class="gate-badge open">● open</span>
+          </div>
+          <div class="cmd-body">
+            <p class="cmd-desc">
+              Renders your skill tree to the terminal. By default shows your local-first
+              view: unlocked skills, their star ranks, tier glyphs, and slash names.
+              Each skill row uses rank-color chips (0★ slate → 5★ amber) from the
+              design token palette.
+            </p>
+            <table class="flag-table">
+              <thead><tr><th>Flag</th><th>Description</th><th>Default</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>--named</td>
+                  <td>Show only skills that have at least one named implementation in the registry.</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>--title</td>
+                  <td>Show display names (lore titles) instead of slash IDs.</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>--canon</td>
+                  <td>Show the full canonical registry tree rather than your personal unlocked view.</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>--check</td>
+                  <td>Self-test: print every tier glyph and rank chip in resolved token colors.</td>
+                  <td>false</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Your personal tree</span>
+<span class="cmd">gaia tree</span>
+
+<span class="c"># Show only named skills (good for contributor attribution)</span>
+<span class="cmd">gaia tree</span> <span class="arg">--named</span>
+
+<span class="c"># Full canonical graph with display names</span>
+<span class="cmd">gaia tree</span> <span class="arg">--canon --title</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- push -->
+        <div class="cmd-card" id="push">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia push</span>
+            <span class="cmd-signature">[--dry-run] [--no-issue] [--yes]</span>
+            <span class="gate-badge open">● open</span>
+          </div>
+          <div class="cmd-body">
+            <p class="cmd-desc">
+              Packages your detected skills into a draft intake batch and files a GitHub
+              issue in the registry repo for maintainer review. The batch is written to
+              <code>registry-for-review/skill-batches/</code>. Always run with
+              <code>--dry-run</code> first to preview what will be submitted.
+            </p>
+            <table class="flag-table">
+              <thead><tr><th>Flag</th><th>Description</th><th>Default</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>--dry-run</td>
+                  <td>Print the skill batch to stdout without writing files or creating a GitHub issue.</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>--no-issue</td>
+                  <td>Write the intake record to disk without creating the GitHub issue.</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>--yes, -y</td>
+                  <td>Skip all confirmation prompts.</td>
+                  <td>false</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Always dry-run first</span>
+<span class="cmd">gaia push</span> <span class="arg">--dry-run</span>
+
+<span class="c"># Submit for real review</span>
+<span class="cmd">gaia push</span>
+
+<span class="c"># Write intake file only, no GitHub issue</span>
+<span class="cmd">gaia push</span> <span class="arg">--no-issue --yes</span></pre>
+            </div>
+            <div class="callout warn" style="margin-top:0.85rem;">
+              <strong>Requires a Git repository</strong> with a valid remote <code>origin</code>.
+              Running <code>gaia push</code> outside a repo will produce an empty batch.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="section-hr">
+
+      <!-- ═══════════════ DISCOVERY ═══════════════ -->
+      <section class="section" id="discovery">
+        <h2 class="section-title">Discovery</h2>
+        <p class="section-desc">Inspect individual skills, unlock paths, and registry health at a glance.</p>
+
+        <!-- lookup -->
+        <div class="cmd-card" id="lookup">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia lookup</span>
+            <span class="cmd-signature">&lt;skillId&gt;</span>
+            <span class="gate-badge open">● open</span>
+          </div>
+          <div class="cmd-body">
+            <p class="cmd-desc">
+              Shows the full skill card for a canonical skill: tier, stars, description,
+              prerequisites, named implementations with contributor attribution, and
+              current evidence entries.
+            </p>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="cmd">gaia lookup</span> <span class="arg">web-search</span>
+<span class="cmd">gaia lookup</span> <span class="arg">/autonomous-research-agent</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- path -->
+        <div class="cmd-card" id="path">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia path</span>
+            <span class="cmd-signature">&lt;skillId&gt; [--owned-only] [--json]</span>
+            <span class="gate-badge open">● open</span>
+          </div>
+          <div class="cmd-body">
+            <p class="cmd-desc">
+              Prints the prerequisite unlock-path tree leading to the target skill.
+              Useful for planning which Basic skills to gather before a fusion becomes
+              available. <code>--owned-only</code> prunes branches you already hold,
+              showing only what you still need.
+            </p>
+            <table class="flag-table">
+              <thead><tr><th>Flag</th><th>Description</th><th>Default</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>--owned-only</td>
+                  <td>Prune branches already in your tree; show only skills still needed.</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>--json</td>
+                  <td>Emit machine-readable JSON instead of the tree display.</td>
+                  <td>false</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Full prerequisite tree for an ultimate skill</span>
+<span class="cmd">gaia path</span> <span class="arg">autonomous-research-agent</span>
+
+<span class="c"># Show only what you're still missing</span>
+<span class="cmd">gaia path</span> <span class="arg">autonomous-research-agent --owned-only</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- appraise -->
+        <div class="cmd-card" id="appraise">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia appraise</span>
+            <span class="cmd-signature">[&lt;skillId&gt;]</span>
+            <span class="gate-badge open">● open</span>
+          </div>
+          <div class="cmd-body">
+            <p class="cmd-desc">
+              Displays a rich status card for a skill: current stars, available actions
+              (promote, fuse, propose), evidence summary, and install status. Without
+              an argument, shows the most recently interacted-with skill.
+            </p>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Appraise the last-used skill</span>
+<span class="cmd">gaia appraise</span>
+
+<span class="c"># Appraise a specific skill</span>
+<span class="cmd">gaia appraise</span> <span class="arg">web-search</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- stats -->
+        <div class="cmd-card" id="stats">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia stats</span>
+            <span class="cmd-signature">[--canon]</span>
+            <span class="gate-badge open">● open</span>
+          </div>
+          <div class="cmd-body">
+            <p class="cmd-desc">
+              Shows a registry health snapshot: total skills by tier, named-skill counts,
+              evidence coverage, and contributor counts. Local-first by default;
+              pass <code>--canon</code> for the full canonical registry.
+            </p>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="cmd">gaia stats</span>
+<span class="cmd">gaia stats</span> <span class="arg">--canon</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- graph -->
+        <div class="cmd-card" id="graph">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia graph</span>
+            <span class="cmd-signature">[--format html|svg|json] [-o &lt;path&gt;] [--no-open]</span>
+            <span class="gate-badge open">● open</span>
+          </div>
+          <div class="cmd-body">
+            <p class="cmd-desc">
+              Generates the interactive skill dependency graph and opens it in a browser.
+              Writes to <code>registry/render/gaia.html</code> by default.
+            </p>
+            <table class="flag-table">
+              <thead><tr><th>Flag</th><th>Description</th><th>Default</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>--format</td>
+                  <td>Output format: <code>html</code>, <code>svg</code>, or <code>json</code>.</td>
+                  <td>html</td>
+                </tr>
+                <tr>
+                  <td>-o, --output &lt;path&gt;</td>
+                  <td>Write the generated graph to this path.</td>
+                  <td>registry/render/gaia.html</td>
+                </tr>
+                <tr>
+                  <td>--open / --no-open</td>
+                  <td>Control whether the output is opened in a browser.</td>
+                  <td>--open</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Generate and open the interactive HTML graph</span>
+<span class="cmd">gaia graph</span>
+
+<span class="c"># Export JSON without opening a browser</span>
+<span class="cmd">gaia graph</span> <span class="arg">--format json -o graph-snapshot.json --no-open</span></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="section-hr">
+
+      <!-- ═══════════════ NAMED SKILLS ═══════════════ -->
+      <section class="section" id="named-skills">
+        <h2 class="section-title">Named skills</h2>
+        <p class="section-desc">Browse the registry's named-skill catalog, install implementations locally, and claim a skill with <code>gaia propose</code>.</p>
+
+        <!-- skills -->
+        <div class="cmd-card" id="skills">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia skills</span>
+            <span class="cmd-signature">list | search | info | install | uninstall | update</span>
+            <span class="gate-badge open">● open</span>
+          </div>
+          <div class="cmd-body">
+            <p class="cmd-desc">
+              Manages named-skill implementations. Skills install as symlinks (or copies)
+              into your agent configuration directory so your AI tool can discover them.
+              Only skills with a valid <code>links.github</code> blob URL are installable.
+            </p>
+            <table class="flag-table">
+              <thead><tr><th>Subcommand</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>list [--exclude-pending]</td>
+                  <td>List all available named skills. Pass <code>--exclude-pending</code> to hide draft proposals.</td>
+                </tr>
+                <tr>
+                  <td>search &lt;query&gt;</td>
+                  <td>Full-text search across skill names, descriptions, and contributor IDs.</td>
+                </tr>
+                <tr>
+                  <td>info &lt;skill_id&gt;</td>
+                  <td>Show detailed metadata: stars, tier, evidence, install URL, contributor.</td>
+                </tr>
+                <tr>
+                  <td>install &lt;skill&gt; [--global | --local]</td>
+                  <td>Install a named skill into <code>.claude/skills/</code> (local) or <code>~/.claude/skills/</code> (global).</td>
+                </tr>
+                <tr>
+                  <td>uninstall &lt;skill_id&gt;</td>
+                  <td>Remove an installed named skill.</td>
+                </tr>
+                <tr>
+                  <td>update</td>
+                  <td>Re-pull all installed named skills from their source URLs.</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Browse all named skills</span>
+<span class="cmd">gaia skills list</span>
+
+<span class="c"># Search for research-related skills</span>
+<span class="cmd">gaia skills search</span> <span class="arg">research</span>
+
+<span class="c"># Inspect a specific named skill</span>
+<span class="cmd">gaia skills info</span> <span class="arg">karpathy/web-search</span>
+
+<span class="c"># Install globally (available to all projects)</span>
+<span class="cmd">gaia skills install</span> <span class="arg">karpathy/web-search --global</span>
+
+<span class="c"># Install locally into this project only</span>
+<span class="cmd">gaia skills install</span> <span class="arg">karpathy/web-search --local</span>
+
+<span class="c"># Update all installed skills from source</span>
+<span class="cmd">gaia skills update</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- propose -->
+        <div class="cmd-card" id="propose">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia propose</span>
+            <span class="cmd-signature">&lt;skillId&gt; [--target &lt;contributor/skill&gt;] [--ultimate] [--yes] [--no-pr]</span>
+            <span class="gate-badge open">● open</span>
+          </div>
+          <div class="cmd-body">
+            <p class="cmd-desc">
+              Claims an unclaimed canonical skill as a Named Skill by submitting a
+              proposal for maintainer review. The skill must have Class C evidence or
+              better. On approval the skill reaches 2★ Named rank and your name
+              attaches permanently as Origin Contributor.
+            </p>
+            <table class="flag-table">
+              <thead><tr><th>Flag</th><th>Description</th><th>Default</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>--target &lt;contributor/skill&gt;</td>
+                  <td>Named skill identifier in <code>contributor/skill-name</code> format.</td>
+                  <td>prompted</td>
+                </tr>
+                <tr>
+                  <td>--ultimate</td>
+                  <td>Assert the skill is an Ultimate. Fails if it is not.</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>--yes</td>
+                  <td>Use defaults without interactive prompts.</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>--no-pr</td>
+                  <td>Write the proposal locally without opening a GitHub PR.</td>
+                  <td>false</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Propose an unclaimed canonical skill interactively</span>
+<span class="cmd">gaia propose</span> <span class="arg">web-search</span>
+
+<span class="c"># Propose with a specific named target</span>
+<span class="cmd">gaia propose</span> <span class="arg">web-search --target alice/web-search-firecrawl</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- pull -->
+        <div class="cmd-card" id="pull">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia pull</span>
+            <span class="cmd-signature"></span>
+            <span class="gate-badge open">● open</span>
+          </div>
+          <div class="cmd-body">
+            <p class="cmd-desc">
+              Refreshes the local registry cache from the upstream origin. Run this before
+              scanning a large repo to ensure your local copy of <code>gaia.json</code>
+              and <code>named-skills.json</code> is current.
+            </p>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="cmd">gaia pull</span></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="section-hr">
+
+      <!-- ═══════════════ SYSTEM ═══════════════ -->
+      <section class="section" id="system">
+        <h2 class="section-title">System</h2>
+        <p class="section-desc">Authorization status, MCP server, and version information.</p>
+
+        <!-- whoami -->
+        <div class="cmd-card" id="whoami">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia whoami</span>
+            <span class="cmd-signature"></span>
+            <span class="gate-badge open">● open</span>
+          </div>
+          <div class="cmd-body">
+            <p class="cmd-desc">
+              Prints your configured GitHub handle and current authorization status.
+              The status shows which authorization path applies to you:
+              <code>verifier</code> (holds a 4★+ Named Skill), <code>bootstrap</code>
+              (no verifiers exist yet), <code>override</code>
+              (<code>GAIA_OPERATOR_OVERRIDE=1</code> set), or <code>denied</code>.
+            </p>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="cmd">gaia whoami</span>
+
+<span class="c"># Check auth status in CI with the operator override</span>
+<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia whoami</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- mcp -->
+        <div class="cmd-card" id="mcp">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia mcp</span>
+            <span class="cmd-signature"></span>
+            <span class="gate-badge open">● open</span>
+          </div>
+          <div class="cmd-body">
+            <p class="cmd-desc">
+              Starts the bundled Gaia MCP (Model Context Protocol) server over stdio.
+              This exposes the skill registry to AI tools and IDE integrations at runtime.
+              Requires building the server first: run
+              <code>npm run build</code> inside <code>packages/mcp/</code>.
+            </p>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Build the MCP server once</span>
+<span class="kw">cd</span> packages/mcp <span class="kw">&amp;&amp;</span> <span class="cmd">npm run build</span>
+
+<span class="c"># Start the server (typically invoked by your IDE/agent config)</span>
+<span class="cmd">gaia mcp</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- version -->
+        <div class="cmd-card" id="version">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia version</span>
+            <span class="cmd-signature"></span>
+            <span class="gate-badge open">● open</span>
+          </div>
+          <div class="cmd-body">
+            <p class="cmd-desc">
+              Prints the installed CLI version. Equivalent to <code>gaia --version</code>.
+            </p>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="cmd">gaia version</span>    <span class="c"># → 4.6.0</span>
+<span class="cmd">gaia --version</span></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="section-hr">
+
+      <!-- ═══════════════ DEV ═══════════════ -->
+      <section class="section" id="registry-dev">
+        <h2 class="section-title">
+          Registry dev
+          <span class="gate-badge verifier">◇ Verifier-gated</span>
+        </h2>
+        <p class="section-desc" id="verifier-auth">
+          All <code>gaia dev</code> subcommands that mutate the registry require
+          Verifier authorization — you must hold at least one 4★ Named Skill in
+          <code>registry/named-skills.json</code>. CI pipelines set
+          <code>GAIA_OPERATOR_OVERRIDE=1</code> to bypass the gate. Read-only
+          subcommands (<code>list</code>, <code>audit</code>, <code>diff</code>) are always open.
+        </p>
+
+        <!-- dev add -->
+        <div class="cmd-card" id="dev-add">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev add</span>
+            <span class="cmd-signature">&lt;name&gt; [--type basic|extra|unique|ultimate] [--description &lt;text&gt;] ...</span>
+            <span class="gate-badge verifier">◇ verifier</span>
+          </div>
+          <div class="cmd-body">
+            <p class="cmd-desc">
+              Adds a new skill node to the registry. Programmatic-first — prefer this
+              over editing <code>registry/nodes/</code> directly. Triggers a registry
+              build unless <code>--no-build</code> is passed.
+            </p>
+            <table class="flag-table">
+              <thead><tr><th>Flag</th><th>Description</th><th>Default</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>--type</td>
+                  <td>Tier: <code>basic</code>, <code>extra</code>, <code>unique</code>, or <code>ultimate</code>.</td>
+                  <td>basic</td>
+                </tr>
+                <tr>
+                  <td>--description &lt;text&gt;</td>
+                  <td>Human-readable description (10+ characters required).</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>--id &lt;slug&gt;</td>
+                  <td>Explicit canonical ID. Defaults to a slugified version of the name.</td>
+                  <td>auto</td>
+                </tr>
+                <tr>
+                  <td>--named</td>
+                  <td>Add as a named skill instead of a generic node.</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>--no-build</td>
+                  <td>Skip rebuilding docs and graph assets after adding.</td>
+                  <td>false</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Add a new Basic skill</span>
+<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev add</span> <span class="str">"Structured Output"</span> \
+  <span class="arg">--type basic --description "Reliably emits JSON/XML/YAML matching a given schema."</span>
+
+<span class="c"># Add an Extra skill without triggering a full rebuild</span>
+<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev add</span> <span class="str">"Chain-of-Thought Reasoning"</span> \
+  <span class="arg">--type extra --no-build</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- dev evidence -->
+        <div class="cmd-card" id="dev-evidence">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev evidence</span>
+            <span class="cmd-signature">&lt;skill_id&gt; &lt;url&gt; [--class A|B|C] [--evaluator &lt;handle&gt;] [--notes &lt;text&gt;]</span>
+            <span class="gate-badge verifier">◇ verifier</span>
+          </div>
+          <div class="cmd-body">
+            <p class="cmd-desc">
+              Attaches a piece of real-world evidence to a skill node. Evidence classes:
+              C = first sighting, B = reproducible + documented, A = battle-tested and
+              peer-reviewed. Higher classes carry more weight toward star progression.
+            </p>
+            <table class="flag-table">
+              <thead><tr><th>Flag</th><th>Description</th><th>Default</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>--class A|B|C</td>
+                  <td>Evidence quality class.</td>
+                  <td>C</td>
+                </tr>
+                <tr>
+                  <td>--evaluator &lt;handle&gt;</td>
+                  <td>GitHub username of the person submitting this evidence.</td>
+                  <td>whoami handle</td>
+                </tr>
+                <tr>
+                  <td>--date &lt;YYYY-MM-DD&gt;</td>
+                  <td>Date of evaluation (ISO 8601).</td>
+                  <td>today</td>
+                </tr>
+                <tr>
+                  <td>--notes &lt;text&gt;</td>
+                  <td>Context note attached to this evidence entry.</td>
+                  <td>—</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Add Class B evidence (reproducible repo link)</span>
+<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev evidence</span> \
+  <span class="arg">web-search https://github.com/anthropics/cookbook --class B</span>
+
+<span class="c"># Add Class A evidence with an evaluator note</span>
+<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev evidence</span> \
+  <span class="arg">autonomous-research-agent https://arxiv.org/abs/2401.00000 \
+  --class A --evaluator alice --notes "Peer-reviewed benchmark, 2024"</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- dev merge -->
+        <div class="cmd-card" id="dev-merge">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev merge</span>
+            <span class="cmd-signature">&lt;target-id&gt; &lt;source-id…&gt;</span>
+            <span class="gate-badge verifier">◇ verifier</span>
+          </div>
+          <div class="cmd-body">
+            <p class="cmd-desc">
+              Merges one or more source skill nodes into a target node, consolidating
+              evidence and named implementations. Source nodes are removed; the target
+              inherits all references.
+            </p>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev merge</span> <span class="arg">web-search web-search-v1 web-search-v2</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- dev split -->
+        <div class="cmd-card" id="dev-split">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev split</span>
+            <span class="cmd-signature">&lt;source-id&gt; &lt;target-id…&gt;</span>
+            <span class="gate-badge verifier">◇ verifier</span>
+          </div>
+          <div class="cmd-body">
+            <p class="cmd-desc">
+              Splits a source node into multiple new skill nodes. Evidence is not
+              automatically redistributed — attach it manually after splitting.
+            </p>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev split</span> <span class="arg">web-automation web-scraping browser-control</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- dev timeline -->
+        <div class="cmd-card" id="dev-timeline">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev timeline</span>
+            <span class="cmd-signature">&lt;skillId&gt; --user &lt;handle&gt; --action &lt;action&gt; [--notes &lt;text&gt;] [--timestamp &lt;ISO8601&gt;]</span>
+            <span class="gate-badge verifier">◇ verifier</span>
+          </div>
+          <div class="cmd-body">
+            <p class="cmd-desc">
+              Appends a standalone timeline event to a skill's history in the user's
+              <code>skill-tree.json</code>. Always pass <code>--user</code> — without it,
+              the command writes to the registry node instead. Accepts
+              <code>--timestamp</code> for backfilling historical events.
+            </p>
+            <div class="callout warn">
+              <strong>Known gap.</strong> As of v4.6.0, <code>gaia dev timeline</code> without
+              <code>--user</code> writes to the <em>registry node</em>, not the user tree.
+              Always pass <code>--user &lt;handle&gt;</code> when appending to a skill tree.
+            </div>
+            <table class="flag-table">
+              <thead><tr><th>Flag</th><th>Description</th><th>Default</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>--user &lt;handle&gt;</td>
+                  <td>Target the user's <code>skill-tree.json</code> (required for tree edits).</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>--action &lt;action&gt;</td>
+                  <td>Event type, e.g. <code>rank_up</code>, <code>demote</code>, <code>fuse</code>, <code>backfill</code>.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>--notes &lt;text&gt;</td>
+                  <td>Human-readable description appended to the event.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>--timestamp &lt;ISO8601&gt;</td>
+                  <td>Historical timestamp. Backfilled events are sorted chronologically.</td>
+                  <td>now (UTC)</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Append a current-time event to alice's tree</span>
+<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev timeline</span> <span class="arg">web-search \
+  --user alice --action rank_up --notes "Promoted to 3★ Evolved"</span>
+
+<span class="c"># Backfill a historical event</span>
+<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev timeline</span> <span class="arg">web-search \
+  --user alice --action rank_up \
+  --timestamp 2026-01-15T00:00:00Z --notes "Backfilled (direct edit — CLI gap)"</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- dev list -->
+        <div class="cmd-card" id="dev-list">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev list</span>
+            <span class="cmd-signature">[--generic] [--named] [--description] [--json] ...</span>
+            <span class="gate-badge open">● open</span>
+          </div>
+          <div class="cmd-body">
+            <p class="cmd-desc">
+              Lists skills in the registry with optional field projections. Useful for
+              scripting and bulk operations. Combine <code>--generic</code> and
+              <code>--named</code> to see both node types simultaneously.
+            </p>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># List all generic skills with descriptions</span>
+<span class="cmd">gaia dev list</span> <span class="arg">--generic --description</span>
+
+<span class="c"># List named skills with contributor info as JSON</span>
+<span class="cmd">gaia dev list</span> <span class="arg">--named --contributor --json</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- dev audit -->
+        <div class="cmd-card" id="dev-audit">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev audit</span>
+            <span class="cmd-signature"></span>
+            <span class="gate-badge open">● open</span>
+          </div>
+          <div class="cmd-body">
+            <p class="cmd-desc">
+              Runs the registry maintenance linter: checks for orphaned nodes, missing
+              evidence, broken prerequisite links, and schema violations. Outputs a
+              prioritized list of issues. Safe to run at any time — read-only.
+            </p>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="cmd">gaia dev audit</span>
+<span class="cmd">gaia dev diff</span>  <span class="c"># show substantive changes vs main</span></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="section-hr">
+
+      <!-- ═══════════════ GLOBAL FLAGS ═══════════════ -->
+      <section class="section" id="global-flags">
+        <h2 class="section-title">Global flags</h2>
+        <p class="section-desc">Flags accepted by every command.</p>
+        <table class="flag-table" style="background:var(--surface,#0f172a);border:1px solid var(--border,#1e293b);border-radius:8px;">
+          <thead><tr><th>Flag</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>--canon</td>
+              <td>Show canonical registry data instead of the local-first (personal) view.</td>
+            </tr>
+            <tr>
+              <td>--global, -g</td>
+              <td>Use the global <code>GAIA_HOME</code> registry, ignoring any local <code>.gaia/</code> config.</td>
+            </tr>
+            <tr>
+              <td>--registry &lt;path&gt;</td>
+              <td>Point to a specific local registry checkout instead of auto-resolving.</td>
+            </tr>
+            <tr>
+              <td>--tui</td>
+              <td>Launch the interactive TUI dashboard instead of the command-line output.</td>
+            </tr>
+            <tr>
+              <td>--version, -v</td>
+              <td>Print the installed CLI version and exit.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- prev/next -->
+      <div style="display:flex;justify-content:space-between;margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--border,#1e293b);">
+        <a href="getting-started.html" style="font-size:0.875rem;color:var(--muted,#64748b);display:flex;gap:0.4rem;align-items:center;">
+          ← Getting Started
+        </a>
+        <a href="skill-hierarchy.html" style="font-size:0.875rem;color:var(--tier-basic,#38bdf8);display:flex;gap:0.4rem;align-items:center;">
+          Skill Hierarchy →
+        </a>
+      </div>
+    </main>
+  </div>
+
+  <!-- footer -->
+  <footer class="docs-footer">
+    <span class="docs-footer-left">Gaia Registry v4.6.0 — open, evidence-backed skill graph for AI agents.</span>
+    <div class="docs-footer-right">
+      <a href="index.html" style="color:var(--muted,#64748b);">Docs</a>
+      <a href="../index.html" style="color:var(--muted,#64748b);">Atlas</a>
+      <a href="https://github.com/mbtiongson1/gaia-skill-tree" target="_blank" rel="noopener" style="color:var(--muted,#64748b);">GitHub</a>
+    </div>
+  </footer>
+
+  <script>
+    /* Sidebar scroll-spy */
+    (function () {
+      const links = document.querySelectorAll('.sidebar-links a');
+      const sections = [];
+      links.forEach(a => {
+        const id = a.getAttribute('href').replace('#', '');
+        const el = document.getElementById(id);
+        if (el) sections.push({ id, el, a });
+      });
+      function onScroll() {
+        const mid = window.scrollY + window.innerHeight * 0.3;
+        let active = sections[0];
+        for (const s of sections) {
+          if (s.el.getBoundingClientRect().top + window.scrollY <= mid) active = s;
+        }
+        links.forEach(a => a.classList.remove('active'));
+        if (active) active.a.classList.add('active');
+      }
+      document.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    })();
+  </script>
+</body>
+</html>
