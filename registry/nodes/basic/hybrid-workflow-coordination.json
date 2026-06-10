@@ -2,7 +2,6 @@
   "id": "hybrid-workflow-coordination",
   "name": "Hybrid Workflow Coordination",
   "type": "basic",
-  "rarity": "common",
   "description": "Routes tasks between interactive reasoning phases and parallel background execution with configurable workflow templates.",
   "prerequisites": [],
   "derivatives": [],

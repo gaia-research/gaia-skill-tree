@@ -2,7 +2,6 @@
   "id": "prototype",
   "name": "prototype",
   "type": "extra",
-  "rarity": "common",
   "description": "Building throwaway prototypes to answer specific design or logic questions.",
   "prerequisites": [
     "code-generation",

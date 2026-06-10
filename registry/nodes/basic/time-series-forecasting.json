@@ -2,7 +2,6 @@
   "id": "time-series-forecasting",
   "name": "Time Series Forecasting",
   "type": "basic",
-  "rarity": "common",
   "description": "Forecasts temporal sequences with seasonal-trend decomposition, ensemble models (ARIMA, Prophet, NBEATS, TFT), and residual-based anomaly detection.",
   "prerequisites": [],
   "derivatives": [],

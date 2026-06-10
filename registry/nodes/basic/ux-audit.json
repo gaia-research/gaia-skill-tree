@@ -2,7 +2,6 @@
   "id": "ux-audit",
   "name": "UX Audit",
   "type": "basic",
-  "rarity": "uncommon",
   "description": "Systematically evaluates a user interface against established usability heuristics or accessibility standards, producing a scored finding report with remediation recommendations.",
   "prerequisites": [],
   "derivatives": [

@@ -5,10 +5,10 @@ import type { GaiaGraph } from "../src/graph/types.js";
 const mockGraph: GaiaGraph = {
   version: "0.2.0",
   generatedAt: "2026-04-28",
-  meta: { typeLabels: {}, levelLabels: {}, rarityLabels: {} },
+  meta: { typeLabels: {}, levelLabels: {} },
   skills: [
-    { id: "web-search", name: "Web Search", type: "basic", level: "2★", rarity: "common", description: "Searches the web for information using search engine APIs", prerequisites: [], derivatives: [], conditions: "", evidence: [], knownAgents: [], status: "validated", createdAt: "", updatedAt: "", version: "0.1.0" },
-    { id: "summarize", name: "Summarize", type: "basic", level: "2★", rarity: "common", description: "Condenses long text into concise summaries preserving key information", prerequisites: [], derivatives: [], conditions: "", evidence: [], knownAgents: [], status: "validated", createdAt: "", updatedAt: "", version: "0.1.0" },
+    { id: "web-search", name: "Web Search", type: "basic", level: "2★", description: "Searches the web for information using search engine APIs", prerequisites: [], derivatives: [], conditions: "", evidence: [], knownAgents: [], status: "validated", createdAt: "", updatedAt: "", version: "0.1.0" },
+    { id: "summarize", name: "Summarize", type: "basic", level: "2★", description: "Condenses long text into concise summaries preserving key information", prerequisites: [], derivatives: [], conditions: "", evidence: [], knownAgents: [], status: "validated", createdAt: "", updatedAt: "", version: "0.1.0" },
   ],
   edges: [],
 };

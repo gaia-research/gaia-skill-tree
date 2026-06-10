@@ -2,7 +2,6 @@
   "id": "question-answer",
   "name": "Question Answer",
   "type": "basic",
-  "rarity": "common",
   "description": "Produces accurate, context-grounded answers to natural-language questions, handling unanswerable cases.",
   "prerequisites": [],
   "derivatives": [

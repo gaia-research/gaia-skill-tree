@@ -8,7 +8,6 @@
       "name": "Skill A",
       "type": "basic",
       "level": "2★",
-      "rarity": "common",
       "description": "Atomic skill that incorrectly declares prerequisites.",
       "prerequisites": [
         "skill-b"
@@ -33,7 +32,6 @@
       "name": "Skill B",
       "type": "basic",
       "level": "2★",
-      "rarity": "common",
       "description": "Valid atomic skill.",
       "prerequisites": [],
       "derivatives": [

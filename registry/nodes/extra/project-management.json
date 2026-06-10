@@ -2,7 +2,6 @@
   "id": "project-management",
   "name": "Project Management",
   "type": "extra",
-  "rarity": "uncommon",
   "description": "Manages issues, tasks, projects, and team workflows through structured project management platforms, handling state transitions and priority levels.",
   "prerequisites": [
     "api-call",

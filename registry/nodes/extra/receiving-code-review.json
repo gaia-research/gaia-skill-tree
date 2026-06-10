@@ -2,7 +2,6 @@
   "id": "receiving-code-review",
   "name": "Receiving Code Review",
   "type": "extra",
-  "rarity": "common",
   "description": "Processes code review feedback with technical rigor and verification before implementation, questioning unclear feedback.",
   "prerequisites": [
     "requesting-code-review",

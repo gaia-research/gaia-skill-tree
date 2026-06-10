@@ -2,7 +2,6 @@
   "id": "web-accessibility",
   "name": "web-accessibility",
   "type": "extra",
-  "rarity": "common",
   "description": "Accessibility",
   "prerequisites": [
     "browser-control",

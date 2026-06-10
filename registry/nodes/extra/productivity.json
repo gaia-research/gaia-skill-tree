@@ -2,7 +2,6 @@
   "id": "productivity",
   "name": "mattpocock-productivity",
   "type": "extra",
-  "rarity": "common",
   "description": "Productivity category suite for Matt Pocock's skills.",
   "prerequisites": [
     "agent-handoff",

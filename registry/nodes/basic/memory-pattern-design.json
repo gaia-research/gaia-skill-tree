@@ -2,7 +2,6 @@
   "id": "memory-pattern-design",
   "name": "Memory Pattern Design",
   "type": "basic",
-  "rarity": "common",
   "description": "Designs recurring memory storage patterns for AI agents with LRU caching, SQLite persistence, and associative retrieval.",
   "prerequisites": [],
   "derivatives": [],

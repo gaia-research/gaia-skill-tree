@@ -2,7 +2,6 @@
   "id": "registry-entry-audit",
   "name": "Gaia Audit",
   "type": "extra",
-  "rarity": "rare",
   "description": "Reviews one Gaia skill, named skill, or real-skill catalog item against current evidence, source URLs, taxonomy mapping, promotion status, and demotion criteria, then proposes the smallest source-of-truth correction. Implements a sophisticated 7-phase audit discipline including evidence re-verification, demotion checks, and automatic asset regeneration.",
   "prerequisites": [
     "retrieve",

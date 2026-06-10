@@ -2,7 +2,6 @@
   "id": "web-search",
   "name": "Web Search",
   "type": "basic",
-  "rarity": "common",
   "description": "Queries external search engines or APIs and retrieves relevant result sets.",
   "prerequisites": [],
   "derivatives": [

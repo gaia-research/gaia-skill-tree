@@ -2,7 +2,6 @@
   "id": "video-intelligence",
   "name": "Video Intelligence",
   "type": "extra",
-  "rarity": "rare",
   "description": "Processes video streams by extracting frames, transcribing audio, and applying multimodal reasoning to understand temporal and visual context.",
   "prerequisites": [
     "multimodal-reasoning",

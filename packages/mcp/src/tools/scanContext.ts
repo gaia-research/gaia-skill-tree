@@ -66,7 +66,7 @@ export async function scanContext(
     for (const id of allDetected) {
       const skill = graph.skills.find((s) => s.id === id);
       if (skill) {
-        lines.push(`- **${skill.name}** (${skill.type}, ${skill.rarity})`);
+        lines.push(`- **${skill.name}** (${skill.type})`);
       } else {
         lines.push(`- ${id} (matched but not in registry)`);
       }

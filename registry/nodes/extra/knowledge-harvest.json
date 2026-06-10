@@ -2,7 +2,6 @@
   "id": "knowledge-harvest",
   "name": "Knowledge Harvest",
   "type": "extra",
-  "rarity": "rare",
   "description": "Extracts, structures, and embeds knowledge from web sources into a searchable corpus.",
   "prerequisites": [
     "web-scrape",

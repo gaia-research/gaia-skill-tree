@@ -2,7 +2,6 @@
   "id": "route-intent",
   "name": "Route Intent",
   "type": "basic",
-  "rarity": "common",
   "description": "Classifies user intent and directs execution to the appropriate handler, tool, or sub-agent.",
   "prerequisites": [],
   "derivatives": [

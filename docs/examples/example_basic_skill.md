@@ -38,7 +38,6 @@ Added to `skills` array:
   "name": "Parse CSV",
   "type": "basic",
   "level": "2★",
-  "rarity": "common",
   "description": "Extracts structured tabular data from CSV-formatted input, handling delimiters, quoted fields, headers, and encoding variants.",
   "prerequisites": [],
   "derivatives": ["documentAnalyst"],

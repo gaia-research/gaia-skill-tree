@@ -9,7 +9,6 @@ This is a filled-out example of a `reclassification.md` PR for reference.
 ### Target Skill
 - **ID:** `webScrape`
 - **Current Level:** III → **Proposed Level:** IV
-- **Current Rarity:** Uncommon → **Proposed Rarity:** Uncommon (no change)
 
 ### Justification
 Since the initial 3★ classification, multiple independent demonstrations have shown `webScrape` handling dynamic JavaScript-rendered pages, pagination, and anti-bot measures — failure modes that were previously undocumented. The skill now meets the 4★ bar: "Handles edge cases and failures."
@@ -26,5 +25,4 @@ Since the initial 3★ classification, multiple independent demonstrations have 
 - [x] Justification references concrete evidence, not opinion.
 - [x] New evidence meets the threshold for 4★ (Evidence Tier B+).
 - [x] Explanation of why previous 3★ classification is now insufficient.
-- [x] Rarity unchanged (prevalence data has not shifted).
 - [x] I have run `python scripts/validate.py` locally and it passes.

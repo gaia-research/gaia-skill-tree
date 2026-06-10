@@ -2,7 +2,6 @@
   "id": "issue-triage",
   "name": "Issue Triage",
   "type": "basic",
-  "rarity": "uncommon",
   "description": "Classifies incoming issue reports through a structured state machine, assigns triage roles (bug/enhancement, needs-info/ready-for-agent/wontfix), reproduces bugs, requests missing detail, and produces structured resolution briefs for agent or human handoff.",
   "prerequisites": [],
   "derivatives": [],

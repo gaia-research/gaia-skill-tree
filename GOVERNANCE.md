@@ -94,7 +94,6 @@ Every 90 days, the maintainers will conduct a full re-audit of the registry to:
 ### 5.1 Registry Snapshots
 The registry is updated continuously as PRs are merged. Every month, a new version (e.g., `v2.1.0`) is tagged as a **Frontier Release**, including:
 - A summary of all new skills.
-- Updated rarity scores based on real user tree data.
 - The **Frontier Report** (graph analytics and gaps).
 
 ## 6. Code of Conduct

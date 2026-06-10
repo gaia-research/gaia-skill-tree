@@ -2,7 +2,6 @@
   "id": "personal",
   "name": "mattpocock-personal",
   "type": "extra",
-  "rarity": "common",
   "description": "Personal category suite for Matt Pocock's skills.",
   "prerequisites": [
     "document-editing",

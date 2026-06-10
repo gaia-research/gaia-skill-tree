@@ -2,7 +2,6 @@
   "id": "git-integration",
   "name": "GitHub Platform Mastery",
   "type": "extra",
-  "rarity": "uncommon",
   "description": "Full GitHub platform automation: code review pipelines, multi-repo coordination, project management, release management, and workflow automation.",
   "prerequisites": [
     "code-review-pipeline",

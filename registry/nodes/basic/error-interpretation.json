@@ -2,7 +2,6 @@
   "id": "error-interpretation",
   "name": "Error Interpretation",
   "type": "basic",
-  "rarity": "common",
   "description": "Diagnoses error messages, stack traces, and failure modes to identify root causes and suggest fixes.",
   "prerequisites": [],
   "derivatives": [

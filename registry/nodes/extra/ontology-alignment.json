@@ -2,7 +2,6 @@
   "id": "ontology-alignment",
   "name": "Ontology Alignment",
   "type": "extra",
-  "rarity": "common",
   "description": "Maps entities, classes, and relationships across heterogeneous schemas and knowledge graphs to harmonize multi-source data, using class-hierarchy and instance-level alignment.",
   "prerequisites": [
     "extract-entities",

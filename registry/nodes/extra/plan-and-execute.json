@@ -2,7 +2,6 @@
   "id": "plan-and-execute",
   "name": "Plan and Execute",
   "type": "extra",
-  "rarity": "rare",
   "description": "Decomposes complex objectives into sub-tasks, selects tools, and orchestrates execution.",
   "prerequisites": [
     "route-intent",

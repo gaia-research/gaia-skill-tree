@@ -2,7 +2,6 @@
   "id": "mcp-server-creation",
   "name": "MCP Server Creation",
   "type": "extra",
-  "rarity": "rare",
   "description": "Designs and implements Model Context Protocol servers that expose external APIs, files, or services as well-typed tools with clear schemas, authentication, and testable agent workflows.",
   "prerequisites": [
     "mcp-integration",

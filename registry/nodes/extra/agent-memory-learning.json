@@ -2,7 +2,6 @@
   "id": "agent-memory-learning",
   "name": "Agent Memory Learning",
   "type": "extra",
-  "rarity": "uncommon",
   "description": "Builds self-improving agent memory by analyzing task success patterns and adapting retrieval strategies with AgentDB-backed persistence.",
   "prerequisites": [
     "adaptive-pattern-learning",

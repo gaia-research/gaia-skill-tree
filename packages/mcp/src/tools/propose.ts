@@ -54,7 +54,7 @@ async function claimFusion(
         updatedAt: new Date().toISOString().split("T")[0],
         unlockedSkills: [],
         pendingCombinations: [],
-        stats: { totalUnlocked: 0, highestRarity: "common", deepestLineage: 0 },
+        stats: { totalUnlocked: 0, deepestLineage: 0 },
       };
 
   if (tree.unlockedSkills.some((s) => s.skillId === skillId)) {
@@ -90,7 +90,7 @@ async function claimFusion(
   });
 
   const prVerb = prUrl.startsWith("http") ? "PR" : "Status";
-  return `Fusion claimed! ${prVerb}: ${prUrl}\n\n**${skill.name}** (${skill.type}, ${skill.level}, ${skill.rarity}) added to your tree.`;
+  return `Fusion claimed! ${prVerb}: ${prUrl}\n\n**${skill.name}** (${skill.type}, ${skill.level}) added to your tree.`;
 }
 
 async function proposeNovel(
@@ -118,7 +118,6 @@ async function proposeNovel(
     name: input.name!,
     type: input.type ?? "basic",
     level: "1★",
-    rarity: "common",
     description: input.description!,
     prerequisites: input.prerequisites ?? [],
     derivatives: [],

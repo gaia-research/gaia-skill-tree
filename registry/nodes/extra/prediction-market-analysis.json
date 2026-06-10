@@ -2,7 +2,6 @@
   "id": "prediction-market-analysis",
   "name": "Prediction Market Analysis",
   "type": "extra",
-  "rarity": "rare",
   "description": "Queries prediction-market data, compares market probabilities and price history, and summarizes probabilistic signals for forecasting or decision-support workflows.",
   "prerequisites": [
     "data-analysis",

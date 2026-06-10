@@ -2,7 +2,6 @@
   "id": "personal-knowledge-management",
   "name": "personal-knowledge-management",
   "type": "extra",
-  "rarity": "common",
   "description": "Managing notes and organization in a specific vault.",
   "prerequisites": [
     "retrieve",

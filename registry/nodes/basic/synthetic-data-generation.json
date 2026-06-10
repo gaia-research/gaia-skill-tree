@@ -2,7 +2,6 @@
   "id": "synthetic-data-generation",
   "name": "Synthetic Data Generation",
   "type": "basic",
-  "rarity": "common",
   "description": "Generates privacy-preserving, domain-representative datasets via tabular synthesis and generative models, infusing schema and regulatory constraints to substitute for sensitive real data.",
   "prerequisites": [],
   "derivatives": [],

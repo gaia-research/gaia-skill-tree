@@ -2,7 +2,6 @@
   "id": "bioinformatic-sequence-analysis",
   "name": "Bioinformatic Sequence Analysis",
   "type": "basic",
-  "rarity": "common",
   "description": "Performs biological sequence alignment, similarity searches, multiple sequence alignment (MSA), and genomic variant analysis using standard bioinformatics tools and databases.",
   "prerequisites": [],
   "derivatives": [],

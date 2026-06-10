@@ -2,7 +2,6 @@
   "id": "tree-of-thought",
   "name": "Tree of Thought",
   "type": "extra",
-  "rarity": "rare",
   "description": "Frames problem solving as a search over a tree of partial solutions, using LLM-generated evaluations to prune unpromising branches and backtrack, dramatically improving success on complex reasoning tasks.",
   "prerequisites": [
     "chain-of-thought",

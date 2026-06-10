@@ -2,7 +2,6 @@
   "id": "math-reason",
   "name": "Math Reason",
   "type": "basic",
-  "rarity": "uncommon",
   "description": "Solves multi-step mathematical problems including arithmetic, algebra, calculus, and competition mathematics through symbolic and numeric reasoning.",
   "prerequisites": [],
   "derivatives": [

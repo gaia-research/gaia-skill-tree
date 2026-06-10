@@ -2,7 +2,6 @@
   "id": "verification-before-completion",
   "name": "Verification Before Completion",
   "type": "extra",
-  "rarity": "common",
   "description": "Requires running verification commands and confirming output before claiming work is complete, fixed, or passing.",
   "prerequisites": [
     "code-execution",

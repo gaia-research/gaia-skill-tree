@@ -120,15 +120,6 @@ TIER_GLYPHS = {
     "ultimate": "◆",  # ◆
 }
 
-# Rarity decorators (shown in card header)
-RARITY_LABELS = {
-    "common": "Common",
-    "uncommon": "Uncommon",
-    "rare": "Rare",
-    "epic": "Epic",
-    "legendary": "Legendary",
-}
-
 # 6★ label uses the brand-voice shorthand "Apex" per CONTEXT.md (Maturity > Apex).
 # Long-form surfaces use "Transcendent ★" in full; CLI plaques use the shorthand.
 # Level display
@@ -284,8 +275,6 @@ def render_card(
             ctx.display_name(skill_id, include_star=False) if ctx else f"/{skill_id}"
         )
 
-    rarity = skill.get("rarity", "common")
-    rarity_label = RARITY_LABELS.get(rarity, rarity.capitalize())
     level = skill.get("level", "0★")
     level_label = LEVEL_LABELS.get(level, f"{level}")
     level_meta = level_summary(skill)
@@ -303,13 +292,11 @@ def render_card(
     # Top border
     lines.append(_top_border(width))
 
-    # Header: glyph + name + rarity
+    # Header: glyph + name
     header_left = f"{glyph} {name}"
-    header_right = f"[{rarity_label}]"
-    available = inner - len(header_right) - 1
-    if len(header_left) > available:
-        header_left = header_left[: available - 1] + "…"
-    header = f"{header_left}{' ' * (inner - len(header_left) - len(header_right))}{header_right}"
+    if len(header_left) > inner:
+        header_left = header_left[: inner - 1] + "…"
+    header = f"{header_left}{' ' * (inner - len(header_left))}"
     lines.append(f"{V} {header} {V}")
 
     # Sub-header: level + tier label
@@ -383,7 +370,7 @@ def render_card_compact(
     """
     Render a compact single-line card summary.
 
-    Format: [glyph] <display name> [rarity] — first 60 chars of description
+    Format: [glyph] <display name> — first 60 chars of description
     """
     tier = skill.get("type", "basic")
     glyph = TIER_GLYPHS.get(tier, "○")
@@ -392,10 +379,9 @@ def render_card_compact(
     # Compact card uses display_name which now includes the star
     name = ctx.display_name(skill_id, canon=canon) if ctx else f"/{skill_id}"
 
-    rarity = skill.get("rarity", "common")
     desc = skill.get("description", "")
     short_desc = desc[:60] + "…" if len(desc) > 60 else desc
-    return f"{glyph} {name} [{rarity}] — {short_desc}"
+    return f"{glyph} {name} — {short_desc}"
 
 
 def render_cards(
@@ -513,7 +499,6 @@ def render_appraise_card(
         )
 
     level = skill_data.get("level", "0★")
-    rarity = skill_data.get("rarity", "common")
     desc = skill_data.get("description", "")
 
     bc = fg(*tc)  # border color
@@ -553,15 +538,13 @@ def render_appraise_card(
     # Thin divider
     lines.append(f"{bc}{V}{r} {fg(*COLOR_MUTED)}{H * inner}{r} {bc}{V}{r}")
 
-    # Type + rarity (using proper type labels)
+    # Type (using proper type labels)
     type_labels = {
         "basic": "Basic Skill",
         "extra": "Extra Skill",
         "ultimate": "Ultimate Skill",
     }
-    type_str = f"Type: {type_labels.get(tier, tier.capitalize())}"
-    rarity_str = f"Rarity: {rarity}"
-    meta = f"{type_str}    {rarity_str}"
+    meta = f"Type: {type_labels.get(tier, tier.capitalize())}"
     lines.append(f"{bc}{V}{r} {fg(*COLOR_MUTED)}{_pad(meta, inner)}{r} {bc}{V}{r}")
 
     # Blank
@@ -697,7 +680,6 @@ def render_unlock_card(
 
     glyph = TIER_GLYPHS.get(tier, "○")
     level = skill_data.get("level", "0★")
-    rarity = skill_data.get("rarity", "common")
 
     gc = fg(*COLOR_GOLD)
     tc_fg = fg(*tc)
@@ -723,7 +705,7 @@ def render_unlock_card(
         f"    {b}{gc}═══ SKILL UNLOCKED ═══{r}",
         f"",
         f"    {tc_fg}{b}{glyph}{r} {name_colored}",
-        f"    {fg(*COLOR_MUTED)}Level {level} • {tier.capitalize()} • {rarity}{r}",
+        f"    {fg(*COLOR_MUTED)}Level {level} • {tier.capitalize()}{r}",
     ]
 
     if new_paths:

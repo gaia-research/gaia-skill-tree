@@ -2,7 +2,6 @@
   "id": "framework-upgrade",
   "name": "Framework Upgrade",
   "type": "basic",
-  "rarity": "common",
   "description": "Guides an agent through upgrading a project from one major framework version to another, including breaking-change detection, migration steps, and post-upgrade validation.",
   "prerequisites": [],
   "derivatives": [],

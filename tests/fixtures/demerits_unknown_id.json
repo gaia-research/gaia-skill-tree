@@ -8,7 +8,6 @@
       "name": "Skill A",
       "type": "extra",
       "level": "2★",
-      "rarity": "common",
       "description": "2★ skill with an unknown demerit id.",
       "prerequisites": [
         "skill-b",
@@ -37,7 +36,6 @@
       "name": "Skill B",
       "type": "basic",
       "level": "0★",
-      "rarity": "common",
       "description": "Valid prerequisite skill.",
       "prerequisites": [],
       "derivatives": [
@@ -55,7 +53,6 @@
       "name": "Skill C",
       "type": "basic",
       "level": "0★",
-      "rarity": "common",
       "description": "Valid prerequisite skill.",
       "prerequisites": [],
       "derivatives": [

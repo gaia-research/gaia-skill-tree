@@ -2,7 +2,6 @@
   "id": "real-time-voice-assistant",
   "name": "Real-Time Voice Assistant",
   "type": "extra",
-  "rarity": "epic",
   "description": "Provides low-latency spoken interactions combining real-time speech I/O, persistent memory, and goal-directed task execution across multi-session conversations.",
   "prerequisites": [
     "voice-agent",

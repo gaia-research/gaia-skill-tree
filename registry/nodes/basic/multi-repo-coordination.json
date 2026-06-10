@@ -2,7 +2,6 @@
   "id": "multi-repo-coordination",
   "name": "Multi-Repo Coordination",
   "type": "basic",
-  "rarity": "common",
   "description": "Manages synchronized operations across multiple repositories including cross-repo PRs, dependency tracking, and bulk workflow automation.",
   "prerequisites": [],
   "derivatives": [],

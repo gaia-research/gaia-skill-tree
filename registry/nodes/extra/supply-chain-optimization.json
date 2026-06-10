@@ -2,7 +2,6 @@
   "id": "supply-chain-optimization",
   "name": "Supply Chain Optimization",
   "type": "extra",
-  "rarity": "common",
   "description": "Orchestrates inventory, logistics, and procurement decisions using demand forecasting, EOQ and safety-stock computation, route optimization, and anomaly-aware fulfilment monitoring.",
   "prerequisites": [
     "data-analysis",

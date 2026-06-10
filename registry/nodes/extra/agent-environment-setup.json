@@ -2,7 +2,6 @@
   "id": "agent-environment-setup",
   "name": "agent-environment-setup",
   "type": "extra",
-  "rarity": "common",
   "description": "Scaffolding per-repo configuration for other engineering skills.",
   "prerequisites": [
     "document-editing",

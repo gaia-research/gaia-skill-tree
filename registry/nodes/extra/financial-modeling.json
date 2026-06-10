@@ -2,7 +2,6 @@
   "id": "financial-modeling",
   "name": "Financial Modeling",
   "type": "extra",
-  "rarity": "common",
   "description": "Builds financial projections, DCF and LBO valuation models, Monte Carlo simulations, and portfolio optimization by querying data, computing statistics, and running sensitivity analysis.",
   "prerequisites": [
     "data-analysis",

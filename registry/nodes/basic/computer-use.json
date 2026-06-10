@@ -2,7 +2,6 @@
   "id": "computer-use",
   "name": "Computer Use",
   "type": "basic",
-  "rarity": "rare",
   "description": "Controls desktop GUIs and web browsers by interpreting screenshots, issuing mouse/keyboard actions, and verifying visual state to complete open-ended computer tasks.",
   "prerequisites": [],
   "derivatives": [

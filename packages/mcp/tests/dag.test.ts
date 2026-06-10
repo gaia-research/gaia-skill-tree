@@ -5,15 +5,15 @@ import type { GaiaGraph } from "../src/graph/types.js";
 const mockGraph: GaiaGraph = {
   version: "0.2.0",
   generatedAt: "2026-04-28",
-  meta: { typeLabels: {}, levelLabels: {}, rarityLabels: {} },
+  meta: { typeLabels: {}, levelLabels: {} },
   skills: [
-    { id: "tokenize", name: "Tokenize", type: "basic", level: "1★", rarity: "common", description: "", prerequisites: [], derivatives: ["embed-text"], conditions: "", evidence: [], knownAgents: [], status: "validated", createdAt: "", updatedAt: "", version: "0.1.0" },
-    { id: "embed-text", name: "Embed Text", type: "basic", level: "2★", rarity: "common", description: "", prerequisites: ["tokenize"], derivatives: ["rag-pipeline"], conditions: "", evidence: [], knownAgents: [], status: "validated", createdAt: "", updatedAt: "", version: "0.1.0" },
-    { id: "retrieve", name: "Retrieve", type: "basic", level: "2★", rarity: "common", description: "", prerequisites: [], derivatives: ["rag-pipeline"], conditions: "", evidence: [], knownAgents: [], status: "validated", createdAt: "", updatedAt: "", version: "0.1.0" },
-    { id: "chunk-document", name: "Chunk Document", type: "basic", level: "2★", rarity: "common", description: "", prerequisites: [], derivatives: ["rag-pipeline"], conditions: "", evidence: [], knownAgents: [], status: "validated", createdAt: "", updatedAt: "", version: "0.1.0" },
-    { id: "score-relevance", name: "Score Relevance", type: "basic", level: "2★", rarity: "common", description: "", prerequisites: [], derivatives: ["rag-pipeline"], conditions: "", evidence: [], knownAgents: [], status: "validated", createdAt: "", updatedAt: "", version: "0.1.0" },
-    { id: "rag-pipeline", name: "RAG Pipeline", type: "extra", level: "3★", rarity: "rare", description: "", prerequisites: ["retrieve", "chunk-document", "embed-text", "score-relevance"], derivatives: ["true-oracle"], conditions: "", evidence: [], knownAgents: [], status: "validated", createdAt: "", updatedAt: "", version: "0.1.0" },
-    { id: "true-oracle", name: "True Oracle", type: "ultimate", level: "5★", rarity: "legendary", description: "", prerequisites: ["rag-pipeline"], derivatives: [], conditions: "", evidence: [], knownAgents: [], status: "provisional", createdAt: "", updatedAt: "", version: "0.1.0" },
+    { id: "tokenize", name: "Tokenize", type: "basic", level: "1★", description: "", prerequisites: [], derivatives: ["embed-text"], conditions: "", evidence: [], knownAgents: [], status: "validated", createdAt: "", updatedAt: "", version: "0.1.0" },
+    { id: "embed-text", name: "Embed Text", type: "basic", level: "2★", description: "", prerequisites: ["tokenize"], derivatives: ["rag-pipeline"], conditions: "", evidence: [], knownAgents: [], status: "validated", createdAt: "", updatedAt: "", version: "0.1.0" },
+    { id: "retrieve", name: "Retrieve", type: "basic", level: "2★", description: "", prerequisites: [], derivatives: ["rag-pipeline"], conditions: "", evidence: [], knownAgents: [], status: "validated", createdAt: "", updatedAt: "", version: "0.1.0" },
+    { id: "chunk-document", name: "Chunk Document", type: "basic", level: "2★", description: "", prerequisites: [], derivatives: ["rag-pipeline"], conditions: "", evidence: [], knownAgents: [], status: "validated", createdAt: "", updatedAt: "", version: "0.1.0" },
+    { id: "score-relevance", name: "Score Relevance", type: "basic", level: "2★", description: "", prerequisites: [], derivatives: ["rag-pipeline"], conditions: "", evidence: [], knownAgents: [], status: "validated", createdAt: "", updatedAt: "", version: "0.1.0" },
+    { id: "rag-pipeline", name: "RAG Pipeline", type: "extra", level: "3★", description: "", prerequisites: ["retrieve", "chunk-document", "embed-text", "score-relevance"], derivatives: ["true-oracle"], conditions: "", evidence: [], knownAgents: [], status: "validated", createdAt: "", updatedAt: "", version: "0.1.0" },
+    { id: "true-oracle", name: "True Oracle", type: "ultimate", level: "5★", description: "", prerequisites: ["rag-pipeline"], derivatives: [], conditions: "", evidence: [], knownAgents: [], status: "provisional", createdAt: "", updatedAt: "", version: "0.1.0" },
   ],
   edges: [],
 };
@@ -39,7 +39,7 @@ describe("dag", () => {
       expect(ids).toContain("tokenize"); // ancestor of embed-text
     });
 
-    it("walks deep lineage for legendary", () => {
+    it("walks deep lineage for ultimates", () => {
       const ancestors = getAncestors(mockGraph, "true-oracle");
       const ids = ancestors.map((a) => a.id);
       expect(ids).toContain("rag-pipeline");
@@ -88,7 +88,7 @@ describe("dag", () => {
       expect(getLineageDepth(mockGraph, "rag-pipeline")).toBe(2);
     });
 
-    it("returns correct depth for legendaries", () => {
+    it("returns correct depth for ultimates", () => {
       expect(getLineageDepth(mockGraph, "true-oracle")).toBe(3);
     });
   });

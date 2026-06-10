@@ -180,7 +180,6 @@
       "type": "object",
       "required": [
         "totalUnlocked",
-        "highestRarity",
         "deepestLineage"
       ],
       "additionalProperties": false,
@@ -189,17 +188,6 @@
           "type": "integer",
           "minimum": 0,
           "description": "Total number of skills unlocked."
-        },
-        "highestRarity": {
-          "type": "string",
-          "enum": [
-            "common",
-            "uncommon",
-            "rare",
-            "epic",
-            "legendary"
-          ],
-          "description": "Highest rarity tier among unlocked skills."
         },
         "deepestLineage": {
           "type": "integer",

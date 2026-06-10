@@ -2,7 +2,6 @@
   "id": "distributed-consensus-coordination",
   "name": "Hive Mind Coordination",
   "type": "unique",
-  "rarity": "rare",
   "description": "Queen-led collective intelligence with Byzantine, majority, and weighted consensus mechanisms, eight worker specializations, and persistent collective SQLite memory with LRU caching.",
   "prerequisites": [],
   "derivatives": [],

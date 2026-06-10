@@ -2,7 +2,6 @@
   "id": "brainstorming",
   "name": "Brainstorming",
   "type": "extra",
-  "rarity": "common",
   "description": "Explores user intent, requirements, and design before implementation.",
   "prerequisites": [
     "requirements-analysis",

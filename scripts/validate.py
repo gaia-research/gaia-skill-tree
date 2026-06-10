@@ -349,12 +349,10 @@ def compute_stats(graph):
     """Compute and print summary statistics."""
     skills = graph.get("skills", [])
     by_type = defaultdict(int)
-    by_rarity = defaultdict(int)
     by_status = defaultdict(int)
 
     for s in skills:
         by_type[s["type"]] += 1
-        by_rarity[s["rarity"]] += 1
         by_status[s["status"]] += 1
 
     # Compute max lineage depth
@@ -386,7 +384,6 @@ def compute_stats(graph):
     print("\n📊 Graph Statistics")
     print(f"   Total skills: {len(skills)}")
     print(f"   By type: {dict(by_type)}")
-    print(f"   By rarity: {dict(by_rarity)}")
     print(f"   By status: {dict(by_status)}")
     print(f"   Total edges: {len(graph.get('edges', []))}")
     print(f"   Max lineage depth: {max_depth}")

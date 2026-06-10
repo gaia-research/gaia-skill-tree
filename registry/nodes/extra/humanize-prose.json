@@ -2,7 +2,6 @@
   "id": "humanize-prose",
   "name": "Humanize Prose",
   "type": "extra",
-  "rarity": "uncommon",
   "description": "Audits and rewrites prose to remove generic AI-writing patterns, preserve author intent, and adapt tone toward a more natural human voice.",
   "prerequisites": [
     "document-editing",

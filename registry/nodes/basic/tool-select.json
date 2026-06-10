@@ -2,7 +2,6 @@
   "id": "tool-select",
   "name": "Tool Select",
   "type": "basic",
-  "rarity": "common",
   "description": "Chooses the most appropriate tool or API from a set of available options given a task description.",
   "prerequisites": [],
   "derivatives": [

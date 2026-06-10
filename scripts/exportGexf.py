@@ -42,7 +42,6 @@ def main():
     # Attributes
     attributes = ET.SubElement(graph, "attributes", attrib={"class": "node"})
     ET.SubElement(attributes, "attribute", attrib={"id": "level", "title": "level", "type": "string"})
-    ET.SubElement(attributes, "attribute", attrib={"id": "rarity", "title": "rarity", "type": "string"})
     ET.SubElement(attributes, "attribute", attrib={"id": "status", "title": "status", "type": "string"})
     ET.SubElement(attributes, "attribute", attrib={"id": "type", "title": "type", "type": "string"})
     
@@ -55,7 +54,6 @@ def main():
         node = ET.SubElement(nodes, "node", attrib={"id": skill['id'], "label": skill.get('name', skill['id'])})
         attvalues = ET.SubElement(node, "attvalues")
         ET.SubElement(attvalues, "attvalue", attrib={"for": "level", "value": skill.get('level', '')})
-        ET.SubElement(attvalues, "attvalue", attrib={"for": "rarity", "value": skill.get('rarity', '')})
         ET.SubElement(attvalues, "attvalue", attrib={"for": "status", "value": skill.get('status', '')})
         ET.SubElement(attvalues, "attvalue", attrib={"for": "type", "value": skill.get('type', '')})
         

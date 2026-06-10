@@ -2,7 +2,6 @@
   "id": "structured-output",
   "name": "Structured Output Generation",
   "type": "basic",
-  "rarity": "common",
   "description": "Generates output guaranteed to conform to a given schema (JSON, YAML, Pydantic model, etc.) using constrained decoding or grammar-guided generation.",
   "prerequisites": [],
   "derivatives": [

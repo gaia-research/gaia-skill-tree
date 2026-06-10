@@ -2,7 +2,6 @@
   "id": "pathway-ontology-retrieval",
   "name": "Pathway Ontology Retrieval",
   "type": "basic",
-  "rarity": "common",
   "description": "Queries, parses, and resolves biological pathway models, cellular reactions, and hierarchical ontology metadata from pathway and ontology search systems (e.g., Reactome, QuickGO, EMBL-EBI OLS).",
   "prerequisites": [],
   "derivatives": [],

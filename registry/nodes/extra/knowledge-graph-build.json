@@ -2,7 +2,6 @@
   "id": "knowledge-graph-build",
   "name": "Knowledge Graph Construction",
   "type": "extra",
-  "rarity": "uncommon",
   "description": "Extracts entities and relations from unstructured text, resolves co-references, and assembles them into a queryable graph structure with typed edges.",
   "prerequisites": [
     "extract-entities",

@@ -96,6 +96,21 @@ jobs:
                --exclude-dir='samples' \
                2>/dev/null || true)
 
+          # Rarity axis is removed (issue #356) — fail on code-level
+          # regressions (quoted/key/property forms only, so prose using the
+          # plain English word "rarity" doesn't false-positive). Dated
+          # journals under docs/meta/ and docs/superpowers/ are historical
+          # records and stay excluded, as does CONTEXT.md's own notice.
+          RARITY_HITS=$(grep -RnE \
+               '"rarity"|rarityLabels|highestRarity|rs-legendary|\.rarity\b|rarity:' \
+               docs/ scripts/ src/gaia_cli/ packages/ tests/ registry/schema/ \
+               --exclude-dir='archive' \
+               --exclude-dir='meta' \
+               --exclude-dir='superpowers' \
+               --exclude-dir='node_modules' \
+               2>/dev/null || true)
+          HITS=$(printf '%s\n%s' "$HITS" "$RARITY_HITS" | sed '/^$/d')
+
           if [ -n "$HITS" ]; then
             echo "found=true" >> $GITHUB_OUTPUT
             echo "hits<<EOF" >> $GITHUB_OUTPUT

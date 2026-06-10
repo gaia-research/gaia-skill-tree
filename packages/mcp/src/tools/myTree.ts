@@ -7,7 +7,6 @@ function formatTree(tree: UserSkillTree, graph: GaiaGraph): string {
     `# Skill Tree — ${tree.userId}`,
     `**Updated:** ${tree.updatedAt}  `,
     `**Total Unlocked:** ${tree.stats.totalUnlocked}  `,
-    `**Highest Rarity:** ${tree.stats.highestRarity}  `,
     `**Deepest Lineage:** ${tree.stats.deepestLineage}`,
     "",
     "## Unlocked Skills",

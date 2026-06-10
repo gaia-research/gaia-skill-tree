@@ -127,7 +127,6 @@ def main() -> None:
                 "name": s["name"],
                 "type": s.get("type", "basic"),
                 "level": s.get("level", "0★"),
-                "rarity": s.get("rarity", "common"),
                 "description": s.get("description", ""),
                 "degree": g.degree(s["id"]),
                 "community": communities[s["id"]],
