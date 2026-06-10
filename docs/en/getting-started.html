@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Getting Started — Gaia Docs</title>
+  <meta name="description" content="Install the Gaia CLI, initialise your profile, scan your agent repo, and promote your first skill in under 10 minutes.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="icon" type="image/svg+xml" href="../assets/marks/diamond-seal.svg">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg, #030712);
+      color: var(--text, #e2e8f0);
+      font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+      font-size: 1rem;
+      line-height: 1.65;
+    }
+
+    a { color: var(--tier-basic, #38bdf8); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Nav ── */
+    .docs-nav {
+      border-bottom: 1px solid var(--border, #1e293b);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      height: 52px;
+      position: sticky;
+      top: 0;
+      background: rgba(3, 7, 18, 0.92);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+    }
+
+    .nav-logo {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--text, #e2e8f0);
+      letter-spacing: .02em;
+    }
+
+    .nav-logo span { color: var(--tier-ultimate, #f59e0b); }
+    .nav-sep { color: var(--muted, #64748b); font-size: 0.85rem; }
+    .nav-crumb { font-size: 0.82rem; color: var(--muted, #64748b); }
+    .nav-crumb.current { color: var(--text, #e2e8f0); }
+    .nav-spacer { flex: 1; }
+    .nav-version {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted, #64748b);
+      padding: 0.2rem 0.5rem;
+      border: 1px solid var(--border, #1e293b);
+      border-radius: 4px;
+    }
+
+    /* ── Layout ── */
+    .page-layout {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      grid-template-rows: auto;
+      max-width: 1120px;
+      margin: 0 auto;
+      gap: 0;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      position: sticky;
+      top: 52px;
+      height: calc(100vh - 52px);
+      overflow-y: auto;
+      padding: 2.5rem 1.5rem 2rem 0;
+      border-right: 1px solid var(--border, #1e293b);
+    }
+
+    .sidebar-section {
+      margin-bottom: 2rem;
+    }
+
+    .sidebar-section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--muted, #64748b);
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      margin-bottom: 0.6rem;
+    }
+
+    .sidebar-link {
+      display: block;
+      font-size: 0.83rem;
+      color: var(--muted, #64748b);
+      padding: 0.3rem 0.5rem;
+      border-radius: 4px;
+      margin-bottom: 0.1rem;
+      transition: color 0.15s, background 0.15s;
+      text-decoration: none;
+    }
+
+    .sidebar-link:hover {
+      color: var(--text, #e2e8f0);
+      background: rgba(255,255,255,0.03);
+      text-decoration: none;
+    }
+
+    .sidebar-link.active {
+      color: var(--tier-basic, #38bdf8);
+      background: rgba(56, 189, 248, 0.06);
+    }
+
+    /* ── Main ── */
+    .main {
+      padding: 3rem 2rem 5rem 3rem;
+      min-width: 0;
+    }
+
+    /* ── Eyebrow + title ── */
+    .page-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--tier-basic, #38bdf8);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    .page-title {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: clamp(1.9rem, 4vw, 2.8rem);
+      font-weight: 500;
+      line-height: 1.15;
+      color: var(--text, #e2e8f0);
+      margin-bottom: 1rem;
+    }
+
+    .page-lead {
+      font-size: 1.05rem;
+      color: var(--muted, #64748b);
+      max-width: 600px;
+      margin-bottom: 2.5rem;
+      line-height: 1.65;
+    }
+
+    /* ── Prose ── */
+    .prose h2 {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 1.55rem;
+      font-weight: 500;
+      color: var(--text, #e2e8f0);
+      margin: 3rem 0 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border, #1e293b);
+    }
+
+    .prose h2:first-child { border-top: none; margin-top: 0; }
+
+    .prose h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text, #e2e8f0);
+      margin: 1.8rem 0 0.6rem;
+    }
+
+    .prose p {
+      color: var(--muted, #64748b);
+      margin-bottom: 1rem;
+    }
+
+    .prose p strong {
+      color: var(--text, #e2e8f0);
+      font-weight: 600;
+    }
+
+    .prose ul, .prose ol {
+      margin: 0.75rem 0 1rem 1.4rem;
+      color: var(--muted, #64748b);
+    }
+
+    .prose li {
+      margin-bottom: 0.35rem;
+      line-height: 1.6;
+    }
+
+    .prose li strong { color: var(--text, #e2e8f0); }
+
+    .prose code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82em;
+      background: rgba(255,255,255,0.06);
+      padding: 0.1em 0.35em;
+      border-radius: 3px;
+      color: var(--text, #e2e8f0);
+    }
+
+    /* ── Code fence ── */
+    .code-fence {
+      background: #08080a;
+      border: 1px solid var(--border, #1e293b);
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 1rem 0 1.5rem;
+    }
+
+    .code-fence-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.55rem 1rem;
+      border-bottom: 1px solid var(--border, #1e293b);
+      background: rgba(255,255,255,0.02);
+    }
+
+    .code-fence-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--muted, #64748b);
+    }
+
+    .code-fence pre {
+      padding: 1.1rem 1.2rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      line-height: 1.75;
+      color: #c9d1d9;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    /* syntax micro-highlighting */
+    .code-fence pre .c  { color: #4b5563; }          /* comment */
+    .code-fence pre .kw { color: var(--tier-basic, #38bdf8); }
+    .code-fence pre .cmd { color: #86efac; }          /* command highlight */
+    .code-fence pre .arg { color: var(--tier-extra, #c084fc); }
+    .code-fence pre .str { color: #fbbf24; }
+    .code-fence pre .pl  { color: #a78bfa; }          /* placeholder */
+
+    /* ── Callout boxes ── */
+    .callout {
+      border-radius: 8px;
+      padding: 1rem 1.2rem;
+      margin: 1.25rem 0;
+      display: flex;
+      gap: 0.75rem;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .callout-icon { font-size: 1rem; flex-shrink: 0; line-height: 1.7; }
+
+    .callout.info {
+      background: rgba(56, 189, 248, 0.07);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      color: var(--text, #e2e8f0);
+    }
+
+    .callout.warn {
+      background: rgba(251, 191, 36, 0.07);
+      border: 1px solid rgba(251, 191, 36, 0.25);
+      color: var(--text, #e2e8f0);
+    }
+
+    .callout.tip {
+      background: rgba(134, 239, 172, 0.06);
+      border: 1px solid rgba(134, 239, 172, 0.22);
+      color: var(--text, #e2e8f0);
+    }
+
+    .callout p { color: inherit; margin: 0; }
+    .callout strong { color: inherit; }
+
+    /* ── Step labels ── */
+    .step-list {
+      list-style: none;
+      margin: 0 0 1.5rem;
+      padding: 0;
+      counter-reset: step;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .step-list li {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      counter-increment: step;
+      color: var(--muted, #64748b);
+    }
+
+    .step-list li::before {
+      content: counter(step);
+      flex-shrink: 0;
+      width: 1.8rem;
+      height: 1.8rem;
+      border-radius: 50%;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: var(--tier-basic, #38bdf8);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 0.15rem;
+    }
+
+    .step-content h3 {
+      margin: 0 0 0.3rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text, #e2e8f0);
+    }
+
+    .step-content p {
+      margin: 0;
+      font-size: 0.875rem;
+    }
+
+    /* ── Tier table ── */
+    .tier-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0 1.5rem;
+      font-size: 0.875rem;
+    }
+
+    .tier-table th {
+      text-align: left;
+      padding: 0.55rem 0.8rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      font-weight: 400;
+      color: var(--muted, #64748b);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      border-bottom: 1px solid var(--border, #1e293b);
+    }
+
+    .tier-table td {
+      padding: 0.6rem 0.8rem;
+      border-bottom: 1px solid rgba(30, 41, 59, 0.6);
+      color: var(--muted, #64748b);
+      vertical-align: middle;
+    }
+
+    .tier-table tr:last-child td { border-bottom: none; }
+
+    .tier-table td:first-child { font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; }
+
+    .tier-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.15rem 0.55rem;
+      border-radius: 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .tier-pill.basic   { background: var(--tier-basic-bg, rgba(56,189,248,.12)); border: 1px solid var(--tier-basic-border, rgba(56,189,248,.35)); color: var(--tier-basic, #38bdf8); }
+    .tier-pill.extra   { background: var(--tier-extra-bg, rgba(192,132,252,.12)); border: 1px solid var(--tier-extra-border, rgba(192,132,252,.35)); color: var(--tier-extra, #c084fc); }
+    .tier-pill.unique  { background: var(--tier-unique-bg, rgba(124,58,237,.12)); border: 1px solid var(--tier-unique-border, rgba(124,58,237,.35)); color: var(--tier-unique, #7c3aed); }
+    .tier-pill.ultimate { background: var(--tier-ultimate-bg, rgba(245,158,11,.12)); border: 1px solid var(--tier-ultimate-border, rgba(245,158,11,.35)); color: var(--tier-ultimate, #f59e0b); }
+
+    /* ── On-this-page jump links ── */
+    .otp {
+      background: var(--surface, #0f172a);
+      border: 1px solid var(--border, #1e293b);
+      border-radius: 8px;
+      padding: 1.1rem 1.3rem;
+      margin-bottom: 2rem;
+    }
+
+    .otp h4 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--muted, #64748b);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 0.75rem;
+    }
+
+    .otp ol {
+      list-style: decimal;
+      margin-left: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .otp ol li a {
+      font-size: 0.85rem;
+      color: var(--muted, #64748b);
+    }
+
+    .otp ol li a:hover { color: var(--tier-basic, #38bdf8); }
+
+    /* ── Nav footer ── */
+    .page-nav-footer {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border, #1e293b);
+    }
+
+    .page-nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.85rem;
+      color: var(--muted, #64748b);
+      padding: 0.55rem 1rem;
+      border: 1px solid var(--border, #1e293b);
+      border-radius: 6px;
+      transition: border-color 0.15s, color 0.15s;
+      text-decoration: none;
+    }
+
+    .page-nav-btn:hover {
+      border-color: rgba(56, 189, 248, 0.4);
+      color: var(--tier-basic, #38bdf8);
+      text-decoration: none;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .page-layout {
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        display: none;
+      }
+      .main {
+        padding: 2rem 1.25rem 4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAV ── -->
+  <nav class="docs-nav">
+    <a href="../index.html" class="nav-logo">Gaia <span>◆</span></a>
+    <span class="nav-sep">/</span>
+    <a href="index.html" class="nav-crumb">Docs</a>
+    <span class="nav-sep">/</span>
+    <span class="nav-crumb current">Getting Started</span>
+    <div class="nav-spacer"></div>
+    <span class="nav-version">v4.4.0</span>
+  </nav>
+
+  <div class="page-layout">
+
+    <!-- ── SIDEBAR ── -->
+    <aside class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-section-label">On this page</div>
+        <a href="#requirements" class="sidebar-link">Prerequisites</a>
+        <a href="#install" class="sidebar-link">Installation</a>
+        <a href="#init" class="sidebar-link">Initialise your profile</a>
+        <a href="#scan" class="sidebar-link">Scan your repo</a>
+        <a href="#promote" class="sidebar-link">Promote a skill</a>
+        <a href="#tree" class="sidebar-link">View your tree</a>
+        <a href="#push" class="sidebar-link">Submit for intake</a>
+        <a href="#concepts" class="sidebar-link">Core concepts</a>
+        <a href="#non-repo" class="sidebar-link">Non-repo environments</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-label">Also in Docs</div>
+        <a href="index.html" class="sidebar-link">← Docs home</a>
+        <a href="cli-reference.html" class="sidebar-link" style="opacity:0.5;">CLI Reference</a>
+        <a href="skill-hierarchy.html" class="sidebar-link" style="opacity:0.5;">Skill Hierarchy</a>
+        <a href="named-skills.html" class="sidebar-link" style="opacity:0.5;">Named Skills</a>
+      </div>
+    </aside>
+
+    <!-- ── MAIN ── -->
+    <main class="main">
+
+      <p class="page-eyebrow">Getting Started</p>
+      <h1 class="page-title">Install, scan, and claim your first skill.</h1>
+      <p class="page-lead">
+        This guide walks you through installing the Gaia CLI, initialising your profile,
+        running a repo scan, and promoting your first skill — from zero to a ranked entry
+        in the registry in under 10 minutes.
+      </p>
+
+      <!-- on-this-page quick nav (mobile-friendly) -->
+      <div class="otp">
+        <h4>On this page</h4>
+        <ol>
+          <li><a href="#requirements">Prerequisites</a></li>
+          <li><a href="#install">Installation</a></li>
+          <li><a href="#init">Initialise your profile</a></li>
+          <li><a href="#scan">Scan your repo</a></li>
+          <li><a href="#promote">Promote a skill</a></li>
+          <li><a href="#tree">View your skill tree</a></li>
+          <li><a href="#push">Submit for intake</a></li>
+          <li><a href="#concepts">Core concepts</a></li>
+          <li><a href="#non-repo">Non-repo environments</a></li>
+        </ol>
+      </div>
+
+      <div class="prose">
+
+        <!-- ────────────── PREREQUISITES ────────────── -->
+        <h2 id="requirements">Prerequisites</h2>
+
+        <p>Gaia's CLI is a Python package. You need:</p>
+
+        <ul>
+          <li><strong>Python 3.10 or newer</strong></li>
+          <li><strong>pip</strong> (comes with Python) or <strong>pipx</strong> for isolated installs</li>
+          <li>A <strong>Git repository</strong> — <code>gaia scan</code> and <code>gaia push</code> require one</li>
+        </ul>
+
+        <div class="callout info">
+          <span class="callout-icon">ℹ</span>
+          <p>
+            <strong>Not in a repo?</strong> You can still run <code>gaia init</code> and <code>gaia scan</code>
+            outside a Git repo for exploration, but <code>gaia push</code> will exit with an error because it
+            needs a repo URL to build the skill batch. See the <a href="#non-repo">non-repo environments</a>
+            section below.
+          </p>
+        </div>
+
+        <!-- ────────────── INSTALLATION ────────────── -->
+        <h2 id="install">Installation</h2>
+
+        <h3>Option A — pip (recommended for most developers)</h3>
+
+        <div class="code-fence">
+          <div class="code-fence-header"><span class="code-fence-label">shell</span></div>
+          <pre><span class="cmd">pip install gaia-registry</span></pre>
+        </div>
+
+        <p>This installs the <code>gaia</code> binary into whatever Python environment is currently active.
+        Use a virtualenv if you don't want to touch your system Python.</p>
+
+        <h3>Option B — pipx (isolated, recommended for global use)</h3>
+
+        <div class="code-fence">
+          <div class="code-fence-header"><span class="code-fence-label">shell</span></div>
+          <pre><span class="c"># Install pipx if you don't have it</span>
+<span class="cmd">pip install pipx</span>
+
+<span class="c"># Install gaia in its own isolated environment</span>
+<span class="cmd">pipx install gaia-registry</span></pre>
+        </div>
+
+        <h3>Option C — editable install from source</h3>
+
+        <div class="code-fence">
+          <div class="code-fence-header"><span class="code-fence-label">shell</span></div>
+          <pre><span class="cmd">git clone https://github.com/mbtiongson1/gaia-skill-tree.git</span>
+<span class="cmd">cd gaia-skill-tree</span>
+<span class="cmd">python -m venv .venv &amp;&amp; source .venv/bin/activate</span>
+<span class="cmd">pip install -e ".[dev,embeddings]"</span></pre>
+        </div>
+
+        <h3>Verify the install</h3>
+
+        <div class="code-fence">
+          <div class="code-fence-header"><span class="code-fence-label">shell</span></div>
+          <pre><span class="cmd">gaia --version</span>
+<span class="c"># gaia 4.4.0</span></pre>
+        </div>
+
+        <!-- ────────────── INIT ────────────── -->
+        <h2 id="init">Initialise your profile</h2>
+
+        <p>Navigate to your agent repo, then run <code>gaia init</code> with your GitHub handle:</p>
+
+        <div class="code-fence">
+          <div class="code-fence-header"><span class="code-fence-label">shell</span></div>
+          <pre><span class="cmd">cd my-agent-repo</span>
+<span class="cmd">gaia init --user <span class="pl">&lt;your-github-handle&gt;</span></span></pre>
+        </div>
+
+        <p>This creates a user profile at <code>skill-trees/&lt;your-handle&gt;/skill-tree.json</code>
+        in the registry (if you're working inside the Gaia repo itself) or initialises a local
+        config so <code>gaia scan</code> knows where to write results.</p>
+
+        <div class="callout tip">
+          <span class="callout-icon">✦</span>
+          <p>
+            Your handle is the string that will appear in <strong>honor red</strong> next to any
+            Named Skill you claim. Use your actual GitHub username — it's permanent in the
+            registry once a skill is named to you.
+          </p>
+        </div>
+
+        <h3>Check who you are</h3>
+
+        <p>Run <code>gaia whoami</code> at any time to confirm your authorization path:</p>
+
+        <div class="code-fence">
+          <div class="code-fence-header"><span class="code-fence-label">shell</span></div>
+          <pre><span class="cmd">gaia whoami</span>
+<span class="c"># User:  your-handle</span>
+<span class="c"># Via:   bootstrap   (or verifier / override / denied)</span></pre>
+        </div>
+
+        <p>The <strong>via</strong> field tells you which authorization path applies.
+        <code>bootstrap</code> means no 4★ Verifiers exist yet; all mutations are allowed.
+        <code>verifier</code> means you hold a Named Skill at 4★ or above.</p>
+
+        <!-- ────────────── SCAN ────────────── -->
+        <h2 id="scan">Scan your repo</h2>
+
+        <p>
+          <code>gaia scan</code> walks your repo looking for skill evidence — <code>SKILL.md</code>
+          files, <code>.claude/skills/</code> directories, agent configurations, and more.
+          It then produces a list of <em>promotion candidates</em>: skills detected at a new star level.
+        </p>
+
+        <div class="code-fence">
+          <div class="code-fence-header"><span class="code-fence-label">shell</span></div>
+          <pre><span class="cmd">gaia scan</span>
+<span class="c"># Scanning repo: my-agent-repo</span>
+<span class="c"># Found 3 candidates → generated-output/promotion-candidates.json</span></pre>
+        </div>
+
+        <div class="callout warn">
+          <span class="callout-icon">⚠</span>
+          <p>
+            Promotion candidates expire after <strong>24 hours</strong>. Run <code>gaia promote</code>
+            in the same session, or re-run <code>gaia scan</code> if the file has gone stale.
+          </p>
+        </div>
+
+        <h3>What the scanner looks for</h3>
+
+        <p>In order of precedence, the scanner inspects:</p>
+
+        <ul>
+          <li><strong><code>SKILL.md</code></strong> — the canonical skill definition file at any nesting level</li>
+          <li><strong><code>.claude/skills/</code></strong> and <strong><code>.agents/skills/</code></strong> — local agent skill directories</li>
+          <li><strong><code>.cursor/rules/</code></strong>, <strong><code>.github/copilot-instructions.md</code></strong>, <strong><code>.windsurfrules</code></strong> — tool-specific instruction files</li>
+          <li><strong>Custom skill paths</strong> configured in <code>.gaia/config.toml</code></li>
+        </ul>
+
+        <p>Each detected skill is matched against the canonical registry using semantic similarity.
+        If a match is found, the skill inherits the canonical node's lineage and graph placement.
+        Unmatched skills appear as new starless generics.</p>
+
+        <!-- ────────────── PROMOTE ────────────── -->
+        <h2 id="promote">Promote a skill</h2>
+
+        <p>After a scan, promote a candidate to your skill tree:</p>
+
+        <div class="code-fence">
+          <div class="code-fence-header"><span class="code-fence-label">shell</span></div>
+          <pre><span class="c"># List candidates from the last scan</span>
+<span class="cmd">gaia scan</span>
+
+<span class="c"># Promote a specific skill (use the /slug from the scan output)</span>
+<span class="cmd">gaia promote <span class="pl">/tool-use</span></span>
+
+<span class="c"># Or promote interactively — the CLI shows a ranked selection menu</span>
+<span class="cmd">gaia promote</span></pre>
+        </div>
+
+        <p>A successful promotion writes a ranked entry to your
+        <code>skill-trees/&lt;handle&gt;/skill-tree.json</code> and appends a
+        <code>rank_up</code> event to the <code>timeline</code> array. The timeline is
+        the auditable history of your progression — it cannot be hand-edited without
+        leaving a gap in the record.</p>
+
+        <div class="callout tip">
+          <span class="callout-icon">✦</span>
+          <p>
+            Skill IDs in scan output are slash-prefixed slugs like <code>/tool-use</code>
+            or <code>/code-generation</code>. Pass that exact string to <code>gaia promote</code>.
+          </p>
+        </div>
+
+        <!-- ────────────── TREE ────────────── -->
+        <h2 id="tree">View your skill tree</h2>
+
+        <div class="code-fence">
+          <div class="code-fence-header"><span class="code-fence-label">shell</span></div>
+          <pre><span class="c"># Your local-first tree — shows only your skills</span>
+<span class="cmd">gaia tree</span>
+
+<span class="c"># Full canonical registry tree (all contributors, all skills)</span>
+<span class="cmd">gaia tree --canon</span></pre>
+        </div>
+
+        <p>The default <code>gaia tree</code> view is <strong>local-first</strong>: it shows
+        your own unlocked skills at their current star levels, with Named forms when they exist.
+        Pass <code>--canon</code> to see the canonical registry view instead.</p>
+
+        <h3>Visual graph</h3>
+
+        <div class="code-fence">
+          <div class="code-fence-header"><span class="code-fence-label">shell</span></div>
+          <pre><span class="c"># Opens a 3D skill graph in your browser</span>
+<span class="cmd">gaia graph</span></pre>
+        </div>
+
+        <p>The graph renders the dependency DAG: nodes are skills, edges are prerequisite
+        relationships, and tier color (sky-blue / purple / deep-violet / amber) distinguishes
+        Basic / Extra / Unique / Ultimate.</p>
+
+        <!-- ────────────── PUSH ────────────── -->
+        <h2 id="push">Submit for intake</h2>
+
+        <p>
+          When you're ready to submit your skills for public registry review, run
+          <code>gaia push</code>. This opens a GitHub issue with a structured skill batch
+          for maintainer review.
+        </p>
+
+        <div class="code-fence">
+          <div class="code-fence-header"><span class="code-fence-label">shell</span></div>
+          <pre><span class="c"># Dry-run first — see what would be submitted without opening an issue</span>
+<span class="cmd">gaia push --dry-run</span>
+
+<span class="c"># Submit for real</span>
+<span class="cmd">gaia push</span></pre>
+        </div>
+
+        <div class="callout warn">
+          <span class="callout-icon">⚠</span>
+          <p>
+            <strong>Always dry-run first.</strong> <code>gaia push</code> opens a public GitHub
+            issue. The <code>--dry-run</code> flag lets you preview the batch JSON without
+            creating the issue.
+          </p>
+        </div>
+
+        <p>Once submitted, maintainers review each proposed skill using the
+        <strong>Reviewer Checklist</strong> in the issue body.
+        Accepted skills are promoted into <code>registry/gaia.json</code> in a separate
+        <code>review/meta/…</code> PR.</p>
+
+        <!-- ────────────── CONCEPTS ────────────── -->
+        <h2 id="concepts">Core concepts</h2>
+
+        <h3>The four tiers</h3>
+
+        <p>Every skill in the registry belongs to exactly one tier:</p>
+
+        <table class="tier-table">
+          <thead>
+            <tr>
+              <th>Tier</th>
+              <th>Symbol</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="tier-pill basic">○ Basic</span></td>
+              <td>○</td>
+              <td>A primitive, indivisible capability — the genome of every agent.</td>
+            </tr>
+            <tr>
+              <td><span class="tier-pill extra">◇ Extra</span></td>
+              <td>◇</td>
+              <td>Emerges when two or more lower-tier skills fuse.</td>
+            </tr>
+            <tr>
+              <td><span class="tier-pill unique">◉ Unique</span></td>
+              <td>◉</td>
+              <td>A Basic Skill that reached elite mastery with no fusion path forward.</td>
+            </tr>
+            <tr>
+              <td><span class="tier-pill ultimate">◆ Ultimate</span></td>
+              <td>◆</td>
+              <td>High-complexity emergent capability found in fewer than 1% of agents.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Stars (maturity)</h3>
+
+        <p>Stars measure <em>verified maturity</em> on a 0★ → 6★ axis, derived from
+        evidence — never declared. The rank names at each star level are:</p>
+
+        <ul>
+          <li><strong>0★ — Unawakened:</strong> detected but not yet evidenced</li>
+          <li><strong>1★ — Awakened:</strong> first sighting, Class C evidence</li>
+          <li><strong>2★ — Named:</strong> claimed by an Origin Contributor, reproducible</li>
+          <li><strong>3★ — Evolved:</strong> documented, Class B evidence</li>
+          <li><strong>4★ — Hardened:</strong> battle-tested, multi-source evidence</li>
+          <li><strong>5★ — Transcendent:</strong> peer-reviewed, Class A evidence</li>
+          <li><strong>6★ — Transcendent ★ (Apex):</strong> the rarest, most verified tier</li>
+        </ul>
+
+        <div class="callout info">
+          <span class="callout-icon">ℹ</span>
+          <p>
+            <strong>Tier ≠ Stars.</strong> Tier is the <em>taxonomy</em> (Basic / Extra / Unique / Ultimate).
+            Stars are the <em>maturity level</em>. A Basic Skill can reach 6★; an Ultimate starts at 0★.
+            Never use "tier" to mean "star level."
+          </p>
+        </div>
+
+        <h3>Local-first design</h3>
+
+        <p>Gaia is built local-first: every command defaults to <em>your</em> context — your
+        unlocked skills, your detected skills, your Named forms. Pass <code>--canon</code>
+        to any command to switch to the canonical registry view.</p>
+
+        <p>This means:</p>
+        <ul>
+          <li><code>gaia tree</code> shows <em>your</em> tree</li>
+          <li><code>gaia stats</code> shows <em>your</em> stats</li>
+          <li><code>gaia graph</code> generates a graph of <em>your</em> project-local skills</li>
+        </ul>
+
+        <h3>Named Skills and origin</h3>
+
+        <p>A <strong>Named Skill</strong> is a canonical skill claimed by a real contributor
+        with Class C evidence or better. At the moment of naming, the skill reaches 2★.
+        Your handle appears in <strong>honor red</strong> on the registry page as the
+        Origin Contributor.</p>
+
+        <p>Named Skills are structured as Markdown files at
+        <code>registry/named/&lt;handle&gt;/&lt;skill-slug&gt;.md</code>.
+        The CLI handles all writes — never edit these files by hand.</p>
+
+        <!-- ────────────── NON-REPO ────────────── -->
+        <h2 id="non-repo">Non-repo environments</h2>
+
+        <p>
+          Some AI agent environments (like Hermes, OpenClaw, or custom operator setups) don't
+          run inside a Git repository. <code>gaia init</code> and <code>gaia scan</code> work
+          fine there — you can build a local skill tree and visualise your graph.
+          But <code>gaia push</code> <strong>will exit with an error</strong> because it needs
+          a repo URL to build the intake batch.
+        </p>
+
+        <div class="callout warn">
+          <span class="callout-icon">⚠</span>
+          <p>
+            If you run <code>gaia init</code> and <code>gaia scan</code> in a non-repo environment
+            and then try <code>gaia push</code>, the CLI will warn you that intake is not supported
+            outside a Git repo. This is by design — skill batches require a source URL for
+            maintainer verification.
+          </p>
+        </div>
+
+        <h3>What you can do outside a repo</h3>
+
+        <ol class="step-list">
+          <li>
+            <div class="step-content">
+              <h3>Build a local skill tree</h3>
+              <p>Run <code>gaia scan</code> anywhere — it will detect skills in your local file
+              system and write results to <code>generated-output/promotion-candidates.json</code>.</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-content">
+              <h3>Visualise the graph</h3>
+              <p>Run <code>gaia graph</code> to open a browser-based 3D graph of your locally
+              detected skills overlaid on the canonical registry.</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-content">
+              <h3>View your tree</h3>
+              <p>Run <code>gaia tree</code> to see your current promotion state in the terminal.</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-content">
+              <h3>Contribute via a public repo</h3>
+              <p>To use <code>gaia push</code>, publish your skill files to a public GitHub repo
+              and run the CLI from inside that repo's working directory.</p>
+            </div>
+          </li>
+        </ol>
+
+        <!-- ────────────── WHAT'S NEXT ────────────── -->
+        <h2 id="whats-next">What's next</h2>
+
+        <ul>
+          <li>Learn the <a href="skill-hierarchy.html">full tier and fusion system</a> (coming soon)</li>
+          <li>Read the complete <a href="cli-reference.html">CLI reference</a> (coming soon)</li>
+          <li>Understand <a href="evidence-classes.html">evidence classes</a> before submitting a PR (coming soon)</li>
+          <li>See <a href="../index.html">the Atlas</a> to explore what skills are already claimed</li>
+        </ul>
+
+      </div><!-- /.prose -->
+
+      <!-- page navigation footer -->
+      <div class="page-nav-footer">
+        <a href="cli-reference.html" class="page-nav-btn">CLI Reference →</a>
+      </div>
+
+    </main>
+  </div><!-- /.page-layout -->
+
+  <script>
+    // Highlight active sidebar link on scroll
+    (function () {
+      const links = document.querySelectorAll('.sidebar-link[href^="#"]');
+      const headings = Array.from(links).map(l => document.querySelector(l.getAttribute('href')));
+
+      function onScroll() {
+        const scrollY = window.scrollY + 90;
+        let active = null;
+        headings.forEach((h, i) => {
+          if (h && h.offsetTop <= scrollY) active = i;
+        });
+        links.forEach((l, i) => l.classList.toggle('active', i === active));
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    })();
+  </script>
+
+</body>
+</html>
