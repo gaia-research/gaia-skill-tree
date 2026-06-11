@@ -539,17 +539,17 @@
         <!-- ────────────── INSTALLATION ────────────── -->
         <h2 id="install">Installation</h2>
 
-        <h3>Option A — pip (recommended for most developers)</h3>
+        <h3>Option A — install script (recommended)</h3>
 
         <div class="code-fence">
           <div class="code-fence-header"><span class="code-fence-label">shell</span></div>
-          <pre><span class="cmd">pip install gaia-registry</span></pre>
+          <pre><span class="cmd">curl -fsSL https://gaia.tiongson.co/install.sh | sh</span></pre>
         </div>
 
-        <p>This installs the <code>gaia</code> binary into whatever Python environment is currently active.
-        Use a virtualenv if you don't want to touch your system Python.</p>
+        <p>Prefers <code>pipx</code> if available, otherwise falls back to <code>pip install --user</code>
+        and prints a PATH hint if needed. Requires Python 3.8+.</p>
 
-        <h3>Option B — pipx (isolated, recommended for global use)</h3>
+        <h3>Option B — pipx (isolated global install)</h3>
 
         <div class="code-fence">
           <div class="code-fence-header"><span class="code-fence-label">shell</span></div>
@@ -557,10 +557,20 @@
 <span class="cmd">pip install pipx</span>
 
 <span class="c"># Install gaia in its own isolated environment</span>
-<span class="cmd">pipx install gaia-registry</span></pre>
+<span class="cmd">pipx install gaia-cli</span></pre>
         </div>
 
-        <h3>Option C — editable install from source</h3>
+        <h3>Option C — pip</h3>
+
+        <div class="code-fence">
+          <div class="code-fence-header"><span class="code-fence-label">shell</span></div>
+          <pre><span class="cmd">pip install gaia-cli</span></pre>
+        </div>
+
+        <p>Installs the <code>gaia</code> binary into the active Python environment.
+        Use a virtualenv to avoid touching your system Python.</p>
+
+        <h3>Option D — editable install from source</h3>
 
         <div class="code-fence">
           <div class="code-fence-header"><span class="code-fence-label">shell</span></div>
@@ -575,7 +585,7 @@
         <div class="code-fence">
           <div class="code-fence-header"><span class="code-fence-label">shell</span></div>
           <pre><span class="cmd">gaia --version</span>
-<span class="c"># gaia 4.4.0</span></pre>
+<span class="c"># gaia 4.7.0</span></pre>
         </div>
 
         <!-- ────────────── INIT ────────────── -->
