@@ -1,0 +1,215 @@
+/* hero-veins.css
+ *
+ * Cursor-following peek + glow on the hero, and a procedurally-generated
+ * branching-vein texture revealed in a soft aperture around the cursor in
+ * the nav. Hovering the Gaia logo expands the aperture across the entire
+ * nav AND simultaneously widens the hero peek hole, treating the top band
+ * of the page as one continuous reveal.
+ *
+ * All selectors are gated behind body[data-hero-veins], so this file is
+ * harmless when linked but not activated. To turn it on for a page, add
+ * the attribute to <body> and inject:
+ *   - <div class="nav-veins" aria-hidden="true"></div> after the .nav-logo
+ *   - <div class="hero-cursor-glow" aria-hidden="true"></div> inside #hero
+ *
+ * The companion JS module docs/js/hero-veins.js generates the SVG inside
+ * .nav-veins and writes --hero-mx/my and --nav-mx/my CSS vars on
+ * pointermove (rAF-throttled).
+ *
+ * Decisions documented in
+ *   ~/.claude/plans/i-need-animation-on-spicy-nygaard.md
+ */
+
+/* Register --hero-peek-r so the logo-hover sweep can transition it
+ * smoothly. Without @property, custom-property transitions are stepwise.
+ * Falls back gracefully (instant change) on unsupporting browsers. */
+@property --hero-peek-r {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 220px;
+}
+
+/* ════════════════════════════════════════════════════════════════════
+ * Hero — peek hole + diffuse red glow
+ * ════════════════════════════════════════════════════════════════════ */
+
+body[data-hero-veins] #hero {
+  /* Tunable defaults (overridden by debug-panel sliders in the sample). */
+  --hero-mx: -9999px;
+  --hero-my: -9999px;
+  --hero-peek-r: 220px;
+  --hero-glow-r: 500px;
+  --hero-glow-a: 0.35;
+}
+
+/* Decision 1: mask the BLUR only — keep noise grain inside the peek hole.
+ * The mask makes a soft transparent disc that punches through the dark
+ * blur curtain so #canvas3d shows through, while .hero-glass-noise stays
+ * intact across the disc. */
+body[data-hero-veins] #hero .hero-glass-blur {
+  mask-image: radial-gradient(circle var(--hero-peek-r) at var(--hero-mx) var(--hero-my),
+                              transparent 0%,
+                              transparent 40%,
+                              black 80%);
+  -webkit-mask-image: radial-gradient(circle var(--hero-peek-r) at var(--hero-mx) var(--hero-my),
+                                      transparent 0%,
+                                      transparent 40%,
+                                      black 80%);
+}
+
+/* Soft red glow that follows the cursor. Wider and softer than the peek
+ * hole. Mix-blend-mode: screen keeps the dark UI from being washed out. */
+body[data-hero-veins] .hero-cursor-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(circle var(--hero-glow-r) at var(--hero-mx) var(--hero-my),
+                              rgba(var(--honor-red-rgb), var(--hero-glow-a)) 0%,
+                              rgba(var(--honor-red-rgb), 0) 70%);
+  mix-blend-mode: screen;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+body[data-hero-veins] #hero[data-hover="1"] .hero-cursor-glow {
+  opacity: 1;
+}
+
+/* When the pointer is outside the hero, drop the mask entirely so the
+ * curtain is uniformly opaque (no stale aperture frozen at the last
+ * cursor position). */
+body[data-hero-veins] #hero:not([data-hover="1"]) .hero-glass-blur {
+  mask-image: none;
+  -webkit-mask-image: none;
+}
+
+/* ════════════════════════════════════════════════════════════════════
+ * Nav — branching vein texture, mouse-following aperture
+ * ════════════════════════════════════════════════════════════════════ */
+
+body[data-hero-veins] nav {
+  /* Make sure absolutely-positioned vein layer can anchor to the nav. */
+  position: relative;
+
+  --nav-mx: -9999px;
+  --nav-my: -9999px;
+  --nav-aperture-r: 140px;
+  --nav-flow-dur: 16s;
+  --nav-vein-a: 0.35;
+  --nav-reveal-dur-in: 600ms;
+  --nav-reveal-dur-out: 400ms;
+}
+
+body[data-hero-veins] .nav-veins {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  mask-image: radial-gradient(circle var(--nav-aperture-r) at var(--nav-mx) var(--nav-my),
+                              black 0%,
+                              transparent 75%);
+  -webkit-mask-image: radial-gradient(circle var(--nav-aperture-r) at var(--nav-mx) var(--nav-my),
+                                      black 0%,
+                                      transparent 75%);
+  opacity: 0;
+  transition: opacity 0.35s ease,
+              mask-image var(--nav-reveal-dur-out) ease,
+              -webkit-mask-image var(--nav-reveal-dur-out) ease;
+}
+
+body[data-hero-veins] nav[data-hover="1"] .nav-veins {
+  opacity: 1;
+}
+
+/* Make sure the actual nav links/buttons sit above the vein layer. */
+body[data-hero-veins] nav .nav-logo,
+body[data-hero-veins] nav > ul,
+body[data-hero-veins] nav .nav-menu-toggle,
+body[data-hero-veins] nav .nav-search-back,
+body[data-hero-veins] nav .nav-mobile-search {
+  position: relative;
+  z-index: 1;
+}
+
+body[data-hero-veins] .nav-veins svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+body[data-hero-veins] .nav-veins svg path {
+  fill: none;
+  stroke: rgba(var(--apex-gold-rgb), var(--nav-vein-a));
+  stroke-width: 1;
+  stroke-dasharray: 6 4;
+  animation: nav-vein-flow var(--nav-flow-dur) linear infinite;
+  animation-delay: calc(var(--i, 0) * -0.7s);
+  transition: stroke 350ms ease;
+}
+
+body[data-hero-veins] .nav-veins svg circle {
+  fill: none;
+  stroke: rgba(var(--honor-red-rgb), calc(var(--nav-vein-a) * 0.7));
+  stroke-width: 1;
+  animation: nav-node-pulse 4.2s ease-in-out infinite;
+  animation-delay: calc(var(--ni, 0) * -0.3s);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@keyframes nav-vein-flow {
+  to { stroke-dashoffset: -200; }
+}
+
+@keyframes nav-node-pulse {
+  0%, 100% { opacity: 0.7; }
+  50%      { opacity: 1.0; }
+}
+
+/* ════════════════════════════════════════════════════════════════════
+ * Effect 3 — Hovering the Gaia logo expands aperture across the nav AND
+ * widens the hero peek hole. Pure CSS via :hover/:focus-visible + ~ for
+ * the nav, and :has() for the cross-region hero widening (Decision 2).
+ * ════════════════════════════════════════════════════════════════════ */
+
+body[data-hero-veins] .nav-logo:hover ~ .nav-veins,
+body[data-hero-veins] .nav-logo:focus-visible ~ .nav-veins {
+  /* Full-nav sweep: a wide soft band rather than a pin-spotlight. */
+  mask-image: radial-gradient(circle 120vw at 50% 50%,
+                              black 0%, black 95%, transparent 100%);
+  -webkit-mask-image: radial-gradient(circle 120vw at 50% 50%,
+                                      black 0%, black 95%, transparent 100%);
+  opacity: 1;
+  transition: mask-image var(--nav-reveal-dur-in) cubic-bezier(0.2, 0.8, 0.2, 1),
+              -webkit-mask-image var(--nav-reveal-dur-in) cubic-bezier(0.2, 0.8, 0.2, 1),
+              opacity var(--nav-reveal-dur-in) ease;
+}
+
+body[data-hero-veins] .nav-logo:hover ~ .nav-veins svg path,
+body[data-hero-veins] .nav-logo:focus-visible ~ .nav-veins svg path {
+  stroke: rgba(var(--apex-gold-rgb), 0.6);
+}
+
+/* Decision 2: simultaneously widen the hero peek hole. :has() lets the
+ * logo-hover signal cross the nav→hero boundary. */
+body[data-hero-veins]:has(nav .nav-logo:hover) #hero,
+body[data-hero-veins]:has(nav .nav-logo:focus-visible) #hero {
+  --hero-peek-r: 60vw;
+  transition: --hero-peek-r var(--nav-reveal-dur-in) cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* ════════════════════════════════════════════════════════════════════
+ * Reduced motion — pause the vein flow and disable transitions, but
+ * keep the cursor-following effects since they communicate state.
+ * ════════════════════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  body[data-hero-veins] .nav-veins svg path { animation: none; }
+  body[data-hero-veins] .nav-veins svg circle { animation: none; }
+  body[data-hero-veins] .hero-cursor-glow,
+  body[data-hero-veins] .nav-veins,
+  body[data-hero-veins] #hero .hero-glass-blur {
+    transition: none;
+  }
+}

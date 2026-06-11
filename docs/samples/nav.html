@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en" data-icon-base="../assets/icons.svg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nav + Hero Veins Sampler — Gaia</title>
+  <meta name="description" content="Prototype: cursor peek + red glow on the hero, branching DAG-vein texture revealed in a soft aperture under the nav. Hover the Gaia wordmark to expand the reveal across the top of the page.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/hero-veins.css">
+  <script src="../js/icons.js"></script>
+  <style>
+    /* Sampler-only chrome. Production never sees these styles. */
+    body { margin: 0; min-height: 100vh; }
+
+    .sampler-banner {
+      position: fixed;
+      top: 4.5rem; left: 50%; transform: translateX(-50%);
+      z-index: 50;
+      padding: .35rem .9rem;
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      pointer-events: none;
+    }
+    .sampler-banner b { color: var(--honor-red); font-weight: 500; }
+
+    /* Mock hero — stand-in for the live #canvas3d. Uses the static
+       gaia.svg as the "atlas behind" so we can prototype peek + glow
+       without booting Three.js. The real glass + noise layers are
+       cloned 1:1 from index.html so the masked CSS hits the same
+       selectors. */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 8rem 1.5rem 4rem;
+      overflow: hidden;
+    }
+    #hero .mock-atlas {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+      filter: brightness(0.85) saturate(1.1);
+    }
+    /* These two layers match the production CSS for .hero-glass-blur
+       and .hero-glass-noise. Replicated locally so the sample doesn't
+       depend on the production rules existing alongside the cursor
+       effect. */
+    .hero-glass-blur {
+      position: absolute; inset: 0;
+      z-index: 1;
+      backdrop-filter: blur(8px) brightness(0.65);
+      -webkit-backdrop-filter: blur(8px) brightness(0.65);
+      pointer-events: none;
+      transition: backdrop-filter 0.5s ease, opacity 0.5s ease;
+    }
+    .hero-glass-noise {
+      position: absolute; inset: 0;
+      z-index: 1;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      opacity: 0.18;
+      mix-blend-mode: overlay;
+      pointer-events: none;
+    }
+    .hero-content { position: relative; z-index: 2; max-width: 720px; }
+    .hero-content h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      font-weight: 600;
+      line-height: 1.1;
+      margin: 0 0 1.2rem;
+    }
+    .hero-content h1 em {
+      font-style: italic; font-weight: 400; color: var(--apex-gold);
+    }
+    .hero-content h1 span {
+      border-bottom: 1px solid var(--apex-gold);
+      padding-bottom: 0.06em;
+    }
+    .hero-content p {
+      font-family: var(--font-body);
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 540px;
+      margin: 0 auto 2.4rem;
+    }
+    .mock-doors {
+      display: flex; gap: 1rem;
+      margin: 2.5rem auto 0;
+      max-width: 28rem;
+    }
+    .mock-doors a {
+      flex: 1;
+      padding: 1.25rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, .03);
+      color: var(--text);
+      text-decoration: none;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      transition: border-color .25s, box-shadow .25s;
+    }
+    .mock-doors a:hover {
+      border-color: rgba(255, 255, 255, .15);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, .4);
+    }
+
+    /* Debug panel — sample-only. */
+    .debug-panel {
+      position: fixed;
+      bottom: 1.25rem; right: 1.25rem;
+      z-index: 200;
+      width: 280px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem;
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      color: var(--text);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, .5);
+      backdrop-filter: blur(6px);
+    }
+    .debug-panel h3 {
+      margin: 0 0 .75rem;
+      font-size: .68rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .debug-panel label {
+      display: flex;
+      flex-direction: column;
+      gap: .25rem;
+      margin-bottom: .65rem;
+    }
+    .debug-panel .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .debug-panel .row .name { color: var(--muted); }
+    .debug-panel .row .value { color: var(--apex-gold); font-variant-numeric: tabular-nums; }
+    .debug-panel input[type="range"] {
+      width: 100%;
+      accent-color: var(--honor-red);
+    }
+    .debug-panel button {
+      margin-top: .35rem;
+      width: 100%;
+      padding: .4rem .75rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: .7rem;
+      cursor: pointer;
+      transition: border-color .15s;
+    }
+    .debug-panel button:hover {
+      border-color: var(--honor-red);
+    }
+    .debug-panel .toggle-collapse {
+      position: absolute;
+      top: .5rem; right: .65rem;
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      font-size: 1rem;
+      width: auto;
+      margin: 0;
+      padding: 0;
+      cursor: pointer;
+    }
+    .debug-panel.collapsed > *:not(h3):not(.toggle-collapse) {
+      display: none;
+    }
+    .debug-panel.collapsed h3 { margin-bottom: 0; }
+  </style>
+</head>
+<!-- The data-hero-veins attribute activates all the gated selectors in
+     hero-veins.css. Auto-init in hero-veins.js will also bind based on
+     this attribute. -->
+<body class="home-page" data-hero-veins>
+
+  <div class="sampler-banner"><b>Sample</b> · nav.html · move/hover/tap to test</div>
+
+  <!-- ─── NAV ─── (cloned from docs/index.html lines 155-184) -->
+  <nav>
+    <a href="#" class="nav-logo" aria-label="Gaia home">
+      <svg class="ico nav-seal" aria-hidden="true" focusable="false"><use href="../assets/icons.svg#seal-diamond"/></svg>
+      <span class="nav-wordmark">Gaia</span>
+    </a>
+    <!-- .nav-veins is injected here by hero-veins.js so it's the next
+         sibling of .nav-logo (Effect 3 needs the sibling-combinator). -->
+    <button class="nav-menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-primary">
+      <li style="--nav-i:0"><a href="#" style="color: var(--text);">Home</a></li>
+      <li style="--nav-i:1"><a href="#" style="color: var(--apex-gold);">About</a></li>
+      <li style="--nav-i:2"><a href="#" style="color: var(--tier-unique);">GitHub Badges</a></li>
+      <li style="--nav-i:3"><a href="#" style="color: var(--honor-red);">Skills</a></li>
+      <li style="--nav-i:4"><a href="#" style="color: var(--tier-basic);">Docs</a></li>
+    </ul>
+  </nav>
+
+  <!-- ─── HERO ─── (mock — uses ../graph/gaia.svg as a static atlas
+       stand-in for the live #canvas3d) -->
+  <section id="hero">
+    <img class="mock-atlas" src="../graph/gaia.svg" alt="" aria-hidden="true">
+    <div class="hero-glass-blur"></div>
+    <div class="hero-glass-noise"></div>
+    <!-- New layer: red diffuse glow that follows the cursor -->
+    <div class="hero-cursor-glow" aria-hidden="true"></div>
+    <div class="hero-content">
+      <h1>Skills are catalogued.<br>Names are <em>earned</em>.<br>Apex is <span>rare</span>.</h1>
+      <p>Move the cursor across the hero to peek through the curtain. Hover <b>Gaia</b> in the nav to widen the reveal across the top of the page.</p>
+      <div class="mock-doors">
+        <a href="#">Register repo</a>
+        <a href="#">Claim Ultimate</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── DEBUG PANEL ─── -->
+  <div class="debug-panel" id="debugPanel">
+    <h3>Veins · debug</h3>
+    <button class="toggle-collapse" id="toggleCollapse" aria-label="Collapse panel">−</button>
+
+    <label>
+      <span class="row"><span class="name">Peek radius</span><span class="value" data-value="heroPeekR">220px</span></span>
+      <input type="range" id="heroPeekR" min="100" max="400" step="10" value="220">
+    </label>
+    <label>
+      <span class="row"><span class="name">Glow radius</span><span class="value" data-value="heroGlowR">500px</span></span>
+      <input type="range" id="heroGlowR" min="200" max="900" step="20" value="500">
+    </label>
+    <label>
+      <span class="row"><span class="name">Glow alpha</span><span class="value" data-value="heroGlowA">0.35</span></span>
+      <input type="range" id="heroGlowA" min="0" max="0.8" step="0.05" value="0.35">
+    </label>
+    <label>
+      <span class="row"><span class="name">Vein flow</span><span class="value" data-value="navFlowDur">16s</span></span>
+      <input type="range" id="navFlowDur" min="4" max="30" step="1" value="16">
+    </label>
+    <label>
+      <span class="row"><span class="name">Vein alpha</span><span class="value" data-value="navVeinA">0.35</span></span>
+      <input type="range" id="navVeinA" min="0.1" max="0.8" step="0.05" value="0.35">
+    </label>
+    <label>
+      <span class="row"><span class="name">Aperture R</span><span class="value" data-value="navApertureR">140px</span></span>
+      <input type="range" id="navApertureR" min="60" max="260" step="10" value="140">
+    </label>
+    <label>
+      <span class="row"><span class="name">Sweep in</span><span class="value" data-value="navRevealIn">600ms</span></span>
+      <input type="range" id="navRevealIn" min="200" max="1200" step="50" value="600">
+    </label>
+    <label>
+      <span class="row"><span class="name">Node count</span><span class="value" data-value="navNodes">18</span></span>
+      <input type="range" id="navNodes" min="10" max="30" step="2" value="18">
+    </label>
+    <button id="resetDefaults">Reset defaults</button>
+  </div>
+
+  <!-- The module also auto-inits on data-hero-veins, but we also call
+       the named exports below so we can pass options + react to the
+       debug panel's "Node count" slider. -->
+  <script type="module">
+    import {
+      initHeroVeins,
+      initNavVeins,
+      regenerateNavVeins,
+    } from '../js/hero-veins.js';
+
+    const hero = document.getElementById('hero');
+    const nav = document.querySelector('nav');
+    let nodeCount = 18;
+    initHeroVeins(hero);
+    initNavVeins(nav, { nodeCount });
+
+    /* ── Debug panel wiring ─────────────────────────────────────── */
+    const STORAGE_KEY = 'gaia_veins_debug';
+    const sliders = {
+      heroPeekR:    { el: '#hero', cssVar: '--hero-peek-r',     unit: 'px',  format: (v) => v + 'px' },
+      heroGlowR:    { el: '#hero', cssVar: '--hero-glow-r',     unit: 'px',  format: (v) => v + 'px' },
+      heroGlowA:    { el: '#hero', cssVar: '--hero-glow-a',     unit: '',    format: (v) => Number(v).toFixed(2) },
+      navFlowDur:   { el: 'nav',   cssVar: '--nav-flow-dur',    unit: 's',   format: (v) => v + 's' },
+      navVeinA:     { el: 'nav',   cssVar: '--nav-vein-a',      unit: '',    format: (v) => Number(v).toFixed(2) },
+      navApertureR: { el: 'nav',   cssVar: '--nav-aperture-r',  unit: 'px',  format: (v) => v + 'px' },
+      navRevealIn:  { el: 'nav',   cssVar: '--nav-reveal-dur-in', unit: 'ms', format: (v) => v + 'ms' },
+    };
+    const defaults = {
+      heroPeekR: 220, heroGlowR: 500, heroGlowA: 0.35,
+      navFlowDur: 16, navVeinA: 0.35, navApertureR: 140,
+      navRevealIn: 600, navNodes: 18,
+    };
+
+    function applyValue(key, raw) {
+      if (key === 'navNodes') {
+        nodeCount = parseInt(raw, 10);
+        regenerateNavVeins(nav, { nodeCount });
+      } else {
+        const cfg = sliders[key];
+        const target = document.querySelector(cfg.el);
+        const val = cfg.format(raw);
+        target.style.setProperty(cfg.cssVar, val);
+      }
+      const valueEl = document.querySelector(`[data-value="${key}"]`);
+      if (valueEl) {
+        valueEl.textContent = key === 'navNodes' ? String(raw) : (sliders[key]?.format(raw) ?? raw);
+      }
+    }
+
+    function loadStored() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return null;
+        return JSON.parse(raw);
+      } catch (_) {
+        return null;
+      }
+    }
+
+    function saveStored(state) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (_) { /* ignore quota */ }
+    }
+
+    const stored = loadStored() || {};
+    const initial = { ...defaults, ...stored };
+    Object.entries(initial).forEach(([key, val]) => {
+      const input = document.getElementById(key);
+      if (input) {
+        input.value = val;
+        applyValue(key, val);
+      }
+    });
+
+    Object.keys({ ...sliders, navNodes: 1 }).forEach((key) => {
+      const input = document.getElementById(key);
+      if (!input) return;
+      input.addEventListener('input', (e) => {
+        const v = e.target.value;
+        applyValue(key, v);
+        const next = loadStored() || {};
+        next[key] = parseFloat(v);
+        saveStored(next);
+      });
+    });
+
+    document.getElementById('resetDefaults').addEventListener('click', () => {
+      localStorage.removeItem(STORAGE_KEY);
+      Object.entries(defaults).forEach(([key, val]) => {
+        const input = document.getElementById(key);
+        if (input) {
+          input.value = val;
+          applyValue(key, val);
+        }
+      });
+    });
+
+    document.getElementById('toggleCollapse').addEventListener('click', (e) => {
+      const panel = document.getElementById('debugPanel');
+      panel.classList.toggle('collapsed');
+      e.currentTarget.textContent = panel.classList.contains('collapsed') ? '+' : '−';
+    });
+  </script>
+</body>
+</html>
