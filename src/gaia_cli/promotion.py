@@ -410,7 +410,7 @@ def promote_to_unique(skill_id: str, registry_path: str) -> dict:
         skill_id,
         "rank_up",
         None,
-        f"Promoted to unique skill",
+        "Promoted to unique skill",
         registry_path
     )
 

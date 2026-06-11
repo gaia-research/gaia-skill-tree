@@ -5,7 +5,7 @@ import os
 from collections import deque
 from datetime import datetime, timezone
 
-from gaia_cli.registry import registry_graph_path, resolve_registry_path
+from gaia_cli.registry import registry_graph_path
 from gaia_cli.resolver import resolve_skills
 from gaia_cli.scanner import load_config, scan_repo_detailed
 from gaia_cli.treeManager import load_tree
