@@ -21,6 +21,6 @@
 **Learning:** In string similarity search (e.g. `similarity` scoring using trigrams), recalculating the properties of the static query (like computing trigrams) for every comparison against N items in the registry yields significant redundant CPU cost. Further, iterating over sets blindly can be suboptimal.
 **Action:** Pre-compute the query string properties (like trigrams `Set`) outside the inner loop and pass it down. Additionally, optimize set intersection by identifying the smaller set and only iterating over that one to check `has()` against the larger one.
 
-## 2025-03-04 - Optimize semantic search with NumPy matrix operations
+## 2026-06-12 - Optimize semantic search with NumPy matrix operations
 **Learning:** During semantic search, repeatedly recalculating the `query_vector` magnitude (and converting it to an array inside loops) created O(N) duplicate math overhead and CPU thrash. In a registry with thousands of embeddings, iterating via standard Python loops for cosine similarity is noticeably slower even if NumPy dot products are used individually.
 **Action:** When performing `cosine_similarity` checks across an entire dataset, extract vectors into a 2D matrix (`np.array`) and perform a single batched `np.dot` and vector norm calculation (`np.linalg.norm(vectors, axis=1)`). This avoids loop overhead and duplicate metric processing on static query values. Always compute static references (like query norms) *outside* the target comparison loop.
