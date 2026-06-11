@@ -2,6 +2,22 @@
 
 Guidance for AI coding agents working in this repository.
 
+## Git Workflow
+
+Never push directly to main. Always create a feature branch and open a PR for changes.
+
+## Testing
+
+Always run the test suite after making changes and fix any regressions before reporting completion.
+
+## Data & Permissions
+
+Never modify data files (skill levels, slot data, schema fixtures) without explicit approval; ask before treating data as invalid.
+
+## Project Architecture / Data Model
+
+Skill levels are stored in slots, not on skill objects—account for this when computing stats, trees, and breakdowns.
+
 ## Commands & Setup
 
 Refer to [DEV.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/DEV.md) for local environment setup (virtualenv, pip, pipx), common commands, and testing instructions.
