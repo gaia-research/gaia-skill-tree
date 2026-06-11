@@ -676,16 +676,16 @@ button.nav-copy-agent {
    neutralized globally in the Phase 5 block below.
    ═══════════════════════════════════════════════ */
 
-/* Stagger entrance: nav items rise into place on first paint. */
+/* Stagger entrance: nav items fade in with a gentle 4px drift — soft, not theatrical. */
 @keyframes nav-item-rise {
-  0%   { opacity: 0; transform: translateY(-8px); filter: blur(2px); }
-  100% { opacity: 1; transform: translateY(0);    filter: blur(0); }
+  0%   { opacity: 0; transform: translateY(-4px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
 
-/* Underline pulse for the active route — gentle rebreathe of the glow. */
+/* Underline pulse for the active route — very gentle, slow breathe. */
 @keyframes nav-underline-pulse {
-  0%, 100% { box-shadow: 0 0 10px currentColor, 0 0 20px currentColor; }
-  50%      { box-shadow: 0 0 18px currentColor, 0 0 36px currentColor; }
+  0%, 100% { box-shadow: 0 0 6px currentColor, 0 0 14px currentColor; }
+  50%      { box-shadow: 0 0 12px currentColor, 0 0 24px currentColor; }
 }
 
 nav ul.nav-primary > li > a,
@@ -696,14 +696,14 @@ nav.docs-nav .nav-logo {
   display: inline-block;
   letter-spacing: .01em;
   transition:
-    color .26s cubic-bezier(0.16, 1, 0.3, 1),
-    transform .34s cubic-bezier(0.16, 1, 0.3, 1),
-    letter-spacing .34s cubic-bezier(0.16, 1, 0.3, 1),
-    text-shadow .26s cubic-bezier(0.16, 1, 0.3, 1),
-    filter .26s cubic-bezier(0.16, 1, 0.3, 1);
+    color .32s ease,
+    transform .4s cubic-bezier(0.16, 1, 0.3, 1),
+    letter-spacing .4s cubic-bezier(0.16, 1, 0.3, 1),
+    text-shadow .4s ease,
+    opacity .32s ease;
   will-change: transform;
-  animation: nav-item-rise .55s cubic-bezier(0.16, 1, 0.3, 1) both;
-  animation-delay: calc(var(--nav-i, 0) * 60ms);
+  animation: nav-item-rise .7s ease both;
+  animation-delay: calc(var(--nav-i, 0) * 70ms);
 }
 
 /* Underline: 2px hairline that wipes from center outward, with a
@@ -719,12 +719,12 @@ nav.docs-nav .nav-logo::after {
   bottom: -5px;
   height: 2px;
   background: currentColor;
-  opacity: .95;
+  opacity: .85;
   transform: scaleX(0);
   transform-origin: center;
   transition:
-    transform .46s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow .34s cubic-bezier(0.16, 1, 0.3, 1);
+    transform .5s ease,
+    box-shadow .4s ease;
   pointer-events: none;
   border-radius: 1px;
 }
@@ -745,13 +745,13 @@ nav.docs-nav .nav-crumb::before {
   opacity: 0;
   transform: translate(.45em, -50%) scale(.5);
   transition:
-    transform .38s cubic-bezier(0.16, 1, 0.3, 1),
-    opacity .26s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow .26s cubic-bezier(0.16, 1, 0.3, 1);
+    transform .45s ease,
+    opacity .35s ease,
+    box-shadow .35s ease;
   pointer-events: none;
 }
 
-/* Hover / focus state — lift, widen, glow. */
+/* Hover / focus state — gentle lift, soft bloom, slight tracking widen. */
 nav ul.nav-primary > li > a:hover,
 nav ul.nav-primary > li > button:hover,
 nav ul.nav-primary > li > a:focus-visible,
@@ -761,8 +761,8 @@ nav.docs-nav .nav-crumb:focus-visible,
 nav.docs-nav .nav-logo:hover,
 nav.docs-nav .nav-logo:focus-visible {
   transform: translateY(-2px);
-  letter-spacing: .05em;
-  text-shadow: 0 0 14px currentColor, 0 0 28px currentColor;
+  letter-spacing: .04em;
+  text-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
 }
 
 nav ul.nav-primary > li > a:hover::after,
@@ -777,13 +777,13 @@ nav ul.nav-primary > li > a[aria-current="page"]::after,
 nav ul.nav-primary > li > button[aria-expanded="true"]::after,
 nav.docs-nav .nav-crumb.current::after {
   transform: scaleX(1);
-  box-shadow: 0 0 12px currentColor, 0 0 24px currentColor;
+  box-shadow: 0 0 8px currentColor, 0 0 18px currentColor;
 }
 
-/* The active route's underline gently breathes. */
+/* The active route's underline very gently breathes. */
 nav ul.nav-primary > li > a[aria-current="page"]::after,
 nav.docs-nav .nav-crumb.current::after {
-  animation: nav-underline-pulse 2.6s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  animation: nav-underline-pulse 3.5s ease infinite;
 }
 
 nav ul.nav-primary > li > a:hover::before,
