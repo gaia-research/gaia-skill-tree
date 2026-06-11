@@ -152,35 +152,8 @@
 <body class="home-page">
 
   <!-- ─── NAV ─── -->
-  <nav>
-    <a href="/" class="nav-logo" aria-label="Gaia home">
-      <svg class="ico nav-seal" aria-hidden="true" focusable="false"><use href="assets/icons.svg#seal-diamond"/></svg>
-      <span class="nav-wordmark">Gaia</span>
-    </a>
-    <button type="button" class="nav-search-btn-mobile" id="navSearchBtnMobile" aria-label="Search named" hidden><svg class="ico" width="18" height="18" aria-hidden="true"><use href="assets/icons.svg#search"/></svg></button>
-    <button class="nav-menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-    <ul class="nav-primary">
-      <li><a href="/" style="color: var(--text);" aria-current="page">Home</a></li>
-      <li><a href="about.html" style="color: var(--apex-gold);">About</a></li>
-      <li><a href="badges/" style="color: var(--tier-unique);"><svg class="ico" width="13" height="13" aria-hidden="true" style="vertical-align: -2px; margin-right: .35em;"><use href="assets/icons.svg#github"/></svg>GitHub Badges</a></li>
-      <li><a href="named/" style="color: var(--honor-red);">Skills</a></li>
-      <li class="nav-more-dropdown">
-        <button class="nav-more-toggle" aria-label="More options" aria-expanded="false">More</button>
-        <ul class="nav-more-menu">
-          <li><button type="button" class="nav-tree" id="treeNavBtn" style="color: #34d399;">Skill Tree</button></li>
-          <li><button type="button" class="nav-graph-trigger" data-graph-trigger style="color: #38bdf8;">Skill Graph</button></li>
-          <li><a href="codex.html" style="color: var(--tier-basic);">The Codex</a></li>
-          <li><a href="starless.html" style="color: var(--muted);">Starless</a></li>
-          <li><a href="u/" style="color: var(--honor-red);">Named Contributors</a></li>
-          <li><a href="meta.html" class="nav-meta" id="metaNavBtn">Meta Reports</a></li>
-        </ul>
-      </li>
-    </ul>
-  </nav>
+  <nav id="site-nav"></nav>
+  <script src="js/site-nav.js?v=4.7.5"></script>
 
   <!-- ─── HERO ─── -->
   <section id="hero">
@@ -592,82 +565,9 @@
 
   <div class="section-divider"></div>
 
-  <!-- ─── FOOTER v2 ─── -->
-  <footer class="footer-v2">
-    <div class="footer-inner">
-
-      <!-- Brand column -->
-      <div class="footer-brand-col">
-        <div class="footer-brand-mark">
-          <svg class="ico footer-seal" aria-hidden="true" focusable="false">
-            <use href="assets/icons.svg#seal-diamond"/>
-          </svg>
-          <span class="footer-wordmark">Gaia</span>
-        </div>
-        <p class="footer-tagline">An evidence-backed atlas<br>of agent capabilities.</p>
-      </div>
-
-      <!-- Link columns -->
-      <nav class="footer-cols" aria-label="Site navigation">
-
-        <div class="footer-col">
-          <span class="footer-col-heading">Registry</span>
-          <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="index.html">Skill Tree</a></li>
-            <li><a href="index.html?field=1">Skill Graph</a></li>
-            <li><a href="starless.html">Starless</a></li>
-            <li><a href="meta.html">Meta Reports</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-col">
-          <span class="footer-col-heading">Discover</span>
-          <ul>
-            <li><a href="codex.html">The Codex</a></li>
-            <li><a href="named/">Named Skills</a></li>
-            <li><a href="index.html#hall-of-heroes">Hall of Heroes</a></li>
-            <li><a href="u/">Named Contributors</a></li>
-            <li><a href="badges/">GitHub Badges</a></li>
-            <li><a href="samples/index.html">Samples</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-col">
-          <span class="footer-col-heading">Contribute</span>
-          <ul>
-            <li><a href="index.html#paths">Push a skill</a></li>
-            <li><a href="https://github.com/mbtiongson1/gaia-skill-tree" target="_blank" rel="noopener" class="footer-ext">GitHub</a></li>
-            <li><a href="https://github.com/mbtiongson1/gaia-skill-tree/issues" target="_blank" rel="noopener" class="footer-ext">Open Issues</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-col">
-          <span class="footer-col-heading">About</span>
-          <ul>
-            <li><a href="about.html">About Gaia</a></li>
-            <li><a href="u/mbtiongson1/" class="footer-link-honor">@mbtiongson1</a></li>
-            <li><a href="privacy.html">Privacy</a></li>
-            <li>
-              <button id="copyAgentFooterBtn" type="button" class="footer-link-btn" aria-label="Copy page context for agents">
-                Copy Page
-              </button>
-            </li>
-          </ul>
-        </div>
-
-      </nav>
-    </div>
-
-    <!-- Bottom strip -->
-    <div class="footer-bottom">
-      <span>MIT License</span>
-      <span class="footer-bottom-sep" aria-hidden="true">·</span>
-      <span id="footerVersion">v4.1.2</span>
-      <span class="footer-bottom-sep" aria-hidden="true">·</span>
-      <span>© 2026 Gaia</span>
-    </div>
-  </footer>
+  <!-- ─── FOOTER ─── -->
+  <div id="site-footer-mount"></div>
+  <script src="js/site-footer.js?v=4.7.5"></script>
 
   <!-- ─── SKILL EXPLORER OVERLAY ─── -->
   <div id="skillExplorer" class="skill-explorer" role="dialog" aria-modal="true" aria-label="Skill Explorer" tabindex="-1">

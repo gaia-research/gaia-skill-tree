@@ -319,11 +319,36 @@ nav:not(.footer-cols) {
   gap: .5rem;
   text-decoration: none;
   color: var(--text);
-  transition: opacity .2s;
+  transition:
+    transform .42s cubic-bezier(0.16, 1, 0.3, 1),
+    filter .32s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .nav-logo:hover {
-  opacity: .8
+  transform: translateY(-1px);
+  filter: drop-shadow(0 0 10px rgba(var(--apex-gold-rgb), .35));
+}
+
+/* Diamond Seal — ceremonial breathe, intensified ceremonial spin on hover.
+   Apex Gold is reserved for Diamond-Seal moments per DESIGN.md, so the
+   halo lives only here (and on Apex CTAs elsewhere). */
+@keyframes seal-breathe {
+  0%, 100% {
+    filter:
+      drop-shadow(0 0 4px rgba(var(--apex-gold-rgb), .35))
+      drop-shadow(0 0 10px rgba(var(--apex-gold-rgb), .15));
+  }
+  50% {
+    filter:
+      drop-shadow(0 0 8px rgba(var(--apex-gold-rgb), .55))
+      drop-shadow(0 0 18px rgba(var(--apex-gold-rgb), .25));
+  }
+}
+
+@keyframes seal-spin {
+  0%   { transform: rotate(0deg)   scale(1); }
+  50%  { transform: rotate(180deg) scale(1.12); }
+  100% { transform: rotate(360deg) scale(1); }
 }
 
 .nav-seal {
@@ -331,6 +356,17 @@ nav:not(.footer-cols) {
   height: 26px;
   color: var(--apex-gold);
   flex-shrink: 0;
+  animation: seal-breathe 4.2s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  transition: transform .6s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: center;
+  will-change: transform, filter;
+}
+
+.nav-logo:hover .nav-seal,
+.nav-logo:focus-visible .nav-seal {
+  animation:
+    seal-breathe 4.2s cubic-bezier(0.45, 0, 0.55, 1) infinite,
+    seal-spin .9s cubic-bezier(0.16, 1, 0.3, 1) 1;
 }
 
 .nav-wordmark {
@@ -339,6 +375,44 @@ nav:not(.footer-cols) {
   font-weight: 600;
   letter-spacing: .05em;
   color: var(--text);
+  background: linear-gradient(90deg,
+    var(--text) 0%,
+    var(--text) 50%,
+    var(--apex-gold) 100%);
+  background-size: 200% 100%;
+  background-position: 0% 50%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  transition:
+    letter-spacing .42s cubic-bezier(0.16, 1, 0.3, 1),
+    background-position .6s cubic-bezier(0.16, 1, 0.3, 1),
+    text-shadow .32s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav-logo:hover .nav-wordmark,
+.nav-logo:focus-visible .nav-wordmark {
+  letter-spacing: .12em;
+  background-position: 100% 50%;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 18px rgba(var(--apex-gold-rgb), .35);
+}
+
+/* Docs nav: <a class="nav-logo">Gaia <span>◆</span></a>. The span is the
+   seal stand-in. Match the same ceremonial treatment as the SVG seal. */
+nav.docs-nav .nav-logo > span {
+  display: inline-block;
+  color: var(--apex-gold);
+  animation: seal-breathe 4.2s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  transition: transform .6s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: center;
+  will-change: transform, filter;
+}
+
+nav.docs-nav .nav-logo:hover > span,
+nav.docs-nav .nav-logo:focus-visible > span {
+  animation:
+    seal-breathe 4.2s cubic-bezier(0.45, 0, 0.55, 1) infinite,
+    seal-spin .9s cubic-bezier(0.16, 1, 0.3, 1) 1;
 }
 
 nav ul.nav-primary {
@@ -437,6 +511,67 @@ nav ul.nav-primary {
   color: var(--text) !important;
 }
 
+/* ── Dropdown items get the same motion as top-level nav, scaled for
+     a vertical menu (left wipe instead of center, slide-right instead
+     of lift). Override the white !important above so each item keeps
+     its inline tier hue and the currentColor glow has something to
+     broadcast. The menu has no overflow:hidden, so glow bleeds free. */
+.nav-more-menu {
+  /* Ensure glow can extend outside the rounded box on hover. */
+  overflow: visible;
+}
+
+.nav-more-menu li a,
+.nav-more-menu li button {
+  position: relative;
+  letter-spacing: .005em;
+  transition:
+    color .26s cubic-bezier(0.16, 1, 0.3, 1),
+    transform .32s cubic-bezier(0.16, 1, 0.3, 1),
+    letter-spacing .32s cubic-bezier(0.16, 1, 0.3, 1),
+    text-shadow .26s cubic-bezier(0.16, 1, 0.3, 1),
+    background .26s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav-more-menu li a::before,
+.nav-more-menu li button::before {
+  content: "";
+  position: absolute;
+  left: .5rem;
+  top: 50%;
+  width: 3px;
+  height: 0;
+  border-radius: 1.5px;
+  background: currentColor;
+  transform: translateY(-50%);
+  transition:
+    height .32s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow .32s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+/* Override the white !important hover above — keep tier hue. */
+.nav-more-menu li a:hover,
+.nav-more-menu li button:hover,
+.nav-more-menu li a:focus-visible,
+.nav-more-menu li button:focus-visible {
+  color: inherit !important;
+  letter-spacing: .03em;
+  transform: translateX(4px);
+  text-shadow: 0 0 10px currentColor, 0 0 22px currentColor;
+  background: linear-gradient(90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, .03) 100%);
+}
+
+.nav-more-menu li a:hover::before,
+.nav-more-menu li button:hover::before,
+.nav-more-menu li a:focus-visible::before,
+.nav-more-menu li button:focus-visible::before {
+  height: 60%;
+  box-shadow: 0 0 8px currentColor, 0 0 16px currentColor;
+}
+
 .nav-mobile-search {
   display: none
 }
@@ -529,6 +664,165 @@ button.nav-copy-agent {
   color: var(--text);
   outline: none;
   box-shadow: 0 0 0 2px rgba(var(--tier-basic-rgb), .4);
+}
+
+/* ═══════════════════════════════════════════════
+   NAV MOTION — universal across .nav-primary (main
+   site) and .docs-nav (en/* docs pages). Underline
+   wipe + glow + tracking widen + lift, all in
+   currentColor so each link's tier hue carries.
+   Plate dot marker on the left. Initial stagger
+   entrance on first paint. Reduced-motion is
+   neutralized globally in the Phase 5 block below.
+   ═══════════════════════════════════════════════ */
+
+/* Stagger entrance: nav items fade in with a gentle 4px drift — soft, not theatrical. */
+@keyframes nav-item-rise {
+  0%   { opacity: 0; transform: translateY(-4px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Underline pulse for the active route — very gentle, slow breathe. */
+@keyframes nav-underline-pulse {
+  0%, 100% { box-shadow: 0 0 6px currentColor, 0 0 14px currentColor; }
+  50%      { box-shadow: 0 0 12px currentColor, 0 0 24px currentColor; }
+}
+
+nav ul.nav-primary > li > a,
+nav ul.nav-primary > li > button,
+nav.docs-nav .nav-crumb,
+nav.docs-nav .nav-logo {
+  position: relative;
+  display: inline-block;
+  letter-spacing: .01em;
+  transition:
+    color .32s ease,
+    transform .4s cubic-bezier(0.16, 1, 0.3, 1),
+    letter-spacing .4s cubic-bezier(0.16, 1, 0.3, 1),
+    text-shadow .4s ease,
+    opacity .32s ease;
+  will-change: transform;
+  animation: nav-item-rise .7s ease both;
+  animation-delay: calc(var(--nav-i, 0) * 70ms);
+}
+
+/* Underline: 2px hairline that wipes from center outward, with a
+   currentColor halo so the underline reads ceremonial, not utility. */
+nav ul.nav-primary > li > a::after,
+nav ul.nav-primary > li > button::after,
+nav.docs-nav .nav-crumb::after,
+nav.docs-nav .nav-logo::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -5px;
+  height: 2px;
+  background: currentColor;
+  opacity: .85;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition:
+    transform .5s ease,
+    box-shadow .4s ease;
+  pointer-events: none;
+  border-radius: 1px;
+}
+
+/* Plate-style leading mark: a small currentColor dot fades in to the
+   left of the label. Reads as an atlas plate marker, not a bullet. */
+nav ul.nav-primary > li > a::before,
+nav ul.nav-primary > li > button::before,
+nav.docs-nav .nav-crumb::before {
+  content: "";
+  position: absolute;
+  left: -.85em;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0;
+  transform: translate(.45em, -50%) scale(.5);
+  transition:
+    transform .45s ease,
+    opacity .35s ease,
+    box-shadow .35s ease;
+  pointer-events: none;
+}
+
+/* Hover / focus state — gentle lift, soft bloom, slight tracking widen. */
+nav ul.nav-primary > li > a:hover,
+nav ul.nav-primary > li > button:hover,
+nav ul.nav-primary > li > a:focus-visible,
+nav ul.nav-primary > li > button:focus-visible,
+nav.docs-nav .nav-crumb:hover,
+nav.docs-nav .nav-crumb:focus-visible,
+nav.docs-nav .nav-logo:hover,
+nav.docs-nav .nav-logo:focus-visible {
+  transform: translateY(-2px);
+  letter-spacing: .04em;
+  text-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+}
+
+nav ul.nav-primary > li > a:hover::after,
+nav ul.nav-primary > li > button:hover::after,
+nav ul.nav-primary > li > a:focus-visible::after,
+nav ul.nav-primary > li > button:focus-visible::after,
+nav.docs-nav .nav-crumb:hover::after,
+nav.docs-nav .nav-crumb:focus-visible::after,
+nav.docs-nav .nav-logo:hover::after,
+nav.docs-nav .nav-logo:focus-visible::after,
+nav ul.nav-primary > li > a[aria-current="page"]::after,
+nav ul.nav-primary > li > button[aria-expanded="true"]::after,
+nav.docs-nav .nav-crumb.current::after {
+  transform: scaleX(1);
+  box-shadow: 0 0 8px currentColor, 0 0 18px currentColor;
+}
+
+/* The active route's underline very gently breathes. */
+nav ul.nav-primary > li > a[aria-current="page"]::after,
+nav.docs-nav .nav-crumb.current::after {
+  animation: nav-underline-pulse 3.5s ease infinite;
+}
+
+nav ul.nav-primary > li > a:hover::before,
+nav ul.nav-primary > li > button:hover::before,
+nav ul.nav-primary > li > a:focus-visible::before,
+nav ul.nav-primary > li > button:focus-visible::before,
+nav.docs-nav .nav-crumb:hover::before,
+nav.docs-nav .nav-crumb:focus-visible::before,
+nav ul.nav-primary > li > a[aria-current="page"]::before,
+nav ul.nav-primary > li > button[aria-expanded="true"]::before,
+nav.docs-nav .nav-crumb.current::before {
+  opacity: .95;
+  transform: translate(0, -50%) scale(1);
+  box-shadow: 0 0 8px currentColor;
+}
+
+/* Logo gets the lift but no underline pulse (no tier hue to glow with).
+   Kill the ::after on .nav-logo so the wordmark stays clean. */
+.nav-logo::after,
+nav.docs-nav .nav-logo::after {
+  display: none;
+}
+
+/* Docs breadcrumbs: each page sets .nav-crumb to var(--muted) inline.
+   Give the hover/current state a tier hue so currentColor-driven glow
+   has something to broadcast. .nav-logo amber stays from inline rule. */
+nav.docs-nav .nav-crumb:hover,
+nav.docs-nav .nav-crumb:focus-visible {
+  color: var(--tier-basic, #38bdf8);
+}
+nav.docs-nav .nav-crumb.current {
+  color: var(--apex-gold, #fbbf24);
+}
+nav.docs-nav .nav-sep {
+  transition: color .26s cubic-bezier(0.16, 1, 0.3, 1),
+              transform .34s cubic-bezier(0.16, 1, 0.3, 1);
+}
+nav.docs-nav:hover .nav-sep {
+  color: var(--tier-basic, #38bdf8);
 }
 
 /* Global search icon — red, subtle */
@@ -5674,6 +5968,76 @@ footer.footer-v2::before {
   color: var(--text);
 }
 
+/* ── Footer link motion: each column gets a tier hue, links adopt it
+     on hover via currentColor — underline wipe + glow + 1px shift.
+     Honor handle stays Honor Red end-to-end. ─────────────────────── */
+.footer-v2 .footer-col              { --col-hue: var(--tier-basic, #38bdf8); }
+.footer-v2 .footer-col:nth-child(1) { --col-hue: var(--tier-basic, #38bdf8); }
+.footer-v2 .footer-col:nth-child(2) { --col-hue: var(--tier-extra, #c084fc); }
+.footer-v2 .footer-col:nth-child(3) { --col-hue: var(--tier-basic, #38bdf8); }
+.footer-v2 .footer-col:nth-child(4) { --col-hue: var(--apex-gold, #fbbf24); }
+.footer-v2 .footer-col:nth-child(5) { --col-hue: var(--honor-red, #ef4444); }
+
+.footer-v2 .footer-col ul li a,
+.footer-v2 .footer-col ul li button.footer-link-btn {
+  position: relative;
+  display: inline-block;
+  letter-spacing: .005em;
+  transition:
+    color .26s cubic-bezier(0.16, 1, 0.3, 1),
+    transform .32s cubic-bezier(0.16, 1, 0.3, 1),
+    letter-spacing .32s cubic-bezier(0.16, 1, 0.3, 1),
+    text-shadow .26s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.footer-v2 .footer-col ul li a::after,
+.footer-v2 .footer-col ul li button.footer-link-btn::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -3px;
+  height: 1.5px;
+  background: currentColor;
+  opacity: .9;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition:
+    transform .42s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow .32s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  border-radius: 1px;
+}
+
+.footer-v2 .footer-col ul li a:hover,
+.footer-v2 .footer-col ul li button.footer-link-btn:hover,
+.footer-v2 .footer-col ul li a:focus-visible,
+.footer-v2 .footer-col ul li button.footer-link-btn:focus-visible {
+  color: var(--col-hue);
+  letter-spacing: .03em;
+  transform: translateX(2px);
+  text-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+}
+
+.footer-v2 .footer-col ul li a:hover::after,
+.footer-v2 .footer-col ul li button.footer-link-btn:hover::after,
+.footer-v2 .footer-col ul li a:focus-visible::after,
+.footer-v2 .footer-col ul li button.footer-link-btn:focus-visible::after {
+  transform: scaleX(1);
+  box-shadow: 0 0 8px currentColor, 0 0 18px currentColor;
+}
+
+/* Column heading also breathes the hue when the column is hovered. */
+.footer-v2 .footer-col-heading {
+  transition: color .3s cubic-bezier(0.16, 1, 0.3, 1),
+              text-shadow .3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.footer-v2 .footer-col:hover .footer-col-heading,
+.footer-v2 .footer-col:focus-within .footer-col-heading {
+  color: var(--col-hue);
+  text-shadow: 0 0 12px currentColor;
+}
+
 /* Honor attribution — contributor handle only */
 .footer-v2 .footer-link-honor {
   color: var(--honor-red) !important;
@@ -5681,6 +6045,53 @@ footer.footer-v2::before {
 
 .footer-v2 .footer-link-honor:hover {
   color: var(--text) !important;
+}
+
+/* Honor handle keeps red end-to-end, but still gets the glow treatment
+   from currentColor — the column-hue rule above shouldn't override it. */
+.footer-v2 .footer-col ul li a.footer-link-honor:hover,
+.footer-v2 .footer-col ul li a.footer-link-honor:focus-visible {
+  color: var(--honor-red) !important;
+  text-shadow: 0 0 10px var(--honor-red), 0 0 22px var(--honor-red);
+}
+
+/* Docs page-footer (en/*.html): same color motion, scaled down. */
+.page-footer a {
+  position: relative;
+  display: inline-block;
+  letter-spacing: .005em;
+  transition:
+    color .26s cubic-bezier(0.16, 1, 0.3, 1),
+    letter-spacing .32s cubic-bezier(0.16, 1, 0.3, 1),
+    text-shadow .26s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.page-footer a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 1.5px;
+  background: currentColor;
+  opacity: .9;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition:
+    transform .42s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow .32s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  border-radius: 1px;
+}
+.page-footer a:hover,
+.page-footer a:focus-visible {
+  color: var(--tier-basic, #38bdf8) !important;
+  letter-spacing: .03em;
+  text-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+}
+.page-footer a:hover::after,
+.page-footer a:focus-visible::after {
+  transform: scaleX(1);
+  box-shadow: 0 0 8px currentColor, 0 0 18px currentColor;
 }
 
 /* External link indicator */
